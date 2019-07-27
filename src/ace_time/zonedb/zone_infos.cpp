@@ -47,10 +47,10 @@ const basic::ZoneContext kZoneContext = {
 static const basic::ZoneEra kZoneEraAfrica_Abidjan[] ACE_TIME_PROGMEM = {
   //              0:00    -    GMT
   {
-    0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "GMT" /*format*/,
+    0 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -82,10 +82,10 @@ const basic::ZoneInfo kZoneAfrica_Abidjan ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAfrica_Accra[] ACE_TIME_PROGMEM = {
   //              0:00    Ghana    GMT/+0020
   {
-    0 /*offsetCode*/,
     &kPolicyGhana /*zonePolicy*/,
-    0 /*deltaCode*/,
     "GMT/+0020" /*format*/,
+    0 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -117,10 +117,10 @@ const basic::ZoneInfo kZoneAfrica_Accra ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAfrica_Algiers[] ACE_TIME_PROGMEM = {
   //             1:00    -    CET
   {
-    4 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CET" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -152,10 +152,10 @@ const basic::ZoneInfo kZoneAfrica_Algiers ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAfrica_Bissau[] ACE_TIME_PROGMEM = {
   //              0:00    -    GMT
   {
-    0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "GMT" /*format*/,
+    0 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -187,10 +187,10 @@ const basic::ZoneInfo kZoneAfrica_Bissau ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAfrica_Ceuta[] ACE_TIME_PROGMEM = {
   //              1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -222,10 +222,10 @@ const basic::ZoneInfo kZoneAfrica_Ceuta ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAfrica_Johannesburg[] ACE_TIME_PROGMEM = {
   //             2:00    SA    SAST
   {
-    8 /*offsetCode*/,
     &kPolicySA /*zonePolicy*/,
-    0 /*deltaCode*/,
     "SAST" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -257,10 +257,10 @@ const basic::ZoneInfo kZoneAfrica_Johannesburg ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAfrica_Lagos[] ACE_TIME_PROGMEM = {
   //             1:00    -    WAT
   {
-    4 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "WAT" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -292,10 +292,10 @@ const basic::ZoneInfo kZoneAfrica_Lagos ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAfrica_Maputo[] ACE_TIME_PROGMEM = {
   //             2:00    -    CAT
   {
-    8 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CAT" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -327,10 +327,10 @@ const basic::ZoneInfo kZoneAfrica_Maputo ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAfrica_Monrovia[] ACE_TIME_PROGMEM = {
   //              0:00    -    GMT
   {
-    0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "GMT" /*format*/,
+    0 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -362,10 +362,10 @@ const basic::ZoneInfo kZoneAfrica_Monrovia ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAfrica_Nairobi[] ACE_TIME_PROGMEM = {
   //             3:00    -    EAT
   {
-    12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EAT" /*format*/,
+    12 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -397,10 +397,10 @@ const basic::ZoneInfo kZoneAfrica_Nairobi ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAfrica_Ndjamena[] ACE_TIME_PROGMEM = {
   //             1:00    -    WAT
   {
-    4 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "WAT" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -432,10 +432,10 @@ const basic::ZoneInfo kZoneAfrica_Ndjamena ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAfrica_Tunis[] ACE_TIME_PROGMEM = {
   //             1:00    Tunisia    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyTunisia /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -467,10 +467,10 @@ const basic::ZoneInfo kZoneAfrica_Tunis ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Adak[] ACE_TIME_PROGMEM = {
   //             -10:00    US    H%sT
   {
-    -40 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "H%T" /*format*/,
+    -40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -502,10 +502,10 @@ const basic::ZoneInfo kZoneAmerica_Adak ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Anchorage[] ACE_TIME_PROGMEM = {
   //              -9:00    US    AK%sT
   {
-    -36 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AK%T" /*format*/,
+    -36 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -537,10 +537,10 @@ const basic::ZoneInfo kZoneAmerica_Anchorage ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Asuncion[] ACE_TIME_PROGMEM = {
   //             -4:00    Para    -04/-03
   {
-    -16 /*offsetCode*/,
     &kPolicyPara /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-04/-03" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -572,10 +572,10 @@ const basic::ZoneInfo kZoneAmerica_Asuncion ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Atikokan[] ACE_TIME_PROGMEM = {
   //             -5:00    -    EST
   {
-    -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EST" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -607,10 +607,10 @@ const basic::ZoneInfo kZoneAmerica_Atikokan ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Barbados[] ACE_TIME_PROGMEM = {
   //             -4:00    Barb    A%sT
   {
-    -16 /*offsetCode*/,
     &kPolicyBarb /*zonePolicy*/,
-    0 /*deltaCode*/,
     "A%T" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -642,10 +642,10 @@ const basic::ZoneInfo kZoneAmerica_Barbados ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Belem[] ACE_TIME_PROGMEM = {
   //             -3:00    -    -03
   {
-    -12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-03" /*format*/,
+    -12 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -677,10 +677,10 @@ const basic::ZoneInfo kZoneAmerica_Belem ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Blanc_Sablon[] ACE_TIME_PROGMEM = {
   //             -4:00    -    AST
   {
-    -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AST" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -712,10 +712,10 @@ const basic::ZoneInfo kZoneAmerica_Blanc_Sablon ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Bogota[] ACE_TIME_PROGMEM = {
   //             -5:00    CO    -05/-04
   {
-    -20 /*offsetCode*/,
     &kPolicyCO /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-05/-04" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -747,10 +747,10 @@ const basic::ZoneInfo kZoneAmerica_Bogota ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Boise[] ACE_TIME_PROGMEM = {
   //             -7:00    US    M%sT
   {
-    -28 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -782,10 +782,10 @@ const basic::ZoneInfo kZoneAmerica_Boise ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Campo_Grande[] ACE_TIME_PROGMEM = {
   //             -4:00    Brazil    -04/-03
   {
-    -16 /*offsetCode*/,
     &kPolicyBrazil /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-04/-03" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -817,10 +817,10 @@ const basic::ZoneInfo kZoneAmerica_Campo_Grande ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Cayenne[] ACE_TIME_PROGMEM = {
   //             -3:00    -    -03
   {
-    -12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-03" /*format*/,
+    -12 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -852,10 +852,10 @@ const basic::ZoneInfo kZoneAmerica_Cayenne ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Chicago[] ACE_TIME_PROGMEM = {
   //             -6:00    US    C%sT
   {
-    -24 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -887,10 +887,10 @@ const basic::ZoneInfo kZoneAmerica_Chicago ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Chihuahua[] ACE_TIME_PROGMEM = {
   //             -7:00    Mexico    M%sT
   {
-    -28 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
-    0 /*deltaCode*/,
     "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -922,10 +922,10 @@ const basic::ZoneInfo kZoneAmerica_Chihuahua ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Costa_Rica[] ACE_TIME_PROGMEM = {
   //             -6:00    CR    C%sT
   {
-    -24 /*offsetCode*/,
     &kPolicyCR /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -957,10 +957,10 @@ const basic::ZoneInfo kZoneAmerica_Costa_Rica ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Creston[] ACE_TIME_PROGMEM = {
   //             -7:00    -    MST
   {
-    -28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "MST" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -992,10 +992,10 @@ const basic::ZoneInfo kZoneAmerica_Creston ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Curacao[] ACE_TIME_PROGMEM = {
   //             -4:00    -    AST
   {
-    -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AST" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1027,10 +1027,10 @@ const basic::ZoneInfo kZoneAmerica_Curacao ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Danmarkshavn[] ACE_TIME_PROGMEM = {
   //             0:00    -    GMT
   {
-    0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "GMT" /*format*/,
+    0 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1062,10 +1062,10 @@ const basic::ZoneInfo kZoneAmerica_Danmarkshavn ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Dawson[] ACE_TIME_PROGMEM = {
   //             -8:00    Canada    P%sT
   {
-    -32 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
-    0 /*deltaCode*/,
     "P%T" /*format*/,
+    -32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1097,10 +1097,10 @@ const basic::ZoneInfo kZoneAmerica_Dawson ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Dawson_Creek[] ACE_TIME_PROGMEM = {
   //             -7:00    -    MST
   {
-    -28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "MST" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1132,10 +1132,10 @@ const basic::ZoneInfo kZoneAmerica_Dawson_Creek ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Denver[] ACE_TIME_PROGMEM = {
   //             -7:00    US    M%sT
   {
-    -28 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1167,10 +1167,10 @@ const basic::ZoneInfo kZoneAmerica_Denver ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Detroit[] ACE_TIME_PROGMEM = {
   //             -5:00    US    E%sT
   {
-    -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "E%T" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1202,10 +1202,10 @@ const basic::ZoneInfo kZoneAmerica_Detroit ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Edmonton[] ACE_TIME_PROGMEM = {
   //             -7:00    Canada    M%sT
   {
-    -28 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
-    0 /*deltaCode*/,
     "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1237,10 +1237,10 @@ const basic::ZoneInfo kZoneAmerica_Edmonton ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_El_Salvador[] ACE_TIME_PROGMEM = {
   //             -6:00    Salv    C%sT
   {
-    -24 /*offsetCode*/,
     &kPolicySalv /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1272,10 +1272,10 @@ const basic::ZoneInfo kZoneAmerica_El_Salvador ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Glace_Bay[] ACE_TIME_PROGMEM = {
   //             -4:00    Canada    A%sT
   {
-    -16 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
-    0 /*deltaCode*/,
     "A%T" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1307,10 +1307,10 @@ const basic::ZoneInfo kZoneAmerica_Glace_Bay ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Godthab[] ACE_TIME_PROGMEM = {
   //             -3:00    EU    -03/-02
   {
-    -12 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-03/-02" /*format*/,
+    -12 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1342,10 +1342,10 @@ const basic::ZoneInfo kZoneAmerica_Godthab ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Guatemala[] ACE_TIME_PROGMEM = {
   //             -6:00    Guat    C%sT
   {
-    -24 /*offsetCode*/,
     &kPolicyGuat /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1377,10 +1377,10 @@ const basic::ZoneInfo kZoneAmerica_Guatemala ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Guayaquil[] ACE_TIME_PROGMEM = {
   //             -5:00    Ecuador    -05/-04
   {
-    -20 /*offsetCode*/,
     &kPolicyEcuador /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-05/-04" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1412,10 +1412,10 @@ const basic::ZoneInfo kZoneAmerica_Guayaquil ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Guyana[] ACE_TIME_PROGMEM = {
   //             -4:00    -    -04
   {
-    -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-04" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1447,10 +1447,10 @@ const basic::ZoneInfo kZoneAmerica_Guyana ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Halifax[] ACE_TIME_PROGMEM = {
   //             -4:00    Canada    A%sT
   {
-    -16 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
-    0 /*deltaCode*/,
     "A%T" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1482,10 +1482,10 @@ const basic::ZoneInfo kZoneAmerica_Halifax ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Havana[] ACE_TIME_PROGMEM = {
   //             -5:00    Cuba    C%sT
   {
-    -20 /*offsetCode*/,
     &kPolicyCuba /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1517,10 +1517,10 @@ const basic::ZoneInfo kZoneAmerica_Havana ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Hermosillo[] ACE_TIME_PROGMEM = {
   //             -7:00    Mexico    M%sT    1999
   {
-    -28 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
-    0 /*deltaCode*/,
     "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     -1 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1529,10 +1529,10 @@ static const basic::ZoneEra kZoneEraAmerica_Hermosillo[] ACE_TIME_PROGMEM = {
   },
   //             -7:00    -    MST
   {
-    -28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "MST" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1564,10 +1564,10 @@ const basic::ZoneInfo kZoneAmerica_Hermosillo ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Indiana_Indianapolis[] ACE_TIME_PROGMEM = {
   //             -5:00    -    EST    2006
   {
-    -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EST" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     6 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1576,10 +1576,10 @@ static const basic::ZoneEra kZoneEraAmerica_Indiana_Indianapolis[] ACE_TIME_PROG
   },
   //             -5:00    US    E%sT
   {
-    -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "E%T" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1611,10 +1611,10 @@ const basic::ZoneInfo kZoneAmerica_Indiana_Indianapolis ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Indiana_Marengo[] ACE_TIME_PROGMEM = {
   //             -5:00    -    EST    2006
   {
-    -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EST" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     6 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1623,10 +1623,10 @@ static const basic::ZoneEra kZoneEraAmerica_Indiana_Marengo[] ACE_TIME_PROGMEM =
   },
   //             -5:00    US    E%sT
   {
-    -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "E%T" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1658,10 +1658,10 @@ const basic::ZoneInfo kZoneAmerica_Indiana_Marengo ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Indiana_Vevay[] ACE_TIME_PROGMEM = {
   //             -5:00    -    EST    2006
   {
-    -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EST" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     6 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1670,10 +1670,10 @@ static const basic::ZoneEra kZoneEraAmerica_Indiana_Vevay[] ACE_TIME_PROGMEM = {
   },
   //             -5:00    US    E%sT
   {
-    -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "E%T" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1705,10 +1705,10 @@ const basic::ZoneInfo kZoneAmerica_Indiana_Vevay ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Inuvik[] ACE_TIME_PROGMEM = {
   //             -7:00    Canada    M%sT
   {
-    -28 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
-    0 /*deltaCode*/,
     "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1740,10 +1740,10 @@ const basic::ZoneInfo kZoneAmerica_Inuvik ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Jamaica[] ACE_TIME_PROGMEM = {
   //             -5:00    -    EST
   {
-    -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EST" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1775,10 +1775,10 @@ const basic::ZoneInfo kZoneAmerica_Jamaica ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Juneau[] ACE_TIME_PROGMEM = {
   //              -9:00    US    AK%sT
   {
-    -36 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AK%T" /*format*/,
+    -36 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1810,10 +1810,10 @@ const basic::ZoneInfo kZoneAmerica_Juneau ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Kentucky_Louisville[] ACE_TIME_PROGMEM = {
   //             -5:00    US    E%sT
   {
-    -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "E%T" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1845,10 +1845,10 @@ const basic::ZoneInfo kZoneAmerica_Kentucky_Louisville ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_La_Paz[] ACE_TIME_PROGMEM = {
   //             -4:00    -    -04
   {
-    -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-04" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1880,10 +1880,10 @@ const basic::ZoneInfo kZoneAmerica_La_Paz ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Lima[] ACE_TIME_PROGMEM = {
   //             -5:00    Peru    -05/-04
   {
-    -20 /*offsetCode*/,
     &kPolicyPeru /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-05/-04" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1915,10 +1915,10 @@ const basic::ZoneInfo kZoneAmerica_Lima ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Los_Angeles[] ACE_TIME_PROGMEM = {
   //             -8:00    US    P%sT
   {
-    -32 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "P%T" /*format*/,
+    -32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1950,10 +1950,10 @@ const basic::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Managua[] ACE_TIME_PROGMEM = {
   //             -6:00    Nic    C%sT
   {
-    -24 /*offsetCode*/,
     &kPolicyNic /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -1985,10 +1985,10 @@ const basic::ZoneInfo kZoneAmerica_Managua ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Manaus[] ACE_TIME_PROGMEM = {
   //             -4:00    -    -04
   {
-    -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-04" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2020,10 +2020,10 @@ const basic::ZoneInfo kZoneAmerica_Manaus ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Martinique[] ACE_TIME_PROGMEM = {
   //             -4:00    -    AST
   {
-    -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AST" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2055,10 +2055,10 @@ const basic::ZoneInfo kZoneAmerica_Martinique ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Matamoros[] ACE_TIME_PROGMEM = {
   //             -6:00    Mexico    C%sT    2010
   {
-    -24 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     10 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2067,10 +2067,10 @@ static const basic::ZoneEra kZoneEraAmerica_Matamoros[] ACE_TIME_PROGMEM = {
   },
   //             -6:00    US    C%sT
   {
-    -24 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2102,10 +2102,10 @@ const basic::ZoneInfo kZoneAmerica_Matamoros ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Mazatlan[] ACE_TIME_PROGMEM = {
   //             -7:00    Mexico    M%sT
   {
-    -28 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
-    0 /*deltaCode*/,
     "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2137,10 +2137,10 @@ const basic::ZoneInfo kZoneAmerica_Mazatlan ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Menominee[] ACE_TIME_PROGMEM = {
   //             -6:00    US    C%sT
   {
-    -24 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2172,10 +2172,10 @@ const basic::ZoneInfo kZoneAmerica_Menominee ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Merida[] ACE_TIME_PROGMEM = {
   //             -6:00    Mexico    C%sT
   {
-    -24 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2207,10 +2207,10 @@ const basic::ZoneInfo kZoneAmerica_Merida ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Miquelon[] ACE_TIME_PROGMEM = {
   //             -3:00    Canada    -03/-02
   {
-    -12 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-03/-02" /*format*/,
+    -12 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2242,10 +2242,10 @@ const basic::ZoneInfo kZoneAmerica_Miquelon ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Moncton[] ACE_TIME_PROGMEM = {
   //             -4:00    Moncton    A%sT    2007
   {
-    -16 /*offsetCode*/,
     &kPolicyMoncton /*zonePolicy*/,
-    0 /*deltaCode*/,
     "A%T" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     7 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2254,10 +2254,10 @@ static const basic::ZoneEra kZoneEraAmerica_Moncton[] ACE_TIME_PROGMEM = {
   },
   //             -4:00    Canada    A%sT
   {
-    -16 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
-    0 /*deltaCode*/,
     "A%T" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2289,10 +2289,10 @@ const basic::ZoneInfo kZoneAmerica_Moncton ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Monterrey[] ACE_TIME_PROGMEM = {
   //             -6:00    Mexico    C%sT
   {
-    -24 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2324,10 +2324,10 @@ const basic::ZoneInfo kZoneAmerica_Monterrey ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Montevideo[] ACE_TIME_PROGMEM = {
   //             -3:00    Uruguay    -03/-02
   {
-    -12 /*offsetCode*/,
     &kPolicyUruguay /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-03/-02" /*format*/,
+    -12 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2359,10 +2359,10 @@ const basic::ZoneInfo kZoneAmerica_Montevideo ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Nassau[] ACE_TIME_PROGMEM = {
   //             -5:00    US    E%sT
   {
-    -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "E%T" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2394,10 +2394,10 @@ const basic::ZoneInfo kZoneAmerica_Nassau ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_New_York[] ACE_TIME_PROGMEM = {
   //             -5:00    US    E%sT
   {
-    -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "E%T" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2429,10 +2429,10 @@ const basic::ZoneInfo kZoneAmerica_New_York ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Nipigon[] ACE_TIME_PROGMEM = {
   //             -5:00    Canada    E%sT
   {
-    -20 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
-    0 /*deltaCode*/,
     "E%T" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2464,10 +2464,10 @@ const basic::ZoneInfo kZoneAmerica_Nipigon ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Nome[] ACE_TIME_PROGMEM = {
   //              -9:00    US    AK%sT
   {
-    -36 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AK%T" /*format*/,
+    -36 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2499,10 +2499,10 @@ const basic::ZoneInfo kZoneAmerica_Nome ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_North_Dakota_Center[] ACE_TIME_PROGMEM = {
   //             -6:00    US    C%sT
   {
-    -24 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2534,10 +2534,10 @@ const basic::ZoneInfo kZoneAmerica_North_Dakota_Center ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Ojinaga[] ACE_TIME_PROGMEM = {
   //             -7:00    Mexico    M%sT    2010
   {
-    -28 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
-    0 /*deltaCode*/,
     "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     10 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2546,10 +2546,10 @@ static const basic::ZoneEra kZoneEraAmerica_Ojinaga[] ACE_TIME_PROGMEM = {
   },
   //             -7:00    US    M%sT
   {
-    -28 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2581,10 +2581,10 @@ const basic::ZoneInfo kZoneAmerica_Ojinaga ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Panama[] ACE_TIME_PROGMEM = {
   //             -5:00    -    EST
   {
-    -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EST" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2616,10 +2616,10 @@ const basic::ZoneInfo kZoneAmerica_Panama ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Paramaribo[] ACE_TIME_PROGMEM = {
   //             -3:00    -    -03
   {
-    -12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-03" /*format*/,
+    -12 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2651,10 +2651,10 @@ const basic::ZoneInfo kZoneAmerica_Paramaribo ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Phoenix[] ACE_TIME_PROGMEM = {
   //             -7:00    -    MST
   {
-    -28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "MST" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2686,10 +2686,10 @@ const basic::ZoneInfo kZoneAmerica_Phoenix ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Port_au_Prince[] ACE_TIME_PROGMEM = {
   //             -5:00    Haiti    E%sT
   {
-    -20 /*offsetCode*/,
     &kPolicyHaiti /*zonePolicy*/,
-    0 /*deltaCode*/,
     "E%T" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2721,10 +2721,10 @@ const basic::ZoneInfo kZoneAmerica_Port_au_Prince ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Port_of_Spain[] ACE_TIME_PROGMEM = {
   //             -4:00    -    AST
   {
-    -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AST" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2756,10 +2756,10 @@ const basic::ZoneInfo kZoneAmerica_Port_of_Spain ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Porto_Velho[] ACE_TIME_PROGMEM = {
   //             -4:00    -    -04
   {
-    -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-04" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2791,10 +2791,10 @@ const basic::ZoneInfo kZoneAmerica_Porto_Velho ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Puerto_Rico[] ACE_TIME_PROGMEM = {
   //             -4:00    -    AST
   {
-    -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AST" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2826,10 +2826,10 @@ const basic::ZoneInfo kZoneAmerica_Puerto_Rico ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Rainy_River[] ACE_TIME_PROGMEM = {
   //             -6:00    Canada    C%sT
   {
-    -24 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2861,10 +2861,10 @@ const basic::ZoneInfo kZoneAmerica_Rainy_River ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Regina[] ACE_TIME_PROGMEM = {
   //             -6:00    -    CST
   {
-    -24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CST" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2896,10 +2896,10 @@ const basic::ZoneInfo kZoneAmerica_Regina ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Santiago[] ACE_TIME_PROGMEM = {
   //             -4:00    Chile    -04/-03
   {
-    -16 /*offsetCode*/,
     &kPolicyChile /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-04/-03" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2931,10 +2931,10 @@ const basic::ZoneInfo kZoneAmerica_Santiago ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Sao_Paulo[] ACE_TIME_PROGMEM = {
   //             -3:00    Brazil    -03/-02
   {
-    -12 /*offsetCode*/,
     &kPolicyBrazil /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-03/-02" /*format*/,
+    -12 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -2966,10 +2966,10 @@ const basic::ZoneInfo kZoneAmerica_Sao_Paulo ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Scoresbysund[] ACE_TIME_PROGMEM = {
   //             -1:00    EU    -01/+00
   {
-    -4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-01/+00" /*format*/,
+    -4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3001,10 +3001,10 @@ const basic::ZoneInfo kZoneAmerica_Scoresbysund ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Sitka[] ACE_TIME_PROGMEM = {
   //              -9:00    US    AK%sT
   {
-    -36 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AK%T" /*format*/,
+    -36 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3036,10 +3036,10 @@ const basic::ZoneInfo kZoneAmerica_Sitka ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Swift_Current[] ACE_TIME_PROGMEM = {
   //             -6:00    -    CST
   {
-    -24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CST" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3071,10 +3071,10 @@ const basic::ZoneInfo kZoneAmerica_Swift_Current ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Tegucigalpa[] ACE_TIME_PROGMEM = {
   //             -6:00    Hond    C%sT
   {
-    -24 /*offsetCode*/,
     &kPolicyHond /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3106,10 +3106,10 @@ const basic::ZoneInfo kZoneAmerica_Tegucigalpa ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Thule[] ACE_TIME_PROGMEM = {
   //             -4:00    Thule    A%sT
   {
-    -16 /*offsetCode*/,
     &kPolicyThule /*zonePolicy*/,
-    0 /*deltaCode*/,
     "A%T" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3141,10 +3141,10 @@ const basic::ZoneInfo kZoneAmerica_Thule ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Thunder_Bay[] ACE_TIME_PROGMEM = {
   //             -5:00    Canada    E%sT
   {
-    -20 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
-    0 /*deltaCode*/,
     "E%T" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3176,10 +3176,10 @@ const basic::ZoneInfo kZoneAmerica_Thunder_Bay ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Toronto[] ACE_TIME_PROGMEM = {
   //             -5:00    Canada    E%sT
   {
-    -20 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
-    0 /*deltaCode*/,
     "E%T" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3211,10 +3211,10 @@ const basic::ZoneInfo kZoneAmerica_Toronto ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Vancouver[] ACE_TIME_PROGMEM = {
   //             -8:00    Canada    P%sT
   {
-    -32 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
-    0 /*deltaCode*/,
     "P%T" /*format*/,
+    -32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3246,10 +3246,10 @@ const basic::ZoneInfo kZoneAmerica_Vancouver ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Whitehorse[] ACE_TIME_PROGMEM = {
   //             -8:00    Canada    P%sT
   {
-    -32 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
-    0 /*deltaCode*/,
     "P%T" /*format*/,
+    -32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3281,10 +3281,10 @@ const basic::ZoneInfo kZoneAmerica_Whitehorse ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Winnipeg[] ACE_TIME_PROGMEM = {
   //             -6:00    Winn    C%sT    2006
   {
-    -24 /*offsetCode*/,
     &kPolicyWinn /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     6 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3293,10 +3293,10 @@ static const basic::ZoneEra kZoneEraAmerica_Winnipeg[] ACE_TIME_PROGMEM = {
   },
   //             -6:00    Canada    C%sT
   {
-    -24 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3328,10 +3328,10 @@ const basic::ZoneInfo kZoneAmerica_Winnipeg ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Yakutat[] ACE_TIME_PROGMEM = {
   //              -9:00    US    AK%sT
   {
-    -36 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AK%T" /*format*/,
+    -36 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3363,10 +3363,10 @@ const basic::ZoneInfo kZoneAmerica_Yakutat ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Yellowknife[] ACE_TIME_PROGMEM = {
   //             -7:00    Canada    M%sT
   {
-    -28 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
-    0 /*deltaCode*/,
     "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3398,10 +3398,10 @@ const basic::ZoneInfo kZoneAmerica_Yellowknife ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAntarctica_DumontDUrville[] ACE_TIME_PROGMEM = {
   //             10:00    -    +10
   {
-    40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+10" /*format*/,
+    40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3433,10 +3433,10 @@ const basic::ZoneInfo kZoneAntarctica_DumontDUrville ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAntarctica_Rothera[] ACE_TIME_PROGMEM = {
   //             -3:00    -    -03
   {
-    -12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-03" /*format*/,
+    -12 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3468,10 +3468,10 @@ const basic::ZoneInfo kZoneAntarctica_Rothera ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAntarctica_Syowa[] ACE_TIME_PROGMEM = {
   //             3:00    -    +03
   {
-    12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+03" /*format*/,
+    12 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3503,10 +3503,10 @@ const basic::ZoneInfo kZoneAntarctica_Syowa ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAntarctica_Vostok[] ACE_TIME_PROGMEM = {
   //             6:00    -    +06
   {
-    24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+06" /*format*/,
+    24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3538,10 +3538,10 @@ const basic::ZoneInfo kZoneAntarctica_Vostok ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Amman[] ACE_TIME_PROGMEM = {
   //             2:00    Jordan    EE%sT
   {
-    8 /*offsetCode*/,
     &kPolicyJordan /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EE%T" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3573,10 +3573,10 @@ const basic::ZoneInfo kZoneAsia_Amman ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Ashgabat[] ACE_TIME_PROGMEM = {
   //             5:00    -    +05
   {
-    20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+05" /*format*/,
+    20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3608,10 +3608,10 @@ const basic::ZoneInfo kZoneAsia_Ashgabat ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Baghdad[] ACE_TIME_PROGMEM = {
   //             3:00    Iraq    +03/+04
   {
-    12 /*offsetCode*/,
     &kPolicyIraq /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+03/+04" /*format*/,
+    12 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3643,10 +3643,10 @@ const basic::ZoneInfo kZoneAsia_Baghdad ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Baku[] ACE_TIME_PROGMEM = {
   //             4:00    Azer    +04/+05
   {
-    16 /*offsetCode*/,
     &kPolicyAzer /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+04/+05" /*format*/,
+    16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3678,10 +3678,10 @@ const basic::ZoneInfo kZoneAsia_Baku ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Bangkok[] ACE_TIME_PROGMEM = {
   //             7:00    -    +07
   {
-    28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+07" /*format*/,
+    28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3713,10 +3713,10 @@ const basic::ZoneInfo kZoneAsia_Bangkok ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Beirut[] ACE_TIME_PROGMEM = {
   //             2:00    Lebanon    EE%sT
   {
-    8 /*offsetCode*/,
     &kPolicyLebanon /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EE%T" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3748,10 +3748,10 @@ const basic::ZoneInfo kZoneAsia_Beirut ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Brunei[] ACE_TIME_PROGMEM = {
   //             8:00    -    +08
   {
-    32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+08" /*format*/,
+    32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3783,10 +3783,10 @@ const basic::ZoneInfo kZoneAsia_Brunei ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Damascus[] ACE_TIME_PROGMEM = {
   //             2:00    Syria    EE%sT
   {
-    8 /*offsetCode*/,
     &kPolicySyria /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EE%T" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3818,10 +3818,10 @@ const basic::ZoneInfo kZoneAsia_Damascus ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Dhaka[] ACE_TIME_PROGMEM = {
   //             6:00    -    +06    2009
   {
-    24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+06" /*format*/,
+    24 /*offsetCode*/,
+    0 /*deltaCode*/,
     9 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3830,10 +3830,10 @@ static const basic::ZoneEra kZoneEraAsia_Dhaka[] ACE_TIME_PROGMEM = {
   },
   //             6:00    Dhaka    +06/+07
   {
-    24 /*offsetCode*/,
     &kPolicyDhaka /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+06/+07" /*format*/,
+    24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3865,10 +3865,10 @@ const basic::ZoneInfo kZoneAsia_Dhaka ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Dubai[] ACE_TIME_PROGMEM = {
   //             4:00    -    +04
   {
-    16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+04" /*format*/,
+    16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3900,10 +3900,10 @@ const basic::ZoneInfo kZoneAsia_Dubai ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Dushanbe[] ACE_TIME_PROGMEM = {
   //             5:00    -    +05
   {
-    20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+05" /*format*/,
+    20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3935,10 +3935,10 @@ const basic::ZoneInfo kZoneAsia_Dushanbe ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Ho_Chi_Minh[] ACE_TIME_PROGMEM = {
   //             7:00    -    +07
   {
-    28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+07" /*format*/,
+    28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -3970,10 +3970,10 @@ const basic::ZoneInfo kZoneAsia_Ho_Chi_Minh ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Hong_Kong[] ACE_TIME_PROGMEM = {
   //             8:00    HK    HK%sT
   {
-    32 /*offsetCode*/,
     &kPolicyHK /*zonePolicy*/,
-    0 /*deltaCode*/,
     "HK%T" /*format*/,
+    32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4005,10 +4005,10 @@ const basic::ZoneInfo kZoneAsia_Hong_Kong ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Hovd[] ACE_TIME_PROGMEM = {
   //             7:00    Mongol    +07/+08
   {
-    28 /*offsetCode*/,
     &kPolicyMongol /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+07/+08" /*format*/,
+    28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4040,10 +4040,10 @@ const basic::ZoneInfo kZoneAsia_Hovd ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Jakarta[] ACE_TIME_PROGMEM = {
   //             7:00    -    WIB
   {
-    28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "WIB" /*format*/,
+    28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4075,10 +4075,10 @@ const basic::ZoneInfo kZoneAsia_Jakarta ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Jayapura[] ACE_TIME_PROGMEM = {
   //             9:00    -    WIT
   {
-    36 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "WIT" /*format*/,
+    36 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4110,10 +4110,10 @@ const basic::ZoneInfo kZoneAsia_Jayapura ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Jerusalem[] ACE_TIME_PROGMEM = {
   //             2:00    Zion    I%sT
   {
-    8 /*offsetCode*/,
     &kPolicyZion /*zonePolicy*/,
-    0 /*deltaCode*/,
     "I%T" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4145,10 +4145,10 @@ const basic::ZoneInfo kZoneAsia_Jerusalem ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Kabul[] ACE_TIME_PROGMEM = {
   //             4:30    -    +0430
   {
-    18 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+0430" /*format*/,
+    18 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4180,10 +4180,10 @@ const basic::ZoneInfo kZoneAsia_Kabul ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Karachi[] ACE_TIME_PROGMEM = {
   //             5:00 Pakistan    PK%sT
   {
-    20 /*offsetCode*/,
     &kPolicyPakistan /*zonePolicy*/,
-    0 /*deltaCode*/,
     "PK%T" /*format*/,
+    20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4215,10 +4215,10 @@ const basic::ZoneInfo kZoneAsia_Karachi ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Kathmandu[] ACE_TIME_PROGMEM = {
   //             5:45    -    +0545
   {
-    23 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+0545" /*format*/,
+    23 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4250,10 +4250,10 @@ const basic::ZoneInfo kZoneAsia_Kathmandu ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Kolkata[] ACE_TIME_PROGMEM = {
   //             5:30    -    IST
   {
-    22 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "IST" /*format*/,
+    22 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4285,10 +4285,10 @@ const basic::ZoneInfo kZoneAsia_Kolkata ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Kuala_Lumpur[] ACE_TIME_PROGMEM = {
   //             8:00    -    +08
   {
-    32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+08" /*format*/,
+    32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4320,10 +4320,10 @@ const basic::ZoneInfo kZoneAsia_Kuala_Lumpur ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Kuching[] ACE_TIME_PROGMEM = {
   //             8:00    -    +08
   {
-    32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+08" /*format*/,
+    32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4355,10 +4355,10 @@ const basic::ZoneInfo kZoneAsia_Kuching ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Macau[] ACE_TIME_PROGMEM = {
   //             8:00    Macau    C%sT
   {
-    32 /*offsetCode*/,
     &kPolicyMacau /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4390,10 +4390,10 @@ const basic::ZoneInfo kZoneAsia_Macau ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Makassar[] ACE_TIME_PROGMEM = {
   //             8:00    -    WITA
   {
-    32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "WITA" /*format*/,
+    32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4425,10 +4425,10 @@ const basic::ZoneInfo kZoneAsia_Makassar ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Manila[] ACE_TIME_PROGMEM = {
   //             8:00    Phil    P%sT
   {
-    32 /*offsetCode*/,
     &kPolicyPhil /*zonePolicy*/,
-    0 /*deltaCode*/,
     "P%T" /*format*/,
+    32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4460,10 +4460,10 @@ const basic::ZoneInfo kZoneAsia_Manila ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Nicosia[] ACE_TIME_PROGMEM = {
   //             2:00    EUAsia    EE%sT
   {
-    8 /*offsetCode*/,
     &kPolicyEUAsia /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EE%T" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4495,10 +4495,10 @@ const basic::ZoneInfo kZoneAsia_Nicosia ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Pontianak[] ACE_TIME_PROGMEM = {
   //             7:00    -    WIB
   {
-    28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "WIB" /*format*/,
+    28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4530,10 +4530,10 @@ const basic::ZoneInfo kZoneAsia_Pontianak ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Qatar[] ACE_TIME_PROGMEM = {
   //             3:00    -    +03
   {
-    12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+03" /*format*/,
+    12 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4565,10 +4565,10 @@ const basic::ZoneInfo kZoneAsia_Qatar ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Riyadh[] ACE_TIME_PROGMEM = {
   //             3:00    -    +03
   {
-    12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+03" /*format*/,
+    12 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4600,10 +4600,10 @@ const basic::ZoneInfo kZoneAsia_Riyadh ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Samarkand[] ACE_TIME_PROGMEM = {
   //             5:00    -    +05
   {
-    20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+05" /*format*/,
+    20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4635,10 +4635,10 @@ const basic::ZoneInfo kZoneAsia_Samarkand ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Seoul[] ACE_TIME_PROGMEM = {
   //             9:00    ROK    K%sT
   {
-    36 /*offsetCode*/,
     &kPolicyROK /*zonePolicy*/,
-    0 /*deltaCode*/,
     "K%T" /*format*/,
+    36 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4670,10 +4670,10 @@ const basic::ZoneInfo kZoneAsia_Seoul ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Shanghai[] ACE_TIME_PROGMEM = {
   //             8:00    PRC    C%sT
   {
-    32 /*offsetCode*/,
     &kPolicyPRC /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4705,10 +4705,10 @@ const basic::ZoneInfo kZoneAsia_Shanghai ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Singapore[] ACE_TIME_PROGMEM = {
   //             8:00    -    +08
   {
-    32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+08" /*format*/,
+    32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4740,10 +4740,10 @@ const basic::ZoneInfo kZoneAsia_Singapore ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Taipei[] ACE_TIME_PROGMEM = {
   //             8:00    Taiwan    C%sT
   {
-    32 /*offsetCode*/,
     &kPolicyTaiwan /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4775,10 +4775,10 @@ const basic::ZoneInfo kZoneAsia_Taipei ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Tashkent[] ACE_TIME_PROGMEM = {
   //             5:00    -    +05
   {
-    20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+05" /*format*/,
+    20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4810,10 +4810,10 @@ const basic::ZoneInfo kZoneAsia_Tashkent ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Tehran[] ACE_TIME_PROGMEM = {
   //             3:30    Iran    +0330/+0430
   {
-    14 /*offsetCode*/,
     &kPolicyIran /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+0330/+0430" /*format*/,
+    14 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4845,10 +4845,10 @@ const basic::ZoneInfo kZoneAsia_Tehran ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Thimphu[] ACE_TIME_PROGMEM = {
   //             6:00    -    +06
   {
-    24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+06" /*format*/,
+    24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4880,10 +4880,10 @@ const basic::ZoneInfo kZoneAsia_Thimphu ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Tokyo[] ACE_TIME_PROGMEM = {
   //             9:00    Japan    J%sT
   {
-    36 /*offsetCode*/,
     &kPolicyJapan /*zonePolicy*/,
-    0 /*deltaCode*/,
     "J%T" /*format*/,
+    36 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4915,10 +4915,10 @@ const basic::ZoneInfo kZoneAsia_Tokyo ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Ulaanbaatar[] ACE_TIME_PROGMEM = {
   //             8:00    Mongol    +08/+09
   {
-    32 /*offsetCode*/,
     &kPolicyMongol /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+08/+09" /*format*/,
+    32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4950,10 +4950,10 @@ const basic::ZoneInfo kZoneAsia_Ulaanbaatar ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Urumqi[] ACE_TIME_PROGMEM = {
   //             6:00    -    +06
   {
-    24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+06" /*format*/,
+    24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -4985,10 +4985,10 @@ const basic::ZoneInfo kZoneAsia_Urumqi ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Yangon[] ACE_TIME_PROGMEM = {
   //             6:30    -    +0630
   {
-    26 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+0630" /*format*/,
+    26 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5020,10 +5020,10 @@ const basic::ZoneInfo kZoneAsia_Yangon ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAsia_Yerevan[] ACE_TIME_PROGMEM = {
   //             4:00 RussiaAsia    +04/+05    2011
   {
-    16 /*offsetCode*/,
     &kPolicyRussiaAsia /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+04/+05" /*format*/,
+    16 /*offsetCode*/,
+    0 /*deltaCode*/,
     11 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5032,10 +5032,10 @@ static const basic::ZoneEra kZoneEraAsia_Yerevan[] ACE_TIME_PROGMEM = {
   },
   //             4:00    Armenia    +04/+05
   {
-    16 /*offsetCode*/,
     &kPolicyArmenia /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+04/+05" /*format*/,
+    16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5067,10 +5067,10 @@ const basic::ZoneInfo kZoneAsia_Yerevan ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAtlantic_Azores[] ACE_TIME_PROGMEM = {
   //             -1:00    EU    -01/+00
   {
-    -4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-01/+00" /*format*/,
+    -4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5102,10 +5102,10 @@ const basic::ZoneInfo kZoneAtlantic_Azores ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAtlantic_Bermuda[] ACE_TIME_PROGMEM = {
   //             -4:00    US    A%sT
   {
-    -16 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "A%T" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5137,10 +5137,10 @@ const basic::ZoneInfo kZoneAtlantic_Bermuda ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAtlantic_Canary[] ACE_TIME_PROGMEM = {
   //              0:00    EU    WE%sT
   {
-    0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "WE%T" /*format*/,
+    0 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5172,10 +5172,10 @@ const basic::ZoneInfo kZoneAtlantic_Canary ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAtlantic_Cape_Verde[] ACE_TIME_PROGMEM = {
   //             -1:00    -    -01
   {
-    -4 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-01" /*format*/,
+    -4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5207,10 +5207,10 @@ const basic::ZoneInfo kZoneAtlantic_Cape_Verde ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAtlantic_Faroe[] ACE_TIME_PROGMEM = {
   //              0:00    EU    WE%sT
   {
-    0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "WE%T" /*format*/,
+    0 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5242,10 +5242,10 @@ const basic::ZoneInfo kZoneAtlantic_Faroe ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAtlantic_Madeira[] ACE_TIME_PROGMEM = {
   //              0:00    EU    WE%sT
   {
-    0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "WE%T" /*format*/,
+    0 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5277,10 +5277,10 @@ const basic::ZoneInfo kZoneAtlantic_Madeira ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAtlantic_Reykjavik[] ACE_TIME_PROGMEM = {
   //              0:00    -    GMT
   {
-    0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "GMT" /*format*/,
+    0 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5312,10 +5312,10 @@ const basic::ZoneInfo kZoneAtlantic_Reykjavik ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAtlantic_South_Georgia[] ACE_TIME_PROGMEM = {
   //             -2:00    -    -02
   {
-    -8 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-02" /*format*/,
+    -8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5347,10 +5347,10 @@ const basic::ZoneInfo kZoneAtlantic_South_Georgia ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAustralia_Adelaide[] ACE_TIME_PROGMEM = {
   //             9:30    AS    AC%sT
   {
-    38 /*offsetCode*/,
     &kPolicyAS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AC%T" /*format*/,
+    38 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5382,10 +5382,10 @@ const basic::ZoneInfo kZoneAustralia_Adelaide ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAustralia_Brisbane[] ACE_TIME_PROGMEM = {
   //             10:00    AQ    AE%sT
   {
-    40 /*offsetCode*/,
     &kPolicyAQ /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AE%T" /*format*/,
+    40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5417,10 +5417,10 @@ const basic::ZoneInfo kZoneAustralia_Brisbane ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAustralia_Broken_Hill[] ACE_TIME_PROGMEM = {
   //             9:30    AN    AC%sT    2000
   {
-    38 /*offsetCode*/,
     &kPolicyAN /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AC%T" /*format*/,
+    38 /*offsetCode*/,
+    0 /*deltaCode*/,
     0 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5429,10 +5429,10 @@ static const basic::ZoneEra kZoneEraAustralia_Broken_Hill[] ACE_TIME_PROGMEM = {
   },
   //             9:30    AS    AC%sT
   {
-    38 /*offsetCode*/,
     &kPolicyAS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AC%T" /*format*/,
+    38 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5464,10 +5464,10 @@ const basic::ZoneInfo kZoneAustralia_Broken_Hill ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAustralia_Currie[] ACE_TIME_PROGMEM = {
   //             10:00    AT    AE%sT
   {
-    40 /*offsetCode*/,
     &kPolicyAT /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AE%T" /*format*/,
+    40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5499,10 +5499,10 @@ const basic::ZoneInfo kZoneAustralia_Currie ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAustralia_Darwin[] ACE_TIME_PROGMEM = {
   //              9:30    Aus    AC%sT
   {
-    38 /*offsetCode*/,
     &kPolicyAus /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AC%T" /*format*/,
+    38 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5534,10 +5534,10 @@ const basic::ZoneInfo kZoneAustralia_Darwin ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAustralia_Eucla[] ACE_TIME_PROGMEM = {
   //              8:45    AW  +0845/+0945
   {
-    35 /*offsetCode*/,
     &kPolicyAW /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+0845/+0945" /*format*/,
+    35 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5569,10 +5569,10 @@ const basic::ZoneInfo kZoneAustralia_Eucla ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAustralia_Hobart[] ACE_TIME_PROGMEM = {
   //             10:00    AT    AE%sT
   {
-    40 /*offsetCode*/,
     &kPolicyAT /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AE%T" /*format*/,
+    40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5604,10 +5604,10 @@ const basic::ZoneInfo kZoneAustralia_Hobart ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAustralia_Lindeman[] ACE_TIME_PROGMEM = {
   //             10:00    Holiday    AE%sT
   {
-    40 /*offsetCode*/,
     &kPolicyHoliday /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AE%T" /*format*/,
+    40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5639,10 +5639,10 @@ const basic::ZoneInfo kZoneAustralia_Lindeman ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAustralia_Lord_Howe[] ACE_TIME_PROGMEM = {
   //             10:30    LH    +1030/+11
   {
-    42 /*offsetCode*/,
     &kPolicyLH /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+1030/+11" /*format*/,
+    42 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5674,10 +5674,10 @@ const basic::ZoneInfo kZoneAustralia_Lord_Howe ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAustralia_Melbourne[] ACE_TIME_PROGMEM = {
   //             10:00    AV    AE%sT
   {
-    40 /*offsetCode*/,
     &kPolicyAV /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AE%T" /*format*/,
+    40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5709,10 +5709,10 @@ const basic::ZoneInfo kZoneAustralia_Melbourne ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAustralia_Perth[] ACE_TIME_PROGMEM = {
   //              8:00    AW    AW%sT
   {
-    32 /*offsetCode*/,
     &kPolicyAW /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AW%T" /*format*/,
+    32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5744,10 +5744,10 @@ const basic::ZoneInfo kZoneAustralia_Perth ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAustralia_Sydney[] ACE_TIME_PROGMEM = {
   //             10:00    AN    AE%sT
   {
-    40 /*offsetCode*/,
     &kPolicyAN /*zonePolicy*/,
-    0 /*deltaCode*/,
     "AE%T" /*format*/,
+    40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5779,10 +5779,10 @@ const basic::ZoneInfo kZoneAustralia_Sydney ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraCET[] ACE_TIME_PROGMEM = {
   // 1:00 C-Eur CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyC_Eur /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5814,10 +5814,10 @@ const basic::ZoneInfo kZoneCET ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraCST6CDT[] ACE_TIME_PROGMEM = {
   // -6:00 US C%sT
   {
-    -24 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5849,10 +5849,10 @@ const basic::ZoneInfo kZoneCST6CDT ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEET[] ACE_TIME_PROGMEM = {
   // 2:00 EU EE%sT
   {
-    8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EE%T" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5884,10 +5884,10 @@ const basic::ZoneInfo kZoneEET ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEST[] ACE_TIME_PROGMEM = {
   // -5:00 - EST
   {
-    -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EST" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5919,10 +5919,10 @@ const basic::ZoneInfo kZoneEST ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEST5EDT[] ACE_TIME_PROGMEM = {
   // -5:00 US E%sT
   {
-    -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "E%T" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5954,10 +5954,10 @@ const basic::ZoneInfo kZoneEST5EDT ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT[] ACE_TIME_PROGMEM = {
   // 0 - GMT
   {
-    0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "GMT" /*format*/,
+    0 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -5989,10 +5989,10 @@ const basic::ZoneInfo kZoneEtc_GMT ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_PLUS_1[] ACE_TIME_PROGMEM = {
   // -1 - -01
   {
-    -4 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-01" /*format*/,
+    -4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6024,10 +6024,10 @@ const basic::ZoneInfo kZoneEtc_GMT_PLUS_1 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_PLUS_10[] ACE_TIME_PROGMEM = {
   // -10 - -10
   {
-    -40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-10" /*format*/,
+    -40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6059,10 +6059,10 @@ const basic::ZoneInfo kZoneEtc_GMT_PLUS_10 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_PLUS_11[] ACE_TIME_PROGMEM = {
   // -11 - -11
   {
-    -44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-11" /*format*/,
+    -44 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6094,10 +6094,10 @@ const basic::ZoneInfo kZoneEtc_GMT_PLUS_11 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_PLUS_12[] ACE_TIME_PROGMEM = {
   // -12 - -12
   {
-    -48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-12" /*format*/,
+    -48 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6129,10 +6129,10 @@ const basic::ZoneInfo kZoneEtc_GMT_PLUS_12 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_PLUS_2[] ACE_TIME_PROGMEM = {
   // -2 - -02
   {
-    -8 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-02" /*format*/,
+    -8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6164,10 +6164,10 @@ const basic::ZoneInfo kZoneEtc_GMT_PLUS_2 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_PLUS_3[] ACE_TIME_PROGMEM = {
   // -3 - -03
   {
-    -12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-03" /*format*/,
+    -12 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6199,10 +6199,10 @@ const basic::ZoneInfo kZoneEtc_GMT_PLUS_3 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_PLUS_4[] ACE_TIME_PROGMEM = {
   // -4 - -04
   {
-    -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-04" /*format*/,
+    -16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6234,10 +6234,10 @@ const basic::ZoneInfo kZoneEtc_GMT_PLUS_4 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_PLUS_5[] ACE_TIME_PROGMEM = {
   // -5 - -05
   {
-    -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-05" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6269,10 +6269,10 @@ const basic::ZoneInfo kZoneEtc_GMT_PLUS_5 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_PLUS_6[] ACE_TIME_PROGMEM = {
   // -6 - -06
   {
-    -24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-06" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6304,10 +6304,10 @@ const basic::ZoneInfo kZoneEtc_GMT_PLUS_6 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_PLUS_7[] ACE_TIME_PROGMEM = {
   // -7 - -07
   {
-    -28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-07" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6339,10 +6339,10 @@ const basic::ZoneInfo kZoneEtc_GMT_PLUS_7 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_PLUS_8[] ACE_TIME_PROGMEM = {
   // -8 - -08
   {
-    -32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-08" /*format*/,
+    -32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6374,10 +6374,10 @@ const basic::ZoneInfo kZoneEtc_GMT_PLUS_8 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_PLUS_9[] ACE_TIME_PROGMEM = {
   // -9 - -09
   {
-    -36 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-09" /*format*/,
+    -36 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6409,10 +6409,10 @@ const basic::ZoneInfo kZoneEtc_GMT_PLUS_9 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_1[] ACE_TIME_PROGMEM = {
   // 1 - +01
   {
-    4 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+01" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6444,10 +6444,10 @@ const basic::ZoneInfo kZoneEtc_GMT_1 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_10[] ACE_TIME_PROGMEM = {
   // 10 - +10
   {
-    40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+10" /*format*/,
+    40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6479,10 +6479,10 @@ const basic::ZoneInfo kZoneEtc_GMT_10 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_11[] ACE_TIME_PROGMEM = {
   // 11 - +11
   {
-    44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+11" /*format*/,
+    44 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6514,10 +6514,10 @@ const basic::ZoneInfo kZoneEtc_GMT_11 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_12[] ACE_TIME_PROGMEM = {
   // 12 - +12
   {
-    48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+12" /*format*/,
+    48 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6549,10 +6549,10 @@ const basic::ZoneInfo kZoneEtc_GMT_12 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_13[] ACE_TIME_PROGMEM = {
   // 13 - +13
   {
-    52 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+13" /*format*/,
+    52 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6584,10 +6584,10 @@ const basic::ZoneInfo kZoneEtc_GMT_13 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_14[] ACE_TIME_PROGMEM = {
   // 14 - +14
   {
-    56 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+14" /*format*/,
+    56 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6619,10 +6619,10 @@ const basic::ZoneInfo kZoneEtc_GMT_14 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_2[] ACE_TIME_PROGMEM = {
   // 2 - +02
   {
-    8 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+02" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6654,10 +6654,10 @@ const basic::ZoneInfo kZoneEtc_GMT_2 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_3[] ACE_TIME_PROGMEM = {
   // 3 - +03
   {
-    12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+03" /*format*/,
+    12 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6689,10 +6689,10 @@ const basic::ZoneInfo kZoneEtc_GMT_3 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_4[] ACE_TIME_PROGMEM = {
   // 4 - +04
   {
-    16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+04" /*format*/,
+    16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6724,10 +6724,10 @@ const basic::ZoneInfo kZoneEtc_GMT_4 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_5[] ACE_TIME_PROGMEM = {
   // 5 - +05
   {
-    20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+05" /*format*/,
+    20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6759,10 +6759,10 @@ const basic::ZoneInfo kZoneEtc_GMT_5 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_6[] ACE_TIME_PROGMEM = {
   // 6 - +06
   {
-    24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+06" /*format*/,
+    24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6794,10 +6794,10 @@ const basic::ZoneInfo kZoneEtc_GMT_6 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_7[] ACE_TIME_PROGMEM = {
   // 7 - +07
   {
-    28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+07" /*format*/,
+    28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6829,10 +6829,10 @@ const basic::ZoneInfo kZoneEtc_GMT_7 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_8[] ACE_TIME_PROGMEM = {
   // 8 - +08
   {
-    32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+08" /*format*/,
+    32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6864,10 +6864,10 @@ const basic::ZoneInfo kZoneEtc_GMT_8 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_GMT_9[] ACE_TIME_PROGMEM = {
   // 9 - +09
   {
-    36 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+09" /*format*/,
+    36 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6899,10 +6899,10 @@ const basic::ZoneInfo kZoneEtc_GMT_9 ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEtc_UTC[] ACE_TIME_PROGMEM = {
   // 0 - UTC
   {
-    0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "UTC" /*format*/,
+    0 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6934,10 +6934,10 @@ const basic::ZoneInfo kZoneEtc_UTC ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Amsterdam[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -6969,10 +6969,10 @@ const basic::ZoneInfo kZoneEurope_Amsterdam ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Andorra[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7004,10 +7004,10 @@ const basic::ZoneInfo kZoneEurope_Andorra ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Athens[] ACE_TIME_PROGMEM = {
   //             2:00    EU    EE%sT
   {
-    8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EE%T" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7039,10 +7039,10 @@ const basic::ZoneInfo kZoneEurope_Athens ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Belgrade[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7074,10 +7074,10 @@ const basic::ZoneInfo kZoneEurope_Belgrade ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Berlin[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7109,10 +7109,10 @@ const basic::ZoneInfo kZoneEurope_Berlin ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Brussels[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7144,10 +7144,10 @@ const basic::ZoneInfo kZoneEurope_Brussels ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Bucharest[] ACE_TIME_PROGMEM = {
   //             2:00    EU    EE%sT
   {
-    8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EE%T" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7179,10 +7179,10 @@ const basic::ZoneInfo kZoneEurope_Bucharest ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Budapest[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7214,10 +7214,10 @@ const basic::ZoneInfo kZoneEurope_Budapest ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Chisinau[] ACE_TIME_PROGMEM = {
   //             2:00    Moldova    EE%sT
   {
-    8 /*offsetCode*/,
     &kPolicyMoldova /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EE%T" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7249,10 +7249,10 @@ const basic::ZoneInfo kZoneEurope_Chisinau ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Copenhagen[] ACE_TIME_PROGMEM = {
   //              1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7284,10 +7284,10 @@ const basic::ZoneInfo kZoneEurope_Copenhagen ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Dublin[] ACE_TIME_PROGMEM = {
   //              1:00    Eire    IST/GMT
   {
-    4 /*offsetCode*/,
     &kPolicyEire /*zonePolicy*/,
-    0 /*deltaCode*/,
     "IST/GMT" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7319,10 +7319,10 @@ const basic::ZoneInfo kZoneEurope_Dublin ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Gibraltar[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7354,10 +7354,10 @@ const basic::ZoneInfo kZoneEurope_Gibraltar ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Helsinki[] ACE_TIME_PROGMEM = {
   //             2:00    EU    EE%sT
   {
-    8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EE%T" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7389,10 +7389,10 @@ const basic::ZoneInfo kZoneEurope_Helsinki ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Kiev[] ACE_TIME_PROGMEM = {
   //             2:00    EU    EE%sT
   {
-    8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EE%T" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7424,10 +7424,10 @@ const basic::ZoneInfo kZoneEurope_Kiev ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Lisbon[] ACE_TIME_PROGMEM = {
   //              0:00    EU    WE%sT
   {
-    0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "WE%T" /*format*/,
+    0 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7459,10 +7459,10 @@ const basic::ZoneInfo kZoneEurope_Lisbon ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_London[] ACE_TIME_PROGMEM = {
   //              0:00    EU    GMT/BST
   {
-    0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "GMT/BST" /*format*/,
+    0 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7494,10 +7494,10 @@ const basic::ZoneInfo kZoneEurope_London ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Luxembourg[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7529,10 +7529,10 @@ const basic::ZoneInfo kZoneEurope_Luxembourg ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Madrid[] ACE_TIME_PROGMEM = {
   //              1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7564,10 +7564,10 @@ const basic::ZoneInfo kZoneEurope_Madrid ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Malta[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7599,10 +7599,10 @@ const basic::ZoneInfo kZoneEurope_Malta ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Monaco[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7634,10 +7634,10 @@ const basic::ZoneInfo kZoneEurope_Monaco ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Oslo[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7669,10 +7669,10 @@ const basic::ZoneInfo kZoneEurope_Oslo ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Paris[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7704,10 +7704,10 @@ const basic::ZoneInfo kZoneEurope_Paris ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Prague[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7739,10 +7739,10 @@ const basic::ZoneInfo kZoneEurope_Prague ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Rome[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7774,10 +7774,10 @@ const basic::ZoneInfo kZoneEurope_Rome ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Sofia[] ACE_TIME_PROGMEM = {
   //             2:00    EU    EE%sT
   {
-    8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EE%T" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7809,10 +7809,10 @@ const basic::ZoneInfo kZoneEurope_Sofia ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Stockholm[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7844,10 +7844,10 @@ const basic::ZoneInfo kZoneEurope_Stockholm ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Tirane[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7879,10 +7879,10 @@ const basic::ZoneInfo kZoneEurope_Tirane ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Uzhgorod[] ACE_TIME_PROGMEM = {
   //             2:00    EU    EE%sT
   {
-    8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EE%T" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7914,10 +7914,10 @@ const basic::ZoneInfo kZoneEurope_Uzhgorod ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Vienna[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7949,10 +7949,10 @@ const basic::ZoneInfo kZoneEurope_Vienna ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Warsaw[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -7984,10 +7984,10 @@ const basic::ZoneInfo kZoneEurope_Warsaw ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Zaporozhye[] ACE_TIME_PROGMEM = {
   //             2:00    EU    EE%sT
   {
-    8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "EE%T" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8019,10 +8019,10 @@ const basic::ZoneInfo kZoneEurope_Zaporozhye ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraEurope_Zurich[] ACE_TIME_PROGMEM = {
   //             1:00    EU    CE%sT
   {
-    4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8054,10 +8054,10 @@ const basic::ZoneInfo kZoneEurope_Zurich ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraHST[] ACE_TIME_PROGMEM = {
   // -10:00 - HST
   {
-    -40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "HST" /*format*/,
+    -40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8089,10 +8089,10 @@ const basic::ZoneInfo kZoneHST ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraIndian_Chagos[] ACE_TIME_PROGMEM = {
   //             6:00    -    +06
   {
-    24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+06" /*format*/,
+    24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8124,10 +8124,10 @@ const basic::ZoneInfo kZoneIndian_Chagos ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraIndian_Christmas[] ACE_TIME_PROGMEM = {
   //             7:00    -    +07
   {
-    28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+07" /*format*/,
+    28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8159,10 +8159,10 @@ const basic::ZoneInfo kZoneIndian_Christmas ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraIndian_Cocos[] ACE_TIME_PROGMEM = {
   //             6:30    -    +0630
   {
-    26 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+0630" /*format*/,
+    26 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8194,10 +8194,10 @@ const basic::ZoneInfo kZoneIndian_Cocos ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraIndian_Kerguelen[] ACE_TIME_PROGMEM = {
   //             5:00    -    +05
   {
-    20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+05" /*format*/,
+    20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8229,10 +8229,10 @@ const basic::ZoneInfo kZoneIndian_Kerguelen ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraIndian_Mahe[] ACE_TIME_PROGMEM = {
   //             4:00    -    +04
   {
-    16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+04" /*format*/,
+    16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8264,10 +8264,10 @@ const basic::ZoneInfo kZoneIndian_Mahe ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraIndian_Maldives[] ACE_TIME_PROGMEM = {
   //             5:00    -    +05
   {
-    20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+05" /*format*/,
+    20 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8299,10 +8299,10 @@ const basic::ZoneInfo kZoneIndian_Maldives ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraIndian_Mauritius[] ACE_TIME_PROGMEM = {
   //             4:00 Mauritius    +04/+05
   {
-    16 /*offsetCode*/,
     &kPolicyMauritius /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+04/+05" /*format*/,
+    16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8334,10 +8334,10 @@ const basic::ZoneInfo kZoneIndian_Mauritius ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraIndian_Reunion[] ACE_TIME_PROGMEM = {
   //             4:00    -    +04
   {
-    16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+04" /*format*/,
+    16 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8369,10 +8369,10 @@ const basic::ZoneInfo kZoneIndian_Reunion ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraMET[] ACE_TIME_PROGMEM = {
   // 1:00 C-Eur ME%sT
   {
-    4 /*offsetCode*/,
     &kPolicyC_Eur /*zonePolicy*/,
-    0 /*deltaCode*/,
     "ME%T" /*format*/,
+    4 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8404,10 +8404,10 @@ const basic::ZoneInfo kZoneMET ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraMST[] ACE_TIME_PROGMEM = {
   // -7:00 - MST
   {
-    -28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "MST" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8439,10 +8439,10 @@ const basic::ZoneInfo kZoneMST ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraMST7MDT[] ACE_TIME_PROGMEM = {
   // -7:00 US M%sT
   {
-    -28 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8474,10 +8474,10 @@ const basic::ZoneInfo kZoneMST7MDT ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPST8PDT[] ACE_TIME_PROGMEM = {
   // -8:00 US P%sT
   {
-    -32 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
-    0 /*deltaCode*/,
     "P%T" /*format*/,
+    -32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8509,10 +8509,10 @@ const basic::ZoneInfo kZonePST8PDT ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Auckland[] ACE_TIME_PROGMEM = {
   //             12:00    NZ    NZ%sT
   {
-    48 /*offsetCode*/,
     &kPolicyNZ /*zonePolicy*/,
-    0 /*deltaCode*/,
     "NZ%T" /*format*/,
+    48 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8544,10 +8544,10 @@ const basic::ZoneInfo kZonePacific_Auckland ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Chatham[] ACE_TIME_PROGMEM = {
   //             12:45    Chatham    +1245/+1345
   {
-    51 /*offsetCode*/,
     &kPolicyChatham /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+1245/+1345" /*format*/,
+    51 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8579,10 +8579,10 @@ const basic::ZoneInfo kZonePacific_Chatham ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Chuuk[] ACE_TIME_PROGMEM = {
   //              10:00    -    +10
   {
-    40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+10" /*format*/,
+    40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8614,10 +8614,10 @@ const basic::ZoneInfo kZonePacific_Chuuk ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Easter[] ACE_TIME_PROGMEM = {
   //             -6:00    Chile    -06/-05
   {
-    -24 /*offsetCode*/,
     &kPolicyChile /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-06/-05" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8649,10 +8649,10 @@ const basic::ZoneInfo kZonePacific_Easter ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Efate[] ACE_TIME_PROGMEM = {
   //             11:00    Vanuatu    +11/+12
   {
-    44 /*offsetCode*/,
     &kPolicyVanuatu /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+11/+12" /*format*/,
+    44 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8684,10 +8684,10 @@ const basic::ZoneInfo kZonePacific_Efate ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Enderbury[] ACE_TIME_PROGMEM = {
   //              13:00    -    +13
   {
-    52 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+13" /*format*/,
+    52 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8719,10 +8719,10 @@ const basic::ZoneInfo kZonePacific_Enderbury ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Fiji[] ACE_TIME_PROGMEM = {
   //             12:00    Fiji    +12/+13
   {
-    48 /*offsetCode*/,
     &kPolicyFiji /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+12/+13" /*format*/,
+    48 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8754,10 +8754,10 @@ const basic::ZoneInfo kZonePacific_Fiji ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Funafuti[] ACE_TIME_PROGMEM = {
   //             12:00    -    +12
   {
-    48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+12" /*format*/,
+    48 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8789,10 +8789,10 @@ const basic::ZoneInfo kZonePacific_Funafuti ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
   //             -6:00    Ecuador    -06/-05
   {
-    -24 /*offsetCode*/,
     &kPolicyEcuador /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-06/-05" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8824,10 +8824,10 @@ const basic::ZoneInfo kZonePacific_Galapagos ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Gambier[] ACE_TIME_PROGMEM = {
   //              -9:00    -    -09
   {
-    -36 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-09" /*format*/,
+    -36 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8859,10 +8859,10 @@ const basic::ZoneInfo kZonePacific_Gambier ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Guadalcanal[] ACE_TIME_PROGMEM = {
   //             11:00    -    +11
   {
-    44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+11" /*format*/,
+    44 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8894,10 +8894,10 @@ const basic::ZoneInfo kZonePacific_Guadalcanal ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Honolulu[] ACE_TIME_PROGMEM = {
   //             -10:00    -    HST
   {
-    -40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "HST" /*format*/,
+    -40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8929,10 +8929,10 @@ const basic::ZoneInfo kZonePacific_Honolulu ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Kiritimati[] ACE_TIME_PROGMEM = {
   //              14:00    -    +14
   {
-    56 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+14" /*format*/,
+    56 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8964,10 +8964,10 @@ const basic::ZoneInfo kZonePacific_Kiritimati ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Kosrae[] ACE_TIME_PROGMEM = {
   //              12:00    -    +12    1999
   {
-    48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+12" /*format*/,
+    48 /*offsetCode*/,
+    0 /*deltaCode*/,
     -1 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -8976,10 +8976,10 @@ static const basic::ZoneEra kZoneEraPacific_Kosrae[] ACE_TIME_PROGMEM = {
   },
   //              11:00    -    +11
   {
-    44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+11" /*format*/,
+    44 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9011,10 +9011,10 @@ const basic::ZoneInfo kZonePacific_Kosrae ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Kwajalein[] ACE_TIME_PROGMEM = {
   //              12:00    -    +12
   {
-    48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+12" /*format*/,
+    48 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9046,10 +9046,10 @@ const basic::ZoneInfo kZonePacific_Kwajalein ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Majuro[] ACE_TIME_PROGMEM = {
   //              12:00    -    +12
   {
-    48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+12" /*format*/,
+    48 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9081,10 +9081,10 @@ const basic::ZoneInfo kZonePacific_Majuro ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Marquesas[] ACE_TIME_PROGMEM = {
   //              -9:30    -    -0930
   {
-    -38 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-0930" /*format*/,
+    -38 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9116,10 +9116,10 @@ const basic::ZoneInfo kZonePacific_Marquesas ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Nauru[] ACE_TIME_PROGMEM = {
   //             12:00    -    +12
   {
-    48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+12" /*format*/,
+    48 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9151,10 +9151,10 @@ const basic::ZoneInfo kZonePacific_Nauru ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Niue[] ACE_TIME_PROGMEM = {
   //             -11:00    -    -11
   {
-    -44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-11" /*format*/,
+    -44 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9186,10 +9186,10 @@ const basic::ZoneInfo kZonePacific_Niue ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Noumea[] ACE_TIME_PROGMEM = {
   //             11:00    NC    +11/+12
   {
-    44 /*offsetCode*/,
     &kPolicyNC /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+11/+12" /*format*/,
+    44 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9221,10 +9221,10 @@ const basic::ZoneInfo kZonePacific_Noumea ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Pago_Pago[] ACE_TIME_PROGMEM = {
   //             -11:00    -    SST
   {
-    -44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "SST" /*format*/,
+    -44 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9256,10 +9256,10 @@ const basic::ZoneInfo kZonePacific_Pago_Pago ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Palau[] ACE_TIME_PROGMEM = {
   //               9:00    -    +09
   {
-    36 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+09" /*format*/,
+    36 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9291,10 +9291,10 @@ const basic::ZoneInfo kZonePacific_Palau ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Pitcairn[] ACE_TIME_PROGMEM = {
   //             -8:00    -    -08
   {
-    -32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-08" /*format*/,
+    -32 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9326,10 +9326,10 @@ const basic::ZoneInfo kZonePacific_Pitcairn ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Pohnpei[] ACE_TIME_PROGMEM = {
   //              11:00    -    +11
   {
-    44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+11" /*format*/,
+    44 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9361,10 +9361,10 @@ const basic::ZoneInfo kZonePacific_Pohnpei ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Port_Moresby[] ACE_TIME_PROGMEM = {
   //             10:00    -    +10
   {
-    40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+10" /*format*/,
+    40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9396,10 +9396,10 @@ const basic::ZoneInfo kZonePacific_Port_Moresby ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Rarotonga[] ACE_TIME_PROGMEM = {
   //             -10:00    Cook    -10/-0930
   {
-    -40 /*offsetCode*/,
     &kPolicyCook /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-10/-0930" /*format*/,
+    -40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9431,10 +9431,10 @@ const basic::ZoneInfo kZonePacific_Rarotonga ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Tahiti[] ACE_TIME_PROGMEM = {
   //             -10:00    -    -10
   {
-    -40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "-10" /*format*/,
+    -40 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9466,10 +9466,10 @@ const basic::ZoneInfo kZonePacific_Tahiti ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Tarawa[] ACE_TIME_PROGMEM = {
   //              12:00    -    +12
   {
-    48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+12" /*format*/,
+    48 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9501,10 +9501,10 @@ const basic::ZoneInfo kZonePacific_Tarawa ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Tongatapu[] ACE_TIME_PROGMEM = {
   //             13:00    -    +13    1999
   {
-    52 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+13" /*format*/,
+    52 /*offsetCode*/,
+    0 /*deltaCode*/,
     -1 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9513,10 +9513,10 @@ static const basic::ZoneEra kZoneEraPacific_Tongatapu[] ACE_TIME_PROGMEM = {
   },
   //             13:00    Tonga    +13/+14
   {
-    52 /*offsetCode*/,
     &kPolicyTonga /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+13/+14" /*format*/,
+    52 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9548,10 +9548,10 @@ const basic::ZoneInfo kZonePacific_Tongatapu ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Wake[] ACE_TIME_PROGMEM = {
   //             12:00    -    +12
   {
-    48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+12" /*format*/,
+    48 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9583,10 +9583,10 @@ const basic::ZoneInfo kZonePacific_Wake ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraPacific_Wallis[] ACE_TIME_PROGMEM = {
   //             12:00    -    +12
   {
-    48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
     "+12" /*format*/,
+    48 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
@@ -9618,10 +9618,10 @@ const basic::ZoneInfo kZonePacific_Wallis ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraWET[] ACE_TIME_PROGMEM = {
   // 0:00 EU WE%sT
   {
-    0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
-    0 /*deltaCode*/,
     "WE%T" /*format*/,
+    0 /*offsetCode*/,
+    0 /*deltaCode*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
