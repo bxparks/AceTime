@@ -228,10 +228,10 @@ static const {scope}::ZoneRule kZoneRules{policyName}[] {progmem} = {{
 {letterArray}
 
 const {scope}::ZonePolicy kPolicy{policyName} {progmem} = {{
-  {numRules} /*numRules*/,
   kZoneRules{policyName} /*rules*/,
-  {numLetters} /* numLetters */,
   {letterArrayRef} /* letters */,
+  {numRules} /*numRules*/,
+  {numLetters} /* numLetters */,
 }};
 
 """
@@ -620,10 +620,10 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
     ZONE_INFOS_CPP_ERA_ITEM = """\
   // {rawLine}
   {{
-    {offsetCode} /*offsetCode*/,
     {zonePolicy} /*zonePolicy*/,
-    {deltaCode} /*deltaCode*/,
     "{format}" /*format*/,
+    {offsetCode} /*offsetCode*/,
+    {deltaCode} /*deltaCode*/,
     {untilYearTiny} /*untilYearTiny*/,
     {untilMonth} /*untilMonth*/,
     {untilDay} /*untilDay*/,
