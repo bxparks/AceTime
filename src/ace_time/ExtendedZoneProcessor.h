@@ -19,7 +19,7 @@
 #include "BasicZoneProcessor.h"
 #include "local_date_mutation.h"
 
-#define DEBUG 0
+#define ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG 0
 
 class ExtendedZoneProcessorTest_compareEraToYearMonth;
 class ExtendedZoneProcessorTest_compareEraToYearMonth2;
@@ -70,8 +70,10 @@ struct DateTuple {
 
   /** Used only for debugging. */
   void log() const {
-    logging::print("DateTuple(%d-%u-%uT%d'%c')",
-        yearTiny+LocalDate::kEpochYear, month, day, timeCode, modifier);
+    if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+      logging::print("DateTuple(%d-%u-%uT%d'%c')",
+          yearTiny+LocalDate::kEpochYear, month, day, timeCode, modifier);
+    }
   }
 };
 
@@ -473,7 +475,9 @@ class TransitionStorage {
      * pool.
      */
     void addActiveCandidatesToActivePool() {
-      if (DEBUG) logging::println("addActiveCandidatesToActivePool()");
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("addActiveCandidatesToActivePool()");
+      }
       uint8_t iActive = mIndexPrior;
       uint8_t iCandidate = mIndexCandidates;
       for (; iCandidate < mIndexFree; iCandidate++) {
@@ -498,8 +502,9 @@ class TransitionStorage {
      * method should never return a nullptr for a well-formed ZoneInfo file.
      */
     const Transition* findTransition(acetime_t epochSeconds) const {
-      if (DEBUG) logging::println(
-        "findTransition(): mIndexFree: %d", mIndexFree);
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println( "findTransition(): mIndexFree: %d", mIndexFree);
+      }
 
       const Transition* match = nullptr;
       for (uint8_t i = 0; i < mIndexFree; i++) {
@@ -535,8 +540,10 @@ class TransitionStorage {
      */
     const Transition* findTransitionForDateTime(const LocalDateTime& ldt)
         const {
-      if (DEBUG) logging::println(
-        "findTransitionForDateTime(): mIndexFree: %d", mIndexFree);
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println(
+            "findTransitionForDateTime(): mIndexFree: %d", mIndexFree);
+      }
 
       // Convert to DateTuple. If the localDateTime is not a multiple of 15
       // minutes, the comparision (startTime < localDate) will still be valid.
@@ -835,7 +842,9 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     bool init(const LocalDate& ld) const {
       int16_t year = ld.year();
       if (isFilled(year)) return true;
-      if (DEBUG) logging::println("init(): %d", year);
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("init(): %d", year);
+      }
 
       mYear = year;
       mNumMatches = 0; // clear cache
@@ -852,7 +861,9 @@ class ExtendedZoneProcessor: public ZoneProcessor {
 
       mNumMatches = findMatches(mZoneInfo, startYm, untilYm, mMatches,
           kMaxMatches);
-      if (DEBUG) log();
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        log();
+      }
       findTransitions(mTransitionStorage, mMatches, mNumMatches);
       extended::Transition** begin = mTransitionStorage.getActivePoolBegin();
       extended::Transition** end = mTransitionStorage.getActivePoolEnd();
@@ -880,7 +891,9 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm,
         extended::ZoneMatch* matches, uint8_t maxMatches) {
-      if (DEBUG) logging::println("findMatches()");
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("findMatches()");
+      }
       uint8_t iMatch = 0;
       extended::ZoneEraBroker prev = extended::ZoneEraBroker(&kAnchorEra);
       for (uint8_t iEra = 0; iEra < zoneInfo.numEras(); iEra++) {
@@ -972,7 +985,9 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         extended::TransitionStorage<kMaxTransitions>& transitionStorage,
         extended::ZoneMatch* matches,
         uint8_t numMatches) {
-      if (DEBUG) logging::println("findTransitions()");
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("findTransitions()");
+      }
       for (uint8_t i = 0; i < numMatches; i++) {
         findTransitionsForMatch(transitionStorage, &matches[i]);
       }
@@ -982,7 +997,9 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     static void findTransitionsForMatch(
         extended::TransitionStorage<kMaxTransitions>& transitionStorage,
         const extended::ZoneMatch* match) {
-      if (DEBUG) logging::println("findTransitionsForMatch()");
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("findTransitionsForMatch()");
+      }
       const extended::ZonePolicyBroker policy = match->era.zonePolicy();
       if (policy.isNull()) {
         findTransitionsFromSimpleMatch(transitionStorage, match);
@@ -994,7 +1011,9 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     static void findTransitionsFromSimpleMatch(
         extended::TransitionStorage<kMaxTransitions>& transitionStorage,
         const extended::ZoneMatch* match) {
-      if (DEBUG) logging::println("findTransitionsFromSimpleMatch()");
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("findTransitionsFromSimpleMatch()");
+      }
       extended::Transition* freeTransition = transitionStorage.getFreeAgent();
       createTransitionForYear(freeTransition, 0 /*not used*/,
           extended::ZoneRuleBroker(nullptr) /*rule*/, match);
@@ -1004,25 +1023,35 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     static void findTransitionsFromNamedMatch(
         extended::TransitionStorage<kMaxTransitions>& transitionStorage,
         const extended::ZoneMatch* match) {
-      if (DEBUG) logging::println("findTransitionsFromNamedMatch()");
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("findTransitionsFromNamedMatch()");
+      }
       transitionStorage.resetCandidatePool();
-      if (DEBUG) { match->log(); logging::println(); }
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        match->log(); logging::println();
+      }
       findCandidateTransitions(transitionStorage, match);
-      if (DEBUG) { transitionStorage.log(); logging::println(); }
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        transitionStorage.log(); logging::println();
+      }
       fixTransitionTimes(
           transitionStorage.getCandidatePoolBegin(),
           transitionStorage.getCandidatePoolEnd());
       selectActiveTransitions(transitionStorage, match);
-      if (DEBUG) { transitionStorage.log(); logging::println(); }
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        transitionStorage.log(); logging::println();
+      }
 
       transitionStorage.addActiveCandidatesToActivePool();
-      if (DEBUG) { transitionStorage.log(); logging::println(); }
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        transitionStorage.log(); logging::println();
+      }
     }
 
     static void findCandidateTransitions(
         extended::TransitionStorage<kMaxTransitions>& transitionStorage,
         const extended::ZoneMatch* match) {
-      if (DEBUG) {
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::print("findCandidateTransitions(): ");
         match->log();
         logging::println();
@@ -1057,8 +1086,10 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         int8_t priorYear = getMostRecentPriorYear(
             rule.fromYearTiny(), rule.toYearTiny(), startY, endY);
         if (priorYear != LocalDate::kInvalidYearTiny) {
-          if (DEBUG) logging::println(
+          if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+            logging::println(
               "findCandidateTransitions(): priorYear: %d", priorYear);
+          }
           extended::Transition* t = transitionStorage.getFreeAgent();
           createTransitionForYear(t, priorYear, rule, match);
           setAsPriorTransition(transitionStorage, t);
@@ -1068,8 +1099,10 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       // Add the reserved prior into the Candidate pool only if 'active' is
       // true, meaning that a prior was found.
       if ((*prior)->active) {
-        if (DEBUG) logging::println(
+        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+          logging::println(
             "findCandidateTransitions(): adding prior to Candidate pool");
+        }
         transitionStorage.addPriorToCandidatePool();
       }
     }
@@ -1185,7 +1218,9 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     static void setAsPriorTransition(
         extended::TransitionStorage<kMaxTransitions>& transitionStorage,
         extended::Transition* t) {
-      if (DEBUG) logging::println("setAsPriorTransition()");
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("setAsPriorTransition()");
+      }
       extended::Transition* prior = transitionStorage.getPrior();
       if (prior->active) {
         if (prior->transitionTime < t->transitionTime) {
@@ -1208,15 +1243,17 @@ class ExtendedZoneProcessor: public ZoneProcessor {
      */
     static void fixTransitionTimes(
         extended::Transition** begin, extended::Transition** end) {
-      if (DEBUG) logging::println("fixTransitionTimes(): #transitions: %d;",
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("fixTransitionTimes(): #transitions: %d;",
           (int) (end - begin));
+      }
 
       // extend first Transition to -infinity
       extended::Transition* prev = *begin;
 
       for (extended::Transition** iter = begin; iter != end; ++iter) {
         extended::Transition* curr = *iter;
-        if (DEBUG) {
+        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
           logging::println("fixTransitionTimes(): LOOP");
           curr->log();
           logging::println();
@@ -1226,7 +1263,9 @@ class ExtendedZoneProcessor: public ZoneProcessor {
             prev->offsetCode, prev->deltaCode);
         prev = curr;
       }
-      if (DEBUG) logging::println("fixTransitionTimes(): END");
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("fixTransitionTimes(): END");
+      }
     }
 
     /**
@@ -1237,7 +1276,9 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     static void expandDateTuple(extended::DateTuple* tt,
         extended::DateTuple* tts, extended::DateTuple* ttu,
         int8_t offsetCode, int8_t deltaCode) {
-      if (DEBUG) logging::println("expandDateTuple()");
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("expandDateTuple()");
+      }
       if (tt->modifier == 's') {
         *tts = *tt;
         *ttu = {tt->yearTiny, tt->month, tt->day,
@@ -1259,11 +1300,17 @@ class ExtendedZoneProcessor: public ZoneProcessor {
             (int8_t) (tt->timeCode - deltaCode - offsetCode), 'u'};
       }
 
-      if (DEBUG) logging::println("expandDateTuple(): normalizeDateTuple(): 1");
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("expandDateTuple(): normalizeDateTuple(): 1");
+      }
       normalizeDateTuple(tt);
-      if (DEBUG) logging::println("expandDateTuple(): normalizeDateTuple(): 2");
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("expandDateTuple(): normalizeDateTuple(): 2");
+      }
       normalizeDateTuple(tts);
-      if (DEBUG) logging::println("expandDateTuple(): normalizeDateTuple(): 3");
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("expandDateTuple(): normalizeDateTuple(): 3");
+      }
       normalizeDateTuple(ttu);
     }
 
@@ -1300,8 +1347,10 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         const extended::ZoneMatch* match) {
       extended::Transition** begin = transitionStorage.getCandidatePoolBegin();
       extended::Transition** end = transitionStorage.getCandidatePoolEnd();
-      if (DEBUG) logging::println("selectActiveTransitions(): #candidates: %d",
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("selectActiveTransitions(): #candidates: %d",
           (int) (end - begin));
+      }
       extended::Transition* prior = nullptr;
       for (extended::Transition** iter = begin; iter != end; ++iter) {
         extended::Transition* transition = *iter;
@@ -1311,8 +1360,10 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       // If the latest prior transition is found, shift it to start at the
       // startDateTime of the current match.
       if (prior) {
-        if (DEBUG) logging::println(
+        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+          logging::println(
             "selectActiveTransitions(): found latest prior");
+        }
         prior->originalTransitionTime = prior->transitionTime;
         prior->transitionTime = match->startDateTime;
       }
@@ -1403,9 +1454,11 @@ class ExtendedZoneProcessor: public ZoneProcessor {
      */
     static void generateStartUntilTimes(
         extended::Transition** begin, extended::Transition** end) {
-      if (DEBUG) logging::println(
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println(
           "generateStartUntilTimes(): #transitions: %d;",
           (int) (end - begin));
+      }
 
       extended::Transition* prev = *begin;
       bool isAfterFirst = false;
@@ -1462,13 +1515,17 @@ class ExtendedZoneProcessor: public ZoneProcessor {
      */
     static void calcAbbreviations(
         extended::Transition** begin, extended::Transition** end) {
-      if (DEBUG) logging::println("calcAbbreviations(): #transitions: %d;",
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::println("calcAbbreviations(): #transitions: %d;",
           (int) (end - begin));
+      }
       for (extended::Transition** iter = begin; iter != end; ++iter) {
         extended::Transition* const t = *iter;
-        if (DEBUG) logging::println(
+        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+          logging::println(
             "calcAbbreviations(): format:%s, deltaCode:%d, letter:%s",
             t->format(), t->deltaCode, t->letter());
+        }
         createAbbreviation(t->abbrev, extended::Transition::kAbbrevSize,
             t->format(), t->deltaCode, t->letter());
       }
@@ -1581,7 +1638,5 @@ class ExtendedZoneProcessor: public ZoneProcessor {
 };
 
 } // namespace ace_time
-
-#undef DEBUG
 
 #endif

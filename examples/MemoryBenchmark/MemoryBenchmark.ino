@@ -20,34 +20,12 @@
 // flash and RAM is consumed by the selected feature.
 // NOTE: This line is modified by a 'sed' script in collect.sh. Be careful
 // when modifying its format.
-#define FEATURE 0
+#define FEATURE 1
 
 #if FEATURE != FEATURE_BASELINE
 #include <AceTime.h>
 using namespace ace_time;
 using namespace ace_time::clock;
-
-static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
-  &zonedb::kZoneAmerica_Chicago,
-  &zonedb::kZoneAmerica_Denver,
-  &zonedb::kZoneAmerica_Los_Angeles,
-  &zonedb::kZoneAmerica_New_York,
-};
-
-static const uint16_t kBasicZoneRegistrySize =
-    sizeof(kBasicZoneRegistry) / sizeof(kBasicZoneRegistry[0]);
-
-static const extended::ZoneInfo* const kExtendedZoneRegistry[]
-    ACE_TIME_PROGMEM = {
-  &zonedbx::kZoneAmerica_Chicago,
-  &zonedbx::kZoneAmerica_Denver,
-  &zonedbx::kZoneAmerica_Los_Angeles,
-  &zonedbx::kZoneAmerica_New_York,
-};
-
-static const uint16_t kExtendedZoneRegistrySize =
-    sizeof(kExtendedZoneRegistry) / sizeof(kExtendedZoneRegistry[0]);
-
 #endif
 
 // Set this variable to prevent the compiler optimizer from removing the code

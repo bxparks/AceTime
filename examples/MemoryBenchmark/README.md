@@ -33,8 +33,8 @@ hand since Teensyduino does not seem to allow headless operation.)
 | Extended TimeZone (2 zones)     |   9700/  217 |  9252/  207 |
 | Extended TimeZone (all zones)   |  34112/  709 | 33664/  699 |
 |---------------------------------+--------------+-------------|
-| SystemClock                     |   4750/  276 |  4302/  266 |
-| SystemClock+Basic TimeZone      |   9124/  362 |  8676/  352 |
+| SystemClock                     |   4758/  276 |  4310/  266 |
+| SystemClock+Basic TimeZone      |   9132/  362 |  8684/  352 |
 +--------------------------------------------------------------+
 ```
 
@@ -59,8 +59,8 @@ hand since Teensyduino does not seem to allow headless operation.)
 | Extended TimeZone (2 zones)     |  12698/  355 |  9076/  205 |
 | Extended TimeZone (all zones)   |  37110/  847 | 33488/  697 |
 |---------------------------------+--------------+-------------|
-| SystemClock                     |   7750/  416 |  4128/  266 |
-| SystemClock+Basic TimeZone      |  12124/  502 |  8502/  352 |
+| SystemClock                     |   7758/  416 |  4136/  266 |
+| SystemClock+Basic TimeZone      |  12132/  502 |  8510/  352 |
 +--------------------------------------------------------------+
 ```
 
@@ -104,17 +104,17 @@ hand since Teensyduino does not seem to allow headless operation.)
 |---------------------------------+--------------+-------------|
 | Baseline                        | 257104/26540 |     0/    0 |
 |---------------------------------+--------------+-------------|
-| LocalDateTime                   | 260448/26944 |  3344/  404 |
-| ZonedDateTime                   | 261168/26944 |  4064/  404 |
-| Basic TimeZone                  | 266300/27364 |  9196/  824 |
-| Basic TimeZone (2 zones)        | 266604/27364 |  9500/  824 |
-| Basic TimeZone (all zones)      | 288716/27364 | 31612/  824 |
-| Extended TimeZone               | 268272/27472 | 11168/  932 |
-| Extended TimeZone (2 zones)     | 268640/27472 | 11536/  932 |
-| Extended TimeZone (all zones)   | 306624/27472 | 49520/  932 |
+| LocalDateTime                   | 259480/26884 |  2376/  344 |
+| ZonedDateTime                   | 260184/26884 |  3080/  344 |
+| Basic TimeZone                  | 265428/27312 |  8324/  772 |
+| Basic TimeZone (2 zones)        | 265732/27312 |  8628/  772 |
+| Basic TimeZone (all zones)      | 287844/27312 | 30740/  772 |
+| Extended TimeZone               | 267400/27412 | 10296/  872 |
+| Extended TimeZone (2 zones)     | 267768/27412 | 10664/  872 |
+| Extended TimeZone (all zones)   | 305752/27412 | 48648/  872 |
 |---------------------------------+--------------+-------------|
-| SystemClock                     | 263820/26960 |  6716/  420 |
-| SystemClock+Basic TimeZone      | 268620/27376 | 11516/  836 |
+| SystemClock                     | 262852/26908 |  5748/  368 |
+| SystemClock+Basic TimeZone      | 267764/27324 | 10660/  784 |
 +--------------------------------------------------------------+
 ```
 
@@ -130,17 +130,17 @@ hand since Teensyduino does not seem to allow headless operation.)
 |---------------------------------+--------------+-------------|
 | Baseline                        | 193200/12680 |     0/    0 |
 |---------------------------------+--------------+-------------|
-| LocalDateTime                   | 203884/14164 | 10684/ 1484 |
-| ZonedDateTime                   | 204724/14164 | 11524/ 1484 |
-| Basic TimeZone                  | 208640/14164 | 15440/ 1484 |
-| Basic TimeZone (2 zones)        | 208932/14164 | 15732/ 1484 |
-| Basic TimeZone (all zones)      | 231004/14164 | 37804/ 1484 |
-| Extended TimeZone               | 210304/14164 | 17104/ 1484 |
-| Extended TimeZone (2 zones)     | 210636/14164 | 17436/ 1484 |
-| Extended TimeZone (all zones)   | 248632/14164 | 55432/ 1484 |
+| LocalDateTime                   | 203844/14164 | 10644/ 1484 |
+| ZonedDateTime                   | 204684/14164 | 11484/ 1484 |
+| Basic TimeZone                  | 208600/14164 | 15400/ 1484 |
+| Basic TimeZone (2 zones)        | 208892/14164 | 15692/ 1484 |
+| Basic TimeZone (all zones)      | 230988/14164 | 37788/ 1484 |
+| Extended TimeZone               | 210264/14164 | 17064/ 1484 |
+| Extended TimeZone (2 zones)     | 210596/14164 | 17396/ 1484 |
+| Extended TimeZone (all zones)   | 248620/14164 | 55420/ 1484 |
 |---------------------------------+--------------+-------------|
-| SystemClock                     | 211568/14268 | 18368/ 1588 |
-| SystemClock+Basic TimeZone      | 215428/14268 | 22228/ 1588 |
+| SystemClock                     | 211532/14268 | 18332/ 1588 |
+| SystemClock+Basic TimeZone      | 215392/14268 | 22192/ 1588 |
 +--------------------------------------------------------------+
 ```
 
@@ -164,7 +164,7 @@ usage by objects.
 | ZonedDateTime                   |  14492/ 5204 |  5644/ 1768 |
 | Basic TimeZone                  |  22100/ 5204 | 13252/ 1768 |
 | Basic TimeZone (2 zones)        |  22848/ 5204 | 14000/ 1768 |
-| Basic TimeZone (all zones)      |  44472/ 5204 | 35624/ 1768 |
+| Basic TimeZone (all zones)      |  44536/ 5204 | 35688/ 1768 |
 | Extended TimeZone               |  25380/ 5204 | 16532/ 1768 |
 | Extended TimeZone (2 zones)     |  26128/ 5204 | 17280/ 1768 |
 | Extended TimeZone (all zones)   |  63804/ 5204 | 54956/ 1768 |

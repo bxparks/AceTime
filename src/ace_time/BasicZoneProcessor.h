@@ -17,6 +17,8 @@
 #include "OffsetDateTime.h"
 #include "ZoneProcessor.h"
 
+#define ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG 0
+
 class BasicZoneProcessorTest_init_primitives;
 class BasicZoneProcessorTest_init;
 class BasicZoneProcessorTest_setZoneInfo;
@@ -99,18 +101,20 @@ struct Transition {
 
   /** Used only for debugging. */
   void log() const {
-    if (sizeof(acetime_t) == sizeof(int)) {
-      logging::println("startEpochSeconds: %d", startEpochSeconds);
-    } else {
-      logging::println("startEpochSeconds: %ld", startEpochSeconds);
-    }
-    logging::println("offsetCode: %d", offsetCode);
-    logging::println("abbrev: %s", abbrev);
-    if (rule.isNotNull()) {
-      logging::println("Rule.fromYear: %d", rule.fromYearTiny());
-      logging::println("Rule.toYear: %d", rule.toYearTiny());
-      logging::println("Rule.inMonth: %d", rule.inMonth());
-      logging::println("Rule.onDayOfMonth: %d", rule.onDayOfMonth());
+    if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
+      if (sizeof(acetime_t) == sizeof(int)) {
+        logging::println("startEpochSeconds: %d", startEpochSeconds);
+      } else {
+        logging::println("startEpochSeconds: %ld", startEpochSeconds);
+      }
+      logging::println("offsetCode: %d", offsetCode);
+      logging::println("abbrev: %s", abbrev);
+      if (rule.isNotNull()) {
+        logging::println("Rule.fromYear: %d", rule.fromYearTiny());
+        logging::println("Rule.toYear: %d", rule.toYearTiny());
+        logging::println("Rule.inMonth: %d", rule.inMonth());
+        logging::println("Rule.onDayOfMonth: %d", rule.onDayOfMonth());
+      }
     }
   }
 };
@@ -289,17 +293,19 @@ class BasicZoneProcessor: public ZoneProcessor {
 
     /** Used only for debugging. */
     void log() const {
-      if (!mIsFilled) {
-        logging::println("*not initialized*");
-        return;
-      }
-      logging::println("mYear: %d", mYear);
-      logging::println("mNumTransitions: %d", mNumTransitions);
-      logging::println("---- PrevTransition");
-      mPrevTransition.log();
-      for (int i = 0; i < mNumTransitions; i++) {
-        logging::println("---- Transition: %d", i);
-        mTransitions[i].log();
+      if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
+        if (!mIsFilled) {
+          logging::println("*not initialized*");
+          return;
+        }
+        logging::println("mYear: %d", mYear);
+        logging::println("mNumTransitions: %d", mNumTransitions);
+        logging::println("---- PrevTransition");
+        mPrevTransition.log();
+        for (int i = 0; i < mNumTransitions; i++) {
+          logging::println("---- Transition: %d", i);
+          mTransitions[i].log();
+        }
       }
     }
 
