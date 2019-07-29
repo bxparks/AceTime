@@ -82,12 +82,12 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(BasicZoneProcessor): 156
-sizeof(ExtendedZoneProcessor): 500
+sizeof(BasicZoneProcessor): 136
+sizeof(ExtendedZoneProcessor): 468
 sizeof(BasicZoneRegistrar): 12
 sizeof(ExtendedZoneRegistrar): 12
-sizeof(BasicZoneManager<1>): 176
-sizeof(ExtendedZoneManager<1>): 520
+sizeof(BasicZoneManager<1>): 156
+sizeof(ExtendedZoneManager<1>): 488
 sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
@@ -101,8 +101,8 @@ sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9
 sizeof(basic::ZonePolicy): 12
-sizeof(basic::Transition): 28
-sizeof(extended::Transition): 48
+sizeof(basic::Transition): 24
+sizeof(extended::Transition): 44
 sizeof(extended::ZoneMatch): 16
 ```
 
@@ -141,12 +141,12 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(BasicZoneProcessor): 156
-sizeof(ExtendedZoneProcessor): 500
+sizeof(BasicZoneProcessor): 136
+sizeof(ExtendedZoneProcessor): 468
 sizeof(BasicZoneRegistrar): 12
 sizeof(ExtendedZoneRegistrar): 12
-sizeof(BasicZoneManager<1>): 176
-sizeof(ExtendedZoneManager<1>): 520
+sizeof(BasicZoneManager<1>): 156
+sizeof(ExtendedZoneManager<1>): 488
 sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
@@ -161,8 +161,8 @@ sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9
 sizeof(basic::ZonePolicy): 12
-sizeof(basic::Transition): 28
-sizeof(extended::Transition): 48
+sizeof(basic::Transition): 24
+sizeof(extended::Transition): 44
 sizeof(extended::ZoneMatch): 16
 ```
 
@@ -202,12 +202,12 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(BasicZoneProcessor): 156
-sizeof(ExtendedZoneProcessor): 500
+sizeof(BasicZoneProcessor): 136
+sizeof(ExtendedZoneProcessor): 468
 sizeof(BasicZoneRegistrar): 12
 sizeof(ExtendedZoneRegistrar): 12
-sizeof(BasicZoneManager<1>): 176
-sizeof(ExtendedZoneManager<1>): 520
+sizeof(BasicZoneManager<1>): 156
+sizeof(ExtendedZoneManager<1>): 488
 sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
@@ -222,8 +222,8 @@ sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9
 sizeof(basic::ZonePolicy): 12
-sizeof(basic::Transition): 28
-sizeof(extended::Transition): 48
+sizeof(basic::Transition): 24
+sizeof(extended::Transition): 44
 sizeof(extended::ZoneMatch): 16
 ```
 
@@ -267,12 +267,12 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(BasicZoneProcessor): 156
-sizeof(ExtendedZoneProcessor): 500
+sizeof(BasicZoneProcessor): 136
+sizeof(ExtendedZoneProcessor): 468
 sizeof(BasicZoneRegistrar): 12
 sizeof(ExtendedZoneRegistrar): 12
-sizeof(BasicZoneManager<1>): 176
-sizeof(ExtendedZoneManager<1>): 520
+sizeof(BasicZoneManager<1>): 156
+sizeof(ExtendedZoneManager<1>): 488
 sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
@@ -286,8 +286,8 @@ sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9
 sizeof(basic::ZonePolicy): 12
-sizeof(basic::Transition): 28
-sizeof(extended::Transition): 48
+sizeof(basic::Transition): 24
+sizeof(extended::Transition): 44
 sizeof(extended::ZoneMatch): 16
 ```
 CPU:
