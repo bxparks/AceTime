@@ -140,10 +140,10 @@ static const extended::ZoneRule kZoneRulesAN[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyAN ACE_TIME_PROGMEM = {
-  9 /*numRules*/,
   kZoneRulesAN /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  9 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -172,10 +172,10 @@ static const extended::ZoneRule kZoneRulesAQ[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyAQ ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesAQ /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -276,10 +276,10 @@ static const extended::ZoneRule kZoneRulesAS[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyAS ACE_TIME_PROGMEM = {
-  7 /*numRules*/,
   kZoneRulesAS /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  7 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -392,10 +392,10 @@ static const extended::ZoneRule kZoneRulesAT[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyAT ACE_TIME_PROGMEM = {
-  8 /*numRules*/,
   kZoneRulesAT /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  8 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -520,10 +520,10 @@ static const extended::ZoneRule kZoneRulesAV[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyAV ACE_TIME_PROGMEM = {
-  9 /*numRules*/,
   kZoneRulesAV /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  9 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -588,10 +588,10 @@ static const extended::ZoneRule kZoneRulesAW[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyAW ACE_TIME_PROGMEM = {
-  4 /*numRules*/,
   kZoneRulesAW /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  4 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -680,10 +680,10 @@ static const extended::ZoneRule kZoneRulesArg[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyArg ACE_TIME_PROGMEM = {
-  6 /*numRules*/,
   kZoneRulesArg /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  6 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -736,10 +736,10 @@ static const extended::ZoneRule kZoneRulesArmenia[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyArmenia ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesArmenia /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -768,10 +768,10 @@ static const extended::ZoneRule kZoneRulesAus[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyAus ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesAus /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -812,10 +812,10 @@ static const extended::ZoneRule kZoneRulesAzer[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyAzer ACE_TIME_PROGMEM = {
-  2 /*numRules*/,
   kZoneRulesAzer /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  2 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -844,10 +844,10 @@ static const extended::ZoneRule kZoneRulesBarb[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyBarb ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesBarb /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -880,10 +880,10 @@ static const char* const kLettersBelize[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyBelize ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesBelize /*rules*/,
-  1 /* numLetters */,
   kLettersBelize /* letters */,
+  1 /*numRules*/,
+  1 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -1236,10 +1236,10 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyBrazil ACE_TIME_PROGMEM = {
-  28 /*numRules*/,
   kZoneRulesBrazil /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  28 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -1292,10 +1292,10 @@ static const extended::ZoneRule kZoneRulesC_Eur[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyC_Eur ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesC_Eur /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -1324,10 +1324,10 @@ static const extended::ZoneRule kZoneRulesCO[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyCO ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesCO /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -1356,10 +1356,10 @@ static const extended::ZoneRule kZoneRulesCR[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyCR ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesCR /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -1436,10 +1436,10 @@ static const extended::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyCanada ACE_TIME_PROGMEM = {
-  5 /*numRules*/,
   kZoneRulesCanada /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  5 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -1516,10 +1516,10 @@ static const extended::ZoneRule kZoneRulesChatham[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyChatham ACE_TIME_PROGMEM = {
-  5 /*numRules*/,
   kZoneRulesChatham /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  5 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -1716,10 +1716,10 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyChile ACE_TIME_PROGMEM = {
-  15 /*numRules*/,
   kZoneRulesChile /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  15 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -1748,10 +1748,10 @@ static const extended::ZoneRule kZoneRulesCook[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyCook ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesCook /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -1936,10 +1936,10 @@ static const extended::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyCuba ACE_TIME_PROGMEM = {
-  14 /*numRules*/,
   kZoneRulesCuba /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  14 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -1992,10 +1992,10 @@ static const extended::ZoneRule kZoneRulesDhaka[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyDhaka ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesDhaka /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -2048,10 +2048,10 @@ static const extended::ZoneRule kZoneRulesE_EurAsia[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyE_EurAsia ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesE_EurAsia /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -2104,10 +2104,10 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyEU ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesEU /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -2160,10 +2160,10 @@ static const extended::ZoneRule kZoneRulesEUAsia[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyEUAsia ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesEUAsia /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -2192,10 +2192,10 @@ static const extended::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyEcuador ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesEcuador /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -2380,10 +2380,10 @@ static const extended::ZoneRule kZoneRulesEgypt[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyEgypt ACE_TIME_PROGMEM = {
-  14 /*numRules*/,
   kZoneRulesEgypt /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  14 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -2436,10 +2436,10 @@ static const extended::ZoneRule kZoneRulesEire[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyEire ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesEire /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -2516,10 +2516,10 @@ static const extended::ZoneRule kZoneRulesFalk[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyFalk ACE_TIME_PROGMEM = {
-  5 /*numRules*/,
   kZoneRulesFalk /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  5 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -2656,10 +2656,10 @@ static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyFiji ACE_TIME_PROGMEM = {
-  10 /*numRules*/,
   kZoneRulesFiji /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  10 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -2688,10 +2688,10 @@ static const extended::ZoneRule kZoneRulesGhana[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyGhana ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesGhana /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -2720,10 +2720,10 @@ static const extended::ZoneRule kZoneRulesGuam[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyGuam ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesGuam /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -2776,10 +2776,10 @@ static const extended::ZoneRule kZoneRulesGuat[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyGuat ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesGuat /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -2808,10 +2808,10 @@ static const extended::ZoneRule kZoneRulesHK[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyHK ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesHK /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -2912,10 +2912,10 @@ static const extended::ZoneRule kZoneRulesHaiti[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyHaiti ACE_TIME_PROGMEM = {
-  7 /*numRules*/,
   kZoneRulesHaiti /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  7 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -2944,10 +2944,10 @@ static const extended::ZoneRule kZoneRulesHoliday[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyHoliday ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesHoliday /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -3000,10 +3000,10 @@ static const extended::ZoneRule kZoneRulesHond[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyHond ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesHond /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -3680,10 +3680,10 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyIran ACE_TIME_PROGMEM = {
-  55 /*numRules*/,
   kZoneRulesIran /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  55 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -3736,10 +3736,10 @@ static const extended::ZoneRule kZoneRulesIraq[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyIraq ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesIraq /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -3768,10 +3768,10 @@ static const extended::ZoneRule kZoneRulesJapan[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyJapan ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesJapan /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -3932,10 +3932,10 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyJordan ACE_TIME_PROGMEM = {
-  12 /*numRules*/,
   kZoneRulesJordan /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  12 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -3988,10 +3988,10 @@ static const extended::ZoneRule kZoneRulesKyrgyz[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyKyrgyz ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesKyrgyz /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -4116,10 +4116,10 @@ static const extended::ZoneRule kZoneRulesLH[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyLH ACE_TIME_PROGMEM = {
-  9 /*numRules*/,
   kZoneRulesLH /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  9 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -4172,10 +4172,10 @@ static const extended::ZoneRule kZoneRulesLebanon[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyLebanon ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesLebanon /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -4228,10 +4228,10 @@ static const extended::ZoneRule kZoneRulesLibya[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyLibya ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesLibya /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -4260,10 +4260,10 @@ static const extended::ZoneRule kZoneRulesMacau[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyMacau ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesMacau /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -4316,10 +4316,10 @@ static const extended::ZoneRule kZoneRulesMauritius[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyMauritius ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesMauritius /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -4420,10 +4420,10 @@ static const extended::ZoneRule kZoneRulesMexico[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyMexico ACE_TIME_PROGMEM = {
-  7 /*numRules*/,
   kZoneRulesMexico /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  7 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -4464,10 +4464,10 @@ static const extended::ZoneRule kZoneRulesMoldova[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyMoldova ACE_TIME_PROGMEM = {
-  2 /*numRules*/,
   kZoneRulesMoldova /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  2 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -4520,10 +4520,10 @@ static const extended::ZoneRule kZoneRulesMoncton[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyMoncton ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesMoncton /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -4612,10 +4612,10 @@ static const extended::ZoneRule kZoneRulesMongol[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyMongol ACE_TIME_PROGMEM = {
-  6 /*numRules*/,
   kZoneRulesMongol /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  6 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -5436,10 +5436,10 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyMorocco ACE_TIME_PROGMEM = {
-  67 /*numRules*/,
   kZoneRulesMorocco /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  67 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -5468,10 +5468,10 @@ static const extended::ZoneRule kZoneRulesNC[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyNC ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesNC /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -5524,10 +5524,10 @@ static const extended::ZoneRule kZoneRulesNT_YK[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyNT_YK ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesNT_YK /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -5604,10 +5604,10 @@ static const extended::ZoneRule kZoneRulesNZ[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyNZ ACE_TIME_PROGMEM = {
-  5 /*numRules*/,
   kZoneRulesNZ /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  5 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -5665,10 +5665,10 @@ static const char* const kLettersNamibia[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyNamibia ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesNamibia /*rules*/,
-  2 /* numLetters */,
   kLettersNamibia /* letters */,
+  3 /*numRules*/,
+  2 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -5745,10 +5745,10 @@ static const extended::ZoneRule kZoneRulesNic[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyNic ACE_TIME_PROGMEM = {
-  5 /*numRules*/,
   kZoneRulesNic /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  5 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -5777,10 +5777,10 @@ static const extended::ZoneRule kZoneRulesPRC[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyPRC ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesPRC /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -5869,10 +5869,10 @@ static const extended::ZoneRule kZoneRulesPakistan[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyPakistan ACE_TIME_PROGMEM = {
-  6 /*numRules*/,
   kZoneRulesPakistan /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  6 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -6177,10 +6177,10 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyPalestine ACE_TIME_PROGMEM = {
-  24 /*numRules*/,
   kZoneRulesPalestine /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  24 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -6317,10 +6317,10 @@ static const extended::ZoneRule kZoneRulesPara[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyPara ACE_TIME_PROGMEM = {
-  10 /*numRules*/,
   kZoneRulesPara /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  10 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -6349,10 +6349,10 @@ static const extended::ZoneRule kZoneRulesPeru[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyPeru ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesPeru /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -6381,10 +6381,10 @@ static const extended::ZoneRule kZoneRulesPhil[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyPhil ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesPhil /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -6413,10 +6413,10 @@ static const extended::ZoneRule kZoneRulesROK[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyROK ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesROK /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -6469,10 +6469,10 @@ static const extended::ZoneRule kZoneRulesRussia[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyRussia ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesRussia /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -6525,10 +6525,10 @@ static const extended::ZoneRule kZoneRulesRussiaAsia[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyRussiaAsia ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesRussiaAsia /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -6557,10 +6557,10 @@ static const extended::ZoneRule kZoneRulesSA[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicySA ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesSA /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -6589,10 +6589,10 @@ static const extended::ZoneRule kZoneRulesSalv[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicySalv ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesSalv /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -6645,10 +6645,10 @@ static const extended::ZoneRule kZoneRulesSanLuis[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicySanLuis ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesSanLuis /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -6729,10 +6729,10 @@ static const char* const kLettersStJohns[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyStJohns ACE_TIME_PROGMEM = {
-  5 /*numRules*/,
   kZoneRulesStJohns /*rules*/,
-  1 /* numLetters */,
   kLettersStJohns /* letters */,
+  5 /*numRules*/,
+  1 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -6761,10 +6761,10 @@ static const extended::ZoneRule kZoneRulesSudan[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicySudan ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesSudan /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -6925,10 +6925,10 @@ static const extended::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicySyria ACE_TIME_PROGMEM = {
-  12 /*numRules*/,
   kZoneRulesSyria /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  12 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -6957,10 +6957,10 @@ static const extended::ZoneRule kZoneRulesTaiwan[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyTaiwan ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesTaiwan /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -7037,10 +7037,10 @@ static const extended::ZoneRule kZoneRulesThule[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyThule ACE_TIME_PROGMEM = {
-  5 /*numRules*/,
   kZoneRulesThule /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  5 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -7141,10 +7141,10 @@ static const extended::ZoneRule kZoneRulesTonga[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyTonga ACE_TIME_PROGMEM = {
-  7 /*numRules*/,
   kZoneRulesTonga /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  7 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -7202,10 +7202,10 @@ static const char* const kLettersTroll[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyTroll ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesTroll /*rules*/,
-  2 /* numLetters */,
   kLettersTroll /* letters */,
+  3 /*numRules*/,
+  2 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -7282,10 +7282,10 @@ static const extended::ZoneRule kZoneRulesTunisia[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyTunisia ACE_TIME_PROGMEM = {
-  5 /*numRules*/,
   kZoneRulesTunisia /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  5 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -7338,10 +7338,10 @@ static const extended::ZoneRule kZoneRulesTurkey[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyTurkey ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesTurkey /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -7418,10 +7418,10 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyUS ACE_TIME_PROGMEM = {
-  5 /*numRules*/,
   kZoneRulesUS /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  5 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -7510,10 +7510,10 @@ static const extended::ZoneRule kZoneRulesUruguay[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyUruguay ACE_TIME_PROGMEM = {
-  6 /*numRules*/,
   kZoneRulesUruguay /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  6 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -7542,10 +7542,10 @@ static const extended::ZoneRule kZoneRulesVanuatu[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyVanuatu ACE_TIME_PROGMEM = {
-  1 /*numRules*/,
   kZoneRulesVanuatu /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  1 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -7634,10 +7634,10 @@ static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyWS ACE_TIME_PROGMEM = {
-  6 /*numRules*/,
   kZoneRulesWS /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  6 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -7690,10 +7690,10 @@ static const extended::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyWinn ACE_TIME_PROGMEM = {
-  3 /*numRules*/,
   kZoneRulesWinn /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
 };
 
 //---------------------------------------------------------------------------
@@ -8034,10 +8034,10 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
 
 
 const extended::ZonePolicy kPolicyZion ACE_TIME_PROGMEM = {
-  27 /*numRules*/,
   kZoneRulesZion /*rules*/,
-  0 /* numLetters */,
   nullptr /* letters */,
+  27 /*numRules*/,
+  0 /* numLetters */,
 };
 
 

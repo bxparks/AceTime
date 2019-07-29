@@ -91,8 +91,8 @@ struct ZoneRule {
  * be an offset into this array of pointers.
  */
 struct ZonePolicy {
-  uint8_t const numRules;
   const ZoneRule* const rules;
-  uint8_t const numLetters;
   const char* const* const letters;
+  uint8_t const numRules;
+  uint8_t const numLetters;
 };
