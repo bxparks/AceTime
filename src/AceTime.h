@@ -59,7 +59,7 @@
 #endif
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 501
-#define ACE_TIME_VERSION_STRING "0.5.1"
+#define ACE_TIME_VERSION 502
+#define ACE_TIME_VERSION_STRING "0.5.2"
 
 #endif
