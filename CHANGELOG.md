@@ -4,6 +4,13 @@
     * Create `HelloZoneManager` and add it to the `README.md`.
     * Recommend using "Arduino MKR ZERO" board profile for "SAMD21 M0 Mini"
       boards.
+    * Pack `basic::ZoneInfo`, `extended:ZoneInfo` and related structs tighter on
+      32-bit processors, saving 2.5kB on the Basic zoneinfo files and 5.6kB on
+      Extended zoneinfo files.
+    * Pack `basic::Transition` and `extended::Transition` tighter on 32-bit
+      processors, saving 20-32 bytes on `BasicZoneProcessor` and
+      `ExtendedZoneProcessor`.
+    * Test and support ATmega2560 AVR processor.
 * 0.5.1 (2019-07-24, TZ DB version 2019a, beta)
     * Add documentation about the ZoneManager into `USER_GUIDE.md`.
     * Move `DateStrings` string pointers into PROGMEM, saving 42 bytes of RAM.
