@@ -161,6 +161,9 @@ struct ZoneMatch {
  *
  * The 'offsetCode', 'deltaCode', 'startDateTime', 'abbrev' are the derived
  * parameters used in the findTransition() search.
+ *
+ * Ordering of fields optimized along 4-byte boundaries to help 32-bit
+ * processors without making the program size bigger for 8-bit processors.
  */
 struct Transition {
   /** Size of the timezone abbreviation. */
@@ -220,14 +223,14 @@ struct Transition {
    */
   DateTuple originalTransitionTime;
 
+  /** The calculated transition time of the given rule. */
+  acetime_t startEpochSeconds;
+
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
   char abbrev[kAbbrevSize];
 
   /** Storage for the single letter 'letter' field if 'rule' is not null. */
   char letterBuf[2];
-
-  /** The calculated transition time of the given rule. */
-  acetime_t startEpochSeconds;
 
   /**
    * Flag used for 2 slightly different meanings at different stages of init()

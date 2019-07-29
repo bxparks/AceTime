@@ -409,7 +409,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   Transition transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {-1, 11, 1, 0, 'w'} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, {0}, {0}, 0, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
   };
   assertEqual(-1, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
       &transition, &match));
@@ -417,7 +417,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {-1, 12, 1, 0, 'w'} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, {0}, {0}, 0, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
   };
   assertEqual(1, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
       &transition, &match));
@@ -425,7 +425,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 1, 0, 'w'} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, {0}, {0}, 0, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
   };
   assertEqual(1, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
       &transition, &match));
@@ -433,7 +433,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {1, 1, 1, 0, 'w'} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, {0}, {0}, 0, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
   };
   assertEqual(1, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
       &transition, &match));
@@ -441,7 +441,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {1, 2, 1, 0, 'w'} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, {0}, {0}, 0, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
   };
   assertEqual(1, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
       &transition, &match));
@@ -449,7 +449,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {1, 3, 1, 0, 'w'} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, {0}, {0}, 0, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
   };
   assertEqual(2, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
       &transition, &match));
@@ -468,7 +468,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   Transition transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {-1, 12, 31, 0, 'w'} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, {0}, {0}, 0, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
   };
   assertEqual(-1, ExtendedZoneProcessor::compareTransitionToMatch(
       &transition, &match));
@@ -476,7 +476,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 1, 0, 'w'} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, {0}, {0}, 0, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
   };
   assertEqual(0, ExtendedZoneProcessor::compareTransitionToMatch(
       &transition, &match));
@@ -484,7 +484,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 2, 0, 'w'} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, {0}, {0}, 0, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
   };
   assertEqual(1, ExtendedZoneProcessor::compareTransitionToMatch(
       &transition, &match));
@@ -492,7 +492,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {1, 1, 2, 0, 'w'} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, {0}, {0}, 0, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
   };
   assertEqual(2, ExtendedZoneProcessor::compareTransitionToMatch(
       &transition, &match));
@@ -512,7 +512,7 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
   Transition transition0 = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {-1, 12, 31, 0, 'w'} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, {0}, {0}, 0, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
   };
   ExtendedZoneProcessor::processActiveTransition(&match, &transition0, &prior);
   assertTrue(transition0.active);
@@ -522,7 +522,7 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
   Transition transition1 = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 1, 0, 'w'} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, {0}, {0}, 0, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
   };
   ExtendedZoneProcessor::processActiveTransition(&match, &transition1, &prior);
   assertTrue(transition1.active);
@@ -532,7 +532,7 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
   Transition transition2 = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 2, 0, 'w'} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, {0}, {0}, 0, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
   };
   ExtendedZoneProcessor::processActiveTransition(&match, &transition2, &prior);
   assertTrue(transition2.active);
@@ -542,7 +542,7 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
   Transition transition3 = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {1, 1, 2, 0, 'w'} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, {0}, {0}, 0, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
   };
   assertFalse(transition3.active);
   assertTrue(prior == &transition1);

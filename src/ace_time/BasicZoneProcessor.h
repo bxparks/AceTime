@@ -44,6 +44,9 @@ namespace basic {
  * 'offsetCode', 'deltaCode', and 'abbrev' parameters which are used during
  * findMatch() lookup. NOTE: This separation may help move the ZoneInfo and
  * ZonePolicy data structures into PROGMEM.
+ *
+ * Ordering of fields optimized along 4-byte boundaries to help 32-bit
+ * processors without making the program size bigger for 8-bit processors.
  */
 struct Transition {
   /**
@@ -74,11 +77,11 @@ struct Transition {
    */
   ZoneRuleBroker rule;
 
-  /** Year which applies to the ZoneEra or ZoneRule. */
-  int8_t yearTiny;
-
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
+
+  /** Year which applies to the ZoneEra or ZoneRule. */
+  int8_t yearTiny;
 
   /**
    * The total effective UTC offsetCode at the start of transition, *including*
@@ -521,8 +524,10 @@ class BasicZoneProcessor: public ZoneProcessor {
       }
 
       return {
-        era, rule, yearTiny,
+        era,
+        rule,
         0 /*epochSeconds*/,
+        yearTiny,
         offsetCode,
         deltaCode,
         {letter} /*abbrev*/
