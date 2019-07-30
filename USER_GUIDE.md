@@ -2582,7 +2582,7 @@ did not think it would fit inside an Arduino controller.
       "[US/Pacific]".
 * Arduino Zero and SAMD21 Boards
     * SAMD21 boards (which all identify themselves as `ARDUINO_SAMD_ZERO`) are
-      fully supported, but there are some tricky points.
+      supported, but there are some tricky points.
     * If you are using an original Arduino Zero and using the "Native USB Port",
       you may encounter problems with nothing showing up on the Serial Monitor.
         * The original Arduino Zero has [2 USB
@@ -2600,10 +2600,22 @@ did not think it would fit inside an Arduino controller.
           it may be broken.)
     * If you are using a SAMD21 development or breakout board, or one of the
       many clones called something like "Ardunio SAMD21 M0 Mini" (this is what I
-      have), I have found things working better using the "Arduino MKR ZERO"
-      board instead of the "Arduino Zero (Native USB Port)" board. This is
-      because the `SERIAL_PORT_MONITOR` macro will be properly defined to be
-      `SerialUSB`, and all the example sketches will work without modifications.
+      have), I have been unable to find a board configuration that is an exact
+      match. You have a few choices:
+        * If you are running the [AceTime unit tests](tests/), you need to have
+          a working `SERIAL_PORT_MONITOR`, so the "Arduino MKR ZERO" board
+          might work better, instead of the "Arduino Zero (Native USB Port)"
+          board.
+        * If you are running an app that requires proper pin configuration,
+          it seems that the `Arduino MKR ZERO" configuration is not correct for
+          this clone board. You need to go back to the "Arduino/Genuino Zero
+          (Native USB Port)" board configuration.
+        * You may also try installing the [SparkFun
+          Boards](https://github.com/sparkfun/Arduino_Boards) and select
+          the "SparkFun SAMD21 Mini Breakout" board. The advantage of using
+          this configuration is that the `SERIAL_PORT_MONITOR` is configured
+          properly as well as the port pin numbers. However, I have found that
+          the USB connection can be a bit flaky.
     * The SAMD21 microcontroller does *not* provide any EEPROM. Therefore,
       this feature is disabled in the apps under `examples` (e.g.
       `CommandLineClock`, `OledClock`, and `WorldClock`) which use this feature.
