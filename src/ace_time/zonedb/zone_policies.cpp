@@ -8,7 +8,7 @@
 // Policies: 65
 // Rules: 370
 // Memory (8-bit): 3720
-// Memory (32-bit): 4012
+// Memory (32-bit): 5252
 //
 // DO NOT EDIT
 
@@ -22,7 +22,7 @@ namespace zonedb {
 // Policy name: AN
 // Rules: 9
 // Memory (8-bit): 87
-// Memory (32-bit): 91
+// Memory (32-bit): 120
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesAN[] ACE_TIME_PROGMEM = {
@@ -150,7 +150,7 @@ const basic::ZonePolicy kPolicyAN ACE_TIME_PROGMEM = {
 // Policy name: AQ
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesAQ[] ACE_TIME_PROGMEM = {
@@ -182,7 +182,7 @@ const basic::ZonePolicy kPolicyAQ ACE_TIME_PROGMEM = {
 // Policy name: AS
 // Rules: 7
 // Memory (8-bit): 69
-// Memory (32-bit): 73
+// Memory (32-bit): 96
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesAS[] ACE_TIME_PROGMEM = {
@@ -286,7 +286,7 @@ const basic::ZonePolicy kPolicyAS ACE_TIME_PROGMEM = {
 // Policy name: AT
 // Rules: 8
 // Memory (8-bit): 78
-// Memory (32-bit): 82
+// Memory (32-bit): 108
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesAT[] ACE_TIME_PROGMEM = {
@@ -402,7 +402,7 @@ const basic::ZonePolicy kPolicyAT ACE_TIME_PROGMEM = {
 // Policy name: AV
 // Rules: 9
 // Memory (8-bit): 87
-// Memory (32-bit): 91
+// Memory (32-bit): 120
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesAV[] ACE_TIME_PROGMEM = {
@@ -530,7 +530,7 @@ const basic::ZonePolicy kPolicyAV ACE_TIME_PROGMEM = {
 // Policy name: AW
 // Rules: 4
 // Memory (8-bit): 42
-// Memory (32-bit): 46
+// Memory (32-bit): 60
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesAW[] ACE_TIME_PROGMEM = {
@@ -598,7 +598,7 @@ const basic::ZonePolicy kPolicyAW ACE_TIME_PROGMEM = {
 // Policy name: Armenia
 // Rules: 3
 // Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesArmenia[] ACE_TIME_PROGMEM = {
@@ -654,7 +654,7 @@ const basic::ZonePolicy kPolicyArmenia ACE_TIME_PROGMEM = {
 // Policy name: Aus
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesAus[] ACE_TIME_PROGMEM = {
@@ -686,7 +686,7 @@ const basic::ZonePolicy kPolicyAus ACE_TIME_PROGMEM = {
 // Policy name: Azer
 // Rules: 2
 // Memory (8-bit): 24
-// Memory (32-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesAzer[] ACE_TIME_PROGMEM = {
@@ -730,7 +730,7 @@ const basic::ZonePolicy kPolicyAzer ACE_TIME_PROGMEM = {
 // Policy name: Barb
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesBarb[] ACE_TIME_PROGMEM = {
@@ -762,7 +762,7 @@ const basic::ZonePolicy kPolicyBarb ACE_TIME_PROGMEM = {
 // Policy name: Brazil
 // Rules: 28
 // Memory (8-bit): 258
-// Memory (32-bit): 262
+// Memory (32-bit): 348
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
@@ -1118,7 +1118,7 @@ const basic::ZonePolicy kPolicyBrazil ACE_TIME_PROGMEM = {
 // Policy name: C_Eur
 // Rules: 3
 // Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesC_Eur[] ACE_TIME_PROGMEM = {
@@ -1174,7 +1174,7 @@ const basic::ZonePolicy kPolicyC_Eur ACE_TIME_PROGMEM = {
 // Policy name: CO
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesCO[] ACE_TIME_PROGMEM = {
@@ -1206,7 +1206,7 @@ const basic::ZonePolicy kPolicyCO ACE_TIME_PROGMEM = {
 // Policy name: CR
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesCR[] ACE_TIME_PROGMEM = {
@@ -1238,7 +1238,7 @@ const basic::ZonePolicy kPolicyCR ACE_TIME_PROGMEM = {
 // Policy name: Canada
 // Rules: 5
 // Memory (8-bit): 51
-// Memory (32-bit): 55
+// Memory (32-bit): 72
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
@@ -1318,7 +1318,7 @@ const basic::ZonePolicy kPolicyCanada ACE_TIME_PROGMEM = {
 // Policy name: Chatham
 // Rules: 5
 // Memory (8-bit): 51
-// Memory (32-bit): 55
+// Memory (32-bit): 72
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesChatham[] ACE_TIME_PROGMEM = {
@@ -1398,7 +1398,7 @@ const basic::ZonePolicy kPolicyChatham ACE_TIME_PROGMEM = {
 // Policy name: Chile
 // Rules: 15
 // Memory (8-bit): 141
-// Memory (32-bit): 145
+// Memory (32-bit): 192
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
@@ -1598,7 +1598,7 @@ const basic::ZonePolicy kPolicyChile ACE_TIME_PROGMEM = {
 // Policy name: Cook
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesCook[] ACE_TIME_PROGMEM = {
@@ -1630,7 +1630,7 @@ const basic::ZonePolicy kPolicyCook ACE_TIME_PROGMEM = {
 // Policy name: Cuba
 // Rules: 14
 // Memory (8-bit): 132
-// Memory (32-bit): 136
+// Memory (32-bit): 180
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
@@ -1818,7 +1818,7 @@ const basic::ZonePolicy kPolicyCuba ACE_TIME_PROGMEM = {
 // Policy name: Dhaka
 // Rules: 3
 // Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesDhaka[] ACE_TIME_PROGMEM = {
@@ -1874,7 +1874,7 @@ const basic::ZonePolicy kPolicyDhaka ACE_TIME_PROGMEM = {
 // Policy name: EU
 // Rules: 3
 // Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
@@ -1930,7 +1930,7 @@ const basic::ZonePolicy kPolicyEU ACE_TIME_PROGMEM = {
 // Policy name: EUAsia
 // Rules: 3
 // Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesEUAsia[] ACE_TIME_PROGMEM = {
@@ -1986,7 +1986,7 @@ const basic::ZonePolicy kPolicyEUAsia ACE_TIME_PROGMEM = {
 // Policy name: Ecuador
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
@@ -2018,7 +2018,7 @@ const basic::ZonePolicy kPolicyEcuador ACE_TIME_PROGMEM = {
 // Policy name: Eire
 // Rules: 3
 // Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesEire[] ACE_TIME_PROGMEM = {
@@ -2074,7 +2074,7 @@ const basic::ZonePolicy kPolicyEire ACE_TIME_PROGMEM = {
 // Policy name: Fiji
 // Rules: 10
 // Memory (8-bit): 96
-// Memory (32-bit): 100
+// Memory (32-bit): 132
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
@@ -2214,7 +2214,7 @@ const basic::ZonePolicy kPolicyFiji ACE_TIME_PROGMEM = {
 // Policy name: Ghana
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesGhana[] ACE_TIME_PROGMEM = {
@@ -2246,7 +2246,7 @@ const basic::ZonePolicy kPolicyGhana ACE_TIME_PROGMEM = {
 // Policy name: Guat
 // Rules: 3
 // Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesGuat[] ACE_TIME_PROGMEM = {
@@ -2302,7 +2302,7 @@ const basic::ZonePolicy kPolicyGuat ACE_TIME_PROGMEM = {
 // Policy name: HK
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesHK[] ACE_TIME_PROGMEM = {
@@ -2334,7 +2334,7 @@ const basic::ZonePolicy kPolicyHK ACE_TIME_PROGMEM = {
 // Policy name: Haiti
 // Rules: 7
 // Memory (8-bit): 69
-// Memory (32-bit): 73
+// Memory (32-bit): 96
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesHaiti[] ACE_TIME_PROGMEM = {
@@ -2438,7 +2438,7 @@ const basic::ZonePolicy kPolicyHaiti ACE_TIME_PROGMEM = {
 // Policy name: Holiday
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesHoliday[] ACE_TIME_PROGMEM = {
@@ -2470,7 +2470,7 @@ const basic::ZonePolicy kPolicyHoliday ACE_TIME_PROGMEM = {
 // Policy name: Hond
 // Rules: 3
 // Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesHond[] ACE_TIME_PROGMEM = {
@@ -2526,7 +2526,7 @@ const basic::ZonePolicy kPolicyHond ACE_TIME_PROGMEM = {
 // Policy name: Iran
 // Rules: 55
 // Memory (8-bit): 501
-// Memory (32-bit): 505
+// Memory (32-bit): 672
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
@@ -3206,7 +3206,7 @@ const basic::ZonePolicy kPolicyIran ACE_TIME_PROGMEM = {
 // Policy name: Iraq
 // Rules: 3
 // Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesIraq[] ACE_TIME_PROGMEM = {
@@ -3262,7 +3262,7 @@ const basic::ZonePolicy kPolicyIraq ACE_TIME_PROGMEM = {
 // Policy name: Japan
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesJapan[] ACE_TIME_PROGMEM = {
@@ -3294,7 +3294,7 @@ const basic::ZonePolicy kPolicyJapan ACE_TIME_PROGMEM = {
 // Policy name: Jordan
 // Rules: 12
 // Memory (8-bit): 114
-// Memory (32-bit): 118
+// Memory (32-bit): 156
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
@@ -3458,7 +3458,7 @@ const basic::ZonePolicy kPolicyJordan ACE_TIME_PROGMEM = {
 // Policy name: LH
 // Rules: 9
 // Memory (8-bit): 87
-// Memory (32-bit): 91
+// Memory (32-bit): 120
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesLH[] ACE_TIME_PROGMEM = {
@@ -3586,7 +3586,7 @@ const basic::ZonePolicy kPolicyLH ACE_TIME_PROGMEM = {
 // Policy name: Lebanon
 // Rules: 3
 // Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesLebanon[] ACE_TIME_PROGMEM = {
@@ -3642,7 +3642,7 @@ const basic::ZonePolicy kPolicyLebanon ACE_TIME_PROGMEM = {
 // Policy name: Macau
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesMacau[] ACE_TIME_PROGMEM = {
@@ -3674,7 +3674,7 @@ const basic::ZonePolicy kPolicyMacau ACE_TIME_PROGMEM = {
 // Policy name: Mauritius
 // Rules: 3
 // Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesMauritius[] ACE_TIME_PROGMEM = {
@@ -3730,7 +3730,7 @@ const basic::ZonePolicy kPolicyMauritius ACE_TIME_PROGMEM = {
 // Policy name: Mexico
 // Rules: 7
 // Memory (8-bit): 69
-// Memory (32-bit): 73
+// Memory (32-bit): 96
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesMexico[] ACE_TIME_PROGMEM = {
@@ -3834,7 +3834,7 @@ const basic::ZonePolicy kPolicyMexico ACE_TIME_PROGMEM = {
 // Policy name: Moldova
 // Rules: 2
 // Memory (8-bit): 24
-// Memory (32-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesMoldova[] ACE_TIME_PROGMEM = {
@@ -3878,7 +3878,7 @@ const basic::ZonePolicy kPolicyMoldova ACE_TIME_PROGMEM = {
 // Policy name: Moncton
 // Rules: 3
 // Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesMoncton[] ACE_TIME_PROGMEM = {
@@ -3934,7 +3934,7 @@ const basic::ZonePolicy kPolicyMoncton ACE_TIME_PROGMEM = {
 // Policy name: Mongol
 // Rules: 6
 // Memory (8-bit): 60
-// Memory (32-bit): 64
+// Memory (32-bit): 84
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesMongol[] ACE_TIME_PROGMEM = {
@@ -4026,7 +4026,7 @@ const basic::ZonePolicy kPolicyMongol ACE_TIME_PROGMEM = {
 // Policy name: NC
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesNC[] ACE_TIME_PROGMEM = {
@@ -4058,7 +4058,7 @@ const basic::ZonePolicy kPolicyNC ACE_TIME_PROGMEM = {
 // Policy name: NZ
 // Rules: 5
 // Memory (8-bit): 51
-// Memory (32-bit): 55
+// Memory (32-bit): 72
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesNZ[] ACE_TIME_PROGMEM = {
@@ -4138,7 +4138,7 @@ const basic::ZonePolicy kPolicyNZ ACE_TIME_PROGMEM = {
 // Policy name: Nic
 // Rules: 5
 // Memory (8-bit): 51
-// Memory (32-bit): 55
+// Memory (32-bit): 72
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesNic[] ACE_TIME_PROGMEM = {
@@ -4218,7 +4218,7 @@ const basic::ZonePolicy kPolicyNic ACE_TIME_PROGMEM = {
 // Policy name: PRC
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesPRC[] ACE_TIME_PROGMEM = {
@@ -4250,7 +4250,7 @@ const basic::ZonePolicy kPolicyPRC ACE_TIME_PROGMEM = {
 // Policy name: Pakistan
 // Rules: 6
 // Memory (8-bit): 60
-// Memory (32-bit): 64
+// Memory (32-bit): 84
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesPakistan[] ACE_TIME_PROGMEM = {
@@ -4342,7 +4342,7 @@ const basic::ZonePolicy kPolicyPakistan ACE_TIME_PROGMEM = {
 // Policy name: Para
 // Rules: 10
 // Memory (8-bit): 96
-// Memory (32-bit): 100
+// Memory (32-bit): 132
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesPara[] ACE_TIME_PROGMEM = {
@@ -4482,7 +4482,7 @@ const basic::ZonePolicy kPolicyPara ACE_TIME_PROGMEM = {
 // Policy name: Peru
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesPeru[] ACE_TIME_PROGMEM = {
@@ -4514,7 +4514,7 @@ const basic::ZonePolicy kPolicyPeru ACE_TIME_PROGMEM = {
 // Policy name: Phil
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesPhil[] ACE_TIME_PROGMEM = {
@@ -4546,7 +4546,7 @@ const basic::ZonePolicy kPolicyPhil ACE_TIME_PROGMEM = {
 // Policy name: ROK
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesROK[] ACE_TIME_PROGMEM = {
@@ -4578,7 +4578,7 @@ const basic::ZonePolicy kPolicyROK ACE_TIME_PROGMEM = {
 // Policy name: RussiaAsia
 // Rules: 3
 // Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesRussiaAsia[] ACE_TIME_PROGMEM = {
@@ -4634,7 +4634,7 @@ const basic::ZonePolicy kPolicyRussiaAsia ACE_TIME_PROGMEM = {
 // Policy name: SA
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesSA[] ACE_TIME_PROGMEM = {
@@ -4666,7 +4666,7 @@ const basic::ZonePolicy kPolicySA ACE_TIME_PROGMEM = {
 // Policy name: Salv
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesSalv[] ACE_TIME_PROGMEM = {
@@ -4698,7 +4698,7 @@ const basic::ZonePolicy kPolicySalv ACE_TIME_PROGMEM = {
 // Policy name: Syria
 // Rules: 12
 // Memory (8-bit): 114
-// Memory (32-bit): 118
+// Memory (32-bit): 156
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
@@ -4862,7 +4862,7 @@ const basic::ZonePolicy kPolicySyria ACE_TIME_PROGMEM = {
 // Policy name: Taiwan
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesTaiwan[] ACE_TIME_PROGMEM = {
@@ -4894,7 +4894,7 @@ const basic::ZonePolicy kPolicyTaiwan ACE_TIME_PROGMEM = {
 // Policy name: Thule
 // Rules: 5
 // Memory (8-bit): 51
-// Memory (32-bit): 55
+// Memory (32-bit): 72
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesThule[] ACE_TIME_PROGMEM = {
@@ -4974,7 +4974,7 @@ const basic::ZonePolicy kPolicyThule ACE_TIME_PROGMEM = {
 // Policy name: Tonga
 // Rules: 7
 // Memory (8-bit): 69
-// Memory (32-bit): 73
+// Memory (32-bit): 96
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesTonga[] ACE_TIME_PROGMEM = {
@@ -5078,7 +5078,7 @@ const basic::ZonePolicy kPolicyTonga ACE_TIME_PROGMEM = {
 // Policy name: Tunisia
 // Rules: 5
 // Memory (8-bit): 51
-// Memory (32-bit): 55
+// Memory (32-bit): 72
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesTunisia[] ACE_TIME_PROGMEM = {
@@ -5158,7 +5158,7 @@ const basic::ZonePolicy kPolicyTunisia ACE_TIME_PROGMEM = {
 // Policy name: US
 // Rules: 5
 // Memory (8-bit): 51
-// Memory (32-bit): 55
+// Memory (32-bit): 72
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
@@ -5238,7 +5238,7 @@ const basic::ZonePolicy kPolicyUS ACE_TIME_PROGMEM = {
 // Policy name: Uruguay
 // Rules: 6
 // Memory (8-bit): 60
-// Memory (32-bit): 64
+// Memory (32-bit): 84
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesUruguay[] ACE_TIME_PROGMEM = {
@@ -5330,7 +5330,7 @@ const basic::ZonePolicy kPolicyUruguay ACE_TIME_PROGMEM = {
 // Policy name: Vanuatu
 // Rules: 1
 // Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesVanuatu[] ACE_TIME_PROGMEM = {
@@ -5362,7 +5362,7 @@ const basic::ZonePolicy kPolicyVanuatu ACE_TIME_PROGMEM = {
 // Policy name: Winn
 // Rules: 3
 // Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
@@ -5418,7 +5418,7 @@ const basic::ZonePolicy kPolicyWinn ACE_TIME_PROGMEM = {
 // Policy name: Zion
 // Rules: 27
 // Memory (8-bit): 249
-// Memory (32-bit): 253
+// Memory (32-bit): 336
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
