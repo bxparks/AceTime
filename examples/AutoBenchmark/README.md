@@ -29,6 +29,7 @@ sizeof(BasicZoneRegistrar): 5
 sizeof(ExtendedZoneRegistrar): 5
 sizeof(BasicZoneManager<1>): 107
 sizeof(ExtendedZoneManager<1>): 405
+sizeof(TimeZoneData): 5
 sizeof(TimeZone): 5
 sizeof(ZonedDateTime): 12
 sizeof(TimePeriod): 4
@@ -70,7 +71,7 @@ CPU:
 Number of iterations per run: 2500
 ```
 
-## SAMD21 M0 Mini (Arduino Zero Compatible)
+## SAMD21 M0 Mini (Arduino MKR Zero Compatible)
 
 IDE: Arduino 1.8.9 (SAMD Core 1.8.3)
 
@@ -81,12 +82,13 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(BasicZoneProcessor): 156
-sizeof(ExtendedZoneProcessor): 500
+sizeof(BasicZoneProcessor): 136
+sizeof(ExtendedZoneProcessor): 468
 sizeof(BasicZoneRegistrar): 12
 sizeof(ExtendedZoneRegistrar): 12
-sizeof(BasicZoneManager<1>): 176
-sizeof(ExtendedZoneManager<1>): 520
+sizeof(BasicZoneManager<1>): 156
+sizeof(ExtendedZoneManager<1>): 488
+sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
@@ -95,12 +97,12 @@ sizeof(clock::DS3231TimeKeeper): 8
 sizeof(clock::SystemClockSyncLoop): 16
 sizeof(clock::SystemClockSyncCoroutine): 48
 sizeof(basic::ZoneContext): 8
-sizeof(basic::ZoneEra): 24
+sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9
-sizeof(basic::ZonePolicy): 16
-sizeof(basic::Transition): 28
-sizeof(extended::Transition): 48
+sizeof(basic::ZonePolicy): 12
+sizeof(basic::Transition): 24
+sizeof(extended::Transition): 44
 sizeof(extended::ZoneMatch): 16
 ```
 
@@ -139,12 +141,13 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(BasicZoneProcessor): 156
-sizeof(ExtendedZoneProcessor): 500
+sizeof(BasicZoneProcessor): 136
+sizeof(ExtendedZoneProcessor): 468
 sizeof(BasicZoneRegistrar): 12
 sizeof(ExtendedZoneRegistrar): 12
-sizeof(BasicZoneManager<1>): 176
-sizeof(ExtendedZoneManager<1>): 520
+sizeof(BasicZoneManager<1>): 156
+sizeof(ExtendedZoneManager<1>): 488
+sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
@@ -154,12 +157,12 @@ sizeof(clock::NtpTimeProvider): 88
 sizeof(clock::SystemClockSyncLoop): 16
 sizeof(clock::SystemClockSyncCoroutine): 48
 sizeof(basic::ZoneContext): 8
-sizeof(basic::ZoneEra): 24
+sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9
-sizeof(basic::ZonePolicy): 16
-sizeof(basic::Transition): 28
-sizeof(extended::Transition): 48
+sizeof(basic::ZonePolicy): 12
+sizeof(basic::Transition): 24
+sizeof(extended::Transition): 44
 sizeof(extended::ZoneMatch): 16
 ```
 
@@ -199,12 +202,13 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(BasicZoneProcessor): 156
-sizeof(ExtendedZoneProcessor): 500
+sizeof(BasicZoneProcessor): 136
+sizeof(ExtendedZoneProcessor): 468
 sizeof(BasicZoneRegistrar): 12
 sizeof(ExtendedZoneRegistrar): 12
-sizeof(BasicZoneManager<1>): 176
-sizeof(ExtendedZoneManager<1>): 520
+sizeof(BasicZoneManager<1>): 156
+sizeof(ExtendedZoneManager<1>): 488
+sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
@@ -214,12 +218,12 @@ sizeof(clock::NtpTimeProvider): 116
 sizeof(clock::SystemClockSyncLoop): 16
 sizeof(clock::SystemClockSyncCoroutine): 48
 sizeof(basic::ZoneContext): 8
-sizeof(basic::ZoneEra): 24
+sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9
-sizeof(basic::ZonePolicy): 16
-sizeof(basic::Transition): 28
-sizeof(extended::Transition): 48
+sizeof(basic::ZonePolicy): 12
+sizeof(basic::Transition): 24
+sizeof(extended::Transition): 44
 sizeof(extended::ZoneMatch): 16
 ```
 
@@ -263,12 +267,13 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(BasicZoneProcessor): 156
-sizeof(ExtendedZoneProcessor): 500
+sizeof(BasicZoneProcessor): 136
+sizeof(ExtendedZoneProcessor): 468
 sizeof(BasicZoneRegistrar): 12
 sizeof(ExtendedZoneRegistrar): 12
-sizeof(BasicZoneManager<1>): 176
-sizeof(ExtendedZoneManager<1>): 520
+sizeof(BasicZoneManager<1>): 156
+sizeof(ExtendedZoneManager<1>): 488
+sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
@@ -277,12 +282,12 @@ sizeof(clock::DS3231TimeKeeper): 8
 sizeof(clock::SystemClockSyncLoop): 16
 sizeof(clock::SystemClockSyncCoroutine): 48
 sizeof(basic::ZoneContext): 8
-sizeof(basic::ZoneEra): 24
+sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9
-sizeof(basic::ZonePolicy): 16
-sizeof(basic::Transition): 28
-sizeof(extended::Transition): 48
+sizeof(basic::ZonePolicy): 12
+sizeof(basic::Transition): 24
+sizeof(extended::Transition): 44
 sizeof(extended::ZoneMatch): 16
 ```
 CPU:

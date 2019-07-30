@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 0.5.1 (2019-07-24, TZ DB version 2019a, beta)
+Version: 0.5.2 (2019-07-29, TZ DB version 2019a, beta)
 
 ## Installation
 
@@ -1396,8 +1396,8 @@ database is about 23kB. On 32-bit processors, the `zonedb::` data set is about
 #include <AceTime.h>
 using namespace ace_time;
 ...
-const uint16_t SIZE = 2;
-BasicZoneManager<SIZE> zoneManager(
+static const uint16_t SIZE = 2;
+static BasicZoneManager<SIZE> zoneManager(
     zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
 
 void someFunction(const char* zoneName) {
@@ -1430,7 +1430,8 @@ static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
 static const uint16_t kZoneRegistrySize =
     sizeof(Controller::kZoneRegistry) / sizeof(basic::ZoneInfo*);
 
-static BasicZoneManager<2> zoneManager(kZoneRegistrySize, kZoneRegistry);
+static const uint16_t NUM_ZONES = 2;
+static BasicZoneManager<NUM_ZONES> zoneManager(kZoneRegistrySize, kZoneRegistry);
 ```
 
 Here is the equivalent `ExtendedZoneManager` with 4 zones from the `zonedbx::`
@@ -1450,7 +1451,8 @@ static const extended::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
 static const uint16_t kZoneRegistrySize =
     sizeof(Controller::kZoneRegistry) / sizeof(extended::ZoneInfo*);
 
-static ExtendedZoneManager<2> zoneManager(kZoneRegistrySize, kZoneRegistry);
+static const uint16_t NUM_ZONES = 2;
+static ExtendedZoneManager<NUM_ZONES> zoneManager(kZoneRegistrySize, kZoneRegistry);
 ```
 
 The `ACE_TIME_PROGMEM` macro is defined in
@@ -1556,7 +1558,7 @@ fully qualified zone name was used.
 #### createForZoneIndex
 
 The `ZoneManager::createForZoneIndex()` creates a `TimeZone` from its integer
-index into the Zone registry, from 0 to `registrySize-1`. This is useful when
+index into the Zone registry, from 0 to `registrySize - 1`. This is useful when
 you want to show the user with a menu of zones from the `ZoneManager` and allow
 the user to select one of the options.
 
@@ -2295,15 +2297,15 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(BasicZoneProcessor): 156
-sizeof(ExtendedZoneProcessor): 500
+sizeof(BasicZoneProcessor): 136
+sizeof(ExtendedZoneProcessor): 468
 sizeof(TimeZone): 8
 sizeof(ZonedDateTime): 16
 sizeof(TimePeriod): 4
 sizeof(SystemClock): 24
 sizeof(NtpTimeProvider): 88 (ESP8266), 116 (ESP32)
-sizeof(SystemClockSyncLoop): 20
-sizeof(SystemClockSyncCoroutine): 52
+sizeof(SystemClockSyncLoop): 16
+sizeof(SystemClockSyncCoroutine): 48
 ```
 
 The [MemoryBenchmark](examples/MemoryBenchmark) program gives a more
@@ -2311,19 +2313,19 @@ comprehensive answer to the amount of memory taken by this library.
 Here is a short summary for an 8-bit microcontroller (e.g. Arduino Nano):
 
 * Using the `TimeZone` class with a `BasicZoneProcessor` for one timezone takes
-  about 6140 bytes of flash memory and 193 bytes of static RAM.
-* Using 2 timezones with `BasiCZoneProcessorincreases the consumption to 6628
-  bytes of flash and 231 bytes of RAM.
-* Loading the entire `zonedb::` zoneinfo database consumes 20354 bytes of flash
-  and 601 bytes of RAM.
+  about 6 kB of flash memory and 193 bytes of static RAM.
+* Using 2 timezones with `BasiCZoneProcessor increases the consumption to
+  about 7 kB of flash and 207 bytes of RAM.
+* Loading the entire `zonedb::` zoneinfo database consumes 21 kB bytes of flash
+  and 597 bytes of RAM.
 * Adding the `SystemClock` to the `TimeZone` and `BasicZoneProcessor` with one
-  timezone consumes 8436 bytes of flash and 344 bytes of RAM.
+  timezone consumes 8.5 kB bytes of flash and 352 bytes of RAM.
 
 These numbers indicate that the AceTime library is useful even on a limited
-8-bit controller with only 30-32kB of flash and 2kB of RAM. As a concrete
+8-bit controller with only 30-32 kB of flash and 2 kB of RAM. As a concrete
 example, the [WorldClock](examples/WorldClock) program contains 3 OLED displays
 over SPI, 2 buttons, one DS3231 chip, and 3 timezones using AceTime, and these
-all fit inside a Arduino Pro Micro limit of 30kB flash and 2.5kB of RAM.
+all fit inside a Arduino Pro Micro limit of 30 kB flash and 2.5 kB of RAM.
 
 ## Comparisons to Other Time Libraries
 
@@ -2549,19 +2551,19 @@ did not think it would fit inside an Arduino controller.
       emulator.
 * `zonedb/` and `zonedbx/` zoneinfo files
     * These statically defined data structures are loaded into flash memory
-      then copied to RAM when the application starts. Fortunately, most
-      `ZoneInfo` entries are only 40-60 bytes each and the corresponding
-      `ZonePolicy` entries are 50-100 bytes each.
-    * It may be possible to use the `PROGMEM` keyword to store them only on
-      flash memory, but that will increase the flash memory size due to the code
-      needed to read these data structures from flash. In some applications,
-      flash memory may be more precious than RAM so it is not clear that using
-      `PROGMEM` for these data structures is the appropriate solution.
+      using the `PROGMEM` keyword. The vast majority of the data structure
+      fields will stay in flash memory and not copied into RAM.
+    * The zoneinfo files have *not* been compressed using bit-fields or any
+      other compression techniques. It may be possible to decrease the size of
+      the full database using these compression techniques. However, compression
+      will increase the size of the program file, so for applications that use
+      only a small number of zones, it is not clear if the zoneinfo file
+      compression will provide a reduction in the size of the overall program.
     * The TZ database files `backzone`, `systemv` and `factory` are
       not processed by the `tzcompiler.py` tool. They don't seem to contain
       anything worthwhile.
-    * The datasets and `*ZoneProcessor` classes have been *not* been tested or
-      validated for years prior to 2000.
+    * The datasets, `BasicZoneProcessor` and `ExtendedZoneProcessor` classes
+      have been *not* been tested or validated for years prior to 2000.
     * TZ Database version 2019b contains the first use of the
       `{onDayOfWeek<=onDayOfMonth}` syntax that I have seen (specifically `Rule
       Zion, FROM 2005, TO 2012, IN Apr, ON Fri<=1`). The actual transition date
@@ -2580,7 +2582,7 @@ did not think it would fit inside an Arduino controller.
       "[US/Pacific]".
 * Arduino Zero and SAMD21 Boards
     * SAMD21 boards (which all identify themselves as `ARDUINO_SAMD_ZERO`) are
-      fully supported, but there are some tricky points.
+      supported, but there are some tricky points.
     * If you are using an original Arduino Zero and using the "Native USB Port",
       you may encounter problems with nothing showing up on the Serial Monitor.
         * The original Arduino Zero has [2 USB
@@ -2595,16 +2597,25 @@ did not think it would fit inside an Arduino controller.
         * You may be able to fix this by setting
           `ACE_TIME_CLOBBER_SERIAL_PORT_MONITOR` to `1` in
           `src/ace_time/common/compat.h`. (I do not test this option often, so
-          it may be broke.)
+          it may be broken.)
     * If you are using a SAMD21 development or breakout board, or one of the
       many clones called something like "Ardunio SAMD21 M0 Mini" (this is what I
-      have), I have found things working better using the SparkFun
-      Boards instead of the Arduino Zero board. Download "SparkFun SAMD Boards"
-      using the Board Manager by following the [SparkFun Boards
-      Installation](https://github.com/sparkfun/Arduino_Boards), then select the
-      board labeled "SparkFun SAMD Mini Breakout". These boards have only a
-      single USB connector, and the `SERIAL_PORT_MONITOR` will be properly
-      defined to be `SerialUSB`.
+      have), I have been unable to find a board configuration that is an exact
+      match. You have a few choices:
+        * If you are running the [AceTime unit tests](tests/), you need to have
+          a working `SERIAL_PORT_MONITOR`, so the "Arduino MKR ZERO" board
+          might work better, instead of the "Arduino Zero (Native USB Port)"
+          board.
+        * If you are running an app that requires proper pin configuration,
+          it seems that the `Arduino MKR ZERO" configuration is not correct for
+          this clone board. You need to go back to the "Arduino/Genuino Zero
+          (Native USB Port)" board configuration.
+        * You may also try installing the [SparkFun
+          Boards](https://github.com/sparkfun/Arduino_Boards) and select
+          the "SparkFun SAMD21 Mini Breakout" board. The advantage of using
+          this configuration is that the `SERIAL_PORT_MONITOR` is configured
+          properly as well as the port pin numbers. However, I have found that
+          the USB connection can be a bit flaky.
     * The SAMD21 microcontroller does *not* provide any EEPROM. Therefore,
       this feature is disabled in the apps under `examples` (e.g.
       `CommandLineClock`, `OledClock`, and `WorldClock`) which use this feature.

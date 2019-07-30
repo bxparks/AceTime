@@ -160,20 +160,21 @@ time.
 
 The zoneinfo files are stored in flash memory (using the `PROGMEM` compiler
 directive) if the microcontroller allows it (e.g. AVR, ESP8266) so that they do
-not consume static RAM:
+not consume static RAM. The [MemoryBenchmark](examples/MemoryBenchmark/)
+program shows that:
 
-* 270 timezones supported by `BasicZoneProcessor`consume:
-    * 14 kB of flash on an 8-bit processor (AVR)
-    * 21 kB of flash on a 32-bit processor (ESP8266)
+* 270 timezones supported by `BasicZoneProcessor`consume about:
+    * 15 kB of flash on an 8-bit processor (AVR)
+    * 20 kB of flash on a 32-bit processor (ESP8266)
 * 387 timezones supported by `ExtendedZoneProcessor` consume:
-    * 23 kB of flash on an 8-bit processor (AVR)
-    * 37 kB of flash on a 32-bit processor (ESP8266)
+    * 24 kB of flash on an 8-bit processor (AVR)
+    * 33 kB of flash on a 32-bit processor (ESP8266)
 
 Normally a small application will use only a small number of timezones. The
 AceTime library with one timezone using the `BasicZoneProcessor` and the
 `SystemClock` consumes:
-* 8.5 kB of flash and 350 bytes of RAM on an 8-bit Arduino Nano (AVR),
-* 11 kB of flash and 850 bytes of RAM on an ESP8266 processor (32-bit).
+* 9-10 kB of flash and 350 bytes of RAM on an 8-bit AVR processors,
+* 6-22 kB of flash and 900-1800 bytes of RAM on an 32-bit processors.
 
 An example of more complex application is the [WorldClock](examples/WorldClock)
 which has 3 OLED displays over SPI, 3 timezones using `BasicZoneProcessor`, a
@@ -185,6 +186,7 @@ inside the 30 kB flash size of an Arduino Pro Micro controller.
 Conversion from date-time components (year, month, day, etc) to epochSeconds
 (`ZonedDateTime::toEpochSeconds()`) takes about:
 * 90 microseconds on an 8-bit AVR processor,
+* 14 microseconds on an SAMD21,
 * 7 microseconds on an ESP8266,
 * 1.4 microseconds on an ESP32,
 * 0.5 microseconds on a Teensy 3.2.
@@ -192,16 +194,19 @@ Conversion from date-time components (year, month, day, etc) to epochSeconds
 Conversion from an epochSeconds to date-time components including timezone
 (`ZonedDateTime::forEpochSeconds()`) takes (assuming cache hits):
 * 600 microseconds on an 8-bit AVR,
-* 25 microseconds on an ESP8266,
-* 2.5 microseconds on an ESP32,
+* 50 microseconds on an SAMD21,
+* 27 microseconds on an ESP8266,
+* 2.8 microseconds on an ESP32,
 * 6 microseconds on a Teensy 3.2.
 
-**Version**: 0.5.1 (2019-07-24, TZ DB version 2019a, beta)
+**Version**: 0.5.2 (2019-07-29, TZ DB version 2019a, beta)
 
 **Status**: Fully functional. Added `ZoneManager` for dynamic binding of
 zoneName or zoneId to the TimeZone.
 
-## HelloDateTime
+## Examples
+
+### HelloDateTime
 
 Here is a simple program (see [examples/HelloDateTime](examples/HelloDateTime))
 which demonstrates how to create and manipulate date and times in different time
@@ -313,7 +318,61 @@ pacificTime.compareTo(londonTime): 0
 pacificTime == londonTime: false
 ```
 
-## HelloSystemClock
+### HelloZoneManager
+
+The [HelloZoneManager](examples/HelloZoneManager) example shows how to load the
+entire TZ Database into a `BasicZoneManager`, then create 3 time zones using 3
+different ways: `createForZoneInfo()`, `createForZoneName()`, and
+`createForZoneId()`.
+
+```C++
+#include <AceTime.h>
+
+using namespace ace_time;
+
+// Create a BasicZoneManager with the entire TZ Database.
+static const int CACHE_SIZE = 3;
+static BasicZoneManager<CACHE_SIZE> manager(
+  zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+
+void setup() {
+  Serial.begin(115200);
+  while (!Serial); // Wait Serial is ready - Leonardo/Micro
+
+  // Create Los Angeles by ZoneInfo
+  auto pacificTz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
+  auto pacificTime = ZonedDateTime::forComponents(
+      2019, 3, 10, 3, 0, 0, pacificTz);
+  pacificTime.printTo(Serial);
+  Serial.println();
+
+  // Create London by ZoneName
+  auto londonTz = manager.createForZoneName("Europe/London");
+  auto londonTime = pacificTime.convertToTimeZone(londonTz);
+  londonTime.printTo(Serial);
+  Serial.println();
+
+  // Create Sydney by ZoneId
+  uint32_t syndeyId = BasicZone(&zonedb::kZoneAustralia_Sydney).zoneId();
+  auto sydneyTz = manager.createForZoneId(syndeyId);
+  auto sydneyTime = pacificTime.convertToTimeZone(sydneyTz);
+  sydneyTime.printTo(Serial);
+  Serial.println();
+}
+
+void loop() {
+}
+```
+
+This consumes about 25kB of flash, which means that it can run on an
+Arduino Nano or Micro . It produces the following output:
+```
+2019-03-10T03:00:00-07:00[America/Los_Angeles]
+2019-03-10T10:00:00+00:00[Europe/London]
+2019-03-10T21:00:00+11:00[Australia/Sydney]
+```
+
+### HelloSystemClock
 
 This is the example code for using the `SystemClock` taken from
 [examples/HelloSystemClock](examples/HelloSystemClock).
@@ -374,9 +433,10 @@ then printing the system time every 2 seconds:
 2019-06-17T19:50:00-07:00[America/Los_Angeles]
 2019-06-17T19:50:02-07:00[America/Los_Angeles]
 2019-06-17T19:50:04-07:00[America/Los_Angeles]
+...
 ```
 
-## Example: WorldClock
+### WorldClock
 
 Here is a photo of the [WorldClock](examples/WorldClock) that supports 3
 OLED displays with 3 timezones, and automatically adjusts the DST transitions
@@ -433,6 +493,7 @@ The library is extensively tested on the following boards:
 I will occasionally test on the following hardware as a sanity check:
 
 * Teensy 3.2 (72 MHz ARM Cortex-M4)
+* Mini Mega 2560 (Arduino Mega 2560 compatible, 16 MHz ATmega2560)
 
 ## Changelog
 

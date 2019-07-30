@@ -87,8 +87,11 @@
     const char* strrchr_P(const char* s, int c);
   }
 
-  // ESP32 does not define SERIAL_PORT_MONITOR
-  #define SERIAL_PORT_MONITOR Serial
+  // ESP32 does not define SERIAL_PORT_MONITOR. Define it unless another
+  // library has already defined it.
+  #if ! defined(SERIAL_PORT_MONITOR)
+    #define SERIAL_PORT_MONITOR Serial
+  #endif
 
 #elif defined(__linux__) or defined(__APPLE__)
   #include <pgmspace.h>

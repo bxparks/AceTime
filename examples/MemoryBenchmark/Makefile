@@ -1,4 +1,8 @@
-TARGETS := nano.txt micro.txt esp8266.txt esp32.txt
+TARGETS := nano.txt micro.txt samd.txt esp8266.txt esp32.txt teensy.txt
+
+all: $(TARGETS)
+
+.PHONY: $(TARGETS)
 
 nano.txt:
 	./collect.sh nano $@
@@ -6,11 +10,17 @@ nano.txt:
 micro.txt:
 	./collect.sh micro $@
 
+samd.txt:
+	./collect.sh samd $@
+
 esp8266.txt:
 	./collect.sh esp8266 $@
 
 esp32.txt:
 	./collect.sh esp32 $@
+
+teensy.txt:
+	@echo 'Must collect teensy.txt manually'
 
 clean:
 	rm -f $(TARGETS)

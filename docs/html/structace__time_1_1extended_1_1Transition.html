@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.5.1</span>
+   &#160;<span id="projectnumber">0.5.2</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -136,15 +136,15 @@ union {</td></tr>
 <tr class="memitem:a5412a754b542c77797fa6e5906505d03"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structace__time_1_1extended_1_1DateTuple.html">DateTuple</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1Transition.html#a5412a754b542c77797fa6e5906505d03">originalTransitionTime</a></td></tr>
 <tr class="memdesc:a5412a754b542c77797fa6e5906505d03"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the transition is shifted to the beginning of a <a class="el" href="structace__time_1_1extended_1_1ZoneMatch.html" title="Data structure that captures the matching ZoneEra and its ZoneRule transitions for a given year...">ZoneMatch</a>, this is set to the transitionTime for debugging.  <a href="#a5412a754b542c77797fa6e5906505d03">More...</a><br /></td></tr>
 <tr class="separator:a5412a754b542c77797fa6e5906505d03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a455d7d971489040388fb4750d2b93939"><td class="memItemLeft" align="right" valign="top">acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1Transition.html#a455d7d971489040388fb4750d2b93939">startEpochSeconds</a></td></tr>
+<tr class="memdesc:a455d7d971489040388fb4750d2b93939"><td class="mdescLeft">&#160;</td><td class="mdescRight">The calculated transition time of the given rule.  <a href="#a455d7d971489040388fb4750d2b93939">More...</a><br /></td></tr>
+<tr class="separator:a455d7d971489040388fb4750d2b93939"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0e25e6c0752e8c2e2668fdb1a2be6d5"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1Transition.html#ae0e25e6c0752e8c2e2668fdb1a2be6d5">abbrev</a> [<a class="el" href="structace__time_1_1extended_1_1Transition.html#a81c38032a01b572b95a244c804ce1ba9">kAbbrevSize</a>]</td></tr>
 <tr class="memdesc:ae0e25e6c0752e8c2e2668fdb1a2be6d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The calculated effective time zone abbreviation, e.g.  <a href="#ae0e25e6c0752e8c2e2668fdb1a2be6d5">More...</a><br /></td></tr>
 <tr class="separator:ae0e25e6c0752e8c2e2668fdb1a2be6d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa99cc94e4e829443328a0ab65228ed2d"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1Transition.html#aa99cc94e4e829443328a0ab65228ed2d">letterBuf</a> [2]</td></tr>
 <tr class="memdesc:aa99cc94e4e829443328a0ab65228ed2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storage for the single letter 'letter' field if 'rule' is not null.  <a href="#aa99cc94e4e829443328a0ab65228ed2d">More...</a><br /></td></tr>
 <tr class="separator:aa99cc94e4e829443328a0ab65228ed2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a455d7d971489040388fb4750d2b93939"><td class="memItemLeft" align="right" valign="top">acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1Transition.html#a455d7d971489040388fb4750d2b93939">startEpochSeconds</a></td></tr>
-<tr class="memdesc:a455d7d971489040388fb4750d2b93939"><td class="mdescLeft">&#160;</td><td class="mdescRight">The calculated transition time of the given rule.  <a href="#a455d7d971489040388fb4750d2b93939">More...</a><br /></td></tr>
-<tr class="separator:a455d7d971489040388fb4750d2b93939"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a204b9201f51a3e1a5c26549d6ae6be06"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1Transition.html#a204b9201f51a3e1a5c26549d6ae6be06">active</a></td></tr>
 <tr class="memdesc:a204b9201f51a3e1a5c26549d6ae6be06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag used for 2 slightly different meanings at different stages of init() processing.  <a href="#a204b9201f51a3e1a5c26549d6ae6be06">More...</a><br /></td></tr>
 <tr class="separator:a204b9201f51a3e1a5c26549d6ae6be06"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -166,9 +166,10 @@ Static Public Attributes</h2></td></tr>
 <p>The start of the interval is given by 'transitionTime' which comes from the TZ Database file. The actual start and until time of the interval (in the local time zone) is given by 'startDateTime' and 'untilDateTime'.</p>
 <p>There are 2 types of <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> instances: 1) Simple, indicated by 'rule' == nullptr. The base UTC offsetCode is given by match-&gt;offsetCode. The additional DST delta is given by match-&gt;deltaCode. 2) Named, indicated by 'rule' != nullptr. The base UTC offsetCode is given by match-&gt;offsetCode. The additional DST delta is given by rule-&gt;deltaCode.</p>
 <p>The 'match', 'rule', 'transitionTime', 'transitionTimeS', 'transitionTimeU', 'active', 'originalTransitionTime', '<a class="el" href="structace__time_1_1extended_1_1Transition.html#a14ad37f76f5587007917bad754997a50" title="Return the letter string. ">letter()</a>' and 'format()' are temporary variables or parameters used in the init() method.</p>
-<p>The 'offsetCode', 'deltaCode', 'startDateTime', 'abbrev' are the derived parameters used in the findTransition() search. </p>
+<p>The 'offsetCode', 'deltaCode', 'startDateTime', 'abbrev' are the derived parameters used in the findTransition() search.</p>
+<p>Ordering of fields optimized along 4-byte boundaries to help 32-bit processors without making the program size bigger for 8-bit processors. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00163">163</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00168">168</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a14ad37f76f5587007917bad754997a50"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a14ad37f76f5587007917bad754997a50">&#9670;&nbsp;</a></span>letter()</h2>
@@ -196,7 +197,7 @@ Static Public Attributes</h2></td></tr>
 <p>Return the letter string. </p>
 <p>Returns nullptr if the RULES column is empty since that means that the <a class="el" href="structace__time_1_1extended_1_1ZoneRule.html" title="A time zone transition rule. ">ZoneRule</a> is not used, which means LETTER does not exist. A LETTER of '-' is returned as an empty string "". </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00267">267</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00272">272</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -225,7 +226,7 @@ Static Public Attributes</h2></td></tr>
 
 <p>Used only for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00297">297</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00302">302</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -245,7 +246,7 @@ Static Public Attributes</h2></td></tr>
 <p>The calculated effective time zone abbreviation, e.g. </p>
 <p>"PST" or "PDT". </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00222">222</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00230">230</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -265,7 +266,7 @@ Static Public Attributes</h2></td></tr>
 <p>1) During findCandidateTransitions(), this flag indicates whether the current transition is a valid "prior" transition that occurs before other transitions. It is set by setAsPriorTransition() if the transition is a prior transition.</p>
 <p>2) During processActiveTransition(), this flag indicates if the current transition falls within the date range of interest. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00242">242</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00247">247</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -283,7 +284,7 @@ Static Public Attributes</h2></td></tr>
 
 <p>The DST delta code. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00254">254</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00259">259</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -309,7 +310,7 @@ Static Public Attributes</h2></td></tr>
 
 <p>Size of the timezone abbreviation. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00165">165</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00170">170</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -327,7 +328,7 @@ Static Public Attributes</h2></td></tr>
 
 <p>Storage for the single letter 'letter' field if 'rule' is not null. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00225">225</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00233">233</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -345,7 +346,7 @@ Static Public Attributes</h2></td></tr>
 
 <p>The match which generated this <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00168">168</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00173">173</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -364,7 +365,7 @@ Static Public Attributes</h2></td></tr>
 <p>The base offset code, not the total effective UTC offset. </p>
 <p>Note that this is different than <a class="el" href="structace__time_1_1basic_1_1Transition.html#a2d6a8737e66f0dca13d10cce26d2b134" title="The total effective UTC offsetCode at the start of transition, including DST offset. ">basic::Transition::offsetCode</a> used by <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database...">BasicZoneProcessor</a> which is the total effective offsetCode. (It may be possible to make this into an effective offsetCode (i.e. offsetCode + deltaCode) but it does not seem worth making that change right now.) </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00251">251</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00256">256</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -383,7 +384,7 @@ Static Public Attributes</h2></td></tr>
 <p>If the transition is shifted to the beginning of a <a class="el" href="structace__time_1_1extended_1_1ZoneMatch.html" title="Data structure that captures the matching ZoneEra and its ZoneRule transitions for a given year...">ZoneMatch</a>, this is set to the transitionTime for debugging. </p>
 <p>May be removed in the future. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00219">219</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00224">224</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -402,7 +403,7 @@ Static Public Attributes</h2></td></tr>
 <p>The Zone transition rule that matched for the the given year. </p>
 <p>Set to nullptr if the RULES column is '-', indicating that the <a class="el" href="structace__time_1_1extended_1_1ZoneMatch.html" title="Data structure that captures the matching ZoneEra and its ZoneRule transitions for a given year...">ZoneMatch</a> was a "simple" <a class="el" href="structace__time_1_1extended_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00175">175</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00180">180</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -421,7 +422,7 @@ Static Public Attributes</h2></td></tr>
 <p>Start time expressed using the UTC offset of the current <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a>. </p>
 <p>Valid after ExtendedZoneProcessor::generateStartUntilTimes() is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00197">197</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00202">202</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -439,7 +440,7 @@ Static Public Attributes</h2></td></tr>
 
 <p>The calculated transition time of the given rule. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00228">228</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00227">227</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -458,7 +459,7 @@ Static Public Attributes</h2></td></tr>
 <p>The original transition time, usually 'w' but sometimes 's' or 'u'. </p>
 <p>After expandDateTuple() is called, this field will definitely be a 'w'. We must remember that the transitionTime* fields are expressed using the UTC offset of the <em>previous</em> <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00183">183</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00188">188</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -477,7 +478,7 @@ Static Public Attributes</h2></td></tr>
 <p>Version of transitionTime in 's' mode, using the UTC offset of the <em>previous</em> <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a>. </p>
 <p>Valid before ExtendedZoneProcessor::generateStartUntilTimes() is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00191">191</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00196">196</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -496,7 +497,7 @@ Static Public Attributes</h2></td></tr>
 <p>Version of transitionTime in 'u' mode, using the UTC offset of the <em>previous</em> transition. </p>
 <p>Valid before ExtendedZoneProcessor::generateStartUntilTimes() is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00206">206</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00211">211</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -515,7 +516,7 @@ Static Public Attributes</h2></td></tr>
 <p>Until time expressed using the UTC offset of the current <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a>. </p>
 <p>Valid after ExtendedZoneProcessor::generateStartUntilTimes() is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00212">212</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00217">217</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>

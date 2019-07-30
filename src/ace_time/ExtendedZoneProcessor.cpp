@@ -11,10 +11,10 @@
 namespace ace_time {
 
 const extended::ZoneEra ExtendedZoneProcessor::kAnchorEra ACE_TIME_PROGMEM = {
-  0 /*offsetCode*/,
   nullptr /*zonePolicy*/,
-  0 /*deltaCode*/,
   nullptr /*format*/,
+  0 /*offsetCode*/,
+  0 /*deltaCode*/,
   LocalDate::kInvalidYearTiny /*untilYearTiny*/,
   1 /*untilMonth*/,
   1 /*untilDay*/,

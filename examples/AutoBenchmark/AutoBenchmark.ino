@@ -5,6 +5,7 @@
  * This should compile on all microcontrollers supported by the Arduino IDE.
  */
 
+#include <Arduino.h>
 #include <AceRoutine.h> // activate SystemClock coroutines
 #include <AceTime.h>
 #include "Benchmark.h"
@@ -53,6 +54,9 @@ void setup() {
 
   SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneManager<1>): "));
   SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneManager<1>));
+
+  SERIAL_PORT_MONITOR.print(F("sizeof(TimeZoneData): "));
+  SERIAL_PORT_MONITOR.println(sizeof(TimeZoneData));
 
   SERIAL_PORT_MONITOR.print(F("sizeof(TimeZone): "));
   SERIAL_PORT_MONITOR.println(sizeof(TimeZone));

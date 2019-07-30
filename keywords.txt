@@ -16,14 +16,14 @@ LocalTime	KEYWORD1
 LocalDateTime	KEYWORD1
 TimeOffset	KEYWORD1
 OffsetDateTime	KEYWORD1
-ZoneProcessor	KEYWORD1
 BasicZoneProcessor	KEYWORD1
 ExtendedZoneProcessor	KEYWORD1
 BasicZone	KEYWORD1
 ExtendedZone	KEYWORD1
 TimeZone	KEYWORD1
 ZonedDateTime	KEYWORD1
-ZoneManager	KEYWORD1
+BasicZoneManager	KEYWORD1
+ExtendedZoneManager	KEYWORD1
 TimePeriod	KEYWORD1
 
 # src/ace_time/clock

@@ -8,51 +8,49 @@
 #define FEATURE_ZONED_DATE_TIME 2
 #define FEATURE_BASIC_TIME_ZONE 3
 #define FEATURE_BASIC_TIME_ZONE2 4
-#define FEATURE_BASIC_TIME_ZONE_ALL 5
-#define FEATURE_EXTENDED_TIME_ZONE 6
-#define FEATURE_EXTENDED_TIME_ZONE2 7
-#define FEATURE_EXTENDED_TIME_ZONE_ALL 8
-#define FEATURE_SYSTEM_CLOCK 9
-#define FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE 10
+#define FEATURE_BASIC_ZONE_MANAGER_1 5
+#define FEATURE_BASIC_ZONE_MANAGER_ALL 6
+#define FEATURE_EXTENDED_TIME_ZONE 7
+#define FEATURE_EXTENDED_TIME_ZONE2 8
+#define FEATURE_EXTENDED_ZONE_MANAGER_1 9
+#define FEATURE_EXTENDED_ZONE_MANAGER_ALL 10
+#define FEATURE_SYSTEM_CLOCK 11
+#define FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE 12
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
 // flash and RAM is consumed by the selected feature.
 // NOTE: This line is modified by a 'sed' script in collect.sh. Be careful
 // when modifying its format.
-#define FEATURE 0
+#define FEATURE 12
 
 #if FEATURE != FEATURE_BASELINE
 #include <AceTime.h>
 using namespace ace_time;
 using namespace ace_time::clock;
-
-static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
-  &zonedb::kZoneAmerica_Chicago,
-  &zonedb::kZoneAmerica_Denver,
-  &zonedb::kZoneAmerica_Los_Angeles,
-  &zonedb::kZoneAmerica_New_York,
-};
-
-static const uint16_t kBasicZoneRegistrySize =
-    sizeof(kBasicZoneRegistry) / sizeof(kBasicZoneRegistry[0]);
-
-static const extended::ZoneInfo* const kExtendedZoneRegistry[]
-    ACE_TIME_PROGMEM = {
-  &zonedbx::kZoneAmerica_Chicago,
-  &zonedbx::kZoneAmerica_Denver,
-  &zonedbx::kZoneAmerica_Los_Angeles,
-  &zonedbx::kZoneAmerica_New_York,
-};
-
-static const uint16_t kExtendedZoneRegistrySize =
-    sizeof(kExtendedZoneRegistry) / sizeof(kExtendedZoneRegistry[0]);
-
 #endif
 
 // Set this variable to prevent the compiler optimizer from removing the code
 // being tested when it determines that it does nothing.
 volatile uint8_t guard;
+
+#if FEATURE == FEATURE_BASIC_ZONE_MANAGER_1
+
+static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
+  &zonedb::kZoneAmerica_Los_Angeles,
+};
+static const uint16_t kBasicZoneRegistrySize =
+    sizeof(kBasicZoneRegistry) / sizeof(basic::ZoneInfo*);
+
+#elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_1
+
+static const extended::ZoneInfo* const kExtendedZoneRegistry[] ACE_TIME_PROGMEM = {
+  &zonedbx::kZoneAmerica_Los_Angeles,
+};
+static const uint16_t kExtendedZoneRegistrySize =
+    sizeof(kExtendedZoneRegistry) / sizeof(extended::ZoneInfo*);
+
+#endif
 
 void setup() {
 #if FEATURE == FEATURE_BASELINE
@@ -84,7 +82,13 @@ void setup() {
   auto dt2 = dt1.convertToTimeZone(tz2);
   acetime_t epochSeconds = dt2.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_BASIC_TIME_ZONE_ALL
+#elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_1
+  BasicZoneManager<1> manager(kBasicZoneRegistrySize, kBasicZoneRegistry);
+  auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
+#elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ALL
   BasicZoneManager<1> manager(zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
   auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
@@ -109,7 +113,14 @@ void setup() {
   auto dt2 = dt1.convertToTimeZone(tz2);
   acetime_t epochSeconds = dt2.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_EXTENDED_TIME_ZONE_ALL
+#elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_1
+  ExtendedZoneManager<1> manager(
+      kExtendedZoneRegistrySize, kExtendedZoneRegistry);
+  auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
+#elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ALL
   ExtendedZoneManager<1> manager(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
