@@ -3,8 +3,8 @@
 * Unreleased
 * 0.5.2
     * Create `HelloZoneManager` and add it to the `README.md`.
-    * Recommend using "Arduino MKR ZERO" board profile for "SAMD21 M0 Mini"
-      boards.
+    * Recommend using "Arduino MKR ZERO" board or "SparkFun SAMD21 Mini
+      Breakout" board for the "SAMD21 M0 Mini" boards.
     * Pack `basic::ZoneInfo`, `extended:ZoneInfo` and related structs tighter on
       32-bit processors, saving 2.5kB on the Basic zoneinfo files and 5.6kB on
       Extended zoneinfo files.
