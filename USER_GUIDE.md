@@ -2551,19 +2551,19 @@ did not think it would fit inside an Arduino controller.
       emulator.
 * `zonedb/` and `zonedbx/` zoneinfo files
     * These statically defined data structures are loaded into flash memory
-      then copied to RAM when the application starts. Fortunately, most
-      `ZoneInfo` entries are only 40-60 bytes each and the corresponding
-      `ZonePolicy` entries are 50-100 bytes each.
-    * It may be possible to use the `PROGMEM` keyword to store them only on
-      flash memory, but that will increase the flash memory size due to the code
-      needed to read these data structures from flash. In some applications,
-      flash memory may be more precious than RAM so it is not clear that using
-      `PROGMEM` for these data structures is the appropriate solution.
+      using the `PROGMEM` keyword. The vast majority of the data structure
+      fields will stay in flash memory and not copied into RAM.
+    * The zoneinfo files have *not* been compressed using bit-fields or any
+      other compression techniques. It may be possible to decrease the size of
+      the full database using these compression techniques. However, compression
+      will increase the size of the program file, so for applications that use
+      only a small number of zones, it is not clear if the zoneinfo file
+      compression will provide a reduction in the size of the overall program.
     * The TZ database files `backzone`, `systemv` and `factory` are
       not processed by the `tzcompiler.py` tool. They don't seem to contain
       anything worthwhile.
-    * The datasets and `*ZoneProcessor` classes have been *not* been tested or
-      validated for years prior to 2000.
+    * The datasets, `BasicZoneProcessor` and `ExtendedZoneProcessor` classes
+      have been *not* been tested or validated for years prior to 2000.
     * TZ Database version 2019b contains the first use of the
       `{onDayOfWeek<=onDayOfMonth}` syntax that I have seen (specifically `Rule
       Zion, FROM 2005, TO 2012, IN Apr, ON Fri<=1`). The actual transition date
