@@ -2297,15 +2297,15 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(BasicZoneProcessor): 156
-sizeof(ExtendedZoneProcessor): 500
+sizeof(BasicZoneProcessor): 136
+sizeof(ExtendedZoneProcessor): 468
 sizeof(TimeZone): 8
 sizeof(ZonedDateTime): 16
 sizeof(TimePeriod): 4
 sizeof(SystemClock): 24
 sizeof(NtpTimeProvider): 88 (ESP8266), 116 (ESP32)
-sizeof(SystemClockSyncLoop): 20
-sizeof(SystemClockSyncCoroutine): 52
+sizeof(SystemClockSyncLoop): 16
+sizeof(SystemClockSyncCoroutine): 48
 ```
 
 The [MemoryBenchmark](examples/MemoryBenchmark) program gives a more
@@ -2313,19 +2313,19 @@ comprehensive answer to the amount of memory taken by this library.
 Here is a short summary for an 8-bit microcontroller (e.g. Arduino Nano):
 
 * Using the `TimeZone` class with a `BasicZoneProcessor` for one timezone takes
-  about 6140 bytes of flash memory and 193 bytes of static RAM.
-* Using 2 timezones with `BasiCZoneProcessorincreases the consumption to 6628
-  bytes of flash and 231 bytes of RAM.
-* Loading the entire `zonedb::` zoneinfo database consumes 20354 bytes of flash
-  and 601 bytes of RAM.
+  about 6 kB of flash memory and 193 bytes of static RAM.
+* Using 2 timezones with `BasiCZoneProcessor increases the consumption to
+  about 7 kB of flash and 207 bytes of RAM.
+* Loading the entire `zonedb::` zoneinfo database consumes 21 kB bytes of flash
+  and 597 bytes of RAM.
 * Adding the `SystemClock` to the `TimeZone` and `BasicZoneProcessor` with one
-  timezone consumes 8436 bytes of flash and 344 bytes of RAM.
+  timezone consumes 8.5 kB bytes of flash and 352 bytes of RAM.
 
 These numbers indicate that the AceTime library is useful even on a limited
-8-bit controller with only 30-32kB of flash and 2kB of RAM. As a concrete
+8-bit controller with only 30-32 kB of flash and 2 kB of RAM. As a concrete
 example, the [WorldClock](examples/WorldClock) program contains 3 OLED displays
 over SPI, 2 buttons, one DS3231 chip, and 3 timezones using AceTime, and these
-all fit inside a Arduino Pro Micro limit of 30kB flash and 2.5kB of RAM.
+all fit inside a Arduino Pro Micro limit of 30 kB flash and 2.5 kB of RAM.
 
 ## Comparisons to Other Time Libraries
 
