@@ -1,7 +1,7 @@
-# See https://github.com/bxparks/AUnit/tree/develop/unitduino for documentation
-# about using unitduino to compile and run AUnit tests natively on Linux or
+# See https://github.com/bxparks/UnixHostDuino for documentation
+# about using UnixHostDuino to compile and run AUnit tests natively on Linux or
 # MacOS.
 
 APP_NAME := HelloSystemClock
 ARDUINO_LIBS := AceTime
-include ../../../AUnit/unitduino/unitduino.mk
+include ../../../UnixHostDuino/UnixHostDuino.mk

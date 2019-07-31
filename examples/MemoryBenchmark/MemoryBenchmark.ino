@@ -22,7 +22,7 @@
 // flash and RAM is consumed by the selected feature.
 // NOTE: This line is modified by a 'sed' script in collect.sh. Be careful
 // when modifying its format.
-#define FEATURE 12
+#define FEATURE 2
 
 #if FEATURE != FEATURE_BASELINE
 #include <AceTime.h>

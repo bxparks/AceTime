@@ -34,7 +34,8 @@ The source files are organized as follows:
   `ExtendedZoneProcessor` (`ace_time::zonedbx`)
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
 * `tests/validation` - integration tests using AUnit which must be run
-   on desktop Linux or MacOS machines
+   on desktop Linux or MacOS machines using
+   [UnixHostDuino](https://github.com/bxparks/UnixHostDuino)
 * `examples/` - example programs
 * `tools/` - parser for the TZ Database files, code generators for `zonedb::`
   and `zonedbx::` zone files, and code generators for various unit tests
@@ -70,6 +71,10 @@ Various scripts in the `tools/` directory depend on:
 * [pytz library](https://pypi.org/project/pytz/)
 * Python 3.5 or greater
 * Java OpenJDK 11
+
+If you want to run the unit tests or some of the command line examples using a
+Linux or MacOS machine, you need:
+* [UnixHostDuino](https://github.com/bxparks/UnixHostDuino)
 
 ### Doxygen Docs
 
@@ -2217,12 +2222,11 @@ second) components that `ZonedDateTime` should produce. The `tzcompiler.py`
 generates a `validation_data.cpp` file which contains the test data points for
 all supported timezones. The resulting program no longer fits in any Arduino
 microcontroller that I am aware of, but through the use of the
-[unitduino](https://github.com/bxparks/AUnit/tree/develop/unitduino) emulation
-framework in [AUnit](https://github.com/bxparks/AUnit), I can run these large
-validation test suites on a Linux or Mac desktop. This worked great until I
-discovered that `pytz` supports [dates only until
-2038](https://answers.launchpad.net/pytz/+question/262216). That meant that I
-could not validate the `ZonedDateTime` classes after 2038.
+[UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulation
+framework, I can run these large validation test suites on a Linux or Mac
+desktop. This worked great until I discovered that `pytz` supports [dates only
+until 2038](https://answers.launchpad.net/pytz/+question/262216). That meant
+that I could not validate the `ZonedDateTime` classes after 2038.
 
 I then turned to Java 11 `java.time` library, which supports years through the
 [year 1000000000
@@ -2538,8 +2542,7 @@ did not think it would fit inside an Arduino controller.
       (2038-01-19T03:14:07Z).
     * These are too big to run on any Arduino controller. They are designed to
       run on a Linux or MacOS machine through the Makefiles using the
-      [unitduino](https://github.com/bxparks/AUnit/tree/develop/unitduino)
-      emulator.
+      [UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulator.
 * `BasicValidationUsingJavaTest` and `ExtendedValidationUsingJavaTest`
     * These tests compare the transition times calculated by AceTime to Java 11
       `java.time` package which should support the entire range of dates that
@@ -2547,7 +2550,7 @@ did not think it would fit inside an Arduino controller.
       from 2000 to 2050.
     * These are too big to run on any Arduino controller. They are designed to
       run on a Linux or MacOS machine through the Makefiles using the
-      [unitduino](https://github.com/bxparks/AUnit/tree/develop/unitduino)
+      [UnixHostDuino](https://github.com/bxparks/UnixHostDuino)
       emulator.
 * `zonedb/` and `zonedbx/` zoneinfo files
     * These statically defined data structures are loaded into flash memory
