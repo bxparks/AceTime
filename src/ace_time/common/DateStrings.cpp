@@ -6,7 +6,6 @@
 #include "DateStrings.h"
 
 namespace ace_time {
-namespace common {
 
 static const char kError[] PROGMEM = "Error";
 static const char kJanuary[] PROGMEM = "January";
@@ -50,5 +49,4 @@ const char* const DateStrings::kDayOfWeekNames[] PROGMEM = {
 const uint8_t DateStrings::kNumDayOfWeekNames =
     sizeof(kDayOfWeekNames) / sizeof(const char *);
 
-}
 }

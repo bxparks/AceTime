@@ -15,7 +15,7 @@ The AceTime classes are organized into roughly 4 bundles, placed in different
 C++ namespaces:
 
 * date and time classes and types
-    * `ace_time::common::DateStrings`
+    * `ace_time::DateStrings`
     * `ace_time::acetime_t`
     * `ace_time::LocalTime`
     * `ace_time::LocalDate`
@@ -252,7 +252,7 @@ void setup() {
 
   Serial.print(F("Day of Week: "));
   Serial.println(
-      common::DateStrings().dayOfWeekLongString(pacificTime.dayOfWeek()));
+      DateStrings().dayOfWeekLongString(pacificTime.dayOfWeek()));
 
   // Print info about UTC offset
   TimeOffset offset = pacificTime.timeOffset();

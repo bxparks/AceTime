@@ -3,7 +3,6 @@
 
 #include <AceTime.h>
 #include <ace_time/hw/CrcEeprom.h>
-#include <ace_time/common/DateStrings.h>
 #include "RenderingInfo.h"
 #include "StoredInfo.h"
 #include "Presenter.h"

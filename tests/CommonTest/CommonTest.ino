@@ -12,7 +12,7 @@ using namespace ace_time::common;
 // --------------------------------------------------------------------------
 
 test(DateStringsTest, monthString) {
-  common::DateStrings ds;
+  DateStrings ds;
 
   assertEqual(F("Error"), ds.monthLongString(0));
   assertEqual(F("January"), ds.monthLongString(1));
@@ -46,18 +46,18 @@ test(DateStringsTest, monthString) {
 }
 
 test(DateStringsTest, monthStringsFitInBuffer) {
-  common::DateStrings ds;
+  DateStrings ds;
   uint8_t maxLength = 0;
   for (uint8_t month = 0; month <= 12; month++) {
     const char* monthString = ds.monthLongString(month);
     uint8_t length = strlen(monthString);
     if (length > maxLength) { maxLength = length; }
   }
-  assertLessOrEqual(maxLength, common::DateStrings::kBufferSize - 1);
+  assertLessOrEqual(maxLength, DateStrings::kBufferSize - 1);
 }
 
 test(DateStringsTest, dayOfWeekStrings) {
-  common::DateStrings ds;
+  DateStrings ds;
 
   assertEqual(F("Error"), ds.dayOfWeekLongString(0));
   assertEqual(F("Monday"), ds.dayOfWeekLongString(1));
@@ -81,14 +81,14 @@ test(DateStringsTest, dayOfWeekStrings) {
 }
 
 test(DateStringsTest, dayOfWeekStringsFitInBuffer) {
-  common::DateStrings ds;
+  DateStrings ds;
   uint8_t maxLength = 0;
   for (uint8_t dayOfWeek = 0; dayOfWeek <= 7; dayOfWeek++) {
     const char* dayOfWeekString = ds.dayOfWeekLongString(dayOfWeek);
     uint8_t length = strlen(dayOfWeekString);
     if (length > maxLength) { maxLength = length; }
   }
-  assertLessOrEqual(maxLength, common::DateStrings::kBufferSize - 1);
+  assertLessOrEqual(maxLength, DateStrings::kBufferSize - 1);
 }
 
 // --------------------------------------------------------------------------

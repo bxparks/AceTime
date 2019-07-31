@@ -11,7 +11,6 @@
 #include "compat.h"
 
 namespace ace_time {
-namespace common {
 
 /**
  * Class that translates a numeric month (1-12) or dayOfWeek (1-7) into a human
@@ -82,7 +81,6 @@ class DateStrings {
     char mBuffer[kBufferSize];
 };
 
-}
 }
 
 #endif

@@ -10,7 +10,6 @@
 namespace ace_time {
 
 using common::printPad2;
-using common::DateStrings;
 
 void LocalDateTime::printTo(Print& printer) const {
   if (isError()) {

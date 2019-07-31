@@ -61,7 +61,7 @@ void setup() {
 
   SERIAL_PORT_MONITOR.print(F("Day of Week: "));
   SERIAL_PORT_MONITOR.println(
-      common::DateStrings().dayOfWeekLongString(pacificTime.dayOfWeek()));
+      DateStrings().dayOfWeekLongString(pacificTime.dayOfWeek()));
 
   // Print info about UTC offset
   TimeOffset offset = pacificTime.timeOffset();

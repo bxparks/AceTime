@@ -368,12 +368,11 @@ uint8_t dayOfWeek = localDate.dayOfWeek();
 ### Date Strings
 
 To convert the `dayOfweek()` numerical code to a human-readable string for
-debugging or display, we can use the `common::DateStrings` class:
+debugging or display, we can use the `DateStrings` class:
 
 
 ```C++
 namespace ace_time {
-namespace common {
 
 class DateStrings {
   public:
@@ -388,7 +387,6 @@ class DateStrings {
 };
 
 }
-}
 ```
 
 The `DateStrings` object uses an internal buffer to hold the generated
@@ -401,13 +399,9 @@ reclaimed from the stack. The class is not meant to be created and persisted for
 a long period of time, unless you are sure that nothing else will reuse the
 internal buffer between calls.
 
-The `DateStrings` class is inside the `ace_time::common` namespace, so you need
-to prefix it with `common::`, unless a `using` statement is used.
-
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
-using common::DateStrings;
 ...
 
 auto localDate = LocalDate::forComponents(2019, 5, 20);
