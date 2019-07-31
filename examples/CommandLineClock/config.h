@@ -20,31 +20,42 @@
 // flash/2kB RAM) cannot support both BasicZoneProcessor and
 // ExtendedZoneProcessor at the same time.
 
-#ifndef AUNITER
+#if defined(__linux__) || defined(__APPLE__)
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NONE
+  #define ENABLE_TIME_ZONE_TYPE_BASIC 1
+  #define ENABLE_TIME_ZONE_TYPE_EXTENDED 1
+  #define ENABLE_EEPROM 0
+#elif ! defined(AUNITER)
   // Arduino IDE in interactive mode
   #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
   #define ENABLE_TIME_ZONE_TYPE_BASIC 1
   #define ENABLE_TIME_ZONE_TYPE_EXTENDED 1
+  #define ENABLE_EEPROM 1
 #elif defined(AUNITER_NANO)
   #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
   #define ENABLE_TIME_ZONE_TYPE_BASIC 1
   #define ENABLE_TIME_ZONE_TYPE_EXTENDED 1
+  #define ENABLE_EEPROM 1
 #elif defined(AUNITER_MICRO)
   #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
   #define ENABLE_TIME_ZONE_TYPE_BASIC 1
   #define ENABLE_TIME_ZONE_TYPE_EXTENDED 0
+  #define ENABLE_EEPROM 1
 #elif defined(AUNITER_SAMD)
   #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
   #define ENABLE_TIME_ZONE_TYPE_BASIC 1
   #define ENABLE_TIME_ZONE_TYPE_EXTENDED 1
+  #define ENABLE_EEPROM 0
 #elif defined(AUNITER_ESP8266)
   #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NTP
   #define ENABLE_TIME_ZONE_TYPE_BASIC 1
   #define ENABLE_TIME_ZONE_TYPE_EXTENDED 1
+  #define ENABLE_EEPROM 1
 #elif defined(AUNITER_ESP32)
   #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NTP
   #define ENABLE_TIME_ZONE_TYPE_BASIC 1
   #define ENABLE_TIME_ZONE_TYPE_EXTENDED 1
+  #define ENABLE_EEPROM 1
 #else
   #error Unknown AUNITER environment
 #endif

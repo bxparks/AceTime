@@ -2,7 +2,7 @@
 #define COMMAND_LINE_CLOCK_PERSISTENT_STORE_H
 
 #include <AceTime.h>
-#if ! defined(ARDUINO_ARCH_SAMD)
+#if ENABLE_EEPROM
   #include <ace_time/hw/CrcEeprom.h>
 #endif
 #include "config.h"
@@ -13,17 +13,13 @@ using namespace ace_time;
 class PersistentStore {
   public:
     void setup() {
-    #if ! defined(ARDUINO_ARCH_SAMD)
+    #if ENABLE_EEPROM
       // Needed for ESP32
       mCrcEeprom.begin(kEepromSize);
     #endif
     }
 
-    #if defined(ARDUINO_ARCH_SAMD)
-    bool readStoredInfo(StoredInfo& /*storedInfo*/) const {
-      return false;
-    }
-    #else
+  #if ENABLE_EEPROM
     bool readStoredInfo(StoredInfo& storedInfo) const {
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
@@ -33,24 +29,28 @@ class PersistentStore {
     #endif
       return isValid;
     }
-    #endif
-
-    #if defined(ARDUINO_ARCH_SAMD)
-    uint16_t writeStoredInfo(const StoredInfo& /*storedInfo*/) const {
-      return 0;
+  #else
+    bool readStoredInfo(StoredInfo& /*storedInfo*/) const {
+      return false;
     }
-    #else
+  #endif
+
+  #if ENABLE_EEPROM
     uint16_t writeStoredInfo(const StoredInfo& storedInfo) const {
       return mCrcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
           sizeof(StoredInfo));
     }
-    #endif
+  #else
+    uint16_t writeStoredInfo(const StoredInfo& /*storedInfo*/) const {
+      return 0;
+    }
+  #endif
 
   private:
-  #if ! defined(ARDUINO_ARCH_SAMD)
+  #if ENABLE_EEPROM
     static const uint16_t kStoredInfoEepromAddress = 0;
 
-    // Must be greater than (sizeof(StoredInfo) + 4).
+    // Must be greater than or equal to (sizeof(StoredInfo) + 4).
     static const uint8_t kEepromSize = sizeof(StoredInfo) + 4;
 
     hw::CrcEeprom mCrcEeprom;

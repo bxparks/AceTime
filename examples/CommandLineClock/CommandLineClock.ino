@@ -381,10 +381,12 @@ CommandManager<BUF_SIZE, ARGV_SIZE> commandManager(
 //---------------------------------------------------------------------------
 
 void setup() {
+#if defined(ARDUINO)
   // Wait for stability on some boards.
   // 1000ms needed for SERIAL_PORT_MONITOR.
   // 2000ms needed for Wire, I2C or SSD1306 (don't know which one).
   delay(2000);
+#endif
 
 #if defined(ARDUINO_AVR_LEONARDO)
   RXLED0; // LED off
