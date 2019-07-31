@@ -1,6 +1,10 @@
 # Changelog
 
 * Unreleased
+    * Update tests to use `UnixHostDuino`.
+    * Fix broken restore functionality in `CommandLineClock`.
+    * Update flash memory consumption numbers in `zonedb/zone_infos.cpp` and
+      `zonedbx/zone_infos.cpp`.
 * 0.5.2
     * Create `HelloZoneManager` and add it to the `README.md`.
     * Recommend using "Arduino MKR ZERO" board or "SparkFun SAMD21 Mini
