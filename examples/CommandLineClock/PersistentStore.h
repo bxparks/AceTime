@@ -23,10 +23,6 @@ class PersistentStore {
     }
 
   #if ENABLE_EEPROM
-    bool readStoredInfo(StoredInfo& /*storedInfo*/) const {
-      return false;
-    }
-  #else
     bool readStoredInfo(StoredInfo& storedInfo) const {
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
@@ -35,6 +31,10 @@ class PersistentStore {
       storedInfo.password[StoredInfo::kPasswordMaxLength - 1] = '\0';
     #endif
       return isValid;
+    }
+  #else
+    bool readStoredInfo(StoredInfo& /*storedInfo*/) const {
+      return false;
     }
   #endif
 
