@@ -474,6 +474,9 @@ This library was developed and tested using:
 It should work with [PlatformIO](https://platformio.org/) but I have
 not tested it.
 
+The library works on Linux or MacOS (using both g++ and clang++ compilers) using
+the [UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulation layer.
+
 ### Operating System
 
 I use Ubuntu 18.04 for the vast majority of my development. I expect that the
