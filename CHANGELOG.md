@@ -5,6 +5,8 @@
     * Fix broken restore functionality in `CommandLineClock`.
     * Update flash memory consumption numbers in `zonedb/zone_infos.cpp` and
       `zonedbx/zone_infos.cpp`.
+    * Change `ace_time::common::DateStrings` to just `ace_time::DateStrings`
+      because it was the only data/time class in the `common::` namespace.
 * 0.5.2
     * Create `HelloZoneManager` and add it to the `README.md`.
     * Recommend using "Arduino MKR ZERO" board or "SparkFun SAMD21 Mini
