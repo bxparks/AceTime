@@ -16,14 +16,12 @@ using namespace ace_time::clock;
 // ZoneProcessor instance should be created statically at initialization time.
 static BasicZoneProcessor pacificProcessor;
 
-SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
-
-//------------------------------------------------------------------
+static SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
 
 void setup() {
   delay(1000);
   SERIAL_PORT_MONITOR.begin(115200);
-  while (!SERIAL_PORT_MONITOR); // Wait until SERIAL_PORT_MONITOR is ready - Leonardo/Micro
+  while (!SERIAL_PORT_MONITOR); // Wait until ready - Leonardo/Micro
 
   systemClock.setup();
 
@@ -36,8 +34,6 @@ void setup() {
       2019, 6, 17, 19, 50, 0, pacificTz);
   systemClock.setNow(pacificTime.toEpochSeconds());
 }
-
-//------------------------------------------------------------------
 
 void printCurrentTime() {
   acetime_t now = systemClock.getNow();

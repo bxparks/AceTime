@@ -388,8 +388,6 @@ static BasicZoneProcessor pacificProcessor;
 
 SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
 
-//------------------------------------------------------------------
-
 void setup() {
   delay(1000);
   Serial.begin(115200);
@@ -406,8 +404,6 @@ void setup() {
       2019, 6, 17, 19, 50, 0, pacificTz);
   systemClock.setNow(pacificTime.toEpochSeconds());
 }
-
-//------------------------------------------------------------------
 
 void printCurrentTime() {
   acetime_t now = systemClock.getNow();
