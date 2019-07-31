@@ -194,7 +194,7 @@ class Controller {
       #elif ENABLE_TIME_ZONE_TYPE_EXTENDED
           setExtendedTimeZoneForId(storedInfo.zoneId);
       #else
-          setManualTimeZone(TimeOffset::forHour(-8), TimeOffset())
+          setManualTimeZone(TimeOffset::forHour(-8), TimeOffset());
       #endif
           break;
         case TimeZone::kTypeManual:

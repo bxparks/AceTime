@@ -20,7 +20,7 @@
 // flash/2kB RAM) cannot support both BasicZoneProcessor and
 // ExtendedZoneProcessor at the same time.
 
-#if defined(__linux__) || defined(__APPLE__)
+#if ! defined(ARDUINO)
   #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NONE
   #define ENABLE_TIME_ZONE_TYPE_BASIC 1
   #define ENABLE_TIME_ZONE_TYPE_EXTENDED 1
