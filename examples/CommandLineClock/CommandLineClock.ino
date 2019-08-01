@@ -29,7 +29,7 @@
  *    sync [status]
  *        Sync the SystemClock from its external source, or print its sync
           status.
- *		wifi (status | connect | config [ssid password])
+ *		wifi (status | config [{ssid} {password}] | connect)
  *        Print the ESP8266 or ESP32 wifi connection info.
  *        Connect to the wifi network.
  *        Print or set the wifi ssid and password.
@@ -285,7 +285,7 @@ class WifiCommand: public CommandHandler {
         Controller& controller,
         NtpTimeProvider& ntpTimeProvider):
       CommandHandler(F("wifi"),
-          F("status | (config [ssid password]) | connect") ),
+          F("status | (config [{ssid} {password}]) | connect") ),
       mController(controller),
       mNtpTimeProvider(ntpTimeProvider)
       {}
