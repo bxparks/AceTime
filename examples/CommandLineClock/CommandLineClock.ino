@@ -12,6 +12,7 @@
  *    * Arduino Nano
  *    * Arduino Pro Mini
  *    * Arduino Leonardo or Pro Micro
+ *    * SAMD21
  *    * ESP8266
  *    * ESP32
  *
@@ -24,11 +25,12 @@
  *    date [dateString]
  *        Print or set the date.
  *    timezone [manual {offset} | dst (on | off)] |
- *      basic [list] | extended [list] ]
+ *        Print or set the current TimeZone.
+ *    basic [list] | extended [list] ]
  *        Print or set the currently active TimeZone.
  *    sync [status]
  *        Sync the SystemClock from its external source, or print its sync
-          status.
+ *        status.
  *		wifi (status | config [{ssid} {password}] | connect)
  *        Print the ESP8266 or ESP32 wifi connection info.
  *        Connect to the wifi network.
