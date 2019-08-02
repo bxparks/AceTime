@@ -416,8 +416,8 @@ void printCurrentTime() {
 }
 
 void loop() {
+  systemClock.loop();
   printCurrentTime();
-  systemClock.keepAlive(); // should be called every 65.535s or less
   delay(2000);
 }
 ```

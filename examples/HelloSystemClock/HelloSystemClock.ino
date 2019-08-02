@@ -47,7 +47,7 @@ void printCurrentTime() {
 }
 
 void loop() {
-  printCurrentTime();
   systemClock.loop();
+  printCurrentTime();
   delay(2000);
 }
