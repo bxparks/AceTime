@@ -49,6 +49,7 @@
 #include "ace_time/clock/Clock.h"
 #include "ace_time/clock/NtpClock.h"
 #include "ace_time/clock/DS3231Clock.h"
+#include "ace_time/clock/UnixClock.h"
 #include "ace_time/clock/SystemClock.h"
 #include "ace_time/clock/SystemClockLoop.h"
 // activate only if <AceRoutine.h> is included before this header
