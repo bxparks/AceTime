@@ -18,7 +18,7 @@ using namespace ace_routine;
 // ZoneProcessor instance should be created statically at initialization time.
 static BasicZoneProcessor pacificProcessor;
 
-// The 'referenceClock' is set to nullptr, so systemClockSyncCoroutine does
+// The 'referenceClock' is set to nullptr, so systemClockCoroutine does
 // not actually do anything. The purpose of this program is to show how
 // to structure the code if the 'referenceClock' was actually defined.
 static SystemClockCoroutine systemClock(

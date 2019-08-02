@@ -66,8 +66,8 @@ testF(SystemClockLoopTest, backupNow) {
   fakeMillis->millis(nowMillis);
   systemClock->setNow(100);
 
-  // setNow() caused a save to the backupTimeKeeper which happens to be the
-  // same backupAndReferenceClock
+  // setNow() caused a save to the backupClock which happens to be the
+  // same as the referenceClock
   assertEqual((acetime_t) 100, systemClock->getNow());
   assertEqual((acetime_t) 100, backupAndReferenceClock->getNow());
 }
@@ -81,7 +81,7 @@ testF(SystemClockLoopTest, syncNow) {
   fakeMillis->millis(nowMillis);
   systemClock->syncNow(100);
 
-  // syncNow() does NOT write to backupTimeKeeper because the sync and backup
+  // syncNow() does NOT write to backupClock because the sync and backup
   // sources are identical, so it does not try to write the time back into
   // itself.
   assertEqual((acetime_t) 100, systemClock->getNow());

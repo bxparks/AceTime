@@ -34,16 +34,16 @@ class Clock {
      */
     virtual acetime_t getNow() const = 0;
 
-    /** Send a time request asynchronously. Used by SystemClockSyncCoroutine. */
+    /** Send a time request asynchronously. */
     virtual void sendRequest() const {}
 
-    /** Return true if a response is ready. Used by SystemClockSyncCoroutine. */
+    /** Return true if a response is ready. */
     virtual bool isResponseReady() const { return true; }
 
     /**
      * Returns number of seconds since AceTime epoch (2000-01-01). Return
      * kInvalidSeconds if there is an error. Valid only if isResponseReady()
-     * returns true. Used by SystemClockSyncCoroutine.
+     * returns true.
      */
     virtual acetime_t readResponse() const { return getNow(); }
 

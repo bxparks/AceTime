@@ -27,13 +27,12 @@ ExtendedZoneManager	KEYWORD1
 TimePeriod	KEYWORD1
 
 # src/ace_time/clock
-TimeProvider	KEYWORD1
-TimeKeeper	KEYWORD1
-DS3231TimeKeeper	KEYWORD1
-NtpTimeProvider	KEYWORD1
+Clock	KEYWORD1
+DS3231Clock	KEYWORD1
+NtpClock	KEYWORD1
 SystemClock	KEYWORD1
-SystemClockSyncLoop	KEYWORD1
-SystemClockSyncCoroutine	KEYWORD1
+SystemClockLoop	KEYWORD1
+SystemClockCoroutine	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -242,14 +241,15 @@ incrementHour	KEYWORD2
 incrementMinute	KEYWORD2
 compareTo	KEYWORD2
 
-# TimeProvider.h
+# Clock.h
 setup	KEYWORD2
+setNow	KEYWORD2
 getNow	KEYWORD2
 sendRequest	KEYWORD2
 isResponseReady	KEYWORD2
 readResponse	KEYWORD2
 
-# NtpTimeProvider.h
+# NtpClock.h
 setup	KEYWORD2
 getServer	KEYWORD2
 isSetup	KEYWORD2
@@ -257,9 +257,6 @@ getNow	KEYWORD2
 sendRequest	KEYWORD2
 isResponseReady	KEYWORD2
 readResponse	KEYWORD2
-
-# TimeKeeper.h
-setNow	KEYWORD2
 
 # SystemClock.h
 setup	KEYWORD2
@@ -312,7 +309,7 @@ kTypeExtended	LITERAL1
 kTypeBasicManaged	LITERAL1
 kTypeExtendedManaged	LITERAL1
 
-# NtpTimeProvider.h
+# NtpClock.h
 kNtpServerName	LITERAL1
 kLocalPort	LITERAL1
 kRequestTimeout	LITERAL1

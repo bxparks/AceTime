@@ -45,7 +45,7 @@ The source files are organized as follows:
 The vast majority of the AceTime library has no dependency to any other external
 libraries. There is an optional dependency to
 [AceRoutine](https://github.com/bxparks/AceRoutine) if you want to use the
-`SystemClockSyncCoroutine` class for automatic syncing. (This is recommended but
+`SystemClockCoroutine` class for automatic syncing. (This is recommended but
 not strictly necessary). The `ace_time/hw/CrcEeprom.h` class has a dependency to
 the [FastCRC](https://github.com/FrankBoesing/FastCRC) library but the
 `CrcEeprom.h` file is not included in the `AceTime.h` main header file, so you
@@ -2139,7 +2139,7 @@ void loop() {
 every 1 hour. This is configurable through parameters in the `SystemClockLoop()`
 constructor.
 
-### SystemClockSyncCoroutine
+### SystemClockCoroutine
 
 This class synchronizes to the `referenceClock` using an
 [AceRoutine](https://github.com/bxparks/AceRoutine) coroutine.
