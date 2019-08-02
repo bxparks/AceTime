@@ -8,21 +8,24 @@
 
 #include <stdint.h>
 #include "../common/TimingStats.h"
-#include "TimeKeeper.h"
+#include "Clock.h"
 
 extern "C" unsigned long millis();
+class SystemClockLoopTest;
+class SystemClockLoopTest_syncNow;
+class SystemClockCoroutineTest;
 
 namespace ace_time {
 namespace clock {
 
 /**
- * A TimeKeeper that uses the Arduino millis() function to advance the time
+ * A Clock that uses the Arduino millis() function to advance the time
  * returned to the user. The real time is returned as the number of seconds
  * since the AceTime epoch of 2000-01-01T00:00:00Z.
  *
  * The built-in millis() is not accurate, so this class allows a periodic
- * sync using the (presumably) more accurate syncTimeProvider. The current
- * time can be periodically backed up into the backupTimeKeeper which is
+ * sync using the (presumably) more accurate referenceClock. The current
+ * time can be periodically backed up into the backupClock which is
  * expected to be an RTC chip that continues to keep time during power loss.
  *
  * The value of the previous system time millis() is stored internally as
@@ -33,39 +36,27 @@ namespace clock {
  * seconds. The easiest way to do this is to call it from the global loop()
  * method.
  *
- * There are 2 ways to perform syncing from the syncTimeProvider:
+ * There are 2 ways to perform syncing from the referenceClock:
  *
  * 1) Create an instance of SystemClockSyncCoroutine and register it with the
  * CoroutineSchedule so that it runs periodically. The
  * SystemClockSyncCoroutine::runCoroutine() method uses the non-blocking
- * sendRequest(), isResponseReady() and readResponse() methods of TimeProvider
- * to retrieve the current time. Some time providers (e.g. NtpTimeProvider) can
- * take 100s of milliseconds to return, so using the coroutine infrastructure
- * allows other coroutines to continue executing.
+ * sendRequest(), isResponseReady() and readResponse() methods of Clock
+ * to retrieve the current time. Some clocks (e.g. NtpClock) can take 100s of
+ * milliseconds to return, so using the coroutine infrastructure allows other
+ * coroutines to continue executing.
  *
  * 2) Call the SystemClockSyncLoop::loop() method from the global loop()
- * function. This method uses the blocking TimeProvider::getNow() method which
- * can take O(100) milliseconds for something like NtpTimeProvider.
+ * function. This method uses the blocking Clock::getNow() method which
+ * can take O(100) milliseconds for something like NtpClock.
  */
-class SystemClock: public TimeKeeper {
+class SystemClock: public Clock {
   public:
 
-    /**
-     * @param syncTimeProvider The authoritative source of the time. Can be
-     * null in which case the objec relies just on millis() and the user
-     * to set the proper time using setNow().
-     * @param backupTimeKeeper An RTC chip which continues to keep time
-     * even when power is lost. Can be null.
-     */
-    explicit SystemClock(
-            TimeProvider* syncTimeProvider /* nullable */,
-            TimeKeeper* backupTimeKeeper /* nullable */):
-        mSyncTimeProvider(syncTimeProvider),
-        mBackupTimeKeeper(backupTimeKeeper) {}
-
+    /** Attempt to retrieve the time from the backupClock if it exists. */
     void setup() {
-      if (mBackupTimeKeeper != nullptr) {
-        setNow(mBackupTimeKeeper->getNow());
+      if (mBackupClock != nullptr) {
+        setNow(mBackupClock->getNow());
       }
     }
 
@@ -80,7 +71,7 @@ class SystemClock: public TimeKeeper {
     acetime_t getNow() const override {
       if (!mIsInit) return kInvalidSeconds;
 
-      while ((uint16_t) ((uint16_t) millis() - mPrevMillis) >= 1000) {
+      while ((uint16_t) ((uint16_t) clockMillis() - mPrevMillis) >= 1000) {
         mPrevMillis += 1000;
         mEpochSeconds += 1;
       }
@@ -91,73 +82,102 @@ class SystemClock: public TimeKeeper {
       if (epochSeconds == kInvalidSeconds) return;
 
       mEpochSeconds = epochSeconds;
-      mPrevMillis = millis();
+      mPrevMillis = clockMillis();
       mIsInit = true;
       mLastSyncTime = epochSeconds;
       backupNow(epochSeconds);
+      if (mReferenceClock != nullptr) {
+        mReferenceClock->setNow(epochSeconds);
+      }
     }
 
-    /**
-     * Similar to setNow() except that backupNow() is called only if the
-     * backupTimeKeeper is different from the syncTimeKeeper. This prevents us
-     * from retrieving the time from the RTC, then saving it right back again,
-     * with a drift each time it is saved back.
-     *
-     * TODO: Implement a more graceful sync() algorithm which shifts only a few
-     * milliseconds per iteration, and which guarantees that the clock never
-     * goes backwards in time.
-     */
-    void sync(acetime_t epochSeconds) {
-      if (epochSeconds == kInvalidSeconds) return;
-      if (mEpochSeconds == epochSeconds) return;
-
-      mEpochSeconds = epochSeconds;
-      mPrevMillis = millis();
-      mIsInit = true;
-      mLastSyncTime = epochSeconds;
-
-      if (mBackupTimeKeeper != mSyncTimeProvider) {
-        backupNow(epochSeconds);
-      }
+    /** Force a sync with the mReferenceClock. */
+    void forceSync() {
+      acetime_t nowSeconds = mReferenceClock->getNow();
+      syncNow(nowSeconds);
     }
 
     /**
      * Return the time (seconds since Epoch) of the last valid sync() call.
-     * Returns 0 if never synced.
+     * Returns kInvalidSeconds if never synced.
      */
     acetime_t getLastSyncTime() const {
       return mLastSyncTime;
     }
 
-    /** Return true if initialized by setNow() or sync(). */
+    /** Return true if initialized by setNow() or syncNow(). */
     bool isInit() const { return mIsInit; }
 
   protected:
-    /** Return the Arduino millis(). Override for unit testing. */
-    virtual unsigned long millis() const { return ::millis(); }
+    friend class ::SystemClockLoopTest;
+    friend class ::SystemClockCoroutineTest;
+    friend class ::SystemClockLoopTest_syncNow;
 
-  private:
-    friend class SystemClockSyncCoroutine;
-    friend class SystemClockSyncLoop;
+    // disable copy constructor and assignment operator
+    SystemClock(const SystemClock&) = delete;
+    SystemClock& operator=(const SystemClock&) = delete;
 
     /**
-     * Write the nowSeconds to the backup TimeKeeper (which can be an RTC that
-     * has non-volatile memory, or simply flash memory which emulates a backup
-     * TimeKeeper.
+     * Return the Arduino millis(). Override for unit testing. Named
+     * 'clockMillis()' to avoid conflict with Coroutine::millis().
+     */
+    virtual unsigned long clockMillis() const { return ::millis(); }
+
+    /**
+     * Constructor.
+     * @param referenceClock The authoritative source of the time. If this is
+     *    null, object relies just on clockMillis() and the user to set the
+     *    proper time using setNow().
+     * @param backupClock An RTC chip which continues to keep time
+     *    even when power is lost. Can be null.
+     */
+    explicit SystemClock(
+          Clock* referenceClock /* nullable */,
+          Clock* backupClock /* nullable */):
+        mReferenceClock(referenceClock),
+        mBackupClock(backupClock) {}
+
+    /**
+     * Write the nowSeconds to the backupClock (which can be an RTC that has
+     * non-volatile memory, or simply flash memory which emulates a backupClock.
      */
     void backupNow(acetime_t nowSeconds) {
-      if (mBackupTimeKeeper != nullptr) {
-        mBackupTimeKeeper->setNow(nowSeconds);
+      if (mBackupClock != nullptr) {
+        mBackupClock->setNow(nowSeconds);
       }
     }
 
-    const TimeProvider* const mSyncTimeProvider;
-    TimeKeeper* const mBackupTimeKeeper;
+    /**
+     * Similar to setNow() except that backupNow() is called only if the
+     * backupClock is different from the referenceClock. This prevents us from
+     * retrieving the time from the RTC, then saving it right back again, with
+     * a drift each time it is saved back.
+     *
+     * TODO: Implement a more graceful syncNow() algorithm which shifts only a
+     * few milliseconds per iteration, and which guarantees that the clock
+     * never goes backwards in time.
+     */
+    void syncNow(acetime_t epochSeconds) {
+      if (epochSeconds == kInvalidSeconds) return;
+      if (mEpochSeconds == epochSeconds) return;
+
+      mEpochSeconds = epochSeconds;
+      mPrevMillis = clockMillis();
+      mIsInit = true;
+      mLastSyncTime = epochSeconds;
+
+      if (mBackupClock != mReferenceClock) {
+        backupNow(epochSeconds);
+      }
+    }
+
+    Clock* const mReferenceClock;
+    Clock* const mBackupClock;
 
     mutable acetime_t mEpochSeconds = 0; // time presented to the user
-    mutable uint16_t mPrevMillis = 0;  // lower 16-bits of millis()
-    bool mIsInit = false; // true if setNow() or sync() was successful
-    acetime_t mLastSyncTime = 0; // time when last synced
+    mutable uint16_t mPrevMillis = 0;  // lower 16-bits of clockMillis()
+    bool mIsInit = false; // true if setNow() or syncNow() was successful
+    acetime_t mLastSyncTime = kInvalidSeconds; // time when last synced
 };
 
 }

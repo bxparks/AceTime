@@ -16,7 +16,7 @@ using namespace ace_time::clock;
 // ZoneProcessor instance should be created statically at initialization time.
 static BasicZoneProcessor pacificProcessor;
 
-static SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
+static SystemClockLoop systemClock(nullptr /*sync*/, nullptr /*backup*/);
 
 void setup() {
   delay(1000);

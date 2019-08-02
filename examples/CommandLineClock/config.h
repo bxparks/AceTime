@@ -10,7 +10,7 @@
 #define TIME_SOURCE_TYPE_NTP 2
 #define TIME_SOURCE_TYPE_BOTH 3
 
-// Determine how to sync the SystemClock.
+// Determine the type of SystemClock.
 #define SYNC_TYPE_MANUAL 0
 #define SYNC_TYPE_COROUTINE 1
 #define SYNC_TYPE SYNC_TYPE_MANUAL

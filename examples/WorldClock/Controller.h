@@ -23,15 +23,15 @@ class Controller {
 
     /**
      * Constructor.
-     * @param timeKeeper source of the current time
+     * @param clock source of the current time
      * @param crcEeprom stores objects into the EEPROM with CRC
      * @param presenter renders the date and time info to the screen
      */
-    Controller(TimeKeeper& timeKeeper, hw::CrcEeprom& crcEeprom,
+    Controller(Clock& clock, hw::CrcEeprom& crcEeprom,
             Presenter& presenter0, Presenter& presenter1, Presenter& presenter2,
             const TimeZone& tz0, const TimeZone& tz1, const TimeZone& tz2,
             const char* name0, const char* name1, const char* name2):
-        mTimeKeeper(timeKeeper),
+        mClock(clock),
         mCrcEeprom(crcEeprom),
         mPresenter0(presenter0),
         mPresenter1(presenter1),
@@ -117,7 +117,7 @@ class Controller {
       switch (mMode) {
         case MODE_DATE_TIME:
           mChangingDateTime = ZonedDateTime::forEpochSeconds(
-              mTimeKeeper.getNow(), mClockInfo0.timeZone);
+              mClock.getNow(), mClockInfo0.timeZone);
           mSecondFieldCleared = false;
           mMode = MODE_CHANGE_YEAR;
           break;
@@ -249,7 +249,7 @@ class Controller {
         case MODE_CHANGE_SECOND:
           if (!mSecondFieldCleared) {
             ZonedDateTime dt = ZonedDateTime::forEpochSeconds(
-                mTimeKeeper.getNow(), TimeZone());
+                mClock.getNow(), TimeZone());
             mChangingDateTime.second(dt.second());
           }
           break;
@@ -274,7 +274,7 @@ class Controller {
         case MODE_DATE_TIME:
         case MODE_CLOCK_INFO:
         case MODE_ABOUT: {
-          acetime_t now = mTimeKeeper.getNow();
+          acetime_t now = mClock.getNow();
           mPresenter0.update(mMode, now, mBlinkShowState, mSuppressBlink,
               mClockInfo0);
           mPresenter1.update(mMode, now, mBlinkShowState, mSuppressBlink,
@@ -323,7 +323,7 @@ class Controller {
 
     /** Save the current UTC ZonedDateTime to the RTC. */
     void saveDateTime() {
-      mTimeKeeper.setNow(mChangingDateTime.toEpochSeconds());
+      mClock.setNow(mChangingDateTime.toEpochSeconds());
     }
 
     void saveClockInfo() {
@@ -353,7 +353,7 @@ class Controller {
     Controller(const Controller&) = delete;
     Controller& operator=(const Controller&) = delete;
 
-    TimeKeeper& mTimeKeeper;
+    Clock& mClock;
     hw::CrcEeprom& mCrcEeprom;
     Presenter& mPresenter0;
     Presenter& mPresenter1;

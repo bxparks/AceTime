@@ -3,22 +3,20 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#ifndef ACE_TIME_SYSTEM_CLOCK_SYNC_LOOP_H
-#define ACE_TIME_SYSTEM_CLOCK_SYNC_LOOP_H
+#ifndef ACE_TIME_SYSTEM_CLOCK_LOOP_H
+#define ACE_TIME_SYSTEM_CLOCK_LOOP_H
 
 #include <stdint.h>
 #include "SystemClock.h"
-
-extern "C" unsigned long millis();
 
 namespace ace_time {
 namespace clock {
 
 /**
- * A class that that syncs the SystemClock with its mSyncTimeProvider. The call
- * to mSyncTimeProvider will be a blocking call which can be a problem for time
- * providers like NtpTimeProvider which makes a network request. If this is a
- * problem, use SystemClockSyncCoroutine instead.
+ * A subclass of SystemClock that sync with its mReferenceClock using a
+ * blocking mReferenceClock->getNow() call. The blocking call can be a problem
+ * for clocks like NtpClock which makes a network request. If this is a
+ * problem, use SystemClockCoroutine instead.
  *
  * Initial syncing occurs at initialSyncPeriodSeconds interval, until the
  * first successful sync, then subsequent syncing occurs at syncPeriodSeconds
@@ -26,47 +24,55 @@ namespace clock {
  * request fails, increasing from initialSyncPeriodSeconds to until a maximum
  * of syncPeriodSeconds.
  */
-class SystemClockSyncLoop {
+class SystemClockLoop: public SystemClock {
   public:
     /**
      * Constructor.
      *
-     * @param systemClock the system time keeper to sync up
+     * @param referenceClock The authoritative source of the time. If this is
+     *    null, the object relies just on clockMillis() and the user to set the
+     *    proper time using setNow().
+     * @param backupClock An RTC chip which continues to keep time
+     *    even when power is lost. Can be null.
      * @param syncPeriodSeconds seconds between normal sync attempts
      *    (default 3600)
      * @param initialSyncPeriodSeconds seconds between sync attempts when
-     *    the systemClock is not initialized (default 5)
+     *    the systemClock is not initialized (default 5), exponentially
+     *    increasing (2X) at each attempt until syncPeriodSeconds is reached
      */
-    explicit SystemClockSyncLoop(SystemClock& systemClock,
-          uint16_t syncPeriodSeconds = 3600,
-          uint16_t initialSyncPeriodSeconds = 5):
-      mSystemClock(systemClock),
+    explicit SystemClockLoop(
+        Clock* referenceClock /* nullable */,
+        Clock* backupClock /* nullable */,
+        uint16_t syncPeriodSeconds = 3600,
+        uint16_t initialSyncPeriodSeconds = 5):
+      SystemClock(referenceClock, backupClock),
       mSyncPeriodSeconds(syncPeriodSeconds),
       mCurrentSyncPeriodSeconds(initialSyncPeriodSeconds) {}
 
     /**
      * Call this from the global loop() method. This uses a blocking call to
-     * the SystemClock.mSyncTimeProvider.
+     * the mReferenceClock.
      */
     void loop() {
-      if (mSystemClock.mSyncTimeProvider == nullptr) return;
+      if (mReferenceClock == nullptr) return;
 
-      unsigned long nowMillis = millis();
+      unsigned long nowMillis = clockMillis();
       unsigned long timeSinceLastSync = nowMillis - mLastSyncMillis;
 
       if (timeSinceLastSync >= mCurrentSyncPeriodSeconds * 1000UL
-          || mSystemClock.getNow() == 0) {
-        acetime_t nowSeconds = mSystemClock.mSyncTimeProvider->getNow();
+          || getNow() == kInvalidSeconds) {
+        acetime_t nowSeconds = mReferenceClock->getNow();
 
-        if (nowSeconds == 0) {
-          // retry with exponential backoff
+        if (nowSeconds == kInvalidSeconds) {
+          // subsequent loop() retries with an exponential backoff, until a
+          // maximum of mSyncPeriodSeconds is reached.
           if (mCurrentSyncPeriodSeconds >= mSyncPeriodSeconds / 2) {
             mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
           } else {
             mCurrentSyncPeriodSeconds *= 2;
           }
         } else {
-          mSystemClock.sync(nowSeconds);
+          syncNow(nowSeconds);
           mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
         }
 
@@ -79,20 +85,18 @@ class SystemClockSyncLoop {
      * debugging purposes.
      */
     uint16_t getSecondsSinceLastSync() const {
-      unsigned long elapsedMillis = millis() - mLastSyncMillis;
+      unsigned long elapsedMillis = clockMillis() - mLastSyncMillis;
       return elapsedMillis / 1000;
     }
 
   private:
     // disable copy constructor and assignment operator
-    SystemClockSyncLoop(const SystemClockSyncLoop&) = delete;
-    SystemClockSyncLoop& operator=(const SystemClockSyncLoop&) = delete;
+    SystemClockLoop(const SystemClockLoop&) = delete;
+    SystemClockLoop& operator=(const SystemClockLoop&) = delete;
 
-    SystemClock& mSystemClock;
     uint16_t const mSyncPeriodSeconds;
-
-    unsigned long mLastSyncMillis = 0; // should be the same type as millis()
     uint16_t mCurrentSyncPeriodSeconds;
+    unsigned long mLastSyncMillis = 0;
 };
 
 }

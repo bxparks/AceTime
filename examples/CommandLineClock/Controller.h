@@ -11,7 +11,13 @@ using namespace ace_time::clock;
 
 class Controller {
   public:
-    Controller(PersistentStore& persistentStore, SystemClock& systemClock):
+  #if SYNC_TYPE == SYNC_TYPE_MANUAL
+    Controller(PersistentStore& persistentStore,
+        SystemClockLoop& systemClock):
+  #else
+    Controller(PersistentStore& persistentStore,
+        SystemClockCoroutine& systemClock):
+  #endif
         mPersistentStore(persistentStore),
         mSystemClock(systemClock)
       #if ENABLE_TIME_ZONE_TYPE_BASIC
@@ -84,7 +90,7 @@ class Controller {
     TimeZone& getTimeZone() { return mTimeZone; }
 
   #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
-    /** Set the wifi credentials and setup the NtpTimeProvider. */
+    /** Set the wifi credentials and setup the NtpClock. */
     void setWiFi(const char* ssid, const char* password) {
       strncpy(mStoredInfo.ssid, ssid, StoredInfo::kSsidMaxLength);
       mStoredInfo.ssid[StoredInfo::kSsidMaxLength - 1] = '\0';
@@ -94,12 +100,12 @@ class Controller {
     }
   #endif
 
-    /** Set the current time of the system time keeper. */
+    /** Set the current time of the system clock. */
     void setNow(acetime_t now) {
       mSystemClock.setNow(now);
     }
 
-    /** Return the current time from the system time keeper. */
+    /** Return the current time from the system clock. */
     ZonedDateTime getCurrentDateTime() const {
       return ZonedDateTime::forEpochSeconds(
           mSystemClock.getNow(), mTimeZone);
@@ -115,8 +121,8 @@ class Controller {
     bool isDst() const { return mTimeZone.isDst(); }
 
     /** Force SystemClock to sync. */
-    void sync() {
-      mSystemClock.setup();
+    void forceSync() {
+      mSystemClock.forceSync();
     }
 
   #if ENABLE_TIME_ZONE_TYPE_BASIC
@@ -209,7 +215,11 @@ class Controller {
     }
 
     PersistentStore& mPersistentStore;
-    SystemClock& mSystemClock;
+  #if SYNC_TYPE == SYNC_TYPE_MANUAL
+    SystemClockLoop& mSystemClock;
+  #else
+    SystemClockCoroutine& mSystemClock;
+  #endif
 
   #if ENABLE_TIME_ZONE_TYPE_BASIC
     BasicZoneManager<1> mBasicZoneManager;;

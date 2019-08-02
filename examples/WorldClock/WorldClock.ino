@@ -43,12 +43,11 @@ static const uint16_t EEPROM_SIZE = sizeof(StoredInfo) + sizeof(acetime_t);
 hw::CrcEeprom crcEeprom;
 
 //------------------------------------------------------------------
-// Configure various TimeKeepers and TimeProviders.
+// Configure various Clocks.
 //------------------------------------------------------------------
 
-DS3231TimeKeeper dsTimeKeeper;
-SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
-SystemClockSyncCoroutine systemClockSync(systemClock);
+DS3231Clock dsClock;
+SystemClockCoroutine systemClock(&dsClock, &dsClock);
 
 //------------------------------------------------------------------
 // Configure OLED display using SSD1306Ascii.
@@ -217,13 +216,10 @@ void setup() {
   setupAceButton();
   setupOled();
 
-  dsTimeKeeper.setup();
+  dsClock.setup();
   systemClock.setup();
 
   controller.setup();
-
-  systemClockSync.setupCoroutine("s");
-  CoroutineScheduler::setup();
 
 #if ENABLE_SERIAL == 1
   SERIAL_PORT_MONITOR.println(F("setup(): end"));
@@ -238,5 +234,5 @@ void loop() {
   // call CoroutineScheduler::loop();
   updateController.runCoroutine();
   checkButton.runCoroutine();
-  systemClockSync.runCoroutine();
+  systemClock.runCoroutine();
 }
