@@ -3,14 +3,12 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#ifndef ACE_TIME_SYSTEM_CLOCK_SYNC_COROUTINE_H
-#define ACE_TIME_SYSTEM_CLOCK_SYNC_COROUTINE_H
+#ifndef ACE_TIME_SYSTEM_CLOCK_COROUTINE_H
+#define ACE_TIME_SYSTEM_CLOCK_COROUTINE_H
 
 #include <stdint.h>
 #include "../common/TimingStats.h"
 #include "SystemClock.h"
-
-extern "C" unsigned long millis();
 
 class SystemClockSyncCoroutineTest;
 
@@ -18,36 +16,41 @@ namespace ace_time {
 namespace clock {
 
 /**
- * A coroutine that syncs the SystemClock with its mSyncTimeProvider. The
- * call to mSyncTimeProvider is asynchronous, which is helpful when the
- * syncTimeProvider issues a network request to an NTP server.
+ * A version of SystemClock that mixes in the ace_routine::Coroutine class so
+ * that that the non-block methods of mReferenceClock are called. This is
+ * helpful when the referenceClock issues a network request to an NTP server.
  *
- * Initially, the class attempts to sync with its syncTimeProvider every
+ * Initially, the class attempts to sync with its referenceClock every
  * initialSyncPeriodSeconds. If the request fails, then it retries with an
  * exponential backoff (doubling the delay every iteration), until the sync
  * period becomes greater than syncPeriodSeconds, then the delay is set
  * permanently to syncPeriodSeconds.
  */
-class SystemClockSyncCoroutine: public ace_routine::Coroutine {
+class SystemClockCoroutine: public SystemClock, ace_routine::Coroutine {
   public:
+    static const uint8_t kStatusSent = 0;
+    static const uint8_t kStatusOk = 1;
+    static const uint8_t kStatusTimedOut = 2;
+
     /**
      * Constructor.
      *
-     * @param systemClock the system time keeper to sync up
      * @param syncPeriodSeconds seconds between normal sync attempts
      *    (default 3600)
      * @param initialSyncPeriodSeconds seconds between sync attempts when
      *    the systemClock is not initialized (default 5)
      * @param requestTimeoutMillis number of milliseconds before the request to
-     *    syncTimeProvider times out
+     *    referenceClock times out
      * @param timingStats internal statistics
      */
-    explicit SystemClockSyncCoroutine(SystemClock& systemClock,
+    explicit SystemClockCoroutine(
+        TimeProvider* referenceClock /* nullable */,
+        TimeKeeper* backupClock /* nullable */,
         uint16_t syncPeriodSeconds = 3600,
         uint16_t initialSyncPeriodSeconds = 5,
         uint16_t requestTimeoutMillis = 1000,
         common::TimingStats* timingStats = nullptr):
-      mSystemClock(systemClock),
+      SystemClock(referenceClock, backupClock),
       mSyncPeriodSeconds(syncPeriodSeconds),
       mRequestTimeoutMillis(requestTimeoutMillis),
       mTimingStats(timingStats),
@@ -61,16 +64,17 @@ class SystemClockSyncCoroutine: public ace_routine::Coroutine {
      * register this coroutine into the CoroutineScheduler.
      */
     int runCoroutine() override {
-      if (mSystemClock.mSyncTimeProvider == nullptr) return 0;
+      if (mReferenceClock == nullptr) return 0;
 
       COROUTINE_LOOP() {
         // Send request
-        mSystemClock.mSyncTimeProvider->sendRequest();
-        mRequestStartTime = millis();
+        mReferenceClock->sendRequest();
+        mRequestStartTime = ace_routine::Coroutine::millis();
+        mRequestStatus = kStatusSent;
 
         // Wait for request
         while (true) {
-          if (mSystemClock.mSyncTimeProvider->isResponseReady()) {
+          if (mReferenceClock->isResponseReady()) {
             mRequestStatus = kStatusOk;
             break;
           }
@@ -79,7 +83,8 @@ class SystemClockSyncCoroutine: public ace_routine::Coroutine {
             // Local variable waitTime must be scoped with {} so that the goto
             // in COROUTINE_LOOP() skip past it in clang++. g++ seems to be
             // fine without it.
-            uint16_t waitTime = millis() - mRequestStartTime;
+            uint16_t waitTime = ace_routine::Coroutine::millis()
+                - mRequestStartTime;
             if (waitTime >= mRequestTimeoutMillis) {
               mRequestStatus = kStatusTimedOut;
               break;
@@ -91,13 +96,13 @@ class SystemClockSyncCoroutine: public ace_routine::Coroutine {
 
         // Process the response
         if (mRequestStatus == kStatusOk) {
-          acetime_t nowSeconds =
-              mSystemClock.mSyncTimeProvider->readResponse();
-          uint16_t elapsedTime = millis() - mRequestStartTime;
+          acetime_t nowSeconds = mReferenceClock->readResponse();
+          uint16_t elapsedTime = ace_routine::Coroutine::millis()
+              - mRequestStartTime;
           if (mTimingStats != nullptr) {
             mTimingStats->update(elapsedTime);
           }
-          mSystemClock.sync(nowSeconds);
+          syncNow(nowSeconds);
           mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
         }
 
@@ -116,26 +121,24 @@ class SystemClockSyncCoroutine: public ace_routine::Coroutine {
       }
     }
 
+    /** Return the current request status. Mostly for debugging. */
+    uint8_t getRequestStatus() const { return mRequestStatus; }
+
   private:
     friend class ::SystemClockSyncCoroutineTest;
 
     // disable copy constructor and assignment operator
-    SystemClockSyncCoroutine(const SystemClockSyncCoroutine&) = delete;
-    SystemClockSyncCoroutine& operator=(const SystemClockSyncCoroutine&) =
-        delete;
+    SystemClockCoroutine(const SystemClockCoroutine&) = delete;
+    SystemClockCoroutine& operator=(const SystemClockCoroutine&) = delete;
 
-    static const uint8_t kStatusOk = 0;
-    static const uint8_t kStatusTimedOut = 1;
-
-    SystemClock& mSystemClock;
     uint16_t const mSyncPeriodSeconds;
     uint16_t const mRequestTimeoutMillis;
     common::TimingStats* const mTimingStats;
 
     uint16_t mRequestStartTime;
     uint16_t mCurrentSyncPeriodSeconds;
-    uint8_t mRequestStatus;
     uint16_t mDelayLoopCounter;
+    uint8_t mRequestStatus;
 };
 
 }

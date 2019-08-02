@@ -21,8 +21,8 @@ namespace clock {
  * since the AceTime epoch of 2000-01-01T00:00:00Z.
  *
  * The built-in millis() is not accurate, so this class allows a periodic
- * sync using the (presumably) more accurate syncTimeProvider. The current
- * time can be periodically backed up into the backupTimeKeeper which is
+ * sync using the (presumably) more accurate referenceClock. The current
+ * time can be periodically backed up into the backupClock which is
  * expected to be an RTC chip that continues to keep time during power loss.
  *
  * The value of the previous system time millis() is stored internally as
@@ -33,7 +33,7 @@ namespace clock {
  * seconds. The easiest way to do this is to call it from the global loop()
  * method.
  *
- * There are 2 ways to perform syncing from the syncTimeProvider:
+ * There are 2 ways to perform syncing from the referenceClock:
  *
  * 1) Create an instance of SystemClockSyncCoroutine and register it with the
  * CoroutineSchedule so that it runs periodically. The
@@ -50,22 +50,10 @@ namespace clock {
 class SystemClock: public TimeKeeper {
   public:
 
-    /**
-     * @param syncTimeProvider The authoritative source of the time. Can be
-     * null in which case the objec relies just on millis() and the user
-     * to set the proper time using setNow().
-     * @param backupTimeKeeper An RTC chip which continues to keep time
-     * even when power is lost. Can be null.
-     */
-    explicit SystemClock(
-            TimeProvider* syncTimeProvider /* nullable */,
-            TimeKeeper* backupTimeKeeper /* nullable */):
-        mSyncTimeProvider(syncTimeProvider),
-        mBackupTimeKeeper(backupTimeKeeper) {}
-
+    /** Attempt to retrieve the time from the backupClock if it exists. */
     void setup() {
-      if (mBackupTimeKeeper != nullptr) {
-        setNow(mBackupTimeKeeper->getNow());
+      if (mBackupClock != nullptr) {
+        setNow(mBackupClock->getNow());
       }
     }
 
@@ -95,19 +83,69 @@ class SystemClock: public TimeKeeper {
       mIsInit = true;
       mLastSyncTime = epochSeconds;
       backupNow(epochSeconds);
+      // TODO: If timeProvider is a timeKeeper, then set the external
+      // timeKeeper as well.
+    }
+
+    /** Force a sync with the mReferenceClock. */
+    void forceSync() {
+      acetime_t nowSeconds = mReferenceClock->getNow();
+      syncNow(nowSeconds);
+    }
+
+    /**
+     * Return the time (seconds since Epoch) of the last valid sync() call.
+     * Returns kInvalidSeconds if never synced.
+     */
+    acetime_t getLastSyncTime() const {
+      return mLastSyncTime;
+    }
+
+    /** Return true if initialized by setNow() or syncNow(). */
+    bool isInit() const { return mIsInit; }
+
+  protected:
+    // disable copy constructor and assignment operator
+    SystemClock(const SystemClock&) = delete;
+    SystemClock& operator=(const SystemClock&) = delete;
+
+    /** Return the Arduino millis(). Override for unit testing. */
+    virtual unsigned long millis() const { return ::millis(); }
+
+    /**
+     * @param referenceClock The authoritative source of the time. Can be
+     * null in which case the objec relies just on millis() and the user
+     * to set the proper time using setNow().
+     * @param backupClock An RTC chip which continues to keep time
+     * even when power is lost. Can be null.
+     */
+    explicit SystemClock(
+          TimeProvider* referenceClock /* nullable */,
+          TimeKeeper* backupClock /* nullable */):
+        mReferenceClock(referenceClock),
+        mBackupClock(backupClock) {}
+
+    /**
+     * Write the nowSeconds to the backupClock (which can be an RTC that has
+     * non-volatile memory, or simply flash memory which emulates a backupClock.
+     */
+    void backupNow(acetime_t nowSeconds) {
+      if (mBackupClock != nullptr) {
+        mBackupClock->setNow(nowSeconds);
+      }
     }
 
     /**
      * Similar to setNow() except that backupNow() is called only if the
-     * backupTimeKeeper is different from the syncTimeKeeper. This prevents us
+     * backupClock is different from the syncTimeKeeper. This prevents us
      * from retrieving the time from the RTC, then saving it right back again,
      * with a drift each time it is saved back.
      *
-     * TODO: Implement a more graceful sync() algorithm which shifts only a few
-     * milliseconds per iteration, and which guarantees that the clock never
-     * goes backwards in time.
+     * TODO: Implement a more graceful syncNow() algorithm which shifts only a
+     * few milliseconds per iteration, and which guarantees that the clock
+     * never goes backwards in time.
      */
-    void sync(acetime_t epochSeconds) {
+    void syncNow(acetime_t epochSeconds) {
       if (epochSeconds == kInvalidSeconds) return;
       if (mEpochSeconds == epochSeconds) return;
 
@@ -116,48 +154,18 @@ class SystemClock: public TimeKeeper {
       mIsInit = true;
       mLastSyncTime = epochSeconds;
 
-      if (mBackupTimeKeeper != mSyncTimeProvider) {
+      if (mBackupClock != mReferenceClock) {
         backupNow(epochSeconds);
       }
     }
 
-    /**
-     * Return the time (seconds since Epoch) of the last valid sync() call.
-     * Returns 0 if never synced.
-     */
-    acetime_t getLastSyncTime() const {
-      return mLastSyncTime;
-    }
-
-    /** Return true if initialized by setNow() or sync(). */
-    bool isInit() const { return mIsInit; }
-
-  protected:
-    /** Return the Arduino millis(). Override for unit testing. */
-    virtual unsigned long millis() const { return ::millis(); }
-
-  private:
-    friend class SystemClockSyncCoroutine;
-    friend class SystemClockSyncLoop;
-
-    /**
-     * Write the nowSeconds to the backup TimeKeeper (which can be an RTC that
-     * has non-volatile memory, or simply flash memory which emulates a backup
-     * TimeKeeper.
-     */
-    void backupNow(acetime_t nowSeconds) {
-      if (mBackupTimeKeeper != nullptr) {
-        mBackupTimeKeeper->setNow(nowSeconds);
-      }
-    }
-
-    const TimeProvider* const mSyncTimeProvider;
-    TimeKeeper* const mBackupTimeKeeper;
+    const TimeProvider* const mReferenceClock;
+    TimeKeeper* const mBackupClock;
 
     mutable acetime_t mEpochSeconds = 0; // time presented to the user
     mutable uint16_t mPrevMillis = 0;  // lower 16-bits of millis()
-    bool mIsInit = false; // true if setNow() or sync() was successful
-    acetime_t mLastSyncTime = 0; // time when last synced
+    bool mIsInit = false; // true if setNow() or syncNow() was successful
+    acetime_t mLastSyncTime = kInvalidSeconds; // time when last synced
 };
 
 }

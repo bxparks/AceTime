@@ -11,7 +11,13 @@ using namespace ace_time::clock;
 
 class Controller {
   public:
-    Controller(PersistentStore& persistentStore, SystemClock& systemClock):
+  #if SYNC_TYPE == SYNC_TYPE_MANUAL
+    Controller(PersistentStore& persistentStore,
+        SystemClockLoop& systemClock):
+  #else
+    Controller(PersistentStore& persistentStore,
+        SystemClockCoroutine& systemClock):
+  #endif
         mPersistentStore(persistentStore),
         mSystemClock(systemClock)
       #if ENABLE_TIME_ZONE_TYPE_BASIC
@@ -115,8 +121,8 @@ class Controller {
     bool isDst() const { return mTimeZone.isDst(); }
 
     /** Force SystemClock to sync. */
-    void sync() {
-      mSystemClock.setup();
+    void forceSync() {
+      mSystemClock.forceSync();
     }
 
   #if ENABLE_TIME_ZONE_TYPE_BASIC
@@ -209,7 +215,11 @@ class Controller {
     }
 
     PersistentStore& mPersistentStore;
-    SystemClock& mSystemClock;
+  #if SYNC_TYPE == SYNC_TYPE_MANUAL
+    SystemClockLoop& mSystemClock;
+  #else
+    SystemClockCoroutine& mSystemClock;
+  #endif
 
   #if ENABLE_TIME_ZONE_TYPE_BASIC
     BasicZoneManager<1> mBasicZoneManager;;

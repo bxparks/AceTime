@@ -50,12 +50,11 @@
 #include "ace_time/clock/TimeKeeper.h"
 #include "ace_time/clock/NtpTimeProvider.h"
 #include "ace_time/clock/DS3231TimeKeeper.h"
-#include "ace_time/clock/SystemClock.h"
-#include "ace_time/clock/SystemClockSyncLoop.h"
+#include "ace_time/clock/SystemClockLoop.h"
 
 // activate only if <AceRoutine.h> is included before this header
 #ifdef ACE_ROUTINE_VERSION
-  #include "ace_time/clock/SystemClockSyncCoroutine.h"
+  #include "ace_time/clock/SystemClockCoroutine.h"
 #endif
 
 // Version format: xxyyzz == "xx.yy.zz"

@@ -60,22 +60,22 @@ using namespace ace_time::clock;
 // Configure RTC and TimeKeeper
 //---------------------------------------------------------------------------
 
-#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
-  DS3231TimeKeeper dsTimeKeeper;
-  SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper /*backup*/);
-#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
-  NtpTimeProvider ntpTimeProvider;
-  SystemClock systemClock(&ntpTimeProvider, nullptr /*backup*/);
-#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NONE
-  SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
+#if SYNC_TYPE == SYNC_TYPE_COROUTINE
+  #define SYSTEM_CLOCK SystemClockCoroutine
 #else
-  #error Unknown time keeper option
+  #define SYSTEM_CLOCK SystemClockLoop
 #endif
 
-#if SYNC_TYPE == SYNC_TYPE_COROUTINE
-  SystemClockSyncCoroutine systemClockSync(systemClock);
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
+  DS3231TimeKeeper dsTimeKeeper;
+  SYSTEM_CLOCK systemClock(&dsTimeKeeper, &dsTimeKeeper /*backup*/);
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
+  NtpTimeProvider ntpTimeProvider;
+  SYSTEM_CLOCK systemClock(&ntpTimeProvider, nullptr /*backup*/);
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NONE
+  SYSTEM_CLOCK systemClock(nullptr /*sync*/, nullptr /*backup*/);
 #else
-  SystemClockSyncLoop systemClockSyncLoop(systemClock);
+  #error Unknown time keeper option
 #endif
 
 //---------------------------------------------------------------------------
@@ -243,7 +243,7 @@ class SyncCommand: public CommandHandler {
     void run(Print& printer, int argc, const char* const* argv)
         const override {
       if (argc == 1) {
-        controller.sync();
+        controller.forceSync();
         printer.print(F("Date set to: "));
         ZonedDateTime currentDateTime = controller.getCurrentDateTime();
         currentDateTime.printTo(printer);
@@ -253,11 +253,12 @@ class SyncCommand: public CommandHandler {
 
       SHIFT_ARGC_ARGV(argc, argv);
       if (isArgEqual(argv[0], F("status"))) {
-        printer.print(F("Seconds since last sync: "));
+        printer.print(F("Last synced: "));
         if (mSystemClock.isInit()) {
           acetime_t ago = mSystemClock.getNow()
               - mSystemClock.getLastSyncTime();
-          printer.println(ago);
+          printer.print(ago);
+          printer.println(F("s ago"));
         } else {
           printer.println(F("<Never>"));
         }
@@ -334,6 +335,11 @@ class WifiCommand: public CommandHandler {
     }
 
     void connect(Print& printer) const {
+      if (! controller.isStoredInfoValid()) {
+        printer.println(F("Invalid ssid and password"));
+        return;
+      }
+
       const StoredInfo& storedInfo = mController.getStoredInfo();
       const char* ssid = storedInfo.ssid;
       const char* password = storedInfo.password;
@@ -427,23 +433,20 @@ void setup() {
   controller.setup();
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
-/*
-  if (controller.isStoredInfoValid()) {
-    const StoredInfo& storedInfo = controller.getStoredInfo();
-    ntpTimeProvider.setup(storedInfo.ssid, storedInfo.password);
-  }
-*/
+  Serial.println(F("Automatically connecting to Wifi"));
+  wifiCommand.connect(SERIAL_PORT_MONITOR);
 #endif
 
   // insert coroutines into the scheduler
 #if SYNC_TYPE == SYNC_TYPE_COROUTINE
-  Serial.println(F("Setting up SystemTime*Coroutines"));
-  systemClockSync.setupCoroutine(F("systemClockSync"));
+  Serial.println(F("Setting up SystemClock coroutine"));
+  systemClock.setupCoroutine(F("systemClock"));
 #endif
 
   Serial.println(F("Setting up CommandManager"));
   commandManager.setupCoroutine(F("commandManager"));
 
+  Serial.println(F("Setting up CoroutineScheduler"));
   CoroutineScheduler::setup();
 
   SERIAL_PORT_MONITOR.println(F("setup(): end"));
@@ -452,7 +455,7 @@ void setup() {
 void loop() {
   systemClock.keepAlive();
 #if SYNC_TYPE == SYNC_TYPE_MANUAL
-  systemClockSyncLoop.loop();
+  systemClock.loop();
 #endif
 
   CoroutineScheduler::loop();
