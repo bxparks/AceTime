@@ -5,23 +5,25 @@
 // Configuration parameters.
 //---------------------------------------------------------------------------
 
+// Determine the type of referenceClock and backupClock of the SystemClock
 #define TIME_SOURCE_TYPE_NONE 0
 #define TIME_SOURCE_TYPE_DS3231 1
 #define TIME_SOURCE_TYPE_NTP 2
 #define TIME_SOURCE_TYPE_BOTH 3
+#define TIME_SOURCE_TYPE_UNIX 4
 
 // Determine the type of SystemClock.
-#define SYNC_TYPE_MANUAL 0
+#define SYNC_TYPE_LOOP 0
 #define SYNC_TYPE_COROUTINE 1
-#define SYNC_TYPE SYNC_TYPE_MANUAL
+#define SYNC_TYPE SYNC_TYPE_LOOP
 
 // ENABLE_TIME_ZONE_TYPE_BASIC and ENABLE_TIME_ZONE_TYPE_EXTENDED determines
 // which ZoneProcessor to support. Small boards like the Pro Micro (30kB
 // flash/2kB RAM) cannot support both BasicZoneProcessor and
 // ExtendedZoneProcessor at the same time.
 
-#if ! defined(ARDUINO)
-  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NONE
+#if defined(UNIX_HOST_DUINO)
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_UNIX
   #define ENABLE_TIME_ZONE_TYPE_BASIC 1
   #define ENABLE_TIME_ZONE_TYPE_EXTENDED 1
   #define ENABLE_EEPROM 0

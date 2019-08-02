@@ -66,14 +66,21 @@ using namespace ace_time::clock;
   #define SYSTEM_CLOCK SystemClockLoop
 #endif
 
-#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NONE
+  SYSTEM_CLOCK systemClock(nullptr /*reference*/, nullptr /*backup*/);
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
   DS3231Clock dsClock;
   SYSTEM_CLOCK systemClock(&dsClock, &dsClock /*backup*/);
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
   NtpClock ntpClock;
   SYSTEM_CLOCK systemClock(&ntpClock, nullptr /*backup*/);
-#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NONE
-  SYSTEM_CLOCK systemClock(nullptr /*sync*/, nullptr /*backup*/);
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_BOTH
+  DS3231Clock dsClock;
+  NtpClock ntpClock;
+  SYSTEM_CLOCK systemClock(&ntpClock, &dsClock);
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_UNIX
+  UnixClock unixClock;
+  SYSTEM_CLOCK systemClock(&unixClock, &unixClock);
 #else
   #error Unknown clock option
 #endif
@@ -414,16 +421,26 @@ void setup() {
   Wire.setClock(400000L);
 #endif
 
-#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
-  Serial.println(F("Setting up DS3231Clock"));
-  dsClock.setup();
-#endif
-
   Serial.println(F("Setting up PersistentStore"));
 #if defined(ARDUINO)
   persistentStore.setup();
 #else
   persistentStore.setup("commandline.dat");
+#endif
+
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
+  Serial.println(F("Setting up DS3231Clock"));
+  dsClock.setup();
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
+  Serial.println(F("Setting up NtpClock"));
+  ntpClock.setup();
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_BOTH
+  Serial.println(F("Setting up DS3231Clock and NtpClock"));
+  dsClock.setup();
+  ntpClock.setup();
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_UNIX
+  Serial.println(F("Setting up UnixClock"));
+  unixClock.setup();
 #endif
 
   Serial.println(F("Setting up SystemClock"));
@@ -453,7 +470,7 @@ void setup() {
 }
 
 void loop() {
-#if SYNC_TYPE == SYNC_TYPE_MANUAL
+#if SYNC_TYPE == SYNC_TYPE_LOOP
   systemClock.loop();
 #endif
 
