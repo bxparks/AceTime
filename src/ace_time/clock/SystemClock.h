@@ -20,35 +20,35 @@ namespace clock {
 
 /**
  * A Clock that uses the Arduino millis() function to advance the time
- * returned to the user. The real time is returned as the number of seconds
- * since the AceTime epoch of 2000-01-01T00:00:00Z.
+ * returned to the user. It has 2 major features:
  *
- * The built-in millis() is not accurate, so this class allows a periodic
- * sync using the (presumably) more accurate referenceClock. The current
- * time can be periodically backed up into the backupClock which is
- * expected to be an RTC chip that continues to keep time during power loss.
+ *    1) The built-in millis() is not accurate, so this class allows a periodic
+ *    sync using the (presumably) more accurate referenceClock.
+ *    2) The current time can be periodically backed up into the backupClock
+ *    which is expected to be an RTC chip that continues to keep time during
+ *    power loss. Upon (re)start, SystemClock::setup() reads back the time from
+ *    the backupClock if it exists.
  *
- * The value of the previous system time millis() is stored internally as
- * a uint16_t. That has 2 advantages: 1) it saves memory, 2) the upper bound of
- * the execution time of getNow() limited to 65 iterations. The disadvantage is
- * the that internal counter will rollover within 65.535 milliseconds. To
- * prevent that, keepAlive() must be called more frequently than every 65.536
- * seconds. The easiest way to do this is to call it from the global loop()
- * method.
+ * There are 2 maintenance tasks which this class must perform peridicallly:
  *
- * There are 2 ways to perform syncing from the referenceClock:
+ *    1) The value of the previous system time millis() is stored internally as
+ *    a uint16_t. That has 2 advantages: 1) it saves memory, 2) the upper bound
+ *    of the execution time of getNow() limited to 65 iterations. The
+ *    disadvantage is the that internal counter will rollover within 65.535
+ *    milliseconds. To prevent that, keepAlive() must be called more frequently
+ *    than every 65.536 seconds.
+ *    2) The current time can be synchronized to the referenceClock peridically.
+ *    Some reference clocks can take hundreds or thousands of milliseconds to
+ *    return, so it's important that the non-block methods of Clock are
+ *    used to synchronize to the reference clock.
  *
- * 1) Create an instance of SystemClockSyncCoroutine and register it with the
- * CoroutineSchedule so that it runs periodically. The
- * SystemClockSyncCoroutine::runCoroutine() method uses the non-blocking
- * sendRequest(), isResponseReady() and readResponse() methods of Clock
- * to retrieve the current time. Some clocks (e.g. NtpClock) can take 100s of
- * milliseconds to return, so using the coroutine infrastructure allows other
- * coroutines to continue executing.
+ * Two subclasses of SystemClock expose 2 different ways of performing these
+ * maintenance tasks.
  *
- * 2) Call the SystemClockSyncLoop::loop() method from the global loop()
- * function. This method uses the blocking Clock::getNow() method which
- * can take O(100) milliseconds for something like NtpClock.
+ *    1) Call SystemClockCoroutine::runCoroutine using the framework of
+ *    the AceRoutine library in the global loop() function.
+ *    2) Call the SystemClockLoop::loop() method from the global loop()
+ *    function.
  */
 class SystemClock: public Clock {
   public:
@@ -82,7 +82,7 @@ class SystemClock: public Clock {
     /** Force a sync with the mReferenceClock. */
     void forceSync() {
       acetime_t nowSeconds = mReferenceClock->getNow();
-      syncNow(nowSeconds);
+      setNow(nowSeconds);
     }
 
     /**
@@ -155,12 +155,12 @@ class SystemClock: public Clock {
      */
     void syncNow(acetime_t epochSeconds) {
       if (epochSeconds == kInvalidSeconds) return;
+      mLastSyncTime = epochSeconds;
       if (mEpochSeconds == epochSeconds) return;
 
       mEpochSeconds = epochSeconds;
       mPrevMillis = clockMillis();
       mIsInit = true;
-      mLastSyncTime = epochSeconds;
 
       if (mBackupClock != mReferenceClock) {
         backupNow(epochSeconds);
