@@ -2012,10 +2012,10 @@ class SystemClock: public Clock {
     acetime_t getNow() const override;
     void setNow(acetime_t epochSeconds) override;
 
+    bool isInit() const;
     void keepAlive();
     void forceSync();
     acetime_t getLastSyncTime() const;
-    bool isInit() const;
 
   protected:
     virtual unsigned long clockMillis() const { return ::millis(); }
@@ -2034,7 +2034,6 @@ class SystemClockLoop: public SystemClock {
         uint16_t initialSyncPeriodSeconds = 5);
 
     void loop();
-    uint16_t getSecondsSinceLastSync() const;
 };
 
 #if defined(ACE_ROUTINE_VERSION)

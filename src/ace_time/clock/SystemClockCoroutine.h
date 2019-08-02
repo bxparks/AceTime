@@ -101,8 +101,7 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
         // Process the response
         if (mRequestStatus == kStatusOk) {
           acetime_t nowSeconds = mReferenceClock->readResponse();
-          uint16_t elapsedTime = this->millis()
-              - mRequestStartTime;
+          uint16_t elapsedTime = this->millis() - mRequestStartTime;
           if (mTimingStats != nullptr) {
             mTimingStats->update(elapsedTime);
           }

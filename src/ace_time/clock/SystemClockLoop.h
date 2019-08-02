@@ -80,15 +80,6 @@ class SystemClockLoop: public SystemClock {
       }
     }
 
-    /**
-     * Return the number of seconds since last sync. Mostly for
-     * debugging purposes.
-     */
-    uint16_t getSecondsSinceLastSync() const {
-      unsigned long elapsedMillis = clockMillis() - mLastSyncMillis;
-      return elapsedMillis / 1000;
-    }
-
   private:
     // disable copy constructor and assignment operator
     SystemClockLoop(const SystemClockLoop&) = delete;

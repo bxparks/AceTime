@@ -170,10 +170,10 @@ class SystemClock: public Clock {
     Clock* const mReferenceClock;
     Clock* const mBackupClock;
 
-    mutable acetime_t mEpochSeconds = 0; // time presented to the user
+    mutable acetime_t mEpochSeconds = kInvalidSeconds;
+    acetime_t mLastSyncTime = kInvalidSeconds; // time when last synced
     mutable uint16_t mPrevMillis = 0;  // lower 16-bits of clockMillis()
     bool mIsInit = false; // true if setNow() or syncNow() was successful
-    acetime_t mLastSyncTime = kInvalidSeconds; // time when last synced
 };
 
 }
