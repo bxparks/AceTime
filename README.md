@@ -385,7 +385,7 @@ using namespace ace_time::clock;
 // ZoneProcessor instances should be created statically at initialization time.
 static BasicZoneProcessor pacificProcessor;
 
-SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
+static SystemClockLoop systemClock(nullptr /*reference*/, nullptr /*backup*/);
 
 void setup() {
   delay(1000);
@@ -415,10 +415,15 @@ void printCurrentTime() {
   Serial.println();
 }
 
+// Do NOT use delay() here.
 void loop() {
+  static acetime_t prevNow = systemClock.getNow();
   systemClock.loop();
-  printCurrentTime();
-  delay(2000);
+  acetime_t now = systemClock.getNow();
+  if (now - prevNow >= 2) {
+    printCurrentTime();
+    prevNow = now;
+  }
 }
 ```
 

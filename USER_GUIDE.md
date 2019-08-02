@@ -2226,14 +2226,17 @@ void setup() {
   systemClock.setup();
 }
 
+// do NOT use delay(), it breaks systemClock.loop()
 void loop() {
-  systemClock.loop();
-  acetime_t nowSeconds = systemClock.getNow();
+  static acetime_t prevNow = systemClock.getNow();
 
-  auto odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
-  odt.printTo(Serial);
-  delay(10000); // wait 10 seconds
+  systemClock.loop();
+  acetime_t now = systemClock.getNow();
+  if (now - prevNow >= 10) {
+    auto odt = OffsetDateTime::forEpochSeconds(
+        now, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
+    odt.printTo(Serial);
+  }
 }
 ```
 

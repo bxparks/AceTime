@@ -8,7 +8,7 @@
  *   ...
  */
 
-#include <AceRoutine.h>  // activates SystemClock coroutines
+#include <AceRoutine.h>  // activates SystemClockCoroutine
 #include <AceTime.h>
 
 using namespace ace_time;
@@ -21,14 +21,15 @@ static BasicZoneProcessor pacificProcessor;
 // The 'referenceClock' is set to nullptr, so systemClockSyncCoroutine does
 // not actually do anything. The purpose of this program is to show how
 // to structure the code if the 'referenceClock' was actually defined.
-SystemClockCoroutine systemClock(nullptr /*sync*/, nullptr /*backup*/);
-
-//------------------------------------------------------------------
+static SystemClockCoroutine systemClock(
+    nullptr /*reference*/, nullptr /*backup*/);
 
 void setup() {
+#if ! defined(UNIX_HOST_DUINO)
   delay(1000);
-  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
-  while (!SERIAL_PORT_MONITOR); // Wait until SERIAL_PORT_MONITOR is ready - Leonardo/Micro
+#endif
+  SERIAL_PORT_MONITOR.begin(115200);
+  while (!SERIAL_PORT_MONITOR); // Wait until ready - Leonardo/Micro
 
   systemClock.setup();
 
@@ -44,8 +45,6 @@ void setup() {
   systemClock.setupCoroutine(F("systemClock"));
   CoroutineScheduler::setup();
 }
-
-//------------------------------------------------------------------
 
 void printCurrentTime() {
   acetime_t now = systemClock.getNow();

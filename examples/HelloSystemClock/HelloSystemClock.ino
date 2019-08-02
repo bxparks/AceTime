@@ -16,10 +16,12 @@ using namespace ace_time::clock;
 // ZoneProcessor instance should be created statically at initialization time.
 static BasicZoneProcessor pacificProcessor;
 
-static SystemClockLoop systemClock(nullptr /*sync*/, nullptr /*backup*/);
+static SystemClockLoop systemClock(nullptr /*reference*/, nullptr /*backup*/);
 
 void setup() {
+#if ! defined(UNIX_HOST_DUINO)
   delay(1000);
+#endif
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Wait until ready - Leonardo/Micro
 
@@ -46,8 +48,13 @@ void printCurrentTime() {
   SERIAL_PORT_MONITOR.println();
 }
 
+// Do NOT use delay(), it breaks systemClock.loop()
 void loop() {
+  static acetime_t prevNow = systemClock.getNow();
   systemClock.loop();
-  printCurrentTime();
-  delay(2000);
+  acetime_t now = systemClock.getNow();
+  if (now - prevNow >= 2) {
+    printCurrentTime();
+    prevNow = now;
+  }
 }
