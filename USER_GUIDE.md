@@ -1797,9 +1797,6 @@ This is an abstract class which provides 3 functionalities:
 * `acetime_ getNow()`: get current time (blocking)
 * `sendRequest()`, `isResponseReady()`, `readResponse()`: get current time (non-blocking)
 
-Some examples of the `Clock` is an NTP client, a GPS client, or a DS3231 RTC
-chip).
-
 ```C++
 namespace ace_time {
 namespace clock {
@@ -1819,6 +1816,9 @@ class Clock {
 }
 }
 ```
+
+Some examples of the `Clock` is an NTP client, a GPS client, or a DS3231 RTC
+chip).
 
 Not all clocks can implement the `setNow()` method (e.g. an NTP client)
 so the default implementation `Clock::setNow()` is a no-op. However, all clocks
@@ -1866,7 +1866,8 @@ class NtpClock: public Clock {
 };
 
 }
-} ```
+}
+```
 
 The constructor takes the name of the NTP server. The default value is
 `kNtpServerName` which is `us.pool.npt.org`. The default `kLocalPort` is set to
@@ -2081,7 +2082,7 @@ SystemClock*(nullptr, backupClock); // backupClock only
 SystemClock*(referenceClock, backupClock); // both clocks
 ```
 
-#### SystemClock Maintenance Tasks
+### SystemClock Maintenance Tasks
 
 There are 2 internal maintenance tasks that must be performed periodically.
 
@@ -2099,10 +2100,13 @@ I2C is relatively cheap. If the `referenceClock` is the `NtpClock`, the network
 connection is fairly expensive so maybe once every 1-12 hours might be
 advisable.
 
-The `SystemClock` provides 2 ways to perform this syncing:
+The `SystemClock` provides 2 subclasses which differ in the way they perform
+these maintenance tasks:
 
-* the `SystemClockLoop::loop()` method,
-* the `SystemClockCoroutine::runCoroutine()` using the AceRoutine library
+* the `SystemClockLoop` class uses the `::loop()` method which should be called
+  from the global `loop()` function, and
+* the `SystemClockCoroutine` class uses the `::runCoroutine()` method which
+  uses the AceRoutine library
 
 ### SystemClockLoop
 
@@ -2430,16 +2434,25 @@ Teensy 3.2 96MHz            |   2.750 |   22.390 |
 ----------------------------+---------+----------+
 ```
 
-### AVR Libc
+### C Time Library (time.h)
 
-The [AVR libc time
-library](https://www.nongnu.org/avr-libc/user-manual/group__avr__time.html), is
-based on the UNIX/POSIX time library. I have not tried to use it on an Arduino
-platform. There are 2 things going against it: First it works only on AVR
-processors, and I wanted a time library that worked across multiple processors
-(like the ESP8266 and ESP32). Second, the AVR time library is based on the
-[traditional C/Unix library methods](http://www.catb.org/esr/time-programming/)
-which can be difficult to understand.
+Some version of the standard Unix/C library `<time.h>` is available in *some*
+Arduino platforms, but not others:
+
+* The [AVR libc time
+  library](https://www.nongnu.org/avr-libc/user-manual/group__avr__time.html),
+  contains methods such as `gmtime()` to convert `time_t` integer into date time
+  components `struct tm`, and `mk_gmtime()` to convert components into a
+  `time_t` integer. The `time_t` integer is unsigned, and starts at
+  2000-01-01T00:00:00Z. There is no support for timezones.
+* The SAMD21 and Teensy platforms do not seem to have a `<time.h>` library.
+* The ESP8266 and ESP32 have a `<time.h>` library. There seems to be some
+  rudimentary support for POSIX formatted timezones. It does not have
+  the equivalent of the (non-standard) `mk_gmtime()` AVR function.
+
+These libraries are all based upon the [traditional C/Unix library
+methods](http://www.catb.org/esr/time-programming/) which can be difficult to
+understand.
 
 ### ezTime
 
