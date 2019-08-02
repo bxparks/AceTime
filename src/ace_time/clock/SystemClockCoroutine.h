@@ -11,6 +11,8 @@
 #include "../common/TimingStats.h"
 #include "SystemClock.h"
 
+class SystemClockCoroutineTest_runCoroutine;
+
 namespace ace_time {
 namespace clock {
 
@@ -138,7 +140,7 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
     uint8_t getRequestStatus() const { return mRequestStatus; }
 
   private:
-    friend class ::SystemClockCoroutineTest;
+    friend class ::SystemClockCoroutineTest_runCoroutine;
 
     // disable copy constructor and assignment operator
     SystemClockCoroutine(const SystemClockCoroutine&) = delete;

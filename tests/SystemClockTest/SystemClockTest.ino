@@ -139,68 +139,64 @@ class SystemClockCoroutineTest: public TestOnce {
       delete fakeMillis;
     }
 
-    void assertRunCoroutine() {
-      unsigned long millis = 0;
-      backupAndReferenceClock->isResponseReady(false);
-
-      // t = 0, sends request and waits for response
-      systemClock->runCoroutine();
-      assertTrue(systemClock->isYielding());
-
-      // retry with exponential backoff 10 times, doubling the delay on each
-      // iteration
-      uint16_t expectedDelaySeconds = 5;
-      for (int retries = 0; retries < 10; retries++) {
-        // t = +1 s, request timed out, delay for 5 sec
-        for (uint16_t i = 1; i <= expectedDelaySeconds; i++) {
-          millis += 1000;
-          fakeMillis->millis(millis);
-          systemClock->runCoroutine();
-          assertTrue(systemClock->isDelaying());
-        }
-
-        // t = +1 s, make another request and wait for response
-        millis += 1000;
-        fakeMillis->millis(millis);
-        systemClock->runCoroutine();
-        assertTrue(systemClock->isYielding());
-
-        expectedDelaySeconds *= 2;
-      }
-
-      // Final delay of 3600
-      expectedDelaySeconds = 3600;
-
-      // t = +1 s, request timed out, delay for 5 sec
-      for (uint16_t i = 1; i <= expectedDelaySeconds; i++) {
-        millis += 1000;
-        fakeMillis->millis(millis);
-        systemClock->runCoroutine();
-        assertTrue(systemClock->isDelaying());
-      }
-
-      // Make a new request and let it succeed
-      millis += 1000;
-      fakeMillis->millis(millis);
-      backupAndReferenceClock->isResponseReady(true);
-      backupAndReferenceClock->setNow(42);
-
-      // verify successful request
-      systemClock->runCoroutine();
-      assertTrue(systemClock->isDelaying());
-      assertEqual(systemClock->mRequestStatus, SystemClockCoroutine::kStatusOk);
-      assertEqual((acetime_t) 42, systemClock->getNow());
-      assertEqual((acetime_t) 42, systemClock->getLastSyncTime());
-      assertTrue(systemClock->isInit());
-    }
-
     FakeMillis* fakeMillis;
     FakeClock* backupAndReferenceClock;
     TestableSystemClockCoroutine* systemClock;
 };
 
-testF(SystemClockCoroutineTest, sync) {
-  assertRunCoroutine();
+testF(SystemClockCoroutineTest, runCoroutine) {
+  unsigned long millis = 0;
+  backupAndReferenceClock->isResponseReady(false);
+
+  // t = 0, sends request and waits for response
+  systemClock->runCoroutine();
+  assertTrue(systemClock->isYielding());
+
+  // retry with exponential backoff 10 times, doubling the delay on each
+  // iteration
+  uint16_t expectedDelaySeconds = 5;
+  for (int retries = 0; retries < 10; retries++) {
+    // t = +1 s, request timed out, delay for 5 sec
+    for (uint16_t i = 1; i <= expectedDelaySeconds; i++) {
+      millis += 1000;
+      fakeMillis->millis(millis);
+      systemClock->runCoroutine();
+      assertTrue(systemClock->isDelaying());
+    }
+
+    // t = +1 s, make another request and wait for response
+    millis += 1000;
+    fakeMillis->millis(millis);
+    systemClock->runCoroutine();
+    assertTrue(systemClock->isYielding());
+
+    expectedDelaySeconds *= 2;
+  }
+
+  // Final delay of 3600
+  expectedDelaySeconds = 3600;
+
+  // t = +1 s, request timed out, delay for 5 sec
+  for (uint16_t i = 1; i <= expectedDelaySeconds; i++) {
+    millis += 1000;
+    fakeMillis->millis(millis);
+    systemClock->runCoroutine();
+    assertTrue(systemClock->isDelaying());
+  }
+
+  // Make a new request and let it succeed
+  millis += 1000;
+  fakeMillis->millis(millis);
+  backupAndReferenceClock->isResponseReady(true);
+  backupAndReferenceClock->setNow(42);
+
+  // verify successful request
+  systemClock->runCoroutine();
+  assertTrue(systemClock->isDelaying());
+  assertEqual(systemClock->mRequestStatus, SystemClockCoroutine::kStatusOk);
+  assertEqual((acetime_t) 42, systemClock->getNow());
+  assertEqual((acetime_t) 42, systemClock->getLastSyncTime());
+  assertTrue(systemClock->isInit());
 }
 
 //---------------------------------------------------------------------------
