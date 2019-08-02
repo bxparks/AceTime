@@ -1,12 +1,12 @@
 #line 2 "SystemClockTest.ino"
 
 #include <AUnitVerbose.h>
-#include <AceRoutine.h> // enable SystemClockSyncCoroutine
+#include <AceRoutine.h> // enable SystemClockCoroutine
 #include <AceTime.h>
 #include <ace_time/testing/FakeMillis.h>
 #include <ace_time/testing/FakeTimeKeeper.h>
-#include <ace_time/testing/TestableSystemClock.h>
-#include <ace_time/testing/TestableSystemClockSyncCoroutine.h>
+#include <ace_time/testing/TestableSystemClockLoop.h>
+#include <ace_time/testing/TestableSystemClockCoroutine.h>
 
 using namespace aunit;
 using namespace ace_time;
@@ -17,79 +17,79 @@ using namespace ace_time::testing;
 //---------------------------------------------------------------------------
 
 // Verify that LocalTime::kInvalidSeconds is returned upon error
-test(SystemClockTest, invalidSeconds) {
+test(SystemClockLoopTest, invalidSeconds) {
   FakeMillis* fakeMillis = new FakeMillis();
-  FakeTimeKeeper* backupAndSyncTimeKeeper = new FakeTimeKeeper();
-  TestableSystemClock* systemClock = new TestableSystemClock(
-      backupAndSyncTimeKeeper, backupAndSyncTimeKeeper, fakeMillis);
+  FakeTimeKeeper* backupAndReferenceClock = new FakeTimeKeeper();
+  TestableSystemClockLoop* systemClock = new TestableSystemClockLoop(
+      backupAndReferenceClock, backupAndReferenceClock, fakeMillis);
   acetime_t now = systemClock->getNow();
   assertEqual(LocalTime::kInvalidSeconds, now);
 }
 
 //---------------------------------------------------------------------------
 
-class SystemClockTest: public TestOnce {
+class SystemClockLoopTest: public TestOnce {
   protected:
     void setup() override {
       fakeMillis = new FakeMillis();
-      backupAndSyncTimeKeeper = new FakeTimeKeeper();
-      systemClock = new TestableSystemClock(
-          backupAndSyncTimeKeeper, backupAndSyncTimeKeeper, fakeMillis);
-
+      backupAndReferenceClock = new FakeTimeKeeper();
+      systemClock = new TestableSystemClockLoop(
+          backupAndReferenceClock, backupAndReferenceClock, fakeMillis);
       systemClock->setup();
     }
 
     void teardown() override {
       delete systemClock;
-      delete backupAndSyncTimeKeeper;
+      delete backupAndReferenceClock;
       delete fakeMillis;
     }
 
     FakeMillis* fakeMillis;
-    FakeTimeKeeper* backupAndSyncTimeKeeper; // backup and sync time keeper
-    TestableSystemClock* systemClock;
+    FakeTimeKeeper* backupAndReferenceClock; // backup and sync time keeper
+    TestableSystemClockLoop* systemClock;
 };
 
-testF(SystemClockTest, setup) {
+testF(SystemClockLoopTest, setup) {
   assertEqual((acetime_t) 0, systemClock->getNow());
 
-  backupAndSyncTimeKeeper->setNow(100);
+  // Run setup() a second time and verify expected result
+  backupAndReferenceClock->setNow(100);
   systemClock->setup();
   assertEqual((acetime_t) 100, systemClock->getNow());
 }
 
-testF(SystemClockTest, backupNow) {
+testF(SystemClockLoopTest, backupNow) {
   assertEqual((acetime_t) 0, systemClock->getNow());
-  assertEqual((acetime_t) 0, backupAndSyncTimeKeeper->getNow());
+  assertEqual((acetime_t) 0, backupAndReferenceClock->getNow());
 
   unsigned long nowMillis = 1;
   fakeMillis->millis(nowMillis);
   systemClock->setNow(100);
 
   // setNow() caused a save to the backupTimeKeeper which happens to be the
-  // same backupAndSyncTimeKeeper
+  // same backupAndReferenceClock
   assertEqual((acetime_t) 100, systemClock->getNow());
-  assertEqual((acetime_t) 100, backupAndSyncTimeKeeper->getNow());
+  assertEqual((acetime_t) 100, backupAndReferenceClock->getNow());
 }
 
-testF(SystemClockTest, sync) {
+testF(SystemClockLoopTest, syncNow) {
   assertEqual((acetime_t) 0, systemClock->getNow());
   assertEqual((acetime_t) 0, systemClock->getLastSyncTime());
-  assertEqual((acetime_t) 0, backupAndSyncTimeKeeper->getNow());
+  assertEqual((acetime_t) 0, backupAndReferenceClock->getNow());
 
   unsigned long nowMillis = 1;
   fakeMillis->millis(nowMillis);
-  systemClock->sync(100);
+  systemClock->syncNow(100);
 
-  // sync() does NOT write to backupTimeKeeper because the sync and backup
+  // syncNow() does NOT write to backupTimeKeeper because the sync and backup
   // sources are identical, so it does not try to write the time back into
   // itself.
   assertEqual((acetime_t) 100, systemClock->getNow());
   assertEqual((acetime_t) 100, systemClock->getLastSyncTime());
-  assertEqual((acetime_t) 0, backupAndSyncTimeKeeper->getNow());
+  assertEqual((acetime_t) 0, backupAndReferenceClock->getNow());
 }
 
-testF(SystemClockTest, getNow) {
+testF(SystemClockLoopTest, getNow) {
   unsigned long nowMillis = 1;
 
   fakeMillis->millis(nowMillis);
@@ -120,36 +120,32 @@ testF(SystemClockTest, getNow) {
 
 //---------------------------------------------------------------------------
 
-// Create dedicated test class to allow friend access to private members of
-// SystemClockSyncCoroutine for testing purposes.
-class SystemClockSyncCoroutineTest: public TestOnce {
+// Currently only one test uses this class, so strictly this isn't necessary
+// but it's good to use the same pattern as SystemClockLoopTest.
+class SystemClockCoroutineTest: public TestOnce {
   protected:
     void setup() override {
       fakeMillis = new FakeMillis();
-      backupAndSyncTimeKeeper = new FakeTimeKeeper();
-      systemClock = new TestableSystemClock(
-          backupAndSyncTimeKeeper, backupAndSyncTimeKeeper, fakeMillis);
-      systemClockSyncCoroutine = new TestableSystemClockSyncCoroutine(
-          *systemClock, fakeMillis);
-
+      backupAndReferenceClock = new FakeTimeKeeper();
+      systemClock = new TestableSystemClockCoroutine(
+          backupAndReferenceClock, backupAndReferenceClock, fakeMillis);
       systemClock->setup();
-      systemClockSyncCoroutine->setupCoroutine("systemClockSyncCoroutine");
+      systemClock->setupCoroutine("systemClockCoroutine");
     }
 
     void teardown() override {
-      delete systemClockSyncCoroutine;
       delete systemClock;
-      delete backupAndSyncTimeKeeper;
+      delete backupAndReferenceClock;
       delete fakeMillis;
     }
 
     void assertRunCoroutine() {
       unsigned long millis = 0;
-      backupAndSyncTimeKeeper->isResponseReady(false);
+      backupAndReferenceClock->isResponseReady(false);
 
       // t = 0, sends request and waits for response
-      systemClockSyncCoroutine->runCoroutine();
-      assertTrue(systemClockSyncCoroutine->isYielding());
+      systemClock->runCoroutine();
+      assertTrue(systemClock->isYielding());
 
       // retry with exponential backoff 10 times, doubling the delay on each
       // iteration
@@ -159,15 +155,15 @@ class SystemClockSyncCoroutineTest: public TestOnce {
         for (uint16_t i = 1; i <= expectedDelaySeconds; i++) {
           millis += 1000;
           fakeMillis->millis(millis);
-          systemClockSyncCoroutine->runCoroutine();
-          assertTrue(systemClockSyncCoroutine->isDelaying());
+          systemClock->runCoroutine();
+          assertTrue(systemClock->isDelaying());
         }
 
         // t = +1 s, make another request and wait for response
         millis += 1000;
         fakeMillis->millis(millis);
-        systemClockSyncCoroutine->runCoroutine();
-        assertTrue(systemClockSyncCoroutine->isYielding());
+        systemClock->runCoroutine();
+        assertTrue(systemClock->isYielding());
 
         expectedDelaySeconds *= 2;
       }
@@ -179,33 +175,31 @@ class SystemClockSyncCoroutineTest: public TestOnce {
       for (uint16_t i = 1; i <= expectedDelaySeconds; i++) {
         millis += 1000;
         fakeMillis->millis(millis);
-        systemClockSyncCoroutine->runCoroutine();
-        assertTrue(systemClockSyncCoroutine->isDelaying());
+        systemClock->runCoroutine();
+        assertTrue(systemClock->isDelaying());
       }
 
       // Make a new request and let it succeed
       millis += 1000;
       fakeMillis->millis(millis);
-      backupAndSyncTimeKeeper->isResponseReady(true);
-      backupAndSyncTimeKeeper->setNow(42);
+      backupAndReferenceClock->isResponseReady(true);
+      backupAndReferenceClock->setNow(42);
 
       // verify successful request
-      systemClockSyncCoroutine->runCoroutine();
-      assertTrue(systemClockSyncCoroutine->isDelaying());
-      assertEqual(systemClockSyncCoroutine->mRequestStatus,
-          SystemClockSyncCoroutine::kStatusOk);
+      systemClock->runCoroutine();
+      assertTrue(systemClock->isDelaying());
+      assertEqual(systemClock->mRequestStatus, SystemClockCoroutine::kStatusOk);
       assertEqual((acetime_t) 42, systemClock->getNow());
       assertEqual((acetime_t) 42, systemClock->getLastSyncTime());
       assertTrue(systemClock->isInit());
     }
 
     FakeMillis* fakeMillis;
-    FakeTimeKeeper* backupAndSyncTimeKeeper;
-    TestableSystemClock* systemClock;
-    SystemClockSyncCoroutine* systemClockSyncCoroutine;
+    FakeTimeKeeper* backupAndReferenceClock;
+    TestableSystemClockCoroutine* systemClock;
 };
 
-testF(SystemClockSyncCoroutineTest, sync) {
+testF(SystemClockCoroutineTest, sync) {
   assertRunCoroutine();
 }
 

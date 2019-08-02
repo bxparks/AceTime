@@ -7,10 +7,9 @@
 #define ACE_TIME_SYSTEM_CLOCK_COROUTINE_H
 
 #include <stdint.h>
+#include <AceRoutine.h>
 #include "../common/TimingStats.h"
 #include "SystemClock.h"
-
-class SystemClockSyncCoroutineTest;
 
 namespace ace_time {
 namespace clock {
@@ -26,7 +25,7 @@ namespace clock {
  * period becomes greater than syncPeriodSeconds, then the delay is set
  * permanently to syncPeriodSeconds.
  */
-class SystemClockCoroutine: public SystemClock, ace_routine::Coroutine {
+class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
   public:
     static const uint8_t kStatusSent = 0;
     static const uint8_t kStatusOk = 1;
@@ -69,7 +68,7 @@ class SystemClockCoroutine: public SystemClock, ace_routine::Coroutine {
       COROUTINE_LOOP() {
         // Send request
         mReferenceClock->sendRequest();
-        mRequestStartTime = ace_routine::Coroutine::millis();
+        mRequestStartTime = this->millis();
         mRequestStatus = kStatusSent;
 
         // Wait for request
@@ -83,7 +82,7 @@ class SystemClockCoroutine: public SystemClock, ace_routine::Coroutine {
             // Local variable waitTime must be scoped with {} so that the goto
             // in COROUTINE_LOOP() skip past it in clang++. g++ seems to be
             // fine without it.
-            uint16_t waitTime = ace_routine::Coroutine::millis()
+            uint16_t waitTime = this->millis()
                 - mRequestStartTime;
             if (waitTime >= mRequestTimeoutMillis) {
               mRequestStatus = kStatusTimedOut;
@@ -97,7 +96,7 @@ class SystemClockCoroutine: public SystemClock, ace_routine::Coroutine {
         // Process the response
         if (mRequestStatus == kStatusOk) {
           acetime_t nowSeconds = mReferenceClock->readResponse();
-          uint16_t elapsedTime = ace_routine::Coroutine::millis()
+          uint16_t elapsedTime = this->millis()
               - mRequestStartTime;
           if (mTimingStats != nullptr) {
             mTimingStats->update(elapsedTime);
@@ -125,7 +124,7 @@ class SystemClockCoroutine: public SystemClock, ace_routine::Coroutine {
     uint8_t getRequestStatus() const { return mRequestStatus; }
 
   private:
-    friend class ::SystemClockSyncCoroutineTest;
+    friend class ::SystemClockCoroutineTest;
 
     // disable copy constructor and assignment operator
     SystemClockCoroutine(const SystemClockCoroutine&) = delete;

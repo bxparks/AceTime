@@ -11,6 +11,9 @@
 #include "TimeKeeper.h"
 
 extern "C" unsigned long millis();
+class SystemClockLoopTest;
+class SystemClockLoopTest_syncNow;
+class SystemClockCoroutineTest;
 
 namespace ace_time {
 namespace clock {
@@ -68,7 +71,7 @@ class SystemClock: public TimeKeeper {
     acetime_t getNow() const override {
       if (!mIsInit) return kInvalidSeconds;
 
-      while ((uint16_t) ((uint16_t) millis() - mPrevMillis) >= 1000) {
+      while ((uint16_t) ((uint16_t) clockMillis() - mPrevMillis) >= 1000) {
         mPrevMillis += 1000;
         mEpochSeconds += 1;
       }
@@ -79,7 +82,7 @@ class SystemClock: public TimeKeeper {
       if (epochSeconds == kInvalidSeconds) return;
 
       mEpochSeconds = epochSeconds;
-      mPrevMillis = millis();
+      mPrevMillis = clockMillis();
       mIsInit = true;
       mLastSyncTime = epochSeconds;
       backupNow(epochSeconds);
@@ -105,12 +108,19 @@ class SystemClock: public TimeKeeper {
     bool isInit() const { return mIsInit; }
 
   protected:
+    friend class ::SystemClockLoopTest;
+    friend class ::SystemClockCoroutineTest;
+    friend class ::SystemClockLoopTest_syncNow;
+
     // disable copy constructor and assignment operator
     SystemClock(const SystemClock&) = delete;
     SystemClock& operator=(const SystemClock&) = delete;
 
-    /** Return the Arduino millis(). Override for unit testing. */
-    virtual unsigned long millis() const { return ::millis(); }
+    /**
+     * Return the Arduino millis(). Override for unit testing. Named
+     * 'clockMillis()' to avoid conflict with Coroutine::millis().
+     */
+    virtual unsigned long clockMillis() const { return ::millis(); }
 
     /**
      * @param referenceClock The authoritative source of the time. Can be
@@ -150,7 +160,7 @@ class SystemClock: public TimeKeeper {
       if (mEpochSeconds == epochSeconds) return;
 
       mEpochSeconds = epochSeconds;
-      mPrevMillis = millis();
+      mPrevMillis = clockMillis();
       mIsInit = true;
       mLastSyncTime = epochSeconds;
 
