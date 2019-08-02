@@ -350,6 +350,10 @@ class WifiCommand: public CommandHandler {
       const StoredInfo& storedInfo = mController.getStoredInfo();
       const char* ssid = storedInfo.ssid;
       const char* password = storedInfo.password;
+      printer.print(F("ssid: "));
+      printer.println(storedInfo.ssid);
+      printer.print(F("password: "));
+      printer.println(storedInfo.password);
       mNtpClock.setup(ssid, password);
       if (mNtpClock.isSetup()) {
         printer.println(F("Connection succeeded."));
@@ -432,12 +436,11 @@ void setup() {
   Serial.println(F("Setting up DS3231Clock"));
   dsClock.setup();
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
-  Serial.println(F("Setting up NtpClock"));
-  ntpClock.setup();
+  Serial.println(F("Setting up NtpClock DELAYED until WiFi"));
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_BOTH
-  Serial.println(F("Setting up DS3231Clock and NtpClock"));
+  Serial.println(F("Setting up DS3231Clock"));
   dsClock.setup();
-  ntpClock.setup();
+  Serial.println(F("Setting up NtpClock DELAYED until WiFi"));
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_UNIX
   Serial.println(F("Setting up UnixClock"));
   unixClock.setup();
