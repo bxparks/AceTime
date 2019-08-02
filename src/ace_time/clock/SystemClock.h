@@ -63,8 +63,7 @@ class SystemClock: public Clock {
     acetime_t getNow() const override {
       if (!mIsInit) return kInvalidSeconds;
 
-      uint16_t elapsedMillis = (uint16_t) clockMillis() - mPrevMillis;
-      while (elapsedMillis >= 1000) {
+      while ((uint16_t) ((uint16_t) clockMillis() - mPrevMillis) >= 1000) {
         mPrevMillis += 1000;
         mEpochSeconds += 1;
       }
