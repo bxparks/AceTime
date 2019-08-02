@@ -1759,90 +1759,87 @@ returns a object of time `LocalDateTime`, `OffsetDateTime` or `ZonedDateTime`.
 When these methods are passed a value of `LocalDate::kInvalidEpochSeconds`, the
 resulting object will return a true value for `isError()`.
 
-## Clock
+## Clocks
 
-The `acetime::clock` namespace contains classes needed to implement the
-`SystemClock`. The `SystemClock` is a source of time (normally represented as a
-`acetime_t` type, in other words, seconds from AceTime Epoch). The `SystemClock`
-is normally powered by the internal `millis()` function, but that function is
-usually not accurate enough. So the `SystemClock` has the ability to synchronize
-against more accurate external clocks (e.g. NTP server). The `SystemClock` also
-has the ability to backup the current time to a non-volatile time source (e.g.
-DS3231 chip) so that the current time can be restored when the power is
-restored.
+The `acetime::clock` namespace contains classes needed to implement various
+types of clocks using different sources. For example, the `DS3231Clock` uses the
+DS3231 RTC chip, and the `NtpClock` uses an NTP server. The `SystemClock` is
+powered by the internal `millis()` function, but that function is usually not
+accurate enough. So the `SystemClock` has the ability to synchronize against
+more accurate external clocks such as the `DS3231Clock` and the `NtpClock`. The
+`SystemClock` also has the ability to backup the current time to a non-volatile
+time source (e.g. `DS3231Clock`) so that the current time can be restored when
+the power is restored.
 
-The class hierarchy diagram looks like this, where the arrow means
-"is-subclass-of") and the diamond-line means ("is-aggregation-of"):
+The class hierarchy diagram for these various classes looks like this, where the
+arrow means "is-subclass-of") and the diamond-line means ("is-aggregation-of"):
 ```
-                        0..1
-           TimeProvider ------------.
-          ^     ^                   |
-         /      |      0..1         |
-        /   TimeKeeper --------.    |
-       NTP      ^  ^           |    |
-TimeProvider   /   |           |    |
-              /    |           |    |
-         DS3231    |           |    |
-      TimeKeeper   |           |    |
-                   |           |    |
-              SystemClock <>---+----'
+                    0..2
+             Clock  ------------.
+            ^  ^  ^             |
+           /   |   \            |
+          /    |    \           |
+DS3231Clock    |    NtpClock    |
+             System             |
+             Clock <> ----------'
+               ^ ^
+              /   \
+             /     \
+   SystemClock    SystemClock
+          Loop    Coroutine
 ```
 
-The library currently provides only a single implementation of `TimeProvider`
-and a single implementation of `TimeKeeper`. More could be added later.
+### Clock Class
 
-### TimeProvider and TimeKeeper
+This is an abstract class which provides 3 functionalities:
 
-These 2 interfaces distinguish between clocks that provide a source of time but
-cannot be set to a particular time (e.g. NTP servers or GPS modules), and clocks
-whose time can be set by the user (e.g. DS3231 RTC chip). The `TimeProvider`
-interface implements the `TimeProvider::getNow()` method which returns an
-`acetime_t` type. The `TimeKeeper` is a subinterface of `TimeProvider` and
-implements the `TimeKeeper::setNow(acetime_t)` method which sets the current
-time.
+* `setNow(acetime_t now)`: set the current time
+* `acetime_ getNow()`: get current time (blocking)
+* `sendRequest()`, `isResponseReady()`, `readResponse()`: get current time (non-blocking)
+
+Some examples of the `Clock` is an NTP client, a GPS client, or a DS3231 RTC
+chip).
 
 ```C++
 namespace ace_time {
 namespace clock {
 
-class TimeProvider {
+class Clock {
   public:
     static const acetime_t kInvalidSeconds = LocalTime::kInvalidSeconds;
 
+    virtual void setNow(acetime_t epochSeconds) {}
     virtual acetime_t getNow() const = 0;
-    ...
-};
 
-class TimeKeeper: public TimeProvider {
-  public:
-    virtual void setNow(acetime_t epochSeconds) = 0;
+    virtual void sendRequest() const {}
+    virtual bool isResponseReady() const { return true; }
+    virtual acetime_t readResponse() const { return getNow(); }
 };
 
 }
 }
 ```
 
-The `acetime_t` value can be converted into the desired time zone using the
-`ZonedDateTime` and `TimeZone` classes desribed in the previous section.
+Not all clocks can implement the `setNow()` method (e.g. an NTP client)
+so the default implementation `Clock::setNow()` is a no-op. However, all clocks
+are expected to provide a `getNow()` method. On some clocks, the `getNow()`
+function can consume a large amount (many seconds) of time (e.g. `NtpClock`) so
+these classes are expected to provide a non-blocking implementation of the
+`getNow()` functionality through the `sendRequest()`, `isResponseReady()` and
+`readResponse()` methods. The `Clock` class provides a default implementation of
+the non-blocking API by simply calling the `getNow()` blocking API.
 
-```C++
-TimeZone tz = ...;
-TimeProvider timeProvider = ...;
-acetime_t nowSeconds = timeProvider.getNow();
-auto nowDateTime = ZonedDateTime::forEpochSeconds(nowSeconds, tz);
-nowDateTime.printTo(Serial);
-```
+The `acetime_t` value from `getNow()` can be converted into the desired time
+zone using the `ZonedDateTime` and `TimeZone` classes desribed in the previous
+sections.
 
-Various implementations of `TimeProvider` and `TimeKeeper` are described in
-more detail the following subsections.
+### NTP Clock
 
-### NTP Time Provider
-
-The `NtpTimeProvider` is available on the ESP8266 and ESP32 which have builtin
-WiFi capability. (I have not tested the code on the Arduino WiFi shield
-because I don't have that hardware.) This class uses an NTP client to fetch the
-current time from the specified NTP server. The constructor takes 3 parameters
-which have default values so they are optional.
+The `NtpClock` class is available on the ESP8266 and ESP32 which have builtin
+WiFi capability. (I have not tested the code on the Arduino WiFi shield because
+I don't have that hardware.) This class uses an NTP client to fetch the current
+time from the specified NTP server. The constructor takes 3 parameters which
+have default values so they are optional.
 
 The class declaration looks like this:
 
@@ -1850,22 +1847,30 @@ The class declaration looks like this:
 namespace ace_time {
 namespace clock {
 
-class NtpTimeProvider: public TimeProvider {
+class NtpClock: public Clock {
   public:
-    explicit NtpTimeProvider(
-            const char* server = kNtpServerName,
-            uint16_t localPort = kLocalPort,
-            uint16_t requestTimeout = kRequestTimeout);
-    void setup(const char* ssid, const char* password);
+    explicit NtpClock(
+        const char* server = kNtpServerName,
+        uint16_t localPort = kLocalPort,
+        uint16_t requestTimeout = kRequestTimeout);
 
+    void setup(const char* ssid, const char* password);
     bool isSetup() const;
+    const char* getServer() const;
+
     acetime_t getNow() const override;
-    ...
+
+    void sendRequest() const override;
+    bool isResponseReady() const override;
+    acetime_t readResponse() const override;
 };
 
 }
-}
-```
+} ```
+
+The constructor takes the name of the NTP server. The default value is
+`kNtpServerName` which is `us.pool.npt.org`. The default `kLocalPort` is set to
+8888. And the default `kRequestTimeout` is 1000 milliseconds.
 
 You need to call the `setup()` with the `ssid` and `password` of the WiFi
 connection. The method will time out after 5 seconds if the connection cannot
@@ -1879,14 +1884,14 @@ using namespace ace_time::clock;
 const char SSID[] = ...; // Warning: don't store SSID in GitHub
 const char PASSWORD[] = ...; // Warning: don't store passwd in GitHub
 
-NtpTimeProvider ntpTimeProvider;
+NtpClock ntpClock;
 
 void setup() {
   Serial.begin(115200);
   while(!Serial); // needed for Leonardo/Micro
   ...
-  ntpTimeProvider.setup(SSID, PASSWORD);
-  if (ntpTimeProvider.isSetup()) {
+  ntpClock.setup(SSID, PASSWORD);
+  if (ntpClock.isSetup()) {
     Serial.println("WiFi connection failed... try again.");
     ...
   }
@@ -1894,9 +1899,10 @@ void setup() {
 
 // Print the NTP time every 10 seconds, in UTC-08:00 time zone.
 void loop() {
-  acetime_t nowSeconds = ntpTimeProvider.getNow();
+  acetime_t nowSeconds = ntpClock.getNow();
+  // convert epochSeconds to UTC-08:00
   OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
+      nowSeconds, TimeOffset::forHour(-8));
   odt.printTo(Serial);
   delay(10000); // wait 10 seconds
 }
@@ -1906,16 +1912,16 @@ void loop() {
 public repository like GitHub because they will become public to anyone. Even if
 you delete the commit, they can be retrieved from the git history.
 
-### DS3231 Time Keeper
+### DS3231 Clock
 
-The `DS3231TimeKeeper` is the class describing the DS3231 RTC chip. It contains
+The `DS3231Clock` class uses the DS3231 RTC chip. It contains
 an internal temperature-compensated osciallator that counts time in 1
 second steps. It is often connected to a battery or a supercapacitor to survive
 power failures. The DS3231 chip stores the time broken down by various date and
 time components (i.e. year, month, day, hour, minute, seconds). It contains
 internal logic that knows about the number of days in an month, and leap years.
 It supports dates from 2000 to 2099. It does *not* contain the concept of a time
-zone. Therefore, The `DS3231TimeKeeper` assumes that the date/time components
+zone. Therefore, The `DS3231Clock` assumes that the date/time components
 stored on the chip is in **UTC** time.
 
 The class declaration looks like this:
@@ -1924,11 +1930,11 @@ The class declaration looks like this:
 namespace ace_time {
 namespace clock {
 
-class DS3231TimeKeeper: public TimeKeeper {
+class DS3231Clock: public Clock {
   public:
-    explicit DS3231TimeKeeper();
-    void setup();
+    explicit DS3231Clock();
 
+    void setup();
     acetime_t getNow() const override;
     void setNow(acetime_t epochSeconds) override;
 };
@@ -1937,12 +1943,12 @@ class DS3231TimeKeeper: public TimeKeeper {
 }
 ```
 
-The `DS3231TimeKeeper::getNow()` returns the number of seconds since
+The `DS3231Clock::getNow()` returns the number of seconds since
 AceTime Epoch by converting the UTC date and time components to `acetime_t`
 (using `LocalDatetime` internally). Users can convert the epoch seconds
 into either an `OffsetDateTime` or a `ZonedDateTime` as needed.
 
-The `DS3231TimeKeeper::setup()` should be called from the global `setup()`
+The `DS3231Clock::setup()` should be called from the global `setup()`
 function to initialize the object. Here is a sample that:
 
 ```C++
@@ -1950,204 +1956,208 @@ function to initialize the object. Here is a sample that:
 using namespace ace_time;
 using namespace ace_time::clock;
 
-DS3231TimeKeeper dsTimeKeeper;
+DS3231Clock dsClock;
 ...
 void setup() {
   Serial.begin(115200);
   while(!Serial); // needed for Leonardo/Micro
   ...
-  dsTimeKeeper.setup();
-  dsTimeKeeper.setNow(0); // 2000-01-01T00:00:00Z
+  dsClock.setup();
+  dsClock.setNow(0); // 2000-01-01T00:00:00Z
 }
 
 void loop() {
-  acetime_t nowSeconds = dsTimeKeeper.getNow();
+  acetime_t nowSeconds = dsClock.getNow();
+  // convert epochSeconds to UTC-08:00
   OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
+      nowSeconds, TimeOffset::forHour(-8));
   odt.printTo(Serial);
   delay(10000); // wait 10 seconds
 }
 ```
 
-### SystemClock
+### System Clock
 
-The `SystemClock` is a special `TimeKeeper` that uses the Arduino built-in
-`millis()` method as the source of its time. The biggest advantage of
-`SystemClock` is that its `getNow()` has very little overhead so it can be
-called as frequently as needed. The `getNow()` method of other `TimeProviders`
-can consume a significant amount of time. For example, the `DS3231TimeKeeper`
-must talk to the DS3231 RTC chip over an I2C bus. Even worse, the
-`NtpTimeProvider` must the talk to the NTP server over the network which can be
-unpredictably slow.
+The `SystemClock` is a special `Clock` that uses the Arduino built-in `millis()`
+method as the source of its time. The biggest advantage of `SystemClock` is that
+its `getNow()` has very little overhead so it can be called as frequently as
+needed, compared to the `getNow()` method of other `Clock` classes which can
+consume a significant amount of time. For example, the `DS3231Clock` must talk
+to the DS3231 RTC chip over an I2C bus. Even worse, the `NtpClock` must the talk
+to the NTP server over the network which can be unpredictably slow.
 
-The `SystemClock` class looks like this:
+Unfortunately, the `millis()` internal clock of most (all?) Arduino boards is
+not very accurate and unsuitable for implementing an accurate clock. Therefore,
+the `SystemClock` provides the option to synchronize its clock to an external
+`reference Clock`.
+
+The other problem with the `millis()` internal clock is that it does not survive
+a power failure. The `SystemClock` provides a way to save the current time
+to a `backupClock` (e.g. the `DS3231Clock` using the DS3231 chip with battery
+backup). When the `SystemClock` starts up, it will read the `backup Clock` and
+set the current time. When it synchronizes with the `reference Clock`, (e.g. the
+`NtpClock`), it saves a copy of it into the `backup Clock`.
+
+The `SystemClock` is an abstract class, and this library provides 2 concrete
+implementations, `SystemClockLoop` and `SystemClockCoroutine`:
 
 ```C++
 namespace ace_time {
 namespace clock {
 
-class SystemClock: public TimeKeeper {
+class SystemClock: public Clock {
   public:
-
-    explicit SystemClock(
-            TimeProvider* syncTimeProvider /* nullable */,
-            TimeKeeper* backupTimeKeeper /* nullable */):
-        mSyncTimeProvider(syncTimeProvider),
-        mBackupTimeKeeper(backupTimeKeeper);
     void setup();
 
     acetime_t getNow() const override;
     void setNow(acetime_t epochSeconds) override;
 
-    void sync(acetime_t epochSeconds);
+    void keepAlive();
+    void forceSync();
     acetime_t getLastSyncTime() const;
     bool isInit() const;
 
   protected:
-    virtual unsigned long millis() const;
+    virtual unsigned long clockMillis() const { return ::millis(); }
+
+    explicit SystemClock(
+        Clock* referenceClock /* nullable */,
+        Clock* backupClock /* nullable */);
 };
 
+class SystemClockLoop: public SystemClock {
+  public:
+    explicit SystemClockLoop(
+        Clock* referenceClock /* nullable */,
+        Clock* backupClock /* nullable */,
+        uint16_t syncPeriodSeconds = 3600,
+        uint16_t initialSyncPeriodSeconds = 5);
+
+    void loop();
+    uint16_t getSecondsSinceLastSync() const;
+};
+
+#if defined(ACE_ROUTINE_VERSION)
+
+class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
+  public:
+    explicit SystemClockCoroutine(
+        Clock* referenceClock /* nullable */,
+        Clock* backupClock /* nullable */,
+        uint16_t syncPeriodSeconds = 3600,
+        uint16_t initialSyncPeriodSeconds = 5,
+        uint16_t requestTimeoutMillis = 1000,
+        common::TimingStats* timingStats = nullptr);
+
+    int runCoroutine() override;
+    uint8_t getRequestStatus() const;
+};
+
+#endif
+
 }
 }
 ```
 
-Unfortunately, the `millis()` internal clock of most (all?) Arduino boards is
-not very accurate and unsuitable for implementing an accurate clock. Therefore,
-the `SystemClock` provides a mechanism to synchronize its clock to an
-external (and presumably more accurate clock) `TimeProvider`.
-
-The `SystemClock` also provides a way to save the current time to a
-`backupTimeKeeper` (e.g. the `DS3231TimeKeeper` using the DS3231 chip with
-battery backup). When the `SystemClock` starts up, it will read the backup
-`TimeKeeper` and set the current time. Then it can synchronize with an external
-clock source (e.g. the `NtpTimeProvider`). The time is saved to the backup time
-keeper whenever the `SystemClock` is synced with the external time
-clock.
-
-Here is how to set up the `SystemClock` with the `NtpTimeProvider` and
-`DS3231TimeKeeper` as sync and backup time sources:
+The `SystemClockCoroutine` class is available only if you have installed the
+[AceRoutine](https://github.com/bxparks/AceRoutine) library and include its
+header before `<AceTime.h>`, like this:
 
 ```C++
+#include <AceRoutine.h>
 #include <AceTime.h>
-using namespace ace_time;
-using namespace ace_time::clock;
-
-DS3231TimeKeeper dsTimeKeeper;
-NtpTimeProvider ntpTimeProvider(SSID, PASSWORD);
-SystemClock systemClock(
-  &ntpTimeProvider /*sync*/, &dsTimeKeeper /*backup*/);
 ...
+```
+
+The constructor of each of the 2 concrete implementations take optional
+parameters, the `referenceClock` and the `backupClock`. Each of these parameters
+are optional, so there are 4 combinations:
+
+```C++
+SystemClock*(nullptr, nullptr); // no referenceClock or backupClock
+
+SystemClock*(referenceClock, nullptr); // referenceClock only
+
+SystemClock*(nullptr, backupClock); // backupClock only
+
+SystemClock*(referenceClock, backupClock); // both clocks
+```
+
+#### SystemClock KeepAlive
+
+The `SystemClock::getNow()` or `keepAlive()` method must be called
+peridically before an internal integer overflow occurs. The internal integer
+overflow happens every 65.536 seconds. If your application is *guaranteed* to
+call `SystemClock::getNow()` more frequently than every 65 seconds, then you
+don't need to worry about this. However, if you want to be prudent, it does not
+cost very much to call the `SystemClock::keepAlive()` function in the global
+`loop()` method.
+
+```C++
+SystemClockLoop systemClock(...);
 
 void setup() {
-  Serial.begin(115200);
-  while(!Serial); // needed for Leonardo/Micro
-  ...
-  dsTimeKeeper.setup();
-  ntpTimeProvider.setup();
   systemClock.setup();
 }
-
-void loop() {
-  acetime_t nowSeconds = systemClock.getNow();
-  auto odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
-  odt.printTo(Serial);
-  delay(10000); // wait 10 seconds
-}
-```
-
-If you wanted to use the `DS3231TimeKeeper` as *both* the backup and sync
-time sources, then the setup would something like this:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-using namespace ace_time::clock;
-
-DS3231TimeKeeper dsTimeKeeper;
-SystemClock systemClock(
-    &dsTimeKeeper /*sync*/, &dsTimeKeeper /*backup*/);
-...
-
-void setup() {
-  dsTimeKeeper.setup();
-  systemClock.setup();
-  ...
-}
-```
-
-You could also choose not to have either the backup or sync time sources, in
-which case you can give `nullptr` as the correspond argument. For example,
-to use no backup time keeper:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-using namespace ace_time::clock;
-
-DS3231TimeKeeper dsTimeKeeper;
-SystemClock systemClock(&dsTimeKeeper /*sync*/, nullptr /*backup*/);
-...
-
-void setup() {
-  dsTimeKeeper.setup();
-  systemClock.setup();
-  ...
-}
-```
-
-### System Clock KeepAlive and Syncing
-
-The `SystemClock` requires 2 maintenance tasks to run periodically
-to help it keep proper time.
-
-First, the `SystemClock::getNow()` or `keepAlive()` method must be called
-peridically before an internal integer overflow occurs, even if the `getNow()`
-is not needed. The internal integer overflow happens every 65.536 seconds.
-If your application is *guaranteed* to call `SystemClock::getNow()` more
-frequently than every 65 seconds, then you don't need to worry about this.
-However, if you want to be prudent, it does not cost very much to call the
-`SystemClock::keepAlive()` function in the global `loop()` method.
-
-Secondly, since the internal `millis()` clock is not very accurate, we must
-synchronize the `SystemClock` periodically with a more accurate time
-source. The frequency of this syncing depends on the accuracy of the `millis()`
-(which depends on the hardware oscillator of the chip) and the cost of the call
-to the `getNow()` method of the syncing time clock. If the syncing time
-source is the DS3231 chip, syncing once every 1-10 minutes might be sufficient
-since talking to the RTC chip is relatively cheap. If the syncing time source is
-the `NtpTimeProvider`, the network connection is fairly expensive so maybe once
-every 1-12 hours might be advisable. The `SystemClock` provides 2 ways to
-perform this syncing.
-
-**Method 1: Using SystemClockSyncLoop**
-
-You can use the `SystemClockSyncLoop` class and insert it somewhere into the
-global `loop()` method, like this:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-using namespace ace_time::clock;
-...
-
-SystemClock systemClock(...);
-SystemClockSyncLoop systemClockSyncLoop(systemClock);
 
 void loop() {
   ...
   systemClock.keepAlive();
-  systemClockSyncLoop.loop();
+}
+
+```
+
+#### SystemClock Reference Syncing
+
+Since the internal `millis()` clock is not very accurate, the `SystemClock`
+provides a mechnism to synchronize the `SystemClock` periodically with a more
+accurate `referenceClock`. The frequency of this syncing depends on the accuracy
+of the `millis()` (which depends on the hardware oscillator of the chip) and the
+cost of the call to the `getNow()` method of the syncing time clock. If the
+`referenceClock` is the DS3231 chip, syncing once every 1-10 minutes might be
+sufficient since talking to the RTC chip is relatively cheap. If the
+`referenceClock` is the `NtpClock`, the network connection is fairly expensive
+so maybe once every 1-12 hours might be advisable.
+
+The `SystemClock` provides 2 ways to perform this syncing:
+* the global `loop()` method through the `SystemClockLoop` subclass,
+* the AceRoutine coroutine library through the `SystemClockCoroutine` subclass.
+
+### SystemClockLoop
+
+This class synchronizes to the `referenceClock` through the
+`SystemClockLoop::loop()` method that is meant to be called from the global
+`loop()` method, like this:
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+using namespace ace_time::clock;
+...
+
+DS3231Clock dsClock;
+SystemClockLoop systemClock(dsClock, nullptr /*backup*/);
+
+void setup() {
+  dsClock.setup();
+  systemClock.setup();
+}
+
+void loop() {
+  ...
+  systemClock.loop();
   ...
 }
 ```
 
-**Method 2: Using SystemClockSyncCoroutine**
+`SystemClockLoop` keeps an internal counter to limit the syncing process to
+every 1 hour. This is configurable through parameters in the `SystemClockLoop()`
+constructor.
 
-You can use two [AceRoutine](https://github.com/bxparks/AceRoutine) coroutines
-to perform sync. First, `#include <AceRoutine.h>` *before* the
-`#include <AceTime.h>` (which activates the `SystemClockSyncCoroutine`
-class), then configure it to run:
+### SystemClockSyncCoroutine
+
+This class synchronizes to the `referenceClock` using an
+[AceRoutine](https://github.com/bxparks/AceRoutine) coroutine.
 
 ```C++
 #include <AceRoutine.h> // include this before <AceTime.h>
@@ -2157,12 +2167,13 @@ using namespace ace_time::clock;
 using namespace ace_routine;
 ...
 
-SystemClock systemClock(...);
-SystemClockSyncCoroutine systemClockSync(systemClock);
+DS3231Clock dsClock;
+SystemClock systemClock(dsClock, nullptr /*backup*/);
 
 void setup() {
   ...
-  systemClockSyncCoroutine.setupCoroutine(F("systemClockSync"));
+  dsClock.setup();
+  systemClock.setupCoroutine(F("systemClock"));
   CoroutineScheduler::setup();
   ...
 }
@@ -2175,18 +2186,109 @@ void loop() {
 }
 ```
 
-The biggest advantage of using AceRoutine coroutines is that the syncing process
-becomes non-blocking. In other words, if you are using the `NtpTimeProvider` to
-provide syncing, the `SystemClockSyncLoop` object calls its `getNow()` method,
-which blocks the execution of the program until the NTP server returns a
-response (or the request times out after 1000 milliseconds). If you use the
+`SystemClockCoroutine` keeps internal counters to limit the syncing process to
+every 1 hour. This is configurable through parameters in the
+`SystemClockCoroutine()` constructor.
+
+The biggest advantage of using `SystemClockCoroutine` is that the syncing
+process becomes non-blocking. In other words, if you are using the `NtpClock` to
+provide syncing, the `SystemClockLoop` object calls its `getNow()` method, which
+blocks the execution of the program until the NTP server returns a response (or
+the request times out after 1000 milliseconds). If you use the
 `SystemClockSyncCoroutine`, the program continues to do other things (e.g.
-update displays, scan for buttons) while the `NtpTimeProvider` is waiting for a
+update displays, scan for buttons) while the `NtpClock` is waiting for a
 response from the NTP server.
+
+### SystemClock Examples
+
+Here is an example of a `SystemClockLoop` that uses no `referenceClock` or a
+`backupClock`. The accuracy of this clock is limited by the accuracy of the
+internal `millis()` function, and the clock has no backup against power failure.
+Upon reboot, the user must be asked to call `SystemClock::setNow()` to set the
+current time. The only maintenance task that needs to be performed is the
+`SystemClock::keepAlive()` which synchronizes the clock with the internal
+`millis()`.
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+using namespace ace_time::clock;
+
+SystemClock systemClock(&dsClock /*reference*/, nullptr /*backup*/);
+...
+
+void setup() {
+  systemClock.setup();
+  ...
+}
+
+void loop() {
+  systemClock.keepAlive();
+  ...
+}
+```
+
+Here is a more realistic example of a `SystemClockLoo` pusing the `NtpClock` as
+the `referenceClock` and the `DS3231Clock` as the `backupClock`.
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+using namespace ace_time::clock;
+
+DS3231Clock dsClock;
+NtpClock ntpClock(SSID, PASSWORD);
+SystemClockLoop systemClock(&ntpClock /*reference*/, &dsClock /*backup*/);
+...
+
+void setup() {
+  Serial.begin(115200);
+  while(!Serial); // needed for Leonardo/Micro
+  ...
+  dsClock.setup();
+  ntpClock.setup();
+  systemClock.setup();
+}
+
+void loop() {
+  systemClock.loop();
+  acetime_t nowSeconds = systemClock.getNow();
+
+  auto odt = OffsetDateTime::forEpochSeconds(
+      nowSeconds, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
+  odt.printTo(Serial);
+  delay(10000); // wait 10 seconds
+}
+```
+
+If you wanted to use the `DS3231Clock` as *both* the backup and sync
+time sources, then the setup would something like this:
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+using namespace ace_time::clock;
+
+DS3231Clock dsClock;
+SystemClockLoop systemClock(&dsClock /*reference*/, &dsClock /*backup*/);
+...
+
+void setup() {
+  dsClock.setup();
+  systemClock.setup();
+  ...
+}
+
+void loop() {
+  systemClock.keepAlive();
+  systemClock.loop();
+  ...
+}
+```
 
 ## Testing
 
-Writing tests for this library was very challenging, probably taking up 3-4X
+Writing tests for this library was very challenging, probably taking up 2-3X
 more effort than the core of the library. I think the reason is that the number
 input variables into the library and the number of output variables are
 substantially large, making it difficult to write isolated unit tests. Secondly,
@@ -2283,9 +2385,9 @@ sizeof(TimeZone): 3
 sizeof(ZonedDateTime): 10
 sizeof(TimePeriod): 4
 sizeof(SystemClock): 17
-sizeof(DS3231TimeKeeper): 3
-sizeof(SystemClockSyncLoop): 14
-sizeof(SystemClockSyncCoroutine): 31
+sizeof(DS3231Clock): 3
+sizeof(SystemClockLoop): 14
+sizeof(SystemClockCoroutine): 31
 ```
 
 **32-bit processors**
@@ -2301,9 +2403,9 @@ sizeof(TimeZone): 8
 sizeof(ZonedDateTime): 16
 sizeof(TimePeriod): 4
 sizeof(SystemClock): 24
-sizeof(NtpTimeProvider): 88 (ESP8266), 116 (ESP32)
-sizeof(SystemClockSyncLoop): 16
-sizeof(SystemClockSyncCoroutine): 48
+sizeof(NtpClock): 88 (ESP8266), 116 (ESP32)
+sizeof(SystemClockLoop): 16
+sizeof(SystemClockCoroutine): 48
 ```
 
 The [MemoryBenchmark](examples/MemoryBenchmark) program gives a more
@@ -2518,8 +2620,8 @@ did not think it would fit inside an Arduino controller.
       interval from 00:00 and 00:01.
     * Fortunately all of these transitions happen before 2012. If you are
       interested in only dates after 2019, then this will not affect you.
-* `NtpTimeProvider`
-    * The `NtpTimeProvider` on an ESP8266 calls `WiFi.hostByName()` to resolve
+* `NtpClock`
+    * The `NtpClock` on an ESP8266 calls `WiFi.hostByName()` to resolve
       the IP address of the NTP server. Unfortunately, when I tested this
       library, it seems to be blocking call (later versions may have fixed
       this). When the DNS resolver is working properly, this call returns in

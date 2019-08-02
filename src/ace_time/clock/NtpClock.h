@@ -193,7 +193,7 @@ class NtpClock: public Clock {
 #endif
     }
 
-    const char* const mServer; // TODO: make this configurable
+    const char* const mServer;
     uint16_t const mLocalPort;
     uint16_t const mRequestTimeout;
 

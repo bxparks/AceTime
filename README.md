@@ -52,13 +52,12 @@ C++ namespaces:
         * `ace_time::zonedbx::kZonePacific_Wake`
         * `ace_time::zonedbx::kZonePacific_Wallis`
 * system clock classes
-    * `ace_time::clock::TimeProvider`
-        * `ace_time::clock::TimeKeeper`
-            * `ace_time::clock::DS3231TimeKeeper`
-            * `ace_time::clock::SystemClock`
-        * `ace_time::clock::NtpTimeProvider`
-    * `ace_time::clock::SystemClockSyncCoroutine`
-    * `ace_time::clock::SystemClockSyncLoop`
+    * `ace_time::clock::Clock`
+        * `ace_time::clock::DS3231Clock`
+        * `ace_time::clock::NtpClock`
+        * `ace_time::clock::SystemClock`
+            * `ace_time::clock::SystemClockCoroutine`
+            * `ace_time::clock::SystemClockLoop`
 * internal helper classes (not normally used by app developers)
     * `ace_time::basic::ZoneContext`
     * `ace_time::basic::ZoneEra`

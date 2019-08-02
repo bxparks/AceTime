@@ -60,14 +60,6 @@ class SystemClock: public Clock {
       }
     }
 
-    /**
-     * Call this (or getNow() every 65.535 seconds or faster to keep the
-     * internal counter in sync with millis().
-     */
-    void keepAlive() {
-      getNow();
-    }
-
     acetime_t getNow() const override {
       if (!mIsInit) return kInvalidSeconds;
 
@@ -79,16 +71,20 @@ class SystemClock: public Clock {
     }
 
     void setNow(acetime_t epochSeconds) override {
-      if (epochSeconds == kInvalidSeconds) return;
+      syncNow(epochSeconds);
 
-      mEpochSeconds = epochSeconds;
-      mPrevMillis = clockMillis();
-      mIsInit = true;
-      mLastSyncTime = epochSeconds;
-      backupNow(epochSeconds);
+      // Also set the reference clock if possible.
       if (mReferenceClock != nullptr) {
         mReferenceClock->setNow(epochSeconds);
       }
+    }
+
+    /**
+     * Call this (or getNow() every 65.535 seconds or faster to keep the
+     * internal counter in sync with millis().
+     */
+    void keepAlive() {
+      getNow();
     }
 
     /** Force a sync with the mReferenceClock. */
