@@ -9,6 +9,8 @@
 #include <stdint.h>
 #include "SystemClock.h"
 
+class SystemClockLoopTest_loop;
+
 namespace ace_time {
 namespace clock {
 
@@ -36,7 +38,7 @@ class SystemClockLoop: public SystemClock {
     static const uint8_t kStatusOk = 2;
 
     /** Request received but is invalid, so retry with exponential backoff. */
-    static const uint8_t kStatusRetry = 3;
+    static const uint8_t kStatusWaitForRetry = 3;
 
     /**
      * Constructor.
@@ -87,12 +89,11 @@ class SystemClockLoop: public SystemClock {
           if (mReferenceClock->isResponseReady()) {
             acetime_t nowSeconds = mReferenceClock->readResponse();
             if (mTimingStats != nullptr) {
-              uint16_t elapsedMillis =
-                  (uint16_t) nowMillis - mRequestStartMillis;
+              uint16_t elapsedMillis = nowMillis - mRequestStartMillis;
               mTimingStats->update(elapsedMillis);
             }
             if (nowSeconds == kInvalidSeconds) {
-              mRequestStatus = kStatusRetry;
+              mRequestStatus = kStatusWaitForRetry;
             } else {
               syncNow(nowSeconds);
               mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
@@ -100,9 +101,9 @@ class SystemClockLoop: public SystemClock {
               mRequestStatus = kStatusOk;
             }
           } else {
-            uint16_t waitMillis = (uint16_t) nowMillis - mRequestStartMillis;
+            unsigned long waitMillis = nowMillis - mRequestStartMillis;
             if (waitMillis >= mRequestTimeoutMillis) {
-              mRequestStatus = kStatusRetry;
+              mRequestStatus = kStatusWaitForRetry;
             }
           }
           break;
@@ -113,11 +114,11 @@ class SystemClockLoop: public SystemClock {
           }
           break;
         }
-        case kStatusRetry: {
+        case kStatusWaitForRetry: {
           // subsequent loop() retries with an exponential backoff, until a
           // maximum of mSyncPeriodSeconds is reached.
-          unsigned long millisSinceLastSync = nowMillis - mLastSyncMillis;
-          if (millisSinceLastSync >= mCurrentSyncPeriodSeconds * 1000) {
+          unsigned long waitMillis = nowMillis - mRequestStartMillis;
+          if (waitMillis >= mCurrentSyncPeriodSeconds * 1000) {
             if (mCurrentSyncPeriodSeconds >= mSyncPeriodSeconds / 2) {
               mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
             } else {
@@ -131,6 +132,8 @@ class SystemClockLoop: public SystemClock {
     }
 
   private:
+    friend class ::SystemClockLoopTest_loop;
+
     // disable copy constructor and assignment operator
     SystemClockLoop(const SystemClockLoop&) = delete;
     SystemClockLoop& operator=(const SystemClockLoop&) = delete;
@@ -140,7 +143,7 @@ class SystemClockLoop: public SystemClock {
     common::TimingStats* const mTimingStats;
 
     unsigned long mLastSyncMillis;
-    uint16_t mRequestStartMillis; // lower 16-bits of millis()
+    unsigned long mRequestStartMillis;
     uint16_t mCurrentSyncPeriodSeconds;
     uint8_t mRequestStatus = kStatusReady;
 };

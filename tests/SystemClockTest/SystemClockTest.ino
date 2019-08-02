@@ -118,6 +118,89 @@ testF(SystemClockLoopTest, getNow) {
   assertEqual((acetime_t) 171, systemClock->getNow());
 }
 
+testF(SystemClockLoopTest, loop) {
+  unsigned long millis = 0;
+  backupAndReferenceClock->isResponseReady(false);
+  assertEqual(SystemClockLoop::kStatusReady, systemClock->mRequestStatus);
+
+  // retry with exponential backoff, doubling the delay on each
+  // iteration, until we reach mSyncPeriodSeconds
+  uint16_t expectedDelaySeconds = 5;
+  for (; expectedDelaySeconds < systemClock->mSyncPeriodSeconds;
+       expectedDelaySeconds *= 2) {
+
+    // t = 0, make a request and waits for response
+    systemClock->loop();
+    assertEqual(SystemClockLoop::kStatusSent, systemClock->mRequestStatus);
+
+    // t= 1, request timed out
+    millis += 1000;
+    fakeMillis->millis(millis);
+    systemClock->loop();
+    assertEqual(SystemClockLoop::kStatusWaitForRetry,
+        systemClock->mRequestStatus);
+    assertEqual(expectedDelaySeconds, systemClock->mCurrentSyncPeriodSeconds);
+
+    // t = +1 s, back off for mCurrentSyncPeriodSeconds
+    for (uint16_t i = 1; i < expectedDelaySeconds - 1; i++) {
+      millis += 1000;
+      fakeMillis->millis(millis);
+      systemClock->loop();
+      assertEqual(SystemClockLoop::kStatusWaitForRetry,
+          systemClock->mRequestStatus);
+    }
+
+    // t = +1 s, waiting over, go to kStatusReady to make another request
+    millis += 1000;
+    fakeMillis->millis(millis);
+    systemClock->loop();
+    assertEqual(SystemClockLoop::kStatusReady, systemClock->mRequestStatus);
+  }
+
+  // Last iteration. Make a request.
+  systemClock->loop();
+  assertEqual(SystemClockLoop::kStatusSent, systemClock->mRequestStatus);
+  // wait for response
+  millis += 1000;
+  fakeMillis->millis(millis);
+  systemClock->loop();
+  assertEqual(SystemClockLoop::kStatusWaitForRetry,
+      systemClock->mRequestStatus);
+  // Final wait for 3600 seconds
+  expectedDelaySeconds = systemClock->mSyncPeriodSeconds;
+  assertEqual(expectedDelaySeconds, systemClock->mCurrentSyncPeriodSeconds);
+  for (uint16_t i = 1; i < expectedDelaySeconds - 1; i++) {
+    millis += 1000;
+    fakeMillis->millis(millis);
+    systemClock->loop();
+    assertEqual(SystemClockLoop::kStatusWaitForRetry,
+        systemClock->mRequestStatus);
+  }
+
+  // Let the loop timeout and go into a ready state.
+  millis += 1000;
+  fakeMillis->millis(millis);
+  systemClock->loop();
+  assertEqual(SystemClockLoop::kStatusReady, systemClock->mRequestStatus);
+
+  // Make a new request
+  millis += 1000;
+  fakeMillis->millis(millis);
+  systemClock->loop();
+  assertEqual(SystemClockLoop::kStatusSent, systemClock->mRequestStatus);
+
+  // Check 1ms later for a successful request
+  backupAndReferenceClock->isResponseReady(true);
+  backupAndReferenceClock->setNow(42);
+  millis += 1;
+  fakeMillis->millis(millis);
+  systemClock->loop();
+  assertEqual(SystemClockLoop::kStatusOk, systemClock->mRequestStatus);
+  assertEqual((acetime_t) 42, systemClock->getNow());
+  assertEqual((acetime_t) 42, systemClock->getLastSyncTime());
+  assertTrue(systemClock->isInit());
+}
+
 //---------------------------------------------------------------------------
 
 // Currently only one test uses this class, so strictly this isn't necessary
@@ -175,8 +258,6 @@ testF(SystemClockCoroutineTest, runCoroutine) {
 
   // Final delay of 3600
   expectedDelaySeconds = 3600;
-
-  // t = +1 s, request timed out, delay for 5 sec
   for (uint16_t i = 1; i <= expectedDelaySeconds; i++) {
     millis += 1000;
     fakeMillis->millis(millis);
