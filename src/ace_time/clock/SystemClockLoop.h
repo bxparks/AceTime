@@ -26,6 +26,18 @@ namespace clock {
  */
 class SystemClockLoop: public SystemClock {
   public:
+    /** Ready to send request. */
+    static const uint8_t kStatusReady = 0;
+
+    /** Request sent, waiting for response. */
+    static const uint8_t kStatusSent = 1;
+
+    /** Request received and is valid. */
+    static const uint8_t kStatusOk = 2;
+
+    /** Request received but is invalid, so retry with exponential backoff. */
+    static const uint8_t kStatusRetry = 3;
+
     /**
      * Constructor.
      *
@@ -39,14 +51,19 @@ class SystemClockLoop: public SystemClock {
      * @param initialSyncPeriodSeconds seconds between sync attempts when
      *    the systemClock is not initialized (default 5), exponentially
      *    increasing (2X) at each attempt until syncPeriodSeconds is reached
+     * @param timingStats internal statistics
      */
     explicit SystemClockLoop(
         Clock* referenceClock /* nullable */,
         Clock* backupClock /* nullable */,
         uint16_t syncPeriodSeconds = 3600,
-        uint16_t initialSyncPeriodSeconds = 5):
+        uint16_t initialSyncPeriodSeconds = 5,
+        uint16_t requestTimeoutMillis = 1000,
+        common::TimingStats* timingStats = nullptr):
       SystemClock(referenceClock, backupClock),
       mSyncPeriodSeconds(syncPeriodSeconds),
+      mRequestTimeoutMillis(requestTimeoutMillis),
+      mTimingStats(timingStats),
       mCurrentSyncPeriodSeconds(initialSyncPeriodSeconds) {}
 
     /**
@@ -54,29 +71,62 @@ class SystemClockLoop: public SystemClock {
      * the mReferenceClock.
      */
     void loop() {
+      keepAlive();
       if (mReferenceClock == nullptr) return;
 
       unsigned long nowMillis = clockMillis();
-      unsigned long timeSinceLastSync = nowMillis - mLastSyncMillis;
 
-      if (timeSinceLastSync >= mCurrentSyncPeriodSeconds * 1000UL
-          || getNow() == kInvalidSeconds) {
-        acetime_t nowSeconds = mReferenceClock->getNow();
-
-        if (nowSeconds == kInvalidSeconds) {
+      // Finite state machine based on mRequestStatus
+      switch (mRequestStatus) {
+        case kStatusReady:
+          mReferenceClock->sendRequest();
+          mRequestStartMillis = nowMillis;
+          mRequestStatus = kStatusSent;
+          break;
+        case kStatusSent:
+          if (mReferenceClock->isResponseReady()) {
+            acetime_t nowSeconds = mReferenceClock->readResponse();
+            if (mTimingStats != nullptr) {
+              uint16_t elapsedMillis =
+                  (uint16_t) nowMillis - mRequestStartMillis;
+              mTimingStats->update(elapsedMillis);
+            }
+            if (nowSeconds == kInvalidSeconds) {
+              mRequestStatus = kStatusRetry;
+            } else {
+              syncNow(nowSeconds);
+              mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
+              mLastSyncMillis = nowMillis;
+              mRequestStatus = kStatusOk;
+            }
+          } else {
+            uint16_t waitMillis = (uint16_t) nowMillis - mRequestStartMillis;
+            if (waitMillis >= mRequestTimeoutMillis) {
+              mRequestStatus = kStatusRetry;
+            }
+          }
+          break;
+        case kStatusOk: {
+          unsigned long millisSinceLastSync = nowMillis - mLastSyncMillis;
+          if (millisSinceLastSync >= mCurrentSyncPeriodSeconds * 1000) {
+            mRequestStatus = kStatusReady;
+          }
+          break;
+        }
+        case kStatusRetry: {
           // subsequent loop() retries with an exponential backoff, until a
           // maximum of mSyncPeriodSeconds is reached.
-          if (mCurrentSyncPeriodSeconds >= mSyncPeriodSeconds / 2) {
-            mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
-          } else {
-            mCurrentSyncPeriodSeconds *= 2;
+          unsigned long millisSinceLastSync = nowMillis - mLastSyncMillis;
+          if (millisSinceLastSync >= mCurrentSyncPeriodSeconds * 1000) {
+            if (mCurrentSyncPeriodSeconds >= mSyncPeriodSeconds / 2) {
+              mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
+            } else {
+              mCurrentSyncPeriodSeconds *= 2;
+            }
+            mRequestStatus = kStatusReady;
           }
-        } else {
-          syncNow(nowSeconds);
-          mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
+          break;
         }
-
-        mLastSyncMillis = nowMillis;
       }
     }
 
@@ -86,8 +136,13 @@ class SystemClockLoop: public SystemClock {
     SystemClockLoop& operator=(const SystemClockLoop&) = delete;
 
     uint16_t const mSyncPeriodSeconds;
+    uint16_t const mRequestTimeoutMillis;
+    common::TimingStats* const mTimingStats;
+
+    unsigned long mLastSyncMillis;
+    uint16_t mRequestStartMillis; // lower 16-bits of millis()
     uint16_t mCurrentSyncPeriodSeconds;
-    unsigned long mLastSyncMillis = 0;
+    uint8_t mRequestStatus = kStatusReady;
 };
 
 }

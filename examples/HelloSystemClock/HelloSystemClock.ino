@@ -48,6 +48,6 @@ void printCurrentTime() {
 
 void loop() {
   printCurrentTime();
-  systemClock.keepAlive();
+  systemClock.loop();
   delay(2000);
 }

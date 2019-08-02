@@ -227,8 +227,6 @@ void setup() {
 }
 
 void loop() {
-  systemClock.keepAlive();
-
   // Using the CoroutineScheduler is conceptually cleaner, but consumes 159
   // bytes of extra flash memory. So run the coroutines manually instead of
   // call CoroutineScheduler::loop();

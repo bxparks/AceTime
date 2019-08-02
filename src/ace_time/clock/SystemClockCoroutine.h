@@ -27,9 +27,17 @@ namespace clock {
  */
 class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
   public:
-    static const uint8_t kStatusSent = 0;
-    static const uint8_t kStatusOk = 1;
-    static const uint8_t kStatusTimedOut = 2;
+    /** Request state unknown. For diagnostics only. */
+    static const uint8_t kStatusUnknown = 0;
+
+    /** Request has been sent and waiting for response. For diagnostics only. */
+    static const uint8_t kStatusSent = 1;
+
+    /** Request received and valid. */
+    static const uint8_t kStatusOk = 2;
+
+    /** Request timed out. */
+    static const uint8_t kStatusTimedOut = 3;
 
     /**
      * Constructor.
@@ -68,12 +76,13 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
      * register this coroutine into the CoroutineScheduler.
      */
     int runCoroutine() override {
+      keepAlive();
       if (mReferenceClock == nullptr) return 0;
 
       COROUTINE_LOOP() {
         // Send request
         mReferenceClock->sendRequest();
-        mRequestStartTime = this->millis();
+        mRequestStartMillis = this->millis();
         mRequestStatus = kStatusSent;
 
         // Wait for request
@@ -84,12 +93,12 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
           }
 
           {
-            // Local variable waitTime must be scoped with {} so that the goto
-            // in COROUTINE_LOOP() skip past it in clang++. g++ seems to be
-            // fine without it.
-            uint16_t waitTime = this->millis()
-                - mRequestStartTime;
-            if (waitTime >= mRequestTimeoutMillis) {
+            // Local variable waitMillis must be scoped with {} so that the
+            // goto in COROUTINE_LOOP() 16skip past it in clang++. g++ seems to
+            // be fine without it.
+            uint16_t waitMillis =
+                (uint16_t) this->millis() - mRequestStartMillis;
+            if (waitMillis >= mRequestTimeoutMillis) {
               mRequestStatus = kStatusTimedOut;
               break;
             }
@@ -101,9 +110,10 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
         // Process the response
         if (mRequestStatus == kStatusOk) {
           acetime_t nowSeconds = mReferenceClock->readResponse();
-          uint16_t elapsedTime = this->millis() - mRequestStartTime;
           if (mTimingStats != nullptr) {
-            mTimingStats->update(elapsedTime);
+            uint16_t elapsedMillis =
+                (uint16_t) this->millis() - mRequestStartMillis;
+            mTimingStats->update(elapsedMillis);
           }
           syncNow(nowSeconds);
           mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
@@ -138,10 +148,10 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
     uint16_t const mRequestTimeoutMillis;
     common::TimingStats* const mTimingStats;
 
-    uint16_t mRequestStartTime;
+    uint16_t mRequestStartMillis; // lower 16-bit of millis()
     uint16_t mCurrentSyncPeriodSeconds;
     uint16_t mDelayLoopCounter;
-    uint8_t mRequestStatus;
+    uint8_t mRequestStatus = kStatusUnknown;
 };
 
 }

@@ -63,7 +63,8 @@ class SystemClock: public Clock {
     acetime_t getNow() const override {
       if (!mIsInit) return kInvalidSeconds;
 
-      while ((uint16_t) ((uint16_t) clockMillis() - mPrevMillis) >= 1000) {
+      uint16_t elapsedMillis = (uint16_t) clockMillis() - mPrevMillis;
+      while (elapsedMillis >= 1000) {
         mPrevMillis += 1000;
         mEpochSeconds += 1;
       }
@@ -77,14 +78,6 @@ class SystemClock: public Clock {
       if (mReferenceClock != nullptr) {
         mReferenceClock->setNow(epochSeconds);
       }
-    }
-
-    /**
-     * Call this (or getNow() every 65.535 seconds or faster to keep the
-     * internal counter in sync with millis().
-     */
-    void keepAlive() {
-      getNow();
     }
 
     /** Force a sync with the mReferenceClock. */
@@ -114,12 +107,6 @@ class SystemClock: public Clock {
     SystemClock& operator=(const SystemClock&) = delete;
 
     /**
-     * Return the Arduino millis(). Override for unit testing. Named
-     * 'clockMillis()' to avoid conflict with Coroutine::millis().
-     */
-    virtual unsigned long clockMillis() const { return ::millis(); }
-
-    /**
      * Constructor.
      * @param referenceClock The authoritative source of the time. If this is
      *    null, object relies just on clockMillis() and the user to set the
@@ -132,6 +119,20 @@ class SystemClock: public Clock {
           Clock* backupClock /* nullable */):
         mReferenceClock(referenceClock),
         mBackupClock(backupClock) {}
+
+    /**
+     * Return the Arduino millis(). Override for unit testing. Named
+     * 'clockMillis()' to avoid conflict with Coroutine::millis().
+     */
+    virtual unsigned long clockMillis() const { return ::millis(); }
+
+    /**
+     * Call this (or getNow() every 65.535 seconds or faster to keep the
+     * internal counter in sync with millis().
+     */
+    void keepAlive() {
+      getNow();
+    }
 
     /**
      * Write the nowSeconds to the backupClock (which can be an RTC that has

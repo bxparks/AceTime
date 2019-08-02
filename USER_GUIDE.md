@@ -2013,7 +2013,6 @@ class SystemClock: public Clock {
     void setNow(acetime_t epochSeconds) override;
 
     bool isInit() const;
-    void keepAlive();
     void forceSync();
     acetime_t getLastSyncTime() const;
 
@@ -2082,45 +2081,28 @@ SystemClock*(nullptr, backupClock); // backupClock only
 SystemClock*(referenceClock, backupClock); // both clocks
 ```
 
-#### SystemClock KeepAlive
+#### SystemClock Maintenance Tasks
 
-The `SystemClock::getNow()` or `keepAlive()` method must be called
-peridically before an internal integer overflow occurs. The internal integer
-overflow happens every 65.536 seconds. If your application is *guaranteed* to
-call `SystemClock::getNow()` more frequently than every 65 seconds, then you
-don't need to worry about this. However, if you want to be prudent, it does not
-cost very much to call the `SystemClock::keepAlive()` function in the global
-`loop()` method.
+There are 2 internal maintenance tasks that must be performed periodically.
 
-```C++
-SystemClockLoop systemClock(...);
+First, the `SystemClock` must be synchronized to the `millis()` function
+before an internal integer overflow occurs. The internal integer overflow
+happens every 65.536 seconds.
 
-void setup() {
-  systemClock.setup();
-}
-
-void loop() {
-  ...
-  systemClock.keepAlive();
-}
-
-```
-
-#### SystemClock Reference Syncing
-
-Since the internal `millis()` clock is not very accurate, the `SystemClock`
-provides a mechnism to synchronize the `SystemClock` periodically with a more
-accurate `referenceClock`. The frequency of this syncing depends on the accuracy
-of the `millis()` (which depends on the hardware oscillator of the chip) and the
-cost of the call to the `getNow()` method of the syncing time clock. If the
-`referenceClock` is the DS3231 chip, syncing once every 1-10 minutes might be
-sufficient since talking to the RTC chip is relatively cheap. If the
-`referenceClock` is the `NtpClock`, the network connection is fairly expensive
-so maybe once every 1-12 hours might be advisable.
+Second (optionally), the SystemClock can be synchronized to the `referenceClock`
+since internal `millis()` clock is not very accurate. How often this should
+happen depends on the accuracy of the `millis()`, which depends on the hardware
+oscillator of the chip, and the cost of the call to the `getNow()` method of the
+syncing time clock. If the `referenceClock` is the DS3231 chip, syncing once
+every 1-10 minutes might be acceptable since talking to the RTC chip over
+I2C is relatively cheap. If the `referenceClock` is the `NtpClock`, the network
+connection is fairly expensive so maybe once every 1-12 hours might be
+advisable.
 
 The `SystemClock` provides 2 ways to perform this syncing:
-* the global `loop()` method through the `SystemClockLoop` subclass,
-* the AceRoutine coroutine library through the `SystemClockCoroutine` subclass.
+
+* the `SystemClockLoop::loop()` method,
+* the `SystemClockCoroutine::runCoroutine()` using the AceRoutine library
 
 ### SystemClockLoop
 
@@ -2179,7 +2161,6 @@ void setup() {
 
 void loop() {
   ...
-  systemClock.keepAlive();
   CoroutineScheduler::loop();
   ...
 }
@@ -2189,14 +2170,11 @@ void loop() {
 every 1 hour. This is configurable through parameters in the
 `SystemClockCoroutine()` constructor.
 
-The biggest advantage of using `SystemClockCoroutine` is that the syncing
-process becomes non-blocking. In other words, if you are using the `NtpClock` to
-provide syncing, the `SystemClockLoop` object calls its `getNow()` method, which
-blocks the execution of the program until the NTP server returns a response (or
-the request times out after 1000 milliseconds). If you use the
-`SystemClockSyncCoroutine`, the program continues to do other things (e.g.
-update displays, scan for buttons) while the `NtpClock` is waiting for a
-response from the NTP server.
+Previously, the `SystemClockLoop::loop()` used the blocking `Clock::getNow()`
+method, and the `SystemClockCoroutine::runCoroutine()` used the non-blocking
+methods of `Clock`. However, since version 0.6, both of them use the
+*non-blocking* calls, so there should be little difference between the two
+except in how the methods are called.
 
 ### SystemClock Examples
 
@@ -2204,9 +2182,8 @@ Here is an example of a `SystemClockLoop` that uses no `referenceClock` or a
 `backupClock`. The accuracy of this clock is limited by the accuracy of the
 internal `millis()` function, and the clock has no backup against power failure.
 Upon reboot, the user must be asked to call `SystemClock::setNow()` to set the
-current time. The only maintenance task that needs to be performed is the
-`SystemClock::keepAlive()` which synchronizes the clock with the internal
-`millis()`.
+current time. The `SystemClock::loop()` must still be called to perform a
+maintenance task to synchronize to `millis()`.
 
 ```C++
 #include <AceTime.h>
@@ -2222,12 +2199,12 @@ void setup() {
 }
 
 void loop() {
-  systemClock.keepAlive();
+  systemClock.loop();
   ...
 }
 ```
 
-Here is a more realistic example of a `SystemClockLoo` pusing the `NtpClock` as
+Here is a more realistic example of a `SystemClockLoop` using the `NtpClock` as
 the `referenceClock` and the `DS3231Clock` as the `backupClock`.
 
 ```C++
@@ -2279,7 +2256,6 @@ void setup() {
 }
 
 void loop() {
-  systemClock.keepAlive();
   systemClock.loop();
   ...
 }

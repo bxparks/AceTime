@@ -453,7 +453,6 @@ void setup() {
 }
 
 void loop() {
-  systemClock.keepAlive();
 #if SYNC_TYPE == SYNC_TYPE_MANUAL
   systemClock.loop();
 #endif
