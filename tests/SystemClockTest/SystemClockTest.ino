@@ -4,7 +4,7 @@
 #include <AceRoutine.h> // enable SystemClockCoroutine
 #include <AceTime.h>
 #include <ace_time/testing/FakeMillis.h>
-#include <ace_time/testing/FakeTimeKeeper.h>
+#include <ace_time/testing/FakeClock.h>
 #include <ace_time/testing/TestableSystemClockLoop.h>
 #include <ace_time/testing/TestableSystemClockCoroutine.h>
 
@@ -19,7 +19,7 @@ using namespace ace_time::testing;
 // Verify that LocalTime::kInvalidSeconds is returned upon error
 test(SystemClockLoopTest, invalidSeconds) {
   FakeMillis* fakeMillis = new FakeMillis();
-  FakeTimeKeeper* backupAndReferenceClock = new FakeTimeKeeper();
+  FakeClock* backupAndReferenceClock = new FakeClock();
   TestableSystemClockLoop* systemClock = new TestableSystemClockLoop(
       backupAndReferenceClock, backupAndReferenceClock, fakeMillis);
   acetime_t now = systemClock->getNow();
@@ -32,7 +32,7 @@ class SystemClockLoopTest: public TestOnce {
   protected:
     void setup() override {
       fakeMillis = new FakeMillis();
-      backupAndReferenceClock = new FakeTimeKeeper();
+      backupAndReferenceClock = new FakeClock();
       systemClock = new TestableSystemClockLoop(
           backupAndReferenceClock, backupAndReferenceClock, fakeMillis);
       systemClock->setup();
@@ -45,7 +45,7 @@ class SystemClockLoopTest: public TestOnce {
     }
 
     FakeMillis* fakeMillis;
-    FakeTimeKeeper* backupAndReferenceClock; // backup and sync time keeper
+    FakeClock* backupAndReferenceClock; // backup and sync time keeper
     TestableSystemClockLoop* systemClock;
 };
 
@@ -126,7 +126,7 @@ class SystemClockCoroutineTest: public TestOnce {
   protected:
     void setup() override {
       fakeMillis = new FakeMillis();
-      backupAndReferenceClock = new FakeTimeKeeper();
+      backupAndReferenceClock = new FakeClock();
       systemClock = new TestableSystemClockCoroutine(
           backupAndReferenceClock, backupAndReferenceClock, fakeMillis);
       systemClock->setup();
@@ -195,7 +195,7 @@ class SystemClockCoroutineTest: public TestOnce {
     }
 
     FakeMillis* fakeMillis;
-    FakeTimeKeeper* backupAndReferenceClock;
+    FakeClock* backupAndReferenceClock;
     TestableSystemClockCoroutine* systemClock;
 };
 

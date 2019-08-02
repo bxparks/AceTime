@@ -18,11 +18,10 @@ using namespace ace_routine;
 // ZoneProcessor instance should be created statically at initialization time.
 static BasicZoneProcessor pacificProcessor;
 
-// The 'syncTimeProvider' is set to nullptr, so systemClockSyncCoroutine does
+// The 'referenceClock' is set to nullptr, so systemClockSyncCoroutine does
 // not actually do anything. The purpose of this program is to show how
-// to structure the code if the 'syncTimeProvider' was actually defined.
-SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
-SystemClockSyncCoroutine systemClockSyncCoroutine(systemClock);
+// to structure the code if the 'referenceClock' was actually defined.
+SystemClockCoroutine systemClock(nullptr /*sync*/, nullptr /*backup*/);
 
 //------------------------------------------------------------------
 
@@ -42,7 +41,7 @@ void setup() {
       2019, 6, 17, 19, 50, 0, pacificTz);
   systemClock.setNow(pacificTime.toEpochSeconds());
 
-  systemClockSyncCoroutine.setupCoroutine(F("systemClockSyncCoroutine"));
+  systemClock.setupCoroutine(F("systemClockCoroutine"));
   CoroutineScheduler::setup();
 }
 

@@ -3,8 +3,8 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#ifndef ACE_TIME_DS3231_TIME_KEEPER_H
-#define ACE_TIME_DS3231_TIME_KEEPER_H
+#ifndef ACE_TIME_DS3231_CLOCK_H
+#define ACE_TIME_DS3231_CLOCK_H
 
 #if defined(ARDUINO)
 
@@ -12,17 +12,17 @@
 #include "../hw/DS3231.h"
 #include "../hw/HardwareDateTime.h"
 #include "../LocalDateTime.h"
-#include "TimeKeeper.h"
+#include "Clock.h"
 
 namespace ace_time {
 namespace clock {
 
 /**
- * An implementation of TimeKeeper that uses a DS3231 RTC chip.
+ * An implementation of Clock that uses a DS3231 RTC chip.
  */
-class DS3231TimeKeeper: public TimeKeeper {
+class DS3231Clock: public Clock {
   public:
-    explicit DS3231TimeKeeper() {}
+    explicit DS3231Clock() {}
 
     void setup() {}
 
@@ -31,7 +31,7 @@ class DS3231TimeKeeper: public TimeKeeper {
       mDS3231.readDateTime(&hardwareDateTime);
       return toDateTime(hardwareDateTime).toEpochSeconds();
     }
-
+    
     void setNow(acetime_t epochSeconds) override {
       if (epochSeconds == kInvalidSeconds) return;
 

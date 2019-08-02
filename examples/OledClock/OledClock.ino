@@ -39,26 +39,24 @@ using namespace ace_time;
 using namespace ace_time::clock;
 
 //------------------------------------------------------------------
-// Configure various TimeKeepers and TimeProviders.
+// Configure various Clocks and Clocks.
 //------------------------------------------------------------------
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
-  DS3231TimeKeeper dsTimeKeeper;
-  SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
+  DS3231Clock dsClock;
+  SystemClockCoroutine systemClock(&dsClock, &dsClock);
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
-  NtpTimeProvider ntpTimeProvider;
-  SystemClock systemClock(&ntpTimeProvider, nullptr);
+  NtpClock ntpClock;
+  SystemClockCoroutine systemClock(&ntpClock, nullptr);
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_BOTH
-  DS3231TimeKeeper dsTimeKeeper;
-  NtpTimeProvider ntpTimeProvider;
-  SystemClock systemClock(&ntpTimeProvider, &dsTimeKeeper);
+  DS3231Clock dsClock;
+  NtpClock ntpClock;
+  SystemClockCoroutine systemClock(&ntpClock, &dsClock);
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NONE
-  SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
+  SystemClockCoroutine systemClock(nullptr /*sync*/, nullptr /*backup*/);
 #else
-  #error Unknown time keeper option
+  #error Unknown clock option
 #endif
-
-SystemClockSyncCoroutine systemClockSync(systemClock);
 
 //------------------------------------------------------------------
 // Configure OLED display using SSD1306Ascii.
@@ -195,18 +193,18 @@ void setup() {
   setupOled();
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
-  dsTimeKeeper.setup();
+  dsClock.setup();
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
-  ntpTimeProvider.setup(AUNITER_SSID, AUNITER_PASSWORD);
+  ntpClock.setup(AUNITER_SSID, AUNITER_PASSWORD);
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_BOTH
-  dsTimeKeeper.setup();
-  ntpTimeProvider.setup(AUNITER_SSID, AUNITER_PASSWORD);
+  dsClock.setup();
+  ntpClock.setup(AUNITER_SSID, AUNITER_PASSWORD);
 #endif
   systemClock.setup();
   controller.setup();
   persistentStore.setup();
 
-  systemClockSync.setupCoroutine(F("s"));
+  systemClock.setupCoroutine(F("systemClock"));
   CoroutineScheduler::setup();
 
 #if ENABLE_SERIAL == 1

@@ -3,8 +3,8 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#ifndef ACE_TIME_NTP_TIME_PROVIDER_H
-#define ACE_TIME_NTP_TIME_PROVIDER_H
+#ifndef ACE_TIME_NTP_CLOCK_H
+#define ACE_TIME_NTP_CLOCK_H
 
 #if defined(ESP8266) || defined(ESP32)
 
@@ -16,19 +16,19 @@
 #endif
 #include <WiFiUdp.h>
 #include "../common/logging.h"
-#include "TimeKeeper.h"
-
-#ifndef ACE_TIME_NTP_TIME_PROVIDER_DEBUG
-#define ACE_TIME_NTP_TIME_PROVIDER_DEBUG 0
-#endif
+#include "Clock.h"
 
 extern "C" unsigned long millis();
+
+#ifndef ACE_TIME_NTP_CLOCK_DEBUG
+#define ACE_TIME_NTP_CLOCK_DEBUG 0
+#endif
 
 namespace ace_time {
 namespace clock {
 
 /**
- * A TimeProvider that retrieves the time from an NTP server. This class has the
+ * A Clock that retrieves the time from an NTP server. This class has the
  * deficiency that the DNS name resolver WiFi.hostByName() is a blocking call.
  * So every now and then, it can take 5-6 seconds for the call to return,
  * blocking everything (e.g. display refresh, button clicks) until it times out.
@@ -40,7 +40,7 @@ namespace clock {
  * and
  * https://github.com/PaulStoffregen/Time/blob/master/examples/TimeNTP/TimeNTP.ino
  */
-class NtpTimeProvider: public TimeProvider {
+class NtpClock: public Clock {
   public:
     /** Default NTP Server */
     static const char kNtpServerName[];
@@ -59,7 +59,7 @@ class NtpTimeProvider: public TimeProvider {
      * @param localPort used by the UDP client (default 8888)
      * @paran requestTimeout milliseconds for a request timesout (default 1000)
      */
-    explicit NtpTimeProvider(
+    explicit NtpClock(
             const char* server = kNtpServerName,
             uint16_t localPort = kLocalPort,
             uint16_t requestTimeout = kRequestTimeout):
@@ -83,7 +83,7 @@ class NtpTimeProvider: public TimeProvider {
 
       mUdp.begin(mLocalPort);
 
-    #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+    #if ACE_TIME_NTP_CLOCK_DEBUG == 1
       #if defined(ESP8266)
         SERIAL_PORT_MONITOR.print(F("Local port: "));
         SERIAL_PORT_MONITOR.println(mUdp.localPort());
@@ -166,7 +166,7 @@ class NtpTimeProvider: public TimeProvider {
 
     /** Send an NTP request to the time server at the given address. */
     void sendNtpPacket(const IPAddress& address) const {
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+#if ACE_TIME_NTP_CLOCK_DEBUG == 1
       uint16_t startTime = millis();
 #endif
       // set all bytes in the buffer to 0
@@ -187,8 +187,8 @@ class NtpTimeProvider: public TimeProvider {
       mUdp.beginPacket(address, 123); //NTP requests are to port 123
       mUdp.write(mPacketBuffer, kNtpPacketSize);
       mUdp.endPacket();
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      logging::println("NtpTimeProvider::sendNtpPacket(): %u ms",
+#if ACE_TIME_NTP_CLOCK_DEBUG == 1
+      logging::println("NtpClock::sendNtpPacket(): %u ms",
           (uint16_t) (millis() - startTime));
 #endif
     }

@@ -128,14 +128,14 @@ void setup() {
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_SYSTEM_CLOCK
-  DS3231TimeKeeper dsTimeKeeper;
-  SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
+  DS3231Clock dsClock;
+  SystemClock systemClock(&dsClock, &dsClock);
   systemClock.setup();
   acetime_t now = systemClock.getNow();
   guard ^= now;
 #elif FEATURE == FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE
-  DS3231TimeKeeper dsTimeKeeper;
-  SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
+  DS3231Clock dsClock;
+  SystemClock systemClock(&dsClock, &dsClock);
   systemClock.setup();
   acetime_t now = systemClock.getNow();
   BasicZoneProcessor processor;

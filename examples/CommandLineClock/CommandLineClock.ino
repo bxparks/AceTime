@@ -57,7 +57,7 @@ using namespace ace_time;
 using namespace ace_time::clock;
 
 //---------------------------------------------------------------------------
-// Configure RTC and TimeKeeper
+// Configure RTC and Clock
 //---------------------------------------------------------------------------
 
 #if SYNC_TYPE == SYNC_TYPE_COROUTINE
@@ -67,15 +67,15 @@ using namespace ace_time::clock;
 #endif
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
-  DS3231TimeKeeper dsTimeKeeper;
-  SYSTEM_CLOCK systemClock(&dsTimeKeeper, &dsTimeKeeper /*backup*/);
+  DS3231Clock dsClock;
+  SYSTEM_CLOCK systemClock(&dsClock, &dsClock /*backup*/);
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
-  NtpTimeProvider ntpTimeProvider;
-  SYSTEM_CLOCK systemClock(&ntpTimeProvider, nullptr /*backup*/);
+  NtpClock ntpClock;
+  SYSTEM_CLOCK systemClock(&ntpClock, nullptr /*backup*/);
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NONE
   SYSTEM_CLOCK systemClock(nullptr /*sync*/, nullptr /*backup*/);
 #else
-  #error Unknown time keeper option
+  #error Unknown clock option
 #endif
 
 //---------------------------------------------------------------------------
@@ -286,11 +286,11 @@ class WifiCommand: public CommandHandler {
   public:
     WifiCommand(
         Controller& controller,
-        NtpTimeProvider& ntpTimeProvider):
+        NtpClock& ntpClock):
       CommandHandler(F("wifi"),
           F("status | (config [{ssid} {password}]) | connect") ),
       mController(controller),
-      mNtpTimeProvider(ntpTimeProvider)
+      mNtpClock(ntpClock)
       {}
 
     void run(Print& printer, int argc, const char* const* argv) const override {
@@ -320,10 +320,10 @@ class WifiCommand: public CommandHandler {
           printer.println(F("Wifi config command requires 2 arguments"));
         }
       } else if (isArgEqual(argv[0], F("status"))) {
-        printer.print(F("NtpTimeProvider::isSetup(): "));
-        printer.println(mNtpTimeProvider.isSetup() ? F("true") : F("false"));
+        printer.print(F("NtpClock::isSetup(): "));
+        printer.println(mNtpClock.isSetup() ? F("true") : F("false"));
         printer.print(F("NTP Server: "));
-        printer.println(mNtpTimeProvider.getServer());
+        printer.println(mNtpClock.getServer());
         printer.print(F("WiFi IP address: "));
         printer.println(WiFi.localIP());
       } else if (isArgEqual(argv[0], F("connect"))) {
@@ -343,8 +343,8 @@ class WifiCommand: public CommandHandler {
       const StoredInfo& storedInfo = mController.getStoredInfo();
       const char* ssid = storedInfo.ssid;
       const char* password = storedInfo.password;
-      mNtpTimeProvider.setup(ssid, password);
-      if (mNtpTimeProvider.isSetup()) {
+      mNtpClock.setup(ssid, password);
+      if (mNtpClock.isSetup()) {
         printer.println(F("Connection succeeded."));
       } else {
         printer.println(F("Connection failed... run 'wifi connect' again"));
@@ -353,7 +353,7 @@ class WifiCommand: public CommandHandler {
 
   private:
     Controller& mController;
-    NtpTimeProvider& mNtpTimeProvider;
+    NtpClock& mNtpClock;
 };
 
 #endif
@@ -364,7 +364,7 @@ DateCommand dateCommand;
 SyncCommand syncCommand(systemClock);
 TimezoneCommand timezoneCommand;
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
-WifiCommand wifiCommand(controller, ntpTimeProvider);
+WifiCommand wifiCommand(controller, ntpClock);
 #endif
 
 const CommandHandler* const COMMANDS[] = {
@@ -415,8 +415,8 @@ void setup() {
 #endif
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
-  Serial.println(F("Setting up DS3231TimeKeeper"));
-  dsTimeKeeper.setup();
+  Serial.println(F("Setting up DS3231Clock"));
+  dsClock.setup();
 #endif
 
   Serial.println(F("Setting up PersistentStore"));

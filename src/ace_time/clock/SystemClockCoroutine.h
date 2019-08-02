@@ -34,6 +34,11 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
     /**
      * Constructor.
      *
+     * @param referenceClock The authoritative source of the time. If this is
+     *    null, the object relies just on clockMillis() and the user to set the
+     *    proper time using setNow().
+     * @param backupClock An RTC chip which continues to keep time
+     *    even when power is lost. Can be null.
      * @param syncPeriodSeconds seconds between normal sync attempts
      *    (default 3600)
      * @param initialSyncPeriodSeconds seconds between sync attempts when
@@ -43,8 +48,8 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
      * @param timingStats internal statistics
      */
     explicit SystemClockCoroutine(
-        TimeProvider* referenceClock /* nullable */,
-        TimeKeeper* backupClock /* nullable */,
+        Clock* referenceClock /* nullable */,
+        Clock* backupClock /* nullable */,
         uint16_t syncPeriodSeconds = 3600,
         uint16_t initialSyncPeriodSeconds = 5,
         uint16_t requestTimeoutMillis = 1000,

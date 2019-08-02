@@ -13,10 +13,10 @@ namespace ace_time {
 namespace clock {
 
 /**
- * A subclass of SystemClock that sync with its mReferenceClock 
- * using a blocking mReferenceClock->getNow() call. The blocking call can be a
- * problem for time providers like NtpTimeProvider which makes a network
- * request. If this is a problem, use SystemClockCoroutine instead.
+ * A subclass of SystemClock that sync with its mReferenceClock using a
+ * blocking mReferenceClock->getNow() call. The blocking call can be a problem
+ * for clocks like NtpClock which makes a network request. If this is a
+ * problem, use SystemClockCoroutine instead.
  *
  * Initial syncing occurs at initialSyncPeriodSeconds interval, until the
  * first successful sync, then subsequent syncing occurs at syncPeriodSeconds
@@ -29,6 +29,11 @@ class SystemClockLoop: public SystemClock {
     /**
      * Constructor.
      *
+     * @param referenceClock The authoritative source of the time. If this is
+     *    null, the object relies just on clockMillis() and the user to set the
+     *    proper time using setNow().
+     * @param backupClock An RTC chip which continues to keep time
+     *    even when power is lost. Can be null.
      * @param syncPeriodSeconds seconds between normal sync attempts
      *    (default 3600)
      * @param initialSyncPeriodSeconds seconds between sync attempts when
@@ -36,8 +41,8 @@ class SystemClockLoop: public SystemClock {
      *    increasing (2X) at each attempt until syncPeriodSeconds is reached
      */
     explicit SystemClockLoop(
-        TimeProvider* referenceClock /* nullable */,
-        TimeKeeper* backupClock /* nullable */,
+        Clock* referenceClock /* nullable */,
+        Clock* backupClock /* nullable */,
         uint16_t syncPeriodSeconds = 3600,
         uint16_t initialSyncPeriodSeconds = 5):
       SystemClock(referenceClock, backupClock),
@@ -51,7 +56,7 @@ class SystemClockLoop: public SystemClock {
     void loop() {
       if (mReferenceClock == nullptr) return;
 
-      unsigned long nowMillis = millis();
+      unsigned long nowMillis = clockMillis();
       unsigned long timeSinceLastSync = nowMillis - mLastSyncMillis;
 
       if (timeSinceLastSync >= mCurrentSyncPeriodSeconds * 1000UL
@@ -80,7 +85,7 @@ class SystemClockLoop: public SystemClock {
      * debugging purposes.
      */
     uint16_t getSecondsSinceLastSync() const {
-      unsigned long elapsedMillis = millis() - mLastSyncMillis;
+      unsigned long elapsedMillis = clockMillis() - mLastSyncMillis;
       return elapsedMillis / 1000;
     }
 
