@@ -1,6 +1,12 @@
 # Changelog
 
 * Unreleased
+    * Created a second Jenkins continuous build pipeline file
+      `tests/JenskinfileUnitHost` to use UnitHostDuino to run the unit tests
+      natively on Linux. The entire set of unit tests builds and runs in 20
+      seconds, compared to about 8 minutes on a Nano. Compiling against 4 boards
+      (Nano, ESP8266, ESP32, SAMD21) takes about 32 minutes on an Arduino IDE,
+      which really slows down the iteration cycle.
 * 0.6
     * Update tests to use `UnixHostDuino`.
     * Fix broken restore functionality in `CommandLineClock`. Make it work
