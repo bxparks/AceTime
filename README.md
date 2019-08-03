@@ -112,7 +112,7 @@ The library provides 2 sets of zoneinfo files created from the IANA TZ Database:
   which have (relatively) simple time zone transition rules, and intended to be
   used with the `BasicZoneProcessor` class.
 * [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h) contains `kZone*`
-  (e.g. `kZoneAfrica_Casablanca`) declarations for 387 zones and 205 links in
+  declarations (e.g. `kZoneAfrica_Casablanca`) for 387 zones and 205 links in
   the TZ Database (essentially the entire database) intended to be used with
   the `ExtendedZoneProcessor` class.
 
