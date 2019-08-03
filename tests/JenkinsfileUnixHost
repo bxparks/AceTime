@@ -22,15 +22,11 @@ pipeline {
                     git url: 'https://github.com/bxparks/AUnit',
                         branch: 'develop'
                 }
-                dir('libraries/AceButton') {
-                    git url: 'https://github.com/bxparks/AceButton',
-                        branch: 'develop'
-                }
                 dir('libraries/AceRoutine') {
                     git url: 'https://github.com/bxparks/AceRoutine',
                         branch: 'develop'
                 }
-                dir('libraries/AceSegment') {
+                dir('libraries/UnixHostDuino') {
                     git url: 'https://github.com/bxparks/UnixHostDuino',
                         branch: 'develop'
                 }
