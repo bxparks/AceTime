@@ -200,8 +200,7 @@ Conversion from an epochSeconds to date-time components including timezone
 
 **Version**: 0.6 (2019-08-02, TZ DB version 2019a, beta)
 
-**Status**: Fully functional. Added `ZoneManager` for dynamic binding of
-zoneName or zoneId to the TimeZone.
+**Status**: Stable, no major refactoring planned. Expected to go to 1.0 soon.
 
 ## Examples
 
