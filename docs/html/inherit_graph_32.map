@@ -1,3 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structace__time_1_1extended_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per..." alt="" coords="5,5,141,47"/>
+<area shape="rect" id="node1" href="$structace__time_1_1extended_1_1ZoneMatch.html" title="Data structure that captures the matching ZoneEra and its ZoneRule transitions for a given year..." alt="" coords="5,5,141,47"/>
 </map>
