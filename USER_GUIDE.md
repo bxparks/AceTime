@@ -92,7 +92,7 @@ The following programs are provided in the `examples/` directory:
 * [HelloSystemClock](examples/HelloSystemClock/)
     * demo program of `SystemClock`
 * [HelloSystemClockCoroutine](examples/HelloSystemClockCoroutine/)
-    * same as `SystemClock` but using AceRoutine coroutines
+    * same as `HelloSystemClock` but using AceRoutine coroutines
 * [CommandLineClock](examples/CommandLineClock/)
     * a clock with a DS3231 RTC chip, an NTP client, and using the serial port
       for receiving commands and printing results, useful for debugging
@@ -106,8 +106,6 @@ The following programs are provided in the `examples/` directory:
 * [ComparisonBenchmark](examples/ComparisonBenchmark/)
     * compare AceTime with
     [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
-* [CrcEepromDemo](examples/CrcEepromDemo/)
-    * a program that verifies the `CrcEeprom` class
 
 ## Motivation and Design Considerations
 
@@ -179,7 +177,7 @@ copies of these small objects. It is not possible to remove all complex memory
 allocations when dealing with the TZ Database. In the AceTime library, I managed
 to move most of the complex memory handling logic into the `ZoneProcessor` class
 hierarchy. These are relatively large objects which are meant to be opaque
-objects to the application developer, created statically at start-up time of
+to the application developer, created statically at start-up time of
 the application, and never deleted during the lifetime of the application.
 
 The [Arduino Time Library](https://github.com/PaulStoffregen/Time) uses a set of
@@ -726,7 +724,7 @@ debugging. The `printTo()` prints a human-readable representation of the date in
 
 A "time zone" is often used colloquially to mean 2 different things:
 * A time which is offset from the UTC time by a fixed amount, or
-* A physical (or conceptual) region whose local time is offset
+* A geographical (or conceptual) region whose local time is offset
 from the UTC time using various transition rules.
 
 Both meanings of "time zone" are supported by the `TimeZone` class using
@@ -738,9 +736,9 @@ be encoded with (relatively) simple rules from the TZ Database
 * `TimeZone::kTypeExtended`: utilizes a `ExtendedZoneProcessor` which can
 handle all zones in the TZ Database
 * `TimeZone::kTypeBasicManaged`: same as `kTypeBasic` but the
-  `BasicZoneProcessor' is managed by the `ZoneManager
+  `BasicZoneProcessor` is managed by the `ZoneManager
 * `TimeZone::kTypeExtendedManaged`: same as `kTypeExtended` but the
-  `ExtendedZoneProcessor' is managed by the `ZoneManager
+  `ExtendedZoneProcessor` is managed by the `ZoneManager
 
 The class hierarchy of `TimeZone` is shown below, where the arrow means
 "is-subclass-of" and the diamond-line means "is-aggregation-of". This is an
@@ -1817,8 +1815,8 @@ class Clock {
 }
 ```
 
-Some examples of the `Clock` is an NTP client, a GPS client, or a DS3231 RTC
-chip).
+Examples of the `Clock` include an NTP client, a GPS client, or a DS3231 RTC
+chip.
 
 Not all clocks can implement the `setNow()` method (e.g. an NTP client)
 so the default implementation `Clock::setNow()` is a no-op. However, all clocks
@@ -1826,8 +1824,10 @@ are expected to provide a `getNow()` method. On some clocks, the `getNow()`
 function can consume a large amount (many seconds) of time (e.g. `NtpClock`) so
 these classes are expected to provide a non-blocking implementation of the
 `getNow()` functionality through the `sendRequest()`, `isResponseReady()` and
-`readResponse()` methods. The `Clock` class provides a default implementation of
-the non-blocking API by simply calling the `getNow()` blocking API.
+`readResponse()` methods. The `Clock` base class provides a default
+implementation of the non-blocking API by simply calling the `getNow()` blocking
+API, but subclasses are expected to provide the non-blocking interface when
+needed.
 
 The `acetime_t` value from `getNow()` can be converted into the desired time
 zone using the `ZonedDateTime` and `TimeZone` classes desribed in the previous
@@ -1996,8 +1996,8 @@ The other problem with the `millis()` internal clock is that it does not survive
 a power failure. The `SystemClock` provides a way to save the current time
 to a `backupClock` (e.g. the `DS3231Clock` using the DS3231 chip with battery
 backup). When the `SystemClock` starts up, it will read the `backup Clock` and
-set the current time. When it synchronizes with the `reference Clock`, (e.g. the
-`NtpClock`), it saves a copy of it into the `backup Clock`.
+set the current time. When it synchronizes with the `referenceClock`, (e.g. the
+`NtpClock`), it saves a copy of it into the `backupClock`.
 
 The `SystemClock` is an abstract class, and this library provides 2 concrete
 implementations, `SystemClockLoop` and `SystemClockCoroutine`:
