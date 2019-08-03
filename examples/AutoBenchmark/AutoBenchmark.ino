@@ -69,9 +69,6 @@ void setup() {
 
   // ace_time::clock classes
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(clock::SystemClock): "));
-  SERIAL_PORT_MONITOR.println(sizeof(clock::SystemClock));
-
 #ifdef ARDUINO
   SERIAL_PORT_MONITOR.print(F("sizeof(clock::DS3231Clock): "));
   SERIAL_PORT_MONITOR.println(sizeof(clock::DS3231Clock));
@@ -81,6 +78,9 @@ void setup() {
   SERIAL_PORT_MONITOR.println(sizeof(clock::NtpClock));
 #endif
 #endif
+
+  SERIAL_PORT_MONITOR.print(F("sizeof(clock::SystemClock): "));
+  SERIAL_PORT_MONITOR.println(sizeof(clock::SystemClock));
 
   SERIAL_PORT_MONITOR.print(F("sizeof(clock::SystemClockLoop): "));
   SERIAL_PORT_MONITOR.println(sizeof(clock::SystemClockLoop));

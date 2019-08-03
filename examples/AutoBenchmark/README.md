@@ -33,10 +33,10 @@ sizeof(TimeZoneData): 5
 sizeof(TimeZone): 5
 sizeof(ZonedDateTime): 12
 sizeof(TimePeriod): 4
-sizeof(clock::SystemClock): 17
 sizeof(clock::DS3231Clock): 3
-sizeof(clock::SystemClockLoop): 10
-sizeof(clock::SystemClockCoroutine): 29
+sizeof(clock::SystemClock): 17
+sizeof(clock::SystemClockLoop): 34
+sizeof(clock::SystemClockCoroutine): 44
 sizeof(basic::ZoneContext): 6
 sizeof(basic::ZoneEra): 11
 sizeof(basic::ZoneInfo): 12
@@ -92,10 +92,10 @@ sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
-sizeof(clock::SystemClock): 24
 sizeof(clock::DS3231Clock): 8
-sizeof(clock::SystemClockLoop): 16
-sizeof(clock::SystemClockCoroutine): 48
+sizeof(clock::SystemClock): 24
+sizeof(clock::SystemClockLoop): 44
+sizeof(clock::SystemClockCoroutine): 68
 sizeof(basic::ZoneContext): 8
 sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
@@ -113,18 +113,18 @@ CPU:
 |--------------------------------------------------|----------|
 | Empty loop                                       |    1.700 |
 |--------------------------------------------------|----------|
-| LocalDate::forEpochDays()                        |   14.900 |
-| LocalDate::toEpochDays()                         |    7.600 |
-| LocalDate::dayOfWeek()                           |    7.500 |
-| OffsetDateTime::forEpochSeconds()                |   21.500 |
-| OffsetDateTime::toEpochSeconds()                 |   13.800 |
+| LocalDate::forEpochDays()                        |   14.600 |
+| LocalDate::toEpochDays()                         |    7.500 |
+| LocalDate::dayOfWeek()                           |    7.300 |
+| OffsetDateTime::forEpochSeconds()                |   21.400 |
+| OffsetDateTime::toEpochSeconds()                 |   14.000 |
 | ZonedDateTime::toEpochSeconds()                  |   14.000 |
-| ZonedDateTime::toEpochDays()                     |   12.300 |
+| ZonedDateTime::toEpochDays()                     |   12.200 |
 | ZonedDateTime::forEpochSeconds(UTC)              |   24.300 |
-| ZonedDateTime::forEpochSeconds(Basic nocache)    |  177.400 |
-| ZonedDateTime::forEpochSeconds(Basic cached)     |   49.900 |
-| ZonedDateTime::forEpochSeconds(Extended nocache) |  333.200 |
-| ZonedDateTime::forEpochSeconds(Extended cached)  |   50.600 |
+| ZonedDateTime::forEpochSeconds(Basic nocache)    |  172.100 |
+| ZonedDateTime::forEpochSeconds(Basic cached)     |   49.800 |
+| ZonedDateTime::forEpochSeconds(Extended nocache) |  332.500 |
+| ZonedDateTime::forEpochSeconds(Extended cached)  |   50.300 |
 +--------------------------------------------------+----------+
 Number of iterations per run: 10000
 ```
@@ -151,11 +151,11 @@ sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
-sizeof(clock::SystemClock): 24
 sizeof(clock::DS3231Clock): 8
 sizeof(clock::NtpClock): 88
-sizeof(clock::SystemClockLoop): 16
-sizeof(clock::SystemClockCoroutine): 48
+sizeof(clock::SystemClock): 24
+sizeof(clock::SystemClockLoop): 44
+sizeof(clock::SystemClockCoroutine): 68
 sizeof(basic::ZoneContext): 8
 sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
@@ -212,11 +212,11 @@ sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
-sizeof(clock::SystemClock): 24
 sizeof(clock::DS3231Clock): 8
 sizeof(clock::NtpClock): 116
-sizeof(clock::SystemClockLoop): 16
-sizeof(clock::SystemClockCoroutine): 48
+sizeof(clock::SystemClock): 24
+sizeof(clock::SystemClockLoop): 44
+sizeof(clock::SystemClockCoroutine): 68
 sizeof(basic::ZoneContext): 8
 sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
