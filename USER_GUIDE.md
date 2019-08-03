@@ -2709,3 +2709,7 @@ did not think it would fit inside an Arduino controller.
     * The SAMD21 microcontroller does *not* provide any EEPROM. Therefore,
       this feature is disabled in the apps under `examples` (e.g.
       `CommandLineClock`, `OledClock`, and `WorldClock`) which use this feature.
+    * The `MKR Zero` board generates *far* faster code (30%?) than the `SparkFun
+      SAMD21 Mini Breakout` board. The `MKR Zero` could be using a different
+      (more recent?) version of the GCC tool chain. I have not investigated
+      this.
