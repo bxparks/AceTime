@@ -35,19 +35,22 @@ pipeline {
         stage('Verify Tests') {
             steps {
                 sh "make -C libraries/AceTime/tests tests"
+                sh "make -C libraries/AceTime/tests/validation tests"
             }
         }
         stage('Test') {
             steps {
                 sh "make -C libraries/AceTime/tests runtests"
+                sh "make -C libraries/AceTime/tests/validation runtests"
             }
         }
     }
     post {
+        always {
+            sh "make -C libraries/AceTime/tests clean"
+            sh "make -C libraries/AceTime/tests/validation clean"
+        }
         failure {
-            always {
-                sh "make -C libraries/AceTime/tests clean"
-            }
             script {
                 if (env.BADGE_BUCKET?.trim()) {
                     sh "AUniter/BadgeService/set-badge-status.sh \
