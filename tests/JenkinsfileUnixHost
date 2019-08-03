@@ -30,6 +30,10 @@ pipeline {
                     git url: 'https://github.com/bxparks/UnixHostDuino',
                         branch: 'develop'
                 }
+                dir('libraries/tz') {
+                    git url: 'https://github.com/eggert/tz',
+                        branch: 'master'
+                }
             }
         }
         stage('Verify Tests') {
