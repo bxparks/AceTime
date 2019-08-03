@@ -109,7 +109,7 @@ class SystemClockLoop: public SystemClock {
           break;
         case kStatusOk: {
           unsigned long millisSinceLastSync = nowMillis - mLastSyncMillis;
-          if (millisSinceLastSync >= mCurrentSyncPeriodSeconds * 1000) {
+          if (millisSinceLastSync >= mCurrentSyncPeriodSeconds * 1000UL) {
             mRequestStatus = kStatusReady;
           }
           break;
@@ -118,7 +118,7 @@ class SystemClockLoop: public SystemClock {
           // subsequent loop() retries with an exponential backoff, until a
           // maximum of mSyncPeriodSeconds is reached.
           unsigned long waitMillis = nowMillis - mRequestStartMillis;
-          if (waitMillis >= mCurrentSyncPeriodSeconds * 1000) {
+          if (waitMillis >= mCurrentSyncPeriodSeconds * 1000UL) {
             if (mCurrentSyncPeriodSeconds >= mSyncPeriodSeconds / 2) {
               mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
             } else {
