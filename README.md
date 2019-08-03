@@ -15,7 +15,7 @@ The AceTime classes are organized into roughly 4 bundles, placed in different
 C++ namespaces:
 
 * date and time classes and types
-    * `ace_time::common::DateStrings`
+    * `ace_time::DateStrings`
     * `ace_time::acetime_t`
     * `ace_time::LocalTime`
     * `ace_time::LocalDate`
@@ -52,13 +52,12 @@ C++ namespaces:
         * `ace_time::zonedbx::kZonePacific_Wake`
         * `ace_time::zonedbx::kZonePacific_Wallis`
 * system clock classes
-    * `ace_time::clock::TimeProvider`
-        * `ace_time::clock::TimeKeeper`
-            * `ace_time::clock::DS3231TimeKeeper`
-            * `ace_time::clock::SystemClock`
-        * `ace_time::clock::NtpTimeProvider`
-    * `ace_time::clock::SystemClockSyncCoroutine`
-    * `ace_time::clock::SystemClockSyncLoop`
+    * `ace_time::clock::Clock`
+        * `ace_time::clock::DS3231Clock`
+        * `ace_time::clock::NtpClock`
+        * `ace_time::clock::SystemClock`
+            * `ace_time::clock::SystemClockCoroutine`
+            * `ace_time::clock::SystemClockLoop`
 * internal helper classes (not normally used by app developers)
     * `ace_time::basic::ZoneContext`
     * `ace_time::basic::ZoneEra`
@@ -199,7 +198,7 @@ Conversion from an epochSeconds to date-time components including timezone
 * 2.8 microseconds on an ESP32,
 * 6 microseconds on a Teensy 3.2.
 
-**Version**: 0.5.2 (2019-07-29, TZ DB version 2019a, beta)
+**Version**: 0.6 (2019-08-02, TZ DB version 2019a, beta)
 
 **Status**: Fully functional. Added `ZoneManager` for dynamic binding of
 zoneName or zoneId to the TimeZone.
@@ -252,7 +251,7 @@ void setup() {
 
   Serial.print(F("Day of Week: "));
   Serial.println(
-      common::DateStrings().dayOfWeekLongString(pacificTime.dayOfWeek()));
+      DateStrings().dayOfWeekLongString(pacificTime.dayOfWeek()));
 
   // Print info about UTC offset
   TimeOffset offset = pacificTime.timeOffset();
@@ -386,9 +385,7 @@ using namespace ace_time::clock;
 // ZoneProcessor instances should be created statically at initialization time.
 static BasicZoneProcessor pacificProcessor;
 
-SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
-
-//------------------------------------------------------------------
+static SystemClockLoop systemClock(nullptr /*reference*/, nullptr /*backup*/);
 
 void setup() {
   delay(1000);
@@ -407,8 +404,6 @@ void setup() {
   systemClock.setNow(pacificTime.toEpochSeconds());
 }
 
-//------------------------------------------------------------------
-
 void printCurrentTime() {
   acetime_t now = systemClock.getNow();
 
@@ -420,10 +415,15 @@ void printCurrentTime() {
   Serial.println();
 }
 
+// Do NOT use delay() here.
 void loop() {
-  printCurrentTime();
-  systemClock.keepAlive(); // should be called every 65.535s or less
-  delay(2000);
+  static acetime_t prevNow = systemClock.getNow();
+  systemClock.loop();
+  acetime_t now = systemClock.getNow();
+  if (now - prevNow >= 2) {
+    printCurrentTime();
+    prevNow = now;
+  }
 }
 ```
 
@@ -473,6 +473,9 @@ This library was developed and tested using:
 
 It should work with [PlatformIO](https://platformio.org/) but I have
 not tested it.
+
+The library works on Linux or MacOS (using both g++ and clang++ compilers) using
+the [UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulation layer.
 
 ### Operating System
 

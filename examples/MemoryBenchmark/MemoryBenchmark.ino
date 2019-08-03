@@ -22,7 +22,7 @@
 // flash and RAM is consumed by the selected feature.
 // NOTE: This line is modified by a 'sed' script in collect.sh. Be careful
 // when modifying its format.
-#define FEATURE 12
+#define FEATURE 0
 
 #if FEATURE != FEATURE_BASELINE
 #include <AceTime.h>
@@ -128,14 +128,14 @@ void setup() {
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_SYSTEM_CLOCK
-  DS3231TimeKeeper dsTimeKeeper;
-  SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
+  DS3231Clock dsClock;
+  SystemClockLoop systemClock(&dsClock, &dsClock);
   systemClock.setup();
   acetime_t now = systemClock.getNow();
   guard ^= now;
 #elif FEATURE == FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE
-  DS3231TimeKeeper dsTimeKeeper;
-  SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
+  DS3231Clock dsClock;
+  SystemClockLoop systemClock(&dsClock, &dsClock);
   systemClock.setup();
   acetime_t now = systemClock.getNow();
   BasicZoneProcessor processor;

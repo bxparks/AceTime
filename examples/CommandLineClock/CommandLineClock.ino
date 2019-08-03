@@ -12,6 +12,7 @@
  *    * Arduino Nano
  *    * Arduino Pro Mini
  *    * Arduino Leonardo or Pro Micro
+ *    * SAMD21
  *    * ESP8266
  *    * ESP32
  *
@@ -24,12 +25,13 @@
  *    date [dateString]
  *        Print or set the date.
  *    timezone [manual {offset} | dst (on | off)] |
- *      basic [list] | extended [list] ]
+ *        Print or set the current TimeZone.
+ *    basic [list] | extended [list] ]
  *        Print or set the currently active TimeZone.
  *    sync [status]
  *        Sync the SystemClock from its external source, or print its sync
-          status.
- *		wifi (status | connect | config [ssid password])
+ *        status.
+ *		wifi (status | config [{ssid} {password}] | connect)
  *        Print the ESP8266 or ESP32 wifi connection info.
  *        Connect to the wifi network.
  *        Print or set the wifi ssid and password.
@@ -55,25 +57,32 @@ using namespace ace_time;
 using namespace ace_time::clock;
 
 //---------------------------------------------------------------------------
-// Configure RTC and TimeKeeper
+// Configure RTC and Clock
 //---------------------------------------------------------------------------
 
-#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
-  DS3231TimeKeeper dsTimeKeeper;
-  SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper /*backup*/);
-#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
-  NtpTimeProvider ntpTimeProvider;
-  SystemClock systemClock(&ntpTimeProvider, nullptr /*backup*/);
-#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NONE
-  SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
+#if SYNC_TYPE == SYNC_TYPE_COROUTINE
+  #define SYSTEM_CLOCK SystemClockCoroutine
 #else
-  #error Unknown time keeper option
+  #define SYSTEM_CLOCK SystemClockLoop
 #endif
 
-#if SYNC_TYPE == SYNC_TYPE_COROUTINE
-  SystemClockSyncCoroutine systemClockSync(systemClock);
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NONE
+  SYSTEM_CLOCK systemClock(nullptr /*reference*/, nullptr /*backup*/);
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
+  DS3231Clock dsClock;
+  SYSTEM_CLOCK systemClock(&dsClock, &dsClock /*backup*/);
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
+  NtpClock ntpClock;
+  SYSTEM_CLOCK systemClock(&ntpClock, nullptr /*backup*/);
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_BOTH
+  DS3231Clock dsClock;
+  NtpClock ntpClock;
+  SYSTEM_CLOCK systemClock(&ntpClock, &dsClock);
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_UNIX
+  UnixClock unixClock;
+  SYSTEM_CLOCK systemClock(&unixClock, &unixClock);
 #else
-  SystemClockSyncLoop systemClockSyncLoop(systemClock);
+  #error Unknown clock option
 #endif
 
 //---------------------------------------------------------------------------
@@ -241,7 +250,7 @@ class SyncCommand: public CommandHandler {
     void run(Print& printer, int argc, const char* const* argv)
         const override {
       if (argc == 1) {
-        controller.sync();
+        controller.forceSync();
         printer.print(F("Date set to: "));
         ZonedDateTime currentDateTime = controller.getCurrentDateTime();
         currentDateTime.printTo(printer);
@@ -251,11 +260,12 @@ class SyncCommand: public CommandHandler {
 
       SHIFT_ARGC_ARGV(argc, argv);
       if (isArgEqual(argv[0], F("status"))) {
-        printer.print(F("Seconds since last sync: "));
+        printer.print(F("Last synced: "));
         if (mSystemClock.isInit()) {
           acetime_t ago = mSystemClock.getNow()
               - mSystemClock.getLastSyncTime();
-          printer.println(ago);
+          printer.print(ago);
+          printer.println(F("s ago"));
         } else {
           printer.println(F("<Never>"));
         }
@@ -283,11 +293,11 @@ class WifiCommand: public CommandHandler {
   public:
     WifiCommand(
         Controller& controller,
-        NtpTimeProvider& ntpTimeProvider):
+        NtpClock& ntpClock):
       CommandHandler(F("wifi"),
-          F("status | (config [ssid password]) | connect") ),
+          F("status | (config [{ssid} {password}]) | connect") ),
       mController(controller),
-      mNtpTimeProvider(ntpTimeProvider)
+      mNtpClock(ntpClock)
       {}
 
     void run(Print& printer, int argc, const char* const* argv) const override {
@@ -317,10 +327,10 @@ class WifiCommand: public CommandHandler {
           printer.println(F("Wifi config command requires 2 arguments"));
         }
       } else if (isArgEqual(argv[0], F("status"))) {
-        printer.print(F("NtpTimeProvider::isSetup(): "));
-        printer.println(mNtpTimeProvider.isSetup() ? F("true") : F("false"));
+        printer.print(F("NtpClock::isSetup(): "));
+        printer.println(mNtpClock.isSetup() ? F("true") : F("false"));
         printer.print(F("NTP Server: "));
-        printer.println(mNtpTimeProvider.getServer());
+        printer.println(mNtpClock.getServer());
         printer.print(F("WiFi IP address: "));
         printer.println(WiFi.localIP());
       } else if (isArgEqual(argv[0], F("connect"))) {
@@ -332,11 +342,20 @@ class WifiCommand: public CommandHandler {
     }
 
     void connect(Print& printer) const {
+      if (! controller.isStoredInfoValid()) {
+        printer.println(F("Invalid ssid and password"));
+        return;
+      }
+
       const StoredInfo& storedInfo = mController.getStoredInfo();
       const char* ssid = storedInfo.ssid;
       const char* password = storedInfo.password;
-      mNtpTimeProvider.setup(ssid, password);
-      if (mNtpTimeProvider.isSetup()) {
+      printer.print(F("ssid: "));
+      printer.println(storedInfo.ssid);
+      printer.print(F("password: "));
+      printer.println(storedInfo.password);
+      mNtpClock.setup(ssid, password);
+      if (mNtpClock.isSetup()) {
         printer.println(F("Connection succeeded."));
       } else {
         printer.println(F("Connection failed... run 'wifi connect' again"));
@@ -345,7 +364,7 @@ class WifiCommand: public CommandHandler {
 
   private:
     Controller& mController;
-    NtpTimeProvider& mNtpTimeProvider;
+    NtpClock& mNtpClock;
 };
 
 #endif
@@ -356,7 +375,7 @@ DateCommand dateCommand;
 SyncCommand syncCommand(systemClock);
 TimezoneCommand timezoneCommand;
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
-WifiCommand wifiCommand(controller, ntpTimeProvider);
+WifiCommand wifiCommand(controller, ntpClock);
 #endif
 
 const CommandHandler* const COMMANDS[] = {
@@ -381,57 +400,81 @@ CommandManager<BUF_SIZE, ARGV_SIZE> commandManager(
 //---------------------------------------------------------------------------
 
 void setup() {
+#if defined(ARDUINO)
   // Wait for stability on some boards.
   // 1000ms needed for SERIAL_PORT_MONITOR.
   // 2000ms needed for Wire, I2C or SSD1306 (don't know which one).
   delay(2000);
+#endif
 
 #if defined(ARDUINO_AVR_LEONARDO)
   RXLED0; // LED off
   TXLED0; // LED off
 #endif
 
-  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
-  while (!SERIAL_PORT_MONITOR); // Wait until SERIAL_PORT_MONITOR is ready - Leonardo/Micro
+  SERIAL_PORT_MONITOR.begin(115200);
+  while (!SERIAL_PORT_MONITOR); // Wait until ready - Leonardo/Micro
   SERIAL_PORT_MONITOR.println(F("setup(): begin"));
 
   SERIAL_PORT_MONITOR.print(F("sizeof(StoredInfo): "));
   SERIAL_PORT_MONITOR.println(sizeof(StoredInfo));
 
+#if defined(ARDUINO)
+  Serial.println(F("Setting up Wire"));
   Wire.begin();
   Wire.setClock(400000L);
-
-#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
-  dsTimeKeeper.setup();
 #endif
 
+  Serial.println(F("Setting up PersistentStore"));
+#if defined(ARDUINO)
   persistentStore.setup();
+#else
+  persistentStore.setup("commandline.dat");
+#endif
+
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
+  Serial.println(F("Setting up DS3231Clock"));
+  dsClock.setup();
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
+  Serial.println(F("Setting up NtpClock DELAYED until WiFi"));
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_BOTH
+  Serial.println(F("Setting up DS3231Clock"));
+  dsClock.setup();
+  Serial.println(F("Setting up NtpClock DELAYED until WiFi"));
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_UNIX
+  Serial.println(F("Setting up UnixClock"));
+  unixClock.setup();
+#endif
+
+  Serial.println(F("Setting up SystemClock"));
   systemClock.setup();
+
+  Serial.println(F("Setting up Controller"));
   controller.setup();
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
-/*
-  if (controller.isStoredInfoValid()) {
-    const StoredInfo& storedInfo = controller.getStoredInfo();
-    ntpTimeProvider.setup(storedInfo.ssid, storedInfo.password);
-  }
-*/
+  Serial.println(F("Automatically connecting to Wifi"));
+  wifiCommand.connect(SERIAL_PORT_MONITOR);
 #endif
 
   // insert coroutines into the scheduler
 #if SYNC_TYPE == SYNC_TYPE_COROUTINE
-  systemClockSync.setupCoroutine(F("systemClockSync"));
+  Serial.println(F("Setting up SystemClock coroutine"));
+  systemClock.setupCoroutine(F("systemClock"));
 #endif
+
+  Serial.println(F("Setting up CommandManager"));
   commandManager.setupCoroutine(F("commandManager"));
+
+  Serial.println(F("Setting up CoroutineScheduler"));
   CoroutineScheduler::setup();
 
   SERIAL_PORT_MONITOR.println(F("setup(): end"));
 }
 
 void loop() {
-  systemClock.keepAlive();
-#if SYNC_TYPE == SYNC_TYPE_MANUAL
-  systemClockSyncLoop.loop();
+#if SYNC_TYPE == SYNC_TYPE_LOOP
+  systemClock.loop();
 #endif
 
   CoroutineScheduler::loop();

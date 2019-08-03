@@ -14,9 +14,9 @@ The Python tool generates about 130,000 data points spanning the year 2000 to
 the ESP32.
 
 The unit test does run on a Linux machine using the
-[unitduino](https://github.com/bxparks/AUnit/tree/develop/unitduino) adaptor
-layer included with [AUnit](https://github.com/bxparks/AUnit). Assuming that you
-have `g++` and `make` installed, just type:
+[UnixHostDuino](https://github.com/bxparks/UnixHostDuino) adapter layer.
+Assuming that you have `g++` and `make` installed, just type:
+
 ```
 $ make
 $ ./BasicValidationUsingPythonTest.out

@@ -8,8 +8,7 @@ library.
 
 These unit tests require a desktop-class machine running Linux or MacOS, not on
 any Arduino microcontroller, because they consume too much memory. They use
-the [unitduino](https://github.com/bxparks/AUnit/tree/develop/unitduino)
-emulation layer provided by [AUnit](https://github.com/bxparks/AUnit).
+the [UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulation layer.
 They also use various files (e.g. `validation_data.h`, `validation_data.cpp`,
 `validation_tests.cpp`) which are *generated* dynamically by the Makefile. (They
 used to be manually generated, then checked into source control. But after it

@@ -32,13 +32,13 @@ class Controller {
     /**
      * Constructor.
      * @param persistentStore stores objects into the EEPROM with CRC
-     * @param timeKeeper source of the current time
+     * @param clock source of the current time
      * @param presenter renders the date and time info to the screen
      */
-    Controller(PersistentStore& persistentStore, TimeKeeper& timeKeeper,
+    Controller(PersistentStore& persistentStore, Clock& clock,
             Presenter& presenter):
         mPersistentStore(persistentStore),
-        mTimeKeeper(timeKeeper),
+        mClock(clock),
         mPresenter(presenter)
       #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC \
           || TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
@@ -60,7 +60,7 @@ class Controller {
       }
     #endif
 
-      // Retrieve current time from TimeKeeper and set the current clockInfo.
+      // Retrieve current time from Clock and set the current clockInfo.
       updateDateTime();
     }
 
@@ -291,7 +291,7 @@ class Controller {
       // converting it to a ZonedDateTime at each iteration.
 
       mClockInfo.dateTime = ZonedDateTime::forEpochSeconds(
-          mTimeKeeper.getNow(), mClockInfo.timeZone);
+          mClock.getNow(), mClockInfo.timeZone);
 
       // If in CHANGE mode, and the 'second' field has not been cleared,
       // update the mChangingDateTime.second field with the current second.
@@ -350,7 +350,7 @@ class Controller {
 
     /** Save the current UTC dateTime to the RTC. */
     void saveDateTime() {
-      mTimeKeeper.setNow(mChangingClockInfo.dateTime.toEpochSeconds());
+      mClock.setNow(mChangingClockInfo.dateTime.toEpochSeconds());
     }
 
     /** Transfer info from ChangingClockInfo to ClockInfo. */
@@ -446,7 +446,7 @@ class Controller {
     }
 
     PersistentStore& mPersistentStore;
-    TimeKeeper& mTimeKeeper;
+    Clock& mClock;
     Presenter& mPresenter;
 
   #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC

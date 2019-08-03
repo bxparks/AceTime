@@ -11,7 +11,6 @@
 
 using namespace ace_time;
 using ace_time::common::printPad2;
-using ace_time::common::DateStrings;
 
 class Presenter {
   public:

@@ -11,7 +11,6 @@ namespace ace_time {
 
 using common::printPad2;
 using common::printPad3;
-using common::DateStrings;
 
 // Using 0=Jan offset.
 const uint8_t LocalDate::sDayOfWeek[12] = {

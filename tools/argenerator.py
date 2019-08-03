@@ -258,9 +258,9 @@ static const char* const kLetters{policyName}[] {progmem} = {{
 """
 
     SIZEOF_ZONE_RULE_8 = 9
-    SIZEOF_ZONE_RULE_32 = 9
+    SIZEOF_ZONE_RULE_32 = 12
     SIZEOF_ZONE_POLICY_8 = 6
-    SIZEOF_ZONE_POLICY_32 = 10
+    SIZEOF_ZONE_POLICY_32 = 12
 
     def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
                  zones_map, rules_map,
@@ -637,9 +637,9 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
 """
 
     SIZEOF_ZONE_ERA_8 = 11
-    SIZEOF_ZONE_ERA_32 = 15
-    SIZEOF_ZONE_INFO_8 = 8
-    SIZEOF_ZONE_INFO_32 = 14
+    SIZEOF_ZONE_ERA_32 = 16
+    SIZEOF_ZONE_INFO_8 = 12
+    SIZEOF_ZONE_INFO_32 = 20
 
     def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
                  start_year, until_year, zones_map, links_map,

@@ -1,4 +1,5 @@
 <map id="ace_time::clock::SystemClock" name="ace_time::clock::SystemClock">
-<area shape="rect" id="node2" href="$classace__time_1_1clock_1_1TimeKeeper.html" title="A TimeProvider whose time can be set by the end&#45;user. " alt="" coords="10,80,202,107"/>
-<area shape="rect" id="node3" href="$classace__time_1_1clock_1_1TimeProvider.html" title="Base class for objects that provide a source of time whose time cannot be changed by the end&#45;user..." alt="" coords="7,5,205,32"/>
+<area shape="rect" id="node3" href="$classace__time_1_1clock_1_1SystemClockCoroutine.html" title="A version of SystemClock that mixes in the ace_routine::Coroutine class so that that the non&#45;block me..." alt="" coords="5,155,207,196"/>
+<area shape="rect" id="node4" href="$classace__time_1_1clock_1_1SystemClockLoop.html" title="A subclass of SystemClock that sync with its mReferenceClock using a blocking mReferenceClock&#45;&gt;getNow..." alt="" coords="231,162,461,189"/>
+<area shape="rect" id="node2" href="$classace__time_1_1clock_1_1Clock.html" title="Base class for objects that provide and store time. " alt="" coords="148,5,304,32"/>
 </map>

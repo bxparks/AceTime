@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 0.5.2 (2019-07-29, TZ DB version 2019a, beta)
+Version: 0.6 (2019-08-02, TZ DB version 2019a, beta)
 
 ## Installation
 
@@ -34,7 +34,8 @@ The source files are organized as follows:
   `ExtendedZoneProcessor` (`ace_time::zonedbx`)
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
 * `tests/validation` - integration tests using AUnit which must be run
-   on desktop Linux or MacOS machines
+   on desktop Linux or MacOS machines using
+   [UnixHostDuino](https://github.com/bxparks/UnixHostDuino)
 * `examples/` - example programs
 * `tools/` - parser for the TZ Database files, code generators for `zonedb::`
   and `zonedbx::` zone files, and code generators for various unit tests
@@ -44,7 +45,7 @@ The source files are organized as follows:
 The vast majority of the AceTime library has no dependency to any other external
 libraries. There is an optional dependency to
 [AceRoutine](https://github.com/bxparks/AceRoutine) if you want to use the
-`SystemClockSyncCoroutine` class for automatic syncing. (This is recommended but
+`SystemClockCoroutine` class for automatic syncing. (This is recommended but
 not strictly necessary). The `ace_time/hw/CrcEeprom.h` class has a dependency to
 the [FastCRC](https://github.com/FrankBoesing/FastCRC) library but the
 `CrcEeprom.h` file is not included in the `AceTime.h` main header file, so you
@@ -71,6 +72,10 @@ Various scripts in the `tools/` directory depend on:
 * Python 3.5 or greater
 * Java OpenJDK 11
 
+If you want to run the unit tests or some of the command line examples using a
+Linux or MacOS machine, you need:
+* [UnixHostDuino](https://github.com/bxparks/UnixHostDuino)
+
 ### Doxygen Docs
 
 The [docs/](docs/) directory contains the
@@ -87,7 +92,7 @@ The following programs are provided in the `examples/` directory:
 * [HelloSystemClock](examples/HelloSystemClock/)
     * demo program of `SystemClock`
 * [HelloSystemClockCoroutine](examples/HelloSystemClockCoroutine/)
-    * same as `SystemClock` but using AceRoutine coroutines
+    * same as `HelloSystemClock` but using AceRoutine coroutines
 * [CommandLineClock](examples/CommandLineClock/)
     * a clock with a DS3231 RTC chip, an NTP client, and using the serial port
       for receiving commands and printing results, useful for debugging
@@ -101,8 +106,6 @@ The following programs are provided in the `examples/` directory:
 * [ComparisonBenchmark](examples/ComparisonBenchmark/)
     * compare AceTime with
     [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
-* [CrcEepromDemo](examples/CrcEepromDemo/)
-    * a program that verifies the `CrcEeprom` class
 
 ## Motivation and Design Considerations
 
@@ -174,7 +177,7 @@ copies of these small objects. It is not possible to remove all complex memory
 allocations when dealing with the TZ Database. In the AceTime library, I managed
 to move most of the complex memory handling logic into the `ZoneProcessor` class
 hierarchy. These are relatively large objects which are meant to be opaque
-objects to the application developer, created statically at start-up time of
+to the application developer, created statically at start-up time of
 the application, and never deleted during the lifetime of the application.
 
 The [Arduino Time Library](https://github.com/PaulStoffregen/Time) uses a set of
@@ -363,12 +366,11 @@ uint8_t dayOfWeek = localDate.dayOfWeek();
 ### Date Strings
 
 To convert the `dayOfweek()` numerical code to a human-readable string for
-debugging or display, we can use the `common::DateStrings` class:
+debugging or display, we can use the `DateStrings` class:
 
 
 ```C++
 namespace ace_time {
-namespace common {
 
 class DateStrings {
   public:
@@ -383,7 +385,6 @@ class DateStrings {
 };
 
 }
-}
 ```
 
 The `DateStrings` object uses an internal buffer to hold the generated
@@ -396,13 +397,9 @@ reclaimed from the stack. The class is not meant to be created and persisted for
 a long period of time, unless you are sure that nothing else will reuse the
 internal buffer between calls.
 
-The `DateStrings` class is inside the `ace_time::common` namespace, so you need
-to prefix it with `common::`, unless a `using` statement is used.
-
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
-using common::DateStrings;
 ...
 
 auto localDate = LocalDate::forComponents(2019, 5, 20);
@@ -727,7 +724,7 @@ debugging. The `printTo()` prints a human-readable representation of the date in
 
 A "time zone" is often used colloquially to mean 2 different things:
 * A time which is offset from the UTC time by a fixed amount, or
-* A physical (or conceptual) region whose local time is offset
+* A geographical (or conceptual) region whose local time is offset
 from the UTC time using various transition rules.
 
 Both meanings of "time zone" are supported by the `TimeZone` class using
@@ -739,9 +736,9 @@ be encoded with (relatively) simple rules from the TZ Database
 * `TimeZone::kTypeExtended`: utilizes a `ExtendedZoneProcessor` which can
 handle all zones in the TZ Database
 * `TimeZone::kTypeBasicManaged`: same as `kTypeBasic` but the
-  `BasicZoneProcessor' is managed by the `ZoneManager
+  `BasicZoneProcessor` is managed by the `ZoneManager
 * `TimeZone::kTypeExtendedManaged`: same as `kTypeExtended` but the
-  `ExtendedZoneProcessor' is managed by the `ZoneManager
+  `ExtendedZoneProcessor` is managed by the `ZoneManager
 
 The class hierarchy of `TimeZone` is shown below, where the arrow means
 "is-subclass-of" and the diamond-line means "is-aggregation-of". This is an
@@ -1760,90 +1757,89 @@ returns a object of time `LocalDateTime`, `OffsetDateTime` or `ZonedDateTime`.
 When these methods are passed a value of `LocalDate::kInvalidEpochSeconds`, the
 resulting object will return a true value for `isError()`.
 
-## Clock
+## Clocks
 
-The `acetime::clock` namespace contains classes needed to implement the
-`SystemClock`. The `SystemClock` is a source of time (normally represented as a
-`acetime_t` type, in other words, seconds from AceTime Epoch). The `SystemClock`
-is normally powered by the internal `millis()` function, but that function is
-usually not accurate enough. So the `SystemClock` has the ability to synchronize
-against more accurate external clocks (e.g. NTP server). The `SystemClock` also
-has the ability to backup the current time to a non-volatile time source (e.g.
-DS3231 chip) so that the current time can be restored when the power is
-restored.
+The `acetime::clock` namespace contains classes needed to implement various
+types of clocks using different sources. For example, the `DS3231Clock` uses the
+DS3231 RTC chip, and the `NtpClock` uses an NTP server. The `SystemClock` is
+powered by the internal `millis()` function, but that function is usually not
+accurate enough. So the `SystemClock` has the ability to synchronize against
+more accurate external clocks such as the `DS3231Clock` and the `NtpClock`. The
+`SystemClock` also has the ability to backup the current time to a non-volatile
+time source (e.g. `DS3231Clock`) so that the current time can be restored when
+the power is restored.
 
-The class hierarchy diagram looks like this, where the arrow means
-"is-subclass-of") and the diamond-line means ("is-aggregation-of"):
+The class hierarchy diagram for these various classes looks like this, where the
+arrow means "is-subclass-of") and the diamond-line means ("is-aggregation-of"):
 ```
-                        0..1
-           TimeProvider ------------.
-          ^     ^                   |
-         /      |      0..1         |
-        /   TimeKeeper --------.    |
-       NTP      ^  ^           |    |
-TimeProvider   /   |           |    |
-              /    |           |    |
-         DS3231    |           |    |
-      TimeKeeper   |           |    |
-                   |           |    |
-              SystemClock <>---+----'
+                    0..2
+             Clock  ------------.
+            ^  ^  ^             |
+           /   |   \            |
+          /    |    \           |
+DS3231Clock    |    NtpClock    |
+             System             |
+             Clock <> ----------'
+               ^ ^
+              /   \
+             /     \
+   SystemClock    SystemClock
+          Loop    Coroutine
 ```
 
-The library currently provides only a single implementation of `TimeProvider`
-and a single implementation of `TimeKeeper`. More could be added later.
+### Clock Class
 
-### TimeProvider and TimeKeeper
+This is an abstract class which provides 3 functionalities:
 
-These 2 interfaces distinguish between clocks that provide a source of time but
-cannot be set to a particular time (e.g. NTP servers or GPS modules), and clocks
-whose time can be set by the user (e.g. DS3231 RTC chip). The `TimeProvider`
-interface implements the `TimeProvider::getNow()` method which returns an
-`acetime_t` type. The `TimeKeeper` is a subinterface of `TimeProvider` and
-implements the `TimeKeeper::setNow(acetime_t)` method which sets the current
-time.
+* `setNow(acetime_t now)`: set the current time
+* `acetime_ getNow()`: get current time (blocking)
+* `sendRequest()`, `isResponseReady()`, `readResponse()`: get current time (non-blocking)
 
 ```C++
 namespace ace_time {
 namespace clock {
 
-class TimeProvider {
+class Clock {
   public:
     static const acetime_t kInvalidSeconds = LocalTime::kInvalidSeconds;
 
+    virtual void setNow(acetime_t epochSeconds) {}
     virtual acetime_t getNow() const = 0;
-    ...
-};
 
-class TimeKeeper: public TimeProvider {
-  public:
-    virtual void setNow(acetime_t epochSeconds) = 0;
+    virtual void sendRequest() const {}
+    virtual bool isResponseReady() const { return true; }
+    virtual acetime_t readResponse() const { return getNow(); }
 };
 
 }
 }
 ```
 
-The `acetime_t` value can be converted into the desired time zone using the
-`ZonedDateTime` and `TimeZone` classes desribed in the previous section.
+Examples of the `Clock` include an NTP client, a GPS client, or a DS3231 RTC
+chip.
 
-```C++
-TimeZone tz = ...;
-TimeProvider timeProvider = ...;
-acetime_t nowSeconds = timeProvider.getNow();
-auto nowDateTime = ZonedDateTime::forEpochSeconds(nowSeconds, tz);
-nowDateTime.printTo(Serial);
-```
+Not all clocks can implement the `setNow()` method (e.g. an NTP client)
+so the default implementation `Clock::setNow()` is a no-op. However, all clocks
+are expected to provide a `getNow()` method. On some clocks, the `getNow()`
+function can consume a large amount (many seconds) of time (e.g. `NtpClock`) so
+these classes are expected to provide a non-blocking implementation of the
+`getNow()` functionality through the `sendRequest()`, `isResponseReady()` and
+`readResponse()` methods. The `Clock` base class provides a default
+implementation of the non-blocking API by simply calling the `getNow()` blocking
+API, but subclasses are expected to provide the non-blocking interface when
+needed.
 
-Various implementations of `TimeProvider` and `TimeKeeper` are described in
-more detail the following subsections.
+The `acetime_t` value from `getNow()` can be converted into the desired time
+zone using the `ZonedDateTime` and `TimeZone` classes desribed in the previous
+sections.
 
-### NTP Time Provider
+### NTP Clock
 
-The `NtpTimeProvider` is available on the ESP8266 and ESP32 which have builtin
-WiFi capability. (I have not tested the code on the Arduino WiFi shield
-because I don't have that hardware.) This class uses an NTP client to fetch the
-current time from the specified NTP server. The constructor takes 3 parameters
-which have default values so they are optional.
+The `NtpClock` class is available on the ESP8266 and ESP32 which have builtin
+WiFi capability. (I have not tested the code on the Arduino WiFi shield because
+I don't have that hardware.) This class uses an NTP client to fetch the current
+time from the specified NTP server. The constructor takes 3 parameters which
+have default values so they are optional.
 
 The class declaration looks like this:
 
@@ -1851,22 +1847,31 @@ The class declaration looks like this:
 namespace ace_time {
 namespace clock {
 
-class NtpTimeProvider: public TimeProvider {
+class NtpClock: public Clock {
   public:
-    explicit NtpTimeProvider(
-            const char* server = kNtpServerName,
-            uint16_t localPort = kLocalPort,
-            uint16_t requestTimeout = kRequestTimeout);
-    void setup(const char* ssid, const char* password);
+    explicit NtpClock(
+        const char* server = kNtpServerName,
+        uint16_t localPort = kLocalPort,
+        uint16_t requestTimeout = kRequestTimeout);
 
+    void setup(const char* ssid, const char* password);
     bool isSetup() const;
+    const char* getServer() const;
+
     acetime_t getNow() const override;
-    ...
+
+    void sendRequest() const override;
+    bool isResponseReady() const override;
+    acetime_t readResponse() const override;
 };
 
 }
 }
 ```
+
+The constructor takes the name of the NTP server. The default value is
+`kNtpServerName` which is `us.pool.npt.org`. The default `kLocalPort` is set to
+8888. And the default `kRequestTimeout` is 1000 milliseconds.
 
 You need to call the `setup()` with the `ssid` and `password` of the WiFi
 connection. The method will time out after 5 seconds if the connection cannot
@@ -1880,14 +1885,14 @@ using namespace ace_time::clock;
 const char SSID[] = ...; // Warning: don't store SSID in GitHub
 const char PASSWORD[] = ...; // Warning: don't store passwd in GitHub
 
-NtpTimeProvider ntpTimeProvider;
+NtpClock ntpClock;
 
 void setup() {
   Serial.begin(115200);
   while(!Serial); // needed for Leonardo/Micro
   ...
-  ntpTimeProvider.setup(SSID, PASSWORD);
-  if (ntpTimeProvider.isSetup()) {
+  ntpClock.setup(SSID, PASSWORD);
+  if (ntpClock.isSetup()) {
     Serial.println("WiFi connection failed... try again.");
     ...
   }
@@ -1895,9 +1900,10 @@ void setup() {
 
 // Print the NTP time every 10 seconds, in UTC-08:00 time zone.
 void loop() {
-  acetime_t nowSeconds = ntpTimeProvider.getNow();
+  acetime_t nowSeconds = ntpClock.getNow();
+  // convert epochSeconds to UTC-08:00
   OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
+      nowSeconds, TimeOffset::forHour(-8));
   odt.printTo(Serial);
   delay(10000); // wait 10 seconds
 }
@@ -1907,16 +1913,16 @@ void loop() {
 public repository like GitHub because they will become public to anyone. Even if
 you delete the commit, they can be retrieved from the git history.
 
-### DS3231 Time Keeper
+### DS3231 Clock
 
-The `DS3231TimeKeeper` is the class describing the DS3231 RTC chip. It contains
+The `DS3231Clock` class uses the DS3231 RTC chip. It contains
 an internal temperature-compensated osciallator that counts time in 1
 second steps. It is often connected to a battery or a supercapacitor to survive
 power failures. The DS3231 chip stores the time broken down by various date and
 time components (i.e. year, month, day, hour, minute, seconds). It contains
 internal logic that knows about the number of days in an month, and leap years.
 It supports dates from 2000 to 2099. It does *not* contain the concept of a time
-zone. Therefore, The `DS3231TimeKeeper` assumes that the date/time components
+zone. Therefore, The `DS3231Clock` assumes that the date/time components
 stored on the chip is in **UTC** time.
 
 The class declaration looks like this:
@@ -1925,11 +1931,11 @@ The class declaration looks like this:
 namespace ace_time {
 namespace clock {
 
-class DS3231TimeKeeper: public TimeKeeper {
+class DS3231Clock: public Clock {
   public:
-    explicit DS3231TimeKeeper();
-    void setup();
+    explicit DS3231Clock();
 
+    void setup();
     acetime_t getNow() const override;
     void setNow(acetime_t epochSeconds) override;
 };
@@ -1938,12 +1944,12 @@ class DS3231TimeKeeper: public TimeKeeper {
 }
 ```
 
-The `DS3231TimeKeeper::getNow()` returns the number of seconds since
+The `DS3231Clock::getNow()` returns the number of seconds since
 AceTime Epoch by converting the UTC date and time components to `acetime_t`
 (using `LocalDatetime` internally). Users can convert the epoch seconds
 into either an `OffsetDateTime` or a `ZonedDateTime` as needed.
 
-The `DS3231TimeKeeper::setup()` should be called from the global `setup()`
+The `DS3231Clock::setup()` should be called from the global `setup()`
 function to initialize the object. Here is a sample that:
 
 ```C++
@@ -1951,204 +1957,192 @@ function to initialize the object. Here is a sample that:
 using namespace ace_time;
 using namespace ace_time::clock;
 
-DS3231TimeKeeper dsTimeKeeper;
+DS3231Clock dsClock;
 ...
 void setup() {
   Serial.begin(115200);
   while(!Serial); // needed for Leonardo/Micro
   ...
-  dsTimeKeeper.setup();
-  dsTimeKeeper.setNow(0); // 2000-01-01T00:00:00Z
+  dsClock.setup();
+  dsClock.setNow(0); // 2000-01-01T00:00:00Z
 }
 
 void loop() {
-  acetime_t nowSeconds = dsTimeKeeper.getNow();
+  acetime_t nowSeconds = dsClock.getNow();
+  // convert epochSeconds to UTC-08:00
   OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
+      nowSeconds, TimeOffset::forHour(-8));
   odt.printTo(Serial);
   delay(10000); // wait 10 seconds
 }
 ```
 
-### SystemClock
+### System Clock
 
-The `SystemClock` is a special `TimeKeeper` that uses the Arduino built-in
-`millis()` method as the source of its time. The biggest advantage of
-`SystemClock` is that its `getNow()` has very little overhead so it can be
-called as frequently as needed. The `getNow()` method of other `TimeProviders`
-can consume a significant amount of time. For example, the `DS3231TimeKeeper`
-must talk to the DS3231 RTC chip over an I2C bus. Even worse, the
-`NtpTimeProvider` must the talk to the NTP server over the network which can be
-unpredictably slow.
+The `SystemClock` is a special `Clock` that uses the Arduino built-in `millis()`
+method as the source of its time. The biggest advantage of `SystemClock` is that
+its `getNow()` has very little overhead so it can be called as frequently as
+needed, compared to the `getNow()` method of other `Clock` classes which can
+consume a significant amount of time. For example, the `DS3231Clock` must talk
+to the DS3231 RTC chip over an I2C bus. Even worse, the `NtpClock` must the talk
+to the NTP server over the network which can be unpredictably slow.
 
-The `SystemClock` class looks like this:
+Unfortunately, the `millis()` internal clock of most (all?) Arduino boards is
+not very accurate and unsuitable for implementing an accurate clock. Therefore,
+the `SystemClock` provides the option to synchronize its clock to an external
+`reference Clock`.
+
+The other problem with the `millis()` internal clock is that it does not survive
+a power failure. The `SystemClock` provides a way to save the current time
+to a `backupClock` (e.g. the `DS3231Clock` using the DS3231 chip with battery
+backup). When the `SystemClock` starts up, it will read the `backup Clock` and
+set the current time. When it synchronizes with the `referenceClock`, (e.g. the
+`NtpClock`), it saves a copy of it into the `backupClock`.
+
+The `SystemClock` is an abstract class, and this library provides 2 concrete
+implementations, `SystemClockLoop` and `SystemClockCoroutine`:
 
 ```C++
 namespace ace_time {
 namespace clock {
 
-class SystemClock: public TimeKeeper {
+class SystemClock: public Clock {
   public:
-
-    explicit SystemClock(
-            TimeProvider* syncTimeProvider /* nullable */,
-            TimeKeeper* backupTimeKeeper /* nullable */):
-        mSyncTimeProvider(syncTimeProvider),
-        mBackupTimeKeeper(backupTimeKeeper);
     void setup();
 
     acetime_t getNow() const override;
     void setNow(acetime_t epochSeconds) override;
 
-    void sync(acetime_t epochSeconds);
-    acetime_t getLastSyncTime() const;
     bool isInit() const;
+    void forceSync();
+    acetime_t getLastSyncTime() const;
 
   protected:
-    virtual unsigned long millis() const;
+    virtual unsigned long clockMillis() const { return ::millis(); }
+
+    explicit SystemClock(
+        Clock* referenceClock /* nullable */,
+        Clock* backupClock /* nullable */);
 };
 
+class SystemClockLoop: public SystemClock {
+  public:
+    explicit SystemClockLoop(
+        Clock* referenceClock /* nullable */,
+        Clock* backupClock /* nullable */,
+        uint16_t syncPeriodSeconds = 3600,
+        uint16_t initialSyncPeriodSeconds = 5);
+
+    void loop();
+};
+
+#if defined(ACE_ROUTINE_VERSION)
+
+class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
+  public:
+    explicit SystemClockCoroutine(
+        Clock* referenceClock /* nullable */,
+        Clock* backupClock /* nullable */,
+        uint16_t syncPeriodSeconds = 3600,
+        uint16_t initialSyncPeriodSeconds = 5,
+        uint16_t requestTimeoutMillis = 1000,
+        common::TimingStats* timingStats = nullptr);
+
+    int runCoroutine() override;
+    uint8_t getRequestStatus() const;
+};
+
+#endif
+
 }
 }
 ```
 
-Unfortunately, the `millis()` internal clock of most (all?) Arduino boards is
-not very accurate and unsuitable for implementing an accurate clock. Therefore,
-the `SystemClock` provides a mechanism to synchronize its clock to an
-external (and presumably more accurate clock) `TimeProvider`.
+The `SystemClockCoroutine` class is available only if you have installed the
+[AceRoutine](https://github.com/bxparks/AceRoutine) library and include its
+header before `<AceTime.h>`, like this:
 
-The `SystemClock` also provides a way to save the current time to a
-`backupTimeKeeper` (e.g. the `DS3231TimeKeeper` using the DS3231 chip with
-battery backup). When the `SystemClock` starts up, it will read the backup
-`TimeKeeper` and set the current time. Then it can synchronize with an external
-clock source (e.g. the `NtpTimeProvider`). The time is saved to the backup time
-keeper whenever the `SystemClock` is synced with the external time
-clock.
+```C++
+#include <AceRoutine.h>
+#include <AceTime.h>
+...
+```
 
-Here is how to set up the `SystemClock` with the `NtpTimeProvider` and
-`DS3231TimeKeeper` as sync and backup time sources:
+The constructor of each of the 2 concrete implementations take optional
+parameters, the `referenceClock` and the `backupClock`. Each of these parameters
+are optional, so there are 4 combinations:
+
+```C++
+SystemClock*(nullptr, nullptr); // no referenceClock or backupClock
+
+SystemClock*(referenceClock, nullptr); // referenceClock only
+
+SystemClock*(nullptr, backupClock); // backupClock only
+
+SystemClock*(referenceClock, backupClock); // both clocks
+```
+
+### SystemClock Maintenance Tasks
+
+There are 2 internal maintenance tasks that must be performed periodically.
+
+First, the `SystemClock` must be synchronized to the `millis()` function
+before an internal integer overflow occurs. The internal integer overflow
+happens every 65.536 seconds.
+
+Second (optionally), the SystemClock can be synchronized to the `referenceClock`
+since internal `millis()` clock is not very accurate. How often this should
+happen depends on the accuracy of the `millis()`, which depends on the hardware
+oscillator of the chip, and the cost of the call to the `getNow()` method of the
+syncing time clock. If the `referenceClock` is the DS3231 chip, syncing once
+every 1-10 minutes might be acceptable since talking to the RTC chip over
+I2C is relatively cheap. If the `referenceClock` is the `NtpClock`, the network
+connection is fairly expensive so maybe once every 1-12 hours might be
+advisable.
+
+The `SystemClock` provides 2 subclasses which differ in the way they perform
+these maintenance tasks:
+
+* the `SystemClockLoop` class uses the `::loop()` method which should be called
+  from the global `loop()` function, and
+* the `SystemClockCoroutine` class uses the `::runCoroutine()` method which
+  uses the AceRoutine library
+
+### SystemClockLoop
+
+This class synchronizes to the `referenceClock` through the
+`SystemClockLoop::loop()` method that is meant to be called from the global
+`loop()` method, like this:
 
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
 using namespace ace_time::clock;
-
-DS3231TimeKeeper dsTimeKeeper;
-NtpTimeProvider ntpTimeProvider(SSID, PASSWORD);
-SystemClock systemClock(
-  &ntpTimeProvider /*sync*/, &dsTimeKeeper /*backup*/);
 ...
 
+DS3231Clock dsClock;
+SystemClockLoop systemClock(dsClock, nullptr /*backup*/);
+
 void setup() {
-  Serial.begin(115200);
-  while(!Serial); // needed for Leonardo/Micro
-  ...
-  dsTimeKeeper.setup();
-  ntpTimeProvider.setup();
+  dsClock.setup();
   systemClock.setup();
 }
 
 void loop() {
-  acetime_t nowSeconds = systemClock.getNow();
-  auto odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
-  odt.printTo(Serial);
-  delay(10000); // wait 10 seconds
-}
-```
-
-If you wanted to use the `DS3231TimeKeeper` as *both* the backup and sync
-time sources, then the setup would something like this:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-using namespace ace_time::clock;
-
-DS3231TimeKeeper dsTimeKeeper;
-SystemClock systemClock(
-    &dsTimeKeeper /*sync*/, &dsTimeKeeper /*backup*/);
-...
-
-void setup() {
-  dsTimeKeeper.setup();
-  systemClock.setup();
+  ...
+  systemClock.loop();
   ...
 }
 ```
 
-You could also choose not to have either the backup or sync time sources, in
-which case you can give `nullptr` as the correspond argument. For example,
-to use no backup time keeper:
+`SystemClockLoop` keeps an internal counter to limit the syncing process to
+every 1 hour. This is configurable through parameters in the `SystemClockLoop()`
+constructor.
 
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-using namespace ace_time::clock;
+### SystemClockCoroutine
 
-DS3231TimeKeeper dsTimeKeeper;
-SystemClock systemClock(&dsTimeKeeper /*sync*/, nullptr /*backup*/);
-...
-
-void setup() {
-  dsTimeKeeper.setup();
-  systemClock.setup();
-  ...
-}
-```
-
-### System Clock KeepAlive and Syncing
-
-The `SystemClock` requires 2 maintenance tasks to run periodically
-to help it keep proper time.
-
-First, the `SystemClock::getNow()` or `keepAlive()` method must be called
-peridically before an internal integer overflow occurs, even if the `getNow()`
-is not needed. The internal integer overflow happens every 65.536 seconds.
-If your application is *guaranteed* to call `SystemClock::getNow()` more
-frequently than every 65 seconds, then you don't need to worry about this.
-However, if you want to be prudent, it does not cost very much to call the
-`SystemClock::keepAlive()` function in the global `loop()` method.
-
-Secondly, since the internal `millis()` clock is not very accurate, we must
-synchronize the `SystemClock` periodically with a more accurate time
-source. The frequency of this syncing depends on the accuracy of the `millis()`
-(which depends on the hardware oscillator of the chip) and the cost of the call
-to the `getNow()` method of the syncing time clock. If the syncing time
-source is the DS3231 chip, syncing once every 1-10 minutes might be sufficient
-since talking to the RTC chip is relatively cheap. If the syncing time source is
-the `NtpTimeProvider`, the network connection is fairly expensive so maybe once
-every 1-12 hours might be advisable. The `SystemClock` provides 2 ways to
-perform this syncing.
-
-**Method 1: Using SystemClockSyncLoop**
-
-You can use the `SystemClockSyncLoop` class and insert it somewhere into the
-global `loop()` method, like this:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-using namespace ace_time::clock;
-...
-
-SystemClock systemClock(...);
-SystemClockSyncLoop systemClockSyncLoop(systemClock);
-
-void loop() {
-  ...
-  systemClock.keepAlive();
-  systemClockSyncLoop.loop();
-  ...
-}
-```
-
-**Method 2: Using SystemClockSyncCoroutine**
-
-You can use two [AceRoutine](https://github.com/bxparks/AceRoutine) coroutines
-to perform sync. First, `#include <AceRoutine.h>` *before* the
-`#include <AceTime.h>` (which activates the `SystemClockSyncCoroutine`
-class), then configure it to run:
+This class synchronizes to the `referenceClock` using an
+[AceRoutine](https://github.com/bxparks/AceRoutine) coroutine.
 
 ```C++
 #include <AceRoutine.h> // include this before <AceTime.h>
@@ -2158,36 +2152,125 @@ using namespace ace_time::clock;
 using namespace ace_routine;
 ...
 
-SystemClock systemClock(...);
-SystemClockSyncCoroutine systemClockSync(systemClock);
+DS3231Clock dsClock;
+SystemClock systemClock(dsClock, nullptr /*backup*/);
 
 void setup() {
   ...
-  systemClockSyncCoroutine.setupCoroutine(F("systemClockSync"));
+  dsClock.setup();
+  systemClock.setupCoroutine(F("systemClock"));
   CoroutineScheduler::setup();
   ...
 }
 
 void loop() {
   ...
-  systemClock.keepAlive();
   CoroutineScheduler::loop();
   ...
 }
 ```
 
-The biggest advantage of using AceRoutine coroutines is that the syncing process
-becomes non-blocking. In other words, if you are using the `NtpTimeProvider` to
-provide syncing, the `SystemClockSyncLoop` object calls its `getNow()` method,
-which blocks the execution of the program until the NTP server returns a
-response (or the request times out after 1000 milliseconds). If you use the
-`SystemClockSyncCoroutine`, the program continues to do other things (e.g.
-update displays, scan for buttons) while the `NtpTimeProvider` is waiting for a
-response from the NTP server.
+`SystemClockCoroutine` keeps internal counters to limit the syncing process to
+every 1 hour. This is configurable through parameters in the
+`SystemClockCoroutine()` constructor.
+
+Previously, the `SystemClockLoop::loop()` used the blocking `Clock::getNow()`
+method, and the `SystemClockCoroutine::runCoroutine()` used the non-blocking
+methods of `Clock`. However, since version 0.6, both of them use the
+*non-blocking* calls, so there should be little difference between the two
+except in how the methods are called.
+
+### SystemClock Examples
+
+Here is an example of a `SystemClockLoop` that uses no `referenceClock` or a
+`backupClock`. The accuracy of this clock is limited by the accuracy of the
+internal `millis()` function, and the clock has no backup against power failure.
+Upon reboot, the user must be asked to call `SystemClock::setNow()` to set the
+current time. The `SystemClock::loop()` must still be called to perform a
+maintenance task to synchronize to `millis()`.
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+using namespace ace_time::clock;
+
+SystemClock systemClock(&dsClock /*reference*/, nullptr /*backup*/);
+...
+
+void setup() {
+  systemClock.setup();
+  ...
+}
+
+void loop() {
+  systemClock.loop();
+  ...
+}
+```
+
+Here is a more realistic example of a `SystemClockLoop` using the `NtpClock` as
+the `referenceClock` and the `DS3231Clock` as the `backupClock`.
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+using namespace ace_time::clock;
+
+DS3231Clock dsClock;
+NtpClock ntpClock(SSID, PASSWORD);
+SystemClockLoop systemClock(&ntpClock /*reference*/, &dsClock /*backup*/);
+...
+
+void setup() {
+  Serial.begin(115200);
+  while(!Serial); // needed for Leonardo/Micro
+  ...
+  dsClock.setup();
+  ntpClock.setup();
+  systemClock.setup();
+}
+
+// do NOT use delay(), it breaks systemClock.loop()
+void loop() {
+  static acetime_t prevNow = systemClock.getNow();
+
+  systemClock.loop();
+  acetime_t now = systemClock.getNow();
+  if (now - prevNow >= 10) {
+    auto odt = OffsetDateTime::forEpochSeconds(
+        now, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
+    odt.printTo(Serial);
+  }
+}
+```
+
+If you wanted to use the `DS3231Clock` as *both* the backup and sync
+time sources, then the setup would something like this:
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+using namespace ace_time::clock;
+
+DS3231Clock dsClock;
+SystemClockLoop systemClock(&dsClock /*reference*/, &dsClock /*backup*/);
+...
+
+void setup() {
+  dsClock.setup();
+  systemClock.setup();
+  ...
+}
+
+void loop() {
+  systemClock.loop();
+  ...
+}
+```
 
 ## Testing
 
-Writing tests for this library was very challenging, probably taking up 3-4X
+Writing tests for this library was very challenging, probably taking up 2-3X
 more effort than the core of the library. I think the reason is that the number
 input variables into the library and the number of output variables are
 substantially large, making it difficult to write isolated unit tests. Secondly,
@@ -2217,12 +2300,11 @@ second) components that `ZonedDateTime` should produce. The `tzcompiler.py`
 generates a `validation_data.cpp` file which contains the test data points for
 all supported timezones. The resulting program no longer fits in any Arduino
 microcontroller that I am aware of, but through the use of the
-[unitduino](https://github.com/bxparks/AUnit/tree/develop/unitduino) emulation
-framework in [AUnit](https://github.com/bxparks/AUnit), I can run these large
-validation test suites on a Linux or Mac desktop. This worked great until I
-discovered that `pytz` supports [dates only until
-2038](https://answers.launchpad.net/pytz/+question/262216). That meant that I
-could not validate the `ZonedDateTime` classes after 2038.
+[UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulation
+framework, I can run these large validation test suites on a Linux or Mac
+desktop. This worked great until I discovered that `pytz` supports [dates only
+until 2038](https://answers.launchpad.net/pytz/+question/262216). That meant
+that I could not validate the `ZonedDateTime` classes after 2038.
 
 I then turned to Java 11 `java.time` library, which supports years through the
 [year 1000000000
@@ -2285,9 +2367,9 @@ sizeof(TimeZone): 3
 sizeof(ZonedDateTime): 10
 sizeof(TimePeriod): 4
 sizeof(SystemClock): 17
-sizeof(DS3231TimeKeeper): 3
-sizeof(SystemClockSyncLoop): 14
-sizeof(SystemClockSyncCoroutine): 31
+sizeof(DS3231Clock): 3
+sizeof(SystemClockLoop): 14
+sizeof(SystemClockCoroutine): 31
 ```
 
 **32-bit processors**
@@ -2303,9 +2385,9 @@ sizeof(TimeZone): 8
 sizeof(ZonedDateTime): 16
 sizeof(TimePeriod): 4
 sizeof(SystemClock): 24
-sizeof(NtpTimeProvider): 88 (ESP8266), 116 (ESP32)
-sizeof(SystemClockSyncLoop): 16
-sizeof(SystemClockSyncCoroutine): 48
+sizeof(NtpClock): 88 (ESP8266), 116 (ESP32)
+sizeof(SystemClockLoop): 16
+sizeof(SystemClockCoroutine): 48
 ```
 
 The [MemoryBenchmark](examples/MemoryBenchmark) program gives a more
@@ -2352,16 +2434,25 @@ Teensy 3.2 96MHz            |   2.750 |   22.390 |
 ----------------------------+---------+----------+
 ```
 
-### AVR Libc
+### C Time Library (time.h)
 
-The [AVR libc time
-library](https://www.nongnu.org/avr-libc/user-manual/group__avr__time.html), is
-based on the UNIX/POSIX time library. I have not tried to use it on an Arduino
-platform. There are 2 things going against it: First it works only on AVR
-processors, and I wanted a time library that worked across multiple processors
-(like the ESP8266 and ESP32). Second, the AVR time library is based on the
-[traditional C/Unix library methods](http://www.catb.org/esr/time-programming/)
-which can be difficult to understand.
+Some version of the standard Unix/C library `<time.h>` is available in *some*
+Arduino platforms, but not others:
+
+* The [AVR libc time
+  library](https://www.nongnu.org/avr-libc/user-manual/group__avr__time.html),
+  contains methods such as `gmtime()` to convert `time_t` integer into date time
+  components `struct tm`, and `mk_gmtime()` to convert components into a
+  `time_t` integer. The `time_t` integer is unsigned, and starts at
+  2000-01-01T00:00:00Z. There is no support for timezones.
+* The SAMD21 and Teensy platforms do not seem to have a `<time.h>` library.
+* The ESP8266 and ESP32 have a `<time.h>` library. There seems to be some
+  rudimentary support for POSIX formatted timezones. It does not have
+  the equivalent of the (non-standard) `mk_gmtime()` AVR function.
+
+These libraries are all based upon the [traditional C/Unix library
+methods](http://www.catb.org/esr/time-programming/) which can be difficult to
+understand.
 
 ### ezTime
 
@@ -2520,8 +2611,8 @@ did not think it would fit inside an Arduino controller.
       interval from 00:00 and 00:01.
     * Fortunately all of these transitions happen before 2012. If you are
       interested in only dates after 2019, then this will not affect you.
-* `NtpTimeProvider`
-    * The `NtpTimeProvider` on an ESP8266 calls `WiFi.hostByName()` to resolve
+* `NtpClock`
+    * The `NtpClock` on an ESP8266 calls `WiFi.hostByName()` to resolve
       the IP address of the NTP server. Unfortunately, when I tested this
       library, it seems to be blocking call (later versions may have fixed
       this). When the DNS resolver is working properly, this call returns in
@@ -2538,8 +2629,7 @@ did not think it would fit inside an Arduino controller.
       (2038-01-19T03:14:07Z).
     * These are too big to run on any Arduino controller. They are designed to
       run on a Linux or MacOS machine through the Makefiles using the
-      [unitduino](https://github.com/bxparks/AUnit/tree/develop/unitduino)
-      emulator.
+      [UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulator.
 * `BasicValidationUsingJavaTest` and `ExtendedValidationUsingJavaTest`
     * These tests compare the transition times calculated by AceTime to Java 11
       `java.time` package which should support the entire range of dates that
@@ -2547,7 +2637,7 @@ did not think it would fit inside an Arduino controller.
       from 2000 to 2050.
     * These are too big to run on any Arduino controller. They are designed to
       run on a Linux or MacOS machine through the Makefiles using the
-      [unitduino](https://github.com/bxparks/AUnit/tree/develop/unitduino)
+      [UnixHostDuino](https://github.com/bxparks/UnixHostDuino)
       emulator.
 * `zonedb/` and `zonedbx/` zoneinfo files
     * These statically defined data structures are loaded into flash memory
@@ -2619,3 +2709,7 @@ did not think it would fit inside an Arduino controller.
     * The SAMD21 microcontroller does *not* provide any EEPROM. Therefore,
       this feature is disabled in the apps under `examples` (e.g.
       `CommandLineClock`, `OledClock`, and `WorldClock`) which use this feature.
+    * The `MKR Zero` board generates *far* faster code (30%?) than the `SparkFun
+      SAMD21 Mini Breakout` board. The `MKR Zero` could be using a different
+      (more recent?) version of the GCC tool chain. I have not investigated
+      this.

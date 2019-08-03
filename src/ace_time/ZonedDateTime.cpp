@@ -10,7 +10,6 @@
 namespace ace_time {
 
 using common::printPad2;
-using common::DateStrings;
 
 // Print ZonedDateTime in ISO 8601 format
 void ZonedDateTime::printTo(Print& printer) const {

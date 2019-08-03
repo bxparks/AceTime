@@ -1,6 +1,7 @@
 #ifndef COMMAND_LINE_CLOCK_CONTROLLER_H
 #define COMMAND_LINE_CLOCK_CONTROLLER_H
 
+#include <AceRoutine.h>
 #include <AceTime.h>
 #include "config.h"
 #include "PersistentStore.h"
@@ -27,12 +28,13 @@ class Controller {
       mIsStoredInfoValid = mPersistentStore.readStoredInfo(mStoredInfo);
 
       if (mIsStoredInfoValid) {
-        restoreInfo();
+        SERIAL_PORT_MONITOR.println(F("Found valid EEPROM info"));
+        restoreInfo(mStoredInfo);
       } else {
-#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
+      #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
         mStoredInfo.ssid[0] = '\0';
         mStoredInfo.password[0] = '\0';
-#endif
+      #endif
         setBasicTimeZoneForIndex();
       }
     }
@@ -52,42 +54,30 @@ class Controller {
   #if ENABLE_TIME_ZONE_TYPE_BASIC
     /** Set the time zone to America/Los_Angeles using BasicZoneProcessor. */
     void setBasicTimeZoneForIndex(uint16_t zoneIndex = 0) {
-      mZoneIndex = zoneIndex;
+      SERIAL_PORT_MONITOR.print(F("setBasicTimeZoneForIndex(): "));
+      SERIAL_PORT_MONITOR.println(zoneIndex);
       mTimeZone = mBasicZoneManager.createForZoneIndex(zoneIndex);
-      if (mTimeZone.isError()) {
-        mTimeZone = mBasicZoneManager.createForZoneInfo(
-            &zonedb::kZoneAmerica_Los_Angeles);
-        mZoneIndex = 0;
-      }
-      preserveInfo();
+      validateAndSaveTimeZone();
+    }
+
+    void setBasicTimeZoneForId(uint32_t zoneId) {
+      mTimeZone = mBasicZoneManager.createForZoneId(zoneId);
+      validateAndSaveTimeZone();
     }
   #endif
 
   #if ENABLE_TIME_ZONE_TYPE_EXTENDED
     /** Set the time zone to America/Los_Angeles using ExtendedZoneProcessor. */
     void setExtendedTimeZoneForIndex(uint16_t zoneIndex = 0) {
-      mZoneIndex = zoneIndex;
+      SERIAL_PORT_MONITOR.print(F("setExtendedTimeZoneForIndex(): "));
+      SERIAL_PORT_MONITOR.println(zoneIndex);
       mTimeZone = mExtendedZoneManager.createForZoneIndex(zoneIndex);
-      if (mTimeZone.isError()) {
-        mTimeZone = mExtendedZoneManager.createForZoneInfo(
-            &zonedbx::kZoneAmerica_Los_Angeles);
-        mZoneIndex = 0;
-      }
-      preserveInfo();
+      validateAndSaveTimeZone();
     }
-  #endif
 
-  #if ENABLE_TIME_ZONE_TYPE_BASIC
-    void setBasicTimeZoneForId(uint32_t zoneId) {
-      mZoneIndex = mBasicZoneManager.indexForZoneId(zoneId);
-      preserveInfo();
-    }
-  #endif
-
-  #if ENABLE_TIME_ZONE_TYPE_EXTENDED
     void setExtendedTimeZoneForId(uint32_t zoneId) {
-      mZoneIndex = mExtendedZoneManager.indexForZoneId(zoneId);
-      preserveInfo();
+      mTimeZone = mExtendedZoneManager.createForZoneId(zoneId);
+      validateAndSaveTimeZone();
     }
   #endif
 
@@ -95,7 +85,7 @@ class Controller {
     TimeZone& getTimeZone() { return mTimeZone; }
 
   #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
-    /** Set the wifi credentials and setup the NtpTimeProvider. */
+    /** Set the wifi credentials and setup the NtpClock. */
     void setWiFi(const char* ssid, const char* password) {
       strncpy(mStoredInfo.ssid, ssid, StoredInfo::kSsidMaxLength);
       mStoredInfo.ssid[StoredInfo::kSsidMaxLength - 1] = '\0';
@@ -105,12 +95,12 @@ class Controller {
     }
   #endif
 
-    /** Set the current time of the system time keeper. */
+    /** Set the current time of the system clock. */
     void setNow(acetime_t now) {
       mSystemClock.setNow(now);
     }
 
-    /** Return the current time from the system time keeper. */
+    /** Return the current time from the system clock. */
     ZonedDateTime getCurrentDateTime() const {
       return ZonedDateTime::forEpochSeconds(
           mSystemClock.getNow(), mTimeZone);
@@ -126,8 +116,8 @@ class Controller {
     bool isDst() const { return mTimeZone.isDst(); }
 
     /** Force SystemClock to sync. */
-    void sync() {
-      mSystemClock.setup();
+    void forceSync() {
+      mSystemClock.forceSync();
     }
 
   #if ENABLE_TIME_ZONE_TYPE_BASIC
@@ -172,7 +162,16 @@ class Controller {
     static const uint16_t kExtendedZoneRegistrySize;
   #endif
 
+    void validateAndSaveTimeZone() {
+      if (mTimeZone.isError()) {
+        mTimeZone = mBasicZoneManager.createForZoneInfo(
+            &zonedb::kZoneAmerica_Los_Angeles);
+      }
+      preserveInfo();
+    }
+
     uint16_t preserveInfo() {
+      SERIAL_PORT_MONITOR.println(F("preserveInfo()"));
       mIsStoredInfoValid = true;
       mStoredInfo.timeZoneType = mTimeZone.getType();
       mStoredInfo.stdOffsetCode =
@@ -183,30 +182,35 @@ class Controller {
       return mPersistentStore.writeStoredInfo(mStoredInfo);
     }
 
-    void restoreInfo() {
-      switch (mStoredInfo.timeZoneType) {
+    void restoreInfo(const StoredInfo& storedInfo) {
+      SERIAL_PORT_MONITOR.print(F("restoreInfo(): "));
+      SERIAL_PORT_MONITOR.println(storedInfo.timeZoneType);
+      switch (storedInfo.timeZoneType) {
         case TimeZone::kTypeBasic:
         case TimeZone::kTypeExtended:
         case TimeZone::kTypeBasicManaged:
         case TimeZone::kTypeExtendedManaged:
       #if ENABLE_TIME_ZONE_TYPE_BASIC
-          setBasicTimeZoneForId(mStoredInfo.zoneId);
+          setBasicTimeZoneForId(storedInfo.zoneId);
       #elif ENABLE_TIME_ZONE_TYPE_EXTENDED
-          setExtendedTimeZoneForId(mStoredInfo.zoneId);
+          setExtendedTimeZoneForId(storedInfo.zoneId);
       #else
-          setManualTimeZone(TimeOffset::forHour(-8), TimeOffset())
+          setManualTimeZone(TimeOffset::forHour(-8), TimeOffset());
       #endif
           break;
-        default:
+        case TimeZone::kTypeManual:
           setManualTimeZone(
-              TimeOffset::forOffsetCode(mStoredInfo.stdOffsetCode),
-              TimeOffset::forOffsetCode(mStoredInfo.dstOffsetCode));
+              TimeOffset::forOffsetCode(storedInfo.stdOffsetCode),
+              TimeOffset::forOffsetCode(storedInfo.dstOffsetCode));
+          break;
+        default:
+          SERIAL_PORT_MONITOR.print(F("restoreInfo(): Setting UTC timezone"));
+          setManualTimeZone(TimeOffset(), TimeOffset());
       }
     }
 
     PersistentStore& mPersistentStore;
     SystemClock& mSystemClock;
-    TimeZone mTimeZone;
 
   #if ENABLE_TIME_ZONE_TYPE_BASIC
     BasicZoneManager<1> mBasicZoneManager;;
@@ -214,8 +218,8 @@ class Controller {
   #if ENABLE_TIME_ZONE_TYPE_EXTENDED
     ExtendedZoneManager<1> mExtendedZoneManager;;
   #endif
-    uint16_t mZoneIndex = 0;
 
+    TimeZone mTimeZone;
     StoredInfo mStoredInfo;
     bool mIsStoredInfoValid = false;
 };
