@@ -6,7 +6,7 @@
 #ifndef ACE_TIME_NTP_CLOCK_H
 #define ACE_TIME_NTP_CLOCK_H
 
-#if defined(ESP8266) || defined(ESP32)
+#if defined(ESP8266) || defined(ESP32) || defined(DOXYGEN)
 
 #include <stdint.h>
 #if defined(ESP8266)
