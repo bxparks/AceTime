@@ -1,12 +1,27 @@
 # Changelog
 
 * Unreleased
+* 0.6
     * Update tests to use `UnixHostDuino`.
-    * Fix broken restore functionality in `CommandLineClock`.
+    * Fix broken restore functionality in `CommandLineClock`. Make it work
+      on Unix using UnixHostDuino. Make it work on ESP8266 and ESP32 again.
     * Update flash memory consumption numbers in `zonedb/zone_infos.cpp` and
       `zonedbx/zone_infos.cpp`.
-    * Change `ace_time::common::DateStrings` to just `ace_time::DateStrings`
-      because it was the only data/time class in the `common::` namespace.
+    * Lift `ace_time::common::DateStrings` to just `ace_time::DateStrings`
+      because it was the only data/time class in the `common::` namespace so
+      it seemed inconsistent and out of place.
+    * **Breaking Change** Large refactoring and simplification of the
+      `ace_time::clock` classes. Merged `TimeKeeper` and `TimeProvider` into a
+      single `Clock` class hierarcy. Merged `SystemClockSyncLoop` (separate
+      class) into `SystemClockLoop` (subclass of `SystemClock`) and
+      `SystemClockSyncCoroutine` (separate class) into `SystemClockCoroutine`
+      (subclass of `SystemClock` with mixin of `ace_routine::Coroutine`). Merged
+      `keepAlive()` into `::loop()` and `::runCoroutine()` methods, so we don't
+      need to worry about it separately anymore. Made `SystemClockLoop` use the
+      non-blocking methods of `Clock`, making it as responsive as
+      `SystemClockCoroutine`.
+    * Add `UnixClock.h` which provides access to the internal Unix clock
+      when using UnixHostDuino.
 * 0.5.2
     * Create `HelloZoneManager` and add it to the `README.md`.
     * Recommend using "Arduino MKR ZERO" board or "SparkFun SAMD21 Mini

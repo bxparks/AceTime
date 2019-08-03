@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 0.5.2 (2019-07-29, TZ DB version 2019a, beta)
+Version: 0.6 (2019-08-02, TZ DB version 2019a, beta)
 
 ## Installation
 
