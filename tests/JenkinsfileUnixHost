@@ -34,19 +34,19 @@ pipeline {
         }
         stage('Verify Tests') {
             steps {
-                sh "make -C tests tests"
+                sh "make -C libraries/AceTime/tests tests"
             }
         }
         stage('Test') {
             steps {
-                sh "make -C tests runtests"
+                sh "make -C libraries/AceTime/tests runtests"
             }
         }
     }
     post {
         failure {
             always {
-                sh "make -C tests clean"
+                sh "make -C libraries/AceTime/tests clean"
             }
             script {
                 if (env.BADGE_BUCKET?.trim()) {
