@@ -14,7 +14,7 @@ Teensyduino does not seem to allow headless operation.)
 
 ## Arduino Nano
 
-* AceTime 0.5.2
+* AceTime 0.6
 * Arduino IDE 1.8.9
 * Arduino AVR Boards 1.6.23
 
@@ -35,14 +35,14 @@ Teensyduino does not seem to allow headless operation.)
 | Extended ZoneManager (1 zone)   |   9510/  219 |  9062/  209 |
 | Extended ZoneManager (all)      |  34114/  709 | 33666/  699 |
 |---------------------------------+--------------+-------------|
-| SystemClock                     |   4758/  276 |  4310/  266 |
-| SystemClock+Basic TimeZone      |   9138/  362 |  8690/  352 |
+| SystemClock                     |   4860/  276 |  4412/  266 |
+| SystemClock+Basic TimeZone      |   9280/  366 |  8832/  356 |
 +--------------------------------------------------------------+
 ```
 
 ## Sparkfun Pro Micro
 
-* AceTime 0.5.2
+* AceTime 0.6
 * Arduino IDE 1.8.9
 * SparkFun AVR Boards 1.1.12
 
@@ -63,14 +63,14 @@ Teensyduino does not seem to allow headless operation.)
 | Extended ZoneManager (1 zone)   |  12510/  359 |  8888/  209 |
 | Extended ZoneManager (all)      |  37112/  847 | 33490/  697 |
 |---------------------------------+--------------+-------------|
-| SystemClock                     |   7758/  416 |  4136/  266 |
-| SystemClock+Basic TimeZone      |  12138/  502 |  8516/  352 |
+| SystemClock                     |   7860/  416 |  4238/  266 |
+| SystemClock+Basic TimeZone      |  12280/  506 |  8658/  356 |
 +--------------------------------------------------------------+
 ```
 
 ## SAMD21 M0 Mini
 
-* AceTime 0.5.2
+* AceTime 0.6
 * Arduino IDE 1.8.9
 * SparkFun SAMD Boards 1.6.2
 
@@ -91,8 +91,8 @@ Teensyduino does not seem to allow headless operation.)
 | Extended ZoneManager (1 zone)   |  17904/    0 |  6980/    0 |
 | Extended ZoneManager (all)      |  49732/    0 | 38808/    0 |
 |---------------------------------+--------------+-------------|
-| SystemClock                     |  14068/    0 |  3144/    0 |
-| SystemClock+Basic TimeZone      |  17448/    0 |  6524/    0 |
+| SystemClock                     |  14116/    0 |  3192/    0 |
+| SystemClock+Basic TimeZone      |  17496/    0 |  6572/    0 |
 +--------------------------------------------------------------+
 ```
 
@@ -100,7 +100,7 @@ Teensyduino does not seem to allow headless operation.)
 
 ## ESP8266
 
-* AceTime 0.5.2
+* AceTime 0.6
 * Arduino IDE 1.8.9
 * ESP8266 Boards 2.5.2
 
@@ -121,14 +121,14 @@ Teensyduino does not seem to allow headless operation.)
 | Extended ZoneManager (1 zone)   | 267576/27412 | 10472/  872 |
 | Extended ZoneManager (all)      | 300088/27412 | 42984/  872 |
 |---------------------------------+--------------+-------------|
-| SystemClock                     | 262852/26908 |  5748/  368 |
-| SystemClock+Basic TimeZone      | 267732/27324 | 10628/  784 |
+| SystemClock                     | 262932/26908 |  5828/  368 |
+| SystemClock+Basic TimeZone      | 267812/27324 | 10708/  784 |
 +--------------------------------------------------------------+
 ```
 
 ## ESP32
 
-* AceTime 0.5.2
+* AceTime 0.6
 * Arduino IDE 1.8.9
 * ESP32 Boards 1.0.2
 
@@ -149,8 +149,8 @@ Teensyduino does not seem to allow headless operation.)
 | Extended ZoneManager (1 zone)   | 210516/14164 | 17316/ 1484 |
 | Extended ZoneManager (all)      | 242956/14164 | 49756/ 1484 |
 |---------------------------------+--------------+-------------|
-| SystemClock                     | 211532/14268 | 18332/ 1588 |
-| SystemClock+Basic TimeZone      | 215356/14268 | 22156/ 1588 |
+| SystemClock                     | 211588/14268 | 18388/ 1588 |
+| SystemClock+Basic TimeZone      | 215408/14268 | 22208/ 1588 |
 +--------------------------------------------------------------+
 ```
 
@@ -160,7 +160,7 @@ usage by objects.
 
 ## Teensy 3.2
 
-* AceTime 0.5.2
+* AceTime 0.6
 * Arduino IDE 1.8.9
 * Teensyduino 1.46
 

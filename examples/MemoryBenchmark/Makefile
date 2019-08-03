@@ -11,7 +11,7 @@ micro.txt:
 	./collect.sh micro $@
 
 samd.txt:
-	./collect.sh samd $@
+	./collect.sh mkrzero $@
 
 esp8266.txt:
 	./collect.sh esp8266 $@
