@@ -318,9 +318,9 @@ pacificTime == londonTime: false
 
 ### HelloZoneManager
 
-The [HelloZoneManager](examples/HelloZoneManager) example shows how to load the
-entire TZ Database into a `BasicZoneManager`, then create 3 time zones using 3
-different ways: `createForZoneInfo()`, `createForZoneName()`, and
+The [examples/HelloZoneManager](examples/HelloZoneManager) example shows how to
+load the entire TZ Database into a `BasicZoneManager`, then create 3 time zones
+using 3 different ways: `createForZoneInfo()`, `createForZoneName()`, and
 `createForZoneId()`.
 
 ```C++
