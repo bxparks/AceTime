@@ -7,5 +7,6 @@ var searchData=
   ['compat_2eh',['compat.h',['../compat_8h.html',1,'']]],
   ['converttotimeoffset',['convertToTimeOffset',['../classace__time_1_1OffsetDateTime.html#a89bc4bbb2b7aa5c36950ac25671707ea',1,'ace_time::OffsetDateTime']]],
   ['converttotimezone',['convertToTimeZone',['../classace__time_1_1ZonedDateTime.html#a53c4825eb710b77030773b7890cf3909',1,'ace_time::ZonedDateTime']]],
+  ['crceeprom',['CrcEeprom',['../classace__time_1_1hw_1_1CrcEeprom.html',1,'ace_time::hw']]],
   ['createfortimezonedata',['createForTimeZoneData',['../classace__time_1_1ZoneManager.html#a5e58999d954a39c175c1f218e11eb74a',1,'ace_time::ZoneManager']]]
 ];

@@ -76,6 +76,7 @@ $(function() {
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;pgmspace.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for compat.h:</div>
 <div class="dyncontent">
@@ -88,36 +89,37 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="compat_8h__dep__incl.png" border="0" usemap="#_2home_2brian_2dev_2AceTime_2src_2ace__time_2common_2compat_8hdep" alt=""/></div>
 <map name="_2home_2brian_2dev_2AceTime_2src_2ace__time_2common_2compat_8hdep" id="_2home_2brian_2dev_2AceTime_2src_2ace__time_2common_2compat_8hdep">
-<area shape="rect" id="node2" href="Brokers_8h.html" title="The classes provide a thin layer of indirection for accessing the zoneinfo files stored in the zonedb..." alt="" coords="516,95,687,151"/>
-<area shape="rect" id="node3" href="BasicZone_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/BasicZone.h" alt="" coords="229,199,408,240"/>
-<area shape="rect" id="node7" href="ZonedDateTime_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ZonedDateTime.h" alt="" coords="859,556,1069,597"/>
-<area shape="rect" id="node12" href="ExtendedZoneProcessor_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ExtendedZoneProcessor.h" alt="" coords="472,288,731,329"/>
-<area shape="rect" id="node15" href="ExtendedZone_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ExtendedZone.h" alt="" coords="5,199,205,240"/>
-<area shape="rect" id="node16" href="ZoneRegistrar_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ZoneRegistrar.h" alt="" coords="743,199,942,240"/>
-<area shape="rect" id="node17" href="AceTime_8h_source.html" title="/home/brian/dev/AceTime\l/src/AceTime.h" alt="" coords="1001,288,1172,329"/>
-<area shape="rect" id="node18" href="NtpClock_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/clock/NtpClock.cpp" alt="" coords="1067,102,1287,143"/>
-<area shape="rect" id="node19" href="compat_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/common/compat.cpp" alt="" coords="1312,102,1539,143"/>
-<area shape="rect" id="node20" href="DateStrings_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/common/DateStrings.h" alt="" coords="1485,199,1723,240"/>
-<area shape="rect" id="node26" href="zone__infos_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/zonedb/zone\l_infos.cpp" alt="" coords="1613,95,1792,151"/>
-<area shape="rect" id="node27" href="zone__policies_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/zonedb/zone\l_policies.cpp" alt="" coords="1816,95,1995,151"/>
-<area shape="rect" id="node28" href="zone__registry_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/zonedb/zone\l_registry.cpp" alt="" coords="2019,95,2197,151"/>
-<area shape="rect" id="node29" href="_2zone__infos_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/zonedbx\l/zone_infos.cpp" alt="" coords="2221,95,2392,151"/>
-<area shape="rect" id="node30" href="_2zone__policies_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/zonedbx\l/zone_policies.cpp" alt="" coords="2416,95,2587,151"/>
-<area shape="rect" id="node31" href="_2zone__registry_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/zonedbx\l/zone_registry.cpp" alt="" coords="2611,95,2781,151"/>
-<area shape="rect" id="node11" href="BasicZoneProcessor_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/BasicZoneProcessor.h" alt="" coords="483,199,720,240"/>
-<area shape="rect" id="node4" href="BasicZoneProcessor_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/BasicZoneProcessor.cpp" alt="" coords="197,288,448,329"/>
-<area shape="rect" id="node5" href="TimeZone_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/TimeZone.h" alt="" coords="473,467,647,508"/>
-<area shape="rect" id="node6" href="TimeZone_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/TimeZone.cpp" alt="" coords="421,556,609,597"/>
-<area shape="rect" id="node10" href="ZoneManager_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ZoneManager.h" alt="" coords="633,556,828,597"/>
-<area shape="rect" id="node8" href="zoned__date__time__mutation_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/zoned_date\l_time_mutation.h" alt="" coords="878,645,1050,701"/>
-<area shape="rect" id="node9" href="ZonedDateTime_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ZonedDateTime.cpp" alt="" coords="1086,653,1309,694"/>
-<area shape="rect" id="node14" href="ZoneProcessorCache_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ZoneProcessorCache.h" alt="" coords="589,377,832,419"/>
-<area shape="rect" id="node13" href="ExtendedZoneProcessor_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ExtendedZoneProcessor.cpp" alt="" coords="245,377,518,419"/>
-<area shape="rect" id="node21" href="DateStrings_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/common/DateStrings.cpp" alt="" coords="1247,288,1500,329"/>
-<area shape="rect" id="node22" href="LocalDate_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/LocalDate.cpp" alt="" coords="1524,288,1713,329"/>
-<area shape="rect" id="node23" href="LocalDateTime_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/LocalDateTime.cpp" alt="" coords="1737,288,1956,329"/>
-<area shape="rect" id="node24" href="OffsetDateTime_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/OffsetDateTime.cpp" alt="" coords="1981,288,2203,329"/>
-<area shape="rect" id="node25" href="TimeOffset_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/TimeOffset.cpp" alt="" coords="2228,288,2423,329"/>
+<area shape="rect" id="node2" href="Brokers_8h.html" title="The classes provide a thin layer of indirection for accessing the zoneinfo files stored in the zonedb..." alt="" coords="531,95,702,151"/>
+<area shape="rect" id="node3" href="BasicZone_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/BasicZone.h" alt="" coords="295,199,474,240"/>
+<area shape="rect" id="node7" href="ZonedDateTime_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ZonedDateTime.h" alt="" coords="939,571,1148,612"/>
+<area shape="rect" id="node12" href="ExtendedZoneProcessor_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ExtendedZoneProcessor.h" alt="" coords="645,295,903,337"/>
+<area shape="rect" id="node15" href="ExtendedZone_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ExtendedZone.h" alt="" coords="71,199,271,240"/>
+<area shape="rect" id="node16" href="ZoneRegistrar_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ZoneRegistrar.h" alt="" coords="809,199,1008,240"/>
+<area shape="rect" id="node17" href="AceTime_8h_source.html" title="/home/brian/dev/AceTime\l/src/AceTime.h" alt="" coords="1081,295,1251,337"/>
+<area shape="rect" id="node18" href="NtpClock_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/clock/NtpClock.cpp" alt="" coords="1133,102,1353,143"/>
+<area shape="rect" id="node19" href="compat_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/common/compat.cpp" alt="" coords="1378,102,1605,143"/>
+<area shape="rect" id="node20" href="DateStrings_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/common/DateStrings.h" alt="" coords="1763,199,2001,240"/>
+<area shape="rect" id="node27" href="zone__infos_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/zonedb/zone\l_infos.cpp" alt="" coords="1679,95,1858,151"/>
+<area shape="rect" id="node28" href="zone__policies_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/zonedb/zone\l_policies.cpp" alt="" coords="1882,95,2061,151"/>
+<area shape="rect" id="node29" href="zone__registry_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/zonedb/zone\l_registry.cpp" alt="" coords="2085,95,2263,151"/>
+<area shape="rect" id="node30" href="_2zone__infos_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/zonedbx\l/zone_infos.cpp" alt="" coords="2287,95,2458,151"/>
+<area shape="rect" id="node31" href="_2zone__policies_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/zonedbx\l/zone_policies.cpp" alt="" coords="2482,95,2653,151"/>
+<area shape="rect" id="node32" href="_2zone__registry_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/zonedbx\l/zone_registry.cpp" alt="" coords="2677,95,2847,151"/>
+<area shape="rect" id="node11" href="BasicZoneProcessor_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/BasicZoneProcessor.h" alt="" coords="498,199,735,240"/>
+<area shape="rect" id="node4" href="BasicZoneProcessor_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/BasicZoneProcessor.cpp" alt="" coords="319,295,570,337"/>
+<area shape="rect" id="node5" href="TimeZone_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/TimeZone.h" alt="" coords="548,481,723,523"/>
+<area shape="rect" id="node6" href="TimeZone_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/TimeZone.cpp" alt="" coords="496,571,684,612"/>
+<area shape="rect" id="node10" href="ZoneManager_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ZoneManager.h" alt="" coords="709,571,903,612"/>
+<area shape="rect" id="node8" href="zoned__date__time__mutation_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/zoned_date\l_time_mutation.h" alt="" coords="957,660,1129,716"/>
+<area shape="rect" id="node9" href="ZonedDateTime_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ZonedDateTime.cpp" alt="" coords="1883,667,2105,709"/>
+<area shape="rect" id="node14" href="ZoneProcessorCache_8h_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ZoneProcessorCache.h" alt="" coords="653,392,895,433"/>
+<area shape="rect" id="node13" href="ExtendedZoneProcessor_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/ExtendedZoneProcessor.cpp" alt="" coords="35,392,308,433"/>
+<area shape="rect" id="node21" href="DateStrings_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/common/DateStrings.cpp" alt="" coords="1275,295,1529,337"/>
+<area shape="rect" id="node22" href="HardwareDateTime_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/hw/HardwareDate\lTime.cpp" alt="" coords="1553,288,1763,344"/>
+<area shape="rect" id="node23" href="LocalDate_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/LocalDate.cpp" alt="" coords="1787,295,1977,337"/>
+<area shape="rect" id="node24" href="LocalDateTime_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/LocalDateTime.cpp" alt="" coords="2001,295,2219,337"/>
+<area shape="rect" id="node25" href="OffsetDateTime_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/OffsetDateTime.cpp" alt="" coords="2244,295,2467,337"/>
+<area shape="rect" id="node26" href="TimeOffset_8cpp_source.html" title="/home/brian/dev/AceTime\l/src/ace_time/TimeOffset.cpp" alt="" coords="2491,295,2686,337"/>
 </map>
 </div>
 </div>
@@ -134,6 +136,15 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ad2566630ad1a8f25750b6646683efba0"><td class="memItemLeft" align="right" valign="top"><a id="ad2566630ad1a8f25750b6646683efba0"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>acetime_strcmp_P</b> (const char *str1, const char *str2P)</td></tr>
+<tr class="separator:ad2566630ad1a8f25750b6646683efba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35e650d0be114b823697bee39f171366"><td class="memItemLeft" align="right" valign="top"><a id="a35e650d0be114b823697bee39f171366"></a>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>strchr_P</b> (const char *s, int c)</td></tr>
+<tr class="separator:a35e650d0be114b823697bee39f171366"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a637ad4506887dd598bc2a967f97a8e2e"><td class="memItemLeft" align="right" valign="top"><a id="a637ad4506887dd598bc2a967f97a8e2e"></a>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>strrchr_P</b> (const char *s, int c)</td></tr>
+<tr class="separator:a637ad4506887dd598bc2a967f97a8e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a286dd84f632d303baf33b0c82896b6b2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compat_8h.html#a286dd84f632d303baf33b0c82896b6b2">acetime_strcmp_PP</a> (const char *a, const char *b)</td></tr>
 <tr class="memdesc:a286dd84f632d303baf33b0c82896b6b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare 2 strings in flash memory.  <a href="#a286dd84f632d303baf33b0c82896b6b2">More...</a><br /></td></tr>
 <tr class="separator:a286dd84f632d303baf33b0c82896b6b2"><td class="memSeparator" colspan="2">&#160;</td></tr>

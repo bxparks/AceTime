@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classace__time_1_1ZoneRegistrar.html" title="Class that allows looking up the ZoneInfo (ZI) from its TZDB identifier (e.g. " alt="" coords="5,5,180,61"/>
+<area shape="rect" id="node1" href="$classace__time_1_1ZoneManager.html" title="ace_time::ZoneManager\l\&lt; extended::ZoneInfo,\l ExtendedZoneRegistrar,\l ExtendedZoneProcessorCache\l\&lt; SIZE \&gt; \&gt;" alt="" coords="5,5,212,91"/>
+<area shape="rect" id="node2" href="$classace__time_1_1ExtendedZoneManager.html" title="ace_time::ExtendedZoneManager\l\&lt; SIZE \&gt;" alt="" coords="260,27,477,69"/>
 </map>
