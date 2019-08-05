@@ -10,6 +10,7 @@
     * Fix Doxygen PREPROCESSOR so that it picks up classes which are enabled
       only on some environments (e.g. ESP8266, ESP32).
     * Add circuit schematics to OledClock and WorldClock examples.
+    * Simplify logging::printf() used internally for debugging.
 * 0.6
     * Update tests to use `UnixHostDuino`.
     * Fix broken restore functionality in `CommandLineClock`. Make it work
