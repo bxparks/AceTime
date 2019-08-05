@@ -1,5 +1,7 @@
 <map id="ace_time::clock::Clock" name="ace_time::clock::Clock">
-<area shape="rect" id="node2" href="$classace__time_1_1clock_1_1SystemClock.html" title="A Clock that uses the Arduino millis() function to advance the time returned to the user..." alt="" coords="125,80,327,107"/>
-<area shape="rect" id="node3" href="$classace__time_1_1clock_1_1SystemClockCoroutine.html" title="A version of SystemClock that mixes in the ace_routine::Coroutine class so that that the non&#45;block me..." alt="" coords="5,155,207,196"/>
-<area shape="rect" id="node4" href="$classace__time_1_1clock_1_1SystemClockLoop.html" title="A subclass of SystemClock that sync with its mReferenceClock using a blocking mReferenceClock&#45;&gt;getNow..." alt="" coords="231,162,461,189"/>
+<area shape="rect" id="node2" href="$classace__time_1_1clock_1_1DS3231Clock.html" title="An implementation of Clock that uses a DS3231 RTC chip. " alt="" coords="209,5,412,32"/>
+<area shape="rect" id="node3" href="$classace__time_1_1clock_1_1NtpClock.html" title="A Clock that retrieves the time from an NTP server. " alt="" coords="222,56,399,83"/>
+<area shape="rect" id="node4" href="$classace__time_1_1clock_1_1SystemClock.html" title="A Clock that uses the Arduino millis() function to advance the time returned to the user..." alt="" coords="210,107,411,133"/>
+<area shape="rect" id="node5" href="$classace__time_1_1clock_1_1SystemClockCoroutine.html" title="A version of SystemClock that mixes in the ace_routine::Coroutine class so that that the non&#45;block me..." alt="" coords="474,70,675,111"/>
+<area shape="rect" id="node6" href="$classace__time_1_1clock_1_1SystemClockLoop.html" title="A subclass of SystemClock that sync with its mReferenceClock using a blocking mReferenceClock&#45;&gt;getNow..." alt="" coords="460,136,689,163"/>
 </map>

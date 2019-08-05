@@ -1,9 +1,9 @@
 <map id="/home/brian/dev/AceTime/src/ace_time/internal/Brokers.h" name="/home/brian/dev/AceTime/src/ace_time/internal/Brokers.h">
-<area shape="rect" id="node2" href="$compat_8h.html" title="Macros and definitions that provide a consistency layer among the various Arduino boards for compatib..." alt="" coords="36,109,179,136"/>
-<area shape="rect" id="node5" href="$ZoneInfo_8h_source.html" title="ZoneInfo.h" alt="" coords="203,109,287,136"/>
-<area shape="rect" id="node6" href="$ZoneContext_8h_source.html" title="ZoneContext.h" alt="" coords="444,184,552,211"/>
-<area shape="rect" id="node8" href="$ZonePolicy_8h_source.html" title="ZonePolicy.h" alt="" coords="317,184,415,211"/>
-<area shape="rect" id="node10" href="$ZoneInfo_8inc_source.html" title="ZoneInfo.inc" alt="" coords="197,184,292,211"/>
-<area shape="rect" id="node7" href="$ZoneContext_8inc_source.html" title="ZoneContext.inc" alt="" coords="441,259,560,285"/>
-<area shape="rect" id="node9" href="$ZonePolicy_8inc_source.html" title="ZonePolicy.inc" alt="" coords="309,259,417,285"/>
+<area shape="rect" id="node2" href="$compat_8h.html" title="Macros and definitions that provide a consistency layer among the various Arduino boards for compatib..." alt="" coords="112,109,255,136"/>
+<area shape="rect" id="node6" href="$ZoneInfo_8h_source.html" title="ZoneInfo.h" alt="" coords="320,109,404,136"/>
+<area shape="rect" id="node7" href="$ZoneContext_8h_source.html" title="ZoneContext.h" alt="" coords="561,184,669,211"/>
+<area shape="rect" id="node9" href="$ZonePolicy_8h_source.html" title="ZonePolicy.h" alt="" coords="434,184,533,211"/>
+<area shape="rect" id="node11" href="$ZoneInfo_8inc_source.html" title="ZoneInfo.inc" alt="" coords="315,184,409,211"/>
+<area shape="rect" id="node8" href="$ZoneContext_8inc_source.html" title="ZoneContext.inc" alt="" coords="559,259,677,285"/>
+<area shape="rect" id="node10" href="$ZonePolicy_8inc_source.html" title="ZonePolicy.inc" alt="" coords="427,259,535,285"/>
 </map>

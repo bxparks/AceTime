@@ -216,7 +216,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsInit</b> = false</
 <p>This is helpful when the referenceClock issues a network request to an NTP server.</p>
 <p>Initially, the class attempts to sync with its referenceClock every initialSyncPeriodSeconds. If the request fails, then it retries with an exponential backoff (doubling the delay every iteration), until the sync period becomes greater than syncPeriodSeconds, then the delay is set permanently to syncPeriodSeconds. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00030">30</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00033">33</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a1ed116953707b2f088d0f210de7f2311"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1ed116953707b2f088d0f210de7f2311">&#9670;&nbsp;</a></span>SystemClockCoroutine()</h2>
@@ -289,7 +289,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsInit</b> = false</
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00060">60</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00063">63</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
 
 </div>
 </div>
@@ -320,7 +320,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsInit</b> = false</
 <p>Return the current request status. </p>
 <p>Mostly for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00140">140</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00143">143</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
 
 </div>
 </div>
@@ -350,7 +350,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsInit</b> = false</
 <p></p>
 <p>The CoroutineScheduler will use this method if enabled. Don't forget to call setupCoroutine() (inherited from Coroutine) in the global <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a8d9d0d7e3bbf66b45cf6010df983c6c2" title="Attempt to retrieve the time from the backupClock if it exists. ">setup()</a> to register this coroutine into the CoroutineScheduler. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00080">80</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00083">83</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
 
 </div>
 </div>
@@ -377,7 +377,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsInit</b> = false</
 
 <p>Request received and valid. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00039">39</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00042">42</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
 
 </div>
 </div>
@@ -404,7 +404,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsInit</b> = false</
 <p>Request has been sent and waiting for response. </p>
 <p>For diagnostics only. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00036">36</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00039">39</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
 
 </div>
 </div>
@@ -430,7 +430,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsInit</b> = false</
 
 <p>Request timed out. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00042">42</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00045">45</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
 
 </div>
 </div>
@@ -457,7 +457,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsInit</b> = false</
 <p>Request state unknown. </p>
 <p>For diagnostics only. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00033">33</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClockCoroutine_8h_source.html#l00036">36</a> of file <a class="el" href="SystemClockCoroutine_8h_source.html">SystemClockCoroutine.h</a>.</p>
 
 </div>
 </div>
