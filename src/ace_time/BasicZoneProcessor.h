@@ -106,17 +106,17 @@ struct Transition {
   void log() const {
     if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
       if (sizeof(acetime_t) == sizeof(int)) {
-        logging::println("startEpochSeconds: %d", startEpochSeconds);
+        logging::printf("startEpochSeconds: %d\n", startEpochSeconds);
       } else {
-        logging::println("startEpochSeconds: %ld", startEpochSeconds);
+        logging::printf("startEpochSeconds: %ld\n", startEpochSeconds);
       }
-      logging::println("offsetCode: %d", offsetCode);
-      logging::println("abbrev: %s", abbrev);
+      logging::printf("offsetCode: %d\n", offsetCode);
+      logging::printf("abbrev: %s\n", abbrev);
       if (rule.isNotNull()) {
-        logging::println("Rule.fromYear: %d", rule.fromYearTiny());
-        logging::println("Rule.toYear: %d", rule.toYearTiny());
-        logging::println("Rule.inMonth: %d", rule.inMonth());
-        logging::println("Rule.onDayOfMonth: %d", rule.onDayOfMonth());
+        logging::printf("Rule.fromYear: %d\n", rule.fromYearTiny());
+        logging::printf("Rule.toYear: %d\n", rule.toYearTiny());
+        logging::printf("Rule.inMonth: %d\n", rule.inMonth());
+        logging::printf("Rule.onDayOfMonth: %d\n", rule.onDayOfMonth());
       }
     }
   }
@@ -298,15 +298,15 @@ class BasicZoneProcessor: public ZoneProcessor {
     void log() const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
         if (!mIsFilled) {
-          logging::println("*not initialized*");
+          logging::printf("*not initialized*\n");
           return;
         }
-        logging::println("mYear: %d", mYear);
-        logging::println("mNumTransitions: %d", mNumTransitions);
-        logging::println("---- PrevTransition");
+        logging::printf("mYear: %d\n", mYear);
+        logging::printf("mNumTransitions: %d\n", mNumTransitions);
+        logging::printf("---- PrevTransition\n");
         mPrevTransition.log();
         for (int i = 0; i < mNumTransitions; i++) {
-          logging::println("---- Transition: %d", i);
+          logging::printf("---- Transition: %d\n", i);
           mTransitions[i].log();
         }
       }

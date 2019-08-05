@@ -188,8 +188,8 @@ class NtpClock: public Clock {
       mUdp.write(mPacketBuffer, kNtpPacketSize);
       mUdp.endPacket();
 #if ACE_TIME_NTP_CLOCK_DEBUG == 1
-      logging::println("NtpClock::sendNtpPacket(): %u ms",
-          (uint16_t) (millis() - startTime));
+      logging::printf("NtpClock::sendNtpPacket(): %u ms\n",
+          (unsigned) ((uint16_t) millis() - startTime));
 #endif
     }
 
