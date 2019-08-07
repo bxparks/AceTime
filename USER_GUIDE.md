@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 0.6 (2019-08-02, TZ DB version 2019a, beta)
+Version: 0.6.1 (2019-08-07, TZ DB version 2019a, beta)
 
 ## Installation
 
@@ -79,7 +79,7 @@ Linux or MacOS machine, you need:
 ### Doxygen Docs
 
 The [docs/](docs/) directory contains the
-[Doxygen docs on GitHub Pages](https://bxparks.github.io/AceTime/html).
+[Doxygen docs](https://bxparks.github.io/AceTime/html) on GitHub Pages.
 This may be useful to navigate the various classes in this library
 and to lookup the signatures of the methods in those classes.
 

@@ -3,7 +3,7 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#if defined(ARDUINO)
+#if defined(ARDUINO) || defined(DOXYGEN)
 
 #include "HardwareDateTime.h"
 #include "../common/util.h"

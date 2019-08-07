@@ -1,8 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classace__time_1_1ZoneProcessorCache.html" title="Common interface to BasicZoneProcessorCache and ExtendedZoneProcessorCache. " alt="" coords="5,93,215,119"/>
-<area shape="rect" id="node2" href="$classace__time_1_1ZoneProcessorCacheImpl.html" title="A cache of ZoneProcessors that provides a ZoneProcessor to the TimeZone upon request. " alt="" coords="296,5,515,47"/>
-<area shape="rect" id="node3" href="$classace__time_1_1ZoneProcessorCacheImpl.html" title="ace_time::ZoneProcessorCache\lImpl\&lt; SIZE, ZoneProcessorCache\l::kTypeBasicManaged, BasicZoneProcessor,\l basic::ZoneInfo, basic::ZoneInfoBroker \&gt;" alt="" coords="263,71,548,141"/>
-<area shape="rect" id="node5" href="$classace__time_1_1ZoneProcessorCacheImpl.html" title="ace_time::ZoneProcessorCache\lImpl\&lt; SIZE, ZoneProcessorCache\l::kTypeExtendedManaged, ExtendedZone\lProcessor, extended::ZoneInfo, extended\l::ZoneInfoBroker \&gt;" alt="" coords="272,166,539,251"/>
-<area shape="rect" id="node4" href="$classace__time_1_1BasicZoneProcessorCache.html" title="ace_time::BasicZoneProcessor\lCache\&lt; SIZE \&gt;" alt="" coords="607,85,811,127"/>
-<area shape="rect" id="node6" href="$classace__time_1_1ExtendedZoneProcessorCache.html" title="ace_time::ExtendedZoneProcessor\lCache\&lt; SIZE \&gt;" alt="" coords="596,188,823,229"/>
+<area shape="rect" id="node1" href="$classace__time_1_1ZoneManager.html" title="ace_time::ZoneManager\l\&lt; basic::ZoneInfo, BasicZone\lRegistrar, BasicZoneProcessorCache\l\&lt; SIZE \&gt; \&gt;" alt="" coords="5,5,248,76"/>
+<area shape="rect" id="node2" href="$classace__time_1_1BasicZoneManager.html" title="ace_time::BasicZoneManager\l\&lt; SIZE \&gt;" alt="" coords="296,20,491,61"/>
 </map>

@@ -6,6 +6,9 @@
 #ifndef ACE_TIME_SYSTEM_CLOCK_COROUTINE_H
 #define ACE_TIME_SYSTEM_CLOCK_COROUTINE_H
 
+// activate only if <AceRoutine.h> is included before this header
+#ifdef ACE_ROUTINE_VERSION
+
 #include <stdint.h>
 #include <AceRoutine.h>
 #include "../common/TimingStats.h"
@@ -158,5 +161,7 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
 
 }
 }
+
+#endif
 
 #endif

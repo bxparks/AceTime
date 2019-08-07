@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.6</span>
+   &#160;<span id="projectnumber">0.6.1</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -211,7 +211,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsInit</b> = false</
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A subclass of <a class="el" href="classace__time_1_1clock_1_1SystemClock.html" title="A Clock that uses the Arduino millis() function to advance the time returned to the user...">SystemClock</a> that sync with its mReferenceClock using a blocking mReferenceClock-&gt;<a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acdb29aa7095759101a9f33b79f863144" title="Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z). ">getNow()</a> call. </p>
-<p>The blocking call can be a problem for clocks like NtpClock which makes a network request. If this is a problem, use <a class="el" href="classace__time_1_1clock_1_1SystemClockCoroutine.html" title="A version of SystemClock that mixes in the ace_routine::Coroutine class so that that the non-block me...">SystemClockCoroutine</a> instead.</p>
+<p>The blocking call can be a problem for clocks like <a class="el" href="classace__time_1_1clock_1_1NtpClock.html" title="A Clock that retrieves the time from an NTP server. ">NtpClock</a> which makes a network request. If this is a problem, use <a class="el" href="classace__time_1_1clock_1_1SystemClockCoroutine.html" title="A version of SystemClock that mixes in the ace_routine::Coroutine class so that that the non-block me...">SystemClockCoroutine</a> instead.</p>
 <p>Initial syncing occurs at initialSyncPeriodSeconds interval, until the first successful sync, then subsequent syncing occurs at syncPeriodSeconds interval. Initial syncing implements an exponential backoff when the sync request fails, increasing from initialSyncPeriodSeconds to until a maximum of syncPeriodSeconds. </p>
 
 <p class="definition">Definition at line <a class="el" href="SystemClockLoop_8h_source.html#l00029">29</a> of file <a class="el" href="SystemClockLoop_8h_source.html">SystemClockLoop.h</a>.</p>

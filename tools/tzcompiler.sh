@@ -93,8 +93,8 @@ fi
 echo "\$ pushd $INPUT_DIR"
 pushd $INPUT_DIR
 
-echo "\$ git co $tag"
-git co $tag
+echo "\$ git checkout $tag"
+git checkout $tag
 
 echo '$ popd'
 popd
@@ -113,8 +113,8 @@ $DIRNAME/tzcompiler.py \
 echo "\$ pushd $INPUT_DIR"
 pushd $INPUT_DIR
 
-echo '$ git co master'
-git co master
+echo '$ git checkout master'
+git checkout master
 
 echo '$ popd'
 popd

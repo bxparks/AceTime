@@ -6,7 +6,7 @@
 #ifndef ACE_TIME_NTP_CLOCK_H
 #define ACE_TIME_NTP_CLOCK_H
 
-#if defined(ESP8266) || defined(ESP32)
+#if defined(ESP8266) || defined(ESP32) || defined(DOXYGEN)
 
 #include <stdint.h>
 #if defined(ESP8266)
@@ -188,8 +188,8 @@ class NtpClock: public Clock {
       mUdp.write(mPacketBuffer, kNtpPacketSize);
       mUdp.endPacket();
 #if ACE_TIME_NTP_CLOCK_DEBUG == 1
-      logging::println("NtpClock::sendNtpPacket(): %u ms",
-          (uint16_t) (millis() - startTime));
+      logging::printf("NtpClock::sendNtpPacket(): %u ms\n",
+          (unsigned) ((uint16_t) millis() - startTime));
 #endif
     }
 

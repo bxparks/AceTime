@@ -1,11 +1,20 @@
 tests:
-	for i in */Makefile ; do make -C $$(dirname $$i) ; done
-
-clean:
-	for i in */Makefile ; do echo $$i ; make -C $$(dirname $$i) clean ; done
+	for i in */Makefile; do \
+		echo '==== Making:' $$(dirname $$i); \
+		make -C $$(dirname $$i); \
+	done
 
 runtests:
-	for i in */Makefile ; do $$(dirname $$i)/$$(dirname $$i).out ; done
+	for i in */Makefile; do \
+		echo '==== Running:' $$(dirname $$i); \
+		$$(dirname $$i)/$$(dirname $$i).out; \
+	done
+
+clean:
+	for i in */Makefile; do \
+		echo '==== Cleaning:' $$(dirname $$i); \
+		make -C $$(dirname $$i) clean; \
+	done
 
 zonedb:
 	make -C BasicValidationUsingJavaTest/zonedb2018g/

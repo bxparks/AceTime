@@ -6,7 +6,7 @@
 #ifndef ACE_TIME_HW_DATE_TIME_H
 #define ACE_TIME_HW_DATE_TIME_H
 
-#if defined(ARDUINO)
+#if defined(ARDUINO) || defined(DOXYGEN)
 
 #include <stdint.h>
 #include <Print.h> // Print

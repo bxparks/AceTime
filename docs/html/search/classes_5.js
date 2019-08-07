@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['localdate',['LocalDate',['../classace__time_1_1LocalDate.html',1,'ace_time']]],
-  ['localdatetime',['LocalDateTime',['../classace__time_1_1LocalDateTime.html',1,'ace_time']]],
-  ['localtime',['LocalTime',['../classace__time_1_1LocalTime.html',1,'ace_time']]]
+  ['hardwaredatetime',['HardwareDateTime',['../structace__time_1_1hw_1_1HardwareDateTime.html',1,'ace_time::hw']]],
+  ['hardwaretemperature',['HardwareTemperature',['../structace__time_1_1hw_1_1HardwareTemperature.html',1,'ace_time::hw']]]
 ];

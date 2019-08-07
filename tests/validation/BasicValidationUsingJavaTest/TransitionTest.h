@@ -24,11 +24,11 @@ class TransitionTest: public aunit::TestOnce {
 
         TimeOffset timeOffset = tz.getUtcOffset(epochSeconds);
         if (DEBUG) {
-          ace_time::logging::println("==== test index: %d", i);
+          ace_time::logging::printf("==== test index: %d\n", i);
           if (sizeof(acetime_t) == sizeof(int)) {
-            ace_time::logging::println("epochSeconds: %d", epochSeconds);
+            ace_time::logging::printf("epochSeconds: %d\n", epochSeconds);
           } else {
-            ace_time::logging::println("epochSeconds: %ld", epochSeconds);
+            ace_time::logging::printf("epochSeconds: %ld\n", epochSeconds);
           }
           zoneProcessor.log();
         }

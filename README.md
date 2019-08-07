@@ -112,7 +112,7 @@ The library provides 2 sets of zoneinfo files created from the IANA TZ Database:
   which have (relatively) simple time zone transition rules, and intended to be
   used with the `BasicZoneProcessor` class.
 * [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h) contains `kZone*`
-  (e.g. `kZoneAfrica_Casablanca`) declarations for 387 zones and 205 links in
+  declarations (e.g. `kZoneAfrica_Casablanca`) for 387 zones and 205 links in
   the TZ Database (essentially the entire database) intended to be used with
   the `ExtendedZoneProcessor` class.
 
@@ -173,7 +173,7 @@ Normally a small application will use only a small number of timezones. The
 AceTime library with one timezone using the `BasicZoneProcessor` and the
 `SystemClock` consumes:
 * 9-10 kB of flash and 350 bytes of RAM on an 8-bit AVR processors,
-* 6-22 kB of flash and 900-1800 bytes of RAM on an 32-bit processors.
+* 6-22 kB of flash and 900-1800 bytes of RAM on a 32-bit processors.
 
 An example of more complex application is the [WorldClock](examples/WorldClock)
 which has 3 OLED displays over SPI, 3 timezones using `BasicZoneProcessor`, a
@@ -198,10 +198,9 @@ Conversion from an epochSeconds to date-time components including timezone
 * 2.8 microseconds on an ESP32,
 * 6 microseconds on a Teensy 3.2.
 
-**Version**: 0.6 (2019-08-02, TZ DB version 2019a, beta)
+**Version**: 0.6.1 (2019-08-07, TZ DB version 2019a, beta)
 
-**Status**: Fully functional. Added `ZoneManager` for dynamic binding of
-zoneName or zoneId to the TimeZone.
+**Status**: Stable, no major refactoring planned. Expected to go to 1.0 soon.
 
 ## Examples
 
@@ -319,9 +318,9 @@ pacificTime == londonTime: false
 
 ### HelloZoneManager
 
-The [HelloZoneManager](examples/HelloZoneManager) example shows how to load the
-entire TZ Database into a `BasicZoneManager`, then create 3 time zones using 3
-different ways: `createForZoneInfo()`, `createForZoneName()`, and
+The [examples/HelloZoneManager](examples/HelloZoneManager) example shows how to
+load the entire TZ Database into a `BasicZoneManager`, then create 3 time zones
+using 3 different ways: `createForZoneInfo()`, `createForZoneName()`, and
 `createForZoneId()`.
 
 ```C++

@@ -30,7 +30,7 @@
  * source code replacement of direct zoneinfo access to using these data
  * brokers.
  *
- * The core broker classes live in the common:: namespace and are templatized
+ * The core broker classes live in the internal:: namespace and are templatized
  * so that they can be used for both basic::Zone* classes and the
  * extended::Zone* classes. Specific template instantiations are created in the
  * basic:: and extended:: namespaces so that they can be used by the
@@ -42,7 +42,7 @@
 
 namespace ace_time {
 
-namespace common {
+namespace internal {
 
 //----------------------------------------------------------------------------
 // Direct data brokers for reading from SRAM
@@ -474,20 +474,21 @@ class FlashZoneRegistryBroker {
 namespace basic {
 
 #if ACE_TIME_USE_PROGMEM
-typedef common::FlashZoneRuleBroker<ZoneRule> ZoneRuleBroker;
-typedef common::FlashZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
-typedef common::FlashZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule> ZoneEraBroker;
-typedef common::FlashZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
-    ZoneContext> ZoneInfoBroker;
-typedef common::FlashZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
-#else
-typedef common::DirectZoneRuleBroker<ZoneRule> ZoneRuleBroker;
-typedef common::DirectZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
-typedef common::DirectZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>
+typedef internal::FlashZoneRuleBroker<ZoneRule> ZoneRuleBroker;
+typedef internal::FlashZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
+typedef internal::FlashZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>
     ZoneEraBroker;
-typedef common::DirectZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
+typedef internal::FlashZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
     ZoneContext> ZoneInfoBroker;
-typedef common::DirectZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
+typedef internal::FlashZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
+#else
+typedef internal::DirectZoneRuleBroker<ZoneRule> ZoneRuleBroker;
+typedef internal::DirectZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
+typedef internal::DirectZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>
+    ZoneEraBroker;
+typedef internal::DirectZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
+    ZoneContext> ZoneInfoBroker;
+typedef internal::DirectZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
 #endif
 
 }
@@ -495,20 +496,21 @@ typedef common::DirectZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
 namespace extended {
 
 #if ACE_TIME_USE_PROGMEM
-typedef common::FlashZoneRuleBroker<ZoneRule> ZoneRuleBroker;
-typedef common::FlashZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
-typedef common::FlashZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule> ZoneEraBroker;
-typedef common::FlashZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
-    ZoneContext> ZoneInfoBroker;
-typedef common::FlashZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
-#else
-typedef common::DirectZoneRuleBroker<ZoneRule> ZoneRuleBroker;
-typedef common::DirectZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
-typedef common::DirectZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>
+typedef internal::FlashZoneRuleBroker<ZoneRule> ZoneRuleBroker;
+typedef internal::FlashZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
+typedef internal::FlashZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>
     ZoneEraBroker;
-typedef common::DirectZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
+typedef internal::FlashZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
     ZoneContext> ZoneInfoBroker;
-typedef common::DirectZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
+typedef internal::FlashZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
+#else
+typedef internal::DirectZoneRuleBroker<ZoneRule> ZoneRuleBroker;
+typedef internal::DirectZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
+typedef internal::DirectZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>
+    ZoneEraBroker;
+typedef internal::DirectZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
+    ZoneContext> ZoneInfoBroker;
+typedef internal::DirectZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
 #endif
 
 }

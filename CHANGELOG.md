@@ -1,6 +1,18 @@
 # Changelog
 
 * Unreleased
+* 0.6.1
+    * Create a second Jenkins continuous build pipeline file
+      `tests/JenskinfileUnitHost` to use UnitHostDuino to run the unit tests
+      natively on Linux. The entire set of unit tests builds and runs in 20
+      seconds under UnixHostduino, compared to about 8 minutes for the single
+      Nano environemnt, and 32 minutes against 4 boards (Nano, ESP8266, ESP32,
+      SAMD21).
+    * Fix Doxygen PREPROCESSOR so that it picks up classes which are enabled
+      only on some environments (e.g. ESP8266, ESP32).
+    * Add circuit schematics to OledClock and WorldClock examples.
+    * Simplify logging::printf() used internally for debugging.
+    * No functional change from 0.6.
 * 0.6
     * Update tests to use `UnixHostDuino`.
     * Fix broken restore functionality in `CommandLineClock`. Make it work

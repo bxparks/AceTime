@@ -26,13 +26,13 @@ class TransitionTest: public aunit::TestOnce {
         const ValidationItem& item = testData->items[i];
         acetime_t epochSeconds = item.epochSeconds;
         if (DEBUG) {
-          ace_time::logging::println("==== test index: %d", i);
+          ace_time::logging::printf("==== test index: %d\n", i);
           if (sizeof(acetime_t) == sizeof(int)) {
-            ace_time::logging::print("epochSeconds: %d", epochSeconds);
+            ace_time::logging::printf("epochSeconds: %d", epochSeconds);
           } else {
-            ace_time::logging::print("epochSeconds: %ld", epochSeconds);
+            ace_time::logging::printf("epochSeconds: %ld", epochSeconds);
           }
-          ace_time::logging::println("; %d-%d-%dT%d:%d:%d",
+          ace_time::logging::printf("; %d-%d-%dT%d:%d:%d\n",
             item.year,
             item.month,
             item.day,

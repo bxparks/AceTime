@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['offsetdatetime',['OffsetDateTime',['../classace__time_1_1OffsetDateTime.html#a36910b1403ba764f3e29675424760e6c',1,'ace_time::OffsetDateTime']]]
+  ['ntpclock',['NtpClock',['../classace__time_1_1clock_1_1NtpClock.html#a05433c1de230ee9e7b4b36a6c9f49e04',1,'ace_time::clock::NtpClock']]]
 ];
