@@ -48,6 +48,7 @@ class TransitionStorageTest_addFreeAgentToCandidatePool;
 class TransitionStorageTest_setFreeAgentAsPrior;
 class TransitionStorageTest_addActiveCandidatesToActivePool;
 class TransitionStorageTest_resetCandidatePool;
+class TransitionStorageTest_findTransitionForDateTime;
 
 namespace ace_time {
 
@@ -57,22 +58,20 @@ class ZoneProcessorCacheImpl;
 namespace extended {
 
 // NOTE: Consider compressing 'modifier' into 'month' field
-/**
- * A tuple that represents a date and time, using a timeCode that tracks the
- * time component using 15-minute intervals.
- */
+/** A tuple that represents a date and time. */
 struct DateTuple {
   int8_t yearTiny; // [-127, 126], 127 will cause bugs
   uint8_t month; // [1-12]
   uint8_t day; // [1-31]
-  int8_t timeCode; // 15-min intervals, negative values allowed
+  int16_t minutes; // negative values allowed
   uint8_t modifier; // TIME_MODIFIER_S, TIME_MODIFIER_W, TIME_MODIFIER_U
 
   /** Used only for debugging. */
   void log() const {
     if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-      logging::printf("DateTuple(%d-%u-%uT%d'%c')",
-          yearTiny+LocalDate::kEpochYear, month, day, timeCode, modifier);
+      char c = "wsu"[(modifier>>4)];
+      logging::printf("DateTuple(%04d-%02u-%02uT%d'%c')",
+          yearTiny+LocalDate::kEpochYear, month, day, minutes, c);
     }
   }
 };
@@ -85,8 +84,8 @@ inline bool operator<(const DateTuple& a, const DateTuple& b) {
   if (a.month > b.month) return false;
   if (a.day < b.day) return true;
   if (a.day > b.day) return false;
-  if (a.timeCode < b.timeCode) return true;
-  if (a.timeCode > b.timeCode) return false;
+  if (a.minutes < b.minutes) return true;
+  if (a.minutes > b.minutes) return false;
   return false;
 }
 
@@ -107,7 +106,7 @@ inline bool operator==(const DateTuple& a, const DateTuple& b) {
   return a.yearTiny == b.yearTiny
       && a.month == b.month
       && a.day == b.day
-      && a.timeCode == b.timeCode
+      && a.minutes == b.minutes
       && a.modifier == b.modifier;
 }
 
@@ -548,12 +547,13 @@ class TransitionStorage {
             "findTransitionForDateTime(): mIndexFree: %d\n", mIndexFree);
       }
 
-      // Convert to DateTuple. If the localDateTime is not a multiple of 15
-      // minutes, the comparision (startTime < localDate) will still be valid.
+      // Convert LocalDateTime to DateTuple.
       DateTuple localDate = { ldt.yearTiny(), ldt.month(), ldt.day(),
-          (int8_t) (ldt.hour() * 4 + ldt.minute() / 15),
+          (int16_t) (ldt.hour() * 60 + ldt.minute()),
           ZoneContext::TIME_MODIFIER_W };
       const Transition* match = nullptr;
+
+      // Find the last Transition that matches
       for (uint8_t i = 0; i < mIndexFree; i++) {
         const Transition* candidate = mTransitions[i];
         if (candidate->startDateTime > localDate) break;
@@ -607,6 +607,7 @@ class TransitionStorage {
     friend class ::TransitionStorageTest_addFreeAgentToCandidatePool;
     friend class ::TransitionStorageTest_setFreeAgentAsPrior;
     friend class ::TransitionStorageTest_addActiveCandidatesToActivePool;
+    friend class ::TransitionStorageTest_findTransitionForDateTime;
     friend class ::TransitionStorageTest_resetCandidatePool;
 
     /** Return the transition at position i. */
@@ -702,9 +703,16 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         SERIAL_PORT_MONITOR.println();
       }
       bool success = init(ldt.localDate());
+
+      // Find the Transition to get the DST offset
       if (success) {
         const extended::Transition* transition =
             mTransitionStorage.findTransitionForDateTime(ldt);
+        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+          logging::printf("getOffsetDateTime(): match transition=");
+          transition->log();
+          logging::printf("\n");
+        }
         offset = (transition)
             ? TimeOffset::forOffsetCode(
                 transition->offsetCode + transition->deltaCode)
@@ -792,6 +800,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
     friend class ::ExtendedZoneProcessorTest_createAbbreviation;
     friend class ::ExtendedZoneProcessorTest_setZoneInfo;
+    friend class ::TransitionStorageTest_findTransitionForDateTime;
 
     template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
     friend class ZoneProcessorCacheImpl; // setZoneInfo()
@@ -880,15 +889,16 @@ class ExtendedZoneProcessor: public ZoneProcessor {
 
       mNumMatches = findMatches(mZoneInfo, startYm, untilYm, mMatches,
           kMaxMatches);
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        log();
-      }
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
       findTransitions(mTransitionStorage, mMatches, mNumMatches);
       extended::Transition** begin = mTransitionStorage.getActivePoolBegin();
       extended::Transition** end = mTransitionStorage.getActivePoolEnd();
       fixTransitionTimes(begin, end);
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
       generateStartUntilTimes(begin, end);
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
       calcAbbreviations(begin, end);
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
 
       mIsFilled = true;
       return true;
@@ -955,8 +965,8 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       if (era.untilMonth() < month) return -1;
       if (era.untilMonth() > month) return 1;
       if (era.untilDay() > 1) return 1;
-      //if (era.untilTimeCode() < 0) return -1; // never possible
-      if (era.untilTimeCode() > 0) return 1;
+      //if (era.untilTimeMinutes() < 0) return -1; // never possible
+      if (era.untilTimeMinutes() > 0) return 1;
       return 0;
     }
 
@@ -973,7 +983,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         const extended::YearMonthTuple& untilYm) {
       extended::DateTuple startDate = {
         prev.untilYearTiny(), prev.untilMonth(), prev.untilDay(),
-        (int8_t) prev.untilTimeCode(), prev.untilTimeModifier()
+        (int16_t) prev.untilTimeMinutes(), prev.untilTimeModifier()
       };
       extended::DateTuple lowerBound = {
         startYm.yearTiny, startYm.month, 1, 0,
@@ -985,7 +995,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
 
       extended::DateTuple untilDate = {
         era.untilYearTiny(), era.untilMonth(), era.untilDay(),
-        (int8_t) era.untilTimeCode(), era.untilTimeModifier()
+        (int16_t) era.untilTimeMinutes(), era.untilTimeModifier()
       };
       extended::DateTuple upperBound = {
         untilYm.yearTiny, untilYm.month, 1, 0,
@@ -1206,7 +1216,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
           yearTiny + LocalDate::kEpochYear, rule.inMonth(), rule.onDayOfWeek(),
           rule.onDayOfMonth());
       return {yearTiny, monthDay.month, monthDay.day,
-          (int8_t) rule.atTimeCode(), rule.atTimeModifier()};
+          (int16_t) rule.atTimeMinutes(), rule.atTimeModifier()};
     }
 
     /**
@@ -1303,63 +1313,74 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       if (tt->modifier == extended::ZoneContext::TIME_MODIFIER_S) {
         *tts = *tt;
         *ttu = {tt->yearTiny, tt->month, tt->day,
-            (int8_t) (tt->timeCode - offsetCode),
+            (int16_t) (tt->minutes - 15 * offsetCode),
             extended::ZoneContext::TIME_MODIFIER_U};
         *tt = {tt->yearTiny, tt->month, tt->day,
-            (int8_t) (tt->timeCode + deltaCode),
+            (int16_t) (tt->minutes + 15 * deltaCode),
             extended::ZoneContext::TIME_MODIFIER_W};
       } else if (tt->modifier == extended::ZoneContext::TIME_MODIFIER_U) {
         *ttu = *tt;
         *tts = {tt->yearTiny, tt->month, tt->day,
-            (int8_t) (tt->timeCode + offsetCode),
+            (int16_t) (tt->minutes + 15 * offsetCode),
             extended::ZoneContext::TIME_MODIFIER_S};
         *tt = {tt->yearTiny, tt->month, tt->day,
-            (int8_t) (tt->timeCode + offsetCode + deltaCode),
+            (int16_t) (tt->minutes + 15 * (offsetCode + deltaCode)),
             extended::ZoneContext::TIME_MODIFIER_W};
       } else {
         // Explicit set the modifier to 'w' in case it was something else.
         tt->modifier = extended::ZoneContext::TIME_MODIFIER_W;
         *tts = {tt->yearTiny, tt->month, tt->day,
-            (int8_t) (tt->timeCode - deltaCode),
+            (int16_t) (tt->minutes - 15 * deltaCode),
             extended::ZoneContext::TIME_MODIFIER_S};
         *ttu = {tt->yearTiny, tt->month, tt->day,
-            (int8_t) (tt->timeCode - deltaCode - offsetCode),
+            (int16_t) (tt->minutes - 15 * (deltaCode + offsetCode)),
             extended::ZoneContext::TIME_MODIFIER_U};
       }
 
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("expandDateTuple(): normalizeDateTuple(): 1\n");
-      }
       normalizeDateTuple(tt);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("expandDateTuple(): normalizeDateTuple(): 2\n");
+        logging::printf("expandDateTuple(): normalizeDateTuple(tt): ");
+        tt->log();
+        logging::printf("\n");
       }
+
       normalizeDateTuple(tts);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("expandDateTuple(): normalizeDateTuple(): 3\n");
+        logging::printf("expandDateTuple(): normalizeDateTuple(tts): ");
+        tts->log();
+        logging::printf("\n");
       }
+
       normalizeDateTuple(ttu);
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("expandDateTuple(): normalizeDateTuple(ttu): ");
+        ttu->log();
+        logging::printf("\n");
+      }
     }
 
-    /** Normalize DateTuple::timeCode if its magnitude is more than 24 hours. */
+    /**
+     * Normalize DateTuple::minutes if its magnitude is more than 24
+     * hours.
+     */
     static void normalizeDateTuple(extended::DateTuple* dt) {
-      const int8_t kOneDayAsCode = 4 * 24;
-      if (dt->timeCode <= -kOneDayAsCode) {
+      const int16_t kOneDayAsMinutes = 60 * 24;
+      if (dt->minutes <= -kOneDayAsMinutes) {
         LocalDate ld = LocalDate::forTinyComponents(
             dt->yearTiny, dt->month, dt->day);
         local_date_mutation::decrementOneDay(ld);
         dt->yearTiny = ld.yearTiny();
         dt->month = ld.month();
         dt->day = ld.day();
-        dt->timeCode += kOneDayAsCode;
-      } else if (kOneDayAsCode <= dt->timeCode) {
+        dt->minutes += kOneDayAsMinutes;
+      } else if (kOneDayAsMinutes <= dt->minutes) {
         LocalDate ld = LocalDate::forTinyComponents(
             dt->yearTiny, dt->month, dt->day);
         local_date_mutation::incrementOneDay(ld);
         dt->yearTiny = ld.yearTiny();
         dt->month = ld.month();
         dt->day = ld.day();
-        dt->timeCode -= kOneDayAsCode;
+        dt->minutes -= kOneDayAsMinutes;
       } else {
         // do nothing
       }
@@ -1504,9 +1525,11 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         // 2) Calculate the current startDateTime by shifting the
         // transitionTime (represented in the UTC offset of the previous
         // transition) into the UTC offset of the *current* transition.
-        int8_t code = tt.timeCode - prev->offsetCode - prev->deltaCode
-            + t->offsetCode + t->deltaCode;
-        t->startDateTime = {tt.yearTiny, tt.month, tt.day, code, tt.modifier};
+        int16_t minutes = tt.minutes + 15 * (
+            - prev->offsetCode - prev->deltaCode
+            + t->offsetCode + t->deltaCode);
+        t->startDateTime = {tt.yearTiny, tt.month, tt.day, minutes,
+            tt.modifier};
         normalizeDateTuple(&t->startDateTime);
 
         // 3) The epochSecond of the 'transitionTime' is determined by the
@@ -1520,8 +1543,8 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         // hasn't been clobbered by 'untilDateTime' yet. Not sure if this saves
         // any CPU time though, since we still need to mutiply by 900.
         const extended::DateTuple& st = t->startDateTime;
-        const acetime_t offsetSeconds = (acetime_t) 900
-            * (st.timeCode - t->offsetCode - t->deltaCode);
+        const acetime_t offsetSeconds = (acetime_t) 60
+            * (st.minutes - 15 * (t->offsetCode + t->deltaCode));
         LocalDate ld = LocalDate::forTinyComponents(
             st.yearTiny, st.month, st.day);
         t->startEpochSeconds = ld.toEpochSeconds() + offsetSeconds;

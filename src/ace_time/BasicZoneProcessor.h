@@ -730,9 +730,9 @@ class BasicZoneProcessor: public ZoneProcessor {
               transition.rule.atTimeModifier());
 
           // startDateTime
-          const uint8_t timeCode = transition.rule.atTimeCode();
-          const uint8_t atHour = timeCode / 4;
-          const uint8_t atMinute = (timeCode % 4) * 15;
+          const uint16_t minutes = transition.rule.atTimeMinutes();
+          const uint8_t atHour = minutes / 60;
+          const uint8_t atMinute = minutes % 60;
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
               year, monthDay.month, monthDay.day,
               atHour, atMinute, 0 /*second*/,

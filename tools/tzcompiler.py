@@ -188,7 +188,10 @@ def main():
         granularity = args.granularity
     else:
         if args.language in ['arduino']:
-            granularity = 900
+            if args.scope == 'basic':
+                granularity = 900
+            else:
+                granularity = 60
         else:
             granularity = 60
     logging.info('Using granularity: %d' % granularity)

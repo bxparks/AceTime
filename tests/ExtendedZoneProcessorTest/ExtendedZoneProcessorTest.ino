@@ -219,9 +219,9 @@ test(ExtendedZoneProcessorTest, createMatch) {
   match = ExtendedZoneProcessor::createMatch(
       extended::ZoneEraBroker(&prev), extended::ZoneEraBroker(&era3),
       startYm, untilYm);
-  assertTrue((match.startDateTime == DateTuple{0, 1, 2, 3,
+  assertTrue((match.startDateTime == DateTuple{0, 1, 2, 15*3,
       ZoneContext::TIME_MODIFIER_W}));
-  assertTrue((match.untilDateTime == DateTuple{2, 3, 4, 5,
+  assertTrue((match.untilDateTime == DateTuple{2, 3, 4, 15*5,
       ZoneContext::TIME_MODIFIER_W}));
   assertTrue(&era3 == match.era.zoneEra());
 }
@@ -238,17 +238,17 @@ test(ExtendedZoneProcessorTest, findMatches_simple) {
 
   assertTrue((matches[0].startDateTime == DateTuple{18, 12, 1, 0,
       ZoneContext::TIME_MODIFIER_W}));
-  assertTrue((matches[0].untilDateTime == DateTuple{19, 3, 10, 8,
+  assertTrue((matches[0].untilDateTime == DateTuple{19, 3, 10, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
   assertTrue(&kZoneEraAlmostLosAngeles[0] == matches[0].era.zoneEra());
 
-  assertTrue((matches[1].startDateTime == DateTuple{19, 3, 10, 8,
+  assertTrue((matches[1].startDateTime == DateTuple{19, 3, 10, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
-  assertTrue((matches[1].untilDateTime == DateTuple{19, 11, 3, 8,
+  assertTrue((matches[1].untilDateTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
   assertTrue(&kZoneEraAlmostLosAngeles[1] == matches[1].era.zoneEra());
 
-  assertTrue((matches[2].startDateTime == DateTuple{19, 11, 3, 8,
+  assertTrue((matches[2].startDateTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
   assertTrue((matches[2].untilDateTime == DateTuple{20, 2, 1, 0,
       ZoneContext::TIME_MODIFIER_W}));
@@ -278,11 +278,11 @@ test(ExtendedZoneProcessorTest, getTransitionTime) {
 
   // Nov 4 2018
   DateTuple dt = ExtendedZoneProcessor::getTransitionTime(18, rule);
-  assertTrue((dt == DateTuple{18, 11, 4, 8, ZoneContext::TIME_MODIFIER_W}));
+  assertTrue((dt == DateTuple{18, 11, 4, 15*8, ZoneContext::TIME_MODIFIER_W}));
 
   // Nov 3 2019
   dt = ExtendedZoneProcessor::getTransitionTime(19, rule);
-  assertTrue((dt == DateTuple{19, 11, 3, 8, ZoneContext::TIME_MODIFIER_W}));
+  assertTrue((dt == DateTuple{19, 11, 3, 15*8, ZoneContext::TIME_MODIFIER_W}));
 }
 
 test(ExtendedZoneProcessorTest, createTransitionForYear) {
@@ -295,7 +295,7 @@ test(ExtendedZoneProcessorTest, createTransitionForYear) {
   const auto rule = extended::ZoneRuleBroker(&kZoneRulesTestUS[4]);
   Transition t;
   ExtendedZoneProcessor::createTransitionForYear(&t, 19, rule, &match);
-  assertTrue((t.transitionTime == DateTuple{19, 11, 3, 8,
+  assertTrue((t.transitionTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
 }
 
@@ -306,25 +306,25 @@ test(ExtendedZoneProcessorTest, normalizeDateTuple) {
   ExtendedZoneProcessor::normalizeDateTuple(&dtp);
   assertTrue((dtp == DateTuple{0, 1, 1, 0, ZoneContext::TIME_MODIFIER_W}));
 
-  dtp = {0, 1, 1, 95, ZoneContext::TIME_MODIFIER_W};
+  dtp = {0, 1, 1, 15*95, ZoneContext::TIME_MODIFIER_W}; // 23:45
   ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{0, 1, 1, 95, ZoneContext::TIME_MODIFIER_W}));
+  assertTrue((dtp == DateTuple{0, 1, 1, 15*95, ZoneContext::TIME_MODIFIER_W}));
 
-  dtp = {0, 1, 1, 96, ZoneContext::TIME_MODIFIER_W};
+  dtp = {0, 1, 1, 15*96, ZoneContext::TIME_MODIFIER_W}; // 24:00
   ExtendedZoneProcessor::normalizeDateTuple(&dtp);
   assertTrue((dtp == DateTuple{0, 1, 2, 0, ZoneContext::TIME_MODIFIER_W}));
 
-  dtp = {0, 1, 1, 97, ZoneContext::TIME_MODIFIER_W};
+  dtp = {0, 1, 1, 15*97, ZoneContext::TIME_MODIFIER_W}; // 24:15
   ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{0, 1, 2, 1, ZoneContext::TIME_MODIFIER_W}));
+  assertTrue((dtp == DateTuple{0, 1, 2, 15, ZoneContext::TIME_MODIFIER_W}));
 
-  dtp = {0, 1, 1, -96, ZoneContext::TIME_MODIFIER_W};
+  dtp = {0, 1, 1, -15*96, ZoneContext::TIME_MODIFIER_W}; // -24:00
   ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{-01, 12, 31, 0, ZoneContext::TIME_MODIFIER_W}));
+  assertTrue((dtp == DateTuple{-1, 12, 31, 0, ZoneContext::TIME_MODIFIER_W}));
 
-  dtp = {0, 1, 1, -97, ZoneContext::TIME_MODIFIER_W};
+  dtp = {0, 1, 1, -15*97, ZoneContext::TIME_MODIFIER_W}; // -24:15
   ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{-01, 12, 31, -1, ZoneContext::TIME_MODIFIER_W}));
+  assertTrue((dtp == DateTuple{-1, 12, 31, -15, ZoneContext::TIME_MODIFIER_W}));
 }
 
 test(ExtendedZoneProcessorTest, expandDateTuple) {
@@ -334,25 +334,25 @@ test(ExtendedZoneProcessorTest, expandDateTuple) {
   int8_t offsetCode = 8;
   int8_t deltaCode = 4;
 
-  tt = {0, 1, 30, 12, ZoneContext::TIME_MODIFIER_W};
+  tt = {0, 1, 30, 15*12, ZoneContext::TIME_MODIFIER_W}; // 03:00
   ExtendedZoneProcessor::expandDateTuple(&tt, &tts, &ttu,
       offsetCode, deltaCode);
-  assertTrue((tt == DateTuple{0, 1, 30, 12, ZoneContext::TIME_MODIFIER_W}));
-  assertTrue((tts == DateTuple{0, 1, 30, 8, ZoneContext::TIME_MODIFIER_S}));
+  assertTrue((tt == DateTuple{0, 1, 30, 15*12, ZoneContext::TIME_MODIFIER_W}));
+  assertTrue((tts == DateTuple{0, 1, 30, 15*8, ZoneContext::TIME_MODIFIER_S}));
   assertTrue((ttu == DateTuple{0, 1, 30, 0, ZoneContext::TIME_MODIFIER_U}));
 
-  tt = {0, 1, 30, 8, ZoneContext::TIME_MODIFIER_S};
+  tt = {0, 1, 30, 15*8, ZoneContext::TIME_MODIFIER_S};
   ExtendedZoneProcessor::expandDateTuple(&tt, &tts, &ttu,
       offsetCode, deltaCode);
-  assertTrue((tt == DateTuple{0, 1, 30, 12, ZoneContext::TIME_MODIFIER_W}));
-  assertTrue((tts == DateTuple{0, 1, 30, 8, ZoneContext::TIME_MODIFIER_S}));
+  assertTrue((tt == DateTuple{0, 1, 30, 15*12, ZoneContext::TIME_MODIFIER_W}));
+  assertTrue((tts == DateTuple{0, 1, 30, 15*8, ZoneContext::TIME_MODIFIER_S}));
   assertTrue((ttu == DateTuple{0, 1, 30, 0, ZoneContext::TIME_MODIFIER_U}));
 
   tt = {0, 1, 30, 0, ZoneContext::TIME_MODIFIER_U};
   ExtendedZoneProcessor::expandDateTuple(&tt, &tts, &ttu,
       offsetCode, deltaCode);
-  assertTrue((tt == DateTuple{0, 1, 30, 12, ZoneContext::TIME_MODIFIER_W}));
-  assertTrue((tts == DateTuple{0, 1, 30, 8, ZoneContext::TIME_MODIFIER_S}));
+  assertTrue((tt == DateTuple{0, 1, 30, 15*12, ZoneContext::TIME_MODIFIER_W}));
+  assertTrue((tts == DateTuple{0, 1, 30, 15*8, ZoneContext::TIME_MODIFIER_S}));
   assertTrue((ttu == DateTuple{0, 1, 30, 0, ZoneContext::TIME_MODIFIER_U}));
 }
 
@@ -589,15 +589,15 @@ test(ExtendedZoneProcessorTest, findCandidateTransitions) {
   assertEqual(5,
       (int) (storage.getCandidatePoolEnd() - storage.getCandidatePoolBegin()));
   Transition** t = storage.getCandidatePoolBegin();
-  assertTrue(((*t++)->transitionTime == DateTuple{18, 3, 11, 8,
+  assertTrue(((*t++)->transitionTime == DateTuple{18, 3, 11, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
-  assertTrue(((*t++)->transitionTime == DateTuple{18, 11, 4, 8,
+  assertTrue(((*t++)->transitionTime == DateTuple{18, 11, 4, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
-  assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 8,
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
-  assertTrue(((*t++)->transitionTime == DateTuple{19, 11, 3, 8,
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
-  assertTrue(((*t++)->transitionTime == DateTuple{20, 3, 8, 8,
+  assertTrue(((*t++)->transitionTime == DateTuple{20, 3, 8, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
 }
 
@@ -619,9 +619,9 @@ test(ExtendedZoneProcessorTest, findTransitionsFromNamedMatch) {
   Transition** t = storage.getActivePoolBegin();
   assertTrue(((*t++)->transitionTime == DateTuple{18, 12, 1, 0,
       ZoneContext::TIME_MODIFIER_W}));
-  assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 8,
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
-  assertTrue(((*t++)->transitionTime == DateTuple{19, 11, 3, 8,
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
 }
 
@@ -679,23 +679,23 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
       ZoneContext::TIME_MODIFIER_W}));
   assertTrue((transition1->transitionTimeS == DateTuple{18, 12, 1, 0,
       ZoneContext::TIME_MODIFIER_S}));
-  assertTrue((transition1->transitionTimeU == DateTuple{18, 12, 1, 32,
+  assertTrue((transition1->transitionTimeU == DateTuple{18, 12, 1, 15*32,
       ZoneContext::TIME_MODIFIER_U}));
 
   // Second transition uses the UTC offset of the first.
-  assertTrue((transition2->transitionTime == DateTuple{19, 3, 10, 8,
+  assertTrue((transition2->transitionTime == DateTuple{19, 3, 10, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
-  assertTrue((transition2->transitionTimeS == DateTuple{19, 3, 10, 8,
+  assertTrue((transition2->transitionTimeS == DateTuple{19, 3, 10, 15*8,
       ZoneContext::TIME_MODIFIER_S}));
-  assertTrue((transition2->transitionTimeU == DateTuple{19, 3, 10, 40,
+  assertTrue((transition2->transitionTimeU == DateTuple{19, 3, 10, 15*40,
       ZoneContext::TIME_MODIFIER_U}));
 
   // Third transition uses the UTC offset of the second.
-  assertTrue((transition3->transitionTime == DateTuple{19, 11, 3, 8,
+  assertTrue((transition3->transitionTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
-  assertTrue((transition3->transitionTimeS == DateTuple{19, 11, 3, 4,
+  assertTrue((transition3->transitionTimeS == DateTuple{19, 11, 3, 15*4,
       ZoneContext::TIME_MODIFIER_S}));
-  assertTrue((transition3->transitionTimeU == DateTuple{19, 11, 3, 36,
+  assertTrue((transition3->transitionTimeU == DateTuple{19, 11, 3, 15*36,
       ZoneContext::TIME_MODIFIER_U}));
 
   // Generate the startDateTime and untilDateTime of the transitions.
@@ -707,27 +707,27 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
       ZoneContext::TIME_MODIFIER_W}));
   assertTrue((transition1->startDateTime == DateTuple{18, 12, 1, 0,
       ZoneContext::TIME_MODIFIER_W}));
-  assertTrue((transition1->untilDateTime == DateTuple{19, 3, 10, 8,
+  assertTrue((transition1->untilDateTime == DateTuple{19, 3, 10, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
   acetime_t epochSecs = OffsetDateTime::forComponents(
       2018, 12, 1, 0, 0, 0, TimeOffset::forHour(-8)).toEpochSeconds();
   assertEqual(epochSecs, transition1->startEpochSeconds);
 
   // Second transition startTime is shifted forward one hour into PDT.
-  assertTrue((transition2->transitionTime == DateTuple{19, 3, 10, 8,
+  assertTrue((transition2->transitionTime == DateTuple{19, 3, 10, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
-  assertTrue((transition2->startDateTime == DateTuple{19, 3, 10, 12,
+  assertTrue((transition2->startDateTime == DateTuple{19, 3, 10, 15*12,
       ZoneContext::TIME_MODIFIER_W}));
-  assertTrue((transition2->untilDateTime == DateTuple{19, 11, 3, 8,
+  assertTrue((transition2->untilDateTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
   epochSecs = OffsetDateTime::forComponents(
       2019, 3, 10, 3, 0, 0, TimeOffset::forHour(-7)).toEpochSeconds();
   assertEqual(epochSecs, transition2->startEpochSeconds);
 
   // Third transition startTime is shifted back one hour into PST.
-  assertTrue((transition3->transitionTime == DateTuple{19, 11, 3, 8,
+  assertTrue((transition3->transitionTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::TIME_MODIFIER_W}));
-  assertTrue((transition3->startDateTime == DateTuple{19, 11, 3, 4,
+  assertTrue((transition3->startDateTime == DateTuple{19, 11, 3, 15*4,
       ZoneContext::TIME_MODIFIER_W}));
   assertTrue((transition3->untilDateTime == DateTuple{20, 2, 1, 0,
       ZoneContext::TIME_MODIFIER_W}));

@@ -8632,7 +8632,7 @@ static const extended::ZoneEra kZoneEraAsia_Gaza[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     0 /*untilTimeCode*/,
-    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W + 1 /*untilTimeModifier*/,
   },
   //             2:00 Palestine    EE%sT    2011 Aug  1
   {
