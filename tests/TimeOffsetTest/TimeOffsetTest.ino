@@ -30,12 +30,12 @@ test(TimeOffsetTest, forMinutes) {
   assertEqual((int32_t) 900, offset.toSeconds());
 
   offset = TimeOffset::forMinutes(-16);
-  assertEqual((int16_t) -15, offset.toMinutes());
-  assertEqual((int32_t) -900, offset.toSeconds());
+  assertEqual((int16_t) -16, offset.toMinutes());
+  assertEqual((int32_t) -960, offset.toSeconds());
 
   offset = TimeOffset::forMinutes(16);
-  assertEqual((int16_t) 15, offset.toMinutes());
-  assertEqual((int32_t) 900, offset.toSeconds());
+  assertEqual((int16_t) 16, offset.toMinutes());
+  assertEqual((int32_t) 960, offset.toSeconds());
 }
 
 test(TimeOffsetTest, forHour) {
@@ -57,7 +57,7 @@ test(TimeOffsetTest, forOffsetString) {
   assertEqual(TimeOffset::forOffsetString("-07:45").toMinutes(), -(7*60+45));
   assertEqual(TimeOffset::forOffsetString("+01:00").toMinutes(), 60);
   assertEqual(TimeOffset::forOffsetString("+01:15").toMinutes(), 75);
-  assertEqual(TimeOffset::forOffsetString("+01:16").toMinutes(), 75);
+  assertEqual(TimeOffset::forOffsetString("+01:16").toMinutes(), 76);
 }
 
 test(TimeOffsetTest, toHourMinute) {
@@ -100,7 +100,9 @@ test(TimeOffsetMutationTest, increment15Minutes) {
   TimeOffset offset;
 
   offset = TimeOffset::forHourMinute(-16, 0);
+  assertEqual(-960, offset.toMinutes());
   time_offset_mutation::increment15Minutes(offset);
+  assertEqual(-945, offset.toMinutes());
   offset.toHourMinute(hour, minute);
   assertEqual(-15, hour);
   assertEqual(-45, minute);

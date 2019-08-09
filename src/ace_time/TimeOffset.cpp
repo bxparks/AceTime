@@ -17,7 +17,7 @@ void TimeOffset::printTo(Print& printer) const {
   int8_t minute;
   toHourMinute(hour, minute);
 
-  if (mOffsetCode < 0) {
+  if (mMinutes < 0) {
     printer.print('-');
     hour = -hour;
     minute = -minute;
