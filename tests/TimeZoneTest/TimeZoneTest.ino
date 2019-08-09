@@ -220,8 +220,8 @@ test(TimeZoneDataTest, utc) {
   auto tz = TimeZone::forUtc();
   auto tzd = tz.toTimeZoneData();
   assertEqual(TimeZone::kTypeManual, tzd.type);
-  assertEqual(0, tzd.stdOffsetCode);
-  assertEqual(0, tzd.dstOffsetCode);
+  assertEqual(0, tzd.stdOffsetMinutes);
+  assertEqual(0, tzd.dstOffsetMinutes);
 
   auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
   assertTrue(tz == tzCycle);
@@ -232,8 +232,8 @@ test(TimeZoneDataTest, manual) {
       TimeOffset::forHour(1));
   auto tzd = tz.toTimeZoneData();
   assertEqual(TimeZone::kTypeManual, tzd.type);
-  assertEqual(-8 * 4, tzd.stdOffsetCode);
-  assertEqual(4, tzd.dstOffsetCode);
+  assertEqual(-8 * 60, tzd.stdOffsetMinutes);
+  assertEqual(1 * 60, tzd.dstOffsetMinutes);
 
   auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
   assertTrue(tz == tzCycle);

@@ -310,8 +310,8 @@ class TimeZone {
       TimeZoneData d;
       switch (mType) {
         case TimeZone::kTypeManual:
-          d.stdOffsetCode = mStdOffsetCode;
-          d.dstOffsetCode = mDstOffsetCode;
+          d.stdOffsetMinutes = mStdOffsetCode * 15;
+          d.dstOffsetMinutes = mDstOffsetCode * 15;
           d.type = TimeZoneData::kTypeManual;
           break;
         case TimeZone::kTypeBasic:

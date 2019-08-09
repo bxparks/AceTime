@@ -1,6 +1,11 @@
 # Changelog
 
 * Unreleased
+    * Change TimeZoneData to store mStdOffset and mDstOffset in units of
+      one minute (instead of 15-minute increments, "code") in the off chance
+      that the library supports timezones with one-minute shifts in the future.
+      I am treating this as "non-breaking" change because TimeZoneData is
+      handled as basically an opaque object by all downstream apps currently.
 * 0.6.1
     * Create a second Jenkins continuous build pipeline file
       `tests/JenskinfileUnitHost` to use UnitHostDuino to run the unit tests
