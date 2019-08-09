@@ -200,7 +200,11 @@ Conversion from an epochSeconds to date-time components including timezone
 
 **Version**: 0.6.1 (2019-08-07, TZ DB version 2019a, beta)
 
-**Status**: Stable, no major refactoring planned. Expected to go to 1.0 soon.
+**Status**: I'm considering some changes to the internal format of the
+`zonedb::` and `zonedbx::` zoneinfo files which will increase the time
+resolution of DST shifts from 15-minute resolution to 1-minute resolution,
+without increasing size of the database size. I think I can do this with almost
+no changes to the library's external API.
 
 ## Examples
 
