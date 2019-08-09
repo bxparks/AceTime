@@ -306,18 +306,18 @@ static const char* const kLetters{policyName}[] {progmem} = {{
                 scope=self.scope)
 
         removed_policy_items = ''
-        for name, reason in sorted(self.removed_policies.items()):
+        for name, reasons in sorted(self.removed_policies.items()):
             removed_policy_items += \
                 self.ZONE_POLICIES_H_REMOVED_POLICY_ITEM.format(
                     policyName=name,
-                    policyReason=reason)
+                    policyReason=', '.join(reasons))
 
         notable_policy_items = ''
-        for name, reason in sorted(self.notable_policies.items()):
+        for name, reasons in sorted(self.notable_policies.items()):
             notable_policy_items += \
                 self.ZONE_POLICIES_H_NOTABLE_POLICY_ITEM.format(
                     policyName=name,
-                    policyReason=reason)
+                    policyReason=', '.join(reasons))
 
         return self.ZONE_POLICIES_H_FILE.format(
             invocation=self.invocation,
@@ -674,14 +674,14 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
                 zoneFullName=zone_name)
 
         removed_info_items = ''
-        for zone_name, reason in sorted(self.removed_zones.items()):
+        for zone_name, reasons in sorted(self.removed_zones.items()):
             removed_info_items += self.ZONE_INFOS_H_REMOVED_INFO_ITEM.format(
-                zoneFullName=zone_name, reason=reason)
+                zoneFullName=zone_name, reason=', '.join(reasons))
 
         notable_info_items = ''
-        for zone_name, reason in sorted(self.notable_zones.items()):
+        for zone_name, reasons in sorted(self.notable_zones.items()):
             notable_info_items += self.ZONE_INFOS_H_NOTABLE_INFO_ITEM.format(
-                zoneFullName=zone_name, reason=reason)
+                zoneFullName=zone_name, reason=', '.join(reasons))
 
         link_items = ''
         for link_name, zone_name in sorted(self.links_map.items()):
@@ -692,14 +692,14 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
                 zoneFullName=zone_name)
 
         removed_link_items = ''
-        for link_name, reason in sorted(self.removed_links.items()):
+        for link_name, reasons in sorted(self.removed_links.items()):
             removed_link_items += self.ZONE_INFOS_H_REMOVED_LINK_ITEM.format(
-                linkFullName=link_name, reason=reason)
+                linkFullName=link_name, reason=', '.join(reasons))
 
         notable_link_items = ''
-        for link_name, reason in sorted(self.notable_links.items()):
+        for link_name, reasons in sorted(self.notable_links.items()):
             notable_link_items += self.ZONE_INFOS_H_NOTABLE_LINK_ITEM.format(
-                linkFullName=link_name, reason=reason)
+                linkFullName=link_name, reason=', '.join(reasons))
 
         return self.ZONE_INFOS_H_FILE.format(
             invocation=self.invocation,
