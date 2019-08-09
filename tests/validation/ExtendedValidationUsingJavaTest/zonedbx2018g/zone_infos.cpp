@@ -55,7 +55,7 @@ static const extended::ZoneEra kZoneEraAfrica_Abidjan[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -90,7 +90,7 @@ static const extended::ZoneEra kZoneEraAfrica_Accra[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -125,7 +125,7 @@ static const extended::ZoneEra kZoneEraAfrica_Algiers[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -160,7 +160,7 @@ static const extended::ZoneEra kZoneEraAfrica_Bissau[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -195,7 +195,7 @@ static const extended::ZoneEra kZoneEraAfrica_Cairo[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -230,7 +230,7 @@ static const extended::ZoneEra kZoneEraAfrica_Casablanca[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     27 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //              1:00    -    +01
   {
@@ -242,7 +242,7 @@ static const extended::ZoneEra kZoneEraAfrica_Casablanca[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -277,7 +277,7 @@ static const extended::ZoneEra kZoneEraAfrica_Ceuta[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -312,7 +312,7 @@ static const extended::ZoneEra kZoneEraAfrica_El_Aaiun[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     27 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //              1:00    -    +01
   {
@@ -324,7 +324,7 @@ static const extended::ZoneEra kZoneEraAfrica_El_Aaiun[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -359,7 +359,7 @@ static const extended::ZoneEra kZoneEraAfrica_Johannesburg[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -394,7 +394,7 @@ static const extended::ZoneEra kZoneEraAfrica_Juba[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     15 /*untilDay*/,
     48 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             3:00    -    EAT
   {
@@ -406,7 +406,7 @@ static const extended::ZoneEra kZoneEraAfrica_Juba[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -441,7 +441,7 @@ static const extended::ZoneEra kZoneEraAfrica_Khartoum[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     15 /*untilDay*/,
     48 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             3:00    -    EAT    2017 Nov  1
   {
@@ -453,7 +453,7 @@ static const extended::ZoneEra kZoneEraAfrica_Khartoum[] ACE_TIME_PROGMEM = {
     11 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00    -    CAT
   {
@@ -465,7 +465,7 @@ static const extended::ZoneEra kZoneEraAfrica_Khartoum[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -500,7 +500,7 @@ static const extended::ZoneEra kZoneEraAfrica_Lagos[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -535,7 +535,7 @@ static const extended::ZoneEra kZoneEraAfrica_Maputo[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -570,7 +570,7 @@ static const extended::ZoneEra kZoneEraAfrica_Monrovia[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -605,7 +605,7 @@ static const extended::ZoneEra kZoneEraAfrica_Nairobi[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -640,7 +640,7 @@ static const extended::ZoneEra kZoneEraAfrica_Ndjamena[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -675,7 +675,7 @@ static const extended::ZoneEra kZoneEraAfrica_Sao_Tome[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     4 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //              1:00    -    WAT
   {
@@ -687,7 +687,7 @@ static const extended::ZoneEra kZoneEraAfrica_Sao_Tome[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -722,7 +722,7 @@ static const extended::ZoneEra kZoneEraAfrica_Tripoli[] ACE_TIME_PROGMEM = {
     11 /*untilMonth*/,
     10 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             1:00    Libya    CE%sT    2013 Oct 25  2:00
   {
@@ -734,7 +734,7 @@ static const extended::ZoneEra kZoneEraAfrica_Tripoli[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     25 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00    -    EET
   {
@@ -746,7 +746,7 @@ static const extended::ZoneEra kZoneEraAfrica_Tripoli[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -781,7 +781,7 @@ static const extended::ZoneEra kZoneEraAfrica_Tunis[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -816,7 +816,7 @@ static const extended::ZoneEra kZoneEraAfrica_Windhoek[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -851,7 +851,7 @@ static const extended::ZoneEra kZoneEraAmerica_Adak[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -886,7 +886,7 @@ static const extended::ZoneEra kZoneEraAmerica_Anchorage[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -921,7 +921,7 @@ static const extended::ZoneEra kZoneEraAmerica_Araguaina[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     24 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2012 Oct 21
   {
@@ -933,7 +933,7 @@ static const extended::ZoneEra kZoneEraAmerica_Araguaina[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     21 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Brazil    -03/-02    2013 Sep
   {
@@ -945,7 +945,7 @@ static const extended::ZoneEra kZoneEraAmerica_Araguaina[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -957,7 +957,7 @@ static const extended::ZoneEra kZoneEraAmerica_Araguaina[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -992,7 +992,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Buenos_Aires[] ACE_TIME
     10 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    Arg    -04/-03    2000 Mar  3
   {
@@ -1004,7 +1004,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Buenos_Aires[] ACE_TIME
     3 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02
   {
@@ -1016,7 +1016,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Buenos_Aires[] ACE_TIME
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -1051,7 +1051,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Catamarca[] ACE_TIME_PR
     10 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    Arg    -04/-03    2000 Mar  3
   {
@@ -1063,7 +1063,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Catamarca[] ACE_TIME_PR
     3 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2004 Jun  1
   {
@@ -1075,7 +1075,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Catamarca[] ACE_TIME_PR
     6 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Jun 20
   {
@@ -1087,7 +1087,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Catamarca[] ACE_TIME_PR
     6 /*untilMonth*/,
     20 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
   {
@@ -1099,7 +1099,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Catamarca[] ACE_TIME_PR
     10 /*untilMonth*/,
     18 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -1111,7 +1111,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Catamarca[] ACE_TIME_PR
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -1146,7 +1146,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Cordoba[] ACE_TIME_PROG
     10 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    Arg    -04/-03    2000 Mar  3
   {
@@ -1158,7 +1158,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Cordoba[] ACE_TIME_PROG
     3 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02
   {
@@ -1170,7 +1170,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Cordoba[] ACE_TIME_PROG
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -1205,7 +1205,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Jujuy[] ACE_TIME_PROGME
     10 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    Arg    -04/-03    2000 Mar  3
   {
@@ -1217,7 +1217,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Jujuy[] ACE_TIME_PROGME
     3 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
   {
@@ -1229,7 +1229,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Jujuy[] ACE_TIME_PROGME
     10 /*untilMonth*/,
     18 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -1241,7 +1241,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Jujuy[] ACE_TIME_PROGME
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -1276,7 +1276,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_La_Rioja[] ACE_TIME_PRO
     10 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    Arg    -04/-03    2000 Mar  3
   {
@@ -1288,7 +1288,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_La_Rioja[] ACE_TIME_PRO
     3 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2004 Jun  1
   {
@@ -1300,7 +1300,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_La_Rioja[] ACE_TIME_PRO
     6 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Jun 20
   {
@@ -1312,7 +1312,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_La_Rioja[] ACE_TIME_PRO
     6 /*untilMonth*/,
     20 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
   {
@@ -1324,7 +1324,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_La_Rioja[] ACE_TIME_PRO
     10 /*untilMonth*/,
     18 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -1336,7 +1336,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_La_Rioja[] ACE_TIME_PRO
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -1371,7 +1371,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Mendoza[] ACE_TIME_PROG
     10 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    Arg    -04/-03    2000 Mar  3
   {
@@ -1383,7 +1383,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Mendoza[] ACE_TIME_PROG
     3 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2004 May 23
   {
@@ -1395,7 +1395,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Mendoza[] ACE_TIME_PROG
     5 /*untilMonth*/,
     23 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Sep 26
   {
@@ -1407,7 +1407,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Mendoza[] ACE_TIME_PROG
     9 /*untilMonth*/,
     26 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
   {
@@ -1419,7 +1419,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Mendoza[] ACE_TIME_PROG
     10 /*untilMonth*/,
     18 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -1431,7 +1431,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Mendoza[] ACE_TIME_PROG
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -1466,7 +1466,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Rio_Gallegos[] ACE_TIME
     10 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    Arg    -04/-03    2000 Mar  3
   {
@@ -1478,7 +1478,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Rio_Gallegos[] ACE_TIME
     3 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2004 Jun  1
   {
@@ -1490,7 +1490,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Rio_Gallegos[] ACE_TIME
     6 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Jun 20
   {
@@ -1502,7 +1502,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Rio_Gallegos[] ACE_TIME
     6 /*untilMonth*/,
     20 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
   {
@@ -1514,7 +1514,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Rio_Gallegos[] ACE_TIME
     10 /*untilMonth*/,
     18 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -1526,7 +1526,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Rio_Gallegos[] ACE_TIME
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -1561,7 +1561,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Salta[] ACE_TIME_PROGME
     10 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    Arg    -04/-03    2000 Mar  3
   {
@@ -1573,7 +1573,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Salta[] ACE_TIME_PROGME
     3 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
   {
@@ -1585,7 +1585,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Salta[] ACE_TIME_PROGME
     10 /*untilMonth*/,
     18 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -1597,7 +1597,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Salta[] ACE_TIME_PROGME
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -1632,7 +1632,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_San_Juan[] ACE_TIME_PRO
     10 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    Arg    -04/-03    2000 Mar  3
   {
@@ -1644,7 +1644,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_San_Juan[] ACE_TIME_PRO
     3 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2004 May 31
   {
@@ -1656,7 +1656,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_San_Juan[] ACE_TIME_PRO
     5 /*untilMonth*/,
     31 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Jul 25
   {
@@ -1668,7 +1668,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_San_Juan[] ACE_TIME_PRO
     7 /*untilMonth*/,
     25 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
   {
@@ -1680,7 +1680,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_San_Juan[] ACE_TIME_PRO
     10 /*untilMonth*/,
     18 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -1692,7 +1692,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_San_Juan[] ACE_TIME_PRO
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -1727,7 +1727,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_San_Luis[] ACE_TIME_PRO
     10 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    1:00    -03    2000 Mar  3
   {
@@ -1739,7 +1739,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_San_Luis[] ACE_TIME_PRO
     3 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2004 May 31
   {
@@ -1751,7 +1751,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_San_Luis[] ACE_TIME_PRO
     5 /*untilMonth*/,
     31 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Jul 25
   {
@@ -1763,7 +1763,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_San_Luis[] ACE_TIME_PRO
     7 /*untilMonth*/,
     25 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Jan 21
   {
@@ -1775,7 +1775,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_San_Luis[] ACE_TIME_PRO
     1 /*untilMonth*/,
     21 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    SanLuis    -04/-03    2009 Oct 11
   {
@@ -1787,7 +1787,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_San_Luis[] ACE_TIME_PRO
     10 /*untilMonth*/,
     11 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -1799,7 +1799,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_San_Luis[] ACE_TIME_PRO
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -1834,7 +1834,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Tucuman[] ACE_TIME_PROG
     10 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    Arg    -04/-03    2000 Mar  3
   {
@@ -1846,7 +1846,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Tucuman[] ACE_TIME_PROG
     3 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2004 Jun  1
   {
@@ -1858,7 +1858,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Tucuman[] ACE_TIME_PROG
     6 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Jun 13
   {
@@ -1870,7 +1870,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Tucuman[] ACE_TIME_PROG
     6 /*untilMonth*/,
     13 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02
   {
@@ -1882,7 +1882,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Tucuman[] ACE_TIME_PROG
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -1917,7 +1917,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Ushuaia[] ACE_TIME_PROG
     10 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    Arg    -04/-03    2000 Mar  3
   {
@@ -1929,7 +1929,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Ushuaia[] ACE_TIME_PROG
     3 /*untilMonth*/,
     3 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2004 May 30
   {
@@ -1941,7 +1941,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Ushuaia[] ACE_TIME_PROG
     5 /*untilMonth*/,
     30 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Jun 20
   {
@@ -1953,7 +1953,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Ushuaia[] ACE_TIME_PROG
     6 /*untilMonth*/,
     20 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
   {
@@ -1965,7 +1965,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Ushuaia[] ACE_TIME_PROG
     10 /*untilMonth*/,
     18 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -1977,7 +1977,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Ushuaia[] ACE_TIME_PROG
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2012,7 +2012,7 @@ static const extended::ZoneEra kZoneEraAmerica_Asuncion[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2047,7 +2047,7 @@ static const extended::ZoneEra kZoneEraAmerica_Atikokan[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2082,7 +2082,7 @@ static const extended::ZoneEra kZoneEraAmerica_Bahia[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     24 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2011 Oct 16
   {
@@ -2094,7 +2094,7 @@ static const extended::ZoneEra kZoneEraAmerica_Bahia[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     16 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Brazil    -03/-02    2012 Oct 21
   {
@@ -2106,7 +2106,7 @@ static const extended::ZoneEra kZoneEraAmerica_Bahia[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     21 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -2118,7 +2118,7 @@ static const extended::ZoneEra kZoneEraAmerica_Bahia[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2153,7 +2153,7 @@ static const extended::ZoneEra kZoneEraAmerica_Bahia_Banderas[] ACE_TIME_PROGMEM
     4 /*untilMonth*/,
     4 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    Mexico    C%sT
   {
@@ -2165,7 +2165,7 @@ static const extended::ZoneEra kZoneEraAmerica_Bahia_Banderas[] ACE_TIME_PROGMEM
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2200,7 +2200,7 @@ static const extended::ZoneEra kZoneEraAmerica_Barbados[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2235,7 +2235,7 @@ static const extended::ZoneEra kZoneEraAmerica_Belem[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2270,7 +2270,7 @@ static const extended::ZoneEra kZoneEraAmerica_Belize[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2305,7 +2305,7 @@ static const extended::ZoneEra kZoneEraAmerica_Blanc_Sablon[] ACE_TIME_PROGMEM =
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2340,7 +2340,7 @@ static const extended::ZoneEra kZoneEraAmerica_Boa_Vista[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     30 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    Brazil    -04/-03    2000 Oct 15
   {
@@ -2352,7 +2352,7 @@ static const extended::ZoneEra kZoneEraAmerica_Boa_Vista[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     15 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    -    -04
   {
@@ -2364,7 +2364,7 @@ static const extended::ZoneEra kZoneEraAmerica_Boa_Vista[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2399,7 +2399,7 @@ static const extended::ZoneEra kZoneEraAmerica_Bogota[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2434,7 +2434,7 @@ static const extended::ZoneEra kZoneEraAmerica_Boise[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2469,7 +2469,7 @@ static const extended::ZoneEra kZoneEraAmerica_Cambridge_Bay[] ACE_TIME_PROGMEM 
     10 /*untilMonth*/,
     31 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    Canada    C%sT    2000 Oct 29  2:00
   {
@@ -2481,7 +2481,7 @@ static const extended::ZoneEra kZoneEraAmerica_Cambridge_Bay[] ACE_TIME_PROGMEM 
     10 /*untilMonth*/,
     29 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    -    EST    2000 Nov  5  0:00
   {
@@ -2493,7 +2493,7 @@ static const extended::ZoneEra kZoneEraAmerica_Cambridge_Bay[] ACE_TIME_PROGMEM 
     11 /*untilMonth*/,
     5 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    -    CST    2001 Apr  1  3:00
   {
@@ -2505,7 +2505,7 @@ static const extended::ZoneEra kZoneEraAmerica_Cambridge_Bay[] ACE_TIME_PROGMEM 
     4 /*untilMonth*/,
     1 /*untilDay*/,
     12 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -7:00    Canada    M%sT
   {
@@ -2517,7 +2517,7 @@ static const extended::ZoneEra kZoneEraAmerica_Cambridge_Bay[] ACE_TIME_PROGMEM 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2552,7 +2552,7 @@ static const extended::ZoneEra kZoneEraAmerica_Campo_Grande[] ACE_TIME_PROGMEM =
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2587,7 +2587,7 @@ static const extended::ZoneEra kZoneEraAmerica_Cancun[] ACE_TIME_PROGMEM = {
     2 /*untilMonth*/,
     1 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    -    EST
   {
@@ -2599,7 +2599,7 @@ static const extended::ZoneEra kZoneEraAmerica_Cancun[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2634,7 +2634,7 @@ static const extended::ZoneEra kZoneEraAmerica_Caracas[] ACE_TIME_PROGMEM = {
     12 /*untilMonth*/,
     9 /*untilDay*/,
     12 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:30    -    -0430    2016 May  1  2:30
   {
@@ -2646,7 +2646,7 @@ static const extended::ZoneEra kZoneEraAmerica_Caracas[] ACE_TIME_PROGMEM = {
     5 /*untilMonth*/,
     1 /*untilDay*/,
     10 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    -    -04
   {
@@ -2658,7 +2658,7 @@ static const extended::ZoneEra kZoneEraAmerica_Caracas[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2693,7 +2693,7 @@ static const extended::ZoneEra kZoneEraAmerica_Cayenne[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2728,7 +2728,7 @@ static const extended::ZoneEra kZoneEraAmerica_Chicago[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2763,7 +2763,7 @@ static const extended::ZoneEra kZoneEraAmerica_Chihuahua[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2798,7 +2798,7 @@ static const extended::ZoneEra kZoneEraAmerica_Costa_Rica[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2833,7 +2833,7 @@ static const extended::ZoneEra kZoneEraAmerica_Creston[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2868,7 +2868,7 @@ static const extended::ZoneEra kZoneEraAmerica_Cuiaba[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     24 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Oct  1
   {
@@ -2880,7 +2880,7 @@ static const extended::ZoneEra kZoneEraAmerica_Cuiaba[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    Brazil    -04/-03
   {
@@ -2892,7 +2892,7 @@ static const extended::ZoneEra kZoneEraAmerica_Cuiaba[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2927,7 +2927,7 @@ static const extended::ZoneEra kZoneEraAmerica_Curacao[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2962,7 +2962,7 @@ static const extended::ZoneEra kZoneEraAmerica_Danmarkshavn[] ACE_TIME_PROGMEM =
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -2997,7 +2997,7 @@ static const extended::ZoneEra kZoneEraAmerica_Dawson[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3032,7 +3032,7 @@ static const extended::ZoneEra kZoneEraAmerica_Dawson_Creek[] ACE_TIME_PROGMEM =
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3067,7 +3067,7 @@ static const extended::ZoneEra kZoneEraAmerica_Denver[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3102,7 +3102,7 @@ static const extended::ZoneEra kZoneEraAmerica_Detroit[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3137,7 +3137,7 @@ static const extended::ZoneEra kZoneEraAmerica_Edmonton[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3172,7 +3172,7 @@ static const extended::ZoneEra kZoneEraAmerica_Eirunepe[] ACE_TIME_PROGMEM = {
     6 /*untilMonth*/,
     24 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2013 Nov 10
   {
@@ -3184,7 +3184,7 @@ static const extended::ZoneEra kZoneEraAmerica_Eirunepe[] ACE_TIME_PROGMEM = {
     11 /*untilMonth*/,
     10 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    -    -05
   {
@@ -3196,7 +3196,7 @@ static const extended::ZoneEra kZoneEraAmerica_Eirunepe[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3231,7 +3231,7 @@ static const extended::ZoneEra kZoneEraAmerica_El_Salvador[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3266,7 +3266,7 @@ static const extended::ZoneEra kZoneEraAmerica_Fort_Nelson[] ACE_TIME_PROGMEM = 
     3 /*untilMonth*/,
     8 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -7:00    -    MST
   {
@@ -3278,7 +3278,7 @@ static const extended::ZoneEra kZoneEraAmerica_Fort_Nelson[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3313,7 +3313,7 @@ static const extended::ZoneEra kZoneEraAmerica_Fortaleza[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     30 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Brazil    -03/-02    2000 Oct 22
   {
@@ -3325,7 +3325,7 @@ static const extended::ZoneEra kZoneEraAmerica_Fortaleza[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     22 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2001 Sep 13
   {
@@ -3337,7 +3337,7 @@ static const extended::ZoneEra kZoneEraAmerica_Fortaleza[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     13 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Brazil    -03/-02    2002 Oct  1
   {
@@ -3349,7 +3349,7 @@ static const extended::ZoneEra kZoneEraAmerica_Fortaleza[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -3361,7 +3361,7 @@ static const extended::ZoneEra kZoneEraAmerica_Fortaleza[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3396,7 +3396,7 @@ static const extended::ZoneEra kZoneEraAmerica_Glace_Bay[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3431,7 +3431,7 @@ static const extended::ZoneEra kZoneEraAmerica_Godthab[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3466,7 +3466,7 @@ static const extended::ZoneEra kZoneEraAmerica_Goose_Bay[] ACE_TIME_PROGMEM = {
     11 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    Canada    A%sT
   {
@@ -3478,7 +3478,7 @@ static const extended::ZoneEra kZoneEraAmerica_Goose_Bay[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3513,7 +3513,7 @@ static const extended::ZoneEra kZoneEraAmerica_Grand_Turk[] ACE_TIME_PROGMEM = {
     11 /*untilMonth*/,
     1 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    -    AST    2018 Mar 11 3:00
   {
@@ -3525,7 +3525,7 @@ static const extended::ZoneEra kZoneEraAmerica_Grand_Turk[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     11 /*untilDay*/,
     12 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
   {
@@ -3537,7 +3537,7 @@ static const extended::ZoneEra kZoneEraAmerica_Grand_Turk[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3572,7 +3572,7 @@ static const extended::ZoneEra kZoneEraAmerica_Guatemala[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3607,7 +3607,7 @@ static const extended::ZoneEra kZoneEraAmerica_Guayaquil[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3642,7 +3642,7 @@ static const extended::ZoneEra kZoneEraAmerica_Guyana[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3677,7 +3677,7 @@ static const extended::ZoneEra kZoneEraAmerica_Halifax[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3712,7 +3712,7 @@ static const extended::ZoneEra kZoneEraAmerica_Havana[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3747,7 +3747,7 @@ static const extended::ZoneEra kZoneEraAmerica_Hermosillo[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -7:00    -    MST
   {
@@ -3759,7 +3759,7 @@ static const extended::ZoneEra kZoneEraAmerica_Hermosillo[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3794,7 +3794,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Indianapolis[] ACE_TIME_P
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
   {
@@ -3806,7 +3806,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Indianapolis[] ACE_TIME_P
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3841,7 +3841,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Knox[] ACE_TIME_PROGMEM =
     4 /*untilMonth*/,
     2 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT
   {
@@ -3853,7 +3853,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Knox[] ACE_TIME_PROGMEM =
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3888,7 +3888,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Marengo[] ACE_TIME_PROGME
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
   {
@@ -3900,7 +3900,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Marengo[] ACE_TIME_PROGME
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3935,7 +3935,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Petersburg[] ACE_TIME_PRO
     4 /*untilMonth*/,
     2 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT    2007 Nov  4  2:00
   {
@@ -3947,7 +3947,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Petersburg[] ACE_TIME_PRO
     11 /*untilMonth*/,
     4 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
   {
@@ -3959,7 +3959,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Petersburg[] ACE_TIME_PRO
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -3994,7 +3994,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Tell_City[] ACE_TIME_PROG
     4 /*untilMonth*/,
     2 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT
   {
@@ -4006,7 +4006,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Tell_City[] ACE_TIME_PROG
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4041,7 +4041,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Vevay[] ACE_TIME_PROGMEM 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
   {
@@ -4053,7 +4053,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Vevay[] ACE_TIME_PROGMEM 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4088,7 +4088,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Vincennes[] ACE_TIME_PROG
     4 /*untilMonth*/,
     2 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT    2007 Nov  4  2:00
   {
@@ -4100,7 +4100,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Vincennes[] ACE_TIME_PROG
     11 /*untilMonth*/,
     4 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
   {
@@ -4112,7 +4112,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Vincennes[] ACE_TIME_PROG
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4147,7 +4147,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Winamac[] ACE_TIME_PROGME
     4 /*untilMonth*/,
     2 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT    2007 Mar 11  2:00
   {
@@ -4159,7 +4159,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Winamac[] ACE_TIME_PROGME
     3 /*untilMonth*/,
     11 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
   {
@@ -4171,7 +4171,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Winamac[] ACE_TIME_PROGME
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4206,7 +4206,7 @@ static const extended::ZoneEra kZoneEraAmerica_Inuvik[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4241,7 +4241,7 @@ static const extended::ZoneEra kZoneEraAmerica_Iqaluit[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     31 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    Canada    C%sT    2000 Oct 29  2:00
   {
@@ -4253,7 +4253,7 @@ static const extended::ZoneEra kZoneEraAmerica_Iqaluit[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     29 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    Canada    E%sT
   {
@@ -4265,7 +4265,7 @@ static const extended::ZoneEra kZoneEraAmerica_Iqaluit[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4300,7 +4300,7 @@ static const extended::ZoneEra kZoneEraAmerica_Jamaica[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4335,7 +4335,7 @@ static const extended::ZoneEra kZoneEraAmerica_Juneau[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4370,7 +4370,7 @@ static const extended::ZoneEra kZoneEraAmerica_Kentucky_Louisville[] ACE_TIME_PR
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4405,7 +4405,7 @@ static const extended::ZoneEra kZoneEraAmerica_Kentucky_Monticello[] ACE_TIME_PR
     10 /*untilMonth*/,
     29 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
   {
@@ -4417,7 +4417,7 @@ static const extended::ZoneEra kZoneEraAmerica_Kentucky_Monticello[] ACE_TIME_PR
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4452,7 +4452,7 @@ static const extended::ZoneEra kZoneEraAmerica_La_Paz[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4487,7 +4487,7 @@ static const extended::ZoneEra kZoneEraAmerica_Lima[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4522,7 +4522,7 @@ static const extended::ZoneEra kZoneEraAmerica_Los_Angeles[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4557,7 +4557,7 @@ static const extended::ZoneEra kZoneEraAmerica_Maceio[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     30 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Brazil    -03/-02    2000 Oct 22
   {
@@ -4569,7 +4569,7 @@ static const extended::ZoneEra kZoneEraAmerica_Maceio[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     22 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2001 Sep 13
   {
@@ -4581,7 +4581,7 @@ static const extended::ZoneEra kZoneEraAmerica_Maceio[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     13 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Brazil    -03/-02    2002 Oct  1
   {
@@ -4593,7 +4593,7 @@ static const extended::ZoneEra kZoneEraAmerica_Maceio[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -4605,7 +4605,7 @@ static const extended::ZoneEra kZoneEraAmerica_Maceio[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4640,7 +4640,7 @@ static const extended::ZoneEra kZoneEraAmerica_Managua[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4675,7 +4675,7 @@ static const extended::ZoneEra kZoneEraAmerica_Manaus[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4710,7 +4710,7 @@ static const extended::ZoneEra kZoneEraAmerica_Martinique[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4745,7 +4745,7 @@ static const extended::ZoneEra kZoneEraAmerica_Matamoros[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT
   {
@@ -4757,7 +4757,7 @@ static const extended::ZoneEra kZoneEraAmerica_Matamoros[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4792,7 +4792,7 @@ static const extended::ZoneEra kZoneEraAmerica_Mazatlan[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4827,7 +4827,7 @@ static const extended::ZoneEra kZoneEraAmerica_Menominee[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4862,7 +4862,7 @@ static const extended::ZoneEra kZoneEraAmerica_Merida[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4897,7 +4897,7 @@ static const extended::ZoneEra kZoneEraAmerica_Metlakatla[] ACE_TIME_PROGMEM = {
     11 /*untilMonth*/,
     1 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //              -9:00    US    AK%sT
   {
@@ -4909,7 +4909,7 @@ static const extended::ZoneEra kZoneEraAmerica_Metlakatla[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -4944,7 +4944,7 @@ static const extended::ZoneEra kZoneEraAmerica_Mexico_City[] ACE_TIME_PROGMEM = 
     9 /*untilMonth*/,
     30 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    -    CST    2002 Feb 20
   {
@@ -4956,7 +4956,7 @@ static const extended::ZoneEra kZoneEraAmerica_Mexico_City[] ACE_TIME_PROGMEM = 
     2 /*untilMonth*/,
     20 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    Mexico    C%sT
   {
@@ -4968,7 +4968,7 @@ static const extended::ZoneEra kZoneEraAmerica_Mexico_City[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5003,7 +5003,7 @@ static const extended::ZoneEra kZoneEraAmerica_Miquelon[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5038,7 +5038,7 @@ static const extended::ZoneEra kZoneEraAmerica_Moncton[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    Canada    A%sT
   {
@@ -5050,7 +5050,7 @@ static const extended::ZoneEra kZoneEraAmerica_Moncton[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5085,7 +5085,7 @@ static const extended::ZoneEra kZoneEraAmerica_Monterrey[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5120,7 +5120,7 @@ static const extended::ZoneEra kZoneEraAmerica_Montevideo[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5155,7 +5155,7 @@ static const extended::ZoneEra kZoneEraAmerica_Nassau[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5190,7 +5190,7 @@ static const extended::ZoneEra kZoneEraAmerica_New_York[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5225,7 +5225,7 @@ static const extended::ZoneEra kZoneEraAmerica_Nipigon[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5260,7 +5260,7 @@ static const extended::ZoneEra kZoneEraAmerica_Nome[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5295,7 +5295,7 @@ static const extended::ZoneEra kZoneEraAmerica_Noronha[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     30 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -2:00    Brazil    -02/-01    2000 Oct 15
   {
@@ -5307,7 +5307,7 @@ static const extended::ZoneEra kZoneEraAmerica_Noronha[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     15 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -2:00    -    -02    2001 Sep 13
   {
@@ -5319,7 +5319,7 @@ static const extended::ZoneEra kZoneEraAmerica_Noronha[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     13 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -2:00    Brazil    -02/-01    2002 Oct  1
   {
@@ -5331,7 +5331,7 @@ static const extended::ZoneEra kZoneEraAmerica_Noronha[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -2:00    -    -02
   {
@@ -5343,7 +5343,7 @@ static const extended::ZoneEra kZoneEraAmerica_Noronha[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5378,7 +5378,7 @@ static const extended::ZoneEra kZoneEraAmerica_North_Dakota_Beulah[] ACE_TIME_PR
     11 /*untilMonth*/,
     7 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT
   {
@@ -5390,7 +5390,7 @@ static const extended::ZoneEra kZoneEraAmerica_North_Dakota_Beulah[] ACE_TIME_PR
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5425,7 +5425,7 @@ static const extended::ZoneEra kZoneEraAmerica_North_Dakota_Center[] ACE_TIME_PR
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5460,7 +5460,7 @@ static const extended::ZoneEra kZoneEraAmerica_North_Dakota_New_Salem[] ACE_TIME
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT
   {
@@ -5472,7 +5472,7 @@ static const extended::ZoneEra kZoneEraAmerica_North_Dakota_New_Salem[] ACE_TIME
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5507,7 +5507,7 @@ static const extended::ZoneEra kZoneEraAmerica_Ojinaga[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -7:00    US    M%sT
   {
@@ -5519,7 +5519,7 @@ static const extended::ZoneEra kZoneEraAmerica_Ojinaga[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5554,7 +5554,7 @@ static const extended::ZoneEra kZoneEraAmerica_Panama[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5589,7 +5589,7 @@ static const extended::ZoneEra kZoneEraAmerica_Pangnirtung[] ACE_TIME_PROGMEM = 
     10 /*untilMonth*/,
     31 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    Canada    C%sT    2000 Oct 29  2:00
   {
@@ -5601,7 +5601,7 @@ static const extended::ZoneEra kZoneEraAmerica_Pangnirtung[] ACE_TIME_PROGMEM = 
     10 /*untilMonth*/,
     29 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    Canada    E%sT
   {
@@ -5613,7 +5613,7 @@ static const extended::ZoneEra kZoneEraAmerica_Pangnirtung[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5648,7 +5648,7 @@ static const extended::ZoneEra kZoneEraAmerica_Paramaribo[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5683,7 +5683,7 @@ static const extended::ZoneEra kZoneEraAmerica_Phoenix[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5718,7 +5718,7 @@ static const extended::ZoneEra kZoneEraAmerica_Port_au_Prince[] ACE_TIME_PROGMEM
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5753,7 +5753,7 @@ static const extended::ZoneEra kZoneEraAmerica_Port_of_Spain[] ACE_TIME_PROGMEM 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5788,7 +5788,7 @@ static const extended::ZoneEra kZoneEraAmerica_Porto_Velho[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5823,7 +5823,7 @@ static const extended::ZoneEra kZoneEraAmerica_Puerto_Rico[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5858,7 +5858,7 @@ static const extended::ZoneEra kZoneEraAmerica_Punta_Arenas[] ACE_TIME_PROGMEM =
     12 /*untilMonth*/,
     4 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -5870,7 +5870,7 @@ static const extended::ZoneEra kZoneEraAmerica_Punta_Arenas[] ACE_TIME_PROGMEM =
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5905,7 +5905,7 @@ static const extended::ZoneEra kZoneEraAmerica_Rainy_River[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5940,7 +5940,7 @@ static const extended::ZoneEra kZoneEraAmerica_Rankin_Inlet[] ACE_TIME_PROGMEM =
     10 /*untilMonth*/,
     29 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    -    EST    2001 Apr  1  3:00
   {
@@ -5952,7 +5952,7 @@ static const extended::ZoneEra kZoneEraAmerica_Rankin_Inlet[] ACE_TIME_PROGMEM =
     4 /*untilMonth*/,
     1 /*untilDay*/,
     12 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    Canada    C%sT
   {
@@ -5964,7 +5964,7 @@ static const extended::ZoneEra kZoneEraAmerica_Rankin_Inlet[] ACE_TIME_PROGMEM =
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -5999,7 +5999,7 @@ static const extended::ZoneEra kZoneEraAmerica_Recife[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     30 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Brazil    -03/-02    2000 Oct 15
   {
@@ -6011,7 +6011,7 @@ static const extended::ZoneEra kZoneEraAmerica_Recife[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     15 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2001 Sep 13
   {
@@ -6023,7 +6023,7 @@ static const extended::ZoneEra kZoneEraAmerica_Recife[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     13 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    Brazil    -03/-02    2002 Oct  1
   {
@@ -6035,7 +6035,7 @@ static const extended::ZoneEra kZoneEraAmerica_Recife[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -6047,7 +6047,7 @@ static const extended::ZoneEra kZoneEraAmerica_Recife[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6082,7 +6082,7 @@ static const extended::ZoneEra kZoneEraAmerica_Regina[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6117,7 +6117,7 @@ static const extended::ZoneEra kZoneEraAmerica_Resolute[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     29 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    -    EST    2001 Apr  1  3:00
   {
@@ -6129,7 +6129,7 @@ static const extended::ZoneEra kZoneEraAmerica_Resolute[] ACE_TIME_PROGMEM = {
     4 /*untilMonth*/,
     1 /*untilDay*/,
     12 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    Canada    C%sT    2006 Oct 29  2:00
   {
@@ -6141,7 +6141,7 @@ static const extended::ZoneEra kZoneEraAmerica_Resolute[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     29 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    -    EST    2007 Mar 11  3:00
   {
@@ -6153,7 +6153,7 @@ static const extended::ZoneEra kZoneEraAmerica_Resolute[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     11 /*untilDay*/,
     12 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    Canada    C%sT
   {
@@ -6165,7 +6165,7 @@ static const extended::ZoneEra kZoneEraAmerica_Resolute[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6200,7 +6200,7 @@ static const extended::ZoneEra kZoneEraAmerica_Rio_Branco[] ACE_TIME_PROGMEM = {
     6 /*untilMonth*/,
     24 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2013 Nov 10
   {
@@ -6212,7 +6212,7 @@ static const extended::ZoneEra kZoneEraAmerica_Rio_Branco[] ACE_TIME_PROGMEM = {
     11 /*untilMonth*/,
     10 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    -    -05
   {
@@ -6224,7 +6224,7 @@ static const extended::ZoneEra kZoneEraAmerica_Rio_Branco[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6259,7 +6259,7 @@ static const extended::ZoneEra kZoneEraAmerica_Santarem[] ACE_TIME_PROGMEM = {
     6 /*untilMonth*/,
     24 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -6271,7 +6271,7 @@ static const extended::ZoneEra kZoneEraAmerica_Santarem[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6306,7 +6306,7 @@ static const extended::ZoneEra kZoneEraAmerica_Santiago[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6341,7 +6341,7 @@ static const extended::ZoneEra kZoneEraAmerica_Santo_Domingo[] ACE_TIME_PROGMEM 
     10 /*untilMonth*/,
     29 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT    2000 Dec  3  1:00
   {
@@ -6353,7 +6353,7 @@ static const extended::ZoneEra kZoneEraAmerica_Santo_Domingo[] ACE_TIME_PROGMEM 
     12 /*untilMonth*/,
     3 /*untilDay*/,
     4 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -4:00    -    AST
   {
@@ -6365,7 +6365,7 @@ static const extended::ZoneEra kZoneEraAmerica_Santo_Domingo[] ACE_TIME_PROGMEM 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6400,7 +6400,7 @@ static const extended::ZoneEra kZoneEraAmerica_Sao_Paulo[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6435,7 +6435,7 @@ static const extended::ZoneEra kZoneEraAmerica_Scoresbysund[] ACE_TIME_PROGMEM =
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6470,7 +6470,7 @@ static const extended::ZoneEra kZoneEraAmerica_Sitka[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6505,7 +6505,7 @@ static const extended::ZoneEra kZoneEraAmerica_St_Johns[] ACE_TIME_PROGMEM = {
     11 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:30    Canada    N%sT
   {
@@ -6517,7 +6517,7 @@ static const extended::ZoneEra kZoneEraAmerica_St_Johns[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6552,7 +6552,7 @@ static const extended::ZoneEra kZoneEraAmerica_Swift_Current[] ACE_TIME_PROGMEM 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6587,7 +6587,7 @@ static const extended::ZoneEra kZoneEraAmerica_Tegucigalpa[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6622,7 +6622,7 @@ static const extended::ZoneEra kZoneEraAmerica_Thule[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6657,7 +6657,7 @@ static const extended::ZoneEra kZoneEraAmerica_Thunder_Bay[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6692,7 +6692,7 @@ static const extended::ZoneEra kZoneEraAmerica_Tijuana[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -8:00    US    P%sT    2002 Feb 20
   {
@@ -6704,7 +6704,7 @@ static const extended::ZoneEra kZoneEraAmerica_Tijuana[] ACE_TIME_PROGMEM = {
     2 /*untilMonth*/,
     20 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -8:00    Mexico    P%sT    2010
   {
@@ -6716,7 +6716,7 @@ static const extended::ZoneEra kZoneEraAmerica_Tijuana[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -8:00    US    P%sT
   {
@@ -6728,7 +6728,7 @@ static const extended::ZoneEra kZoneEraAmerica_Tijuana[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6763,7 +6763,7 @@ static const extended::ZoneEra kZoneEraAmerica_Toronto[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6798,7 +6798,7 @@ static const extended::ZoneEra kZoneEraAmerica_Vancouver[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6833,7 +6833,7 @@ static const extended::ZoneEra kZoneEraAmerica_Whitehorse[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6868,7 +6868,7 @@ static const extended::ZoneEra kZoneEraAmerica_Winnipeg[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -6:00    Canada    C%sT
   {
@@ -6880,7 +6880,7 @@ static const extended::ZoneEra kZoneEraAmerica_Winnipeg[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6915,7 +6915,7 @@ static const extended::ZoneEra kZoneEraAmerica_Yakutat[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6950,7 +6950,7 @@ static const extended::ZoneEra kZoneEraAmerica_Yellowknife[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -6985,7 +6985,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Casey[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     18 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             11:00    -    +11    2010 Mar  5  2:00
   {
@@ -6997,7 +6997,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Casey[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     5 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             8:00    -    +08    2011 Oct 28  2:00
   {
@@ -7009,7 +7009,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Casey[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     28 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             11:00    -    +11    2012 Feb 21 17:00u
   {
@@ -7021,7 +7021,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Casey[] ACE_TIME_PROGMEM = {
     2 /*untilMonth*/,
     21 /*untilDay*/,
     68 /*untilTimeCode*/,
-    'u' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_U /*untilTimeModifier*/,
   },
   //             8:00    -    +08    2016 Oct 22
   {
@@ -7033,7 +7033,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Casey[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     22 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             11:00    -    +11    2018 Mar 11  4:00
   {
@@ -7045,7 +7045,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Casey[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     11 /*untilDay*/,
     16 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             8:00    -    +08
   {
@@ -7057,7 +7057,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Casey[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7092,7 +7092,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Davis[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     18 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             5:00    -    +05    2010 Mar 10 20:00u
   {
@@ -7104,7 +7104,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Davis[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     10 /*untilDay*/,
     80 /*untilTimeCode*/,
-    'u' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_U /*untilTimeModifier*/,
   },
   //             7:00    -    +07    2011 Oct 28  2:00
   {
@@ -7116,7 +7116,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Davis[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     28 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             5:00    -    +05    2012 Feb 21 20:00u
   {
@@ -7128,7 +7128,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Davis[] ACE_TIME_PROGMEM = {
     2 /*untilMonth*/,
     21 /*untilDay*/,
     80 /*untilTimeCode*/,
-    'u' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_U /*untilTimeModifier*/,
   },
   //             7:00    -    +07
   {
@@ -7140,7 +7140,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Davis[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7175,7 +7175,7 @@ static const extended::ZoneEra kZoneEraAntarctica_DumontDUrville[] ACE_TIME_PROG
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7210,7 +7210,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Macquarie[] ACE_TIME_PROGMEM =
     4 /*untilMonth*/,
     4 /*untilDay*/,
     12 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             11:00    -    +11
   {
@@ -7222,7 +7222,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Macquarie[] ACE_TIME_PROGMEM =
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7257,7 +7257,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Mawson[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     18 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             5:00    -    +05
   {
@@ -7269,7 +7269,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Mawson[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7304,7 +7304,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Palmer[] ACE_TIME_PROGMEM = {
     12 /*untilMonth*/,
     4 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -7316,7 +7316,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Palmer[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7351,7 +7351,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Rothera[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7386,7 +7386,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Syowa[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7421,7 +7421,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Troll[] ACE_TIME_PROGMEM = {
     2 /*untilMonth*/,
     12 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             0:00    Troll    %s
   {
@@ -7433,7 +7433,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Troll[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7468,7 +7468,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Vostok[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7503,7 +7503,7 @@ static const extended::ZoneEra kZoneEraAsia_Almaty[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     31 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             6:00    -    +06
   {
@@ -7515,7 +7515,7 @@ static const extended::ZoneEra kZoneEraAsia_Almaty[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7550,7 +7550,7 @@ static const extended::ZoneEra kZoneEraAsia_Amman[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7585,7 +7585,7 @@ static const extended::ZoneEra kZoneEraAsia_Anadyr[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     28 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             11:00    Russia    +11/+12    2011 Mar 27  2:00s
   {
@@ -7597,7 +7597,7 @@ static const extended::ZoneEra kZoneEraAsia_Anadyr[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             12:00    -    +12
   {
@@ -7609,7 +7609,7 @@ static const extended::ZoneEra kZoneEraAsia_Anadyr[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7644,7 +7644,7 @@ static const extended::ZoneEra kZoneEraAsia_Aqtau[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     31 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             5:00    -    +05
   {
@@ -7656,7 +7656,7 @@ static const extended::ZoneEra kZoneEraAsia_Aqtau[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7691,7 +7691,7 @@ static const extended::ZoneEra kZoneEraAsia_Aqtobe[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     31 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             5:00    -    +05
   {
@@ -7703,7 +7703,7 @@ static const extended::ZoneEra kZoneEraAsia_Aqtobe[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7738,7 +7738,7 @@ static const extended::ZoneEra kZoneEraAsia_Ashgabat[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7773,7 +7773,7 @@ static const extended::ZoneEra kZoneEraAsia_Atyrau[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     28 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             4:00 RussiaAsia    +04/+05    2004 Oct 31  2:00s
   {
@@ -7785,7 +7785,7 @@ static const extended::ZoneEra kZoneEraAsia_Atyrau[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     31 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             5:00    -    +05
   {
@@ -7797,7 +7797,7 @@ static const extended::ZoneEra kZoneEraAsia_Atyrau[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7832,7 +7832,7 @@ static const extended::ZoneEra kZoneEraAsia_Baghdad[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7867,7 +7867,7 @@ static const extended::ZoneEra kZoneEraAsia_Baku[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7902,7 +7902,7 @@ static const extended::ZoneEra kZoneEraAsia_Bangkok[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -7937,7 +7937,7 @@ static const extended::ZoneEra kZoneEraAsia_Barnaul[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              7:00    -    +07    2014 Oct 26  2:00s
   {
@@ -7949,7 +7949,7 @@ static const extended::ZoneEra kZoneEraAsia_Barnaul[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              6:00    -    +06    2016 Mar 27  2:00s
   {
@@ -7961,7 +7961,7 @@ static const extended::ZoneEra kZoneEraAsia_Barnaul[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              7:00    -    +07
   {
@@ -7973,7 +7973,7 @@ static const extended::ZoneEra kZoneEraAsia_Barnaul[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8008,7 +8008,7 @@ static const extended::ZoneEra kZoneEraAsia_Beirut[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8043,7 +8043,7 @@ static const extended::ZoneEra kZoneEraAsia_Bishkek[] ACE_TIME_PROGMEM = {
     8 /*untilMonth*/,
     12 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             6:00    -    +06
   {
@@ -8055,7 +8055,7 @@ static const extended::ZoneEra kZoneEraAsia_Bishkek[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8090,7 +8090,7 @@ static const extended::ZoneEra kZoneEraAsia_Brunei[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8125,7 +8125,7 @@ static const extended::ZoneEra kZoneEraAsia_Chita[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             10:00    -    +10    2014 Oct 26  2:00s
   {
@@ -8137,7 +8137,7 @@ static const extended::ZoneEra kZoneEraAsia_Chita[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              8:00    -    +08    2016 Mar 27  2:00
   {
@@ -8149,7 +8149,7 @@ static const extended::ZoneEra kZoneEraAsia_Chita[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //              9:00    -    +09
   {
@@ -8161,7 +8161,7 @@ static const extended::ZoneEra kZoneEraAsia_Chita[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8196,7 +8196,7 @@ static const extended::ZoneEra kZoneEraAsia_Choibalsan[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     31 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             8:00    Mongol    +08/+09
   {
@@ -8208,7 +8208,7 @@ static const extended::ZoneEra kZoneEraAsia_Choibalsan[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8243,7 +8243,7 @@ static const extended::ZoneEra kZoneEraAsia_Colombo[] ACE_TIME_PROGMEM = {
     4 /*untilMonth*/,
     15 /*untilDay*/,
     2 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             5:30    -    +0530
   {
@@ -8255,7 +8255,7 @@ static const extended::ZoneEra kZoneEraAsia_Colombo[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8290,7 +8290,7 @@ static const extended::ZoneEra kZoneEraAsia_Damascus[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8325,7 +8325,7 @@ static const extended::ZoneEra kZoneEraAsia_Dhaka[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             6:00    Dhaka    +06/+07
   {
@@ -8337,7 +8337,7 @@ static const extended::ZoneEra kZoneEraAsia_Dhaka[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8372,7 +8372,7 @@ static const extended::ZoneEra kZoneEraAsia_Dili[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     17 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             9:00    -    +09
   {
@@ -8384,7 +8384,7 @@ static const extended::ZoneEra kZoneEraAsia_Dili[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8419,7 +8419,7 @@ static const extended::ZoneEra kZoneEraAsia_Dubai[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8454,7 +8454,7 @@ static const extended::ZoneEra kZoneEraAsia_Dushanbe[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8489,7 +8489,7 @@ static const extended::ZoneEra kZoneEraAsia_Famagusta[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     8 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             3:00    -    +03    2017 Oct 29 1:00u
   {
@@ -8501,7 +8501,7 @@ static const extended::ZoneEra kZoneEraAsia_Famagusta[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     29 /*untilDay*/,
     4 /*untilTimeCode*/,
-    'u' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_U /*untilTimeModifier*/,
   },
   //             2:00    EUAsia    EE%sT
   {
@@ -8513,7 +8513,7 @@ static const extended::ZoneEra kZoneEraAsia_Famagusta[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8548,7 +8548,7 @@ static const extended::ZoneEra kZoneEraAsia_Gaza[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00 Palestine    EE%sT    2008 Aug 29  0:00
   {
@@ -8560,7 +8560,7 @@ static const extended::ZoneEra kZoneEraAsia_Gaza[] ACE_TIME_PROGMEM = {
     8 /*untilMonth*/,
     29 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00    -    EET    2008 Sep
   {
@@ -8572,7 +8572,7 @@ static const extended::ZoneEra kZoneEraAsia_Gaza[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00 Palestine    EE%sT    2010
   {
@@ -8584,7 +8584,7 @@ static const extended::ZoneEra kZoneEraAsia_Gaza[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00    -    EET    2010 Mar 27  0:01
   {
@@ -8596,7 +8596,7 @@ static const extended::ZoneEra kZoneEraAsia_Gaza[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00 Palestine    EE%sT    2011 Aug  1
   {
@@ -8608,7 +8608,7 @@ static const extended::ZoneEra kZoneEraAsia_Gaza[] ACE_TIME_PROGMEM = {
     8 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00    -    EET    2012
   {
@@ -8620,7 +8620,7 @@ static const extended::ZoneEra kZoneEraAsia_Gaza[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00 Palestine    EE%sT
   {
@@ -8632,7 +8632,7 @@ static const extended::ZoneEra kZoneEraAsia_Gaza[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8667,7 +8667,7 @@ static const extended::ZoneEra kZoneEraAsia_Hebron[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00 Palestine    EE%sT
   {
@@ -8679,7 +8679,7 @@ static const extended::ZoneEra kZoneEraAsia_Hebron[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8714,7 +8714,7 @@ static const extended::ZoneEra kZoneEraAsia_Ho_Chi_Minh[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8749,7 +8749,7 @@ static const extended::ZoneEra kZoneEraAsia_Hong_Kong[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8784,7 +8784,7 @@ static const extended::ZoneEra kZoneEraAsia_Hovd[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8819,7 +8819,7 @@ static const extended::ZoneEra kZoneEraAsia_Irkutsk[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              9:00    -    +09    2014 Oct 26  2:00s
   {
@@ -8831,7 +8831,7 @@ static const extended::ZoneEra kZoneEraAsia_Irkutsk[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              8:00    -    +08
   {
@@ -8843,7 +8843,7 @@ static const extended::ZoneEra kZoneEraAsia_Irkutsk[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8878,7 +8878,7 @@ static const extended::ZoneEra kZoneEraAsia_Jakarta[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8913,7 +8913,7 @@ static const extended::ZoneEra kZoneEraAsia_Jayapura[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8948,7 +8948,7 @@ static const extended::ZoneEra kZoneEraAsia_Jerusalem[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -8983,7 +8983,7 @@ static const extended::ZoneEra kZoneEraAsia_Kabul[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9018,7 +9018,7 @@ static const extended::ZoneEra kZoneEraAsia_Kamchatka[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     28 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             11:00    Russia    +11/+12    2011 Mar 27  2:00s
   {
@@ -9030,7 +9030,7 @@ static const extended::ZoneEra kZoneEraAsia_Kamchatka[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             12:00    -    +12
   {
@@ -9042,7 +9042,7 @@ static const extended::ZoneEra kZoneEraAsia_Kamchatka[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9077,7 +9077,7 @@ static const extended::ZoneEra kZoneEraAsia_Karachi[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9112,7 +9112,7 @@ static const extended::ZoneEra kZoneEraAsia_Kathmandu[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9147,7 +9147,7 @@ static const extended::ZoneEra kZoneEraAsia_Khandyga[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             10:00    Russia    +10/+11    2011 Mar 27  2:00s
   {
@@ -9159,7 +9159,7 @@ static const extended::ZoneEra kZoneEraAsia_Khandyga[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             11:00    -    +11    2011 Sep 13  0:00s
   {
@@ -9171,7 +9171,7 @@ static const extended::ZoneEra kZoneEraAsia_Khandyga[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     13 /*untilDay*/,
     0 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             10:00    -    +10    2014 Oct 26  2:00s
   {
@@ -9183,7 +9183,7 @@ static const extended::ZoneEra kZoneEraAsia_Khandyga[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              9:00    -    +09
   {
@@ -9195,7 +9195,7 @@ static const extended::ZoneEra kZoneEraAsia_Khandyga[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9230,7 +9230,7 @@ static const extended::ZoneEra kZoneEraAsia_Kolkata[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9265,7 +9265,7 @@ static const extended::ZoneEra kZoneEraAsia_Krasnoyarsk[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              8:00    -    +08    2014 Oct 26  2:00s
   {
@@ -9277,7 +9277,7 @@ static const extended::ZoneEra kZoneEraAsia_Krasnoyarsk[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              7:00    -    +07
   {
@@ -9289,7 +9289,7 @@ static const extended::ZoneEra kZoneEraAsia_Krasnoyarsk[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9324,7 +9324,7 @@ static const extended::ZoneEra kZoneEraAsia_Kuala_Lumpur[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9359,7 +9359,7 @@ static const extended::ZoneEra kZoneEraAsia_Kuching[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9394,7 +9394,7 @@ static const extended::ZoneEra kZoneEraAsia_Macau[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9429,7 +9429,7 @@ static const extended::ZoneEra kZoneEraAsia_Magadan[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             12:00    -    +12    2014 Oct 26  2:00s
   {
@@ -9441,7 +9441,7 @@ static const extended::ZoneEra kZoneEraAsia_Magadan[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             10:00    -    +10    2016 Apr 24  2:00s
   {
@@ -9453,7 +9453,7 @@ static const extended::ZoneEra kZoneEraAsia_Magadan[] ACE_TIME_PROGMEM = {
     4 /*untilMonth*/,
     24 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             11:00    -    +11
   {
@@ -9465,7 +9465,7 @@ static const extended::ZoneEra kZoneEraAsia_Magadan[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9500,7 +9500,7 @@ static const extended::ZoneEra kZoneEraAsia_Makassar[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9535,7 +9535,7 @@ static const extended::ZoneEra kZoneEraAsia_Manila[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9570,7 +9570,7 @@ static const extended::ZoneEra kZoneEraAsia_Nicosia[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9605,7 +9605,7 @@ static const extended::ZoneEra kZoneEraAsia_Novokuznetsk[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     28 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              6:00    Russia    +06/+07    2011 Mar 27  2:00s
   {
@@ -9617,7 +9617,7 @@ static const extended::ZoneEra kZoneEraAsia_Novokuznetsk[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              7:00    -    +07
   {
@@ -9629,7 +9629,7 @@ static const extended::ZoneEra kZoneEraAsia_Novokuznetsk[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9664,7 +9664,7 @@ static const extended::ZoneEra kZoneEraAsia_Novosibirsk[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              7:00    -    +07    2014 Oct 26  2:00s
   {
@@ -9676,7 +9676,7 @@ static const extended::ZoneEra kZoneEraAsia_Novosibirsk[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              6:00    -    +06    2016 Jul 24  2:00s
   {
@@ -9688,7 +9688,7 @@ static const extended::ZoneEra kZoneEraAsia_Novosibirsk[] ACE_TIME_PROGMEM = {
     7 /*untilMonth*/,
     24 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              7:00    -    +07
   {
@@ -9700,7 +9700,7 @@ static const extended::ZoneEra kZoneEraAsia_Novosibirsk[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9735,7 +9735,7 @@ static const extended::ZoneEra kZoneEraAsia_Omsk[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              7:00    -    +07    2014 Oct 26  2:00s
   {
@@ -9747,7 +9747,7 @@ static const extended::ZoneEra kZoneEraAsia_Omsk[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              6:00    -    +06
   {
@@ -9759,7 +9759,7 @@ static const extended::ZoneEra kZoneEraAsia_Omsk[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9794,7 +9794,7 @@ static const extended::ZoneEra kZoneEraAsia_Oral[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     31 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             5:00    -    +05
   {
@@ -9806,7 +9806,7 @@ static const extended::ZoneEra kZoneEraAsia_Oral[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9841,7 +9841,7 @@ static const extended::ZoneEra kZoneEraAsia_Pontianak[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9876,7 +9876,7 @@ static const extended::ZoneEra kZoneEraAsia_Pyongyang[] ACE_TIME_PROGMEM = {
     8 /*untilMonth*/,
     15 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             8:30    -    KST    2018 May  4 23:30
   {
@@ -9888,7 +9888,7 @@ static const extended::ZoneEra kZoneEraAsia_Pyongyang[] ACE_TIME_PROGMEM = {
     5 /*untilMonth*/,
     4 /*untilDay*/,
     94 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             9:00    -    KST
   {
@@ -9900,7 +9900,7 @@ static const extended::ZoneEra kZoneEraAsia_Pyongyang[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9935,7 +9935,7 @@ static const extended::ZoneEra kZoneEraAsia_Qatar[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -9970,7 +9970,7 @@ static const extended::ZoneEra kZoneEraAsia_Qyzylorda[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     31 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             6:00    -    +06
   {
@@ -9982,7 +9982,7 @@ static const extended::ZoneEra kZoneEraAsia_Qyzylorda[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10017,7 +10017,7 @@ static const extended::ZoneEra kZoneEraAsia_Riyadh[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10052,7 +10052,7 @@ static const extended::ZoneEra kZoneEraAsia_Sakhalin[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             11:00    -    +11    2014 Oct 26  2:00s
   {
@@ -10064,7 +10064,7 @@ static const extended::ZoneEra kZoneEraAsia_Sakhalin[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             10:00    -    +10    2016 Mar 27  2:00s
   {
@@ -10076,7 +10076,7 @@ static const extended::ZoneEra kZoneEraAsia_Sakhalin[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             11:00    -    +11
   {
@@ -10088,7 +10088,7 @@ static const extended::ZoneEra kZoneEraAsia_Sakhalin[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10123,7 +10123,7 @@ static const extended::ZoneEra kZoneEraAsia_Samarkand[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10158,7 +10158,7 @@ static const extended::ZoneEra kZoneEraAsia_Seoul[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10193,7 +10193,7 @@ static const extended::ZoneEra kZoneEraAsia_Shanghai[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10228,7 +10228,7 @@ static const extended::ZoneEra kZoneEraAsia_Singapore[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10263,7 +10263,7 @@ static const extended::ZoneEra kZoneEraAsia_Srednekolymsk[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             12:00    -    +12    2014 Oct 26  2:00s
   {
@@ -10275,7 +10275,7 @@ static const extended::ZoneEra kZoneEraAsia_Srednekolymsk[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             11:00    -    +11
   {
@@ -10287,7 +10287,7 @@ static const extended::ZoneEra kZoneEraAsia_Srednekolymsk[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10322,7 +10322,7 @@ static const extended::ZoneEra kZoneEraAsia_Taipei[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10357,7 +10357,7 @@ static const extended::ZoneEra kZoneEraAsia_Tashkent[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10392,7 +10392,7 @@ static const extended::ZoneEra kZoneEraAsia_Tbilisi[] ACE_TIME_PROGMEM = {
     6 /*untilMonth*/,
     27 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             3:00 RussiaAsia    +03/+04    2005 Mar lastSun  2:00
   {
@@ -10404,7 +10404,7 @@ static const extended::ZoneEra kZoneEraAsia_Tbilisi[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             4:00    -    +04
   {
@@ -10416,7 +10416,7 @@ static const extended::ZoneEra kZoneEraAsia_Tbilisi[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10451,7 +10451,7 @@ static const extended::ZoneEra kZoneEraAsia_Tehran[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10486,7 +10486,7 @@ static const extended::ZoneEra kZoneEraAsia_Thimphu[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10521,7 +10521,7 @@ static const extended::ZoneEra kZoneEraAsia_Tokyo[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10556,7 +10556,7 @@ static const extended::ZoneEra kZoneEraAsia_Tomsk[] ACE_TIME_PROGMEM = {
     5 /*untilMonth*/,
     1 /*untilDay*/,
     12 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //              6:00    Russia    +06/+07    2011 Mar 27  2:00s
   {
@@ -10568,7 +10568,7 @@ static const extended::ZoneEra kZoneEraAsia_Tomsk[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              7:00    -    +07    2014 Oct 26  2:00s
   {
@@ -10580,7 +10580,7 @@ static const extended::ZoneEra kZoneEraAsia_Tomsk[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              6:00    -    +06    2016 May 29  2:00s
   {
@@ -10592,7 +10592,7 @@ static const extended::ZoneEra kZoneEraAsia_Tomsk[] ACE_TIME_PROGMEM = {
     5 /*untilMonth*/,
     29 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              7:00    -    +07
   {
@@ -10604,7 +10604,7 @@ static const extended::ZoneEra kZoneEraAsia_Tomsk[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10639,7 +10639,7 @@ static const extended::ZoneEra kZoneEraAsia_Ulaanbaatar[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10674,7 +10674,7 @@ static const extended::ZoneEra kZoneEraAsia_Urumqi[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10709,7 +10709,7 @@ static const extended::ZoneEra kZoneEraAsia_Ust_Nera[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             12:00    -    +12    2011 Sep 13  0:00s
   {
@@ -10721,7 +10721,7 @@ static const extended::ZoneEra kZoneEraAsia_Ust_Nera[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     13 /*untilDay*/,
     0 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             11:00    -    +11    2014 Oct 26  2:00s
   {
@@ -10733,7 +10733,7 @@ static const extended::ZoneEra kZoneEraAsia_Ust_Nera[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             10:00    -    +10
   {
@@ -10745,7 +10745,7 @@ static const extended::ZoneEra kZoneEraAsia_Ust_Nera[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10780,7 +10780,7 @@ static const extended::ZoneEra kZoneEraAsia_Vladivostok[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             11:00    -    +11    2014 Oct 26  2:00s
   {
@@ -10792,7 +10792,7 @@ static const extended::ZoneEra kZoneEraAsia_Vladivostok[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             10:00    -    +10
   {
@@ -10804,7 +10804,7 @@ static const extended::ZoneEra kZoneEraAsia_Vladivostok[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10839,7 +10839,7 @@ static const extended::ZoneEra kZoneEraAsia_Yakutsk[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             10:00    -    +10    2014 Oct 26  2:00s
   {
@@ -10851,7 +10851,7 @@ static const extended::ZoneEra kZoneEraAsia_Yakutsk[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              9:00    -    +09
   {
@@ -10863,7 +10863,7 @@ static const extended::ZoneEra kZoneEraAsia_Yakutsk[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10898,7 +10898,7 @@ static const extended::ZoneEra kZoneEraAsia_Yangon[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10933,7 +10933,7 @@ static const extended::ZoneEra kZoneEraAsia_Yekaterinburg[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              6:00    -    +06    2014 Oct 26  2:00s
   {
@@ -10945,7 +10945,7 @@ static const extended::ZoneEra kZoneEraAsia_Yekaterinburg[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              5:00    -    +05
   {
@@ -10957,7 +10957,7 @@ static const extended::ZoneEra kZoneEraAsia_Yekaterinburg[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -10992,7 +10992,7 @@ static const extended::ZoneEra kZoneEraAsia_Yerevan[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             4:00    Armenia    +04/+05
   {
@@ -11004,7 +11004,7 @@ static const extended::ZoneEra kZoneEraAsia_Yerevan[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11039,7 +11039,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Azores[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11074,7 +11074,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Bermuda[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11109,7 +11109,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Canary[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11144,7 +11144,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Cape_Verde[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11179,7 +11179,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Faroe[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11214,7 +11214,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Madeira[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11249,7 +11249,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Reykjavik[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11284,7 +11284,7 @@ static const extended::ZoneEra kZoneEraAtlantic_South_Georgia[] ACE_TIME_PROGMEM
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11319,7 +11319,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Stanley[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     5 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
   {
@@ -11331,7 +11331,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Stanley[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11366,7 +11366,7 @@ static const extended::ZoneEra kZoneEraAustralia_Adelaide[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11401,7 +11401,7 @@ static const extended::ZoneEra kZoneEraAustralia_Brisbane[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11436,7 +11436,7 @@ static const extended::ZoneEra kZoneEraAustralia_Broken_Hill[] ACE_TIME_PROGMEM 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             9:30    AS    AC%sT
   {
@@ -11448,7 +11448,7 @@ static const extended::ZoneEra kZoneEraAustralia_Broken_Hill[] ACE_TIME_PROGMEM 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11483,7 +11483,7 @@ static const extended::ZoneEra kZoneEraAustralia_Currie[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11518,7 +11518,7 @@ static const extended::ZoneEra kZoneEraAustralia_Darwin[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11553,7 +11553,7 @@ static const extended::ZoneEra kZoneEraAustralia_Eucla[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11588,7 +11588,7 @@ static const extended::ZoneEra kZoneEraAustralia_Hobart[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11623,7 +11623,7 @@ static const extended::ZoneEra kZoneEraAustralia_Lindeman[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11658,7 +11658,7 @@ static const extended::ZoneEra kZoneEraAustralia_Lord_Howe[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11693,7 +11693,7 @@ static const extended::ZoneEra kZoneEraAustralia_Melbourne[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11728,7 +11728,7 @@ static const extended::ZoneEra kZoneEraAustralia_Perth[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11763,7 +11763,7 @@ static const extended::ZoneEra kZoneEraAustralia_Sydney[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11798,7 +11798,7 @@ static const extended::ZoneEra kZoneEraCET[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11833,7 +11833,7 @@ static const extended::ZoneEra kZoneEraCST6CDT[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11868,7 +11868,7 @@ static const extended::ZoneEra kZoneEraEET[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11903,7 +11903,7 @@ static const extended::ZoneEra kZoneEraEST[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11938,7 +11938,7 @@ static const extended::ZoneEra kZoneEraEST5EDT[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -11973,7 +11973,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12008,7 +12008,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_1[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12043,7 +12043,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_10[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12078,7 +12078,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_11[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12113,7 +12113,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_12[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12148,7 +12148,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_2[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12183,7 +12183,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_3[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12218,7 +12218,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_4[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12253,7 +12253,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_5[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12288,7 +12288,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_6[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12323,7 +12323,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_7[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12358,7 +12358,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_8[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12393,7 +12393,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_9[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12428,7 +12428,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_1[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12463,7 +12463,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_10[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12498,7 +12498,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_11[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12533,7 +12533,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_12[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12568,7 +12568,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_13[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12603,7 +12603,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_14[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12638,7 +12638,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_2[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12673,7 +12673,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_3[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12708,7 +12708,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_4[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12743,7 +12743,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_5[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12778,7 +12778,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_6[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12813,7 +12813,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_7[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12848,7 +12848,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_8[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12883,7 +12883,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_9[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12918,7 +12918,7 @@ static const extended::ZoneEra kZoneEraEtc_UCT[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12953,7 +12953,7 @@ static const extended::ZoneEra kZoneEraEtc_UTC[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -12988,7 +12988,7 @@ static const extended::ZoneEra kZoneEraEurope_Amsterdam[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13023,7 +13023,7 @@ static const extended::ZoneEra kZoneEraEurope_Andorra[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13058,7 +13058,7 @@ static const extended::ZoneEra kZoneEraEurope_Astrakhan[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              4:00    -    +04    2014 Oct 26  2:00s
   {
@@ -13070,7 +13070,7 @@ static const extended::ZoneEra kZoneEraEurope_Astrakhan[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              3:00    -    +03    2016 Mar 27  2:00s
   {
@@ -13082,7 +13082,7 @@ static const extended::ZoneEra kZoneEraEurope_Astrakhan[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              4:00    -    +04
   {
@@ -13094,7 +13094,7 @@ static const extended::ZoneEra kZoneEraEurope_Astrakhan[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13129,7 +13129,7 @@ static const extended::ZoneEra kZoneEraEurope_Athens[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13164,7 +13164,7 @@ static const extended::ZoneEra kZoneEraEurope_Belgrade[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13199,7 +13199,7 @@ static const extended::ZoneEra kZoneEraEurope_Berlin[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13234,7 +13234,7 @@ static const extended::ZoneEra kZoneEraEurope_Brussels[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13269,7 +13269,7 @@ static const extended::ZoneEra kZoneEraEurope_Bucharest[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13304,7 +13304,7 @@ static const extended::ZoneEra kZoneEraEurope_Budapest[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13339,7 +13339,7 @@ static const extended::ZoneEra kZoneEraEurope_Chisinau[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13374,7 +13374,7 @@ static const extended::ZoneEra kZoneEraEurope_Copenhagen[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13409,7 +13409,7 @@ static const extended::ZoneEra kZoneEraEurope_Dublin[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13444,7 +13444,7 @@ static const extended::ZoneEra kZoneEraEurope_Gibraltar[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13479,7 +13479,7 @@ static const extended::ZoneEra kZoneEraEurope_Helsinki[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13514,7 +13514,7 @@ static const extended::ZoneEra kZoneEraEurope_Istanbul[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00    EU    EE%sT    2011 Mar 27  1:00u
   {
@@ -13526,7 +13526,7 @@ static const extended::ZoneEra kZoneEraEurope_Istanbul[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     4 /*untilTimeCode*/,
-    'u' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_U /*untilTimeModifier*/,
   },
   //             2:00    -    EET    2011 Mar 28  1:00u
   {
@@ -13538,7 +13538,7 @@ static const extended::ZoneEra kZoneEraEurope_Istanbul[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     28 /*untilDay*/,
     4 /*untilTimeCode*/,
-    'u' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_U /*untilTimeModifier*/,
   },
   //             2:00    EU    EE%sT    2014 Mar 30  1:00u
   {
@@ -13550,7 +13550,7 @@ static const extended::ZoneEra kZoneEraEurope_Istanbul[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     30 /*untilDay*/,
     4 /*untilTimeCode*/,
-    'u' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_U /*untilTimeModifier*/,
   },
   //             2:00    -    EET    2014 Mar 31  1:00u
   {
@@ -13562,7 +13562,7 @@ static const extended::ZoneEra kZoneEraEurope_Istanbul[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     31 /*untilDay*/,
     4 /*untilTimeCode*/,
-    'u' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_U /*untilTimeModifier*/,
   },
   //             2:00    EU    EE%sT    2015 Oct 25  1:00u
   {
@@ -13574,7 +13574,7 @@ static const extended::ZoneEra kZoneEraEurope_Istanbul[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     25 /*untilDay*/,
     4 /*untilTimeCode*/,
-    'u' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_U /*untilTimeModifier*/,
   },
   //             2:00    1:00    EEST    2015 Nov  8  1:00u
   {
@@ -13586,7 +13586,7 @@ static const extended::ZoneEra kZoneEraEurope_Istanbul[] ACE_TIME_PROGMEM = {
     11 /*untilMonth*/,
     8 /*untilDay*/,
     4 /*untilTimeCode*/,
-    'u' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_U /*untilTimeModifier*/,
   },
   //             2:00    EU    EE%sT    2016 Sep  7
   {
@@ -13598,7 +13598,7 @@ static const extended::ZoneEra kZoneEraEurope_Istanbul[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     7 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             3:00    -    +03
   {
@@ -13610,7 +13610,7 @@ static const extended::ZoneEra kZoneEraEurope_Istanbul[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13645,7 +13645,7 @@ static const extended::ZoneEra kZoneEraEurope_Kaliningrad[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              3:00    -    +03    2014 Oct 26  2:00s
   {
@@ -13657,7 +13657,7 @@ static const extended::ZoneEra kZoneEraEurope_Kaliningrad[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              2:00    -    EET
   {
@@ -13669,7 +13669,7 @@ static const extended::ZoneEra kZoneEraEurope_Kaliningrad[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13704,7 +13704,7 @@ static const extended::ZoneEra kZoneEraEurope_Kiev[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13739,7 +13739,7 @@ static const extended::ZoneEra kZoneEraEurope_Kirov[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              4:00    -    +04    2014 Oct 26  2:00s
   {
@@ -13751,7 +13751,7 @@ static const extended::ZoneEra kZoneEraEurope_Kirov[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              3:00    -    +03
   {
@@ -13763,7 +13763,7 @@ static const extended::ZoneEra kZoneEraEurope_Kirov[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13798,7 +13798,7 @@ static const extended::ZoneEra kZoneEraEurope_Lisbon[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13833,7 +13833,7 @@ static const extended::ZoneEra kZoneEraEurope_London[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13868,7 +13868,7 @@ static const extended::ZoneEra kZoneEraEurope_Luxembourg[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13903,7 +13903,7 @@ static const extended::ZoneEra kZoneEraEurope_Madrid[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13938,7 +13938,7 @@ static const extended::ZoneEra kZoneEraEurope_Malta[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -13973,7 +13973,7 @@ static const extended::ZoneEra kZoneEraEurope_Minsk[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //             3:00    -    +03
   {
@@ -13985,7 +13985,7 @@ static const extended::ZoneEra kZoneEraEurope_Minsk[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14020,7 +14020,7 @@ static const extended::ZoneEra kZoneEraEurope_Monaco[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14055,7 +14055,7 @@ static const extended::ZoneEra kZoneEraEurope_Moscow[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              4:00    -    MSK    2014 Oct 26  2:00s
   {
@@ -14067,7 +14067,7 @@ static const extended::ZoneEra kZoneEraEurope_Moscow[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              3:00    -    MSK
   {
@@ -14079,7 +14079,7 @@ static const extended::ZoneEra kZoneEraEurope_Moscow[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14114,7 +14114,7 @@ static const extended::ZoneEra kZoneEraEurope_Oslo[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14149,7 +14149,7 @@ static const extended::ZoneEra kZoneEraEurope_Paris[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14184,7 +14184,7 @@ static const extended::ZoneEra kZoneEraEurope_Prague[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14219,7 +14219,7 @@ static const extended::ZoneEra kZoneEraEurope_Riga[] ACE_TIME_PROGMEM = {
     2 /*untilMonth*/,
     29 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00    -    EET    2001 Jan  2
   {
@@ -14231,7 +14231,7 @@ static const extended::ZoneEra kZoneEraEurope_Riga[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     2 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00    EU    EE%sT
   {
@@ -14243,7 +14243,7 @@ static const extended::ZoneEra kZoneEraEurope_Riga[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14278,7 +14278,7 @@ static const extended::ZoneEra kZoneEraEurope_Rome[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14313,7 +14313,7 @@ static const extended::ZoneEra kZoneEraEurope_Samara[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     28 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              3:00    Russia    +03/+04    2011 Mar 27  2:00s
   {
@@ -14325,7 +14325,7 @@ static const extended::ZoneEra kZoneEraEurope_Samara[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              4:00    -    +04
   {
@@ -14337,7 +14337,7 @@ static const extended::ZoneEra kZoneEraEurope_Samara[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14372,7 +14372,7 @@ static const extended::ZoneEra kZoneEraEurope_Saratov[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              4:00    -    +04    2014 Oct 26  2:00s
   {
@@ -14384,7 +14384,7 @@ static const extended::ZoneEra kZoneEraEurope_Saratov[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              3:00    -    +03    2016 Dec  4  2:00s
   {
@@ -14396,7 +14396,7 @@ static const extended::ZoneEra kZoneEraEurope_Saratov[] ACE_TIME_PROGMEM = {
     12 /*untilMonth*/,
     4 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              4:00    -    +04
   {
@@ -14408,7 +14408,7 @@ static const extended::ZoneEra kZoneEraEurope_Saratov[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14443,7 +14443,7 @@ static const extended::ZoneEra kZoneEraEurope_Simferopol[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     30 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //              4:00    -    MSK    2014 Oct 26  2:00s
   {
@@ -14455,7 +14455,7 @@ static const extended::ZoneEra kZoneEraEurope_Simferopol[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              3:00    -    MSK
   {
@@ -14467,7 +14467,7 @@ static const extended::ZoneEra kZoneEraEurope_Simferopol[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14502,7 +14502,7 @@ static const extended::ZoneEra kZoneEraEurope_Sofia[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14537,7 +14537,7 @@ static const extended::ZoneEra kZoneEraEurope_Stockholm[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14572,7 +14572,7 @@ static const extended::ZoneEra kZoneEraEurope_Tallinn[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     31 /*untilDay*/,
     16 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00    -    EET    2002 Feb 21
   {
@@ -14584,7 +14584,7 @@ static const extended::ZoneEra kZoneEraEurope_Tallinn[] ACE_TIME_PROGMEM = {
     2 /*untilMonth*/,
     21 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00    EU    EE%sT
   {
@@ -14596,7 +14596,7 @@ static const extended::ZoneEra kZoneEraEurope_Tallinn[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14631,7 +14631,7 @@ static const extended::ZoneEra kZoneEraEurope_Tirane[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14666,7 +14666,7 @@ static const extended::ZoneEra kZoneEraEurope_Ulyanovsk[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              4:00    -    +04    2014 Oct 26  2:00s
   {
@@ -14678,7 +14678,7 @@ static const extended::ZoneEra kZoneEraEurope_Ulyanovsk[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              3:00    -    +03    2016 Mar 27  2:00s
   {
@@ -14690,7 +14690,7 @@ static const extended::ZoneEra kZoneEraEurope_Ulyanovsk[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              4:00    -    +04
   {
@@ -14702,7 +14702,7 @@ static const extended::ZoneEra kZoneEraEurope_Ulyanovsk[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14737,7 +14737,7 @@ static const extended::ZoneEra kZoneEraEurope_Uzhgorod[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14772,7 +14772,7 @@ static const extended::ZoneEra kZoneEraEurope_Vienna[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14807,7 +14807,7 @@ static const extended::ZoneEra kZoneEraEurope_Vilnius[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     31 /*untilDay*/,
     4 /*untilTimeCode*/,
-    'u' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_U /*untilTimeModifier*/,
   },
   //             2:00    -    EET    2003 Jan  1
   {
@@ -14819,7 +14819,7 @@ static const extended::ZoneEra kZoneEraEurope_Vilnius[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             2:00    EU    EE%sT
   {
@@ -14831,7 +14831,7 @@ static const extended::ZoneEra kZoneEraEurope_Vilnius[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14866,7 +14866,7 @@ static const extended::ZoneEra kZoneEraEurope_Volgograd[] ACE_TIME_PROGMEM = {
     3 /*untilMonth*/,
     27 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              4:00    -    +04    2014 Oct 26  2:00s
   {
@@ -14878,7 +14878,7 @@ static const extended::ZoneEra kZoneEraEurope_Volgograd[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     26 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              3:00    -    +03    2018 Oct 28  2:00s
   {
@@ -14890,7 +14890,7 @@ static const extended::ZoneEra kZoneEraEurope_Volgograd[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     28 /*untilDay*/,
     8 /*untilTimeCode*/,
-    's' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_S /*untilTimeModifier*/,
   },
   //              4:00    -    +04
   {
@@ -14902,7 +14902,7 @@ static const extended::ZoneEra kZoneEraEurope_Volgograd[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14937,7 +14937,7 @@ static const extended::ZoneEra kZoneEraEurope_Warsaw[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -14972,7 +14972,7 @@ static const extended::ZoneEra kZoneEraEurope_Zaporozhye[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15007,7 +15007,7 @@ static const extended::ZoneEra kZoneEraEurope_Zurich[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15042,7 +15042,7 @@ static const extended::ZoneEra kZoneEraHST[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15077,7 +15077,7 @@ static const extended::ZoneEra kZoneEraIndian_Chagos[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15112,7 +15112,7 @@ static const extended::ZoneEra kZoneEraIndian_Christmas[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15147,7 +15147,7 @@ static const extended::ZoneEra kZoneEraIndian_Cocos[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15182,7 +15182,7 @@ static const extended::ZoneEra kZoneEraIndian_Kerguelen[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15217,7 +15217,7 @@ static const extended::ZoneEra kZoneEraIndian_Mahe[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15252,7 +15252,7 @@ static const extended::ZoneEra kZoneEraIndian_Maldives[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15287,7 +15287,7 @@ static const extended::ZoneEra kZoneEraIndian_Mauritius[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15322,7 +15322,7 @@ static const extended::ZoneEra kZoneEraIndian_Reunion[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15357,7 +15357,7 @@ static const extended::ZoneEra kZoneEraMET[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15392,7 +15392,7 @@ static const extended::ZoneEra kZoneEraMST[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15427,7 +15427,7 @@ static const extended::ZoneEra kZoneEraMST7MDT[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15462,7 +15462,7 @@ static const extended::ZoneEra kZoneEraPST8PDT[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15497,7 +15497,7 @@ static const extended::ZoneEra kZoneEraPacific_Apia[] ACE_TIME_PROGMEM = {
     12 /*untilMonth*/,
     29 /*untilDay*/,
     96 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //              13:00    WS    +13/+14
   {
@@ -15509,7 +15509,7 @@ static const extended::ZoneEra kZoneEraPacific_Apia[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15544,7 +15544,7 @@ static const extended::ZoneEra kZoneEraPacific_Auckland[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15579,7 +15579,7 @@ static const extended::ZoneEra kZoneEraPacific_Bougainville[] ACE_TIME_PROGMEM =
     12 /*untilMonth*/,
     28 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             11:00    -    +11
   {
@@ -15591,7 +15591,7 @@ static const extended::ZoneEra kZoneEraPacific_Bougainville[] ACE_TIME_PROGMEM =
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15626,7 +15626,7 @@ static const extended::ZoneEra kZoneEraPacific_Chatham[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15661,7 +15661,7 @@ static const extended::ZoneEra kZoneEraPacific_Chuuk[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15696,7 +15696,7 @@ static const extended::ZoneEra kZoneEraPacific_Easter[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15731,7 +15731,7 @@ static const extended::ZoneEra kZoneEraPacific_Efate[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15766,7 +15766,7 @@ static const extended::ZoneEra kZoneEraPacific_Enderbury[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15801,7 +15801,7 @@ static const extended::ZoneEra kZoneEraPacific_Fakaofo[] ACE_TIME_PROGMEM = {
     12 /*untilMonth*/,
     30 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             13:00    -    +13
   {
@@ -15813,7 +15813,7 @@ static const extended::ZoneEra kZoneEraPacific_Fakaofo[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15848,7 +15848,7 @@ static const extended::ZoneEra kZoneEraPacific_Fiji[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15883,7 +15883,7 @@ static const extended::ZoneEra kZoneEraPacific_Funafuti[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15918,7 +15918,7 @@ static const extended::ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15953,7 +15953,7 @@ static const extended::ZoneEra kZoneEraPacific_Gambier[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -15988,7 +15988,7 @@ static const extended::ZoneEra kZoneEraPacific_Guadalcanal[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16023,7 +16023,7 @@ static const extended::ZoneEra kZoneEraPacific_Guam[] ACE_TIME_PROGMEM = {
     12 /*untilMonth*/,
     23 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             10:00    -    ChST
   {
@@ -16035,7 +16035,7 @@ static const extended::ZoneEra kZoneEraPacific_Guam[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16070,7 +16070,7 @@ static const extended::ZoneEra kZoneEraPacific_Honolulu[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16105,7 +16105,7 @@ static const extended::ZoneEra kZoneEraPacific_Kiritimati[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16140,7 +16140,7 @@ static const extended::ZoneEra kZoneEraPacific_Kosrae[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             11:00    -    +11
   {
@@ -16152,7 +16152,7 @@ static const extended::ZoneEra kZoneEraPacific_Kosrae[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16187,7 +16187,7 @@ static const extended::ZoneEra kZoneEraPacific_Kwajalein[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16222,7 +16222,7 @@ static const extended::ZoneEra kZoneEraPacific_Majuro[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16257,7 +16257,7 @@ static const extended::ZoneEra kZoneEraPacific_Marquesas[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16292,7 +16292,7 @@ static const extended::ZoneEra kZoneEraPacific_Nauru[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16327,7 +16327,7 @@ static const extended::ZoneEra kZoneEraPacific_Niue[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16362,7 +16362,7 @@ static const extended::ZoneEra kZoneEraPacific_Norfolk[] ACE_TIME_PROGMEM = {
     10 /*untilMonth*/,
     4 /*untilDay*/,
     8 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             11:00    -    +11
   {
@@ -16374,7 +16374,7 @@ static const extended::ZoneEra kZoneEraPacific_Norfolk[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16409,7 +16409,7 @@ static const extended::ZoneEra kZoneEraPacific_Noumea[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16444,7 +16444,7 @@ static const extended::ZoneEra kZoneEraPacific_Pago_Pago[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16479,7 +16479,7 @@ static const extended::ZoneEra kZoneEraPacific_Palau[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16514,7 +16514,7 @@ static const extended::ZoneEra kZoneEraPacific_Pitcairn[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16549,7 +16549,7 @@ static const extended::ZoneEra kZoneEraPacific_Pohnpei[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16584,7 +16584,7 @@ static const extended::ZoneEra kZoneEraPacific_Port_Moresby[] ACE_TIME_PROGMEM =
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16619,7 +16619,7 @@ static const extended::ZoneEra kZoneEraPacific_Rarotonga[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16654,7 +16654,7 @@ static const extended::ZoneEra kZoneEraPacific_Tahiti[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16689,7 +16689,7 @@ static const extended::ZoneEra kZoneEraPacific_Tarawa[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16724,7 +16724,7 @@ static const extended::ZoneEra kZoneEraPacific_Tongatapu[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
   //             13:00    Tonga    +13/+14
   {
@@ -16736,7 +16736,7 @@ static const extended::ZoneEra kZoneEraPacific_Tongatapu[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16771,7 +16771,7 @@ static const extended::ZoneEra kZoneEraPacific_Wake[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16806,7 +16806,7 @@ static const extended::ZoneEra kZoneEraPacific_Wallis[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
@@ -16841,7 +16841,7 @@ static const extended::ZoneEra kZoneEraWET[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
+    extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/,
   },
 
 };
