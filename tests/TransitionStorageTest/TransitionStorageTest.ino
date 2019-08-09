@@ -120,21 +120,21 @@ test(TransitionStorageTest, addFreeAgentToCandidatePool) {
 
   // Verify that addFreeAgentToCandidatePool() does not touch prior transition
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {0, 1, 2, 3, 'w'};
+  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::TIME_MODIFIER_W};
   storage.addFreeAgentToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
   assertEqual(1, storage.mIndexCandidates);
   assertEqual(2, storage.mIndexFree);
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2, 3, 4, 5, 'w'};
+  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::TIME_MODIFIER_W};
   storage.addFreeAgentToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
   assertEqual(1, storage.mIndexCandidates);
   assertEqual(3, storage.mIndexFree);
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {1, 2, 3, 4, 'w'};
+  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::TIME_MODIFIER_W};
   storage.addFreeAgentToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
   assertEqual(1, storage.mIndexCandidates);
@@ -152,22 +152,22 @@ test(TransitionStorageTest, addActiveCandidatesToActivePool) {
 
   // create Prior to make it interesting
   Transition** prior = storage.reservePrior();
-  (*prior)->transitionTime = {-1, 0, 1, 2, 'w'};
+  (*prior)->transitionTime = {-1, 0, 1, 2, ZoneContext::TIME_MODIFIER_W};
   (*prior)->active = true;
 
   // Add 3 transitions to Candidate pool, 2 active, 1 inactive.
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {0, 1, 2, 3, 'w'};
+  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::TIME_MODIFIER_W};
   freeAgent->active = true;
   storage.addFreeAgentToCandidatePool();
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2, 3, 4, 5, 'w'};
+  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::TIME_MODIFIER_W};
   freeAgent->active = true;
   storage.addFreeAgentToCandidatePool();
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {1, 2, 3, 4, 'w'};
+  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::TIME_MODIFIER_W};
   freeAgent->active = false;
   storage.addFreeAgentToCandidatePool();
 
@@ -192,19 +192,19 @@ test(TransitionStorageTest, findTransition) {
 
   // Add 3 transitions to Candidate pool, 2 active, 1 inactive.
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {0, 1, 2, 3, 'w'};
+  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::TIME_MODIFIER_W};
   freeAgent->active = true;
   freeAgent->startEpochSeconds = 0;
   storage.addFreeAgentToCandidatePool();
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {1, 2, 3, 4, 'w'};
+  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::TIME_MODIFIER_W};
   freeAgent->active = true;
   freeAgent->startEpochSeconds = 10;
   storage.addFreeAgentToCandidatePool();
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2, 3, 4, 5, 'w'};
+  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::TIME_MODIFIER_W};
   freeAgent->active = true;
   freeAgent->startEpochSeconds = 20;
   storage.addFreeAgentToCandidatePool();
@@ -233,7 +233,7 @@ test(TransitionStorageTest, resetCandidatePool) {
 
   // Add 2 transitions to Candidate pool, 2 active, 1 inactive.
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {0, 1, 2, 3, 'w'};
+  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::TIME_MODIFIER_W};
   freeAgent->active = true;
   storage.addFreeAgentToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
@@ -241,7 +241,7 @@ test(TransitionStorageTest, resetCandidatePool) {
   assertEqual(1, storage.mIndexFree);
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2, 3, 4, 5, 'w'};
+  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::TIME_MODIFIER_W};
   freeAgent->active = true;
   storage.addFreeAgentToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
@@ -262,7 +262,7 @@ test(TransitionStorageTest, resetCandidatePool) {
   assertEqual(2, storage.mIndexFree);
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {1, 2, 3, 4, 'w'};
+  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::TIME_MODIFIER_W};
   freeAgent->active = false;
   storage.addFreeAgentToCandidatePool();
   assertEqual(2, storage.mIndexPrior);
@@ -280,9 +280,9 @@ test(TransitionStorageTest, resetCandidatePool) {
 
 void setup() {
 #if defined(ARDUINO)
-  delay(1000); // wait for stability on some boards to prevent garbage SERIAL_PORT_MONITOR
+  delay(1000); // wait for stability to prevent garbage on SERIAL_PORT_MONITOR
 #endif
-  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  SERIAL_PORT_MONITOR.begin(115200);
   while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
 }
 

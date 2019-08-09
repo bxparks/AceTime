@@ -7,6 +7,7 @@
 #define ACE_TIME_ZONE_POLICY_H
 
 #include <stdint.h>
+#include "ZoneContext.h"
 
 namespace ace_time {
 

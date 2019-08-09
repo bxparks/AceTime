@@ -79,9 +79,12 @@ test(BasicZoneProcessorTest, calcStartDayOfMonth) {
 }
 
 test(BasicZoneProcessorTest, calcRuleOffsetCode) {
-  assertEqual(0, BasicZoneProcessor::calcRuleOffsetCode(1, 2, 'u'));
-  assertEqual(1, BasicZoneProcessor::calcRuleOffsetCode(1, 2, 'w'));
-  assertEqual(2, BasicZoneProcessor::calcRuleOffsetCode(1, 2, 's'));
+  assertEqual(0, BasicZoneProcessor::calcRuleOffsetCode(1, 2,
+      basic::ZoneContext::TIME_MODIFIER_U));
+  assertEqual(1, BasicZoneProcessor::calcRuleOffsetCode(1, 2,
+      basic::ZoneContext::TIME_MODIFIER_W));
+  assertEqual(2, BasicZoneProcessor::calcRuleOffsetCode(1, 2,
+      basic::ZoneContext::TIME_MODIFIER_S));
 }
 
 test(BasicZoneProcessorTest, init_primitives) {
@@ -303,9 +306,9 @@ test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles_outOfBounds) {
 
 void setup() {
 #if defined(ARDUINO)
-  delay(1000); // wait for stability on some boards to prevent garbage SERIAL_PORT_MONITOR
+  delay(1000); // wait for stability to prevent garbage on SERIAL_PORT_MONITOR
 #endif
-  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  SERIAL_PORT_MONITOR.begin(115200);
   while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
 }
 

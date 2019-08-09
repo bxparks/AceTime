@@ -251,7 +251,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
     {onDayOfWeek} /*onDayOfWeek*/,
     {onDayOfMonth} /*onDayOfMonth*/,
     {atTimeCode} /*atTimeCode*/,
-    '{atTimeModifier}' /*atTimeModifier*/,
+    {atTimeModifier} /*atTimeModifier*/,
     {deltaCode} /*deltaCode*/,
     {letter} /*letter{letterComment}*/,
   }},
@@ -394,7 +394,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
                 onDayOfWeek=rule.onDayOfWeek,
                 onDayOfMonth=rule.onDayOfMonth,
                 atTimeCode=at_time_code,
-                atTimeModifier=rule.atTimeModifier,
+                atTimeModifier=to_modifier(rule.atTimeModifier, self.scope),
                 deltaCode=delta_code,
                 letter=letter,
                 letterComment=letterComment)
@@ -628,7 +628,7 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
     {untilMonth} /*untilMonth*/,
     {untilDay} /*untilDay*/,
     {untilTimeCode} /*untilTimeCode*/,
-    '{untilTimeModifier}' /*untilTimeModifier*/,
+    {untilTimeModifier} /*untilTimeModifier*/,
   }},
 """
 
@@ -820,7 +820,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             until_day = 1
 
         until_time_code = div_to_zero(era.untilSecondsTruncated, 15 * 60)
-        until_time_modifier = era.untilTimeModifier
+        until_time_modifier = to_modifier(era.untilTimeModifier, self.scope)
         offset_code = div_to_zero(era.offsetSecondsTruncated, 15 * 60)
 
         # Replace %s with just a % for C++
@@ -1059,6 +1059,19 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
             numZones=len(self.zones_map))
+
+def to_modifier(modifier, scope):
+    """Return the C++ TIME_MODIFIER_{X} corresponding to the 'w', 's', and 'u'
+    modifier character in the TZ database files.
+    """
+    if modifier == 'w':
+        return f'{scope}::ZoneContext::TIME_MODIFIER_W'
+    elif modifier == 's':
+        return f'{scope}::ZoneContext::TIME_MODIFIER_S'
+    elif modifier == 'u':
+        return f'{scope}::ZoneContext::TIME_MODIFIER_U'
+    else:
+        raise Exception(f'Unknown modifier {modifier}')
 
 def to_tiny_year(year):
     if year == MAX_YEAR:

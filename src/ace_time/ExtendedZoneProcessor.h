@@ -66,7 +66,7 @@ struct DateTuple {
   uint8_t month; // [1-12]
   uint8_t day; // [1-31]
   int8_t timeCode; // 15-min intervals, negative values allowed
-  uint8_t modifier; // 's', 'w', 'u'
+  uint8_t modifier; // TIME_MODIFIER_S, TIME_MODIFIER_W, TIME_MODIFIER_U
 
   /** Used only for debugging. */
   void log() const {
@@ -551,7 +551,8 @@ class TransitionStorage {
       // Convert to DateTuple. If the localDateTime is not a multiple of 15
       // minutes, the comparision (startTime < localDate) will still be valid.
       DateTuple localDate = { ldt.yearTiny(), ldt.month(), ldt.day(),
-          (int8_t) (ldt.hour() * 4 + ldt.minute() / 15), 'w' };
+          (int8_t) (ldt.hour() * 4 + ldt.minute() / 15),
+          ZoneContext::TIME_MODIFIER_W };
       const Transition* match = nullptr;
       for (uint8_t i = 0; i < mIndexFree; i++) {
         const Transition* candidate = mTransitions[i];
@@ -960,7 +961,8 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         (int8_t) prev.untilTimeCode(), prev.untilTimeModifier()
       };
       extended::DateTuple lowerBound = {
-        startYm.yearTiny, startYm.month, 1, 0, 'w'
+        startYm.yearTiny, startYm.month, 1, 0,
+        extended::ZoneContext::TIME_MODIFIER_W
       };
       if (startDate < lowerBound) {
         startDate = lowerBound;
@@ -971,7 +973,8 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         (int8_t) era.untilTimeCode(), era.untilTimeModifier()
       };
       extended::DateTuple upperBound = {
-        untilYm.yearTiny, untilYm.month, 1, 0, 'w'
+        untilYm.yearTiny, untilYm.month, 1, 0,
+        extended::ZoneContext::TIME_MODIFIER_W
       };
       if (upperBound < untilDate) {
         untilDate = upperBound;
@@ -1282,25 +1285,31 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("expandDateTuple()\n");
       }
-      if (tt->modifier == 's') {
+      if (tt->modifier == extended::ZoneContext::TIME_MODIFIER_S) {
         *tts = *tt;
         *ttu = {tt->yearTiny, tt->month, tt->day,
-            (int8_t) (tt->timeCode - offsetCode), 'u'};
+            (int8_t) (tt->timeCode - offsetCode),
+            extended::ZoneContext::TIME_MODIFIER_U};
         *tt = {tt->yearTiny, tt->month, tt->day,
-            (int8_t) (tt->timeCode + deltaCode), 'w'};
-      } else if (tt->modifier == 'u') {
+            (int8_t) (tt->timeCode + deltaCode),
+            extended::ZoneContext::TIME_MODIFIER_W};
+      } else if (tt->modifier == extended::ZoneContext::TIME_MODIFIER_U) {
         *ttu = *tt;
         *tts = {tt->yearTiny, tt->month, tt->day,
-            (int8_t) (tt->timeCode + offsetCode), 's'};
+            (int8_t) (tt->timeCode + offsetCode),
+            extended::ZoneContext::TIME_MODIFIER_S};
         *tt = {tt->yearTiny, tt->month, tt->day,
-            (int8_t) (tt->timeCode + offsetCode + deltaCode), 'w'};
+            (int8_t) (tt->timeCode + offsetCode + deltaCode),
+            extended::ZoneContext::TIME_MODIFIER_W};
       } else {
         // Explicit set the modifier to 'w' in case it was something else.
-        tt->modifier = 'w';
+        tt->modifier = extended::ZoneContext::TIME_MODIFIER_W;
         *tts = {tt->yearTiny, tt->month, tt->day,
-            (int8_t) (tt->timeCode - deltaCode), 's'};
+            (int8_t) (tt->timeCode - deltaCode),
+            extended::ZoneContext::TIME_MODIFIER_S};
         *ttu = {tt->yearTiny, tt->month, tt->day,
-            (int8_t) (tt->timeCode - deltaCode - offsetCode), 'u'};
+            (int8_t) (tt->timeCode - deltaCode - offsetCode),
+            extended::ZoneContext::TIME_MODIFIER_U};
       }
 
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
@@ -1428,9 +1437,10 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       const extended::DateTuple* transitionTime;
 
       const extended::DateTuple& matchStart = match->startDateTime;
-      if (matchStart.modifier == 's') {
+      if (matchStart.modifier == extended::ZoneContext::TIME_MODIFIER_S) {
         transitionTime = &transition->transitionTimeS;
-      } else if (matchStart.modifier == 'u') {
+      } else if (matchStart.modifier ==
+          extended::ZoneContext::TIME_MODIFIER_U) {
         transitionTime = &transition->transitionTimeU;
       } else { // assume 'w'
         transitionTime = &transition->transitionTime;
@@ -1439,9 +1449,10 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       if (*transitionTime == matchStart) return 0;
 
       const extended::DateTuple& matchUntil = match->untilDateTime;
-      if (matchUntil.modifier == 's') {
+      if (matchUntil.modifier == extended::ZoneContext::TIME_MODIFIER_S) {
         transitionTime = &transition->transitionTimeS;
-      } else if (matchUntil.modifier == 'u') {
+      } else if (matchUntil.modifier ==
+          extended::ZoneContext::TIME_MODIFIER_U) {
         transitionTime = &transition->transitionTimeU;
       } else { // assume 'w'
         transitionTime = &transition->transitionTime;

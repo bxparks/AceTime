@@ -752,9 +752,9 @@ class BasicZoneProcessor: public ZoneProcessor {
      */
     static int8_t calcRuleOffsetCode(int8_t prevEffectiveOffsetCode,
         int8_t currentBaseOffsetCode, uint8_t atModifier) {
-      if (atModifier == 'w') {
+      if (atModifier == basic::ZoneContext::TIME_MODIFIER_W) {
         return prevEffectiveOffsetCode;
-      } else if (atModifier == 's') {
+      } else if (atModifier == basic::ZoneContext::TIME_MODIFIER_S) {
         return currentBaseOffsetCode;
       } else { // 'u', 'g' or 'z'
         return 0;
