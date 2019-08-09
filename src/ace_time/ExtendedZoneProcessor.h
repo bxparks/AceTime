@@ -696,6 +696,11 @@ class ExtendedZoneProcessor: public ZoneProcessor {
 
     OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const override {
       TimeOffset offset;
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("getOffsetDateTime(): ldt=");
+        ldt.printTo(SERIAL_PORT_MONITOR);
+        SERIAL_PORT_MONITOR.println();
+      }
       bool success = init(ldt.localDate());
       if (success) {
         const extended::Transition* transition =
@@ -712,6 +717,11 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       if (offset.isError()) {
         return odt;
       }
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("getOffsetDateTime(): odt=");
+        odt.printTo(SERIAL_PORT_MONITOR);
+        SERIAL_PORT_MONITOR.println();
+      }
 
       // Normalize the OffsetDateTime, causing LocalDateTime in the DST
       // transtion gap to be shifted forward one hour. For LocalDateTime in an
@@ -727,6 +737,11 @@ class ExtendedZoneProcessor: public ZoneProcessor {
                 transition->offsetCode + transition->deltaCode)
             : TimeOffset::forError();
       odt = OffsetDateTime::forEpochSeconds(epochSeconds, offset);
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("getOffsetDateTime(): normalized(odt)=");
+        odt.printTo(SERIAL_PORT_MONITOR);
+        SERIAL_PORT_MONITOR.println();
+      }
       return odt;
     }
 
