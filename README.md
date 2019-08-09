@@ -15,8 +15,8 @@ The AceTime classes are organized into roughly 4 bundles, placed in different
 C++ namespaces:
 
 * date and time classes and types
-    * `ace_time::DateStrings`
     * `ace_time::acetime_t`
+    * `ace_time::DateStrings`
     * `ace_time::LocalTime`
     * `ace_time::LocalDate`
     * `ace_time::LocalDateTime`
