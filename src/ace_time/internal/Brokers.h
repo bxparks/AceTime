@@ -44,11 +44,15 @@ namespace ace_time {
 
 namespace internal {
 
-/** Convert (timeCode, timeModifer) from zoneinfo to minutes. */
+/** Convert (timeCode, timeModifier) fields in zoneinfo to minutes. */
 inline uint16_t timeCodeToMinutes(uint8_t rawCode, uint8_t rawModifier) {
   return rawCode * (uint16_t) 15 + (rawModifier & 0x0f);
 }
 
+/**
+ * Extract the 'w', 's' 'u' suffix from the 'modifier' field, so that they can
+ * be compared against TIME_MODIFIER_W, TIME_MODIFIER_S and TIME_MODIFIER_U.
+ */
 inline uint8_t toModifier(uint8_t rawModifier) {
   return rawModifier & 0xf0;
 }
