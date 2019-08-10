@@ -11,13 +11,13 @@ using namespace ace_time;
 // --------------------------------------------------------------------------
 
 test(TimeOffsetTest, code) {
-  assertEqual(TimeOffset::forHour(-8).toOffsetCode(), -8*4);
+  assertEqual(TimeOffset::forHours(-8).toOffsetCode(), -8*4);
 }
 
 test(TimeOffsetTest, isZero) {
-  assertTrue(TimeOffset::forHour(0).isZero());
+  assertTrue(TimeOffset::forHours(0).isZero());
   assertTrue(TimeOffset().isZero());
-  assertFalse(TimeOffset::forHour(1).isZero());
+  assertFalse(TimeOffset::forHours(1).isZero());
 }
 
 test(TimeOffsetTest, forMinutes) {
@@ -39,8 +39,8 @@ test(TimeOffsetTest, forMinutes) {
 }
 
 test(TimeOffsetTest, forHour) {
-  assertEqual(TimeOffset::forHour(-8).toMinutes(), -8*60);
-  assertEqual(TimeOffset::forHour(1).toMinutes(), 1*60);
+  assertEqual(TimeOffset::forHours(-8).toMinutes(), -8*60);
+  assertEqual(TimeOffset::forHours(1).toMinutes(), 1*60);
 }
 
 test(TimeOffsetTest, forHourMinute) {
@@ -138,9 +138,9 @@ test(TimeOffsetMutationTest, increment15Minutes) {
 
 void setup() {
 #if defined(ARDUINO)
-  delay(1000); // wait for stability on some boards to prevent garbage SERIAL_PORT_MONITOR
+  delay(1000); // wait for stability to prevent garbage on SERIAL_PORT_MONITOR
 #endif
-  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  SERIAL_PORT_MONITOR.begin(115200);
   while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
 }
 

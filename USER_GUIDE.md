@@ -578,7 +578,7 @@ namespace ace_time {
 
 class TimeOffset {
   public:
-    static TimeOffset forHour(int8_t hour);
+    static TimeOffset forHours(int8_t hour);
     static TimeOffset forHourMinute(int8_t hour, int8_t minute);
     static TimeOffset forMinutes(int16_t minutes);
 
@@ -597,7 +597,7 @@ class TimeOffset {
 A `TimeOffset` can be created using the factory methods:
 
 ```C++
-auto offset = TimeOffset::forHour(-8); // -08:00
+auto offset = TimeOffset::forHours(-8); // -08:00
 auto offset = TimeOffset::forHourMinute(-2, -30); // -02:30
 auto offset = TimeOffset::forMinutes(135); // +02:15
 ```
@@ -862,11 +862,11 @@ To create `TimeZone` instances with other offsets, use the `forTimeOffset()`
 factory method:
 
 ```C++
-auto tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8)); // UTC-08:00
+auto tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8)); // UTC-08:00
 auto tz = TimeZone::forTimeOffset(TimeOffset::forHourMinute(-4, -30)); // UTC-04:30
 auto tz = TimeZone::forTimeOffset(
-    TimeOffset::forHour(-8),
-    TimeOffset::forHour(1)); // UTC-08:00+01:00 (effectively -07:00)
+    TimeOffset::forHours(-8),
+    TimeOffset::forHours(1)); // UTC-08:00+01:00 (effectively -07:00)
 ```
 
 The `TimeZone::isUtc()`, `TimeZone::isDst()` and `TimeZone::setDst(bool)`
@@ -938,7 +938,7 @@ void someFunction() {
   // 2018-03-11T01:59:59-08:00 was still in STD time
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
     auto offset = tz.getUtcOffset(epochSeconds); // returns -08:00
   }
@@ -946,7 +946,7 @@ void someFunction() {
   // one second later, 2018-03-11T02:00:00-08:00 was in DST time
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
     auto offset = tz.getUtcOffset(epochSeconds); // returns -07:00
   }
@@ -1000,7 +1000,7 @@ void someFunction() {
   // 2018-03-11T01:59:59-08:00 was still in STD time
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
     auto offset = tz.getUtcOffset(epochSeconds); // returns -08:00
   }
@@ -1008,7 +1008,7 @@ void someFunction() {
   // one second later, 2018-03-11T02:00:00-08:00 was in DST time
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
     auto offset = tz.getUtcOffset(epochSeconds); // returns -07:00
   }
@@ -1903,7 +1903,7 @@ void loop() {
   acetime_t nowSeconds = ntpClock.getNow();
   // convert epochSeconds to UTC-08:00
   OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHour(-8));
+      nowSeconds, TimeOffset::forHours(-8));
   odt.printTo(Serial);
   delay(10000); // wait 10 seconds
 }
@@ -1971,7 +1971,7 @@ void loop() {
   acetime_t nowSeconds = dsClock.getNow();
   // convert epochSeconds to UTC-08:00
   OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHour(-8));
+      nowSeconds, TimeOffset::forHours(-8));
   odt.printTo(Serial);
   delay(10000); // wait 10 seconds
 }
@@ -2238,7 +2238,7 @@ void loop() {
   acetime_t now = systemClock.getNow();
   if (now - prevNow >= 10) {
     auto odt = OffsetDateTime::forEpochSeconds(
-        now, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
+        now, TimeOffset::forHours(-8)); // convert epochSeconds to UTC-08:00
     odt.printTo(Serial);
   }
 }

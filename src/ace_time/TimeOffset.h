@@ -31,7 +31,7 @@ void increment15Minutes(TimeOffset& offset);
  * of -08:00:
  *
  * @code
- * TimeOffset tz = TimeOffset::forHour(-8);
+ * TimeOffset tz = TimeOffset::forHours(-8);
  * TimeOffset tz = TimeOffset::forHourMinute(-8, 0);
  * TimeOffset tz = TimeOffset::forMinutes(-480);
  * TimeOffset tz = TimeOffset::forOffsetString("-08:00");
@@ -66,12 +66,11 @@ class TimeOffset {
     /** Sentinel value that represents an error. */
     static const int16_t kErrorMinutes = INT16_MIN;
 
-    // TODO: Change this to forHours() for consistency with forMinutes()?
     /**
      * Create TimeOffset with the corresponding hour offset. For example,
-     * -08:00 is 'forHour(-8)'.
+     * -08:00 is 'forHours(-8)'.
      */
-    static TimeOffset forHour(int8_t hour) {
+    static TimeOffset forHours(int8_t hour) {
       return TimeOffset::forMinutes(hour * 60);
     }
 
