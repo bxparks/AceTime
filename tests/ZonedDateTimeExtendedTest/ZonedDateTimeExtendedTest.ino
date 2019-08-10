@@ -69,6 +69,7 @@ test(ZonedDateTimeExtendedTest, forComponents_inDst) {
   // 03:01 should resolve to 03:01-07:00.
   auto dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 1, 0, tz);
   assertEqual(TimeOffset::forHour(-7).toMinutes(), dt.timeOffset().toMinutes());
+  dt.printTo(Serial); Serial.println();
   auto expected = LocalDateTime::forComponents(2018, 3, 11, 3, 1, 0);
   assertTrue(expected == dt.localDateTime());
 }
@@ -122,6 +123,9 @@ void setup() {
 #endif
   SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
   while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+
+  TestRunner::exclude("*");
+  TestRunner::include("ZonedDateTimeExtendedTest", "forComponents_inDst");
 }
 
 void loop() {

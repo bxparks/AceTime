@@ -190,7 +190,7 @@ test(TransitionStorageTest, findTransition) {
   TransitionStorage<4> storage;
   storage.init();
 
-  // Add 3 transitions to Candidate pool, 2 active, 1 inactive.
+  // Add 3 transitions to Active pool.
   Transition* freeAgent = storage.getFreeAgent();
   freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::TIME_MODIFIER_W};
   freeAgent->active = true;
@@ -224,6 +224,68 @@ test(TransitionStorageTest, findTransition) {
   assertEqual(1, t->transitionTime.yearTiny);
 
   t = storage.findTransition(21);
+  assertEqual(2, t->transitionTime.yearTiny);
+}
+
+test(TransitionStorageTest, findTransitionForDateTime) {
+  TransitionStorage<4> storage;
+  storage.init();
+
+  // 2000-01-02T00:03
+  Transition* freeAgent = storage.getFreeAgent();
+  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::TIME_MODIFIER_W};
+  freeAgent->startDateTime = freeAgent->transitionTime;
+  freeAgent->active = true;
+  storage.addFreeAgentToCandidatePool();
+
+  // 2001-02-03T00:04
+  freeAgent = storage.getFreeAgent();
+  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::TIME_MODIFIER_W};
+  freeAgent->startDateTime = freeAgent->transitionTime;
+  freeAgent->active = true;
+  storage.addFreeAgentToCandidatePool();
+
+  // 2002-03-04T00:05
+  freeAgent = storage.getFreeAgent();
+  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::TIME_MODIFIER_W};
+  freeAgent->startDateTime = freeAgent->transitionTime;
+  freeAgent->active = true;
+  storage.addFreeAgentToCandidatePool();
+
+  // Add the actives to the Active pool.
+  storage.addActiveCandidatesToActivePool();
+
+  assertEqual(3, storage.mIndexPrior);
+  assertEqual(3, storage.mIndexCandidates);
+  assertEqual(3, storage.mIndexFree);
+
+  // 2000-01-02T00:00
+  auto ldt = LocalDateTime::forComponents(2000, 1, 2, 0, 0, 0);
+  const Transition* t = storage.findTransitionForDateTime(ldt);
+  assertTrue(t == nullptr);
+
+  // 2000-01-02T01:00
+  ldt = LocalDateTime::forComponents(2000, 1, 2, 1, 0, 0);
+  t = storage.findTransitionForDateTime(ldt);
+  assertTrue(t != nullptr);
+  assertEqual(0, t->transitionTime.yearTiny);
+
+  // 2001-02-03T00:03
+  ldt = LocalDateTime::forComponents(2001, 2, 3, 0, 3, 0);
+  t = storage.findTransitionForDateTime(ldt);
+  assertTrue(t != nullptr);
+  assertEqual(0, t->transitionTime.yearTiny);
+
+  // 2001-02-03T00:04
+  ldt = LocalDateTime::forComponents(2001, 2, 3, 0, 4, 0);
+  t = storage.findTransitionForDateTime(ldt);
+  assertTrue(t != nullptr);
+  assertEqual(1, t->transitionTime.yearTiny);
+
+  // 2002-03-04T00:05
+  ldt = LocalDateTime::forComponents(2002, 3, 4, 0, 5, 0);
+  t = storage.findTransitionForDateTime(ldt);
+  assertTrue(t != nullptr);
   assertEqual(2, t->transitionTime.yearTiny);
 }
 
