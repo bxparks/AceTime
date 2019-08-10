@@ -122,13 +122,15 @@ class TestDataGenerator:
         ],
     }
 
-    def __init__(self, zone_infos, zone_policies, granularity, start_year,
-        until_year):
+    def __init__(self, scope, zone_infos, zone_policies, granularity,
+        start_year, until_year):
         """
         Args:
+            scope: 'basic' or 'extended'
             zone_infos (dict): {zone_name -> zone_info{} }
             zone_policies (dict): {zone_name ->zone_policy{} }
         """
+        self.scope = scope
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
         self.granularity = granularity
@@ -273,6 +275,8 @@ class TestDataGenerator:
         15 minutes, then the various transition times got truncated to 00:00 and
         the correction will be 60 seconds.
         """
+        if self.scope == 'extended':
+            return 0
         if self.granularity <= 60:
             return 0
 

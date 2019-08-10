@@ -296,8 +296,9 @@ def main():
         # Generate test data for unit test.
         logging.info('Generating test data for years in [%d, %d)',
             validation_start_year, validation_until_year)
-        data_generator = TestDataGenerator(zone_infos, zone_policies,
-            granularity, validation_start_year, validation_until_year)
+        data_generator = TestDataGenerator(args.scope, zone_infos,
+            zone_policies, granularity, validation_start_year,
+            validation_until_year)
         (test_data, num_items) = data_generator.create_test_data()
         logging.info('Num zones=%d; Num test items=%d', len(test_data),
             num_items)
