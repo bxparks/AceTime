@@ -4,8 +4,20 @@
     * Change TimeZoneData to store mStdOffset and mDstOffset in units of
       one minute (instead of 15-minute increments, "code") in the off chance
       that the library supports timezones with one-minute shifts in the future.
-      I am treating this as "non-breaking" change because TimeZoneData is
-      handled as basically an opaque object by all downstream apps currently.
+    * Implement TimeOffset using 2 bytes (`int16_t`) instead of one byte
+      (`int8_t`) to give it a resolution of one minute instead of 15 minutes.
+    * Generate zoneinfo files with the AT and UNTIL timestamps retaining the
+      full one-minute resolution (instead of truncating to 15-minute boundary).
+      The lower 4-bits of the `modifier` field hold the 0-14 minute component,
+      while the upper 4-bits of the `modifier` field hold the 'w', 's' and 'u'
+      suffixes. Timezones whose DST transitions occur at 00:01
+      (America/Goose_Bay, America/Moncton, America/St_Johns, Asia/Gaza,
+      Asia/Hebron) no longer truncate to 00:00. ZoneInfo files (`zonedb/` and
+      `zonedbx/`) remain identical in size. Flash memory consumption
+      usually increases by 130 to 500 bytes, but sometimes decreases by 50-100
+      bytes.
+    * Rename `TimeOffset::forHour()` to `forHours()` for consistency with
+      `forMinutes()`.
 * 0.6.1
     * Create a second Jenkins continuous build pipeline file
       `tests/JenskinfileUnitHost` to use UnitHostDuino to run the unit tests
