@@ -57,14 +57,21 @@ class ZoneProcessorCacheImpl;
 
 namespace extended {
 
-// NOTE: Consider compressing 'modifier' into 'month' field
-/** A tuple that represents a date and time. */
+/**
+ * A tuple that represents a date and time. Packed to 4-byte boundaries to
+ * save space on 32-bit processors.
+ */
 struct DateTuple {
+  DateTuple() = default;
+
+  DateTuple(int8_t y, uint8_t mon, uint8_t d, int16_t min, uint8_t mod):
+      yearTiny(y), month(mon), day(d), modifier(mod), minutes(min) {}
+
   int8_t yearTiny; // [-127, 126], 127 will cause bugs
   uint8_t month; // [1-12]
   uint8_t day; // [1-31]
-  int16_t minutes; // negative values allowed
   uint8_t modifier; // TIME_MODIFIER_S, TIME_MODIFIER_W, TIME_MODIFIER_U
+  int16_t minutes; // negative values allowed
 
   /** Used only for debugging. */
   void log() const {
