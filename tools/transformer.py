@@ -466,7 +466,7 @@ class Transformer:
                     else:
                         hm = seconds_to_hm_string(offset_seconds_truncated)
                         _add_reason(notable_zones, name,
-                            "GMTOFF '{offset_string}' truncated to '{hm}'")
+                            f"GMTOFF '{offset_string}' truncated to '{hm}'")
 
                 era.offsetSeconds = offset_seconds
                 era.offsetSecondsTruncated = offset_seconds_truncated
@@ -1417,14 +1417,14 @@ def seconds_to_hm_string(seconds):
     """Convert seconds to hh:mm. Assumes that seconds is multiples of 60.
     """
     if seconds < 0:
-        sign = -1
+        sign = '-'
         seconds = -seconds
     else:
-        sign = 1
+        sign = ''
     minutes = seconds // 60
     m = minutes % 60
     h = minutes // 60
-    return f'{h:02}:{m:02}'
+    return f'{sign}{h:02}:{m:02}'
 
 
 def hms_to_seconds(h, m, s):
