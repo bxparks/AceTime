@@ -187,13 +187,7 @@ def main():
     if args.granularity:
         granularity = args.granularity
     else:
-        if args.language in ['arduino']:
-            if args.scope == 'basic':
-                granularity = 900
-            else:
-                granularity = 60
-        else:
-            granularity = 60
+        granularity = 60
     logging.info('Using granularity: %d' % granularity)
 
     # Extract the TZ files

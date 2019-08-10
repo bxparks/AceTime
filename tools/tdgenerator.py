@@ -275,8 +275,7 @@ class TestDataGenerator:
         15 minutes, then the various transition times got truncated to 00:00 and
         the correction will be 60 seconds.
         """
-        if self.scope == 'extended':
-            return 0
+        return 0
         if self.granularity <= 60:
             return 0
 
