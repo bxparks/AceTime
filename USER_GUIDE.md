@@ -565,13 +565,13 @@ timePeriod.printTo(Serial)
 ### TimeOffset
 
 A `TimeOffset` class represents an amount of time shift from a reference point.
-Often the reference is the UTC time and this class represents the amount of time
-shift from UTC. Currently (year 2019) every time zone in the world is shifted
-from UTC by a multiple of 15 minutes (e.g. -03:30 or +01:00). `TimeOffset` is a
-thin wrapper around a single `int8_t` type which can encode integers from
-[-128, 127]. Internally -128 is used to indicate an error condition, so we can
-represent a UTC shift of from -31:45 to +31:45 hours, which is more than enough
-to encode all UTC offsets currently in use in the world.
+This is usually used to represent a timezone's standard UTC offset or its DST
+offset in the summer. The time resolution of this class changed from 15 minutes
+(using a single byte `int8_t` implementation prior to v0.7) to 1 minute (using a
+2-byte `int16_t` implementation since v0.7). The range of an `int16_t` is
+[-32768, +32767], but -32768 is used to indicate an error condition, so the
+actual range is [-32767, +32767] minutes. In practice, the range of values
+actually used is probably within [-48, +48] hours, or [-2880, +2800] minutes
 
 ```C++
 namespace ace_time {
@@ -579,8 +579,8 @@ namespace ace_time {
 class TimeOffset {
   public:
     static TimeOffset forHours(int8_t hour);
-    static TimeOffset forHourMinute(int8_t hour, int8_t minute);
     static TimeOffset forMinutes(int16_t minutes);
+    static TimeOffset forHourMinute(int8_t hour, int8_t minute);
 
     int16_t toMinutes() const;
     int32_t toSeconds() const;
@@ -598,8 +598,8 @@ A `TimeOffset` can be created using the factory methods:
 
 ```C++
 auto offset = TimeOffset::forHours(-8); // -08:00
-auto offset = TimeOffset::forHourMinute(-2, -30); // -02:30
 auto offset = TimeOffset::forMinutes(135); // +02:15
+auto offset = TimeOffset::forHourMinute(-2, -30); // -02:30
 ```
 
 If the time offset is negative, then both the hour and minute components of
@@ -621,7 +621,7 @@ When a method in some class (e.g. `OffsetDateTime` or `ZonedDateTime` below)
 returns a `TimeOffset`, it is useful to indicate an error condition by returning
 the special value created by the factory method `TimeOffset::forError()`. This
 special error marker has the property that `TimeOffset::isError()` returns
-`true`. Internally, this is an instance whose internal integer code is -128.
+`true`. Internally, this is an instance whose internal integer is -32768.
 
 The convenience method `TimeOffset::isZero()` returns `true` if the offset has a
 zero offset. This is often used to determine if a timezone is currently
@@ -2545,15 +2545,7 @@ did not think it would fit inside an Arduino controller.
       a signed integer, just like the old 32-bit Unix systems. The range of
       dates is 1901-12-13T20:45:52Z to 2038-01-19T03:14:07Z.
 * `TimeOffset`
-    * Implemented using `int8_t` to save memory.
-    * Represents time offsets in increments of 15 minutes. All timezones after
-      2012 are in multiples of 15 minutes.
-    * Five zones before 2012 have transitions at 00:01 which cannot be
-      represented by this class. Those transitions have been truncated to 00:00.
-      See the bottom of the generated
-      [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) and
-      [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h) files for the
-      up-to-date list.
+    * Implemented using `int16_t` in 1 minute increments.
 * `LocalDate`, `LocalDateTime`
     * These classes (and all other Date classes which are based on these) use
       a single 8-bit signed byte to represent the 'year' internally. This saves
@@ -2600,17 +2592,6 @@ did not think it would fit inside an Arduino controller.
       from 2000 until 2038.
     * Java `java.time` library has an upper limit far beyond the year 2068 limit
       of `ZonedDateTime`. Testing was performed from 2000 to until 2050.
-* `ExtendedZoneProcessor`
-    * There are 5 time zones (as of version 2019a of the TZ Database, see
-      the bottom of `zonedbx/zone_infos.h`) which have DST transitions that
-      occur at 00:01 (one minute after midnight). This transition cannot be
-      represented as a multiple of 15-minutes. The transition times of these
-      zones have been shifted to the nearest 15-minute boundary, in other words,
-      the transitions occur at 00:00 instead of 00:01. Clocks based on
-      `ExtendedZoneProcessor` will be off by one hour during the 1-minute
-      interval from 00:00 and 00:01.
-    * Fortunately all of these transitions happen before 2012. If you are
-      interested in only dates after 2019, then this will not affect you.
 * `NtpClock`
     * The `NtpClock` on an ESP8266 calls `WiFi.hostByName()` to resolve
       the IP address of the NTP server. Unfortunately, when I tested this

@@ -32,11 +32,7 @@ struct TimeZoneData {
   uint8_t type;
 
   union {
-    /**
-     * Used for kTypeManual. Use minutes instead of TimeOffsetCode (i.e.
-     * 15-minute increments in the off chance that a future version of this
-     * library supports timezones that shift by one-minute increments.
-     */
+    /** Used for kTypeManual. */
     struct {
       int16_t stdOffsetMinutes;
       int16_t dstOffsetMinutes;

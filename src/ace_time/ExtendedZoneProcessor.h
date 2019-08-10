@@ -633,30 +633,25 @@ class TransitionStorage {
 } // namespace extended
 
 /**
- * An implementation of ZoneProcessor that works for *all* zones defined by the
- * TZ Database (with some zones suffering a slight loss of accurancy described
- * below). The supported zones are defined in the zonedbx/zone_infos.h header
- * file. The constructor expects a pointer to one of the ZoneInfo structures
- * declared in the zonedbx/zone_infos.h file. The zone_specifier.py file is a
- * Python implementation of this class.
+ * An implementation of ZoneProcessor that supports for *all* zones defined by
+ * the TZ Database. The supported zones are defined in the zonedbx/zone_infos.h
+ * header file. The constructor expects a pointer to one of the ZoneInfo
+ * structures declared in the zonedbx/zone_infos.h file. The zone_specifier.py
+ * file is the initial Python implementation of this class, which got
+ * translated into C++.
  *
- * Just like BasicZoneProcessor, UTC offsets are stored as a single signed byte
- * in units of 15-minute increments to save memory. Fortunately, all current
- * (year 2019) time zones have DST offsets at 15-minute boundaries. But in
- * addition to the DST offset, this class uses a single signed byte to store
- * the *time* at which a timezone changes the DST offset.
+ * Currently (as of v0.7), the underlying zoneinfo files (extended::ZoneInfo,
+ * etc) store the UTC and DST offsets of a timezone as a single signed byte in
+ * 15-minute increments. This is sufficient to accurate describe all time zones
+ * from the year 2000 until  2050. The AT and UNTIL transition times are stored
+ * using a 1-minute resolution, which correctly handles the 5 timezones whose
+ * DST transition times occur at 00:01. Those zones are:
  *
- * There are current 5 timezones whose DST transition times are at 00:01 (i.e.
- * 1 minute after midnight). Those transition times are truncated down by
- * tzcompiler.py to the nearest 15-minutes, in other words to 00:00. Those
- * zones are:
  *    - America/Goose_Bay
  *    - America/Moncton
  *    - America/St_Johns
  *    - Asia/Gaza
  *    - Asia/Hebron
- * For these zones, the transition to DST (or out of DST) will occur at
- * midnight using AceTime, instead of at 00:01.
  *
  * Not thread-safe.
  */
