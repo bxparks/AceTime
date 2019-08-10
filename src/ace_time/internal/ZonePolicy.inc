@@ -49,9 +49,13 @@ struct ZoneRule {
   uint8_t const atTimeCode;
 
   /**
-   * Determined by the suffix in the AT column: 'w'=wall; 's'=standard;
-   * 'u'=meridian ('g' and 'z' mean the same as 'u' and are not supported
-   * because no current TZ file uses them).
+   * The atTimeModifier is a packed field containing 2 pieces of info:
+   *
+   *    * The upper 4 bits represent the AT time suffix: 'w', 's' or 'u',
+   *    represented by TIME_MODIFIER_W, TIME_MODIFIER_S and TIME_MODIFIER_U.
+   *    * The lower 4 bits represent the remaining 0-14 minutes of the AT field
+   *    after truncation into atTimeCode. In other words, the full AT field in
+   *    one-minute resolution is (15 * atTimeCode + (atTimeModifier & 0x0f)).
    */
   uint8_t const atTimeModifier;
 
