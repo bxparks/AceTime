@@ -8,6 +8,15 @@
  * to this.
  */
 struct ZoneContext {
+  /** Represents 'w' or wall time. */
+  static const uint8_t TIME_MODIFIER_W = 0x00;
+
+  /** Represents 's' or standard time. */
+  static const uint8_t TIME_MODIFIER_S = 0x10;
+
+  /** Represents 'u' or UTC time. */
+  static const uint8_t TIME_MODIFIER_U = 0x20;
+
   /*
    * Epoch year. Currently always 2000 but could change in the future. We're
    * leaving this out for now because it's not clear how or if the various

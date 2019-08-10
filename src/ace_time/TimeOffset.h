@@ -12,9 +12,9 @@ class Print;
 
 namespace ace_time {
 
-// These functions need to set the mOffsetCode and it seemed inefficient to go
-// through the factory method and assignment operator, so I expose
-// setOffsetCode() to them for efficiency. If the compiler is smart enough to
+// These functions need to set the mMinutes and it seemed inefficient to
+// go through the factory method and assignment operator, so I expose
+// setMinutes() to them for efficiency. If the compiler is smart enough to
 // optimize away the assignment operator, then we could remove these friend
 // declarations and just use the forOffsetCode() factory method instead. I
 // haven't looked into this.
@@ -33,6 +33,7 @@ void increment15Minutes(TimeOffset& offset);
  * @code
  * TimeOffset tz = TimeOffset::forHour(-8);
  * TimeOffset tz = TimeOffset::forHourMinute(-8, 0);
+ * TimeOffset tz = TimeOffset::forMinutes(-480);
  * TimeOffset tz = TimeOffset::forOffsetString("-08:00");
  * @endcode
  *
@@ -41,15 +42,17 @@ void increment15Minutes(TimeOffset& offset);
  * TimeOffset offset;
  * @endcode
  *
- * According to https://en.wikipedia.org/wiki/List_of_UTC_time_offsets, all
- * time zones currently in use occur at 15 minute boundaries, and the smallest
- * time zone is UTC-12:00 and the biggest time zone is UTC+14:00. Therefore, we
- * can encode all currently used time zones as integer multiples of 15-minute
- * offsets from UTC. This allows the TimeOffset to be stored as a single 8-bit
- * signed integer. For the most part, the internal implementation of this class
- * does not leak out to the outside world, so it should be relatively easy to
- * change its implementation to a int16_t type to support 1-minute granularity
- * instead of 15-minute granularity.
+ * The current implementation has a resolution of 1-minute (using an internal
+ * int16_t type). The previous implementation (< v0.7) had a resolution of
+ * 15-minutes (using an internal int8_t type) because that was sufficient to
+ * handle all current timezones for years >= 2018 (determined by looking at
+ * https://en.wikipedia.org/wiki/List_of_UTC_time_offsets, and the TZ Database
+ * zonefiles itself through the tzcompiler.py script). However, 15-minute
+ * resolution is not sufficient to handle a handful of timezones in the past
+ * (years 2000 to 2011 or so). So I changed the implementation to use 2 bytes
+ * to handle 1-minute resolution. Some residual methods handle "offsetCode"
+ * because the zoneinfo files in zonedb/ and zonedbx/ are encoded using a
+ * int8_t type to save flash memory space.
  *
  * This class does NOT know about the TZ Database (aka Olson database)
  * https://en.wikipedia.org/wiki/Tz_database. That functionality is implemented
@@ -60,33 +63,34 @@ class TimeOffset {
     /** Sentinel value that represents an error. */
     static const int8_t kErrorCode = INT8_MIN;
 
+    /** Sentinel value that represents an error. */
+    static const int16_t kErrorMinutes = INT16_MIN;
+
+    // TODO: Change this to forHours() for consistency with forMinutes()?
     /**
      * Create TimeOffset with the corresponding hour offset. For example,
      * -08:00 is 'forHour(-8)'.
      */
     static TimeOffset forHour(int8_t hour) {
-      return TimeOffset(hour * 4);
+      return TimeOffset::forMinutes(hour * 60);
     }
 
     /**
      * Create TimeOffset from (hour, minute) offset. If the offset is negative,
      * then the negative sign must be added to both the hour and minute
      * components. This allows a negative offset of less than -01:00 to be
-     * created. The 'minute' must be in multiples of 15-minutes. For example,
-     * -07:30 is created by 'forHourMinute(-7, -30)' (not 'forHourMinute(-7,
-     * 30), and -00:15 is created by 'forHourMinute(0, -15)'.
+     * created. For example, -07:30 is created by 'forHourMinute(-7, -30)' (not
+     * 'forHourMinute(-7, 30), and -00:15 is created by 'forHourMinute(0,
+     * -15)'.
      */
     static TimeOffset forHourMinute(int8_t hour, int8_t minute) {
-      int8_t code = hour * 4 + minute / 15;
-      return TimeOffset(code);
+      int16_t minutes = hour * 60 + minute;
+      return TimeOffset(minutes);
     }
 
-    /**
-     * Create TimeOffset from minutes from 00:00. In the current implementation,
-     * the minutes is truncated to the 15-minute boundary towards 0.
-     */
+    /** Create TimeOffset from minutes from 00:00. */
     static TimeOffset forMinutes(int16_t minutes) {
-      return TimeOffset(minutes / 15);
+      return TimeOffset(minutes);
     }
 
     /**
@@ -107,7 +111,7 @@ class TimeOffset {
     static TimeOffset forOffsetStringChainable(const char*& offsetString);
 
     /** Return an error indicator. */
-    static TimeOffset forError() { return TimeOffset(kErrorCode); }
+    static TimeOffset forError() { return TimeOffset(kErrorMinutes); }
 
     /**
      * Create TimeOffset from the offset code.
@@ -115,18 +119,19 @@ class TimeOffset {
      * @param offsetCode the amount of time offset in 15-minute increments.
      */
     static TimeOffset forOffsetCode(int8_t offsetCode) {
-      return TimeOffset(offsetCode);
+      return TimeOffset::forMinutes(
+          (offsetCode == kErrorCode) ? kErrorMinutes : offsetCode * 15);
     }
 
     /** Constructor. Create a time offset of 0. */
     explicit TimeOffset() {}
 
     /** Return the time offset as the number of 15 minute increments. */
-    int8_t toOffsetCode() const { return mOffsetCode; }
+    int8_t toOffsetCode() const { return mMinutes / 15; }
 
     /** Return the time offset as minutes. */
     int16_t toMinutes() const {
-      return (int16_t) 15 * mOffsetCode;
+      return mMinutes;
     }
 
     /** Return the time offset as seconds. */
@@ -140,8 +145,8 @@ class TimeOffset {
      * hour and minute components will contain the negative sign.
      */
     void toHourMinute(int8_t& hour, int8_t& minute) const {
-      hour = mOffsetCode / 4;
-      minute = (mOffsetCode % 4) * 15;
+      hour = mMinutes / 60;
+      minute = mMinutes % 60;
     }
 
     /**
@@ -149,11 +154,11 @@ class TimeOffset {
      * isZero means that it is UTC. If this represents a DST delta offset, then
      * isZero means that the time zone is in standard time.
      */
-    bool isZero() const { return mOffsetCode == 0; }
+    bool isZero() const { return mMinutes == 0; }
 
     /** Return true if this TimeOffset represents an error. */
     bool isError() const {
-      return mOffsetCode == kErrorCode;
+      return mMinutes == kErrorMinutes;
     }
 
     /** Print the human readable string. For example, "-08:00". */
@@ -165,35 +170,34 @@ class TimeOffset {
 
   private:
     friend bool operator==(const TimeOffset& a, const TimeOffset& b);
-    // Give access to setOffsetCode()
+
+    // Give access to setMinutes()
     friend void time_offset_mutation::incrementHour(TimeOffset& offset);
     friend void time_offset_mutation::increment15Minutes(TimeOffset& offset);
 
     /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
     static const uint8_t kTimeOffsetStringLength = 6;
 
-    /** Constructor. Create a time offset from the offset code. */
-    explicit TimeOffset(int8_t offsetCode):
-        mOffsetCode(offsetCode) {}
+    /** Constructor. Create a time offset from the offset minutes. */
+    explicit TimeOffset(int16_t minutes):
+        mMinutes(minutes) {}
 
-    /** Set the offset code. */
-    void setOffsetCode(int8_t offsetCode) { mOffsetCode = offsetCode; }
+    /** Set the offset minutes. */
+    void setMinutes(int16_t minutes) {
+      mMinutes = minutes;
+    }
 
     /**
-     * Time offset code, representing 15 minute increments from UTC. In theory,
-     * the code can range from [-128, 127]. But the value of -128 is used to
-     * represent an internal error, causing isError() to return true so the
-     * valid range is [-127, 127].
-     *
-     * The actual range of time zones used in real life values are expected to
-     * be smaller, probably smaller than the range of [-64, 63], i.e. [-16:00,
-     * +15:45].
+     * Time offset minutes from UTC. In theory, the minutes can range from
+     * [-32768, 32767]. But the value of -32768 is used to represent an
+     * internal error, causing isError() to return true so the valid range is
+     * [-32767, 32767].
      */
-    int8_t mOffsetCode = 0;
+    int16_t mMinutes = 0;
 };
 
 inline bool operator==(const TimeOffset& a, const TimeOffset& b) {
-  return a.mOffsetCode == b.mOffsetCode;
+  return a.mMinutes == b.mMinutes;
 }
 
 inline bool operator!=(const TimeOffset& a, const TimeOffset& b) {

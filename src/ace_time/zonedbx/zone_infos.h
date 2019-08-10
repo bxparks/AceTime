@@ -639,14 +639,9 @@ extern const extended::ZoneInfo& kZoneZulu; // Zulu -> Etc/UTC
 
 
 //---------------------------------------------------------------------------
-// Inaccurate zones: 5
+// Inaccurate zones: 0
 //---------------------------------------------------------------------------
 
-// America/Goose_Bay (AT time '0:01' of RULE 'StJohns' truncated to '00:00')
-// America/Moncton (AT time '0:01' of RULE 'Moncton' truncated to '00:00')
-// America/St_Johns (AT time '0:01' of RULE 'StJohns' truncated to '00:00')
-// Asia/Gaza (UNTIL time '0:01' truncated to '00:00', AT time '0:01' of RULE 'Palestine' truncated to '00:00')
-// Asia/Hebron (AT time '0:01' of RULE 'Palestine' truncated to '00:00')
 
 
 //---------------------------------------------------------------------------

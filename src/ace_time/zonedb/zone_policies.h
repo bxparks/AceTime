@@ -167,9 +167,8 @@ extern const basic::ZonePolicy kPolicyZion;
 // kPolicyWS (unused)
 
 
-// Inaccurate zone policies: 1
+// Inaccurate zone policies: 0
 //
-// kPolicyMoncton (AT time '0:01' truncated to '00:00')
 
 
 }

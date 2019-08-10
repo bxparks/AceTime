@@ -65,7 +65,16 @@ struct ZoneEra {
    */
   uint8_t const untilTimeCode;
 
-  /** UNTIL time modifier suffix: 'w', 's' or 'u'. */
+  /**
+   * The untilTimeModifier is a packed field containing 2 pieces of info:
+   *
+   *    * The upper 4 bits represent the UNTIL time suffix: 'w', 's' or 'u',
+   *    represented by TIME_MODIFIER_W, TIME_MODIFIER_S and TIME_MODIFIER_U.
+   *    * The lower 4 bits represent the remaining 0-14 minutes of the UNTIL
+   *    field after truncation into untilTimeCode. In other words, the full
+   *    UNTIL field in one-minute resolution is (15 * untilTimeCode +
+   *    (untilTimeModifier & 0x0f)).
+   */
   uint8_t const untilTimeModifier;
 };
 

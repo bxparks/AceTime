@@ -35,9 +35,9 @@ namespace time_offset_mutation {
  * limited from -16:00 to +16:00, inclusive, with +16:00 wrapping to -16:00.
  */
 inline void increment15Minutes(TimeOffset& offset) {
-  int8_t code = offset.toOffsetCode() + 1;
-  if (code > 64) code = -64;
-  offset.setOffsetCode(code);
+  int16_t minutes = offset.toMinutes() + 15;
+  if (minutes > 960) minutes = -960; // FIXME: This truncates to 15-minutes
+  offset.setMinutes(minutes);
 }
 
 }
