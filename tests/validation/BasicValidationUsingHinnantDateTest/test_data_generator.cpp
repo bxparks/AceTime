@@ -264,6 +264,17 @@ string normalizeName(const string& name) {
   return regex_replace(tmp, regex("[^0-9a-zA-Z]"), "_");
 }
 
+/** Sort the TestItems according to epochSeconds. */
+void sortTestData(map<string, vector<TestItem>>& testData) {
+  for (auto& p : testData) {
+    sort(p.second.begin(), p.second.end(),
+      [](const TestItem& a, const TestItem& b) {
+        return a.epochSeconds < b.epochSeconds;
+      }
+    );
+  }
+}
+
 void printTestItem(FILE* fp, const TestItem& item) {
   fprintf(fp,
       "  { %10ld, %4d, %4d, %4d, %2u, %2u, %2d, %2d, %2d }, // type=%c\n",
@@ -281,7 +292,8 @@ void printTestItem(FILE* fp, const TestItem& item) {
 
 /** Generate the validation_data.cpp file for timezone tz. */
 void printDataCpp(const map<string, vector<TestItem>>& testData) {
-  FILE* fp = stdout;
+  FILE* fp = fopen(VALIDATION_DATA_CPP, "w");
+
   fprintf(fp, "// This is an auto-generated file.\n");
   fprintf(fp, "// DO NOT EDIT\n");
   fprintf(fp, "\n");
@@ -327,17 +339,11 @@ void printDataCpp(const map<string, vector<TestItem>>& testData) {
   }
   fprintf(fp, "}\n");
   fprintf(fp, "}\n");
+
+  fclose(fp);
 }
 
-/** Sort the TestItems according to epochSeconds. */
-void sortTestData(map<string, vector<TestItem>>& testData) {
-  for (auto& p : testData) {
-    sort(p.second.begin(), p.second.end(),
-      [](const TestItem& a, const TestItem& b) {
-        return a.epochSeconds < b.epochSeconds;
-      }
-    );
-  }
+void printDataHeader(const map<string, vector<TestItem>>& testData) {
 }
 
 void usageAndExit() {
