@@ -2,6 +2,13 @@
  * Generate the validation_data.* files for the zones given on the STDIN. The
  * transition time and UTC offsets are calculated using Howard Hinnant's date.h
  * and tz.h library.
+ *
+ * Usage:
+ * $ ./test_data_generator.out \
+ *    --scope (basic | extended) \
+ *    --db_namespace (db) \
+ *    [--start_year start] \
+ *    [--until_year until] < zones.txt
  */
 
 #include <stdio.h>
@@ -11,16 +18,16 @@
 #include <date/date.h>
 #include <date/tz.h>
 
-#define ONE_ZONE 1
-
 using namespace date;
 using namespace std::chrono;
 using namespace std;
 
-const int startYear = 2000;
-const int untilYear = 2050;
-
+/** Difference between Unix epoch (1970-01-1) and AceTime Epoch (2000-01-01). */
 const long SECONDS_SINCE_UNIX_EPOCH = 946684800;
+
+const char VALIDATION_DATA_CPP[] = "validation_data.cpp";
+const char VALIDATION_DATA_H[] = "validation_data.h";
+const char VALIDATION_TESTS_CPP[] = "validation_tests.cpp";
 
 /** DateTime components. */
 struct DateTime {
@@ -43,6 +50,12 @@ struct TestItem {
   DateTime dateTime;
   char type; //'A', 'B', 'S', 'T' or 'Y'
 };
+
+// Command line arguments
+string scope = "";
+string dbNamespace = "";
+int startYear = 2000;
+int untilYear = 2050;
 
 /**
  * Convert a zoned_time<> (which is an aggregation of time_zone and sys_time<>,
@@ -174,9 +187,9 @@ void addMonthlySamples(map<string, vector<TestItem>>& testData,
 /** Insert TestItems for the given 'zoneName' into testData. */
 void processZone(map<string, vector<TestItem>>& testData,
     const string& zoneName, int startYear, int untilYear) {
-  auto* tzp = locate_zone(zoneName); 
+  auto* tzp = locate_zone(zoneName);
   if (tzp == nullptr) {
-    cerr << "Zone " << zoneName << " not found\n";
+    fprintf(stderr, "Zone %s not found\n", zoneName.c_str());
     return;
   }
 
@@ -251,8 +264,8 @@ string normalizeName(const string& name) {
   return regex_replace(tmp, regex("[^0-9a-zA-Z]"), "_");
 }
 
-void printTestItem(const TestItem& item) {
-  printf(
+void printTestItem(FILE* fp, const TestItem& item) {
+  fprintf(fp,
       "  { %10ld, %4d, %4d, %4d, %2u, %2u, %2d, %2d, %2d }, // type=%c\n",
       item.epochSeconds,
       item.utcOffset,
@@ -268,47 +281,52 @@ void printTestItem(const TestItem& item) {
 
 /** Generate the validation_data.cpp file for timezone tz. */
 void printDataCpp(const map<string, vector<TestItem>>& testData) {
-  printf("#include <AceTime.h>\n");
-  printf("#include \"zonedb2018g/zone_infos.h\"\n");
-  printf("#include \"zonedb2018g/zone_policies.h\"\n");
-  printf("#include \"validation_data.h\"\n");
-  printf("\n");
-  printf("namespace ace_time {\n");
-  printf("namespace zonedb2018g {\n");
-  printf("\n");
+  FILE* fp = stdout;
+  fprintf(fp, "// This is an auto-generated file.\n");
+  fprintf(fp, "// DO NOT EDIT\n");
+  fprintf(fp, "\n");
+  fprintf(fp, "#include <AceTime.h>\n");
+  fprintf(fp, "#include \"zonedb2018g/zone_infos.h\"\n");
+  fprintf(fp, "#include \"zonedb2018g/zone_policies.h\"\n");
+  fprintf(fp, "#include \"validation_data.h\"\n");
+  fprintf(fp, "\n");
+  fprintf(fp, "namespace ace_time {\n");
+  fprintf(fp, "namespace zonedb2018g {\n");
+  fprintf(fp, "\n");
 
   for (const auto& p : testData) {
     const auto zoneName = p.first;
     const auto normalizedName = normalizeName(zoneName);
     const auto& testItems = p.second;
 
-    printf(
+    fprintf(fp,
     "//--------------------------------------------------------------------\n");
-    printf("// Zone name: %s\n", zoneName.c_str());
-    printf(
+    fprintf(fp, "// Zone name: %s\n", zoneName.c_str());
+    fprintf(fp,
     "//--------------------------------------------------------------------\n");
-    printf("\n");
+    fprintf(fp, "\n");
 
-    printf("static const ValidationItem kValidationItems%s[] = {\n",
+    fprintf(fp, "static const ValidationItem kValidationItems%s[] = {\n",
         normalizedName.c_str());
-    printf("  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s\n");
+    fprintf(fp, "  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s\n");
     for (const TestItem& item : testItems) {
-      printTestItem(item);
+      printTestItem(fp, item);
     }
-    printf("};\n");
-    printf("\n");
+    fprintf(fp, "};\n");
+    fprintf(fp, "\n");
 
-    printf("const ValidationData kValidationData%s = {\n",
+    fprintf(fp, "const ValidationData kValidationData%s = {\n",
         normalizedName.c_str());
-    printf("  &kZone%s /*zoneInfo*/,\n", normalizedName.c_str());
-    printf("  sizeof(kValidationItems%s)/sizeof(ValidationItem) /*numItems*/\n",
+    fprintf(fp, "  &kZone%s /*zoneInfo*/,\n", normalizedName.c_str());
+    fprintf(fp,
+      "  sizeof(kValidationItems%s)/sizeof(ValidationItem) /*numItems*/\n",
       normalizedName.c_str());
-    printf("  kValidationItems%s /*items*/,\n", normalizedName.c_str());
-    printf("};\n");
-    printf("\n");
+    fprintf(fp, "  kValidationItems%s /*items*/,\n", normalizedName.c_str());
+    fprintf(fp, "};\n");
+    fprintf(fp, "\n");
   }
-  printf("}\n");
-  printf("}\n");
+  fprintf(fp, "}\n");
+  fprintf(fp, "}\n");
 }
 
 /** Sort the TestItems according to epochSeconds. */
@@ -322,7 +340,62 @@ void sortTestData(map<string, vector<TestItem>>& testData) {
   }
 }
 
-int main() {
+void usageAndExit() {
+  fprintf(stderr,
+    "Usage: test_data_generator --scope (basic | extended) --db_namespace db\n"
+    "   [--start_year start] [--until_year until] < zones.txt\n");
+  exit(1);
+}
+
+#define SHIFT(argc, argv) do { argc--; argv++; } while(0)
+#define ARG_EQUALS(s, t) (strcmp(s, t) == 0)
+
+int main(int argc, const char* const* argv) {
+  // Parse command line flags.
+  string start = "2000";
+  string until = "2050";
+  SHIFT(argc, argv);
+  while (argc > 0) {
+    if (ARG_EQUALS(argv[0], "--scope")) {
+      SHIFT(argc, argv);
+      if (argc == 0) usageAndExit();
+      scope = argv[0];
+    } else if (ARG_EQUALS(argv[0], "--start_year")) {
+      SHIFT(argc, argv);
+      if (argc == 0) usageAndExit();
+      start = argv[0];
+    } else if (ARG_EQUALS(argv[0], "--until_year")) {
+      SHIFT(argc, argv);
+      if (argc == 0) usageAndExit();
+      until = argv[0];
+    } else if (ARG_EQUALS(argv[0], "--db_namespace")) {
+      SHIFT(argc, argv);
+      if (argc == 0) usageAndExit();
+      dbNamespace = argv[0];
+    } else if (ARG_EQUALS(argv[0], "--")) {
+      SHIFT(argc, argv);
+      break;
+    } else if (strncmp(argv[0], "-", 1) == 0) {
+      fprintf(stderr, "Unknonwn flag '%s'\n", argv[0]);
+      usageAndExit();
+    } else {
+      break;
+    }
+    SHIFT(argc, argv);
+  }
+  if (scope != "basic" && scope != "extended") {
+    fprintf(stderr, "Unknown --scope '%s'\n", scope.c_str());
+    usageAndExit();
+  }
+  if (dbNamespace.empty()) {
+    fprintf(stderr, "Must give --db_namespace {db} flagn\n");
+    usageAndExit();
+  }
+
+  startYear = atoi(start.c_str());
+  untilYear = atoi(until.c_str());
+
+  // Process the zones on the STDIN
   vector<string> zones = readZones();
   map<string, vector<TestItem>> testData = processZones(zones);
   sortTestData(testData);
