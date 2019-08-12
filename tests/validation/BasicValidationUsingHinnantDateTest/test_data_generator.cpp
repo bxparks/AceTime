@@ -41,7 +41,7 @@ struct TestItem {
   int utcOffset; // minutes
   int dstOffset; // minutes
   DateTime dateTime;
-  char type; //'A', 'B', 'S', or 'Y'
+  char type; //'A', 'B', 'S', 'T' or 'Y'
 };
 
 /**
@@ -193,15 +193,27 @@ inline void ltrim(string &s) {
 	}));
 }
 
+/** Process each zoneName in zones and insert into testData map. */
+map<string, vector<TestItem>> processZones(const vector<string>& zones) {
+  map<string, vector<TestItem>> testData;
+  for (string zoneName : zones) {
+    processZone(testData, zoneName, startYear, untilYear);
+  }
+  return testData;
+}
+
 /** Read the 'zones.txt' from the stdin, and process each zone. */
-void processZones(map<string, vector<TestItem>>& testData) {
+vector<string> readZones() {
+  vector<string> zones;
   string line;
   while (getline(cin, line)) {
 		ltrim(line);
     if (line.empty()) continue;
     if (line[0] == '#') continue;
-    processZone(testData, line, startYear, untilYear);
+    zones.push_back(line);
   }
+
+  return zones;
 }
 
 /**
@@ -280,8 +292,8 @@ void sortTestData(map<string, vector<TestItem>>& testData) {
 }
 
 int main() {
-  map<string, vector<TestItem>> testData;
-  processZones(testData);
+  vector<string> zones = readZones();
+  map<string, vector<TestItem>> testData = processZones(zones);
   sortTestData(testData);
   printTestData(testData);
   return 0;
