@@ -267,17 +267,48 @@ void printTestItem(const TestItem& item) {
 }
 
 /** Generate the validation_data.cpp file for timezone tz. */
-void printTestData(const map<string, vector<TestItem>>& testData) {
+void printDataCpp(const map<string, vector<TestItem>>& testData) {
+  printf("#include <AceTime.h>\n");
+  printf("#include \"zonedb2018g/zone_infos.h\"\n");
+  printf("#include \"zonedb2018g/zone_policies.h\"\n");
+  printf("#include \"validation_data.h\"\n");
+  printf("\n");
+  printf("namespace ace_time {\n");
+  printf("namespace zonedb2018g {\n");
+  printf("\n");
+
   for (const auto& p : testData) {
-    auto name = normalizeName(p.first);
+    const auto zoneName = p.first;
+    const auto normalizedName = normalizeName(zoneName);
+    const auto& testItems = p.second;
+
+    printf(
+    "//--------------------------------------------------------------------\n");
+    printf("// Zone name: %s\n", zoneName.c_str());
+    printf(
+    "//--------------------------------------------------------------------\n");
+    printf("\n");
+
     printf("static const ValidationItem kValidationItems%s[] = {\n",
-        name.c_str());
+        normalizedName.c_str());
     printf("  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s\n");
-    for (const auto& item : p.second) {
+    for (const TestItem& item : testItems) {
       printTestItem(item);
     }
     printf("};\n");
+    printf("\n");
+
+    printf("const ValidationData kValidationData%s = {\n",
+        normalizedName.c_str());
+    printf("  &kZone%s /*zoneInfo*/,\n", normalizedName.c_str());
+    printf("  sizeof(kValidationItems%s)/sizeof(ValidationItem) /*numItems*/\n",
+      normalizedName.c_str());
+    printf("  kValidationItems%s /*items*/,\n", normalizedName.c_str());
+    printf("};\n");
+    printf("\n");
   }
+  printf("}\n");
+  printf("}\n");
 }
 
 /** Sort the TestItems according to epochSeconds. */
@@ -295,6 +326,6 @@ int main() {
   vector<string> zones = readZones();
   map<string, vector<TestItem>> testData = processZones(zones);
   sortTestData(testData);
-  printTestData(testData);
+  printDataCpp(testData);
   return 0;
 }
