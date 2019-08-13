@@ -79,9 +79,14 @@ class ZoneProcessor {
     virtual TimeOffset getDeltaOffset(acetime_t epochSeconds) const = 0;
 
     /**
-     * Return the time zone abbreviation at epochSeconds. This is an
-     * experimental method that has not been tested thoroughly. Use with
-     * caution. Returns an empty string ("") if an error occurs.
+     * Return the time zone abbreviation at epochSeconds. Returns an empty
+     * string ("") if an error occurs. The returned pointer points to a char
+     * buffer that could get overriden by subsequent method calls to this
+     * object. The pointer must not be stored permanently, it should be used as
+     * soon as possible (e.g. printed out).
+     *
+     * This is an experimental method that has not been tested thoroughly. Use
+     * with caution.
      */
     virtual const char* getAbbrev(acetime_t epochSeconds) const = 0;
 

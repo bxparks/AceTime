@@ -145,7 +145,7 @@ class Presenter {
       // place name
       mOled.println();
       acetime_t epochSeconds = dateTime.toEpochSeconds();
-      dateTime.timeZone().printAbbrevTo(mOled, epochSeconds);
+      mOled.print(dateTime.timeZone().getAbbrev(epochSeconds));
       mOled.print(' ');
       mOled.print('(');
       mOled.print(mRenderingInfo.name);
@@ -222,7 +222,7 @@ class Presenter {
 
       // abbreviation and place name
       mOled.println();
-      dateTime.timeZone().printAbbrevTo(mOled, mRenderingInfo.now);
+      mOled.print(dateTime.timeZone().getAbbrev(mRenderingInfo.now));
       mOled.print(' ');
       mOled.print('(');
       mOled.print(mRenderingInfo.name);

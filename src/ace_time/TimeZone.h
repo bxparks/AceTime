@@ -234,6 +234,49 @@ class TimeZone {
     }
 
     /**
+     * Return the time zone abbreviation at the given epochSeconds.
+     *
+     *   * kTypeManual returns "STD" or "DST",
+     *   * kTypeBasic, kTypeBasic, kTypeBasicManaged, kTypeExtendedManaged
+     *      * returns the "{abbrev}" (e.g. "PDT"),
+     *   * the empty string "" upon error.
+     *
+     * The IANA spec
+     * (https://data.iana.org/time-zones/theory.html#abbreviations) says that
+     * abbreviations are limited to 6 characters. It is unclear if this spec is
+     * guaranteed to be followed. Client programs should handle abbreviations
+     * longer than 6 characters to be safe.
+     *
+     * Warning: The returned pointer points to a char buffer that could get
+     * overriden by subsequent method calls to this object. The pointer must
+     * not be stored permanently, it should be used as soon as possible (e.g.
+     * printed out). If you need to store the abbreviation for a long period
+     * of time, copy it to anther char buffer.
+     */
+    const char* getAbbrev(acetime_t epochSeconds) const {
+      switch (mType) {
+        case kTypeManual:
+          if (isUtc()) {
+            return "UTC";
+          } else {
+            return (mDstOffsetMinutes != 0) ? "DST" : "STD";
+          }
+        case kTypeBasic:
+        case kTypeExtended:
+          return mZoneProcessor->getAbbrev(epochSeconds);
+        case kTypeBasicManaged:
+        case kTypeExtendedManaged:
+        {
+          ZoneProcessor* processor =
+              mZoneProcessorCache->getZoneProcessor(mZoneInfo);
+          if (! processor) break;
+          return processor->getAbbrev(epochSeconds);
+        }
+      }
+      return "";
+    }
+
+    /**
      * Return the best estimate of the OffsetDateTime at the given
      * LocalDateTime for the current TimeZone. Used by
      * ZonedDateTime::forComponents(), so intended to be used mostly for
@@ -344,14 +387,6 @@ class TimeZone {
      *   * kTypeExtended is printed as "{zoneShortName}" (e.g. "Los_Angeles")
      */
     void printShortTo(Print& printer) const;
-
-    /**
-     * Print the time zone abbreviation for the given epochSeconds.
-     *   * kTypeManual is printed as "STD" or "DST"
-     *   * kTypeBasic is printed as "{abbrev}" (e.g. "PDT")
-     *   * kTypeExtended is printed as "{abbrev}" (e.g. "PDT")
-     */
-    void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
 
     // Use default copy constructor and assignment operator.
     TimeZone(const TimeZone&) = default;

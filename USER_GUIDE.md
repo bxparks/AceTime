@@ -798,6 +798,7 @@ class TimeZone {
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const;
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const;
+    const char* getAbbrev(acetime_t epochSeconds) const;
     TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const;
 
     bool isUtc() const;
@@ -806,7 +807,6 @@ class TimeZone {
 
     void printTo(Print& printer) const;
     void printShortTo(Print& printer) const;
-    void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
 };
 
 }
@@ -816,6 +816,15 @@ The `getUtcOffset(epochSeconds)` returns the total `TimeOffset` (including any
 DST offset) at the given `epochSeconds`. The `getDeltaOffset()` returns only the
 additional DST offset; if DST is not in effect at the given `epochSeconds`, this
 returns a `TimeOffset` whose `isZero()` returns true.
+
+The `getAbbrev(epochSeconds)` method returns the human-readable timezone
+abbreviation used at the given `epochSeconds`. For example, this be "PST" for
+Pacific Standard Time, or "BST" for British Summer Time. The returned c-string
+should be used as soon as possible (e.g. printed to Serial) because the pointer
+points to a temporary buffer whose contents may change upon subsequent calls to
+`getUtcOffset()`, `getDeltaOffset()` and `getAbbrev()`. If the abbreviation
+needs to be saved for a longer period of time, it should be saved to another
+char buffer.
 
 The `getUtcOffsetForDateTime(localDateTime)` method returns the best guess of
 the total UTC offset at the given local date time. This method is not
@@ -844,11 +853,6 @@ The `printShortTo()` is similar to `printTo()` except that it prints the
 last component of the IANA TZ Database zone names. In other words,
 `"America/Los_Angeles"` is printed as `"Los_Angeles"`. This is helpful for
 printing on small width OLED displays.
-
-The `printAbbrevTo(printer, epochSeconds)` method prints the human-readable
-timezone abbreviation used at the given `epochSeconds` to the `printer`. For
-example, this be "PST" for Pacific Standard Time, or "BST" for British Summer
-Time.
 
 #### Manual TimeZone (kTypeManual)
 
