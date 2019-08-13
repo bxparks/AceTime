@@ -41,6 +41,7 @@ struct TestItem {
   long epochSeconds;
   int utcOffset; // minutes
   int dstOffset; // minutes
+  string abbrev;
   DateTime dateTime;
   char type; //'A', 'B', 'S', 'T' or 'Y'
 };
@@ -96,6 +97,7 @@ TestItem toTestItem(const time_zone& tz, sys_seconds st, char type) {
       unixSeconds.count() - SECONDS_SINCE_UNIX_EPOCH,
       (int)info.offset.count() / 60,
       (int)info.save.count(),
+      info.abbrev,
       dateTime,
       type
   };
@@ -279,7 +281,8 @@ void sortTestData(map<string, vector<TestItem>>& testData) {
 
 void printTestItem(FILE* fp, const TestItem& item) {
   fprintf(fp,
-      "  { %10ld, %4d, %4d, %4d, %2u, %2u, %2d, %2d, %2d }, // type=%c\n",
+      "  { %10ld, %4d, %4d, %4d, %2u, %2u, %2d, %2d, %2d, \"%s\" }, "
+      " // type=%c\n",
       item.epochSeconds,
       item.utcOffset,
       item.dstOffset,
@@ -289,6 +292,7 @@ void printTestItem(FILE* fp, const TestItem& item) {
       item.dateTime.hour,
       item.dateTime.minute,
       item.dateTime.second,
+      item.abbrev.c_str(),
       item.type);
 }
 
@@ -326,7 +330,8 @@ void printDataCpp(const map<string, vector<TestItem>>& testData) {
 
     fprintf(fp, "static const ValidationItem kValidationItems%s[] = {\n",
         normalizedName.c_str());
-    fprintf(fp, "  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s\n");
+    fprintf(fp,
+      "  //     epoch,  utc,  dst, abbrev,    y,  m,  d,  h,  m,  s\n");
     for (const TestItem& item : testItems) {
       printTestItem(fp, item);
     }

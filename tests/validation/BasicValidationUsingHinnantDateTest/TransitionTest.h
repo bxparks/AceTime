@@ -36,6 +36,9 @@ class TransitionTest: public aunit::TestOnce {
         // Verify timeOffset
         assertEqual(item.timeOffsetMinutes, timeOffset.toMinutes());
 
+        // Verify abbreviation
+        assertEqual(item.abbrev, tz.getAbbrev(epochSeconds));
+
         // Verify date components
         ZonedDateTime dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
         assertEqual(item.year, dt.year());
