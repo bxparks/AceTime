@@ -13,4 +13,6 @@ runtests:
 .PHONY: $(GENERATED)
 
 validation_data.cpp:
-	../../../tools/tzcompiler.sh --tag 2019a --action unittest --language arduino --scope extended --start_year 2000 --until_year 2038
+	../../../tools/tzcompiler.sh --tag 2019b --action unittest \
+		--language arduino --scope extended --start_year 2000 \
+		--until_year 2038
