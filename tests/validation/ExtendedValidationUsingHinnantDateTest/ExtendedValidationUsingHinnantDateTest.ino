@@ -12,8 +12,6 @@
 using namespace aunit;
 using namespace ace_time;
 
-// --------------------------------------------------------------------------
-
 void setup() {
 #if defined(ARDUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
