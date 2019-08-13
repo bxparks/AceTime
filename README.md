@@ -273,7 +273,7 @@ void setup() {
 
   // Print the current time zone abbreviation, e.g. "PST" or "PDT"
   Serial.print(F("Abbreviation: "));
-  pacificTz.printAbbrevTo(Serial, epochSeconds);
+  Serial.print(pacificTz.getAbbrev(epochSeconds));
   Serial.println();
 
   // Create from epoch seconds. London is still on standard time.
@@ -291,7 +291,7 @@ void setup() {
 
   // Print the current time zone abbreviation, e.g. "PST" or "PDT"
   Serial.print(F("Abbreviation: "));
-  londonTz.printAbbrevTo(Serial, epochSeconds);
+  Serial.print(londonTz.getAbbrev(epochSeconds));
   Serial.println();
 
   Serial.println(F("=== Compare ZonedDateTime"));

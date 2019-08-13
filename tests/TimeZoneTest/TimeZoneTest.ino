@@ -96,16 +96,13 @@ test(TimeZoneTest, manual_utc) {
   assertEqual(0, tz.getStdOffset().toMinutes());
   assertEqual(0, tz.getDstOffset().toMinutes());
   assertTrue(tz.isUtc());
+  assertEqual(F("UTC"), tz.getAbbrev(0));
 
   tz.printTo(fakePrint);
   assertEqual(F("UTC"), fakePrint.getBuffer());
   fakePrint.flush();
 
   tz.printShortTo(fakePrint);
-  assertEqual(F("UTC"), fakePrint.getBuffer());
-  fakePrint.flush();
-
-  tz.printAbbrevTo(fakePrint, 0);
   assertEqual(F("UTC"), fakePrint.getBuffer());
   fakePrint.flush();
 }
@@ -119,6 +116,7 @@ test(TimeZoneTest, manual_no_dst) {
   assertEqual(0, tz.getDeltaOffset(0).toMinutes());
   assertEqual(-8*60, tz.getStdOffset().toMinutes());
   assertEqual(0, tz.getDstOffset().toMinutes());
+  assertEqual(F("STD"), tz.getAbbrev(0));
 
   tz.printTo(fakePrint);
   assertEqual(F("-08:00+00:00"), fakePrint.getBuffer());
@@ -126,10 +124,6 @@ test(TimeZoneTest, manual_no_dst) {
 
   tz.printShortTo(fakePrint);
   assertEqual(F("-08:00(STD)"), fakePrint.getBuffer());
-  fakePrint.flush();
-
-  tz.printAbbrevTo(fakePrint, 0);
-  assertEqual(F("STD"), fakePrint.getBuffer());
   fakePrint.flush();
 }
 
@@ -143,6 +137,7 @@ test(TimeZoneTest, manual_dst) {
   assertEqual(60, tz.getDeltaOffset(0).toMinutes());
   assertEqual(-8*60, tz.getStdOffset().toMinutes());
   assertEqual(60, tz.getDstOffset().toMinutes());
+  assertEqual(F("DST"), tz.getAbbrev(0));
 
   tz.printTo(fakePrint);
   assertEqual(F("-08:00+01:00"), fakePrint.getBuffer());
@@ -150,10 +145,6 @@ test(TimeZoneTest, manual_dst) {
 
   tz.printShortTo(fakePrint);
   assertEqual(F("-07:00(DST)"), fakePrint.getBuffer());
-  fakePrint.flush();
-
-  tz.printAbbrevTo(fakePrint, 0);
-  assertEqual(F("DST"), fakePrint.getBuffer());
   fakePrint.flush();
 }
 
@@ -177,7 +168,6 @@ test(TimeZoneBasicTest, createFor) {
 }
 
 test(TimeZoneBasicTest, Los_Angeles) {
-  FakePrint fakePrint;
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
@@ -190,17 +180,14 @@ test(TimeZoneBasicTest, Los_Angeles) {
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
-  tz.printAbbrevTo(fakePrint, epochSeconds);
-  assertEqual(F("PST"), fakePrint.getBuffer());
-  fakePrint.flush();
+  assertEqual(F("PST"), tz.getAbbrev(epochSeconds));
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
-  tz.printAbbrevTo(fakePrint, epochSeconds);
-  assertEqual(F("PDT"), fakePrint.getBuffer());
+  assertEqual(F("PDT"), tz.getAbbrev(epochSeconds));
 }
 
 // --------------------------------------------------------------------------

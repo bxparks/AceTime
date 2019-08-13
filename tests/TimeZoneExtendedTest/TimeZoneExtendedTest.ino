@@ -1,11 +1,9 @@
 #line 2 "TimeZoneExtendedTest.ino"
 
 #include <AUnit.h>
-#include <aunit/fake/FakePrint.h>
 #include <AceTime.h>
 
 using namespace aunit;
-using namespace aunit::fake;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
@@ -43,7 +41,6 @@ test(TimeZoneExtendedTest, createFor) {
 }
 
 test(TimeZoneExtendedTest, Los_Angeles) {
-  FakePrint fakePrint;
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
@@ -56,17 +53,14 @@ test(TimeZoneExtendedTest, Los_Angeles) {
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
-  tz.printAbbrevTo(fakePrint, epochSeconds);
-  assertEqual(F("PST"), fakePrint.getBuffer());
-  fakePrint.flush();
+  assertEqual(F("PST"), tz.getAbbrev(epochSeconds));
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
-  tz.printAbbrevTo(fakePrint, epochSeconds);
-  assertEqual(F("PDT"), fakePrint.getBuffer());
+  assertEqual(F("PDT"), tz.getAbbrev(epochSeconds));
 }
 
 // --------------------------------------------------------------------------
