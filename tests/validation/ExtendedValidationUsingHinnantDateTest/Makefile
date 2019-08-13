@@ -13,7 +13,7 @@ include ../../../../UnixHostDuino/UnixHostDuino.mk
 runtests:
 	./$(APP_NAME).out
 
-TZ_VERSION=2019a
+TZ_VERSION=2019b
 
 validation_data.cpp: zones.txt
 	../../../tools/cpp/test_data_generator.out --scope extended \
