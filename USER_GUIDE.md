@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 0.7 (2019-08-13, TZ DB version 2019b, beta)
+Version: 0.7.1 (2019-08-13, TZ DB version 2019b, beta)
 
 ## Installation
 
@@ -2589,9 +2589,10 @@ and
 [ExtendedValidationUsingHinnantDateTest](tests/validation/ExtendedValidationUsingHinnantDateTest/)
 validation tests (in v0.7) which are the AceTime algorithms to the Hinnant Date
 algorithms. For all times zones between the years 2000 until 2050, the AceTime
-UTC offsets (`TimeZone::getUtcOffset()`) and epochSecond conversion to
-date components (`ZonedDateTime::fromEpochSeconds()`) match the results from the
-Hinannt Date libraries perfectly.
+UTC offsets (`TimeZone::getUtcOffset()`), timezone abbreviations
+(`TimeZone::getAbbrev()`), and epochSecond conversion to date components
+(`ZonedDateTime::fromEpochSeconds()`) match the results from the Hinannt Date
+libraries.
 
 ### Google cctz
 
