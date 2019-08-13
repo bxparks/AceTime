@@ -99,9 +99,8 @@ class Presenter {
       const ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(
           mRenderingInfo.now, mRenderingInfo.timeZone);
       if (dateTime.isError()) {
-        mOled.println(F("9999-99-99"));
-        mOled.println(F("99:99:99"));
-        mOled.println(F("Error"));
+        clearDisplay();
+        mOled.println(F("<Error>"));
         return;
       }
 
