@@ -2359,17 +2359,18 @@ classes (more details at [examples/AutoBenchmark](examples/AutoBenchmark):
 sizeof(LocalDate): 3
 sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
-sizeof(TimeOffset): 1
-sizeof(OffsetDateTime): 7
+sizeof(TimeOffset): 2
+sizeof(OffsetDateTime): 8
 sizeof(BasicZoneProcessor): 99
-sizeof(ExtendedZoneProcessor): 397
-sizeof(TimeZone): 3
-sizeof(ZonedDateTime): 10
+sizeof(ExtendedZoneProcessor): 437
+sizeof(BasicZoneManager<1>): 107
+sizeof(ExtendedZoneManager<1>): 445
+sizeof(TimeZone): 5
+sizeof(ZonedDateTime): 13
 sizeof(TimePeriod): 4
-sizeof(SystemClock): 17
 sizeof(DS3231Clock): 3
-sizeof(SystemClockLoop): 14
-sizeof(SystemClockCoroutine): 31
+sizeof(SystemClockLoop): 34
+sizeof(SystemClockCoroutine): 44
 ```
 
 **32-bit processors**
@@ -2377,17 +2378,18 @@ sizeof(SystemClockCoroutine): 31
 sizeof(LocalDate): 3
 sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
-sizeof(TimeOffset): 1
-sizeof(OffsetDateTime): 7
+sizeof(TimeOffset): 2
+sizeof(OffsetDateTime): 8
 sizeof(BasicZoneProcessor): 136
-sizeof(ExtendedZoneProcessor): 468
-sizeof(TimeZone): 8
-sizeof(ZonedDateTime): 16
+sizeof(ExtendedZoneProcessor): 500
+sizeof(BasicZoneManager<1>): 156
+sizeof(ExtendedZoneManager<1>): 520
+sizeof(TimeZone): 12
+sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
-sizeof(SystemClock): 24
 sizeof(NtpClock): 88 (ESP8266), 116 (ESP32)
-sizeof(SystemClockLoop): 16
-sizeof(SystemClockCoroutine): 48
+sizeof(SystemClockLoop): 44
+sizeof(SystemClockCoroutine): 68
 ```
 
 The [MemoryBenchmark](examples/MemoryBenchmark) program gives a more
@@ -2502,25 +2504,46 @@ provides other fine-grained classes such as `OffsetTime`, `OffsetDate`, `Year`,
 providing too many classes. The API of the library is already too large, I did
 not want to make them larger than necessary.
 
-### HowardHinnant Libraries
+### HowardHinnant Date Library
 
-A number of C++ libraries from Howard Hinnant are based the `<chrono>` standard
-library:
+The [date](https://github.com/HowardHinnant/date) package by Howard Hinnant is
+based upon the `<chrono>` standard library and consists of several libraries of
+which `date.h` and `tz.h` are comparable to AceTime. Modified versions of these
+libraries were voted into the C++20 standard.
 
-* [date](http://howardhinnant.github.io/date/date.html)
-* [tz](http://howardhinnant.github.io/date/tz.html)
-* [iso_week](http://howardhinnant.github.io/date/iso_week.html)
-* [julian](http://howardhinnant.github.io/date/julian.html)
-* [islamic](http://howardhinnant.github.io/date/islamic.html)
+Unfortunately these libaries are not suitable for an Arduino microcontroller
+environment because:
 
-To be honest, I have not looked very closely at these libraries, mostly because
-of my suspicion that they are too large to fit into an Arduino microcontroller.
+* The libraries depend extensively on 64-bit integers which are
+  impractical on 8-bit microcontrollers with only 32kB of flash memory.
+* The `tz.h` library has the option of downloading the TZ Database files over
+  the network using `libcurl` to the OS filesystem then parsing the files, or
+  using the native zoneinfo files on the host OS. Neither options are practical
+  on small microcontrollers. The raw TZ Database files consume about 1MB in
+  gzip'ed format, which are not suitable for a 32kB Arduino microcontroller.
+* The libraries has dependencies on other libraries such as `<iostream>` and
+  `<chrono>` which don't exist on most Arduino platforms.
+* The libraries are heavily templatized to provide maximum flexibility
+  and type-safety. But this makes the libraries incredibly hard to understand
+  and cumbersome to use for the simple use cases targeted by the AceTime
+  library.
+
+The Hinnant date libraries were invaluable for writing the
+[BasicValidationUsingHinnantDateTest](tests/validation/BasicValidationUsingHinnantDateTest/)
+and
+[ExtendedValidationUsingHinnantDateTest](tests/validation/ExtendedValidationUsingHinnantDateTest/)
+validation tests (in v0.7) which are the AceTime algorithms to the Hinnant Date
+algorithms. For all times zones between the years 2000 until 2050, the AceTime
+UTC offsets (`TimeZone::getUtcOffset()`) and epochSecond conversion to
+date components (`ZonedDateTime::fromEpochSeconds()`) match the results from the
+Hinannt Date libraries perfectly.
 
 ### Google cctz
 
 The [cctz](https://github.com/google/cctz) library from Google is also based on
-the `<chrono>` library. Again, I did not look at this library closely because I
-did not think it would fit inside an Arduino controller.
+the `<chrono>` library. I have not looked at this library closely because I
+assumed that it would fit inside an Arduino controller. Hopefully I will get
+some time to take a closer look in the future.
 
 ## Bugs and Limitations
 
