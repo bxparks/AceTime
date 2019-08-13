@@ -10,7 +10,7 @@ include ../../../../UnixHostDuino/UnixHostDuino.mk
 runtests:
 	./$(APP_NAME).out
 
-#.PHONY: $(GENERATED)
+.PHONY: $(GENERATED)
 
 validation_data.cpp:
 	../../../tools/tzcompiler.sh --tag 2019b --action unittest \
