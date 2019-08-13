@@ -116,9 +116,8 @@ The library provides 2 sets of zoneinfo files created from the IANA TZ Database:
   the TZ Database (essentially the entire database) intended to be used with
   the `ExtendedZoneProcessor` class.
 
-These zoneinfo files and the algorithms in this library (specifically
-the `ZoneProcessor` classes) have been validated to match the UTC offsets
-calculated using 3 other independent date/time libraries:
+These zoneinfo files and the algorithms in this library have been validated to
+match the UTC offsets calculated using 3 other date/time libraries:
 
 * the Python [pytz](https://pypi.org/project/pytz/) library from
   the year 2000 until 2037 (inclusive),
