@@ -205,13 +205,11 @@ Conversion from an epochSeconds to date-time components including timezone
 * 2.8 microseconds on an ESP32,
 * 6 microseconds on a Teensy 3.2.
 
-**Version**: 0.6.1 (2019-08-07, TZ DB version 2019a, beta)
+**Version**: 0.7 (2019-08-13, TZ DB version 2019b, beta)
 
-**Status**: I'm considering some changes to the internal format of the
-`zonedb::` and `zonedbx::` zoneinfo files which will increase the time
-resolution of DST shifts from 15-minute resolution to 1-minute resolution,
-without increasing size of the database size. I think I can do this with almost
-no changes to the library's external API.
+**Status**: Upgraded to latest TZ DB version 2019b. Validated against 3
+other timezone libraries (Python, Java, C++). See [Changelog.md](Changelog.md)
+for more details. API quite stable now.
 
 ## Examples
 

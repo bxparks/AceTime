@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 0.7
     * Change TimeZoneData to store mStdOffset and mDstOffset in units of
       one minute (instead of 15-minute increments, "code") in the off chance
       that the library supports timezones with one-minute shifts in the future.
@@ -15,13 +16,14 @@
       Asia/Hebron) no longer truncate to 00:00.
     * Rename `TimeOffset::forHour()` to `forHours()` for consistency with
       `forMinutes()`.
-    * Validate against the C++11/14/17
+    * Make `ExtendedZoneProcessor` more memory efficient for 32-bit processors
+      by packing internal fields to 4-byte boundaries.
+    * Integrate C++11/14/17
       [Hinnant Date](https://github.com/HowardHinnant/date) library by
       creating additional `tests/validation` tests.
     * Upgrade `zonedb` and `zonedbx` zoneinfo files to version 2019b,
       after validating against the Hinnant date library.
-    * Make `ExtendedZoneProcessor` more memory efficient for 32-bit processors
-      by packing internal fields to 4-byte boundaries.
+    * Upgrade to `pytz` version 2019.2 to pickup TZ Database 2019b.
 * 0.6.1
     * Create a second Jenkins continuous build pipeline file
       `tests/JenskinfileUnitHost` to use UnitHostDuino to run the unit tests
