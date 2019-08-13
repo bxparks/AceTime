@@ -479,7 +479,9 @@ int main(int argc, const char* const* argv) {
   startYear = atoi(start.c_str());
   untilYear = atoi(until.c_str());
 
-  // Load the TZ Database at a specific version
+  // Load the TZ Database at a specific version. See
+  // https://github.com/HowardHinnant/date/wiki/Examples-and-Recipes#thoughts-on-reloading-the-iana-tzdb-for-long-running-programs
+  // and https://howardhinnant.github.io/date/tz.html#database.
   if (! remote_download(tzVersion)) {
     fprintf(stderr, "Failed to download TZ Version %s\n", tzVersion.c_str());
     exit(1);
