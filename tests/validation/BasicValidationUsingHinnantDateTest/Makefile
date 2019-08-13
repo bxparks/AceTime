@@ -4,7 +4,7 @@
 GENERATED := zones.txt validation_data.cpp validation_data.h \
 	validation_tests.cpp
 OBJS := validation_data.o validation_tests.o test_data_generator.o
-APP_NAME := BasicValidationUsingJavaTest
+APP_NAME := BasicValidationUsingHinnantDateTest
 ARDUINO_LIBS := AUnit AceTime
 include ../../../../UnixHostDuino/UnixHostDuino.mk
 

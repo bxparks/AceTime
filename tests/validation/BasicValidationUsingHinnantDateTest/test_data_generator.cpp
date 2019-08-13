@@ -335,7 +335,7 @@ void printDataCpp(const map<string, vector<TestItem>>& testData) {
         normalizedName.c_str());
     fprintf(fp, "  &kZone%s /*zoneInfo*/,\n", normalizedName.c_str());
     fprintf(fp,
-      "  sizeof(kValidationItems%s)/sizeof(ValidationItem) /*numItems*/\n",
+      "  sizeof(kValidationItems%s)/sizeof(ValidationItem) /*numItems*/,\n",
       normalizedName.c_str());
     fprintf(fp, "  kValidationItems%s /*items*/,\n", normalizedName.c_str());
     fprintf(fp, "};\n");
@@ -372,10 +372,10 @@ void printDataHeader(const map<string, vector<TestItem>>& testData) {
   }
 
   fprintf(fp, "\n");
-  fprintf(fp, "#endif\n");
+  fprintf(fp, "}\n");
+  fprintf(fp, "}\n");
   fprintf(fp, "\n");
-  fprintf(fp, "}\n");
-  fprintf(fp, "}\n");
+  fprintf(fp, "#endif\n");
 
   fclose(fp);
 }
@@ -398,7 +398,7 @@ void printTestsCpp(const map<string, vector<TestItem>>& testData) {
     const string& zoneName = p.first;
     const string normalizedName = normalizeName(zoneName);
     fprintf(fp, "testF(TransitionTest, %s) {\n", normalizedName.c_str());
-    fprintf(fp, "  assertValid(&ace_time::%s::kValidationData%s\n",
+    fprintf(fp, "  assertValid(&ace_time::%s::kValidationData%s);\n",
         dbNamespace.c_str(),
         normalizedName.c_str());
     fprintf(fp, "}\n");
