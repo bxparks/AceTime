@@ -207,7 +207,7 @@ Conversion from an epochSeconds to date-time components including timezone
 **Version**: 0.7 (2019-08-13, TZ DB version 2019b, beta)
 
 **Status**: Upgraded to latest TZ DB version 2019b. Validated against 3
-other timezone libraries (Python, Java, C++). See [CHANGELOG.MD](CHANGELOG.MD)
+other timezone libraries (Python, Java, C++). See [CHANGELOG.md](CHANGELOG.md)
 for more details. API quite stable now.
 
 ## Examples
