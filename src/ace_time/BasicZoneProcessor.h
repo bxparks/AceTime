@@ -166,15 +166,15 @@ struct MonthDay {
  * defined by zonedb/zone_infos.h. The constraints are at least the following
  * (see tools/transformer.py for the authoratative algorithm):
  *
- *  - ZoneInfo UNTIL field must contain only the full year;
+ *  * ZoneInfo UNTIL field must contain only the full year;
  *    cannot contain month, day, or time components
- *  - ZoneInfo untilTimeModifier can contain only 'w' (not 's' or 'u')
- *  - ZoneInfo RULES column must be empty ("-"), OR refer to a
+ *  * ZoneInfo untilTimeModifier can contain only 'w' (not 's' or 'u')
+ *  * ZoneInfo RULES column must be empty ("-"), OR refer to a
  *    named Zone Rule (e.g. "US"); cannot contain an explicit offset (hh:mm)
- *  - ZonePolicy can contain only 1 ZoneRule in a single month
- *  - ZoneRule AT time cannot occur on Jan 1
- *  - ZoneRule atTimeModifier can be any of ('w', 's', and 'u')
- *  - ZoneRule LETTER must contain only a single letter (not "WAT" or "CST")
+ *  * ZonePolicy can contain only 1 ZoneRule in a single month
+ *  * ZoneRule AT time cannot occur on Jan 1
+ *  * ZoneRule atTimeModifier can be any of ('w', 's', and 'u')
+ *  * ZoneRule LETTER must contain only a single letter (not "WAT" or "CST")
  *
  * Even with these limitations, zonedb/zone_info.h shows that 231 out of a
  * total of 359 zones are supported by BasicZoneProcessor.
@@ -785,7 +785,7 @@ class BasicZoneProcessor: public ZoneProcessor {
      * replacement letter (e.g. 'S', 'D', or '-').
      *
      * 1) If the RULES column (transition->rule) is empty '-', then FORMAT
-     * cannot contain a '/' or a '%' because the ZoneEra specifies only a
+     * cannot contain a '%' because the ZoneEra specifies only a
      * single transition rule. (Verified in transformer.py). This condition is
      * indicated by (deltaCode == 0) and (letter == '\0').
      *

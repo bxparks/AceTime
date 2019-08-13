@@ -13,12 +13,14 @@ include ../../../../UnixHostDuino/UnixHostDuino.mk
 runtests:
 	./$(APP_NAME).out
 
+TZ_VERSION=2019a
+
 validation_data.cpp: zones.txt
 	../../../tools/cpp/test_data_generator.out --scope extended \
-		--db_namespace zonedbx \
+		--tz_version $(TZ_VERSION) \
 		--start_year 2000 --until_year 2050 \
 		< zones.txt
 
 zones.txt:
-	../../../tools/tzcompiler.sh --tag 2019a --scope extended --action zonedb \
-		--language java
+	../../../tools/tzcompiler.sh --tag $(TZ_VERSION) --scope extended \
+		--action zonedb --language java

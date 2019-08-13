@@ -6,8 +6,8 @@
  * Usage:
  * $ ./test_data_generator.out \
  *    --scope (basic | extended) \
- *    --db_namespace {db} \
  *    --tz_version {version} \
+ *    [--db_namespace {db}] \
  *    [--start_year start] \
  *    [--until_year until] < zones.txt
  */
@@ -52,9 +52,6 @@ const long SECONDS_SINCE_UNIX_EPOCH = 946684800;
 const char VALIDATION_DATA_CPP[] = "validation_data.cpp";
 const char VALIDATION_DATA_H[] = "validation_data.h";
 const char VALIDATION_TESTS_CPP[] = "validation_tests.cpp";
-
-// default TZ version
-const char TZ_VERSION[] = "2019a";
 
 // Command line arguments
 string dbNamespace = "";
@@ -416,9 +413,10 @@ void printTestsCpp(const map<string, vector<TestItem>>& testData) {
 
 void usageAndExit() {
   fprintf(stderr,
-    "Usage: test_data_generator --scope (basic | extended) --db_namespace db\n"
-    "   [--tz_version {version}] [--start_year start] [--until_year until] \n"
-    " < zones.txt\n");
+    "Usage: test_data_generator --scope (basic | extended)\n"
+    "   --tz_version {version} [--db_namespace db]\n"
+    "   [--start_year start] [--until_year until]\n"
+    "   < zones.txt\n");
   exit(1);
 }
 
@@ -430,7 +428,7 @@ int main(int argc, const char* const* argv) {
   string scope = "";
   string start = "2000";
   string until = "2050";
-  string tzVersion = TZ_VERSION;
+  string tzVersion = "";
 
   SHIFT(argc, argv);
   while (argc > 0) {
@@ -465,14 +463,20 @@ int main(int argc, const char* const* argv) {
     }
     SHIFT(argc, argv);
   }
-  // TODO: Use the scope to select the default dbNamespace if not given.
   if (scope != "basic" && scope != "extended") {
     fprintf(stderr, "Unknown --scope '%s'\n", scope.c_str());
     usageAndExit();
   }
-  if (dbNamespace.empty()) {
-    fprintf(stderr, "Must give --db_namespace {db} flagn\n");
+  if (tzVersion.empty()) {
+    fprintf(stderr, "Must give --tz_version flag'\n");
     usageAndExit();
+  }
+  if (dbNamespace.empty()) {
+    if (scope == "basic") {
+      dbNamespace = "zonedb";
+    } else {
+      dbNamespace = "zonedbx";
+    }
   }
   isCustomDbNamespace = (dbNamespace != "zonedb" && dbNamespace != "zonedbx");
 
