@@ -8,15 +8,15 @@ APP_NAME := BasicValidationUsingJavaTest
 ARDUINO_LIBS := AUnit AceTime
 include ../../../../UnixHostDuino/UnixHostDuino.mk
 
-#.PHONY: $(GENERATED)
+.PHONY: $(GENERATED)
 
 runtests:
 	./$(APP_NAME).out
 
 validation_data.cpp: zones.txt test_data_generator.out
-	./test_data_generator.out --scope basic --db_namespace zonedb2018g \
+	./test_data_generator.out --scope basic --db_namespace zonedb \
 		--start_year 2000 --until_year 2050 \
-		< zones.txt > $@
+		< zones.txt
 
 zones.txt:
 	../../../tools/tzcompiler.sh --tag 2019a --scope basic --action zonedb \
