@@ -11,7 +11,7 @@ using namespace ace_time;
 // --------------------------------------------------------------------------
 
 test(BasicZoneProcessorTest, tzVersion) {
-  assertEqual("2019a", zonedb::kTzDatabaseVersion);
+  assertEqual("2019b", zonedb::kTzDatabaseVersion);
 }
 
 test(BasicZoneProcessorTest, operatorEqualEqual) {
