@@ -21,35 +21,35 @@ test(ExtendedZoneProcessorTest, kZoneAmerica_Los_Angeles) {
   acetime_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-8*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PST", zoneProcessor.getAbbrev(epochSeconds));
   assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-7*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PDT", zoneProcessor.getAbbrev(epochSeconds));
   assertFalse(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 0, 0,
-      TimeOffset::forHour(-7));
+      TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-7*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PDT", zoneProcessor.getAbbrev(epochSeconds));
   assertFalse(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 59, 59,
-      TimeOffset::forHour(-7));
+      TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-7*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PDT", zoneProcessor.getAbbrev(epochSeconds));
   assertFalse(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 2, 0, 0,
-      TimeOffset::forHour(-7));
+      TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-8*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PST", zoneProcessor.getAbbrev(epochSeconds));
@@ -65,14 +65,14 @@ test(ExtendedZoneProcessorTest, kZoneAmerica_Los_Angeles_outOfBounds) {
   assertEqual(2050, zonedbx::kZoneAmerica_Los_Angeles.zoneContext->untilYear);
 
   dt = OffsetDateTime::forComponents(1998, 3, 11, 1, 59, 59,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   assertTrue(zoneProcessor.getUtcOffset(epochSeconds).isError());
   assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isError());
   assertEqual("", zoneProcessor.getAbbrev(epochSeconds));
 
   dt = OffsetDateTime::forComponents(2051, 2, 1, 1, 0, 0,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   assertTrue(zoneProcessor.getUtcOffset(epochSeconds).isError());
   assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isError());
@@ -83,9 +83,9 @@ test(ExtendedZoneProcessorTest, kZoneAmerica_Los_Angeles_outOfBounds) {
 
 void setup() {
 #if defined(ARDUINO)
-  delay(1000); // wait for stability on some boards to prevent garbage SERIAL_PORT_MONITOR
+  delay(1000); // wait for stability to prevent garbage on SERIAL_PORT_MONITOR
 #endif
-  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  SERIAL_PORT_MONITOR.begin(115200);
   while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
 }
 

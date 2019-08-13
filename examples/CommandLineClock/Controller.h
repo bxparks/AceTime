@@ -47,7 +47,7 @@ class Controller {
 
     /** Set the DST setting of Manual TimeZone. */
     void setDst(bool isDst) {
-      mTimeZone.setDstOffset(TimeOffset::forHour(isDst ? 1 : 0));
+      mTimeZone.setDstOffset(TimeOffset::forHours(isDst ? 1 : 0));
       preserveInfo();
     }
 
@@ -195,7 +195,7 @@ class Controller {
       #elif ENABLE_TIME_ZONE_TYPE_EXTENDED
           setExtendedTimeZoneForId(storedInfo.zoneId);
       #else
-          setManualTimeZone(TimeOffset::forHour(-8), TimeOffset());
+          setManualTimeZone(TimeOffset::forHours(-8), TimeOffset());
       #endif
           break;
         case TimeZone::kTypeManual:

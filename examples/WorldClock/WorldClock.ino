@@ -84,9 +84,9 @@ Presenter presenter0(oled0);
 Presenter presenter1(oled1);
 Presenter presenter2(oled2);
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-TimeZone tz0 = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
-TimeZone tz1 = TimeZone::forTimeOffset(TimeOffset::forHour(-5));
-TimeZone tz2 = TimeZone::forTimeOffset(TimeOffset::forHour(0));
+TimeZone tz0 = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
+TimeZone tz1 = TimeZone::forTimeOffset(TimeOffset::forHours(-5));
+TimeZone tz2 = TimeZone::forTimeOffset(TimeOffset::forHours(0));
 #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
 BasicZoneProcessor zoneProcessor0;
 BasicZoneProcessor zoneProcessor1;

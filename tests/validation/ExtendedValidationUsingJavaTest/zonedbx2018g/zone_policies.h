@@ -166,11 +166,8 @@ extern const extended::ZonePolicy kPolicyZion;
 // kPolicyW-Eur (unused)
 
 
-// Inaccurate zone policies: 3
+// Inaccurate zone policies: 0
 //
-// kPolicyMoncton (AT time '0:01' truncated to '00:00')
-// kPolicyPalestine (AT time '0:01' truncated to '00:00')
-// kPolicyStJohns (AT time '0:01' truncated to '00:00')
 
 
 }

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.6.1</span>
+   &#160;<span id="projectnumber">0.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -66,7 +66,8 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Brokers.h File Reference</div>  </div>
 </div><!--header-->
@@ -83,11 +84,11 @@ Include dependency graph for Brokers.h:</div>
 <map name="_2home_2brian_2dev_2AceTime_2src_2ace__time_2internal_2Brokers_8h" id="_2home_2brian_2dev_2AceTime_2src_2ace__time_2internal_2Brokers_8h">
 <area shape="rect" id="node2" href="compat_8h.html" title="Macros and definitions that provide a consistency layer among the various Arduino boards for compatib..." alt="" coords="112,109,255,136"/>
 <area shape="rect" id="node6" href="ZoneInfo_8h_source.html" title="ZoneInfo.h" alt="" coords="320,109,404,136"/>
-<area shape="rect" id="node7" href="ZoneContext_8h_source.html" title="ZoneContext.h" alt="" coords="561,184,669,211"/>
+<area shape="rect" id="node7" href="ZoneContext_8h_source.html" title="ZoneContext.h" alt="" coords="516,259,624,285"/>
 <area shape="rect" id="node9" href="ZonePolicy_8h_source.html" title="ZonePolicy.h" alt="" coords="434,184,533,211"/>
 <area shape="rect" id="node11" href="ZoneInfo_8inc_source.html" title="ZoneInfo.inc" alt="" coords="315,184,409,211"/>
-<area shape="rect" id="node8" href="ZoneContext_8inc_source.html" title="ZoneContext.inc" alt="" coords="559,259,677,285"/>
-<area shape="rect" id="node10" href="ZonePolicy_8inc_source.html" title="ZonePolicy.inc" alt="" coords="427,259,535,285"/>
+<area shape="rect" id="node8" href="ZoneContext_8inc_source.html" title="ZoneContext.inc" alt="" coords="511,333,629,360"/>
+<area shape="rect" id="node10" href="ZonePolicy_8inc_source.html" title="ZonePolicy.inc" alt="" coords="384,259,492,285"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -180,6 +181,16 @@ typedef internal::FlashZoneInfoBroker&lt; ZoneInfo, ZoneEra, ZonePolicy, ZoneRul
 <tr class="memitem:aa0e1d8b18ae50aaee5886bc3195fcb9e"><td class="memItemLeft" align="right" valign="top"><a id="aa0e1d8b18ae50aaee5886bc3195fcb9e"></a>
 typedef internal::FlashZoneRegistryBroker&lt; ZoneInfo &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ace_time::extended::ZoneRegistryBroker</b></td></tr>
 <tr class="separator:aa0e1d8b18ae50aaee5886bc3195fcb9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a5893c5995c2a8e752b750e1587506e8e"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Brokers_8h.html#a5893c5995c2a8e752b750e1587506e8e">ace_time::internal::timeCodeToMinutes</a> (uint8_t rawCode, uint8_t rawModifier)</td></tr>
+<tr class="memdesc:a5893c5995c2a8e752b750e1587506e8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert (timeCode, timeModifier) fields in zoneinfo to minutes.  <a href="Brokers_8h.html#a5893c5995c2a8e752b750e1587506e8e">More...</a><br /></td></tr>
+<tr class="separator:a5893c5995c2a8e752b750e1587506e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7217437baaa848328172f733fc86be8"><td class="memItemLeft" align="right" valign="top"><a id="af7217437baaa848328172f733fc86be8"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Brokers_8h.html#af7217437baaa848328172f733fc86be8">ace_time::internal::toModifier</a> (uint8_t rawModifier)</td></tr>
+<tr class="memdesc:af7217437baaa848328172f733fc86be8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the 'w', 's' 'u' suffix from the 'modifier' field, so that they can be compared against TIME_MODIFIER_W, TIME_MODIFIER_S and TIME_MODIFIER_U. <br /></td></tr>
+<tr class="separator:af7217437baaa848328172f733fc86be8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The classes provide a thin layer of indirection for accessing the zoneinfo files stored in the zonedb/ and zonedbx/ directories. </p>
@@ -189,7 +200,48 @@ typedef internal::FlashZoneRegistryBroker&lt; ZoneInfo &gt;&#160;</td><td class=
 <p>The core broker classes live in the internal:: namespace and are templatized so that they can be used for both basic::Zone* classes and the extended::Zone* classes. Specific template instantiations are created in the basic:: and extended:: namespaces so that they can be used by the BasicZoneProcessor and ExtendedZoneProcessor respectively. </p>
 
 <p class="definition">Definition in file <a class="el" href="Brokers_8h_source.html">Brokers.h</a>.</p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="file_a5893c5995c2a8e752b750e1587506e8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#file_a5893c5995c2a8e752b750e1587506e8e">&#9670;&nbsp;</a></span>timeCodeToMinutes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t ace_time::internal::timeCodeToMinutes </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>rawCode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>rawModifier</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert (timeCode, timeModifier) fields in zoneinfo to minutes. </p>
+
+<p class="definition">Definition at line <a class="el" href="Brokers_8h_source.html#l00048">48</a> of file <a class="el" href="Brokers_8h_source.html">Brokers.h</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

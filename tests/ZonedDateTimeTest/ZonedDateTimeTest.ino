@@ -13,11 +13,11 @@ using namespace ace_time;
 // Check that ZonedDateTime with Manual TimeZone agrees with simpler
 // OffsetDateTime.
 test(ZonedDateTimeTest_Manual, agreesWithOffsetDateTime) {
-  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
+  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
 
   OffsetDateTime otz = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
 
   assertEqual(otz.toEpochSeconds(), dt.toEpochSeconds());
 }
@@ -115,7 +115,7 @@ test(ZonedDateTimeTest_Manual, toAndForUnixSeconds) {
   assertTrue(dt == udt);
 
   // 2018-08-30T06:45:01-07:00
-  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHour(-7));
+  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-7));
   dt = ZonedDateTime::forComponents(2018, 8, 30, 6, 45, 1, tz);
   assertEqual((acetime_t) 1535636701, dt.toUnixSeconds());
   udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), tz);
@@ -129,13 +129,13 @@ test(ZonedDateTimeTest_Manual, toAndForUnixSeconds) {
 }
 
 test(ZonedDateTimeTest_Manual, convertToTimeZone) {
-  TimeZone stdTz = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
+  TimeZone stdTz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
   ZonedDateTime std = ZonedDateTime::forComponents(
       2018, 3, 11, 1, 59, 59, stdTz);
   acetime_t stdEpochSeconds = std.toEpochSeconds();
 
   TimeZone dstTz = stdTz;
-  dstTz.setDstOffset(TimeOffset::forHour(1));
+  dstTz.setDstOffset(TimeOffset::forHours(1));
   ZonedDateTime dst = std.convertToTimeZone(dstTz);
   acetime_t dstEpochSeconds = dst.toEpochSeconds();
 
@@ -151,7 +151,7 @@ test(ZonedDateTimeTest_Manual, convertToTimeZone) {
 }
 
 test(ZonedDateTimeTest_Manual, error) {
-  TimeZone stdTz = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
+  TimeZone stdTz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
 
   ZonedDateTime zdt = ZonedDateTime::forEpochSeconds(
       LocalTime::kInvalidSeconds, stdTz);
@@ -224,7 +224,8 @@ test(ZonedDateTimeTest, forDateString_errors) {
 // --------------------------------------------------------------------------
 
 test(DateTimeMutationTest, increment) {
-  ZonedDateTime dt = ZonedDateTime::forComponents(2001, 2, 3, 4, 5, 6, TimeZone());
+  ZonedDateTime dt = ZonedDateTime::forComponents(2001, 2, 3, 4, 5, 6,
+      TimeZone());
   assertEqual((int16_t) 2001, dt.year());
   assertEqual(2, dt.month());
   assertEqual(3, dt.day());
@@ -283,9 +284,9 @@ test(DateTimeMutationTest, increment) {
 
 void setup() {
 #if defined(ARDUINO)
-  delay(1000); // wait for stability on some boards to prevent garbage SERIAL_PORT_MONITOR
+  delay(1000); // wait for stability to prevent garbage on SERIAL_PORT_MONITOR
 #endif
-  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  SERIAL_PORT_MONITOR.begin(115200);
   while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
 }
 

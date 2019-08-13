@@ -251,7 +251,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
     {onDayOfWeek} /*onDayOfWeek*/,
     {onDayOfMonth} /*onDayOfMonth*/,
     {atTimeCode} /*atTimeCode*/,
-    '{atTimeModifier}' /*atTimeModifier*/,
+    {atTimeModifier} /*atTimeModifier*/,
     {deltaCode} /*deltaCode*/,
     {letter} /*letter{letterComment}*/,
   }},
@@ -306,18 +306,18 @@ static const char* const kLetters{policyName}[] {progmem} = {{
                 scope=self.scope)
 
         removed_policy_items = ''
-        for name, reason in sorted(self.removed_policies.items()):
+        for name, reasons in sorted(self.removed_policies.items()):
             removed_policy_items += \
                 self.ZONE_POLICIES_H_REMOVED_POLICY_ITEM.format(
                     policyName=name,
-                    policyReason=reason)
+                    policyReason=', '.join(reasons))
 
         notable_policy_items = ''
-        for name, reason in sorted(self.notable_policies.items()):
+        for name, reasons in sorted(self.notable_policies.items()):
             notable_policy_items += \
                 self.ZONE_POLICIES_H_NOTABLE_POLICY_ITEM.format(
                     policyName=name,
-                    policyReason=reason)
+                    policyReason=', '.join(reasons))
 
         return self.ZONE_POLICIES_H_FILE.format(
             invocation=self.invocation,
@@ -363,7 +363,8 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         # Generate kZoneRules*[]
         rule_items = ''
         for rule in rules:
-            at_time_code = div_to_zero(rule.atSecondsTruncated, 15 * 60)
+            at_time_code, at_time_modifier = to_code_and_modifier(
+                rule.atSecondsTruncated, rule.atTimeModifier, self.scope)
             delta_code = div_to_zero(rule.deltaSecondsTruncated, 15 * 60)
 
             from_year = rule.fromYear
@@ -394,7 +395,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
                 onDayOfWeek=rule.onDayOfWeek,
                 onDayOfMonth=rule.onDayOfMonth,
                 atTimeCode=at_time_code,
-                atTimeModifier=rule.atTimeModifier,
+                atTimeModifier=at_time_modifier,
                 deltaCode=delta_code,
                 letter=letter,
                 letterComment=letterComment)
@@ -628,7 +629,7 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
     {untilMonth} /*untilMonth*/,
     {untilDay} /*untilDay*/,
     {untilTimeCode} /*untilTimeCode*/,
-    '{untilTimeModifier}' /*untilTimeModifier*/,
+    {untilTimeModifier} /*untilTimeModifier*/,
   }},
 """
 
@@ -674,14 +675,14 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
                 zoneFullName=zone_name)
 
         removed_info_items = ''
-        for zone_name, reason in sorted(self.removed_zones.items()):
+        for zone_name, reasons in sorted(self.removed_zones.items()):
             removed_info_items += self.ZONE_INFOS_H_REMOVED_INFO_ITEM.format(
-                zoneFullName=zone_name, reason=reason)
+                zoneFullName=zone_name, reason=', '.join(reasons))
 
         notable_info_items = ''
-        for zone_name, reason in sorted(self.notable_zones.items()):
+        for zone_name, reasons in sorted(self.notable_zones.items()):
             notable_info_items += self.ZONE_INFOS_H_NOTABLE_INFO_ITEM.format(
-                zoneFullName=zone_name, reason=reason)
+                zoneFullName=zone_name, reason=', '.join(reasons))
 
         link_items = ''
         for link_name, zone_name in sorted(self.links_map.items()):
@@ -692,14 +693,14 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
                 zoneFullName=zone_name)
 
         removed_link_items = ''
-        for link_name, reason in sorted(self.removed_links.items()):
+        for link_name, reasons in sorted(self.removed_links.items()):
             removed_link_items += self.ZONE_INFOS_H_REMOVED_LINK_ITEM.format(
-                linkFullName=link_name, reason=reason)
+                linkFullName=link_name, reason=', '.join(reasons))
 
         notable_link_items = ''
-        for link_name, reason in sorted(self.notable_links.items()):
+        for link_name, reasons in sorted(self.notable_links.items()):
             notable_link_items += self.ZONE_INFOS_H_NOTABLE_LINK_ITEM.format(
-                linkFullName=link_name, reason=reason)
+                linkFullName=link_name, reason=', '.join(reasons))
 
         return self.ZONE_INFOS_H_FILE.format(
             invocation=self.invocation,
@@ -819,8 +820,9 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         if not until_day:
             until_day = 1
 
-        until_time_code = div_to_zero(era.untilSecondsTruncated, 15 * 60)
-        until_time_modifier = era.untilTimeModifier
+        until_time_code, until_time_modifier = to_code_and_modifier(
+            era.untilSecondsTruncated, era.untilTimeModifier, self.scope)
+
         offset_code = div_to_zero(era.offsetSecondsTruncated, 15 * 60)
 
         # Replace %s with just a % for C++
@@ -1073,3 +1075,27 @@ def normalize_raw(raw_line):
     """Replace hard tabs with 4 spaces.
     """
     return raw_line.replace('\t', '    ')
+
+def to_code_and_modifier(seconds, modifier, scope):
+    """Return the packed (code, modifier) uint8_t integers that hold
+    the timeCodeMajor, timeCodeMinor (resolution in minutes) and the modifier.
+    """
+    codeMajor = div_to_zero(seconds, 15 * 60)
+    codeMinor = seconds % 900 // 60
+    modifier = to_modifier(modifier, scope)
+    if codeMinor > 0:
+        modifier += f' + {codeMinor}'
+    return codeMajor, modifier
+
+def to_modifier(modifier, scope):
+    """Return the C++ TIME_MODIFIER_{X} corresponding to the 'w', 's', and 'u'
+    modifier character in the TZ database files.
+    """
+    if modifier == 'w':
+        return f'{scope}::ZoneContext::TIME_MODIFIER_W'
+    elif modifier == 's':
+        return f'{scope}::ZoneContext::TIME_MODIFIER_S'
+    elif modifier == 'u':
+        return f'{scope}::ZoneContext::TIME_MODIFIER_U'
+    else:
+        raise Exception(f'Unknown modifier {modifier}')

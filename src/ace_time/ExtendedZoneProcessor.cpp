@@ -19,7 +19,7 @@ const extended::ZoneEra ExtendedZoneProcessor::kAnchorEra ACE_TIME_PROGMEM = {
   1 /*untilMonth*/,
   1 /*untilDay*/,
   0 /*untilTimeCode*/,
-  'w' /*untilTimeModifier*/
+  extended::ZoneContext::TIME_MODIFIER_W /*untilTimeModifier*/
 };
 
 void ExtendedZoneProcessor::printTo(Print& printer) const {

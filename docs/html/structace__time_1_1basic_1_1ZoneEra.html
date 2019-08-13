@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.6.1</span>
+   &#160;<span id="projectnumber">0.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -114,7 +114,7 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a27561256f280e9caa28d2f77654bea91"><td class="mdescLeft">&#160;</td><td class="mdescRight">The time field of UNTIL field in 15-minute increments.  <a href="#a27561256f280e9caa28d2f77654bea91">More...</a><br /></td></tr>
 <tr class="separator:a27561256f280e9caa28d2f77654bea91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f1e4e19e77529cddcdef55a3926ef7b"><td class="memItemLeft" align="right" valign="top">uint8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneEra.html#a9f1e4e19e77529cddcdef55a3926ef7b">untilTimeModifier</a></td></tr>
-<tr class="memdesc:a9f1e4e19e77529cddcdef55a3926ef7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">UNTIL time modifier suffix: 'w', 's' or 'u'.  <a href="#a9f1e4e19e77529cddcdef55a3926ef7b">More...</a><br /></td></tr>
+<tr class="memdesc:a9f1e4e19e77529cddcdef55a3926ef7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The untilTimeModifier is a packed field containing 2 pieces of info:  <a href="#a9f1e4e19e77529cddcdef55a3926ef7b">More...</a><br /></td></tr>
 <tr class="separator:a9f1e4e19e77529cddcdef55a3926ef7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
@@ -282,9 +282,13 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>UNTIL time modifier suffix: 'w', 's' or 'u'. </p>
+<p>The untilTimeModifier is a packed field containing 2 pieces of info: </p>
+<ul>
+<li>The upper 4 bits represent the UNTIL time suffix: 'w', 's' or 'u', represented by TIME_MODIFIER_W, TIME_MODIFIER_S and TIME_MODIFIER_U.</li>
+<li>The lower 4 bits represent the remaining 0-14 minutes of the UNTIL field after truncation into untilTimeCode. In other words, the full UNTIL field in one-minute resolution is (15 * untilTimeCode + (untilTimeModifier &amp; 0x0f)). </li>
+</ul>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00070">70</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00079">79</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>

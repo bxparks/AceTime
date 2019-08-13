@@ -34,12 +34,17 @@ pipeline {
                     git url: 'https://github.com/eggert/tz',
                         branch: 'master'
                 }
+                dir('libraries/date') {
+                    git url: 'https://github.com/HowardHinnant/date',
+                        branch: 'master'
+                }
             }
         }
         stage('Verify Tests') {
             steps {
                 sh "make -C libraries/AceTime/tests tests"
                 sh "make -C libraries/AceTime/tools/java"
+                sh "make -C libraries/AceTime/tools/cpp"
                 sh "make -C libraries/AceTime/tests/validation tests"
             }
         }
@@ -54,22 +59,6 @@ pipeline {
         always {
             sh "make -C libraries/AceTime/tests clean"
             sh "make -C libraries/AceTime/tests/validation clean"
-        }
-        failure {
-            script {
-                if (env.BADGE_BUCKET?.trim()) {
-                    sh "AUniter/BadgeService/set-badge-status.sh \
-                        $BADGE_BUCKET AceTime FAILED"
-                }
-            }
-        }
-        success {
-            script {
-                if (env.BADGE_BUCKET?.trim()) {
-                    sh "AUniter/BadgeService/set-badge-status.sh \
-                        $BADGE_BUCKET AceTime PASSED"
-                }
-            }
         }
     }
 }

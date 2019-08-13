@@ -162,10 +162,18 @@ class OffsetDateTime {
     /** Set the year. */
     void year(int16_t year) { mLocalDateTime.year(year); }
 
-    /** Return the single-byte year offset from year 2000. */
+    /**
+     * Return the single-byte year offset from year 2000. Intended for memory
+     * constrained or performance critical code. May be deprecated in the
+     * future.
+     */
     int8_t yearTiny() const { return mLocalDateTime.yearTiny(); }
 
-    /** Set the single-byte year offset from year 2000. */
+    /**
+     * Set the single-byte year offset from year 2000. Intended for memory
+     * constrained or performance critical code. May be deprecated in the
+     * future.
+     */
     void yearTiny(int8_t yearTiny) { mLocalDateTime.yearTiny(yearTiny); }
 
     /** Return the month with January=1, December=12. */

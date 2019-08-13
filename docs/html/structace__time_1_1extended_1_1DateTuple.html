@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.6.1</span>
+   &#160;<span id="projectnumber">0.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -73,13 +73,16 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>A tuple that represents a date and time, using a timeCode that tracks the time component using 15-minute intervals.  
+<p>A tuple that represents a date and time.  
  <a href="structace__time_1_1extended_1_1DateTuple.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a2afa0a1668c804b9624ca49385644681"><td class="memItemLeft" align="right" valign="top"><a id="a2afa0a1668c804b9624ca49385644681"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DateTuple</b> (int8_t y, uint8_t mon, uint8_t d, int16_t min, uint8_t mod)</td></tr>
+<tr class="separator:a2afa0a1668c804b9624ca49385644681"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa991fc734c0f703f2afa4133822fb6b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1DateTuple.html#afa991fc734c0f703f2afa4133822fb6b">log</a> () const</td></tr>
 <tr class="memdesc:afa991fc734c0f703f2afa4133822fb6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used only for debugging.  <a href="#afa991fc734c0f703f2afa4133822fb6b">More...</a><br /></td></tr>
 <tr class="separator:afa991fc734c0f703f2afa4133822fb6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -95,15 +98,16 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>month</b></td></tr
 <tr class="memitem:a972ac0f47b09c43f683c9e582a2f0d3e"><td class="memItemLeft" align="right" valign="top"><a id="a972ac0f47b09c43f683c9e582a2f0d3e"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>day</b></td></tr>
 <tr class="separator:a972ac0f47b09c43f683c9e582a2f0d3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a070c87905a7a481998e5ab1406f3153f"><td class="memItemLeft" align="right" valign="top"><a id="a070c87905a7a481998e5ab1406f3153f"></a>
-int8_t&#160;</td><td class="memItemRight" valign="bottom"><b>timeCode</b></td></tr>
-<tr class="separator:a070c87905a7a481998e5ab1406f3153f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a150211350a2e3b61a93a906f0b972e"><td class="memItemLeft" align="right" valign="top"><a id="a5a150211350a2e3b61a93a906f0b972e"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>modifier</b></td></tr>
 <tr class="separator:a5a150211350a2e3b61a93a906f0b972e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1722826bca320b30820a9d4d4978c65"><td class="memItemLeft" align="right" valign="top"><a id="ac1722826bca320b30820a9d4d4978c65"></a>
+int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>minutes</b></td></tr>
+<tr class="separator:ac1722826bca320b30820a9d4d4978c65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A tuple that represents a date and time, using a timeCode that tracks the time component using 15-minute intervals. </p>
+<div class="textblock"><p>A tuple that represents a date and time. </p>
+<p>Packed to 4-byte boundaries to save space on 32-bit processors. </p>
 
 <p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00064">64</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
@@ -132,7 +136,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>modifier</b></td><
 
 <p>Used only for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00072">72</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00077">77</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>

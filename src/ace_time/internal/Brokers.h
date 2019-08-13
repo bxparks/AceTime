@@ -44,6 +44,19 @@ namespace ace_time {
 
 namespace internal {
 
+/** Convert (timeCode, timeModifier) fields in zoneinfo to minutes. */
+inline uint16_t timeCodeToMinutes(uint8_t rawCode, uint8_t rawModifier) {
+  return rawCode * (uint16_t) 15 + (rawModifier & 0x0f);
+}
+
+/**
+ * Extract the 'w', 's' 'u' suffix from the 'modifier' field, so that they can
+ * be compared against TIME_MODIFIER_W, TIME_MODIFIER_S and TIME_MODIFIER_U.
+ */
+inline uint8_t toModifier(uint8_t rawModifier) {
+  return rawModifier & 0xf0;
+}
+
 //----------------------------------------------------------------------------
 // Direct data brokers for reading from SRAM
 //----------------------------------------------------------------------------
@@ -78,9 +91,14 @@ class DirectZoneRuleBroker {
 
     int8_t onDayOfMonth() const { return mZoneRule->onDayOfMonth; }
 
-    uint8_t atTimeCode() const { return mZoneRule->atTimeCode; }
+    uint16_t atTimeMinutes() const {
+      return timeCodeToMinutes(
+          mZoneRule->atTimeCode, mZoneRule->atTimeModifier);
+    }
 
-    uint8_t atTimeModifier() const { return mZoneRule->atTimeModifier; }
+    uint8_t atTimeModifier() const {
+      return toModifier(mZoneRule->atTimeModifier);
+    }
 
     int8_t deltaCode() const { return mZoneRule->deltaCode; }
 
@@ -161,9 +179,14 @@ class DirectZoneEraBroker {
 
     uint8_t untilDay() const { return mZoneEra->untilDay; }
 
-    uint8_t untilTimeCode() const { return mZoneEra->untilTimeCode; }
+    uint16_t untilTimeMinutes() const {
+      return timeCodeToMinutes(
+          mZoneEra->untilTimeCode, mZoneEra->untilTimeModifier);
+    }
 
-    uint8_t untilTimeModifier() const { return mZoneEra->untilTimeModifier; }
+    uint8_t untilTimeModifier() const {
+      return toModifier(mZoneEra->untilTimeModifier);
+    }
 
   private:
     const ZE* mZoneEra;
@@ -272,12 +295,14 @@ class FlashZoneRuleBroker {
       return pgm_read_byte(&mZoneRule->onDayOfMonth);
     }
 
-    uint8_t atTimeCode() const {
-      return pgm_read_byte(&mZoneRule->atTimeCode);
+    uint16_t atTimeMinutes() const {
+      return timeCodeToMinutes(
+          pgm_read_byte(&mZoneRule->atTimeCode),
+          pgm_read_byte(&mZoneRule->atTimeModifier));
     }
 
     uint8_t atTimeModifier() const {
-      return pgm_read_byte(&mZoneRule->atTimeModifier);
+      return toModifier(pgm_read_byte(&mZoneRule->atTimeModifier));
     }
 
     int8_t deltaCode() const {
@@ -383,12 +408,14 @@ class FlashZoneEraBroker {
       return pgm_read_byte(&mZoneEra->untilDay);
     }
 
-    uint8_t untilTimeCode() const {
-      return pgm_read_byte(&mZoneEra->untilTimeCode);
+    uint16_t untilTimeMinutes() const {
+      return timeCodeToMinutes(
+        pgm_read_byte(&mZoneEra->untilTimeCode),
+        pgm_read_byte(&mZoneEra->untilTimeModifier));
     }
 
     uint8_t untilTimeModifier() const {
-      return pgm_read_byte(&mZoneEra->untilTimeModifier);
+      return toModifier(pgm_read_byte(&mZoneEra->untilTimeModifier));
     }
 
   private:

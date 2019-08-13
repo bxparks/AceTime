@@ -44,7 +44,8 @@ test(ZonedDateTimeBasicTest, forComponents_beforeDst) {
 
   // 01:59 should resolve to 01:59-08:00
   auto dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 0, tz);
-  assertEqual(TimeOffset::forHour(-8).toMinutes(), dt.timeOffset().toMinutes());
+  assertEqual(TimeOffset::forHours(-8).toMinutes(),
+      dt.timeOffset().toMinutes());
   auto expected = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 0);
   assertTrue(expected == dt.localDateTime());
 }
@@ -56,7 +57,8 @@ test(ZonedDateTimeBasicTest, forComponents_inDstGap) {
   // 02:01 doesn't exist, but BasicZoneProcessor picks the later epochSeconds
   // and offset, so should push forward the 02:01 to 03:01-07:00.
   auto dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 1, 0, tz);
-  assertEqual(TimeOffset::forHour(-7).toMinutes(), dt.timeOffset().toMinutes());
+  assertEqual(TimeOffset::forHours(-7).toMinutes(),
+      dt.timeOffset().toMinutes());
   auto expected = LocalDateTime::forComponents(2018, 3, 11, 3, 1, 0);
   assertTrue(expected == dt.localDateTime());
 }
@@ -67,7 +69,8 @@ test(ZonedDateTimeBasicTest, forComponents_inDst) {
 
   // 03:01 should resolve to 03:01-07:00
   auto dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 1, 0, tz);
-  assertEqual(TimeOffset::forHour(-7).toMinutes(), dt.timeOffset().toMinutes());
+  assertEqual(TimeOffset::forHours(-7).toMinutes(),
+      dt.timeOffset().toMinutes());
   auto expected = LocalDateTime::forComponents(2018, 3, 11, 3, 1, 0);
   assertTrue(expected == dt.localDateTime());
 }
@@ -79,7 +82,8 @@ test(ZonedDateTimeBasicTest, forComponents_beforeStd) {
   // 00:59 is more than an hour before the DST->STD transition so should
   // resolve to 00:59-07:00
   auto dt = ZonedDateTime::forComponents(2018, 11, 4, 0, 59, 0, tz);
-  assertEqual(TimeOffset::forHour(-7).toMinutes(), dt.timeOffset().toMinutes());
+  assertEqual(TimeOffset::forHours(-7).toMinutes(),
+      dt.timeOffset().toMinutes());
   auto expected = LocalDateTime::forComponents(2018, 11, 4, 0, 59, 0);
   assertTrue(expected == dt.localDateTime());
 }
@@ -91,7 +95,8 @@ test(ZonedDateTimeBasicTest, forComponents_inOverlap) {
   // There were two instances of 01:01. BasicZoneProcessor chooses the earlier
   // occurrence, giving 01:01-07:00.
   auto dt = ZonedDateTime::forComponents(2018, 11, 4, 1, 1, 0, tz);
-  assertEqual(TimeOffset::forHour(-7).toMinutes(), dt.timeOffset().toMinutes());
+  assertEqual(TimeOffset::forHours(-7).toMinutes(),
+      dt.timeOffset().toMinutes());
   auto expected = LocalDateTime::forComponents(2018, 11, 4, 1, 1, 0);
   assertTrue(expected == dt.localDateTime());
 }
@@ -102,7 +107,8 @@ test(ZonedDateTimeBasicTest, forComponents_afterOverlap) {
 
   // 02:01 should always be 02:01-08:00
   auto dt = ZonedDateTime::forComponents(2018, 11, 4, 2, 1, 0, tz);
-  assertEqual(TimeOffset::forHour(-8).toMinutes(), dt.timeOffset().toMinutes());
+  assertEqual(TimeOffset::forHours(-8).toMinutes(),
+      dt.timeOffset().toMinutes());
   auto expected = LocalDateTime::forComponents(2018, 11, 4, 2, 1, 0);
   assertTrue(expected == dt.localDateTime());
 }
@@ -117,9 +123,9 @@ test(ZonedDateTimeBasicTest, linked_zones) {
 
 void setup() {
 #if defined(ARDUINO)
-  delay(1000); // wait for stability on some boards to prevent garbage SERIAL_PORT_MONITOR
+  delay(1000); // wait for stability to prevent garbage on SERIAL_PORT_MONITOR
 #endif
-  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  SERIAL_PORT_MONITOR.begin(115200);
   while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
 }
 

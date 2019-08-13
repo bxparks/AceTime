@@ -166,15 +166,15 @@ struct MonthDay {
  * defined by zonedb/zone_infos.h. The constraints are at least the following
  * (see tools/transformer.py for the authoratative algorithm):
  *
- *  - ZoneInfo UNTIL field must contain only the full year;
+ *  * ZoneInfo UNTIL field must contain only the full year;
  *    cannot contain month, day, or time components
- *  - ZoneInfo untilTimeModifier can contain only 'w' (not 's' or 'u')
- *  - ZoneInfo RULES column must be empty ("-"), OR refer to a
+ *  * ZoneInfo untilTimeModifier can contain only 'w' (not 's' or 'u')
+ *  * ZoneInfo RULES column must be empty ("-"), OR refer to a
  *    named Zone Rule (e.g. "US"); cannot contain an explicit offset (hh:mm)
- *  - ZonePolicy can contain only 1 ZoneRule in a single month
- *  - ZoneRule AT time cannot occur on Jan 1
- *  - ZoneRule atTimeModifier can be any of ('w', 's', and 'u')
- *  - ZoneRule LETTER must contain only a single letter (not "WAT" or "CST")
+ *  * ZonePolicy can contain only 1 ZoneRule in a single month
+ *  * ZoneRule AT time cannot occur on Jan 1
+ *  * ZoneRule atTimeModifier can be any of ('w', 's', and 'u')
+ *  * ZoneRule LETTER must contain only a single letter (not "WAT" or "CST")
  *
  * Even with these limitations, zonedb/zone_info.h shows that 231 out of a
  * total of 359 zones are supported by BasicZoneProcessor.
@@ -730,9 +730,9 @@ class BasicZoneProcessor: public ZoneProcessor {
               transition.rule.atTimeModifier());
 
           // startDateTime
-          const uint8_t timeCode = transition.rule.atTimeCode();
-          const uint8_t atHour = timeCode / 4;
-          const uint8_t atMinute = (timeCode % 4) * 15;
+          const uint16_t minutes = transition.rule.atTimeMinutes();
+          const uint8_t atHour = minutes / 60;
+          const uint8_t atMinute = minutes % 60;
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
               year, monthDay.month, monthDay.day,
               atHour, atMinute, 0 /*second*/,
@@ -752,9 +752,9 @@ class BasicZoneProcessor: public ZoneProcessor {
      */
     static int8_t calcRuleOffsetCode(int8_t prevEffectiveOffsetCode,
         int8_t currentBaseOffsetCode, uint8_t atModifier) {
-      if (atModifier == 'w') {
+      if (atModifier == basic::ZoneContext::TIME_MODIFIER_W) {
         return prevEffectiveOffsetCode;
-      } else if (atModifier == 's') {
+      } else if (atModifier == basic::ZoneContext::TIME_MODIFIER_S) {
         return currentBaseOffsetCode;
       } else { // 'u', 'g' or 'z'
         return 0;
@@ -785,7 +785,7 @@ class BasicZoneProcessor: public ZoneProcessor {
      * replacement letter (e.g. 'S', 'D', or '-').
      *
      * 1) If the RULES column (transition->rule) is empty '-', then FORMAT
-     * cannot contain a '/' or a '%' because the ZoneEra specifies only a
+     * cannot contain a '%' because the ZoneEra specifies only a
      * single transition rule. (Verified in transformer.py). This condition is
      * indicated by (deltaCode == 0) and (letter == '\0').
      *

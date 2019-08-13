@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.6.1</span>
+   &#160;<span id="projectnumber">0.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -119,7 +119,7 @@ class ace_time::ZoneProcessorCacheImpl&lt; SIZE, TYPE, ZS, ZI, ZIB &gt;</h3>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">SIZE</td><td>number of zone processors, should be approximate the number zones <em>concurrently</em> used in the app. It is expected that this will be small. It can be 1 if the app never changes the <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone. ">TimeZone</a>. It should be 2 if the user is able to select different timezones from a menu. </td></tr>
-    <tr><td class="paramname">ZS</td><td>type of <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes. ">ZoneProcessor</a> (<a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database...">BasicZoneProcessor</a> or <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that works for all zones defined by the TZ Database (with some zon...">ExtendedZoneProcessor</a>) </td></tr>
+    <tr><td class="paramname">ZS</td><td>type of <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes. ">ZoneProcessor</a> (<a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database...">BasicZoneProcessor</a> or <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database. ">ExtendedZoneProcessor</a>) </td></tr>
     <tr><td class="paramname">ZI</td><td>type of ZoneInfo (<a class="el" href="structace__time_1_1basic_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records. ">basic::ZoneInfo</a> or <a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records. ">extended::ZoneInfo</a>) </td></tr>
     <tr><td class="paramname">ZIB</td><td>type of ZoneInfoBroker (basic::ZoneInfoBroker or extended::ZoneInfoBroker) </td></tr>
   </table>

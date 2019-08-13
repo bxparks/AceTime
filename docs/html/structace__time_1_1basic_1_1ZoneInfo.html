@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.6.1</span>
+   &#160;<span id="projectnumber">0.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -112,7 +112,7 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Representation of a given time zone, implemented as an array of <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> records. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00077">77</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00086">86</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="ab7c074666001221f924b3b4987399011"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab7c074666001221f924b3b4987399011">&#9670;&nbsp;</a></span>eras</h2>
@@ -128,7 +128,7 @@ Public Attributes</h2></td></tr>
 
 <p><a class="el" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> entries in increasing order of UNTIL time. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00104">104</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00113">113</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>
@@ -147,7 +147,7 @@ Public Attributes</h2></td></tr>
 <p>Full name of zone (e.g. </p>
 <p>"America/Los_Angeles"). </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00079">79</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00088">88</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>
@@ -165,7 +165,7 @@ Public Attributes</h2></td></tr>
 
 <p>Number of <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> entries. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00101">101</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00110">110</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>
@@ -182,9 +182,9 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Estimated size of <a class="el" href="structace__time_1_1basic_1_1Transition.html" title="Data structure that defines the start of a specific UTC offset as described by the matching ZoneEra a...">Transition</a> buffer. </p>
-<p>Currently, this is used only in the validation unit test for <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that works for all zones defined by the TZ Database (with some zon...">ExtendedZoneProcessor</a>. It is slightly wasteful to include it for the <a class="el" href="structace__time_1_1basic_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records. ">ZoneInfo</a> and <a class="el" href="structace__time_1_1basic_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records. ">ZoneInfo</a> classes used by <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database...">BasicZoneProcessor</a>, but it's only one byte and it seemed worth having this additional validation capability. </p>
+<p>Currently, this is used only in the validation unit test for <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database. ">ExtendedZoneProcessor</a>. It is slightly wasteful to include it for the <a class="el" href="structace__time_1_1basic_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records. ">ZoneInfo</a> and <a class="el" href="structace__time_1_1basic_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records. ">ZoneInfo</a> classes used by <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database...">BasicZoneProcessor</a>, but it's only one byte and it seemed worth having this additional validation capability. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00098">98</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00107">107</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>
@@ -202,7 +202,7 @@ Public Attributes</h2></td></tr>
 
 <p><a class="el" href="structace__time_1_1basic_1_1ZoneContext.html" title="Metadata about the zone database. ">ZoneContext</a> metadata. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00089">89</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00098">98</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>
@@ -221,7 +221,7 @@ Public Attributes</h2></td></tr>
 <p>Unique, stable ID of the zone name, created from a hash of the name. </p>
 <p>This ID will never change once assigned. This can be used for presistence and serialization. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00086">86</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00095">95</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>

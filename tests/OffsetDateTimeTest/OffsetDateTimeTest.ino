@@ -185,10 +185,10 @@ test(OffsetDateTimeTest, toAndForUnixSeconds) {
 
   // 2018-08-30T06:45:01-07:00
   dt = OffsetDateTime::forComponents(2018, 8, 30, 6, 45, 1,
-      TimeOffset::forHour(-7));
+      TimeOffset::forHours(-7));
   assertEqual((acetime_t) 1535636701, dt.toUnixSeconds());
   udt = OffsetDateTime::forUnixSeconds(dt.toUnixSeconds(),
-      TimeOffset::forHour(-7));
+      TimeOffset::forHours(-7));
   assertTrue(dt == udt);
 
   // 2038-01-19 03:14:06Z (largest value - 1 using Unix Epoch)
@@ -214,7 +214,7 @@ test(OffsetDateTimeTest, forEpochSeconds) {
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   // 2029-12-31 15:59:59-08:00 Monday
-  TimeOffset offset = TimeOffset::forHour(-8); // UTC-08:00
+  TimeOffset offset = TimeOffset::forHours(-8); // UTC-08:00
   dt = OffsetDateTime::forEpochSeconds(10958 * (acetime_t) 86400 - 1, offset);
   assertEqual((int16_t) 2029, dt.year());
   assertEqual(29, dt.yearTiny());
@@ -229,7 +229,7 @@ test(OffsetDateTimeTest, forEpochSeconds) {
 test(OffsetDateTimeTest, convertToTimeOffset) {
   OffsetDateTime a = OffsetDateTime::forComponents(2018, 1, 1, 12, 0, 0,
       TimeOffset());
-  OffsetDateTime b = a.convertToTimeOffset(TimeOffset::forHour(-7));
+  OffsetDateTime b = a.convertToTimeOffset(TimeOffset::forHours(-7));
 
   assertEqual((int16_t) 2018, b.year());
   assertEqual(18, b.yearTiny());
@@ -290,10 +290,10 @@ test(OffsetDateTimeTest, compareTo) {
 
   // 2018-1-1 12:00:00+01:00
   a = OffsetDateTime::forComponents(2018, 1, 1, 12, 0, 0,
-      TimeOffset::forHour(1));
+      TimeOffset::forHours(1));
   // 2018-1-1 12:00:00-08:00
   b = OffsetDateTime::forComponents(2018, 1, 1, 12, 0, 0,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
@@ -389,9 +389,9 @@ test(OffsetDateTimeTest, forDateString_errors) {
 
 void setup() {
 #if defined(ARDUINO)
-  delay(1000); // wait for stability on some boards to prevent garbage SERIAL_PORT_MONITOR
+  delay(1000); // wait for stability to prevent garbage on SERIAL_PORT_MONITOR
 #endif
-  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  SERIAL_PORT_MONITOR.begin(115200);
   while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
 }
 

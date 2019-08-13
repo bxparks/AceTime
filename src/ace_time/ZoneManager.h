@@ -62,8 +62,8 @@ class ZoneManager {
           return TimeZone::forError();
         case TimeZone::kTypeManual:
           return TimeZone::forTimeOffset(
-              TimeOffset::forOffsetCode(d.stdOffsetCode),
-              TimeOffset::forOffsetCode(d.dstOffsetCode));
+              TimeOffset::forMinutes(d.stdOffsetMinutes),
+              TimeOffset::forMinutes(d.dstOffsetMinutes));
         case TimeZone::kTypeBasic:
         case TimeZone::kTypeExtended:
           return createForZoneId(d.zoneId);

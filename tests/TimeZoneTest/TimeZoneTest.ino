@@ -112,7 +112,7 @@ test(TimeZoneTest, manual_utc) {
 
 test(TimeZoneTest, manual_no_dst) {
   FakePrint fakePrint;
-  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
+  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
 
   assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(-8*60, tz.getUtcOffset(0).toMinutes());
@@ -135,8 +135,8 @@ test(TimeZoneTest, manual_no_dst) {
 
 test(TimeZoneTest, manual_dst) {
   FakePrint fakePrint;
-  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8),
-      TimeOffset::forHour(1));
+  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8),
+      TimeOffset::forHours(1));
 
   assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(-7*60, tz.getUtcOffset(0).toMinutes());
@@ -186,7 +186,7 @@ test(TimeZoneBasicTest, Los_Angeles) {
   assertEqual(TimeZone::kTypeBasicManaged, tz.getType());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
@@ -195,7 +195,7 @@ test(TimeZoneBasicTest, Los_Angeles) {
   fakePrint.flush();
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
@@ -220,20 +220,20 @@ test(TimeZoneDataTest, utc) {
   auto tz = TimeZone::forUtc();
   auto tzd = tz.toTimeZoneData();
   assertEqual(TimeZone::kTypeManual, tzd.type);
-  assertEqual(0, tzd.stdOffsetCode);
-  assertEqual(0, tzd.dstOffsetCode);
+  assertEqual(0, tzd.stdOffsetMinutes);
+  assertEqual(0, tzd.dstOffsetMinutes);
 
   auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
   assertTrue(tz == tzCycle);
 }
 
 test(TimeZoneDataTest, manual) {
-  auto tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8),
-      TimeOffset::forHour(1));
+  auto tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8),
+      TimeOffset::forHours(1));
   auto tzd = tz.toTimeZoneData();
   assertEqual(TimeZone::kTypeManual, tzd.type);
-  assertEqual(-8 * 4, tzd.stdOffsetCode);
-  assertEqual(4, tzd.dstOffsetCode);
+  assertEqual(-8 * 60, tzd.stdOffsetMinutes);
+  assertEqual(1 * 60, tzd.dstOffsetMinutes);
 
   auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
   assertTrue(tz == tzCycle);
@@ -283,8 +283,8 @@ test(TimeZoneDataTest, crossed) {
 // --------------------------------------------------------------------------
 
 test(TimeZoneExtendedTest, operatorEqualEqual_managedZones) {
-  TimeZone manual = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
-  TimeZone manual2 = TimeZone::forTimeOffset(TimeOffset::forHour(-7));
+  TimeZone manual = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
+  TimeZone manual2 = TimeZone::forTimeOffset(TimeOffset::forHours(-7));
   assertTrue(manual != manual2);
 
   TimeZone basicManaged = basicZoneManager.createForZoneInfo(
@@ -315,8 +315,8 @@ BasicZoneProcessor basicZoneProcessor;
 ExtendedZoneProcessor extendedZoneProcessor;
 
 test(TimeZoneTest, operatorEqualEqual_directZone) {
-  TimeZone manual = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
-  TimeZone manual2 = TimeZone::forTimeOffset(TimeOffset::forHour(-7));
+  TimeZone manual = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
+  TimeZone manual2 = TimeZone::forTimeOffset(TimeOffset::forHours(-7));
   assertTrue(manual != manual2);
 
   TimeZone basic = TimeZone::forZoneInfo(
@@ -340,9 +340,9 @@ test(TimeZoneTest, operatorEqualEqual_directZone) {
 
 void setup() {
 #if defined(ARDUINO)
-  delay(1000); // wait for stability on some boards to prevent garbage SERIAL_PORT_MONITOR
+  delay(1000); // wait for stability to prevent garbage on SERIAL_PORT_MONITOR
 #endif
-  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  SERIAL_PORT_MONITOR.begin(115200);
   while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
 }
 

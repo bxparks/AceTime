@@ -52,7 +52,7 @@ test(TimeZoneExtendedTest, Los_Angeles) {
   assertEqual(TimeZone::kTypeExtendedManaged, tz.getType());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
@@ -61,7 +61,7 @@ test(TimeZoneExtendedTest, Los_Angeles) {
   fakePrint.flush();
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
@@ -73,9 +73,9 @@ test(TimeZoneExtendedTest, Los_Angeles) {
 
 void setup() {
 #if defined(ARDUINO)
-  delay(1000); // wait for stability on some boards to prevent garbage SERIAL_PORT_MONITOR
+  delay(1000); // wait for stability to prevent garbage on SERIAL_PORT_MONITOR
 #endif
-  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  SERIAL_PORT_MONITOR.begin(115200);
   while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
 }
 

@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 0.6.1 (2019-08-07, TZ DB version 2019a, beta)
+Version: 0.7 (2019-08-13, TZ DB version 2019b, beta)
 
 ## Installation
 
@@ -67,13 +67,15 @@ usually have more precise dependency information:
 
 Various scripts in the `tools/` directory depend on:
 
-* [TZ Database on GitHub](https://github.com/eggert/tz)
+* [IANA TZ Database on GitHub](https://github.com/eggert/tz)
 * [pytz library](https://pypi.org/project/pytz/)
+* [Hinnant date library](https://github.com/HowardHinnant/date)
 * Python 3.5 or greater
 * Java OpenJDK 11
 
 If you want to run the unit tests or some of the command line examples using a
 Linux or MacOS machine, you need:
+
 * [UnixHostDuino](https://github.com/bxparks/UnixHostDuino)
 
 ### Doxygen Docs
@@ -565,22 +567,22 @@ timePeriod.printTo(Serial)
 ### TimeOffset
 
 A `TimeOffset` class represents an amount of time shift from a reference point.
-Often the reference is the UTC time and this class represents the amount of time
-shift from UTC. Currently (year 2019) every time zone in the world is shifted
-from UTC by a multiple of 15 minutes (e.g. -03:30 or +01:00). `TimeOffset` is a
-thin wrapper around a single `int8_t` type which can encode integers from
-[-128, 127]. Internally -128 is used to indicate an error condition, so we can
-represent a UTC shift of from -31:45 to +31:45 hours, which is more than enough
-to encode all UTC offsets currently in use in the world.
+This is usually used to represent a timezone's standard UTC offset or its DST
+offset in the summer. The time resolution of this class changed from 15 minutes
+(using a single byte `int8_t` implementation prior to v0.7) to 1 minute (using a
+2-byte `int16_t` implementation since v0.7). The range of an `int16_t` is
+[-32768, +32767], but -32768 is used to indicate an error condition, so the
+actual range is [-32767, +32767] minutes. In practice, the range of values
+actually used is probably within [-48, +48] hours, or [-2880, +2800] minutes
 
 ```C++
 namespace ace_time {
 
 class TimeOffset {
   public:
-    static TimeOffset forHour(int8_t hour);
-    static TimeOffset forHourMinute(int8_t hour, int8_t minute);
+    static TimeOffset forHours(int8_t hour);
     static TimeOffset forMinutes(int16_t minutes);
+    static TimeOffset forHourMinute(int8_t hour, int8_t minute);
 
     int16_t toMinutes() const;
     int32_t toSeconds() const;
@@ -597,9 +599,9 @@ class TimeOffset {
 A `TimeOffset` can be created using the factory methods:
 
 ```C++
-auto offset = TimeOffset::forHour(-8); // -08:00
-auto offset = TimeOffset::forHourMinute(-2, -30); // -02:30
+auto offset = TimeOffset::forHours(-8); // -08:00
 auto offset = TimeOffset::forMinutes(135); // +02:15
+auto offset = TimeOffset::forHourMinute(-2, -30); // -02:30
 ```
 
 If the time offset is negative, then both the hour and minute components of
@@ -621,7 +623,7 @@ When a method in some class (e.g. `OffsetDateTime` or `ZonedDateTime` below)
 returns a `TimeOffset`, it is useful to indicate an error condition by returning
 the special value created by the factory method `TimeOffset::forError()`. This
 special error marker has the property that `TimeOffset::isError()` returns
-`true`. Internally, this is an instance whose internal integer code is -128.
+`true`. Internally, this is an instance whose internal integer is -32768.
 
 The convenience method `TimeOffset::isZero()` returns `true` if the offset has a
 zero offset. This is often used to determine if a timezone is currently
@@ -862,11 +864,11 @@ To create `TimeZone` instances with other offsets, use the `forTimeOffset()`
 factory method:
 
 ```C++
-auto tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8)); // UTC-08:00
+auto tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8)); // UTC-08:00
 auto tz = TimeZone::forTimeOffset(TimeOffset::forHourMinute(-4, -30)); // UTC-04:30
 auto tz = TimeZone::forTimeOffset(
-    TimeOffset::forHour(-8),
-    TimeOffset::forHour(1)); // UTC-08:00+01:00 (effectively -07:00)
+    TimeOffset::forHours(-8),
+    TimeOffset::forHours(1)); // UTC-08:00+01:00 (effectively -07:00)
 ```
 
 The `TimeZone::isUtc()`, `TimeZone::isDst()` and `TimeZone::setDst(bool)`
@@ -938,7 +940,7 @@ void someFunction() {
   // 2018-03-11T01:59:59-08:00 was still in STD time
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
     auto offset = tz.getUtcOffset(epochSeconds); // returns -08:00
   }
@@ -946,7 +948,7 @@ void someFunction() {
   // one second later, 2018-03-11T02:00:00-08:00 was in DST time
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
     auto offset = tz.getUtcOffset(epochSeconds); // returns -07:00
   }
@@ -1000,7 +1002,7 @@ void someFunction() {
   // 2018-03-11T01:59:59-08:00 was still in STD time
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
     auto offset = tz.getUtcOffset(epochSeconds); // returns -08:00
   }
@@ -1008,7 +1010,7 @@ void someFunction() {
   // one second later, 2018-03-11T02:00:00-08:00 was in DST time
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      TimeOffset::forHour(-8));
+      TimeOffset::forHours(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
     auto offset = tz.getUtcOffset(epochSeconds); // returns -07:00
   }
@@ -1245,15 +1247,9 @@ The `zonedb/` files do not support all the timezones in the TZ Database.
 The list of these zones and The reasons for excluding them are given at the
 bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
 
-Although the `zonedbx/` files support all zones from its TZ input files, there
-are number of timezones whose DST transitions in the past happened at 00:01
-(instead of exactly at midnight 00:00). To save memory, the internal
-representation used by AceTime supports transitions only at
-15-minute boundaries. For these timezones, the DST transition time is shifted to
-00:00 instead, and the transition happens one-minute earlier than it should. As
-of TZ DB version 2019a, there are 5 zones affected by this rounding, as listed
-at the bottom of [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h), and
-these all occur before the year 2012.
+The goal of the `zonedbx/` files is to support all zones listed in the TZ
+Database. Currently, as of TZ Database version 2019b, this goal is met
+from the year 2000 to 2049 inclusive.
 
 #### BasicZone and ExtendedZone
 
@@ -1303,7 +1299,8 @@ class ExtendedZone {
 }
 ```
 
-They are meant to be used transiently, for example:
+The `BasicZone` and `ExtendedZone` objects are meant to be used transiently,
+for example:
 ```C++
 ...
 const basic::ZoneInfo* zoneInfo = ...;
@@ -1312,22 +1309,27 @@ Serial.println(BasicZone(zoneInfo).shortName());
 ```
 
 The return type of `name()` and `shortName()` change whether or not the zone
-name is stored in flash memory or in static memory. The `name()` method returns
-the full zone name from the TZ Database (e.g. `"America/Los_Angeles"`). The
-`shortName()` method returns only the last component (e.g. `"Los_Angeles"`).
+name is stored in flash memory or in static memory. As of v0.4,
+`ACE_TIME_USE_PROGMEM=1` for all platforms. On platforms which do not directly
+support `PROGMEM`, they provide macros which retain compatibilty with `PROGMEM`
+so everything should work transparently.
+
+The `name()` method returns the full zone name from the TZ Database (e.g.
+`"America/Los_Angeles"`). The `shortName()` method returns only the last
+component (e.g. `"Los_Angeles"`).
 
 ### ZoneManager
 
 The `TimeZone::forZoneInfo()` methods are simple to use but have the
-disadvantage that the `BasicZoneProcessor` or `ExtendedZoneProcessor`
-need to be created manually for each
-`TimeZone` instance. This works well for a single time zone,
-but if you have an application that needs 3 or more time zones, this may become
-cumbersome. Also, it is difficult to reconstruct a `TimeZone` dynamically, say,
-from its fullly qualified name (e.g. `"America/Los_Angeles"`). The `ZoneManager`
-solves these problems. It keeps an internal cache or `ZoneProcessors`, reusing
-them as needed. And it holds a registry of `ZoneInfo` objects, so that a
-`TimeZone` can be created using its `zoneName`, `zoneInfo`, or `zoneId`.
+disadvantage that the `BasicZoneProcessor` or `ExtendedZoneProcessor` need to be
+created manually for each `TimeZone` instance. This works well for a single time
+zone, but if you have an application that needs 3 or more time zones, this may
+become cumbersome. Also, it is difficult to reconstruct a `TimeZone`
+dynamically, say, from its fullly qualified name (e.g. `"America/Los_Angeles"`).
+The `ZoneManager` solves these problems. It keeps an internal cache or
+`ZoneProcessors`, reusing them as needed. And it holds a registry of `ZoneInfo`
+objects, so that a `TimeZone` can be created using its `zoneName`, `zoneInfo`,
+or `zoneId`.
 
 ```C++
 namespace ace_time{
@@ -1903,7 +1905,7 @@ void loop() {
   acetime_t nowSeconds = ntpClock.getNow();
   // convert epochSeconds to UTC-08:00
   OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHour(-8));
+      nowSeconds, TimeOffset::forHours(-8));
   odt.printTo(Serial);
   delay(10000); // wait 10 seconds
 }
@@ -1971,7 +1973,7 @@ void loop() {
   acetime_t nowSeconds = dsClock.getNow();
   // convert epochSeconds to UTC-08:00
   OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHour(-8));
+      nowSeconds, TimeOffset::forHours(-8));
   odt.printTo(Serial);
   delay(10000); // wait 10 seconds
 }
@@ -2238,7 +2240,7 @@ void loop() {
   acetime_t now = systemClock.getNow();
   if (now - prevNow >= 10) {
     auto odt = OffsetDateTime::forEpochSeconds(
-        now, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
+        now, TimeOffset::forHours(-8)); // convert epochSeconds to UTC-08:00
     odt.printTo(Serial);
   }
 }
@@ -2291,23 +2293,49 @@ the `ExtendedZoneProcessor` was much larger than the ones supported by
 timezones.
 
 My next idea was to validate AceTime against a known, independently created,
-timezone library that also supports the TZ Database. The Python pytz library was
-a natural choice since the `tzcompiler.py` was already written in Python. The
-`BasicValidationUsingPythonTest` and `ExtendedValidationUsingPythonTest` tests
-are the results, where I use `pytz` to determine the list of DST transitions for
-all timezones, then determine the expected (year, month, day, hour, minute,
-second) components that `ZonedDateTime` should produce. The `tzcompiler.py`
-generates a `validation_data.cpp` file which contains the test data points for
-all supported timezones. The resulting program no longer fits in any Arduino
-microcontroller that I am aware of, but through the use of the
-[UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulation
-framework, I can run these large validation test suites on a Linux or Mac
-desktop. This worked great until I discovered that `pytz` supports [dates only
-until 2038](https://answers.launchpad.net/pytz/+question/262216). That meant
-that I could not validate the `ZonedDateTime` classes after 2038.
+timezone library that also supports the TZ Database. Currently, I validate
+the AceTime library against 3 other timezone libraries:
 
-I then turned to Java 11 `java.time` library, which supports years through the
-[year 1000000000
+* Python [pytz](https://pypi.org/project/pytz/)
+* Java 11 [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
+* C++11/14/17 [Hinnant date](https://github.com/HowardHinnant/date)
+
+When these tests pass, I become confident that AceTime is producing the correct
+results, but it is entirely expected that some obscure edge-case bugs will be
+found in the future.
+
+### Python pytz
+
+The Python pytz library was a natural choice since the `tzcompiler.py` was
+already written in Python. I created:
+
+* [BasicValidationUsingPythonTest](tests/validation/BasicValidationUsingPythonTest/)
+* [ExtendedValidationUsingPythonTest](tests/validation/ExtendedValidationUsingPythonTest/)
+
+The `pytz` library is used to generate various C++ source code
+(`validation_data.cpp`, `validation_data.h`, `validation_tests.cpp`) which
+contain a list of epochSeconds, the UTC offset, the DST offset, at DST
+transition points, for all timezones. The integration test then compiles in the
+`ZonedDateTime` and verifies that the expected DST transitions and date
+components are identical.
+
+The resulting data test set contains between 150k to 220k data points, and can
+no longer fit in any Arduino microcontroller that I am aware of. They can be
+executed only on desktop-class Linux or MacOS machines through the use of the
+[UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulation framework.
+
+The `pytz` library supports [dates only until
+2038](https://answers.launchpad.net/pytz/+question/262216). It is also tricky to
+match the `pytz` version to the TZ Database version used by AceTime. The
+following combinations have been tested:
+
+* TZ Datbase: 2019a; pytz: 2019.1
+* TZ Datbase: 2019b; pytz: 2019.2
+
+### Java java.time
+
+The Java 11 `java.time` library is not limited to 2038 but supports years
+through the [year 1000000000
 (billion)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/class-use/Instant.html).
 I wrote the [TestDataGenerator.java](tools/java/TestDataGenerator) program to
 generate a `validation_data.cpp` file in exactly the same format as the
@@ -2315,19 +2343,42 @@ generate a `validation_data.cpp` file in exactly the same format as the
 which is the exact range of years supported by the `zonedb::` and `zonedbx::`
 zoneinfo files.
 
-The end result is the 4 validation programs under `tests/validation`:
+The result is 2 validation programs under `tests/validation`:
 
-* `BasicValidationUsingJavaTest`
-* `BasicValidationUsingPythonTest`
-* `ExtendedValidationUsingJavaTest`
-* `ExtendedValidationUsingPythonTest`
+* [BasicValidationUsingJavaTest](tests/validation/BasicValidationUsingJavaTest/)
+* [ExtendedValidationUsingJavaTest](tests/validation/ExtendedValidationUsingJavaTest/)
 
-When these tests pass, they show that the timezone algorithms in AceTime produce
-the same results as the Python `pytz` library and the Java 11 `java.time`
-library, showing that 3 independently written libraries and algorithms agree
-with each other. These validation tests give me good confidence that AceTime
-produces correct results for the most part, but it is entirely expected that
-some obscure edge-case bugs will be found in the future.
+The most difficult part of using Java is figuring out how to install it
+and figuring out which of the many variants of the JDK to use. On Ubuntu 18.04,
+I used `openjdk 11.0.4 2019-07-16` which seems to use TZ Database 2018g. I have
+no recollection how I installed, I think it was something like `$ sudo apt
+install openjdk-11-jdk:amd64`.
+
+The underlying timezone database used by the `java.time` package seems to be
+locked to the release version of the JDK. I have not been able to figure out a
+way to upgrade the timezone database independently (it's something to do with
+the
+[TZUpdater](https://www.oracle.com/technetwork/java/javase/documentation/tzupdater-readme-136440.html)
+but I haven't figured it out.)
+
+### C++ Hinnant Date
+
+I looked for a timezone library that allowed me to control the specific
+version of the TZ Database. This led me to the C++11/14/17 [Hinnant
+date](https://github.com/HowardHinnant/date) library, which has apparently been
+accepted into the C++20 standard. This date and timezone library is incredible
+powerful, complex and difficult to use. I managed to incorporate it into 2 more
+validation tests, and verified that the AceTime library matches the Hinnant date
+library for all timezones from 2000 to 2049 (inclusive):
+
+* [BasicValidationUsingHinnantDateTest](tests/validation/BasicValidationUsingHinnantDateTest/)
+* [ExtendedValidationUsingHinnantDateTest](tests/validation/ExtendedValidationUsingHinnantDateTest/)
+
+I have validated the AceTime library against the following versions against
+the Hinnant date library:
+
+* TZ Database: 2019a
+* TZ Database: 2019b
 
 ## Benchmarks
 
@@ -2359,17 +2410,18 @@ classes (more details at [examples/AutoBenchmark](examples/AutoBenchmark):
 sizeof(LocalDate): 3
 sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
-sizeof(TimeOffset): 1
-sizeof(OffsetDateTime): 7
+sizeof(TimeOffset): 2
+sizeof(OffsetDateTime): 8
 sizeof(BasicZoneProcessor): 99
-sizeof(ExtendedZoneProcessor): 397
-sizeof(TimeZone): 3
-sizeof(ZonedDateTime): 10
+sizeof(ExtendedZoneProcessor): 437
+sizeof(BasicZoneManager<1>): 107
+sizeof(ExtendedZoneManager<1>): 445
+sizeof(TimeZone): 5
+sizeof(ZonedDateTime): 13
 sizeof(TimePeriod): 4
-sizeof(SystemClock): 17
 sizeof(DS3231Clock): 3
-sizeof(SystemClockLoop): 14
-sizeof(SystemClockCoroutine): 31
+sizeof(SystemClockLoop): 34
+sizeof(SystemClockCoroutine): 44
 ```
 
 **32-bit processors**
@@ -2377,17 +2429,18 @@ sizeof(SystemClockCoroutine): 31
 sizeof(LocalDate): 3
 sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
-sizeof(TimeOffset): 1
-sizeof(OffsetDateTime): 7
+sizeof(TimeOffset): 2
+sizeof(OffsetDateTime): 8
 sizeof(BasicZoneProcessor): 136
-sizeof(ExtendedZoneProcessor): 468
-sizeof(TimeZone): 8
-sizeof(ZonedDateTime): 16
+sizeof(ExtendedZoneProcessor): 500
+sizeof(BasicZoneManager<1>): 156
+sizeof(ExtendedZoneManager<1>): 520
+sizeof(TimeZone): 12
+sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
-sizeof(SystemClock): 24
 sizeof(NtpClock): 88 (ESP8266), 116 (ESP32)
-sizeof(SystemClockLoop): 16
-sizeof(SystemClockCoroutine): 48
+sizeof(SystemClockLoop): 44
+sizeof(SystemClockCoroutine): 68
 ```
 
 The [MemoryBenchmark](examples/MemoryBenchmark) program gives a more
@@ -2502,25 +2555,46 @@ provides other fine-grained classes such as `OffsetTime`, `OffsetDate`, `Year`,
 providing too many classes. The API of the library is already too large, I did
 not want to make them larger than necessary.
 
-### HowardHinnant Libraries
+### HowardHinnant Date Library
 
-A number of C++ libraries from Howard Hinnant are based the `<chrono>` standard
-library:
+The [date](https://github.com/HowardHinnant/date) package by Howard Hinnant is
+based upon the `<chrono>` standard library and consists of several libraries of
+which `date.h` and `tz.h` are comparable to AceTime. Modified versions of these
+libraries were voted into the C++20 standard.
 
-* [date](http://howardhinnant.github.io/date/date.html)
-* [tz](http://howardhinnant.github.io/date/tz.html)
-* [iso_week](http://howardhinnant.github.io/date/iso_week.html)
-* [julian](http://howardhinnant.github.io/date/julian.html)
-* [islamic](http://howardhinnant.github.io/date/islamic.html)
+Unfortunately these libaries are not suitable for an Arduino microcontroller
+environment because:
 
-To be honest, I have not looked very closely at these libraries, mostly because
-of my suspicion that they are too large to fit into an Arduino microcontroller.
+* The libraries depend extensively on 64-bit integers which are
+  impractical on 8-bit microcontrollers with only 32kB of flash memory.
+* The `tz.h` library has the option of downloading the TZ Database files over
+  the network using `libcurl` to the OS filesystem then parsing the files, or
+  using the native zoneinfo files on the host OS. Neither options are practical
+  on small microcontrollers. The raw TZ Database files consume about 1MB in
+  gzip'ed format, which are not suitable for a 32kB Arduino microcontroller.
+* The libraries has dependencies on other libraries such as `<iostream>` and
+  `<chrono>` which don't exist on most Arduino platforms.
+* The libraries are heavily templatized to provide maximum flexibility
+  and type-safety. But this makes the libraries incredibly hard to understand
+  and cumbersome to use for the simple use cases targeted by the AceTime
+  library.
+
+The Hinnant date libraries were invaluable for writing the
+[BasicValidationUsingHinnantDateTest](tests/validation/BasicValidationUsingHinnantDateTest/)
+and
+[ExtendedValidationUsingHinnantDateTest](tests/validation/ExtendedValidationUsingHinnantDateTest/)
+validation tests (in v0.7) which are the AceTime algorithms to the Hinnant Date
+algorithms. For all times zones between the years 2000 until 2050, the AceTime
+UTC offsets (`TimeZone::getUtcOffset()`) and epochSecond conversion to
+date components (`ZonedDateTime::fromEpochSeconds()`) match the results from the
+Hinannt Date libraries perfectly.
 
 ### Google cctz
 
 The [cctz](https://github.com/google/cctz) library from Google is also based on
-the `<chrono>` library. Again, I did not look at this library closely because I
-did not think it would fit inside an Arduino controller.
+the `<chrono>` library. I have not looked at this library closely because I
+assumed that it would fit inside an Arduino controller. Hopefully I will get
+some time to take a closer look in the future.
 
 ## Bugs and Limitations
 
@@ -2545,15 +2619,7 @@ did not think it would fit inside an Arduino controller.
       a signed integer, just like the old 32-bit Unix systems. The range of
       dates is 1901-12-13T20:45:52Z to 2038-01-19T03:14:07Z.
 * `TimeOffset`
-    * Implemented using `int8_t` to save memory.
-    * Represents time offsets in increments of 15 minutes. All timezones after
-      2012 are in multiples of 15 minutes.
-    * Five zones before 2012 have transitions at 00:01 which cannot be
-      represented by this class. Those transitions have been truncated to 00:00.
-      See the bottom of the generated
-      [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) and
-      [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h) files for the
-      up-to-date list.
+    * Implemented using `int16_t` in 1 minute increments.
 * `LocalDate`, `LocalDateTime`
     * These classes (and all other Date classes which are based on these) use
       a single 8-bit signed byte to represent the 'year' internally. This saves
@@ -2600,17 +2666,6 @@ did not think it would fit inside an Arduino controller.
       from 2000 until 2038.
     * Java `java.time` library has an upper limit far beyond the year 2068 limit
       of `ZonedDateTime`. Testing was performed from 2000 to until 2050.
-* `ExtendedZoneProcessor`
-    * There are 5 time zones (as of version 2019a of the TZ Database, see
-      the bottom of `zonedbx/zone_infos.h`) which have DST transitions that
-      occur at 00:01 (one minute after midnight). This transition cannot be
-      represented as a multiple of 15-minutes. The transition times of these
-      zones have been shifted to the nearest 15-minute boundary, in other words,
-      the transitions occur at 00:00 instead of 00:01. Clocks based on
-      `ExtendedZoneProcessor` will be off by one hour during the 1-minute
-      interval from 00:00 and 00:01.
-    * Fortunately all of these transitions happen before 2012. If you are
-      interested in only dates after 2019, then this will not affect you.
 * `NtpClock`
     * The `NtpClock` on an ESP8266 calls `WiFi.hostByName()` to resolve
       the IP address of the NTP server. Unfortunately, when I tested this
@@ -2627,18 +2682,11 @@ did not think it would fit inside an Arduino controller.
       [pytz](https://pypi.org/project/pytz/) library. Unfortunately, pytz does
       not support dates after Unix signed 32-bit `time_t` rollover at
       (2038-01-19T03:14:07Z).
-    * These are too big to run on any Arduino controller. They are designed to
-      run on a Linux or MacOS machine through the Makefiles using the
-      [UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulator.
 * `BasicValidationUsingJavaTest` and `ExtendedValidationUsingJavaTest`
     * These tests compare the transition times calculated by AceTime to Java 11
       `java.time` package which should support the entire range of dates that
       AceTime can represent. We have artificially limited the range of testing
       from 2000 to 2050.
-    * These are too big to run on any Arduino controller. They are designed to
-      run on a Linux or MacOS machine through the Makefiles using the
-      [UnixHostDuino](https://github.com/bxparks/UnixHostDuino)
-      emulator.
 * `zonedb/` and `zonedbx/` zoneinfo files
     * These statically defined data structures are loaded into flash memory
       using the `PROGMEM` keyword. The vast majority of the data structure

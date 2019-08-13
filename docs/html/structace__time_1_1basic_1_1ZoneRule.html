@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.6.1</span>
+   &#160;<span id="projectnumber">0.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -98,9 +98,8 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aa731a4af1b7cedb21903a46ea38ade7a"><td class="memItemLeft" align="right" valign="top">uint8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#aa731a4af1b7cedb21903a46ea38ade7a">atTimeCode</a></td></tr>
 <tr class="memdesc:aa731a4af1b7cedb21903a46ea38ade7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determined by the AT column in units of 15-minutes from 00:00.  <a href="#aa731a4af1b7cedb21903a46ea38ade7a">More...</a><br /></td></tr>
 <tr class="separator:aa731a4af1b7cedb21903a46ea38ade7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc3e44cf4dc4a005c15a4e39863a909a"><td class="memItemLeft" align="right" valign="top"><a id="acc3e44cf4dc4a005c15a4e39863a909a"></a>
-uint8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#acc3e44cf4dc4a005c15a4e39863a909a">atTimeModifier</a></td></tr>
-<tr class="memdesc:acc3e44cf4dc4a005c15a4e39863a909a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determined by the suffix in the AT column: 'w'=wall; 's'=standard; 'u'=meridian ('g' and 'z' mean the same as 'u' and are not supported because no current TZ file uses them). <br /></td></tr>
+<tr class="memitem:acc3e44cf4dc4a005c15a4e39863a909a"><td class="memItemLeft" align="right" valign="top">uint8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#acc3e44cf4dc4a005c15a4e39863a909a">atTimeModifier</a></td></tr>
+<tr class="memdesc:acc3e44cf4dc4a005c15a4e39863a909a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The atTimeModifier is a packed field containing 2 pieces of info:  <a href="#acc3e44cf4dc4a005c15a4e39863a909a">More...</a><br /></td></tr>
 <tr class="separator:acc3e44cf4dc4a005c15a4e39863a909a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48540781ee2c3437b02eb2f3eb0b570a"><td class="memItemLeft" align="right" valign="top"><a id="a48540781ee2c3437b02eb2f3eb0b570a"></a>
 int8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#a48540781ee2c3437b02eb2f3eb0b570a">deltaCode</a></td></tr>
@@ -138,6 +137,28 @@ Static Public Attributes</h2></td></tr>
 <p>The range is (0 - 100) corresponding to 00:00 to 25:00. </p>
 
 <p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00050">50</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
+
+</div>
+</div>
+<a id="acc3e44cf4dc4a005c15a4e39863a909a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc3e44cf4dc4a005c15a4e39863a909a">&#9670;&nbsp;</a></span>atTimeModifier</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t const ace_time::basic::ZoneRule::atTimeModifier</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The atTimeModifier is a packed field containing 2 pieces of info: </p>
+<ul>
+<li>The upper 4 bits represent the AT time suffix: 'w', 's' or 'u', represented by TIME_MODIFIER_W, TIME_MODIFIER_S and TIME_MODIFIER_U.</li>
+<li>The lower 4 bits represent the remaining 0-14 minutes of the AT field after truncation into atTimeCode. In other words, the full AT field in one-minute resolution is (15 * atTimeCode + (atTimeModifier &amp; 0x0f)). </li>
+</ul>
+
+<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00061">61</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
 
 </div>
 </div>
@@ -227,7 +248,7 @@ Static Public Attributes</h2></td></tr>
 <li>Troll ('+00' '+02'; used by Antarctica/Troll) </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00081">81</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00085">85</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
 
 </div>
 </div>

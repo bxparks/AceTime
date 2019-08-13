@@ -13,9 +13,16 @@ namespace ace_time {
 
 /**
  * Data structure that captures the internal state of a TimeZone object with
- * enough information so that it can be reconstructed using a ZoneManager.
- * The data structure can be stored persistently then read back.
- * TimeZone::forTimeZoneData() factory method.
+ * enough information so that it can be serialized using
+ * TimeZone::toTimeZoneData() then reconstructed using
+ * ZoneManager::createForTimeZoneData(). This data structure is meant to a
+ * simple and somewhat opaque serialization object. You should not rely on this
+ * struct to remain stable, nor reach into its internal fields. No versioning
+ * is provided for simplicity. If the internal format changes in the future,
+ * the previous version will likely be incompatible with the new version of the
+ * library. It is recommended to use a CRC check to detect version
+ * incompatibility if this data structure is saved (e.g. EEPROM) and retrieved
+ * later .
  */
 struct TimeZoneData {
   static const uint8_t kTypeError = 0;
@@ -27,8 +34,8 @@ struct TimeZoneData {
   union {
     /** Used for kTypeManual. */
     struct {
-      int8_t stdOffsetCode;
-      int8_t dstOffsetCode;
+      int16_t stdOffsetMinutes;
+      int16_t dstOffsetMinutes;
     };
 
     /**
@@ -43,8 +50,8 @@ inline bool operator==(const TimeZoneData& a, const TimeZoneData& b) {
   if (a.type != b.type) return false;
   switch (a.type) {
     case TimeZoneData::kTypeManual:
-      return (a.stdOffsetCode == b.stdOffsetCode)
-          && (a.dstOffsetCode == b.dstOffsetCode);
+      return (a.stdOffsetMinutes == b.stdOffsetMinutes)
+          && (a.dstOffsetMinutes == b.dstOffsetMinutes);
     case TimeZoneData::kTypeZoneId:
       return (a.zoneId == b.zoneId);
     default:

@@ -11,13 +11,13 @@ using namespace ace_time;
 // --------------------------------------------------------------------------
 
 test(TimeOffsetTest, code) {
-  assertEqual(TimeOffset::forHour(-8).toOffsetCode(), -8*4);
+  assertEqual(TimeOffset::forHours(-8).toOffsetCode(), -8*4);
 }
 
 test(TimeOffsetTest, isZero) {
-  assertTrue(TimeOffset::forHour(0).isZero());
+  assertTrue(TimeOffset::forHours(0).isZero());
   assertTrue(TimeOffset().isZero());
-  assertFalse(TimeOffset::forHour(1).isZero());
+  assertFalse(TimeOffset::forHours(1).isZero());
 }
 
 test(TimeOffsetTest, forMinutes) {
@@ -30,17 +30,17 @@ test(TimeOffsetTest, forMinutes) {
   assertEqual((int32_t) 900, offset.toSeconds());
 
   offset = TimeOffset::forMinutes(-16);
-  assertEqual((int16_t) -15, offset.toMinutes());
-  assertEqual((int32_t) -900, offset.toSeconds());
+  assertEqual((int16_t) -16, offset.toMinutes());
+  assertEqual((int32_t) -960, offset.toSeconds());
 
   offset = TimeOffset::forMinutes(16);
-  assertEqual((int16_t) 15, offset.toMinutes());
-  assertEqual((int32_t) 900, offset.toSeconds());
+  assertEqual((int16_t) 16, offset.toMinutes());
+  assertEqual((int32_t) 960, offset.toSeconds());
 }
 
 test(TimeOffsetTest, forHour) {
-  assertEqual(TimeOffset::forHour(-8).toMinutes(), -8*60);
-  assertEqual(TimeOffset::forHour(1).toMinutes(), 1*60);
+  assertEqual(TimeOffset::forHours(-8).toMinutes(), -8*60);
+  assertEqual(TimeOffset::forHours(1).toMinutes(), 1*60);
 }
 
 test(TimeOffsetTest, forHourMinute) {
@@ -57,7 +57,7 @@ test(TimeOffsetTest, forOffsetString) {
   assertEqual(TimeOffset::forOffsetString("-07:45").toMinutes(), -(7*60+45));
   assertEqual(TimeOffset::forOffsetString("+01:00").toMinutes(), 60);
   assertEqual(TimeOffset::forOffsetString("+01:15").toMinutes(), 75);
-  assertEqual(TimeOffset::forOffsetString("+01:16").toMinutes(), 75);
+  assertEqual(TimeOffset::forOffsetString("+01:16").toMinutes(), 76);
 }
 
 test(TimeOffsetTest, toHourMinute) {
@@ -100,7 +100,9 @@ test(TimeOffsetMutationTest, increment15Minutes) {
   TimeOffset offset;
 
   offset = TimeOffset::forHourMinute(-16, 0);
+  assertEqual(-960, offset.toMinutes());
   time_offset_mutation::increment15Minutes(offset);
+  assertEqual(-945, offset.toMinutes());
   offset.toHourMinute(hour, minute);
   assertEqual(-15, hour);
   assertEqual(-45, minute);
@@ -136,9 +138,9 @@ test(TimeOffsetMutationTest, increment15Minutes) {
 
 void setup() {
 #if defined(ARDUINO)
-  delay(1000); // wait for stability on some boards to prevent garbage SERIAL_PORT_MONITOR
+  delay(1000); // wait for stability to prevent garbage on SERIAL_PORT_MONITOR
 #endif
-  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  SERIAL_PORT_MONITOR.begin(115200);
   while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
 }
 

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.6.1</span>
+   &#160;<span id="projectnumber">0.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -73,7 +73,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Data structure that captures the internal state of a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone. ">TimeZone</a> object with enough information so that it can be reconstructed using a <a class="el" href="classace__time_1_1ZoneManager.html" title="Returns the TimeZone given the zoneInfo, zoneName, or zoneId. ">ZoneManager</a>.  
+<p>Data structure that captures the internal state of a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone. ">TimeZone</a> object with enough information so that it can be serialized using <a class="el" href="classace__time_1_1TimeZone.html#af4e12e7f8296fefe6b979fd5b9af5ba7" title="Convert to a TimeZoneData object, which can be fed back into ZoneManager::createForTimeZoneData() to ...">TimeZone::toTimeZoneData()</a> then reconstructed using <a class="el" href="classace__time_1_1ZoneManager.html#a5e58999d954a39c175c1f218e11eb74a" title="Create from the TimeZoneData created by TimeZone::toTimeZoneData(). ">ZoneManager::createForTimeZoneData()</a>.  
  <a href="structace__time_1_1TimeZoneData.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="TimeZoneData_8h_source.html">TimeZoneData.h</a>&gt;</code></p>
@@ -86,12 +86,12 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
 <tr class="memitem:a42d8687d6766acae6568e2539f2e6d8a"><td class="memItemLeft" ><a id="a42d8687d6766acae6568e2539f2e6d8a"></a>
 union {</td></tr>
 <tr class="memitem:a196881902ecbba868ca252d56544fd47"><td class="memItemLeft" >&#160;&#160;&#160;struct {</td></tr>
-<tr class="memitem:a595eb82c0ffbafc931070dd2629c2b2d"><td class="memItemLeft" >
-&#160;&#160;&#160;&#160;&#160;&#160;int8_t&#160;&#160;&#160;<b>stdOffsetCode</b></td></tr>
-<tr class="separator:a595eb82c0ffbafc931070dd2629c2b2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d2460e130833ebdf30e954ca9b5d9d7"><td class="memItemLeft" >
-&#160;&#160;&#160;&#160;&#160;&#160;int8_t&#160;&#160;&#160;<b>dstOffsetCode</b></td></tr>
-<tr class="separator:a6d2460e130833ebdf30e954ca9b5d9d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdff5100efc3547f09897b5a294dc182"><td class="memItemLeft" >
+&#160;&#160;&#160;&#160;&#160;&#160;int16_t&#160;&#160;&#160;<b>stdOffsetMinutes</b></td></tr>
+<tr class="separator:abdff5100efc3547f09897b5a294dc182"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2ab58b4c4b3b36d6f167a6d0f17e70f"><td class="memItemLeft" >
+&#160;&#160;&#160;&#160;&#160;&#160;int16_t&#160;&#160;&#160;<b>dstOffsetMinutes</b></td></tr>
+<tr class="separator:ab2ab58b4c4b3b36d6f167a6d0f17e70f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a196881902ecbba868ca252d56544fd47"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
 <tr class="memdesc:a196881902ecbba868ca252d56544fd47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used for kTypeManual.  <a href="#a196881902ecbba868ca252d56544fd47">More...</a><br /></td></tr>
 <tr class="separator:a196881902ecbba868ca252d56544fd47"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -115,10 +115,10 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>kType
 <tr class="separator:a89eca10ee5e0cc9c4494f2662aceab56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Data structure that captures the internal state of a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone. ">TimeZone</a> object with enough information so that it can be reconstructed using a <a class="el" href="classace__time_1_1ZoneManager.html" title="Returns the TimeZone given the zoneInfo, zoneName, or zoneId. ">ZoneManager</a>. </p>
-<p>The data structure can be stored persistently then read back. TimeZone::forTimeZoneData() factory method. </p>
+<div class="textblock"><p>Data structure that captures the internal state of a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone. ">TimeZone</a> object with enough information so that it can be serialized using <a class="el" href="classace__time_1_1TimeZone.html#af4e12e7f8296fefe6b979fd5b9af5ba7" title="Convert to a TimeZoneData object, which can be fed back into ZoneManager::createForTimeZoneData() to ...">TimeZone::toTimeZoneData()</a> then reconstructed using <a class="el" href="classace__time_1_1ZoneManager.html#a5e58999d954a39c175c1f218e11eb74a" title="Create from the TimeZoneData created by TimeZone::toTimeZoneData(). ">ZoneManager::createForTimeZoneData()</a>. </p>
+<p>This data structure is meant to a simple and somewhat opaque serialization object. You should not rely on this struct to remain stable, nor reach into its internal fields. No versioning is provided for simplicity. If the internal format changes in the future, the previous version will likely be incompatible with the new version of the library. It is recommended to use a CRC check to detect version incompatibility if this data structure is saved (e.g. EEPROM) and retrieved later . </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeZoneData_8h_source.html#l00020">20</a> of file <a class="el" href="TimeZoneData_8h_source.html">TimeZoneData.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeZoneData_8h_source.html#l00027">27</a> of file <a class="el" href="TimeZoneData_8h_source.html">TimeZoneData.h</a>.</p>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>/home/brian/dev/AceTime/src/ace_time/<a class="el" href="TimeZoneData_8h_source.html">TimeZoneData.h</a></li>
 </ul>

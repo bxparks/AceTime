@@ -1,10 +1,11 @@
 # Validation Tests
 
 These tests compare the algorithm implemented by `ZonedDateTime` and
-`ZoneProcessor` classes with the equivalent functionalty from the Python
-[pytz](https://pypi.org/project/pytz/) library and the [Java 11
-Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
-library.
+`ZoneProcessor` classes with the equivalent functionalty from 3
+other libraries:
+* Python [pytz](https://pypi.org/project/pytz/) library
+* [Java 11 Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html) library.
+* [Hinnant date](https://github.com/HowardHinnant/date) C++ library
 
 These unit tests require a desktop-class machine running Linux or MacOS. They
 are too big to run on any Arduino microcontroller that I know of. They use the
@@ -19,9 +20,11 @@ these tests, it did not seem worth checking in the generated code.)
 
 Prerequite:
 
-1. You need to compile the
-[TestDataGenerator.java](../../tools/java/TestDataGenerator.java) program:
-    * `$ (cd ../../tools/java; make)`
+1. You need to compile a number of tools in `$ACE_TIME_DIR/tools`:
+    * [TestDataGenerator.java](../../tools/java/TestDataGenerator.java) program:
+        * `$ (cd ../../tools/java; make)`
+    * [test_data_generator.cpp](../../tools/cpp/test_data_generator.cpp) program
+        * `$ (cd ../../tools/cpp; make)
 1. Install [UnixHostDuino](https://github.com/bxparks/UnixHostDuino) as
   a sibling project to AceTime if you have not already done so:
     * `$ (cd ../../..; git clone https://github.com/bxparks/UnixHostDuino)`
