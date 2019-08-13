@@ -298,12 +298,12 @@ void printDataCpp(const map<string, vector<TestItem>>& testData) {
   fprintf(fp, "// DO NOT EDIT\n");
   fprintf(fp, "\n");
   fprintf(fp, "#include <AceTime.h>\n");
-  fprintf(fp, "#include \"zonedb2018g/zone_infos.h\"\n");
-  fprintf(fp, "#include \"zonedb2018g/zone_policies.h\"\n");
+  fprintf(fp, "#include \"%s/zone_infos.h\"\n", dbNamespace.c_str());
+  fprintf(fp, "#include \"%s/zone_policies.h\"\n", dbNamespace.c_str());
   fprintf(fp, "#include \"validation_data.h\"\n");
   fprintf(fp, "\n");
   fprintf(fp, "namespace ace_time {\n");
-  fprintf(fp, "namespace zonedb2018g {\n");
+  fprintf(fp, "namespace %s {\n", dbNamespace.c_str());
   fprintf(fp, "\n");
 
   for (const auto& p : testData) {
@@ -343,7 +343,37 @@ void printDataCpp(const map<string, vector<TestItem>>& testData) {
   fclose(fp);
 }
 
+/** Create validation_data.h file. */
 void printDataHeader(const map<string, vector<TestItem>>& testData) {
+  FILE* fp = fopen(VALIDATION_DATA_H, "w");
+
+  fprintf(fp, "// This is an auto-generated file.\n");
+  fprintf(fp, "// DO NOT EDIT\n");
+  fprintf(fp, "\n");
+  fprintf(fp, "#ifndef ACE_TIME_VALIDATION_TEST_VALIDATION_DATA_H\n");
+  fprintf(fp, "#define ACE_TIME_VALIDATION_TEST_VALIDATION_DATA_H\n");
+  fprintf(fp, "\n");
+  fprintf(fp, "#include \"ValidationDataType.h\"\n");
+  fprintf(fp, "\n");
+  fprintf(fp, "namespace ace_time {\n");
+  fprintf(fp, "namespace %s {\n", dbNamespace.c_str());
+  fprintf(fp, "\n");
+
+  for (const auto& p : testData) {
+    const auto zoneName = p.first;
+    const auto normalizedName = normalizeName(zoneName);
+
+    fprintf(fp, "extern const ValidationData kValidationData%s;\n",
+      normalizedName.c_str());
+  }
+
+  fprintf(fp, "\n");
+  fprintf(fp, "#endif\n");
+  fprintf(fp, "\n");
+  fprintf(fp, "}\n");
+  fprintf(fp, "}\n");
+
+  fclose(fp);
 }
 
 void usageAndExit() {
@@ -406,5 +436,9 @@ int main(int argc, const char* const* argv) {
   map<string, vector<TestItem>> testData = processZones(zones);
   sortTestData(testData);
   printDataCpp(testData);
+  printDataHeader(testData);
+
+  fprintf(stderr, "Created %s\n", VALIDATION_DATA_CPP);
+  fprintf(stderr, "Created %s\n", VALIDATION_DATA_H);
   return 0;
 }
