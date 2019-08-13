@@ -1,6 +1,8 @@
 # Changelog
 
 * Unreleased
+    * Replace `TimeZone::printAbbrevTo()` with non-thread-safe, but more
+      flexible and useful `TimeZone::getAbbrev()`.
 * 0.7
     * Change TimeZoneData to store mStdOffset and mDstOffset in units of
       one minute (instead of 15-minute increments, "code") in the off chance
