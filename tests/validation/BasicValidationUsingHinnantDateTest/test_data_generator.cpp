@@ -54,6 +54,7 @@ struct TestItem {
 // Command line arguments
 string scope = "";
 string dbNamespace = "";
+bool isCustomDbNamespace;
 int startYear = 2000;
 int untilYear = 2050;
 
@@ -294,12 +295,15 @@ void printTestItem(FILE* fp, const TestItem& item) {
 void printDataCpp(const map<string, vector<TestItem>>& testData) {
   FILE* fp = fopen(VALIDATION_DATA_CPP, "w");
 
-  fprintf(fp, "// This is an auto-generated file.\n");
+  fprintf(fp,
+      "// This is an auto-generated file using the Hinnant Date Library.\n");
   fprintf(fp, "// DO NOT EDIT\n");
   fprintf(fp, "\n");
   fprintf(fp, "#include <AceTime.h>\n");
-  fprintf(fp, "#include \"%s/zone_infos.h\"\n", dbNamespace.c_str());
-  fprintf(fp, "#include \"%s/zone_policies.h\"\n", dbNamespace.c_str());
+  if (isCustomDbNamespace) {
+    fprintf(fp, "#include \"%s/zone_infos.h\"\n", dbNamespace.c_str());
+    fprintf(fp, "#include \"%s/zone_policies.h\"\n", dbNamespace.c_str());
+  }
   fprintf(fp, "#include \"validation_data.h\"\n");
   fprintf(fp, "\n");
   fprintf(fp, "namespace ace_time {\n");
@@ -307,9 +311,9 @@ void printDataCpp(const map<string, vector<TestItem>>& testData) {
   fprintf(fp, "\n");
 
   for (const auto& p : testData) {
-    const auto zoneName = p.first;
-    const auto normalizedName = normalizeName(zoneName);
-    const auto& testItems = p.second;
+    const string& zoneName = p.first;
+    const string normalizedName = normalizeName(zoneName);
+    const vector<TestItem>& testItems = p.second;
 
     fprintf(fp,
     "//--------------------------------------------------------------------\n");
@@ -347,7 +351,8 @@ void printDataCpp(const map<string, vector<TestItem>>& testData) {
 void printDataHeader(const map<string, vector<TestItem>>& testData) {
   FILE* fp = fopen(VALIDATION_DATA_H, "w");
 
-  fprintf(fp, "// This is an auto-generated file.\n");
+  fprintf(fp,
+      "// This is an auto-generated file using the Hinnant Date Library.\n");
   fprintf(fp, "// DO NOT EDIT\n");
   fprintf(fp, "\n");
   fprintf(fp, "#ifndef ACE_TIME_VALIDATION_TEST_VALIDATION_DATA_H\n");
@@ -360,9 +365,8 @@ void printDataHeader(const map<string, vector<TestItem>>& testData) {
   fprintf(fp, "\n");
 
   for (const auto& p : testData) {
-    const auto zoneName = p.first;
-    const auto normalizedName = normalizeName(zoneName);
-
+    const string& zoneName = p.first;
+    const string normalizedName = normalizeName(zoneName);
     fprintf(fp, "extern const ValidationData kValidationData%s;\n",
       normalizedName.c_str());
   }
@@ -372,6 +376,33 @@ void printDataHeader(const map<string, vector<TestItem>>& testData) {
   fprintf(fp, "\n");
   fprintf(fp, "}\n");
   fprintf(fp, "}\n");
+
+  fclose(fp);
+}
+
+/** Create validation_tests.cpp file. */
+void printTestsCpp(const map<string, vector<TestItem>>& testData) {
+  FILE* fp = fopen(VALIDATION_TESTS_CPP, "w");
+
+  fprintf(fp,
+      "// This is an auto-generated file using the Hinnant Date Library.\n");
+  fprintf(fp, "// DO NOT EDIT\n");
+  fprintf(fp, "\n");
+
+  fprintf(fp, "#include <AUnit.h>\n");
+  fprintf(fp, "#include \"TransitionTest.h\"\n");
+  fprintf(fp, "#include \"validation_data.h\"\n");
+  fprintf(fp, "\n");
+
+  for (const auto& p : testData) {
+    const string& zoneName = p.first;
+    const string normalizedName = normalizeName(zoneName);
+    fprintf(fp, "testF(TransitionTest, %s) {\n", normalizedName.c_str());
+    fprintf(fp, "  assertValid(&ace_time::%s::kValidationData%s\n",
+        dbNamespace.c_str(),
+        normalizedName.c_str());
+    fprintf(fp, "}\n");
+  }
 
   fclose(fp);
 }
@@ -427,6 +458,7 @@ int main(int argc, const char* const* argv) {
     fprintf(stderr, "Must give --db_namespace {db} flagn\n");
     usageAndExit();
   }
+  isCustomDbNamespace = (dbNamespace != "zonedb" && dbNamespace != "zonedbx");
 
   startYear = atoi(start.c_str());
   untilYear = atoi(until.c_str());
@@ -437,8 +469,10 @@ int main(int argc, const char* const* argv) {
   sortTestData(testData);
   printDataCpp(testData);
   printDataHeader(testData);
+  printTestsCpp(testData);
 
   fprintf(stderr, "Created %s\n", VALIDATION_DATA_CPP);
   fprintf(stderr, "Created %s\n", VALIDATION_DATA_H);
+  fprintf(stderr, "Created %s\n", VALIDATION_TESTS_CPP);
   return 0;
 }
