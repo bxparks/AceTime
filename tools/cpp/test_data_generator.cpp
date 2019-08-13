@@ -6,7 +6,8 @@
  * Usage:
  * $ ./test_data_generator.out \
  *    --scope (basic | extended) \
- *    --db_namespace (db) \
+ *    --db_namespace {db} \
+ *    --tz_version {version} \
  *    [--start_year start] \
  *    [--until_year until] < zones.txt
  */
@@ -21,13 +22,6 @@
 using namespace date;
 using namespace std::chrono;
 using namespace std;
-
-/** Difference between Unix epoch (1970-01-1) and AceTime Epoch (2000-01-01). */
-const long SECONDS_SINCE_UNIX_EPOCH = 946684800;
-
-const char VALIDATION_DATA_CPP[] = "validation_data.cpp";
-const char VALIDATION_DATA_H[] = "validation_data.h";
-const char VALIDATION_TESTS_CPP[] = "validation_tests.cpp";
 
 /** DateTime components. */
 struct DateTime {
@@ -51,8 +45,18 @@ struct TestItem {
   char type; //'A', 'B', 'S', 'T' or 'Y'
 };
 
+/** Difference between Unix epoch (1970-01-1) and AceTime Epoch (2000-01-01). */
+const long SECONDS_SINCE_UNIX_EPOCH = 946684800;
+
+// Output files
+const char VALIDATION_DATA_CPP[] = "validation_data.cpp";
+const char VALIDATION_DATA_H[] = "validation_data.h";
+const char VALIDATION_TESTS_CPP[] = "validation_tests.cpp";
+
+// default TZ version
+const char TZ_VERSION[] = "2019a";
+
 // Command line arguments
-string scope = "";
 string dbNamespace = "";
 bool isCustomDbNamespace;
 int startYear = 2000;
@@ -297,6 +301,7 @@ void printDataCpp(const map<string, vector<TestItem>>& testData) {
 
   fprintf(fp,
       "// This is an auto-generated file using the Hinnant Date Library.\n");
+  fprintf(fp, "// TZ Database version: %s\n", date::get_tzdb().version.c_str());
   fprintf(fp, "// DO NOT EDIT\n");
   fprintf(fp, "\n");
   fprintf(fp, "#include <AceTime.h>\n");
@@ -353,6 +358,7 @@ void printDataHeader(const map<string, vector<TestItem>>& testData) {
 
   fprintf(fp,
       "// This is an auto-generated file using the Hinnant Date Library.\n");
+  fprintf(fp, "// TZ Database version: %s\n", date::get_tzdb().version.c_str());
   fprintf(fp, "// DO NOT EDIT\n");
   fprintf(fp, "\n");
   fprintf(fp, "#ifndef ACE_TIME_VALIDATION_TEST_VALIDATION_DATA_H\n");
@@ -386,6 +392,7 @@ void printTestsCpp(const map<string, vector<TestItem>>& testData) {
 
   fprintf(fp,
       "// This is an auto-generated file using the Hinnant Date Library.\n");
+  fprintf(fp, "// TZ Database version: %s\n", date::get_tzdb().version.c_str());
   fprintf(fp, "// DO NOT EDIT\n");
   fprintf(fp, "\n");
 
@@ -410,7 +417,8 @@ void printTestsCpp(const map<string, vector<TestItem>>& testData) {
 void usageAndExit() {
   fprintf(stderr,
     "Usage: test_data_generator --scope (basic | extended) --db_namespace db\n"
-    "   [--start_year start] [--until_year until] < zones.txt\n");
+    "   [--tz_version {version}] [--start_year start] [--until_year until] \n"
+    " < zones.txt\n");
   exit(1);
 }
 
@@ -419,8 +427,11 @@ void usageAndExit() {
 
 int main(int argc, const char* const* argv) {
   // Parse command line flags.
+  string scope = "";
   string start = "2000";
   string until = "2050";
+  string tzVersion = TZ_VERSION;
+
   SHIFT(argc, argv);
   while (argc > 0) {
     if (ARG_EQUALS(argv[0], "--scope")) {
@@ -439,6 +450,10 @@ int main(int argc, const char* const* argv) {
       SHIFT(argc, argv);
       if (argc == 0) usageAndExit();
       dbNamespace = argv[0];
+    } else if (ARG_EQUALS(argv[0], "--tz_version")) {
+      SHIFT(argc, argv);
+      if (argc == 0) usageAndExit();
+      tzVersion = argv[0];
     } else if (ARG_EQUALS(argv[0], "--")) {
       SHIFT(argc, argv);
       break;
@@ -450,6 +465,7 @@ int main(int argc, const char* const* argv) {
     }
     SHIFT(argc, argv);
   }
+  // TODO: Use the scope to select the default dbNamespace if not given.
   if (scope != "basic" && scope != "extended") {
     fprintf(stderr, "Unknown --scope '%s'\n", scope.c_str());
     usageAndExit();
@@ -462,6 +478,18 @@ int main(int argc, const char* const* argv) {
 
   startYear = atoi(start.c_str());
   untilYear = atoi(until.c_str());
+
+  // Load the TZ Database at a specific version
+  if (! remote_download(tzVersion)) {
+    fprintf(stderr, "Failed to download TZ Version %s\n", tzVersion.c_str());
+    exit(1);
+  }
+  if (! remote_install(tzVersion)) {
+    fprintf(stderr, "Failed to install TZ Version %s\n", tzVersion.c_str());
+    exit(1);
+  }
+  reload_tzdb();
+  fprintf(stderr, "Loaded TZ Version %s\n", tzVersion.c_str());
 
   // Process the zones on the STDIN
   vector<string> zones = readZones();
