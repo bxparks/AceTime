@@ -1,6 +1,6 @@
 <map id="ace_time::extended::Transition" name="ace_time::extended::Transition">
 <area shape="rect" id="node2" href="$structace__time_1_1extended_1_1ZoneMatch.html" title="Data structure that captures the matching ZoneEra and its ZoneRule transitions for a given year..." alt="" coords="311,121,447,162"/>
-<area shape="rect" id="node3" href="$structace__time_1_1extended_1_1DateTuple.html" title="A tuple that represents a date and time, using a timeCode that tracks the time component using 15&#45;min..." alt="" coords="17,59,153,101"/>
+<area shape="rect" id="node3" href="$structace__time_1_1extended_1_1DateTuple.html" title="A tuple that represents a date and time. " alt="" coords="17,59,153,101"/>
 <area shape="rect" id="node4" href="$classace__time_1_1internal_1_1FlashZoneEraBroker.html" title="ace_time::internal\l::FlashZoneEraBroker\l\&lt; ZoneEra, ZonePolicy,\l ZoneRule \&gt;" alt="" coords="5,131,165,202"/>
 <area shape="rect" id="node5" href="$classace__time_1_1internal_1_1FlashZoneRuleBroker.html" title="ace_time::internal\l::FlashZoneRuleBroker\l\&lt; ZoneRule \&gt;" alt="" coords="301,187,457,243"/>
 </map>

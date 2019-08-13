@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.6.1</span>
+   &#160;<span id="projectnumber">0.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -66,6 +66,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="structace__time_1_1basic_1_1ZoneContext-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">ace_time::basic::ZoneContext Struct Reference</div>  </div>
@@ -88,6 +89,18 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a4aa254cddfb648deb8bb1a373b8c11ca"><td class="memItemLeft" align="right" valign="top">const char *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneContext.html#a4aa254cddfb648deb8bb1a373b8c11ca">tzVersion</a></td></tr>
 <tr class="memdesc:a4aa254cddfb648deb8bb1a373b8c11ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">TZ Database version which generated the zone info.  <a href="#a4aa254cddfb648deb8bb1a373b8c11ca">More...</a><br /></td></tr>
 <tr class="separator:a4aa254cddfb648deb8bb1a373b8c11ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a32531c7c0220179055a99d2691c4cdde"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneContext.html#a32531c7c0220179055a99d2691c4cdde">TIME_MODIFIER_W</a> = 0x00</td></tr>
+<tr class="memdesc:a32531c7c0220179055a99d2691c4cdde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents 'w' or wall time.  <a href="#a32531c7c0220179055a99d2691c4cdde">More...</a><br /></td></tr>
+<tr class="separator:a32531c7c0220179055a99d2691c4cdde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7f9fc02a0f1d2d88be950718f492db9"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneContext.html#af7f9fc02a0f1d2d88be950718f492db9">TIME_MODIFIER_S</a> = 0x10</td></tr>
+<tr class="memdesc:af7f9fc02a0f1d2d88be950718f492db9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents 's' or standard time.  <a href="#af7f9fc02a0f1d2d88be950718f492db9">More...</a><br /></td></tr>
+<tr class="separator:af7f9fc02a0f1d2d88be950718f492db9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae61a359a40ebf162f903a8e76ca3cbd8"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneContext.html#ae61a359a40ebf162f903a8e76ca3cbd8">TIME_MODIFIER_U</a> = 0x20</td></tr>
+<tr class="memdesc:ae61a359a40ebf162f903a8e76ca3cbd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents 'u' or UTC time.  <a href="#ae61a359a40ebf162f903a8e76ca3cbd8">More...</a><br /></td></tr>
+<tr class="separator:ae61a359a40ebf162f903a8e76ca3cbd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Metadata about the zone database. </p>
@@ -109,7 +122,85 @@ Public Attributes</h2></td></tr>
 
 <p>Start year of the zone files. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneContext_8h_source.html#l00021">21</a> of file <a class="el" href="ZoneContext_8h_source.html">ZoneContext.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneContext_8h_source.html#l00030">30</a> of file <a class="el" href="ZoneContext_8h_source.html">ZoneContext.h</a>.</p>
+
+</div>
+</div>
+<a id="af7f9fc02a0f1d2d88be950718f492db9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7f9fc02a0f1d2d88be950718f492db9">&#9670;&nbsp;</a></span>TIME_MODIFIER_S</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t ace_time::basic::ZoneContext::TIME_MODIFIER_S = 0x10</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Represents 's' or standard time. </p>
+
+<p class="definition">Definition at line <a class="el" href="ZoneContext_8h_source.html#l00016">16</a> of file <a class="el" href="ZoneContext_8h_source.html">ZoneContext.h</a>.</p>
+
+</div>
+</div>
+<a id="ae61a359a40ebf162f903a8e76ca3cbd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae61a359a40ebf162f903a8e76ca3cbd8">&#9670;&nbsp;</a></span>TIME_MODIFIER_U</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t ace_time::basic::ZoneContext::TIME_MODIFIER_U = 0x20</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Represents 'u' or UTC time. </p>
+
+<p class="definition">Definition at line <a class="el" href="ZoneContext_8h_source.html#l00019">19</a> of file <a class="el" href="ZoneContext_8h_source.html">ZoneContext.h</a>.</p>
+
+</div>
+</div>
+<a id="a32531c7c0220179055a99d2691c4cdde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32531c7c0220179055a99d2691c4cdde">&#9670;&nbsp;</a></span>TIME_MODIFIER_W</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t ace_time::basic::ZoneContext::TIME_MODIFIER_W = 0x00</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Represents 'w' or wall time. </p>
+
+<p class="definition">Definition at line <a class="el" href="ZoneContext_8h_source.html#l00013">13</a> of file <a class="el" href="ZoneContext_8h_source.html">ZoneContext.h</a>.</p>
 
 </div>
 </div>
@@ -127,7 +218,7 @@ Public Attributes</h2></td></tr>
 
 <p>TZ Database version which generated the zone info. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneContext_8h_source.html#l00027">27</a> of file <a class="el" href="ZoneContext_8h_source.html">ZoneContext.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneContext_8h_source.html#l00036">36</a> of file <a class="el" href="ZoneContext_8h_source.html">ZoneContext.h</a>.</p>
 
 </div>
 </div>
@@ -145,7 +236,7 @@ Public Attributes</h2></td></tr>
 
 <p>Until year of the zone files. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneContext_8h_source.html#l00024">24</a> of file <a class="el" href="ZoneContext_8h_source.html">ZoneContext.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneContext_8h_source.html#l00033">33</a> of file <a class="el" href="ZoneContext_8h_source.html">ZoneContext.h</a>.</p>
 
 </div>
 </div>

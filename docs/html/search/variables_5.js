@@ -6,6 +6,7 @@ var searchData=
   ['kdayssinceunixepoch',['kDaysSinceUnixEpoch',['../classace__time_1_1LocalDate.html#a763a26be59ffcbdecd1833974ba21a05',1,'ace_time::LocalDate']]],
   ['kepochyear',['kEpochYear',['../classace__time_1_1LocalDate.html#a0061f9720cb66ec66d00b3dbec08bef2',1,'ace_time::LocalDate']]],
   ['kerrorcode',['kErrorCode',['../classace__time_1_1TimeOffset.html#adf3b3dce042740efb5f959fe37f3f692',1,'ace_time::TimeOffset']]],
+  ['kerrorminutes',['kErrorMinutes',['../classace__time_1_1TimeOffset.html#a878cf094506b1f4de5722c74769c891b',1,'ace_time::TimeOffset']]],
   ['kfriday',['kFriday',['../classace__time_1_1LocalDate.html#a36d3a3480dd894310c6b558cc8efc357',1,'ace_time::LocalDate']]],
   ['kinvalidepochdays',['kInvalidEpochDays',['../classace__time_1_1LocalDate.html#a6b65b92e26307821c8f9df780b434ab2',1,'ace_time::LocalDate']]],
   ['kinvalidepochseconds',['kInvalidEpochSeconds',['../classace__time_1_1LocalDate.html#a93246cf1e604993768fba270de04fb72',1,'ace_time::LocalDate']]],

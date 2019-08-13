@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.6.1</span>
+   &#160;<span id="projectnumber">0.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -73,7 +73,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>An implementation of <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes. ">ZoneProcessor</a> that works for <em>all</em> zones defined by the TZ Database (with some zones suffering a slight loss of accurancy described below).  
+<p>An implementation of <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes. ">ZoneProcessor</a> that supports for <em>all</em> zones defined by the TZ Database.  
  <a href="classace__time_1_1ExtendedZoneProcessor.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>&gt;</code></p>
@@ -196,6 +196,9 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::ExtendedZoneProces
 <tr class="memitem:ab74b5b649878a3eddc46612527c66a55"><td class="memItemLeft" align="right" valign="top"><a id="ab74b5b649878a3eddc46612527c66a55"></a>
 class&#160;</td><td class="memItemRight" valign="bottom"><b>::ExtendedZoneProcessorTest_setZoneInfo</b></td></tr>
 <tr class="separator:ab74b5b649878a3eddc46612527c66a55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30856c606d8246d2d0e27f228f098e0d"><td class="memItemLeft" align="right" valign="top"><a id="a30856c606d8246d2d0e27f228f098e0d"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>::TransitionStorageTest_findTransitionForDateTime</b></td></tr>
+<tr class="separator:a30856c606d8246d2d0e27f228f098e0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7f148f891942bdd4f6d96b8c2d33012"><td class="memTemplParams" colspan="2"><a id="aa7f148f891942bdd4f6d96b8c2d33012"></a>
 template&lt;uint8_t SIZE, uint8_t TYPE, typename ZS , typename ZI , typename ZIB &gt; </td></tr>
 <tr class="memitem:aa7f148f891942bdd4f6d96b8c2d33012"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><b>ZoneProcessorCacheImpl</b></td></tr>
@@ -208,7 +211,7 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memdesc:ad909271bf494774000a5102db0a66e09 inherit pub_static_attribs_classace__time_1_1ZoneProcessor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicate <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database...">BasicZoneProcessor</a>.  <a href="classace__time_1_1ZoneProcessor.html#ad909271bf494774000a5102db0a66e09">More...</a><br /></td></tr>
 <tr class="separator:ad909271bf494774000a5102db0a66e09 inherit pub_static_attribs_classace__time_1_1ZoneProcessor"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0664023085b5339025836f60ed1e1bc2 inherit pub_static_attribs_classace__time_1_1ZoneProcessor"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a0664023085b5339025836f60ed1e1bc2">kTypeExtended</a> = 3</td></tr>
-<tr class="memdesc:a0664023085b5339025836f60ed1e1bc2 inherit pub_static_attribs_classace__time_1_1ZoneProcessor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicate <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that works for all zones defined by the TZ Database (with some zon...">ExtendedZoneProcessor</a>.  <a href="classace__time_1_1ZoneProcessor.html#a0664023085b5339025836f60ed1e1bc2">More...</a><br /></td></tr>
+<tr class="memdesc:a0664023085b5339025836f60ed1e1bc2 inherit pub_static_attribs_classace__time_1_1ZoneProcessor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicate <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database. ">ExtendedZoneProcessor</a>.  <a href="classace__time_1_1ZoneProcessor.html#a0664023085b5339025836f60ed1e1bc2">More...</a><br /></td></tr>
 <tr class="separator:a0664023085b5339025836f60ed1e1bc2 inherit pub_static_attribs_classace__time_1_1ZoneProcessor"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classace__time_1_1ZoneProcessor"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classace__time_1_1ZoneProcessor')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classace__time_1_1ZoneProcessor.html">ace_time::ZoneProcessor</a></td></tr>
 <tr class="memitem:a1998c2e4c22254a708b15315206cdfdc inherit pro_methods_classace__time_1_1ZoneProcessor"><td class="memItemLeft" align="right" valign="top"><a id="a1998c2e4c22254a708b15315206cdfdc"></a>
@@ -226,19 +229,19 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 <tr class="separator:ae4876f974c869390351f53e5c4a4d040 inherit pro_attribs_classace__time_1_1ZoneProcessor"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>An implementation of <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes. ">ZoneProcessor</a> that works for <em>all</em> zones defined by the TZ Database (with some zones suffering a slight loss of accurancy described below). </p>
-<p>The supported zones are defined in the <a class="el" href="_2zone__infos_8h_source.html">zonedbx/zone_infos.h</a> header file. The constructor expects a pointer to one of the ZoneInfo structures declared in the <a class="el" href="_2zone__infos_8h_source.html">zonedbx/zone_infos.h</a> file. The zone_specifier.py file is a Python implementation of this class.</p>
-<p>Just like <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database...">BasicZoneProcessor</a>, UTC offsets are stored as a single signed byte in units of 15-minute increments to save memory. Fortunately, all current (year 2019) time zones have DST offsets at 15-minute boundaries. But in addition to the DST offset, this class uses a single signed byte to store the <em>time</em> at which a timezone changes the DST offset.</p>
-<p>There are current 5 timezones whose DST transition times are at 00:01 (i.e. 1 minute after midnight). Those transition times are truncated down by tzcompiler.py to the nearest 15-minutes, in other words to 00:00. Those zones are:</p><ul>
+<div class="textblock"><p>An implementation of <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes. ">ZoneProcessor</a> that supports for <em>all</em> zones defined by the TZ Database. </p>
+<p>The supported zones are defined in the <a class="el" href="_2zone__infos_8h_source.html">zonedbx/zone_infos.h</a> header file. The constructor expects a pointer to one of the ZoneInfo structures declared in the <a class="el" href="_2zone__infos_8h_source.html">zonedbx/zone_infos.h</a> file. The zone_specifier.py file is the initial Python implementation of this class, which got translated into C++.</p>
+<p>Currently (as of v0.7), the underlying zoneinfo files (<a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records. ">extended::ZoneInfo</a>, etc) store the UTC and DST offsets of a timezone as a single signed byte in 15-minute increments. This is sufficient to accurate describe all time zones from the year 2000 until 2050. The AT and UNTIL transition times are stored using a 1-minute resolution, which correctly handles the 5 timezones whose DST transition times occur at 00:01. Those zones are:</p>
+<ul>
 <li>America/Goose_Bay</li>
 <li>America/Moncton</li>
 <li>America/St_Johns</li>
 <li>Asia/Gaza</li>
-<li>Asia/Hebron For these zones, the transition to DST (or out of DST) will occur at midnight using AceTime, instead of at 00:01.</li>
+<li>Asia/Hebron</li>
 </ul>
 <p>Not thread-safe. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00654">654</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00658">658</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a6da3153529e65fca92a446022d21820d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6da3153529e65fca92a446022d21820d">&#9670;&nbsp;</a></span>ExtendedZoneProcessor()</h2>
@@ -272,7 +275,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00660">660</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00664">664</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -306,7 +309,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#aa080366d78d5b8d8cc56915857e49ddd">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00689">689</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00693">693</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -339,7 +342,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#ac6c4abe6e32c646228cd667114dc81de">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00682">682</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00686">686</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -372,7 +375,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#abb743cef9e4b5c69594f8f121da087ad">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00696">696</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00700">700</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -402,7 +405,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 <p>Get the TransitionStorage high water mark. </p>
 <p>For debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00755">755</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00781">781</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -435,7 +438,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a606e678c83ced5f83920a5d517728b62">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00672">672</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00676">676</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -466,7 +469,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a76f48e7b38f91503b1e522bee11dbd49">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00670">670</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00674">674</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -497,7 +500,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a0a4073493ffca9b14a4e60551c545c93">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00666">666</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00670">670</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -526,7 +529,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 
 <p>Used only for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00737">737</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00763">763</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -622,7 +625,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 <p>Reset the TransitionStorage high water mark. </p>
 <p>For debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00750">750</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00776">776</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
