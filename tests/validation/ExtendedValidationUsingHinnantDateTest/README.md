@@ -1,4 +1,4 @@
-# BasicValidationUsingHinnantDateTest
+# ExtendedValidationUsingHinnantDateTest
 
 This unit test compares the DST transitions calculated by the
 `BasicZoneProcessor` class (which uses the `zonedb` data files) with the
