@@ -2293,23 +2293,49 @@ the `ExtendedZoneProcessor` was much larger than the ones supported by
 timezones.
 
 My next idea was to validate AceTime against a known, independently created,
-timezone library that also supports the TZ Database. The Python pytz library was
-a natural choice since the `tzcompiler.py` was already written in Python. The
-`BasicValidationUsingPythonTest` and `ExtendedValidationUsingPythonTest` tests
-are the results, where I use `pytz` to determine the list of DST transitions for
-all timezones, then determine the expected (year, month, day, hour, minute,
-second) components that `ZonedDateTime` should produce. The `tzcompiler.py`
-generates a `validation_data.cpp` file which contains the test data points for
-all supported timezones. The resulting program no longer fits in any Arduino
-microcontroller that I am aware of, but through the use of the
-[UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulation
-framework, I can run these large validation test suites on a Linux or Mac
-desktop. This worked great until I discovered that `pytz` supports [dates only
-until 2038](https://answers.launchpad.net/pytz/+question/262216). That meant
-that I could not validate the `ZonedDateTime` classes after 2038.
+timezone library that also supports the TZ Database. Currently, I validate
+the AceTime library against 3 other timezone libraries:
 
-I then turned to Java 11 `java.time` library, which supports years through the
-[year 1000000000
+* Python [pytz](https://pypi.org/project/pytz/)
+* Java 11 [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
+* C++11/14/17 [Hinnant date](https://github.com/HowardHinnant/date)
+
+When these tests pass, I become confident that AceTime is producing the correct
+results, but it is entirely expected that some obscure edge-case bugs will be
+found in the future.
+
+### Python pytz
+
+The Python pytz library was a natural choice since the `tzcompiler.py` was
+already written in Python. I created:
+
+* [BasicValidationUsingPythonTest](tests/validation/BasicValidationUsingPythonTest/)
+* [ExtendedValidationUsingPythonTest](tests/validation/ExtendedValidationUsingPythonTest/)
+
+The `pytz` library is used to generate various C++ source code
+(`validation_data.cpp`, `validation_data.h`, `validation_tests.cpp`) which
+contain a list of epochSeconds, the UTC offset, the DST offset, at DST
+transition points, for all timezones. The integration test then compiles in the
+`ZonedDateTime` and verifies that the expected DST transitions and date
+components are identical.
+
+The resulting data test set contains between 150k to 220k data points, and can
+no longer fit in any Arduino microcontroller that I am aware of. They can be
+executed only on desktop-class Linux or MacOS machines through the use of the
+[UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulation framework.
+
+The `pytz` library supports [dates only until
+2038](https://answers.launchpad.net/pytz/+question/262216). It is also tricky to
+match the `pytz` version to the TZ Database version used by AceTime. The
+following combinations have been tested:
+
+* TZ Datbase: 2019a; pytz: 2019.1
+* TZ Datbase: 2019b; pytz: 2019.2
+
+### Java java.time
+
+The Java 11 `java.time` library is not limited to 2038 but supports years
+through the [year 1000000000
 (billion)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/class-use/Instant.html).
 I wrote the [TestDataGenerator.java](tools/java/TestDataGenerator) program to
 generate a `validation_data.cpp` file in exactly the same format as the
@@ -2317,35 +2343,42 @@ generate a `validation_data.cpp` file in exactly the same format as the
 which is the exact range of years supported by the `zonedb::` and `zonedbx::`
 zoneinfo files.
 
-The end result is the 4 validation programs under `tests/validation`:
+The result is 2 validation programs under `tests/validation`:
 
-* `BasicValidationUsingJavaTest`
-* `BasicValidationUsingPythonTest`
-* `ExtendedValidationUsingJavaTest`
-* `ExtendedValidationUsingPythonTest`
+* [BasicValidationUsingJavaTest](tests/validation/BasicValidationUsingJavaTest/)
+* [ExtendedValidationUsingJavaTest](tests/validation/ExtendedValidationUsingJavaTest/)
 
-The problem with the `java.time` library is that the underlying timezone
-database seems to be locked to the release version of the JDK. I have not
-been able to figure out a way to upgrade the timezone database independently
-(it's something to do with the
+The most difficult part of using Java is figuring out how to install it
+and figuring out which of the many variants of the JDK to use. On Ubuntu 18.04,
+I used `openjdk 11.0.4 2019-07-16` which seems to use TZ Database 2018g. I have
+no recollection how I installed, I think it was something like `$ sudo apt
+install openjdk-11-jdk:amd64`.
+
+The underlying timezone database used by the `java.time` package seems to be
+locked to the release version of the JDK. I have not been able to figure out a
+way to upgrade the timezone database independently (it's something to do with
+the
 [TZUpdater](https://www.oracle.com/technetwork/java/javase/documentation/tzupdater-readme-136440.html)
 but I haven't figured it out.)
 
-This led me to the C++11/14/17 [Hinnant
-date](https://github.com/HowardHinnant/date) library, which has apparently
-been accepted into the C++20 standard. This date and timezone library is
-incredible powerful, complex and difficult to use. I managed to incorporate it
-into 2 more validation tests, and verified that the AceTime library matches the
-Hinnant date library for all timezones from 2000 to 2049 (inclusive):
+### C++ Hinnant Date
 
-* `BasicValidationUsingHinnantDateTest`
-* `ExtendedValidationUsingHinnantDateTest`
+I looked for a timezone library that allowed me to control the specific
+version of the TZ Database. This led me to the C++11/14/17 [Hinnant
+date](https://github.com/HowardHinnant/date) library, which has apparently been
+accepted into the C++20 standard. This date and timezone library is incredible
+powerful, complex and difficult to use. I managed to incorporate it into 2 more
+validation tests, and verified that the AceTime library matches the Hinnant date
+library for all timezones from 2000 to 2049 (inclusive):
 
-When these tests pass, they show that the timezone algorithms in AceTime produce
-the same results as the Python `pytz` library, the Java 11 `java.time` library
-and the C++11/14/17 Hinnant `date` library. They give me good confidence that
-AceTime produces the correct results, but it is entirely expected that some
-obscure edge-case bugs will be found in the future.
+* [BasicValidationUsingHinnantDateTest](tests/validation/BasicValidationUsingHinnantDateTest/)
+* [ExtendedValidationUsingHinnantDateTest](tests/validation/ExtendedValidationUsingHinnantDateTest/)
+
+I have validated the AceTime library against the following versions against
+the Hinnant date library:
+
+* TZ Database: 2019a
+* TZ Database: 2019b
 
 ## Benchmarks
 
