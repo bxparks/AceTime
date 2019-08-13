@@ -67,13 +67,15 @@ usually have more precise dependency information:
 
 Various scripts in the `tools/` directory depend on:
 
-* [TZ Database on GitHub](https://github.com/eggert/tz)
+* [IANA TZ Database on GitHub](https://github.com/eggert/tz)
 * [pytz library](https://pypi.org/project/pytz/)
+* [Hinnant date library](https://github.com/HowardHinnant/date)
 * Python 3.5 or greater
 * Java OpenJDK 11
 
 If you want to run the unit tests or some of the command line examples using a
 Linux or MacOS machine, you need:
+
 * [UnixHostDuino](https://github.com/bxparks/UnixHostDuino)
 
 ### Doxygen Docs
@@ -1245,15 +1247,9 @@ The `zonedb/` files do not support all the timezones in the TZ Database.
 The list of these zones and The reasons for excluding them are given at the
 bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
 
-Although the `zonedbx/` files support all zones from its TZ input files, there
-are number of timezones whose DST transitions in the past happened at 00:01
-(instead of exactly at midnight 00:00). To save memory, the internal
-representation used by AceTime supports transitions only at
-15-minute boundaries. For these timezones, the DST transition time is shifted to
-00:00 instead, and the transition happens one-minute earlier than it should. As
-of TZ DB version 2019a, there are 5 zones affected by this rounding, as listed
-at the bottom of [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h), and
-these all occur before the year 2012.
+The goal of the `zonedbx/` files is to support all zones listed in the TZ
+Database. Currently, as of TZ Database version 2019b, this goal is met
+from the year 2000 to 2049 inclusive.
 
 #### BasicZone and ExtendedZone
 
@@ -1303,7 +1299,8 @@ class ExtendedZone {
 }
 ```
 
-They are meant to be used transiently, for example:
+The `BasicZone` and `ExtendedZone` objects are meant to be used transiently,
+for example:
 ```C++
 ...
 const basic::ZoneInfo* zoneInfo = ...;
@@ -1312,22 +1309,27 @@ Serial.println(BasicZone(zoneInfo).shortName());
 ```
 
 The return type of `name()` and `shortName()` change whether or not the zone
-name is stored in flash memory or in static memory. The `name()` method returns
-the full zone name from the TZ Database (e.g. `"America/Los_Angeles"`). The
-`shortName()` method returns only the last component (e.g. `"Los_Angeles"`).
+name is stored in flash memory or in static memory. As of v0.4,
+`ACE_TIME_USE_PROGMEM=1` for all platforms. On platforms which do not directly
+support `PROGMEM`, they provide macros which retain compatibilty with `PROGMEM`
+so everything should work transparently.
+
+The `name()` method returns the full zone name from the TZ Database (e.g.
+`"America/Los_Angeles"`). The `shortName()` method returns only the last
+component (e.g. `"Los_Angeles"`).
 
 ### ZoneManager
 
 The `TimeZone::forZoneInfo()` methods are simple to use but have the
-disadvantage that the `BasicZoneProcessor` or `ExtendedZoneProcessor`
-need to be created manually for each
-`TimeZone` instance. This works well for a single time zone,
-but if you have an application that needs 3 or more time zones, this may become
-cumbersome. Also, it is difficult to reconstruct a `TimeZone` dynamically, say,
-from its fullly qualified name (e.g. `"America/Los_Angeles"`). The `ZoneManager`
-solves these problems. It keeps an internal cache or `ZoneProcessors`, reusing
-them as needed. And it holds a registry of `ZoneInfo` objects, so that a
-`TimeZone` can be created using its `zoneName`, `zoneInfo`, or `zoneId`.
+disadvantage that the `BasicZoneProcessor` or `ExtendedZoneProcessor` need to be
+created manually for each `TimeZone` instance. This works well for a single time
+zone, but if you have an application that needs 3 or more time zones, this may
+become cumbersome. Also, it is difficult to reconstruct a `TimeZone`
+dynamically, say, from its fullly qualified name (e.g. `"America/Los_Angeles"`).
+The `ZoneManager` solves these problems. It keeps an internal cache or
+`ZoneProcessors`, reusing them as needed. And it holds a registry of `ZoneInfo`
+objects, so that a `TimeZone` can be created using its `zoneName`, `zoneInfo`,
+or `zoneId`.
 
 ```C++
 namespace ace_time{
@@ -2322,12 +2324,28 @@ The end result is the 4 validation programs under `tests/validation`:
 * `ExtendedValidationUsingJavaTest`
 * `ExtendedValidationUsingPythonTest`
 
+The problem with the `java.time` library is that the underlying timezone
+database seems to be locked to the release version of the JDK. I have not
+been able to figure out a way to upgrade the timezone database independently
+(it's something to do with the
+[TZUpdater](https://www.oracle.com/technetwork/java/javase/documentation/tzupdater-readme-136440.html)
+but I haven't figured it out.)
+
+This led me to the C++11/14/17 [Hinnant
+date](https://github.com/HowardHinnant/date) library, which has apparently
+been accepted into the C++20 standard. This date and timezone library is
+incredible powerful, complex and difficult to use. I managed to incorporate it
+into 2 more validation tests, and verified that the AceTime library matches the
+Hinnant date library for all timezones from 2000 to 2049 (inclusive):
+
+* `BasicValidationUsingHinnantDateTest`
+* `ExtendedValidationUsingHinnantDateTest`
+
 When these tests pass, they show that the timezone algorithms in AceTime produce
-the same results as the Python `pytz` library and the Java 11 `java.time`
-library, showing that 3 independently written libraries and algorithms agree
-with each other. These validation tests give me good confidence that AceTime
-produces correct results for the most part, but it is entirely expected that
-some obscure edge-case bugs will be found in the future.
+the same results as the Python `pytz` library, the Java 11 `java.time` library
+and the C++11/14/17 Hinnant `date` library. They give me good confidence that
+AceTime produces the correct results, but it is entirely expected that some
+obscure edge-case bugs will be found in the future.
 
 ## Benchmarks
 
@@ -2631,18 +2649,11 @@ some time to take a closer look in the future.
       [pytz](https://pypi.org/project/pytz/) library. Unfortunately, pytz does
       not support dates after Unix signed 32-bit `time_t` rollover at
       (2038-01-19T03:14:07Z).
-    * These are too big to run on any Arduino controller. They are designed to
-      run on a Linux or MacOS machine through the Makefiles using the
-      [UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulator.
 * `BasicValidationUsingJavaTest` and `ExtendedValidationUsingJavaTest`
     * These tests compare the transition times calculated by AceTime to Java 11
       `java.time` package which should support the entire range of dates that
       AceTime can represent. We have artificially limited the range of testing
       from 2000 to 2050.
-    * These are too big to run on any Arduino controller. They are designed to
-      run on a Linux or MacOS machine through the Makefiles using the
-      [UnixHostDuino](https://github.com/bxparks/UnixHostDuino)
-      emulator.
 * `zonedb/` and `zonedbx/` zoneinfo files
     * These statically defined data structures are loaded into flash memory
       using the `PROGMEM` keyword. The vast majority of the data structure
