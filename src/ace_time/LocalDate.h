@@ -221,10 +221,18 @@ class LocalDate {
     /** Set the year given the full year. */
     void year(int16_t year) { mYearTiny = year - kEpochYear; }
 
-    /** Return the single-byte year offset from year 2000. */
+    /**
+     * Return the single-byte year offset from year 2000. Intended for memory
+     * constrained or performance critical code. May be deprecated in the
+     * future.
+     */
     int8_t yearTiny() const { return mYearTiny; }
 
-    /** Set the single-byte year offset from year 2000. */
+    /**
+     * Set the single-byte year offset from year 2000. Intended for memory
+     * constrained or performance critical code. May be deprecated in the
+     * future.
+     */
     void yearTiny(int8_t yearTiny) { mYearTiny = yearTiny; }
 
     /** Return the month with January=1, December=12. */

@@ -141,10 +141,18 @@ class ZonedDateTime {
     /** Set the year given the full year. */
     void year(int16_t year) { mOffsetDateTime.year(year); }
 
-    /** Return the single-byte year offset from year 2000. */
+    /**
+     * Return the single-byte year offset from year 2000. Intended for memory
+     * constrained or performance critical code. May be deprecated in the
+     * future.
+     */
     int8_t yearTiny() const { return mOffsetDateTime.yearTiny(); }
 
-    /** Set the single-byte year offset from year 2000. */
+    /**
+     * Set the single-byte year offset from year 2000. Intended for memory
+     * constrained or performance critical code. May be deprecated in the
+     * future.
+     */
     void yearTiny(int8_t yearTiny) { mOffsetDateTime.yearTiny(yearTiny); }
 
     /** Return the month with January=1, December=12. */
