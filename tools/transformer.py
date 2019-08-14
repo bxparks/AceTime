@@ -453,7 +453,7 @@ class Transformer:
                 if offset_seconds == INVALID_SECONDS:
                     valid = False
                     _add_reason(removed_zones, name,
-                        f"invalid GMTOFF offset string '{offset_string}'")
+                        f"invalid STDOFF offset string '{offset_string}'")
                     break
 
                 offset_seconds_truncated = truncate_to_granularity(
@@ -462,13 +462,13 @@ class Transformer:
                     if self.strict:
                         valid = False
                         _add_reason(removed_zones, name,
-                            f"GMTOFF '{offset_string}' must be multiples of "
+                            f"STDOFF '{offset_string}' must be multiples of "
                             f"'{self.offset_granularity}' seconds")
                         break
                     else:
                         hm = seconds_to_hm_string(offset_seconds_truncated)
                         _add_reason(notable_zones, name,
-                            f"GMTOFF '{offset_string}' truncated to '{hm}'")
+                            f"STDOFF '{offset_string}' truncated to '{hm}'")
 
                 era.offsetSeconds = offset_seconds
                 era.offsetSecondsTruncated = offset_seconds_truncated
@@ -539,7 +539,7 @@ class Transformer:
         The RULES field can hold the following:
             * '-' no rules
             * a string reference to a set of Rules
-            * a delta offset like "01:00" to be added to the GMTOFF field
+            * a delta offset like "01:00" to be added to the STDOFF field
                 (see America/Argentina/San_Luis, Europe/Istanbul for example).
         After this method, the zone.rules contains 3 possible values:
             * '-' no rules, or

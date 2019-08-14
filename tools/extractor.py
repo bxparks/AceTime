@@ -36,7 +36,7 @@ with the same name is called a "Zone Policy".
 
 2) 'Zone' entries look like this:
 
-# Zone  NAME                GMTOFF      RULES   FORMAT  [UNTIL]
+# Zone  NAME                STDOFF      RULES   FORMAT  [UNTIL]
 Zone    America/Chicago     -5:50:36    -       LMT     1883 Nov 18 12:09:24
                             -6:00       US      C%sT    1920
                             ...
@@ -461,14 +461,14 @@ def parse_at_time_string(at_string):
 def _process_zone_line(line):
     """Normalize an zone era from dictionary that represents one line of
     a 'Zone' record. The columns are:
-    GMTOFF	 RULES	FORMAT	[UNTIL]
+    STDOFF	 RULES	FORMAT	[UNTIL]
     0        1      2       3
     -5:50:36 -      LMT     1883 Nov 18 12:09:24
     -6:00    US     C%sT    1920
     """
     tokens = line.split()
 
-    # GMTOFF
+    # STDOFF
     offset_string = tokens[0]
 
     # 'RULES' field can be:
