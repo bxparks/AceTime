@@ -76,7 +76,7 @@ void setup() {
 
   // Print the current time zone abbreviation, e.g. "PST" or "PDT"
   SERIAL_PORT_MONITOR.print(F("Abbreviation: "));
-  pacificTz.printAbbrevTo(SERIAL_PORT_MONITOR, epochSeconds);
+  SERIAL_PORT_MONITOR.print(pacificTz.getAbbrev(epochSeconds));
   SERIAL_PORT_MONITOR.println();
 
   // Create from epoch seconds. London is still on standard time.
@@ -94,7 +94,7 @@ void setup() {
 
   // Print the current time zone abbreviation, e.g. "PST" or "PDT"
   SERIAL_PORT_MONITOR.print(F("Abbreviation: "));
-  londonTz.printAbbrevTo(SERIAL_PORT_MONITOR, epochSeconds);
+  SERIAL_PORT_MONITOR.print(londonTz.getAbbrev(epochSeconds));
   SERIAL_PORT_MONITOR.println();
 
   SERIAL_PORT_MONITOR.println(F("=== Compare ZonedDateTime"));

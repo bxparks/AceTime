@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 0.7 (2019-08-13, TZ DB version 2019b, beta)
+Version: 0.7.1 (2019-08-13, TZ DB version 2019b, beta)
 
 ## Installation
 
@@ -798,6 +798,7 @@ class TimeZone {
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const;
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const;
+    const char* getAbbrev(acetime_t epochSeconds) const;
     TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const;
 
     bool isUtc() const;
@@ -806,7 +807,6 @@ class TimeZone {
 
     void printTo(Print& printer) const;
     void printShortTo(Print& printer) const;
-    void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
 };
 
 }
@@ -816,6 +816,15 @@ The `getUtcOffset(epochSeconds)` returns the total `TimeOffset` (including any
 DST offset) at the given `epochSeconds`. The `getDeltaOffset()` returns only the
 additional DST offset; if DST is not in effect at the given `epochSeconds`, this
 returns a `TimeOffset` whose `isZero()` returns true.
+
+The `getAbbrev(epochSeconds)` method returns the human-readable timezone
+abbreviation used at the given `epochSeconds`. For example, this be "PST" for
+Pacific Standard Time, or "BST" for British Summer Time. The returned c-string
+should be used as soon as possible (e.g. printed to Serial) because the pointer
+points to a temporary buffer whose contents may change upon subsequent calls to
+`getUtcOffset()`, `getDeltaOffset()` and `getAbbrev()`. If the abbreviation
+needs to be saved for a longer period of time, it should be saved to another
+char buffer.
 
 The `getUtcOffsetForDateTime(localDateTime)` method returns the best guess of
 the total UTC offset at the given local date time. This method is not
@@ -844,11 +853,6 @@ The `printShortTo()` is similar to `printTo()` except that it prints the
 last component of the IANA TZ Database zone names. In other words,
 `"America/Los_Angeles"` is printed as `"Los_Angeles"`. This is helpful for
 printing on small width OLED displays.
-
-The `printAbbrevTo(printer, epochSeconds)` method prints the human-readable
-timezone abbreviation used at the given `epochSeconds` to the `printer`. For
-example, this be "PST" for Pacific Standard Time, or "BST" for British Summer
-Time.
 
 #### Manual TimeZone (kTypeManual)
 
@@ -2585,9 +2589,10 @@ and
 [ExtendedValidationUsingHinnantDateTest](tests/validation/ExtendedValidationUsingHinnantDateTest/)
 validation tests (in v0.7) which are the AceTime algorithms to the Hinnant Date
 algorithms. For all times zones between the years 2000 until 2050, the AceTime
-UTC offsets (`TimeZone::getUtcOffset()`) and epochSecond conversion to
-date components (`ZonedDateTime::fromEpochSeconds()`) match the results from the
-Hinannt Date libraries perfectly.
+UTC offsets (`TimeZone::getUtcOffset()`), timezone abbreviations
+(`TimeZone::getAbbrev()`), and epochSecond conversion to date components
+(`ZonedDateTime::fromEpochSeconds()`) match the results from the Hinannt Date
+libraries.
 
 ### Google cctz
 

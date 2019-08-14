@@ -67,30 +67,4 @@ void TimeZone::printShortTo(Print& printer) const {
   printer.print("<Error>");
 }
 
-void TimeZone::printAbbrevTo(Print& printer, acetime_t epochSeconds) const {
-  switch (mType) {
-    case kTypeManual:
-      if (isUtc()) {
-        printer.print("UTC");
-      } else {
-        printer.print((mDstOffsetMinutes != 0) ? "DST" : "STD");
-      }
-      return;
-    case kTypeBasic:
-    case kTypeExtended:
-      printer.print(mZoneProcessor->getAbbrev(epochSeconds));
-      return;
-    case kTypeBasicManaged:
-    case kTypeExtendedManaged:
-    {
-      ZoneProcessor* processor =
-          mZoneProcessorCache->getZoneProcessor(mZoneInfo);
-      if (! processor) break;
-      printer.print(processor->getAbbrev(epochSeconds));
-      return;
-    }
-  }
-  printer.print("<Error>");
-}
-
 }

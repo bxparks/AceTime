@@ -20,7 +20,7 @@ struct RenderingInfo {
   const char* name;
   uint8_t hourMode;
   bool blinkingColon;
-  ace_time::TimeZone timeZone;
+  TimeZone timeZone;
 };
 
 #endif
