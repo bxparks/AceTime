@@ -80,11 +80,11 @@ test(BasicZoneProcessorTest, calcStartDayOfMonth) {
 
 test(BasicZoneProcessorTest, calcRuleOffsetCode) {
   assertEqual(0, BasicZoneProcessor::calcRuleOffsetCode(1, 2,
-      basic::ZoneContext::TIME_MODIFIER_U));
+      basic::ZoneContext::TIME_SUFFIX_U));
   assertEqual(1, BasicZoneProcessor::calcRuleOffsetCode(1, 2,
-      basic::ZoneContext::TIME_MODIFIER_W));
+      basic::ZoneContext::TIME_SUFFIX_W));
   assertEqual(2, BasicZoneProcessor::calcRuleOffsetCode(1, 2,
-      basic::ZoneContext::TIME_MODIFIER_S));
+      basic::ZoneContext::TIME_SUFFIX_S));
 }
 
 test(BasicZoneProcessorTest, init_primitives) {
