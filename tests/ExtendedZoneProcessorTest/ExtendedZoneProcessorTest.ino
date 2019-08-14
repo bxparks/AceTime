@@ -740,9 +740,18 @@ test(ExtendedZoneProcessorTest, createAbbreviation) {
   const uint8_t kDstSize = 6;
   char dst[kDstSize];
 
+  // If no '%', deltaCode and letter should not matter
   ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 0, nullptr);
   assertEqual("SAST", dst);
 
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 4, "A");
+  assertEqual("SAST", dst);
+
+  // If '%', and letter is (incorrectly) set to '\0', just copy the thing
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "SA%ST", 0, nullptr);
+  assertEqual("SA%ST", dst);
+
+  // If '%', then replaced with (non-null) letterString.
   ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 4, "D");
   assertEqual("PDT", dst);
 
@@ -752,20 +761,22 @@ test(ExtendedZoneProcessorTest, createAbbreviation) {
   ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, "");
   assertEqual("PT", dst);
 
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 4, "CAT");
+  assertEqual("CAT", dst);
+
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 0, "WAT");
+  assertEqual("WAT", dst);
+
+  // If '/', then deltaCode selects the first or second component.
   ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, "");
   assertEqual("GMT", dst);
 
   ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 4, "");
   assertEqual("BST", dst);
 
+  // test truncation to kDstSize
   ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T3456", 4, "DD");
   assertEqual("PDDT3", dst);
-
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 4, "CAT");
-  assertEqual("CAT", dst);
-
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 0, "WAT");
-  assertEqual("WAT", dst);
 }
 
 test(ExtendedZoneProcessorTest, calcAbbreviations) {

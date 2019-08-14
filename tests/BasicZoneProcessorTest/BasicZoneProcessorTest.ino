@@ -180,24 +180,41 @@ test(BasicZoneProcessorTest, createAbbreviation) {
   const uint8_t kDstSize = 6;
   char dst[kDstSize];
 
+  // If no '%', deltaCode and letter should not matter
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 0, '\0');
   assertEqual("SAST", dst);
+
+  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 4, 'A');
+  assertEqual("SAST", dst);
+
+  // If '%', and letter is (incorrectly) set to '\0', just copy the thing
+  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "SA%ST", 0, '\0');
+  assertEqual("SA%ST", dst);
+
+  // If '%', then replaced with 'letter', where '-' means "no letter".
+  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, 'S');
+  assertEqual("PST", dst);
 
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 4, 'D');
   assertEqual("PDT", dst);
 
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, 'S');
-  assertEqual("PST", dst);
-
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, '-');
   assertEqual("PT", dst);
 
+  // If '/', then deltaCode selects the first or second component.
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, '-');
+  assertEqual("GMT", dst);
+
+  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, '\0');
   assertEqual("GMT", dst);
 
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 4, '-');
   assertEqual("BST", dst);
 
+  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 4, '\0');
+  assertEqual("BST", dst);
+
+  // test truncation to kDstSize
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T3456", 4, 'D');
   assertEqual("PDT34", dst);
 }

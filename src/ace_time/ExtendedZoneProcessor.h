@@ -1596,52 +1596,24 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     }
 
     /**
-     * Create the time zone abbreviation in dest from the format string (e.g.
-     * "P%T", "E%T"), the time zone deltaCode (!= 0 means DST), and the
-     * replacement letterString (often just "S", "D", or "", but some zones
-     * have longer strings like "WAT", "CAT" and "DD").
+     * Functionally the same as BasicZoneProcessor::createAbbreviation() execpt
+     * that 'letter' is a string.
      *
-     * There are several cases:
-     *
-     * 1) 'format' contains a simple string because transition->rules is a
-     * nullptr. The format should not contain a '%' or '/' (verified by
-     * transformat.py). In this case, (letterString == nullptr) and deltaCode
-     * is ignored.
-     *
-     * 2) If the RULES column is not empty, then the FORMAT should contain
-     * either'format' contains a '%' or a '/' character to determine the
-     * Standard or DST abbreviation.
-     * This is verified by transformer.py to be true for all
-     * Zones except Africa/Johannesburg which fails this for 1942-1944 where
-     * the RULES contains a reference to named RULEs with DST transitions but
-     * there is no '/' or '%' to distinguish between the 2. Technically, since
-     * this occurs before year 2000, we don't absolutely need to suppor this,
-     * but for robustness sake, we do.
-     *
-     * 2a) If the FORMAT contains a '%', substitute the letterString. The
-     * deltaCode is ignored. If letterString is "", replace with nothing. The
-     * 'format' could be just a '%' which means substitute the entire
-     * letterString.
-     *
-     * 2b) If the FORMAT contains a '/', then the string is in 'Astr/Bstr'
-     * format, where 'Astr' is for the standard time, and 'Bstr' for DST time.
-     * The deltaCode determines whether or not the zone is in DST. The
-     * letterString is ignored but should be not nullptr, because that would
-     * trigger Case (1). The recommended value is the empty string "".
+     * @param letterString nullptr if RULES is a '- or an 'hh:mm', an empty
+     * string if the LETTER was a '-', or a pointer to a non-empty string if
+     * LETTER was a 'S', 'D', 'WAT' etc.
      */
     static void createAbbreviation(char* dest, uint8_t destSize,
         const char* format, uint8_t deltaCode, const char* letterString) {
-      // Check if RULES column is empty. Ignore the deltaCode because if
-      // letterString is nullptr, we can only just copy the whole thing.
-      if (letterString == nullptr) {
-        strncpy(dest, format, destSize);
-        dest[destSize - 1] = '\0';
-        return;
-      }
-
       // Check if FORMAT contains a '%'.
       if (strchr(format, '%') != nullptr) {
-        copyAndReplace(dest, destSize, format, '%', letterString);
+        // Check if RULES column empty, therefore no 'letter'
+        if (letterString == nullptr) {
+          strncpy(dest, format, destSize - 1);
+          dest[destSize - 1] = '\0';
+        } else {
+          copyAndReplace(dest, destSize, format, '%', letterString);
+        }
       } else {
         // Check if FORMAT contains a '/'.
         const char* slashPos = strchr(format, '/');

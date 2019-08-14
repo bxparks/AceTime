@@ -521,18 +521,16 @@ class BasicZoneProcessor: public ZoneProcessor {
      */
     static basic::Transition createTransition(basic::ZoneEraBroker era,
         basic::ZoneRuleBroker rule, int8_t yearTiny) {
-      int8_t offsetCode;
       int8_t deltaCode;
       char letter;
       if (rule.isNull()) {
-        deltaCode = 0;
-        offsetCode = era.offsetCode();
-        letter = 0;
+        deltaCode = era.deltaCode();
+        letter = '\0';
       } else {
         deltaCode = rule.deltaCode();
-        offsetCode = era.offsetCode() + deltaCode;
         letter = rule.letter();
       }
+      int8_t offsetCode = era.offsetCode() + deltaCode;
 
       return {
         era,
@@ -792,50 +790,60 @@ class BasicZoneProcessor: public ZoneProcessor {
     /**
      * Create the time zone abbreviation in dest from the format string
      * (e.g. "P%T", "E%T"), the time zone deltaCode (!= 0 means DST), and the
-     * replacement letter (e.g. 'S', 'D', or '-').
+     * replacement letter (e.g. 'S', 'D', '-', or '\0' to indicate no RULE).
      *
-     * 1) If the RULES column (transition->rule) is empty '-', then FORMAT
-     * cannot contain a '%' because the ZoneEra specifies only a
-     * single transition rule. (Verified in transformer.py). This condition is
-     * indicated by (deltaCode == 0) and (letter == '\0').
+     * 1) If the FORMAT contains a '%', then:
      *
-     * 2) If RULES column is not empty, then the FORMAT should contain either
-     * a '/' or a '%'. The deltaCode will determine whether the time interval
-     * is in DST.
-     * This is verified by transformer.py to be true for all
-     * Zones except Africa/Johannesburg which fails this for 1942-1944 where
-     * the RULES contains a reference to named RULEs with DST transitions but
-     * there is no '/' or '%' to distinguish between the 2. Technically, since
-     * this occurs before year 2000, we don't absolutely need to suppor this,
-     * but for robustness sake, we do.
+     * 1a) If the letter is '\0', then this condition should not occur because
+     * this indicates the RULES was a '-' or a 'hh:mm' and it does not make
+     * sense for FORMAT to contain a '%'. The transformer.py should have
+     * detected this condition and filtered that zone out. But in case of a
+     * bug, just copy the entire FORMAT.
      *
-     * 2a) If the FORMAT contains a '%', use the LETTER to substitute the '%'.
-     * If the 'letter' is '-', an empty character is substituted.
+     * 1b) Else the 'letter' is one of ('S', 'D', '-', etc) from the LETTER
+     * column of a Rule, so replace '%' with with the given 'letter'.  The
+     * letter '-' is special in that the '%' is replaced with nothing. (It may
+     * seem that '\0' is more natural to express this, but '-' is what is used
+     * in the TZ database files.)
      *
-     * 2b) If the FORMAT contains a '/', then pick the first (no DST) or the
-     * second component (DST). The deltaCode selects between the two. The
-     * letter is ignored, but cannot be '\0' because that would trigger Case
-     * (1). The recommended value is '-'.
+     * 2) If the FORMAT contains a '/', then, ignore the 'letter' and just
+     * use deltaCode in the following:
+     *
+     * 2a) If deltaCode is 0, pick the first component, i.e. before the '/'.
+     *
+     * 2b) Else deltaCode != 0, pick the second component, i.e. after the '/'.
+     *
+     * The above algorithm supports the following edge cases from the TZ
+     * Database:
+     *
+     * A) Asia/Dushanbe in 1991 has a ZoneEra with a fixed hh:mm in the RULES
+     * and a '/' in the FORMAT, the fixed hh:mm selects the DST abbreviation
+     * in FORMAT.
+     *
+     * B) Africa/Johannesburg 1942-1944 where the RULES which contains a
+     * reference to named RULEs with DST transitions but there is no '/' or '%'
+     * to distinguish between the 2.
      *
      * @param dest destination string buffer
      * @param destSize size of buffer
      * @param format encoded abbreviation, '%' is a character substitution
      * @param deltaCode the offsetCode (0 for standard, != 0 for DST)
-     * @param letter during standard or DST time ('S', 'D', '-' for no
-     *        substitution, or '\0' when transition.rule == nullptr)
+     * @param letter during standard or DST time. If RULES is a named rule,
+     *    this is the value of the LETTER field ('S', 'D', '-' for empty
+     *    string), But if RULES is '-' or 'hh:mm' indicating a fixed offset,
+     *    then 'letter' will be set to '\0'.
      */
     static void createAbbreviation(char* dest, uint8_t destSize,
         const char* format, uint8_t deltaCode, char letter) {
-      // Check if RULES column empty.
-      if (deltaCode == 0 && letter == '\0') {
-        strncpy(dest, format, destSize);
-        dest[destSize - 1] = '\0';
-        return;
-      }
-
       // Check if FORMAT contains a '%'.
       if (strchr(format, '%') != nullptr) {
-        copyAndReplace(dest, destSize, format, '%', letter);
+        // Check if RULES column empty, therefore no 'letter'
+        if (letter == '\0') {
+          strncpy(dest, format, destSize - 1);
+          dest[destSize - 1] = '\0';
+        } else {
+          copyAndReplace(dest, destSize, format, '%', letter);
+        }
       } else {
         // Check if FORMAT contains a '/'.
         const char* slashPos = strchr(format, '/');
@@ -853,7 +861,7 @@ class BasicZoneProcessor: public ZoneProcessor {
           }
         } else {
           // Just copy the FORMAT disregarding the deltaCode and letter.
-          strncpy(dest, format, destSize);
+          strncpy(dest, format, destSize - 1);
           dest[destSize - 1] = '\0';
         }
       }
