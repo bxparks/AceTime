@@ -168,12 +168,12 @@ struct MonthDay {
  *
  *  * ZoneInfo UNTIL field must contain only the full year;
  *    cannot contain month, day, or time components
- *  * ZoneInfo untilTimeModifier can contain only 'w' (not 's' or 'u')
+ *  * ZoneInfo untilTimeSuffix can contain only 'w' (not 's' or 'u')
  *  * ZoneInfo RULES column must be empty ("-"), OR refer to a
  *    named Zone Rule (e.g. "US"); cannot contain an explicit offset (hh:mm)
  *  * ZonePolicy can contain only 1 ZoneRule in a single month
  *  * ZoneRule AT time cannot occur on Jan 1
- *  * ZoneRule atTimeModifier can be any of ('w', 's', and 'u')
+ *  * ZoneRule atTimeSuffix can be any of ('w', 's', and 'u')
  *  * ZoneRule LETTER must contain only a single letter (not "WAT" or "CST")
  *
  * Even with these limitations, zonedb/zone_info.h shows that 231 out of a
@@ -706,7 +706,7 @@ class BasicZoneProcessor: public ZoneProcessor {
           // If the transition is simple (has no named rule), then the
           // ZoneEra applies for the entire year (since BasicZoneProcessor
           // supports only whole year in the UNTIL field). The whole year UNTIL
-          // field has an implied 'w' modifier on 00:00, we don't need to call
+          // field has an implied 'w' suffix on 00:00, we don't need to call
           // calcRuleOffsetCode() with a 'w', we can just use the previous
           // transition's offset to calculate the startDateTime of this
           // transition.
@@ -730,12 +730,12 @@ class BasicZoneProcessor: public ZoneProcessor {
               year, transition.rule.inMonth(), transition.rule.onDayOfWeek(),
               transition.rule.onDayOfMonth());
 
-          // Determine the offset of the 'atTimeModifier'. The 'w' modifier
+          // Determine the offset of the 'atTimeSuffix'. The 'w' suffix
           // requires the offset of the previous transition.
           const int8_t prevOffsetCode = calcRuleOffsetCode(
               prevTransition->offsetCode,
               transition.era.offsetCode(),
-              transition.rule.atTimeModifier());
+              transition.rule.atTimeSuffix());
 
           // startDateTime
           const uint16_t minutes = transition.rule.atTimeMinutes();
@@ -753,16 +753,16 @@ class BasicZoneProcessor: public ZoneProcessor {
     }
 
     /**
-     * Determine the offset of the 'atTimeModifier'. If 'w', then we
-     * must use the offset of the *previous* zone rule. If 's', use the current
-     * base offset (which does not contain the extra DST offset). If 'u', 'g',
-     * 'z', then use 0 offset.
+     * Determine the offset of the 'atTimeSuffix'. If 'w', then we must use the
+     * offset of the *previous* zone rule. If 's', use the current base offset
+     * (which does not contain the extra DST offset). If 'u', 'g', 'z', then
+     * use 0 offset.
      */
     static int8_t calcRuleOffsetCode(int8_t prevEffectiveOffsetCode,
-        int8_t currentBaseOffsetCode, uint8_t atModifier) {
-      if (atModifier == basic::ZoneContext::TIME_MODIFIER_W) {
+        int8_t currentBaseOffsetCode, uint8_t atSuffix) {
+      if (atSuffix == basic::ZoneContext::TIME_SUFFIX_W) {
         return prevEffectiveOffsetCode;
-      } else if (atModifier == basic::ZoneContext::TIME_MODIFIER_S) {
+      } else if (atSuffix == basic::ZoneContext::TIME_SUFFIX_S) {
         return currentBaseOffsetCode;
       } else { // 'u', 'g' or 'z'
         return 0;

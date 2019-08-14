@@ -96,7 +96,7 @@ ZONE_POLICY_{policyName} = {{
         'onDayOfWeek': {onDayOfWeek},
         'onDayOfMonth': {onDayOfMonth},
         'atSeconds': {atSeconds},
-        'atTimeModifier': '{atTimeModifier}',
+        'atTimeSuffix': '{atTimeSuffix}',
         'deltaSeconds': {deltaSeconds},
         'letter': '{letter}',
     }},
@@ -180,7 +180,7 @@ ZONE_INFO_{zoneNormalizedName} = {{
       'untilMonth': {untilMonth},
       'untilDay': {untilDay},
       'untilSeconds': {untilSeconds},
-      'untilTimeModifier': '{untilTimeModifier}',
+      'untilTimeSuffix': '{untilTimeSuffix}',
     }},
 """
 
@@ -266,7 +266,7 @@ ZONE_INFO_{zoneNormalizedName} = {{
                 onDayOfWeek=rule.onDayOfWeek,
                 onDayOfMonth=rule.onDayOfMonth,
                 atSeconds=rule.atSecondsTruncated,
-                atTimeModifier=rule.atTimeModifier,
+                atTimeSuffix=rule.atTimeSuffix,
                 deltaSeconds=rule.deltaSecondsTruncated,
                 letter=rule.letter)
         return self.ZONE_POLICY_ITEM.format(
@@ -375,4 +375,4 @@ ZONE_INFO_{zoneNormalizedName} = {{
             untilMonth=era.untilMonth,
             untilDay=era.untilDay,
             untilSeconds=era.untilSecondsTruncated,
-            untilTimeModifier=era.untilTimeModifier)
+            untilTimeSuffix=era.untilTimeSuffix)

@@ -113,7 +113,7 @@ class Transformer:
             zones_map = self._remove_zone_until_year_only_false(zones_map)
         zones_map = self._create_zones_with_until_day(zones_map)
         zones_map = self._create_zones_with_expanded_until_time(zones_map)
-        zones_map = self._remove_zones_invalid_until_time_modifier(zones_map)
+        zones_map = self._remove_zones_invalid_until_time_suffix(zones_map)
         zones_map = self._create_zones_with_expanded_offset_string(zones_map)
         zones_map = self._remove_zones_with_invalid_rules_format_combo(
             zones_map)
@@ -133,7 +133,7 @@ class Transformer:
                 rules_map)
         rules_map = self._create_rules_with_expanded_at_time(rules_map,
             rules_to_zones)
-        rules_map = self._remove_rules_invalid_at_time_modifier(rules_map)
+        rules_map = self._remove_rules_invalid_at_time_suffix(rules_map)
         rules_map = self._create_rules_with_expanded_delta_offset(rules_map)
         rules_map = self._create_rules_with_on_day_expansion(rules_map)
         rules_map = self._create_rules_with_anchor_transition(rules_map)
@@ -402,8 +402,8 @@ class Transformer:
         _merge_reasons(self.all_notable_zones, notable_zones)
         return results
 
-    def _remove_zones_invalid_until_time_modifier(self, zones_map):
-        """Remove zones whose UNTIL time contains an unsupported modifier.
+    def _remove_zones_invalid_until_time_suffix(self, zones_map):
+        """Remove zones whose UNTIL time contains an unsupported suffix.
         """
         # Determine which suffices are supported. The 'g' and 'z' is the same as
         # 'u' and does not currently appear in any TZ file, so let's catch it
@@ -421,19 +421,19 @@ class Transformer:
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
-                modifier = era.untilTimeModifier
-                modifier = modifier if modifier else 'w'
-                era.untilTimeModifier = modifier
-                if modifier not in supported_suffices:
+                suffix = era.untilTimeSuffix
+                suffix = suffix if suffix else 'w'
+                era.untilTimeSuffix = suffix
+                if suffix not in supported_suffices:
                     valid = False
                     _add_reason(removed_zones, name,
-                        f"unsupported UNTIL time modifier '{modifier}'")
+                        f"unsupported UNTIL time suffix '{suffix}'")
                     break
             if valid:
                 results[name] = eras
 
         logging.info(
-            "Removed %s zone infos with unsupported UNTIL time modifier",
+            "Removed %s zone infos with unsupported UNTIL time suffix",
             len(removed_zones))
         self._print_removed_map(removed_zones)
         _merge_reasons(self.all_removed_policies, removed_zones)
@@ -749,9 +749,9 @@ class Transformer:
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
 
-    def _remove_rules_invalid_at_time_modifier(self, rules_map):
-        """Remove rules whose atTime contains an unsupported modifier. Current
-        supported modifier is 'w', 's' and 'u'. The 'g' and 'z' are identifical
+    def _remove_rules_invalid_at_time_suffix(self, rules_map):
+        """Remove rules whose atTime contains an unsupported suffix. Current
+        supported suffix is 'w', 's' and 'u'. The 'g' and 'z' are identifical
         to 'u' and they do not currently appear in any TZ file, so let's catch
         them because it could indicate a bug somewhere in our parser or
         somewhere else.
@@ -762,18 +762,18 @@ class Transformer:
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
-                modifier = rule.atTimeModifier
-                modifier = modifier if modifier else 'w'
-                rule.atTimeModifier = modifier
-                if modifier not in supported_suffices:
+                suffix = rule.atTimeSuffix
+                suffix = suffix if suffix else 'w'
+                rule.atTimeSuffix = suffix
+                if suffix not in supported_suffices:
                     valid = False
                     _add_reason(removed_policies, name,
-                        f"unsupported AT time modifier '{modifier}'")
+                        f"unsupported AT time suffix '{suffix}'")
                     break
             if valid:
                 results[name] = rules
 
-        logging.info("Removed %s rule policies with unsupported AT modifier" %
+        logging.info("Removed %s rule policies with unsupported AT suffix" %
                      len(removed_policies))
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
@@ -995,7 +995,7 @@ class Transformer:
         anchor_rule.onDayOfWeek = 0
         anchor_rule.onDayOfMonth = 1
         anchor_rule.atTime = '0'
-        anchor_rule.atTimeModifier = 'w'
+        anchor_rule.atTimeSuffix = 'w'
         anchor_rule.deltaOffset = '0'
         anchor_rule.atSeconds = 0
         anchor_rule.atSecondsTruncated = 0
