@@ -39,10 +39,10 @@ namespace basic {
  * does not have a ZoneRule, then the Transition is defined by the start date
  * of the ZoneEra.
  *
- * The 'era' and 'rule' variables intermediate values calculated during the
+ * The 'era' and 'rule' variables' intermediate values calculated during the
  * init() phase. They are used to calculate the 'yearTiny', 'startEpochSeconds',
  * 'offsetCode', 'deltaCode', and 'abbrev' parameters which are used during
- * findMatch() lookup. NOTE: This separation may help move the ZoneInfo and
+ * findMatch() lookup. This separation helps in moving the ZoneInfo and
  * ZonePolicy data structures into PROGMEM.
  *
  * Ordering of fields optimized along 4-byte boundaries to help 32-bit
@@ -317,12 +317,13 @@ class BasicZoneProcessor: public ZoneProcessor {
      * onDayOfMonth) or (onDayOfWeek <= onDayOfMonth).
      *
      * There are 4 combinations:
-		 * @verbatim
-		 * onDayOfWeek=0, onDayOfMonth=(1-31): exact match
-		 * onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek>=dayOfMonth
-		 * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
-		 * onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek<=dayOfMonth
-		 * @endverbatim
+     *
+     * @verbatim
+     * onDayOfWeek=0, onDayOfMonth=(1-31): exact match
+     * onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek>=dayOfMonth
+     * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
+     * onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek<=dayOfMonth
+     * @endverbatim
      *
      * Caveats: This method handles expressions which crosses month boundaries,
      * but not year boundaries (e.g. Jan to Dec of the previous year, or Dec to
@@ -851,7 +852,7 @@ class BasicZoneProcessor: public ZoneProcessor {
 
     /**
      * Copy at most dstSize characters from src to dst, while replacing all
-     * occurance of oldChar with newChar. If newChar is '-', then replace with
+     * occurences of oldChar with newChar. If newChar is '-', then replace with
      * nothing. The resulting dst string is always NUL terminated.
      */
     static void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
