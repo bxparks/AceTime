@@ -28,7 +28,8 @@ StringCollection = collections.namedtuple(
 
 class Transformer:
     def __init__(self, zones_map, rules_map, links_map, language, scope,
-                 start_year, until_year, granularity, strict):
+                 start_year, until_year, until_at_granularity,
+                 offset_granularity, strict):
         """
         Args:
             zones_map (dict): Zone names to ZoneEras
@@ -38,8 +39,8 @@ class Transformer:
             scope (str): scope of database (basic, or extended)
             start_year (int): include only years on or after start_year
             until_year (int): include only years valid before until_year
-            granularity (int): retained AT, SAVE, UNTIL, or RULES(offset)
-                fields in seconds
+            until_at_granularity (int): truncate UNTIL, AT to this many seconds
+            offset_granularity (int): SAVE, RULES(offset) to this many seconds
             strict (bool): throw out Zones or Rules which are not exactly
                 on the time boundary defined by granularity
         """
@@ -50,7 +51,8 @@ class Transformer:
         self.scope = scope
         self.start_year = start_year
         self.until_year = until_year
-        self.granularity = granularity
+        self.until_at_granularity = until_at_granularity
+        self.offset_granularity = offset_granularity
         self.strict = strict
 
         self.original_zone_count = len(zones_map)
@@ -375,13 +377,13 @@ class Transformer:
                     break
 
                 until_seconds_truncated = truncate_to_granularity(
-                    until_seconds, self.granularity)
+                    until_seconds, self.until_at_granularity)
                 if until_seconds != until_seconds_truncated:
                     if self.strict:
                         valid = False
                         _add_reason(removed_zones, name,
                             f"UNTIL time '{until_time}' must be multiples "
-                            f"of '{self.granularity}' seconds")
+                            f"of '{self.until_at_granularity}' seconds")
                         break
                     else:
                         hm = seconds_to_hm_string(until_seconds_truncated)
@@ -455,13 +457,13 @@ class Transformer:
                     break
 
                 offset_seconds_truncated = truncate_to_granularity(
-                    offset_seconds, self.granularity)
+                    offset_seconds, self.offset_granularity)
                 if offset_seconds != offset_seconds_truncated:
                     if self.strict:
                         valid = False
                         _add_reason(removed_zones, name,
                             f"GMTOFF '{offset_string}' must be multiples of "
-                            f"'{self.granularity}' seconds")
+                            f"'{self.offset_granularity}' seconds")
                         break
                     else:
                         hm = seconds_to_hm_string(offset_seconds_truncated)
@@ -571,13 +573,14 @@ class Transformer:
                         break
 
                     rules_delta_seconds_truncated = truncate_to_granularity(
-                        rules_delta_seconds, self.granularity)
+                        rules_delta_seconds, self.offset_granularity)
                     if rules_delta_seconds != rules_delta_seconds_truncated:
                         if self.strict:
                             valid = False
                             _add_reason(removed_zones, name,
                                 f"RULES delta offset '{rules_string}' must be "
-                                f"multiples of '{self.granularity}' seconds")
+                                f"multiples of '{self.offset_granularity}' "
+                                f"seconds")
                             break
                         else:
                             hm = seconds_to_hm_string(
@@ -1056,13 +1059,13 @@ class Transformer:
                     break
 
                 at_seconds_truncated = truncate_to_granularity(
-                    at_seconds, self.granularity)
+                    at_seconds, self.until_at_granularity)
                 if at_seconds != at_seconds_truncated:
                     if self.strict:
                         valid = False
                         _add_reason(removed_policies, policy_name,
                             f"AT time '{at_time}' must be multiples of "
-                            f"'{self.granularity}' seconds")
+                            f"'{self.until_at_granularity}' seconds")
                         break
                     else:
                         hm = seconds_to_hm_string(at_seconds_truncated)
@@ -1109,18 +1112,20 @@ class Transformer:
                     break
 
                 delta_seconds_truncated = truncate_to_granularity(
-                    delta_seconds, self.granularity)
+                    delta_seconds, self.offset_granularity)
                 if delta_seconds != delta_seconds_truncated:
                     if self.strict:
                         valid = False
                         _add_reason(removed_policies, name,
                             f"deltaOffset '{delta_offset}' must be "
-                            f"a multiple of '{self.granularity}' seconds")
+                            f"a multiple of '{self.offset_granularity}' "
+                            f"seconds")
                         break
                     else:
                         _add_reason(notable_policies, name,
-                            f"deltaOffset '{delta_offset}' must be "
-                            f"a multiple of '{self.granularity}' seconds")
+                            f"deltaOffset '{delta_offset}' truncated to"
+                            f"a multiple of '{self.offset_granularity}' "
+                            f"seconds")
 
                 rule.deltaSeconds = delta_seconds
                 rule.deltaSecondsTruncated = delta_seconds_truncated
