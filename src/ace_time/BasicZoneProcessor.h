@@ -465,8 +465,8 @@ class BasicZoneProcessor: public ZoneProcessor {
         return false;
       }
 
-      addRulePriorToYear(year);
-      addRulesForYear(year);
+      addTransitionPriorToYear(year);
+      addTransitionsForYear(year);
       calcTransitions();
       calcAbbreviations();
 
@@ -483,7 +483,7 @@ class BasicZoneProcessor: public ZoneProcessor {
      * Add the last matching rule just prior to the given year. This determines
      * the offset at the beginning of the current year.
      */
-    void addRulePriorToYear(int16_t year) const {
+    void addTransitionPriorToYear(int16_t year) const {
       int8_t yearTiny = year - LocalDate::kEpochYear;
       int8_t priorYearTiny = yearTiny - 1;
 
@@ -573,15 +573,15 @@ class BasicZoneProcessor: public ZoneProcessor {
       return 0;
     }
 
-    /** Add all matching rules from the current year. */
-    void addRulesForYear(int16_t year) const {
+    /** Add all matching transitions from the current year. */
+    void addTransitionsForYear(int16_t year) const {
       const basic::ZoneEraBroker era = findZoneEra(year);
 
       // If the ZonePolicy has no rules, then add a Transition which takes
       // effect at the start time of the current year.
       const basic::ZonePolicyBroker zonePolicy = era.zonePolicy();
       if (zonePolicy.isNull()) {
-        addRule(year, era, basic::ZoneRuleBroker());
+        addTransition(year, era, basic::ZoneRuleBroker());
         return;
       }
 
@@ -594,35 +594,34 @@ class BasicZoneProcessor: public ZoneProcessor {
         const basic::ZoneRuleBroker rule = zonePolicy.rule(i);
         if ((rule.fromYearTiny() <= yearTiny) &&
             (yearTiny <= rule.toYearTiny())) {
-          addRule(year, era, rule);
+          addTransition(year, era, rule);
         }
       }
     }
 
     /**
-     * Add (era, rule) to the cache, in sorted order according to the
-     * 'ZoneRule::inMonth' field. This assumes that there are no more than one
-     * transition per month, so tzcompiler.py removes ZonePolicies which have
-     * multiple transitions in one month (e.g. Egypt, Palestine, Spain,
-     * Tunisia).
+     * Add the Transition(era, rule) to the mTransitions cache, in sorted order
+     * according to the 'ZoneRule::inMonth' field. This assumes that there are
+     * no more than one transition per month, so tzcompiler.py removes
+     * ZonePolicies which have multiple transitions in one month (e.g. Egypt,
+     * Palestine, Spain, Tunisia).
      *
      * Essentially, this method is doing an Insertion Sort of the Transition
      * elements. Even through it is O(N^2), for small number of Transition
      * elements, this is faster than the O(N log(N)) sorting algorithms. The
-     * nice property of this Insertion Sort is that if the ZoneInfoEntries are
-     * already sorted, then the loop terminates early and the total sort time
-     * is O(N).
+     * nice property of this Insertion Sort is that if the ZoneRules are
+     * already sorted (they are mostly sorted), then the loop terminates early
+     * and the total sort time is O(N).
      */
-    void addRule(int16_t year, basic::ZoneEraBroker era,
+    void addTransition(int16_t year, basic::ZoneEraBroker era,
           basic::ZoneRuleBroker rule) const {
 
       // If a zone needs more transitions than kMaxCacheEntries, the check below
       // will cause the DST transition information to be inaccurate, and it is
       // highly likely that this situation would be caught in the
-      // BasicValidationUsingPython or BasicValidationUsingJava unit tests.
-      // Since these unit tests pass, I feel confident that those zones which
-      // need more than kMaxCacheEntries are already filtered out by
-      // tzcompiler.py.
+      // 'tests/validation' unit tests. Since these unit tests pass, I feel
+      // confident that those zones which need more than kMaxCacheEntries are
+      // already filtered out by tzcompiler.py.
       //
       // Ideally, the tzcompiler.py script would explicitly remove those zones
       // which need more than kMaxCacheEntries Transitions. But this would
@@ -640,7 +639,7 @@ class BasicZoneProcessor: public ZoneProcessor {
       mTransitions[mNumTransitions] = createTransition(era, rule, yearTiny);
       mNumTransitions++;
 
-      // perform an insertion sort
+      // perform an insertion sort based on ZoneRule.inMonth()
       for (uint8_t i = mNumTransitions - 1; i > 0; i--) {
         basic::Transition& left = mTransitions[i - 1];
         basic::Transition& right = mTransitions[i];
@@ -690,8 +689,8 @@ class BasicZoneProcessor: public ZoneProcessor {
     }
 
     /**
-     * Calculate the startEpochSeconds of each Transition. (previous, this used
-     * to calculate the offsetCode and deltaCode as well, but it turned out
+     * Calculate the startEpochSeconds of each Transition. (previous, this also
+     * calculated the offsetCode and deltaCode as well, but it turned out
      * that they could be calculated early in createTransition()). The start
      * time of a given transition is defined as the "wall clock", which means
      * that it is defined in terms of the *previous* Transition.
@@ -716,7 +715,7 @@ class BasicZoneProcessor: public ZoneProcessor {
           //
           // Also, when transition.rule == nullptr, the mNumTransitions should
           // be 1, since only a single transition is added by
-          // addRulesForYear().
+          // addTransitionsForYear().
           const int8_t prevOffsetCode = prevTransition->offsetCode;
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
               year, 1, 1, 0, 0, 0,
