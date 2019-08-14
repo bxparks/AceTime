@@ -840,7 +840,17 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       return getZoneInfo() == that.getZoneInfo();
     }
 
-    /** Set the underlying ZoneInfo. */
+    /**
+     * Set the underlying ZoneInfo.
+     *
+     * Normally a ZoneProcessor object is associated with a single TimeZone.
+     * However, the ZoneProcessorCache will sometimes "take over" a
+     * ZoneProcessor from another TimeZone using this method. The other
+     * TimeZone will take back control of the ZoneProcessor if it needed. To
+     * avoid bouncing the ownership of this object repeatedly, the
+     * ZoneProcessorCache should allocate enough ZoneProcessors to handle the
+     * usage pattern.
+     */
     void setZoneInfo(const void* zoneInfo) override {
       if (mZoneInfo.zoneInfo() == zoneInfo) return;
 
