@@ -1,6 +1,10 @@
 # Changelog
 
 * Unreleased
+    * Support timezones whose FORMAT contains a '/' with a fixed RULES column.
+    * Split `--granularity` into `--until_at_granularity` and
+      `offset_granularity`. Current zonedb files use values of 60 and 900
+      respectively.
 * 0.7.1
     * Replace `TimeZone::printAbbrevTo()` with more
       flexible and useful `TimeZone::getAbbrev()`.
