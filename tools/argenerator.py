@@ -164,7 +164,7 @@ namespace {dbNamespace} {{
 //
 {removedPolicyItems}
 
-// Inaccurate zone policies: {numNotablePolicies}
+// Notable zone policies: {numNotablePolicies}
 //
 {notablePolicyItems}
 
@@ -495,7 +495,7 @@ extern const {scope}::ZoneContext kZoneContext;
 {removedInfoItems}
 
 //---------------------------------------------------------------------------
-// Inaccurate zones: {numNotableInfos}
+// Notable zones: {numNotableInfos}
 //---------------------------------------------------------------------------
 
 {notableInfoItems}

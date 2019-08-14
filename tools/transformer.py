@@ -482,18 +482,20 @@ class Transformer:
         return results
 
     def _remove_zones_with_invalid_rules_format_combo(self, zones_map):
-        """If the RULES is fixed (i.e. contains '-' or a 'hh:mm' offset, then
-        the FORMAT cannot contains a '%' or a '/' because there would be no RULE
-        entry to decide which one to pick.
+        """Check for valid FORMAT field.
+
+        First, it should always exist.
+
+        If the RULES is fixed (i.e. contains '-' or a 'hh:mm' offset, then
+        FORMAT can contain only the '/' . It cannot contain a '%' because there
+        would be no RULE entry with a LETTER that can replace the '%'.
 
         If the RULES is a reference to a named RULE, then it seems reasonable to
-        expect a '%' or a '/'. Output a warning about this because this
-        shouldn't happen normally. The exception is Africa/Johannesburg because
-        it defines DST transitions for 1942-1944, but there is no corresponding
-        change in the abbreviation, so a '%' or '/' is unnecessary. We will
-        suppress the warning for Africa/Johannesburg. A better check would be to
-        scan the RULES/LETTER column and make sure that all entries are '-', but
-        that's too much work right now.
+        always expect a '%' or a '/' but we cannot make this strict. There are
+        cases where the FORMAT contains neither, for example,
+        Africa/Johannesburg where it defines DST transitions for 1942-1944, but
+        there seems to be no corresponding change in the abbreviation so FORMAT
+        contains no '%' or '/'. Generate a warning for now.
         """
         results = {}
         removed_zones = {}
@@ -512,19 +514,11 @@ class Transformer:
                             "RULES is fixed but FORMAT contains '%'")
                         valid = False
                         break
-                    if '/' in era.format:
-                        _add_reason(removed_zones, zone_name,
-                            "RULES is fixed but FORMAT contains '/'")
-                        valid = False
-                        break
                 else:
                    if not ('%' in era.format or '/' in era.format):
-                        if zone_name != 'Africa/Johannesburg':
-                            _add_reason(notable_zones, zone_name,
-                                "RULES not fixed but FORMAT is missing " +
-                                "'%' or '/'")
-                        valid = True
-                        break
+                        _add_reason(notable_zones, zone_name,
+                            "RULES not fixed but FORMAT is missing " +
+                            "'%' or '/'")
 
             if valid:
                 results[zone_name] = eras
