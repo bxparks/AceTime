@@ -167,7 +167,7 @@ extern const basic::ZonePolicy kPolicyZion;
 // kPolicyWS (unused)
 
 
-// Inaccurate zone policies: 0
+// Notable zone policies: 0
 //
 
 

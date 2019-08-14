@@ -167,7 +167,7 @@ extern const extended::ZonePolicy kPolicyZion;
 // kPolicyW-Eur (unused)
 
 
-// Inaccurate zone policies: 0
+// Notable zone policies: 0
 //
 
 
