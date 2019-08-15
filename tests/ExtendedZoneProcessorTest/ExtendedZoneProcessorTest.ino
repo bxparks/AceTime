@@ -331,26 +331,26 @@ test(ExtendedZoneProcessorTest, expandDateTuple) {
   DateTuple tt;
   DateTuple tts;
   DateTuple ttu;
-  int8_t offsetCode = 8;
-  int8_t deltaCode = 4;
+  int16_t offsetMinutes = 2*60;
+  int16_t deltaMinutes = 1*60;
 
   tt = {0, 1, 30, 15*12, ZoneContext::TIME_SUFFIX_W}; // 03:00
   ExtendedZoneProcessor::expandDateTuple(&tt, &tts, &ttu,
-      offsetCode, deltaCode);
+      offsetMinutes, deltaMinutes);
   assertTrue((tt == DateTuple{0, 1, 30, 15*12, ZoneContext::TIME_SUFFIX_W}));
   assertTrue((tts == DateTuple{0, 1, 30, 15*8, ZoneContext::TIME_SUFFIX_S}));
   assertTrue((ttu == DateTuple{0, 1, 30, 0, ZoneContext::TIME_SUFFIX_U}));
 
   tt = {0, 1, 30, 15*8, ZoneContext::TIME_SUFFIX_S};
   ExtendedZoneProcessor::expandDateTuple(&tt, &tts, &ttu,
-      offsetCode, deltaCode);
+      offsetMinutes, deltaMinutes);
   assertTrue((tt == DateTuple{0, 1, 30, 15*12, ZoneContext::TIME_SUFFIX_W}));
   assertTrue((tts == DateTuple{0, 1, 30, 15*8, ZoneContext::TIME_SUFFIX_S}));
   assertTrue((ttu == DateTuple{0, 1, 30, 0, ZoneContext::TIME_SUFFIX_U}));
 
   tt = {0, 1, 30, 0, ZoneContext::TIME_SUFFIX_U};
   ExtendedZoneProcessor::expandDateTuple(&tt, &tts, &ttu,
-      offsetCode, deltaCode);
+      offsetMinutes, deltaMinutes);
   assertTrue((tt == DateTuple{0, 1, 30, 15*12, ZoneContext::TIME_SUFFIX_W}));
   assertTrue((tts == DateTuple{0, 1, 30, 15*8, ZoneContext::TIME_SUFFIX_S}));
   assertTrue((ttu == DateTuple{0, 1, 30, 0, ZoneContext::TIME_SUFFIX_U}));
@@ -426,7 +426,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   Transition transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {-1, 11, 1, 0, ZoneContext::TIME_SUFFIX_W} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   assertEqual(-1, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
       &transition, &match));
@@ -434,7 +434,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {-1, 12, 1, 0, ZoneContext::TIME_SUFFIX_W} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   assertEqual(1, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
       &transition, &match));
@@ -442,7 +442,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 1, 0, ZoneContext::TIME_SUFFIX_W} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   assertEqual(1, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
       &transition, &match));
@@ -450,7 +450,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {1, 1, 1, 0, ZoneContext::TIME_SUFFIX_W} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   assertEqual(1, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
       &transition, &match));
@@ -458,7 +458,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {1, 2, 1, 0, ZoneContext::TIME_SUFFIX_W} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   assertEqual(1, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
       &transition, &match));
@@ -466,7 +466,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {1, 3, 1, 0, ZoneContext::TIME_SUFFIX_W} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   assertEqual(2, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
       &transition, &match));
@@ -485,7 +485,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   Transition transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {-1, 12, 31, 0, ZoneContext::TIME_SUFFIX_W} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   assertEqual(-1, ExtendedZoneProcessor::compareTransitionToMatch(
       &transition, &match));
@@ -493,7 +493,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 1, 0, ZoneContext::TIME_SUFFIX_W} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   assertEqual(0, ExtendedZoneProcessor::compareTransitionToMatch(
       &transition, &match));
@@ -501,7 +501,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 2, 0, ZoneContext::TIME_SUFFIX_W} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   assertEqual(1, ExtendedZoneProcessor::compareTransitionToMatch(
       &transition, &match));
@@ -509,7 +509,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   transition = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {1, 1, 2, 0, ZoneContext::TIME_SUFFIX_W} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   assertEqual(2, ExtendedZoneProcessor::compareTransitionToMatch(
       &transition, &match));
@@ -529,7 +529,7 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
   Transition transition0 = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {-1, 12, 31, 0, ZoneContext::TIME_SUFFIX_W} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   ExtendedZoneProcessor::processActiveTransition(&match, &transition0, &prior);
   assertTrue(transition0.active);
@@ -539,7 +539,7 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
   Transition transition1 = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 1, 0, ZoneContext::TIME_SUFFIX_W} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   ExtendedZoneProcessor::processActiveTransition(&match, &transition1, &prior);
   assertTrue(transition1.active);
@@ -549,7 +549,7 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
   Transition transition2 = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 2, 0, ZoneContext::TIME_SUFFIX_W} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   ExtendedZoneProcessor::processActiveTransition(&match, &transition2, &prior);
   assertTrue(transition2.active);
@@ -559,7 +559,7 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
   Transition transition3 = {
     &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
     {1, 1, 2, 0, ZoneContext::TIME_SUFFIX_W} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, {0}, {0}, false, 0, 0
+    EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   assertFalse(transition3.active);
   assertTrue(prior == &transition1);
@@ -740,11 +740,11 @@ test(ExtendedZoneProcessorTest, createAbbreviation) {
   const uint8_t kDstSize = 6;
   char dst[kDstSize];
 
-  // If no '%', deltaCode and letter should not matter
+  // If no '%', deltaMinutes and letter should not matter
   ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 0, nullptr);
   assertEqual("SAST", dst);
 
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 4, "A");
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 60, "A");
   assertEqual("SAST", dst);
 
   // If '%', and letter is (incorrectly) set to '\0', just copy the thing
@@ -752,7 +752,7 @@ test(ExtendedZoneProcessorTest, createAbbreviation) {
   assertEqual("SA%ST", dst);
 
   // If '%', then replaced with (non-null) letterString.
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 4, "D");
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 60, "D");
   assertEqual("PDT", dst);
 
   ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, "S");
@@ -761,21 +761,21 @@ test(ExtendedZoneProcessorTest, createAbbreviation) {
   ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, "");
   assertEqual("PT", dst);
 
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 4, "CAT");
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 60, "CAT");
   assertEqual("CAT", dst);
 
   ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 0, "WAT");
   assertEqual("WAT", dst);
 
-  // If '/', then deltaCode selects the first or second component.
+  // If '/', then deltaMinutes selects the first or second component.
   ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, "");
   assertEqual("GMT", dst);
 
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 4, "");
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 60, "");
   assertEqual("BST", dst);
 
   // test truncation to kDstSize
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T3456", 4, "DD");
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T3456", 60, "DD");
   assertEqual("PDDT3", dst);
 }
 

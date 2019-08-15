@@ -100,7 +100,7 @@ class DirectZoneRuleBroker {
       return toSuffix(mZoneRule->atTimeModifier);
     }
 
-    int8_t deltaCode() const { return mZoneRule->deltaCode; }
+    int16_t deltaMinutes() const { return 15 * mZoneRule->deltaCode; }
 
     uint8_t letter() const { return mZoneRule->letter; }
 
@@ -163,13 +163,13 @@ class DirectZoneEraBroker {
 
     bool isNotNull() const { return mZoneEra != nullptr; }
 
-    int8_t offsetCode() const { return mZoneEra->offsetCode; }
+    int16_t offsetMinutes() const { return 15 * mZoneEra->offsetCode; }
 
     const DirectZonePolicyBroker<ZP, ZR> zonePolicy() const {
       return DirectZonePolicyBroker<ZP, ZR>(mZoneEra->zonePolicy);
     }
 
-    int8_t deltaCode() const { return mZoneEra->deltaCode; }
+    int16_t deltaMinutes() const { return 15 * mZoneEra->deltaCode; }
 
     const char* format() const { return mZoneEra->format; }
 
@@ -305,8 +305,8 @@ class FlashZoneRuleBroker {
       return toSuffix(pgm_read_byte(&mZoneRule->atTimeModifier));
     }
 
-    int8_t deltaCode() const {
-      return pgm_read_byte(&mZoneRule->deltaCode);
+    int16_t deltaMinutes() const {
+      return 15 * (int8_t) pgm_read_byte(&mZoneRule->deltaCode);
     }
 
     uint8_t letter() const {
@@ -379,8 +379,8 @@ class FlashZoneEraBroker {
 
     bool isNotNull() const { return mZoneEra != nullptr; }
 
-    int8_t offsetCode() const {
-      return pgm_read_byte(&mZoneEra->offsetCode);
+    int16_t offsetMinutes() const {
+      return 15 * (int8_t) pgm_read_byte(&mZoneEra->offsetCode);
     }
 
     const FlashZonePolicyBroker<ZP, ZR> zonePolicy() const {
@@ -388,8 +388,8 @@ class FlashZoneEraBroker {
           (const ZP*) pgm_read_ptr(&mZoneEra->zonePolicy));
     }
 
-    int8_t deltaCode() const {
-      return pgm_read_byte(&mZoneEra->deltaCode);
+    int16_t deltaMinutes() const {
+      return 15 * (int8_t) pgm_read_byte(&mZoneEra->deltaCode);
     }
 
     const char* format() const {

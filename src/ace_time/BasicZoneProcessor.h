@@ -24,7 +24,7 @@ class BasicZoneProcessorTest_init;
 class BasicZoneProcessorTest_setZoneInfo;
 class BasicZoneProcessorTest_createAbbreviation;
 class BasicZoneProcessorTest_calcStartDayOfMonth;
-class BasicZoneProcessorTest_calcRuleOffsetCode;
+class BasicZoneProcessorTest_calcRuleOffsetMinutes;
 
 namespace ace_time {
 
@@ -41,8 +41,8 @@ namespace basic {
  *
  * The 'era' and 'rule' variables' intermediate values calculated during the
  * init() phase. They are used to calculate the 'yearTiny', 'startEpochSeconds',
- * 'offsetCode', 'deltaCode', and 'abbrev' parameters which are used during
- * findMatch() lookup. This separation helps in moving the ZoneInfo and
+ * 'offsetMinutes', 'deltaMinutes', and 'abbrev' parameters which are used
+ * during findMatch() lookup. This separation helps in moving the ZoneInfo and
  * ZonePolicy data structures into PROGMEM.
  *
  * Ordering of fields optimized along 4-byte boundaries to help 32-bit
@@ -80,18 +80,18 @@ struct Transition {
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
 
+  /**
+   * The total effective UTC offset minutes at the start of transition,
+   * *including* DST offset. (Maybe rename this effectiveOffsetMinutes?) The
+   * DST offset is stored at deltaMinutes.
+   */
+  int16_t offsetMinutes;
+
+  /** The deltaMinutes from "standard time" at the start of transition */
+  int16_t deltaMinutes;
+
   /** Year which applies to the ZoneEra or ZoneRule. */
   int8_t yearTiny;
-
-  /**
-   * The total effective UTC offsetCode at the start of transition, *including*
-   * DST offset. (Maybe rename this effectiveOffsetCode?) The DST offset is
-   * stored at deltaCode.
-   */
-  int8_t offsetCode;
-
-  /** The delta offsetCode from "standard time" at the start of transition */
-  int8_t deltaCode;
 
   /**
    * The calculated effective time zone abbreviation, e.g. "PST" or "PDT".
@@ -110,7 +110,7 @@ struct Transition {
       } else {
         logging::printf("startEpochSeconds: %ld\n", startEpochSeconds);
       }
-      logging::printf("offsetCode: %d\n", offsetCode);
+      logging::printf("offsetMinutes: %d\n", offsetMinutes);
       logging::printf("abbrev: %s\n", abbrev);
       if (rule.isNotNull()) {
         logging::printf("Rule.fromYear: %d\n", rule.fromYearTiny());
@@ -200,16 +200,16 @@ class BasicZoneProcessor: public ZoneProcessor {
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
-      int8_t code = (transition)
-          ? transition->offsetCode : TimeOffset::kErrorCode;
-      return TimeOffset::forOffsetCode(code);
+      int16_t minutes = (transition)
+          ? transition->offsetMinutes : TimeOffset::kErrorMinutes;
+      return TimeOffset::forMinutes(minutes);
     }
 
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
-      int8_t code = (transition)
-          ? transition->deltaCode : TimeOffset::kErrorCode;
-      return TimeOffset::forOffsetCode(code);
+      int16_t minutes = (transition)
+          ? transition->deltaMinutes : TimeOffset::kErrorMinutes;
+      return TimeOffset::forMinutes(minutes);
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
@@ -372,7 +372,7 @@ class BasicZoneProcessor: public ZoneProcessor {
     friend class ::BasicZoneProcessorTest_setZoneInfo;
     friend class ::BasicZoneProcessorTest_createAbbreviation;
     friend class ::BasicZoneProcessorTest_calcStartDayOfMonth;
-    friend class ::BasicZoneProcessorTest_calcRuleOffsetCode;
+    friend class ::BasicZoneProcessorTest_calcRuleOffsetMinutes;
 
     template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
     friend class ZoneProcessorCacheImpl; // setZoneInfo()
@@ -515,30 +515,30 @@ class BasicZoneProcessor: public ZoneProcessor {
     }
 
     /**
-     * Create a Transition with the 'deltaCode' and 'offsetCode' filled in so
-     * that subsequent processing does not need to retrieve those again
+     * Create a Transition with the 'deltaMinutes' and 'offsetMInutes' filled
+     * in so that subsequent processing does not need to retrieve those again
      * (potentially from PROGMEM).
      */
     static basic::Transition createTransition(basic::ZoneEraBroker era,
         basic::ZoneRuleBroker rule, int8_t yearTiny) {
-      int8_t deltaCode;
+      int16_t deltaMinutes;
       char letter;
       if (rule.isNull()) {
-        deltaCode = era.deltaCode();
+        deltaMinutes = era.deltaMinutes();
         letter = '\0';
       } else {
-        deltaCode = rule.deltaCode();
+        deltaMinutes = rule.deltaMinutes();
         letter = rule.letter();
       }
-      int8_t offsetCode = era.offsetCode() + deltaCode;
+      int16_t offsetMinutes = era.offsetMinutes() + deltaMinutes;
 
       return {
         era,
         rule,
         0 /*epochSeconds*/,
+        offsetMinutes,
+        deltaMinutes,
         yearTiny,
-        offsetCode,
-        deltaCode,
         {letter} /*abbrev*/
       };
     }
@@ -688,7 +688,7 @@ class BasicZoneProcessor: public ZoneProcessor {
 
     /**
      * Calculate the startEpochSeconds of each Transition. (previous, this also
-     * calculated the offsetCode and deltaCode as well, but it turned out
+     * calculated the offsetMinutes and deltaMinutes as well, but it turned out
      * that they could be calculated early in createTransition()). The start
      * time of a given transition is defined as the "wall clock", which means
      * that it is defined in terms of the *previous* Transition.
@@ -707,17 +707,17 @@ class BasicZoneProcessor: public ZoneProcessor {
           // ZoneEra applies for the entire year (since BasicZoneProcessor
           // supports only whole year in the UNTIL field). The whole year UNTIL
           // field has an implied 'w' suffix on 00:00, we don't need to call
-          // calcRuleOffsetCode() with a 'w', we can just use the previous
+          // calcRuleOffsetMinutes() with a 'w', we can just use the previous
           // transition's offset to calculate the startDateTime of this
           // transition.
           //
           // Also, when transition.rule == nullptr, the mNumTransitions should
           // be 1, since only a single transition is added by
           // addTransitionsForYear().
-          const int8_t prevOffsetCode = prevTransition->offsetCode;
+          const int16_t prevOffsetMinutes = prevTransition->offsetMinutes;
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
               year, 1, 1, 0, 0, 0,
-              TimeOffset::forOffsetCode(prevOffsetCode));
+              TimeOffset::forMinutes(prevOffsetMinutes));
           transition.startEpochSeconds = startDateTime.toEpochSeconds();
         } else {
           // In this case, the transition points to a named ZonePolicy, which
@@ -732,9 +732,9 @@ class BasicZoneProcessor: public ZoneProcessor {
 
           // Determine the offset of the 'atTimeSuffix'. The 'w' suffix
           // requires the offset of the previous transition.
-          const int8_t prevOffsetCode = calcRuleOffsetCode(
-              prevTransition->offsetCode,
-              transition.era.offsetCode(),
+          const int16_t prevOffsetMinutes = calcRuleOffsetMinutes(
+              prevTransition->offsetMinutes,
+              transition.era.offsetMinutes(),
               transition.rule.atTimeSuffix());
 
           // startDateTime
@@ -744,7 +744,7 @@ class BasicZoneProcessor: public ZoneProcessor {
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
               year, monthDay.month, monthDay.day,
               atHour, atMinute, 0 /*second*/,
-              TimeOffset::forOffsetCode(prevOffsetCode));
+              TimeOffset::forMinutes(prevOffsetMinutes));
           transition.startEpochSeconds = startDateTime.toEpochSeconds();
         }
 
@@ -758,12 +758,12 @@ class BasicZoneProcessor: public ZoneProcessor {
      * (which does not contain the extra DST offset). If 'u', 'g', 'z', then
      * use 0 offset.
      */
-    static int8_t calcRuleOffsetCode(int8_t prevEffectiveOffsetCode,
-        int8_t currentBaseOffsetCode, uint8_t atSuffix) {
+    static int16_t calcRuleOffsetMinutes(int16_t prevEffectiveOffsetMinutes,
+        int16_t currentBaseOffsetMinutes, uint8_t atSuffix) {
       if (atSuffix == basic::ZoneContext::TIME_SUFFIX_W) {
-        return prevEffectiveOffsetCode;
+        return prevEffectiveOffsetMinutes;
       } else if (atSuffix == basic::ZoneContext::TIME_SUFFIX_S) {
-        return currentBaseOffsetCode;
+        return currentBaseOffsetMinutes;
       } else { // 'u', 'g' or 'z'
         return 0;
       }
@@ -783,13 +783,13 @@ class BasicZoneProcessor: public ZoneProcessor {
           transition->abbrev,
           basic::Transition::kAbbrevSize,
           transition->era.format(),
-          transition->deltaCode,
+          transition->deltaMinutes,
           transition->abbrev[0]);
     }
 
     /**
      * Create the time zone abbreviation in dest from the format string
-     * (e.g. "P%T", "E%T"), the time zone deltaCode (!= 0 means DST), and the
+     * (e.g. "P%T", "E%T"), the time zone deltaMinutes (!= 0 means DST), and the
      * replacement letter (e.g. 'S', 'D', '-', or '\0' to indicate no RULE).
      *
      * 1) If the FORMAT contains a '%', then:
@@ -807,11 +807,12 @@ class BasicZoneProcessor: public ZoneProcessor {
      * in the TZ database files.)
      *
      * 2) If the FORMAT contains a '/', then, ignore the 'letter' and just
-     * use deltaCode in the following:
+     * use deltaMinutes in the following:
      *
-     * 2a) If deltaCode is 0, pick the first component, i.e. before the '/'.
+     * 2a) If deltaMinutes is 0, pick the first component, i.e. before the '/'.
      *
-     * 2b) Else deltaCode != 0, pick the second component, i.e. after the '/'.
+     * 2b) Else deltaMinutes != 0, pick the second component, i.e. after the
+     * '/'.
      *
      * The above algorithm supports the following edge cases from the TZ
      * Database:
@@ -827,14 +828,15 @@ class BasicZoneProcessor: public ZoneProcessor {
      * @param dest destination string buffer
      * @param destSize size of buffer
      * @param format encoded abbreviation, '%' is a character substitution
-     * @param deltaCode the offsetCode (0 for standard, != 0 for DST)
+     * @param deltaMinutes the additional delta minutes std offset
+     *    (0 for standard, != 0 for DST)
      * @param letter during standard or DST time. If RULES is a named rule,
      *    this is the value of the LETTER field ('S', 'D', '-' for empty
      *    string), But if RULES is '-' or 'hh:mm' indicating a fixed offset,
      *    then 'letter' will be set to '\0'.
      */
     static void createAbbreviation(char* dest, uint8_t destSize,
-        const char* format, uint8_t deltaCode, char letter) {
+        const char* format, int16_t deltaMinutes, char letter) {
       // Check if FORMAT contains a '%'.
       if (strchr(format, '%') != nullptr) {
         // Check if RULES column empty, therefore no 'letter'
@@ -848,7 +850,7 @@ class BasicZoneProcessor: public ZoneProcessor {
         // Check if FORMAT contains a '/'.
         const char* slashPos = strchr(format, '/');
         if (slashPos != nullptr) {
-          if (deltaCode == 0) {
+          if (deltaMinutes == 0) {
             uint8_t headLength = (slashPos - format);
             if (headLength >= destSize) headLength = destSize - 1;
             memcpy(dest, format, headLength);
@@ -860,7 +862,7 @@ class BasicZoneProcessor: public ZoneProcessor {
             dest[tailLength] = '\0';
           }
         } else {
-          // Just copy the FORMAT disregarding the deltaCode and letter.
+          // Just copy the FORMAT disregarding the deltaMinutes and letter.
           strncpy(dest, format, destSize - 1);
           dest[destSize - 1] = '\0';
         }

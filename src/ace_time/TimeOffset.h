@@ -14,10 +14,7 @@ namespace ace_time {
 
 // These functions need to set the mMinutes and it seemed inefficient to
 // go through the factory method and assignment operator, so I expose
-// setMinutes() to them for efficiency. If the compiler is smart enough to
-// optimize away the assignment operator, then we could remove these friend
-// declarations and just use the forOffsetCode() factory method instead. I
-// haven't looked into this.
+// setMinutes() to them for efficiency.
 class TimeOffset;
 namespace time_offset_mutation {
 void incrementHour(TimeOffset& offset);
@@ -50,9 +47,7 @@ void increment15Minutes(TimeOffset& offset);
  * zonefiles itself through the tzcompiler.py script). However, 15-minute
  * resolution is not sufficient to handle a handful of timezones in the past
  * (years 2000 to 2011 or so). So I changed the implementation to use 2 bytes
- * to handle 1-minute resolution. Some residual methods handle "offsetCode"
- * because the zoneinfo files in zonedb/ and zonedbx/ are encoded using a
- * int8_t type to save flash memory space.
+ * to handle 1-minute resolution.
  *
  * This class does NOT know about the TZ Database (aka Olson database)
  * https://en.wikipedia.org/wiki/Tz_database. That functionality is implemented
@@ -60,9 +55,6 @@ void increment15Minutes(TimeOffset& offset);
  */
 class TimeOffset {
   public:
-    /** Sentinel value that represents an error. */
-    static const int8_t kErrorCode = INT8_MIN;
-
     /** Sentinel value that represents an error. */
     static const int16_t kErrorMinutes = INT16_MIN;
 
@@ -111,16 +103,6 @@ class TimeOffset {
 
     /** Return an error indicator. */
     static TimeOffset forError() { return TimeOffset(kErrorMinutes); }
-
-    /**
-     * Create TimeOffset from the offset code.
-     *
-     * @param offsetCode the amount of time offset in 15-minute increments.
-     */
-    static TimeOffset forOffsetCode(int8_t offsetCode) {
-      return TimeOffset::forMinutes(
-          (offsetCode == kErrorCode) ? kErrorMinutes : offsetCode * 15);
-    }
 
     /** Constructor. Create a time offset of 0. */
     explicit TimeOffset() {}

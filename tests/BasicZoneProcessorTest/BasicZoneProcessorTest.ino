@@ -78,12 +78,12 @@ test(BasicZoneProcessorTest, calcStartDayOfMonth) {
   assertEqual(30, monthDay.day);
 }
 
-test(BasicZoneProcessorTest, calcRuleOffsetCode) {
-  assertEqual(0, BasicZoneProcessor::calcRuleOffsetCode(1, 2,
+test(BasicZoneProcessorTest, calcRuleOffsetMinutes) {
+  assertEqual(0, BasicZoneProcessor::calcRuleOffsetMinutes(1, 2,
       basic::ZoneContext::TIME_SUFFIX_U));
-  assertEqual(1, BasicZoneProcessor::calcRuleOffsetCode(1, 2,
+  assertEqual(1, BasicZoneProcessor::calcRuleOffsetMinutes(1, 2,
       basic::ZoneContext::TIME_SUFFIX_W));
-  assertEqual(2, BasicZoneProcessor::calcRuleOffsetCode(1, 2,
+  assertEqual(2, BasicZoneProcessor::calcRuleOffsetMinutes(1, 2,
       basic::ZoneContext::TIME_SUFFIX_S));
 }
 
@@ -94,7 +94,7 @@ test(BasicZoneProcessorTest, init_primitives) {
 
   zoneProcessor.addTransitionPriorToYear(2001);
   assertEqual(0, zoneProcessor.mNumTransitions);
-  assertEqual(-32, zoneProcessor.mPrevTransition.era.offsetCode());
+  assertEqual(-8*60, zoneProcessor.mPrevTransition.era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mPrevTransition.era.format());
   assertEqual(1967-2000, zoneProcessor.mPrevTransition.rule.fromYearTiny());
   assertEqual(2006-2000, zoneProcessor.mPrevTransition.rule.toYearTiny());
@@ -103,13 +103,13 @@ test(BasicZoneProcessorTest, init_primitives) {
   zoneProcessor.addTransitionsForYear(2001);
   assertEqual(2, zoneProcessor.mNumTransitions);
 
-  assertEqual(-32, zoneProcessor.mTransitions[0].era.offsetCode());
+  assertEqual(-8*60, zoneProcessor.mTransitions[0].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[0].era.format());
   assertEqual(1987-2000, zoneProcessor.mTransitions[0].rule.fromYearTiny());
   assertEqual(2006-2000, zoneProcessor.mTransitions[0].rule.toYearTiny());
   assertEqual(4, zoneProcessor.mTransitions[0].rule.inMonth());
 
-  assertEqual(-32, zoneProcessor.mTransitions[1].era.offsetCode());
+  assertEqual(-8*60, zoneProcessor.mTransitions[1].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[1].era.format());
   assertEqual(1967-2000, zoneProcessor.mTransitions[1].rule.fromYearTiny());
   assertEqual(2006-2000, zoneProcessor.mTransitions[1].rule.toYearTiny());
@@ -118,15 +118,15 @@ test(BasicZoneProcessorTest, init_primitives) {
   zoneProcessor.calcTransitions();
   assertEqual((acetime_t) BasicZoneProcessor::kMinEpochSeconds,
       zoneProcessor.mPrevTransition.startEpochSeconds);
-  assertEqual(-32, zoneProcessor.mPrevTransition.offsetCode);
+  assertEqual(-8*60, zoneProcessor.mPrevTransition.offsetMinutes);
 
   // t >= 2001-04-01 02:00 UTC-08:00 Sunday goes to PDT
-  assertEqual(-28, zoneProcessor.mTransitions[0].offsetCode);
+  assertEqual(-7*60, zoneProcessor.mTransitions[0].offsetMinutes);
   assertEqual((acetime_t) 39434400,
       zoneProcessor.mTransitions[0].startEpochSeconds);
 
   // t >= 2001-10-28 02:00 UTC-07:00 Sunday goes to PST
-  assertEqual(-32, zoneProcessor.mTransitions[1].offsetCode);
+  assertEqual(-8*60, zoneProcessor.mTransitions[1].offsetMinutes);
   assertEqual((acetime_t) 57574800,
       zoneProcessor.mTransitions[1].startEpochSeconds);
 }
@@ -140,21 +140,21 @@ test(BasicZoneProcessorTest, init) {
 
   assertEqual(2, zoneProcessor.mNumTransitions);
 
-  assertEqual(-32, zoneProcessor.mPrevTransition.era.offsetCode());
+  assertEqual(-8*60, zoneProcessor.mPrevTransition.era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mPrevTransition.era.format());
   assertEqual(2007-2000, zoneProcessor.mPrevTransition.rule.fromYearTiny());
   assertEqual(basic::ZoneRule::kMaxYearTiny,
       zoneProcessor.mPrevTransition.rule.toYearTiny());
   assertEqual(11, zoneProcessor.mPrevTransition.rule.inMonth());
 
-  assertEqual(-32, zoneProcessor.mTransitions[0].era.offsetCode());
+  assertEqual(-8*60, zoneProcessor.mTransitions[0].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[0].era.format());
   assertEqual(2007-2000, zoneProcessor.mTransitions[0].rule.fromYearTiny());
   assertEqual(basic::ZoneRule::kMaxYearTiny,
       zoneProcessor.mTransitions[0].rule.toYearTiny());
   assertEqual(3, zoneProcessor.mTransitions[0].rule.inMonth());
 
-  assertEqual(-32, zoneProcessor.mTransitions[1].era.offsetCode());
+  assertEqual(-8*60, zoneProcessor.mTransitions[1].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[1].era.format());
   assertEqual(2007-2000, zoneProcessor.mTransitions[1].rule.fromYearTiny());
   assertEqual(basic::ZoneRule::kMaxYearTiny,
@@ -163,15 +163,15 @@ test(BasicZoneProcessorTest, init) {
 
   assertEqual((acetime_t) BasicZoneProcessor::kMinEpochSeconds,
       zoneProcessor.mPrevTransition.startEpochSeconds);
-  assertEqual(-32, zoneProcessor.mPrevTransition.offsetCode);
+  assertEqual(-8*60, zoneProcessor.mPrevTransition.offsetMinutes);
 
   // t >= 2018-03-11 02:00 UTC-08:00 Sunday goes to PDT
-  assertEqual(-28, zoneProcessor.mTransitions[0].offsetCode);
+  assertEqual(-7*60, zoneProcessor.mTransitions[0].offsetMinutes);
   assertEqual((acetime_t) 574077600,
       zoneProcessor.mTransitions[0].startEpochSeconds);
 
   // t >= 2018-11-04 02:00 UTC-07:00 Sunday goes to PST
-  assertEqual(-32, zoneProcessor.mTransitions[1].offsetCode);
+  assertEqual(-8*60, zoneProcessor.mTransitions[1].offsetMinutes);
   assertEqual((acetime_t) 594637200,
       zoneProcessor.mTransitions[1].startEpochSeconds);
 }
@@ -180,11 +180,11 @@ test(BasicZoneProcessorTest, createAbbreviation) {
   const uint8_t kDstSize = 6;
   char dst[kDstSize];
 
-  // If no '%', deltaCode and letter should not matter
+  // If no '%', deltaMinutes and letter should not matter
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 0, '\0');
   assertEqual("SAST", dst);
 
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 4, 'A');
+  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 1*60, 'A');
   assertEqual("SAST", dst);
 
   // If '%', and letter is (incorrectly) set to '\0', just copy the thing
@@ -195,27 +195,27 @@ test(BasicZoneProcessorTest, createAbbreviation) {
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, 'S');
   assertEqual("PST", dst);
 
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 4, 'D');
+  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 1*60, 'D');
   assertEqual("PDT", dst);
 
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, '-');
   assertEqual("PT", dst);
 
-  // If '/', then deltaCode selects the first or second component.
+  // If '/', then deltaMinutes selects the first or second component.
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, '-');
   assertEqual("GMT", dst);
 
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, '\0');
   assertEqual("GMT", dst);
 
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 4, '-');
+  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 1*60, '-');
   assertEqual("BST", dst);
 
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 4, '\0');
+  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 1*60, '\0');
   assertEqual("BST", dst);
 
   // test truncation to kDstSize
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T3456", 4, 'D');
+  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T3456", 1*60, 'D');
   assertEqual("PDT34", dst);
 }
 
