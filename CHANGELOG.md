@@ -3,12 +3,14 @@
 * Unreleased
 * 0.7.2
     * Support timezones whose FORMAT contains a '/' with a fixed RULES column.
+      Seems to make BasicZoneProcessor slightly smaller (20-80 bytes) and
+      ExtendedZoneProcessor slightly bigger (50-100 bytes).
     * Split `--granularity` into `--until_at_granularity` and
       `offset_granularity`. Current zonedb files use values of 60 and 900
       respectively.
 * 0.7.1
-    * Replace `TimeZone::printAbbrevTo()` with more
-      flexible and useful `TimeZone::getAbbrev()`.
+    * Replace `TimeZone::printAbbrevTo()` with more flexible and useful
+      `TimeZone::getAbbrev()`.
 * 0.7
     * Change TimeZoneData to store mStdOffset and mDstOffset in units of
       one minute (instead of 15-minute increments, "code") in the off chance
