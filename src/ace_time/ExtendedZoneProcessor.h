@@ -65,25 +65,25 @@ struct DateTuple {
   DateTuple() = default;
 
   DateTuple(int8_t y, uint8_t mon, uint8_t d, int16_t min, uint8_t mod):
-      yearTiny(y), month(mon), day(d), modifier(mod), minutes(min) {}
+      yearTiny(y), month(mon), day(d), suffix(mod), minutes(min) {}
 
   int8_t yearTiny; // [-127, 126], 127 will cause bugs
   uint8_t month; // [1-12]
   uint8_t day; // [1-31]
-  uint8_t modifier; // TIME_MODIFIER_S, TIME_MODIFIER_W, TIME_MODIFIER_U
+  uint8_t suffix; // TIME_SUFFIX_S, TIME_SUFFIX_W, TIME_SUFFIX_U
   int16_t minutes; // negative values allowed
 
   /** Used only for debugging. */
   void log() const {
     if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-      char c = "wsu"[(modifier>>4)];
+      char c = "wsu"[(suffix>>4)];
       logging::printf("DateTuple(%04d-%02u-%02uT%d'%c')",
           yearTiny+LocalDate::kEpochYear, month, day, minutes, c);
     }
   }
 };
 
-/** Determine if DateTuple a is less than DateTuple b, ignoring the modifier. */
+/** Determine if DateTuple a is less than DateTuple b, ignoring the suffix. */
 inline bool operator<(const DateTuple& a, const DateTuple& b) {
   if (a.yearTiny < b.yearTiny) return true;
   if (a.yearTiny > b.yearTiny) return false;
@@ -108,13 +108,13 @@ inline bool operator>(const DateTuple& a, const DateTuple& b) {
   return (b < a);
 }
 
-/** Determine if DateTuple a is equal to DateTuple b, including the modifier. */
+/** Determine if DateTuple a is equal to DateTuple b, including the suffix. */
 inline bool operator==(const DateTuple& a, const DateTuple& b) {
   return a.yearTiny == b.yearTiny
       && a.month == b.month
       && a.day == b.day
       && a.minutes == b.minutes
-      && a.modifier == b.modifier;
+      && a.suffix == b.suffix;
 }
 
 /** A simple tuple to represent a year/month pair. */
@@ -465,7 +465,7 @@ class TransitionStorage {
      * Add the free agent Transition at index mIndexFree to the Candidate pool,
      * sorted by transitionTime. Then increment mIndexFree by one to remove the
      * free agent from the Free pool. Essentially this is an Insertion Sort
-     * keyed by the 'transitionTime' (ignoring the DateTuple.modifier).
+     * keyed by the 'transitionTime' (ignoring the DateTuple.suffix).
      */
     void addFreeAgentToCandidatePool() {
       if (mIndexFree >= SIZE) return;
@@ -557,7 +557,7 @@ class TransitionStorage {
       // Convert LocalDateTime to DateTuple.
       DateTuple localDate = { ldt.yearTiny(), ldt.month(), ldt.day(),
           (int16_t) (ldt.hour() * 60 + ldt.minute()),
-          ZoneContext::TIME_MODIFIER_W };
+          ZoneContext::TIME_SUFFIX_W };
       const Transition* match = nullptr;
 
       // Find the last Transition that matches
@@ -840,7 +840,17 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       return getZoneInfo() == that.getZoneInfo();
     }
 
-    /** Set the underlying ZoneInfo. */
+    /**
+     * Set the underlying ZoneInfo.
+     *
+     * Normally a ZoneProcessor object is associated with a single TimeZone.
+     * However, the ZoneProcessorCache will sometimes "take over" a
+     * ZoneProcessor from another TimeZone using this method. The other
+     * TimeZone will take back control of the ZoneProcessor if it needed. To
+     * avoid bouncing the ownership of this object repeatedly, the
+     * ZoneProcessorCache should allocate enough ZoneProcessors to handle the
+     * usage pattern.
+     */
     void setZoneInfo(const void* zoneInfo) override {
       if (mZoneInfo.zoneInfo() == zoneInfo) return;
 
@@ -913,7 +923,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
 
     /**
      * Find the ZoneEras which overlap [startYm, untilYm), ignoring day, time
-     * and timeModifier. The start and until fields of the ZoneEra are
+     * and timeSuffix. The start and until fields of the ZoneEra are
      * truncated at the low and high end by startYm and untilYm, respectively.
      * Each matching ZoneEra is wrapped inside a ZoneMatch object, placed in
      * the 'matches' array, and the number of matches is returned.
@@ -944,7 +954,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
      * Determines if era overlaps the interval [startYm, untilYm). This does
      * not need to be exact since the startYm and untilYm are created to have
      * some slop of about one month at the low and high end, so we can ignore
-     * the day, time and timeModifier fields of the era. The start date of the
+     * the day, time and timeSuffix fields of the era. The start date of the
      * current era is represented by the UNTIL fields of the previous era, so
      * the interval of the current era is [era.start=prev.UNTIL,
      * era.until=era.UNTIL). Overlap happens if (era.start < untilYm) and
@@ -985,11 +995,11 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         const extended::YearMonthTuple& untilYm) {
       extended::DateTuple startDate = {
         prev.untilYearTiny(), prev.untilMonth(), prev.untilDay(),
-        (int16_t) prev.untilTimeMinutes(), prev.untilTimeModifier()
+        (int16_t) prev.untilTimeMinutes(), prev.untilTimeSuffix()
       };
       extended::DateTuple lowerBound = {
         startYm.yearTiny, startYm.month, 1, 0,
-        extended::ZoneContext::TIME_MODIFIER_W
+        extended::ZoneContext::TIME_SUFFIX_W
       };
       if (startDate < lowerBound) {
         startDate = lowerBound;
@@ -997,11 +1007,11 @@ class ExtendedZoneProcessor: public ZoneProcessor {
 
       extended::DateTuple untilDate = {
         era.untilYearTiny(), era.untilMonth(), era.untilDay(),
-        (int16_t) era.untilTimeMinutes(), era.untilTimeModifier()
+        (int16_t) era.untilTimeMinutes(), era.untilTimeSuffix()
       };
       extended::DateTuple upperBound = {
         untilYm.yearTiny, untilYm.month, 1, 0,
-        extended::ZoneContext::TIME_MODIFIER_W
+        extended::ZoneContext::TIME_SUFFIX_W
       };
       if (upperBound < untilDate) {
         untilDate = upperBound;
@@ -1218,7 +1228,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
           yearTiny + LocalDate::kEpochYear, rule.inMonth(), rule.onDayOfWeek(),
           rule.onDayOfMonth());
       return {yearTiny, monthDay.month, monthDay.day,
-          (int16_t) rule.atTimeMinutes(), rule.atTimeModifier()};
+          (int16_t) rule.atTimeMinutes(), rule.atTimeSuffix()};
     }
 
     /**
@@ -1312,31 +1322,31 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("expandDateTuple()\n");
       }
-      if (tt->modifier == extended::ZoneContext::TIME_MODIFIER_S) {
+      if (tt->suffix == extended::ZoneContext::TIME_SUFFIX_S) {
         *tts = *tt;
         *ttu = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes - 15 * offsetCode),
-            extended::ZoneContext::TIME_MODIFIER_U};
+            extended::ZoneContext::TIME_SUFFIX_U};
         *tt = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes + 15 * deltaCode),
-            extended::ZoneContext::TIME_MODIFIER_W};
-      } else if (tt->modifier == extended::ZoneContext::TIME_MODIFIER_U) {
+            extended::ZoneContext::TIME_SUFFIX_W};
+      } else if (tt->suffix == extended::ZoneContext::TIME_SUFFIX_U) {
         *ttu = *tt;
         *tts = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes + 15 * offsetCode),
-            extended::ZoneContext::TIME_MODIFIER_S};
+            extended::ZoneContext::TIME_SUFFIX_S};
         *tt = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes + 15 * (offsetCode + deltaCode)),
-            extended::ZoneContext::TIME_MODIFIER_W};
+            extended::ZoneContext::TIME_SUFFIX_W};
       } else {
-        // Explicit set the modifier to 'w' in case it was something else.
-        tt->modifier = extended::ZoneContext::TIME_MODIFIER_W;
+        // Explicit set the suffix to 'w' in case it was something else.
+        tt->suffix = extended::ZoneContext::TIME_SUFFIX_W;
         *tts = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes - 15 * deltaCode),
-            extended::ZoneContext::TIME_MODIFIER_S};
+            extended::ZoneContext::TIME_SUFFIX_S};
         *ttu = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes - 15 * (deltaCode + offsetCode)),
-            extended::ZoneContext::TIME_MODIFIER_U};
+            extended::ZoneContext::TIME_SUFFIX_U};
       }
 
       normalizeDateTuple(tt);
@@ -1460,7 +1470,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
      * defined by  the match. The transition time of the Transition is expanded
      * to include all 3 versions ('w', 's', and 'u') of the time stamp. When
      * comparing against the ZoneMatch.startDateTime and
-     * ZoneMatch.untilDateTime, the version will be determined by the modifier
+     * ZoneMatch.untilDateTime, the version will be determined by the suffix
      * of those parameters.
      *
      * Returns:
@@ -1475,10 +1485,10 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       const extended::DateTuple* transitionTime;
 
       const extended::DateTuple& matchStart = match->startDateTime;
-      if (matchStart.modifier == extended::ZoneContext::TIME_MODIFIER_S) {
+      if (matchStart.suffix == extended::ZoneContext::TIME_SUFFIX_S) {
         transitionTime = &transition->transitionTimeS;
-      } else if (matchStart.modifier ==
-          extended::ZoneContext::TIME_MODIFIER_U) {
+      } else if (matchStart.suffix ==
+          extended::ZoneContext::TIME_SUFFIX_U) {
         transitionTime = &transition->transitionTimeU;
       } else { // assume 'w'
         transitionTime = &transition->transitionTime;
@@ -1487,10 +1497,10 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       if (*transitionTime == matchStart) return 0;
 
       const extended::DateTuple& matchUntil = match->untilDateTime;
-      if (matchUntil.modifier == extended::ZoneContext::TIME_MODIFIER_S) {
+      if (matchUntil.suffix == extended::ZoneContext::TIME_SUFFIX_S) {
         transitionTime = &transition->transitionTimeS;
-      } else if (matchUntil.modifier ==
-          extended::ZoneContext::TIME_MODIFIER_U) {
+      } else if (matchUntil.suffix ==
+          extended::ZoneContext::TIME_SUFFIX_U) {
         transitionTime = &transition->transitionTimeU;
       } else { // assume 'w'
         transitionTime = &transition->transitionTime;
@@ -1531,7 +1541,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
             - prev->offsetCode - prev->deltaCode
             + t->offsetCode + t->deltaCode);
         t->startDateTime = {tt.yearTiny, tt.month, tt.day, minutes,
-            tt.modifier};
+            tt.suffix};
         normalizeDateTuple(&t->startDateTime);
 
         // 3) The epochSecond of the 'transitionTime' is determined by the
@@ -1586,52 +1596,24 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     }
 
     /**
-     * Create the time zone abbreviation in dest from the format string (e.g.
-     * "P%T", "E%T"), the time zone deltaCode (!= 0 means DST), and the
-     * replacement letterString (often just "S", "D", or "", but some zones
-     * have longer strings like "WAT", "CAT" and "DD").
+     * Functionally the same as BasicZoneProcessor::createAbbreviation() execpt
+     * that 'letter' is a string.
      *
-     * There are several cases:
-     *
-     * 1) 'format' contains a simple string because transition->rules is a
-     * nullptr. The format should not contain a '%' or '/' (verified by
-     * transformat.py). In this case, (letterString == nullptr) and deltaCode
-     * is ignored.
-     *
-     * 2) If the RULES column is not empty, then the FORMAT should contain
-     * either'format' contains a '%' or a '/' character to determine the
-     * Standard or DST abbreviation.
-     * This is verified by transformer.py to be true for all
-     * Zones except Africa/Johannesburg which fails this for 1942-1944 where
-     * the RULES contains a reference to named RULEs with DST transitions but
-     * there is no '/' or '%' to distinguish between the 2. Technically, since
-     * this occurs before year 2000, we don't absolutely need to suppor this,
-     * but for robustness sake, we do.
-     *
-     * 2a) If the FORMAT contains a '%', substitute the letterString. The
-     * deltaCode is ignored. If letterString is "", replace with nothing. The
-     * 'format' could be just a '%' which means substitute the entire
-     * letterString.
-     *
-     * 2b) If the FORMAT contains a '/', then the string is in 'Astr/Bstr'
-     * format, where 'Astr' is for the standard time, and 'Bstr' for DST time.
-     * The deltaCode determines whether or not the zone is in DST. The
-     * letterString is ignored but should be not nullptr, because that would
-     * trigger Case (1). The recommended value is the empty string "".
+     * @param letterString nullptr if RULES is a '- or an 'hh:mm', an empty
+     * string if the LETTER was a '-', or a pointer to a non-empty string if
+     * LETTER was a 'S', 'D', 'WAT' etc.
      */
     static void createAbbreviation(char* dest, uint8_t destSize,
         const char* format, uint8_t deltaCode, const char* letterString) {
-      // Check if RULES column is empty. Ignore the deltaCode because if
-      // letterString is nullptr, we can only just copy the whole thing.
-      if (letterString == nullptr) {
-        strncpy(dest, format, destSize);
-        dest[destSize - 1] = '\0';
-        return;
-      }
-
       // Check if FORMAT contains a '%'.
       if (strchr(format, '%') != nullptr) {
-        copyAndReplace(dest, destSize, format, '%', letterString);
+        // Check if RULES column empty, therefore no 'letter'
+        if (letterString == nullptr) {
+          strncpy(dest, format, destSize - 1);
+          dest[destSize - 1] = '\0';
+        } else {
+          copyAndReplace(dest, destSize, format, '%', letterString);
+        }
       } else {
         // Check if FORMAT contains a '/'.
         const char* slashPos = strchr(format, '/');

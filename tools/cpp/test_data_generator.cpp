@@ -331,7 +331,7 @@ void printDataCpp(const map<string, vector<TestItem>>& testData) {
     fprintf(fp, "static const ValidationItem kValidationItems%s[] = {\n",
         normalizedName.c_str());
     fprintf(fp,
-      "  //     epoch,  utc,  dst, abbrev,    y,  m,  d,  h,  m,  s\n");
+      "  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s, abbrev\n");
     for (const TestItem& item : testItems) {
       printTestItem(fp, item);
     }

@@ -51,8 +51,18 @@ def main():
         default=2038)
     parser.add_argument(
         '--granularity',
-        help='Retained time values (UNTIL, AT, SAVE, RULES) fields ' +
-        'in seconds (default: 60 or 900)',
+        help='Truncate UNTIL, AT, SAVE and RULES fields to ' +
+            'this many seconds (default: 60)',
+        type=int)
+    parser.add_argument(
+        '--until_at_granularity',
+        help='Truncate UNTIL and AT fields to this many seconds ' +
+            '(default: --granularity)',
+        type=int)
+    parser.add_argument(
+        '--offset_granularity',
+        help='Truncate SAVE, RULES (offset) fields to this many seconds' +
+            '(default: --granularity)',
         type=int)
     parser.add_argument(
         '--strict',
@@ -188,7 +198,17 @@ def main():
         granularity = args.granularity
     else:
         granularity = 60
-    logging.info('Using granularity: %d' % granularity)
+    if args.until_at_granularity:
+        until_at_granularity = args.until_at_granularity
+    else:
+        until_at_granularity = granularity
+    if args.offset_granularity:
+        offset_granularity = args.offset_granularity
+    else:
+        offset_granularity = granularity
+    logging.info('Using UNTIL/AT granularity: %d', until_at_granularity)
+    logging.info('Using RULES/SAVE (offset) granularity: %d',
+        offset_granularity)
 
     # Extract the TZ files
     logging.info('======== Extracting TZ Data files')
@@ -201,7 +221,7 @@ def main():
     logging.info('Extracting years [%d, %d)', args.start_year, args.until_year)
     transformer = Transformer(extractor.zones_map, extractor.rules_map,
         extractor.links_map, args.language, args.scope, args.start_year,
-        args.until_year, granularity, args.strict)
+        args.until_year, until_at_granularity, offset_granularity, args.strict)
     transformer.transform()
     transformer.print_summary()
 

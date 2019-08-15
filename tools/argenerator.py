@@ -164,7 +164,7 @@ namespace {dbNamespace} {{
 //
 {removedPolicyItems}
 
-// Inaccurate zone policies: {numNotablePolicies}
+// Notable zone policies: {numNotablePolicies}
 //
 {notablePolicyItems}
 
@@ -364,7 +364,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         rule_items = ''
         for rule in rules:
             at_time_code, at_time_modifier = to_code_and_modifier(
-                rule.atSecondsTruncated, rule.atTimeModifier, self.scope)
+                rule.atSecondsTruncated, rule.atTimeSuffix, self.scope)
             delta_code = div_to_zero(rule.deltaSecondsTruncated, 15 * 60)
 
             from_year = rule.fromYear
@@ -495,7 +495,7 @@ extern const {scope}::ZoneContext kZoneContext;
 {removedInfoItems}
 
 //---------------------------------------------------------------------------
-// Inaccurate zones: {numNotableInfos}
+// Notable zones: {numNotableInfos}
 //---------------------------------------------------------------------------
 
 {notableInfoItems}
@@ -821,7 +821,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             until_day = 1
 
         until_time_code, until_time_modifier = to_code_and_modifier(
-            era.untilSecondsTruncated, era.untilTimeModifier, self.scope)
+            era.untilSecondsTruncated, era.untilTimeSuffix, self.scope)
 
         offset_code = div_to_zero(era.offsetSecondsTruncated, 15 * 60)
 
@@ -1076,26 +1076,26 @@ def normalize_raw(raw_line):
     """
     return raw_line.replace('\t', '    ')
 
-def to_code_and_modifier(seconds, modifier, scope):
+def to_code_and_modifier(seconds, suffix, scope):
     """Return the packed (code, modifier) uint8_t integers that hold
-    the timeCodeMajor, timeCodeMinor (resolution in minutes) and the modifier.
+    the timeCode, timeMinute and the suffix.
     """
-    codeMajor = div_to_zero(seconds, 15 * 60)
-    codeMinor = seconds % 900 // 60
-    modifier = to_modifier(modifier, scope)
-    if codeMinor > 0:
-        modifier += f' + {codeMinor}'
-    return codeMajor, modifier
+    timeCode = div_to_zero(seconds, 15 * 60)
+    timeMinute = seconds % 900 // 60
+    modifier = to_modifier(suffix, scope)
+    if timeMinute > 0:
+        modifier += f' + {timeMinute}'
+    return timeCode, modifier
 
-def to_modifier(modifier, scope):
-    """Return the C++ TIME_MODIFIER_{X} corresponding to the 'w', 's', and 'u'
-    modifier character in the TZ database files.
+def to_modifier(suffix, scope):
+    """Return the C++ TIME_SUFFIX_{X} corresponding to the 'w', 's', and 'u'
+    suffix character in the TZ database files.
     """
-    if modifier == 'w':
-        return f'{scope}::ZoneContext::TIME_MODIFIER_W'
-    elif modifier == 's':
-        return f'{scope}::ZoneContext::TIME_MODIFIER_S'
-    elif modifier == 'u':
-        return f'{scope}::ZoneContext::TIME_MODIFIER_U'
+    if suffix == 'w':
+        return f'{scope}::ZoneContext::TIME_SUFFIX_W'
+    elif suffix == 's':
+        return f'{scope}::ZoneContext::TIME_SUFFIX_S'
+    elif suffix == 'u':
+        return f'{scope}::ZoneContext::TIME_SUFFIX_U'
     else:
-        raise Exception(f'Unknown modifier {modifier}')
+        raise Exception(f'Unknown suffix {suffix}')

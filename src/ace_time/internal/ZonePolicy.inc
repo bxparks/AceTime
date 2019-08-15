@@ -52,7 +52,7 @@ struct ZoneRule {
    * The atTimeModifier is a packed field containing 2 pieces of info:
    *
    *    * The upper 4 bits represent the AT time suffix: 'w', 's' or 'u',
-   *    represented by TIME_MODIFIER_W, TIME_MODIFIER_S and TIME_MODIFIER_U.
+   *    represented by TIME_SUFFIX_W, TIME_SUFFIX_S and TIME_SUFFIX_U.
    *    * The lower 4 bits represent the remaining 0-14 minutes of the AT field
    *    after truncation into atTimeCode. In other words, the full AT field in
    *    one-minute resolution is (15 * atTimeCode + (atTimeModifier & 0x0f)).

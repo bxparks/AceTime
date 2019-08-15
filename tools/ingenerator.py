@@ -50,7 +50,7 @@ class InlineGenerator:
                     'onDayOfWeek': rule.onDayOfWeek,
                     'onDayOfMonth': rule.onDayOfMonth,
                     'atSeconds': rule.atSecondsTruncated,
-                    'atTimeModifier': rule.atTimeModifier,
+                    'atTimeSuffix': rule.atTimeSuffix,
                     'deltaSeconds': rule.deltaSecondsTruncated,
                     'letter': rule.letter
                 })
@@ -83,7 +83,7 @@ class InlineGenerator:
                     'untilMonth': era.untilMonth,
                     'untilDay': era.untilDay,
                     'untilSeconds': era.untilSecondsTruncated,
-                    'untilTimeModifier': era.untilTimeModifier,
+                    'untilTimeSuffix': era.untilTimeSuffix,
                 })
                 # yapf: enable
             self.zone_infos[zone_name] = {'name': zone_name, 'eras': zone_eras}

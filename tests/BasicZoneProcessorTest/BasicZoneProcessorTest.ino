@@ -80,11 +80,11 @@ test(BasicZoneProcessorTest, calcStartDayOfMonth) {
 
 test(BasicZoneProcessorTest, calcRuleOffsetCode) {
   assertEqual(0, BasicZoneProcessor::calcRuleOffsetCode(1, 2,
-      basic::ZoneContext::TIME_MODIFIER_U));
+      basic::ZoneContext::TIME_SUFFIX_U));
   assertEqual(1, BasicZoneProcessor::calcRuleOffsetCode(1, 2,
-      basic::ZoneContext::TIME_MODIFIER_W));
+      basic::ZoneContext::TIME_SUFFIX_W));
   assertEqual(2, BasicZoneProcessor::calcRuleOffsetCode(1, 2,
-      basic::ZoneContext::TIME_MODIFIER_S));
+      basic::ZoneContext::TIME_SUFFIX_S));
 }
 
 test(BasicZoneProcessorTest, init_primitives) {
@@ -92,7 +92,7 @@ test(BasicZoneProcessorTest, init_primitives) {
   zoneProcessor.mYear = 2001;
   zoneProcessor.mNumTransitions = 0;
 
-  zoneProcessor.addRulePriorToYear(2001);
+  zoneProcessor.addTransitionPriorToYear(2001);
   assertEqual(0, zoneProcessor.mNumTransitions);
   assertEqual(-32, zoneProcessor.mPrevTransition.era.offsetCode());
   assertEqual("P%T", zoneProcessor.mPrevTransition.era.format());
@@ -100,7 +100,7 @@ test(BasicZoneProcessorTest, init_primitives) {
   assertEqual(2006-2000, zoneProcessor.mPrevTransition.rule.toYearTiny());
   assertEqual(10, zoneProcessor.mPrevTransition.rule.inMonth());
 
-  zoneProcessor.addRulesForYear(2001);
+  zoneProcessor.addTransitionsForYear(2001);
   assertEqual(2, zoneProcessor.mNumTransitions);
 
   assertEqual(-32, zoneProcessor.mTransitions[0].era.offsetCode());
@@ -180,24 +180,41 @@ test(BasicZoneProcessorTest, createAbbreviation) {
   const uint8_t kDstSize = 6;
   char dst[kDstSize];
 
+  // If no '%', deltaCode and letter should not matter
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 0, '\0');
   assertEqual("SAST", dst);
+
+  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 4, 'A');
+  assertEqual("SAST", dst);
+
+  // If '%', and letter is (incorrectly) set to '\0', just copy the thing
+  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "SA%ST", 0, '\0');
+  assertEqual("SA%ST", dst);
+
+  // If '%', then replaced with 'letter', where '-' means "no letter".
+  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, 'S');
+  assertEqual("PST", dst);
 
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 4, 'D');
   assertEqual("PDT", dst);
 
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, 'S');
-  assertEqual("PST", dst);
-
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, '-');
   assertEqual("PT", dst);
 
+  // If '/', then deltaCode selects the first or second component.
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, '-');
+  assertEqual("GMT", dst);
+
+  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, '\0');
   assertEqual("GMT", dst);
 
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 4, '-');
   assertEqual("BST", dst);
 
+  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 4, '\0');
+  assertEqual("BST", dst);
+
+  // test truncation to kDstSize
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T3456", 4, 'D');
   assertEqual("PDT34", dst);
 }

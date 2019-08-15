@@ -13,7 +13,9 @@ This program depends on the following libraries:
 
 ## Arduino Nano
 
-IDE: Arduino 1.8.9 (AVR Core 1.6.23)
+* AceTime 0.7
+* IDE: Arduino 1.8.9
+* AVR Boards 1.6.23
 
 Memory:
 
@@ -73,7 +75,9 @@ Number of iterations per run: 2500
 
 ## SAMD21 M0 Mini (Arduino MKR Zero Compatible)
 
-IDE: Arduino 1.8.9 (SAMD Core 1.8.3)
+* AceTime 0.7
+* IDE: Arduino 1.8.9
+* SparkFun SAMD Boards 1.6.2
 
 Memory:
 ```
@@ -131,7 +135,9 @@ Number of iterations per run: 10000
 
 ## ESP8266
 
-IDE: Arduino 1.8.9 (ESP Core 2.5.2)
+* AceTime 0.7
+* IDE: Arduino 1.8.9
+* ESP8266 Boards 2.5.2
 
 Memory:
 
@@ -192,7 +198,9 @@ Number of iterations per run: 10000
 
 ## ESP32
 
-IDE: Arduino 1.8.9 (ESP32 Core 1.0.2)
+* AceTime 0.7
+* IDE: Arduino 1.8.9
+* ESP32 Boards 1.0.2
 
 Memory:
 
@@ -256,8 +264,10 @@ duration of an empty loop, the numbers become suspect.
 
 ## Teensy 3.2
 
-IDE: Arduino 1.8.9 (Teensyduino 1.46)
-Compiler Optimization: "Faster"
+* AceTime 0.7
+* IDE: Arduino 1.8.9
+* Teensyduino 1.46
+* Compiler Optimization: "Faster"
 
 Memory:
 

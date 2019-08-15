@@ -39,10 +39,10 @@ namespace basic {
  * does not have a ZoneRule, then the Transition is defined by the start date
  * of the ZoneEra.
  *
- * The 'era' and 'rule' variables intermediate values calculated during the
+ * The 'era' and 'rule' variables' intermediate values calculated during the
  * init() phase. They are used to calculate the 'yearTiny', 'startEpochSeconds',
  * 'offsetCode', 'deltaCode', and 'abbrev' parameters which are used during
- * findMatch() lookup. NOTE: This separation may help move the ZoneInfo and
+ * findMatch() lookup. This separation helps in moving the ZoneInfo and
  * ZonePolicy data structures into PROGMEM.
  *
  * Ordering of fields optimized along 4-byte boundaries to help 32-bit
@@ -168,12 +168,12 @@ struct MonthDay {
  *
  *  * ZoneInfo UNTIL field must contain only the full year;
  *    cannot contain month, day, or time components
- *  * ZoneInfo untilTimeModifier can contain only 'w' (not 's' or 'u')
+ *  * ZoneInfo untilTimeSuffix can contain only 'w' (not 's' or 'u')
  *  * ZoneInfo RULES column must be empty ("-"), OR refer to a
  *    named Zone Rule (e.g. "US"); cannot contain an explicit offset (hh:mm)
  *  * ZonePolicy can contain only 1 ZoneRule in a single month
  *  * ZoneRule AT time cannot occur on Jan 1
- *  * ZoneRule atTimeModifier can be any of ('w', 's', and 'u')
+ *  * ZoneRule atTimeSuffix can be any of ('w', 's', and 'u')
  *  * ZoneRule LETTER must contain only a single letter (not "WAT" or "CST")
  *
  * Even with these limitations, zonedb/zone_info.h shows that 231 out of a
@@ -317,12 +317,13 @@ class BasicZoneProcessor: public ZoneProcessor {
      * onDayOfMonth) or (onDayOfWeek <= onDayOfMonth).
      *
      * There are 4 combinations:
-		 * @verbatim
-		 * onDayOfWeek=0, onDayOfMonth=(1-31): exact match
-		 * onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek>=dayOfMonth
-		 * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
-		 * onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek<=dayOfMonth
-		 * @endverbatim
+     *
+     * @verbatim
+     * onDayOfWeek=0, onDayOfMonth=(1-31): exact match
+     * onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek>=dayOfMonth
+     * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
+     * onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek<=dayOfMonth
+     * @endverbatim
      *
      * Caveats: This method handles expressions which crosses month boundaries,
      * but not year boundaries (e.g. Jan to Dec of the previous year, or Dec to
@@ -395,7 +396,17 @@ class BasicZoneProcessor: public ZoneProcessor {
       return getZoneInfo() == that.getZoneInfo();
     }
 
-    /** Set the underlying ZoneInfo. */
+    /**
+     * Set the underlying ZoneInfo.
+     *
+     * Normally a ZoneProcessor object is associated with a single TimeZone.
+     * However, the ZoneProcessorCache will sometimes "take over" a
+     * ZoneProcessor from another TimeZone using this method. The other
+     * TimeZone will take back control of the ZoneProcessor if it needed. To
+     * avoid bouncing the ownership of this object repeatedly, the
+     * ZoneProcessorCache should allocate enough ZoneProcessors to handle the
+     * usage pattern.
+     */
     void setZoneInfo(const void* zoneInfo) override {
       if (mZoneInfo.zoneInfo() == zoneInfo) return;
 
@@ -454,8 +465,8 @@ class BasicZoneProcessor: public ZoneProcessor {
         return false;
       }
 
-      addRulePriorToYear(year);
-      addRulesForYear(year);
+      addTransitionPriorToYear(year);
+      addTransitionsForYear(year);
       calcTransitions();
       calcAbbreviations();
 
@@ -472,7 +483,7 @@ class BasicZoneProcessor: public ZoneProcessor {
      * Add the last matching rule just prior to the given year. This determines
      * the offset at the beginning of the current year.
      */
-    void addRulePriorToYear(int16_t year) const {
+    void addTransitionPriorToYear(int16_t year) const {
       int8_t yearTiny = year - LocalDate::kEpochYear;
       int8_t priorYearTiny = yearTiny - 1;
 
@@ -510,18 +521,16 @@ class BasicZoneProcessor: public ZoneProcessor {
      */
     static basic::Transition createTransition(basic::ZoneEraBroker era,
         basic::ZoneRuleBroker rule, int8_t yearTiny) {
-      int8_t offsetCode;
       int8_t deltaCode;
       char letter;
       if (rule.isNull()) {
-        deltaCode = 0;
-        offsetCode = era.offsetCode();
-        letter = 0;
+        deltaCode = era.deltaCode();
+        letter = '\0';
       } else {
         deltaCode = rule.deltaCode();
-        offsetCode = era.offsetCode() + deltaCode;
         letter = rule.letter();
       }
+      int8_t offsetCode = era.offsetCode() + deltaCode;
 
       return {
         era,
@@ -562,15 +571,15 @@ class BasicZoneProcessor: public ZoneProcessor {
       return 0;
     }
 
-    /** Add all matching rules from the current year. */
-    void addRulesForYear(int16_t year) const {
+    /** Add all matching transitions from the current year. */
+    void addTransitionsForYear(int16_t year) const {
       const basic::ZoneEraBroker era = findZoneEra(year);
 
       // If the ZonePolicy has no rules, then add a Transition which takes
       // effect at the start time of the current year.
       const basic::ZonePolicyBroker zonePolicy = era.zonePolicy();
       if (zonePolicy.isNull()) {
-        addRule(year, era, basic::ZoneRuleBroker());
+        addTransition(year, era, basic::ZoneRuleBroker());
         return;
       }
 
@@ -583,35 +592,34 @@ class BasicZoneProcessor: public ZoneProcessor {
         const basic::ZoneRuleBroker rule = zonePolicy.rule(i);
         if ((rule.fromYearTiny() <= yearTiny) &&
             (yearTiny <= rule.toYearTiny())) {
-          addRule(year, era, rule);
+          addTransition(year, era, rule);
         }
       }
     }
 
     /**
-     * Add (era, rule) to the cache, in sorted order according to the
-     * 'ZoneRule::inMonth' field. This assumes that there are no more than one
-     * transition per month, so tzcompiler.py removes ZonePolicies which have
-     * multiple transitions in one month (e.g. Egypt, Palestine, Spain,
-     * Tunisia).
+     * Add the Transition(era, rule) to the mTransitions cache, in sorted order
+     * according to the 'ZoneRule::inMonth' field. This assumes that there are
+     * no more than one transition per month, so tzcompiler.py removes
+     * ZonePolicies which have multiple transitions in one month (e.g. Egypt,
+     * Palestine, Spain, Tunisia).
      *
      * Essentially, this method is doing an Insertion Sort of the Transition
      * elements. Even through it is O(N^2), for small number of Transition
      * elements, this is faster than the O(N log(N)) sorting algorithms. The
-     * nice property of this Insertion Sort is that if the ZoneInfoEntries are
-     * already sorted, then the loop terminates early and the total sort time
-     * is O(N).
+     * nice property of this Insertion Sort is that if the ZoneRules are
+     * already sorted (they are mostly sorted), then the loop terminates early
+     * and the total sort time is O(N).
      */
-    void addRule(int16_t year, basic::ZoneEraBroker era,
+    void addTransition(int16_t year, basic::ZoneEraBroker era,
           basic::ZoneRuleBroker rule) const {
 
       // If a zone needs more transitions than kMaxCacheEntries, the check below
       // will cause the DST transition information to be inaccurate, and it is
       // highly likely that this situation would be caught in the
-      // BasicValidationUsingPython or BasicValidationUsingJava unit tests.
-      // Since these unit tests pass, I feel confident that those zones which
-      // need more than kMaxCacheEntries are already filtered out by
-      // tzcompiler.py.
+      // 'tests/validation' unit tests. Since these unit tests pass, I feel
+      // confident that those zones which need more than kMaxCacheEntries are
+      // already filtered out by tzcompiler.py.
       //
       // Ideally, the tzcompiler.py script would explicitly remove those zones
       // which need more than kMaxCacheEntries Transitions. But this would
@@ -629,7 +637,7 @@ class BasicZoneProcessor: public ZoneProcessor {
       mTransitions[mNumTransitions] = createTransition(era, rule, yearTiny);
       mNumTransitions++;
 
-      // perform an insertion sort
+      // perform an insertion sort based on ZoneRule.inMonth()
       for (uint8_t i = mNumTransitions - 1; i > 0; i--) {
         basic::Transition& left = mTransitions[i - 1];
         basic::Transition& right = mTransitions[i];
@@ -679,8 +687,8 @@ class BasicZoneProcessor: public ZoneProcessor {
     }
 
     /**
-     * Calculate the startEpochSeconds of each Transition. (previous, this used
-     * to calculate the offsetCode and deltaCode as well, but it turned out
+     * Calculate the startEpochSeconds of each Transition. (previous, this also
+     * calculated the offsetCode and deltaCode as well, but it turned out
      * that they could be calculated early in createTransition()). The start
      * time of a given transition is defined as the "wall clock", which means
      * that it is defined in terms of the *previous* Transition.
@@ -698,14 +706,14 @@ class BasicZoneProcessor: public ZoneProcessor {
           // If the transition is simple (has no named rule), then the
           // ZoneEra applies for the entire year (since BasicZoneProcessor
           // supports only whole year in the UNTIL field). The whole year UNTIL
-          // field has an implied 'w' modifier on 00:00, we don't need to call
+          // field has an implied 'w' suffix on 00:00, we don't need to call
           // calcRuleOffsetCode() with a 'w', we can just use the previous
           // transition's offset to calculate the startDateTime of this
           // transition.
           //
           // Also, when transition.rule == nullptr, the mNumTransitions should
           // be 1, since only a single transition is added by
-          // addRulesForYear().
+          // addTransitionsForYear().
           const int8_t prevOffsetCode = prevTransition->offsetCode;
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
               year, 1, 1, 0, 0, 0,
@@ -722,12 +730,12 @@ class BasicZoneProcessor: public ZoneProcessor {
               year, transition.rule.inMonth(), transition.rule.onDayOfWeek(),
               transition.rule.onDayOfMonth());
 
-          // Determine the offset of the 'atTimeModifier'. The 'w' modifier
+          // Determine the offset of the 'atTimeSuffix'. The 'w' suffix
           // requires the offset of the previous transition.
           const int8_t prevOffsetCode = calcRuleOffsetCode(
               prevTransition->offsetCode,
               transition.era.offsetCode(),
-              transition.rule.atTimeModifier());
+              transition.rule.atTimeSuffix());
 
           // startDateTime
           const uint16_t minutes = transition.rule.atTimeMinutes();
@@ -745,16 +753,16 @@ class BasicZoneProcessor: public ZoneProcessor {
     }
 
     /**
-     * Determine the offset of the 'atTimeModifier'. If 'w', then we
-     * must use the offset of the *previous* zone rule. If 's', use the current
-     * base offset (which does not contain the extra DST offset). If 'u', 'g',
-     * 'z', then use 0 offset.
+     * Determine the offset of the 'atTimeSuffix'. If 'w', then we must use the
+     * offset of the *previous* zone rule. If 's', use the current base offset
+     * (which does not contain the extra DST offset). If 'u', 'g', 'z', then
+     * use 0 offset.
      */
     static int8_t calcRuleOffsetCode(int8_t prevEffectiveOffsetCode,
-        int8_t currentBaseOffsetCode, uint8_t atModifier) {
-      if (atModifier == basic::ZoneContext::TIME_MODIFIER_W) {
+        int8_t currentBaseOffsetCode, uint8_t atSuffix) {
+      if (atSuffix == basic::ZoneContext::TIME_SUFFIX_W) {
         return prevEffectiveOffsetCode;
-      } else if (atModifier == basic::ZoneContext::TIME_MODIFIER_S) {
+      } else if (atSuffix == basic::ZoneContext::TIME_SUFFIX_S) {
         return currentBaseOffsetCode;
       } else { // 'u', 'g' or 'z'
         return 0;
@@ -782,50 +790,60 @@ class BasicZoneProcessor: public ZoneProcessor {
     /**
      * Create the time zone abbreviation in dest from the format string
      * (e.g. "P%T", "E%T"), the time zone deltaCode (!= 0 means DST), and the
-     * replacement letter (e.g. 'S', 'D', or '-').
+     * replacement letter (e.g. 'S', 'D', '-', or '\0' to indicate no RULE).
      *
-     * 1) If the RULES column (transition->rule) is empty '-', then FORMAT
-     * cannot contain a '%' because the ZoneEra specifies only a
-     * single transition rule. (Verified in transformer.py). This condition is
-     * indicated by (deltaCode == 0) and (letter == '\0').
+     * 1) If the FORMAT contains a '%', then:
      *
-     * 2) If RULES column is not empty, then the FORMAT should contain either
-     * a '/' or a '%'. The deltaCode will determine whether the time interval
-     * is in DST.
-     * This is verified by transformer.py to be true for all
-     * Zones except Africa/Johannesburg which fails this for 1942-1944 where
-     * the RULES contains a reference to named RULEs with DST transitions but
-     * there is no '/' or '%' to distinguish between the 2. Technically, since
-     * this occurs before year 2000, we don't absolutely need to suppor this,
-     * but for robustness sake, we do.
+     * 1a) If the letter is '\0', then this condition should not occur because
+     * this indicates the RULES was a '-' or a 'hh:mm' and it does not make
+     * sense for FORMAT to contain a '%'. The transformer.py should have
+     * detected this condition and filtered that zone out. But in case of a
+     * bug, just copy the entire FORMAT.
      *
-     * 2a) If the FORMAT contains a '%', use the LETTER to substitute the '%'.
-     * If the 'letter' is '-', an empty character is substituted.
+     * 1b) Else the 'letter' is one of ('S', 'D', '-', etc) from the LETTER
+     * column of a Rule, so replace '%' with with the given 'letter'.  The
+     * letter '-' is special in that the '%' is replaced with nothing. (It may
+     * seem that '\0' is more natural to express this, but '-' is what is used
+     * in the TZ database files.)
      *
-     * 2b) If the FORMAT contains a '/', then pick the first (no DST) or the
-     * second component (DST). The deltaCode selects between the two. The
-     * letter is ignored, but cannot be '\0' because that would trigger Case
-     * (1). The recommended value is '-'.
+     * 2) If the FORMAT contains a '/', then, ignore the 'letter' and just
+     * use deltaCode in the following:
+     *
+     * 2a) If deltaCode is 0, pick the first component, i.e. before the '/'.
+     *
+     * 2b) Else deltaCode != 0, pick the second component, i.e. after the '/'.
+     *
+     * The above algorithm supports the following edge cases from the TZ
+     * Database:
+     *
+     * A) Asia/Dushanbe in 1991 has a ZoneEra with a fixed hh:mm in the RULES
+     * and a '/' in the FORMAT, the fixed hh:mm selects the DST abbreviation
+     * in FORMAT.
+     *
+     * B) Africa/Johannesburg 1942-1944 where the RULES which contains a
+     * reference to named RULEs with DST transitions but there is no '/' or '%'
+     * to distinguish between the 2.
      *
      * @param dest destination string buffer
      * @param destSize size of buffer
      * @param format encoded abbreviation, '%' is a character substitution
      * @param deltaCode the offsetCode (0 for standard, != 0 for DST)
-     * @param letter during standard or DST time ('S', 'D', '-' for no
-     *        substitution, or '\0' when transition.rule == nullptr)
+     * @param letter during standard or DST time. If RULES is a named rule,
+     *    this is the value of the LETTER field ('S', 'D', '-' for empty
+     *    string), But if RULES is '-' or 'hh:mm' indicating a fixed offset,
+     *    then 'letter' will be set to '\0'.
      */
     static void createAbbreviation(char* dest, uint8_t destSize,
         const char* format, uint8_t deltaCode, char letter) {
-      // Check if RULES column empty.
-      if (deltaCode == 0 && letter == '\0') {
-        strncpy(dest, format, destSize);
-        dest[destSize - 1] = '\0';
-        return;
-      }
-
       // Check if FORMAT contains a '%'.
       if (strchr(format, '%') != nullptr) {
-        copyAndReplace(dest, destSize, format, '%', letter);
+        // Check if RULES column empty, therefore no 'letter'
+        if (letter == '\0') {
+          strncpy(dest, format, destSize - 1);
+          dest[destSize - 1] = '\0';
+        } else {
+          copyAndReplace(dest, destSize, format, '%', letter);
+        }
       } else {
         // Check if FORMAT contains a '/'.
         const char* slashPos = strchr(format, '/');
@@ -843,7 +861,7 @@ class BasicZoneProcessor: public ZoneProcessor {
           }
         } else {
           // Just copy the FORMAT disregarding the deltaCode and letter.
-          strncpy(dest, format, destSize);
+          strncpy(dest, format, destSize - 1);
           dest[destSize - 1] = '\0';
         }
       }
@@ -851,7 +869,7 @@ class BasicZoneProcessor: public ZoneProcessor {
 
     /**
      * Copy at most dstSize characters from src to dst, while replacing all
-     * occurance of oldChar with newChar. If newChar is '-', then replace with
+     * occurences of oldChar with newChar. If newChar is '-', then replace with
      * nothing. The resulting dst string is always NUL terminated.
      */
     static void copyAndReplace(char* dst, uint8_t dstSize, const char* src,

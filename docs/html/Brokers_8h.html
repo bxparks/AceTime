@@ -184,13 +184,13 @@ typedef internal::FlashZoneRegistryBroker&lt; ZoneInfo &gt;&#160;</td><td class=
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a5893c5995c2a8e752b750e1587506e8e"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Brokers_8h.html#a5893c5995c2a8e752b750e1587506e8e">ace_time::internal::timeCodeToMinutes</a> (uint8_t rawCode, uint8_t rawModifier)</td></tr>
-<tr class="memdesc:a5893c5995c2a8e752b750e1587506e8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert (timeCode, timeModifier) fields in zoneinfo to minutes.  <a href="Brokers_8h.html#a5893c5995c2a8e752b750e1587506e8e">More...</a><br /></td></tr>
-<tr class="separator:a5893c5995c2a8e752b750e1587506e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7217437baaa848328172f733fc86be8"><td class="memItemLeft" align="right" valign="top"><a id="af7217437baaa848328172f733fc86be8"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Brokers_8h.html#af7217437baaa848328172f733fc86be8">ace_time::internal::toModifier</a> (uint8_t rawModifier)</td></tr>
-<tr class="memdesc:af7217437baaa848328172f733fc86be8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the 'w', 's' 'u' suffix from the 'modifier' field, so that they can be compared against TIME_MODIFIER_W, TIME_MODIFIER_S and TIME_MODIFIER_U. <br /></td></tr>
-<tr class="separator:af7217437baaa848328172f733fc86be8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f7fe934c97e99cd812171e90c7945cd"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Brokers_8h.html#a5f7fe934c97e99cd812171e90c7945cd">ace_time::internal::timeCodeToMinutes</a> (uint8_t code, uint8_t modifier)</td></tr>
+<tr class="memdesc:a5f7fe934c97e99cd812171e90c7945cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert (timeCode, timeModifier) fields in zoneinfo to minutes.  <a href="Brokers_8h.html#a5f7fe934c97e99cd812171e90c7945cd">More...</a><br /></td></tr>
+<tr class="separator:a5f7fe934c97e99cd812171e90c7945cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae980919d070889e10164c643f1411c5f"><td class="memItemLeft" align="right" valign="top"><a id="ae980919d070889e10164c643f1411c5f"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Brokers_8h.html#ae980919d070889e10164c643f1411c5f">ace_time::internal::toSuffix</a> (uint8_t modifier)</td></tr>
+<tr class="memdesc:ae980919d070889e10164c643f1411c5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the 'w', 's' 'u' suffix from the 'modifier' field, so that they can be compared against TIME_SUFFIX_W, TIME_SUFFIX_S and TIME_SUFFIX_U. <br /></td></tr>
+<tr class="separator:ae980919d070889e10164c643f1411c5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The classes provide a thin layer of indirection for accessing the zoneinfo files stored in the zonedb/ and zonedbx/ directories. </p>
@@ -201,8 +201,8 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="B
 
 <p class="definition">Definition in file <a class="el" href="Brokers_8h_source.html">Brokers.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="file_a5893c5995c2a8e752b750e1587506e8e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#file_a5893c5995c2a8e752b750e1587506e8e">&#9670;&nbsp;</a></span>timeCodeToMinutes()</h2>
+<a id="file_a5f7fe934c97e99cd812171e90c7945cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#file_a5f7fe934c97e99cd812171e90c7945cd">&#9670;&nbsp;</a></span>timeCodeToMinutes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -214,13 +214,13 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="B
           <td class="memname">uint16_t ace_time::internal::timeCodeToMinutes </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>rawCode</em>, </td>
+          <td class="paramname"><em>code</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>rawModifier</em>&#160;</td>
+          <td class="paramname"><em>modifier</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

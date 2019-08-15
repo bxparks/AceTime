@@ -28,7 +28,8 @@ StringCollection = collections.namedtuple(
 
 class Transformer:
     def __init__(self, zones_map, rules_map, links_map, language, scope,
-                 start_year, until_year, granularity, strict):
+                 start_year, until_year, until_at_granularity,
+                 offset_granularity, strict):
         """
         Args:
             zones_map (dict): Zone names to ZoneEras
@@ -38,8 +39,8 @@ class Transformer:
             scope (str): scope of database (basic, or extended)
             start_year (int): include only years on or after start_year
             until_year (int): include only years valid before until_year
-            granularity (int): retained AT, SAVE, UNTIL, or RULES(offset)
-                fields in seconds
+            until_at_granularity (int): truncate UNTIL, AT to this many seconds
+            offset_granularity (int): SAVE, RULES(offset) to this many seconds
             strict (bool): throw out Zones or Rules which are not exactly
                 on the time boundary defined by granularity
         """
@@ -50,7 +51,8 @@ class Transformer:
         self.scope = scope
         self.start_year = start_year
         self.until_year = until_year
-        self.granularity = granularity
+        self.until_at_granularity = until_at_granularity
+        self.offset_granularity = offset_granularity
         self.strict = strict
 
         self.original_zone_count = len(zones_map)
@@ -111,7 +113,7 @@ class Transformer:
             zones_map = self._remove_zone_until_year_only_false(zones_map)
         zones_map = self._create_zones_with_until_day(zones_map)
         zones_map = self._create_zones_with_expanded_until_time(zones_map)
-        zones_map = self._remove_zones_invalid_until_time_modifier(zones_map)
+        zones_map = self._remove_zones_invalid_until_time_suffix(zones_map)
         zones_map = self._create_zones_with_expanded_offset_string(zones_map)
         zones_map = self._remove_zones_with_invalid_rules_format_combo(
             zones_map)
@@ -131,7 +133,7 @@ class Transformer:
                 rules_map)
         rules_map = self._create_rules_with_expanded_at_time(rules_map,
             rules_to_zones)
-        rules_map = self._remove_rules_invalid_at_time_modifier(rules_map)
+        rules_map = self._remove_rules_invalid_at_time_suffix(rules_map)
         rules_map = self._create_rules_with_expanded_delta_offset(rules_map)
         rules_map = self._create_rules_with_on_day_expansion(rules_map)
         rules_map = self._create_rules_with_anchor_transition(rules_map)
@@ -375,13 +377,13 @@ class Transformer:
                     break
 
                 until_seconds_truncated = truncate_to_granularity(
-                    until_seconds, self.granularity)
+                    until_seconds, self.until_at_granularity)
                 if until_seconds != until_seconds_truncated:
                     if self.strict:
                         valid = False
                         _add_reason(removed_zones, name,
                             f"UNTIL time '{until_time}' must be multiples "
-                            f"of '{self.granularity}' seconds")
+                            f"of '{self.until_at_granularity}' seconds")
                         break
                     else:
                         hm = seconds_to_hm_string(until_seconds_truncated)
@@ -400,8 +402,8 @@ class Transformer:
         _merge_reasons(self.all_notable_zones, notable_zones)
         return results
 
-    def _remove_zones_invalid_until_time_modifier(self, zones_map):
-        """Remove zones whose UNTIL time contains an unsupported modifier.
+    def _remove_zones_invalid_until_time_suffix(self, zones_map):
+        """Remove zones whose UNTIL time contains an unsupported suffix.
         """
         # Determine which suffices are supported. The 'g' and 'z' is the same as
         # 'u' and does not currently appear in any TZ file, so let's catch it
@@ -419,19 +421,19 @@ class Transformer:
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
-                modifier = era.untilTimeModifier
-                modifier = modifier if modifier else 'w'
-                era.untilTimeModifier = modifier
-                if modifier not in supported_suffices:
+                suffix = era.untilTimeSuffix
+                suffix = suffix if suffix else 'w'
+                era.untilTimeSuffix = suffix
+                if suffix not in supported_suffices:
                     valid = False
                     _add_reason(removed_zones, name,
-                        f"unsupported UNTIL time modifier '{modifier}'")
+                        f"unsupported UNTIL time suffix '{suffix}'")
                     break
             if valid:
                 results[name] = eras
 
         logging.info(
-            "Removed %s zone infos with unsupported UNTIL time modifier",
+            "Removed %s zone infos with unsupported UNTIL time suffix",
             len(removed_zones))
         self._print_removed_map(removed_zones)
         _merge_reasons(self.all_removed_policies, removed_zones)
@@ -451,22 +453,22 @@ class Transformer:
                 if offset_seconds == INVALID_SECONDS:
                     valid = False
                     _add_reason(removed_zones, name,
-                        f"invalid GMTOFF offset string '{offset_string}'")
+                        f"invalid STDOFF offset string '{offset_string}'")
                     break
 
                 offset_seconds_truncated = truncate_to_granularity(
-                    offset_seconds, self.granularity)
+                    offset_seconds, self.offset_granularity)
                 if offset_seconds != offset_seconds_truncated:
                     if self.strict:
                         valid = False
                         _add_reason(removed_zones, name,
-                            f"GMTOFF '{offset_string}' must be multiples of "
-                            f"'{self.granularity}' seconds")
+                            f"STDOFF '{offset_string}' must be multiples of "
+                            f"'{self.offset_granularity}' seconds")
                         break
                     else:
                         hm = seconds_to_hm_string(offset_seconds_truncated)
                         _add_reason(notable_zones, name,
-                            f"GMTOFF '{offset_string}' truncated to '{hm}'")
+                            f"STDOFF '{offset_string}' truncated to '{hm}'")
 
                 era.offsetSeconds = offset_seconds
                 era.offsetSecondsTruncated = offset_seconds_truncated
@@ -482,18 +484,20 @@ class Transformer:
         return results
 
     def _remove_zones_with_invalid_rules_format_combo(self, zones_map):
-        """If the RULES is fixed (i.e. contains '-' or a 'hh:mm' offset, then
-        the FORMAT cannot contains a '%' or a '/' because there would be no RULE
-        entry to decide which one to pick.
+        """Check for valid FORMAT field.
+
+        First, it should always exist.
+
+        If the RULES is fixed (i.e. contains '-' or a 'hh:mm' offset, then
+        FORMAT can contain only the '/' . It cannot contain a '%' because there
+        would be no RULE entry with a LETTER that can replace the '%'.
 
         If the RULES is a reference to a named RULE, then it seems reasonable to
-        expect a '%' or a '/'. Output a warning about this because this
-        shouldn't happen normally. The exception is Africa/Johannesburg because
-        it defines DST transitions for 1942-1944, but there is no corresponding
-        change in the abbreviation, so a '%' or '/' is unnecessary. We will
-        suppress the warning for Africa/Johannesburg. A better check would be to
-        scan the RULES/LETTER column and make sure that all entries are '-', but
-        that's too much work right now.
+        always expect a '%' or a '/' but we cannot make this strict. There are
+        cases where the FORMAT contains neither, for example,
+        Africa/Johannesburg where it defines DST transitions for 1942-1944, but
+        there seems to be no corresponding change in the abbreviation so FORMAT
+        contains no '%' or '/'. Generate a warning for now.
         """
         results = {}
         removed_zones = {}
@@ -512,19 +516,11 @@ class Transformer:
                             "RULES is fixed but FORMAT contains '%'")
                         valid = False
                         break
-                    if '/' in era.format:
-                        _add_reason(removed_zones, zone_name,
-                            "RULES is fixed but FORMAT contains '/'")
-                        valid = False
-                        break
                 else:
                    if not ('%' in era.format or '/' in era.format):
-                        if zone_name != 'Africa/Johannesburg':
-                            _add_reason(notable_zones, zone_name,
-                                "RULES not fixed but FORMAT is missing " +
-                                "'%' or '/'")
-                        valid = True
-                        break
+                        _add_reason(notable_zones, zone_name,
+                            "RULES not fixed but FORMAT is missing " +
+                            "'%' or '/'")
 
             if valid:
                 results[zone_name] = eras
@@ -543,7 +539,7 @@ class Transformer:
         The RULES field can hold the following:
             * '-' no rules
             * a string reference to a set of Rules
-            * a delta offset like "01:00" to be added to the GMTOFF field
+            * a delta offset like "01:00" to be added to the STDOFF field
                 (see America/Argentina/San_Luis, Europe/Istanbul for example).
         After this method, the zone.rules contains 3 possible values:
             * '-' no rules, or
@@ -577,13 +573,14 @@ class Transformer:
                         break
 
                     rules_delta_seconds_truncated = truncate_to_granularity(
-                        rules_delta_seconds, self.granularity)
+                        rules_delta_seconds, self.offset_granularity)
                     if rules_delta_seconds != rules_delta_seconds_truncated:
                         if self.strict:
                             valid = False
                             _add_reason(removed_zones, name,
                                 f"RULES delta offset '{rules_string}' must be "
-                                f"multiples of '{self.granularity}' seconds")
+                                f"multiples of '{self.offset_granularity}' "
+                                f"seconds")
                             break
                         else:
                             hm = seconds_to_hm_string(
@@ -752,9 +749,9 @@ class Transformer:
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
 
-    def _remove_rules_invalid_at_time_modifier(self, rules_map):
-        """Remove rules whose atTime contains an unsupported modifier. Current
-        supported modifier is 'w', 's' and 'u'. The 'g' and 'z' are identifical
+    def _remove_rules_invalid_at_time_suffix(self, rules_map):
+        """Remove rules whose atTime contains an unsupported suffix. Current
+        supported suffix is 'w', 's' and 'u'. The 'g' and 'z' are identifical
         to 'u' and they do not currently appear in any TZ file, so let's catch
         them because it could indicate a bug somewhere in our parser or
         somewhere else.
@@ -765,18 +762,18 @@ class Transformer:
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
-                modifier = rule.atTimeModifier
-                modifier = modifier if modifier else 'w'
-                rule.atTimeModifier = modifier
-                if modifier not in supported_suffices:
+                suffix = rule.atTimeSuffix
+                suffix = suffix if suffix else 'w'
+                rule.atTimeSuffix = suffix
+                if suffix not in supported_suffices:
                     valid = False
                     _add_reason(removed_policies, name,
-                        f"unsupported AT time modifier '{modifier}'")
+                        f"unsupported AT time suffix '{suffix}'")
                     break
             if valid:
                 results[name] = rules
 
-        logging.info("Removed %s rule policies with unsupported AT modifier" %
+        logging.info("Removed %s rule policies with unsupported AT suffix" %
                      len(removed_policies))
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
@@ -998,7 +995,7 @@ class Transformer:
         anchor_rule.onDayOfWeek = 0
         anchor_rule.onDayOfMonth = 1
         anchor_rule.atTime = '0'
-        anchor_rule.atTimeModifier = 'w'
+        anchor_rule.atTimeSuffix = 'w'
         anchor_rule.deltaOffset = '0'
         anchor_rule.atSeconds = 0
         anchor_rule.atSecondsTruncated = 0
@@ -1062,13 +1059,13 @@ class Transformer:
                     break
 
                 at_seconds_truncated = truncate_to_granularity(
-                    at_seconds, self.granularity)
+                    at_seconds, self.until_at_granularity)
                 if at_seconds != at_seconds_truncated:
                     if self.strict:
                         valid = False
                         _add_reason(removed_policies, policy_name,
                             f"AT time '{at_time}' must be multiples of "
-                            f"'{self.granularity}' seconds")
+                            f"'{self.until_at_granularity}' seconds")
                         break
                     else:
                         hm = seconds_to_hm_string(at_seconds_truncated)
@@ -1115,18 +1112,20 @@ class Transformer:
                     break
 
                 delta_seconds_truncated = truncate_to_granularity(
-                    delta_seconds, self.granularity)
+                    delta_seconds, self.offset_granularity)
                 if delta_seconds != delta_seconds_truncated:
                     if self.strict:
                         valid = False
                         _add_reason(removed_policies, name,
                             f"deltaOffset '{delta_offset}' must be "
-                            f"a multiple of '{self.granularity}' seconds")
+                            f"a multiple of '{self.offset_granularity}' "
+                            f"seconds")
                         break
                     else:
                         _add_reason(notable_policies, name,
-                            f"deltaOffset '{delta_offset}' must be "
-                            f"a multiple of '{self.granularity}' seconds")
+                            f"deltaOffset '{delta_offset}' truncated to"
+                            f"a multiple of '{self.offset_granularity}' "
+                            f"seconds")
 
                 rule.deltaSeconds = delta_seconds
                 rule.deltaSecondsTruncated = delta_seconds_truncated

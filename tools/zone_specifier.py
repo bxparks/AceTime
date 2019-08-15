@@ -113,7 +113,7 @@ class ZoneEraCooked:
         'untilMonth',  # (int) 1-12
         'untilDay',  # (int) 1-31
         'untilSeconds',  # (int) untilTime converted into total seconds
-        'untilTimeModifier',  # (char) '', 's', 'w', 'u'
+        'untilTimeSuffix',  # (char) '', 's', 'w', 'u'
     ]
     # yapf: enable
 
@@ -178,7 +178,7 @@ class ZoneRuleCooked:
         'onDayOfWeek',  # (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
         'onDayOfMonth',  # (int) (1-31), 0={last dayOfWeek match}
         'atSeconds',  # (int) atTime in seconds since 00:00:00
-        'atTimeModifier',  # (char) 's', 'w', 'u'
+        'atTimeSuffix',  # (char) 's', 'w', 'u'
         'deltaSeconds',  # (int) offset from Standard time in seconds
         'letter',  # (str) Usually ('D', 'S', '-'), but sometimes longer
                    # (e.g. WAT, CAT, DD, +00, +02, CST).
@@ -431,7 +431,7 @@ class ZoneSpecifier:
         'untilMonth': 1,
         'untilDay': 1,
         'untilSeconds': 0,
-        'untilTimeModifier': 'w'
+        'untilTimeSuffix': 'w'
     })
 
     def __init__(self,
@@ -693,7 +693,7 @@ class ZoneSpecifier:
 
     def _find_matches(self, start_ym, until_ym):
         """Find the Zone Eras which overlap [start_ym, until_ym), ignoring
-        day, time and timeModifier. The start and until fields are truncated at
+        day, time and timeSuffix. The start and until fields are truncated at
         the low and high end by start_ym and until_ym, respectively.
 
         The size of the [start_ym, until_ym) is determined by the viewing_months
@@ -918,7 +918,7 @@ class ZoneSpecifier:
             M=prev_era.untilMonth,
             d=prev_era.untilDay,
             ss=prev_era.untilSeconds,
-            f=prev_era.untilTimeModifier)
+            f=prev_era.untilTimeSuffix)
         if start_date_time < DateTuple(
                 y=start_ym.y, M=start_ym.M, d=1, ss=0, f='w'):
             start_date_time = DateTuple(
@@ -929,7 +929,7 @@ class ZoneSpecifier:
             M=zone_era.untilMonth,
             d=zone_era.untilDay,
             ss=zone_era.untilSeconds,
-            f=zone_era.untilTimeModifier)
+            f=zone_era.untilTimeSuffix)
         if until_date_time > DateTuple(
                 y=until_ym.y, M=until_ym.M, d=1, ss=0, f='w'):
             until_date_time = DateTuple(
@@ -1125,7 +1125,7 @@ class ZoneSpecifier:
     @staticmethod
     def _era_overlaps_interval(prev_era, era, start_ym, until_ym):
         """Determines if era overlaps the interval [start_ym, until_ym),
-        ignoring the day, time and timeModifier. The start date of the current
+        ignoring the day, time and timeSuffix. The start date of the current
         era is represented by the prev_era.UNTIL, so the interval of the current
         era is [start_era, until_era) = [prev_era.UNTIL, era.UNTIL). Overlap
         happens if (start_era < until_ym) and (until_era > start_ym).
@@ -1138,7 +1138,7 @@ class ZoneSpecifier:
     @staticmethod
     def _compare_era_to_year_month(era, year, month):
         """Compare the zone_era with year, returning -1, 0 or 1. The day of
-        month is implicitly 1. Ignore the untilTimeModifier suffix. Maybe it's
+        month is implicitly 1. Ignore the untilTimeSuffix suffix. Maybe it's
         not needed in this context?
         """
         if era.untilYear < year:
@@ -1526,7 +1526,7 @@ def _compare_transition_to_match(transition, match):
     transition time of the Transition should be expanded to include all 3
     versions ('w', 's', and 'u') of the time stamp. When comparing against the
     ZoneMatch.startDateTime and ZoneMatch.untilDateTime, the version will be
-    determined by the modifier of those parameters.
+    determined by the suffix of those parameters.
 
     Return:
         * -1 if less than match
@@ -1542,7 +1542,7 @@ def _compare_transition_to_match(transition, match):
     elif match_start.f == 'u':
         transition_time = transition.transitionTimeU
     else:
-        raise Exception("Unknown modifier: %s" % match_start)
+        raise Exception("Unknown suffix: %s" % match_start)
     if transition_time < match_start:
         return -1
     if transition_time == match_start:
@@ -1556,7 +1556,7 @@ def _compare_transition_to_match(transition, match):
     elif match_until.f == 'u':
         transition_time = transition.transitionTimeU
     else:
-        raise Exception("Unknown modifier: %s" % match_until)
+        raise Exception("Unknown suffix: %s" % match_until)
     if match_until <= transition_time:
         return 2
 
@@ -1592,14 +1592,14 @@ def _compare_transition_to_match_fuzzy(transition, match):
 
 
 def _get_transition_time(year, rule):
-    """Return the (year, month, day, seconds, modifier) of the Rule in given
+    """Return the (year, month, day, seconds, suffix) of the Rule in given
     year.
     """
     month, day = _calc_day_of_month(year, rule.inMonth, rule.onDayOfWeek,
                                     rule.onDayOfMonth)
     seconds = rule.atSeconds
-    modifier = rule.atTimeModifier
-    return DateTuple(y=year, M=month, d=day, ss=seconds, f=modifier)
+    suffix = rule.atTimeSuffix
+    return DateTuple(y=year, M=month, d=day, ss=seconds, f=suffix)
 
 
 def _calc_day_of_month(year, month, on_day_of_week, on_day_of_month):

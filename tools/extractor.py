@@ -36,7 +36,7 @@ with the same name is called a "Zone Policy".
 
 2) 'Zone' entries look like this:
 
-# Zone  NAME                GMTOFF      RULES   FORMAT  [UNTIL]
+# Zone  NAME                STDOFF      RULES   FORMAT  [UNTIL]
 Zone    America/Chicago     -5:50:36    -       LMT     1883 Nov 18 12:09:24
                             -6:00       US      C%sT    1920
                             ...
@@ -111,7 +111,7 @@ class ZoneEraRaw:
         'untilMonth',  # (int) 1-12
         'untilDay',  # (string or int) e.g. 'lastSun', 'Sun>=3', or 1-31
         'untilTime',  # (string) e.g. '2:00', '00:01'
-        'untilTimeModifier',  # (char) '', 's', 'w', 'g', 'u', 'z'
+        'untilTimeSuffix',  # (char) '', 's', 'w', 'g', 'u', 'z'
         'rawLine',  # (string) original ZONE line in TZ file
 
         # Derived from above
@@ -151,7 +151,7 @@ class ZoneRuleRaw:
         'inMonth',  # (int) month index (1-12)
         'onDay',  # (string) 'lastSun' or 'Sun>=2', or 'dayOfMonth'
         'atTime',  # (string) hour at which to transition to and from DST
-        'atTimeModifier',  # (char) 's', 'w', 'u'
+        'atTimeSuffix',  # (char) 's', 'w', 'u'
         'deltaOffset',  # (string) offset from Standard time ('SAVE' field)
         'letter',  # (char) 'D', 'S', '-'
         'rawLine',  # (string) the original RULE line from the TZ file
@@ -426,7 +426,7 @@ def _process_rule_line(line):
 
     in_month = MONTH_TO_MONTH_INDEX[tokens[5]]
     on_day = tokens[6]
-    (at_time, at_time_modifier) = parse_at_time_string(tokens[7])
+    (at_time, at_time_suffix) = parse_at_time_string(tokens[7])
     delta_offset = tokens[8]
 
     # Return map corresponding to a ZoneRule instance
@@ -436,7 +436,7 @@ def _process_rule_line(line):
         'inMonth': in_month,
         'onDay': on_day,
         'atTime': at_time,
-        'atTimeModifier': at_time_modifier,
+        'atTimeSuffix': at_time_suffix,
         'deltaOffset': delta_offset,
         'letter': tokens[9],
         'rawLine': line,
@@ -447,28 +447,28 @@ def parse_at_time_string(at_string):
     """Parses the '2:00s' string into '2:00' and 's'. If there is no suffix,
     returns a '' as the suffix.
     """
-    modifier = at_string[-1:]
-    if modifier.isdigit():
-        modifier = ''
+    suffix = at_string[-1:]
+    if suffix.isdigit():
+        suffix = ''
         at_time = at_string
     else:
         at_time = at_string[:-1]
-    if modifier not in ['', 'w', 's', 'u', 'g', 'z']:
-        raise Exception('Invalid AT modifier (%s)' % modifier)
-    return (at_time, modifier)
+    if suffix not in ['', 'w', 's', 'u', 'g', 'z']:
+        raise Exception('Invalid AT suffix (%s)' % suffix)
+    return (at_time, suffix)
 
 
 def _process_zone_line(line):
     """Normalize an zone era from dictionary that represents one line of
     a 'Zone' record. The columns are:
-    GMTOFF	 RULES	FORMAT	[UNTIL]
+    STDOFF	 RULES	FORMAT	[UNTIL]
     0        1      2       3
     -5:50:36 -      LMT     1883 Nov 18 12:09:24
     -6:00    US     C%sT    1920
     """
     tokens = line.split()
 
-    # GMTOFF
+    # STDOFF
     offset_string = tokens[0]
 
     # 'RULES' field can be:
@@ -494,10 +494,10 @@ def _process_zone_line(line):
         until_day = '1'
 
     if len(tokens) >= 7:
-        (until_time, until_time_modifier) = parse_at_time_string(tokens[6])
+        (until_time, until_time_suffix) = parse_at_time_string(tokens[6])
     else:
         until_time = '00:00'
-        until_time_modifier = 'w'
+        until_time_suffix = 'w'
 
     # FORMAT
     format = tokens[2]
@@ -512,6 +512,6 @@ def _process_zone_line(line):
         'untilMonth': until_month,
         'untilDay': until_day,
         'untilTime': until_time,
-        'untilTimeModifier': until_time_modifier,
+        'untilTimeSuffix': until_time_suffix,
         'rawLine': line,
     })

@@ -615,9 +615,10 @@ extern const basic::ZoneInfo& kZoneZulu; // Zulu -> Etc/UTC
 
 
 //---------------------------------------------------------------------------
-// Inaccurate zones: 0
+// Notable zones: 1
 //---------------------------------------------------------------------------
 
+// Africa/Johannesburg (RULES not fixed but FORMAT is missing '%' or '/')
 
 
 //---------------------------------------------------------------------------

@@ -197,11 +197,11 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 <p>This class assumes that the various components of ZoneInfo, ZoneEra, and ZonePolicy, ZoneRule have a number of limitations and constraints which simplify the implementation of this class. The tzcompiler.py script will remove zones which do not meet these constraints when generating the structs defined by <a class="el" href="zone__infos_8h_source.html">zonedb/zone_infos.h</a>. The constraints are at least the following (see tools/transformer.py for the authoratative algorithm):</p>
 <ul>
 <li>ZoneInfo UNTIL field must contain only the full year; cannot contain month, day, or time components</li>
-<li>ZoneInfo untilTimeModifier can contain only 'w' (not 's' or 'u')</li>
+<li>ZoneInfo untilTimeSuffix can contain only 'w' (not 's' or 'u')</li>
 <li>ZoneInfo RULES column must be empty ("-"), OR refer to a named Zone Rule (e.g. "US"); cannot contain an explicit offset (hh:mm)</li>
 <li>ZonePolicy can contain only 1 ZoneRule in a single month</li>
 <li>ZoneRule AT time cannot occur on Jan 1</li>
-<li>ZoneRule atTimeModifier can be any of ('w', 's', and 'u')</li>
+<li>ZoneRule atTimeSuffix can be any of ('w', 's', and 'u')</li>
 <li>ZoneRule LETTER must contain only a single letter (not "WAT" or "CST")</li>
 </ul>
 <p>Even with these limitations, zonedb/zone_info.h shows that 231 out of a total of 359 zones are supported by <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database...">BasicZoneProcessor</a>.</p>
@@ -293,14 +293,15 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 </div><div class="memdoc">
 
 <p>Calculate the actual (month, day) of the expresssion (onDayOfWeek &gt;= onDayOfMonth) or (onDayOfWeek &lt;= onDayOfMonth). </p>
-<p>There are 4 combinations: </p><pre class="fragment">  * onDayOfWeek=0, onDayOfMonth=(1-31): exact match
-  * onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek&gt;=dayOfMonth
-  * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
-  * onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek&lt;=dayOfMonth
-  * </pre><p>Caveats: This method handles expressions which crosses month boundaries, but not year boundaries (e.g. Jan to Dec of the previous year, or Dec to Jan of the following year.)</p>
+<p>There are 4 combinations:</p>
+<pre class="fragment">* onDayOfWeek=0, onDayOfMonth=(1-31): exact match
+* onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek&gt;=dayOfMonth
+* onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
+* onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek&lt;=dayOfMonth
+* </pre><p>Caveats: This method handles expressions which crosses month boundaries, but not year boundaries (e.g. Jan to Dec of the previous year, or Dec to Jan of the following year.)</p>
 <p>Not private, used by <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database. ">ExtendedZoneProcessor</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00333">333</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00334">334</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -329,7 +330,8 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 </div><div class="memdoc">
 
 <p>Return the time zone abbreviation at epochSeconds. </p>
-<p>This is an experimental method that has not been tested thoroughly. Use with caution. Returns an empty string ("") if an error occurs. </p>
+<p>Returns an empty string ("") if an error occurs. The returned pointer points to a char buffer that could get overriden by subsequent method calls to this object. The pointer must not be stored permanently, it should be used as soon as possible (e.g. printed out).</p>
+<p>This is an experimental method that has not been tested thoroughly. Use with caution. </p>
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#aa080366d78d5b8d8cc56915857e49ddd">ace_time::ZoneProcessor</a>.</p>
 

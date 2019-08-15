@@ -22,7 +22,6 @@ class TransitionTest: public aunit::TestOnce {
         const ValidationItem& item = testData->items[i];
         acetime_t epochSeconds = item.epochSeconds;
 
-        TimeOffset timeOffset = tz.getUtcOffset(epochSeconds);
         if (DEBUG) {
           ace_time::logging::printf("==== test index: %d\n", i);
           if (sizeof(acetime_t) == sizeof(int)) {
@@ -34,7 +33,12 @@ class TransitionTest: public aunit::TestOnce {
         }
 
         // Verify timeOffset
+        TimeOffset timeOffset = tz.getUtcOffset(epochSeconds);
         assertEqual(item.timeOffsetMinutes, timeOffset.toMinutes());
+
+        // Verify DST offset.
+        TimeOffset deltaOffset = tz.getDeltaOffset(epochSeconds);
+        assertEqual(item.deltaOffsetMinutes, deltaOffset.toMinutes());
 
         // Verify abbreviation
         assertEqual(item.abbrev, tz.getAbbrev(epochSeconds));
