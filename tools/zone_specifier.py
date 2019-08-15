@@ -59,6 +59,7 @@ from datetime import date
 from extractor import MIN_YEAR
 from transformer import seconds_to_hms
 from transformer import hms_to_seconds
+from transformer import calc_day_of_month
 
 # A datetime representation using seconds instead of h:m:s
 DateTuple = collections.namedtuple('DateTuple', 'y M d ss f')
@@ -1595,56 +1596,11 @@ def _get_transition_time(year, rule):
     """Return the (year, month, day, seconds, suffix) of the Rule in given
     year.
     """
-    month, day = _calc_day_of_month(year, rule.inMonth, rule.onDayOfWeek,
-                                    rule.onDayOfMonth)
+    month, day = calc_day_of_month(year, rule.inMonth, rule.onDayOfWeek,
+                                   rule.onDayOfMonth)
     seconds = rule.atSeconds
     suffix = rule.atTimeSuffix
     return DateTuple(y=year, M=month, d=day, ss=seconds, f=suffix)
-
-
-def _calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
-    """Return the actual (month, day) of expressions such as
-    (onDayOfWeek >= onDayOfMonth), (onDayOfWeek <= onDayOfMonth), or (lastMon)
-    See BasicZoneSpecifier::calcStartDayOfMonth(). Shifts into previous or
-    next month can occur.
-    """
-    if on_day_of_week == 0:
-        return (month, on_day_of_month)
-
-    if on_day_of_month >= 0:
-        days_in_month = _days_in_month(year, month)
-
-        # Handle lastXxx by transforming it into (Xxx >= (daysInMonth - 6))
-        if on_day_of_month == 0:
-            on_day_of_month = days_in_month - 6
-
-        limit_date = date(year, month, on_day_of_month)
-        day_of_week_shift = (on_day_of_week - limit_date.isoweekday() + 7) % 7
-        day = on_day_of_month + day_of_week_shift
-        if day > days_in_month:
-            day -= days_in_month
-            month += 1
-        return (month, day)
-    else:
-        on_day_of_month = -on_day_of_month
-        limit_date = date(year, month, on_day_of_month)
-        day_of_week_shift = (limit_date.isoweekday() - on_day_of_week + 7) % 7
-        day = on_day_of_month - day_of_week_shift
-        if day < 1:
-            month -= 1
-            days_in_prev_month = _days_in_month(year, month)
-            day += days_in_prev_month
-        return (month, day)
-
-def _days_in_month(year, month):
-    """Return the number of days in the given (year, month).
-    """
-    DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    is_leap = (year % 4 == 0) and ((year % 100 != 0) or (year % 400) == 0)
-    days = DAYS_IN_MONTH[month - 1]
-    if month == 2:
-        days += is_leap
-    return days
 
 
 def date_tuple_to_string(dt):

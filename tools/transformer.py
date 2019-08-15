@@ -321,11 +321,12 @@ class Transformer:
         """Convert zone.untilDay from 'lastSun' or 'Sun>=1' to a precise day,
         which is possible because the year and month are already known. For
         example:
-            * Asia/Tbilisi 2005 3 lastSun 2:00
-            * America/Grand_Turk 2015 Nov Sun>=1 2:00
+            * Zone Asia/Tbilisi 2005 3 lastSun 2:00
+            * Zone America/Grand_Turk 2015 Nov Sun>=1 2:00
         """
         results = {}
         removed_zones = {}
+        notable_zones = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -335,16 +336,32 @@ class Transformer:
                 # the 'lastSun', 'Sun>=X' and 'Fri<=X' to a specific day of
                 # month because we know the year.
                 (on_day_of_week, on_day_of_month) = \
-                    parse_on_day_string(until_day)
+                    _parse_on_day_string(until_day)
                 if (on_day_of_week, on_day_of_month) == (0, 0):
                     valid = False
                     _add_reason(removed_zones, name,
                         f"invalid untilDay '{until_day}'")
                     break
 
-                era.untilDay = calc_day_of_month(
+                month, day = calc_day_of_month(
                     era.untilYear, era.untilMonth, on_day_of_week,
                     on_day_of_month)
+                if month == 0:
+                    valid = False
+                    _add_reason(removed_zones, name,
+                        f"Shift to previous year unsupported for {until_day}")
+                    break
+                if month == 13:
+                    valid = False
+                    _add_reason(removed_zones, name,
+                        f"Shift to following year unsupported for {until_day}")
+
+                if era.untilMonth != month:
+                    _add_reason(notable_zones, name,
+                        f"untilMonth shifted from '{era.untilMonth}' to "
+                        f"'{month}' due to {until_day}")
+                era.untilMonth, era.untilDay = month, day
+
             if valid:
                 results[name] = eras
 
@@ -352,6 +369,7 @@ class Transformer:
                      len(removed_zones))
         self._print_removed_map(removed_zones)
         _merge_reasons(self.all_removed_zones, removed_zones)
+        _merge_reasons(self.all_notable_zones, notable_zones)
         return results
 
     def _create_zones_with_expanded_until_time(self, zones_map):
@@ -904,8 +922,8 @@ class Transformer:
         return results
 
     def _create_rules_with_on_day_expansion(self, rules_map):
-        """Create rule.onDayOfWeek and rule.onDayOfMonth from
-        rule.onDay.
+        """Create rule.onDayOfWeek and rule.onDayOfMonth from rule.onDay.
+        The onDayOfMonth will be negative if "<=" is used.
         """
         results = {}
         removed_policies = {}
@@ -913,7 +931,7 @@ class Transformer:
             valid = True
             for rule in rules:
                 on_day = rule.onDay
-                (on_day_of_week, on_day_of_month) = parse_on_day_string(on_day)
+                (on_day_of_week, on_day_of_month) = _parse_on_day_string(on_day)
 
                 if (on_day_of_week, on_day_of_month) == (0, 0):
                     valid = False
@@ -921,6 +939,9 @@ class Transformer:
                         f"invalid onDay '{on_day}'")
                     break
 
+                # *ZoneProcessor.h classes currently do not support
+                # "dayOfWeek<=6" or "dayOfWeek>=26" if the shift causes the year
+                # to change.
                 if on_day_of_week != 0 and on_day_of_month != 0:
                     if -7 <= on_day_of_month and on_day_of_month < -1 and \
                         rule.inMonth == 1:
@@ -990,9 +1011,9 @@ class Transformer:
             in_month = rule.inMonth
             on_day_of_week = rule.onDayOfWeek
             on_day_of_month = rule.onDayOfMonth
-            on_day = calc_day_of_month(from_year, in_month, on_day_of_week,
-                                       on_day_of_month)
-            rule_date = (from_year, in_month, on_day)
+            month, day = calc_day_of_month(
+                from_year, in_month, on_day_of_week, on_day_of_month)
+            rule_date = (from_year, month, day)
             rule.earliestDate = rule_date
 
             if rule.deltaSeconds == 0 and rule_date < anchor_rule.earliestDate:
@@ -1225,14 +1246,14 @@ WEEK_TO_WEEK_INDEX = {
 }
 
 
-def parse_on_day_string(on_string):
+def _parse_on_day_string(on_string):
     """Parse things like "Sun>=1", "lastSun", "20", "Fri<=2".
     Returns (on_day_of_week, on_day_of_month) where
         (0, dayOfMonth) = exact match on dayOfMonth
         (dayOfWeek, dayOfMonth) = matches dayOfWeek>=dayOfMonth
         (dayOfWeek, -dayOfMonth) = matches dayOfWeek<=dayOfMonth
         (dayOfWeek, 0) = matches lastDayOfWeek
-        (0, 0) = error
+        (0, 0) = syntax error
 
     where
         dayOfWeek is represented by a number (Mon=1, ..., Sun=7),
@@ -1399,29 +1420,51 @@ def is_year_tiny(year):
 
 
 def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
-    """Return the actual day of month of expressions such as
-    (onDayOfWeek >= onDayOfMonth) or (lastMon).
+    """Return the actual (month, day) of expressions such as
+    (onDayOfWeek >= onDayOfMonth), (onDayOfWeek <= onDayOfMonth), or (lastMon)
+    See BasicZoneSpecifier::calcStartDayOfMonth(). Shifts into previous or
+    next month can occur.
+
+    Return (13, xx) if a shift to the next year occurs
+    Return (0, xx) if a shift to the previous year occurs
     """
     if on_day_of_week == 0:
-        return on_day_of_month
+        return (month, on_day_of_month)
 
-    if on_day_of_month == 0:
-        # lastXxx == (Xxx >= (daysInMonth - 6))
-        dom = days_in_month(year, month) - 6
+    if on_day_of_month >= 0:
+        days_in_month = _days_in_month(year, month)
+
+        # Handle lastXxx by transforming it into (Xxx >= (daysInMonth - 6))
+        if on_day_of_month == 0:
+            on_day_of_month = days_in_month - 6
+
+        limit_date = datetime.date(year, month, on_day_of_month)
+        day_of_week_shift = (on_day_of_week - limit_date.isoweekday() + 7) % 7
+        day = on_day_of_month + day_of_week_shift
+        if day > days_in_month:
+            day -= days_in_month
+            month += 1
+        return (month, day)
     else:
-        dom = on_day_of_month
+        on_day_of_month = -on_day_of_month
+        limit_date = datetime.date(year, month, on_day_of_month)
+        day_of_week_shift = (limit_date.isoweekday() - on_day_of_week + 7) % 7
+        day = on_day_of_month - day_of_week_shift
+        if day < 1:
+            month -= 1
+            days_in_prev_month = _days_in_month(year, month)
+            day += days_in_prev_month
+        return (month, day)
 
-    limit_date = datetime.date(year, month, dom)
-    day_of_week_shift = (on_day_of_week - limit_date.isoweekday() + 7) % 7
-    return on_day_of_month + day_of_week_shift
 
-
-def days_in_month(year, month):
-    """Return the number of days in the given (year, month).
+def _days_in_month(year, month):
+    """Return the number of days in the given (year, month). The
+    month is usually 1-12, but can be 0 to indicate December of the previous
+    year, and 13 to indicate Jan of the following year.
     """
     DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     is_leap = (year % 4 == 0) and ((year % 100 != 0) or (year % 400) == 0)
-    days = DAYS_IN_MONTH[month - 1]
+    days = DAYS_IN_MONTH[(month - 1) % 12]
     if month == 2:
         days += is_leap
     return days
