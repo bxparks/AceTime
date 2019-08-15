@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 0.7.2
     * Support timezones whose FORMAT contains a '/' with a fixed RULES column.
     * Split `--granularity` into `--until_at_granularity` and
       `offset_granularity`. Current zonedb files use values of 60 and 900
