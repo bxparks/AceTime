@@ -16,4 +16,4 @@ validation_data.cpp: zones.txt ../../../tools/java/TestDataGenerator.class
 	java -cp ../../../tools/java TestDataGenerator --scope basic --db_namespace zonedb2018g --start_year 2000 --until_year 2050 < zones.txt
 
 zones.txt:
-	../../../tools/tzcompiler.sh --tag 2018g --scope basic --action zonedb --language java
+	../../../tools/tzcompiler.sh --tag 2018g --scope basic --action zonelist

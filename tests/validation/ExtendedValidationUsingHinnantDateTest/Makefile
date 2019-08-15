@@ -23,4 +23,4 @@ validation_data.cpp: zones.txt
 
 zones.txt:
 	../../../tools/tzcompiler.sh --tag $(TZ_VERSION) --scope extended \
-		--action zonedb --language java
+		--action zonelist

@@ -5,10 +5,12 @@
 import logging
 import os
 
-class JavaGenerator:
-    """Create a Java source file that contains the names of zones
-    supported by zonedb and zonedbx. Will be used by the Java program
-    to generate the validation data beyond the 2038 limit of pytz.
+class ZoneListGenerator:
+    """Create a zones.txt file that contains the names of zones supported by
+    zonedb and zonedbx. Will be used by external programs (e.g.
+    TestDataGenerator.java or test_data_generator.cpp) to generate the
+    validation_data.* files using the appropriate third party timezone library
+    (e.g. java.time or Hinnant date library).
     """
 
     ZONES_FILE = """\
