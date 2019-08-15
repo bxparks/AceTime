@@ -20,21 +20,20 @@
  * BasicZoneProcessor and ExtendedZoneProcessor can be written to be (mostly)
  * agnostic to how the zoneinfo files are stored.
  *
- * When the ACE_TIME_USE_PROGMEM and ACE_TIME_USE_PROGMEM are
- * disabled, the compiler will optimize away this entire abstraction layer, so
- * the resulting machine code is no bigger than (and in most cases, identifical
- * to) accessing the zoneinfo files directly.
+ * When ACE_TIME_USE_PROGMEM are disabled, the compiler will optimize away this
+ * entire abstraction layer, so the resulting machine code is no bigger than
+ * (and in most cases, identifical to) accessing the zoneinfo files directly.
  *
  * The abstraction layer is thin enough that the code in BasicZoneProcessor and
  * ExtendedZoneProcessor did not change very much. It was mostly a mechanical
  * source code replacement of direct zoneinfo access to using these data
  * brokers.
  *
- * The core broker classes live in the internal:: namespace and are templatized
- * so that they can be used for both basic::Zone* classes and the
- * extended::Zone* classes. Specific template instantiations are created in the
- * basic:: and extended:: namespaces so that they can be used by the
- * BasicZoneProcessor and ExtendedZoneProcessor respectively.
+ * The helper functions live in the internal:: namespace. The classes are
+ * somewhat duplicated between the 'basic' and 'extended' namespaces. They used
+ * to be identical so that they could be templatized. But supporting one-minute
+ * resolution for 'extended' meant that the implementations diverged, so I had
+ * to manual duplicate the classes.
  */
 
 #include "../common/compat.h"
@@ -57,29 +56,32 @@ inline uint8_t toSuffix(uint8_t modifier) {
   return modifier & 0xf0;
 }
 
-//----------------------------------------------------------------------------
-// Direct data brokers for reading from SRAM
-//----------------------------------------------------------------------------
+} // internal
 
-/** Data broker for accessing ZoneRule in SRAM. */
-template <typename ZR>
-class DirectZoneRuleBroker {
+//------------------------------------------------------------------------
+
+namespace basic {
+
+/** Data broker for accessing ZoneRule. */
+class ZoneRuleBroker {
   public:
-    explicit DirectZoneRuleBroker(const ZR* zoneRule):
+    explicit ZoneRuleBroker(const ZoneRule* zoneRule):
         mZoneRule(zoneRule) {}
 
-    DirectZoneRuleBroker():
+    ZoneRuleBroker():
         mZoneRule(nullptr) {}
 
     // use the default copy constructor
-    DirectZoneRuleBroker(const DirectZoneRuleBroker&) = default;
+    ZoneRuleBroker(const ZoneRuleBroker&) = default;
 
     // use the default assignment operator
-    DirectZoneRuleBroker& operator=(const DirectZoneRuleBroker&) = default;
+    ZoneRuleBroker& operator=(const ZoneRuleBroker&) = default;
 
     bool isNull() const { return mZoneRule == nullptr; }
 
     bool isNotNull() const { return mZoneRule != nullptr; }
+
+  #if ACE_TIME_USE_PROGMEM
 
     int8_t fromYearTiny() const { return mZoneRule->fromYearTiny; }
 
@@ -92,188 +94,19 @@ class DirectZoneRuleBroker {
     int8_t onDayOfMonth() const { return mZoneRule->onDayOfMonth; }
 
     uint16_t atTimeMinutes() const {
-      return timeCodeToMinutes(
+      return internal::timeCodeToMinutes(
           mZoneRule->atTimeCode, mZoneRule->atTimeModifier);
     }
 
     uint8_t atTimeSuffix() const {
-      return toSuffix(mZoneRule->atTimeModifier);
+      return internal::toSuffix(mZoneRule->atTimeModifier);
     }
 
     int16_t deltaMinutes() const { return 15 * mZoneRule->deltaCode; }
 
     uint8_t letter() const { return mZoneRule->letter; }
 
-  private:
-    const ZR* mZoneRule;
-};
-
-/** Data broker for accessing ZonePolicy in SRAM. */
-template <typename ZP, typename ZR>
-class DirectZonePolicyBroker {
-  public:
-    explicit DirectZonePolicyBroker(const ZP* zonePolicy):
-        mZonePolicy(zonePolicy) {}
-
-    // use default copy constructor
-    DirectZonePolicyBroker(const DirectZonePolicyBroker&) = default;
-
-    // use default assignment operator
-    DirectZonePolicyBroker& operator=(const DirectZonePolicyBroker&) = delete;
-
-    bool isNull() const { return mZonePolicy == nullptr; }
-
-    bool isNotNull() const { return mZonePolicy != nullptr; }
-
-    uint8_t numRules() const { return mZonePolicy->numRules; }
-
-    const DirectZoneRuleBroker<ZR> rule(uint8_t i) const {
-      return DirectZoneRuleBroker<ZR>(&mZonePolicy->rules[i]);
-    }
-
-    uint8_t numLetters() const { return mZonePolicy->numLetters; }
-
-    const char* letter(uint8_t i) const {
-      return mZonePolicy->letters[i];
-    }
-
-  private:
-    const ZP* const mZonePolicy;
-};
-
-/** Data broker for accessing ZoneEra in SRAM. */
-template <typename ZE, typename ZP, typename ZR>
-class DirectZoneEraBroker {
-  public:
-    explicit DirectZoneEraBroker(const ZE* zoneEra):
-        mZoneEra(zoneEra) {}
-
-    DirectZoneEraBroker():
-        mZoneEra(nullptr) {}
-
-    // use default copy constructor
-    DirectZoneEraBroker(const DirectZoneEraBroker&) = default;
-
-    // use default assignment operator
-    DirectZoneEraBroker& operator=(const DirectZoneEraBroker&) = default;
-
-    const ZE* zoneEra() const { return mZoneEra; }
-
-    bool isNull() const { return mZoneEra == nullptr; }
-
-    bool isNotNull() const { return mZoneEra != nullptr; }
-
-    int16_t offsetMinutes() const { return 15 * mZoneEra->offsetCode; }
-
-    const DirectZonePolicyBroker<ZP, ZR> zonePolicy() const {
-      return DirectZonePolicyBroker<ZP, ZR>(mZoneEra->zonePolicy);
-    }
-
-    int16_t deltaMinutes() const { return 15 * mZoneEra->deltaCode; }
-
-    const char* format() const { return mZoneEra->format; }
-
-    int8_t untilYearTiny() const { return mZoneEra->untilYearTiny; }
-
-    uint8_t untilMonth() const { return mZoneEra->untilMonth; }
-
-    uint8_t untilDay() const { return mZoneEra->untilDay; }
-
-    uint16_t untilTimeMinutes() const {
-      return timeCodeToMinutes(
-          mZoneEra->untilTimeCode, mZoneEra->untilTimeModifier);
-    }
-
-    uint8_t untilTimeSuffix() const {
-      return toSuffix(mZoneEra->untilTimeModifier);
-    }
-
-  private:
-    const ZE* mZoneEra;
-
-};
-
-/** Data broker for accessing ZoneInfo in SRAM. */
-template <typename ZI, typename ZE, typename ZP, typename ZR, typename ZC>
-class DirectZoneInfoBroker {
-  public:
-    explicit DirectZoneInfoBroker(const ZI* zoneInfo):
-        mZoneInfo(zoneInfo) {}
-
-    // use default copy constructor
-    DirectZoneInfoBroker(const DirectZoneInfoBroker&) = default;
-
-    // use default assignment operator
-    DirectZoneInfoBroker& operator=(const DirectZoneInfoBroker&) = default;
-
-    const ZI* zoneInfo() const { return mZoneInfo; }
-
-    uint32_t zoneId() const { return mZoneInfo->zoneId; }
-
-    const char* name() const { return mZoneInfo->name; }
-
-    int16_t startYear() const { return mZoneInfo->zoneContext->startYear; }
-
-    int16_t untilYear() const { return mZoneInfo->zoneContext->untilYear; }
-
-    uint8_t numEras() const { return mZoneInfo->numEras; }
-
-    const DirectZoneEraBroker<ZE, ZP, ZR> era(uint8_t i) const {
-      return DirectZoneEraBroker<ZE, ZP, ZR>(&mZoneInfo->eras[i]);
-    }
-
-  private:
-    const ZI* mZoneInfo;
-};
-
-/**
- * Data broker for accessing the ZoneRegistry in SRAM. The ZoneRegistry is an
- * array of (const ZoneInfo*) in the zone_registry.cpp file.
- */
-template <typename ZI>
-class DirectZoneRegistryBroker {
-  public:
-    DirectZoneRegistryBroker(const ZI* const* zoneRegistry):
-        mZoneRegistry(zoneRegistry) {}
-
-    // delete default copy constructor
-    DirectZoneRegistryBroker(const DirectZoneRegistryBroker&) = delete;
-
-    // delete default assignment operator
-    DirectZoneRegistryBroker& operator=(const DirectZoneRegistryBroker&) =
-        delete;
-
-    const ZI* zoneInfo(uint16_t i) const {
-      return mZoneRegistry[i];
-    }
-
-  private:
-    const ZI* const* const mZoneRegistry;
-};
-
-//----------------------------------------------------------------------------
-// Data brokers for reading from PROGMEM.
-//----------------------------------------------------------------------------
-
-/** Data broker for accessing ZoneRule in PROGMEM. */
-template <typename ZR>
-class FlashZoneRuleBroker {
-  public:
-    explicit FlashZoneRuleBroker(const ZR* zoneRule):
-        mZoneRule(zoneRule) {}
-
-    FlashZoneRuleBroker():
-        mZoneRule(nullptr) {}
-
-    // use the default copy constructor
-    FlashZoneRuleBroker(const FlashZoneRuleBroker&) = default;
-
-    // use the default assignment operator
-    FlashZoneRuleBroker& operator=(const FlashZoneRuleBroker&) = default;
-
-    bool isNull() const { return mZoneRule == nullptr; }
-
-    bool isNotNull() const { return mZoneRule != nullptr; }
+  #else
 
     int8_t fromYearTiny() const {
       return pgm_read_byte(&mZoneRule->fromYearTiny);
@@ -296,13 +129,13 @@ class FlashZoneRuleBroker {
     }
 
     uint16_t atTimeMinutes() const {
-      return timeCodeToMinutes(
+      return internal::timeCodeToMinutes(
           pgm_read_byte(&mZoneRule->atTimeCode),
           pgm_read_byte(&mZoneRule->atTimeModifier));
     }
 
     uint8_t atTimeSuffix() const {
-      return toSuffix(pgm_read_byte(&mZoneRule->atTimeModifier));
+      return internal::toSuffix(pgm_read_byte(&mZoneRule->atTimeModifier));
     }
 
     int16_t deltaMinutes() const {
@@ -313,34 +146,51 @@ class FlashZoneRuleBroker {
       return pgm_read_byte(&mZoneRule->letter);
     }
 
+  #endif
+
   private:
-    const ZR* mZoneRule;
+    const ZoneRule* mZoneRule;
 };
 
-/** Data broker for accessing ZonePolicy in PROGMEM. */
-template <typename ZP, typename ZR>
-class FlashZonePolicyBroker {
+/** Data broker for accessing ZonePolicy. */
+class ZonePolicyBroker {
   public:
-    explicit FlashZonePolicyBroker(const ZP* zonePolicy):
+    explicit ZonePolicyBroker(const ZonePolicy* zonePolicy):
         mZonePolicy(zonePolicy) {}
 
     // use default copy constructor
-    FlashZonePolicyBroker(const FlashZonePolicyBroker&) = default;
+    ZonePolicyBroker(const ZonePolicyBroker&) = default;
 
     // use default assignment operator
-    FlashZonePolicyBroker& operator=(const FlashZonePolicyBroker&) = default;
+    ZonePolicyBroker& operator=(const ZonePolicyBroker&) = default;
 
     bool isNull() const { return mZonePolicy == nullptr; }
 
     bool isNotNull() const { return mZonePolicy != nullptr; }
 
+  #if ACE_TIME_USE_PROGMEM
+    uint8_t numRules() const { return mZonePolicy->numRules; }
+
+    const ZoneRuleBroker rule(uint8_t i) const {
+      return ZoneRuleBroker(&mZonePolicy->rules[i]);
+    }
+
+    uint8_t numLetters() const { return mZonePolicy->numLetters; }
+
+    const char* letter(uint8_t i) const {
+      return mZonePolicy->letters[i];
+    }
+
+  #else
+
     uint8_t numRules() const {
       return pgm_read_byte(&mZonePolicy->numRules);
     }
 
-    const FlashZoneRuleBroker<ZR> rule(uint8_t i) const {
-      const ZR* rules = (const ZR*) pgm_read_ptr(&mZonePolicy->rules);
-      return FlashZoneRuleBroker<ZR>(&rules[i]);
+    const ZoneRuleBroker rule(uint8_t i) const {
+      const ZoneRule* rules =
+          (const ZoneRule*) pgm_read_ptr(&mZonePolicy->rules);
+      return ZoneRuleBroker(&rules[i]);
     }
 
     uint8_t numLetters() const {
@@ -353,39 +203,69 @@ class FlashZonePolicyBroker {
       return (const char*) pgm_read_ptr(&letters[i]);
     }
 
+  #endif
+
   private:
-    const ZP* const mZonePolicy;
+    const ZonePolicy* const mZonePolicy;
 };
 
-/** Data broker for accessing ZoneEra in PROGMEM. */
-template <typename ZE, typename ZP, typename ZR>
-class FlashZoneEraBroker {
+/** Data broker for accessing ZoneEra. */
+class ZoneEraBroker {
   public:
-    explicit FlashZoneEraBroker(const ZE* zoneEra):
+    explicit ZoneEraBroker(const ZoneEra* zoneEra):
         mZoneEra(zoneEra) {}
 
-    FlashZoneEraBroker():
+    ZoneEraBroker():
         mZoneEra(nullptr) {}
 
     // use default copy constructor
-    FlashZoneEraBroker(const FlashZoneEraBroker&) = default;
+    ZoneEraBroker(const ZoneEraBroker&) = default;
 
     // use default assignment operator
-    FlashZoneEraBroker& operator=(const FlashZoneEraBroker&) = default;
+    ZoneEraBroker& operator=(const ZoneEraBroker&) = default;
 
-    const ZE* zoneEra() const { return mZoneEra; }
+    const ZoneEra* zoneEra() const { return mZoneEra; }
 
     bool isNull() const { return mZoneEra == nullptr; }
 
     bool isNotNull() const { return mZoneEra != nullptr; }
 
+  #if ACE_TIME_USE_PROGMEM
+
+    int16_t offsetMinutes() const { return 15 * mZoneEra->offsetCode; }
+
+    const ZonePolicyBroker zonePolicy() const {
+      return ZonePolicyBroker(mZoneEra->zonePolicy);
+    }
+
+    int16_t deltaMinutes() const { return 15 * mZoneEra->deltaCode; }
+
+    const char* format() const { return mZoneEra->format; }
+
+    int8_t untilYearTiny() const { return mZoneEra->untilYearTiny; }
+
+    uint8_t untilMonth() const { return mZoneEra->untilMonth; }
+
+    uint8_t untilDay() const { return mZoneEra->untilDay; }
+
+    uint16_t untilTimeMinutes() const {
+      return internal::timeCodeToMinutes(
+          mZoneEra->untilTimeCode, mZoneEra->untilTimeModifier);
+    }
+
+    uint8_t untilTimeSuffix() const {
+      return internal::toSuffix(mZoneEra->untilTimeModifier);
+    }
+
+  #else
+
     int16_t offsetMinutes() const {
       return 15 * (int8_t) pgm_read_byte(&mZoneEra->offsetCode);
     }
 
-    const FlashZonePolicyBroker<ZP, ZR> zonePolicy() const {
-      return FlashZonePolicyBroker<ZP, ZR>(
-          (const ZP*) pgm_read_ptr(&mZoneEra->zonePolicy));
+    const ZonePolicyBroker zonePolicy() const {
+      return ZonePolicyBroker(
+          (const ZonePolicy*) pgm_read_ptr(&mZoneEra->zonePolicy));
     }
 
     int16_t deltaMinutes() const {
@@ -409,34 +289,52 @@ class FlashZoneEraBroker {
     }
 
     uint16_t untilTimeMinutes() const {
-      return timeCodeToMinutes(
+      return internal::timeCodeToMinutes(
         pgm_read_byte(&mZoneEra->untilTimeCode),
         pgm_read_byte(&mZoneEra->untilTimeModifier));
     }
 
     uint8_t untilTimeSuffix() const {
-      return toSuffix(pgm_read_byte(&mZoneEra->untilTimeModifier));
+      return internal::toSuffix(pgm_read_byte(&mZoneEra->untilTimeModifier));
     }
 
-  private:
-    const ZE* mZoneEra;
+  #endif
 
+  private:
+    const ZoneEra* mZoneEra;
 };
 
-/** Data broker for accessing ZoneInfo in PROGMEM. */
-template <typename ZI, typename ZE, typename ZP, typename ZR, typename ZC>
-class FlashZoneInfoBroker {
+/** Data broker for accessing ZoneInfo. */
+class ZoneInfoBroker {
   public:
-    explicit FlashZoneInfoBroker(const ZI* zoneInfo):
+    explicit ZoneInfoBroker(const ZoneInfo* zoneInfo):
         mZoneInfo(zoneInfo) {}
 
     // use default copy constructor
-    FlashZoneInfoBroker(const FlashZoneInfoBroker&) = default;
+    ZoneInfoBroker(const ZoneInfoBroker&) = default;
 
     // use default assignment operator
-    FlashZoneInfoBroker& operator=(const FlashZoneInfoBroker&) = default;
+    ZoneInfoBroker& operator=(const ZoneInfoBroker&) = default;
 
-    const ZI* zoneInfo() const { return mZoneInfo; }
+    const ZoneInfo* zoneInfo() const { return mZoneInfo; }
+
+  #if ACE_TIME_USE_PROGMEM
+
+    const char* name() const { return mZoneInfo->name; }
+
+    uint32_t zoneId() const { return mZoneInfo->zoneId; }
+
+    int16_t startYear() const { return mZoneInfo->zoneContext->startYear; }
+
+    int16_t untilYear() const { return mZoneInfo->zoneContext->untilYear; }
+
+    uint8_t numEras() const { return mZoneInfo->numEras; }
+
+    const ZoneEraBroker era(uint8_t i) const {
+      return ZoneEraBroker(&mZoneInfo->eras[i]);
+    }
+
+  #else
 
     const char* name() const {
       return (const char*) pgm_read_ptr(&mZoneInfo->name);
@@ -447,12 +345,14 @@ class FlashZoneInfoBroker {
     }
 
     int16_t startYear() const {
-      const ZC* zoneContext = (const ZC*) pgm_read_ptr(&mZoneInfo->zoneContext);
+      const ZoneContext* zoneContext =
+          (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
       return zoneContext->startYear;
     }
 
     int16_t untilYear() const {
-      const ZC* zoneContext = (const ZC*) pgm_read_ptr(&mZoneInfo->zoneContext);
+      const ZoneContext* zoneContext =
+          (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
       return zoneContext->untilYear;
     }
 
@@ -460,87 +360,401 @@ class FlashZoneInfoBroker {
       return pgm_read_byte(&mZoneInfo->numEras);
     }
 
-    const FlashZoneEraBroker<ZE, ZP, ZR> era(uint8_t i) const {
-      const ZE* eras = (const ZE*) pgm_read_ptr(&mZoneInfo->eras);
-      return FlashZoneEraBroker<ZE, ZP, ZR>(&eras[i]);
+    const ZoneEraBroker era(uint8_t i) const {
+      const ZoneEra* eras = (const ZoneEra*) pgm_read_ptr(&mZoneInfo->eras);
+      return ZoneEraBroker(&eras[i]);
     }
 
+  #endif
+
   private:
-    const ZI* mZoneInfo;
+    const ZoneInfo* mZoneInfo;
 };
 
 /**
- * Data broker for accessing the ZoneRegistry in PROGMEM. The ZoneRegistry is
- * an array of (const ZoneInfo*) in the zone_registry.cpp file.
+ * Data broker for accessing the ZoneRegistry. The ZoneRegistry is an
+ * array of (const ZoneInfo*) in the zone_registry.cpp file.
  */
-template <typename ZI>
-class FlashZoneRegistryBroker {
+class ZoneRegistryBroker {
   public:
-    explicit FlashZoneRegistryBroker(const ZI* const* zoneRegistry):
+    ZoneRegistryBroker(const ZoneInfo* const* zoneRegistry):
         mZoneRegistry(zoneRegistry) {}
 
     // use default copy constructor
-    FlashZoneRegistryBroker(const FlashZoneRegistryBroker&) = default;
+    ZoneRegistryBroker(const ZoneRegistryBroker&) = default;
 
     // use default assignment operator
-    FlashZoneRegistryBroker& operator=(const FlashZoneRegistryBroker&) =
-        default;
+    ZoneRegistryBroker& operator=(const ZoneRegistryBroker&) = default;
 
-    const ZI* zoneInfo(uint16_t i) const {
-      return (const ZI*) pgm_read_ptr(&mZoneRegistry[i]);
+  #if ACE_TIME_USE_PROGMEM
+
+    const ZoneInfo* zoneInfo(uint16_t i) const {
+      return mZoneRegistry[i];
     }
 
+  #else
+
+    const ZoneInfo* zoneInfo(uint16_t i) const {
+      return (const ZoneInfo*) pgm_read_ptr(&mZoneRegistry[i]);
+    }
+
+  #endif
+
   private:
-    const ZI* const* mZoneRegistry;
+    const ZoneInfo* const* const mZoneRegistry;
 };
 
-}
+} // basic
 
-//----------------------------------------------------------------------------
-
-namespace basic {
-
-#if ACE_TIME_USE_PROGMEM
-typedef internal::FlashZoneRuleBroker<ZoneRule> ZoneRuleBroker;
-typedef internal::FlashZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
-typedef internal::FlashZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>
-    ZoneEraBroker;
-typedef internal::FlashZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
-    ZoneContext> ZoneInfoBroker;
-typedef internal::FlashZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
-#else
-typedef internal::DirectZoneRuleBroker<ZoneRule> ZoneRuleBroker;
-typedef internal::DirectZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
-typedef internal::DirectZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>
-    ZoneEraBroker;
-typedef internal::DirectZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
-    ZoneContext> ZoneInfoBroker;
-typedef internal::DirectZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
-#endif
-
-}
+//------------------------------------------------------------------------
 
 namespace extended {
 
-#if ACE_TIME_USE_PROGMEM
-typedef internal::FlashZoneRuleBroker<ZoneRule> ZoneRuleBroker;
-typedef internal::FlashZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
-typedef internal::FlashZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>
-    ZoneEraBroker;
-typedef internal::FlashZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
-    ZoneContext> ZoneInfoBroker;
-typedef internal::FlashZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
-#else
-typedef internal::DirectZoneRuleBroker<ZoneRule> ZoneRuleBroker;
-typedef internal::DirectZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
-typedef internal::DirectZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>
-    ZoneEraBroker;
-typedef internal::DirectZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
-    ZoneContext> ZoneInfoBroker;
-typedef internal::DirectZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
-#endif
+/** Data broker for accessing ZoneRule. */
+class ZoneRuleBroker {
+  public:
+    explicit ZoneRuleBroker(const ZoneRule* zoneRule):
+        mZoneRule(zoneRule) {}
 
-}
+    ZoneRuleBroker():
+        mZoneRule(nullptr) {}
+
+    // use the default copy constructor
+    ZoneRuleBroker(const ZoneRuleBroker&) = default;
+
+    // use the default assignment operator
+    ZoneRuleBroker& operator=(const ZoneRuleBroker&) = default;
+
+    bool isNull() const { return mZoneRule == nullptr; }
+
+    bool isNotNull() const { return mZoneRule != nullptr; }
+
+  #if ACE_TIME_USE_PROGMEM
+
+    int8_t fromYearTiny() const { return mZoneRule->fromYearTiny; }
+
+    int8_t toYearTiny() const { return mZoneRule->toYearTiny; }
+
+    int8_t inMonth() const { return mZoneRule->inMonth; }
+
+    int8_t onDayOfWeek() const { return mZoneRule->onDayOfWeek; }
+
+    int8_t onDayOfMonth() const { return mZoneRule->onDayOfMonth; }
+
+    uint16_t atTimeMinutes() const {
+      return internal::timeCodeToMinutes(
+          mZoneRule->atTimeCode, mZoneRule->atTimeModifier);
+    }
+
+    uint8_t atTimeSuffix() const {
+      return internal::toSuffix(mZoneRule->atTimeModifier);
+    }
+
+    int16_t deltaMinutes() const { return 15 * mZoneRule->deltaCode; }
+
+    uint8_t letter() const { return mZoneRule->letter; }
+
+  #else
+
+    int8_t fromYearTiny() const {
+      return pgm_read_byte(&mZoneRule->fromYearTiny);
+    }
+
+    int8_t toYearTiny() const {
+      return pgm_read_byte(&mZoneRule->toYearTiny);
+    }
+
+    int8_t inMonth() const {
+      return pgm_read_byte(&mZoneRule->inMonth);
+    }
+
+    int8_t onDayOfWeek() const {
+      return pgm_read_byte(&mZoneRule->onDayOfWeek);
+    }
+
+    int8_t onDayOfMonth() const {
+      return pgm_read_byte(&mZoneRule->onDayOfMonth);
+    }
+
+    uint16_t atTimeMinutes() const {
+      return internal::timeCodeToMinutes(
+          pgm_read_byte(&mZoneRule->atTimeCode),
+          pgm_read_byte(&mZoneRule->atTimeModifier));
+    }
+
+    uint8_t atTimeSuffix() const {
+      return internal::toSuffix(pgm_read_byte(&mZoneRule->atTimeModifier));
+    }
+
+    int16_t deltaMinutes() const {
+      return 15 * (int8_t) pgm_read_byte(&mZoneRule->deltaCode);
+    }
+
+    uint8_t letter() const {
+      return pgm_read_byte(&mZoneRule->letter);
+    }
+
+  #endif
+
+  private:
+    const ZoneRule* mZoneRule;
+};
+
+/** Data broker for accessing ZonePolicy. */
+class ZonePolicyBroker {
+  public:
+    explicit ZonePolicyBroker(const ZonePolicy* zonePolicy):
+        mZonePolicy(zonePolicy) {}
+
+    // use default copy constructor
+    ZonePolicyBroker(const ZonePolicyBroker&) = default;
+
+    // use default assignment operator
+    ZonePolicyBroker& operator=(const ZonePolicyBroker&) = default;
+
+    bool isNull() const { return mZonePolicy == nullptr; }
+
+    bool isNotNull() const { return mZonePolicy != nullptr; }
+
+  #if ACE_TIME_USE_PROGMEM
+
+    uint8_t numRules() const { return mZonePolicy->numRules; }
+
+    const ZoneRuleBroker rule(uint8_t i) const {
+      return ZoneRuleBroker(&mZonePolicy->rules[i]);
+    }
+
+    uint8_t numLetters() const { return mZonePolicy->numLetters; }
+
+    const char* letter(uint8_t i) const {
+      return mZonePolicy->letters[i];
+    }
+
+  #else
+
+    uint8_t numRules() const {
+      return pgm_read_byte(&mZonePolicy->numRules);
+    }
+
+    const ZoneRuleBroker rule(uint8_t i) const {
+      const ZoneRule* rules =
+          (const ZoneRule*) pgm_read_ptr(&mZonePolicy->rules);
+      return ZoneRuleBroker(&rules[i]);
+    }
+
+    uint8_t numLetters() const {
+      return pgm_read_byte(&mZonePolicy->numLetters);
+    }
+
+    const char* letter(uint8_t i) const {
+      const char* const* letters = (const char* const*)
+          pgm_read_ptr(&mZonePolicy->letters);
+      return (const char*) pgm_read_ptr(&letters[i]);
+    }
+
+  #endif
+
+  private:
+    const ZonePolicy* const mZonePolicy;
+};
+
+/** Data broker for accessing ZoneEra. */
+class ZoneEraBroker {
+  public:
+    explicit ZoneEraBroker(const ZoneEra* zoneEra):
+        mZoneEra(zoneEra) {}
+
+    ZoneEraBroker():
+        mZoneEra(nullptr) {}
+
+    // use default copy constructor
+    ZoneEraBroker(const ZoneEraBroker&) = default;
+
+    // use default assignment operator
+    ZoneEraBroker& operator=(const ZoneEraBroker&) = default;
+
+    const ZoneEra* zoneEra() const { return mZoneEra; }
+
+    bool isNull() const { return mZoneEra == nullptr; }
+
+    bool isNotNull() const { return mZoneEra != nullptr; }
+
+  #if ACE_TIME_USE_PROGMEM
+
+    int16_t offsetMinutes() const { return 15 * mZoneEra->offsetCode; }
+
+    const ZonePolicyBroker zonePolicy() const {
+      return ZonePolicyBroker(mZoneEra->zonePolicy);
+    }
+
+    int16_t deltaMinutes() const { return 15 * mZoneEra->deltaCode; }
+
+    const char* format() const { return mZoneEra->format; }
+
+    int8_t untilYearTiny() const { return mZoneEra->untilYearTiny; }
+
+    uint8_t untilMonth() const { return mZoneEra->untilMonth; }
+
+    uint8_t untilDay() const { return mZoneEra->untilDay; }
+
+    uint16_t untilTimeMinutes() const {
+      return internal::timeCodeToMinutes(
+          mZoneEra->untilTimeCode, mZoneEra->untilTimeModifier);
+    }
+
+    uint8_t untilTimeSuffix() const {
+      return internal::toSuffix(mZoneEra->untilTimeModifier);
+    }
+
+  #else
+
+    int16_t offsetMinutes() const {
+      return 15 * (int8_t) pgm_read_byte(&mZoneEra->offsetCode);
+    }
+
+    const ZonePolicyBroker zonePolicy() const {
+      return ZonePolicyBroker(
+          (const ZonePolicy*) pgm_read_ptr(&mZoneEra->zonePolicy));
+    }
+
+    int16_t deltaMinutes() const {
+      return 15 * (int8_t) pgm_read_byte(&mZoneEra->deltaCode);
+    }
+
+    const char* format() const {
+      return (const char*) pgm_read_ptr(&mZoneEra->format);
+    }
+
+    int8_t untilYearTiny() const {
+      return pgm_read_byte(&mZoneEra->untilYearTiny);
+    }
+
+    uint8_t untilMonth() const {
+      return pgm_read_byte(&mZoneEra->untilMonth);
+    }
+
+    uint8_t untilDay() const {
+      return pgm_read_byte(&mZoneEra->untilDay);
+    }
+
+    uint16_t untilTimeMinutes() const {
+      return internal::timeCodeToMinutes(
+        pgm_read_byte(&mZoneEra->untilTimeCode),
+        pgm_read_byte(&mZoneEra->untilTimeModifier));
+    }
+
+    uint8_t untilTimeSuffix() const {
+      return internal::toSuffix(pgm_read_byte(&mZoneEra->untilTimeModifier));
+    }
+
+  #endif
+
+  private:
+    const ZoneEra* mZoneEra;
+
+};
+
+/** Data broker for accessing ZoneInfo. */
+class ZoneInfoBroker {
+  public:
+    explicit ZoneInfoBroker(const ZoneInfo* zoneInfo):
+        mZoneInfo(zoneInfo) {}
+
+    // use default copy constructor
+    ZoneInfoBroker(const ZoneInfoBroker&) = default;
+
+    // use default assignment operator
+    ZoneInfoBroker& operator=(const ZoneInfoBroker&) = default;
+
+    const ZoneInfo* zoneInfo() const { return mZoneInfo; }
+
+  #if ACE_TIME_USE_PROGMEM
+
+    const char* name() const { return mZoneInfo->name; }
+
+    uint32_t zoneId() const { return mZoneInfo->zoneId; }
+
+    int16_t startYear() const { return mZoneInfo->zoneContext->startYear; }
+
+    int16_t untilYear() const { return mZoneInfo->zoneContext->untilYear; }
+
+    uint8_t numEras() const { return mZoneInfo->numEras; }
+
+    const ZoneEraBroker era(uint8_t i) const {
+      return ZoneEraBroker(&mZoneInfo->eras[i]);
+    }
+
+  #else
+
+    const char* name() const {
+      return (const char*) pgm_read_ptr(&mZoneInfo->name);
+    }
+
+    uint32_t zoneId() const {
+      return pgm_read_dword(&mZoneInfo->zoneId);
+    }
+
+    int16_t startYear() const {
+      const ZoneContext* zoneContext =
+          (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
+      return zoneContext->startYear;
+    }
+
+    int16_t untilYear() const {
+      const ZoneContext* zoneContext =
+          (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
+      return zoneContext->untilYear;
+    }
+
+    uint8_t numEras() const {
+      return pgm_read_byte(&mZoneInfo->numEras);
+    }
+
+    const ZoneEraBroker era(uint8_t i) const {
+      const ZoneEra* eras = (const ZoneEra*) pgm_read_ptr(&mZoneInfo->eras);
+      return ZoneEraBroker(&eras[i]);
+    }
+
+  #endif
+
+  private:
+    const ZoneInfo* mZoneInfo;
+};
+
+/**
+ * Data broker for accessing the ZoneRegistry. The ZoneRegistry is an
+ * array of (const ZoneInfo*) in the zone_registry.cpp file.
+ */
+class ZoneRegistryBroker {
+  public:
+    ZoneRegistryBroker(const ZoneInfo* const* zoneRegistry):
+        mZoneRegistry(zoneRegistry) {}
+
+    // use default copy constructor
+    ZoneRegistryBroker(const ZoneRegistryBroker&) = default;
+
+    // use default assignment operator
+    ZoneRegistryBroker& operator=(const ZoneRegistryBroker&) = default;
+
+  #if ACE_TIME_USE_PROGMEM
+
+    const ZoneInfo* zoneInfo(uint16_t i) const {
+      return mZoneRegistry[i];
+    }
+
+  #else
+
+    const ZoneInfo* zoneInfo(uint16_t i) const {
+      return (const ZoneInfo*) pgm_read_ptr(&mZoneRegistry[i]);
+    }
+
+  #endif
+
+  private:
+    const ZoneInfo* const* const mZoneRegistry;
+};
+
+} // extended
 
 }
 
