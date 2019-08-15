@@ -453,9 +453,10 @@ class Transformer:
                 if offset_seconds == INVALID_SECONDS:
                     valid = False
                     _add_reason(removed_zones, name,
-                        f"invalid STDOFF offset string '{offset_string}'")
+                        f"invalid STDOFF '{offset_string}'")
                     break
 
+                # Truncate to requested granularity.
                 offset_seconds_truncated = truncate_to_granularity(
                     offset_seconds, self.offset_granularity)
                 if offset_seconds != offset_seconds_truncated:
@@ -469,6 +470,15 @@ class Transformer:
                         hm = seconds_to_hm_string(offset_seconds_truncated)
                         _add_reason(notable_zones, name,
                             f"STDOFF '{offset_string}' truncated to '{hm}'")
+
+                # Check that offset seconds can fit in a timeCode field
+                # implemented as a signed byte in multiples of 15-minutes.
+                offset_code = div_to_zero(offset_seconds_truncated, 900)
+                if offset_code < -127 or offset_code > 127:
+                    valid = False
+                    _add_reason(removed_zones, name,
+                        f"STDOFF '{offset_string}' too large for 8-bits")
+                    break
 
                 era.offsetSeconds = offset_seconds
                 era.offsetSecondsTruncated = offset_seconds_truncated
@@ -1111,6 +1121,7 @@ class Transformer:
                         f"invalid deltaOffset '{delta_offset}'")
                     break
 
+                # Truncate to requested granularity.
                 delta_seconds_truncated = truncate_to_granularity(
                     delta_seconds, self.offset_granularity)
                 if delta_seconds != delta_seconds_truncated:
@@ -1126,6 +1137,17 @@ class Transformer:
                             f"deltaOffset '{delta_offset}' truncated to"
                             f"a multiple of '{self.offset_granularity}' "
                             f"seconds")
+
+                # Check that delta seconds can fit in a 4-bit timeCode field
+                # with 15-minute granularity, defined as (timeCode =
+                # delta_seconds / 900s + 1h) which encodes -1:00 as 0 and 3:45
+                # as 15.
+                delta_code = div_to_zero(delta_seconds_truncated, 900) + 4
+                if delta_code < 0 or delta_code > 15:
+                    valid = False
+                    _add_reason(removed_policies, name,
+                        f"deltaOffset '{delta_offset}' too large for 4-bits")
+                    break
 
                 rule.deltaSeconds = delta_seconds
                 rule.deltaSecondsTruncated = delta_seconds_truncated
@@ -1385,8 +1407,11 @@ def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
 
     if on_day_of_month == 0:
         # lastXxx == (Xxx >= (daysInMonth - 6))
-        on_day_of_month = days_in_month(year, month) - 6
-    limit_date = datetime.date(year, month, on_day_of_month)
+        dom = days_in_month(year, month) - 6
+    else:
+        dom = on_day_of_month
+
+    limit_date = datetime.date(year, month, dom)
     day_of_week_shift = (on_day_of_week - limit_date.isoweekday() + 7) % 7
     return on_day_of_month + day_of_week_shift
 
