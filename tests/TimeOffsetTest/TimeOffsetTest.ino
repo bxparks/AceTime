@@ -10,8 +10,12 @@ using namespace ace_time;
 // TimeOffset
 // --------------------------------------------------------------------------
 
-test(TimeOffsetTest, code) {
-  assertEqual(TimeOffset::forHours(-8).toOffsetCode(), -8*4);
+test(TimeOffsetTest, operatorEqualEqual) {
+  TimeOffset a = TimeOffset::forMinutes(10);
+  TimeOffset aa = TimeOffset::forMinutes(10);
+  TimeOffset b = TimeOffset::forMinutes(11);
+  assertTrue(a == aa);
+  assertTrue(a != b);
 }
 
 test(TimeOffsetTest, isZero) {

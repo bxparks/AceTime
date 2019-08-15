@@ -268,7 +268,7 @@ class BasicZoneProcessor: public ZoneProcessor {
 
         // If offset1 and offset2 are equal, then we have an equilibrium
         // and odt(1) must equal odt(2), so we can just return the last odt.
-        if (offset1.toOffsetCode() == offset2.toOffsetCode()) {
+        if (offset1 == offset2) {
           // pass
         } else {
           // Pick the later epochSeconds and offset

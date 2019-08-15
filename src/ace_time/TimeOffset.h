@@ -125,9 +125,6 @@ class TimeOffset {
     /** Constructor. Create a time offset of 0. */
     explicit TimeOffset() {}
 
-    /** Return the time offset as the number of 15 minute increments. */
-    int8_t toOffsetCode() const { return mMinutes / 15; }
-
     /** Return the time offset as minutes. */
     int16_t toMinutes() const {
       return mMinutes;
