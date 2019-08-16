@@ -19,6 +19,8 @@
 
 #define ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG 0
 
+class BasicZoneProcessorTest_priorYearOfRule;
+class BasicZoneProcessorTest_compareRulesBeforeYear;
 class BasicZoneProcessorTest_init_primitives;
 class BasicZoneProcessorTest_init;
 class BasicZoneProcessorTest_setZoneInfo;
@@ -368,6 +370,8 @@ class BasicZoneProcessor: public ZoneProcessor {
     }
 
   private:
+    friend class ::BasicZoneProcessorTest_priorYearOfRule;
+    friend class ::BasicZoneProcessorTest_compareRulesBeforeYear;
     friend class ::BasicZoneProcessorTest_init_primitives;
     friend class ::BasicZoneProcessorTest_init;
     friend class ::BasicZoneProcessorTest_setZoneInfo;
@@ -519,7 +523,8 @@ class BasicZoneProcessor: public ZoneProcessor {
           const basic::ZoneRuleBroker rule = zonePolicy.rule(i);
           // Check if rule is effective prior to the given year
           if (rule.fromYearTiny() < yearTiny) {
-            if ((latest.isNull()) || compareZoneRule(year, rule, latest) > 0) {
+            if ((latest.isNull()) ||
+                compareRulesBeforeYear(year, rule, latest) > 0) {
               latest = rule;
             }
           }
@@ -559,11 +564,11 @@ class BasicZoneProcessor: public ZoneProcessor {
       };
     }
 
-    /** Compare two ZoneRules which are valid prior to the given year. */
-    static int8_t compareZoneRule(int16_t year,
+    /** Compare two ZoneRules which are valid *prior* to the given year. */
+    static int8_t compareRulesBeforeYear(int16_t year,
         const basic::ZoneRuleBroker a, const basic::ZoneRuleBroker b) {
-      int16_t aYear = effectiveRuleYear(year, a);
-      int16_t bYear = effectiveRuleYear(year, b);
+      int16_t aYear = priorYearOfRule(year, a);
+      int16_t bYear = priorYearOfRule(year, b);
       if (aYear < bYear) return -1;
       if (aYear > bYear) return 1;
       if (a.inMonth() < b.inMonth()) return -1;
@@ -572,10 +577,14 @@ class BasicZoneProcessor: public ZoneProcessor {
     }
 
     /**
-     * Return the largest effective year of the rule, prior to given year.
-     * Return 0 if rule is greater than the given year.
+     * Return the largest effective year of the rule *prior* to given year.
+     * Return 0 if rule is greater than the given year which causes it to be
+     * replaced by something else when we search for the most recent prior
+     * year. For example, if the rule's [from, to] is [1993, 1995] and the
+     * year=2000, then this return 1995. If the year=1994, then this return
+     * 1993. If the year=1993, this returns 0.
      */
-    static int16_t effectiveRuleYear(int16_t year,
+    static int16_t priorYearOfRule(int16_t year,
         const basic::ZoneRuleBroker rule) {
       int8_t yearTiny = year - LocalDate::kEpochYear;
       if (rule.toYearTiny() < yearTiny) {

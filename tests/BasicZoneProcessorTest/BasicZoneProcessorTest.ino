@@ -7,6 +7,112 @@ using namespace aunit;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
+// Test zoneinfo files. Taken from Pacific/Galapagos which transitions
+// from simple Rule to named Rule in 1986:
+//
+//# Rule  NAME    FROM    TO      TYPE    IN      ON      AT      SAVE  LETTER/S
+//Rule    Ecuador 1992    only    -       Nov     28      0:00    1:00    -
+//Rule    Ecuador 1993    only    -       Feb      5      0:00    0       -
+//
+//Zone Pacific/Galapagos  -5:58:24 -      LMT     1931 # Puerto Baquerizo Moreno
+//                        -5:00   -       -05     1986
+//                        -6:00   Ecuador -06/-05
+// --------------------------------------------------------------------------
+
+static const char kTzDatabaseVersion[] = "2019b";
+
+static const basic::ZoneContext kZoneContext = {
+  1980 /*startYear*/,
+  2050 /*untilYear*/,
+  kTzDatabaseVersion /*tzVersion*/,
+};
+
+static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
+  // Anchor: Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
+  {
+    -127 /*fromYearTiny*/,
+    -127 /*toYearTiny*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    basic::ZoneContext::kSuffixW /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Ecuador    1992    only    -    Nov    28    0:00    1:00    -
+  {
+    -8 /*fromYearTiny*/,
+    -8 /*toYearTiny*/,
+    11 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    28 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    basic::ZoneContext::kSuffixW /*atTimeModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
+  {
+    -7 /*fromYearTiny*/,
+    -7 /*toYearTiny*/,
+    2 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    5 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    basic::ZoneContext::kSuffixW /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+};
+
+static const basic::ZonePolicy kPolicyEcuador ACE_TIME_PROGMEM = {
+  kZoneRulesEcuador /*rules*/,
+  nullptr /* letters */,
+  3 /*numRules*/,
+  0 /* numLetters */,
+};
+
+static const basic::ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
+  //             -5:00    -    -05    1986
+  {
+    nullptr /*zonePolicy*/,
+    "-05" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode*/,
+    -14 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    basic::ZoneContext::kSuffixW /*untilTimeModifier*/,
+  },
+  //             -6:00    Ecuador    -06/-05
+  {
+    &kPolicyEcuador /*zonePolicy*/,
+    "-06/-05" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    basic::ZoneContext::kSuffixW /*untilTimeModifier*/,
+  },
+};
+
+static const char kZoneNamePacific_Galapagos[] ACE_TIME_PROGMEM =
+    "Pacific/Galapagos";
+
+static const basic::ZoneInfo kZonePacific_Galapagos ACE_TIME_PROGMEM = {
+  kZoneNamePacific_Galapagos /*name*/,
+  0xa952f752 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  4 /*transitionBufSize*/,
+  2 /*numEras*/,
+  kZoneEraPacific_Galapagos /*eras*/,
+};
+
+// --------------------------------------------------------------------------
 // BasicZoneProcessor: test private methods
 // --------------------------------------------------------------------------
 
@@ -85,6 +191,41 @@ test(BasicZoneProcessorTest, calcRuleOffsetMinutes) {
       basic::ZoneContext::kSuffixW));
   assertEqual(2, BasicZoneProcessor::calcRuleOffsetMinutes(1, 2,
       basic::ZoneContext::kSuffixS));
+}
+
+test(BasicZoneProcessorTest, priorYearOfRule) {
+  basic::ZonePolicyBroker policy(&kPolicyEcuador);
+
+  assertEqual(1873, BasicZoneProcessor::priorYearOfRule(1995,
+      policy.rule(0) /*1873*/));
+  assertEqual(1992, BasicZoneProcessor::priorYearOfRule(1995,
+      policy.rule(1) /*1992*/));
+  assertEqual(1993, BasicZoneProcessor::priorYearOfRule(1995,
+      policy.rule(2) /*1993*/));
+
+  assertEqual(1873, BasicZoneProcessor::priorYearOfRule(1993,
+      policy.rule(0) /*1873*/));
+  assertEqual(1992, BasicZoneProcessor::priorYearOfRule(1993,
+      policy.rule(1) /*1992*/));
+  // Rule is not effective before 1993, so returns 0 to suppress it.
+  assertEqual(0, BasicZoneProcessor::priorYearOfRule(1993,
+      policy.rule(2) /*1993*/));
+}
+
+test(BasicZoneProcessorTest, compareRulesBeforeYear) {
+  basic::ZonePolicyBroker policy(&kPolicyEcuador);
+
+  // The last prior rule prior to 1995 should be 1993.
+  assertLess(BasicZoneProcessor::compareRulesBeforeYear(1995,
+    policy.rule(0), policy.rule(1)), 0);
+  assertLess(BasicZoneProcessor::compareRulesBeforeYear(1995,
+    policy.rule(1), policy.rule(2)), 0);
+
+  // The last prior rule prior to 1993 should be 1992
+  assertLess(BasicZoneProcessor::compareRulesBeforeYear(1993,
+    policy.rule(0), policy.rule(1)), 0);
+  assertMore(BasicZoneProcessor::compareRulesBeforeYear(1993,
+    policy.rule(1), policy.rule(2)), 0);
 }
 
 test(BasicZoneProcessorTest, init_primitives) {
