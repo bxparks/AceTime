@@ -191,19 +191,24 @@ def main():
         if args.scope == 'basic': db_namespace = 'zonedb'
         if args.scope == 'extended': db_namespace = 'zonedbx'
 
-    # Define language dependent granularity if not overridden by flag
+    # Define scope-dependent granularity if not overridden by flag
     if args.granularity:
-        granularity = args.granularity
+        until_at_granularity = args.granularity
+        offset_granularity = args.granularity
     else:
-        granularity = 60
-    if args.until_at_granularity:
-        until_at_granularity = args.until_at_granularity
-    else:
-        until_at_granularity = granularity
-    if args.offset_granularity:
-        offset_granularity = args.offset_granularity
-    else:
-        offset_granularity = granularity
+        if args.until_at_granularity:
+            until_at_granularity = args.until_at_granularity
+        else:
+            until_at_granularity = 60
+
+        if args.offset_granularity:
+            offset_granularity = args.offset_granularity
+        else:
+            if args.scope == 'basic':
+                offset_granularity = 900
+            else:
+                offset_granularity = 60
+
     logging.info('Using UNTIL/AT granularity: %d', until_at_granularity)
     logging.info('Using RULES/SAVE (offset) granularity: %d',
         offset_granularity)
@@ -309,8 +314,7 @@ def main():
         logging.info('Generating test data for years in [%d, %d)',
             validation_start_year, validation_until_year)
         data_generator = TestDataGenerator(args.scope, zone_infos,
-            zone_policies, granularity, validation_start_year,
-            validation_until_year)
+            zone_policies, validation_start_year, validation_until_year)
         (test_data, num_items) = data_generator.create_test_data()
         logging.info('Num zones=%d; Num test items=%d', len(test_data),
             num_items)
@@ -331,7 +335,6 @@ def main():
         validator = Validator(
             zone_infos=zone_infos,
             zone_policies=zone_policies,
-            granularity=granularity,
             viewing_months=args.viewing_months,
             validate_dst_offset=args.validate_dst_offset,
             debug_validator=args.debug_validator,

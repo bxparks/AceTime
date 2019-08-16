@@ -309,7 +309,6 @@ class Transformer:
 
         logging.info("Removed %s zone infos with UNTIL month/day/time",
                      len(removed_zones))
-        self._print_removed_map(removed_zones)
         _merge_reasons(self.all_removed_zones, removed_zones)
         return results
 

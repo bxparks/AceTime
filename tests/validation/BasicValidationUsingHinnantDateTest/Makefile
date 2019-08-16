@@ -24,6 +24,6 @@ validation_data.cpp: zones.txt
 		< zones.txt
 
 zones.txt:
-	../../../tools/tzcompiler.sh --tag $(TZ_VERSION) --scope basic \
-		--start_year $(START_YEAR) --until_year $(UNTIL_YEAR) \
-		--action zonelist
+	../../../tools/tzcompiler.sh --tag $(TZ_VERSION) --action zonelist \
+		--scope basic \
+		--start_year $(START_YEAR) --until_year $(UNTIL_YEAR)
