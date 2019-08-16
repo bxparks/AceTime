@@ -20,5 +20,7 @@ clean:
 	done
 
 zonedb:
-	make -C BasicValidationUsingJavaTest/zonedb2018g/
-	make -C ExtendedValidationUsingJavaTest/zonedbx2018g/
+	set -e; \
+	for i in $$(find -name 'zonedb*'); do \
+		make -C $$i; \
+	done
