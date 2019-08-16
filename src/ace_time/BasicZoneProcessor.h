@@ -106,18 +106,19 @@ struct Transition {
   void log() const {
     if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
       if (sizeof(acetime_t) == sizeof(int)) {
-        logging::printf("startEpochSeconds: %d\n", startEpochSeconds);
+        logging::printf("stEps: %d", startEpochSeconds);
       } else {
-        logging::printf("startEpochSeconds: %ld\n", startEpochSeconds);
+        logging::printf("stEps: %ld", startEpochSeconds);
       }
-      logging::printf("offsetMinutes: %d\n", offsetMinutes);
-      logging::printf("abbrev: %s\n", abbrev);
+      logging::printf("; offMin: %d", offsetMinutes);
+      logging::printf("; abbrev: %s", abbrev);
       if (rule.isNotNull()) {
-        logging::printf("Rule.fromYear: %d\n", rule.fromYearTiny());
-        logging::printf("Rule.toYear: %d\n", rule.toYearTiny());
-        logging::printf("Rule.inMonth: %d\n", rule.inMonth());
-        logging::printf("Rule.onDayOfMonth: %d\n", rule.onDayOfMonth());
+        logging::printf("; r.fromYear: %d", rule.fromYearTiny());
+        logging::printf("; r.toYear: %d", rule.toYearTiny());
+        logging::printf("; r.inMonth: %d", rule.inMonth());
+        logging::printf("; r.onDayOfMonth: %d", rule.onDayOfMonth());
       }
+      logging::printf("\n");
     }
   }
 };
@@ -303,10 +304,10 @@ class BasicZoneProcessor: public ZoneProcessor {
         }
         logging::printf("mYear: %d\n", mYear);
         logging::printf("mNumTransitions: %d\n", mNumTransitions);
-        logging::printf("---- PrevTransition\n");
+        logging::printf("mT[prev]=");
         mPrevTransition.log();
         for (int i = 0; i < mNumTransitions; i++) {
-          logging::printf("---- Transition: %d\n", i);
+          logging::printf("mT[%d]=", i);
           mTransitions[i].log();
         }
       }
@@ -456,7 +457,16 @@ class BasicZoneProcessor: public ZoneProcessor {
       if (ld.month() == 1 && ld.day() == 1) {
         year--;
       }
-      if (isFilled(year)) return true;
+      if (isFilled(year)) {
+        if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
+          logging::printf("init(): %d (using cached %d)\n", ld.year(), year);
+        }
+        return true;
+      } else {
+        if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
+          logging::printf("init(): %d (new year %d)\n", ld.year(), year);
+        }
+      }
 
       mYear = year;
       mNumTransitions = 0; // clear cache
@@ -471,6 +481,11 @@ class BasicZoneProcessor: public ZoneProcessor {
       calcAbbreviations();
 
       mIsFilled = true;
+
+      if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
+        log();
+      }
+
       return true;
     }
 
@@ -484,15 +499,15 @@ class BasicZoneProcessor: public ZoneProcessor {
      * the offset at the beginning of the current year.
      */
     void addTransitionPriorToYear(int16_t year) const {
-      int8_t yearTiny = year - LocalDate::kEpochYear;
-      int8_t priorYearTiny = yearTiny - 1;
+      if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("addTransitionPriorToYear(): %d\n", year);
+      }
 
-      // Find the prior Era.
       const basic::ZoneEraBroker era = findZoneEraPriorTo(year);
 
-      // If the prior ZoneEra is a simple Era (no zone policy), then create a
-      // Transition using a rule==nullptr. Otherwise, find the latest rule
-      // within the ZoneEra.
+      // If the prior ZoneEra has a ZonePolicy), then find the latest rule
+      // within the ZoneEra. Otherwise, add a Transition using a rule==nullptr.
+      int8_t yearTiny = year - LocalDate::kEpochYear;
       const basic::ZonePolicyBroker zonePolicy = era.zonePolicy();
       basic::ZoneRuleBroker latest;
       if (zonePolicy.isNotNull()) {
@@ -511,6 +526,7 @@ class BasicZoneProcessor: public ZoneProcessor {
         }
       }
 
+      int8_t priorYearTiny = yearTiny - 1;
       mPrevTransition = createTransition(era, latest, priorYearTiny);
     }
 
@@ -573,6 +589,10 @@ class BasicZoneProcessor: public ZoneProcessor {
 
     /** Add all matching transitions from the current year. */
     void addTransitionsForYear(int16_t year) const {
+      if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("addTransitionsForYear(): %d\n", year);
+      }
+
       const basic::ZoneEraBroker era = findZoneEra(year);
 
       // If the ZonePolicy has no rules, then add a Transition which takes
@@ -694,6 +714,10 @@ class BasicZoneProcessor: public ZoneProcessor {
      * that it is defined in terms of the *previous* Transition.
      */
     void calcTransitions() const {
+      if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("calcTransitions():\n");
+      }
+
       // Set the initial startEpochSeconds to be -Infinity
       mPrevTransition.startEpochSeconds = kMinEpochSeconds;
       const basic::Transition* prevTransition = &mPrevTransition;
@@ -771,6 +795,10 @@ class BasicZoneProcessor: public ZoneProcessor {
 
     /** Determine the time zone abbreviations. */
     void calcAbbreviations() const {
+      if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("calcAbbreviations():\n");
+      }
+
       calcAbbreviation(&mPrevTransition);
       for (uint8_t i = 0; i < mNumTransitions; i++) {
         calcAbbreviation(&mTransitions[i]);
