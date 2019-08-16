@@ -48,6 +48,11 @@
   #define CHANGE_BUTTON_PIN 3
   #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
   #define OLED_REMAP false
+#elif defined(AUNITER_MEGA)
+  #define MODE_BUTTON_PIN 2
+  #define CHANGE_BUTTON_PIN 3
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
+  #define OLED_REMAP false
 #elif defined(AUNITER_SAMD)
   #define MODE_BUTTON_PIN 11
   #define CHANGE_BUTTON_PIN 10
