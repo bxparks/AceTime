@@ -62,6 +62,15 @@ struct ZoneRule {
   /**
    * Determined by the SAVE column, containing the offset from UTC, in 15-min
    * increments.
+   *
+   * If the '--scope extended' flag is given to tzcompiler.py, this field
+   * should be interpreted as an uint8_t field, whose lower 4-bits hold a
+   * slightly modified value of offsetCode equal to (originalDeltaCode + 4).
+   * This allows the 4-bits to represent DST offsets from -1:00 to 2:45 in
+   * 15-minute increments. This is the same algorithm used by
+   * ZoneEra::deltaCode field for consistency. The
+   * extended::ZonePolicyBroker::deltaMinutes() method knows how to convert
+   * this field into minutes.
    */
   int8_t const deltaCode;
 

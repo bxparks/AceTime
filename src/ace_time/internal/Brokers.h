@@ -410,6 +410,18 @@ class ZoneRegistryBroker {
 
 namespace extended {
 
+// deltaMinutes = deltaCode * 15m - 1h, (4-bits can store -01:00 to 02:45).
+inline int16_t toDeltaMinutes(int8_t deltaCode) {
+  return ((int8_t)((uint8_t)deltaCode & 0x0f) - 4) * 15;
+}
+
+// offsetCode holds the upper 15-minute multiples, as a signed 8-bit integer.
+// The upper 4-bits of deltaCode holds the one-minute resolution, as an
+// unsigned offset.
+inline int16_t toOffsetMinutes(int8_t offsetCode, int8_t deltaCode) {
+  return (offsetCode * 15) + (((uint8_t)deltaCode & 0xf0) >> 4);
+}
+
 /** Data broker for accessing ZoneRule. */
 class ZoneRuleBroker {
   public:
@@ -450,7 +462,9 @@ class ZoneRuleBroker {
       return internal::toSuffix(mZoneRule->atTimeModifier);
     }
 
-    int16_t deltaMinutes() const { return 15 * mZoneRule->deltaCode; }
+    int16_t deltaMinutes() const {
+      return toDeltaMinutes(mZoneRule->deltaCode);
+    }
 
     uint8_t letter() const { return mZoneRule->letter; }
 
@@ -487,7 +501,7 @@ class ZoneRuleBroker {
     }
 
     int16_t deltaMinutes() const {
-      return 15 * (int8_t) pgm_read_byte(&mZoneRule->deltaCode);
+      return toDeltaMinutes(pgm_read_byte(&mZoneRule->deltaCode));
     }
 
     uint8_t letter() const {
@@ -581,13 +595,17 @@ class ZoneEraBroker {
 
   #if ACE_TIME_USE_PROGMEM
 
-    int16_t offsetMinutes() const { return 15 * mZoneEra->offsetCode; }
-
     const ZonePolicyBroker zonePolicy() const {
       return ZonePolicyBroker(mZoneEra->zonePolicy);
     }
 
-    int16_t deltaMinutes() const { return 15 * mZoneEra->deltaCode; }
+    int16_t offsetMinutes() const {
+      return toOffsetMinutes(mZoneEra->offsetCode, mZoneEra->deltaCode);
+    }
+
+    int16_t deltaMinutes() const {
+      return toDeltaMinutes(mZoneEra->deltaCode);
+    }
 
     const char* format() const { return mZoneEra->format; }
 
@@ -608,17 +626,19 @@ class ZoneEraBroker {
 
   #else
 
-    int16_t offsetMinutes() const {
-      return 15 * (int8_t) pgm_read_byte(&mZoneEra->offsetCode);
-    }
-
     const ZonePolicyBroker zonePolicy() const {
       return ZonePolicyBroker(
           (const ZonePolicy*) pgm_read_ptr(&mZoneEra->zonePolicy));
     }
 
+    int16_t offsetMinutes() const {
+      return toOffsetMinutes(
+        pgm_read_byte(&mZoneEra->offsetCode),
+        pgm_read_byte(&mZoneEra->deltaCode));
+    }
+
     int16_t deltaMinutes() const {
-      return 15 * (int8_t) pgm_read_byte(&mZoneEra->deltaCode);
+      return toDeltaMinutes(pgm_read_byte(&mZoneEra->deltaCode));
     }
 
     const char* format() const {
