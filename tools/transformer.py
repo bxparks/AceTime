@@ -166,24 +166,20 @@ class Transformer:
 
     def print_summary(self):
         logging.info('-------- Transformer Summary')
-        logging.info('---- Zones')
-        logging.info('Total %s zones' % self.original_zone_count)
-        logging.info('Removed %s zones' % len(self.all_removed_zones))
-        logging.info('Generated %s zones' % len(self.zones_map))
-        logging.info('Noted %s zones' % len(self.all_notable_zones))
+        logging.info(f"Zones: total={self.original_zone_count}"
+            f"; generated={len(self.zones_map)}"
+            f"; removed={len(self.all_removed_zones)}"
+            f"; noted={len(self.all_notable_zones)}")
 
-        logging.info('---- Rules')
-        logging.info('Total %s rules' % self.original_rule_count)
-        logging.info('Removed %s policies' % len(self.all_removed_policies))
-        logging.info('Generated %s policies' % len(self.rules_map))
-        logging.info('Noted %s policies' % len(self.all_notable_policies))
+        logging.info(f"Rules: total={self.original_rule_count}"
+            f"; generated={len(self.rules_map)}"
+            f"; removed={len(self.all_removed_policies)}"
+            f"; noted={len(self.all_notable_policies)}")
 
-        logging.info('---- Links')
-        logging.info('Total %s links' % self.original_link_count)
-        logging.info('Removed %s links' % len(self.all_removed_links))
-        logging.info('Generated %s links' % len(self.links_map))
-        logging.info('Noted %s links' % len(self.all_notable_links))
-        logging.info('-------- Transformer Summary End')
+        logging.info(f"Links: total={self.original_link_count}"
+            f"; generated={len(self.links_map)}"
+            f"; removed={len(self.all_removed_links)}"
+            f"; noted={len(self.all_notable_links)}")
 
     def _print_removed_map(self, removed_map):
         """Helper routine that prints the removed Zone rules or Zone eras along
