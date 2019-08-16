@@ -12,6 +12,7 @@ from collections import OrderedDict
 from transformer import div_to_zero
 from transformer import normalize_name
 from transformer import hash_name
+from transformer import seconds_to_hm_string
 from extractor import EPOCH_YEAR
 from extractor import MAX_YEAR
 from extractor import MAX_YEAR_TINY
@@ -363,9 +364,13 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         # Generate kZoneRules*[]
         rule_items = ''
         for rule in rules:
-            at_time_code, at_time_modifier = to_code_and_modifier(
+            at_time_code, at_time_modifier = _to_code_and_modifier(
                 rule.atSecondsTruncated, rule.atTimeSuffix, self.scope)
-            delta_code = div_to_zero(rule.deltaSecondsTruncated, 15 * 60)
+
+            if self.scope == 'extended':
+                delta_code = _to_extended_delta_code(rule.deltaSecondsTruncated)
+            else:
+                delta_code = div_to_zero(rule.deltaSecondsTruncated, 900)
 
             from_year = rule.fromYear
             from_year_tiny = to_tiny_year(from_year)
@@ -801,10 +806,17 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         policy_name = era.rules
         if policy_name == '-' or policy_name == ':':
             zone_policy = 'nullptr'
-            delta_code = div_to_zero(era.rulesDeltaSecondsTruncated, 15 * 60)
+            delta_seconds = era.rulesDeltaSecondsTruncated
         else:
             zone_policy = '&kPolicy%s' % normalize_name(policy_name)
-            delta_code = 0
+            delta_seconds = 0
+
+        if self.scope == 'extended':
+            offset_code, delta_code = _to_extended_offset_and_delta(
+                era.offsetSecondsTruncated, delta_seconds)
+        else:
+            offset_code = div_to_zero(era.offsetSecondsTruncated, 900)
+            delta_code = div_to_zero(delta_seconds, 900)
 
         until_year = era.untilYear
         if until_year == MAX_UNTIL_YEAR:
@@ -820,10 +832,8 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         if not until_day:
             until_day = 1
 
-        until_time_code, until_time_modifier = to_code_and_modifier(
+        until_time_code, until_time_modifier = _to_code_and_modifier(
             era.untilSecondsTruncated, era.untilTimeSuffix, self.scope)
-
-        offset_code = div_to_zero(era.offsetSecondsTruncated, 15 * 60)
 
         # Replace %s with just a % for C++
         format = era.format.replace('%s', '%')
@@ -1076,18 +1086,18 @@ def normalize_raw(raw_line):
     """
     return raw_line.replace('\t', '    ')
 
-def to_code_and_modifier(seconds, suffix, scope):
+def _to_code_and_modifier(seconds, suffix, scope):
     """Return the packed (code, modifier) uint8_t integers that hold
-    the timeCode, timeMinute and the suffix.
+    the AT or UNTIL timeCode, timeMinute and the suffix.
     """
     timeCode = div_to_zero(seconds, 15 * 60)
     timeMinute = seconds % 900 // 60
-    modifier = to_modifier(suffix, scope)
+    modifier = _to_modifier(suffix, scope)
     if timeMinute > 0:
         modifier += f' + {timeMinute}'
     return timeCode, modifier
 
-def to_modifier(suffix, scope):
+def _to_modifier(suffix, scope):
     """Return the C++ TIME_SUFFIX_{X} corresponding to the 'w', 's', and 'u'
     suffix character in the TZ database files.
     """
@@ -1099,3 +1109,19 @@ def to_modifier(suffix, scope):
         return f'{scope}::ZoneContext::TIME_SUFFIX_U'
     else:
         raise Exception(f'Unknown suffix {suffix}')
+
+def _to_extended_delta_code(seconds):
+    """Return the deltaCode encoding for the ExtendedZoneProcessor which is
+    roughtly: deltaCode = (deltaSeconds + 1h) / 15m. With 4-bits, this will
+    handle deltaOffsets from -1:00 to +2:45.
+    """
+    return f"({seconds // 900} + 4)"
+
+def _to_extended_offset_and_delta(offsetSeconds, deltaSeconds):
+    """Return the (offsetCode, deltaCode) encoding that which maintains
+    a one-minute resolution.
+    """
+    offsetCode = offsetSeconds // 900  # truncate to -infinty
+    offsetMinute = (offsetSeconds % 900) // 60  # always positive
+    baseDeltaCode =_to_extended_delta_code(deltaSeconds)
+    return (offsetCode, f"({offsetMinute} << 4) + {baseDeltaCode}")

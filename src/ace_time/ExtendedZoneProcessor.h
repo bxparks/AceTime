@@ -307,7 +307,7 @@ struct Transition {
   /** Used only for debugging. */
   void log() const {
     logging::printf("Transition(");
-    if (sizeof(acetime_t) == sizeof(int)) {
+    if (sizeof(acetime_t) <= sizeof(int)) {
       logging::printf("sE: %d", startEpochSeconds);
     } else {
       logging::printf("sE: %ld", startEpochSeconds);
@@ -891,6 +891,10 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       mTransitionStorage.init();
 
       if (year < mZoneInfo.startYear() - 1 || mZoneInfo.untilYear() < year) {
+        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+          logging::printf("init(): Year %d out of valid range [%d, %d)\n",
+              year, mZoneInfo.startYear(), mZoneInfo.untilYear());
+        }
         return false;
       }
 

@@ -34,12 +34,26 @@ struct ZoneEra {
    */
   const char* const format;
 
-  /** UTC offset in 15 min increments. Determined by the GMTOFF column. */
+  /** UTC offset in 15 min increments. Determined by the STDOFF column. */
   int8_t const offsetCode;
 
   /**
    * If zonePolicy is nullptr, then this indicates the DST offset in 15 minute
-   * increments. It could be 0, which means that the 'RULES' column was '-'.
+   * increments as defined by the RULES column in 'hh:mm' format. If the
+   * 'RULES' column is '-', then the deltaCode is 0.
+   *
+   * If the '--scope extended' flag is given to tzcompiler.py, the 'deltaCode`
+   * should be interpreted as a uint8_t field, composed of two 4-bit fields:
+   *
+   *    * The upper 4-bits is an unsigned integer from 0 to 14 that represents
+   *    the one-minute remainder from the offsetCode. This allows us to capture
+   *    STDOFF offsets in 1-minute resolution.
+   *    * The lower 4-bits is an unsigned integer that holds (originalDeltaCode
+   *    + 4). This allows us to represent DST offsets from -1:00 to +2:45, in
+   *    15-minute increments.
+   *
+   * The extended::ZoneEraBroker::deltaMinutes() and offsetMinutes() know how
+   * to convert offsetCode and deltaCode into the appropriate minutes.
    */
   int8_t const deltaCode;
 

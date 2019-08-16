@@ -23,6 +23,7 @@ class TransitionTest: public aunit::TestOnce {
         acetime_t epochSeconds = item.epochSeconds;
 
         if (DEBUG) {
+          tz.getUtcOffset(epochSeconds); // calls init() which allows logging
           ace_time::logging::printf("==== test index: %d\n", i);
           if (sizeof(acetime_t) == sizeof(int)) {
             ace_time::logging::printf("epochSeconds: %d\n", epochSeconds);
