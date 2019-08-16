@@ -35,7 +35,7 @@ static const extended::ZoneRule kZoneRulesAN[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    AN    1990    1995    -    Mar    Sun>=1    2:00s    0    S
@@ -47,7 +47,7 @@ static const extended::ZoneRule kZoneRulesAN[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AN    1996    2005    -    Mar    lastSun    2:00s    0    S
@@ -59,7 +59,7 @@ static const extended::ZoneRule kZoneRulesAN[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AN    2000    only    -    Aug    lastSun    2:00s    1:00    D
@@ -71,7 +71,7 @@ static const extended::ZoneRule kZoneRulesAN[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    AN    2001    2007    -    Oct    lastSun    2:00s    1:00    D
@@ -83,7 +83,7 @@ static const extended::ZoneRule kZoneRulesAN[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    AN    2006    only    -    Apr    Sun>=1    2:00s    0    S
@@ -95,7 +95,7 @@ static const extended::ZoneRule kZoneRulesAN[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AN    2007    only    -    Mar    lastSun    2:00s    0    S
@@ -107,7 +107,7 @@ static const extended::ZoneRule kZoneRulesAN[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AN    2008    max    -    Apr    Sun>=1    2:00s    0    S
@@ -119,7 +119,7 @@ static const extended::ZoneRule kZoneRulesAN[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AN    2008    max    -    Oct    Sun>=1    2:00s    1:00    D
@@ -131,7 +131,7 @@ static const extended::ZoneRule kZoneRulesAN[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
 
@@ -163,7 +163,7 @@ static const extended::ZoneRule kZoneRulesAQ[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -195,7 +195,7 @@ static const extended::ZoneRule kZoneRulesAS[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    AS    1994    only    -    Mar    20    2:00s    0    S
@@ -207,7 +207,7 @@ static const extended::ZoneRule kZoneRulesAS[] ACE_TIME_PROGMEM = {
     20 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AS    1995    2005    -    Mar    lastSun    2:00s    0    S
@@ -219,7 +219,7 @@ static const extended::ZoneRule kZoneRulesAS[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AS    2006    only    -    Apr    2    2:00s    0    S
@@ -231,7 +231,7 @@ static const extended::ZoneRule kZoneRulesAS[] ACE_TIME_PROGMEM = {
     2 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AS    2007    only    -    Mar    lastSun    2:00s    0    S
@@ -243,7 +243,7 @@ static const extended::ZoneRule kZoneRulesAS[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AS    2008    max    -    Apr    Sun>=1    2:00s    0    S
@@ -255,7 +255,7 @@ static const extended::ZoneRule kZoneRulesAS[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AS    2008    max    -    Oct    Sun>=1    2:00s    1:00    D
@@ -267,7 +267,7 @@ static const extended::ZoneRule kZoneRulesAS[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
 
@@ -299,7 +299,7 @@ static const extended::ZoneRule kZoneRulesAT[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    AT    1991    1999    -    Oct    Sun>=1    2:00s    1:00    D
@@ -311,7 +311,7 @@ static const extended::ZoneRule kZoneRulesAT[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    AT    1991    2005    -    Mar    lastSun    2:00s    0    S
@@ -323,7 +323,7 @@ static const extended::ZoneRule kZoneRulesAT[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AT    2000    only    -    Aug    lastSun    2:00s    1:00    D
@@ -335,7 +335,7 @@ static const extended::ZoneRule kZoneRulesAT[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    AT    2001    max    -    Oct    Sun>=1    2:00s    1:00    D
@@ -347,7 +347,7 @@ static const extended::ZoneRule kZoneRulesAT[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    AT    2006    only    -    Apr    Sun>=1    2:00s    0    S
@@ -359,7 +359,7 @@ static const extended::ZoneRule kZoneRulesAT[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AT    2007    only    -    Mar    lastSun    2:00s    0    S
@@ -371,7 +371,7 @@ static const extended::ZoneRule kZoneRulesAT[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AT    2008    max    -    Apr    Sun>=1    2:00s    0    S
@@ -383,7 +383,7 @@ static const extended::ZoneRule kZoneRulesAT[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -415,7 +415,7 @@ static const extended::ZoneRule kZoneRulesAV[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    AV    1991    1994    -    Mar    Sun>=1    2:00s    0    S
@@ -427,7 +427,7 @@ static const extended::ZoneRule kZoneRulesAV[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AV    1995    2005    -    Mar    lastSun    2:00s    0    S
@@ -439,7 +439,7 @@ static const extended::ZoneRule kZoneRulesAV[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AV    2000    only    -    Aug    lastSun    2:00s    1:00    D
@@ -451,7 +451,7 @@ static const extended::ZoneRule kZoneRulesAV[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    AV    2001    2007    -    Oct    lastSun    2:00s    1:00    D
@@ -463,7 +463,7 @@ static const extended::ZoneRule kZoneRulesAV[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    AV    2006    only    -    Apr    Sun>=1    2:00s    0    S
@@ -475,7 +475,7 @@ static const extended::ZoneRule kZoneRulesAV[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AV    2007    only    -    Mar    lastSun    2:00s    0    S
@@ -487,7 +487,7 @@ static const extended::ZoneRule kZoneRulesAV[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AV    2008    max    -    Apr    Sun>=1    2:00s    0    S
@@ -499,7 +499,7 @@ static const extended::ZoneRule kZoneRulesAV[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AV    2008    max    -    Oct    Sun>=1    2:00s    1:00    D
@@ -511,7 +511,7 @@ static const extended::ZoneRule kZoneRulesAV[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
 
@@ -543,7 +543,7 @@ static const extended::ZoneRule kZoneRulesAW[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AW    2006    only    -    Dec     3    2:00s    1:00    D
@@ -555,7 +555,7 @@ static const extended::ZoneRule kZoneRulesAW[] ACE_TIME_PROGMEM = {
     3 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    AW    2007    2009    -    Mar    lastSun    2:00s    0    S
@@ -567,7 +567,7 @@ static const extended::ZoneRule kZoneRulesAW[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    AW    2007    2008    -    Oct    lastSun    2:00s    1:00    D
@@ -579,7 +579,7 @@ static const extended::ZoneRule kZoneRulesAW[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
 
@@ -611,7 +611,7 @@ static const extended::ZoneRule kZoneRulesArg[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Arg    1999    only    -    Oct    Sun>=1    0:00    1:00    -
@@ -623,7 +623,7 @@ static const extended::ZoneRule kZoneRulesArg[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Arg    2000    only    -    Mar    3    0:00    0    -
@@ -635,7 +635,7 @@ static const extended::ZoneRule kZoneRulesArg[] ACE_TIME_PROGMEM = {
     3 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Arg    2007    only    -    Dec    30    0:00    1:00    -
@@ -647,7 +647,7 @@ static const extended::ZoneRule kZoneRulesArg[] ACE_TIME_PROGMEM = {
     30 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Arg    2008    2009    -    Mar    Sun>=15    0:00    0    -
@@ -659,7 +659,7 @@ static const extended::ZoneRule kZoneRulesArg[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Arg    2008    only    -    Oct    Sun>=15    0:00    1:00    -
@@ -671,7 +671,7 @@ static const extended::ZoneRule kZoneRulesArg[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -703,7 +703,7 @@ static const extended::ZoneRule kZoneRulesArmenia[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Armenia    2011    only    -    Mar    lastSun     2:00s    1:00    -
@@ -715,7 +715,7 @@ static const extended::ZoneRule kZoneRulesArmenia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Armenia    2011    only    -    Oct    lastSun     2:00s    0    -
@@ -727,7 +727,7 @@ static const extended::ZoneRule kZoneRulesArmenia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -759,7 +759,7 @@ static const extended::ZoneRule kZoneRulesAus[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -791,7 +791,7 @@ static const extended::ZoneRule kZoneRulesAzer[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     16 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Azer    1997    2015    -    Oct    lastSun     5:00    0    -
@@ -803,7 +803,7 @@ static const extended::ZoneRule kZoneRulesAzer[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     20 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -835,7 +835,7 @@ static const extended::ZoneRule kZoneRulesBarb[] ACE_TIME_PROGMEM = {
     25 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -867,7 +867,7 @@ static const extended::ZoneRule kZoneRulesBelize[] ACE_TIME_PROGMEM = {
     12 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     0 /*letter; "CST"*/,
   },
 
@@ -903,7 +903,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     11 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    1999    only    -    Feb    21     0:00    0    -
@@ -915,7 +915,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    1999    only    -    Oct     3     0:00    1:00    -
@@ -927,7 +927,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     3 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2000    only    -    Feb    27     0:00    0    -
@@ -939,7 +939,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     27 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2000    2001    -    Oct    Sun>=8     0:00    1:00    -
@@ -951,7 +951,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2001    2006    -    Feb    Sun>=15     0:00    0    -
@@ -963,7 +963,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2002    only    -    Nov     3     0:00    1:00    -
@@ -975,7 +975,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     3 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2003    only    -    Oct    19     0:00    1:00    -
@@ -987,7 +987,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     19 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2004    only    -    Nov     2     0:00    1:00    -
@@ -999,7 +999,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     2 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2005    only    -    Oct    16     0:00    1:00    -
@@ -1011,7 +1011,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     16 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2006    only    -    Nov     5     0:00    1:00    -
@@ -1023,7 +1023,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     5 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2007    only    -    Feb    25     0:00    0    -
@@ -1035,7 +1035,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     25 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2007    only    -    Oct    Sun>=8     0:00    1:00    -
@@ -1047,7 +1047,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2008    2017    -    Oct    Sun>=15    0:00    1:00    -
@@ -1059,7 +1059,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2008    2011    -    Feb    Sun>=15    0:00    0    -
@@ -1071,7 +1071,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2012    only    -    Feb    Sun>=22    0:00    0    -
@@ -1083,7 +1083,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2013    2014    -    Feb    Sun>=15    0:00    0    -
@@ -1095,7 +1095,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2015    only    -    Feb    Sun>=22    0:00    0    -
@@ -1107,7 +1107,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2016    2022    -    Feb    Sun>=15    0:00    0    -
@@ -1119,7 +1119,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2018    max    -    Nov    Sun>=1    0:00    1:00    -
@@ -1131,7 +1131,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2023    only    -    Feb    Sun>=22    0:00    0    -
@@ -1143,7 +1143,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2024    2025    -    Feb    Sun>=15    0:00    0    -
@@ -1155,7 +1155,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2026    only    -    Feb    Sun>=22    0:00    0    -
@@ -1167,7 +1167,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2027    2033    -    Feb    Sun>=15    0:00    0    -
@@ -1179,7 +1179,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2034    only    -    Feb    Sun>=22    0:00    0    -
@@ -1191,7 +1191,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2035    2036    -    Feb    Sun>=15    0:00    0    -
@@ -1203,7 +1203,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2037    only    -    Feb    Sun>=22    0:00    0    -
@@ -1215,7 +1215,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Brazil    2038    max    -    Feb    Sun>=15    0:00    0    -
@@ -1227,7 +1227,7 @@ static const extended::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -1259,7 +1259,7 @@ static const extended::ZoneRule kZoneRulesC_Eur[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    C-Eur    1981    max    -    Mar    lastSun     2:00s    1:00    S
@@ -1271,7 +1271,7 @@ static const extended::ZoneRule kZoneRulesC_Eur[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    C-Eur    1996    max    -    Oct    lastSun     2:00s    0    -
@@ -1283,7 +1283,7 @@ static const extended::ZoneRule kZoneRulesC_Eur[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -1315,7 +1315,7 @@ static const extended::ZoneRule kZoneRulesCO[] ACE_TIME_PROGMEM = {
     4 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -1347,7 +1347,7 @@ static const extended::ZoneRule kZoneRulesCR[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -1379,7 +1379,7 @@ static const extended::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Canada    1974    2006    -    Oct    lastSun    2:00    0    S
@@ -1391,7 +1391,7 @@ static const extended::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Canada    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
@@ -1403,7 +1403,7 @@ static const extended::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Canada    2007    max    -    Mar    Sun>=8    2:00    1:00    D
@@ -1415,7 +1415,7 @@ static const extended::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Canada    2007    max    -    Nov    Sun>=1    2:00    0    S
@@ -1427,7 +1427,7 @@ static const extended::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -1459,7 +1459,7 @@ static const extended::ZoneRule kZoneRulesChatham[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     11 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chatham    1990    2006    -    Oct    Sun>=1    2:45s    1:00    -
@@ -1471,7 +1471,7 @@ static const extended::ZoneRule kZoneRulesChatham[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     11 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chatham    1990    2007    -    Mar    Sun>=15    2:45s    0    -
@@ -1483,7 +1483,7 @@ static const extended::ZoneRule kZoneRulesChatham[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     11 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chatham    2007    max    -    Sep    lastSun    2:45s    1:00    -
@@ -1495,7 +1495,7 @@ static const extended::ZoneRule kZoneRulesChatham[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     11 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chatham    2008    max    -    Apr    Sun>=1    2:45s    0    -
@@ -1507,7 +1507,7 @@ static const extended::ZoneRule kZoneRulesChatham[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     11 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -1539,7 +1539,7 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     27 /*onDayOfMonth*/,
     16 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chile    1999    only    -    Apr     4    3:00u    0    -
@@ -1551,7 +1551,7 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     4 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chile    1999    2010    -    Oct    Sun>=9    4:00u    1:00    -
@@ -1563,7 +1563,7 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     9 /*onDayOfMonth*/,
     16 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chile    2000    2007    -    Mar    Sun>=9    3:00u    0    -
@@ -1575,7 +1575,7 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     9 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chile    2008    only    -    Mar    30    3:00u    0    -
@@ -1587,7 +1587,7 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     30 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chile    2009    only    -    Mar    Sun>=9    3:00u    0    -
@@ -1599,7 +1599,7 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     9 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chile    2010    only    -    Apr    Sun>=1    3:00u    0    -
@@ -1611,7 +1611,7 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chile    2011    only    -    May    Sun>=2    3:00u    0    -
@@ -1623,7 +1623,7 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     2 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chile    2011    only    -    Aug    Sun>=16    4:00u    1:00    -
@@ -1635,7 +1635,7 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     16 /*onDayOfMonth*/,
     16 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chile    2012    2014    -    Apr    Sun>=23    3:00u    0    -
@@ -1647,7 +1647,7 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     23 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chile    2012    2014    -    Sep    Sun>=2    4:00u    1:00    -
@@ -1659,7 +1659,7 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     2 /*onDayOfMonth*/,
     16 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chile    2016    2018    -    May    Sun>=9    3:00u    0    -
@@ -1671,7 +1671,7 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     9 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chile    2016    2018    -    Aug    Sun>=9    4:00u    1:00    -
@@ -1683,7 +1683,7 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     9 /*onDayOfMonth*/,
     16 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chile    2019    max    -    Apr    Sun>=2    3:00u    0    -
@@ -1695,7 +1695,7 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     2 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Chile    2019    max    -    Sep    Sun>=2    4:00u    1:00    -
@@ -1707,7 +1707,7 @@ static const extended::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     2 /*onDayOfMonth*/,
     16 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -1739,7 +1739,7 @@ static const extended::ZoneRule kZoneRulesCook[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -1771,7 +1771,7 @@ static const extended::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
     12 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Cuba    1998    1999    -    Mar    lastSun    0:00s    1:00    D
@@ -1783,7 +1783,7 @@ static const extended::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Cuba    1998    2003    -    Oct    lastSun    0:00s    0    S
@@ -1795,7 +1795,7 @@ static const extended::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Cuba    2000    2003    -    Apr    Sun>=1    0:00s    1:00    D
@@ -1807,7 +1807,7 @@ static const extended::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Cuba    2004    only    -    Mar    lastSun    0:00s    1:00    D
@@ -1819,7 +1819,7 @@ static const extended::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Cuba    2006    2010    -    Oct    lastSun    0:00s    0    S
@@ -1831,7 +1831,7 @@ static const extended::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Cuba    2007    only    -    Mar    Sun>=8    0:00s    1:00    D
@@ -1843,7 +1843,7 @@ static const extended::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Cuba    2008    only    -    Mar    Sun>=15    0:00s    1:00    D
@@ -1855,7 +1855,7 @@ static const extended::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Cuba    2009    2010    -    Mar    Sun>=8    0:00s    1:00    D
@@ -1867,7 +1867,7 @@ static const extended::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Cuba    2011    only    -    Mar    Sun>=15    0:00s    1:00    D
@@ -1879,7 +1879,7 @@ static const extended::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Cuba    2011    only    -    Nov    13    0:00s    0    S
@@ -1891,7 +1891,7 @@ static const extended::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
     13 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Cuba    2012    only    -    Apr    1    0:00s    1:00    D
@@ -1903,7 +1903,7 @@ static const extended::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Cuba    2012    max    -    Nov    Sun>=1    0:00s    0    S
@@ -1915,7 +1915,7 @@ static const extended::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Cuba    2013    max    -    Mar    Sun>=8    0:00s    1:00    D
@@ -1927,7 +1927,7 @@ static const extended::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
 
@@ -1959,7 +1959,7 @@ static const extended::ZoneRule kZoneRulesDhaka[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Dhaka    2009    only    -    Jun    19    23:00    1:00    -
@@ -1971,7 +1971,7 @@ static const extended::ZoneRule kZoneRulesDhaka[] ACE_TIME_PROGMEM = {
     19 /*onDayOfMonth*/,
     92 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Dhaka    2009    only    -    Dec    31    24:00    0    -
@@ -1983,7 +1983,7 @@ static const extended::ZoneRule kZoneRulesDhaka[] ACE_TIME_PROGMEM = {
     31 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -2015,7 +2015,7 @@ static const extended::ZoneRule kZoneRulesE_EurAsia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule E-EurAsia    1979    1995    -    Sep    lastSun     0:00    0    -
@@ -2027,7 +2027,7 @@ static const extended::ZoneRule kZoneRulesE_EurAsia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule E-EurAsia    1996    max    -    Oct    lastSun     0:00    0    -
@@ -2039,7 +2039,7 @@ static const extended::ZoneRule kZoneRulesE_EurAsia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -2071,7 +2071,7 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    EU    1981    max    -    Mar    lastSun     1:00u    1:00    S
@@ -2083,7 +2083,7 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    EU    1996    max    -    Oct    lastSun     1:00u    0    -
@@ -2095,7 +2095,7 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -2127,7 +2127,7 @@ static const extended::ZoneRule kZoneRulesEUAsia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    EUAsia    1979    1995    -    Sep    lastSun     1:00u    0    -
@@ -2139,7 +2139,7 @@ static const extended::ZoneRule kZoneRulesEUAsia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    EUAsia    1996    max    -    Oct    lastSun     1:00u    0    -
@@ -2151,7 +2151,7 @@ static const extended::ZoneRule kZoneRulesEUAsia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -2183,7 +2183,7 @@ static const extended::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
     5 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -2215,7 +2215,7 @@ static const extended::ZoneRule kZoneRulesEgypt[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Egypt    1995    2010    -    Apr    lastFri     0:00s    1:00    S
@@ -2227,7 +2227,7 @@ static const extended::ZoneRule kZoneRulesEgypt[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Egypt    1995    2005    -    Sep    lastThu    24:00    0    -
@@ -2239,7 +2239,7 @@ static const extended::ZoneRule kZoneRulesEgypt[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Egypt    2006    only    -    Sep    21    24:00    0    -
@@ -2251,7 +2251,7 @@ static const extended::ZoneRule kZoneRulesEgypt[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Egypt    2007    only    -    Sep    Thu>=1    24:00    0    -
@@ -2263,7 +2263,7 @@ static const extended::ZoneRule kZoneRulesEgypt[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Egypt    2008    only    -    Aug    lastThu    24:00    0    -
@@ -2275,7 +2275,7 @@ static const extended::ZoneRule kZoneRulesEgypt[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Egypt    2009    only    -    Aug    20    24:00    0    -
@@ -2287,7 +2287,7 @@ static const extended::ZoneRule kZoneRulesEgypt[] ACE_TIME_PROGMEM = {
     20 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Egypt    2010    only    -    Aug    10    24:00    0    -
@@ -2299,7 +2299,7 @@ static const extended::ZoneRule kZoneRulesEgypt[] ACE_TIME_PROGMEM = {
     10 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Egypt    2010    only    -    Sep     9    24:00    1:00    S
@@ -2311,7 +2311,7 @@ static const extended::ZoneRule kZoneRulesEgypt[] ACE_TIME_PROGMEM = {
     9 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Egypt    2010    only    -    Sep    lastThu    24:00    0    -
@@ -2323,7 +2323,7 @@ static const extended::ZoneRule kZoneRulesEgypt[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Egypt    2014    only    -    May    15    24:00    1:00    S
@@ -2335,7 +2335,7 @@ static const extended::ZoneRule kZoneRulesEgypt[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Egypt    2014    only    -    Jun    26    24:00    0    -
@@ -2347,7 +2347,7 @@ static const extended::ZoneRule kZoneRulesEgypt[] ACE_TIME_PROGMEM = {
     26 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Egypt    2014    only    -    Jul    31    24:00    1:00    S
@@ -2359,7 +2359,7 @@ static const extended::ZoneRule kZoneRulesEgypt[] ACE_TIME_PROGMEM = {
     31 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Egypt    2014    only    -    Sep    lastThu    24:00    0    -
@@ -2371,7 +2371,7 @@ static const extended::ZoneRule kZoneRulesEgypt[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -2403,7 +2403,7 @@ static const extended::ZoneRule kZoneRulesEire[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Eire    1990    1995    -    Oct    Sun>=22     1:00u    -1:00    -
@@ -2415,7 +2415,7 @@ static const extended::ZoneRule kZoneRulesEire[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    -4 /*deltaCode*/,
+    (-4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Eire    1996    max    -    Oct    lastSun     1:00u    -1:00    -
@@ -2427,7 +2427,7 @@ static const extended::ZoneRule kZoneRulesEire[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    -4 /*deltaCode*/,
+    (-4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -2459,7 +2459,7 @@ static const extended::ZoneRule kZoneRulesFalk[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Falk    1985    2000    -    Sep    Sun>=9    0:00    1:00    -
@@ -2471,7 +2471,7 @@ static const extended::ZoneRule kZoneRulesFalk[] ACE_TIME_PROGMEM = {
     9 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Falk    1986    2000    -    Apr    Sun>=16    0:00    0    -
@@ -2483,7 +2483,7 @@ static const extended::ZoneRule kZoneRulesFalk[] ACE_TIME_PROGMEM = {
     16 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Falk    2001    2010    -    Apr    Sun>=15    2:00    0    -
@@ -2495,7 +2495,7 @@ static const extended::ZoneRule kZoneRulesFalk[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Falk    2001    2010    -    Sep    Sun>=1    2:00    1:00    -
@@ -2507,7 +2507,7 @@ static const extended::ZoneRule kZoneRulesFalk[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -2539,7 +2539,7 @@ static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Fiji    1999    2000    -    Feb    lastSun    3:00    0    -
@@ -2551,7 +2551,7 @@ static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Fiji    2009    only    -    Nov    29    2:00    1:00    -
@@ -2563,7 +2563,7 @@ static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
     29 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Fiji    2010    only    -    Mar    lastSun    3:00    0    -
@@ -2575,7 +2575,7 @@ static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Fiji    2010    2013    -    Oct    Sun>=21    2:00    1:00    -
@@ -2587,7 +2587,7 @@ static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Fiji    2011    only    -    Mar    Sun>=1    3:00    0    -
@@ -2599,7 +2599,7 @@ static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Fiji    2012    2013    -    Jan    Sun>=18    3:00    0    -
@@ -2611,7 +2611,7 @@ static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
     18 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Fiji    2014    only    -    Jan    Sun>=18    2:00    0    -
@@ -2623,7 +2623,7 @@ static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
     18 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Fiji    2014    max    -    Nov    Sun>=1    2:00    1:00    -
@@ -2635,7 +2635,7 @@ static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Fiji    2015    max    -    Jan    Sun>=13    3:00    0    -
@@ -2647,7 +2647,7 @@ static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
     13 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -2679,7 +2679,7 @@ static const extended::ZoneRule kZoneRulesGhana[] ACE_TIME_PROGMEM = {
     31 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -2711,7 +2711,7 @@ static const extended::ZoneRule kZoneRulesGuat[] ACE_TIME_PROGMEM = {
     7 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Guat    2006    only    -    Apr    30    0:00    1:00    D
@@ -2723,7 +2723,7 @@ static const extended::ZoneRule kZoneRulesGuat[] ACE_TIME_PROGMEM = {
     30 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Guat    2006    only    -    Oct     1    0:00    0    S
@@ -2735,7 +2735,7 @@ static const extended::ZoneRule kZoneRulesGuat[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -2767,7 +2767,7 @@ static const extended::ZoneRule kZoneRulesHK[] ACE_TIME_PROGMEM = {
     16 /*onDayOfMonth*/,
     14 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -2799,7 +2799,7 @@ static const extended::ZoneRule kZoneRulesHaiti[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Haiti    2005    2006    -    Apr    Sun>=1    0:00    1:00    D
@@ -2811,7 +2811,7 @@ static const extended::ZoneRule kZoneRulesHaiti[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Haiti    2005    2006    -    Oct    lastSun    0:00    0    S
@@ -2823,7 +2823,7 @@ static const extended::ZoneRule kZoneRulesHaiti[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Haiti    2012    2015    -    Mar    Sun>=8    2:00    1:00    D
@@ -2835,7 +2835,7 @@ static const extended::ZoneRule kZoneRulesHaiti[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Haiti    2012    2015    -    Nov    Sun>=1    2:00    0    S
@@ -2847,7 +2847,7 @@ static const extended::ZoneRule kZoneRulesHaiti[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Haiti    2017    max    -    Mar    Sun>=8    2:00    1:00    D
@@ -2859,7 +2859,7 @@ static const extended::ZoneRule kZoneRulesHaiti[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Haiti    2017    max    -    Nov    Sun>=1    2:00    0    S
@@ -2871,7 +2871,7 @@ static const extended::ZoneRule kZoneRulesHaiti[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -2903,7 +2903,7 @@ static const extended::ZoneRule kZoneRulesHoliday[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -2935,7 +2935,7 @@ static const extended::ZoneRule kZoneRulesHond[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Hond    2006    only    -    May    Sun>=1    0:00    1:00    D
@@ -2947,7 +2947,7 @@ static const extended::ZoneRule kZoneRulesHond[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Hond    2006    only    -    Aug    Mon>=1    0:00    0    S
@@ -2959,7 +2959,7 @@ static const extended::ZoneRule kZoneRulesHond[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -2991,7 +2991,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    1997    1999    -    Mar    22    0:00    1:00    -
@@ -3003,7 +3003,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    1997    1999    -    Sep    22    0:00    0    -
@@ -3015,7 +3015,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2000    only    -    Mar    21    0:00    1:00    -
@@ -3027,7 +3027,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2000    only    -    Sep    21    0:00    0    -
@@ -3039,7 +3039,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2001    2003    -    Mar    22    0:00    1:00    -
@@ -3051,7 +3051,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2001    2003    -    Sep    22    0:00    0    -
@@ -3063,7 +3063,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2004    only    -    Mar    21    0:00    1:00    -
@@ -3075,7 +3075,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2004    only    -    Sep    21    0:00    0    -
@@ -3087,7 +3087,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2005    only    -    Mar    22    0:00    1:00    -
@@ -3099,7 +3099,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2005    only    -    Sep    22    0:00    0    -
@@ -3111,7 +3111,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2008    only    -    Mar    21    0:00    1:00    -
@@ -3123,7 +3123,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2008    only    -    Sep    21    0:00    0    -
@@ -3135,7 +3135,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2009    2011    -    Mar    22    0:00    1:00    -
@@ -3147,7 +3147,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2009    2011    -    Sep    22    0:00    0    -
@@ -3159,7 +3159,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2012    only    -    Mar    21    0:00    1:00    -
@@ -3171,7 +3171,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2012    only    -    Sep    21    0:00    0    -
@@ -3183,7 +3183,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2013    2015    -    Mar    22    0:00    1:00    -
@@ -3195,7 +3195,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2013    2015    -    Sep    22    0:00    0    -
@@ -3207,7 +3207,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2016    only    -    Mar    21    0:00    1:00    -
@@ -3219,7 +3219,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2016    only    -    Sep    21    0:00    0    -
@@ -3231,7 +3231,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2017    2019    -    Mar    22    0:00    1:00    -
@@ -3243,7 +3243,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2017    2019    -    Sep    22    0:00    0    -
@@ -3255,7 +3255,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2020    only    -    Mar    21    0:00    1:00    -
@@ -3267,7 +3267,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2020    only    -    Sep    21    0:00    0    -
@@ -3279,7 +3279,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2021    2023    -    Mar    22    0:00    1:00    -
@@ -3291,7 +3291,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2021    2023    -    Sep    22    0:00    0    -
@@ -3303,7 +3303,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2024    only    -    Mar    21    0:00    1:00    -
@@ -3315,7 +3315,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2024    only    -    Sep    21    0:00    0    -
@@ -3327,7 +3327,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2025    2027    -    Mar    22    0:00    1:00    -
@@ -3339,7 +3339,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2025    2027    -    Sep    22    0:00    0    -
@@ -3351,7 +3351,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2028    2029    -    Mar    21    0:00    1:00    -
@@ -3363,7 +3363,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2028    2029    -    Sep    21    0:00    0    -
@@ -3375,7 +3375,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2030    2031    -    Mar    22    0:00    1:00    -
@@ -3387,7 +3387,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2030    2031    -    Sep    22    0:00    0    -
@@ -3399,7 +3399,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2032    2033    -    Mar    21    0:00    1:00    -
@@ -3411,7 +3411,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2032    2033    -    Sep    21    0:00    0    -
@@ -3423,7 +3423,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2034    2035    -    Mar    22    0:00    1:00    -
@@ -3435,7 +3435,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2034    2035    -    Sep    22    0:00    0    -
@@ -3447,7 +3447,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2036    max    -    Mar    21    0:00    1:00    -
@@ -3459,7 +3459,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iran    2036    max    -    Sep    21    0:00    0    -
@@ -3471,7 +3471,7 @@ static const extended::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -3503,7 +3503,7 @@ static const extended::ZoneRule kZoneRulesIraq[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iraq    1991    2007    -    Apr     1    3:00s    1:00    -
@@ -3515,7 +3515,7 @@ static const extended::ZoneRule kZoneRulesIraq[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Iraq    1991    2007    -    Oct     1    3:00s    0    -
@@ -3527,7 +3527,7 @@ static const extended::ZoneRule kZoneRulesIraq[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -3559,7 +3559,7 @@ static const extended::ZoneRule kZoneRulesJapan[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     100 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -3591,7 +3591,7 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Jordan    1999    only    -    Jul     1    0:00s    1:00    S
@@ -3603,7 +3603,7 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Jordan    1999    2002    -    Sep    lastFri    0:00s    0    -
@@ -3615,7 +3615,7 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Jordan    2000    2001    -    Mar    lastThu    0:00s    1:00    S
@@ -3627,7 +3627,7 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Jordan    2002    2012    -    Mar    lastThu    24:00    1:00    S
@@ -3639,7 +3639,7 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Jordan    2003    only    -    Oct    24    0:00s    0    -
@@ -3651,7 +3651,7 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     24 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Jordan    2004    only    -    Oct    15    0:00s    0    -
@@ -3663,7 +3663,7 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Jordan    2005    only    -    Sep    lastFri    0:00s    0    -
@@ -3675,7 +3675,7 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Jordan    2006    2011    -    Oct    lastFri    0:00s    0    -
@@ -3687,7 +3687,7 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Jordan    2013    only    -    Dec    20    0:00    0    -
@@ -3699,7 +3699,7 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     20 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Jordan    2014    max    -    Mar    lastThu    24:00    1:00    S
@@ -3711,7 +3711,7 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Jordan    2014    max    -    Oct    lastFri    0:00s    0    -
@@ -3723,7 +3723,7 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -3755,7 +3755,7 @@ static const extended::ZoneRule kZoneRulesKyrgyz[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Kyrgyz    1997    2005    -    Mar    lastSun    2:30    1:00    -
@@ -3767,7 +3767,7 @@ static const extended::ZoneRule kZoneRulesKyrgyz[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     10 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Kyrgyz    1997    2004    -    Oct    lastSun    2:30    0    -
@@ -3779,7 +3779,7 @@ static const extended::ZoneRule kZoneRulesKyrgyz[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     10 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -3811,7 +3811,7 @@ static const extended::ZoneRule kZoneRulesLH[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    2 /*deltaCode*/,
+    (2 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    LH    1990    1995    -    Mar    Sun>=1    2:00    0    -
@@ -3823,7 +3823,7 @@ static const extended::ZoneRule kZoneRulesLH[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    LH    1996    2005    -    Mar    lastSun    2:00    0    -
@@ -3835,7 +3835,7 @@ static const extended::ZoneRule kZoneRulesLH[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    LH    2000    only    -    Aug    lastSun    2:00    0:30    -
@@ -3847,7 +3847,7 @@ static const extended::ZoneRule kZoneRulesLH[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    2 /*deltaCode*/,
+    (2 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    LH    2001    2007    -    Oct    lastSun    2:00    0:30    -
@@ -3859,7 +3859,7 @@ static const extended::ZoneRule kZoneRulesLH[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    2 /*deltaCode*/,
+    (2 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    LH    2006    only    -    Apr    Sun>=1    2:00    0    -
@@ -3871,7 +3871,7 @@ static const extended::ZoneRule kZoneRulesLH[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    LH    2007    only    -    Mar    lastSun    2:00    0    -
@@ -3883,7 +3883,7 @@ static const extended::ZoneRule kZoneRulesLH[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    LH    2008    max    -    Apr    Sun>=1    2:00    0    -
@@ -3895,7 +3895,7 @@ static const extended::ZoneRule kZoneRulesLH[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    LH    2008    max    -    Oct    Sun>=1    2:00    0:30    -
@@ -3907,7 +3907,7 @@ static const extended::ZoneRule kZoneRulesLH[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    2 /*deltaCode*/,
+    (2 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -3939,7 +3939,7 @@ static const extended::ZoneRule kZoneRulesLebanon[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Lebanon    1993    1998    -    Sep    lastSun    0:00    0    -
@@ -3951,7 +3951,7 @@ static const extended::ZoneRule kZoneRulesLebanon[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Lebanon    1999    max    -    Oct    lastSun    0:00    0    -
@@ -3963,7 +3963,7 @@ static const extended::ZoneRule kZoneRulesLebanon[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -3995,7 +3995,7 @@ static const extended::ZoneRule kZoneRulesLibya[] ACE_TIME_PROGMEM = {
     4 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Libya    2013    only    -    Mar    lastFri    1:00    1:00    S
@@ -4007,7 +4007,7 @@ static const extended::ZoneRule kZoneRulesLibya[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Libya    2013    only    -    Oct    lastFri    2:00    0    -
@@ -4019,7 +4019,7 @@ static const extended::ZoneRule kZoneRulesLibya[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -4051,7 +4051,7 @@ static const extended::ZoneRule kZoneRulesMacau[] ACE_TIME_PROGMEM = {
     16 /*onDayOfMonth*/,
     14 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -4083,7 +4083,7 @@ static const extended::ZoneRule kZoneRulesMauritius[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Mauritius    2008    only    -    Oct    lastSun    2:00    1:00    -
@@ -4095,7 +4095,7 @@ static const extended::ZoneRule kZoneRulesMauritius[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Mauritius    2009    only    -    Mar    lastSun    2:00    0    -
@@ -4107,7 +4107,7 @@ static const extended::ZoneRule kZoneRulesMauritius[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -4139,7 +4139,7 @@ static const extended::ZoneRule kZoneRulesMexico[] ACE_TIME_PROGMEM = {
     30 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Mexico    1996    2000    -    Apr    Sun>=1    2:00    1:00    D
@@ -4151,7 +4151,7 @@ static const extended::ZoneRule kZoneRulesMexico[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Mexico    1996    2000    -    Oct    lastSun    2:00    0    S
@@ -4163,7 +4163,7 @@ static const extended::ZoneRule kZoneRulesMexico[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Mexico    2001    only    -    May    Sun>=1    2:00    1:00    D
@@ -4175,7 +4175,7 @@ static const extended::ZoneRule kZoneRulesMexico[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Mexico    2001    only    -    Sep    lastSun    2:00    0    S
@@ -4187,7 +4187,7 @@ static const extended::ZoneRule kZoneRulesMexico[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Mexico    2002    max    -    Apr    Sun>=1    2:00    1:00    D
@@ -4199,7 +4199,7 @@ static const extended::ZoneRule kZoneRulesMexico[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Mexico    2002    max    -    Oct    lastSun    2:00    0    S
@@ -4211,7 +4211,7 @@ static const extended::ZoneRule kZoneRulesMexico[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -4243,7 +4243,7 @@ static const extended::ZoneRule kZoneRulesMoldova[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Moldova    1997    max    -    Oct    lastSun     3:00    0    -
@@ -4255,7 +4255,7 @@ static const extended::ZoneRule kZoneRulesMoldova[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -4287,7 +4287,7 @@ static const extended::ZoneRule kZoneRulesMoncton[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Moncton    1993    2006    -    Apr    Sun>=1    0:01    1:00    D
@@ -4299,7 +4299,7 @@ static const extended::ZoneRule kZoneRulesMoncton[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W + 1 /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Moncton    1993    2006    -    Oct    lastSun    0:01    0    S
@@ -4311,7 +4311,7 @@ static const extended::ZoneRule kZoneRulesMoncton[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W + 1 /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -4343,7 +4343,7 @@ static const extended::ZoneRule kZoneRulesMongol[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Mongol    2001    only    -    Apr    lastSat    2:00    1:00    -
@@ -4355,7 +4355,7 @@ static const extended::ZoneRule kZoneRulesMongol[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Mongol    2001    2006    -    Sep    lastSat    2:00    0    -
@@ -4367,7 +4367,7 @@ static const extended::ZoneRule kZoneRulesMongol[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Mongol    2002    2006    -    Mar    lastSat    2:00    1:00    -
@@ -4379,7 +4379,7 @@ static const extended::ZoneRule kZoneRulesMongol[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Mongol    2015    2016    -    Mar    lastSat    2:00    1:00    -
@@ -4391,7 +4391,7 @@ static const extended::ZoneRule kZoneRulesMongol[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Mongol    2015    2016    -    Sep    lastSat    0:00    0    -
@@ -4403,7 +4403,7 @@ static const extended::ZoneRule kZoneRulesMongol[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -4435,7 +4435,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     4 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2008    only    -    Jun     1     0:00    1:00    -
@@ -4447,7 +4447,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2008    only    -    Sep     1     0:00    0    -
@@ -4459,7 +4459,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2009    only    -    Jun     1     0:00    1:00    -
@@ -4471,7 +4471,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2009    only    -    Aug    21     0:00    0    -
@@ -4483,7 +4483,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2010    only    -    May     2     0:00    1:00    -
@@ -4495,7 +4495,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     2 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2010    only    -    Aug     8     0:00    0    -
@@ -4507,7 +4507,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2011    only    -    Apr     3     0:00    1:00    -
@@ -4519,7 +4519,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     3 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2011    only    -    Jul    31     0:00    0    -
@@ -4531,7 +4531,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     31 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2012    2013    -    Apr    lastSun     2:00    1:00    -
@@ -4543,7 +4543,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2012    only    -    Jul    20     3:00    0    -
@@ -4555,7 +4555,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     20 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2012    only    -    Aug    20     2:00    1:00    -
@@ -4567,7 +4567,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     20 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2012    only    -    Sep    30     3:00    0    -
@@ -4579,7 +4579,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     30 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2013    only    -    Jul     7     3:00    0    -
@@ -4591,7 +4591,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     7 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2013    only    -    Aug    10     2:00    1:00    -
@@ -4603,7 +4603,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     10 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2013    2018    -    Oct    lastSun     3:00    0    -
@@ -4615,7 +4615,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2014    2018    -    Mar    lastSun     2:00    1:00    -
@@ -4627,7 +4627,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2014    only    -    Jun    28     3:00    0    -
@@ -4639,7 +4639,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     28 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2014    only    -    Aug     2     2:00    1:00    -
@@ -4651,7 +4651,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     2 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2015    only    -    Jun    14     3:00    0    -
@@ -4663,7 +4663,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     14 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2015    only    -    Jul    19     2:00    1:00    -
@@ -4675,7 +4675,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     19 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2016    only    -    Jun     5     3:00    0    -
@@ -4687,7 +4687,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     5 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2016    only    -    Jul    10     2:00    1:00    -
@@ -4699,7 +4699,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     10 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2017    only    -    May    21     3:00    0    -
@@ -4711,7 +4711,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2017    only    -    Jul     2     2:00    1:00    -
@@ -4723,7 +4723,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     2 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2018    only    -    May    13     3:00    0    -
@@ -4735,7 +4735,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     13 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Morocco    2018    only    -    Jun    17     2:00    1:00    -
@@ -4747,7 +4747,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     17 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -4779,7 +4779,7 @@ static const extended::ZoneRule kZoneRulesNC[] ACE_TIME_PROGMEM = {
     2 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -4811,7 +4811,7 @@ static const extended::ZoneRule kZoneRulesNT_YK[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    NT_YK    1980    2006    -    Oct    lastSun    2:00    0    S
@@ -4823,7 +4823,7 @@ static const extended::ZoneRule kZoneRulesNT_YK[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    NT_YK    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
@@ -4835,7 +4835,7 @@ static const extended::ZoneRule kZoneRulesNT_YK[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
 
@@ -4867,7 +4867,7 @@ static const extended::ZoneRule kZoneRulesNZ[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    NZ    1990    2006    -    Oct    Sun>=1    2:00s    1:00    D
@@ -4879,7 +4879,7 @@ static const extended::ZoneRule kZoneRulesNZ[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    NZ    1990    2007    -    Mar    Sun>=15    2:00s    0    S
@@ -4891,7 +4891,7 @@ static const extended::ZoneRule kZoneRulesNZ[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    NZ    2007    max    -    Sep    lastSun    2:00s    1:00    D
@@ -4903,7 +4903,7 @@ static const extended::ZoneRule kZoneRulesNZ[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    NZ    2008    max    -    Apr    Sun>=1    2:00s    0    S
@@ -4915,7 +4915,7 @@ static const extended::ZoneRule kZoneRulesNZ[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -4947,7 +4947,7 @@ static const extended::ZoneRule kZoneRulesNamibia[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    -4 /*deltaCode*/,
+    (-4 + 4) /*deltaCode*/,
     1 /*letter; "WAT"*/,
   },
   // Rule    Namibia    1994    2017    -    Sep    Sun>=1    2:00    0    CAT
@@ -4959,7 +4959,7 @@ static const extended::ZoneRule kZoneRulesNamibia[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     0 /*letter; "CAT"*/,
   },
   // Rule    Namibia    1995    2017    -    Apr    Sun>=1    2:00    -1:00    WAT
@@ -4971,7 +4971,7 @@ static const extended::ZoneRule kZoneRulesNamibia[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    -4 /*deltaCode*/,
+    (-4 + 4) /*deltaCode*/,
     1 /*letter; "WAT"*/,
   },
 
@@ -5008,7 +5008,7 @@ static const extended::ZoneRule kZoneRulesNic[] ACE_TIME_PROGMEM = {
     23 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Nic    2005    only    -    Apr    10    0:00    1:00    D
@@ -5020,7 +5020,7 @@ static const extended::ZoneRule kZoneRulesNic[] ACE_TIME_PROGMEM = {
     10 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Nic    2005    only    -    Oct    Sun>=1    0:00    0    S
@@ -5032,7 +5032,7 @@ static const extended::ZoneRule kZoneRulesNic[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Nic    2006    only    -    Apr    30    2:00    1:00    D
@@ -5044,7 +5044,7 @@ static const extended::ZoneRule kZoneRulesNic[] ACE_TIME_PROGMEM = {
     30 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Nic    2006    only    -    Oct    Sun>=1    1:00    0    S
@@ -5056,7 +5056,7 @@ static const extended::ZoneRule kZoneRulesNic[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -5088,7 +5088,7 @@ static const extended::ZoneRule kZoneRulesPRC[] ACE_TIME_PROGMEM = {
     11 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -5120,7 +5120,7 @@ static const extended::ZoneRule kZoneRulesPakistan[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Pakistan    2002    only    -    Apr    Sun>=2    0:00    1:00    S
@@ -5132,7 +5132,7 @@ static const extended::ZoneRule kZoneRulesPakistan[] ACE_TIME_PROGMEM = {
     2 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule Pakistan    2002    only    -    Oct    Sun>=2    0:00    0    -
@@ -5144,7 +5144,7 @@ static const extended::ZoneRule kZoneRulesPakistan[] ACE_TIME_PROGMEM = {
     2 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Pakistan    2008    only    -    Jun    1    0:00    1:00    S
@@ -5156,7 +5156,7 @@ static const extended::ZoneRule kZoneRulesPakistan[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule Pakistan    2008    2009    -    Nov    1    0:00    0    -
@@ -5168,7 +5168,7 @@ static const extended::ZoneRule kZoneRulesPakistan[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Pakistan    2009    only    -    Apr    15    0:00    1:00    S
@@ -5180,7 +5180,7 @@ static const extended::ZoneRule kZoneRulesPakistan[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -5212,7 +5212,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Palestine    1999    2005    -    Apr    Fri>=15    0:00    1:00    S
@@ -5224,7 +5224,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule Palestine    1999    2003    -    Oct    Fri>=15    0:00    0    -
@@ -5236,7 +5236,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Palestine    2004    only    -    Oct     1    1:00    0    -
@@ -5248,7 +5248,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Palestine    2005    only    -    Oct     4    2:00    0    -
@@ -5260,7 +5260,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     4 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Palestine    2006    2007    -    Apr     1    0:00    1:00    S
@@ -5272,7 +5272,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule Palestine    2006    only    -    Sep    22    0:00    0    -
@@ -5284,7 +5284,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Palestine    2007    only    -    Sep    Thu>=8    2:00    0    -
@@ -5296,7 +5296,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Palestine    2008    2009    -    Mar    lastFri    0:00    1:00    S
@@ -5308,7 +5308,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule Palestine    2008    only    -    Sep     1    0:00    0    -
@@ -5320,7 +5320,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Palestine    2009    only    -    Sep    Fri>=1    1:00    0    -
@@ -5332,7 +5332,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Palestine    2010    only    -    Mar    26    0:00    1:00    S
@@ -5344,7 +5344,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     26 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule Palestine    2010    only    -    Aug    11    0:00    0    -
@@ -5356,7 +5356,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     11 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Palestine    2011    only    -    Apr     1    0:01    1:00    S
@@ -5368,7 +5368,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W + 1 /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule Palestine    2011    only    -    Aug     1    0:00    0    -
@@ -5380,7 +5380,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Palestine    2011    only    -    Aug    30    0:00    1:00    S
@@ -5392,7 +5392,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     30 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule Palestine    2011    only    -    Sep    30    0:00    0    -
@@ -5404,7 +5404,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     30 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Palestine    2012    2014    -    Mar    lastThu    24:00    1:00    S
@@ -5416,7 +5416,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule Palestine    2012    only    -    Sep    21    1:00    0    -
@@ -5428,7 +5428,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Palestine    2013    only    -    Sep    Fri>=21    0:00    0    -
@@ -5440,7 +5440,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Palestine    2014    2015    -    Oct    Fri>=21    0:00    0    -
@@ -5452,7 +5452,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule Palestine    2015    only    -    Mar    lastFri    24:00    1:00    S
@@ -5464,7 +5464,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     96 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule Palestine    2016    max    -    Mar    Sat>=22    1:00    1:00    S
@@ -5476,7 +5476,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule Palestine    2016    max    -    Oct    lastSat    1:00    0    -
@@ -5488,7 +5488,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -5520,7 +5520,7 @@ static const extended::ZoneRule kZoneRulesPara[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Para    1997    only    -    Feb    lastSun    0:00    0    -
@@ -5532,7 +5532,7 @@ static const extended::ZoneRule kZoneRulesPara[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Para    1998    2001    -    Mar    Sun>=1    0:00    0    -
@@ -5544,7 +5544,7 @@ static const extended::ZoneRule kZoneRulesPara[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Para    2002    2004    -    Apr    Sun>=1    0:00    0    -
@@ -5556,7 +5556,7 @@ static const extended::ZoneRule kZoneRulesPara[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Para    2002    2003    -    Sep    Sun>=1    0:00    1:00    -
@@ -5568,7 +5568,7 @@ static const extended::ZoneRule kZoneRulesPara[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Para    2004    2009    -    Oct    Sun>=15    0:00    1:00    -
@@ -5580,7 +5580,7 @@ static const extended::ZoneRule kZoneRulesPara[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Para    2005    2009    -    Mar    Sun>=8    0:00    0    -
@@ -5592,7 +5592,7 @@ static const extended::ZoneRule kZoneRulesPara[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Para    2010    max    -    Oct    Sun>=1    0:00    1:00    -
@@ -5604,7 +5604,7 @@ static const extended::ZoneRule kZoneRulesPara[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Para    2010    2012    -    Apr    Sun>=8    0:00    0    -
@@ -5616,7 +5616,7 @@ static const extended::ZoneRule kZoneRulesPara[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Para    2013    max    -    Mar    Sun>=22    0:00    0    -
@@ -5628,7 +5628,7 @@ static const extended::ZoneRule kZoneRulesPara[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -5660,7 +5660,7 @@ static const extended::ZoneRule kZoneRulesPeru[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -5692,7 +5692,7 @@ static const extended::ZoneRule kZoneRulesPhil[] ACE_TIME_PROGMEM = {
     21 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -5724,7 +5724,7 @@ static const extended::ZoneRule kZoneRulesROK[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -5756,7 +5756,7 @@ static const extended::ZoneRule kZoneRulesRussia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Russia    1985    2010    -    Mar    lastSun     2:00s    1:00    S
@@ -5768,7 +5768,7 @@ static const extended::ZoneRule kZoneRulesRussia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Russia    1996    2010    -    Oct    lastSun     2:00s    0    -
@@ -5780,7 +5780,7 @@ static const extended::ZoneRule kZoneRulesRussia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -5812,7 +5812,7 @@ static const extended::ZoneRule kZoneRulesRussiaAsia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule RussiaAsia    1985    2010    -    Mar    lastSun     2:00s    1:00    -
@@ -5824,7 +5824,7 @@ static const extended::ZoneRule kZoneRulesRussiaAsia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule RussiaAsia    1996    2010    -    Oct    lastSun     2:00s    0    -
@@ -5836,7 +5836,7 @@ static const extended::ZoneRule kZoneRulesRussiaAsia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -5868,7 +5868,7 @@ static const extended::ZoneRule kZoneRulesSA[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -5900,7 +5900,7 @@ static const extended::ZoneRule kZoneRulesSalv[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -5932,7 +5932,7 @@ static const extended::ZoneRule kZoneRulesSanLuis[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    SanLuis    2008    2009    -    Mar    Sun>=8    0:00    0    -
@@ -5944,7 +5944,7 @@ static const extended::ZoneRule kZoneRulesSanLuis[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    SanLuis    2007    2008    -    Oct    Sun>=8    0:00    1:00    -
@@ -5956,7 +5956,7 @@ static const extended::ZoneRule kZoneRulesSanLuis[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -5988,7 +5988,7 @@ static const extended::ZoneRule kZoneRulesStJohns[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W + 1 /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    StJohns    1988    only    -    Apr    Sun>=1    0:01    2:00    DD
@@ -6000,7 +6000,7 @@ static const extended::ZoneRule kZoneRulesStJohns[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W + 1 /*atTimeModifier*/,
-    8 /*deltaCode*/,
+    (8 + 4) /*deltaCode*/,
     0 /*letter; "DD"*/,
   },
   // Rule    StJohns    1989    2006    -    Apr    Sun>=1    0:01    1:00    D
@@ -6012,7 +6012,7 @@ static const extended::ZoneRule kZoneRulesStJohns[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W + 1 /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    StJohns    2007    2011    -    Mar    Sun>=8    0:01    1:00    D
@@ -6024,7 +6024,7 @@ static const extended::ZoneRule kZoneRulesStJohns[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W + 1 /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    StJohns    2007    2010    -    Nov    Sun>=1    0:01    0    S
@@ -6036,7 +6036,7 @@ static const extended::ZoneRule kZoneRulesStJohns[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W + 1 /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -6072,7 +6072,7 @@ static const extended::ZoneRule kZoneRulesSudan[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -6104,7 +6104,7 @@ static const extended::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Syria    1997    1998    -    Mar    lastMon    0:00    1:00    S
@@ -6116,7 +6116,7 @@ static const extended::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Syria    1999    2006    -    Apr     1    0:00    1:00    S
@@ -6128,7 +6128,7 @@ static const extended::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Syria    2006    only    -    Sep    22    0:00    0    -
@@ -6140,7 +6140,7 @@ static const extended::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Syria    2007    only    -    Mar    lastFri    0:00    1:00    S
@@ -6152,7 +6152,7 @@ static const extended::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Syria    2007    only    -    Nov     Fri>=1    0:00    0    -
@@ -6164,7 +6164,7 @@ static const extended::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Syria    2008    only    -    Apr    Fri>=1    0:00    1:00    S
@@ -6176,7 +6176,7 @@ static const extended::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Syria    2008    only    -    Nov    1    0:00    0    -
@@ -6188,7 +6188,7 @@ static const extended::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Syria    2009    only    -    Mar    lastFri    0:00    1:00    S
@@ -6200,7 +6200,7 @@ static const extended::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Syria    2010    2011    -    Apr    Fri>=1    0:00    1:00    S
@@ -6212,7 +6212,7 @@ static const extended::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Syria    2012    max    -    Mar    lastFri    0:00    1:00    S
@@ -6224,7 +6224,7 @@ static const extended::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Syria    2009    max    -    Oct    lastFri    0:00    0    -
@@ -6236,7 +6236,7 @@ static const extended::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -6268,7 +6268,7 @@ static const extended::ZoneRule kZoneRulesTaiwan[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -6300,7 +6300,7 @@ static const extended::ZoneRule kZoneRulesThule[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Thule    1993    2006    -    Apr    Sun>=1    2:00    1:00    D
@@ -6312,7 +6312,7 @@ static const extended::ZoneRule kZoneRulesThule[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Thule    1993    2006    -    Oct    lastSun    2:00    0    S
@@ -6324,7 +6324,7 @@ static const extended::ZoneRule kZoneRulesThule[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Thule    2007    max    -    Mar    Sun>=8    2:00    1:00    D
@@ -6336,7 +6336,7 @@ static const extended::ZoneRule kZoneRulesThule[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Thule    2007    max    -    Nov    Sun>=1    2:00    0    S
@@ -6348,7 +6348,7 @@ static const extended::ZoneRule kZoneRulesThule[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -6380,7 +6380,7 @@ static const extended::ZoneRule kZoneRulesTonga[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Tonga    1999    only    -    Oct     7    2:00s    1:00    -
@@ -6392,7 +6392,7 @@ static const extended::ZoneRule kZoneRulesTonga[] ACE_TIME_PROGMEM = {
     7 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Tonga    2000    only    -    Mar    19    2:00s    0    -
@@ -6404,7 +6404,7 @@ static const extended::ZoneRule kZoneRulesTonga[] ACE_TIME_PROGMEM = {
     19 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Tonga    2000    2001    -    Nov    Sun>=1    2:00    1:00    -
@@ -6416,7 +6416,7 @@ static const extended::ZoneRule kZoneRulesTonga[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Tonga    2001    2002    -    Jan    lastSun    2:00    0    -
@@ -6428,7 +6428,7 @@ static const extended::ZoneRule kZoneRulesTonga[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Tonga    2016    only    -    Nov    Sun>=1    2:00    1:00    -
@@ -6440,7 +6440,7 @@ static const extended::ZoneRule kZoneRulesTonga[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Tonga    2017    only    -    Jan    Sun>=15    3:00    0    -
@@ -6452,7 +6452,7 @@ static const extended::ZoneRule kZoneRulesTonga[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -6484,7 +6484,7 @@ static const extended::ZoneRule kZoneRulesTroll[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     0 /*letter; "+00"*/,
   },
   // Rule    Troll    2005    max    -    Mar    lastSun    1:00u    2:00    +02
@@ -6496,7 +6496,7 @@ static const extended::ZoneRule kZoneRulesTroll[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    8 /*deltaCode*/,
+    (8 + 4) /*deltaCode*/,
     1 /*letter; "+02"*/,
   },
   // Rule    Troll    2004    max    -    Oct    lastSun    1:00u    0:00    +00
@@ -6508,7 +6508,7 @@ static const extended::ZoneRule kZoneRulesTroll[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_U /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     0 /*letter; "+00"*/,
   },
 
@@ -6545,7 +6545,7 @@ static const extended::ZoneRule kZoneRulesTunisia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Tunisia    2005    only    -    May     1     0:00s    1:00    S
@@ -6557,7 +6557,7 @@ static const extended::ZoneRule kZoneRulesTunisia[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Tunisia    2005    only    -    Sep    30     1:00s    0    -
@@ -6569,7 +6569,7 @@ static const extended::ZoneRule kZoneRulesTunisia[] ACE_TIME_PROGMEM = {
     30 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Tunisia    2006    2008    -    Mar    lastSun     2:00s    1:00    S
@@ -6581,7 +6581,7 @@ static const extended::ZoneRule kZoneRulesTunisia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Tunisia    2006    2008    -    Oct    lastSun     2:00s    0    -
@@ -6593,7 +6593,7 @@ static const extended::ZoneRule kZoneRulesTunisia[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -6625,7 +6625,7 @@ static const extended::ZoneRule kZoneRulesTurkey[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Turkey    1995    2006    -    Mar    lastSun    1:00s    1:00    S
@@ -6637,7 +6637,7 @@ static const extended::ZoneRule kZoneRulesTurkey[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Turkey    1996    2006    -    Oct    lastSun    1:00s    0    -
@@ -6649,7 +6649,7 @@ static const extended::ZoneRule kZoneRulesTurkey[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -6681,7 +6681,7 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    US    1976    1986    -    Apr    lastSun    2:00    1:00    D
@@ -6693,7 +6693,7 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    US    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
@@ -6705,7 +6705,7 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    US    2007    max    -    Mar    Sun>=8    2:00    1:00    D
@@ -6717,7 +6717,7 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    US    2007    max    -    Nov    Sun>=1    2:00    0    S
@@ -6729,7 +6729,7 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
@@ -6761,7 +6761,7 @@ static const extended::ZoneRule kZoneRulesUruguay[] ACE_TIME_PROGMEM = {
     28 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Uruguay    2004    only    -    Sep    19     0:00    1:00    -
@@ -6773,7 +6773,7 @@ static const extended::ZoneRule kZoneRulesUruguay[] ACE_TIME_PROGMEM = {
     19 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Uruguay    2005    only    -    Mar    27     2:00    0    -
@@ -6785,7 +6785,7 @@ static const extended::ZoneRule kZoneRulesUruguay[] ACE_TIME_PROGMEM = {
     27 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Uruguay    2005    only    -    Oct     9     2:00    1:00    -
@@ -6797,7 +6797,7 @@ static const extended::ZoneRule kZoneRulesUruguay[] ACE_TIME_PROGMEM = {
     9 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Uruguay    2006    2015    -    Mar    Sun>=8     2:00    0    -
@@ -6809,7 +6809,7 @@ static const extended::ZoneRule kZoneRulesUruguay[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    Uruguay    2006    2014    -    Oct    Sun>=1     2:00    1:00    -
@@ -6821,7 +6821,7 @@ static const extended::ZoneRule kZoneRulesUruguay[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -6853,7 +6853,7 @@ static const extended::ZoneRule kZoneRulesVanuatu[] ACE_TIME_PROGMEM = {
     23 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -6885,7 +6885,7 @@ static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    WS    2010    only    -    Sep    lastSun    0:00    1    -
@@ -6897,7 +6897,7 @@ static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    WS    2011    only    -    Apr    Sat>=1    4:00    0    -
@@ -6909,7 +6909,7 @@ static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     16 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    WS    2011    only    -    Sep    lastSat    3:00    1    -
@@ -6921,7 +6921,7 @@ static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    WS    2012    max    -    Apr    Sun>=1    4:00    0    -
@@ -6933,7 +6933,7 @@ static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     16 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
   // Rule    WS    2012    max    -    Sep    lastSun    3:00    1    -
@@ -6945,7 +6945,7 @@ static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     12 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     '-' /*letter*/,
   },
 
@@ -6977,7 +6977,7 @@ static const extended::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Winn    1966    2005    -    Oct    lastSun    2:00s    0    S
@@ -6989,7 +6989,7 @@ static const extended::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Winn    1987    2005    -    Apr    Sun>=1    2:00s    1:00    D
@@ -7001,7 +7001,7 @@ static const extended::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_S /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
 
@@ -7033,7 +7033,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     6 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Zion    1999    only    -    Apr     2    2:00    1:00    D
@@ -7045,7 +7045,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     2 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Zion    1999    only    -    Sep     3    2:00    0    S
@@ -7057,7 +7057,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     3 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Zion    2000    only    -    Apr    14    2:00    1:00    D
@@ -7069,7 +7069,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     14 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Zion    2000    only    -    Oct     6    1:00    0    S
@@ -7081,7 +7081,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     6 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Zion    2001    only    -    Apr     9    1:00    1:00    D
@@ -7093,7 +7093,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     9 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Zion    2001    only    -    Sep    24    1:00    0    S
@@ -7105,7 +7105,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     24 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Zion    2002    only    -    Mar    29    1:00    1:00    D
@@ -7117,7 +7117,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     29 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Zion    2002    only    -    Oct     7    1:00    0    S
@@ -7129,7 +7129,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     7 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Zion    2003    only    -    Mar    28    1:00    1:00    D
@@ -7141,7 +7141,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     28 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Zion    2003    only    -    Oct     3    1:00    0    S
@@ -7153,7 +7153,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     3 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Zion    2004    only    -    Apr     7    1:00    1:00    D
@@ -7165,7 +7165,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     7 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Zion    2004    only    -    Sep    22    1:00    0    S
@@ -7177,7 +7177,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Zion    2005    only    -    Apr     1    2:00    1:00    D
@@ -7189,7 +7189,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Zion    2005    only    -    Oct     9    2:00    0    S
@@ -7201,7 +7201,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     9 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Zion    2006    2010    -    Mar    Fri>=26    2:00    1:00    D
@@ -7213,7 +7213,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     26 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Zion    2006    only    -    Oct     1    2:00    0    S
@@ -7225,7 +7225,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Zion    2007    only    -    Sep    16    2:00    0    S
@@ -7237,7 +7237,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     16 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Zion    2008    only    -    Oct     5    2:00    0    S
@@ -7249,7 +7249,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     5 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Zion    2009    only    -    Sep    27    2:00    0    S
@@ -7261,7 +7261,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     27 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Zion    2010    only    -    Sep    12    2:00    0    S
@@ -7273,7 +7273,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     12 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Zion    2011    only    -    Apr     1    2:00    1:00    D
@@ -7285,7 +7285,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Zion    2011    only    -    Oct     2    2:00    0    S
@@ -7297,7 +7297,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     2 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Zion    2012    only    -    Mar    Fri>=26    2:00    1:00    D
@@ -7309,7 +7309,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     26 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Zion    2012    only    -    Sep    23    2:00    0    S
@@ -7321,7 +7321,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     23 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
   // Rule    Zion    2013    max    -    Mar    Fri>=23    2:00    1:00    D
@@ -7333,7 +7333,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     23 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    4 /*deltaCode*/,
+    (4 + 4) /*deltaCode*/,
     'D' /*letter*/,
   },
   // Rule    Zion    2013    max    -    Oct    lastSun    2:00    0    S
@@ -7345,7 +7345,7 @@ static const extended::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
-    0 /*deltaCode*/,
+    (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
 
