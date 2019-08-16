@@ -131,6 +131,21 @@ struct MonthDay {
   uint8_t day;
 };
 
+/** Holds year and month. Useful for comparing ZoneRules. */
+struct YearMonth {
+  int16_t year;
+  uint8_t month;
+};
+
+/** Compare two YearMonth structs and return (-1, 0, 1). */
+inline int8_t compareYearMonth(const YearMonth& a, const YearMonth& b) {
+  if (a.year < b.year) return -1;
+  if (a.year > b.year) return 1;
+  if (a.month < b.month) return -1;
+  if (a.month > b.month) return 1;
+  return 0;
+}
+
 } // namespace basic
 
 /**
@@ -567,13 +582,9 @@ class BasicZoneProcessor: public ZoneProcessor {
     /** Compare two ZoneRules which are valid *prior* to the given year. */
     static int8_t compareRulesBeforeYear(int16_t year,
         const basic::ZoneRuleBroker a, const basic::ZoneRuleBroker b) {
-      int16_t aYear = priorYearOfRule(year, a);
-      int16_t bYear = priorYearOfRule(year, b);
-      if (aYear < bYear) return -1;
-      if (aYear > bYear) return 1;
-      if (a.inMonth() < b.inMonth()) return -1;
-      if (a.inMonth() > b.inMonth()) return 1;
-      return 0;
+      basic::YearMonth x = {priorYearOfRule(year, a), a.inMonth()};
+      basic::YearMonth y = {priorYearOfRule(year, b), b.inMonth()};
+      return basic::compareYearMonth(x, y);
     }
 
     /**
