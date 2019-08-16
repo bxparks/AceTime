@@ -18,7 +18,8 @@ TZ_VERSION=2019b
 validation_data.cpp: zones.txt
 	../../../tools/cpp/test_data_generator.out --scope extended \
 		--tz_version $(TZ_VERSION) \
-		--start_year 2000 --until_year 2050 \
+		--db_namespace zonedbxhd \
+		--start_year 1974 --until_year 2050 \
 		< zones.txt
 
 zones.txt:
