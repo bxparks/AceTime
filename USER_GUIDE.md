@@ -2607,6 +2607,19 @@ some time to take a closer look in the future.
     * This library does not support
       [leap seconds](https://en.wikipedia.org/wiki/Leap_second) and will
       probably never do so.
+    * The library does not implement TAI (International Atomic Time).
+    * The `epochSeconds` is like `unixSeconds` in that it is unaware of
+      leap seconds. When a leap seconds occurs the `epochSeconds` is repeated
+      over 2 seconds, just like `unixSeconds`.
+    * The `SystemClock` is unaware of leap seconds so it will continue
+      to increment `epochSeconds` through the leap second. In other words,
+      the SystemClock will be 1 second ahead of UTC.
+        * If the referenceClock is the `NtpClock`, that clock happens to
+          be leap second aware, and the `epochSeconds` will bounce back one
+          second upon the next synchronization, becoming synchronized to UTC.
+        * If the referenceClock is the `DS3231Clock`, that clock is *not*
+          leap second aware, so the `epochSeconds` will continue to be ahead of
+          UTC by one second.
 * `acetime_t`
     * AceTime uses an epoch of 2000-01-01T00:00:00Z.
       The `acetime_t` type is a 32-bit signed integer whose smallest value
@@ -2665,12 +2678,6 @@ some time to take a closer look in the future.
      as well as it could be, and the algorithm may change in the future. To keep
      the code size within reasonble limits of a small Arduino controller, the
      algorithm may be permanently sub-optimal.
-* `BasicZoneProcessor`, `ExtendedZoneProcessor`
-    * Tested using both Python and Java libraries.
-    * Python [pytz](https://pypi.org/project/pytz/) library supports dates only
-      from 2000 until 2038.
-    * Java `java.time` library has an upper limit far beyond the year 2068 limit
-      of `ZonedDateTime`. Testing was performed from 2000 to until 2050.
 * `NtpClock`
     * The `NtpClock` on an ESP8266 calls `WiFi.hostByName()` to resolve
       the IP address of the NTP server. Unfortunately, when I tested this
@@ -2682,16 +2689,28 @@ some time to take a closer look in the future.
     * [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) uses an epoch
       of 1900-01-01T00:00:00Z, with 32-bit unsigned integer as the seconds
       counter. It will overflow just after 2036-02-07T06:28:15Z.
-* `BasicValidationUsingPythonTest` and `ExtendedValidationUsingPythonTest`
-    * These tests compare the transition times calculated by AceTime to Python's
-      [pytz](https://pypi.org/project/pytz/) library. Unfortunately, pytz does
-      not support dates after Unix signed 32-bit `time_t` rollover at
-      (2038-01-19T03:14:07Z).
-* `BasicValidationUsingJavaTest` and `ExtendedValidationUsingJavaTest`
-    * These tests compare the transition times calculated by AceTime to Java 11
-      `java.time` package which should support the entire range of dates that
-      AceTime can represent. We have artificially limited the range of testing
-      from 2000 to 2050.
+* `BasicZoneProcessor`
+    * Supports 1-minute resolution for AT and UNTIL fields.
+    * Supports only a 15-minute resolution for STDOFF and DST offset fields,
+      but this is sufficient to support the vast majority of timezones since
+      2000.
+    * The `zonedb/` files have been filtered to satisfy these constraints.
+    * Tested again Python [pytz](https://pypi.org/project/pytz/) from
+      2000 until 2038 (limited by pytz).
+    * Tested against Java `java.time` from 2000 to until 2050.
+    * Tested against C++11/14/17
+      [Hinnant date](https://github.com/HowardHinnant/date) from 2000 until
+      2050.
+* `ExtendedZoneProcessor`
+    * Has a 1-minute resolution for all time fields.
+    * The `zonedbx/` files currently (version 2019b) do not have any timezones
+      with 1-minute resolution.
+    * Tested again Python [pytz](https://pypi.org/project/pytz/) from
+      2000 until 2038 (limited by pytz).
+    * Tested against Java `java.time` from 2000 to until 2050.
+    * Tested against [Hinnant date](https://github.com/HowardHinnant/date)
+      using 1-minute resolution from 1975 to 2050. See
+      [ExtendedValidationUsingHinnantDateTest](tests/validation/ExtendedValidationUsingHinnantDateTest).
 * `zonedb/` and `zonedbx/` zoneinfo files
     * These statically defined data structures are loaded into flash memory
       using the `PROGMEM` keyword. The vast majority of the data structure
@@ -2705,8 +2724,6 @@ some time to take a closer look in the future.
     * The TZ database files `backzone`, `systemv` and `factory` are
       not processed by the `tzcompiler.py` tool. They don't seem to contain
       anything worthwhile.
-    * The datasets, `BasicZoneProcessor` and `ExtendedZoneProcessor` classes
-      have been *not* been tested or validated for years prior to 2000.
     * TZ Database version 2019b contains the first use of the
       `{onDayOfWeek<=onDayOfMonth}` syntax that I have seen (specifically `Rule
       Zion, FROM 2005, TO 2012, IN Apr, ON Fri<=1`). The actual transition date
