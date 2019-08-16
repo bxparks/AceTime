@@ -83,31 +83,6 @@ class ZoneRuleBroker {
 
   #if ACE_TIME_USE_PROGMEM
 
-    int8_t fromYearTiny() const { return mZoneRule->fromYearTiny; }
-
-    int8_t toYearTiny() const { return mZoneRule->toYearTiny; }
-
-    int8_t inMonth() const { return mZoneRule->inMonth; }
-
-    int8_t onDayOfWeek() const { return mZoneRule->onDayOfWeek; }
-
-    int8_t onDayOfMonth() const { return mZoneRule->onDayOfMonth; }
-
-    uint16_t atTimeMinutes() const {
-      return internal::timeCodeToMinutes(
-          mZoneRule->atTimeCode, mZoneRule->atTimeModifier);
-    }
-
-    uint8_t atTimeSuffix() const {
-      return internal::toSuffix(mZoneRule->atTimeModifier);
-    }
-
-    int16_t deltaMinutes() const { return 15 * mZoneRule->deltaCode; }
-
-    uint8_t letter() const { return mZoneRule->letter; }
-
-  #else
-
     int8_t fromYearTiny() const {
       return pgm_read_byte(&mZoneRule->fromYearTiny);
     }
@@ -116,7 +91,7 @@ class ZoneRuleBroker {
       return pgm_read_byte(&mZoneRule->toYearTiny);
     }
 
-    int8_t inMonth() const {
+    uint8_t inMonth() const {
       return pgm_read_byte(&mZoneRule->inMonth);
     }
 
@@ -146,6 +121,31 @@ class ZoneRuleBroker {
       return pgm_read_byte(&mZoneRule->letter);
     }
 
+  #else
+
+    int8_t fromYearTiny() const { return mZoneRule->fromYearTiny; }
+
+    int8_t toYearTiny() const { return mZoneRule->toYearTiny; }
+
+    uint8_t inMonth() const { return mZoneRule->inMonth; }
+
+    uint8_t onDayOfWeek() const { return mZoneRule->onDayOfWeek; }
+
+    int8_t onDayOfMonth() const { return mZoneRule->onDayOfMonth; }
+
+    uint16_t atTimeMinutes() const {
+      return internal::timeCodeToMinutes(
+          mZoneRule->atTimeCode, mZoneRule->atTimeModifier);
+    }
+
+    uint8_t atTimeSuffix() const {
+      return internal::toSuffix(mZoneRule->atTimeModifier);
+    }
+
+    int16_t deltaMinutes() const { return 15 * mZoneRule->deltaCode; }
+
+    uint8_t letter() const { return mZoneRule->letter; }
+
   #endif
 
   private:
@@ -169,19 +169,6 @@ class ZonePolicyBroker {
     bool isNotNull() const { return mZonePolicy != nullptr; }
 
   #if ACE_TIME_USE_PROGMEM
-    uint8_t numRules() const { return mZonePolicy->numRules; }
-
-    const ZoneRuleBroker rule(uint8_t i) const {
-      return ZoneRuleBroker(&mZonePolicy->rules[i]);
-    }
-
-    uint8_t numLetters() const { return mZonePolicy->numLetters; }
-
-    const char* letter(uint8_t i) const {
-      return mZonePolicy->letters[i];
-    }
-
-  #else
 
     uint8_t numRules() const {
       return pgm_read_byte(&mZonePolicy->numRules);
@@ -201,6 +188,20 @@ class ZonePolicyBroker {
       const char* const* letters = (const char* const*)
           pgm_read_ptr(&mZonePolicy->letters);
       return (const char*) pgm_read_ptr(&letters[i]);
+    }
+
+  #else
+
+    uint8_t numRules() const { return mZonePolicy->numRules; }
+
+    const ZoneRuleBroker rule(uint8_t i) const {
+      return ZoneRuleBroker(&mZonePolicy->rules[i]);
+    }
+
+    uint8_t numLetters() const { return mZonePolicy->numLetters; }
+
+    const char* letter(uint8_t i) const {
+      return mZonePolicy->letters[i];
     }
 
   #endif
@@ -231,33 +232,6 @@ class ZoneEraBroker {
     bool isNotNull() const { return mZoneEra != nullptr; }
 
   #if ACE_TIME_USE_PROGMEM
-
-    int16_t offsetMinutes() const { return 15 * mZoneEra->offsetCode; }
-
-    const ZonePolicyBroker zonePolicy() const {
-      return ZonePolicyBroker(mZoneEra->zonePolicy);
-    }
-
-    int16_t deltaMinutes() const { return 15 * mZoneEra->deltaCode; }
-
-    const char* format() const { return mZoneEra->format; }
-
-    int8_t untilYearTiny() const { return mZoneEra->untilYearTiny; }
-
-    uint8_t untilMonth() const { return mZoneEra->untilMonth; }
-
-    uint8_t untilDay() const { return mZoneEra->untilDay; }
-
-    uint16_t untilTimeMinutes() const {
-      return internal::timeCodeToMinutes(
-          mZoneEra->untilTimeCode, mZoneEra->untilTimeModifier);
-    }
-
-    uint8_t untilTimeSuffix() const {
-      return internal::toSuffix(mZoneEra->untilTimeModifier);
-    }
-
-  #else
 
     int16_t offsetMinutes() const {
       return 15 * (int8_t) pgm_read_byte(&mZoneEra->offsetCode);
@@ -298,6 +272,33 @@ class ZoneEraBroker {
       return internal::toSuffix(pgm_read_byte(&mZoneEra->untilTimeModifier));
     }
 
+  #else
+
+    int16_t offsetMinutes() const { return 15 * mZoneEra->offsetCode; }
+
+    const ZonePolicyBroker zonePolicy() const {
+      return ZonePolicyBroker(mZoneEra->zonePolicy);
+    }
+
+    int16_t deltaMinutes() const { return 15 * mZoneEra->deltaCode; }
+
+    const char* format() const { return mZoneEra->format; }
+
+    int8_t untilYearTiny() const { return mZoneEra->untilYearTiny; }
+
+    uint8_t untilMonth() const { return mZoneEra->untilMonth; }
+
+    uint8_t untilDay() const { return mZoneEra->untilDay; }
+
+    uint16_t untilTimeMinutes() const {
+      return internal::timeCodeToMinutes(
+          mZoneEra->untilTimeCode, mZoneEra->untilTimeModifier);
+    }
+
+    uint8_t untilTimeSuffix() const {
+      return internal::toSuffix(mZoneEra->untilTimeModifier);
+    }
+
   #endif
 
   private:
@@ -319,22 +320,6 @@ class ZoneInfoBroker {
     const ZoneInfo* zoneInfo() const { return mZoneInfo; }
 
   #if ACE_TIME_USE_PROGMEM
-
-    const char* name() const { return mZoneInfo->name; }
-
-    uint32_t zoneId() const { return mZoneInfo->zoneId; }
-
-    int16_t startYear() const { return mZoneInfo->zoneContext->startYear; }
-
-    int16_t untilYear() const { return mZoneInfo->zoneContext->untilYear; }
-
-    uint8_t numEras() const { return mZoneInfo->numEras; }
-
-    const ZoneEraBroker era(uint8_t i) const {
-      return ZoneEraBroker(&mZoneInfo->eras[i]);
-    }
-
-  #else
 
     const char* name() const {
       return (const char*) pgm_read_ptr(&mZoneInfo->name);
@@ -365,6 +350,22 @@ class ZoneInfoBroker {
       return ZoneEraBroker(&eras[i]);
     }
 
+  #else
+
+    const char* name() const { return mZoneInfo->name; }
+
+    uint32_t zoneId() const { return mZoneInfo->zoneId; }
+
+    int16_t startYear() const { return mZoneInfo->zoneContext->startYear; }
+
+    int16_t untilYear() const { return mZoneInfo->zoneContext->untilYear; }
+
+    uint8_t numEras() const { return mZoneInfo->numEras; }
+
+    const ZoneEraBroker era(uint8_t i) const {
+      return ZoneEraBroker(&mZoneInfo->eras[i]);
+    }
+
   #endif
 
   private:
@@ -389,13 +390,13 @@ class ZoneRegistryBroker {
   #if ACE_TIME_USE_PROGMEM
 
     const ZoneInfo* zoneInfo(uint16_t i) const {
-      return mZoneRegistry[i];
+      return (const ZoneInfo*) pgm_read_ptr(&mZoneRegistry[i]);
     }
 
   #else
 
     const ZoneInfo* zoneInfo(uint16_t i) const {
-      return (const ZoneInfo*) pgm_read_ptr(&mZoneRegistry[i]);
+      return mZoneRegistry[i];
     }
 
   #endif
@@ -443,33 +444,6 @@ class ZoneRuleBroker {
 
   #if ACE_TIME_USE_PROGMEM
 
-    int8_t fromYearTiny() const { return mZoneRule->fromYearTiny; }
-
-    int8_t toYearTiny() const { return mZoneRule->toYearTiny; }
-
-    int8_t inMonth() const { return mZoneRule->inMonth; }
-
-    int8_t onDayOfWeek() const { return mZoneRule->onDayOfWeek; }
-
-    int8_t onDayOfMonth() const { return mZoneRule->onDayOfMonth; }
-
-    uint16_t atTimeMinutes() const {
-      return internal::timeCodeToMinutes(
-          mZoneRule->atTimeCode, mZoneRule->atTimeModifier);
-    }
-
-    uint8_t atTimeSuffix() const {
-      return internal::toSuffix(mZoneRule->atTimeModifier);
-    }
-
-    int16_t deltaMinutes() const {
-      return toDeltaMinutes(mZoneRule->deltaCode);
-    }
-
-    uint8_t letter() const { return mZoneRule->letter; }
-
-  #else
-
     int8_t fromYearTiny() const {
       return pgm_read_byte(&mZoneRule->fromYearTiny);
     }
@@ -478,11 +452,11 @@ class ZoneRuleBroker {
       return pgm_read_byte(&mZoneRule->toYearTiny);
     }
 
-    int8_t inMonth() const {
+    uint8_t inMonth() const {
       return pgm_read_byte(&mZoneRule->inMonth);
     }
 
-    int8_t onDayOfWeek() const {
+    uint8_t onDayOfWeek() const {
       return pgm_read_byte(&mZoneRule->onDayOfWeek);
     }
 
@@ -508,6 +482,33 @@ class ZoneRuleBroker {
       return pgm_read_byte(&mZoneRule->letter);
     }
 
+  #else
+
+    int8_t fromYearTiny() const { return mZoneRule->fromYearTiny; }
+
+    int8_t toYearTiny() const { return mZoneRule->toYearTiny; }
+
+    uint8_t inMonth() const { return mZoneRule->inMonth; }
+
+    int8_t onDayOfWeek() const { return mZoneRule->onDayOfWeek; }
+
+    int8_t onDayOfMonth() const { return mZoneRule->onDayOfMonth; }
+
+    uint16_t atTimeMinutes() const {
+      return internal::timeCodeToMinutes(
+          mZoneRule->atTimeCode, mZoneRule->atTimeModifier);
+    }
+
+    uint8_t atTimeSuffix() const {
+      return internal::toSuffix(mZoneRule->atTimeModifier);
+    }
+
+    int16_t deltaMinutes() const {
+      return toDeltaMinutes(mZoneRule->deltaCode);
+    }
+
+    uint8_t letter() const { return mZoneRule->letter; }
+
   #endif
 
   private:
@@ -532,20 +533,6 @@ class ZonePolicyBroker {
 
   #if ACE_TIME_USE_PROGMEM
 
-    uint8_t numRules() const { return mZonePolicy->numRules; }
-
-    const ZoneRuleBroker rule(uint8_t i) const {
-      return ZoneRuleBroker(&mZonePolicy->rules[i]);
-    }
-
-    uint8_t numLetters() const { return mZonePolicy->numLetters; }
-
-    const char* letter(uint8_t i) const {
-      return mZonePolicy->letters[i];
-    }
-
-  #else
-
     uint8_t numRules() const {
       return pgm_read_byte(&mZonePolicy->numRules);
     }
@@ -564,6 +551,20 @@ class ZonePolicyBroker {
       const char* const* letters = (const char* const*)
           pgm_read_ptr(&mZonePolicy->letters);
       return (const char*) pgm_read_ptr(&letters[i]);
+    }
+
+  #else
+
+    uint8_t numRules() const { return mZonePolicy->numRules; }
+
+    const ZoneRuleBroker rule(uint8_t i) const {
+      return ZoneRuleBroker(&mZonePolicy->rules[i]);
+    }
+
+    uint8_t numLetters() const { return mZonePolicy->numLetters; }
+
+    const char* letter(uint8_t i) const {
+      return mZonePolicy->letters[i];
     }
 
   #endif
@@ -594,37 +595,6 @@ class ZoneEraBroker {
     bool isNotNull() const { return mZoneEra != nullptr; }
 
   #if ACE_TIME_USE_PROGMEM
-
-    const ZonePolicyBroker zonePolicy() const {
-      return ZonePolicyBroker(mZoneEra->zonePolicy);
-    }
-
-    int16_t offsetMinutes() const {
-      return toOffsetMinutes(mZoneEra->offsetCode, mZoneEra->deltaCode);
-    }
-
-    int16_t deltaMinutes() const {
-      return toDeltaMinutes(mZoneEra->deltaCode);
-    }
-
-    const char* format() const { return mZoneEra->format; }
-
-    int8_t untilYearTiny() const { return mZoneEra->untilYearTiny; }
-
-    uint8_t untilMonth() const { return mZoneEra->untilMonth; }
-
-    uint8_t untilDay() const { return mZoneEra->untilDay; }
-
-    uint16_t untilTimeMinutes() const {
-      return internal::timeCodeToMinutes(
-          mZoneEra->untilTimeCode, mZoneEra->untilTimeModifier);
-    }
-
-    uint8_t untilTimeSuffix() const {
-      return internal::toSuffix(mZoneEra->untilTimeModifier);
-    }
-
-  #else
 
     const ZonePolicyBroker zonePolicy() const {
       return ZonePolicyBroker(
@@ -667,6 +637,37 @@ class ZoneEraBroker {
       return internal::toSuffix(pgm_read_byte(&mZoneEra->untilTimeModifier));
     }
 
+  #else
+
+    const ZonePolicyBroker zonePolicy() const {
+      return ZonePolicyBroker(mZoneEra->zonePolicy);
+    }
+
+    int16_t offsetMinutes() const {
+      return toOffsetMinutes(mZoneEra->offsetCode, mZoneEra->deltaCode);
+    }
+
+    int16_t deltaMinutes() const {
+      return toDeltaMinutes(mZoneEra->deltaCode);
+    }
+
+    const char* format() const { return mZoneEra->format; }
+
+    int8_t untilYearTiny() const { return mZoneEra->untilYearTiny; }
+
+    uint8_t untilMonth() const { return mZoneEra->untilMonth; }
+
+    uint8_t untilDay() const { return mZoneEra->untilDay; }
+
+    uint16_t untilTimeMinutes() const {
+      return internal::timeCodeToMinutes(
+          mZoneEra->untilTimeCode, mZoneEra->untilTimeModifier);
+    }
+
+    uint8_t untilTimeSuffix() const {
+      return internal::toSuffix(mZoneEra->untilTimeModifier);
+    }
+
   #endif
 
   private:
@@ -689,22 +690,6 @@ class ZoneInfoBroker {
     const ZoneInfo* zoneInfo() const { return mZoneInfo; }
 
   #if ACE_TIME_USE_PROGMEM
-
-    const char* name() const { return mZoneInfo->name; }
-
-    uint32_t zoneId() const { return mZoneInfo->zoneId; }
-
-    int16_t startYear() const { return mZoneInfo->zoneContext->startYear; }
-
-    int16_t untilYear() const { return mZoneInfo->zoneContext->untilYear; }
-
-    uint8_t numEras() const { return mZoneInfo->numEras; }
-
-    const ZoneEraBroker era(uint8_t i) const {
-      return ZoneEraBroker(&mZoneInfo->eras[i]);
-    }
-
-  #else
 
     const char* name() const {
       return (const char*) pgm_read_ptr(&mZoneInfo->name);
@@ -735,6 +720,22 @@ class ZoneInfoBroker {
       return ZoneEraBroker(&eras[i]);
     }
 
+  #else
+
+    const char* name() const { return mZoneInfo->name; }
+
+    uint32_t zoneId() const { return mZoneInfo->zoneId; }
+
+    int16_t startYear() const { return mZoneInfo->zoneContext->startYear; }
+
+    int16_t untilYear() const { return mZoneInfo->zoneContext->untilYear; }
+
+    uint8_t numEras() const { return mZoneInfo->numEras; }
+
+    const ZoneEraBroker era(uint8_t i) const {
+      return ZoneEraBroker(&mZoneInfo->eras[i]);
+    }
+
   #endif
 
   private:
@@ -759,13 +760,13 @@ class ZoneRegistryBroker {
   #if ACE_TIME_USE_PROGMEM
 
     const ZoneInfo* zoneInfo(uint16_t i) const {
-      return mZoneRegistry[i];
+      return (const ZoneInfo*) pgm_read_ptr(&mZoneRegistry[i]);
     }
 
   #else
 
     const ZoneInfo* zoneInfo(uint16_t i) const {
-      return (const ZoneInfo*) pgm_read_ptr(&mZoneRegistry[i]);
+      return mZoneRegistry[i];
     }
 
   #endif
