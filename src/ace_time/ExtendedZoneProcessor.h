@@ -70,7 +70,7 @@ struct DateTuple {
   int8_t yearTiny; // [-127, 126], 127 will cause bugs
   uint8_t month; // [1-12]
   uint8_t day; // [1-31]
-  uint8_t suffix; // TIME_SUFFIX_S, TIME_SUFFIX_W, TIME_SUFFIX_U
+  uint8_t suffix; // kSuffixS, kSuffixW, kSuffixU
   int16_t minutes; // negative values allowed
 
   /** Used only for debugging. */
@@ -557,7 +557,7 @@ class TransitionStorage {
       // Convert LocalDateTime to DateTuple.
       DateTuple localDate = { ldt.yearTiny(), ldt.month(), ldt.day(),
           (int16_t) (ldt.hour() * 60 + ldt.minute()),
-          ZoneContext::TIME_SUFFIX_W };
+          ZoneContext::kSuffixW };
       const Transition* match = nullptr;
 
       // Find the last Transition that matches
@@ -1003,7 +1003,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       };
       extended::DateTuple lowerBound = {
         startYm.yearTiny, startYm.month, 1, 0,
-        extended::ZoneContext::TIME_SUFFIX_W
+        extended::ZoneContext::kSuffixW
       };
       if (startDate < lowerBound) {
         startDate = lowerBound;
@@ -1015,7 +1015,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       };
       extended::DateTuple upperBound = {
         untilYm.yearTiny, untilYm.month, 1, 0,
-        extended::ZoneContext::TIME_SUFFIX_W
+        extended::ZoneContext::kSuffixW
       };
       if (upperBound < untilDate) {
         untilDate = upperBound;
@@ -1326,31 +1326,31 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("expandDateTuple()\n");
       }
-      if (tt->suffix == extended::ZoneContext::TIME_SUFFIX_S) {
+      if (tt->suffix == extended::ZoneContext::kSuffixS) {
         *tts = *tt;
         *ttu = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes - offsetMinutes),
-            extended::ZoneContext::TIME_SUFFIX_U};
+            extended::ZoneContext::kSuffixU};
         *tt = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes + deltaMinutes),
-            extended::ZoneContext::TIME_SUFFIX_W};
-      } else if (tt->suffix == extended::ZoneContext::TIME_SUFFIX_U) {
+            extended::ZoneContext::kSuffixW};
+      } else if (tt->suffix == extended::ZoneContext::kSuffixU) {
         *ttu = *tt;
         *tts = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes + offsetMinutes),
-            extended::ZoneContext::TIME_SUFFIX_S};
+            extended::ZoneContext::kSuffixS};
         *tt = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes + (offsetMinutes + deltaMinutes)),
-            extended::ZoneContext::TIME_SUFFIX_W};
+            extended::ZoneContext::kSuffixW};
       } else {
         // Explicit set the suffix to 'w' in case it was something else.
-        tt->suffix = extended::ZoneContext::TIME_SUFFIX_W;
+        tt->suffix = extended::ZoneContext::kSuffixW;
         *tts = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes - deltaMinutes),
-            extended::ZoneContext::TIME_SUFFIX_S};
+            extended::ZoneContext::kSuffixS};
         *ttu = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes - (deltaMinutes + offsetMinutes)),
-            extended::ZoneContext::TIME_SUFFIX_U};
+            extended::ZoneContext::kSuffixU};
       }
 
       normalizeDateTuple(tt);
@@ -1489,10 +1489,10 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       const extended::DateTuple* transitionTime;
 
       const extended::DateTuple& matchStart = match->startDateTime;
-      if (matchStart.suffix == extended::ZoneContext::TIME_SUFFIX_S) {
+      if (matchStart.suffix == extended::ZoneContext::kSuffixS) {
         transitionTime = &transition->transitionTimeS;
       } else if (matchStart.suffix ==
-          extended::ZoneContext::TIME_SUFFIX_U) {
+          extended::ZoneContext::kSuffixU) {
         transitionTime = &transition->transitionTimeU;
       } else { // assume 'w'
         transitionTime = &transition->transitionTime;
@@ -1501,10 +1501,10 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       if (*transitionTime == matchStart) return 0;
 
       const extended::DateTuple& matchUntil = match->untilDateTime;
-      if (matchUntil.suffix == extended::ZoneContext::TIME_SUFFIX_S) {
+      if (matchUntil.suffix == extended::ZoneContext::kSuffixS) {
         transitionTime = &transition->transitionTimeS;
       } else if (matchUntil.suffix ==
-          extended::ZoneContext::TIME_SUFFIX_U) {
+          extended::ZoneContext::kSuffixU) {
         transitionTime = &transition->transitionTimeU;
       } else { // assume 'w'
         transitionTime = &transition->transitionTime;

@@ -760,9 +760,9 @@ class BasicZoneProcessor: public ZoneProcessor {
      */
     static int16_t calcRuleOffsetMinutes(int16_t prevEffectiveOffsetMinutes,
         int16_t currentBaseOffsetMinutes, uint8_t atSuffix) {
-      if (atSuffix == basic::ZoneContext::TIME_SUFFIX_W) {
+      if (atSuffix == basic::ZoneContext::kSuffixW) {
         return prevEffectiveOffsetMinutes;
-      } else if (atSuffix == basic::ZoneContext::TIME_SUFFIX_S) {
+      } else if (atSuffix == basic::ZoneContext::kSuffixS) {
         return currentBaseOffsetMinutes;
       } else { // 'u', 'g' or 'z'
         return 0;

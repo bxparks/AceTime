@@ -50,7 +50,7 @@ inline uint16_t timeCodeToMinutes(uint8_t code, uint8_t modifier) {
 
 /**
  * Extract the 'w', 's' 'u' suffix from the 'modifier' field, so that they can
- * be compared against TIME_SUFFIX_W, TIME_SUFFIX_S and TIME_SUFFIX_U.
+ * be compared against kSuffixW, kSuffixS and kSuffixU.
  */
 inline uint8_t toSuffix(uint8_t modifier) {
   return modifier & 0xf0;

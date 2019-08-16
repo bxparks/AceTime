@@ -32,7 +32,7 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
-    extended::ZoneContext::TIME_SUFFIX_W /*atTimeModifier*/,
+    extended::ZoneContext::kSuffixW /*atTimeModifier*/,
     (0 + 4) /*deltaCode*/,
     'S' /*letter*/,
   },
@@ -58,7 +58,7 @@ static const extended::ZoneEra kZoneEraAmerica_Los_Angeles[] ACE_TIME_PROGMEM = 
     1 /*untilMonth*/,
     1 /*untilDay*/,
     4 /*untilTimeCode*/,
-    extended::ZoneContext::TIME_SUFFIX_W + 9 /*untilTimeModifier*/,
+    extended::ZoneContext::kSuffixW + 9 /*untilTimeModifier*/,
   },
 };
 
@@ -82,7 +82,7 @@ test(ExtendedBrokerTest, ZoneRuleBroker) {
   assertEqual(7, rule.onDayOfWeek());
   assertEqual(1, rule.onDayOfMonth());
   assertEqual((uint16_t)120, rule.atTimeMinutes());
-  assertEqual(extended::ZoneContext::TIME_SUFFIX_W, rule.atTimeSuffix());
+  assertEqual(extended::ZoneContext::kSuffixW, rule.atTimeSuffix());
   assertEqual(0, rule.deltaMinutes());
   assertEqual((uint8_t)'S', rule.letter());
 }
@@ -105,7 +105,7 @@ test(ExtendedBrokerTest, ZoneEraBroker) {
   assertEqual((uint8_t)1, era.untilMonth());
   assertEqual((uint8_t)1, era.untilDay());
   assertEqual((uint16_t)69, era.untilTimeMinutes());
-  assertEqual(extended::ZoneContext::TIME_SUFFIX_W, era.untilTimeSuffix());
+  assertEqual(extended::ZoneContext::kSuffixW, era.untilTimeSuffix());
 }
 
 test(ExtendedBrokerTest, ZoneInfoBroker) {

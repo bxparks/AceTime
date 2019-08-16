@@ -1098,15 +1098,15 @@ def _to_code_and_modifier(seconds, suffix, scope):
     return timeCode, modifier
 
 def _to_modifier(suffix, scope):
-    """Return the C++ TIME_SUFFIX_{X} corresponding to the 'w', 's', and 'u'
+    """Return the C++ kSuffix{X} corresponding to the 'w', 's', and 'u'
     suffix character in the TZ database files.
     """
     if suffix == 'w':
-        return f'{scope}::ZoneContext::TIME_SUFFIX_W'
+        return f'{scope}::ZoneContext::kSuffixW'
     elif suffix == 's':
-        return f'{scope}::ZoneContext::TIME_SUFFIX_S'
+        return f'{scope}::ZoneContext::kSuffixS'
     elif suffix == 'u':
-        return f'{scope}::ZoneContext::TIME_SUFFIX_U'
+        return f'{scope}::ZoneContext::kSuffixU'
     else:
         raise Exception(f'Unknown suffix {suffix}')
 
