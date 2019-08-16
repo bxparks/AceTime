@@ -5,7 +5,7 @@
 #include "ValidationDataType.h"
 #include "ace_time/common/logging.h"
 
-#define DEBUG 0
+#define DEBUG 1
 
 class TransitionTest: public aunit::TestOnce {
   protected:
@@ -29,6 +29,7 @@ class TransitionTest: public aunit::TestOnce {
           } else {
             ace_time::logging::printf("epochSeconds: %ld\n", epochSeconds);
           }
+          tz.getUtcOffset(epochSeconds); // prime ZoneProcessor cache
           zoneProcessor.log();
         }
 
