@@ -196,44 +196,44 @@ test(BasicZoneProcessorTest, calcRuleOffsetMinutes) {
 test(BasicZoneProcessorTest, priorYearOfRule) {
   basic::ZonePolicyBroker policy(&kPolicyEcuador);
 
-  assertEqual(1873, BasicZoneProcessor::priorYearOfRule(1995,
+  assertEqual(1873-2000, BasicZoneProcessor::priorYearOfRule(1995-2000,
       policy.rule(0) /*1873*/));
-  assertEqual(1992, BasicZoneProcessor::priorYearOfRule(1995,
+  assertEqual(1992-2000, BasicZoneProcessor::priorYearOfRule(1995-2000,
       policy.rule(1) /*1992*/));
-  assertEqual(1993, BasicZoneProcessor::priorYearOfRule(1995,
+  assertEqual(1993-2000, BasicZoneProcessor::priorYearOfRule(1995-2000,
       policy.rule(2) /*1993*/));
 
-  assertEqual(1873, BasicZoneProcessor::priorYearOfRule(1993,
+  assertEqual(1873-2000, BasicZoneProcessor::priorYearOfRule(1993-2000,
       policy.rule(0) /*1873*/));
-  assertEqual(1992, BasicZoneProcessor::priorYearOfRule(1993,
+  assertEqual(1992-2000, BasicZoneProcessor::priorYearOfRule(1993-2000,
       policy.rule(1) /*1992*/));
   // Rule is not effective before 1993, so returns 0 to suppress it.
-  assertEqual(0, BasicZoneProcessor::priorYearOfRule(1993,
-      policy.rule(2) /*1993*/));
+  assertEqual(LocalDate::kMinYearTiny,
+      BasicZoneProcessor::priorYearOfRule(1993-2000, policy.rule(2) /*1993*/));
 }
 
 test(BasicZoneProcessorTest, compareRulesBeforeYear) {
   basic::ZonePolicyBroker policy(&kPolicyEcuador);
 
   // The last prior rule prior to 1995 should be 1993.
-  assertLess(BasicZoneProcessor::compareRulesBeforeYear(1995,
+  assertLess(BasicZoneProcessor::compareRulesBeforeYear(1995-2000,
     policy.rule(0), policy.rule(1)), 0);
-  assertLess(BasicZoneProcessor::compareRulesBeforeYear(1995,
+  assertLess(BasicZoneProcessor::compareRulesBeforeYear(1995-2000,
     policy.rule(1), policy.rule(2)), 0);
 
   // The last prior rule prior to 1993 should be 1992
-  assertLess(BasicZoneProcessor::compareRulesBeforeYear(1993,
+  assertLess(BasicZoneProcessor::compareRulesBeforeYear(1993-2000,
     policy.rule(0), policy.rule(1)), 0);
-  assertMore(BasicZoneProcessor::compareRulesBeforeYear(1993,
+  assertMore(BasicZoneProcessor::compareRulesBeforeYear(1993-2000,
     policy.rule(1), policy.rule(2)), 0);
 }
 
 test(BasicZoneProcessorTest, init_primitives) {
   BasicZoneProcessor zoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
-  zoneProcessor.mYear = 2001;
+  zoneProcessor.mYearTiny = 2001-2000;
   zoneProcessor.mNumTransitions = 0;
 
-  zoneProcessor.addTransitionPriorToYear(2001);
+  zoneProcessor.addTransitionPriorToYear(2001-2000);
   assertEqual(0, zoneProcessor.mNumTransitions);
   assertEqual(-8*60, zoneProcessor.mPrevTransition.era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mPrevTransition.era.format());
@@ -241,7 +241,7 @@ test(BasicZoneProcessorTest, init_primitives) {
   assertEqual(2006-2000, zoneProcessor.mPrevTransition.rule.toYearTiny());
   assertEqual(10, zoneProcessor.mPrevTransition.rule.inMonth());
 
-  zoneProcessor.addTransitionsForYear(2001);
+  zoneProcessor.addTransitionsForYear(2001-2000);
   assertEqual(2, zoneProcessor.mNumTransitions);
 
   assertEqual(-8*60, zoneProcessor.mTransitions[0].era.offsetMinutes());

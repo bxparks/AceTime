@@ -133,7 +133,7 @@ struct MonthDay {
 
 /** Holds year and month. Useful for comparing ZoneRules. */
 struct YearMonth {
-  int16_t year;
+  int8_t year;
   uint8_t month;
 };
 
@@ -319,7 +319,7 @@ class BasicZoneProcessor: public ZoneProcessor {
           logging::printf("*not initialized*\n");
           return;
         }
-        logging::printf("mYear: %d\n", mYear);
+        logging::printf("mYearTiny: %d\n", mYearTiny);
         logging::printf("mNumTransitions: %d\n", mNumTransitions);
         logging::printf("mT[prev]=");
         mPrevTransition.log();
@@ -431,7 +431,7 @@ class BasicZoneProcessor: public ZoneProcessor {
       if (mZoneInfo.zoneInfo() == zoneInfo) return;
 
       mZoneInfo = basic::ZoneInfoBroker((const basic::ZoneInfo*) zoneInfo);
-      mYear = 0;
+      mYearTiny = LocalDate::kInvalidYearTiny;
       mIsFilled = false;
       mNumTransitions = 0;
     }
@@ -472,30 +472,33 @@ class BasicZoneProcessor: public ZoneProcessor {
      * (e.g. out of bounds).
      */
     bool init(const LocalDate& ld) const {
-      int16_t year = ld.year();
+      int8_t yearTiny = ld.yearTiny();
       if (ld.month() == 1 && ld.day() == 1) {
-        year--;
+        yearTiny--;
       }
-      if (isFilled(year)) {
+      if (isFilled(yearTiny)) {
         if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-          logging::printf("init(): %d (using cached %d)\n", ld.year(), year);
+          logging::printf("init(): %d (using cached %d)\n",
+              ld.yearTiny(), yearTiny);
         }
         return true;
       } else {
         if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-          logging::printf("init(): %d (new year %d)\n", ld.year(), year);
+          logging::printf("init(): %d (new year %d)\n",
+              ld.yearTiny(), yearTiny);
         }
       }
 
-      mYear = year;
+      mYearTiny = yearTiny;
       mNumTransitions = 0; // clear cache
 
-      if (year < mZoneInfo.startYear() - 1 || mZoneInfo.untilYear() < year) {
+      if (yearTiny + LocalDate::kEpochYear < mZoneInfo.startYear() - 1
+          || mZoneInfo.untilYear() < yearTiny + LocalDate::kEpochYear) {
         return false;
       }
 
-      addTransitionPriorToYear(year);
-      addTransitionsForYear(year);
+      addTransitionPriorToYear(yearTiny);
+      addTransitionsForYear(yearTiny);
       calcTransitions();
       calcAbbreviations();
 
@@ -509,24 +512,23 @@ class BasicZoneProcessor: public ZoneProcessor {
     }
 
     /** Check if the Transition cache is filled for the given year. */
-    bool isFilled(int16_t year) const {
-      return mIsFilled && (year == mYear);
+    bool isFilled(int8_t yearTiny) const {
+      return mIsFilled && (yearTiny == mYearTiny);
     }
 
     /**
      * Add the last matching rule just prior to the given year. This determines
      * the offset at the beginning of the current year.
      */
-    void addTransitionPriorToYear(int16_t year) const {
+    void addTransitionPriorToYear(int8_t yearTiny) const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("addTransitionPriorToYear(): %d\n", year);
+        logging::printf("addTransitionPriorToYear(): %d\n", yearTiny);
       }
 
-      const basic::ZoneEraBroker era = findZoneEraPriorTo(year);
+      const basic::ZoneEraBroker era = findZoneEraPriorTo(yearTiny);
 
       // If the prior ZoneEra has a ZonePolicy), then find the latest rule
       // within the ZoneEra. Otherwise, add a Transition using a rule==nullptr.
-      int8_t yearTiny = year - LocalDate::kEpochYear;
       const basic::ZonePolicyBroker zonePolicy = era.zonePolicy();
       basic::ZoneRuleBroker latest;
       if (zonePolicy.isNotNull()) {
@@ -539,7 +541,7 @@ class BasicZoneProcessor: public ZoneProcessor {
           // Check if rule is effective prior to the given year
           if (rule.fromYearTiny() < yearTiny) {
             if ((latest.isNull()) ||
-                compareRulesBeforeYear(year, rule, latest) > 0) {
+                compareRulesBeforeYear(yearTiny, rule, latest) > 0) {
               latest = rule;
             }
           }
@@ -580,59 +582,57 @@ class BasicZoneProcessor: public ZoneProcessor {
     }
 
     /** Compare two ZoneRules which are valid *prior* to the given year. */
-    static int8_t compareRulesBeforeYear(int16_t year,
+    static int8_t compareRulesBeforeYear(int8_t yearTiny,
         const basic::ZoneRuleBroker a, const basic::ZoneRuleBroker b) {
-      basic::YearMonth x = {priorYearOfRule(year, a), a.inMonth()};
-      basic::YearMonth y = {priorYearOfRule(year, b), b.inMonth()};
+      basic::YearMonth x = {priorYearOfRule(yearTiny, a), a.inMonth()};
+      basic::YearMonth y = {priorYearOfRule(yearTiny, b), b.inMonth()};
       return basic::compareYearMonth(x, y);
     }
 
     /**
      * Return the largest effective year of the rule *prior* to given year.
-     * Return 0 if rule is greater than the given year which causes it to be
-     * replaced by something else when we search for the most recent prior
-     * year. For example, if the rule's [from, to] is [1993, 1995] and the
-     * year=2000, then this return 1995. If the year=1994, then this return
-     * 1993. If the year=1993, this returns 0.
+     * Return kMinYearTiny if rule is greater than the given year which causes
+     * it to be replaced by something else when we search for the most recent
+     * prior year. For example, if the rule's [from, to] is [1993, 1995] and
+     * the year=2000, then this return 1995. If the year=1994, then this return
+     * 1993. If the year=1993, this returns kMinYearTiny.
      */
-    static int16_t priorYearOfRule(int16_t year,
+    static int8_t priorYearOfRule(int8_t yearTiny,
         const basic::ZoneRuleBroker rule) {
-      int8_t yearTiny = year - LocalDate::kEpochYear;
       if (rule.toYearTiny() < yearTiny) {
-        return rule.toYearTiny() + LocalDate::kEpochYear;
+        return rule.toYearTiny();
       }
       if (rule.fromYearTiny() < yearTiny) {
-        return year - 1;
+        return yearTiny - 1;
       }
-      return 0;
+      return LocalDate::kMinYearTiny;
     }
 
     /** Add all matching transitions from the current year. */
-    void addTransitionsForYear(int16_t year) const {
+    void addTransitionsForYear(int8_t yearTiny) const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("addTransitionsForYear(): %d\n", year);
+        logging::printf("addTransitionsForYear(): %d\n", yearTiny);
       }
 
-      const basic::ZoneEraBroker era = findZoneEra(year);
+      const basic::ZoneEraBroker era = findZoneEra(yearTiny);
 
       // If the ZonePolicy has no rules, then add a Transition which takes
       // effect at the start time of the current year.
       const basic::ZonePolicyBroker zonePolicy = era.zonePolicy();
       if (zonePolicy.isNull()) {
-        addTransition(year, era, basic::ZoneRuleBroker());
+        addTransition(yearTiny, era, basic::ZoneRuleBroker());
         return;
       }
 
       // If the ZonePolicy has rules, find all matching transitions, and add
       // them to mTransitions, in sorted order according to the
       // ZoneRule::inMonth field.
-      int8_t yearTiny = year - LocalDate::kEpochYear;
       uint8_t numRules = zonePolicy.numRules();
       for (uint8_t i = 0; i < numRules; i++) {
         const basic::ZoneRuleBroker rule = zonePolicy.rule(i);
         if ((rule.fromYearTiny() <= yearTiny) &&
             (yearTiny <= rule.toYearTiny())) {
-          addTransition(year, era, rule);
+          addTransition(yearTiny, era, rule);
         }
       }
     }
@@ -651,7 +651,7 @@ class BasicZoneProcessor: public ZoneProcessor {
      * already sorted (they are mostly sorted), then the loop terminates early
      * and the total sort time is O(N).
      */
-    void addTransition(int16_t year, basic::ZoneEraBroker era,
+    void addTransition(int8_t yearTiny, basic::ZoneEraBroker era,
           basic::ZoneRuleBroker rule) const {
 
       // If a zone needs more transitions than kMaxCacheEntries, the check below
@@ -673,7 +673,6 @@ class BasicZoneProcessor: public ZoneProcessor {
       if (mNumTransitions >= kMaxCacheEntries) return;
 
       // insert new element at the end of the list
-      int8_t yearTiny = year - LocalDate::kEpochYear;
       mTransitions[mNumTransitions] = createTransition(era, rule, yearTiny);
       mNumTransitions++;
 
@@ -694,13 +693,13 @@ class BasicZoneProcessor: public ZoneProcessor {
 
     /**
      * Find the ZoneEra which applies to the given year. The era will
-     * satisfy (year < ZoneEra.untilYearTiny + kEpochYear). Since the
-     * largest untilYearTiny is 127, the largest supported 'year' is 2126.
+     * satisfy (yearTiny < ZoneEra.untilYearTiny). Since the largest
+     * untilYearTiny is 127, the largest supported 'year' is 2126.
      */
-    const basic::ZoneEraBroker findZoneEra(int16_t year) const {
+    const basic::ZoneEraBroker findZoneEra(int8_t yearTiny) const {
       for (uint8_t i = 0; i < mZoneInfo.numEras(); i++) {
         const basic::ZoneEraBroker era = mZoneInfo.era(i);
-        if (year < era.untilYearTiny() + LocalDate::kEpochYear) return era;
+        if (yearTiny < era.untilYearTiny()) return era;
       }
       // Return the last ZoneEra if we run off the end.
       return mZoneInfo.era(mZoneInfo.numEras() - 1);
@@ -717,10 +716,10 @@ class BasicZoneProcessor: public ZoneProcessor {
      * zone_infos.cpp verified that the final ZoneEra contains an empty
      * untilYear, interpreted as 'max', and set to 127.
      */
-    const basic::ZoneEraBroker findZoneEraPriorTo(int16_t year) const {
+    const basic::ZoneEraBroker findZoneEraPriorTo(int8_t yearTiny) const {
       for (uint8_t i = 0; i < mZoneInfo.numEras(); i++) {
         const basic::ZoneEraBroker era = mZoneInfo.era(i);
-        if (year <= era.untilYearTiny() + LocalDate::kEpochYear) return era;
+        if (yearTiny <= era.untilYearTiny()) return era;
       }
       // Return the last ZoneEra if we run off the end.
       return mZoneInfo.era(mZoneInfo.numEras() - 1);
@@ -960,7 +959,7 @@ class BasicZoneProcessor: public ZoneProcessor {
 
     basic::ZoneInfoBroker mZoneInfo;
 
-    mutable int16_t mYear = 0; // maybe create LocalDate::kInvalidYear?
+    mutable int8_t mYearTiny = LocalDate::kInvalidYearTiny;
     mutable bool mIsFilled = false;
     mutable uint8_t mNumTransitions = 0;
     mutable basic::Transition mTransitions[kMaxCacheEntries];

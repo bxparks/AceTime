@@ -44,6 +44,18 @@ class LocalDate {
      */
     static const int8_t kInvalidYearTiny = INT8_MIN;
 
+    /**
+     * Sentinel yearTiny which represents the smallest year, effectively
+     * -Infinity.
+     */
+    static const int8_t kMinYearTiny = INT8_MIN + 1;
+
+    /**
+     * Sentinel yearTiny which represents the largest year, effectively
+     * -Infinity.
+     */
+    static const int8_t kMaxYearTiny = INT8_MAX;
+
     /** Sentinel epochDays which indicates an error. */
     static const acetime_t kInvalidEpochDays = INT32_MIN;
 
@@ -367,18 +379,6 @@ class LocalDate {
 
   private:
     friend bool operator==(const LocalDate& a, const LocalDate& b);
-
-    /**
-     * Sentinel yearTiny which represents the smallest year, effectively
-     * -Infinity.
-     */
-    static const int8_t kMinYearTiny = INT8_MIN + 1;
-
-    /**
-     * Sentinel yearTiny which represents the largest year, effectively
-     * -Infinity.
-     */
-    static const int8_t kMaxYearTiny = INT8_MAX;
 
     /**
      * Number of days between the Julian calendar epoch (4713 BC 01-01) and the
