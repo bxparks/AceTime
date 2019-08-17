@@ -234,42 +234,43 @@ test(BasicZoneProcessorTest, init_primitives) {
   zoneProcessor.mNumTransitions = 0;
 
   zoneProcessor.addTransitionPriorToYear(2001-2000);
-  assertEqual(0, zoneProcessor.mNumTransitions);
-  assertEqual(-8*60, zoneProcessor.mPrevTransition.era.offsetMinutes());
-  assertEqual("P%T", zoneProcessor.mPrevTransition.era.format());
-  assertEqual(1967-2000, zoneProcessor.mPrevTransition.rule.fromYearTiny());
-  assertEqual(2006-2000, zoneProcessor.mPrevTransition.rule.toYearTiny());
-  assertEqual(10, zoneProcessor.mPrevTransition.rule.inMonth());
-
-  zoneProcessor.addTransitionsForYear(2001-2000);
-  assertEqual(2, zoneProcessor.mNumTransitions);
-
+  assertEqual(1, zoneProcessor.mNumTransitions);
   assertEqual(-8*60, zoneProcessor.mTransitions[0].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[0].era.format());
-  assertEqual(1987-2000, zoneProcessor.mTransitions[0].rule.fromYearTiny());
+  assertEqual(1967-2000, zoneProcessor.mTransitions[0].rule.fromYearTiny());
   assertEqual(2006-2000, zoneProcessor.mTransitions[0].rule.toYearTiny());
-  assertEqual(4, zoneProcessor.mTransitions[0].rule.inMonth());
+  assertEqual(10, zoneProcessor.mTransitions[0].rule.inMonth());
+
+  zoneProcessor.addTransitionsForYear(2001-2000);
+  assertEqual(3, zoneProcessor.mNumTransitions);
 
   assertEqual(-8*60, zoneProcessor.mTransitions[1].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[1].era.format());
-  assertEqual(1967-2000, zoneProcessor.mTransitions[1].rule.fromYearTiny());
+  assertEqual(1987-2000, zoneProcessor.mTransitions[1].rule.fromYearTiny());
   assertEqual(2006-2000, zoneProcessor.mTransitions[1].rule.toYearTiny());
-  assertEqual(10, zoneProcessor.mTransitions[1].rule.inMonth());
+  assertEqual(4, zoneProcessor.mTransitions[1].rule.inMonth());
+
+  assertEqual(-8*60, zoneProcessor.mTransitions[2].era.offsetMinutes());
+  assertEqual("P%T", zoneProcessor.mTransitions[2].era.format());
+  assertEqual(1967-2000, zoneProcessor.mTransitions[2].rule.fromYearTiny());
+  assertEqual(2006-2000, zoneProcessor.mTransitions[2].rule.toYearTiny());
+  assertEqual(10, zoneProcessor.mTransitions[2].rule.inMonth());
 
   zoneProcessor.calcTransitions();
-  assertEqual((acetime_t) BasicZoneProcessor::kMinEpochSeconds,
-      zoneProcessor.mPrevTransition.startEpochSeconds);
-  assertEqual(-8*60, zoneProcessor.mPrevTransition.offsetMinutes);
+  // most recent prior is at [0]
+  assertEqual(BasicZoneProcessor::kMinEpochSeconds,
+      zoneProcessor.mTransitions[0].startEpochSeconds);
+  assertEqual(-8*60, zoneProcessor.mTransitions[0].offsetMinutes);
 
   // t >= 2001-04-01 02:00 UTC-08:00 Sunday goes to PDT
-  assertEqual(-7*60, zoneProcessor.mTransitions[0].offsetMinutes);
+  assertEqual(-7*60, zoneProcessor.mTransitions[1].offsetMinutes);
   assertEqual((acetime_t) 39434400,
-      zoneProcessor.mTransitions[0].startEpochSeconds);
+      zoneProcessor.mTransitions[1].startEpochSeconds);
 
   // t >= 2001-10-28 02:00 UTC-07:00 Sunday goes to PST
-  assertEqual(-8*60, zoneProcessor.mTransitions[1].offsetMinutes);
+  assertEqual(-8*60, zoneProcessor.mTransitions[2].offsetMinutes);
   assertEqual((acetime_t) 57574800,
-      zoneProcessor.mTransitions[1].startEpochSeconds);
+      zoneProcessor.mTransitions[2].startEpochSeconds);
 }
 
 test(BasicZoneProcessorTest, init) {
@@ -279,42 +280,42 @@ test(BasicZoneProcessorTest, init) {
   LocalDate ld = LocalDate::forComponents(2018, 1, 2);
   zoneProcessor.init(ld);
 
-  assertEqual(2, zoneProcessor.mNumTransitions);
-
-  assertEqual(-8*60, zoneProcessor.mPrevTransition.era.offsetMinutes());
-  assertEqual("P%T", zoneProcessor.mPrevTransition.era.format());
-  assertEqual(2007-2000, zoneProcessor.mPrevTransition.rule.fromYearTiny());
-  assertEqual(basic::ZoneRule::kMaxYearTiny,
-      zoneProcessor.mPrevTransition.rule.toYearTiny());
-  assertEqual(11, zoneProcessor.mPrevTransition.rule.inMonth());
+  assertEqual(3, zoneProcessor.mNumTransitions);
 
   assertEqual(-8*60, zoneProcessor.mTransitions[0].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[0].era.format());
   assertEqual(2007-2000, zoneProcessor.mTransitions[0].rule.fromYearTiny());
   assertEqual(basic::ZoneRule::kMaxYearTiny,
       zoneProcessor.mTransitions[0].rule.toYearTiny());
-  assertEqual(3, zoneProcessor.mTransitions[0].rule.inMonth());
+  assertEqual(11, zoneProcessor.mTransitions[0].rule.inMonth());
 
   assertEqual(-8*60, zoneProcessor.mTransitions[1].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[1].era.format());
   assertEqual(2007-2000, zoneProcessor.mTransitions[1].rule.fromYearTiny());
   assertEqual(basic::ZoneRule::kMaxYearTiny,
       zoneProcessor.mTransitions[1].rule.toYearTiny());
-  assertEqual(11, zoneProcessor.mTransitions[1].rule.inMonth());
+  assertEqual(3, zoneProcessor.mTransitions[1].rule.inMonth());
+
+  assertEqual(-8*60, zoneProcessor.mTransitions[2].era.offsetMinutes());
+  assertEqual("P%T", zoneProcessor.mTransitions[2].era.format());
+  assertEqual(2007-2000, zoneProcessor.mTransitions[2].rule.fromYearTiny());
+  assertEqual(basic::ZoneRule::kMaxYearTiny,
+      zoneProcessor.mTransitions[2].rule.toYearTiny());
+  assertEqual(11, zoneProcessor.mTransitions[2].rule.inMonth());
 
   assertEqual((acetime_t) BasicZoneProcessor::kMinEpochSeconds,
-      zoneProcessor.mPrevTransition.startEpochSeconds);
-  assertEqual(-8*60, zoneProcessor.mPrevTransition.offsetMinutes);
+      zoneProcessor.mTransitions[0].startEpochSeconds);
+  assertEqual(-8*60, zoneProcessor.mTransitions[0].offsetMinutes);
 
   // t >= 2018-03-11 02:00 UTC-08:00 Sunday goes to PDT
-  assertEqual(-7*60, zoneProcessor.mTransitions[0].offsetMinutes);
+  assertEqual(-7*60, zoneProcessor.mTransitions[1].offsetMinutes);
   assertEqual((acetime_t) 574077600,
-      zoneProcessor.mTransitions[0].startEpochSeconds);
+      zoneProcessor.mTransitions[1].startEpochSeconds);
 
   // t >= 2018-11-04 02:00 UTC-07:00 Sunday goes to PST
-  assertEqual(-8*60, zoneProcessor.mTransitions[1].offsetMinutes);
+  assertEqual(-8*60, zoneProcessor.mTransitions[2].offsetMinutes);
   assertEqual((acetime_t) 594637200,
-      zoneProcessor.mTransitions[1].startEpochSeconds);
+      zoneProcessor.mTransitions[2].startEpochSeconds);
 }
 
 test(BasicZoneProcessorTest, createAbbreviation) {

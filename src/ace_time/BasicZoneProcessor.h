@@ -69,9 +69,8 @@ struct Transition {
 
   /**
    * The Zone transition rule that matched for the the given year. Set to
-   * nullptr if the RULES column is '-'. We do not support a RULES column that
-   * contains a UTC offset. There are only 2 time zones that has this property
-   * as of TZ database version 2018g: Europe/Istanbul and
+   * nullptr if the RULES column is '-' or 'hh:mm'. The fixed DST offset placed
+   * in deltaOffset. Two examples of such a timezone isEurope/Istanbul and
    * America/Argentina/San_Luis.
    *
    * This field is used only during the init() phase, not during the
@@ -92,8 +91,15 @@ struct Transition {
   /** The deltaMinutes from "standard time" at the start of transition */
   int16_t deltaMinutes;
 
-  /** Year which applies to the ZoneEra or ZoneRule. */
+  /** Year of the Transition. */
   int8_t yearTiny;
+
+  /**
+   * Month of the transition. Copied from ZoneRule.inMonth() if it exists or
+   * set to 1 if ZoneRule is null (indicating that the ZoneEra represents a
+   * fixed offset for the entire year).
+   */
+  uint8_t month;
 
   /**
    * The calculated effective time zone abbreviation, e.g. "PST" or "PDT".
@@ -322,7 +328,6 @@ class BasicZoneProcessor: public ZoneProcessor {
         logging::printf("mYearTiny: %d\n", mYearTiny);
         logging::printf("mNumTransitions: %d\n", mNumTransitions);
         logging::printf("mT[prev]=");
-        mPrevTransition.log();
         for (int i = 0; i < mNumTransitions; i++) {
           logging::printf("mT[%d]=", i);
           mTransitions[i].log();
@@ -398,7 +403,7 @@ class BasicZoneProcessor: public ZoneProcessor {
     friend class ZoneProcessorCacheImpl; // setZoneInfo()
 
     /** Maximum size of Transition cache across supported zones. */
-    static const uint8_t kMaxCacheEntries = 4;
+    static const uint8_t kMaxCacheEntries = 5;
 
     /**
      * The smallest Transition.startEpochSeconds which represents -Infinity.
@@ -549,7 +554,7 @@ class BasicZoneProcessor: public ZoneProcessor {
       }
 
       int8_t priorYearTiny = yearTiny - 1;
-      mPrevTransition = createTransition(era, latest, priorYearTiny);
+      addTransition(priorYearTiny, era, latest);
     }
 
     /**
@@ -561,10 +566,13 @@ class BasicZoneProcessor: public ZoneProcessor {
         basic::ZoneRuleBroker rule, int8_t yearTiny) {
       int16_t deltaMinutes;
       char letter;
+      uint8_t month;
       if (rule.isNull()) {
+        month = 1; // RULES is either '-' or 'hh:mm' so takes effect in Jan
         deltaMinutes = era.deltaMinutes();
         letter = '\0';
       } else {
+        month = rule.inMonth();
         deltaMinutes = rule.deltaMinutes();
         letter = rule.letter();
       }
@@ -577,6 +585,7 @@ class BasicZoneProcessor: public ZoneProcessor {
         offsetMinutes,
         deltaMinutes,
         yearTiny,
+        month,
         {letter} /*abbrev*/
       };
     }
@@ -681,9 +690,8 @@ class BasicZoneProcessor: public ZoneProcessor {
         basic::Transition& left = mTransitions[i - 1];
         basic::Transition& right = mTransitions[i];
         // assume only 1 rule per month
-        if ((left.rule.isNotNull() && right.rule.isNotNull() &&
-              left.rule.inMonth() > right.rule.inMonth())
-            || (left.rule.isNotNull() && right.rule.isNull())) {
+        if (basic::compareYearMonth(
+            {left.yearTiny, left.month}, {right.yearTiny, right.month}) > 0) {
           basic::Transition tmp = left;
           left = right;
           right = tmp;
@@ -738,10 +746,10 @@ class BasicZoneProcessor: public ZoneProcessor {
       }
 
       // Set the initial startEpochSeconds to be -Infinity
-      mPrevTransition.startEpochSeconds = kMinEpochSeconds;
-      const basic::Transition* prevTransition = &mPrevTransition;
+      basic::Transition* prevTransition = &mTransitions[0];
+      prevTransition->startEpochSeconds = kMinEpochSeconds;
 
-      for (uint8_t i = 0; i < mNumTransitions; i++) {
+      for (uint8_t i = 1; i < mNumTransitions; i++) {
         basic::Transition& transition = mTransitions[i];
         const int16_t year = transition.yearTiny + LocalDate::kEpochYear;
 
@@ -770,7 +778,7 @@ class BasicZoneProcessor: public ZoneProcessor {
 
           // Determine the start date of the rule.
           const basic::MonthDay monthDay = calcStartDayOfMonth(
-              year, transition.rule.inMonth(), transition.rule.onDayOfWeek(),
+              year, transition.month, transition.rule.onDayOfWeek(),
               transition.rule.onDayOfMonth());
 
           // Determine the offset of the 'atTimeSuffix'. The 'w' suffix
@@ -818,7 +826,6 @@ class BasicZoneProcessor: public ZoneProcessor {
         logging::printf("calcAbbreviations():\n");
       }
 
-      calcAbbreviation(&mPrevTransition);
       for (uint8_t i = 0; i < mNumTransitions; i++) {
         calcAbbreviation(&mTransitions[i]);
       }
@@ -947,10 +954,10 @@ class BasicZoneProcessor: public ZoneProcessor {
 
     /** Search the cache and find closest Transition. */
     const basic::Transition* findMatch(acetime_t epochSeconds) const {
-      const basic::Transition* closestMatch = &mPrevTransition;
+      const basic::Transition* closestMatch = nullptr;
       for (uint8_t i = 0; i < mNumTransitions; i++) {
         const basic::Transition* m = &mTransitions[i];
-        if (m->startEpochSeconds <= epochSeconds) {
+        if (closestMatch == nullptr || m->startEpochSeconds <= epochSeconds) {
           closestMatch = m;
         }
       }
@@ -963,7 +970,6 @@ class BasicZoneProcessor: public ZoneProcessor {
     mutable bool mIsFilled = false;
     mutable uint8_t mNumTransitions = 0;
     mutable basic::Transition mTransitions[kMaxCacheEntries];
-    mutable basic::Transition mPrevTransition; // previous year's transition
 };
 
 }
