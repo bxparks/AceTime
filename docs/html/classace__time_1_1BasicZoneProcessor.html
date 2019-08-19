@@ -210,16 +210,15 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 <ul>
 <li>ZoneInfo UNTIL field must contain only the full year; cannot contain month, day, or time components</li>
 <li>ZoneInfo untilTimeSuffix can contain only 'w' (not 's' or 'u')</li>
-<li>ZoneInfo RULES column must be empty ("-"), OR refer to a named Zone Rule (e.g. "US"); cannot contain an explicit offset (hh:mm)</li>
 <li>ZonePolicy can contain only 1 ZoneRule in a single month</li>
 <li>ZoneRule AT time cannot occur on Jan 1</li>
 <li>ZoneRule atTimeSuffix can be any of ('w', 's', and 'u')</li>
 <li>ZoneRule LETTER must contain only a single letter (not "WAT" or "CST")</li>
 </ul>
-<p>Even with these limitations, zonedb/zone_info.h shows that 231 out of a total of 359 zones are supported by <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database...">BasicZoneProcessor</a>.</p>
+<p>Even with these limitations, zonedb/zone_info.h shows that 270 out of a total of 387 zones are supported by <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database...">BasicZoneProcessor</a> (as of v0.8).</p>
 <p>Not thread-safe. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00211">211</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00209">209</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a464ea9d95aeb13439aec575221eb32fc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a464ea9d95aeb13439aec575221eb32fc">&#9670;&nbsp;</a></span>BasicZoneProcessor()</h2>
@@ -253,7 +252,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00217">217</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00215">215</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -313,7 +312,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 * </pre><p>Caveats: This method handles expressions which crosses month boundaries, but not year boundaries (e.g. Jan to Dec of the previous year, or Dec to Jan of the following year.)</p>
 <p>Not private, used by <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database. ">ExtendedZoneProcessor</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00359">359</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00357">357</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -347,7 +346,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#aa080366d78d5b8d8cc56915857e49ddd">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00242">242</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00240">240</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -380,7 +379,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#ac6c4abe6e32c646228cd667114dc81de">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00235">235</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00233">233</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -416,7 +415,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#abb743cef9e4b5c69594f8f121da087ad">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00276">276</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00274">274</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -449,7 +448,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a606e678c83ced5f83920a5d517728b62">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00228">228</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00226">226</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -480,7 +479,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a76f48e7b38f91503b1e522bee11dbd49">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00226">226</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00224">224</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -511,7 +510,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a0a4073493ffca9b14a4e60551c545c93">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00222">222</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00220">220</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -540,7 +539,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 
 <p>Used only for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00325">325</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00323">323</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
