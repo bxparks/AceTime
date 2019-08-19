@@ -210,8 +210,10 @@ Conversion from an epochSeconds to date-time components including timezone
 
 **Version**: 0.8 (2019-08-19, TZ DB version 2019b, beta)
 
-**Status**: Supports 1-minute resolution for all Extended TimeZones.
-See [CHANGELOG.md](CHANGELOG.md)
+**Status**: Supports 1-minute resolution for all Extended TimeZones, and
+validated against Hinnant date library from 1975 until 2050. I think this will
+be the last beta release before v1.0. See [CHANGELOG.md](CHANGELOG.md) for full
+details.
 
 ## Examples
 
