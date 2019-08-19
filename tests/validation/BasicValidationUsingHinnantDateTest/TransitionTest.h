@@ -29,6 +29,7 @@ class TransitionTest: public aunit::TestOnce {
           } else {
             ace_time::logging::printf("epochSeconds: %ld\n", epochSeconds);
           }
+          tz.getUtcOffset(epochSeconds); // prime ZoneProcessor cache
           zoneProcessor.log();
         }
 
