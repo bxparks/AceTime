@@ -105,6 +105,11 @@ The following programs are provided in the `examples/` directory:
     * a clock with 3 OLED screens showing the time at 3 different time zones
 * [AutoBenchmark](examples/AutoBenchmark/)
     * perform CPU and memory benchmarking of various methods and print a report
+* [MemoryBenchmark](examples/MemoryBenchmark/)
+    * compiles `MemoryBenchmark.ino` for 13 different features and collecs the
+      flash and static RAM usage from the compiler into a `*.txt` file for
+      a number of platforms (AVR, SAMD, ESP8266, etc)
+    * the `README.md` transforms the `*.txt` file into a human-readable form
 * [ComparisonBenchmark](examples/ComparisonBenchmark/)
     * compare AceTime with
     [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
@@ -580,7 +585,7 @@ namespace ace_time {
 
 class TimeOffset {
   public:
-    static TimeOffset forHours(int8_t hour);
+    static TimeOffset forHours(int8_t hours);
     static TimeOffset forMinutes(int16_t minutes);
     static TimeOffset forHourMinute(int8_t hour, int8_t minute);
 
@@ -760,7 +765,7 @@ hold a reference to:
 TimeZone <>-------- ZoneProcessor            ------- ZoneProcessorCache
                           ^                                ^
                           |                                |
-                    .---- +----.                     .---- +----.
+                   .----- +----.                     .---- +-----.
                    |           |                     |           |
               BasicZone        ExtendedZone       BasicZone     ExtendedZone
               Processor        Processor     ProcessorCache     ZoneProcessor
@@ -1236,24 +1241,56 @@ processors) on consecutive calls to `forEpochSeconds()` with the same `year`.
 
 ### ZoneInfo Files
 
-Starting with version 0.4, the zoneinfo files are stored in in flash memory
+Starting with v0.4, the zoneinfo files are stored in in flash memory
 instead of static RAM using the
 [PROGMEM](https://www.arduino.cc/reference/en/language/variables/utilities/progmem/)
 keyword on microcontrollers which support this feature. On an 8-bit
-microcontroller, the `zonedb/` database consumes about 14kB of flash
+microcontroller, the `zonedb/` database consumes about 15 kB of flash
 memory, so it may be possible to create small programs that can dynamically
 access all timezones supported by `BasicZoneProcessor`. The `zonedbx/` database
-consumes about 23kB of flash memory and the addition code size from various
+consumes about 24 kB of flash memory and the addition code size from various
 classes will exceed the 30-32kB limit of a typical Arduino 8-bit
 microcontroller.
 
+The exact format of the zoneinfo files (`zonedb/` and `zonedbx/`) are considered
+to be an implementation detail and may change in the future to support future
+timezones. Applications should not depend on the internal structure of zoneinfo
+data structures.
+
+#### Basic zonedb
+
 The `zonedb/` files do not support all the timezones in the TZ Database.
-The list of these zones and The reasons for excluding them are given at the
+If a zone is excluded, the reason for the exclusion can be found at the
 bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
+The criteria for selecting the Basic `zonedb` files are embedded
+in the `transformer.py` script. Some of these properties are:
+
+* the DST offset is a multiple of 15-minutes (all current timezones satisfy
+  this)
+* the STDOFF offset is a multiple of 1-minute (all current timezones
+  satisfy this)
+* the AT or UNTIL fields must occur at one-year boundaries (this is the biggest
+  filter)
+* the LETTER field must contain only a single character
+
+In the current version (v0.8), this database contains 270 zones from the year
+2000 to 2049 (inclusive).
+
+#### Extended zonedbx
 
 The goal of the `zonedbx/` files is to support all zones listed in the TZ
 Database. Currently, as of TZ Database version 2019b, this goal is met
-from the year 2000 to 2049 inclusive.
+from the year 2000 to 2049 inclusive. Some restrictions of this database
+are:
+
+* the DST offset is a multipole of 15-minutes ranging from -1:00 to 2:45
+  (all timezones from about 1972 support this)
+* the STDOFF offset is a multiple of 1-minute
+* the AT and UNTIL fields are multiples of 1-minute
+* the LETTER field can be arbitrary strings
+
+In the current version (v0.8), this database contains all 387 timezones from
+the year 2000 to 2049 (inclusive).
 
 #### BasicZone and ExtendedZone
 
@@ -2416,10 +2453,10 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 2
 sizeof(OffsetDateTime): 8
-sizeof(BasicZoneProcessor): 99
-sizeof(ExtendedZoneProcessor): 437
-sizeof(BasicZoneManager<1>): 107
-sizeof(ExtendedZoneManager<1>): 445
+sizeof(BasicZoneProcessor): 113
+sizeof(ExtendedZoneProcessor): 453
+sizeof(BasicZoneManager<1>): 121
+sizeof(ExtendedZoneManager<1>): 461
 sizeof(TimeZone): 5
 sizeof(ZonedDateTime): 13
 sizeof(TimePeriod): 4
@@ -2435,10 +2472,10 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 2
 sizeof(OffsetDateTime): 8
-sizeof(BasicZoneProcessor): 136
-sizeof(ExtendedZoneProcessor): 500
-sizeof(BasicZoneManager<1>): 156
-sizeof(ExtendedZoneManager<1>): 520
+sizeof(BasicZoneProcessor): 156
+sizeof(ExtendedZoneProcessor): 532
+sizeof(BasicZoneManager<1>): 176
+sizeof(ExtendedZoneManager<1>): 552
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
@@ -2453,12 +2490,12 @@ Here is a short summary for an 8-bit microcontroller (e.g. Arduino Nano):
 
 * Using the `TimeZone` class with a `BasicZoneProcessor` for one timezone takes
   about 6 kB of flash memory and 193 bytes of static RAM.
-* Using 2 timezones with `BasiCZoneProcessor increases the consumption to
+* Using 2 timezones with `BasicZoneProcessor increases the consumption to
   about 7 kB of flash and 207 bytes of RAM.
 * Loading the entire `zonedb::` zoneinfo database consumes 21 kB bytes of flash
   and 597 bytes of RAM.
 * Adding the `SystemClock` to the `TimeZone` and `BasicZoneProcessor` with one
-  timezone consumes 8.5 kB bytes of flash and 352 bytes of RAM.
+  timezone consumes 9 kB bytes of flash and 352 bytes of RAM.
 
 These numbers indicate that the AceTime library is useful even on a limited
 8-bit controller with only 30-32 kB of flash and 2 kB of RAM. As a concrete

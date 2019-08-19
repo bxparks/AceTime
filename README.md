@@ -109,12 +109,12 @@ The library provides 2 sets of zoneinfo files created from the IANA TZ Database:
 
 * [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) contains `kZone*`
   declarations (e.g. `kZoneAmerica_Los_Angeles`) for 270 zones and 182 links
-  which have (relatively) simple time zone transition rules, and intended to be
-  used with the `BasicZoneProcessor` class.
+  from the year 2000 until 2050. These zones have (relatively) simple time zone
+  transition rules, which can handled by the `BasicZoneProcessor` class.
 * [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h) contains `kZone*`
   declarations (e.g. `kZoneAfrica_Casablanca`) for 387 zones and 205 links in
-  the TZ Database (essentially the entire database) intended to be used with
-  the `ExtendedZoneProcessor` class.
+  the TZ Database (essentially the entire database) from the year 2000 until
+  2050. These are intended to be used with the `ExtendedZoneProcessor` class.
 
 The zoneinfo files (and their associated `ZoneProcessor` classes) have a
 resolution of 1 minute, which is sufficient to represent all UTC offsets and DST

@@ -62,8 +62,8 @@ class TimeOffset {
      * Create TimeOffset with the corresponding hour offset. For example,
      * -08:00 is 'forHours(-8)'.
      */
-    static TimeOffset forHours(int8_t hour) {
-      return TimeOffset::forMinutes(hour * 60);
+    static TimeOffset forHours(int8_t hours) {
+      return TimeOffset::forMinutes(hours * 60);
     }
 
     /**
