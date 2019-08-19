@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 0.8
     * Handle `Fri<=1` correctly in various python scripts. (#17)
     * Improve resolution of zonedb files and ZoneProcessor classes. (#18)
         * Both BasicZoneProcessor and ExtendedZoneProcessor support 1-minute
