@@ -1473,7 +1473,7 @@ static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
 };
 
 static const uint16_t kZoneRegistrySize =
-    sizeof(Controller::kZoneRegistry) / sizeof(basic::ZoneInfo*);
+    sizeof(kZoneRegistry) / sizeof(basic::ZoneInfo*);
 
 static const uint16_t NUM_ZONES = 2;
 static BasicZoneManager<NUM_ZONES> zoneManager(kZoneRegistrySize, kZoneRegistry);
@@ -1494,7 +1494,7 @@ static const extended::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
 };
 
 static const uint16_t kZoneRegistrySize =
-    sizeof(Controller::kZoneRegistry) / sizeof(extended::ZoneInfo*);
+    sizeof(kZoneRegistry) / sizeof(extended::ZoneInfo*);
 
 static const uint16_t NUM_ZONES = 2;
 static ExtendedZoneManager<NUM_ZONES> zoneManager(kZoneRegistrySize, kZoneRegistry);
