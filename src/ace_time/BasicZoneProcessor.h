@@ -406,7 +406,16 @@ class BasicZoneProcessor: public ZoneProcessor {
     template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
     friend class ZoneProcessorCacheImpl; // setZoneInfo()
 
-    /** Maximum size of Transition cache across supported zones. */
+    /**
+     * Maximum size of Transition cache across supported zones. This number (5)
+     * is derived from the following:
+     *
+     *    * 1 transition prior to the current year
+     *    * 1 transition at the start of the current year if the zone
+     *      switches to a new ZoneEra (e.g. into a new ZonePolicy)
+     *    * 2 DST transitions (spring and autumn)
+     *    * 1 transition at start of the next year
+     */
     static const uint8_t kMaxCacheEntries = 5;
 
     /**
