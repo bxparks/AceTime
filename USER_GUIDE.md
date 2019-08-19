@@ -760,8 +760,8 @@ hold a reference to:
   `kTypeExtendedManaged`).
 
 ```
-            .------------------------------.
-         <>'   0..1                         \   0..1
+           .-------------------------------.
+         <>    0..1                         \   0..1
 TimeZone <>-------- ZoneProcessor            ------- ZoneProcessorCache
                           ^                                ^
                           |                                |
@@ -1465,7 +1465,7 @@ is a `BasicZoneManager` with only 4 zones from the `zonedb::` data set:
 #include <AceTime.h>
 using namespace ace_time;
 ...
-static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
+static const basic::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
   &zonedb::kZoneAmerica_Los_Angeles,
   &zonedb::kZoneAmerica_Denver,
   &zonedb::kZoneAmerica_Chicago,
@@ -1475,8 +1475,9 @@ static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
 static const uint16_t kZoneRegistrySize =
     sizeof(kZoneRegistry) / sizeof(basic::ZoneInfo*);
 
-static const uint16_t NUM_ZONES = 2;
-static BasicZoneManager<NUM_ZONES> zoneManager(kZoneRegistrySize, kZoneRegistry);
+static const uint16_t CACHE_SIZE = 2;
+static BasicZoneManager<CACHE_SIZE> zoneManager(
+    kZoneRegistrySize, kZoneRegistry);
 ```
 
 Here is the equivalent `ExtendedZoneManager` with 4 zones from the `zonedbx::`
@@ -1496,8 +1497,9 @@ static const extended::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
 static const uint16_t kZoneRegistrySize =
     sizeof(kZoneRegistry) / sizeof(extended::ZoneInfo*);
 
-static const uint16_t NUM_ZONES = 2;
-static ExtendedZoneManager<NUM_ZONES> zoneManager(kZoneRegistrySize, kZoneRegistry);
+static const uint16_t CACHE_SIZE = 2;
+static ExtendedZoneManager<CACHE_SIZE> zoneManager(
+    kZoneRegistrySize, kZoneRegistry);
 ```
 
 The `ACE_TIME_PROGMEM` macro is defined in
@@ -1510,7 +1512,7 @@ according to this macro.
 See [CommandLineClock](examples/CommandLineClock/) for an example of how these
 custom registries can be created and used.
 
-#### createForZoneName
+#### createForZoneName()
 
 The `ZoneManager` allows creation of a `TimeZone` using the fully qualified
 zone name:
@@ -1539,7 +1541,7 @@ I think the only time the `createForZoneName()` might be useful is if
 the user was allowed to type in the zone name, and you wanted to create a
 `TimeZone` from the string typed in by the user.
 
-#### createForZoneId
+#### createForZoneId()
 
 Each zone in the `zonedb::` and `zonedbx::` database is given a unique
 and stable zoneId. This can be retrieved from the `TimeZone` object using:
@@ -1600,7 +1602,7 @@ check for this, and substitute a reasonable default TimeZone when this happens.
 This situation is not unique to the zoneId. The same problem would occur if the
 fully qualified zone name was used.
 
-#### createForZoneIndex
+#### createForZoneIndex()
 
 The `ZoneManager::createForZoneIndex()` creates a `TimeZone` from its integer
 index into the Zone registry, from 0 to `registrySize - 1`. This is useful when
