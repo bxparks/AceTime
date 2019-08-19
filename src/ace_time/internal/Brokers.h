@@ -158,6 +158,9 @@ class ZonePolicyBroker {
     explicit ZonePolicyBroker(const ZonePolicy* zonePolicy):
         mZonePolicy(zonePolicy) {}
 
+    ZonePolicyBroker():
+        mZonePolicy(nullptr) {}
+
     // use default copy constructor
     ZonePolicyBroker(const ZonePolicyBroker&) = default;
 
@@ -207,7 +210,7 @@ class ZonePolicyBroker {
   #endif
 
   private:
-    const ZonePolicy* const mZonePolicy;
+    const ZonePolicy* mZonePolicy;
 };
 
 /** Data broker for accessing ZoneEra. */

@@ -21,6 +21,7 @@
 
 class BasicZoneProcessorTest_priorYearOfRule;
 class BasicZoneProcessorTest_compareRulesBeforeYear;
+class BasicZoneProcessorTest_findLatestPriorRule;
 class BasicZoneProcessorTest_findZoneEra;
 class BasicZoneProcessorTest_findZoneEraPriorTo;
 class BasicZoneProcessorTest_init_primitives;
@@ -394,6 +395,7 @@ class BasicZoneProcessor: public ZoneProcessor {
   private:
     friend class ::BasicZoneProcessorTest_priorYearOfRule;
     friend class ::BasicZoneProcessorTest_compareRulesBeforeYear;
+    friend class ::BasicZoneProcessorTest_findLatestPriorRule;
     friend class ::BasicZoneProcessorTest_findZoneEra;
     friend class ::BasicZoneProcessorTest_findZoneEraPriorTo;
     friend class ::BasicZoneProcessorTest_init_primitives;
@@ -508,6 +510,7 @@ class BasicZoneProcessor: public ZoneProcessor {
 
       addTransitionPriorToYear(yearTiny);
       addTransitionsForYear(yearTiny);
+      addTransitionAfterYear(yearTiny);
       calcTransitions();
       calcAbbreviations();
 
@@ -538,27 +541,59 @@ class BasicZoneProcessor: public ZoneProcessor {
 
       // If the prior ZoneEra has a ZonePolicy), then find the latest rule
       // within the ZoneEra. Otherwise, add a Transition using a rule==nullptr.
-      const basic::ZonePolicyBroker zonePolicy = era.zonePolicy();
+      basic::ZoneRuleBroker latest = findLatestPriorRule(
+          era.zonePolicy(), yearTiny);
+      addTransition(yearTiny - 1, era, latest);
+    }
+
+    /**
+     * Find the latest rule in the ZonePolicy in effective before the given
+     * yearTiny. Assume that there are no more than 1 rule per month.
+     * Return null ZoneRule if ZonePoicy is null.
+     */
+    static basic::ZoneRuleBroker findLatestPriorRule(
+        basic::ZonePolicyBroker zonePolicy, int8_t yearTiny) {
       basic::ZoneRuleBroker latest;
-      if (zonePolicy.isNotNull()) {
-        // Find the latest rule for the matching ZoneEra whose
-        // ZoneRule::toYearTiny < yearTiny. Assume that there are no more than
-        // 1 rule per month.
-        uint8_t numRules = zonePolicy.numRules();
-        for (uint8_t i = 0; i < numRules; i++) {
-          const basic::ZoneRuleBroker rule = zonePolicy.rule(i);
-          // Check if rule is effective prior to the given year
-          if (rule.fromYearTiny() < yearTiny) {
-            if ((latest.isNull()) ||
-                compareRulesBeforeYear(yearTiny, rule, latest) > 0) {
-              latest = rule;
-            }
+      if (zonePolicy.isNull()) return latest;
+
+      uint8_t numRules = zonePolicy.numRules();
+      for (uint8_t i = 0; i < numRules; i++) {
+        const basic::ZoneRuleBroker rule = zonePolicy.rule(i);
+        // Check if rule is effective prior to the given year
+        if (rule.fromYearTiny() < yearTiny) {
+          if ((latest.isNull()) ||
+              compareRulesBeforeYear(yearTiny, rule, latest) > 0) {
+            latest = rule;
           }
         }
       }
 
-      int8_t priorYearTiny = yearTiny - 1;
-      addTransition(priorYearTiny, era, latest);
+      return latest;
+    }
+
+    /** Add the rule just after the current year if there exists one. */
+    void addTransitionAfterYear(int8_t yearTiny) const {
+      if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("addTransitionAfterYear(): %d\n", yearTiny);
+      }
+
+      const basic::ZoneEraBroker era = findZoneEra(mZoneInfo, yearTiny);
+      const basic::ZoneEraBroker eraAfter = findZoneEra(
+          mZoneInfo, yearTiny + 1);
+
+      // If the ZonEra is the same the following year, then just return
+      // because tzcompiler.py guarantees no ZoneRule on Jan 1st.
+      if (era.zoneEra() == eraAfter.zoneEra()) {
+        return;
+      }
+
+      // Find the latest transition prior to {yearTiny + 1, 1, 1}. Again, we
+      // don't need to worry about transition at exactly Jan 1st because
+      // tzcompiler.py filtered those out. If ZonePolicy is nullptr, then
+      // a null ZoneRule is returned, which is exactly what we want.
+      basic::ZoneRuleBroker latest = findLatestPriorRule(
+          eraAfter.zonePolicy(), yearTiny + 1);
+      addTransition(yearTiny + 1, era, latest);
     }
 
     /**
@@ -604,11 +639,9 @@ class BasicZoneProcessor: public ZoneProcessor {
 
     /**
      * Return the largest effective year of the rule *prior* to given year.
-     * Return kMinYearTiny if rule is greater than the given year which causes
-     * it to be replaced by something else when we search for the most recent
-     * prior year. For example, if the rule's [from, to] is [1993, 1995] and
-     * the year=2000, then this return 1995. If the year=1994, then this return
-     * 1993. If the year=1993, this returns kMinYearTiny.
+     *    * If [from,to]<year, return (to).
+     *    * If [from<year<=to], return (year-1).
+     *    * Otherwise, year<=[from,to] so return kMinYearTiny.
      */
     static int8_t priorYearOfRule(int8_t yearTiny,
         const basic::ZoneRuleBroker rule) {

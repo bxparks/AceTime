@@ -203,10 +203,10 @@ test(BasicZoneProcessorTest, findZoneEra) {
   assertEqual(1986-2000, era.untilYearTiny());
 
   era = BasicZoneProcessor::findZoneEra(info, 1986-2000);
-  assertEqual(127, era.untilYearTiny());
+  assertEqual(LocalDate::kMaxYearTiny, era.untilYearTiny());
 
   era = BasicZoneProcessor::findZoneEra(info, 1987-2000);
-  assertEqual(127, era.untilYearTiny());
+  assertEqual(LocalDate::kMaxYearTiny, era.untilYearTiny());
 }
 
 test(BasicZoneProcessorTest, findZoneEraPriorTo) {
@@ -223,42 +223,71 @@ test(BasicZoneProcessorTest, findZoneEraPriorTo) {
   assertEqual(1986-2000, era.untilYearTiny());
 
   era = BasicZoneProcessor::findZoneEraPriorTo(info, 1987-2000);
-  assertEqual(127, era.untilYearTiny());
+  assertEqual(LocalDate::kMaxYearTiny, era.untilYearTiny());
+}
+
+test(BasicZoneProcessorTest, findLatestPriorRule) {
+  basic::ZonePolicyBroker policy;
+  int8_t yearTiny = 1986-2000;
+  basic::ZoneRuleBroker rule = BasicZoneProcessor::findLatestPriorRule(
+      policy, yearTiny);
+  assertTrue(rule.isNull());
+
+  policy = basic::ZonePolicyBroker(&kPolicyEcuador);
+  yearTiny = 1992-2000;
+  rule = BasicZoneProcessor::findLatestPriorRule(policy, yearTiny);
+  assertEqual(-127, rule.fromYearTiny());
+
+  yearTiny = 1993-2000;
+  rule = BasicZoneProcessor::findLatestPriorRule(policy, yearTiny);
+  assertEqual(1992-2000, rule.fromYearTiny());
+
+  yearTiny = 1994-2000;
+  rule = BasicZoneProcessor::findLatestPriorRule(policy, yearTiny);
+  assertEqual(1993-2000, rule.fromYearTiny());
+
+  yearTiny = 1995-2000;
+  rule = BasicZoneProcessor::findLatestPriorRule(policy, yearTiny);
+  assertEqual(1993-2000, rule.fromYearTiny());
 }
 
 test(BasicZoneProcessorTest, priorYearOfRule) {
   basic::ZonePolicyBroker policy(&kPolicyEcuador);
 
-  assertEqual(1873-2000, BasicZoneProcessor::priorYearOfRule(1995-2000,
-      policy.rule(0) /*1873*/));
-  assertEqual(1992-2000, BasicZoneProcessor::priorYearOfRule(1995-2000,
-      policy.rule(1) /*1992*/));
-  assertEqual(1993-2000, BasicZoneProcessor::priorYearOfRule(1995-2000,
-      policy.rule(2) /*1993*/));
+  int8_t yearTiny = 1995-2000;
+  assertEqual(1873-2000, BasicZoneProcessor::priorYearOfRule(
+      yearTiny, policy.rule(0) /*min*/));
+  assertEqual(1992-2000, BasicZoneProcessor::priorYearOfRule(
+      yearTiny, policy.rule(1) /*1992*/));
+  assertEqual(1993-2000, BasicZoneProcessor::priorYearOfRule(
+      yearTiny, policy.rule(2) /*1993*/));
 
-  assertEqual(1873-2000, BasicZoneProcessor::priorYearOfRule(1993-2000,
-      policy.rule(0) /*1873*/));
-  assertEqual(1992-2000, BasicZoneProcessor::priorYearOfRule(1993-2000,
-      policy.rule(1) /*1992*/));
+  yearTiny = 1993-2000;
+  assertEqual(1873-2000, BasicZoneProcessor::priorYearOfRule(
+      yearTiny, policy.rule(0) /*min*/));
+  assertEqual(1992-2000, BasicZoneProcessor::priorYearOfRule(
+      yearTiny, policy.rule(1) /*1992*/));
   // Rule is not effective before 1993, so returns 0 to suppress it.
-  assertEqual(LocalDate::kMinYearTiny,
-      BasicZoneProcessor::priorYearOfRule(1993-2000, policy.rule(2) /*1993*/));
+  assertEqual(LocalDate::kMinYearTiny, BasicZoneProcessor::priorYearOfRule(
+      yearTiny, policy.rule(2) /*1993*/));
 }
 
 test(BasicZoneProcessorTest, compareRulesBeforeYear) {
   basic::ZonePolicyBroker policy(&kPolicyEcuador);
 
-  // The last prior rule prior to 1995 should be 1993.
-  assertLess(BasicZoneProcessor::compareRulesBeforeYear(1995-2000,
-    policy.rule(0), policy.rule(1)), 0);
-  assertLess(BasicZoneProcessor::compareRulesBeforeYear(1995-2000,
-    policy.rule(1), policy.rule(2)), 0);
+  // The last rule prior to 1995 should be 1993.
+  int8_t yearTiny = 1995-2000;
+  assertLess(BasicZoneProcessor::compareRulesBeforeYear(
+      yearTiny, policy.rule(0), policy.rule(1)), 0);
+  assertLess(BasicZoneProcessor::compareRulesBeforeYear(
+      yearTiny, policy.rule(1), policy.rule(2)), 0);
 
-  // The last prior rule prior to 1993 should be 1992
-  assertLess(BasicZoneProcessor::compareRulesBeforeYear(1993-2000,
-    policy.rule(0), policy.rule(1)), 0);
-  assertMore(BasicZoneProcessor::compareRulesBeforeYear(1993-2000,
-    policy.rule(1), policy.rule(2)), 0);
+  // The last rule prior to 1993 should be 1992
+  yearTiny = 1993-2000;
+  assertLess(BasicZoneProcessor::compareRulesBeforeYear(
+      yearTiny, policy.rule(0), policy.rule(1)), 0);
+  assertMore(BasicZoneProcessor::compareRulesBeforeYear(
+      yearTiny, policy.rule(1), policy.rule(2)), 0);
 }
 
 test(BasicZoneProcessorTest, init_primitives) {
