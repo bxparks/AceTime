@@ -13,7 +13,6 @@ var searchData=
   ['forhours',['forHours',['../classace__time_1_1TimeOffset.html#a1f297687324ed84501d8793bb67ea28a',1,'ace_time::TimeOffset']]],
   ['forlocaldatetimeandoffset',['forLocalDateTimeAndOffset',['../classace__time_1_1OffsetDateTime.html#a671148a5714121eb9b96ddd88f1fe76d',1,'ace_time::OffsetDateTime']]],
   ['forminutes',['forMinutes',['../classace__time_1_1TimeOffset.html#aeb8480a999c6eba58304d02ac32133d2',1,'ace_time::TimeOffset']]],
-  ['foroffsetcode',['forOffsetCode',['../classace__time_1_1TimeOffset.html#aee7d1ffa94bd8dc78a5c967dfb363522',1,'ace_time::TimeOffset']]],
   ['foroffsetstring',['forOffsetString',['../classace__time_1_1TimeOffset.html#a432ebcdc40e78c55c6091288ea3ad0eb',1,'ace_time::TimeOffset']]],
   ['foroffsetstringchainable',['forOffsetStringChainable',['../classace__time_1_1TimeOffset.html#af20209f3ecb677c792721f2a9d4f527e',1,'ace_time::TimeOffset']]],
   ['forseconds',['forSeconds',['../classace__time_1_1LocalTime.html#a913eb403a49d40c447f4476507551300',1,'ace_time::LocalTime']]],

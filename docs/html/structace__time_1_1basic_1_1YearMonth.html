@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AceTime: Member List</title>
+<title>AceTime: ace_time::basic::YearMonth Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.7</span>
+   &#160;<span id="projectnumber">0.8</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -60,22 +60,41 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>ace_time</b></li><li class="navelem"><b>internal</b></li><li class="navelem"><a class="el" href="classace__time_1_1internal_1_1DirectZoneRegistryBroker.html">DirectZoneRegistryBroker</a></li>  </ul>
+<li class="navelem"><b>ace_time</b></li><li class="navelem"><b>basic</b></li><li class="navelem"><a class="el" href="structace__time_1_1basic_1_1YearMonth.html">YearMonth</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="structace__time_1_1basic_1_1YearMonth-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">ace_time::internal::DirectZoneRegistryBroker&lt; ZI &gt; Member List</div>  </div>
+<div class="title">ace_time::basic::YearMonth Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="classace__time_1_1internal_1_1DirectZoneRegistryBroker.html">ace_time::internal::DirectZoneRegistryBroker&lt; ZI &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>DirectZoneRegistryBroker</b>(const ZI *const *zoneRegistry) (defined in <a class="el" href="classace__time_1_1internal_1_1DirectZoneRegistryBroker.html">ace_time::internal::DirectZoneRegistryBroker&lt; ZI &gt;</a>)</td><td class="entry"><a class="el" href="classace__time_1_1internal_1_1DirectZoneRegistryBroker.html">ace_time::internal::DirectZoneRegistryBroker&lt; ZI &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>DirectZoneRegistryBroker</b>(const DirectZoneRegistryBroker &amp;)=delete (defined in <a class="el" href="classace__time_1_1internal_1_1DirectZoneRegistryBroker.html">ace_time::internal::DirectZoneRegistryBroker&lt; ZI &gt;</a>)</td><td class="entry"><a class="el" href="classace__time_1_1internal_1_1DirectZoneRegistryBroker.html">ace_time::internal::DirectZoneRegistryBroker&lt; ZI &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>operator=</b>(const DirectZoneRegistryBroker &amp;)=delete (defined in <a class="el" href="classace__time_1_1internal_1_1DirectZoneRegistryBroker.html">ace_time::internal::DirectZoneRegistryBroker&lt; ZI &gt;</a>)</td><td class="entry"><a class="el" href="classace__time_1_1internal_1_1DirectZoneRegistryBroker.html">ace_time::internal::DirectZoneRegistryBroker&lt; ZI &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>zoneInfo</b>(uint16_t i) const (defined in <a class="el" href="classace__time_1_1internal_1_1DirectZoneRegistryBroker.html">ace_time::internal::DirectZoneRegistryBroker&lt; ZI &gt;</a>)</td><td class="entry"><a class="el" href="classace__time_1_1internal_1_1DirectZoneRegistryBroker.html">ace_time::internal::DirectZoneRegistryBroker&lt; ZI &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-</table></div><!-- contents -->
+<p>Holds year and month.  
+ <a href="structace__time_1_1basic_1_1YearMonth.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:ae44873b980a6b3498c3eb77089acaf52"><td class="memItemLeft" align="right" valign="top"><a id="ae44873b980a6b3498c3eb77089acaf52"></a>
+int8_t&#160;</td><td class="memItemRight" valign="bottom"><b>year</b></td></tr>
+<tr class="separator:ae44873b980a6b3498c3eb77089acaf52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2f0444a9ea31cadde4834ae6ab0ca08"><td class="memItemLeft" align="right" valign="top"><a id="af2f0444a9ea31cadde4834ae6ab0ca08"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>month</b></td></tr>
+<tr class="separator:af2f0444a9ea31cadde4834ae6ab0ca08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Holds year and month. </p>
+<p>Useful for comparing ZoneRules. </p>
+
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00144">144</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li>/home/brian/dev/AceTime/src/ace_time/<a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a></li>
+</ul>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

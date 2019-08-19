@@ -1,4 +1,4 @@
 <map id="ace_time::extended::ZoneMatch" name="ace_time::extended::ZoneMatch">
-<area shape="rect" id="node2" href="$structace__time_1_1extended_1_1DateTuple.html" title="A tuple that represents a date and time. " alt="" coords="17,5,153,47"/>
-<area shape="rect" id="node3" href="$classace__time_1_1internal_1_1FlashZoneEraBroker.html" title="ace_time::internal\l::FlashZoneEraBroker\l\&lt; ZoneEra, ZonePolicy,\l ZoneRule \&gt;" alt="" coords="5,71,165,141"/>
+<area shape="rect" id="node2" href="$classace__time_1_1extended_1_1ZoneEraBroker.html" title="Data broker for accessing ZoneEra. " alt="" coords="5,5,141,47"/>
+<area shape="rect" id="node3" href="$structace__time_1_1extended_1_1DateTuple.html" title="A tuple that represents a date and time. " alt="" coords="165,5,301,47"/>
 </map>

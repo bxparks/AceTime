@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.7</span>
+   &#160;<span id="projectnumber">0.8</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -92,15 +92,15 @@ Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:aa9dc6d2ad181a53cbd93853b5ee653ac"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1ZoneContext.html#aa9dc6d2ad181a53cbd93853b5ee653ac">TIME_SUFFIX_W</a> = 0x00</td></tr>
-<tr class="memdesc:aa9dc6d2ad181a53cbd93853b5ee653ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents 'w' or wall time.  <a href="#aa9dc6d2ad181a53cbd93853b5ee653ac">More...</a><br /></td></tr>
-<tr class="separator:aa9dc6d2ad181a53cbd93853b5ee653ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1cae495fc7eeee61dd697941cf44f0b"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1ZoneContext.html#ac1cae495fc7eeee61dd697941cf44f0b">TIME_SUFFIX_S</a> = 0x10</td></tr>
-<tr class="memdesc:ac1cae495fc7eeee61dd697941cf44f0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents 's' or standard time.  <a href="#ac1cae495fc7eeee61dd697941cf44f0b">More...</a><br /></td></tr>
-<tr class="separator:ac1cae495fc7eeee61dd697941cf44f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af70247be9e748dac2dc0c5d48cca3965"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1ZoneContext.html#af70247be9e748dac2dc0c5d48cca3965">TIME_SUFFIX_U</a> = 0x20</td></tr>
-<tr class="memdesc:af70247be9e748dac2dc0c5d48cca3965"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents 'u' or UTC time.  <a href="#af70247be9e748dac2dc0c5d48cca3965">More...</a><br /></td></tr>
-<tr class="separator:af70247be9e748dac2dc0c5d48cca3965"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac57ba5e36880461b1238f00b1ec11025"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1ZoneContext.html#ac57ba5e36880461b1238f00b1ec11025">kSuffixW</a> = 0x00</td></tr>
+<tr class="memdesc:ac57ba5e36880461b1238f00b1ec11025"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents 'w' or wall time.  <a href="#ac57ba5e36880461b1238f00b1ec11025">More...</a><br /></td></tr>
+<tr class="separator:ac57ba5e36880461b1238f00b1ec11025"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fc9d68ef7dcc1351473c21c7d73e86a"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1ZoneContext.html#a0fc9d68ef7dcc1351473c21c7d73e86a">kSuffixS</a> = 0x10</td></tr>
+<tr class="memdesc:a0fc9d68ef7dcc1351473c21c7d73e86a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents 's' or standard time.  <a href="#a0fc9d68ef7dcc1351473c21c7d73e86a">More...</a><br /></td></tr>
+<tr class="separator:a0fc9d68ef7dcc1351473c21c7d73e86a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85fc171a9b1f14712fc6030593bde3ab"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1ZoneContext.html#a85fc171a9b1f14712fc6030593bde3ab">kSuffixU</a> = 0x20</td></tr>
+<tr class="memdesc:a85fc171a9b1f14712fc6030593bde3ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents 'u' or UTC time.  <a href="#a85fc171a9b1f14712fc6030593bde3ab">More...</a><br /></td></tr>
+<tr class="separator:a85fc171a9b1f14712fc6030593bde3ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Metadata about the zone database. </p>
@@ -108,26 +108,8 @@ Static Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="ZoneContext_8h_source.html#l00011">11</a> of file <a class="el" href="ZoneContext_8h_source.html">ZoneContext.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a3c47cac43c5fff8e40da57ee974ef51c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c47cac43c5fff8e40da57ee974ef51c">&#9670;&nbsp;</a></span>startYear</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const int16_t ace_time::extended::ZoneContext::startYear</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Start year of the zone files. </p>
-
-<p class="definition">Definition at line <a class="el" href="ZoneContext_8h_source.html#l00030">30</a> of file <a class="el" href="ZoneContext_8h_source.html">ZoneContext.h</a>.</p>
-
-</div>
-</div>
-<a id="ac1cae495fc7eeee61dd697941cf44f0b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac1cae495fc7eeee61dd697941cf44f0b">&#9670;&nbsp;</a></span>TIME_SUFFIX_S</h2>
+<a id="a0fc9d68ef7dcc1351473c21c7d73e86a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fc9d68ef7dcc1351473c21c7d73e86a">&#9670;&nbsp;</a></span>kSuffixS</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -136,7 +118,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const uint8_t ace_time::extended::ZoneContext::TIME_SUFFIX_S = 0x10</td>
+          <td class="memname">const uint8_t ace_time::extended::ZoneContext::kSuffixS = 0x10</td>
         </tr>
       </table>
   </td>
@@ -152,8 +134,8 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="af70247be9e748dac2dc0c5d48cca3965"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af70247be9e748dac2dc0c5d48cca3965">&#9670;&nbsp;</a></span>TIME_SUFFIX_U</h2>
+<a id="a85fc171a9b1f14712fc6030593bde3ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85fc171a9b1f14712fc6030593bde3ab">&#9670;&nbsp;</a></span>kSuffixU</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -162,7 +144,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const uint8_t ace_time::extended::ZoneContext::TIME_SUFFIX_U = 0x20</td>
+          <td class="memname">const uint8_t ace_time::extended::ZoneContext::kSuffixU = 0x20</td>
         </tr>
       </table>
   </td>
@@ -178,8 +160,8 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aa9dc6d2ad181a53cbd93853b5ee653ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9dc6d2ad181a53cbd93853b5ee653ac">&#9670;&nbsp;</a></span>TIME_SUFFIX_W</h2>
+<a id="ac57ba5e36880461b1238f00b1ec11025"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac57ba5e36880461b1238f00b1ec11025">&#9670;&nbsp;</a></span>kSuffixW</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -188,7 +170,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const uint8_t ace_time::extended::ZoneContext::TIME_SUFFIX_W = 0x00</td>
+          <td class="memname">const uint8_t ace_time::extended::ZoneContext::kSuffixW = 0x00</td>
         </tr>
       </table>
   </td>
@@ -201,6 +183,24 @@ Static Public Attributes</h2></td></tr>
 <p>Represents 'w' or wall time. </p>
 
 <p class="definition">Definition at line <a class="el" href="ZoneContext_8h_source.html#l00013">13</a> of file <a class="el" href="ZoneContext_8h_source.html">ZoneContext.h</a>.</p>
+
+</div>
+</div>
+<a id="a3c47cac43c5fff8e40da57ee974ef51c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c47cac43c5fff8e40da57ee974ef51c">&#9670;&nbsp;</a></span>startYear</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int16_t ace_time::extended::ZoneContext::startYear</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Start year of the zone files. </p>
+
+<p class="definition">Definition at line <a class="el" href="ZoneContext_8h_source.html#l00030">30</a> of file <a class="el" href="ZoneContext_8h_source.html">ZoneContext.h</a>.</p>
 
 </div>
 </div>

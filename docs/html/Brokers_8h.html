@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.7</span>
+   &#160;<span id="projectnumber">0.8</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -66,7 +66,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Brokers.h File Reference</div>  </div>
@@ -118,69 +117,36 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1internal_1_1DirectZoneRuleBroker.html">ace_time::internal::DirectZoneRuleBroker&lt; ZR &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing ZoneRule in SRAM.  <a href="classace__time_1_1internal_1_1DirectZoneRuleBroker.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1basic_1_1ZoneRuleBroker.html">ace_time::basic::ZoneRuleBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing <a class="el" href="structace__time_1_1basic_1_1ZoneRule.html" title="A time zone transition rule. ">ZoneRule</a>.  <a href="classace__time_1_1basic_1_1ZoneRuleBroker.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1internal_1_1DirectZonePolicyBroker.html">ace_time::internal::DirectZonePolicyBroker&lt; ZP, ZR &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing ZonePolicy in SRAM.  <a href="classace__time_1_1internal_1_1DirectZonePolicyBroker.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1basic_1_1ZonePolicyBroker.html">ace_time::basic::ZonePolicyBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing <a class="el" href="structace__time_1_1basic_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region...">ZonePolicy</a>.  <a href="classace__time_1_1basic_1_1ZonePolicyBroker.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1internal_1_1DirectZoneEraBroker.html">ace_time::internal::DirectZoneEraBroker&lt; ZE, ZP, ZR &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing ZoneEra in SRAM.  <a href="classace__time_1_1internal_1_1DirectZoneEraBroker.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1basic_1_1ZoneEraBroker.html">ace_time::basic::ZoneEraBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a>.  <a href="classace__time_1_1basic_1_1ZoneEraBroker.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1internal_1_1DirectZoneInfoBroker.html">ace_time::internal::DirectZoneInfoBroker&lt; ZI, ZE, ZP, ZR, ZC &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing ZoneInfo in SRAM.  <a href="classace__time_1_1internal_1_1DirectZoneInfoBroker.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1basic_1_1ZoneInfoBroker.html">ace_time::basic::ZoneInfoBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing <a class="el" href="structace__time_1_1basic_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records. ">ZoneInfo</a>.  <a href="classace__time_1_1basic_1_1ZoneInfoBroker.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1internal_1_1DirectZoneRegistryBroker.html">ace_time::internal::DirectZoneRegistryBroker&lt; ZI &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing the ZoneRegistry in SRAM.  <a href="classace__time_1_1internal_1_1DirectZoneRegistryBroker.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1basic_1_1ZoneRegistryBroker.html">ace_time::basic::ZoneRegistryBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing the ZoneRegistry.  <a href="classace__time_1_1basic_1_1ZoneRegistryBroker.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1internal_1_1FlashZoneRuleBroker.html">ace_time::internal::FlashZoneRuleBroker&lt; ZR &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing ZoneRule in PROGMEM.  <a href="classace__time_1_1internal_1_1FlashZoneRuleBroker.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1ZoneRuleBroker.html">ace_time::extended::ZoneRuleBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing <a class="el" href="structace__time_1_1extended_1_1ZoneRule.html" title="A time zone transition rule. ">ZoneRule</a>.  <a href="classace__time_1_1extended_1_1ZoneRuleBroker.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1internal_1_1FlashZonePolicyBroker.html">ace_time::internal::FlashZonePolicyBroker&lt; ZP, ZR &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing ZonePolicy in PROGMEM.  <a href="classace__time_1_1internal_1_1FlashZonePolicyBroker.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1ZonePolicyBroker.html">ace_time::extended::ZonePolicyBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing <a class="el" href="structace__time_1_1extended_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region...">ZonePolicy</a>.  <a href="classace__time_1_1extended_1_1ZonePolicyBroker.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1internal_1_1FlashZoneEraBroker.html">ace_time::internal::FlashZoneEraBroker&lt; ZE, ZP, ZR &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing ZoneEra in PROGMEM.  <a href="classace__time_1_1internal_1_1FlashZoneEraBroker.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1ZoneEraBroker.html">ace_time::extended::ZoneEraBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing <a class="el" href="structace__time_1_1extended_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a>.  <a href="classace__time_1_1extended_1_1ZoneEraBroker.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1internal_1_1FlashZoneInfoBroker.html">ace_time::internal::FlashZoneInfoBroker&lt; ZI, ZE, ZP, ZR, ZC &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing ZoneInfo in PROGMEM.  <a href="classace__time_1_1internal_1_1FlashZoneInfoBroker.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html">ace_time::extended::ZoneInfoBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing <a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records. ">ZoneInfo</a>.  <a href="classace__time_1_1extended_1_1ZoneInfoBroker.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1internal_1_1FlashZoneRegistryBroker.html">ace_time::internal::FlashZoneRegistryBroker&lt; ZI &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing the ZoneRegistry in PROGMEM.  <a href="classace__time_1_1internal_1_1FlashZoneRegistryBroker.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1ZoneRegistryBroker.html">ace_time::extended::ZoneRegistryBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing the ZoneRegistry.  <a href="classace__time_1_1extended_1_1ZoneRegistryBroker.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:af70886d7c175998bbe87511aafa8be4b"><td class="memItemLeft" align="right" valign="top"><a id="af70886d7c175998bbe87511aafa8be4b"></a>
-typedef internal::FlashZoneRuleBroker&lt; ZoneRule &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ace_time::basic::ZoneRuleBroker</b></td></tr>
-<tr class="separator:af70886d7c175998bbe87511aafa8be4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a235e2865810a0648ad7c3ef20cb4fa9d"><td class="memItemLeft" align="right" valign="top"><a id="a235e2865810a0648ad7c3ef20cb4fa9d"></a>
-typedef internal::FlashZonePolicyBroker&lt; ZonePolicy, ZoneRule &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ace_time::basic::ZonePolicyBroker</b></td></tr>
-<tr class="separator:a235e2865810a0648ad7c3ef20cb4fa9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82810b9e54f5b42d7b223acba9818d1e"><td class="memItemLeft" align="right" valign="top"><a id="a82810b9e54f5b42d7b223acba9818d1e"></a>
-typedef internal::FlashZoneEraBroker&lt; ZoneEra, ZonePolicy, ZoneRule &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ace_time::basic::ZoneEraBroker</b></td></tr>
-<tr class="separator:a82810b9e54f5b42d7b223acba9818d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6476ab1cc9b8e97ec42dfd1541ee2db"><td class="memItemLeft" align="right" valign="top"><a id="ac6476ab1cc9b8e97ec42dfd1541ee2db"></a>
-typedef internal::FlashZoneInfoBroker&lt; ZoneInfo, ZoneEra, ZonePolicy, ZoneRule, ZoneContext &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ace_time::basic::ZoneInfoBroker</b></td></tr>
-<tr class="separator:ac6476ab1cc9b8e97ec42dfd1541ee2db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ed875a271cfe2227dad9725b1aa3ba5"><td class="memItemLeft" align="right" valign="top"><a id="a2ed875a271cfe2227dad9725b1aa3ba5"></a>
-typedef internal::FlashZoneRegistryBroker&lt; ZoneInfo &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ace_time::basic::ZoneRegistryBroker</b></td></tr>
-<tr class="separator:a2ed875a271cfe2227dad9725b1aa3ba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1249d27522bff954be98245a250378e"><td class="memItemLeft" align="right" valign="top"><a id="aa1249d27522bff954be98245a250378e"></a>
-typedef internal::FlashZoneRuleBroker&lt; ZoneRule &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ace_time::extended::ZoneRuleBroker</b></td></tr>
-<tr class="separator:aa1249d27522bff954be98245a250378e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87a0b53511d91d3eff6e3b065605fa77"><td class="memItemLeft" align="right" valign="top"><a id="a87a0b53511d91d3eff6e3b065605fa77"></a>
-typedef internal::FlashZonePolicyBroker&lt; ZonePolicy, ZoneRule &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ace_time::extended::ZonePolicyBroker</b></td></tr>
-<tr class="separator:a87a0b53511d91d3eff6e3b065605fa77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab20ce2958e259d6657c5f57f91e71990"><td class="memItemLeft" align="right" valign="top"><a id="ab20ce2958e259d6657c5f57f91e71990"></a>
-typedef internal::FlashZoneEraBroker&lt; ZoneEra, ZonePolicy, ZoneRule &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ace_time::extended::ZoneEraBroker</b></td></tr>
-<tr class="separator:ab20ce2958e259d6657c5f57f91e71990"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73f6924ebfa502fb09b6d88dc066ec94"><td class="memItemLeft" align="right" valign="top"><a id="a73f6924ebfa502fb09b6d88dc066ec94"></a>
-typedef internal::FlashZoneInfoBroker&lt; ZoneInfo, ZoneEra, ZonePolicy, ZoneRule, ZoneContext &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ace_time::extended::ZoneInfoBroker</b></td></tr>
-<tr class="separator:a73f6924ebfa502fb09b6d88dc066ec94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0e1d8b18ae50aaee5886bc3195fcb9e"><td class="memItemLeft" align="right" valign="top"><a id="aa0e1d8b18ae50aaee5886bc3195fcb9e"></a>
-typedef internal::FlashZoneRegistryBroker&lt; ZoneInfo &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ace_time::extended::ZoneRegistryBroker</b></td></tr>
-<tr class="separator:aa0e1d8b18ae50aaee5886bc3195fcb9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -189,15 +155,21 @@ Functions</h2></td></tr>
 <tr class="separator:a5f7fe934c97e99cd812171e90c7945cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae980919d070889e10164c643f1411c5f"><td class="memItemLeft" align="right" valign="top"><a id="ae980919d070889e10164c643f1411c5f"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Brokers_8h.html#ae980919d070889e10164c643f1411c5f">ace_time::internal::toSuffix</a> (uint8_t modifier)</td></tr>
-<tr class="memdesc:ae980919d070889e10164c643f1411c5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the 'w', 's' 'u' suffix from the 'modifier' field, so that they can be compared against TIME_SUFFIX_W, TIME_SUFFIX_S and TIME_SUFFIX_U. <br /></td></tr>
+<tr class="memdesc:ae980919d070889e10164c643f1411c5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the 'w', 's' 'u' suffix from the 'modifier' field, so that they can be compared against kSuffixW, kSuffixS and kSuffixU. <br /></td></tr>
 <tr class="separator:ae980919d070889e10164c643f1411c5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2a05a157983a0d725bbb4e450b5a1f4"><td class="memItemLeft" align="right" valign="top"><a id="ad2a05a157983a0d725bbb4e450b5a1f4"></a>
+int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>ace_time::extended::toDeltaMinutes</b> (int8_t deltaCode)</td></tr>
+<tr class="separator:ad2a05a157983a0d725bbb4e450b5a1f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0e195ee026f5b86948c1e6ae1f9c130"><td class="memItemLeft" align="right" valign="top"><a id="ad0e195ee026f5b86948c1e6ae1f9c130"></a>
+int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>ace_time::extended::toOffsetMinutes</b> (int8_t offsetCode, int8_t deltaCode)</td></tr>
+<tr class="separator:ad0e195ee026f5b86948c1e6ae1f9c130"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The classes provide a thin layer of indirection for accessing the zoneinfo files stored in the zonedb/ and zonedbx/ directories. </p>
 <p>When ACE_TIME_USE_PROGMEM or ACE_TIME_USE_PROGMEM are enabled, the zoneinfo files are stored in flash memory (using the PROGMEM keyword), and cannot be accessed directly on microcontrollers using the Harvard architecture (e.g. AVR) where data and program live in 2 different address spaces. The data in flash memory must be accessed using helper routines in &lt;pgmspace.h&gt;. These classes abstract away this difference so that the code BasicZoneProcessor and ExtendedZoneProcessor can be written to be (mostly) agnostic to how the zoneinfo files are stored.</p>
-<p>When the ACE_TIME_USE_PROGMEM and ACE_TIME_USE_PROGMEM are disabled, the compiler will optimize away this entire abstraction layer, so the resulting machine code is no bigger than (and in most cases, identifical to) accessing the zoneinfo files directly.</p>
+<p>When ACE_TIME_USE_PROGMEM are disabled, the compiler will optimize away this entire abstraction layer, so the resulting machine code is no bigger than (and in most cases, identifical to) accessing the zoneinfo files directly.</p>
 <p>The abstraction layer is thin enough that the code in BasicZoneProcessor and ExtendedZoneProcessor did not change very much. It was mostly a mechanical source code replacement of direct zoneinfo access to using these data brokers.</p>
-<p>The core broker classes live in the internal:: namespace and are templatized so that they can be used for both basic::Zone* classes and the extended::Zone* classes. Specific template instantiations are created in the basic:: and extended:: namespaces so that they can be used by the BasicZoneProcessor and ExtendedZoneProcessor respectively. </p>
+<p>The helper functions live in the internal:: namespace. The classes are somewhat duplicated between the 'basic' and 'extended' namespaces. They used to be identical so that they could be templatized. But supporting one-minute resolution for 'extended' meant that the implementations diverged, so I had to manual duplicate the classes. </p>
 
 <p class="definition">Definition in file <a class="el" href="Brokers_8h_source.html">Brokers.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -237,7 +209,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="B
 
 <p>Convert (timeCode, timeModifier) fields in zoneinfo to minutes. </p>
 
-<p class="definition">Definition at line <a class="el" href="Brokers_8h_source.html#l00048">48</a> of file <a class="el" href="Brokers_8h_source.html">Brokers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Brokers_8h_source.html#l00047">47</a> of file <a class="el" href="Brokers_8h_source.html">Brokers.h</a>.</p>
 
 </div>
 </div>
