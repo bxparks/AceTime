@@ -23,7 +23,6 @@ class BasicZoneProcessorTest_priorYearOfRule;
 class BasicZoneProcessorTest_compareRulesBeforeYear;
 class BasicZoneProcessorTest_findLatestPriorRule;
 class BasicZoneProcessorTest_findZoneEra;
-class BasicZoneProcessorTest_findZoneEraPriorTo;
 class BasicZoneProcessorTest_init_primitives;
 class BasicZoneProcessorTest_init;
 class BasicZoneProcessorTest_setZoneInfo;
@@ -397,7 +396,6 @@ class BasicZoneProcessor: public ZoneProcessor {
     friend class ::BasicZoneProcessorTest_compareRulesBeforeYear;
     friend class ::BasicZoneProcessorTest_findLatestPriorRule;
     friend class ::BasicZoneProcessorTest_findZoneEra;
-    friend class ::BasicZoneProcessorTest_findZoneEraPriorTo;
     friend class ::BasicZoneProcessorTest_init_primitives;
     friend class ::BasicZoneProcessorTest_init;
     friend class ::BasicZoneProcessorTest_setZoneInfo;
@@ -540,7 +538,7 @@ class BasicZoneProcessor: public ZoneProcessor {
         logging::printf("addTransitionPriorToYear(): %d\n", yearTiny);
       }
 
-      const basic::ZoneEraBroker era = findZoneEraPriorTo(mZoneInfo, yearTiny);
+      const basic::ZoneEraBroker era = findZoneEra(mZoneInfo, yearTiny - 1);
 
       // If the prior ZoneEra has a ZonePolicy), then find the latest rule
       // within the ZoneEra. Otherwise, add a Transition using a rule==nullptr.
@@ -823,27 +821,6 @@ class BasicZoneProcessor: public ZoneProcessor {
       for (uint8_t i = 0; i < info.numEras(); i++) {
         const basic::ZoneEraBroker era = info.era(i);
         if (yearTiny < era.untilYearTiny()) return era;
-      }
-      // Return the last ZoneEra if we run off the end.
-      return info.era(info.numEras() - 1);
-    }
-
-    /**
-     * Find the most recent ZoneEra which was in effect just before the
-     * beginning of the given year, in other words, just before {year}-01-01
-     * 00:00:00. It will be first era just after the latest era whose untilYear
-     * < year. Since the ZoneEras are in increasing order of untilYear, this is
-     * the same as matching the first ZoneEra whose untilYear >= year.
-     *
-     * This should never return nullptr because the code generator for
-     * zone_infos.cpp verified that the final ZoneEra contains an empty
-     * untilYear, interpreted as 'max', and set to 127.
-     */
-    static basic::ZoneEraBroker findZoneEraPriorTo(
-        basic::ZoneInfoBroker info, int8_t yearTiny) {
-      for (uint8_t i = 0; i < info.numEras(); i++) {
-        const basic::ZoneEraBroker era = info.era(i);
-        if (yearTiny <= era.untilYearTiny()) return era;
       }
       // Return the last ZoneEra if we run off the end.
       return info.era(info.numEras() - 1);
