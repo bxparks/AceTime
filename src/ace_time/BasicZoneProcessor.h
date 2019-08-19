@@ -21,6 +21,8 @@
 
 class BasicZoneProcessorTest_priorYearOfRule;
 class BasicZoneProcessorTest_compareRulesBeforeYear;
+class BasicZoneProcessorTest_findZoneEra;
+class BasicZoneProcessorTest_findZoneEraPriorTo;
 class BasicZoneProcessorTest_init_primitives;
 class BasicZoneProcessorTest_init;
 class BasicZoneProcessorTest_setZoneInfo;
@@ -392,6 +394,8 @@ class BasicZoneProcessor: public ZoneProcessor {
   private:
     friend class ::BasicZoneProcessorTest_priorYearOfRule;
     friend class ::BasicZoneProcessorTest_compareRulesBeforeYear;
+    friend class ::BasicZoneProcessorTest_findZoneEra;
+    friend class ::BasicZoneProcessorTest_findZoneEraPriorTo;
     friend class ::BasicZoneProcessorTest_init_primitives;
     friend class ::BasicZoneProcessorTest_init;
     friend class ::BasicZoneProcessorTest_setZoneInfo;
@@ -530,7 +534,7 @@ class BasicZoneProcessor: public ZoneProcessor {
         logging::printf("addTransitionPriorToYear(): %d\n", yearTiny);
       }
 
-      const basic::ZoneEraBroker era = findZoneEraPriorTo(yearTiny);
+      const basic::ZoneEraBroker era = findZoneEraPriorTo(mZoneInfo, yearTiny);
 
       // If the prior ZoneEra has a ZonePolicy), then find the latest rule
       // within the ZoneEra. Otherwise, add a Transition using a rule==nullptr.
@@ -623,7 +627,7 @@ class BasicZoneProcessor: public ZoneProcessor {
         logging::printf("addTransitionsForYear(): %d\n", yearTiny);
       }
 
-      const basic::ZoneEraBroker era = findZoneEra(yearTiny);
+      const basic::ZoneEraBroker era = findZoneEra(mZoneInfo, yearTiny);
 
       // If the ZonePolicy has no rules, then add a Transition which takes
       // effect at the start time of the current year.
@@ -704,13 +708,14 @@ class BasicZoneProcessor: public ZoneProcessor {
      * satisfy (yearTiny < ZoneEra.untilYearTiny). Since the largest
      * untilYearTiny is 127, the largest supported 'year' is 2126.
      */
-    const basic::ZoneEraBroker findZoneEra(int8_t yearTiny) const {
-      for (uint8_t i = 0; i < mZoneInfo.numEras(); i++) {
-        const basic::ZoneEraBroker era = mZoneInfo.era(i);
+    static basic::ZoneEraBroker findZoneEra(
+        basic::ZoneInfoBroker info, int8_t yearTiny) {
+      for (uint8_t i = 0; i < info.numEras(); i++) {
+        const basic::ZoneEraBroker era = info.era(i);
         if (yearTiny < era.untilYearTiny()) return era;
       }
       // Return the last ZoneEra if we run off the end.
-      return mZoneInfo.era(mZoneInfo.numEras() - 1);
+      return info.era(info.numEras() - 1);
     }
 
     /**
@@ -724,13 +729,14 @@ class BasicZoneProcessor: public ZoneProcessor {
      * zone_infos.cpp verified that the final ZoneEra contains an empty
      * untilYear, interpreted as 'max', and set to 127.
      */
-    const basic::ZoneEraBroker findZoneEraPriorTo(int8_t yearTiny) const {
-      for (uint8_t i = 0; i < mZoneInfo.numEras(); i++) {
-        const basic::ZoneEraBroker era = mZoneInfo.era(i);
+    static basic::ZoneEraBroker findZoneEraPriorTo(
+        basic::ZoneInfoBroker info, int8_t yearTiny) {
+      for (uint8_t i = 0; i < info.numEras(); i++) {
+        const basic::ZoneEraBroker era = info.era(i);
         if (yearTiny <= era.untilYearTiny()) return era;
       }
       // Return the last ZoneEra if we run off the end.
-      return mZoneInfo.era(mZoneInfo.numEras() - 1);
+      return info.era(info.numEras() - 1);
     }
 
     /**

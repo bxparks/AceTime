@@ -193,6 +193,39 @@ test(BasicZoneProcessorTest, calcRuleOffsetMinutes) {
       basic::ZoneContext::kSuffixS));
 }
 
+test(BasicZoneProcessorTest, findZoneEra) {
+  basic::ZoneInfoBroker info(&kZonePacific_Galapagos);
+
+  basic::ZoneEraBroker era = BasicZoneProcessor::findZoneEra(info, 1984-2000);
+  assertEqual(1986-2000, era.untilYearTiny());
+
+  era = BasicZoneProcessor::findZoneEra(info, 1985-2000);
+  assertEqual(1986-2000, era.untilYearTiny());
+
+  era = BasicZoneProcessor::findZoneEra(info, 1986-2000);
+  assertEqual(127, era.untilYearTiny());
+
+  era = BasicZoneProcessor::findZoneEra(info, 1987-2000);
+  assertEqual(127, era.untilYearTiny());
+}
+
+test(BasicZoneProcessorTest, findZoneEraPriorTo) {
+  basic::ZoneInfoBroker info(&kZonePacific_Galapagos);
+
+  basic::ZoneEraBroker era = BasicZoneProcessor::findZoneEraPriorTo(
+      info, 1984-2000);
+  assertEqual(1986-2000, era.untilYearTiny());
+
+  era = BasicZoneProcessor::findZoneEraPriorTo(info, 1985-2000);
+  assertEqual(1986-2000, era.untilYearTiny());
+
+  era = BasicZoneProcessor::findZoneEraPriorTo(info, 1986-2000);
+  assertEqual(1986-2000, era.untilYearTiny());
+
+  era = BasicZoneProcessor::findZoneEraPriorTo(info, 1987-2000);
+  assertEqual(127, era.untilYearTiny());
+}
+
 test(BasicZoneProcessorTest, priorYearOfRule) {
   basic::ZonePolicyBroker policy(&kPolicyEcuador);
 
