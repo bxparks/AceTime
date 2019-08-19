@@ -16,6 +16,7 @@
 #define FEATURE_EXTENDED_ZONE_MANAGER_ALL 10
 #define FEATURE_SYSTEM_CLOCK 11
 #define FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE 12
+#define FEATURE_SYSTEM_CLOCK_AND_EXTENDED_TIME_ZONE 13
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
@@ -140,6 +141,17 @@ void setup() {
   acetime_t now = systemClock.getNow();
   BasicZoneProcessor processor;
   auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &processor);
+  auto dt = ZonedDateTime::forEpochSeconds(now, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
+#elif FEATURE == FEATURE_SYSTEM_CLOCK_AND_EXTENDED_TIME_ZONE
+  DS3231Clock dsClock;
+  SystemClockLoop systemClock(&dsClock, &dsClock);
+  systemClock.setup();
+  acetime_t now = systemClock.getNow();
+  ExtendedZoneProcessor processor;
+  auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
       &processor);
   auto dt = ZonedDateTime::forEpochSeconds(now, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();

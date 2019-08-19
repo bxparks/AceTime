@@ -10,16 +10,17 @@
     labels[0] = "Baseline"
     labels[1] = "LocalDateTime"
     labels[2] = "ZonedDateTime"
-    labels[3] = "Basic TimeZone"
+    labels[3] = "Basic TimeZone (1 zone)"
     labels[4] = "Basic TimeZone (2 zones)"
     labels[5] = "Basic ZoneManager (1 zone)"
     labels[6] = "Basic ZoneManager (all)"
-    labels[7] = "Extended TimeZone"
+    labels[7] = "Extended TimeZone (1 zone)"
     labels[8] = "Extended TimeZone (2 zones)"
     labels[9] = "Extended ZoneManager (1 zone)"
     labels[10] = "Extended ZoneManager (all)"
     labels[11] = "SystemClock"
     labels[12] = "SystemClock+Basic TimeZone"
+    labels[13] = "SystemClock+Extended TimeZone"
 
     feature = NR-1
     u[feature]["flash"] = $2
@@ -47,7 +48,7 @@ END {
             u[i]["d_ram"])
     }
     printf("|---------------------------------+--------------+-------------|\n")
-    for (i = 11; i <= 12; i++) {
+    for (i = 11; i <= 13; i++) {
         printf("| %-31s | %6d/%5d | %5d/%5d |\n",
             labels[i], u[i]["flash"], u[i]["ram"], u[i]["d_flash"],
             u[i]["d_ram"])
