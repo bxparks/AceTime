@@ -196,15 +196,13 @@ inline int8_t compareYearMonth(const YearMonth& a, const YearMonth& b) {
  *  * ZoneInfo UNTIL field must contain only the full year;
  *    cannot contain month, day, or time components
  *  * ZoneInfo untilTimeSuffix can contain only 'w' (not 's' or 'u')
- *  * ZoneInfo RULES column must be empty ("-"), OR refer to a
- *    named Zone Rule (e.g. "US"); cannot contain an explicit offset (hh:mm)
  *  * ZonePolicy can contain only 1 ZoneRule in a single month
  *  * ZoneRule AT time cannot occur on Jan 1
  *  * ZoneRule atTimeSuffix can be any of ('w', 's', and 'u')
  *  * ZoneRule LETTER must contain only a single letter (not "WAT" or "CST")
  *
- * Even with these limitations, zonedb/zone_info.h shows that 231 out of a
- * total of 359 zones are supported by BasicZoneProcessor.
+ * Even with these limitations, zonedb/zone_info.h shows that 270 out of a
+ * total of 387 zones are supported by BasicZoneProcessor (as of v0.8).
  *
  * Not thread-safe.
  */

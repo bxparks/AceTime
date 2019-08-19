@@ -983,7 +983,9 @@ void someFunction() {
 }
 ```
 (Notice that we use the `zonedbx::` namespace instead of the `zonedb::`
-namespace.)
+namespace. Although the data structures in the 2 namespaces are identical
+currently (v0.8) but the *values* inside the data structure fields are not
+the same, and they are interpreted differently.)
 
 As of version 2019a of TZ Database, *all* 387 Zone and 205 Link entries from the
 following TZ files are supported: `africa`, `antarctica`, `asia`, `australasia`,
@@ -1263,7 +1265,8 @@ The `zonedb/` files do not support all the timezones in the TZ Database.
 If a zone is excluded, the reason for the exclusion can be found at the
 bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
 The criteria for selecting the Basic `zonedb` files are embedded
-in the `transformer.py` script. Some of these properties are:
+in the `transformer.py` script and summarized in
+[BasicZoneProcessor.h](src/ace_time/BasicZoneProcessor.h):
 
 * the DST offset is a multiple of 15-minutes (all current timezones satisfy
   this)
@@ -1272,6 +1275,8 @@ in the `transformer.py` script. Some of these properties are:
 * the AT or UNTIL fields must occur at one-year boundaries (this is the biggest
   filter)
 * the LETTER field must contain only a single character
+* the UNTIL time suffix can only be 'w' (not 's' or 'u')
+* there can be only one DST transition in a single month
 
 In the current version (v0.8), this database contains 270 zones from the year
 2000 to 2049 (inclusive).
