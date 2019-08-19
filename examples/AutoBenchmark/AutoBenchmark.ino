@@ -13,7 +13,7 @@
 using namespace ace_time;
 
 void setup() {
-#if defined(ARDUINO)
+#if ! defined(UNIX_HOST_DUINO)
   delay(1000);
 #endif
 
@@ -69,7 +69,7 @@ void setup() {
 
   // ace_time::clock classes
 
-#ifdef ARDUINO
+#if ! defined(UNIX_HOST_DUINO)
   SERIAL_PORT_MONITOR.print(F("sizeof(clock::DS3231Clock): "));
   SERIAL_PORT_MONITOR.println(sizeof(clock::DS3231Clock));
 
@@ -115,7 +115,7 @@ void setup() {
   SERIAL_PORT_MONITOR.println(sizeof(extended::ZoneMatch));
 
   runBenchmarks();
-#ifndef ARDUINO
+#if defined(UNIX_HOST_DUINO)
   exit(0);
 #endif
 }

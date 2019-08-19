@@ -6,7 +6,7 @@
 #ifndef ACE_TIME_HW_TEMPERATURE_H
 #define ACE_TIME_HW_TEMPERATURE_H
 
-#if defined(ARDUINO) || defined(DOXYGEN)
+#if ! defined(UNIX_HOST_DUINO)
 
 #include <stdint.h>
 #include <Print.h> // Print

@@ -13,7 +13,7 @@ using namespace aunit;
 using namespace ace_time;
 
 void setup() {
-#if defined(ARDUINO)
+#if ! defined(UNIX_HOST_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);

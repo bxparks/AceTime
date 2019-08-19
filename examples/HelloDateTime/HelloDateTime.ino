@@ -29,7 +29,7 @@ static BasicZoneProcessor pacificProcessor;
 static BasicZoneProcessor londonProcessor;
 
 void setup() {
-#if defined(ARDUINO)
+#if ! defined(UNIX_HOST_DUINO)
   delay(1000);
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
@@ -103,7 +103,7 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("pacificTime == londonTime: "));
   SERIAL_PORT_MONITOR.println((pacificTime == londonTime) ? "true" : "false");
 
-#ifndef ARDUINO
+#if defined(UNIX_HOST_DUINO)
   exit(0);
 #endif
 }
