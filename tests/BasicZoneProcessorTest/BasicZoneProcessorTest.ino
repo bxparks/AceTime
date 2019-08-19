@@ -250,8 +250,10 @@ test(BasicZoneProcessorTest, priorYearOfRule) {
       yearTiny, policy.rule(0) /*min*/));
   assertEqual(1992-2000, BasicZoneProcessor::priorYearOfRule(
       yearTiny, policy.rule(1) /*1992*/));
-  // Rule is not effective before 1993, so returns 0 to suppress it.
-  assertEqual(LocalDate::kMinYearTiny, BasicZoneProcessor::priorYearOfRule(
+
+  // Rule[2].fromYearTiny() is >= yearTiny, so priorYearOfRule() should not
+  // be called. If it is called, it returns (incorrectly) yearTiny - 1.
+  assertEqual(1992-2000, BasicZoneProcessor::priorYearOfRule(
       yearTiny, policy.rule(2) /*1993*/));
 }
 

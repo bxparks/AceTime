@@ -592,20 +592,19 @@ class BasicZoneProcessor: public ZoneProcessor {
     }
 
     /**
-     * Return the largest effective year of the rule *prior* to given year.
+     * Return the largest effective year of the rule *prior* to given year. It
+     * is assumed that the caller has already verified that
+     * rule.fromYearTiny() < yearTiny, so we only need to check 2 cases:
+     *
      *    * If [from,to]<year, return (to).
-     *    * If [from<year<=to], return (year-1).
-     *    * Otherwise, year<=[from,to] so return kMinYearTiny.
+     *    * Else we know [from<year<=to], so return (year-1).
      */
     static int8_t priorYearOfRule(int8_t yearTiny,
         const basic::ZoneRuleBroker rule) {
       if (rule.toYearTiny() < yearTiny) {
         return rule.toYearTiny();
       }
-      if (rule.fromYearTiny() < yearTiny) {
-        return yearTiny - 1;
-      }
-      return LocalDate::kMinYearTiny;
+      return yearTiny - 1;
     }
 
     /**
