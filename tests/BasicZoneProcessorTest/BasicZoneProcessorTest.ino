@@ -295,7 +295,8 @@ test(BasicZoneProcessorTest, init_primitives) {
   zoneProcessor.mYearTiny = 2001-2000;
   zoneProcessor.mNumTransitions = 0;
 
-  zoneProcessor.addTransitionPriorToYear(2001-2000);
+  basic::ZoneEraBroker priorEra = zoneProcessor.addTransitionPriorToYear(
+      2001-2000);
   assertEqual(1, zoneProcessor.mNumTransitions);
   assertEqual(-8*60, zoneProcessor.mTransitions[0].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[0].era.format());
@@ -303,7 +304,8 @@ test(BasicZoneProcessorTest, init_primitives) {
   assertEqual(2006-2000, zoneProcessor.mTransitions[0].rule.toYearTiny());
   assertEqual(10, zoneProcessor.mTransitions[0].rule.inMonth());
 
-  zoneProcessor.addTransitionsForYear(2001-2000);
+  basic::ZoneEraBroker currentEra = zoneProcessor.addTransitionsForYear(
+      2001-2000, priorEra);
   assertEqual(3, zoneProcessor.mNumTransitions);
 
   assertEqual(-8*60, zoneProcessor.mTransitions[1].era.offsetMinutes());
@@ -317,6 +319,9 @@ test(BasicZoneProcessorTest, init_primitives) {
   assertEqual(1967-2000, zoneProcessor.mTransitions[2].rule.fromYearTiny());
   assertEqual(2006-2000, zoneProcessor.mTransitions[2].rule.toYearTiny());
   assertEqual(10, zoneProcessor.mTransitions[2].rule.inMonth());
+
+  zoneProcessor.addTransitionAfterYear(2001-2000, currentEra);
+  assertEqual(3, zoneProcessor.mNumTransitions);
 
   zoneProcessor.calcTransitions();
   // most recent prior is at [0]
