@@ -10,42 +10,42 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
 `zone_infos.cpp`, etc). The data processing pipeline looks something like this:
 
 ```
-                    TZDB files
-                        |
-                        v
-                   extractor.py
-                        |
-                        v
-                 transformer.py---------------------.
-                  /     |    \                       \
-                 /      |     v                       v
-                /       |     pygenerator.py     javagenerator.py
-               /        |           \                    \
-              / ingenerator.py       v                    v
-             /          |         zone_infos.py        zones.txt    java.time
-            /           |         zone_policies.py         |          /
-           /           / \        zone_strings.py          |         /
-          /           /   \                                v        v
-         /           v     \                         TestDataGenerator.java
-        /  bufestimator.py |\                                |
-       /     /             | \          pytz                 |
-      v     v              |  \        /  |                  v
-    argenerator.py         |   v      v   |          validation_data{h,cpp}
-       |                   | validator.py |          validation_tests.cpp
-       v                   |              /
-zone_infos.{h,cpp}         \             /
-zone_policies.{h,cpp}       \           /
-zone_registry.{h,cpp}        \         /
-zone_strings.{h,cpp}          \       /
-                               v     v
-                           tdgenerator.py
-                              /       \
-                             v         v
-                 arvalgenerator.py   pyvalgenerator.py
-                    |                    |
-                    v                    v
-           validation_data.{h,cpp}   validation_data.py
-           validation_tests.cpp
+                TZDB files
+                    |
+                    v
+               extractor.py
+                    |
+                    v
+             transformer.py---------------------.
+              /     |    \                       \
+             /      |     v                       v
+            /       |     pygenerator.py       zonelistgenerator.py
+           /        |           \                    |
+          / ingenerator.py       v                   v
+         /          |      zone_infos.py        zones.txt       java.time
+        /           |      zone_policies.py       /   \          /
+       /           / \     zone_strings.py       /     v        v
+      /           /   \                         /  TestDataGenerator.java
+     /           v     \                       /         |
+    /  bufestimator.py |\                     |          v
+   /     /             | \          pytz      |  validation_data.{h,cpp}
+  v     v              |  \        /  |       |  validation_tests.cpp
+argenerator.py         |   v      v   |       |
+     |                 | validator.py |        \           Hinnant date
+     v                 |              /         \              /
+zone_infos.{h,cpp}     \             /           v            v
+zone_policies.{h,cpp}   \           /      test_data_generator.cpp
+zone_registry.{h,cpp}    \         /                |
+zone_strings.{h,cpp}      \       /                 v
+                           v     v          validation_data.{h,cpp}
+                       tdgenerator.py       validation_tests.cpp
+                          /       \
+                         v         v
+             arvalgenerator.py   pyvalgenerator.py
+                |                    |
+                v                    v
+       validation_data.{h,cpp}   validation_data.py
+       validation_tests.cpp
 ```
 
 The `tzcompiler.sh` is a thin shell wrapper that makes it slightly easier to

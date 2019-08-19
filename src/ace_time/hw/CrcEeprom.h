@@ -6,7 +6,7 @@
 #ifndef ACE_TIME_HW_CRC_EEPROM_H
 #define ACE_TIME_HW_CRC_EEPROM_H
 
-#if defined(ARDUINO) || defined(DOXYGEN)
+#if ! defined(UNIX_HOST_DUINO)
 
 // EEPROM is supported only on certain Arduino boards. In particular, many
 // (most?) Arduino Zero compatible boards cannot support EEPROM even on Flash

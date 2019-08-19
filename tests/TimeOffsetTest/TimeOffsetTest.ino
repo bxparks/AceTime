@@ -10,8 +10,12 @@ using namespace ace_time;
 // TimeOffset
 // --------------------------------------------------------------------------
 
-test(TimeOffsetTest, code) {
-  assertEqual(TimeOffset::forHours(-8).toOffsetCode(), -8*4);
+test(TimeOffsetTest, operatorEqualEqual) {
+  TimeOffset a = TimeOffset::forMinutes(10);
+  TimeOffset aa = TimeOffset::forMinutes(10);
+  TimeOffset b = TimeOffset::forMinutes(11);
+  assertTrue(a == aa);
+  assertTrue(a != b);
 }
 
 test(TimeOffsetTest, isZero) {
@@ -137,8 +141,8 @@ test(TimeOffsetMutationTest, increment15Minutes) {
 // --------------------------------------------------------------------------
 
 void setup() {
-#if defined(ARDUINO)
-  delay(1000); // wait for stability to prevent garbage on SERIAL_PORT_MONITOR
+#if ! defined(UNIX_HOST_DUINO)
+  delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
   while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only

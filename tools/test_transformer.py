@@ -7,7 +7,9 @@
 import unittest
 import transformer
 from collections import OrderedDict
-from transformer import parse_on_day_string
+from transformer import _parse_on_day_string
+from transformer import _days_in_month
+from transformer import calc_day_of_month
 from transformer import time_string_to_seconds
 from transformer import time_string_to_seconds
 from transformer import seconds_to_hms
@@ -20,14 +22,37 @@ from transformer import hash_name
 
 class TestParseOnDayString(unittest.TestCase):
     def test_parse_transition_day(self):
-        self.assertEqual((0, 20), parse_on_day_string('20'))
-        self.assertEqual((7, 10), parse_on_day_string('Sun>=10'))
-        self.assertEqual((7, -10), parse_on_day_string('Sun<=10'))
-        self.assertEqual((5, 0), parse_on_day_string('lastFri'))
+        self.assertEqual((0, 20), _parse_on_day_string('20'))
+        self.assertEqual((7, 10), _parse_on_day_string('Sun>=10'))
+        self.assertEqual((7, -10), _parse_on_day_string('Sun<=10'))
+        self.assertEqual((5, 0), _parse_on_day_string('lastFri'))
 
     def test_parse_transition_day_fails(self):
-        self.assertEqual((0, 0), parse_on_day_string('20ab'))
-        self.assertEqual((0, 0), parse_on_day_string('lastFriday'))
+        self.assertEqual((0, 0), _parse_on_day_string('20ab'))
+        self.assertEqual((0, 0), _parse_on_day_string('lastFriday'))
+
+
+class TestCalcDayOfMonth(unittest.TestCase):
+    def test_calc_day_of_month(self):
+        # 2013 Mar Fri>=23
+        self.assertEqual((3, 29), calc_day_of_month(2013, 3, 5, 23))
+        # 2013 Mar Fri>=30, shifts into April
+        self.assertEqual((4, 5), calc_day_of_month(2013, 3, 5, 30))
+        # 2002 Sep lastFri
+        self.assertEqual((9, 27), calc_day_of_month(2002, 9, 5, 0))
+        # 2005 Apr Fri<=7
+        self.assertEqual((4, 1), calc_day_of_month(2005, 4, 5, -7))
+        # 2005 Apr Fri<=1
+        self.assertEqual((4, 1), calc_day_of_month(2005, 4, 5, -1))
+        # 2006 Apr Fri<=1, shifts into March
+        self.assertEqual((3, 31), calc_day_of_month(2006, 4, 5, -1))
+
+
+class TestDaysInMonth(unittest.TestCase):
+    def test_days_in_month(self):
+        self.assertEqual(30, _days_in_month(2002, 9)) # Sep
+        self.assertEqual(31, _days_in_month(2002, 0)) # Dec of prev year
+        self.assertEqual(31, _days_in_month(2002, 13)) # Jan of following year
 
 
 class TestTimeStringToSeconds(unittest.TestCase):

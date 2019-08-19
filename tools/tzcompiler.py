@@ -16,7 +16,7 @@ from transformer import Transformer
 from argenerator import ArduinoGenerator
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator
-from javagenerator import JavaGenerator
+from zonelistgenerator import ZoneListGenerator
 from validator import Validator
 from bufestimator import BufSizeEstimator
 from tdgenerator import TestDataGenerator
@@ -92,7 +92,8 @@ def main():
     # Data pipeline selectors:
     #
     # zonedb: generate zonedb files
-    # unittest: genearte unit test validation_data.* files
+    # unittest: generate unit test validation_data.* files
+    # zonelist: generate zones.txt, list of relavant zones
     # validate: validate both buffer size and validation data
     # validate_buffer_size: determine max sizes of internal buffers
     # validate_test_data: compare pytz and zone_specifierusing validation data
@@ -102,15 +103,12 @@ def main():
             + 'validate_test_data)',
         required=True)
 
-    # Language selector:
-    #
+    # Language selector (for --action unittest or zonedb)
     # python: generate Python files
     # arduino: generate C++ files for Arduino
-    # java: generate Java files
     parser.add_argument(
         '--language',
-        help='Target language (arduino|python|java)',
-        required=True)
+        help='Target language (arduino|python)')
 
     # Scope (of the zones in the database):
     # basic: 241 of the simpler time zones for BasicZoneSpecifier
@@ -193,19 +191,24 @@ def main():
         if args.scope == 'basic': db_namespace = 'zonedb'
         if args.scope == 'extended': db_namespace = 'zonedbx'
 
-    # Define language dependent granularity if not overridden by flag
+    # Define scope-dependent granularity if not overridden by flag
     if args.granularity:
-        granularity = args.granularity
+        until_at_granularity = args.granularity
+        offset_granularity = args.granularity
     else:
-        granularity = 60
-    if args.until_at_granularity:
-        until_at_granularity = args.until_at_granularity
-    else:
-        until_at_granularity = granularity
-    if args.offset_granularity:
-        offset_granularity = args.offset_granularity
-    else:
-        offset_granularity = granularity
+        if args.until_at_granularity:
+            until_at_granularity = args.until_at_granularity
+        else:
+            until_at_granularity = 60
+
+        if args.offset_granularity:
+            offset_granularity = args.offset_granularity
+        else:
+            if args.scope == 'basic':
+                offset_granularity = 900
+            else:
+                offset_granularity = 60
+
     logging.info('Using UNTIL/AT granularity: %d', until_at_granularity)
     logging.info('Using RULES/SAVE (offset) granularity: %d',
         offset_granularity)
@@ -294,16 +297,16 @@ def main():
                 zone_strings=transformer.zone_strings,
                 buf_sizes=buf_sizes)
             generator.generate_files(args.output_dir)
-        elif args.language == 'java':
-            generator = JavaGenerator(
-                invocation=invocation,
-                tz_version=args.tz_version,
-                tz_files=Extractor.ZONE_FILES,
-                scope=args.scope,
-                zones_map=transformer.zones_map)
-            generator.generate_files(args.output_dir)
         else:
             raise Exception("Unrecognized language '%s'" % args.language)
+    elif args.action == 'zonelist':
+        generator = ZoneListGenerator(
+            invocation=invocation,
+            tz_version=args.tz_version,
+            tz_files=Extractor.ZONE_FILES,
+            scope=args.scope,
+            zones_map=transformer.zones_map)
+        generator.generate_files(args.output_dir)
     elif args.action == 'unittest':
         logging.info('======== Generating unit test files')
 
@@ -311,8 +314,7 @@ def main():
         logging.info('Generating test data for years in [%d, %d)',
             validation_start_year, validation_until_year)
         data_generator = TestDataGenerator(args.scope, zone_infos,
-            zone_policies, granularity, validation_start_year,
-            validation_until_year)
+            zone_policies, validation_start_year, validation_until_year)
         (test_data, num_items) = data_generator.create_test_data()
         logging.info('Num zones=%d; Num test items=%d', len(test_data),
             num_items)
@@ -333,7 +335,6 @@ def main():
         validator = Validator(
             zone_infos=zone_infos,
             zone_policies=zone_policies,
-            granularity=granularity,
             viewing_months=args.viewing_months,
             validate_dst_offset=args.validate_dst_offset,
             debug_validator=args.debug_validator,

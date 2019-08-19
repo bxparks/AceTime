@@ -158,7 +158,7 @@ class ZoneRuleRaw:
 
         # Derived from above
         'onDayOfWeek',  # (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
-        'onDayOfMonth',  # (int) (1-31), 0={last dayOfWeek match}
+        'onDayOfMonth',  # (int) 1-31 "dow>=xx", -(1-31) "dow<=xx", 0={lastXxx}
         'atSeconds',  # (int) atTime in seconds since 00:00:00
         'atSecondsTruncated',  # (int) atSeconds after truncation
         'deltaSeconds',  # (int) offset from Standard time in seconds

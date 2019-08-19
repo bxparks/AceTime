@@ -221,7 +221,7 @@ class Presenter {
           mOled.println();
           mOled.print("UTC");
           if (shouldShowFor(MODE_CHANGE_TIME_ZONE_OFFSET)) {
-            auto offset = TimeOffset::forOffsetCode(tz.getStdOffsetCode());
+            TimeOffset offset = tz.getStdOffset();
             offset.printTo(mOled);
           }
           mOled.clearToEOL();
@@ -229,7 +229,7 @@ class Presenter {
           mOled.println();
           mOled.print("DST: ");
           if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
-            mOled.print((tz.getDstOffsetCode() != 0) ? "on " : "off");
+            mOled.print((tz.getDstOffset().isZero()) ? "off " : "on");
           }
           mOled.clearToEOL();
           break;

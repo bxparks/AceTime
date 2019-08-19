@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 0.7.2 (2019-08-14, TZ DB version 2019b, beta)
+Version: 0.8 (2019-08-19, TZ DB version 2019b, beta)
 
 ## Installation
 
@@ -105,6 +105,11 @@ The following programs are provided in the `examples/` directory:
     * a clock with 3 OLED screens showing the time at 3 different time zones
 * [AutoBenchmark](examples/AutoBenchmark/)
     * perform CPU and memory benchmarking of various methods and print a report
+* [MemoryBenchmark](examples/MemoryBenchmark/)
+    * compiles `MemoryBenchmark.ino` for 13 different features and collecs the
+      flash and static RAM usage from the compiler into a `*.txt` file for
+      a number of platforms (AVR, SAMD, ESP8266, etc)
+    * the `README.md` transforms the `*.txt` file into a human-readable form
 * [ComparisonBenchmark](examples/ComparisonBenchmark/)
     * compare AceTime with
     [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
@@ -580,7 +585,7 @@ namespace ace_time {
 
 class TimeOffset {
   public:
-    static TimeOffset forHours(int8_t hour);
+    static TimeOffset forHours(int8_t hours);
     static TimeOffset forMinutes(int16_t minutes);
     static TimeOffset forHourMinute(int8_t hour, int8_t minute);
 
@@ -760,7 +765,7 @@ hold a reference to:
 TimeZone <>-------- ZoneProcessor            ------- ZoneProcessorCache
                           ^                                ^
                           |                                |
-                    .---- +----.                     .---- +----.
+                   .----- +----.                     .---- +-----.
                    |           |                     |           |
               BasicZone        ExtendedZone       BasicZone     ExtendedZone
               Processor        Processor     ProcessorCache     ZoneProcessor
@@ -978,7 +983,9 @@ void someFunction() {
 }
 ```
 (Notice that we use the `zonedbx::` namespace instead of the `zonedb::`
-namespace.)
+namespace. Although the data structures in the 2 namespaces are identical
+currently (v0.8) but the *values* inside the data structure fields are not
+the same, and they are interpreted differently.)
 
 As of version 2019a of TZ Database, *all* 387 Zone and 205 Link entries from the
 following TZ files are supported: `africa`, `antarctica`, `asia`, `australasia`,
@@ -1236,24 +1243,59 @@ processors) on consecutive calls to `forEpochSeconds()` with the same `year`.
 
 ### ZoneInfo Files
 
-Starting with version 0.4, the zoneinfo files are stored in in flash memory
+Starting with v0.4, the zoneinfo files are stored in in flash memory
 instead of static RAM using the
 [PROGMEM](https://www.arduino.cc/reference/en/language/variables/utilities/progmem/)
 keyword on microcontrollers which support this feature. On an 8-bit
-microcontroller, the `zonedb/` database consumes about 14kB of flash
+microcontroller, the `zonedb/` database consumes about 15 kB of flash
 memory, so it may be possible to create small programs that can dynamically
 access all timezones supported by `BasicZoneProcessor`. The `zonedbx/` database
-consumes about 23kB of flash memory and the addition code size from various
+consumes about 24 kB of flash memory and the addition code size from various
 classes will exceed the 30-32kB limit of a typical Arduino 8-bit
 microcontroller.
 
+The exact format of the zoneinfo files (`zonedb/` and `zonedbx/`) are considered
+to be an implementation detail and may change in the future to support future
+timezones. Applications should not depend on the internal structure of zoneinfo
+data structures.
+
+#### Basic zonedb
+
 The `zonedb/` files do not support all the timezones in the TZ Database.
-The list of these zones and The reasons for excluding them are given at the
+If a zone is excluded, the reason for the exclusion can be found at the
 bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
+The criteria for selecting the Basic `zonedb` files are embedded
+in the `transformer.py` script and summarized in
+[BasicZoneProcessor.h](src/ace_time/BasicZoneProcessor.h):
+
+* the DST offset is a multiple of 15-minutes (all current timezones satisfy
+  this)
+* the STDOFF offset is a multiple of 1-minute (all current timezones
+  satisfy this)
+* the AT or UNTIL fields must occur at one-year boundaries (this is the biggest
+  filter)
+* the LETTER field must contain only a single character
+* the UNTIL time suffix can only be 'w' (not 's' or 'u')
+* there can be only one DST transition in a single month
+
+In the current version (v0.8), this database contains 270 zones from the year
+2000 to 2049 (inclusive).
+
+#### Extended zonedbx
 
 The goal of the `zonedbx/` files is to support all zones listed in the TZ
 Database. Currently, as of TZ Database version 2019b, this goal is met
-from the year 2000 to 2049 inclusive.
+from the year 2000 to 2049 inclusive. Some restrictions of this database
+are:
+
+* the DST offset is a multipole of 15-minutes ranging from -1:00 to 2:45
+  (all timezones from about 1972 support this)
+* the STDOFF offset is a multiple of 1-minute
+* the AT and UNTIL fields are multiples of 1-minute
+* the LETTER field can be arbitrary strings
+
+In the current version (v0.8), this database contains all 387 timezones from
+the year 2000 to 2049 (inclusive).
 
 #### BasicZone and ExtendedZone
 
@@ -2416,10 +2458,10 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 2
 sizeof(OffsetDateTime): 8
-sizeof(BasicZoneProcessor): 99
-sizeof(ExtendedZoneProcessor): 437
-sizeof(BasicZoneManager<1>): 107
-sizeof(ExtendedZoneManager<1>): 445
+sizeof(BasicZoneProcessor): 113
+sizeof(ExtendedZoneProcessor): 453
+sizeof(BasicZoneManager<1>): 121
+sizeof(ExtendedZoneManager<1>): 461
 sizeof(TimeZone): 5
 sizeof(ZonedDateTime): 13
 sizeof(TimePeriod): 4
@@ -2435,10 +2477,10 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 2
 sizeof(OffsetDateTime): 8
-sizeof(BasicZoneProcessor): 136
-sizeof(ExtendedZoneProcessor): 500
-sizeof(BasicZoneManager<1>): 156
-sizeof(ExtendedZoneManager<1>): 520
+sizeof(BasicZoneProcessor): 156
+sizeof(ExtendedZoneProcessor): 532
+sizeof(BasicZoneManager<1>): 176
+sizeof(ExtendedZoneManager<1>): 552
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
@@ -2453,12 +2495,12 @@ Here is a short summary for an 8-bit microcontroller (e.g. Arduino Nano):
 
 * Using the `TimeZone` class with a `BasicZoneProcessor` for one timezone takes
   about 6 kB of flash memory and 193 bytes of static RAM.
-* Using 2 timezones with `BasiCZoneProcessor increases the consumption to
+* Using 2 timezones with `BasicZoneProcessor increases the consumption to
   about 7 kB of flash and 207 bytes of RAM.
 * Loading the entire `zonedb::` zoneinfo database consumes 21 kB bytes of flash
   and 597 bytes of RAM.
 * Adding the `SystemClock` to the `TimeZone` and `BasicZoneProcessor` with one
-  timezone consumes 8.5 kB bytes of flash and 352 bytes of RAM.
+  timezone consumes 9 kB bytes of flash and 352 bytes of RAM.
 
 These numbers indicate that the AceTime library is useful even on a limited
 8-bit controller with only 30-32 kB of flash and 2 kB of RAM. As a concrete
@@ -2607,6 +2649,19 @@ some time to take a closer look in the future.
     * This library does not support
       [leap seconds](https://en.wikipedia.org/wiki/Leap_second) and will
       probably never do so.
+    * The library does not implement TAI (International Atomic Time).
+    * The `epochSeconds` is like `unixSeconds` in that it is unaware of
+      leap seconds. When a leap seconds occurs the `epochSeconds` is repeated
+      over 2 seconds, just like `unixSeconds`.
+    * The `SystemClock` is unaware of leap seconds so it will continue
+      to increment `epochSeconds` through the leap second. In other words,
+      the SystemClock will be 1 second ahead of UTC.
+        * If the referenceClock is the `NtpClock`, that clock happens to
+          be leap second aware, and the `epochSeconds` will bounce back one
+          second upon the next synchronization, becoming synchronized to UTC.
+        * If the referenceClock is the `DS3231Clock`, that clock is *not*
+          leap second aware, so the `epochSeconds` will continue to be ahead of
+          UTC by one second.
 * `acetime_t`
     * AceTime uses an epoch of 2000-01-01T00:00:00Z.
       The `acetime_t` type is a 32-bit signed integer whose smallest value
@@ -2665,12 +2720,6 @@ some time to take a closer look in the future.
      as well as it could be, and the algorithm may change in the future. To keep
      the code size within reasonble limits of a small Arduino controller, the
      algorithm may be permanently sub-optimal.
-* `BasicZoneProcessor`, `ExtendedZoneProcessor`
-    * Tested using both Python and Java libraries.
-    * Python [pytz](https://pypi.org/project/pytz/) library supports dates only
-      from 2000 until 2038.
-    * Java `java.time` library has an upper limit far beyond the year 2068 limit
-      of `ZonedDateTime`. Testing was performed from 2000 to until 2050.
 * `NtpClock`
     * The `NtpClock` on an ESP8266 calls `WiFi.hostByName()` to resolve
       the IP address of the NTP server. Unfortunately, when I tested this
@@ -2682,16 +2731,28 @@ some time to take a closer look in the future.
     * [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) uses an epoch
       of 1900-01-01T00:00:00Z, with 32-bit unsigned integer as the seconds
       counter. It will overflow just after 2036-02-07T06:28:15Z.
-* `BasicValidationUsingPythonTest` and `ExtendedValidationUsingPythonTest`
-    * These tests compare the transition times calculated by AceTime to Python's
-      [pytz](https://pypi.org/project/pytz/) library. Unfortunately, pytz does
-      not support dates after Unix signed 32-bit `time_t` rollover at
-      (2038-01-19T03:14:07Z).
-* `BasicValidationUsingJavaTest` and `ExtendedValidationUsingJavaTest`
-    * These tests compare the transition times calculated by AceTime to Java 11
-      `java.time` package which should support the entire range of dates that
-      AceTime can represent. We have artificially limited the range of testing
-      from 2000 to 2050.
+* `BasicZoneProcessor`
+    * Supports 1-minute resolution for AT and UNTIL fields.
+    * Supports only a 15-minute resolution for STDOFF and DST offset fields,
+      but this is sufficient to support the vast majority of timezones since
+      2000.
+    * The `zonedb/` files have been filtered to satisfy these constraints.
+    * Tested again Python [pytz](https://pypi.org/project/pytz/) from
+      2000 until 2038 (limited by pytz).
+    * Tested against Java `java.time` from 2000 to until 2050.
+    * Tested against C++11/14/17
+      [Hinnant date](https://github.com/HowardHinnant/date) from 2000 until
+      2050.
+* `ExtendedZoneProcessor`
+    * Has a 1-minute resolution for all time fields.
+    * The `zonedbx/` files currently (version 2019b) do not have any timezones
+      with 1-minute resolution.
+    * Tested again Python [pytz](https://pypi.org/project/pytz/) from
+      2000 until 2038 (limited by pytz).
+    * Tested against Java `java.time` from 2000 to until 2050.
+    * Tested against [Hinnant date](https://github.com/HowardHinnant/date)
+      using 1-minute resolution from 1975 to 2050. See
+      [ExtendedValidationUsingHinnantDateTest](tests/validation/ExtendedValidationUsingHinnantDateTest).
 * `zonedb/` and `zonedbx/` zoneinfo files
     * These statically defined data structures are loaded into flash memory
       using the `PROGMEM` keyword. The vast majority of the data structure
@@ -2705,8 +2766,6 @@ some time to take a closer look in the future.
     * The TZ database files `backzone`, `systemv` and `factory` are
       not processed by the `tzcompiler.py` tool. They don't seem to contain
       anything worthwhile.
-    * The datasets, `BasicZoneProcessor` and `ExtendedZoneProcessor` classes
-      have been *not* been tested or validated for years prior to 2000.
     * TZ Database version 2019b contains the first use of the
       `{onDayOfWeek<=onDayOfMonth}` syntax that I have seen (specifically `Rule
       Zion, FROM 2005, TO 2012, IN Apr, ON Fri<=1`). The actual transition date

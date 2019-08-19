@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.7</span>
+   &#160;<span id="projectnumber">0.8</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -99,7 +99,7 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a92cdaa3fcc0bdb5a58af3a2c2efea518"><td class="mdescLeft">&#160;</td><td class="mdescRight">UTC offset in 15 min increments.  <a href="#a92cdaa3fcc0bdb5a58af3a2c2efea518">More...</a><br /></td></tr>
 <tr class="separator:a92cdaa3fcc0bdb5a58af3a2c2efea518"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5cab6f4b2b40de24ecd63865915d9000"><td class="memItemLeft" align="right" valign="top">int8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneEra.html#a5cab6f4b2b40de24ecd63865915d9000">deltaCode</a></td></tr>
-<tr class="memdesc:a5cab6f4b2b40de24ecd63865915d9000"><td class="mdescLeft">&#160;</td><td class="mdescRight">If zonePolicy is nullptr, then this indicates the DST offset in 15 minute increments.  <a href="#a5cab6f4b2b40de24ecd63865915d9000">More...</a><br /></td></tr>
+<tr class="memdesc:a5cab6f4b2b40de24ecd63865915d9000"><td class="mdescLeft">&#160;</td><td class="mdescRight">If zonePolicy is nullptr, then this indicates the DST offset in 15 minute increments as defined by the RULES column in 'hh:mm' format.  <a href="#a5cab6f4b2b40de24ecd63865915d9000">More...</a><br /></td></tr>
 <tr class="separator:a5cab6f4b2b40de24ecd63865915d9000"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f27520f1b957312493347f8631779d2"><td class="memItemLeft" align="right" valign="top">int8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneEra.html#a3f27520f1b957312493347f8631779d2">untilYearTiny</a></td></tr>
 <tr class="memdesc:a3f27520f1b957312493347f8631779d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Era is valid until currentTime &lt; untilYear.  <a href="#a3f27520f1b957312493347f8631779d2">More...</a><br /></td></tr>
@@ -142,10 +142,17 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>If zonePolicy is nullptr, then this indicates the DST offset in 15 minute increments. </p>
-<p>It could be 0, which means that the 'RULES' column was '-'. </p>
+<p>If zonePolicy is nullptr, then this indicates the DST offset in 15 minute increments as defined by the RULES column in 'hh:mm' format. </p>
+<p>If the 'RULES' column is '-', then the deltaCode is 0.</p>
+<p>If the '&ndash;scope extended' flag is given to tzcompiler.py, the 'deltaCode` should be interpreted as a uint8_t field, composed of two 4-bit fields:</p>
+<ul>
+<li>The upper 4-bits is an unsigned integer from 0 to 14 that represents the one-minute remainder from the offsetCode. This allows us to capture STDOFF offsets in 1-minute resolution.</li>
+<li>The lower 4-bits is an unsigned integer that holds (originalDeltaCode</li>
+<li>4). This allows us to represent DST offsets from -1:00 to +2:45, in 15-minute increments.</li>
+</ul>
+<p>The extended::ZoneEraBroker::deltaMinutes() and offsetMinutes() know how to convert offsetCode and deltaCode into the appropriate minutes. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00045">45</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00059">59</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>
@@ -207,7 +214,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>UTC offset in 15 min increments. </p>
-<p>Determined by the GMTOFF column. </p>
+<p>Determined by the STDOFF column. </p>
 
 <p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00039">39</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
@@ -228,7 +235,7 @@ Static Public Attributes</h2></td></tr>
 <p>The day field in UNTIL (1-31). </p>
 <p>Will never be 0. Also, there's no need for untilDayOfWeek, because the database generator will resolve the exact day of month based on the known year and month. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00061">61</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00075">75</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>
@@ -247,7 +254,7 @@ Static Public Attributes</h2></td></tr>
 <p>The month field in UNTIL (1-12). </p>
 <p>Will never be 0. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00054">54</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00068">68</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>
@@ -266,7 +273,7 @@ Static Public Attributes</h2></td></tr>
 <p>The time field of UNTIL field in 15-minute increments. </p>
 <p>A range of 00:00 to 25:00 corresponds to 0-100. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00067">67</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00081">81</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>
@@ -284,11 +291,11 @@ Static Public Attributes</h2></td></tr>
 
 <p>The untilTimeModifier is a packed field containing 2 pieces of info: </p>
 <ul>
-<li>The upper 4 bits represent the UNTIL time suffix: 'w', 's' or 'u', represented by TIME_SUFFIX_W, TIME_SUFFIX_S and TIME_SUFFIX_U.</li>
+<li>The upper 4 bits represent the UNTIL time suffix: 'w', 's' or 'u', represented by kSuffixW, kSuffixS and kSuffixU.</li>
 <li>The lower 4 bits represent the remaining 0-14 minutes of the UNTIL field after truncation into untilTimeCode. In other words, the full UNTIL field in one-minute resolution is (15 * untilTimeCode + (untilTimeModifier &amp; 0x0f)). </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00079">79</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00093">93</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>
@@ -307,7 +314,7 @@ Static Public Attributes</h2></td></tr>
 <p>Era is valid until currentTime &lt; untilYear. </p>
 <p>Stored as (year - 2000) in a single byte to save space. Comes from the UNTIL column. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00051">51</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00065">65</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>

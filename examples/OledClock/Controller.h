@@ -214,8 +214,7 @@ class Controller {
         case MODE_CHANGE_TIME_ZONE_OFFSET:
         {
           mSuppressBlink = true;
-          auto offset = TimeOffset::forOffsetCode(
-              mChangingClockInfo.timeZone.getStdOffsetCode());
+          TimeOffset offset = mChangingClockInfo.timeZone.getStdOffset();
           time_offset_mutation::increment15Minutes(offset);
           mChangingClockInfo.timeZone.setStdOffset(offset);
           break;
@@ -223,12 +222,11 @@ class Controller {
         case MODE_CHANGE_TIME_ZONE_DST:
         {
           mSuppressBlink = true;
-          uint8_t offsetCode = mChangingClockInfo.timeZone.getDstOffsetCode();
-          offsetCode = (offsetCode == 0)
-              ? TimeOffset::forMinutes(kDstOffsetMinutes).toOffsetCode()
-              : 0;
-          mChangingClockInfo.timeZone.setDstOffset(
-              TimeOffset::forOffsetCode(offsetCode));
+          TimeOffset dstOffset = mChangingClockInfo.timeZone.getDstOffset();
+          dstOffset = (dstOffset.isZero())
+              ? TimeOffset::forMinutes(kDstOffsetMinutes)
+              : TimeOffset();
+          mChangingClockInfo.timeZone.setDstOffset(dstOffset);
           break;
         }
 
@@ -381,11 +379,14 @@ class Controller {
       SERIAL_PORT_MONITOR.print(F("type: ")); SERIAL_PORT_MONITOR.println(storedInfo.timeZoneData.type);
       if (storedInfo.type == TimeZoneData::kTypeManual) {
         SERIAL_PORT_MONITOR.print(F("std: "));
-        SERIAL_PORT_MONITOR.println(storedInfo.timeZoneData.stdOffsetCode);
+        storedInfo.timeZoneData.stdOffset.printTo(SERIAL_PORT_MONITOR);
+        SERIAL_PORT_MONITOR.println();
         SERIAL_PORT_MONITOR.print(F("dst: "));
-        SERIAL_PORT_MONITOR.println(storedInfo.timeZoneData.dstOffsetCode);
+        storedInfo.timeZoneData.dstOffset.printTo(SERIAL_PORT_MONITOR);
+        SERIAL_PORT_MONITOR.println();
       } else if (storedInfo.type == TimeZoneData::kTypeZoneId) {
-        SERIAL_PORT_MONITOR.print(F("zoneId: 0x")); SERIAL_PORT_MONITOR.println(storedInfo.zoneId, 16);
+        SERIAL_PORT_MONITOR.print(F("zoneId: 0x"));
+        SERIAL_PORT_MONITOR.println(storedInfo.zoneId, 16);
       } else {
         SERIAL_PORT_MONITOR.println(F("<error>"));
       }
@@ -395,8 +396,8 @@ class Controller {
     #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
       if (storedInfo.timeZoneData.type == TimeZoneData::kTypeManual) {
         clockInfo.timeZone = TimeZone::forTimeOffset(
-            TimeOffset::forOffsetCode(storedInfo.stdOffsetCode),
-            TimeOffset::forOffsetCode(storedInfo.dstOffsetCode));
+            TimeOffset::forMinutes(storedInfo.timeZoneData.stdOffsetMinutes),
+            TimeOffset::forMinutes(storedInfo.timeZoneData.dstOffsetMinutes));
       } else {
         clockInfo.timeZone = TimeZone::forTimeOffset(
             TimeOffset::forMinutes(kDefaultOffsetMinutes),
@@ -429,9 +430,8 @@ class Controller {
 
     #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
       storedInfo.timeZoneData.type = TimeZone::kTypeManual;
-      storedInfo.timeZoneData.stdOffsetCode =
-          TimeOffset::forMinues(kDefaultOffsetMinutes).toOffsetCode();
-      storedInfo.timeZoneData.dstOffsetCode = 0;
+      storedInfo.timeZoneData.stdOffsetMinutes = kDefaultOffsetMinutes;
+      storedInfo.timeZoneData.dstOffsetMinutes = 0;
     #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
       storedInfo.timeZoneData.type = TimeZoneData::kTypeZoneId;
       storedInfo.timeZoneData.zoneId =

@@ -2,7 +2,7 @@
 #
 # Shell script that runs 'auniter verify ${board} MemoryBenchmark.ino',
 # and collects the flash memory and static RAM usage for each of
-# the FEATURE (0..12).
+# the FEATURE (0..13).
 #
 # Usage: collect.sh {board} {result_file}
 #
@@ -11,7 +11,7 @@
 #  FEATURE flash max_flash ram max_ram
 #  0  aa bb cc dd
 #  ...
-#  12 aa bb cc dd
+#  13 aa bb cc dd
 
 set -eu
 
@@ -44,7 +44,7 @@ function collect_for_board() {
     local result_file=$2
     local feature_line=$(grep '#define FEATURE [0-9]*' MemoryBenchmark.ino)
 
-    for feature in {0..12}; do
+    for feature in {0..13}; do
         echo "Collecting flash and ram usage for FEATURE $feature"
         sed -i -e "s/#define FEATURE [0-9]*/#define FEATURE $feature/" \
             MemoryBenchmark.ino

@@ -22,7 +22,7 @@ class TestDataGenerator:
     stability which we can use to test other versions of ZoneSpecifier.
     """
 
-    def __init__(self, scope, zone_infos, zone_policies, granularity,
+    def __init__(self, scope, zone_infos, zone_policies,
         start_year, until_year):
         """
         Args:
@@ -33,7 +33,6 @@ class TestDataGenerator:
         self.scope = scope
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
-        self.granularity = granularity
 
         self.zone_name = ''
         self.viewing_months = 14

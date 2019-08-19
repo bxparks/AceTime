@@ -70,7 +70,7 @@ struct DateTuple {
   int8_t yearTiny; // [-127, 126], 127 will cause bugs
   uint8_t month; // [1-12]
   uint8_t day; // [1-31]
-  uint8_t suffix; // TIME_SUFFIX_S, TIME_SUFFIX_W, TIME_SUFFIX_U
+  uint8_t suffix; // kSuffixS, kSuffixW, kSuffixU
   int16_t minutes; // negative values allowed
 
   /** Used only for debugging. */
@@ -154,19 +154,19 @@ struct ZoneMatch {
  * 'untilDateTime'.
  *
  * There are 2 types of Transition instances:
- *  1) Simple, indicated by 'rule' == nullptr. The base UTC offsetCode is given
- *  by match->offsetCode. The additional DST delta is given by
- *  match->deltaCode.
- *  2) Named, indicated by 'rule' != nullptr. The base UTC offsetCode is given
- *  by match->offsetCode. The additional DST delta is given by
- *  rule->deltaCode.
+ *  1) Simple, indicated by 'rule' == nullptr. The base UTC offsetMinutes is
+ *  given by match->offsetMinutes. The additional DST delta is given by
+ *  match->deltaMinutes.
+ *  2) Named, indicated by 'rule' != nullptr. The base UTC offsetMinutes is
+ *  given by match->offsetMinutes. The additional DST delta is given by
+ *  rule->deltaMinutes.
  *
  * The 'match', 'rule', 'transitionTime', 'transitionTimeS', 'transitionTimeU',
  * 'active', 'originalTransitionTime', 'letter()' and 'format()' are temporary
  * variables or parameters used in the init() method.
  *
- * The 'offsetCode', 'deltaCode', 'startDateTime', 'abbrev' are the derived
- * parameters used in the findTransition() search.
+ * The 'offsetMinutes', 'deltaMinutes', 'startDateTime', 'abbrev' are the
+ * derived parameters used in the findTransition() search.
  *
  * Ordering of fields optimized along 4-byte boundaries to help 32-bit
  * processors without making the program size bigger for 8-bit processors.
@@ -232,6 +232,18 @@ struct Transition {
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
 
+  /**
+   * The base offset minutes, not the total effective UTC offset. Note that
+   * this is different than basic::Transition::offsetMinutes used by
+   * BasicZoneProcessor which is the total effective offsetMinutes. (It may be
+   * possible to make this into an effective offsetMinutes (i.e. offsetMinutes
+   * + deltaMinutes) but it does not seem worth making that change right now.)
+   */
+  int16_t offsetMinutes;
+
+  /** The DST delta minutes. */
+  int16_t deltaMinutes;
+
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
   char abbrev[kAbbrevSize];
 
@@ -251,18 +263,6 @@ struct Transition {
    * transition falls within the date range of interest.
    */
   bool active;
-
-  /**
-   * The base offset code, not the total effective UTC offset. Note that this
-   * is different than basic::Transition::offsetCode used by BasicZoneProcessor
-   * which is the total effective offsetCode. (It may be possible to make this
-   * into an effective offsetCode (i.e. offsetCode + deltaCode) but it does not
-   * seem worth making that change right now.)
-   */
-  int8_t offsetCode;
-
-  /** The DST delta code. */
-  int8_t deltaCode;
 
   //-------------------------------------------------------------------------
 
@@ -307,7 +307,7 @@ struct Transition {
   /** Used only for debugging. */
   void log() const {
     logging::printf("Transition(");
-    if (sizeof(acetime_t) == sizeof(int)) {
+    if (sizeof(acetime_t) <= sizeof(int)) {
       logging::printf("sE: %d", startEpochSeconds);
     } else {
       logging::printf("sE: %ld", startEpochSeconds);
@@ -315,8 +315,8 @@ struct Transition {
     logging::printf("; match: %snull", (match) ? "!" : "");
     logging::printf("; era: %snull",
         (match && match->era.isNotNull()) ? "!" : "");
-    logging::printf("; oCode: %d", offsetCode);
-    logging::printf("; dCode: %d", deltaCode);
+    logging::printf("; oMinutes: %d", offsetMinutes);
+    logging::printf("; dMinutes: %d", deltaMinutes);
     logging::printf("; tt: "); transitionTime.log();
     if (rule.isNotNull()) {
       logging::printf("; R.fY: %d", rule.fromYearTiny());
@@ -557,7 +557,7 @@ class TransitionStorage {
       // Convert LocalDateTime to DateTuple.
       DateTuple localDate = { ldt.yearTiny(), ldt.month(), ldt.day(),
           (int16_t) (ldt.hour() * 60 + ldt.minute()),
-          ZoneContext::TIME_SUFFIX_W };
+          ZoneContext::kSuffixW };
       const Transition* match = nullptr;
 
       // Find the last Transition that matches
@@ -678,8 +678,8 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       if (!success) return TimeOffset::forError();
       const extended::Transition* transition = findTransition(epochSeconds);
       return (transition)
-          ? TimeOffset::forOffsetCode(
-              transition->offsetCode + transition->deltaCode)
+          ? TimeOffset::forMinutes(
+              transition->offsetMinutes + transition->deltaMinutes)
           : TimeOffset::forError();
     }
 
@@ -687,7 +687,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       bool success = init(epochSeconds);
       if (!success) return TimeOffset::forError();
       const extended::Transition* transition = findTransition(epochSeconds);
-      return TimeOffset::forOffsetCode(transition->deltaCode);
+      return TimeOffset::forMinutes(transition->deltaMinutes);
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
@@ -716,8 +716,8 @@ class ExtendedZoneProcessor: public ZoneProcessor {
           logging::printf("\n");
         }
         offset = (transition)
-            ? TimeOffset::forOffsetCode(
-                transition->offsetCode + transition->deltaCode)
+            ? TimeOffset::forMinutes(
+                transition->offsetMinutes + transition->deltaMinutes)
             : TimeOffset::forError();
       } else {
         offset = TimeOffset::forError();
@@ -743,8 +743,8 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       const extended::Transition* transition =
           mTransitionStorage.findTransition(epochSeconds);
       offset =  (transition)
-            ? TimeOffset::forOffsetCode(
-                transition->offsetCode + transition->deltaCode)
+            ? TimeOffset::forMinutes(
+                transition->offsetMinutes + transition->deltaMinutes)
             : TimeOffset::forError();
       odt = OffsetDateTime::forEpochSeconds(epochSeconds, offset);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
@@ -891,6 +891,10 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       mTransitionStorage.init();
 
       if (year < mZoneInfo.startYear() - 1 || mZoneInfo.untilYear() < year) {
+        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+          logging::printf("init(): Year %d out of valid range [%d, %d)\n",
+              year, mZoneInfo.startYear(), mZoneInfo.untilYear());
+        }
         return false;
       }
 
@@ -999,7 +1003,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       };
       extended::DateTuple lowerBound = {
         startYm.yearTiny, startYm.month, 1, 0,
-        extended::ZoneContext::TIME_SUFFIX_W
+        extended::ZoneContext::kSuffixW
       };
       if (startDate < lowerBound) {
         startDate = lowerBound;
@@ -1011,7 +1015,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       };
       extended::DateTuple upperBound = {
         untilYm.yearTiny, untilYm.month, 1, 0,
-        extended::ZoneContext::TIME_SUFFIX_W
+        extended::ZoneContext::kSuffixW
       };
       if (upperBound < untilDate) {
         untilDate = upperBound;
@@ -1170,8 +1174,8 @@ class ExtendedZoneProcessor: public ZoneProcessor {
 
     /**
      * Populate Transition 't' using the startTime from 'rule' (if it exists)
-     * else from the start time of 'match'. Fills in 'offsetCode' and
-     * 'deltaCode' as well. 'letterBuf' is also well-defined, either an empty
+     * else from the start time of 'match'. Fills in 'offsetMinutes' and
+     * 'deltaMinutes' as well. 'letterBuf' is also well-defined, either an empty
      * string, or filled with rule->letter with a NUL terminator.
      */
     static void createTransitionForYear(extended::Transition* t, int8_t year,
@@ -1179,12 +1183,12 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         const extended::ZoneMatch* match) {
       t->match = match;
       t->rule = rule;
-      t->offsetCode = match->era.offsetCode();
+      t->offsetMinutes = match->era.offsetMinutes();
       t->letterBuf[0] = '\0';
 
       if (rule.isNotNull()) {
         t->transitionTime = getTransitionTime(year, rule);
-        t->deltaCode = rule.deltaCode();
+        t->deltaMinutes = rule.deltaMinutes();
 
         char letter = rule.letter();
         if (letter >= 32) {
@@ -1200,7 +1204,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         }
       } else {
         t->transitionTime = match->startDateTime;
-        t->deltaCode = match->era.deltaCode();
+        t->deltaMinutes = match->era.deltaMinutes();
       }
     }
 
@@ -1303,7 +1307,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         }
         expandDateTuple(&curr->transitionTime,
             &curr->transitionTimeS, &curr->transitionTimeU,
-            prev->offsetCode, prev->deltaCode);
+            prev->offsetMinutes, prev->deltaMinutes);
         prev = curr;
       }
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
@@ -1312,41 +1316,41 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     }
 
     /**
-     * Convert the given 'tt', offsetCode, and deltaCode into the 'w', 's' and
+     * Convert the given 'tt', offsetMinutes, and deltaMinutes into the 'w', 's' and
      * 'u' versions of the DateTuple. The 'tt' may become a 'w' if it was
      * originally 's' or 'u'. On return, tt, tts and ttu are all modified.
      */
     static void expandDateTuple(extended::DateTuple* tt,
         extended::DateTuple* tts, extended::DateTuple* ttu,
-        int8_t offsetCode, int8_t deltaCode) {
+        int16_t offsetMinutes, int16_t deltaMinutes) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("expandDateTuple()\n");
       }
-      if (tt->suffix == extended::ZoneContext::TIME_SUFFIX_S) {
+      if (tt->suffix == extended::ZoneContext::kSuffixS) {
         *tts = *tt;
         *ttu = {tt->yearTiny, tt->month, tt->day,
-            (int16_t) (tt->minutes - 15 * offsetCode),
-            extended::ZoneContext::TIME_SUFFIX_U};
+            (int16_t) (tt->minutes - offsetMinutes),
+            extended::ZoneContext::kSuffixU};
         *tt = {tt->yearTiny, tt->month, tt->day,
-            (int16_t) (tt->minutes + 15 * deltaCode),
-            extended::ZoneContext::TIME_SUFFIX_W};
-      } else if (tt->suffix == extended::ZoneContext::TIME_SUFFIX_U) {
+            (int16_t) (tt->minutes + deltaMinutes),
+            extended::ZoneContext::kSuffixW};
+      } else if (tt->suffix == extended::ZoneContext::kSuffixU) {
         *ttu = *tt;
         *tts = {tt->yearTiny, tt->month, tt->day,
-            (int16_t) (tt->minutes + 15 * offsetCode),
-            extended::ZoneContext::TIME_SUFFIX_S};
+            (int16_t) (tt->minutes + offsetMinutes),
+            extended::ZoneContext::kSuffixS};
         *tt = {tt->yearTiny, tt->month, tt->day,
-            (int16_t) (tt->minutes + 15 * (offsetCode + deltaCode)),
-            extended::ZoneContext::TIME_SUFFIX_W};
+            (int16_t) (tt->minutes + (offsetMinutes + deltaMinutes)),
+            extended::ZoneContext::kSuffixW};
       } else {
         // Explicit set the suffix to 'w' in case it was something else.
-        tt->suffix = extended::ZoneContext::TIME_SUFFIX_W;
+        tt->suffix = extended::ZoneContext::kSuffixW;
         *tts = {tt->yearTiny, tt->month, tt->day,
-            (int16_t) (tt->minutes - 15 * deltaCode),
-            extended::ZoneContext::TIME_SUFFIX_S};
+            (int16_t) (tt->minutes - deltaMinutes),
+            extended::ZoneContext::kSuffixS};
         *ttu = {tt->yearTiny, tt->month, tt->day,
-            (int16_t) (tt->minutes - 15 * (deltaCode + offsetCode)),
-            extended::ZoneContext::TIME_SUFFIX_U};
+            (int16_t) (tt->minutes - (deltaMinutes + offsetMinutes)),
+            extended::ZoneContext::kSuffixU};
       }
 
       normalizeDateTuple(tt);
@@ -1485,10 +1489,10 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       const extended::DateTuple* transitionTime;
 
       const extended::DateTuple& matchStart = match->startDateTime;
-      if (matchStart.suffix == extended::ZoneContext::TIME_SUFFIX_S) {
+      if (matchStart.suffix == extended::ZoneContext::kSuffixS) {
         transitionTime = &transition->transitionTimeS;
       } else if (matchStart.suffix ==
-          extended::ZoneContext::TIME_SUFFIX_U) {
+          extended::ZoneContext::kSuffixU) {
         transitionTime = &transition->transitionTimeU;
       } else { // assume 'w'
         transitionTime = &transition->transitionTime;
@@ -1497,10 +1501,10 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       if (*transitionTime == matchStart) return 0;
 
       const extended::DateTuple& matchUntil = match->untilDateTime;
-      if (matchUntil.suffix == extended::ZoneContext::TIME_SUFFIX_S) {
+      if (matchUntil.suffix == extended::ZoneContext::kSuffixS) {
         transitionTime = &transition->transitionTimeS;
       } else if (matchUntil.suffix ==
-          extended::ZoneContext::TIME_SUFFIX_U) {
+          extended::ZoneContext::kSuffixU) {
         transitionTime = &transition->transitionTimeU;
       } else { // assume 'w'
         transitionTime = &transition->transitionTime;
@@ -1537,9 +1541,9 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         // 2) Calculate the current startDateTime by shifting the
         // transitionTime (represented in the UTC offset of the previous
         // transition) into the UTC offset of the *current* transition.
-        int16_t minutes = tt.minutes + 15 * (
-            - prev->offsetCode - prev->deltaCode
-            + t->offsetCode + t->deltaCode);
+        int16_t minutes = tt.minutes + (
+            - prev->offsetMinutes - prev->deltaMinutes
+            + t->offsetMinutes + t->deltaMinutes);
         t->startDateTime = {tt.yearTiny, tt.month, tt.day, minutes,
             tt.suffix};
         normalizeDateTuple(&t->startDateTime);
@@ -1556,7 +1560,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         // any CPU time though, since we still need to mutiply by 900.
         const extended::DateTuple& st = t->startDateTime;
         const acetime_t offsetSeconds = (acetime_t) 60
-            * (st.minutes - 15 * (t->offsetCode + t->deltaCode));
+            * (st.minutes - (t->offsetMinutes + t->deltaMinutes));
         LocalDate ld = LocalDate::forTinyComponents(
             st.yearTiny, st.month, st.day);
         t->startEpochSeconds = ld.toEpochSeconds() + offsetSeconds;
@@ -1570,7 +1574,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       extended::DateTuple untilTimeS; // needed only for expandDateTuple
       extended::DateTuple untilTimeU; // needed only for expandDateTuple
       expandDateTuple(&untilTime, &untilTimeS, &untilTimeU,
-          prev->offsetCode, prev->deltaCode);
+          prev->offsetMinutes, prev->deltaMinutes);
       prev->untilDateTime = untilTime;
     }
 
@@ -1587,11 +1591,11 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         extended::Transition* const t = *iter;
         if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
           logging::printf(
-            "calcAbbreviations(): format:%s, deltaCode:%d, letter:%s\n",
-            t->format(), t->deltaCode, t->letter());
+            "calcAbbreviations(): format:%s, deltaMinutes:%d, letter:%s\n",
+            t->format(), t->deltaMinutes, t->letter());
         }
         createAbbreviation(t->abbrev, extended::Transition::kAbbrevSize,
-            t->format(), t->deltaCode, t->letter());
+            t->format(), t->deltaMinutes, t->letter());
       }
     }
 
@@ -1604,7 +1608,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
      * LETTER was a 'S', 'D', 'WAT' etc.
      */
     static void createAbbreviation(char* dest, uint8_t destSize,
-        const char* format, uint8_t deltaCode, const char* letterString) {
+        const char* format, uint16_t deltaMinutes, const char* letterString) {
       // Check if FORMAT contains a '%'.
       if (strchr(format, '%') != nullptr) {
         // Check if RULES column empty, therefore no 'letter'
@@ -1618,7 +1622,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
         // Check if FORMAT contains a '/'.
         const char* slashPos = strchr(format, '/');
         if (slashPos != nullptr) {
-          if (deltaCode == 0) {
+          if (deltaMinutes == 0) {
             uint8_t headLength = (slashPos - format);
             if (headLength >= destSize) headLength = destSize - 1;
             memcpy(dest, format, headLength);
@@ -1630,7 +1634,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
             dest[tailLength] = '\0';
           }
         } else {
-          // Just copy the FORMAT disregarding deltaCode and letterString.
+          // Just copy the FORMAT disregarding deltaMinutes and letterString.
           strncpy(dest, format, destSize);
           dest[destSize - 1] = '\0';
         }

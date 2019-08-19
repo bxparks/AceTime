@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.7</span>
+   &#160;<span id="projectnumber">0.8</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -101,9 +101,8 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:acc3e44cf4dc4a005c15a4e39863a909a"><td class="memItemLeft" align="right" valign="top">uint8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#acc3e44cf4dc4a005c15a4e39863a909a">atTimeModifier</a></td></tr>
 <tr class="memdesc:acc3e44cf4dc4a005c15a4e39863a909a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The atTimeModifier is a packed field containing 2 pieces of info:  <a href="#acc3e44cf4dc4a005c15a4e39863a909a">More...</a><br /></td></tr>
 <tr class="separator:acc3e44cf4dc4a005c15a4e39863a909a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48540781ee2c3437b02eb2f3eb0b570a"><td class="memItemLeft" align="right" valign="top"><a id="a48540781ee2c3437b02eb2f3eb0b570a"></a>
-int8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#a48540781ee2c3437b02eb2f3eb0b570a">deltaCode</a></td></tr>
-<tr class="memdesc:a48540781ee2c3437b02eb2f3eb0b570a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determined by the SAVE column, containing the offset from UTC, in 15-min increments. <br /></td></tr>
+<tr class="memitem:a48540781ee2c3437b02eb2f3eb0b570a"><td class="memItemLeft" align="right" valign="top">int8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#a48540781ee2c3437b02eb2f3eb0b570a">deltaCode</a></td></tr>
+<tr class="memdesc:a48540781ee2c3437b02eb2f3eb0b570a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determined by the SAVE column, containing the offset from UTC, in 15-min increments.  <a href="#a48540781ee2c3437b02eb2f3eb0b570a">More...</a><br /></td></tr>
 <tr class="separator:a48540781ee2c3437b02eb2f3eb0b570a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add4b7ffb810d118ae1c4a7ef9d302550"><td class="memItemLeft" align="right" valign="top">uint8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#add4b7ffb810d118ae1c4a7ef9d302550">letter</a></td></tr>
 <tr class="memdesc:add4b7ffb810d118ae1c4a7ef9d302550"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determined by the LETTER column.  <a href="#add4b7ffb810d118ae1c4a7ef9d302550">More...</a><br /></td></tr>
@@ -154,11 +153,30 @@ Static Public Attributes</h2></td></tr>
 
 <p>The atTimeModifier is a packed field containing 2 pieces of info: </p>
 <ul>
-<li>The upper 4 bits represent the AT time suffix: 'w', 's' or 'u', represented by TIME_SUFFIX_W, TIME_SUFFIX_S and TIME_SUFFIX_U.</li>
+<li>The upper 4 bits represent the AT time suffix: 'w', 's' or 'u', represented by kSuffixW, kSuffixS and kSuffixU.</li>
 <li>The lower 4 bits represent the remaining 0-14 minutes of the AT field after truncation into atTimeCode. In other words, the full AT field in one-minute resolution is (15 * atTimeCode + (atTimeModifier &amp; 0x0f)). </li>
 </ul>
 
 <p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00061">61</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
+
+</div>
+</div>
+<a id="a48540781ee2c3437b02eb2f3eb0b570a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48540781ee2c3437b02eb2f3eb0b570a">&#9670;&nbsp;</a></span>deltaCode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int8_t const ace_time::basic::ZoneRule::deltaCode</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determined by the SAVE column, containing the offset from UTC, in 15-min increments. </p>
+<p>If the '&ndash;scope extended' flag is given to tzcompiler.py, this field should be interpreted as an uint8_t field, whose lower 4-bits hold a slightly modified value of offsetCode equal to (originalDeltaCode + 4). This allows the 4-bits to represent DST offsets from -1:00 to 2:45 in 15-minute increments. This is the same algorithm used by <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html#a5cab6f4b2b40de24ecd63865915d9000" title="If zonePolicy is nullptr, then this indicates the DST offset in 15 minute increments as defined by th...">ZoneEra::deltaCode</a> field for consistency. The extended::ZonePolicyBroker::deltaMinutes() method knows how to convert this field into minutes. </p>
+
+<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00076">76</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
 
 </div>
 </div>
@@ -248,7 +266,7 @@ Static Public Attributes</h2></td></tr>
 <li>Troll ('+00' '+02'; used by Antarctica/Troll) </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00085">85</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00094">94</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
 
 </div>
 </div>

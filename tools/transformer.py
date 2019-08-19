@@ -166,24 +166,20 @@ class Transformer:
 
     def print_summary(self):
         logging.info('-------- Transformer Summary')
-        logging.info('---- Zones')
-        logging.info('Total %s zones' % self.original_zone_count)
-        logging.info('Removed %s zones' % len(self.all_removed_zones))
-        logging.info('Generated %s zones' % len(self.zones_map))
-        logging.info('Noted %s zones' % len(self.all_notable_zones))
+        logging.info(f"Zones: total={self.original_zone_count}"
+            f"; generated={len(self.zones_map)}"
+            f"; removed={len(self.all_removed_zones)}"
+            f"; noted={len(self.all_notable_zones)}")
 
-        logging.info('---- Rules')
-        logging.info('Total %s rules' % self.original_rule_count)
-        logging.info('Removed %s policies' % len(self.all_removed_policies))
-        logging.info('Generated %s policies' % len(self.rules_map))
-        logging.info('Noted %s policies' % len(self.all_notable_policies))
+        logging.info(f"Rules: total={self.original_rule_count}"
+            f"; generated={len(self.rules_map)}"
+            f"; removed={len(self.all_removed_policies)}"
+            f"; noted={len(self.all_notable_policies)}")
 
-        logging.info('---- Links')
-        logging.info('Total %s links' % self.original_link_count)
-        logging.info('Removed %s links' % len(self.all_removed_links))
-        logging.info('Generated %s links' % len(self.links_map))
-        logging.info('Noted %s links' % len(self.all_notable_links))
-        logging.info('-------- Transformer Summary End')
+        logging.info(f"Links: total={self.original_link_count}"
+            f"; generated={len(self.links_map)}"
+            f"; removed={len(self.all_removed_links)}"
+            f"; noted={len(self.all_notable_links)}")
 
     def _print_removed_map(self, removed_map):
         """Helper routine that prints the removed Zone rules or Zone eras along
@@ -313,7 +309,6 @@ class Transformer:
 
         logging.info("Removed %s zone infos with UNTIL month/day/time",
                      len(removed_zones))
-        self._print_removed_map(removed_zones)
         _merge_reasons(self.all_removed_zones, removed_zones)
         return results
 
@@ -321,11 +316,12 @@ class Transformer:
         """Convert zone.untilDay from 'lastSun' or 'Sun>=1' to a precise day,
         which is possible because the year and month are already known. For
         example:
-            * Asia/Tbilisi 2005 3 lastSun 2:00
-            * America/Grand_Turk 2015 Nov Sun>=1 2:00
+            * Zone Asia/Tbilisi 2005 3 lastSun 2:00
+            * Zone America/Grand_Turk 2015 Nov Sun>=1 2:00
         """
         results = {}
         removed_zones = {}
+        notable_zones = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -335,16 +331,32 @@ class Transformer:
                 # the 'lastSun', 'Sun>=X' and 'Fri<=X' to a specific day of
                 # month because we know the year.
                 (on_day_of_week, on_day_of_month) = \
-                    parse_on_day_string(until_day)
+                    _parse_on_day_string(until_day)
                 if (on_day_of_week, on_day_of_month) == (0, 0):
                     valid = False
                     _add_reason(removed_zones, name,
                         f"invalid untilDay '{until_day}'")
                     break
 
-                era.untilDay = calc_day_of_month(
+                month, day = calc_day_of_month(
                     era.untilYear, era.untilMonth, on_day_of_week,
                     on_day_of_month)
+                if month == 0:
+                    valid = False
+                    _add_reason(removed_zones, name,
+                        f"Shift to previous year unsupported for {until_day}")
+                    break
+                if month == 13:
+                    valid = False
+                    _add_reason(removed_zones, name,
+                        f"Shift to following year unsupported for {until_day}")
+
+                if era.untilMonth != month:
+                    _add_reason(notable_zones, name,
+                        f"untilMonth shifted from '{era.untilMonth}' to "
+                        f"'{month}' due to {until_day}")
+                era.untilMonth, era.untilDay = month, day
+
             if valid:
                 results[name] = eras
 
@@ -352,6 +364,7 @@ class Transformer:
                      len(removed_zones))
         self._print_removed_map(removed_zones)
         _merge_reasons(self.all_removed_zones, removed_zones)
+        _merge_reasons(self.all_notable_zones, notable_zones)
         return results
 
     def _create_zones_with_expanded_until_time(self, zones_map):
@@ -453,9 +466,10 @@ class Transformer:
                 if offset_seconds == INVALID_SECONDS:
                     valid = False
                     _add_reason(removed_zones, name,
-                        f"invalid STDOFF offset string '{offset_string}'")
+                        f"invalid STDOFF '{offset_string}'")
                     break
 
+                # Truncate to requested granularity.
                 offset_seconds_truncated = truncate_to_granularity(
                     offset_seconds, self.offset_granularity)
                 if offset_seconds != offset_seconds_truncated:
@@ -469,6 +483,15 @@ class Transformer:
                         hm = seconds_to_hm_string(offset_seconds_truncated)
                         _add_reason(notable_zones, name,
                             f"STDOFF '{offset_string}' truncated to '{hm}'")
+
+                # Check that offset seconds can fit in a timeCode field
+                # implemented as a signed byte in multiples of 15-minutes.
+                offset_code = div_to_zero(offset_seconds_truncated, 900)
+                if offset_code < -127 or offset_code > 127:
+                    valid = False
+                    _add_reason(removed_zones, name,
+                        f"STDOFF '{offset_string}' too large for 8-bits")
+                    break
 
                 era.offsetSeconds = offset_seconds
                 era.offsetSecondsTruncated = offset_seconds_truncated
@@ -894,8 +917,8 @@ class Transformer:
         return results
 
     def _create_rules_with_on_day_expansion(self, rules_map):
-        """Create rule.onDayOfWeek and rule.onDayOfMonth from
-        rule.onDay.
+        """Create rule.onDayOfWeek and rule.onDayOfMonth from rule.onDay.
+        The onDayOfMonth will be negative if "<=" is used.
         """
         results = {}
         removed_policies = {}
@@ -903,7 +926,7 @@ class Transformer:
             valid = True
             for rule in rules:
                 on_day = rule.onDay
-                (on_day_of_week, on_day_of_month) = parse_on_day_string(on_day)
+                (on_day_of_week, on_day_of_month) = _parse_on_day_string(on_day)
 
                 if (on_day_of_week, on_day_of_month) == (0, 0):
                     valid = False
@@ -911,6 +934,9 @@ class Transformer:
                         f"invalid onDay '{on_day}'")
                     break
 
+                # *ZoneProcessor.h classes currently do not support
+                # "dayOfWeek<=6" or "dayOfWeek>=26" if the shift causes the year
+                # to change.
                 if on_day_of_week != 0 and on_day_of_month != 0:
                     if -7 <= on_day_of_month and on_day_of_month < -1 and \
                         rule.inMonth == 1:
@@ -980,9 +1006,9 @@ class Transformer:
             in_month = rule.inMonth
             on_day_of_week = rule.onDayOfWeek
             on_day_of_month = rule.onDayOfMonth
-            on_day = calc_day_of_month(from_year, in_month, on_day_of_week,
-                                       on_day_of_month)
-            rule_date = (from_year, in_month, on_day)
+            month, day = calc_day_of_month(
+                from_year, in_month, on_day_of_week, on_day_of_month)
+            rule_date = (from_year, month, day)
             rule.earliestDate = rule_date
 
             if rule.deltaSeconds == 0 and rule_date < anchor_rule.earliestDate:
@@ -1111,6 +1137,7 @@ class Transformer:
                         f"invalid deltaOffset '{delta_offset}'")
                     break
 
+                # Truncate to requested granularity.
                 delta_seconds_truncated = truncate_to_granularity(
                     delta_seconds, self.offset_granularity)
                 if delta_seconds != delta_seconds_truncated:
@@ -1126,6 +1153,17 @@ class Transformer:
                             f"deltaOffset '{delta_offset}' truncated to"
                             f"a multiple of '{self.offset_granularity}' "
                             f"seconds")
+
+                # Check that delta seconds can fit in a 4-bit timeCode field
+                # with 15-minute granularity, defined as (timeCode =
+                # delta_seconds / 900s + 1h) which encodes -1:00 as 0 and 3:45
+                # as 15.
+                delta_code = div_to_zero(delta_seconds_truncated, 900) + 4
+                if delta_code < 0 or delta_code > 15:
+                    valid = False
+                    _add_reason(removed_policies, name,
+                        f"deltaOffset '{delta_offset}' too large for 4-bits")
+                    break
 
                 rule.deltaSeconds = delta_seconds
                 rule.deltaSecondsTruncated = delta_seconds_truncated
@@ -1203,14 +1241,14 @@ WEEK_TO_WEEK_INDEX = {
 }
 
 
-def parse_on_day_string(on_string):
+def _parse_on_day_string(on_string):
     """Parse things like "Sun>=1", "lastSun", "20", "Fri<=2".
     Returns (on_day_of_week, on_day_of_month) where
         (0, dayOfMonth) = exact match on dayOfMonth
         (dayOfWeek, dayOfMonth) = matches dayOfWeek>=dayOfMonth
         (dayOfWeek, -dayOfMonth) = matches dayOfWeek<=dayOfMonth
         (dayOfWeek, 0) = matches lastDayOfWeek
-        (0, 0) = error
+        (0, 0) = syntax error
 
     where
         dayOfWeek is represented by a number (Mon=1, ..., Sun=7),
@@ -1377,26 +1415,51 @@ def is_year_tiny(year):
 
 
 def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
-    """Return the actual day of month of expressions such as
-    (onDayOfWeek >= onDayOfMonth) or (lastMon).
+    """Return the actual (month, day) of expressions such as
+    (onDayOfWeek >= onDayOfMonth), (onDayOfWeek <= onDayOfMonth), or (lastMon)
+    See BasicZoneSpecifier::calcStartDayOfMonth(). Shifts into previous or
+    next month can occur.
+
+    Return (13, xx) if a shift to the next year occurs
+    Return (0, xx) if a shift to the previous year occurs
     """
     if on_day_of_week == 0:
-        return on_day_of_month
+        return (month, on_day_of_month)
 
-    if on_day_of_month == 0:
-        # lastXxx == (Xxx >= (daysInMonth - 6))
-        on_day_of_month = days_in_month(year, month) - 6
-    limit_date = datetime.date(year, month, on_day_of_month)
-    day_of_week_shift = (on_day_of_week - limit_date.isoweekday() + 7) % 7
-    return on_day_of_month + day_of_week_shift
+    if on_day_of_month >= 0:
+        days_in_month = _days_in_month(year, month)
+
+        # Handle lastXxx by transforming it into (Xxx >= (daysInMonth - 6))
+        if on_day_of_month == 0:
+            on_day_of_month = days_in_month - 6
+
+        limit_date = datetime.date(year, month, on_day_of_month)
+        day_of_week_shift = (on_day_of_week - limit_date.isoweekday() + 7) % 7
+        day = on_day_of_month + day_of_week_shift
+        if day > days_in_month:
+            day -= days_in_month
+            month += 1
+        return (month, day)
+    else:
+        on_day_of_month = -on_day_of_month
+        limit_date = datetime.date(year, month, on_day_of_month)
+        day_of_week_shift = (limit_date.isoweekday() - on_day_of_week + 7) % 7
+        day = on_day_of_month - day_of_week_shift
+        if day < 1:
+            month -= 1
+            days_in_prev_month = _days_in_month(year, month)
+            day += days_in_prev_month
+        return (month, day)
 
 
-def days_in_month(year, month):
-    """Return the number of days in the given (year, month).
+def _days_in_month(year, month):
+    """Return the number of days in the given (year, month). The
+    month is usually 1-12, but can be 0 to indicate December of the previous
+    year, and 13 to indicate Jan of the following year.
     """
     DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     is_leap = (year % 4 == 0) and ((year % 100 != 0) or (year % 400) == 0)
-    days = DAYS_IN_MONTH[month - 1]
+    days = DAYS_IN_MONTH[(month - 1) % 12]
     if month == 2:
         days += is_leap
     return days

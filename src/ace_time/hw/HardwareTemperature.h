@@ -6,8 +6,6 @@
 #ifndef ACE_TIME_HW_TEMPERATURE_H
 #define ACE_TIME_HW_TEMPERATURE_H
 
-#if defined(ARDUINO) || defined(DOXYGEN)
-
 #include <stdint.h>
 #include <Print.h> // Print
 #include "../common/util.h" // printPad2
@@ -71,7 +69,5 @@ return ! (a == b);
 
 }
 }
-
-#endif
 
 #endif

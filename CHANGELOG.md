@@ -1,6 +1,23 @@
 # Changelog
 
 * Unreleased
+* 0.8
+    * Handle `Fri<=1` correctly in various python scripts. (#17)
+    * Improve resolution of zonedb files and ZoneProcessor classes. (#18)
+        * Both BasicZoneProcessor and ExtendedZoneProcessor support 1-minute
+          resolutions for the AT and UNTIL fields.
+        * BasicZoneProcessor (and zonedb files) support a 15-minute resolution
+          for both STDOFF and DST offset fields.
+        * ExtendedZoneProcessor (and zonedbx files) support one-minute
+          resolution for STDOFF field and 15-minute resolution for DST offset
+          (with a range of -01:00 to 02:45). (4 bits of the `deltaCode`
+          field were given to the `offsetCode` field to give it the
+          1-minute resolution.)
+        * Regenerate zonedbx using 1-minute resolution.
+    * Fix broken BasicZoneProcessor on some timezones between 1975 and
+      2000. Did not handle transitions from fixed ZoneEra (RULES='-') to named
+      ZoneEra (RULES=reference) or vise versa. Verified against pytz and
+      Hinnant date from 1975 to 2050.
 * 0.7.2
     * Support timezones whose FORMAT contains a '/' with a fixed RULES column.
       Seems to make BasicZoneProcessor slightly smaller (20-80 bytes) and

@@ -1,7 +1,7 @@
 #ifndef COMMAND_LINE_CLOCK_PERSISTENT_STORE_H
 #define COMMAND_LINE_CLOCK_PERSISTENT_STORE_H
 
-#if defined(ARDUINO)
+#if ! defined(UNIX_HOST_DUINO)
 
 #include <AceTime.h>
 #if ENABLE_EEPROM

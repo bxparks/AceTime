@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['monthday',['MonthDay',['../structace__time_1_1basic_1_1MonthDay.html',1,'ace_time::basic']]]
+  ['ntpclock',['NtpClock',['../classace__time_1_1clock_1_1NtpClock.html',1,'ace_time::clock']]]
 ];

@@ -174,10 +174,8 @@ class Controller {
       SERIAL_PORT_MONITOR.println(F("preserveInfo()"));
       mIsStoredInfoValid = true;
       mStoredInfo.timeZoneType = mTimeZone.getType();
-      mStoredInfo.stdOffsetCode =
-          mTimeZone.getStdOffset().toOffsetCode();
-      mStoredInfo.dstOffsetCode =
-          mTimeZone.getDstOffset().toOffsetCode();
+      mStoredInfo.stdMinutes = mTimeZone.getStdOffset().toMinutes();
+      mStoredInfo.dstMinutes = mTimeZone.getDstOffset().toMinutes();
       mStoredInfo.zoneId = mTimeZone.getZoneId();
       return mPersistentStore.writeStoredInfo(mStoredInfo);
     }
@@ -200,8 +198,8 @@ class Controller {
           break;
         case TimeZone::kTypeManual:
           setManualTimeZone(
-              TimeOffset::forOffsetCode(storedInfo.stdOffsetCode),
-              TimeOffset::forOffsetCode(storedInfo.dstOffsetCode));
+              TimeOffset::forMinutes(storedInfo.stdMinutes),
+              TimeOffset::forMinutes(storedInfo.dstMinutes));
           break;
         default:
           SERIAL_PORT_MONITOR.print(F("restoreInfo(): Setting UTC timezone"));

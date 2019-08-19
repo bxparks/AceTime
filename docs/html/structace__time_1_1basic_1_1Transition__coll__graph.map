@@ -1,4 +1,4 @@
 <map id="ace_time::basic::Transition" name="ace_time::basic::Transition">
-<area shape="rect" id="node2" href="$classace__time_1_1internal_1_1FlashZoneRuleBroker.html" title="ace_time::internal\l::FlashZoneRuleBroker\l\&lt; ZoneRule \&gt;" alt="" coords="7,5,163,61"/>
-<area shape="rect" id="node3" href="$classace__time_1_1internal_1_1FlashZoneEraBroker.html" title="ace_time::internal\l::FlashZoneEraBroker\l\&lt; ZoneEra, ZonePolicy,\l ZoneRule \&gt;" alt="" coords="5,86,165,157"/>
+<area shape="rect" id="node2" href="$classace__time_1_1basic_1_1ZoneRuleBroker.html" title="Data broker for accessing ZoneRule. " alt="" coords="5,5,184,47"/>
+<area shape="rect" id="node3" href="$classace__time_1_1basic_1_1ZoneEraBroker.html" title="Data broker for accessing ZoneEra. " alt="" coords="208,5,379,47"/>
 </map>

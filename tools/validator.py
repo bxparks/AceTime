@@ -38,7 +38,7 @@ class Validator:
         validator.validate_test_data()
     """
 
-    def __init__(self, zone_infos, zone_policies, granularity, viewing_months,
+    def __init__(self, zone_infos, zone_policies, viewing_months,
                  validate_dst_offset, debug_validator, debug_specifier,
                  zone_name, year, start_year, until_year,
                  in_place_transitions, optimize_candidates):
@@ -46,8 +46,6 @@ class Validator:
         Args:
             zone_infos (dict): {name -> zone_info{} }
             zone_policies (dict): {name ->zone_policy{} }
-            granularity (int): time resolution (in seconds) of
-                zone_infos and zone_policies
             viewing_months (int): number of months in the calculation window
                 (13, 14, 36)
             validate_dst_offset (bool): validate DST offset against Python in
@@ -63,7 +61,6 @@ class Validator:
         """
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
-        self.granularity = granularity
         self.viewing_months = viewing_months
         self.validate_dst_offset = validate_dst_offset
         self.debug_validator = debug_validator
@@ -121,7 +118,7 @@ class Validator:
         """
         logging.info('Creating test data')
         data_generator = TestDataGenerator(self.zone_infos, self.zone_policies,
-            self.granularity, self.start_year, self.until_year)
+            self.start_year, self.until_year)
         (test_data, num_items) = data_generator.create_test_data()
         logging.info('test_data=%d', len(test_data))
 

@@ -9,13 +9,13 @@
  */
 struct ZoneContext {
   /** Represents 'w' or wall time. */
-  static const uint8_t TIME_SUFFIX_W = 0x00;
+  static const uint8_t kSuffixW = 0x00;
 
   /** Represents 's' or standard time. */
-  static const uint8_t TIME_SUFFIX_S = 0x10;
+  static const uint8_t kSuffixS = 0x10;
 
   /** Represents 'u' or UTC time. */
-  static const uint8_t TIME_SUFFIX_U = 0x20;
+  static const uint8_t kSuffixU = 0x20;
 
   /*
    * Epoch year. Currently always 2000 but could change in the future. We're

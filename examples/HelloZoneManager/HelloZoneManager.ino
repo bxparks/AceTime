@@ -20,7 +20,7 @@ static BasicZoneManager<CACHE_SIZE> manager(
     zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
 
 void setup() {
-#if defined(ARDUINO)
+#if ! defined(UNIX_HOST_DUINO)
   delay(1000);
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
@@ -46,7 +46,7 @@ void setup() {
   sydneyTime.printTo(SERIAL_PORT_MONITOR);
   SERIAL_PORT_MONITOR.println();
 
-#if ! defined(ARDUINO)
+#if defined(UNIX_HOST_DUINO)
   exit(0);
 #endif
 }

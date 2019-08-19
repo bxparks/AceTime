@@ -12,7 +12,11 @@ runtests:
 
 .PHONY: $(GENERATED)
 
+START_YEAR=2000
+UNTIL_YEAR=2038
+
 validation_data.cpp:
 	../../../tools/tzcompiler.sh --tag 2019b --action unittest \
-		--language arduino --scope basic --start_year 2000 \
-		--until_year 2038
+		--language arduino --scope basic \
+		--start_year $(START_YEAR) --until_year $(UNTIL_YEAR)
+		

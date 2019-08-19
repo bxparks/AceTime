@@ -10,11 +10,11 @@ struct StoredInfo {
   /** Time zone of the displayed time */
   uint8_t timeZoneType;
 
-  /** The offset code for kTypeManual. */
-  int8_t stdOffsetCode;
+  /** The STD offset for kTypeManual. */
+  int16_t stdMinutes;
 
-  /** The DST offset code for kTypeManual. */
-  int8_t dstOffsetCode;
+  /** The DST offset for kTypeManual. */
+  int16_t dstMinutes;
 
   /**
   * Stable zone ID for kTypeBasic, kTypeExtended, kTypeBasicManaged,

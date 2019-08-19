@@ -120,21 +120,21 @@ test(TransitionStorageTest, addFreeAgentToCandidatePool) {
 
   // Verify that addFreeAgentToCandidatePool() does not touch prior transition
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::TIME_SUFFIX_W};
+  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::kSuffixW};
   storage.addFreeAgentToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
   assertEqual(1, storage.mIndexCandidates);
   assertEqual(2, storage.mIndexFree);
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::TIME_SUFFIX_W};
+  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
   storage.addFreeAgentToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
   assertEqual(1, storage.mIndexCandidates);
   assertEqual(3, storage.mIndexFree);
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::TIME_SUFFIX_W};
+  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::kSuffixW};
   storage.addFreeAgentToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
   assertEqual(1, storage.mIndexCandidates);
@@ -152,22 +152,22 @@ test(TransitionStorageTest, addActiveCandidatesToActivePool) {
 
   // create Prior to make it interesting
   Transition** prior = storage.reservePrior();
-  (*prior)->transitionTime = {-1, 0, 1, 2, ZoneContext::TIME_SUFFIX_W};
+  (*prior)->transitionTime = {-1, 0, 1, 2, ZoneContext::kSuffixW};
   (*prior)->active = true;
 
   // Add 3 transitions to Candidate pool, 2 active, 1 inactive.
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::TIME_SUFFIX_W};
+  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::kSuffixW};
   freeAgent->active = true;
   storage.addFreeAgentToCandidatePool();
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::TIME_SUFFIX_W};
+  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
   freeAgent->active = true;
   storage.addFreeAgentToCandidatePool();
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::TIME_SUFFIX_W};
+  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::kSuffixW};
   freeAgent->active = false;
   storage.addFreeAgentToCandidatePool();
 
@@ -192,19 +192,19 @@ test(TransitionStorageTest, findTransition) {
 
   // Add 3 transitions to Active pool.
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::TIME_SUFFIX_W};
+  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::kSuffixW};
   freeAgent->active = true;
   freeAgent->startEpochSeconds = 0;
   storage.addFreeAgentToCandidatePool();
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::TIME_SUFFIX_W};
+  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::kSuffixW};
   freeAgent->active = true;
   freeAgent->startEpochSeconds = 10;
   storage.addFreeAgentToCandidatePool();
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::TIME_SUFFIX_W};
+  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
   freeAgent->active = true;
   freeAgent->startEpochSeconds = 20;
   storage.addFreeAgentToCandidatePool();
@@ -233,21 +233,21 @@ test(TransitionStorageTest, findTransitionForDateTime) {
 
   // 2000-01-02T00:03
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::TIME_SUFFIX_W};
+  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::kSuffixW};
   freeAgent->startDateTime = freeAgent->transitionTime;
   freeAgent->active = true;
   storage.addFreeAgentToCandidatePool();
 
   // 2001-02-03T00:04
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::TIME_SUFFIX_W};
+  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::kSuffixW};
   freeAgent->startDateTime = freeAgent->transitionTime;
   freeAgent->active = true;
   storage.addFreeAgentToCandidatePool();
 
   // 2002-03-04T00:05
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::TIME_SUFFIX_W};
+  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
   freeAgent->startDateTime = freeAgent->transitionTime;
   freeAgent->active = true;
   storage.addFreeAgentToCandidatePool();
@@ -295,7 +295,7 @@ test(TransitionStorageTest, resetCandidatePool) {
 
   // Add 2 transitions to Candidate pool, 2 active, 1 inactive.
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::TIME_SUFFIX_W};
+  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::kSuffixW};
   freeAgent->active = true;
   storage.addFreeAgentToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
@@ -303,7 +303,7 @@ test(TransitionStorageTest, resetCandidatePool) {
   assertEqual(1, storage.mIndexFree);
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::TIME_SUFFIX_W};
+  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
   freeAgent->active = true;
   storage.addFreeAgentToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
@@ -324,7 +324,7 @@ test(TransitionStorageTest, resetCandidatePool) {
   assertEqual(2, storage.mIndexFree);
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::TIME_SUFFIX_W};
+  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::kSuffixW};
   freeAgent->active = false;
   storage.addFreeAgentToCandidatePool();
   assertEqual(2, storage.mIndexPrior);
@@ -341,8 +341,8 @@ test(TransitionStorageTest, resetCandidatePool) {
 // --------------------------------------------------------------------------
 
 void setup() {
-#if defined(ARDUINO)
-  delay(1000); // wait for stability to prevent garbage on SERIAL_PORT_MONITOR
+#if ! defined(UNIX_HOST_DUINO)
+  delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
   while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
