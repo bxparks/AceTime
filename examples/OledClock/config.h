@@ -39,6 +39,10 @@
   #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
   #define OLED_REMAP false
 #elif defined(AUNITER_MICRO) || defined(AUNITER_MICRO_MINDER)
+  // Pro Micro does not have enough Flash to use Basic TimeZone
+  // (28884 bytes) so use Manual TimeZone (23984 bytes).
+  #undef TIME_ZONE_TYPE
+  #define TIME_ZONE_TYPE TIME_ZONE_TYPE_MANUAL
   #define MODE_BUTTON_PIN 8
   #define CHANGE_BUTTON_PIN 9
   #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231

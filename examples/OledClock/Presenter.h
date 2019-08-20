@@ -111,9 +111,7 @@ class Presenter {
       mOled.setFont(fixed_bold10x15);
       const ZonedDateTime& dateTime = mRenderingInfo.dateTime;
       if (dateTime.isError()) {
-        mOled.println(F("9999-99-99"));
-        mOled.println(F("99:99:99   "));
-        mOled.println(F("Error     "));
+        mOled.println(F("<Error>"));
         return;
       }
 
@@ -198,16 +196,12 @@ class Presenter {
           typeString = F("manual");
           break;
         case TimeZone::kTypeBasic:
+        case TimeZone::kTypeBasicManaged:
           typeString = F("basic");
           break;
         case TimeZone::kTypeExtended:
-          typeString = F("extd");
-          break;
-        case TimeZone::kTypeBasicManaged:
-          typeString = F("bas-man");
-          break;
         case TimeZone::kTypeExtendedManaged:
-          typeString = F("extd-man");
+          typeString = F("extd");
           break;
         default:
           typeString = F("unknown");
@@ -266,15 +260,12 @@ class Presenter {
     #if ENABLE_SERIAL == 1
       SERIAL_PORT_MONITOR.println(F("displayAbout()"));
     #endif
-      mOled.setFont(SystemFont5x7);
 
       // Use F() macros for these longer strings. Seems to save both
       // flash memory and RAM.
-      mOled.print(F("OledClock: "));
-      mOled.println(CLOCK_VERSION_STRING);
       mOled.print(F("TZ: "));
       mOled.println(zonedb::kTzDatabaseVersion);
-      mOled.print(F("AceTime: "));
+      mOled.print(F("AT: "));
       mOled.print(ACE_TIME_VERSION_STRING);
     }
 
