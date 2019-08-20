@@ -79,8 +79,6 @@ class ZoneRuleBroker {
 
     bool isNull() const { return mZoneRule == nullptr; }
 
-    bool isNotNull() const { return mZoneRule != nullptr; }
-
   #if ACE_TIME_USE_PROGMEM
 
     int8_t fromYearTiny() const {
@@ -169,8 +167,6 @@ class ZonePolicyBroker {
 
     bool isNull() const { return mZonePolicy == nullptr; }
 
-    bool isNotNull() const { return mZonePolicy != nullptr; }
-
   #if ACE_TIME_USE_PROGMEM
 
     uint8_t numRules() const {
@@ -231,8 +227,6 @@ class ZoneEraBroker {
     const ZoneEra* zoneEra() const { return mZoneEra; }
 
     bool isNull() const { return mZoneEra == nullptr; }
-
-    bool isNotNull() const { return mZoneEra != nullptr; }
 
   #if ACE_TIME_USE_PROGMEM
 
@@ -443,8 +437,6 @@ class ZoneRuleBroker {
 
     bool isNull() const { return mZoneRule == nullptr; }
 
-    bool isNotNull() const { return mZoneRule != nullptr; }
-
   #if ACE_TIME_USE_PROGMEM
 
     int8_t fromYearTiny() const {
@@ -532,8 +524,6 @@ class ZonePolicyBroker {
 
     bool isNull() const { return mZonePolicy == nullptr; }
 
-    bool isNotNull() const { return mZonePolicy != nullptr; }
-
   #if ACE_TIME_USE_PROGMEM
 
     uint8_t numRules() const {
@@ -594,8 +584,6 @@ class ZoneEraBroker {
     const ZoneEra* zoneEra() const { return mZoneEra; }
 
     bool isNull() const { return mZoneEra == nullptr; }
-
-    bool isNotNull() const { return mZoneEra != nullptr; }
 
   #if ACE_TIME_USE_PROGMEM
 

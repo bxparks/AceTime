@@ -123,7 +123,7 @@ struct Transition {
       }
       logging::printf("; offMin: %d", offsetMinutes);
       logging::printf("; abbrev: %s", abbrev);
-      if (rule.isNotNull()) {
+      if (! rule.isNull()) {
         logging::printf("; r.fromYear: %d", rule.fromYearTiny());
         logging::printf("; r.toYear: %d", rule.toYearTiny());
         logging::printf("; r.inMonth: %d", rule.inMonth());
