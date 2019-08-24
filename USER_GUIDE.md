@@ -638,7 +638,7 @@ observing Daylight Saving Time (DST).
 
 An `OffsetDateTime` is an object that can represent a `LocalDateTime` which is
 offset from the UTC time zone by a fixed amount. Internally the `OffsetDateTime`
-is a aggregation of `LocalDateTime` and `TimeOffset`. Use this class for
+is an aggregation of `LocalDateTime` and `TimeOffset`. Use this class for
 creating and writing timestamps for events which are destined for logging for
 example. This class does not know about Daylight Saving Time transitions.
 
