@@ -152,7 +152,7 @@ application, and it will instantly use the new transition rules, without the
 developer needing to create a new POSIX string. To address the memory constraint
 problem, the AceTime library is designed to load only of the smallest subset of
 the TZ Database that is required to support the selected timezones (1 to 3 have
-fully been tested). Dynamic lookup of the time zone is possible using the
+been extensively tested). Dynamic lookup of the time zone is possible using the
 `ZoneManager`, and the app develop can customize it with the list of zones that
 are compiled into the app. On microcontrollers with more than about 32kB of
 flash memory (e.g. ESP8266, ESP32, Teensy 3.2) and depending on the size of the

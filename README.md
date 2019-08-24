@@ -88,7 +88,7 @@ is used to indicate an internal Error condition, so the range of valid
 the `acetime_t` type can handle is 1931-12-13T20:45:53Z to 2068-01-19T03:14:07Z
 (inclusive). (In contrast, the 32-bit Unix `time_t` range is
 1901-12-13T20:45:52Z to 2038-01-19T03:14:07Z which is the cause of the [Year
-2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem).
+2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem)).
 
 The various date classes (`LocalDate`, `LocalDateTime`, `OffsetDateTime`,
 `ZonedDateTime`) store the year component internally as a signed 8-bit integer
