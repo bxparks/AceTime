@@ -73,21 +73,22 @@ C++ namespaces:
 The "date and time" classes provide an abstraction layer to make it easier
 to use and manipulate date and time fields. For example, each of the
 `LocalDateTime`, `OffsetDateTime` and `ZonedDateTime` classes provide the
-`toEpochSeconds()` which returns the number of seconds from a epoch date, the
-`forEpochSeconds()` which constructs the date and time fields from the epoch
-seconds, the `forComponents()` method which constructs the object from the
-individual (year, month, day, hour, minute, second) components, and the
+`toEpochSeconds()` method which returns the number of seconds from an epoch
+date, the `forEpochSeconds()` method which constructs the date and time fields
+from the epoch seconds, the `forComponents()` method which constructs the object
+from the individual (year, month, day, hour, minute, second) components, and the
 `dayOfWeek()` method which returns the day of the week of the given date.
 
 The Epoch in AceTime is defined to be 2000-01-01T00:00:00Z, in contrast to the
 Epoch in Unix which is 1970-01-01T00:00:00Z. Internally, the current time is
 represented as "seconds from Epoch" stored as a 32-bit signed integer
-(`acetime_t` aliased to `int32_t`). The smallest 32-bit signed
-integer (`-2^31`) is used to indicate an internal Error condition, so the
-range of valid `acetime_t` value is `-2^31+1` to `2^31-1`.
-Therefore, the range of dates that the `acetime_t` type can handle is
-1931-12-13T20:45:53Z to 2068-01-19T03:14:07Z (inclusive). (In contrast, the
-32-bit Unix `time_t` range is 1901-12-13T20:45:52Z to 2038-01-19T03:14:07Z).
+(`acetime_t` aliased to `int32_t`). The smallest 32-bit signed integer (`-2^31`)
+is used to indicate an internal Error condition, so the range of valid
+`acetime_t` value is `-2^31+1` to `2^31-1`. Therefore, the range of dates that
+the `acetime_t` type can handle is 1931-12-13T20:45:53Z to 2068-01-19T03:14:07Z
+(inclusive). (In contrast, the 32-bit Unix `time_t` range is
+1901-12-13T20:45:52Z to 2038-01-19T03:14:07Z which is the cause of the [Year
+2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem)).
 
 The various date classes (`LocalDate`, `LocalDateTime`, `OffsetDateTime`,
 `ZonedDateTime`) store the year component internally as a signed 8-bit integer
@@ -208,7 +209,7 @@ Conversion from an epochSeconds to date-time components including timezone
 * 2.8 microseconds on an ESP32,
 * 6 microseconds on a Teensy 3.2.
 
-**Version**: 0.8 (2019-08-19, TZ DB version 2019b, beta)
+**Version**: 0.8.1 (2019-08-26, TZ DB version 2019b, beta)
 
 **Status**: Supports 1-minute resolution for all Extended TimeZones, and
 validated against Hinnant date library from 1975 until 2050. I think this will

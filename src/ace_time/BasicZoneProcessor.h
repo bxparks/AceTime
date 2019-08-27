@@ -123,7 +123,7 @@ struct Transition {
       }
       logging::printf("; offMin: %d", offsetMinutes);
       logging::printf("; abbrev: %s", abbrev);
-      if (rule.isNotNull()) {
+      if (! rule.isNull()) {
         logging::printf("; r.fromYear: %d", rule.fromYearTiny());
         logging::printf("; r.toYear: %d", rule.toYearTiny());
         logging::printf("; r.inMonth: %d", rule.inMonth());
@@ -140,18 +140,13 @@ struct MonthDay {
   uint8_t day;
 };
 
-/** Holds year and month. Useful for comparing ZoneRules. */
-struct YearMonth {
-  int8_t year;
-  uint8_t month;
-};
-
-/** Compare two YearMonth structs and return (-1, 0, 1). */
-inline int8_t compareYearMonth(const YearMonth& a, const YearMonth& b) {
-  if (a.year < b.year) return -1;
-  if (a.year > b.year) return 1;
-  if (a.month < b.month) return -1;
-  if (a.month > b.month) return 1;
+/** Compare two (year, month) pairs and return (-1, 0, 1). */
+inline int8_t compareYearMonth(int8_t aYear, uint8_t aMonth,
+    int8_t bYear, uint8_t bMonth) {
+  if (aYear < bYear) return -1;
+  if (aYear > bYear) return 1;
+  if (aMonth < bMonth) return -1;
+  if (aMonth > bMonth) return 1;
   return 0;
 }
 
@@ -593,9 +588,9 @@ class BasicZoneProcessor: public ZoneProcessor {
     /** Compare two ZoneRules which are valid *prior* to the given year. */
     static int8_t compareRulesBeforeYear(int8_t yearTiny,
         const basic::ZoneRuleBroker a, const basic::ZoneRuleBroker b) {
-      basic::YearMonth x = {priorYearOfRule(yearTiny, a), a.inMonth()};
-      basic::YearMonth y = {priorYearOfRule(yearTiny, b), b.inMonth()};
-      return basic::compareYearMonth(x, y);
+      return basic::compareYearMonth(
+          priorYearOfRule(yearTiny, a), a.inMonth(),
+          priorYearOfRule(yearTiny, b), b.inMonth());
     }
 
     /**
@@ -771,8 +766,8 @@ class BasicZoneProcessor: public ZoneProcessor {
         basic::Transition& left = mTransitions[i - 1];
         basic::Transition& right = mTransitions[i];
         // assume only 1 rule per month
-        if (basic::compareYearMonth(
-            {left.yearTiny, left.month}, {right.yearTiny, right.month}) > 0) {
+        if (basic::compareYearMonth(left.yearTiny, left.month,
+            right.yearTiny, right.month) > 0) {
           basic::Transition tmp = left;
           left = right;
           right = tmp;

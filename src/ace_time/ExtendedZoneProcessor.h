@@ -141,7 +141,7 @@ struct ZoneMatch {
     logging::printf("ZoneMatch(");
     logging::printf("Start:"); startDateTime.log();
     logging::printf("; Until:"); untilDateTime.log();
-    logging::printf("; Era: %snull", (era.isNotNull()) ? "!" : "");
+    logging::printf("; Era: %snull", (era.isNull()) ? "" : "!");
     logging::printf(")");
   }
 };
@@ -314,11 +314,11 @@ struct Transition {
     }
     logging::printf("; match: %snull", (match) ? "!" : "");
     logging::printf("; era: %snull",
-        (match && match->era.isNotNull()) ? "!" : "");
+        (match && match->era.isNull()) ? "" : "!");
     logging::printf("; oMinutes: %d", offsetMinutes);
     logging::printf("; dMinutes: %d", deltaMinutes);
     logging::printf("; tt: "); transitionTime.log();
-    if (rule.isNotNull()) {
+    if (! rule.isNull()) {
       logging::printf("; R.fY: %d", rule.fromYearTiny());
       logging::printf("; R.tY: %d", rule.toYearTiny());
       logging::printf("; R.M: %d", rule.inMonth());
@@ -1186,7 +1186,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       t->offsetMinutes = match->era.offsetMinutes();
       t->letterBuf[0] = '\0';
 
-      if (rule.isNotNull()) {
+      if (! rule.isNull()) {
         t->transitionTime = getTransitionTime(year, rule);
         t->deltaMinutes = rule.deltaMinutes();
 

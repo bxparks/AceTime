@@ -8,6 +8,8 @@
 #include <ace_time/testing/TestableSystemClockLoop.h>
 #include <ace_time/testing/TestableSystemClockCoroutine.h>
 
+#define SYSTEM_CLOCK_TEST_DEBUG 0
+
 using namespace aunit;
 using namespace ace_time;
 using namespace ace_time::clock;
@@ -234,8 +236,16 @@ testF(SystemClockCoroutineTest, runCoroutine) {
   // retry with exponential backoff 10 times, doubling the delay on each
   // iteration
   uint16_t expectedDelaySeconds = 5;
+#if SYSTEM_CLOCK_TEST_DEBUG
+  int iter = 0;
+#endif
   for (; expectedDelaySeconds < systemClock->mSyncPeriodSeconds;
        expectedDelaySeconds *= 2) {
+
+#if SYSTEM_CLOCK_TEST_DEBUG
+    logging::printf("Iteration %i\n", iter);
+    iter++;
+#endif
 
     // t = 0, sends request and waits for response
     systemClock->runCoroutine();
