@@ -26,9 +26,12 @@ class TestableSystemClockCoroutine: public clock::SystemClockCoroutine {
       SystemClockCoroutine(referenceClock, backupClock),
       mFakeMillis(fakeMillis) {}
 
-    // Override Coroutine::millis().
-    unsigned long millis() const override {
+    unsigned long coroutineMillis() const override {
       return mFakeMillis->millis();
+    }
+
+    unsigned long coroutineSeconds() const override {
+      return mFakeMillis->millis() / 1000;
     }
 
     unsigned long clockMillis() const override {

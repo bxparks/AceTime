@@ -1,6 +1,8 @@
 # Changelog
 
 * Unreleased
+    * Update `SystemClockCoroutine` to be compatible with
+      `COROUTINE_DELAY_SECONDS()` API changed in AceRoutine v0.3.
 * 0.8
     * Handle `Fri<=1` correctly in various python scripts. (#17)
     * Improve resolution of zonedb files and ZoneProcessor classes. (#18)

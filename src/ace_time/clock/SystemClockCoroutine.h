@@ -87,7 +87,7 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
       COROUTINE_LOOP() {
         // Send request
         mReferenceClock->sendRequest();
-        mRequestStartMillis = this->millis();
+        mRequestStartMillis = coroutineMillis();
         mRequestStatus = kStatusSent;
 
         // Wait for request
@@ -102,7 +102,7 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
             // goto in COROUTINE_LOOP() 16skip past it in clang++. g++ seems to
             // be fine without it.
             uint16_t waitMillis =
-                (uint16_t) this->millis() - mRequestStartMillis;
+                (uint16_t) coroutineMillis() - mRequestStartMillis;
             if (waitMillis >= mRequestTimeoutMillis) {
               mRequestStatus = kStatusTimedOut;
               break;
@@ -117,14 +117,14 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
           acetime_t nowSeconds = mReferenceClock->readResponse();
           if (mTimingStats != nullptr) {
             uint16_t elapsedMillis =
-                (uint16_t) this->millis() - mRequestStartMillis;
+                (uint16_t) coroutineMillis() - mRequestStartMillis;
             mTimingStats->update(elapsedMillis);
           }
           syncNow(nowSeconds);
           mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
         }
 
-        COROUTINE_DELAY_SECONDS(mDelayLoopCounter, mCurrentSyncPeriodSeconds);
+        COROUTINE_DELAY_SECONDS(mCurrentSyncPeriodSeconds);
 
         // Determine the retry delay time based on success or failure. If
         // failure, retry with exponential backoff, until the delay becomes
@@ -155,7 +155,6 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
 
     uint16_t mRequestStartMillis; // lower 16-bit of millis()
     uint16_t mCurrentSyncPeriodSeconds;
-    uint16_t mDelayLoopCounter;
     uint8_t mRequestStatus = kStatusUnknown;
 };
 
