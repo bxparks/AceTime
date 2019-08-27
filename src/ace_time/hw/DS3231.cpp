@@ -29,7 +29,7 @@ void DS3231::readDateTime(HardwareDateTime* dateTime) const {
   dateTime->second = bcdToDec(Wire.read() & 0x7F);
   dateTime->minute = bcdToDec(Wire.read());
   dateTime->hour = bcdToDec(Wire.read() & 0x3F);
-  Wire.read(); // read, then discard
+  dateTime->dayOfWeek = bcdToDec(Wire.read());
   dateTime->day = bcdToDec(Wire.read());
   dateTime->month = bcdToDec(Wire.read());
   dateTime->year = bcdToDec(Wire.read());
