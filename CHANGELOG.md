@@ -1,8 +1,12 @@
 # Changelog
 
 * Unreleased
+* 0.8.1
     * Update `SystemClockCoroutine` to be compatible with
       `COROUTINE_DELAY_SECONDS()` API changed in AceRoutine v0.3.
+    * Fix typos and grammar errors in `USER_GUIDE.md` and `README.md`.
+    * Remove `YearMonth` abstraction in `BasicZoneProcessor`, saving 12 bytes
+      of flash in WorldClock.
 * 0.8
     * Handle `Fri<=1` correctly in various python scripts. (#17)
     * Improve resolution of zonedb files and ZoneProcessor classes. (#18)
