@@ -511,6 +511,16 @@ I will occasionally test on the following hardware as a sanity check:
 * Teensy 3.2 (72 MHz ARM Cortex-M4)
 * Mini Mega 2560 (Arduino Mega 2560 compatible, 16 MHz ATmega2560)
 
+
+### Untested RTC hardware compatibility
+
+As DS1307 and DS3232 RTC chip have exactly same interface as DS3231 for used
+features except temperature on DS1307 (this one lacks this functionality),
+this class could be be used to control all of them.
+
+Any problem with these RTCs please, contact @Naguissa (https://github.com/Naguissa/AceTime)
+
+
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md).
