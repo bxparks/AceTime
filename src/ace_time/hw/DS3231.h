@@ -23,6 +23,11 @@ class HardwareTemperature;
  * meant to provide access to all the features of the DS3231 chip. There are
  * other libraries which are far better for that purpose.
  *
+ * UNTESTED ON REAL HARDWARE: As DS1307 and DS3232 RTC chips have exactly same
+ * interface as DS3231 for used features except temperature on DS1307 (as this
+ * one lacks this functionality), this class can be be used to control all of them.
+ * Any problem with these RTCs please, contact @Naguissa (https://github.com/Naguissa/AceTime)
+ *
  * According to https://learn.adafruit.com/i2c-addresses/the-list, the DS3231
  * is always on I2C address 0x68, so let's hardcode that.
  */
