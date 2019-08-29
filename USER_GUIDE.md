@@ -2829,3 +2829,12 @@ some time to take a closer look in the future.
       SAMD21 Mini Breakout` board. The `MKR Zero` could be using a different
       (more recent?) version of the GCC tool chain. I have not investigated
       this.
+
+
+## Untested RTC hardware compatibility
+
+As DS1307 and DS3232 RTC chip have exactly same interface as DS3231 for used
+features except temperature on DS1307 (this one lacks this functionality),
+this class could be be used to control all of them.
+
+Any problem with these RTCs please, contact @Naguissa (https://github.com/Naguissa/AceTime)
