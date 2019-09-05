@@ -93,7 +93,7 @@
     #define SERIAL_PORT_MONITOR Serial
   #endif
 
-#elif defined(__linux__) or defined(__APPLE__)
+#elif defined(UNIX_HOST_DUINO)
   #include <pgmspace.h>
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
   #define acetime_strcmp_P strcmp_P
