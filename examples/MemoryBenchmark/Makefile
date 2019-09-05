@@ -1,6 +1,10 @@
 TARGETS := nano.txt micro.txt samd.txt esp8266.txt esp32.txt teensy.txt
 
-all: $(TARGETS)
+# Running 'make' does nothing to prevent interference with continuous build.
+all:
+
+# Type 'make benchmarks' to regenerate the benchmark files.
+benchmarks: $(TARGETS)
 
 .PHONY: $(TARGETS)
 
