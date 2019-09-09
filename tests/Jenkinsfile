@@ -55,7 +55,7 @@ pipeline {
                     verify \
                     --sketchbook $WORKSPACE \
                     $BOARDS \
-                    libraries/AceTime/examples/*"
+                    \$(find libraries/AceTime/examples -mindepth 1 -maxdepth 1 -type d)"
             }
         }
         stage('Verify Tests') {
