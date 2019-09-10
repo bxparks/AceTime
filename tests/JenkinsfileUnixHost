@@ -52,6 +52,7 @@ pipeline {
             steps {
                 sh "make -C libraries/AceTime/tests runtests"
                 sh "make -C libraries/AceTime/tests/validation runtests"
+                sh "cd libraries/AceTime/tools; python3 -m unittest"
             }
         }
     }
