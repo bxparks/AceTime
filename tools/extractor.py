@@ -66,34 +66,41 @@ import argparse
 import logging
 import sys
 import os
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Sequence
+from typing import TextIO
+from typing import Tuple
 
 # AceTime Epoch is 2000-01-01 00:00:00
-EPOCH_YEAR = 2000
+EPOCH_YEAR: int = 2000
 
 # Indicate +Infinity UNTIL year (represented by empty field).
-MAX_UNTIL_YEAR = 10000
+MAX_UNTIL_YEAR: int = 10000
 
 # Tiny (int8_t) version of MAX_UNTIL_YEAR_TINY.
-MAX_UNTIL_YEAR_TINY = 127
+MAX_UNTIL_YEAR_TINY: int = 127
 
 # Indicate max TO or FROM year.
-MAX_YEAR = MAX_UNTIL_YEAR - 1
+MAX_YEAR: int = MAX_UNTIL_YEAR - 1
 
 # Tiny (int8_t) version of MAX_YEAR.
-MAX_YEAR_TINY = MAX_UNTIL_YEAR_TINY - 1
+MAX_YEAR_TINY: int = MAX_UNTIL_YEAR_TINY - 1
 
 # Marker year to indicate -Infinity year.
-MIN_YEAR = 0
+MIN_YEAR: int = 0
 
 # Tiny (int8_t) version of MIN_YEAR. Can't be -128 because that's
 # used for INVALID_YEAR_TINY.
-MIN_YEAR_TINY = -127
+MIN_YEAR_TINY: int = -127
 
 # Indicate an invalid year.
-INVALID_YEAR = -1
+INVALID_YEAR: int = -1
 
 # Tiny (int8_t) version of INVALID_YEAR.
-INVALID_YEAR_TINY = -128
+INVALID_YEAR_TINY: int = -128
 
 
 class ZoneEraRaw:
@@ -127,7 +134,7 @@ class ZoneEraRaw:
     ]
     # yapf: enable
 
-    def __init__(self, arg):
+    def __init__(self, arg: Dict[str, Any]):
         """Create a ZoneEraRaw from a dict.
         """
         if not isinstance(arg, dict):
@@ -167,7 +174,7 @@ class ZoneRuleRaw:
         'used',  # (boolean) indicates whether or not the rule is used by a zone
     ]
 
-    def __init__(self, arg):
+    def __init__(self, arg: Dict[str, Any]):
         if not isinstance(arg, dict):
             raise Exception('Expected a dict')
 
@@ -198,7 +205,7 @@ class Extractor:
         ...
     """
 
-    ZONE_FILES = [
+    ZONE_FILES: List[str] = [
         'africa',
         'antarctica',
         'asia',
@@ -210,24 +217,24 @@ class Extractor:
         'southamerica',
     ]
 
-    def __init__(self, input_dir):
-        self.input_dir = input_dir
+    def __init__(self, input_dir: str):
+        self.input_dir: str = input_dir
 
-        self.next_line = None
-        self.rule_lines = {}  # dictionary of ruleName to lines[]
-        self.zone_lines = {}  # dictionary of zoneName to lines[]
-        self.link_lines = {}  # dictionary of linkName to zoneName[]
-        self.rules_map = {}  # map of ruleName to ZoneRuleRaw[]
-        self.zones_map = {}  # map of zoneName to ZoneEraRaw[]
-        self.links_map = {}  # map of linkName to zoneName
-        self.ignored_rule_lines = 0
-        self.ignored_zone_lines = 0
-        self.ignored_link_lines = 0
-        self.invalid_rule_lines = 0
-        self.invalid_zone_lines = 0
-        self.invalid_link_lines = 0
+        self.next_line: Optional[str] = None
+        self.rule_lines: Dict[str, List[str]] = {} # ruleName to lines[]
+        self.zone_lines: Dict[str, List[str]] = {}  # zoneName to lines[]
+        self.link_lines: Dict[str, List[str]] = {}  # linkName to zoneName[]
+        self.rules_map: Dict[str, List[ZoneRuleRaw]] = {}  # ruleName to []
+        self.zones_map: Dict[str, List[ZoneEraRaw]] = {}  # zoneName to []
+        self.links_map: Dict[str, str] = {}  # map of linkName to zoneName
+        self.ignored_rule_lines: int = 0
+        self.ignored_zone_lines: int = 0
+        self.ignored_link_lines: int = 0
+        self.invalid_rule_lines: int = 0
+        self.invalid_zone_lines: int = 0
+        self.invalid_link_lines: int = 0
 
-    def parse(self):
+    def parse(self) -> None:
         """Read the zoneinfo files from TZ Database and create the 'zones_map'
         and 'rules_map'.
         * zones_map contains a map of (zone_name -> ZoneEraRaw[]).
@@ -238,7 +245,7 @@ class Extractor:
         self._process_zones()
         self._process_links()
 
-    def _parse_zone_files(self):
+    def _parse_zone_files(self) -> None:
         logging.basicConfig(level=logging.INFO)
         for file_name in self.ZONE_FILES:
             full_filename = os.path.join(self.input_dir, file_name)
@@ -246,32 +253,32 @@ class Extractor:
             with open(full_filename, 'r', encoding='utf-8') as f:
                 self._parse_zone_file(f)
 
-    def _parse_zone_file(self, input):
+    def _parse_zone_file(self, input: TextIO) -> None:
         """Read the 'input' file and collect all 'Rule' lines into
         self.rule_lines and all 'Zone' lines into self.zone_lines.
         """
-        in_zone_mode = False
-        prev_tag = ''
-        prev_name = ''
+        in_zone_mode: bool = False
+        prev_tag: str = ''
+        prev_name: str = ''
         while True:
-            line = self._read_line(input)
+            line: Optional[str] = self._read_line(input)
             if line is None:
                 break
 
-            tag = line[:4]
+            tag: str = line[:4]
             if tag == 'Rule':
-                tokens = line.split()
-                rule_name = tokens[1]
+                tokens: List[str] = line.split()
+                rule_name: str = tokens[1]
                 _add_item(self.rule_lines, rule_name, line)
                 in_zone_mode = False
             elif tag == 'Link':
                 tokens = line.split()
-                link_name = tokens[2]
+                link_name: str = tokens[2]
                 _add_item(self.link_lines, link_name, tokens[1])
                 in_zone_mode = False
             elif tag == 'Zone':
                 tokens = line.split()
-                zone_name = tokens[1]
+                zone_name: str = tokens[1]
                 _add_item(self.zone_lines, zone_name, ' '.join(tokens[2:]))
                 in_zone_mode = True
                 prev_tag = tag
@@ -281,11 +288,14 @@ class Extractor:
                 # the current 'Zone' entry.
                 _add_item(self.zone_lines, prev_name, line)
 
-    def _process_rules(self):
+    def _process_rules(self) -> None:
+        name: str
+        lines: List[str]
         for name, lines in self.rule_lines.items():
+            line: str
             for line in lines:
                 try:
-                    rule_entry = _process_rule_line(line)
+                    rule_entry: ZoneRuleRaw = _process_rule_line(line)
                     if rule_entry:
                         _add_item(self.rules_map, name, rule_entry)
                     else:
@@ -294,11 +304,14 @@ class Extractor:
                     logging.exception('Exception %s: %s', e, line)
                     self.invalid_rule_lines += 1
 
-    def _process_zones(self):
+    def _process_zones(self) -> None:
+        name: str
+        lines: List[str]
         for name, lines in self.zone_lines.items():
+            line: str
             for line in lines:
                 try:
-                    zone_era = _process_zone_line(line)
+                    zone_era: ZoneEraRaw = _process_zone_line(line)
                     if zone_era:
                         _add_item(self.zones_map, name, zone_era)
                     else:
@@ -307,14 +320,16 @@ class Extractor:
                     logging.exception('Exception %s: %s', e, line)
                     self.invalid_zone_lines += 1
 
-    def _process_links(self):
+    def _process_links(self) -> None:
+        link_name: str
+        lines: List[str]
         for link_name, lines in self.link_lines.items():
             if len(lines) > 1:
                 self.invalid_link_lines += len(lines)
             else:
                 self.links_map[link_name] = lines[0]
 
-    def _read_line(self, input):
+    def _read_line(self, input) -> Optional[str]:
         """Return the next line, while supporting a one-line push_back().
         Comment lines begin with a '#' character and are skipped.
         Blank lines are skipped.
@@ -322,7 +337,7 @@ class Extractor:
         Return 'None' if EOF is reached.
         """
         if self.next_line:
-            line = self.next_line
+            line: str = self.next_line
             self.next_line = None
             return line
 
@@ -334,7 +349,7 @@ class Extractor:
                 return None
 
             # remove trailing comments
-            i = line.find('#')
+            i: int = line.find('#')
             if i >= 0:
                 line = line[:i]
 
@@ -347,14 +362,20 @@ class Extractor:
 
             return line
 
-    def print_summary(self):
-        rule_entry_count = 0
+    def print_summary(self) -> None:
+        rule_entry_count: int = 0
+
+        name: str
+        lines: List[str]
         for name, rules in self.rules_map.items():
+            rule: ZoneRuleRaw
             for rule in rules:
                 rule_entry_count += 1
 
-        zone_entry_count = 0
+        zone_entry_count: int = 0
+        eras: List[ZoneEraRaw]
         for name, eras in self.zones_map.items():
+            era: ZoneEraRaw
             for era in eras:
                 zone_entry_count += 1
 
@@ -380,15 +401,15 @@ class Extractor:
         logging.info('-------- Extractor Summary End')
 
 
-def _add_item(table, name, line):
-    array = table.get(name)
+def _add_item(table: Dict[str, List[Any]], name: str, line: Any) -> None:
+    array: Optional[List[Any]] = table.get(name)
     if not array:
         array = []
         table[name] = array
     array.append(line)
 
 
-MONTH_TO_MONTH_INDEX = {
+MONTH_TO_MONTH_INDEX: Dict[str, int] = {
     'Jan': 1,
     'Feb': 2,
     'Mar': 3,
@@ -404,7 +425,7 @@ MONTH_TO_MONTH_INDEX = {
 }
 
 
-def _process_rule_line(line):
+def _process_rule_line(line: str) -> ZoneRuleRaw:
     """Normalize a dictionary that represents a 'Rule' line from the TZ
     database. Contains the following fields:
     Rule NAME FROM TO TYPE IN ON AT SAVE LETTER
@@ -412,20 +433,22 @@ def _process_rule_line(line):
 
     These represent transitions from Daylight to/from Standard.
     """
-    tokens = line.split()
+    tokens: List[str] = line.split()
 
     # Check for valid year.
-    from_year = int(tokens[2])
-    to_year_string = tokens[3]
+    from_year: int = int(tokens[2])
+    to_year_string: str = tokens[3]
     if to_year_string == 'only':
-        to_year = from_year
+        to_year: int = from_year
     elif to_year_string == 'max':
         to_year = MAX_YEAR
     else:
         to_year = int(to_year_string)
 
-    in_month = MONTH_TO_MONTH_INDEX[tokens[5]]
-    on_day = tokens[6]
+    in_month: int = MONTH_TO_MONTH_INDEX[tokens[5]]
+    on_day: str = tokens[6]
+    at_time: str
+    at_time_suffix: str
     (at_time, at_time_suffix) = parse_at_time_string(tokens[7])
     delta_offset = tokens[8]
 
@@ -443,14 +466,14 @@ def _process_rule_line(line):
     })
 
 
-def parse_at_time_string(at_string):
+def parse_at_time_string(at_string) -> Tuple[str, str]:
     """Parses the '2:00s' string into '2:00' and 's'. If there is no suffix,
     returns a '' as the suffix.
     """
-    suffix = at_string[-1:]
+    suffix: str = at_string[-1:]
     if suffix.isdigit():
         suffix = ''
-        at_time = at_string
+        at_time: str = at_string
     else:
         at_time = at_string[:-1]
     if suffix not in ['', 'w', 's', 'u', 'g', 'z']:
@@ -458,7 +481,7 @@ def parse_at_time_string(at_string):
     return (at_time, suffix)
 
 
-def _process_zone_line(line):
+def _process_zone_line(line) -> ZoneEraRaw:
     """Normalize an zone era from dictionary that represents one line of
     a 'Zone' record. The columns are:
     STDOFF	 RULES	FORMAT	[UNTIL]
@@ -466,33 +489,35 @@ def _process_zone_line(line):
     -5:50:36 -      LMT     1883 Nov 18 12:09:24
     -6:00    US     C%sT    1920
     """
-    tokens = line.split()
+    tokens: List[str] = line.split()
 
     # STDOFF
-    offset_string = tokens[0]
+    offset_string: str = tokens[0]
 
     # 'RULES' field can be:
-    rules_string = tokens[1]
+    rules_string: str = tokens[1]
 
     # check 'until' year
     if len(tokens) >= 4:
-        until_year = int(tokens[3])
+        until_year: int = int(tokens[3])
     else:
         until_year = MAX_UNTIL_YEAR
 
     # check for additional components of 'UNTIL' field
     if len(tokens) >= 5:
-        until_year_only = False
-        until_month = MONTH_TO_MONTH_INDEX[tokens[4]]
+        until_year_only: bool = False
+        until_month: int = MONTH_TO_MONTH_INDEX[tokens[4]]
     else:
         until_year_only = True
         until_month = 1
 
     if len(tokens) >= 6:
-        until_day = tokens[5]
+        until_day: str = tokens[5]
     else:
         until_day = '1'
 
+    until_time: str
+    until_time_suffix: str
     if len(tokens) >= 7:
         (until_time, until_time_suffix) = parse_at_time_string(tokens[6])
     else:
@@ -500,7 +525,7 @@ def _process_zone_line(line):
         until_time_suffix = 'w'
 
     # FORMAT
-    format = tokens[2]
+    format: str = tokens[2]
 
     # Return map corresponding to a ZoneEra instance
     return ZoneEraRaw({
