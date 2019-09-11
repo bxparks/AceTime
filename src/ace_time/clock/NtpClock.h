@@ -68,9 +68,10 @@ class NtpClock: public Clock {
         mRequestTimeout(requestTimeout) {}
 
     /** Set up using the provided ssid and password. */
-    void setup(const char* ssid, const char* password) {
+    void setup(const char* ssid = NULL, const char* password = NULL) {
       uint16_t startMillis = millis();
-      WiFi.begin(ssid, password);
+      if (ssid)
+        WiFi.begin(ssid, password);
       while (WiFi.status() != WL_CONNECTED) {
         uint16_t elapsedMillis = millis() - startMillis;
         if (elapsedMillis >= kConnectTimeoutMillis) {
@@ -98,7 +99,7 @@ class NtpClock: public Clock {
     bool isSetup() const { return mIsSetUp; }
 
     acetime_t getNow() const override {
-      if (!mIsSetUp) return kInvalidSeconds;
+      if (!mIsSetUp || WiFi.status() != WL_CONNECTED) return kInvalidSeconds;
 
       sendRequest();
 
@@ -112,7 +113,7 @@ class NtpClock: public Clock {
     }
 
     void sendRequest() const override {
-      if (!mIsSetUp) return;
+      if (!mIsSetUp || WiFi.status() != WL_CONNECTED) return;
 
       // discard any previously received packets
       while (mUdp.parsePacket() > 0) {}
@@ -130,12 +131,12 @@ class NtpClock: public Clock {
     }
 
     bool isResponseReady() const override {
-      if (!mIsSetUp) return false;
+      if (!mIsSetUp || WiFi.status() != WL_CONNECTED) return false;
       return mUdp.parsePacket() >= kNtpPacketSize;
     }
 
     acetime_t readResponse() const override {
-      if (!mIsSetUp) return kInvalidSeconds;
+      if (!mIsSetUp || WiFi.status() != WL_CONNECTED) return kInvalidSeconds;
 
       // read packet into the buffer
       mUdp.read(mPacketBuffer, kNtpPacketSize);
