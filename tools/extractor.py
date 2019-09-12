@@ -70,7 +70,6 @@ from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
-from typing import Sequence
 from typing import TextIO
 from typing import Tuple
 
