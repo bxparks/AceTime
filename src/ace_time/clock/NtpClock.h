@@ -163,7 +163,7 @@ class NtpClock: public Clock {
     static const uint32_t kSecondsSinceNtpEpoch = 3155673600;
 
     /** Number of millis to wait during connect before timing out. */
-    static const uint16_t kConnectTimeoutMillis = 5000;
+    static const uint16_t kConnectTimeoutMillis = 10000;
 
     /** Send an NTP request to the time server at the given address. */
     void sendNtpPacket(const IPAddress& address) const {
