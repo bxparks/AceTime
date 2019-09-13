@@ -6,7 +6,7 @@
 #ifndef ACE_TIME_NTP_CLOCK_H
 #define ACE_TIME_NTP_CLOCK_H
 
-#if defined(ESP8266) || defined(ESP32) || defined(DOXYGEN)
+#if defined(ESP8266) || defined(ESP32)
 
 #include <stdint.h>
 #if defined(ESP8266)
@@ -53,11 +53,9 @@ class NtpClock: public Clock {
 
     /**
      * Constructor.
-     * @param ssid wireless SSID
-     * @param password password of the SSID
      * @param server name of the NTP server (default us.pool.ntp.org)
      * @param localPort used by the UDP client (default 8888)
-     * @paran requestTimeout milliseconds for a request timesout (default 1000)
+     * @paran requestTimeout milliseconds for a request timeout (default 1000)
      */
     explicit NtpClock(
             const char* server = kNtpServerName,
@@ -67,19 +65,30 @@ class NtpClock: public Clock {
         mLocalPort(localPort),
         mRequestTimeout(requestTimeout) {}
 
-    /** Set up using the provided ssid and password. */
-    void setup(const char* ssid = NULL, const char* password = NULL) {
-      uint16_t startMillis = millis();
-      if (ssid)
+    /**
+     * Set up the WiFi connection using the given ssid and password, and
+     * prepare the UDP connection. If the WiFi connection was set up elsewhere,
+     * you can call the method with no arguments to bypass the WiFi setup.
+     *
+     * @param server wireless SSID (default nullptr)
+     * @param password password of the SSID (default nullptr)
+     * @param connectTimeoutMillis how long to wait for a WiFi connection
+     *    (default 10000 ms)
+     */
+    void setup(const char* ssid = nullptr, const char* password = nullptr,
+        uint16_t connectTimeoutMillis = kConnectTimeoutMillis) {
+      if (ssid) {
         WiFi.begin(ssid, password);
-      while (WiFi.status() != WL_CONNECTED) {
-        uint16_t elapsedMillis = millis() - startMillis;
-        if (elapsedMillis >= kConnectTimeoutMillis) {
-          mIsSetUp = false;
-          return;
-        }
+        uint16_t startMillis = millis();
+        while (WiFi.status() != WL_CONNECTED) {
+          uint16_t elapsedMillis = millis() - startMillis;
+          if (elapsedMillis >= connectTimeoutMillis) {
+            mIsSetUp = false;
+            return;
+          }
 
-        delay(500);
+          delay(500);
+        }
       }
 
       mUdp.begin(mLocalPort);
