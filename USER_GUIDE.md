@@ -95,6 +95,8 @@ The following programs are provided in the `examples/` directory:
     * demo program of `SystemClock`
 * [HelloSystemClockCoroutine](examples/HelloSystemClockCoroutine/)
     * same as `HelloSystemClock` but using AceRoutine coroutines
+* [HelloNtpClock](examples/HelloNtpClock/)
+    * demo program of `NtpClock`
 * [CommandLineClock](examples/CommandLineClock/)
     * a clock with a DS3231 RTC chip, an NTP client, and using the serial port
       for receiving commands and printing results, useful for debugging

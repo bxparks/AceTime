@@ -511,7 +511,6 @@ I will occasionally test on the following hardware as a sanity check:
 * Teensy 3.2 (72 MHz ARM Cortex-M4)
 * Mini Mega 2560 (Arduino Mega 2560 compatible, 16 MHz ATmega2560)
 
-
 ### Untested RTC hardware compatibility
 
 As DS1307 and DS3232 RTC chip have exactly same interface as DS3231 for used
@@ -540,4 +539,6 @@ incorporate everything, but I will give your ideas serious consideration.
 
 ## Authors
 
-Created by Brian T. Park (brian@xparks.net).
+* Created by Brian T. Park (brian@xparks.net).
+* Support an existing WiFi connection in `NtpClock` by @denis-stepanov
+  [#24](https://github.com/bxparks/AceTime/issues/24).
