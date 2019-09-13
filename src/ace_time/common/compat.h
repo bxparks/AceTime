@@ -75,7 +75,7 @@
 
 #elif defined(ESP32)
   #include <pgmspace.h>
-  // Fix incorrect definition of FPSTR in ESP32 1.0.2. See
+  // Fix incorrect definition of FPSTR in ESP32 < 1.0.3. See
   // https://github.com/espressif/arduino-esp32/issues/1371
   #undef FPSTR
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
