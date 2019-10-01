@@ -1,6 +1,13 @@
 # Changelog
 
 * Unreleased
+    * Add initial support for GitHub actions to implement continuous integration
+      using the unit tests that run under UnitHostDuino.
+    * Allow NtpClock to use an existing WiFi connection. Add
+      `examples/HelloNtpClock/` to demonstrate this. (#24, thanks
+      @denis-stepanov).
+    * Fix compiler warning about duplicate `FPSTR()` macro for ESP32 Core
+      version >=1.0.3.
 * 0.8.1
     * Update `SystemClockCoroutine` to be compatible with
       `COROUTINE_DELAY_SECONDS()` API changed in AceRoutine v0.3.
