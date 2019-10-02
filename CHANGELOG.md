@@ -14,6 +14,7 @@
       Database used by AceTime to the version used by Java 11, pytz, and Hinnant
       Date, independently of the version that is generated into
       `src/ace_time/zonedb[x]`.
+    * Update `src/ace_time/zonedb[x]` files to TZ version 2019c.
 * 0.8.1
     * Update `SystemClockCoroutine` to be compatible with
       `COROUTINE_DELAY_SECONDS()` API changed in AceRoutine v0.3.
