@@ -8,6 +8,12 @@
       @denis-stepanov).
     * Fix compiler warning about duplicate `FPSTR()` macro for ESP32 Core
       version >=1.0.3.
+    * Generate the zonedb files for the various `validation/*Test` integration
+      tests on-demand, instead of using the zonedb files checked into
+      `src/ace_time/zonedb[x]`. This allows us to match the version of the TZ
+      Database used by AceTime to the version used by Java 11, pytz, and Hinnant
+      Date, independently of the version that is generated into
+      `src/ace_time/zonedb[x]`.
 * 0.8.1
     * Update `SystemClockCoroutine` to be compatible with
       `COROUTINE_DELAY_SECONDS()` API changed in AceRoutine v0.3.
