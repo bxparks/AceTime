@@ -32,7 +32,7 @@ zones.txt:
 	../../../tools/tzcompiler.sh --tag $(TZ_VERSION) --action zonelist \
 		--scope basic \
 		--start_year $(START_YEAR) --until_year $(UNTIL_YEAR) \
-		
+
 # Make sure the zonedb files are generated before
 # validation_data.cpp is compiled.
 validation_data.o: $(DB_NAMESPACE)/zone_infos.h
