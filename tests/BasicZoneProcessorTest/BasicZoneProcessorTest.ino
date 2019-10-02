@@ -117,7 +117,7 @@ static const basic::ZoneInfo kZonePacific_Galapagos ACE_TIME_PROGMEM = {
 // --------------------------------------------------------------------------
 
 test(BasicZoneProcessorTest, tzVersion) {
-  assertEqual("2019b", zonedb::kTzDatabaseVersion);
+  assertEqual("2019c", zonedb::kTzDatabaseVersion);
 }
 
 test(BasicZoneProcessorTest, operatorEqualEqual) {
