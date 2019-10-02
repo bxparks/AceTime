@@ -1,7 +1,7 @@
 # See https://github.com/bxparks/UnixHostDuino for documentation about this
 # Makefile to compile and run Arduino programs natively on Linux or MacOS.
 
-DB_NAMESPACE = zonedb2018g
+DB_NAMESPACE = zonedbjava
 GENERATED := validation_data.cpp validation_data.h validation_tests.cpp \
 	zones.txt \
 	$(DB_NAMESPACE)/zone_infos.h $(DB_NAMESPACE)/zone_infos.cpp \
