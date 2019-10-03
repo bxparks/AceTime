@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.8</span>
+   &#160;<span id="projectnumber">1.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -99,9 +99,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a05433c1de230ee9e7b4b36a6c9f49e04"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1NtpClock.html#a05433c1de230ee9e7b4b36a6c9f49e04">NtpClock</a> (const char *server=<a class="el" href="classace__time_1_1clock_1_1NtpClock.html#a282fa5d05aba3d8d7959ecf2602cc70b">kNtpServerName</a>, uint16_t localPort=<a class="el" href="classace__time_1_1clock_1_1NtpClock.html#a23ba1065b516b1e37b154b86d36357ad">kLocalPort</a>, uint16_t requestTimeout=<a class="el" href="classace__time_1_1clock_1_1NtpClock.html#ae8ee51f3f5394f7da1519e3f70a3af24">kRequestTimeout</a>)</td></tr>
 <tr class="memdesc:a05433c1de230ee9e7b4b36a6c9f49e04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a05433c1de230ee9e7b4b36a6c9f49e04">More...</a><br /></td></tr>
 <tr class="separator:a05433c1de230ee9e7b4b36a6c9f49e04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f087f3d21395462d916aa6a039c0015"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1NtpClock.html#a3f087f3d21395462d916aa6a039c0015">setup</a> (const char *ssid, const char *password)</td></tr>
-<tr class="memdesc:a3f087f3d21395462d916aa6a039c0015"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set up using the provided ssid and password.  <a href="#a3f087f3d21395462d916aa6a039c0015">More...</a><br /></td></tr>
-<tr class="separator:a3f087f3d21395462d916aa6a039c0015"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f5c3c95e63ff869b93f9a8682fbe787"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1NtpClock.html#a1f5c3c95e63ff869b93f9a8682fbe787">setup</a> (const char *ssid=nullptr, const char *password=nullptr, uint16_t connectTimeoutMillis=kConnectTimeoutMillis)</td></tr>
+<tr class="memdesc:a1f5c3c95e63ff869b93f9a8682fbe787"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set up the WiFi connection using the given ssid and password, and prepare the UDP connection.  <a href="#a1f5c3c95e63ff869b93f9a8682fbe787">More...</a><br /></td></tr>
+<tr class="separator:a1f5c3c95e63ff869b93f9a8682fbe787"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04dbe54fc274819097e77110992b34c1"><td class="memItemLeft" align="right" valign="top"><a id="a04dbe54fc274819097e77110992b34c1"></a>
 const char *&#160;</td><td class="memItemRight" valign="bottom"><b>getServer</b> () const</td></tr>
 <tr class="separator:a04dbe54fc274819097e77110992b34c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -196,15 +196,13 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 <p>Constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ssid</td><td>wireless SSID </td></tr>
-    <tr><td class="paramname">password</td><td>password of the SSID </td></tr>
     <tr><td class="paramname">server</td><td>name of the NTP server (default us.pool.ntp.org) </td></tr>
-    <tr><td class="paramname">localPort</td><td>used by the UDP client (default 8888)  requestTimeout milliseconds for a request timesout (default 1000) </td></tr>
+    <tr><td class="paramname">localPort</td><td>used by the UDP client (default 8888)  requestTimeout milliseconds for a request timeout (default 1000) </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="NtpClock_8h_source.html#l00062">62</a> of file <a class="el" href="NtpClock_8h_source.html">NtpClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="NtpClock_8h_source.html#l00060">60</a> of file <a class="el" href="NtpClock_8h_source.html">NtpClock.h</a>.</p>
 
 </div>
 </div>
@@ -238,7 +236,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 
 <p>Implements <a class="el" href="classace__time_1_1clock_1_1Clock.html#a018eaa1936dd0750eb2098e1c6ada9e4">ace_time::clock::Clock</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="NtpClock_8h_source.html#l00100">100</a> of file <a class="el" href="NtpClock_8h_source.html">NtpClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="NtpClock_8h_source.html#l00110">110</a> of file <a class="el" href="NtpClock_8h_source.html">NtpClock.h</a>.</p>
 
 </div>
 </div>
@@ -269,7 +267,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 
 <p>Reimplemented from <a class="el" href="classace__time_1_1clock_1_1Clock.html#ada1474de64fd88ca8466bea08165b3c3">ace_time::clock::Clock</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="NtpClock_8h_source.html#l00132">132</a> of file <a class="el" href="NtpClock_8h_source.html">NtpClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="NtpClock_8h_source.html#l00142">142</a> of file <a class="el" href="NtpClock_8h_source.html">NtpClock.h</a>.</p>
 
 </div>
 </div>
@@ -301,7 +299,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 
 <p>Reimplemented from <a class="el" href="classace__time_1_1clock_1_1Clock.html#acb014777a376ad582151486b64db67fc">ace_time::clock::Clock</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="NtpClock_8h_source.html#l00137">137</a> of file <a class="el" href="NtpClock_8h_source.html">NtpClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="NtpClock_8h_source.html#l00147">147</a> of file <a class="el" href="NtpClock_8h_source.html">NtpClock.h</a>.</p>
 
 </div>
 </div>
@@ -332,12 +330,12 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 
 <p>Reimplemented from <a class="el" href="classace__time_1_1clock_1_1Clock.html#a789be177b3a48408fca1805a90d7e34e">ace_time::clock::Clock</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="NtpClock_8h_source.html#l00114">114</a> of file <a class="el" href="NtpClock_8h_source.html">NtpClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="NtpClock_8h_source.html#l00124">124</a> of file <a class="el" href="NtpClock_8h_source.html">NtpClock.h</a>.</p>
 
 </div>
 </div>
-<a id="a3f087f3d21395462d916aa6a039c0015"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f087f3d21395462d916aa6a039c0015">&#9670;&nbsp;</a></span>setup()</h2>
+<a id="a1f5c3c95e63ff869b93f9a8682fbe787"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f5c3c95e63ff869b93f9a8682fbe787">&#9670;&nbsp;</a></span>setup()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -349,13 +347,19 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
           <td class="memname">void ace_time::clock::NtpClock::setup </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>ssid</em>, </td>
+          <td class="paramname"><em>ssid</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>password</em>&#160;</td>
+          <td class="paramname"><em>password</em> = <code>nullptr</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>connectTimeoutMillis</em> = <code>kConnectTimeoutMillis</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -370,9 +374,18 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 </table>
 </div><div class="memdoc">
 
-<p>Set up using the provided ssid and password. </p>
+<p>Set up the WiFi connection using the given ssid and password, and prepare the UDP connection. </p>
+<p>If the WiFi connection was set up elsewhere, you can call the method with no arguments to bypass the WiFi setup.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">server</td><td>wireless SSID (default nullptr) </td></tr>
+    <tr><td class="paramname">password</td><td>password of the SSID (default nullptr) </td></tr>
+    <tr><td class="paramname">connectTimeoutMillis</td><td>how long to wait for a WiFi connection (default 10000 ms) </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="NtpClock_8h_source.html#l00071">71</a> of file <a class="el" href="NtpClock_8h_source.html">NtpClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="NtpClock_8h_source.html#l00078">78</a> of file <a class="el" href="NtpClock_8h_source.html">NtpClock.h</a>.</p>
 
 </div>
 </div>
