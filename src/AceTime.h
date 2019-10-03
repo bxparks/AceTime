@@ -55,7 +55,7 @@
 #include "ace_time/clock/SystemClockCoroutine.h"
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 801
-#define ACE_TIME_VERSION_STRING "0.8.1"
+#define ACE_TIME_VERSION 10000
+#define ACE_TIME_VERSION_STRING "1.0"
 
 #endif
