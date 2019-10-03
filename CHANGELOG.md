@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.0 (2019-10-02, TZ DB version 2019c)
     * Add initial support for GitHub actions to implement continuous integration
       using the unit tests that run under UnitHostDuino.
     * Allow NtpClock to use an existing WiFi connection. Add
@@ -15,13 +16,14 @@
       Date, independently of the version that is generated into
       `src/ace_time/zonedb[x]`.
     * Update `src/ace_time/zonedb[x]` files to TZ version 2019c.
-* 0.8.1
+    * Graduate to version 1.0.
+* 0.8.1 (2019-08-26, TZ DB version 2019b)
     * Update `SystemClockCoroutine` to be compatible with
       `COROUTINE_DELAY_SECONDS()` API changed in AceRoutine v0.3.
     * Fix typos and grammar errors in `USER_GUIDE.md` and `README.md`.
     * Remove `YearMonth` abstraction in `BasicZoneProcessor`, saving 12 bytes
       of flash in WorldClock.
-* 0.8
+* 0.8 (2019-08-19, TZ DB version 2019b)
     * Handle `Fri<=1` correctly in various python scripts. (#17)
     * Improve resolution of zonedb files and ZoneProcessor classes. (#18)
         * Both BasicZoneProcessor and ExtendedZoneProcessor support 1-minute
@@ -38,17 +40,17 @@
       2000. Did not handle transitions from fixed ZoneEra (RULES='-') to named
       ZoneEra (RULES=reference) or vise versa. Verified against pytz and
       Hinnant date from 1975 to 2050.
-* 0.7.2
+* 0.7.2 (2019-08-14, TZ DB version 2019b)
     * Support timezones whose FORMAT contains a '/' with a fixed RULES column.
       Seems to make BasicZoneProcessor slightly smaller (20-80 bytes) and
       ExtendedZoneProcessor slightly bigger (50-100 bytes).
     * Split `--granularity` into `--until_at_granularity` and
       `offset_granularity`. Current zonedb files use values of 60 and 900
       respectively.
-* 0.7.1
+* 0.7.1 (2019-08-13, TZ DB version 2019b)
     * Replace `TimeZone::printAbbrevTo()` with more flexible and useful
       `TimeZone::getAbbrev()`.
-* 0.7
+* 0.7 (2019-08-13, TZ DB version 2019b)
     * Change TimeZoneData to store mStdOffset and mDstOffset in units of
       one minute (instead of 15-minute increments, "code") in the off chance
       that the library supports timezones with one-minute shifts in the future.
@@ -71,7 +73,7 @@
     * Upgrade `zonedb` and `zonedbx` zoneinfo files to version 2019b,
       after validating against the Hinnant date library.
     * Upgrade to `pytz` version 2019.2 to pickup TZ Database 2019b.
-* 0.6.1
+* 0.6.1 (2019-08-07, TZ DB version 2019a)
     * Create a second Jenkins continuous build pipeline file
       `tests/JenskinfileUnitHost` to use UnitHostDuino to run the unit tests
       natively on Linux. The entire set of unit tests builds and runs in 20
@@ -83,7 +85,7 @@
     * Add circuit schematics to OledClock and WorldClock examples.
     * Simplify logging::printf() used internally for debugging.
     * No functional change from 0.6.
-* 0.6
+* 0.6 (2019-08-02, TZ DB version 2019a)
     * Update tests to use `UnixHostDuino`.
     * Fix broken restore functionality in `CommandLineClock`. Make it work
       on Unix using UnixHostDuino. Make it work on ESP8266 and ESP32 again.
@@ -104,7 +106,7 @@
       `SystemClockCoroutine`.
     * Add `UnixClock.h` which provides access to the internal Unix clock
       when using UnixHostDuino.
-* 0.5.2
+* 0.5.2 (2019-07-29, TZ DB Version 2019a)
     * Create `HelloZoneManager` and add it to the `README.md`.
     * Recommend using "Arduino MKR ZERO" board or "SparkFun SAMD21 Mini
       Breakout" board for the "SAMD21 M0 Mini" boards.
