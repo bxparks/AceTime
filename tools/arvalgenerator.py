@@ -67,6 +67,8 @@ extern const {validationDataClass} kValidationData{zoneNormalizedName};
 // DO NOT EDIT
 
 #include <AceTime.h>
+#include "{dbNamespace}/zone_infos.h"
+#include "{dbNamespace}/zone_policies.h"
 #include "{fileBase}_data.h"
 
 namespace ace_time {{
@@ -129,21 +131,21 @@ testF({testClass}, {zoneNormalizedName}) {{
 }}
 """
 
-    def __init__(self, invocation, tz_version, test_data, num_items, scope):
+    def __init__(self, invocation, tz_version, db_namespace, test_data,
+        num_items, scope):
         self.invocation = invocation
         self.tz_version = tz_version
+        self.db_namespace = db_namespace
         self.test_data = test_data
         self.num_items = num_items
         if scope == 'extended':
             self.file_base = 'validation'
             self.include_header_namespace = 'VALIDATION'
-            self.db_namespace = 'zonedbx'
             self.test_class = 'TransitionTest'
             self.validation_data_class = 'ValidationData'
         else:
             self.file_base = 'validation'
             self.include_header_namespace = 'VALIDATION'
-            self.db_namespace = 'zonedb'
             self.test_class = 'TransitionTest'
             self.validation_data_class = 'ValidationData'
         self.validation_data_h_file_name = (self.file_base + '_data.h')

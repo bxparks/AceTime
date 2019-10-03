@@ -23,7 +23,7 @@ UNTIL_YEAR = 2038
 
 validation_data.cpp:
 	../../../tools/tzcompiler.sh --tag $(TZ_VERSION) --action unittest \
-		--language arduino --scope extended \
+		--language arduino --scope extended --db_namespace $(DB_NAMESPACE) \
 		--start_year $(START_YEAR) --until_year $(UNTIL_YEAR)
 
 # Make sure the zonedb files are generated before
