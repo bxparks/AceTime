@@ -27,11 +27,14 @@ from typing import Optional
 from typing import Set
 from typing import TextIO
 from typing import Tuple
+from typing import cast
 
 ZonesMap = Dict[str, List[ZoneEraRaw]]
 RulesMap = Dict[str, List[ZoneRuleRaw]]
 LinksMap = Dict[str, str]
 CommentsMap = Dict[str, Set[str]]
+RulesToZones = Dict[str, List[str]]
+
 
 # Deduped list of strings (as OrderedDict of {string -> index}), total size, and
 # the total original size.
@@ -194,24 +197,22 @@ class Transformer:
             f"; removed={len(self.all_removed_links)}"
             f"; noted={len(self.all_notable_links)}")
 
-    def _print_removed_map(self, removed_map) -> None:
+    def _print_removed_map(self, removed_map: CommentsMap) -> None:
         """Helper routine that prints the removed Zone rules or Zone eras along
         with the reason why it was removed.
         """
         name: str
-        reason: str
-        for name, reason in sorted(removed_map.items()):
-            print('  %s (%s)' % (name, reason), file=sys.stderr)
+        reasons: Set[str]
+        for name, reasons in sorted(removed_map.items()):
+            print('  %s (%s)' % (name, reasons), file=sys.stderr)
 
     # --------------------------------------------------------------------
     # Methods related to Zones.
     # --------------------------------------------------------------------
 
-    def _remove_zones_without_slash(
-        self, zones_map: Dict[str, List[ZoneEraRaw]]) \
-        -> Dict[str, List[ZoneEraRaw]]:
-        results: Dict[str, List[ZoneEraRaw]] = {}
-        removed_zones: Dict[str, Set[str]] = {}
+    def _remove_zones_without_slash(self, zones_map: ZonesMap) -> ZonesMap:
+        results: ZonesMap = {}
+        removed_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             if name.rfind('/') >= 0:
                 results[name] = eras
@@ -223,11 +224,11 @@ class Transformer:
         _merge_reasons(self.all_removed_zones, removed_zones)
         return results
 
-    def _detect_hash_collisions(self, zones_map: ZonesMap):
+    def _detect_hash_collisions(self, zones_map: ZonesMap) -> ZonesMap:
         """Detect a hash collision. Throw exception so that we can fix it
         programmatically.
         """
-        hashes: Dict[str, str] = {}
+        hashes: Dict[int, str] = {}
         for name, _ in zones_map.items():
             h = hash_name(name)
             colliding_name = hashes.get(h)
@@ -237,15 +238,15 @@ class Transformer:
                 hashes[h] = name
         return zones_map
 
-    def _remove_zone_eras_too_old(self, zones_map: ZonesMap):
+    def _remove_zone_eras_too_old(self, zones_map: ZonesMap) -> ZonesMap:
         """Remove zone eras which are too old, i.e. before (self.start_year-1).
         For start_year 2000, and viewing_months>13,
         ZoneSpecifier.init_for_year() could be called with 1999.
         """
-        results: CommentsMap = {}
+        results: ZonesMap = {}
         count = 0
         for name, eras in zones_map.items():
-            keep_eras = []
+            keep_eras: List[ZoneEraRaw] = []
             for era in eras:
                 if era.untilYear >= self.start_year - 1:
                     keep_eras.append(era)
@@ -258,7 +259,7 @@ class Transformer:
                      self.start_year)
         return results
 
-    def _remove_zone_eras_too_new(self, zones_map: ZonesMap):
+    def _remove_zone_eras_too_new(self, zones_map: ZonesMap) -> ZonesMap:
         """Remove zone eras which are too new, i.e. after self.until_year.
         We need at least one year after the last valid year (i.e. until_year),
         so we need zone eras valid to at least until_year. For
@@ -270,10 +271,10 @@ class Transformer:
         If the ZoneSpecifier code is called with a year greater than
         self.until_year, it may cause a loop to crash.
         """
-        results = {}
+        results: ZonesMap = {}
         count = 0
         for name, eras in zones_map.items():
-            keep_eras = []
+            keep_eras: List[ZoneEraRaw] = []
             start_year = MIN_YEAR
             for era in eras:
                 if start_year <= self.until_year + 1:
@@ -289,12 +290,12 @@ class Transformer:
                      self.until_year)
         return results
 
-    def _remove_zones_without_eras(self, zones_map: ZonesMap):
+    def _remove_zones_without_eras(self, zones_map: ZonesMap) -> ZonesMap:
         """Remove zones without any eras, which can happen if the start_year and
         until_year are too narrow. This prevents the C++ code from crashing.
         """
-        results = {}
-        removed_zones = {}
+        results: ZonesMap = {}
+        removed_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             if eras:
                 results[name] = eras
@@ -307,12 +308,13 @@ class Transformer:
         _merge_reasons(self.all_removed_zones, removed_zones)
         return results
 
-    def _remove_zone_until_year_only_false(self, zones_map: ZonesMap):
+    def _remove_zone_until_year_only_false(self, zones_map: ZonesMap) \
+        -> ZonesMap:
         """Remove zones which have month, day or time in the UNTIL field.
         These are not supported by BasicZoneSpecifier.
         """
-        results = {}
-        removed_zones = {}
+        results: ZonesMap = {}
+        removed_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -329,16 +331,16 @@ class Transformer:
         _merge_reasons(self.all_removed_zones, removed_zones)
         return results
 
-    def _create_zones_with_until_day(self, zones_map: ZonesMap):
+    def _create_zones_with_until_day(self, zones_map: ZonesMap) -> ZonesMap:
         """Convert zone.untilDay from 'lastSun' or 'Sun>=1' to a precise day,
         which is possible because the year and month are already known. For
         example:
             * Zone Asia/Tbilisi 2005 3 lastSun 2:00
             * Zone America/Grand_Turk 2015 Nov Sun>=1 2:00
         """
-        results = {}
-        removed_zones = {}
-        notable_zones = {}
+        results: ZonesMap = {}
+        removed_zones: CommentsMap = {}
+        notable_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -384,12 +386,13 @@ class Transformer:
         _merge_reasons(self.all_notable_zones, notable_zones)
         return results
 
-    def _create_zones_with_expanded_until_time(self, zones_map: ZonesMap):
+    def _create_zones_with_expanded_until_time(self, zones_map: ZonesMap) \
+        -> ZonesMap:
         """ Create 'untilSeconds' and 'untilSecondsTruncated' from 'untilTime'.
         """
-        results = {}
-        removed_zones = {}
-        notable_zones = {}
+        results: ZonesMap = {}
+        removed_zones: CommentsMap = {}
+        notable_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -432,7 +435,8 @@ class Transformer:
         _merge_reasons(self.all_notable_zones, notable_zones)
         return results
 
-    def _remove_zones_invalid_until_time_suffix(self, zones_map: ZonesMap):
+    def _remove_zones_invalid_until_time_suffix(self, zones_map: ZonesMap) \
+        -> ZonesMap:
         """Remove zones whose UNTIL time contains an unsupported suffix.
         """
         # Determine which suffices are supported. The 'g' and 'z' is the same as
@@ -446,8 +450,8 @@ class Transformer:
             else:
                 supported_suffices = ['w']
 
-        results = {}
-        removed_zones = {}
+        results: ZonesMap = {}
+        removed_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -469,12 +473,13 @@ class Transformer:
         _merge_reasons(self.all_removed_policies, removed_zones)
         return results
 
-    def _create_zones_with_expanded_offset_string(self, zones_map: ZonesMap):
+    def _create_zones_with_expanded_offset_string(self, zones_map: ZonesMap) \
+        -> ZonesMap:
         """ Create expanded offset 'offsetSeconds' from zone.offsetString.
         """
-        results = {}
-        removed_zones = {}
-        notable_zones = {}
+        results: ZonesMap = {}
+        removed_zones: CommentsMap = {}
+        notable_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -523,7 +528,8 @@ class Transformer:
         _merge_reasons(self.all_notable_zones, notable_zones)
         return results
 
-    def _remove_zones_with_invalid_rules_format_combo(self, zones_map: ZonesMap):
+    def _remove_zones_with_invalid_rules_format_combo(
+        self, zones_map: ZonesMap) -> ZonesMap:
         """Check for valid FORMAT field.
 
         First, it should always exist.
@@ -539,9 +545,9 @@ class Transformer:
         there seems to be no corresponding change in the abbreviation so FORMAT
         contains no '%' or '/'. Generate a warning for now.
         """
-        results = {}
-        removed_zones = {}
-        notable_zones = {}
+        results: ZonesMap = {}
+        removed_zones: CommentsMap = {}
+        notable_zones: CommentsMap = {}
         for zone_name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -572,7 +578,8 @@ class Transformer:
         _merge_reasons(self.all_notable_zones, notable_zones)
         return results
 
-    def _create_zones_with_rules_expansion(self, zones_map: ZonesMap):
+    def _create_zones_with_rules_expansion(self, zones_map: ZonesMap) \
+        -> ZonesMap:
         """Expand and normalize the zone.rules field (RULES) and create
         zone.rulesDeltaSeconds from zone.rules.
 
@@ -586,9 +593,9 @@ class Transformer:
             * ':' which indicates that 'rulesDeltaSeconds' is defined, or
             * a string reference of the zone policy containing the rules
         """
-        results = {}
-        removed_zones = {}
-        notable_zones = {}
+        results: ZonesMap = {}
+        removed_zones: CommentsMap = {}
+        notable_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -647,12 +654,13 @@ class Transformer:
         _merge_reasons(self.all_notable_zones, notable_zones)
         return results
 
-    def _remove_zones_without_rules(self, zones_map, rules_map):
+    def _remove_zones_without_rules(self, zones_map: ZonesMap,
+        rules_map: RulesMap) -> ZonesMap:
         """Remove zone eras whose RULES field contains a reference to
         a set of Rules, which cannot be found.
         """
-        results = {}
-        removed_zones = {}
+        results: ZonesMap = {}
+        removed_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -671,13 +679,14 @@ class Transformer:
         _merge_reasons(self.all_removed_zones, removed_zones)
         return results
 
-    def _remove_zones_with_non_monotonic_until(self, zones_map: ZonesMap):
+    def _remove_zones_with_non_monotonic_until(self, zones_map: ZonesMap) \
+        -> ZonesMap:
         """Remove Zone infos whose UNTIL fields are:
             1) not monotonically increasing, or
             2) does not end in year=MAX_UNTIL_YEAR
         """
-        results = {}
-        removed_zones = {}
+        results: ZonesMap = {}
+        removed_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             prev_until = None
@@ -716,7 +725,8 @@ class Transformer:
     # Methods related to Rules
     # --------------------------------------------------------------------
 
-    def _remove_rules_multiple_transitions_in_month(self, rules_map: RulesMap):
+    def _remove_rules_multiple_transitions_in_month(self, rules_map: RulesMap) \
+        -> RulesMap:
         """Some Zone policies have Rules which specify multiple DST transitions
         within in the same month:
             * Egypt (Found '2' transitions in year/month '2010-09')
@@ -724,8 +734,10 @@ class Transformer:
             * Spain (Found '2' transitions in year/month '1938-04')
             * Tunisia (Found '2' transitions in year/month '1943-04')
         """
+        CountsMap = Dict[Tuple[str, int, int], int]
+
         # First pass: collect number of transitions for each (year, month) pair.
-        counts = {}
+        counts: CountsMap  = {}
         for name, rules in rules_map.items():
             for rule in rules:
                 from_year = rule.fromYear
@@ -739,7 +751,7 @@ class Transformer:
 
         # Second pass: Collect rule policies which have multiple transitions
         # in one month.
-        removals = {}
+        removals: Dict[str, Tuple[int, int, int]] = {}
         for key, count in counts.items():
             if count > 1:
                 policy_name = key[0]
@@ -748,14 +760,13 @@ class Transformer:
                 removals[policy_name] = (count, year, month)
 
         # Third pass: Remove rule policies with multiple counts.
-        results = {}
-        removed_policies = {}
+        results: RulesMap = {}
+        removed_policies: CommentsMap = {}
         for name, rules in rules_map.items():
             removal = removals.get(name)
             if removal:
                 _add_reason(removed_policies, name,
-                    "Found %d transitions in year/month '%04d-%02d'" %
-                    removals[name])
+                    "Found %d transitions in year/month '%04d-%02d'" % removal)
             else:
                 results[name] = rules
 
@@ -766,11 +777,11 @@ class Transformer:
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
 
-    def _remove_rules_long_dst_letter(self, rules_map):
+    def _remove_rules_long_dst_letter(self, rules_map: RulesMap) -> RulesMap:
         """Return a new map which filters out rules with long DST letter.
         """
-        results = {}
-        removed_policies = {}
+        results: RulesMap = {}
+        removed_policies: CommentsMap = {}
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
@@ -789,7 +800,8 @@ class Transformer:
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
 
-    def _remove_rules_invalid_at_time_suffix(self, rules_map):
+    def _remove_rules_invalid_at_time_suffix(self, rules_map: RulesMap) \
+        -> RulesMap:
         """Remove rules whose atTime contains an unsupported suffix. Current
         supported suffix is 'w', 's' and 'u'. The 'g' and 'z' are identifical
         to 'u' and they do not currently appear in any TZ file, so let's catch
@@ -797,8 +809,8 @@ class Transformer:
         somewhere else.
         """
         supported_suffices = ['w', 's', 'u']
-        results = {}
-        removed_policies = {}
+        results: RulesMap = {}
+        removed_policies: CommentsMap = {}
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
@@ -820,7 +832,7 @@ class Transformer:
         return results
 
     def _mark_rules_used_by_zones(self, zones_map: ZonesMap,
-        rules_map: RulesMap):
+        rules_map: RulesMap) -> Tuple[ZonesMap, RulesMap]:
         """Mark all rules which are required by various zones. There are 2 ways
         that a rule can be used by a zone era:
             1) The rule's fromYear or toYear are >= (self.start_year - 1), or
@@ -880,16 +892,16 @@ class Transformer:
 
         return (zones_map, rules_map)
 
-    def _remove_rules_unused(self, rules_map: RulesMap):
+    def _remove_rules_unused(self, rules_map: RulesMap) -> RulesMap:
         """Remove RULE entries which have not been marked as used by the
         _mark_rules_used_by_zones() method. It is expected that all remaining
         RULE entries have FROM and TO fields which is greater than 1872 (the
         earliest year which can be represented by an int8_t toYearTiny field,
         (2000-128)==1872). See also _remove_rules_out_of_bounds().
         """
-        results = {}
+        results: RulesMap = {}
         removed_rule_count = 0
-        removed_policies = {}
+        removed_policies: CommentsMap = {}
         for name, rules in rules_map.items():
             used_rules = []
             for rule in rules:
@@ -907,12 +919,12 @@ class Transformer:
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
 
-    def _remove_rules_out_of_bounds(self, rules_map: RulesMap):
+    def _remove_rules_out_of_bounds(self, rules_map: RulesMap) -> RulesMap:
         """Remove policies which have FROM and TO fields do not fit in an
         int8_t. In other words, y < 1872 or (y > 2127 and y != 9999).
         """
-        results = {}
-        removed_policies = {}
+        results: RulesMap = {}
+        removed_policies: CommentsMap = {}
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
@@ -934,12 +946,13 @@ class Transformer:
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
 
-    def _create_rules_with_on_day_expansion(self, rules_map):
+    def _create_rules_with_on_day_expansion(self, rules_map: RulesMap) \
+        -> RulesMap:
         """Create rule.onDayOfWeek and rule.onDayOfMonth from rule.onDay.
         The onDayOfMonth will be negative if "<=" is used.
         """
-        results = {}
-        removed_policies = {}
+        results: RulesMap = {}
+        removed_policies: CommentsMap = {}
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
@@ -979,7 +992,8 @@ class Transformer:
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
 
-    def _create_rules_with_anchor_transition(self, rules_map):
+    def _create_rules_with_anchor_transition(self, rules_map: RulesMap) \
+        -> RulesMap:
         """Create a synthetic transition with SAVE == 0 which is earlier than
         the self.start_year of interest. Some zone policies have zone rules
         whose earliest entry starts after the self.start_year. According to
@@ -991,7 +1005,7 @@ class Transformer:
         corresponding to 4 zones:
             Pacific/Apia, Asia/Dhaka, Asia/Karachi, Asia/Yerevan
         """
-        anchored_policies = []
+        anchored_policies: List[str] = []
         for name, rules in rules_map.items():
             if not self._has_prior_rule(rules):
                 anchor_rule = self._get_anchor_rule(rules)
@@ -1002,7 +1016,7 @@ class Transformer:
                      len(anchored_policies), anchored_policies)
         return rules_map
 
-    def _has_prior_rule(self, rules):
+    def _has_prior_rule(self, rules: List[ZoneRuleRaw]) -> bool:
         """Return True if rules has a rule prior to (self.start_year-1).
         """
         for rule in rules:
@@ -1012,7 +1026,7 @@ class Transformer:
                 return True
         return False
 
-    def _get_anchor_rule(self, rules):
+    def _get_anchor_rule(self, rules: List[ZoneRuleRaw]) -> ZoneRuleRaw:
         """Return the anchor rule that will act as the earliest rule with SAVE
         == 0.
         """
@@ -1048,14 +1062,15 @@ class Transformer:
         anchor_rule.rawLine = 'Anchor: ' + anchor_rule.rawLine
         return anchor_rule
 
-    def _remove_rules_with_border_transitions(self, rules_map):
+    def _remove_rules_with_border_transitions(self, rules_map: RulesMap) \
+        -> RulesMap:
         """Remove rules where the transition occurs on the first day of the
         year (Jan 1). That situation is not supported by BasicZoneSpecifier. On
         the other hand, a transition at the end of the year (Dec 31) is
         supported by BasicZoneSpecifier.
         """
-        results = {}
-        removed_policies = {}
+        results: RulesMap = {}
+        removed_policies: CommentsMap = {}
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
@@ -1081,12 +1096,12 @@ class Transformer:
         return results
 
     def _create_rules_with_expanded_at_time(self, rules_map: RulesMap,
-        rules_to_zones):
+        rules_to_zones: RulesToZones) -> RulesMap:
         """ Create 'atSeconds' parameter from rule.atTime.
         """
-        results = {}
-        removed_policies = {}
-        notable_policies = {}
+        results: RulesMap = {}
+        removed_policies: CommentsMap = {}
+        notable_policies: CommentsMap = {}
         for policy_name, rules in rules_map.items():
             valid = True
             for rule in rules:
@@ -1260,7 +1275,7 @@ WEEK_TO_WEEK_INDEX = {
 }
 
 
-def _parse_on_day_string(on_string):
+def _parse_on_day_string(on_string: str) -> Tuple[int, int]:
     """Parse things like "Sun>=1", "lastSun", "20", "Fri<=2".
     Returns (on_day_of_week, on_day_of_month) where
         (0, dayOfMonth) = exact match on dayOfMonth
@@ -1305,7 +1320,7 @@ def _parse_on_day_string(on_string):
 INVALID_SECONDS = 999999  # 277h46m69s
 
 
-def time_string_to_seconds(time_string):
+def time_string_to_seconds(time_string: str) -> int:
     """Converts the '[-]hh:mm:ss' string into +/- total seconds from 00:00.
     Returns INVALID_SECONDS if there is a parsing error.
     """
@@ -1426,14 +1441,15 @@ def find_earliest_subsequent_rules(rules, year):
     return candidates
 
 
-def is_year_tiny(year):
+def is_year_tiny(year: int) -> bool:
     """Determine if year fits in an int8_t field. MAX_YEAR(9999) is a marker for
     'max'.
     """
     return year >= 1872 and (year == extractor.MAX_YEAR or year <= 2127)
 
 
-def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
+def calc_day_of_month(year: int, month: int, on_day_of_week: int,
+    on_day_of_month: int) -> Tuple[int, int]:
     """Return the actual (month, day) of expressions such as
     (onDayOfWeek >= onDayOfMonth), (onDayOfWeek <= onDayOfMonth), or (lastMon)
     See BasicZoneSpecifier::calcStartDayOfMonth(). Shifts into previous or
@@ -1471,7 +1487,7 @@ def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
         return (month, day)
 
 
-def _days_in_month(year, month):
+def _days_in_month(year: int, month: int) -> int:
     """Return the number of days in the given (year, month). The
     month is usually 1-12, but can be 0 to indicate December of the previous
     year, and 13 to indicate Jan of the following year.
@@ -1484,7 +1500,7 @@ def _days_in_month(year, month):
     return days
 
 
-def seconds_to_hms(seconds):
+def seconds_to_hms(seconds: int) -> Tuple[int, int, int]:
     """Convert seconds to (h,m,s). Works only for positive seconds.
     """
     s = seconds % 60
@@ -1494,7 +1510,7 @@ def seconds_to_hms(seconds):
     return (h, m, s)
 
 
-def seconds_to_hm_string(seconds):
+def seconds_to_hm_string(seconds: int) -> str:
     """Convert seconds to hh:mm. Assumes that seconds is multiples of 60.
     """
     if seconds < 0:
@@ -1508,13 +1524,13 @@ def seconds_to_hm_string(seconds):
     return f'{sign}{h:02}:{m:02}'
 
 
-def hms_to_seconds(h, m, s):
+def hms_to_seconds(h: int, m: int, s: int) -> int:
     """Convert h:m:s to seconds.
     """
     return (h * 60 + m) * 60 + s
 
 
-def div_to_zero(a, b):
+def div_to_zero(a: int, b: int) -> int:
     """Integer division (a/b) that truncates towards 0, instead of -infinity as
     is default for Python. Assumes b is positive, but a can be negative or
     positive.
@@ -1522,13 +1538,13 @@ def div_to_zero(a, b):
     return a // b if a >= 0 else (a - 1) // b + 1
 
 
-def truncate_to_granularity(a, b):
+def truncate_to_granularity(a: int, b: int) -> int:
     """Truncate a to the granularity of b.
     """
     return b * div_to_zero(a, b)
 
 
-def add_string(strings, name):
+def add_string(strings: OrderedDict[str, int], name: str) -> int:
     """Add the 'name' to the strings (must be an OrderedDict), and return its
     index into the array of strings. If the 'name' already exists, then return
     the previous index. Otherwise, create a new index, and return that.
@@ -1539,32 +1555,29 @@ def add_string(strings, name):
     if index == None:
         index = len(strings)
         strings[name] = index
-    return index
+    return cast(int, index) # index will never be None
 
 
-def create_format_strings(zones_map, rules_map):
+def create_format_strings(zones_map: ZonesMap, rules_map: RulesMap) \
+    -> StringCollection:
     """Collect all ZoneRule.letter and ZoneEra.format strings into a single
     array, for deduplication. However, bringing all strings into a single array
     means that this gets loaded even if the application uses only a few zones.
     See collect_letter_strings() for code that collects only the ZoneRule.letter
     strings.
     """
-    strings_count = {}
+    strings_count: Dict[str, int] = {}
     for name, eras in zones_map.items():
         for era in eras:
             format = era.format.replace('%s', '%')
-            count = strings_count.get(format)
-            if count == None:
-                count = 0
+            count = strings_count.get(format, 0)
             strings_count[format] = count + 1
     for name, rules in rules_map.items():
         for rule in rules:
-            count = strings_count.get(rule.letter)
-            if count == None:
-                count = 0
+            count = strings_count.get(rule.letter, 0)
             strings_count[rule.letter] = count + 1
 
-    format_strings = OrderedDict()
+    format_strings: OrderedDict[str, int] = OrderedDict()
     size = 0
     orig_size = 0
     for name in sorted(strings_count):
@@ -1576,17 +1589,15 @@ def create_format_strings(zones_map, rules_map):
         orig_size=orig_size)
 
 
-def create_zone_strings(zones_map):
+def create_zone_strings(zones_map: ZonesMap) -> StringCollection:
     """Collect Zone names.
     """
-    strings_count = {}
+    strings_count: Dict[str, int] = {}
     for name, eras in zones_map.items():
-        count = strings_count.get(name)
-        if count == None:
-            count = 0
+        count = strings_count.get(name, 0)
         strings_count[name] = count + 1
 
-    zone_strings = OrderedDict()
+    zone_strings: OrderedDict[str, int] = OrderedDict()
     size = 0
     orig_size = 0
     for name in sorted(strings_count):
@@ -1596,8 +1607,6 @@ def create_zone_strings(zones_map):
         orig_size += strings_count[name] * csize
     return StringCollection(ordered_map=zone_strings, size=size,
         orig_size=orig_size)
-
-RulesToZones = Dict[str, List[str]]
 
 def _create_rules_to_zones(zones_map: ZonesMap, rules_map: RulesMap) \
     -> RulesToZones:
@@ -1621,14 +1630,14 @@ def _create_rules_to_zones(zones_map: ZonesMap, rules_map: RulesMap) \
     return rules_to_zones
 
 
-def normalize_name(name):
+def normalize_name(name: str) -> str:
     """Replace hyphen (-) and slash (/) with underscore (_) to generate valid
     C++ and Python symbols.
     """
     name = name.replace('+', '_PLUS_')
     return re.sub('[^a-zA-Z0-9_]', '_', name)
 
-def hash_name(name):
+def hash_name(name: str) -> int:
     """Return the hash of the zone name. Implement the djb2 algorithm:
     https://stackoverflow.com/questions/7666509
     """
@@ -1638,7 +1647,7 @@ def hash_name(name):
         hash = (33 * hash + ord(c)) % U32_MOD;
     return hash
 
-def _add_reason(m: Dict[str, Set[str]], name: str, reason: str):
+def _add_reason(m: CommentsMap, name: str, reason: str) -> None:
     """Add the human readable 'reason' to a map of {name -> reasons[]}.
     """
     reasons = m.get(name)
@@ -1647,7 +1656,7 @@ def _add_reason(m: Dict[str, Set[str]], name: str, reason: str):
         m[name] = reasons
     reasons.add(reason)
 
-def _merge_reasons(m, n):
+def _merge_reasons(m: CommentsMap, n: CommentsMap) -> None:
     """Given 2 dict of {name -> reasons[]}, merge n into m.
     """
     for name, new_reasons in n.items():
