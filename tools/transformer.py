@@ -1544,7 +1544,7 @@ def truncate_to_granularity(a: int, b: int) -> int:
     return b * div_to_zero(a, b)
 
 
-def add_string(strings: OrderedDict[str, int], name: str) -> int:
+def add_string(strings: 'OrderedDict[str, int]', name: str) -> int:
     """Add the 'name' to the strings (must be an OrderedDict), and return its
     index into the array of strings. If the 'name' already exists, then return
     the previous index. Otherwise, create a new index, and return that.
@@ -1577,7 +1577,7 @@ def create_format_strings(zones_map: ZonesMap, rules_map: RulesMap) \
             count = strings_count.get(rule.letter, 0)
             strings_count[rule.letter] = count + 1
 
-    format_strings: OrderedDict[str, int] = OrderedDict()
+    format_strings: 'OrderedDict[str, int]' = OrderedDict()
     size = 0
     orig_size = 0
     for name in sorted(strings_count):
@@ -1597,7 +1597,7 @@ def create_zone_strings(zones_map: ZonesMap) -> StringCollection:
         count = strings_count.get(name, 0)
         strings_count[name] = count + 1
 
-    zone_strings: OrderedDict[str, int] = OrderedDict()
+    zone_strings: 'OrderedDict[str, int]' = OrderedDict()
     size = 0
     orig_size = 0
     for name in sorted(strings_count):
