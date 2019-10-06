@@ -344,17 +344,17 @@ class Transformer:
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
-                until_day = era.untilDay
+                until_day_string = era.untilDayString
 
-                # Parse the conditional expression in until_day. We can resolve
-                # the 'lastSun', 'Sun>=X' and 'Fri<=X' to a specific day of
-                # month because we know the year.
+                # Parse the conditional expression in until_day_string. We can
+                # resolve the 'lastSun', 'Sun>=X' and 'Fri<=X' to a specific day
+                # of month because we know the year.
                 (on_day_of_week, on_day_of_month) = \
-                    _parse_on_day_string(until_day)
+                    _parse_on_day_string(until_day_string)
                 if (on_day_of_week, on_day_of_month) == (0, 0):
                     valid = False
                     _add_reason(removed_zones, name,
-                        f"invalid untilDay '{until_day}'")
+                        f"invalid untilDay '{until_day_string}'")
                     break
 
                 month, day = calc_day_of_month(
@@ -363,17 +363,19 @@ class Transformer:
                 if month == 0:
                     valid = False
                     _add_reason(removed_zones, name,
-                        f"Shift to previous year unsupported for {until_day}")
+                        f"Shift to previous year unsupported for "
+                        f"{until_day_string}")
                     break
                 if month == 13:
                     valid = False
                     _add_reason(removed_zones, name,
-                        f"Shift to following year unsupported for {until_day}")
+                        f"Shift to following year unsupported for "
+                        f"{until_day_string}")
 
                 if era.untilMonth != month:
                     _add_reason(notable_zones, name,
                         f"untilMonth shifted from '{era.untilMonth}' to "
-                        f"'{month}' due to {until_day}")
+                        f"'{month}' due to {until_day_string}")
                 era.untilMonth, era.untilDay = month, day
 
             if valid:
@@ -695,7 +697,7 @@ class Transformer:
                 current_until = (
                     era.untilYear,
                     era.untilMonth if era.untilMonth else 0,
-                    era.untilDay if era.untilDay else 0,
+                    era.untilDay if era.untilDayString else 0,
                     era.untilSeconds if era.untilSeconds else 0
                 )
                 # yapf: enable

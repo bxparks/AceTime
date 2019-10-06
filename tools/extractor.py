@@ -70,8 +70,10 @@ from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
+from typing import TYPE_CHECKING
 from typing import TextIO
 from typing import Tuple
+from typing import Union
 
 # AceTime Epoch is 2000-01-01 00:00:00
 EPOCH_YEAR: int = 2000
@@ -115,7 +117,7 @@ class ZoneEraRaw:
         'untilYear',  # (int) MAX_UNTIL_YEAR means 'max'
         'untilYearOnly',  # (bool) true if only the year is given
         'untilMonth',  # (int) 1-12
-        'untilDay',  # (string or int) e.g. 'lastSun', 'Sun>=3', or 1-31
+        'untilDayString',  # (string) e.g. 'lastSun', 'Sun>=3', or '1'-'31'
         'untilTime',  # (string) e.g. '2:00', '00:01'
         'untilTimeSuffix',  # (char) '', 's', 'w', 'g', 'u', 'z'
         'rawLine',  # (string) original ZONE line in TZ file
@@ -128,10 +130,32 @@ class ZoneEraRaw:
                               # hh:mm[:ss]
         'rulesDeltaSecondsTruncated', # (int or None) rulesDeltaSeconds
                                       # truncated to granularity
+        'untilDay',  # (int) 1-31
         'untilSeconds', # (int) untilTime converted into total seconds
         'untilSecondsTruncated', # (int) untilSeconds after truncation
     ]
     # yapf: enable
+
+    # Hack because '__slots__' is unsupported by mypy. See
+    # https://github.com/python/mypy/issues/5941.
+    if TYPE_CHECKING:
+        offsetString: str
+        rules: str
+        format: str
+        untilYear: int
+        untilYearOnly: bool
+        untilMonth: int
+        untilDayString: str
+        untilTime: str
+        untilTimeSuffix: str
+        rawLine: str
+        offsetSeconds: int
+        offsetSecondsTruncated: int
+        rulesDeltaSeconds: Optional[int]
+        rulesDeltaSecondsTruncated: Optional[int]
+        untilDay: int
+        untilSeconds: int
+        untilSecondsTruncated: int
 
     def __init__(self, arg: Dict[str, Any]):
         """Create a ZoneEraRaw from a dict.
@@ -172,6 +196,27 @@ class ZoneRuleRaw:
         'earliestDate',  # (y, m, d) tuple of the earliest instance of rule
         'used',  # (boolean) indicates whether or not the rule is used by a zone
     ]
+
+    # Hack because '__slots__' is unsupported by mypy. See
+    # https://github.com/python/mypy/issues/5941.
+    if TYPE_CHECKING:
+        fromYear: int
+        toYear: int
+        inMonth: int
+        onDay: str
+        atTime: str
+        atTimeSuffix: str
+        deltaOffset: str
+        letter: str
+        rawLine: str
+        onDayOfWeek: int
+        onDayOfMonth: int
+        atSeconds: int
+        atSecondsTruncated: int
+        deltaSeconds: int
+        deltaSecondsTruncated: int
+        earliestDate: Tuple[int, int, int]
+        used: bool
 
     def __init__(self, arg: Dict[str, Any]):
         if not isinstance(arg, dict):
@@ -534,7 +579,7 @@ def _process_zone_line(line) -> ZoneEraRaw:
         'untilYear': until_year,
         'untilYearOnly': until_year_only,
         'untilMonth': until_month,
-        'untilDay': until_day,
+        'untilDayString': until_day,
         'untilTime': until_time,
         'untilTimeSuffix': until_time_suffix,
         'rawLine': line,
