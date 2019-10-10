@@ -7,15 +7,15 @@ instead of creating files. These maps can be used for further processing.
 """
 
 import logging
-from extractor import ZoneEraRaw
-from extractor import ZoneRuleRaw
-from argenerator import normalize_name
-from argenerator import normalize_raw
-from transformer import ZonesMap
-from transformer import RulesMap
 from typing import Dict
 from typing import List
 from mypy_extensions import TypedDict
+from extractor import ZoneEraRaw
+from extractor import ZoneRuleRaw
+from transformer import ZonesMap
+from transformer import RulesMap
+from argenerator import normalize_name
+from argenerator import normalize_raw
 
 ZoneRule = TypedDict('ZoneRule', {
     'fromYear': int,

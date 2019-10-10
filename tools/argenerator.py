@@ -9,10 +9,8 @@ import logging
 import os
 import transformer
 from collections import OrderedDict
-from transformer import div_to_zero
-from transformer import normalize_name
-from transformer import hash_name
-from transformer import seconds_to_hm_string
+from typing import Dict
+from typing import List
 from extractor import EPOCH_YEAR
 from extractor import MAX_YEAR
 from extractor import MAX_YEAR_TINY
@@ -20,7 +18,21 @@ from extractor import MIN_YEAR
 from extractor import MIN_YEAR_TINY
 from extractor import MAX_UNTIL_YEAR
 from extractor import MAX_UNTIL_YEAR_TINY
+from transformer import div_to_zero
+from transformer import normalize_name
+from transformer import hash_name
+from transformer import seconds_to_hm_string
+from transformer import ZonesMap
+from transformer import RulesMap
+from transformer import LinksMap
+from transformer import CommentsMap
+from ingenerator import ZoneRule
+from ingenerator import ZonePolicy
+from ingenerator import ZoneEra
+from ingenerator import ZoneInfo
 
+# map{policy_name: map{letter: index}}
+LettersMap = Dict[str, Dict[str, int]]
 
 class ArduinoGenerator:
     """Generate zone_infos and zone_policies files for Arduino/C++.
@@ -34,11 +46,26 @@ class ArduinoGenerator:
     ZONE_STRINGS_CPP_FILE_NAME = 'zone_strings.cpp'
     ZONE_STRINGS_H_FILE_NAME = 'zone_strings.h'
 
-    def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
-                 generate_zone_strings, start_year, until_year,
-                 zones_map, links_map, rules_map, removed_zones, removed_links,
-                 removed_policies, notable_zones, notable_links,
-                 notable_policies, format_strings, zone_strings, buf_sizes):
+    def __init__(self, invocation: str,
+                 tz_version: str,
+                 tz_files: List[str],
+                 scope: str,
+                 db_namespace: str,
+                 generate_zone_strings: bool,
+                 start_year: int,
+                 until_year: int,
+                 zones_map: ZonesMap,
+                 links_map: LinksMap,
+                 rules_map: RulesMap,
+                 removed_zones: CommentsMap,
+                 removed_links: CommentsMap,
+                 removed_policies: CommentsMap,
+                 notable_zones: CommentsMap,
+                 notable_links: CommentsMap,
+                 notable_policies: CommentsMap,
+                 format_strings: 'OrderedDict[str, int]',
+                 zone_strings: 'OrderedDict[str, int]',
+                 buf_sizes: Dict[str, int]):
         self.scope = scope
         self.db_namespace = db_namespace
         self.generate_zone_strings = generate_zone_strings
@@ -263,10 +290,17 @@ static const char* const kLetters{policyName}[] {progmem} = {{
     SIZEOF_ZONE_POLICY_8 = 6
     SIZEOF_ZONE_POLICY_32 = 12
 
-    def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
-                 zones_map, rules_map,
-                 removed_zones, removed_policies, notable_zones,
-                 notable_policies):
+    def __init__(self, invocation: str,
+                 tz_version: str,
+                 tz_files: List[str],
+                 scope: str,
+                 db_namespace: str,
+                 zones_map: ZonesMap,
+                 rules_map: RulesMap,
+                 removed_zones: CommentsMap,
+                 removed_policies: CommentsMap,
+                 notable_zones: CommentsMap,
+                 notable_policies: CommentsMap):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
@@ -279,7 +313,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         self.notable_zones = notable_zones
         self.notable_policies = notable_policies
 
-        self.letters_map = {}  # map{policy_name: map{letter: index}}
+        self.letters_map: LettersMap = {}
         self.db_header_namespace = self.db_namespace.upper()
 
     def collect_letter_strings(self):
@@ -647,10 +681,23 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
     SIZEOF_ZONE_INFO_8 = 12
     SIZEOF_ZONE_INFO_32 = 20
 
-    def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
-                 start_year, until_year, zones_map, links_map,
-                 rules_map, removed_zones, removed_links, removed_policies,
-                 notable_zones, notable_links, notable_policies, buf_sizes):
+    def __init__(self, invocation: str,
+                 tz_version: str,
+                 tz_files: List[str],
+                 scope: str,
+                 db_namespace: str,
+                 start_year: int,
+                 until_year: int,
+                 zones_map: ZonesMap,
+                 links_map: LinksMap,
+                 rules_map: RulesMap,
+                 removed_zones: CommentsMap,
+                 removed_links: CommentsMap,
+                 removed_policies: CommentsMap,
+                 notable_zones: CommentsMap,
+                 notable_links: CommentsMap,
+                 notable_policies: CommentsMap,
+                 buf_sizes: Dict[str, int]):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
@@ -926,10 +973,17 @@ extern const char* const kZoneStrings[];
 #endif
 """
 
-    def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
-                 zones_map, rules_map,
-                 removed_zones, removed_policies, notable_zones,
-                 notable_policies, format_strings, zone_strings):
+    def __init__(self, invocation: str,
+                 tz_version: str,
+                 tz_files: List[str],
+                 scope: str,
+                 db_namespace: str,
+                 zones_map: ZonesMap, rules_map: RulesMap,
+                 removed_zones: CommentsMap, removed_policies: CommentsMap,
+                 notable_zones: CommentsMap,
+                 notable_policies: CommentsMap,
+                 format_strings: 'OrderedDict[str, int]',
+                 zone_strings: 'OrderedDict[str, int]'):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
@@ -1037,8 +1091,13 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
 }}
 #endif
 """
-    def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
-                 zones_map):
+    def __init__(self,
+                 invocation: str,
+                 tz_version: str,
+                 tz_files: List[str],
+                 scope: str,
+                 db_namespace: str,
+                 zones_map: ZonesMap):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
