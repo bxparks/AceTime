@@ -11,13 +11,51 @@ from extractor import ZoneEraRaw
 from extractor import ZoneRuleRaw
 from argenerator import normalize_name
 from argenerator import normalize_raw
+from transformer import ZonesMap
+from transformer import RulesMap
+from typing import Dict
+from typing import List
+from mypy_extensions import TypedDict
 
+ZoneRule = TypedDict('ZoneRule', {
+    'fromYear': int,
+    'toYear': int,
+    'inMonth': int,
+    'onDayOfWeek': int,
+    'onDayOfMonth': int,
+    'atSeconds': int,
+    'atTimeSuffix': str,
+    'deltaSeconds': int,
+    'letter': str,
+})
+
+ZonePolicy = TypedDict('ZonePolicy', {
+    'name': str,
+    'rules': List[ZoneRule]
+})
+
+ZoneEra = TypedDict('ZoneEra', {
+    'offsetSeconds': int,
+    'zonePolicy': ZonePolicy,
+    'rulesDeltaSeconds': int,
+    'format': str,
+    'untilYear': int,
+    'untilMonth': int,
+    'untilDay': int,
+    'untilSeconds': int,
+    'untilTimeSuffix': str,
+})
+
+ZoneInfo = TypedDict('ZoneInfo', {
+    'name': str,
+    'rules': List[ZoneEra]
+})
 
 class InlineGenerator:
     """Generate Python zone infos and policies maps inlined (instead of files).
     """
 
-    def __init__(self, zones_map, rules_map):
+    def __init__(self, zones_map: ZonesMap, rules_map: RulesMap):
         """
         Args:
             zones_map (dict): {full_name -> ZoneEra[]}
@@ -26,8 +64,8 @@ class InlineGenerator:
         self.zones_map = zones_map
         self.rules_map = rules_map
 
-        self.zone_infos = {}  # same as zone_infos.py {zone_name -> zone_info}
-        self.zone_policies = {}  # zone_policies.py {policy_name -> zone_policy}
+        self.zone_infos: Dict[str, ZoneInfo] = {}
+        self.zone_policies: Dict[str, ZonePolicy] = {}
 
     def generate_maps(self):
         """Return the zone_infos and zone_policies maps which look identical
@@ -40,7 +78,7 @@ class InlineGenerator:
 
     def _generate_policies(self):
         for name, rules in self.rules_map.items():
-            policy_rules = []
+            policy_rules: List[ZonePolicy] = []
             for rule in rules:
                 # yapf: disable
                 policy_rules.append({
@@ -64,7 +102,7 @@ class InlineGenerator:
 
     def _generate_infos(self):
         for zone_name, eras in self.zones_map.items():
-            zone_eras = []
+            zone_eras: List[ZoneEra] = []
             for era in eras:
                 policy_name = era.rules
                 if policy_name in ['-', ':']:
