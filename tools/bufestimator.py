@@ -4,29 +4,38 @@
 
 import logging
 from zone_specifier import ZoneSpecifier
+from ingenerator import ZoneRule
+from ingenerator import ZonePolicy
+from ingenerator import ZoneEra
+from ingenerator import ZoneInfo
+from typing import Dict
+from typing import Tuple
 
 class BufSizeEstimator:
     """Estimate the ExtendedZoneSpecifier::TransitionStorage buffer size for
     each zone.
     """
 
-    def __init__(self, zone_infos, zone_policies, start_year, until_year):
+    def __init__(self, zone_infos: Dict[str, ZoneInfo],
+        zone_policies: Dict[str, ZonePolicy], start_year: int, until_year: int):
         """
         Args:
-            zone_infos (dict): {full_name -> zone_info{} }
-            zone_policies (dict): {policy_name ->zone_policy{} }
+            zone_infos: dict of ZoneInfos
+            zone_policies dict of ZonePolicies
+            start_year: start year
+            until_year: until year
         """
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
         self.start_year = start_year
         self.until_year = until_year
 
-    def estimate(self):
+    def estimate(self) -> Tuple[Dict[str, int], int]:
         """Calculate the (dict) of {full_name -> buf_size} where buf_size is one
         more than the estimate from ZoneSpecifier.get_buffer_sizes(). Return
         the tuple of (buf_sizes, max_size).
         """
-        buf_sizes = {}
+        buf_sizes: Dict[str, int] = {}
         max_size = 0
         for zone_name, zone_info in self.zone_infos.items():
             zone_specifier = ZoneSpecifier(zone_info)
