@@ -151,8 +151,8 @@ class ZoneEraRaw:
         rawLine: str
         offsetSeconds: int
         offsetSecondsTruncated: int
-        rulesDeltaSeconds: Optional[int]
-        rulesDeltaSecondsTruncated: Optional[int]
+        rulesDeltaSeconds: int
+        rulesDeltaSecondsTruncated: int
         untilDay: int
         untilSeconds: int
         untilSecondsTruncated: int
