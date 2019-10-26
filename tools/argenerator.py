@@ -23,6 +23,7 @@ from extractor import ZoneEraRaw
 from extractor import ZoneRuleRaw
 from transformer import div_to_zero
 from transformer import normalize_name
+from transformer import normalize_raw
 from transformer import hash_name
 from transformer import seconds_to_hm_string
 from transformer import ZonesMap
@@ -1140,11 +1141,6 @@ def to_tiny_year(year: int) -> int:
     else:
         return year - EPOCH_YEAR
 
-
-def normalize_raw(raw_line: str) -> str:
-    """Replace hard tabs with 4 spaces.
-    """
-    return raw_line.replace('\t', '    ')
 
 def _to_code_and_modifier(seconds: int, suffix: str, scope: str):
     """Return the packed (code, modifier) uint8_t integers that hold

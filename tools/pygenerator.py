@@ -8,8 +8,8 @@ Generate the zone_info and zone_policies files for Python.
 import logging
 import os
 
-from argenerator import normalize_name
-from argenerator import normalize_raw
+from transformer import normalize_name
+from transformer import normalize_raw
 
 
 class PythonGenerator:

@@ -16,7 +16,7 @@ from extractor import ZoneRuleRaw
 from transformer import ZonesMap
 from transformer import RulesMap
 from transformer import normalize_name
-from argenerator import normalize_raw
+from transformer import normalize_raw
 
 ZoneRule = TypedDict('ZoneRule', {
     'fromYear': int,

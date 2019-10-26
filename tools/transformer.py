@@ -1639,6 +1639,11 @@ def normalize_name(name: str) -> str:
     name = name.replace('+', '_PLUS_')
     return re.sub('[^a-zA-Z0-9_]', '_', name)
 
+def normalize_raw(raw_line: str) -> str:
+    """Replace hard tabs with 4 spaces.
+    """
+    return raw_line.replace('\t', '    ')
+
 def hash_name(name: str) -> int:
     """Return the hash of the zone name. Implement the djb2 algorithm:
     https://stackoverflow.com/questions/7666509
