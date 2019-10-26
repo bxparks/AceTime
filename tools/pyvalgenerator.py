@@ -8,8 +8,11 @@ Generate the validation_data.py file that contains test validation data.
 import logging
 import os
 import pytz
+from typing import List
 from transformer import div_to_zero
-from argenerator import normalize_name
+from transformer import normalize_name
+from tdgenerator import TestItem
+from tdgenerator import TestData
 
 
 class PythonValidationGenerator:
@@ -66,35 +69,39 @@ VALIDATION_ITEM_{zoneNormalizedName} = [
 
     VALIDATION_FILE_NAME = 'validation_data.py'
 
-    def __init__(self, invocation, tz_version, test_data, num_items):
+    def __init__(self,
+        invocation: str,
+        tz_version: str,
+        test_data: TestData,
+        num_items: int):
         self.invocation = invocation
         self.tz_version = tz_version
         self.test_data = test_data
         self.num_items = num_items
 
-    def generate_files(self, output_dir):
+    def generate_files(self, output_dir: str):
         self._write_file(output_dir, self.VALIDATION_FILE_NAME,
                          self._generate_validation_data())
 
-    def _write_file(self, output_dir, filename, content):
+    def _write_file(self, output_dir: str, filename: str, content: str):
         full_filename = os.path.join(output_dir, filename)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
             print(content, end='', file=output_file)
         logging.info("Created %s", full_filename)
 
-    def _generate_validation_data(self):
+    def _generate_validation_data(self) -> str:
         validation_items_str = self._get_validation_items(self.test_data)
         validation_map_items_str = self._get_validation_map_items(
             self.test_data)
         return self.VALIDATION_DATA_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            pytz_version=pytz.__version__,
+            pytz_version=pytz.__version__, # type: ignore
             numZones=len(self.test_data),
             validationItems=validation_items_str,
             validationMapItems=validation_map_items_str)
 
-    def _get_validation_items(self, test_data):
+    def _get_validation_items(self, test_data: TestData) -> str:
         s = ''
         for zone_name, test_items in sorted(test_data.items()):
             test_items_str = self._get_test_items(test_items)
@@ -103,13 +110,13 @@ VALIDATION_ITEM_{zoneNormalizedName} = [
                 testItems=test_items_str)
         return s
 
-    def _get_test_items(self, test_items):
+    def _get_test_items(self, test_items: List[TestItem]) -> str:
         s = ''
         for test_item in test_items:
             s += self._get_test_item(test_item)
         return s
 
-    def _get_test_item(self, test_item):
+    def _get_test_item(self, test_item: TestItem) -> str:
         return self.TEST_ITEM.format(
             epochSeconds=test_item.epoch,
             total=div_to_zero(test_item.total_offset, 60),
@@ -122,7 +129,7 @@ VALIDATION_ITEM_{zoneNormalizedName} = [
             s=test_item.s,
             type=test_item.type)
 
-    def _get_validation_map_items(self, test_data):
+    def _get_validation_map_items(self, test_data: TestData) -> str:
         s = ''
         for zone_name, test_items in sorted(test_data.items()):
             s += self.VALIDATION_MAP_ITEM.format(
