@@ -9,9 +9,12 @@ files for unit tests.
 import logging
 import os
 import pytz
+from typing import List
 from transformer import div_to_zero
 from extractor import EPOCH_YEAR
-from argenerator import normalize_name
+from transformer import normalize_name
+from tdgenerator import TestItem
+from tdgenerator import TestData
 
 
 class ArduinoValidationGenerator:
@@ -131,8 +134,13 @@ testF({testClass}, {zoneNormalizedName}) {{
 }}
 """
 
-    def __init__(self, invocation, tz_version, db_namespace, test_data,
-        num_items, scope):
+    def __init__(self,
+        invocation: str,
+        tz_version: str,
+        db_namespace: str,
+        test_data: TestData,
+        num_items: int,
+        scope: str):
         self.invocation = invocation
         self.tz_version = tz_version
         self.db_namespace = db_namespace
@@ -152,7 +160,7 @@ testF({testClass}, {zoneNormalizedName}) {{
         self.validation_data_cpp_file_name = (self.file_base + '_data.cpp')
         self.validation_tests_file_name = (self.file_base + '_tests.cpp')
 
-    def generate_files(self, output_dir):
+    def generate_files(self, output_dir: str):
         self._write_file(output_dir, self.validation_data_h_file_name,
                          self._generate_validation_data_h())
         self._write_file(output_dir, self.validation_data_cpp_file_name,
@@ -160,26 +168,26 @@ testF({testClass}, {zoneNormalizedName}) {{
         self._write_file(output_dir, self.validation_tests_file_name,
                          self._generate_tests_cpp())
 
-    def _write_file(self, output_dir, filename, content):
+    def _write_file(self, output_dir: str, filename: str, content: str):
         full_filename = os.path.join(output_dir, filename)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
             print(content, end='', file=output_file)
         logging.info("Created %s", full_filename)
 
-    def _generate_validation_data_h(self):
+    def _generate_validation_data_h(self) -> str:
         validation_items = self._generate_validation_data_h_items(
             self.test_data)
 
         return self.VALIDATION_DATA_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            pytz_version=pytz.__version__,
+            pytz_version=pytz.__version__, # type: ignore
             includeHeaderNamespace=self.include_header_namespace,
             dbNamespace=self.db_namespace,
             numZones=len(self.test_data),
             validationItems=validation_items)
 
-    def _generate_validation_data_h_items(self, test_data):
+    def _generate_validation_data_h_items(self, test_data: TestData) -> str:
         validation_items = ''
         for zone_name, test_items in sorted(test_data.items()):
             validation_items += self.VALIDATION_DATA_H_ITEM.format(
@@ -187,19 +195,19 @@ testF({testClass}, {zoneNormalizedName}) {{
                 zoneNormalizedName=normalize_name(zone_name))
         return validation_items
 
-    def _generate_validation_data_cpp(self):
+    def _generate_validation_data_cpp(self) -> str:
         validation_items = self._generate_validation_data_cpp_items(
             self.test_data)
 
         return self.VALIDATION_DATA_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            pytz_version=pytz.__version__,
+            pytz_version=pytz.__version__, # type: ignore
             fileBase=self.file_base,
             dbNamespace=self.db_namespace,
             validationItems=validation_items)
 
-    def _generate_validation_data_cpp_items(self, test_data):
+    def _generate_validation_data_cpp_items(self, test_data: TestData) -> str:
         validation_items = ''
         for zone_name, test_items in sorted(test_data.items()):
             test_items_string = self._generate_validation_data_cpp_test_items(
@@ -212,7 +220,8 @@ testF({testClass}, {zoneNormalizedName}) {{
             validation_items += validation_item
         return validation_items
 
-    def _generate_validation_data_cpp_test_items(self, zone_name, test_items):
+    def _generate_validation_data_cpp_test_items(self,
+        zone_name: str, test_items: List[TestItem]) -> str:
         """Generate the {testItems} value.
         """
         s = ''
@@ -232,19 +241,19 @@ testF({testClass}, {zoneNormalizedName}) {{
                 type=test_item.type)
         return s
 
-    def _generate_tests_cpp(self):
+    def _generate_tests_cpp(self) -> str:
         test_cases = self._generate_test_cases(self.test_data)
 
         return self.TESTS_CPP.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            pytz_version=pytz.__version__,
+            pytz_version=pytz.__version__, # type: ignore
             testClass=self.test_class,
             fileBase=self.file_base,
             numZones=len(self.test_data),
             testCases=test_cases)
 
-    def _generate_test_cases(self, test_data):
+    def _generate_test_cases(self, test_data) -> str:
         test_cases = ''
         for zone_name, _ in sorted(test_data.items()):
             test_case = self.TEST_CASE.format(
