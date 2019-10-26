@@ -10,6 +10,11 @@ from datetime import timedelta
 from zone_specifier import ZoneSpecifier
 from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
 from zone_specifier import DateTuple
+from ingenerator import ZoneRule
+from ingenerator import ZonePolicy
+from ingenerator import ZoneEra
+from ingenerator import ZoneInfo
+from typing import Dict
 
 # An entry in the test data set.
 TestItem = collections.namedtuple(
@@ -22,8 +27,11 @@ class TestDataGenerator:
     stability which we can use to test other versions of ZoneSpecifier.
     """
 
-    def __init__(self, scope, zone_infos, zone_policies,
-        start_year, until_year):
+    def __init__(self, scope: str,
+        zone_infos: Dict[str, ZoneInfo],
+        zone_policies: Dict[str, ZonePolicy],
+        start_year: int,
+        until_year: int):
         """
         Args:
             scope: 'basic' or 'extended'
@@ -57,7 +65,7 @@ class TestDataGenerator:
                 num_items += len(test_items)
         return (test_data, num_items)
 
-    def _create_test_data_for_zone(self, zone_name, zone_info):
+    def _create_test_data_for_zone(self, zone_name: str, zone_info):
         """Create the TestItems for a specific zone.
         """
         zone_specifier = ZoneSpecifier(zone_info)
