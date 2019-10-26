@@ -9,7 +9,6 @@ for code generation in the ArduinoGenerator, PythonGenerator or the
 InlineGenerator.
 """
 
-import collections
 import logging
 import sys
 import re
@@ -27,6 +26,7 @@ from typing import Optional
 from typing import Set
 from typing import TextIO
 from typing import Tuple
+from typing import NamedTuple
 from typing import cast
 
 ZonesMap = Dict[str, List[ZoneEraRaw]]
@@ -38,8 +38,11 @@ RulesToZones = Dict[str, List[str]]
 
 # Deduped list of strings (as OrderedDict of {string -> index}), total size, and
 # the total original size.
-StringCollection = collections.namedtuple(
-    'StringCollection', 'ordered_map size orig_size')
+StringCollection = NamedTuple('StringCollection', [
+    ('ordered_map', 'OrderedDict[str, int]'),
+    ('size', int),
+    ('orig_size', int),
+])
 
 class Transformer:
     def __init__(self, zones_map: ZonesMap, rules_map: RulesMap,

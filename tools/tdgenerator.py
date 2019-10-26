@@ -4,7 +4,6 @@
 
 import logging
 import datetime
-import collections
 import pytz
 from datetime import timedelta
 from zone_specifier import ZoneSpecifier
@@ -18,10 +17,21 @@ from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
+from typing import NamedTuple
 
 # An entry in the test data set.
-TestItem = collections.namedtuple(
-    "TestItem", "epoch total_offset dst_offset y M d h m s type")
+TestItem = NamedTuple("TestItem", [
+    ('epoch', int),
+    ('total_offset', int),
+    ('dst_offset', int),
+    ('y', int),
+    ('M', int),
+    ('d', int),
+    ('h', int),
+    ('m', int),
+    ('s', int),
+    ('type', str),
+])
 
 TestData = Dict[str, List[TestItem]]
 
