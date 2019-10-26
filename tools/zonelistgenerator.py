@@ -4,6 +4,8 @@
 
 import logging
 import os
+from typing import List
+from transformer import ZonesMap
 
 class ZoneListGenerator:
     """Create a zones.txt file that contains the names of zones supported by
@@ -30,7 +32,8 @@ class ZoneListGenerator:
 {zoneStrings}
 """
 
-    def __init__(self, invocation, tz_version, tz_files, scope, zones_map):
+    def __init__(self, invocation: str, tz_version: str, tz_files: List[str],
+        scope: str, zones_map: ZonesMap):
         """
         Args:
             zones_map (dict): {full_name -> ZoneEra[]}
@@ -43,12 +46,12 @@ class ZoneListGenerator:
 
         self.file_name = 'zones.txt'
 
-    def generate_files(self, output_dir):
+    def generate_files(self, output_dir: str):
         """Generate a text file that contains the list of zones.
         """
         self._write_file(output_dir, self.file_name, self._generate_zones())
 
-    def _generate_zones(self):
+    def _generate_zones(self) -> str:
         zone_strings = ""
         for name, eras in sorted(self.zones_map.items()):
             zone_strings += name + '\n'
@@ -60,7 +63,7 @@ class ZoneListGenerator:
             zoneStrings=zone_strings,
             numZones=len(self.zones_map))
 
-    def _write_file(self, output_dir, filename, content):
+    def _write_file(self, output_dir: str, filename: str, content: str):
         full_filename = os.path.join(output_dir, filename)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
             print(content, end='', file=output_file)
