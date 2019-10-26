@@ -11,7 +11,9 @@ import transformer
 from collections import OrderedDict
 from typing import Dict
 from typing import List
+from typing import Optional
 from typing import Tuple
+from typing import cast
 from extractor import EPOCH_YEAR
 from extractor import MAX_YEAR
 from extractor import MAX_YEAR_TINY
@@ -51,7 +53,8 @@ class ArduinoGenerator:
     ZONE_STRINGS_CPP_FILE_NAME = 'zone_strings.cpp'
     ZONE_STRINGS_H_FILE_NAME = 'zone_strings.h'
 
-    def __init__(self, invocation: str,
+    def __init__(self,
+                 invocation: str,
                  tz_version: str,
                  tz_files: List[str],
                  scope: str,
@@ -378,7 +381,8 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         memory32 = 32
         num_rules = 0
         for name, rules in sorted(self.rules_map.items()):
-            indexed_letters = self.letters_map[name]
+            indexed_letters: Optional['OrderedDict[str, int]'] = \
+                self.letters_map.get(name)
             num_rules += len(rules)
             policy_item, policy_memory8, policy_memory32 = \
                 self._generate_policy_item(name, rules, indexed_letters)
@@ -399,8 +403,12 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             memory32=memory32,
             policyItems=policy_items)
 
-    def _generate_policy_item(self, name: str, rules: List[ZoneRuleRaw],
-        indexed_letters: Dict[str, int]) -> Tuple[str, int, int]:
+    def _generate_policy_item(self,
+        name: str,
+        rules: List[ZoneRuleRaw],
+        indexed_letters: Optional['OrderedDict[str, int]']) \
+        -> Tuple[str, int, int]:
+
         # Generate kZoneRules*[]
         rule_items = ''
         for rule in rules:
@@ -421,7 +429,8 @@ static const char* const kLetters{policyName}[] {progmem} = {{
                 letter = "'%s'" % rule.letter
                 letterComment = ''
             elif len(rule.letter) > 1:
-                index = indexed_letters[rule.letter]
+                letters = cast('OrderedDict[str, int]', indexed_letters)
+                index = letters[rule.letter]
                 if index >= 32:
                     raise Exception('Number of indexed letters >= 32')
                 letter = str(index)
@@ -448,9 +457,10 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         memoryLetters8 = 0
         memoryLetters32 = 0
         if numLetters:
+            letters = cast('OrderedDict[str, int]', indexed_letters)
             letterArrayRef = 'kLetters%s' % policyName
             letterItems = ''
-            for name, index in indexed_letters.items():
+            for name, index in letters.items():
                 letterItems += ('  /*%d*/ "%s",\n' % (index, name))
                 memoryLetters8 += len(name) + 1 + 2  # NUL terminated
                 memoryLetters32 += len(name) + 1 + 4  # NUL terminated
