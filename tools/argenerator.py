@@ -26,10 +26,11 @@ from transformer import normalize_name
 from transformer import normalize_raw
 from transformer import hash_name
 from transformer import seconds_to_hm_string
-from transformer import ZonesMap
-from transformer import RulesMap
-from transformer import LinksMap
 from transformer import CommentsMap
+from transformer import LinksMap
+from transformer import RulesMap
+from transformer import StringCollection
+from transformer import ZonesMap
 from ingenerator import ZoneRule
 from ingenerator import ZonePolicy
 from ingenerator import ZoneEra
@@ -67,8 +68,8 @@ class ArduinoGenerator:
                  notable_zones: CommentsMap,
                  notable_links: CommentsMap,
                  notable_policies: CommentsMap,
-                 format_strings: 'OrderedDict[str, int]',
-                 zone_strings: 'OrderedDict[str, int]',
+                 format_strings: StringCollection,
+                 zone_strings: StringCollection,
                  buf_sizes: Dict[str, int]):
         self.scope = scope
         self.db_namespace = db_namespace
@@ -128,7 +129,7 @@ class ArduinoGenerator:
                 format_strings=format_strings,
                 zone_strings=zone_strings)
 
-    def generate_files(self, output_dir):
+    def generate_files(self, output_dir: str):
         # zone_policies.*
         if self.scope == 'extended':
             self.zone_policies_generator.collect_letter_strings()
@@ -156,7 +157,7 @@ class ArduinoGenerator:
             self._write_file(output_dir, self.ZONE_STRINGS_CPP_FILE_NAME,
                              self.zone_strings_generator.generate_strings_cpp())
 
-    def _write_file(self, output_dir, filename, content):
+    def _write_file(self, output_dir: str, filename: str, content: str):
         full_filename = os.path.join(output_dir, filename)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
             print(content, end='', file=output_file)
@@ -337,7 +338,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
                 letters_map[policy_name] = indexed_letters_map
         self.letters_map = letters_map
 
-    def generate_policies_h(self):
+    def generate_policies_h(self) -> str:
         policy_items = ''
         for name, rules in sorted(self.rules_map.items()):
             policy_items += self.ZONE_POLICIES_H_POLICY_ITEM.format(
@@ -371,13 +372,13 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             numNotablePolicies=len(self.notable_policies),
             notablePolicyItems=notable_policy_items)
 
-    def generate_policies_cpp(self):
+    def generate_policies_cpp(self) -> str:
         policy_items = ''
         memory8 = 0
         memory32 = 32
         num_rules = 0
         for name, rules in sorted(self.rules_map.items()):
-            indexed_letters = self.letters_map.get(name)
+            indexed_letters = self.letters_map[name]
             num_rules += len(rules)
             policy_item, policy_memory8, policy_memory32 = \
                 self._generate_policy_item(name, rules, indexed_letters)
@@ -399,7 +400,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             policyItems=policy_items)
 
     def _generate_policy_item(self, name: str, rules: List[ZoneRuleRaw],
-        indexed_letters: Dict[str, int]):
+        indexed_letters: Dict[str, int]) -> Tuple[str, int, int]:
         # Generate kZoneRules*[]
         rule_items = ''
         for rule in rules:
@@ -720,7 +721,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
 
         self.db_header_namespace = self.db_namespace.upper()
 
-    def generate_infos_h(self):
+    def generate_infos_h(self) -> str:
         info_items = ''
         for zone_name, eras in sorted(self.zones_map.items()):
             info_items += self.ZONE_INFOS_H_INFO_ITEM.format(
@@ -776,7 +777,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             numNotableLinks=len(self.notable_links),
             notableLinkItems=notable_link_items)
 
-    def generate_infos_cpp(self):
+    def generate_infos_cpp(self) -> str:
         string_length = 0
 
         # Generate the list of zone infos
@@ -820,7 +821,8 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             infoItems=info_items,
             linkItems=link_items)
 
-    def _generate_info_item(self, zone_name: str, eras: List[ZoneEraRaw]):
+    def _generate_info_item(self, zone_name: str, eras: List[ZoneEraRaw]) -> \
+        Tuple[str, int]:
         era_items = ''
         string_length = 0
         for era in eras:
@@ -851,7 +853,8 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             progmem='ACE_TIME_PROGMEM')
         return (info_item, string_length)
 
-    def _generate_era_item(self, zone_name: str, era: ZoneEraRaw):
+    def _generate_era_item(self, zone_name: str, era: ZoneEraRaw) -> \
+        Tuple[str, int]:
         policy_name = era.rules
         if policy_name == '-' or policy_name == ':':
             zone_policy = 'nullptr'
@@ -902,7 +905,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
 
         return (era_item, string_length)
 
-    def _generate_link_item(self, link_name: str, zone_name: str):
+    def _generate_link_item(self, link_name: str, zone_name: str) -> str:
         return self.ZONE_INFOS_CPP_LINK_ITEM.format(
             scope=self.scope,
             linkFullName=link_name,
@@ -984,8 +987,8 @@ extern const char* const kZoneStrings[];
                  removed_zones: CommentsMap, removed_policies: CommentsMap,
                  notable_zones: CommentsMap,
                  notable_policies: CommentsMap,
-                 format_strings: 'OrderedDict[str, int]',
-                 zone_strings: 'OrderedDict[str, int]'):
+                 format_strings: StringCollection,
+                 zone_strings: StringCollection):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
@@ -1002,7 +1005,7 @@ extern const char* const kZoneStrings[];
 
         self.db_header_namespace = self.db_namespace.upper()
 
-    def generate_strings_cpp(self):
+    def generate_strings_cpp(self) -> str:
         format_string_items = ''
         for name, index in self.format_strings.ordered_map.items():
             format_string_items += self.ZONE_STRINGS_ITEM.format(
@@ -1029,7 +1032,7 @@ extern const char* const kZoneStrings[];
             zoneStringsOrigSize=self.zone_strings.orig_size,
             zoneStringItems=zone_string_items)
 
-    def generate_strings_h(self):
+    def generate_strings_h(self) -> str:
         return self.ZONE_STRINGS_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
@@ -1109,7 +1112,7 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
 
         self.db_header_namespace = self.db_namespace.upper()
 
-    def generate_registry_cpp(self):
+    def generate_registry_cpp(self) -> str:
         zone_registry_items = ''
         for zone_name, eras in sorted(self.zones_map.items()):
             name = normalize_name(zone_name)
@@ -1124,7 +1127,7 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             zoneRegistryItems=zone_registry_items,
             progmem='ACE_TIME_PROGMEM')
 
-    def generate_registry_h(self):
+    def generate_registry_h(self) -> str:
         return self.ZONE_REGISTRY_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
@@ -1142,7 +1145,8 @@ def to_tiny_year(year: int) -> int:
         return year - EPOCH_YEAR
 
 
-def _to_code_and_modifier(seconds: int, suffix: str, scope: str):
+def _to_code_and_modifier(seconds: int, suffix: str, scope: str) -> \
+    Tuple[int, str]:
     """Return the packed (code, modifier) uint8_t integers that hold
     the AT or UNTIL timeCode, timeMinute and the suffix.
     """
@@ -1153,7 +1157,7 @@ def _to_code_and_modifier(seconds: int, suffix: str, scope: str):
         modifier += f' + {timeMinute}'
     return timeCode, modifier
 
-def _to_modifier(suffix: str, scope: str):
+def _to_modifier(suffix: str, scope: str) -> str:
     """Return the C++ kSuffix{X} corresponding to the 'w', 's', and 'u'
     suffix character in the TZ database files.
     """
