@@ -2390,10 +2390,10 @@ following combinations have been tested:
 ### Java java.time
 
 The Java 11 `java.time` library is not limited to 2038 but supports years
-through the [year 1000000000
+through the [year 1,000,000,000
 (billion)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/class-use/Instant.html).
-I wrote the [TestDataGenerator.java](tools/java/TestDataGenerator) program to
-generate a `validation_data.cpp` file in exactly the same format as the
+I wrote the [TestDataGenerator.java](tools/java/TestDataGenerator.java) program
+to generate a `validation_data.cpp` file in exactly the same format as the
 `tzcompiler.py` program, and produced data points from year 2000 to year 2050,
 which is the exact range of years supported by the `zonedb::` and `zonedbx::`
 zoneinfo files.
@@ -2406,7 +2406,7 @@ The result is 2 validation programs under `tests/validation`:
 The most difficult part of using Java is figuring out how to install it
 and figuring out which of the many variants of the JDK to use. On Ubuntu 18.04,
 I used `openjdk 11.0.4 2019-07-16` which seems to use TZ Database 2018g. I have
-no recollection how I installed, I think it was something like `$ sudo apt
+no recollection how I installed it, I think it was something like `$ sudo apt
 install openjdk-11-jdk:amd64`.
 
 The underlying timezone database used by the `java.time` package seems to be
@@ -2429,11 +2429,9 @@ library for all timezones from 2000 to 2049 (inclusive):
 * [BasicValidationUsingHinnantDateTest](tests/validation/BasicValidationUsingHinnantDateTest/)
 * [ExtendedValidationUsingHinnantDateTest](tests/validation/ExtendedValidationUsingHinnantDateTest/)
 
-I have validated the AceTime library with the following TZ versions against
-the Hinnant date library with the same TZ version:
-
-* TZ Database: 2019a
-* TZ Database: 2019b
+I have validated the AceTime library with the Hinnant date library using the
+same TZ version, from version 2019a to the current version of this library
+(2019c as of this writing).
 
 ## Benchmarks
 
