@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 0.8.1 (2019-08-26, TZ DB version 2019b, beta)
+Version: 1.0 (2019-10-02, TZ DB version 2019c)
 
 ## Installation
 
@@ -2706,10 +2706,11 @@ some time to take a closer look in the future.
       not load the entire TZ Database due to memory constraints of most Arduino
       boards.
 * `TimeZone`
-    * It might be possible to use a Basic `TimeZone` created using a `zonedb::`
-      zoneinfo file, and an Extended `TimeZone` using a `zonedbx::` zoneinfo
-      file. However, this is not a configuration that is expected to be used
-      often, so it has not been tested well, if at all.
+    * It might be possible to use both a Basic `TimeZone` created using a
+      `zonedb::` zoneinfo file, and an Extended `TimeZone` using a `zonedbx::`
+      zoneinfo file, together in a single program. However, this is not a
+      configuration that is expected to be used often, so it has not been tested
+      well, if at all.
     * One potential problem is that the equality of two `TimeZone` depends only
       on the `zoneId`, so a Basic `TimeZone` created with a
       `zonedb::kZoneAmerica_Los_Angeles` will be considered equal to an Extended
@@ -2746,7 +2747,7 @@ some time to take a closer look in the future.
       but this is sufficient to support the vast majority of timezones since
       2000.
     * The `zonedb/` files have been filtered to satisfy these constraints.
-    * Tested again Python [pytz](https://pypi.org/project/pytz/) from
+    * Tested against Python [pytz](https://pypi.org/project/pytz/) from
       2000 until 2038 (limited by pytz).
     * Tested against Java `java.time` from 2000 to until 2050.
     * Tested against C++11/14/17
@@ -2756,7 +2757,7 @@ some time to take a closer look in the future.
     * Has a 1-minute resolution for all time fields.
     * The `zonedbx/` files currently (version 2019b) do not have any timezones
       with 1-minute resolution.
-    * Tested again Python [pytz](https://pypi.org/project/pytz/) from
+    * Tested against Python [pytz](https://pypi.org/project/pytz/) from
       2000 until 2038 (limited by pytz).
     * Tested against Java `java.time` from 2000 to until 2050.
     * Tested against [Hinnant date](https://github.com/HowardHinnant/date)

@@ -1,6 +1,9 @@
 # Changelog
 
 * Unreleased
+    * Fix broken links in `README.md`.
+    * Fix typos in `USER_GUIDE.md` and update its version number to 1.0 as it
+      should have been back in October.
 * 1.0 (2019-10-02, TZ DB version 2019c)
     * Add initial support for GitHub actions to implement continuous integration
       using the unit tests that run under UnitHostDuino.
