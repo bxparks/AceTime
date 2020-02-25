@@ -770,7 +770,7 @@ TimeZone <>-------- ZoneProcessor            ------- ZoneProcessorCache
                    .----- +----.                     .---- +-----.
                    |           |                     |           |
               BasicZone        ExtendedZone       BasicZone     ExtendedZone
-              Processor        Processor     ProcessorCache     ZoneProcessor
+              Processor        Processor     ProcessorCache     ProcessorCache
 ```
 
 Here is the class declaration of `TimeZone`:
