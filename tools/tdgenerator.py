@@ -13,6 +13,8 @@ from ingenerator import ZoneRule
 from ingenerator import ZonePolicy
 from ingenerator import ZoneEra
 from ingenerator import ZoneInfo
+from ingenerator import ZoneInfoMap
+from ingenerator import ZonePolicyMap
 from typing import Dict
 from typing import List
 from typing import Optional
@@ -43,10 +45,11 @@ class TestDataGenerator:
 
     def __init__(self,
         scope: str,
-        zone_infos: Dict[str, ZoneInfo],
-        zone_policies: Dict[str, ZonePolicy],
+        zone_infos: ZoneInfoMap,
+        zone_policies: ZonePolicyMap,
         start_year: int,
-        until_year: int):
+        until_year: int,
+    ):
         """
         Args:
             scope: 'basic' or 'extended'
