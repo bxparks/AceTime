@@ -438,7 +438,7 @@ class Extractor:
             + f'{self.ignored_rule_lines}, '
             + f'{self.ignored_zone_lines}, '
             + f'{self.ignored_link_lines})')
-        logging.info('Invalid lines: (Rule, Zone, Link): '
+        logging.info('Invalid lines: (Rule, Zone, Link): ('
             + f'{self.invalid_rule_lines}, '
             + f'{self.invalid_zone_lines}, '
             + f'{self.invalid_link_lines})')
