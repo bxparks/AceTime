@@ -12,14 +12,14 @@ test_extractor.py \
 test_transformer.py \
 transformer.py \
 validator.py \
-zone_specifier.py \
 zonelistgenerator.py
 
 # Full typing added to pass --strict mode.
 SRC_STRICT = \
 extractor.py \
 ingenerator.py \
-transformer.py
+transformer.py \
+zone_specifier.py
 
 # Files without Python typing.
 SRC_UNTYPED = \
