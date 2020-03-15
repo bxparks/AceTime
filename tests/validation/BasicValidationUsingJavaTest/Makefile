@@ -18,7 +18,8 @@ include ../../../../UnixHostDuino/UnixHostDuino.mk
 runtests:
 	./$(APP_NAME).out
 
-TZ_VERSION = 2018g
+# Validate using openjdk 11.0.6 2020-01-14 (which uses 2019c)
+TZ_VERSION = 2019c
 START_YEAR = 2000
 UNTIL_YEAR = 2050
 
