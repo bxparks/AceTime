@@ -15,9 +15,12 @@ import collections
 import pytz
 from datetime import datetime
 from tdgenerator import TestDataGenerator
+from ingenerator import ZoneInfoMap
+from ingenerator import ZonePolicyMap
 from zone_specifier import ZoneSpecifier
 from zone_specifier import to_utc_string
 from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
+from typing import Optional
 
 
 class Validator:
@@ -38,26 +41,37 @@ class Validator:
         validator.validate_test_data()
     """
 
-    def __init__(self, zone_infos, zone_policies, viewing_months,
-                 validate_dst_offset, debug_validator, debug_specifier,
-                 zone_name, year, start_year, until_year,
-                 in_place_transitions, optimize_candidates):
+    def __init__(
+            self,
+            zone_infos: ZoneInfoMap,
+            zone_policies: ZonePolicyMap,
+            viewing_months: int,
+            validate_dst_offset: bool,
+            debug_validator: bool,
+            debug_specifier: bool,
+            zone_name: str,
+            year: int,
+            start_year: int,
+            until_year: int,
+            in_place_transitions: bool,
+            optimize_candidates: bool,
+        ):
         """
         Args:
-            zone_infos (dict): {name -> zone_info{} }
-            zone_policies (dict): {name ->zone_policy{} }
-            viewing_months (int): number of months in the calculation window
+            zone_infos: {name -> zone_info{} }
+            zone_policies: {name ->zone_policy{} }
+            viewing_months: number of months in the calculation window
                 (13, 14, 36)
-            validate_dst_offset (bool): validate DST offset against Python in
+            validate_dst_offset: validate DST offset against Python in
                 addition to total UTC offset
-            debug_validator (bool): enable debugging output for Validator
-            debug_specifier (bool): enable debugging output for ZoneSpecifier
-            zone_name (str): validate only this zone
-            year (int | None): validate only this year
-            start_year (int): start year of validation
-            until_year (int): until year of validation
-            in_place_transitions (bool): see ZoneSpecifier.in_place_transitions
-            optimize_candidates (bool): see ZoneSpecifier.optimize_candidates
+            debug_validator: enable debugging output for Validator
+            debug_specifier: enable debugging output for ZoneSpecifier
+            zone_name: validate only this zone
+            year: validate only this year
+            start_year: start year of validation
+            until_year: until year of validation
+            in_place_transitions: see ZoneSpecifier.in_place_transitions
+            optimize_candidates: see ZoneSpecifier.optimize_candidates
         """
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
@@ -83,7 +97,7 @@ class Validator:
         transition_stats = {}
 
         # If 'self.year' is defined, clobber the range of validation years.
-        if self.year:
+        if self.year is not None:
             self.start_year = self.year
             self.until_year = self.year + 1
         logging.info('Calculating transitions from [%s, %s)' %
@@ -144,7 +158,7 @@ class Validator:
             in_place_transitions=self.in_place_transitions,
             optimize_candidates=self.optimize_candidates)
         for item in items:
-            if self.year and self.year != item.y:
+            if self.year is not None and self.year != item.y:
                 continue
 
             # Print out diagnostics if mismatch detected or if debug flag given
