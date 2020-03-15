@@ -12,6 +12,7 @@ test_extractor.py \
 test_transformer.py \
 transformer.py \
 validator.py \
+zone_specifier.py \
 zonelistgenerator.py
 
 # Full typing added to pass --strict mode.
@@ -23,8 +24,7 @@ transformer.py
 # Files without Python typing.
 SRC_UNTYPED = \
 test_zone_specifier.py \
-tzcompiler.py \
-zone_specifier.py
+tzcompiler.py
 
 mypy:
 	mypy $(SRC)

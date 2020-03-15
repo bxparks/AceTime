@@ -105,25 +105,70 @@ SECONDS_SINCE_UNIX_EPOCH = 946684800
 ACETIME_EPOCH = datetime(2000, 1, 1, tzinfo=timezone.utc)
 
 
-class ZoneInfoCooked:
-    """Internal representation of a single ZoneInfo dictionary stored in the
-    zone_infos.py file.
+class ZoneRuleCooked:
+    """Internal representation of a ZoneRule dictionary in the zone_policies.py
+    output file.
     """
-    __slots__ = ['name', 'eras']
+    # yapf: disable
+    __slots__ = [
+        'fromYear',  # (int) from year
+        'toYear',  # (int) to year, 1 to MAX_YEAR (9999) means 'max'
+        'inMonth',  # (int) month index (1-12)
+        'onDayOfWeek',  # (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
+        'onDayOfMonth',  # (int) (1-31), 0={last dayOfWeek match}
+        'atSeconds',  # (int) atTime in seconds since 00:00:00
+        'atTimeSuffix',  # (char) 's', 'w', 'u'
+        'deltaSeconds',  # (int) offset from Standard time in seconds
+        'letter',  # (str) Usually ('D', 'S', '-'), but sometimes longer
+                   # (e.g. WAT, CAT, DD, +00, +02, CST).
+    ]
+    # yapf: enable
+
+    # Hack because '__slots__' is unsupported by mypy. See
+    # https://github.com/python/mypy/issues/5941.
+    if TYPE_CHECKING:
+        fromYear: int
+        toYear: int
+        inMonth: int
+        onDayOfWeek: int
+        onDayOfMonth: int
+        atSeconds: int
+        atTimeSuffix: str
+        deltaSeconds: int
+        letter: str
+
+    def __init__(self, arg):
+        """Create a ZoneRuleCooked from a dict in zone_infos.py.
+        """
+        if not isinstance(arg, dict):
+            raise Exception('Expected a dict')
+
+        for s in self.__slots__:
+            setattr(self, s, None)
+
+        for key, value in arg.items():
+            setattr(self, key, value)
+
+
+class ZonePolicyCooked:
+    """Internal representation of a ZonePolicy dictionary in the
+    zone_policies.py output file.
+    """
+    __slots__ = ['name', 'rules']
 
     # Hack because '__slots__' is unsupported by mypy. See
     # https://github.com/python/mypy/issues/5941.
     if TYPE_CHECKING:
         name: str
-        eras: List[ZoneEraCooked]
+        rules: List[ZoneRuleCooked]
 
-    def __init__(self, arg: ZoneInfo):
+    def __init__(self, arg):
         if not isinstance(arg, dict):
             raise Exception('Expected a dict')
 
-        eras = [ZoneEraCooked(i) for i in arg['eras']]
+        rules = [ZoneRuleCooked(i) for i in arg['rules']]
         self.name = arg['name']
-        self.eras = eras
+        self.rules = rules
 
 
 class ZoneEraCooked:
@@ -194,70 +239,25 @@ class ZoneEraCooked:
             return cast(ZonePolicyCooked, self.zonePolicy).name
 
 
-class ZonePolicyCooked:
-    """Internal representation of a ZonePolicy dictionary in the
-    zone_policies.py output file.
+class ZoneInfoCooked:
+    """Internal representation of a single ZoneInfo dictionary stored in the
+    zone_infos.py file.
     """
-    __slots__ = ['name', 'rules']
+    __slots__ = ['name', 'eras']
 
     # Hack because '__slots__' is unsupported by mypy. See
     # https://github.com/python/mypy/issues/5941.
     if TYPE_CHECKING:
         name: str
-        rules: List[ZoneRuleCooked]
+        eras: List[ZoneEraCooked]
 
-    def __init__(self, arg):
+    def __init__(self, arg: ZoneInfo):
         if not isinstance(arg, dict):
             raise Exception('Expected a dict')
 
-        rules = [ZoneRuleCooked(i) for i in arg['rules']]
+        eras = [ZoneEraCooked(i) for i in arg['eras']]
         self.name = arg['name']
-        self.rules = rules
-
-
-class ZoneRuleCooked:
-    """Internal representation of a ZoneRule dictionary in the zone_policies.py
-    output file.
-    """
-    # yapf: disable
-    __slots__ = [
-        'fromYear',  # (int) from year
-        'toYear',  # (int) to year, 1 to MAX_YEAR (9999) means 'max'
-        'inMonth',  # (int) month index (1-12)
-        'onDayOfWeek',  # (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
-        'onDayOfMonth',  # (int) (1-31), 0={last dayOfWeek match}
-        'atSeconds',  # (int) atTime in seconds since 00:00:00
-        'atTimeSuffix',  # (char) 's', 'w', 'u'
-        'deltaSeconds',  # (int) offset from Standard time in seconds
-        'letter',  # (str) Usually ('D', 'S', '-'), but sometimes longer
-                   # (e.g. WAT, CAT, DD, +00, +02, CST).
-    ]
-    # yapf: enable
-
-    # Hack because '__slots__' is unsupported by mypy. See
-    # https://github.com/python/mypy/issues/5941.
-    if TYPE_CHECKING:
-        fromYear: int
-        toYear: int
-        inMonth: int
-        onDayOfWeek: int
-        onDayOfMonth: int
-        atSeconds: int
-        atTimeSuffix: str
-        deltaSeconds: int
-        letter: str
-
-    def __init__(self, arg):
-        """Create a ZoneRuleCooked from a dict in zone_infos.py.
-        """
-        if not isinstance(arg, dict):
-            raise Exception('Expected a dict')
-
-        for s in self.__slots__:
-            setattr(self, s, None)
-
-        for key, value in arg.items():
-            setattr(self, key, value)
+        self.eras = eras
 
 
 class ZoneMatch:
