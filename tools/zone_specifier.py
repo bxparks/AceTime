@@ -56,6 +56,8 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
 from datetime import date
+from typing import Any
+from typing import Dict
 from typing import List
 from typing import NamedTuple
 from typing import Optional
@@ -67,9 +69,10 @@ from extractor import MIN_YEAR
 from transformer import seconds_to_hms
 from transformer import hms_to_seconds
 from transformer import calc_day_of_month
-from ingenerator import ZoneInfo
-from ingenerator import ZoneEra
 from ingenerator import ZoneRule
+from ingenerator import ZonePolicy
+from ingenerator import ZoneEra
+from ingenerator import ZoneInfo
 
 # A datetime representation using seconds instead of h:m:s
 DateTuple = NamedTuple('DateTuple', [
@@ -137,7 +140,7 @@ class ZoneRuleCooked:
         deltaSeconds: int
         letter: str
 
-    def __init__(self, arg):
+    def __init__(self, arg: ZoneRule):
         """Create a ZoneRuleCooked from a dict in zone_infos.py.
         """
         if not isinstance(arg, dict):
@@ -162,7 +165,7 @@ class ZonePolicyCooked:
         name: str
         rules: List[ZoneRuleCooked]
 
-    def __init__(self, arg):
+    def __init__(self, arg: ZonePolicy):
         if not isinstance(arg, dict):
             raise Exception('Expected a dict')
 
@@ -221,7 +224,8 @@ class ZoneEraCooked:
                 if isinstance(value, str):
                     setattr(self, key, value)
                 elif isinstance(value, dict):
-                    setattr(self, key, ZonePolicyCooked(value))
+                    setattr(self,
+                        key, ZonePolicyCooked(cast(ZonePolicy, value)))
                 else:
                     raise Exception('zonePolicy value must be str or dict')
             else:
@@ -271,7 +275,14 @@ class ZoneMatch:
         'zoneEra',  # (ZoneEra) the ZoneEra corresponding to this match
     ]
 
-    def __init__(self, arg):
+    # Hack because '__slots__' is unsupported by mypy. See
+    # https://github.com/python/mypy/issues/5941.
+    if TYPE_CHECKING:
+        startDateTime: DateTuple
+        untilDateTime: DateTuple
+        zoneEra: ZoneEraCooked
+
+    def __init__(self, arg: Dict[str, Any]):
         for s in self.__slots__:
             setattr(self, s, None)
         if isinstance(arg, dict):
@@ -281,17 +292,17 @@ class ZoneMatch:
             for s in ZoneMatch.__slots__:
                 setattr(self, s, getattr(arg, s))
 
-    def copy(self):
-        result = self.__class__.__new__(self.__class__)
+    def copy(self) -> 'ZoneMatch':
+        result = cast(ZoneMatch, self.__class__.__new__(self.__class__))
         for s in self.__slots__:
             setattr(result, s, getattr(self, s))
         return result
 
-    def update(self, arg):
+    def update(self, arg: Dict[str, Any]) -> None:
         for key, value in arg.items():
             setattr(self, key, value)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (
             'ZoneMatch(' + 'start: %s; ' + 'until: %s; ' + 'policyName: %s)'
         ) % (date_tuple_to_string(self.startDateTime),
@@ -351,7 +362,7 @@ class Transition:
         zoneRule: Optional[ZoneRuleCooked]
         isActive: bool
 
-    def __init__(self, arg):
+    def __init__(self, arg: ZoneMatch):
         for s in self.__slots__:
             setattr(self, s, None)
         if isinstance(arg, dict):
@@ -379,12 +390,12 @@ class Transition:
             else self.zoneEra.rulesDeltaSeconds
 
     def copy(self) -> 'Transition':
-        result = self.__class__.__new__(self.__class__)
+        result = cast('Transition', self.__class__.__new__(self.__class__))
         for s in self.__slots__:
             setattr(result, s, getattr(self, s))
         return result
 
-    def update(self, arg) -> None:
+    def update(self, arg: Dict[str, Any]) -> None:
         for key, value in arg.items():
             setattr(self, key, value)
 
@@ -394,7 +405,7 @@ class Transition:
         return OffsetInfo(self.offsetSeconds + self.deltaSeconds,
                           self.offsetSeconds, self.deltaSeconds, self.abbrev)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         sepoch = self.startEpochSecond if self.startEpochSecond else 0
         policy_name = self.zoneEra.policyName
         offset_seconds = self.offsetSeconds
@@ -425,8 +436,8 @@ class Transition:
             delta_seconds = self.deltaSeconds
             letter = self.letter
             zone_rule = self.zoneRule
-            zone_rule_from = zone_rule.fromYear
-            zone_rule_to = zone_rule.toYear
+            zone_rule_from = cast(ZoneRuleCooked, zone_rule).fromYear
+            zone_rule_to = cast(ZoneRuleCooked, zone_rule).toYear
 
             return ('Trans('
                 + 'act: %s; '
@@ -1659,7 +1670,10 @@ def _compare_transition_to_match(transition, match):
     return 1
 
 
-def _compare_transition_to_match_fuzzy(transition, match):
+def _compare_transition_to_match_fuzzy(
+    transition: Transition,
+    match: ZoneMatch,
+) -> int:
     """Like _compare_transition_to_match() except perform a fuzzy match
     within at least one-month of the match.start or match.until.
 
@@ -1687,7 +1701,7 @@ def _compare_transition_to_match_fuzzy(transition, match):
     return 1
 
 
-def _get_transition_time(year, rule):
+def _get_transition_time(year: int, rule: ZoneRuleCooked) -> DateTuple:
     """Return the (year, month, day, seconds, suffix) of the Rule in given
     year.
     """
@@ -1698,17 +1712,17 @@ def _get_transition_time(year, rule):
     return DateTuple(y=year, M=month, d=day, ss=seconds, f=suffix)
 
 
-def date_tuple_to_string(dt):
+def date_tuple_to_string(dt: DateTuple) -> str:
     (h, m, s) = seconds_to_hms(dt.ss)
     return '%04d-%02d-%02d %02d:%02d%s' % (dt.y, dt.M, dt.d, h, m, dt.f)
 
 
-def to_utc_string(utcoffset, dstoffset):
+def to_utc_string(utcoffset: int, dstoffset: int) -> str:
     return 'UTC%s%s' % (seconds_to_hm_string(utcoffset),
                         seconds_to_hm_string(dstoffset))
 
 
-def seconds_to_hm_string(secs):
+def seconds_to_hm_string(secs: int) -> str:
     if secs < 0:
         hms = seconds_to_hms(-secs)
         return '-%02d:%02d' % (hms[0], hms[1])
