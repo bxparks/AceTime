@@ -18,13 +18,13 @@ zonelistgenerator.py
 SRC_STRICT = \
 extractor.py \
 ingenerator.py \
-transformer.py
+transformer.py \
+zone_specifier.py
 
 # Files without Python typing.
 SRC_UNTYPED = \
 test_zone_specifier.py \
-tzcompiler.py \
-zone_specifier.py
+tzcompiler.py
 
 mypy:
 	mypy $(SRC)
