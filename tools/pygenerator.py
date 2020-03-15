@@ -8,8 +8,17 @@ Generate the zone_info and zone_policies files for Python.
 import logging
 import os
 
-from argenerator import normalize_name
-from argenerator import normalize_raw
+from extractor import ZoneEraRaw
+from extractor import ZoneRuleRaw
+from transformer import normalize_name
+from transformer import normalize_raw
+from transformer import CommentsMap
+from transformer import LinksMap
+from transformer import RulesMap
+from transformer import ZonesMap
+from typing import Dict
+from typing import List
+from typing import Tuple
 
 
 class PythonGenerator:
@@ -191,9 +200,16 @@ ZONE_INFO_{zoneNormalizedName} = {{
     ZONE_INFOS_FILE_NAME = 'zone_infos.py'
     ZONE_POLICIES_FILE_NAME = 'zone_policies.py'
 
-    def __init__(self, invocation, tz_version, tz_files, zones_map, rules_map,
-                 removed_zones, removed_policies, notable_zones,
-                 notable_policies):
+    def __init__(self,
+                 invocation: str,
+                 tz_version: str,
+                 tz_files: List[str],
+                 zones_map: ZonesMap,
+                 rules_map: RulesMap,
+                 removed_zones: CommentsMap,
+                 removed_policies: CommentsMap,
+                 notable_zones: CommentsMap,
+                 notable_policies: CommentsMap):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
@@ -204,20 +220,20 @@ ZONE_INFO_{zoneNormalizedName} = {{
         self.notable_zones = notable_zones
         self.notable_policies = notable_policies
 
-    def generate_files(self, output_dir):
+    def generate_files(self, output_dir: str):
         self._write_file(output_dir, self.ZONE_POLICIES_FILE_NAME,
                          self._generate_policies())
 
         self._write_file(output_dir, self.ZONE_INFOS_FILE_NAME,
                          self._generate_infos())
 
-    def _write_file(self, output_dir, filename, content):
+    def _write_file(self, output_dir: str, filename: str, content: str):
         full_filename = os.path.join(output_dir, filename)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
             print(content, end='', file=output_file)
         logging.info("Created %s", full_filename)
 
-    def _generate_policies(self):
+    def _generate_policies(self) -> str:
         (num_rules, policy_items) = self._generate_policy_items(self.rules_map)
         policy_map_items = self._generate_policy_map_items(self.rules_map)
         removed_policy_items = self._generate_removed_policy_items(
@@ -238,7 +254,7 @@ ZONE_INFO_{zoneNormalizedName} = {{
             numNotablePolicies=len(self.notable_policies),
             notablePolicyItems=notable_policy_items)
 
-    def _generate_policy_items(self, rules_map):
+    def _generate_policy_items(self, rules_map: RulesMap) -> Tuple[int, str]:
         num_rules = 0
         policy_items = ''
         for name, rules in sorted(rules_map.items()):
@@ -246,7 +262,7 @@ ZONE_INFO_{zoneNormalizedName} = {{
             num_rules += len(rules)
         return (num_rules, policy_items)
 
-    def _generate_policy_map_items(self, rules_map):
+    def _generate_policy_map_items(self, rules_map: RulesMap) -> str:
         policy_map_items = ''
         for name, rules in sorted(
                 rules_map.items(), key=lambda x: normalize_name(x[0])):
@@ -254,7 +270,7 @@ ZONE_INFO_{zoneNormalizedName} = {{
                 policyName=normalize_name(name))
         return policy_map_items
 
-    def _generate_policy_item(self, name, rules):
+    def _generate_policy_item(self, name: str, rules: List[ZoneRuleRaw]) -> str:
         rule_items = ''
         for rule in rules:
             rule_items += self.ZONE_RULE_ITEM.format(
@@ -274,7 +290,8 @@ ZONE_INFO_{zoneNormalizedName} = {{
             numRules=len(rules),
             ruleItems=rule_items)
 
-    def _generate_removed_policy_items(self, removed_policies):
+    def _generate_removed_policy_items(self, removed_policies: CommentsMap) \
+        -> str:
         removed_policy_items = ''
         for name, reason in sorted(removed_policies.items()):
             removed_policy_items += \
@@ -283,7 +300,8 @@ ZONE_INFO_{zoneNormalizedName} = {{
                     policyReason=reason)
         return removed_policy_items
 
-    def _generate_notable_policy_items(self, notable_policies):
+    def _generate_notable_policy_items(self, notable_policies: CommentsMap) \
+        -> str:
         notable_policy_items = ''
         for name, reason in sorted(notable_policies.items()):
             notable_policy_items += \
@@ -292,7 +310,7 @@ ZONE_INFO_{zoneNormalizedName} = {{
                     policyReason=reason)
         return notable_policy_items
 
-    def _generate_infos(self):
+    def _generate_infos(self) -> str:
         (num_eras, info_items) = self._generate_info_items(self.zones_map)
         info_map_items = self._generate_info_map_items(self.zones_map)
         removed_info_items = self._generate_removed_info_items(
@@ -313,7 +331,7 @@ ZONE_INFO_{zoneNormalizedName} = {{
             numNotableInfos=len(self.notable_zones),
             notableInfoItems=notable_info_items)
 
-    def _generate_info_items(self, zones_map):
+    def _generate_info_items(self, zones_map: ZonesMap) -> Tuple[int, str]:
         info_items = ''
         num_eras = 0
         for name, eras in sorted(self.zones_map.items()):
@@ -321,7 +339,7 @@ ZONE_INFO_{zoneNormalizedName} = {{
             num_eras += len(eras)
         return (num_eras, info_items)
 
-    def _generate_info_map_items(self, zones_map):
+    def _generate_info_map_items(self, zones_map: ZonesMap) -> str:
         """Generate a map of (zone_name -> zoneInfo), shorted by name.
         """
         info_map_items = ''
@@ -333,21 +351,22 @@ ZONE_INFO_{zoneNormalizedName} = {{
                 zoneFullName=zone_name)
         return info_map_items
 
-    def _generate_removed_info_items(self, removed_zones):
+    def _generate_removed_info_items(self, removed_zones: CommentsMap) -> str:
         removed_info_items = ''
         for zone_name, reason in sorted(removed_zones.items()):
             removed_info_items += self.ZONE_REMOVED_INFO_ITEM.format(
                 zoneFullName=zone_name, infoReason=reason)
         return removed_info_items
 
-    def _generate_notable_info_items(self, notable_zones):
+    def _generate_notable_info_items(self, notable_zones: CommentsMap) -> str:
         notable_info_items = ''
         for zone_name, reason in sorted(notable_zones.items()):
             notable_info_items += self.ZONE_NOTABLE_INFO_ITEM.format(
                 zoneFullName=zone_name, infoReason=reason)
         return notable_info_items
 
-    def _generate_info_item(self, zone_name, eras):
+    def _generate_info_item(self, zone_name: str, eras: List[ZoneEraRaw]) \
+        -> str:
         era_items = ''
         for era in eras:
             era_items += self._generate_era_item(era)
@@ -358,7 +377,7 @@ ZONE_INFO_{zoneNormalizedName} = {{
             numEras=len(eras),
             eraItems=era_items)
 
-    def _generate_era_item(self, era):
+    def _generate_era_item(self, era: ZoneEraRaw) -> str:
         policy_name = era.rules
         if policy_name in ['-', ':']:
             zone_policy = "'%s'" % policy_name

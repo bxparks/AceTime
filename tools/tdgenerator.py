@@ -4,17 +4,36 @@
 
 import logging
 import datetime
-import collections
 import pytz
 from datetime import timedelta
 from zone_specifier import ZoneSpecifier
 from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
 from zone_specifier import DateTuple
+from ingenerator import ZoneRule
+from ingenerator import ZonePolicy
+from ingenerator import ZoneEra
+from ingenerator import ZoneInfo
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Tuple
+from typing import NamedTuple
 
 # An entry in the test data set.
-TestItem = collections.namedtuple(
-    "TestItem", "epoch total_offset dst_offset y M d h m s type")
+TestItem = NamedTuple("TestItem", [
+    ('epoch', int),
+    ('total_offset', int),
+    ('dst_offset', int),
+    ('y', int),
+    ('M', int),
+    ('d', int),
+    ('h', int),
+    ('m', int),
+    ('s', int),
+    ('type', str),
+])
 
+TestData = Dict[str, List[TestItem]]
 
 class TestDataGenerator:
     """Generate the validation test data using the Transitions determined by
@@ -22,8 +41,12 @@ class TestDataGenerator:
     stability which we can use to test other versions of ZoneSpecifier.
     """
 
-    def __init__(self, scope, zone_infos, zone_policies,
-        start_year, until_year):
+    def __init__(self,
+        scope: str,
+        zone_infos: Dict[str, ZoneInfo],
+        zone_policies: Dict[str, ZonePolicy],
+        start_year: int,
+        until_year: int):
         """
         Args:
             scope: 'basic' or 'extended'
@@ -39,13 +62,13 @@ class TestDataGenerator:
         self.start_year = start_year
         self.until_year = until_year
 
-    def create_test_data(self):
+    def create_test_data(self) -> Tuple[TestData, int]:
         """Create a map of {
             zone_name: [ TestItem() ]
         }
         Return (test_data, num_items).
         """
-        test_data = {}
+        test_data: TestData = {}
         num_items = 0
         for zone_name, zone_info in sorted(self.zone_infos.items()):
             if self.zone_name != '' and zone_name != self.zone_name:
@@ -57,7 +80,8 @@ class TestDataGenerator:
                 num_items += len(test_items)
         return (test_data, num_items)
 
-    def _create_test_data_for_zone(self, zone_name, zone_info):
+    def _create_test_data_for_zone(self, zone_name: str, zone_info) -> \
+        Optional[List[TestItem]]:
         """Create the TestItems for a specific zone.
         """
         zone_specifier = ZoneSpecifier(zone_info)
@@ -72,7 +96,7 @@ class TestDataGenerator:
             zone_name, tz, zone_specifier)
 
     @staticmethod
-    def _add_test_item(items_map, item):
+    def _add_test_item(items_map: Dict[int, TestItem], item: TestItem):
         current = items_map.get(item.epoch)
         if current:
             # If a duplicate TestItem exists for epoch, then check that the
@@ -90,7 +114,8 @@ class TestDataGenerator:
         else:
             items_map[item.epoch] = item
 
-    def _create_transition_test_items(self, zone_name, tz, zone_specifier):
+    def _create_transition_test_items(self, zone_name: str, tz,
+        zone_specifier: ZoneSpecifier) -> List[TestItem]:
         """Create a TestItem for the tz for each zone, for each year from
         start_year to until_year, exclusive. The following test samples are
         created:
@@ -108,12 +133,12 @@ class TestDataGenerator:
 
         For [2000, 2038], this generates about 100,000 data points.
         """
-        items_map = {}
+        items_map: Dict[int, TestItem] = {}
         for year in range(self.start_year, self.until_year):
             # Skip start_year when viewing months is 36, because it needs data
             # for (start_year - 3), but ZoneSpecifier won't generate data for
             # years that old.
-            if self.viewing_months == 36 and year == self_start_year: continue
+            if self.viewing_months == 36 and year == self.start_year: continue
 
             # Add samples just before and just after the DST transition.
             zone_specifier.init_for_year(year)
@@ -159,7 +184,8 @@ class TestDataGenerator:
         # Return the TestItems ordered by epoch
         return [items_map[x] for x in sorted(items_map)]
 
-    def _create_test_item_from_datetime(self, tz, tt, type):
+    def _create_test_item_from_datetime(self, tz, tt: DateTuple, type: str) -> \
+        TestItem:
         """Create a TestItem for the given DateTuple in the local time zone.
         """
         # Can't use the normal datetime constructor for pytz. Must use
@@ -172,7 +198,8 @@ class TestDataGenerator:
             tz, epoch_seconds, type)
 
 
-    def _create_test_item_from_epoch_seconds(self, tz, epoch_seconds, type):
+    def _create_test_item_from_epoch_seconds(self, tz, epoch_seconds: int,
+        type: str) -> TestItem:
         """Determine the expected date and time components for the given
         'epoch_seconds' for the given 'tz'. The 'epoch_seconds' is the
         transition time calculated by the ZoneSpecifier class (which is the
@@ -194,8 +221,8 @@ class TestDataGenerator:
         utc_dt = datetime.datetime.fromtimestamp(
             unix_seconds, tz=datetime.timezone.utc)
         dt = utc_dt.astimezone(tz)
-        total_offset = int(dt.utcoffset().total_seconds())
-        dst_offset = int(dt.dst().total_seconds())
+        total_offset = int(dt.utcoffset().total_seconds()) # type: ignore
+        dst_offset = int(dt.dst().total_seconds()) # type: ignore
 
         return TestItem(
             epoch=epoch_seconds,
