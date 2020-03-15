@@ -56,24 +56,47 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
 from datetime import date
+from typing import List
+from typing import NamedTuple
+from typing import Optional
+from typing import TYPE_CHECKING
+from typing import Union
+from typing import cast
+
 from extractor import MIN_YEAR
 from transformer import seconds_to_hms
 from transformer import hms_to_seconds
 from transformer import calc_day_of_month
+from ingenerator import ZoneInfo
+from ingenerator import ZoneEra
+from ingenerator import ZoneRule
 
 # A datetime representation using seconds instead of h:m:s
-DateTuple = collections.namedtuple('DateTuple', 'y M d ss f')
+DateTuple = NamedTuple('DateTuple', [
+    ('y', int),
+    ('M', int),
+    ('d', int),
+    ('ss', int),
+    ('f', str),
+])
 
 # A tuple of (year, month)
-YearMonthTuple = collections.namedtuple('YearMonthTuple', 'y M')
+YearMonthTuple = NamedTuple('YearMonthTuple', [
+    ('y', int),
+    ('M', int),
+])
 
 # UTC offset at the current time:
 #   * total_offset = utc_offset + dst_offset
 #   * utc_offset: seconds
 #   * dst_offset: seconds
 #   * abbrev
-OffsetInfo = collections.namedtuple(
-    'OffsetInfo', 'total_offset utc_offset dst_offset abbrev')
+OffsetInfo = NamedTuple('OffsetInfo', [
+    ('total_offset', int),
+    ('utc_offset', int),
+    ('dst_offset', int),
+    ('abbrev', str),
+])
 
 # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
 # (2000-01-01 00:00:00)
@@ -88,7 +111,13 @@ class ZoneInfoCooked:
     """
     __slots__ = ['name', 'eras']
 
-    def __init__(self, arg):
+    # Hack because '__slots__' is unsupported by mypy. See
+    # https://github.com/python/mypy/issues/5941.
+    if TYPE_CHECKING:
+        name: str
+        eras: List[ZoneEraCooked]
+
+    def __init__(self, arg: ZoneInfo):
         if not isinstance(arg, dict):
             raise Exception('Expected a dict')
 
@@ -118,7 +147,20 @@ class ZoneEraCooked:
     ]
     # yapf: enable
 
-    def __init__(self, arg):
+    # Hack because '__slots__' is unsupported by mypy. See
+    # https://github.com/python/mypy/issues/5941.
+    if TYPE_CHECKING:
+        offsetSeconds: int
+        zonePolicy: Union['ZonePolicyCooked', str]
+        rulesDeltaSeconds: int
+        format: str
+        untilYear: int
+        untilMonth: int
+        untilDay: int
+        untilSeconds: int
+        untilTimeSuffix: str
+
+    def __init__(self, arg: ZoneEra):
         """Create a ZoneEraCooked from a dict in zone_infos.py. The 'zonePolicy'
         will be another 'dict', which needs to be converted to a
         ZonePolicyCooked object.
@@ -141,15 +183,15 @@ class ZoneEraCooked:
                 setattr(self, key, value)
 
     @property
-    def policyName(self):
+    def policyName(self) -> str:
         """Return the human-readable name of the zone policy used by
         this zoneEra (i.e. value of RULES column). Will be in one of 3 states:
         '-', ':' or a reference
         """
         if self.zonePolicy in ['-', ':']:
-            return self.zonePolicy
+            return cast(str, self.zonePolicy)
         else:
-            return self.zonePolicy.name
+            return cast(ZonePolicyCooked, self.zonePolicy).name
 
 
 class ZonePolicyCooked:
@@ -157,6 +199,12 @@ class ZonePolicyCooked:
     zone_policies.py output file.
     """
     __slots__ = ['name', 'rules']
+
+    # Hack because '__slots__' is unsupported by mypy. See
+    # https://github.com/python/mypy/issues/5941.
+    if TYPE_CHECKING:
+        name: str
+        rules: List[ZoneRuleCooked]
 
     def __init__(self, arg):
         if not isinstance(arg, dict):
@@ -185,6 +233,19 @@ class ZoneRuleCooked:
                    # (e.g. WAT, CAT, DD, +00, +02, CST).
     ]
     # yapf: enable
+
+    # Hack because '__slots__' is unsupported by mypy. See
+    # https://github.com/python/mypy/issues/5941.
+    if TYPE_CHECKING:
+        fromYear: int
+        toYear: int
+        inMonth: int
+        onDayOfWeek: int
+        onDayOfMonth: int
+        atSeconds: int
+        atTimeSuffix: str
+        deltaSeconds: int
+        letter: str
 
     def __init__(self, arg):
         """Create a ZoneRuleCooked from a dict in zone_infos.py.
@@ -253,8 +314,8 @@ class Transition:
         #   Transition.
         #   * The startDateTime is the current transitionTime converted into the
         #   UTC offset of the current Transition.
-        'startDateTime',  # (DateTuple), replaced with actual start time
-        'untilDateTime',  # (DateTuple), replaced with actual until time
+        'startDateTime',  # replaced with actual start time
+        'untilDateTime',  # replaced with actual until time
         'zoneEra',  # (ZoneEra)
 
         # These are added for simple Match and named Match.
@@ -262,18 +323,33 @@ class Transition:
         # ZoneEra. For a named Transition, the transitionTime is the AT field of
         # the corresponding ZoneRule (see _create_transition_for_year()).
         'originalTransitionTime',  # (DateTuple) transition time before shifting
-        'transitionTime',  # (DateTuple) 'w' time
-        'transitionTimeS',  # (DateTuple) 's' time
-        'transitionTimeU',  # (DateTuple) 'u' time
-        'abbrev',  # (str) abbreviation
-        'startEpochSecond',  # (int) the starting time in epoch seconds
+        'transitionTime',  # 'w' time
+        'transitionTimeS',  # 's' time
+        'transitionTimeU',  # 'u' time
+        'abbrev',  # abbreviation
+        'startEpochSecond',  # the starting time in epoch seconds
 
         # Added for named Match.
-        'zoneRule',  # (ZoneRule or None) Defined for named Match.
+        'zoneRule',  # Defined for named Match.
 
         # Flag to indicate if Transition is active or not
         'isActive',  # Transition is inside ZoneMatch and is active
     ]
+
+    # Hack because '__slots__' is unsupported by mypy. See
+    # https://github.com/python/mypy/issues/5941.
+    if TYPE_CHECKING:
+        startDateTime: DateTuple
+        untilDateTime: DateTuple
+        zoneEra: ZoneEraCooked
+        originalTransitionTime: DateTuple
+        transitionTime: DateTuple
+        transitionTimeS: DateTuple
+        transitionTimeU: DateTuple
+        abbrev: str
+        startEpochSecond: int
+        zoneRule: Optional[ZoneRuleCooked]
+        isActive: bool
 
     def __init__(self, arg):
         for s in self.__slots__:
@@ -286,33 +362,33 @@ class Transition:
                 setattr(self, s, getattr(arg, s))
 
     @property
-    def format(self):
-        return self.zoneEra.format  # (str)
+    def format(self) -> str:
+        return self.zoneEra.format
 
     @property
-    def offsetSeconds(self):
-        return self.zoneEra.offsetSeconds  # (int)
+    def offsetSeconds(self) -> int:
+        return self.zoneEra.offsetSeconds
 
     @property
-    def letter(self):
+    def letter(self) -> str:
         return self.zoneRule.letter if self.zoneRule else ''
 
     @property
-    def deltaSeconds(self):
+    def deltaSeconds(self) -> int:
         return self.zoneRule.deltaSeconds if self.zoneRule \
             else self.zoneEra.rulesDeltaSeconds
 
-    def copy(self):
+    def copy(self) -> 'Transition':
         result = self.__class__.__new__(self.__class__)
         for s in self.__slots__:
             setattr(result, s, getattr(self, s))
         return result
 
-    def update(self, arg):
+    def update(self, arg) -> None:
         for key, value in arg.items():
             setattr(self, key, value)
 
-    def to_timezone_tuple(self):
+    def to_timezone_tuple(self) -> OffsetInfo:
         """Convert a Transition into a OffsetInfo.
         """
         return OffsetInfo(self.offsetSeconds + self.deltaSeconds,
@@ -428,19 +504,25 @@ class ZoneSpecifier:
 
     # Sentinel ZoneEra that represents the earliest zone era.
     ZONE_ERA_ANCHOR = ZoneEraCooked({
+        'offsetSeconds': 0,
+        'zonePolicy': '',
+        'rulesDeltaSeconds': 0,
+        'format': '',
         'untilYear': MIN_YEAR,
         'untilMonth': 1,
         'untilDay': 1,
         'untilSeconds': 0,
-        'untilTimeSuffix': 'w'
+        'untilTimeSuffix': 'w',
     })
 
-    def __init__(self,
-                 zone_info_data,
-                 viewing_months=14,
-                 debug=False,
-                 in_place_transitions=True,
-                 optimize_candidates=True):
+    def __init__(
+        self,
+        zone_info_data: ZoneInfo,
+        viewing_months=14,
+        debug=False,
+        in_place_transitions=True,
+        optimize_candidates=True,
+    ):
         """Constructor.
 
         Args:
@@ -468,7 +550,7 @@ class ZoneSpecifier:
         self.year = 0
 
         # List of ZoneMatch, i.e. ZoneEra which match the interval of interest.
-        self.matches = []
+        self.matches: List[ZoneMatch] = []
 
         # Cummulative list of all candidate Transitions across all calls to
         # find_candidate_transitions() method for the year given to
@@ -478,11 +560,11 @@ class ZoneSpecifier:
         # after each iteration of ZoneMatch, and reuses the buffer consumed by
         # those ignored Transitions, so this cummulative list is not as useful.
         # It is useful to print out for debugging though.
-        self.all_candidate_transitions = []
+        self.all_candidate_transitions: List[Transition] = []
 
         # List of matching (and active) Transition objects for the year given to
         # init_for_year().
-        self.transitions = []
+        self.transitions: List[Transition] = []
 
         # The maximum value of (len(self.transitions) +
         # len(candidate_transitions)) across all calls to
@@ -495,34 +577,44 @@ class ZoneSpecifier:
 
         self.debug = debug
 
-    def get_transition_for_seconds(self, epoch_seconds):
+    def get_transition_for_seconds(
+        self,
+        epoch_seconds: int,
+    ) -> Optional[Transition]:
         """Return Transition for the given epoch_seconds.
         """
         self._init_for_second(epoch_seconds)
         return self._find_transition_for_seconds(epoch_seconds)
 
-    def get_transition_for_datetime(self, dt):
+    def get_transition_for_datetime(self, dt: datetime) -> Optional[Transition]:
         """Return Transition for the given datetime.
         """
         self.init_for_year(dt.year)
         return self._find_transition_for_datetime(dt)
 
-    def get_timezone_info_for_seconds(self, epoch_seconds):
+    def get_timezone_info_for_seconds(self, epoch_seconds: int):
         """Return a tuple of (total_offset, dst_seconds, abbrev).
         """
         self._init_for_second(epoch_seconds)
-        transition = self._find_transition_for_seconds(epoch_seconds)
+
+        # TODO(bpark): Check for None
+        transition = cast(
+            Transition, 
+            self._find_transition_for_seconds(epoch_seconds)
+        )
         return transition.to_timezone_tuple()
 
-    def get_timezone_info_for_datetime(self, dt):
-        """Return a tuple of (total_offset, dst_seconds, abbrev) for datetime.
+    def get_timezone_info_for_datetime(
+        self, dt: datetime,
+    ) -> Optional[OffsetInfo]:
+        """Return the OffsetInfo of the Transition for a given datetime.
         """
         self.init_for_year(dt.year)
         transition = self._find_transition_for_datetime(dt)
         if transition:
             return transition.to_timezone_tuple()
         else:
-            return OffsetInfo(None, None, None, None)
+            return None
 
     def init_for_year(self, year):
         """Initialize the Matches and Transitions for the year. Call this
@@ -667,7 +759,10 @@ class ZoneSpecifier:
 
         self.init_for_year(year)
 
-    def _find_transition_for_seconds(self, epoch_seconds):
+    def _find_transition_for_seconds(
+        self,
+        epoch_seconds: int,
+    ) -> Optional[Transition]:
         """Return the matching transition, or None if not found.
         """
         matching_transition = None
@@ -678,7 +773,7 @@ class ZoneSpecifier:
                 break
         return matching_transition
 
-    def _find_transition_for_datetime(self, dt):
+    def _find_transition_for_datetime(self, dt) -> Optional[Transition]:
         """Return the matching transition matching the local datetime 'dt',
         or None if not found.
         """
@@ -1675,7 +1770,7 @@ def main():
             logging.info('==== Final matches and transitions')
         zone_specifier.print_matches_and_transitions()
     elif args.date:
-        dt = datetime.strptime(args.date, "%Y-%m-%dT%H:%M")
+        dt: datetime = datetime.strptime(args.date, "%Y-%m-%dT%H:%M")
         if args.transition:
             transition = zone_specifier.get_transition_for_datetime(dt)
             if transition:
@@ -1683,14 +1778,16 @@ def main():
             else:
                 logging.error('Transition not found')
         else:
-            (offset_seconds, dst_seconds, abbrev) = \
-                    zone_specifier.get_timezone_info_for_datetime(dt)
-            if not offset_seconds:
+            offset_info = zone_specifier.get_timezone_info_for_datetime(dt)
+            if not offset_info:
                 logging.info('Invalid time')
             else:
                 logging.info('%s (%s)',
-                             to_utc_string(offset_seconds, dst_seconds),
-                             abbrev)
+                             to_utc_string(
+                                offset_info.utc_offset,
+                                offset_info.dst_offset,
+                            ),
+                            offset_info.abbrev)
     else:
         print("One of --year or --date must be provided")
         sys.exit(1)
