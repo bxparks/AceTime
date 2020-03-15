@@ -4,7 +4,8 @@ These are the Python and Java programs which generate the various zoneinfo files
 and validation datasets from the [IANA TZ
 database](https://www.iana.org/time-zones).
 
-The main driver is the `tzcompiler.py` script, which invokes an ETL data
+The main driver is the `tzcompiler.sh`, which is a thin shell wrapper
+around the `tzcompiler.py` script, which invokes an ETL data
 processing pipeline that converts the various TZ Database files (with `Zone`,
 `Link` and `Rule` entries) into generated code fragments (`zone_infos.h`,
 `zone_infos.cpp`, etc). The data processing pipeline looks something like this:
@@ -25,19 +26,20 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
          /          |      zone_infos.py        zones.txt       java.time
         /           |      zone_policies.py       /   \          /
        /           / \     zone_strings.py       /     v        v
-      /           /   \                         /  TestDataGenerator.java
-     /           v     \                       /         |
-    /  bufestimator.py |\                     |          v
-   /     /             | \          pytz      |  validation_data.{h,cpp}
-  v     v              |  \        /  |       |  validation_tests.cpp
-argenerator.py         |   v      v   |       |
-     |                 | validator.py |        \           Hinnant date
-     v                 |              /         \              /
-zone_infos.{h,cpp}     \             /           v            v
-zone_policies.{h,cpp}   \           /      test_data_generator.cpp
-zone_registry.{h,cpp}    \         /                |
-zone_strings.{h,cpp}      \       /                 v
-                           v     v          validation_data.{h,cpp}
+      /           /   \         |               /  TestDataGenerator.java
+     /           v     \        v              /         |
+    /  bufestimator.py |\ zone_specifier.py   |          |
+   /      /            | \     |         |    |          v
+  /      /             |  \    |    pytz |    |  validation_data.{h,cpp}
+ v      v              |   \   |   /  |  |    |  validation_tests.cpp
+argenerator.py         |    v  v  v   |  |    |
+     |                 | validator.py |  |     \           Hinnant date
+     v                 |              /  /      \              /
+zone_infos.{h,cpp}     \             /  /        v            v
+zone_policies.{h,cpp}   \           /  /   test_data_generator.cpp
+zone_registry.{h,cpp}    \         /  /             |
+zone_strings.{h,cpp}      \       /  /              v
+                           v     v  v       validation_data.{h,cpp}
                        tdgenerator.py       validation_tests.cpp
                           /       \
                          v         v
@@ -48,8 +50,8 @@ zone_strings.{h,cpp}      \       /                 v
        validation_tests.cpp
 ```
 
-The `tzcompiler.sh` is a thin shell wrapper that makes it slightly easier to
-remember certain flags.
+(Note: There is a dependency of `zone_specifier.py` into `bufestimator.py`
+which is not shown in the diagram above due to space limitations.)
 
 ## Dependencies
 
