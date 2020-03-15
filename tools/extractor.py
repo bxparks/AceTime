@@ -228,8 +228,8 @@ class ZoneRuleRaw:
         for key, value in arg.items():
             setattr(self, key, value)
 
-    def copy(self):
-        result = self.__class__.__new__(self.__class__)
+    def copy(self) -> 'ZoneRuleRaw':
+        result: ZoneRuleRaw = self.__class__.__new__(self.__class__)
         for s in self.__slots__:
             setattr(result, s, getattr(self, s))
         return result
@@ -373,7 +373,7 @@ class Extractor:
             else:
                 self.links_map[link_name] = lines[0]
 
-    def _read_line(self, input) -> Optional[str]:
+    def _read_line(self, input: TextIO) -> Optional[str]:
         """Return the next line, while supporting a one-line push_back().
         Comment lines begin with a '#' character and are skipped.
         Blank lines are skipped.
@@ -469,7 +469,7 @@ MONTH_TO_MONTH_INDEX: Dict[str, int] = {
 }
 
 
-def _process_rule_line(line: str) -> ZoneRuleRaw:
+def _process_rule_line(line: str) -> 'ZoneRuleRaw':
     """Normalize a dictionary that represents a 'Rule' line from the TZ
     database. Contains the following fields:
     Rule NAME FROM TO TYPE IN ON AT SAVE LETTER
@@ -510,7 +510,7 @@ def _process_rule_line(line: str) -> ZoneRuleRaw:
     })
 
 
-def parse_at_time_string(at_string) -> Tuple[str, str]:
+def parse_at_time_string(at_string: str) -> Tuple[str, str]:
     """Parses the '2:00s' string into '2:00' and 's'. If there is no suffix,
     returns a '' as the suffix.
     """
@@ -525,7 +525,7 @@ def parse_at_time_string(at_string) -> Tuple[str, str]:
     return (at_time, suffix)
 
 
-def _process_zone_line(line) -> ZoneEraRaw:
+def _process_zone_line(line: str) -> ZoneEraRaw:
     """Normalize an zone era from dictionary that represents one line of
     a 'Zone' record. The columns are:
     STDOFF	 RULES	FORMAT	[UNTIL]

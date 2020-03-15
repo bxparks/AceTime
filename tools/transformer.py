@@ -45,10 +45,19 @@ StringCollection = NamedTuple('StringCollection', [
 ])
 
 class Transformer:
-    def __init__(self, zones_map: ZonesMap, rules_map: RulesMap,
-                 links_map: LinksMap, language: str, scope: str, start_year:
-                 int, until_year: int, until_at_granularity: int,
-                 offset_granularity: int, strict: bool):
+    def __init__(
+        self,
+        zones_map: ZonesMap,
+        rules_map: RulesMap,
+        links_map: LinksMap,
+        language: str,
+        scope: str,
+        start_year: int,
+        until_year: int,
+        until_at_granularity: int,
+        offset_granularity: int,
+        strict: bool,
+    ):
         """
         Args:
             zones_map: Zone names to ZoneEras
@@ -1158,13 +1167,16 @@ class Transformer:
         _merge_reasons(self.all_notable_policies, notable_policies)
         return results
 
-    def _create_rules_with_expanded_delta_offset(self, rules_map):
+    def _create_rules_with_expanded_delta_offset(
+        self,
+        rules_map: RulesMap,
+    ) -> RulesMap:
         """ Create 'deltaSeconds' and 'deltaSecondsTruncated' from
         rule.deltaOffset.
         """
         results = {}
-        removed_policies = {}
-        notable_policies = {}
+        removed_policies: CommentsMap = {}
+        notable_policies: CommentsMap = {}
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
@@ -1220,9 +1232,13 @@ class Transformer:
     # Methods related to Links.
     # --------------------------------------------------------------------
 
-    def remove_links_to_missing_zones(self, links_map, zones_map):
+    def remove_links_to_missing_zones(
+        self,
+        links_map: LinksMap,
+        zones_map: ZonesMap
+    ) -> LinksMap:
         results = {}
-        removed_links = {}
+        removed_links: CommentsMap = {}
         for link_name, zone_name in links_map.items():
             if zones_map.get(zone_name):
                 results[link_name] = zone_name
@@ -1234,32 +1250,36 @@ class Transformer:
         _merge_reasons(self.all_removed_links, removed_links)
         return results
 
-    def remove_zones_and_links_with_similar_names(self, zones_map, links_map):
-        normalized_names = {} # normalized_name, name
-        result_zones = {}
-        removed_zones = {}
-        result_links = {}
-        removed_links = {}
+    def remove_zones_and_links_with_similar_names(
+        self,
+        zones_map: ZonesMap,
+        links_map: LinksMap,
+    ) -> Tuple[ZonesMap, LinksMap]:
+        normalized_names: Dict[str, str] = {} # normalized_name, name
+        result_zones: ZonesMap = {}
+        result_links: LinksMap = {}
+        removed_zones: CommentsMap = {}
+        removed_links: CommentsMap = {}
 
         # Check for duplicate zone names.
-        for zone_name, value in zones_map.items():
+        for zone_name, zone in zones_map.items():
             nname = normalize_name(zone_name)
             if normalized_names.get(nname):
                 _add_reason(removed_zones, zone_name,
                     'Duplicate normalized name')
             else:
                 normalized_names[nname] = zone_name
-                result_zones[zone_name] = value
+                result_zones[zone_name] = zone
 
         # Then strike out any duplicate links.
-        for link_name, value in links_map.items():
+        for link_name, link in links_map.items():
             nname = normalize_name(link_name)
             if normalized_names.get(nname):
                 _add_reason(removed_links, link_name,
                     'Duplicate normalized name')
             else:
                 normalized_names[nname] = link_name
-                result_links[link_name] = value
+                result_links[link_name] = link
 
         logging.info('Removed %d Zones and %s Links with duplicate names',
             len(removed_zones), len(removed_links))
@@ -1357,7 +1377,11 @@ def time_string_to_seconds(time_string: str) -> int:
     return sign * ((hour * 60 + minute) * 60 + second)
 
 
-def find_matching_rules(rules, era_from, era_until):
+def find_matching_rules(
+        rules: List[ZoneRuleRaw],
+        era_from: int,
+        era_until: int,
+    ) -> List[ZoneRuleRaw]:
     """Return the rules which overlap with the Zone Era interval [eraFrom,
     eraUntil). The Rule interval is [ruleFrom, ruleTo + 1). Overlap happens
     (ruleFrom < eraUntil) && (eraFrom < ruleTo+1). The expression (eraFrom <
@@ -1371,7 +1395,10 @@ def find_matching_rules(rules, era_from, era_until):
     return matches
 
 
-def find_latest_prior_rules(rules, year):
+def find_latest_prior_rules(
+        rules: List[ZoneRuleRaw],
+        year: int,
+    ) -> List[ZoneRuleRaw]:
     """Find the most recent prior rules before the given year. The RULE.atTime
     field can be a conditional expression such as 'lastSun' or 'Mon>=8', so it's
     easiest to just compare the (year, month) only. Also, instead of looking for
@@ -1411,7 +1438,10 @@ def find_latest_prior_rules(rules, year):
     return candidates
 
 
-def find_earliest_subsequent_rules(rules, year):
+def find_earliest_subsequent_rules(
+        rules: List[ZoneRuleRaw],
+        year: int,
+    ) -> List[ZoneRuleRaw]:
     """Find the ealiest subsequent rules on or after the given year. This deals
     with the case where the following (admittedly unlikely) set of conditions
     happen:
@@ -1658,7 +1688,7 @@ def hash_name(name: str) -> int:
     return hash
 
 def _add_reason(m: CommentsMap, name: str, reason: str) -> None:
-    """Add the human readable 'reason' to a map of {name -> reasons[]}.
+    """Add the human readable 'reason' to a map of {name -> Set(reasons)}.
     """
     reasons = m.get(name)
     if not reasons:
@@ -1667,7 +1697,7 @@ def _add_reason(m: CommentsMap, name: str, reason: str) -> None:
     reasons.add(reason)
 
 def _merge_reasons(m: CommentsMap, n: CommentsMap) -> None:
-    """Given 2 dict of {name -> reasons[]}, merge n into m.
+    """Given 2 dict of {name -> Set(reasons)}, merge n into m.
     """
     for name, new_reasons in n.items():
         old_reasons = m.get(name)

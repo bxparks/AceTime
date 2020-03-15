@@ -10,6 +10,7 @@ import logging
 from typing import Dict
 from typing import List
 from typing import Tuple
+from typing import Union
 from mypy_extensions import TypedDict
 from extractor import ZoneEraRaw
 from extractor import ZoneRuleRaw
@@ -39,7 +40,7 @@ ZonePolicyMap = Dict[str, ZonePolicy]
 
 ZoneEra = TypedDict('ZoneEra', {
     'offsetSeconds': int,
-    'zonePolicy': ZonePolicy,
+    'zonePolicy': Union[ZonePolicy, str], # '-', ':', or ZonePolicy
     'rulesDeltaSeconds': int,
     'format': str,
     'untilYear': int,
@@ -51,7 +52,7 @@ ZoneEra = TypedDict('ZoneEra', {
 
 ZoneInfo = TypedDict('ZoneInfo', {
     'name': str,
-    'rules': List[ZoneEra]
+    'eras': List[ZoneEra]
 })
 
 ZoneInfoMap = Dict[str, ZoneInfo]
@@ -81,9 +82,9 @@ class InlineGenerator:
         self._generate_infos()
         return (self.zone_infos, self.zone_policies)
 
-    def _generate_policies(self):
+    def _generate_policies(self) -> None:
         for name, rules in self.rules_map.items():
-            policy_rules: List[ZonePolicy] = []
+            policy_rules: List[ZoneRule] = []
             for rule in rules:
                 # yapf: disable
                 policy_rules.append({
@@ -105,11 +106,12 @@ class InlineGenerator:
                 'rules': policy_rules
             }
 
-    def _generate_infos(self):
+    def _generate_infos(self) -> None:
         for zone_name, eras in self.zones_map.items():
             zone_eras: List[ZoneEra] = []
             for era in eras:
                 policy_name = era.rules
+                zone_policy: Union[ZonePolicy, str]
                 if policy_name in ['-', ':']:
                     zone_policy = policy_name
                 else:
