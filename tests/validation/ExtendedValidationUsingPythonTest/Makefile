@@ -17,7 +17,8 @@ runtests:
 
 .PHONY: $(GENERATED)
 
-TZ_VERSION = 2019b
+# pytz (2019.3) uses 2019c
+TZ_VERSION = 2019c
 START_YEAR = 2000
 UNTIL_YEAR = 2038
 
