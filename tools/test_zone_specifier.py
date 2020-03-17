@@ -21,11 +21,11 @@ from zone_specifier import _compare_transition_to_match_fuzzy
 
 
 class TestValidationData(unittest.TestCase):
-    def test_validation_data(self):
+    def test_validation_data(self) -> None:
         test_data = zonedb.validation_data.VALIDATION_DATA['America/Los_Angeles']
         self.assertTrue(isinstance(test_data[0], TestItem))
 
-    def test_zone_specifier_using_validation_data(self):
+    def test_zone_specifier_using_validation_data(self) -> None:
         for name, items in zonedb.validation_data.VALIDATION_DATA.items():
             zone_info = zonedb.zone_infos.ZONE_INFO_MAP[name]
             zone_specifier = ZoneSpecifier(zone_info, viewing_months=14)
@@ -39,7 +39,7 @@ class TestValidationData(unittest.TestCase):
 
 
 class TestZoneSpecifierHelperMethods(unittest.TestCase):
-    def test_get_candidate_years(self):
+    def test_get_candidate_years(self) -> None:
         self.assertEqual([1, 2, 3],
                          sorted(
                              CandidateFinderBasic.get_candidate_years(
@@ -69,7 +69,7 @@ class TestZoneSpecifierHelperMethods(unittest.TestCase):
                              CandidateFinderBasic.get_candidate_years(
                                  0, 4, 2, 4)))
 
-    def test_expand_date_tuple(self):
+    def test_expand_date_tuple(self) -> None:
         self.assertEqual((DateTuple(2000, 1, 30, 10800, 'w'),
                           DateTuple(2000, 1, 30, 7200, 's'),
                           DateTuple(2000, 1, 30, 0, 'u')),
@@ -94,7 +94,7 @@ class TestZoneSpecifierHelperMethods(unittest.TestCase):
                              offset_seconds=7200,
                              delta_seconds=3600))
 
-    def test_normalize_date_tuple(self):
+    def test_normalize_date_tuple(self) -> None:
         self.assertEqual(
             DateTuple(2000, 2, 1, 0, 'w'),
             ZoneSpecifier._normalize_date_tuple(DateTuple(2000, 2, 1, 0, 'w')))
@@ -111,7 +111,7 @@ class TestZoneSpecifierHelperMethods(unittest.TestCase):
 
 
 class TestCompareTransitionToMatch(unittest.TestCase):
-    def test_compare_exact(self):
+    def test_compare_exact(self) -> None:
         match = ZoneMatch({
             'startDateTime': DateTuple(2000, 1, 1, 0, 'w'),
             'untilDateTime': DateTuple(2001, 1, 1, 0, 'w')
@@ -138,7 +138,7 @@ class TestCompareTransitionToMatch(unittest.TestCase):
         })
         self.assertEqual(2, _compare_transition_to_match(transition, match))
 
-    def test_compare_fuzzy(self):
+    def test_compare_fuzzy(self) -> None:
         match = ZoneMatch({
             'startDateTime': DateTuple(2000, 1, 1, 0, 'w'),
             'untilDateTime': DateTuple(2001, 1, 1, 0, 'w')
@@ -184,7 +184,7 @@ class TestCompareTransitionToMatch(unittest.TestCase):
 
 
 class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
-    def test_Los_Angeles(self):
+    def test_Los_Angeles(self) -> None:
         """America/Los_Angela uses a simple US rule.
         """
         zone_specifier = ZoneSpecifier(
@@ -226,7 +226,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(-8 * 3600, transitions[2].offsetSeconds)
         self.assertEqual(0 * 3600, transitions[2].deltaSeconds)
 
-    def test_Petersburg(self):
+    def test_Petersburg(self) -> None:
         """America/Indianapolis/Petersbug moved from central to eastern time in
         1977, then switched back in 2006, then switched back again in 2007.
         """
@@ -275,7 +275,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(-6 * 3600, transitions[2].offsetSeconds)
         self.assertEqual(0 * 3600, transitions[2].deltaSeconds)
 
-    def test_London(self):
+    def test_London(self) -> None:
         """Europe/London uses a EU which has a 'u' in the AT field.
         """
         zone_specifier = ZoneSpecifier(
@@ -319,7 +319,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(0 * 3600, transitions[2].offsetSeconds)
         self.assertEqual(0 * 3600, transitions[2].deltaSeconds)
 
-    def test_Winnipeg(self):
+    def test_Winnipeg(self) -> None:
         """America/Winnipeg uses 'Rule Winn' until 2006 which has an 's' suffix
         in the Rule.AT field.
         """
@@ -375,7 +375,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(-6 * 3600, transitions[3].offsetSeconds)
         self.assertEqual(0 * 3600, transitions[3].deltaSeconds)
 
-    def test_Moscow(self):
+    def test_Moscow(self) -> None:
         """Europe/Moscow uses 's' in the Zone UNTIL field.
         """
         zone_specifier = ZoneSpecifier(
@@ -416,7 +416,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(4 * 3600, transitions[1].offsetSeconds)
         self.assertEqual(0 * 3600, transitions[1].deltaSeconds)
 
-    def test_Famagusta(self):
+    def test_Famagusta(self) -> None:
         """Asia/Famagusta uses 'u' in the Zone UNTIL field.
         """
         zone_specifier = ZoneSpecifier(
@@ -457,7 +457,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(2 * 3600, transitions[1].offsetSeconds)
         self.assertEqual(0 * 3600, transitions[1].deltaSeconds)
 
-    def test_Santo_Domingo(self):
+    def test_Santo_Domingo(self) -> None:
         """America/Santo_Domingo uses 2 ZoneEra changes in year 2000.
         """
         zone_specifier = ZoneSpecifier(
@@ -513,7 +513,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(-4 * 3600, transitions[2].offsetSeconds)
         self.assertEqual(0 * 3600, transitions[2].deltaSeconds)
 
-    def test_Moncton(self):
+    def test_Moncton(self) -> None:
         """America/Moncton transitioned DST at 00:01 through 2006.
         """
         zone_specifier = ZoneSpecifier(
@@ -570,7 +570,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(-4 * 3600, transitions[3].offsetSeconds)
         self.assertEqual(0 * 3600, transitions[3].deltaSeconds)
 
-    def test_Istanbul(self):
+    def test_Istanbul(self) -> None:
         """Europe/Istanbul uses an 'hh:mm' offset in the RULES field in 2015.
         """
         zone_specifier = ZoneSpecifier(
@@ -635,7 +635,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(2 * 3600, transitions[3].offsetSeconds)
         self.assertEqual(0 * 3600, transitions[3].deltaSeconds)
 
-    def test_Dublin(self):
+    def test_Dublin(self) -> None:
         """Europe/Dublin uses negative DST during Winter.
         """
         zone_specifier = ZoneSpecifier(
@@ -679,7 +679,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(1 * 3600, transitions[2].offsetSeconds)
         self.assertEqual(-1 * 3600, transitions[2].deltaSeconds)
 
-    def test_Apia(self):
+    def test_Apia(self) -> None:
         """Pacific/Apia uses a transition time of 24:00 on Dec 29, 2011,
         going from Thursday 29th December 2011 23:59:59 Hours to Saturday 31st
         December 2011 00:00:00 Hours.
@@ -737,7 +737,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(13 * 3600, transitions[3].offsetSeconds)
         self.assertEqual(1 * 3600, transitions[3].deltaSeconds)
 
-    def test_Macquarie(self):
+    def test_Macquarie(self) -> None:
         """Antarctica/Macquarie changes ZoneEra in 2011 using a 'w' time, but
         the ZoneRule transitions use an 's' time, which happens to coincide with
         the change in ZoneEra. The code must treat those 2 transition times as
@@ -779,7 +779,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(11 * 3600, transitions[1].offsetSeconds)
         self.assertEqual(0 * 3600, transitions[1].deltaSeconds)
 
-    def test_Simferopol(self):
+    def test_Simferopol(self) -> None:
         """Asia/Simferopol in 2014 uses a bizarre mixture of 'w' when using EU
         rules (which itself uses 'u' in the UNTIL fields), then uses 's' time to
         switch to Moscow time.
@@ -837,7 +837,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(3 * 3600, transitions[2].offsetSeconds)
         self.assertEqual(0 * 3600, transitions[2].deltaSeconds)
 
-    def test_Kamchatka(self):
+    def test_Kamchatka(self) -> None:
         """Asia/Kamchatka uses 's' in the Zone UNTIL and Rule AT fields.
         """
         zone_specifier = ZoneSpecifier(

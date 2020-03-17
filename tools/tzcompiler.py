@@ -10,6 +10,7 @@ generates zoneinfo files and validation datasets for unit tests.
 import argparse
 import logging
 import sys
+from typing_extensions import Protocol
 
 from extractor import Extractor
 from transformer import Transformer
@@ -24,7 +25,11 @@ from arvalgenerator import ArduinoValidationGenerator
 from pyvalgenerator import PythonValidationGenerator
 
 
-def main():
+class Generator(Protocol):
+    def generate_files(self, name: str) -> None:
+        ...
+
+def main() -> None:
     """Read the test data chunks from the STDIN and print them out. The ability
     to run this from the command line is intended mostly for testing purposes.
 
@@ -258,20 +263,23 @@ def main():
         validate_test_data = True
 
     if args.action == 'zonedb':
+        generator: Generator
         # Create the Python or Arduino files if requested
         if not args.output_dir:
             logging.error('Must provide --output_dir to generate zonedb files')
             sys.exit(1)
         if args.language == 'python':
             logging.info('======== Creating Python zonedb files')
-            generator = PythonGenerator(invocation, args.tz_version,
-                                        Extractor.ZONE_FILES,
-                                        transformer.zones_map,
-                                        transformer.rules_map,
-                                        transformer.all_removed_zones,
-                                        transformer.all_removed_policies,
-                                        transformer.all_notable_zones,
-                                        transformer.all_notable_policies)
+            generator = PythonGenerator(
+                invocation,
+                args.tz_version,
+                Extractor.ZONE_FILES,
+                transformer.zones_map,
+                transformer.rules_map,
+                transformer.all_removed_zones,
+                transformer.all_removed_policies,
+                transformer.all_notable_zones,
+                transformer.all_notable_policies)
             generator.generate_files(args.output_dir)
         elif args.language == 'arduino':
             logging.info('======== Creating Arduino zonedb files')
