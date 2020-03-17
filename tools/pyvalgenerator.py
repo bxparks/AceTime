@@ -79,11 +79,11 @@ VALIDATION_ITEM_{zoneNormalizedName} = [
         self.test_data = test_data
         self.num_items = num_items
 
-    def generate_files(self, output_dir: str):
+    def generate_files(self, output_dir: str) -> None:
         self._write_file(output_dir, self.VALIDATION_FILE_NAME,
                          self._generate_validation_data())
 
-    def _write_file(self, output_dir: str, filename: str, content: str):
+    def _write_file(self, output_dir: str, filename: str, content: str) -> None:
         full_filename = os.path.join(output_dir, filename)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
             print(content, end='', file=output_file)

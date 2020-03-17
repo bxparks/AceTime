@@ -1,4 +1,4 @@
-# Initial pass at adding typing info.
+# Full typing added to pass --strict mode.
 SRC = \
 argenerator.py \
 arvalgenerator.py \
@@ -12,14 +12,8 @@ test_extractor.py \
 test_transformer.py \
 transformer.py \
 validator.py \
+zone_specifier.py \
 zonelistgenerator.py
-
-# Full typing added to pass --strict mode.
-SRC_STRICT = \
-extractor.py \
-ingenerator.py \
-transformer.py \
-zone_specifier.py
 
 # Files without Python typing.
 SRC_UNTYPED = \
@@ -27,7 +21,4 @@ test_zone_specifier.py \
 tzcompiler.py
 
 mypy:
-	mypy $(SRC)
-
-strict:
-	mypy --strict $(SRC_STRICT)
+	mypy --strict $(SRC)

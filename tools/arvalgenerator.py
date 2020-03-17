@@ -134,13 +134,15 @@ testF({testClass}, {zoneNormalizedName}) {{
 }}
 """
 
-    def __init__(self,
+    def __init__(
+        self,
         invocation: str,
         tz_version: str,
         db_namespace: str,
         test_data: TestData,
         num_items: int,
-        scope: str):
+        scope: str,
+    ):
         self.invocation = invocation
         self.tz_version = tz_version
         self.db_namespace = db_namespace
@@ -160,7 +162,7 @@ testF({testClass}, {zoneNormalizedName}) {{
         self.validation_data_cpp_file_name = (self.file_base + '_data.cpp')
         self.validation_tests_file_name = (self.file_base + '_tests.cpp')
 
-    def generate_files(self, output_dir: str):
+    def generate_files(self, output_dir: str) -> None:
         self._write_file(output_dir, self.validation_data_h_file_name,
                          self._generate_validation_data_h())
         self._write_file(output_dir, self.validation_data_cpp_file_name,
@@ -168,7 +170,7 @@ testF({testClass}, {zoneNormalizedName}) {{
         self._write_file(output_dir, self.validation_tests_file_name,
                          self._generate_tests_cpp())
 
-    def _write_file(self, output_dir: str, filename: str, content: str):
+    def _write_file(self, output_dir: str, filename: str, content: str) -> None:
         full_filename = os.path.join(output_dir, filename)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
             print(content, end='', file=output_file)
@@ -253,7 +255,7 @@ testF({testClass}, {zoneNormalizedName}) {{
             numZones=len(self.test_data),
             testCases=test_cases)
 
-    def _generate_test_cases(self, test_data) -> str:
+    def _generate_test_cases(self, test_data: TestData) -> str:
         test_cases = ''
         for zone_name, _ in sorted(test_data.items()):
             test_case = self.TEST_CASE.format(

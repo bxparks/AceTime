@@ -132,7 +132,7 @@ class ArduinoGenerator:
                 format_strings=format_strings,
                 zone_strings=zone_strings)
 
-    def generate_files(self, output_dir: str):
+    def generate_files(self, output_dir: str) -> None:
         # zone_policies.*
         if self.scope == 'extended':
             self.zone_policies_generator.collect_letter_strings()
@@ -160,7 +160,7 @@ class ArduinoGenerator:
             self._write_file(output_dir, self.ZONE_STRINGS_CPP_FILE_NAME,
                              self.zone_strings_generator.generate_strings_cpp())
 
-    def _write_file(self, output_dir: str, filename: str, content: str):
+    def _write_file(self, output_dir: str, filename: str, content: str) -> None:
         full_filename = os.path.join(output_dir, filename)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
             print(content, end='', file=output_file)
@@ -324,7 +324,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         self.letters_map: LettersMap = {}
         self.db_header_namespace = self.db_namespace.upper()
 
-    def collect_letter_strings(self):
+    def collect_letter_strings(self) -> None:
         """Loop through all ZoneRules and collect the LETTERs which are
         more than one letter long into self.letters_map.
         """

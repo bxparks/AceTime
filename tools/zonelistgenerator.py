@@ -46,7 +46,7 @@ class ZoneListGenerator:
 
         self.file_name = 'zones.txt'
 
-    def generate_files(self, output_dir: str):
+    def generate_files(self, output_dir: str) -> None:
         """Generate a text file that contains the list of zones.
         """
         self._write_file(output_dir, self.file_name, self._generate_zones())
@@ -63,7 +63,7 @@ class ZoneListGenerator:
             zoneStrings=zone_strings,
             numZones=len(self.zones_map))
 
-    def _write_file(self, output_dir: str, filename: str, content: str):
+    def _write_file(self, output_dir: str, filename: str, content: str) -> None:
         full_filename = os.path.join(output_dir, filename)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
             print(content, end='', file=output_file)

@@ -15,6 +15,7 @@ from ingenerator import ZoneEra
 from ingenerator import ZoneInfo
 from ingenerator import ZoneInfoMap
 from ingenerator import ZonePolicyMap
+from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
@@ -83,8 +84,11 @@ class TestDataGenerator:
                 num_items += len(test_items)
         return (test_data, num_items)
 
-    def _create_test_data_for_zone(self, zone_name: str, zone_info) -> \
-        Optional[List[TestItem]]:
+    def _create_test_data_for_zone(
+        self,
+        zone_name: str,
+        zone_info: ZoneInfo,
+    ) -> Optional[List[TestItem]]:
         """Create the TestItems for a specific zone.
         """
         zone_specifier = ZoneSpecifier(zone_info)
@@ -99,7 +103,7 @@ class TestDataGenerator:
             zone_name, tz, zone_specifier)
 
     @staticmethod
-    def _add_test_item(items_map: Dict[int, TestItem], item: TestItem):
+    def _add_test_item(items_map: Dict[int, TestItem], item: TestItem) -> None:
         current = items_map.get(item.epoch)
         if current:
             # If a duplicate TestItem exists for epoch, then check that the
@@ -117,8 +121,12 @@ class TestDataGenerator:
         else:
             items_map[item.epoch] = item
 
-    def _create_transition_test_items(self, zone_name: str, tz,
-        zone_specifier: ZoneSpecifier) -> List[TestItem]:
+    def _create_transition_test_items(
+        self,
+        zone_name: str,
+        tz: Any, # TODO: Figure out correct typing info for pytz.timezone
+        zone_specifier: ZoneSpecifier
+    ) -> List[TestItem]:
         """Create a TestItem for the tz for each zone, for each year from
         start_year to until_year, exclusive. The following test samples are
         created:
@@ -187,8 +195,12 @@ class TestDataGenerator:
         # Return the TestItems ordered by epoch
         return [items_map[x] for x in sorted(items_map)]
 
-    def _create_test_item_from_datetime(self, tz, tt: DateTuple, type: str) -> \
-        TestItem:
+    def _create_test_item_from_datetime(
+        self,
+        tz: Any, # TODO: Figure out correct typing info for pytz.timezone
+        tt: DateTuple,
+        type: str,
+    ) -> TestItem:
         """Create a TestItem for the given DateTuple in the local time zone.
         """
         # Can't use the normal datetime constructor for pytz. Must use
@@ -201,8 +213,12 @@ class TestDataGenerator:
             tz, epoch_seconds, type)
 
 
-    def _create_test_item_from_epoch_seconds(self, tz, epoch_seconds: int,
-        type: str) -> TestItem:
+    def _create_test_item_from_epoch_seconds(
+        self,
+        tz: Any,
+        epoch_seconds: int,
+        type: str,
+    ) -> TestItem:
         """Determine the expected date and time components for the given
         'epoch_seconds' for the given 'tz'. The 'epoch_seconds' is the
         transition time calculated by the ZoneSpecifier class (which is the

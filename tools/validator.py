@@ -15,11 +15,14 @@ import collections
 import pytz
 from datetime import datetime
 from tdgenerator import TestDataGenerator
+from tdgenerator import TestData
+from tdgenerator import TestItem
 from ingenerator import ZoneInfoMap
 from ingenerator import ZonePolicyMap
 from zone_specifier import ZoneSpecifier
 from zone_specifier import to_utc_string
 from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
+from typing import List
 from typing import Optional
 
 
@@ -88,7 +91,7 @@ class Validator:
 
     # The following are public methods.
 
-    def validate_buffer_size(self):
+    def validate_buffer_size(self) -> None:
         """Find the maximum number of actual transitions and the maximum number
         of candidate transitions required for each zone, across a range of
         years.
@@ -127,12 +130,12 @@ class Validator:
                 '%s: %d (%04d); %d (%04d)' %
                 ((zone_name, ) + count_record[0] + count_record[1]))
 
-    def validate_test_data(self):
+    def validate_test_data(self) -> None:
         """Compare Python and AceTime offsets by generating TestDataGenerator.
         """
         logging.info('Creating test data')
-        data_generator = TestDataGenerator(self.zone_infos, self.zone_policies,
-            self.start_year, self.until_year)
+        data_generator = TestDataGenerator('basic', self.zone_infos,
+            self.zone_policies, self.start_year, self.until_year)
         (test_data, num_items) = data_generator.create_test_data()
         logging.info('test_data=%d', len(test_data))
 
@@ -141,7 +144,7 @@ class Validator:
 
     # The following are internal methods.
 
-    def _validate_test_data(self, test_data):
+    def _validate_test_data(self, test_data: TestData) -> None:
         for zone_name, items in test_data.items():
             if self.zone_name and zone_name != self.zone_name:
                 continue
@@ -149,7 +152,11 @@ class Validator:
                 logging.info('  Validating zone %s' % zone_name)
             self._validate_test_data_for_zone(zone_name, items)
 
-    def _validate_test_data_for_zone(self, zone_name, items):
+    def _validate_test_data_for_zone(
+        self,
+        zone_name: str,
+        items: List[TestItem],
+    ) -> None:
         zone_info = self.zone_infos[zone_name]
         zone_specifier = ZoneSpecifier(
             zone_info_data=zone_info,
@@ -194,7 +201,7 @@ class Validator:
                 zone_specifier.print_matches_and_transitions()
 
 
-def _test_item_to_string(i):
+def _test_item_to_string(i: TestItem) -> str:
     return '%04d-%02d-%02dT%02d:%02d:%02d' % (i.y, i.M, i.d, i.h, i.m, i.s)
 
 
