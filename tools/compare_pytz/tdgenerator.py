@@ -7,19 +7,25 @@
 import logging
 from datetime import datetime
 from datetime import timedelta
-from datetime import tzinfo
 import pytz
+from typing import Any
 from typing import List
 from typing import NamedTuple
 from typing import Tuple
 from typing import List
 from typing import Dict
+from typing import Optional
 
 # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
 # (2000-01-01 00:00:00)
 SECONDS_SINCE_UNIX_EPOCH = 946684800
 
 # An entry in the test data set.
+# Each TestData is annotated with a 'type' as:
+# * 'A': pre-transition
+# * 'B': post-transition
+# * 'S': a monthly test sample
+# * 'Y': end of year test sample
 TestItem = NamedTuple("TestItem", [
     ('epoch', int),
     ('total_offset', int),
@@ -53,27 +59,73 @@ class TestDataGenerator():
     def create_test_data(self, zones: List[str]) -> TestData:
         test_data: TestData = {}
         for zone_name in zones:
-            test_items = self._create_test_items(zone_name)
-            test_data[zone_name] = test_items
+            test_items = self._create_test_items_for_zone(zone_name)
+            if test_items:
+                test_data[zone_name] = test_items
         return test_data
 
-    def _create_test_items(self, zone_name: str) -> List[TestItem]:
+    def _create_test_items_for_zone(
+        self,
+        zone_name: str,
+    ) -> Optional[List[TestItem]]:
         logging.info(f"_create_test_items(): {zone_name}")
-        test_items: List[TestItem] = []
-        transitions = self._find_transitions(zone_name)
+        try:
+            tz = pytz.timezone(zone_name)
+        except:
+            logging.error(f"Zone '{zone_name}' not found in pytz package")
+            return None
+
+        items_map: Dict[int, TestItem] = {}
+        self._add_test_items_for_transitions(items_map, tz)
+        self._add_test_items_for_samples(items_map, tz)
+
+        # Return the TestItems ordered by epoch
+        return [items_map[x] for x in sorted(items_map)]
+
+    def _add_test_items_for_samples(
+        self,
+        items_map: Dict[int, TestItem],
+        tz: Any,
+    ) -> None:
+        """Add a TestItem for each month from start_year to until_year."""
+
+        for year in range(self.start_year, self.until_year):
+            for month in range(1, 13):
+                # Add a sample test point on the first of each month
+                dt_wall = datetime(year, month, 1, 0, 0, 0)
+                dt_local = tz.localize(dt_wall)
+                dt_local = tz.normalize(dt_local)
+                item = self._create_test_item(dt_local, 'S')
+                self._add_test_item(items_map, item)
+
+            # Add a sample test point at the end of the year.
+            dt_wall = datetime(year, 12, 31, 23, 59, 0)
+            dt_local = tz.localize(dt_wall)
+            dt_local = tz.normalize(dt_local)
+            item = self._create_test_item(dt_local, 'Y')
+            self._add_test_item(items_map, item)
+
+    def _add_test_items_for_transitions(
+        self,
+        items_map: Dict[int, TestItem],
+        tz: Any,
+    ) -> None:
+        """Add DST transitions, using 'A' and 'B' designators"""
+
+        transitions = self._find_transitions(tz)
         for (left, right) in transitions:
             left_item = self._create_test_item(left, 'A')
+            self._add_test_item(items_map, left_item)
+
             right_item = self._create_test_item(right, 'B')
-            test_items.append(left_item)
-            test_items.append(right_item)
+            self._add_test_item(items_map, right_item)
 
-        return test_items
-
-    def _find_transitions(self, zone_name: str,) -> List[TransitionTimes]:
+    def _find_transitions(self, tz: Any) -> List[TransitionTimes]:
         """Find the DST transition using pytz by sampling the time period from
         [start_year, until_year] in 12-hour samples.
         """
-        tz = pytz.timezone(zone_name)
+        # TODO: Do I need to start 1 day before Jan 1 UTC, in case the
+        # local time is ahead of UTC?
         dt = datetime(self.start_year, 1, 1, 0, 0, 0, tzinfo=pytz.utc)
         dt_local = dt.astimezone(tz)
 
@@ -100,7 +152,7 @@ class TestDataGenerator():
 
     @staticmethod
     def binary_search_transition(
-        tz: tzinfo,
+        tz: Any,
         dt_left: datetime,
         dt_right: datetime,
     ) -> Tuple[datetime, datetime]:
@@ -130,7 +182,9 @@ class TestDataGenerator():
 
         return dt_left, dt_right
 
-    def _create_test_item(self, dt: datetime, type: str) -> TestItem:
+    @staticmethod
+    def _create_test_item(dt: datetime, type: str) -> TestItem:
+        """Create a TestItem from a datetime."""
         unix_seconds = int(dt.timestamp())
         epoch_seconds = unix_seconds - SECONDS_SINCE_UNIX_EPOCH
         total_offset = int(dt.utcoffset().total_seconds()) # type: ignore
@@ -147,5 +201,23 @@ class TestDataGenerator():
             m=dt.minute,
             s=dt.second,
             type=type)
-            
+
+    @staticmethod
+    def _add_test_item(items_map: Dict[int, TestItem], item: TestItem) -> None:
+        current = items_map.get(item.epoch)
+        if current:
+            # If a duplicate TestItem exists for epoch, then check that the
+            # data is exactly the same.
+            if (current.total_offset != item.total_offset
+                    or current.dst_offset != item.dst_offset
+                    or current.y != item.y or current.M != item.M
+                    or current.d != item.d or current.h != item.h
+                    or current.m != item.m or current.s != item.s):
+                raise Exception('Item %s does not match item %s' % (current,
+                                                                    item))
+            # 'A' and 'B' takes precedence over 'S' or 'Y'
+            if item.type in ['A', 'B']:
+                items_map[item.epoch] = item
+        else:
+            items_map[item.epoch] = item
 
