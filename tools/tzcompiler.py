@@ -331,8 +331,8 @@ def main() -> None:
         logging.info('Generating test validation files')
         if args.language == 'arduino':
             arval_generator = ArduinoValidationGenerator(
-                invocation, args.tz_version, db_namespace, test_data,
-                num_items, args.scope)
+                invocation, args.tz_version, db_namespace,
+                args.scope, test_data)
             arval_generator.generate_files(args.output_dir)
         elif args.language == 'python':
             pyval_generator = PythonValidationGenerator(

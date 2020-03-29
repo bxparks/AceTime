@@ -139,15 +139,13 @@ testF({testClass}, {zoneNormalizedName}) {{
         invocation: str,
         tz_version: str,
         db_namespace: str,
-        test_data: TestData,
-        num_items: int,
         scope: str,
+        test_data: TestData,
     ):
         self.invocation = invocation
         self.tz_version = tz_version
         self.db_namespace = db_namespace
         self.test_data = test_data
-        self.num_items = num_items
         if scope == 'extended':
             self.file_base = 'validation'
             self.include_header_namespace = 'VALIDATION'
