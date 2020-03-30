@@ -1,12 +1,10 @@
 # Full typing added to pass --strict mode.
 SRC = \
 argenerator.py \
-arvalgenerator.py \
 bufestimator.py \
 extractor.py \
 ingenerator.py \
 pygenerator.py \
-pyvalgenerator.py \
 tdgenerator.py \
 test_extractor.py \
 test_transformer.py \

@@ -21,8 +21,6 @@ from zonelistgenerator import ZoneListGenerator
 from validator import Validator
 from bufestimator import BufSizeEstimator
 from tdgenerator import TestDataGenerator
-from arvalgenerator import ArduinoValidationGenerator
-from pyvalgenerator import PythonValidationGenerator
 
 
 class Generator(Protocol):
@@ -97,18 +95,20 @@ def main() -> None:
     # Data pipeline selectors:
     #
     # zonedb: generate zonedb files
-    # unittest: generate unit test validation_data.* files
     # zonelist: generate zones.txt, list of relavant zones
     # validate: validate both buffer size and validation data
     # validate_buffer_size: determine max sizes of internal buffers
     # validate_test_data: compare pytz and zone_specifierusing validation data
     parser.add_argument(
         '--action',
-        help='Data pipeline (zonedb|unittest|validate|validate_buffer_size|'
-            + 'validate_test_data)',
+        help='Data pipeline selector',
+        choices=[
+            'zonedb', 'zonelist', 'validate', 'validate_buffer_size',
+            'validate_test_data',
+        ],
         required=True)
 
-    # Language selector (for --action unittest or zonedb)
+    # Language selector (for --action zonedb)
     # python: generate Python files
     # arduino: generate C++ files for Arduino
     parser.add_argument(
@@ -315,31 +315,6 @@ def main() -> None:
             scope=args.scope,
             zones_map=transformer.zones_map)
         generator.generate_files(args.output_dir)
-    elif args.action == 'unittest':
-        logging.info('======== Generating unit test files')
-
-        # Generate test data for unit test.
-        logging.info('Generating test data for years in [%d, %d)',
-            validation_start_year, validation_until_year)
-        data_generator = TestDataGenerator(args.scope, zone_infos,
-            zone_policies, validation_start_year, validation_until_year)
-        (test_data, num_items) = data_generator.create_test_data()
-        logging.info('Num zones=%d; Num test items=%d', len(test_data),
-            num_items)
-
-        # Generate validation data files
-        logging.info('Generating test validation files')
-        if args.language == 'arduino':
-            arval_generator = ArduinoValidationGenerator(
-                invocation, args.tz_version, db_namespace,
-                args.scope, test_data)
-            arval_generator.generate_files(args.output_dir)
-        elif args.language == 'python':
-            pyval_generator = PythonValidationGenerator(
-                invocation, args.tz_version, test_data, num_items)
-            pyval_generator.generate_files(args.output_dir)
-        else:
-            raise Exception("Unrecognized language '%s'" % args.language)
     elif validate_buffer_size or validate_test_data:
         validator = Validator(
             zone_infos=zone_infos,
@@ -364,7 +339,7 @@ def main() -> None:
             validator.validate_test_data()
     else:
         logging.error(
-            'One of (--zonedb, --validate, --unittest) must be given')
+            'One of (--zonedb, --validate) must be given')
         sys.exit(1)
 
     logging.info('======== Finished processing TZ Data files.')
