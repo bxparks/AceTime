@@ -46,7 +46,7 @@ validation_data.cpp: zones.txt
 		--scope extended \
 		--tz_version $(TZ_VERSION) \
 		--db_namespace $(DB_NAMESPACE) \
-		--output_dir $(PWD) \
+		--output_dir $(CURDIR) \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
 		< zones.txt
