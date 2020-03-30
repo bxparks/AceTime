@@ -11,43 +11,77 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
 `zone_infos.cpp`, etc). The data processing pipeline looks something like this:
 
 ```
-                TZDB files
-                    |
-                    v
-               extractor.py
-                    |
-                    v
-             transformer.py---------------------.
-              /     |    \                       \
-             /      |     v                       v
-            /       |     pygenerator.py       zonelistgenerator.py
-           /        |           \                    |
-          / ingenerator.py       v                   v
-         /          |      zone_infos.py        zones.txt       java.time
-        /           |      zone_policies.py       /   \          /
-       /           / \     zone_strings.py       /     v        v
-      /           /   \         |               /  TestDataGenerator.java
-     /           v     \        v              /         |
-    /  bufestimator.py |\ zone_specifier.py   |          |
-   /      /            | \     |         |    |          v
-  /      /             |  \    |    pytz |    |  validation_data.{h,cpp}
- v      v              |   \   |   /  |  |    |  validation_tests.cpp
-argenerator.py         |    v  v  v   |  |    |
-     |                 | validator.py |  |     \           Hinnant date
-     v                 |              /  /      \              /
-zone_infos.{h,cpp}     \             /  /        v            v
-zone_policies.{h,cpp}   \           /  /   test_data_generator.cpp
-zone_registry.{h,cpp}    \         /  /             |
-zone_strings.{h,cpp}      \       /  /              v
-                           v     v  v       validation_data.{h,cpp}
-                       tdgenerator.py       validation_tests.cpp
-                          /       \
-                         v         v
-             arvalgenerator.py   pyvalgenerator.py
-                |                    |
-                v                    v
-       validation_data.{h,cpp}   validation_data.py
-       validation_tests.cpp
+                    TZDB files
+                        |
+                        v
+                   extractor.py
+                        |
+                        v
+    .----------- transformer.py
+   /              /     |    \
+  /              /      |     v
+ /              /       |     pygenerator.py
+/              /        |           \
+|             / ingenerator.py       v
+|            /          |      zone_infos.py
+|           /           |      zone_policies.py
+|          /           / \     zone_strings.py
+|         /           /   \         |
+|        /           v     \        v
+|       /  bufestimator.py |\ zone_specifier.py
+|      /      /            | \     |         |
+|     /      /             |  \    |    pytz |
+|    v      v              |   \   |   /  |  |
+|   argenerator.py         |    v  v  v   |  |
+|        |                 | validator.py |  |
+|        v                 |              /  /
+|   zone_infos.{h,cpp}     \             /  /
+|   zone_policies.{h,cpp}   \           /  /
+|   zone_registry.{h,cpp}    \         /  /
+|   zone_strings.{h,cpp}      \       /  /
+|                              v     v  v
+|                          tdgenerator.py
+|                             /       \
+|                            v         v
+|                arvalgenerator.py   pyvalgenerator.py
+|                   |                    |
+|                   v                    v
+|          validation_data.{h,cpp}   validation_data.py
+\          validation_tests.cpp
+ \
+  \
+   v
+  zonelistgenerator.py
+      |
+      v
+   zones.txt    java.time
+      |            |
+      |            v
+      +--> TestDataGenerator.java
+      |             \
+      |              v
+      |             validation_data.{h,cpp}
+      |             validation_tests.cpp
+      |
+      |
+      |       Hinnant date
+      |         |
+      |         v
+      +--> test_data_generator.cpp
+      |          \
+      |           v
+      |          validation_data.{h,cpp}
+      |          validation_tests.cpp
+      |
+      |
+      |       pytz
+      |         |
+      |         v
+      +--> test_data_generator.py
+                 \
+                  v
+                 validation_data.{h,cpp}
+                 validation_tests.cpp
 ```
 
 (Note: There is a dependency of `zone_specifier.py` into `bufestimator.py`
