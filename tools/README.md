@@ -45,14 +45,7 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
 |                                |     /
 |                                v    v
 |                           tdgenerator.py
-|                              /       \
-|                             v         v
-|                arvalgenerator.py   pyvalgenerator.py
-|                   |                    |
-|                   v                    v
-|          validation_data.{h,cpp}   validation_data.py
-\          validation_tests.cpp
- \
+ \                          (deprecated)
   \
    v
   zonelistgenerator.py
