@@ -20,3 +20,6 @@ test_zone_specifier.py # Takes too long, imports zonedb/* files
 
 mypy:
 	mypy --strict $(SRC)
+
+test:
+	python3 -m unittest
