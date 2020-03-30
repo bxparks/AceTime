@@ -23,15 +23,21 @@ START_YEAR = 2000
 UNTIL_YEAR = 2050
 
 validation_data.cpp: zones.txt
-	../../../tools/cpp/test_data_generator.out --tz_version $(TZ_VERSION) \
-		--scope basic --db_namespace $(DB_NAMESPACE) \
-		--start_year $(START_YEAR) --until_year $(UNTIL_YEAR) \
+	../../../tools/cpp/test_data_generator.out \
+		--tz_version $(TZ_VERSION) \
+		--scope basic \
+		--db_namespace $(DB_NAMESPACE) \
+		--start_year $(START_YEAR) \
+		--until_year $(UNTIL_YEAR) \
 		< zones.txt
 
 zones.txt:
-	../../../tools/tzcompiler.sh --tag $(TZ_VERSION) --action zonelist \
+	../../../tools/tzcompiler.sh \
+		--tag $(TZ_VERSION) \
+		--action zonelist \
 		--scope basic \
-		--start_year $(START_YEAR) --until_year $(UNTIL_YEAR)
+		--start_year $(START_YEAR) \
+		--until_year $(UNTIL_YEAR)
 
 # Make sure the zonedb files are generated before
 # validation_data.cpp is compiled.
@@ -41,6 +47,11 @@ validation_data.o: $(DB_NAMESPACE)/zone_infos.h
 $(DB_NAMESPACE)/zone_infos.h:
 	mkdir -p $(DB_NAMESPACE); \
 	cd $(DB_NAMESPACE); \
-	../../../../tools/tzcompiler.sh --tag $(TZ_VERSION) --action zonedb \
-		--language arduino --scope basic --db_namespace $(DB_NAMESPACE) \
-		--start_year $(START_YEAR) --until_year $(UNTIL_YEAR)
+	../../../../tools/tzcompiler.sh \
+		--tag $(TZ_VERSION) \
+		--action zonedb \
+		--language arduino \
+		--scope basic \
+		--db_namespace $(DB_NAMESPACE) \
+		--start_year $(START_YEAR) \
+		--until_year $(UNTIL_YEAR)
