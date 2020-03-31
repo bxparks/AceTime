@@ -96,15 +96,10 @@ if __name__ == '__main__':
     # zonedb: generate zonedb files
     # zonelist: generate zones.txt, list of relavant zones
     # validate: validate both buffer size and validation data
-    # validate_buffer_size: determine max sizes of internal buffers
-    # validate_test_data: compare pytz and zone_specifierusing validation data
     parser.add_argument(
         '--action',
-        help='Data pipeline selector',
-        choices=[
-            'zonedb', 'zonelist', 'validate', 'validate_buffer_size',
-            'validate_test_data',
-        ],
+        help='Data pipeline action selector',
+        choices=['zonedb', 'zonelist', 'validate'],
         required=True)
 
     # Language selector (for --action zonedb)
@@ -148,6 +143,14 @@ if __name__ == '__main__':
         help='Number of months to use for calculations (13, 14, 36)',
         type=int,
         default=14)
+    parser.add_argument(
+        '--validate_buffer_size',
+        help='Validate the transition buffer size',
+        action="store_true")
+    parser.add_argument(
+        '--validate_test_data',
+        help='Validate the TestDataGenerator with pytz',
+        action="store_true")
     parser.add_argument(
         '--validate_dst_offset',
         help='Validate the DST offset as well as the total UTC offset',
@@ -258,17 +261,6 @@ if __name__ == '__main__':
     (buf_sizes, max_size) = estimator.estimate()
     logging.info('Num zones=%d; Max buffer size=%d', len(buf_sizes), max_size)
 
-    # Validate the zone_infos and zone_policies if requested
-    validate_buffer_size = False
-    validate_test_data = False
-    if args.action == 'validate':
-        validate_buffer_size = True
-        validate_test_data = True
-    if args.action == 'validate_buffer_size':
-        validate_buffer_size = True
-    if args.action == 'validate_test_data':
-        validate_test_data = True
-
     if args.action == 'zonedb':
         generator: Generator
         # Create the Python or Arduino files if requested
@@ -322,7 +314,20 @@ if __name__ == '__main__':
             scope=args.scope,
             zones_map=transformer.zones_map)
         generator.generate_files(args.output_dir)
-    elif validate_buffer_size or validate_test_data:
+    elif args.action == 'validate':
+
+        # Set the default to set both --validate_buffer_size and
+        # --validate_test_data if neither flags are given explicitly.
+        validate_buffer_size = False
+        validate_test_data = False
+        if args.validate_buffer_size:
+            validate_buffer_size = True
+        if args.validate_test_data:
+            validate_test_data = True
+        if not validate_buffer_size and not validate_test_data:
+            validate_buffer_size = True
+            validate_test_data = True
+
         validator = Validator(
             zone_infos=zone_infos,
             zone_policies=zone_policies,

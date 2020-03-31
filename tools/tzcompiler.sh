@@ -36,23 +36,23 @@
 #
 #   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino \
 #           --scope basic
-#       * generates zone*.{h,cpp} files in the current directory
+#       Generates zone*.{h,cpp} files in the current directory.
 #
 #   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino \
 #           --scope extended
-#       * generates extended zone*.{h,cpp} files in the current directory
+#       Generates extended zone*.{h,cpp} files in the current directory.
 #
 #   $ tzcompiler.sh --tag 2018i --action zonedb --language python \
 #           --scope extended
-#       * generates zone*.py files in the current directory
+#       Generates zone*.py files in the current directory.
 #
 #   $ tzcompiler.sh --tag 2018i --action validate --language python \
 #           --scope basic
-#       * validate the internal zone_info and zone_policies data
+#       Validate the internal zone_info and zone_policies data.
 #
 #   $ tzcompiler.sh --tag 2018i --action validate --language arduino \
 #           --scope basic
-#       * validate the internal zone_info and zone_policies data
+#       Validate the internal zone_info and zone_policies data.
 #
 # Flags
 #
@@ -69,9 +69,12 @@
 #           Remove zone and rules not aligned at time granularity.
 #
 #   Validator:
+#
 #       --validate
-#           Validate the zone_infos and zone_policies. Implies activation
-#           of both --validate_buffer_size and --validate_test_data.
+#           Validate the zone_infos and zone_policies using TestDataGenerator
+#           and ZoneSpecifier. If neither --validate_buffer_size nor
+#           --validate_test_data are explicitly given, then assume that both are
+#           set.
 #       --validate_dst_offset
 #           Optional flag to tell Validator to validate DST offsets as well as
 #           the total UTC offset and datetime components. This option causes
