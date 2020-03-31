@@ -16,7 +16,7 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
                         v
                    extractor.py
                         |
-                        v
+      [zonelist]         v
     .----------- transformer.py
    /             /      |    \
   /             /       |     v
@@ -24,7 +24,7 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
 /             /         |           \
 |            /  ingenerator.py       v
 |           /           |      zone_infos.py
-|          /            |      zone_policies.py
+| [zonedb] /            |      zone_policies.py
 |         /            / \     zone_strings.py
 |        /            v   \         |
 |       / zone_specifier.py\        |
@@ -41,12 +41,12 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
 |   zone_infos.{h,cpp}        v               |
 |   zone_policies.{h,cpp}   zone_specifier.py |
 |   zone_registry.{h,cpp}        |            |
-|   zone_strings.{h,cpp}         |     pytz  /
-|                                |     /    /
-|                                v    v    v
+|   zone_strings.{h,cpp}         |           /
+|                                |          /
+|                                v         v
 |                               validator.py
  \
-  \
+  \                              [validate]
    v
   zonelistgenerator.py
       |
@@ -80,6 +80,9 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
                  validation_data.{h,cpp}
                  validation_tests.cpp
 ```
+
+The `[zonedb]`, `[zonelist]` and `[validate]` correspond to the value of the
+`--action` flag on the `tzcompiler.py` script.
 
 ## Dependencies
 

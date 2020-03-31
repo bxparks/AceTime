@@ -3,10 +3,7 @@
 # Copyright 2018 Brian T. Park
 #
 # MIT License.
-"""
-Main driver for TZ Database compiler which parses the TZ Database files, and
-generates zoneinfo files and validation datasets for unit tests.
-"""
+
 import argparse
 import logging
 import sys
@@ -27,9 +24,11 @@ class Generator(Protocol):
     def generate_files(self, name: str) -> None:
         ...
 
-def main() -> None:
-    """Read the test data chunks from the STDIN and print them out. The ability
-    to run this from the command line is intended mostly for testing purposes.
+if __name__ == '__main__':
+    """
+    Main driver for TZ Database compiler which parses the IANA TZ Database files
+    located at the --input_dir and generates zoneinfo files and validation
+    datasets for unit tests at --output_dir.
 
     Usage:
         tzcompiler.py [flags...]
@@ -338,12 +337,7 @@ def main() -> None:
             logging.info('======== Validating test data')
             validator.validate_test_data()
     else:
-        logging.error(
-            'One of (--zonedb, --validate) must be given')
+        logging.error(f"Unrecognized action '{args.action}'")
         sys.exit(1)
 
     logging.info('======== Finished processing TZ Data files.')
-
-
-if __name__ == '__main__':
-    main()

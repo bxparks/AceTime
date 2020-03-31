@@ -40,8 +40,14 @@ TestData = Dict[str, List[TestItem]]
 
 class TestDataGenerator:
     """Generate the validation test data using the Transitions determined by
-    ZoneSpecifier and the UTC offsets determined by pytz. This gives us
-    stability which we can use to test other versions of ZoneSpecifier.
+    ZoneSpecifier and the UTC offsets determined by pytz. The ZoneSpecifier
+    is used to determine the transitions (because pytz does not provide easy
+    access to the list of transitions). Pytz is used to calculate the expected
+    UTC offset and datetime components.
+
+    The updated module 'compare_pytz' eliminates the need for ZoneSpecifier and
+    uses only pytz to extract both the transitions and UTC offsets. The cost is
+    that compare_pytz runs a lot slower.
     """
 
     def __init__(self,

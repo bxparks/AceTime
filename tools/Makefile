@@ -23,3 +23,18 @@ mypy:
 
 test:
 	python3 -m unittest
+
+# Run --validate_buffer_size and --validate_test_data.
+validate-basic:
+	./tzcompiler.sh \
+		--tag 2019c \
+		--action validate \
+		--language python \
+		--scope basic
+
+validate-extended:
+	./tzcompiler.sh \
+		--tag 2019c \
+		--action validate \
+		--language python \
+		--scope extended
