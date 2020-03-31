@@ -21,10 +21,10 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
    /             /      |    \
   /             /       |     v
  /             /        |     pygenerator.py
-/             /         |           \
+/             /         |           \ [zonedb]
 |            /  ingenerator.py       v
 |           /           |       zone_infos.py
-| [zonedb] /            |       zone_policies.py
+|          /            |       zone_policies.py
 |         /            / \      zone_strings.py
 |        /            v   \          |
 |       / zone_specifier.py\         v
@@ -32,20 +32,20 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
 |     /            v        |\
 |     |   bufestimator.py   | \
 |     |      /              |  \                pytz
-|     |     /               |zone_specifier.py /
-|     v    v                |    \            /
-|  argenerator.py           |     v          v
-|        |                  |   tdgenerator.py
-|        |                  .   (deprecated) \
-|        v                   \                \
-|   zone_infos.{h,cpp}        v                \
+|     |     /               |zone_specifier.py  /
+|     v    v                |    \             /
+|  argenerator.py           |     v           v
+|        | [zonedb]         |    tdgenerator.py
+|        |                  .    (deprecated) \
+|        v                   \                 \
+|   zone_infos.{h,cpp}        v                |
 |   zone_policies.{h,cpp}   zone_specifier.py  |
 |   zone_registry.{h,cpp}        |            /
 |   zone_strings.{h,cpp}         |           /
 |                                v          v
 |                                validator.py
- \
-  \                              [validate]
+ \                               [validate]
+  \
    v
   zonelistgenerator.py
       |
