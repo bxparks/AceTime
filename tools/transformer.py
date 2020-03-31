@@ -50,7 +50,6 @@ class Transformer:
         zones_map: ZonesMap,
         rules_map: RulesMap,
         links_map: LinksMap,
-        language: str,
         scope: str,
         start_year: int,
         until_year: int,
@@ -63,7 +62,6 @@ class Transformer:
             zones_map: Zone names to ZoneEras
             rules_map: Policy names to ZoneRules
             links_map: Link name to Zone Name
-            language: target language ('python', 'arduino', 'java')
             scope: scope of database (basic, or extended)
             start_year: include only years on or after start_year
             until_year: include only years valid before until_year
@@ -75,7 +73,6 @@ class Transformer:
         self.zones_map = zones_map
         self.rules_map = rules_map
         self.links_map = links_map
-        self.language = language
         self.scope = scope
         self.start_year = start_year
         self.until_year = until_year
@@ -453,16 +450,14 @@ class Transformer:
         -> ZonesMap:
         """Remove zones whose UNTIL time contains an unsupported suffix.
         """
-        # Determine which suffices are supported. The 'g' and 'z' is the same as
-        # 'u' and does not currently appear in any TZ file, so let's catch it
-        # because it could indicate a bug
-        if self.language == 'python':
-            supported_suffices = ['w', 's', 'u']
+        # Define the supported time suffices. Basic supports only 'w', while
+        # Extended supports all suffixes. The 'g' and 'z' is the same as 'u' and
+        # does not currently appear in any TZ file, so let's catch it because it
+        # could indicate a bug
+        if self.scope == 'basic':
+            supported_suffices = ['w']
         else:
-            if self.scope == 'extended':
-                supported_suffices = ['w', 's', 'u']
-            else:
-                supported_suffices = ['w']
+            supported_suffices = ['w', 's', 'u']
 
         results: ZonesMap = {}
         removed_zones: CommentsMap = {}

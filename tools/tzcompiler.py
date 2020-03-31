@@ -226,9 +226,17 @@ if __name__ == '__main__':
     # Transform the TZ zones and rules
     logging.info('======== Transforming Zones and Rules')
     logging.info('Extracting years [%d, %d)', args.start_year, args.until_year)
-    transformer = Transformer(extractor.zones_map, extractor.rules_map,
-        extractor.links_map, args.language, args.scope, args.start_year,
-        args.until_year, until_at_granularity, offset_granularity, args.strict)
+    transformer = Transformer(
+        extractor.zones_map,
+        extractor.rules_map,
+        extractor.links_map,
+        args.scope,
+        args.start_year,
+        args.until_year,
+        until_at_granularity,
+        offset_granularity,
+        args.strict,
+    )
     transformer.transform()
     transformer.print_summary()
 

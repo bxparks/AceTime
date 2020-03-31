@@ -34,23 +34,25 @@
 #
 # Examples:
 #
-#   $ tzcompiler.sh --tag 2018i --action zonedb --language python --scope basic
-#       - generates zone*.py files in the current directory
+#   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino \
+#           --scope basic
+#       * generates zone*.{h,cpp} files in the current directory
 #
-#   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino --scope basic
-#       - generates zone*.{h,cpp} files in the current directory
-#
-#   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino
+#   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino \
 #           --scope extended
-#       - generates extended zone*.{h,cpp} files in the current directory
+#       * generates extended zone*.{h,cpp} files in the current directory
 #
-#   $ tzcompiler.sh --tag 2018i --action validate --language python
-#           --scope basic
-#       - validate the internal zone_info and zone_policies data
+#   $ tzcompiler.sh --tag 2018i --action zonedb --language python \
+#           --scope extended
+#       * generates zone*.py files in the current directory
 #
-#   $ tzcompiler.sh --tag 2018i --action validate --language arduino
+#   $ tzcompiler.sh --tag 2018i --action validate --language python \
 #           --scope basic
-#       - validate the internal zone_info and zone_policies data
+#       * validate the internal zone_info and zone_policies data
+#
+#   $ tzcompiler.sh --tag 2018i --action validate --language arduino \
+#           --scope basic
+#       * validate the internal zone_info and zone_policies data
 #
 # Flags
 #
