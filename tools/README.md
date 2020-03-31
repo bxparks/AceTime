@@ -23,28 +23,27 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
  /             /        |     pygenerator.py
 /             /         |           \
 |            /  ingenerator.py       v
-|           /           |      zone_infos.py
-| [zonedb] /            |      zone_policies.py
-|         /            / \     zone_strings.py
-|        /            v   \         |
-|       / zone_specifier.py\        |
-|      /            /       \       |
-|     /            v        |\      v
-|     |   bufestimator.py   | \ zone_specifier.py
-|     |      /              |  \    |
-|     |     /               |   \   |    pytz
-|     v    v                |    \  |   /
-|  argenerator.py           |     v v  v
-|        |                  |  tdgenerator.py
-|        |                  .  (deprecated) \
-|        v                   \               \
-|   zone_infos.{h,cpp}        v               |
-|   zone_policies.{h,cpp}   zone_specifier.py |
-|   zone_registry.{h,cpp}        |            |
+|           /           |       zone_infos.py
+| [zonedb] /            |       zone_policies.py
+|         /            / \      zone_strings.py
+|        /            v   \          |
+|       / zone_specifier.py\         v
+|      /            /       \     zone_specifier.py
+|     /            v        |\
+|     |   bufestimator.py   | \
+|     |      /              |  \                pytz
+|     |     /               |zone_specifier.py /
+|     v    v                |    \            /
+|  argenerator.py           |     v          v
+|        |                  |   tdgenerator.py
+|        |                  .   (deprecated) \
+|        v                   \                \
+|   zone_infos.{h,cpp}        v                \
+|   zone_policies.{h,cpp}   zone_specifier.py  |
+|   zone_registry.{h,cpp}        |            /
 |   zone_strings.{h,cpp}         |           /
-|                                |          /
-|                                v         v
-|                               validator.py
+|                                v          v
+|                                validator.py
  \
   \                              [validate]
    v

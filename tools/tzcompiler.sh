@@ -61,6 +61,8 @@
 #
 #   Transformer:
 #
+#       --scope (basic|extended)
+#           Select the size/scope of the zone_info dataset.
 #       --start_year
 #           Retain TZ information since this year (default 2000).
 #       --granularity
