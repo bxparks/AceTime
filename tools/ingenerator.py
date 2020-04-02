@@ -14,8 +14,8 @@ from typing import Union
 from mypy_extensions import TypedDict
 from extractor import ZoneEraRaw
 from extractor import ZoneRuleRaw
-from transformer import ZonesMap
-from transformer import RulesMap
+from extractor import ZonesMap
+from extractor import RulesMap
 from transformer import normalize_name
 from transformer import normalize_raw
 

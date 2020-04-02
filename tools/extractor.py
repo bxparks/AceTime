@@ -235,6 +235,16 @@ class ZoneRuleRaw:
         return result
 
 
+# ruleName(policyName) -> ZoneRuleRaw[]
+RulesMap = Dict[str, List[ZoneRuleRaw]]
+
+# zoneName -> ZoneEraRaw[]
+ZonesMap = Dict[str, List[ZoneEraRaw]]
+
+# linkName -> zoneName
+LinksMap = Dict[str, str]
+
+
 class Extractor:
     """Reads each test data section from the given file-like object (e.g.
     sys.stdin).
@@ -268,9 +278,9 @@ class Extractor:
         self.rule_lines: Dict[str, List[str]] = {} # ruleName to lines[]
         self.zone_lines: Dict[str, List[str]] = {}  # zoneName to lines[]
         self.link_lines: Dict[str, List[str]] = {}  # linkName to zoneName[]
-        self.rules_map: Dict[str, List[ZoneRuleRaw]] = {}  # ruleName to []
-        self.zones_map: Dict[str, List[ZoneEraRaw]] = {}  # zoneName to []
-        self.links_map: Dict[str, str] = {}  # map of linkName to zoneName
+        self.rules_map: RulesMap = {}
+        self.zones_map: ZonesMap = {}
+        self.links_map: LinksMap = {}
         self.ignored_rule_lines: int = 0
         self.ignored_zone_lines: int = 0
         self.ignored_link_lines: int = 0

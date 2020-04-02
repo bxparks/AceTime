@@ -19,6 +19,9 @@ from extractor import MAX_UNTIL_YEAR
 from extractor import MIN_YEAR
 from extractor import ZoneRuleRaw
 from extractor import ZoneEraRaw
+from extractor import ZonesMap
+from extractor import RulesMap
+from extractor import LinksMap
 from typing import Any
 from typing import Dict
 from typing import List
@@ -29,10 +32,11 @@ from typing import Tuple
 from typing import NamedTuple
 from typing import cast
 
-ZonesMap = Dict[str, List[ZoneEraRaw]]
-RulesMap = Dict[str, List[ZoneRuleRaw]]
-LinksMap = Dict[str, str]
+# zoneName -> Comment[] to hold error messages or warnings.
 CommentsMap = Dict[str, Set[str]]
+
+# policyName -> zoneName[], the list of all Zones which references the
+# given policy. TODO: Should probably be renamed PoliciesToZones.
 RulesToZones = Dict[str, List[str]]
 
 
@@ -1640,7 +1644,7 @@ def create_zone_strings(zones_map: ZonesMap) -> StringCollection:
 
 def _create_rules_to_zones(zones_map: ZonesMap, rules_map: RulesMap) \
     -> RulesToZones:
-    """Zones point to Rules. This method causes the reverse to happen,
+    """Normally Zones point to Rules. This method causes the reverse to happen,
     making Rules know about Zones, by creating a map of {rule_name ->
     zone_full_name[]}. This allows us to determine which zones that may be
     affected by a change in a particular Rule. Must be called after

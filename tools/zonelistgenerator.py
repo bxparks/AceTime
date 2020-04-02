@@ -5,7 +5,7 @@
 import logging
 import os
 from typing import List
-from transformer import ZonesMap
+from extractor import ZonesMap
 
 class ZoneListGenerator:
     """Create a zones.txt file that contains the names of zones supported by
@@ -32,8 +32,14 @@ class ZoneListGenerator:
 {zoneStrings}
 """
 
-    def __init__(self, invocation: str, tz_version: str, tz_files: List[str],
-        scope: str, zones_map: ZonesMap):
+    def __init__(
+        self,
+        invocation: str,
+        tz_version: str,
+        tz_files: List[str],
+        scope: str,
+        zones_map: ZonesMap,
+    ):
         """
         Args:
             zones_map (dict): {full_name -> ZoneEra[]}

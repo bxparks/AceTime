@@ -10,12 +10,12 @@ import os
 
 from extractor import ZoneEraRaw
 from extractor import ZoneRuleRaw
+from extractor import ZonesMap
+from extractor import RulesMap
+from extractor import LinksMap
 from transformer import normalize_name
 from transformer import normalize_raw
 from transformer import CommentsMap
-from transformer import LinksMap
-from transformer import RulesMap
-from transformer import ZonesMap
 from typing import Dict
 from typing import List
 from typing import Tuple
