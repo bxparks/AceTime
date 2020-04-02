@@ -33,10 +33,6 @@ from transformer import hash_name
 from transformer import seconds_to_hm_string
 from transformer import CommentsMap
 from transformer import StringCollection
-from ingenerator import ZoneRule
-from ingenerator import ZonePolicy
-from ingenerator import ZoneEra
-from ingenerator import ZoneInfo
 
 # map{policy_name: map{letter: index}}
 LettersMap = Dict[str, 'OrderedDict[str, int]']
