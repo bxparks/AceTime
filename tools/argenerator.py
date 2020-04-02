@@ -7,7 +7,6 @@ Generate the zone_info and zone_policies files for Arduino.
 
 import logging
 import os
-import transformer
 from collections import OrderedDict
 from typing import Dict
 from typing import List
@@ -26,6 +25,7 @@ from extractor import ZoneEraRaw
 from extractor import ZonesMap
 from extractor import RulesMap
 from extractor import LinksMap
+from transformer import add_string
 from transformer import div_to_zero
 from transformer import normalize_name
 from transformer import normalize_raw
@@ -333,7 +333,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             indexed_letters_map: 'OrderedDict[str, int]' = OrderedDict()
             if letters:
                 for letter in sorted(letters):
-                    transformer.add_string(indexed_letters_map, letter)
+                    add_string(indexed_letters_map, letter)
                 letters_map[policy_name] = indexed_letters_map
         self.letters_map = letters_map
 
