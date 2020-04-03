@@ -5,8 +5,8 @@
 Generate the zone_info and zone_policies files for Arduino.
 """
 
-import logging
 import os
+import logging
 from collections import OrderedDict
 from typing import Dict
 from typing import List

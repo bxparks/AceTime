@@ -15,7 +15,7 @@
 #
 #   $ tzcompiler.sh --tag {tag}
 #       --action (zonedb|zonelist|validate)
-#       --language (python|arduino)
+#       --language (python|arduino|json)
 #       --scope (basic|extended)
 #       [other flags...]
 #
@@ -38,21 +38,22 @@
 #           --scope basic
 #       Generates zone*.{h,cpp} files in the current directory.
 #
-#   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino \
-#           --scope extended
-#       Generates extended zone*.{h,cpp} files in the current directory.
-#
 #   $ tzcompiler.sh --tag 2018i --action zonedb --language python \
-#           --scope extended
+#           --scope basic
 #       Generates zone*.py files in the current directory.
 #
-#   $ tzcompiler.sh --tag 2018i --action validate --language python \
+#   $ tzcompiler.sh --tag 2018i --action zonedb --language json \
 #           --scope basic
-#       Validate the internal zone_info and zone_policies data.
+#       Generate the zoneinfo.json file in the current directory.
 #
 #   $ tzcompiler.sh --tag 2018i --action validate --language arduino \
 #           --scope basic
-#       Validate the internal zone_info and zone_policies data.
+#       Validate the internal zone_info and zone_policies data using
+#       validator.py
+#
+#   $ tzcompiler.sh --tag 2018i --action zonelist --language arduino \
+#           --scope basic
+#       Generate the zones.txt file in the current directory.
 #
 # Flags
 #
@@ -95,7 +96,7 @@ OUTPUT_DIR=$PWD
 
 function usage() {
     echo 'Usage: tzcompiler.sh --tag tag --action (zonedb|validate|zonelist)'
-    echo '      --language (python|arduino) --scope (basic|extended)'
+    echo '      --language (python|arduino|json) --scope (basic|extended)'
     echo '      [...other python_flags...]'
     exit 1
 }

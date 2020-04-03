@@ -4,6 +4,7 @@ argenerator.py \
 bufestimator.py \
 extractor.py \
 ingenerator.py \
+jsongenerator.py \
 pygenerator.py \
 tdgenerator.py \
 test_extractor.py \

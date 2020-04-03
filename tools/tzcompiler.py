@@ -12,6 +12,7 @@ from typing_extensions import Protocol
 from extractor import Extractor
 from transformer import Transformer
 from argenerator import ArduinoGenerator
+from jsongenerator import JsonGenerator
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator
 from zonelistgenerator import ZoneListGenerator
@@ -103,11 +104,11 @@ if __name__ == '__main__':
         required=True)
 
     # Language selector (for --action zonedb)
-    # python: generate Python files
-    # arduino: generate C++ files for Arduino
     parser.add_argument(
         '--language',
-        help='Target language (arduino|python)')
+        choices=['arduino', 'python', 'json'],
+        help='Target language (arduino|python|json)',
+    )
 
     # Scope (of the zones in the database):
     # basic: 241 of the simpler time zones for BasicZoneSpecifier
@@ -303,6 +304,29 @@ if __name__ == '__main__':
                 format_strings=transformer.format_strings,
                 zone_strings=transformer.zone_strings,
                 buf_sizes=buf_sizes)
+            generator.generate_files(args.output_dir)
+        elif args.language == 'json':
+            logging.info('======== Creating JSON zonedb files')
+            generator = JsonGenerator(
+                invocation=invocation,
+                tz_version=args.tz_version,
+                tz_files=Extractor.ZONE_FILES,
+                scope=args.scope,
+                db_namespace=db_namespace,
+                start_year=args.start_year,
+                until_year=args.until_year,
+                rules_map=transformer.rules_map,
+                zones_map=transformer.zones_map,
+                links_map=transformer.links_map,
+                removed_zones=transformer.all_removed_zones,
+                removed_links=transformer.all_removed_links,
+                removed_policies=transformer.all_removed_policies,
+                notable_zones=transformer.all_notable_zones,
+                notable_links=transformer.all_notable_links,
+                notable_policies=transformer.all_notable_policies,
+                format_strings=transformer.format_strings,
+                zone_strings=transformer.zone_strings,
+            )
             generator.generate_files(args.output_dir)
         else:
             raise Exception("Unrecognized language '%s'" % args.language)

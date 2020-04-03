@@ -104,6 +104,11 @@ INVALID_YEAR: int = -1
 INVALID_YEAR_TINY: int = -128
 
 
+# Note: I created ZoneEraRaw and ZoneRuleRaw to get some amount of interpreter
+# checking, so that a simple typo would not cause bugs. That was before I
+# learned about mypy and TypedDict. I *think* I could replace these with
+# TypedDict, but I'm not 100% sure.
+
 class ZoneEraRaw:
     """Represents the input records corresponding to the 'ZONE' lines in a
     tz database file.
@@ -169,6 +174,14 @@ class ZoneEraRaw:
         for key, value in arg.items():
             setattr(self, key, value)
 
+    def to_dict(self) -> Dict[str, Any]:
+        d = {}
+        for s in self.__slots__:
+            val = getattr(self, s, None)
+            if val:
+                d[s] = val
+        return d
+
 
 class ZoneRuleRaw:
     """Represents the input records corresponding to the 'RULE' lines in a
@@ -233,6 +246,14 @@ class ZoneRuleRaw:
         for s in self.__slots__:
             setattr(result, s, getattr(self, s))
         return result
+
+    def to_dict(self) -> Dict[str, Any]:
+        d = {}
+        for s in self.__slots__:
+            val = getattr(self, s, None)
+            if val:
+                d[s] = val
+        return d
 
 
 # ruleName(policyName) -> ZoneRuleRaw[]
