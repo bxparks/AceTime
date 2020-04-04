@@ -230,7 +230,7 @@ class ZoneRuleRaw:
         deltaSeconds: int
         deltaSecondsTruncated: int
         earliestDate: Tuple[int, int, int]
-        used: bool
+        used: Optional[bool]
 
     def __init__(self, arg: Dict[str, Any]):
         if not isinstance(arg, dict):
@@ -502,7 +502,7 @@ MONTH_TO_MONTH_INDEX: Dict[str, int] = {
 }
 
 
-def _process_rule_line(line: str) -> 'ZoneRuleRaw':
+def _process_rule_line(line: str) -> ZoneRuleRaw:
     """Normalize a dictionary that represents a 'Rule' line from the TZ
     database. Contains the following fields:
     Rule NAME FROM TO TYPE IN ON AT SAVE LETTER
