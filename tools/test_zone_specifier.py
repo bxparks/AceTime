@@ -8,7 +8,7 @@ import logging
 import unittest
 import zonedb.zone_infos
 import zonedb.zone_policies
-import zonedb.validation_data
+#import zonedb.validation_data # reenable using zoneinfo.json?
 from tdgenerator import TestItem
 from zone_specifier import DateTuple
 from zone_specifier import Transition
@@ -21,10 +21,14 @@ from zone_specifier import _compare_transition_to_match_fuzzy
 
 
 class TestValidationData(unittest.TestCase):
+    @unittest.skip("zonedb/validation_data.py not generated")
     def test_validation_data(self) -> None:
-        test_data = zonedb.validation_data.VALIDATION_DATA['America/Los_Angeles']
+        test_data = zonedb.validation_data.VALIDATION_DATA[
+            'America/Los_Angeles'
+        ]
         self.assertTrue(isinstance(test_data[0], TestItem))
 
+    @unittest.skip("zonedb/validation_data.py not generated")
     def test_zone_specifier_using_validation_data(self) -> None:
         for name, items in zonedb.validation_data.VALIDATION_DATA.items():
             zone_info = zonedb.zone_infos.ZONE_INFO_MAP[name]

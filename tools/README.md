@@ -16,14 +16,14 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
                         v
                    extractor.py
                         |
-      [zonelist]         v
-    .----------- transformer.py
-   /             /      |    \
-  /             /       |     v
- /             /        |     pygenerator.py
-/             /         |           \ [zonedb]
-|            /  ingenerator.py       v
-|           /           |       zone_infos.py
+      [zonelist]        v        [zonedb/json]
+    .----------- transformer.py --------------------.
+   /             /      |    \                       \
+  /             /       |     v                       v
+ /             /        |     pygenerator.py          jsongenerator.py
+/             /         |           \ [zonedb/python]   \
+|            /  ingenerator.py       v                   v
+|           /           |       zone_infos.py          zoneinfo.json
 |          /            |       zone_policies.py
 |         /            / \      zone_strings.py
 |        /            v   \          |
@@ -35,7 +35,7 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
 |     |     /               |zone_specifier.py  /
 |     v    v                |    \             /
 |  argenerator.py           |     v           v
-|        | [zonedb]         |    tdgenerator.py
+|        | [zonedb/arduino] |    tdgenerator.py
 |        |                  .    (deprecated) \
 |        v                   \                 \
 |   zone_infos.{h,cpp}        v                |
@@ -176,5 +176,19 @@ There is an uber `tests/validation/Makefile` which can generate
 the `validation_data.*` files for all subdirectories:
 ```
 $ cd $ACE_TIME/tests/validation
+$ make tests
+```
+
+### Type Checking
+
+The scripts should pass `mypy` type checking in `strict` mode:
+```
+$ make mypy
+```
+
+### Unit Testing
+
+The unit tests can be run with:
+```
 $ make tests
 ```
