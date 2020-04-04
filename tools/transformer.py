@@ -29,8 +29,8 @@ from typing import Optional
 from typing import Set
 from typing import TextIO
 from typing import Tuple
-from typing import NamedTuple
 from typing import cast
+from mypy_extensions import TypedDict
 
 # zoneName -> Comment[] to hold error messages or warnings.
 CommentsMap = Dict[str, Set[str]]
@@ -41,12 +41,13 @@ RulesToZones = Dict[str, List[str]]
 
 
 # Deduped list of strings (as OrderedDict of {string -> index}), total size, and
-# the total original size.
-StringCollection = NamedTuple('StringCollection', [
-    ('ordered_map', 'OrderedDict[str, int]'),
-    ('size', int),
-    ('orig_size', int),
-])
+# the total original size. The 'index' allows the generated zoneinfo files (in
+# varous languages) to reference the string using the 'index'.
+StringCollection = TypedDict('StringCollection', {
+    'ordered_map': 'OrderedDict[str, int]',
+    'size': int,  # total length of strings after de-duplication
+    'orig_size': int,  # total length of strings including duplicates
+})
 
 class Transformer:
     def __init__(
@@ -1592,8 +1593,10 @@ def add_string(strings: 'OrderedDict[str, int]', name: str) -> int:
     return cast(int, index) # index will never be None
 
 
-def create_format_strings(zones_map: ZonesMap, rules_map: RulesMap) \
-    -> StringCollection:
+def create_format_strings(
+    zones_map: ZonesMap,
+    rules_map: RulesMap,
+) -> StringCollection:
     """Collect all ZoneRule.letter and ZoneEra.format strings into a single
     array, for deduplication. However, bringing all strings into a single array
     means that this gets loaded even if the application uses only a few zones.
@@ -1619,8 +1622,11 @@ def create_format_strings(zones_map: ZonesMap, rules_map: RulesMap) \
         csize = len(name) + 1  # including NUL char in C String
         size += csize
         orig_size += strings_count[name] * csize
-    return StringCollection(ordered_map=format_strings, size=size,
-        orig_size=orig_size)
+    return {
+        'ordered_map': format_strings,
+        'size': size,
+        'orig_size': orig_size,
+    }
 
 
 def create_zone_strings(zones_map: ZonesMap) -> StringCollection:

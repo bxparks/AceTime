@@ -1013,13 +1013,13 @@ extern const char* const kZoneStrings[];
 
     def generate_strings_cpp(self) -> str:
         format_string_items = ''
-        for name, index in self.format_strings.ordered_map.items():
+        for name, index in self.format_strings['ordered_map'].items():
             format_string_items += self.ZONE_STRINGS_ITEM.format(
                 stringName=name,
                 index=index)
 
         zone_string_items = ''
-        for name, index in self.zone_strings.ordered_map.items():
+        for name, index in self.zone_strings['ordered_map'].items():
             zone_string_items += self.ZONE_STRINGS_ITEM.format(
                 stringName=name,
                 index=index)
@@ -1029,13 +1029,13 @@ extern const char* const kZoneStrings[];
             tz_version=self.tz_version,
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
-            numFormatStrings=len(self.format_strings.ordered_map),
-            formatStringsSize=self.format_strings.size,
-            formatStringsOrigSize=self.format_strings.orig_size,
+            numFormatStrings=len(self.format_strings['ordered_map']),
+            formatStringsSize=self.format_strings['size'],
+            formatStringsOrigSize=self.format_strings['orig_size'],
             formatStringItems=format_string_items,
-            numZoneStrings=len(self.zone_strings.ordered_map),
-            zoneStringsSize=self.zone_strings.size,
-            zoneStringsOrigSize=self.zone_strings.orig_size,
+            numZoneStrings=len(self.zone_strings['ordered_map']),
+            zoneStringsSize=self.zone_strings['size'],
+            zoneStringsOrigSize=self.zone_strings['orig_size'],
             zoneStringItems=zone_string_items)
 
     def generate_strings_h(self) -> str:
