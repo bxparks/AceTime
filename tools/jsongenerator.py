@@ -64,9 +64,9 @@ class JsonGenerator:
         o['links_map'] = links_map
 
         # Added data from Transformer
+        o['removed_policies'] = self.convert_comment_map(removed_policies)
         o['removed_zones'] = self.convert_comment_map(removed_zones)
         o['removed_links'] = self.convert_comment_map(removed_links)
-        o['removed_policies'] = self.convert_comment_map(removed_policies)
         o['format_strings'] = format_strings
         o['zone_strings'] = zone_strings
 
