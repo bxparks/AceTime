@@ -175,6 +175,7 @@ class ZoneEraRaw:
             setattr(self, key, value)
 
     def to_dict(self) -> Dict[str, Any]:
+        """Convert to a normal dict() for serialization into JSON."""
         d = {}
         for s in self.__slots__:
             val = getattr(self, s, None)
@@ -248,6 +249,7 @@ class ZoneRuleRaw:
         return result
 
     def to_dict(self) -> Dict[str, Any]:
+        """Convert to a normal dict() for serialization into JSON."""
         d = {}
         for s in self.__slots__:
             val = getattr(self, s, None)

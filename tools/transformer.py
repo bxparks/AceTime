@@ -921,6 +921,8 @@ class Transformer:
             for rule in rules:
                 if rule.used:
                     used_rules.append(rule)
+                    # Set the 'used' to None to remove from JSON output.
+                    rule.used = None
                 else:
                     removed_rule_count += 1
             if used_rules:
