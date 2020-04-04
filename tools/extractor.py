@@ -74,6 +74,7 @@ from typing import TYPE_CHECKING
 from typing import TextIO
 from typing import Tuple
 from typing import Union
+from typing_extensions import TypedDict
 
 # AceTime Epoch is 2000-01-01 00:00:00
 EPOCH_YEAR: int = 2000
@@ -109,153 +110,57 @@ INVALID_YEAR_TINY: int = -128
 # learned about mypy and TypedDict. I *think* I could replace these with
 # TypedDict, but I'm not 100% sure.
 
-class ZoneEraRaw:
+class ZoneEraRaw(TypedDict, total=False):
     """Represents the input records corresponding to the 'ZONE' lines in a
     tz database file.
     """
+    offsetString: str   # offset from UTC/GMT
+    rules: str  # name of the Rule in effect, '-', or minute offset
+    format: str  # abbreviation format (e.g. P%sT, E%ST, GMT/BST)
+    untilYear: int  # MAX_UNTIL_YEAR means 'max'
+    untilYearOnly: bool  # true if only the year is given
+    untilMonth: int  # 1-12
+    untilDayString: str  # e.g. 'lastSun', 'Sun>=3', or '1'-'31'
+    untilTime: str  # e.g. '2:00', '00:01'
+    untilTimeSuffix: str  # '', 's', 'w', 'g', 'u', 'z'
+    rawLine: str  # original ZONE line in TZ file
+
+    # These are derived from above and optional.
+    offsetSeconds: int  # offset from UTC/GMT in seconds
+    offsetSecondsTruncated: int  # offsetSeconds truncation granularity
     # yapf: disable
-    __slots__ = [
-        # From 'ZONE' records in tz file
-        'offsetString',  # (string) offset from UTC/GMT
-        'rules',  # (string) name of the Rule in effect, '-', or minute offset
-        'format',  # (string) abbreviation format (e.g. P%sT, E%ST, GMT/BST)
-        'untilYear',  # (int) MAX_UNTIL_YEAR means 'max'
-        'untilYearOnly',  # (bool) true if only the year is given
-        'untilMonth',  # (int) 1-12
-        'untilDayString',  # (string) e.g. 'lastSun', 'Sun>=3', or '1'-'31'
-        'untilTime',  # (string) e.g. '2:00', '00:01'
-        'untilTimeSuffix',  # (char) '', 's', 'w', 'g', 'u', 'z'
-        'rawLine',  # (string) original ZONE line in TZ file
-
-        # Derived from above
-        'offsetSeconds', # (int) offset from UTC/GMT in seconds
-        'offsetSecondsTruncated', # (int) offsetSeconds truncation granularity
-        'rulesDeltaSeconds',  # (int or None) delta offset from UTC in seconds
-                              # if RULES is DST offset string of the form
-                              # hh:mm[:ss]
-        'rulesDeltaSecondsTruncated', # (int or None) rulesDeltaSeconds
-                                      # truncated to granularity
-        'untilDay',  # (int) 1-31
-        'untilSeconds', # (int) untilTime converted into total seconds
-        'untilSecondsTruncated', # (int) untilSeconds after truncation
-    ]
+    rulesDeltaSeconds: int  # delta offset from UTC in seconds
+                            # if RULES is DST offset string of the form
+                            # hh:mm[:ss]
     # yapf: enable
-
-    # Hack because '__slots__' is unsupported by mypy. See
-    # https://github.com/python/mypy/issues/5941.
-    if TYPE_CHECKING:
-        offsetString: str
-        rules: str
-        format: str
-        untilYear: int
-        untilYearOnly: bool
-        untilMonth: int
-        untilDayString: str
-        untilTime: str
-        untilTimeSuffix: str
-        rawLine: str
-        offsetSeconds: int
-        offsetSecondsTruncated: int
-        rulesDeltaSeconds: int
-        rulesDeltaSecondsTruncated: int
-        untilDay: int
-        untilSeconds: int
-        untilSecondsTruncated: int
-
-    def __init__(self, arg: Dict[str, Any]):
-        """Create a ZoneEraRaw from a dict.
-        """
-        if not isinstance(arg, dict):
-            raise Exception('Expected a dict')
-
-        for s in self.__slots__:
-            setattr(self, s, None)
-
-        for key, value in arg.items():
-            setattr(self, key, value)
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert to a normal dict() for serialization into JSON."""
-        d = {}
-        for s in self.__slots__:
-            val = getattr(self, s, None)
-            if val:
-                d[s] = val
-        return d
+    rulesDeltaSecondsTruncated: int # rulesDeltaSeconds truncated to granularity
+    untilDay: int  # 1-31
+    untilSeconds: int  # untilTime converted into total seconds
+    untilSecondsTruncated: int  # untilSeconds after truncation
 
 
-class ZoneRuleRaw:
+class ZoneRuleRaw(TypedDict, total=False):
     """Represents the input records corresponding to the 'RULE' lines in a
     tz database file.
     """
-    __slots__ = [
-        # From 'Rule' records in tz file
-        'fromYear',  # (int) from year
-        'toYear',  # (int) to year, 1 to MAX_YEAR (9999) means 'max'
-        'inMonth',  # (int) month index (1-12)
-        'onDay',  # (string) 'lastSun' or 'Sun>=2', or 'dayOfMonth'
-        'atTime',  # (string) hour at which to transition to and from DST
-        'atTimeSuffix',  # (char) 's', 'w', 'u'
-        'deltaOffset',  # (string) offset from Standard time ('SAVE' field)
-        'letter',  # (char) 'D', 'S', '-'
-        'rawLine',  # (string) the original RULE line from the TZ file
+    fromYear: int  # from year
+    toYear: int  # to year, 1 to MAX_YEAR (9999) means 'max'
+    inMonth: int  # month index (1-12)
+    onDay: str  # 'lastSun' or 'Sun>=2', or 'dayOfMonth'
+    atTime: str  # hour at which to transition to and from DST
+    atTimeSuffix: str  # 's', 'w', 'u'
+    deltaOffset: str  # offset from Standard time ('SAVE' field)
+    letter: str  # 'D', 'S', '-'
+    rawLine: str  # the original RULE line from the TZ file
 
-        # Derived from above
-        'onDayOfWeek',  # (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
-        'onDayOfMonth',  # (int) 1-31 "dow>=xx", -(1-31) "dow<=xx", 0={lastXxx}
-        'atSeconds',  # (int) atTime in seconds since 00:00:00
-        'atSecondsTruncated',  # (int) atSeconds after truncation
-        'deltaSeconds',  # (int) offset from Standard time in seconds
-        'deltaSecondsTruncated',  # (int) deltaSeconds after truncation
-        'earliestDate',  # (y, m, d) tuple of the earliest instance of rule
-        'used',  # (boolean) indicates whether or not the rule is used by a zone
-    ]
-
-    # Hack because '__slots__' is unsupported by mypy. See
-    # https://github.com/python/mypy/issues/5941.
-    if TYPE_CHECKING:
-        fromYear: int
-        toYear: int
-        inMonth: int
-        onDay: str
-        atTime: str
-        atTimeSuffix: str
-        deltaOffset: str
-        letter: str
-        rawLine: str
-        onDayOfWeek: int
-        onDayOfMonth: int
-        atSeconds: int
-        atSecondsTruncated: int
-        deltaSeconds: int
-        deltaSecondsTruncated: int
-        earliestDate: Tuple[int, int, int]
-        used: Optional[bool]
-
-    def __init__(self, arg: Dict[str, Any]):
-        if not isinstance(arg, dict):
-            raise Exception('Expected a dict')
-
-        for s in self.__slots__:
-            setattr(self, s, None)
-
-        for key, value in arg.items():
-            setattr(self, key, value)
-
-    def copy(self) -> 'ZoneRuleRaw':
-        result: ZoneRuleRaw = self.__class__.__new__(self.__class__)
-        for s in self.__slots__:
-            setattr(result, s, getattr(self, s))
-        return result
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert to a normal dict() for serialization into JSON."""
-        d = {}
-        for s in self.__slots__:
-            val = getattr(self, s, None)
-            if val:
-                d[s] = val
-        return d
+    # These are derived from above and are optional.
+    onDayOfWeek: int  # 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
+    onDayOfMonth: int  # 1-31 "dow>=xx", -(1-31) "dow<=xx", 0={lastXxx}
+    atSeconds: int  # atTime in seconds since 00:00:00
+    atSecondsTruncated: int  # atSeconds after truncation
+    deltaSeconds: int  # offset from Standard time in seconds
+    deltaSecondsTruncated: int  # deltaSeconds after truncation
+    used: Optional[bool]  # whether or not the rule is used by a zone
 
 
 # ruleName(policyName) -> ZoneRuleRaw[]
@@ -530,7 +435,7 @@ def _process_rule_line(line: str) -> ZoneRuleRaw:
     delta_offset = tokens[8]
 
     # Return map corresponding to a ZoneRule instance
-    return ZoneRuleRaw({
+    return {
         'fromYear': from_year,
         'toYear': to_year,
         'inMonth': in_month,
@@ -540,7 +445,7 @@ def _process_rule_line(line: str) -> ZoneRuleRaw:
         'deltaOffset': delta_offset,
         'letter': tokens[9],
         'rawLine': line,
-    })
+    }
 
 
 def parse_at_time_string(at_string: str) -> Tuple[str, str]:
@@ -605,7 +510,7 @@ def _process_zone_line(line: str) -> ZoneEraRaw:
     format: str = tokens[2]
 
     # Return map corresponding to a ZoneEra instance
-    return ZoneEraRaw({
+    return {
         'offsetString': offset_string,
         'rules': rules_string,
         'format': format,
@@ -616,4 +521,4 @@ def _process_zone_line(line: str) -> ZoneEraRaw:
         'untilTime': until_time,
         'untilTimeSuffix': until_time_suffix,
         'rawLine': line,
-    })
+    }

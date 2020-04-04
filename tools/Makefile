@@ -22,7 +22,7 @@ test_zone_specifier.py # Takes too long, imports zonedb/* files
 mypy:
 	mypy --strict $(SRC)
 
-test:
+tests:
 	python3 -m unittest
 
 # Run --validate_buffer_size and --validate_test_data.

@@ -30,7 +30,7 @@ from typing import Set
 from typing import TextIO
 from typing import Tuple
 from typing import cast
-from mypy_extensions import TypedDict
+from typing_extensions import TypedDict
 
 # zoneName -> Comment[] to hold error messages or warnings.
 CommentsMap = Dict[str, Set[str]]
@@ -262,7 +262,7 @@ class Transformer:
         for name, eras in zones_map.items():
             keep_eras: List[ZoneEraRaw] = []
             for era in eras:
-                if era.untilYear >= self.start_year - 1:
+                if era['untilYear'] >= self.start_year - 1:
                     keep_eras.append(era)
                 else:
                     count += 1
@@ -296,7 +296,7 @@ class Transformer:
                 else:
                     count += 1
                 # the next era's start year is this era's until_year
-                start_year = era.untilYear
+                start_year = era['untilYear']
             if keep_eras:
                 results[name] = keep_eras
 
@@ -322,8 +322,9 @@ class Transformer:
         _merge_reasons(self.all_removed_zones, removed_zones)
         return results
 
-    def _remove_zone_until_year_only_false(self, zones_map: ZonesMap) \
-        -> ZonesMap:
+    def _remove_zone_until_year_only_false(
+        self, zones_map: ZonesMap,
+    ) -> ZonesMap:
         """Remove zones which have month, day or time in the UNTIL field.
         These are not supported by BasicZoneSpecifier.
         """
@@ -332,7 +333,7 @@ class Transformer:
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
-                if not era.untilYearOnly:
+                if not era['untilYearOnly']:
                     valid = False
                     _add_reason(removed_zones, name,
                         "UNTIL contains month/day/time")
@@ -358,7 +359,7 @@ class Transformer:
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
-                until_day_string = era.untilDayString
+                until_day_string = era['untilDayString']
 
                 # Parse the conditional expression in until_day_string. We can
                 # resolve the 'lastSun', 'Sun>=X' and 'Fri<=X' to a specific day
@@ -372,7 +373,7 @@ class Transformer:
                     break
 
                 month, day = calc_day_of_month(
-                    era.untilYear, era.untilMonth, on_day_of_week,
+                    era['untilYear'], era['untilMonth'], on_day_of_week,
                     on_day_of_month)
                 if month == 0:
                     valid = False
@@ -386,11 +387,11 @@ class Transformer:
                         f"Shift to following year unsupported for "
                         f"{until_day_string}")
 
-                if era.untilMonth != month:
+                if era['untilMonth'] != month:
                     _add_reason(notable_zones, name,
-                        f"untilMonth shifted from '{era.untilMonth}' to "
+                        f"untilMonth shifted from '{era['untilMonth']}' to "
                         f"'{month}' due to {until_day_string}")
-                era.untilMonth, era.untilDay = month, day
+                era['untilMonth'], era['untilDay'] = month, day
 
             if valid:
                 results[name] = eras
@@ -402,8 +403,9 @@ class Transformer:
         _merge_reasons(self.all_notable_zones, notable_zones)
         return results
 
-    def _create_zones_with_expanded_until_time(self, zones_map: ZonesMap) \
-        -> ZonesMap:
+    def _create_zones_with_expanded_until_time(
+        self, zones_map: ZonesMap,
+    ) -> ZonesMap:
         """ Create 'untilSeconds' and 'untilSecondsTruncated' from 'untilTime'.
         """
         results: ZonesMap = {}
@@ -412,7 +414,7 @@ class Transformer:
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
-                until_time = era.untilTime
+                until_time = era['untilTime']
                 until_seconds = time_string_to_seconds(until_time)
                 if until_seconds == INVALID_SECONDS:
                     valid = False
@@ -439,8 +441,8 @@ class Transformer:
                         _add_reason(notable_zones, name,
                         f"UNTIL time '{until_time}' truncated to '{hm}'")
 
-                era.untilSeconds = until_seconds
-                era.untilSecondsTruncated = until_seconds_truncated
+                era['untilSeconds'] = until_seconds
+                era['untilSecondsTruncated'] = until_seconds_truncated
             if valid:
                 results[name] = eras
 
@@ -451,8 +453,9 @@ class Transformer:
         _merge_reasons(self.all_notable_zones, notable_zones)
         return results
 
-    def _remove_zones_invalid_until_time_suffix(self, zones_map: ZonesMap) \
-        -> ZonesMap:
+    def _remove_zones_invalid_until_time_suffix(
+        self, zones_map: ZonesMap,
+    ) -> ZonesMap:
         """Remove zones whose UNTIL time contains an unsupported suffix.
         """
         # Define the supported time suffices. Basic supports only 'w', while
@@ -469,9 +472,9 @@ class Transformer:
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
-                suffix = era.untilTimeSuffix
+                suffix = era['untilTimeSuffix']
                 suffix = suffix if suffix else 'w'
-                era.untilTimeSuffix = suffix
+                era['untilTimeSuffix'] = suffix
                 if suffix not in supported_suffices:
                     valid = False
                     _add_reason(removed_zones, name,
@@ -487,8 +490,9 @@ class Transformer:
         _merge_reasons(self.all_removed_policies, removed_zones)
         return results
 
-    def _create_zones_with_expanded_offset_string(self, zones_map: ZonesMap) \
-        -> ZonesMap:
+    def _create_zones_with_expanded_offset_string(
+        self, zones_map: ZonesMap,
+    ) -> ZonesMap:
         """ Create expanded offset 'offsetSeconds' from zone.offsetString.
         """
         results: ZonesMap = {}
@@ -497,7 +501,7 @@ class Transformer:
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
-                offset_string = era.offsetString
+                offset_string = era['offsetString']
                 offset_seconds = time_string_to_seconds(offset_string)
                 if offset_seconds == INVALID_SECONDS:
                     valid = False
@@ -529,8 +533,8 @@ class Transformer:
                         f"STDOFF '{offset_string}' too large for 8-bits")
                     break
 
-                era.offsetSeconds = offset_seconds
-                era.offsetSecondsTruncated = offset_seconds_truncated
+                era['offsetSeconds'] = offset_seconds
+                era['offsetSecondsTruncated'] = offset_seconds_truncated
 
             if valid:
                 results[name] = eras
@@ -565,19 +569,19 @@ class Transformer:
         for zone_name, eras in zones_map.items():
             valid = True
             for era in eras:
-                if not era.format:
+                if not era['format']:
                     _add_reason(removed_zones, zone_name, 'FORMAT is empty')
                     valid = False
                     break
 
-                if era.rules == '-' or ':' in era.rules:
-                    if '%' in era.format:
+                if era['rules'] == '-' or ':' in era['rules']:
+                    if '%' in era['format']:
                         _add_reason(removed_zones, zone_name,
                             "RULES is fixed but FORMAT contains '%'")
                         valid = False
                         break
                 else:
-                   if not ('%' in era.format or '/' in era.format):
+                   if not ('%' in era['format'] or '/' in era['format']):
                         _add_reason(notable_zones, zone_name,
                             "RULES not fixed but FORMAT is missing " +
                             "'%' or '/'")
@@ -592,8 +596,9 @@ class Transformer:
         _merge_reasons(self.all_notable_zones, notable_zones)
         return results
 
-    def _create_zones_with_rules_expansion(self, zones_map: ZonesMap) \
-        -> ZonesMap:
+    def _create_zones_with_rules_expansion(
+        self, zones_map: ZonesMap,
+    ) -> ZonesMap:
         """Expand and normalize the zone.rules field (RULES) and create
         zone.rulesDeltaSeconds from zone.rules.
 
@@ -613,7 +618,7 @@ class Transformer:
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
-                rules_string = era.rules
+                rules_string = era['rules']
                 if rules_string.find(':') >= 0:
                     if self.scope == 'basic':
                         valid = False
@@ -650,14 +655,14 @@ class Transformer:
                                 f"RULES delta offset '{rules_string}'"
                                 f"truncated to '{hm}'")
 
-                    era.rules = ':'
-                    era.rulesDeltaSeconds = rules_delta_seconds
-                    era.rulesDeltaSecondsTruncated = \
+                    era['rules'] = ':'
+                    era['rulesDeltaSeconds'] = rules_delta_seconds
+                    era['rulesDeltaSecondsTruncated'] = \
                         rules_delta_seconds_truncated
                 else:
                     # If '-' or named policy, set to 0.
-                    era.rulesDeltaSeconds = 0
-                    era.rulesDeltaSecondsTruncated = 0
+                    era['rulesDeltaSeconds'] = 0
+                    era['rulesDeltaSecondsTruncated'] = 0
             if valid:
                 results[name] = eras
 
@@ -678,7 +683,7 @@ class Transformer:
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
-                rule_name = era.rules
+                rule_name = era['rules']
                 if rule_name not in ['-', ':'] and rule_name not in rules_map:
                     valid = False
                     _add_reason(removed_zones, name,
@@ -693,8 +698,9 @@ class Transformer:
         _merge_reasons(self.all_removed_zones, removed_zones)
         return results
 
-    def _remove_zones_with_non_monotonic_until(self, zones_map: ZonesMap) \
-        -> ZonesMap:
+    def _remove_zones_with_non_monotonic_until(
+        self, zones_map: ZonesMap,
+    ) -> ZonesMap:
         """Remove Zone infos whose UNTIL fields are:
             1) not monotonically increasing, or
             2) does not end in year=MAX_UNTIL_YEAR
@@ -707,10 +713,10 @@ class Transformer:
             for era in eras:
                 # yapf: disable
                 current_until = (
-                    era.untilYear,
-                    era.untilMonth if era.untilMonth else 0,
-                    era.untilDay if era.untilDayString else 0,
-                    era.untilSeconds if era.untilSeconds else 0
+                    era['untilYear'],
+                    era['untilMonth'] if era['untilMonth'] else 0,
+                    era['untilDay'] if era['untilDayString'] else 0,
+                    era['untilSeconds'] if era['untilSeconds'] else 0
                 )
                 # yapf: enable
                 if prev_until:
@@ -739,8 +745,9 @@ class Transformer:
     # Methods related to Rules
     # --------------------------------------------------------------------
 
-    def _remove_rules_multiple_transitions_in_month(self, rules_map: RulesMap) \
-        -> RulesMap:
+    def _remove_rules_multiple_transitions_in_month(
+        self, rules_map: RulesMap,
+    ) -> RulesMap:
         """Some Zone policies have Rules which specify multiple DST transitions
         within in the same month:
             * Egypt (Found '2' transitions in year/month '2010-09')
@@ -754,9 +761,9 @@ class Transformer:
         counts: CountsMap  = {}
         for name, rules in rules_map.items():
             for rule in rules:
-                from_year = rule.fromYear
-                to_year = rule.toYear
-                month = rule.inMonth
+                from_year = rule['fromYear']
+                to_year = rule['toYear']
+                month = rule['inMonth']
                 for year in range(from_year, to_year + 1):
                     key = (name, year, month)
                     count = counts.get(key)
@@ -799,7 +806,7 @@ class Transformer:
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
-                letter = rule.letter
+                letter = rule['letter']
                 if len(letter) > 1:
                     valid = False
                     _add_reason(removed_policies, name,
@@ -814,8 +821,9 @@ class Transformer:
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
 
-    def _remove_rules_invalid_at_time_suffix(self, rules_map: RulesMap) \
-        -> RulesMap:
+    def _remove_rules_invalid_at_time_suffix(
+        self, rules_map: RulesMap,
+    ) -> RulesMap:
         """Remove rules whose atTime contains an unsupported suffix. Current
         supported suffix is 'w', 's' and 'u'. The 'g' and 'z' are identifical
         to 'u' and they do not currently appear in any TZ file, so let's catch
@@ -828,9 +836,9 @@ class Transformer:
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
-                suffix = rule.atTimeSuffix
+                suffix = rule['atTimeSuffix']
                 suffix = suffix if suffix else 'w'
-                rule.atTimeSuffix = suffix
+                rule['atTimeSuffix'] = suffix
                 if suffix not in supported_suffices:
                     valid = False
                     _add_reason(removed_policies, name,
@@ -865,7 +873,7 @@ class Transformer:
         for zone_name, eras in zones_map.items():
             begin_year = self.start_year - 1
             for era in eras:
-                policy_name = era.rules
+                policy_name = era['rules']
                 if policy_name in ['-', ':']:
                     continue
 
@@ -880,18 +888,18 @@ class Transformer:
                 # components. To be conservative, we need to expand the
                 # until_year to the following year, so the effective zone era
                 # interval becomes [begin_year, until_year+1).
-                until_year = min(era.untilYear, self.until_year)
+                until_year = min(era['untilYear'], self.until_year)
                 matching_rules = find_matching_rules(rules, begin_year,
                                                      until_year + 1)
                 for rule in matching_rules:
-                    rule.used = True
+                    rule['used'] = True
 
                 # Find latest Rules just prior to the begin_year.
                 # Result: It looks like all of these prior rules are
                 # already picked up by previous calls to find_matching_rules().
                 prior_rules = find_latest_prior_rules(rules, begin_year)
                 for rule in prior_rules:
-                    rule.used = True
+                    rule['used'] = True
 
                 # Find earliest Rules subsequent to the until_year mark.
                 # Result: It looks like all of these subsequent rules are
@@ -899,10 +907,10 @@ class Transformer:
                 subsequent_rules = find_earliest_subsequent_rules(
                     rules, until_year + 1)
                 for rule in subsequent_rules:
-                    rule.used = True
+                    rule['used'] = True
 
                 # Set the begin year of the next ZoneEra
-                begin_year = era.untilYear
+                begin_year = era['untilYear']
 
         return (zones_map, rules_map)
 
@@ -919,10 +927,10 @@ class Transformer:
         for name, rules in rules_map.items():
             used_rules = []
             for rule in rules:
-                if rule.used:
+                if rule.get('used'):
                     used_rules.append(rule)
                     # Set the 'used' to None to remove from JSON output.
-                    rule.used = None
+                    del rule['used']
                 else:
                     removed_rule_count += 1
             if used_rules:
@@ -944,8 +952,8 @@ class Transformer:
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
-                from_year = rule.fromYear
-                to_year = rule.toYear
+                from_year = rule['fromYear']
+                to_year = rule['toYear']
                 if not is_year_tiny(from_year) or not is_year_tiny(from_year):
                     valid = False
                     _add_reason(removed_policies, name,
@@ -962,17 +970,18 @@ class Transformer:
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
 
-    def _create_rules_with_on_day_expansion(self, rules_map: RulesMap) \
-        -> RulesMap:
-        """Create rule.onDayOfWeek and rule.onDayOfMonth from rule.onDay.
-        The onDayOfMonth will be negative if "<=" is used.
+    def _create_rules_with_on_day_expansion(
+        self, rules_map: RulesMap,
+    ) -> RulesMap:
+        """Create rule['onDayOfWeek'] and rule['onDayOfMonth'] from
+        rule['onDay']. The onDayOfMonth will be negative if "<=" is used.
         """
         results: RulesMap = {}
         removed_policies: CommentsMap = {}
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
-                on_day = rule.onDay
+                on_day = rule['onDay']
                 (on_day_of_week, on_day_of_month) = _parse_on_day_string(on_day)
 
                 if (on_day_of_week, on_day_of_month) == (0, 0):
@@ -985,20 +994,21 @@ class Transformer:
                 # "dayOfWeek<=6" or "dayOfWeek>=26" if the shift causes the year
                 # to change.
                 if on_day_of_week != 0 and on_day_of_month != 0:
-                    if -7 <= on_day_of_month and on_day_of_month < -1 and \
-                        rule.inMonth == 1:
+                    if (-7 <= on_day_of_month
+                            and on_day_of_month < -1
+                            and rule['inMonth'] == 1):
                         valid = False
                         _add_reason(removed_policies, name,
                             f"cannot shift '{on_day}' from Jan to prev year")
                         break
-                    if 26 <= on_day_of_month and rule.inMonth == 12:
+                    if 26 <= on_day_of_month and rule['inMonth'] == 12:
                         valid = False
                         _add_reason(removed_policies, name,
                             f"cannot shift '{on_day}' from Dec to next year")
                         break
 
-                rule.onDayOfWeek = on_day_of_week
-                rule.onDayOfMonth = on_day_of_month
+                rule['onDayOfWeek'] = on_day_of_week
+                rule['onDayOfMonth'] = on_day_of_month
             if valid:
                 results[name] = rules
 
@@ -1008,8 +1018,9 @@ class Transformer:
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
 
-    def _create_rules_with_anchor_transition(self, rules_map: RulesMap) \
-        -> RulesMap:
+    def _create_rules_with_anchor_transition(
+        self, rules_map: RulesMap,
+    ) -> RulesMap:
         """Create a synthetic transition with SAVE == 0 which is earlier than
         the self.start_year of interest. Some zone policies have zone rules
         whose earliest entry starts after the self.start_year. According to
@@ -1036,8 +1047,8 @@ class Transformer:
         """Return True if rules has a rule prior to (self.start_year-1).
         """
         for rule in rules:
-            from_year = rule.fromYear
-            to_year = rule.toYear
+            from_year = rule['fromYear']
+            to_year = rule['toYear']
             if from_year < self.start_year - 1:
                 return True
         return False
@@ -1046,40 +1057,50 @@ class Transformer:
         """Return the anchor rule that will act as the earliest rule with SAVE
         == 0.
         """
-        anchor_rule = ZoneRuleRaw({
-            'earliestDate': (MAX_UNTIL_YEAR, 12, 31),
+        AnchorInfo = TypedDict('AnchorInfo', {
+            'earliestDate': Tuple[int, int, int],
+            'rule': Optional[ZoneRuleRaw],
         })
+
+        anchor_info: AnchorInfo = {
+            'earliestDate': (MAX_UNTIL_YEAR, 12, 31),
+            'rule': None,
+        }
+        # rules will never be empty, so this will always produce a
+        # non-empty anchor_info['rule'].
         for rule in rules:
-            from_year = rule.fromYear
-            in_month = rule.inMonth
-            on_day_of_week = rule.onDayOfWeek
-            on_day_of_month = rule.onDayOfMonth
+            from_year = rule['fromYear']
+            in_month = rule['inMonth']
+            on_day_of_week = rule['onDayOfWeek']
+            on_day_of_month = rule['onDayOfMonth']
             month, day = calc_day_of_month(
                 from_year, in_month, on_day_of_week, on_day_of_month)
             rule_date = (from_year, month, day)
-            rule.earliestDate = rule_date
 
-            if rule.deltaSeconds == 0 and rule_date < anchor_rule.earliestDate:
-                anchor_rule = rule
+            if (rule['deltaSeconds'] == 0
+                    and rule_date < anchor_info['earliestDate']):
+                anchor_info['earliestDate'] = rule_date
+                anchor_info['rule'] = rule
 
-        anchor_rule = anchor_rule.copy()
-        anchor_rule.fromYear = MIN_YEAR
-        anchor_rule.toYear = MIN_YEAR
-        anchor_rule.inMonth = 1
-        anchor_rule.onDayOfWeek = 0
-        anchor_rule.onDayOfMonth = 1
-        anchor_rule.atTime = '0'
-        anchor_rule.atTimeSuffix = 'w'
-        anchor_rule.deltaOffset = '0'
-        anchor_rule.atSeconds = 0
-        anchor_rule.atSecondsTruncated = 0
-        anchor_rule.deltaSeconds = 0
-        anchor_rule.deltaSecondsTruncated = 0
-        anchor_rule.rawLine = 'Anchor: ' + anchor_rule.rawLine
+        anchor_rule = cast(ZoneRuleRaw, anchor_info['rule']).copy()
+        anchor_rule['fromYear'] = MIN_YEAR
+        anchor_rule['toYear'] = MIN_YEAR
+        anchor_rule['inMonth'] = 1
+        anchor_rule['onDayOfWeek'] = 0
+        anchor_rule['onDayOfMonth'] = 1
+        anchor_rule['atTime'] = '0'
+        anchor_rule['atTimeSuffix'] = 'w'
+        anchor_rule['deltaOffset'] = '0'
+        anchor_rule['atSeconds'] = 0
+        anchor_rule['atSecondsTruncated'] = 0
+        anchor_rule['deltaSeconds'] = 0
+        anchor_rule['deltaSecondsTruncated'] = 0
+        anchor_rule['rawLine'] = 'Anchor: ' + anchor_rule['rawLine']
         return anchor_rule
 
-    def _remove_rules_with_border_transitions(self, rules_map: RulesMap) \
-        -> RulesMap:
+    def _remove_rules_with_border_transitions(
+        self, rules_map: RulesMap,
+    ) -> RulesMap:
         """Remove rules where the transition occurs on the first day of the
         year (Jan 1). That situation is not supported by BasicZoneSpecifier. On
         the other hand, a transition at the end of the year (Dec 31) is
@@ -1090,11 +1111,11 @@ class Transformer:
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
-                from_year = rule.fromYear
-                to_year = rule.toYear
-                month = rule.inMonth
-                on_day_of_week = rule.onDayOfWeek
-                on_day_of_month = rule.onDayOfMonth
+                from_year = rule['fromYear']
+                to_year = rule['toYear']
+                month = rule['inMonth']
+                on_day_of_week = rule['onDayOfWeek']
+                on_day_of_month = rule['onDayOfMonth']
                 if from_year > MIN_YEAR and to_year > MIN_YEAR:
                     if month == 1 and on_day_of_month == 1:
                         valid = False
@@ -1113,7 +1134,7 @@ class Transformer:
 
     def _create_rules_with_expanded_at_time(self, rules_map: RulesMap,
         rules_to_zones: RulesToZones) -> RulesMap:
-        """ Create 'atSeconds' parameter from rule.atTime.
+        """ Create 'atSeconds' parameter from rule['atTime'].
         """
         results: RulesMap = {}
         removed_policies: CommentsMap = {}
@@ -1121,7 +1142,7 @@ class Transformer:
         for policy_name, rules in rules_map.items():
             valid = True
             for rule in rules:
-                at_time = rule.atTime
+                at_time = rule['atTime']
                 at_seconds = time_string_to_seconds(at_time)
                 if at_seconds == INVALID_SECONDS:
                     valid = False
@@ -1157,8 +1178,8 @@ class Transformer:
                                     f"RULE '{policy_name}' "
                                     f"truncated to '{hm}'")
 
-                rule.atSeconds = at_seconds
-                rule.atSecondsTruncated = at_seconds_truncated
+                rule['atSeconds'] = at_seconds
+                rule['atSecondsTruncated'] = at_seconds_truncated
             if valid:
                 results[policy_name] = rules
 
@@ -1174,7 +1195,7 @@ class Transformer:
         rules_map: RulesMap,
     ) -> RulesMap:
         """ Create 'deltaSeconds' and 'deltaSecondsTruncated' from
-        rule.deltaOffset.
+        rule['deltaOffset'].
         """
         results = {}
         removed_policies: CommentsMap = {}
@@ -1182,7 +1203,7 @@ class Transformer:
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
-                delta_offset = rule.deltaOffset
+                delta_offset = rule['deltaOffset']
                 delta_seconds = time_string_to_seconds(delta_offset)
                 if delta_seconds == INVALID_SECONDS:
                     valid = False
@@ -1218,8 +1239,8 @@ class Transformer:
                         f"deltaOffset '{delta_offset}' too large for 4-bits")
                     break
 
-                rule.deltaSeconds = delta_seconds
-                rule.deltaSecondsTruncated = delta_seconds_truncated
+                rule['deltaSeconds'] = delta_seconds
+                rule['deltaSecondsTruncated'] = delta_seconds_truncated
             if valid:
                 results[name] = rules
 
@@ -1392,7 +1413,7 @@ def find_matching_rules(
     """
     matches = []
     for rule in rules:
-        if rule.fromYear < era_until and era_from <= rule.toYear:
+        if rule['fromYear'] < era_until and era_from <= rule['toYear']:
             matches.append(rule)
     return matches
 
@@ -1428,8 +1449,8 @@ def find_latest_prior_rules(
     candidates = []
     candidate_date = (0, 0)  # sentinel date earlier than all real Rules
     for rule in rules:
-        rule_year = rule.toYear
-        rule_month = rule.inMonth
+        rule_year = rule['toYear']
+        rule_month = rule['inMonth']
         if rule_year < year:
             rule_date = (rule_year, rule_month)
             if rule_date > candidate_date:
@@ -1466,8 +1487,8 @@ def find_earliest_subsequent_rules(
     # sentinel date later than all real Rules
     candidate_date = (extractor.MAX_YEAR, 13)
     for rule in rules:
-        rule_year = rule.toYear
-        rule_month = rule.inMonth
+        rule_year = rule['toYear']
+        rule_month = rule['inMonth']
         if rule_year >= year:
             rule_date = (rule_year, rule_month)
             if rule_date < candidate_date:
@@ -1608,13 +1629,13 @@ def create_format_strings(
     strings_count: Dict[str, int] = {}
     for name, eras in zones_map.items():
         for era in eras:
-            format = era.format.replace('%s', '%')
+            format = era['format'].replace('%s', '%')
             count = strings_count.get(format, 0)
             strings_count[format] = count + 1
     for name, rules in rules_map.items():
         for rule in rules:
-            count = strings_count.get(rule.letter, 0)
-            strings_count[rule.letter] = count + 1
+            count = strings_count.get(rule['letter'], 0)
+            strings_count[rule['letter']] = count + 1
 
     format_strings: 'OrderedDict[str, int]' = OrderedDict()
     size = 0
@@ -1650,8 +1671,10 @@ def create_zone_strings(zones_map: ZonesMap) -> StringCollection:
     return StringCollection(ordered_map=zone_strings, size=size,
         orig_size=orig_size)
 
-def _create_rules_to_zones(zones_map: ZonesMap, rules_map: RulesMap) \
-    -> RulesToZones:
+
+def _create_rules_to_zones(
+    zones_map: ZonesMap, rules_map: RulesMap,
+) -> RulesToZones:
     """Normally Zones point to Rules. This method causes the reverse to happen,
     making Rules know about Zones, by creating a map of {rule_name ->
     zone_full_name[]}. This allows us to determine which zones that may be
@@ -1662,7 +1685,7 @@ def _create_rules_to_zones(zones_map: ZonesMap, rules_map: RulesMap) \
     rules_to_zones: RulesToZones = {}
     for full_name, eras in zones_map.items():
         for era in eras:
-            rule_name = era.rules
+            rule_name = era['rules']
             if rule_name not in ['-', ':']:
                 zones = rules_to_zones.get(rule_name)
                 if not zones:

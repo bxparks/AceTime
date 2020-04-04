@@ -11,7 +11,7 @@ from typing import Dict
 from typing import List
 from typing import Tuple
 from typing import Union
-from mypy_extensions import TypedDict
+from typing_extensions import TypedDict
 from extractor import ZoneEraRaw
 from extractor import ZoneRuleRaw
 from extractor import ZonesMap
@@ -88,15 +88,15 @@ class InlineGenerator:
             for rule in rules:
                 # yapf: disable
                 policy_rules.append({
-                    'fromYear': rule.fromYear,
-                    'toYear': rule.toYear,
-                    'inMonth': rule.inMonth,
-                    'onDayOfWeek': rule.onDayOfWeek,
-                    'onDayOfMonth': rule.onDayOfMonth,
-                    'atSeconds': rule.atSecondsTruncated,
-                    'atTimeSuffix': rule.atTimeSuffix,
-                    'deltaSeconds': rule.deltaSecondsTruncated,
-                    'letter': rule.letter
+                    'fromYear': rule['fromYear'],
+                    'toYear': rule['toYear'],
+                    'inMonth': rule['inMonth'],
+                    'onDayOfWeek': rule['onDayOfWeek'],
+                    'onDayOfMonth': rule['onDayOfMonth'],
+                    'atSeconds': rule['atSecondsTruncated'],
+                    'atTimeSuffix': rule['atTimeSuffix'],
+                    'deltaSeconds': rule['deltaSecondsTruncated'],
+                    'letter': rule['letter']
                 })
                 # yapf: enable
 
@@ -110,7 +110,7 @@ class InlineGenerator:
         for zone_name, eras in self.zones_map.items():
             zone_eras: List[ZoneEra] = []
             for era in eras:
-                policy_name = era.rules
+                policy_name = era['rules']
                 zone_policy: Union[ZonePolicy, str]
                 if policy_name in ['-', ':']:
                     zone_policy = policy_name
@@ -120,15 +120,15 @@ class InlineGenerator:
 
                 # yapf: disable
                 zone_eras.append({
-                    'offsetSeconds': era.offsetSecondsTruncated,
+                    'offsetSeconds': era['offsetSecondsTruncated'],
                     'zonePolicy': zone_policy,
-                    'rulesDeltaSeconds': era.rulesDeltaSecondsTruncated,
-                    'format': era.format,
-                    'untilYear': era.untilYear,
-                    'untilMonth': era.untilMonth,
-                    'untilDay': era.untilDay,
-                    'untilSeconds': era.untilSecondsTruncated,
-                    'untilTimeSuffix': era.untilTimeSuffix,
+                    'rulesDeltaSeconds': era['rulesDeltaSecondsTruncated'],
+                    'format': era['format'],
+                    'untilYear': era['untilYear'],
+                    'untilMonth': era['untilMonth'],
+                    'untilDay': era['untilDay'],
+                    'untilSeconds': era['untilSecondsTruncated'],
+                    'untilTimeSuffix': era['untilTimeSuffix'],
                 })
                 # yapf: enable
             self.zone_infos[zone_name] = {'name': zone_name, 'eras': zone_eras}

@@ -328,8 +328,8 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         for policy_name, rules in self.rules_map.items():
             letters = set()
             for rule in rules:
-                if len(rule.letter) > 1:
-                    letters.add(rule.letter)
+                if len(rule['letter']) > 1:
+                    letters.add(rule['letter'])
             indexed_letters_map: 'OrderedDict[str, int]' = OrderedDict()
             if letters:
                 for letter in sorted(letters):
@@ -409,38 +409,38 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         rule_items = ''
         for rule in rules:
             at_time_code, at_time_modifier = _to_code_and_modifier(
-                rule.atSecondsTruncated, rule.atTimeSuffix, self.scope)
+                rule['atSecondsTruncated'], rule['atTimeSuffix'], self.scope)
 
             if self.scope == 'extended':
-                delta_code = _to_extended_delta_code(rule.deltaSecondsTruncated)
+                delta_code = _to_extended_delta_code(rule['deltaSecondsTruncated'])
             else:
-                delta_code = str(div_to_zero(rule.deltaSecondsTruncated, 900))
+                delta_code = str(div_to_zero(rule['deltaSecondsTruncated'], 900))
 
-            from_year = rule.fromYear
+            from_year = rule['fromYear']
             from_year_tiny = to_tiny_year(from_year)
-            to_year = rule.toYear
+            to_year = rule['toYear']
             to_year_tiny = to_tiny_year(to_year)
 
-            if len(rule.letter) == 1:
-                letter = "'%s'" % rule.letter
+            if len(rule['letter']) == 1:
+                letter = "'%s'" % rule['letter']
                 letterComment = ''
-            elif len(rule.letter) > 1:
+            elif len(rule['letter']) > 1:
                 letters = cast('OrderedDict[str, int]', indexed_letters)
-                index = letters[rule.letter]
+                index = letters[rule['letter']]
                 if index >= 32:
                     raise Exception('Number of indexed letters >= 32')
                 letter = str(index)
-                letterComment = ('; "%s"' % rule.letter)
+                letterComment = ('; "%s"' % rule['letter'])
             else:
-                raise Exception('len(%s) == 0; should not happen' % rule.letter)
+                raise Exception('len(%s) == 0; should not happen' % rule['letter'])
 
             rule_items += self.ZONE_POLICIES_CPP_RULE_ITEM.format(
-                rawLine=normalize_raw(rule.rawLine),
+                rawLine=normalize_raw(rule['rawLine']),
                 fromYearTiny=from_year_tiny,
                 toYearTiny=to_year_tiny,
-                inMonth=rule.inMonth,
-                onDayOfWeek=rule.onDayOfWeek,
-                onDayOfMonth=rule.onDayOfMonth,
+                inMonth=rule['inMonth'],
+                onDayOfWeek=rule['onDayOfWeek'],
+                onDayOfMonth=rule['onDayOfMonth'],
                 atTimeCode=at_time_code,
                 atTimeModifier=at_time_modifier,
                 deltaCode=delta_code,
@@ -861,44 +861,44 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
 
     def _generate_era_item(self, zone_name: str, era: ZoneEraRaw) -> \
         Tuple[str, int]:
-        policy_name = era.rules
+        policy_name = era['rules']
         if policy_name == '-' or policy_name == ':':
             zone_policy = 'nullptr'
-            delta_seconds = era.rulesDeltaSecondsTruncated
+            delta_seconds = era['rulesDeltaSecondsTruncated']
         else:
             zone_policy = '&kPolicy%s' % normalize_name(policy_name)
             delta_seconds = 0
 
         if self.scope == 'extended':
             offset_code, delta_code = _to_extended_offset_and_delta(
-                era.offsetSecondsTruncated, delta_seconds)
+                era['offsetSecondsTruncated'], delta_seconds)
         else:
-            offset_code = div_to_zero(era.offsetSecondsTruncated, 900)
+            offset_code = div_to_zero(era['offsetSecondsTruncated'], 900)
             delta_code = str(div_to_zero(delta_seconds, 900))
 
-        until_year = era.untilYear
+        until_year = era['untilYear']
         if until_year == MAX_UNTIL_YEAR:
             until_year_tiny = MAX_UNTIL_YEAR_TINY
         else:
             until_year_tiny = until_year - EPOCH_YEAR
 
-        until_month = era.untilMonth
+        until_month = era['untilMonth']
         if not until_month:
             until_month = 1
 
-        until_day = era.untilDay
+        until_day = era['untilDay']
         if not until_day:
             until_day = 1
 
         until_time_code, until_time_modifier = _to_code_and_modifier(
-            era.untilSecondsTruncated, era.untilTimeSuffix, self.scope)
+            era['untilSecondsTruncated'], era['untilTimeSuffix'], self.scope)
 
         # Replace %s with just a % for C++
-        format = era.format.replace('%s', '%')
+        format = era['format'].replace('%s', '%')
         string_length = len(format) + 1
 
         era_item = self.ZONE_INFOS_CPP_ERA_ITEM.format(
-            rawLine=normalize_raw(era.rawLine),
+            rawLine=normalize_raw(era['rawLine']),
             offsetCode=offset_code,
             deltaCode=delta_code,
             zonePolicy=zone_policy,

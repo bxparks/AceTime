@@ -59,8 +59,8 @@ class JsonGenerator:
         o['until_year'] = until_year
 
         # Data from Extractor filtered through Transformer
-        o['rules_map'] = self.convert_zones_or_rules_map(rules_map)
-        o['zones_map'] = self.convert_zones_or_rules_map(zones_map)
+        o['rules_map'] = rules_map
+        o['zones_map'] = zones_map
         o['links_map'] = links_map
 
         # Added data from Transformer
@@ -73,20 +73,8 @@ class JsonGenerator:
         self.out = o
 
     @staticmethod
-    def convert_zones_or_rules_map(
-        m: Dict[str, List[Any]]
-    ) -> Dict[str, List[Any]]:
-        """Convert a Dict of List of (ZoneRuleRaw or ZoneEraRaw) to a
-        normal dictionary so that it can be converted into JSON.
-        """
-        d: Dict[str, List[Any]] = {}
-        for k, vals in m.items():
-            items: List[Any] = []
-            d[k] = [v.to_dict() for v in vals]
-        return d
-
-    @staticmethod
     def convert_comment_map(m: CommentsMap) -> Dict[str, List[str]]:
+        """Convert a CommentMap into a Dict which can be serialized to JSON."""
         d: Dict[str, List[str]] = {}
         for k, vals in m.items():
             d[k] = list(vals)
