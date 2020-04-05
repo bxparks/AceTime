@@ -7,14 +7,15 @@
 import argparse
 import logging
 import sys
+from typing import List
 from typing_extensions import Protocol
 
-from extractor import Extractor
-from transformer import Transformer
+from extractor import Extractor, ZonesMap, RulesMap, LinksMap
+from transformer import Transformer, CommentsMap, StringCollection
 from argenerator import ArduinoGenerator
 from jsongenerator import JsonGenerator
 from pygenerator import PythonGenerator
-from ingenerator import InlineGenerator
+from ingenerator import InlineGenerator, ZoneInfoMap, ZonePolicyMap
 from zonelistgenerator import ZoneListGenerator
 from validator import Validator
 from bufestimator import BufSizeEstimator
@@ -25,7 +26,169 @@ class Generator(Protocol):
         ...
 
 
-if __name__ == '__main__':
+def validate(
+    zone_infos: ZoneInfoMap,
+    zone_policies: ZonePolicyMap,
+    zone: str,
+    year: int,
+    start_year: int,
+    until_year: int,
+    validate_buffer_size: bool,
+    validate_test_data: bool,
+    viewing_months: int,
+    validate_dst_offset: bool,
+    debug_validator: bool,
+    debug_specifier: bool,
+    in_place_transitions: bool,
+    optimize_candidates: bool,
+) -> None:
+
+    # Set the default to set both --validate_buffer_size and
+    # --validate_test_data if neither flags are given explicitly.
+    if not validate_buffer_size and not validate_test_data:
+        validate_buffer_size = True
+        validate_test_data = True
+
+    validator = Validator(
+        zone_infos=zone_infos,
+        zone_policies=zone_policies,
+        viewing_months=viewing_months,
+        validate_dst_offset=validate_dst_offset,
+        debug_validator=debug_validator,
+        debug_specifier=debug_specifier,
+        zone_name=zone,
+        year=year,
+        start_year=start_year,
+        until_year=until_year,
+        in_place_transitions=in_place_transitions,
+        optimize_candidates=optimize_candidates)
+
+    if validate_buffer_size:
+        logging.info('======== Validating transition buffer sizes')
+        validator.validate_buffer_size()
+
+    if validate_test_data:
+        logging.info('======== Validating test data')
+        validator.validate_test_data()
+
+
+def generate_zonedb(
+    invocation: str,
+    tz_version: str,
+    tz_files: List[str],
+    scope: str,
+    db_namespace: str,
+    zones_map: ZonesMap,
+    links_map: LinksMap,
+    rules_map: RulesMap,
+    removed_zones: CommentsMap,
+    removed_links: CommentsMap,
+    removed_policies: CommentsMap,
+    notable_zones: CommentsMap,
+    notable_links: CommentsMap,
+    notable_policies: CommentsMap,
+    format_strings: StringCollection,
+    zone_strings: StringCollection,
+    zone_infos: ZoneInfoMap,
+    zone_policies: ZonePolicyMap,
+    language: str,
+    start_year: int,
+    until_year: int,
+    output_dir: str,
+    generate_zone_strings: bool,
+) -> None:
+
+    # Determine zonedb namespace
+    if not db_namespace:
+        if scope == 'basic':
+            db_namespace = 'zonedb'
+        elif scope == 'extended':
+            db_namespace = 'zonedbx'
+        else:
+            raise Exception(
+                f"db_namespace cannot be determined for scope '{scope}'"
+            )
+
+    # Generate the buf_size estimates for each zone, between start_year and
+    # until_year.
+    logging.info('======== Estimating transition buffer sizes')
+    logging.info('Checking years in [%d, %d)', start_year, until_year)
+    estimator = BufSizeEstimator(
+        zone_infos, zone_policies, start_year, until_year)
+    (buf_sizes, max_size) = estimator.estimate()
+    logging.info('Num zones=%d; Max buffer size=%d', len(buf_sizes), max_size)
+
+    generator: Generator
+
+    # Create the Python or Arduino files if requested
+    if not output_dir:
+        logging.error('Must provide --output_dir to generate zonedb files')
+        sys.exit(1)
+    if language == 'python':
+        logging.info('======== Creating Python zonedb files')
+        generator = PythonGenerator(
+            invocation=invocation,
+            tz_version=tz_version,
+            tz_files=Extractor.ZONE_FILES,
+            zones_map=zones_map,
+            rules_map=rules_map,
+            removed_zones=removed_zones,
+            removed_policies=removed_policies,
+            notable_zones=notable_zones,
+            notable_policies=notable_policies)
+        generator.generate_files(output_dir)
+    elif language == 'arduino':
+        logging.info('======== Creating Arduino zonedb files')
+        generator = ArduinoGenerator(
+            invocation=invocation,
+            tz_version=tz_version,
+            tz_files=Extractor.ZONE_FILES,
+            scope=scope,
+            db_namespace=db_namespace,
+            generate_zone_strings=generate_zone_strings,
+            start_year=start_year,
+            until_year=until_year,
+            zones_map=zones_map,
+            links_map=links_map,
+            rules_map=rules_map,
+            removed_zones=removed_zones,
+            removed_links=removed_links,
+            removed_policies=removed_policies,
+            notable_zones=notable_zones,
+            notable_links=notable_links,
+            notable_policies=notable_policies,
+            format_strings=format_strings,
+            zone_strings=zone_strings,
+            buf_sizes=buf_sizes)
+        generator.generate_files(output_dir)
+    elif language == 'json':
+        logging.info('======== Creating JSON zonedb files')
+        generator = JsonGenerator(
+            invocation=invocation,
+            tz_version=tz_version,
+            tz_files=Extractor.ZONE_FILES,
+            scope=scope,
+            db_namespace=db_namespace,
+            start_year=start_year,
+            until_year=until_year,
+            zones_map=zones_map,
+            links_map=links_map,
+            rules_map=rules_map,
+            removed_zones=removed_zones,
+            removed_links=removed_links,
+            removed_policies=removed_policies,
+            notable_zones=notable_zones,
+            notable_links=notable_links,
+            notable_policies=notable_policies,
+            format_strings=format_strings,
+            zone_strings=zone_strings,
+        )
+        generator.generate_files(output_dir)
+    else:
+        raise Exception("Unrecognized language '%s'" % language)
+
+
+def main() -> None:
     """
     Main driver for TZ Database compiler which parses the IANA TZ Database files
     located at the --input_dir and generates zoneinfo files and validation
@@ -187,26 +350,8 @@ if __name__ == '__main__':
     # flag.
     logging.basicConfig(level=logging.INFO)
 
-    # Set the defaults for validation_start_year and validation_until_year
-    # if they were not specified.
-    validation_start_year = args.start_year if args.validation_start_year == 0 \
-        else args.validation_start_year
-    validation_until_year = args.until_year if args.validation_until_year == 0 \
-        else args.validation_until_year
-
     # How the script was invoked
     invocation = ' '.join(sys.argv)
-
-    # Determine zonedb namespace
-    if args.db_namespace:
-        db_namespace = args.db_namespace
-    else:
-        if args.scope == 'basic':
-            db_namespace = 'zonedb'
-        elif args.scope == 'extended':
-            db_namespace = 'zonedbx'
-        else:
-            db_namespace = ''
 
     # Define scope-dependent granularity if not overridden by flag
     if args.granularity:
@@ -268,83 +413,32 @@ if __name__ == '__main__':
     logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
                  len(zone_policies))
 
-    # Generate the buf_size estimates for each zone, between start_year and
-    # until_year.
-    logging.info('======== Estimating transition buffer sizes')
-    logging.info('Checking years in [%d, %d)', args.start_year, args.until_year)
-    estimator = BufSizeEstimator(
-        zone_infos, zone_policies, args.start_year, args.until_year)
-    (buf_sizes, max_size) = estimator.estimate()
-    logging.info('Num zones=%d; Max buffer size=%d', len(buf_sizes), max_size)
-
     if args.action == 'zonedb':
-        generator: Generator
-        # Create the Python or Arduino files if requested
-        if not args.output_dir:
-            logging.error('Must provide --output_dir to generate zonedb files')
-            sys.exit(1)
-        if args.language == 'python':
-            logging.info('======== Creating Python zonedb files')
-            generator = PythonGenerator(
-                invocation=invocation,
-                tz_version=args.tz_version,
-                tz_files=Extractor.ZONE_FILES,
-                zones_map=zones_map,
-                rules_map=rules_map,
-                removed_zones=removed_zones,
-                removed_policies=removed_policies,
-                notable_zones=notable_zones,
-                notable_policies=notable_policies)
-            generator.generate_files(args.output_dir)
-        elif args.language == 'arduino':
-            logging.info('======== Creating Arduino zonedb files')
-            generator = ArduinoGenerator(
-                invocation=invocation,
-                tz_version=args.tz_version,
-                tz_files=Extractor.ZONE_FILES,
-                scope=args.scope,
-                db_namespace=db_namespace,
-                generate_zone_strings=args.generate_zone_strings,
-                start_year=args.start_year,
-                until_year=args.until_year,
-                zones_map=zones_map,
-                links_map=links_map,
-                rules_map=rules_map,
-                removed_zones=removed_zones,
-                removed_links=removed_links,
-                removed_policies=removed_policies,
-                notable_zones=notable_zones,
-                notable_links=notable_links,
-                notable_policies=notable_policies,
-                format_strings=format_strings,
-                zone_strings=zone_strings,
-                buf_sizes=buf_sizes)
-            generator.generate_files(args.output_dir)
-        elif args.language == 'json':
-            logging.info('======== Creating JSON zonedb files')
-            generator = JsonGenerator(
-                invocation=invocation,
-                tz_version=args.tz_version,
-                tz_files=Extractor.ZONE_FILES,
-                scope=args.scope,
-                db_namespace=db_namespace,
-                start_year=args.start_year,
-                until_year=args.until_year,
-                zones_map=zones_map,
-                links_map=links_map,
-                rules_map=rules_map,
-                removed_zones=removed_zones,
-                removed_links=removed_links,
-                removed_policies=removed_policies,
-                notable_zones=notable_zones,
-                notable_links=notable_links,
-                notable_policies=notable_policies,
-                format_strings=format_strings,
-                zone_strings=zone_strings,
-            )
-            generator.generate_files(args.output_dir)
-        else:
-            raise Exception("Unrecognized language '%s'" % args.language)
+        generate_zonedb(
+            invocation=invocation,
+            tz_version=args.tz_version,
+            tz_files=Extractor.ZONE_FILES,
+            scope=args.scope,
+            db_namespace=args.db_namespace,
+            zones_map=zones_map,
+            links_map=links_map,
+            rules_map=rules_map,
+            removed_zones=removed_zones,
+            removed_links=removed_links,
+            removed_policies=removed_policies,
+            notable_zones=notable_zones,
+            notable_links=notable_links,
+            notable_policies=notable_policies,
+            format_strings=format_strings,
+            zone_strings=zone_strings,
+            zone_infos=zone_infos,
+            zone_policies=zone_policies,
+            language=args.language,
+            start_year=args.start_year,
+            until_year=args.until_year,
+            output_dir=args.output_dir,
+            generate_zone_strings=args.generate_zone_strings,
+        )
     elif args.action == 'zonelist':
         generator = ZoneListGenerator(
             invocation=invocation,
@@ -354,42 +448,41 @@ if __name__ == '__main__':
             zones_map=zones_map)
         generator.generate_files(args.output_dir)
     elif args.action == 'validate':
+        # Set the defaults for validation_start_year and validation_until_year
+        # if they were not specified.
+        validation_start_year = (
+            args.start_year
+            if args.validation_start_year == 0
+            else args.validation_start_year
+        )
+        validation_until_year = (
+            args.until_year
+            if args.validation_until_year == 0
+            else args.validation_until_year
+        )
 
-        # Set the default to set both --validate_buffer_size and
-        # --validate_test_data if neither flags are given explicitly.
-        validate_buffer_size = False
-        validate_test_data = False
-        if args.validate_buffer_size:
-            validate_buffer_size = True
-        if args.validate_test_data:
-            validate_test_data = True
-        if not validate_buffer_size and not validate_test_data:
-            validate_buffer_size = True
-            validate_test_data = True
-
-        validator = Validator(
+        validate(
             zone_infos=zone_infos,
             zone_policies=zone_policies,
+            zone=args.zone,
+            year=args.year,
+            start_year=validation_start_year,
+            until_year=validation_until_year,
+            validate_buffer_size=args.validate_buffer_size,
+            validate_test_data=args.validate_test_data,
             viewing_months=args.viewing_months,
             validate_dst_offset=args.validate_dst_offset,
             debug_validator=args.debug_validator,
             debug_specifier=args.debug_specifier,
-            zone_name=args.zone,
-            year=args.year,
-            start_year=validation_start_year,
-            until_year=validation_until_year,
             in_place_transitions=args.in_place_transitions,
-            optimize_candidates=args.optimize_candidates)
-
-        if validate_buffer_size:
-            logging.info('======== Validating transition buffer sizes')
-            validator.validate_buffer_size()
-
-        if validate_test_data:
-            logging.info('======== Validating test data')
-            validator.validate_test_data()
+            optimize_candidates=args.optimize_candidates,
+        )
     else:
         logging.error(f"Unrecognized action '{args.action}'")
         sys.exit(1)
 
     logging.info('======== Finished processing TZ Data files.')
+
+
+if __name__ == '__main__':
+    main()

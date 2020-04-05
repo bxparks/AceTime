@@ -35,17 +35,18 @@ from typing_extensions import TypedDict
 CommentsMap = Dict[str, List[str]]
 
 # zoneName -> Set[Comment] to collect de-duped error messages or warnings.
-# Used internally.
+# Used only internally.
 CommentsCollection = Dict[str, Set[str]]
 
 # policyName -> zoneName[], the list of all Zones which references the
-# given policy. TODO: Should probably be renamed PoliciesToZones.
+# given policy. Used only internally.
+# TODO: Should probably be renamed PoliciesToZones.
 RulesToZones = Dict[str, List[str]]
 
 
 # Deduped list of strings (as OrderedDict of {string -> index}), total size, and
 # the total original size. The 'index' allows the generated zoneinfo files (in
-# varous languages) to reference the string using the 'index'.
+# varous languages) to reference the string using the 'index'. Used externally.
 StringCollection = TypedDict('StringCollection', {
     'ordered_map': 'OrderedDict[str, int]',
     'size': int,  # total length of strings after de-duplication
