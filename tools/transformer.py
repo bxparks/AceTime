@@ -265,8 +265,13 @@ class Transformer:
         return results
 
     def _detect_hash_collisions(self, zones_map: ZonesMap) -> ZonesMap:
-        """Detect a hash collision. Throw exception so that we can fix it
-        programmatically.
+        """Detect a hash collision of a zone name and throw an exception. With
+        only a few hundred zone names and a 32-bit hash, the chances of a
+        collision is extremely low. However, if it ever happens, it is a severe
+        error because we must guarantee that each zone name has a unique and
+        stable hash for the life of this library. If this exception ever
+        happens, we must create another hash for the colliding zone name, and
+        keep the second hash unique and stable as well.
         """
         hashes: Dict[int, str] = {}
         for name, _ in zones_map.items():
