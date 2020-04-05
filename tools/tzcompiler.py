@@ -98,17 +98,6 @@ def generate_zonedb(
     generate_zone_strings: bool,
 ) -> None:
 
-    # Determine zonedb C++ namespace
-    if not db_namespace:
-        if scope == 'basic':
-            db_namespace = 'zonedb'
-        elif scope == 'extended':
-            db_namespace = 'zonedbx'
-        else:
-            raise Exception(
-                f"db_namespace cannot be determined for scope '{scope}'"
-            )
-
     # Generate the buf_size estimates for each zone, between start_year and
     # until_year.
     logging.info('======== Estimating transition buffer sizes')
@@ -139,6 +128,19 @@ def generate_zonedb(
         generator.generate_files(output_dir)
     elif language == 'arduino':
         logging.info('======== Creating Arduino zonedb files')
+
+        # Determine zonedb C++ namespace
+        # TODO: Maybe move this into ArduinoGenerator?
+        if not db_namespace:
+            if scope == 'basic':
+                db_namespace = 'zonedb'
+            elif scope == 'extended':
+                db_namespace = 'zonedbx'
+            else:
+                raise Exception(
+                    f"db_namespace cannot be determined for scope '{scope}'"
+                )
+
         generator = ArduinoGenerator(
             invocation=invocation,
             tz_version=tz_version,
@@ -168,7 +170,6 @@ def generate_zonedb(
             tz_version=tz_version,
             tz_files=Extractor.ZONE_FILES,
             scope=scope,
-            db_namespace=db_namespace,
             start_year=start_year,
             until_year=until_year,
             zones_map=zones_map,

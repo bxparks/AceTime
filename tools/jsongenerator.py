@@ -20,7 +20,6 @@ class ZoneDb(TypedDict):
     tz_version: str
     tz_files: List[str]
     scope: str
-    db_namespace: str
     start_year: int
     until_year: int
 
@@ -64,7 +63,6 @@ class JsonGenerator:
         tz_version: str,
         tz_files: List[str],
         scope: str,
-        db_namespace: str,
         start_year: int,
         until_year: int,
         zones_map: ZonesMap,
@@ -85,7 +83,6 @@ class JsonGenerator:
             'tz_version': tz_version,
             'tz_files': tz_files,
             'scope': scope,
-            'db_namespace': db_namespace,
             'start_year': start_year,
             'until_year': until_year,
 
