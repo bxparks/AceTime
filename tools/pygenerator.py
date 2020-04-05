@@ -20,7 +20,9 @@ from typing import Tuple
 
 
 class PythonGenerator:
-    """Generate Python files for zone infos and policies.
+    """Generate Python files for zone_infos.py and zone_policies.py which are
+    used by the ZoneSpecifier class. Unlike the Arduino version, the Python
+    implementation does not support the 'Link' zone names.
     """
 
     ZONE_POLICIES_FILE = """\
@@ -198,16 +200,18 @@ ZONE_INFO_{zoneNormalizedName} = {{
     ZONE_INFOS_FILE_NAME = 'zone_infos.py'
     ZONE_POLICIES_FILE_NAME = 'zone_policies.py'
 
-    def __init__(self,
-                 invocation: str,
-                 tz_version: str,
-                 tz_files: List[str],
-                 zones_map: ZonesMap,
-                 rules_map: RulesMap,
-                 removed_zones: CommentsMap,
-                 removed_policies: CommentsMap,
-                 notable_zones: CommentsMap,
-                 notable_policies: CommentsMap):
+    def __init__(
+        self,
+        invocation: str,
+        tz_version: str,
+        tz_files: List[str],
+        zones_map: ZonesMap,
+        rules_map: RulesMap,
+        removed_zones: CommentsMap,
+        removed_policies: CommentsMap,
+        notable_zones: CommentsMap,
+        notable_policies: CommentsMap,
+    ):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files

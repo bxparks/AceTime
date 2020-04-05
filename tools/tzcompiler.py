@@ -285,15 +285,15 @@ if __name__ == '__main__':
         if args.language == 'python':
             logging.info('======== Creating Python zonedb files')
             generator = PythonGenerator(
-                invocation,
-                args.tz_version,
-                Extractor.ZONE_FILES,
-                zones_map,
-                rules_map,
-                removed_zones,
-                removed_policies,
-                notable_zones,
-                notable_policies)
+                invocation=invocation,
+                tz_version=args.tz_version,
+                tz_files=Extractor.ZONE_FILES,
+                zones_map=zones_map,
+                rules_map=rules_map,
+                removed_zones=removed_zones,
+                removed_policies=removed_policies,
+                notable_zones=notable_zones,
+                notable_policies=notable_policies)
             generator.generate_files(args.output_dir)
         elif args.language == 'arduino':
             logging.info('======== Creating Arduino zonedb files')
@@ -329,9 +329,9 @@ if __name__ == '__main__':
                 db_namespace=db_namespace,
                 start_year=args.start_year,
                 until_year=args.until_year,
-                rules_map=rules_map,
                 zones_map=zones_map,
                 links_map=links_map,
+                rules_map=rules_map,
                 removed_zones=removed_zones,
                 removed_links=removed_links,
                 removed_policies=removed_policies,
