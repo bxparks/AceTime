@@ -2,7 +2,7 @@
 #
 # MIT License
 """
-Generate the zone_info and zone_policies files for Python.
+Generate the 'zone_infos.py' and 'zone_policies.py' files for Python.
 """
 
 import logging

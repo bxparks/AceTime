@@ -16,6 +16,9 @@ from extractor import ZonesMap
 from extractor import RulesMap
 from transformer import normalize_name
 
+# These are the data structures written out to 'zone_policies.py' and
+# 'zone_infos.py' by pygenerator.py.
+
 ZoneRule = TypedDict(
     'ZoneRule', {
         'fromYear': int,
@@ -29,13 +32,16 @@ ZoneRule = TypedDict(
         'letter': str,
     })
 
-ZonePolicy = TypedDict('ZonePolicy', {'name': str, 'rules': List[ZoneRule]})
+ZonePolicy = TypedDict(
+    'ZonePolicy', {
+        'name': str,
+        'rules': List[ZoneRule],
+    })
 
 ZonePolicyMap = Dict[str, ZonePolicy]
 
 ZoneEra = TypedDict(
-    'ZoneEra',
-    {
+    'ZoneEra', {
         'offsetSeconds': int,
         'zonePolicy': Union[ZonePolicy, str],  # '-', ':', or ZonePolicy
         'rulesDeltaSeconds': int,
@@ -47,7 +53,11 @@ ZoneEra = TypedDict(
         'untilTimeSuffix': str,
     })
 
-ZoneInfo = TypedDict('ZoneInfo', {'name': str, 'eras': List[ZoneEra]})
+ZoneInfo = TypedDict(
+    'ZoneInfo', {
+        'name': str,
+        'eras': List[ZoneEra],
+    })
 
 ZoneInfoMap = Dict[str, ZoneInfo]
 
