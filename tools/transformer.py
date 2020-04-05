@@ -96,33 +96,42 @@ class Transformer:
         self.all_notable_policies: CommentsMap = {}  # policy -> reason[]
         self.all_notable_links: CommentsMap = {}  # link -> reason[]
 
+        self.format_strings: StringCollection
+        self.zone_strings: StringCollection
+
     def transform(self) -> None:
         """
         Transforms the zones_map and rules_map given in the constructor
-        through a series of filters, and produces the following results:
+        through a series of filters, and produces the following results
+        which can be retrieved using the get_zone_data() function.
 
         * self.zones_map: map of (zoneName -> ZoneEraRaw[]).
         * self.rules_map: map of (policyName -> ZoneRuleRaw[]).
         * self.links_map: map of (linkName -> zoneName)
         * self.all_removed_zones: map of the zones which were removed:
             name: name of zone
-            reason: human readable reason
+            reasons: human readable reasons
         * self.all_removed_policies: map of the policies which were removed:
             name: name of policy
-            reason: human readable reason
+            reasons: human readable reasons
         * self.all_removed_links: map of removed
             name: name of link
-            reason: human readable reason
-         self.all_notable_zones: map of the zones which come with
-          caveats, e.g., truncation of '00:01' to '00:00'.
+            reasons: human readable reasons
+         self.all_notable_zones: map of the zones with caveats,
+            e.g., truncation of '00:01' to '00:00'.
             name: name of zone
-            reason: human readable reason
-        * self.all_notable_policies: map of policies which come with caveats:
+            reasons: human readable reasons
+        * self.all_notable_policies: map of policies with caveats:
             name: name of policy
-            reason: human readable reason
-        * self.all_notable_links: map of links which come with caveats:
+            reasons: human readable reasons
+        * self.all_notable_links: map of links with caveats:
             name: name of link
-            reason: human readable reason
+            reasons: human readable reasons
+        * self.format_strings: de-duped map of 'FORMAT' strings and the
+            corresponding array index so that they can be referenced
+            using just the index
+        * self.zone_strings: de-duped map of zone names and the corresponding
+            array index.
         """
 
         zones_map = self.zones_map
@@ -192,6 +201,21 @@ class Transformer:
         self.format_strings = create_format_strings(
             self.zones_map, self.rules_map)
         self.zone_strings = create_zone_strings(self.zones_map)
+
+    def get_data(self) -> Tuple[
+        ZonesMap, RulesMap, LinksMap,
+        CommentsMap, CommentsMap, CommentsMap,
+        CommentsMap, CommentsMap, CommentsMap,
+        StringCollection, StringCollection,
+    ]:
+        """Return the result of the transform() operation."""
+        return (
+            self.zones_map, self.rules_map, self.links_map,
+            self.all_removed_zones, self.all_removed_policies,
+            self.all_removed_links, self.all_notable_zones,
+            self.all_notable_policies, self.all_notable_links,
+            self.format_strings, self.zone_strings,
+        )
 
     def print_summary(self) -> None:
         logging.info('-------- Transformer Summary')
@@ -1679,8 +1703,8 @@ def create_format_strings(
     """Collect all ZoneRule.letter and ZoneEra.format strings into a single
     array, for deduplication. However, bringing all strings into a single array
     means that this gets loaded even if the application uses only a few zones.
-    See collect_letter_strings() for code that collects only the ZoneRule.letter
-    strings.
+    See ArduinoGenerator.collect_letter_strings() for code that collects only
+    the ZoneRule.letter strings.
     """
     strings_count: Dict[str, int] = {}
     for name, eras in zones_map.items():
@@ -1709,7 +1733,7 @@ def create_format_strings(
 
 
 def create_zone_strings(zones_map: ZonesMap) -> StringCollection:
-    """Collect Zone names.
+    """Collect Zone names and their index offset.
     """
     strings_count: Dict[str, int] = {}
     for name, eras in zones_map.items():

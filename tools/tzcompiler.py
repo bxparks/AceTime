@@ -252,12 +252,16 @@ if __name__ == '__main__':
     )
     transformer.transform()
     transformer.print_summary()
+    (
+        zones_map, rules_map, links_map, removed_zones, removed_policies,
+        removed_links, notable_zones, notable_policies, notable_links,
+        format_strings, zone_strings,
+    ) = transformer.get_data()
 
     # Generate internal versions of zone_infos and zone_policies
     # so that ZoneSpecifier can be created.
     logging.info('======== Generating inlined zone_infos and zone_policies')
-    inline_generator = InlineGenerator(
-        transformer.zones_map, transformer.rules_map)
+    inline_generator = InlineGenerator(zones_map, rules_map)
     (zone_infos, zone_policies) = inline_generator.generate_maps()
     logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
                  len(zone_policies))
@@ -283,12 +287,12 @@ if __name__ == '__main__':
                 invocation,
                 args.tz_version,
                 Extractor.ZONE_FILES,
-                transformer.zones_map,
-                transformer.rules_map,
-                transformer.all_removed_zones,
-                transformer.all_removed_policies,
-                transformer.all_notable_zones,
-                transformer.all_notable_policies)
+                zones_map,
+                rules_map,
+                removed_zones,
+                removed_policies,
+                notable_zones,
+                notable_policies)
             generator.generate_files(args.output_dir)
         elif args.language == 'arduino':
             logging.info('======== Creating Arduino zonedb files')
@@ -301,17 +305,17 @@ if __name__ == '__main__':
                 generate_zone_strings=args.generate_zone_strings,
                 start_year=args.start_year,
                 until_year=args.until_year,
-                zones_map=transformer.zones_map,
-                links_map=transformer.links_map,
-                rules_map=transformer.rules_map,
-                removed_zones=transformer.all_removed_zones,
-                removed_links=transformer.all_removed_links,
-                removed_policies=transformer.all_removed_policies,
-                notable_zones=transformer.all_notable_zones,
-                notable_links=transformer.all_notable_links,
-                notable_policies=transformer.all_notable_policies,
-                format_strings=transformer.format_strings,
-                zone_strings=transformer.zone_strings,
+                zones_map=zones_map,
+                links_map=links_map,
+                rules_map=rules_map,
+                removed_zones=removed_zones,
+                removed_links=removed_links,
+                removed_policies=removed_policies,
+                notable_zones=notable_zones,
+                notable_links=notable_links,
+                notable_policies=notable_policies,
+                format_strings=format_strings,
+                zone_strings=zone_strings,
                 buf_sizes=buf_sizes)
             generator.generate_files(args.output_dir)
         elif args.language == 'json':
@@ -324,17 +328,17 @@ if __name__ == '__main__':
                 db_namespace=db_namespace,
                 start_year=args.start_year,
                 until_year=args.until_year,
-                rules_map=transformer.rules_map,
-                zones_map=transformer.zones_map,
-                links_map=transformer.links_map,
-                removed_zones=transformer.all_removed_zones,
-                removed_links=transformer.all_removed_links,
-                removed_policies=transformer.all_removed_policies,
-                notable_zones=transformer.all_notable_zones,
-                notable_links=transformer.all_notable_links,
-                notable_policies=transformer.all_notable_policies,
-                format_strings=transformer.format_strings,
-                zone_strings=transformer.zone_strings,
+                rules_map=rules_map,
+                zones_map=zones_map,
+                links_map=links_map,
+                removed_zones=removed_zones,
+                removed_links=removed_links,
+                removed_policies=removed_policies,
+                notable_zones=notable_zones,
+                notable_links=notable_links,
+                notable_policies=notable_policies,
+                format_strings=format_strings,
+                zone_strings=zone_strings,
             )
             generator.generate_files(args.output_dir)
         else:
@@ -345,7 +349,7 @@ if __name__ == '__main__':
             tz_version=args.tz_version,
             tz_files=Extractor.ZONE_FILES,
             scope=args.scope,
-            zones_map=transformer.zones_map)
+            zones_map=zones_map)
         generator.generate_files(args.output_dir)
     elif args.action == 'validate':
 
