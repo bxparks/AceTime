@@ -98,7 +98,7 @@ def generate_zonedb(
     generate_zone_strings: bool,
 ) -> None:
 
-    # Determine zonedb namespace
+    # Determine zonedb C++ namespace
     if not db_namespace:
         if scope == 'basic':
             db_namespace = 'zonedb'
@@ -200,11 +200,18 @@ def main() -> None:
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Generate Zone Info.')
 
-    # Extractor
+    # Extractor flags.
     parser.add_argument(
         '--input_dir', help='Location of the input directory', required=True)
 
-    # Transformer
+    # Transformer flags.
+    parser.add_argument(
+        '--scope',
+        # basic: 241 of the simpler time zones for BasicZoneSpecifier
+        # extended: all 348 time zones for ExtendedZoneSpecifier
+        choices=['basic', 'extended'],
+        help='Size of the generated database (basic|extended)',
+        required=True)
     parser.add_argument(
         '--start_year',
         help='Start year of Zone Eras (default: 2000)',
@@ -242,34 +249,14 @@ def main() -> None:
         action='store_true',
         default=False)
 
-    # Flags for the TestDataGenerator. If not given (default 0), then
-    # the validation_start_year will be set to start_year, and the
-    # validation_until_year will be set to until_year.
-    #
-    # pytz cannot handle dates after the end of 32-bit Unix time_t type
-    # (2038-01-19T03:14:07Z), see
-    # https://answers.launchpad.net/pytz/+question/262216, so the
-    # validation_until_year cannot be greater than 2038.
-    parser.add_argument(
-        '--validation_start_year',
-        help='Start year of ZoneSpecifier validation (default: start_year)',
-        type=int,
-        default=0)
-    parser.add_argument(
-        '--validation_until_year',
-        help='Until year of ZoneSpecifier validation (default: 2038)',
-        type=int,
-        default=0)
-
     # Data pipeline selectors:
-    #
-    # zonedb: generate zonedb files
-    # zonelist: generate zones.txt, list of relavant zones
-    # validate: validate both buffer size and validation data
     parser.add_argument(
         '--action',
-        help='Data pipeline action selector',
+        # zonedb: generate zonedb files
+        # zonelist: generate zones.txt, list of relavant zones
+        # validate: validate both buffer size and validation data
         choices=['zonedb', 'zonelist', 'validate'],
+        help='Data pipeline action selector',
         required=True)
 
     # Language selector (for --action zonedb)
@@ -279,21 +266,13 @@ def main() -> None:
         help='Target language (arduino|python|json)',
     )
 
-    # Scope (of the zones in the database):
-    # basic: 241 of the simpler time zones for BasicZoneSpecifier
-    # extended: all 348 time zones for ExtendedZoneSpecifier
-    parser.add_argument(
-        '--scope',
-        help='Size of the generated database (basic|extended)',
-        required=True)
-
-    # C++ namespace names for language=arduino. If not specified, it will
+    # C++ namespace names for '--language arduino'. If not specified, it will
     # automatically be set to 'zonedb' or 'zonedbx' depending on the 'scope'.
     parser.add_argument(
         '--db_namespace',
         help='C++ namespace for the zonedb files (default: zonedb or zonedbx)')
 
-    # Enable zone_strings.{h,cpp} if requested
+    # Enable zone_strings.{h,cpp} if requested. For '--language arduino'.
     parser.add_argument(
         '--generate_zone_strings',
         help='Generate Arduino zone_strings.{h,cpp} files',
@@ -305,7 +284,7 @@ def main() -> None:
     parser.add_argument(
         '--output_dir', help='Location of the output directory')
 
-    # Validator
+    # Validator flags.
     parser.add_argument('--zone', help='Name of time zone to validate')
     parser.add_argument('--year', help='Year to validate', type=int)
     parser.add_argument(
@@ -341,6 +320,24 @@ def main() -> None:
         '--optimize_candidates',
         help='Optimize the candidate transitions',
         action='store_true')
+    # Flags for the Validator (to be passed into TestDataGenerator). If not
+    # given (default 0), then the validation_start_year will be set to
+    # start_year, and the validation_until_year will be set to until_year.
+    #
+    # pytz cannot handle dates after the end of 32-bit Unix time_t type
+    # (2038-01-19T03:14:07Z), see
+    # https://answers.launchpad.net/pytz/+question/262216, so the
+    # validation_until_year cannot be greater than 2038.
+    parser.add_argument(
+        '--validation_start_year',
+        help='Start year of ZoneSpecifier validation (default: start_year)',
+        type=int,
+        default=0)
+    parser.add_argument(
+        '--validation_until_year',
+        help='Until year of ZoneSpecifier validation (default: 2038)',
+        type=int,
+        default=0)
 
     # Parse the command line arguments
     args = parser.parse_args()
