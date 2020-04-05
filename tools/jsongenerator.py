@@ -51,7 +51,12 @@ class JsonGenerator:
     instead of the inlined Pythnon data structures.
     """
 
-    _OUTPUT_FILE = 'zonedb.json'
+    # The output of this is called "tzdb.json" because it is the JSON
+    # representation of that closely matches the original TZ Database files. I
+    # don't want to call it "zonedb.json" because 'zonedb' refers to the
+    # 'zone_infos.*' and 'zone_polcies.*' files which are the processed files
+    # relevant to a specific target language, (e.g. Arduino, Python).
+    _OUTPUT_FILE = 'tzdb.json'
 
     def __init__(
         self,

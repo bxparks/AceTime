@@ -42,8 +42,8 @@ validate:
 		--language python \
 		--scope basic
 
-# Generate zonedb.json for testing purposes.
-zonedb.json: extractor.py transformer.py jsongenerator.py \
+# Generate tzdb.json for testing purposes.
+tzdb.json: extractor.py transformer.py jsongenerator.py \
 tzcompiler.py tzcompiler.sh
 	./tzcompiler.sh \
 		--tag 2019c \
