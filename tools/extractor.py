@@ -223,6 +223,10 @@ class Extractor:
         self._process_zones()
         self._process_links()
 
+    def get_data(self) -> Tuple[RulesMap, ZonesMap, LinksMap]:
+        """Return the extracted data maps."""
+        return self.rules_map, self.zones_map, self.links_map
+
     def _parse_zone_files(self) -> None:
         logging.basicConfig(level=logging.INFO)
         for file_name in self.ZONE_FILES:

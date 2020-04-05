@@ -43,7 +43,8 @@ validate:
 		--scope basic
 
 # Generate zonedb.json for testing purposes.
-zonedb.json:
+zonedb.json: extractor.py transformer.py jsongenerator.py \
+tzcompiler.py tzcompiler.sh
 	./tzcompiler.sh \
 		--tag 2019c \
 		--action zonedb \

@@ -235,14 +235,15 @@ if __name__ == '__main__':
     extractor = Extractor(args.input_dir)
     extractor.parse()
     extractor.print_summary()
+    rules_map, zones_map, links_map = extractor.get_data()
 
     # Transform the TZ zones and rules
     logging.info('======== Transforming Zones and Rules')
     logging.info('Extracting years [%d, %d)', args.start_year, args.until_year)
     transformer = Transformer(
-        extractor.zones_map,
-        extractor.rules_map,
-        extractor.links_map,
+        zones_map,
+        rules_map,
+        links_map,
         args.scope,
         args.start_year,
         args.until_year,
