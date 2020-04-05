@@ -12,7 +12,6 @@ from extractor import LinksMap
 from transformer import CommentsMap
 from transformer import StringCollection
 from typing import Any
-from typing import Dict
 from typing import List
 
 
@@ -65,21 +64,13 @@ class JsonGenerator:
         o['links_map'] = links_map
 
         # Added data from Transformer
-        o['removed_policies'] = self.convert_comment_map(removed_policies)
-        o['removed_zones'] = self.convert_comment_map(removed_zones)
-        o['removed_links'] = self.convert_comment_map(removed_links)
+        o['removed_policies'] = removed_policies
+        o['removed_zones'] = removed_zones
+        o['removed_links'] = removed_links
         o['format_strings'] = format_strings
         o['zone_strings'] = zone_strings
 
         self.out = o
-
-    @staticmethod
-    def convert_comment_map(m: CommentsMap) -> Dict[str, List[str]]:
-        """Convert a CommentMap into a Dict which can be serialized to JSON."""
-        d: Dict[str, List[str]] = {}
-        for k, vals in m.items():
-            d[k] = list(vals)
-        return d
 
     def generate_files(self, output_dir: str) -> None:
         full_filename = os.path.join(output_dir, self._OUTPUT_FILE)
