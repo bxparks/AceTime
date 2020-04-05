@@ -201,11 +201,12 @@ if __name__ == '__main__':
     if args.db_namespace:
         db_namespace = args.db_namespace
     else:
-        db_namespace = ''
         if args.scope == 'basic':
             db_namespace = 'zonedb'
-        if args.scope == 'extended':
+        elif args.scope == 'extended':
             db_namespace = 'zonedbx'
+        else:
+            db_namespace = ''
 
     # Define scope-dependent granularity if not overridden by flag
     if args.granularity:
