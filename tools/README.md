@@ -23,7 +23,7 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
  /             /        |     pygenerator.py          jsongenerator.py
 /             /         |           \ [zonedb/python]   \
 |            /  ingenerator.py       v                   v
-|           /           |       zone_infos.py          zoneinfo.json
+|           /           |       zone_infos.py          zonedb.json
 |          /            |       zone_policies.py
 |         /            / \      zone_strings.py
 |        /            v   \          |

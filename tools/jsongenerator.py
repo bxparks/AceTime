@@ -25,7 +25,7 @@ class JsonGenerator:
     instead of the inlined Pythnon data structures.
     """
 
-    _OUTPUT_FILE = 'zoneinfo.json'
+    _OUTPUT_FILE = 'zonedb.json'
 
     def __init__(
         self,

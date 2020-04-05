@@ -34,17 +34,18 @@ flake8:
 		--statistics \
 		--max-line-length=80
 
-# Run --validate_buffer_size and --validate_test_data.
-validate-basic:
+# Run the Validator using --action validate, for testing purposes.
+validate:
 	./tzcompiler.sh \
 		--tag 2019c \
 		--action validate \
 		--language python \
 		--scope basic
 
-validate-extended:
+# Generate zonedb.json for testing purposes.
+zonedb.json:
 	./tzcompiler.sh \
 		--tag 2019c \
-		--action validate \
-		--language python \
-		--scope extended
+		--action zonedb \
+		--language json \
+		--scope basic
