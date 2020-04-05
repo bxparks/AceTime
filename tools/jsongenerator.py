@@ -5,14 +5,41 @@
 import os
 import logging
 import json
-from collections import OrderedDict
 from extractor import ZonesMap
 from extractor import RulesMap
 from extractor import LinksMap
 from transformer import CommentsMap
 from transformer import StringCollection
-from typing import Any
 from typing import List
+from typing_extensions import TypedDict
+
+
+class ZoneDb(TypedDict):
+    # Context data.
+    invocation: str
+    tz_version: str
+    tz_files: List[str]
+    scope: str
+    db_namespace: str
+    start_year: int
+    until_year: int
+
+    # Data from Extractor filtered through Transformer
+    zones_map: ZonesMap
+    links_map: LinksMap
+    rules_map: RulesMap
+
+    # Data from Transformer
+    removed_zones: CommentsMap
+    removed_links: CommentsMap
+    removed_policies: CommentsMap
+
+    notable_zones: CommentsMap
+    notable_links: CommentsMap
+    notable_policies: CommentsMap
+
+    format_strings: StringCollection
+    zone_strings: StringCollection
 
 
 class JsonGenerator:
@@ -47,33 +74,36 @@ class JsonGenerator:
         format_strings: StringCollection,
         zone_strings: StringCollection,
     ):
-        o: 'OrderedDict[str, Any]' = OrderedDict()
+        self.zonedb: ZoneDb = {
+            # Context data.
+            'invocation': invocation,
+            'tz_version': tz_version,
+            'tz_files': tz_files,
+            'scope': scope,
+            'db_namespace': db_namespace,
+            'start_year': start_year,
+            'until_year': until_year,
 
-        # Metadata
-        o['invocation'] = invocation
-        o['tz_version'] = tz_version
-        o['tz_files'] = tz_files
-        o['scope'] = scope
-        o['db_namespace'] = db_namespace
-        o['start_year'] = start_year
-        o['until_year'] = until_year
+            # Data from Extractor filtered through Transformer.
+            'zones_map': zones_map,
+            'links_map': links_map,
+            'rules_map': rules_map,
 
-        # Data from Extractor filtered through Transformer
-        o['rules_map'] = rules_map
-        o['zones_map'] = zones_map
-        o['links_map'] = links_map
+            # Data from Transformer.
+            'removed_zones': removed_zones,
+            'removed_links': removed_links,
+            'removed_policies': removed_policies,
 
-        # Added data from Transformer
-        o['removed_policies'] = removed_policies
-        o['removed_zones'] = removed_zones
-        o['removed_links'] = removed_links
-        o['format_strings'] = format_strings
-        o['zone_strings'] = zone_strings
+            'notable_zones': notable_zones,
+            'notable_links': notable_links,
+            'notable_policies': notable_policies,
 
-        self.out = o
+            'format_strings': format_strings,
+            'zone_strings': zone_strings,
+        }
 
     def generate_files(self, output_dir: str) -> None:
         full_filename = os.path.join(output_dir, self._OUTPUT_FILE)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
-            json.dump(self.out, output_file, indent=2)
+            json.dump(self.zonedb, output_file, indent=2)
         logging.info("Created %s", full_filename)
