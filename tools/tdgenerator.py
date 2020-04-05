@@ -5,13 +5,9 @@
 import logging
 import datetime
 import pytz
-from datetime import timedelta
 from zone_specifier import ZoneSpecifier
 from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
 from zone_specifier import DateTuple
-from ingenerator import ZoneRule
-from ingenerator import ZonePolicy
-from ingenerator import ZoneEra
 from ingenerator import ZoneInfo
 from ingenerator import ZoneInfoMap
 from ingenerator import ZonePolicyMap
@@ -38,6 +34,7 @@ TestItem = NamedTuple("TestItem", [
 
 TestData = Dict[str, List[TestItem]]
 
+
 class TestDataGenerator:
     """Generate the validation test data using the Transitions determined by
     ZoneSpecifier and the UTC offsets determined by pytz. The ZoneSpecifier
@@ -50,7 +47,8 @@ class TestDataGenerator:
     that compare_pytz runs a lot slower.
     """
 
-    def __init__(self,
+    def __init__(
+        self,
         scope: str,
         zone_infos: ZoneInfoMap,
         zone_policies: ZonePolicyMap,
@@ -100,7 +98,7 @@ class TestDataGenerator:
         zone_specifier = ZoneSpecifier(zone_info)
         try:
             tz = pytz.timezone(zone_name)
-        except:
+        except pytz.UnknownTimeZoneError:
             logging.error("Zone '%s' not found in Python pytz package",
                           zone_name)
             return None
@@ -130,7 +128,7 @@ class TestDataGenerator:
     def _create_transition_test_items(
         self,
         zone_name: str,
-        tz: Any, # TODO: Figure out correct typing info for pytz.timezone
+        tz: Any,  # TODO: Figure out correct typing info for pytz.timezone
         zone_specifier: ZoneSpecifier
     ) -> List[TestItem]:
         """Create a TestItem for the tz for each zone, for each year from
@@ -155,7 +153,8 @@ class TestDataGenerator:
             # Skip start_year when viewing months is 36, because it needs data
             # for (start_year - 3), but ZoneSpecifier won't generate data for
             # years that old.
-            if self.viewing_months == 36 and year == self.start_year: continue
+            if self.viewing_months == 36 and year == self.start_year:
+                continue
 
             # Add samples just before and just after the DST transition.
             zone_specifier.init_for_year(year)
@@ -164,7 +163,8 @@ class TestDataGenerator:
                 # years (e.g. viewing_months = [14, 36]), so skip those.
                 start = transition.startDateTime
                 transition_year = start.y
-                if transition_year != year: continue
+                if transition_year != year:
+                    continue
 
                 # If viewing_months== (13 or 36), don't look at Transitions at
                 # the beginning of the year since those have been already added.
@@ -193,7 +193,7 @@ class TestDataGenerator:
                 self._add_test_item(items_map, test_item)
 
             # Add a sample test point at the end of the year.
-            tt = DateTuple(y=year, M=12, d=31, ss=23*3600, f='w')
+            tt = DateTuple(y=year, M=12, d=31, ss=23 * 3600, f='w')
             test_item = self._create_test_item_from_datetime(
                 tz, tt, type='Y')
             self._add_test_item(items_map, test_item)
@@ -203,7 +203,7 @@ class TestDataGenerator:
 
     def _create_test_item_from_datetime(
         self,
-        tz: Any, # TODO: Figure out correct typing info for pytz.timezone
+        tz: Any,  # TODO: Figure out correct typing info for pytz.timezone
         tt: DateTuple,
         type: str,
     ) -> TestItem:
@@ -211,13 +211,12 @@ class TestDataGenerator:
         """
         # Can't use the normal datetime constructor for pytz. Must use
         # timezone.localize(). See https://stackoverflow.com/questions/18541051
-        ldt = datetime.datetime(tt.y, tt.M, tt.d, tt.ss//3600)
+        ldt = datetime.datetime(tt.y, tt.M, tt.d, tt.ss // 3600)
         dt = tz.localize(ldt)
         unix_seconds = int(dt.timestamp())
         epoch_seconds = unix_seconds - SECONDS_SINCE_UNIX_EPOCH
         return self._create_test_item_from_epoch_seconds(
             tz, epoch_seconds, type)
-
 
     def _create_test_item_from_epoch_seconds(
         self,
@@ -246,8 +245,8 @@ class TestDataGenerator:
         utc_dt = datetime.datetime.fromtimestamp(
             unix_seconds, tz=datetime.timezone.utc)
         dt = utc_dt.astimezone(tz)
-        total_offset = int(dt.utcoffset().total_seconds()) # type: ignore
-        dst_offset = int(dt.dst().total_seconds()) # type: ignore
+        total_offset = int(dt.utcoffset().total_seconds())  # type: ignore
+        dst_offset = int(dt.dst().total_seconds())  # type: ignore
 
         return TestItem(
             epoch=epoch_seconds,

@@ -7,6 +7,7 @@ import os
 from typing import List
 from extractor import ZonesMap
 
+
 class ZoneListGenerator:
     """Create a zones.txt file that contains the names of zones supported by
     zonedb and zonedbx. Will be used by external programs (e.g.

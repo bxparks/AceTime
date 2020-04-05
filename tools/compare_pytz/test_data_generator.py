@@ -19,12 +19,6 @@
 import sys
 import logging
 from argparse import ArgumentParser
-from datetime import datetime
-from datetime import timedelta
-from datetime import tzinfo
-from typing import List
-from typing import NamedTuple
-from typing import Tuple
 from typing import List
 
 from tdgenerator import TestDataGenerator
@@ -44,7 +38,7 @@ def main(
 
     generator = TestDataGenerator(start_year, until_year)
     test_data = generator.create_test_data(zones)
-    
+
     arval_generator = ArduinoValidationGenerator(
         invocation, tz_version, db_namespace, scope, test_data)
     arval_generator.generate_files(output_dir)

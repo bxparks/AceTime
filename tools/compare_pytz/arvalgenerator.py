@@ -33,11 +33,6 @@ def normalize_name(name: str) -> str:
     return re.sub('[^a-zA-Z0-9_]', '_', name)
 
 
-# Copied from extractor.EPOCH_YEAR
-# AceTime Epoch is 2000-01-01 00:00:00
-#EPOCH_YEAR = 2000
-
-
 class ArduinoValidationGenerator:
     """Generate Arduino data files for BasicValidationUsingPythonTest and
     ExtendedValidationUsingPythonTest.
@@ -116,7 +111,8 @@ static const ValidationItem kValidationItems{zoneNormalizedName}[] = {{
 
 const {validationDataClass} kValidationData{zoneNormalizedName} = {{
   &kZone{zoneNormalizedName} /*zoneInfo*/,
-  sizeof(kValidationItems{zoneNormalizedName})/sizeof(ValidationItem) /*numItems*/,
+  sizeof(kValidationItems{zoneNormalizedName})/sizeof(ValidationItem) \
+/*numItems*/,
   kValidationItems{zoneNormalizedName} /*items*/,
 }};
 
@@ -202,7 +198,7 @@ testF({testClass}, {zoneNormalizedName}) {{
         return self.VALIDATION_DATA_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            pytz_version=pytz.__version__, # type: ignore
+            pytz_version=pytz.__version__,  # type: ignore
             includeHeaderNamespace=self.include_header_namespace,
             dbNamespace=self.db_namespace,
             numZones=len(self.test_data),
@@ -223,7 +219,7 @@ testF({testClass}, {zoneNormalizedName}) {{
         return self.VALIDATION_DATA_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            pytz_version=pytz.__version__, # type: ignore
+            pytz_version=pytz.__version__,  # type: ignore
             fileBase=self.file_base,
             dbNamespace=self.db_namespace,
             validationItems=validation_items)
@@ -241,8 +237,11 @@ testF({testClass}, {zoneNormalizedName}) {{
             validation_items += validation_item
         return validation_items
 
-    def _generate_validation_data_cpp_test_items(self,
-        zone_name: str, test_items: List[TestItem]) -> str:
+    def _generate_validation_data_cpp_test_items(
+        self,
+        zone_name: str,
+        test_items: List[TestItem],
+    ) -> str:
         """Generate the {testItems} value.
         """
         s = ''
@@ -268,7 +267,7 @@ testF({testClass}, {zoneNormalizedName}) {{
         return self.TESTS_CPP.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            pytz_version=pytz.__version__, # type: ignore
+            pytz_version=pytz.__version__,  # type: ignore
             testClass=self.test_class,
             fileBase=self.file_base,
             numZones=len(self.test_data),

@@ -18,12 +18,12 @@ from ingenerator import InlineGenerator
 from zonelistgenerator import ZoneListGenerator
 from validator import Validator
 from bufestimator import BufSizeEstimator
-from tdgenerator import TestDataGenerator
 
 
 class Generator(Protocol):
     def generate_files(self, name: str) -> None:
         ...
+
 
 if __name__ == '__main__':
     """
@@ -54,18 +54,24 @@ if __name__ == '__main__':
         default=2038)
     parser.add_argument(
         '--granularity',
-        help='Truncate UNTIL, AT, SAVE and RULES fields to ' +
-            'this many seconds (default: 60)',
+        help=(
+            'Truncate UNTIL, AT, SAVE and RULES fields to '
+            + 'this many seconds (default: 60)'
+        ),
         type=int)
     parser.add_argument(
         '--until_at_granularity',
-        help='Truncate UNTIL and AT fields to this many seconds ' +
-            '(default: --granularity)',
+        help=(
+            'Truncate UNTIL and AT fields to this many seconds '
+            + '(default: --granularity)'
+        ),
         type=int)
     parser.add_argument(
         '--offset_granularity',
-        help='Truncate SAVE, RULES (offset) fields to this many seconds' +
-            '(default: --granularity)',
+        help=(
+            'Truncate SAVE, RULES (offset) fields to this many seconds'
+            + '(default: --granularity)'
+        ),
         type=int)
     parser.add_argument(
         '--strict',
@@ -196,8 +202,10 @@ if __name__ == '__main__':
         db_namespace = args.db_namespace
     else:
         db_namespace = ''
-        if args.scope == 'basic': db_namespace = 'zonedb'
-        if args.scope == 'extended': db_namespace = 'zonedbx'
+        if args.scope == 'basic':
+            db_namespace = 'zonedb'
+        if args.scope == 'extended':
+            db_namespace = 'zonedbx'
 
     # Define scope-dependent granularity if not overridden by flag
     if args.granularity:
@@ -218,7 +226,8 @@ if __name__ == '__main__':
                 offset_granularity = 60
 
     logging.info('Using UNTIL/AT granularity: %d', until_at_granularity)
-    logging.info('Using RULES/SAVE (offset) granularity: %d',
+    logging.info(
+        'Using RULES/SAVE (offset) granularity: %d',
         offset_granularity)
 
     # Extract the TZ files
@@ -257,8 +266,8 @@ if __name__ == '__main__':
     # until_year.
     logging.info('======== Estimating transition buffer sizes')
     logging.info('Checking years in [%d, %d)', args.start_year, args.until_year)
-    estimator = BufSizeEstimator(zone_infos, zone_policies, args.start_year,
-        args.until_year)
+    estimator = BufSizeEstimator(
+        zone_infos, zone_policies, args.start_year, args.until_year)
     (buf_sizes, max_size) = estimator.estimate()
     logging.info('Num zones=%d; Max buffer size=%d', len(buf_sizes), max_size)
 

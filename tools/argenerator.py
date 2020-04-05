@@ -30,12 +30,12 @@ from transformer import div_to_zero
 from transformer import normalize_name
 from transformer import normalize_raw
 from transformer import hash_name
-from transformer import seconds_to_hm_string
 from transformer import CommentsMap
 from transformer import StringCollection
 
 # map{policy_name: map{letter: index}}
 LettersMap = Dict[str, 'OrderedDict[str, int]']
+
 
 class ArduinoGenerator:
     """Generate zone_infos and zone_policies files for Arduino/C++.
@@ -399,11 +399,12 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             memory32=memory32,
             policyItems=policy_items)
 
-    def _generate_policy_item(self,
+    def _generate_policy_item(
+        self,
         name: str,
         rules: List[ZoneRuleRaw],
-        indexed_letters: Optional['OrderedDict[str, int]']) \
-        -> Tuple[str, int, int]:
+        indexed_letters: Optional['OrderedDict[str, int]'],
+    ) -> Tuple[str, int, int]:
 
         # Generate kZoneRules*[]
         rule_items = ''
@@ -412,9 +413,12 @@ static const char* const kLetters{policyName}[] {progmem} = {{
                 rule['atSecondsTruncated'], rule['atTimeSuffix'], self.scope)
 
             if self.scope == 'extended':
-                delta_code = _to_extended_delta_code(rule['deltaSecondsTruncated'])
+                delta_code = _to_extended_delta_code(
+                    rule['deltaSecondsTruncated'])
             else:
-                delta_code = str(div_to_zero(rule['deltaSecondsTruncated'], 900))
+                delta_code = str(div_to_zero(
+                    rule['deltaSecondsTruncated'], 900
+                ))
 
             from_year = rule['fromYear']
             from_year_tiny = to_tiny_year(from_year)
@@ -432,7 +436,9 @@ static const char* const kLetters{policyName}[] {progmem} = {{
                 letter = str(index)
                 letterComment = ('; "%s"' % rule['letter'])
             else:
-                raise Exception('len(%s) == 0; should not happen' % rule['letter'])
+                raise Exception(
+                    'len(%s) == 0; should not happen'
+                    % rule['letter'])
 
             rule_items += self.ZONE_POLICIES_CPP_RULE_ITEM.format(
                 rawLine=normalize_raw(rule['rawLine']),
@@ -470,12 +476,14 @@ static const char* const kLetters{policyName}[] {progmem} = {{
 
         # Calculate the memory consumed by structs and arrays
         num_rules = len(rules)
-        memory8 = (1 * self.SIZEOF_ZONE_POLICY_8 +
-                   num_rules * self.SIZEOF_ZONE_RULE_8 +
-                   memoryLetters8)
-        memory32 = (1 * self.SIZEOF_ZONE_POLICY_32 +
-                    num_rules * self.SIZEOF_ZONE_RULE_32 +
-                    memoryLetters32)
+        memory8 = (
+            1 * self.SIZEOF_ZONE_POLICY_8
+            + num_rules * self.SIZEOF_ZONE_RULE_8
+            + memoryLetters8)
+        memory32 = (
+            1 * self.SIZEOF_ZONE_POLICY_32
+            + num_rules * self.SIZEOF_ZONE_RULE_32
+            + memoryLetters32)
 
         policy_item = self.ZONE_POLICIES_CPP_POLICY_ITEM.format(
             scope=self.scope,
@@ -579,7 +587,8 @@ extern const {scope}::ZoneInfo kZone{zoneNormalizedName}; // {zoneFullName}
 """
 
     ZONE_INFOS_H_LINK_ITEM = """\
-extern const {scope}::ZoneInfo& kZone{linkNormalizedName}; // {linkFullName} -> {zoneFullName}
+extern const {scope}::ZoneInfo& kZone{linkNormalizedName}; \
+// {linkFullName} -> {zoneFullName}
 """
 
     ZONE_INFOS_H_REMOVED_LINK_ITEM = """\
@@ -805,10 +814,14 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         # Estimate size of entire zone info database.
         num_infos = len(self.zones_map)
         num_links = len(self.links_map)
-        memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
-                   num_infos * self.SIZEOF_ZONE_INFO_8)
-        memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
-                    num_infos * self.SIZEOF_ZONE_INFO_32)
+        memory8 = (
+            string_length
+            + num_eras * self.SIZEOF_ZONE_ERA_8
+            + num_infos * self.SIZEOF_ZONE_INFO_8)
+        memory32 = (
+            string_length
+            + num_eras * self.SIZEOF_ZONE_ERA_32
+            + num_infos * self.SIZEOF_ZONE_INFO_32)
 
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
@@ -827,8 +840,11 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             infoItems=info_items,
             linkItems=link_items)
 
-    def _generate_info_item(self, zone_name: str, eras: List[ZoneEraRaw]) -> \
-        Tuple[str, int]:
+    def _generate_info_item(
+        self,
+        zone_name: str,
+        eras: List[ZoneEraRaw],
+    ) -> Tuple[str, int]:
         era_items = ''
         string_length = 0
         for era in eras:
@@ -838,10 +854,14 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
 
         string_length += len(zone_name) + 1
         num_eras = len(eras)
-        memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
-                   1 * self.SIZEOF_ZONE_INFO_8)
-        memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
-                    1 * self.SIZEOF_ZONE_INFO_32)
+        memory8 = (
+            string_length
+            + num_eras * self.SIZEOF_ZONE_ERA_8
+            + 1 * self.SIZEOF_ZONE_INFO_8)
+        memory32 = (
+            string_length
+            + num_eras * self.SIZEOF_ZONE_ERA_32
+            + 1 * self.SIZEOF_ZONE_INFO_32)
 
         transition_buf_size = self.buf_sizes[zone_name]
 
@@ -859,8 +879,9 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             progmem='ACE_TIME_PROGMEM')
         return (info_item, string_length)
 
-    def _generate_era_item(self, zone_name: str, era: ZoneEraRaw) -> \
-        Tuple[str, int]:
+    def _generate_era_item(
+        self, zone_name: str, era: ZoneEraRaw
+    ) -> Tuple[str, int]:
         policy_name = era['rules']
         if policy_name == '-' or policy_name == ':':
             zone_policy = 'nullptr'
@@ -918,6 +939,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             linkNormalizedName=normalize_name(link_name),
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name))
+
 
 class ZoneStringsGenerator:
 
@@ -1102,6 +1124,7 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
 }}
 #endif
 """
+
     def __init__(self,
                  invocation: str,
                  tz_version: str,
@@ -1142,6 +1165,7 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             dbHeaderNamespace=self.db_header_namespace,
             numZones=len(self.zones_map))
 
+
 def to_tiny_year(year: int) -> int:
     if year == MAX_YEAR:
         return MAX_YEAR_TINY
@@ -1151,8 +1175,9 @@ def to_tiny_year(year: int) -> int:
         return year - EPOCH_YEAR
 
 
-def _to_code_and_modifier(seconds: int, suffix: str, scope: str) -> \
-    Tuple[int, str]:
+def _to_code_and_modifier(
+    seconds: int, suffix: str, scope: str,
+) -> Tuple[int, str]:
     """Return the packed (code, modifier) uint8_t integers that hold
     the AT or UNTIL timeCode, timeMinute and the suffix.
     """
@@ -1162,6 +1187,7 @@ def _to_code_and_modifier(seconds: int, suffix: str, scope: str) -> \
     if timeMinute > 0:
         modifier += f' + {timeMinute}'
     return timeCode, modifier
+
 
 def _to_modifier(suffix: str, scope: str) -> str:
     """Return the C++ kSuffix{X} corresponding to the 'w', 's', and 'u'
@@ -1176,12 +1202,14 @@ def _to_modifier(suffix: str, scope: str) -> str:
     else:
         raise Exception(f'Unknown suffix {suffix}')
 
+
 def _to_extended_delta_code(seconds: int) -> str:
     """Return the deltaCode encoding for the ExtendedZoneProcessor which is
     roughly: deltaCode = (deltaSeconds + 1h) / 15m. Using the lower 4-bits of
     the uint8_t field, this will handle deltaOffsets from -1:00 to +2:45.
     """
     return f"({seconds // 900} + 4)"
+
 
 def _to_extended_offset_and_delta(offsetSeconds: int, deltaSeconds: int) -> \
         Tuple[int, str]:
@@ -1196,5 +1224,5 @@ def _to_extended_offset_and_delta(offsetSeconds: int, deltaSeconds: int) -> \
     """
     offsetCode = offsetSeconds // 900  # truncate to -infinty
     offsetMinute = (offsetSeconds % 900) // 60  # always positive
-    baseDeltaCode =_to_extended_delta_code(deltaSeconds)
+    baseDeltaCode = _to_extended_delta_code(deltaSeconds)
     return (offsetCode, f"({offsetMinute} << 4) + {baseDeltaCode}")

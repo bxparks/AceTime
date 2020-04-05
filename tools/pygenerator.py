@@ -12,11 +12,9 @@ from extractor import ZoneEraRaw
 from extractor import ZoneRuleRaw
 from extractor import ZonesMap
 from extractor import RulesMap
-from extractor import LinksMap
 from transformer import normalize_name
 from transformer import normalize_raw
 from transformer import CommentsMap
-from typing import Dict
 from typing import List
 from typing import Tuple
 
@@ -290,24 +288,28 @@ ZONE_INFO_{zoneNormalizedName} = {{
             numRules=len(rules),
             ruleItems=rule_items)
 
-    def _generate_removed_policy_items(self, removed_policies: CommentsMap) \
-        -> str:
+    def _generate_removed_policy_items(
+        self, removed_policies: CommentsMap,
+    ) -> str:
         removed_policy_items = ''
         for name, reason in sorted(removed_policies.items()):
-            removed_policy_items += \
+            removed_policy_items += (
                 self.ZONE_REMOVED_POLICY_ITEM.format(
                     policyName=normalize_name(name),
                     policyReason=reason)
+            )
         return removed_policy_items
 
-    def _generate_notable_policy_items(self, notable_policies: CommentsMap) \
-        -> str:
+    def _generate_notable_policy_items(
+        self, notable_policies: CommentsMap,
+    ) -> str:
         notable_policy_items = ''
         for name, reason in sorted(notable_policies.items()):
-            notable_policy_items += \
+            notable_policy_items += (
                 self.ZONE_NOTABLE_POLICY_ITEM.format(
                     policyName=normalize_name(name),
                     policyReason=reason)
+            )
         return notable_policy_items
 
     def _generate_infos(self) -> str:
@@ -365,8 +367,9 @@ ZONE_INFO_{zoneNormalizedName} = {{
                 zoneFullName=zone_name, infoReason=reason)
         return notable_info_items
 
-    def _generate_info_item(self, zone_name: str, eras: List[ZoneEraRaw]) \
-        -> str:
+    def _generate_info_item(
+        self, zone_name: str, eras: List[ZoneEraRaw],
+    ) -> str:
         era_items = ''
         for era in eras:
             era_items += self._generate_era_item(era)

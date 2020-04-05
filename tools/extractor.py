@@ -55,25 +55,21 @@ Link {target_zone} {linked_zone}
 
 For example:
 
-Link	America/Los_Angeles	US/Pacific
+Link    America/Los_Angeles    US/Pacific
 
 (The order of the 2 arguments is the reverse of what I would consider natural.
 Maybe it helps to think of the 'Link' command similar to the 'ln' link command
 in Unix, which has the same order of arguments as the 'cp' command.)
 """
 
-import argparse
 import logging
-import sys
 import os
 from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
-from typing import TYPE_CHECKING
 from typing import TextIO
 from typing import Tuple
-from typing import Union
 from typing_extensions import TypedDict
 
 # AceTime Epoch is 2000-01-01 00:00:00
@@ -128,12 +124,12 @@ class ZoneEraRaw(TypedDict, total=False):
     # These are derived from above and optional.
     offsetSeconds: int  # offset from UTC/GMT in seconds
     offsetSecondsTruncated: int  # offsetSeconds truncation granularity
-    # yapf: disable
-    rulesDeltaSeconds: int  # delta offset from UTC in seconds
-                            # if RULES is DST offset string of the form
-                            # hh:mm[:ss]
-    # yapf: enable
-    rulesDeltaSecondsTruncated: int # rulesDeltaSeconds truncated to granularity
+
+    # delta offset from UTC in seconds if RULES is DST offset string of the form
+    # hh:mm[:ss]
+    rulesDeltaSeconds: int
+
+    rulesDeltaSecondsTruncated: int  # rulesDeltaSeconds truncated granularity
     untilDay: int  # 1-31
     untilSeconds: int  # untilTime converted into total seconds
     untilSecondsTruncated: int  # untilSeconds after truncation
@@ -182,8 +178,8 @@ class Extractor:
         extractor = Extractor(input_dir)
         extractor.parse()
         extractor.print_summary()
-		extractor.zones_map
-		extractor.rules_map
+        extractor.zones_map
+        extractor.rules_map
         ...
     """
 
@@ -203,7 +199,7 @@ class Extractor:
         self.input_dir: str = input_dir
 
         self.next_line: Optional[str] = None
-        self.rule_lines: Dict[str, List[str]] = {} # ruleName to lines[]
+        self.rule_lines: Dict[str, List[str]] = {}  # ruleName to lines[]
         self.zone_lines: Dict[str, List[str]] = {}  # zoneName to lines[]
         self.link_lines: Dict[str, List[str]] = {}  # linkName to zoneName[]
         self.rules_map: RulesMap = {}
@@ -240,7 +236,7 @@ class Extractor:
         self.rule_lines and all 'Zone' lines into self.zone_lines.
         """
         in_zone_mode: bool = False
-        prev_tag: str = ''
+        # prev_tag: str = ''
         prev_name: str = ''
         while True:
             line: Optional[str] = self._read_line(input)
@@ -263,7 +259,7 @@ class Extractor:
                 zone_name: str = tokens[1]
                 _add_item(self.zone_lines, zone_name, ' '.join(tokens[2:]))
                 in_zone_mode = True
-                prev_tag = tag
+                # prev_tag = tag
                 prev_name = zone_name
             elif tag[0] == '\t' and in_zone_mode:
                 # Collect subsequent lines that begin with a TAB character into
@@ -362,21 +358,25 @@ class Extractor:
                 zone_entry_count += 1
 
         logging.info('-------- Extractor Summary')
-        logging.info(f'Line count (Rule, Zone, Link): ('
+        logging.info(
+            f'Line count (Rule, Zone, Link): ('
             + f'{len(self.rule_lines)}, '
             + f'{len(self.zone_lines)}, '
             + f'{len(self.link_lines)})')
-        logging.info('Name count (Rule, Zone, Link): ('
+        logging.info(
+            'Name count (Rule, Zone, Link): ('
             + f'{len(self.rules_map)}, '
             + f'{len(self.zones_map)}, '
             + f'{len(self.links_map)})')
         logging.info('Rule entry count: %s' % rule_entry_count)
         logging.info('Zone entry count: %s' % zone_entry_count)
-        logging.info(f'Ignored lines (Rule, Zone, Link): ('
+        logging.info(
+            f'Ignored lines (Rule, Zone, Link): ('
             + f'{self.ignored_rule_lines}, '
             + f'{self.ignored_zone_lines}, '
             + f'{self.ignored_link_lines})')
-        logging.info('Invalid lines: (Rule, Zone, Link): ('
+        logging.info(
+            'Invalid lines: (Rule, Zone, Link): ('
             + f'{self.invalid_rule_lines}, '
             + f'{self.invalid_zone_lines}, '
             + f'{self.invalid_link_lines})')
@@ -466,7 +466,7 @@ def parse_at_time_string(at_string: str) -> Tuple[str, str]:
 def _process_zone_line(line: str) -> ZoneEraRaw:
     """Normalize an zone era from dictionary that represents one line of
     a 'Zone' record. The columns are:
-    STDOFF	 RULES	FORMAT	[UNTIL]
+    STDOFF   RULES  FORMAT  [UNTIL]
     0        1      2       3
     -5:50:36 -      LMT     1883 Nov 18 12:09:24
     -6:00    US     C%sT    1920

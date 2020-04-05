@@ -25,6 +25,15 @@ mypy:
 tests:
 	python3 -m unittest
 
+flake8:
+	flake8 . \
+		--exclude=archive,zonedb \
+		--count \
+		--ignore W503 \
+		--show-source \
+		--statistics \
+		--max-line-length=80
+
 # Run --validate_buffer_size and --validate_test_data.
 validate-basic:
 	./tzcompiler.sh \

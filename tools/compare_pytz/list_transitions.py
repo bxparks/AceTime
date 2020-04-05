@@ -10,7 +10,7 @@ from typing import Tuple
 
 
 def find_transitions(zone_name: str, start_year: int, until_year: int) -> None:
-    """Find a DST transition by sampling the time period from [start_year, 
+    """Find a DST transition by sampling the time period from [start_year,
     until_year] in 12-hour samples.
     """
     twelve_hours = timedelta(hours=12)
@@ -25,7 +25,6 @@ def find_transitions(zone_name: str, start_year: int, until_year: int) -> None:
         if new_dt.year > until_year:
             break
         if loc_dt.utcoffset() != new_loc_dt.utcoffset():
-            #print(f'Transition between {loc_dt} and {new_loc_dt}')
             start_dt, end_dt = binary_search_transition(tz, dt, new_dt)
             start_loc_dt = start_dt.astimezone(tz)
             end_loc_dt = end_dt.astimezone(tz)
@@ -33,6 +32,7 @@ def find_transitions(zone_name: str, start_year: int, until_year: int) -> None:
 
         dt = new_dt
         loc_dt = new_loc_dt
+
 
 def binary_search_transition(
     tz: Any,
@@ -45,23 +45,19 @@ def binary_search_transition(
     transition.
     """
     start_loc_dt = start_dt.astimezone(tz)
-    end_loc_dt = end_dt.astimezone(tz)
     while True:
         delta_minutes = int((end_dt - start_dt) / timedelta(minutes=1))
         delta_minutes //= 2
-        #print(f' delta_minutes={delta_minutes}')
-        if delta_minutes == 0: break
+        if delta_minutes == 0:
+            break
 
         mid_dt = start_dt + timedelta(minutes=delta_minutes)
         mid_loc_dt = mid_dt.astimezone(tz)
         if start_loc_dt.utcoffset() == mid_loc_dt.utcoffset():
-            #print(' right half')
             start_dt = mid_dt
             start_loc_dt = mid_loc_dt
         else:
-            #print(' left half')
             end_dt = mid_dt
-            end_loc_dt = mid_loc_dt
 
     return start_dt, end_dt
 

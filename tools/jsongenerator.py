@@ -2,7 +2,6 @@
 #
 # MIT License
 
-import sys
 import os
 import logging
 import json
@@ -16,6 +15,7 @@ from typing import Any
 from typing import Dict
 from typing import List
 
+
 class JsonGenerator:
     """Generate a JSON output to the STDOUT that contains the result of the
     Transformer and other meta information, which will allow downstream
@@ -27,26 +27,27 @@ class JsonGenerator:
 
     _OUTPUT_FILE = 'zoneinfo.json'
 
-    def __init__(self,
-                 invocation: str,
-                 tz_version: str,
-                 tz_files: List[str],
-                 scope: str,
-                 db_namespace: str,
-                 start_year: int,
-                 until_year: int,
-                 rules_map: RulesMap,
-                 zones_map: ZonesMap,
-                 links_map: LinksMap,
-                 removed_zones: CommentsMap,
-                 removed_links: CommentsMap,
-                 removed_policies: CommentsMap,
-                 notable_zones: CommentsMap,
-                 notable_links: CommentsMap,
-                 notable_policies: CommentsMap,
-                 format_strings: StringCollection,
-                 zone_strings: StringCollection,
-        ):
+    def __init__(
+        self,
+        invocation: str,
+        tz_version: str,
+        tz_files: List[str],
+        scope: str,
+        db_namespace: str,
+        start_year: int,
+        until_year: int,
+        rules_map: RulesMap,
+        zones_map: ZonesMap,
+        links_map: LinksMap,
+        removed_zones: CommentsMap,
+        removed_links: CommentsMap,
+        removed_policies: CommentsMap,
+        notable_zones: CommentsMap,
+        notable_links: CommentsMap,
+        notable_policies: CommentsMap,
+        format_strings: StringCollection,
+        zone_strings: StringCollection,
+    ):
         o: 'OrderedDict[str, Any]' = OrderedDict()
 
         # Metadata
@@ -79,7 +80,6 @@ class JsonGenerator:
         for k, vals in m.items():
             d[k] = list(vals)
         return d
-
 
     def generate_files(self, output_dir: str) -> None:
         full_filename = os.path.join(output_dir, self._OUTPUT_FILE)

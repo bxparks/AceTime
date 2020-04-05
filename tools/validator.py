@@ -23,7 +23,6 @@ from zone_specifier import ZoneSpecifier
 from zone_specifier import to_utc_string
 from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
 from typing import List
-from typing import Optional
 
 
 class Validator:
@@ -46,20 +45,20 @@ class Validator:
     """
 
     def __init__(
-            self,
-            zone_infos: ZoneInfoMap,
-            zone_policies: ZonePolicyMap,
-            viewing_months: int,
-            validate_dst_offset: bool,
-            debug_validator: bool,
-            debug_specifier: bool,
-            zone_name: str,
-            year: int,
-            start_year: int,
-            until_year: int,
-            in_place_transitions: bool,
-            optimize_candidates: bool,
-        ):
+        self,
+        zone_infos: ZoneInfoMap,
+        zone_policies: ZonePolicyMap,
+        viewing_months: int,
+        validate_dst_offset: bool,
+        debug_validator: bool,
+        debug_specifier: bool,
+        zone_name: str,
+        year: int,
+        start_year: int,
+        until_year: int,
+        in_place_transitions: bool,
+        optimize_candidates: bool,
+    ):
         """
         Args:
             zone_infos: {name -> zone_info{} }
@@ -104,8 +103,9 @@ class Validator:
         if self.year is not None:
             self.start_year = self.year
             self.until_year = self.year + 1
-        logging.info('Calculating transitions from [%s, %s)' %
-            (self.start_year, self.until_year))
+        logging.info(
+            'Calculating transitions from [%s, %s)'
+            % (self.start_year, self.until_year))
 
         # Calculate the buffer sizes for every Zone in zone_infos.
         for zone_name, zone_info in sorted(self.zone_infos.items()):
@@ -128,15 +128,19 @@ class Validator:
         for zone_name, count_record in sorted(
                 transition_stats.items(), key=lambda x: x[1], reverse=True):
             logging.info(
-                '%s: %d (%04d); %d (%04d)' %
-                ((zone_name, ) + count_record[0] + count_record[1]))
+                '%s: %d (%04d); %d (%04d)'
+                % ((zone_name, ) + count_record[0] + count_record[1]))
 
     def validate_test_data(self) -> None:
         """Compare Python and AceTime offsets by generating TestDataGenerator.
         """
         logging.info('Creating test data')
-        data_generator = TestDataGenerator('basic', self.zone_infos,
-            self.zone_policies, self.start_year, self.until_year)
+        data_generator = TestDataGenerator(
+            'basic',
+            self.zone_infos,
+            self.zone_policies,
+            self.start_year,
+            self.until_year)
         (test_data, num_items) = data_generator.create_test_data()
         logging.info('test_data=%d', len(test_data))
 

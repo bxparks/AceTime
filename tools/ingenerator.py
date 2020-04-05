@@ -12,50 +12,45 @@ from typing import List
 from typing import Tuple
 from typing import Union
 from typing_extensions import TypedDict
-from extractor import ZoneEraRaw
-from extractor import ZoneRuleRaw
 from extractor import ZonesMap
 from extractor import RulesMap
 from transformer import normalize_name
-from transformer import normalize_raw
 
-ZoneRule = TypedDict('ZoneRule', {
-    'fromYear': int,
-    'toYear': int,
-    'inMonth': int,
-    'onDayOfWeek': int,
-    'onDayOfMonth': int,
-    'atSeconds': int,
-    'atTimeSuffix': str,
-    'deltaSeconds': int,
-    'letter': str,
-})
+ZoneRule = TypedDict(
+    'ZoneRule', {
+        'fromYear': int,
+        'toYear': int,
+        'inMonth': int,
+        'onDayOfWeek': int,
+        'onDayOfMonth': int,
+        'atSeconds': int,
+        'atTimeSuffix': str,
+        'deltaSeconds': int,
+        'letter': str,
+    })
 
-ZonePolicy = TypedDict('ZonePolicy', {
-    'name': str,
-    'rules': List[ZoneRule]
-})
+ZonePolicy = TypedDict('ZonePolicy', {'name': str, 'rules': List[ZoneRule]})
 
 ZonePolicyMap = Dict[str, ZonePolicy]
 
-ZoneEra = TypedDict('ZoneEra', {
-    'offsetSeconds': int,
-    'zonePolicy': Union[ZonePolicy, str], # '-', ':', or ZonePolicy
-    'rulesDeltaSeconds': int,
-    'format': str,
-    'untilYear': int,
-    'untilMonth': int,
-    'untilDay': int,
-    'untilSeconds': int,
-    'untilTimeSuffix': str,
-})
+ZoneEra = TypedDict(
+    'ZoneEra',
+    {
+        'offsetSeconds': int,
+        'zonePolicy': Union[ZonePolicy, str],  # '-', ':', or ZonePolicy
+        'rulesDeltaSeconds': int,
+        'format': str,
+        'untilYear': int,
+        'untilMonth': int,
+        'untilDay': int,
+        'untilSeconds': int,
+        'untilTimeSuffix': str,
+    })
 
-ZoneInfo = TypedDict('ZoneInfo', {
-    'name': str,
-    'eras': List[ZoneEra]
-})
+ZoneInfo = TypedDict('ZoneInfo', {'name': str, 'eras': List[ZoneEra]})
 
 ZoneInfoMap = Dict[str, ZoneInfo]
+
 
 class InlineGenerator:
     """Generate Python zone infos and policies maps inlined (instead of files).

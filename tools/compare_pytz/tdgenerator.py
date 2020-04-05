@@ -9,7 +9,6 @@ from datetime import datetime
 from datetime import timedelta
 import pytz
 from typing import Any
-from typing import List
 from typing import NamedTuple
 from typing import Tuple
 from typing import List
@@ -44,6 +43,7 @@ TestData = Dict[str, List[TestItem]]
 
 TransitionTimes = Tuple[datetime, datetime]
 
+
 class TestDataGenerator():
     # Look for a UTC offset transition every 12 hours
     _SAMPLING_INTERVAL = timedelta(hours=12)
@@ -71,7 +71,7 @@ class TestDataGenerator():
         logging.info(f"_create_test_items(): {zone_name}")
         try:
             tz = pytz.timezone(zone_name)
-        except:
+        except pytz.UnknownTimeZoneError:
             logging.error(f"Zone '{zone_name}' not found in pytz package")
             return None
 
@@ -134,11 +134,12 @@ class TestDataGenerator():
         while True:
             next_dt = dt + self._SAMPLING_INTERVAL
             next_dt_local = next_dt.astimezone(tz)
-            if next_dt.year > self.until_year: break
+            if next_dt.year > self.until_year:
+                break
 
             # Check for a change in UTC offset
             if dt_local.utcoffset() != next_dt_local.utcoffset():
-                #print(f'Transition between {dt_local} and {next_dt_local}')
+                # print(f'Transition between {dt_local} and {next_dt_local}')
                 dt_left, dt_right = self.binary_search_transition(
                     tz, dt, next_dt)
                 dt_left_local = dt_left.astimezone(tz)
@@ -162,23 +163,19 @@ class TestDataGenerator():
         find the DST transition within one adjacent minute.
         """
         dt_left_local = dt_left.astimezone(tz)
-        dt_right_local = dt_right.astimezone(tz)
         while True:
             delta_minutes = int((dt_right - dt_left) / timedelta(minutes=1))
             delta_minutes //= 2
-            #print(f' delta_minutes={delta_minutes}')
-            if delta_minutes == 0: break
+            if delta_minutes == 0:
+                break
 
             dt_mid = dt_left + timedelta(minutes=delta_minutes)
             mid_dt_local = dt_mid.astimezone(tz)
             if dt_left_local.utcoffset() == mid_dt_local.utcoffset():
-                #print(' right half')
                 dt_left = dt_mid
                 dt_left_local = mid_dt_local
             else:
-                #print(' left half')
                 dt_right = dt_mid
-                dt_right_local = mid_dt_local
 
         return dt_left, dt_right
 
@@ -187,8 +184,8 @@ class TestDataGenerator():
         """Create a TestItem from a datetime."""
         unix_seconds = int(dt.timestamp())
         epoch_seconds = unix_seconds - SECONDS_SINCE_UNIX_EPOCH
-        total_offset = int(dt.utcoffset().total_seconds()) # type: ignore
-        dst_offset = int(dt.dst().total_seconds()) # type: ignore
+        total_offset = int(dt.utcoffset().total_seconds())  # type: ignore
+        dst_offset = int(dt.dst().total_seconds())  # type: ignore
 
         return TestItem(
             epoch=epoch_seconds,
@@ -220,4 +217,3 @@ class TestDataGenerator():
                 items_map[item.epoch] = item
         else:
             items_map[item.epoch] = item
-
