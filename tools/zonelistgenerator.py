@@ -4,8 +4,7 @@
 
 import logging
 import os
-from typing import List
-from extractor import ZonesMap
+from jsongenerator import TzDb
 
 
 class ZoneListGenerator:
@@ -36,20 +35,17 @@ class ZoneListGenerator:
     def __init__(
         self,
         invocation: str,
-        tz_version: str,
-        tz_files: List[str],
-        scope: str,
-        zones_map: ZonesMap,
+        tzdb: TzDb,
     ):
         """
         Args:
             zones_map (dict): {full_name -> ZoneEra[]}
         """
         self.invocation = invocation
-        self.tz_version = tz_version
-        self.tz_files = tz_files
-        self.scope = scope
-        self.zones_map = zones_map
+        self.tz_version = tzdb['tz_version']
+        self.tz_files = tzdb['tz_files']
+        self.scope = tzdb['scope']
+        self.zones_map = tzdb['zones_map']
 
         self.file_name = 'zones.txt'
 

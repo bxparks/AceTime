@@ -15,6 +15,7 @@ from extractor import RulesMap
 from transformer import normalize_name
 from transformer import normalize_raw
 from transformer import CommentsMap
+from jsongenerator import TzDb
 from typing import List
 from typing import Tuple
 
@@ -203,24 +204,17 @@ ZONE_INFO_{zoneNormalizedName} = {{
     def __init__(
         self,
         invocation: str,
-        tz_version: str,
-        tz_files: List[str],
-        zones_map: ZonesMap,
-        rules_map: RulesMap,
-        removed_zones: CommentsMap,
-        removed_policies: CommentsMap,
-        notable_zones: CommentsMap,
-        notable_policies: CommentsMap,
+        tzdb: TzDb,
     ):
         self.invocation = invocation
-        self.tz_version = tz_version
-        self.tz_files = tz_files
-        self.zones_map = zones_map
-        self.rules_map = rules_map
-        self.removed_zones = removed_zones
-        self.removed_policies = removed_policies
-        self.notable_zones = notable_zones
-        self.notable_policies = notable_policies
+        self.tz_version = tzdb['tz_version']
+        self.tz_files = tzdb['tz_files']
+        self.zones_map = tzdb['zones_map']
+        self.rules_map = tzdb['rules_map']
+        self.removed_zones = tzdb['removed_zones']
+        self.removed_policies = tzdb['removed_policies']
+        self.notable_zones = tzdb['notable_zones']
+        self.notable_policies = tzdb['notable_policies']
 
     def generate_files(self, output_dir: str) -> None:
         self._write_file(output_dir, self.ZONE_POLICIES_FILE_NAME,
