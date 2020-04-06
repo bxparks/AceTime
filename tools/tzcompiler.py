@@ -12,7 +12,7 @@ from typing_extensions import Protocol
 from extractor import Extractor
 from transformer import Transformer
 from argenerator import ArduinoGenerator
-from jsongenerator import JsonGenerator, ZoneDb
+from jsongenerator import JsonGenerator, TzDb
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator, ZoneInfoMap, ZonePolicyMap
 from zonelistgenerator import ZoneListGenerator
@@ -30,7 +30,7 @@ def generate_zonedb(
     language: str,
     output_dir: str,
     generate_zone_strings: bool,
-    tzdb: ZoneDb,
+    tzdb: TzDb,
     zone_infos: ZoneInfoMap,
     zone_policies: ZonePolicyMap,
 ) -> None:

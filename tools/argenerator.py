@@ -32,7 +32,7 @@ from transformer import normalize_raw
 from transformer import hash_name
 from transformer import CommentsMap
 from transformer import StringCollection
-from jsongenerator import ZoneDb
+from jsongenerator import TzDb
 
 # map{policy_name: map{letter: index}}
 LettersMap = Dict[str, 'OrderedDict[str, int]']
@@ -55,7 +55,7 @@ class ArduinoGenerator:
         invocation: str,
         db_namespace: str,
         generate_zone_strings: bool,
-        tzdb: ZoneDb,
+        tzdb: TzDb,
         buf_sizes: Dict[str, int],
     ):
         self.scope = tzdb['scope']

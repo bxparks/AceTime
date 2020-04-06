@@ -14,7 +14,8 @@ from typing import List
 from typing_extensions import TypedDict
 
 
-class ZoneDb(TypedDict):
+# The internal representation of the TZ Database zone files.
+class TzDb(TypedDict):
     # Context data.
     tz_version: str
     tz_files: List[str]
@@ -31,11 +32,9 @@ class ZoneDb(TypedDict):
     removed_zones: CommentsMap
     removed_links: CommentsMap
     removed_policies: CommentsMap
-
     notable_zones: CommentsMap
     notable_links: CommentsMap
     notable_policies: CommentsMap
-
     format_strings: StringCollection
     zone_strings: StringCollection
 
@@ -50,10 +49,10 @@ class JsonGenerator:
     """
 
     # The output of this is called "tzdb.json" because it is the JSON
-    # representation of that closely matches the original TZ Database files. I
-    # don't want to call it "zonedb.json" because 'zonedb' refers to the
-    # 'zone_infos.*' and 'zone_polcies.*' files which are the processed files
-    # relevant to a specific target language, (e.g. Arduino, Python).
+    # representation of the original TZ Database files. I don't want to call it
+    # "zonedb.json" because 'zonedb' refers to the generated 'zone_infos.*' and
+    # 'zone_polcies.*' files relevant to a specific target language, (e.g.
+    # Arduino, Python).
     _OUTPUT_FILE = 'tzdb.json'
 
     def __init__(
@@ -75,7 +74,7 @@ class JsonGenerator:
         format_strings: StringCollection,
         zone_strings: StringCollection,
     ):
-        self.zonedb: ZoneDb = {
+        self.tzdb: TzDb = {
             # Context data.
             'tz_version': tz_version,
             'tz_files': tz_files,
@@ -101,11 +100,11 @@ class JsonGenerator:
             'zone_strings': zone_strings,
         }
 
-    def get_data(self) -> ZoneDb:
-        return self.zonedb
+    def get_data(self) -> TzDb:
+        return self.tzdb
 
     def generate_files(self, output_dir: str) -> None:
         full_filename = os.path.join(output_dir, self._OUTPUT_FILE)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
-            json.dump(self.zonedb, output_file, indent=2)
+            json.dump(self.tzdb, output_file, indent=2)
         logging.info("Created %s", full_filename)

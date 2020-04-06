@@ -15,7 +15,7 @@ from extractor import RulesMap
 from transformer import normalize_name
 from transformer import normalize_raw
 from transformer import CommentsMap
-from jsongenerator import ZoneDb
+from jsongenerator import TzDb
 from typing import List
 from typing import Tuple
 
@@ -204,7 +204,7 @@ ZONE_INFO_{zoneNormalizedName} = {{
     def __init__(
         self,
         invocation: str,
-        tzdb: ZoneDb,
+        tzdb: TzDb,
     ):
         self.invocation = invocation
         self.tz_version = tzdb['tz_version']

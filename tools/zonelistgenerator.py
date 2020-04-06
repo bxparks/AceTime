@@ -4,7 +4,7 @@
 
 import logging
 import os
-from jsongenerator import ZoneDb
+from jsongenerator import TzDb
 
 
 class ZoneListGenerator:
@@ -35,7 +35,7 @@ class ZoneListGenerator:
     def __init__(
         self,
         invocation: str,
-        tzdb: ZoneDb,
+        tzdb: TzDb,
     ):
         """
         Args:
