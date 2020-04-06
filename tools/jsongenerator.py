@@ -101,6 +101,9 @@ class JsonGenerator:
             'zone_strings': zone_strings,
         }
 
+    def get_data(self) -> ZoneDb:
+        return self.zonedb
+
     def generate_files(self, output_dir: str) -> None:
         full_filename = os.path.join(output_dir, self._OUTPUT_FILE)
         with open(full_filename, 'w', encoding='utf-8') as output_file:

@@ -18,33 +18,38 @@ The data processing pipeline for `tzcompiler.py` looks something like this:
                         v
                    extractor.py
                         |
-      [zonelist]        v        [zonedb/json]
-    .----------- transformer.py --------------------.
-   /             /      |    \                       \
-  /             /       |     v                       v
- /             /        |     pygenerator.py          jsongenerator.py
-/             /         |           \ [zonedb/python]   \
-|            /  ingenerator.py       v                   v
-|           /           |       zone_infos.py          zonedb.json
-|          /           /        zone_policies.py
-|         /           /         zone_strings.py
-|        /           v               |
+                        v
+                  transformer.py
+                        |
+                        v          [tzdb]
+      .-------- jsongenerator.py ----------> tzdb.json
+     /             /    |    \
+    /             /     |     \
+   /             /      |      \ [zonedb/python]
+  /             /       |       v
+ /             /        |     pygenerator.py
+/             /         |           \
+|  [zonedb/  /  ingenerator.py       v
+|  arduino] /          /        zone_infos.py
+|          /          /         zone_policies.py
+|         /          /          zone_strings.py
+|        /          v                |
 |       / zone_specifier.py          v
-|      /            /             zone_specifier.py
-|     /            v
-|     |   bufestimator.py   
-|     |      /              
-|     |     /               
-|     v    v                
-|  argenerator.py           
-|        | [zonedb/arduino] 
-|        |                  
-|        v                  
-|   zone_infos.{h,cpp}      
-|   zone_policies.{h,cpp}   
-|   zone_registry.{h,cpp}   
-|   zone_strings.{h,cpp}    
-|                           
+|      /           /            zone_specifier.py
+|     /           v
+|     |   bufestimator.py
+|     |      /
+|     |     /
+|     v    v
+|  argenerator.py
+|        |
+|        |
+|        v
+|   zone_infos.{h,cpp}
+|   zone_policies.{h,cpp}
+|   zone_registry.{h,cpp}
+|   zone_strings.{h,cpp}
+|
 |                           
  \                          
   \
@@ -93,6 +98,9 @@ incorporated in `tzcompiler.py` before it was extracted out into `validate.py`):
          |
          v
     extractor.py
+         |
+         v
+    transformer.py
          |
          v
    ingenerator.py

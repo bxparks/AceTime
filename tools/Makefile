@@ -40,10 +40,9 @@ validate:
 	./validate.sh --tag 2019c --scope basic
 
 # Generate tzdb.json for testing purposes.
-tzdb.json: extractor.py transformer.py jsongenerator.py \
-tzcompiler.py tzcompiler.sh
-	./tzcompiler.sh \
-		--tag 2019c \
-		--action zonedb \
-		--language json \
-		--scope basic
+tzdb.json: $(SRC)
+	./tzcompiler.sh --tag 2019c --scope basic --action tzdb
+
+# Generate the zones.txt file for testing purposes.
+zones.txt: $(SRC)
+	./tzcompiler.sh --tag 2019c --scope basic --action zonelist

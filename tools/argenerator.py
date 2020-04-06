@@ -32,6 +32,7 @@ from transformer import normalize_raw
 from transformer import hash_name
 from transformer import CommentsMap
 from transformer import StringCollection
+from jsongenerator import ZoneDb
 
 # map{policy_name: map{letter: index}}
 LettersMap = Dict[str, 'OrderedDict[str, int]']
@@ -52,83 +53,72 @@ class ArduinoGenerator:
     def __init__(
         self,
         invocation: str,
-        tz_version: str,
-        tz_files: List[str],
-        scope: str,
         db_namespace: str,
         generate_zone_strings: bool,
-        start_year: int,
-        until_year: int,
-        zones_map: ZonesMap,
-        links_map: LinksMap,
-        rules_map: RulesMap,
-        removed_zones: CommentsMap,
-        removed_links: CommentsMap,
-        removed_policies: CommentsMap,
-        notable_zones: CommentsMap,
-        notable_links: CommentsMap,
-        notable_policies: CommentsMap,
-        format_strings: StringCollection,
-        zone_strings: StringCollection,
+        tzdb: ZoneDb,
         buf_sizes: Dict[str, int],
     ):
-        self.scope = scope
+        self.scope = tzdb['scope']
         self.db_namespace = db_namespace
         self.generate_zone_strings = generate_zone_strings
 
         self.zone_policies_generator = ZonePoliciesGenerator(
             invocation=invocation,
-            tz_version=tz_version,
-            tz_files=tz_files,
-            scope=scope,
+            tz_version=tzdb['tz_version'],
+            tz_files=tzdb['tz_files'],
+            scope=tzdb['scope'],
             db_namespace=db_namespace,
-            zones_map=zones_map,
-            rules_map=rules_map,
-            removed_zones=removed_zones,
-            removed_policies=removed_policies,
-            notable_zones=notable_zones,
-            notable_policies=notable_policies)
+            zones_map=tzdb['zones_map'],
+            rules_map=tzdb['rules_map'],
+            removed_zones=tzdb['removed_zones'],
+            removed_policies=tzdb['removed_policies'],
+            notable_zones=tzdb['notable_zones'],
+            notable_policies=tzdb['notable_policies'],
+        )
         self.zone_infos_generator = ZoneInfosGenerator(
             invocation=invocation,
-            tz_version=tz_version,
-            tz_files=tz_files,
-            scope=scope,
+            tz_version=tzdb['tz_version'],
+            tz_files=tzdb['tz_files'],
+            scope=tzdb['scope'],
             db_namespace=db_namespace,
-            start_year=start_year,
-            until_year=until_year,
-            zones_map=zones_map,
-            links_map=links_map,
-            rules_map=rules_map,
-            removed_zones=removed_zones,
-            removed_links=removed_links,
-            removed_policies=removed_policies,
-            notable_zones=notable_zones,
-            notable_links=notable_links,
-            notable_policies=notable_policies,
-            buf_sizes=buf_sizes)
+            start_year=tzdb['start_year'],
+            until_year=tzdb['until_year'],
+            zones_map=tzdb['zones_map'],
+            links_map=tzdb['links_map'],
+            rules_map=tzdb['rules_map'],
+            removed_zones=tzdb['removed_zones'],
+            removed_links=tzdb['removed_links'],
+            removed_policies=tzdb['removed_policies'],
+            notable_zones=tzdb['notable_zones'],
+            notable_links=tzdb['notable_links'],
+            notable_policies=tzdb['notable_policies'],
+            buf_sizes=buf_sizes,
+        )
         self.zone_registry_generator = ZoneRegistryGenerator(
             invocation=invocation,
-            tz_version=tz_version,
-            tz_files=tz_files,
-            scope=scope,
+            tz_version=tzdb['tz_version'],
+            tz_files=tzdb['tz_files'],
+            scope=tzdb['scope'],
             db_namespace=db_namespace,
-            zones_map=zones_map)
+            zones_map=tzdb['zones_map'],
+        )
 
         if generate_zone_strings:
             self.zone_strings_generator = ZoneStringsGenerator(
                 invocation=invocation,
-                tz_version=tz_version,
-                tz_files=tz_files,
-                scope=scope,
+                tz_version=tzdb['tz_version'],
+                tz_files=tzdb['tz_files'],
+                scope=tzdb['scope'],
                 db_namespace=db_namespace,
-                zones_map=zones_map,
-                rules_map=rules_map,
-                removed_zones=removed_zones,
-                removed_policies=removed_policies,
-                notable_zones=notable_zones,
-                notable_policies=notable_policies,
-                format_strings=format_strings,
-                zone_strings=zone_strings)
+                zones_map=tzdb['zones_map'],
+                rules_map=tzdb['rules_map'],
+                removed_zones=tzdb['removed_zones'],
+                removed_policies=tzdb['removed_policies'],
+                notable_zones=tzdb['notable_zones'],
+                notable_policies=tzdb['notable_policies'],
+                format_strings=tzdb['format_strings'],
+                zone_strings=tzdb['zone_strings'],
+            )
 
     def generate_files(self, output_dir: str) -> None:
         # zone_policies.*

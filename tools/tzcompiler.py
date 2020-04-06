@@ -7,13 +7,12 @@
 import argparse
 import logging
 import sys
-from typing import List
 from typing_extensions import Protocol
 
-from extractor import Extractor, ZonesMap, RulesMap, LinksMap
-from transformer import Transformer, CommentsMap, StringCollection
+from extractor import Extractor
+from transformer import Transformer
 from argenerator import ArduinoGenerator
-from jsongenerator import JsonGenerator
+from jsongenerator import JsonGenerator, ZoneDb
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator, ZoneInfoMap, ZonePolicyMap
 from zonelistgenerator import ZoneListGenerator
@@ -27,28 +26,13 @@ class Generator(Protocol):
 
 def generate_zonedb(
     invocation: str,
-    tz_version: str,
-    tz_files: List[str],
-    scope: str,
     db_namespace: str,
-    zones_map: ZonesMap,
-    links_map: LinksMap,
-    rules_map: RulesMap,
-    removed_zones: CommentsMap,
-    removed_links: CommentsMap,
-    removed_policies: CommentsMap,
-    notable_zones: CommentsMap,
-    notable_links: CommentsMap,
-    notable_policies: CommentsMap,
-    format_strings: StringCollection,
-    zone_strings: StringCollection,
-    zone_infos: ZoneInfoMap,
-    zone_policies: ZonePolicyMap,
     language: str,
-    start_year: int,
-    until_year: int,
     output_dir: str,
     generate_zone_strings: bool,
+    tzdb: ZoneDb,
+    zone_infos: ZoneInfoMap,
+    zone_policies: ZonePolicyMap,
 ) -> None:
 
     generator: Generator
@@ -61,14 +45,8 @@ def generate_zonedb(
         logging.info('======== Creating Python zonedb files')
         generator = PythonGenerator(
             invocation=invocation,
-            tz_version=tz_version,
-            tz_files=Extractor.ZONE_FILES,
-            zones_map=zones_map,
-            rules_map=rules_map,
-            removed_zones=removed_zones,
-            removed_policies=removed_policies,
-            notable_zones=notable_zones,
-            notable_policies=notable_policies)
+            tzdb=tzdb,
+        )
         generator.generate_files(output_dir)
     elif language == 'arduino':
         logging.info('======== Creating Arduino zonedb files')
@@ -76,21 +54,24 @@ def generate_zonedb(
         # Determine zonedb C++ namespace
         # TODO: Maybe move this into ArduinoGenerator?
         if not db_namespace:
-            if scope == 'basic':
+            if tzdb['scope'] == 'basic':
                 db_namespace = 'zonedb'
-            elif scope == 'extended':
+            elif tzdb['scope'] == 'extended':
                 db_namespace = 'zonedbx'
             else:
                 raise Exception(
-                    f"db_namespace cannot be determined for scope '{scope}'"
+                    f"db_namespace cannot be determined for "
+                    f"scope '{tzdb['scope']}'"
                 )
 
         # Generate the buf_size estimates for each zone, between start_year and
         # until_year.
         logging.info('==== Estimating transition buffer sizes')
-        logging.info('Checking years in [%d, %d)', start_year, until_year)
+        logging.info(
+            'Checking years in [%d, %d)',
+            tzdb['start_year'], tzdb['until_year'])
         estimator = BufSizeEstimator(
-            zone_infos, zone_policies, start_year, until_year)
+            zone_infos, zone_policies, tzdb['start_year'], tzdb['until_year'])
         (buf_sizes, max_size) = estimator.estimate()
         logging.info(
             'Num zones=%d; Max buffer size=%d',
@@ -99,45 +80,10 @@ def generate_zonedb(
 
         generator = ArduinoGenerator(
             invocation=invocation,
-            tz_version=tz_version,
-            tz_files=Extractor.ZONE_FILES,
-            scope=scope,
             db_namespace=db_namespace,
             generate_zone_strings=generate_zone_strings,
-            start_year=start_year,
-            until_year=until_year,
-            zones_map=zones_map,
-            links_map=links_map,
-            rules_map=rules_map,
-            removed_zones=removed_zones,
-            removed_links=removed_links,
-            removed_policies=removed_policies,
-            notable_zones=notable_zones,
-            notable_links=notable_links,
-            notable_policies=notable_policies,
-            format_strings=format_strings,
-            zone_strings=zone_strings,
-            buf_sizes=buf_sizes)
-        generator.generate_files(output_dir)
-    elif language == 'json':
-        logging.info('======== Creating JSON zonedb files')
-        generator = JsonGenerator(
-            tz_version=tz_version,
-            tz_files=Extractor.ZONE_FILES,
-            scope=scope,
-            start_year=start_year,
-            until_year=until_year,
-            zones_map=zones_map,
-            links_map=links_map,
-            rules_map=rules_map,
-            removed_zones=removed_zones,
-            removed_links=removed_links,
-            removed_policies=removed_policies,
-            notable_zones=notable_zones,
-            notable_links=notable_links,
-            notable_policies=notable_policies,
-            format_strings=format_strings,
-            zone_strings=zone_strings,
+            tzdb=tzdb,
+            buf_sizes=buf_sizes,
         )
         generator.generate_files(output_dir)
     else:
@@ -209,16 +155,17 @@ def main() -> None:
     parser.add_argument(
         '--action',
         # zonedb: generate zonedb files
+        # tzdb: generate TZ DB file in JSON format
         # zonelist: generate zones.txt, list of relavant zones
-        choices=['zonedb', 'zonelist'],
+        choices=['zonedb', 'tzdb', 'zonelist'],
         help='Data pipeline action selector',
         required=True)
 
     # Language selector (for --action zonedb)
     parser.add_argument(
         '--language',
-        choices=['arduino', 'python', 'json'],
-        help='Target language (arduino|python|json)',
+        choices=['arduino', 'python'],
+        help='Target language (arduino|python)',
     )
 
     # C++ namespace names for '--language arduino'. If not specified, it will
@@ -302,47 +249,56 @@ def main() -> None:
         format_strings, zone_strings,
     ) = transformer.get_data()
 
+    # Collect TZ DB data into a single JSON-serializable object.
+    json_generator = JsonGenerator(
+        tz_version=args.tz_version,
+        tz_files=Extractor.ZONE_FILES,
+        scope=args.scope,
+        start_year=args.start_year,
+        until_year=args.until_year,
+        zones_map=zones_map,
+        links_map=links_map,
+        rules_map=rules_map,
+        removed_zones=removed_zones,
+        removed_links=removed_links,
+        removed_policies=removed_policies,
+        notable_zones=notable_zones,
+        notable_links=notable_links,
+        notable_policies=notable_policies,
+        format_strings=format_strings,
+        zone_strings=zone_strings,
+    )
+    tzdb = json_generator.get_data()
+
     # Generate internal versions of zone_infos and zone_policies
     # so that ZoneSpecifier can be created.
     logging.info('======== Generating inlined zone_infos and zone_policies')
     inline_generator = InlineGenerator(zones_map, rules_map)
     (zone_infos, zone_policies) = inline_generator.generate_maps()
-    logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
-                 len(zone_policies))
+    logging.info(
+        'zone_infos=%d; zone_policies=%d',
+        len(zone_infos), len(zone_policies))
 
     if args.action == 'zonedb':
         generate_zonedb(
             invocation=invocation,
-            tz_version=args.tz_version,
-            tz_files=Extractor.ZONE_FILES,
-            scope=args.scope,
             db_namespace=args.db_namespace,
-            zones_map=zones_map,
-            links_map=links_map,
-            rules_map=rules_map,
-            removed_zones=removed_zones,
-            removed_links=removed_links,
-            removed_policies=removed_policies,
-            notable_zones=notable_zones,
-            notable_links=notable_links,
-            notable_policies=notable_policies,
-            format_strings=format_strings,
-            zone_strings=zone_strings,
-            zone_infos=zone_infos,
-            zone_policies=zone_policies,
             language=args.language,
-            start_year=args.start_year,
-            until_year=args.until_year,
             output_dir=args.output_dir,
             generate_zone_strings=args.generate_zone_strings,
+            tzdb=tzdb,
+            zone_infos=zone_infos,
+            zone_policies=zone_policies,
         )
+    elif args.action == 'tzdb':
+        logging.info('======== Creating JSON zonedb files')
+        json_generator.generate_files(args.output_dir)
     elif args.action == 'zonelist':
+        logging.info('======== Creating zones.txt')
         generator = ZoneListGenerator(
             invocation=invocation,
-            tz_version=args.tz_version,
-            tz_files=Extractor.ZONE_FILES,
-            scope=args.scope,
-            zones_map=zones_map)
+            tzdb=tzdb,
+        )
         generator.generate_files(args.output_dir)
     else:
         logging.error(f"Unrecognized action '{args.action}'")
