@@ -46,3 +46,6 @@ tzdb.json: $(SRC)
 # Generate the zones.txt file for testing purposes.
 zones.txt: $(SRC)
 	./tzcompiler.sh --tag 2019c --scope basic --action zonelist
+
+clean:
+	rm -f zones.txt tzdb.json
