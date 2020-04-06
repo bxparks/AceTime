@@ -10,7 +10,8 @@ GENERATED := validation_data.cpp \
 	$(DB_NAMESPACE)/zone_policies.h \
 	$(DB_NAMESPACE)/zone_policies.cpp \
 	$(DB_NAMESPACE)/zone_registry.h \
-	$(DB_NAMESPACE)/zone_registry.cpp
+	$(DB_NAMESPACE)/zone_registry.cpp \
+	zones.txt
 OBJS = validation_data.o \
 	validation_tests.o \
 	$(DB_NAMESPACE)/zone_infos.o \
@@ -30,13 +31,31 @@ TZ_VERSION = 2019c
 START_YEAR = 2000
 UNTIL_YEAR = 2038
 
-validation_data.cpp:
+#validation_data.cpp:
+#	../../../tools/tzcompiler.sh \
+#		--tag $(TZ_VERSION) \
+#		--action unittest \
+#		--language arduino \
+#		--scope extended \
+#		--db_namespace $(DB_NAMESPACE) \
+#		--start_year $(START_YEAR) \
+#		--until_year $(UNTIL_YEAR)
+
+validation_data.cpp: zones.txt
+	../../../tools/compare_pytz/test_data_generator.py \
+		--scope extended \
+		--tz_version $(TZ_VERSION) \
+		--db_namespace $(DB_NAMESPACE) \
+		--output_dir $(CURDIR) \
+		--start_year $(START_YEAR) \
+		--until_year $(UNTIL_YEAR) \
+		< zones.txt
+
+zones.txt:
 	../../../tools/tzcompiler.sh \
 		--tag $(TZ_VERSION) \
-		--action unittest \
-		--language arduino \
+		--action zonelist \
 		--scope extended \
-		--db_namespace $(DB_NAMESPACE) \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
 

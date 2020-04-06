@@ -55,25 +55,22 @@ Link {target_zone} {linked_zone}
 
 For example:
 
-Link	America/Los_Angeles	US/Pacific
+Link    America/Los_Angeles    US/Pacific
 
 (The order of the 2 arguments is the reverse of what I would consider natural.
 Maybe it helps to think of the 'Link' command similar to the 'ln' link command
 in Unix, which has the same order of arguments as the 'cp' command.)
 """
 
-import argparse
 import logging
-import sys
 import os
 from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
-from typing import TYPE_CHECKING
 from typing import TextIO
 from typing import Tuple
-from typing import Union
+from typing_extensions import TypedDict
 
 # AceTime Epoch is 2000-01-01 00:00:00
 EPOCH_YEAR: int = 2000
@@ -104,135 +101,72 @@ INVALID_YEAR: int = -1
 INVALID_YEAR_TINY: int = -128
 
 
-class ZoneEraRaw:
+# Note: I created ZoneEraRaw and ZoneRuleRaw to get some amount of interpreter
+# checking, so that a simple typo would not cause bugs. That was before I
+# learned about mypy and TypedDict. I *think* I could replace these with
+# TypedDict, but I'm not 100% sure.
+
+class ZoneEraRaw(TypedDict, total=False):
     """Represents the input records corresponding to the 'ZONE' lines in a
     tz database file.
     """
-    # yapf: disable
-    __slots__ = [
-        # From 'ZONE' records in tz file
-        'offsetString',  # (string) offset from UTC/GMT
-        'rules',  # (string) name of the Rule in effect, '-', or minute offset
-        'format',  # (string) abbreviation format (e.g. P%sT, E%ST, GMT/BST)
-        'untilYear',  # (int) MAX_UNTIL_YEAR means 'max'
-        'untilYearOnly',  # (bool) true if only the year is given
-        'untilMonth',  # (int) 1-12
-        'untilDayString',  # (string) e.g. 'lastSun', 'Sun>=3', or '1'-'31'
-        'untilTime',  # (string) e.g. '2:00', '00:01'
-        'untilTimeSuffix',  # (char) '', 's', 'w', 'g', 'u', 'z'
-        'rawLine',  # (string) original ZONE line in TZ file
+    offsetString: str   # offset from UTC/GMT
+    rules: str  # name of the Rule in effect, '-', or minute offset
+    format: str  # abbreviation format (e.g. P%sT, E%ST, GMT/BST)
+    untilYear: int  # MAX_UNTIL_YEAR means 'max'
+    untilYearOnly: bool  # true if only the year is given
+    untilMonth: int  # 1-12
+    untilDayString: str  # e.g. 'lastSun', 'Sun>=3', or '1'-'31'
+    untilTime: str  # e.g. '2:00', '00:01'
+    untilTimeSuffix: str  # '', 's', 'w', 'g', 'u', 'z'
+    rawLine: str  # original ZONE line in TZ file
 
-        # Derived from above
-        'offsetSeconds', # (int) offset from UTC/GMT in seconds
-        'offsetSecondsTruncated', # (int) offsetSeconds truncation granularity
-        'rulesDeltaSeconds',  # (int or None) delta offset from UTC in seconds
-                              # if RULES is DST offset string of the form
-                              # hh:mm[:ss]
-        'rulesDeltaSecondsTruncated', # (int or None) rulesDeltaSeconds
-                                      # truncated to granularity
-        'untilDay',  # (int) 1-31
-        'untilSeconds', # (int) untilTime converted into total seconds
-        'untilSecondsTruncated', # (int) untilSeconds after truncation
-    ]
-    # yapf: enable
+    # These are derived from above and optional.
+    offsetSeconds: int  # offset from UTC/GMT in seconds
+    offsetSecondsTruncated: int  # offsetSeconds truncation granularity
 
-    # Hack because '__slots__' is unsupported by mypy. See
-    # https://github.com/python/mypy/issues/5941.
-    if TYPE_CHECKING:
-        offsetString: str
-        rules: str
-        format: str
-        untilYear: int
-        untilYearOnly: bool
-        untilMonth: int
-        untilDayString: str
-        untilTime: str
-        untilTimeSuffix: str
-        rawLine: str
-        offsetSeconds: int
-        offsetSecondsTruncated: int
-        rulesDeltaSeconds: int
-        rulesDeltaSecondsTruncated: int
-        untilDay: int
-        untilSeconds: int
-        untilSecondsTruncated: int
+    # delta offset from UTC in seconds if RULES is DST offset string of the form
+    # hh:mm[:ss]
+    rulesDeltaSeconds: int
 
-    def __init__(self, arg: Dict[str, Any]):
-        """Create a ZoneEraRaw from a dict.
-        """
-        if not isinstance(arg, dict):
-            raise Exception('Expected a dict')
-
-        for s in self.__slots__:
-            setattr(self, s, None)
-
-        for key, value in arg.items():
-            setattr(self, key, value)
+    rulesDeltaSecondsTruncated: int  # rulesDeltaSeconds truncated granularity
+    untilDay: int  # 1-31
+    untilSeconds: int  # untilTime converted into total seconds
+    untilSecondsTruncated: int  # untilSeconds after truncation
 
 
-class ZoneRuleRaw:
+class ZoneRuleRaw(TypedDict, total=False):
     """Represents the input records corresponding to the 'RULE' lines in a
     tz database file.
     """
-    __slots__ = [
-        # From 'Rule' records in tz file
-        'fromYear',  # (int) from year
-        'toYear',  # (int) to year, 1 to MAX_YEAR (9999) means 'max'
-        'inMonth',  # (int) month index (1-12)
-        'onDay',  # (string) 'lastSun' or 'Sun>=2', or 'dayOfMonth'
-        'atTime',  # (string) hour at which to transition to and from DST
-        'atTimeSuffix',  # (char) 's', 'w', 'u'
-        'deltaOffset',  # (string) offset from Standard time ('SAVE' field)
-        'letter',  # (char) 'D', 'S', '-'
-        'rawLine',  # (string) the original RULE line from the TZ file
+    fromYear: int  # from year
+    toYear: int  # to year, 1 to MAX_YEAR (9999) means 'max'
+    inMonth: int  # month index (1-12)
+    onDay: str  # 'lastSun' or 'Sun>=2', or 'dayOfMonth'
+    atTime: str  # hour at which to transition to and from DST
+    atTimeSuffix: str  # 's', 'w', 'u'
+    deltaOffset: str  # offset from Standard time ('SAVE' field)
+    letter: str  # 'D', 'S', '-'
+    rawLine: str  # the original RULE line from the TZ file
 
-        # Derived from above
-        'onDayOfWeek',  # (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
-        'onDayOfMonth',  # (int) 1-31 "dow>=xx", -(1-31) "dow<=xx", 0={lastXxx}
-        'atSeconds',  # (int) atTime in seconds since 00:00:00
-        'atSecondsTruncated',  # (int) atSeconds after truncation
-        'deltaSeconds',  # (int) offset from Standard time in seconds
-        'deltaSecondsTruncated',  # (int) deltaSeconds after truncation
-        'earliestDate',  # (y, m, d) tuple of the earliest instance of rule
-        'used',  # (boolean) indicates whether or not the rule is used by a zone
-    ]
+    # These are derived from above and are optional.
+    onDayOfWeek: int  # 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
+    onDayOfMonth: int  # 1-31 "dow>=xx", -(1-31) "dow<=xx", 0={lastXxx}
+    atSeconds: int  # atTime in seconds since 00:00:00
+    atSecondsTruncated: int  # atSeconds after truncation
+    deltaSeconds: int  # offset from Standard time in seconds
+    deltaSecondsTruncated: int  # deltaSeconds after truncation
+    used: Optional[bool]  # whether or not the rule is used by a zone
 
-    # Hack because '__slots__' is unsupported by mypy. See
-    # https://github.com/python/mypy/issues/5941.
-    if TYPE_CHECKING:
-        fromYear: int
-        toYear: int
-        inMonth: int
-        onDay: str
-        atTime: str
-        atTimeSuffix: str
-        deltaOffset: str
-        letter: str
-        rawLine: str
-        onDayOfWeek: int
-        onDayOfMonth: int
-        atSeconds: int
-        atSecondsTruncated: int
-        deltaSeconds: int
-        deltaSecondsTruncated: int
-        earliestDate: Tuple[int, int, int]
-        used: bool
 
-    def __init__(self, arg: Dict[str, Any]):
-        if not isinstance(arg, dict):
-            raise Exception('Expected a dict')
+# ruleName(policyName) -> ZoneRuleRaw[]
+RulesMap = Dict[str, List[ZoneRuleRaw]]
 
-        for s in self.__slots__:
-            setattr(self, s, None)
+# zoneName -> ZoneEraRaw[]
+ZonesMap = Dict[str, List[ZoneEraRaw]]
 
-        for key, value in arg.items():
-            setattr(self, key, value)
-
-    def copy(self) -> 'ZoneRuleRaw':
-        result: ZoneRuleRaw = self.__class__.__new__(self.__class__)
-        for s in self.__slots__:
-            setattr(result, s, getattr(self, s))
-        return result
+# linkName -> zoneName
+LinksMap = Dict[str, str]
 
 
 class Extractor:
@@ -244,8 +178,8 @@ class Extractor:
         extractor = Extractor(input_dir)
         extractor.parse()
         extractor.print_summary()
-		extractor.zones_map
-		extractor.rules_map
+        extractor.zones_map
+        extractor.rules_map
         ...
     """
 
@@ -265,12 +199,12 @@ class Extractor:
         self.input_dir: str = input_dir
 
         self.next_line: Optional[str] = None
-        self.rule_lines: Dict[str, List[str]] = {} # ruleName to lines[]
+        self.rule_lines: Dict[str, List[str]] = {}  # ruleName to lines[]
         self.zone_lines: Dict[str, List[str]] = {}  # zoneName to lines[]
         self.link_lines: Dict[str, List[str]] = {}  # linkName to zoneName[]
-        self.rules_map: Dict[str, List[ZoneRuleRaw]] = {}  # ruleName to []
-        self.zones_map: Dict[str, List[ZoneEraRaw]] = {}  # zoneName to []
-        self.links_map: Dict[str, str] = {}  # map of linkName to zoneName
+        self.rules_map: RulesMap = {}
+        self.zones_map: ZonesMap = {}
+        self.links_map: LinksMap = {}
         self.ignored_rule_lines: int = 0
         self.ignored_zone_lines: int = 0
         self.ignored_link_lines: int = 0
@@ -289,6 +223,10 @@ class Extractor:
         self._process_zones()
         self._process_links()
 
+    def get_data(self) -> Tuple[RulesMap, ZonesMap, LinksMap]:
+        """Return the extracted data maps."""
+        return self.rules_map, self.zones_map, self.links_map
+
     def _parse_zone_files(self) -> None:
         logging.basicConfig(level=logging.INFO)
         for file_name in self.ZONE_FILES:
@@ -302,7 +240,7 @@ class Extractor:
         self.rule_lines and all 'Zone' lines into self.zone_lines.
         """
         in_zone_mode: bool = False
-        prev_tag: str = ''
+        # prev_tag: str = ''
         prev_name: str = ''
         while True:
             line: Optional[str] = self._read_line(input)
@@ -325,7 +263,7 @@ class Extractor:
                 zone_name: str = tokens[1]
                 _add_item(self.zone_lines, zone_name, ' '.join(tokens[2:]))
                 in_zone_mode = True
-                prev_tag = tag
+                # prev_tag = tag
                 prev_name = zone_name
             elif tag[0] == '\t' and in_zone_mode:
                 # Collect subsequent lines that begin with a TAB character into
@@ -424,21 +362,25 @@ class Extractor:
                 zone_entry_count += 1
 
         logging.info('-------- Extractor Summary')
-        logging.info(f'Line count (Rule, Zone, Link): ('
+        logging.info(
+            f'Line count (Rule, Zone, Link): ('
             + f'{len(self.rule_lines)}, '
             + f'{len(self.zone_lines)}, '
             + f'{len(self.link_lines)})')
-        logging.info('Name count (Rule, Zone, Link): ('
+        logging.info(
+            'Name count (Rule, Zone, Link): ('
             + f'{len(self.rules_map)}, '
             + f'{len(self.zones_map)}, '
             + f'{len(self.links_map)})')
         logging.info('Rule entry count: %s' % rule_entry_count)
         logging.info('Zone entry count: %s' % zone_entry_count)
-        logging.info(f'Ignored lines (Rule, Zone, Link): ('
+        logging.info(
+            f'Ignored lines (Rule, Zone, Link): ('
             + f'{self.ignored_rule_lines}, '
             + f'{self.ignored_zone_lines}, '
             + f'{self.ignored_link_lines})')
-        logging.info('Invalid lines: (Rule, Zone, Link): ('
+        logging.info(
+            'Invalid lines: (Rule, Zone, Link): ('
             + f'{self.invalid_rule_lines}, '
             + f'{self.invalid_zone_lines}, '
             + f'{self.invalid_link_lines})')
@@ -469,7 +411,7 @@ MONTH_TO_MONTH_INDEX: Dict[str, int] = {
 }
 
 
-def _process_rule_line(line: str) -> 'ZoneRuleRaw':
+def _process_rule_line(line: str) -> ZoneRuleRaw:
     """Normalize a dictionary that represents a 'Rule' line from the TZ
     database. Contains the following fields:
     Rule NAME FROM TO TYPE IN ON AT SAVE LETTER
@@ -497,7 +439,7 @@ def _process_rule_line(line: str) -> 'ZoneRuleRaw':
     delta_offset = tokens[8]
 
     # Return map corresponding to a ZoneRule instance
-    return ZoneRuleRaw({
+    return {
         'fromYear': from_year,
         'toYear': to_year,
         'inMonth': in_month,
@@ -507,7 +449,7 @@ def _process_rule_line(line: str) -> 'ZoneRuleRaw':
         'deltaOffset': delta_offset,
         'letter': tokens[9],
         'rawLine': line,
-    })
+    }
 
 
 def parse_at_time_string(at_string: str) -> Tuple[str, str]:
@@ -528,7 +470,7 @@ def parse_at_time_string(at_string: str) -> Tuple[str, str]:
 def _process_zone_line(line: str) -> ZoneEraRaw:
     """Normalize an zone era from dictionary that represents one line of
     a 'Zone' record. The columns are:
-    STDOFF	 RULES	FORMAT	[UNTIL]
+    STDOFF   RULES  FORMAT  [UNTIL]
     0        1      2       3
     -5:50:36 -      LMT     1883 Nov 18 12:09:24
     -6:00    US     C%sT    1920
@@ -572,7 +514,7 @@ def _process_zone_line(line: str) -> ZoneEraRaw:
     format: str = tokens[2]
 
     # Return map corresponding to a ZoneEra instance
-    return ZoneEraRaw({
+    return {
         'offsetString': offset_string,
         'rules': rules_string,
         'format': format,
@@ -583,4 +525,4 @@ def _process_zone_line(line: str) -> ZoneEraRaw:
         'untilTime': until_time,
         'untilTimeSuffix': until_time_suffix,
         'rawLine': line,
-    })
+    }

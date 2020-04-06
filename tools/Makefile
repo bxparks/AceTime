@@ -1,17 +1,17 @@
 # Full typing added to pass --strict mode.
 SRC = \
 argenerator.py \
-arvalgenerator.py \
 bufestimator.py \
 extractor.py \
 ingenerator.py \
+jsongenerator.py \
 pygenerator.py \
-pyvalgenerator.py \
 tdgenerator.py \
 test_extractor.py \
 test_transformer.py \
 transformer.py \
 tzcompiler.py \
+validate.py \
 validator.py \
 zone_specifier.py \
 zonelistgenerator.py
@@ -22,3 +22,28 @@ test_zone_specifier.py # Takes too long, imports zonedb/* files
 
 mypy:
 	mypy --strict $(SRC)
+
+tests:
+	python3 -m unittest
+
+flake8:
+	flake8 . \
+		--exclude=archive,zonedb \
+		--count \
+		--ignore W503 \
+		--show-source \
+		--statistics \
+		--max-line-length=80
+
+# Run the Validator using validate.sh which runs validate.py.
+validate:
+	./validate.sh --tag 2019c --scope basic
+
+# Generate tzdb.json for testing purposes.
+tzdb.json: extractor.py transformer.py jsongenerator.py \
+tzcompiler.py tzcompiler.sh
+	./tzcompiler.sh \
+		--tag 2019c \
+		--action zonedb \
+		--language json \
+		--scope basic

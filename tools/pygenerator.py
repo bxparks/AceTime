@@ -2,7 +2,7 @@
 #
 # MIT License
 """
-Generate the zone_info and zone_policies files for Python.
+Generate the 'zone_infos.py' and 'zone_policies.py' files for Python.
 """
 
 import logging
@@ -10,19 +10,19 @@ import os
 
 from extractor import ZoneEraRaw
 from extractor import ZoneRuleRaw
+from extractor import ZonesMap
+from extractor import RulesMap
 from transformer import normalize_name
 from transformer import normalize_raw
 from transformer import CommentsMap
-from transformer import LinksMap
-from transformer import RulesMap
-from transformer import ZonesMap
-from typing import Dict
 from typing import List
 from typing import Tuple
 
 
 class PythonGenerator:
-    """Generate Python files for zone infos and policies.
+    """Generate Python files for zone_infos.py and zone_policies.py which are
+    used by the ZoneSpecifier class. Unlike the Arduino version, the Python
+    implementation does not support the 'Link' zone names.
     """
 
     ZONE_POLICIES_FILE = """\
@@ -200,16 +200,18 @@ ZONE_INFO_{zoneNormalizedName} = {{
     ZONE_INFOS_FILE_NAME = 'zone_infos.py'
     ZONE_POLICIES_FILE_NAME = 'zone_policies.py'
 
-    def __init__(self,
-                 invocation: str,
-                 tz_version: str,
-                 tz_files: List[str],
-                 zones_map: ZonesMap,
-                 rules_map: RulesMap,
-                 removed_zones: CommentsMap,
-                 removed_policies: CommentsMap,
-                 notable_zones: CommentsMap,
-                 notable_policies: CommentsMap):
+    def __init__(
+        self,
+        invocation: str,
+        tz_version: str,
+        tz_files: List[str],
+        zones_map: ZonesMap,
+        rules_map: RulesMap,
+        removed_zones: CommentsMap,
+        removed_policies: CommentsMap,
+        notable_zones: CommentsMap,
+        notable_policies: CommentsMap,
+    ):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
@@ -275,39 +277,43 @@ ZONE_INFO_{zoneNormalizedName} = {{
         for rule in rules:
             rule_items += self.ZONE_RULE_ITEM.format(
                 policyName=normalize_name(name),
-                rawLine=normalize_raw(rule.rawLine),
-                fromYear=rule.fromYear,
-                toYear=rule.toYear,
-                inMonth=rule.inMonth,
-                onDayOfWeek=rule.onDayOfWeek,
-                onDayOfMonth=rule.onDayOfMonth,
-                atSeconds=rule.atSecondsTruncated,
-                atTimeSuffix=rule.atTimeSuffix,
-                deltaSeconds=rule.deltaSecondsTruncated,
-                letter=rule.letter)
+                rawLine=normalize_raw(rule['rawLine']),
+                fromYear=rule['fromYear'],
+                toYear=rule['toYear'],
+                inMonth=rule['inMonth'],
+                onDayOfWeek=rule['onDayOfWeek'],
+                onDayOfMonth=rule['onDayOfMonth'],
+                atSeconds=rule['atSecondsTruncated'],
+                atTimeSuffix=rule['atTimeSuffix'],
+                deltaSeconds=rule['deltaSecondsTruncated'],
+                letter=rule['letter'])
         return self.ZONE_POLICY_ITEM.format(
             policyName=normalize_name(name),
             numRules=len(rules),
             ruleItems=rule_items)
 
-    def _generate_removed_policy_items(self, removed_policies: CommentsMap) \
-        -> str:
+    def _generate_removed_policy_items(
+        self, removed_policies: CommentsMap,
+    ) -> str:
         removed_policy_items = ''
         for name, reason in sorted(removed_policies.items()):
-            removed_policy_items += \
+            removed_policy_items += (
                 self.ZONE_REMOVED_POLICY_ITEM.format(
                     policyName=normalize_name(name),
                     policyReason=reason)
+            )
         return removed_policy_items
 
-    def _generate_notable_policy_items(self, notable_policies: CommentsMap) \
-        -> str:
+    def _generate_notable_policy_items(
+        self, notable_policies: CommentsMap,
+    ) -> str:
         notable_policy_items = ''
         for name, reason in sorted(notable_policies.items()):
-            notable_policy_items += \
+            notable_policy_items += (
                 self.ZONE_NOTABLE_POLICY_ITEM.format(
                     policyName=normalize_name(name),
                     policyReason=reason)
+            )
         return notable_policy_items
 
     def _generate_infos(self) -> str:
@@ -365,8 +371,9 @@ ZONE_INFO_{zoneNormalizedName} = {{
                 zoneFullName=zone_name, infoReason=reason)
         return notable_info_items
 
-    def _generate_info_item(self, zone_name: str, eras: List[ZoneEraRaw]) \
-        -> str:
+    def _generate_info_item(
+        self, zone_name: str, eras: List[ZoneEraRaw],
+    ) -> str:
         era_items = ''
         for era in eras:
             era_items += self._generate_era_item(era)
@@ -378,20 +385,20 @@ ZONE_INFO_{zoneNormalizedName} = {{
             eraItems=era_items)
 
     def _generate_era_item(self, era: ZoneEraRaw) -> str:
-        policy_name = era.rules
+        policy_name = era['rules']
         if policy_name in ['-', ':']:
             zone_policy = "'%s'" % policy_name
         else:
             zone_policy = 'ZONE_POLICY_%s' % normalize_name(policy_name)
 
         return self.ZONE_ERA_ITEM.format(
-            rawLine=normalize_raw(era.rawLine),
-            offsetSeconds=era.offsetSecondsTruncated,
+            rawLine=normalize_raw(era['rawLine']),
+            offsetSeconds=era['offsetSecondsTruncated'],
             zonePolicy=zone_policy,
-            rulesDeltaSeconds=era.rulesDeltaSecondsTruncated,
-            format=era.format,  # preserve the %s
-            untilYear=era.untilYear,
-            untilMonth=era.untilMonth,
-            untilDay=era.untilDay,
-            untilSeconds=era.untilSecondsTruncated,
-            untilTimeSuffix=era.untilTimeSuffix)
+            rulesDeltaSeconds=era['rulesDeltaSecondsTruncated'],
+            format=era['format'],  # preserve the %s
+            untilYear=era['untilYear'],
+            untilMonth=era['untilMonth'],
+            untilDay=era['untilDay'],
+            untilSeconds=era['untilSecondsTruncated'],
+            untilTimeSuffix=era['untilTimeSuffix'])

@@ -8,50 +8,109 @@ The main driver is the `tzcompiler.sh`, which is a thin shell wrapper
 around the `tzcompiler.py` script, which invokes an ETL data
 processing pipeline that converts the various TZ Database files (with `Zone`,
 `Link` and `Rule` entries) into generated code fragments (`zone_infos.h`,
-`zone_infos.cpp`, etc). The data processing pipeline looks something like this:
+`zone_infos.cpp`, etc).
+
+The data processing pipeline for `tzcompiler.py` looks something like this:
 
 ```
-                TZDB files
-                    |
-                    v
-               extractor.py
-                    |
-                    v
-             transformer.py---------------------.
-              /     |    \                       \
-             /      |     v                       v
-            /       |     pygenerator.py       zonelistgenerator.py
-           /        |           \                    |
-          / ingenerator.py       v                   v
-         /          |      zone_infos.py        zones.txt       java.time
-        /           |      zone_policies.py       /   \          /
-       /           / \     zone_strings.py       /     v        v
-      /           /   \         |               /  TestDataGenerator.java
-     /           v     \        v              /         |
-    /  bufestimator.py |\ zone_specifier.py   |          |
-   /      /            | \     |         |    |          v
-  /      /             |  \    |    pytz |    |  validation_data.{h,cpp}
- v      v              |   \   |   /  |  |    |  validation_tests.cpp
-argenerator.py         |    v  v  v   |  |    |
-     |                 | validator.py |  |     \           Hinnant date
-     v                 |              /  /      \              /
-zone_infos.{h,cpp}     \             /  /        v            v
-zone_policies.{h,cpp}   \           /  /   test_data_generator.cpp
-zone_registry.{h,cpp}    \         /  /             |
-zone_strings.{h,cpp}      \       /  /              v
-                           v     v  v       validation_data.{h,cpp}
-                       tdgenerator.py       validation_tests.cpp
-                          /       \
-                         v         v
-             arvalgenerator.py   pyvalgenerator.py
-                |                    |
-                v                    v
-       validation_data.{h,cpp}   validation_data.py
-       validation_tests.cpp
+                    TZDB files
+                        |
+                        v
+                   extractor.py
+                        |
+      [zonelist]        v        [zonedb/json]
+    .----------- transformer.py --------------------.
+   /             /      |    \                       \
+  /             /       |     v                       v
+ /             /        |     pygenerator.py          jsongenerator.py
+/             /         |           \ [zonedb/python]   \
+|            /  ingenerator.py       v                   v
+|           /           |       zone_infos.py          zonedb.json
+|          /           /        zone_policies.py
+|         /           /         zone_strings.py
+|        /           v               |
+|       / zone_specifier.py          v
+|      /            /             zone_specifier.py
+|     /            v
+|     |   bufestimator.py   
+|     |      /              
+|     |     /               
+|     v    v                
+|  argenerator.py           
+|        | [zonedb/arduino] 
+|        |                  
+|        v                  
+|   zone_infos.{h,cpp}      
+|   zone_policies.{h,cpp}   
+|   zone_registry.{h,cpp}   
+|   zone_strings.{h,cpp}    
+|                           
+|                           
+ \                          
+  \
+   v
+  zonelistgenerator.py
+      |
+      v
+   zones.txt    java.time
+      |            |
+      |            v
+      +--> java/TestDataGenerator.java
+      |             \
+      |              v
+      |             validation_data.{h,cpp}
+      |             validation_tests.cpp
+      |
+      |
+      |       Hinnant date
+      |         |
+      |         v
+      +--> cpp/test_data_generator.cpp
+      |          \
+      |           v
+      |          validation_data.{h,cpp}
+      |          validation_tests.cpp
+      |
+      |
+      |       pytz
+      |         |
+      |         v
+      +--> compare_pytz/test_data_generator.py
+                 \
+                  v
+                 validation_data.{h,cpp}
+                 validation_tests.cpp
 ```
 
-(Note: There is a dependency of `zone_specifier.py` into `bufestimator.py`
-which is not shown in the diagram above due to space limitations.)
+The `[zonedb/*]` and `[zonelist]` correspond to the value of the `--action` and
+`--language` flags on the `tzcompiler.py` script.
+
+The data processing pipeline for `validate.py` looks like this (this used to be
+incorporated in `tzcompiler.py` before it was extracted out into `validate.py`):
+
+```
+     TZDB files
+         |
+         v
+    extractor.py
+         |
+         v
+   ingenerator.py
+       /  \
+      /    v             pytz
+     | zone_specifier.py /
+     |      \           /
+     |       v         v
+     |     tdgenerator.py
+     .                \
+      \                \
+       v                |
+     zone_specifier.py  |
+          |            /
+          |           /
+          v          v
+          validator.py
+```
 
 ## Dependencies
 
@@ -146,5 +205,19 @@ There is an uber `tests/validation/Makefile` which can generate
 the `validation_data.*` files for all subdirectories:
 ```
 $ cd $ACE_TIME/tests/validation
+$ make tests
+```
+
+### Type Checking
+
+The scripts should pass `mypy` type checking in `strict` mode:
+```
+$ make mypy
+```
+
+### Unit Testing
+
+The unit tests can be run with:
+```
 $ make tests
 ```

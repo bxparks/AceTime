@@ -11,7 +11,6 @@ from transformer import _parse_on_day_string
 from transformer import _days_in_month
 from transformer import calc_day_of_month
 from transformer import time_string_to_seconds
-from transformer import time_string_to_seconds
 from transformer import seconds_to_hms
 from transformer import hms_to_seconds
 from transformer import div_to_zero
@@ -50,9 +49,9 @@ class TestCalcDayOfMonth(unittest.TestCase):
 
 class TestDaysInMonth(unittest.TestCase):
     def test_days_in_month(self) -> None:
-        self.assertEqual(30, _days_in_month(2002, 9)) # Sep
-        self.assertEqual(31, _days_in_month(2002, 0)) # Dec of prev year
-        self.assertEqual(31, _days_in_month(2002, 13)) # Jan of following year
+        self.assertEqual(30, _days_in_month(2002, 9))  # Sep
+        self.assertEqual(31, _days_in_month(2002, 0))  # Dec of prev year
+        self.assertEqual(31, _days_in_month(2002, 13))  # Jan of following year
 
 
 class TestTimeStringToSeconds(unittest.TestCase):
@@ -127,15 +126,17 @@ class TestAddString(unittest.TestCase):
         self.assertEqual(3, transformer.add_string(strings, 'c'))
         self.assertEqual(2, transformer.add_string(strings, 'd'))
 
+
 class TestHash(unittest.TestCase):
     def test_hash(self) -> None:
         self.assertEqual(5381, hash_name(''))
-        self.assertEqual(177670, hash_name('a'));
-        self.assertEqual(177671, hash_name('b'));
-        self.assertEqual(5863208, hash_name('ab'));
-        self.assertEqual(193485963, hash_name('abc'));
-        self.assertEqual(2090069583, hash_name('abcd'));
-        self.assertEqual(252819604, hash_name('abcde'));
+        self.assertEqual(177670, hash_name('a'))
+        self.assertEqual(177671, hash_name('b'))
+        self.assertEqual(5863208, hash_name('ab'))
+        self.assertEqual(193485963, hash_name('abc'))
+        self.assertEqual(2090069583, hash_name('abcd'))
+        self.assertEqual(252819604, hash_name('abcde'))
+
 
 if __name__ == '__main__':
     unittest.main()

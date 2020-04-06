@@ -4,44 +4,57 @@
 #
 # MIT License
 #
+# Shell script wrapper around tzcompiler.py. The main purpose is to run 'git
+# checkout' on the TZ Database repository (located at $PWD/../../tz) to retrieve
+# the TZ version specified by the (--tag). It then runs the tzcompiler.py
+# script to process the zone files. The location of the TZ Database is passed
+# into the tzcompiler.py using the --input_dir flag. The various 'validation_*'
+# files are produced in the directory specified by the --output_dir flag.
+#
 # Usage:
 #
 #   $ tzcompiler.sh --tag {tag}
-#       --action (zonedb|validate|unittest)
-#       --language (python|arduino)
+#       --action (zonedb|zonelist)
+#       --language (python|arduino|json)
 #       --scope (basic|extended)
 #       [other flags...]
 #
+# There are 2 high-level modes of this script, depending on the --action flag:
+#
+#   * zonedb
+#       * Generate the 'validation_data.{h,cpp}' and 'valiation_tests.cpp' files
+#       needed by the Arduino tests in ace_time/tests/validation/*.
+#   * zonelist
+#       * Generate the 'zones.txt' file which contains the list of Zone names
+#       which are supported by the given --language and --scope.
+#
 # Examples:
 #
-#   $ tzcompiler.sh --tag 2018i --action zonedb --language python
+#   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino \
 #           --scope basic
-#       - generates zone*.py files in the current directory
+#       Generates zone*.{h,cpp} files in the current directory.
 #
-#   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino
+#   $ tzcompiler.sh --tag 2018i --action zonedb --language python \
 #           --scope basic
-#       - generates zone*.{h,cpp} files in the current directory
+#       Generates zone*.py files in the current directory.
 #
-#   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino
-#           --scope extended
-#       - generates extended zone*.{h,cpp} files in the current directory
-#
-#   $ tzcompiler.sh --tag 2018i --action unittest --language arduino
+#   $ tzcompiler.sh --tag 2018i --action zonedb --language json \
 #           --scope basic
-#       - generates test data for BasicValidationUsingPythonTest unit test
+#       Generate the zoneinfo.json file in the current directory.
 #
-#   $ tzcompiler.sh --tag 2018i --action validate --language python
+#   $ tzcompiler.sh --tag 2018i --action zonelist --language arduino \
 #           --scope basic
-#       - validate the internal zone_info and zone_policies data
+#       Generate the zones.txt file in the current directory.
 #
-#   $ tzcompiler.sh --tag 2018i --action validate --language arduino
-#           --scope basic
-#       - validate the internal zone_info and zone_policies data
+# Flags:
 #
-# Flags
+# Flags which are not recognized by this script are passed directly into
+# the tzcompile.py script for further processing. Some examples are:
 #
-#   Transformer flags:
+#   Transformer:
 #
+#       --scope (basic|extended)
+#           Select the size/scope of the zone_info dataset.
 #       --start_year
 #           Retain TZ information since this year (default 2000).
 #       --granularity
@@ -49,13 +62,9 @@
 #       --strict
 #           Remove zone and rules not aligned at time granularity.
 #
-#   Validator:
-#       --validate
-#           Validate the zone_infos and zone_policies
-#       --validate_buffer_size
-#       --validate_test_data
-#       --validate_dst_offset
-#           Validate DST offsets as well (many false positives due to pytz).
+# See Also:
+#
+#   validate.sh
 
 set -eu
 
@@ -69,8 +78,8 @@ INPUT_DIR=$DIRNAME/../../tz
 OUTPUT_DIR=$PWD
 
 function usage() {
-    echo 'Usage: tzcompiler.sh --tag tag --action (zonedb|validate|unittest)'
-    echo '      --language (python|arduino) --scope (basic|extended)'
+    echo 'Usage: tzcompiler.sh --tag tag --action (zonedb|zonelist)'
+    echo '      --language (python|arduino|json) --scope (basic|extended)'
     echo '      [...other python_flags...]'
     exit 1
 }

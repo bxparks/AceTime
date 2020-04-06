@@ -4,16 +4,14 @@
 #
 # MIT License
 
-import logging
 import unittest
 import zonedb.zone_infos
 import zonedb.zone_policies
-import zonedb.validation_data
+# import zonedb.validation_data # reenable using zoneinfo.json?
 from tdgenerator import TestItem
 from zone_specifier import DateTuple
 from zone_specifier import Transition
 from zone_specifier import ZoneMatch
-from zone_specifier import YearMonthTuple
 from zone_specifier import ZoneSpecifier
 from zone_specifier import CandidateFinderBasic
 from zone_specifier import _compare_transition_to_match
@@ -21,10 +19,13 @@ from zone_specifier import _compare_transition_to_match_fuzzy
 
 
 class TestValidationData(unittest.TestCase):
+    @unittest.skip("zonedb/validation_data.py not generated")
     def test_validation_data(self) -> None:
-        test_data = zonedb.validation_data.VALIDATION_DATA['America/Los_Angeles']
+        test_data = zonedb.validation_data.VALIDATION_DATA[
+            'America/Los_Angeles']
         self.assertTrue(isinstance(test_data[0], TestItem))
 
+    @unittest.skip("zonedb/validation_data.py not generated")
     def test_zone_specifier_using_validation_data(self) -> None:
         for name, items in zonedb.validation_data.VALIDATION_DATA.items():
             zone_info = zonedb.zone_infos.ZONE_INFO_MAP[name]
@@ -231,7 +232,8 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         1977, then switched back in 2006, then switched back again in 2007.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_America_Indiana_Petersburg, viewing_months=14)
+            zonedb.zone_infos.ZONE_INFO_America_Indiana_Petersburg,
+            viewing_months=14)
         zone_specifier.init_for_year(2006)
 
         matches = zone_specifier.matches
@@ -461,7 +463,8 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         """America/Santo_Domingo uses 2 ZoneEra changes in year 2000.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_America_Santo_Domingo, viewing_months=14)
+            zonedb.zone_infos.ZONE_INFO_America_Santo_Domingo,
+            viewing_months=14)
         zone_specifier.init_for_year(2000)
 
         matches = zone_specifier.matches
@@ -744,7 +747,8 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         the same point in time.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_Antarctica_Macquarie, viewing_months=14)
+            zonedb.zone_infos.ZONE_INFO_Antarctica_Macquarie,
+            viewing_months=14)
         zone_specifier.init_for_year(2010)
 
         matches = zone_specifier.matches
