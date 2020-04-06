@@ -55,7 +55,7 @@ The data processing pipeline for `tzcompiler.py` looks something like this:
    zones.txt    java.time
       |            |
       |            v
-      +--> TestDataGenerator.java
+      +--> java/TestDataGenerator.java
       |             \
       |              v
       |             validation_data.{h,cpp}
@@ -65,7 +65,7 @@ The data processing pipeline for `tzcompiler.py` looks something like this:
       |       Hinnant date
       |         |
       |         v
-      +--> test_data_generator.cpp
+      +--> cpp/test_data_generator.cpp
       |          \
       |           v
       |          validation_data.{h,cpp}
@@ -75,7 +75,7 @@ The data processing pipeline for `tzcompiler.py` looks something like this:
       |       pytz
       |         |
       |         v
-      +--> test_data_generator.py
+      +--> compare_pytz/test_data_generator.py
                  \
                   v
                  validation_data.{h,cpp}
