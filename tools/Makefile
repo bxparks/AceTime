@@ -11,6 +11,7 @@ test_extractor.py \
 test_transformer.py \
 transformer.py \
 tzcompiler.py \
+validate.py \
 validator.py \
 zone_specifier.py \
 zonelistgenerator.py
@@ -34,13 +35,9 @@ flake8:
 		--statistics \
 		--max-line-length=80
 
-# Run the Validator using --action validate, for testing purposes.
+# Run the Validator using validate.sh which runs validate.py.
 validate:
-	./tzcompiler.sh \
-		--tag 2019c \
-		--action validate \
-		--language python \
-		--scope basic
+	./validate.sh --tag 2019c --scope basic
 
 # Generate tzdb.json for testing purposes.
 tzdb.json: extractor.py transformer.py jsongenerator.py \

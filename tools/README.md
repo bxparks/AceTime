@@ -8,7 +8,9 @@ The main driver is the `tzcompiler.sh`, which is a thin shell wrapper
 around the `tzcompiler.py` script, which invokes an ETL data
 processing pipeline that converts the various TZ Database files (with `Zone`,
 `Link` and `Rule` entries) into generated code fragments (`zone_infos.h`,
-`zone_infos.cpp`, etc). The data processing pipeline looks something like this:
+`zone_infos.cpp`, etc).
+
+The data processing pipeline for `tzcompiler.py` looks something like this:
 
 ```
                     TZDB files
@@ -24,27 +26,27 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
 /             /         |           \ [zonedb/python]   \
 |            /  ingenerator.py       v                   v
 |           /           |       zone_infos.py          zonedb.json
-|          /            |       zone_policies.py
-|         /            / \      zone_strings.py
-|        /            v   \          |
-|       / zone_specifier.py\         v
-|      /            /       \     zone_specifier.py
-|     /            v        |\
-|     |   bufestimator.py   | \
-|     |      /              |  \                pytz
-|     |     /               |zone_specifier.py  /
-|     v    v                |    \             /
-|  argenerator.py           |     v           v
-|        | [zonedb/arduino] |    tdgenerator.py
-|        |                  .    (deprecated) \
-|        v                   \                 \
-|   zone_infos.{h,cpp}        v                |
-|   zone_policies.{h,cpp}   zone_specifier.py  |
-|   zone_registry.{h,cpp}        |            /
-|   zone_strings.{h,cpp}         |           /
-|                                v          v
-|                                validator.py
- \                               [validate]
+|          /           /        zone_policies.py
+|         /           /         zone_strings.py
+|        /           v               |
+|       / zone_specifier.py          v
+|      /            /             zone_specifier.py
+|     /            v
+|     |   bufestimator.py   
+|     |      /              
+|     |     /               
+|     v    v                
+|  argenerator.py           
+|        | [zonedb/arduino] 
+|        |                  
+|        v                  
+|   zone_infos.{h,cpp}      
+|   zone_policies.{h,cpp}   
+|   zone_registry.{h,cpp}   
+|   zone_strings.{h,cpp}    
+|                           
+|                           
+ \                          
   \
    v
   zonelistgenerator.py
@@ -80,8 +82,35 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
                  validation_tests.cpp
 ```
 
-The `[zonedb]`, `[zonelist]` and `[validate]` correspond to the value of the
-`--action` flag on the `tzcompiler.py` script.
+The `[zonedb/*]` and `[zonelist]` correspond to the value of the `--action` and
+`--language` flags on the `tzcompiler.py` script.
+
+The data processing pipeline for `validate.py` looks like this (this used to be
+incorporated in `tzcompiler.py` before it was extracted out into `validate.py`):
+
+```
+     TZDB files
+         |
+         v
+    extractor.py
+         |
+         v
+   ingenerator.py
+       /  \
+      /    v             pytz
+     | zone_specifier.py /
+     |      \           /
+     |       v         v
+     |     tdgenerator.py
+     .                \
+      \                \
+       v                |
+     zone_specifier.py  |
+          |            /
+          |           /
+          v          v
+          validator.py
+```
 
 ## Dependencies
 

@@ -17,59 +17,12 @@ from jsongenerator import JsonGenerator
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator, ZoneInfoMap, ZonePolicyMap
 from zonelistgenerator import ZoneListGenerator
-from validator import Validator
 from bufestimator import BufSizeEstimator
 
 
 class Generator(Protocol):
     def generate_files(self, name: str) -> None:
         ...
-
-
-def validate(
-    zone_infos: ZoneInfoMap,
-    zone_policies: ZonePolicyMap,
-    zone: str,
-    year: int,
-    start_year: int,
-    until_year: int,
-    validate_buffer_size: bool,
-    validate_test_data: bool,
-    viewing_months: int,
-    validate_dst_offset: bool,
-    debug_validator: bool,
-    debug_specifier: bool,
-    in_place_transitions: bool,
-    optimize_candidates: bool,
-) -> None:
-
-    # Set the default to set both --validate_buffer_size and
-    # --validate_test_data if neither flags are given explicitly.
-    if not validate_buffer_size and not validate_test_data:
-        validate_buffer_size = True
-        validate_test_data = True
-
-    validator = Validator(
-        zone_infos=zone_infos,
-        zone_policies=zone_policies,
-        viewing_months=viewing_months,
-        validate_dst_offset=validate_dst_offset,
-        debug_validator=debug_validator,
-        debug_specifier=debug_specifier,
-        zone_name=zone,
-        year=year,
-        start_year=start_year,
-        until_year=until_year,
-        in_place_transitions=in_place_transitions,
-        optimize_candidates=optimize_candidates)
-
-    if validate_buffer_size:
-        logging.info('======== Validating transition buffer sizes')
-        validator.validate_buffer_size()
-
-    if validate_test_data:
-        logging.info('======== Validating test data')
-        validator.validate_test_data()
 
 
 def generate_zonedb(
@@ -255,8 +208,7 @@ def main() -> None:
         '--action',
         # zonedb: generate zonedb files
         # zonelist: generate zones.txt, list of relavant zones
-        # validate: validate both buffer size and validation data
-        choices=['zonedb', 'zonelist', 'validate'],
+        choices=['zonedb', 'zonelist'],
         help='Data pipeline action selector',
         required=True)
 
@@ -284,61 +236,6 @@ def main() -> None:
         '--tz_version', help='Version string of the TZ files', required=True)
     parser.add_argument(
         '--output_dir', help='Location of the output directory')
-
-    # Validator flags.
-    parser.add_argument('--zone', help='Name of time zone to validate')
-    parser.add_argument('--year', help='Year to validate', type=int)
-    parser.add_argument(
-        '--viewing_months',
-        help='Number of months to use for calculations (13, 14, 36)',
-        type=int,
-        default=14)
-    parser.add_argument(
-        '--validate_buffer_size',
-        help='Validate the transition buffer size',
-        action="store_true")
-    parser.add_argument(
-        '--validate_test_data',
-        help='Validate the TestDataGenerator with pytz',
-        action="store_true")
-    parser.add_argument(
-        '--validate_dst_offset',
-        help='Validate the DST offset as well as the total UTC offset',
-        action="store_true")
-    parser.add_argument(
-        '--debug_validator',
-        help='Enable debug output from Validator',
-        action="store_true")
-    parser.add_argument(
-        '--debug_specifier',
-        help='Enable debug output from ZoneSpecifier',
-        action="store_true")
-    parser.add_argument(
-        '--in_place_transitions',
-        help='Use in-place Transition array to determine Active Transitions',
-        action="store_true")
-    parser.add_argument(
-        '--optimize_candidates',
-        help='Optimize the candidate transitions',
-        action='store_true')
-    # Flags for the Validator (to be passed into TestDataGenerator). If not
-    # given (default 0), then the validation_start_year will be set to
-    # start_year, and the validation_until_year will be set to until_year.
-    #
-    # pytz cannot handle dates after the end of 32-bit Unix time_t type
-    # (2038-01-19T03:14:07Z), see
-    # https://answers.launchpad.net/pytz/+question/262216, so the
-    # validation_until_year cannot be greater than 2038.
-    parser.add_argument(
-        '--validation_start_year',
-        help='Start year of ZoneSpecifier validation (default: start_year)',
-        type=int,
-        default=0)
-    parser.add_argument(
-        '--validation_until_year',
-        help='Until year of ZoneSpecifier validation (default: 2038)',
-        type=int,
-        default=0)
 
     # Parse the command line arguments
     args = parser.parse_args()
@@ -445,36 +342,6 @@ def main() -> None:
             scope=args.scope,
             zones_map=zones_map)
         generator.generate_files(args.output_dir)
-    elif args.action == 'validate':
-        # Set the defaults for validation_start_year and validation_until_year
-        # if they were not specified.
-        validation_start_year = (
-            args.start_year
-            if args.validation_start_year == 0
-            else args.validation_start_year
-        )
-        validation_until_year = (
-            args.until_year
-            if args.validation_until_year == 0
-            else args.validation_until_year
-        )
-
-        validate(
-            zone_infos=zone_infos,
-            zone_policies=zone_policies,
-            zone=args.zone,
-            year=args.year,
-            start_year=validation_start_year,
-            until_year=validation_until_year,
-            validate_buffer_size=args.validate_buffer_size,
-            validate_test_data=args.validate_test_data,
-            viewing_months=args.viewing_months,
-            validate_dst_offset=args.validate_dst_offset,
-            debug_validator=args.debug_validator,
-            debug_specifier=args.debug_specifier,
-            in_place_transitions=args.in_place_transitions,
-            optimize_candidates=args.optimize_candidates,
-        )
     else:
         logging.error(f"Unrecognized action '{args.action}'")
         sys.exit(1)
