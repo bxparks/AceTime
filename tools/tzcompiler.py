@@ -51,15 +51,6 @@ def generate_zonedb(
     generate_zone_strings: bool,
 ) -> None:
 
-    # Generate the buf_size estimates for each zone, between start_year and
-    # until_year.
-    logging.info('======== Estimating transition buffer sizes')
-    logging.info('Checking years in [%d, %d)', start_year, until_year)
-    estimator = BufSizeEstimator(
-        zone_infos, zone_policies, start_year, until_year)
-    (buf_sizes, max_size) = estimator.estimate()
-    logging.info('Num zones=%d; Max buffer size=%d', len(buf_sizes), max_size)
-
     generator: Generator
 
     # Create the Python or Arduino files if requested
@@ -93,6 +84,18 @@ def generate_zonedb(
                 raise Exception(
                     f"db_namespace cannot be determined for scope '{scope}'"
                 )
+
+        # Generate the buf_size estimates for each zone, between start_year and
+        # until_year.
+        logging.info('==== Estimating transition buffer sizes')
+        logging.info('Checking years in [%d, %d)', start_year, until_year)
+        estimator = BufSizeEstimator(
+            zone_infos, zone_policies, start_year, until_year)
+        (buf_sizes, max_size) = estimator.estimate()
+        logging.info(
+            'Num zones=%d; Max buffer size=%d',
+            len(buf_sizes), max_size,
+        )
 
         generator = ArduinoGenerator(
             invocation=invocation,
