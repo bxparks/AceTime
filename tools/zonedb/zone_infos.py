@@ -13435,5 +13435,5 @@ ZONE_INFO_MAP = {
 #
 # numInfos: 1
 #
-# Africa/Johannesburg ({"RULES not fixed but FORMAT is missing '%' or '/'"})
+# Africa/Johannesburg (["RULES not fixed but FORMAT is missing '%' or '/'"])
 
