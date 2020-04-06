@@ -14,21 +14,28 @@
 # Usage:
 #
 #   $ tzcompiler.sh --tag {tag}
-#       --action (zonedb|zonelist)
-#       --language (python|arduino|json)
+#       --action (tzdb|zonedb|zonelist)
+#       --language (python|arduino)
 #       --scope (basic|extended)
 #       [other flags...]
 #
-# There are 2 high-level modes of this script, depending on the --action flag:
+# There are 3 high-level modes of this script, depending on the --action flag:
 #
+#   * tzdb
+#       * Generate the 'tzdb.json' file which represents our internal
+#       representation of the TZ Database.
 #   * zonedb
-#       * Generate the 'validation_data.{h,cpp}' and 'valiation_tests.cpp' files
-#       needed by the Arduino tests in ace_time/tests/validation/*.
+#       * Generate the 'zone_infos.*', 'zone_policies.*' files for
+#       different target languages specified by the '--language' flag,
+#       e.g. Arduino or Python.
 #   * zonelist
 #       * Generate the 'zones.txt' file which contains the list of Zone names
 #       which are supported by the given --language and --scope.
 #
 # Examples:
+#
+#   $ tzcompiler.sh --tag 2018i --action tzdb --scope basic
+#       Generates tzdb.json file in the current directory.
 #
 #   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino \
 #           --scope basic
@@ -38,13 +45,8 @@
 #           --scope basic
 #       Generates zone*.py files in the current directory.
 #
-#   $ tzcompiler.sh --tag 2018i --action zonedb --language json \
-#           --scope basic
-#       Generate the zoneinfo.json file in the current directory.
-#
-#   $ tzcompiler.sh --tag 2018i --action zonelist --language arduino \
-#           --scope basic
-#       Generate the zones.txt file in the current directory.
+#   $ tzcompiler.sh --tag 2018i --action zonelist --scope basic
+#       Generate the 'zones.txt' file in the current directory.
 #
 # Flags:
 #
@@ -78,8 +80,8 @@ INPUT_DIR=$DIRNAME/../../tz
 OUTPUT_DIR=$PWD
 
 function usage() {
-    echo 'Usage: tzcompiler.sh --tag tag --action (zonedb|zonelist)'
-    echo '      --language (python|arduino|json) --scope (basic|extended)'
+    echo 'Usage: tzcompiler.sh --tag tag --action (tzdb|zonedb|zonelist)'
+    echo '      --language (python|arduino) --scope (basic|extended)'
     echo '      [...other python_flags...]'
     exit 1
 }

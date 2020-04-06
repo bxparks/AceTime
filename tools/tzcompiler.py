@@ -154,11 +154,11 @@ def main() -> None:
     # Data pipeline selectors:
     parser.add_argument(
         '--action',
-        # zonedb: generate zonedb files
-        # tzdb: generate TZ DB file in JSON format
-        # zonelist: generate zones.txt, list of relavant zones
-        choices=['zonedb', 'tzdb', 'zonelist'],
-        help='Data pipeline action selector',
+        # tzdb: generate 'tzdb.json'
+        # zonedb: generate zonedb ('zone_infos.*', 'zone_poicies.*') files
+        # zonelist: generate 'zones.txt' containing relavant zone names
+        choices=['tzdb', 'zonedb', 'zonelist'],
+        help='Type of target to generate',
         required=True)
 
     # Language selector (for --action zonedb)
