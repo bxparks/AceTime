@@ -16,7 +16,6 @@ from typing_extensions import TypedDict
 
 class ZoneDb(TypedDict):
     # Context data.
-    invocation: str
     tz_version: str
     tz_files: List[str]
     scope: str
@@ -59,7 +58,6 @@ class JsonGenerator:
 
     def __init__(
         self,
-        invocation: str,
         tz_version: str,
         tz_files: List[str],
         scope: str,
@@ -79,7 +77,6 @@ class JsonGenerator:
     ):
         self.zonedb: ZoneDb = {
             # Context data.
-            'invocation': invocation,
             'tz_version': tz_version,
             'tz_files': tz_files,
             'scope': scope,

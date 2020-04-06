@@ -122,7 +122,6 @@ def generate_zonedb(
     elif language == 'json':
         logging.info('======== Creating JSON zonedb files')
         generator = JsonGenerator(
-            invocation=invocation,
             tz_version=tz_version,
             tz_files=Extractor.ZONE_FILES,
             scope=scope,
