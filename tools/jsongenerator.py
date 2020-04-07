@@ -22,6 +22,9 @@ class TzDb(TypedDict):
     scope: str
     start_year: int
     until_year: int
+    until_at_granularity: int
+    offset_granularity: int
+    strict: bool
 
     # Data from Extractor filtered through Transformer
     zones_map: ZonesMap
@@ -62,6 +65,9 @@ class JsonGenerator:
         scope: str,
         start_year: int,
         until_year: int,
+        until_at_granularity: int,
+        offset_granularity: int,
+        strict: bool,
         zones_map: ZonesMap,
         links_map: LinksMap,
         rules_map: RulesMap,
@@ -81,6 +87,9 @@ class JsonGenerator:
             'scope': scope,
             'start_year': start_year,
             'until_year': until_year,
+            'until_at_granularity': until_at_granularity,
+            'offset_granularity': offset_granularity,
+            'strict': strict,
 
             # Data from Extractor filtered through Transformer.
             'zones_map': zones_map,
