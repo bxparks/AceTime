@@ -1,9 +1,7 @@
 GENERATED := validation_data.h validation_data.cpp validation_tests.cpp
 
-SRCS := test_data_generator.py list_transitions.py
-
 mypy:
-	mypy --strict $(SRCS)
+	mypy --strict .
 
 small:
 	./test_data_generator.py \

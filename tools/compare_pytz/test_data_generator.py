@@ -25,7 +25,7 @@ from tdgenerator import TestDataGenerator
 from arvalgenerator import ArduinoValidationGenerator
 
 
-def main(
+def generate(
     invocation: str,
     scope: str,
     db_namespace: str,
@@ -34,6 +34,7 @@ def main(
     until_year: int,
     output_dir: str,
 ) -> None:
+    """Generate the validation_*.* files."""
     zones = read_zones()
 
     generator = TestDataGenerator(start_year, until_year)
@@ -57,7 +58,7 @@ def read_zones() -> List[str]:
     return zones
 
 
-if __name__ == '__main__':
+def main() -> None:
     parser = ArgumentParser(description='Generate Test Data.')
 
     # Scope (of the zones in the database):
@@ -101,7 +102,7 @@ if __name__ == '__main__':
 
     invocation = ' '.join(sys.argv)
 
-    main(
+    generate(
         invocation,
         args.scope,
         args.db_namespace,
@@ -110,3 +111,7 @@ if __name__ == '__main__':
         int(args.until_year),
         args.output_dir,
     )
+
+
+if __name__ == '__main__':
+    main()

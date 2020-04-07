@@ -62,14 +62,14 @@ def binary_search_transition(
     return start_dt, end_dt
 
 
-def main(zone_name: str, start_year: int, until_year: int) -> None:
+def list_transitions(zone_name: str, start_year: int, until_year: int) -> None:
     print(f'zone={zone_name}, start_year={start_year}, until_year={until_year}')
     if until_year == 0:
         until_year = start_year
     find_transitions(zone_name, start_year, until_year)
 
 
-if __name__ == '__main__':
+def main() -> None:
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Find the DST transitions')
     parser.add_argument(
@@ -93,4 +93,8 @@ if __name__ == '__main__':
     # Configure logging
     logging.basicConfig(level=logging.INFO)
 
-    main(args.zone, args.start_year, args.until_year)
+    list_transitions(args.zone, args.start_year, args.until_year)
+
+
+if __name__ == '__main__':
+    main()
