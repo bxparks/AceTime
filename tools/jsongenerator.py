@@ -116,4 +116,5 @@ class JsonGenerator:
         full_filename = os.path.join(output_dir, self._OUTPUT_FILE)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
             json.dump(self.tzdb, output_file, indent=2)
+            print(file=output_file)  # add terminating newline
         logging.info("Created %s", full_filename)
