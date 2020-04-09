@@ -123,6 +123,8 @@ class ArduinoGenerator:
     def generate_files(self, output_dir: str) -> None:
         # zone_policies.*
         if self.scope == 'extended':
+            # I guess multi-character 'letter' fields happen only when
+            # processing 'extended' zones?
             self.zone_policies_generator.collect_letter_strings()
         self._write_file(output_dir, self.ZONE_POLICIES_H_FILE_NAME,
                          self.zone_policies_generator.generate_policies_h())
@@ -420,6 +422,15 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             to_year = rule['toYear']
             to_year_tiny = to_tiny_year(to_year)
 
+            # Single-character 'letter' values are represented as themselves
+            # using the C++ 'char' type ('A'-'Z'). But some 'letter' fields hold
+            # a multi-character string. We can encode these multi-character
+            # strings as an index into an array of NUL-terminated strings.
+            # ASCII codes less than 32 (space) are non-printable control
+            # characters so they will not collide with the printable characters
+            # 'A' - 'Z'. Therefore we can hold to up to 31 multi-character
+            # strings per-zone. In practice, for a single zone, the maximum
+            # number of multi-character strings that I've seen is 2.
             if len(rule['letter']) == 1:
                 letter = "'%s'" % rule['letter']
                 letterComment = ''

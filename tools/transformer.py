@@ -1723,6 +1723,11 @@ def create_format_strings(
     means that this gets loaded even if the application uses only a few zones.
     See ArduinoGenerator.collect_letter_strings() for code that collects only
     the ZoneRule.letter strings.
+
+    Normally, the C++ compiler will de-dupe duplicate strings. But in Arduino,
+    static strings are often placed in PROGMEM (i.e. flash) memory explicitly
+    (e.g. through the F() macro), and the C++ compiler is not smart enough to
+    de-dupe PROGMEM memory. This array can be used to perform manual de-duping.
     """
     strings_count: Dict[str, int] = {}
     for name, eras in zones_map.items():
@@ -1751,7 +1756,10 @@ def create_format_strings(
 
 
 def create_zone_strings(zones_map: ZonesMap) -> StringCollection:
-    """Collect Zone names and their index offset.
+    """Collect Zone names and their index offset. There is no deduplication
+    here since each zone name is unique, so it is not clear if this is worth
+    doing. ArduinoGenerator will output this when asked (using the
+    'generate_zone_strings' flag) but that functionality may go away.
     """
     strings_count: Dict[str, int] = {}
     for name, eras in zones_map.items():
