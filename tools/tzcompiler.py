@@ -182,9 +182,15 @@ def main() -> None:
 
     # Options for file generators
     parser.add_argument(
-        '--tz_version', help='Version string of the TZ files', required=True)
+        '--tz_version',
+        help='Version string of the TZ files',
+        required=True,
+    )
     parser.add_argument(
-        '--output_dir', help='Location of the output directory')
+        '--output_dir',
+        help='Location of the output directory',
+        default='',
+    )
 
     # Parse the command line arguments
     args = parser.parse_args()

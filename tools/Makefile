@@ -1,5 +1,7 @@
-# Full typing added to pass --strict mode.
-SRC = \
+TZ_VERSION := 2019c
+
+# Files which pass 'mypy --strict'.
+SRC := \
 argenerator.py \
 bufestimator.py \
 extractor.py \
@@ -17,8 +19,8 @@ zone_specifier.py \
 zonelistgenerator.py
 
 # Files without Python typing.
-SRC_UNTYPED = \
-test_zone_specifier.py # Takes too long, imports zonedb/* files
+SRC_UNTYPED := \
+test_zone_specifier.py
 
 mypy:
 	mypy --strict $(SRC)
@@ -35,17 +37,24 @@ flake8:
 		--statistics \
 		--max-line-length=80
 
-# Run the Validator using validate.sh which runs validate.py.
-validate:
-	./validate.sh --tag 2019c --scope basic
+# Copy the TZ DB files into this directory
+$(TZ_VERSION):
+	./copytz.sh $(TZ_VERSION)
+
+# Run the Validator using validate.py.
+validate: $(TZ_VERSION)
+	./validate.py --input_dir $(TZ_VERSION) --scope basic
 
 # Generate tzdb.json for testing purposes.
-tzdb.json: $(SRC)
-	./tzcompiler.sh --tag 2019c --scope basic --action tzdb
+tzdb.json: $(SRC) $(TZ_VERSION)
+	./tzcompiler.py --tz_version $(TZ_VERSION) --input_dir $(TZ_VERSION) \
+	--scope basic --action tzdb
 
 # Generate the zones.txt file for testing purposes.
-zones.txt: $(SRC)
-	./tzcompiler.sh --tag 2019c --scope basic --action zonelist
+zones.txt: $(SRC) $(TZ_VERSION)
+	./tzcompiler.py --tz_version $(TZ_VERSION) --input_dir $(TZ_VERSION) \
+	--scope basic --action zonelist
 
 clean:
 	rm -f zones.txt tzdb.json
+	rm -rf $(TZ_VERSION)
