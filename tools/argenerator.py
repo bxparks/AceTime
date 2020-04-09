@@ -35,7 +35,8 @@ from transformer import StringCollection
 from jsongenerator import TzDb
 
 # map{policy_name: map{letter: index}}
-LettersMap = Dict[str, 'OrderedDict[str, int]']
+IndexedLetters = 'OrderedDict[str, int]'
+LettersMap = Dict[str, IndexedLetters]
 
 
 class ArduinoGenerator:
@@ -122,10 +123,6 @@ class ArduinoGenerator:
 
     def generate_files(self, output_dir: str) -> None:
         # zone_policies.*
-        if self.scope == 'extended':
-            # I guess multi-character 'letter' fields happen only when
-            # processing 'extended' zones?
-            self.zone_policies_generator.collect_letter_strings()
         self._write_file(output_dir, self.ZONE_POLICIES_H_FILE_NAME,
                          self.zone_policies_generator.generate_policies_h())
         self._write_file(output_dir, self.ZONE_POLICIES_CPP_FILE_NAME,
@@ -314,25 +311,8 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         self.notable_zones = notable_zones
         self.notable_policies = notable_policies
 
-        self.letters_map: LettersMap = {}
+        self.letters_map = collect_letter_strings(rules_map)
         self.db_header_namespace = self.db_namespace.upper()
-
-    def collect_letter_strings(self) -> None:
-        """Loop through all ZoneRules and collect the LETTERs which are
-        more than one letter long into self.letters_map.
-        """
-        letters_map: LettersMap = {}
-        for policy_name, rules in self.rules_map.items():
-            letters = set()
-            for rule in rules:
-                if len(rule['letter']) > 1:
-                    letters.add(rule['letter'])
-            indexed_letters_map: 'OrderedDict[str, int]' = OrderedDict()
-            if letters:
-                for letter in sorted(letters):
-                    add_string(indexed_letters_map, letter)
-                letters_map[policy_name] = indexed_letters_map
-        self.letters_map = letters_map
 
     def generate_policies_h(self) -> str:
         policy_items = ''
@@ -374,7 +354,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         memory32 = 32
         num_rules = 0
         for name, rules in sorted(self.rules_map.items()):
-            indexed_letters: Optional['OrderedDict[str, int]'] = \
+            indexed_letters: Optional[IndexedLetters] = \
                 self.letters_map.get(name)
             num_rules += len(rules)
             policy_item, policy_memory8, policy_memory32 = \
@@ -400,7 +380,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         self,
         name: str,
         rules: List[ZoneRuleRaw],
-        indexed_letters: Optional['OrderedDict[str, int]'],
+        indexed_letters: Optional[IndexedLetters],
     ) -> Tuple[str, int, int]:
 
         # Generate kZoneRules*[]
@@ -435,7 +415,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
                 letter = "'%s'" % rule['letter']
                 letterComment = ''
             elif len(rule['letter']) > 1:
-                letters = cast('OrderedDict[str, int]', indexed_letters)
+                letters = cast(IndexedLetters, indexed_letters)
                 index = letters[rule['letter']]
                 if index >= 32:
                     raise Exception('Number of indexed letters >= 32')
@@ -465,7 +445,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         memoryLetters8 = 0
         memoryLetters32 = 0
         if numLetters:
-            letters = cast('OrderedDict[str, int]', indexed_letters)
+            letters = cast(IndexedLetters, indexed_letters)
             letterArrayRef = 'kLetters%s' % policyName
             letterItems = ''
             for name, index in letters.items():
@@ -1180,6 +1160,24 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
             numZones=len(self.zones_map))
+
+
+def collect_letter_strings(rules_map: RulesMap) -> LettersMap:
+    """Loop through all ZoneRules and collect the LETTERs which are
+    more than one letter long into self.letters_map.
+    """
+    letters_map: LettersMap = {}
+    for policy_name, rules in rules_map.items():
+        letters = set()
+        for rule in rules:
+            if len(rule['letter']) > 1:
+                letters.add(rule['letter'])
+        indexed_letters_map: IndexedLetters = OrderedDict()
+        if letters:
+            for letter in sorted(letters):
+                add_string(indexed_letters_map, letter)
+            letters_map[policy_name] = indexed_letters_map
+    return letters_map
 
 
 def to_tiny_year(year: int) -> int:
