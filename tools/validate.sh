@@ -19,42 +19,14 @@
 #
 #   $ validate.sh --tag {tag} --scope (basic|extended) [other flags...]
 #
+# Flags:
+#
+#   Flags which are not recognized by this script are passed directly into
+#   the validate.py script for further processing. Some examples are:
+#
 # Examples:
 #
 #   $ validate.sh --tag 2018i --scope basic
-#
-# Flags:
-#
-# Flags which are not recognized by this script are passed directly into
-# the validate.py script for further processing. Some examples are:
-#
-#   Transformer:
-#
-#       --scope (basic|extended)
-#       --start_year
-#       --until_year
-#       --granularity
-#       --until_at_granularity
-#       --offset_granularity
-#       --strict
-#
-#   Validator:
-#
-#       --zone {zone_name}
-#       --year {year}
-#       --validate_dst_offset
-#       --debug_validator
-#
-#   TestDataGenerator:
-#
-#       --validation_start_year
-#       --validation_until_year
-#
-#   ZoneSpecifier:
-#       --viewing_months
-#       --debug_specifier
-#       --in_place_transitions
-#       --optimize_candidates
 
 set -eu
 
@@ -92,7 +64,7 @@ echo "\$ pushd $INPUT_DIR"
 pushd $INPUT_DIR
 
 echo "\$ git checkout $tag"
-git checkout $tag
+git checkout -q $tag
 
 echo '$ popd'
 popd
@@ -104,7 +76,7 @@ echo "\$ pushd $INPUT_DIR"
 pushd $INPUT_DIR
 
 echo '$ git checkout master'
-git checkout master
+git checkout -q master
 
 echo '$ popd'
 popd

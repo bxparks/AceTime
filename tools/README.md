@@ -48,7 +48,7 @@ The data processing pipeline for `tzcompiler.py` looks something like this:
 |   zone_infos.{h,cpp}
 |   zone_policies.{h,cpp}
 |   zone_registry.{h,cpp}
-|   zone_strings.{h,cpp}
+|   zone_strings.{h,cpp} (optional)
 |
 |                           
  \                          

@@ -4,6 +4,54 @@
 #
 # MIT License.
 
+"""
+Parse the IANA TZ Database files located at the --input_dir and validate the
+internal zonedb files using the ZoneSpecifier class against pytz.
+(Previous version of this was part of tzcompiler.py. Now extracted into
+a separate script.)
+
+Usage:
+    validate.py [flags...]
+
+Flags:
+
+    The following flags are recognized and passed along into the various helper
+    classes:
+
+    Transformer:
+
+        --scope (basic|extended)
+        --start_year
+        --until_year
+        --granularity
+        --until_at_granularity
+        --offset_granularity
+        --strict
+
+    Validator:
+
+        --zone {zone_name}
+        --year {year}
+        --validate_dst_offset
+        --debug_validator
+
+    TestDataGenerator:
+
+        --validation_start_year
+        --validation_until_year
+
+    ZoneSpecifier:
+
+        --viewing_months
+        --debug_specifier
+        --in_place_transitions
+        --optimize_candidates
+
+Examples:
+
+    See validate.sh
+"""
+
 import argparse
 import logging
 
@@ -60,15 +108,6 @@ def validate(
 
 
 def main() -> None:
-    """
-    Parse the IANA TZ Database files located at the --input_dir and validate the
-    internal zonedb files using the ZoneSpecifier class against pytz.
-    (Previous version of this was part of tzcompiler.py. Now extracted into
-    a separate script.)
-
-    Usage:
-        validate.py [flags...]
-    """
     # Configure command line flags.
     parser = argparse.ArgumentParser(
         description='Validate TZ zone files with ZoneSpecifier.'

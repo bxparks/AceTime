@@ -48,22 +48,6 @@
 #   $ tzcompiler.sh --tag 2018i --action zonelist --scope basic
 #       Generate the 'zones.txt' file in the current directory.
 #
-# Flags:
-#
-# Flags which are not recognized by this script are passed directly into
-# the tzcompile.py script for further processing. Some examples are:
-#
-#   Transformer:
-#
-#       --scope (basic|extended)
-#           Select the size/scope of the zone_info dataset.
-#       --start_year
-#           Retain TZ information since this year (default 2000).
-#       --granularity
-#           Retain time value fields in seconds (default 900)
-#       --strict
-#           Remove zone and rules not aligned at time granularity.
-#
 # See Also:
 #
 #   validate.sh
@@ -105,7 +89,7 @@ echo "\$ pushd $INPUT_DIR"
 pushd $INPUT_DIR
 
 echo "\$ git checkout $tag"
-git checkout $tag
+git checkout -q $tag
 
 echo '$ popd'
 popd
@@ -124,8 +108,8 @@ $DIRNAME/tzcompiler.py \
 echo "\$ pushd $INPUT_DIR"
 pushd $INPUT_DIR
 
-echo '$ git checkout master'
-git checkout master
+echo "\$ git checkout master"
+git checkout -q master
 
 echo '$ popd'
 popd

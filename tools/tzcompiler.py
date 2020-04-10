@@ -4,6 +4,54 @@
 #
 # MIT License.
 
+"""
+Read the raw TZ Database files at the location specified by `--input_dir` and
+generate the zonedb files in various formats as determined by the '--action'
+flag:
+
+  * --action tzdb
+      JSON file representation of the internal zonedb named 'tzdb.json'.
+  * --action zonedb
+      The zone_infos.*, zone_policies.*, and sometimes the zone_registry.* and
+      zone_strings.*, files in various languages.
+  * --action zonelist
+      Write just the raw list of zone names named 'zones.txt'.
+
+The --output_dir flag determines the directory where various files should
+be created. If empty, it means the same as $PWD.
+
+If '--action zonedb' is selected, there are 2 language options available
+using the --language flag:
+
+  * --language arduino
+  * --language python
+
+The raw TZ Database are parsed by extractor.py and processed
+transformer.py. The Transformer class accepts a number of options:
+
+  * --scope {basic | extended)
+  * --start_year {start}
+  * --until_year {until}
+  * --granularity {seconds}
+  * --until_at_granularity {seconds}
+  * --offset_granularity {seconds}
+  * --strict
+
+which determine which Rules or Zones are retained during the 'transformation'
+process.
+
+If --language arduino is selected, the following flags are used:
+
+  * --db_namespace {db_namespace}
+      Use the given identifier as the C++ namespace of the generated classes.
+  * --generate_zone_strings
+      Generate the 'zone_strings.*' files as well.
+
+Examples:
+
+    See tzcompiler.sh
+"""
+
 import argparse
 import logging
 import sys
@@ -168,24 +216,30 @@ def main() -> None:
         help='Target language (arduino|python)',
     )
 
+    # For '--language arduino', the following flags are used.
+    #
     # C++ namespace names for '--language arduino'. If not specified, it will
     # automatically be set to 'zonedb' or 'zonedbx' depending on the 'scope'.
     parser.add_argument(
         '--db_namespace',
         help='C++ namespace for the zonedb files (default: zonedb or zonedbx)')
-
-    # Enable zone_strings.{h,cpp} if requested. For '--language arduino'.
+    # Generated zone_strings.{h,cpp} files.
     parser.add_argument(
         '--generate_zone_strings',
         help='Generate Arduino zone_strings.{h,cpp} files',
         action='store_true')
 
-    # Options for file generators
+    # The tz_version does not affect any data processing. Its value is
+    # copied into the various generated files and usually placed in the
+    # comments section to describe the source of the data that generated the
+    # various files.
     parser.add_argument(
         '--tz_version',
         help='Version string of the TZ files',
         required=True,
     )
+
+    # Target location of the generated files.
     parser.add_argument(
         '--output_dir',
         help='Location of the output directory',
