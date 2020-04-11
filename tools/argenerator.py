@@ -35,7 +35,7 @@ from transformer import StringCollection
 from jsongenerator import TzDb
 
 # map{policy_name: map{letter: index}}
-IndexedLetters = 'OrderedDict[str, int]'
+IndexedLetters = OrderedDict[str, int]
 LettersMap = Dict[str, IndexedLetters]
 
 
