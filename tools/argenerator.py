@@ -13,6 +13,7 @@ from typing import List
 from typing import Optional
 from typing import Tuple
 from typing import cast
+from typing import TYPE_CHECKING
 from extractor import EPOCH_YEAR
 from extractor import MAX_YEAR
 from extractor import MAX_YEAR_TINY
@@ -35,7 +36,12 @@ from transformer import StringCollection
 from jsongenerator import TzDb
 
 # map{policy_name: map{letter: index}}
-IndexedLetters = OrderedDict[str, int]
+# With a hack to deal with mypy's confusion with OrderedDict (at least on
+# Python 3.6).
+if TYPE_CHECKING:
+    IndexedLetters = OrderedDict[str, int]
+else:
+    IndexedLetters = 'OrderedDict[str, int]'
 LettersMap = Dict[str, IndexedLetters]
 
 
