@@ -30,8 +30,9 @@ TZ_VERSION = 2019c
 START_YEAR = 2000
 UNTIL_YEAR = 2050
 
-validation_data.cpp: zones.txt ../../../tools/java/TestDataGenerator.class
-	java -cp ../../../tools/java TestDataGenerator \
+validation_data.cpp: zones.txt \
+../../../tools/compare_java/TestDataGenerator.class
+	java -cp ../../../tools/compare_java TestDataGenerator \
 		--scope basic \
 		--db_namespace $(DB_NAMESPACE) \
 		--start_year $(START_YEAR) \

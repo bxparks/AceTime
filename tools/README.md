@@ -60,7 +60,7 @@ The data processing pipeline for `tzcompiler.py` looks something like this:
    zones.txt    java.time
       |            |
       |            v
-      +--> java/TestDataGenerator.java
+      +--> compare_java/TestDataGenerator.java
       |             \
       |              v
       |             validation_data.{h,cpp}
@@ -170,9 +170,9 @@ $ make
 
 To generate the various `validation_data.*` files for the validation tests under
 `tests/validation/`, use the `--action zonelist` to generate the `zones.txt`
-file. Then feed this file into the `tools/java/TestDataGenerator.java` or the
-`tools/compare_cpp/test_data_generator.cpp` programs, which then generate the
-various `validation_data.*` files.
+file. Then feed this file into the `tools/compare_java/TestDataGenerator.java`
+or the `tools/compare_cpp/test_data_generator.cpp` programs, which then generate
+the various `validation_data.*` files.
 
 For validation against `pytz`, the 2 steps were combined into a single step
 within `tzcompiler.py` itself, using the `--action unittest` flag. (For
@@ -181,7 +181,7 @@ files out from `tzcompiler.py` into a separate Python program.)
 
 First, compile the Java and C++ programs:
 ```
-$ cd $ACE_TIME/tools/java
+$ cd $ACE_TIME/tools/compare_java
 $ make clean
 $ make
 

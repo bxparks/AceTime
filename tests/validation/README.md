@@ -21,11 +21,12 @@ these tests, it did not seem worth checking in the generated code.)
 Prerequite:
 
 1. You need to compile a number of tools in `$ACE_TIME_DIR/tools`:
-    * [TestDataGenerator.java](../../tools/java/TestDataGenerator.java) program:
-        * `$ (cd ../../tools/java; make)`
+    * [TestDataGenerator.java](../../tools/compare_java/TestDataGenerator.java)
+      program:
+        * `$ (cd ../../tools/compare_java; make)`
     * [test_data_generator.cpp](../../tools/compare_cpp/test_data_generator.cpp)
       program
-        * `$ (cd ../../tools/cpp; make)
+        * `$ (cd ../../tools/compare_cpp; make)
 1. Install [UnixHostDuino](https://github.com/bxparks/UnixHostDuino) as
   a sibling project to AceTime if you have not already done so:
     * `$ (cd ../../..; git clone https://github.com/bxparks/UnixHostDuino)`
