@@ -23,7 +23,7 @@ START_YEAR = 2000
 UNTIL_YEAR = 2050
 
 validation_data.cpp: zones.txt
-	../../../tools/cpp/test_data_generator.out \
+	../../../tools/compare_cpp/test_data_generator.out \
 		--tz_version $(TZ_VERSION) \
 		--scope basic \
 		--db_namespace $(DB_NAMESPACE) \
