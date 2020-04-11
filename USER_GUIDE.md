@@ -2364,8 +2364,8 @@ found in the future.
 The Python pytz library was a natural choice since the `tzcompiler.py` was
 already written in Python. I created:
 
-* [BasicValidationUsingPythonTest](tests/validation/BasicValidationUsingPythonTest/)
-* [ExtendedValidationUsingPythonTest](tests/validation/ExtendedValidationUsingPythonTest/)
+* [BasicPythonTest](tests/validation/BasicPythonTest/)
+* [ExtendedPythonTest](tests/validation/ExtendedPythonTest/)
 
 The `pytz` library is used to generate various C++ source code
 (`validation_data.cpp`, `validation_data.h`, `validation_tests.cpp`) which
@@ -2400,8 +2400,8 @@ zoneinfo files.
 
 The result is 2 validation programs under `tests/validation`:
 
-* [BasicValidationUsingJavaTest](tests/validation/BasicValidationUsingJavaTest/)
-* [ExtendedValidationUsingJavaTest](tests/validation/ExtendedValidationUsingJavaTest/)
+* [BasicJavaTest](tests/validation/BasicJavaTest/)
+* [ExtendedJavaTest](tests/validation/ExtendedJavaTest/)
 
 The most difficult part of using Java is figuring out how to install it
 and figuring out which of the many variants of the JDK to use. On Ubuntu 18.04,
@@ -2426,8 +2426,8 @@ powerful, complex and difficult to use. I managed to incorporate it into 2 more
 validation tests, and verified that the AceTime library matches the Hinnant date
 library for all timezones from 2000 to 2049 (inclusive):
 
-* [BasicValidationUsingHinnantDateTest](tests/validation/BasicValidationUsingHinnantDateTest/)
-* [ExtendedValidationUsingHinnantDateTest](tests/validation/ExtendedValidationUsingHinnantDateTest/)
+* [BasicHinnantDateTest](tests/validation/BasicHinnantDateTest/)
+* [ExtendedHinnantDateTest](tests/validation/ExtendedHinnantDateTest/)
 
 I have validated the AceTime library with the Hinnant date library using the
 same TZ version, from version 2019a to the current version of this library
@@ -2633,9 +2633,9 @@ environment because:
   library.
 
 The Hinnant date libraries were invaluable for writing the
-[BasicValidationUsingHinnantDateTest](tests/validation/BasicValidationUsingHinnantDateTest/)
+[BasicHinnantDateTest](tests/validation/BasicHinnantDateTest/)
 and
-[ExtendedValidationUsingHinnantDateTest](tests/validation/ExtendedValidationUsingHinnantDateTest/)
+[ExtendedHinnantDateTest](tests/validation/ExtendedHinnantDateTest/)
 validation tests (in v0.7) which are the AceTime algorithms to the Hinnant Date
 algorithms. For all times zones between the years 2000 until 2050, the AceTime
 UTC offsets (`TimeZone::getUtcOffset()`), timezone abbreviations
@@ -2762,7 +2762,7 @@ some time to take a closer look in the future.
     * Tested against Java `java.time` from 2000 to until 2050.
     * Tested against [Hinnant date](https://github.com/HowardHinnant/date)
       using 1-minute resolution from 1975 to 2050. See
-      [ExtendedValidationUsingHinnantDateTest](tests/validation/ExtendedValidationUsingHinnantDateTest).
+      [ExtendedHinnantDateTest](tests/validation/ExtendedHinnantDateTest).
 * `zonedb/` and `zonedbx/` zoneinfo files
     * These statically defined data structures are loaded into flash memory
       using the `PROGMEM` keyword. The vast majority of the data structure

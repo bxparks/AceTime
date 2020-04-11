@@ -193,17 +193,17 @@ $ make
 Then run the `make` command under each test directory:
 
 ```
-$ cd $ACE_TIME/tests/validation/BasicValidationUsingHinnantDateTest/
+$ cd $ACE_TIME/tests/validation/BasicHinnantDateTest/
 $ make validation_data.cpp
 ```
 and
 ```
-$ cd $ACE_TIME/tests/validation/BasicValidationUsingJavaTest/
+$ cd $ACE_TIME/tests/validation/BasicJavaTest/
 $ make validation_data.cpp
 ```
 and
 ```
-$ cd $ACE_TIME/tests/validation/BasicValidationUsingPythonTest/
+$ cd $ACE_TIME/tests/validation/BasicPythonTest/
 $ make validation_data.cpp
 ```
 

@@ -1,4 +1,4 @@
-# ExtendedValidationUsingHinnantDateTest
+# BasicHinnantDateTest
 
 This unit test compares the DST transitions calculated by the
 `BasicZoneProcessor` class (which uses the `zonedb` data files) with the
@@ -11,7 +11,7 @@ Library](https://github.com/HowardHinnant/date).
 Assuming that you have `g++` and `make` installed, just type:
 ```
 $ make clean && make -j 4
-$ ./BasicValidationUsingHinnantDateTest.out
+$ ./BasicHinnantDateTest.out
 TestRunner started on 268 test(s).
 Test TransitionTest_Africa_Abidjan passed.
 ...

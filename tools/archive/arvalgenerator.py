@@ -18,8 +18,7 @@ from tdgenerator import TestData
 
 
 class ArduinoValidationGenerator:
-    """Generate Arduino data files for BasicValidationUsingPythonTest and
-    ExtendedValidationUsingPythonTest.
+    """Generate Arduino data files for BasicPythonTest and ExtendedPythonTest.
     """
 
     VALIDATION_DATA_H_FILE = """\

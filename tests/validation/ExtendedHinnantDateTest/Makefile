@@ -17,7 +17,7 @@ OBJS = validation_data.o \
 	$(DB_NAMESPACE)/zone_infos.o \
 	$(DB_NAMESPACE)/zone_policies.o \
 	$(DB_NAMESPACE)/zone_registry.o
-APP_NAME := ExtendedValidationUsingHinnantDateTest
+APP_NAME := ExtendedHinnantDateTest
 ARDUINO_LIBS := AUnit AceTime
 include ../../../../UnixHostDuino/UnixHostDuino.mk
 

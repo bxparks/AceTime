@@ -1,52 +1,39 @@
 # See https://github.com/bxparks/UnixHostDuino for documentation about this
 # Makefile to compile and run Arduino programs natively on Linux or MacOS.
 
-DB_NAMESPACE = zonedbxpytz
+DB_NAMESPACE = zonedbjava
 GENERATED := validation_data.cpp \
 	validation_data.h \
 	validation_tests.cpp \
+	zones.txt \
 	$(DB_NAMESPACE)/zone_infos.h \
 	$(DB_NAMESPACE)/zone_infos.cpp \
 	$(DB_NAMESPACE)/zone_policies.h \
 	$(DB_NAMESPACE)/zone_policies.cpp \
 	$(DB_NAMESPACE)/zone_registry.h \
-	$(DB_NAMESPACE)/zone_registry.cpp \
-	zones.txt
-OBJS = validation_data.o \
-	validation_tests.o \
+	$(DB_NAMESPACE)/zone_registry.cpp
+OBJS := validation_data.o validation_tests.o \
 	$(DB_NAMESPACE)/zone_infos.o \
 	$(DB_NAMESPACE)/zone_policies.o \
 	$(DB_NAMESPACE)/zone_registry.o
-APP_NAME := ExtendedValidationUsingPythonTest
+APP_NAME := BasicJavaTest
 ARDUINO_LIBS := AUnit AceTime
 include ../../../../UnixHostDuino/UnixHostDuino.mk
+
+.PHONY: $(GENERATED)
 
 runtests:
 	./$(APP_NAME).out
 
-.PHONY: $(GENERATED)
-
-# pytz (2019.3) uses 2019c
+# Validate using openjdk 11.0.6 2020-01-14 (which uses 2019c)
 TZ_VERSION = 2019c
 START_YEAR = 2000
-UNTIL_YEAR = 2038
+UNTIL_YEAR = 2050
 
-#validation_data.cpp:
-#	../../../tools/tzcompiler.sh \
-#		--tag $(TZ_VERSION) \
-#		--action unittest \
-#		--language arduino \
-#		--scope extended \
-#		--db_namespace $(DB_NAMESPACE) \
-#		--start_year $(START_YEAR) \
-#		--until_year $(UNTIL_YEAR)
-
-validation_data.cpp: zones.txt
-	../../../tools/compare_pytz/test_data_generator.py \
-		--scope extended \
-		--tz_version $(TZ_VERSION) \
+validation_data.cpp: zones.txt ../../../tools/java/TestDataGenerator.class
+	java -cp ../../../tools/java TestDataGenerator \
+		--scope basic \
 		--db_namespace $(DB_NAMESPACE) \
-		--output_dir $(CURDIR) \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
 		< zones.txt
@@ -55,7 +42,7 @@ zones.txt:
 	../../../tools/tzcompiler.sh \
 		--tag $(TZ_VERSION) \
 		--action zonelist \
-		--scope extended \
+		--scope basic \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
 
@@ -71,7 +58,7 @@ $(DB_NAMESPACE)/zone_infos.h:
 		--tag $(TZ_VERSION) \
 		--action zonedb \
 		--language arduino \
-		--scope extended \
+		--scope basic \
 		--db_namespace $(DB_NAMESPACE) \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
