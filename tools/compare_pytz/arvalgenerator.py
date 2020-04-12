@@ -10,9 +10,11 @@ import logging
 import os
 import re
 import pytz
-from typing import List
 from tdgenerator import TestItem
 from tdgenerator import TestData
+from tdgenerator import ValidationData
+from typing import List
+from typing_extensions import TypedDict
 
 
 # Copied from transformer.div_to_zero()
@@ -155,23 +157,18 @@ testF({testClass}, {zoneNormalizedName}) {{
         invocation: str,
         tz_version: str,
         db_namespace: str,
-        scope: str,
-        test_data: TestData,
+        validation_data: ValidationData,
     ):
         self.invocation = invocation
         self.tz_version = tz_version
         self.db_namespace = db_namespace
-        self.test_data = test_data
-        if scope == 'extended':
-            self.file_base = 'validation'
-            self.include_header_namespace = 'VALIDATION'
-            self.test_class = 'TransitionTest'
-            self.validation_data_class = 'ValidationData'
-        else:
-            self.file_base = 'validation'
-            self.include_header_namespace = 'VALIDATION'
-            self.test_class = 'TransitionTest'
-            self.validation_data_class = 'ValidationData'
+        self.validation_data = validation_data
+
+        self.test_data = validation_data['test_data']
+        self.file_base = 'validation'
+        self.include_header_namespace = 'VALIDATION'
+        self.test_class = 'TransitionTest'
+        self.validation_data_class = 'ValidationData'
         self.validation_data_h_file_name = (self.file_base + '_data.h')
         self.validation_data_cpp_file_name = (self.file_base + '_data.cpp')
         self.validation_tests_file_name = (self.file_base + '_tests.cpp')
@@ -197,7 +194,7 @@ testF({testClass}, {zoneNormalizedName}) {{
         return self.VALIDATION_DATA_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            pytz_version=pytz.__version__,  # type: ignore
+            pytz_version=self.validation_data['version'],
             includeHeaderNamespace=self.include_header_namespace,
             dbNamespace=self.db_namespace,
             numZones=len(self.test_data),
@@ -245,19 +242,19 @@ testF({testClass}, {zoneNormalizedName}) {{
         """
         s = ''
         for test_item in test_items:
-            total_offset_minutes = div_to_zero(test_item.total_offset, 60)
-            delta_offset_minutes = div_to_zero(test_item.dst_offset, 60)
+            total_offset_minutes = div_to_zero(test_item['total_offset'], 60)
+            delta_offset_minutes = div_to_zero(test_item['dst_offset'], 60)
             s += self.TEST_ITEM.format(
-                epochSeconds=test_item.epoch,
+                epochSeconds=test_item['epoch'],
                 totalOffsetMinutes=total_offset_minutes,
                 deltaOffsetMinutes=delta_offset_minutes,
-                year=test_item.y,
-                month=test_item.M,
-                day=test_item.d,
-                hour=test_item.h,
-                minute=test_item.m,
-                second=test_item.s,
-                type=test_item.type)
+                year=test_item['y'],
+                month=test_item['M'],
+                day=test_item['d'],
+                hour=test_item['h'],
+                minute=test_item['m'],
+                second=test_item['s'],
+                type=test_item['type'])
         return s
 
     def _generate_tests_cpp(self) -> str:
@@ -266,7 +263,7 @@ testF({testClass}, {zoneNormalizedName}) {{
         return self.TESTS_CPP.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            pytz_version=pytz.__version__,  # type: ignore
+            pytz_version=self.validation_data['version'],
             testClass=self.test_class,
             fileBase=self.file_base,
             numZones=len(self.test_data),

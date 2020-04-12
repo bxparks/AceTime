@@ -9,11 +9,11 @@ from datetime import datetime
 from datetime import timedelta
 import pytz
 from typing import Any
-from typing import NamedTuple
 from typing import Tuple
 from typing import List
 from typing import Dict
 from typing import Optional
+from typing_extensions import TypedDict
 
 # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
 # (2000-01-01 00:00:00)
@@ -25,21 +25,29 @@ SECONDS_SINCE_UNIX_EPOCH = 946684800
 # * 'B': post-transition
 # * 'S': a monthly test sample
 # * 'Y': end of year test sample
-TestItem = NamedTuple("TestItem", [
-    ('epoch', int),
-    ('total_offset', int),
-    ('dst_offset', int),
-    ('y', int),
-    ('M', int),
-    ('d', int),
-    ('h', int),
-    ('m', int),
-    ('s', int),
-    ('type', str),
-])
+TestItem = TypedDict("TestItem", {
+    'epoch': int,
+    'total_offset': int,
+    'dst_offset': int,
+    'y': int,
+    'M': int,
+    'd': int,
+    'h': int,
+    'm': int,
+    's': int,
+    'type': str,
+})
 
 # The test data set (epoch -> timezone info)
 TestData = Dict[str, List[TestItem]]
+
+ValidationData = TypedDict('ValidationData', {
+    'start_year': int,
+    'until_year': int,
+    'source': str,
+    'version': str,
+    'test_data': TestData,
+})
 
 TransitionTimes = Tuple[datetime, datetime]
 
@@ -56,13 +64,22 @@ class TestDataGenerator():
         self.start_year = start_year
         self.until_year = until_year
 
-    def create_test_data(self, zones: List[str]) -> TestData:
+    def create_test_data(self, zones: List[str]) -> None:
         test_data: TestData = {}
         for zone_name in zones:
             test_items = self._create_test_items_for_zone(zone_name)
             if test_items:
                 test_data[zone_name] = test_items
-        return test_data
+        self.test_data = test_data
+
+    def get_validation_data(self) -> ValidationData:
+        return {
+            'start_year': self.start_year,
+            'until_year': self.until_year,
+            'source': 'pytz',
+            'version': str(pytz.__version__),  # type: ignore
+            'test_data': self.test_data,
+        }
 
     def _create_test_items_for_zone(
         self,
@@ -180,40 +197,41 @@ class TestDataGenerator():
         return dt_left, dt_right
 
     @staticmethod
-    def _create_test_item(dt: datetime, type: str) -> TestItem:
+    def _create_test_item(dt: datetime, tag: str) -> TestItem:
         """Create a TestItem from a datetime."""
         unix_seconds = int(dt.timestamp())
         epoch_seconds = unix_seconds - SECONDS_SINCE_UNIX_EPOCH
         total_offset = int(dt.utcoffset().total_seconds())  # type: ignore
         dst_offset = int(dt.dst().total_seconds())  # type: ignore
 
-        return TestItem(
-            epoch=epoch_seconds,
-            total_offset=total_offset,
-            dst_offset=dst_offset,
-            y=dt.year,
-            M=dt.month,
-            d=dt.day,
-            h=dt.hour,
-            m=dt.minute,
-            s=dt.second,
-            type=type)
+        return {
+            'epoch': epoch_seconds,
+            'total_offset': total_offset,
+            'dst_offset': dst_offset,
+            'y': dt.year,
+            'M': dt.month,
+            'd': dt.day,
+            'h': dt.hour,
+            'm': dt.minute,
+            's': dt.second,
+            'type': tag,
+        }
 
     @staticmethod
     def _add_test_item(items_map: Dict[int, TestItem], item: TestItem) -> None:
-        current = items_map.get(item.epoch)
+        current = items_map.get(item['epoch'])
         if current:
             # If a duplicate TestItem exists for epoch, then check that the
             # data is exactly the same.
-            if (current.total_offset != item.total_offset
-                    or current.dst_offset != item.dst_offset
-                    or current.y != item.y or current.M != item.M
-                    or current.d != item.d or current.h != item.h
-                    or current.m != item.m or current.s != item.s):
-                raise Exception('Item %s does not match item %s' % (current,
-                                                                    item))
+            if (current['total_offset'] != item['total_offset']
+                    or current['dst_offset'] != item['dst_offset']
+                    or current['y'] != item['y'] or current['M'] != item['M']
+                    or current['d'] != item['d'] or current['h'] != item['h']
+                    or current['m'] != item['m'] or current['s'] != item['s']):
+                raise Exception('Item %s does not match item %s' % (
+                    current, item))
             # 'A' and 'B' takes precedence over 'S' or 'Y'
-            if item.type in ['A', 'B']:
-                items_map[item.epoch] = item
+            if item['type'] in ['A', 'B']:
+                items_map[item['epoch']] = item
         else:
-            items_map[item.epoch] = item
+            items_map[item['epoch']] = item

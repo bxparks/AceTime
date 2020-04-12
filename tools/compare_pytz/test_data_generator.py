@@ -13,7 +13,9 @@
 #   --tz_version {version}
 #   [--db_namespace {db}] \
 #   [--start_year start] \
-#   [--until_year until] < zones.txt
+#   [--until_year until] \
+#   [--format (json|cpp)]
+#   < zones.txt
 #
 
 import sys
@@ -23,26 +25,33 @@ from typing import List
 
 from tdgenerator import TestDataGenerator
 from arvalgenerator import ArduinoValidationGenerator
+from jsonvalgenerator import JsonValidationGenerator
 
 
 def generate(
     invocation: str,
-    scope: str,
     db_namespace: str,
     tz_version: str,
     start_year: int,
     until_year: int,
+    format: str,
     output_dir: str,
 ) -> None:
     """Generate the validation_*.* files."""
     zones = read_zones()
 
     generator = TestDataGenerator(start_year, until_year)
-    test_data = generator.create_test_data(zones)
+    generator.create_test_data(zones)
+    validation_data = generator.get_validation_data()
 
-    arval_generator = ArduinoValidationGenerator(
-        invocation, tz_version, db_namespace, scope, test_data)
-    arval_generator.generate_files(output_dir)
+    if format == 'cpp':
+        arval_generator = ArduinoValidationGenerator(
+            invocation, tz_version, db_namespace, validation_data)
+        arval_generator.generate_files(output_dir)
+    else:
+        json_generator = JsonValidationGenerator(
+            invocation, tz_version, validation_data)
+        json_generator.generate_files(output_dir)
 
 
 def read_zones() -> List[str]:
@@ -64,6 +73,7 @@ def main() -> None:
     # Scope (of the zones in the database):
     # basic: 241 of the simpler time zones for BasicZoneSpecifier
     # extended: all 348 time zones for ExtendedZoneSpecifier
+    # TODO: Remove, does not seem to be needed.
     parser.add_argument(
         '--scope',
         help='Size of the generated database (basic|extended)',
@@ -90,8 +100,18 @@ def main() -> None:
         type=int,
         default=2038)
 
+    # Ouput format
+    parser.add_argument(
+        '--format',
+        help='Output format',
+        choices=('json', 'cpp'),
+        default='cpp',
+    )
+
+    # Optional output directory.
     parser.add_argument(
         '--output_dir',
+        default='',
         help='Location of the output directory',
     )
 
@@ -104,11 +124,11 @@ def main() -> None:
 
     generate(
         invocation,
-        args.scope,
         args.db_namespace,
         args.tz_version,
-        int(args.start_year),
-        int(args.until_year),
+        args.start_year,
+        args.until_year,
+        args.format,
         args.output_dir,
     )
 
