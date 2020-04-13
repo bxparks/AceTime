@@ -10,7 +10,10 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
 `Link` and `Rule` entries) into generated code fragments (`zone_infos.h`,
 `zone_infos.cpp`, etc).
 
-The data processing pipeline for `tzcompiler.py` looks something like this:
+## TZ Compiler
+
+The TZ Database processing pipeline for `tzcompiler.py` looks something like
+this:
 
 ```
                     TZDB files
@@ -55,7 +58,28 @@ The data processing pipeline for `tzcompiler.py` looks something like this:
       |
       v
     zones.txt
-      |
+```
+
+The `[zonedb/*]` and `[zonelist]` annotations in the diagram correspond to the
+value of the `--action` and `--language` flags on the `tzcompiler.py` script.
+
+## Validation Data Generation
+
+These programs generate a list of `TestItem` which contains the `epoch_seconds`
+and the date/time components from various 3rd party date/time libraries. The
+AceTime data/time libraries (specifically the `ZoneProcessor` classes) will be
+tested against the expected results from these 3rd party libraries. Three
+libraries are supported:
+
+    * `compare_pytz` - Python `pytz` library
+    * `compare_java` - Java JDK11 `java.time` library
+    * `compare_cpp` - C++ Hinnant Date library
+
+The `zones.txt` from the `tzcompiler.py` determines the time zones which
+should be processed by the various `compare_xxx` scripts:
+
+```
+   zones.txt [from tzcompiler.py]
       |
       |  (compare_java/):
       |
@@ -101,11 +125,16 @@ The data processing pipeline for `tzcompiler.py` looks something like this:
       validation_tests.cpp
 ```
 
-The `[zonedb/*]` and `[zonelist]` correspond to the value of the `--action` and
-`--language` flags on the `tzcompiler.py` script.
+## Interactive Validation
 
-The data processing pipeline for `validate.py` looks like this (this used to be
-incorporated in `tzcompiler.py` before it was extracted out into `validate.py`):
+The `validate.py` script allows us to validate the processing of the
+TZ Database through the Python implementation of the AceTime `ZoneProcessor`
+classes. The Python implementation is called `ZoneSpecifier` (a previous naming
+convention used in the C++ version which did not make it over the Python world).
+
+The data processing pipeline for the `validation.py` script looks like this
+(this used to be handled by `tzcompiler.py` itself before it was extracted out
+into `validate.py`):
 
 ```
      TZDB files
