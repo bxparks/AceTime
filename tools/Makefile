@@ -4,6 +4,7 @@ TZ_VERSION := 2019c
 SRC := \
 argenerator.py \
 bufestimator.py \
+compare_pytz \
 extractor.py \
 ingenerator.py \
 jsongenerator.py \
