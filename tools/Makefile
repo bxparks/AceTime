@@ -9,8 +9,8 @@ ingenerator.py \
 jsongenerator.py \
 pygenerator.py \
 tdgenerator.py \
-test_extractor.py \
-test_transformer.py \
+tests/test_extractor.py \
+tests/test_transformer.py \
 transformer.py \
 tzcompiler.py \
 validate.py \
@@ -21,6 +21,8 @@ zonelistgenerator.py
 # Files without Python typing.
 SRC_UNTYPED := \
 test_zone_specifier.py
+
+.PHONY: tests
 
 mypy:
 	mypy --strict $(SRC)
