@@ -14,9 +14,9 @@ continuous integration pipeline, it's too easy to bitrot.
 
 import logging
 from datetime import datetime
-from tdgenerator import TestDataGenerator
-from tdgenerator import TestData
-from tdgenerator import TestItem
+from .tdgenerator import TestDataGenerator
+from .tdgenerator import TestData
+from .tdgenerator import TestItem
 from ingenerator import ZoneInfoMap
 from ingenerator import ZonePolicyMap
 from zone_specifier import ZoneSpecifier
@@ -145,23 +145,30 @@ class Validator:
         logging.info('test_data=%d', len(test_data))
 
         logging.info('Validating %s test items', num_items)
-        self._validate_test_data(test_data)
+        num_errors = self._validate_test_data(test_data)
+        if num_errors:
+            logging.info(f'Errors found with {num_errors} test items')
+        else:
+            logging.info('No errors found!')
 
-    def _validate_test_data(self, test_data: TestData) -> None:
+    def _validate_test_data(self, test_data: TestData) -> int:
+        num_errors = 0
         for zone_name, items in test_data.items():
             if self.zone_name and zone_name != self.zone_name:
                 continue
             if self.debug_validator:
                 logging.info('  Validating zone %s' % zone_name)
-            self._validate_test_data_for_zone(zone_name, items)
+            num_errors += self._validate_test_data_for_zone(zone_name, items)
+        return num_errors
 
     def _validate_test_data_for_zone(
         self,
         zone_name: str,
         items: List[TestItem],
-    ) -> None:
+    ) -> int:
         """Compare the given test 'items' generatd by TestDataGenerator (using
-        pytz) with the expected datetime components from ZoneSpecifier.
+        pytz) with the expected datetime components from ZoneSpecifier. Returns
+        the number of errors.
         """
         zone_info = self.zone_infos[zone_name]
         zone_specifier = ZoneSpecifier(
@@ -171,6 +178,7 @@ class Validator:
             in_place_transitions=self.in_place_transitions,
             optimize_candidates=self.optimize_candidates)
 
+        num_errors = 0
         for item in items:
             if self.year is not None and self.year != item.y:
                 continue
@@ -202,10 +210,13 @@ class Validator:
                     logging.info(body)
                     zone_specifier.print_matches_and_transitions()
             else:
+                num_errors += 1
                 if not self.debug_specifier:
                     logging.error(header)
                 logging.error(body)
                 zone_specifier.print_matches_and_transitions()
+
+        return num_errors
 
 
 def _test_item_to_string(i: TestItem) -> str:

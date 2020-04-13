@@ -58,7 +58,7 @@ import logging
 from extractor import Extractor
 from transformer import Transformer
 from ingenerator import InlineGenerator, ZoneInfoMap, ZonePolicyMap
-from validator import Validator
+from validation.validator import Validator
 
 
 def validate(

@@ -50,8 +50,8 @@ The data processing pipeline for `tzcompiler.py` looks something like this:
 |   zone_registry.{h,cpp}
 |   zone_strings.{h,cpp} (optional)
 |
-|                           
- \                          
+|
+ \
   \
    v
   zonelistgenerator.py
@@ -109,7 +109,7 @@ incorporated in `tzcompiler.py` before it was extracted out into `validate.py`):
      | zone_specifier.py /
      |      \           /
      |       v         v
-     |     tdgenerator.py
+     |   validation/tdgenerator.py
      .                \
       \                \
        v                |
@@ -117,7 +117,7 @@ incorporated in `tzcompiler.py` before it was extracted out into `validate.py`):
           |            /
           |           /
           v          v
-          validator.py
+     validation/validator.py
 ```
 
 ## Dependencies

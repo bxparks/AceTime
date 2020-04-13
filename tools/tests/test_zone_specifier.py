@@ -8,7 +8,7 @@ import unittest
 import zonedb.zone_infos
 import zonedb.zone_policies
 # import zonedb.validation_data # reenable using zoneinfo.json?
-from tdgenerator import TestItem
+from validation.tdgenerator import TestItem
 from zone_specifier import DateTuple
 from zone_specifier import Transition
 from zone_specifier import ZoneMatch

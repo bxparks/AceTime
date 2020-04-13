@@ -8,13 +8,13 @@ extractor.py \
 ingenerator.py \
 jsongenerator.py \
 pygenerator.py \
-tdgenerator.py \
 tests/test_extractor.py \
 tests/test_transformer.py \
 transformer.py \
 tzcompiler.py \
 validate.py \
-validator.py \
+validation/tdgenerator.py \
+validation/validator.py \
 zone_specifier.py \
 zonelistgenerator.py
 
