@@ -43,44 +43,58 @@ The data processing pipeline for `tzcompiler.py` looks something like this:
 |     v    v
 |  argenerator.py
 |        |
-|        |
 |        v
 |   zone_infos.{h,cpp}
 |   zone_policies.{h,cpp}
 |   zone_registry.{h,cpp}
 |   zone_strings.{h,cpp} (optional)
-|
-|
  \
   \
    v
   zonelistgenerator.py
       |
       v
-   zones.txt    java.time
+    zones.txt
+      |
+      |
+      |  (compare_java/):
+      |
+      |         java.time
       |            |
       |            v
-      +--> compare_java/TestDataGenerator.java
+      +--> TestDataGenerator.java
       |             \
       |              v
       |             validation_data.{h,cpp}
       |             validation_tests.cpp
       |
       |
+      |  (compare_cpp/):
+      |
       |       Hinnant date
       |         |
       |         v
-      +--> compare_cpp/test_data_generator.cpp
+      +--> test_data_generator.cpp
       |          \
       |           v
       |          validation_data.{h,cpp}
       |          validation_tests.cpp
       |
       |
+      |  (compare_pytz/):
+      |
       |       pytz
       |         |
       |         v
-      +--> compare_pytz/test_data_generator.py
+      |   tdgenerator.py
+      |         |
+      |         v
+      |   arvalgenerator.py
+      |         |
+      |         |      validation/data.py
+      |         |        |
+      |         v        v
+      +-----> test_data_generator.py
                  \
                   v
                  validation_data.{h,cpp}

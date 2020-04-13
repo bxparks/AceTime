@@ -29,7 +29,7 @@ file. The file format is:
 import logging
 import json
 import os
-from .tdgenerator import ValidationData
+from validation.data import ValidationData
 
 
 class JsonValidationGenerator:

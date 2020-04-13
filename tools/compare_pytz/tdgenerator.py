@@ -13,42 +13,13 @@ from typing import Tuple
 from typing import List
 from typing import Dict
 from typing import Optional
-from typing_extensions import TypedDict
+from validation.data import (TestItem, TestData, ValidationData)
 
 # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
 # (2000-01-01 00:00:00)
 SECONDS_SINCE_UNIX_EPOCH = 946684800
 
-# An entry in the test data set.
-# Each TestData is annotated with a 'type' as:
-# * 'A': pre-transition
-# * 'B': post-transition
-# * 'S': a monthly test sample
-# * 'Y': end of year test sample
-TestItem = TypedDict("TestItem", {
-    'epoch': int,
-    'total_offset': int,
-    'dst_offset': int,
-    'y': int,
-    'M': int,
-    'd': int,
-    'h': int,
-    'm': int,
-    's': int,
-    'type': str,
-})
-
-# The test data set (epoch -> timezone info)
-TestData = Dict[str, List[TestItem]]
-
-ValidationData = TypedDict('ValidationData', {
-    'start_year': int,
-    'until_year': int,
-    'source': str,
-    'version': str,
-    'test_data': TestData,
-})
-
+# The [start, until) time interval used to search for DST transitions.
 TransitionTimes = Tuple[datetime, datetime]
 
 

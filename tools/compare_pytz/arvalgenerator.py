@@ -1,6 +1,7 @@
 # Copyright 2019 Brian T. Park
 #
 # MIT License
+
 """
 Generate the Arduino validation data (validation_data.h and validation_data.cpp)
 files for unit tests.
@@ -10,9 +11,7 @@ import logging
 import os
 import re
 import pytz
-from .tdgenerator import TestItem
-from .tdgenerator import TestData
-from .tdgenerator import ValidationData
+from validation.data import (TestItem, TestData, ValidationData)
 from typing import List
 
 
