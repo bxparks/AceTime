@@ -22,7 +22,9 @@ zonelistgenerator.py
 SRC_UNTYPED := \
 test_zone_specifier.py
 
-.PHONY: tests
+.PHONY: all mypy flake8 tests
+
+all: mypy flake8 tests
 
 mypy:
 	mypy --strict $(SRC)
@@ -39,7 +41,7 @@ flake8:
 		--statistics \
 		--max-line-length=80
 
-# Copy the TZ DB files into this directory
+# Copy the TZ DB files into this directory for testing purposes.
 $(TZ_VERSION):
 	./copytz.sh $(TZ_VERSION)
 
