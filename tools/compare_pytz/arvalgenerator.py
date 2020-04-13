@@ -10,9 +10,9 @@ import logging
 import os
 import re
 import pytz
-from tdgenerator import TestItem
-from tdgenerator import TestData
-from tdgenerator import ValidationData
+from .tdgenerator import TestItem
+from .tdgenerator import TestData
+from .tdgenerator import ValidationData
 from typing import List
 
 

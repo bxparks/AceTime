@@ -19,13 +19,27 @@
 #
 
 import sys
+from os.path import (dirname, abspath)
+
+# Insert the parent directory into the sys.path so that this script can pretend
+# to be running from the parent diretory and have access to all the python
+# modules under the ./tools directory. Python is annoyingly opinionated about
+# package path resolution and tries to force us to put this script in the parent
+# directory. But due to the integration with non-python binaries in
+# 'compare_cpp' and 'compare_java', it makes far more sense for this script to
+# be physically living in this directory rather than the parent directory So we
+# hack the sys.path. See https://stackoverflow.com/questions/4383571.
+sys.path.insert(1, dirname(dirname(abspath(__file__))))  # noqa
+
 import logging
 from argparse import ArgumentParser
 from typing import List
 
-from tdgenerator import TestDataGenerator
-from arvalgenerator import ArduinoValidationGenerator
-from jsonvalgenerator import JsonValidationGenerator
+# Can't use relative import (.tdgenerator) here because PEP 3122 got rejected
+# https://mail.python.org/pipermail/python-3000/2007-April/006793.html.
+from compare_pytz.tdgenerator import TestDataGenerator
+from compare_pytz.arvalgenerator import ArduinoValidationGenerator
+from compare_pytz.jsonvalgenerator import JsonValidationGenerator
 
 
 def generate(
