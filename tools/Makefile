@@ -6,6 +6,7 @@ argenerator.py \
 bufestimator.py \
 compare_pytz \
 extractor.py \
+generate_validation.py \
 ingenerator.py \
 jsongenerator.py \
 pygenerator.py \
@@ -14,14 +15,13 @@ tests/test_transformer.py \
 transformer.py \
 tzcompiler.py \
 validate.py \
-validation/tdgenerator.py \
-validation/validator.py \
+validation \
 zone_specifier.py \
 zonelistgenerator.py
 
 # Files without Python typing.
 SRC_UNTYPED := \
-test_zone_specifier.py
+tests/test_zone_specifier.py
 
 .PHONY: all mypy flake8 tests
 
@@ -60,6 +60,23 @@ zones.txt: $(SRC) $(TZ_VERSION)
 	./tzcompiler.py --tz_version $(TZ_VERSION) --input_dir $(TZ_VERSION) \
 	--scope basic --action zonelist
 
+# Generate the validation_data.json for testing purposes
+validation_data.json: zones.txt
+	./compare_pytz/test_data_generator.py --tz_version $(TZ_VERSION) \
+	--scope basic --format json < $<
+
+# Generate the validation_data.{h,cpp}, validation_tests.cpp
+validation_data.h: validation_data.json
+	./generate_validation.py --tz_version $(TZ_VERSION) \
+	--scope basic --db_namespace zonedb < $<
+
+validation_data.cpp: validation_data.h
+	@true
+
+validation_tests.cpp: validation_data.h
+	@true
+
 clean:
-	rm -f zones.txt tzdb.json
+	rm -f zones.txt tzdb.json validation_data.json validation_data.h \
+		validation_data.cpp validation_tests.cpp
 	rm -rf $(TZ_VERSION)

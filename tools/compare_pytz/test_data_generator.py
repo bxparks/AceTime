@@ -38,8 +38,8 @@ from typing import List
 # Can't use relative import (.tdgenerator) here because PEP 3122 got rejected
 # https://mail.python.org/pipermail/python-3000/2007-April/006793.html.
 from compare_pytz.tdgenerator import TestDataGenerator
-from compare_pytz.arvalgenerator import ArduinoValidationGenerator
 from compare_pytz.jsonvalgenerator import JsonValidationGenerator
+from validation.arvalgenerator import ArduinoValidationGenerator
 
 
 def generate(

@@ -4,7 +4,7 @@
 
 """
 Generate the Arduino validation data (validation_data.h and validation_data.cpp)
-files for unit tests.
+files for unit tests from the 'validation_data' (or its JSON representation).
 """
 
 import logging
@@ -44,8 +44,8 @@ class ArduinoValidationGenerator:
 // TZ Database comes from:
 //   * https://github.com/eggert/tz/releases/tag/{tz_version}
 //
-// Python database comes from:
-//    * pytz library (version {pytz_version})
+// Third party database comes from:
+//    * {source} (version {version})
 //
 // DO NOT EDIT
 
@@ -78,8 +78,8 @@ extern const {validationDataClass} kValidationData{zoneNormalizedName};
 // TZ Database comes from:
 //   * https://github.com/eggert/tz/releases/tag/{tz_version}
 //
-// Python database comes from:
-//    * pytz library (version {pytz_version})
+// Third party database comes from:
+//    * {source} (version {version})
 //
 // DO NOT EDIT
 
@@ -130,8 +130,8 @@ const {validationDataClass} kValidationData{zoneNormalizedName} = {{
 // TZ Database comes from:
 //   * https://github.com/eggert/tz/releases/tag/{tz_version}
 //
-// Python database comes from:
-//    * pytz library (version {pytz_version})
+// Third party database comes from:
+//    * {source} (version {version})
 //
 // DO NOT EDIT
 
@@ -191,7 +191,8 @@ testF({testClass}, {zoneNormalizedName}) {{
         return self.VALIDATION_DATA_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            pytz_version=self.validation_data['version'],
+            source=self.validation_data['source'],
+            version=self.validation_data['version'],
             includeHeaderNamespace=self.include_header_namespace,
             dbNamespace=self.db_namespace,
             numZones=len(self.test_data),
@@ -212,7 +213,8 @@ testF({testClass}, {zoneNormalizedName}) {{
         return self.VALIDATION_DATA_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            pytz_version=self.validation_data['version'],
+            source=self.validation_data['source'],
+            version=self.validation_data['version'],
             fileBase=self.file_base,
             dbNamespace=self.db_namespace,
             validationItems=validation_items)
@@ -260,7 +262,8 @@ testF({testClass}, {zoneNormalizedName}) {{
         return self.TESTS_CPP.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            pytz_version=self.validation_data['version'],
+            source=self.validation_data['source'],
+            version=self.validation_data['version'],
             testClass=self.test_class,
             fileBase=self.file_base,
             numZones=len(self.test_data),
