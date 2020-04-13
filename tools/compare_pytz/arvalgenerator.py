@@ -10,7 +10,6 @@ files for unit tests.
 import logging
 import os
 import re
-import pytz
 from validation.data import (TestItem, TestData, ValidationData)
 from typing import List
 
@@ -213,7 +212,7 @@ testF({testClass}, {zoneNormalizedName}) {{
         return self.VALIDATION_DATA_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            pytz_version=pytz.__version__,  # type: ignore
+            pytz_version=self.validation_data['version'],
             fileBase=self.file_base,
             dbNamespace=self.db_namespace,
             validationItems=validation_items)
