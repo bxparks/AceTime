@@ -83,22 +83,22 @@ The data processing pipeline for `tzcompiler.py` looks something like this:
       |
       |  (compare_pytz/):
       |
-      |       pytz
-      |         |
-      |         v
-      |   tdgenerator.py
-      |         |
-      |         v
-      |   arvalgenerator.py
-      |         |
-      |         |      validation/data.py
-      |         |        |
-      |         v        v
-      +-----> test_data_generator.py
-                 \
-                  v
-                 validation_data.{h,cpp}
-                 validation_tests.cpp
+      |               pytz
+      |                |
+      |                v
+      |         tdgenerator.py
+      |             /     \
+      |            v       v
+      | arvalgenerator.py  jsonvalgenerator.py
+      |          |             |
+      |          |             |    validation/data.py
+      |          |             |     /
+      |          v             v    v
+      +----->  test_data_generator.py
+                /               \
+               v                 v
+      validation_data.{h,cpp}  validation_data.json
+      validation_tests.cpp
 ```
 
 The `[zonedb/*]` and `[zonelist]` correspond to the value of the `--action` and
