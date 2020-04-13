@@ -14,7 +14,6 @@ from tdgenerator import TestItem
 from tdgenerator import TestData
 from tdgenerator import ValidationData
 from typing import List
-from typing_extensions import TypedDict
 
 
 # Copied from transformer.div_to_zero()
