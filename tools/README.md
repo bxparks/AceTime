@@ -71,9 +71,9 @@ AceTime data/time libraries (specifically the `ZoneProcessor` classes) will be
 tested against the expected results from these 3rd party libraries. Three
 libraries are supported:
 
-    * `compare_pytz` - Python `pytz` library
-    * `compare_java` - Java JDK11 `java.time` library
-    * `compare_cpp` - C++ Hinnant Date library
+* `compare_pytz` - Python `pytz` library
+* `compare_java` - Java JDK11 `java.time` library
+* `compare_cpp` - C++ Hinnant Date library
 
 The `zones.txt` from the `tzcompiler.py` determines the time zones which
 should be processed by the various `compare_xxx` scripts:
@@ -87,10 +87,10 @@ should be processed by the various `compare_xxx` scripts:
       |            |
       |            v
       +--> TestDataGenerator.java
-      |             \
-      |              v
-      |             validation_data.{h,cpp}
-      |             validation_tests.cpp
+      |           /             \
+      |          v               v
+      |  validation_data.{h,cpp} validation_data.json
+      |  validation_tests.cpp
       |
       |
       |  (compare_cpp/):

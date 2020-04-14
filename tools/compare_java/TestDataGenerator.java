@@ -36,6 +36,7 @@ import java.util.TreeSet;
  * {@code
  * $ javac TestDataGenerator.java
  * $ java TestDataGenerator --scope (basic | extended) [--start_year start] [--until_year until]
+ *      [--format (cpp|json)
  *      < zones.txt
  * }
  * </pre>
@@ -67,6 +68,7 @@ public class TestDataGenerator {
     String start = "2000";
     String until = "2050";
     String dbNamespace = null;
+    String format = "cpp";
     while (argc > 0) {
       String arg0 = argv[argi];
       if ("--scope".equals(arg0)) {
@@ -82,6 +84,9 @@ public class TestDataGenerator {
       } else if ("--db_namespace".equals(arg0)) {
         {argc--; argi++; arg0 = argv[argi];} // shift-left
         dbNamespace = arg0;
+      } else if ("--format".equals(arg0)) {
+        {argc--; argi++; arg0 = argv[argi];} // shift-left
+        format = arg0;
       } else if ("--".equals(arg0)) {
         break;
       } else if (arg0.startsWith("-")) {
@@ -113,15 +118,27 @@ public class TestDataGenerator {
       }
     }
 
+    // Validate --format (json|cpp)
+    if (!"json".equals(format) && !"cpp".equals(format)) {
+      System.err.printf("Unknown format '%s'%n", format);
+      usageAndExit();
+    }
+
     List<String> zones = readZones();
     TestDataGenerator generator = new TestDataGenerator(invocation, scope, dbNamespace,
         startYear, untilYear);
-    generator.process(zones);
+    Map<String, List<TestItem>> testData = generator.createTestData(zones);
+    if ("cpp".equals(format)) {
+      generator.printCpp(testData);
+    } else {
+      generator.printJson(testData);
+    }
   }
 
   private static void usageAndExit() {
     System.err.println("Usage: java TestDataGenerator --scope (basic|extended)");
-    System.err.println("       [--db_namespace ns] [--start_year {start}] [--untilYear {until}] ");
+    System.err.println("       [--db_namespace ns] [--start_year {start}] ");
+    System.err.println("       [--untilYear {until}] [--format (cpp|json)]");
     System.err.println("       < zones.txt");
     System.exit(1);
   }
@@ -165,6 +182,7 @@ public class TestDataGenerator {
     return zones;
   }
 
+  /** Constructor. */
   private TestDataGenerator(String invocation, String scope, String dbNamespace,
       int startYear, int untilYear) {
     this.invocation = invocation;
@@ -177,13 +195,7 @@ public class TestDataGenerator {
     this.cppFile = "validation_data.cpp";
     this.headerFile = "validation_data.h";
     this.testsFile = "validation_tests.cpp";
-  }
-
-  private void process(List<String> zones) throws IOException {
-    Map<String, List<TestItem>> testData = createTestData(zones);
-    printDataCpp(testData);
-    printDataHeader(testData);
-    printTestsCpp(testData);
+    this.jsonFile = "validation_data.json";
   }
 
   /**
@@ -297,8 +309,8 @@ public class TestDataGenerator {
 
     TestItem item = new TestItem();
     item.epochSeconds = (int) (instant.getEpochSecond() - SECONDS_SINCE_UNIX_EPOCH);
-    item.utcOffset = offset.getTotalSeconds() / 60;
-    item.dstOffset = (int) dst.getSeconds() / 60;
+    item.utcOffset = offset.getTotalSeconds();
+    item.dstOffset = (int) dst.getSeconds();
     item.year = dateTime.getYear();
     item.month = dateTime.getMonthValue();
     item.day = dateTime.getDayOfMonth();
@@ -308,6 +320,13 @@ public class TestDataGenerator {
     item.type = type;
 
     return item;
+  }
+
+  /** Print the testData to C++ validation files. */
+  private void printCpp(Map<String, List<TestItem>> testData) throws IOException {
+    printDataCpp(testData);
+    printDataHeader(testData);
+    printTestsCpp(testData);
   }
 
   /** Generate the validation_data.cpp file. */
@@ -359,8 +378,8 @@ public class TestDataGenerator {
     for (TestItem item : testItems) {
       writer.printf("  { %10d, %4d, %4d, %4d, %2d, %2d, %2d, %2d, %2d }, // type=%c%n",
           item.epochSeconds,
-          item.utcOffset,
-          item.dstOffset,
+          item.utcOffset / 60,
+          item.dstOffset / 60,
           item.year,
           item.month,
           item.day,
@@ -485,7 +504,59 @@ public class TestDataGenerator {
     System.out.printf("Created %s%n", testsFile);
   }
 
-  private void printTestsCppInactiveEntry(PrintWriter writer, String zoneName) {
+  /**
+   * Print the JSON representation of the testData. We serialize JSON manually to avoid pulling in
+   * any external dependencies, The TestData format is pretty simple.
+   */
+  /** Print the testData to a JSON file. */
+  private void printJson(Map<String, List<TestItem>> testData) throws IOException {
+    try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(jsonFile)))) {
+      String indentUnit = "  ";
+      writer.println("{");
+      String indent0 = indentUnit;
+      writer.printf("%s\"start_year\": %s,\n", indent0, startYear);
+      writer.printf("%s\"until_year\": %s,\n", indent0, untilYear);
+      writer.printf("%s\"source\": \"Java11/java.time\",\n", indent0);
+      writer.printf("%s\"version\": \"%s\",\n", indent0, System.getProperty("java.version"));
+      writer.printf("%s\"test_data\": {\n", indent0);
+
+      // Print each zone
+      int zoneCount = 1;
+      int numZones = testData.size();
+      for (Map.Entry<String, List<TestItem>> entry : testData.entrySet()) {
+        String indent1 = indent0 + indentUnit;
+        writer.printf("%s\"%s\": [\n", indent1, entry.getKey());
+
+        // Print each testItem
+        int itemCount = 1;
+        List<TestItem> items = entry.getValue();
+        for (TestItem item : items) {
+          String indent2 = indent1 + indentUnit;
+          writer.printf("%s{\n", indent2);
+          {
+            String indent3 = indent2 + indentUnit;
+            writer.printf("%s\"epoch\": %d,\n", indent3, item.epochSeconds);
+            writer.printf("%s\"total_offset\": %d,\n", indent3, item.utcOffset);
+            writer.printf("%s\"dst_offset\": %d,\n", indent3, item.dstOffset);
+            writer.printf("%s\"y\": %d,\n", indent3, item.year);
+            writer.printf("%s\"M\": %d,\n", indent3, item.month);
+            writer.printf("%s\"d\": %d,\n", indent3, item.day);
+            writer.printf("%s\"h\": %d,\n", indent3, item.hour);
+            writer.printf("%s\"m\": %d,\n", indent3, item.minute);
+            writer.printf("%s\"s\": %d,\n", indent3, item.second);
+            writer.printf("%s\"type\": \"%s\"\n", indent3, item.type);
+          }
+          writer.printf("%s}%s\n", indent2, (itemCount < items.size()) ? "," : "");
+          itemCount++;
+        }
+
+        writer.printf("%s]%s\n", indent1, (zoneCount < numZones) ? "," : "");
+        zoneCount++;
+      }
+
+      writer.printf("%s}\n", indent0);
+      writer.printf("}\n");
+    }
   }
 
   // constructor parameters
@@ -500,12 +571,13 @@ public class TestDataGenerator {
   private final String cppFile;
   private final String headerFile;
   private final String testsFile;;
+  private final String jsonFile;;
 }
 
 class TestItem {
   int epochSeconds; // seconds from AceTime epoch (2000-01-01T00:00:00Z)
-  int utcOffset; // total UTC offset in minutes
-  int dstOffset; // DST shift from standard offset in minutes
+  int utcOffset; // total UTC offset in seconds
+  int dstOffset; // DST shift from standard offset in seconds
   int year;
   int month;
   int day;
