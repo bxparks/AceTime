@@ -557,6 +557,8 @@ public class TestDataGenerator {
       writer.printf("%s}\n", indent0);
       writer.printf("}\n");
     }
+
+    System.out.printf("Created %s%n", jsonFile);
   }
 
   // constructor parameters

@@ -9,7 +9,9 @@
  *    --tz_version {version} \
  *    [--db_namespace {db}] \
  *    [--start_year start] \
- *    [--until_year until] < zones.txt
+ *    [--until_year until] \
+ *    [--format (cpp|json)] \
+ *    < zones.txt
  */
 
 #include <stdio.h>
@@ -39,10 +41,15 @@ struct DateTime {
  */
 struct TestItem {
   long epochSeconds;
-  int utcOffset; // minutes
-  int dstOffset; // minutes
+  int utcOffset; // seconds
+  int dstOffset; // seconds
   string abbrev;
-  DateTime dateTime;
+  int year;
+  unsigned month;
+  unsigned day;
+  int hour;
+  int minute;
+  int second;
   char type; //'A', 'B', 'S', 'T' or 'Y'
 };
 
@@ -53,6 +60,7 @@ const long SECONDS_SINCE_UNIX_EPOCH = 946684800;
 const char VALIDATION_DATA_CPP[] = "validation_data.cpp";
 const char VALIDATION_DATA_H[] = "validation_data.h";
 const char VALIDATION_TESTS_CPP[] = "validation_tests.cpp";
+const char VALIDATION_DATA_JSON[] = "validation_data.json";
 
 // Command line arguments
 string dbNamespace = "";
@@ -86,6 +94,18 @@ DateTime toDateTime(local_time<seconds> lt) {
  * Convert the Unix epoch seconds into a ZonedDateTime, then convert that into
  * TestItem that has the Date/Time components broken out, along with the
  * expected DST offset and abbreviation.
+ *
+ * According to https://github.com/HowardHinnant/date/wiki/Examples-and-Recipes
+ * sys_info has the following structure:
+ *
+ * struct sys_info
+ * {
+ *     second_point         begin;
+ *     second_point         end;
+ *     std::chrono::seconds offset;
+ *     std::chrono::minutes save;
+ *     std::string          abbrev;
+ * };
  */
 TestItem toTestItem(const time_zone& tz, sys_seconds st, char type) {
   sys_info info = tz.get_info(st);
@@ -95,16 +115,23 @@ TestItem toTestItem(const time_zone& tz, sys_seconds st, char type) {
   DateTime dateTime = toDateTime(lt);
   return TestItem{
       unixSeconds.count() - SECONDS_SINCE_UNIX_EPOCH,
-      (int)info.offset.count() / 60,
-      (int)info.save.count(),
+      (int)info.offset.count(),
+      (int)info.save.count() * 60,
       info.abbrev,
-      dateTime,
+      dateTime.year,
+      dateTime.month,
+      dateTime.day,
+      dateTime.hour,
+      dateTime.minute,
+      dateTime.second,
       type
   };
 }
 
-void addTestItem(map<string, vector<TestItem>>& testData,
-    const string& zoneName, const TestItem& item) {
+typedef map<string, vector<TestItem>> TestData;
+
+void addTestItem(TestData& testData, const string& zoneName,
+    const TestItem& item) {
   auto it = testData.find(zoneName);
   if (it == testData.end()) {
     testData[zoneName] = vector<TestItem>();
@@ -120,8 +147,8 @@ void addTestItem(map<string, vector<TestItem>>& testData,
  * Add a TestItem for one second before a DST transition, and right at the
  * the DST transition.
  */
-void addTransitions(map<string, vector<TestItem>>& testData,
-    const time_zone& tz, const string& zoneName, int startYear, int untilYear) {
+void addTransitions(TestData& testData, const time_zone& tz,
+    const string& zoneName, int startYear, int untilYear) {
   sys_seconds begin = sys_days{January/1/startYear} + seconds(0);
   sys_seconds end = sys_days{January/1/untilYear} + seconds(0);
 
@@ -148,8 +175,8 @@ void addTransitions(map<string, vector<TestItem>>& testData,
  * to get code for converting date/time components to a time_point<> (aka
  * sys_time<>).
  */
-void addMonthlySamples(map<string, vector<TestItem>>& testData,
-    const time_zone& tz, const string& zoneName, int startYear, int untilYear) {
+void addMonthlySamples(TestData& testData, const time_zone& tz,
+    const string& zoneName, int startYear, int untilYear) {
 
   for (int y = startYear; y < untilYear; y++) {
     // Add the 1st of every month...
@@ -189,8 +216,8 @@ void addMonthlySamples(map<string, vector<TestItem>>& testData,
 }
 
 /** Insert TestItems for the given 'zoneName' into testData. */
-void processZone(map<string, vector<TestItem>>& testData,
-    const string& zoneName, int startYear, int untilYear) {
+void processZone(TestData& testData, const string& zoneName,
+    int startYear, int untilYear) {
   auto* tzp = locate_zone(zoneName);
   if (tzp == nullptr) {
     fprintf(stderr, "Zone %s not found\n", zoneName.c_str());
@@ -212,7 +239,7 @@ inline void ltrim(string &s) {
 
 /** Process each zoneName in zones and insert into testData map. */
 map<string, vector<TestItem>> processZones(const vector<string>& zones) {
-  map<string, vector<TestItem>> testData;
+  TestData testData;
   for (string zoneName : zones) {
     processZone(testData, zoneName, startYear, untilYear);
   }
@@ -269,7 +296,7 @@ string normalizeName(const string& name) {
 }
 
 /** Sort the TestItems according to epochSeconds. */
-void sortTestData(map<string, vector<TestItem>>& testData) {
+void sortTestData(TestData& testData) {
   for (auto& p : testData) {
     sort(p.second.begin(), p.second.end(),
       [](const TestItem& a, const TestItem& b) {
@@ -284,20 +311,20 @@ void printTestItem(FILE* fp, const TestItem& item) {
       "  { %10ld, %4d, %4d, %4d, %2u, %2u, %2d, %2d, %2d, \"%s\" }, "
       " // type=%c\n",
       item.epochSeconds,
-      item.utcOffset,
-      item.dstOffset,
-      item.dateTime.year,
-      item.dateTime.month,
-      item.dateTime.day,
-      item.dateTime.hour,
-      item.dateTime.minute,
-      item.dateTime.second,
+      item.utcOffset / 60,
+      item.dstOffset / 60,
+      item.year,
+      item.month,
+      item.day,
+      item.hour,
+      item.minute,
+      item.second,
       item.abbrev.c_str(),
       item.type);
 }
 
 /** Generate the validation_data.cpp file for timezone tz. */
-void printDataCpp(const map<string, vector<TestItem>>& testData) {
+void printDataCpp(const TestData& testData) {
   FILE* fp = fopen(VALIDATION_DATA_CPP, "w");
 
   fprintf(fp,
@@ -355,7 +382,7 @@ void printDataCpp(const map<string, vector<TestItem>>& testData) {
 }
 
 /** Create validation_data.h file. */
-void printDataHeader(const map<string, vector<TestItem>>& testData) {
+void printDataHeader(const TestData& testData) {
   FILE* fp = fopen(VALIDATION_DATA_H, "w");
 
   fprintf(fp,
@@ -389,7 +416,7 @@ void printDataHeader(const map<string, vector<TestItem>>& testData) {
 }
 
 /** Create validation_tests.cpp file. */
-void printTestsCpp(const map<string, vector<TestItem>>& testData) {
+void printTestsCpp(const TestData& testData) {
   FILE* fp = fopen(VALIDATION_TESTS_CPP, "w");
 
   fprintf(fp,
@@ -416,11 +443,80 @@ void printTestsCpp(const map<string, vector<TestItem>>& testData) {
   fclose(fp);
 }
 
+/** Generate the validation_*.{h,cpp} files. */
+void printCpp(const TestData& testData) {
+  printDataCpp(testData);
+  printDataHeader(testData);
+  printTestsCpp(testData);
+
+  fprintf(stderr, "Created %s\n", VALIDATION_DATA_CPP);
+  fprintf(stderr, "Created %s\n", VALIDATION_DATA_H);
+  fprintf(stderr, "Created %s\n", VALIDATION_TESTS_CPP);
+}
+
+/** Generate the validation_data.json file. Adopted from TestDataGenerator.java. */
+void printJson(const TestData& testData) {
+  FILE* fp = fopen(VALIDATION_DATA_JSON, "w");
+
+  string indentUnit = "  ";
+  fprintf(fp, "{\n");
+  string indent0 = indentUnit;
+  fprintf(fp, "%s\"start_year\": %d,\n", indent0.c_str(), startYear);
+  fprintf(fp, "%s\"until_year\": %d,\n", indent0.c_str(), untilYear);
+  fprintf(fp, "%s\"source\": \"Hinnant Date\",\n", indent0.c_str());
+  fprintf(fp, "%s\"version\": \"%s\",\n", indent0.c_str(), date::get_tzdb().version.c_str());
+  fprintf(fp, "%s\"test_data\": {\n", indent0.c_str());
+
+  // Print each zone
+  int zoneCount = 1;
+  int numZones = testData.size();
+  for (const auto& zoneEntry : testData) {
+    string indent1 = indent0 + indentUnit;
+    string zoneName = zoneEntry.first;
+    fprintf(fp, "%s\"%s\": [\n", indent1.c_str(), zoneName.c_str());
+
+    // Print each testItem
+    int itemCount = 1;
+    const vector<TestItem>& items = zoneEntry.second;
+    for (const TestItem& item : items) {
+      string indent2 = indent1 + indentUnit;
+      fprintf(fp, "%s{\n", indent2.c_str());
+      {
+        string indent3 = indent2 + indentUnit;
+        fprintf(fp, "%s\"epoch\": %ld,\n", indent3.c_str(), item.epochSeconds);
+        fprintf(fp, "%s\"total_offset\": %d,\n", indent3.c_str(), item.utcOffset);
+        fprintf(fp, "%s\"dst_offset\": %d,\n", indent3.c_str(), item.dstOffset);
+        fprintf(fp, "%s\"y\": %d,\n", indent3.c_str(), item.year);
+        fprintf(fp, "%s\"M\": %d,\n", indent3.c_str(), item.month);
+        fprintf(fp, "%s\"d\": %d,\n", indent3.c_str(), item.day);
+        fprintf(fp, "%s\"h\": %d,\n", indent3.c_str(), item.hour);
+        fprintf(fp, "%s\"m\": %d,\n", indent3.c_str(), item.minute);
+        fprintf(fp, "%s\"s\": %d,\n", indent3.c_str(), item.second);
+        fprintf(fp, "%s\"type\": \"%c\"\n", indent3.c_str(), item.type);
+        // TODO(bpark): Add 'abbrev' field.
+      }
+      fprintf(fp, "%s}%s\n", indent2.c_str(), (itemCount < (int)items.size()) ? "," : "");
+      itemCount++;
+    }
+
+    fprintf(fp, "%s]%s\n", indent1.c_str(), (zoneCount < numZones) ? "," : "");
+    zoneCount++;
+  }
+
+  fprintf(fp, "%s}\n", indent0.c_str());
+  fprintf(fp, "}\n");
+
+  fclose(fp);
+
+  fprintf(stderr, "Created %s\n", VALIDATION_DATA_JSON);
+}
+
 void usageAndExit() {
   fprintf(stderr,
     "Usage: test_data_generator --scope (basic | extended)\n"
     "   --tz_version {version} [--db_namespace db]\n"
     "   [--start_year start] [--until_year until]\n"
+    "   [--format (cpp|json)]\n"
     "   < zones.txt\n");
   exit(1);
 }
@@ -434,6 +530,7 @@ int main(int argc, const char* const* argv) {
   string start = "2000";
   string until = "2050";
   string tzVersion = "";
+  string format = "cpp";
 
   SHIFT(argc, argv);
   while (argc > 0) {
@@ -457,6 +554,10 @@ int main(int argc, const char* const* argv) {
       SHIFT(argc, argv);
       if (argc == 0) usageAndExit();
       tzVersion = argv[0];
+    } else if (ARG_EQUALS(argv[0], "--format")) {
+      SHIFT(argc, argv);
+      if (argc == 0) usageAndExit();
+      format = argv[0];
     } else if (ARG_EQUALS(argv[0], "--")) {
       SHIFT(argc, argv);
       break;
@@ -504,14 +605,12 @@ int main(int argc, const char* const* argv) {
 
   // Process the zones on the STDIN
   vector<string> zones = readZones();
-  map<string, vector<TestItem>> testData = processZones(zones);
+  TestData testData = processZones(zones);
   sortTestData(testData);
-  printDataCpp(testData);
-  printDataHeader(testData);
-  printTestsCpp(testData);
-
-  fprintf(stderr, "Created %s\n", VALIDATION_DATA_CPP);
-  fprintf(stderr, "Created %s\n", VALIDATION_DATA_H);
-  fprintf(stderr, "Created %s\n", VALIDATION_TESTS_CPP);
+  if (format == "cpp") {
+    printCpp(testData);
+  } else {
+    printJson(testData);
+  }
   return 0;
 }
