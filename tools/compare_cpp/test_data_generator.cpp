@@ -9,7 +9,9 @@
  *    --tz_version {version} \
  *    [--db_namespace {db}] \
  *    [--start_year start] \
- *    [--until_year until] < zones.txt
+ *    [--until_year until] \
+ *    [--format (cpp|json)] \
+ *    < zones.txt
  */
 
 #include <stdio.h>
@@ -39,10 +41,15 @@ struct DateTime {
  */
 struct TestItem {
   long epochSeconds;
-  int utcOffset; // minutes
-  int dstOffset; // minutes
+  int utcOffset; // seconds
+  int dstOffset; // seconds
   string abbrev;
-  DateTime dateTime;
+  int year;
+  unsigned month;
+  unsigned day;
+  int hour;
+  int minute;
+  int second;
   char type; //'A', 'B', 'S', 'T' or 'Y'
 };
 
@@ -86,6 +93,18 @@ DateTime toDateTime(local_time<seconds> lt) {
  * Convert the Unix epoch seconds into a ZonedDateTime, then convert that into
  * TestItem that has the Date/Time components broken out, along with the
  * expected DST offset and abbreviation.
+ *
+ * According to https://github.com/HowardHinnant/date/wiki/Examples-and-Recipes
+ * sys_info has the following structure:
+ *
+ * struct sys_info
+ * {
+ *     second_point         begin;
+ *     second_point         end;
+ *     std::chrono::seconds offset;
+ *     std::chrono::minutes save;
+ *     std::string          abbrev;
+ * };
  */
 TestItem toTestItem(const time_zone& tz, sys_seconds st, char type) {
   sys_info info = tz.get_info(st);
@@ -95,10 +114,15 @@ TestItem toTestItem(const time_zone& tz, sys_seconds st, char type) {
   DateTime dateTime = toDateTime(lt);
   return TestItem{
       unixSeconds.count() - SECONDS_SINCE_UNIX_EPOCH,
-      (int)info.offset.count() / 60,
-      (int)info.save.count(),
+      (int)info.offset.count(),
+      (int)info.save.count() * 60,
       info.abbrev,
-      dateTime,
+      dateTime.year,
+      dateTime.month,
+      dateTime.day,
+      dateTime.hour,
+      dateTime.minute,
+      dateTime.second,
       type
   };
 }
@@ -284,14 +308,14 @@ void printTestItem(FILE* fp, const TestItem& item) {
       "  { %10ld, %4d, %4d, %4d, %2u, %2u, %2d, %2d, %2d, \"%s\" }, "
       " // type=%c\n",
       item.epochSeconds,
-      item.utcOffset,
-      item.dstOffset,
-      item.dateTime.year,
-      item.dateTime.month,
-      item.dateTime.day,
-      item.dateTime.hour,
-      item.dateTime.minute,
-      item.dateTime.second,
+      item.utcOffset / 60,
+      item.dstOffset / 60,
+      item.year,
+      item.month,
+      item.day,
+      item.hour,
+      item.minute,
+      item.second,
       item.abbrev.c_str(),
       item.type);
 }
