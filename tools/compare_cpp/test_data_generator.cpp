@@ -127,8 +127,10 @@ TestItem toTestItem(const time_zone& tz, sys_seconds st, char type) {
   };
 }
 
-void addTestItem(map<string, vector<TestItem>>& testData,
-    const string& zoneName, const TestItem& item) {
+typedef map<string, vector<TestItem>> TestData;
+
+void addTestItem(TestData& testData, const string& zoneName,
+    const TestItem& item) {
   auto it = testData.find(zoneName);
   if (it == testData.end()) {
     testData[zoneName] = vector<TestItem>();
@@ -144,8 +146,8 @@ void addTestItem(map<string, vector<TestItem>>& testData,
  * Add a TestItem for one second before a DST transition, and right at the
  * the DST transition.
  */
-void addTransitions(map<string, vector<TestItem>>& testData,
-    const time_zone& tz, const string& zoneName, int startYear, int untilYear) {
+void addTransitions(TestData& testData, const time_zone& tz,
+    const string& zoneName, int startYear, int untilYear) {
   sys_seconds begin = sys_days{January/1/startYear} + seconds(0);
   sys_seconds end = sys_days{January/1/untilYear} + seconds(0);
 
@@ -172,8 +174,8 @@ void addTransitions(map<string, vector<TestItem>>& testData,
  * to get code for converting date/time components to a time_point<> (aka
  * sys_time<>).
  */
-void addMonthlySamples(map<string, vector<TestItem>>& testData,
-    const time_zone& tz, const string& zoneName, int startYear, int untilYear) {
+void addMonthlySamples(TestData& testData, const time_zone& tz,
+    const string& zoneName, int startYear, int untilYear) {
 
   for (int y = startYear; y < untilYear; y++) {
     // Add the 1st of every month...
@@ -213,8 +215,8 @@ void addMonthlySamples(map<string, vector<TestItem>>& testData,
 }
 
 /** Insert TestItems for the given 'zoneName' into testData. */
-void processZone(map<string, vector<TestItem>>& testData,
-    const string& zoneName, int startYear, int untilYear) {
+void processZone(TestData& testData, const string& zoneName,
+    int startYear, int untilYear) {
   auto* tzp = locate_zone(zoneName);
   if (tzp == nullptr) {
     fprintf(stderr, "Zone %s not found\n", zoneName.c_str());
@@ -236,7 +238,7 @@ inline void ltrim(string &s) {
 
 /** Process each zoneName in zones and insert into testData map. */
 map<string, vector<TestItem>> processZones(const vector<string>& zones) {
-  map<string, vector<TestItem>> testData;
+  TestData testData;
   for (string zoneName : zones) {
     processZone(testData, zoneName, startYear, untilYear);
   }
@@ -293,7 +295,7 @@ string normalizeName(const string& name) {
 }
 
 /** Sort the TestItems according to epochSeconds. */
-void sortTestData(map<string, vector<TestItem>>& testData) {
+void sortTestData(TestData& testData) {
   for (auto& p : testData) {
     sort(p.second.begin(), p.second.end(),
       [](const TestItem& a, const TestItem& b) {
@@ -321,7 +323,7 @@ void printTestItem(FILE* fp, const TestItem& item) {
 }
 
 /** Generate the validation_data.cpp file for timezone tz. */
-void printDataCpp(const map<string, vector<TestItem>>& testData) {
+void printDataCpp(const TestData& testData) {
   FILE* fp = fopen(VALIDATION_DATA_CPP, "w");
 
   fprintf(fp,
@@ -379,7 +381,7 @@ void printDataCpp(const map<string, vector<TestItem>>& testData) {
 }
 
 /** Create validation_data.h file. */
-void printDataHeader(const map<string, vector<TestItem>>& testData) {
+void printDataHeader(const TestData& testData) {
   FILE* fp = fopen(VALIDATION_DATA_H, "w");
 
   fprintf(fp,
@@ -413,7 +415,7 @@ void printDataHeader(const map<string, vector<TestItem>>& testData) {
 }
 
 /** Create validation_tests.cpp file. */
-void printTestsCpp(const map<string, vector<TestItem>>& testData) {
+void printTestsCpp(const TestData& testData) {
   FILE* fp = fopen(VALIDATION_TESTS_CPP, "w");
 
   fprintf(fp,
@@ -440,11 +442,27 @@ void printTestsCpp(const map<string, vector<TestItem>>& testData) {
   fclose(fp);
 }
 
+/** Generate the validation_*.{h,cpp} files. */
+void printCpp(const TestData& testData) {
+  printDataCpp(testData);
+  printDataHeader(testData);
+  printTestsCpp(testData);
+
+  fprintf(stderr, "Created %s\n", VALIDATION_DATA_CPP);
+  fprintf(stderr, "Created %s\n", VALIDATION_DATA_H);
+  fprintf(stderr, "Created %s\n", VALIDATION_TESTS_CPP);
+}
+
+/** Generate the validation_data.json file. */
+void printJson(const TestData& testData) {
+}
+
 void usageAndExit() {
   fprintf(stderr,
     "Usage: test_data_generator --scope (basic | extended)\n"
     "   --tz_version {version} [--db_namespace db]\n"
     "   [--start_year start] [--until_year until]\n"
+    "   [--format (cpp|json)]\n"
     "   < zones.txt\n");
   exit(1);
 }
@@ -458,6 +476,7 @@ int main(int argc, const char* const* argv) {
   string start = "2000";
   string until = "2050";
   string tzVersion = "";
+  string format = "cpp";
 
   SHIFT(argc, argv);
   while (argc > 0) {
@@ -481,6 +500,10 @@ int main(int argc, const char* const* argv) {
       SHIFT(argc, argv);
       if (argc == 0) usageAndExit();
       tzVersion = argv[0];
+    } else if (ARG_EQUALS(argv[0], "--format")) {
+      SHIFT(argc, argv);
+      if (argc == 0) usageAndExit();
+      format = argv[0];
     } else if (ARG_EQUALS(argv[0], "--")) {
       SHIFT(argc, argv);
       break;
@@ -528,14 +551,12 @@ int main(int argc, const char* const* argv) {
 
   // Process the zones on the STDIN
   vector<string> zones = readZones();
-  map<string, vector<TestItem>> testData = processZones(zones);
+  TestData testData = processZones(zones);
   sortTestData(testData);
-  printDataCpp(testData);
-  printDataHeader(testData);
-  printTestsCpp(testData);
-
-  fprintf(stderr, "Created %s\n", VALIDATION_DATA_CPP);
-  fprintf(stderr, "Created %s\n", VALIDATION_DATA_H);
-  fprintf(stderr, "Created %s\n", VALIDATION_TESTS_CPP);
+  if (format == "cpp") {
+    printCpp(testData);
+  } else {
+    printJson(testData);
+  }
   return 0;
 }
