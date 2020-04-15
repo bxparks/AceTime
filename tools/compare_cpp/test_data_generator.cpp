@@ -60,6 +60,7 @@ const long SECONDS_SINCE_UNIX_EPOCH = 946684800;
 const char VALIDATION_DATA_CPP[] = "validation_data.cpp";
 const char VALIDATION_DATA_H[] = "validation_data.h";
 const char VALIDATION_TESTS_CPP[] = "validation_tests.cpp";
+const char VALIDATION_DATA_JSON[] = "validation_data.json";
 
 // Command line arguments
 string dbNamespace = "";
@@ -453,8 +454,61 @@ void printCpp(const TestData& testData) {
   fprintf(stderr, "Created %s\n", VALIDATION_TESTS_CPP);
 }
 
-/** Generate the validation_data.json file. */
+/** Generate the validation_data.json file. Adopted from TestDataGenerator.java. */
 void printJson(const TestData& testData) {
+  FILE* fp = fopen(VALIDATION_DATA_JSON, "w");
+
+  string indentUnit = "  ";
+  fprintf(fp, "{\n");
+  string indent0 = indentUnit;
+  fprintf(fp, "%s\"start_year\": %d,\n", indent0.c_str(), startYear);
+  fprintf(fp, "%s\"until_year\": %d,\n", indent0.c_str(), untilYear);
+  fprintf(fp, "%s\"source\": \"Hinnant Date\",\n", indent0.c_str());
+  fprintf(fp, "%s\"version\": \"%s\",\n", indent0.c_str(), date::get_tzdb().version.c_str());
+  fprintf(fp, "%s\"test_data\": {\n", indent0.c_str());
+
+  // Print each zone
+  int zoneCount = 1;
+  int numZones = testData.size();
+  for (const auto& zoneEntry : testData) {
+    string indent1 = indent0 + indentUnit;
+    string zoneName = zoneEntry.first;
+    fprintf(fp, "%s\"%s\": [\n", indent1.c_str(), zoneName.c_str());
+
+    // Print each testItem
+    int itemCount = 1;
+    const vector<TestItem>& items = zoneEntry.second;
+    for (const TestItem& item : items) {
+      string indent2 = indent1 + indentUnit;
+      fprintf(fp, "%s{\n", indent2.c_str());
+      {
+        string indent3 = indent2 + indentUnit;
+        fprintf(fp, "%s\"epoch\": %ld,\n", indent3.c_str(), item.epochSeconds);
+        fprintf(fp, "%s\"total_offset\": %d,\n", indent3.c_str(), item.utcOffset);
+        fprintf(fp, "%s\"dst_offset\": %d,\n", indent3.c_str(), item.dstOffset);
+        fprintf(fp, "%s\"y\": %d,\n", indent3.c_str(), item.year);
+        fprintf(fp, "%s\"M\": %d,\n", indent3.c_str(), item.month);
+        fprintf(fp, "%s\"d\": %d,\n", indent3.c_str(), item.day);
+        fprintf(fp, "%s\"h\": %d,\n", indent3.c_str(), item.hour);
+        fprintf(fp, "%s\"m\": %d,\n", indent3.c_str(), item.minute);
+        fprintf(fp, "%s\"s\": %d,\n", indent3.c_str(), item.second);
+        fprintf(fp, "%s\"type\": \"%c\"\n", indent3.c_str(), item.type);
+        // TODO(bpark): Add 'abbrev' field.
+      }
+      fprintf(fp, "%s}%s\n", indent2.c_str(), (itemCount < (int)items.size()) ? "," : "");
+      itemCount++;
+    }
+
+    fprintf(fp, "%s]%s\n", indent1.c_str(), (zoneCount < numZones) ? "," : "");
+    zoneCount++;
+  }
+
+  fprintf(fp, "%s}\n", indent0.c_str());
+  fprintf(fp, "}\n");
+
+  fclose(fp);
+
+  fprintf(stderr, "Created %s\n", VALIDATION_DATA_JSON);
 }
 
 void usageAndExit() {
