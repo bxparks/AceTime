@@ -518,6 +518,7 @@ public class TestDataGenerator {
       writer.printf("%s\"until_year\": %s,\n", indent0, untilYear);
       writer.printf("%s\"source\": \"Java11/java.time\",\n", indent0);
       writer.printf("%s\"version\": \"%s\",\n", indent0, System.getProperty("java.version"));
+      writer.printf("%s\"has_abbrev\": false,\n", indent0);
       writer.printf("%s\"test_data\": {\n", indent0);
 
       // Print each zone

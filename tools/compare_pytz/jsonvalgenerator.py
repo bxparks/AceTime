@@ -9,6 +9,7 @@ file. The file format is:
   'until_year': int,
   'source': str,
   'version': str,
+  'has_abbrev': bool,
   'test_data': [
     {
       'epoch': int,

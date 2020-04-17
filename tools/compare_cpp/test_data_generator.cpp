@@ -454,7 +454,9 @@ void printCpp(const TestData& testData) {
   fprintf(stderr, "Created %s\n", VALIDATION_TESTS_CPP);
 }
 
-/** Generate the validation_data.json file. Adopted from TestDataGenerator.java. */
+/**
+ * Generate the validation_data.json file. Adopted from TestDataGenerator.java.
+ */
 void printJson(const TestData& testData) {
   FILE* fp = fopen(VALIDATION_DATA_JSON, "w");
 
@@ -464,7 +466,9 @@ void printJson(const TestData& testData) {
   fprintf(fp, "%s\"start_year\": %d,\n", indent0.c_str(), startYear);
   fprintf(fp, "%s\"until_year\": %d,\n", indent0.c_str(), untilYear);
   fprintf(fp, "%s\"source\": \"Hinnant Date\",\n", indent0.c_str());
-  fprintf(fp, "%s\"version\": \"%s\",\n", indent0.c_str(), date::get_tzdb().version.c_str());
+  fprintf(fp, "%s\"version\": \"%s\",\n",
+      indent0.c_str(), date::get_tzdb().version.c_str());
+  fprintf(fp, "%s\"has_abbrev\": true,\n", indent0.c_str());
   fprintf(fp, "%s\"test_data\": {\n", indent0.c_str());
 
   // Print each zone
@@ -484,7 +488,8 @@ void printJson(const TestData& testData) {
       {
         string indent3 = indent2 + indentUnit;
         fprintf(fp, "%s\"epoch\": %ld,\n", indent3.c_str(), item.epochSeconds);
-        fprintf(fp, "%s\"total_offset\": %d,\n", indent3.c_str(), item.utcOffset);
+        fprintf(fp, "%s\"total_offset\": %d,\n",
+            indent3.c_str(), item.utcOffset);
         fprintf(fp, "%s\"dst_offset\": %d,\n", indent3.c_str(), item.dstOffset);
         fprintf(fp, "%s\"y\": %d,\n", indent3.c_str(), item.year);
         fprintf(fp, "%s\"M\": %d,\n", indent3.c_str(), item.month);
@@ -492,10 +497,12 @@ void printJson(const TestData& testData) {
         fprintf(fp, "%s\"h\": %d,\n", indent3.c_str(), item.hour);
         fprintf(fp, "%s\"m\": %d,\n", indent3.c_str(), item.minute);
         fprintf(fp, "%s\"s\": %d,\n", indent3.c_str(), item.second);
+        fprintf(fp, "%s\"abbrev\": \"%s\",\n",
+            indent3.c_str(), item.abbrev.c_str());
         fprintf(fp, "%s\"type\": \"%c\"\n", indent3.c_str(), item.type);
-        // TODO(bpark): Add 'abbrev' field.
       }
-      fprintf(fp, "%s}%s\n", indent2.c_str(), (itemCount < (int)items.size()) ? "," : "");
+      fprintf(fp, "%s}%s\n", indent2.c_str(),
+          (itemCount < (int)items.size()) ? "," : "");
       itemCount++;
     }
 

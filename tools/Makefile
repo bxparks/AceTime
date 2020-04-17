@@ -80,3 +80,6 @@ clean:
 	rm -f zones.txt tzdb.json validation_data.json validation_data.h \
 		validation_data.cpp validation_tests.cpp
 	rm -rf $(TZ_VERSION)
+	make -C compare_pytz clean
+	make -C compare_java clean
+	make -C compare_cpp clean
