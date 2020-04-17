@@ -49,6 +49,7 @@ class TestDataGenerator():
             'until_year': self.until_year,
             'source': 'pytz',
             'version': str(pytz.__version__),  # type: ignore
+            'has_abbrev': False,
             'test_data': self.test_data,
         }
 
