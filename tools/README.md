@@ -99,10 +99,10 @@ should be processed by the various `compare_xxx` scripts:
       |         |
       |         v
       +--> test_data_generator.cpp
-      |          \
-      |           v
-      |          validation_data.{h,cpp}
-      |          validation_tests.cpp
+      |         /               \
+      |        v                 v
+      | validation_data.{h,cpp}  validation_data.json
+      | validation_tests.cpp
       |
       |
       |  (compare_pytz/):
