@@ -40,6 +40,9 @@ validation_data.cpp: zones.txt \
 		--until_year $(UNTIL_YEAR) \
 		< zones.txt
 
+../../../tools/compare_java/TestDataGenerator.class:
+	make -C ../../../tools/compare_java
+
 zones.txt:
 	../../../tools/tzcompiler.sh \
 		--tag $(TZ_VERSION) \

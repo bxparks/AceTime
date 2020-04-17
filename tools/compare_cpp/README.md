@@ -25,6 +25,9 @@ I have tested this only on Ubuntu 18.04. Install the following:
     **sibling** to AceTime
     * `$ cd $ACE_TIME_DIR/..`
     * `$ git clone https://github.com/HowardHinnant/date`
+    * This repo does not seem to have any release process or version number.
+      Occasionally, the repo may need to be updated manually with a `$ git
+      pull`.
 
 Then type make to generate `test_data_generator.out`:
 ```

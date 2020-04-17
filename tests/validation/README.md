@@ -18,15 +18,15 @@ these tests, it did not seem worth checking in the generated code.)
 
 ## Compiling and Running
 
-Prerequite:
+Prerequites:
 
-1. You need to compile a number of tools in `$ACE_TIME_DIR/tools`:
-    * [TestDataGenerator.java](../../tools/compare_java/TestDataGenerator.java)
-      program:
-        * `$ (cd ../../tools/compare_java; make)`
-    * [test_data_generator.cpp](../../tools/compare_cpp/test_data_generator.cpp)
-      program
-        * `$ (cd ../../tools/compare_cpp; make)
+1. The Java and C++ tools in `$ACE_TIME_DIR/tools/compare_java` and
+`compare_cpp` need some setup. The best source of this information are
+in the respective README.md files:
+    * [compare_java](../../tools/compare_java/)
+    * [compare_cpp](../../tools/compare_cpp/)
+    * (The various `Makefile` in the subdirectories here will run `make -C` in
+      those directories to build the Java and C++ binaries if necessary.)
 1. Install [UnixHostDuino](https://github.com/bxparks/UnixHostDuino) as
   a sibling project to AceTime if you have not already done so:
     * `$ (cd ../../..; git clone https://github.com/bxparks/UnixHostDuino)`

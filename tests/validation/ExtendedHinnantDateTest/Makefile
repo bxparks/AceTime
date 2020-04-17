@@ -30,7 +30,8 @@ TZ_VERSION = 2019c
 START_YEAR = 1974
 UNTIL_YEAR = 2050
 
-validation_data.cpp: zones.txt
+validation_data.cpp: zones.txt \
+../../../tools/compare_cpp/test_data_generator.out
 	../../../tools/compare_cpp/test_data_generator.out \
 		--tz_version $(TZ_VERSION) \
 		--scope extended \
@@ -38,6 +39,9 @@ validation_data.cpp: zones.txt
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
 		< zones.txt
+
+../../../tools/compare_cpp/test_data_generator.out:
+	make -C ../../../tools/compare_cpp/
 
 zones.txt:
 	../../../tools/tzcompiler.sh \
