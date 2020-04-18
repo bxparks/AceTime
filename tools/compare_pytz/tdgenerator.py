@@ -55,6 +55,7 @@ class TestDataGenerator():
             'source': 'pytz',
             'version': str(pytz.__version__),  # type: ignore
             'has_abbrev': False,
+            'has_valid_dst': False,  # TODO(bpark): Check if this can be True
             'test_data': self.test_data,
         }
 

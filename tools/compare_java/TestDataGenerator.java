@@ -318,7 +318,6 @@ public class TestDataGenerator {
     item.minute = dateTime.getMinute();
     item.second = dateTime.getSecond();
     item.type = type;
-    // TODO(bpark): Add abbreviation from java.time.
 
     return item;
   }
@@ -524,6 +523,8 @@ public class TestDataGenerator {
       writer.printf("%s\"source\": \"Java11/java.time\",\n", indent0);
       writer.printf("%s\"version\": \"%s\",\n", indent0, System.getProperty("java.version"));
       writer.printf("%s\"has_abbrev\": false,\n", indent0);
+      // TODO(bpark): Check if has_valid_dst can be set to true for java.time.
+      writer.printf("%s\"has_valid_dst\": false,\n", indent0);
       writer.printf("%s\"test_data\": {\n", indent0);
 
       // Print each zone
@@ -533,9 +534,11 @@ public class TestDataGenerator {
         String indent1 = indent0 + indentUnit;
         writer.printf("%s\"%s\": [\n", indent1, entry.getKey());
 
+        List<TestItem> items = entry.getValue();
+        if (items == null) continue;
+
         // Print each testItem
         int itemCount = 1;
-        List<TestItem> items = entry.getValue();
         for (TestItem item : items) {
           String indent2 = indent1 + indentUnit;
           writer.printf("%s{\n", indent2);
@@ -550,6 +553,7 @@ public class TestDataGenerator {
             writer.printf("%s\"h\": %d,\n", indent3, item.hour);
             writer.printf("%s\"m\": %d,\n", indent3, item.minute);
             writer.printf("%s\"s\": %d,\n", indent3, item.second);
+            writer.printf("%s\"abbrev\": null,\n", indent3);
             writer.printf("%s\"type\": \"%s\"\n", indent3, item.type);
           }
           writer.printf("%s}%s\n", indent2, (itemCount < items.size()) ? "," : "");
@@ -592,5 +596,6 @@ class TestItem {
   int hour;
   int minute;
   int second;
+  // TODO(bpark): Add abbreviation from java.time.
   char type;
 }
