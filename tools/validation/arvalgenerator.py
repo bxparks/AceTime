@@ -101,7 +101,7 @@ namespace {dbNamespace} {{
 //---------------------------------------------------------------------------
 
 static const testing::ValidationItem kValidationItems{zoneNormalizedName}[] = {{
-  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s,  abbrev
+  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s, abbrev
 {testItems}
 }};
 
@@ -114,7 +114,7 @@ const testing::ValidationData kValidationData{zoneNormalizedName} = {{
 
     TEST_ITEM = """\
   {{ {epochSeconds:10}, {totalOffsetMinutes:4}, {deltaOffsetMinutes:4}, \
-{year:4}, {month:2}, {day:2}, {hour:2}, {minute:2}, {second:2}, nullptr }}, \
+{year:4}, {month:2}, {day:2}, {hour:2}, {minute:2}, {second:2}, {abbrev} }}, \
 // type={type}
 """
 
@@ -256,7 +256,9 @@ testF({testClass}, {zoneNormalizedName}) {{
                 hour=test_item['h'],
                 minute=test_item['m'],
                 second=test_item['s'],
-                type=test_item['type'])
+                abbrev=test_item['abbrev'] or 'nullptr',
+                type=test_item['type'],
+            )
         return s
 
     def _generate_tests_cpp(self) -> str:

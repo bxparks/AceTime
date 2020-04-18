@@ -7,6 +7,7 @@
 
 from typing import List
 from typing import Dict
+from typing import Optional
 from typing_extensions import TypedDict
 
 # An entry in the test data set.
@@ -25,7 +26,7 @@ TestItem = TypedDict("TestItem", {
     'h': int,
     'm': int,
     's': int,
-    # 'abbrev': str,  # optional abbreviation
+    'abbrev': Optional[str],
     'type': str,
 })
 

@@ -318,6 +318,7 @@ public class TestDataGenerator {
     item.minute = dateTime.getMinute();
     item.second = dateTime.getSecond();
     item.type = type;
+    // TODO(bpark): Add abbreviation from java.time.
 
     return item;
   }
@@ -369,7 +370,7 @@ public class TestDataGenerator {
     writer.println("//---------------------------------------------------------------------------");
     writer.println();
     writer.printf ("static const testing::ValidationItem kValidationItems%s[] = {%n", normalizedName);
-    writer.printf ("  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s,  abbrev%n");
+    writer.printf ("  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s, abbrev%n");
 
     for (TestItem item : testItems) {
       writer.printf("  { %10d, %4d, %4d, %4d, %2d, %2d, %2d, %2d, %2d, nullptr }, // type=%c%n",

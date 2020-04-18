@@ -10,7 +10,7 @@ all: classes
 
 classes: $(CLASSES)
 
-data: $(CLASSES) small.txt
+small: $(CLASSES) small.txt
 	java -cp . TestDataGenerator \
 		--scope basic \
 		--db_namespace zonedb \

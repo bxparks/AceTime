@@ -191,6 +191,13 @@ class TestDataGenerator():
             'h': dt.hour,
             'm': dt.minute,
             's': dt.second,
+
+            # TODO(bpark): Last time I looked, pytz abbrev did not always match
+            # AceTime. Figure out how to handle that. See
+            # https://stackoverflow.com/questions/5946499 on how to extract the
+            # abbreviation from pytz.
+            'abbrev': None,
+
             'type': tag,
         }
 
