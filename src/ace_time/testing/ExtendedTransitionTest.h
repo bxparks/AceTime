@@ -20,7 +20,8 @@ class ExtendedTransitionTest: public aunit::TestOnce {
   protected:
     void assertValid(
         const extended::ZoneInfo* const zoneInfo,
-        const ValidationData* testData) {
+        const ValidationData* testData,
+        bool validateDst = false) {
 
       if (EXTENDED_TRANSITION_TEST_DEBUG) {
         enableVerbosity(aunit::Verbosity::kAssertionPassed);
@@ -52,10 +53,18 @@ class ExtendedTransitionTest: public aunit::TestOnce {
         }
 
         TimeOffset timeOffset = tz.getUtcOffset(epochSeconds);
-        if (EXTENDED_TRANSITION_TEST_DEBUG) zoneProcessor.log();
+        if (EXTENDED_TRANSITION_TEST_DEBUG) {
+          zoneProcessor.log();
+        }
 
         // Verify timeOffset
         assertEqual(item.timeOffsetMinutes, timeOffset.toMinutes());
+
+        // Verify DST offset.
+        if (validateDst) {
+          TimeOffset deltaOffset = tz.getDeltaOffset(epochSeconds);
+          assertEqual(item.deltaOffsetMinutes, deltaOffset.toMinutes());
+        }
 
         // Verify date components
         ZonedDateTime dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
@@ -65,6 +74,11 @@ class ExtendedTransitionTest: public aunit::TestOnce {
         assertEqual(item.hour, dt.hour());
         assertEqual(item.minute, dt.minute());
         assertEqual(item.second, dt.second());
+
+        // Verify abbreviation if it is defined.
+        if (item.abbrev != nullptr) {
+          assertEqual(item.abbrev, tz.getAbbrev(epochSeconds));
+        }
       }
 
       // Assert that size of the internal Transitions buffer never got

@@ -63,6 +63,7 @@ const char VALIDATION_TESTS_CPP[] = "validation_tests.cpp";
 const char VALIDATION_DATA_JSON[] = "validation_data.json";
 
 // Command line arguments
+string scope = "";
 string dbNamespace = "";
 bool isCustomDbNamespace;
 int startYear = 2000;
@@ -332,11 +333,7 @@ void printDataCpp(const TestData& testData) {
   fprintf(fp, "// TZ Database version: %s\n", date::get_tzdb().version.c_str());
   fprintf(fp, "// DO NOT EDIT\n");
   fprintf(fp, "\n");
-  fprintf(fp, "#include <AceTime.h>\n");
-  if (isCustomDbNamespace) {
-    fprintf(fp, "#include \"%s/zone_infos.h\"\n", dbNamespace.c_str());
-    fprintf(fp, "#include \"%s/zone_policies.h\"\n", dbNamespace.c_str());
-  }
+  fprintf(fp, "#include <ace_time/testing/ValidationDataType.h>\n");
   fprintf(fp, "#include \"validation_data.h\"\n");
   fprintf(fp, "\n");
   fprintf(fp, "namespace ace_time {\n");
@@ -355,7 +352,8 @@ void printDataCpp(const TestData& testData) {
     "//--------------------------------------------------------------------\n");
     fprintf(fp, "\n");
 
-    fprintf(fp, "static const ValidationItem kValidationItems%s[] = {\n",
+    fprintf(fp,
+        "static const testing::ValidationItem kValidationItems%s[] = {\n",
         normalizedName.c_str());
     fprintf(fp,
       "  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s, abbrev\n");
@@ -365,12 +363,9 @@ void printDataCpp(const TestData& testData) {
     fprintf(fp, "};\n");
     fprintf(fp, "\n");
 
-    fprintf(fp, "const ValidationData kValidationData%s = {\n",
+    fprintf(fp, "const testing::ValidationData kValidationData%s = {\n",
         normalizedName.c_str());
-    fprintf(fp, "  &kZone%s /*zoneInfo*/,\n", normalizedName.c_str());
-    fprintf(fp,
-      "  sizeof(kValidationItems%s)/sizeof(ValidationItem) /*numItems*/,\n",
-      normalizedName.c_str());
+    fprintf(fp, "  %lu /*numItems*/,\n", testItems.size());
     fprintf(fp, "  kValidationItems%s /*items*/,\n", normalizedName.c_str());
     fprintf(fp, "};\n");
     fprintf(fp, "\n");
@@ -393,16 +388,17 @@ void printDataHeader(const TestData& testData) {
   fprintf(fp, "#ifndef ACE_TIME_VALIDATION_TEST_VALIDATION_DATA_H\n");
   fprintf(fp, "#define ACE_TIME_VALIDATION_TEST_VALIDATION_DATA_H\n");
   fprintf(fp, "\n");
-  fprintf(fp, "#include \"ValidationDataType.h\"\n");
+  fprintf(fp, "#include <ace_time/testing/ValidationDataType.h>\n");
   fprintf(fp, "\n");
   fprintf(fp, "namespace ace_time {\n");
   fprintf(fp, "namespace %s {\n", dbNamespace.c_str());
   fprintf(fp, "\n");
 
+  fprintf(fp, "// numZones: %lu\n", testData.size());
   for (const auto& p : testData) {
     const string& zoneName = p.first;
     const string normalizedName = normalizeName(zoneName);
-    fprintf(fp, "extern const ValidationData kValidationData%s;\n",
+    fprintf(fp, "extern const testing::ValidationData kValidationData%s;\n",
       normalizedName.c_str());
   }
 
@@ -426,16 +422,31 @@ void printTestsCpp(const TestData& testData) {
   fprintf(fp, "\n");
 
   fprintf(fp, "#include <AUnit.h>\n");
-  fprintf(fp, "#include \"TransitionTest.h\"\n");
+  const char* testClass = (scope == "basic")
+      ? "BasicTransitionTest"
+      : "ExtendedTransitionTest";
+  fprintf(fp, "#include <ace_time/testing/%s.h>\n", testClass);
   fprintf(fp, "#include \"validation_data.h\"\n");
+  if (isCustomDbNamespace) {
+    fprintf(fp, "#include \"%s/zone_infos.h\"\n", dbNamespace.c_str());
+    fprintf(fp, "#include \"%s/zone_policies.h\"\n", dbNamespace.c_str());
+  }
   fprintf(fp, "\n");
 
+  fprintf(fp, "using namespace ace_time::testing;\n");
+  fprintf(fp, "using namespace ace_time::%s;\n", dbNamespace.c_str());
+  fprintf(fp, "\n");
+
+  fprintf(fp, "// numZones: %lu\n", testData.size());
   for (const auto& p : testData) {
     const string& zoneName = p.first;
     const string normalizedName = normalizeName(zoneName);
-    fprintf(fp, "testF(TransitionTest, %s) {\n", normalizedName.c_str());
-    fprintf(fp, "  assertValid(&ace_time::%s::kValidationData%s);\n",
-        dbNamespace.c_str(),
+    fprintf(fp, "testF(%s, %s) {\n", testClass, normalizedName.c_str());
+    fprintf(fp,
+        "  assertValid(\n"
+        "     &kZone%s, &kValidationData%s, \n"
+        "     true /*validateDst*/);\n",
+        normalizedName.c_str(),
         normalizedName.c_str());
     fprintf(fp, "}\n");
   }
@@ -533,7 +544,6 @@ void usageAndExit() {
 
 int main(int argc, const char* const* argv) {
   // Parse command line flags.
-  string scope = "";
   string start = "2000";
   string until = "2050";
   string tzVersion = "";
@@ -584,6 +594,7 @@ int main(int argc, const char* const* argv) {
     fprintf(stderr, "Must give --tz_version flag'\n");
     usageAndExit();
   }
+
   if (dbNamespace.empty()) {
     if (scope == "basic") {
       dbNamespace = "zonedb";
