@@ -23,6 +23,7 @@ struct ValidationItem {
   uint8_t const hour;
   uint8_t const minute;
   uint8_t const second;
+  const char* const abbrev;
 };
 
 /**

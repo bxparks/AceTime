@@ -101,7 +101,7 @@ namespace {dbNamespace} {{
 //---------------------------------------------------------------------------
 
 static const testing::ValidationItem kValidationItems{zoneNormalizedName}[] = {{
-  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s
+  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s,  abbrev
 {testItems}
 }};
 
@@ -114,7 +114,7 @@ const testing::ValidationData kValidationData{zoneNormalizedName} = {{
 
     TEST_ITEM = """\
   {{ {epochSeconds:10}, {totalOffsetMinutes:4}, {deltaOffsetMinutes:4}, \
-{year:4}, {month:2}, {day:2}, {hour:2}, {minute:2}, {second:2} }}, \
+{year:4}, {month:2}, {day:2}, {hour:2}, {minute:2}, {second:2}, nullptr }}, \
 // type={type}
 """
 

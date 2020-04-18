@@ -369,10 +369,10 @@ public class TestDataGenerator {
     writer.println("//---------------------------------------------------------------------------");
     writer.println();
     writer.printf ("static const testing::ValidationItem kValidationItems%s[] = {%n", normalizedName);
-    writer.printf ("  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s%n");
+    writer.printf ("  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s,  abbrev%n");
 
     for (TestItem item : testItems) {
-      writer.printf("  { %10d, %4d, %4d, %4d, %2d, %2d, %2d, %2d, %2d }, // type=%c%n",
+      writer.printf("  { %10d, %4d, %4d, %4d, %2d, %2d, %2d, %2d, %2d, nullptr }, // type=%c%n",
           item.epochSeconds,
           item.utcOffset / 60,
           item.dstOffset / 60,
