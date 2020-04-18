@@ -2,7 +2,12 @@
 #
 # MIT License
 #
-# Generate validation TestData using pytz.
+# Generate validation TestData using pytz. This version was derived from the
+# 'validation.tdgenerator' module with the critical difference that it does not
+# pull in the ZoneSpecifier to determine the DST transition times. This means
+# that this module also avoids pulling in the ZoneInfo, ZonePolicy and other
+# related classes from 'extractor' and 'transformer' processing pipeline.
+# Therefore, this module is truly dependent on only the 'pytz' module.
 
 import logging
 from datetime import datetime

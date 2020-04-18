@@ -1,6 +1,15 @@
 # Copyright 2019 Brian T. Park
 #
 # MIT License
+#
+# This generates the validation test data using pytz, but also pulls in the
+# ZoneSpecifier class to determine the DST transitions because pytz does not
+# expose that information natively. But pulling in ZoneSpecifier also means that
+# it pulls in the ZoneInfo, ZonePolicy and other related classes through the
+# 'ingenerator' module.
+#
+# Mostly deprecated. Used only by validation.py to implement the interactive
+# ZoneInfo validation.
 
 import logging
 import datetime
