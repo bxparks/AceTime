@@ -72,10 +72,11 @@ def main() -> None:
 
     # Generate the validation_*.{h, cpp} files
     generator = ArduinoValidationGenerator(
-        invocation,
-        args.tz_version,
-        args.db_namespace,
-        validation_data,
+        invocation=invocation,
+        tz_version=args.tz_version,
+        scope=args.scope,
+        db_namespace=args.db_namespace,
+        validation_data=validation_data,
     )
     generator.generate_files(args.output_dir)
 
