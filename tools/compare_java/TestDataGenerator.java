@@ -338,11 +338,7 @@ public class TestDataGenerator {
       writer.println("//");
       writer.println("// DO NOT EDIT");
       writer.println();
-      writer.println("#include <AceTime.h>");
-      if (!isDefaultNamespace) {
-        writer.printf ("#include \"%s/zone_infos.h\"%n", dbNamespace);
-        writer.printf ("#include \"%s/zone_policies.h\"%n", dbNamespace);
-      }
+      writer.println("#include <ace_time/testing/ValidationDataType.h>");
       writer.println("#include \"validation_data.h\"");
       writer.println();
       writer.println("namespace ace_time {");
@@ -372,11 +368,11 @@ public class TestDataGenerator {
     writer.printf ("// Zone name: %s%n", zoneName);
     writer.println("//---------------------------------------------------------------------------");
     writer.println();
-    writer.printf ("static const ValidationItem kValidationItems%s[] = {%n", normalizedName);
-    writer.printf ("  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s%n");
+    writer.printf ("static const testing::ValidationItem kValidationItems%s[] = {%n", normalizedName);
+    writer.printf ("  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s,  abbrev%n");
 
     for (TestItem item : testItems) {
-      writer.printf("  { %10d, %4d, %4d, %4d, %2d, %2d, %2d, %2d, %2d }, // type=%c%n",
+      writer.printf("  { %10d, %4d, %4d, %4d, %2d, %2d, %2d, %2d, %2d, nullptr }, // type=%c%n",
           item.epochSeconds,
           item.utcOffset / 60,
           item.dstOffset / 60,
@@ -392,10 +388,8 @@ public class TestDataGenerator {
     writer.println("};");
 
     writer.println();
-    writer.printf ("const ValidationData kValidationData%s = {%n", normalizedName);
-    writer.printf ("  &kZone%s /*zoneInfo*/,%n", normalizedName);
-    writer.printf ("  sizeof(kValidationItems%s)/sizeof(ValidationItem) /*numItems*/,%n",
-        normalizedName);
+    writer.printf ("const testing::ValidationData kValidationData%s = {%n", normalizedName);
+    writer.printf ("  %d /*numItems*/,%n", testItems.size());
     writer.printf ("  kValidationItems%s /*items*/,%n", normalizedName);
     writer.println("};");
   }
@@ -414,7 +408,7 @@ public class TestDataGenerator {
       writer.println("#ifndef ACE_TIME_VALIDATION_TEST_VALIDATION_DATA_H");
       writer.println("#define ACE_TIME_VALIDATION_TEST_VALIDATION_DATA_H");
       writer.println();
-      writer.println("#include \"ValidationDataType.h\"");
+      writer.println("#include <ace_time/testing/ValidationDataType.h>");
       writer.println();
       writer.println("namespace ace_time {");
       writer.printf ("namespace %s {%n", dbNamespace);
@@ -429,7 +423,7 @@ public class TestDataGenerator {
         String zoneName = entry.getKey();
         String normalizedName = normalizeName(zoneName);
         if (entry.getValue() == null) continue;
-        writer.printf("extern const ValidationData kValidationData%s;%n", normalizedName);
+        writer.printf("extern const testing::ValidationData kValidationData%s;%n", normalizedName);
       }
 
       // Print list of missing zones
@@ -471,6 +465,12 @@ public class TestDataGenerator {
 
   /** Generate the validation_tests.cpp file. */
   private void printTestsCpp(Map<String, List<TestItem>> testData) throws IOException {
+    String testClass;
+    if ("basic".equals(scope)) {
+      testClass = "BasicTransitionTest";
+    } else {
+      testClass = "ExtendedTransitionTest";
+    }
     int activeCount = getActiveCount(testData);
     int inactiveCount = testData.size() - activeCount;
 
@@ -482,21 +482,25 @@ public class TestDataGenerator {
       writer.println("// DO NOT EDIT");
       writer.println();
 			writer.println("#include <AUnit.h>");
-			writer.println("#include \"TransitionTest.h\"");
+			writer.printf ("#include <ace_time/testing/%s.h>%n", testClass);
 			writer.println("#include \"validation_data.h\"");
+			writer.printf ("#include \"%s/zone_infos.h\"%n", dbNamespace);
+      writer.println();
+      writer.println("using namespace ace_time::testing;");
+      writer.printf ("using namespace ace_time::%s;%n", dbNamespace);
       writer.println();
       writer.printf ("// numZones: %d%n", activeCount);
       writer.printf ("// missingZones: %d%n", inactiveCount);
 
-      // Create a test(TransitionTest, {zoneName}) entry for each zone, commenting out missing
+      // Create a testF(TransitionTest, {zoneName}) entry for each zone, commenting out missing
       // zones.
       for (Map.Entry<String, List<TestItem>> entry : testData.entrySet()) {
         String comment = (entry.getValue() == null) ? "// " : "";
         String zoneName = entry.getKey();
         String normalizedName = normalizeName(zoneName);
-        writer.printf("%stestF(TransitionTest, %s) {%n", comment, normalizedName);
-        writer.printf("%s  assertValid(&ace_time::%s::kValidationData%s);%n",
-            comment, dbNamespace, normalizedName);
+        writer.printf("%stestF(%s, %s) {%n", comment, testClass, normalizedName);
+        writer.printf("%s  assertValid(&kZone%s, &kValidationData%s);%n",
+            comment, normalizedName, normalizedName);
         writer.printf("%s}%n", comment);
       }
     }

@@ -44,8 +44,9 @@ from validation.arvalgenerator import ArduinoValidationGenerator
 
 def generate(
     invocation: str,
-    db_namespace: str,
     tz_version: str,
+    scope: str,
+    db_namespace: str,
     start_year: int,
     until_year: int,
     format: str,
@@ -60,11 +61,18 @@ def generate(
 
     if format == 'cpp':
         arval_generator = ArduinoValidationGenerator(
-            invocation, tz_version, db_namespace, validation_data)
+            invocation=invocation,
+            tz_version=tz_version,
+            scope=scope,
+            db_namespace=db_namespace,
+            validation_data=validation_data,
+        )
         arval_generator.generate_files(output_dir)
     else:
         json_generator = JsonValidationGenerator(
-            invocation, tz_version, validation_data)
+            invocation=invocation,
+            tz_version=tz_version,
+            validation_data=validation_data)
         json_generator.generate_files(output_dir)
 
 
@@ -137,13 +145,14 @@ def main() -> None:
     invocation = ' '.join(sys.argv)
 
     generate(
-        invocation,
-        args.db_namespace,
-        args.tz_version,
-        args.start_year,
-        args.until_year,
-        args.format,
-        args.output_dir,
+        invocation=invocation,
+        tz_version=args.tz_version,
+        scope=args.scope,
+        db_namespace=args.db_namespace,
+        start_year=args.start_year,
+        until_year=args.until_year,
+        format=args.format,
+        output_dir=args.output_dir,
     )
 
 
