@@ -49,7 +49,7 @@ $(TZ_VERSION):
 
 # Run the Validator using validate.py.
 validate: $(TZ_VERSION)
-	./validate.py --input_dir $(TZ_VERSION) --scope basic
+	./validate.py --input_dir $(TZ_VERSION) --scope extended
 
 # Generate tzdb.json for testing purposes.
 tzdb.json: $(SRC) $(TZ_VERSION)

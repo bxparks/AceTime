@@ -118,14 +118,14 @@ zones.txt
 
 ## Interactive Validation
 
-The `validate.py` script allows us to validate the processing of the
-TZ Database through the Python implementation of the AceTime `ZoneProcessor`
-classes. The Python implementation is called `ZoneSpecifier` (a previous naming
-convention used in the C++ version which did not make it over the Python world).
-
-The data processing pipeline for the `validation.py` script looks like this
-(this used to be handled by `tzcompiler.py` itself before it was extracted out
-into `validate.py`):
+The `validate.py` script allows us to validate the processing of the TZ Database
+through the Python implementation of the AceTime `ZoneProcessor` classes. The
+Python implementation is called `ZoneSpecifier` (a previous naming convention
+used in the C++ version which did not make it over the Python world). This
+functionality was previously inside `tzcompiler.py` itself before it was
+extracted out into `validate.py` to reduce the complexity of the `tzcompiler.py`
+script. The data processing pipeline for the `validate.py` script looks like
+this
 
 ```
      TZDB files
@@ -139,19 +139,19 @@ into `validate.py`):
          v
    ingenerator.py
        /  \
-      /    v              pytz
-     | zone_specifier.py  /
-     |      \            /
-     |       v          v
-     |   validation/tdgenerator.py
-     .                \
-      \                \
-       v                |
-     zone_specifier.py  |
-          |            /
+      /    v
+     | zone_specifier.py  pytz
+     |      \             /
+     |       v           v
+     |     zstdgenerator.py
+     |               \
+      \               \
+       v               |
+    zone_specifier.py  |
           |           /
-          v          v
-     validation/validator.py
+          |          /
+          v         v
+         validator.py
 ```
 
 ## Dependencies

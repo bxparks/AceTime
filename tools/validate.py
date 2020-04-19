@@ -28,13 +28,6 @@ Flags:
         --offset_granularity
         --strict
 
-    Validator:
-
-        --zone {zone_name}
-        --year {year}
-        --validate_dst_offset
-        --debug_validator
-
     TestDataGenerator:
 
         --validation_start_year
@@ -47,9 +40,16 @@ Flags:
         --in_place_transitions
         --optimize_candidates
 
+    Validator:
+
+        --zone {zone_name}
+        --year {year}
+        --validate_dst_offset
+        --debug_validator
+
 Examples:
 
-    See validate.sh
+    See validate.sh.
 """
 
 import argparse

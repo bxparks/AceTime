@@ -1,15 +1,18 @@
 # Copyright 2019 Brian T. Park
 #
 # MIT License
-#
-# This generates the validation test data using pytz, but also pulls in the
-# ZoneSpecifier class to determine the DST transitions because pytz does not
-# expose that information natively. But pulling in ZoneSpecifier also means that
-# it pulls in the ZoneInfo, ZonePolicy and other related classes through the
-# 'ingenerator' module.
-#
-# Mostly deprecated. Used only by validation.py to implement the interactive
-# ZoneInfo validation.
+
+"""
+Implements the TestDataGenerator to generate the validation test data using
+pytz. Similar to compare_pytz/tdgenerator.py but depends on the ZoneSpecifier
+class (hence the name 'zstdgenerator', 'Zone Specifier Test Data Generator') to
+determine the DST transitions because pytz does not expose that information
+natively. Pulling in ZoneSpecifier also means that it pulls in the ZoneInfo,
+ZonePolicy and many other related classes through the 'ingenerator' module.
+
+Mostly deprecated. Used only by 'validator.py' to implement the interactive
+ZoneInfo validation exposed by 'validate.py' script.
+"""
 
 import logging
 import datetime

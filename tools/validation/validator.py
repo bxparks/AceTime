@@ -20,9 +20,9 @@ from zonedb.zone_specifier import ZoneSpecifier
 from zonedb.zone_specifier import to_utc_string
 from zonedb.zone_specifier import SECONDS_SINCE_UNIX_EPOCH
 from typing import List
-from .tdgenerator import TestDataGenerator
-from .tdgenerator import TestData
-from .tdgenerator import TestItem
+from .zstdgenerator import TestDataGenerator
+from .zstdgenerator import TestData
+from .zstdgenerator import TestItem
 
 
 class Validator:
@@ -142,9 +142,9 @@ class Validator:
             self.start_year,
             self.until_year)
         (test_data, num_items) = data_generator.create_test_data()
-        logging.info('test_data=%d', len(test_data))
+        logging.info('Num zones: %d', len(test_data))
+        logging.info('Num test items: %s', num_items)
 
-        logging.info('Validating %s test items', num_items)
         num_errors = self._validate_test_data(test_data)
         if num_errors:
             logging.info(f'Errors found with {num_errors} test items')
