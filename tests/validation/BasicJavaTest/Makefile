@@ -34,6 +34,11 @@ TZ_VERSION = 2019c
 START_YEAR = 2000
 UNTIL_YEAR = 2050
 
+# If --validate_dst is enabled, the DST offset from java.time disagrees with
+# AceTime for one time zone:
+#
+# Assertion failed: (0) == (-60), file /home/brian/dev/AceTime/src/ace_time/testing/BasicTransitionTest.h, line 55.
+# Test BasicTransitionTest_Europe_Dublin failed.
 validation_data.json: zones.txt \
 ../../../tools/compare_java/TestDataGenerator.class
 	java -cp ../../../tools/compare_java TestDataGenerator \

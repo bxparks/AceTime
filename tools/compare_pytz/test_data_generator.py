@@ -11,7 +11,7 @@ from the tzcompiler.py.
 
 Usage
 $ ./test_data_generator.py [--start_year start] [--until_year until] \
-  < zones.txt
+    [--validate_dst] < zones.txt
 """
 
 import sys
@@ -44,11 +44,13 @@ class Generator:
         start_year: int,
         until_year: int,
         output_dir: str,
+        validate_dst: bool,
     ):
         self.invocation = invocation
         self.start_year = start_year
         self.until_year = until_year
         self.output_dir = output_dir
+        self.validate_dst = validate_dst
 
         self.filename = 'validation_data.json'
 
@@ -59,7 +61,11 @@ class Generator:
         zones = read_zones()
 
         # Generate the test data set.
-        test_generator = TestDataGenerator(self.start_year, self.until_year)
+        test_generator = TestDataGenerator(
+            start_year=self.start_year,
+            until_year=self.until_year,
+            validate_dst=self.validate_dst,
+        )
         test_generator.create_test_data(zones)
         validation_data = test_generator.get_validation_data()
 
@@ -97,6 +103,10 @@ def main() -> None:
         help='Until year of validation (default: 2038)',
         type=int,
         default=2038)
+    parser.add_argument(
+        '--validate_dst',
+        help='Set flag to validate the DST offset',
+        action='store_true')
 
     # Optional output directory.
     parser.add_argument(
@@ -117,6 +127,7 @@ def main() -> None:
         start_year=args.start_year,
         until_year=args.until_year,
         output_dir=args.output_dir,
+        validate_dst=args.validate_dst,
     )
     generator.generate()
 

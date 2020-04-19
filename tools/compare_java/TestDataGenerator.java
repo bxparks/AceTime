@@ -34,7 +34,7 @@ import java.util.TreeSet;
  * <pre>
  * {@code
  * $ javac TestDataGenerator.java
- * $ java TestDataGenerator [--start_year start] [--until_year until]
+ * $ java TestDataGenerator [--start_year start] [--until_year until] [--validate_dst]
  *      < zones.txt
  * }
  * </pre>
@@ -65,6 +65,7 @@ public class TestDataGenerator {
     String start = "2000";
     String until = "2050";
     String format = "cpp";
+    boolean validateDst = false;
     while (argc > 0) {
       String arg0 = argv[argi];
       if ("--start_year".equals(arg0)) {
@@ -73,6 +74,8 @@ public class TestDataGenerator {
       } else if ("--until_year".equals(arg0)) {
         {argc--; argi++; arg0 = argv[argi];} // shift-left
         until = arg0;
+      } else if ("--validate_dst".equals(arg0)) {
+        validateDst = true;
       } else if ("--".equals(arg0)) {
         break;
       } else if (arg0.startsWith("-")) {
@@ -91,14 +94,14 @@ public class TestDataGenerator {
 
     List<String> zones = readZones();
     TestDataGenerator generator = new TestDataGenerator(
-        invocation, startYear, untilYear);
+        invocation, startYear, untilYear, validateDst);
     Map<String, List<TestItem>> testData = generator.createTestData(zones);
     generator.printJson(testData);
   }
 
   private static void usageAndExit() {
     System.err.println("Usage: java TestDataGenerator [--start_year {start}]");
-    System.err.println("       [--until_year {until}] < zones.txt");
+    System.err.println("  [--until_year {until}] [--validate_dst] < zones.txt");
     System.exit(1);
   }
 
@@ -142,10 +145,12 @@ public class TestDataGenerator {
   }
 
   /** Constructor. */
-  private TestDataGenerator(String invocation, int startYear, int untilYear) {
+  private TestDataGenerator(String invocation, int startYear, int untilYear,
+      boolean validateDst) {
     this.invocation = invocation;
     this.startYear = startYear;
     this.untilYear = untilYear;
+    this.validateDst = validateDst;
 
     this.jsonFile = "validation_data.json";
   }
@@ -290,7 +295,7 @@ public class TestDataGenerator {
       writer.printf("%s\"version\": \"%s\",\n", indent0, System.getProperty("java.version"));
       writer.printf("%s\"has_abbrev\": false,\n", indent0);
       // TODO(bpark): Check if has_valid_dst can be set to true for java.time.
-      writer.printf("%s\"has_valid_dst\": false,\n", indent0);
+      writer.printf("%s\"has_valid_dst\": %b,\n", indent0, validateDst);
       writer.printf("%s\"test_data\": {\n", indent0);
 
       // Print each zone
@@ -345,6 +350,7 @@ public class TestDataGenerator {
   private final String invocation;
   private final int startYear;
   private final int untilYear;
+  private final boolean validateDst;
 
   // derived parameters
   private final String jsonFile;;
