@@ -531,13 +531,17 @@ public class TestDataGenerator {
       int zoneCount = 1;
       int numZones = testData.size();
       for (Map.Entry<String, List<TestItem>> entry : testData.entrySet()) {
+        List<TestItem> items = entry.getValue();
+        if (items == null) {
+          zoneCount++;
+          continue;
+        }
+
+        // Print the zone name
         String indent1 = indent0 + indentUnit;
         writer.printf("%s\"%s\": [\n", indent1, entry.getKey());
 
-        List<TestItem> items = entry.getValue();
-        if (items == null) continue;
-
-        // Print each testItem
+        // Print the testItems of the zone
         int itemCount = 1;
         for (TestItem item : items) {
           String indent2 = indent1 + indentUnit;
