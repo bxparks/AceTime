@@ -100,14 +100,9 @@ zones.txt
    |         pytz                                |
    |          |                                  |
    |          v                                  |
-   |   tdgenerator.py                            |
-   |          |                                  |
-   |          v                                  |
-   | jsonvalgenerator.py                         |
-   |          |                                  |
-   |          |    validation/data.py            |
-   |          |     /                            |
-   |          v    v                             |
+   |   tdgenerator.py   validation/data.py       |
+   |          |         /                        |
+   |          v        v                         |
    +----> compare_pytz/test_data_generator.py--> +
                                                 /
                                                /

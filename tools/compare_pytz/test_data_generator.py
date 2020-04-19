@@ -19,7 +19,7 @@ $ ./test_data_generator.py \
 """
 
 import sys
-from os.path import (dirname, abspath)
+from os.path import (join, dirname, abspath)
 
 # Insert the parent directory into the sys.path so that this script can pretend
 # to be running from the parent diretory and have access to all the python
@@ -32,35 +32,51 @@ from os.path import (dirname, abspath)
 sys.path.insert(1, dirname(dirname(abspath(__file__))))  # noqa
 
 import logging
+import json
 from argparse import ArgumentParser
 from typing import List
 
 # Can't use relative import (.tdgenerator) here because PEP 3122 got rejected
 # https://mail.python.org/pipermail/python-3000/2007-April/006793.html.
 from compare_pytz.tdgenerator import TestDataGenerator
-from compare_pytz.jsonvalgenerator import JsonValidationGenerator
 
 
-def generate(
-    invocation: str,
-    tz_version: str,
-    scope: str,
-    start_year: int,
-    until_year: int,
-    output_dir: str,
-) -> None:
-    """Generate the validation_data.json file."""
-    zones = read_zones()
+class Generator:
+    def __init__(
+        self,
+        invocation: str,
+        tz_version: str,
+        scope: str,
+        start_year: int,
+        until_year: int,
+        output_dir: str,
+    ):
+        self.invocation = invocation
+        self.tz_version = tz_version
+        self.scope = scope
+        self.start_year = start_year
+        self.until_year = until_year
+        self.output_dir = output_dir
 
-    generator = TestDataGenerator(start_year, until_year)
-    generator.create_test_data(zones)
-    validation_data = generator.get_validation_data()
+        self.filename = 'validation_data.json'
 
-    json_generator = JsonValidationGenerator(
-        invocation=invocation,
-        tz_version=tz_version,
-        validation_data=validation_data)
-    json_generator.generate_files(output_dir)
+    def generate(self) -> None:
+        """Generate the validation_data.json file."""
+
+        # Read the zones from the STDIN
+        zones = read_zones()
+
+        # Generate the test data set.
+        test_generator = TestDataGenerator(self.start_year, self.until_year)
+        test_generator.create_test_data(zones)
+        validation_data = test_generator.get_validation_data()
+
+        # Write out the validation_data.json file.
+        full_filename = join(self.output_dir, self.filename)
+        with open(full_filename, 'w', encoding='utf-8') as output_file:
+            json.dump(validation_data, output_file, indent=2)
+            print(file=output_file)  # add terminating newline
+        logging.info("Created %s", full_filename)
 
 
 def read_zones() -> List[str]:
@@ -117,7 +133,7 @@ def main() -> None:
 
     invocation = ' '.join(sys.argv)
 
-    generate(
+    generator = Generator(
         invocation=invocation,
         tz_version=args.tz_version,
         scope=args.scope,
@@ -125,6 +141,7 @@ def main() -> None:
         until_year=args.until_year,
         output_dir=args.output_dir,
     )
+    generator.generate()
 
 
 if __name__ == '__main__':
