@@ -27,6 +27,8 @@ include ../../../../UnixHostDuino/UnixHostDuino.mk
 runtests:
 	./$(APP_NAME).out
 
+# Define the scope of the test data.
+SCOPE = extended
 TZ_VERSION = 2019c
 START_YEAR = 1974
 UNTIL_YEAR = 2050
@@ -35,22 +37,16 @@ validation_data.json: zones.txt \
 ../../../tools/compare_cpp/test_data_generator.out
 	../../../tools/compare_cpp/test_data_generator.out \
 		--tz_version $(TZ_VERSION) \
-		--scope extended \
-		--db_namespace $(DB_NAMESPACE) \
-		--format json \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
 		< zones.txt
 
-validation_data.cpp: zones.txt \
-../../../tools/compare_cpp/test_data_generator.out
-	../../../tools/compare_cpp/test_data_generator.out \
+validation_data.cpp: validation_data.json
+	../../../tools/generate_validation.py \
 		--tz_version $(TZ_VERSION) \
-		--scope extended \
+		--scope $(SCOPE) \
 		--db_namespace $(DB_NAMESPACE) \
-		--start_year $(START_YEAR) \
-		--until_year $(UNTIL_YEAR) \
-		< zones.txt
+		< validation_data.json
 
 ../../../tools/compare_cpp/test_data_generator.out:
 	make -C ../../../tools/compare_cpp/
@@ -59,7 +55,7 @@ zones.txt:
 	../../../tools/tzcompiler.sh \
 		--tag $(TZ_VERSION) \
 		--action zonelist \
-		--scope extended \
+		--scope $(SCOPE) \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
 
@@ -75,7 +71,7 @@ $(DB_NAMESPACE)/zone_infos.h:
 		--tag $(TZ_VERSION) \
 		--action zonedb \
 		--language arduino \
-		--scope extended \
+		--scope $(SCOPE) \
 		--db_namespace $(DB_NAMESPACE) \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)

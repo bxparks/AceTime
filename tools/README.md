@@ -79,50 +79,41 @@ The `zones.txt` from the `tzcompiler.py` determines the time zones which
 should be processed by the various `compare_xxx` scripts:
 
 ```
-   zones.txt [from tzcompiler.py]
-      |
-      |  (compare_java/):
-      |
-      |         java.time
-      |            |
-      |            v
-      +--> TestDataGenerator.java
-      |           /             \
-      |          v               v
-      |  validation_data.{h,cpp} validation_data.json
-      |  validation_tests.cpp
-      |
-      |
-      |  (compare_cpp/):
-      |
-      |       Hinnant date
-      |         |
-      |         v
-      +--> test_data_generator.cpp
-      |         /               \
-      |        v                 v
-      | validation_data.{h,cpp}  validation_data.json
-      | validation_tests.cpp
-      |
-      |
-      |  (compare_pytz/):
-      |
-      |               pytz
-      |                |
-      |                v
-      |         tdgenerator.py
-      |             /     \
-      |            v       v
-      | arvalgenerator.py  jsonvalgenerator.py
-      |          |             |
-      |          |             |    validation/data.py
-      |          |             |     /
-      |          v             v    v
-      +----->  test_data_generator.py
-                /               \
-               v                 v
-      validation_data.{h,cpp}  validation_data.json
-      validation_tests.cpp
+tzcompiler.py
+   |
+   v
+zones.txt
+   |
+   |     java.time
+   |        |
+   |        v
+   +--> compare_java/TestDataGenerator.java -----.
+   |                                             |
+   |                                             |
+   |                                             |
+   |    Hinnant/date                             |
+   |        |                                    |
+   |        v                                    |
+   +--> compare_cpp/test_data_generator.cpp ---> +
+   |                                             |
+   |                                             |
+   |         pytz                                |
+   |          |                                  |
+   |          v                                  |
+   |   tdgenerator.py   validation/data.py       |
+   |          |         /                        |
+   |          v        v                         |
+   +----> compare_pytz/test_data_generator.py--> +
+                                                /
+                                               /
+        validation_data.json <----------------/
+                |
+                v
+        generate_validation.py
+                |
+                v
+       validation_data.{h,cpp}
+       validation_tests.cpp
 ```
 
 ## Interactive Validation

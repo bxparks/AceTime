@@ -4,22 +4,18 @@
 #
 # MIT License
 #
-# Generate the validation_data.{h,cpp} and validation_test.cpp files
-# given the 'zones.txt' file from the tzcompiler.py.
-#
-# Usage
-# $ ./test_data_generator.py \
-#   --scope (basic | extended) \
-#   --tz_version {version}
-#   [--db_namespace {db}] \
-#   [--start_year start] \
-#   [--until_year until] \
-#   [--format (json|cpp)]
-#   < zones.txt
-#
+"""
+Generate the 'validation_data.json' containing the validation test data from
+the pytz (using .tdgenerator.TestDataGenerator) given the 'zones.txt' file
+from the tzcompiler.py.
+
+Usage
+$ ./test_data_generator.py [--start_year start] [--until_year until] \
+  < zones.txt
+"""
 
 import sys
-from os.path import (dirname, abspath)
+from os.path import (join, dirname, abspath)
 
 # Insert the parent directory into the sys.path so that this script can pretend
 # to be running from the parent diretory and have access to all the python
@@ -32,48 +28,47 @@ from os.path import (dirname, abspath)
 sys.path.insert(1, dirname(dirname(abspath(__file__))))  # noqa
 
 import logging
+import json
 from argparse import ArgumentParser
 from typing import List
 
 # Can't use relative import (.tdgenerator) here because PEP 3122 got rejected
 # https://mail.python.org/pipermail/python-3000/2007-April/006793.html.
 from compare_pytz.tdgenerator import TestDataGenerator
-from compare_pytz.jsonvalgenerator import JsonValidationGenerator
-from validation.arvalgenerator import ArduinoValidationGenerator
 
 
-def generate(
-    invocation: str,
-    tz_version: str,
-    scope: str,
-    db_namespace: str,
-    start_year: int,
-    until_year: int,
-    format: str,
-    output_dir: str,
-) -> None:
-    """Generate the validation_*.* files."""
-    zones = read_zones()
+class Generator:
+    def __init__(
+        self,
+        invocation: str,
+        start_year: int,
+        until_year: int,
+        output_dir: str,
+    ):
+        self.invocation = invocation
+        self.start_year = start_year
+        self.until_year = until_year
+        self.output_dir = output_dir
 
-    generator = TestDataGenerator(start_year, until_year)
-    generator.create_test_data(zones)
-    validation_data = generator.get_validation_data()
+        self.filename = 'validation_data.json'
 
-    if format == 'cpp':
-        arval_generator = ArduinoValidationGenerator(
-            invocation=invocation,
-            tz_version=tz_version,
-            scope=scope,
-            db_namespace=db_namespace,
-            validation_data=validation_data,
-        )
-        arval_generator.generate_files(output_dir)
-    else:
-        json_generator = JsonValidationGenerator(
-            invocation=invocation,
-            tz_version=tz_version,
-            validation_data=validation_data)
-        json_generator.generate_files(output_dir)
+    def generate(self) -> None:
+        """Generate the validation_data.json file."""
+
+        # Read the zones from the STDIN
+        zones = read_zones()
+
+        # Generate the test data set.
+        test_generator = TestDataGenerator(self.start_year, self.until_year)
+        test_generator.create_test_data(zones)
+        validation_data = test_generator.get_validation_data()
+
+        # Write out the validation_data.json file.
+        full_filename = join(self.output_dir, self.filename)
+        with open(full_filename, 'w', encoding='utf-8') as output_file:
+            json.dump(validation_data, output_file, indent=2)
+            print(file=output_file)  # add terminating newline
+        logging.info("Created %s", full_filename)
 
 
 def read_zones() -> List[str]:
@@ -92,25 +87,6 @@ def read_zones() -> List[str]:
 def main() -> None:
     parser = ArgumentParser(description='Generate Test Data.')
 
-    # Scope (of the zones in the database):
-    # basic: 241 of the simpler time zones for BasicZoneSpecifier
-    # extended: all 348 time zones for ExtendedZoneSpecifier
-    # TODO: Remove, does not seem to be needed.
-    parser.add_argument(
-        '--scope',
-        help='Size of the generated database (basic|extended)',
-        required=True)
-
-    # C++ namespace names for language=arduino. If not specified, it will
-    # automatically be set to 'zonedb' or 'zonedbx' depending on the 'scope'.
-    parser.add_argument(
-        '--db_namespace',
-        help='C++ namespace for the zonedb files (default: zonedb or zonedbx)')
-
-    # Options for file generators
-    parser.add_argument(
-        '--tz_version', help='Version string of the TZ files', required=True)
-
     parser.add_argument(
         '--start_year',
         help='Start year of validation (default: start_year)',
@@ -121,14 +97,6 @@ def main() -> None:
         help='Until year of validation (default: 2038)',
         type=int,
         default=2038)
-
-    # Ouput format
-    parser.add_argument(
-        '--format',
-        help='Output format',
-        choices=('json', 'cpp'),
-        default='cpp',
-    )
 
     # Optional output directory.
     parser.add_argument(
@@ -144,16 +112,13 @@ def main() -> None:
 
     invocation = ' '.join(sys.argv)
 
-    generate(
+    generator = Generator(
         invocation=invocation,
-        tz_version=args.tz_version,
-        scope=args.scope,
-        db_namespace=args.db_namespace,
         start_year=args.start_year,
         until_year=args.until_year,
-        format=args.format,
         output_dir=args.output_dir,
     )
+    generator.generate()
 
 
 if __name__ == '__main__':
