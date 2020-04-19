@@ -35,7 +35,7 @@ tests:
 
 flake8:
 	flake8 . \
-		--exclude=archive,zonedb \
+		--exclude=archive,zonedbpy \
 		--count \
 		--ignore W503 \
 		--show-source \

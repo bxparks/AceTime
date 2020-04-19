@@ -1914,7 +1914,7 @@ def main() -> None:
     #
     # Note: I don't know how to add typing info to module that is dynamically
     # loaded for mypy type checking. Mark it as Any.
-    zone_infos: Any = importlib.import_module('zonedb.zone_infos')
+    zone_infos: Any = importlib.import_module('zonedbpy.zone_infos')
     zone_info = zone_infos.ZONE_INFO_MAP.get(args.zone)
     if not zone_info:
         logging.error("Zone '%s' not found", args.zone)

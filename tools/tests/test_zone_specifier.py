@@ -5,10 +5,9 @@
 # MIT License
 
 import unittest
-import zonedb.zone_infos
-import zonedb.zone_policies
-# import zonedb.validation_data # reenable using zoneinfo.json?
-from validation.tdgenerator import TestItem
+from zonedbpy import zone_infos
+# from zonedbpy import validation_data # reenable using zoneinfo.json?
+# from validation.tdgenerator import TestItem
 from zone_specifier import DateTuple
 from zone_specifier import Transition
 from zone_specifier import ZoneMatch
@@ -18,25 +17,26 @@ from zone_specifier import _compare_transition_to_match
 from zone_specifier import _compare_transition_to_match_fuzzy
 
 
-class TestValidationData(unittest.TestCase):
-    @unittest.skip("zonedb/validation_data.py not generated")
-    def test_validation_data(self) -> None:
-        test_data = zonedb.validation_data.VALIDATION_DATA[
-            'America/Los_Angeles']
-        self.assertTrue(isinstance(test_data[0], TestItem))
-
-    @unittest.skip("zonedb/validation_data.py not generated")
-    def test_zone_specifier_using_validation_data(self) -> None:
-        for name, items in zonedb.validation_data.VALIDATION_DATA.items():
-            zone_info = zonedb.zone_infos.ZONE_INFO_MAP[name]
-            zone_specifier = ZoneSpecifier(zone_info, viewing_months=14)
-            for item in items:
-                info = zone_specifier.get_timezone_info_for_seconds(item.epoch)
-                self.assertEqual(
-                    item.total_offset * 60, info.total_offset,
-                    ('Zone %s; epoch:%s; %04d-%02d-%02d %02d:%02d:%02d' %
-                     (name, item.epoch, item.y, item.M, item.d, item.h, item.m,
-                      item.s)))
+# class TestValidationData(unittest.TestCase):
+#     @unittest.skip("zonedb/validation_data.py not generated")
+#     def test_validation_data(self) -> None:
+#         test_data = validation_data.VALIDATION_DATA[
+#             'America/Los_Angeles']
+#         self.assertTrue(isinstance(test_data[0], TestItem))
+#
+#     @unittest.skip("zonedb/validation_data.py not generated")
+#     def test_zone_specifier_using_validation_data(self) -> None:
+#         for name, items in validation_data.VALIDATION_DATA.items():
+#             zone_info = zone_infos.ZONE_INFO_MAP[name]
+#             zone_specifier = ZoneSpecifier(zone_info, viewing_months=14)
+#             for item in items:
+#                 info = zone_specifier.get_timezone_info_for_seconds(
+#                       item.epoch)
+#                 self.assertEqual(
+#                     item.total_offset * 60, info.total_offset,
+#                     ('Zone %s; epoch:%s; %04d-%02d-%02d %02d:%02d:%02d' %
+#                      (name, item.epoch, item.y, item.M, item.d, item.h,
+#                       item.m, item.s)))
 
 
 class TestZoneSpecifierHelperMethods(unittest.TestCase):
@@ -189,7 +189,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         """America/Los_Angela uses a simple US rule.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_America_Los_Angeles, viewing_months=14)
+            zone_infos.ZONE_INFO_America_Los_Angeles, viewing_months=14)
         zone_specifier.init_for_year(2000)
 
         matches = zone_specifier.matches
@@ -232,7 +232,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         1977, then switched back in 2006, then switched back again in 2007.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_America_Indiana_Petersburg,
+            zone_infos.ZONE_INFO_America_Indiana_Petersburg,
             viewing_months=14)
         zone_specifier.init_for_year(2006)
 
@@ -281,7 +281,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         """Europe/London uses a EU which has a 'u' in the AT field.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_Europe_London, viewing_months=14)
+            zone_infos.ZONE_INFO_Europe_London, viewing_months=14)
         zone_specifier.init_for_year(2000)
 
         matches = zone_specifier.matches
@@ -326,7 +326,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         in the Rule.AT field.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_America_Winnipeg, viewing_months=14)
+            zone_infos.ZONE_INFO_America_Winnipeg, viewing_months=14)
         zone_specifier.init_for_year(2005)
 
         matches = zone_specifier.matches
@@ -381,7 +381,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         """Europe/Moscow uses 's' in the Zone UNTIL field.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_Europe_Moscow, viewing_months=14)
+            zone_infos.ZONE_INFO_Europe_Moscow, viewing_months=14)
         zone_specifier.init_for_year(2011)
 
         matches = zone_specifier.matches
@@ -422,7 +422,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         """Asia/Famagusta uses 'u' in the Zone UNTIL field.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_Asia_Famagusta, viewing_months=14)
+            zone_infos.ZONE_INFO_Asia_Famagusta, viewing_months=14)
         zone_specifier.init_for_year(2017)
 
         matches = zone_specifier.matches
@@ -463,7 +463,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         """America/Santo_Domingo uses 2 ZoneEra changes in year 2000.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_America_Santo_Domingo,
+            zone_infos.ZONE_INFO_America_Santo_Domingo,
             viewing_months=14)
         zone_specifier.init_for_year(2000)
 
@@ -520,7 +520,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         """America/Moncton transitioned DST at 00:01 through 2006.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_America_Moncton, viewing_months=14)
+            zone_infos.ZONE_INFO_America_Moncton, viewing_months=14)
         zone_specifier.init_for_year(2006)
 
         matches = zone_specifier.matches
@@ -577,7 +577,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         """Europe/Istanbul uses an 'hh:mm' offset in the RULES field in 2015.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_Europe_Istanbul, viewing_months=14)
+            zone_infos.ZONE_INFO_Europe_Istanbul, viewing_months=14)
         zone_specifier.init_for_year(2015)
 
         matches = zone_specifier.matches
@@ -642,7 +642,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         """Europe/Dublin uses negative DST during Winter.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_Europe_Dublin, viewing_months=14)
+            zone_infos.ZONE_INFO_Europe_Dublin, viewing_months=14)
         zone_specifier.init_for_year(2000)
 
         matches = zone_specifier.matches
@@ -688,7 +688,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         December 2011 00:00:00 Hours.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_Pacific_Apia, viewing_months=14)
+            zone_infos.ZONE_INFO_Pacific_Apia, viewing_months=14)
         zone_specifier.init_for_year(2011)
 
         matches = zone_specifier.matches
@@ -747,7 +747,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         the same point in time.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_Antarctica_Macquarie,
+            zone_infos.ZONE_INFO_Antarctica_Macquarie,
             viewing_months=14)
         zone_specifier.init_for_year(2010)
 
@@ -789,7 +789,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         switch to Moscow time.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_Europe_Simferopol, viewing_months=14)
+            zone_infos.ZONE_INFO_Europe_Simferopol, viewing_months=14)
         zone_specifier.init_for_year(2014)
 
         matches = zone_specifier.matches
@@ -845,7 +845,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         """Asia/Kamchatka uses 's' in the Zone UNTIL and Rule AT fields.
         """
         zone_specifier = ZoneSpecifier(
-            zonedb.zone_infos.ZONE_INFO_Asia_Kamchatka, viewing_months=14)
+            zone_infos.ZONE_INFO_Asia_Kamchatka, viewing_months=14)
         zone_specifier.init_for_year(2011)
 
         matches = zone_specifier.matches

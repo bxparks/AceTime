@@ -125,7 +125,7 @@ ZONE_POLICY_{policyName} = {{
 #
 # DO NOT EDIT
 
-from zonedb.zone_policies import *
+from .zone_policies import *
 
 # numInfos: {numInfos}
 # numEras: {numEras}
