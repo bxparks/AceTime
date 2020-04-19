@@ -11,8 +11,10 @@ type can be serialized to JSON directly. The JSON looks like:
   'source': str,
   'version': str,
   'has_abbrev': bool,
-  'test_data': [
-    {
+  'has_valid_dst': bool,
+  'test_data': {
+    '{zone_name}: [
+      {
       'epoch': int,
       'total_offset': int,
       'dst_offset': int,
@@ -23,8 +25,11 @@ type can be serialized to JSON directly. The JSON looks like:
       'm': int,
       's': int,
       'type', str,
-    }
-  ]
+      },
+      [...]
+    ],
+    [...]
+  }
 }
 """
 
