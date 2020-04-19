@@ -62,7 +62,7 @@ from transformer import Transformer
 from argenerator import ArduinoGenerator
 from tzdbgenerator import TzDbGenerator, TzDb
 from pygenerator import PythonGenerator
-from ingenerator import InlineGenerator, ZoneInfoMap, ZonePolicyMap
+from ingenerator import InlineGenerator
 from zonelistgenerator import ZoneListGenerator
 from bufestimator import BufSizeEstimator
 
@@ -79,25 +79,34 @@ def generate_zonedb(
     output_dir: str,
     generate_zone_strings: bool,
     tzdb: TzDb,
-    zone_infos: ZoneInfoMap,
-    zone_policies: ZonePolicyMap,
 ) -> None:
+
+    logging.info('======== Generating zonedb files')
+
+    # Generate internal versions of zone_infos and zone_policies
+    # so that ZoneSpecifier can be created.
+    logging.info('==== Generating inlined zone_infos and zone_policies')
+    inline_generator = InlineGenerator(tzdb['zones_map'], tzdb['rules_map'])
+    (zone_infos, zone_policies) = inline_generator.generate_maps()
+    logging.info(
+        'zone_infos=%d; zone_policies=%d',
+        len(zone_infos), len(zone_policies))
 
     generator: Generator
 
-    # Create the Python or Arduino files if requested
+    # Create the Python or Arduino files as requested
     if not output_dir:
         logging.error('Must provide --output_dir to generate zonedb files')
         sys.exit(1)
     if language == 'python':
-        logging.info('======== Creating Python zonedb files')
+        logging.info('==== Creating Python zonedb files')
         generator = PythonGenerator(
             invocation=invocation,
             tzdb=tzdb,
         )
         generator.generate_files(output_dir)
     elif language == 'arduino':
-        logging.info('======== Creating Arduino zonedb files')
+        logging.info('==== Creating Arduino zonedb files')
 
         # Determine zonedb C++ namespace
         # TODO: Maybe move this into ArduinoGenerator?
@@ -339,15 +348,6 @@ def main() -> None:
     )
     tzdb = tzdb_generator.get_data()
 
-    # Generate internal versions of zone_infos and zone_policies
-    # so that ZoneSpecifier can be created.
-    logging.info('======== Generating inlined zone_infos and zone_policies')
-    inline_generator = InlineGenerator(zones_map, rules_map)
-    (zone_infos, zone_policies) = inline_generator.generate_maps()
-    logging.info(
-        'zone_infos=%d; zone_policies=%d',
-        len(zone_infos), len(zone_policies))
-
     for action in actions:
         if action == 'zonedb':
             generate_zonedb(
@@ -357,8 +357,6 @@ def main() -> None:
                 output_dir=args.output_dir,
                 generate_zone_strings=args.generate_zone_strings,
                 tzdb=tzdb,
-                zone_infos=zone_infos,
-                zone_policies=zone_policies,
             )
         elif action == 'tzdb':
             logging.info('======== Creating JSON zonedb files')
