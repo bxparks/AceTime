@@ -16,34 +16,36 @@ debugging. See the examples below.
 Examples:
 
     # America/Los_Angeles for 2018-03-10T02:00:00
-    $ ./zone_specifier.py --zone Los_Angeles --date 2019-03-10T01:59
+    $ ./zone_specifier.py --zone America/Los_Angeles --date 2019-03-10T01:59
     UTC-08:00+00:00 (PST)
 
-    $ ./zone_specifier.py --zone Los_Angeles --date 2019-03-10T02:00
+    $ ./zone_specifier.py --zone America/Los_Angeles --date 2019-03-10T02:00
     Invalid time
 
-    $ ./zone_specifier.py --zone Los_Angeles --date 2019-03-10T03:00
+    $ ./zone_specifier.py --zone America/Los_Angeles --date 2019-03-10T03:00
     UTC-08:00+01:00 (PDT)
 
-    $ ./zone_specifier.py --zone Los_Angeles --date 2019-11-03T01:00
+    $ ./zone_specifier.py --zone America/Los_Angeles --date 2019-11-03T01:00
     UTC-08:00+01:00 (PDT)
 
-    $ ./zone_specifier.py --zone Los_Angeles --date 2019-11-03T01:59
+    $ ./zone_specifier.py --zone America/Los_Angeles --date 2019-11-03T01:59
     UTC-08:00+01:00 (PDT)
 
-    $ ./zone_specifier.py --zone Los_Angeles --date 2019-11-03T02:00
+    $ ./zone_specifier.py --zone America/Los_Angeles --date 2019-11-03T02:00
     UTC-08:00+00:00 (PST)
 
     # America/Indiana/Petersburg for the year 2006.
-    $ ./zone_specifier.py --zone Petersburg --year 2006
+    $ ./zone_specifier.py --zone America/Indiana/Petersburg --year 2006
 
     # America/Indiana/Indianapolis for the year 2006.
-    $ ./zone_specifier.py --zone Indianapolis --year 2006
+    $ ./zone_specifier.py --zone America/Indiana/Indianapolis --year 2006
 
     # Australia/Darwin for the year 2006.
-    $ ./zone_specifier.py --zone Darwin --year 2006
+    $ ./zone_specifier.py --zone Australia/Darwin --year 2006
 
-    $ ./zone_specifier.py --zone Adak --year 2000 --viewing_months 13 --debug
+    # America/Darwin for the year 2006.
+    $ ./zone_specifier.py --zone America/Adak --year 2000 --viewing_months 13 \
+        --debug
 """
 
 import sys
