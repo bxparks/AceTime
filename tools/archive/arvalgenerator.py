@@ -10,9 +10,9 @@ import logging
 import os
 import pytz
 from typing import List
-from transformer import div_to_zero
-from extractor import EPOCH_YEAR
-from transformer import normalize_name
+from tzdb.extractor import EPOCH_YEAR
+from tzdb.transformer import div_to_zero
+from tzdb.transformer import normalize_name
 from tdgenerator import TestItem
 from tdgenerator import TestData
 

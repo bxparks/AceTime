@@ -63,11 +63,10 @@ from typing import TYPE_CHECKING
 from typing import Union
 from typing import cast
 from typing_extensions import Protocol
-
-from extractor import MIN_YEAR
-from transformer import seconds_to_hms
-from transformer import hms_to_seconds
-from transformer import calc_day_of_month
+from tzdb.extractor import MIN_YEAR
+from tzdb.transformer import seconds_to_hms
+from tzdb.transformer import hms_to_seconds
+from tzdb.transformer import calc_day_of_month
 from ingenerator import ZoneRule
 from ingenerator import ZonePolicy
 from ingenerator import ZoneEra

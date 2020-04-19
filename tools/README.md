@@ -25,13 +25,13 @@ this:
                   transformer.py
                         |
                         v          [tzdb]
-      .-------- jsongenerator.py ----------> tzdb.json
+      .-------- tzdbcollector.py ----------> tzdb.json
      /             /    |    \
     /             /     |     \
    /             /      |      \ [zonedb/python]
   /             /       |       v
  /             /        |     pygenerator.py
-/             /         |           \
+/             /         v           \
 |  [zonedb/  /  ingenerator.py       v
 |  arduino] /          /        zone_infos.py
 |          /          /         zone_policies.py

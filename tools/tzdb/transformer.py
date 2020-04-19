@@ -13,15 +13,15 @@ import logging
 import sys
 import re
 import datetime
-import extractor
 from collections import OrderedDict
-from extractor import MAX_UNTIL_YEAR
-from extractor import MIN_YEAR
-from extractor import ZoneRuleRaw
-from extractor import ZoneEraRaw
-from extractor import ZonesMap
-from extractor import RulesMap
-from extractor import LinksMap
+from .extractor import MAX_UNTIL_YEAR
+from .extractor import MIN_YEAR
+from .extractor import MAX_YEAR
+from .extractor import ZoneRuleRaw
+from .extractor import ZoneEraRaw
+from .extractor import ZonesMap
+from .extractor import RulesMap
+from .extractor import LinksMap
 from typing import Dict
 from typing import List
 from typing import Optional
@@ -795,7 +795,7 @@ class Transformer:
                             current_until)
                         break
                 prev_until = current_until
-            if valid and current_until[0] != extractor.MAX_UNTIL_YEAR:
+            if valid and current_until[0] != MAX_UNTIL_YEAR:
                 valid = False
                 _add_reason(
                     removed_zones, name,
@@ -1579,7 +1579,7 @@ def find_earliest_subsequent_rules(
     """
     candidates = []
     # sentinel date later than all real Rules
-    candidate_date = (extractor.MAX_YEAR, 13)
+    candidate_date = (MAX_YEAR, 13)
     for rule in rules:
         rule_year = rule['toYear']
         rule_month = rule['inMonth']
@@ -1597,7 +1597,7 @@ def is_year_tiny(year: int) -> bool:
     """Determine if year fits in an int8_t field. MAX_YEAR(9999) is a marker for
     'max'.
     """
-    return year >= 1872 and (year == extractor.MAX_YEAR or year <= 2127)
+    return year >= 1872 and (year == MAX_YEAR or year <= 2127)
 
 
 def calc_day_of_month(

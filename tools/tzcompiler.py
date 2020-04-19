@@ -57,12 +57,12 @@ import logging
 import sys
 from typing_extensions import Protocol
 
-from extractor import Extractor
-from transformer import Transformer
+from tzdb.extractor import Extractor
+from tzdb.transformer import Transformer
+from tzdb.tzdbcollector import TzDbCollector, TzDb
 from argenerator import ArduinoGenerator
-from jsongenerator import JsonGenerator, TzDb
 from pygenerator import PythonGenerator
-from ingenerator import InlineGenerator, ZoneInfoMap, ZonePolicyMap
+from ingenerator import InlineGenerator
 from zonelistgenerator import ZoneListGenerator
 from bufestimator import BufSizeEstimator
 
@@ -79,25 +79,34 @@ def generate_zonedb(
     output_dir: str,
     generate_zone_strings: bool,
     tzdb: TzDb,
-    zone_infos: ZoneInfoMap,
-    zone_policies: ZonePolicyMap,
 ) -> None:
+
+    logging.info('======== Generating zonedb files')
+
+    # Generate internal versions of zone_infos and zone_policies
+    # so that ZoneSpecifier can be created.
+    logging.info('==== Generating inlined zone_infos and zone_policies')
+    inline_generator = InlineGenerator(tzdb['zones_map'], tzdb['rules_map'])
+    (zone_infos, zone_policies) = inline_generator.generate_maps()
+    logging.info(
+        'zone_infos=%d; zone_policies=%d',
+        len(zone_infos), len(zone_policies))
 
     generator: Generator
 
-    # Create the Python or Arduino files if requested
+    # Create the Python or Arduino files as requested
     if not output_dir:
         logging.error('Must provide --output_dir to generate zonedb files')
         sys.exit(1)
     if language == 'python':
-        logging.info('======== Creating Python zonedb files')
+        logging.info('==== Creating Python zonedb files')
         generator = PythonGenerator(
             invocation=invocation,
             tzdb=tzdb,
         )
         generator.generate_files(output_dir)
     elif language == 'arduino':
-        logging.info('======== Creating Arduino zonedb files')
+        logging.info('==== Creating Arduino zonedb files')
 
         # Determine zonedb C++ namespace
         # TODO: Maybe move this into ArduinoGenerator?
@@ -199,14 +208,13 @@ def main() -> None:
         action='store_true',
         default=False)
 
-    # Data pipeline selectors:
+    # Data pipeline selectors. Comma-separated list.
+    # tzdb: generate 'tzdb.json'
+    # zonedb: generate zonedb ('zone_infos.*', 'zone_poicies.*') files
+    # zonelist: generate 'zones.txt' containing relavant zone names
     parser.add_argument(
         '--action',
-        # tzdb: generate 'tzdb.json'
-        # zonedb: generate zonedb ('zone_infos.*', 'zone_poicies.*') files
-        # zonelist: generate 'zones.txt' containing relavant zone names
-        choices=['tzdb', 'zonedb', 'zonelist'],
-        help='Type of target to generate',
+        help='Type of target(s) to generate',
         required=True)
 
     # Language selector (for --action zonedb)
@@ -248,6 +256,13 @@ def main() -> None:
 
     # Parse the command line arguments
     args = parser.parse_args()
+
+    # Manually parse the comma-separated --action.
+    actions = set(args.action.split(','))
+    allowed_actions = set(['tzdb', 'zonedb', 'zonelist'])
+    if not actions.issubset(allowed_actions):
+        print(f'Invalid --action: {actions - allowed_actions}')
+        sys.exit(1)
 
     # Configure logging. This should normally be executed after the
     # parser.parse_args() because it allows us set the logging.level using a
@@ -310,7 +325,7 @@ def main() -> None:
     ) = transformer.get_data()
 
     # Collect TZ DB data into a single JSON-serializable object.
-    json_generator = JsonGenerator(
+    tzdb_generator = TzDbCollector(
         tz_version=args.tz_version,
         tz_files=Extractor.ZONE_FILES,
         scope=args.scope,
@@ -331,41 +346,31 @@ def main() -> None:
         format_strings=format_strings,
         zone_strings=zone_strings,
     )
-    tzdb = json_generator.get_data()
+    tzdb = tzdb_generator.get_data()
 
-    # Generate internal versions of zone_infos and zone_policies
-    # so that ZoneSpecifier can be created.
-    logging.info('======== Generating inlined zone_infos and zone_policies')
-    inline_generator = InlineGenerator(zones_map, rules_map)
-    (zone_infos, zone_policies) = inline_generator.generate_maps()
-    logging.info(
-        'zone_infos=%d; zone_policies=%d',
-        len(zone_infos), len(zone_policies))
-
-    if args.action == 'zonedb':
-        generate_zonedb(
-            invocation=invocation,
-            db_namespace=args.db_namespace,
-            language=args.language,
-            output_dir=args.output_dir,
-            generate_zone_strings=args.generate_zone_strings,
-            tzdb=tzdb,
-            zone_infos=zone_infos,
-            zone_policies=zone_policies,
-        )
-    elif args.action == 'tzdb':
-        logging.info('======== Creating JSON zonedb files')
-        json_generator.generate_files(args.output_dir)
-    elif args.action == 'zonelist':
-        logging.info('======== Creating zones.txt')
-        generator = ZoneListGenerator(
-            invocation=invocation,
-            tzdb=tzdb,
-        )
-        generator.generate_files(args.output_dir)
-    else:
-        logging.error(f"Unrecognized action '{args.action}'")
-        sys.exit(1)
+    for action in actions:
+        if action == 'zonedb':
+            generate_zonedb(
+                invocation=invocation,
+                db_namespace=args.db_namespace,
+                language=args.language,
+                output_dir=args.output_dir,
+                generate_zone_strings=args.generate_zone_strings,
+                tzdb=tzdb,
+            )
+        elif action == 'tzdb':
+            logging.info('======== Creating JSON zonedb files')
+            tzdb_generator.generate_files(args.output_dir)
+        elif action == 'zonelist':
+            logging.info('======== Creating zones.txt')
+            generator = ZoneListGenerator(
+                invocation=invocation,
+                tzdb=tzdb,
+            )
+            generator.generate_files(args.output_dir)
+        else:
+            logging.error(f"Unrecognized action '{action}'")
+            sys.exit(1)
 
     logging.info('======== Finished processing TZ Data files.')
 

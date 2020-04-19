@@ -4,7 +4,7 @@
 
 import logging
 import os
-from jsongenerator import TzDb
+from tzdb.tzdbcollector import TzDb
 
 
 class ZoneListGenerator:
