@@ -194,7 +194,6 @@ $ cd $ACE_TIME/src/ace_time/zonedbx
 $ make
 ```
 
-
 ### Generating Validation Files
 
 To generate the various `validation_data.*` files for the validation tests under
