@@ -15,7 +15,7 @@ from extractor import RulesMap
 from transformer import normalize_name
 from transformer import normalize_raw
 from transformer import CommentsMap
-from jsongenerator import TzDb
+from tzdbgenerator import TzDb
 from typing import List
 from typing import Tuple
 

@@ -33,7 +33,7 @@ from transformer import normalize_raw
 from transformer import hash_name
 from transformer import CommentsMap
 from transformer import StringCollection
-from jsongenerator import TzDb
+from tzdbgenerator import TzDb
 
 # map{policy_name: map{letter: index}}
 # With a hack to deal with mypy's confusion with OrderedDict (at least on

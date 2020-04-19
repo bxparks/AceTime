@@ -42,13 +42,12 @@ class TzDb(TypedDict):
     zone_strings: StringCollection
 
 
-class JsonGenerator:
-    """Generate a JSON output to the STDOUT that contains the result of the
-    Transformer and other meta information, which will allow downstream
-    processors to generate ZoneInfo files for any other languages or targets.
-    Existing generators (e.g. pygenerator.py, zonelistgenerator.py, even
-    argenerator.py) could potentially be rewritten to consume the JSON file
-    instead of the inlined Pythnon data structures.
+class TzDbGenerator:
+    """Collect the various data structures from parsing the TZ Database files
+    into a single TzDb data structure which can easily be exported as a JSON
+    file. Downstream processors (e.g. pygenerator.py, zonelistgenerator.py,
+    argenerator.py) can consume this single data structure to generate ZoneInfo
+    files for any other languages or targets.
     """
 
     # The output of this is called "tzdb.json" because it is the JSON

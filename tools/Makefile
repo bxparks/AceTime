@@ -8,7 +8,7 @@ compare_pytz \
 extractor.py \
 generate_validation.py \
 ingenerator.py \
-jsongenerator.py \
+tzdbgenerator.py \
 pygenerator.py \
 tests/test_extractor.py \
 tests/test_transformer.py \

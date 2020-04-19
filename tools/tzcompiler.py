@@ -60,7 +60,7 @@ from typing_extensions import Protocol
 from extractor import Extractor
 from transformer import Transformer
 from argenerator import ArduinoGenerator
-from jsongenerator import JsonGenerator, TzDb
+from tzdbgenerator import TzDbGenerator, TzDb
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator, ZoneInfoMap, ZonePolicyMap
 from zonelistgenerator import ZoneListGenerator
@@ -310,7 +310,7 @@ def main() -> None:
     ) = transformer.get_data()
 
     # Collect TZ DB data into a single JSON-serializable object.
-    json_generator = JsonGenerator(
+    tzdb_generator = TzDbGenerator(
         tz_version=args.tz_version,
         tz_files=Extractor.ZONE_FILES,
         scope=args.scope,
@@ -331,7 +331,7 @@ def main() -> None:
         format_strings=format_strings,
         zone_strings=zone_strings,
     )
-    tzdb = json_generator.get_data()
+    tzdb = tzdb_generator.get_data()
 
     # Generate internal versions of zone_infos and zone_policies
     # so that ZoneSpecifier can be created.
@@ -355,7 +355,7 @@ def main() -> None:
         )
     elif args.action == 'tzdb':
         logging.info('======== Creating JSON zonedb files')
-        json_generator.generate_files(args.output_dir)
+        tzdb_generator.generate_files(args.output_dir)
     elif args.action == 'zonelist':
         logging.info('======== Creating zones.txt')
         generator = ZoneListGenerator(
