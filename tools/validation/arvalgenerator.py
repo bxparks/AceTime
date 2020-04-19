@@ -197,7 +197,8 @@ const testing::ValidationData kValidationData{normalized_name} = {{
             hour = test_item['h']
             minute = test_item['m']
             second = test_item['s']
-            abbrev = test_item['abbrev'] or 'nullptr'
+            abbrev_value = test_item['abbrev']
+            abbrev = f'"{abbrev_value}"' if abbrev_value else 'nullptr'
             tag = test_item['type']
 
             test_item = f"""\
