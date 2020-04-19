@@ -16,6 +16,7 @@ tzdb/transformer.py \
 tzdb/tzdbcollector.py \
 validate.py \
 validation \
+zinfo.py \
 zone_specifier.py \
 zonelistgenerator.py
 

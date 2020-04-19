@@ -38,7 +38,7 @@ this:
 |         /          /          zone_strings.py
 |        /          v                |
 |       / zone_specifier.py          v
-|      /           /            zone_specifier.py
+|      /           /            zinfo.py
 |     /           v
 |     |   bufestimator.py
 |     |      /
@@ -139,10 +139,10 @@ into `validate.py`):
          v
    ingenerator.py
        /  \
-      /    v             pytz
-     | zone_specifier.py /
-     |      \           /
-     |       v         v
+      /    v              pytz
+     | zone_specifier.py  /
+     |      \            /
+     |       v          v
      |   validation/tdgenerator.py
      .                \
       \                \
