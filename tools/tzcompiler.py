@@ -199,14 +199,13 @@ def main() -> None:
         action='store_true',
         default=False)
 
-    # Data pipeline selectors:
+    # Data pipeline selectors. Comma-separated list.
+    # tzdb: generate 'tzdb.json'
+    # zonedb: generate zonedb ('zone_infos.*', 'zone_poicies.*') files
+    # zonelist: generate 'zones.txt' containing relavant zone names
     parser.add_argument(
         '--action',
-        # tzdb: generate 'tzdb.json'
-        # zonedb: generate zonedb ('zone_infos.*', 'zone_poicies.*') files
-        # zonelist: generate 'zones.txt' containing relavant zone names
-        choices=['tzdb', 'zonedb', 'zonelist'],
-        help='Type of target to generate',
+        help='Type of target(s) to generate',
         required=True)
 
     # Language selector (for --action zonedb)
@@ -248,6 +247,13 @@ def main() -> None:
 
     # Parse the command line arguments
     args = parser.parse_args()
+
+    # Manually parse the comma-separated --action.
+    actions = set(args.action.split(','))
+    allowed_actions = set(['tzdb', 'zonedb', 'zonelist'])
+    if not actions.issubset(allowed_actions):
+        print(f'Invalid --action: {actions - allowed_actions}')
+        sys.exit(1)
 
     # Configure logging. This should normally be executed after the
     # parser.parse_args() because it allows us set the logging.level using a
@@ -342,30 +348,31 @@ def main() -> None:
         'zone_infos=%d; zone_policies=%d',
         len(zone_infos), len(zone_policies))
 
-    if args.action == 'zonedb':
-        generate_zonedb(
-            invocation=invocation,
-            db_namespace=args.db_namespace,
-            language=args.language,
-            output_dir=args.output_dir,
-            generate_zone_strings=args.generate_zone_strings,
-            tzdb=tzdb,
-            zone_infos=zone_infos,
-            zone_policies=zone_policies,
-        )
-    elif args.action == 'tzdb':
-        logging.info('======== Creating JSON zonedb files')
-        tzdb_generator.generate_files(args.output_dir)
-    elif args.action == 'zonelist':
-        logging.info('======== Creating zones.txt')
-        generator = ZoneListGenerator(
-            invocation=invocation,
-            tzdb=tzdb,
-        )
-        generator.generate_files(args.output_dir)
-    else:
-        logging.error(f"Unrecognized action '{args.action}'")
-        sys.exit(1)
+    for action in actions:
+        if action == 'zonedb':
+            generate_zonedb(
+                invocation=invocation,
+                db_namespace=args.db_namespace,
+                language=args.language,
+                output_dir=args.output_dir,
+                generate_zone_strings=args.generate_zone_strings,
+                tzdb=tzdb,
+                zone_infos=zone_infos,
+                zone_policies=zone_policies,
+            )
+        elif action == 'tzdb':
+            logging.info('======== Creating JSON zonedb files')
+            tzdb_generator.generate_files(args.output_dir)
+        elif action == 'zonelist':
+            logging.info('======== Creating zones.txt')
+            generator = ZoneListGenerator(
+                invocation=invocation,
+                tzdb=tzdb,
+            )
+            generator.generate_files(args.output_dir)
+        else:
+            logging.error(f"Unrecognized action '{action}'")
+            sys.exit(1)
 
     logging.info('======== Finished processing TZ Data files.')
 
