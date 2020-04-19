@@ -10,7 +10,6 @@
  *    [--db_namespace {db}] \
  *    [--start_year start] \
  *    [--until_year until] \
- *    [--format (cpp|json)] \
  *    < zones.txt
  */
 
@@ -64,8 +63,6 @@ const char VALIDATION_DATA_JSON[] = "validation_data.json";
 
 // Command line arguments
 string scope = "";
-string dbNamespace = "";
-bool isCustomDbNamespace;
 int startYear = 2000;
 int untilYear = 2050;
 
@@ -261,41 +258,6 @@ vector<string> readZones() {
   return zones;
 }
 
-/**
- * Replace all occurences of 'from' string to 'to' string.
- * See https://stackoverflow.com/questions/2896600.
- */
-void replaceAll(string& source, const string& from, const string& to) {
-	string newString;
-	newString.reserve(source.length());  // avoids a few memory allocations
-
-	string::size_type lastPos = 0;
-	string::size_type findPos;
-
-	while(string::npos != (findPos = source.find(from, lastPos))) {
-			newString.append(source, lastPos, findPos - lastPos);
-			newString += to;
-			lastPos = findPos + from.length();
-	}
-
-	// Care for the rest after last occurrence
-	newString += source.substr(lastPos);
-
-	source.swap(newString);
-}
-
-/**
- * Convert "America/Los_Angeles" into an identifier that can be used in a C/C++
- * variable, is "America_Los_Angeles". Uses the same algorithm as the
- * argenerator.py script.
- */
-string normalizeName(const string& name) {
-  string tmp = name;
-  replaceAll(tmp, "+", "_PLUS_");
-	replaceAll(tmp, "-", "_");
-  return regex_replace(tmp, regex("[^0-9a-zA-Z]"), "_");
-}
-
 /** Sort the TestItems according to epochSeconds. */
 void sortTestData(TestData& testData) {
   for (auto& p : testData) {
@@ -305,164 +267,6 @@ void sortTestData(TestData& testData) {
       }
     );
   }
-}
-
-void printTestItem(FILE* fp, const TestItem& item) {
-  fprintf(fp,
-      "  { %10ld, %4d, %4d, %4d, %2u, %2u, %2d, %2d, %2d, \"%s\" }, "
-      " // type=%c\n",
-      item.epochSeconds,
-      item.utcOffset / 60,
-      item.dstOffset / 60,
-      item.year,
-      item.month,
-      item.day,
-      item.hour,
-      item.minute,
-      item.second,
-      item.abbrev.c_str(),
-      item.type);
-}
-
-/** Generate the validation_data.cpp file for timezone tz. */
-void printDataCpp(const TestData& testData) {
-  FILE* fp = fopen(VALIDATION_DATA_CPP, "w");
-
-  fprintf(fp,
-      "// This is an auto-generated file using the Hinnant Date Library.\n");
-  fprintf(fp, "// TZ Database version: %s\n", date::get_tzdb().version.c_str());
-  fprintf(fp, "// DO NOT EDIT\n");
-  fprintf(fp, "\n");
-  fprintf(fp, "#include <ace_time/testing/ValidationDataType.h>\n");
-  fprintf(fp, "#include \"validation_data.h\"\n");
-  fprintf(fp, "\n");
-  fprintf(fp, "namespace ace_time {\n");
-  fprintf(fp, "namespace %s {\n", dbNamespace.c_str());
-  fprintf(fp, "\n");
-
-  for (const auto& p : testData) {
-    const string& zoneName = p.first;
-    const string normalizedName = normalizeName(zoneName);
-    const vector<TestItem>& testItems = p.second;
-
-    fprintf(fp,
-    "//--------------------------------------------------------------------\n");
-    fprintf(fp, "// Zone name: %s\n", zoneName.c_str());
-    fprintf(fp,
-    "//--------------------------------------------------------------------\n");
-    fprintf(fp, "\n");
-
-    fprintf(fp,
-        "static const testing::ValidationItem kValidationItems%s[] = {\n",
-        normalizedName.c_str());
-    fprintf(fp,
-      "  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s, abbrev\n");
-    for (const TestItem& item : testItems) {
-      printTestItem(fp, item);
-    }
-    fprintf(fp, "};\n");
-    fprintf(fp, "\n");
-
-    fprintf(fp, "const testing::ValidationData kValidationData%s = {\n",
-        normalizedName.c_str());
-    fprintf(fp, "  %lu /*numItems*/,\n", testItems.size());
-    fprintf(fp, "  kValidationItems%s /*items*/,\n", normalizedName.c_str());
-    fprintf(fp, "};\n");
-    fprintf(fp, "\n");
-  }
-  fprintf(fp, "}\n");
-  fprintf(fp, "}\n");
-
-  fclose(fp);
-}
-
-/** Create validation_data.h file. */
-void printDataHeader(const TestData& testData) {
-  FILE* fp = fopen(VALIDATION_DATA_H, "w");
-
-  fprintf(fp,
-      "// This is an auto-generated file using the Hinnant Date Library.\n");
-  fprintf(fp, "// TZ Database version: %s\n", date::get_tzdb().version.c_str());
-  fprintf(fp, "// DO NOT EDIT\n");
-  fprintf(fp, "\n");
-  fprintf(fp, "#ifndef ACE_TIME_VALIDATION_TEST_VALIDATION_DATA_H\n");
-  fprintf(fp, "#define ACE_TIME_VALIDATION_TEST_VALIDATION_DATA_H\n");
-  fprintf(fp, "\n");
-  fprintf(fp, "#include <ace_time/testing/ValidationDataType.h>\n");
-  fprintf(fp, "\n");
-  fprintf(fp, "namespace ace_time {\n");
-  fprintf(fp, "namespace %s {\n", dbNamespace.c_str());
-  fprintf(fp, "\n");
-
-  fprintf(fp, "// numZones: %lu\n", testData.size());
-  for (const auto& p : testData) {
-    const string& zoneName = p.first;
-    const string normalizedName = normalizeName(zoneName);
-    fprintf(fp, "extern const testing::ValidationData kValidationData%s;\n",
-      normalizedName.c_str());
-  }
-
-  fprintf(fp, "\n");
-  fprintf(fp, "}\n");
-  fprintf(fp, "}\n");
-  fprintf(fp, "\n");
-  fprintf(fp, "#endif\n");
-
-  fclose(fp);
-}
-
-/** Create validation_tests.cpp file. */
-void printTestsCpp(const TestData& testData) {
-  FILE* fp = fopen(VALIDATION_TESTS_CPP, "w");
-
-  fprintf(fp,
-      "// This is an auto-generated file using the Hinnant Date Library.\n");
-  fprintf(fp, "// TZ Database version: %s\n", date::get_tzdb().version.c_str());
-  fprintf(fp, "// DO NOT EDIT\n");
-  fprintf(fp, "\n");
-
-  fprintf(fp, "#include <AUnit.h>\n");
-  const char* testClass = (scope == "basic")
-      ? "BasicTransitionTest"
-      : "ExtendedTransitionTest";
-  fprintf(fp, "#include <ace_time/testing/%s.h>\n", testClass);
-  fprintf(fp, "#include \"validation_data.h\"\n");
-  if (isCustomDbNamespace) {
-    fprintf(fp, "#include \"%s/zone_infos.h\"\n", dbNamespace.c_str());
-    fprintf(fp, "#include \"%s/zone_policies.h\"\n", dbNamespace.c_str());
-  }
-  fprintf(fp, "\n");
-
-  fprintf(fp, "using namespace ace_time::testing;\n");
-  fprintf(fp, "using namespace ace_time::%s;\n", dbNamespace.c_str());
-  fprintf(fp, "\n");
-
-  fprintf(fp, "// numZones: %lu\n", testData.size());
-  for (const auto& p : testData) {
-    const string& zoneName = p.first;
-    const string normalizedName = normalizeName(zoneName);
-    fprintf(fp, "testF(%s, %s) {\n", testClass, normalizedName.c_str());
-    fprintf(fp,
-        "  assertValid(\n"
-        "     &kZone%s, &kValidationData%s, \n"
-        "     true /*validateDst*/);\n",
-        normalizedName.c_str(),
-        normalizedName.c_str());
-    fprintf(fp, "}\n");
-  }
-
-  fclose(fp);
-}
-
-/** Generate the validation_*.{h,cpp} files. */
-void printCpp(const TestData& testData) {
-  printDataCpp(testData);
-  printDataHeader(testData);
-  printTestsCpp(testData);
-
-  fprintf(stderr, "Created %s\n", VALIDATION_DATA_CPP);
-  fprintf(stderr, "Created %s\n", VALIDATION_DATA_H);
-  fprintf(stderr, "Created %s\n", VALIDATION_TESTS_CPP);
 }
 
 /**
@@ -535,7 +339,6 @@ void usageAndExit() {
     "Usage: test_data_generator --scope (basic | extended)\n"
     "   --tz_version {version} [--db_namespace db]\n"
     "   [--start_year start] [--until_year until]\n"
-    "   [--format (cpp|json)]\n"
     "   < zones.txt\n");
   exit(1);
 }
@@ -548,7 +351,6 @@ int main(int argc, const char* const* argv) {
   string start = "2000";
   string until = "2050";
   string tzVersion = "";
-  string format = "cpp";
 
   SHIFT(argc, argv);
   while (argc > 0) {
@@ -564,18 +366,10 @@ int main(int argc, const char* const* argv) {
       SHIFT(argc, argv);
       if (argc == 0) usageAndExit();
       until = argv[0];
-    } else if (ARG_EQUALS(argv[0], "--db_namespace")) {
-      SHIFT(argc, argv);
-      if (argc == 0) usageAndExit();
-      dbNamespace = argv[0];
     } else if (ARG_EQUALS(argv[0], "--tz_version")) {
       SHIFT(argc, argv);
       if (argc == 0) usageAndExit();
       tzVersion = argv[0];
-    } else if (ARG_EQUALS(argv[0], "--format")) {
-      SHIFT(argc, argv);
-      if (argc == 0) usageAndExit();
-      format = argv[0];
     } else if (ARG_EQUALS(argv[0], "--")) {
       SHIFT(argc, argv);
       break;
@@ -595,15 +389,6 @@ int main(int argc, const char* const* argv) {
     fprintf(stderr, "Must give --tz_version flag'\n");
     usageAndExit();
   }
-
-  if (dbNamespace.empty()) {
-    if (scope == "basic") {
-      dbNamespace = "zonedb";
-    } else {
-      dbNamespace = "zonedbx";
-    }
-  }
-  isCustomDbNamespace = (dbNamespace != "zonedb" && dbNamespace != "zonedbx");
 
   startYear = atoi(start.c_str());
   untilYear = atoi(until.c_str());
@@ -626,10 +411,6 @@ int main(int argc, const char* const* argv) {
   vector<string> zones = readZones();
   TestData testData = processZones(zones);
   sortTestData(testData);
-  if (format == "cpp") {
-    printCpp(testData);
-  } else {
-    printJson(testData);
-  }
+  printJson(testData);
   return 0;
 }

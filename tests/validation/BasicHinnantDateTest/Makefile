@@ -38,8 +38,6 @@ validation_data.json: zones.txt \
 	../../../tools/compare_cpp/test_data_generator.out \
 		--tz_version $(TZ_VERSION) \
 		--scope $(SCOPE) \
-		--db_namespace $(DB_NAMESPACE) \
-		--format json \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
 		< zones.txt

@@ -38,9 +38,7 @@ validation_data.json: zones.txt
 	../../../tools/compare_pytz/test_data_generator.py \
 		--scope $(SCOPE) \
 		--tz_version $(TZ_VERSION) \
-		--db_namespace $(DB_NAMESPACE) \
 		--output_dir $(CURDIR) \
-		--format json \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
 		< zones.txt

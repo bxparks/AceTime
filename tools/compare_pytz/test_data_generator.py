@@ -4,19 +4,19 @@
 #
 # MIT License
 #
-# Generate the validation_data.{h,cpp} and validation_test.cpp files
-# given the 'zones.txt' file from the tzcompiler.py.
-#
-# Usage
-# $ ./test_data_generator.py \
-#   --scope (basic | extended) \
-#   --tz_version {version}
-#   [--db_namespace {db}] \
-#   [--start_year start] \
-#   [--until_year until] \
-#   [--format (json|cpp)]
-#   < zones.txt
-#
+"""
+Generate the 'validation_data.json' containing the validation test data from
+the pytz (using .tdgenerator.TestDataGenerator) given the 'zones.txt' file
+from the tzcompiler.py.
+
+Usage
+$ ./test_data_generator.py \
+  --scope (basic | extended) \
+  --tz_version {version}
+  [--start_year start] \
+  [--until_year until] \
+  < zones.txt
+"""
 
 import sys
 from os.path import (dirname, abspath)
@@ -39,41 +39,28 @@ from typing import List
 # https://mail.python.org/pipermail/python-3000/2007-April/006793.html.
 from compare_pytz.tdgenerator import TestDataGenerator
 from compare_pytz.jsonvalgenerator import JsonValidationGenerator
-from validation.arvalgenerator import ArduinoValidationGenerator
 
 
 def generate(
     invocation: str,
     tz_version: str,
     scope: str,
-    db_namespace: str,
     start_year: int,
     until_year: int,
-    format: str,
     output_dir: str,
 ) -> None:
-    """Generate the validation_*.* files."""
+    """Generate the validation_data.json file."""
     zones = read_zones()
 
     generator = TestDataGenerator(start_year, until_year)
     generator.create_test_data(zones)
     validation_data = generator.get_validation_data()
 
-    if format == 'cpp':
-        arval_generator = ArduinoValidationGenerator(
-            invocation=invocation,
-            tz_version=tz_version,
-            scope=scope,
-            db_namespace=db_namespace,
-            validation_data=validation_data,
-        )
-        arval_generator.generate_files(output_dir)
-    else:
-        json_generator = JsonValidationGenerator(
-            invocation=invocation,
-            tz_version=tz_version,
-            validation_data=validation_data)
-        json_generator.generate_files(output_dir)
+    json_generator = JsonValidationGenerator(
+        invocation=invocation,
+        tz_version=tz_version,
+        validation_data=validation_data)
+    json_generator.generate_files(output_dir)
 
 
 def read_zones() -> List[str]:
@@ -101,12 +88,6 @@ def main() -> None:
         help='Size of the generated database (basic|extended)',
         required=True)
 
-    # C++ namespace names for language=arduino. If not specified, it will
-    # automatically be set to 'zonedb' or 'zonedbx' depending on the 'scope'.
-    parser.add_argument(
-        '--db_namespace',
-        help='C++ namespace for the zonedb files (default: zonedb or zonedbx)')
-
     # Options for file generators
     parser.add_argument(
         '--tz_version', help='Version string of the TZ files', required=True)
@@ -121,14 +102,6 @@ def main() -> None:
         help='Until year of validation (default: 2038)',
         type=int,
         default=2038)
-
-    # Ouput format
-    parser.add_argument(
-        '--format',
-        help='Output format',
-        choices=('json', 'cpp'),
-        default='cpp',
-    )
 
     # Optional output directory.
     parser.add_argument(
@@ -148,10 +121,8 @@ def main() -> None:
         invocation=invocation,
         tz_version=args.tz_version,
         scope=args.scope,
-        db_namespace=args.db_namespace,
         start_year=args.start_year,
         until_year=args.until_year,
-        format=args.format,
         output_dir=args.output_dir,
     )
 
