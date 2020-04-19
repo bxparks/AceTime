@@ -128,30 +128,25 @@ script. The data processing pipeline for the `validate.py` script looks like
 this
 
 ```
-     TZDB files
-         |
-         v
-    extractor.py
-         |
-         v
-    transformer.py
-         |
-         v
-   ingenerator.py
-       /  \
-      /    v
-     | zone_specifier.py  pytz
-     |      \             /
-     |       v           v
-     |     zstdgenerator.py
-     |               \
-      \               \
-       v               |
-    zone_specifier.py  |
-          |           /
-          |          /
-          v         v
-         validator.py
+         TZDB files
+             |
+             v
+        extractor.py
+             |
+             v
+        transformer.py
+             |
+             v
+       ingenerator.py
+         /        \
+        /          v
+       /         zone_specifier.py   pytz
+      v               \               /
+zone_specifier.py      v             v
+         \            zstdgenerator.py
+          \           /
+           v         v
+          validator.py
 ```
 
 ## Dependencies

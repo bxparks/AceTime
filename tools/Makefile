@@ -12,6 +12,7 @@ tzdb/transformer.py \
 tzdb/tzdbcollector.py \
 validate.py \
 validation \
+validator \
 zinfo.py \
 zonedb/argenerator.py \
 zonedb/bufestimator.py \
