@@ -34,6 +34,22 @@ TZ_VERSION = 2019c
 START_YEAR = 2000
 UNTIL_YEAR = 2038
 
+# If --validate_dst is enabled, the DST offset from pytz disagrees with AceTime
+# for 6 timezones:
+#
+# Assertion failed: (0) == (60), file /home/brian/dev/AceTime/src/ace_time/testing/ExtendedTransitionTest.h, line 66.
+# Test ExtendedTransitionTest_America_Argentina_Buenos_Aires failed.
+# Assertion failed: (0) == (60), file /home/brian/dev/AceTime/src/ace_time/testing/ExtendedTransitionTest.h, line 66.
+# Test ExtendedTransitionTest_America_Argentina_Cordoba failed.
+# Assertion failed: (0) == (60), file /home/brian/dev/AceTime/src/ace_time/testing/ExtendedTransitionTest.h, line 66.
+# Test ExtendedTransitionTest_America_Argentina_Jujuy failed.
+# Assertion failed: (0) == (60), file /home/brian/dev/AceTime/src/ace_time/testing/ExtendedTransitionTest.h, line 66.
+# Test ExtendedTransitionTest_America_Argentina_Salta failed.
+# Assertion failed: (120) == (60), file /home/brian/dev/AceTime/src/ace_time/testing/ExtendedTransitionTest.h, line 66.
+# Test ExtendedTransitionTest_America_Bahia_Banderas failed.
+# Assertion failed: (120) == (60), file /home/brian/dev/AceTime/src/ace_time/testing/ExtendedTransitionTest.h, line 66.
+# Test ExtendedTransitionTest_America_Indiana_Winamac failed.
+
 validation_data.json: zones.txt
 	../../../tools/compare_pytz/test_data_generator.py \
 		--start_year $(START_YEAR) \

@@ -38,6 +38,7 @@ validation_data.json: zones.txt
 	../../../tools/compare_pytz/test_data_generator.py \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
+		--validate_dst \
 		< zones.txt
 
 validation_data.cpp: validation_data.json

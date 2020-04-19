@@ -36,9 +36,11 @@ class TestDataGenerator():
         self,
         start_year: int,
         until_year: int,
+        validate_dst: bool,
     ):
         self.start_year = start_year
         self.until_year = until_year
+        self.validate_dst = validate_dst
 
     def create_test_data(self, zones: List[str]) -> None:
         test_data: TestData = {}
@@ -55,7 +57,7 @@ class TestDataGenerator():
             'source': 'pytz',
             'version': str(pytz.__version__),  # type: ignore
             'has_abbrev': False,
-            'has_valid_dst': False,  # TODO(bpark): Check if this can be True
+            'has_valid_dst': self.validate_dst,
             'test_data': self.test_data,
         }
 
