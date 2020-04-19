@@ -33,7 +33,7 @@ from tzdb.transformer import normalize_raw
 from tzdb.transformer import hash_name
 from tzdb.transformer import CommentsMap
 from tzdb.transformer import StringCollection
-from tzdb.tzdbgenerator import TzDb
+from tzdb.tzdbcollector import TzDb
 
 # map{policy_name: map{letter: index}}
 # With a hack to deal with mypy's confusion with OrderedDict (at least on

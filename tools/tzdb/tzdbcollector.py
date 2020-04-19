@@ -42,7 +42,7 @@ class TzDb(TypedDict):
     zone_strings: StringCollection
 
 
-class TzDbGenerator:
+class TzDbCollector:
     """Collect the various data structures from parsing the TZ Database files
     into a single TzDb data structure which can easily be exported as a JSON
     file. Downstream processors (e.g. pygenerator.py, zonelistgenerator.py,

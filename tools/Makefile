@@ -13,7 +13,7 @@ tests/test_transformer.py \
 tzcompiler.py \
 tzdb/extractor.py \
 tzdb/transformer.py \
-tzdb/tzdbgenerator.py \
+tzdb/tzdbcollector.py \
 validate.py \
 validation \
 zone_specifier.py \

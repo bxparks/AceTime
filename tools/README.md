@@ -25,7 +25,7 @@ this:
                   transformer.py
                         |
                         v          [tzdb]
-      .-------- tzdbgenerator.py ----------> tzdb.json
+      .-------- tzdbcollector.py ----------> tzdb.json
      /             /    |    \
     /             /     |     \
    /             /      |      \ [zonedb/python]

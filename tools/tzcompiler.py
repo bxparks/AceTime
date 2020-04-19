@@ -59,7 +59,7 @@ from typing_extensions import Protocol
 
 from tzdb.extractor import Extractor
 from tzdb.transformer import Transformer
-from tzdb.tzdbgenerator import TzDbGenerator, TzDb
+from tzdb.tzdbcollector import TzDbCollector, TzDb
 from argenerator import ArduinoGenerator
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator
@@ -325,7 +325,7 @@ def main() -> None:
     ) = transformer.get_data()
 
     # Collect TZ DB data into a single JSON-serializable object.
-    tzdb_generator = TzDbGenerator(
+    tzdb_generator = TzDbCollector(
         tz_version=args.tz_version,
         tz_files=Extractor.ZONE_FILES,
         scope=args.scope,

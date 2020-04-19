@@ -15,7 +15,7 @@ from tzdb.extractor import RulesMap
 from tzdb.transformer import normalize_name
 from tzdb.transformer import normalize_raw
 from tzdb.transformer import CommentsMap
-from tzdb.tzdbgenerator import TzDb
+from tzdb.tzdbcollector import TzDb
 from typing import List
 from typing import Tuple
 
