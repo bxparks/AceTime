@@ -12,9 +12,9 @@ from typing import List
 from typing import Tuple
 from typing import Union
 from typing_extensions import TypedDict
-from extractor import ZonesMap
-from extractor import RulesMap
-from transformer import normalize_name
+from tzdb.extractor import ZonesMap
+from tzdb.extractor import RulesMap
+from tzdb.transformer import normalize_name
 
 # These are the data structures written out to 'zone_policies.py' and
 # 'zone_infos.py' by pygenerator.py.

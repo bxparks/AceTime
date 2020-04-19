@@ -55,8 +55,8 @@ Examples:
 import argparse
 import logging
 
-from extractor import Extractor
-from transformer import Transformer
+from tzdb.extractor import Extractor
+from tzdb.transformer import Transformer
 from ingenerator import InlineGenerator, ZoneInfoMap, ZonePolicyMap
 from validation.validator import Validator
 

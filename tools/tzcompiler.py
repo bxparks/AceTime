@@ -57,10 +57,10 @@ import logging
 import sys
 from typing_extensions import Protocol
 
-from extractor import Extractor
-from transformer import Transformer
+from tzdb.extractor import Extractor
+from tzdb.transformer import Transformer
+from tzdb.tzdbgenerator import TzDbGenerator, TzDb
 from argenerator import ArduinoGenerator
-from tzdbgenerator import TzDbGenerator, TzDb
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator
 from zonelistgenerator import ZoneListGenerator

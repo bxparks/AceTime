@@ -5,18 +5,18 @@
 # MIT License
 
 import unittest
-import transformer
 from collections import OrderedDict
-from transformer import _parse_on_day_string
-from transformer import _days_in_month
-from transformer import calc_day_of_month
-from transformer import time_string_to_seconds
-from transformer import seconds_to_hms
-from transformer import hms_to_seconds
-from transformer import div_to_zero
-from transformer import truncate_to_granularity
-from transformer import INVALID_SECONDS
-from transformer import hash_name
+from tzdb.transformer import _parse_on_day_string
+from tzdb.transformer import _days_in_month
+from tzdb.transformer import calc_day_of_month
+from tzdb.transformer import time_string_to_seconds
+from tzdb.transformer import seconds_to_hms
+from tzdb.transformer import hms_to_seconds
+from tzdb.transformer import div_to_zero
+from tzdb.transformer import truncate_to_granularity
+from tzdb.transformer import INVALID_SECONDS
+from tzdb.transformer import hash_name
+from tzdb.transformer import add_string
 
 
 class TestParseOnDayString(unittest.TestCase):
@@ -119,12 +119,12 @@ class TestIntegerDivision(unittest.TestCase):
 class TestAddString(unittest.TestCase):
     def test_add_string(self) -> None:
         strings: OrderedDict[str, int] = OrderedDict()
-        self.assertEqual(0, transformer.add_string(strings, 'a'))
-        self.assertEqual(0, transformer.add_string(strings, 'a'))
-        self.assertEqual(1, transformer.add_string(strings, 'b'))
-        self.assertEqual(2, transformer.add_string(strings, 'd'))
-        self.assertEqual(3, transformer.add_string(strings, 'c'))
-        self.assertEqual(2, transformer.add_string(strings, 'd'))
+        self.assertEqual(0, add_string(strings, 'a'))
+        self.assertEqual(0, add_string(strings, 'a'))
+        self.assertEqual(1, add_string(strings, 'b'))
+        self.assertEqual(2, add_string(strings, 'd'))
+        self.assertEqual(3, add_string(strings, 'c'))
+        self.assertEqual(2, add_string(strings, 'd'))
 
 
 class TestHash(unittest.TestCase):

@@ -8,14 +8,14 @@ Generate the 'zone_infos.py' and 'zone_policies.py' files for Python.
 import logging
 import os
 
-from extractor import ZoneEraRaw
-from extractor import ZoneRuleRaw
-from extractor import ZonesMap
-from extractor import RulesMap
-from transformer import normalize_name
-from transformer import normalize_raw
-from transformer import CommentsMap
-from tzdbgenerator import TzDb
+from tzdb.extractor import ZoneEraRaw
+from tzdb.extractor import ZoneRuleRaw
+from tzdb.extractor import ZonesMap
+from tzdb.extractor import RulesMap
+from tzdb.transformer import normalize_name
+from tzdb.transformer import normalize_raw
+from tzdb.transformer import CommentsMap
+from tzdb.tzdbgenerator import TzDb
 from typing import List
 from typing import Tuple
 

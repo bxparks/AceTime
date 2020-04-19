@@ -5,11 +5,11 @@
 import os
 import logging
 import json
-from extractor import ZonesMap
-from extractor import RulesMap
-from extractor import LinksMap
-from transformer import CommentsMap
-from transformer import StringCollection
+from .extractor import ZonesMap
+from .extractor import RulesMap
+from .extractor import LinksMap
+from .transformer import CommentsMap
+from .transformer import StringCollection
 from typing import List
 from typing_extensions import TypedDict
 

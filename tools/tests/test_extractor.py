@@ -5,7 +5,7 @@
 # MIT License
 
 import unittest
-from extractor import parse_at_time_string
+from tzdb.extractor import parse_at_time_string
 
 
 class TestParseAtHourString(unittest.TestCase):
