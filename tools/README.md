@@ -28,11 +28,11 @@ this:
       .-------- tzdbcollector.py ----------> tzdb.json
      /             /    |    \
     /             /     |     \
-   /             /      |      \ [zonedb/python]
+   /             /      |      \ [zonedb, python]
   /             /       |       v
  /             /        |     pygenerator.py
 /             /         v           \
-|  [zonedb/  /  ingenerator.py       v
+|  [zonedb,  /  ingenerator.py       v
 |  arduino] /          /        zone_infos.py
 |          /          /         zone_policies.py
 |         /          /          zone_strings.py

@@ -14,15 +14,15 @@ continuous integration pipeline, it's too easy to bitrot.
 
 import logging
 from datetime import datetime
+from zonedb.ingenerator import ZoneInfoMap
+from zonedb.ingenerator import ZonePolicyMap
+from zonedb.zone_specifier import ZoneSpecifier
+from zonedb.zone_specifier import to_utc_string
+from zonedb.zone_specifier import SECONDS_SINCE_UNIX_EPOCH
+from typing import List
 from .tdgenerator import TestDataGenerator
 from .tdgenerator import TestData
 from .tdgenerator import TestItem
-from ingenerator import ZoneInfoMap
-from ingenerator import ZonePolicyMap
-from zone_specifier import ZoneSpecifier
-from zone_specifier import to_utc_string
-from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
-from typing import List
 
 
 class Validator:

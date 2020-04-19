@@ -57,7 +57,7 @@ import logging
 
 from tzdb.extractor import Extractor
 from tzdb.transformer import Transformer
-from ingenerator import InlineGenerator, ZoneInfoMap, ZonePolicyMap
+from zonedb.ingenerator import InlineGenerator, ZoneInfoMap, ZonePolicyMap
 from validation.validator import Validator
 
 

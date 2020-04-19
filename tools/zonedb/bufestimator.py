@@ -2,9 +2,9 @@
 #
 # MIT License
 
-from zone_specifier import ZoneSpecifier
-from ingenerator import ZoneInfoMap
-from ingenerator import ZonePolicyMap
+from .zone_specifier import ZoneSpecifier
+from .ingenerator import ZoneInfoMap
+from .ingenerator import ZonePolicyMap
 from typing import Dict
 from typing import Tuple
 

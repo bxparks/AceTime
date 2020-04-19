@@ -14,12 +14,12 @@
 import logging
 import datetime
 import pytz
-from zone_specifier import ZoneSpecifier
-from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
-from zone_specifier import DateTuple
-from ingenerator import ZoneInfo
-from ingenerator import ZoneInfoMap
-from ingenerator import ZonePolicyMap
+from zonedb.zone_specifier import ZoneSpecifier
+from zonedb.zone_specifier import SECONDS_SINCE_UNIX_EPOCH
+from zonedb.zone_specifier import DateTuple
+from zonedb.ingenerator import ZoneInfo
+from zonedb.ingenerator import ZoneInfoMap
+from zonedb.ingenerator import ZonePolicyMap
 from typing import Any
 from typing import Dict
 from typing import List

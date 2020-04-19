@@ -28,10 +28,10 @@ from tzdb.extractor import MIN_YEAR
 from tzdb.transformer import seconds_to_hms
 from tzdb.transformer import hms_to_seconds
 from tzdb.transformer import calc_day_of_month
-from ingenerator import ZoneRule
-from ingenerator import ZonePolicy
-from ingenerator import ZoneEra
-from ingenerator import ZoneInfo
+from .ingenerator import ZoneRule
+from .ingenerator import ZonePolicy
+from .ingenerator import ZoneEra
+from .ingenerator import ZoneInfo
 
 # A datetime representation using seconds instead of h:m:s
 DateTuple = NamedTuple('DateTuple', [
