@@ -2,9 +2,9 @@
 #
 # MIT License
 
-from zone_specifier import ZoneSpecifier
-from ingenerator import ZoneInfoMap
-from ingenerator import ZonePolicyMap
+from .zone_specifier import ZoneSpecifier
+from .ingenerator import ZoneInfoMap
+from .ingenerator import ZonePolicyMap
 from typing import Dict
 from typing import Tuple
 
@@ -50,7 +50,7 @@ class BufSizeEstimator:
             # it's not used.
             buf_size = max_buffer_size[0] + 1
 
-            # The estimate is off for Asia/Atyrau. zone_specifier.py returns
+            # The estimate is off for Asia/Atyrau. ZoneSpecifier returns
             # max_buffer_size[0]==4 which means 5 should be enough, but
             # TransitionStorage.getHighWater() says that 6 is required. Not sure
             # why.

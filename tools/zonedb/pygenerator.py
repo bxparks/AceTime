@@ -7,7 +7,6 @@ Generate the 'zone_infos.py' and 'zone_policies.py' files for Python.
 
 import logging
 import os
-
 from tzdb.extractor import ZoneEraRaw
 from tzdb.extractor import ZoneRuleRaw
 from tzdb.extractor import ZonesMap
@@ -125,7 +124,7 @@ ZONE_POLICY_{policyName} = {{
 #
 # DO NOT EDIT
 
-from zonedb.zone_policies import *
+from .zone_policies import *
 
 # numInfos: {numInfos}
 # numEras: {numEras}

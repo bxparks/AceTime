@@ -9,27 +9,10 @@ files for unit tests from the 'validation_data' (or its JSON representation).
 
 import logging
 import os
-import re
-from validation.data import (TestItem, TestData, ValidationData)
 from typing import List
-
-
-# Copied from transformer.div_to_zero()
-def div_to_zero(a: int, b: int) -> int:
-    """Integer division (a/b) that truncates towards 0, instead of -infinity as
-    is default for Python. Assumes b is positive, but a can be negative or
-    positive.
-    """
-    return a // b if a >= 0 else ((a - 1) // b + 1)
-
-
-# Copied from transformer.normalize_name()
-def normalize_name(name: str) -> str:
-    """Replace hyphen (-) and slash (/) with underscore (_) to generate valid
-    C++ and Python symbols.
-    """
-    name = name.replace('+', '_PLUS_')
-    return re.sub('[^a-zA-Z0-9_]', '_', name)
+from tzdb.transformer import div_to_zero
+from tzdb.transformer import normalize_name
+from .data import (TestItem, TestData, ValidationData)
 
 
 class ArduinoValidationGenerator:

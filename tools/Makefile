@@ -2,12 +2,8 @@ TZ_VERSION := 2019c
 
 # Files which pass 'mypy --strict'.
 SRC := \
-argenerator.py \
-bufestimator.py \
 compare_pytz \
 generate_validation.py \
-ingenerator.py \
-pygenerator.py \
 tests/test_extractor.py \
 tests/test_transformer.py \
 tzcompiler.py \
@@ -16,8 +12,14 @@ tzdb/transformer.py \
 tzdb/tzdbcollector.py \
 validate.py \
 validation \
-zone_specifier.py \
-zonelistgenerator.py
+validator \
+zinfo.py \
+zonedb/argenerator.py \
+zonedb/bufestimator.py \
+zonedb/ingenerator.py \
+zonedb/pygenerator.py \
+zonedb/zone_specifier.py \
+zonedb/zonelistgenerator.py
 
 # Files without Python typing.
 SRC_UNTYPED := \
@@ -35,7 +37,7 @@ tests:
 
 flake8:
 	flake8 . \
-		--exclude=archive,zonedb \
+		--exclude=archive,zonedbpy \
 		--count \
 		--ignore W503 \
 		--show-source \
@@ -48,7 +50,7 @@ $(TZ_VERSION):
 
 # Run the Validator using validate.py.
 validate: $(TZ_VERSION)
-	./validate.py --input_dir $(TZ_VERSION) --scope basic
+	./validate.py --input_dir $(TZ_VERSION) --scope extended
 
 # Generate tzdb.json for testing purposes.
 tzdb.json: $(SRC) $(TZ_VERSION)
@@ -62,8 +64,7 @@ zones.txt: $(SRC) $(TZ_VERSION)
 
 # Generate the validation_data.json for testing purposes
 validation_data.json: zones.txt
-	./compare_pytz/test_data_generator.py --tz_version $(TZ_VERSION) \
-	--scope basic --format json < $<
+	./compare_pytz/test_data_generator.py < $<
 
 # Generate the validation_data.{h,cpp}, validation_tests.cpp
 validation_data.h: validation_data.json

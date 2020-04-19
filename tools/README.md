@@ -28,17 +28,17 @@ this:
       .-------- tzdbcollector.py ----------> tzdb.json
      /             /    |    \
     /             /     |     \
-   /             /      |      \ [zonedb/python]
+   /             /      |      \ [zonedb, python]
   /             /       |       v
  /             /        |     pygenerator.py
 /             /         v           \
-|  [zonedb/  /  ingenerator.py       v
+|  [zonedb,  /  ingenerator.py       v
 |  arduino] /          /        zone_infos.py
 |          /          /         zone_policies.py
 |         /          /          zone_strings.py
 |        /          v                |
 |       / zone_specifier.py          v
-|      /           /            zone_specifier.py
+|      /           /            zinfo.py
 |     /           v
 |     |   bufestimator.py
 |     |      /
@@ -118,40 +118,35 @@ zones.txt
 
 ## Interactive Validation
 
-The `validate.py` script allows us to validate the processing of the
-TZ Database through the Python implementation of the AceTime `ZoneProcessor`
-classes. The Python implementation is called `ZoneSpecifier` (a previous naming
-convention used in the C++ version which did not make it over the Python world).
-
-The data processing pipeline for the `validation.py` script looks like this
-(this used to be handled by `tzcompiler.py` itself before it was extracted out
-into `validate.py`):
+The `validate.py` script allows us to validate the processing of the TZ Database
+through the Python implementation of the AceTime `ZoneProcessor` classes. The
+Python implementation is called `ZoneSpecifier` (a previous naming convention
+used in the C++ version which did not make it over the Python world). This
+functionality was previously inside `tzcompiler.py` itself before it was
+extracted out into `validate.py` to reduce the complexity of the `tzcompiler.py`
+script. The data processing pipeline for the `validate.py` script looks like
+this
 
 ```
-     TZDB files
-         |
-         v
-    extractor.py
-         |
-         v
-    transformer.py
-         |
-         v
-   ingenerator.py
-       /  \
-      /    v             pytz
-     | zone_specifier.py /
-     |      \           /
-     |       v         v
-     |   validation/tdgenerator.py
-     .                \
-      \                \
-       v                |
-     zone_specifier.py  |
-          |            /
-          |           /
-          v          v
-     validation/validator.py
+         TZDB files
+             |
+             v
+        extractor.py
+             |
+             v
+        transformer.py
+             |
+             v
+       ingenerator.py
+         /        \
+        /          v
+       /         zone_specifier.py   pytz
+      v               \               /
+zone_specifier.py      v             v
+         \            zstdgenerator.py
+          \           /
+           v         v
+          validator.py
 ```
 
 ## Dependencies
@@ -198,7 +193,6 @@ This has been captured in the `Makefile`, so you can also just type:
 $ cd $ACE_TIME/src/ace_time/zonedbx
 $ make
 ```
-
 
 ### Generating Validation Files
 

@@ -56,15 +56,14 @@ import argparse
 import logging
 import sys
 from typing_extensions import Protocol
-
 from tzdb.extractor import Extractor
 from tzdb.transformer import Transformer
 from tzdb.tzdbcollector import TzDbCollector, TzDb
-from argenerator import ArduinoGenerator
-from pygenerator import PythonGenerator
-from ingenerator import InlineGenerator
-from zonelistgenerator import ZoneListGenerator
-from bufestimator import BufSizeEstimator
+from zonedb.argenerator import ArduinoGenerator
+from zonedb.pygenerator import PythonGenerator
+from zonedb.ingenerator import InlineGenerator
+from zonedb.zonelistgenerator import ZoneListGenerator
+from zonedb.bufestimator import BufSizeEstimator
 
 
 class Generator(Protocol):
