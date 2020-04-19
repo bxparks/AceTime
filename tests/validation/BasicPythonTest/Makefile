@@ -5,6 +5,7 @@ DB_NAMESPACE = zonedbpytz
 GENERATED := validation_data.cpp \
 	validation_data.h \
 	validation_tests.cpp \
+	validation_data.json \
 	$(DB_NAMESPACE)/zone_infos.h \
 	$(DB_NAMESPACE)/zone_infos.cpp \
 	$(DB_NAMESPACE)/zone_policies.h \
@@ -31,15 +32,16 @@ TZ_VERSION = 2019c
 START_YEAR = 2000
 UNTIL_YEAR = 2038
 
-#validation_data.cpp:
-#	 ../../../tools/tzcompiler.sh \
-#	 	--tag $(TZ_VERSION) \
-#	 	--action unittest \
-#	 	--language arduino \
-#	 	--scope basic \
-#	 	--db_namespace $(DB_NAMESPACE) \
-#	 	--start_year $(START_YEAR) \
-#		--until_year $(UNTIL_YEAR)
+validation_data.json: zones.txt
+	../../../tools/compare_pytz/test_data_generator.py \
+		--scope basic \
+		--tz_version $(TZ_VERSION) \
+		--db_namespace $(DB_NAMESPACE) \
+		--output_dir $(CURDIR) \
+		--format json \
+		--start_year $(START_YEAR) \
+		--until_year $(UNTIL_YEAR) \
+		< zones.txt
 
 validation_data.cpp: zones.txt
 	../../../tools/compare_pytz/test_data_generator.py \

@@ -5,13 +5,14 @@ DB_NAMESPACE = zonedbxhd
 GENERATED = validation_data.cpp \
 	validation_data.h \
 	validation_tests.cpp \
-	zones.txt \
+	validation_data.json \
 	$(DB_NAMESPACE)/zone_infos.h \
 	$(DB_NAMESPACE)/zone_infos.cpp \
 	$(DB_NAMESPACE)/zone_policies.h \
 	$(DB_NAMESPACE)/zone_policies.cpp \
 	$(DB_NAMESPACE)/zone_registry.h \
-	$(DB_NAMESPACE)/zone_registry.cpp
+	$(DB_NAMESPACE)/zone_registry.cpp \
+	zones.txt
 OBJS = validation_data.o \
 	validation_tests.o \
 	$(DB_NAMESPACE)/zone_infos.o \
@@ -29,6 +30,17 @@ runtests:
 TZ_VERSION = 2019c
 START_YEAR = 1974
 UNTIL_YEAR = 2050
+
+validation_data.json: zones.txt \
+../../../tools/compare_cpp/test_data_generator.out
+	../../../tools/compare_cpp/test_data_generator.out \
+		--tz_version $(TZ_VERSION) \
+		--scope extended \
+		--db_namespace $(DB_NAMESPACE) \
+		--format json \
+		--start_year $(START_YEAR) \
+		--until_year $(UNTIL_YEAR) \
+		< zones.txt
 
 validation_data.cpp: zones.txt \
 ../../../tools/compare_cpp/test_data_generator.out

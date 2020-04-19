@@ -3,28 +3,7 @@
 # MIT License
 """
 Generate the Arduino validation data for tests/validation/* unit tests as a JSON
-file. The file format is:
-{
-  'start_year': int,
-  'until_year': int,
-  'source': str,
-  'version': str,
-  'has_abbrev': bool,
-  'test_data': [
-    {
-      'epoch': int,
-      'total_offset': int,
-      'dst_offset': int,
-      'y': int,
-      'M': int,
-      'd': int,
-      'h': int,
-      'm': int,
-      's': int,
-      'type', str,
-    }
-  ]
-}
+file. See validation.data for the specification of the JSON file.
 """
 
 import logging

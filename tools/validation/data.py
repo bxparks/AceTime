@@ -2,11 +2,35 @@
 #
 # MIT License
 #
-# Data types for representing the time zone validation data.
-# The ValidationData type can be serialized to JSON directly.
+"""
+Data types for representing the time zone validation data. The ValidationData
+type can be serialized to JSON directly. The JSON looks like:
+{
+  'start_year': int,
+  'until_year': int,
+  'source': str,
+  'version': str,
+  'has_abbrev': bool,
+  'test_data': [
+    {
+      'epoch': int,
+      'total_offset': int,
+      'dst_offset': int,
+      'y': int,
+      'M': int,
+      'd': int,
+      'h': int,
+      'm': int,
+      's': int,
+      'type', str,
+    }
+  ]
+}
+"""
 
 from typing import List
 from typing import Dict
+from typing import Optional
 from typing_extensions import TypedDict
 
 # An entry in the test data set.
@@ -25,7 +49,7 @@ TestItem = TypedDict("TestItem", {
     'h': int,
     'm': int,
     's': int,
-    # 'abbrev': str,  # optional abbreviation
+    'abbrev': Optional[str],
     'type': str,
 })
 
@@ -38,6 +62,7 @@ ValidationData = TypedDict('ValidationData', {
     'until_year': int,
     'source': str,
     'version': str,
-    'has_abbrev': bool,
+    'has_abbrev': bool,  # 'abbrev' values are defined
+    'has_valid_dst': bool,  # DST offsets are reliable
     'test_data': TestData,
 })
