@@ -1,8 +1,8 @@
 # See https://github.com/bxparks/UnixHostDuino for documentation about this
 # Makefile to compile and run Arduino programs natively on Linux or MacOS.
 
-DB_NAMESPACE = zonedbxhd
-GENERATED = validation_data.cpp \
+DB_NAMESPACE := zonedbxhd
+GENERATED := validation_data.cpp \
 	validation_data.h \
 	validation_tests.cpp \
 	validation_data.json \
@@ -12,8 +12,8 @@ GENERATED = validation_data.cpp \
 	$(DB_NAMESPACE)/zone_policies.cpp \
 	$(DB_NAMESPACE)/zone_registry.h \
 	$(DB_NAMESPACE)/zone_registry.cpp \
-	zones.txt
-OBJS = validation_data.o \
+	$(DB_NAMESPACE)/zones.txt
+OBJS := validation_data.o \
 	validation_tests.o \
 	$(DB_NAMESPACE)/zone_infos.o \
 	$(DB_NAMESPACE)/zone_policies.o \
@@ -33,13 +33,13 @@ TZ_VERSION = 2019c
 START_YEAR = 1974
 UNTIL_YEAR = 2050
 
-validation_data.json: zones.txt \
+validation_data.json: $(DB_NAMESPACE)/zones.txt \
 ../../../tools/compare_cpp/test_data_generator.out
 	../../../tools/compare_cpp/test_data_generator.out \
 		--tz_version $(TZ_VERSION) \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
-		< zones.txt
+		< $(DB_NAMESPACE)/zones.txt
 
 validation_data.cpp: validation_data.json
 	../../../tools/generate_validation.py \
@@ -51,25 +51,20 @@ validation_data.cpp: validation_data.json
 ../../../tools/compare_cpp/test_data_generator.out:
 	make -C ../../../tools/compare_cpp/
 
-zones.txt:
-	../../../tools/tzcompiler.sh \
-		--tag $(TZ_VERSION) \
-		--action zonelist \
-		--scope $(SCOPE) \
-		--start_year $(START_YEAR) \
-		--until_year $(UNTIL_YEAR)
+$(DB_NAMESPACE)/zones.txt: $(DB_NAMESPACE)/zone_infos.h
+	@true
 
 # Make sure the zonedb files are generated before
 # validation_data.cpp is compiled.
 validation_data.o: $(DB_NAMESPACE)/zone_infos.h
 
-# Generate the zonedb files under the $(DB_NAMESPACE) directory.
+# Generate the zones.txt and zonedb files under the $(DB_NAMESPACE) directory.
 $(DB_NAMESPACE)/zone_infos.h:
 	mkdir -p $(DB_NAMESPACE); \
 	cd $(DB_NAMESPACE); \
 	../../../../tools/tzcompiler.sh \
 		--tag $(TZ_VERSION) \
-		--action zonedb \
+		--action zonedb,zonelist \
 		--language arduino \
 		--scope $(SCOPE) \
 		--db_namespace $(DB_NAMESPACE) \
