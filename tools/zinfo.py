@@ -8,6 +8,11 @@ The command line interface for ZoneSpecifier class and zonedbpy files for
 debugging. Previous version of this was embedded directly inside
 zone_specifer.py. See the examples below.
 
+TODO: The output format should provide an easy, human-readable list of
+transitions so that we can verify that the AceTime scripts are extracting and
+processing the TZDB information correctly. A --debug flag can print more
+detailed information about the internal implementation to help debugging.
+
 Examples:
 
     # America/Los_Angeles for 2018-03-10T02:00:00
