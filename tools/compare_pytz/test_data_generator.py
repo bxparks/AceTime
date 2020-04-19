@@ -10,11 +10,7 @@ the pytz (using .tdgenerator.TestDataGenerator) given the 'zones.txt' file
 from the tzcompiler.py.
 
 Usage
-$ ./test_data_generator.py \
-  --scope (basic | extended) \
-  --tz_version {version}
-  [--start_year start] \
-  [--until_year until] \
+$ ./test_data_generator.py [--start_year start] [--until_year until] \
   < zones.txt
 """
 
@@ -45,15 +41,11 @@ class Generator:
     def __init__(
         self,
         invocation: str,
-        tz_version: str,
-        scope: str,
         start_year: int,
         until_year: int,
         output_dir: str,
     ):
         self.invocation = invocation
-        self.tz_version = tz_version
-        self.scope = scope
         self.start_year = start_year
         self.until_year = until_year
         self.output_dir = output_dir
@@ -95,19 +87,6 @@ def read_zones() -> List[str]:
 def main() -> None:
     parser = ArgumentParser(description='Generate Test Data.')
 
-    # Scope (of the zones in the database):
-    # basic: 241 of the simpler time zones for BasicZoneSpecifier
-    # extended: all 348 time zones for ExtendedZoneSpecifier
-    # TODO: Remove, does not seem to be needed.
-    parser.add_argument(
-        '--scope',
-        help='Size of the generated database (basic|extended)',
-        required=True)
-
-    # Options for file generators
-    parser.add_argument(
-        '--tz_version', help='Version string of the TZ files', required=True)
-
     parser.add_argument(
         '--start_year',
         help='Start year of validation (default: start_year)',
@@ -135,8 +114,6 @@ def main() -> None:
 
     generator = Generator(
         invocation=invocation,
-        tz_version=args.tz_version,
-        scope=args.scope,
         start_year=args.start_year,
         until_year=args.until_year,
         output_dir=args.output_dir,

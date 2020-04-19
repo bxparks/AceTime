@@ -34,7 +34,7 @@ import java.util.TreeSet;
  * <pre>
  * {@code
  * $ javac TestDataGenerator.java
- * $ java TestDataGenerator --scope (basic | extended) [--start_year start] [--until_year until]
+ * $ java TestDataGenerator [--start_year start] [--until_year until]
  *      < zones.txt
  * }
  * </pre>
@@ -44,7 +44,7 @@ import java.util.TreeSet;
  *
  * <pre>
  * {@code
- * $ ../../tools/tzcompiler.sh --tag 2019a --scope extended --action zonedb --language java
+ * $ ../../tools/tzcompiler.sh --tag 2019a --action zonedb --language java
  * }
  * </pre>
  */
@@ -62,17 +62,12 @@ public class TestDataGenerator {
     if (argc == 0) {
       usageAndExit();
     }
-    String scope = null;
     String start = "2000";
     String until = "2050";
     String format = "cpp";
     while (argc > 0) {
       String arg0 = argv[argi];
-      if ("--scope".equals(arg0)) {
-        {argc--; argi++; arg0 = argv[argi];} // shift-left
-        if (argc == 0) usageAndExit();
-        scope = arg0;
-      } else if ("--start_year".equals(arg0)) {
+      if ("--start_year".equals(arg0)) {
         {argc--; argi++; arg0 = argv[argi];} // shift-left
         start = arg0;
       } else if ("--until_year".equals(arg0)) {
@@ -89,27 +84,21 @@ public class TestDataGenerator {
       {argc--; argi++;} // shift-left
     }
 
-    // Validate --scope.
-    if (!"basic".equals(scope) && !"extended".equals(scope)) {
-      System.err.printf("Unknown scope '%s'%n", scope);
-      usageAndExit();
-    }
-
     // Validate --start_year and --end_year.
     // Should check for NumberFormatException but too much overhead for this simple tool.
     int startYear = Integer.parseInt(start);
     int untilYear = Integer.parseInt(until);
 
     List<String> zones = readZones();
-    TestDataGenerator generator = new TestDataGenerator(invocation, scope,
-        startYear, untilYear);
+    TestDataGenerator generator = new TestDataGenerator(
+        invocation, startYear, untilYear);
     Map<String, List<TestItem>> testData = generator.createTestData(zones);
     generator.printJson(testData);
   }
 
   private static void usageAndExit() {
-    System.err.println("Usage: java TestDataGenerator --scope (basic|extended)");
-    System.err.println("       [--start_year {start}] [--until_year {until}] < zones.txt");
+    System.err.println("Usage: java TestDataGenerator [--start_year {start}]");
+    System.err.println("       [--until_year {until}] < zones.txt");
     System.exit(1);
   }
 
@@ -153,10 +142,8 @@ public class TestDataGenerator {
   }
 
   /** Constructor. */
-  private TestDataGenerator(String invocation, String scope,
-      int startYear, int untilYear) {
+  private TestDataGenerator(String invocation, int startYear, int untilYear) {
     this.invocation = invocation;
-    this.scope = scope;
     this.startYear = startYear;
     this.untilYear = untilYear;
 
@@ -356,7 +343,6 @@ public class TestDataGenerator {
 
   // constructor parameters
   private final String invocation;
-  private final String scope;
   private final int startYear;
   private final int untilYear;
 

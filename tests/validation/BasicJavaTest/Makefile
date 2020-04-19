@@ -37,7 +37,6 @@ UNTIL_YEAR = 2050
 validation_data.json: zones.txt \
 ../../../tools/compare_java/TestDataGenerator.class
 	java -cp ../../../tools/compare_java TestDataGenerator \
-		--scope $(SCOPE) \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
 		< zones.txt

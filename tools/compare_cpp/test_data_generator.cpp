@@ -1,15 +1,12 @@
 /*
  * Generate the validation_data.* files for the zones given on the STDIN. The
  * transition time and UTC offsets are calculated using Howard Hinnant's date.h
- * and tz.h library.
+ * and tz.h library. The Hinnant date library requires the --tz_version flag
+ * even though we don't need it here.
  *
  * Usage:
- * $ ./test_data_generator.out \
- *    --scope (basic | extended) \
- *    --tz_version {version} \
- *    [--db_namespace {db}] \
- *    [--start_year start] \
- *    [--until_year until] \
+ * $ ./test_data_generator.out --tz_version {version} \
+ *    [--start_year start] [--until_year until] \
  *    < zones.txt
  */
 
@@ -62,7 +59,6 @@ const char VALIDATION_TESTS_CPP[] = "validation_tests.cpp";
 const char VALIDATION_DATA_JSON[] = "validation_data.json";
 
 // Command line arguments
-string scope = "";
 int startYear = 2000;
 int untilYear = 2050;
 
@@ -336,8 +332,7 @@ void printJson(const TestData& testData) {
 
 void usageAndExit() {
   fprintf(stderr,
-    "Usage: test_data_generator --scope (basic | extended)\n"
-    "   --tz_version {version} [--db_namespace db]\n"
+    "Usage: test_data_generator --tz_version {version}\n"
     "   [--start_year start] [--until_year until]\n"
     "   < zones.txt\n");
   exit(1);
@@ -354,11 +349,7 @@ int main(int argc, const char* const* argv) {
 
   SHIFT(argc, argv);
   while (argc > 0) {
-    if (ARG_EQUALS(argv[0], "--scope")) {
-      SHIFT(argc, argv);
-      if (argc == 0) usageAndExit();
-      scope = argv[0];
-    } else if (ARG_EQUALS(argv[0], "--start_year")) {
+    if (ARG_EQUALS(argv[0], "--start_year")) {
       SHIFT(argc, argv);
       if (argc == 0) usageAndExit();
       start = argv[0];
@@ -381,12 +372,9 @@ int main(int argc, const char* const* argv) {
     }
     SHIFT(argc, argv);
   }
-  if (scope != "basic" && scope != "extended") {
-    fprintf(stderr, "Unknown --scope '%s'\n", scope.c_str());
-    usageAndExit();
-  }
+
   if (tzVersion.empty()) {
-    fprintf(stderr, "Must give --tz_version flag'\n");
+    fprintf(stderr, "Must give --tz_version flag for Hinnant Date'\n");
     usageAndExit();
   }
 
