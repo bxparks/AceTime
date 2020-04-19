@@ -27,7 +27,9 @@ include ../../../../UnixHostDuino/UnixHostDuino.mk
 runtests:
 	./$(APP_NAME).out
 
+# Define the scope of the test data.
 # Validate using openjdk 11.0.6 2020-01-14 (which uses 2019c)
+SCOPE = extended
 TZ_VERSION = 2019c
 START_YEAR = 2000
 UNTIL_YEAR = 2050
@@ -35,21 +37,19 @@ UNTIL_YEAR = 2050
 validation_data.json: zones.txt \
 ../../../tools/compare_java/TestDataGenerator.class
 	java -cp ../../../tools/compare_java TestDataGenerator \
-		--scope extended \
+		--scope $(SCOPE) \
 		--db_namespace $(DB_NAMESPACE) \
 		--format json \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
 		< zones.txt
 
-validation_data.cpp: zones.txt \
-../../../tools/compare_java/TestDataGenerator.class
-	java -cp ../../../tools/compare_java TestDataGenerator \
-		--scope extended \
+validation_data.cpp: validation_data.json
+	../../../tools/generate_validation.py \
+		--tz_version $(TZ_VERSION) \
+		--scope $(SCOPE) \
 		--db_namespace $(DB_NAMESPACE) \
-		--start_year $(START_YEAR) \
-		--until_year $(UNTIL_YEAR) \
-		< zones.txt
+		< validation_data.json
 
 ../../../tools/compare_java/TestDataGenerator.class:
 	make -C ../../../tools/compare_java
@@ -58,7 +58,7 @@ zones.txt:
 	../../../tools/tzcompiler.sh \
 		--tag $(TZ_VERSION) \
 		--action zonelist \
-		--scope extended \
+		--scope $(SCOPE) \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
 
@@ -74,7 +74,7 @@ $(DB_NAMESPACE)/zone_infos.h:
 		--tag $(TZ_VERSION) \
 		--action zonedb \
 		--language arduino \
-		--scope extended \
+		--scope $(SCOPE) \
 		--db_namespace $(DB_NAMESPACE) \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)

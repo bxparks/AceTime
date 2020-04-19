@@ -22,19 +22,21 @@ APP_NAME := ExtendedPythonTest
 ARDUINO_LIBS := AUnit AceTime
 include ../../../../UnixHostDuino/UnixHostDuino.mk
 
+.PHONY: $(GENERATED)
+
 runtests:
 	./$(APP_NAME).out
 
-.PHONY: $(GENERATED)
-
+# Define the scope of the test data.
 # pytz (2019.3) uses 2019c
+SCOPE = extended
 TZ_VERSION = 2019c
 START_YEAR = 2000
 UNTIL_YEAR = 2038
 
 validation_data.json: zones.txt
 	../../../tools/compare_pytz/test_data_generator.py \
-		--scope extended \
+		--scope $(SCOPE) \
 		--tz_version $(TZ_VERSION) \
 		--db_namespace $(DB_NAMESPACE) \
 		--output_dir $(CURDIR) \
@@ -43,21 +45,18 @@ validation_data.json: zones.txt
 		--until_year $(UNTIL_YEAR) \
 		< zones.txt
 
-validation_data.cpp: zones.txt
-	../../../tools/compare_pytz/test_data_generator.py \
-		--scope extended \
+validation_data.cpp: validation_data.json
+	../../../tools/generate_validation.py \
 		--tz_version $(TZ_VERSION) \
+		--scope $(SCOPE) \
 		--db_namespace $(DB_NAMESPACE) \
-		--output_dir $(CURDIR) \
-		--start_year $(START_YEAR) \
-		--until_year $(UNTIL_YEAR) \
-		< zones.txt
+		< validation_data.json
 
 zones.txt:
 	../../../tools/tzcompiler.sh \
 		--tag $(TZ_VERSION) \
 		--action zonelist \
-		--scope extended \
+		--scope $(SCOPE) \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
 
@@ -73,7 +72,7 @@ $(DB_NAMESPACE)/zone_infos.h:
 		--tag $(TZ_VERSION) \
 		--action zonedb \
 		--language arduino \
-		--scope extended \
+		--scope $(SCOPE) \
 		--db_namespace $(DB_NAMESPACE) \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
