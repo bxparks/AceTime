@@ -20,7 +20,8 @@ class BasicTransitionTest: public aunit::TestOnce {
     void assertValid(
         const basic::ZoneInfo* const zoneInfo,
         const ValidationData* testData,
-        bool validateDst = false) {
+        bool validateDst,
+        bool validateAbbrev) {
 
       if (BASIC_TRANSITION_TEST_DEBUG) {
         enableVerbosity(aunit::Verbosity::kAssertionPassed);
@@ -65,8 +66,10 @@ class BasicTransitionTest: public aunit::TestOnce {
         assertEqual(item.second, dt.second());
 
         // Verify abbreviation if it is defined.
-        if (item.abbrev != nullptr) {
-          assertEqual(item.abbrev, tz.getAbbrev(epochSeconds));
+        if (validateAbbrev) {
+          if (item.abbrev != nullptr) {
+            assertEqual(item.abbrev, tz.getAbbrev(epochSeconds));
+          }
         }
       }
     }

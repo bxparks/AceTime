@@ -21,7 +21,8 @@ class ExtendedTransitionTest: public aunit::TestOnce {
     void assertValid(
         const extended::ZoneInfo* const zoneInfo,
         const ValidationData* testData,
-        bool validateDst = false) {
+        bool validateDst,
+        bool validateAbbrev) {
 
       if (EXTENDED_TRANSITION_TEST_DEBUG) {
         enableVerbosity(aunit::Verbosity::kAssertionPassed);
@@ -76,8 +77,10 @@ class ExtendedTransitionTest: public aunit::TestOnce {
         assertEqual(item.second, dt.second());
 
         // Verify abbreviation if it is defined.
-        if (item.abbrev != nullptr) {
-          assertEqual(item.abbrev, tz.getAbbrev(epochSeconds));
+        if (validateAbbrev) {
+          if (item.abbrev != nullptr) {
+            assertEqual(item.abbrev, tz.getAbbrev(epochSeconds));
+          }
         }
       }
 

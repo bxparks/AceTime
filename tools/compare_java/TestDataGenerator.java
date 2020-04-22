@@ -16,12 +16,14 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.TextStyle;
 import java.time.zone.ZoneOffsetTransition;
 import java.time.zone.ZoneRules;
 import java.time.zone.ZoneRulesException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -267,6 +269,12 @@ public class TestDataGenerator {
     // Convert instant to dateTime components.
     ZonedDateTime dateTime = ZonedDateTime.ofInstant(instant, zoneId);
 
+    // Get abbreviation. See https://stackoverflow.com/questions/56167361. It looks like Java's
+    // abbreviations are completely different than the abbreviations used in the TZ Database files.
+    // For example, PST or PDT for America/Los_Angeles is returned as "PT", which seems brain-dead
+    // since no one in America uses the abbreviation "PT.
+    String abbrev = zoneId.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.US);
+
     TestItem item = new TestItem();
     item.epochSeconds = (int) (instant.getEpochSecond() - SECONDS_SINCE_UNIX_EPOCH);
     item.utcOffset = offset.getTotalSeconds();
@@ -277,6 +285,7 @@ public class TestDataGenerator {
     item.hour = dateTime.getHour();
     item.minute = dateTime.getMinute();
     item.second = dateTime.getSecond();
+    item.abbrev = abbrev;
     item.type = type;
 
     return item;
@@ -296,6 +305,8 @@ public class TestDataGenerator {
       writer.printf("%s\"until_year\": %s,\n", indent0, untilYear);
       writer.printf("%s\"source\": \"Java11/java.time\",\n", indent0);
       writer.printf("%s\"version\": \"%s\",\n", indent0, System.getProperty("java.version"));
+      // Set 'has_abbrev' to false because java.time abbreviations seem completely different than
+      // the ones provided by the TZ Database files.
       writer.printf("%s\"has_abbrev\": false,\n", indent0);
       writer.printf("%s\"has_valid_dst\": true,\n", indent0);
       writer.printf("%s\"test_data\": {\n", indent0);
@@ -330,7 +341,7 @@ public class TestDataGenerator {
             writer.printf("%s\"h\": %d,\n", indent3, item.hour);
             writer.printf("%s\"m\": %d,\n", indent3, item.minute);
             writer.printf("%s\"s\": %d,\n", indent3, item.second);
-            writer.printf("%s\"abbrev\": null,\n", indent3);
+            writer.printf("%s\"abbrev\": \"%s\",\n", indent3, item.abbrev);
             writer.printf("%s\"type\": \"%s\"\n", indent3, item.type);
           }
           writer.printf("%s}%s\n", indent2, (itemCount < items.size()) ? "," : "");
@@ -379,6 +390,6 @@ class TestItem {
   int hour;
   int minute;
   int second;
-  // TODO(bpark): Add abbreviation from java.time.
+  String abbrev;
   char type;
 }

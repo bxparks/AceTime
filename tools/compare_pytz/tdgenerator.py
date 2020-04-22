@@ -38,6 +38,7 @@ _DST_BLACKLIST = [
     'America/Indiana/Winamac',
 ]
 
+
 class TestDataGenerator():
     # Look for a UTC offset transition every 12 hours
     _SAMPLING_INTERVAL = timedelta(hours=12)
