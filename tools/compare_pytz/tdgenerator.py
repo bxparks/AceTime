@@ -27,6 +27,16 @@ SECONDS_SINCE_UNIX_EPOCH = 946684800
 # The [start, until) time interval used to search for DST transitions.
 TransitionTimes = Tuple[datetime, datetime]
 
+# List of zones which seem to have incorrect DST offset (compared to AceTime
+# and Hinnant date library).
+_DST_BLACKLIST = [
+    'America/Argentina/Buenos_Aires',
+    'America/Argentina/Cordoba',
+    'America/Argentina/Jujuy',
+    'America/Argentina/Salta',
+    'America/Bahia_Banderas',
+    'America/Indiana/Winamac',
+]
 
 class TestDataGenerator():
     # Look for a UTC offset transition every 12 hours
@@ -36,11 +46,9 @@ class TestDataGenerator():
         self,
         start_year: int,
         until_year: int,
-        validate_dst: bool,
     ):
         self.start_year = start_year
         self.until_year = until_year
-        self.validate_dst = validate_dst
 
     def create_test_data(self, zones: List[str]) -> None:
         test_data: TestData = {}
@@ -57,8 +65,9 @@ class TestDataGenerator():
             'source': 'pytz',
             'version': str(pytz.__version__),  # type: ignore
             'has_abbrev': False,
-            'has_valid_dst': self.validate_dst,
+            'has_valid_dst': True,
             'test_data': self.test_data,
+            'dst_blacklist': _DST_BLACKLIST,
         }
 
     def _create_test_items_for_zone(

@@ -34,18 +34,6 @@ TZ_VERSION = 2019c
 START_YEAR = 2000
 UNTIL_YEAR = 2050
 
-# If --validate_dst is enabled, the DST offsets from java.time disagrees with
-# AceTime for 4 time zones:
-#
-# Assertion failed: (60) == (0), file /home/brian/dev/AceTime/src/ace_time/testing/ExtendedTransitionTest.h, line 66.
-# Test ExtendedTransitionTest_Africa_Casablanca failed.
-# Assertion failed: (60) == (0), file /home/brian/dev/AceTime/src/ace_time/testing/ExtendedTransitionTest.h, line 66.
-# Test ExtendedTransitionTest_Africa_El_Aaiun failed.
-# Assertion failed: (60) == (0), file /home/brian/dev/AceTime/src/ace_time/testing/ExtendedTransitionTest.h, line 66.
-# Test ExtendedTransitionTest_Africa_Windhoek failed.
-# Assertion failed: (0) == (-60), file /home/brian/dev/AceTime/src/ace_time/testing/ExtendedTransitionTest.h, line 66.
-# Test ExtendedTransitionTest_Europe_Dublin failed.
-
 validation_data.json: $(DB_NAMESPACE)/zones.txt \
 ../../../tools/compare_java/TestDataGenerator.class
 	java -cp ../../../tools/compare_java TestDataGenerator \

@@ -38,7 +38,6 @@ validation_data.json: $(DB_NAMESPACE)/zones.txt
 	../../../tools/compare_pytz/test_data_generator.py \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
-		--validate_dst \
 		< $(DB_NAMESPACE)/zones.txt
 
 validation_data.cpp: validation_data.json

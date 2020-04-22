@@ -10,6 +10,7 @@ files for unit tests from the 'validation_data' (or its JSON representation).
 import logging
 import os
 from typing import List
+from typing import Set
 from tzdb.transformer import div_to_zero
 from tzdb.transformer import normalize_name
 from .data import (TestItem, TestData, ValidationData)
@@ -222,11 +223,22 @@ using namespace ace_time::{self.db_namespace};
 """
 
     def _generate_test_cases(self, test_data: TestData) -> str:
+        dst_blacklist: Set[str] = (
+            set(self.validation_data.get('dst_blacklist') or [])
+        )
         test_cases = ''
         for zone_name, _ in sorted(test_data.items()):
             normalized_name = normalize_name(zone_name)
             if self.validation_data['has_valid_dst']:
-                test_case = f"""\
+                if zone_name in dst_blacklist:
+                    test_case = f"""\
+testF({self.test_class}, {normalized_name}) {{
+  assertValid(&kZone{normalized_name}, &kValidationData{normalized_name},
+        false /*validateDst*/); // DST BLACKLISTED
+}}
+"""
+                else:
+                    test_case = f"""\
 testF({self.test_class}, {normalized_name}) {{
   assertValid(&kZone{normalized_name}, &kValidationData{normalized_name},
         true /*validateDst*/);
