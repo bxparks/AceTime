@@ -10,6 +10,7 @@ files for unit tests from the 'validation_data' (or its JSON representation).
 import logging
 import os
 from typing import List
+from typing import Set
 from tzdb.transformer import div_to_zero
 from tzdb.transformer import normalize_name
 from .data import (TestItem, TestData, ValidationData)
@@ -222,20 +223,33 @@ using namespace ace_time::{self.db_namespace};
 """
 
     def _generate_test_cases(self, test_data: TestData) -> str:
+        dst_blacklist: Set[str] = (
+            set(self.validation_data.get('dst_blacklist') or [])
+        )
+        has_abbrev = self.validation_data['has_abbrev']
+        has_valid_dst = self.validation_data['has_valid_dst']
         test_cases = ''
         for zone_name, _ in sorted(test_data.items()):
             normalized_name = normalize_name(zone_name)
-            if self.validation_data['has_valid_dst']:
-                test_case = f"""\
+            test_dst = (
+                'true'
+                if has_valid_dst and (zone_name not in dst_blacklist)
+                else 'false'
+            )
+            test_dst_comment = (
+                ' BLACKLISTED'
+                if has_valid_dst and (zone_name in dst_blacklist)
+                else ''
+            )
+            test_abbrev = 'true' if has_abbrev else 'false'
+
+            test_case = f"""\
 testF({self.test_class}, {normalized_name}) {{
-  assertValid(&kZone{normalized_name}, &kValidationData{normalized_name},
-        true /*validateDst*/);
-}}
-"""
-            else:
-                test_case = f"""\
-testF({self.test_class}, {normalized_name}) {{
-  assertValid(&kZone{normalized_name}, &kValidationData{normalized_name});
+  assertValid(
+     &kZone{normalized_name},
+     &kValidationData{normalized_name},
+     {test_dst} /*validateDst{test_dst_comment}*/,
+     {test_abbrev} /*validateAbbrev*/);
 }}
 """
             test_cases += test_case

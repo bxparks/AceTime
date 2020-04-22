@@ -24,12 +24,17 @@ type can be serialized to JSON directly. The JSON looks like:
       'h': int,
       'm': int,
       's': int,
+      'abbrev': str,
       'type', str,
       },
       [...]
     ],
     [...]
-  }
+  },
+  'dst_blacklist': [
+    '{zone_name}',
+    ...
+  ]
 }
 """
 
@@ -70,4 +75,5 @@ ValidationData = TypedDict('ValidationData', {
     'has_abbrev': bool,  # 'abbrev' values are defined
     'has_valid_dst': bool,  # DST offsets are reliable
     'test_data': TestData,
+    'dst_blacklist': List[str],
 })

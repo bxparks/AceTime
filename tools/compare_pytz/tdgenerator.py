@@ -27,6 +27,17 @@ SECONDS_SINCE_UNIX_EPOCH = 946684800
 # The [start, until) time interval used to search for DST transitions.
 TransitionTimes = Tuple[datetime, datetime]
 
+# List of zones which seem to have incorrect DST offset (compared to AceTime
+# and Hinnant date library).
+_DST_BLACKLIST = [
+    'America/Argentina/Buenos_Aires',
+    'America/Argentina/Cordoba',
+    'America/Argentina/Jujuy',
+    'America/Argentina/Salta',
+    'America/Bahia_Banderas',
+    'America/Indiana/Winamac',
+]
+
 
 class TestDataGenerator():
     # Look for a UTC offset transition every 12 hours
@@ -36,11 +47,9 @@ class TestDataGenerator():
         self,
         start_year: int,
         until_year: int,
-        validate_dst: bool,
     ):
         self.start_year = start_year
         self.until_year = until_year
-        self.validate_dst = validate_dst
 
     def create_test_data(self, zones: List[str]) -> None:
         test_data: TestData = {}
@@ -56,9 +65,10 @@ class TestDataGenerator():
             'until_year': self.until_year,
             'source': 'pytz',
             'version': str(pytz.__version__),  # type: ignore
-            'has_abbrev': False,
-            'has_valid_dst': self.validate_dst,
+            'has_abbrev': True,
+            'has_valid_dst': True,
             'test_data': self.test_data,
+            'dst_blacklist': _DST_BLACKLIST,
         }
 
     def _create_test_items_for_zone(
@@ -184,6 +194,10 @@ class TestDataGenerator():
         total_offset = int(dt.utcoffset().total_seconds())  # type: ignore
         dst_offset = int(dt.dst().total_seconds())  # type: ignore
 
+        # See https://stackoverflow.com/questions/5946499 for more info
+        # on how to extract the abbreviation.
+        abbrev = dt.tzinfo.tzname(dt)
+
         return {
             'epoch': epoch_seconds,
             'total_offset': total_offset,
@@ -194,13 +208,7 @@ class TestDataGenerator():
             'h': dt.hour,
             'm': dt.minute,
             's': dt.second,
-
-            # TODO(bpark): Last time I looked, pytz abbrev did not always match
-            # AceTime. Figure out how to handle that. See
-            # https://stackoverflow.com/questions/5946499 on how to extract the
-            # abbreviation from pytz.
-            'abbrev': None,
-
+            'abbrev': abbrev,
             'type': tag,
         }
 

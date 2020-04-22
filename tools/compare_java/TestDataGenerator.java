@@ -16,12 +16,14 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.TextStyle;
 import java.time.zone.ZoneOffsetTransition;
 import java.time.zone.ZoneRules;
 import java.time.zone.ZoneRulesException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -53,6 +55,14 @@ public class TestDataGenerator {
   // (2000-01-01T00:00:00Z).
   private static final int SECONDS_SINCE_UNIX_EPOCH = 946684800;
 
+  // List of zones which conflict with AceTime and Hinnant date library.
+  private static final String[] DST_BLACKLIST = {
+    "Africa/Casablanca",
+    "Africa/El_Aaiun",
+    "Africa/Windhoek",
+    "Europe/Dublin",
+  };
+
   public static void main(String[] argv) throws IOException {
     String invocation = "java TestDataGenerator " + String.join(" ", argv);
 
@@ -65,7 +75,6 @@ public class TestDataGenerator {
     String start = "2000";
     String until = "2050";
     String format = "cpp";
-    boolean validateDst = false;
     while (argc > 0) {
       String arg0 = argv[argi];
       if ("--start_year".equals(arg0)) {
@@ -74,8 +83,6 @@ public class TestDataGenerator {
       } else if ("--until_year".equals(arg0)) {
         {argc--; argi++; arg0 = argv[argi];} // shift-left
         until = arg0;
-      } else if ("--validate_dst".equals(arg0)) {
-        validateDst = true;
       } else if ("--".equals(arg0)) {
         break;
       } else if (arg0.startsWith("-")) {
@@ -94,7 +101,7 @@ public class TestDataGenerator {
 
     List<String> zones = readZones();
     TestDataGenerator generator = new TestDataGenerator(
-        invocation, startYear, untilYear, validateDst);
+        invocation, startYear, untilYear);
     Map<String, List<TestItem>> testData = generator.createTestData(zones);
     generator.printJson(testData);
   }
@@ -145,12 +152,10 @@ public class TestDataGenerator {
   }
 
   /** Constructor. */
-  private TestDataGenerator(String invocation, int startYear, int untilYear,
-      boolean validateDst) {
+  private TestDataGenerator(String invocation, int startYear, int untilYear) {
     this.invocation = invocation;
     this.startYear = startYear;
     this.untilYear = untilYear;
-    this.validateDst = validateDst;
 
     this.jsonFile = "validation_data.json";
   }
@@ -264,6 +269,12 @@ public class TestDataGenerator {
     // Convert instant to dateTime components.
     ZonedDateTime dateTime = ZonedDateTime.ofInstant(instant, zoneId);
 
+    // Get abbreviation. See https://stackoverflow.com/questions/56167361. It looks like Java's
+    // abbreviations are completely different than the abbreviations used in the TZ Database files.
+    // For example, PST or PDT for America/Los_Angeles is returned as "PT", which seems brain-dead
+    // since no one in America uses the abbreviation "PT.
+    String abbrev = zoneId.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.US);
+
     TestItem item = new TestItem();
     item.epochSeconds = (int) (instant.getEpochSecond() - SECONDS_SINCE_UNIX_EPOCH);
     item.utcOffset = offset.getTotalSeconds();
@@ -274,6 +285,7 @@ public class TestDataGenerator {
     item.hour = dateTime.getHour();
     item.minute = dateTime.getMinute();
     item.second = dateTime.getSecond();
+    item.abbrev = abbrev;
     item.type = type;
 
     return item;
@@ -293,9 +305,10 @@ public class TestDataGenerator {
       writer.printf("%s\"until_year\": %s,\n", indent0, untilYear);
       writer.printf("%s\"source\": \"Java11/java.time\",\n", indent0);
       writer.printf("%s\"version\": \"%s\",\n", indent0, System.getProperty("java.version"));
+      // Set 'has_abbrev' to false because java.time abbreviations seem completely different than
+      // the ones provided by the TZ Database files.
       writer.printf("%s\"has_abbrev\": false,\n", indent0);
-      // TODO(bpark): Check if has_valid_dst can be set to true for java.time.
-      writer.printf("%s\"has_valid_dst\": %b,\n", indent0, validateDst);
+      writer.printf("%s\"has_valid_dst\": true,\n", indent0);
       writer.printf("%s\"test_data\": {\n", indent0);
 
       // Print each zone
@@ -328,7 +341,7 @@ public class TestDataGenerator {
             writer.printf("%s\"h\": %d,\n", indent3, item.hour);
             writer.printf("%s\"m\": %d,\n", indent3, item.minute);
             writer.printf("%s\"s\": %d,\n", indent3, item.second);
-            writer.printf("%s\"abbrev\": null,\n", indent3);
+            writer.printf("%s\"abbrev\": \"%s\",\n", indent3, item.abbrev);
             writer.printf("%s\"type\": \"%s\"\n", indent3, item.type);
           }
           writer.printf("%s}%s\n", indent2, (itemCount < items.size()) ? "," : "");
@@ -338,8 +351,20 @@ public class TestDataGenerator {
         writer.printf("%s]%s\n", indent1, (zoneCount < numZones) ? "," : "");
         zoneCount++;
       }
+      writer.printf("%s},\n", indent0);
 
-      writer.printf("%s}\n", indent0);
+      // Write out the DST blacklist
+      writer.printf("%s\"dst_blacklist\": [\n", indent0);
+      zoneCount = 1;
+      numZones = DST_BLACKLIST.length;
+      for (String zone : DST_BLACKLIST) {
+        String indent1 = indent0 + indentUnit;
+        writer.printf("%s\"%s\"%s\n", indent1, zone,
+            (zoneCount < numZones) ? "," : "");
+        zoneCount++;
+      }
+      writer.printf("%s]\n", indent0);
+
       writer.printf("}\n");
     }
 
@@ -350,7 +375,6 @@ public class TestDataGenerator {
   private final String invocation;
   private final int startYear;
   private final int untilYear;
-  private final boolean validateDst;
 
   // derived parameters
   private final String jsonFile;;
@@ -366,6 +390,6 @@ class TestItem {
   int hour;
   int minute;
   int second;
-  // TODO(bpark): Add abbreviation from java.time.
+  String abbrev;
   char type;
 }
