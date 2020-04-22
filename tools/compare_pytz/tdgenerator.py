@@ -65,7 +65,7 @@ class TestDataGenerator():
             'until_year': self.until_year,
             'source': 'pytz',
             'version': str(pytz.__version__),  # type: ignore
-            'has_abbrev': False,
+            'has_abbrev': True,
             'has_valid_dst': True,
             'test_data': self.test_data,
             'dst_blacklist': _DST_BLACKLIST,
@@ -194,6 +194,10 @@ class TestDataGenerator():
         total_offset = int(dt.utcoffset().total_seconds())  # type: ignore
         dst_offset = int(dt.dst().total_seconds())  # type: ignore
 
+        # See https://stackoverflow.com/questions/5946499 for more info
+        # on how to extract the abbreviation.
+        abbrev = dt.tzinfo.tzname(dt)
+
         return {
             'epoch': epoch_seconds,
             'total_offset': total_offset,
@@ -204,13 +208,7 @@ class TestDataGenerator():
             'h': dt.hour,
             'm': dt.minute,
             's': dt.second,
-
-            # TODO(bpark): Last time I looked, pytz abbrev did not always match
-            # AceTime. Figure out how to handle that. See
-            # https://stackoverflow.com/questions/5946499 on how to extract the
-            # abbreviation from pytz.
-            'abbrev': None,
-
+            'abbrev': abbrev,
             'type': tag,
         }
 
