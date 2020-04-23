@@ -194,8 +194,10 @@ class TestDataGenerator():
         total_offset = int(dt.utcoffset().total_seconds())  # type: ignore
         dst_offset = int(dt.dst().total_seconds())  # type: ignore
 
-        # See https://stackoverflow.com/questions/5946499 for more info
-        # on how to extract the abbreviation.
+        # See https://stackoverflow.com/questions/5946499 for more info on how
+        # to extract the abbreviation. dt.tzinfo will never be None because the
+        # timezone will always be defined.
+        assert dt.tzinfo is not None
         abbrev = dt.tzinfo.tzname(dt)
 
         return {
