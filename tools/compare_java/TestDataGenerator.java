@@ -305,9 +305,9 @@ public class TestDataGenerator {
       writer.printf("%s\"until_year\": %s,\n", indent0, untilYear);
       writer.printf("%s\"source\": \"Java11/java.time\",\n", indent0);
       writer.printf("%s\"version\": \"%s\",\n", indent0, System.getProperty("java.version"));
-      // Set 'has_abbrev' to false because java.time abbreviations seem completely different than
-      // the ones provided by the TZ Database files.
-      writer.printf("%s\"has_abbrev\": false,\n", indent0);
+      // Set 'has_valid_abbrev' to false because java.time abbreviations seem completely different
+      // than the ones provided by the TZ Database files.
+      writer.printf("%s\"has_valid_abbrev\": false,\n", indent0);
       writer.printf("%s\"has_valid_dst\": true,\n", indent0);
       writer.printf("%s\"test_data\": {\n", indent0);
 

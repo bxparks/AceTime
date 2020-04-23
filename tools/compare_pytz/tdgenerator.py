@@ -65,7 +65,7 @@ class TestDataGenerator():
             'until_year': self.until_year,
             'source': 'pytz',
             'version': str(pytz.__version__),  # type: ignore
-            'has_abbrev': True,
+            'has_valid_abbrev': True,
             'has_valid_dst': True,
             'test_data': self.test_data,
             'dst_blacklist': _DST_BLACKLIST,
