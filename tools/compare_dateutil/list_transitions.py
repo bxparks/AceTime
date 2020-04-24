@@ -4,7 +4,8 @@ import argparse
 import logging
 from datetime import datetime
 from datetime import timedelta
-import pytz
+from dateutil.tz import gettz
+from dateutil.tz import UTC
 from typing import Any
 from typing import Tuple
 
@@ -14,8 +15,8 @@ def find_transitions(zone_name: str, start_year: int, until_year: int) -> None:
     until_year] in 12-hour samples.
     """
     twelve_hours = timedelta(hours=12)
-    tz = pytz.timezone(zone_name)
-    dt = datetime(start_year, 1, 1, 0, 0, 0, tzinfo=pytz.utc)
+    tz = gettz(zone_name)
+    dt = datetime(start_year, 1, 1, 0, 0, 0, tzinfo=UTC)
     loc_dt = dt.astimezone(tz)
 
     # Check every 12 hours for a transition

@@ -15,31 +15,27 @@ the ESP32. However it does run on a Linux machine using the
 Assuming that you have `g++` and `make` installed, just type:
 ```
 $ make clean && make -j 4
-$ ./ExtendedJavaTest.out
+
+$ make runtests
 TestRunner started on 384 test(s).
-Test TransitionTest_Africa_Abidjan passed.
+Test ExtendedTransitionTest_Africa_Abidjan passed.
 ...
-Test TransitionTest_Pacific_Wallis passed.
+Test ExtendedTransitionTest_Pacific_Wallis passed.
 TestRunner duration: 0.113 seconds.
 test(s).
 TestRunner summary: 384 passed, 0 failed, 0 skipped, 0 timed out, out of 384 test(s).
+
+$ make clean
 ```
 
-## Regenerating the Data Files
+## Java JDK Version
 
 The TZ Database version used by the `TestDataGenerator.java` program and the
 version that generated the `zonedbx` files must match for this unit test to
-succeed. The JDK version used to run this test was `openjdk version "11.0.3"
-2019-04-16` (see `java -version`) which seems to use version 2018g. The default
-`src/ace_time/zonedbx` files are generated using the latest TZ version
-(currently 2019a). Since these don't match, it was necessary to create a custom
-`zonedbx` database in `./zonedbx2018g/` directory.
-
-The `zonedbx2018g` files can be regenerated using:
-```
-$ cd zonedbx2018g
-$ make
-```
+succeed. For example, one of JDK versions used to run this test was `openjdk
+version "11.0.3" 2019-04-16` (see `java -version`) which seems to use version
+2018g. So the `Makefile generates the zoneinfo files for `2018g` specifically
+for this test.
 
 ## Compiling the Java Generator
 
