@@ -38,13 +38,8 @@ class ExtendedTransitionTest: public aunit::TestOnce {
         const ValidationItem& item = testData->items[i];
         acetime_t epochSeconds = item.epochSeconds;
         if (EXTENDED_TRANSITION_TEST_DEBUG) {
-          ace_time::logging::printf("==== test index: %d\n", i);
-          if (sizeof(acetime_t) == sizeof(int)) {
-            ace_time::logging::printf("epochSeconds: %d", epochSeconds);
-          } else {
-            ace_time::logging::printf("epochSeconds: %ld", epochSeconds);
-          }
-          ace_time::logging::printf("; %d-%d-%dT%d:%d:%d\n",
+          printTestInfo(i, epochSeconds);
+          ace_time::logging::printf("; %d-%d-%dT%d:%d:%d\r\n",
             item.year,
             item.month,
             item.day,
@@ -58,12 +53,18 @@ class ExtendedTransitionTest: public aunit::TestOnce {
           zoneProcessor.log();
         }
 
-        // Verify timeOffset
+        // Verify total UTC timeOffset
+        if (item.timeOffsetMinutes != timeOffset.toMinutes()) {
+          printTestInfo(i, epochSeconds);
+        }
         assertEqual(item.timeOffsetMinutes, timeOffset.toMinutes());
 
         // Verify DST offset.
         if (validateDst) {
           TimeOffset deltaOffset = tz.getDeltaOffset(epochSeconds);
+          if (item.deltaOffsetMinutes != deltaOffset.toMinutes()) {
+            printTestInfo(i, epochSeconds);
+          }
           assertEqual(item.deltaOffsetMinutes, deltaOffset.toMinutes());
         }
 
@@ -77,10 +78,12 @@ class ExtendedTransitionTest: public aunit::TestOnce {
         assertEqual(item.second, dt.second());
 
         // Verify abbreviation if it is defined.
-        if (validateAbbrev) {
-          if (item.abbrev != nullptr) {
-            assertEqual(item.abbrev, tz.getAbbrev(epochSeconds));
+        if (validateAbbrev && item.abbrev != nullptr) {
+          if (! aunit::internal::compareEqual(
+              item.abbrev, tz.getAbbrev(epochSeconds))) {
+            printTestInfo(i, epochSeconds);
           }
+          assertEqual(item.abbrev, tz.getAbbrev(epochSeconds));
         }
       }
 
@@ -92,6 +95,15 @@ class ExtendedTransitionTest: public aunit::TestOnce {
       // but this code works only on Linux or MacOS, so doesn't really matter.
       assertLess(zoneProcessor.getTransitionHighWater(),
         zoneInfo->transitionBufSize);
+    }
+
+    void printTestInfo(uint16_t i, acetime_t epochSeconds) {
+      ace_time::logging::printf("==== failed at index: %d; ", i);
+      if (sizeof(acetime_t) == sizeof(int)) {
+        ace_time::logging::printf("epochSeconds: %d\r\n", epochSeconds);
+      } else {
+        ace_time::logging::printf("epochSeconds: %ld\r\n", epochSeconds);
+      }
     }
 };
 
