@@ -6,7 +6,7 @@
 #ifndef ACE_TIME_EXTENDED_TRANSITION_TEST_H
 #define ACE_TIME_EXTENDED_TRANSITION_TEST_H
 
-#include <AUnit.h>
+#include <AUnitVerbose.h>
 #include <AceTime.h>
 #include "ValidationDataType.h"
 #include "../common/logging.h"

@@ -209,7 +209,7 @@ const testing::ValidationData kValidationData{normalized_name} = {{
 //
 // DO NOT EDIT
 
-#include <AUnit.h>
+#include <AUnitVerbose.h>
 #include <ace_time/testing/{self.test_class}.h>
 #include "{self.file_base}_data.h"
 #include "{self.db_namespace}/zone_infos.h"
