@@ -2647,8 +2647,8 @@ libraries.
 
 The [cctz](https://github.com/google/cctz) library from Google is also based on
 the `<chrono>` library. I have not looked at this library closely because I
-assumed that it would fit inside an Arduino controller. Hopefully I will get
-some time to take a closer look in the future.
+assumed that it would *not* fit inside an Arduino controller. Hopefully I will
+get some time to take a closer look in the future.
 
 ## Bugs and Limitations
 
