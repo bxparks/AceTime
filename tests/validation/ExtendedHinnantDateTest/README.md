@@ -11,13 +11,16 @@ This unit test compares the DST transitions calculated by the
 Assuming that you have `g++` and `make` installed, just type:
 ```
 $ make clean && make -j 4
-$ ./BasicHinnantDateTest.out
-TestRunner started on 268 test(s).
-Test TransitionTest_Africa_Abidjan passed.
+
+$ make runtests
+TestRunner started on 387 test(s).
+Test ExtendedTransitionTest_Africa_Abidjan passed.
 ...
-Test TransitionTest_Pacific_Wallis passed.
-TestRunner duration: 0.070 seconds.
+Test ExtendedTransitionTest_WET passed.
+TestRunner duration: 2.561 seconds.
 TestRunner summary: 268 passed, 0 failed, 0 skipped, 0 timed out, out of 268 test(s).
+
+$ make clean
 ```
 
 ## Compiling the HinnantDate Test Data Generator
