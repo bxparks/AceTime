@@ -141,7 +141,7 @@ class TestDataGenerator():
         while True:
             next_dt = dt + self._SAMPLING_INTERVAL
             next_dt_local = next_dt.astimezone(tz)
-            if next_dt.year > self.until_year:
+            if next_dt.year >= self.until_year:
                 break
 
             # Check for a change in UTC offset
