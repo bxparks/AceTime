@@ -65,7 +65,7 @@ class TestDataGenerator():
             'until_year': self.until_year,
             'source': 'pytz',
             'version': str(pytz.__version__),  # type: ignore
-            'has_abbrev': True,
+            'has_valid_abbrev': True,
             'has_valid_dst': True,
             'test_data': self.test_data,
             'dst_blacklist': _DST_BLACKLIST,
@@ -141,7 +141,7 @@ class TestDataGenerator():
         while True:
             next_dt = dt + self._SAMPLING_INTERVAL
             next_dt_local = next_dt.astimezone(tz)
-            if next_dt.year > self.until_year:
+            if next_dt.year >= self.until_year:
                 break
 
             # Check for a change in UTC offset

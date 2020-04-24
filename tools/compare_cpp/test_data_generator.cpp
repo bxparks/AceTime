@@ -279,7 +279,7 @@ void printJson(const TestData& testData) {
   fprintf(fp, "%s\"source\": \"Hinnant Date\",\n", indent0.c_str());
   fprintf(fp, "%s\"version\": \"%s\",\n",
       indent0.c_str(), date::get_tzdb().version.c_str());
-  fprintf(fp, "%s\"has_abbrev\": true,\n", indent0.c_str());
+  fprintf(fp, "%s\"has_valid_abbrev\": true,\n", indent0.c_str());
   fprintf(fp, "%s\"has_valid_dst\": true,\n", indent0.c_str());
   fprintf(fp, "%s\"test_data\": {\n", indent0.c_str());
 

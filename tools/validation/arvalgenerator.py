@@ -209,7 +209,7 @@ const testing::ValidationData kValidationData{normalized_name} = {{
 //
 // DO NOT EDIT
 
-#include <AUnit.h>
+#include <AUnitVerbose.h>
 #include <ace_time/testing/{self.test_class}.h>
 #include "{self.file_base}_data.h"
 #include "{self.db_namespace}/zone_infos.h"
@@ -226,7 +226,7 @@ using namespace ace_time::{self.db_namespace};
         dst_blacklist: Set[str] = (
             set(self.validation_data.get('dst_blacklist') or [])
         )
-        has_abbrev = self.validation_data['has_abbrev']
+        has_valid_abbrev = self.validation_data['has_valid_abbrev']
         has_valid_dst = self.validation_data['has_valid_dst']
         test_cases = ''
         for zone_name, _ in sorted(test_data.items()):
@@ -241,7 +241,7 @@ using namespace ace_time::{self.db_namespace};
                 if has_valid_dst and (zone_name in dst_blacklist)
                 else ''
             )
-            test_abbrev = 'true' if has_abbrev else 'false'
+            test_abbrev = 'true' if has_valid_abbrev else 'false'
 
             test_case = f"""\
 testF({self.test_class}, {normalized_name}) {{
