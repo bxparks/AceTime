@@ -2636,7 +2636,7 @@ The Hinnant date libraries were invaluable for writing the
 [BasicHinnantDateTest](tests/validation/BasicHinnantDateTest/)
 and
 [ExtendedHinnantDateTest](tests/validation/ExtendedHinnantDateTest/)
-validation tests (in v0.7) which are the AceTime algorithms to the Hinnant Date
+validation tests which compare the AceTime algorithms to the Hinnant Date
 algorithms. For all times zones between the years 2000 until 2050, the AceTime
 UTC offsets (`TimeZone::getUtcOffset()`), timezone abbreviations
 (`TimeZone::getAbbrev()`), and epochSecond conversion to date components
