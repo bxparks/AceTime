@@ -98,8 +98,8 @@ class TestDataGenerator():
                 dt_local = resolve_imaginary(
                     datetime(year, month, 1, 0, 0, 0, tzinfo=tz)
                 )
-                #dt_local = tz.localize(dt_wall)
-                #dt_local = tz.normalize(dt_local)
+                # dt_local = tz.localize(dt_wall)
+                # dt_local = tz.normalize(dt_local)
                 item = self._create_test_item(dt_local, 'S')
                 self._add_test_item(items_map, item)
 
@@ -107,8 +107,8 @@ class TestDataGenerator():
             dt_local = resolve_imaginary(
                 datetime(year, 12, 31, 23, 59, 0, tzinfo=tz)
             )
-            #dt_local = tz.localize(dt_wall)
-            #dt_local = tz.normalize(dt_local)
+            # dt_local = tz.localize(dt_wall)
+            # dt_local = tz.normalize(dt_local)
             item = self._create_test_item(dt_local, 'Y')
             self._add_test_item(items_map, item)
 
