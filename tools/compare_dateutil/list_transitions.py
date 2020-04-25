@@ -98,13 +98,16 @@ def main() -> None:
     # Configure logging
     logging.basicConfig(level=logging.INFO)
 
-    if until_year == 0:
-        until_year = start_year + 1
-    print(f'zone={zone_name}, start_year={start_year}, until_year={until_year}')
+    until_year = args.until_year or args.start_year + 1
+    print(
+        f'zone={args.zone_name}, '
+        f'start_year={args.start_year}, '
+        f'until_year={until_year}'
+    )
     find_transitions(
         args.zone_name,
         args.start_year,
-        args.until_year,
+        until_year,
         args.sampling_interval,
     )
 

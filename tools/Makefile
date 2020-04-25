@@ -3,6 +3,7 @@ TZ_VERSION := 2019c
 # Files which pass 'mypy --strict'.
 SRC := \
 compare_pytz \
+compare_dateutil \
 generate_validation.py \
 tests/test_extractor.py \
 tests/test_transformer.py \
