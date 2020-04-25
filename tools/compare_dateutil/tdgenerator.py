@@ -129,7 +129,7 @@ class TestDataGenerator():
 
     def _find_transitions(self, tz: Any) -> List[TransitionTimes]:
         """Find the DST transition using dateutil by sampling the time period
-        from [start_year, until_year] in 12-hour samples.
+        from [start_year, until_year].
         """
         # TODO: Do I need to start 1 day before Jan 1 UTC, in case the
         # local time is ahead of UTC?

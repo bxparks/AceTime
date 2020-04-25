@@ -1,13 +1,15 @@
 # Copyright 2020 Brian T. Park
 #
 # MIT License
-#
-# Generate validation TestData using pytz. This version was derived from the
-# 'validation.tdgenerator' module with the critical difference that it does not
-# pull in the ZoneSpecifier to determine the DST transition times. This means
-# that this module also avoids pulling in the ZoneInfo, ZonePolicy and other
-# related classes from 'extractor' and 'transformer' processing pipeline.
-# Therefore, this module is truly dependent on only the 'pytz' module.
+
+"""
+Generate validation TestData using pytz. This version was derived from the
+'validation.tdgenerator' module with the critical difference that it does not
+pull in the ZoneSpecifier to determine the DST transition times. This means that
+this module also avoids pulling in the ZoneInfo, ZonePolicy and other related
+classes from 'extractor' and 'transformer' processing pipeline. Therefore, this
+module is truly dependent on only the 'pytz' module.
+"""
 
 import logging
 from datetime import datetime
@@ -40,16 +42,15 @@ _DST_BLACKLIST = [
 
 
 class TestDataGenerator():
-    # Look for a UTC offset transition every 12 hours
-    _SAMPLING_INTERVAL = timedelta(hours=12)
-
     def __init__(
         self,
         start_year: int,
         until_year: int,
+        sampling_interval: int,
     ):
         self.start_year = start_year
         self.until_year = until_year
+        self.sampling_interval = timedelta(hours=sampling_interval)
 
     def create_test_data(self, zones: List[str]) -> None:
         test_data: TestData = {}
@@ -129,17 +130,17 @@ class TestDataGenerator():
 
     def _find_transitions(self, tz: Any) -> List[TransitionTimes]:
         """Find the DST transition using pytz by sampling the time period from
-        [start_year, until_year] in 12-hour samples.
+        [start_year, until_year].
         """
         # TODO: Do I need to start 1 day before Jan 1 UTC, in case the
         # local time is ahead of UTC?
         dt = datetime(self.start_year, 1, 1, 0, 0, 0, tzinfo=pytz.utc)
         dt_local = dt.astimezone(tz)
 
-        # Check every 12 hours for a transition
+        # Check every 'sampling_interval' hours for a transition
         transitions: List[TransitionTimes] = []
         while True:
-            next_dt = dt + self._SAMPLING_INTERVAL
+            next_dt = dt + self.sampling_interval
             next_dt_local = next_dt.astimezone(tz)
             if next_dt.year >= self.until_year:
                 break

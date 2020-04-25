@@ -68,14 +68,6 @@ def binary_search_transition(
     return start_dt, end_dt
 
 
-def list_transitions(
-    zone_name: str,
-    start_year: int,
-    until_year: int,
-    sampling_interval: int,
-) -> None:
-
-
 def main() -> None:
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Find the DST transitions')
@@ -109,7 +101,12 @@ def main() -> None:
     if until_year == 0:
         until_year = start_year + 1
     print(f'zone={zone_name}, start_year={start_year}, until_year={until_year}')
-    find_transitions(zone_name, start_year, until_year, sampling_interval)
+    find_transitions(
+        args.zone_name,
+        args.start_year,
+        args.until_year,
+        args.sampling_interval,
+    )
 
 
 if __name__ == '__main__':

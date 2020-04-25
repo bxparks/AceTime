@@ -3,14 +3,15 @@
 # Copyright 2020 Brian T. Park
 #
 # MIT License
-#
+
 """
 Generate the 'validation_data.json' containing the validation test data from
 the pytz (using .tdgenerator.TestDataGenerator) given the 'zones.txt' file
 from the tzcompiler.py.
 
 Usage
-$ ./test_data_generator.py [--start_year start] [--until_year until] < zones.txt
+$ ./test_data_generator.py [--start_year start] [--until_year until] \
+    [--sampling_interval hours] < zones.txt
 """
 
 import sys
@@ -42,11 +43,13 @@ class Generator:
         invocation: str,
         start_year: int,
         until_year: int,
+        sampling_interval: int,
         output_dir: str,
     ):
         self.invocation = invocation
         self.start_year = start_year
         self.until_year = until_year
+        self.sampling_interval = sampling_interval
         self.output_dir = output_dir
 
         self.filename = 'validation_data.json'
@@ -61,6 +64,7 @@ class Generator:
         test_generator = TestDataGenerator(
             start_year=self.start_year,
             until_year=self.until_year,
+            sampling_interval=self.sampling_interval,
         )
         test_generator.create_test_data(zones)
         validation_data = test_generator.get_validation_data()
@@ -99,6 +103,12 @@ def main() -> None:
         help='Until year of validation (default: 2038)',
         type=int,
         default=2038)
+    parser.add_argument(
+        '--sampling_interval',
+        type=int,
+        default=22,
+        help='Sampling interval in hours (default 22)',
+    )
 
     # Optional output directory.
     parser.add_argument(
@@ -118,6 +128,7 @@ def main() -> None:
         invocation=invocation,
         start_year=args.start_year,
         until_year=args.until_year,
+        sampling_interval=args.sampling_interval,
         output_dir=args.output_dir,
     )
     generator.generate()
