@@ -22,7 +22,7 @@ APP_NAME := ExtendedJavaTest
 ARDUINO_LIBS := AUnit AceTime
 include ../../../../UnixHostDuino/UnixHostDuino.mk
 
-.PHONY: $(GENERATED)
+#.PHONY: $(GENERATED)
 
 runtests:
 	./$(APP_NAME).out
@@ -34,6 +34,17 @@ TZ_VERSION = 2019c
 START_YEAR = 2000
 UNTIL_YEAR = 2050
 
+validation_data.cpp: validation_data.h
+
+validation_tests.cpp: validation_data.h
+
+validation_data.h: validation_data.json
+	../../../tools/generate_validation.py \
+		--tz_version $(TZ_VERSION) \
+		--scope $(SCOPE) \
+		--db_namespace $(DB_NAMESPACE) \
+		< validation_data.json
+
 validation_data.json: $(DB_NAMESPACE)/zones.txt \
 ../../../tools/compare_java/TestDataGenerator.class
 	java -cp ../../../tools/compare_java TestDataGenerator \
@@ -41,22 +52,23 @@ validation_data.json: $(DB_NAMESPACE)/zones.txt \
 		--until_year $(UNTIL_YEAR) \
 		< $(DB_NAMESPACE)/zones.txt
 
-validation_data.cpp: validation_data.json
-	../../../tools/generate_validation.py \
-		--tz_version $(TZ_VERSION) \
-		--scope $(SCOPE) \
-		--db_namespace $(DB_NAMESPACE) \
-		< validation_data.json
-
 ../../../tools/compare_java/TestDataGenerator.class:
 	make -C ../../../tools/compare_java
 
-$(DB_NAMESPACE)/zones.txt: $(DB_NAMESPACE)/zone_infos.h
-	@true
+$(DB_NAMESPACE)/%.o: $(DB_NAMESPACE)/%.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-# Make sure the zonedb files are generated before
-# validation_data.cpp is compiled.
-validation_data.o: $(DB_NAMESPACE)/zone_infos.h
+$(DB_NAMESPACE)/zone_infos.cpp: $(DB_NAMESPACE)/zone_infos.h
+
+$(DB_NAMESPACE)/zone_policies.h: $(DB_NAMESPACE)/zone_infos.h
+
+$(DB_NAMESPACE)/zone_policies.cpp: $(DB_NAMESPACE)/zone_infos.h
+
+$(DB_NAMESPACE)/zone_registry.h: $(DB_NAMESPACE)/zone_infos.h
+
+$(DB_NAMESPACE)/zone_registry.cpp: $(DB_NAMESPACE)/zone_infos.h
+
+$(DB_NAMESPACE)/zones.txt: $(DB_NAMESPACE)/zone_infos.h
 
 # Generate the zones.txt and zonedb files under the $(DB_NAMESPACE) directory.
 $(DB_NAMESPACE)/zone_infos.h:
