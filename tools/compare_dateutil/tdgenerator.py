@@ -33,8 +33,14 @@ SECONDS_SINCE_UNIX_EPOCH = 946684800
 TransitionTimes = Tuple[datetime, datetime]
 
 # List of zones which have incorrect DST offset (compared to AceTime and Hinnant
-# date library). Looks like dateutil has no DST offset weirdness!
-_DST_BLACKLIST = []
+# date library). Looks like dateutil has one zone with problems: For
+# America/Argentina/Mendoza, dateutil shows a DST of 120 minutes for the first 3
+# months of 2000, but all other libraries show a DST offset of 60 minutes, and a
+# transition at 2000-03-03 00:00 that changed the DST offset, but not the UTC
+# offset.
+_DST_BLACKLIST = [
+    'America/Argentina/Mendoza',
+]
 
 
 class TestDataGenerator():
