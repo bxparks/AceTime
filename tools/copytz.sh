@@ -10,7 +10,7 @@
 #
 # Usage:
 #
-#   $ copytz.sh [--source {source}] {tag}
+#   $ copytz.sh [--source {source}] [--output_dir {dir}] {tag}
 #
 # Example:
 #
@@ -50,15 +50,17 @@ systemv
 "
 
 function usage() {
-    echo 'Usage: copytz.sh [--source {src}] tag'
+    echo 'Usage: copytz.sh [--source {src}] [--output_dir {dir}] tag'
     exit 1
 }
 
 tag=''
 git_repo=$SOURCE_DIR
+output_dir=''
 while [[ $# -gt 0 ]]; do
     case $1 in
         --source) shift; git_repo=$1 ;;
+        --output_dir) shift; output_dir=$1 ;;
         --help|-h) usage ;;
         -*) echo "Unknown flag '$1'"; usage ;;
         *) break ;;
@@ -71,10 +73,17 @@ if [[ $# -ne 1 ]]; then
 fi
 tag=$1
 
+# Determine the target directory
+if [[ "$output_dir" != '' ]]; then
+    target_dir="$output_dir/$tag"
+else
+    target_dir="./$tag"
+fi
+target_path=$(realpath -m $target_dir)
+
 # Create the target directory named $tag"
-echo "+ mkdir -p $tag"
-mkdir -p $tag
-target_path=$(realpath $tag)
+echo "+ mkdir -p $target_path"
+mkdir -p $target_path
 
 # Check out the $tag
 echo "+ cd $git_repo"
@@ -82,7 +91,8 @@ cd $git_repo
 echo "+ git checkout $tag"
 git checkout -q $tag
 
-# Copy the files into the target directory.
+# Copy the files into the target directory. The 'echo' below strips off the
+# newline characters.
 copy_cmd="cp $(echo $TZ_FILES) $target_path"
 echo "+ $copy_cmd"
 eval "$copy_cmd"
@@ -91,4 +101,4 @@ eval "$copy_cmd"
 echo "+ git checkout master"
 git checkout -q master
 
-echo "==== Copied TZ files into '$tag' directory"
+echo "==== Copied TZ files into '$target_dir' directory"
