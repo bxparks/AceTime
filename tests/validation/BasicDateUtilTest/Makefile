@@ -28,8 +28,17 @@ runtests:
 	./$(APP_NAME).out
 
 # Define the scope of the test data.
-# dateutil (2.8.1) uses 2019c
-# dateutil works until 2037, not 2038 like pytz.
+# dateutil (2.8.1) uses 2019c.
+# dateutil works through 2037, then fails the DST offsets
+# in 2038 for the following zones:
+#	Australia_Adelaide failed.
+#	Australia_Broken_Hill failed.
+#	Australia_Currie failed.
+#	Australia_Hobart failed.
+#	Australia_Melbourne failed.
+#	Australia_Sydney failed.
+#	Europe_Dublin failed.
+#	Pacific_Auckland failed.
 SCOPE = basic
 TZ_VERSION = 2019c
 START_YEAR = 2000
