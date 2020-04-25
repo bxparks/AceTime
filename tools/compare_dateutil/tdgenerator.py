@@ -1,14 +1,15 @@
 # Copyright 2020 Brian T. Park
 #
 # MIT License
-#
-# Generate validation TestData using 'dateutil' package. This version was
-# derived from the 'validation.tdgenerator' module with the critical difference
-# that it does not pull in the ZoneSpecifier to determine the DST transition
-# times. This means that this module also avoids pulling in the ZoneInfo,
-# ZonePolicy and other related classes from 'extractor' and 'transformer'
-# processing pipeline. Therefore, this module is truly dependent on only the
-# 'dateutil' package.
+
+"""
+Generate validation TestData using 'dateutil' package. This version was derived
+from the 'validation.tdgenerator' module with the critical difference that it
+does not pull in the ZoneSpecifier to determine the DST transition times. This
+means that this module also avoids pulling in the ZoneInfo, ZonePolicy and other
+related classes from 'extractor' and 'transformer' processing pipeline.
+Therefore, this module is truly dependent on only the 'dateutil' package.
+"""
 
 import logging
 from datetime import datetime
@@ -32,21 +33,26 @@ SECONDS_SINCE_UNIX_EPOCH = 946684800
 TransitionTimes = Tuple[datetime, datetime]
 
 # List of zones which have incorrect DST offset (compared to AceTime and Hinnant
-# date library). Looks like dateutil has no DST offset weirdness!
-_DST_BLACKLIST = []
+# date library). Looks like dateutil has one zone with problems: For
+# America/Argentina/Mendoza, dateutil shows a DST of 120 minutes for the first 3
+# months of 2000, but all other libraries show a DST offset of 60 minutes, and a
+# transition at 2000-03-03 00:00 that changed the DST offset, but not the UTC
+# offset.
+_DST_BLACKLIST = [
+    'America/Argentina/Mendoza',
+]
 
 
 class TestDataGenerator():
-    # Look for a UTC offset transition every 12 hours
-    _SAMPLING_INTERVAL = timedelta(hours=12)
-
     def __init__(
         self,
         start_year: int,
         until_year: int,
+        sampling_interval: int,
     ):
         self.start_year = start_year
         self.until_year = until_year
+        self.sampling_interval = timedelta(hours=sampling_interval)
 
     def create_test_data(self, zones: List[str]) -> None:
         test_data: TestData = {}
@@ -129,17 +135,17 @@ class TestDataGenerator():
 
     def _find_transitions(self, tz: Any) -> List[TransitionTimes]:
         """Find the DST transition using dateutil by sampling the time period
-        from [start_year, until_year] in 12-hour samples.
+        from [start_year, until_year].
         """
         # TODO: Do I need to start 1 day before Jan 1 UTC, in case the
         # local time is ahead of UTC?
         dt = datetime(self.start_year, 1, 1, 0, 0, 0, tzinfo=UTC)
         dt_local = dt.astimezone(tz)
 
-        # Check every 12 hours for a transition
+        # Check every 'sampling_interval' hours for a transition
         transitions: List[TransitionTimes] = []
         while True:
-            next_dt = dt + self._SAMPLING_INTERVAL
+            next_dt = dt + self.sampling_interval
             next_dt_local = next_dt.astimezone(tz)
             if next_dt.year >= self.until_year:
                 break

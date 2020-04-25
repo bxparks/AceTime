@@ -10,18 +10,23 @@ from typing import Any
 from typing import Tuple
 
 
-def find_transitions(zone_name: str, start_year: int, until_year: int) -> None:
+def find_transitions(
+    zone_name: str,
+    start_year: int,
+    until_year: int,
+    sampling_interval: int,
+) -> None:
     """Find a DST transition by sampling the time period from [start_year,
-    until_year] in 12-hour samples.
+    until_year] using 'sampling_interval' hours between samples.
     """
-    twelve_hours = timedelta(hours=12)
+    sampling_delta = timedelta(hours=sampling_interval)
     tz = gettz(zone_name)
     dt = datetime(start_year, 1, 1, 0, 0, 0, tzinfo=UTC)
     loc_dt = dt.astimezone(tz)
 
-    # Check every 12 hours for a transition
+    # Check every 'sampling_interval' hours for a transition
     while True:
-        new_dt = dt + twelve_hours
+        new_dt = dt + sampling_delta
         new_loc_dt = new_dt.astimezone(tz)
         if new_dt.year >= until_year:
             break
@@ -63,13 +68,6 @@ def binary_search_transition(
     return start_dt, end_dt
 
 
-def list_transitions(zone_name: str, start_year: int, until_year: int) -> None:
-    print(f'zone={zone_name}, start_year={start_year}, until_year={until_year}')
-    if until_year == 0:
-        until_year = start_year
-    find_transitions(zone_name, start_year, until_year)
-
-
 def main() -> None:
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Find the DST transitions')
@@ -89,12 +87,26 @@ def main() -> None:
         default=0,
         help='Year to list the transitions',
     )
+    parser.add_argument(
+        '--sampling_interval',
+        type=int,
+        default=22,
+        help='Sampling interval in hours (default 22)',
+    )
     args = parser.parse_args()
 
     # Configure logging
     logging.basicConfig(level=logging.INFO)
 
-    list_transitions(args.zone, args.start_year, args.until_year)
+    if until_year == 0:
+        until_year = start_year + 1
+    print(f'zone={zone_name}, start_year={start_year}, until_year={until_year}')
+    find_transitions(
+        args.zone_name,
+        args.start_year,
+        args.until_year,
+        args.sampling_interval,
+    )
 
 
 if __name__ == '__main__':
