@@ -65,3 +65,12 @@ wheels/
 *.egg
 MANIFEST
 *.app
+
+#-------------------------------------------------------------------------
+# Generated files and directories under tests/validation/*Test/
+#-------------------------------------------------------------------------
+
+tests/validation/*Test/validation_*.h
+tests/validation/*Test/validation_*.cpp
+tests/validation/*Test/validation_*.json
+tests/validation/*Test/zonedb*

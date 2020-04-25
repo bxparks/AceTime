@@ -4,6 +4,17 @@
     * Fix broken links in `README.md`.
     * Fix typos in `USER_GUIDE.md` and update its version number to 1.0 as it
       should have been back in October.
+    * Add strict mypy type checking to Python scripts under `tools`.
+    * Extensive refactoring of `./tools` processing pipeline and update
+      `validation/tests`.
+        * Funnel `validation*.{h,cpp}` code generation through a single program
+          using a `validation_data.json` intermediate file.
+        * Funnel processing of TZDB output from `transformer.py` into a single
+          `tzdbcollector.py` which can produce a `tzdb.json` output.
+        * Separate `validator.py` processing into a distinct section.
+    * Add validation tests against Python `dateutil` library (similar to
+      `pytz`).
+    * Update TZ Database version to 2020a that was released on 2020-04-23.
 * 1.0 (2019-10-02, TZ DB version 2019c)
     * Add initial support for GitHub actions to implement continuous integration
       using the unit tests that run under UnitHostDuino.
