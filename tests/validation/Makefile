@@ -1,9 +1,13 @@
+SHELL=/bin/bash
+
 tests:
-	set -e; \
+	(set -e; \
+	trap 'kill 0' SIGHUP SIGINT SIGQUIT SIGKILL SIGTERM; \
 	for i in */Makefile; do \
 		echo '==== Making:' $$(dirname $$i); \
-		make -C $$(dirname $$i); \
-	done
+		make -C $$(dirname $$i) & \
+	done; \
+	wait)
 
 runtests:
 	set -e; \
@@ -17,10 +21,4 @@ clean:
 	for i in */Makefile; do \
 		echo '==== Cleaning:' $$(dirname $$i); \
 		make -C $$(dirname $$i) clean; \
-	done
-
-zonedb:
-	set -e; \
-	for i in $$(find -name 'zonedb*'); do \
-		make -C $$i; \
 	done
