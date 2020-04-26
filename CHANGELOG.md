@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.1 (2020-04-25, TZ DB version 2020a)
     * Fix broken links in `README.md`.
     * Fix typos in `USER_GUIDE.md` and update its version number to 1.0 as it
       should have been back in October.

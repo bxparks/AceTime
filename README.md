@@ -211,9 +211,7 @@ Conversion from an epochSeconds to date-time components including timezone
 * 2.8 microseconds on an ESP32,
 * 6 microseconds on a Teensy 3.2.
 
-**Version**: 1.0 (2019-10-02, TZ DB version 2019c)
-
-**Status**: Graduated to v1.0.
+**Version**: 1.1 (2020-04-25, TZ DB version 2020a)
 
 ## Examples
 
