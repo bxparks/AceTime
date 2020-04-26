@@ -4,58 +4,53 @@
 #
 # MIT License
 #
+# Shell script wrapper around tzcompiler.py. The main purpose is to run 'git
+# checkout' on the TZ Database repository (located at $PWD/../../tz) to retrieve
+# the TZ version specified by the (--tag). It then runs the tzcompiler.py
+# script to process the zone files. The location of the TZ Database is passed
+# into the tzcompiler.py using the --input_dir flag. The various 'validation_*'
+# files are produced in the directory specified by the --output_dir flag.
+#
 # Usage:
 #
 #   $ tzcompiler.sh --tag {tag}
-#       --action (zonedb|validate|unittest)
+#       --action (tzdb|zonedb|zonelist)
 #       --language (python|arduino)
 #       --scope (basic|extended)
 #       [other flags...]
 #
+# There are 3 high-level modes of this script, depending on the --action flag:
+#
+#   * tzdb
+#       * Generate the 'tzdb.json' file which represents our internal
+#       representation of the TZ Database.
+#   * zonedb
+#       * Generate the 'zone_infos.*', 'zone_policies.*' files for
+#       different target languages specified by the '--language' flag,
+#       e.g. Arduino or Python.
+#   * zonelist
+#       * Generate the 'zones.txt' file which contains the list of Zone names
+#       which are supported by the given --language and --scope.
+#
 # Examples:
 #
-#   $ tzcompiler.sh --tag 2018i --action zonedb --language python
+#   $ tzcompiler.sh --tag 2018i --action tzdb --scope basic
+#       Generates tzdb.json file in the current directory.
+#
+#   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino \
 #           --scope basic
-#       - generates zone*.py files in the current directory
+#       Generates zone*.{h,cpp} files in the current directory.
 #
-#   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino
+#   $ tzcompiler.sh --tag 2018i --action zonedb --language python \
 #           --scope basic
-#       - generates zone*.{h,cpp} files in the current directory
+#       Generates zone*.py files in the current directory.
 #
-#   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino
-#           --scope extended
-#       - generates extended zone*.{h,cpp} files in the current directory
+#   $ tzcompiler.sh --tag 2018i --action zonelist --scope basic
+#       Generate the 'zones.txt' file in the current directory.
 #
-#   $ tzcompiler.sh --tag 2018i --action unittest --language arduino
-#           --scope basic
-#       - generates test data for BasicValidationUsingPythonTest unit test
+# See Also:
 #
-#   $ tzcompiler.sh --tag 2018i --action validate --language python
-#           --scope basic
-#       - validate the internal zone_info and zone_policies data
-#
-#   $ tzcompiler.sh --tag 2018i --action validate --language arduino
-#           --scope basic
-#       - validate the internal zone_info and zone_policies data
-#
-# Flags
-#
-#   Transformer flags:
-#
-#       --start_year
-#           Retain TZ information since this year (default 2000).
-#       --granularity
-#           Retain time value fields in seconds (default 900)
-#       --strict
-#           Remove zone and rules not aligned at time granularity.
-#
-#   Validator:
-#       --validate
-#           Validate the zone_infos and zone_policies
-#       --validate_buffer_size
-#       --validate_test_data
-#       --validate_dst_offset
-#           Validate DST offsets as well (many false positives due to pytz).
+#   validate.sh
 
 set -eu
 
@@ -69,7 +64,7 @@ INPUT_DIR=$DIRNAME/../../tz
 OUTPUT_DIR=$PWD
 
 function usage() {
-    echo 'Usage: tzcompiler.sh --tag tag --action (zonedb|validate|unittest)'
+    echo 'Usage: tzcompiler.sh --tag tag --action (tzdb|zonedb|zonelist)'
     echo '      --language (python|arduino) --scope (basic|extended)'
     echo '      [...other python_flags...]'
     exit 1
@@ -94,7 +89,7 @@ echo "\$ pushd $INPUT_DIR"
 pushd $INPUT_DIR
 
 echo "\$ git checkout $tag"
-git checkout $tag
+git checkout -q $tag
 
 echo '$ popd'
 popd
@@ -113,8 +108,8 @@ $DIRNAME/tzcompiler.py \
 echo "\$ pushd $INPUT_DIR"
 pushd $INPUT_DIR
 
-echo '$ git checkout master'
-git checkout master
+echo "\$ git checkout master"
+git checkout -q master
 
 echo '$ popd'
 popd

@@ -121,10 +121,12 @@ The zoneinfo files (and their associated `ZoneProcessor` classes) have a
 resolution of 1 minute, which is sufficient to represent all UTC offsets and DST
 shifts of all timezones after 1972 (Africa/Monrovia was the last timezone to
 switch to UTC time on Jan 7, 1972). These zoneinfo files and the algorithms in
-this library have been validated to match the UTC offsets calculated using 3
+this library have been validated to match the UTC offsets calculated using 4
 other date/time libraries:
 
 * the Python [pytz](https://pypi.org/project/pytz/) library from
+  the year 2000 until 2037 (inclusive),
+* the Python [dateutil](https://pypi.org/project/python-dateutil/) library from
   the year 2000 until 2037 (inclusive),
 * the Java JDK 11
   [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
@@ -209,9 +211,7 @@ Conversion from an epochSeconds to date-time components including timezone
 * 2.8 microseconds on an ESP32,
 * 6 microseconds on a Teensy 3.2.
 
-**Version**: 1.0 (2019-10-02, TZ DB version 2019c)
-
-**Status**: Graduated to v1.0.
+**Version**: 1.1 (2020-04-25, TZ DB version 2020a)
 
 ## Examples
 
@@ -507,15 +507,6 @@ I will occasionally test on the following hardware as a sanity check:
 
 * Teensy 3.2 (72 MHz ARM Cortex-M4)
 * Mini Mega 2560 (Arduino Mega 2560 compatible, 16 MHz ATmega2560)
-
-### Untested RTC hardware compatibility
-
-As DS1307 and DS3232 RTC chip have exactly same interface as DS3231 for used
-features except temperature on DS1307 (this one lacks this functionality),
-this class could be be used to control all of them.
-
-Any problem with these RTCs please, contact @Naguissa (https://github.com/Naguissa/AceTime)
-
 
 ## Changelog
 

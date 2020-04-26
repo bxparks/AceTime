@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 0.8.1 (2019-08-26, TZ DB version 2019b, beta)
+Version: 1.1 (2020-04-25, TZ DB version 2020a)
 
 ## Installation
 
@@ -68,9 +68,10 @@ usually have more precise dependency information:
 Various scripts in the `tools/` directory depend on:
 
 * [IANA TZ Database on GitHub](https://github.com/eggert/tz)
-* [pytz library](https://pypi.org/project/pytz/)
+* [Python pytz library](https://pypi.org/project/pytz/)
+* [Python dateutil library](https://pypi.org/project/python-dateutil)
 * [Hinnant date library](https://github.com/HowardHinnant/date)
-* Python 3.5 or greater
+* Python 3.6 or greater
 * Java OpenJDK 11
 
 If you want to run the unit tests or some of the command line examples using a
@@ -770,7 +771,7 @@ TimeZone <>-------- ZoneProcessor            ------- ZoneProcessorCache
                    .----- +----.                     .---- +-----.
                    |           |                     |           |
               BasicZone        ExtendedZone       BasicZone     ExtendedZone
-              Processor        Processor     ProcessorCache     ZoneProcessor
+              Processor        Processor     ProcessorCache     ProcessorCache
 ```
 
 Here is the class declaration of `TimeZone`:
@@ -1620,11 +1621,6 @@ by zoneName or zoneId) into an index into the registry.
 The IANA TZ Database is updated continually. As of this writing, the latest
 stable version is 2019b. When a new version of the database is released, it is
 relatively easy to regenerate the `zonedb/` and `zonedbx/` zoneinfo files.
-However, it is likely that I would delay the release of a new version until the
-corresponding `pytz` package is updated to the latest TZ database version, so
-that the validation test suites pass (See Testing section below). Otherwise, I
-don't have a way to verify that the AceTime library with the new TZ Database
-version is correctly functioning.
 
 ## Mutations
 
@@ -2029,6 +2025,11 @@ void loop() {
 }
 ```
 
+It has been claimed that the DS1307 and DS3232 RTC chips have exactly same
+interface as DS3231 when accessing the time and date functionality. I don't have
+these chips so I cannot confirm that. Contact @Naguissa
+(https://github.com/Naguissa) for more info.
+
 ### System Clock
 
 The `SystemClock` is a special `Clock` that uses the Arduino built-in `millis()`
@@ -2344,9 +2345,10 @@ timezones.
 
 My next idea was to validate AceTime against a known, independently created,
 timezone library that also supports the TZ Database. Currently, I validate
-the AceTime library against 3 other timezone libraries:
+the AceTime library against 4 other timezone libraries:
 
 * Python [pytz](https://pypi.org/project/pytz/)
+* Python [dateutil](https://pypi.org/project/python-dateutil)
 * Java 11 [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
 * C++11/14/17 [Hinnant date](https://github.com/HowardHinnant/date)
 
@@ -2359,8 +2361,8 @@ found in the future.
 The Python pytz library was a natural choice since the `tzcompiler.py` was
 already written in Python. I created:
 
-* [BasicValidationUsingPythonTest](tests/validation/BasicValidationUsingPythonTest/)
-* [ExtendedValidationUsingPythonTest](tests/validation/ExtendedValidationUsingPythonTest/)
+* [BasicPythonTest](tests/validation/BasicPythonTest/)
+* [ExtendedPythonTest](tests/validation/ExtendedPythonTest/)
 
 The `pytz` library is used to generate various C++ source code
 (`validation_data.cpp`, `validation_data.h`, `validation_tests.cpp`) which
@@ -2377,31 +2379,45 @@ executed only on desktop-class Linux or MacOS machines through the use of the
 The `pytz` library supports [dates only until
 2038](https://answers.launchpad.net/pytz/+question/262216). It is also tricky to
 match the `pytz` version to the TZ Database version used by AceTime. The
-following combinations have been tested:
+following versions of `pytz` have been tested:
 
-* TZ Datbase: 2019a; pytz: 2019.1
-* TZ Datbase: 2019b; pytz: 2019.2
+* pytz 2019.1, containing TZ Datbase 2019a
+* pytz 2019.2, containing TZ Datbase 2019b
+* pytz 2019.3, containing TZ Datbase 2019c
+
+### Python dateutil
+
+Validation against the Python dateutil library is similar to pytz. I created:
+
+* [BasicDateUtilTest](tests/validation/BasicDateUtilTest/)
+* [ExtendedDateUtilTest](tests/validation/ExtendedDateUtilTest/)
+
+Similar to the `pytz` library, the `dateutil` library supports [dates only until
+2038](https://github.com/dateutil/dateutil/issues/462). The
+following versions of `dateutil` have been tested:
+
+* dateutil 2.8.1, containing TZ Datbase 2019c
 
 ### Java java.time
 
 The Java 11 `java.time` library is not limited to 2038 but supports years
-through the [year 1000000000
+through the [year 1,000,000,000
 (billion)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/class-use/Instant.html).
-I wrote the [TestDataGenerator.java](tools/java/TestDataGenerator) program to
-generate a `validation_data.cpp` file in exactly the same format as the
-`tzcompiler.py` program, and produced data points from year 2000 to year 2050,
-which is the exact range of years supported by the `zonedb::` and `zonedbx::`
-zoneinfo files.
+I wrote the [TestDataGenerator.java](tools/compare_java/TestDataGenerator.java)
+program to generate a `validation_data.cpp` file in exactly the same format as
+the `tzcompiler.py` program, and produced data points from year 2000 to year
+2050, which is the exact range of years supported by the `zonedb::` and
+`zonedbx::` zoneinfo files.
 
 The result is 2 validation programs under `tests/validation`:
 
-* [BasicValidationUsingJavaTest](tests/validation/BasicValidationUsingJavaTest/)
-* [ExtendedValidationUsingJavaTest](tests/validation/ExtendedValidationUsingJavaTest/)
+* [BasicJavaTest](tests/validation/BasicJavaTest/)
+* [ExtendedJavaTest](tests/validation/ExtendedJavaTest/)
 
 The most difficult part of using Java is figuring out how to install it
 and figuring out which of the many variants of the JDK to use. On Ubuntu 18.04,
 I used `openjdk 11.0.4 2019-07-16` which seems to use TZ Database 2018g. I have
-no recollection how I installed, I think it was something like `$ sudo apt
+no recollection how I installed it, I think it was something like `$ sudo apt
 install openjdk-11-jdk:amd64`.
 
 The underlying timezone database used by the `java.time` package seems to be
@@ -2421,14 +2437,15 @@ powerful, complex and difficult to use. I managed to incorporate it into 2 more
 validation tests, and verified that the AceTime library matches the Hinnant date
 library for all timezones from 2000 to 2049 (inclusive):
 
-* [BasicValidationUsingHinnantDateTest](tests/validation/BasicValidationUsingHinnantDateTest/)
-* [ExtendedValidationUsingHinnantDateTest](tests/validation/ExtendedValidationUsingHinnantDateTest/)
+* [BasicHinnantDateTest](tests/validation/BasicHinnantDateTest/)
+* [ExtendedHinnantDateTest](tests/validation/ExtendedHinnantDateTest/)
 
-I have validated the AceTime library with the following TZ versions against
-the Hinnant date library with the same TZ version:
-
-* TZ Database: 2019a
-* TZ Database: 2019b
+I have validated the AceTime library with the Hinnant date library for the
+following TZ Dabase versions:
+* TZ DB version 2019a
+* TZ DB version 2019b
+* TZ DB version 2019c
+* TZ DB version 2020a
 
 ## Benchmarks
 
@@ -2630,10 +2647,10 @@ environment because:
   library.
 
 The Hinnant date libraries were invaluable for writing the
-[BasicValidationUsingHinnantDateTest](tests/validation/BasicValidationUsingHinnantDateTest/)
+[BasicHinnantDateTest](tests/validation/BasicHinnantDateTest/)
 and
-[ExtendedValidationUsingHinnantDateTest](tests/validation/ExtendedValidationUsingHinnantDateTest/)
-validation tests (in v0.7) which are the AceTime algorithms to the Hinnant Date
+[ExtendedHinnantDateTest](tests/validation/ExtendedHinnantDateTest/)
+validation tests which compare the AceTime algorithms to the Hinnant Date
 algorithms. For all times zones between the years 2000 until 2050, the AceTime
 UTC offsets (`TimeZone::getUtcOffset()`), timezone abbreviations
 (`TimeZone::getAbbrev()`), and epochSecond conversion to date components
@@ -2644,8 +2661,8 @@ libraries.
 
 The [cctz](https://github.com/google/cctz) library from Google is also based on
 the `<chrono>` library. I have not looked at this library closely because I
-assumed that it would fit inside an Arduino controller. Hopefully I will get
-some time to take a closer look in the future.
+assumed that it would *not* fit inside an Arduino controller. Hopefully I will
+get some time to take a closer look in the future.
 
 ## Bugs and Limitations
 
@@ -2703,10 +2720,11 @@ some time to take a closer look in the future.
       not load the entire TZ Database due to memory constraints of most Arduino
       boards.
 * `TimeZone`
-    * It might be possible to use a Basic `TimeZone` created using a `zonedb::`
-      zoneinfo file, and an Extended `TimeZone` using a `zonedbx::` zoneinfo
-      file. However, this is not a configuration that is expected to be used
-      often, so it has not been tested well, if at all.
+    * It might be possible to use both a Basic `TimeZone` created using a
+      `zonedb::` zoneinfo file, and an Extended `TimeZone` using a `zonedbx::`
+      zoneinfo file, together in a single program. However, this is not a
+      configuration that is expected to be used often, so it has not been tested
+      well, if at all.
     * One potential problem is that the equality of two `TimeZone` depends only
       on the `zoneId`, so a Basic `TimeZone` created with a
       `zonedb::kZoneAmerica_Los_Angeles` will be considered equal to an Extended
@@ -2743,8 +2761,11 @@ some time to take a closer look in the future.
       but this is sufficient to support the vast majority of timezones since
       2000.
     * The `zonedb/` files have been filtered to satisfy these constraints.
-    * Tested again Python [pytz](https://pypi.org/project/pytz/) from
+    * Tested against Python [pytz](https://pypi.org/project/pytz/) from
       2000 until 2038 (limited by pytz).
+    * Tested against Python
+      [dateutil](https://pypi.org/project/python-dateutil/) from
+      2000 until 2038 (limited by dateutil).
     * Tested against Java `java.time` from 2000 to until 2050.
     * Tested against C++11/14/17
       [Hinnant date](https://github.com/HowardHinnant/date) from 2000 until
@@ -2753,12 +2774,15 @@ some time to take a closer look in the future.
     * Has a 1-minute resolution for all time fields.
     * The `zonedbx/` files currently (version 2019b) do not have any timezones
       with 1-minute resolution.
-    * Tested again Python [pytz](https://pypi.org/project/pytz/) from
+    * Tested against Python [pytz](https://pypi.org/project/pytz/) from
       2000 until 2038 (limited by pytz).
+    * Tested against Python
+      [dateutil](https://pypi.org/project/python-dateutil/) from
+      2000 until 2038 (limited by dateutil).
     * Tested against Java `java.time` from 2000 to until 2050.
     * Tested against [Hinnant date](https://github.com/HowardHinnant/date)
       using 1-minute resolution from 1975 to 2050. See
-      [ExtendedValidationUsingHinnantDateTest](tests/validation/ExtendedValidationUsingHinnantDateTest).
+      [ExtendedHinnantDateTest](tests/validation/ExtendedHinnantDateTest).
 * `zonedb/` and `zonedbx/` zoneinfo files
     * These statically defined data structures are loaded into flash memory
       using the `PROGMEM` keyword. The vast majority of the data structure
@@ -2831,12 +2855,3 @@ some time to take a closer look in the future.
       SAMD21 Mini Breakout` board. The `MKR Zero` could be using a different
       (more recent?) version of the GCC tool chain. I have not investigated
       this.
-
-
-## Untested RTC hardware compatibility
-
-As DS1307 and DS3232 RTC chip have exactly same interface as DS3231 for used
-features except temperature on DS1307 (this one lacks this functionality),
-this class could be be used to control all of them.
-
-Any problem with these RTCs please, contact @Naguissa (https://github.com/Naguissa/AceTime)

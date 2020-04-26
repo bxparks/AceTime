@@ -820,8 +820,8 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     /**
      * Max number of Transitions required for a given Zone, including the most
      * recent prior Transition. This value for each Zone is given by
-     * ZoneInfo.transitionBufSize, and ExtendedValidationUsingPythonTest
-     * and ExtendedValidationUsingJavaTest show that the maximum is 7. Set
+     * ZoneInfo.transitionBufSize, and ExtendedPythonTest
+     * and ExtendedJavaTest show that the maximum is 7. Set
      * this to 8 for safety.
      */
     static const uint8_t kMaxTransitions = 8;

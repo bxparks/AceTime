@@ -43,8 +43,8 @@ pipeline {
         stage('Verify Tests') {
             steps {
                 sh "make -C libraries/AceTime/tests tests"
-                sh "make -C libraries/AceTime/tools/java"
-                sh "make -C libraries/AceTime/tools/cpp"
+                sh "make -C libraries/AceTime/tools/compare_java"
+                sh "make -C libraries/AceTime/tools/compare_cpp"
                 sh "make -C libraries/AceTime/tests/validation tests"
             }
         }
