@@ -16,6 +16,7 @@
 #include "ace_time/common/compat.h"
 #include "ace_time/common/common.h"
 #include "ace_time/common/DateStrings.h"
+#include "ace_time/common/CstrPrint.h"
 #include "ace_time/internal/ZoneContext.h"
 #include "ace_time/internal/ZoneInfo.h"
 #include "ace_time/internal/ZonePolicy.h"

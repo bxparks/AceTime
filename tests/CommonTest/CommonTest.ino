@@ -122,6 +122,26 @@ test(incrementMod) {
 }
 
 // --------------------------------------------------------------------------
+// CstrPrint
+// --------------------------------------------------------------------------
+
+test(CstrPrintTest, underSized) {
+  CstrPrint<10> cstrPrint;
+  cstrPrint.print("012345678");
+  assertEqual("012345678", cstrPrint.getCstr());
+  cstrPrint.flush();
+  assertEqual("", cstrPrint.getCstr());
+}
+
+test(CstrPrintTest, overSized) {
+  CstrPrint<10> cstrPrint;
+  cstrPrint.print("0123456789");
+  assertEqual("012345678", cstrPrint.getCstr());
+  cstrPrint.flush();
+  assertEqual("", cstrPrint.getCstr());
+}
+
+// --------------------------------------------------------------------------
 
 void setup() {
 #if ! defined(UNIX_HOST_DUINO)
