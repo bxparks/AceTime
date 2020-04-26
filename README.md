@@ -121,10 +121,12 @@ The zoneinfo files (and their associated `ZoneProcessor` classes) have a
 resolution of 1 minute, which is sufficient to represent all UTC offsets and DST
 shifts of all timezones after 1972 (Africa/Monrovia was the last timezone to
 switch to UTC time on Jan 7, 1972). These zoneinfo files and the algorithms in
-this library have been validated to match the UTC offsets calculated using 3
+this library have been validated to match the UTC offsets calculated using 4
 other date/time libraries:
 
 * the Python [pytz](https://pypi.org/project/pytz/) library from
+  the year 2000 until 2037 (inclusive),
+* the Python [dateutil](https://pypi.org/project/python-dateutil/) library from
   the year 2000 until 2037 (inclusive),
 * the Java JDK 11
   [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)

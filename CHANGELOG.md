@@ -4,9 +4,9 @@
     * Fix broken links in `README.md`.
     * Fix typos in `USER_GUIDE.md` and update its version number to 1.0 as it
       should have been back in October.
-    * Add strict mypy type checking to Python scripts under `tools`.
-    * Extensive refactoring of `./tools` processing pipeline and update
+    * Massive refactor of `./tools` processing pipeline and update
       `validation/tests`.
+        * Add mypy strict type checking for Python scripts under `tools`.
         * Funnel `validation*.{h,cpp}` code generation through a single program
           using a `validation_data.json` intermediate file.
         * Funnel processing of TZDB output from `transformer.py` into a single

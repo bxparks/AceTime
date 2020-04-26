@@ -68,9 +68,10 @@ usually have more precise dependency information:
 Various scripts in the `tools/` directory depend on:
 
 * [IANA TZ Database on GitHub](https://github.com/eggert/tz)
-* [pytz library](https://pypi.org/project/pytz/)
+* [Python pytz library](https://pypi.org/project/pytz/)
+* [Python dateutil library](https://pypi.org/project/python-dateutil)
 * [Hinnant date library](https://github.com/HowardHinnant/date)
-* Python 3.5 or greater
+* Python 3.6 or greater
 * Java OpenJDK 11
 
 If you want to run the unit tests or some of the command line examples using a
@@ -1620,11 +1621,6 @@ by zoneName or zoneId) into an index into the registry.
 The IANA TZ Database is updated continually. As of this writing, the latest
 stable version is 2019b. When a new version of the database is released, it is
 relatively easy to regenerate the `zonedb/` and `zonedbx/` zoneinfo files.
-However, it is likely that I would delay the release of a new version until the
-corresponding `pytz` package is updated to the latest TZ database version, so
-that the validation test suites pass (See Testing section below). Otherwise, I
-don't have a way to verify that the AceTime library with the new TZ Database
-version is correctly functioning.
 
 ## Mutations
 
@@ -2349,9 +2345,10 @@ timezones.
 
 My next idea was to validate AceTime against a known, independently created,
 timezone library that also supports the TZ Database. Currently, I validate
-the AceTime library against 3 other timezone libraries:
+the AceTime library against 4 other timezone libraries:
 
 * Python [pytz](https://pypi.org/project/pytz/)
+* Python [dateutil](https://pypi.org/project/python-dateutil)
 * Java 11 [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
 * C++11/14/17 [Hinnant date](https://github.com/HowardHinnant/date)
 
@@ -2382,10 +2379,24 @@ executed only on desktop-class Linux or MacOS machines through the use of the
 The `pytz` library supports [dates only until
 2038](https://answers.launchpad.net/pytz/+question/262216). It is also tricky to
 match the `pytz` version to the TZ Database version used by AceTime. The
-following combinations have been tested:
+following versions of `pytz` have been tested:
 
-* TZ Datbase: 2019a; pytz: 2019.1
-* TZ Datbase: 2019b; pytz: 2019.2
+* pytz 2019.1, containing TZ Datbase 2019a
+* pytz 2019.2, containing TZ Datbase 2019b
+* pytz 2019.3, containing TZ Datbase 2019c
+
+### Python dateutil
+
+Validation against the Python dateutil library is similar to pytz. I created:
+
+* [BasicDateUtilTest](tests/validation/BasicDateUtilTest/)
+* [ExtendedDateUtilTest](tests/validation/ExtendedDateUtilTest/)
+
+Similar to the `pytz` library, the `dateutil` library supports [dates only until
+2038](https://github.com/dateutil/dateutil/issues/462). The
+following versions of `dateutil` have been tested:
+
+* dateutil 2.8.1, containing TZ Datbase 2019c
 
 ### Java java.time
 
@@ -2429,9 +2440,12 @@ library for all timezones from 2000 to 2049 (inclusive):
 * [BasicHinnantDateTest](tests/validation/BasicHinnantDateTest/)
 * [ExtendedHinnantDateTest](tests/validation/ExtendedHinnantDateTest/)
 
-I have validated the AceTime library with the Hinnant date library using the
-same TZ version, from version 2019a to the current version of this library
-(2019c as of this writing).
+I have validated the AceTime library with the Hinnant date library for the
+following TZ Dabase versions:
+* TZ DB version 2019a
+* TZ DB version 2019b
+* TZ DB version 2019c
+* TZ DB version 2020a
 
 ## Benchmarks
 
@@ -2749,6 +2763,9 @@ get some time to take a closer look in the future.
     * The `zonedb/` files have been filtered to satisfy these constraints.
     * Tested against Python [pytz](https://pypi.org/project/pytz/) from
       2000 until 2038 (limited by pytz).
+    * Tested against Python
+      [dateutil](https://pypi.org/project/python-dateutil/) from
+      2000 until 2038 (limited by dateutil).
     * Tested against Java `java.time` from 2000 to until 2050.
     * Tested against C++11/14/17
       [Hinnant date](https://github.com/HowardHinnant/date) from 2000 until
@@ -2759,6 +2776,9 @@ get some time to take a closer look in the future.
       with 1-minute resolution.
     * Tested against Python [pytz](https://pypi.org/project/pytz/) from
       2000 until 2038 (limited by pytz).
+    * Tested against Python
+      [dateutil](https://pypi.org/project/python-dateutil/) from
+      2000 until 2038 (limited by dateutil).
     * Tested against Java `java.time` from 2000 to until 2050.
     * Tested against [Hinnant date](https://github.com/HowardHinnant/date)
       using 1-minute resolution from 1975 to 2050. See
