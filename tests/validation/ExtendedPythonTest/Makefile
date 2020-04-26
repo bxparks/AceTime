@@ -20,6 +20,7 @@ OBJS := validation_data.o \
 	$(DB_NAMESPACE)/zone_registry.o
 APP_NAME := ExtendedPythonTest
 ARDUINO_LIBS := AUnit AceTime
+MORE_CLEAN := more_clean
 include ../../../../UnixHostDuino/UnixHostDuino.mk
 
 #.PHONY: $(GENERATED)
@@ -67,14 +68,23 @@ $(DB_NAMESPACE)/zone_registry.cpp: $(DB_NAMESPACE)/zone_infos.h
 $(DB_NAMESPACE)/zones.txt: $(DB_NAMESPACE)/zone_infos.h
 
 # Generate the zones.txt and zonedb files under the $(DB_NAMESPACE) directory.
-$(DB_NAMESPACE)/zone_infos.h:
+$(DB_NAMESPACE)/zone_infos.h: tzfiles/$(TZ_VERSION)
 	mkdir -p $(DB_NAMESPACE); \
 	cd $(DB_NAMESPACE); \
-	../../../../tools/tzcompiler.sh \
-		--tag $(TZ_VERSION) \
+	../../../../tools/tzcompiler.py \
+		--input_dir ../tzfiles/$(TZ_VERSION) \
+		--tz_version $(TZ_VERSION) \
 		--action zonedb,zonelist \
 		--language arduino \
 		--scope $(SCOPE) \
 		--db_namespace $(DB_NAMESPACE) \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
+
+# Extract and copy the tzfiles into a local directory to allow parallel
+# execution of validation/*Test makefiles.
+tzfiles/$(TZ_VERSION):
+	../../../tools/copytz.sh --output_dir tzfiles $(TZ_VERSION)
+
+more_clean:
+	rm -rf $(DB_NAMESPACE) tzfiles

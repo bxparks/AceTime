@@ -94,9 +94,6 @@ def generate_zonedb(
     generator: Generator
 
     # Create the Python or Arduino files as requested
-    if not output_dir:
-        logging.error('Must provide --output_dir to generate zonedb files')
-        sys.exit(1)
     if language == 'python':
         logging.info('==== Creating Python zonedb files')
         generator = PythonGenerator(

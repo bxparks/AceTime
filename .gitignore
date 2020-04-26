@@ -74,3 +74,4 @@ tests/validation/*Test/validation_*.h
 tests/validation/*Test/validation_*.cpp
 tests/validation/*Test/validation_*.json
 tests/validation/*Test/zonedb*
+tests/validation/*Test/tzfiles
