@@ -24,8 +24,8 @@ jobs:
 
     - name: Set up Hinnant Date
       run: |
-        apt update
-        apt install -y cmake libcurl4-openssl-dev
+        sudo apt update
+        sudo apt install -y cmake libcurl4-openssl-dev
         cd tools/compare_cpp
         make
 
