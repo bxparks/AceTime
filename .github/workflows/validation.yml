@@ -33,16 +33,16 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: '3.7'
+
     - name: Display Python version
       run: python -c "import sys; print(sys.version)"
 
-    - name: Install Python Depdencies
+    - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install mypy pytz python-dateutil
-        # pip install -r requirements.txt
+        pip install -r tools/requirements.txt
 
-    - name: Validate
+    - name: Build Validation Tests
       run: |
         make -C tests/validation/BasicHinnantDateTest
         make -C tests/validation/ExtendedHinnantDateTest
@@ -50,3 +50,12 @@ jobs:
         make -C tests/validation/ExtendedPythonTest
         make -C tests/validation/BasicDateUtilTest
         make -C tests/validation/ExtendedDateUtilTest
+
+    - name: Run Validation Tests
+      run: |
+        make -C tests/validation/BasicHinnantDateTest runtests
+        make -C tests/validation/ExtendedHinnantDateTest runtests
+        make -C tests/validation/BasicPythonTest runtests
+        make -C tests/validation/ExtendedPythonTest runtests
+        make -C tests/validation/BasicDateUtilTest runtests
+        make -C tests/validation/ExtendedDateUtilTest runtests
