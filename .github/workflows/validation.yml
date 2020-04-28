@@ -14,26 +14,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Setup Git Repos
+    - name: Setup External Git Repos and Dependencies
       run: |
         cd ..
         git clone https://github.com/bxparks/UnixHostDuino
         git clone https://github.com/bxparks/AUnit
         git clone https://github.com/eggert/tz
         git clone https://github.com/HowardHinnant/date
-
-    - name: Set up Hinnant Date and compare_cpp
-      run: |
         sudo apt install -y libcurl4-openssl-dev
-        cd tools/compare_cpp
-        make
-
-    - name: Set up Java 11 and compare_java
-      uses: actions/setup-java@v1
-      java-version: '>=11.0.7'
-      run: |
-        cd tools/compare_java
-        make
 
     - name: Set up Python 3.7
       uses: actions/setup-python@v1
@@ -48,6 +36,20 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r tools/requirements.txt
 
+    - name: Set up Java 11
+      uses: actions/setup-java@v1
+      java-version: '>=11.0.7'
+
+    - name: Build compare_cpp
+      run: |
+        cd tools/compare_cpp
+        make
+
+    - name: Build compare_java
+      run: |
+        cd tools/compare_java
+        make
+
     - name: Build Validation Tests
       run: |
         make -C tests/validation/BasicJavaTest
@@ -60,8 +62,6 @@ jobs:
         make -C tests/validation/ExtendedDateUtilTest
 
     - name: Run Validation Tests
-      uses: actions/setup-java@v1
-      java-version: '>=11.0.7'
       run: |
         make -C tests/validation/BasicJavaTest runtests
         make -C tests/validation/ExtendedJavaTest runtests
