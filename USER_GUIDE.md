@@ -1635,7 +1635,7 @@ contents of the in-memory buffer can be retrieved as a normal c-string using the
 namespace ace_time {
 namespace common {
 
-template <uint16_t SIZE>
+template <uint8_t SIZE>
 class CstrPrint: public Print {
 
   public:

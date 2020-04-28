@@ -75,7 +75,7 @@ namespace common {
  * @tparam SIZE size of internal string buffer including the NUL terminator
  *         character
  */
-template <uint16_t SIZE>
+template <uint8_t SIZE>
 class CstrPrint: public Print {
   public:
     size_t write(uint8_t c) override {
