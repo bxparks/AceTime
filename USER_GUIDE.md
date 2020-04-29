@@ -1633,7 +1633,6 @@ contents of the in-memory buffer can be retrieved as a normal c-string using the
 
 ```C++
 namespace ace_time {
-namespace common {
 
 template <uint8_t SIZE>
 class CstrPrint: public Print {
@@ -1645,7 +1644,6 @@ class CstrPrint: public Print {
     const char* getCstr() const;
 };
 
-}
 }
 ```
 
@@ -1664,7 +1662,6 @@ An example usage looks like this:
 #include <AceTime.h>
 
 using namespace acetime;
-using namespace acetime::common;
 
 ...
 

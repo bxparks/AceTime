@@ -32,6 +32,7 @@ C++ namespaces:
     * `ace_time::ExtendedZone`
     * `ace_time::BasicZoneManager`
     * `ace_time::ExtendedZoneManager`
+    * `ace_time::CstrPrint`
     * mutation helpers
         * `ace_time::local_date_mutation::`
         * `ace_time::time_offset_mutation::`
