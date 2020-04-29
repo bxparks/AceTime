@@ -29,7 +29,8 @@ def find_transitions(
         new_loc_dt = new_dt.astimezone(tz)
         if new_dt.year >= until_year:
             break
-        if loc_dt.utcoffset() != new_loc_dt.utcoffset():
+        if (loc_dt.utcoffset() != new_loc_dt.utcoffset()
+                or loc_dt.dst() != new_loc_dt.dst()):
             start_dt, end_dt = binary_search_transition(tz, dt, new_dt)
             start_loc_dt = start_dt.astimezone(tz)
             end_loc_dt = end_dt.astimezone(tz)
@@ -58,7 +59,8 @@ def binary_search_transition(
 
         mid_dt = start_dt + timedelta(minutes=delta_minutes)
         mid_loc_dt = mid_dt.astimezone(tz)
-        if start_loc_dt.utcoffset() == mid_loc_dt.utcoffset():
+        if (start_loc_dt.utcoffset() == mid_loc_dt.utcoffset()
+                and start_loc_dt.dst() == mid_loc_dt.dst()):
             start_dt = mid_dt
             start_loc_dt = mid_loc_dt
         else:

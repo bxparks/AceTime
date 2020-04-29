@@ -150,8 +150,9 @@ class TestDataGenerator():
             if next_dt.year >= self.until_year:
                 break
 
-            # Check for a change in UTC offset
-            if dt_local.utcoffset() != next_dt_local.utcoffset():
+            # Check for a change in UTC or DST offsets
+            if (dt_local.utcoffset() != next_dt_local.utcoffset()
+                    or dt_local.dst() != next_dt_local.dst()):
                 # print(f'Transition between {dt_local} and {next_dt_local}')
                 dt_left, dt_right = self.binary_search_transition(
                     tz, dt, next_dt)
@@ -171,8 +172,8 @@ class TestDataGenerator():
         dt_right: datetime,
     ) -> Tuple[datetime, datetime]:
         """Do a binary search to find the exact transition times, to within 1
-        minute accuracy. The dt_left and dt_right are 12 hours (720 minutes)
-        apart. So the binary search should take a maximum of 10 iterations to
+        minute accuracy. The dt_left and dt_right are 22 hours (1320 minutes)
+        apart. So the binary search should take a maximum of 11 iterations to
         find the DST transition within one adjacent minute.
         """
         dt_left_local = dt_left.astimezone(tz)
@@ -184,7 +185,8 @@ class TestDataGenerator():
 
             dt_mid = dt_left + timedelta(minutes=delta_minutes)
             mid_dt_local = dt_mid.astimezone(tz)
-            if dt_left_local.utcoffset() == mid_dt_local.utcoffset():
+            if (dt_left_local.utcoffset() == mid_dt_local.utcoffset()
+                    and dt_left_local.dst() == mid_dt_local.dst()):
                 dt_left = dt_mid
                 dt_left_local = mid_dt_local
             else:
