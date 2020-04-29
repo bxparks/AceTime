@@ -121,6 +121,76 @@ test(ZonedDateTimeExtendedTest, linked_zones) {
 }
 
 // --------------------------------------------------------------------------
+// Validate some changes in tzdb 2020a
+// --------------------------------------------------------------------------
+
+// Morocco springs forward on 2020-05-31, not on 2020-05-24 as originally
+// scheduled. At 02:00 -> 03:00, the UTC offset goes from UTC+00:00 to
+// UTC+01:00.
+test(ZonedDateTimeExtendedTest, Morocco2020) {
+  TimeZone tz = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAfrica_Casablanca);
+
+  auto dt = ZonedDateTime::forComponents(2020, 5, 25, 3, 0, 0, tz);
+  assertEqual(TimeOffset::forHours(0).toMinutes(),
+      dt.timeOffset().toMinutes());
+  acetime_t epoch = dt.toEpochSeconds();
+  assertEqual("+00", tz.getAbbrev(epoch));
+  assertEqual(TimeOffset::forHours(-1).toMinutes(),
+      tz.getDeltaOffset(epoch).toMinutes());
+
+  dt = ZonedDateTime::forComponents(2020, 5, 31, 1, 59, 59, tz);
+  assertEqual(TimeOffset::forHours(0).toMinutes(),
+      dt.timeOffset().toMinutes());
+  epoch = dt.toEpochSeconds();
+  assertEqual("+00", tz.getAbbrev(epoch));
+  assertEqual(TimeOffset::forHours(-1).toMinutes(),
+      tz.getDeltaOffset(epoch).toMinutes());
+
+  dt = ZonedDateTime::forComponents(2020, 5, 31, 3, 0, 0, tz);
+  assertEqual(TimeOffset::forHours(1).toMinutes(),
+      dt.timeOffset().toMinutes());
+  epoch = dt.toEpochSeconds();
+  assertEqual("+01", tz.getAbbrev(epoch));
+  assertEqual(TimeOffset::forHours(0).toMinutes(),
+      tz.getDeltaOffset(epoch).toMinutes());
+}
+
+// Yukon (e.g. America/Whitehorse) goes to permanent daylight saving time. It
+// goes from PST (UTC-08:00) to PDT (UTC-07:00) (i.e. MST) at 2020-03-08 02:00.
+test(ZonedDateTimeExtendedTest, Yukon2020) {
+  TimeZone tz = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_Whitehorse);
+
+  auto dt = ZonedDateTime::forComponents(2020, 3, 8, 1, 59, 59, tz);
+  assertEqual(TimeOffset::forHours(-8).toMinutes(),
+      dt.timeOffset().toMinutes());
+  acetime_t epoch = dt.toEpochSeconds();
+  assertEqual("PST", tz.getAbbrev(epoch));
+  assertEqual(TimeOffset::forHours(0).toMinutes(),
+      tz.getDeltaOffset(epoch).toMinutes());
+
+  // Time in the 2:00->3:00 transition gap. Gets normalized to 03:00.
+  dt = ZonedDateTime::forComponents(2020, 3, 8, 2, 0, 0, tz);
+  assertEqual(TimeOffset::forHours(-7).toMinutes(),
+      dt.timeOffset().toMinutes());
+  auto expected = LocalDateTime::forComponents(2020, 3, 8, 3, 0, 0);
+  assertTrue(expected == dt.localDateTime());
+  epoch = dt.toEpochSeconds();
+  assertEqual("MST", tz.getAbbrev(epoch));
+  assertEqual(TimeOffset::forHours(0).toMinutes(),
+      tz.getDeltaOffset(epoch).toMinutes());
+
+  dt = ZonedDateTime::forComponents(2020, 3, 8, 3, 0, 0, tz);
+  assertEqual(TimeOffset::forHours(-7).toMinutes(),
+      dt.timeOffset().toMinutes());
+  epoch = dt.toEpochSeconds();
+  assertEqual("MST", tz.getAbbrev(epoch));
+  assertEqual(TimeOffset::forHours(0).toMinutes(),
+      tz.getDeltaOffset(epoch).toMinutes());
+}
+
+// --------------------------------------------------------------------------
 
 void setup() {
 #if ! defined(UNIX_HOST_DUINO)
