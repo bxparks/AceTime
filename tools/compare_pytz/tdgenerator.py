@@ -47,10 +47,19 @@ class TestDataGenerator():
         start_year: int,
         until_year: int,
         sampling_interval: int,
+        detect_dst_transition: bool = False,
     ):
+        """If detect_dst_transition is set to True, changes in the DST offset
+        will be considered to be a time offset transition. Enabling this will
+        cause additional test data points to be generated, but often they will
+        conflict with the DST offsets calculated by AceTime or HinnantDate
+        library. In other words, I think dateutil is incorrect for those DST
+        transitions.
+        """
         self.start_year = start_year
         self.until_year = until_year
         self.sampling_interval = timedelta(hours=sampling_interval)
+        self.detect_dst_transition = detect_dst_transition
 
     def create_test_data(self, zones: List[str]) -> None:
         test_data: TestData = {}
@@ -145,9 +154,8 @@ class TestDataGenerator():
             if next_dt.year >= self.until_year:
                 break
 
-            # Check for a change in UTC or DST offsets
-            if (dt_local.utcoffset() != next_dt_local.utcoffset()
-                    or dt_local.dst() != next_dt_local.dst()):
+            # Look for a UTC or DST transition.
+            if self.is_transition(dt_local, next_dt_local):
                 # print(f'Transition between {dt_local} and {next_dt_local}')
                 dt_left, dt_right = self.binary_search_transition(
                     tz, dt, next_dt)
@@ -160,8 +168,19 @@ class TestDataGenerator():
 
         return transitions
 
-    @staticmethod
+    def is_transition(self, dt1: datetime, dt2: datetime) -> bool:
+        """Determine if dt1 -> dt2 is a UTC offset transition. If
+        detect_dst_transition is True, then also detect DST offset transition.
+        """
+        if dt1.utcoffset() != dt1.utcoffset():
+            return True
+        if self.detect_dst_transition:
+            if dt1.dst() != dt1.dst():
+                return True
+        return False
+
     def binary_search_transition(
+        self,
         tz: Any,
         dt_left: datetime,
         dt_right: datetime,
@@ -180,12 +199,11 @@ class TestDataGenerator():
 
             dt_mid = dt_left + timedelta(minutes=delta_minutes)
             mid_dt_local = dt_mid.astimezone(tz)
-            if (dt_left_local.utcoffset() == mid_dt_local.utcoffset()
-                    and dt_left_local.dst() == mid_dt_local.dst()):
+            if self.is_transition(dt_left_local, mid_dt_local):
+                dt_right = dt_mid
+            else:
                 dt_left = dt_mid
                 dt_left_local = mid_dt_local
-            else:
-                dt_right = dt_mid
 
         return dt_left, dt_right
 
