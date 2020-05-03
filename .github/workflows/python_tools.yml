@@ -12,30 +12,35 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     strategy:
       matrix:
         python-version: [3.7, 3.8]
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         # pip install -r requirements.txt
         pip install flake8 mypy pytz python-dateutil
+
     - name: Lint with flake8
       run: |
         cd tools
         make flake8
+
     - name: Type checking with MyPy
       run: |
         cd tools
         make mypy
+
     - name: Test with unittest
       run: |
         cd tools
