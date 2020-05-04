@@ -47,7 +47,7 @@ class TestDataGenerator():
         start_year: int,
         until_year: int,
         sampling_interval: int,
-        detect_dst_transition: bool = False,
+        detect_dst_transition: bool = True,
     ):
         """If detect_dst_transition is set to True, changes in the DST offset
         will be considered to be a time offset transition. Enabling this will
@@ -172,10 +172,10 @@ class TestDataGenerator():
         """Determine if dt1 -> dt2 is a UTC offset transition. If
         detect_dst_transition is True, then also detect DST offset transition.
         """
-        if dt1.utcoffset() != dt1.utcoffset():
+        if dt1.utcoffset() != dt2.utcoffset():
             return True
         if self.detect_dst_transition:
-            if dt1.dst() != dt1.dst():
+            if dt1.dst() != dt2.dst():
                 return True
         return False
 
