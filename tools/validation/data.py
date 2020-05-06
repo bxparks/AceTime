@@ -45,8 +45,10 @@ from typing_extensions import TypedDict
 
 # An entry in the test data set.
 # Each TestData is annotated with a 'type' as:
-# * 'A': pre-transition
-# * 'B': post-transition
+# * 'A': pre-transition where the UTC offset is different
+# * 'B': post-transition where the UTC offset is different
+# * 'a': pre-transition where only the DST offset is different
+# * 'b': post-transition where only the DST offset is different
 # * 'S': a monthly test sample
 # * 'Y': end of year test sample
 TestItem = TypedDict("TestItem", {

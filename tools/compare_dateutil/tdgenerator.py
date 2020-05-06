@@ -29,8 +29,9 @@ from validation.data import (TestItem, TestData, ValidationData)
 # (2000-01-01 00:00:00)
 SECONDS_SINCE_UNIX_EPOCH = 946684800
 
-# The [start, until) time interval used to search for DST transitions.
-TransitionTimes = Tuple[datetime, datetime]
+# The [start, until) time interval used to search for DST transitions,
+# and flag that is True if ONLY the DST changed.
+TransitionTimes = Tuple[datetime, datetime, bool]
 
 # List of zones which have incorrect DST offset (compared to AceTime and Hinnant
 # date library). Looks like dateutil has one zone with problems: For
@@ -116,8 +117,6 @@ class TestDataGenerator():
                 dt_local = resolve_imaginary(
                     datetime(year, month, 1, 0, 0, 0, tzinfo=tz)
                 )
-                # dt_local = tz.localize(dt_wall)
-                # dt_local = tz.normalize(dt_local)
                 item = self._create_test_item(dt_local, 'S')
                 self._add_test_item(items_map, item)
 
@@ -125,8 +124,6 @@ class TestDataGenerator():
             dt_local = resolve_imaginary(
                 datetime(year, 12, 31, 23, 59, 0, tzinfo=tz)
             )
-            # dt_local = tz.localize(dt_wall)
-            # dt_local = tz.normalize(dt_local)
             item = self._create_test_item(dt_local, 'Y')
             self._add_test_item(items_map, item)
 
@@ -138,11 +135,13 @@ class TestDataGenerator():
         """Add DST transitions, using 'A' and 'B' designators"""
 
         transitions = self._find_transitions(tz)
-        for (left, right) in transitions:
-            left_item = self._create_test_item(left, 'A')
+        for (left, right, only_dst) in transitions:
+            left_item = self._create_test_item(
+                left, 'a' if only_dst else 'A')
             self._add_test_item(items_map, left_item)
 
-            right_item = self._create_test_item(right, 'B')
+            right_item = self._create_test_item(
+                right, 'b' if only_dst else 'B')
             self._add_test_item(items_map, right_item)
 
     def _find_transitions(self, tz: Any) -> List[TransitionTimes]:
@@ -169,7 +168,8 @@ class TestDataGenerator():
                     tz, dt, next_dt)
                 dt_left_local = dt_left.astimezone(tz)
                 dt_right_local = dt_right.astimezone(tz)
-                transitions.append((dt_left_local, dt_right_local))
+                only_dst = self.only_dst(dt_left_local, dt_right_local)
+                transitions.append((dt_left_local, dt_right_local, only_dst))
 
             dt = next_dt
             dt_local = next_dt_local
@@ -183,9 +183,14 @@ class TestDataGenerator():
         if dt1.utcoffset() != dt2.utcoffset():
             return True
         if self.detect_dst_transition:
-            if dt1.dst() != dt2.dst():
-                return True
+            return dt1.dst() != dt2.dst()
         return False
+
+    def only_dst(self, dt1: datetime, dt2: datetime) -> bool:
+        """Determine if dt1 -> dt2 is only a DST transition."""
+        if not self.detect_dst_transition:
+            return False
+        return dt1.utcoffset() == dt2.utcoffset() and dt1.dst() != dt2.dst()
 
     def binary_search_transition(
         self,
