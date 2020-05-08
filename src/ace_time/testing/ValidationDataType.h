@@ -12,7 +12,19 @@
 namespace ace_time {
 namespace testing {
 
-/** The epochSecond and the expected UTC offset and dateTime components. */
+/**
+ * The epochSecond and the expected UTC offset and dateTime components.
+ * This is the C++ representation of the 'TestItem' entry in
+ * validation_data.json file which is defined in tools/validation/data.py. The
+ * 'type' contains a single character with the following meanings:
+ *
+ *    * 'A': pre-transition where the UTC offset is different
+ *    * 'B': post-transition where the UTC offset is different
+ *    * 'a': pre-transition where only the DST offset is different
+ *    * 'b': post-transition where only the DST offset is different
+ *    * 'S': a monthly test sample
+ *    * 'Y': end of year test sample
+ */
 struct ValidationItem {
   acetime_t const epochSeconds;
   int16_t const timeOffsetMinutes;
@@ -24,11 +36,12 @@ struct ValidationItem {
   uint8_t const minute;
   uint8_t const second;
   const char* const abbrev;
+  char const type;
 };
 
 /**
- * Collection of ValidationItems (usually 300-500 samples over 30-50 years,
- * 2000 to 2050 for example) for a particular timezone (e.g.
+ * Collection of ValidationItems (usually 300-500 samples, over 30-50 years,
+ * from year 2000 until 2050, for example) for a particular timezone (e.g.
  * America/Los_Angeles) generated from a third party date/time library (e.g.
  * Python pytz). The AceTime classes will be tested against this dataset using
  * the BasicTransitionTest or ExtendedTransitionTest classes.

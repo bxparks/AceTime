@@ -148,7 +148,7 @@ namespace {self.db_namespace} {{
 //---------------------------------------------------------------------------
 
 static const testing::ValidationItem kValidationItems{normalized_name}[] = {{
-  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s, abbrev
+  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s,  abbrev, type
 {test_items_string}
 }};
 
@@ -181,12 +181,12 @@ const testing::ValidationData kValidationData{normalized_name} = {{
             second = test_item['s']
             abbrev_value = test_item['abbrev']
             abbrev = f'"{abbrev_value}"' if abbrev_value else 'nullptr'
-            tag = test_item['type']
+            type = test_item['type']
 
             test_item_code = f"""\
   {{ {epoch_seconds:10}, {total_offset_minutes:4}, {delta_offset_minutes:4}, \
-{year:4}, {month:2}, {day:2}, {hour:2}, {minute:2}, {second:2}, {abbrev} }}, \
-// type={tag}
+{year:4}, {month:2}, {day:2}, {hour:2}, {minute:2}, {second:2}, {abbrev:>7}, \
+'{type}' }},
 """
             s += test_item_code
         return s
