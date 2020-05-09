@@ -231,16 +231,12 @@ using namespace ace_time::{self.db_namespace};
         test_cases = ''
         for zone_name, _ in sorted(test_data.items()):
             normalized_name = normalize_name(zone_name)
-            test_dst = (
-                'true'
-                if has_valid_dst and (zone_name not in dst_blacklist)
-                else 'false'
-            )
-            test_dst_comment = (
-                ' BLACKLISTED'
-                if has_valid_dst and (zone_name in dst_blacklist)
-                else ''
-            )
+            if has_valid_dst and (zone_name not in dst_blacklist):
+                dst_validation_type = 'DstValidationType::kAll'
+                test_dst_comment = ''
+            else:
+                dst_validation_type = 'DstValidationType::kNone'
+                test_dst_comment = ' BLACKLISTED'
             test_abbrev = 'true' if has_valid_abbrev else 'false'
 
             test_case = f"""\
@@ -248,7 +244,7 @@ testF({self.test_class}, {normalized_name}) {{
   assertValid(
      &kZone{normalized_name},
      &kValidationData{normalized_name},
-     {test_dst} /*validateDst{test_dst_comment}*/,
+     {dst_validation_type} /*dstValidationType{test_dst_comment}*/,
      {test_abbrev} /*validateAbbrev*/);
 }}
 """
