@@ -53,6 +53,7 @@ validation_data.h: validation_data.json
 		--tz_version $(TZ_VERSION) \
 		--scope $(SCOPE) \
 		--db_namespace $(DB_NAMESPACE) \
+		--blacklist ../../../tools/compare_dateutil/blacklist.json \
 		< validation_data.json
 
 validation_data.json: $(DB_NAMESPACE)/zones.txt

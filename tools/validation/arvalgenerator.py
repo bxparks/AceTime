@@ -10,7 +10,7 @@ files for unit tests from the 'validation_data' (or its JSON representation).
 import logging
 import os
 from typing import List
-from typing import Set
+from typing import Dict
 from tzdb.transformer import div_to_zero
 from tzdb.transformer import normalize_name
 from .data import (TestItem, TestData, ValidationData)
@@ -27,11 +27,13 @@ class ArduinoValidationGenerator:
         scope: str,
         db_namespace: str,
         validation_data: ValidationData,
+        blacklist: Dict[str, str],
     ):
         self.invocation = invocation
         self.tz_version = tz_version
         self.db_namespace = db_namespace
         self.validation_data = validation_data
+        self.blacklist = blacklist
 
         self.test_data = validation_data['test_data']
         self.file_base = 'validation'
@@ -223,15 +225,13 @@ using namespace ace_time::{self.db_namespace};
 """
 
     def _generate_test_cases(self, test_data: TestData) -> str:
-        dst_blacklist: Set[str] = (
-            set(self.validation_data.get('dst_blacklist') or [])
-        )
+        blacklist = self.blacklist.keys()
         has_valid_abbrev = self.validation_data['has_valid_abbrev']
         has_valid_dst = self.validation_data['has_valid_dst']
         test_cases = ''
         for zone_name, _ in sorted(test_data.items()):
             normalized_name = normalize_name(zone_name)
-            if has_valid_dst and (zone_name not in dst_blacklist):
+            if has_valid_dst and (zone_name not in blacklist):
                 dst_validation_type = 'DstValidationType::kAll'
                 test_dst_comment = ''
             else:
