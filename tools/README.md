@@ -130,7 +130,7 @@ zones.txt
         validation_data.json <----------------/
                 |
                 v
-        generate_validation.py
+        generate_validation.py <-- compare*/blacklist.json
                 |
                 v
        validation_data.{h,cpp}
