@@ -12,15 +12,10 @@ module is truly dependent on only the 'pytz' module.
 """
 
 import logging
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 import pytz
-from typing import Any
-from typing import Tuple
-from typing import List
-from typing import Dict
-from typing import Optional
-from validation.data import (TestItem, TestData, ValidationData)
+from typing import Any, Tuple, List, Dict, Optional
+from validation.data import TestItem, TestData, ValidationData
 
 # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
 # (2000-01-01 00:00:00)
@@ -29,17 +24,6 @@ SECONDS_SINCE_UNIX_EPOCH = 946684800
 # The [start, until) time interval used to search for DST transitions,
 # and flag that is True if ONLY the DST changed.
 TransitionTimes = Tuple[datetime, datetime, bool]
-
-# List of zones which seem to have incorrect DST offset (compared to AceTime
-# and Hinnant date library).
-_DST_BLACKLIST = [
-    'America/Argentina/Buenos_Aires',
-    'America/Argentina/Cordoba',
-    'America/Argentina/Jujuy',
-    'America/Argentina/Salta',
-    'America/Bahia_Banderas',
-    'America/Indiana/Winamac',
-]
 
 
 class TestDataGenerator():
@@ -79,7 +63,6 @@ class TestDataGenerator():
             'has_valid_abbrev': True,
             'has_valid_dst': True,
             'test_data': self.test_data,
-            'dst_blacklist': _DST_BLACKLIST,
         }
 
     def _create_test_items_for_zone(

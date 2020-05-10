@@ -55,14 +55,6 @@ public class TestDataGenerator {
   // (2000-01-01T00:00:00Z).
   private static final int SECONDS_SINCE_UNIX_EPOCH = 946684800;
 
-  // List of zones which conflict with AceTime and Hinnant date library.
-  private static final String[] DST_BLACKLIST = {
-    "Africa/Casablanca",
-    "Africa/El_Aaiun",
-    "Africa/Windhoek",
-    "Europe/Dublin",
-  };
-
   public static void main(String[] argv) throws IOException {
     String invocation = "java TestDataGenerator " + String.join(" ", argv);
 
@@ -351,19 +343,7 @@ public class TestDataGenerator {
         writer.printf("%s]%s\n", indent1, (zoneCount < numZones) ? "," : "");
         zoneCount++;
       }
-      writer.printf("%s},\n", indent0);
-
-      // Write out the DST blacklist
-      writer.printf("%s\"dst_blacklist\": [\n", indent0);
-      zoneCount = 1;
-      numZones = DST_BLACKLIST.length;
-      for (String zone : DST_BLACKLIST) {
-        String indent1 = indent0 + indentUnit;
-        writer.printf("%s\"%s\"%s\n", indent1, zone,
-            (zoneCount < numZones) ? "," : "");
-        zoneCount++;
-      }
-      writer.printf("%s]\n", indent0);
+      writer.printf("%s}\n", indent0);
 
       writer.printf("}\n");
     }

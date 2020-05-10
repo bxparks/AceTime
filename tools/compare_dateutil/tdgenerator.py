@@ -12,18 +12,11 @@ Therefore, this module is truly dependent on only the 'dateutil' package.
 """
 
 import logging
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 import dateutil
-from dateutil.tz import gettz
-from dateutil.tz import resolve_imaginary
-from dateutil.tz import UTC
-from typing import Any
-from typing import Tuple
-from typing import List
-from typing import Dict
-from typing import Optional
-from validation.data import (TestItem, TestData, ValidationData)
+from dateutil.tz import gettz, resolve_imaginary, UTC
+from typing import Any, Tuple, List, Dict, Optional
+from validation.data import TestItem, TestData, ValidationData
 
 # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
 # (2000-01-01 00:00:00)
@@ -32,19 +25,6 @@ SECONDS_SINCE_UNIX_EPOCH = 946684800
 # The [start, until) time interval used to search for DST transitions,
 # and flag that is True if ONLY the DST changed.
 TransitionTimes = Tuple[datetime, datetime, bool]
-
-# List of zones which have incorrect DST offset (compared to AceTime and Hinnant
-# date library). Looks like dateutil has one zone with problems: For
-# America/Argentina/Mendoza, dateutil shows a DST of 120 minutes for the first 3
-# months of 2000, but all other libraries show a DST offset of 60 minutes, and a
-# transition at 2000-03-03 00:00 that changed the DST offset, but not the UTC
-# offset.
-#
-# If detect_dst_transition is set to True, then 37 additional zones fail
-# the validation due to incorrect DST offsets from dateutil.
-_DST_BLACKLIST = [
-    'America/Argentina/Mendoza',
-]
 
 
 class TestDataGenerator():
@@ -84,7 +64,6 @@ class TestDataGenerator():
             'has_valid_abbrev': True,
             'has_valid_dst': True,
             'test_data': self.test_data,
-            'dst_blacklist': _DST_BLACKLIST,
         }
 
     def _create_test_items_for_zone(
