@@ -3,21 +3,36 @@
 # MIT License
 
 """
-Generate the Arduino validation data (validation_data.h and validation_data.cpp)
-files for unit tests from the 'validation_data' (or its JSON representation).
+Generate the Arduino validation data files (validation_data.h and
+validation_data.cpp) files and the AUnit unit test file (validation_tests.cpp)
+from the 'validation_data.json' file on the STDIN.
 """
 
 import logging
 import os
-from typing import List
-from typing import Dict
-from tzdb.transformer import div_to_zero
-from tzdb.transformer import normalize_name
-from .data import (TestItem, TestData, ValidationData)
+from typing import List, Dict, Tuple
+from tzdb.transformer import div_to_zero, normalize_name
+from .data import TestItem, TestData, ValidationData
 
 
 class ArduinoValidationGenerator:
     """Generate Arduino data files for BasicPythonTest and ExtendedPythonTest.
+
+    The blacklist is a dict of {zonename -> blacklist_policy}, where the
+    blacklist_policy can be one of the following:
+
+        * "full": the DST offsets from the given library returns incorrect
+          results so the DST offset should be ignored and not validated. This is
+          implemented by passing DstValidationType::kNone into the assertValid()
+          method.
+        * "partial": the DST offset returned by the library for 'A' and 'B'
+          transitions are correct, but the DST only transitions indicated by 'a'
+          and'b' are incorrect and should be ignored. This is implemented by
+          passing DstValidationType::kExternal into the assertValid() method.
+        * "" or no entry: If the policy is given as "", or the zone name is
+          completely missing from the dictionary, then all DST offsets are
+          checked. This is implemented by passing DstValidationType::kAll into
+          the assertValid() method.
     """
 
     def __init__(
@@ -225,18 +240,15 @@ using namespace ace_time::{self.db_namespace};
 """
 
     def _generate_test_cases(self, test_data: TestData) -> str:
-        blacklist = self.blacklist.keys()
         has_valid_abbrev = self.validation_data['has_valid_abbrev']
         has_valid_dst = self.validation_data['has_valid_dst']
         test_cases = ''
         for zone_name, _ in sorted(test_data.items()):
             normalized_name = normalize_name(zone_name)
-            if has_valid_dst and (zone_name not in blacklist):
-                dst_validation_type = 'DstValidationType::kAll'
-                test_dst_comment = ''
-            else:
-                dst_validation_type = 'DstValidationType::kNone'
-                test_dst_comment = ' BLACKLISTED'
+            (
+                dst_validation_type,
+                dst_validation_comment,
+            ) = self._get_dst_validation(zone_name, has_valid_dst)
             test_abbrev = 'true' if has_valid_abbrev else 'false'
 
             test_case = f"""\
@@ -244,9 +256,30 @@ testF({self.test_class}, {normalized_name}) {{
   assertValid(
      &kZone{normalized_name},
      &kValidationData{normalized_name},
-     {dst_validation_type} /*dstValidationType{test_dst_comment}*/,
+     {dst_validation_type} /*dstValidationType{dst_validation_comment}*/,
      {test_abbrev} /*validateAbbrev*/);
 }}
 """
             test_cases += test_case
         return test_cases
+
+    def _get_dst_validation(
+        self,
+        zone_name: str,
+        has_valid_dst: bool,
+    ) -> Tuple[str, str]:
+        """Determine the dstValidationType."""
+        if not has_valid_dst:
+            return 'DstValidationType::kNone', ' INVALID DST'
+
+        blacklist_policy = self.blacklist.get(zone_name)
+        if not blacklist_policy:
+            return 'DstValidationType::kAll', ''
+
+        if blacklist_policy == 'partial':
+            return 'DstValidationType::kExternal', ' BLACKLISTED'
+
+        if blacklist_policy == 'full':
+            return 'DstValidationType::kNone', ' BLACKLISTED'
+
+        raise Exception(f"Unrecognized blacklist policy '{blacklist_policy}'")
