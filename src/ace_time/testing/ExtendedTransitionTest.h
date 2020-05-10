@@ -9,6 +9,7 @@
 #include <AUnitVerbose.h>
 #include <AceTime.h>
 #include "ValidationDataType.h"
+#include "DstValidationType.h"
 #include "../common/logging.h"
 
 #define EXTENDED_TRANSITION_TEST_DEBUG 0
@@ -20,8 +21,8 @@ class ExtendedTransitionTest: public aunit::TestOnce {
   protected:
     void assertValid(
         const extended::ZoneInfo* const zoneInfo,
-        const ValidationData* testData,
-        bool validateDst,
+        const ValidationData* const testData,
+        DstValidationType dstValidationType,
         bool validateAbbrev) {
 
       if (EXTENDED_TRANSITION_TEST_DEBUG) {
@@ -60,7 +61,9 @@ class ExtendedTransitionTest: public aunit::TestOnce {
         assertEqual(item.timeOffsetMinutes, timeOffset.toMinutes());
 
         // Verify DST offset.
-        if (validateDst) {
+        if ((dstValidationType == DstValidationType::kAll)
+            || ((dstValidationType == DstValidationType::kExternal)
+              && (item.type == 'A' || item.type == 'B'))) {
           TimeOffset deltaOffset = tz.getDeltaOffset(epochSeconds);
           if (item.deltaOffsetMinutes != deltaOffset.toMinutes()) {
             printTestInfo(i, epochSeconds);

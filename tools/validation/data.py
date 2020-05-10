@@ -31,16 +31,10 @@ type can be serialized to JSON directly. The JSON looks like:
     ],
     [...]
   },
-  'dst_blacklist': [
-    '{zone_name}',
-    ...
-  ]
 }
 """
 
-from typing import List
-from typing import Dict
-from typing import Optional
+from typing import List, Dict, Optional
 from typing_extensions import TypedDict
 
 # An entry in the test data set.
@@ -77,5 +71,4 @@ ValidationData = TypedDict('ValidationData', {
     'has_valid_abbrev': bool,  # 'abbrev' values are reliable
     'has_valid_dst': bool,  # DST offsets are reliable
     'test_data': TestData,
-    'dst_blacklist': List[str],
 })
