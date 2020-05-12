@@ -10,7 +10,7 @@ from the 'validation_data.json' file on the STDIN.
 
 import logging
 import os
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Optional
 from tzdb.transformer import div_to_zero, normalize_name
 from .data import TestItem, TestData, ValidationData
 
@@ -274,9 +274,10 @@ testF({self.test_class}, {normalized_name}) {{
             test_cases += test_case
         return test_cases
 
+
 def _get_validation_scope(
     is_valid: bool,
-    blacklist_policy: str,
+    blacklist_policy: Optional[str],
 ) -> Tuple[str, str]:
     """Determine the validationScope for DST and abbreviations."""
     if not is_valid:
