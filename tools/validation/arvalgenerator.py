@@ -23,15 +23,15 @@ class ArduinoValidationGenerator:
 
         * "full": the DST offsets from the given library returns incorrect
           results so the DST offset should be ignored and not validated. This is
-          implemented by passing DstValidationType::kNone into the assertValid()
+          implemented by passing ValidationScope::kNone into the assertValid()
           method.
         * "partial": the DST offset returned by the library for 'A' and 'B'
           transitions are correct, but the DST only transitions indicated by 'a'
           and'b' are incorrect and should be ignored. This is implemented by
-          passing DstValidationType::kExternal into the assertValid() method.
+          passing ValidationScope::kExternal into the assertValid() method.
         * "" or no entry: If the policy is given as "", or the zone name is
           completely missing from the dictionary, then all DST offsets are
-          checked. This is implemented by passing DstValidationType::kAll into
+          checked. This is implemented by passing ValidationScope::kAll into
           the assertValid() method.
     """
 
@@ -246,7 +246,7 @@ using namespace ace_time::{self.db_namespace};
         for zone_name, _ in sorted(test_data.items()):
             normalized_name = normalize_name(zone_name)
             (
-                dst_validation_type,
+                dst_validation_scope,
                 dst_validation_comment,
             ) = self._get_dst_validation(zone_name, has_valid_dst)
             test_abbrev = 'true' if has_valid_abbrev else 'false'
@@ -256,7 +256,7 @@ testF({self.test_class}, {normalized_name}) {{
   assertValid(
      &kZone{normalized_name},
      &kValidationData{normalized_name},
-     {dst_validation_type} /*dstValidationType{dst_validation_comment}*/,
+     {dst_validation_scope} /*dstValidationScope{dst_validation_comment}*/,
      {test_abbrev} /*validateAbbrev*/);
 }}
 """
@@ -270,16 +270,16 @@ testF({self.test_class}, {normalized_name}) {{
     ) -> Tuple[str, str]:
         """Determine the dstValidationType."""
         if not has_valid_dst:
-            return 'DstValidationType::kNone', ' INVALID DST'
+            return 'ValidationScope::kNone', ' INVALID DST'
 
         blacklist_policy = self.blacklist.get(zone_name)
         if not blacklist_policy:
-            return 'DstValidationType::kAll', ''
+            return 'ValidationScope::kAll', ''
 
         if blacklist_policy == 'partial':
-            return 'DstValidationType::kExternal', ' BLACKLISTED'
+            return 'ValidationScope::kExternal', ' BLACKLISTED'
 
         if blacklist_policy == 'full':
-            return 'DstValidationType::kNone', ' BLACKLISTED'
+            return 'ValidationScope::kNone', ' BLACKLISTED'
 
         raise Exception(f"Unrecognized blacklist policy '{blacklist_policy}'")
