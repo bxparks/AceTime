@@ -9,7 +9,7 @@
 #include <AUnitVerbose.h>
 #include <AceTime.h>
 #include "ValidationDataType.h"
-#include "DstValidationType.h"
+#include "ValidationScope.h"
 #include "../common/logging.h"
 
 #define EXTENDED_TRANSITION_TEST_DEBUG 0
@@ -22,8 +22,8 @@ class ExtendedTransitionTest: public aunit::TestOnce {
     void assertValid(
         const extended::ZoneInfo* const zoneInfo,
         const ValidationData* const testData,
-        DstValidationType dstValidationType,
-        bool validateAbbrev) {
+        ValidationScope dstValidationScope,
+        ValidationScope abbrevValidationScope) {
 
       if (EXTENDED_TRANSITION_TEST_DEBUG) {
         enableVerbosity(aunit::Verbosity::kAssertionPassed);
@@ -60,17 +60,6 @@ class ExtendedTransitionTest: public aunit::TestOnce {
         }
         assertEqual(item.timeOffsetMinutes, timeOffset.toMinutes());
 
-        // Verify DST offset.
-        if ((dstValidationType == DstValidationType::kAll)
-            || ((dstValidationType == DstValidationType::kExternal)
-              && (item.type == 'A' || item.type == 'B'))) {
-          TimeOffset deltaOffset = tz.getDeltaOffset(epochSeconds);
-          if (item.deltaOffsetMinutes != deltaOffset.toMinutes()) {
-            printTestInfo(i, epochSeconds);
-          }
-          assertEqual(item.deltaOffsetMinutes, deltaOffset.toMinutes());
-        }
-
         // Verify date components
         ZonedDateTime dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
         assertEqual(item.year, dt.year());
@@ -80,13 +69,28 @@ class ExtendedTransitionTest: public aunit::TestOnce {
         assertEqual(item.minute, dt.minute());
         assertEqual(item.second, dt.second());
 
-        // Verify abbreviation if it is defined.
-        if (validateAbbrev && item.abbrev != nullptr) {
-          if (! aunit::internal::compareEqual(
-              item.abbrev, tz.getAbbrev(epochSeconds))) {
+        // Verify DST offset if enabled.
+        if ((dstValidationScope == ValidationScope::kAll)
+            || ((dstValidationScope == ValidationScope::kExternal)
+              && (item.type == 'A' || item.type == 'B'))) {
+          TimeOffset deltaOffset = tz.getDeltaOffset(epochSeconds);
+          if (item.deltaOffsetMinutes != deltaOffset.toMinutes()) {
             printTestInfo(i, epochSeconds);
           }
-          assertEqual(item.abbrev, tz.getAbbrev(epochSeconds));
+          assertEqual(item.deltaOffsetMinutes, deltaOffset.toMinutes());
+        }
+
+        // Verify abbreviation if enabled.
+        if ((abbrevValidationScope == ValidationScope::kAll)
+            || ((abbrevValidationScope == ValidationScope::kExternal)
+              && (item.type == 'A' || item.type == 'B'))) {
+          if (item.abbrev != nullptr) {
+            if (! aunit::internal::compareEqual(
+                item.abbrev, tz.getAbbrev(epochSeconds))) {
+              printTestInfo(i, epochSeconds);
+            }
+            assertEqual(item.abbrev, tz.getAbbrev(epochSeconds));
+          }
         }
       }
 

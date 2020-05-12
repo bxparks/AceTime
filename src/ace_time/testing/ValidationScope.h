@@ -3,14 +3,26 @@
  * Copyright (c) 2020 Brian T. Park
  */
 
-#ifndef ACE_TIME_DST_VALIDATION_TYPE
-#define ACE_TIME_DST_VALIDATION_TYPE
+#ifndef ACE_TIME_VALIDATION_SCOPE
+#define ACE_TIME_VALIDATION_SCOPE
 
 namespace ace_time {
 namespace testing {
 
-enum class DstValidationType {
-  /** Disable validaiton of DST offset. */
+/**
+ * Enum that controls when a given entry from validation_data.cpp should
+ * trigger the DST offset or Abbreviation to be compared against AceTime's
+ * version. There are roughly 3 types of entries in validation_data.cpp,
+ * given by the 'type' field:
+ *
+ *    * A, B: transitions caused by a externally-visible change in UTC offset
+ *    * a, b: transitions caused by a change in DST offset which isn't normally
+ *      visible to the end-user (called "internal")
+ *    * S, Y: sample points (S), usually the first of the month) and year-end
+ *      (Y) point at the end of the year.
+ */
+enum class ValidationScope {
+  /** Disable validation of DST offset. */
   kNone,
 
   /**

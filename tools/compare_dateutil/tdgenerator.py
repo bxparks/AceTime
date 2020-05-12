@@ -33,7 +33,7 @@ class TestDataGenerator():
         start_year: int,
         until_year: int,
         sampling_interval: int,
-        detect_dst_transition: bool = False,
+        detect_dst_transition: bool = True,
     ):
         """If detect_dst_transition is set to True, changes in the DST offset
         will be considered to be a time offset transition. Enabling this will
