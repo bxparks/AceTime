@@ -245,11 +245,15 @@ using namespace ace_time::{self.db_namespace};
         test_cases = ''
         for zone_name, _ in sorted(test_data.items()):
             normalized_name = normalize_name(zone_name)
+
             (
                 dst_validation_scope,
                 dst_validation_comment,
             ) = self._get_dst_validation(zone_name, has_valid_dst)
-            test_abbrev = 'true' if has_valid_abbrev else 'false'
+            (
+                abbrev_validation_scope,
+                abbrev_validation_comment,
+            ) = self._get_abbrev_validation(zone_name, has_valid_abbrev)
 
             test_case = f"""\
 testF({self.test_class}, {normalized_name}) {{
@@ -257,7 +261,8 @@ testF({self.test_class}, {normalized_name}) {{
      &kZone{normalized_name},
      &kValidationData{normalized_name},
      {dst_validation_scope} /*dstValidationScope{dst_validation_comment}*/,
-     {test_abbrev} /*validateAbbrev*/);
+     {abbrev_validation_scope} \
+/*abbrevValidationScope{abbrev_validation_comment}*/);
 }}
 """
             test_cases += test_case
@@ -268,8 +273,29 @@ testF({self.test_class}, {normalized_name}) {{
         zone_name: str,
         has_valid_dst: bool,
     ) -> Tuple[str, str]:
-        """Determine the dstValidationType."""
+        """Determine the dstValidationScope."""
         if not has_valid_dst:
+            return 'ValidationScope::kNone', ' INVALID DST'
+
+        blacklist_policy = self.blacklist.get(zone_name)
+        if not blacklist_policy:
+            return 'ValidationScope::kAll', ''
+
+        if blacklist_policy == 'partial':
+            return 'ValidationScope::kExternal', ' BLACKLISTED'
+
+        if blacklist_policy == 'full':
+            return 'ValidationScope::kNone', ' BLACKLISTED'
+
+        raise Exception(f"Unrecognized blacklist policy '{blacklist_policy}'")
+
+    def _get_abbrev_validation(
+        self,
+        zone_name: str,
+        has_valid_abbrev: bool,
+    ) -> Tuple[str, str]:
+        """Determine the abbrevValidationScope."""
+        if not has_valid_abbrev:
             return 'ValidationScope::kNone', ' INVALID DST'
 
         blacklist_policy = self.blacklist.get(zone_name)
