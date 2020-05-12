@@ -249,11 +249,17 @@ using namespace ace_time::{self.db_namespace};
             (
                 dst_validation_scope,
                 dst_validation_comment,
-            ) = self._get_dst_validation(zone_name, has_valid_dst)
+            ) = _get_validation_scope(
+                has_valid_dst,
+                self.blacklist.get(zone_name),
+            )
             (
                 abbrev_validation_scope,
                 abbrev_validation_comment,
-            ) = self._get_abbrev_validation(zone_name, has_valid_abbrev)
+            ) = _get_validation_scope(
+                has_valid_abbrev,
+                self.blacklist.get(zone_name),
+            )
 
             test_case = f"""\
 testF({self.test_class}, {normalized_name}) {{
@@ -268,44 +274,21 @@ testF({self.test_class}, {normalized_name}) {{
             test_cases += test_case
         return test_cases
 
-    def _get_dst_validation(
-        self,
-        zone_name: str,
-        has_valid_dst: bool,
-    ) -> Tuple[str, str]:
-        """Determine the dstValidationScope."""
-        if not has_valid_dst:
-            return 'ValidationScope::kNone', ' INVALID DST'
+def _get_validation_scope(
+    is_valid: bool,
+    blacklist_policy: str,
+) -> Tuple[str, str]:
+    """Determine the validationScope for DST and abbreviations."""
+    if not is_valid:
+        return 'ValidationScope::kNone', ' INVALID'
 
-        blacklist_policy = self.blacklist.get(zone_name)
-        if not blacklist_policy:
-            return 'ValidationScope::kAll', ''
+    if not blacklist_policy:
+        return 'ValidationScope::kAll', ''
 
-        if blacklist_policy == 'partial':
-            return 'ValidationScope::kExternal', ' BLACKLISTED'
+    if blacklist_policy == 'partial':
+        return 'ValidationScope::kExternal', ' BLACKLISTED'
 
-        if blacklist_policy == 'full':
-            return 'ValidationScope::kNone', ' BLACKLISTED'
+    if blacklist_policy == 'full':
+        return 'ValidationScope::kNone', ' BLACKLISTED'
 
-        raise Exception(f"Unrecognized blacklist policy '{blacklist_policy}'")
-
-    def _get_abbrev_validation(
-        self,
-        zone_name: str,
-        has_valid_abbrev: bool,
-    ) -> Tuple[str, str]:
-        """Determine the abbrevValidationScope."""
-        if not has_valid_abbrev:
-            return 'ValidationScope::kNone', ' INVALID DST'
-
-        blacklist_policy = self.blacklist.get(zone_name)
-        if not blacklist_policy:
-            return 'ValidationScope::kAll', ''
-
-        if blacklist_policy == 'partial':
-            return 'ValidationScope::kExternal', ' BLACKLISTED'
-
-        if blacklist_policy == 'full':
-            return 'ValidationScope::kNone', ' BLACKLISTED'
-
-        raise Exception(f"Unrecognized blacklist policy '{blacklist_policy}'")
+    raise Exception(f"Unrecognized blacklist policy '{blacklist_policy}'")
