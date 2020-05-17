@@ -63,6 +63,13 @@ def main() -> None:
         type=str,
     )
 
+    # Ignore blacklist. Useful for debugging 3rd party timezones which have
+    # inconsistencies with AceTime (or Hinnant date).
+    parser.add_argument(
+        '--ignore_blacklist',
+        action='store_true',
+    )
+
     # Parse the command line arguments
     args = parser.parse_args()
 
@@ -78,7 +85,7 @@ def main() -> None:
     validation_data = json.load(sys.stdin)
 
     # Read the DST blacklist file if given.
-    if args.blacklist:
+    if args.blacklist and not args.ignore_blacklist:
         with open(args.blacklist) as f:
             blacklist = json.load(f)
     else:

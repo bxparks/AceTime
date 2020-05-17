@@ -19,98 +19,107 @@ namespace testing {
 
 class ExtendedTransitionTest: public aunit::TestOnce {
   protected:
+    /**
+     * Check if the data from the third party library is equal to the values
+     * expected from AceTime. We use custom assertion() logic instead of using
+     * AUnit's built-in assertEqual() methods for 2 reasons:
+     *
+     *  1) We want to test all test items in validation_data.cpp for each zone,
+     *  instead of terminating the test after the first failure.
+     *  2) We want error messages with far more context information so that we
+     *  can track down the exact test item that failed.
+     */
     void assertValid(
         const extended::ZoneInfo* const zoneInfo,
         const ValidationData* const testData,
         ValidationScope dstValidationScope,
         ValidationScope abbrevValidationScope) {
 
-      if (EXTENDED_TRANSITION_TEST_DEBUG) {
-        enableVerbosity(aunit::Verbosity::kAssertionPassed);
-      }
-
       ExtendedZoneProcessor zoneProcessor;
-      zoneProcessor.resetTransitionHighWater();
       TimeZone tz = TimeZone::forZoneInfo(zoneInfo, &zoneProcessor);
 
-      // Assert that each epoch_second produces the expected yMdhms
-      // components when converted through ZonedDataTime class.
+      bool passed = true;
       for (uint16_t i = 0; i < testData->numItems; i++) {
         const ValidationItem& item = testData->items[i];
         acetime_t epochSeconds = item.epochSeconds;
-        if (EXTENDED_TRANSITION_TEST_DEBUG) {
-          printTestInfo(i, epochSeconds);
-          ace_time::logging::printf("; %d-%d-%dT%d:%d:%d\r\n",
-            item.year,
-            item.month,
-            item.day,
-            item.hour,
-            item.minute,
-            item.second);
-        }
+        ZonedDateTime dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+
+        checkComponent(passed, i, item, "year", dt.year(), item.year);
+        checkComponent(passed, i, item, "month", dt.month(), item.month);
+        checkComponent(passed, i, item, "day", dt.day(), item.day);
+        checkComponent(passed, i, item, "hour", dt.hour(), item.hour);
+        checkComponent(passed, i, item, "minute", dt.minute(), item.minute);
+        checkComponent(passed, i, item, "second", dt.second(), item.second);
 
         TimeOffset timeOffset = tz.getUtcOffset(epochSeconds);
-        if (EXTENDED_TRANSITION_TEST_DEBUG) {
-          zoneProcessor.log();
-        }
+        checkComponent(passed, i, item, "UTC",
+            timeOffset.toMinutes(), item.timeOffsetMinutes);
 
-        // Verify total UTC timeOffset
-        if (item.timeOffsetMinutes != timeOffset.toMinutes()) {
-          printTestInfo(i, epochSeconds);
-        }
-        assertEqual(item.timeOffsetMinutes, timeOffset.toMinutes());
-
-        // Verify date components
-        ZonedDateTime dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
-        assertEqual(item.year, dt.year());
-        assertEqual(item.month, dt.month());
-        assertEqual(item.day, dt.day());
-        assertEqual(item.hour, dt.hour());
-        assertEqual(item.minute, dt.minute());
-        assertEqual(item.second, dt.second());
-
-        // Verify DST offset if enabled.
         if ((dstValidationScope == ValidationScope::kAll)
             || ((dstValidationScope == ValidationScope::kExternal)
               && (item.type == 'A' || item.type == 'B'))) {
           TimeOffset deltaOffset = tz.getDeltaOffset(epochSeconds);
-          if (item.deltaOffsetMinutes != deltaOffset.toMinutes()) {
-            printTestInfo(i, epochSeconds);
-          }
-          assertEqual(item.deltaOffsetMinutes, deltaOffset.toMinutes());
+          checkComponent(passed, i, item, "DST",
+              deltaOffset.toMinutes(), item.deltaOffsetMinutes);
         }
 
-        // Verify abbreviation if enabled.
         if ((abbrevValidationScope == ValidationScope::kAll)
             || ((abbrevValidationScope == ValidationScope::kExternal)
               && (item.type == 'A' || item.type == 'B'))) {
-          if (item.abbrev != nullptr) {
-            if (! aunit::internal::compareEqual(
-                item.abbrev, tz.getAbbrev(epochSeconds))) {
-              printTestInfo(i, epochSeconds);
-            }
-            assertEqual(item.abbrev, tz.getAbbrev(epochSeconds));
-          }
+          checkAbbrev(passed, i, item, tz);
         }
       }
+
+      if (EXTENDED_TRANSITION_TEST_DEBUG) {
+        if (! passed) {
+          zoneProcessor.log();
+        }
+      }
+      assertTrue(passed);
 
       // Assert that size of the internal Transitions buffer never got
       // above the expected buffer size. The buffer size is only relevant for
       // the ExtendedZoneProcessor class.
       //
-      // TODO: In theory, this should be BasicZone(zoneInfo).transitionBufSize()
-      // but this code works only on Linux or MacOS, so doesn't really matter.
+      // TODO: In theory, we should use
+      // ExtendedZone(zoneInfo).transitionBufSize() for compability with
+      // PROGMEM but this code works only on Linux or MacOS, not on an actual
+      // Arduion microncontroller, so it doesn't really matter.
       assertLess(zoneProcessor.getTransitionHighWater(),
         zoneInfo->transitionBufSize);
     }
 
-    void printTestInfo(uint16_t i, acetime_t epochSeconds) {
-      ace_time::logging::printf("==== failed at index: %d; ", i);
-      if (sizeof(acetime_t) == sizeof(int)) {
-        ace_time::logging::printf("epochSeconds: %d\r\n", epochSeconds);
-      } else {
-        ace_time::logging::printf("epochSeconds: %ld\r\n", epochSeconds);
+    void checkComponent(bool& passed, int i, const ValidationItem& item,
+        const char* componentName, int aceTimeValue, int libValue) {
+      if (aceTimeValue != libValue) {
+        printFailedHeader(componentName, i, item);
+        logging::printf("at=%d lib=%d\n", aceTimeValue, libValue);
       }
+    }
+
+    void checkAbbrev(bool& passed, int i, const ValidationItem& item,
+        const TimeZone& tz) {
+      if (item.abbrev == nullptr) return;
+
+      acetime_t epochSeconds = item.epochSeconds;
+      if (! aunit::internal::compareEqual(
+          item.abbrev, tz.getAbbrev(epochSeconds))) {
+        printFailedHeader("abbrev", i, item);
+        logging::printf( "at=%s, lib=%s\n",
+            tz.getAbbrev(epochSeconds),
+            item.abbrev);
+        passed = false;
+      }
+    }
+
+    void printFailedHeader(const char* tag, uint16_t i,
+        const ValidationItem& item) {
+      logging::printf(
+          "* Failed %s: index=%d eps=%ld "
+          "%04d-%02d-%02dT%02d:%02d:%02d: ",
+          tag, i, item.epochSeconds,
+          item.year, item.month, item.day,
+          item.hour, item.minute, item.second);
     }
 };
 
