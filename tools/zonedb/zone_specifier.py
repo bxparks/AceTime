@@ -610,10 +610,7 @@ class ZoneSpecifier:
         """
         self.init_for_year(dt.year)
         transition = self._find_transition_for_datetime(dt)
-        if transition:
-            return transition.to_timezone_tuple()
-        else:
-            return None
+        return transition.to_timezone_tuple() if transition else None
 
     def init_for_year(self, year: int) -> None:
         """Initialize the Matches and Transitions for the year. Call this
@@ -783,17 +780,30 @@ class ZoneSpecifier:
         self,
         dt: datetime,
     ) -> Optional[Transition]:
-        """Return the matching transition matching the local datetime 'dt',
-        or None if not found.
+        """Return the best matching transition matching the local datetime 'dt'.
+        This method can return None if no transition is found. The algorithm
+        matches the one implemented by
+        ExtendedZoneProcessor::findTransitionForDateTime():
+
+            1) If the 'dt' falls in a DST gap, the transition just before the
+            DST gap is returned.
+
+            2) If the 'dt' falls within a DST overlap, there are 2 matching
+            transitions. The algorithm returns the later transition.
+
+        The method can return None if the 'dt' is earlier than any known
+        transition.
         """
         secs = hms_to_seconds(dt.hour, dt.minute, dt.second)
         dt_time = DateTuple(y=dt.year, M=dt.month, d=dt.day, ss=secs, f='w')
+
+        match = None
         for transition in self.transitions:
             start_time = transition.startDateTime
-            until_time = transition.untilDateTime
-            if start_time <= dt_time and dt_time < until_time:
-                return transition
-        return None
+            if start_time > dt_time:
+                break
+            match = transition
+        return match
 
     def _find_matches(
         self,
