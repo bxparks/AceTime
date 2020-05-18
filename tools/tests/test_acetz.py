@@ -1,12 +1,12 @@
 import unittest
-from datetime import datetime
-from acetz import gettz as agettz
+from datetime import datetime, timedelta
+from acetz import gettz as agettz, SECONDS_SINCE_UNIX_EPOCH
 from dateutil.tz import gettz
 
 
 class TestAceTz(unittest.TestCase):
 
-    def test(self) -> None:
+    def test_constructor(self) -> None:
         dtz = gettz('America/Los_Angeles')
         ddt = datetime(2000, 1, 2, 3, 4, 5, tzinfo=dtz)
 
@@ -27,3 +27,24 @@ class TestAceTz(unittest.TestCase):
             adt.utcoffset().total_seconds(),
         )
         self.assertEqual(ddt.tzinfo.tzname(ddt), adt.tzinfo.tzname(adt))
+
+    def test_add_subtract_around_dst_shift(self) -> None:
+        atz = agettz('America/Los_Angeles')
+        adt = datetime(2000, 4, 2, 3, 0, 0, tzinfo=atz)
+        self.assertEqual(
+            7984800 + SECONDS_SINCE_UNIX_EPOCH,
+            adt.timestamp(),
+        )
+
+        # Not normalized
+        adt_minus = adt - timedelta(seconds=1)
+        expected = datetime(2000, 4, 2, 2, 59, 59, tzinfo=atz)
+        self.assertEqual(expected, adt_minus)
+
+        # Calculate fro epoch seconds.
+        adt_minus = datetime.fromtimestamp(
+            7984799 + SECONDS_SINCE_UNIX_EPOCH,
+            tz=atz,
+        )
+        expected = datetime(2000, 4, 2, 1, 59, 59, tzinfo=atz)
+        self.assertEqual(expected, adt_minus)
