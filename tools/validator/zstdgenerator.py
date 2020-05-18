@@ -16,6 +16,7 @@ ZoneInfo validation exposed by 'validate.py' script.
 
 import logging
 import datetime
+from datetime import tzinfo
 import pytz
 from zonedb.zone_specifier import ZoneSpecifier
 from zonedb.zone_specifier import SECONDS_SINCE_UNIX_EPOCH
@@ -137,7 +138,7 @@ class TestDataGenerator:
     def _create_transition_test_items(
         self,
         zone_name: str,
-        tz: Any,  # TODO: Figure out correct typing info for pytz.timezone
+        tz: tzinfo,
         zone_specifier: ZoneSpecifier
     ) -> List[TestItem]:
         """Create a TestItem for the tz for each zone, for each year from
@@ -212,7 +213,7 @@ class TestDataGenerator:
 
     def _create_test_item_from_datetime(
         self,
-        tz: Any,  # TODO: Figure out correct typing info for pytz.timezone
+        tz: Any,  # Cannot be 'tzinfo' due to pytz-specific localize() below
         tt: DateTuple,
         type: str,
     ) -> TestItem:
@@ -229,7 +230,7 @@ class TestDataGenerator:
 
     def _create_test_item_from_epoch_seconds(
         self,
-        tz: Any,
+        tz: tzinfo,
         epoch_seconds: int,
         type: str,
     ) -> TestItem:
