@@ -1,7 +1,10 @@
 from typing import cast, Optional
 from datetime import datetime, tzinfo, timedelta
 from zonedbpy import zone_infos
-from zonedb.zone_specifier import ZoneSpecifier
+from zonedb.zone_specifier import (  # noqa
+    ZoneSpecifier,
+    SECONDS_SINCE_UNIX_EPOCH,
+)
 from zonedb.ingenerator import ZoneInfo
 
 
@@ -19,7 +22,11 @@ class acetz(tzinfo):
         self.zs.init_for_year(dt.year)
         offset_info = self.zs.get_timezone_info_for_datetime(dt)
         if not offset_info:
-            raise Exception(f'Unknown timezone info for {dt}')
+            raise Exception(
+                f'Unknown timezone info for '
+                f'{dt.year:04}-{dt.month:02}-{dt.day:02} '
+                f'{dt.hour:02}:{dt.minute:02}:{dt.second:02}'
+            )
         return timedelta(seconds=offset_info.total_offset)
 
     def dst(self, dt: Optional[datetime]) -> timedelta:
@@ -27,7 +34,11 @@ class acetz(tzinfo):
         self.zs.init_for_year(dt.year)
         offset_info = self.zs.get_timezone_info_for_datetime(dt)
         if not offset_info:
-            raise Exception(f'Unknown timezone info for {dt}')
+            raise Exception(
+                f'Unknown timezone info for '
+                f'{dt.year:04}-{dt.month:02}-{dt.day:02} '
+                f'{dt.hour:02}:{dt.minute:02}:{dt.second:02}'
+            )
         return timedelta(seconds=offset_info.dst_offset)
 
     def tzname(self, dt: Optional[datetime]) -> str:
@@ -35,7 +46,11 @@ class acetz(tzinfo):
         self.zs.init_for_year(dt.year)
         offset_info = self.zs.get_timezone_info_for_datetime(dt)
         if not offset_info:
-            raise Exception(f'Unknown timezone info for {dt}')
+            raise Exception(
+                f'Unknown timezone info for '
+                f'{dt.year:04}-{dt.month:02}-{dt.day:02} '
+                f'{dt.hour:02}:{dt.minute:02}:{dt.second:02}'
+            )
         return offset_info.abbrev
 
 
