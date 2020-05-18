@@ -136,7 +136,6 @@ class Validator:
         """
         logging.info('Creating test data')
         data_generator = TestDataGenerator(
-            'basic',
             self.zone_infos,
             self.zone_policies,
             self.start_year,

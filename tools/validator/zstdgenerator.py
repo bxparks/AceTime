@@ -61,7 +61,6 @@ class TestDataGenerator:
 
     def __init__(
         self,
-        scope: str,
         zone_infos: ZoneInfoMap,
         zone_policies: ZonePolicyMap,
         start_year: int,
@@ -69,18 +68,16 @@ class TestDataGenerator:
     ):
         """
         Args:
-            scope: 'basic' or 'extended'
-            zone_infos (dict): {zone_name -> zone_info{} }
-            zone_policies (dict): {zone_name ->zone_policy{} }
+            zone_infos: { zone_name -> zone_info{} }
+            zone_policies: { zone_name ->zone_policy{} }
         """
-        self.scope = scope
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
+        self.start_year = start_year
+        self.until_year = until_year
 
         self.zone_name = ''
         self.viewing_months = 14
-        self.start_year = start_year
-        self.until_year = until_year
 
     def create_test_data(self) -> Tuple[TestData, int]:
         """Create a map of {
