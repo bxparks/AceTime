@@ -575,16 +575,18 @@ class ZoneSpecifier:
         self.debug = debug
 
     def get_transition_for_seconds(
-            self,
-            epoch_seconds: int,
+        self,
+        epoch_seconds: int,
     ) -> Optional[Transition]:
         """Return Transition for the given epoch_seconds.
         """
         self._init_for_second(epoch_seconds)
         return self._find_transition_for_seconds(epoch_seconds)
 
-    def get_transition_for_datetime(self,
-                                    dt: datetime) -> Optional[Transition]:
+    def get_transition_for_datetime(
+        self,
+        dt: datetime,
+    ) -> Optional[Transition]:
         """Return Transition for the given datetime.
         """
         self.init_for_year(dt.year)
@@ -601,8 +603,8 @@ class ZoneSpecifier:
         return transition.to_timezone_tuple()
 
     def get_timezone_info_for_datetime(
-            self,
-            dt: datetime,
+        self,
+        dt: datetime,
     ) -> Optional[OffsetInfo]:
         """Return the OffsetInfo of the Transition for a given datetime.
         """
@@ -689,9 +691,9 @@ class ZoneSpecifier:
             print_transitions(self.transitions)
 
     def get_buffer_sizes(
-            self,
-            start_year: int,
-            until_year: int,
+        self,
+        start_year: int,
+        until_year: int,
     ) -> Tuple[Tuple[int, int], Tuple[int, int]]:
         """Find the maximum number of actual transitions and the maximum number
         of candidate transitions across the given start_year and until_year.
@@ -721,8 +723,8 @@ class ZoneSpecifier:
     # The following methods are designed to be used internally.
 
     def _update_transition_buffer_size(
-            self,
-            candidate_transitions: List[Transition],
+        self,
+        candidate_transitions: List[Transition],
     ) -> None:
         """Update the statistics on the number of active Transitions
         and the size of the Transition buffer that may be required in the C++
@@ -764,8 +766,8 @@ class ZoneSpecifier:
         self.init_for_year(year)
 
     def _find_transition_for_seconds(
-            self,
-            epoch_seconds: int,
+        self,
+        epoch_seconds: int,
     ) -> Optional[Transition]:
         """Return the matching transition, or None if not found.
         """
@@ -777,8 +779,10 @@ class ZoneSpecifier:
                 break
         return matching_transition
 
-    def _find_transition_for_datetime(self,
-                                      dt: datetime) -> Optional[Transition]:
+    def _find_transition_for_datetime(
+        self,
+        dt: datetime,
+    ) -> Optional[Transition]:
         """Return the matching transition matching the local datetime 'dt',
         or None if not found.
         """
@@ -792,9 +796,9 @@ class ZoneSpecifier:
         return None
 
     def _find_matches(
-            self,
-            start_ym: YearMonthTuple,
-            until_ym: YearMonthTuple,
+        self,
+        start_ym: YearMonthTuple,
+        until_ym: YearMonthTuple,
     ) -> List[ZoneMatch]:
         """Find the Zone Eras which overlap [start_ym, until_ym), ignoring
         day, time and timeSuffix. The start and until fields are truncated at
@@ -853,8 +857,10 @@ class ZoneSpecifier:
             transitions_for_match = self._find_transitions_for_match(match)
             self.transitions.extend(transitions_for_match)
 
-    def _find_transitions_for_match(self,
-                                    match: ZoneMatch) -> List[Transition]:
+    def _find_transitions_for_match(
+        self,
+        match: ZoneMatch,
+    ) -> List[Transition]:
         """Determine if the given ZoneMatch is a simple ZoneMatch (contains an
         explicit DST offset) or named (references a named ZonePolicy to
         determine the DST offset). Then find the Transitions of the given match
@@ -871,8 +877,8 @@ class ZoneSpecifier:
             return self._find_transitions_from_named_match(match)
 
     def _find_transitions_from_simple_match(
-            self,
-            match: ZoneMatch,
+        self,
+        match: ZoneMatch,
     ) -> List[Transition]:
         """The zonePolicy is '-' or ':' then the Zone Era itself defines the UTC
         offset and the abbreviation. Returns a list of one Transition object,
@@ -890,8 +896,8 @@ class ZoneSpecifier:
         return transitions
 
     def _find_transitions_from_named_match(
-            self,
-            match: ZoneMatch,
+        self,
+        match: ZoneMatch,
     ) -> List[Transition]:
         """Find the transitions of the named ZoneMatch. The search for the
         relevant Transition occurs in 2 passes:
@@ -1009,10 +1015,10 @@ class ZoneSpecifier:
 
     @staticmethod
     def _create_match(
-            prev_era: ZoneEraCooked,
-            zone_era: ZoneEraCooked,
-            start_ym: YearMonthTuple,
-            until_ym: YearMonthTuple,
+        prev_era: ZoneEraCooked,
+        zone_era: ZoneEraCooked,
+        start_ym: YearMonthTuple,
+        until_ym: YearMonthTuple,
     ) -> ZoneMatch:
         """Create the Zone Match object for the given Zone Era, truncated at
         the low and high end by start_ym and until_ym:
@@ -1161,9 +1167,9 @@ class ZoneSpecifier:
 
     @staticmethod
     def _expand_date_tuple(
-            dt: DateTuple,
-            offset_seconds: int,
-            delta_seconds: int,
+        dt: DateTuple,
+        offset_seconds: int,
+        delta_seconds: int,
     ) -> Tuple[DateTuple, DateTuple, DateTuple]:
         """Convert 's', 'u', or 'w' time into the other 2 versions using the
         given base UTC offset and the delta DST offset. Return a tuple of
@@ -1252,10 +1258,10 @@ class ZoneSpecifier:
 
     @staticmethod
     def _era_overlaps_interval(
-            prev_era: ZoneEraCooked,
-            era: ZoneEraCooked,
-            start_ym: YearMonthTuple,
-            until_ym: YearMonthTuple,
+        prev_era: ZoneEraCooked,
+        era: ZoneEraCooked,
+        start_ym: YearMonthTuple,
+        until_ym: YearMonthTuple,
     ) -> bool:
         """Determines if era overlaps the interval [start_ym, until_ym),
         ignoring the day, time and timeSuffix. The start date of the current
@@ -1270,9 +1276,9 @@ class ZoneSpecifier:
 
     @staticmethod
     def _compare_era_to_year_month(
-            era: ZoneEraCooked,
-            year: int,
-            month: int,
+        era: ZoneEraCooked,
+        year: int,
+        month: int,
     ) -> int:
         """Compare the zone_era with year, returning -1, 0 or 1. The day of
         month is implicitly 1. Ignore the untilTimeSuffix suffix. Maybe it's
@@ -1301,9 +1307,9 @@ class CandidateFinder(Protocol):
     """
 
     def find_candidate_transitions(
-            self,
-            match: ZoneMatch,
-            rules: List[ZoneRuleCooked],
+        self,
+        match: ZoneMatch,
+        rules: List[ZoneRuleCooked],
     ) -> List[Transition]:
         ...
 
@@ -1313,9 +1319,9 @@ class CandidateFinderBasic:
         self.debug = debug
 
     def find_candidate_transitions(
-            self,
-            match: ZoneMatch,
-            rules: List[ZoneRuleCooked],
+        self,
+        match: ZoneMatch,
+        rules: List[ZoneRuleCooked],
     ) -> List[Transition]:
         """Get the list of candidate transitions from the 'rules' which overlap
         the whole years [start_y, end_y] (inclusive)) defined by the given
@@ -1349,10 +1355,10 @@ class CandidateFinderBasic:
 
     @staticmethod
     def get_candidate_years(
-            from_year: int,
-            to_year: int,
-            start_year: int,
-            end_year: int,
+        from_year: int,
+        to_year: int,
+        start_year: int,
+        end_year: int,
     ) -> List[int]:
         """Return the array of years within the Rule's [from_year, to_year]
         range which should be evaluated to obtain the transitions necessary for
@@ -1381,9 +1387,9 @@ class CandidateFinderOptimized:
         self.debug = debug
 
     def find_candidate_transitions(
-            self,
-            match: ZoneMatch,
-            rules: List[ZoneRuleCooked],
+        self,
+        match: ZoneMatch,
+        rules: List[ZoneRuleCooked],
     ) -> List[Transition]:
         """Similar to CandidateFinderBasic.find_candidate_transitions() except
         that prior Transitions which are obviously non-candidates are filtered
@@ -1437,8 +1443,8 @@ class CandidateFinderOptimized:
 
     @staticmethod
     def _calc_prior_transition(
-            prior_transition: Optional[Transition],
-            transition: Transition,
+        prior_transition: Optional[Transition],
+        transition: Transition,
     ) -> Transition:
         """Return the latest prior transition.
         """
@@ -1457,9 +1463,9 @@ class ActiveSelector(Protocol):
     """
 
     def select_active_transitions(
-            self,
-            transitions: List[Transition],
-            match: ZoneMatch,
+        self,
+        transitions: List[Transition],
+        match: ZoneMatch,
     ) -> List[Transition]:
         ...
 
@@ -1469,9 +1475,9 @@ class ActiveSelectorBasic:
         self.debug = debug
 
     def select_active_transitions(
-            self,
-            transitions: List[Transition],
-            match: ZoneMatch,
+        self,
+        transitions: List[Transition],
+        match: ZoneMatch,
     ) -> List[Transition]:
         """Select those Transitions which overlap with the ZoneMatch interval
         which may not be at year boundary. Also select the latest prior
@@ -1515,9 +1521,9 @@ class ActiveSelectorBasic:
 
     @staticmethod
     def _process_transition(
-            match: ZoneMatch,
-            transition: Transition,
-            results: Dict[str, Any],
+        match: ZoneMatch,
+        transition: Transition,
+        results: Dict[str, Any],
     ) -> None:
         """Compare the given transition to the given match, checking the
         following situations:
@@ -1583,9 +1589,9 @@ class ActiveSelectorInPlace:
         self.debug = debug
 
     def select_active_transitions(
-            self,
-            transitions: List[Transition],
-            match: ZoneMatch,
+        self,
+        transitions: List[Transition],
+        match: ZoneMatch,
     ) -> List[Transition]:
         """Similar to ActiveSelectorBasic.select_active_transitions() except
         that it does not use any additional dynamically allocated array of
@@ -1611,9 +1617,9 @@ class ActiveSelectorInPlace:
 
     @staticmethod
     def _process_transition(
-            match: ZoneMatch,
-            transition: Transition,
-            prior: Optional[Transition],
+        match: ZoneMatch,
+        transition: Transition,
+        prior: Optional[Transition],
     ) -> Optional[Transition]:
         """A version of ActiveSelectorBasic._process_transition() that does
         not allocate new array members, rather uses an internal flag. This
@@ -1680,9 +1686,9 @@ def _compare_date_tuple(a: DateTuple, b: DateTuple) -> int:
 
 
 def _create_transition_for_year(
-        year: int,
-        rule: ZoneRuleCooked,
-        match: ZoneMatch,
+    year: int,
+    rule: ZoneRuleCooked,
+    match: ZoneMatch,
 ) -> Transition:
     """Create the transition from the given 'rule' for the given 'year'.
     Return None if 'year' does not overlap with the [from, to] of the rule. The
@@ -1699,10 +1705,10 @@ def _create_transition_for_year(
 
 
 def _get_interior_years(
-        from_year: int,
-        to_year: int,
-        start_year: int,
-        end_year: int,
+    from_year: int,
+    to_year: int,
+    start_year: int,
+    end_year: int,
 ) -> List[int]:
     """Return the Rule years that overlap with the Match[start_year, end_year].
     """
@@ -1714,10 +1720,10 @@ def _get_interior_years(
 
 
 def _get_most_recent_prior_year(
-        from_year: int,
-        to_year: int,
-        start_year: int,
-        end_year: int,
+    from_year: int,
+    to_year: int,
+    start_year: int,
+    end_year: int,
 ) -> int:
     """Return the most recent prior year of the rule[from_year, to_year].
     Return -1 if the rule[from_year, to_year] has no prior year to the
@@ -1733,8 +1739,8 @@ def _get_most_recent_prior_year(
 
 
 def _compare_transition_to_match(
-        transition: Transition,
-        match: ZoneMatch,
+    transition: Transition,
+    match: ZoneMatch,
 ) -> int:
     """Determine if transition_time applies to given range of the match.
     To compare the Transition time to the ZoneMatch time properly, the
@@ -1779,8 +1785,8 @@ def _compare_transition_to_match(
 
 
 def _compare_transition_to_match_fuzzy(
-        transition: Transition,
-        match: ZoneMatch,
+    transition: Transition,
+    match: ZoneMatch,
 ) -> int:
     """Like _compare_transition_to_match() except perform a fuzzy match
     within at least one-month of the match.start or match.until.
