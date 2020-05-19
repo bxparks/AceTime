@@ -3,6 +3,7 @@ TZ_VERSION := 2020f
 # Files which pass 'mypy --strict'.
 SRC := \
 acetz.py \
+compare_acetz \
 compare_pytz \
 compare_dateutil \
 compare_pytz \
