@@ -7,6 +7,8 @@ from zonedb.zone_specifier import (  # noqa
 )
 from zonedb.ingenerator import ZoneInfo
 
+__version__ = '1.1'
+
 
 class acetz(tzinfo):
     """An implementation of datetime.tzinfo using the ZoneSpecifier class
