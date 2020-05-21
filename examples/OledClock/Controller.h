@@ -7,7 +7,7 @@
 #include "RenderingInfo.h"
 #include "StoredInfo.h"
 #include "PersistentStore.h"
-#include "Presenter.h"
+#include "Presenter1.h"
 
 using namespace ace_time;
 using namespace ace_time::common;
@@ -57,6 +57,12 @@ class Controller {
         restoreClockInfo(mClockInfo, storedInfo);
       } else {
         setupClockInfo();
+
+      auto pacificTz = mZoneManager.createForZoneIndex(mZoneIndex);
+        // Set the SystemClock using these components.
+      auto pacificTime = ZonedDateTime::forComponents(
+      2020, 5, 8, 5, 36, 0, pacificTz);
+         mClock.setNow(pacificTime.toEpochSeconds());
       }
     #endif
 
@@ -81,6 +87,8 @@ class Controller {
       #if ENABLE_SERIAL == 1
         SERIAL_PORT_MONITOR.println(F("modeButtonPress()"));
       #endif
+      Serial.print("LongBtn input mode: ");
+      Serial.println(mMode);
       switch (mMode) {
         // Cycle through the 3 main screens.
         case MODE_DATE_TIME:
@@ -128,6 +136,8 @@ class Controller {
           break;
       #endif
       }
+      Serial.print("ModeBtn exit mode: ");
+      Serial.println(mMode);
     }
 
     void modeButtonLongPress() {
@@ -170,6 +180,8 @@ class Controller {
           mMode = MODE_TIME_ZONE;
           break;
       }
+      Serial.print("LongBtn exit mode: ");
+      Serial.println(mMode);
     }
 
     void changeButtonPress() {
@@ -290,6 +302,7 @@ class Controller {
 
       mClockInfo.dateTime = ZonedDateTime::forEpochSeconds(
           mClock.getNow(), mClockInfo.timeZone);
+
 
       // If in CHANGE mode, and the 'second' field has not been cleared,
       // update the mChangingDateTime.second field with the current second.
