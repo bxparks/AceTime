@@ -17,7 +17,7 @@ class acetz(tzinfo):
 
     def __init__(self, zone_info: ZoneInfo):
         self.zone_info = zone_info
-        self.zs = ZoneSpecifier(zone_info)
+        self.zs = ZoneSpecifier(zone_info, use_python_transition=True)
 
     def utcoffset(self, dt: Optional[datetime]) -> timedelta:
         assert dt
@@ -54,6 +54,9 @@ class acetz(tzinfo):
                 f'{dt.hour:02}:{dt.minute:02}:{dt.second:02}'
             )
         return offset_info.abbrev
+
+    def zone_specifier(self) -> ZoneSpecifier:
+        return self.zs
 
 
 def gettz(zone_name: str) -> acetz:

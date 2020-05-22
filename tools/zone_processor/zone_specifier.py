@@ -535,6 +535,7 @@ class ZoneSpecifier:
             debug: bool = False,
             in_place_transitions: bool = True,
             optimize_candidates: bool = True,
+            use_python_transition: bool = False,
     ):
         """Constructor.
 
@@ -558,6 +559,7 @@ class ZoneSpecifier:
         self.viewing_months = viewing_months
         self.in_place_transitions = in_place_transitions
         self.optimize_candidates = optimize_candidates
+        self.use_python_transition = use_python_transition
 
         # Used by init_*() to indicate the current year of interest.
         self.year = 0
@@ -802,9 +804,17 @@ class ZoneSpecifier:
         self,
         dt: datetime,
     ) -> Optional[Transition]:
+        if self.use_python_transition:
+            return self._find_transition_for_datetime_python(dt)
+        else:
+            return self._find_transition_for_datetime_cpp(dt)
+
+    def _find_transition_for_datetime_cpp(
+        self,
+        dt: datetime,
+    ) -> Optional[Transition]:
         """Return the best matching transition matching the local datetime 'dt'.
-        This method can return None if no transition is found. The algorithm
-        matches the one implemented by
+        The algorithm matches the one implemented by
         ExtendedZoneProcessor::findTransitionForDateTime():
 
             1) If the 'dt' falls in a DST gap, the transition just before the
@@ -825,6 +835,33 @@ class ZoneSpecifier:
             if start_time > dt_time:
                 break
             match = transition
+        return match
+
+    def _find_transition_for_datetime_python(
+        self,
+        dt: datetime,
+    ) -> Optional[Transition]:
+        """Return the match transition using an algorithm that works for
+        Python's datetime.tzinfo. Return the last matching transition.
+        If the 'dt' is in the gap, return the upcoming transition.
+        If the 'dt' is in the overlap, return the earlier transition.
+        """
+        secs = hms_to_seconds(dt.hour, dt.minute, dt.second)
+        dt_time = DateTuple(y=dt.year, M=dt.month, d=dt.day, ss=secs, f='w')
+
+        match = None
+        exact_match = True
+        for transition in self.transitions:
+            start_time = transition.startDateTime
+            until_time = transition.untilDateTime
+
+            if dt_time < start_time:
+                if not exact_match:
+                    match = transition
+                break
+
+            match = transition
+            exact_match = start_time <= dt_time and dt_time < until_time
         return match
 
     def _find_matches(
