@@ -16,6 +16,7 @@ ZoneInfo validation exposed by 'validate.py' script.
 
 import logging
 import datetime
+from datetime import tzinfo
 import pytz
 from zonedb.zone_specifier import ZoneSpecifier
 from zonedb.zone_specifier import SECONDS_SINCE_UNIX_EPOCH
@@ -61,7 +62,6 @@ class TestDataGenerator:
 
     def __init__(
         self,
-        scope: str,
         zone_infos: ZoneInfoMap,
         zone_policies: ZonePolicyMap,
         start_year: int,
@@ -69,18 +69,16 @@ class TestDataGenerator:
     ):
         """
         Args:
-            scope: 'basic' or 'extended'
-            zone_infos (dict): {zone_name -> zone_info{} }
-            zone_policies (dict): {zone_name ->zone_policy{} }
+            zone_infos: { zone_name -> zone_info{} }
+            zone_policies: { zone_name ->zone_policy{} }
         """
-        self.scope = scope
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
+        self.start_year = start_year
+        self.until_year = until_year
 
         self.zone_name = ''
         self.viewing_months = 14
-        self.start_year = start_year
-        self.until_year = until_year
 
     def create_test_data(self) -> Tuple[TestData, int]:
         """Create a map of {
@@ -140,7 +138,7 @@ class TestDataGenerator:
     def _create_transition_test_items(
         self,
         zone_name: str,
-        tz: Any,  # TODO: Figure out correct typing info for pytz.timezone
+        tz: tzinfo,
         zone_specifier: ZoneSpecifier
     ) -> List[TestItem]:
         """Create a TestItem for the tz for each zone, for each year from
@@ -215,7 +213,7 @@ class TestDataGenerator:
 
     def _create_test_item_from_datetime(
         self,
-        tz: Any,  # TODO: Figure out correct typing info for pytz.timezone
+        tz: Any,  # Cannot be 'tzinfo' due to pytz-specific localize() below
         tt: DateTuple,
         type: str,
     ) -> TestItem:
@@ -232,7 +230,7 @@ class TestDataGenerator:
 
     def _create_test_item_from_epoch_seconds(
         self,
-        tz: Any,
+        tz: tzinfo,
         epoch_seconds: int,
         type: str,
     ) -> TestItem:

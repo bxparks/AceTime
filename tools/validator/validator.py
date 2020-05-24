@@ -136,7 +136,6 @@ class Validator:
         """
         logging.info('Creating test data')
         data_generator = TestDataGenerator(
-            'basic',
             self.zone_infos,
             self.zone_policies,
             self.start_year,
@@ -221,14 +220,3 @@ class Validator:
 
 def _test_item_to_string(i: TestItem) -> str:
     return '%04d-%02d-%02dT%02d:%02d:%02d' % (i.y, i.M, i.d, i.h, i.m, i.s)
-
-
-# List of zones where the Python DST offset is incorrect.
-TIME_ZONES_BLACKLIST = {
-    'America/Argentina/Buenos_Aires',  # Python is wrong
-    'America/Argentina/Cordoba',  # Python is wrong
-    'America/Argentina/Jujuy',  # Python is wrong
-    'America/Argentina/Salta',  # Python is wrong
-    'America/Bahia_Banderas',  # Python is wrong
-    'America/Indiana/Winamac',  # Python is wrong
-}
