@@ -57,5 +57,5 @@ SCL, SDA = I2C pins
 ## Installation and User Guide
 
 I don't have the time to write a documentation for this, but structure of the
-code for WorldClock is very similar to [OledClock](../OldClock) so the notes
+code for WorldClock is very similar to [OledClock](../OledClock) so the notes
 there will be very close to how the WorldClock works.
