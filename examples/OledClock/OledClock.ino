@@ -154,7 +154,7 @@ COROUTINE(checkButton) {
   COROUTINE_LOOP() {
     modeButton.check();
     changeButton.check();
-    COROUTINE_DELAY(10); // check button 100/sec
+    COROUTINE_DELAY(5); // check button every 5 ms
   }
 }
 
