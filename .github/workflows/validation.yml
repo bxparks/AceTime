@@ -10,7 +10,7 @@ jobs:
   build:
 
     runs-on: ubuntu-18.04
-    
+
     # Tried to use
     # https://github.com/actions/checkout#Checkout-multiple-repos-side-by-side,
     # but it looks like GITHUB_WORKSPACE is set to
