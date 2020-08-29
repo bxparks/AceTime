@@ -40,3 +40,7 @@ this:
 TestRunner summary: 231 passed, 0 failed, 0 skipped, 0 timed out, out of 231
 test(s).
 ```
+
+An efficient way to detect failures is to grep for the word `failed`:
+
+* `$ make runtests | grep failed`
