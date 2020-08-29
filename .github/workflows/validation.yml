@@ -11,36 +11,25 @@ jobs:
 
     runs-on: ubuntu-18.04
     
-    # See https://github.com/actions/checkout#Checkout-multiple-repos-side-by-side
+    # Tried to use
+    # https://github.com/actions/checkout#Checkout-multiple-repos-side-by-side,
+    # but it looks like GITHUB_WORKSPACE is set to
+    # /home/runner/work/AceTime/AceTime, so if path is set to 'main' as
+    # suggested in the article, then the repos is set to
+    # /home/runner/work/Acetime/AceTime/main/AceTime, which is really
+    # confusing. Instead, use 'cd ..' to go up a level and call 'git clone'
+    # manually.
     steps:
     - name: Checkout AceTime
       uses: actions/checkout@v2
-      with:
-        path: main
 
-    - name: Checkout UnixHostDuino
-      uses: actions/checkout@v2
-      with:
-        repository: bxparks/UnixHostDuino
-        path: UnixHostDuino
-
-    - name: Checkout AUnit
-      uses: actions/checkout@v2
-      with:
-        repository: bxparks/AUnit
-        path: AUnit
-
-    - name: Checkout IANA tz
-      uses: actions/checkout@v2
-      with:
-        repository: eggert/tz
-        path: tz
-
-    - name: Checkout Hinnant date
-      uses: actions/checkout@v2
-      with:
-        repository: HowardHinnant/date
-        path: date
+    - name: Checkout 3rd Party Repos
+      run: |
+        cd ..
+        git clone https://github.com/bxparks/UnixHostDuino
+        git clone https://github.com/bxparks/AUnit
+        git clone https://github.com/eggert/tz
+        git clone https://github.com/HowardHinnant/date
 
     - name: Install libcurl4-openssl-dev
       run: |
@@ -58,7 +47,7 @@ jobs:
     - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r AceTime/tools/requirements.txt
+        pip install -r tools/requirements.txt
 
     - name: Set up Java 11
       uses: actions/setup-java@v1
@@ -67,18 +56,18 @@ jobs:
 
     - name: Build compare_cpp
       run: |
-        cd AceTime/tools/compare_cpp
+        cd tools/compare_cpp
         make
 
     - name: Build compare_java
       run: |
-        cd AceTime/tools/compare_java
+        cd tools/compare_java
         make
 
     - name: Build Validation Tests
       run: |
-        make -C AceTime/tests/validation tests
+        make -C tests/validation tests
 
     - name: Run Validation Tests
       run: |
-        make -C AceTime/tests/validation runtests
+        make -C tests/validation runtests
