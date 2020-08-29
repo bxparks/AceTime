@@ -29,9 +29,10 @@ runtests:
 	./$(APP_NAME).out
 
 # Define the scope of the test data.
-# Validate using openjdk 11.0.6 2020-01-14 (which uses 2019c)
+#	* openjdk 11.0.6 2020-01-14 uses 2019c
+#	* openjdk 11.0.8 2020-07-14 uses 2020a
 SCOPE = extended
-TZ_VERSION = 2019c
+TZ_VERSION = 2020a
 START_YEAR = 2000
 UNTIL_YEAR = 2050
 
