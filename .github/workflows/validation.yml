@@ -43,7 +43,9 @@ jobs:
         path: date
 
     - name: Install libcurl4-openssl-dev
-      run: sudo apt install -y libcurl4-openssl-dev
+      run: |
+        sudo apt update
+        sudo apt install -y libcurl4-openssl-dev
 
     - name: Set up Python 3.7
       uses: actions/setup-python@v1
