@@ -11,17 +11,39 @@ jobs:
 
     runs-on: ubuntu-18.04
     
+    # See https://github.com/actions/checkout#Checkout-multiple-repos-side-by-side
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout AceTime
+      uses: actions/checkout@v2
+      with:
+        path: AceTime
 
-    - name: Setup External Git Repos and Dependencies
-      run: |
-        cd ..
-        git clone https://github.com/bxparks/UnixHostDuino
-        git clone https://github.com/bxparks/AUnit
-        git clone https://github.com/eggert/tz
-        git clone https://github.com/HowardHinnant/date
-        sudo apt install -y libcurl4-openssl-dev
+    - name: Checkout UnixHostDuino
+      uses: actions/checkout@v2
+      with:
+        repository: bxparks/UnixHostDuino
+        path: UnixHostDuino
+
+    - name: Checkout AUnit
+      uses: actions/checkout@v2
+      with:
+        repository: bxparks/AUnit
+        path: AUnit
+
+    - name: Checkout IANA tz
+      uses: actions/checkout@v2
+      with:
+        repository: eggert/tz
+        path: tz
+
+    - name: Checkout Hinnant date
+      uses: actions/checkout@v2
+      with:
+        repository: HowardHinnant/date
+        path: date
+
+    - name: Install libcurl4-openssl-dev
+      run: sudo apt install -y libcurl4-openssl-dev
 
     - name: Set up Python 3.7
       uses: actions/setup-python@v1
@@ -43,18 +65,18 @@ jobs:
 
     - name: Build compare_cpp
       run: |
-        cd tools/compare_cpp
+        cd AceTime/tools/compare_cpp
         make
 
     - name: Build compare_java
       run: |
-        cd tools/compare_java
+        cd AceTime/tools/compare_java
         make
 
     - name: Build Validation Tests
       run: |
-        make -C tests/validation tests
+        make -C AceTime/tests/validation tests
 
     - name: Run Validation Tests
       run: |
-        make -C tests/validation runtests
+        make -C AceTime/tests/validation runtests
