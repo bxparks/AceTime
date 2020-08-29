@@ -16,7 +16,7 @@ jobs:
     - name: Checkout AceTime
       uses: actions/checkout@v2
       with:
-        path: AceTime
+        path: main
 
     - name: Checkout UnixHostDuino
       uses: actions/checkout@v2
