@@ -55,6 +55,7 @@ class ExtendedTransitionTest: public aunit::TestOnce {
         checkComponent(passed, i, item, "UTC",
             timeOffset.toMinutes(), item.timeOffsetMinutes);
 
+        // Check the DST if correct ValidationScope is given.
         if ((dstValidationScope == ValidationScope::kAll)
             || ((dstValidationScope == ValidationScope::kExternal)
               && (item.type == 'A' || item.type == 'B'))) {
@@ -63,6 +64,7 @@ class ExtendedTransitionTest: public aunit::TestOnce {
               deltaOffset.toMinutes(), item.deltaOffsetMinutes);
         }
 
+        // Check the Abbrev if correct ValidationScope is given.
         if ((abbrevValidationScope == ValidationScope::kAll)
             || ((abbrevValidationScope == ValidationScope::kExternal)
               && (item.type == 'A' || item.type == 'B'))) {
@@ -84,7 +86,7 @@ class ExtendedTransitionTest: public aunit::TestOnce {
       // TODO: In theory, we should use
       // ExtendedZone(zoneInfo).transitionBufSize() for compability with
       // PROGMEM but this code works only on Linux or MacOS, not on an actual
-      // Arduion microncontroller, so it doesn't really matter.
+      // Arduino microncontroller, so it doesn't really matter.
       assertLess(zoneProcessor.getTransitionHighWater(),
         zoneInfo->transitionBufSize);
     }
@@ -94,6 +96,7 @@ class ExtendedTransitionTest: public aunit::TestOnce {
       if (aceTimeValue != libValue) {
         printFailedHeader(componentName, i, item);
         logging::printf("at=%d lib=%d\n", aceTimeValue, libValue);
+        passed = false;
       }
     }
 
@@ -115,7 +118,7 @@ class ExtendedTransitionTest: public aunit::TestOnce {
     void printFailedHeader(const char* tag, uint16_t i,
         const ValidationItem& item) {
       logging::printf(
-          "* Failed %s: index=%d eps=%ld "
+          "* failed %s: index=%d eps=%ld "
           "%04d-%02d-%02dT%02d:%02d:%02d: ",
           tag, i, item.epochSeconds,
           item.year, item.month, item.day,

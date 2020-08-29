@@ -22,7 +22,7 @@ namespace testing {
  *      (Y) point at the end of the year.
  */
 enum class ValidationScope {
-  /** Disable validation of DST offset. */
+  /** Disable validation of the DST offset or the abbreviation. */
   kNone,
 
   /**
