@@ -52,7 +52,7 @@ class LocalDate {
 
     /**
      * Sentinel yearTiny which represents the largest year, effectively
-     * -Infinity.
+     * +Infinity.
      */
     static const int8_t kMaxYearTiny = INT8_MAX;
 
