@@ -49,25 +49,22 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r tools/requirements.txt
 
-    - name: Set up Java 11
-      uses: actions/setup-java@v1
-      with:
-        java-version: '>=11.0.8'
-
     - name: Build compare_cpp
       run: |
         cd tools/compare_cpp
         make
 
-    - name: Build compare_java
-      run: |
-        cd tools/compare_java
-        make
+    # Run just BasicHinnantDateTest and ExtendedHinnantDateTest. When a new
+    # TZDB version comes out, the Python pytz, dateutil, and Java validation
+    # tests will always fail because they depend on the obsolete TZ database on
+    # the hosted Operating System.
 
-    - name: Build Validation Tests
+    - name: BasicHinnantDateTest
       run: |
-        make -C tests/validation tests
+        make -C tests/validation/BasicHinnantDateTest
+        make -C tests/validation/BasicHinnantDateTest runtests
 
-    - name: Run Validation Tests
+    - name: ExtendedHinnantDateTest
       run: |
-        make -C tests/validation runtests
+        make -C tests/validation/ExtendedHinnantDateTest
+        make -C tests/validation/ExtendedHinnantDateTest runtests
