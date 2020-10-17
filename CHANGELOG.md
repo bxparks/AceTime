@@ -16,6 +16,8 @@
       `BasicTransitionTest` and `ExtendedTransitionTest` classes.
     * Upgrade target version numbers of 3rd party libraries used for
       tests/validation: pytz from 2019.3 to 2020.1, JDK 11.0.6 to 11.0.8.
+    * Upgrade to TZDB 2020c.
+    * Add `DEVELOPER.md` file containing notes mostly for myself.
 * 1.1 (2020-04-25, TZ DB version 2020a)
     * Fix broken links in `README.md`.
     * Fix typos in `USER_GUIDE.md` and update its version number to 1.0 as it
