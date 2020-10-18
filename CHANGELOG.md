@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.1.1 (2020-10-18, TZ DB version 2020c)
     * Add documentation for using the `PrintStr<N>` class from the AceUtils
       library (https://github.com:bxparks/AceUtils) on the various `printTo()`
       methods. The string content can be retrieved using the
