@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classace__time_1_1LocalTime.html" title="The time (hour, minute, second) fields representing the time without regards to the day or the time z..." alt="" coords="5,5,148,32"/>
+<area shape="rect" id="node1" href="$classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes." alt="" coords="5,31,192,57"/>
+<area shape="rect" id="node2" href="$classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database." alt="" coords="253,5,474,32"/>
+<area shape="rect" id="node3" href="$classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database." alt="" coords="240,56,487,83"/>
 </map>

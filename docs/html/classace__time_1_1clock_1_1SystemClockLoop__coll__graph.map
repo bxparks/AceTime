@@ -1,4 +1,5 @@
 <map id="ace_time::clock::SystemClockLoop" name="ace_time::clock::SystemClockLoop">
-<area shape="rect" id="node2" href="$classace__time_1_1clock_1_1SystemClock.html" title="A Clock that uses the Arduino millis() function to advance the time returned to the user..." alt="" coords="19,109,221,136"/>
-<area shape="rect" id="node3" href="$classace__time_1_1clock_1_1Clock.html" title="Base class for objects that provide and store time. " alt="" coords="42,5,198,32"/>
+<area shape="rect" id="node1" title="A subclass of SystemClock that sync with its mReferenceClock using a blocking mReferenceClock&#45;&gt;getNow..." alt="" coords="5,185,253,212"/>
+<area shape="rect" id="node2" href="$classace__time_1_1clock_1_1SystemClock.html" title="A Clock that uses the Arduino millis() function to advance the time returned to the user." alt="" coords="21,109,238,136"/>
+<area shape="rect" id="node3" href="$classace__time_1_1clock_1_1Clock.html" title="Base class for objects that provide and store time." alt="" coords="45,5,213,32"/>
 </map>

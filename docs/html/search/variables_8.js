@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['name',['name',['../structace__time_1_1basic_1_1ZoneInfo.html#a8cbc0a1f4b3075ec1acdfaa96e46a4fe',1,'ace_time::basic::ZoneInfo::name()'],['../structace__time_1_1extended_1_1ZoneInfo.html#a5213ada8fb715b325b62ffa84fd419b6',1,'ace_time::extended::ZoneInfo::name()']]],
-  ['numeras',['numEras',['../structace__time_1_1basic_1_1ZoneInfo.html#a103954621d5d98434aecb52ee210bd44',1,'ace_time::basic::ZoneInfo::numEras()'],['../structace__time_1_1extended_1_1ZoneInfo.html#a5e07c46e7c0f9a188a204ecbad4c8d37',1,'ace_time::extended::ZoneInfo::numEras()']]]
+  ['startdatetime_467',['startDateTime',['../structace__time_1_1extended_1_1ZoneMatch.html#aa28c802edb9fbfca7decac19b5e316b0',1,'ace_time::extended::ZoneMatch::startDateTime()'],['../structace__time_1_1extended_1_1Transition.html#aa02b144398b9faa503f3d3677e411b8b',1,'ace_time::extended::Transition::startDateTime()']]],
+  ['startepochseconds_468',['startEpochSeconds',['../structace__time_1_1basic_1_1Transition.html#a51b6a6da0be1647e1fa9702270beebca',1,'ace_time::basic::Transition::startEpochSeconds()'],['../structace__time_1_1extended_1_1Transition.html#a455d7d971489040388fb4750d2b93939',1,'ace_time::extended::Transition::startEpochSeconds()']]]
 ];
