@@ -34,7 +34,7 @@ DIRNAME=$(realpath $(dirname $0))
 # Default TZ git repository.
 SOURCE_DIR=$(realpath $DIRNAME/../../tz)
 
-# TZ files to copy for completeness. The tzcompiler.py will not use all of them.
+# TZ files to copy for consumption by extractor.py
 TZ_FILES="\
 africa
 antarctica
@@ -46,7 +46,6 @@ europe
 factory
 northamerica
 southamerica
-systemv
 "
 
 function usage() {

@@ -169,8 +169,8 @@ typedef ZoneRegistrar<basic::ZoneInfo, basic::ZoneRegistryBroker,
 #endif
 
 /**
- * Concrete template instantiation of ZoneRegistrar for extended::ZoneInfo, which
- * can be used with ExtendedZoneProcessor.
+ * Concrete template instantiation of ZoneRegistrar for extended::ZoneInfo,
+ * which can be used with ExtendedZoneProcessor.
  */
 #if ACE_TIME_USE_PROGMEM
 typedef ZoneRegistrar<extended::ZoneInfo, extended::ZoneRegistryBroker,

@@ -29,9 +29,14 @@ runtests:
 	./$(APP_NAME).out
 
 # Define the scope of the test data.
-# dateutil (2.8.1) uses 2019c.
-# dateutil works through 2037, then fails the DST offsets
-# in 2038 for the following zones:
+#
+# dateutil (2.8.1) intially ships with 2019c, but when the 'tzdata' on
+# Ubuntu 20.04 is updated to 2020a, it uses the new version instead of the
+# internal version. I wish there was a way to peg the tzdata version
+# used by dateutil to make unit testing more predictable.
+#
+# dateutil works until 2037, then fails the DST offsets in 2037 for the
+# following zones:
 #	Australia_Adelaide failed.
 #	Australia_Broken_Hill failed.
 #	Australia_Currie failed.
@@ -41,7 +46,7 @@ runtests:
 #	Europe_Dublin failed.
 #	Pacific_Auckland failed.
 SCOPE = basic
-TZ_VERSION = 2019c
+TZ_VERSION = 2020a
 START_YEAR = 2000
 UNTIL_YEAR = 2037
 
@@ -54,6 +59,7 @@ validation_data.h: validation_data.json
 		--tz_version $(TZ_VERSION) \
 		--scope $(SCOPE) \
 		--db_namespace $(DB_NAMESPACE) \
+		--blacklist ../../../tools/compare_dateutil/blacklist.json \
 		< validation_data.json
 
 validation_data.json: $(DB_NAMESPACE)/zones.txt

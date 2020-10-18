@@ -27,9 +27,10 @@ runtests:
 	./$(APP_NAME).out
 
 # Define the scope of the test data.
-# pytz (2019.3) uses 2019c
+#	* pytz (2019.3) uses 2019c
+#	* pytz (2020.1) uses 2020a
 SCOPE = basic
-TZ_VERSION = 2019c
+TZ_VERSION = 2020a
 START_YEAR = 2000
 UNTIL_YEAR = 2038
 
@@ -42,6 +43,7 @@ validation_data.h: validation_data.json
 		--tz_version $(TZ_VERSION) \
 		--scope $(SCOPE) \
 		--db_namespace $(DB_NAMESPACE) \
+		--blacklist ../../../tools/compare_pytz/blacklist.json \
 		< validation_data.json
 
 validation_data.json: $(DB_NAMESPACE)/zones.txt

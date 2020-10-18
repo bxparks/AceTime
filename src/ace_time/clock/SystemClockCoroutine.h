@@ -99,8 +99,8 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
 
           {
             // Local variable waitMillis must be scoped with {} so that the
-            // goto in COROUTINE_LOOP() 16skip past it in clang++. g++ seems to
-            // be fine without it.
+            // goto in COROUTINE_LOOP() skips past it. This seems to be
+            // a problem only in clang++; g++ seems to be fine without it.
             uint16_t waitMillis =
                 (uint16_t) coroutineMillis() - mRequestStartMillis;
             if (waitMillis >= mRequestTimeoutMillis) {

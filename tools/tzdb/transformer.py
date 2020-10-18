@@ -468,7 +468,7 @@ class Transformer:
                     valid = False
                     _add_reason(
                         removed_zones, name,
-                        f"invalid UNTIL time '%until_time'")
+                        f"invalid UNTIL time '{until_time}'")
                     break
                 if until_seconds < 0:
                     valid = False

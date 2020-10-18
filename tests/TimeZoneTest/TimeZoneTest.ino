@@ -1,11 +1,11 @@
 #line 2 "TimeZoneTest.ino"
 
 #include <AUnit.h>
-#include <aunit/fake/FakePrint.h>
+#include <PrintStr.h>
 #include <AceTime.h>
 
 using namespace aunit;
-using namespace aunit::fake;
+using namespace print_str;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
@@ -76,11 +76,11 @@ ExtendedZoneManager<2> extendedZoneManager(
 // --------------------------------------------------------------------------
 
 test(TimeZoneTest, error) {
-  FakePrint fakePrint;
+  PrintStr<16> printStr;
   auto tz = TimeZone::forError();
   assertEqual(TimeZone::kTypeError, tz.getType());
-  tz.printTo(fakePrint);
-  assertEqual(F("<Error>"), fakePrint.getBuffer());
+  tz.printTo(printStr);
+  assertEqual(F("<Error>"), printStr.getCstr());
 }
 
 // --------------------------------------------------------------------------
@@ -88,7 +88,7 @@ test(TimeZoneTest, error) {
 // --------------------------------------------------------------------------
 
 test(TimeZoneTest, manual_utc) {
-  FakePrint fakePrint;
+  PrintStr<16> printStr;
 
   auto tz = TimeZone::forUtc();
   assertEqual(0, tz.getUtcOffset(0).toMinutes());
@@ -98,17 +98,17 @@ test(TimeZoneTest, manual_utc) {
   assertTrue(tz.isUtc());
   assertEqual(F("UTC"), tz.getAbbrev(0));
 
-  tz.printTo(fakePrint);
-  assertEqual(F("UTC"), fakePrint.getBuffer());
-  fakePrint.flush();
+  tz.printTo(printStr);
+  assertEqual(F("UTC"), printStr.getCstr());
+  printStr.flush();
 
-  tz.printShortTo(fakePrint);
-  assertEqual(F("UTC"), fakePrint.getBuffer());
-  fakePrint.flush();
+  tz.printShortTo(printStr);
+  assertEqual(F("UTC"), printStr.getCstr());
+  printStr.flush();
 }
 
 test(TimeZoneTest, manual_no_dst) {
-  FakePrint fakePrint;
+  PrintStr<16> printStr;
   TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
 
   assertEqual(TimeZone::kTypeManual, tz.getType());
@@ -118,17 +118,17 @@ test(TimeZoneTest, manual_no_dst) {
   assertEqual(0, tz.getDstOffset().toMinutes());
   assertEqual(F("STD"), tz.getAbbrev(0));
 
-  tz.printTo(fakePrint);
-  assertEqual(F("-08:00+00:00"), fakePrint.getBuffer());
-  fakePrint.flush();
+  tz.printTo(printStr);
+  assertEqual(F("-08:00+00:00"), printStr.getCstr());
+  printStr.flush();
 
-  tz.printShortTo(fakePrint);
-  assertEqual(F("-08:00(STD)"), fakePrint.getBuffer());
-  fakePrint.flush();
+  tz.printShortTo(printStr);
+  assertEqual(F("-08:00(STD)"), printStr.getCstr());
+  printStr.flush();
 }
 
 test(TimeZoneTest, manual_dst) {
-  FakePrint fakePrint;
+  PrintStr<16> printStr;
   TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8),
       TimeOffset::forHours(1));
 
@@ -139,13 +139,13 @@ test(TimeZoneTest, manual_dst) {
   assertEqual(60, tz.getDstOffset().toMinutes());
   assertEqual(F("DST"), tz.getAbbrev(0));
 
-  tz.printTo(fakePrint);
-  assertEqual(F("-08:00+01:00"), fakePrint.getBuffer());
-  fakePrint.flush();
+  tz.printTo(printStr);
+  assertEqual(F("-08:00+01:00"), printStr.getCstr());
+  printStr.flush();
 
-  tz.printShortTo(fakePrint);
-  assertEqual(F("-07:00(DST)"), fakePrint.getBuffer());
-  fakePrint.flush();
+  tz.printShortTo(printStr);
+  assertEqual(F("-07:00(DST)"), printStr.getCstr());
+  printStr.flush();
 }
 
 // --------------------------------------------------------------------------

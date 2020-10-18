@@ -1,6 +1,29 @@
 # Changelog
 
 * Unreleased
+* 1.1.1 (2020-10-18, TZ DB version 2020c)
+    * Add documentation for using the `PrintStr<N>` class from the AceUtils
+      library (https://github.com:bxparks/AceUtils) on the various `printTo()`
+      methods. The string content can be retrieved using the
+      `PrintStr::getCstr()` method which returns a normal `const char*`
+      C-string. The `PrintStr<N>` class replaces an earlier, unreleased version
+      that was called `CstrPrint<N>`.
+    * Add 'Validation Tests' GitHub workflow for running
+      `tests/validation/*Test`.
+    * Create `blacklist.json` file for each `compare_xxx` tools, to disable
+      validation checks for DST or abbreviations due to bugs in the 3rd party
+      libraries.
+    * Add `ValidationScope` enum to provide better control over whether the
+      DST or abbrev fields are validated.
+    * Print better diagnostic messages when `tests/validation` fails in
+      `BasicTransitionTest` and `ExtendedTransitionTest` classes.
+    * Upgrade target version numbers of 3rd party libraries used for
+      tests/validation: pytz from 2019.3 to 2020.1, JDK 11.0.6 to 11.0.8.
+    * Upgrade to TZDB 2020c.
+    * Restrict GitHub Actions workflow to run just BasicHinnantDateTest and
+      ExtendedHinnantDateTest, because the other Python and Java tests break
+      every time a new TZDB version comes out.
+    * Add `DEVELOPER.md` file containing notes mostly for myself.
 * 1.1 (2020-04-25, TZ DB version 2020a)
     * Fix broken links in `README.md`.
     * Fix typos in `USER_GUIDE.md` and update its version number to 1.0 as it

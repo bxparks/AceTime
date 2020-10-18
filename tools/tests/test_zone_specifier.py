@@ -5,6 +5,7 @@
 # MIT License
 
 import unittest
+from datetime import datetime
 from zonedbpy import zone_infos
 # from zonedbpy import validation_data # reenable using zoneinfo.json?
 # from validation.tdgenerator import TestItem
@@ -881,6 +882,21 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
             DateTuple(2012, 2, 1, 0 * 3600, 'w'), transitions[1].untilDateTime)
         self.assertEqual(12 * 3600, transitions[1].offsetSeconds)
         self.assertEqual(0 * 3600, transitions[1].deltaSeconds)
+
+
+class TestZoneSpecifierGetTransition(unittest.TestCase):
+    def test_get_transition_for_datetime(self):
+        zone_specifier = ZoneSpecifier(zone_infos.ZONE_INFO_America_Los_Angeles)
+
+        # Just after a DST transition
+        dt = datetime(2000, 4, 2, 3, 0, 0)
+        transition = zone_specifier.get_transition_for_datetime(dt)
+        self.assertIsNotNone(transition)
+
+        # DST gap does not exist, but a transition should be returned.
+        dt = datetime(2000, 4, 2, 2, 59, 59)
+        transition = zone_specifier.get_transition_for_datetime(dt)
+        self.assertIsNotNone(transition)
 
 
 if __name__ == '__main__':

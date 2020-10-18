@@ -1,4 +1,5 @@
 <map id="ace_time::ZoneProcessor" name="ace_time::ZoneProcessor">
-<area shape="rect" id="node2" href="$classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database..." alt="" coords="5,80,209,107"/>
-<area shape="rect" id="node3" href="$classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database. " alt="" coords="234,80,461,107"/>
+<area shape="rect" id="node1" title="Base interface for ZoneProcessor classes." alt="" coords="152,5,339,32"/>
+<area shape="rect" id="node2" href="$classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database." alt="" coords="5,80,227,107"/>
+<area shape="rect" id="node3" href="$classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database." alt="" coords="251,80,498,107"/>
 </map>

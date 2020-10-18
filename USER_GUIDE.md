@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 1.1 (2020-04-25, TZ DB version 2020a)
+Version: 1.1.1 (2020-10-18, TZ DB version 2020c)
 
 ## Installation
 
@@ -1621,6 +1621,48 @@ by zoneName or zoneId) into an index into the registry.
 The IANA TZ Database is updated continually. As of this writing, the latest
 stable version is 2019b. When a new version of the database is released, it is
 relatively easy to regenerate the `zonedb/` and `zonedbx/` zoneinfo files.
+
+### Print To String
+
+Many classes provide a `printTo(Print&)` method which prints a human-readable
+string to the given `Print` object. Any subclass of the `Print` class can be
+passed into these methods. The most familiar is the global the `Serial` object
+which prints to the serial port.
+
+The AceUtils library (https://github.com:bxparks/AceUtils) provides a
+subclass of `Print` called `PrintStr` which allows printing to an in-memory
+buffer. The contents of the in-memory buffer can be retrieved as a normal
+c-string using the `PrintStr::getCstr()` method.
+
+Instances of the `PrintStr` object is expected to be created on the stack. The
+object will be destroyed automatically when the stack is unwound after returning
+from the function where this is used. The size of the buffer on the stack is
+provided as a compile-time constant. For example, `PrintStr<32>` creates an
+object with a 32-byte buffer on the stack.
+
+An example usage looks like this:
+
+```C++
+#include <PrintStr.h>
+#include <AceTime.h>
+
+using namespace ace_time;
+using namespace print_str;
+...
+{
+  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
+  ZonedDateTime dt = ZonedDateTime::forComponents(
+      2018, 3, 11, 1, 59, 59, tz);
+
+  PrintStr<32> printStr; // 32-byte buffer
+  dt.printTo(printStr);
+  const char* cstr = printStr.getCstr();
+
+  // do stuff with cstr...
+
+  printStr.flush(); // needed only if this will be used again
+}
+```
 
 ## Mutations
 

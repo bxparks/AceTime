@@ -16,6 +16,10 @@ $ ./test_data_generator.py [--start_year start] [--until_year until] \
 
 import sys
 from os.path import (join, dirname, abspath)
+import logging
+import json
+from argparse import ArgumentParser
+from typing import List
 
 # Insert the parent directory into the sys.path so that this script can pretend
 # to be running from the parent diretory and have access to all the python
@@ -27,14 +31,9 @@ from os.path import (join, dirname, abspath)
 # hack the sys.path. See https://stackoverflow.com/questions/4383571.
 sys.path.insert(1, dirname(dirname(abspath(__file__))))  # noqa
 
-import logging
-import json
-from argparse import ArgumentParser
-from typing import List
-
 # Can't use relative import (.tdgenerator) here because PEP 3122 got rejected
 # https://mail.python.org/pipermail/python-3000/2007-April/006793.html.
-from compare_pytz.tdgenerator import TestDataGenerator
+from compare_pytz.tdgenerator import TestDataGenerator  # noqa
 
 
 class Generator:

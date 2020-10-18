@@ -363,7 +363,7 @@ class Extractor:
 
         logging.info('-------- Extractor Summary')
         logging.info(
-            f'Line count (Rule, Zone, Link): ('
+            'Line count (Rule, Zone, Link): ('
             + f'{len(self.rule_lines)}, '
             + f'{len(self.zone_lines)}, '
             + f'{len(self.link_lines)})')
@@ -372,10 +372,10 @@ class Extractor:
             + f'{len(self.rules_map)}, '
             + f'{len(self.zones_map)}, '
             + f'{len(self.links_map)})')
-        logging.info('Rule entry count: %s' % rule_entry_count)
-        logging.info('Zone entry count: %s' % zone_entry_count)
+        logging.info(f'Rule entry count: {rule_entry_count}')
+        logging.info(f'Zone entry count: {zone_entry_count}')
         logging.info(
-            f'Ignored lines (Rule, Zone, Link): ('
+            'Ignored lines (Rule, Zone, Link): ('
             + f'{self.ignored_rule_lines}, '
             + f'{self.ignored_zone_lines}, '
             + f'{self.ignored_link_lines})')

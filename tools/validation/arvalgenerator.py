@@ -3,21 +3,36 @@
 # MIT License
 
 """
-Generate the Arduino validation data (validation_data.h and validation_data.cpp)
-files for unit tests from the 'validation_data' (or its JSON representation).
+Generate the Arduino validation data files (validation_data.h and
+validation_data.cpp) files and the AUnit unit test file (validation_tests.cpp)
+from the 'validation_data.json' file on the STDIN.
 """
 
 import logging
 import os
-from typing import List
-from typing import Set
-from tzdb.transformer import div_to_zero
-from tzdb.transformer import normalize_name
-from .data import (TestItem, TestData, ValidationData)
+from typing import List, Dict, Tuple, Optional
+from tzdb.transformer import div_to_zero, normalize_name
+from .data import TestItem, TestData, ValidationData
 
 
 class ArduinoValidationGenerator:
     """Generate Arduino data files for BasicPythonTest and ExtendedPythonTest.
+
+    The blacklist is a dict of {zonename -> blacklist_policy}, where the
+    blacklist_policy can be one of the following:
+
+        * "full": the DST offsets from the given library returns incorrect
+          results so the DST offset should be ignored and not validated. This is
+          implemented by passing ValidationScope::kNone into the assertValid()
+          method.
+        * "partial": the DST offset returned by the library for 'A' and 'B'
+          transitions are correct, but the DST only transitions indicated by 'a'
+          and'b' are incorrect and should be ignored. This is implemented by
+          passing ValidationScope::kExternal into the assertValid() method.
+        * "" or no entry: If the policy is given as "", or the zone name is
+          completely missing from the dictionary, then all DST offsets are
+          checked. This is implemented by passing ValidationScope::kAll into
+          the assertValid() method.
     """
 
     def __init__(
@@ -27,11 +42,13 @@ class ArduinoValidationGenerator:
         scope: str,
         db_namespace: str,
         validation_data: ValidationData,
+        blacklist: Dict[str, str],
     ):
         self.invocation = invocation
         self.tz_version = tz_version
         self.db_namespace = db_namespace
         self.validation_data = validation_data
+        self.blacklist = blacklist
 
         self.test_data = validation_data['test_data']
         self.file_base = 'validation'
@@ -148,7 +165,7 @@ namespace {self.db_namespace} {{
 //---------------------------------------------------------------------------
 
 static const testing::ValidationItem kValidationItems{normalized_name}[] = {{
-  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s, abbrev
+  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s,  abbrev, type
 {test_items_string}
 }};
 
@@ -181,12 +198,12 @@ const testing::ValidationData kValidationData{normalized_name} = {{
             second = test_item['s']
             abbrev_value = test_item['abbrev']
             abbrev = f'"{abbrev_value}"' if abbrev_value else 'nullptr'
-            tag = test_item['type']
+            type = test_item['type']
 
             test_item_code = f"""\
   {{ {epoch_seconds:10}, {total_offset_minutes:4}, {delta_offset_minutes:4}, \
-{year:4}, {month:2}, {day:2}, {hour:2}, {minute:2}, {second:2}, {abbrev} }}, \
-// type={tag}
+{year:4}, {month:2}, {day:2}, {hour:2}, {minute:2}, {second:2}, {abbrev:>7}, \
+'{type}' }},
 """
             s += test_item_code
         return s
@@ -223,34 +240,56 @@ using namespace ace_time::{self.db_namespace};
 """
 
     def _generate_test_cases(self, test_data: TestData) -> str:
-        dst_blacklist: Set[str] = (
-            set(self.validation_data.get('dst_blacklist') or [])
-        )
         has_valid_abbrev = self.validation_data['has_valid_abbrev']
         has_valid_dst = self.validation_data['has_valid_dst']
         test_cases = ''
         for zone_name, _ in sorted(test_data.items()):
             normalized_name = normalize_name(zone_name)
-            test_dst = (
-                'true'
-                if has_valid_dst and (zone_name not in dst_blacklist)
-                else 'false'
+
+            (
+                dst_validation_scope,
+                dst_validation_comment,
+            ) = _get_validation_scope(
+                has_valid_dst,
+                self.blacklist.get(zone_name),
             )
-            test_dst_comment = (
-                ' BLACKLISTED'
-                if has_valid_dst and (zone_name in dst_blacklist)
-                else ''
+            (
+                abbrev_validation_scope,
+                abbrev_validation_comment,
+            ) = _get_validation_scope(
+                has_valid_abbrev,
+                self.blacklist.get(zone_name),
             )
-            test_abbrev = 'true' if has_valid_abbrev else 'false'
 
             test_case = f"""\
 testF({self.test_class}, {normalized_name}) {{
   assertValid(
      &kZone{normalized_name},
      &kValidationData{normalized_name},
-     {test_dst} /*validateDst{test_dst_comment}*/,
-     {test_abbrev} /*validateAbbrev*/);
+     {dst_validation_scope} /*dstValidationScope{dst_validation_comment}*/,
+     {abbrev_validation_scope} \
+/*abbrevValidationScope{abbrev_validation_comment}*/);
 }}
 """
             test_cases += test_case
         return test_cases
+
+
+def _get_validation_scope(
+    is_valid: bool,
+    blacklist_policy: Optional[str],
+) -> Tuple[str, str]:
+    """Determine the validationScope for DST and abbreviations."""
+    if not is_valid:
+        return 'ValidationScope::kNone', ' INVALID'
+
+    if not blacklist_policy:
+        return 'ValidationScope::kAll', ''
+
+    if blacklist_policy == 'partial':
+        return 'ValidationScope::kExternal', ' BLACKLISTED'
+
+    if blacklist_policy == 'full':
+        return 'ValidationScope::kNone', ' BLACKLISTED'
+
+    raise Exception(f"Unrecognized blacklist policy '{blacklist_policy}'")

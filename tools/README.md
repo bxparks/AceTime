@@ -15,6 +15,7 @@ A number of scripts are exposed at the top level:
      `zone_registry.{h,cpp}` files in the specified `zonedb*/` directory.
 * test validation data generators using third party libraries
     * `compare_pytz` - generate test data using `pytz`
+    * `compare_dateutil` - generate test data using `python-dateutil`
     * `compare_java` - generate test data using Java's `java.time` library
     * `compare_cpp` - generate test data using Howard Hinnant `date` library
 * `generate_validation.py`
@@ -78,7 +79,7 @@ this:
   zonelistgenerator.py
       |
       v
-    zones.txt
+  zones.txt
 ```
 
 The `[zonedb/*]` and `[zonelist]` annotations in the diagram correspond to the
@@ -89,10 +90,10 @@ value of the `--action` and `--language` flags on the `tzcompiler.py` script.
 These programs generate a list of `TestItem` which contains the `epoch_seconds`
 and the date/time components from various 3rd party date/time libraries. The
 AceTime data/time libraries (specifically the `ZoneProcessor` classes) will be
-tested against the expected results from these 3rd party libraries. Three
-libraries are supported:
+tested against the expected results from these 3rd party libraries:
 
 * `compare_pytz` - Python `pytz` library
+* `compare_dateutil` - Python `python-dateutil` library
 * `compare_java` - Java JDK11 `java.time` library
 * `compare_cpp` - C++ Hinnant Date library
 
@@ -125,12 +126,21 @@ zones.txt
    |          |         /                        |
    |          v        v                         |
    +----> compare_pytz/test_data_generator.py--> +
+   |                                             |
+   |                                             |
+   |   python-dateutil                           |
+   |          |                                  |
+   |          v                                  |
+   |   tdgenerator.py   validation/data.py       |
+   |          |         /                        |
+   |          v        v                         |
+   +-> compare_dateutil/test_data_generator.py-> +
                                                 /
                                                /
         validation_data.json <----------------/
                 |
                 v
-        generate_validation.py
+        generate_validation.py <-- compare*/blacklist.json
                 |
                 v
        validation_data.{h,cpp}

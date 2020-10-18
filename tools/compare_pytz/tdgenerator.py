@@ -12,33 +12,18 @@ module is truly dependent on only the 'pytz' module.
 """
 
 import logging
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 import pytz
-from typing import Any
-from typing import Tuple
-from typing import List
-from typing import Dict
-from typing import Optional
-from validation.data import (TestItem, TestData, ValidationData)
+from typing import Any, Tuple, List, Dict, Optional
+from validation.data import TestItem, TestData, ValidationData
 
 # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
 # (2000-01-01 00:00:00)
 SECONDS_SINCE_UNIX_EPOCH = 946684800
 
-# The [start, until) time interval used to search for DST transitions.
-TransitionTimes = Tuple[datetime, datetime]
-
-# List of zones which seem to have incorrect DST offset (compared to AceTime
-# and Hinnant date library).
-_DST_BLACKLIST = [
-    'America/Argentina/Buenos_Aires',
-    'America/Argentina/Cordoba',
-    'America/Argentina/Jujuy',
-    'America/Argentina/Salta',
-    'America/Bahia_Banderas',
-    'America/Indiana/Winamac',
-]
+# The [start, until) time interval used to search for DST transitions,
+# and flag that is True if ONLY the DST changed.
+TransitionTimes = Tuple[datetime, datetime, bool]
 
 
 class TestDataGenerator():
@@ -47,10 +32,19 @@ class TestDataGenerator():
         start_year: int,
         until_year: int,
         sampling_interval: int,
+        detect_dst_transition: bool = True,
     ):
+        """If detect_dst_transition is set to True, changes in the DST offset
+        will be considered to be a time offset transition. Enabling this will
+        cause additional test data points to be generated, but often they will
+        conflict with the DST offsets calculated by AceTime or HinnantDate
+        library. In other words, I think dateutil is incorrect for those DST
+        transitions.
+        """
         self.start_year = start_year
         self.until_year = until_year
         self.sampling_interval = timedelta(hours=sampling_interval)
+        self.detect_dst_transition = detect_dst_transition
 
     def create_test_data(self, zones: List[str]) -> None:
         test_data: TestData = {}
@@ -69,7 +63,6 @@ class TestDataGenerator():
             'has_valid_abbrev': True,
             'has_valid_dst': True,
             'test_data': self.test_data,
-            'dst_blacklist': _DST_BLACKLIST,
         }
 
     def _create_test_items_for_zone(
@@ -121,11 +114,13 @@ class TestDataGenerator():
         """Add DST transitions, using 'A' and 'B' designators"""
 
         transitions = self._find_transitions(tz)
-        for (left, right) in transitions:
-            left_item = self._create_test_item(left, 'A')
+        for (left, right, only_dst) in transitions:
+            left_item = self._create_test_item(
+                left, 'a' if only_dst else 'A')
             self._add_test_item(items_map, left_item)
 
-            right_item = self._create_test_item(right, 'B')
+            right_item = self._create_test_item(
+                right, 'b' if only_dst else 'B')
             self._add_test_item(items_map, right_item)
 
     def _find_transitions(self, tz: Any) -> List[TransitionTimes]:
@@ -145,29 +140,46 @@ class TestDataGenerator():
             if next_dt.year >= self.until_year:
                 break
 
-            # Check for a change in UTC offset
-            if dt_local.utcoffset() != next_dt_local.utcoffset():
+            # Look for a UTC or DST transition.
+            if self.is_transition(dt_local, next_dt_local):
                 # print(f'Transition between {dt_local} and {next_dt_local}')
                 dt_left, dt_right = self.binary_search_transition(
                     tz, dt, next_dt)
                 dt_left_local = dt_left.astimezone(tz)
                 dt_right_local = dt_right.astimezone(tz)
-                transitions.append((dt_left_local, dt_right_local))
+                only_dst = self.only_dst(dt_left_local, dt_right_local)
+                transitions.append((dt_left_local, dt_right_local, only_dst))
 
             dt = next_dt
             dt_local = next_dt_local
 
         return transitions
 
-    @staticmethod
+    def is_transition(self, dt1: datetime, dt2: datetime) -> bool:
+        """Determine if dt1 -> dt2 is a UTC offset transition. If
+        detect_dst_transition is True, then also detect DST offset transition.
+        """
+        if dt1.utcoffset() != dt2.utcoffset():
+            return True
+        if self.detect_dst_transition:
+            return dt1.dst() != dt2.dst()
+        return False
+
+    def only_dst(self, dt1: datetime, dt2: datetime) -> bool:
+        """Determine if dt1 -> dt2 is only a DST transition."""
+        if not self.detect_dst_transition:
+            return False
+        return dt1.utcoffset() == dt2.utcoffset() and dt1.dst() != dt2.dst()
+
     def binary_search_transition(
+        self,
         tz: Any,
         dt_left: datetime,
         dt_right: datetime,
     ) -> Tuple[datetime, datetime]:
         """Do a binary search to find the exact transition times, to within 1
-        minute accuracy. The dt_left and dt_right are 12 hours (720 minutes)
-        apart. So the binary search should take a maximum of 10 iterations to
+        minute accuracy. The dt_left and dt_right are 22 hours (1320 minutes)
+        apart. So the binary search should take a maximum of 11 iterations to
         find the DST transition within one adjacent minute.
         """
         dt_left_local = dt_left.astimezone(tz)
@@ -179,11 +191,11 @@ class TestDataGenerator():
 
             dt_mid = dt_left + timedelta(minutes=delta_minutes)
             mid_dt_local = dt_mid.astimezone(tz)
-            if dt_left_local.utcoffset() == mid_dt_local.utcoffset():
+            if self.is_transition(dt_left_local, mid_dt_local):
+                dt_right = dt_mid
+            else:
                 dt_left = dt_mid
                 dt_left_local = mid_dt_local
-            else:
-                dt_right = dt_mid
 
         return dt_left, dt_right
 

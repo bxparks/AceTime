@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rule',['rule',['../structace__time_1_1basic_1_1Transition.html#ad70ac2546926652bd3fa20cb52d72d16',1,'ace_time::basic::Transition::rule()'],['../structace__time_1_1extended_1_1Transition.html#a8ee7fffb5ccd09ad74658712d0782347',1,'ace_time::extended::Transition::rule()']]]
+  ['untildatetime_472',['untilDateTime',['../structace__time_1_1extended_1_1ZoneMatch.html#adb5aada25ad9a3768d4bde754b3f4cca',1,'ace_time::extended::ZoneMatch::untilDateTime()'],['../structace__time_1_1extended_1_1Transition.html#ac63fcc948ca1e8157bb93ade38c26003',1,'ace_time::extended::Transition::untilDateTime()']]]
 ];

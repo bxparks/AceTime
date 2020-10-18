@@ -1,3 +1,4 @@
 <map id="ace_time::clock::SystemClock" name="ace_time::clock::SystemClock">
-<area shape="rect" id="node2" href="$classace__time_1_1clock_1_1Clock.html" title="Base class for objects that provide and store time. " alt="" coords="28,5,184,32"/>
+<area shape="rect" id="node1" title="A Clock that uses the Arduino millis() function to advance the time returned to the user." alt="" coords="5,109,223,136"/>
+<area shape="rect" id="node2" href="$classace__time_1_1clock_1_1Clock.html" title="Base class for objects that provide and store time." alt="" coords="30,5,198,32"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="ace_time::extended::ZoneMatch" name="ace_time::extended::ZoneMatch">
-<area shape="rect" id="node2" href="$classace__time_1_1extended_1_1ZoneEraBroker.html" title="Data broker for accessing ZoneEra. " alt="" coords="5,5,141,47"/>
-<area shape="rect" id="node3" href="$structace__time_1_1extended_1_1DateTuple.html" title="A tuple that represents a date and time. " alt="" coords="165,5,301,47"/>
+<area shape="rect" id="node1" title="Data structure that captures the matching ZoneEra and its ZoneRule transitions for a given year." alt="" coords="92,124,243,165"/>
+<area shape="rect" id="node2" href="$classace__time_1_1extended_1_1ZoneEraBroker.html" title="Data broker for accessing ZoneEra." alt="" coords="5,5,156,47"/>
+<area shape="rect" id="node3" href="$structace__time_1_1extended_1_1DateTuple.html" title="A tuple that represents a date and time." alt="" coords="180,5,331,47"/>
 </map>

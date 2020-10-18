@@ -15,7 +15,7 @@ Date](https://github.com/HowardHinnant/date) C++11/14/17 library.
 
 ## Compiling
 
-I have tested this only on Ubuntu 18.04. Install the following:
+I have tested this Ubuntu 18.04 and 20.04. Install the following:
 
 * CMake
     * `$ sudo apt install cmake`

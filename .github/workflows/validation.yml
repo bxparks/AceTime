@@ -1,0 +1,70 @@
+# See the following for information on how to setup the Python workflow for a
+# single version:
+# https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Validation Tests
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    # Tried to use
+    # https://github.com/actions/checkout#Checkout-multiple-repos-side-by-side,
+    # but it looks like GITHUB_WORKSPACE is set to
+    # /home/runner/work/AceTime/AceTime, so if path is set to 'main' as
+    # suggested in the article, then the repos is set to
+    # /home/runner/work/Acetime/AceTime/main/AceTime, which is really
+    # confusing. Instead, use 'cd ..' to go up a level and call 'git clone'
+    # manually.
+    steps:
+    - name: Checkout AceTime
+      uses: actions/checkout@v2
+
+    - name: Checkout 3rd Party Repos
+      run: |
+        cd ..
+        git clone https://github.com/bxparks/UnixHostDuino
+        git clone https://github.com/bxparks/AUnit
+        git clone https://github.com/eggert/tz
+        git clone https://github.com/HowardHinnant/date
+
+    - name: Install libcurl4-openssl-dev
+      run: |
+        sudo apt update
+        sudo apt install -y libcurl4-openssl-dev
+
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.7'
+
+    - name: Display Python version
+      run: python -c "import sys; print(sys.version)"
+
+    - name: Install Python Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r tools/requirements.txt
+
+    - name: Build compare_cpp
+      run: |
+        cd tools/compare_cpp
+        make
+
+    # Run just BasicHinnantDateTest and ExtendedHinnantDateTest. When a new
+    # TZDB version comes out, the Python pytz, dateutil, and Java validation
+    # tests will always fail because they depend on the obsolete TZ database on
+    # the hosted Operating System.
+
+    - name: BasicHinnantDateTest
+      run: |
+        make -C tests/validation/BasicHinnantDateTest
+        make -C tests/validation/BasicHinnantDateTest runtests
+
+    - name: ExtendedHinnantDateTest
+      run: |
+        make -C tests/validation/ExtendedHinnantDateTest
+        make -C tests/validation/ExtendedHinnantDateTest runtests
