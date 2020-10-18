@@ -9,7 +9,6 @@
 # src/ace_time/common
 acetime_t	KEYWORD1
 DateStrings	KEYWORD1
-CstrPrint	KEYWORD1
 
 # src/ace_time
 LocalDate	KEYWORD1

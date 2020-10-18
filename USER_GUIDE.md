@@ -1622,61 +1622,45 @@ The IANA TZ Database is updated continually. As of this writing, the latest
 stable version is 2019b. When a new version of the database is released, it is
 relatively easy to regenerate the `zonedb/` and `zonedbx/` zoneinfo files.
 
-### Print To CstrPrint
+### Print To String
 
 Many classes provide a `printTo(Print&)` method which prints a human-readable
-string to the given `Print`. Any subclass of the `Print` class can be passed
-into these methods, for example, the `Serial` object. The `CstrPrint` class is
-an implementation of the `Print` class which prints to an in-memory buffer. The
-contents of the in-memory buffer can be retrieved as a normal c-string using the
-`CstrPrint::getCstr()` method.
+string to the given `Print` object. Any subclass of the `Print` class can be
+passed into these methods. The most familiar is the global the `Serial` object
+which prints to the serial port.
 
-```C++
-namespace ace_time {
+The AceUtils library (https://github.com:bxparks/AceUtils) provides a
+subclass of `Print` called `PrintStr` which allows printing to an in-memory
+buffer. The contents of the in-memory buffer can be retrieved as a normal
+c-string using the `PrintStr::getCstr()` method.
 
-template <uint8_t SIZE>
-class CstrPrint: public Print {
-
-  public:
-    size_t write(uint8_t c) override;
-    size_t write(const uint8_t *buffer, size_t size) override;
-    void flush();
-    const char* getCstr() const;
-};
-
-}
-```
-
-The `SIZE` is a compile-time constant that determines the size of the in-memory
-buffer. The c-string returned by `getCstr()` is guaranteed to be NUL terminated.
-
-This object is expected to be created on the stack. The object will be
-destroyed automatically when the stack is unwound after returning from the
-function where this is used. It is possible to create an instance of this object
-statically and reused across different calling sites, but the programmer must
-handle the memory management properly.
+Instances of the `PrintStr` object is expected to be created on the stack. The
+object will be destroyed automatically when the stack is unwound after returning
+from the function where this is used. The size of the buffer on the stack is
+provided as a compile-time constant. For example, `PrintStr<32>` creates an
+object with a 32-byte buffer on the stack.
 
 An example usage looks like this:
 
 ```C++
+#include <PrintStr.h>
 #include <AceTime.h>
 
-using namespace acetime;
-
+using namespace ace_time;
+using namespace print_str;
 ...
-
 {
   TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
   ZonedDateTime dt = ZonedDateTime::forComponents(
       2018, 3, 11, 1, 59, 59, tz);
 
-  CstrPrint<32> cstrPrint; // 32-byte buffer
-  dt.printTo(cstrPrint);
-  const char* cstr = cstrPrint.getCstr();
+  PrintStr<32> printStr; // 32-byte buffer
+  dt.printTo(printStr);
+  const char* cstr = printStr.getCstr();
 
   // do stuff with cstr...
 
-  cstrPrint.flush(); // needed only if this will be used again
+  printStr.flush(); // needed only if this will be used again
 }
 ```
 
