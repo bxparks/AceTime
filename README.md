@@ -188,7 +188,8 @@ AceTime library with one timezone using the `BasicZoneProcessor` and the
 * 9-10 kB of flash and 350 bytes of RAM on an 8-bit AVR processors,
 * 6-22 kB of flash and 900-1800 bytes of RAM on a 32-bit processors.
 
-An example of more complex application is the [WorldClock](examples/WorldClock)
+An example of more complex application is the
+[WorldClock](https://github.com/bxparks/clocks/tree/master/WorldClock)
 which has 3 OLED displays over SPI, 3 timezones using `BasicZoneProcessor`, a
 `SystemClock` synchronized to a DS3231 chip on I2C, and 2 buttons with
 debouncing and event dispatching provided by the
@@ -454,11 +455,12 @@ Here is a photo of the [WorldClock](examples/WorldClock) that supports 3
 OLED displays with 3 timezones, and automatically adjusts the DST transitions
 for all 3 zones:
 
-![WorldClock](examples/WorldClock/WorldClock.jpg)
+![WorldClock](https://github.com/bxparks/clocks/blob/master/WorldClock/WorldClock.jpg)
 
 ## User Guide
 
 See the [AceTime User Guide](USER_GUIDE.md) for information on:
+
 * Installation
 * Date and Time classes
 * Mutations

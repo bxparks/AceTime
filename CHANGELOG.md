@@ -1,6 +1,8 @@
 # Changelog
 
 * Unreleased
+    * Move examples/WorldClock, examples/OledClock and examples/CommandLineClock
+      to a new repo (https://github.com/bxparks/clocks).
 * 1.1.1 (2020-10-18, TZ DB version 2020c)
     * Add documentation for using the `PrintStr<N>` class from the AceUtils
       library (https://github.com:bxparks/AceUtils) on the various `printTo()`
