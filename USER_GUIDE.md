@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 1.1.1 (2020-10-18, TZ DB version 2020c)
+Version: 1.1.2 (2020-10-19, TZ DB version 2020d)
 
 ## Installation
 
