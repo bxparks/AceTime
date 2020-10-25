@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 1.1.1 (2020-10-18, TZ DB version 2020c)
+Version: 1.1.2 (2020-10-19, TZ DB version 2020d)
 
 ## Installation
 
@@ -98,14 +98,6 @@ The following programs are provided in the `examples/` directory:
     * same as `HelloSystemClock` but using AceRoutine coroutines
 * [HelloNtpClock](examples/HelloNtpClock/)
     * demo program of `NtpClock`
-* [CommandLineClock](examples/CommandLineClock/)
-    * a clock with a DS3231 RTC chip, an NTP client, and using the serial port
-      for receiving commands and printing results, useful for debugging
-* [OledClock](examples/OledClock/)
-    * a digital clock using a DS3231 RTC chip, an NTP client, 2 buttons, and an
-      SSD1306 OLED display
-* [WorldClock](examples/WorldClock/)
-    * a clock with 3 OLED screens showing the time at 3 different time zones
 * [AutoBenchmark](examples/AutoBenchmark/)
     * perform CPU and memory benchmarking of various methods and print a report
 * [MemoryBenchmark](examples/MemoryBenchmark/)
@@ -116,6 +108,18 @@ The following programs are provided in the `examples/` directory:
 * [ComparisonBenchmark](examples/ComparisonBenchmark/)
     * compare AceTime with
     [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
+
+Various fully-featured hardware clocks can be found in the
+https://github.com/bxparks/clocks repo (previously hosted under `examples/`).
+
+* [CommandLineClock](https://github.com/bxparks/clocks/tree/master/CommandLineClock)
+    * a clock with a DS3231 RTC chip, an NTP client, and using the serial port
+      for receiving commands and printing results, useful for debugging
+* [OledClock](https://github.com/bxparks/clocks/tree/master/OledClock)
+    * a digital clock using a DS3231 RTC chip, an NTP client, 2 buttons, and an
+      SSD1306 OLED display
+* [WorldClock](https://github.com/bxparks/clocks/tree/master/WorldClock)
+    * a clock with 3 OLED screens showing the time at 3 different time zones
 
 ## Motivation and Design Considerations
 
@@ -1512,8 +1516,9 @@ for custom zoneRegistries because the `BasicZoneManager` and
 `ExtendedZoneManager` expect to find them in static RAM or flash memory
 according to this macro.
 
-See [CommandLineClock](examples/CommandLineClock/) for an example of how these
-custom registries can be created and used.
+See
+[CommandLineClock](https://github.com/bxparks/clocks/tree/master/CommandLineClock)
+for an example of how these custom registries can be created and used.
 
 #### createForZoneName()
 
@@ -1674,7 +1679,8 @@ Time](https://nodatime.org/)) avoid the problem altogether by making all objects
 immutable. In those libraries, mutations occur by creating a new copy of the
 target object with a new value for the mutated parameter. Making the objects
 immutable is definitely cleaner, but it causes the code size to increase
-significantly. For the case of the [WorldClock](example/WorldClock) program,
+significantly. For the case of the
+[WorldClock](https://github.com/bxparks/clocks/tree/master/WorldClock) program,
 the code size increased by 500-700 bytes, which I could not afford because the
 program takes up almost the entire flash memory of an Ardunio Pro Micro with
 only 28672 bytes of flash memory.
@@ -1716,8 +1722,8 @@ environments is the code size, not the CPU time.)
 It is not clear that making the AceTime objects mutable was the best design
 decision. But it seems to produce far smaller code sizes (hundreds of bytes of
 flash memory saved for something like
-[examples/WorldClock](examples/WorldClock)), while providing the features that I
-need to implement the various Clock applications.
+[WorldClock](https://github.com/bxparks/clocks/tree/master/WorldClock)), while
+providing the features that I need to implement the various Clock applications.
 
 ### TimeOffset Mutation
 
@@ -2567,9 +2573,11 @@ Here is a short summary for an 8-bit microcontroller (e.g. Arduino Nano):
 
 These numbers indicate that the AceTime library is useful even on a limited
 8-bit controller with only 30-32 kB of flash and 2 kB of RAM. As a concrete
-example, the [WorldClock](examples/WorldClock) program contains 3 OLED displays
-over SPI, 2 buttons, one DS3231 chip, and 3 timezones using AceTime, and these
-all fit inside a Arduino Pro Micro limit of 30 kB flash and 2.5 kB of RAM.
+example, the
+[WorldClock](https://github.com/bxparks/clocks/tree/master/WorldClock) program
+contains 3 OLED displays over SPI, 2 buttons, one DS3231 chip, and 3 timezones
+using AceTime, and these all fit inside a Arduino Pro Micro limit of 30 kB flash
+and 2.5 kB of RAM.
 
 ## Comparisons to Other Time Libraries
 

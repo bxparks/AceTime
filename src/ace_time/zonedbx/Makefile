@@ -1,6 +1,6 @@
 TARGETS := zone_infos.cpp zone_infos.h zone_policies.cpp zone_policies.h
 
-TZ_VERSION = 2020c
+TZ_VERSION = 2020d
 START_YEAR = 2000
 UNTIL_YEAR = 2050
 
