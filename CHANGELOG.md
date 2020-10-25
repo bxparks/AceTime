@@ -3,6 +3,9 @@
 * Unreleased
     * Move examples/WorldClock, examples/OledClock and examples/CommandLineClock
       to a new repo (https://github.com/bxparks/clocks).
+    * Update `src/ace_time/zonedb` and `src/ace_time/zonedbx` to TZDB 2020d
+      (https://mm.icann.org/pipermail/tz-announce/2020-October/000062.html).
+        * "Palestine ends DST earlier than predicted, on 2020-10-24."
 * 1.1.1 (2020-10-18, TZ DB version 2020c)
     * Add documentation for using the `PrintStr<N>` class from the AceUtils
       library (https://github.com:bxparks/AceUtils) on the various `printTo()`
@@ -21,7 +24,9 @@
       `BasicTransitionTest` and `ExtendedTransitionTest` classes.
     * Upgrade target version numbers of 3rd party libraries used for
       tests/validation: pytz from 2019.3 to 2020.1, JDK 11.0.6 to 11.0.8.
-    * Upgrade to TZDB 2020c.
+    * Upgrade to TZDB 2020c
+      (https://mm.icann.org/pipermail/tz-announce/2020-October/000060.html)
+        * "Fiji starts DST later than usual, on 2020-12-20."
     * Restrict GitHub Actions workflow to run just BasicHinnantDateTest and
       ExtendedHinnantDateTest, because the other Python and Java tests break
       every time a new TZDB version comes out.

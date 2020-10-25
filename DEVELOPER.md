@@ -129,12 +129,10 @@ available.
     * zonedb
         * `$ cd src/ace_time/zonedb`
         * Update the `TZ_VERSION` in the `Makefile`.
-        * `$ make clean`
         * `$ make`
     * zonedbx
         * `$ cd src/ace_time/zonedbx`
         * Update the `TZ_VERSION` in the `Makefile`.
-        * `$ make clean`
         * `$ make`
 * Update the CHANGELOG.md.
 * Commit the changes to git
