@@ -28,6 +28,7 @@ jobs:
         cd ..
         git clone https://github.com/bxparks/UnixHostDuino
         git clone https://github.com/bxparks/AUnit
+        git clone https://github.com/bxparks/AceCommon
         git clone https://github.com/eggert/tz
         git clone https://github.com/HowardHinnant/date
 
