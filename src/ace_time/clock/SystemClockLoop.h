@@ -7,6 +7,7 @@
 #define ACE_TIME_SYSTEM_CLOCK_LOOP_H
 
 #include <stdint.h>
+#include <AceCommon.h> // TimingStats
 #include "SystemClock.h"
 
 class SystemClockLoopTest_loop;
@@ -61,7 +62,7 @@ class SystemClockLoop: public SystemClock {
         uint16_t syncPeriodSeconds = 3600,
         uint16_t initialSyncPeriodSeconds = 5,
         uint16_t requestTimeoutMillis = 1000,
-        common::TimingStats* timingStats = nullptr):
+        ace_common::TimingStats* timingStats = nullptr):
       SystemClock(referenceClock, backupClock),
       mSyncPeriodSeconds(syncPeriodSeconds),
       mRequestTimeoutMillis(requestTimeoutMillis),
@@ -140,7 +141,7 @@ class SystemClockLoop: public SystemClock {
 
     uint16_t const mSyncPeriodSeconds;
     uint16_t const mRequestTimeoutMillis;
-    common::TimingStats* const mTimingStats;
+    ace_common::TimingStats* const mTimingStats;
 
     unsigned long mLastSyncMillis;
     unsigned long mRequestStartMillis;

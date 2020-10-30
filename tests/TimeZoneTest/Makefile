@@ -2,5 +2,5 @@
 # Makefile to compile and run Arduino programs natively on Linux or MacOS.
 
 APP_NAME := TimeZoneTest
-ARDUINO_LIBS := AUnit AceTime AceCommon
+ARDUINO_LIBS := AUnit AceCommon AceTime
 include ../../../UnixHostDuino/UnixHostDuino.mk
