@@ -1,6 +1,8 @@
 # Changelog
 
 * Unreleased
+    * Replace reference to AceUtils with AceCommon, since `PrintStr` was
+      moved to AceCommon.
 * 1.1.2 (2020-10-25, TZ DB version 2020d)
     * Move examples/WorldClock, examples/OledClock and examples/CommandLineClock
       to a new repo (https://github.com/bxparks/clocks).

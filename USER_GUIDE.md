@@ -1634,7 +1634,7 @@ string to the given `Print` object. Any subclass of the `Print` class can be
 passed into these methods. The most familiar is the global the `Serial` object
 which prints to the serial port.
 
-The AceUtils library (https://github.com:bxparks/AceUtils) provides a
+The AceCommon library (https://github.com:bxparks/AceCommon) provides a
 subclass of `Print` called `PrintStr` which allows printing to an in-memory
 buffer. The contents of the in-memory buffer can be retrieved as a normal
 c-string using the `PrintStr::getCstr()` method.
@@ -1648,11 +1648,11 @@ object with a 32-byte buffer on the stack.
 An example usage looks like this:
 
 ```C++
-#include <PrintStr.h>
+#include <AceCommon.h>
 #include <AceTime.h>
 
 using namespace ace_time;
-using namespace print_str;
+using namespace ace_common;
 ...
 {
   TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
