@@ -8,6 +8,7 @@
 
 #include <stdint.h>
 #include <string.h> // strcmp(), strcmp_P()
+#include <AceCommon.h> // strcmp_PP()
 #include "common/compat.h"
 #include "internal/ZoneInfo.h"
 #include "internal/Brokers.h"
@@ -161,7 +162,7 @@ class ZoneRegistrar {
  */
 #if ACE_TIME_USE_PROGMEM
 typedef ZoneRegistrar<basic::ZoneInfo, basic::ZoneRegistryBroker,
-    basic::ZoneInfoBroker, acetime_strcmp_P, acetime_strcmp_PP>
+    basic::ZoneInfoBroker, acetime_strcmp_P, ace_common::strcmp_PP>
     BasicZoneRegistrar;
 #else
 typedef ZoneRegistrar<basic::ZoneInfo, basic::ZoneRegistryBroker,
@@ -174,7 +175,7 @@ typedef ZoneRegistrar<basic::ZoneInfo, basic::ZoneRegistryBroker,
  */
 #if ACE_TIME_USE_PROGMEM
 typedef ZoneRegistrar<extended::ZoneInfo, extended::ZoneRegistryBroker,
-    extended::ZoneInfoBroker, acetime_strcmp_P, acetime_strcmp_PP>
+    extended::ZoneInfoBroker, acetime_strcmp_P, ace_common::strcmp_PP>
     ExtendedZoneRegistrar;
 #else
 typedef ZoneRegistrar<extended::ZoneInfo, extended::ZoneRegistryBroker,

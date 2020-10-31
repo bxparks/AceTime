@@ -3,6 +3,10 @@
 * Unreleased
     * Replace `PrintStr` from AceUtils to implementation from AceCommon.
     * Replace `common/TimingStats.h` with implementation from AceCommon.
+    * Replace `common/util.h` functions (`incrementMod()`, `printPad2()`,
+      `printPad3()`, etc) with equivalent implementations from AceCommon.
+    * Repalce `common/compat.h` functions (`acetime_strcmp_PP()`)
+      with `ace_common::strcmp_PP()` in AceCommon.
     * Add dependency to AceCommon to all Makefiles.
 * 1.1.2 (2020-10-25, TZ DB version 2020d)
     * Move examples/WorldClock, examples/OledClock and examples/CommandLineClock

@@ -103,10 +103,4 @@
   #error Unsupported platform
 #endif
 
-/**
- * Compare 2 strings in flash memory. None of the various strXxx_P() functions
- * work when both strings are in flash memory.
- */
-int acetime_strcmp_PP(const char* a, const char* b);
-
 #endif
