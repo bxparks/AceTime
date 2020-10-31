@@ -54,6 +54,7 @@
 #elif defined(TEENSYDUINO)
   #include <avr/pgmspace.h>
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
+
   // Teensyduino defines strcmp_P(a, b) as strcmp(a,b), which cannot be
   // passed as a function pointer, so we have to use strcmp() directly.
   #define acetime_strcmp_P strcmp
@@ -68,7 +69,7 @@
     return strcmp_P((str1), (str2P));
   }
 
-  // ESP8266 2.5.2 doesn't have these so provide our own implementation.
+  // ESP8266 2.5.2 doesn't have these so use versions from AceCommon
   using ace_common::strchr_P;
   using ace_common::strrchr_P;
 
@@ -76,13 +77,9 @@
   #include <pgmspace.h>
   #include <AceCommon.h>
 
-  // Fix incorrect definition of FPSTR in ESP32 < 1.0.3. See
-  // https://github.com/espressif/arduino-esp32/issues/1371
-  #undef FPSTR
-  #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
   #define acetime_strcmp_P strcmp_P
 
-  // ESP8266 2.5.2 doesn't have these so provide our own implementation.
+  // ESP32 1.0.4 doesn't have these so use versions from AceCommon
   using ace_common::strchr_P;
   using ace_common::strrchr_P;
 
@@ -94,9 +91,7 @@
 
 #elif defined(UNIX_HOST_DUINO)
   #include <pgmspace.h>
-  #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
   #define acetime_strcmp_P strcmp_P
-  #define SERIAL_PORT_MONITOR Serial
 
 #else
   #error Unsupported platform
