@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 1.1.2 (2020-10-19, TZ DB version 2020d)
+Version: 1.2 (2020-10-31, TZ DB version 2020d)
 
 ## Installation
 
@@ -2140,7 +2140,7 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
         uint16_t syncPeriodSeconds = 3600,
         uint16_t initialSyncPeriodSeconds = 5,
         uint16_t requestTimeoutMillis = 1000,
-        common::TimingStats* timingStats = nullptr);
+        ace_common::TimingStats* timingStats = nullptr);
 
     int runCoroutine() override;
     uint8_t getRequestStatus() const;
