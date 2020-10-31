@@ -451,7 +451,8 @@ then printing the system time every 2 seconds:
 
 ### WorldClock
 
-Here is a photo of the [WorldClock](examples/WorldClock) that supports 3
+Here is a photo of the WorldClock
+(https://github.com/bxparks/clocks/tree/master/WorldClock) that supports 3
 OLED displays with 3 timezones, and automatically adjusts the DST transitions
 for all 3 zones:
 
