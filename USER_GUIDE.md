@@ -6,14 +6,24 @@ Version: 1.2 (2020-10-31, TZ DB version 2020d)
 
 ## Installation
 
-The latest stable release is available in the Arduino IDE Library
-Manager since version 0.3.1. Search for "AceTime". Click Install.
+The latest stable release is available in the Arduino IDE Library Manager. Two
+libraries need to be installed since v1.2:
 
-The development version can be installed by cloning the
-[GitHub repository](https://github.com/bxparks/AceTime), checking out the
-`develop` branch, then manually copying over the contents to the `./libraries`
-directory used by the Arduino IDE. (The result is a directory named
-`./libraries/AceTime`.) The `master` branch contains the stable release.
+* Search for "AceTime". Click Install.
+* Search for "AceCommon". Click Install.
+
+The development version can be installed by cloning the 2 git repos:
+
+* AceTime (https://github.com/bxparks/AceTime)
+* AceCommon (https://github.com/bxparks/AceCommon)
+
+You can copy over the contents to the `./libraries` directory used by the
+Arduino IDE. (The result is a directory named `./libraries/AceTime` and
+`./libraries/AceCommon`). Or you can create symlinks from `./libraries` to these
+directories.
+
+The `develop` branch contains the latest development.
+The `master` branch contains the stable release.
 
 ### Source Code
 

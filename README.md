@@ -216,6 +216,10 @@ Conversion from an epochSeconds to date-time components including timezone
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
+**IMPORTANT CHANGE for v1.2**: This library now depends on the the "AceCommon"
+library for some of its low-level routines. See the (USER_GUIDE)[USER_GUIDE.md]
+for installation instructions.
+
 ![AUnit
 Tests](https://github.com/bxparks/AceTime/workflows/AUnit%20Tests/badge.svg)
 ![Python
@@ -484,13 +488,13 @@ See the [AceTime User Guide](USER_GUIDE.md) for information on:
 
 This library was developed and tested using:
 
-* [Arduino IDE 1.8.9](https://www.arduino.cc/en/Main/Software)
-* [Arduino AVR Boards 1.6.23](https://github.com/arduino/ArduinoCore-avr)
-* [Arduino SAMD Boards 1.8.3](https://github.com/arduino/ArduinoCore-samd)
-* [SparkFun AVR Boards 1.1.12](https://github.com/sparkfun/Arduino_Boards)
-* [SparkFun SAMD Boards 1.6.2](https://github.com/sparkfun/Arduino_Boards)
-* [ESP8266 Arduino 2.5.2](https://github.com/esp8266/Arduino)
-* [ESP32 Arduino 1.0.2](https://github.com/espressif/arduino-esp32)
+* [Arduino IDE 1.8.13](https://www.arduino.cc/en/Main/Software)
+* [Arduino AVR Boards 1.8.3](https://github.com/arduino/ArduinoCore-avr)
+* [Arduino SAMD Boards 1.8.9](https://github.com/arduino/ArduinoCore-samd)
+* [SparkFun AVR Boards 1.1.13](https://github.com/sparkfun/Arduino_Boards)
+* [SparkFun SAMD Boards 1.8.1](https://github.com/sparkfun/Arduino_Boards)
+* [ESP8266 Arduino 2.7.4](https://github.com/esp8266/Arduino)
+* [ESP32 Arduino 1.0.4](https://github.com/espressif/arduino-esp32)
 * [Teensydino 1.46](https://www.pjrc.com/teensy/td_download.html)
 
 It should work with [PlatformIO](https://platformio.org/) but I have
