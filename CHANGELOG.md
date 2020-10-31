@@ -11,7 +11,7 @@
         * `incrementMod()`, `printPad2()`, `printPad3()`
         * `strcmp_PP()`
         * `strchr_P()`, `strrchr_P()` for ESP8266 and ESP32
-    * Replace `PrintStr` from AceUtils to implementation from AceCommon.
+    * Replace `PrintStr` from AceUtils with implementation from AceCommon.
 * 1.1.2 (2020-10-25, TZ DB version 2020d)
     * Move examples/WorldClock, examples/OledClock and examples/CommandLineClock
       to a new repo (https://github.com/bxparks/clocks).
