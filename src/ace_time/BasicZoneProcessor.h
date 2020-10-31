@@ -238,7 +238,7 @@ class BasicZoneProcessor: public ZoneProcessor {
     }
 
     /**
-     * @copydoc ZoneProcessor::getUtcOffsetForDateTime()
+     * @copydoc ZoneProcessor::getOffsetDateTime()
      *
      * The Transitions calculated by BasicZoneProcessor contain only the
      * epochSeconds when each transition occurs. They do not contain the local
