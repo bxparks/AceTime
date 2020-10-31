@@ -60,6 +60,7 @@
 
 #elif defined(ESP8266)
   #include <pgmspace.h>
+  #include <AceCommon.h>
 
   // ESP8266 2.5.2 defines strcmp_P() as a macro function, but we need a real
   // function.
@@ -68,24 +69,22 @@
   }
 
   // ESP8266 2.5.2 doesn't have these so provide our own implementation.
-  extern "C" {
-    const char* strchr_P(const char* s, int c);
-    const char* strrchr_P(const char* s, int c);
-  }
+  using ace_common::strchr_P;
+  using ace_common::strrchr_P;
 
 #elif defined(ESP32)
   #include <pgmspace.h>
+  #include <AceCommon.h>
+
   // Fix incorrect definition of FPSTR in ESP32 < 1.0.3. See
   // https://github.com/espressif/arduino-esp32/issues/1371
   #undef FPSTR
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
   #define acetime_strcmp_P strcmp_P
 
-  // ESP32 1.0.2 doesn't have these so provide our own implementation.
-  extern "C" {
-    const char* strchr_P(const char* s, int c);
-    const char* strrchr_P(const char* s, int c);
-  }
+  // ESP8266 2.5.2 doesn't have these so provide our own implementation.
+  using ace_common::strchr_P;
+  using ace_common::strrchr_P;
 
   // ESP32 does not define SERIAL_PORT_MONITOR. Define it unless another
   // library has already defined it.
