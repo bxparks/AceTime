@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.1.2</span>
+   &#160;<span id="projectnumber">1.2</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -77,13 +77,13 @@ $(function() {
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span> <span class="comment">// strlen()</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;common/util.h&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;AceCommon.h&gt;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;common/DateStrings.h&quot;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;TimeOffset.h&quot;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using</span> ace_common::printPad2To;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">using</span> common::printPad2;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
 <div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classace__time_1_1TimeOffset.html#af1bcb885f413153ed61324a92e5bd730">   15</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classace__time_1_1TimeOffset.html#af1bcb885f413153ed61324a92e5bd730">TimeOffset::printTo</a>(Print&amp; printer)<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  int8_t hour;</div>
@@ -97,9 +97,9 @@ $(function() {
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  } <span class="keywordflow">else</span> {</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    printer.print(<span class="charliteral">&#39;+&#39;</span>);</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  }</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  common::printPad2(printer, hour);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  printPad2To(printer, hour, <span class="charliteral">&#39;0&#39;</span>);</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  printer.print(<span class="charliteral">&#39;:&#39;</span>);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  common::printPad2(printer, minute);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  printPad2To(printer, minute, <span class="charliteral">&#39;0&#39;</span>);</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
 <div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classace__time_1_1TimeOffset.html#a432ebcdc40e78c55c6091288ea3ad0eb">   32</a></span>&#160;<a class="code" href="classace__time_1_1TimeOffset.html">TimeOffset</a> <a class="code" href="classace__time_1_1TimeOffset.html#a432ebcdc40e78c55c6091288ea3ad0eb">TimeOffset::forOffsetString</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* offsetString) {</div>

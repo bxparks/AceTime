@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.1.2</span>
+   &#160;<span id="projectnumber">1.2</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -87,10 +87,9 @@ Inheritance diagram for ace_time::clock::SystemClock:</div>
 <div class="dyncontent">
 <div class="center"><img src="classace__time_1_1clock_1_1SystemClock__inherit__graph.png" border="0" usemap="#ace__time_1_1clock_1_1SystemClock_inherit__map" alt="Inheritance graph"/></div>
 <map name="ace__time_1_1clock_1_1SystemClock_inherit__map" id="ace__time_1_1clock_1_1SystemClock_inherit__map">
-<area shape="rect" title="A Clock that uses the Arduino millis() function to advance the time returned to the user." alt="" coords="133,80,351,107"/>
-<area shape="rect" href="classace__time_1_1clock_1_1SystemClockCoroutine.html" title="A version of SystemClock that mixes in the ace_routine::Coroutine class so that that the non&#45;block me..." alt="" coords="5,155,223,196"/>
-<area shape="rect" href="classace__time_1_1clock_1_1SystemClockLoop.html" title="A subclass of SystemClock that sync with its mReferenceClock using a blocking mReferenceClock&#45;&gt;getNow..." alt="" coords="247,162,495,189"/>
-<area shape="rect" href="classace__time_1_1clock_1_1Clock.html" title="Base class for objects that provide and store time." alt="" coords="158,5,326,32"/>
+<area shape="rect" title="A Clock that uses the Arduino millis() function to advance the time returned to the user." alt="" coords="21,80,238,107"/>
+<area shape="rect" href="classace__time_1_1clock_1_1SystemClockLoop.html" title="A subclass of SystemClock that sync with its mReferenceClock using a blocking mReferenceClock&#45;&gt;getNow..." alt="" coords="5,155,253,181"/>
+<area shape="rect" href="classace__time_1_1clock_1_1Clock.html" title="Base class for objects that provide and store time." alt="" coords="45,5,213,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -215,9 +214,9 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 <p>There are 2 maintenance tasks which this class must perform peridicallly:</p>
 <p>1) The value of the previous system time millis() is stored internally as a uint16_t. That has 2 advantages: 1) it saves memory, 2) the upper bound of the execution time of <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acdb29aa7095759101a9f33b79f863144" title="Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z).">getNow()</a> limited to 65 iterations. The disadvantage is the that internal counter will rollover within 65.535 milliseconds. To prevent that, <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#adfc9d74fc2b9a0356a44d1e41845b3de" title="Call this (or getNow() every 65.535 seconds or faster to keep the internal counter in sync with milli...">keepAlive()</a> must be called more frequently than every 65.536 seconds. 2) The current time can be synchronized to the referenceClock peridically. Some reference clocks can take hundreds or thousands of milliseconds to return, so it's important that the non-block methods of <a class="el" href="classace__time_1_1clock_1_1Clock.html" title="Base class for objects that provide and store time.">Clock</a> are used to synchronize to the reference clock.</p>
 <p>Two subclasses of <a class="el" href="classace__time_1_1clock_1_1SystemClock.html" title="A Clock that uses the Arduino millis() function to advance the time returned to the user.">SystemClock</a> expose 2 different ways of performing these maintenance tasks.</p>
-<p>1) Call <a class="el" href="classace__time_1_1clock_1_1SystemClockCoroutine.html#ad12b56fb495ad6efe4ecc80a1c6058ff">SystemClockCoroutine::runCoroutine</a> using the framework of the AceRoutine library in the global loop() function. 2) Call the <a class="el" href="classace__time_1_1clock_1_1SystemClockLoop.html#a551fc36219fa3afb4e78a8c690a07fc8" title="Call this from the global loop() method.">SystemClockLoop::loop()</a> method from the global loop() function. </p>
+<p>1) Call SystemClockCoroutine::runCoroutine using the framework of the AceRoutine library in the global loop() function. 2) Call the <a class="el" href="classace__time_1_1clock_1_1SystemClockLoop.html#a551fc36219fa3afb4e78a8c690a07fc8" title="Call this from the global loop() method.">SystemClockLoop::loop()</a> method from the global loop() function. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00053">53</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00052">52</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a38ad78cf1a28854b54225a33d16a9bd4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a38ad78cf1a28854b54225a33d16a9bd4">&#9670;&nbsp;</a></span>SystemClock()</h2>
@@ -262,7 +261,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00116">116</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00115">115</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -293,7 +292,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 <p>Return the Arduino millis(). </p>
 <p>Override for unit testing. Named '<a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a1aa93c64a26f9dab8cd364dd7c0cb798" title="Return the Arduino millis().">clockMillis()</a>' to avoid conflict with Coroutine::millis(). </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00126">126</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00125">125</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -323,7 +322,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 <p>Return the time (seconds since Epoch) of the last valid sync() call. </p>
 <p>Returns kInvalidSeconds if never synced. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00092">92</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00091">91</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -356,7 +355,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 
 <p>Implements <a class="el" href="classace__time_1_1clock_1_1Clock.html#a018eaa1936dd0750eb2098e1c6ada9e4">ace_time::clock::Clock</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00063">63</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00062">62</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -389,7 +388,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 
 <p>Reimplemented from <a class="el" href="classace__time_1_1clock_1_1Clock.html#a958ab88f7ba9893c557038e1424138ca">ace_time::clock::Clock</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00073">73</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00072">72</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -421,7 +420,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 <p>This prevents us from retrieving the time from the RTC, then saving it right back again, with a drift each time it is saved back.</p>
 <p>TODO: Implement a more graceful <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acfd32b4775a05ff54d172f3829fc1de7" title="Similar to setNow() except that backupNow() is called only if the backupClock is different from the r...">syncNow()</a> algorithm which shifts only a few milliseconds per iteration, and which guarantees that the clock never goes backwards in time. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00156">156</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00155">155</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>

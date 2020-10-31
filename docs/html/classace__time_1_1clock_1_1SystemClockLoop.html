@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.1.2</span>
+   &#160;<span id="projectnumber">1.2</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -104,9 +104,9 @@ Collaboration diagram for ace_time::clock::SystemClockLoop:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad9551e6d6778fd0dd8aa63798c310a70"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClockLoop.html#ad9551e6d6778fd0dd8aa63798c310a70">SystemClockLoop</a> (<a class="el" href="classace__time_1_1clock_1_1Clock.html">Clock</a> *referenceClock, <a class="el" href="classace__time_1_1clock_1_1Clock.html">Clock</a> *backupClock, uint16_t syncPeriodSeconds=3600, uint16_t initialSyncPeriodSeconds=5, uint16_t requestTimeoutMillis=1000, <a class="el" href="classace__time_1_1common_1_1TimingStats.html">common::TimingStats</a> *timingStats=nullptr)</td></tr>
-<tr class="memdesc:ad9551e6d6778fd0dd8aa63798c310a70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classace__time_1_1clock_1_1SystemClockLoop.html#ad9551e6d6778fd0dd8aa63798c310a70">More...</a><br /></td></tr>
-<tr class="separator:ad9551e6d6778fd0dd8aa63798c310a70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed74f819ae1628400dbb2cf2bf6cab30"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClockLoop.html#aed74f819ae1628400dbb2cf2bf6cab30">SystemClockLoop</a> (<a class="el" href="classace__time_1_1clock_1_1Clock.html">Clock</a> *referenceClock, <a class="el" href="classace__time_1_1clock_1_1Clock.html">Clock</a> *backupClock, uint16_t syncPeriodSeconds=3600, uint16_t initialSyncPeriodSeconds=5, uint16_t requestTimeoutMillis=1000, ace_common::TimingStats *timingStats=nullptr)</td></tr>
+<tr class="memdesc:aed74f819ae1628400dbb2cf2bf6cab30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classace__time_1_1clock_1_1SystemClockLoop.html#aed74f819ae1628400dbb2cf2bf6cab30">More...</a><br /></td></tr>
+<tr class="separator:aed74f819ae1628400dbb2cf2bf6cab30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a551fc36219fa3afb4e78a8c690a07fc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClockLoop.html#a551fc36219fa3afb4e78a8c690a07fc8">loop</a> ()</td></tr>
 <tr class="memdesc:a551fc36219fa3afb4e78a8c690a07fc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call this from the global <a class="el" href="classace__time_1_1clock_1_1SystemClockLoop.html#a551fc36219fa3afb4e78a8c690a07fc8" title="Call this from the global loop() method.">loop()</a> method.  <a href="classace__time_1_1clock_1_1SystemClockLoop.html#a551fc36219fa3afb4e78a8c690a07fc8">More...</a><br /></td></tr>
 <tr class="separator:a551fc36219fa3afb4e78a8c690a07fc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -225,13 +225,13 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsInit</b> = false</
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A subclass of <a class="el" href="classace__time_1_1clock_1_1SystemClock.html" title="A Clock that uses the Arduino millis() function to advance the time returned to the user.">SystemClock</a> that sync with its mReferenceClock using a blocking mReferenceClock-&gt;<a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acdb29aa7095759101a9f33b79f863144" title="Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z).">getNow()</a> call. </p>
-<p>The blocking call can be a problem for clocks like <a class="el" href="classace__time_1_1clock_1_1NtpClock.html" title="A Clock that retrieves the time from an NTP server.">NtpClock</a> which makes a network request. If this is a problem, use <a class="el" href="classace__time_1_1clock_1_1SystemClockCoroutine.html" title="A version of SystemClock that mixes in the ace_routine::Coroutine class so that that the non-block me...">SystemClockCoroutine</a> instead.</p>
+<p>The blocking call can be a problem for clocks like <a class="el" href="classace__time_1_1clock_1_1NtpClock.html" title="A Clock that retrieves the time from an NTP server.">NtpClock</a> which makes a network request. If this is a problem, use SystemClockCoroutine instead.</p>
 <p>Initial syncing occurs at initialSyncPeriodSeconds interval, until the first successful sync, then subsequent syncing occurs at syncPeriodSeconds interval. Initial syncing implements an exponential backoff when the sync request fails, increasing from initialSyncPeriodSeconds to until a maximum of syncPeriodSeconds. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClockLoop_8h_source.html#l00029">29</a> of file <a class="el" href="SystemClockLoop_8h_source.html">SystemClockLoop.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClockLoop_8h_source.html#l00030">30</a> of file <a class="el" href="SystemClockLoop_8h_source.html">SystemClockLoop.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ad9551e6d6778fd0dd8aa63798c310a70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9551e6d6778fd0dd8aa63798c310a70">&#9670;&nbsp;</a></span>SystemClockLoop()</h2>
+<a id="aed74f819ae1628400dbb2cf2bf6cab30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed74f819ae1628400dbb2cf2bf6cab30">&#9670;&nbsp;</a></span>SystemClockLoop()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -272,7 +272,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsInit</b> = false</
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classace__time_1_1common_1_1TimingStats.html">common::TimingStats</a> *&#160;</td>
+          <td class="paramtype">ace_common::TimingStats *&#160;</td>
           <td class="paramname"><em>timingStats</em> = <code>nullptr</code>&#160;</td>
         </tr>
         <tr>
@@ -300,7 +300,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsInit</b> = false</
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="SystemClockLoop_8h_source.html#l00058">58</a> of file <a class="el" href="SystemClockLoop_8h_source.html">SystemClockLoop.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClockLoop_8h_source.html#l00059">59</a> of file <a class="el" href="SystemClockLoop_8h_source.html">SystemClockLoop.h</a>.</p>
 
 </div>
 </div>
@@ -331,7 +331,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsInit</b> = false</
 <p>Call this from the global <a class="el" href="classace__time_1_1clock_1_1SystemClockLoop.html#a551fc36219fa3afb4e78a8c690a07fc8" title="Call this from the global loop() method.">loop()</a> method. </p>
 <p>This uses a blocking call to the mReferenceClock. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClockLoop_8h_source.html#l00075">75</a> of file <a class="el" href="SystemClockLoop_8h_source.html">SystemClockLoop.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClockLoop_8h_source.html#l00076">76</a> of file <a class="el" href="SystemClockLoop_8h_source.html">SystemClockLoop.h</a>.</p>
 
 </div>
 </div>

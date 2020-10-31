@@ -1,3 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classace__time_1_1common_1_1TimingStats.html" title="Helper class to collect timing statistics such as min, max, average." alt="" coords="5,5,205,47"/>
+<area shape="rect" id="node1" href="$classace__time_1_1DateStrings.html" title="Class that translates a numeric month (1&#45;12) or dayOfWeek (1&#45;7) into a human readable string." alt="" coords="5,5,172,32"/>
 </map>

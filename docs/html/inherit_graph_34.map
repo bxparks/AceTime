@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structace__time_1_1TimeZoneData.html" title="Data structure that captures the internal state of a TimeZone object with enough information so that ..." alt="" coords="5,5,192,32"/>
+<area shape="rect" id="node1" href="$classace__time_1_1ZoneManager.html" title=" " alt="" coords="5,5,265,76"/>
+<area shape="rect" id="node2" href="$classace__time_1_1BasicZoneManager.html" title=" " alt="" coords="313,20,528,61"/>
 </map>

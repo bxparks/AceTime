@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.1.2</span>
+   &#160;<span id="projectnumber">1.2</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -76,12 +76,12 @@ $(function() {
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * Copyright (c) 2018 Brian T. Park</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;common/util.h&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;AceCommon.h&gt;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;LocalTime.h&quot;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using</span> ace_common::printPad2To;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using</span> common::printPad2;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
 <div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classace__time_1_1LocalTime.html#a9f5c3a2e92030d0aa773ffb2a83197cf">   13</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classace__time_1_1LocalTime.html#a9f5c3a2e92030d0aa773ffb2a83197cf">LocalTime::printTo</a>(Print&amp; printer)<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classace__time_1_1LocalTime.html#aef4912030e6b9a2eaa77fe5ae56f9bec">isError</a>()) {</div>
@@ -90,11 +90,11 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  }</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <span class="comment">// Time</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  printPad2(printer, mHour);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  printPad2To(printer, mHour, <span class="charliteral">&#39;0&#39;</span>);</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  printer.print(<span class="charliteral">&#39;:&#39;</span>);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  printPad2(printer, mMinute);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  printPad2To(printer, mMinute, <span class="charliteral">&#39;0&#39;</span>);</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  printer.print(<span class="charliteral">&#39;:&#39;</span>);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  printPad2(printer, mSecond);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  printPad2To(printer, mSecond, <span class="charliteral">&#39;0&#39;</span>);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
 <div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classace__time_1_1LocalTime.html#a88a75981aa0f2b612e43fe916a7772ce">   27</a></span>&#160;<a class="code" href="classace__time_1_1LocalTime.html">LocalTime</a> <a class="code" href="classace__time_1_1LocalTime.html#a88a75981aa0f2b612e43fe916a7772ce">LocalTime::forTimeString</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* timeString) {</div>
