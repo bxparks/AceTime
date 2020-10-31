@@ -8,7 +8,7 @@
 
 #include <stddef.h> // size_t
 #include <stdint.h> // uint8_t, etc
-#include <strings.h> // strlen()
+#include <string.h> // strlen()
 #include <Arduino.h> // strncpy_P()
 #include "LocalDate.h"
 #include "LocalTime.h"
