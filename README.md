@@ -216,6 +216,13 @@ Conversion from an epochSeconds to date-time components including timezone
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
+![AUnit
+Tests](https://github.com/bxparks/AceTime/workflows/AUnit%20Tests/badge.svg)
+![Python
+Tools](https://github.com/bxparks/AceTime/workflows/Python%20Tools/badge.svg)
+![Validation
+Tests](https://github.com/bxparks/AceTime/workflows/Validation%20Tests/badge.svg)
+
 ## Examples
 
 ### HelloDateTime
