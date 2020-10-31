@@ -1,6 +1,7 @@
 #line 2 "ZonedDateTimeTest.ino"
 
 #include <AUnit.h>
+#include <AceCommon.h>
 #include <AceTime.h>
 
 using namespace aunit;
@@ -217,6 +218,26 @@ test(ZonedDateTimeTest, forDateString_errors) {
   // parser cares about the +/- in front of the UTC offset
   dt = ZonedDateTime::forDateString(F("2018-08-31 13:48:01&07:00"));
   assertTrue(dt.isError());
+}
+
+// --------------------------------------------------------------------------
+// printTo()
+// --------------------------------------------------------------------------
+
+test(ZonedDateTimeTest_Manual, printTo) {
+  ace_common::PrintStr<64> dateString;
+
+  ZonedDateTime dt = ZonedDateTime::forComponents(2001, 2, 3, 4, 5, 6,
+      TimeZone());
+  dt.printTo(dateString);
+  assertEqual(dateString.getCstr(), "2001-02-03T04:05:06+00:00[UTC]");
+
+  dateString.flush();
+  TimeZone stdTz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
+  ZonedDateTime std = ZonedDateTime::forComponents(
+      2018, 3, 11, 1, 59, 59, stdTz);
+  std.printTo(dateString);
+  assertEqual(dateString.getCstr(), "2018-03-11T01:59:59-08:00[-08:00+00:00]");
 }
 
 // --------------------------------------------------------------------------

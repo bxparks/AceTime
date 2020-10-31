@@ -7,7 +7,6 @@
 #define ACE_TIME_TIME_OFFSET_MUTATION_H
 
 #include <stdint.h>
-#include "common/util.h"
 #include "TimeOffset.h"
 
 namespace ace_time {
@@ -27,7 +26,7 @@ namespace time_offset_mutation {
  * @code{.cpp}
  * TimeOffset offset = TimeOffset::forXxx(...);
  * time_offset_mutation::increment15Minute(offset);
- * @code
+ * @endcode
  */
 
 /**

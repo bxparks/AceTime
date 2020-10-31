@@ -19,7 +19,7 @@ OBJS := validation_data.o \
 	$(DB_NAMESPACE)/zone_policies.o \
 	$(DB_NAMESPACE)/zone_registry.o
 APP_NAME := BasicPythonTest
-ARDUINO_LIBS := AUnit AceTime
+ARDUINO_LIBS := AUnit AceCommon AceTime
 MORE_CLEAN := more_clean
 include ../../../../UnixHostDuino/UnixHostDuino.mk
 

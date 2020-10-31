@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.1.2</span>
+   &#160;<span id="projectnumber">1.2</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -225,7 +225,7 @@ Friends</h2></td></tr>
 <p>It is an aggregation of the <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> and <a class="el" href="classace__time_1_1LocalTime.html" title="The time (hour, minute, second) fields representing the time without regards to the day or the time z...">LocalTime</a> classes.</p>
 <p>Parts of this class were inspired by the java.time.LocalDateTime class of Java 11 (<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalDateTime.html">https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalDateTime.html</a>). </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00027">27</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00030">30</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a258117e35f7f6b063fd969b57385b90f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a258117e35f7f6b063fd969b57385b90f">&#9670;&nbsp;</a></span>LocalDateTime()</h2>
@@ -253,7 +253,7 @@ Friends</h2></td></tr>
 <p>Constructor. </p>
 <p>All internal fields are left in an undefined state. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00158">158</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00161">161</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -329,7 +329,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00040">40</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00043">43</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -360,7 +360,7 @@ Friends</h2></td></tr>
 <p>Factory method. </p>
 <p>Create a <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> from date string in flash memory F() strings. Mostly for unit testing. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00135">135</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00138">138</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -464,7 +464,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00067">67</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00070">70</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -496,7 +496,7 @@ Friends</h2></td></tr>
 <p>Similar to <a class="el" href="classace__time_1_1LocalDateTime.html#afeae6e1d59d0fcb6d4d3660c5a6fd992" title="Factory method.">forEpochSeconds()</a>, the seconds corresponding to the partial day are truncated down towards the smallest whole day.</p>
 <p>Returns <a class="el" href="classace__time_1_1LocalDateTime.html#a5e238445e0b676f3a166e5bdc3794aa9" title="Factory method that returns an instance where isError() returns true.">LocalDateTime::forError()</a> if epochSeconds is equal to <a class="el" href="classace__time_1_1LocalDate.html#a93246cf1e604993768fba270de04fb72" title="Sentinel epochSeconds which indicates an error.">LocalDate::kInvalidEpochSeconds</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00097">97</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00100">100</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -549,7 +549,7 @@ Friends</h2></td></tr>
 <p>Return seconds since AceTime epoch 2000-01-01 00:00:00Z, after assuming that the date and time components are in UTC timezone. </p>
 <p>Returns <a class="el" href="classace__time_1_1LocalDate.html#a93246cf1e604993768fba270de04fb72" title="Sentinel epochSeconds which indicates an error.">LocalDate::kInvalidEpochSeconds</a> if <a class="el" href="classace__time_1_1LocalDateTime.html#a42ad78d8e8c81c09494cdf4f0e6de123" title="Return true if any component indicates an error condition.">isError()</a> is true. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00243">243</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00246">246</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -580,7 +580,7 @@ Friends</h2></td></tr>
 <p>Returns <a class="el" href="classace__time_1_1LocalDate.html#a93246cf1e604993768fba270de04fb72" title="Sentinel epochSeconds which indicates an error.">LocalDate::kInvalidEpochSeconds</a> if <a class="el" href="classace__time_1_1LocalDateTime.html#a42ad78d8e8c81c09494cdf4f0e6de123" title="Return true if any component indicates an error condition.">isError()</a> is true.</p>
 <p>Tip: You can use the command 'date +s -d {iso8601date}' on a Unix box to print the unix seconds of a given ISO8601 date. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00259">259</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00262">262</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -610,7 +610,7 @@ Friends</h2></td></tr>
 <p>Return the single-byte year offset from year 2000. </p>
 <p>Intended for memory constrained or performance critical code. May be deprecated in the future. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00176">176</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00179">179</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -641,7 +641,7 @@ Friends</h2></td></tr>
 <p>Set the single-byte year offset from year 2000. </p>
 <p>Intended for memory constrained or performance critical code. May be deprecated in the future. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00183">183</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00186">186</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -683,7 +683,7 @@ Friends</h2></td></tr>
 <p>Return true if two <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> objects are equal in all components. </p>
 <p>Optimized for small changes in the less signficant fields, such as 'second' or 'minute'. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00307">307</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00310">310</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>

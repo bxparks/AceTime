@@ -10,8 +10,8 @@
 #ifdef ACE_ROUTINE_VERSION
 
 #include <stdint.h>
+#include <AceCommon.h> // TimingStats
 #include <AceRoutine.h>
-#include "../common/TimingStats.h"
 #include "SystemClock.h"
 
 class SystemClockCoroutineTest_runCoroutine;
@@ -66,7 +66,7 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
         uint16_t syncPeriodSeconds = 3600,
         uint16_t initialSyncPeriodSeconds = 5,
         uint16_t requestTimeoutMillis = 1000,
-        common::TimingStats* timingStats = nullptr):
+        ace_common::TimingStats* timingStats = nullptr):
       SystemClock(referenceClock, backupClock),
       mSyncPeriodSeconds(syncPeriodSeconds),
       mRequestTimeoutMillis(requestTimeoutMillis),
@@ -151,7 +151,7 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
 
     uint16_t const mSyncPeriodSeconds;
     uint16_t const mRequestTimeoutMillis;
-    common::TimingStats* const mTimingStats;
+    ace_common::TimingStats* const mTimingStats;
 
     uint16_t mRequestStartMillis; // lower 16-bit of millis()
     uint16_t mCurrentSyncPeriodSeconds;

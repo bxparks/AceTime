@@ -3,13 +3,13 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#include "common/util.h"
+#include <AceCommon.h>
 #include "common/DateStrings.h"
 #include "LocalDateTime.h"
 
-namespace ace_time {
+using ace_common::printPad2To;
 
-using common::printPad2;
+namespace ace_time {
 
 void LocalDateTime::printTo(Print& printer) const {
   if (isError()) {
@@ -20,19 +20,19 @@ void LocalDateTime::printTo(Print& printer) const {
   // Date
   printer.print(mLocalDate.year());
   printer.print('-');
-  printPad2(printer, mLocalDate.month());
+  printPad2To(printer, mLocalDate.month(), '0');
   printer.print('-');
-  printPad2(printer, mLocalDate.day());
+  printPad2To(printer, mLocalDate.day(), '0');
 
   // 'T' separator
   printer.print('T');
 
   // Time
-  printPad2(printer, mLocalTime.hour());
+  printPad2To(printer, mLocalTime.hour(), '0');
   printer.print(':');
-  printPad2(printer, mLocalTime.minute());
+  printPad2To(printer, mLocalTime.minute(), '0');
   printer.print(':');
-  printPad2(printer, mLocalTime.second());
+  printPad2To(printer, mLocalTime.second(), '0');
 }
 
 LocalDateTime LocalDateTime::forDateString(const char* dateString) {

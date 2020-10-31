@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 1.1.2 (2020-10-19, TZ DB version 2020d)
+Version: 1.2 (2020-10-31, TZ DB version 2020d)
 
 ## Installation
 
@@ -42,42 +42,35 @@ The source files are organized as follows:
 
 ### Dependencies
 
-The vast majority of the AceTime library has no dependency to any other external
-libraries. There is an optional dependency to
-[AceRoutine](https://github.com/bxparks/AceRoutine) if you want to use the
-`SystemClockCoroutine` class for automatic syncing. (This is recommended but
-not strictly necessary). The `ace_time/hw/CrcEeprom.h` class has a dependency to
-the [FastCRC](https://github.com/FrankBoesing/FastCRC) library but the
-`CrcEeprom.h` file is not included in the `AceTime.h` main header file, so you
-should not need FastCRC to compile AceTime. (The `CrcEeprom.h` header file does
-not strictly belong in the AceTime library but many of my "clock" projects that
-use the AceTime library also use the `CrcEeprom` class, so this is a convenient
-place to keep it.)
+The AceTime library depends on:
+
+* AceCommon (https://github.com/bxparks/AceCommon)
+* AceRoutine (https://github.com/bxparks/AceRoutine)
+    * Optional. Needed if you use the `SystemClockCoroutine` class for automatic
+      syncing. This is recommended but not strictly necessary.
 
 Various programs in the `examples/` directory have one or more of the following
 external dependencies. The comment section near the top of the `*.ino` file will
 usually have more precise dependency information:
 
-* [AceRoutine](https://github.com/bxparks/AceRoutine)
-* [AceButton](https://github.com/bxparks/AceButton)
-* [FastCRC](https://github.com/FrankBoesing/FastCRC)
-* [SSD1306Ascii](https://github.com/greiman/SSD1306Ascii)
-* [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
-* [Arduino Timezone](https://github.com/JChristensen/Timezone)
+* AceRoutine (https://github.com/bxparks/AceRoutine)
+* AceButton (https://github.com/bxparks/AceButton)
+* Arduino Time Lib (https://github.com/PaulStoffregen/Time)
+* Arduino Timezone (https://github.com/JChristensen/Timezone)
 
 Various scripts in the `tools/` directory depend on:
 
-* [IANA TZ Database on GitHub](https://github.com/eggert/tz)
-* [Python pytz library](https://pypi.org/project/pytz/)
-* [Python dateutil library](https://pypi.org/project/python-dateutil)
-* [Hinnant date library](https://github.com/HowardHinnant/date)
+* IANA TZ Database (https://github.com/eggert/tz)
+* Python pytz library (https://pypi.org/project/pytz/)
+* Python dateutil library (https://pypi.org/project/python-dateutil)
+* Hinnant date library (https://github.com/HowardHinnant/date)
 * Python 3.6 or greater
 * Java OpenJDK 11
 
 If you want to run the unit tests or some of the command line examples using a
 Linux or MacOS machine, you need:
 
-* [UnixHostDuino](https://github.com/bxparks/UnixHostDuino)
+* UnixHostDuino (https://github.com/bxparks/UnixHostDuino)
 
 ### Doxygen Docs
 
@@ -1634,7 +1627,7 @@ string to the given `Print` object. Any subclass of the `Print` class can be
 passed into these methods. The most familiar is the global the `Serial` object
 which prints to the serial port.
 
-The AceUtils library (https://github.com:bxparks/AceUtils) provides a
+The AceCommon library (https://github.com:bxparks/AceCommon) provides a
 subclass of `Print` called `PrintStr` which allows printing to an in-memory
 buffer. The contents of the in-memory buffer can be retrieved as a normal
 c-string using the `PrintStr::getCstr()` method.
@@ -1648,11 +1641,11 @@ object with a 32-byte buffer on the stack.
 An example usage looks like this:
 
 ```C++
-#include <PrintStr.h>
+#include <AceCommon.h>
 #include <AceTime.h>
 
 using namespace ace_time;
-using namespace print_str;
+using namespace ace_common;
 ...
 {
   TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
@@ -2147,7 +2140,7 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
         uint16_t syncPeriodSeconds = 3600,
         uint16_t initialSyncPeriodSeconds = 5,
         uint16_t requestTimeoutMillis = 1000,
-        common::TimingStats* timingStats = nullptr);
+        ace_common::TimingStats* timingStats = nullptr);
 
     int runCoroutine() override;
     uint8_t getRequestStatus() const;

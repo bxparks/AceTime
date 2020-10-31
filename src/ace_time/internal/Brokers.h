@@ -408,14 +408,23 @@ class ZoneRegistryBroker {
 
 namespace extended {
 
-// deltaMinutes = deltaCode * 15m - 1h, (4-bits can store -01:00 to 02:45).
+/**
+ * Convert the `deltaCode` in the ZoneInfo struct to the actual
+ * deltaMinutes. The lower 4-bits can store -01:00 to 02:45.
+ *
+ * @code
+ * deltaMinutes = deltaCode * 15m - 1h
+ * @endcode
+ */
 inline int16_t toDeltaMinutes(int8_t deltaCode) {
   return ((int8_t)((uint8_t)deltaCode & 0x0f) - 4) * 15;
 }
 
-// offsetCode holds the upper 15-minute multiples, as a signed 8-bit integer.
-// The upper 4-bits of deltaCode holds the one-minute resolution, as an
-// unsigned offset.
+/**
+ * Convert the `offsetCode` and `deltaCode` into a signed 8-bit integer. The
+ * `offsetCode` holds the upper 15-minute multiples. The upper 4-bits of
+ * `deltaCode` holds the one-minute resolution, as an unsigned offset.
+ */
 inline int16_t toOffsetMinutes(int8_t offsetCode, int8_t deltaCode) {
   return (offsetCode * 15) + (((uint8_t)deltaCode & 0xf0) >> 4);
 }

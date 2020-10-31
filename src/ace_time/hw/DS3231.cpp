@@ -7,15 +7,15 @@
 
 #include <Wire.h>
 #include <Print.h> // Print
-#include "../common/util.h" // bcdToDec(), decToBcd()
+#include <AceCommon.h> // bcdToDec(), decToBcd()
 #include "HardwareDateTime.h"
 #include "HardwareTemperature.h"
 #include "DS3231.h"
 
-namespace ace_time {
+using ace_common::bcdToDec;
+using ace_common::decToBcd;
 
-using common::bcdToDec;
-using common::decToBcd;
+namespace ace_time {
 
 namespace hw {
 

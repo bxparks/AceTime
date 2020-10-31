@@ -1,11 +1,11 @@
 #line 2 "TimeZoneTest.ino"
 
 #include <AUnit.h>
-#include <PrintStr.h>
+#include <AceCommon.h>
 #include <AceTime.h>
 
 using namespace aunit;
-using namespace print_str;
+using namespace ace_common;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------

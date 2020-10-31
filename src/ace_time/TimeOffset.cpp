@@ -4,13 +4,13 @@
  */
 
 #include <string.h> // strlen()
-#include "common/util.h"
+#include <AceCommon.h>
 #include "common/DateStrings.h"
 #include "TimeOffset.h"
 
-namespace ace_time {
+using ace_common::printPad2To;
 
-using common::printPad2;
+namespace ace_time {
 
 void TimeOffset::printTo(Print& printer) const {
   int8_t hour;
@@ -24,9 +24,9 @@ void TimeOffset::printTo(Print& printer) const {
   } else {
     printer.print('+');
   }
-  common::printPad2(printer, hour);
+  printPad2To(printer, hour, '0');
   printer.print(':');
-  common::printPad2(printer, minute);
+  printPad2To(printer, minute, '0');
 }
 
 TimeOffset TimeOffset::forOffsetString(const char* offsetString) {

@@ -212,9 +212,16 @@ Conversion from an epochSeconds to date-time components including timezone
 * 2.8 microseconds on an ESP32,
 * 6 microseconds on a Teensy 3.2.
 
-**Version**: 1.1.2 (2020-10-25, TZ DB version 2020d)
+**Version**: 1.2 (2020-10-31, TZ DB version 2020d)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
+
+![AUnit
+Tests](https://github.com/bxparks/AceTime/workflows/AUnit%20Tests/badge.svg)
+![Python
+Tools](https://github.com/bxparks/AceTime/workflows/Python%20Tools/badge.svg)
+![Validation
+Tests](https://github.com/bxparks/AceTime/workflows/Validation%20Tests/badge.svg)
 
 ## Examples
 
@@ -451,7 +458,8 @@ then printing the system time every 2 seconds:
 
 ### WorldClock
 
-Here is a photo of the [WorldClock](examples/WorldClock) that supports 3
+Here is a photo of the WorldClock
+(https://github.com/bxparks/clocks/tree/master/WorldClock) that supports 3
 OLED displays with 3 timezones, and automatically adjusts the DST transitions
 for all 3 zones:
 

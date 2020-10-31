@@ -3,14 +3,13 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#include "common/util.h"
+#include <AceCommon.h>
 #include "common/DateStrings.h"
 #include "LocalDate.h"
 
-namespace ace_time {
+using ace_common::printPad2To;
 
-using common::printPad2;
-using common::printPad3;
+namespace ace_time {
 
 // Using 0=Jan offset.
 const uint8_t LocalDate::sDayOfWeek[12] = {
@@ -53,9 +52,9 @@ void LocalDate::printTo(Print& printer) const {
   // Date
   printer.print(year());
   printer.print('-');
-  printPad2(printer, mMonth);
+  printPad2To(printer, mMonth, '0');
   printer.print('-');
-  printPad2(printer, mDay);
+  printPad2To(printer, mDay, '0');
   printer.print(' ');
 
   // Week day

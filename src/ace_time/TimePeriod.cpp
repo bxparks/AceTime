@@ -4,21 +4,22 @@
  */
 
 #include <Print.h>
+#include <AceCommon.h>
 #include "TimePeriod.h"
 
-namespace ace_time {
+using ace_common::printPad2To;
 
-using common::printPad2;
+namespace ace_time {
 
 void TimePeriod::printTo(Print& printer) const {
   if (mSign < 0) {
     printer.print('-');
   }
-  printPad2(printer, mHour);
+  printPad2To(printer, mHour, '0');
   printer.print(':');
-  printPad2(printer, mMinute);
+  printPad2To(printer, mMinute, '0');
   printer.print(':');
-  printPad2(printer, mSecond);
+  printPad2To(printer, mSecond, '0');
 }
 
 }

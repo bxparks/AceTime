@@ -1,6 +1,24 @@
 # Changelog
 
 * Unreleased
+* 1.2 (2020-10-31, TZ DB version 2020d)
+    * **Potentially Breaking**: AceTime library now depends on the AceCommon
+      library (https://github.com/bxparks/AceCommon) to avoid having to maintain
+      multiple copies of various utility functions and classes. The API for most
+      (if not all) public classes have not changed. A number of internal helper
+      classes have moved to the AceCommon library. If you happen to directly use
+      some of these, you need to use the AceCommon library instead.
+        * Add dependency to AceCommon to all Makefiles.
+        * Add a `depends` attribute to `library.properties`.
+    * Replace various utlity functions and class with those from AceCommon:
+        * `class TimingStats`
+        * `incrementMod()`, `incrementModOffset()`, `printPad2To()`,
+          `printPad3To()`
+        * `strcmp_PP()`
+        * `strchr_P()`, `strrchr_P()` for ESP8266 and ESP32
+        * `PrintStr`
+    * Move `common/CrcEeprom.h` to AceUtils
+      (https://github.com/bxparks/AceUtils) library.
 * 1.1.2 (2020-10-25, TZ DB version 2020d)
     * Move examples/WorldClock, examples/OledClock and examples/CommandLineClock
       to a new repo (https://github.com/bxparks/clocks).

@@ -7,7 +7,6 @@
 #define ACE_TIME_SYSTEM_CLOCK_H
 
 #include <stdint.h>
-#include "../common/TimingStats.h"
 #include "Clock.h"
 
 extern "C" unsigned long millis();

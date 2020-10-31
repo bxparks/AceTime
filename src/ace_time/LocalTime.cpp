@@ -3,12 +3,12 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#include "common/util.h"
+#include <AceCommon.h>
 #include "LocalTime.h"
 
-namespace ace_time {
+using ace_common::printPad2To;
 
-using common::printPad2;
+namespace ace_time {
 
 void LocalTime::printTo(Print& printer) const {
   if (isError()) {
@@ -17,11 +17,11 @@ void LocalTime::printTo(Print& printer) const {
   }
 
   // Time
-  printPad2(printer, mHour);
+  printPad2To(printer, mHour, '0');
   printer.print(':');
-  printPad2(printer, mMinute);
+  printPad2To(printer, mMinute, '0');
   printer.print(':');
-  printPad2(printer, mSecond);
+  printPad2To(printer, mSecond, '0');
 }
 
 LocalTime LocalTime::forTimeString(const char* timeString) {

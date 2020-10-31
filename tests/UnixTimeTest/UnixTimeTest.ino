@@ -41,7 +41,6 @@
 
 using namespace aunit;
 using namespace ace_time;
-using namespace ace_time::common;
 
 #if defined(AVR) || defined(ESP8266) || defined(ESP32) || defined(__linux__) \
     || defined(__APPLE__)

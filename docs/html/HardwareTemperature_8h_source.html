@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.1.2</span>
+   &#160;<span id="projectnumber">1.2</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -81,7 +81,7 @@ $(function() {
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;Print.h&gt;</span> <span class="comment">// Print</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;../common/util.h&quot;</span> <span class="comment">// printPad2</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;AceCommon.h&gt;</span> <span class="comment">// printPad2To</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span>hw {</div>
@@ -109,7 +109,7 @@ $(function() {
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    uint8_t frac = (uint16_t) l * 100 / 256;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    printer.print(m);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    printer.print(<span class="charliteral">&#39;.&#39;</span>);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    common::printPad2(printer, frac);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    ace_common::printPad2To(printer, frac, <span class="charliteral">&#39;0&#39;</span>);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  }</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  uint8_t msb;</div>

@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 #include <Print.h> // Print
-#include "../common/util.h" // printPad2
+#include <AceCommon.h> // printPad2To
 
 namespace ace_time {
 namespace hw {
@@ -44,7 +44,7 @@ struct HardwareTemperature {
     uint8_t frac = (uint16_t) l * 100 / 256;
     printer.print(m);
     printer.print('.');
-    common::printPad2(printer, frac);
+    ace_common::printPad2To(printer, frac, '0');
   }
 
   uint8_t msb;
