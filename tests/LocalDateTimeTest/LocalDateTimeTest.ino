@@ -1,11 +1,12 @@
 #line 2 "LocalDateTimeTest.ino"
 
 #include <AUnit.h>
+#include <AceCommon.h>
 #include <AceTime.h>
 
 using namespace aunit;
 using namespace ace_time;
-using namespace ace_time::common;
+using namespace ace_common;
 
 // --------------------------------------------------------------------------
 // LocalDateTime
@@ -305,6 +306,13 @@ test(LocalDateTimeTest, forDateString_errors) {
   // too short
   dt = LocalDateTime::forDateString(F("2018-08-31T13:48"));
   assertTrue(dt.isError());
+}
+
+test(LocalDateTimeTest, printTo) {
+  LocalDateTime dt = LocalDateTime::forComponents(2020, 10, 30, 1, 2, 3);
+  PrintStr<30> dateString;
+  dt.printTo(dateString);
+  assertEqual(dateString.getCstr(), "2020-10-30T01:02:03");
 }
 
 // --------------------------------------------------------------------------

@@ -7,7 +7,6 @@
 #define ACE_TIME_TIME_PERIOD_H
 
 #include <stdint.h>
-#include "common/util.h"
 
 class Print;
 

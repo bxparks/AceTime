@@ -3,14 +3,10 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#include "common/util.h"
-#include "common/DateStrings.h"
 #include "LocalDateTime.h"
 #include "OffsetDateTime.h"
 
 namespace ace_time {
-
-using common::printPad2;
 
 void OffsetDateTime::printTo(Print& printer) const {
   if (isError()) {

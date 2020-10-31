@@ -13,7 +13,6 @@
 using namespace aunit;
 using namespace ace_time;
 using namespace ace_time::clock;
-using namespace ace_time::common;
 using namespace ace_time::testing;
 
 //---------------------------------------------------------------------------

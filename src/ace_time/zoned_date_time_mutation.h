@@ -7,7 +7,7 @@
 #define ACE_TIME_ZONED_DATE_TIME_MUTATION_H
 
 #include <stdint.h>
-#include "common/util.h"
+#include <AceCommon.h>
 #include "ZonedDateTime.h"
 
 namespace ace_time {
@@ -41,35 +41,35 @@ namespace zoned_date_time_mutation {
 /** Increment the year by one within the interval [0, 99]. */
 inline void incrementYear(ZonedDateTime& dateTime) {
   int8_t yearTiny = dateTime.yearTiny();
-  common::incrementMod(yearTiny, (int8_t) 100);
+  ace_common::incrementMod(yearTiny, (int8_t) 100);
   dateTime.yearTiny(yearTiny);
 }
 
 /** Increment the month by one within the interval [1, 12]. */
 inline void incrementMonth(ZonedDateTime& dateTime) {
   uint8_t month = dateTime.month();
-  common::incrementMod(month, (uint8_t) 12, (uint8_t) 1);
+  ace_common::incrementModOffset(month, (uint8_t) 12, (uint8_t) 1);
   dateTime.month(month);
 }
 
 /** Increment the day by one within the interval [1, 31]. */
 inline void incrementDay(ZonedDateTime& dateTime) {
   uint8_t day = dateTime.day();
-  common::incrementMod(day, (uint8_t) 31, (uint8_t) 1);
+  ace_common::incrementModOffset(day, (uint8_t) 31, (uint8_t) 1);
   dateTime.day(day);
 }
 
 /** Increment the hour by one within the interval [0, 23]. */
 inline void incrementHour(ZonedDateTime& dateTime) {
   uint8_t hour = dateTime.hour();
-  common::incrementMod(hour, (uint8_t) 24);
+  ace_common::incrementMod(hour, (uint8_t) 24);
   dateTime.hour(hour);
 }
 
 /** Increment the minute by one within the interval [0, 59]. */
 inline void incrementMinute(ZonedDateTime& dateTime) {
   uint8_t minute = dateTime.minute();
-  common::incrementMod(minute, (uint8_t) 60);
+  ace_common::incrementMod(minute, (uint8_t) 60);
   dateTime.minute(minute);
 }
 

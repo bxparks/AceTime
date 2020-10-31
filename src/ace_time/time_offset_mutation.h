@@ -7,7 +7,6 @@
 #define ACE_TIME_TIME_OFFSET_MUTATION_H
 
 #include <stdint.h>
-#include "common/util.h"
 #include "TimeOffset.h"
 
 namespace ace_time {

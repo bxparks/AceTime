@@ -1,11 +1,10 @@
 #include <stdint.h>
 #include <Arduino.h>
+#include <AceCommon.h>
 #include <AceTime.h>
 #include "Benchmark.h"
-#include "ace_time/common/util.h"
 
 using namespace ace_time;
-using ace_time::common::printPad3;
 
 #if defined(ARDUINO_ARCH_AVR)
 const uint32_t COUNT = 2500;
@@ -136,19 +135,6 @@ unsigned long runLambda(uint32_t count, F&& lambda) {
   return elapsedMillis;
 }
 
-void printPad3(uint16_t val, char padChar) {
-  if (val < 100) SERIAL_PORT_MONITOR.print(padChar);
-  if (val < 10) SERIAL_PORT_MONITOR.print(padChar);
-  SERIAL_PORT_MONITOR.print(val);
-}
-
-void printPad4(uint16_t val, char padChar) {
-  if (val < 1000) SERIAL_PORT_MONITOR.print(padChar);
-  if (val < 100) SERIAL_PORT_MONITOR.print(padChar);
-  if (val < 10) SERIAL_PORT_MONITOR.print(padChar);
-  SERIAL_PORT_MONITOR.print(val);
-}
-
 // Given total elapsed time in millis, print micros per iteration as a floating
 // point number (without using floating point operations).
 //
@@ -164,9 +150,9 @@ static void printMicrosPerIteration(long elapsedMillis) {
   unsigned long nanos = elapsedMillis * MILLIS_TO_NANO_PER_ITERATION;
   uint16_t whole = nanos / 1000;
   uint16_t frac = nanos % 1000;
-  printPad4(whole, ' ');
+  ace_common::printPad4To(SERIAL_PORT_MONITOR, whole, ' ');
   SERIAL_PORT_MONITOR.print('.');
-  printPad3(frac, '0');
+  ace_common::printPad3To(SERIAL_PORT_MONITOR, frac, '0');
 }
 
 static void runEmptyLoop() {

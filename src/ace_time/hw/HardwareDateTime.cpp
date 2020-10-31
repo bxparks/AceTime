@@ -5,13 +5,13 @@
 
 #if ! defined(UNIX_HOST_DUINO)
 
+#include <AceCommon.h>
 #include "HardwareDateTime.h"
-#include "../common/util.h"
 #include "../common/DateStrings.h"
 
-namespace ace_time {
+using ace_common::printPad2;
 
-using common::printPad2;
+namespace ace_time {
 
 namespace hw {
 

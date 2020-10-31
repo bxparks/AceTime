@@ -26,5 +26,11 @@ esp32.txt:
 teensy.txt:
 	@echo 'Must collect teensy.txt manually'
 
-clean:
+# Don't use 'clean' because we want to preserve the '*.txt' files when
+# uber 'make clean' is called from the parent directory.
+clean-benchmarks:
 	rm -f $(TARGETS)
+
+# Define a 'clean' target that does nothing.
+clean:
+	echo "Use 'make clean-benchmarks' to remove the *.txt files"

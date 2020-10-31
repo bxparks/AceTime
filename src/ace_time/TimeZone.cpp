@@ -4,7 +4,6 @@
  */
 
 #include <Print.h>
-#include "common/util.h"
 #include "TimeZone.h"
 
 namespace ace_time {

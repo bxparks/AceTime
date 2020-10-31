@@ -1,10 +1,29 @@
 #line 2 "ZonedDateTimeExtendedTest.ino"
 
 #include <AUnit.h>
+#include <AceCommon.h>
 #include <AceTime.h>
 
 using namespace aunit;
 using namespace ace_time;
+
+// --------------------------------------------------------------------------
+// ZonedDateTime + ExtendedZoneProcessor
+// --------------------------------------------------------------------------
+
+test(ZonedDateTimeExtendedTest, printTo) {
+  ExtendedZoneProcessor zoneProcessor;
+  auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
+  auto dt = ZonedDateTime::forComponents(2020, 1, 2, 3, 4, 5, tz);
+
+  ace_common::PrintStr<64> dateString;
+  dt.printTo(dateString);
+  assertEqual(
+      dateString.getCstr(),
+      "2020-01-02T03:04:05-08:00[America/Los_Angeles]"
+  );
+}
 
 // --------------------------------------------------------------------------
 // ExtendedZoneManager

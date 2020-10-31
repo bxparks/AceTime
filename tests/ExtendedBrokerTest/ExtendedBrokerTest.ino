@@ -5,7 +5,6 @@
 
 using namespace aunit;
 using namespace ace_time;
-using namespace ace_time::common;
 
 test(timeCodeToMinutes) {
   uint8_t code = 1;

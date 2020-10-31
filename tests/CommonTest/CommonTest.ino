@@ -5,7 +5,6 @@
 
 using namespace aunit;
 using namespace ace_time;
-using namespace ace_time::common;
 
 // --------------------------------------------------------------------------
 // DateStrings
@@ -89,36 +88,6 @@ test(DateStringsTest, dayOfWeekStringsFitInBuffer) {
     if (length > maxLength) { maxLength = length; }
   }
   assertLessOrEqual(maxLength, DateStrings::kBufferSize - 1);
-}
-
-// --------------------------------------------------------------------------
-// common::decToBcd(), common::bcdToDec()
-// --------------------------------------------------------------------------
-
-test(decToBcd) {
-  assertEqual(0x00, decToBcd(0));
-  assertEqual(0x10, decToBcd(10));
-  assertEqual(0x23, decToBcd(23));
-  assertEqual(0x99, decToBcd(99));
-}
-
-test(bcdToDec) {
-  assertEqual(0, bcdToDec(0x00));
-  assertEqual(10, bcdToDec(0x10));
-  assertEqual(23, bcdToDec(0x23));
-  assertEqual(99, bcdToDec(0x99));
-}
-
-test(incrementMod) {
-  int counter = 0;
-  incrementMod(counter, 3);
-  assertEqual(1, counter);
-
-  incrementMod(counter, 3);
-  assertEqual(2, counter);
-
-  incrementMod(counter, 3);
-  assertEqual(0, counter);
 }
 
 // --------------------------------------------------------------------------
