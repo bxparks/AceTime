@@ -55,7 +55,7 @@ class NtpClock: public Clock {
      * Constructor.
      * @param server name of the NTP server (default us.pool.ntp.org)
      * @param localPort used by the UDP client (default 8888)
-     * @paran requestTimeout milliseconds for a request timeout (default 1000)
+     * @param requestTimeout milliseconds for a request timeout (default 1000)
      */
     explicit NtpClock(
             const char* server = kNtpServerName,

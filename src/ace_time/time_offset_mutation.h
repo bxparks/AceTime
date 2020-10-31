@@ -26,7 +26,7 @@ namespace time_offset_mutation {
  * @code{.cpp}
  * TimeOffset offset = TimeOffset::forXxx(...);
  * time_offset_mutation::increment15Minute(offset);
- * @code
+ * @endcode
  */
 
 /**

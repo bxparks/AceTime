@@ -21,7 +21,7 @@ namespace time_period_mutation {
  * @code{.cpp}
  * TimePeriod period = TimePeriod(1, 2, 3); // 1h2m3s
  * time_offset_mutation::incrementHour(period);
- * @code
+ * @endcode
  */
 
 /** Change the sign of the object. */

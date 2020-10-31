@@ -27,7 +27,7 @@ void increment15Minutes(TimeOffset& offset);
  * create an instance. For example, each of the following creates a TimeOffset
  * of -08:00:
  *
- * @code
+ * @code{.cpp}
  * TimeOffset tz = TimeOffset::forHours(-8);
  * TimeOffset tz = TimeOffset::forHourMinute(-8, 0);
  * TimeOffset tz = TimeOffset::forMinutes(-480);
@@ -35,7 +35,7 @@ void increment15Minutes(TimeOffset& offset);
  * @endcode
  *
  * You can use the default constructor to create a +00:00 TimeOffset:
- * @code
+ * @code{.cpp}
  * TimeOffset offset;
  * @endcode
  *

@@ -35,7 +35,7 @@ namespace zoned_date_time_mutation {
  * @code{.cpp}
  * ZonedDateTime dt(...);
  * zoned_date_time_mutation::incrementDay(dt);
- * @code
+ * @endcode
  */
 
 /** Increment the year by one within the interval [0, 99]. */
