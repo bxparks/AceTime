@@ -94,7 +94,7 @@ test(BasicBrokerTest, ZonePolicyBroker) {
 
 test(BasicBrokerTest, ZoneEraBroker) {
   basic::ZoneEraBroker era(kZoneEraAmerica_Los_Angeles);
-  assertEqual((intptr_t)kZoneEraAmerica_Los_Angeles, (intptr_t)era.zoneEra());
+  assertEqual(kZoneEraAmerica_Los_Angeles, era.zoneEra());
   assertFalse(era.isNull());
   assertEqual(-32 * 15, era.offsetMinutes());
   assertEqual(0 * 15, era.deltaMinutes());

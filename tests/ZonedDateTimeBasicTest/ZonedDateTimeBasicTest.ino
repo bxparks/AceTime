@@ -134,8 +134,7 @@ test(ZonedDateTimeBasicTest, forComponents_afterOverlap) {
 
 // Test the linked zones are same as the target zones.
 test(ZonedDateTimeBasicTest, linked_zones) {
-  assertEqual((intptr_t) &zonedb::kZoneAmerica_Los_Angeles,
-      (intptr_t) &zonedb::kZoneUS_Pacific);
+  assertEqual(&zonedb::kZoneAmerica_Los_Angeles, &zonedb::kZoneUS_Pacific);
 }
 
 // --------------------------------------------------------------------------

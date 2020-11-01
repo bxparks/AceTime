@@ -17,7 +17,7 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForName_Los_Angeles) {
 
   const extended::ZoneInfo* zoneInfo =
       zoneRegistrar.getZoneInfoForName("America/Los_Angeles");
-  assertTrue(zoneInfo != nullptr);
+  assertNotEqual(zoneInfo, nullptr);
 
   assertEqual(F("America/Los_Angeles"), ExtendedZone(zoneInfo).name());
   assertEqual(F("Los_Angeles"), ExtendedZone(zoneInfo).shortName());
@@ -28,14 +28,14 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForName_not_found) {
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo =
       zoneRegistrar.getZoneInfoForName("not found");
-  assertTrue(zoneInfo == nullptr);
+  assertEqual(zoneInfo, nullptr);
 }
 
 test(ExtendedZoneRegistrarTest, getZoneInfo_Index_0) {
   ExtendedZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(0);
-  assertTrue(zoneInfo != nullptr);
+  assertNotEqual(zoneInfo, nullptr);
   assertEqual(F("Africa/Abidjan"), ExtendedZone(zoneInfo).name());
 }
 
@@ -44,7 +44,7 @@ test(ExtendedZoneRegistrarTest, getZoneInfo_Index_not_found) {
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(
       zonedbx::kZoneRegistrySize);
-  assertTrue(zoneInfo == nullptr);
+  assertEqual(zoneInfo, nullptr);
 }
 
 test(ExtendedZoneRegistrarTest, getZoneInfoForId) {
@@ -54,8 +54,7 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForId) {
       0xb7f7e8f2);
   const extended::ZoneInfo* zoneInfoExpected = zoneRegistrar.getZoneInfoForName(
       "America/Los_Angeles");
-  assertFalse(zoneInfo == nullptr);
-  assertTrue((intptr_t) zoneInfo == (intptr_t) zoneInfoExpected);
+  assertEqual(zoneInfo, zoneInfoExpected);
 }
 
 test(ExtendedZoneRegistrarTest, getZoneInfoForId_not_found) {
@@ -63,7 +62,7 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForId_not_found) {
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
       0x11111111);
-  assertTrue(zoneInfo == nullptr);
+  assertEqual(zoneInfo, nullptr);
 }
 
 // --------------------------------------------------------------------------

@@ -135,8 +135,7 @@ test(ZonedDateTimeExtendedTest, forComponents_afterOverlap) {
 
 // Test the linked zones are same as the target zones.
 test(ZonedDateTimeExtendedTest, linked_zones) {
-  assertEqual((intptr_t) &zonedbx::kZoneAmerica_Los_Angeles,
-      (intptr_t) &zonedbx::kZoneUS_Pacific);
+  assertEqual(&zonedbx::kZoneAmerica_Los_Angeles, &zonedbx::kZoneUS_Pacific);
 }
 
 // --------------------------------------------------------------------------

@@ -18,16 +18,16 @@ test(BasicZoneProcessorCacheTest, getZoneProcessor) {
 
   ZoneProcessor* zoneProcessor2 = cache.getZoneProcessor(
       &zonedb::kZoneAmerica_Los_Angeles);
-  assertEqual((intptr_t) zoneProcessor1, (intptr_t) zoneProcessor2);
+  assertEqual(zoneProcessor1, zoneProcessor2);
 
   ZoneProcessor* zoneProcessor3 = cache.getZoneProcessor(
       &zonedb::kZoneAmerica_New_York);
-  assertNotEqual((intptr_t) zoneProcessor1, (intptr_t) zoneProcessor3);
+  assertNotEqual(zoneProcessor1, zoneProcessor3);
 
   // The 3rd unique ZoneInfo reuses zpec1
   ZoneProcessor* zoneProcessor4 = cache.getZoneProcessor(
       &zonedb::kZoneAmerica_Denver);
-  assertEqual((intptr_t) zoneProcessor1, (intptr_t) zoneProcessor4);
+  assertEqual(zoneProcessor1, zoneProcessor4);
 }
 
 // --------------------------------------------------------------------------
@@ -42,16 +42,16 @@ test(ExtendedZoneProcessorCacheTest, getZoneProcessor) {
 
   ZoneProcessor* zoneProcessor2 = cache.getZoneProcessor(
       &zonedbx::kZoneAmerica_Los_Angeles);
-  assertEqual((intptr_t) zoneProcessor1, (intptr_t) zoneProcessor2);
+  assertEqual(zoneProcessor1, zoneProcessor2);
 
   ZoneProcessor* zoneProcessor3 = cache.getZoneProcessor(
       &zonedbx::kZoneAmerica_New_York);
-  assertNotEqual((intptr_t) zoneProcessor1, (intptr_t) zoneProcessor3);
+  assertNotEqual(zoneProcessor1, zoneProcessor3);
 
   // The 3rd unique ZoneInfo reuses zpec1
   ZoneProcessor* zoneProcessor4 = cache.getZoneProcessor(
       &zonedbx::kZoneAmerica_Denver);
-  assertEqual((intptr_t) zoneProcessor1, (intptr_t) zoneProcessor4);
+  assertEqual(zoneProcessor1, zoneProcessor4);
 }
 
 // --------------------------------------------------------------------------
