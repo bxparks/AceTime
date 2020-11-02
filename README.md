@@ -217,7 +217,7 @@ Conversion from an epochSeconds to date-time components including timezone
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
 **IMPORTANT CHANGE for v1.2**: This library now depends on the the "AceCommon"
-library for some of its low-level routines. See the (USER_GUIDE)[USER_GUIDE.md]
+library for some of its low-level routines. See the [USER_GUIDE](USER_GUIDE.md)
 for installation instructions.
 
 ![AUnit
