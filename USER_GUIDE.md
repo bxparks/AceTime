@@ -2,8 +2,83 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 1.2 (2020-10-31, TZ DB version 2020d)
+**Version**: 1.2 (2020-10-31, TZ DB version 2020d)
 
+**Table of Contents**
+
+* [Installation](#Installation)
+    * [Source Code](#SourceCode)
+    * [Dependencies](#Dependencies)
+    * [Doxygen Docs](#DoxygenDocs)
+    * [Examples](#Examples)
+* [Motivation and Design Considerations](#Motivation)
+* [Headers and Namespaces](#Headers)
+* [Date and Time Classes](#Classes)
+    * [Epoch Seconds Typedef](#EpochSeconds)
+    * [LocalDate and LocalTime](#LocalDateLocalTime)
+    * [Date Strings](#DateStrings)
+    * [LocalDateTime](#LocalDateTime)
+    * [TimePeriod](#TimePeriod)
+    * [TimeOffset](#TimeOffset)
+    * [OffsetDateTime](#OffsetDateTime)
+    * [TimeZone](#TimeZone)
+        * [Manual TimeZone](#ManualTimeZone)
+        * [Basic TimeZone](#BasicTimeZone)
+        * [Extended TimeZone](#ExtendedTimeZone)
+        * [Basic Managed TimeZone](#BasicManagedTimeZone)
+        * [Extended Managed TimeZone](#ExtendedManagedTimeZone)
+    * [ZonedDateTime](#ZonedDateTime)
+        * [Conversion to Other Time Zones](#TimeZoneConversion)
+        * [Caching](#Caching)
+    * [ZoneInfo Files](#ZoneInfoFiles)
+        * [Basic zonedb](#BasicZonedb)
+        * [Extended zonedbx](#ExtendedZonedbx)
+        * [BasicZone and ExtendedZone](#BasicZoneExtendedZone)
+    * [ZoneManager](#ZoneManager)
+        * [Default Zone Registry](#DefaultZoneRegistry)
+        * [Custom Zone Registry](#CustomZoneRegistry)
+        * [createForZoneName()](#CreateForZoneName)
+        * [createForZoneId()](#CreateForZoneId)
+        * [createForZoneIndex()](#CreateForZoneIndex)
+    * [TZ Database Version](#TZDatabaseVersion)
+    * [Print To String](#PrintToString)
+* [Mutations](#Mutations)
+    * [TimeOffset Mutations](#TimeOffsetMutations)
+    * [LocalDate Mutations](#LocalDateMutations)
+    * [ZonedDateTime Mutations](#ZonedDateTimeMutations)
+    * [TimePeriod Mutations](#TimePeriodMutations)
+* [Error Handling](#ErrorHandling)
+    * [isError()](#IsError)
+    * [LocalDate::kInvalidEpochSeconds](#KInvalidEpochSeconds)
+* [Clocks](#Clocks)
+    * [Clock Class](#ClockClass)
+    * [NTP Clock](#NtpClock)
+    * [DS3231 Clock](#DS3231Clock)
+    * [System Clock](#SystemClock)
+    * [System Clock Maintenance Tasks](#SystemClockMaintenance)
+    * [System Clock Loop](#SystemClockLoop)
+    * [System Clock Coroutine](#SystemClockCoroutine)
+    * [System Clock Examples](#SystemClockExamples)
+* [Testing](#Testing)
+    * [Python pytz](#TestPythonPytz)
+    * [Python dateutil](#TestPythonDateUtil)
+    * [Java java.time](#TestJavaTime)
+    * [C++ Hinnant Date](#TestHinnantDate)
+* [Benchmarks](#Benchmarks)
+    * [CPU](#CPU)
+    * [Memory](#Memory)
+* [Comparisons to Other Time Libraries](#Comparisons)
+    * [Arduino Time Library](#ArduinoTimeLibrary)
+    * [C Time Library](#CLibrary)
+    * [ezTime](#EzTime)
+    * [Micro Time Zone](#MicroTimeZone)
+    * [Java Time, Joda-Time, Noda Time](#JavaTime)
+    * [Howard Hinnant Date Library](#HinnantDate)
+    * [Google cctz](#Cctz)
+* [Bugs and Limitations](#Bugs)
+
+
+<a name="Installation"></a>
 ## Installation
 
 The latest stable release is available in the Arduino IDE Library Manager. Two
@@ -25,6 +100,7 @@ directories.
 The `develop` branch contains the latest development.
 The `master` branch contains the stable release.
 
+<a name="SourceCode"></a>
 ### Source Code
 
 The source files are organized as follows:
@@ -50,6 +126,7 @@ The source files are organized as follows:
 * `tools/` - parser for the TZ Database files, code generators for `zonedb::`
   and `zonedbx::` zone files, and code generators for various unit tests
 
+<a name="Dependencies"></a>
 ### Dependencies
 
 The AceTime library depends on:
@@ -82,13 +159,15 @@ Linux or MacOS machine, you need:
 
 * UnixHostDuino (https://github.com/bxparks/UnixHostDuino)
 
+<a name="DoxygenDocs"></a>
 ### Doxygen Docs
 
-The [docs/](docs/) directory contains the
-[Doxygen docs](https://bxparks.github.io/AceTime/html) on GitHub Pages.
+The [docs/](docs/) directory contains the generated
+[Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages.
 This may be useful to navigate the various classes in this library
 and to lookup the signatures of the methods in those classes.
 
+<a name="Examples"></a>
 ### Examples
 
 The following programs are provided in the `examples/` directory:
@@ -124,6 +203,7 @@ https://github.com/bxparks/clocks repo (previously hosted under `examples/`).
 * [WorldClock](https://github.com/bxparks/clocks/tree/master/WorldClock)
     * a clock with 3 OLED screens showing the time at 3 different time zones
 
+<a name="Motivation"></a>
 ## Motivation and Design Considerations
 
 In the beginning, I created a digital clock using an Arduino Nano board, a small
@@ -219,6 +299,7 @@ at runtime to 1-3 timezones. The library also aims to be as portable as
 possible, and supports AVR microcontrollers, as well as ESP8266, ESP32 and
 Teensy microcontrollers.
 
+<a name="Headers"></a>
 ## Headers and Namespaces
 
 Only a single header file `AceTime.h` is required to use this library.
@@ -257,8 +338,10 @@ using namespace ace_time::common;
 ...
 ```
 
+<a name="Classes"></a>
 ## Date and Time Classes
 
+<a name="EpochSeconds"></a>
 ### Epoch Seconds Typedef
 
 One of the fundamental types in AceTime is the `acetime_t` defined as:
@@ -276,6 +359,7 @@ defined to be 1970-01-01 00:00:00 UTC. Since `acetime_t` is a 32-bit signed
 integer, the largest value is 2,147,483,647. Therefore, the largest date
 that can be represented in this library is 2068-01-19T03:14:07 UTC.
 
+<a name="LocalDateLocalTime"></a>
 ### LocalDate and LocalTime
 
 The `LocalDate` and `LocalTime` represent date and time components, without
@@ -380,6 +464,7 @@ an integer where `1=Monday` and `7=Sunday` per
 uint8_t dayOfWeek = localDate.dayOfWeek();
 ```
 
+<a name="DateStrings"></a>
 ### Date Strings
 
 To convert the `dayOfweek()` numerical code to a human-readable string for
@@ -447,6 +532,7 @@ need to convert to another language, you need to write the conversion class
 yourself, possibly by copying the implementation details of the `DateStrings`
 class.
 
+<a name="LocalDateTime"></a>
 ### LocalDateTime
 
 A `LocalDateTime` object holds both the date and time components
@@ -526,6 +612,7 @@ to the given `Print` object. The most common `Print` object is the `Serial`
 object which prints on the serial port. The `forDateString()` parses the
 ISO 8601 formatted string and returns the `LocalDateTime` object.
 
+<a name="TimePeriod"></a>
 ### TimePeriod
 
 The `TimePeriod` class can be used to represents a difference between two
@@ -579,6 +666,7 @@ TimePeriod timePeriod(diffSeconds);
 timePeriod.printTo(Serial)
 ```
 
+<a name="TimeOffset"></a>
 ### TimeOffset
 
 A `TimeOffset` class represents an amount of time shift from a reference point.
@@ -644,6 +732,7 @@ The convenience method `TimeOffset::isZero()` returns `true` if the offset has a
 zero offset. This is often used to determine if a timezone is currently
 observing Daylight Saving Time (DST).
 
+<a name="OffsetDateTime"></a>
 ### OffsetDateTime
 
 An `OffsetDateTime` is an object that can represent a `LocalDateTime` which is
@@ -737,11 +826,12 @@ debugging. The `printTo()` prints a human-readable representation of the date in
 `forDateString()` parses the ISO 8601 formatted string and returns the
 `OffsetDateTime` object.
 
+<a name="TimeZone"></a>
 ### TimeZone
 
 A "time zone" is often used colloquially to mean 2 different things:
-* A time which is offset from the UTC time by a fixed amount, or
-* A geographical (or conceptual) region whose local time is offset
+* An offset from the UTC time by a fixed amount, or
+* A geographical or political region whose local time is offset
 from the UTC time using various transition rules.
 
 Both meanings of "time zone" are supported by the `TimeZone` class using
@@ -770,7 +860,8 @@ hold a reference to:
   `kTypeExtendedManaged`).
 
 ```
-           .-------------------------------.
+            -----------------------------.
+           /                              \
          <>    0..1                         \   0..1
 TimeZone <>-------- ZoneProcessor            ------- ZoneProcessorCache
                           ^                                ^
@@ -869,6 +960,7 @@ last component of the IANA TZ Database zone names. In other words,
 `"America/Los_Angeles"` is printed as `"Los_Angeles"`. This is helpful for
 printing on small width OLED displays.
 
+<a name="ManualTimeZone"></a>
 #### Manual TimeZone (kTypeManual)
 
 The default constructor creates a `TimeZone` in UTC time zone with no
@@ -900,6 +992,7 @@ offset in the winter, instead of adding a postive offset in the summer.
 The `setStdOffset()` allows the base time offset to be changed, but this
 method is not expected to be used often.
 
+<a name="BasicTimeZone"></a>
 #### Basic TimeZone (kTypeBasic)
 
 This TimeZone is created using two objects:
@@ -975,6 +1068,7 @@ void someFunction() {
 }
 ```
 
+<a name="ExtendedTimeZone"></a>
 #### Extended TimeZone (kTypeExtended)
 
 This TimeZone is created using two objects:
@@ -1050,6 +1144,7 @@ accurate than `BasicZoneProcessor::forComponents()` because the `zonedbx::` data
 files contain transition information which are missing in the `zonedb::` data
 files due to space constraints.
 
+<a name="BasicManagedTimeZone"></a>
 #### Basic Managed TimeZone (kTypeBasicManaged)
 
 This TimeZone is similar to a `kTypeBasic` TimeZone, except that it is created
@@ -1074,6 +1169,7 @@ void someFunction() {
 See the *ZoneManager* section below for information on how to create a
 `BasicZoneManager`.
 
+<a name="ExtendedManagedTimeZone"></a>
 #### Extended Managed TimeZone (kTypeExtendedManaged)
 
 This TimeZone is similar to the `kTypeExtended` TimeZone, except that it is
@@ -1097,6 +1193,7 @@ void someFunction() {
 See the *ZoneManager* section below for information on how to create an
 `ExtendedZoneManager`.
 
+<a name="ZonedDateTime"></a>
 ### ZonedDateTime
 
 A `ZonedDateTime` is a `LocalDateTime` associated with a given `TimeZone`. This
@@ -1208,6 +1305,7 @@ memory, so we currently do not support this dynamic lookup. The
 `ZonedDateTime::timeZone()` will return Manual `TimeZone` whose
 `TimeZone::getType()` returns `TimeZone::kTypeManual`.
 
+<a name="TimeZoneConversion"></a>
 #### Conversion to Other Time Zones
 
 You can convert a given `ZonedDateTime` object into a representation in a
@@ -1238,6 +1336,7 @@ The two `ZonedDateTime` objects will return the same value for `epochSeconds()`
 because that is not affected by the time zone. However, the various date time
 components (year, month, day, hour, minute, seconds) will be different.
 
+<a name="Caching"></a>
 #### Caching
 
 The conversion from an epochSeconds to date-time components using
@@ -1251,6 +1350,7 @@ second. According to [AutoBenchmark](examples/AutoBenchmark/), the cache
 improves performance by a factor of 2-3X (8-bit AVR) to 10-20X (32-bit
 processors) on consecutive calls to `forEpochSeconds()` with the same `year`.
 
+<a name="ZoneInfoFiles"></a>
 ### ZoneInfo Files
 
 Starting with v0.4, the zoneinfo files are stored in in flash memory
@@ -1269,6 +1369,7 @@ to be an implementation detail and may change in the future to support future
 timezones. Applications should not depend on the internal structure of zoneinfo
 data structures.
 
+<a name="BasicZonedb"></a>
 #### Basic zonedb
 
 The `zonedb/` files do not support all the timezones in the TZ Database.
@@ -1291,6 +1392,7 @@ in the `transformer.py` script and summarized in
 In the current version (v0.8), this database contains 270 zones from the year
 2000 to 2049 (inclusive).
 
+<a name="ExtendedZonedbx"></a>
 #### Extended zonedbx
 
 The goal of the `zonedbx/` files is to support all zones listed in the TZ
@@ -1307,6 +1409,7 @@ are:
 In the current version (v0.8), this database contains all 387 timezones from
 the year 2000 to 2049 (inclusive).
 
+<a name="BasicZoneExtendedZone"></a>
 #### BasicZone and ExtendedZone
 
 The `basic::ZoneInfo` and `extended::ZoneInfo` (and its related data structures)
@@ -1374,6 +1477,7 @@ The `name()` method returns the full zone name from the TZ Database (e.g.
 `"America/Los_Angeles"`). The `shortName()` method returns only the last
 component (e.g. `"Los_Angeles"`).
 
+<a name="ZoneManager"></a>
 ### ZoneManager
 
 The `TimeZone::forZoneInfo()` methods are simple to use but have the
@@ -1435,6 +1539,7 @@ objects. You can use the default zone registry (which contains ALL zones in the
 `zonedb::` or `zonedbx::` database, or you can create your own custom zone
 registry, as described below.
 
+<a name="DefaultZoneRegistry"></a>
 #### Default Zone Registry
 
 The default zoneinfo registry is available at:
@@ -1464,6 +1569,7 @@ void someFunction(const char* zoneName) {
 }
 ```
 
+<a name="CustomZoneRegistry"></a>
 #### Custom Zone Registry
 
 On small microcontrollers, the default zone registries are too large. The
@@ -1523,6 +1629,7 @@ See
 [CommandLineClock](https://github.com/bxparks/clocks/tree/master/CommandLineClock)
 for an example of how these custom registries can be created and used.
 
+<a name="CreateForZoneName"></a>
 #### createForZoneName()
 
 The `ZoneManager` allows creation of a `TimeZone` using the fully qualified
@@ -1552,6 +1659,7 @@ I think the only time the `createForZoneName()` might be useful is if
 the user was allowed to type in the zone name, and you wanted to create a
 `TimeZone` from the string typed in by the user.
 
+<a name="CreateForZoneId"></a>
 #### createForZoneId()
 
 Each zone in the `zonedb::` and `zonedbx::` database is given a unique
@@ -1613,6 +1721,7 @@ check for this, and substitute a reasonable default TimeZone when this happens.
 This situation is not unique to the zoneId. The same problem would occur if the
 fully qualified zone name was used.
 
+<a name="CreateForZoneIndex"></a>
 #### createForZoneIndex()
 
 The `ZoneManager::createForZoneIndex()` creates a `TimeZone` from its integer
@@ -1624,12 +1733,14 @@ The `ZoneManager::indexForZoneName()` and `ZoneManager::indexForZoneId()` are
 two useful methods to convert an arbitrary time zone reference (either
 by zoneName or zoneId) into an index into the registry.
 
+<a name="TZDatabaseVersion"></a>
 ### TZ Database Version
 
 The IANA TZ Database is updated continually. As of this writing, the latest
 stable version is 2019b. When a new version of the database is released, it is
 relatively easy to regenerate the `zonedb/` and `zonedbx/` zoneinfo files.
 
+<a name="PrintToString"></a>
 ### Print To String
 
 Many classes provide a `printTo(Print&)` method which prints a human-readable
@@ -1672,6 +1783,7 @@ using namespace ace_common;
 }
 ```
 
+<a name="Mutations"></a>
 ## Mutations
 
 Mutating the date and time classes can be tricky. In fact, many other
@@ -1728,7 +1840,8 @@ flash memory saved for something like
 [WorldClock](https://github.com/bxparks/clocks/tree/master/WorldClock)), while
 providing the features that I need to implement the various Clock applications.
 
-### TimeOffset Mutation
+<a name="TimeOffsetMutations"></a>
+### TimeOffset Mutations
 
 The `TimeOffset` object can be mutated with:
 
@@ -1742,7 +1855,8 @@ void increment15Minutes(TimeOffset& offset);
 }
 ```
 
-### LocalDate Mutation
+<a name="LocalDateMutations"></a>
+### LocalDate Mutations
 
 The `LocalDate` object can be mutated with the following methods:
 
@@ -1757,7 +1871,8 @@ void decrementOneDay(LocalDate& ld);
 }
 ```
 
-### ZonedDateTime Mutation
+<a name="ZonedDateTimeMutations"></a>
+### ZonedDateTime Mutations
 
 The `ZonedDateTime` object can be mutated using the following methods:
 
@@ -1775,7 +1890,8 @@ void incrementMinute(ZonedDateTime& dateTime);
 }
 ```
 
-### TimePeriod Mutation
+<a name="TimePeriodMutations"></a>
+### TimePeriod Mutations
 
 The `TimePeriod` can be mutated using the following methods:
 
@@ -1792,6 +1908,7 @@ void incrementMinute(TimePeriod& period);
 }
 ```
 
+<a name="ErrorHandling"></a>
 ## Error Handling
 
 Many features of the date and time classes have explicit or implicit range of
@@ -1799,6 +1916,7 @@ validity in their inputs and outputs. The Arduino programming environment does
 not use C++ exceptions, so we handle invalid values by returning special version
 of various date/time objects to the caller.
 
+<a name="IsError"></a>
 ### isError()
 
 The `isError()` method on these
@@ -1844,6 +1962,7 @@ auto dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 59, tz);
 Serial.println(dt.isError() ? "true" : "false");
 ```
 
+<a name="KInvalidEpochSeconds"></a>
 ### LocalDate::kInvalidEpochSeconds
 
 Many methods return an `acetime_t` type. For example, `toEpochSeconds()` or
@@ -1856,6 +1975,7 @@ returns a object of time `LocalDateTime`, `OffsetDateTime` or `ZonedDateTime`.
 When these methods are passed a value of `LocalDate::kInvalidEpochSeconds`, the
 resulting object will return a true value for `isError()`.
 
+<a name="Clocks"></a>
 ## Clocks
 
 The `acetime::clock` namespace contains classes needed to implement various
@@ -1886,6 +2006,7 @@ DS3231Clock    |    NtpClock    |
           Loop    Coroutine
 ```
 
+<a name="ClockClass"></a>
 ### Clock Class
 
 This is an abstract class which provides 3 functionalities:
@@ -1932,6 +2053,7 @@ The `acetime_t` value from `getNow()` can be converted into the desired time
 zone using the `ZonedDateTime` and `TimeZone` classes desribed in the previous
 sections.
 
+<a name="NtpClock"></a>
 ### NTP Clock
 
 The `NtpClock` class is available on the ESP8266 and ESP32 which have builtin
@@ -2012,6 +2134,7 @@ void loop() {
 public repository like GitHub because they will become public to anyone. Even if
 you delete the commit, they can be retrieved from the git history.
 
+<a name="DS3231Clock"></a>
 ### DS3231 Clock
 
 The `DS3231Clock` class uses the DS3231 RTC chip. It contains
@@ -2081,6 +2204,7 @@ interface as DS3231 when accessing the time and date functionality. I don't have
 these chips so I cannot confirm that. Contact @Naguissa
 (https://github.com/Naguissa) for more info.
 
+<a name="SystemClock"></a>
 ### System Clock
 
 The `SystemClock` is a special `Clock` that uses the Arduino built-in `millis()`
@@ -2186,6 +2310,7 @@ SystemClock*(nullptr, backupClock); // backupClock only
 SystemClock*(referenceClock, backupClock); // both clocks
 ```
 
+<a name="SystemClockMaintenance"></a>
 ### SystemClock Maintenance Tasks
 
 There are 2 internal maintenance tasks that must be performed periodically.
@@ -2212,6 +2337,7 @@ these maintenance tasks:
 * the `SystemClockCoroutine` class uses the `::runCoroutine()` method which
   uses the AceRoutine library
 
+<a name="SystemClockLoop"></a>
 ### SystemClockLoop
 
 This class synchronizes to the `referenceClock` through the
@@ -2243,6 +2369,7 @@ void loop() {
 every 1 hour. This is configurable through parameters in the `SystemClockLoop()`
 constructor.
 
+<a name="SystemClockCoroutine"></a>
 ### SystemClockCoroutine
 
 This class synchronizes to the `referenceClock` using an
@@ -2284,6 +2411,7 @@ methods of `Clock`. However, since version 0.6, both of them use the
 *non-blocking* calls, so there should be little difference between the two
 except in how the methods are called.
 
+<a name="SystemClockExamples"></a>
 ### SystemClock Examples
 
 Here is an example of a `SystemClockLoop` that uses no `referenceClock` or a
@@ -2372,6 +2500,7 @@ void loop() {
 }
 ```
 
+<a name="Testing"></a>
 ## Testing
 
 Writing tests for this library was very challenging, probably taking up 2-3X
@@ -2407,6 +2536,7 @@ When these tests pass, I become confident that AceTime is producing the correct
 results, but it is entirely expected that some obscure edge-case bugs will be
 found in the future.
 
+<a name="TestPythonPytz"></a>
 ### Python pytz
 
 The Python pytz library was a natural choice since the `tzcompiler.py` was
@@ -2436,6 +2566,7 @@ following versions of `pytz` have been tested:
 * pytz 2019.2, containing TZ Datbase 2019b
 * pytz 2019.3, containing TZ Datbase 2019c
 
+<a name="TestPythonDateUtil"></a>
 ### Python dateutil
 
 Validation against the Python dateutil library is similar to pytz. I created:
@@ -2449,6 +2580,7 @@ following versions of `dateutil` have been tested:
 
 * dateutil 2.8.1, containing TZ Datbase 2019c
 
+<a name="TestJavaTime"></a>
 ### Java java.time
 
 The Java 11 `java.time` library is not limited to 2038 but supports years
@@ -2478,6 +2610,7 @@ the
 [TZUpdater](https://www.oracle.com/technetwork/java/javase/documentation/tzupdater-readme-136440.html)
 but I haven't figured it out.)
 
+<a name="TestHinnantDate"></a>
 ### C++ Hinnant Date
 
 I looked for a timezone library that allowed me to control the specific
@@ -2498,8 +2631,10 @@ following TZ Dabase versions:
 * TZ DB version 2019c
 * TZ DB version 2020a
 
+<a name="Benchmarks"></a>
 ## Benchmarks
 
+<a name="CPU"></a>
 ### CPU
 
 The [AutoBenchmark.ino](examples/AutoBenchmark/) program measures the
@@ -2517,6 +2652,7 @@ Teensy 3.2 96MHz            |   2.130 |
 ----------------------------+---------+
 ```
 
+<a name="Memory"></a>
 ### Memory
 
 Here is a quick summary of the amount of static RAM consumed by various
@@ -2582,8 +2718,10 @@ contains 3 OLED displays over SPI, 2 buttons, one DS3231 chip, and 3 timezones
 using AceTime, and these all fit inside a Arduino Pro Micro limit of 30 kB flash
 and 2.5 kB of RAM.
 
+<a name="Comparisons"></a>
 ## Comparisons to Other Time Libraries
 
+<a name="ArduinoTimeLibrary"></a>
 ### Arduino Time Library
 
 The AceTime library can be substantially faster than the equivalent methods in
@@ -2607,6 +2745,7 @@ Teensy 3.2 96MHz            |   2.750 |   22.390 |
 ----------------------------+---------+----------+
 ```
 
+<a name="CLibrary"></a>
 ### C Time Library (time.h)
 
 Some version of the standard Unix/C library `<time.h>` is available in *some*
@@ -2627,6 +2766,7 @@ These libraries are all based upon the [traditional C/Unix library
 methods](http://www.catb.org/esr/time-programming/) which can be difficult to
 understand.
 
+<a name="EzTime"></a>
 ### ezTime
 
 The [ezTime](https://github.com/ropg/ezTime) is a library that seems to be
@@ -2637,6 +2777,7 @@ network access for this library to work. I wanted to create a library that was
 self-contained and could run on an Arduino Nano with just an RTC chip without a
 network shield.
 
+<a name="MicroTimeZone"></a>
 ### Micro Time Zone
 
 The [Micro Time Zone](https://github.com/evq/utz) is a pure-C library
@@ -2654,6 +2795,7 @@ library contains more algorithmic code so will consume more flash memory. It is
 not entirely clear which library is smaller for 1-3 time zones. (This may be an
 interesting investigation the future.)
 
+<a name="JavaTime"></a>
 ### Java Time, Joda-Time, Noda Time
 
 The names and functionality of most the date and time classes (`LocalTime`,
@@ -2675,7 +2817,8 @@ provides other fine-grained classes such as `OffsetTime`, `OffsetDate`, `Year`,
 providing too many classes. The API of the library is already too large, I did
 not want to make them larger than necessary.
 
-### HowardHinnant Date Library
+<a name="HinnantDate"></a>
+### Howard Hinnant Date Library
 
 The [date](https://github.com/HowardHinnant/date) package by Howard Hinnant is
 based upon the `<chrono>` standard library and consists of several libraries of
@@ -2710,6 +2853,7 @@ UTC offsets (`TimeZone::getUtcOffset()`), timezone abbreviations
 (`ZonedDateTime::fromEpochSeconds()`) match the results from the Hinannt Date
 libraries.
 
+<a name="Cctz"></a>
 ### Google cctz
 
 The [cctz](https://github.com/google/cctz) library from Google is also based on
@@ -2717,6 +2861,7 @@ the `<chrono>` library. I have not looked at this library closely because I
 assumed that it would *not* fit inside an Arduino controller. Hopefully I will
 get some time to take a closer look in the future.
 
+<a name="Bugs"></a>
 ## Bugs and Limitations
 
 * Leap seconds
