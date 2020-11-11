@@ -2,6 +2,9 @@
  * Determine the size of various components of the AceTime library.
  */
 
+#include <stdint.h> // uint8_t
+#include <Arduino.h>
+
 // List of features of the AceTime library that we want to examine.
 #define FEATURE_BASELINE 0
 #define FEATURE_LOCAL_DATE_TIME 1
@@ -26,9 +29,9 @@
 #define FEATURE 0
 
 #if FEATURE != FEATURE_BASELINE
-#include <AceTime.h>
-using namespace ace_time;
-using namespace ace_time::clock;
+  #include <AceTime.h>
+  using namespace ace_time;
+  using namespace ace_time::clock;
 #endif
 
 // Set this variable to prevent the compiler optimizer from removing the code
@@ -45,7 +48,8 @@ static const uint16_t kBasicZoneRegistrySize =
 
 #elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_1
 
-static const extended::ZoneInfo* const kExtendedZoneRegistry[] ACE_TIME_PROGMEM = {
+static const extended::ZoneInfo* const kExtendedZoneRegistry[]
+    ACE_TIME_PROGMEM = {
   &zonedbx::kZoneAmerica_Los_Angeles,
 };
 static const uint16_t kExtendedZoneRegistrySize =
