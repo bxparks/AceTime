@@ -8,6 +8,10 @@
  *
  * This is the Doxygen documentation for the
  * <a href="https://github.com/bxparks/AceTime">AceTime Library</a>.
+ *
+ * Click on the "Classes" menu above to see the list of classes.
+ *
+ * Click on the "Files" menu above to see the list of header files.
  */
 
 #ifndef ACE_TIME_ACE_TIME_H
