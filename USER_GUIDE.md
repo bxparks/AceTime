@@ -2566,13 +2566,13 @@ comprehensive answer to the amount of memory taken by this library.
 Here is a short summary for an 8-bit microcontroller (e.g. Arduino Nano):
 
 * Using the `TimeZone` class with a `BasicZoneProcessor` for one timezone takes
-  about 6 kB of flash memory and 193 bytes of static RAM.
+  about 6 kB of flash memory and 177 bytes of static RAM.
 * Using 2 timezones with `BasicZoneProcessor increases the consumption to
-  about 7 kB of flash and 207 bytes of RAM.
+  about 7 kB of flash and 183 bytes of RAM.
 * Loading the entire `zonedb::` zoneinfo database consumes 21 kB bytes of flash
-  and 597 bytes of RAM.
+  and 573 bytes of RAM.
 * Adding the `SystemClock` to the `TimeZone` and `BasicZoneProcessor` with one
-  timezone consumes 9 kB bytes of flash and 352 bytes of RAM.
+  timezone consumes 9 kB bytes of flash and 324 bytes of RAM.
 
 These numbers indicate that the AceTime library is useful even on a limited
 8-bit controller with only 30-32 kB of flash and 2 kB of RAM. As a concrete

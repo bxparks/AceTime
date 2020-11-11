@@ -8,7 +8,9 @@ include ../../../UnixHostDuino/UnixHostDuino.mk
 
 TARGETS := nano.txt micro.txt samd.txt esp8266.txt esp32.txt teensy.txt
 
-# Type 'make benchmarks' to regenerate the benchmark files.
+README.md: $(TARGETS)
+	./generate_readme.py > $@
+
 benchmarks: $(TARGETS)
 
 nano.txt:
