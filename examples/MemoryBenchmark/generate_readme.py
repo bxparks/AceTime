@@ -16,11 +16,11 @@ esp8266_results = check_output(
     "./generate_table.awk < esp8266.txt", shell=True, text=True)
 esp32_results = check_output(
     "./generate_table.awk < esp32.txt", shell=True, text=True)
-teensy_results = check_output(
-    "./generate_table.awk < teensy.txt", shell=True, text=True)
+teensy32_results = check_output(
+    "./generate_table.awk < teensy32.txt", shell=True, text=True)
 
 print(f"""\
-# MemoryBenchmark
+# Memory Benchmark
 
 The `MemoryBenchmark.ino` was compiled with each `FEATURE_*` and the flash
 memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
@@ -35,9 +35,10 @@ file and produces the ASCII tables below.
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
+**Version**: AceTime v1.2
+
 ## Arduino Nano
 
-* AceTime 1.2
 * Arduino IDE 1.8.13
 * Arduino AVR Boards 1.8.3
 
@@ -47,7 +48,6 @@ file and produces the ASCII tables below.
 
 ## Sparkfun Pro Micro
 
-* AceTime 1.2
 * Arduino IDE 1.8.13
 * SparkFun AVR Boards 1.1.13
 
@@ -57,7 +57,6 @@ file and produces the ASCII tables below.
 
 ## SAMD21 M0 Mini
 
-* AceTime 1.2
 * Arduino IDE 1.8.13
 * Arduino SAMD Boards 1.8.9
 
@@ -69,7 +68,6 @@ file and produces the ASCII tables below.
 
 ## ESP8266
 
-* AceTime 1.2
 * Arduino IDE 1.8.13
 * ESP8266 Boards 2.7.4
 
@@ -79,7 +77,6 @@ file and produces the ASCII tables below.
 
 ## ESP32
 
-* AceTime 1.2
 * Arduino IDE 1.8.13
 * ESP32 Boards 1.0.4
 
@@ -93,11 +90,10 @@ usage by objects.
 
 ## Teensy 3.2
 
-* AceTime 1.2
 * Arduino IDE 1.8.13
 * Teensyduino 1.53
 
 ```
-{teensy_results}
+{teensy32_results}
 ```
 """)

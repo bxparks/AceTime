@@ -6,7 +6,9 @@ ARDUINO_LIBS := AceCommon AceRoutine
 MORE_CLEAN := more_clean
 include ../../../UnixHostDuino/UnixHostDuino.mk
 
-TARGETS := nano.txt micro.txt samd.txt esp8266.txt esp32.txt teensy.txt
+.PHONY: benchmarks
+
+TARGETS := nano.txt micro.txt samd.txt esp8266.txt esp32.txt teensy32.txt
 
 README.md: $(TARGETS)
 	./generate_readme.py > $@
@@ -28,7 +30,7 @@ esp8266.txt:
 esp32.txt:
 	./collect.sh esp32 $@
 
-teensy.txt:
+teensy32.txt:
 	./collect.sh teensy32 $@
 
 more_clean:
