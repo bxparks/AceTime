@@ -1,12 +1,19 @@
-TARGETS := nano.txt micro.txt samd.txt esp8266.txt esp32.txt teensy.txt
+# See https://github.com/bxparks/UnixHostDuino for documentation about using
+# UnixHostDuino to compile and run AUnit tests natively on Linux or MacOS.
 
-# Running 'make' does nothing to prevent interference with continuous build.
-all:
+APP_NAME := MemoryBenchmark
+ARDUINO_LIBS := AceCommon AceRoutine
+MORE_CLEAN := more_clean
+include ../../../UnixHostDuino/UnixHostDuino.mk
 
-# Type 'make benchmarks' to regenerate the benchmark files.
+.PHONY: benchmarks
+
+TARGETS := nano.txt micro.txt samd.txt esp8266.txt esp32.txt teensy32.txt
+
+README.md: $(TARGETS) generate_readme.py
+	./generate_readme.py > $@
+
 benchmarks: $(TARGETS)
-
-.PHONY: $(TARGETS)
 
 nano.txt:
 	./collect.sh nano $@
@@ -23,14 +30,11 @@ esp8266.txt:
 esp32.txt:
 	./collect.sh esp32 $@
 
-teensy.txt:
-	@echo 'Must collect teensy.txt manually'
+teensy32.txt:
+	./collect.sh teensy32 $@
 
-# Don't use 'clean' because we want to preserve the '*.txt' files when
-# uber 'make clean' is called from the parent directory.
-clean-benchmarks:
+more_clean:
+	echo "Use 'make clean_benchmarks' to remove *.txt files"
+
+clean_benchmarks:
 	rm -f $(TARGETS)
-
-# Define a 'clean' target that does nothing.
-clean:
-	echo "Use 'make clean-benchmarks' to remove the *.txt files"

@@ -6,7 +6,7 @@
 # table that can be inserted into the README.md.
 #
 
-{
+BEGIN {
     labels[0] = "Baseline"
     labels[1] = "LocalDateTime"
     labels[2] = "ZonedDateTime"
@@ -21,7 +21,8 @@
     labels[11] = "SystemClock"
     labels[12] = "SystemClock+Basic TimeZone"
     labels[13] = "SystemClock+Extended TimeZone"
-
+}
+{
     feature = NR-1
     u[feature]["flash"] = $2
     u[feature]["ram"] = $4

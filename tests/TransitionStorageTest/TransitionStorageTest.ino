@@ -262,30 +262,30 @@ test(TransitionStorageTest, findTransitionForDateTime) {
   // 2000-01-02T00:00
   auto ldt = LocalDateTime::forComponents(2000, 1, 2, 0, 0, 0);
   const Transition* t = storage.findTransitionForDateTime(ldt);
-  assertTrue(t == nullptr);
+  assertEqual(t, nullptr);
 
   // 2000-01-02T01:00
   ldt = LocalDateTime::forComponents(2000, 1, 2, 1, 0, 0);
   t = storage.findTransitionForDateTime(ldt);
-  assertTrue(t != nullptr);
+  assertNotEqual(t, nullptr);
   assertEqual(0, t->transitionTime.yearTiny);
 
   // 2001-02-03T00:03
   ldt = LocalDateTime::forComponents(2001, 2, 3, 0, 3, 0);
   t = storage.findTransitionForDateTime(ldt);
-  assertTrue(t != nullptr);
+  assertNotEqual(t, nullptr);
   assertEqual(0, t->transitionTime.yearTiny);
 
   // 2001-02-03T00:04
   ldt = LocalDateTime::forComponents(2001, 2, 3, 0, 4, 0);
   t = storage.findTransitionForDateTime(ldt);
-  assertTrue(t != nullptr);
+  assertNotEqual(t, nullptr);
   assertEqual(1, t->transitionTime.yearTiny);
 
   // 2002-03-04T00:05
   ldt = LocalDateTime::forComponents(2002, 3, 4, 0, 5, 0);
   t = storage.findTransitionForDateTime(ldt);
-  assertTrue(t != nullptr);
+  assertNotEqual(t, nullptr);
   assertEqual(2, t->transitionTime.yearTiny);
 }
 

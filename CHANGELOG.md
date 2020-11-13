@@ -1,6 +1,12 @@
 # Changelog
 
 * Unreleased
+* 1.2.1 (2020-11-12, TZ DB version 2020d)
+    * No functional change in this release. Mostly documentation.
+    * Update `examples/MemoryBenchmark` numbers from v0.8 to v1.2 with
+      new auto-generator scripts.
+    * Add Table of Contents to `USER_GUIDE.md` to help navigate the long
+      document.
 * 1.2 (2020-10-31, TZ DB version 2020d)
     * **Potentially Breaking**: AceTime library now depends on the AceCommon
       library (https://github.com/bxparks/AceCommon) to avoid having to maintain

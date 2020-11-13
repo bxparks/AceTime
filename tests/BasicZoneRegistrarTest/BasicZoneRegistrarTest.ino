@@ -18,7 +18,7 @@ test(BasicZoneRegistrarTest, getZoneInfo_Los_Angeles) {
 
   const basic::ZoneInfo* zoneInfo =
       zoneRegistrar.getZoneInfoForName("America/Los_Angeles");
-  assertTrue(zoneInfo != nullptr);
+  assertNotEqual(zoneInfo, nullptr);
 
   assertEqual(F("America/Los_Angeles"), BasicZone(zoneInfo).name());
   assertEqual(F("Los_Angeles"), BasicZone(zoneInfo).shortName());
@@ -29,14 +29,14 @@ test(BasicZoneRegistrarTest, getZoneInfo_not_found) {
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
   const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForName(
       "not found");
-  assertTrue(zoneInfo == nullptr);
+  assertEqual(zoneInfo, nullptr);
 }
 
 test(BasicZoneRegistrarTest, getZoneInfo_Index_0) {
   BasicZoneRegistrar zoneRegistrar(
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
   const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(0);
-  assertTrue(zoneInfo != nullptr);
+  assertNotEqual(zoneInfo, nullptr);
   assertEqual(F("Africa/Abidjan"), BasicZone(zoneInfo).name());
 }
 
@@ -45,7 +45,7 @@ test(BasicZoneRegistrarTest, getZoneInfo_Index_not_found) {
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
   const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(
       zonedb::kZoneRegistrySize);
-  assertTrue(zoneInfo == nullptr);
+  assertEqual(zoneInfo, nullptr);
 }
 
 test(BasicZoneRegistrarTest, getZoneInfoForId) {
@@ -55,8 +55,7 @@ test(BasicZoneRegistrarTest, getZoneInfoForId) {
       0xb7f7e8f2);
   const basic::ZoneInfo* zoneInfoExpected = zoneRegistrar.getZoneInfoForName(
       "America/Los_Angeles");
-  assertFalse(zoneInfo == nullptr);
-  assertTrue((intptr_t) zoneInfo == (intptr_t) zoneInfoExpected);
+  assertEqual(zoneInfo, zoneInfoExpected);
 }
 
 test(BasicZoneRegistrarTest, getZoneInfoForId_not_found) {
@@ -64,7 +63,7 @@ test(BasicZoneRegistrarTest, getZoneInfoForId_not_found) {
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
   const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
       0x11111111);
-  assertTrue(zoneInfo == nullptr);
+  assertEqual(zoneInfo, nullptr);
 }
 
 // --------------------------------------------------------------------------
@@ -97,7 +96,7 @@ test(BasicZoneRegistrarTest_Sorted, linearSearch) {
 test(BasicZoneRegistrarTest_Sorted, linearSearch_not_found) {
   const basic::ZoneInfo* zi = BasicZoneRegistrar::linearSearch(kSortedRegistry,
       kNumSortedEntries, "America/NotFound");
-  assertTrue(zi == nullptr);
+  assertEqual(zi, nullptr);
 }
 
 test(BasicZoneRegistrarTest_Sorted, binarySearch) {
@@ -124,7 +123,7 @@ test(BasicZoneRegistrarTest_Sorted, binarySearch) {
 test(BasicZoneRegistrarTest_Sorted, binarySearch_not_found) {
   const basic::ZoneInfo* zi = BasicZoneRegistrar::binarySearch(kSortedRegistry,
       sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
-  assertTrue(zi == nullptr);
+  assertEqual(zi, nullptr);
 }
 
 // --------------------------------------------------------------------------
@@ -155,7 +154,7 @@ test(BasicZoneRegistrarTest_Unsorted, linearSearch) {
 
   zi = BasicZoneRegistrar::linearSearch(kUnsortedRegistry,
       sizeof(kUnsortedRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
-  assertTrue(zi == nullptr);
+  assertEqual(zi, nullptr);
 }
 
 // --------------------------------------------------------------------------

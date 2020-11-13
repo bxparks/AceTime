@@ -8,6 +8,10 @@
  *
  * This is the Doxygen documentation for the
  * <a href="https://github.com/bxparks/AceTime">AceTime Library</a>.
+ *
+ * Click on the "Classes" menu above to see the list of classes.
+ *
+ * Click on the "Files" menu above to see the list of header files.
  */
 
 #ifndef ACE_TIME_ACE_TIME_H
@@ -55,7 +59,7 @@
 #include "ace_time/clock/SystemClockCoroutine.h"
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 10200
-#define ACE_TIME_VERSION_STRING "1.2"
+#define ACE_TIME_VERSION 10201
+#define ACE_TIME_VERSION_STRING "1.2.1"
 
 #endif
