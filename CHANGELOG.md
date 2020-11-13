@@ -1,7 +1,7 @@
 # Changelog
 
 * Unreleased
-* 1.2.1 (2020-11-12, TZ DB versio 2020d)
+* 1.2.1 (2020-11-12, TZ DB version 2020d)
     * No functional change in this release. Mostly documentation.
     * Update `examples/MemoryBenchmark` numbers from v0.8 to v1.2 with
       new auto-generator scripts.
