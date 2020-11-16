@@ -21,8 +21,9 @@
 #ifndef ACE_TIME_COMMON_LOGGING_H
 #define ACE_TIME_COMMON_LOGGING_H
 
-#include <stdarg.h>
-#include <Arduino.h>
+#include <stdio.h> // vsnprintf(), vprintf()
+#include <stdarg.h> // va_list, va_start(), va_end()
+#include <Arduino.h> // SERIAL_PORT_MONITOR
 
 namespace ace_time {
 namespace logging {
