@@ -24,10 +24,6 @@ class BasicZone {
     BasicZone(const basic::ZoneInfo* zoneInfo):
         mZoneInfoBroker(zoneInfo) {}
 
-    // use default copy constructor and assignment operator
-    BasicZone(const BasicZone&) = default;
-    BasicZone& operator=(const BasicZone&) = default;
-
 // TODO: Merge this with ExtendedZone.h now that they both use the same
 // ACE_TIME_USE_PROGMEM macro.
 #if ACE_TIME_USE_PROGMEM
@@ -58,6 +54,10 @@ class BasicZone {
     }
 
   private:
+    // disable default copy constructor and assignment operator
+    BasicZone(const BasicZone&) = delete;
+    BasicZone& operator=(const BasicZone&) = delete;
+
     const basic::ZoneInfoBroker mZoneInfoBroker;
 };
 
