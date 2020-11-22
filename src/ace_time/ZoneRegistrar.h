@@ -28,7 +28,8 @@ typedef int (*strcmp_t)(const char*, const char*);
 
 /**
  * Class that allows looking up the ZoneInfo (ZI) from its TZDB identifier
- * (e.g. "America/Los_Angeles"), or index, or zoneId (hash from its name).
+ * (e.g. "America/Los_Angeles"), zoneId (hash from its name), or the index in
+ * the zone registry.
  *
  * @tparam ZI ZoneInfo type (e.g. basic::ZoneInfo)
  * @tparam ZRB ZoneRegistryBroker type (e.g. basic::ZoneRegistryBroker)
