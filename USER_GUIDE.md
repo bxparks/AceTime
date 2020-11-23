@@ -1486,38 +1486,49 @@ created manually for each `TimeZone` instance. This works well for a single time
 zone, but if you have an application that needs 3 or more time zones, this may
 become cumbersome. Also, it is difficult to reconstruct a `TimeZone`
 dynamically, say, from its fullly qualified name (e.g. `"America/Los_Angeles"`).
+
 The `ZoneManager` solves these problems. It keeps an internal cache or
 `ZoneProcessors`, reusing them as needed. And it holds a registry of `ZoneInfo`
 objects, so that a `TimeZone` can be created using its `zoneName`, `zoneInfo`,
-or `zoneId`.
+or `zoneId`. The `ZoneManager` is an interface, and 2 implementation classes are
+provided:
 
 ```C++
 namespace ace_time{
 
+class ZoneManager {
+  public:
+    static const uint16_t kInvalidIndex = 0xffff;
+
+    virtual TimeZone createForZoneName(const char* name)  = 0;
+
+    virtual TimeZone createForZoneId(uint32_t id) = 0;
+
+    virtual TimeZone createForZoneIndex(uint16_t index) = 0;
+
+    virtual TimeZone createForTimeZoneData(const TimeZoneData& d) = 0;
+
+    virtual uint16_t indexForZoneName(const char* name) const = 0;
+
+    virtual uint16_t indexForZoneId(uint32_t id) const = 0;
+};
+
 template<uint16_t SIZE>
-class BasicZoneManager {
+class BasicZoneManager : public ZoneManager {
   public:
     BasicZoneManager(uint16_t registrySize);
         const basic::ZoneInfo* const* zoneRegistry,
 
     TimeZone createForZoneInfo(const basic::ZoneInfo* zoneInfo);
-    TimeZone createForZoneName(const char* name);
-    TimeZone createForZoneId(uint32_t id);
-    TimeZone createForZoneIndex(uint16_t index);
-
-    TimeZone createForTimeZoneData(const TimeZoneData& d);
-
-    uint16_t indexForZoneName(const char* name);
-    uint16_t indexForZoneId(uint32_t id) const;
 };
 
 template<uint16_t SIZE>
-class ExtendedZoneManager {
+class ExtendedZoneManager : public ZoneManager {
   public:
     ExtendedZoneManager(uint16_t registrySize,
         const extended::ZoneInfo* const* zoneRegistry);
 
-    [...same as above...]
+    TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
 };
 
 }
@@ -1620,14 +1631,18 @@ static ExtendedZoneManager<CACHE_SIZE> zoneManager(
 
 The `ACE_TIME_PROGMEM` macro is defined in
 [compat.h](src/ace_time/common/compat.h) and indicates whether the ZoneInfo
-files are stored in normal RAM or flash memory (i.e. `PROGMEM`). It must be used
-for custom zoneRegistries because the `BasicZoneManager` and
+files are stored in normal RAM or flash memory (i.e. `PROGMEM`). It **must** be
+used for custom zoneRegistries because the `BasicZoneManager` and
 `ExtendedZoneManager` expect to find them in static RAM or flash memory
 according to this macro.
 
-See
-[CommandLineClock](https://github.com/bxparks/clocks/tree/master/CommandLineClock)
-for an example of how these custom registries can be created and used.
+See examples in various unit tests:
+
+* [tests/BasicZoneRegistrarTest](tests/BasicZoneRegistrarTest)
+* [tests/ExtendedZoneRegistrarTest](tests/ExtendedZoneRegistrarTest)
+* [tests/TimeZoneTest](tests/TimeZoneTest)
+* [tests/ZonedDateTimeBasicTest](tests/ZonedDateTimeBasicTest)
+* [tests/ZonedDateTimeExtendedTest](tests/ZonedDateTimeExtendedTest)
 
 <a name="CreateForZoneName"></a>
 #### createForZoneName()

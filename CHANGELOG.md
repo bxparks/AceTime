@@ -2,6 +2,13 @@
 
 * Unreleased
     * Minor tweaks to silence clang++ warnings.
+    * Create new `ZoneManager` interface (pure virtual) which is now the
+      non-templatized parent to both `BasicZoneManager` and
+      `ExtendedZoneManager`. Allows `ZoneManager` to be passed around
+      poloymorphically as a pointer or reference.
+    * Fix broken `ZoneManager::indexForZoneName()` and
+      `ZoneManager::indexForZoneId()` caused by incorrect implementations in
+      `BasicZoneRegistrar` and `ExtendedZoneRegistrar`.
 * 1.2.1 (2020-11-12, TZ DB version 2020d)
     * No functional change in this release. Mostly documentation.
     * Update `examples/MemoryBenchmark` numbers from v0.8 to v1.2 with
