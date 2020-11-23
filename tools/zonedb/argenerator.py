@@ -573,7 +573,7 @@ extern const {scope}::ZoneInfo kZone{zoneNormalizedName}; // {zoneFullName}
 """
 
     ZONE_INFOS_H_INFO_ZONE_ID = """\
-const uint32_t kZoneId{zoneNormalizedName} = 0x{zoneNameHash:08x}; // {zoneFullName}
+const uint32_t kZoneId{zoneNormalizedName} = 0x{zoneId:08x}; // {zoneFullName}
 """
 
     ZONE_INFOS_H_REMOVED_INFO_ITEM = """\
@@ -664,7 +664,7 @@ static const char kZoneName{zoneNormalizedName}[] {progmem} = "{zoneFullName}";
 
 const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
   kZoneName{zoneNormalizedName} /*name*/,
-  0x{zoneNameHash:08x} /*zoneId*/,
+  0x{zoneId:08x} /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   {transitionBufSize} /*transitionBufSize*/,
   {numEras} /*numEras*/,
@@ -750,7 +750,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
                 scope=self.scope,
                 zoneNormalizedName=normalize_name(zone_name),
                 zoneFullName=zone_name,
-                zoneNameHash=hash_name(zone_name),
+                zoneId=hash_name(zone_name),
             )
 
         removed_info_items = ''
@@ -879,7 +879,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             scope=self.scope,
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name),
-            zoneNameHash=hash_name(zone_name),
+            zoneId=hash_name(zone_name),
             transitionBufSize=transition_buf_size,
             numEras=num_eras,
             stringLength=string_length,
