@@ -23,6 +23,9 @@ namespace ace_time {
  */
 class ZoneManager {
   public:
+    /** Registry index which is not valid. Indicates an error or not found. */
+    static const uint16_t kInvalidIndex = 0xffff;
+
     /**
      * Create a TimeZone for the given zone name (e.g. "America/Los_Angeles").
      */
@@ -44,6 +47,18 @@ class ZoneManager {
      * kTypeExtendedManaged.
      */
     virtual TimeZone createForTimeZoneData(const TimeZoneData& d) = 0;
+
+    /**
+     * Find the registry index for the given time zone name. Returns
+     * kInvalidIndex if not found. TODO(brian): This is currently broken.
+     */
+    virtual uint16_t indexForZoneName(const char* name) const = 0;
+
+    /**
+     * Find the registry index for the given time zone id. Returns
+     * kInvalidIndex if not found. TODO(brian): This is currently broken.
+     */
+    virtual uint16_t indexForZoneId(uint32_t id) const = 0;
 };
 
 /**
@@ -103,6 +118,18 @@ class ZoneManagerImpl : public ZoneManager {
       }
     }
 
+    uint16_t indexForZoneName(const char* name) const override {
+      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForName(name);
+      if (! zoneInfo) return kInvalidIndex;
+      return (zoneInfo - mZoneRegistrar.getZoneInfoForIndex(0));
+    }
+
+    uint16_t indexForZoneId(uint32_t id) const override {
+      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForId(id);
+      if (! zoneInfo) return kInvalidIndex;
+      return (zoneInfo - mZoneRegistrar.getZoneInfoForIndex(0));
+    }
+
     /**
      * Create a TimeZone from an explicit ZoneInfo reference. The ZoneRegistrar
      * will be bypassed because the ZoneInfo is already available, but the
@@ -115,22 +142,6 @@ class ZoneManagerImpl : public ZoneManager {
     }
 
   protected:
-    const ZR& getRegistrar() const { return mZoneRegistrar; }
-
-    /** Find the registry index for the given time zone name. */
-    uint16_t indexForZoneName(const char* name) const {
-      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForName(name);
-      if (! zoneInfo) return 0;
-      return (zoneInfo - mZoneRegistrar.getZoneInfoForIndex(0));
-    }
-
-    /** Find the registry index for the given time zone id. */
-    uint16_t indexForZoneId(uint32_t id) const {
-      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForId(id);
-      if (! zoneInfo) return 0;
-      return (zoneInfo - mZoneRegistrar.getZoneInfoForIndex(0));
-    }
-
     /**
      * Constructor.
      *
