@@ -1511,6 +1511,8 @@ class ZoneManager {
     virtual uint16_t indexForZoneName(const char* name) const = 0;
 
     virtual uint16_t indexForZoneId(uint32_t id) const = 0;
+
+    virtual uint16_t registrySize() const = 0;
 };
 
 template<uint16_t SIZE>
@@ -1537,7 +1539,8 @@ class ExtendedZoneManager : public ZoneManager {
 The `SIZE` template parameter is the size of the internal cache of
 `ZoneProcessor` objects. This should be set to the number of time zones that
 your application is expected to use *at the same time*. If your app never
-changes its time zone after initialization, then this can be `<1>`. If your app
+changes its time zone after initialization, then this can be `<1>` (although
+in this case, you may not even want to use the `ZoneManager`). If your app
 allows the user to dynamically change the time zone (e.g. from a menu of time
 zones), then this should be at least `<2>` (to allow the system to compare the
 old time zone to the new time zone selected by the user). In general, the `SIZE`

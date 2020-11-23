@@ -59,6 +59,9 @@ class ZoneManager {
      * kInvalidIndex if not found.
      */
     virtual uint16_t indexForZoneId(uint32_t id) const = 0;
+
+    /** Return the number of elements in the registry. */
+    virtual uint16_t registrySize() const = 0;
 };
 
 /**
@@ -124,6 +127,10 @@ class ZoneManagerImpl : public ZoneManager {
 
     uint16_t indexForZoneId(uint32_t id) const override {
       return mZoneRegistrar.findIndexForId(id);
+    }
+
+    uint16_t registrySize() const override {
+      return mZoneRegistrar.registrySize();
     }
 
     /**

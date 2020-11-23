@@ -2,7 +2,6 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
-#include <ace_time/common/compat.h>
 
 using namespace aunit;
 using namespace ace_time;
@@ -32,8 +31,21 @@ const uint16_t kNumUnsortedEntries =
     sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*);
 
 // --------------------------------------------------------------------------
+
+// Verify that we can use kZoneIdAmerica_Los_Angeles everywhere.
+test(BasicZoneRegistrarTest, kZoneId) {
+  assertEqual(0xb7f7e8f2, zonedb::kZoneIdAmerica_Los_Angeles);
+}
+
+// --------------------------------------------------------------------------
 // BasicZoneRegistrar public methods
 // --------------------------------------------------------------------------
+
+test(BasicZoneRegistrarTest, registrySize) {
+  BasicZoneRegistrar zoneRegistrar(
+      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+  assertEqual(zonedb::kZoneRegistrySize, zoneRegistrar.registrySize());
+}
 
 test(BasicZoneRegistrarTest, getZoneInfo_Los_Angeles) {
   BasicZoneRegistrar zoneRegistrar(
@@ -76,7 +88,7 @@ test(BasicZoneRegistrarTest, getZoneInfoForId) {
   BasicZoneRegistrar zoneRegistrar(
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
   const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
-      0xb7f7e8f2);
+      zonedb::kZoneIdAmerica_Los_Angeles);
   const basic::ZoneInfo* zoneInfoExpected = zoneRegistrar.getZoneInfoForName(
       "America/Los_Angeles");
   assertEqual(zoneInfo, zoneInfoExpected);
@@ -86,7 +98,7 @@ test(BasicZoneRegistrarTest, getZoneInfoForId_not_found) {
   BasicZoneRegistrar zoneRegistrar(
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
   const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
-      0x11111111);
+      0x0 /* should not exist */);
   assertEqual(zoneInfo, nullptr);
 }
 
@@ -109,13 +121,13 @@ test(BasicZoneRegistrarTest, findIndexForName_not_found) {
 test(BasicZoneRegistrarTest, findIndexForId) {
   BasicZoneRegistrar zoneRegistrar(kNumSortedEntries, kSortedRegistry);
   uint16_t index = zoneRegistrar.findIndexForId(
-      0xb7f7e8f2 /* America/Los_Angeles */);
+      zonedb::kZoneIdAmerica_Los_Angeles);
   assertEqual(2, index);
 }
 
 test(BasicZoneRegistrarTest, findIndexForId_not_found) {
   BasicZoneRegistrar zoneRegistrar(kNumSortedEntries, kSortedRegistry);
-  uint16_t index = zoneRegistrar.findIndexForId(0x12345678 /* not exist */);
+  uint16_t index = zoneRegistrar.findIndexForId(0x0 /* should not exist */);
   assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
 }
 
@@ -170,7 +182,7 @@ test(BasicZoneRegistrarTest_Sorted, binarySearchByName_not_found) {
 
 test(BasicZoneRegistrarTest_Sorted, linearSearchById) {
   uint16_t index = BasicZoneRegistrar::linearSearchById(
-      kSortedRegistry, kNumSortedEntries, 0xb7f7e8f2 /* America/Los_Angeles */);
+      kSortedRegistry, kNumSortedEntries, zonedb::kZoneIdAmerica_Los_Angeles);
   assertEqual(2, index);
 }
 
@@ -207,8 +219,7 @@ test(BasicZoneRegistrarTest_Unsorted, linearSearchByName_not_found) {
 
 test(BasicZoneRegistrarTest_Unsorted, linearSearchById) {
   uint16_t index = BasicZoneRegistrar::linearSearchById(
-      kUnsortedRegistry, kNumSortedEntries,
-      0xb7f7e8f2 /* America/Los_Angeles */);
+      kUnsortedRegistry, kNumSortedEntries, zonedb::kZoneIdAmerica_Los_Angeles);
   assertEqual(3, index);
 }
 

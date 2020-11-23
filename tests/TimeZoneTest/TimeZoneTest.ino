@@ -1,11 +1,11 @@
 #line 2 "TimeZoneTest.ino"
 
 #include <AUnit.h>
-#include <AceCommon.h>
+#include <AceCommon.h> // PrintStr
 #include <AceTime.h>
 
 using namespace aunit;
-using namespace ace_common;
+using ace_common::PrintStr;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
@@ -152,6 +152,10 @@ test(TimeZoneTest, manual_dst) {
 // BasicZoneManager
 // --------------------------------------------------------------------------
 
+test(TimeZoneBasicTest, registrySize) {
+  assertEqual(4, basicZoneManager.registrySize());
+}
+
 test(TimeZoneBasicTest, createForZoneName) {
   TimeZone tz = basicZoneManager.createForZoneInfo(
       &zonedb::kZoneAmerica_Los_Angeles);
@@ -196,6 +200,10 @@ test(TimeZoneBasicTest, indexForZoneId) {
 // --------------------------------------------------------------------------
 // ExtendedZoneManager
 // --------------------------------------------------------------------------
+
+test(TimeZoneExtendedTest, registrySize) {
+  assertEqual(4, extendedZoneManager.registrySize());
+}
 
 test(TimeZoneExtendedTest, createForZoneName) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
