@@ -1678,47 +1678,50 @@ the user was allowed to type in the zone name, and you wanted to create a
 #### createForZoneId()
 
 Each zone in the `zonedb::` and `zonedbx::` database is given a unique
-and stable zoneId. This can be retrieved from the `TimeZone` object using:
+and stable zoneId. There are at least 3 ways to extract this zoneId:
+
+* from the `kZoneId{zone name} constants in `src/ace_time/zonedb/zone_infos.h`
+  and `src/ace_time/zonedbx/zone_infos.h` (v1.3):
+    * `const uint32_t kZoneIdAmerica_New_York = 0x1e2a7654; // America/New_York`
+    * `const uint32_t kZoneIdAmerica_Los_Angeles = 0xb7f7e8f2; // America/Los_Angeles`
+    * ...
+* from the `TimeZone::getZoneId()` method:
+    * `uint32_t zoneId = tz.getZoneId();`
+* from the `ZoneInfo` pointer using the `BasicZone()` helper object:
+    * `uint32_t zoneId = BasicZone(&zonedb::kZoneAmerica_Los_Angeles).zoneId();`
+    * `uint32_t zoneId = ExtendedZone(&zonedbx::kZoneAmerica_Los_Angeles).zoneId();`
+
+The `ZoneManager::createForZoneId()` method returns the `TimeZone` object
+corresponding to the given `zoneId`:
+
 ```C++
-TimeZone tz = zoneManager.createFor...();
-uint32_t zoneId = tz.getZoneId();
+BasicZoneManager<NUM_ZONES> manager(...);
+
+void someFunction() {
+  auto tz = manager.createForZoneId(kZoneIdAmerica_New_York);
+  ...
+}
+
+ExtendedZoneManager<NUM_ZONES> manager(...);
+
+void someFunction() {
+  auto tz = manager.createForZoneId(kZoneIdAmerica_New_York);
+  ...
+}
 ```
-from the `ZoneInfo` pointer using the `BasicZone()` helper object:
-```C++
-uint32_t zoneId = BasicZone(&zonedb::kZoneAmerica_Los_Angeles).zoneId();
-```
+
+If the `ZoneManager` cannot find the `zoneId` in its internal zone registry,
+then the `TimeZone::forError()` is returned. The application developer should
+check for this, and substitute a reasonable default TimeZone when this happens.
+This situation is not unique to the zoneId. The same problem would occur if the
+fully qualified zone name was used.
 
 The ZoneId is created using a hash of the fully qualified zone name. It is
 guaranteed to be unique and stable by the `tzcompiler.py` tool that generated
 the `zonedb::` and `zonedbx::` data sets.  By "unique", I mean that
 no 2 time zones will have the same zoneId. By "stable", it means that once
 a zoneId has been assigned to a fully qualified zone name, it will remain
-unchanged forever in the database. This means that we can save the zoneId of a
-TimeZone to persistent memory (e.g. EEPROM), then retrieve the zoneId, and
-recreate the `TimeZone` using the following for a `BasicZoneManager`:
-
-```C++
-BasicZoneManager<NUM_ZONES> manager(...);
-
-void someFunction() {
-  uint32_t zoneId = ...;
-  ...
-  auto tz = manager.createForZoneId(zoneId);
-  ...
-}
-```
-
-and similarly for the `ExtendedZoneManager`:
-
-```C++
-ExtendedZoneManager<NUM_ZONES> manager(...);
-
-void someFunction() {
-  uint32_t zoneId = ...;
-  ...
-  auto tz = manager.createForZoneId(zoneId);
-  ...
-```
+unchanged forever in the database.
 
 The `zoneId` has an obvious advantage over the fully qualified `zoneName` for
 storage purposes. It is far easier to save a 4-byte zoneId (e.g. `0xb7f7e8f2`)
@@ -1730,11 +1733,17 @@ saved using a `BasicZoneManager` but recreated using an `ExtendedZoneManager`. I
 am not able to see how this could be an issue, but let me know if you find this
 to be a problem.
 
-If the `ZoneManager` cannot find the `zoneId` in its internal zone registry,
-then the `TimeZone::forError()` is returned. The application developer should
-check for this, and substitute a reasonable default TimeZone when this happens.
-This situation is not unique to the zoneId. The same problem would occur if the
-fully qualified zone name was used.
+Another useful feature of `ZoneManager::createForZoneId()` over
+`createForZoneInfo()` is that `createForZoneId()` lives at the root
+`ZoneManager` interface. In contrast, there are 2 different versions of
+`createForZoneInfo()` which live in the corresponding implementation classes
+(`BasicZoneManager` and `ExtendedZoneManager`) because each version needs a
+different `ZoneInfo` type (`basic::ZoneInfo` and `extended::ZoneInfo`). If your
+code has a reference or pointer to the top-level `ZoneManager` interface, then
+it will be far easier to create a `TimeZone` using `createForZoneId()`. You do
+pay a penalty in efficiency because `createForZoneId()` must scan the database,
+where as `createForZoneInfo()` does not perform a search since it has direct
+access to the `ZoneInfo` data structure.
 
 <a name="CreateForZoneIndex"></a>
 #### createForZoneIndex()
