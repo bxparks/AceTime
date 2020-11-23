@@ -1088,7 +1088,7 @@ void someFunction() {
 ```
 (Notice that we use the `zonedbx::` namespace instead of the `zonedb::`
 namespace. Although the data structures in the 2 namespaces are identical
-currently (v0.8) but the *values* inside the data structure fields are not
+currently (v1.2) but the *values* inside the data structure fields are not
 the same, and they are interpreted differently.)
 
 As of version 2019b of TZ Database, *all* 387 Zone and 205 Link entries from the
@@ -1389,7 +1389,7 @@ in the `transformer.py` script and summarized in
 * the UNTIL time suffix can only be 'w' (not 's' or 'u')
 * there can be only one DST transition in a single month
 
-In the current version (v0.8), this database contains 270 zones from the year
+In the current version (v1.2), this database contains 268 zones from the year
 2000 to 2049 (inclusive).
 
 <a name="ExtendedZonedbx"></a>
@@ -1406,7 +1406,7 @@ are:
 * the AT and UNTIL fields are multiples of 1-minute
 * the LETTER field can be arbitrary strings
 
-In the current version (v0.8), this database contains all 387 timezones from
+In the current version (v1.2), this database contains all 387 timezones from
 the year 2000 to 2049 (inclusive).
 
 <a name="BasicZoneExtendedZone"></a>
@@ -1547,7 +1547,7 @@ plus an additional 1 if the user is able to change the timezone dynamically.
 The constructor take a `zoneRegistry` and its `zoneRegistrySize`. It is a
 pointer to an array of pointers to the `zonedb::kZone*` or `zonedbx::kZone*`
 objects. You can use the default zone registry (which contains ALL zones in the
-`zonedb::` or `zonedbx::` database, or you can create your own custom zone
+`zonedb::` or `zonedbx::` database), or you can create your own custom zone
 registry, as described below.
 
 <a name="DefaultZoneRegistry"></a>
