@@ -162,7 +162,8 @@ test(TimeZoneBasicTest, createForZoneName) {
 test(TimeZoneBasicTest, createForZoneId) {
   TimeZone tz = basicZoneManager.createForZoneInfo(
       &zonedb::kZoneAmerica_New_York);
-  TimeZone tzid = basicZoneManager.createForZoneId(0x1e2a7654U); // New_York
+  TimeZone tzid = basicZoneManager.createForZoneId(
+      zonedb::kZoneIdAmerica_New_York);
   assertTrue(tz == tzid);
   assertEqual((uint32_t) 0x1e2a7654U, tz.getZoneId());
   assertEqual((uint32_t) 0x1e2a7654U, tzid.getZoneId());
@@ -185,7 +186,7 @@ test(TimeZoneBasicTest, indexForZoneName) {
 
 test(TimeZoneBasicTest, indexForZoneId) {
   uint16_t index = basicZoneManager.indexForZoneId(
-      0x1e2a7654U /* America/New_York */);
+      zonedb::kZoneIdAmerica_New_York);
   assertEqual(3, index);
 
   index = basicZoneManager.indexForZoneId(0 /* not found */);
@@ -206,7 +207,8 @@ test(TimeZoneExtendedTest, createForZoneName) {
 test(TimeZoneExtendedTest, createForZoneId) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_New_York);
-  TimeZone tzid = extendedZoneManager.createForZoneId(0x1e2a7654U); // New_York
+  TimeZone tzid = extendedZoneManager.createForZoneId(
+      zonedb::kZoneIdAmerica_New_York);
   assertTrue(tz == tzid);
   assertEqual((uint32_t) 0x1e2a7654U, tz.getZoneId());
   assertEqual((uint32_t) 0x1e2a7654U, tzid.getZoneId());
@@ -229,7 +231,7 @@ test(TimeZoneExtendedTest, indexForZoneName) {
 
 test(TimeZoneExtendedTest, indexForZoneId) {
   uint16_t index = extendedZoneManager.indexForZoneId(
-      0x1e2a7654U /* America/New_York */);
+      zonedbx::kZoneIdAmerica_New_York);
   assertEqual(3, index);
 
   index = extendedZoneManager.indexForZoneId(0 /* not found */);
