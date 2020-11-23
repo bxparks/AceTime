@@ -50,13 +50,13 @@ class ZoneManager {
 
     /**
      * Find the registry index for the given time zone name. Returns
-     * kInvalidIndex if not found. TODO(brian): This is currently broken.
+     * kInvalidIndex if not found.
      */
     virtual uint16_t indexForZoneName(const char* name) const = 0;
 
     /**
      * Find the registry index for the given time zone id. Returns
-     * kInvalidIndex if not found. TODO(brian): This is currently broken.
+     * kInvalidIndex if not found.
      */
     virtual uint16_t indexForZoneId(uint32_t id) const = 0;
 };
@@ -119,15 +119,11 @@ class ZoneManagerImpl : public ZoneManager {
     }
 
     uint16_t indexForZoneName(const char* name) const override {
-      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForName(name);
-      if (! zoneInfo) return kInvalidIndex;
-      return (zoneInfo - mZoneRegistrar.getZoneInfoForIndex(0));
+      return mZoneRegistrar.findIndexForName(name);
     }
 
     uint16_t indexForZoneId(uint32_t id) const override {
-      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForId(id);
-      if (! zoneInfo) return kInvalidIndex;
-      return (zoneInfo - mZoneRegistrar.getZoneInfoForIndex(0));
+      return mZoneRegistrar.findIndexForId(id);
     }
 
     /**

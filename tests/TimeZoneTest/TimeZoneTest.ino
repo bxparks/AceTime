@@ -175,14 +175,22 @@ test(TimeZoneBasicTest, createForZoneIndex) {
   assertTrue(tz == tzidx);
 }
 
-/*
-This is broken until we fix indexForZoneName() and indexForZoneId().
-
 test(TimeZoneBasicTest, indexForZoneName) {
   uint16_t index = basicZoneManager.indexForZoneName("America/Los_Angeles");
   assertEqual(2, index);
+
+  index = basicZoneManager.indexForZoneName("America/not_found");
+  assertEqual(ZoneManager::kInvalidIndex, index);
 }
-*/
+
+test(TimeZoneBasicTest, indexForZoneId) {
+  uint16_t index = basicZoneManager.indexForZoneId(
+      0x1e2a7654U /* America/New_York */);
+  assertEqual(3, index);
+
+  index = basicZoneManager.indexForZoneId(0 /* not found */);
+  assertEqual(ZoneManager::kInvalidIndex, index);
+}
 
 // --------------------------------------------------------------------------
 // ExtendedZoneManager
@@ -209,6 +217,23 @@ test(TimeZoneExtendedTest, createForZoneIndex) {
       &zonedbx::kZoneAmerica_Chicago);
   TimeZone tzidx = extendedZoneManager.createForZoneIndex(0);
   assertTrue(tz == tzidx);
+}
+
+test(TimeZoneExtendedTest, indexForZoneName) {
+  uint16_t index = extendedZoneManager.indexForZoneName("America/Los_Angeles");
+  assertEqual(2, index);
+
+  index = extendedZoneManager.indexForZoneName("America/not_found");
+  assertEqual(ZoneManager::kInvalidIndex, index);
+}
+
+test(TimeZoneExtendedTest, indexForZoneId) {
+  uint16_t index = extendedZoneManager.indexForZoneId(
+      0x1e2a7654U /* America/New_York */);
+  assertEqual(3, index);
+
+  index = extendedZoneManager.indexForZoneId(0 /* not found */);
+  assertEqual(ZoneManager::kInvalidIndex, index);
 }
 
 // --------------------------------------------------------------------------
