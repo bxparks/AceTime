@@ -1,5 +1,11 @@
 #line 2 "TimeZoneTest.ino"
 
+/*
+ * The TimeZone, TimeZoneData, BasicZoneManager and ExtendedZoneManager classes
+ * are tightly interrelated, so we will test all of those in this single test
+ * file.
+ */
+
 #include <AUnit.h>
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
@@ -169,8 +175,8 @@ test(TimeZoneBasicTest, createForZoneId) {
   TimeZone tzid = basicZoneManager.createForZoneId(
       zonedb::kZoneIdAmerica_New_York);
   assertTrue(tz == tzid);
-  assertEqual((uint32_t) 0x1e2a7654U, tz.getZoneId());
-  assertEqual((uint32_t) 0x1e2a7654U, tzid.getZoneId());
+  assertEqual((uint32_t) 0x1e2a7654, tz.getZoneId());
+  assertEqual((uint32_t) 0x1e2a7654, tzid.getZoneId());
 }
 
 test(TimeZoneBasicTest, createForZoneIndex) {
@@ -218,8 +224,8 @@ test(TimeZoneExtendedTest, createForZoneId) {
   TimeZone tzid = extendedZoneManager.createForZoneId(
       zonedb::kZoneIdAmerica_New_York);
   assertTrue(tz == tzid);
-  assertEqual((uint32_t) 0x1e2a7654U, tz.getZoneId());
-  assertEqual((uint32_t) 0x1e2a7654U, tzid.getZoneId());
+  assertEqual((uint32_t) 0x1e2a7654, tz.getZoneId());
+  assertEqual((uint32_t) 0x1e2a7654, tzid.getZoneId());
 }
 
 test(TimeZoneExtendedTest, createForZoneIndex) {
@@ -277,71 +283,88 @@ test(TimeZoneBasicTest, Los_Angeles) {
 // TimeZoneData
 // --------------------------------------------------------------------------
 
-test(TimeZoneDataTest, error) {
-  auto tz = TimeZone::forError();
-  auto tzd = tz.toTimeZoneData();
-  assertEqual(TimeZone::kTypeError, tzd.type);
+// We can use initializer lists, just like regular structs!
+test(TimeZoneDataTest, array_initialization) {
+  TimeZoneData zones[3] = {
+    {}, // kTypeError
+    {1, 2}, // kTypeManual
+    {zonedb::kZoneIdAmerica_Los_Angeles}, // kTypeZoneId
+  };
+  assertTrue(TimeZoneData() == zones[0]);
+  assertTrue(TimeZoneData(1, 2) == zones[1]);
+  assertTrue(TimeZoneData(zonedb::kZoneIdAmerica_Los_Angeles) == zones[2]);
+}
 
-  auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
+test(TimeZoneDataTest, error) {
+  TimeZone tz = TimeZone::forError();
+  TimeZoneData tzd = tz.toTimeZoneData();
+
+  TimeZoneData expected{};
+  assertTrue(expected == tzd);
+
+  TimeZone tzCycle = basicZoneManager.createForTimeZoneData(tzd);
   assertTrue(tz == tzCycle);
 }
 
 test(TimeZoneDataTest, utc) {
-  auto tz = TimeZone::forUtc();
-  auto tzd = tz.toTimeZoneData();
-  assertEqual(TimeZone::kTypeManual, tzd.type);
-  assertEqual(0, tzd.stdOffsetMinutes);
-  assertEqual(0, tzd.dstOffsetMinutes);
+  TimeZone tz = TimeZone::forUtc();
+  TimeZoneData tzd = tz.toTimeZoneData();
 
-  auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
+  TimeZoneData expected{0, 0};
+  assertTrue(expected == tzd);
+
+  TimeZone tzCycle = basicZoneManager.createForTimeZoneData(tzd);
   assertTrue(tz == tzCycle);
 }
 
 test(TimeZoneDataTest, manual) {
-  auto tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8),
+  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8),
       TimeOffset::forHours(1));
-  auto tzd = tz.toTimeZoneData();
-  assertEqual(TimeZone::kTypeManual, tzd.type);
-  assertEqual(-8 * 60, tzd.stdOffsetMinutes);
-  assertEqual(1 * 60, tzd.dstOffsetMinutes);
+  TimeZoneData tzd = tz.toTimeZoneData();
 
-  auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
+  TimeZoneData expected{-8 * 60, 1 * 60};
+  assertTrue(expected == tzd);
+
+  TimeZone tzCycle = basicZoneManager.createForTimeZoneData(tzd);
   assertTrue(tz == tzCycle);
 }
 
 test(TimeZoneDataTest, basicManaged) {
-  auto tz = basicZoneManager.createForZoneInfo(
+  TimeZone tz = basicZoneManager.createForZoneInfo(
       &zonedb::kZoneAmerica_Los_Angeles);
-  auto tzd = tz.toTimeZoneData();
-  assertEqual(TimeZoneData::kTypeZoneId, tzd.type);
-  assertEqual((uint32_t) 0xb7f7e8f2, tzd.zoneId);
+  TimeZoneData tzd = tz.toTimeZoneData();
 
-  auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
+  TimeZoneData expected{zonedb::kZoneIdAmerica_Los_Angeles};
+  assertTrue(expected == tzd);
+
+  TimeZone tzCycle = basicZoneManager.createForTimeZoneData(tzd);
   assertTrue(tz == tzCycle);
 }
 
 #if !defined(__AVR__)
 test(TimeZoneDataTest, extendedManaged) {
-  auto tz = extendedZoneManager.createForZoneInfo(
+  TimeZone tz = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles);
-  auto tzd = tz.toTimeZoneData();
-  assertEqual(TimeZoneData::kTypeZoneId, tzd.type);
-  assertEqual((uint32_t) 0xb7f7e8f2, tzd.zoneId);
+  TimeZoneData tzd = tz.toTimeZoneData();
 
-  auto tzCycle = extendedZoneManager.createForTimeZoneData(tzd);
+  TimeZoneData expected{zonedbx::kZoneIdAmerica_Los_Angeles};
+  assertTrue(expected == tzd);
+
+  TimeZone tzCycle = extendedZoneManager.createForTimeZoneData(tzd);
   assertTrue(tz == tzCycle);
 }
 
-// If we convert a ExtendedManaged, we can read it back as a BasicManaged if
-// the ZoneManager supports it. The reverse also works.
+// If we convert a kTypeExtendedManaged, we can read it back as a
+// kTypeBasicManaged if the ZoneManager supports it. The reverse also works.
 test(TimeZoneDataTest, crossed) {
-  auto tz = extendedZoneManager.createForZoneInfo(
+  TimeZone tz = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles);
-  auto tzd = tz.toTimeZoneData();
-  assertEqual(TimeZoneData::kTypeZoneId, tzd.type);
-  assertEqual((uint32_t) 0xb7f7e8f2, tzd.zoneId);
+  TimeZoneData tzd = tz.toTimeZoneData();
 
-  auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
+  TimeZoneData expected{zonedbx::kZoneIdAmerica_Los_Angeles};
+  assertTrue(expected == tzd);
+
+  TimeZone tzCycle = basicZoneManager.createForTimeZoneData(tzd);
   assertEqual(tz.getZoneId(), tzCycle.getZoneId());
   assertEqual(TimeZone::kTypeBasicManaged, tzCycle.getType());
 }

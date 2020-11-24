@@ -13,6 +13,8 @@
       `zonedb::kZoneId{Zone_Name}` and `zonedbx::kZoneId{Zone_Name}` (e.g.
       `zonedb::kZoneIdAmerica_Los_Angeles`). Can be given directly to
       `ZoneManager::createForZoneId()`.
+    * Added constructors to `TimeZoneData` to allow initializers to set
+      union members. Useful for initializing arrays of `TimeZoneData`.
 * 1.2.1 (2020-11-12, TZ DB version 2020d)
     * No functional change in this release. Mostly documentation.
     * Update `examples/MemoryBenchmark` numbers from v0.8 to v1.2 with
