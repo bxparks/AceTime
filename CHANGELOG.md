@@ -13,8 +13,15 @@
       `zonedb::kZoneId{Zone_Name}` and `zonedbx::kZoneId{Zone_Name}` (e.g.
       `zonedb::kZoneIdAmerica_Los_Angeles`). Can be given directly to
       `ZoneManager::createForZoneId()`.
-    * Added constructors to `TimeZoneData` to allow initializers to set
+    * Add constructors to `TimeZoneData` to allow initializers to set
       union members. Useful for initializing arrays of `TimeZoneData`.
+    * Add `ManualZoneManager` implementation of `ZoneManager` which implements
+      only `createForTimeZoneData()`. Useful in applications which support only
+      `TimeZone::kTypeManual` (fixed std and dst offsets) due to memory
+      constaints.
+    * Add documentation of `TimeZoneData`, `TimeZone::toTimeZoneData(), and
+      `ZoneManager::createFromTimeZoneData()` to `USER_GUIDE.md`. Looks like I
+      added the class in v0.5 but forgot to documen it.
 * 1.2.1 (2020-11-12, TZ DB version 2020d)
     * No functional change in this release. Mostly documentation.
     * Update `examples/MemoryBenchmark` numbers from v0.8 to v1.2 with

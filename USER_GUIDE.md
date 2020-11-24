@@ -40,6 +40,8 @@ See the [README.md](README.md) for introductory background.
         * [createForZoneName()](#CreateForZoneName)
         * [createForZoneId()](#CreateForZoneId)
         * [createForZoneIndex()](#CreateForZoneIndex)
+        * [createForTimeZoneData()](#CreateForTimeZoneData)
+        * [ManualZoneManager](#ManualZoneManager)
     * [TZ Database Version](#TZDatabaseVersion)
     * [Print To String](#PrintToString)
 * [Mutations](#Mutations)
@@ -910,6 +912,8 @@ class TimeZone {
     bool isDst() const;
     void setDstOffset(TimeOffset offset);
 
+    TimeZoneData toTimeZoneData() const;
+
     void printTo(Print& printer) const;
     void printShortTo(Print& printer) const;
 };
@@ -1489,7 +1493,7 @@ dynamically, say, from its fullly qualified name (e.g. `"America/Los_Angeles"`).
 The `ZoneManager` solves these problems. It keeps an internal cache or
 `ZoneProcessors`, reusing them as needed. And it holds a registry of `ZoneInfo`
 objects, so that a `TimeZone` can be created using its `zoneName`, `zoneInfo`,
-or `zoneId`. The `ZoneManager` is an interface, and 2 implementation classes are
+or `zoneId`. The `ZoneManager` is an interface, and 3 implementation classes are
 provided:
 
 ```C++
@@ -1530,6 +1534,11 @@ class ExtendedZoneManager : public ZoneManager {
         const extended::ZoneInfo* const* zoneRegistry);
 
     TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
+};
+
+class ManualZoneManager : public ZoneManager {
+  public:
+    TimeZone createForTimeZoneData(const TimeZoneData& d) override;
 };
 
 }
@@ -1758,6 +1767,35 @@ the user to select one of the options.
 The `ZoneManager::indexForZoneName()` and `ZoneManager::indexForZoneId()` are
 two useful methods to convert an arbitrary time zone reference (either
 by zoneName or zoneId) into an index into the registry.
+
+<a name="CreateForTimeZoneData"></a>
+#### createForTimeZoneData()
+
+The `ZoneManager::createForTimeZoneDAta()` creates a `TimeZone` from an instance
+of `TimeZoneData`. The `TimeZoneData` can be retrieved from
+`TimeZone::toTimeZoneData()` method. It contains the minimum set of identifiers
+of a `TimeZone` object in a format that can be serialized easily, for example,
+to EEPROM.
+
+<a name="ManualZoneManager"></a>
+#### ManualZoneManager
+
+The `ManualZoneManager` is an implementation of `ZoneManager` that implements
+only the `createForTimeZoneData()` method, and handles only
+`TimeZoneData::kTypeManual`. In other words, it can only create `TimeZone`
+objects with fixed standard and DST offsets.
+
+This class reduces the amount of conditional code (using `#if` statements)
+needed in applications which are normally targeted to use `BasicZoneManager` and
+`ExtendedZoneManager`, but are sometimes targeted to small-memory
+microcontrollers (typically AVR chips), for testing purposes for example. This
+class allows many of the function and constructor signatures to remain the same,
+reducing the amount of conditional code.
+
+If an application is specifically targeted to a low-memory chip, and it is known
+at compile-time that only `TimeZone::kTypeManual` are supported, then you should
+not need to use the `ManualZoneManager`. You can use `TimeZone::forTimeOffset()`
+factory method directory.
 
 <a name="TZDatabaseVersion"></a>
 ### TZ Database Version

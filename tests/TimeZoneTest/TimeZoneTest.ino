@@ -1,9 +1,9 @@
 #line 2 "TimeZoneTest.ino"
 
 /*
- * The TimeZone, TimeZoneData, BasicZoneManager and ExtendedZoneManager classes
- * are tightly interrelated, so we will test all of those in this single test
- * file.
+ * The TimeZone, TimeZoneData, ManualZoneManager, BasicZoneManager and
+ * ExtendedZoneManager classes are tightly interrelated, so we will test all of
+ * those in this single test file.
  */
 
 #include <AUnit.h>
@@ -81,7 +81,7 @@ ExtendedZoneManager<2> extendedZoneManager(
 // kTypeError
 // --------------------------------------------------------------------------
 
-test(TimeZoneTest, error) {
+test(TimeZoneTest, forError) {
   PrintStr<16> printStr;
   auto tz = TimeZone::forError();
   assertEqual(TimeZone::kTypeError, tz.getType());
@@ -90,7 +90,7 @@ test(TimeZoneTest, error) {
 }
 
 // --------------------------------------------------------------------------
-// kTypeManual
+// TimeZone (kTypeManual)
 // --------------------------------------------------------------------------
 
 test(TimeZoneTest, manual_utc) {
@@ -155,7 +155,38 @@ test(TimeZoneTest, manual_dst) {
 }
 
 // --------------------------------------------------------------------------
-// BasicZoneManager
+// TimeZone + ManualZoneManager
+// --------------------------------------------------------------------------
+
+test(TimeZoneManualTest, registrySize) {
+  ManualZoneManager manualZoneManager;
+  assertEqual(0, manualZoneManager.registrySize());
+}
+
+test(TimeZoneManualTest, createForTimeZoneData) {
+  ManualZoneManager manualZoneManager;
+  TimeZoneData zone{-8 * 60, 1 * 60};
+  TimeZone tz = manualZoneManager.createForTimeZoneData(zone);
+  TimeZoneData tzd = tz.toTimeZoneData();
+  assertTrue(zone == tzd);
+}
+
+test(TimeZoneManualTest, createForTimeZoneData_error) {
+  ManualZoneManager manualZoneManager;
+  TimeZoneData zone{}; // error
+  TimeZone tz = manualZoneManager.createForTimeZoneData(zone);
+  assertTrue(tz.isError());
+}
+
+test(TimeZoneManualTest, createForZoneId) {
+  ManualZoneManager manualZoneManager;
+  TimeZone tz = manualZoneManager.createForZoneId(
+      zonedb::kZoneIdAmerica_Los_Angeles);
+  assertTrue(tz.isError());
+}
+
+// --------------------------------------------------------------------------
+// TimeZone + BasicZoneManager
 // --------------------------------------------------------------------------
 
 test(TimeZoneBasicTest, registrySize) {
@@ -204,7 +235,7 @@ test(TimeZoneBasicTest, indexForZoneId) {
 }
 
 // --------------------------------------------------------------------------
-// ExtendedZoneManager
+// TimeZone + ExtendedZoneManager
 // --------------------------------------------------------------------------
 
 test(TimeZoneExtendedTest, registrySize) {

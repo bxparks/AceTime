@@ -29,7 +29,7 @@ class ZoneManager {
     /**
      * Create a TimeZone for the given zone name (e.g. "America/Los_Angeles").
      */
-    virtual TimeZone createForZoneName(const char* name)  = 0;
+    virtual TimeZone createForZoneName(const char* name) = 0;
 
     /** Create a TimeZone for the given 32-bit zoneId. */
     virtual TimeZone createForZoneId(uint32_t id) = 0;
@@ -62,6 +62,54 @@ class ZoneManager {
 
     /** Return the number of elements in the registry. */
     virtual uint16_t registrySize() const = 0;
+};
+
+/**
+ * A ZoneManager that implements only createForTimeZoneData() to create
+ * TimeZones of type kTypeManual, in other words, time zones with fixed STD and
+ * DST offsets. This is useful in applications designed to run on
+ * microcontrollers with small memory where a full BasicZoneManager or
+ * ExtendedZoneManager generate too much code. This object can be used anywhere
+ * a ZoneManager is expected, which reduces the need for C-precessor
+ * conditional code.
+ */
+class ManualZoneManager : public ZoneManager {
+  public:
+
+    TimeZone createForZoneName(const char* name) override {
+      return TimeZone::forError();
+    }
+
+    TimeZone createForZoneId(uint32_t id) override {
+      return TimeZone::forError();
+    }
+
+    TimeZone createForZoneIndex(uint16_t index) override {
+      return TimeZone::forError();
+    }
+
+    TimeZone createForTimeZoneData(const TimeZoneData& d) override {
+      switch (d.type) {
+        case TimeZone::kTypeError:
+          return TimeZone::forError();
+        case TimeZone::kTypeManual:
+          return TimeZone::forTimeOffset(
+              TimeOffset::forMinutes(d.stdOffsetMinutes),
+              TimeOffset::forMinutes(d.dstOffsetMinutes));
+        default:
+          return TimeZone::forError();
+      }
+    }
+
+    uint16_t indexForZoneName(const char* name) const override {
+      return kInvalidIndex;
+    }
+
+    uint16_t indexForZoneId(uint32_t id) const override {
+      return kInvalidIndex;
+    }
+
+    uint16_t registrySize() const override { return 0; }
 };
 
 /**
