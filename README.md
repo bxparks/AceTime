@@ -471,13 +471,16 @@ for all 3 zones:
 
 ## Documentation
 
-* this [README.md](README.md)
+* [README.md](README.md) - this file
 * [USER_GUIDE.md](USER_GUIDE.md)
     * Installation
+    * Documentation
+    * Motivation and Design Considerations
     * Date and Time classes
     * Mutations
-    * Clock classes
     * Error Handling
+    * Clocks
+    * Testing
     * Benchmarks
     * Comparison to Other Libraries
     * Bugs and Limitations

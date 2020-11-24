@@ -9,8 +9,8 @@ See the [README.md](README.md) for introductory background.
 * [Installation](#Installation)
     * [Source Code](#SourceCode)
     * [Dependencies](#Dependencies)
-    * [Doxygen Docs](#DoxygenDocs)
     * [Examples](#Examples)
+* [Documentation](#Documentation)
 * [Motivation and Design Considerations](#Motivation)
 * [Headers and Namespaces](#Headers)
 * [Date and Time Classes](#Classes)
@@ -159,14 +159,6 @@ Linux or MacOS machine, you need:
 
 * UnixHostDuino (https://github.com/bxparks/UnixHostDuino)
 
-<a name="DoxygenDocs"></a>
-### Doxygen Docs
-
-The [docs/](docs/) directory contains the generated
-[Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages.
-This may be useful to navigate the various classes in this library
-and to lookup the signatures of the methods in those classes.
-
 <a name="Examples"></a>
 ### Examples
 
@@ -202,6 +194,13 @@ https://github.com/bxparks/clocks repo (previously hosted under `examples/`).
       SSD1306 OLED display
 * [WorldClock](https://github.com/bxparks/clocks/tree/master/WorldClock)
     * a clock with 3 OLED screens showing the time at 3 different time zones
+
+<a name="Documentation"></a>
+## Documentation
+
+* [README.md](README.md)
+* [USER_GUIDE.md](USER_GUIDE.md) - this file
+* [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
 
 <a name="Motivation"></a>
 ## Motivation and Design Considerations
