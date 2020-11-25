@@ -76,15 +76,15 @@ class ZoneManager {
 class ManualZoneManager : public ZoneManager {
   public:
 
-    TimeZone createForZoneName(const char* name) override {
+    TimeZone createForZoneName(const char* /*name*/) override {
       return TimeZone::forError();
     }
 
-    TimeZone createForZoneId(uint32_t id) override {
+    TimeZone createForZoneId(uint32_t /*id*/) override {
       return TimeZone::forError();
     }
 
-    TimeZone createForZoneIndex(uint16_t index) override {
+    TimeZone createForZoneIndex(uint16_t /*index*/) override {
       return TimeZone::forError();
     }
 
@@ -101,11 +101,11 @@ class ManualZoneManager : public ZoneManager {
       }
     }
 
-    uint16_t indexForZoneName(const char* name) const override {
+    uint16_t indexForZoneName(const char* /*name*/) const override {
       return kInvalidIndex;
     }
 
-    uint16_t indexForZoneId(uint32_t id) const override {
+    uint16_t indexForZoneId(uint32_t /*id*/) const override {
       return kInvalidIndex;
     }
 
