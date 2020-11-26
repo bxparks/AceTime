@@ -154,8 +154,11 @@ strings can consume precious memory (e.g. 30 bytes for
 `"America/Argentina/Buenos_Aires"`) and are not convenient to serialize over the
 network or to save to EEPROM. Therefore, the AceTime library provides each
 timezone with an alternative `zoneId` identifier of type `uint32_t` which is
-guaranteed to be unique and stable. A `TimeZone` object can be saved as a
-`zoneId` and then recreated using the `ZoneManager::createFromZoneId()` method.
+guaranteed to be unique and stable. For example, the zoneId for
+`"America/Los_Angeles"` is provided by `zonedb::kZoneIdAmerica_Los_Angeles` or
+`zonedbx::kZoneIdAmerica_Los_Angele` which both have the value `0xb7f7e8f2`. A
+`TimeZone` object can be saved as a `zoneId` and then recreated using the
+`ZoneManager::createFromZoneId()` method.
 
 The `ace_time::clock` classes collaborate together to implement the
 SystemClock which can obtain its time from various sources, such as a DS3231 RTC
@@ -376,8 +379,7 @@ void setup() {
   Serial.println();
 
   // Create Sydney by ZoneId
-  uint32_t syndeyId = BasicZone(&zonedb::kZoneAustralia_Sydney).zoneId();
-  auto sydneyTz = manager.createForZoneId(syndeyId);
+  auto sydneyTz = manager.createForZoneId(zonedb::kZoneIdAustralia_Sydney);
   auto sydneyTime = pacificTime.convertToTimeZone(sydneyTz);
   sydneyTime.printTo(Serial);
   Serial.println();
