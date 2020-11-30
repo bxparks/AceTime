@@ -278,10 +278,20 @@ class OffsetDateTime {
     }
 
     /**
-     * Compare this OffsetDateTime with another OffsetDateTime, and return (<0,
-     * 0, >0) according to whether the epochSeconds is (a<b, a==b, a>b). This
-     * method can return 0 (equal) even if the operator==() returns false if
-     * the two OffsetDateTime objects are using different time offsets.
+     * Compare 'this' OffsetDateTime with 'that' OffsetDateTime, and return (<0,
+     * 0, >0) according to whether the epochSeconds (incorporating the time
+     * offset) is (a<b, a==b, a>b). This method can return 0 (equal) even if
+     * the operator==() returns false if the two OffsetDateTime objects are
+     * using different time offsets.
+     *
+     * If you want to know whether the local representatation of 'this'
+     * OffsetDateTime occurs before or after the local representation of
+     * 'that', use `this->localDateTime().compareTo(that.localDateTime())`
+     * instead. This expression ignores the time offset which is sometimes what
+     * you want.
+     *
+     * If either this->isError() or that.isError() is true, the result is
+     * undefined.
      */
     int8_t compareTo(const OffsetDateTime& that) const {
       acetime_t thisSeconds = toEpochSeconds();

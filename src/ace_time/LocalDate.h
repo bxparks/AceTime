@@ -351,9 +351,10 @@ class LocalDate {
     }
 
     /**
-     * Compare this LocalDate to that LocalDate, returning (<0, 0, >0)
-     * according to whether the epochSeconds is (this<that, this==this,
-     * this>that). If isError() is true, the behavior is undefined.
+     * Compare 'this' LocalDate to 'that' LocalDate, returning (<0, 0, >0)
+     * according to whether 'this' occurs (before, same as, after) 'that'. If
+     * either this->isError() or that.isError() is true, the behavior is
+     * undefined.
      */
     int8_t compareTo(const LocalDate& that) const {
       if (mYearTiny < that.mYearTiny) return -1;

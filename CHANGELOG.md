@@ -21,7 +21,14 @@
       constaints.
     * Add documentation of `TimeZoneData`, `TimeZone::toTimeZoneData(), and
       `ZoneManager::createFromTimeZoneData()` to `USER_GUIDE.md`. Looks like I
-      added the class in v0.5 but forgot to documen it.
+      added the class in v0.5 but forgot to document it.
+    * Implement `LocalDateTime::compareTo()` using only its components instead
+      of internally converting to epochSeconds. Not all `LocalDateTime` can be
+      represented by an epochSeconds, so this change makes the algorithm more
+      robust. The semantics of the method should remain unchanged.
+    * Update the doxygen docs of the `compareTo()` methods of `LocalDateTime`,
+      `LocalTime`, `LocalDate`, `OffsetDateTime` and `ZonedDateTime` to clarify
+      the semantics of those operations.
 * 1.2.1 (2020-11-12, TZ DB version 2020d)
     * No functional change in this release. Mostly documentation.
     * Update `examples/MemoryBenchmark` numbers from v0.8 to v1.2 with

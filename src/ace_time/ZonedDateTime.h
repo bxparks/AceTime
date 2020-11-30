@@ -255,11 +255,20 @@ class ZonedDateTime {
     }
 
     /**
-     * Compare this ZonedDateTime with another ZonedDateTime, and return (<0,
-     * 0, >0) according to whether the epochSeconds is (a<b, a==b, a>b). The
-     * dayOfWeek field is ignored.  This method can return 0 (equal) even if
-     * the operator==() returns false if the two ZonedDateTime objects are in
-     * different time zones.
+     * Compare 'this' ZonedDateTime with 'that' ZonedDateTime, and return (<0,
+     * 0, >0) according to whether the equivalent epochSeconds (with the
+     * timezone incorporated) is (a<b, a==b, a>b). The dayOfWeek field is
+     * ignored.  This method can return 0 (equal) even if the operator==()
+     * returns false if the two ZonedDateTime objects are in different time
+     * zones.
+     *
+     * If you want to know whether the local representatation of 'this'
+     * ZonedDateTime occurs before or after the local representation of 'that',
+     * use `this->localDateTime().compareTo(that.localDateTime())` instead.
+     * This expression ignores the time zone which is sometimes what you want.
+     *
+     * If either this->isError() or that.isError() is true, the result is
+     * undefined.
      */
     int8_t compareTo(const ZonedDateTime& that) const {
       return mOffsetDateTime.compareTo(that.mOffsetDateTime);
