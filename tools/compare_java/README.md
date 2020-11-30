@@ -15,5 +15,5 @@ $ sudo apt install openjdk-11-jdk
 ## Blacklist
 
 The `blacklist.json` file contains zones whose DST offsets do not match AceTime
-library or Hinnant date libary. I believe these are errors in the java.time
+library or Hinnant date library. I believe these are errors in the java.time
 library due to the way it handles negative DST offsets.
