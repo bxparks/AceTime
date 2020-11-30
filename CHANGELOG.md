@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.3 (2020-11-30, TZ DB version 2020d)
     * Minor tweaks to silence clang++ warnings.
     * Create new `ZoneManager` interface (pure virtual) which is now the
       non-templatized parent to both `BasicZoneManager` and
