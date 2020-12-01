@@ -530,6 +530,8 @@ extern const {scope}::ZoneContext kZoneContext;
 
 {infoItems}
 
+{infoZoneIds}
+
 //---------------------------------------------------------------------------
 // Supported links: {numLinks}
 //---------------------------------------------------------------------------
@@ -568,6 +570,10 @@ extern const {scope}::ZoneContext kZoneContext;
 
     ZONE_INFOS_H_INFO_ITEM = """\
 extern const {scope}::ZoneInfo kZone{zoneNormalizedName}; // {zoneFullName}
+"""
+
+    ZONE_INFOS_H_INFO_ZONE_ID = """\
+const uint32_t kZoneId{zoneNormalizedName} = 0x{zoneId:08x}; // {zoneFullName}
 """
 
     ZONE_INFOS_H_REMOVED_INFO_ITEM = """\
@@ -658,7 +664,7 @@ static const char kZoneName{zoneNormalizedName}[] {progmem} = "{zoneFullName}";
 
 const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
   kZoneName{zoneNormalizedName} /*name*/,
-  0x{zoneNameHash:08x} /*zoneId*/,
+  0x{zoneId:08x} /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   {transitionBufSize} /*transitionBufSize*/,
   {numEras} /*numEras*/,
@@ -733,11 +739,19 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
 
     def generate_infos_h(self) -> str:
         info_items = ''
+        info_zone_ids = ''
         for zone_name, eras in sorted(self.zones_map.items()):
             info_items += self.ZONE_INFOS_H_INFO_ITEM.format(
                 scope=self.scope,
                 zoneNormalizedName=normalize_name(zone_name),
-                zoneFullName=zone_name)
+                zoneFullName=zone_name,
+            )
+            info_zone_ids += self.ZONE_INFOS_H_INFO_ZONE_ID.format(
+                scope=self.scope,
+                zoneNormalizedName=normalize_name(zone_name),
+                zoneFullName=zone_name,
+                zoneId=hash_name(zone_name),
+            )
 
         removed_info_items = ''
         for zone_name, reasons in sorted(self.removed_zones.items()):
@@ -776,6 +790,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             tz_files=', '.join(self.tz_files),
             numInfos=len(self.zones_map),
             infoItems=info_items,
+            infoZoneIds=info_zone_ids,
             numLinks=len(self.links_map),
             linkItems=link_items,
             numRemovedInfos=len(self.removed_zones),
@@ -864,7 +879,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             scope=self.scope,
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name),
-            zoneNameHash=hash_name(zone_name),
+            zoneId=hash_name(zone_name),
             transitionBufSize=transition_buf_size,
             numEras=num_eras,
             stringLength=string_length,

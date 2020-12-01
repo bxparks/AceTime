@@ -40,8 +40,7 @@ void setup() {
   SERIAL_PORT_MONITOR.println();
 
   // Create Sydney by ZoneId
-  uint32_t syndeyId = BasicZone(&zonedb::kZoneAustralia_Sydney).zoneId();
-  auto sydneyTz = manager.createForZoneId(syndeyId);
+  auto sydneyTz = manager.createForZoneId(zonedb::kZoneIdAustralia_Sydney);
   auto sydneyTime = pacificTime.convertToTimeZone(sydneyTz);
   sydneyTime.printTo(SERIAL_PORT_MONITOR);
   SERIAL_PORT_MONITOR.println();

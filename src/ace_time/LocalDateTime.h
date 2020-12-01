@@ -265,14 +265,18 @@ class LocalDateTime {
     }
 
     /**
-     * Compare this LocalDateTime with another LocalDateTime, and return (<0,
-     * 0, >0) according to whether the epochSeconds is (a<b, a==b, a>b).
+     * Compare 'this' LocalDateTime with 'that' LocalDateTime, and return (<0,
+     * 0, >0) according to whether 'this' occurs (before, same as, after)
+     * 'that'. If either this->isError() or that.isError() is true, the
+     * behavior is undefined.
      */
     int8_t compareTo(const LocalDateTime& that) const {
-      acetime_t thisSeconds = toEpochSeconds();
-      acetime_t thatSeconds = that.toEpochSeconds();
-      if (thisSeconds < thatSeconds) return -1;
-      if (thisSeconds > thatSeconds) return 1;
+      int8_t dateCompare = localDate().compareTo(that.localDate());
+      if (dateCompare < 0) return -1;
+      if (dateCompare > 0) return 1;
+      int8_t timeCompare = localTime().compareTo(that.localTime());
+      if (timeCompare < 0) return -1;
+      if (timeCompare > 0) return 1;
       return 0;
     }
 

@@ -399,7 +399,7 @@ class ZoneRegistryBroker {
   #endif
 
   private:
-    const ZoneInfo* const* const mZoneRegistry;
+    const ZoneInfo* const* mZoneRegistry;
 };
 
 } // basic
@@ -572,7 +572,7 @@ class ZonePolicyBroker {
   #endif
 
   private:
-    const ZonePolicy* const mZonePolicy;
+    const ZonePolicy* mZonePolicy;
 };
 
 /** Data broker for accessing ZoneEra. */
@@ -772,7 +772,7 @@ class ZoneRegistryBroker {
   #endif
 
   private:
-    const ZoneInfo* const* const mZoneRegistry;
+    const ZoneInfo* const* mZoneRegistry;
 };
 
 } // extended

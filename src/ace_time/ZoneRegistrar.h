@@ -14,12 +14,19 @@
 #include "internal/Brokers.h"
 
 class BasicZoneRegistrarTest_Sorted_isSorted;
-class BasicZoneRegistrarTest_Sorted_linearSearch;
-class BasicZoneRegistrarTest_Sorted_linearSearch_not_found;
-class BasicZoneRegistrarTest_Sorted_binarySearch;
-class BasicZoneRegistrarTest_Sorted_binarySearch_not_found;
+class BasicZoneRegistrarTest_Sorted_linearSearchByName;
+class BasicZoneRegistrarTest_Sorted_linearSearchByName_not_found;
+class BasicZoneRegistrarTest_Sorted_binarySearchByName;
+class BasicZoneRegistrarTest_Sorted_binarySearchByName_not_found;
+class BasicZoneRegistrarTest_Sorted_linearSearchById;
+class BasicZoneRegistrarTest_Sorted_linearSearchById_not_found;
 class BasicZoneRegistrarTest_Unsorted_isSorted;
-class BasicZoneRegistrarTest_Unsorted_linearSearch;
+class BasicZoneRegistrarTest_Unsorted_linearSearchByName;
+class BasicZoneRegistrarTest_Unsorted_linearSearchByName_not_found;
+class BasicZoneRegistrarTest_Unsorted_binarySearchByName;
+class BasicZoneRegistrarTest_Unsorted_binarySearchByName_not_found;
+class BasicZoneRegistrarTest_Unsorted_linearSearchById;
+class BasicZoneRegistrarTest_Unsorted_linearSearchById_not_found;
 
 namespace ace_time {
 
@@ -28,7 +35,8 @@ typedef int (*strcmp_t)(const char*, const char*);
 
 /**
  * Class that allows looking up the ZoneInfo (ZI) from its TZDB identifier
- * (e.g. "America/Los_Angeles"), or index, or zoneId (hash from its name).
+ * (e.g. "America/Los_Angeles"), zoneId (hash from its name), or the index in
+ * the zone registry.
  *
  * @tparam ZI ZoneInfo type (e.g. basic::ZoneInfo)
  * @tparam ZRB ZoneRegistryBroker type (e.g. basic::ZoneRegistryBroker)
@@ -42,6 +50,9 @@ template<typename ZI, typename ZRB, typename ZIB, strcmp_t STRCMP_P,
     strcmp_t STRCMP_PP>
 class ZoneRegistrar {
   public:
+    /** Invalid index to indicate error or not found. */
+    static const uint16_t kInvalidIndex = 0xffff;
+
     /** Constructor. */
     ZoneRegistrar(uint16_t registrySize, const ZI* const* zoneRegistry):
         mRegistrySize(registrySize),
@@ -57,7 +68,7 @@ class ZoneRegistrar {
      */
     bool isSorted() const { return mIsSorted; }
 
-    /* Return the ZoneInfo at index i. Return nullptr if i is out of range. */
+    /** Return the ZoneInfo at index i. Return nullptr if i is out of range. */
     const ZI* getZoneInfoForIndex(uint16_t i) const {
       return (i < mRegistrySize) ? ZRB(mZoneRegistry).zoneInfo(i) : nullptr;
     }
@@ -67,36 +78,58 @@ class ZoneRegistrar {
      * if not found.
      */
     const ZI* getZoneInfoForName(const char* name) const {
+      uint16_t index = findIndexForName(name);
+      if (index == kInvalidIndex) return nullptr;
+      return ZRB(mZoneRegistry).zoneInfo(index);
+    }
+
+    /** Return the ZoneInfo using the zoneId. Return nullptr if not found. */
+    const ZI* getZoneInfoForId(uint32_t zoneId) const {
+      uint16_t index = findIndexForId(zoneId);
+      if (index == kInvalidIndex) return nullptr;
+      return ZRB(mZoneRegistry).zoneInfo(index);
+    }
+
+    /** Find the index for zone name. Return kInvalidIndex if not found. */
+    uint16_t findIndexForName(const char* name) const {
       if (mIsSorted && mRegistrySize >= kBinarySearchThreshold) {
-        return binarySearch(mZoneRegistry, mRegistrySize, name);
+        return binarySearchByName(mZoneRegistry, mRegistrySize, name);
       } else {
-        return linearSearch(mZoneRegistry, mRegistrySize, name);
+        return linearSearchByName(mZoneRegistry, mRegistrySize, name);
       }
     }
 
-    /* Return the ZoneInfo using the zoneId. Return nullptr if not found. */
-    const ZI* getZoneInfoForId(uint32_t zoneId) const {
-        return linearSearchUsingId(mZoneRegistry, mRegistrySize, zoneId);
+    /** Find the index for zone id. Return kInvalidIndex if not found. */
+    uint16_t findIndexForId(uint32_t zoneId) const {
+      return linearSearchById(mZoneRegistry, mRegistrySize, zoneId);
     }
 
   protected:
     friend class ::BasicZoneRegistrarTest_Sorted_isSorted;
-    friend class ::BasicZoneRegistrarTest_Sorted_linearSearch;
-    friend class ::BasicZoneRegistrarTest_Sorted_linearSearch_not_found;
-    friend class ::BasicZoneRegistrarTest_Sorted_binarySearch;
-    friend class ::BasicZoneRegistrarTest_Sorted_binarySearch_not_found;
+    friend class ::BasicZoneRegistrarTest_Sorted_linearSearchByName;
+    friend class ::BasicZoneRegistrarTest_Sorted_linearSearchByName_not_found;
+    friend class ::BasicZoneRegistrarTest_Sorted_binarySearchByName;
+    friend class ::BasicZoneRegistrarTest_Sorted_binarySearchByName_not_found;
+    friend class ::BasicZoneRegistrarTest_Sorted_linearSearchById;
+    friend class ::BasicZoneRegistrarTest_Sorted_linearSearchById_not_found;
     friend class ::BasicZoneRegistrarTest_Unsorted_isSorted;
-    friend class ::BasicZoneRegistrarTest_Unsorted_linearSearch;
+    friend class ::BasicZoneRegistrarTest_Unsorted_linearSearchByName;
+    friend class ::BasicZoneRegistrarTest_Unsorted_linearSearchByName_not_found;
+    friend class ::BasicZoneRegistrarTest_Unsorted_binarySearchByName;
+    friend class ::BasicZoneRegistrarTest_Unsorted_binarySearchByName_not_found;
+    friend class ::BasicZoneRegistrarTest_Unsorted_linearSearchById;
+    friend class ::BasicZoneRegistrarTest_Unsorted_linearSearchById_not_found;
 
     /** Use binarySearch() if registrySize >= threshold. */
     static const uint8_t kBinarySearchThreshold = 6;
 
-    static bool isSorted(const ZI* const* zr, uint16_t registrySize) {
+    /** Determine if the given zone registry is sorted by name. */
+    static bool isSorted(const ZI* const* registry, uint16_t registrySize) {
       if (registrySize == 0) {
         return false;
       }
 
-      const ZRB zoneRegistry(zr);
+      const ZRB zoneRegistry(registry);
       const char* prevName = ZIB(zoneRegistry.zoneInfo(0)).name();
       for (uint16_t i = 1; i < registrySize; ++i) {
         const char* currName = ZIB(zoneRegistry.zoneInfo(i)).name();
@@ -108,29 +141,37 @@ class ZoneRegistrar {
       return true;
     }
 
-    static const ZI* linearSearch(const ZI* const* zr,
+    /**
+     * Find the registry index corresponding to name using a linear search.
+     * Returns kInvalidIndex if not found.
+     */
+    static uint16_t linearSearchByName(const ZI* const* registry,
         uint16_t registrySize, const char* name) {
-      const ZRB zoneRegistry(zr);
+      const ZRB zoneRegistry(registry);
       for (uint16_t i = 0; i < registrySize; ++i) {
         const ZI* zoneInfo = zoneRegistry.zoneInfo(i);
         if (STRCMP_P(name, ZIB(zoneInfo).name()) == 0) {
-          return zoneInfo;
+          return i;
         }
       }
-      return nullptr;
+      return kInvalidIndex;
     }
 
-    static const ZI* binarySearch(const ZI* const* zr,
+    /**
+     * Find the registry index corresponding to name using a binary search.
+     * Returns kInvalidIndex if not found.
+     */
+    static uint16_t binarySearchByName(const ZI* const* registry,
         uint16_t registrySize, const char* name) {
       uint16_t a = 0;
       uint16_t b = registrySize - 1;
-      const ZRB zoneRegistry(zr);
+      const ZRB zoneRegistry(registry);
       while (true) {
         uint16_t c = (a + b) / 2;
         const ZI* zoneInfo = zoneRegistry.zoneInfo(c);
         int8_t compare = STRCMP_P(name, ZIB(zoneInfo).name());
-        if (compare == 0) return zoneInfo;
-        if (a == b) return nullptr;
+        if (compare == 0) return c;
+        if (a == b) return kInvalidIndex;
         if (compare < 0) {
           b = c - 1;
         } else {
@@ -139,16 +180,17 @@ class ZoneRegistrar {
       }
     }
 
-    static const ZI* linearSearchUsingId(const ZI* const* zr,
+    /** Find the registry index corresponding to id using linear search. */
+    static uint16_t linearSearchById(const ZI* const* registry,
         uint16_t registrySize, uint32_t zoneId) {
-      const ZRB zoneRegistry(zr);
+      const ZRB zoneRegistry(registry);
       for (uint16_t i = 0; i < registrySize; ++i) {
         const ZI* zoneInfo = zoneRegistry.zoneInfo(i);
         if (zoneId == ZIB(zoneInfo).zoneId()) {
-          return zoneInfo;
+          return i;
         }
       }
-      return nullptr;
+      return kInvalidIndex;
     }
 
     uint16_t const mRegistrySize;

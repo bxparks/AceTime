@@ -1,6 +1,35 @@
 # Changelog
 
 * Unreleased
+* 1.3 (2020-11-30, TZ DB version 2020d)
+    * Minor tweaks to silence clang++ warnings.
+    * Create new `ZoneManager` interface (pure virtual) which is now the
+      non-templatized parent to both `BasicZoneManager` and
+      `ExtendedZoneManager`. Allows `ZoneManager` to be passed around
+      poloymorphically as a pointer or reference.
+    * Fix broken `ZoneManager::indexForZoneName()` and
+      `ZoneManager::indexForZoneId()` caused by incorrect implementations in
+      `BasicZoneRegistrar` and `ExtendedZoneRegistrar`.
+    * Generate compile-time zoneIds for all zones in the form of
+      `zonedb::kZoneId{Zone_Name}` and `zonedbx::kZoneId{Zone_Name}` (e.g.
+      `zonedb::kZoneIdAmerica_Los_Angeles`). Can be given directly to
+      `ZoneManager::createForZoneId()`.
+    * Add constructors to `TimeZoneData` to allow initializers to set
+      union members. Useful for initializing arrays of `TimeZoneData`.
+    * Add `ManualZoneManager` implementation of `ZoneManager` which implements
+      only `createForTimeZoneData()`. Useful in applications which support only
+      `TimeZone::kTypeManual` (fixed std and dst offsets) due to memory
+      constaints.
+    * Add documentation of `TimeZoneData`, `TimeZone::toTimeZoneData(), and
+      `ZoneManager::createFromTimeZoneData()` to `USER_GUIDE.md`. Looks like I
+      added the class in v0.5 but forgot to document it.
+    * Implement `LocalDateTime::compareTo()` using only its components instead
+      of internally converting to epochSeconds. Not all `LocalDateTime` can be
+      represented by an epochSeconds, so this change makes the algorithm more
+      robust. The semantics of the method should remain unchanged.
+    * Update the doxygen docs of the `compareTo()` methods of `LocalDateTime`,
+      `LocalTime`, `LocalDate`, `OffsetDateTime` and `ZonedDateTime` to clarify
+      the semantics of those operations.
 * 1.2.1 (2020-11-12, TZ DB version 2020d)
     * No functional change in this release. Mostly documentation.
     * Update `examples/MemoryBenchmark` numbers from v0.8 to v1.2 with

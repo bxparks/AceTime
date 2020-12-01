@@ -2,14 +2,50 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
-#include <ace_time/common/compat.h>
 
 using namespace aunit;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
-// BasicZoneRegistrar
+// Define some registries used later on.
 // --------------------------------------------------------------------------
+
+const basic::ZoneInfo* const kSortedRegistry[] ACE_TIME_PROGMEM = {
+  &zonedb::kZoneAmerica_Chicago,
+  &zonedb::kZoneAmerica_Denver,
+  &zonedb::kZoneAmerica_Los_Angeles,
+  &zonedb::kZoneAmerica_New_York,
+};
+
+const uint16_t kNumSortedEntries =
+    sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*);
+
+const basic::ZoneInfo* const kUnsortedRegistry[] ACE_TIME_PROGMEM = {
+  &zonedb::kZoneAmerica_Chicago,
+  &zonedb::kZoneAmerica_New_York,
+  &zonedb::kZoneAmerica_Denver,
+  &zonedb::kZoneAmerica_Los_Angeles,
+};
+
+const uint16_t kNumUnsortedEntries =
+    sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*);
+
+// --------------------------------------------------------------------------
+
+// Verify that we can use kZoneIdAmerica_Los_Angeles everywhere.
+test(BasicZoneRegistrarTest, kZoneId) {
+  assertEqual(0xb7f7e8f2, zonedb::kZoneIdAmerica_Los_Angeles);
+}
+
+// --------------------------------------------------------------------------
+// BasicZoneRegistrar public methods
+// --------------------------------------------------------------------------
+
+test(BasicZoneRegistrarTest, registrySize) {
+  BasicZoneRegistrar zoneRegistrar(
+      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+  assertEqual(zonedb::kZoneRegistrySize, zoneRegistrar.registrySize());
+}
 
 test(BasicZoneRegistrarTest, getZoneInfo_Los_Angeles) {
   BasicZoneRegistrar zoneRegistrar(
@@ -52,7 +88,7 @@ test(BasicZoneRegistrarTest, getZoneInfoForId) {
   BasicZoneRegistrar zoneRegistrar(
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
   const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
-      0xb7f7e8f2);
+      zonedb::kZoneIdAmerica_Los_Angeles);
   const basic::ZoneInfo* zoneInfoExpected = zoneRegistrar.getZoneInfoForName(
       "America/Los_Angeles");
   assertEqual(zoneInfo, zoneInfoExpected);
@@ -62,99 +98,135 @@ test(BasicZoneRegistrarTest, getZoneInfoForId_not_found) {
   BasicZoneRegistrar zoneRegistrar(
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
   const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
-      0x11111111);
+      0x0 /* should not exist */);
   assertEqual(zoneInfo, nullptr);
 }
 
 // --------------------------------------------------------------------------
-// Test ZoneRegistrar::isSorted(), binarySearch(), linearSearch() for *sorted*
+// Tests for findIndexFor*() need a stable registry.
+// --------------------------------------------------------------------------
+
+test(BasicZoneRegistrarTest, findIndexForName) {
+  BasicZoneRegistrar zoneRegistrar(kNumSortedEntries, kSortedRegistry);
+  uint16_t index = zoneRegistrar.findIndexForName("America/Los_Angeles");
+  assertEqual(2, index);
+}
+
+test(BasicZoneRegistrarTest, findIndexForName_not_found) {
+  BasicZoneRegistrar zoneRegistrar(kNumSortedEntries, kSortedRegistry);
+  uint16_t index = zoneRegistrar.findIndexForName("America/not_found");
+  assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
+}
+
+test(BasicZoneRegistrarTest, findIndexForId) {
+  BasicZoneRegistrar zoneRegistrar(kNumSortedEntries, kSortedRegistry);
+  uint16_t index = zoneRegistrar.findIndexForId(
+      zonedb::kZoneIdAmerica_Los_Angeles);
+  assertEqual(2, index);
+}
+
+test(BasicZoneRegistrarTest, findIndexForId_not_found) {
+  BasicZoneRegistrar zoneRegistrar(kNumSortedEntries, kSortedRegistry);
+  uint16_t index = zoneRegistrar.findIndexForId(0x0 /* should not exist */);
+  assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
+}
+
+// --------------------------------------------------------------------------
+// Test ZoneRegistrar protected methods: ZoneRegistrar::isSorted(),
+// binarySearchByName(), linearSearchByName() linearSearchyById() for *sorted*
 // registry. Sufficient to test BasicZoneRegistrar only since they are the same
 // for ExtendedZoneRegistrar.
 // --------------------------------------------------------------------------
-
-const basic::ZoneInfo* const kSortedRegistry[] ACE_TIME_PROGMEM = {
-  &zonedb::kZoneAmerica_Chicago,
-  &zonedb::kZoneAmerica_Denver,
-  &zonedb::kZoneAmerica_Los_Angeles,
-  &zonedb::kZoneAmerica_New_York,
-};
-
-const uint16_t kNumSortedEntries =
-    sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*);
 
 test(BasicZoneRegistrarTest_Sorted, isSorted) {
   assertTrue(BasicZoneRegistrar::isSorted(kSortedRegistry, kNumSortedEntries));
 }
 
-test(BasicZoneRegistrarTest_Sorted, linearSearch) {
-  const basic::ZoneInfo* zi = BasicZoneRegistrar::linearSearch(
+test(BasicZoneRegistrarTest_Sorted, linearSearchByName) {
+  uint16_t index = BasicZoneRegistrar::linearSearchByName(
       kSortedRegistry, kNumSortedEntries, "America/Los_Angeles");
-
-  assertEqual(F("America/Los_Angeles"), BasicZone(zi).name());
+  assertEqual(2, index);
 }
 
-test(BasicZoneRegistrarTest_Sorted, linearSearch_not_found) {
-  const basic::ZoneInfo* zi = BasicZoneRegistrar::linearSearch(kSortedRegistry,
+test(BasicZoneRegistrarTest_Sorted, linearSearchByName_not_found) {
+  uint16_t index = BasicZoneRegistrar::linearSearchByName(kSortedRegistry,
       kNumSortedEntries, "America/NotFound");
-  assertEqual(zi, nullptr);
+  assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
 }
 
-test(BasicZoneRegistrarTest_Sorted, binarySearch) {
-  const basic::ZoneInfo* zi;
+test(BasicZoneRegistrarTest_Sorted, binarySearchByName) {
+  uint16_t index;
 
-  zi = BasicZoneRegistrar::binarySearch(
+  index = BasicZoneRegistrar::binarySearchByName(
       kSortedRegistry, kNumSortedEntries, "America/Chicago");
-  assertEqual(F("America/Chicago"), BasicZone(zi).name());
+  assertEqual(0, index);
 
-  zi = BasicZoneRegistrar::binarySearch(
+  index = BasicZoneRegistrar::binarySearchByName(
       kSortedRegistry, kNumSortedEntries, "America/Denver");
-  assertEqual(F("America/Denver"), BasicZone(zi).name());
+  assertEqual(1, index);
 
-  zi = BasicZoneRegistrar::binarySearch(
+  index = BasicZoneRegistrar::binarySearchByName(
       kSortedRegistry, kNumSortedEntries, "America/Los_Angeles");
-  assertEqual(F("America/Los_Angeles"), BasicZone(zi).name());
+  assertEqual(2, index);
 
-  zi = BasicZoneRegistrar::binarySearch(
+  index = BasicZoneRegistrar::binarySearchByName(
       kSortedRegistry, kNumSortedEntries, "America/New_York");
-  assertEqual(F("America/New_York"), BasicZone(zi).name());
-
+  assertEqual(3, index);
 }
 
-test(BasicZoneRegistrarTest_Sorted, binarySearch_not_found) {
-  const basic::ZoneInfo* zi = BasicZoneRegistrar::binarySearch(kSortedRegistry,
-      sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
-  assertEqual(zi, nullptr);
+test(BasicZoneRegistrarTest_Sorted, binarySearchByName_not_found) {
+  uint16_t index = BasicZoneRegistrar::binarySearchByName(
+      kSortedRegistry, kNumSortedEntries, "America/NotFound");
+  assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
+}
+
+test(BasicZoneRegistrarTest_Sorted, linearSearchById) {
+  uint16_t index = BasicZoneRegistrar::linearSearchById(
+      kSortedRegistry, kNumSortedEntries, zonedb::kZoneIdAmerica_Los_Angeles);
+  assertEqual(2, index);
+}
+
+test(BasicZoneRegistrarTest_Sorted, linearSearchById_not_found) {
+  uint16_t index = BasicZoneRegistrar::linearSearchById(
+      kSortedRegistry, kNumSortedEntries, 0 /* hopefully no */);
+  assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
 }
 
 // --------------------------------------------------------------------------
-// Test ZoneRegistrar::isSorted(), binarySearch(), linearSearch() for *unsorted*
-// registry. Sufficient to test BasicZoneRegistrar only since they are the same
-// for ExtendedZoneRegistrar.
+// Test ZoneRegistrar protected methods: ZoneRegistrar::isSorted(),
+// binarySearchByName(), linearSearchByName(), and linearSearchById() for
+// *unsorted* registry. Sufficient to test BasicZoneRegistrar only since they
+// are the same for ExtendedZoneRegistrar.
 // --------------------------------------------------------------------------
-
-const basic::ZoneInfo* const kUnsortedRegistry[] ACE_TIME_PROGMEM = {
-  &zonedb::kZoneAmerica_Chicago,
-  &zonedb::kZoneAmerica_New_York,
-  &zonedb::kZoneAmerica_Denver,
-  &zonedb::kZoneAmerica_Los_Angeles,
-};
 
 test(BasicZoneRegistrarTest_Unsorted, isSorted) {
   bool isSorted = BasicZoneRegistrar::isSorted(
-      kUnsortedRegistry, sizeof(kUnsortedRegistry)/sizeof(basic::ZoneInfo*));
+      kUnsortedRegistry, kNumUnsortedEntries);
   assertFalse(isSorted);
 }
 
-test(BasicZoneRegistrarTest_Unsorted, linearSearch) {
-  const basic::ZoneInfo* zi = BasicZoneRegistrar::linearSearch(
-      kUnsortedRegistry, sizeof(kUnsortedRegistry)/sizeof(basic::ZoneInfo*),
-      "America/Los_Angeles");
+test(BasicZoneRegistrarTest_Unsorted, linearSearchByName) {
+  uint16_t index = BasicZoneRegistrar::linearSearchByName(
+      kUnsortedRegistry, kNumUnsortedEntries, "America/Los_Angeles");
+  assertEqual(3, index);
+}
 
-  assertEqual(F("America/Los_Angeles"), BasicZone(zi).name());
+test(BasicZoneRegistrarTest_Unsorted, linearSearchByName_not_found) {
+  uint16_t index = BasicZoneRegistrar::linearSearchByName(
+      kUnsortedRegistry, kNumUnsortedEntries, "America/NotFound");
+  assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
+}
 
-  zi = BasicZoneRegistrar::linearSearch(kUnsortedRegistry,
-      sizeof(kUnsortedRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
-  assertEqual(zi, nullptr);
+test(BasicZoneRegistrarTest_Unsorted, linearSearchById) {
+  uint16_t index = BasicZoneRegistrar::linearSearchById(
+      kUnsortedRegistry, kNumSortedEntries, zonedb::kZoneIdAmerica_Los_Angeles);
+  assertEqual(3, index);
+}
+
+test(BasicZoneRegistrarTest_Unsorted, linearSearchById_not_found) {
+  uint16_t index = BasicZoneRegistrar::linearSearchById(
+      kUnsortedRegistry, kNumSortedEntries, 0 /* hopefully no */);
+  assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
 }
 
 // --------------------------------------------------------------------------

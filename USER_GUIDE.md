@@ -2,15 +2,15 @@
 
 See the [README.md](README.md) for introductory background.
 
-**Version**: 1.2.1 (2020-11-12, TZ DB version 2020d)
+**Version**: 1.3 (2020-11-30, TZ DB version 2020d)
 
 **Table of Contents**
 
 * [Installation](#Installation)
     * [Source Code](#SourceCode)
     * [Dependencies](#Dependencies)
-    * [Doxygen Docs](#DoxygenDocs)
     * [Examples](#Examples)
+* [Documentation](#Documentation)
 * [Motivation and Design Considerations](#Motivation)
 * [Headers and Namespaces](#Headers)
 * [Date and Time Classes](#Classes)
@@ -40,6 +40,8 @@ See the [README.md](README.md) for introductory background.
         * [createForZoneName()](#CreateForZoneName)
         * [createForZoneId()](#CreateForZoneId)
         * [createForZoneIndex()](#CreateForZoneIndex)
+        * [createForTimeZoneData()](#CreateForTimeZoneData)
+        * [ManualZoneManager](#ManualZoneManager)
     * [TZ Database Version](#TZDatabaseVersion)
     * [Print To String](#PrintToString)
 * [Mutations](#Mutations)
@@ -159,14 +161,6 @@ Linux or MacOS machine, you need:
 
 * UnixHostDuino (https://github.com/bxparks/UnixHostDuino)
 
-<a name="DoxygenDocs"></a>
-### Doxygen Docs
-
-The [docs/](docs/) directory contains the generated
-[Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages.
-This may be useful to navigate the various classes in this library
-and to lookup the signatures of the methods in those classes.
-
 <a name="Examples"></a>
 ### Examples
 
@@ -202,6 +196,13 @@ https://github.com/bxparks/clocks repo (previously hosted under `examples/`).
       SSD1306 OLED display
 * [WorldClock](https://github.com/bxparks/clocks/tree/master/WorldClock)
     * a clock with 3 OLED screens showing the time at 3 different time zones
+
+<a name="Documentation"></a>
+## Documentation
+
+* [README.md](README.md)
+* [USER_GUIDE.md](USER_GUIDE.md) - this file
+* [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
 
 <a name="Motivation"></a>
 ## Motivation and Design Considerations
@@ -911,6 +912,8 @@ class TimeZone {
     bool isDst() const;
     void setDstOffset(TimeOffset offset);
 
+    TimeZoneData toTimeZoneData() const;
+
     void printTo(Print& printer) const;
     void printShortTo(Print& printer) const;
 };
@@ -1088,7 +1091,7 @@ void someFunction() {
 ```
 (Notice that we use the `zonedbx::` namespace instead of the `zonedb::`
 namespace. Although the data structures in the 2 namespaces are identical
-currently (v0.8) but the *values* inside the data structure fields are not
+currently (v1.2) but the *values* inside the data structure fields are not
 the same, and they are interpreted differently.)
 
 As of version 2019b of TZ Database, *all* 387 Zone and 205 Link entries from the
@@ -1389,7 +1392,7 @@ in the `transformer.py` script and summarized in
 * the UNTIL time suffix can only be 'w' (not 's' or 'u')
 * there can be only one DST transition in a single month
 
-In the current version (v0.8), this database contains 270 zones from the year
+In the current version (v1.2), this database contains 268 zones from the year
 2000 to 2049 (inclusive).
 
 <a name="ExtendedZonedbx"></a>
@@ -1406,7 +1409,7 @@ are:
 * the AT and UNTIL fields are multiples of 1-minute
 * the LETTER field can be arbitrary strings
 
-In the current version (v0.8), this database contains all 387 timezones from
+In the current version (v1.2), this database contains all 387 timezones from
 the year 2000 to 2049 (inclusive).
 
 <a name="BasicZoneExtendedZone"></a>
@@ -1486,38 +1489,56 @@ created manually for each `TimeZone` instance. This works well for a single time
 zone, but if you have an application that needs 3 or more time zones, this may
 become cumbersome. Also, it is difficult to reconstruct a `TimeZone`
 dynamically, say, from its fullly qualified name (e.g. `"America/Los_Angeles"`).
+
 The `ZoneManager` solves these problems. It keeps an internal cache or
 `ZoneProcessors`, reusing them as needed. And it holds a registry of `ZoneInfo`
 objects, so that a `TimeZone` can be created using its `zoneName`, `zoneInfo`,
-or `zoneId`.
+or `zoneId`. The `ZoneManager` is an interface, and 3 implementation classes are
+provided:
 
 ```C++
 namespace ace_time{
 
+class ZoneManager {
+  public:
+    static const uint16_t kInvalidIndex = 0xffff;
+
+    virtual TimeZone createForZoneName(const char* name)  = 0;
+
+    virtual TimeZone createForZoneId(uint32_t id) = 0;
+
+    virtual TimeZone createForZoneIndex(uint16_t index) = 0;
+
+    virtual TimeZone createForTimeZoneData(const TimeZoneData& d) = 0;
+
+    virtual uint16_t indexForZoneName(const char* name) const = 0;
+
+    virtual uint16_t indexForZoneId(uint32_t id) const = 0;
+
+    virtual uint16_t registrySize() const = 0;
+};
+
 template<uint16_t SIZE>
-class BasicZoneManager {
+class BasicZoneManager : public ZoneManager {
   public:
     BasicZoneManager(uint16_t registrySize);
         const basic::ZoneInfo* const* zoneRegistry,
 
     TimeZone createForZoneInfo(const basic::ZoneInfo* zoneInfo);
-    TimeZone createForZoneName(const char* name);
-    TimeZone createForZoneId(uint32_t id);
-    TimeZone createForZoneIndex(uint16_t index);
-
-    TimeZone createForTimeZoneData(const TimeZoneData& d);
-
-    uint16_t indexForZoneName(const char* name);
-    uint16_t indexForZoneId(uint32_t id) const;
 };
 
 template<uint16_t SIZE>
-class ExtendedZoneManager {
+class ExtendedZoneManager : public ZoneManager {
   public:
     ExtendedZoneManager(uint16_t registrySize,
         const extended::ZoneInfo* const* zoneRegistry);
 
-    [...same as above...]
+    TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
+};
+
+class ManualZoneManager : public ZoneManager {
+  public:
+    TimeZone createForTimeZoneData(const TimeZoneData& d) override;
 };
 
 }
@@ -1526,7 +1547,8 @@ class ExtendedZoneManager {
 The `SIZE` template parameter is the size of the internal cache of
 `ZoneProcessor` objects. This should be set to the number of time zones that
 your application is expected to use *at the same time*. If your app never
-changes its time zone after initialization, then this can be `<1>`. If your app
+changes its time zone after initialization, then this can be `<1>` (although
+in this case, you may not even want to use the `ZoneManager`). If your app
 allows the user to dynamically change the time zone (e.g. from a menu of time
 zones), then this should be at least `<2>` (to allow the system to compare the
 old time zone to the new time zone selected by the user). In general, the `SIZE`
@@ -1536,7 +1558,7 @@ plus an additional 1 if the user is able to change the timezone dynamically.
 The constructor take a `zoneRegistry` and its `zoneRegistrySize`. It is a
 pointer to an array of pointers to the `zonedb::kZone*` or `zonedbx::kZone*`
 objects. You can use the default zone registry (which contains ALL zones in the
-`zonedb::` or `zonedbx::` database, or you can create your own custom zone
+`zonedb::` or `zonedbx::` database), or you can create your own custom zone
 registry, as described below.
 
 <a name="DefaultZoneRegistry"></a>
@@ -1620,14 +1642,18 @@ static ExtendedZoneManager<CACHE_SIZE> zoneManager(
 
 The `ACE_TIME_PROGMEM` macro is defined in
 [compat.h](src/ace_time/common/compat.h) and indicates whether the ZoneInfo
-files are stored in normal RAM or flash memory (i.e. `PROGMEM`). It must be used
-for custom zoneRegistries because the `BasicZoneManager` and
+files are stored in normal RAM or flash memory (i.e. `PROGMEM`). It **must** be
+used for custom zoneRegistries because the `BasicZoneManager` and
 `ExtendedZoneManager` expect to find them in static RAM or flash memory
 according to this macro.
 
-See
-[CommandLineClock](https://github.com/bxparks/clocks/tree/master/CommandLineClock)
-for an example of how these custom registries can be created and used.
+See examples in various unit tests:
+
+* [tests/BasicZoneRegistrarTest](tests/BasicZoneRegistrarTest)
+* [tests/ExtendedZoneRegistrarTest](tests/ExtendedZoneRegistrarTest)
+* [tests/TimeZoneTest](tests/TimeZoneTest)
+* [tests/ZonedDateTimeBasicTest](tests/ZonedDateTimeBasicTest)
+* [tests/ZonedDateTimeExtendedTest](tests/ZonedDateTimeExtendedTest)
 
 <a name="CreateForZoneName"></a>
 #### createForZoneName()
@@ -1663,47 +1689,50 @@ the user was allowed to type in the zone name, and you wanted to create a
 #### createForZoneId()
 
 Each zone in the `zonedb::` and `zonedbx::` database is given a unique
-and stable zoneId. This can be retrieved from the `TimeZone` object using:
+and stable zoneId. There are at least 3 ways to extract this zoneId:
+
+* from the `kZoneId{zone name} constants in `src/ace_time/zonedb/zone_infos.h`
+  and `src/ace_time/zonedbx/zone_infos.h` (v1.3):
+    * `const uint32_t kZoneIdAmerica_New_York = 0x1e2a7654; // America/New_York`
+    * `const uint32_t kZoneIdAmerica_Los_Angeles = 0xb7f7e8f2; // America/Los_Angeles`
+    * ...
+* from the `TimeZone::getZoneId()` method:
+    * `uint32_t zoneId = tz.getZoneId();`
+* from the `ZoneInfo` pointer using the `BasicZone()` helper object:
+    * `uint32_t zoneId = BasicZone(&zonedb::kZoneAmerica_Los_Angeles).zoneId();`
+    * `uint32_t zoneId = ExtendedZone(&zonedbx::kZoneAmerica_Los_Angeles).zoneId();`
+
+The `ZoneManager::createForZoneId()` method returns the `TimeZone` object
+corresponding to the given `zoneId`:
+
 ```C++
-TimeZone tz = zoneManager.createFor...();
-uint32_t zoneId = tz.getZoneId();
+BasicZoneManager<NUM_ZONES> manager(...);
+
+void someFunction() {
+  auto tz = manager.createForZoneId(kZoneIdAmerica_New_York);
+  ...
+}
+
+ExtendedZoneManager<NUM_ZONES> manager(...);
+
+void someFunction() {
+  auto tz = manager.createForZoneId(kZoneIdAmerica_New_York);
+  ...
+}
 ```
-from the `ZoneInfo` pointer using the `BasicZone()` helper object:
-```C++
-uint32_t zoneId = BasicZone(&zonedb::kZoneAmerica_Los_Angeles).zoneId();
-```
+
+If the `ZoneManager` cannot find the `zoneId` in its internal zone registry,
+then the `TimeZone::forError()` is returned. The application developer should
+check for this, and substitute a reasonable default TimeZone when this happens.
+This situation is not unique to the zoneId. The same problem would occur if the
+fully qualified zone name was used.
 
 The ZoneId is created using a hash of the fully qualified zone name. It is
 guaranteed to be unique and stable by the `tzcompiler.py` tool that generated
 the `zonedb::` and `zonedbx::` data sets.  By "unique", I mean that
 no 2 time zones will have the same zoneId. By "stable", it means that once
 a zoneId has been assigned to a fully qualified zone name, it will remain
-unchanged forever in the database. This means that we can save the zoneId of a
-TimeZone to persistent memory (e.g. EEPROM), then retrieve the zoneId, and
-recreate the `TimeZone` using the following for a `BasicZoneManager`:
-
-```C++
-BasicZoneManager<NUM_ZONES> manager(...);
-
-void someFunction() {
-  uint32_t zoneId = ...;
-  ...
-  auto tz = manager.createForZoneId(zoneId);
-  ...
-}
-```
-
-and similarly for the `ExtendedZoneManager`:
-
-```C++
-ExtendedZoneManager<NUM_ZONES> manager(...);
-
-void someFunction() {
-  uint32_t zoneId = ...;
-  ...
-  auto tz = manager.createForZoneId(zoneId);
-  ...
-```
+unchanged forever in the database.
 
 The `zoneId` has an obvious advantage over the fully qualified `zoneName` for
 storage purposes. It is far easier to save a 4-byte zoneId (e.g. `0xb7f7e8f2`)
@@ -1715,11 +1744,17 @@ saved using a `BasicZoneManager` but recreated using an `ExtendedZoneManager`. I
 am not able to see how this could be an issue, but let me know if you find this
 to be a problem.
 
-If the `ZoneManager` cannot find the `zoneId` in its internal zone registry,
-then the `TimeZone::forError()` is returned. The application developer should
-check for this, and substitute a reasonable default TimeZone when this happens.
-This situation is not unique to the zoneId. The same problem would occur if the
-fully qualified zone name was used.
+Another useful feature of `ZoneManager::createForZoneId()` over
+`createForZoneInfo()` is that `createForZoneId()` lives at the root
+`ZoneManager` interface. In contrast, there are 2 different versions of
+`createForZoneInfo()` which live in the corresponding implementation classes
+(`BasicZoneManager` and `ExtendedZoneManager`) because each version needs a
+different `ZoneInfo` type (`basic::ZoneInfo` and `extended::ZoneInfo`). If your
+code has a reference or pointer to the top-level `ZoneManager` interface, then
+it will be far easier to create a `TimeZone` using `createForZoneId()`. You do
+pay a penalty in efficiency because `createForZoneId()` must scan the database,
+where as `createForZoneInfo()` does not perform a search since it has direct
+access to the `ZoneInfo` data structure.
 
 <a name="CreateForZoneIndex"></a>
 #### createForZoneIndex()
@@ -1732,6 +1767,35 @@ the user to select one of the options.
 The `ZoneManager::indexForZoneName()` and `ZoneManager::indexForZoneId()` are
 two useful methods to convert an arbitrary time zone reference (either
 by zoneName or zoneId) into an index into the registry.
+
+<a name="CreateForTimeZoneData"></a>
+#### createForTimeZoneData()
+
+The `ZoneManager::createForTimeZoneDAta()` creates a `TimeZone` from an instance
+of `TimeZoneData`. The `TimeZoneData` can be retrieved from
+`TimeZone::toTimeZoneData()` method. It contains the minimum set of identifiers
+of a `TimeZone` object in a format that can be serialized easily, for example,
+to EEPROM.
+
+<a name="ManualZoneManager"></a>
+#### ManualZoneManager
+
+The `ManualZoneManager` is an implementation of `ZoneManager` that implements
+only the `createForTimeZoneData()` method, and handles only
+`TimeZoneData::kTypeManual`. In other words, it can only create `TimeZone`
+objects with fixed standard and DST offsets.
+
+This class reduces the amount of conditional code (using `#if` statements)
+needed in applications which are normally targeted to use `BasicZoneManager` and
+`ExtendedZoneManager`, but are sometimes targeted to small-memory
+microcontrollers (typically AVR chips), for testing purposes for example. This
+class allows many of the function and constructor signatures to remain the same,
+reducing the amount of conditional code.
+
+If an application is specifically targeted to a low-memory chip, and it is known
+at compile-time that only `TimeZone::kTypeManual` are supported, then you should
+not need to use the `ManualZoneManager`. You can use `TimeZone::forTimeOffset()`
+factory method directory.
 
 <a name="TZDatabaseVersion"></a>
 ### TZ Database Version

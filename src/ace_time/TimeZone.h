@@ -18,7 +18,9 @@ class Print;
 
 namespace ace_time {
 
-template<typename ZI, typename ZR, typename ZSC> class ZoneManager;
+// Allow ZoneManager to access the TimeZone() constructor that accepts
+// a ZoneProcessorCache.
+template<typename ZI, typename ZR, typename ZSC> class ZoneManagerImpl;
 
 /**
  * Class that describes a time zone. There are 2 colloquial usages of "time
@@ -397,7 +399,8 @@ class TimeZone {
 
     // Allow ZoneManager to access the TimeZone() constructor that accepts
     // a ZoneProcessorCache.
-    template<typename ZI, typename ZR, typename ZSC> friend class ZoneManager;
+    template<typename ZI, typename ZR, typename ZSC>
+    friend class ZoneManagerImpl;
 
     /**
      * Constructor for kType*Managed. Intended to be used ONLY by

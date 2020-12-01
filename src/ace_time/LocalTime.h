@@ -144,9 +144,10 @@ class LocalTime {
     }
 
     /**
-     * Compare this LocalTime with that LocalTime, and return (<0, 0, >0)
-     * according to whether (this<that, this==that, this>that). The behavior
-     * is undefined if isError() is true.
+     * Compare 'this' LocalTime with 'that' LocalTime, and return (<0, 0, >0)
+     * according to whether 'this' occurs (before, same as, after) 'that'.
+     * If either this->isError() or that.isError() is true, the behavior is
+     * undefined.
      */
     int8_t compareTo(const LocalTime& that) const {
       if (mHour < that.mHour) return -1;

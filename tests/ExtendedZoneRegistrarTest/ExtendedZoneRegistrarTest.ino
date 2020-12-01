@@ -7,8 +7,21 @@ using namespace aunit;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
+
+// Verify that we can use kZoneIdAmerica_Los_Angeles everywhere.
+test(ExtendedZoneRegistrarTest, kZoneId) {
+  assertEqual(0xb7f7e8f2, zonedbx::kZoneIdAmerica_Los_Angeles);
+}
+
+// --------------------------------------------------------------------------
 // ExtendedZoneRegistrar
 // --------------------------------------------------------------------------
+
+test(ExtendedZoneRegistrarTest, registrySize) {
+  ExtendedZoneRegistrar zoneRegistrar(
+      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
+  assertEqual(zonedbx::kZoneRegistrySize, zoneRegistrar.registrySize());
+}
 
 test(ExtendedZoneRegistrarTest, getZoneInfoForName_Los_Angeles) {
   ExtendedZoneRegistrar zoneRegistrar(
@@ -51,7 +64,7 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForId) {
   ExtendedZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
-      0xb7f7e8f2);
+      zonedbx::kZoneIdAmerica_Los_Angeles);
   const extended::ZoneInfo* zoneInfoExpected = zoneRegistrar.getZoneInfoForName(
       "America/Los_Angeles");
   assertEqual(zoneInfo, zoneInfoExpected);
@@ -61,7 +74,7 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForId_not_found) {
   ExtendedZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
-      0x11111111);
+      0x0 /* should not exist */);
   assertEqual(zoneInfo, nullptr);
 }
 

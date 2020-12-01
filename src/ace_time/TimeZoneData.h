@@ -23,11 +23,44 @@ namespace ace_time {
  * library. It is recommended to use a CRC check to detect version
  * incompatibility if this data structure is saved (e.g. EEPROM) and retrieved
  * later .
+ *
+ * For convenience, an array of TimeZoneData can be initializeed using
+ * the usual initializer syntax. In other words, the following is allowed:
+ *
+ * @code
+ *  TimeZoneData zones[3] = {
+ *    {0, 0},
+ *    {zonedb::kZoneIdAmerica_Los_Angeles},
+ *    {}
+ *  };
+ * @endcode
  */
 struct TimeZoneData {
   static const uint8_t kTypeError = 0;
   static const uint8_t kTypeManual = 1;
   static const uint8_t kTypeZoneId = 2;
+
+  /**
+   * Constructor for kTypeZoneId needed because C+11 does not have member
+   * initialization, and cannot initialize the 'zoneId' component of the union.
+   */
+  TimeZoneData(uint32_t zid)
+    : type(kTypeZoneId),
+      zoneId(zid)
+    {}
+
+  /** Constructor for kTypeManual. */
+  TimeZoneData(int16_t stdMinutes, int16_t dstMinutes)
+    : type(kTypeManual),
+      stdOffsetMinutes(stdMinutes),
+      dstOffsetMinutes(dstMinutes)
+    {}
+
+  /** Default constructor gives kTypeError sentinel. */
+  TimeZoneData()
+    : type(kTypeError),
+      zoneId(0)
+    {}
 
   uint8_t type;
 
@@ -54,6 +87,8 @@ inline bool operator==(const TimeZoneData& a, const TimeZoneData& b) {
           && (a.dstOffsetMinutes == b.dstOffsetMinutes);
     case TimeZoneData::kTypeZoneId:
       return (a.zoneId == b.zoneId);
+    case TimeZoneData::kTypeError:
+      return true;
     default:
       return false;
   }
