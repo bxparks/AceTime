@@ -20,7 +20,7 @@
       only `createForTimeZoneData()`. Useful in applications which support only
       `TimeZone::kTypeManual` (fixed std and dst offsets) due to memory
       constaints.
-    * Add documentation of `TimeZoneData`, `TimeZone::toTimeZoneData(), and
+    * Add documentation of `TimeZoneData`, `TimeZone::toTimeZoneData()`, and
       `ZoneManager::createFromTimeZoneData()` to `USER_GUIDE.md`. Looks like I
       added the class in v0.5 but forgot to document it.
     * Implement `LocalDateTime::compareTo()` using only its components instead
