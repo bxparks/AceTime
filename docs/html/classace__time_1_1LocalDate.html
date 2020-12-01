@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.2.1</span>
+   &#160;<span id="projectnumber">1.3</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -141,7 +141,7 @@ acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 <tr class="memdesc:a72dd21859dba6a0563b95673040fe940"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of seconds since Unix epoch (1970-01-01 00:00:00). <br /></td></tr>
 <tr class="separator:a72dd21859dba6a0563b95673040fe940"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51690a660b837645951c1b80b5306ede"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#a51690a660b837645951c1b80b5306ede">compareTo</a> (const <a class="el" href="classace__time_1_1LocalDate.html">LocalDate</a> &amp;that) const</td></tr>
-<tr class="memdesc:a51690a660b837645951c1b80b5306ede"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare this <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> to that <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a>, returning (&lt;0, 0, &gt;0) according to whether the epochSeconds is (this&lt;that, this==this, this&gt;that).  <a href="classace__time_1_1LocalDate.html#a51690a660b837645951c1b80b5306ede">More...</a><br /></td></tr>
+<tr class="memdesc:a51690a660b837645951c1b80b5306ede"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare 'this' <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> to 'that' <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a>, returning (&lt;0, 0, &gt;0) according to whether 'this' occurs (before, same as, after) 'that'.  <a href="classace__time_1_1LocalDate.html#a51690a660b837645951c1b80b5306ede">More...</a><br /></td></tr>
 <tr class="separator:a51690a660b837645951c1b80b5306ede"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45a92407e489cf352a97ffb09513eaba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#a45a92407e489cf352a97ffb09513eaba">printTo</a> (Print &amp;printer) const</td></tr>
 <tr class="memdesc:a45a92407e489cf352a97ffb09513eaba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> to 'printer' in ISO 8601 format, along with the day of week.  <a href="classace__time_1_1LocalDate.html#a45a92407e489cf352a97ffb09513eaba">More...</a><br /></td></tr>
@@ -302,10 +302,10 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table>
 </div><div class="memdoc">
 
-<p>Compare this <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> to that <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a>, returning (&lt;0, 0, &gt;0) according to whether the epochSeconds is (this&lt;that, this==this, this&gt;that). </p>
-<p>If <a class="el" href="classace__time_1_1LocalDate.html#a0c718d4fea5ad37c1263766b44b532ff" title="Return true if any component indicates an error condition.">isError()</a> is true, the behavior is undefined. </p>
+<p>Compare 'this' <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> to 'that' <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a>, returning (&lt;0, 0, &gt;0) according to whether 'this' occurs (before, same as, after) 'that'. </p>
+<p>If either this-&gt;<a class="el" href="classace__time_1_1LocalDate.html#a0c718d4fea5ad37c1263766b44b532ff" title="Return true if any component indicates an error condition.">isError()</a> or that.isError() is true, the behavior is undefined. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00358">358</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00359">359</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>

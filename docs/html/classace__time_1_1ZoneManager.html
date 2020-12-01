@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AceTime: ace_time::ZoneManager&lt; ZI, ZR, ZSC &gt; Class Template Reference</title>
+<title>AceTime: ace_time::ZoneManager Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.2.1</span>
+   &#160;<span id="projectnumber">1.3</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -69,81 +69,77 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classace__time_1_1ZoneManager-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">ace_time::ZoneManager&lt; ZI, ZR, ZSC &gt; Class Template Reference</div>  </div>
+<div class="title">ace_time::ZoneManager Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Returns the <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> given the zoneInfo, zoneName, or zoneId.  
+<p>Common interface to the <a class="el" href="classace__time_1_1BasicZoneManager.html" title="An implementation of the ZoneManager which uses a registry of basic::ZoneInfo records.">BasicZoneManager</a> and <a class="el" href="classace__time_1_1ExtendedZoneManager.html" title="An implementation of the ZoneManager which uses a registry of extended::ZoneInfo records.">ExtendedZoneManager</a> so that a single interface can be passed around to various helper objects.  
  <a href="classace__time_1_1ZoneManager.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for ace_time::ZoneManager:</div>
+<div class="dyncontent">
+<div class="center"><img src="classace__time_1_1ZoneManager__inherit__graph.png" border="0" usemap="#ace__time_1_1ZoneManager_inherit__map" alt="Inheritance graph"/></div>
+<map name="ace__time_1_1ZoneManager_inherit__map" id="ace__time_1_1ZoneManager_inherit__map">
+<area shape="rect" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa..." alt="" coords="29,5,209,32"/>
+<area shape="rect" href="classace__time_1_1ManualZoneManager.html" title="A ZoneManager that implements only createForTimeZoneData() to create TimeZones of type kTypeManual,..." alt="" coords="5,80,233,107"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a805aa1dac2849bd60d510be72bb3172d"><td class="memItemLeft" align="right" valign="top"><a id="a805aa1dac2849bd60d510be72bb3172d"></a>
-const ZR &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getRegistrar</b> () const</td></tr>
-<tr class="separator:a805aa1dac2849bd60d510be72bb3172d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56011ec9f04202c6f630e046bc2bbda2"><td class="memItemLeft" align="right" valign="top"><a id="a56011ec9f04202c6f630e046bc2bbda2"></a>
-<a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a>&#160;</td><td class="memItemRight" valign="bottom"><b>createForZoneInfo</b> (const ZI *zoneInfo)</td></tr>
-<tr class="separator:a56011ec9f04202c6f630e046bc2bbda2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0e654dc8add3315f9ec952aa98d4be3"><td class="memItemLeft" align="right" valign="top"><a id="ae0e654dc8add3315f9ec952aa98d4be3"></a>
-<a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a>&#160;</td><td class="memItemRight" valign="bottom"><b>createForZoneName</b> (const char *name)</td></tr>
-<tr class="separator:ae0e654dc8add3315f9ec952aa98d4be3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a323d3478b72bfe44a02883791e25ae"><td class="memItemLeft" align="right" valign="top"><a id="a0a323d3478b72bfe44a02883791e25ae"></a>
-<a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a>&#160;</td><td class="memItemRight" valign="bottom"><b>createForZoneId</b> (uint32_t id)</td></tr>
-<tr class="separator:a0a323d3478b72bfe44a02883791e25ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2aee52f51dc381881a57236f2542269f"><td class="memItemLeft" align="right" valign="top"><a id="a2aee52f51dc381881a57236f2542269f"></a>
-<a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a>&#160;</td><td class="memItemRight" valign="bottom"><b>createForZoneIndex</b> (uint16_t index)</td></tr>
-<tr class="separator:a2aee52f51dc381881a57236f2542269f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e58999d954a39c175c1f218e11eb74a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneManager.html#a5e58999d954a39c175c1f218e11eb74a">createForTimeZoneData</a> (const <a class="el" href="structace__time_1_1TimeZoneData.html">TimeZoneData</a> &amp;d)</td></tr>
-<tr class="memdesc:a5e58999d954a39c175c1f218e11eb74a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create from the <a class="el" href="structace__time_1_1TimeZoneData.html" title="Data structure that captures the internal state of a TimeZone object with enough information so that ...">TimeZoneData</a> created by <a class="el" href="classace__time_1_1TimeZone.html#af4e12e7f8296fefe6b979fd5b9af5ba7" title="Convert to a TimeZoneData object, which can be fed back into ZoneManager::createForTimeZoneData() to ...">TimeZone::toTimeZoneData()</a>.  <a href="classace__time_1_1ZoneManager.html#a5e58999d954a39c175c1f218e11eb74a">More...</a><br /></td></tr>
-<tr class="separator:a5e58999d954a39c175c1f218e11eb74a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12de7703acfa44014467f6a679a42a77"><td class="memItemLeft" align="right" valign="top"><a id="a12de7703acfa44014467f6a679a42a77"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>indexForZoneName</b> (const char *name) const</td></tr>
-<tr class="separator:a12de7703acfa44014467f6a679a42a77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace938e83be0814a60ded704ed2f97216"><td class="memItemLeft" align="right" valign="top"><a id="ace938e83be0814a60ded704ed2f97216"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>indexForZoneId</b> (uint32_t id) const</td></tr>
-<tr class="separator:ace938e83be0814a60ded704ed2f97216"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ffec7b4b374c9c1ab6e93181fa6026a"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneManager.html#a9ffec7b4b374c9c1ab6e93181fa6026a">createForZoneName</a> (const char *name)=0</td></tr>
+<tr class="memdesc:a9ffec7b4b374c9c1ab6e93181fa6026a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> for the given zone name (e.g.  <a href="classace__time_1_1ZoneManager.html#a9ffec7b4b374c9c1ab6e93181fa6026a">More...</a><br /></td></tr>
+<tr class="separator:a9ffec7b4b374c9c1ab6e93181fa6026a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00d6073f55d5773e5b7c9b12f9be55e1"><td class="memItemLeft" align="right" valign="top"><a id="a00d6073f55d5773e5b7c9b12f9be55e1"></a>
+virtual <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneManager.html#a00d6073f55d5773e5b7c9b12f9be55e1">createForZoneId</a> (uint32_t id)=0</td></tr>
+<tr class="memdesc:a00d6073f55d5773e5b7c9b12f9be55e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> for the given 32-bit zoneId. <br /></td></tr>
+<tr class="separator:a00d6073f55d5773e5b7c9b12f9be55e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac86211cdd39477558858d1bf531d8422"><td class="memItemLeft" align="right" valign="top"><a id="ac86211cdd39477558858d1bf531d8422"></a>
+virtual <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneManager.html#ac86211cdd39477558858d1bf531d8422">createForZoneIndex</a> (uint16_t index)=0</td></tr>
+<tr class="memdesc:ac86211cdd39477558858d1bf531d8422"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> for the given index in the ZoneInfo registry that was used to create this <a class="el" href="classace__time_1_1ZoneManager.html" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa...">ZoneManager</a>. <br /></td></tr>
+<tr class="separator:ac86211cdd39477558858d1bf531d8422"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68c5afe5b8417afc6812f9475a063410"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneManager.html#a68c5afe5b8417afc6812f9475a063410">createForTimeZoneData</a> (const <a class="el" href="structace__time_1_1TimeZoneData.html">TimeZoneData</a> &amp;d)=0</td></tr>
+<tr class="memdesc:a68c5afe5b8417afc6812f9475a063410"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> from the <a class="el" href="structace__time_1_1TimeZoneData.html" title="Data structure that captures the internal state of a TimeZone object with enough information so that ...">TimeZoneData</a> created by <a class="el" href="classace__time_1_1TimeZone.html#af4e12e7f8296fefe6b979fd5b9af5ba7" title="Convert to a TimeZoneData object, which can be fed back into ZoneManager::createForTimeZoneData() to ...">TimeZone::toTimeZoneData()</a>.  <a href="classace__time_1_1ZoneManager.html#a68c5afe5b8417afc6812f9475a063410">More...</a><br /></td></tr>
+<tr class="separator:a68c5afe5b8417afc6812f9475a063410"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77b4e5f49a441132efbda808e7870a73"><td class="memItemLeft" align="right" valign="top">virtual uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneManager.html#a77b4e5f49a441132efbda808e7870a73">indexForZoneName</a> (const char *name) const =0</td></tr>
+<tr class="memdesc:a77b4e5f49a441132efbda808e7870a73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the registry index for the given time zone name.  <a href="classace__time_1_1ZoneManager.html#a77b4e5f49a441132efbda808e7870a73">More...</a><br /></td></tr>
+<tr class="separator:a77b4e5f49a441132efbda808e7870a73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f101ce149365aac39ed1446be6c117f"><td class="memItemLeft" align="right" valign="top">virtual uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneManager.html#a8f101ce149365aac39ed1446be6c117f">indexForZoneId</a> (uint32_t id) const =0</td></tr>
+<tr class="memdesc:a8f101ce149365aac39ed1446be6c117f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the registry index for the given time zone id.  <a href="classace__time_1_1ZoneManager.html#a8f101ce149365aac39ed1446be6c117f">More...</a><br /></td></tr>
+<tr class="separator:a8f101ce149365aac39ed1446be6c117f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3839cab7b2f401823d4ed3c8d850593"><td class="memItemLeft" align="right" valign="top"><a id="ae3839cab7b2f401823d4ed3c8d850593"></a>
+virtual uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneManager.html#ae3839cab7b2f401823d4ed3c8d850593">registrySize</a> () const =0</td></tr>
+<tr class="memdesc:ae3839cab7b2f401823d4ed3c8d850593"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of elements in the registry. <br /></td></tr>
+<tr class="separator:ae3839cab7b2f401823d4ed3c8d850593"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:acbbf74768b530431f446ff4c1ad246cf"><td class="memItemLeft" align="right" valign="top"><a id="acbbf74768b530431f446ff4c1ad246cf"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ZoneManager</b> (uint16_t registrySize, const ZI *const *zoneRegistry)</td></tr>
-<tr class="separator:acbbf74768b530431f446ff4c1ad246cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a7977d6c1471fd2e889a518a47fa3f2a2"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneManager.html#a7977d6c1471fd2e889a518a47fa3f2a2">kInvalidIndex</a> = 0xffff</td></tr>
+<tr class="memdesc:a7977d6c1471fd2e889a518a47fa3f2a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registry index which is not valid.  <a href="classace__time_1_1ZoneManager.html#a7977d6c1471fd2e889a518a47fa3f2a2">More...</a><br /></td></tr>
+<tr class="separator:a7977d6c1471fd2e889a518a47fa3f2a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename ZI, typename ZR, typename ZSC&gt;<br />
-class ace_time::ZoneManager&lt; ZI, ZR, ZSC &gt;</h3>
+<div class="textblock"><p>Common interface to the <a class="el" href="classace__time_1_1BasicZoneManager.html" title="An implementation of the ZoneManager which uses a registry of basic::ZoneInfo records.">BasicZoneManager</a> and <a class="el" href="classace__time_1_1ExtendedZoneManager.html" title="An implementation of the ZoneManager which uses a registry of extended::ZoneInfo records.">ExtendedZoneManager</a> so that a single interface can be passed around to various helper objects. </p>
+<p>Various methods return a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> object from one of its identifiers. The identifer can be a string (e.g. "America/Los_Angeles"), or a unique hashed zoneId, an index into the ZoneRegistry, or the <a class="el" href="structace__time_1_1TimeZoneData.html" title="Data structure that captures the internal state of a TimeZone object with enough information so that ...">TimeZoneData</a> object created by <a class="el" href="classace__time_1_1TimeZone.html#af4e12e7f8296fefe6b979fd5b9af5ba7" title="Convert to a TimeZoneData object, which can be fed back into ZoneManager::createForTimeZoneData() to ...">TimeZone::toTimeZoneData()</a>. </p>
 
-<p>Returns the <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> given the zoneInfo, zoneName, or zoneId. </p>
-<p>Looks up the ZoneInfo in the <a class="el" href="classace__time_1_1ZoneRegistrar.html" title="Class that allows looking up the ZoneInfo (ZI) from its TZDB identifier (e.g.">ZoneRegistrar</a>. If an existing <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> exists in the <a class="el" href="classace__time_1_1ZoneProcessorCache.html" title="Common interface to BasicZoneProcessorCache and ExtendedZoneProcessorCache.">ZoneProcessorCache</a>, then it is used. If not, another <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> is picked from the cache in a round-robin fashion. The type of the <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> will be assigned to be the type of the <a class="el" href="classace__time_1_1ZoneProcessorCache.html" title="Common interface to BasicZoneProcessorCache and ExtendedZoneProcessorCache.">ZoneProcessorCache</a>, which will be either kTypeBasicManaged or kTypeExtendedManaged.</p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">ZI</td><td>type of ZoneInfo (basic::ZoneInfo or extended::ZoneInfo) which make up the zone registry </td></tr>
-    <tr><td class="paramname">ZR</td><td>class of <a class="el" href="classace__time_1_1ZoneRegistrar.html" title="Class that allows looking up the ZoneInfo (ZI) from its TZDB identifier (e.g.">ZoneRegistrar</a> </td></tr>
-    <tr><td class="paramname">ZSC</td><td>class of <a class="el" href="classace__time_1_1ZoneProcessorCache.html" title="Common interface to BasicZoneProcessorCache and ExtendedZoneProcessorCache.">ZoneProcessorCache</a> </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00021">21</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00024">24</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a5e58999d954a39c175c1f218e11eb74a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e58999d954a39c175c1f218e11eb74a">&#9670;&nbsp;</a></span>createForTimeZoneData()</h2>
+<a id="a68c5afe5b8417afc6812f9475a063410"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68c5afe5b8417afc6812f9475a063410">&#9670;&nbsp;</a></span>createForTimeZoneData()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename ZI , typename ZR , typename ZSC &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> <a class="el" href="classace__time_1_1ZoneManager.html">ace_time::ZoneManager</a>&lt; ZI, ZR, ZSC &gt;::createForTimeZoneData </td>
+          <td class="memname">virtual <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> ace_time::ZoneManager::createForTimeZoneData </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structace__time_1_1TimeZoneData.html">TimeZoneData</a> &amp;&#160;</td>
           <td class="paramname"><em>d</em></td><td>)</td>
@@ -152,20 +148,140 @@ template&lt;typename ZI , typename ZR , typename ZSC &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Create from the <a class="el" href="structace__time_1_1TimeZoneData.html" title="Data structure that captures the internal state of a TimeZone object with enough information so that ...">TimeZoneData</a> created by <a class="el" href="classace__time_1_1TimeZone.html#af4e12e7f8296fefe6b979fd5b9af5ba7" title="Convert to a TimeZoneData object, which can be fed back into ZoneManager::createForTimeZoneData() to ...">TimeZone::toTimeZoneData()</a>. </p>
-<p>kTypeBasic is converted into a kTypeBasicManaged, and kTypeExtended is converted into a kTypeExtendedManaged. </p>
+<p>Create a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> from the <a class="el" href="structace__time_1_1TimeZoneData.html" title="Data structure that captures the internal state of a TimeZone object with enough information so that ...">TimeZoneData</a> created by <a class="el" href="classace__time_1_1TimeZone.html#af4e12e7f8296fefe6b979fd5b9af5ba7" title="Convert to a TimeZoneData object, which can be fed back into ZoneManager::createForTimeZoneData() to ...">TimeZone::toTimeZoneData()</a>. </p>
+<p>kTypeBasic is interpreted as a kTypeBasicManaged, and kTypeExtended is interpreted as a kTypeExtendedManaged. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00059">59</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
+<p>Implemented in <a class="el" href="classace__time_1_1ManualZoneManager.html#a9c9ca83110924ac15810e159912df5f2">ace_time::ManualZoneManager</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/brian/src/AceTime/src/ace_time/<a class="el" href="TimeZone_8h_source.html">TimeZone.h</a></li>
+<a id="a9ffec7b4b374c9c1ab6e93181fa6026a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ffec7b4b374c9c1ab6e93181fa6026a">&#9670;&nbsp;</a></span>createForZoneName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> ace_time::ZoneManager::createForZoneName </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> for the given zone name (e.g. </p>
+<p>"America/Los_Angeles"). </p>
+
+<p>Implemented in <a class="el" href="classace__time_1_1ManualZoneManager.html#a66863aa1c9fe5b67ead48cb5bed700f8">ace_time::ManualZoneManager</a>.</p>
+
+</div>
+</div>
+<a id="a8f101ce149365aac39ed1446be6c117f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f101ce149365aac39ed1446be6c117f">&#9670;&nbsp;</a></span>indexForZoneId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual uint16_t ace_time::ZoneManager::indexForZoneId </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Find the registry index for the given time zone id. </p>
+<p>Returns kInvalidIndex if not found. </p>
+
+<p>Implemented in <a class="el" href="classace__time_1_1ManualZoneManager.html#a4799532bd849d5aa25caf8ce602bc27f">ace_time::ManualZoneManager</a>.</p>
+
+</div>
+</div>
+<a id="a77b4e5f49a441132efbda808e7870a73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77b4e5f49a441132efbda808e7870a73">&#9670;&nbsp;</a></span>indexForZoneName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual uint16_t ace_time::ZoneManager::indexForZoneName </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Find the registry index for the given time zone name. </p>
+<p>Returns kInvalidIndex if not found. </p>
+
+<p>Implemented in <a class="el" href="classace__time_1_1ManualZoneManager.html#a7bffdc5782d69c324b6410269f850311">ace_time::ManualZoneManager</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a7977d6c1471fd2e889a518a47fa3f2a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7977d6c1471fd2e889a518a47fa3f2a2">&#9670;&nbsp;</a></span>kInvalidIndex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t ace_time::ZoneManager::kInvalidIndex = 0xffff</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Registry index which is not valid. </p>
+<p>Indicates an error or not found. </p>
+
+<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00027">27</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/brian/src/AceTime/src/ace_time/<a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a></li>
 </ul>
 </div><!-- contents -->

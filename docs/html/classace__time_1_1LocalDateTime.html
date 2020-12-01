@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.2.1</span>
+   &#160;<span id="projectnumber">1.3</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -171,9 +171,8 @@ acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 <tr class="memitem:aa467da788e335995e84b5e1122845e99"><td class="memItemLeft" align="right" valign="top">acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#aa467da788e335995e84b5e1122845e99">toUnixSeconds</a> () const</td></tr>
 <tr class="memdesc:aa467da788e335995e84b5e1122845e99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return seconds from Unix epoch 1970-01-01 00:00:00Z, after assuming that the date and time components are in UTC timezone.  <a href="classace__time_1_1LocalDateTime.html#aa467da788e335995e84b5e1122845e99">More...</a><br /></td></tr>
 <tr class="separator:aa467da788e335995e84b5e1122845e99"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54a97cb87d1d14021d655430dd4b7c44"><td class="memItemLeft" align="right" valign="top"><a id="a54a97cb87d1d14021d655430dd4b7c44"></a>
-int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a54a97cb87d1d14021d655430dd4b7c44">compareTo</a> (const <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> &amp;that) const</td></tr>
-<tr class="memdesc:a54a97cb87d1d14021d655430dd4b7c44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare this <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> with another <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>, and return (&lt;0, 0, &gt;0) according to whether the epochSeconds is (a&lt;b, a==b, a&gt;b). <br /></td></tr>
+<tr class="memitem:a54a97cb87d1d14021d655430dd4b7c44"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a54a97cb87d1d14021d655430dd4b7c44">compareTo</a> (const <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> &amp;that) const</td></tr>
+<tr class="memdesc:a54a97cb87d1d14021d655430dd4b7c44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare 'this' <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> with 'that' <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>, and return (&lt;0, 0, &gt;0) according to whether 'this' occurs (before, same as, after) 'that'.  <a href="classace__time_1_1LocalDateTime.html#a54a97cb87d1d14021d655430dd4b7c44">More...</a><br /></td></tr>
 <tr class="separator:a54a97cb87d1d14021d655430dd4b7c44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fd5324ba0f6f9ad8d6c44d418f800fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a1fd5324ba0f6f9ad8d6c44d418f800fd">printTo</a> (Print &amp;printer) const</td></tr>
 <tr class="memdesc:a1fd5324ba0f6f9ad8d6c44d418f800fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> to 'printer' in ISO 8601 format.  <a href="classace__time_1_1LocalDateTime.html#a1fd5324ba0f6f9ad8d6c44d418f800fd">More...</a><br /></td></tr>
@@ -258,6 +257,37 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a54a97cb87d1d14021d655430dd4b7c44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54a97cb87d1d14021d655430dd4b7c44">&#9670;&nbsp;</a></span>compareTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int8_t ace_time::LocalDateTime::compareTo </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> &amp;&#160;</td>
+          <td class="paramname"><em>that</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compare 'this' <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> with 'that' <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>, and return (&lt;0, 0, &gt;0) according to whether 'this' occurs (before, same as, after) 'that'. </p>
+<p>If either this-&gt;<a class="el" href="classace__time_1_1LocalDateTime.html#a42ad78d8e8c81c09494cdf4f0e6de123" title="Return true if any component indicates an error condition.">isError()</a> or that.isError() is true, the behavior is undefined. </p>
+
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00273">273</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+
+</div>
+</div>
 <a id="aa039d7c6417156350a8d712c564c5832"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa039d7c6417156350a8d712c564c5832">&#9670;&nbsp;</a></span>forComponents()</h2>
 
@@ -683,7 +713,7 @@ Friends</h2></td></tr>
 <p>Return true if two <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> objects are equal in all components. </p>
 <p>Optimized for small changes in the less signficant fields, such as 'second' or 'minute'. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00310">310</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00314">314</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.2.1</span>
+   &#160;<span id="projectnumber">1.3</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -68,6 +68,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="structace__time_1_1TimeZoneData-members.html">List of all members</a>  </div>
@@ -76,11 +77,26 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Data structure that captures the internal state of a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> object with enough information so that it can be serialized using <a class="el" href="classace__time_1_1TimeZone.html#af4e12e7f8296fefe6b979fd5b9af5ba7" title="Convert to a TimeZoneData object, which can be fed back into ZoneManager::createForTimeZoneData() to ...">TimeZone::toTimeZoneData()</a> then reconstructed using <a class="el" href="classace__time_1_1ZoneManager.html#a5e58999d954a39c175c1f218e11eb74a" title="Create from the TimeZoneData created by TimeZone::toTimeZoneData().">ZoneManager::createForTimeZoneData()</a>.  
+<p>Data structure that captures the internal state of a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> object with enough information so that it can be serialized using <a class="el" href="classace__time_1_1TimeZone.html#af4e12e7f8296fefe6b979fd5b9af5ba7" title="Convert to a TimeZoneData object, which can be fed back into ZoneManager::createForTimeZoneData() to ...">TimeZone::toTimeZoneData()</a> then reconstructed using <a class="el" href="classace__time_1_1ZoneManager.html#a68c5afe5b8417afc6812f9475a063410" title="Create a TimeZone from the TimeZoneData created by TimeZone::toTimeZoneData().">ZoneManager::createForTimeZoneData()</a>.  
  <a href="structace__time_1_1TimeZoneData.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="TimeZoneData_8h_source.html">TimeZoneData.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a795549e3491feb49b15bb4d6039f9ac8"><td class="memItemLeft" align="right" valign="top"><a id="a795549e3491feb49b15bb4d6039f9ac8"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1TimeZoneData.html#a795549e3491feb49b15bb4d6039f9ac8">TimeZoneData</a> (uint32_t zid)</td></tr>
+<tr class="memdesc:a795549e3491feb49b15bb4d6039f9ac8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for kTypeZoneId needed because C+11 does not have member initialization, and cannot initialize the 'zoneId' component of the union. <br /></td></tr>
+<tr class="separator:a795549e3491feb49b15bb4d6039f9ac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae24aeb66c44724d8520e8f986644f871"><td class="memItemLeft" align="right" valign="top"><a id="ae24aeb66c44724d8520e8f986644f871"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1TimeZoneData.html#ae24aeb66c44724d8520e8f986644f871">TimeZoneData</a> (int16_t stdMinutes, int16_t dstMinutes)</td></tr>
+<tr class="memdesc:ae24aeb66c44724d8520e8f986644f871"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for kTypeManual. <br /></td></tr>
+<tr class="separator:ae24aeb66c44724d8520e8f986644f871"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76f99ffc11d0866de37bcc7eb803a975"><td class="memItemLeft" align="right" valign="top"><a id="a76f99ffc11d0866de37bcc7eb803a975"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1TimeZoneData.html#a76f99ffc11d0866de37bcc7eb803a975">TimeZoneData</a> ()</td></tr>
+<tr class="memdesc:a76f99ffc11d0866de37bcc7eb803a975"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor gives kTypeError sentinel. <br /></td></tr>
+<tr class="separator:a76f99ffc11d0866de37bcc7eb803a975"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a53dfd6e0c69aeaaa4e7f3f0652e3fbab"><td class="memItemLeft" align="right" valign="top"><a id="a53dfd6e0c69aeaaa4e7f3f0652e3fbab"></a>
@@ -119,14 +135,21 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>kType
 <tr class="separator:a89eca10ee5e0cc9c4494f2662aceab56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Data structure that captures the internal state of a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> object with enough information so that it can be serialized using <a class="el" href="classace__time_1_1TimeZone.html#af4e12e7f8296fefe6b979fd5b9af5ba7" title="Convert to a TimeZoneData object, which can be fed back into ZoneManager::createForTimeZoneData() to ...">TimeZone::toTimeZoneData()</a> then reconstructed using <a class="el" href="classace__time_1_1ZoneManager.html#a5e58999d954a39c175c1f218e11eb74a" title="Create from the TimeZoneData created by TimeZone::toTimeZoneData().">ZoneManager::createForTimeZoneData()</a>. </p>
-<p>This data structure is meant to a simple and somewhat opaque serialization object. You should not rely on this struct to remain stable, nor reach into its internal fields. No versioning is provided for simplicity. If the internal format changes in the future, the previous version will likely be incompatible with the new version of the library. It is recommended to use a CRC check to detect version incompatibility if this data structure is saved (e.g. EEPROM) and retrieved later . </p>
-
-<p class="definition">Definition at line <a class="el" href="TimeZoneData_8h_source.html#l00027">27</a> of file <a class="el" href="TimeZoneData_8h_source.html">TimeZoneData.h</a>.</p>
+<div class="textblock"><p>Data structure that captures the internal state of a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> object with enough information so that it can be serialized using <a class="el" href="classace__time_1_1TimeZone.html#af4e12e7f8296fefe6b979fd5b9af5ba7" title="Convert to a TimeZoneData object, which can be fed back into ZoneManager::createForTimeZoneData() to ...">TimeZone::toTimeZoneData()</a> then reconstructed using <a class="el" href="classace__time_1_1ZoneManager.html#a68c5afe5b8417afc6812f9475a063410" title="Create a TimeZone from the TimeZoneData created by TimeZone::toTimeZoneData().">ZoneManager::createForTimeZoneData()</a>. </p>
+<p>This data structure is meant to a simple and somewhat opaque serialization object. You should not rely on this struct to remain stable, nor reach into its internal fields. No versioning is provided for simplicity. If the internal format changes in the future, the previous version will likely be incompatible with the new version of the library. It is recommended to use a CRC check to detect version incompatibility if this data structure is saved (e.g. EEPROM) and retrieved later .</p>
+<p>For convenience, an array of <a class="el" href="structace__time_1_1TimeZoneData.html" title="Data structure that captures the internal state of a TimeZone object with enough information so that ...">TimeZoneData</a> can be initializeed using the usual initializer syntax. In other words, the following is allowed:</p>
+<div class="fragment"><div class="line"><a class="code" href="structace__time_1_1TimeZoneData.html#a76f99ffc11d0866de37bcc7eb803a975">TimeZoneData</a> zones[3] = {</div>
+<div class="line">  {0, 0},</div>
+<div class="line">  {zonedb::kZoneIdAmerica_Los_Angeles},</div>
+<div class="line">  {}</div>
+<div class="line">};</div>
+</div><!-- fragment --> 
+<p class="definition">Definition at line <a class="el" href="TimeZoneData_8h_source.html#l00038">38</a> of file <a class="el" href="TimeZoneData_8h_source.html">TimeZoneData.h</a>.</p>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>/home/brian/src/AceTime/src/ace_time/<a class="el" href="TimeZoneData_8h_source.html">TimeZoneData.h</a></li>
 </ul>
 </div><!-- contents -->
+<div class="ttc" id="astructace__time_1_1TimeZoneData_html_a76f99ffc11d0866de37bcc7eb803a975"><div class="ttname"><a href="structace__time_1_1TimeZoneData.html#a76f99ffc11d0866de37bcc7eb803a975">ace_time::TimeZoneData::TimeZoneData</a></div><div class="ttdeci">TimeZoneData()</div><div class="ttdoc">Default constructor gives kTypeError sentinel.</div><div class="ttdef"><b>Definition:</b> <a href="TimeZoneData_8h_source.html#l00060">TimeZoneData.h:60</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classace__time_1_1ZoneManager.html" title=" " alt="" coords="5,5,228,91"/>
-<area shape="rect" id="node2" href="$classace__time_1_1ExtendedZoneManager.html" title=" " alt="" coords="276,27,517,69"/>
+<area shape="rect" id="node1" href="$classace__time_1_1ZoneManagerImpl.html" title=" " alt="" coords="5,5,281,61"/>
+<area shape="rect" id="node2" href="$classace__time_1_1BasicZoneManager.html" title="An implementation of the ZoneManager which uses a registry of basic::ZoneInfo records." alt="" coords="329,13,544,54"/>
 </map>
