@@ -53,12 +53,13 @@ this penalty in flash size.
 
 ```
 +--------------------------------------------------------------+
-| Functionality                   |    flash/ram |       Delta |
+| Functionality                   |  flash/  ram |       delta |
 |---------------------------------+--------------+-------------|
 | Baseline                        |    448/   10 |     0/    0 |
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   |   1648/  123 |  1200/  113 |
 | ZonedDateTime                   |   2440/  123 |  1992/  113 |
+| Manual ZoneManager              |   2684/  123 |  2236/  113 |
 | Basic TimeZone (1 zone)         |   6910/  187 |  6462/  177 |
 | Basic TimeZone (2 zones)        |   7488/  193 |  7040/  183 |
 | Basic ZoneManager (1 zone)      |   8374/  213 |  7926/  203 |
@@ -82,12 +83,13 @@ this penalty in flash size.
 
 ```
 +--------------------------------------------------------------+
-| Functionality                   |    flash/ram |       Delta |
+| Functionality                   |  flash/  ram |       delta |
 |---------------------------------+--------------+-------------|
 | Baseline                        |   3464/  150 |     0/    0 |
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   |   4772/  263 |  1308/  113 |
 | ZonedDateTime                   |   5564/  263 |  2100/  113 |
+| Manual ZoneManager              |   5808/  263 |  2344/  113 |
 | Basic TimeZone (1 zone)         |  10012/  327 |  6548/  177 |
 | Basic TimeZone (2 zones)        |  10588/  331 |  7124/  181 |
 | Basic ZoneManager (1 zone)      |  11476/  353 |  8012/  203 |
@@ -111,12 +113,13 @@ this penalty in flash size.
 
 ```
 +--------------------------------------------------------------+
-| Functionality                   |    flash/ram |       Delta |
+| Functionality                   |  flash/  ram |       delta |
 |---------------------------------+--------------+-------------|
 | Baseline                        |  11096/ 2368 |     0/    0 |
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   |  11976/ 2948 |   880/  580 |
 | ZonedDateTime                   |  12132/ 2948 |  1036/  580 |
+| Manual ZoneManager              |  12140/ 2948 |  1044/  580 |
 | Basic TimeZone (1 zone)         |  16144/ 2948 |  5048/  580 |
 | Basic TimeZone (2 zones)        |  16532/ 2948 |  5436/  580 |
 | Basic ZoneManager (1 zone)      |  16732/ 2948 |  5636/  580 |
@@ -142,12 +145,13 @@ this penalty in flash size.
 
 ```
 +--------------------------------------------------------------+
-| Functionality                   |    flash/ram |       Delta |
+| Functionality                   |  flash/  ram |       delta |
 |---------------------------------+--------------+-------------|
 | Baseline                        | 256700/26776 |     0/    0 |
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   | 258820/27264 |  2120/  488 |
 | ZonedDateTime                   | 259508/27264 |  2808/  488 |
+| Manual ZoneManager              | 259540/27264 |  2840/  488 |
 | Basic TimeZone (1 zone)         | 264800/27692 |  8100/  916 |
 | Basic TimeZone (2 zones)        | 265040/27692 |  8340/  916 |
 | Basic ZoneManager (1 zone)      | 265776/27692 |  9076/  916 |
@@ -171,12 +175,13 @@ this penalty in flash size.
 
 ```
 +--------------------------------------------------------------+
-| Functionality                   |    flash/ram |       Delta |
+| Functionality                   |  flash/  ram |       delta |
 |---------------------------------+--------------+-------------|
 | Baseline                        | 206435/14564 |     0/    0 |
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   | 218129/16084 | 11694/ 1520 |
 | ZonedDateTime                   | 218933/16084 | 12498/ 1520 |
+| Manual ZoneManager              | 218965/16084 | 12530/ 1520 |
 | Basic TimeZone (1 zone)         | 222633/16084 | 16198/ 1520 |
 | Basic TimeZone (2 zones)        | 222885/16084 | 16450/ 1520 |
 | Basic ZoneManager (1 zone)      | 223461/16084 | 17026/ 1520 |
@@ -204,12 +209,13 @@ usage by objects.
 
 ```
 +--------------------------------------------------------------+
-| Functionality                   |    flash/ram |       Delta |
+| Functionality                   |  flash/  ram |       delta |
 |---------------------------------+--------------+-------------|
 | Baseline                        |   7656/ 3048 |     0/    0 |
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   |  13300/ 4812 |  5644/ 1764 |
 | ZonedDateTime                   |  13300/ 4812 |  5644/ 1764 |
+| Manual ZoneManager              |  13300/ 4812 |  5644/ 1764 |
 | Basic TimeZone (1 zone)         |  22024/ 4812 | 14368/ 1764 |
 | Basic TimeZone (2 zones)        |  22760/ 4812 | 15104/ 1764 |
 | Basic ZoneManager (1 zone)      |  23680/ 4812 | 16024/ 1764 |
