@@ -33,6 +33,7 @@ NtpClock	KEYWORD1
 SystemClock	KEYWORD1
 SystemClockLoop	KEYWORD1
 SystemClockCoroutine	KEYWORD1
+StmRTCClock	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -265,6 +266,9 @@ setNow	KEYWORD2
 sync	KEYWORD2
 getLastSyncTime	KEYWORD2
 isInit	KEYWORD2
+
+# StmRTCClock.h
+isTimeSet	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)

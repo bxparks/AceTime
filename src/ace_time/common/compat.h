@@ -93,6 +93,20 @@
   #include <pgmspace.h>
   #define acetime_strcmp_P strcmp_P
 
+
+
+#elif defined(ARDUINO_ARCH_STM32)
+  #include <avr/pgmspace.h>
+  #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
+
+  // strcmp_P(a,b) is defined to be strcmp(a,b), but we need a function
+  // pointer, so map it directly to strcmp()
+  #define acetime_strcmp_P strcmp
+
+  #undef SERIAL_PORT_MONITOR
+  #define SERIAL_PORT_MONITOR Serial
+
+
 #else
   #error Unsupported platform
 #endif
