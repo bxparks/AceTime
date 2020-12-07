@@ -58,8 +58,8 @@
 #include "ace_time/clock/SystemClockLoop.h"
 #include "ace_time/clock/SystemClockCoroutine.h"
 
-#if defined(STM32_CORE_VERSION)
-#include "ace_time/clock/StmRTCClock.h"
+#if defined(ARDUINO_ARCH_STM32)
+#include "ace_time/clock/StmRtcClock.h"
 #endif  //  #if defined(STM32_CORE_VERSION)
 
 

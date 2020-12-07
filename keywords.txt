@@ -33,7 +33,7 @@ NtpClock	KEYWORD1
 SystemClock	KEYWORD1
 SystemClockLoop	KEYWORD1
 SystemClockCoroutine	KEYWORD1
-StmRTCClock	KEYWORD1
+StmRtcClock	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)

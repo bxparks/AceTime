@@ -20,15 +20,15 @@ class HardwareDateTime;
 /**
  * A class that reads and writes HardwareDateTime and HardwareTemperature from a
  * STM RTC chip. This class is designed to access just enough features of the
- * RTC chip to implement the ace_time::StmRTCClock class. It is not
+ * RTC chip to implement the ace_time::StmRtcClock class. It is not
  * meant to provide access to all the features of the RTC chip.
  
  * Requires https://github.com/stm32duino/STM32RTC
  */
-class STMRTC {
+class StmRtc {
   public:
     /** Constructor. */
-    explicit STMRTC();
+    explicit StmRtc();
 
     /** Read the time into the HardwareDateTime object. */
     void readDateTime(HardwareDateTime* dateTime) const;
@@ -38,7 +38,7 @@ class STMRTC {
 
     bool isTimeSet() const;
   private:
-    STM32RTC* rtc;
+    STM32RTC* mRtc;
 };
 
 }

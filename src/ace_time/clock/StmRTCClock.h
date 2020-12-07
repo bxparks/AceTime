@@ -12,7 +12,7 @@
 #if defined(ARDUINO_ARCH_STM32)
 
 #include <stdint.h>
-#include "../hw/stmrtc.h"
+#include "../hw/StmRtc.h"
 #include "../hw/HardwareDateTime.h"
 #include "../LocalDateTime.h"
 #include "Clock.h"
@@ -23,15 +23,15 @@ namespace clock {
 /**
  * An implementation of Clock that uses a STM32 RTC chip.
  */
-class StmRTCClock: public Clock {
+class StmRtcClock: public Clock {
   public:
-    explicit StmRTCClock() {}
+    explicit StmRtcClock() {}
 
     void setup() {}
 
     acetime_t getNow() const override {
       hw::HardwareDateTime hardwareDateTime;
-      mSTMRTC.readDateTime(&hardwareDateTime);
+      mStmRtc.readDateTime(&hardwareDateTime);
       return toDateTime(hardwareDateTime).toEpochSeconds();
     }
     
@@ -39,11 +39,11 @@ class StmRTCClock: public Clock {
       if (epochSeconds == kInvalidSeconds) return;
 
       LocalDateTime now = LocalDateTime::forEpochSeconds(epochSeconds);
-      mSTMRTC.setDateTime(toHardwareDateTime(now));
+      mStmRtc.setDateTime(toHardwareDateTime(now));
     }
 
     bool isTimeSet() const { 
-      return mSTMRTC.isTimeSet(); 
+      return mStmRtc.isTimeSet(); 
     }
     
   private:
@@ -59,16 +59,15 @@ class StmRTCClock: public Clock {
 
     /**
      * Convert a LocalDateTime object to a HardwareDateTime object, ignoring
-     * time zone. In practice, it will often be most convenient to store the
-     * DS3231 as UTC time. Only 2 digits are supported by the year field in the
-     * DS3231 so the year is assumed to be between 2000 and 2099.
+     * time zone. In practice, it will often be most convenient to store
+     * as UTC time. Only 2 digits are supported by the year field.
      */
     static hw::HardwareDateTime toHardwareDateTime(const LocalDateTime& dt) {
       return hw::HardwareDateTime{(uint8_t) dt.yearTiny(), dt.month(),
           dt.day(), dt.hour(), dt.minute(), dt.second(), dt.dayOfWeek()};
     }
 
-    const hw::STMRTC mSTMRTC;
+    const hw::StmRtc mStmRtc;
 };
 
 }
