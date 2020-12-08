@@ -619,8 +619,8 @@ ISO 8601 formatted string and returns the `LocalDateTime` object.
 The `TimePeriod` class can be used to represents a difference between two
 `XxxDateTime` objects, if the difference is not too large. Internally, it is
 implemented as 3 unsigned `uint8_t` integers representing the hour, minute and
-seconds. There is a 4th signed `int8_t` integer that holds the sign (-1 or +1)
-of the time period. The largest (or smallest) time period that can be
+second components. There is a 4th signed `int8_t` integer that holds the sign
+(-1 or +1) of the time period. The largest (or smallest) time period that can be
 represented by this class is +/- 255h59m59s, corresponding to +/- 921599
 seconds.
 
@@ -629,8 +629,13 @@ namespace ace_time {
 
 class TimePeriod {
   public:
+    static const int32_t kInvalidPeriodSeconds = INT32_MIN;
+    static const int32_t kMaxPeriodSeconds = 921599;
+
+    static TimePeriod forError();
+
     explicit TimePeriod(uint8_t hour, uint8_t minute, uint8_t second,
-            int8_t sign = 1);
+        int8_t sign = 1);
     explicit TimePeriod(int32_t seconds = 0);
 
     uint8_t hour() const;
@@ -646,6 +651,8 @@ class TimePeriod {
     void sign(int8_t sign);
 
     int32_t toSeconds() const;
+
+    bool isError() const;
 
     int8_t compareTo(const TimePeriod& that) const;
     void printTo(Print& printer) const;
@@ -666,6 +673,13 @@ acetime_t diffSeconds = target.toEpochSeconds() - current.toEpochSeconds();
 TimePeriod timePeriod(diffSeconds);
 timePeriod.printTo(Serial)
 ```
+
+Sometimes it is useful to create a `TimePeriod` object that represents an error
+condition, for example, if the time interval is too large. The
+`TimePeriod::forError()` factory method returns a special instance that
+represents an error. The `TimePeriod::isError()` method on that object will
+return `true`. Calling `TimePeriod::toSeconds()` on an error object returns
+`kInvalidPeriodSeconds`.
 
 <a name="TimeOffset"></a>
 ### TimeOffset
