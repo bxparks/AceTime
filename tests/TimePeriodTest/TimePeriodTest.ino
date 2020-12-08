@@ -97,6 +97,28 @@ test(TimePeriodTest, negate) {
   assertEqual((int8_t) -1, a.sign());
 }
 
+test(TimePeriodTest, forError) {
+  TimePeriod period = TimePeriod::forError();
+  assertTrue(period.isError());
+  assertEqual(TimePeriod::kInvalidPeriodSeconds, period.toSeconds());
+}
+
+test(TimePeriodTest, maxOrMin) {
+  TimePeriod largest(TimePeriod::kMaxPeriodSeconds);
+  assertEqual(TimePeriod::kMaxPeriodSeconds, largest.toSeconds());
+
+  TimePeriod smallest(-TimePeriod::kMaxPeriodSeconds);
+  assertEqual(-TimePeriod::kMaxPeriodSeconds, smallest.toSeconds());
+}
+
+test(TimePeriodTest, tooLargeOrSmall) {
+  TimePeriod tooLarge(TimePeriod::kMaxPeriodSeconds + 1);
+  assertTrue(tooLarge.isError());
+
+  TimePeriod tooSmall(-TimePeriod::kMaxPeriodSeconds - 1);
+  assertTrue(tooSmall.isError());
+}
+
 // --------------------------------------------------------------------------
 
 void setup() {

@@ -4,6 +4,12 @@
     * Add entry for `ManualZoneManager` in
       [examples/MemoryBenchmark](examples/MemoryBenchmark). It seems to need
       between 0'ish to 250 bytes of flash.
+    * Add support for creating and handling a `TimePeriod` error object.
+        * Add `kMaxPeriodSeconds` and `kInvalidPeriodSeconds` constants.
+        * Add `forError()` factory method.
+        * Add error checking to `toSeconds()` and `TimePeriod(seconds)`
+          constructor.
+        * Printing an error object prints `<Invalid TimePeriod>`.
 * 1.3 (2020-11-30, TZ DB version 2020d)
     * Minor tweaks to silence clang++ warnings.
     * Create new `ZoneManager` interface (pure virtual) which is now the
