@@ -58,6 +58,11 @@
 #include "ace_time/clock/SystemClockLoop.h"
 #include "ace_time/clock/SystemClockCoroutine.h"
 
+#if defined(ARDUINO_ARCH_STM32)
+#include "ace_time/clock/StmRtcClock.h"
+#endif  //  #if defined(STM32_CORE_VERSION)
+
+
 // Version format: xxyyzz == "xx.yy.zz"
 #define ACE_TIME_VERSION 10300
 #define ACE_TIME_VERSION_STRING "1.3.0"
