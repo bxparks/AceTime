@@ -2,6 +2,8 @@ TZ_VERSION := 2019c
 
 # Files which pass 'mypy --strict'.
 SRC := \
+acetz.py \
+compare_acetz \
 compare_pytz \
 compare_dateutil \
 generate_validation.py \
