@@ -195,9 +195,9 @@ An example of more complex application is the
 WorldClock (https://github.com/bxparks/clocks/tree/master/WorldClock)
 which has 3 OLED displays over SPI, 3 timezones using `BasicZoneProcessor`, a
 `SystemClock` synchronized to a DS3231 chip on I2C, and 2 buttons with
-debouncing and event dispatching provided by the
-AceButton (https://github.com/bxparks/AceButton) library. This application fits
-inside the 30 kB flash size of an Arduino Pro Micro controller.
+debouncing and event dispatching provided by the AceButton
+(https://github.com/bxparks/AceButton) library. This application consumes about
+24 kB, well inside the 28 kB flash limit of an Arduino Pro Micro controller.
 
 Conversion from date-time components (year, month, day, etc) to epochSeconds
 (`ZonedDateTime::toEpochSeconds()`) takes about:
