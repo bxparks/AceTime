@@ -902,11 +902,22 @@ class TimeZone {
     static const uint8_t kTypeExtendedManaged =
         ZoneProcessorCache::kTypeExtended;
 
-    static TimeZone forTimeOffset(TimeOffset stdOffset,
+    static TimeZone forTimeOffset(
+        TimeOffset stdOffset,
         TimeOffset dstOffset = TimeOffset());
-    static TimeZone forZoneInfo(const basic::ZoneInfo* zoneInfo,
+    static TimeZone forHours(int8_t stdHours, int8_t dstHours = 0);
+    static TimeZone forMinutes(int8_t stdMinutes, int8_t dstMinutes = 0);
+    static TimeZone forHourMinute(
+        int8_t stdHour,
+        int8_t stdMinute,
+        int8_t dstHour = 0,
+        int8_t dstMinute = 0);
+
+    static TimeZone forZoneInfo(
+        const basic::ZoneInfo* zoneInfo,
         BasicZoneProcessor* zoneProcessor);
-    static TimeZone forZoneInfo(const extended::ZoneInfo* zoneInfo,
+    static TimeZone forZoneInfo(
+        const extended::ZoneInfo* zoneInfo,
         ExtendedZoneProcessor* zoneProcessor);
     static TimeZone forUtc();
 
@@ -985,26 +996,36 @@ offset. This is also identical to the `forUtc()` method:
 
 ```C++
 TimeZone tz; // UTC+00:00
-auto tz = TimeZone::forUtc(); // UTC+00:00
+auto tz = TimeZone::forUtc(); // identical to above
 ```
 
 To create `TimeZone` instances with other offsets, use the `forTimeOffset()`
-factory method:
+factory method, or starting with v1.4, use the `forHours()`, `forMinutes()` and
+`forHourMinute()` convenience methods:
 
 ```C++
-auto tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8)); // UTC-08:00
-auto tz = TimeZone::forTimeOffset(TimeOffset::forHourMinute(-4, -30)); // UTC-04:30
+// UTC-08:00, no DST shift
+auto tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
+auto tz = TimeZone::forHours(-8); // identical to above
+
+// UTC-04:30, no DST shift
+auto tz = TimeZone::forTimeOffset(TimeOffset::forHourMinute(-4, -30));
+auto tz = TimeZone::forHourMinute(-4, -30); // identical to above
+
+// UTC-03:30 with a 01:00 DST shift, so effectively UTC-02:30
 auto tz = TimeZone::forTimeOffset(
-    TimeOffset::forHours(-8),
-    TimeOffset::forHours(1)); // UTC-08:00+01:00 (effectively -07:00)
+    TimeOffset::forHourMinute(-3, -30),
+    TimeOffset::forHourMinute(1, 0));
+auto tz = TimeZone::forHourMinute(-3, -30, 1, 0); // identical to above
 ```
 
 The `TimeZone::isUtc()`, `TimeZone::isDst()` and `TimeZone::setDst(bool)`
 methods work only if the `TimeZone` is a `kTypeManual`.
 
 The `setDstOffset()` takes a `TimeOffset` as the argument instead of a simple
-`bool` because there are some zones (e.g. Europe/Dublin) which uses a negative
-offset in the winter, instead of adding a postive offset in the summer.
+`bool` because there are a handful of rare zones (e.g. Europe/Dublin, I think
+there is one other) which use a negative offset in the winter, instead of adding
+a postive offset in the summer.
 
 The `setStdOffset()` allows the base time offset to be changed, but this
 method is not expected to be used often.
