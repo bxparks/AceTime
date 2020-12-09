@@ -49,9 +49,9 @@ template<typename ZI, typename ZR, typename ZSC> class ZoneManagerImpl;
  * The TimeZone class should be treated as a const value type. (Except for
  * kTypeManual which is self-contained and allows the stdOffset and dstOffset
  * to be modified.) It can be passed around by value, but since it is between 5
- * bytes (8-bit) and 24 bytes (32-bit) big, it may be slightly more efficient
- * to pass by const reference, then save locally by-value when needed. The
- * ZonedDateTime holds the TimeZone object by-value.
+ * bytes (8-bit processors) and 12 bytes (32-bit processors) big, it may be
+ * slightly more efficient to pass by const reference, then save locally
+ * by-value when needed. The ZonedDateTime holds the TimeZone object by-value.
  *
  * Semantically, TimeZone really really wants to be a reference type because it
  * needs have a reference to the ZoneProcessor helper class to do its work. In
