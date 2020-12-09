@@ -4,7 +4,7 @@ See the [README.md](README.md) for introductory background.
 
 **Version**: 1.3 (2020-11-30, TZ DB version 2020d)
 
-**Table of Contents**
+## Table of Contents
 
 * [Installation](#Installation)
     * [Source Code](#SourceCode)
