@@ -60,7 +60,7 @@
 
 #if defined(ARDUINO_ARCH_STM32)
 #include "ace_time/clock/StmRtcClock.h"
-#endif  //  #if defined(STM32_CORE_VERSION)
+#endif // #if defined(STM32_ARCH_STM32)
 
 
 // Version format: xxyyzz == "xx.yy.zz"

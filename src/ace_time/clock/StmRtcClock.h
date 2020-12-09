@@ -1,12 +1,12 @@
 /*
  * MIT License
- * Copyright (c) 2018 Brian T. Park, Anatoli Arkhipenko
- 
- Requires https://github.com/stm32duino/STM32RTC
+ * Copyright (c) 2020 Brian T. Park, Anatoli Arkhipenko
+ *
+ * Requires https://github.com/stm32duino/STM32RTC
  */
 
-#ifndef ACE_TIME_STMRTC_CLOCK_H
-#define ACE_TIME_STMRTC_CLOCK_H
+#ifndef ACE_TIME_STM_RTC_CLOCK_H
+#define ACE_TIME_STM_RTC_CLOCK_H
 
 #if ! defined(UNIX_HOST_DUINO)
 #if defined(ARDUINO_ARCH_STM32)
@@ -21,7 +21,9 @@ namespace ace_time {
 namespace clock {
 
 /**
- * An implementation of Clock that uses a STM32 RTC chip.
+ * An implementation of Clock that uses a STM32 RTC chip using the
+ * ace_time::hw::StmRtc class that provides a hardware abstraction layer to the
+ * STM32RTC clock.
  */
 class StmRtcClock: public Clock {
   public:
@@ -34,7 +36,7 @@ class StmRtcClock: public Clock {
       mStmRtc.readDateTime(&hardwareDateTime);
       return toDateTime(hardwareDateTime).toEpochSeconds();
     }
-    
+
     void setNow(acetime_t epochSeconds) override {
       if (epochSeconds == kInvalidSeconds) return;
 
@@ -42,10 +44,11 @@ class StmRtcClock: public Clock {
       mStmRtc.setDateTime(toHardwareDateTime(now));
     }
 
-    bool isTimeSet() const { 
-      return mStmRtc.isTimeSet(); 
+    /** Return true if the RTC is available and the time is set. */
+    bool isTimeSet() const {
+      return mStmRtc.isTimeSet();
     }
-    
+
   private:
     /**
      * Convert the HardwareDateTime returned by the STM RTC chip to
@@ -70,10 +73,9 @@ class StmRtcClock: public Clock {
     const hw::StmRtc mStmRtc;
 };
 
-}
-}
-#endif  //  #if defined(ARDUINO_ARCH_STM32)
+} // hw
+} // ace_time
 
-#endif
-
-#endif  //  ACE_TIME_STMRTC_CLOCK_H
+#endif // #if defined(ARDUINO_ARCH_STM32)
+#endif // #if ! defined(UNIX_HOST_DUINO)
+#endif // #ifndef ACE_TIME_STM_RTC_CLOCK_H

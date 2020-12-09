@@ -547,5 +547,8 @@ incorporate everything, but I will give your ideas serious consideration.
 ## Authors
 
 * Created by Brian T. Park (brian@xparks.net).
-* Support an existing WiFi connection in `NtpClock` by @denis-stepanov
+* Support an existing WiFi connection in `NtpClock` by denis-stepanov@
   [#24](https://github.com/bxparks/AceTime/issues/24).
+* Support for STM32RTC through the `ace_time::clock::StmRtcClock` class
+  by Anatoli Arkhipenko (arkhipenko@)
+  [#39](https://github.com/bxparks/AceTime/pull/39).

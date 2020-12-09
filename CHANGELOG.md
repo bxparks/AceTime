@@ -10,6 +10,12 @@
         * Add error checking to `toSeconds()` and `TimePeriod(seconds)`
           constructor.
         * Printing an error object prints `<Invalid TimePeriod>`.
+    * Add support for the STM32RTC clock on a STM32 through the
+      `ace_time::clock::StmRtcClock` class.
+        * Currently **experimental** since I do not have any STM32 boards, so I
+          cannot test this code.
+        * See [#39](https://github.com/bxparks/AceTime/pull/39) for details.
+        * Thanks to Anatoli Arkhipenko (arkhipenko@).
 * 1.3 (2020-11-30, TZ DB version 2020d)
     * Minor tweaks to silence clang++ warnings.
     * Create new `ZoneManager` interface (pure virtual) which is now the

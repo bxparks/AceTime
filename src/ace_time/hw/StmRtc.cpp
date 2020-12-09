@@ -1,6 +1,6 @@
 /*
  * MIT License
- * Copyright (c) 2018 Brian T. Park, Anatoli Arkhipenko
+ * Copyright (c) 2020 Brian T. Park, Anatoli Arkhipenko
  */
 
 #if ! defined(UNIX_HOST_DUINO)
@@ -15,13 +15,12 @@ using ace_common::bcdToDec;
 using ace_common::decToBcd;
 
 namespace ace_time {
-
 namespace hw {
 
 StmRtc::StmRtc() {
 
   mRtc = &STM32RTC::getInstance();
-  if ( mRtc ) {
+  if (mRtc) {
     mRtc->setClockSource(STM32RTC::LSI_CLOCK);
     mRtc->begin(HOUR_FORMAT_24);
   }
@@ -30,7 +29,7 @@ StmRtc::StmRtc() {
 
 void StmRtc::readDateTime(HardwareDateTime* dateTime) const {
 
-  if ( mRtc && mRtc->isTimeSet() ) {
+  if (mRtc && mRtc->isTimeSet()) {
     
 //  Serial.println("StmRtc::readDateTime rtc is set");
     dateTime->second = mRtc->getSeconds(); 
@@ -57,21 +56,24 @@ void StmRtc::readDateTime(HardwareDateTime* dateTime) const {
 //  always set in 24h format
 void StmRtc::setDateTime(const HardwareDateTime& dateTime) const {
 
-  if ( mRtc ) {
+  if (mRtc) {
 //  Serial.println("STMRTC::setDateTime rtc is set");
     mRtc->setTime(dateTime.hour, dateTime.minute, dateTime.second);
-    mRtc->setDate(dateTime.dayOfWeek, dateTime.day, dateTime.month, dateTime.year);
+    mRtc->setDate(
+        dateTime.dayOfWeek, dateTime.day, dateTime.month, dateTime.year
+    );
   }
 }
 
 bool StmRtc::isTimeSet() const {
-  if ( mRtc ) {
+  if (mRtc) {
     return mRtc->isTimeSet();
   }
   return false;
 }
 
-}
-}
+} // hw
+} // ace_time
+
 #endif  //  #if ! defined(UNIX_HOST_DUINO)
 #endif  //  #if defined(ARDUINO_ARCH_STM32)
