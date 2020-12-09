@@ -10,7 +10,7 @@ using namespace ace_time;
 
 // Verify that we can use kZoneIdAmerica_Los_Angeles everywhere.
 test(ExtendedZoneRegistrarTest, kZoneId) {
-  assertEqual(0xb7f7e8f2, zonedbx::kZoneIdAmerica_Los_Angeles);
+  assertEqual((uint32_t) 0xb7f7e8f2, zonedbx::kZoneIdAmerica_Los_Angeles);
 }
 
 // --------------------------------------------------------------------------
