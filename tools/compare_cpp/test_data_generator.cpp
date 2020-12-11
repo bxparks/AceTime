@@ -10,9 +10,11 @@
  *    < zones.txt
  */
 
-#include <stdio.h>
+#include <stdio.h> // fprintf()
 #include <iostream>
-#include <regex>
+#include <map> // map<>
+#include <vector> // vector<>
+#include <string.h> // strcmp(), strncmp()
 #include <chrono>
 #include <date/date.h>
 #include <date/tz.h>
