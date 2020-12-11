@@ -13,4 +13,4 @@ json: test_data_generator.out small.txt
 		< small.txt
 
 clean:
-	rm -f test_data_generator.out validation_data.* validation_tests.*
+	rm -f test_data_generator.out validation_data.json

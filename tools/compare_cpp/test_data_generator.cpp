@@ -1,5 +1,5 @@
 /*
- * Generate the validation_data.* files for the zones given on the STDIN. The
+ * Generate the validation_data.json file for the zones given on the STDIN. The
  * transition time and UTC offsets are calculated using Howard Hinnant's date.h
  * and tz.h library. The Hinnant date library requires the --tz_version flag
  * even though we don't need it here.
@@ -8,6 +8,8 @@
  * $ ./test_data_generator.out --tz_version {version} \
  *    [--start_year start] [--until_year until] \
  *    < zones.txt
+ *
+ * Produces a 'validation_data.json' file in the current directory.
  */
 
 #include <stdio.h> // fprintf()
@@ -54,10 +56,7 @@ struct TestItem {
 /** Difference between Unix epoch (1970-01-1) and AceTime Epoch (2000-01-01). */
 const long SECONDS_SINCE_UNIX_EPOCH = 946684800;
 
-// Output files
-const char VALIDATION_DATA_CPP[] = "validation_data.cpp";
-const char VALIDATION_DATA_H[] = "validation_data.h";
-const char VALIDATION_TESTS_CPP[] = "validation_tests.cpp";
+/** Output file name for the JSON data. */
 const char VALIDATION_DATA_JSON[] = "validation_data.json";
 
 // Command line arguments

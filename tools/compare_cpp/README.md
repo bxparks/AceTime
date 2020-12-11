@@ -1,7 +1,7 @@
 # Test Data Generator using Hinnant Date Library
 
-The `test_data_generator.cpp` program generates the `validation_data.cpp`,
-`validation_data.h` and `validation_tests.cpp` files needed by:
+The `test_data_generator.cpp` program generates the `validation_data.json` file
+needed by:
 
     * `tests/validation/BasicHinnantDateTest/`
     * `tests/validation/ExtendedHinnantDateTest/`
