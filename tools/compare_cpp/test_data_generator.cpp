@@ -12,14 +12,15 @@
  * Produces a 'validation_data.json' file in the current directory.
  */
 
-#include <stdio.h> // fprintf()
-#include <iostream>
+#include <iostream> // getline()
 #include <map> // map<>
 #include <vector> // vector<>
+#include <algorithm> // sort()
 #include <string.h> // strcmp(), strncmp()
+#include <stdio.h> // fprintf()
 #include <chrono>
 #include <date/date.h>
-#include <date/tz.h>
+#include <date/tz.h> // time_zone
 
 using namespace date;
 using namespace std::chrono;
@@ -190,8 +191,10 @@ void addMonthlySamples(TestData& testData, const time_zone& tz,
           sys_seconds ss = zdt.get_sys_time();
           TestItem item = toTestItem(tz, ss, type);
           addTestItem(testData, zoneName, item);
+          // One day sample is enough, so break as soon as we get one.
           break;
         } catch (...) {
+          // Set type to 'T' to indicate that the 1st was invalid.
           type = 'T';
         }
       }
