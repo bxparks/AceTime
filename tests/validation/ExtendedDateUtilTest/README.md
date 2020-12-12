@@ -5,6 +5,8 @@ This unit test compares the DST transitions calculated by the
 the `../../tools/compare_dateutil/test_data_generator.py` program which uses the
 [dateutil](https://pypi.org/project/python-dateutil/) library.
 
+## Running the Test
+
 The Python tool generates about 130,000 data points spanning the year 2000 to
 2038. It is too large to run on any Arduino board that I am aware of, including
 the ESP32.

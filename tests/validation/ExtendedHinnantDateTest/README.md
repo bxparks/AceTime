@@ -10,7 +10,8 @@ This unit test compares the DST transitions calculated by the
 
 Assuming that you have `g++` and `make` installed, just type:
 ```
-$ make clean && make -j 4
+$ make clean
+$ make -j 4
 
 $ make runtests
 TestRunner started on 387 test(s).
@@ -25,11 +26,12 @@ $ make clean
 
 ## Compiling the HinnantDate Test Data Generator
 
-The `Makefile` assumes that you have already compiled the
-`../../../tools/compare_cpp/test_data_generator.out` program. Type the
-following:
+The `Makefile` attempts to compile the
+`../../../tools/compare_cpp/test_data_generator.out` program if it does not find
+it. Sometimes you may need to manually recompile it. Type the following:
 
 ```
 $ cd ../../../tools/compare_cpp
+$ make clean
 $ make
 ```
