@@ -34,7 +34,7 @@ See the [README.md](README.md) for introductory background.
         * [Basic zonedb](#BasicZonedb)
         * [Extended zonedbx](#ExtendedZonedbx)
         * [BasicZone and ExtendedZone](#BasicZoneAndExtendedZone)
-        * [TZ Database Version](#TZDatabaseVersion)
+        * [TZ Database Version](#TzDatabaseVersion)
         * [Zone Info Year Range](#ZoneInfoYearRange)
     * [ZoneManager](#ZoneManager)
         * [Default Zone Registry](#DefaultZoneRegistry)
@@ -1448,7 +1448,7 @@ are:
 In the current version (v1.2), this database contains all 387 timezones from
 the year 2000 to 2049 (inclusive).
 
-<a name="TZDatabaseVersion"></a>
+<a name="TzDatabaseVersion"></a>
 #### TZ Database Version
 
 The IANA TZ Database is updated continually. As of this writing, the latest

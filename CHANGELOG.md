@@ -10,12 +10,32 @@
         * Add error checking to `toSeconds()` and `TimePeriod(seconds)`
           constructor.
         * Printing an error object prints `<Invalid TimePeriod>`.
-    * Add support for the STM32RTC clock on a STM32 through the
+    * Add support for the STM32RTC clock on an STM32 through the
       `ace_time::clock::StmRtcClock` class.
-        * Currently **experimental** since I do not have any STM32 boards, so I
-          cannot test this code.
+        * Currently **experimental** and untested.
+        * I do not have any STM32 boards right now, so I cannot test this code.
         * See [#39](https://github.com/bxparks/AceTime/pull/39) for details.
         * Thanks to Anatoli Arkhipenko (arkhipenko@).
+    * Add convenience factory methods for creating manual `TimeZone` objects.
+      Saves a lot of typing by avoiding the `TimeOffset` objects:
+        * `TimeZone::forHours()`
+        * `TimeZone::forMinutes()`
+        * `TimeZone::forHourMinute()`
+    * Fix incorrect `kTypeXxx` constants in `ZoneManager.h`. Fortunately, the
+      numerical values overlapped perfectly, so didn't cause any bugs in actual
+      code.
+    * `USER_GUIDE.md`
+        * Add documentation about accessing the meta information about the
+          `zonedb` and `zonedbx` databases:
+            * `zonedb::kTzDatabaseVersion`
+            * `zonedb::kZoneContext.startYear`
+            * `zonedb::kZoneContext.untilYear`
+            * `zonedbx::kTzDatabaseVersion`
+            * `zonedbx::kZoneContext.startYear`
+            * `zonedbx::kZoneContext.untilYear`
+        * Add documentation that the `ZonedDateTime` must always be within
+          `startYear` and `untilYear`. An error object will be returned outside
+          of that range.
 * 1.3 (2020-11-30, TZ DB version 2020d)
     * Minor tweaks to silence clang++ warnings.
     * Create new `ZoneManager` interface (pure virtual) which is now the
