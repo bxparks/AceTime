@@ -5,13 +5,14 @@
 import os
 import logging
 import json
+from typing import List
+from typing_extensions import TypedDict
+from zonedb.bufestimator import BufSizeInfo, BufSizeMap
 from .extractor import ZonesMap
 from .extractor import RulesMap
 from .extractor import LinksMap
 from .transformer import CommentsMap
 from .transformer import StringCollection
-from typing import List
-from typing_extensions import TypedDict
 
 
 # The internal representation of the TZ Database zone files.
@@ -40,6 +41,10 @@ class TzDb(TypedDict):
     notable_policies: CommentsMap
     format_strings: StringCollection
     zone_strings: StringCollection
+
+    # Data from BufSizeEstimator
+    buf_sizes: BufSizeMap
+    max_buf_size: int
 
 
 class TzDbCollector:
@@ -78,6 +83,7 @@ class TzDbCollector:
         notable_policies: CommentsMap,
         format_strings: StringCollection,
         zone_strings: StringCollection,
+        buf_size_info: BufSizeInfo,
     ):
         self.tzdb: TzDb = {
             # Context data.
@@ -99,13 +105,15 @@ class TzDbCollector:
             'removed_zones': removed_zones,
             'removed_links': removed_links,
             'removed_policies': removed_policies,
-
             'notable_zones': notable_zones,
             'notable_links': notable_links,
             'notable_policies': notable_policies,
-
             'format_strings': format_strings,
             'zone_strings': zone_strings,
+
+            # Data from BufSizeEstimator
+            'buf_sizes': buf_size_info['buf_sizes'],
+            'max_buf_size': buf_size_info['max_buf_size'],
         }
 
     def get_data(self) -> TzDb:

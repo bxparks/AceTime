@@ -699,6 +699,9 @@ class ZoneSpecifier:
 
         Returns a tuple of tuples:
             ((max_actives, year), (max_buffer_size, year)).
+
+        TODO: Change the return type to a NamedTuple, or a TypedDict for
+        readability.
         """
         max_actives = (0, 0)  # (count, year)
         max_buffer_size = (0, 0)  # (count, year)

@@ -2,11 +2,21 @@
 #
 # MIT License
 
+from typing import Dict
+from typing import TypedDict
 from .zone_specifier import ZoneSpecifier
 from .ingenerator import ZoneInfoMap
 from .ingenerator import ZonePolicyMap
-from typing import Dict
-from typing import Tuple
+
+
+# zoneName -> bufSize
+BufSizeMap = Dict[str, int]
+
+
+class BufSizeInfo(TypedDict):
+    """Return type of BufSizeEstimator.estimate()."""
+    buf_sizes: BufSizeMap
+    max_buf_size: int  # maximum of all bufSize
 
 
 class BufSizeEstimator:
@@ -33,25 +43,30 @@ class BufSizeEstimator:
         self.start_year = start_year
         self.until_year = until_year
 
-    def estimate(self) -> Tuple[Dict[str, int], int]:
+    def estimate(self) -> BufSizeInfo:
         """Calculate the (dict) of {full_name -> buf_size} where buf_size is one
         more than the estimate from ZoneSpecifier.get_buffer_sizes(). Return
         the tuple of (buf_sizes, max_size).
         """
-        buf_sizes: Dict[str, int] = {}
+        buf_sizes: BufSizeMap = {}
         max_size = 0
         for zone_name, zone_info in self.zone_infos.items():
             zone_specifier = ZoneSpecifier(zone_info)
-            (max_actives, max_buffer_size) = zone_specifier.get_buffer_sizes(
-                self.start_year, self.until_year)
+
+            # get_buffer_sizes() returns a tuple of
+            # ((max_actives, year), (max_buffer_size, year)).
+            (max_actives, max_buf_size) = zone_specifier.get_buffer_sizes(
+                start_year=self.start_year,
+                until_year=self.until_year,
+            )
 
             # The TransitionStorage size should be one more than the estimate
             # because TransitionStorage.getFreeAgent() needs one slot even if
             # it's not used.
-            buf_size = max_buffer_size[0] + 1
+            buf_size = max_buf_size[0] + 1
 
             # The estimate is off for Asia/Atyrau. ZoneSpecifier returns
-            # max_buffer_size[0]==4 which means 5 should be enough, but
+            # max_buf_size[0]==4 which means 5 should be enough, but
             # TransitionStorage.getHighWater() says that 6 is required. Not sure
             # why.
             if zone_name == 'Asia/Atyrau':
@@ -61,4 +76,7 @@ class BufSizeEstimator:
             if buf_size > max_size:
                 max_size = buf_size
 
-        return (buf_sizes, max_size)
+        return {
+            'buf_sizes': buf_sizes,
+            'max_buf_size': max_size,
+        }

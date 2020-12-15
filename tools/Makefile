@@ -1,4 +1,4 @@
-TZ_VERSION := 2019c
+TZ_VERSION := 2020d
 
 # Files which pass 'mypy --strict'.
 SRC := \
@@ -60,7 +60,7 @@ validate: $(TZ_VERSION)
 # Generate tzdb.json for testing purposes.
 tzdb.json: $(SRC) $(TZ_VERSION)
 	./tzcompiler.py --tz_version $(TZ_VERSION) --input_dir $(TZ_VERSION) \
-	--scope basic --action tzdb
+	--scope extended --action tzdb
 
 # Generate the zones.txt file for testing purposes.
 zones.txt: $(SRC) $(TZ_VERSION)
