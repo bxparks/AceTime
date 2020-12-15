@@ -56,7 +56,7 @@ import argparse
 import logging
 import sys
 from typing_extensions import Protocol
-from tzdb.extractor import Extractor
+from tzdb.extractor import Extractor, ZonesMap, RulesMap
 from tzdb.transformer import Transformer
 from tzdb.tzdbcollector import TzDbCollector, TzDb
 from zonedb.argenerator import ArduinoGenerator
@@ -86,18 +86,10 @@ def generate_zonedb(
     generate_zone_strings: bool,
     tzdb: TzDb,
 ) -> None:
-
+    """Generate the zonedb/ or zonedbx/ files for Python or Arduino,
+    but probably mostly for Arduino.
+    """
     logging.info('======== Generating zonedb files')
-
-    # Generate internal versions of zone_infos and zone_policies
-    # so that ZoneSpecifier can be created.
-    logging.info('==== Generating inlined zone_infos and zone_policies')
-    inline_generator = InlineGenerator(tzdb['zones_map'], tzdb['rules_map'])
-    (zone_infos, zone_policies) = inline_generator.generate_maps()
-    logging.info(
-        'zone_infos=%d; zone_policies=%d',
-        len(zone_infos), len(zone_policies))
-
     generator: Generator
 
     # Create the Python or Arduino files as requested
@@ -124,44 +116,58 @@ def generate_zonedb(
                     f"scope '{tzdb['scope']}'"
                 )
 
-        # Generate the buf_size estimates for each zone, between start_year and
-        # until_year.
-        logging.info('==== Estimating transition buffer sizes')
-        logging.info(
-            'Checking years in [%d, %d)',
-            tzdb['start_year'],
-            tzdb['until_year'],
-        )
-        estimator = BufSizeEstimator(
-            zone_infos=zone_infos,
-            zone_policies=zone_policies,
-            start_year=tzdb['start_year'],
-            until_year=tzdb['until_year'],
-        )
-        buf_size_info: BufSizeInfo = estimator.estimate()
-        logging.info(
-            'Num zones=%d; Max buffer size=%d',
-            len(buf_size_info['buf_sizes']),
-            buf_size_info['max_buf_size'],
-        )
-        if buf_size_info['max_buf_size'] \
-                > EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS:
-            raise Exception(
-                f"Max buffer size={buf_size_info['max_buf_size']} "
-                f"is larger than ExtendedZoneProcessor.kMaxTransitions="
-                f"{EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS}"
-            )
-
         generator = ArduinoGenerator(
             invocation=invocation,
             db_namespace=db_namespace,
             generate_zone_strings=generate_zone_strings,
             tzdb=tzdb,
-            buf_sizes=buf_size_info['buf_sizes'],
         )
         generator.generate_files(output_dir)
     else:
         raise Exception("Unrecognized language '%s'" % language)
+
+
+def estimate_buf_size(
+    zones_map: ZonesMap,
+    rules_map: RulesMap,
+    start_year: int,
+    until_year: int,
+) -> BufSizeInfo:
+    """Estimate the buf_size_info using InlineGenerator and BufSizeEstimator.
+    """
+    # Generate internal versions of zone_infos and zone_policies
+    # so that ZoneSpecifier can be created.
+    logging.info('==== Generating inlined zone_infos and zone_policies')
+    inline_generator = InlineGenerator(zones_map, rules_map)
+    (zone_infos, zone_policies) = inline_generator.generate_maps()
+    logging.info(
+        'zone_infos=%d; zone_policies=%d',
+        len(zone_infos), len(zone_policies))
+
+    # Generate the buf_size estimates for each zone, between start_year and
+    # until_year.
+    logging.info('==== Estimating transition buffer sizes')
+    logging.info('Checking years in [%d, %d)', start_year, until_year)
+    estimator = BufSizeEstimator(
+        zone_infos=zone_infos,
+        zone_policies=zone_policies,
+        start_year=start_year,
+        until_year=until_year,
+    )
+    buf_size_info = estimator.estimate()
+    logging.info(
+        'Num zones=%d; Max buffer size=%d',
+        len(buf_size_info['buf_sizes']),
+        buf_size_info['max_buf_size'],
+    )
+    if buf_size_info['max_buf_size'] \
+            > EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS:
+        raise Exception(
+            f"Max buffer size={buf_size_info['max_buf_size']} "
+            f"is larger than ExtendedZoneProcessor.kMaxTransitions="
+            f"{EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS}"
+        )
+    return buf_size_info
 
 
 def main() -> None:
@@ -341,6 +347,14 @@ def main() -> None:
         format_strings, zone_strings,
     ) = transformer.get_data()
 
+    # Estimate the buffer size of ExtendedZoneProcessor.TransitionStorage.
+    buf_size_info = estimate_buf_size(
+        zones_map=zones_map,
+        rules_map=rules_map,
+        start_year=args.start_year,
+        until_year=args.until_year,
+    )
+
     # Collect TZ DB data into a single JSON-serializable object.
     tzdb_generator = TzDbCollector(
         tz_version=args.tz_version,
@@ -362,6 +376,7 @@ def main() -> None:
         notable_policies=notable_policies,
         format_strings=format_strings,
         zone_strings=zone_strings,
+        buf_size_info=buf_size_info,
     )
     tzdb = tzdb_generator.get_data()
 

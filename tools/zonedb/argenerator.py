@@ -34,6 +34,7 @@ from tzdb.transformer import hash_name
 from tzdb.transformer import CommentsMap
 from tzdb.transformer import StringCollection
 from tzdb.tzdbcollector import TzDb
+from zonedb.bufestimator import BufSizeMap
 
 # map{policy_name: map{letter: index}}
 # With a hack to deal with mypy's confusion with OrderedDict (at least on
@@ -63,7 +64,6 @@ class ArduinoGenerator:
         db_namespace: str,
         generate_zone_strings: bool,
         tzdb: TzDb,
-        buf_sizes: Dict[str, int],
     ):
         self.scope = tzdb['scope']
         self.db_namespace = db_namespace
@@ -99,7 +99,7 @@ class ArduinoGenerator:
             notable_zones=tzdb['notable_zones'],
             notable_links=tzdb['notable_links'],
             notable_policies=tzdb['notable_policies'],
-            buf_sizes=buf_sizes,
+            buf_sizes=tzdb['buf_sizes'],
         )
         self.zone_registry_generator = ZoneRegistryGenerator(
             invocation=invocation,
@@ -715,7 +715,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         notable_zones: CommentsMap,
         notable_links: CommentsMap,
         notable_policies: CommentsMap,
-        buf_sizes: Dict[str, int],
+        buf_sizes: BufSizeMap,
     ):
         self.invocation = invocation
         self.tz_version = tz_version

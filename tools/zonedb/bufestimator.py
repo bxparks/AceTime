@@ -2,16 +2,20 @@
 #
 # MIT License
 
+from typing import Dict
+from typing import TypedDict
 from .zone_specifier import ZoneSpecifier
 from .ingenerator import ZoneInfoMap
 from .ingenerator import ZonePolicyMap
-from typing import Dict
-from typing import TypedDict
+
+
+# zoneName -> bufSize
+BufSizeMap = Dict[str, int]
 
 
 class BufSizeInfo(TypedDict):
     """Return type of BufSizeEstimator.estimate()."""
-    buf_sizes: Dict[str, int]  # zoneName -> bufSize
+    buf_sizes: BufSizeMap
     max_buf_size: int  # maximum of all bufSize
 
 
@@ -44,7 +48,7 @@ class BufSizeEstimator:
         more than the estimate from ZoneSpecifier.get_buffer_sizes(). Return
         the tuple of (buf_sizes, max_size).
         """
-        buf_sizes: Dict[str, int] = {}
+        buf_sizes: BufSizeMap = {}
         max_size = 0
         for zone_name, zone_info in self.zone_infos.items():
             zone_specifier = ZoneSpecifier(zone_info)
