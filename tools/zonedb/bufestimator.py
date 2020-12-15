@@ -3,7 +3,7 @@
 # MIT License
 
 from typing import Dict
-from typing import TypedDict
+from typing_extensions import TypedDict
 from .zone_specifier import ZoneSpecifier
 from .ingenerator import ZoneInfoMap
 from .ingenerator import ZonePolicyMap
