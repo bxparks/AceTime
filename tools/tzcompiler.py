@@ -163,9 +163,11 @@ def estimate_buf_size(
     )
     if buf_size_info['max_buf_size'] \
             > EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS:
-        msg = (f"Max buffer size={buf_size_info['max_buf_size']} "
-              f"is larger than ExtendedZoneProcessor.kMaxTransitions="
-              f"{EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS}")
+        msg = (
+            f"Max buffer size={buf_size_info['max_buf_size']} "
+            f"is larger than ExtendedZoneProcessor.kMaxTransitions="
+            f"{EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS}"
+        )
         if ignore_buf_size_too_large:
             logging.warning(msg)
         else:
