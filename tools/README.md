@@ -38,48 +38,39 @@ The TZ Database processing pipeline for `tzcompiler.py` looks something like
 this:
 
 ```
-                    TZDB files
-                        |
-                        v
-                   extractor.py
-                        |
-                        v
-                  transformer.py
-                        |
-                        v          [tzdb]
-      .-------- tzdbcollector.py ----------> tzdb.json
-     /             /    |    \
-    /             /     |     \
-   /             /      |      \ [zonedb, python]
-  /             /       |       v
- /             /        |     pygenerator.py
-/             /         v           \
-|  [zonedb,  /  ingenerator.py       v
-|  arduino] /          /        zone_infos.py
-|          /          /         zone_policies.py
-|         /          /          zone_strings.py
-|        /          v                |
-|       / zone_specifier.py          v
-|      /           /            zinfo.py
-|     /           v
-|     |   bufestimator.py
-|     |      /
-|     |     /
-|     v    v
-|  argenerator.py
-|        |
-|        v
-|   zone_infos.{h,cpp}
-|   zone_policies.{h,cpp}
-|   zone_registry.{h,cpp}
-|   zone_strings.{h,cpp} (optional)
- \
-  \
-   v
-  zonelistgenerator.py
-      |
-      v
-  zones.txt
+              TZDB files
+                  |
+                  v
+             extractor.py
+                  |
+                  v
+            transformer.py
+                  |  \
+                  |   v
+                  | ingenerator.py
+                  |    \
+                  |     v
+                  |  zone_specifier.py
+                  |       \
+                  |        v
+                  |   bufestimator.py
+                  |       /
+                  v      v
+          tzdbcollector.py
+                  |
+                  v
+          tzdb(internal) ---------------.-------------------.
+            /         \                  \                   \
+           v           v                  v                   v
+ argenerator.py       pygenerator.py    zonelistgenerator.py  tzdb.json
+       |                     |                 |
+       v                     v                 v
+zone_infos.{h,cpp}      zone_infos.py      zones.txt
+zone_policies.{h,cpp}   zone_policies.py
+zone_registry.{h,cpp}   zone_strings.py
+zone_strings.{h,cpp}         |
+                             v
+                          zinfo.py
 ```
 
 The `[zonedb/*]` and `[zonelist]` annotations in the diagram correspond to the
@@ -101,7 +92,9 @@ The `zones.txt` from the `tzcompiler.py` determines the time zones which
 should be processed by the various `compare_xxx` scripts:
 
 ```
-tzcompiler.py
+   |
+   v
+zonelistgenerator.py
    |
    v
 zones.txt
@@ -110,7 +103,6 @@ zones.txt
    |        |
    |        v
    +--> compare_java/TestDataGenerator.java -----.
-   |                                             |
    |                                             |
    |                                             |
    |    Hinnant/date                             |
@@ -137,7 +129,7 @@ zones.txt
    +-> compare_dateutil/test_data_generator.py-> +
                                                 /
                                                /
-        validation_data.json <----------------/
+        validation_data.json <----------------.
                 |
                 v
         generate_validation.py <-- compare*/blacklist.json
