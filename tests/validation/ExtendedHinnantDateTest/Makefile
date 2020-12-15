@@ -29,9 +29,11 @@ runtests:
 	./$(APP_NAME).out
 
 # Define the scope of the test data.
+# If START_YEAR=1974, then tzcompiler.py must be given the
+# --ignore_buf_size_too_larger flag to prevent an exception.
 SCOPE = extended
 TZ_VERSION = 2020d
-START_YEAR = 1974
+START_YEAR = 2000
 UNTIL_YEAR = 2050
 
 validation_data.cpp: validation_data.h

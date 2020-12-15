@@ -132,6 +132,7 @@ def estimate_buf_size(
     rules_map: RulesMap,
     start_year: int,
     until_year: int,
+    ignore_buf_size_too_large: bool,
 ) -> BufSizeInfo:
     """Estimate the buf_size_info using InlineGenerator and BufSizeEstimator.
     """
@@ -162,11 +163,13 @@ def estimate_buf_size(
     )
     if buf_size_info['max_buf_size'] \
             > EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS:
-        raise Exception(
-            f"Max buffer size={buf_size_info['max_buf_size']} "
-            f"is larger than ExtendedZoneProcessor.kMaxTransitions="
-            f"{EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS}"
-        )
+        msg = (f"Max buffer size={buf_size_info['max_buf_size']} "
+              f"is larger than ExtendedZoneProcessor.kMaxTransitions="
+              f"{EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS}")
+        if ignore_buf_size_too_large:
+            logging.warning(msg)
+        else:
+            raise Exception(msg)
     return buf_size_info
 
 
@@ -277,6 +280,15 @@ def main() -> None:
         default='',
     )
 
+    # Flag to ignore max_buf_size check. Needed on ExtendedHinnantDateTest if we
+    # want to test the extended year range from 1974 to 2050, because one of the
+    # zones requires a buf_size=9, but ExtendedZoneProcessor only supports 8.
+    parser.add_argument(
+        '--ignore_buf_size_too_large',
+        help='Ignore transition buf size too large',
+        action='store_true',
+    )
+
     # Parse the command line arguments
     args = parser.parse_args()
 
@@ -353,6 +365,7 @@ def main() -> None:
         rules_map=rules_map,
         start_year=args.start_year,
         until_year=args.until_year,
+        ignore_buf_size_too_large=args.ignore_buf_size_too_large,
     )
 
     # Collect TZ DB data into a single JSON-serializable object.
