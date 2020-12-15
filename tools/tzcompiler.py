@@ -63,7 +63,14 @@ from zonedb.argenerator import ArduinoGenerator
 from zonedb.pygenerator import PythonGenerator
 from zonedb.ingenerator import InlineGenerator
 from zonedb.zonelistgenerator import ZoneListGenerator
-from zonedb.bufestimator import BufSizeEstimator
+from zonedb.bufestimator import BufSizeEstimator, BufSizeInfo
+
+
+# The value of `ExtendedZoneProcessor.kMaxTransitions` which determines the
+# buffer size in the TransitionStorage class. The value of
+# BufSizeInfo['max_buf_size'] calculated by BufSizeEstimator must be equal or
+# smaller than this constant.
+EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS = 8
 
 
 class Generator(Protocol):
@@ -122,21 +129,35 @@ def generate_zonedb(
         logging.info('==== Estimating transition buffer sizes')
         logging.info(
             'Checking years in [%d, %d)',
-            tzdb['start_year'], tzdb['until_year'])
+            tzdb['start_year'],
+            tzdb['until_year'],
+        )
         estimator = BufSizeEstimator(
-            zone_infos, zone_policies, tzdb['start_year'], tzdb['until_year'])
-        (buf_sizes, max_size) = estimator.estimate()
+            zone_infos=zone_infos,
+            zone_policies=zone_policies,
+            start_year=tzdb['start_year'],
+            until_year=tzdb['until_year'],
+        )
+        buf_size_info: BufSizeInfo = estimator.estimate()
         logging.info(
             'Num zones=%d; Max buffer size=%d',
-            len(buf_sizes), max_size,
+            len(buf_size_info['buf_sizes']),
+            buf_size_info['max_buf_size'],
         )
+        if buf_size_info['max_buf_size'] \
+                > EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS:
+            raise Exception(
+                f"Max buffer size={buf_size_info['max_buf_size']} "
+                f"is larger than ExtendedZoneProcessor.kMaxTransitions="
+                f"{EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS}"
+            )
 
         generator = ArduinoGenerator(
             invocation=invocation,
             db_namespace=db_namespace,
             generate_zone_strings=generate_zone_strings,
             tzdb=tzdb,
-            buf_sizes=buf_sizes,
+            buf_sizes=buf_size_info['buf_sizes'],
         )
         generator.generate_files(output_dir)
     else:
