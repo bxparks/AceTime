@@ -60,6 +60,19 @@ OffsetInfo = NamedTuple('OffsetInfo', [
     ('abbrev', str),
 ])
 
+# A tuple that holds a count and the year which it is related to.
+CountAndYear = NamedTuple('CountAndYear', [
+    ('count', int),
+    ('year', int),
+])
+
+# Return type that contains the maximum active transitions and the year which
+# that occurred, and the max_buffer_size of TransitionStorage and its year.
+BufferSizeInfo = NamedTuple('BufferSizeInfo', [
+    ('max_actives', CountAndYear),
+    ('max_buffer_size', CountAndYear),
+])
+
 # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
 # (2000-01-01 00:00:00)
 SECONDS_SINCE_UNIX_EPOCH = 946684800
@@ -694,34 +707,31 @@ class ZoneSpecifier:
         self,
         start_year: int,
         until_year: int,
-    ) -> Tuple[Tuple[int, int], Tuple[int, int]]:
+    ) -> BufferSizeInfo:
         """Find the maximum number of actual transitions and the maximum number
         of candidate transitions across the given start_year and until_year.
         This is useful for determining that buffer size of the C++ version
         of this code which uses static sizes for the Transition buffers.
-
-        Returns a tuple of tuples:
-            ((max_actives, year), (max_buffer_size, year)).
-
-        TODO: Change the return type to a NamedTuple, or a TypedDict for
-        readability.
         """
-        max_actives = (0, 0)  # (count, year)
-        max_buffer_size = (0, 0)  # (count, year)
+        max_actives = CountAndYear(0, 0)
+        max_buffer_size = CountAndYear(0, 0)
         for year in range(start_year, until_year):
             self.init_for_year(year)
 
             # Number of active transitions.
             transition_count = len(self.transitions)
-            if transition_count > max_actives[0]:
-                max_actives = (transition_count, year)
+            if transition_count > max_actives.count:
+                max_actives = CountAndYear(transition_count, year)
 
             # Max size of the transition buffer.
             buffer_size = self.max_transition_buffer_size
-            if buffer_size > max_buffer_size[0]:
-                max_buffer_size = (buffer_size, year)
+            if buffer_size > max_buffer_size.count:
+                max_buffer_size = CountAndYear(buffer_size, year)
 
-        return (max_actives, max_buffer_size)
+        return BufferSizeInfo(
+            max_actives=max_actives,
+            max_buffer_size=max_buffer_size,
+        )
 
     # The following methods are designed to be used internally.
 

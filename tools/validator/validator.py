@@ -13,13 +13,14 @@ continuous integration pipeline, it's too easy to bitrot.
 """
 
 import logging
+from typing import List, Dict
 from datetime import datetime
 from zonedb.ingenerator import ZoneInfoMap
 from zonedb.ingenerator import ZonePolicyMap
 from zonedb.zone_specifier import ZoneSpecifier
 from zonedb.zone_specifier import to_utc_string
 from zonedb.zone_specifier import SECONDS_SINCE_UNIX_EPOCH
-from typing import List
+from zonedb.zone_specifier import BufferSizeInfo
 from .zstdgenerator import TestDataGenerator
 from .zstdgenerator import TestData
 from .zstdgenerator import TestItem
@@ -97,7 +98,7 @@ class Validator:
         years.
         """
         # map of {zoneName -> (numTransitions, year)}
-        transition_stats = {}
+        transition_stats: Dict[str, BufferSizeInfo] = {}
 
         # If 'self.year' is defined, clobber the range of validation years.
         if self.year is not None:
@@ -127,17 +128,19 @@ class Validator:
                 self.start_year, self.until_year)
 
         logging.info('Zone Name: #NumTransitions (year); #MaxBufSize (year)')
-        for zone_name, count_record in sorted(
-                transition_stats.items(), key=lambda x: x[1], reverse=True):
-            # count_record = Tuple[Tuple[int, int], Tuple[int, int]]
-            # TODO: Convert this to NamedTuple.
+        transition_stats_by_descending_count = sorted(
+            transition_stats.items(),
+            key=lambda x: x[1],
+            reverse=True,
+        )
+        for zone_name, count_record in transition_stats_by_descending_count:
             logging.info(
                 '{zone_name}: %d (%04d); %d (%04d)',
                 zone_name,
-                count_record[0][0],
-                count_record[0][1],
-                count_record[1][0],
-                count_record[1][1],
+                count_record.max_actives.count,
+                count_record.max_actives.year,
+                count_record.max_buffer_size.count,
+                count_record.max_buffer_size.year,
             )
 
     def validate_test_data(self) -> None:
