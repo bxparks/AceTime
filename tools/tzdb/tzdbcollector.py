@@ -5,7 +5,7 @@
 import os
 import logging
 import json
-from typing import List
+from typing import List, Dict
 from typing_extensions import TypedDict
 from zonedb.bufestimator import BufSizeInfo, BufSizeMap
 from .extractor import ZonesMap
@@ -43,6 +43,9 @@ class TzDb(TypedDict):
     buf_sizes: BufSizeMap
     max_buf_size: int
 
+    # ZoneIds
+    zone_ids: Dict[str, int]
+
 
 class TzDbCollector:
     """Collect the various data structures from parsing the TZ Database files
@@ -79,6 +82,7 @@ class TzDbCollector:
         notable_links: CommentsMap,
         notable_policies: CommentsMap,
         buf_size_info: BufSizeInfo,
+        zone_ids: Dict[str, int],
     ):
         self.tzdb: TzDb = {
             # Context data.
@@ -107,6 +111,9 @@ class TzDbCollector:
             # Data from BufSizeEstimator
             'buf_sizes': buf_size_info['buf_sizes'],
             'max_buf_size': buf_size_info['max_buf_size'],
+
+            # ZoneIds
+            'zone_ids': zone_ids,
         }
 
     def get_data(self) -> TzDb:

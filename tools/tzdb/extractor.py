@@ -361,30 +361,28 @@ class Extractor:
             for era in eras:
                 zone_entry_count += 1
 
-        logging.info('-------- Extractor Summary')
         logging.info(
-            'Line count (Rule, Zone, Link): ('
-            + f'{len(self.rule_lines)}, '
-            + f'{len(self.zone_lines)}, '
-            + f'{len(self.link_lines)})')
+            'Summary: Line count (Rule, Zone, Link): ('
+            f'{len(self.rule_lines)}, '
+            f'{len(self.zone_lines)}, '
+            f'{len(self.link_lines)})')
         logging.info(
-            'Name count (Rule, Zone, Link): ('
-            + f'{len(self.rules_map)}, '
-            + f'{len(self.zones_map)}, '
-            + f'{len(self.links_map)})')
-        logging.info(f'Rule entry count: {rule_entry_count}')
-        logging.info(f'Zone entry count: {zone_entry_count}')
+            'Summary: Name count (Rule, Zone, Link): ('
+            f'{len(self.rules_map)}, '
+            f'{len(self.zones_map)}, '
+            f'{len(self.links_map)})')
+        logging.info(f'Summary: Rule entry count: {rule_entry_count}')
+        logging.info(f'Summary: Zone entry count: {zone_entry_count}')
         logging.info(
-            'Ignored lines (Rule, Zone, Link): ('
-            + f'{self.ignored_rule_lines}, '
-            + f'{self.ignored_zone_lines}, '
-            + f'{self.ignored_link_lines})')
+            'Summary: Ignored lines (Rule, Zone, Link): ('
+            f'{self.ignored_rule_lines}, '
+            f'{self.ignored_zone_lines}, '
+            f'{self.ignored_link_lines})')
         logging.info(
-            'Invalid lines: (Rule, Zone, Link): ('
-            + f'{self.invalid_rule_lines}, '
-            + f'{self.invalid_zone_lines}, '
-            + f'{self.invalid_link_lines})')
-        logging.info('-------- Extractor Summary End')
+            'Summary: Invalid lines: (Rule, Zone, Link): ('
+            f'{self.invalid_rule_lines}, '
+            f'{self.invalid_zone_lines}, '
+            f'{self.invalid_link_lines})')
 
 
 def _add_item(table: Dict[str, List[Any]], name: str, line: Any) -> None:

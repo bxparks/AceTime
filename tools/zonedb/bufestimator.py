@@ -2,11 +2,15 @@
 #
 # MIT License
 
+import logging
 from typing import Dict
 from typing_extensions import TypedDict
+from collections import OrderedDict
+from tzdb.extractor import ZonesMap, RulesMap
 from .zone_specifier import ZoneSpecifier
 from .ingenerator import ZoneInfoMap
 from .ingenerator import ZonePolicyMap
+from .ingenerator import InlineGenerator
 
 
 # zoneName -> bufSize
@@ -26,8 +30,8 @@ class BufSizeEstimator:
 
     def __init__(
         self,
-        zone_infos: ZoneInfoMap,
-        zone_policies: ZonePolicyMap,
+        zones_map: ZonesMap,
+        rules_map: RulesMap,
         start_year: int,
         until_year: int,
     ):
@@ -38,23 +42,48 @@ class BufSizeEstimator:
             start_year: start year
             until_year: until year
         """
-        self.zone_infos = zone_infos
-        self.zone_policies = zone_policies
+        self.zones_map = zones_map
+        self.rules_map = rules_map
         self.start_year = start_year
         self.until_year = until_year
 
     def estimate(self) -> BufSizeInfo:
         """Calculate the (dict) of {full_name -> buf_size} where buf_size is one
-        more than the estimate from ZoneSpecifier.get_buffer_sizes(). Return
-        the tuple of (buf_sizes, max_size).
+        more than the estimate from ZoneSpecifier.get_buffer_sizes(). Also
+        return the maximum.
         """
+        # Generate internal zone_infos and zone_policies to be used by
+        # ZoneSpecifier.
+        inline_generator = InlineGenerator(self.zones_map, self.rules_map)
+        zone_infos, zone_policies = inline_generator.generate_maps()
+        logging.info(
+            'Generated zone_infos=%d; zone_policies=%d',
+            len(zone_infos), len(zone_policies))
+
+        # Calculate buffer sizes using a ZoneSpecifier.
+        buf_sizes = self.calculate_buf_sizes(zone_infos, zone_policies)
+        max_buf_size = max(buf_sizes.values())
+        logging.info('Found max_buffer_size=%d', max_buf_size)
+
+        # Sort by zone_name
+        buf_sizes = OrderedDict(sorted(buf_sizes.items()))
+
+        return {
+            'buf_sizes': buf_sizes,
+            'max_buf_size': max_buf_size,
+        }
+
+    def calculate_buf_sizes(
+        self,
+        zone_infos: ZoneInfoMap,
+        zone_policies: ZonePolicyMap,
+    ) -> BufSizeMap:
         buf_sizes: BufSizeMap = {}
-        max_size = 0
-        for zone_name, zone_info in self.zone_infos.items():
+        for zone_name, zone_info in zone_infos.items():
             zone_specifier = ZoneSpecifier(zone_info)
 
-            # get_buffer_sizes() returns a tuple of
-            # ((max_actives, year), (max_buffer_size, year)).
+            # get_buffer_sizes() returns a BufferSizeInfo(NamedTuple) composed
+            # of max_actives(count, year) and max_buffer_size(count, year).
             buffer_size_info = zone_specifier.get_buffer_sizes(
                 start_year=self.start_year,
                 until_year=self.until_year,
@@ -73,10 +102,5 @@ class BufSizeEstimator:
                 buf_size += 1
 
             buf_sizes[zone_name] = buf_size
-            if buf_size > max_size:
-                max_size = buf_size
 
-        return {
-            'buf_sizes': buf_sizes,
-            'max_buf_size': max_size,
-        }
+        return buf_sizes

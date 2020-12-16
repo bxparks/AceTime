@@ -54,13 +54,14 @@ Examples:
 import argparse
 import logging
 import sys
+from collections import OrderedDict
+from typing import Dict
 from typing_extensions import Protocol
-from tzdb.extractor import Extractor, ZonesMap, RulesMap
-from tzdb.transformer import Transformer
+from tzdb.extractor import Extractor, ZonesMap
+from tzdb.transformer import Transformer, TransformerResult, hash_name
 from tzdb.tzdbcollector import TzDbCollector, TzDb
 from zonedb.argenerator import ArduinoGenerator
 from zonedb.pygenerator import PythonGenerator
-from zonedb.ingenerator import InlineGenerator
 from zonedb.zonelistgenerator import ZoneListGenerator
 from zonedb.bufestimator import BufSizeEstimator, BufSizeInfo
 
@@ -124,52 +125,9 @@ def generate_zonedb(
         raise Exception(f"Unrecognized language '{language}'")
 
 
-def estimate_buf_size(
-    zones_map: ZonesMap,
-    rules_map: RulesMap,
-    start_year: int,
-    until_year: int,
-    ignore_buf_size_too_large: bool,
-) -> BufSizeInfo:
-    """Estimate the buf_size_info using InlineGenerator and BufSizeEstimator.
-    """
-    # Generate internal versions of zone_infos and zone_policies
-    # so that ZoneSpecifier can be created.
-    logging.info('==== Generating inlined zone_infos and zone_policies')
-    inline_generator = InlineGenerator(zones_map, rules_map)
-    (zone_infos, zone_policies) = inline_generator.generate_maps()
-    logging.info(
-        'zone_infos=%d; zone_policies=%d',
-        len(zone_infos), len(zone_policies))
-
-    # Generate the buf_size estimates for each zone, between start_year and
-    # until_year.
-    logging.info('==== Estimating transition buffer sizes')
-    logging.info('Checking years in [%d, %d)', start_year, until_year)
-    estimator = BufSizeEstimator(
-        zone_infos=zone_infos,
-        zone_policies=zone_policies,
-        start_year=start_year,
-        until_year=until_year,
-    )
-    buf_size_info = estimator.estimate()
-    logging.info(
-        'Num zones=%d; Max buffer size=%d',
-        len(buf_size_info['buf_sizes']),
-        buf_size_info['max_buf_size'],
-    )
-    if buf_size_info['max_buf_size'] \
-            > EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS:
-        msg = (
-            f"Max buffer size={buf_size_info['max_buf_size']} "
-            f"is larger than ExtendedZoneProcessor.kMaxTransitions="
-            f"{EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS}"
-        )
-        if ignore_buf_size_too_large:
-            logging.warning(msg)
-        else:
-            raise Exception(msg)
-    return buf_size_info
+def generate_zone_ids(zones_map: ZonesMap) -> Dict[str, int]:
+    ids: Dict[str, int] = {name: hash_name(name) for name in zones_map.keys()}
+    return OrderedDict(sorted(ids.items()))
 
 
 def main() -> None:
@@ -347,16 +305,33 @@ def main() -> None:
     )
     transformer.transform()
     transformer.print_summary()
-    tdata = transformer.get_data()
+    tdata: TransformerResult = transformer.get_data()
 
     # Estimate the buffer size of ExtendedZoneProcessor.TransitionStorage.
-    buf_size_info = estimate_buf_size(
+    logging.info('======== Estimating transition buffer sizes')
+    logging.info('Checking years in [%d, %d)', args.start_year, args.until_year)
+    estimator = BufSizeEstimator(
         zones_map=tdata.zones_map,
         rules_map=tdata.rules_map,
         start_year=args.start_year,
         until_year=args.until_year,
-        ignore_buf_size_too_large=args.ignore_buf_size_too_large,
     )
+    buf_size_info: BufSizeInfo = estimator.estimate()
+
+    # Check if the estimated buffer size is too big
+    if buf_size_info['max_buf_size'] > EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS:
+        msg = (
+            f"Max buffer size={buf_size_info['max_buf_size']} "
+            f"is larger than ExtendedZoneProcessor.kMaxTransitions="
+            f"{EXTENDED_ZONE_PROCESSOR_MAX_TRANSITIONS}"
+        )
+        if args.ignore_buf_size_too_large:
+            logging.warning(msg)
+        else:
+            raise Exception(msg)
+
+    # Generate zone_ids (hash of zone_name).
+    zone_ids: Dict[str, int] = generate_zone_ids(tdata.zones_map)
 
     # Collect TZ DB data into a single JSON-serializable object.
     tzdb_generator = TzDbCollector(
@@ -378,6 +353,7 @@ def main() -> None:
         notable_links=tdata.notable_links,
         notable_policies=tdata.notable_policies,
         buf_size_info=buf_size_info,
+        zone_ids=zone_ids,
     )
     tzdb = tzdb_generator.get_data()
 
