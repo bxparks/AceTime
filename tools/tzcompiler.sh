@@ -58,7 +58,7 @@ set -eu
 DIRNAME=$(dirname $0)
 
 # Point to the TZ git repository, assumed to be a sibling of AceTime repository.
-INPUT_DIR=$DIRNAME/../../tz
+INPUT_DIR=$(realpath $DIRNAME/../../tz)
 
 # Output generated code to the current directory
 OUTPUT_DIR=$PWD
