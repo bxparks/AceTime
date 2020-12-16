@@ -28,6 +28,7 @@ from typing import Optional
 from typing import Set
 from typing import Tuple
 from typing import cast
+from typing import NamedTuple
 from typing_extensions import TypedDict
 
 # zoneName -> List[Comment], same as CommentsCollection but converted to
@@ -54,17 +55,17 @@ StringCollection = TypedDict('StringCollection', {
 })
 
 
-TransformerResult = Tuple[
-    ZonesMap,
-    RulesMap,
-    LinksMap,
-    CommentsMap,
-    CommentsMap,
-    CommentsMap,
-    CommentsMap,
-    CommentsMap,
-    CommentsMap,
-]
+class TransformerResult(NamedTuple):
+    """Result type of get_data()."""
+    zones_map: ZonesMap
+    rules_map: RulesMap
+    links_map: LinksMap
+    removed_zones: CommentsMap
+    removed_policies: CommentsMap
+    removed_links: CommentsMap
+    notable_zones: CommentsMap
+    notable_policies: CommentsMap
+    notable_links: CommentsMap
 
 
 class Transformer:
@@ -213,16 +214,34 @@ class Transformer:
         CommentsCollection (using Set) are converted to CommentsMap (using List)
         to allow direct serialization to JSON.
         """
-        return (
-            self.zones_map,
-            self.rules_map,
-            self.links_map,
-            {k: list(v) for k, v in self.all_removed_zones.items()},
-            {k: list(v) for k, v in self.all_removed_policies.items()},
-            {k: list(v) for k, v in self.all_removed_links.items()},
-            {k: list(v) for k, v in self.all_notable_zones.items()},
-            {k: list(v) for k, v in self.all_notable_policies.items()},
-            {k: list(v) for k, v in self.all_notable_links.items()},
+        return TransformerResult(
+            zones_map=self.zones_map,
+            rules_map=self.rules_map,
+            links_map=self.links_map,
+            removed_zones={
+                k: list(v)
+                for k, v in self.all_removed_zones.items()
+            },
+            removed_policies={
+                k: list(v)
+                for k, v in self.all_removed_policies.items()
+            },
+            removed_links={
+                k: list(v)
+                for k, v in self.all_removed_links.items()
+            },
+            notable_zones={
+                k: list(v)
+                for k, v in self.all_notable_zones.items()
+            },
+            notable_policies={
+                k: list(v)
+                for k, v in self.all_notable_policies.items()
+            },
+            notable_links={
+                k: list(v)
+                for k, v in self.all_notable_links.items()
+            },
         )
 
     def print_summary(self) -> None:
