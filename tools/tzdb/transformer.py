@@ -54,6 +54,19 @@ StringCollection = TypedDict('StringCollection', {
 })
 
 
+TransformerResult = Tuple[
+    ZonesMap,
+    RulesMap,
+    LinksMap,
+    CommentsMap,
+    CommentsMap,
+    CommentsMap,
+    CommentsMap,
+    CommentsMap,
+    CommentsMap,
+]
+
+
 class Transformer:
     def __init__(
         self,
@@ -102,9 +115,6 @@ class Transformer:
         self.all_notable_policies: CommentsCollection = {}  # policy -> reason[]
         self.all_notable_links: CommentsCollection = {}  # link -> reason[]
 
-        self.format_strings: StringCollection
-        self.zone_strings: StringCollection
-
     def transform(self) -> None:
         """
         Transforms the zones_map and rules_map given in the constructor
@@ -133,11 +143,6 @@ class Transformer:
         * self.all_notable_links: map of links with caveats:
             name: name of link
             reasons: human readable reasons
-        * self.format_strings: de-duped map of 'FORMAT' strings and the
-            corresponding array index so that they can be referenced
-            using just the index
-        * self.zone_strings: de-duped map of zone names and the corresponding
-            array index.
         """
 
         zones_map = self.zones_map
@@ -203,31 +208,21 @@ class Transformer:
         self.zones_map = zones_map
         self.links_map = links_map
 
-        # Part 8: Collect deduped FORMAT and zone name strings
-        self.format_strings = create_format_strings(
-            self.zones_map, self.rules_map)
-        self.zone_strings = create_zone_strings(self.zones_map)
-
-    def get_data(self) -> Tuple[
-        ZonesMap, RulesMap, LinksMap,
-        CommentsMap, CommentsMap, CommentsMap,
-        CommentsMap, CommentsMap, CommentsMap,
-        StringCollection, StringCollection,
-    ]:
+    def get_data(self) -> TransformerResult:
         """Return the result of the transform() operation. The fields of type
         CommentsCollection (using Set) are converted to CommentsMap (using List)
         to allow direct serialization to JSON.
         """
         return (
-            self.zones_map, self.rules_map, self.links_map,
+            self.zones_map,
+            self.rules_map,
+            self.links_map,
             {k: list(v) for k, v in self.all_removed_zones.items()},
             {k: list(v) for k, v in self.all_removed_policies.items()},
             {k: list(v) for k, v in self.all_removed_links.items()},
             {k: list(v) for k, v in self.all_notable_zones.items()},
             {k: list(v) for k, v in self.all_notable_policies.items()},
             {k: list(v) for k, v in self.all_notable_links.items()},
-            self.format_strings,
-            self.zone_strings,
         )
 
     def print_summary(self) -> None:
@@ -1712,72 +1707,6 @@ def add_string(strings: 'OrderedDict[str, int]', name: str) -> int:
         index = len(strings)
         strings[name] = index
     return index  # index will never be None
-
-
-def create_format_strings(
-    zones_map: ZonesMap,
-    rules_map: RulesMap,
-) -> StringCollection:
-    """Collect all ZoneRule.letter and ZoneEra.format strings into a single
-    array, for deduplication. However, bringing all strings into a single array
-    means that this gets loaded even if the application uses only a few zones.
-    See ArduinoGenerator.collect_letter_strings() for code that collects only
-    the ZoneRule.letter strings.
-
-    Normally, the C++ compiler will de-dupe duplicate strings. But in Arduino,
-    static strings are often placed in PROGMEM (i.e. flash) memory explicitly
-    (e.g. through the F() macro), and the C++ compiler is not smart enough to
-    de-dupe PROGMEM memory. This array can be used to perform manual de-duping.
-    """
-    strings_count: Dict[str, int] = {}
-    for name, eras in zones_map.items():
-        for era in eras:
-            format = era['format'].replace('%s', '%')
-            count = strings_count.get(format, 0)
-            strings_count[format] = count + 1
-    for name, rules in rules_map.items():
-        for rule in rules:
-            count = strings_count.get(rule['letter'], 0)
-            strings_count[rule['letter']] = count + 1
-
-    format_strings: 'OrderedDict[str, int]' = OrderedDict()
-    size = 0
-    orig_size = 0
-    for name in sorted(strings_count):
-        add_string(format_strings, name)
-        csize = len(name) + 1  # including NUL char in C String
-        size += csize
-        orig_size += strings_count[name] * csize
-    return {
-        'ordered_map': format_strings,
-        'size': size,
-        'orig_size': orig_size,
-    }
-
-
-def create_zone_strings(zones_map: ZonesMap) -> StringCollection:
-    """Collect Zone names and their index offset. There is no deduplication
-    here since each zone name is unique, so it is not clear if this is worth
-    doing. ArduinoGenerator will output this when asked (using the
-    'generate_zone_strings' flag) but that functionality may go away.
-    """
-    strings_count: Dict[str, int] = {}
-    for name, eras in zones_map.items():
-        count = strings_count.get(name, 0)
-        strings_count[name] = count + 1
-
-    zone_strings: 'OrderedDict[str, int]' = OrderedDict()
-    size = 0
-    orig_size = 0
-    for name in sorted(strings_count):
-        add_string(zone_strings, name)
-        csize = len(name) + 1  # including NUL char in C String
-        size += csize
-        orig_size += strings_count[name] * csize
-    return StringCollection(
-        ordered_map=zone_strings,
-        size=size,
-        orig_size=orig_size)
 
 
 def _create_rules_to_zones(

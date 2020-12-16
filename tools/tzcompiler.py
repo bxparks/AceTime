@@ -10,24 +10,25 @@ generate the zonedb files in various formats as determined by the '--action'
 flag:
 
   * --action tzdb
-      JSON file representation of the internal zonedb named 'tzdb.json'.
+      Generate file named 'tzdb.json' which is a JSON representation of the
+      internal data structures converted from the raw TZ Database files.
   * --action zonedb
-      The zone_infos.*, zone_policies.*, and sometimes the zone_registry.* and
-      zone_strings.*, files in various languages.
+      Generate zone_infos.*, zone_policies.*, and sometimes the zone_registry.*
+      files in the target language given by `--language` flag.
   * --action zonelist
       Write just the raw list of zone names named 'zones.txt'.
 
-The --output_dir flag determines the directory where various files should
+The `--output_dir` flag determines the directory where various files should
 be created. If empty, it means the same as $PWD.
 
-If '--action zonedb' is selected, there are 2 language options available
+If `--action zonedb` is selected, there are 2 language options available
 using the --language flag:
 
   * --language arduino
   * --language python
 
-The raw TZ Database are parsed by extractor.py and processed
-transformer.py. The Transformer class accepts a number of options:
+The raw TZ Database are parsed by extractor.py and processed by transformer.py.
+The Transformer class accepts a number of options:
 
   * --scope {basic | extended)
   * --start_year {start}
@@ -40,12 +41,10 @@ transformer.py. The Transformer class accepts a number of options:
 which determine which Rules or Zones are retained during the 'transformation'
 process.
 
-If --language arduino is selected, the following flags are used:
+If `--language arduino` is selected, the following flags are used:
 
   * --db_namespace {db_namespace}
       Use the given identifier as the C++ namespace of the generated classes.
-  * --generate_zone_strings
-      Generate the 'zone_strings.*' files as well.
 
 Examples:
 
@@ -83,7 +82,6 @@ def generate_zonedb(
     db_namespace: str,
     language: str,
     output_dir: str,
-    generate_zone_strings: bool,
     tzdb: TzDb,
 ) -> None:
     """Generate the zonedb/ or zonedbx/ files for Python or Arduino,
@@ -119,7 +117,6 @@ def generate_zonedb(
         generator = ArduinoGenerator(
             invocation=invocation,
             db_namespace=db_namespace,
-            generate_zone_strings=generate_zone_strings,
             tzdb=tzdb,
         )
         generator.generate_files(output_dir)
@@ -259,11 +256,6 @@ def main() -> None:
     parser.add_argument(
         '--db_namespace',
         help='C++ namespace for the zonedb files (default: zonedb or zonedbx)')
-    # Generated zone_strings.{h,cpp} files.
-    parser.add_argument(
-        '--generate_zone_strings',
-        help='Generate Arduino zone_strings.{h,cpp} files',
-        action='store_true')
 
     # The tz_version does not affect any data processing. Its value is
     # copied into the various generated files and usually placed in the
@@ -358,7 +350,6 @@ def main() -> None:
     (
         zones_map, rules_map, links_map, removed_zones, removed_policies,
         removed_links, notable_zones, notable_policies, notable_links,
-        format_strings, zone_strings,
     ) = transformer.get_data()
 
     # Estimate the buffer size of ExtendedZoneProcessor.TransitionStorage.
@@ -389,8 +380,6 @@ def main() -> None:
         notable_zones=notable_zones,
         notable_links=notable_links,
         notable_policies=notable_policies,
-        format_strings=format_strings,
-        zone_strings=zone_strings,
         buf_size_info=buf_size_info,
     )
     tzdb = tzdb_generator.get_data()
@@ -402,7 +391,6 @@ def main() -> None:
                 db_namespace=args.db_namespace,
                 language=args.language,
                 output_dir=args.output_dir,
-                generate_zone_strings=args.generate_zone_strings,
                 tzdb=tzdb,
             )
         elif action == 'tzdb':
