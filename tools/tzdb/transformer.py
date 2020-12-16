@@ -150,8 +150,8 @@ class Transformer:
         rules_map = self.rules_map
         links_map = self.links_map
 
-        logging.info('Found %s zone infos' % len(self.zones_map))
-        logging.info('Found %s rule policies' % len(self.rules_map))
+        logging.info('Found %s zone infos', len(self.zones_map))
+        logging.info('Found %s rule policies', len(self.rules_map))
 
         # Part 1: Transform the zones_map
         # zones_map = self._remove_zones_without_slash(zones_map)
@@ -271,7 +271,7 @@ class Transformer:
         name: str
         reasons: Set[str]
         for name, reasons in sorted(removed_map.items()):
-            print('  %s (%s)' % (name, reasons), file=sys.stderr)
+            print(f'  {name} ({reasons})', file=sys.stderr)
 
     # --------------------------------------------------------------------
     # Methods related to Zones.
@@ -287,7 +287,9 @@ class Transformer:
                 _add_reason(removed_zones, name, "No '/' in zone name")
 
         logging.info(
-            "Removed %s zone infos without '/' in name" % len(removed_zones))
+            "Removed %s zone infos without '/' in name",
+            len(removed_zones)
+        )
         _merge_reasons(self.all_removed_zones, removed_zones)
         return results
 
@@ -327,8 +329,11 @@ class Transformer:
             if keep_eras:
                 results[name] = keep_eras
 
-        logging.info("Removed %s zone eras before year %04d", count,
-                     self.start_year)
+        logging.info(
+            'Removed %s zone eras before year %04d',
+            count,
+            self.start_year,
+        )
         return results
 
     def _remove_zone_eras_too_new(self, zones_map: ZonesMap) -> ZonesMap:
@@ -358,8 +363,11 @@ class Transformer:
             if keep_eras:
                 results[name] = keep_eras
 
-        logging.info("Removed %s zone eras starting after %04d", count,
-                     self.until_year)
+        logging.info(
+            "Removed %s zone eras starting after %04d",
+            count,
+            self.until_year,
+        )
         return results
 
     def _remove_zones_without_eras(self, zones_map: ZonesMap) -> ZonesMap:
@@ -375,7 +383,7 @@ class Transformer:
                 _add_reason(removed_zones, name, "no ZoneEra found")
 
         logging.info(
-            "Removed %s zone infos without ZoneEras" % len(removed_zones))
+            "Removed %s zone infos without ZoneEras", len(removed_zones))
         self._print_removed_map(removed_zones)
         _merge_reasons(self.all_removed_zones, removed_zones)
         return results
@@ -774,7 +782,7 @@ class Transformer:
                 results[name] = eras
 
         logging.info(
-            "Removed %s zone infos without rules" % len(removed_zones))
+            "Removed %s zone infos without rules", len(removed_zones))
         self._print_removed_map(removed_zones)
         _merge_reasons(self.all_removed_zones, removed_zones)
         return results
@@ -804,16 +812,29 @@ class Transformer:
                     if current_until <= prev_until:
                         valid = False
                         _add_reason(
-                            removed_zones, name,
-                            'non increasing UNTIL: %04d-%02d-%02d %ds' %
-                            current_until)
+                            removed_zones,
+                            name,
+                            'non increasing UNTIL: '
+                            f'{current_until[0]:04}-'
+                            f'{current_until[1]:02}-'
+                            f'{current_until[2]:02} '
+                            f'{current_until[3]}s'
+                        )
                         break
                 prev_until = current_until
             if valid and current_until[0] != MAX_UNTIL_YEAR:
                 valid = False
                 _add_reason(
-                    removed_zones, name,
-                    'invalid final UNTIL: %04d-%02d-%02d %ds' % current_until)
+                    removed_zones,
+                    name,
+                    (
+                        'invalid final UNTIL: '
+                        f'{current_until[0]:04}-'
+                        f'{current_until[1]:02}-'
+                        f'{current_until[2]:02} '
+                        f'{current_until[3]}s'
+                    )
+                )
 
             if valid:
                 results[name] = eras
@@ -870,14 +891,18 @@ class Transformer:
             removal = removals.get(name)
             if removal:
                 _add_reason(
-                    removed_policies, name,
-                    "Found %d transitions in year/month '%04d-%02d'" % removal)
+                    removed_policies,
+                    name,
+                    f"Found {removal[0]} transitions in year/month "
+                    f"'{removal[1]:04}-{removal[2]:02}'"
+                )
             else:
                 results[name] = rules
 
         logging.info(
-            'Removed %s rule policies with multiple transitions in one month' %
-            len(removed_policies))
+            'Removed %s rule policies with multiple transitions in one month',
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
@@ -900,8 +925,10 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info('Removed %s rule policies with long DST letter' %
-                     len(removed_policies))
+        logging.info(
+            'Removed %s rule policies with long DST letter',
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
@@ -933,8 +960,10 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info("Removed %s rule policies with unsupported AT suffix" %
-                     len(removed_policies))
+        logging.info(
+            "Removed %s rule policies with unsupported AT suffix",
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
@@ -1026,8 +1055,11 @@ class Transformer:
             else:
                 _add_reason(removed_policies, name, 'unused')
 
-        logging.info('Removed %s rule policies (%s rules) not used' %
-                     (len(removed_policies), removed_rule_count))
+        logging.info(
+            'Removed %s rule policies (%s rules) not used',
+            len(removed_policies),
+            removed_rule_count
+        )
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
 
@@ -1053,8 +1085,9 @@ class Transformer:
                 results[name] = rules
 
         logging.info(
-            'Removed %s rule policies with fromYear or toYear out of bounds' %
-            len(removed_policies))
+            'Removed %s rule policies with fromYear or toYear out of bounds',
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
@@ -1104,8 +1137,10 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info('Removed %s rule policies with invalid onDay' %
-                     len(removed_policies))
+        logging.info(
+            'Removed %s rule policies with invalid onDay',
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
@@ -1131,8 +1166,11 @@ class Transformer:
                 rules.insert(0, anchor_rule)
                 anchored_policies.append(name)
 
-        logging.info('Added anchor rule to %s rule policies: %s',
-                     len(anchored_policies), anchored_policies)
+        logging.info(
+            'Added anchor rule to %s rule policies: %s',
+            len(anchored_policies),
+            anchored_policies
+        )
         return rules_map
 
     def _has_prior_rule(self, rules: List[ZoneRuleRaw]) -> bool:
@@ -1217,8 +1255,10 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info("Removed %s rule policies with border Transitions" %
-                     len(removed_policies))
+        logging.info(
+            "Removed %s rule policies with border Transitions",
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
@@ -1282,8 +1322,10 @@ class Transformer:
             if valid:
                 results[policy_name] = rules
 
-        logging.info('Removed %s rule policies with invalid atTime' %
-                     len(removed_policies))
+        logging.info(
+            'Removed %s rule policies with invalid atTime',
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         _merge_reasons(self.all_notable_policies, notable_policies)
@@ -1347,8 +1389,10 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info('Removed %s rule policies with invalid deltaOffset' %
-                     len(removed_policies))
+        logging.info(
+            'Removed %s rule policies with invalid deltaOffset',
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         _merge_reasons(self.all_notable_policies, notable_policies)

@@ -231,7 +231,7 @@ class Extractor:
         logging.basicConfig(level=logging.INFO)
         for file_name in self.ZONE_FILES:
             full_filename = os.path.join(self.input_dir, file_name)
-            logging.info('Processing %s' % full_filename)
+            logging.info('Processing %s', full_filename)
             with open(full_filename, 'r', encoding='utf-8') as f:
                 self._parse_zone_file(f)
 
@@ -283,7 +283,7 @@ class Extractor:
                     else:
                         self.ignored_rule_lines += 1
                 except Exception as e:
-                    logging.exception('Exception %s: %s', e, line)
+                    logging.exception(f'Exception {e}: {line}')
                     self.invalid_rule_lines += 1
 
     def _process_zones(self) -> None:
@@ -299,7 +299,7 @@ class Extractor:
                     else:
                         self.ignored_zone_lines += 1
                 except Exception as e:
-                    logging.exception('Exception %s: %s', e, line)
+                    logging.exception(f'Exception {e}: {line}')
                     self.invalid_zone_lines += 1
 
     def _process_links(self) -> None:
@@ -463,7 +463,7 @@ def parse_at_time_string(at_string: str) -> Tuple[str, str]:
     else:
         at_time = at_string[:-1]
     if suffix not in ['', 'w', 's', 'u', 'g', 'z']:
-        raise Exception('Invalid AT suffix (%s)' % suffix)
+        raise Exception(f'Invalid AT suffix ({suffix})')
     return (at_time, suffix)
 
 

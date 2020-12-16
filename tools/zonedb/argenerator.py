@@ -389,7 +389,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             # strings per-zone. In practice, for a single zone, the maximum
             # number of multi-character strings that I've seen is 2.
             if len(rule['letter']) == 1:
-                letter = "'%s'" % rule['letter']
+                letter = f"'{rule['letter']}'"
                 letterComment = ''
             elif len(rule['letter']) > 1:
                 letters = cast(IndexedLetters, indexed_letters)
@@ -397,7 +397,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
                 if index >= 32:
                     raise Exception('Number of indexed letters >= 32')
                 letter = str(index)
-                letterComment = ('; "%s"' % rule['letter'])
+                letterComment = f'; "{rule["letter"]}"'
             else:
                 raise Exception(
                     'len(%s) == 0; should not happen'
@@ -423,10 +423,10 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         memoryLetters32 = 0
         if numLetters:
             letters = cast(IndexedLetters, indexed_letters)
-            letterArrayRef = 'kLetters%s' % policyName
+            letterArrayRef = f'kLetters{policyName}'
             letterItems = ''
             for name, index in letters.items():
-                letterItems += ('  /*%d*/ "%s",\n' % (index, name))
+                letterItems += f'  /*{index}*/ "{name}",\n'
                 memoryLetters8 += len(name) + 1 + 2  # NUL terminated
                 memoryLetters32 += len(name) + 1 + 4  # NUL terminated
             letterArray = self.ZONE_POLICIES_LETTER_ARRAY.format(
@@ -868,7 +868,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             zone_policy = 'nullptr'
             delta_seconds = era['rulesDeltaSecondsTruncated']
         else:
-            zone_policy = '&kPolicy%s' % normalize_name(policy_name)
+            zone_policy = f'&kPolicy{normalize_name(policy_name)}'
             delta_seconds = 0
 
         if self.scope == 'extended':

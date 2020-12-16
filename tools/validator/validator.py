@@ -104,15 +104,17 @@ class Validator:
             self.start_year = self.year
             self.until_year = self.year + 1
         logging.info(
-            'Calculating transitions from [%s, %s)'
-            % (self.start_year, self.until_year))
+            'Calculating transitions from [%s, %s)',
+            self.start_year,
+            self.until_year,
+        )
 
         # Calculate the buffer sizes for every Zone in zone_infos.
         for zone_name, zone_info in sorted(self.zone_infos.items()):
             if self.zone_name and zone_name != self.zone_name:
                 continue
             if self.debug_validator:
-                logging.info('Validating zone %s' % zone_name)
+                logging.info('Validating zone %s', zone_name)
 
             zone_specifier = ZoneSpecifier(
                 zone_info_data=zone_info,
@@ -127,9 +129,16 @@ class Validator:
         logging.info('Zone Name: #NumTransitions (year); #MaxBufSize (year)')
         for zone_name, count_record in sorted(
                 transition_stats.items(), key=lambda x: x[1], reverse=True):
+            # count_record = Tuple[Tuple[int, int], Tuple[int, int]]
+            # TODO: Convert this to NamedTuple.
             logging.info(
-                '%s: %d (%04d); %d (%04d)'
-                % ((zone_name, ) + count_record[0] + count_record[1]))
+                '{zone_name}: %d (%04d); %d (%04d)',
+                zone_name,
+                count_record[0][0],
+                count_record[0][1],
+                count_record[1][0],
+                count_record[1][1],
+            )
 
     def validate_test_data(self) -> None:
         """Compare Python and AceTime offsets by generating TestDataGenerator.
@@ -156,7 +165,7 @@ class Validator:
             if self.zone_name and zone_name != self.zone_name:
                 continue
             if self.debug_validator:
-                logging.info('  Validating zone %s' % zone_name)
+                logging.info('  Validating zone %s', zone_name)
             num_errors += self._validate_test_data_for_zone(zone_name, items)
         return num_errors
 
@@ -186,9 +195,12 @@ class Validator:
             unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
             ldt = datetime.utcfromtimestamp(unix_seconds)
             header = (
-                "======== Testing %s; at %sw; utc %s; epoch %s; unix %s" %
-                (zone_name, _test_item_to_string(item), ldt, item.epoch,
-                 unix_seconds))
+                f'======== Testing {zone_name}; '
+                f'at {_test_item_to_string(item)}w; '
+                f'utc {ldt}; '
+                f'epoch {item.epoch}; '
+                f'unix {unix_seconds}'
+            )
 
             if self.debug_specifier:
                 logging.info(header)
@@ -196,14 +208,20 @@ class Validator:
             try:
                 info = zone_specifier.get_timezone_info_for_seconds(item.epoch)
             except Exception:
-                logging.exception('Exception with test data %s', item)
+                logging.exception('Exception with test data {item}')
                 raise
             is_matched = info.total_offset == item.total_offset
             status = '**Matched**' if is_matched else '**Mismatched**'
-            body = ('%s: AceTime(%s); Expected(%s)' %
-                    (status, to_utc_string(info.utc_offset, info.dst_offset),
-                     to_utc_string(item.total_offset - item.dst_offset,
-                                   item.dst_offset)))
+            ace_time_string = to_utc_string(info.utc_offset, info.dst_offset)
+            utc_string = to_utc_string(
+                item.total_offset - item.dst_offset,
+                item.dst_offset
+            )
+            body = (
+                f'{status}: '
+                f'AceTime({ace_time_string}); '
+                f'Expected({utc_string})'
+            )
             if is_matched:
                 if self.debug_specifier:
                     logging.info(body)
@@ -219,4 +237,4 @@ class Validator:
 
 
 def _test_item_to_string(i: TestItem) -> str:
-    return '%04d-%02d-%02dT%02d:%02d:%02d' % (i.y, i.M, i.d, i.h, i.m, i.s)
+    return f'{i.y:04}-{i.M:02}-{i.d:02}T{i.h:02}:{i.m:02}:{i.s:02}'

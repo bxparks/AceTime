@@ -380,9 +380,9 @@ ZONE_INFO_{zoneNormalizedName} = {{
     def _generate_era_item(self, era: ZoneEraRaw) -> str:
         policy_name = era['rules']
         if policy_name in ['-', ':']:
-            zone_policy = "'%s'" % policy_name
+            zone_policy = f"'{policy_name}'"
         else:
-            zone_policy = 'ZONE_POLICY_%s' % normalize_name(policy_name)
+            zone_policy = f'ZONE_POLICY_{normalize_name(policy_name)}'
 
         return self.ZONE_ERA_ITEM.format(
             rawLine=normalize_raw(era['rawLine']),

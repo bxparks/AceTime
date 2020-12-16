@@ -121,7 +121,7 @@ def generate_zonedb(
         )
         generator.generate_files(output_dir)
     else:
-        raise Exception("Unrecognized language '%s'" % language)
+        raise Exception(f"Unrecognized language '{language}'")
 
 
 def estimate_buf_size(
