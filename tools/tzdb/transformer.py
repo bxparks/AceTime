@@ -245,21 +245,20 @@ class Transformer:
         )
 
     def print_summary(self) -> None:
-        logging.info('-------- Transformer Summary')
         logging.info(
-            f"Zones: total={self.original_zone_count}"
+            f"Summary: Zones: total={self.original_zone_count}"
             f"; generated={len(self.zones_map)}"
             f"; removed={len(self.all_removed_zones)}"
             f"; noted={len(self.all_notable_zones)}")
 
         logging.info(
-            f"Rules: total={self.original_rule_count}"
+            f"Summary: Rules: total={self.original_rule_count}"
             f"; generated={len(self.rules_map)}"
             f"; removed={len(self.all_removed_policies)}"
             f"; noted={len(self.all_notable_policies)}")
 
         logging.info(
-            f"Links: total={self.original_link_count}"
+            f"Summary: Links: total={self.original_link_count}"
             f"; generated={len(self.links_map)}"
             f"; removed={len(self.all_removed_links)}"
             f"; noted={len(self.all_notable_links)}")

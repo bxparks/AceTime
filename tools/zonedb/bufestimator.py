@@ -57,19 +57,13 @@ class BufSizeEstimator:
         inline_generator = InlineGenerator(self.zones_map, self.rules_map)
         zone_infos, zone_policies = inline_generator.generate_maps()
         logging.info(
-            'BufSizeEstimator.estimate(): '
-            'zone_infos=%d; zone_policies=%d',
+            'Generated zone_infos=%d; zone_policies=%d',
             len(zone_infos), len(zone_policies))
 
         # Calculate buffer sizes using a ZoneSpecifier.
         buf_sizes = self.calculate_buf_sizes(zone_infos, zone_policies)
         max_buf_size = max(buf_sizes.values())
-        logging.info(
-            'BufSizeEstimator.estimate(): '
-            'Num zones=%d; Max buffer size=%d',
-            len(buf_sizes),
-            max_buf_size,
-        )
+        logging.info('Found max_buffer_size=%d', max_buf_size)
 
         # Sort by zone_name
         buf_sizes = OrderedDict(sorted(buf_sizes.items()))
