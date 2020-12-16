@@ -54,9 +54,11 @@ Examples:
 import argparse
 import logging
 import sys
+from collections import OrderedDict
+from typing import Dict
 from typing_extensions import Protocol
-from tzdb.extractor import Extractor
-from tzdb.transformer import Transformer, TransformerResult
+from tzdb.extractor import Extractor, ZonesMap
+from tzdb.transformer import Transformer, TransformerResult, hash_name
 from tzdb.tzdbcollector import TzDbCollector, TzDb
 from zonedb.argenerator import ArduinoGenerator
 from zonedb.pygenerator import PythonGenerator
@@ -121,6 +123,11 @@ def generate_zonedb(
         generator.generate_files(output_dir)
     else:
         raise Exception(f"Unrecognized language '{language}'")
+
+
+def generate_zone_ids(zones_map: ZonesMap) -> Dict[str, int]:
+    ids: Dict[str, int] = {name: hash_name(name) for name in zones_map.keys()}
+    return OrderedDict(sorted(ids.items()))
 
 
 def main() -> None:
@@ -323,6 +330,9 @@ def main() -> None:
         else:
             raise Exception(msg)
 
+    # Generate zone_ids (hash of zone_name).
+    zone_ids: Dict[str, int] = generate_zone_ids(tdata.zones_map)
+
     # Collect TZ DB data into a single JSON-serializable object.
     tzdb_generator = TzDbCollector(
         tz_version=args.tz_version,
@@ -343,6 +353,7 @@ def main() -> None:
         notable_links=tdata.notable_links,
         notable_policies=tdata.notable_policies,
         buf_size_info=buf_size_info,
+        zone_ids=zone_ids,
     )
     tzdb = tzdb_generator.get_data()
 

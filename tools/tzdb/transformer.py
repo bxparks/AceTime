@@ -1811,7 +1811,8 @@ def normalize_raw(raw_line: str) -> str:
 
 def hash_name(name: str) -> int:
     """Return the hash of the zone name. Implement the djb2 algorithm:
-    https://stackoverflow.com/questions/7666509
+    https://stackoverflow.com/questions/7666509 and
+    http://www.cse.yorku.ca/~oz/hash.html
     """
     U32_MOD = 2**32
     hash = 5381
