@@ -60,6 +60,19 @@ OffsetInfo = NamedTuple('OffsetInfo', [
     ('abbrev', str),
 ])
 
+# A tuple that holds a count and the year which it is related to.
+CountAndYear = NamedTuple('CountAndYear', [
+    ('count', int),
+    ('year', int),
+])
+
+# Return type that contains the maximum active transitions and the year which
+# that occurred, and the max_buffer_size of TransitionStorage and its year.
+BufferSizeInfo = NamedTuple('BufferSizeInfo', [
+    ('max_actives', CountAndYear),
+    ('max_buffer_size', CountAndYear),
+])
+
 # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
 # (2000-01-01 00:00:00)
 SECONDS_SINCE_UNIX_EPOCH = 946684800
@@ -277,9 +290,12 @@ class ZoneMatch:
 
     def __repr__(self) -> str:
         return (
-            'ZoneMatch(' + 'start: %s; ' + 'until: %s; ' + 'policyName: %s)'
-        ) % (date_tuple_to_string(self.startDateTime),
-             date_tuple_to_string(self.untilDateTime), self.zoneEra.policyName)
+            'ZoneMatch('
+            f'start: {date_tuple_to_string(self.startDateTime)}'
+            f'; until: {date_tuple_to_string(self.untilDateTime)}'
+            f'; policyName: {self.zoneEra.policyName}'
+            ')'
+        )
 
 
 class Transition:
@@ -630,7 +646,7 @@ class ZoneSpecifier:
               each Transition.
         """
         if self.debug:
-            logging.info('init_for_year(): year: %d' % year)
+            logging.info('init_for_year(): year: %d', year)
         # Check if cache filled
         if self.year == year:
             if self.debug:
@@ -657,7 +673,7 @@ class ZoneSpecifier:
             until_ym = YearMonthTuple(year + 2, 1)
         else:
             raise Exception(
-                'Unsupported viewing_months: %d' % self.viewing_months)
+                f'Unsupported viewing_months: {self.viewing_months}')
 
         if self.debug:
             logging.info('==== Finding matches')
@@ -691,34 +707,31 @@ class ZoneSpecifier:
         self,
         start_year: int,
         until_year: int,
-    ) -> Tuple[Tuple[int, int], Tuple[int, int]]:
+    ) -> BufferSizeInfo:
         """Find the maximum number of actual transitions and the maximum number
         of candidate transitions across the given start_year and until_year.
         This is useful for determining that buffer size of the C++ version
         of this code which uses static sizes for the Transition buffers.
-
-        Returns a tuple of tuples:
-            ((max_actives, year), (max_buffer_size, year)).
-
-        TODO: Change the return type to a NamedTuple, or a TypedDict for
-        readability.
         """
-        max_actives = (0, 0)  # (count, year)
-        max_buffer_size = (0, 0)  # (count, year)
+        max_actives = CountAndYear(0, 0)
+        max_buffer_size = CountAndYear(0, 0)
         for year in range(start_year, until_year):
             self.init_for_year(year)
 
             # Number of active transitions.
             transition_count = len(self.transitions)
-            if transition_count > max_actives[0]:
-                max_actives = (transition_count, year)
+            if transition_count > max_actives.count:
+                max_actives = CountAndYear(transition_count, year)
 
             # Max size of the transition buffer.
             buffer_size = self.max_transition_buffer_size
-            if buffer_size > max_buffer_size[0]:
-                max_buffer_size = (buffer_size, year)
+            if buffer_size > max_buffer_size.count:
+                max_buffer_size = CountAndYear(buffer_size, year)
 
-        return (max_actives, max_buffer_size)
+        return BufferSizeInfo(
+            max_actives=max_actives,
+            max_buffer_size=max_buffer_size,
+        )
 
     # The following methods are designed to be used internally.
 
@@ -734,7 +747,7 @@ class ZoneSpecifier:
         if total > self.max_transition_buffer_size:
             self.max_transition_buffer_size = total
         if self.debug:
-            logging.info('max_transition_buffer_size: %s' %
+            logging.info('max_transition_buffer_size: %s',
                          self.max_transition_buffer_size)
         self.all_candidate_transitions.extend(candidate_transitions)
 
@@ -851,7 +864,7 @@ class ZoneSpecifier:
                 match = self._create_match(prev_era, zone_era, start_ym,
                                            until_ym)
                 if self.debug:
-                    logging.info('_find_matches(): %s' % match)
+                    logging.info('_find_matches(): %s', match)
                 matches.append(match)
             prev_era = zone_era
         return matches
@@ -880,7 +893,7 @@ class ZoneSpecifier:
         using the appropriate algorithm.
         """
         if self.debug:
-            logging.info('_find_transitions_for_match(): %s' % match)
+            logging.info('_find_transitions_for_match(): %s', match)
 
         zone_era = match.zoneEra
         zone_policy = zone_era.zonePolicy
@@ -899,7 +912,7 @@ class ZoneSpecifier:
         _find_transitions_from_named_match().
         """
         if self.debug:
-            logging.info('_find_transitions_from_simple_match(): %s' % match)
+            logging.info('_find_transitions_from_simple_match(): %s', match)
         transition = Transition(match)
         transition.update({
             'transitionTime': match.startDateTime,
@@ -1663,7 +1676,7 @@ class ActiveSelectorInPlace:
 
 
 def print_transitions(transitions: List[Transition]) -> None:
-    logging.info('Num transitions: %d' % len(transitions))
+    logging.info('Num transitions: %d', len(transitions))
     for t in transitions:
         logging.info(t)
 
@@ -1776,7 +1789,7 @@ def _compare_transition_to_match(
     elif match_start.f == 'u':
         transition_time = transition.transitionTimeU
     else:
-        raise Exception("Unknown suffix: %s" % match_start.f)
+        raise Exception(f"Unknown suffix: {match_start.f}")
     if transition_time < match_start:
         return -1
     if transition_time == match_start:
@@ -1790,7 +1803,7 @@ def _compare_transition_to_match(
     elif match_until.f == 'u':
         transition_time = transition.transitionTimeU
     else:
-        raise Exception("Unknown suffix: %s" % match_until.f)
+        raise Exception(f"Unknown suffix: {match_until.f}")
     if match_until <= transition_time:
         return 2
 
@@ -1841,18 +1854,21 @@ def _get_transition_time(year: int, rule: ZoneRuleCooked) -> DateTuple:
 
 def date_tuple_to_string(dt: DateTuple) -> str:
     (h, m, s) = seconds_to_hms(dt.ss)
-    return '%04d-%02d-%02d %02d:%02d%s' % (dt.y, dt.M, dt.d, h, m, dt.f)
+    return f'{dt.y:04}-{dt.M:02}-{dt.d:02} {h:02}:{m:02}{dt.f}'
 
 
 def to_utc_string(utcoffset: int, dstoffset: int) -> str:
-    return 'UTC%s%s' % (seconds_to_hm_string(utcoffset),
-                        seconds_to_hm_string(dstoffset))
+    return (
+        'UTC'
+        f'{seconds_to_hm_string(utcoffset)}'
+        f'{seconds_to_hm_string(dstoffset)}'
+    )
 
 
 def seconds_to_hm_string(secs: int) -> str:
     if secs < 0:
         hms = seconds_to_hms(-secs)
-        return '-%02d:%02d' % (hms[0], hms[1])
+        return f'-{hms[0]:02}:{hms[1]:02}'
     else:
         hms = seconds_to_hms(secs)
-        return '+%02d:%02d' % (hms[0], hms[1])
+        return f'+{hms[0]:02}:{hms[1]:02}'

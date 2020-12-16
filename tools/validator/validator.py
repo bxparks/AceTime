@@ -13,13 +13,14 @@ continuous integration pipeline, it's too easy to bitrot.
 """
 
 import logging
+from typing import List, Dict
 from datetime import datetime
 from zonedb.ingenerator import ZoneInfoMap
 from zonedb.ingenerator import ZonePolicyMap
 from zonedb.zone_specifier import ZoneSpecifier
 from zonedb.zone_specifier import to_utc_string
 from zonedb.zone_specifier import SECONDS_SINCE_UNIX_EPOCH
-from typing import List
+from zonedb.zone_specifier import BufferSizeInfo
 from .zstdgenerator import TestDataGenerator
 from .zstdgenerator import TestData
 from .zstdgenerator import TestItem
@@ -97,22 +98,24 @@ class Validator:
         years.
         """
         # map of {zoneName -> (numTransitions, year)}
-        transition_stats = {}
+        transition_stats: Dict[str, BufferSizeInfo] = {}
 
         # If 'self.year' is defined, clobber the range of validation years.
         if self.year is not None:
             self.start_year = self.year
             self.until_year = self.year + 1
         logging.info(
-            'Calculating transitions from [%s, %s)'
-            % (self.start_year, self.until_year))
+            'Calculating transitions from [%s, %s)',
+            self.start_year,
+            self.until_year,
+        )
 
         # Calculate the buffer sizes for every Zone in zone_infos.
         for zone_name, zone_info in sorted(self.zone_infos.items()):
             if self.zone_name and zone_name != self.zone_name:
                 continue
             if self.debug_validator:
-                logging.info('Validating zone %s' % zone_name)
+                logging.info('Validating zone %s', zone_name)
 
             zone_specifier = ZoneSpecifier(
                 zone_info_data=zone_info,
@@ -125,11 +128,20 @@ class Validator:
                 self.start_year, self.until_year)
 
         logging.info('Zone Name: #NumTransitions (year); #MaxBufSize (year)')
-        for zone_name, count_record in sorted(
-                transition_stats.items(), key=lambda x: x[1], reverse=True):
+        transition_stats_by_descending_count = sorted(
+            transition_stats.items(),
+            key=lambda x: x[1],
+            reverse=True,
+        )
+        for zone_name, count_record in transition_stats_by_descending_count:
             logging.info(
-                '%s: %d (%04d); %d (%04d)'
-                % ((zone_name, ) + count_record[0] + count_record[1]))
+                '{zone_name}: %d (%04d); %d (%04d)',
+                zone_name,
+                count_record.max_actives.count,
+                count_record.max_actives.year,
+                count_record.max_buffer_size.count,
+                count_record.max_buffer_size.year,
+            )
 
     def validate_test_data(self) -> None:
         """Compare Python and AceTime offsets by generating TestDataGenerator.
@@ -156,7 +168,7 @@ class Validator:
             if self.zone_name and zone_name != self.zone_name:
                 continue
             if self.debug_validator:
-                logging.info('  Validating zone %s' % zone_name)
+                logging.info('  Validating zone %s', zone_name)
             num_errors += self._validate_test_data_for_zone(zone_name, items)
         return num_errors
 
@@ -186,9 +198,12 @@ class Validator:
             unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
             ldt = datetime.utcfromtimestamp(unix_seconds)
             header = (
-                "======== Testing %s; at %sw; utc %s; epoch %s; unix %s" %
-                (zone_name, _test_item_to_string(item), ldt, item.epoch,
-                 unix_seconds))
+                f'======== Testing {zone_name}; '
+                f'at {_test_item_to_string(item)}w; '
+                f'utc {ldt}; '
+                f'epoch {item.epoch}; '
+                f'unix {unix_seconds}'
+            )
 
             if self.debug_specifier:
                 logging.info(header)
@@ -196,14 +211,20 @@ class Validator:
             try:
                 info = zone_specifier.get_timezone_info_for_seconds(item.epoch)
             except Exception:
-                logging.exception('Exception with test data %s', item)
+                logging.exception('Exception with test data {item}')
                 raise
             is_matched = info.total_offset == item.total_offset
             status = '**Matched**' if is_matched else '**Mismatched**'
-            body = ('%s: AceTime(%s); Expected(%s)' %
-                    (status, to_utc_string(info.utc_offset, info.dst_offset),
-                     to_utc_string(item.total_offset - item.dst_offset,
-                                   item.dst_offset)))
+            ace_time_string = to_utc_string(info.utc_offset, info.dst_offset)
+            utc_string = to_utc_string(
+                item.total_offset - item.dst_offset,
+                item.dst_offset
+            )
+            body = (
+                f'{status}: '
+                f'AceTime({ace_time_string}); '
+                f'Expected({utc_string})'
+            )
             if is_matched:
                 if self.debug_specifier:
                     logging.info(body)
@@ -219,4 +240,4 @@ class Validator:
 
 
 def _test_item_to_string(i: TestItem) -> str:
-    return '%04d-%02d-%02dT%02d:%02d:%02d' % (i.y, i.M, i.d, i.h, i.m, i.s)
+    return f'{i.y:04}-{i.M:02}-{i.d:02}T{i.h:02}:{i.m:02}:{i.s:02}'

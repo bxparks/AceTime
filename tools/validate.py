@@ -283,7 +283,6 @@ def main() -> None:
     (
         zones_map, rules_map, links_map, removed_zones, removed_policies,
         removed_links, notable_zones, notable_policies, notable_links,
-        format_strings, zone_strings,
     ) = transformer.get_data()
 
     # Generate internal versions of zone_infos and zone_policies

@@ -28,6 +28,7 @@ from typing import Optional
 from typing import Set
 from typing import Tuple
 from typing import cast
+from typing import NamedTuple
 from typing_extensions import TypedDict
 
 # zoneName -> List[Comment], same as CommentsCollection but converted to
@@ -52,6 +53,19 @@ StringCollection = TypedDict('StringCollection', {
     'size': int,  # total length of strings after de-duplication
     'orig_size': int,  # total length of strings including duplicates
 })
+
+
+class TransformerResult(NamedTuple):
+    """Result type of get_data()."""
+    zones_map: ZonesMap
+    rules_map: RulesMap
+    links_map: LinksMap
+    removed_zones: CommentsMap
+    removed_policies: CommentsMap
+    removed_links: CommentsMap
+    notable_zones: CommentsMap
+    notable_policies: CommentsMap
+    notable_links: CommentsMap
 
 
 class Transformer:
@@ -102,9 +116,6 @@ class Transformer:
         self.all_notable_policies: CommentsCollection = {}  # policy -> reason[]
         self.all_notable_links: CommentsCollection = {}  # link -> reason[]
 
-        self.format_strings: StringCollection
-        self.zone_strings: StringCollection
-
     def transform(self) -> None:
         """
         Transforms the zones_map and rules_map given in the constructor
@@ -133,19 +144,14 @@ class Transformer:
         * self.all_notable_links: map of links with caveats:
             name: name of link
             reasons: human readable reasons
-        * self.format_strings: de-duped map of 'FORMAT' strings and the
-            corresponding array index so that they can be referenced
-            using just the index
-        * self.zone_strings: de-duped map of zone names and the corresponding
-            array index.
         """
 
         zones_map = self.zones_map
         rules_map = self.rules_map
         links_map = self.links_map
 
-        logging.info('Found %s zone infos' % len(self.zones_map))
-        logging.info('Found %s rule policies' % len(self.rules_map))
+        logging.info('Found %s zone infos', len(self.zones_map))
+        logging.info('Found %s rule policies', len(self.rules_map))
 
         # Part 1: Transform the zones_map
         # zones_map = self._remove_zones_without_slash(zones_map)
@@ -203,31 +209,39 @@ class Transformer:
         self.zones_map = zones_map
         self.links_map = links_map
 
-        # Part 8: Collect deduped FORMAT and zone name strings
-        self.format_strings = create_format_strings(
-            self.zones_map, self.rules_map)
-        self.zone_strings = create_zone_strings(self.zones_map)
-
-    def get_data(self) -> Tuple[
-        ZonesMap, RulesMap, LinksMap,
-        CommentsMap, CommentsMap, CommentsMap,
-        CommentsMap, CommentsMap, CommentsMap,
-        StringCollection, StringCollection,
-    ]:
+    def get_data(self) -> TransformerResult:
         """Return the result of the transform() operation. The fields of type
         CommentsCollection (using Set) are converted to CommentsMap (using List)
         to allow direct serialization to JSON.
         """
-        return (
-            self.zones_map, self.rules_map, self.links_map,
-            {k: list(v) for k, v in self.all_removed_zones.items()},
-            {k: list(v) for k, v in self.all_removed_policies.items()},
-            {k: list(v) for k, v in self.all_removed_links.items()},
-            {k: list(v) for k, v in self.all_notable_zones.items()},
-            {k: list(v) for k, v in self.all_notable_policies.items()},
-            {k: list(v) for k, v in self.all_notable_links.items()},
-            self.format_strings,
-            self.zone_strings,
+        return TransformerResult(
+            zones_map=self.zones_map,
+            rules_map=self.rules_map,
+            links_map=self.links_map,
+            removed_zones={
+                k: list(v)
+                for k, v in self.all_removed_zones.items()
+            },
+            removed_policies={
+                k: list(v)
+                for k, v in self.all_removed_policies.items()
+            },
+            removed_links={
+                k: list(v)
+                for k, v in self.all_removed_links.items()
+            },
+            notable_zones={
+                k: list(v)
+                for k, v in self.all_notable_zones.items()
+            },
+            notable_policies={
+                k: list(v)
+                for k, v in self.all_notable_policies.items()
+            },
+            notable_links={
+                k: list(v)
+                for k, v in self.all_notable_links.items()
+            },
         )
 
     def print_summary(self) -> None:
@@ -257,7 +271,7 @@ class Transformer:
         name: str
         reasons: Set[str]
         for name, reasons in sorted(removed_map.items()):
-            print('  %s (%s)' % (name, reasons), file=sys.stderr)
+            print(f'  {name} ({reasons})', file=sys.stderr)
 
     # --------------------------------------------------------------------
     # Methods related to Zones.
@@ -273,7 +287,9 @@ class Transformer:
                 _add_reason(removed_zones, name, "No '/' in zone name")
 
         logging.info(
-            "Removed %s zone infos without '/' in name" % len(removed_zones))
+            "Removed %s zone infos without '/' in name",
+            len(removed_zones)
+        )
         _merge_reasons(self.all_removed_zones, removed_zones)
         return results
 
@@ -313,8 +329,11 @@ class Transformer:
             if keep_eras:
                 results[name] = keep_eras
 
-        logging.info("Removed %s zone eras before year %04d", count,
-                     self.start_year)
+        logging.info(
+            'Removed %s zone eras before year %04d',
+            count,
+            self.start_year,
+        )
         return results
 
     def _remove_zone_eras_too_new(self, zones_map: ZonesMap) -> ZonesMap:
@@ -344,8 +363,11 @@ class Transformer:
             if keep_eras:
                 results[name] = keep_eras
 
-        logging.info("Removed %s zone eras starting after %04d", count,
-                     self.until_year)
+        logging.info(
+            "Removed %s zone eras starting after %04d",
+            count,
+            self.until_year,
+        )
         return results
 
     def _remove_zones_without_eras(self, zones_map: ZonesMap) -> ZonesMap:
@@ -361,7 +383,7 @@ class Transformer:
                 _add_reason(removed_zones, name, "no ZoneEra found")
 
         logging.info(
-            "Removed %s zone infos without ZoneEras" % len(removed_zones))
+            "Removed %s zone infos without ZoneEras", len(removed_zones))
         self._print_removed_map(removed_zones)
         _merge_reasons(self.all_removed_zones, removed_zones)
         return results
@@ -760,7 +782,7 @@ class Transformer:
                 results[name] = eras
 
         logging.info(
-            "Removed %s zone infos without rules" % len(removed_zones))
+            "Removed %s zone infos without rules", len(removed_zones))
         self._print_removed_map(removed_zones)
         _merge_reasons(self.all_removed_zones, removed_zones)
         return results
@@ -790,16 +812,29 @@ class Transformer:
                     if current_until <= prev_until:
                         valid = False
                         _add_reason(
-                            removed_zones, name,
-                            'non increasing UNTIL: %04d-%02d-%02d %ds' %
-                            current_until)
+                            removed_zones,
+                            name,
+                            'non increasing UNTIL: '
+                            f'{current_until[0]:04}-'
+                            f'{current_until[1]:02}-'
+                            f'{current_until[2]:02} '
+                            f'{current_until[3]}s'
+                        )
                         break
                 prev_until = current_until
             if valid and current_until[0] != MAX_UNTIL_YEAR:
                 valid = False
                 _add_reason(
-                    removed_zones, name,
-                    'invalid final UNTIL: %04d-%02d-%02d %ds' % current_until)
+                    removed_zones,
+                    name,
+                    (
+                        'invalid final UNTIL: '
+                        f'{current_until[0]:04}-'
+                        f'{current_until[1]:02}-'
+                        f'{current_until[2]:02} '
+                        f'{current_until[3]}s'
+                    )
+                )
 
             if valid:
                 results[name] = eras
@@ -856,14 +891,18 @@ class Transformer:
             removal = removals.get(name)
             if removal:
                 _add_reason(
-                    removed_policies, name,
-                    "Found %d transitions in year/month '%04d-%02d'" % removal)
+                    removed_policies,
+                    name,
+                    f"Found {removal[0]} transitions in year/month "
+                    f"'{removal[1]:04}-{removal[2]:02}'"
+                )
             else:
                 results[name] = rules
 
         logging.info(
-            'Removed %s rule policies with multiple transitions in one month' %
-            len(removed_policies))
+            'Removed %s rule policies with multiple transitions in one month',
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
@@ -886,8 +925,10 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info('Removed %s rule policies with long DST letter' %
-                     len(removed_policies))
+        logging.info(
+            'Removed %s rule policies with long DST letter',
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
@@ -919,8 +960,10 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info("Removed %s rule policies with unsupported AT suffix" %
-                     len(removed_policies))
+        logging.info(
+            "Removed %s rule policies with unsupported AT suffix",
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
@@ -1012,8 +1055,11 @@ class Transformer:
             else:
                 _add_reason(removed_policies, name, 'unused')
 
-        logging.info('Removed %s rule policies (%s rules) not used' %
-                     (len(removed_policies), removed_rule_count))
+        logging.info(
+            'Removed %s rule policies (%s rules) not used',
+            len(removed_policies),
+            removed_rule_count
+        )
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
 
@@ -1039,8 +1085,9 @@ class Transformer:
                 results[name] = rules
 
         logging.info(
-            'Removed %s rule policies with fromYear or toYear out of bounds' %
-            len(removed_policies))
+            'Removed %s rule policies with fromYear or toYear out of bounds',
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
@@ -1090,8 +1137,10 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info('Removed %s rule policies with invalid onDay' %
-                     len(removed_policies))
+        logging.info(
+            'Removed %s rule policies with invalid onDay',
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
@@ -1117,8 +1166,11 @@ class Transformer:
                 rules.insert(0, anchor_rule)
                 anchored_policies.append(name)
 
-        logging.info('Added anchor rule to %s rule policies: %s',
-                     len(anchored_policies), anchored_policies)
+        logging.info(
+            'Added anchor rule to %s rule policies: %s',
+            len(anchored_policies),
+            anchored_policies
+        )
         return rules_map
 
     def _has_prior_rule(self, rules: List[ZoneRuleRaw]) -> bool:
@@ -1203,8 +1255,10 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info("Removed %s rule policies with border Transitions" %
-                     len(removed_policies))
+        logging.info(
+            "Removed %s rule policies with border Transitions",
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
@@ -1268,8 +1322,10 @@ class Transformer:
             if valid:
                 results[policy_name] = rules
 
-        logging.info('Removed %s rule policies with invalid atTime' %
-                     len(removed_policies))
+        logging.info(
+            'Removed %s rule policies with invalid atTime',
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         _merge_reasons(self.all_notable_policies, notable_policies)
@@ -1333,8 +1389,10 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info('Removed %s rule policies with invalid deltaOffset' %
-                     len(removed_policies))
+        logging.info(
+            'Removed %s rule policies with invalid deltaOffset',
+            len(removed_policies)
+        )
         self._print_removed_map(removed_policies)
         _merge_reasons(self.all_removed_policies, removed_policies)
         _merge_reasons(self.all_notable_policies, notable_policies)
@@ -1712,72 +1770,6 @@ def add_string(strings: 'OrderedDict[str, int]', name: str) -> int:
         index = len(strings)
         strings[name] = index
     return index  # index will never be None
-
-
-def create_format_strings(
-    zones_map: ZonesMap,
-    rules_map: RulesMap,
-) -> StringCollection:
-    """Collect all ZoneRule.letter and ZoneEra.format strings into a single
-    array, for deduplication. However, bringing all strings into a single array
-    means that this gets loaded even if the application uses only a few zones.
-    See ArduinoGenerator.collect_letter_strings() for code that collects only
-    the ZoneRule.letter strings.
-
-    Normally, the C++ compiler will de-dupe duplicate strings. But in Arduino,
-    static strings are often placed in PROGMEM (i.e. flash) memory explicitly
-    (e.g. through the F() macro), and the C++ compiler is not smart enough to
-    de-dupe PROGMEM memory. This array can be used to perform manual de-duping.
-    """
-    strings_count: Dict[str, int] = {}
-    for name, eras in zones_map.items():
-        for era in eras:
-            format = era['format'].replace('%s', '%')
-            count = strings_count.get(format, 0)
-            strings_count[format] = count + 1
-    for name, rules in rules_map.items():
-        for rule in rules:
-            count = strings_count.get(rule['letter'], 0)
-            strings_count[rule['letter']] = count + 1
-
-    format_strings: 'OrderedDict[str, int]' = OrderedDict()
-    size = 0
-    orig_size = 0
-    for name in sorted(strings_count):
-        add_string(format_strings, name)
-        csize = len(name) + 1  # including NUL char in C String
-        size += csize
-        orig_size += strings_count[name] * csize
-    return {
-        'ordered_map': format_strings,
-        'size': size,
-        'orig_size': orig_size,
-    }
-
-
-def create_zone_strings(zones_map: ZonesMap) -> StringCollection:
-    """Collect Zone names and their index offset. There is no deduplication
-    here since each zone name is unique, so it is not clear if this is worth
-    doing. ArduinoGenerator will output this when asked (using the
-    'generate_zone_strings' flag) but that functionality may go away.
-    """
-    strings_count: Dict[str, int] = {}
-    for name, eras in zones_map.items():
-        count = strings_count.get(name, 0)
-        strings_count[name] = count + 1
-
-    zone_strings: 'OrderedDict[str, int]' = OrderedDict()
-    size = 0
-    orig_size = 0
-    for name in sorted(strings_count):
-        add_string(zone_strings, name)
-        csize = len(name) + 1  # including NUL char in C String
-        size += csize
-        orig_size += strings_count[name] * csize
-    return StringCollection(
-        ordered_map=zone_strings,
-        size=size,
-        orig_size=orig_size)
 
 
 def _create_rules_to_zones(

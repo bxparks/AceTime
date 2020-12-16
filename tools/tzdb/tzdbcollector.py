@@ -12,7 +12,6 @@ from .extractor import ZonesMap
 from .extractor import RulesMap
 from .extractor import LinksMap
 from .transformer import CommentsMap
-from .transformer import StringCollection
 
 
 # The internal representation of the TZ Database zone files.
@@ -39,8 +38,6 @@ class TzDb(TypedDict):
     notable_zones: CommentsMap
     notable_links: CommentsMap
     notable_policies: CommentsMap
-    format_strings: StringCollection
-    zone_strings: StringCollection
 
     # Data from BufSizeEstimator
     buf_sizes: BufSizeMap
@@ -81,8 +78,6 @@ class TzDbCollector:
         notable_zones: CommentsMap,
         notable_links: CommentsMap,
         notable_policies: CommentsMap,
-        format_strings: StringCollection,
-        zone_strings: StringCollection,
         buf_size_info: BufSizeInfo,
     ):
         self.tzdb: TzDb = {
@@ -108,8 +103,6 @@ class TzDbCollector:
             'notable_zones': notable_zones,
             'notable_links': notable_links,
             'notable_policies': notable_policies,
-            'format_strings': format_strings,
-            'zone_strings': zone_strings,
 
             # Data from BufSizeEstimator
             'buf_sizes': buf_size_info['buf_sizes'],

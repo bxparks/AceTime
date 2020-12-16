@@ -55,7 +55,7 @@ class BufSizeEstimator:
 
             # get_buffer_sizes() returns a tuple of
             # ((max_actives, year), (max_buffer_size, year)).
-            (max_actives, max_buf_size) = zone_specifier.get_buffer_sizes(
+            buffer_size_info = zone_specifier.get_buffer_sizes(
                 start_year=self.start_year,
                 until_year=self.until_year,
             )
@@ -63,7 +63,7 @@ class BufSizeEstimator:
             # The TransitionStorage size should be one more than the estimate
             # because TransitionStorage.getFreeAgent() needs one slot even if
             # it's not used.
-            buf_size = max_buf_size[0] + 1
+            buf_size = buffer_size_info.max_buffer_size.count + 1
 
             # The estimate is off for Asia/Atyrau. ZoneSpecifier returns
             # max_buf_size[0]==4 which means 5 should be enough, but
