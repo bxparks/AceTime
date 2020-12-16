@@ -4,6 +4,7 @@
 
 from typing import Dict
 from typing_extensions import TypedDict
+from collections import OrderedDict
 from .zone_specifier import ZoneSpecifier
 from .ingenerator import ZoneInfoMap
 from .ingenerator import ZonePolicyMap
@@ -75,6 +76,9 @@ class BufSizeEstimator:
             buf_sizes[zone_name] = buf_size
             if buf_size > max_size:
                 max_size = buf_size
+
+        # Sort by zone_name
+        buf_sizes = OrderedDict(sorted(buf_sizes.items()))
 
         return {
             'buf_sizes': buf_sizes,
