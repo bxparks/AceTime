@@ -13,7 +13,6 @@ from typing import List
 from typing import Optional
 from typing import Tuple
 from typing import cast
-from typing import TYPE_CHECKING
 from tzdb.data_types import ZoneRuleRaw
 from tzdb.data_types import ZoneEraRaw
 from tzdb.data_types import ZonesMap
@@ -27,20 +26,14 @@ from tzdb.extractor import MIN_YEAR
 from tzdb.extractor import MIN_YEAR_TINY
 from tzdb.extractor import MAX_UNTIL_YEAR
 from tzdb.extractor import MAX_UNTIL_YEAR_TINY
-from tzdb.transformer import add_string
 from tzdb.transformer import div_to_zero
 from tzdb.transformer import normalize_name
 from tzdb.transformer import normalize_raw
 from zone_processor.bufestimator import BufSizeMap
 from zonedb.data_types import ZoneInfoDatabase
 
-# map{policy_name: map{letter: index}}
-# With a hack to deal with mypy's confusion with OrderedDict (at least on
-# Python 3.6).
-if TYPE_CHECKING:
-    IndexedLetters = OrderedDict[str, int]
-else:
-    IndexedLetters = 'OrderedDict[str, int]'
+# map{policy_name -> map{letter -> index}}
+IndexedLetters = Dict[str, int]
 LettersMap = Dict[str, IndexedLetters]
 
 
@@ -294,7 +287,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         self.notable_zones = notable_zones
         self.notable_policies = notable_policies
 
-        self.letters_map = collect_letter_strings(policies_map)
+        self.letters_map = _collect_letter_strings(policies_map)
         self.db_header_namespace = self.db_namespace.upper()
 
     def generate_policies_h(self) -> str:
@@ -382,9 +375,9 @@ static const char* const kLetters{policyName}[] {progmem} = {{
                 ))
 
             from_year = rule['fromYear']
-            from_year_tiny = to_tiny_year(from_year)
+            from_year_tiny = _to_tiny_year(from_year)
             to_year = rule['toYear']
-            to_year_tiny = to_tiny_year(to_year)
+            to_year_tiny = _to_tiny_year(to_year)
 
             # Single-character 'letter' values are represented as themselves
             # using the C++ 'char' type ('A'-'Z'). But some 'letter' fields hold
@@ -1043,25 +1036,28 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             numZones=len(self.zones_map))
 
 
-def collect_letter_strings(policies_map: PoliciesMap) -> LettersMap:
+def _collect_letter_strings(policies_map: PoliciesMap) -> LettersMap:
     """Loop through all ZoneRules and collect the LETTERs which are
     more than one letter long into self.letters_map.
     """
-    letters_map: LettersMap = {}
-    for policy_name, rules in policies_map.items():
+    letters_map: LettersMap = OrderedDict()
+    for policy_name, rules in sorted(policies_map.items()):
         letters = set()
         for rule in rules:
             if len(rule['letter']) > 1:
                 letters.add(rule['letter'])
-        indexed_letters_map: IndexedLetters = OrderedDict()
+
         if letters:
+            indexed_letters: IndexedLetters = OrderedDict()
+            index = 0
             for letter in sorted(letters):
-                add_string(indexed_letters_map, letter)
-            letters_map[policy_name] = indexed_letters_map
+                indexed_letters[letter] = index
+                index += 1
+            letters_map[policy_name] = indexed_letters
     return letters_map
 
 
-def to_tiny_year(year: int) -> int:
+def _to_tiny_year(year: int) -> int:
     if year == MAX_YEAR:
         return MAX_YEAR_TINY
     elif year == MIN_YEAR:
