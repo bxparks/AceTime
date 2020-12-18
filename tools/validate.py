@@ -54,10 +54,13 @@ Examples:
 
 import argparse
 import logging
-
 from tzdb.extractor import Extractor
 from tzdb.transformer import Transformer
-from zonedb.ingenerator import InlineGenerator, ZoneInfoMap, ZonePolicyMap
+from zone_processor.inline_zone_info import (
+    InlineZoneInfo,
+    ZoneInfoMap,
+    ZonePolicyMap,
+)
 from validator.validator import Validator
 
 
@@ -288,8 +291,8 @@ def main() -> None:
     # Generate internal versions of zone_infos and zone_policies
     # so that ZoneSpecifier can be created.
     logging.info('======== Generating inlined zone_infos and zone_policies')
-    inline_generator = InlineGenerator(zones_map, rules_map)
-    (zone_infos, zone_policies) = inline_generator.generate_maps()
+    inline_zone_info = InlineZoneInfo(zones_map, rules_map)
+    (zone_infos, zone_policies) = inline_zone_info.generate_maps()
     logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
                  len(zone_policies))
 

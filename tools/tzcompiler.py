@@ -9,23 +9,22 @@ Read the raw TZ Database files at the location specified by `--input_dir` and
 generate the zonedb files in various formats as determined by the '--action'
 flag:
 
-  * --action tzdb
-      Generate file named 'tzdb.json' which is a JSON representation of the
-      internal data structures converted from the raw TZ Database files.
   * --action zonedb
       Generate zone_infos.*, zone_policies.*, and sometimes the zone_registry.*
-      files in the target language given by `--language` flag.
+      files in the target language given by `--language` flag. If
+      language==json, the generate a 'zonedb.json' file.
   * --action zonelist
       Write just the raw list of zone names named 'zones.txt'.
 
 The `--output_dir` flag determines the directory where various files should
 be created. If empty, it means the same as $PWD.
 
-If `--action zonedb` is selected, there are 2 language options available
+If `--action zonedb` is selected, there are 3 language options available
 using the --language flag:
 
   * --language arduino
   * --language python
+  * --language json
 
 The raw TZ Database are parsed by extractor.py and processed by transformer.py.
 The Transformer class accepts a number of options:
@@ -57,13 +56,17 @@ import sys
 from collections import OrderedDict
 from typing import Dict
 from typing_extensions import Protocol
-from tzdb.extractor import Extractor, ZonesMap
-from tzdb.transformer import Transformer, TransformerResult, hash_name
-from tzdb.tzdbcollector import TzDbCollector, TzDb
-from zonedb.argenerator import ArduinoGenerator
-from zonedb.pygenerator import PythonGenerator
-from zonedb.zonelistgenerator import ZoneListGenerator
-from zonedb.bufestimator import BufSizeEstimator, BufSizeInfo
+from tzdb.data_types import ZonesMap
+from tzdb.data_types import TransformerResult
+from tzdb.extractor import Extractor
+from tzdb.transformer import Transformer, hash_name
+from zonedb.data_types import ZoneInfoDatabase
+from zonedb.data_types import create_zone_info_database
+from zone_processor.bufestimator import BufSizeEstimator, BufSizeInfo
+from generator.argenerator import ArduinoGenerator
+from generator.pygenerator import PythonGenerator
+from generator.zonelistgenerator import ZoneListGenerator
+from generator.jsongenerator import JsonGenerator
 
 
 # The value of `ExtendedZoneProcessor.kMaxTransitions` which determines the
@@ -83,7 +86,7 @@ def generate_zonedb(
     db_namespace: str,
     language: str,
     output_dir: str,
-    tzdb: TzDb,
+    zidb: ZoneInfoDatabase,
 ) -> None:
     """Generate the zonedb/ or zonedbx/ files for Python or Arduino,
     but probably mostly for Arduino.
@@ -96,7 +99,7 @@ def generate_zonedb(
         logging.info('==== Creating Python zonedb files')
         generator = PythonGenerator(
             invocation=invocation,
-            tzdb=tzdb,
+            zidb=zidb,
         )
         generator.generate_files(output_dir)
     elif language == 'arduino':
@@ -105,21 +108,25 @@ def generate_zonedb(
         # Determine zonedb C++ namespace
         # TODO: Maybe move this into ArduinoGenerator?
         if not db_namespace:
-            if tzdb['scope'] == 'basic':
+            if zidb['scope'] == 'basic':
                 db_namespace = 'zonedb'
-            elif tzdb['scope'] == 'extended':
+            elif zidb['scope'] == 'extended':
                 db_namespace = 'zonedbx'
             else:
                 raise Exception(
                     f"db_namespace cannot be determined for "
-                    f"scope '{tzdb['scope']}'"
+                    f"scope '{zidb['scope']}'"
                 )
 
         generator = ArduinoGenerator(
             invocation=invocation,
             db_namespace=db_namespace,
-            tzdb=tzdb,
+            zidb=zidb,
         )
+        generator.generate_files(output_dir)
+    elif language == 'json':
+        logging.info('======== Creating JSON zonedb file')
+        generator = JsonGenerator(zidb=zidb)
         generator.generate_files(output_dir)
     else:
         raise Exception(f"Unrecognized language '{language}'")
@@ -192,7 +199,7 @@ def main() -> None:
         default=False)
 
     # Data pipeline selectors. Comma-separated list.
-    # tzdb: generate 'tzdb.json'
+    # json: generate 'zonedb.json'
     # zonedb: generate zonedb ('zone_infos.*', 'zone_poicies.*') files
     # zonelist: generate 'zones.txt' containing relavant zone names
     parser.add_argument(
@@ -203,7 +210,7 @@ def main() -> None:
     # Language selector (for --action zonedb)
     parser.add_argument(
         '--language',
-        choices=['arduino', 'python'],
+        choices=['arduino', 'python', 'json'],
         help='Target language (arduino|python)',
     )
 
@@ -246,7 +253,7 @@ def main() -> None:
 
     # Manually parse the comma-separated --action.
     actions = set(args.action.split(','))
-    allowed_actions = set(['tzdb', 'zonedb', 'zonelist'])
+    allowed_actions = set(['json', 'zonedb', 'zonelist'])
     if not actions.issubset(allowed_actions):
         print(f'Invalid --action: {actions - allowed_actions}')
         sys.exit(1)
@@ -334,7 +341,7 @@ def main() -> None:
     zone_ids: Dict[str, int] = generate_zone_ids(tdata.zones_map)
 
     # Collect TZ DB data into a single JSON-serializable object.
-    tzdb_generator = TzDbCollector(
+    zidb = create_zone_info_database(
         tz_version=args.tz_version,
         tz_files=Extractor.ZONE_FILES,
         scope=args.scope,
@@ -355,7 +362,6 @@ def main() -> None:
         buf_size_info=buf_size_info,
         zone_ids=zone_ids,
     )
-    tzdb = tzdb_generator.get_data()
 
     for action in actions:
         if action == 'zonedb':
@@ -364,16 +370,13 @@ def main() -> None:
                 db_namespace=args.db_namespace,
                 language=args.language,
                 output_dir=args.output_dir,
-                tzdb=tzdb,
+                zidb=zidb,
             )
-        elif action == 'tzdb':
-            logging.info('======== Creating JSON zonedb files')
-            tzdb_generator.generate_files(args.output_dir)
         elif action == 'zonelist':
             logging.info('======== Creating zones.txt')
             generator = ZoneListGenerator(
                 invocation=invocation,
-                tzdb=tzdb,
+                zidb=zidb,
             )
             generator.generate_files(args.output_dir)
         else:

@@ -6,11 +6,11 @@ import logging
 from typing import Dict
 from typing_extensions import TypedDict
 from collections import OrderedDict
-from tzdb.extractor import ZonesMap, RulesMap
+from tzdb.data_types import ZonesMap, RulesMap
 from .zone_specifier import ZoneSpecifier
-from .ingenerator import ZoneInfoMap
-from .ingenerator import ZonePolicyMap
-from .ingenerator import InlineGenerator
+from .inline_zone_info import ZoneInfoMap
+from .inline_zone_info import ZonePolicyMap
+from .inline_zone_info import InlineZoneInfo
 
 
 # zoneName -> bufSize
@@ -54,8 +54,8 @@ class BufSizeEstimator:
         """
         # Generate internal zone_infos and zone_policies to be used by
         # ZoneSpecifier.
-        inline_generator = InlineGenerator(self.zones_map, self.rules_map)
-        zone_infos, zone_policies = inline_generator.generate_maps()
+        inline_zone_info = InlineZoneInfo(self.zones_map, self.rules_map)
+        zone_infos, zone_policies = inline_zone_info.generate_maps()
         logging.info(
             'Generated zone_infos=%d; zone_policies=%d',
             len(zone_infos), len(zone_policies))
