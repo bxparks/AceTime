@@ -30,7 +30,6 @@ from tzdb.transformer import add_string
 from tzdb.transformer import div_to_zero
 from tzdb.transformer import normalize_name
 from tzdb.transformer import normalize_raw
-from tzdb.transformer import hash_name
 from tzdb.transformer import CommentsMap
 from tzdb.tzdbcollector import TzDb
 from zonedb.bufestimator import BufSizeMap
@@ -61,9 +60,6 @@ class ArduinoGenerator:
         db_namespace: str,
         tzdb: TzDb,
     ):
-        self.scope = tzdb['scope']
-        self.db_namespace = db_namespace
-
         # If I add a backslash (\) at the end of each line (which is needed if I
         # want to copy and paste the shell command), the C++ compiler spews out
         # warnings about "multi-line comment [-Wcomment]".
@@ -101,6 +97,7 @@ class ArduinoGenerator:
             notable_links=tzdb['notable_links'],
             notable_policies=tzdb['notable_policies'],
             buf_sizes=tzdb['buf_sizes'],
+            zone_ids=tzdb['zone_ids'],
         )
         self.zone_registry_generator = ZoneRegistryGenerator(
             invocation=wrapped_invocation,
@@ -700,6 +697,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         notable_links: CommentsMap,
         notable_policies: CommentsMap,
         buf_sizes: BufSizeMap,
+        zone_ids: Dict[str, int],
     ):
         self.invocation = invocation
         self.tz_version = tz_version
@@ -718,6 +716,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         self.notable_links = notable_links
         self.notable_policies = notable_policies
         self.buf_sizes = buf_sizes
+        self.zone_ids = zone_ids
 
         self.db_header_namespace = self.db_namespace.upper()
 
@@ -734,7 +733,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
                 scope=self.scope,
                 zoneNormalizedName=normalize_name(zone_name),
                 zoneFullName=zone_name,
-                zoneId=hash_name(zone_name),
+                zoneId=self.zone_ids[zone_name],
             )
 
         removed_info_items = ''
@@ -864,7 +863,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             scope=self.scope,
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name),
-            zoneId=hash_name(zone_name),
+            zoneId=self.zone_ids[zone_name],
             transitionBufSize=transition_buf_size,
             numEras=num_eras,
             stringLength=string_length,
