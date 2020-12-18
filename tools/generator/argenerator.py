@@ -32,7 +32,7 @@ from tzdb.transformer import div_to_zero
 from tzdb.transformer import normalize_name
 from tzdb.transformer import normalize_raw
 from tzdb.tzdbcollector import TzDb
-from zonedb.bufestimator import BufSizeMap
+from zone_processor.bufestimator import BufSizeMap
 
 # map{policy_name: map{letter: index}}
 # With a hack to deal with mypy's confusion with OrderedDict (at least on

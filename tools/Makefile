@@ -2,9 +2,10 @@ TZ_VERSION := 2020d
 
 # Files which pass 'mypy --strict'.
 SRC := \
-compare_pytz \
 compare_dateutil \
+compare_pytz \
 generate_validation.py \
+generator \
 tests/test_extractor.py \
 tests/test_transformer.py \
 tzcompiler.py \
@@ -13,7 +14,7 @@ validate.py \
 validation \
 validator \
 zinfo.py \
-zonedb
+zone_processor
 
 # Files without Python typing.
 SRC_UNTYPED := \

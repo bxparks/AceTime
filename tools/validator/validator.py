@@ -12,15 +12,15 @@ TODO: Should this be rewritten as a python test? If this is not run in a
 continuous integration pipeline, it's too easy to bitrot.
 """
 
-import logging
 from typing import List, Dict
+import logging
 from datetime import datetime
-from zonedb.ingenerator import ZoneInfoMap
-from zonedb.ingenerator import ZonePolicyMap
-from zonedb.zone_specifier import ZoneSpecifier
-from zonedb.zone_specifier import to_utc_string
-from zonedb.zone_specifier import SECONDS_SINCE_UNIX_EPOCH
-from zonedb.zone_specifier import BufferSizeInfo
+from zone_processor.ingenerator import ZoneInfoMap
+from zone_processor.ingenerator import ZonePolicyMap
+from zone_processor.zone_specifier import ZoneSpecifier
+from zone_processor.zone_specifier import to_utc_string
+from zone_processor.zone_specifier import SECONDS_SINCE_UNIX_EPOCH
+from zone_processor.zone_specifier import BufferSizeInfo
 from .zstdgenerator import TestDataGenerator
 from .zstdgenerator import TestData
 from .zstdgenerator import TestItem

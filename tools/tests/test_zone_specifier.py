@@ -9,13 +9,13 @@ from datetime import datetime
 from zonedbpy import zone_infos
 # from zonedbpy import validation_data # reenable using zoneinfo.json?
 # from validation.tdgenerator import TestItem
-from zonedb.zone_specifier import DateTuple
-from zonedb.zone_specifier import Transition
-from zonedb.zone_specifier import ZoneMatch
-from zonedb.zone_specifier import ZoneSpecifier
-from zonedb.zone_specifier import CandidateFinderBasic
-from zonedb.zone_specifier import _compare_transition_to_match
-from zonedb.zone_specifier import _compare_transition_to_match_fuzzy
+from zone_processor.zone_specifier import DateTuple
+from zone_processor.zone_specifier import Transition
+from zone_processor.zone_specifier import ZoneMatch
+from zone_processor.zone_specifier import ZoneSpecifier
+from zone_processor.zone_specifier import CandidateFinderBasic
+from zone_processor.zone_specifier import _compare_transition_to_match
+from zone_processor.zone_specifier import _compare_transition_to_match_fuzzy
 
 
 # class TestValidationData(unittest.TestCase):

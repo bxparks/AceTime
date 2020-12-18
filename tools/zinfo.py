@@ -53,9 +53,9 @@ import logging
 from typing import cast
 from datetime import datetime
 from zonedbpy import zone_infos
-from zonedb.ingenerator import ZoneInfo
-from zonedb.zone_specifier import ZoneSpecifier
-from zonedb.zone_specifier import to_utc_string
+from zone_processor.ingenerator import ZoneInfo
+from zone_processor.zone_specifier import ZoneSpecifier
+from zone_processor.zone_specifier import to_utc_string
 
 
 def main() -> None:

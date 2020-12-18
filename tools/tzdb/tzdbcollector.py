@@ -2,12 +2,12 @@
 #
 # MIT License
 
+from typing import List, Dict
+from typing_extensions import TypedDict
 import os
 import logging
 import json
-from typing import List, Dict
-from typing_extensions import TypedDict
-from zonedb.bufestimator import BufSizeInfo, BufSizeMap
+from zone_processor.bufestimator import BufSizeInfo, BufSizeMap
 from .data_types import ZonesMap
 from .data_types import RulesMap
 from .data_types import LinksMap

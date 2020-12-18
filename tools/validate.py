@@ -54,10 +54,11 @@ Examples:
 
 import argparse
 import logging
-
 from tzdb.extractor import Extractor
 from tzdb.transformer import Transformer
-from zonedb.ingenerator import InlineGenerator, ZoneInfoMap, ZonePolicyMap
+from zone_processor.ingenerator import (
+    InlineGenerator, ZoneInfoMap, ZonePolicyMap
+)
 from validator.validator import Validator
 
 
