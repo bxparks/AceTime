@@ -294,14 +294,14 @@ def main() -> None:
     extractor = Extractor(args.input_dir)
     extractor.parse()
     extractor.print_summary()
-    rules_map, zones_map, links_map = extractor.get_data()
+    policies_map, zones_map, links_map = extractor.get_data()
 
     # Transform the TZ zones and rules
     logging.info('======== Transforming Zones and Rules')
     logging.info('Extracting years [%d, %d)', args.start_year, args.until_year)
     transformer = Transformer(
         zones_map=zones_map,
-        rules_map=rules_map,
+        policies_map=policies_map,
         links_map=links_map,
         scope=args.scope,
         start_year=args.start_year,
@@ -319,7 +319,7 @@ def main() -> None:
     logging.info('Checking years in [%d, %d)', args.start_year, args.until_year)
     estimator = BufSizeEstimator(
         zones_map=tdata.zones_map,
-        rules_map=tdata.rules_map,
+        policies_map=tdata.policies_map,
         start_year=args.start_year,
         until_year=args.until_year,
     )
@@ -352,7 +352,7 @@ def main() -> None:
         strict=args.strict,
         zones_map=tdata.zones_map,
         links_map=tdata.links_map,
-        rules_map=tdata.rules_map,
+        policies_map=tdata.policies_map,
         removed_zones=tdata.removed_zones,
         removed_links=tdata.removed_links,
         removed_policies=tdata.removed_policies,

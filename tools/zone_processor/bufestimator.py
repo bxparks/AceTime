@@ -6,7 +6,7 @@ import logging
 from typing import Dict
 from typing_extensions import TypedDict
 from collections import OrderedDict
-from tzdb.data_types import ZonesMap, RulesMap
+from tzdb.data_types import ZonesMap, PoliciesMap
 from .zone_specifier import ZoneSpecifier
 from .inline_zone_info import ZoneInfoMap
 from .inline_zone_info import ZonePolicyMap
@@ -31,7 +31,7 @@ class BufSizeEstimator:
     def __init__(
         self,
         zones_map: ZonesMap,
-        rules_map: RulesMap,
+        policies_map: PoliciesMap,
         start_year: int,
         until_year: int,
     ):
@@ -43,7 +43,7 @@ class BufSizeEstimator:
             until_year: until year
         """
         self.zones_map = zones_map
-        self.rules_map = rules_map
+        self.policies_map = policies_map
         self.start_year = start_year
         self.until_year = until_year
 
@@ -54,7 +54,7 @@ class BufSizeEstimator:
         """
         # Generate internal zone_infos and zone_policies to be used by
         # ZoneSpecifier.
-        inline_zone_info = InlineZoneInfo(self.zones_map, self.rules_map)
+        inline_zone_info = InlineZoneInfo(self.zones_map, self.policies_map)
         zone_infos, zone_policies = inline_zone_info.generate_maps()
         logging.info(
             'Generated zone_infos=%d; zone_policies=%d',

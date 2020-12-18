@@ -74,7 +74,7 @@ from typing import Tuple
 from .data_types import (
     ZoneRuleRaw,
     ZoneEraRaw,
-    RulesMap,
+    PoliciesMap,
     ZonesMap,
     LinksMap,
 )
@@ -118,7 +118,7 @@ class Extractor:
         extractor.parse()
         extractor.print_summary()
         extractor.zones_map
-        extractor.rules_map
+        extractor.policies_map
         ...
     """
 
@@ -141,7 +141,7 @@ class Extractor:
         self.rule_lines: Dict[str, List[str]] = {}  # ruleName to lines[]
         self.zone_lines: Dict[str, List[str]] = {}  # zoneName to lines[]
         self.link_lines: Dict[str, List[str]] = {}  # linkName to zoneName[]
-        self.rules_map: RulesMap = {}
+        self.policies_map: PoliciesMap = {}
         self.zones_map: ZonesMap = {}
         self.links_map: LinksMap = {}
         self.ignored_rule_lines: int = 0
@@ -153,7 +153,7 @@ class Extractor:
 
     def parse(self) -> None:
         """Read the zoneinfo files from TZ Database and create the 'zones_map'
-        and 'rules_map'.
+        and 'policies_map'.
         * zones_map contains a map of (zone_name -> ZoneEraRaw[]).
         * rules contains a map of (policy_name -> ZoneRuleRaw[]).
         """
@@ -162,9 +162,9 @@ class Extractor:
         self._process_zones()
         self._process_links()
 
-    def get_data(self) -> Tuple[RulesMap, ZonesMap, LinksMap]:
+    def get_data(self) -> Tuple[PoliciesMap, ZonesMap, LinksMap]:
         """Return the extracted data maps."""
-        return self.rules_map, self.zones_map, self.links_map
+        return self.policies_map, self.zones_map, self.links_map
 
     def _parse_zone_files(self) -> None:
         logging.basicConfig(level=logging.INFO)
@@ -218,7 +218,7 @@ class Extractor:
                 try:
                     rule_entry: ZoneRuleRaw = _process_rule_line(line)
                     if rule_entry:
-                        _add_item(self.rules_map, name, rule_entry)
+                        _add_item(self.policies_map, name, rule_entry)
                     else:
                         self.ignored_rule_lines += 1
                 except Exception as e:
@@ -288,7 +288,7 @@ class Extractor:
 
         name: str
         lines: List[str]
-        for name, rules in self.rules_map.items():
+        for name, rules in self.policies_map.items():
             rule: ZoneRuleRaw
             for rule in rules:
                 rule_entry_count += 1
@@ -307,7 +307,7 @@ class Extractor:
             f'{len(self.link_lines)})')
         logging.info(
             'Summary: Name count (Rule, Zone, Link): ('
-            f'{len(self.rules_map)}, '
+            f'{len(self.policies_map)}, '
             f'{len(self.zones_map)}, '
             f'{len(self.links_map)})')
         logging.info(f'Summary: Rule entry count: {rule_entry_count}')

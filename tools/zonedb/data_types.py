@@ -6,7 +6,7 @@ from typing import List, Dict
 from typing_extensions import TypedDict
 from zone_processor.bufestimator import BufSizeInfo, BufSizeMap
 from tzdb.data_types import ZonesMap
-from tzdb.data_types import RulesMap
+from tzdb.data_types import PoliciesMap
 from tzdb.data_types import LinksMap
 from tzdb.data_types import CommentsMap
 
@@ -29,7 +29,7 @@ class ZoneInfoDatabase(TypedDict):
     # Data from Extractor filtered through Transformer
     zones_map: ZonesMap
     links_map: LinksMap
-    rules_map: RulesMap
+    policies_map: PoliciesMap
 
     # Data from Transformer
     removed_zones: CommentsMap
@@ -58,7 +58,7 @@ def create_zone_info_database(
     strict: bool,
     zones_map: ZonesMap,
     links_map: LinksMap,
-    rules_map: RulesMap,
+    policies_map: PoliciesMap,
     removed_zones: CommentsMap,
     removed_links: CommentsMap,
     removed_policies: CommentsMap,
@@ -83,7 +83,7 @@ def create_zone_info_database(
         # Data from Extractor filtered through Transformer.
         'zones_map': zones_map,
         'links_map': links_map,
-        'rules_map': rules_map,
+        'policies_map': policies_map,
 
         # Data from Transformer.
         'removed_zones': removed_zones,

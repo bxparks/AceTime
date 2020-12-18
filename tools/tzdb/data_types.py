@@ -71,7 +71,7 @@ class ZoneEraRaw(TypedDict, total=False):
 
 # Map of policyName -> ZoneRuleRaw[]. Created by extractor.py.
 # Probably should be renmaed PoliciesMap to be consistent with ZonesMap.
-RulesMap = Dict[str, List[ZoneRuleRaw]]
+PoliciesMap = Dict[str, List[ZoneRuleRaw]]
 
 # Map of zoneName -> ZoneEraRaw[]. Created by extractor.py.
 ZonesMap = Dict[str, List[ZoneEraRaw]]
@@ -93,7 +93,7 @@ CommentsMap = Dict[str, List[str]]
 class TransformerResult(NamedTuple):
     """Result type of Transformer.get_data()."""
     zones_map: ZonesMap
-    rules_map: RulesMap
+    policies_map: PoliciesMap
     links_map: LinksMap
     removed_zones: CommentsMap
     removed_policies: CommentsMap

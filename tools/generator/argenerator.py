@@ -17,7 +17,7 @@ from typing import TYPE_CHECKING
 from tzdb.data_types import ZoneRuleRaw
 from tzdb.data_types import ZoneEraRaw
 from tzdb.data_types import ZonesMap
-from tzdb.data_types import RulesMap
+from tzdb.data_types import PoliciesMap
 from tzdb.data_types import LinksMap
 from tzdb.data_types import CommentsMap
 from tzdb.extractor import EPOCH_YEAR
@@ -73,7 +73,7 @@ class ArduinoGenerator:
             scope=zidb['scope'],
             db_namespace=db_namespace,
             zones_map=zidb['zones_map'],
-            rules_map=zidb['rules_map'],
+            policies_map=zidb['policies_map'],
             removed_zones=zidb['removed_zones'],
             removed_policies=zidb['removed_policies'],
             notable_zones=zidb['notable_zones'],
@@ -89,7 +89,7 @@ class ArduinoGenerator:
             until_year=zidb['until_year'],
             zones_map=zidb['zones_map'],
             links_map=zidb['links_map'],
-            rules_map=zidb['rules_map'],
+            policies_map=zidb['policies_map'],
             removed_zones=zidb['removed_zones'],
             removed_links=zidb['removed_links'],
             removed_policies=zidb['removed_policies'],
@@ -276,7 +276,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         scope: str,
         db_namespace: str,
         zones_map: ZonesMap,
-        rules_map: RulesMap,
+        policies_map: PoliciesMap,
         removed_zones: CommentsMap,
         removed_policies: CommentsMap,
         notable_zones: CommentsMap,
@@ -288,18 +288,18 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         self.scope = scope
         self.db_namespace = db_namespace
         self.zones_map = zones_map
-        self.rules_map = rules_map
+        self.policies_map = policies_map
         self.removed_zones = removed_zones
         self.removed_policies = removed_policies
         self.notable_zones = notable_zones
         self.notable_policies = notable_policies
 
-        self.letters_map = collect_letter_strings(rules_map)
+        self.letters_map = collect_letter_strings(policies_map)
         self.db_header_namespace = self.db_namespace.upper()
 
     def generate_policies_h(self) -> str:
         policy_items = ''
-        for name, rules in sorted(self.rules_map.items()):
+        for name, rules in sorted(self.policies_map.items()):
             policy_items += self.ZONE_POLICIES_H_POLICY_ITEM.format(
                 policyName=normalize_name(name),
                 scope=self.scope)
@@ -324,7 +324,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             tz_version=self.tz_version,
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
-            numPolicies=len(self.rules_map),
+            numPolicies=len(self.policies_map),
             policyItems=policy_items,
             numRemovedPolicies=len(self.removed_policies),
             removedPolicyItems=removed_policy_items,
@@ -336,7 +336,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         memory8 = 0
         memory32 = 32
         num_rules = 0
-        for name, rules in sorted(self.rules_map.items()):
+        for name, rules in sorted(self.policies_map.items()):
             indexed_letters: Optional[IndexedLetters] = \
                 self.letters_map.get(name)
             num_rules += len(rules)
@@ -346,7 +346,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             memory8 += policy_memory8
             memory32 += policy_memory32
 
-        num_policies = len(self.rules_map)
+        num_policies = len(self.policies_map)
 
         return self.ZONE_POLICIES_CPP_FILE.format(
             invocation=self.invocation,
@@ -689,7 +689,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         until_year: int,
         zones_map: ZonesMap,
         links_map: LinksMap,
-        rules_map: RulesMap,
+        policies_map: PoliciesMap,
         removed_zones: CommentsMap,
         removed_links: CommentsMap,
         removed_policies: CommentsMap,
@@ -708,7 +708,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         self.until_year = until_year
         self.zones_map = zones_map
         self.links_map = links_map
-        self.rules_map = rules_map
+        self.policies_map = policies_map
         self.removed_zones = removed_zones
         self.removed_links = removed_links
         self.removed_policies = removed_policies
@@ -1043,12 +1043,12 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             numZones=len(self.zones_map))
 
 
-def collect_letter_strings(rules_map: RulesMap) -> LettersMap:
+def collect_letter_strings(policies_map: PoliciesMap) -> LettersMap:
     """Loop through all ZoneRules and collect the LETTERs which are
     more than one letter long into self.letters_map.
     """
     letters_map: LettersMap = {}
-    for policy_name, rules in rules_map.items():
+    for policy_name, rules in policies_map.items():
         letters = set()
         for rule in rules:
             if len(rule['letter']) > 1:

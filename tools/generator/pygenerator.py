@@ -12,7 +12,7 @@ from typing import Tuple
 from tzdb.data_types import ZoneEraRaw
 from tzdb.data_types import ZoneRuleRaw
 from tzdb.data_types import ZonesMap
-from tzdb.data_types import RulesMap
+from tzdb.data_types import PoliciesMap
 from tzdb.data_types import CommentsMap
 from tzdb.transformer import normalize_name
 from tzdb.transformer import normalize_raw
@@ -209,7 +209,7 @@ ZONE_INFO_{zoneNormalizedName} = {{
         self.tz_version = zidb['tz_version']
         self.tz_files = zidb['tz_files']
         self.zones_map = zidb['zones_map']
-        self.rules_map = zidb['rules_map']
+        self.policies_map = zidb['policies_map']
         self.removed_zones = zidb['removed_zones']
         self.removed_policies = zidb['removed_policies']
         self.notable_zones = zidb['notable_zones']
@@ -229,8 +229,8 @@ ZONE_INFO_{zoneNormalizedName} = {{
         logging.info("Created %s", full_filename)
 
     def _generate_policies(self) -> str:
-        (num_rules, policy_items) = self._generate_policy_items(self.rules_map)
-        policy_map_items = self._generate_policy_map_items(self.rules_map)
+        num_rules, policy_items = self._generate_policy_items(self.policies_map)
+        policy_map_items = self._generate_policy_map_items(self.policies_map)
         removed_policy_items = self._generate_removed_policy_items(
             self.removed_policies)
         notable_policy_items = self._generate_notable_policy_items(
@@ -240,7 +240,7 @@ ZONE_INFO_{zoneNormalizedName} = {{
             invocation=self.invocation,
             tz_version=self.tz_version,
             tz_files=', '.join(self.tz_files),
-            numPolicies=len(self.rules_map),
+            numPolicies=len(self.policies_map),
             numRules=num_rules,
             policyItems=policy_items,
             policyMapItems=policy_map_items,
@@ -249,18 +249,21 @@ ZONE_INFO_{zoneNormalizedName} = {{
             numNotablePolicies=len(self.notable_policies),
             notablePolicyItems=notable_policy_items)
 
-    def _generate_policy_items(self, rules_map: RulesMap) -> Tuple[int, str]:
+    def _generate_policy_items(
+        self,
+        policies_map: PoliciesMap,
+    ) -> Tuple[int, str]:
         num_rules = 0
         policy_items = ''
-        for name, rules in sorted(rules_map.items()):
+        for name, rules in sorted(policies_map.items()):
             policy_items += self._generate_policy_item(name, rules)
             num_rules += len(rules)
         return (num_rules, policy_items)
 
-    def _generate_policy_map_items(self, rules_map: RulesMap) -> str:
+    def _generate_policy_map_items(self, policies_map: PoliciesMap) -> str:
         policy_map_items = ''
         for name, rules in sorted(
-                rules_map.items(), key=lambda x: normalize_name(x[0])):
+                policies_map.items(), key=lambda x: normalize_name(x[0])):
             policy_map_items += self.ZONE_POLICY_MAP_ITEM.format(
                 policyName=normalize_name(name))
         return policy_map_items

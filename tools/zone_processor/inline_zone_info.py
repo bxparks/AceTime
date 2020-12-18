@@ -13,7 +13,7 @@ from typing import Tuple
 from typing import Union
 from typing_extensions import TypedDict
 from tzdb.data_types import ZonesMap
-from tzdb.data_types import RulesMap
+from tzdb.data_types import PoliciesMap
 from tzdb.transformer import normalize_name
 
 # These are the data structures written out to 'zone_policies.py' and
@@ -66,14 +66,14 @@ class InlineZoneInfo:
     """Generate Python zone infos and policies maps inlined (instead of files).
     """
 
-    def __init__(self, zones_map: ZonesMap, rules_map: RulesMap):
+    def __init__(self, zones_map: ZonesMap, policies_map: PoliciesMap):
         """
         Args:
             zones_map (dict): {full_name -> ZoneEra[]}
-            rules_map (dict): {policy_name -> ZoneRules[]}
+            policies_map (dict): {policy_name -> ZoneRules[]}
         """
         self.zones_map = zones_map
-        self.rules_map = rules_map
+        self.policies_map = policies_map
 
         self.zone_infos: ZoneInfoMap = {}
         self.zone_policies: ZonePolicyMap = {}
@@ -88,7 +88,7 @@ class InlineZoneInfo:
         return (self.zone_infos, self.zone_policies)
 
     def _generate_policies(self) -> None:
-        for name, rules in self.rules_map.items():
+        for name, rules in self.policies_map.items():
             policy_rules: List[ZoneRule] = []
             for rule in rules:
                 # yapf: disable
