@@ -55,9 +55,9 @@ class BufSizeEstimator:
         # Generate internal zone_infos and zone_policies to be used by
         # ZoneSpecifier.
         inline_zone_info = InlineZoneInfo(self.zones_map, self.policies_map)
-        zone_infos, zone_policies = inline_zone_info.generate_maps()
+        zone_infos, zone_policies = inline_zone_info.generate_zonedb()
         logging.info(
-            'Generated zone_infos=%d; zone_policies=%d',
+            'Inlined zone_infos=%d; zone_policies=%d',
             len(zone_infos), len(zone_policies))
 
         # Calculate buffer sizes using a ZoneSpecifier.

@@ -292,9 +292,10 @@ def main() -> None:
     # so that ZoneSpecifier can be created.
     logging.info('======== Generating inlined zone_infos and zone_policies')
     inline_zone_info = InlineZoneInfo(zones_map, policies_map)
-    (zone_infos, zone_policies) = inline_zone_info.generate_maps()
-    logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
-                 len(zone_policies))
+    zone_infos, zone_policies = inline_zone_info.generate_zonedb()
+    logging.info(
+        'Inlined zone_infos=%d; zone_policies=%d',
+        len(zone_infos), len(zone_policies))
 
     # Set the defaults for validation_start_year and validation_until_year
     # if they were not specified.
