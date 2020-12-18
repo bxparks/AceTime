@@ -45,16 +45,6 @@ CommentsCollection = Dict[str, Set[str]]
 RulesToZones = Dict[str, List[str]]
 
 
-# Deduped list of strings (as OrderedDict of {string -> index}), total size, and
-# the total original size. The 'index' allows the generated zoneinfo files (in
-# varous languages) to reference the string using the 'index'. Used externally.
-StringCollection = TypedDict('StringCollection', {
-    'ordered_map': 'OrderedDict[str, int]',
-    'size': int,  # total length of strings after de-duplication
-    'orig_size': int,  # total length of strings including duplicates
-})
-
-
 class TransformerResult(NamedTuple):
     """Result type of get_data()."""
     zones_map: ZonesMap
