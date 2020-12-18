@@ -746,13 +746,13 @@ class Transformer:
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
-                rule_name = era['rules']
-                if (rule_name not in ['-', ':']
-                        and rule_name not in policies_map):
+                policy_name = era['rules']
+                if (policy_name not in ['-', ':']
+                        and policy_name not in policies_map):
                     valid = False
                     _add_reason(
                         removed_zones, name,
-                        f"policy '{rule_name}' not found")
+                        f"policy '{policy_name}' not found")
                     break
             if valid:
                 results[name] = eras
@@ -1759,7 +1759,7 @@ def _create_rules_to_zones(
     policies_map: PoliciesMap,
 ) -> RulesToZones:
     """Normally Zones point to Rules. This method causes the reverse to happen,
-    making Rules know about Zones, by creating a map of {rule_name ->
+    making Rules know about Zones, by creating a map of {policy_name ->
     zone_full_name[]}. This allows us to determine which zones that may be
     affected by a change in a particular Rule. Must be called after
     _create_zones_with_rules_expansion() to normalize the RULES column
@@ -1768,12 +1768,12 @@ def _create_rules_to_zones(
     rules_to_zones: RulesToZones = {}
     for full_name, eras in zones_map.items():
         for era in eras:
-            rule_name = era['rules']
-            if rule_name not in ['-', ':']:
-                zones = rules_to_zones.get(rule_name)
+            policy_name = era['rules']
+            if policy_name not in ['-', ':']:
+                zones = rules_to_zones.get(policy_name)
                 if not zones:
                     zones = []
-                    rules_to_zones[rule_name] = zones
+                    rules_to_zones[policy_name] = zones
                 zones.append(full_name)
     return rules_to_zones
 

@@ -189,8 +189,8 @@ class Extractor:
             tag: str = line[:4]
             if tag == 'Rule':
                 tokens: List[str] = line.split()
-                rule_name: str = tokens[1]
-                _add_item(self.rule_lines, rule_name, line)
+                policy_name: str = tokens[1]
+                _add_item(self.rule_lines, policy_name, line)
                 in_zone_mode = False
             elif tag == 'Link':
                 tokens = line.split()
