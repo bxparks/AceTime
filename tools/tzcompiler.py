@@ -62,10 +62,10 @@ from tzdb.data_types import TransformerResult
 from tzdb.extractor import Extractor
 from tzdb.transformer import Transformer, hash_name
 from tzdb.tzdbcollector import TzDbCollector, TzDb
-from zonedb.argenerator import ArduinoGenerator
-from zonedb.pygenerator import PythonGenerator
-from zonedb.zonelistgenerator import ZoneListGenerator
 from zonedb.bufestimator import BufSizeEstimator, BufSizeInfo
+from generator.argenerator import ArduinoGenerator
+from generator.pygenerator import PythonGenerator
+from generator.zonelistgenerator import ZoneListGenerator
 
 
 # The value of `ExtendedZoneProcessor.kMaxTransitions` which determines the
