@@ -14,7 +14,8 @@ validate.py \
 validation \
 validator \
 zinfo.py \
-zone_processor
+zone_processor \
+zonedb
 
 # Files without Python typing.
 SRC_UNTYPED := \
@@ -51,15 +52,23 @@ $(TZ_VERSION):
 validate: $(TZ_VERSION)
 	./validate.py --input_dir $(TZ_VERSION) --scope extended
 
-# Generate tzdb.json for testing purposes.
-tzdb.json: $(SRC) $(TZ_VERSION)
-	./tzcompiler.py --tz_version $(TZ_VERSION) --input_dir $(TZ_VERSION) \
-	--scope extended --action tzdb
+# Generate zonedb.json for testing purposes.
+zonedb.json: $(SRC) $(TZ_VERSION)
+	./tzcompiler.py \
+		--tz_version \
+		$(TZ_VERSION) \
+		--input_dir $(TZ_VERSION) \
+		--scope extended \
+		--action zonedb \
+		--language json
 
 # Generate the zones.txt file for testing purposes.
 zones.txt: $(SRC) $(TZ_VERSION)
-	./tzcompiler.py --tz_version $(TZ_VERSION) --input_dir $(TZ_VERSION) \
-	--scope basic --action zonelist
+	./tzcompiler.py \
+		--tz_version $(TZ_VERSION)
+		--input_dir $(TZ_VERSION) \
+		--scope basic \
+		--action zonelist
 
 # Generate the validation_data.json for testing purposes
 validation_data.json: zones.txt
@@ -77,7 +86,7 @@ validation_tests.cpp: validation_data.h
 	@true
 
 clean:
-	rm -f zones.txt tzdb.json validation_data.json validation_data.h \
+	rm -f zones.txt zonedb.json validation_data.json validation_data.h \
 		validation_data.cpp validation_tests.cpp
 	rm -rf $(TZ_VERSION)
 	make -C compare_pytz clean

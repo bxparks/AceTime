@@ -16,7 +16,7 @@ from tzdb.data_types import RulesMap
 from tzdb.data_types import CommentsMap
 from tzdb.transformer import normalize_name
 from tzdb.transformer import normalize_raw
-from tzdb.tzdbcollector import TzDb
+from zonedb.data_types import ZoneInfoDatabase
 
 
 class PythonGenerator:
@@ -203,17 +203,17 @@ ZONE_INFO_{zoneNormalizedName} = {{
     def __init__(
         self,
         invocation: str,
-        tzdb: TzDb,
+        zidb: ZoneInfoDatabase,
     ):
         self.invocation = invocation
-        self.tz_version = tzdb['tz_version']
-        self.tz_files = tzdb['tz_files']
-        self.zones_map = tzdb['zones_map']
-        self.rules_map = tzdb['rules_map']
-        self.removed_zones = tzdb['removed_zones']
-        self.removed_policies = tzdb['removed_policies']
-        self.notable_zones = tzdb['notable_zones']
-        self.notable_policies = tzdb['notable_policies']
+        self.tz_version = zidb['tz_version']
+        self.tz_files = zidb['tz_files']
+        self.zones_map = zidb['zones_map']
+        self.rules_map = zidb['rules_map']
+        self.removed_zones = zidb['removed_zones']
+        self.removed_policies = zidb['removed_policies']
+        self.notable_zones = zidb['notable_zones']
+        self.notable_policies = zidb['notable_policies']
 
     def generate_files(self, output_dir: str) -> None:
         self._write_file(output_dir, self.ZONE_POLICIES_FILE_NAME,
