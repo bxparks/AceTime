@@ -57,8 +57,10 @@ import sys
 from collections import OrderedDict
 from typing import Dict
 from typing_extensions import Protocol
-from tzdb.extractor import Extractor, ZonesMap
-from tzdb.transformer import Transformer, TransformerResult, hash_name
+from tzdb.data_types import ZonesMap
+from tzdb.data_types import TransformerResult
+from tzdb.extractor import Extractor
+from tzdb.transformer import Transformer, hash_name
 from tzdb.tzdbcollector import TzDbCollector, TzDb
 from zonedb.argenerator import ArduinoGenerator
 from zonedb.pygenerator import PythonGenerator

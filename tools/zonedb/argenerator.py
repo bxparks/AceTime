@@ -14,6 +14,12 @@ from typing import Optional
 from typing import Tuple
 from typing import cast
 from typing import TYPE_CHECKING
+from tzdb.data_types import ZoneRuleRaw
+from tzdb.data_types import ZoneEraRaw
+from tzdb.data_types import ZonesMap
+from tzdb.data_types import RulesMap
+from tzdb.data_types import LinksMap
+from tzdb.data_types import CommentsMap
 from tzdb.extractor import EPOCH_YEAR
 from tzdb.extractor import MAX_YEAR
 from tzdb.extractor import MAX_YEAR_TINY
@@ -21,16 +27,10 @@ from tzdb.extractor import MIN_YEAR
 from tzdb.extractor import MIN_YEAR_TINY
 from tzdb.extractor import MAX_UNTIL_YEAR
 from tzdb.extractor import MAX_UNTIL_YEAR_TINY
-from tzdb.extractor import ZoneRuleRaw
-from tzdb.extractor import ZoneEraRaw
-from tzdb.extractor import ZonesMap
-from tzdb.extractor import RulesMap
-from tzdb.extractor import LinksMap
 from tzdb.transformer import add_string
 from tzdb.transformer import div_to_zero
 from tzdb.transformer import normalize_name
 from tzdb.transformer import normalize_raw
-from tzdb.transformer import CommentsMap
 from tzdb.tzdbcollector import TzDb
 from zonedb.bufestimator import BufSizeMap
 

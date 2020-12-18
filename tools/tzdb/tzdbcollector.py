@@ -8,10 +8,10 @@ import json
 from typing import List, Dict
 from typing_extensions import TypedDict
 from zonedb.bufestimator import BufSizeInfo, BufSizeMap
-from .extractor import ZonesMap
-from .extractor import RulesMap
-from .extractor import LinksMap
-from .transformer import CommentsMap
+from .data_types import ZonesMap
+from .data_types import RulesMap
+from .data_types import LinksMap
+from .data_types import CommentsMap
 
 
 # The internal representation of the TZ Database zone files.

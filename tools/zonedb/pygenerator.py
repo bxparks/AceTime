@@ -7,13 +7,13 @@ Generate the 'zone_infos.py' and 'zone_policies.py' files for Python.
 
 import logging
 import os
-from tzdb.extractor import ZoneEraRaw
-from tzdb.extractor import ZoneRuleRaw
-from tzdb.extractor import ZonesMap
-from tzdb.extractor import RulesMap
+from tzdb.data_types import ZoneEraRaw
+from tzdb.data_types import ZoneRuleRaw
+from tzdb.data_types import ZonesMap
+from tzdb.data_types import RulesMap
+from tzdb.data_types import CommentsMap
 from tzdb.transformer import normalize_name
 from tzdb.transformer import normalize_raw
-from tzdb.transformer import CommentsMap
 from tzdb.tzdbcollector import TzDb
 from typing import List
 from typing import Tuple

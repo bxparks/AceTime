@@ -14,48 +14,31 @@ import sys
 import re
 import datetime
 from collections import OrderedDict
-from .extractor import MAX_UNTIL_YEAR
-from .extractor import MIN_YEAR
-from .extractor import MAX_YEAR
-from .extractor import ZoneRuleRaw
-from .extractor import ZoneEraRaw
-from .extractor import ZonesMap
-from .extractor import RulesMap
-from .extractor import LinksMap
 from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Set
 from typing import Tuple
 from typing import cast
-from typing import NamedTuple
 from typing_extensions import TypedDict
+from .extractor import MAX_UNTIL_YEAR
+from .extractor import MIN_YEAR
+from .extractor import MAX_YEAR
+from .data_types import ZoneRuleRaw
+from .data_types import ZoneEraRaw
+from .data_types import ZonesMap
+from .data_types import RulesMap
+from .data_types import LinksMap
+from .data_types import TransformerResult
 
-# zoneName -> List[Comment], same as CommentsCollection but converted to
-# a List. Used externally, especially for JSON serialization.
-CommentsMap = Dict[str, List[str]]
-
-# zoneName -> Set[Comment] to collect de-duped error messages or warnings.
-# Used only internally.
+# Map of zoneName -> Set[Comment] used internally by transfomer.py to collect
+# de-duped error messages or warnings. Exported as data_types.CommentsMap.
 CommentsCollection = Dict[str, Set[str]]
 
-# policyName -> zoneName[], the list of all Zones which references the
-# given policy. Used only internally.
-# TODO: Should probably be renamed PoliciesToZones.
+# Map of policyName -> zoneName[] used internally by transformer.py.  The list
+# of all Zones which references the given policy. TODO: Should probably be
+# renamed PoliciesToZones.
 RulesToZones = Dict[str, List[str]]
-
-
-class TransformerResult(NamedTuple):
-    """Result type of get_data()."""
-    zones_map: ZonesMap
-    rules_map: RulesMap
-    links_map: LinksMap
-    removed_zones: CommentsMap
-    removed_policies: CommentsMap
-    removed_links: CommentsMap
-    notable_zones: CommentsMap
-    notable_policies: CommentsMap
-    notable_links: CommentsMap
 
 
 class Transformer:

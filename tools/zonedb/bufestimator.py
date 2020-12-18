@@ -6,7 +6,7 @@ import logging
 from typing import Dict
 from typing_extensions import TypedDict
 from collections import OrderedDict
-from tzdb.extractor import ZonesMap, RulesMap
+from tzdb.data_types import ZonesMap, RulesMap
 from .zone_specifier import ZoneSpecifier
 from .ingenerator import ZoneInfoMap
 from .ingenerator import ZonePolicyMap

@@ -3,6 +3,7 @@
 # Copyright 2018 Brian T. Park
 #
 # MIT License.
+
 """
 Parses the zone info files in the TZ Database into Python data structures which
 can be processed by subsequent Python scripts. The zone files used by this
@@ -70,7 +71,13 @@ from typing import List
 from typing import Optional
 from typing import TextIO
 from typing import Tuple
-from typing_extensions import TypedDict
+from .data_types import (
+    ZoneRuleRaw,
+    ZoneEraRaw,
+    RulesMap,
+    ZonesMap,
+    LinksMap,
+)
 
 # AceTime Epoch is 2000-01-01 00:00:00
 EPOCH_YEAR: int = 2000
@@ -99,74 +106,6 @@ INVALID_YEAR: int = -1
 
 # Tiny (int8_t) version of INVALID_YEAR.
 INVALID_YEAR_TINY: int = -128
-
-
-# Note: I created ZoneEraRaw and ZoneRuleRaw to get some amount of interpreter
-# checking, so that a simple typo would not cause bugs. That was before I
-# learned about mypy and TypedDict. I *think* I could replace these with
-# TypedDict, but I'm not 100% sure.
-
-class ZoneEraRaw(TypedDict, total=False):
-    """Represents the input records corresponding to the 'ZONE' lines in a
-    tz database file.
-    """
-    offsetString: str   # offset from UTC/GMT
-    rules: str  # name of the Rule in effect, '-', or minute offset
-    format: str  # abbreviation format (e.g. P%sT, E%ST, GMT/BST)
-    untilYear: int  # MAX_UNTIL_YEAR means 'max'
-    untilYearOnly: bool  # true if only the year is given
-    untilMonth: int  # 1-12
-    untilDayString: str  # e.g. 'lastSun', 'Sun>=3', or '1'-'31'
-    untilTime: str  # e.g. '2:00', '00:01'
-    untilTimeSuffix: str  # '', 's', 'w', 'g', 'u', 'z'
-    rawLine: str  # original ZONE line in TZ file
-
-    # These are derived from above and optional.
-    offsetSeconds: int  # offset from UTC/GMT in seconds
-    offsetSecondsTruncated: int  # offsetSeconds truncation granularity
-
-    # delta offset from UTC in seconds if RULES is DST offset string of the form
-    # hh:mm[:ss]
-    rulesDeltaSeconds: int
-
-    rulesDeltaSecondsTruncated: int  # rulesDeltaSeconds truncated granularity
-    untilDay: int  # 1-31
-    untilSeconds: int  # untilTime converted into total seconds
-    untilSecondsTruncated: int  # untilSeconds after truncation
-
-
-class ZoneRuleRaw(TypedDict, total=False):
-    """Represents the input records corresponding to the 'RULE' lines in a
-    tz database file.
-    """
-    fromYear: int  # from year
-    toYear: int  # to year, 1 to MAX_YEAR (9999) means 'max'
-    inMonth: int  # month index (1-12)
-    onDay: str  # 'lastSun' or 'Sun>=2', or 'dayOfMonth'
-    atTime: str  # hour at which to transition to and from DST
-    atTimeSuffix: str  # 's', 'w', 'u'
-    deltaOffset: str  # offset from Standard time ('SAVE' field)
-    letter: str  # 'D', 'S', '-'
-    rawLine: str  # the original RULE line from the TZ file
-
-    # These are derived from above and are optional.
-    onDayOfWeek: int  # 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
-    onDayOfMonth: int  # 1-31 "dow>=xx", -(1-31) "dow<=xx", 0={lastXxx}
-    atSeconds: int  # atTime in seconds since 00:00:00
-    atSecondsTruncated: int  # atSeconds after truncation
-    deltaSeconds: int  # offset from Standard time in seconds
-    deltaSecondsTruncated: int  # deltaSeconds after truncation
-    used: Optional[bool]  # whether or not the rule is used by a zone
-
-
-# ruleName(policyName) -> ZoneRuleRaw[]
-RulesMap = Dict[str, List[ZoneRuleRaw]]
-
-# zoneName -> ZoneEraRaw[]
-ZonesMap = Dict[str, List[ZoneEraRaw]]
-
-# linkName -> zoneName
-LinksMap = Dict[str, str]
 
 
 class Extractor:
