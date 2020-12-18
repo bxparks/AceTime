@@ -36,10 +36,9 @@ from .data_types import TransformerResult
 # de-duped error messages or warnings. Exported as data_types.CommentsMap.
 CommentsCollection = Dict[str, Set[str]]
 
-# Map of policyName -> zoneName[] used internally by Transformer.  The list of
-# all Zones which references the given policy. TODO: Should probably be renamed
-# PoliciesToZones.
-RulesToZones = Dict[str, List[str]]
+# Map of policyName -> zoneName[] used internally by Transformer to track the
+# Zones which references the given policyName.
+PoliciesToZones = Dict[str, List[str]]
 
 
 class Transformer:
@@ -147,7 +146,7 @@ class Transformer:
         # Part 2: Transformations requring both zones_map and policies_map.
         (zones_map, policies_map) = self._mark_rules_used_by_zones(
             zones_map, policies_map)
-        rules_to_zones = _create_rules_to_zones(zones_map, policies_map)
+        policies_to_zones = _create_policies_to_zones(zones_map, policies_map)
 
         # Part 3: Transform the policies_map
         policies_map = self._remove_rules_unused(policies_map)
@@ -156,7 +155,7 @@ class Transformer:
             policies_map = self._remove_rules_multiple_transitions_in_month(
                 policies_map)
         policies_map = self._create_rules_with_expanded_at_time(
-            policies_map, rules_to_zones)
+            policies_map, policies_to_zones)
         policies_map = self._remove_rules_invalid_at_time_suffix(policies_map)
         policies_map = self._create_rules_with_expanded_delta_offset(
             policies_map)
@@ -1248,7 +1247,7 @@ class Transformer:
     def _create_rules_with_expanded_at_time(
         self,
         policies_map: PoliciesMap,
-        rules_to_zones: RulesToZones,
+        policies_to_zones: PoliciesToZones,
     ) -> PoliciesMap:
         """ Create 'atSeconds' parameter from rule['atTime'].
         """
@@ -1289,7 +1288,7 @@ class Transformer:
                             notable_policies, policy_name,
                             f"AT time '{at_time}' truncated to '{hm}'")
                         # Add warning about the affected zones.
-                        zone_names = rules_to_zones.get(policy_name)
+                        zone_names = policies_to_zones.get(policy_name)
                         if zone_names:
                             for zone_name in zone_names:
                                 hm = seconds_to_hm_string(at_seconds_truncated)
@@ -1754,10 +1753,10 @@ def add_string(strings: 'OrderedDict[str, int]', name: str) -> int:
     return index  # index will never be None
 
 
-def _create_rules_to_zones(
+def _create_policies_to_zones(
     zones_map: ZonesMap,
     policies_map: PoliciesMap,
-) -> RulesToZones:
+) -> PoliciesToZones:
     """Normally Zones point to Rules. This method causes the reverse to happen,
     making Rules know about Zones, by creating a map of {policy_name ->
     zone_full_name[]}. This allows us to determine which zones that may be
@@ -1765,17 +1764,17 @@ def _create_rules_to_zones(
     _create_zones_with_rules_expansion() to normalize the RULES column
     (zone.rules).
     """
-    rules_to_zones: RulesToZones = {}
+    policies_to_zones: PoliciesToZones = {}
     for full_name, eras in zones_map.items():
         for era in eras:
             policy_name = era['rules']
             if policy_name not in ['-', ':']:
-                zones = rules_to_zones.get(policy_name)
+                zones = policies_to_zones.get(policy_name)
                 if not zones:
                     zones = []
-                    rules_to_zones[policy_name] = zones
+                    policies_to_zones[policy_name] = zones
                 zones.append(full_name)
-    return rules_to_zones
+    return policies_to_zones
 
 
 def normalize_name(name: str) -> str:
