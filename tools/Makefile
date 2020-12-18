@@ -8,19 +8,12 @@ generate_validation.py \
 tests/test_extractor.py \
 tests/test_transformer.py \
 tzcompiler.py \
-tzdb/extractor.py \
-tzdb/transformer.py \
-tzdb/tzdbcollector.py \
+tzdb \
 validate.py \
 validation \
 validator \
 zinfo.py \
-zonedb/argenerator.py \
-zonedb/bufestimator.py \
-zonedb/ingenerator.py \
-zonedb/pygenerator.py \
-zonedb/zone_specifier.py \
-zonedb/zonelistgenerator.py
+zonedb
 
 # Files without Python typing.
 SRC_UNTYPED := \
