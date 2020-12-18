@@ -47,12 +47,12 @@ this:
             transformer.py
                   |  \
                   |   v
-                  | ingenerator.py
+                  | inline_zone_info.py
                   |    \
                   |     v
                   |  zone_specifier.py
-                  |       \
-                  |        v
+                  |      \
+                  |       v
                   |   bufestimator.py
                   |       /
                   v      v
@@ -160,7 +160,7 @@ this
         transformer.py
              |
              v
-       ingenerator.py
+     inline_zone_info.py
          /        \
         /          v
        /         zone_specifier.py   pytz

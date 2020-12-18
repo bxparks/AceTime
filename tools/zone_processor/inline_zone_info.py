@@ -62,7 +62,7 @@ ZoneInfo = TypedDict(
 ZoneInfoMap = Dict[str, ZoneInfo]
 
 
-class InlineGenerator:
+class InlineZoneInfo:
     """Generate Python zone infos and policies maps inlined (instead of files).
     """
 

@@ -8,7 +8,7 @@ pytz. Similar to compare_pytz/tdgenerator.py but depends on the ZoneSpecifier
 class (hence the name 'zstdgenerator', 'Zone Specifier Test Data Generator') to
 determine the DST transitions because pytz does not expose that information
 natively. Pulling in ZoneSpecifier also means that it pulls in the ZoneInfo,
-ZonePolicy and many other related classes through the 'ingenerator' module.
+ZonePolicy and many other related classes through the 'inline_zone_info' module.
 
 Mostly deprecated. Used only by 'validator.py' to implement the interactive
 ZoneInfo validation exposed by 'validate.py' script.
@@ -27,9 +27,9 @@ import pytz
 from zone_processor.zone_specifier import ZoneSpecifier
 from zone_processor.zone_specifier import SECONDS_SINCE_UNIX_EPOCH
 from zone_processor.zone_specifier import DateTuple
-from zone_processor.ingenerator import ZoneInfo
-from zone_processor.ingenerator import ZoneInfoMap
-from zone_processor.ingenerator import ZonePolicyMap
+from zone_processor.inline_zone_info import ZoneInfo
+from zone_processor.inline_zone_info import ZoneInfoMap
+from zone_processor.inline_zone_info import ZonePolicyMap
 
 # An entry in the test data set.
 TestItem = NamedTuple("TestItem", [

@@ -53,7 +53,7 @@ import logging
 from typing import cast
 from datetime import datetime
 from zonedbpy import zone_infos
-from zone_processor.ingenerator import ZoneInfo
+from zone_processor.inline_zone_info import ZoneInfo
 from zone_processor.zone_specifier import ZoneSpecifier
 from zone_processor.zone_specifier import to_utc_string
 

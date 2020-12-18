@@ -28,10 +28,10 @@ from tzdb.extractor import MIN_YEAR
 from tzdb.transformer import seconds_to_hms
 from tzdb.transformer import hms_to_seconds
 from tzdb.transformer import calc_day_of_month
-from .ingenerator import ZoneRule
-from .ingenerator import ZonePolicy
-from .ingenerator import ZoneEra
-from .ingenerator import ZoneInfo
+from .inline_zone_info import ZoneRule
+from .inline_zone_info import ZonePolicy
+from .inline_zone_info import ZoneEra
+from .inline_zone_info import ZoneInfo
 
 # A datetime representation using seconds instead of h:m:s
 DateTuple = NamedTuple('DateTuple', [
@@ -81,13 +81,14 @@ ACETIME_EPOCH = datetime(2000, 1, 1, tzinfo=timezone.utc)
 
 # Note on the various XxxCooked classes: The ZoneRuleCooked, ZonePolicyCooked,
 # ZoneEraCooked, ZoneInfoCooked classes are thin class wrappers around the
-# corresponding pure data dictionaries defined in the 'ingenerator' module, and
-# written into the zonedb/zone_infos.py and zonedb/zone_policies.py files. I
-# created them mostly to take advantage of the Python interpreter to validate
-# the access to various fields. In other words, a typo in the 'name' in
-# 'zone_info.name' would show an error, but "zone_info['name']" would not. I
-# created these classes before I knew about the type checking abilities of mypy,
-# so I think *most* of the XxxCooked classes could be replaced by direct
+# corresponding pure data dictionaries defined in the 'inline_zone_info' module,
+# and written into the zonedbpy/zone_infos.py and zonedbpy/zone_policies.py
+# files. I created them mostly to take advantage of the Python interpreter to
+# validate the access to various fields. In other words, a typo in the 'name' in
+# 'zone_info.name' would show an error, but "zone_info['name']" would not.
+#
+# I created these classes before I knew about the type checking abilities of
+# mypy, so I think *most* of the XxxCooked classes could be replaced by direct
 # references to the underlying data objects. One possible problem is that some
 # wrapper classes provide additional convenience methods which return values
 # that are derived from the other values. Not sure how I would implement that

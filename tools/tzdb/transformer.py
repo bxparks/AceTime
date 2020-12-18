@@ -4,9 +4,10 @@
 #
 # MIT License.
 """
-Cleanses and transforms the Zone, Rule and Link entries so that it can be used
-for code generation in the ArduinoGenerator, PythonGenerator or the
-InlineGenerator.
+Cleanses and transforms the Zone, Rule and Link entries for processing by
+various AceTime algorithms. The data will be consumed by code generation classes
+(ArduinoGenerator, PythonGenerator) or by the InlineZoneInfo to generate zone
+info records internally.
 """
 
 import logging
@@ -31,13 +32,13 @@ from .data_types import RulesMap
 from .data_types import LinksMap
 from .data_types import TransformerResult
 
-# Map of zoneName -> Set[Comment] used internally by transfomer.py to collect
+# Map of zoneName -> Set[Comment] used internally by Transformer to collect
 # de-duped error messages or warnings. Exported as data_types.CommentsMap.
 CommentsCollection = Dict[str, Set[str]]
 
-# Map of policyName -> zoneName[] used internally by transformer.py.  The list
-# of all Zones which references the given policy. TODO: Should probably be
-# renamed PoliciesToZones.
+# Map of policyName -> zoneName[] used internally by Transformer.  The list of
+# all Zones which references the given policy. TODO: Should probably be renamed
+# PoliciesToZones.
 RulesToZones = Dict[str, List[str]]
 
 
