@@ -14,13 +14,13 @@ from zonedb.data_types import PoliciesMap
 from zonedb.data_types import LettersMap
 from zonedb.data_types import IndexedLetters
 from zonedb.data_types import ArduinoTransformerResult
-from tzdb.extractor import EPOCH_YEAR
-from tzdb.extractor import MAX_YEAR
-from tzdb.extractor import MAX_YEAR_TINY
-from tzdb.extractor import MIN_YEAR
-from tzdb.extractor import MIN_YEAR_TINY
-from tzdb.extractor import MAX_UNTIL_YEAR
-from tzdb.extractor import MAX_UNTIL_YEAR_TINY
+from zonedb.data_types import EPOCH_YEAR
+from zonedb.data_types import MAX_YEAR
+from zonedb.data_types import MAX_YEAR_TINY
+from zonedb.data_types import MIN_YEAR
+from zonedb.data_types import MIN_YEAR_TINY
+from zonedb.data_types import MAX_UNTIL_YEAR
+from zonedb.data_types import MAX_UNTIL_YEAR_TINY
 
 
 class ArduinoTransformer:

@@ -77,35 +77,9 @@ from zonedb.data_types import (
     PoliciesMap,
     ZonesMap,
     LinksMap,
+    MAX_UNTIL_YEAR,
+    MAX_YEAR,
 )
-
-# AceTime Epoch is 2000-01-01 00:00:00
-EPOCH_YEAR: int = 2000
-
-# Indicate +Infinity UNTIL year (represented by empty field).
-MAX_UNTIL_YEAR: int = 10000
-
-# Tiny (int8_t) version of MAX_UNTIL_YEAR_TINY.
-MAX_UNTIL_YEAR_TINY: int = 127
-
-# Indicate max TO or FROM year.
-MAX_YEAR: int = MAX_UNTIL_YEAR - 1
-
-# Tiny (int8_t) version of MAX_YEAR.
-MAX_YEAR_TINY: int = MAX_UNTIL_YEAR_TINY - 1
-
-# Marker year to indicate -Infinity year.
-MIN_YEAR: int = 0
-
-# Tiny (int8_t) version of MIN_YEAR. Can't be -128 because that's
-# used for INVALID_YEAR_TINY.
-MIN_YEAR_TINY: int = -127
-
-# Indicate an invalid year.
-INVALID_YEAR: int = -1
-
-# Tiny (int8_t) version of INVALID_YEAR.
-INVALID_YEAR_TINY: int = -128
 
 
 class Extractor:

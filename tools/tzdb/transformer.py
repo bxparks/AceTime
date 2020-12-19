@@ -28,9 +28,11 @@ from zonedb.data_types import ZonesMap
 from zonedb.data_types import PoliciesMap
 from zonedb.data_types import LinksMap
 from zonedb.data_types import TransformerResult
-from .extractor import MAX_UNTIL_YEAR
-from .extractor import MIN_YEAR
-from .extractor import MAX_YEAR
+from zonedb.data_types import MAX_UNTIL_YEAR
+from zonedb.data_types import MIN_YEAR
+from zonedb.data_types import MAX_YEAR
+
+INVALID_SECONDS = 999999  # 277h46m69s
 
 # Map of zoneName -> Set[Comment] used internally by Transformer to collect
 # de-duped error messages or warnings. Exported as data_types.CommentsMap.
@@ -1496,9 +1498,6 @@ def _parse_on_day_string(on_string: str) -> Tuple[int, int]:
         return (WEEK_TO_WEEK_INDEX[dayOfWeek], -int(dayOfMonth))
 
     return (0, 0)
-
-
-INVALID_SECONDS = 999999  # 277h46m69s
 
 
 def time_string_to_seconds(time_string: str) -> int:
