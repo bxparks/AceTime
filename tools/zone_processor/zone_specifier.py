@@ -24,7 +24,7 @@ from typing import TYPE_CHECKING
 from typing import Union
 from typing import cast
 from typing_extensions import Protocol
-from zonedb.data_types import MIN_YEAR
+from zonedb.data_types import MIN_YEAR, SECONDS_SINCE_UNIX_EPOCH
 from transformer.transformer import seconds_to_hms
 from transformer.transformer import hms_to_seconds
 from transformer.transformer import calc_day_of_month
@@ -72,10 +72,6 @@ BufferSizeInfo = NamedTuple('BufferSizeInfo', [
     ('max_actives', CountAndYear),
     ('max_buffer_size', CountAndYear),
 ])
-
-# Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
-# (2000-01-01 00:00:00)
-SECONDS_SINCE_UNIX_EPOCH = 946684800
 
 ACETIME_EPOCH = datetime(2000, 1, 1, tzinfo=timezone.utc)
 

@@ -44,6 +44,10 @@ INVALID_YEAR: int = -1
 # Tiny (int8_t) version of INVALID_YEAR.
 INVALID_YEAR_TINY: int = -128
 
+# Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
+# (2000-01-01 00:00:00)
+SECONDS_SINCE_UNIX_EPOCH = 946684800
+
 
 # -----------------------------------------------------------------------------
 # Data types produced mostly by extractor.py. Some fields are incrementally
