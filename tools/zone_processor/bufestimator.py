@@ -3,24 +3,13 @@
 # MIT License
 
 import logging
-from typing import Dict
-from typing_extensions import TypedDict
 from collections import OrderedDict
-from tzdb.data_types import ZonesMap, RulesMap
+from zonedb.data_types import ZonesMap, PoliciesMap
+from zonedb.data_types import BufSizeInfo, BufSizeMap
 from .zone_specifier import ZoneSpecifier
 from .inline_zone_info import ZoneInfoMap
 from .inline_zone_info import ZonePolicyMap
 from .inline_zone_info import InlineZoneInfo
-
-
-# zoneName -> bufSize
-BufSizeMap = Dict[str, int]
-
-
-class BufSizeInfo(TypedDict):
-    """Return type of BufSizeEstimator.estimate()."""
-    buf_sizes: BufSizeMap
-    max_buf_size: int  # maximum of all bufSize
 
 
 class BufSizeEstimator:
@@ -31,7 +20,7 @@ class BufSizeEstimator:
     def __init__(
         self,
         zones_map: ZonesMap,
-        rules_map: RulesMap,
+        policies_map: PoliciesMap,
         start_year: int,
         until_year: int,
     ):
@@ -43,7 +32,7 @@ class BufSizeEstimator:
             until_year: until year
         """
         self.zones_map = zones_map
-        self.rules_map = rules_map
+        self.policies_map = policies_map
         self.start_year = start_year
         self.until_year = until_year
 
@@ -54,10 +43,10 @@ class BufSizeEstimator:
         """
         # Generate internal zone_infos and zone_policies to be used by
         # ZoneSpecifier.
-        inline_zone_info = InlineZoneInfo(self.zones_map, self.rules_map)
-        zone_infos, zone_policies = inline_zone_info.generate_maps()
+        inline_zone_info = InlineZoneInfo(self.zones_map, self.policies_map)
+        zone_infos, zone_policies = inline_zone_info.generate_zonedb()
         logging.info(
-            'Generated zone_infos=%d; zone_policies=%d',
+            'Inlined zone_infos=%d; zone_policies=%d',
             len(zone_infos), len(zone_policies))
 
         # Calculate buffer sizes using a ZoneSpecifier.

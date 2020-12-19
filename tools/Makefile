@@ -2,6 +2,7 @@ TZ_VERSION := 2020d
 
 # Files which pass 'mypy --strict'.
 SRC := \
+arzonedb \
 compare_dateutil \
 compare_pytz \
 generate_validation.py \

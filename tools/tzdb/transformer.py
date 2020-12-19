@@ -22,31 +22,32 @@ from typing import Set
 from typing import Tuple
 from typing import cast
 from typing_extensions import TypedDict
-from .extractor import MAX_UNTIL_YEAR
-from .extractor import MIN_YEAR
-from .extractor import MAX_YEAR
-from .data_types import ZoneRuleRaw
-from .data_types import ZoneEraRaw
-from .data_types import ZonesMap
-from .data_types import RulesMap
-from .data_types import LinksMap
-from .data_types import TransformerResult
+from zonedb.data_types import ZoneRuleRaw
+from zonedb.data_types import ZoneEraRaw
+from zonedb.data_types import ZonesMap
+from zonedb.data_types import PoliciesMap
+from zonedb.data_types import LinksMap
+from zonedb.data_types import TransformerResult
+from zonedb.data_types import MAX_UNTIL_YEAR
+from zonedb.data_types import MIN_YEAR
+from zonedb.data_types import MAX_YEAR
+
+INVALID_SECONDS = 999999  # 277h46m69s
 
 # Map of zoneName -> Set[Comment] used internally by Transformer to collect
 # de-duped error messages or warnings. Exported as data_types.CommentsMap.
 CommentsCollection = Dict[str, Set[str]]
 
-# Map of policyName -> zoneName[] used internally by Transformer.  The list of
-# all Zones which references the given policy. TODO: Should probably be renamed
-# PoliciesToZones.
-RulesToZones = Dict[str, List[str]]
+# Map of policyName -> zoneName[] used internally by Transformer to track the
+# Zones which references the given policyName.
+PoliciesToZones = Dict[str, List[str]]
 
 
 class Transformer:
     def __init__(
         self,
         zones_map: ZonesMap,
-        rules_map: RulesMap,
+        policies_map: PoliciesMap,
         links_map: LinksMap,
         scope: str,
         start_year: int,
@@ -58,7 +59,7 @@ class Transformer:
         """
         Args:
             zones_map: Zone names to ZoneEras
-            rules_map: Policy names to ZoneRules
+            policies_map: Policy names to ZoneRules
             links_map: Link name to Zone Name
             scope: scope of database (basic, or extended)
             start_year: include only years on or after start_year
@@ -69,7 +70,7 @@ class Transformer:
                 on the time boundary defined by granularity
         """
         self.zones_map = zones_map
-        self.rules_map = rules_map
+        self.policies_map = policies_map
         self.links_map = links_map
         self.scope = scope
         self.start_year = start_year
@@ -79,7 +80,7 @@ class Transformer:
         self.strict = strict
 
         self.original_zone_count = len(zones_map)
-        self.original_rule_count = len(rules_map)
+        self.original_rule_count = len(policies_map)
         self.original_link_count = len(links_map)
 
         self.all_removed_zones: CommentsCollection = {}  # name -> reason[]
@@ -92,12 +93,12 @@ class Transformer:
 
     def transform(self) -> None:
         """
-        Transforms the zones_map and rules_map given in the constructor
+        Transforms the zones_map and policies_map given in the constructor
         through a series of filters, and produces the following results
         which can be retrieved using the get_zone_data() function.
 
         * self.zones_map: map of (zoneName -> ZoneEraRaw[]).
-        * self.rules_map: map of (policyName -> ZoneRuleRaw[]).
+        * self.policies_map: map of (policyName -> ZoneRuleRaw[]).
         * self.links_map: map of (linkName -> zoneName)
         * self.all_removed_zones: map of the zones which were removed:
             name: name of zone
@@ -121,11 +122,11 @@ class Transformer:
         """
 
         zones_map = self.zones_map
-        rules_map = self.rules_map
+        policies_map = self.policies_map
         links_map = self.links_map
 
         logging.info('Found %s zone infos', len(self.zones_map))
-        logging.info('Found %s rule policies', len(self.rules_map))
+        logging.info('Found %s rule policies', len(self.policies_map))
 
         # Part 1: Transform the zones_map
         # zones_map = self._remove_zones_without_slash(zones_map)
@@ -144,30 +145,32 @@ class Transformer:
         zones_map = self._create_zones_with_rules_expansion(zones_map)
         zones_map = self._remove_zones_with_non_monotonic_until(zones_map)
 
-        # Part 2: Transformations requring both zones_map and rules_map.
-        (zones_map, rules_map) = self._mark_rules_used_by_zones(
-            zones_map, rules_map)
-        rules_to_zones = _create_rules_to_zones(zones_map, rules_map)
+        # Part 2: Transformations requring both zones_map and policies_map.
+        (zones_map, policies_map) = self._mark_rules_used_by_zones(
+            zones_map, policies_map)
+        policies_to_zones = _create_policies_to_zones(zones_map, policies_map)
 
-        # Part 3: Transform the rules_map
-        rules_map = self._remove_rules_unused(rules_map)
-        rules_map = self._remove_rules_out_of_bounds(rules_map)
+        # Part 3: Transform the policies_map
+        policies_map = self._remove_rules_unused(policies_map)
+        policies_map = self._remove_rules_out_of_bounds(policies_map)
         if self.scope == 'basic':
-            rules_map = self._remove_rules_multiple_transitions_in_month(
-                rules_map)
-        rules_map = self._create_rules_with_expanded_at_time(
-            rules_map, rules_to_zones)
-        rules_map = self._remove_rules_invalid_at_time_suffix(rules_map)
-        rules_map = self._create_rules_with_expanded_delta_offset(rules_map)
-        rules_map = self._create_rules_with_on_day_expansion(rules_map)
-        rules_map = self._create_rules_with_anchor_transition(rules_map)
+            policies_map = self._remove_rules_multiple_transitions_in_month(
+                policies_map)
+        policies_map = self._create_rules_with_expanded_at_time(
+            policies_map, policies_to_zones)
+        policies_map = self._remove_rules_invalid_at_time_suffix(policies_map)
+        policies_map = self._create_rules_with_expanded_delta_offset(
+            policies_map)
+        policies_map = self._create_rules_with_on_day_expansion(policies_map)
+        policies_map = self._create_rules_with_anchor_transition(policies_map)
         if self.scope == 'basic':
-            rules_map = self._remove_rules_with_border_transitions(rules_map)
+            policies_map = self._remove_rules_with_border_transitions(
+                policies_map)
         if self.scope == 'basic':
-            rules_map = self._remove_rules_long_dst_letter(rules_map)
+            policies_map = self._remove_rules_long_dst_letter(policies_map)
 
         # Part 4: Go back to zones_map and remove unused.
-        zones_map = self._remove_zones_without_rules(zones_map, rules_map)
+        zones_map = self._remove_zones_without_rules(zones_map, policies_map)
 
         # Part 5: Remove links which point to removed zones.
         links_map = self.remove_links_to_missing_zones(links_map, zones_map)
@@ -179,7 +182,7 @@ class Transformer:
             zones_map, links_map)
 
         # Part 7: Replace the original maps with the transformed ones.
-        self.rules_map = rules_map
+        self.policies_map = policies_map
         self.zones_map = zones_map
         self.links_map = links_map
 
@@ -190,7 +193,7 @@ class Transformer:
         """
         return TransformerResult(
             zones_map=self.zones_map,
-            rules_map=self.rules_map,
+            policies_map=self.policies_map,
             links_map=self.links_map,
             removed_zones={
                 k: list(v)
@@ -227,7 +230,7 @@ class Transformer:
 
         logging.info(
             f"Summary: Rules: total={self.original_rule_count}"
-            f"; generated={len(self.rules_map)}"
+            f"; generated={len(self.policies_map)}"
             f"; removed={len(self.all_removed_policies)}"
             f"; noted={len(self.all_notable_policies)}")
 
@@ -734,7 +737,7 @@ class Transformer:
         return results
 
     def _remove_zones_without_rules(
-        self, zones_map: ZonesMap, rules_map: RulesMap
+        self, zones_map: ZonesMap, policies_map: PoliciesMap
     ) -> ZonesMap:
         """Remove zone eras whose RULES field contains a reference to
         a set of Rules, which cannot be found.
@@ -744,12 +747,13 @@ class Transformer:
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
-                rule_name = era['rules']
-                if rule_name not in ['-', ':'] and rule_name not in rules_map:
+                policy_name = era['rules']
+                if (policy_name not in ['-', ':']
+                        and policy_name not in policies_map):
                     valid = False
                     _add_reason(
                         removed_zones, name,
-                        f"policy '{rule_name}' not found")
+                        f"policy '{policy_name}' not found")
                     break
             if valid:
                 results[name] = eras
@@ -823,8 +827,8 @@ class Transformer:
     # --------------------------------------------------------------------
 
     def _remove_rules_multiple_transitions_in_month(
-        self, rules_map: RulesMap,
-    ) -> RulesMap:
+        self, policies_map: PoliciesMap,
+    ) -> PoliciesMap:
         """Some Zone policies have Rules which specify multiple DST transitions
         within in the same month:
             * Egypt (Found '2' transitions in year/month '2010-09')
@@ -836,7 +840,7 @@ class Transformer:
 
         # First pass: collect number of transitions for each (year, month) pair.
         counts: CountsMap = {}
-        for name, rules in rules_map.items():
+        for name, rules in policies_map.items():
             for rule in rules:
                 from_year = rule['fromYear']
                 to_year = rule['toYear']
@@ -858,9 +862,9 @@ class Transformer:
                 removals[policy_name] = (count, year, month)
 
         # Third pass: Remove rule policies with multiple counts.
-        results: RulesMap = {}
+        results: PoliciesMap = {}
         removed_policies: CommentsCollection = {}
-        for name, rules in rules_map.items():
+        for name, rules in policies_map.items():
             removal = removals.get(name)
             if removal:
                 _add_reason(
@@ -880,12 +884,15 @@ class Transformer:
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
 
-    def _remove_rules_long_dst_letter(self, rules_map: RulesMap) -> RulesMap:
+    def _remove_rules_long_dst_letter(
+        self,
+        policies_map: PoliciesMap,
+    ) -> PoliciesMap:
         """Return a new map which filters out rules with long DST letter.
         """
-        results: RulesMap = {}
+        results: PoliciesMap = {}
         removed_policies: CommentsCollection = {}
-        for name, rules in rules_map.items():
+        for name, rules in policies_map.items():
             valid = True
             for rule in rules:
                 letter = rule['letter']
@@ -907,8 +914,8 @@ class Transformer:
         return results
 
     def _remove_rules_invalid_at_time_suffix(
-        self, rules_map: RulesMap,
-    ) -> RulesMap:
+        self, policies_map: PoliciesMap,
+    ) -> PoliciesMap:
         """Remove rules whose atTime contains an unsupported suffix. Current
         supported suffix is 'w', 's' and 'u'. The 'g' and 'z' are identifical
         to 'u' and they do not currently appear in any TZ file, so let's catch
@@ -916,9 +923,9 @@ class Transformer:
         somewhere else.
         """
         supported_suffices = ['w', 's', 'u']
-        results: RulesMap = {}
+        results: PoliciesMap = {}
         removed_policies: CommentsCollection = {}
-        for name, rules in rules_map.items():
+        for name, rules in policies_map.items():
             valid = True
             for rule in rules:
                 suffix = rule['atTimeSuffix']
@@ -942,8 +949,8 @@ class Transformer:
         return results
 
     def _mark_rules_used_by_zones(
-        self, zones_map: ZonesMap, rules_map: RulesMap,
-    ) -> Tuple[ZonesMap, RulesMap]:
+        self, zones_map: ZonesMap, policies_map: PoliciesMap,
+    ) -> Tuple[ZonesMap, PoliciesMap]:
         """Mark all rules which are required by various zones. There are 2 ways
         that a rule can be used by a zone era:
             1) The rule's fromYear or toYear are >= (self.start_year - 1), or
@@ -966,7 +973,7 @@ class Transformer:
                 if policy_name in ['-', ':']:
                     continue
 
-                rules = rules_map.get(policy_name)
+                rules = policies_map.get(policy_name)
                 if not rules:
                     logging.error(
                         "Zone '%s': Could not find policy '%s': "
@@ -1002,19 +1009,19 @@ class Transformer:
                 # Set the begin year of the next ZoneEra
                 begin_year = era['untilYear']
 
-        return (zones_map, rules_map)
+        return (zones_map, policies_map)
 
-    def _remove_rules_unused(self, rules_map: RulesMap) -> RulesMap:
+    def _remove_rules_unused(self, policies_map: PoliciesMap) -> PoliciesMap:
         """Remove RULE entries which have not been marked as used by the
         _mark_rules_used_by_zones() method. It is expected that all remaining
         RULE entries have FROM and TO fields which is greater than 1872 (the
         earliest year which can be represented by an int8_t toYearTiny field,
         (2000-128)==1872). See also _remove_rules_out_of_bounds().
         """
-        results: RulesMap = {}
+        results: PoliciesMap = {}
         removed_rule_count = 0
         removed_policies: CommentsCollection = {}
-        for name, rules in rules_map.items():
+        for name, rules in policies_map.items():
             used_rules = []
             for rule in rules:
                 if rule.get('used'):
@@ -1036,13 +1043,16 @@ class Transformer:
         _merge_reasons(self.all_removed_policies, removed_policies)
         return results
 
-    def _remove_rules_out_of_bounds(self, rules_map: RulesMap) -> RulesMap:
+    def _remove_rules_out_of_bounds(
+        self,
+        policies_map: PoliciesMap,
+    ) -> PoliciesMap:
         """Remove policies which have FROM and TO fields do not fit in an
         int8_t. In other words, y < 1872 or (y > 2127 and y != 9999).
         """
-        results: RulesMap = {}
+        results: PoliciesMap = {}
         removed_policies: CommentsCollection = {}
-        for name, rules in rules_map.items():
+        for name, rules in policies_map.items():
             valid = True
             for rule in rules:
                 from_year = rule['fromYear']
@@ -1066,14 +1076,14 @@ class Transformer:
         return results
 
     def _create_rules_with_on_day_expansion(
-        self, rules_map: RulesMap,
-    ) -> RulesMap:
+        self, policies_map: PoliciesMap,
+    ) -> PoliciesMap:
         """Create rule['onDayOfWeek'] and rule['onDayOfMonth'] from
         rule['onDay']. The onDayOfMonth will be negative if "<=" is used.
         """
-        results: RulesMap = {}
+        results: PoliciesMap = {}
         removed_policies: CommentsCollection = {}
-        for name, rules in rules_map.items():
+        for name, rules in policies_map.items():
             valid = True
             for rule in rules:
                 on_day = rule['onDay']
@@ -1119,8 +1129,8 @@ class Transformer:
         return results
 
     def _create_rules_with_anchor_transition(
-        self, rules_map: RulesMap,
-    ) -> RulesMap:
+        self, policies_map: PoliciesMap,
+    ) -> PoliciesMap:
         """Create a synthetic transition with SAVE == 0 which is earlier than
         the self.start_year of interest. Some zone policies have zone rules
         whose earliest entry starts after the self.start_year. According to
@@ -1133,7 +1143,7 @@ class Transformer:
             Pacific/Apia, Asia/Dhaka, Asia/Karachi, Asia/Yerevan
         """
         anchored_policies: List[str] = []
-        for name, rules in rules_map.items():
+        for name, rules in policies_map.items():
             if not self._has_prior_rule(rules):
                 anchor_rule = self._get_anchor_rule(rules)
                 rules.insert(0, anchor_rule)
@@ -1144,7 +1154,7 @@ class Transformer:
             len(anchored_policies),
             anchored_policies
         )
-        return rules_map
+        return policies_map
 
     def _has_prior_rule(self, rules: List[ZoneRuleRaw]) -> bool:
         """Return True if rules has a rule prior to (self.start_year-1).
@@ -1201,16 +1211,16 @@ class Transformer:
         return anchor_rule
 
     def _remove_rules_with_border_transitions(
-        self, rules_map: RulesMap,
-    ) -> RulesMap:
+        self, policies_map: PoliciesMap,
+    ) -> PoliciesMap:
         """Remove rules where the transition occurs on the first day of the
         year (Jan 1). That situation is not supported by BasicZoneSpecifier. On
         the other hand, a transition at the end of the year (Dec 31) is
         supported by BasicZoneSpecifier.
         """
-        results: RulesMap = {}
+        results: PoliciesMap = {}
         removed_policies: CommentsCollection = {}
-        for name, rules in rules_map.items():
+        for name, rules in policies_map.items():
             valid = True
             for rule in rules:
                 from_year = rule['fromYear']
@@ -1238,15 +1248,15 @@ class Transformer:
 
     def _create_rules_with_expanded_at_time(
         self,
-        rules_map: RulesMap,
-        rules_to_zones: RulesToZones,
-    ) -> RulesMap:
+        policies_map: PoliciesMap,
+        policies_to_zones: PoliciesToZones,
+    ) -> PoliciesMap:
         """ Create 'atSeconds' parameter from rule['atTime'].
         """
-        results: RulesMap = {}
+        results: PoliciesMap = {}
         removed_policies: CommentsCollection = {}
         notable_policies: CommentsCollection = {}
-        for policy_name, rules in rules_map.items():
+        for policy_name, rules in policies_map.items():
             valid = True
             for rule in rules:
                 at_time = rule['atTime']
@@ -1280,7 +1290,7 @@ class Transformer:
                             notable_policies, policy_name,
                             f"AT time '{at_time}' truncated to '{hm}'")
                         # Add warning about the affected zones.
-                        zone_names = rules_to_zones.get(policy_name)
+                        zone_names = policies_to_zones.get(policy_name)
                         if zone_names:
                             for zone_name in zone_names:
                                 hm = seconds_to_hm_string(at_seconds_truncated)
@@ -1306,15 +1316,15 @@ class Transformer:
 
     def _create_rules_with_expanded_delta_offset(
         self,
-        rules_map: RulesMap,
-    ) -> RulesMap:
+        policies_map: PoliciesMap,
+    ) -> PoliciesMap:
         """ Create 'deltaSeconds' and 'deltaSecondsTruncated' from
         rule['deltaOffset'].
         """
         results = {}
         removed_policies: CommentsCollection = {}
         notable_policies: CommentsCollection = {}
-        for name, rules in rules_map.items():
+        for name, rules in policies_map.items():
             valid = True
             for rule in rules:
                 delta_offset = rule['deltaOffset']
@@ -1488,9 +1498,6 @@ def _parse_on_day_string(on_string: str) -> Tuple[int, int]:
         return (WEEK_TO_WEEK_INDEX[dayOfWeek], -int(dayOfMonth))
 
     return (0, 0)
-
-
-INVALID_SECONDS = 999999  # 277h46m69s
 
 
 def time_string_to_seconds(time_string: str) -> int:
@@ -1745,27 +1752,28 @@ def add_string(strings: 'OrderedDict[str, int]', name: str) -> int:
     return index  # index will never be None
 
 
-def _create_rules_to_zones(
-    zones_map: ZonesMap, rules_map: RulesMap,
-) -> RulesToZones:
+def _create_policies_to_zones(
+    zones_map: ZonesMap,
+    policies_map: PoliciesMap,
+) -> PoliciesToZones:
     """Normally Zones point to Rules. This method causes the reverse to happen,
-    making Rules know about Zones, by creating a map of {rule_name ->
+    making Rules know about Zones, by creating a map of {policy_name ->
     zone_full_name[]}. This allows us to determine which zones that may be
     affected by a change in a particular Rule. Must be called after
     _create_zones_with_rules_expansion() to normalize the RULES column
     (zone.rules).
     """
-    rules_to_zones: RulesToZones = {}
+    policies_to_zones: PoliciesToZones = {}
     for full_name, eras in zones_map.items():
         for era in eras:
-            rule_name = era['rules']
-            if rule_name not in ['-', ':']:
-                zones = rules_to_zones.get(rule_name)
+            policy_name = era['rules']
+            if policy_name not in ['-', ':']:
+                zones = policies_to_zones.get(policy_name)
                 if not zones:
                     zones = []
-                    rules_to_zones[rule_name] = zones
+                    policies_to_zones[policy_name] = zones
                 zones.append(full_name)
-    return rules_to_zones
+    return policies_to_zones
 
 
 def normalize_name(name: str) -> str:

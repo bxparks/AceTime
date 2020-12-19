@@ -265,14 +265,14 @@ def main() -> None:
     extractor = Extractor(args.input_dir)
     extractor.parse()
     extractor.print_summary()
-    rules_map, zones_map, links_map = extractor.get_data()
+    policies_map, zones_map, links_map = extractor.get_data()
 
     # Transform the TZ zones and rules
     logging.info('======== Transforming Zones and Rules')
     logging.info('Extracting years [%d, %d)', args.start_year, args.until_year)
     transformer = Transformer(
         zones_map,
-        rules_map,
+        policies_map,
         links_map,
         args.scope,
         args.start_year,
@@ -284,17 +284,18 @@ def main() -> None:
     transformer.transform()
     transformer.print_summary()
     (
-        zones_map, rules_map, links_map, removed_zones, removed_policies,
+        zones_map, policies_map, links_map, removed_zones, removed_policies,
         removed_links, notable_zones, notable_policies, notable_links,
     ) = transformer.get_data()
 
     # Generate internal versions of zone_infos and zone_policies
     # so that ZoneSpecifier can be created.
     logging.info('======== Generating inlined zone_infos and zone_policies')
-    inline_zone_info = InlineZoneInfo(zones_map, rules_map)
-    (zone_infos, zone_policies) = inline_zone_info.generate_maps()
-    logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
-                 len(zone_policies))
+    inline_zone_info = InlineZoneInfo(zones_map, policies_map)
+    zone_infos, zone_policies = inline_zone_info.generate_zonedb()
+    logging.info(
+        'Inlined zone_infos=%d; zone_policies=%d',
+        len(zone_infos), len(zone_policies))
 
     # Set the defaults for validation_start_year and validation_until_year
     # if they were not specified.

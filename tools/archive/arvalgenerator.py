@@ -10,7 +10,7 @@ import logging
 import os
 import pytz
 from typing import List
-from tzdb.extractor import EPOCH_YEAR
+from zonedb.data_types import EPOCH_YEAR
 from tzdb.transformer import div_to_zero
 from tzdb.transformer import normalize_name
 from tdgenerator import TestItem

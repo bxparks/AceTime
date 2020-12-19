@@ -7,41 +7,23 @@ Generate the zone_info and zone_policies files for Arduino.
 
 import os
 import logging
-from collections import OrderedDict
 from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
 from typing import cast
-from typing import TYPE_CHECKING
-from tzdb.data_types import ZoneRuleRaw
-from tzdb.data_types import ZoneEraRaw
-from tzdb.data_types import ZonesMap
-from tzdb.data_types import RulesMap
-from tzdb.data_types import LinksMap
-from tzdb.data_types import CommentsMap
-from tzdb.extractor import EPOCH_YEAR
-from tzdb.extractor import MAX_YEAR
-from tzdb.extractor import MAX_YEAR_TINY
-from tzdb.extractor import MIN_YEAR
-from tzdb.extractor import MIN_YEAR_TINY
-from tzdb.extractor import MAX_UNTIL_YEAR
-from tzdb.extractor import MAX_UNTIL_YEAR_TINY
-from tzdb.transformer import add_string
-from tzdb.transformer import div_to_zero
+from zonedb.data_types import ZoneRuleRaw
+from zonedb.data_types import ZoneEraRaw
+from zonedb.data_types import ZonesMap
+from zonedb.data_types import PoliciesMap
+from zonedb.data_types import LinksMap
+from zonedb.data_types import CommentsMap
+from zonedb.data_types import IndexedLetters
+from zonedb.data_types import LettersMap
+from zonedb.data_types import ZoneInfoDatabase
+from zonedb.data_types import BufSizeMap
 from tzdb.transformer import normalize_name
 from tzdb.transformer import normalize_raw
-from zone_processor.bufestimator import BufSizeMap
-from zonedb.data_types import ZoneInfoDatabase
-
-# map{policy_name: map{letter: index}}
-# With a hack to deal with mypy's confusion with OrderedDict (at least on
-# Python 3.6).
-if TYPE_CHECKING:
-    IndexedLetters = OrderedDict[str, int]
-else:
-    IndexedLetters = 'OrderedDict[str, int]'
-LettersMap = Dict[str, IndexedLetters]
 
 
 class ArduinoGenerator:
@@ -66,6 +48,18 @@ class ArduinoGenerator:
         wrapped_invocation = '\n//     --'.join(invocation.split(' --'))
         wrapped_tzfiles = '\n//   '.join(zidb['tz_files'])
 
+        # Determine zonedb C++ namespace
+        scope = zidb['scope']
+        if not db_namespace:
+            if scope == 'basic':
+                db_namespace = 'zonedb'
+            elif scope == 'extended':
+                db_namespace = 'zonedbx'
+            else:
+                raise Exception(
+                    f"db_namespace cannot be determined for scope '{scope}'"
+                )
+
         self.zone_policies_generator = ZonePoliciesGenerator(
             invocation=wrapped_invocation,
             tz_files=wrapped_tzfiles,
@@ -73,11 +67,12 @@ class ArduinoGenerator:
             scope=zidb['scope'],
             db_namespace=db_namespace,
             zones_map=zidb['zones_map'],
-            rules_map=zidb['rules_map'],
+            policies_map=zidb['policies_map'],
             removed_zones=zidb['removed_zones'],
             removed_policies=zidb['removed_policies'],
             notable_zones=zidb['notable_zones'],
             notable_policies=zidb['notable_policies'],
+            letters_map=zidb['letters_map'],
         )
         self.zone_infos_generator = ZoneInfosGenerator(
             invocation=wrapped_invocation,
@@ -89,7 +84,7 @@ class ArduinoGenerator:
             until_year=zidb['until_year'],
             zones_map=zidb['zones_map'],
             links_map=zidb['links_map'],
-            rules_map=zidb['rules_map'],
+            policies_map=zidb['policies_map'],
             removed_zones=zidb['removed_zones'],
             removed_links=zidb['removed_links'],
             removed_policies=zidb['removed_policies'],
@@ -235,9 +230,9 @@ static const {scope}::ZoneRule kZoneRules{policyName}[] {progmem} = {{
 
 const {scope}::ZonePolicy kPolicy{policyName} {progmem} = {{
   kZoneRules{policyName} /*rules*/,
-  {letterArrayRef} /* letters */,
+  {letterArrayRef} /*letters*/,
   {numRules} /*numRules*/,
-  {numLetters} /* numLetters */,
+  {numLetters} /*numLetters*/,
 }};
 
 """
@@ -257,8 +252,8 @@ static const char* const kLetters{policyName}[] {progmem} = {{
     {onDayOfWeek} /*onDayOfWeek*/,
     {onDayOfMonth} /*onDayOfMonth*/,
     {atTimeCode} /*atTimeCode*/,
-    {atTimeModifier} /*atTimeModifier*/,
-    {deltaCode} /*deltaCode*/,
+    {atTimeModifier} /*atTimeModifier ({atTimeModifierComment})*/,
+    {deltaCode} /*deltaCode ({deltaCodeComment})*/,
     {letter} /*letter{letterComment}*/,
   }},
 """
@@ -276,11 +271,12 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         scope: str,
         db_namespace: str,
         zones_map: ZonesMap,
-        rules_map: RulesMap,
+        policies_map: PoliciesMap,
         removed_zones: CommentsMap,
         removed_policies: CommentsMap,
         notable_zones: CommentsMap,
         notable_policies: CommentsMap,
+        letters_map: LettersMap,
     ):
         self.invocation = invocation
         self.tz_version = tz_version
@@ -288,18 +284,18 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         self.scope = scope
         self.db_namespace = db_namespace
         self.zones_map = zones_map
-        self.rules_map = rules_map
+        self.policies_map = policies_map
         self.removed_zones = removed_zones
         self.removed_policies = removed_policies
         self.notable_zones = notable_zones
         self.notable_policies = notable_policies
+        self.letters_map = letters_map
 
-        self.letters_map = collect_letter_strings(rules_map)
         self.db_header_namespace = self.db_namespace.upper()
 
     def generate_policies_h(self) -> str:
         policy_items = ''
-        for name, rules in sorted(self.rules_map.items()):
+        for name, rules in sorted(self.policies_map.items()):
             policy_items += self.ZONE_POLICIES_H_POLICY_ITEM.format(
                 policyName=normalize_name(name),
                 scope=self.scope)
@@ -324,7 +320,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             tz_version=self.tz_version,
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
-            numPolicies=len(self.rules_map),
+            numPolicies=len(self.policies_map),
             policyItems=policy_items,
             numRemovedPolicies=len(self.removed_policies),
             removedPolicyItems=removed_policy_items,
@@ -336,7 +332,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         memory8 = 0
         memory32 = 32
         num_rules = 0
-        for name, rules in sorted(self.rules_map.items()):
+        for name, rules in sorted(self.policies_map.items()):
             indexed_letters: Optional[IndexedLetters] = \
                 self.letters_map.get(name)
             num_rules += len(rules)
@@ -346,7 +342,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             memory8 += policy_memory8
             memory32 += policy_memory32
 
-        num_policies = len(self.rules_map)
+        num_policies = len(self.policies_map)
 
         return self.ZONE_POLICIES_CPP_FILE.format(
             invocation=self.invocation,
@@ -370,21 +366,19 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         # Generate kZoneRules*[]
         rule_items = ''
         for rule in rules:
-            at_time_code, at_time_modifier = _to_code_and_modifier(
-                rule['atSecondsTruncated'], rule['atTimeSuffix'], self.scope)
-
-            if self.scope == 'extended':
-                delta_code = _to_extended_delta_code(
-                    rule['deltaSecondsTruncated'])
-            else:
-                delta_code = str(div_to_zero(
-                    rule['deltaSecondsTruncated'], 900
-                ))
-
-            from_year = rule['fromYear']
-            from_year_tiny = to_tiny_year(from_year)
-            to_year = rule['toYear']
-            to_year_tiny = to_tiny_year(to_year)
+            at_time_code = rule['atTimeCode']
+            at_time_modifier = rule['atTimeModifier']
+            at_time_modifier_comment = _get_time_modifier_comment(
+                time_seconds=rule['atSecondsTruncated'],
+                suffix=rule['atTimeSuffix'],
+            )
+            delta_code = rule['deltaCode']
+            delta_code_comment = _get_rule_delta_code_comment(
+                delta_seconds=rule['deltaSecondsTruncated'],
+                scope=self.scope,
+            )
+            from_year_tiny = rule['fromYearTiny']
+            to_year_tiny = rule['toYearTiny']
 
             # Single-character 'letter' values are represented as themselves
             # using the C++ 'char' type ('A'-'Z'). But some 'letter' fields hold
@@ -395,16 +389,13 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             # 'A' - 'Z'. Therefore we can hold to up to 31 multi-character
             # strings per-zone. In practice, for a single zone, the maximum
             # number of multi-character strings that I've seen is 2.
-            if len(rule['letter']) == 1:
-                letter = f"'{rule['letter']}'"
+            letter = rule['letter']
+            if len(letter) == 1:
                 letterComment = ''
-            elif len(rule['letter']) > 1:
-                letters = cast(IndexedLetters, indexed_letters)
-                index = letters[rule['letter']]
-                if index >= 32:
-                    raise Exception('Number of indexed letters >= 32')
-                letter = str(index)
-                letterComment = f'; "{rule["letter"]}"'
+                letter = f"'{letter}'"
+            elif len(letter) > 1:
+                letterComment = f' (index to "{letter}")'
+                letter = str(rule['letterIndex'])
             else:
                 raise Exception(
                     'len(%s) == 0; should not happen'
@@ -419,52 +410,54 @@ static const char* const kLetters{policyName}[] {progmem} = {{
                 onDayOfMonth=rule['onDayOfMonth'],
                 atTimeCode=at_time_code,
                 atTimeModifier=at_time_modifier,
+                atTimeModifierComment=at_time_modifier_comment,
                 deltaCode=delta_code,
+                deltaCodeComment=delta_code_comment,
                 letter=letter,
                 letterComment=letterComment)
 
         # Generate kLetters*[]
-        policyName = normalize_name(name)
-        numLetters = len(indexed_letters) if indexed_letters else 0
-        memoryLetters8 = 0
-        memoryLetters32 = 0
-        if numLetters:
+        policy_name = normalize_name(name)
+        num_letters = len(indexed_letters) if indexed_letters else 0
+        memory_letters8 = 0
+        memory_letters32 = 0
+        if num_letters:
             letters = cast(IndexedLetters, indexed_letters)
-            letterArrayRef = f'kLetters{policyName}'
+            letter_array_ref = f'kLetters{policy_name}'
             letterItems = ''
             for name, index in letters.items():
                 letterItems += f'  /*{index}*/ "{name}",\n'
-                memoryLetters8 += len(name) + 1 + 2  # NUL terminated
-                memoryLetters32 += len(name) + 1 + 4  # NUL terminated
-            letterArray = self.ZONE_POLICIES_LETTER_ARRAY.format(
-                policyName=policyName,
+                memory_letters8 += len(name) + 1 + 2  # NUL terminated
+                memory_letters32 += len(name) + 1 + 4  # NUL terminated
+            letter_array = self.ZONE_POLICIES_LETTER_ARRAY.format(
+                policyName=policy_name,
                 letterItems=letterItems,
                 progmem='ACE_TIME_PROGMEM')
         else:
-            letterArrayRef = 'nullptr'
-            letterArray = ''
+            letter_array_ref = 'nullptr'
+            letter_array = ''
 
         # Calculate the memory consumed by structs and arrays
         num_rules = len(rules)
         memory8 = (
             1 * self.SIZEOF_ZONE_POLICY_8
             + num_rules * self.SIZEOF_ZONE_RULE_8
-            + memoryLetters8)
+            + memory_letters8)
         memory32 = (
             1 * self.SIZEOF_ZONE_POLICY_32
             + num_rules * self.SIZEOF_ZONE_RULE_32
-            + memoryLetters32)
+            + memory_letters32)
 
         policy_item = self.ZONE_POLICIES_CPP_POLICY_ITEM.format(
             scope=self.scope,
-            policyName=policyName,
+            policyName=policy_name,
             numRules=num_rules,
             memory8=memory8,
             memory32=memory32,
             ruleItems=rule_items,
-            numLetters=numLetters,
-            letterArrayRef=letterArrayRef,
-            letterArray=letterArray,
+            numLetters=num_letters,
+            letterArrayRef=letter_array_ref,
+            letterArray=letter_array,
             progmem='ACE_TIME_PROGMEM')
 
         return (policy_item, memory8, memory32)
@@ -660,12 +653,12 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
     {zonePolicy} /*zonePolicy*/,
     "{format}" /*format*/,
     {offsetCode} /*offsetCode*/,
-    {deltaCode} /*deltaCode*/,
+    {deltaCode} /*deltaCode ({deltaCodeComment})*/,
     {untilYearTiny} /*untilYearTiny*/,
     {untilMonth} /*untilMonth*/,
     {untilDay} /*untilDay*/,
     {untilTimeCode} /*untilTimeCode*/,
-    {untilTimeModifier} /*untilTimeModifier*/,
+    {untilTimeModifier} /*untilTimeModifier ({untilTimeModifierComment})*/,
   }},
 """
 
@@ -689,7 +682,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         until_year: int,
         zones_map: ZonesMap,
         links_map: LinksMap,
-        rules_map: RulesMap,
+        policies_map: PoliciesMap,
         removed_zones: CommentsMap,
         removed_links: CommentsMap,
         removed_policies: CommentsMap,
@@ -708,7 +701,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         self.until_year = until_year
         self.zones_map = zones_map
         self.links_map = links_map
-        self.rules_map = rules_map
+        self.policies_map = policies_map
         self.removed_zones = removed_zones
         self.removed_links = removed_links
         self.removed_policies = removed_policies
@@ -876,53 +869,45 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
     def _generate_era_item(
         self, zone_name: str, era: ZoneEraRaw
     ) -> Tuple[str, int]:
-        policy_name = era['rules']
-        if policy_name == '-' or policy_name == ':':
+        rules_policy_name = era['rules']
+        if rules_policy_name == '-' or rules_policy_name == ':':
             zone_policy = 'nullptr'
-            delta_seconds = era['rulesDeltaSecondsTruncated']
         else:
-            zone_policy = f'&kPolicy{normalize_name(policy_name)}'
-            delta_seconds = 0
+            zone_policy = f'&kPolicy{normalize_name(rules_policy_name)}'
 
-        if self.scope == 'extended':
-            offset_code, delta_code = _to_extended_offset_and_delta(
-                era['offsetSecondsTruncated'], delta_seconds)
-        else:
-            offset_code = div_to_zero(era['offsetSecondsTruncated'], 900)
-            delta_code = str(div_to_zero(delta_seconds, 900))
-
-        until_year = era['untilYear']
-        if until_year == MAX_UNTIL_YEAR:
-            until_year_tiny = MAX_UNTIL_YEAR_TINY
-        else:
-            until_year_tiny = until_year - EPOCH_YEAR
-
+        offset_code = era['offsetCode']
+        delta_code = era['deltaCode']
+        delta_code_comment = _get_era_delta_code_comment(
+            offset_seconds=era['offsetSecondsTruncated'],
+            delta_seconds=era['rulesDeltaSecondsTruncated'],
+            scope=self.scope,
+        )
+        until_year_tiny = era['untilYearTiny']
         until_month = era['untilMonth']
-        if not until_month:
-            until_month = 1
-
         until_day = era['untilDay']
-        if not until_day:
-            until_day = 1
-
-        until_time_code, until_time_modifier = _to_code_and_modifier(
-            era['untilSecondsTruncated'], era['untilTimeSuffix'], self.scope)
-
-        # Replace %s with just a % for C++
-        format = era['format'].replace('%s', '%')
-        string_length = len(format) + 1
+        until_time_code = era['untilTimeCode']
+        until_time_modifier = era['untilTimeModifier']
+        until_time_modifier_comment = _get_time_modifier_comment(
+            time_seconds=era['untilSecondsTruncated'],
+            suffix=era['untilTimeSuffix'],
+        )
+        format_short = era['formatShort']
+        string_length = len(format_short) + 1
 
         era_item = self.ZONE_INFOS_CPP_ERA_ITEM.format(
             rawLine=normalize_raw(era['rawLine']),
             offsetCode=offset_code,
             deltaCode=delta_code,
+            deltaCodeComment=delta_code_comment,
             zonePolicy=zone_policy,
-            format=format,
+            format=format_short,
             untilYearTiny=until_year_tiny,
             untilMonth=until_month,
             untilDay=until_day,
             untilTimeCode=until_time_code,
-            untilTimeModifier=until_time_modifier)
+            untilTimeModifier=until_time_modifier,
+            untilTimeModifierComment=until_time_modifier_comment,
+        )
 
         return (era_item, string_length)
 
@@ -1043,81 +1028,52 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             numZones=len(self.zones_map))
 
 
-def collect_letter_strings(rules_map: RulesMap) -> LettersMap:
-    """Loop through all ZoneRules and collect the LETTERs which are
-    more than one letter long into self.letters_map.
-    """
-    letters_map: LettersMap = {}
-    for policy_name, rules in rules_map.items():
-        letters = set()
-        for rule in rules:
-            if len(rule['letter']) > 1:
-                letters.add(rule['letter'])
-        indexed_letters_map: IndexedLetters = OrderedDict()
-        if letters:
-            for letter in sorted(letters):
-                add_string(indexed_letters_map, letter)
-            letters_map[policy_name] = indexed_letters_map
-    return letters_map
-
-
-def to_tiny_year(year: int) -> int:
-    if year == MAX_YEAR:
-        return MAX_YEAR_TINY
-    elif year == MIN_YEAR:
-        return MIN_YEAR_TINY
-    else:
-        return year - EPOCH_YEAR
-
-
-def _to_code_and_modifier(
-    seconds: int, suffix: str, scope: str,
-) -> Tuple[int, str]:
-    """Return the packed (code, modifier) uint8_t integers that hold
-    the AT or UNTIL timeCode, timeMinute and the suffix.
-    """
-    timeCode = div_to_zero(seconds, 15 * 60)
-    timeMinute = seconds % 900 // 60
-    modifier = _to_modifier(suffix, scope)
-    if timeMinute > 0:
-        modifier += f' + {timeMinute}'
-    return timeCode, modifier
-
-
-def _to_modifier(suffix: str, scope: str) -> str:
-    """Return the C++ kSuffix{X} corresponding to the 'w', 's', and 'u'
-    suffix character in the TZ database files.
+def _get_time_modifier_comment(
+    time_seconds: int,
+    suffix: str,
+) -> str:
+    """Create the comment that explains how the untilTimeCode or atTimeCode was
+    calculated.
     """
     if suffix == 'w':
-        return f'{scope}::ZoneContext::kSuffixW'
+        comment = 'kSuffixW'
     elif suffix == 's':
-        return f'{scope}::ZoneContext::kSuffixS'
-    elif suffix == 'u':
-        return f'{scope}::ZoneContext::kSuffixU'
+        comment = 'kSuffixS'
     else:
-        raise Exception(f'Unknown suffix {suffix}')
+        comment = 'kSuffixU'
+    remaining_time_minutes = time_seconds % 900 // 60
+    comment += f' + minute={remaining_time_minutes}'
+    return comment
 
 
-def _to_extended_delta_code(seconds: int) -> str:
-    """Return the deltaCode encoding for the ExtendedZoneProcessor which is
-    roughly: deltaCode = (deltaSeconds + 1h) / 15m. Using the lower 4-bits of
-    the uint8_t field, this will handle deltaOffsets from -1:00 to +2:45.
+def _get_era_delta_code_comment(
+    offset_seconds: int,
+    delta_seconds: int,
+    scope: str,
+) -> str:
+    """Create the comment that explains how the ZoneEra deltaCode was
+    calculated.
     """
-    return f"({seconds // 900} + 4)"
+    offset_minute = offset_seconds % 900 // 60
+    delta_minute = delta_seconds // 60
+    if scope == 'extended':
+        return (
+            f"(offsetMinute={offset_minute} << 4) + "
+            f"(deltaMinute={delta_minute}/15 + 4)"
+        )
+    else:
+        return f"deltaMinute={delta_minute}/15"
 
 
-def _to_extended_offset_and_delta(offsetSeconds: int, deltaSeconds: int) -> \
-        Tuple[int, str]:
-    """Return the (offsetCode, deltaCode) encoding that which maintains a
-    one-minute resolution. The offsetSeconds is stored in the 'offsetCode' in
-    multiples of 15-minutes. The remaining offsetMinutes is stored in the top
-    4-bits of the 'deltaCode' field. The lower 4-bits of 'deltaCode' stores the
-    deltaSeconds in units of 15 minutes, shifted by one hour so that it can
-    represent a DST shift in the range of -1:00 to +2:45. The 'deltaCode' field
-    of the tuple is returned as a string containing the C++ expression to allow
-    easier debugging.
+def _get_rule_delta_code_comment(
+    delta_seconds: int,
+    scope: str,
+) -> str:
+    """Create the comment that explains how the ZoneRule deltaCode was
+    calculated.
     """
-    offsetCode = offsetSeconds // 900  # truncate to -infinty
-    offsetMinute = (offsetSeconds % 900) // 60  # always positive
-    baseDeltaCode = _to_extended_delta_code(deltaSeconds)
-    return (offsetCode, f"({offsetMinute} << 4) + {baseDeltaCode}")
+    delta_minute = delta_seconds // 60
+    if scope == 'extended':
+        return f"deltaMinute={delta_minute}/15 + 4"
+    else:
+        return f"deltaMinute={delta_minute}/15"
