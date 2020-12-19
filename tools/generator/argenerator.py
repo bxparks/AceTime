@@ -48,6 +48,18 @@ class ArduinoGenerator:
         wrapped_invocation = '\n//     --'.join(invocation.split(' --'))
         wrapped_tzfiles = '\n//   '.join(zidb['tz_files'])
 
+        # Determine zonedb C++ namespace
+        scope = zidb['scope']
+        if not db_namespace:
+            if scope == 'basic':
+                db_namespace = 'zonedb'
+            elif scope == 'extended':
+                db_namespace = 'zonedbx'
+            else:
+                raise Exception(
+                    f"db_namespace cannot be determined for scope '{scope}'"
+                )
+
         self.zone_policies_generator = ZonePoliciesGenerator(
             invocation=wrapped_invocation,
             tz_files=wrapped_tzfiles,

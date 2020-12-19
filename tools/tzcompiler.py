@@ -103,32 +103,21 @@ def generate_zonedb(
             zidb=zidb,
         )
         generator.generate_files(output_dir)
+
     elif language == 'arduino':
         logging.info('==== Creating Arduino zone_*.{h,cpp} files')
-
-        # Determine zonedb C++ namespace
-        # TODO: Maybe move this into ArduinoGenerator?
-        if not db_namespace:
-            if zidb['scope'] == 'basic':
-                db_namespace = 'zonedb'
-            elif zidb['scope'] == 'extended':
-                db_namespace = 'zonedbx'
-            else:
-                raise Exception(
-                    f"db_namespace cannot be determined for "
-                    f"scope '{zidb['scope']}'"
-                )
-
         generator = ArduinoGenerator(
             invocation=invocation,
             db_namespace=db_namespace,
             zidb=zidb,
         )
         generator.generate_files(output_dir)
+
     elif language == 'json':
         logging.info('======== Creating zonedb.json file')
         generator = JsonGenerator(zidb=zidb)
         generator.generate_files(output_dir)
+
     elif language == 'zonelist':
         logging.info('======== Creating zones.txt file')
         generator = ZoneListGenerator(
@@ -136,6 +125,7 @@ def generate_zonedb(
             zidb=zidb,
         )
         generator.generate_files(output_dir)
+
     else:
         raise Exception(f"Unrecognized language '{language}'")
 
