@@ -38,6 +38,9 @@ The TZ Database processing pipeline for `tzcompiler.py` looks something like
 this:
 
 ```
+Python
+packages
+
   .------>            TZDB files
   |                       |
   |                       v
@@ -45,24 +48,26 @@ tzdb                 extractor.py
   |                       |
   |                       v
   |                 transformer.py
-  +------>                |  \
-  |                       |   v
-  |                       | inline_zone_info.py
-  |                       |    \
-  |                       |     v
-zone_processor            |  zone_specifier.py
-  |                       |      \
-  |                       |       v
-  |                       |   bufestimator.py
-  |                       |       /
-  `------>                v      v
+  +------>             /  |  \                   <---------.
+  |                   /   |   v                            |
+  |                  /    |  inline_zone_info.py           |
+  |                 v     |    \                           |
+  |      artransformer.py |     v                          |
+arzonedb          \       |   zone_specifier.py     zone_processor
+  |                \      |      \                         |
+  |                 \     |       v                        |
+  |                  \    |    bufestimator.py             |
+  |                   \   |       /                        |
+  `------>             \  |      /               <---------'
+  |                     v v     v
 zonedb             ZoneInfoDatabase
+  |                 /     |     \
   .------>         /      |      \
   |               /       |       ------------------------.
   |              /        |                  \             \
 generator       /         |                   \             \
   |            v          v                    v             v
-  |  argenerator.py   pygenerator.py     jsongenerator.py  zonelist
+  |   argenerator.py   pygenerator.py    jsongenerator.py  zonelist
   |          /            |                    |           generator.py
   `--->     /             |                    |                \
            v              v                    v                 v

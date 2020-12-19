@@ -9,6 +9,7 @@ from tzdb.data_types import ZonesMap
 from tzdb.data_types import PoliciesMap
 from tzdb.data_types import LinksMap
 from tzdb.data_types import CommentsMap
+from tzdb.data_types import LettersMap
 
 
 class ZoneInfoDatabase(TypedDict):
@@ -28,8 +29,8 @@ class ZoneInfoDatabase(TypedDict):
 
     # Data from Extractor filtered through Transformer
     zones_map: ZonesMap
-    links_map: LinksMap
     policies_map: PoliciesMap
+    links_map: LinksMap
 
     # Data from Transformer
     removed_zones: CommentsMap
@@ -46,6 +47,9 @@ class ZoneInfoDatabase(TypedDict):
     # ZoneIds
     zone_ids: Dict[str, int]
 
+    # ZonePolicy letters that are more than 1 character long.
+    letters_map: LettersMap
+
 
 def create_zone_info_database(
     tz_version: str,
@@ -57,8 +61,8 @@ def create_zone_info_database(
     offset_granularity: int,
     strict: bool,
     zones_map: ZonesMap,
-    links_map: LinksMap,
     policies_map: PoliciesMap,
+    links_map: LinksMap,
     removed_zones: CommentsMap,
     removed_links: CommentsMap,
     removed_policies: CommentsMap,
@@ -67,6 +71,7 @@ def create_zone_info_database(
     notable_policies: CommentsMap,
     buf_size_info: BufSizeInfo,
     zone_ids: Dict[str, int],
+    letters_map: LettersMap,
 ) -> ZoneInfoDatabase:
     """Return an instance of ZoneInfoDatabase from the various ingrediants."""
     return {
@@ -82,8 +87,8 @@ def create_zone_info_database(
 
         # Data from Extractor filtered through Transformer.
         'zones_map': zones_map,
-        'links_map': links_map,
         'policies_map': policies_map,
+        'links_map': links_map,
 
         # Data from Transformer.
         'removed_zones': removed_zones,
@@ -99,4 +104,7 @@ def create_zone_info_database(
 
         # ZoneIds
         'zone_ids': zone_ids,
+
+        # Letters map
+        'letters_map': letters_map,
     }
