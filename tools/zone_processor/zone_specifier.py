@@ -25,9 +25,9 @@ from typing import Union
 from typing import cast
 from typing_extensions import Protocol
 from zonedb.data_types import MIN_YEAR
-from tzdb.transformer import seconds_to_hms
-from tzdb.transformer import hms_to_seconds
-from tzdb.transformer import calc_day_of_month
+from transformer.transformer import seconds_to_hms
+from transformer.transformer import hms_to_seconds
+from transformer.transformer import calc_day_of_month
 from .inline_zone_info import ZoneRule
 from .inline_zone_info import ZonePolicy
 from .inline_zone_info import ZoneEra

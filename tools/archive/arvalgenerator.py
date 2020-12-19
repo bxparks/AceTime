@@ -11,8 +11,8 @@ import os
 import pytz
 from typing import List
 from zonedb.data_types import EPOCH_YEAR
-from tzdb.transformer import div_to_zero
-from tzdb.transformer import normalize_name
+from transformer.transformer import div_to_zero
+from transformer.transformer import normalize_name
 from tdgenerator import TestItem
 from tdgenerator import TestData
 

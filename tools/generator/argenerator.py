@@ -22,8 +22,8 @@ from zonedb.data_types import IndexedLetters
 from zonedb.data_types import LettersMap
 from zonedb.data_types import ZoneInfoDatabase
 from zonedb.data_types import BufSizeMap
-from tzdb.transformer import normalize_name
-from tzdb.transformer import normalize_raw
+from transformer.transformer import normalize_name
+from transformer.transformer import normalize_raw
 
 
 class ArduinoGenerator:
