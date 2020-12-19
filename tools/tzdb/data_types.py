@@ -48,8 +48,10 @@ class ZoneRuleRaw(TypedDict, total=False):
     fromYearTiny: int  # fromYear - 2000, with special cases for MIN and MAX
     toYearTiny: int  # fromYear - 2000, with special cases for MIN and MAX
     atTimeCode: int  # units of 15-minutes
-    atTimeModifier: int  # 's', 'w' or 'u' + remainder minutes
-    deltaCode: int   # DST offset in 15-min increments, +1h offset for extended
+    atTimeModifier: int  # 's', 'w' or 'u' + atTimeMinute
+    # DST offset in 15-min increments. For extended, the +1h is added before
+    # encoding, for a total DST offset range of -1h00m to +2h45m.
+    deltaCode: int
     letterIndex: int  # index into letters[], or -1 if all are single character
 
 
@@ -87,11 +89,14 @@ class ZoneEraRaw(TypedDict, total=False):
     untilSecondsTruncated: int  # untilSeconds after truncation
 
     # Derived from above by artransformer.py
-    offsetCode: int  # STD offset in 15-minute increments
-    deltaCode: int  # DST offset in 15-min increments, +1h offset for extended
+    offsetCode: int  # STD offset in 15-min increments.
+    # deltaCode is the DST offset in 15-min increments for basic. For extended,
+    # the top 4 bits are the offsetMinutes. The bottom 4-bits are used to store
+    # the (deltaCode + 1h), for a total DST shift range of -1h00m to 2h45m
+    deltaCode: int
     untilYearTiny: int  # untilYear - 2000, with special cases for MIN and MAX
     untilTimeCode: int  # units of 15-minutes
-    untilTimeModifier: int  # 's', 'w' or 'u' + remainder minutes
+    untilTimeModifier: int  # 's', 'w' or 'u' + untilTimeMinute
     formatShort: str  # Arduino version of format with %s -> %
 
 

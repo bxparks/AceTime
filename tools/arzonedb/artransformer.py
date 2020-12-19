@@ -94,7 +94,7 @@ class ArduinoTransformer:
                     offset_code, delta_code = _to_extended_offset_and_delta(
                         era['offsetSecondsTruncated'], delta_seconds)
                 else:
-                    offset_code, delta_code = _to_basic_offst_and_delta(
+                    offset_code, delta_code = _to_basic_offset_and_delta(
                         era['offsetSecondsTruncated'], delta_seconds)
                 era['offsetCode'] = offset_code
                 era['deltaCode'] = delta_code
@@ -187,7 +187,7 @@ def _to_modifier_code(suffix: str) -> int:
         raise Exception(f'Unknown suffix {suffix}')
 
 
-def _to_basic_offst_and_delta(
+def _to_basic_offset_and_delta(
     offset_seconds: int,
     delta_seconds: int,
 ) -> Tuple[int, int]:
@@ -204,8 +204,8 @@ def _to_extended_offset_and_delta(
     delta_seconds: int,
 ) -> Tuple[int, int]:
     """Return the (offset_code, delta_code) suitable for an
-    ExtendedZoneProcessor. encoding that which maintains a
-    one-minute resolution for offset_code.
+    ExtendedZoneProcessor which maintains a one-minute resolution for
+    offset_seconds.
 
     * The offset_seconds is stored as the 'offset_code' in multiples of
       15-minutes.
