@@ -54,8 +54,8 @@ Examples:
 
 import argparse
 import logging
-from tzdb.extractor import Extractor
-from tzdb.transformer import Transformer
+from extractor.extractor import Extractor
+from transformer.transformer import Transformer
 from zone_processor.inline_zone_info import (
     InlineZoneInfo,
     ZoneInfoMap,

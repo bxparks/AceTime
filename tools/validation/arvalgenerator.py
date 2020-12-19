@@ -11,7 +11,7 @@ from the 'validation_data.json' file on the STDIN.
 import logging
 import os
 from typing import List, Dict, Tuple, Optional
-from tzdb.transformer import div_to_zero, normalize_name
+from transformer.transformer import div_to_zero, normalize_name
 from .data import TestItem, TestData, ValidationData
 
 

@@ -24,8 +24,8 @@ import logging
 import datetime
 from datetime import tzinfo
 import pytz
+from zonedb.data_types import SECONDS_SINCE_UNIX_EPOCH
 from zone_processor.zone_specifier import ZoneSpecifier
-from zone_processor.zone_specifier import SECONDS_SINCE_UNIX_EPOCH
 from zone_processor.zone_specifier import DateTuple
 from zone_processor.inline_zone_info import ZoneInfo
 from zone_processor.inline_zone_info import ZoneInfoMap

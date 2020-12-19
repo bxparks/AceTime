@@ -60,9 +60,9 @@ from zonedb.data_types import ZoneInfoDatabase
 from zonedb.data_types import create_zone_info_database
 from zonedb.data_types import BufSizeInfo
 from zone_processor.bufestimator import BufSizeEstimator
-from tzdb.extractor import Extractor
-from tzdb.transformer import Transformer, hash_name
-from arzonedb.artransformer import ArduinoTransformer
+from extractor.extractor import Extractor
+from transformer.transformer import Transformer, hash_name
+from transformer.artransformer import ArduinoTransformer
 from generator.argenerator import ArduinoGenerator
 from generator.pygenerator import PythonGenerator
 from generator.zonelistgenerator import ZoneListGenerator

@@ -2,15 +2,15 @@ TZ_VERSION := 2020d
 
 # Files which pass 'mypy --strict'.
 SRC := \
-arzonedb \
 compare_dateutil \
 compare_pytz \
+extractor \
 generate_validation.py \
 generator \
 tests/test_extractor.py \
 tests/test_transformer.py \
 tzcompiler.py \
-tzdb \
+transformer \
 validate.py \
 validation \
 validator \

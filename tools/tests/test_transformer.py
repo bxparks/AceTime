@@ -6,17 +6,17 @@
 
 import unittest
 from collections import OrderedDict
-from tzdb.transformer import _parse_on_day_string
-from tzdb.transformer import _days_in_month
-from tzdb.transformer import calc_day_of_month
-from tzdb.transformer import time_string_to_seconds
-from tzdb.transformer import seconds_to_hms
-from tzdb.transformer import hms_to_seconds
-from tzdb.transformer import div_to_zero
-from tzdb.transformer import truncate_to_granularity
-from tzdb.transformer import INVALID_SECONDS
-from tzdb.transformer import hash_name
-from tzdb.transformer import add_string
+from transformer.transformer import _parse_on_day_string
+from transformer.transformer import _days_in_month
+from transformer.transformer import calc_day_of_month
+from transformer.transformer import time_string_to_seconds
+from transformer.transformer import seconds_to_hms
+from transformer.transformer import hms_to_seconds
+from transformer.transformer import div_to_zero
+from transformer.transformer import truncate_to_granularity
+from transformer.transformer import INVALID_SECONDS
+from transformer.transformer import hash_name
+from transformer.transformer import add_string
 
 
 class TestParseOnDayString(unittest.TestCase):

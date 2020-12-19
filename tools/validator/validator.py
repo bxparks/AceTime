@@ -15,11 +15,11 @@ continuous integration pipeline, it's too easy to bitrot.
 from typing import List, Dict
 import logging
 from datetime import datetime
+from zonedb.data_types import SECONDS_SINCE_UNIX_EPOCH
 from zone_processor.inline_zone_info import ZoneInfoMap
 from zone_processor.inline_zone_info import ZonePolicyMap
 from zone_processor.zone_specifier import ZoneSpecifier
 from zone_processor.zone_specifier import to_utc_string
-from zone_processor.zone_specifier import SECONDS_SINCE_UNIX_EPOCH
 from zone_processor.zone_specifier import BufferSizeInfo
 from .zstdgenerator import TestDataGenerator
 from .zstdgenerator import TestData

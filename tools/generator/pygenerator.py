@@ -15,8 +15,8 @@ from zonedb.data_types import ZonesMap
 from zonedb.data_types import PoliciesMap
 from zonedb.data_types import CommentsMap
 from zonedb.data_types import ZoneInfoDatabase
-from tzdb.transformer import normalize_name
-from tzdb.transformer import normalize_raw
+from transformer.transformer import normalize_name
+from transformer.transformer import normalize_raw
 
 
 class PythonGenerator:
