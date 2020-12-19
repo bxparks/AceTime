@@ -41,24 +41,24 @@ this:
 Python
 packages
 
-  .------>            TZDB files
-  |                       |
+                      TZDB files
+  .------>                |
   |                       v
-tzdb                 extractor.py
+extractor            extractor.py
   |                       |
-  |                       v
+  .------>                v
   |                 transformer.py
-  +------>             /  |  \                   <---------.
+  |                    /  |  \                   <---------.
   |                   /   |   v                            |
-  |                  /    |  inline_zone_info.py           |
+transformer          /    |  inline_zone_info.py           |
   |                 v     |    \                           |
   |      artransformer.py |     v                          |
-arzonedb          \       |   zone_specifier.py     zone_processor
+  |               \       |   zone_specifier.py     zone_processor
   |                \      |      \                         |
   |                 \     |       v                        |
   |                  \    |    bufestimator.py             |
-  |                   \   |       /                        |
-  `------>             \  |      /               <---------'
+  `------>            \   |       /                        |
+  |                    \  |      /               <---------'
   |                     v v     v
 zonedb             ZoneInfoDatabase
   |                 /     |     \
@@ -74,7 +74,7 @@ generator       /         |                   \             \
 zone_infos.{h,cpp}      zone_infos.py       zonedb.json      zones.txt
 zone_policies.{h,cpp}   zone_policies.py                         |
 zone_registry.{h,cpp}   zone_strings.py                          v
-zone_strings.{h,cpp}         |                             (con't below)
+zone_strings.{h,cpp}         |                             (cont. below)
                              v
                           zinfo.py
 ```
@@ -95,7 +95,7 @@ The `zones.txt` from the `tzcompiler.py` determines the time zones which
 should be processed by the various `compare_xxx` scripts:
 
 ```
-(con't)
+(cont.)
    |
    v
 zones.txt
