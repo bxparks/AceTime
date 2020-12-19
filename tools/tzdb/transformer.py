@@ -22,15 +22,15 @@ from typing import Set
 from typing import Tuple
 from typing import cast
 from typing_extensions import TypedDict
+from zonedb.data_types import ZoneRuleRaw
+from zonedb.data_types import ZoneEraRaw
+from zonedb.data_types import ZonesMap
+from zonedb.data_types import PoliciesMap
+from zonedb.data_types import LinksMap
+from zonedb.data_types import TransformerResult
 from .extractor import MAX_UNTIL_YEAR
 from .extractor import MIN_YEAR
 from .extractor import MAX_YEAR
-from .data_types import ZoneRuleRaw
-from .data_types import ZoneEraRaw
-from .data_types import ZonesMap
-from .data_types import PoliciesMap
-from .data_types import LinksMap
-from .data_types import TransformerResult
 
 # Map of zoneName -> Set[Comment] used internally by Transformer to collect
 # de-duped error messages or warnings. Exported as data_types.CommentsMap.

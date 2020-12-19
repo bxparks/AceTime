@@ -9,14 +9,14 @@ import logging
 import os
 from typing import List
 from typing import Tuple
-from tzdb.data_types import ZoneEraRaw
-from tzdb.data_types import ZoneRuleRaw
-from tzdb.data_types import ZonesMap
-from tzdb.data_types import PoliciesMap
-from tzdb.data_types import CommentsMap
+from zonedb.data_types import ZoneEraRaw
+from zonedb.data_types import ZoneRuleRaw
+from zonedb.data_types import ZonesMap
+from zonedb.data_types import PoliciesMap
+from zonedb.data_types import CommentsMap
+from zonedb.data_types import ZoneInfoDatabase
 from tzdb.transformer import normalize_name
 from tzdb.transformer import normalize_raw
-from zonedb.data_types import ZoneInfoDatabase
 
 
 class PythonGenerator:

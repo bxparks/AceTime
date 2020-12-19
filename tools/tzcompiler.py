@@ -56,13 +56,14 @@ import sys
 from collections import OrderedDict
 from typing import Dict
 from typing_extensions import Protocol
-from tzdb.data_types import ZonesMap
-from tzdb.data_types import TransformerResult
-from tzdb.extractor import Extractor
-from tzdb.transformer import Transformer, hash_name
+from zonedb.data_types import ZonesMap
+from zonedb.data_types import TransformerResult
 from zonedb.data_types import ZoneInfoDatabase
 from zonedb.data_types import create_zone_info_database
-from zone_processor.bufestimator import BufSizeEstimator, BufSizeInfo
+from zonedb.data_types import BufSizeInfo
+from zone_processor.bufestimator import BufSizeEstimator
+from tzdb.extractor import Extractor
+from tzdb.transformer import Transformer, hash_name
 from arzonedb.artransformer import ArduinoTransformer
 from generator.argenerator import ArduinoGenerator
 from generator.pygenerator import PythonGenerator

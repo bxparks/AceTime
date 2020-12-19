@@ -63,15 +63,15 @@ Maybe it helps to think of the 'Link' command similar to the 'ln' link command
 in Unix, which has the same order of arguments as the 'cp' command.)
 """
 
-import logging
-import os
 from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
 from typing import TextIO
 from typing import Tuple
-from .data_types import (
+import logging
+import os
+from zonedb.data_types import (
     ZoneRuleRaw,
     ZoneEraRaw,
     PoliciesMap,

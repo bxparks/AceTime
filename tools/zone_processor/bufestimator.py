@@ -3,24 +3,13 @@
 # MIT License
 
 import logging
-from typing import Dict
-from typing_extensions import TypedDict
 from collections import OrderedDict
-from tzdb.data_types import ZonesMap, PoliciesMap
+from zonedb.data_types import ZonesMap, PoliciesMap
+from zonedb.data_types import BufSizeInfo, BufSizeMap
 from .zone_specifier import ZoneSpecifier
 from .inline_zone_info import ZoneInfoMap
 from .inline_zone_info import ZonePolicyMap
 from .inline_zone_info import InlineZoneInfo
-
-
-# zoneName -> bufSize
-BufSizeMap = Dict[str, int]
-
-
-class BufSizeInfo(TypedDict):
-    """Return type of BufSizeEstimator.estimate()."""
-    buf_sizes: BufSizeMap
-    max_buf_size: int  # maximum of all bufSize
 
 
 class BufSizeEstimator:

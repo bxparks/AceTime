@@ -12,18 +12,18 @@ from typing import List
 from typing import Optional
 from typing import Tuple
 from typing import cast
-from tzdb.data_types import ZoneRuleRaw
-from tzdb.data_types import ZoneEraRaw
-from tzdb.data_types import ZonesMap
-from tzdb.data_types import PoliciesMap
-from tzdb.data_types import LinksMap
-from tzdb.data_types import CommentsMap
-from tzdb.data_types import IndexedLetters
-from tzdb.data_types import LettersMap
+from zonedb.data_types import ZoneRuleRaw
+from zonedb.data_types import ZoneEraRaw
+from zonedb.data_types import ZonesMap
+from zonedb.data_types import PoliciesMap
+from zonedb.data_types import LinksMap
+from zonedb.data_types import CommentsMap
+from zonedb.data_types import IndexedLetters
+from zonedb.data_types import LettersMap
+from zonedb.data_types import ZoneInfoDatabase
+from zonedb.data_types import BufSizeMap
 from tzdb.transformer import normalize_name
 from tzdb.transformer import normalize_raw
-from zone_processor.bufestimator import BufSizeMap
-from zonedb.data_types import ZoneInfoDatabase
 
 
 class ArduinoGenerator:

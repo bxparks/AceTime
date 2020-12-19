@@ -9,11 +9,11 @@ Produce ArZonesMap, ArPoliciesMap.
 from typing import Tuple
 from typing import Optional
 from collections import OrderedDict
-from tzdb.data_types import ZonesMap
-from tzdb.data_types import PoliciesMap
-from tzdb.data_types import LettersMap
-from tzdb.data_types import IndexedLetters
-from tzdb.data_types import ArduinoTransformerResult
+from zonedb.data_types import ZonesMap
+from zonedb.data_types import PoliciesMap
+from zonedb.data_types import LettersMap
+from zonedb.data_types import IndexedLetters
+from zonedb.data_types import ArduinoTransformerResult
 from tzdb.extractor import EPOCH_YEAR
 from tzdb.extractor import MAX_YEAR
 from tzdb.extractor import MAX_YEAR_TINY
