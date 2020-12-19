@@ -90,8 +90,7 @@ $(DB_NAMESPACE)/zone_infos.h: tzfiles/$(TZ_VERSION)
 	../../../../tools/tzcompiler.py \
 		--input_dir ../tzfiles/$(TZ_VERSION) \
 		--tz_version $(TZ_VERSION) \
-		--action zonedb,zonelist \
-		--language arduino \
+		--language arduino,zonelist \
 		--scope $(SCOPE) \
 		--db_namespace $(DB_NAMESPACE) \
 		--start_year $(START_YEAR) \
