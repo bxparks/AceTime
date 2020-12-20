@@ -189,11 +189,20 @@ def main() -> None:
             + '(default: --granularity)'
         ),
         type=int)
+
+    # Make --strict the default, --nostrict optional.
     parser.add_argument(
         '--strict',
         help='Remove zones and rules not aligned at granularity time boundary',
         action='store_true',
-        default=False)
+        default=True,
+    )
+    parser.add_argument(
+        '--nostrict',
+        help='Retain zones and rules not aligned at granularity time boundary',
+        action='store_false',
+        dest='strict',
+    )
 
     # Data pipeline selectors. Reduced down to a single 'zonedb' option which
     # is the default.

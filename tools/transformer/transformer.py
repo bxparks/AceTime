@@ -202,7 +202,7 @@ class Transformer:
         name: str
         reasons: Iterable[str]
         for name, reasons in sorted(removed_map.items()):
-            print(f'  {name} ({reasons})', file=sys.stderr)
+            logging.info(f'        {name} ({reasons})')
 
     # --------------------------------------------------------------------
     # Methods related to Zones.
