@@ -60,8 +60,10 @@ zonedb.json: $(SRC) $(TZ_VERSION)
 		$(TZ_VERSION) \
 		--input_dir $(TZ_VERSION) \
 		--scope extended \
-		--action zonedb \
-		--language json
+		--language json \
+		--ignore_buf_size_too_large \
+		--start_year 1970 \
+		--until_year 2050
 
 # Generate the zones.txt file for testing purposes.
 zones.txt: $(SRC) $(TZ_VERSION)
@@ -69,7 +71,7 @@ zones.txt: $(SRC) $(TZ_VERSION)
 		--tz_version $(TZ_VERSION)
 		--input_dir $(TZ_VERSION) \
 		--scope basic \
-		--action zonelist
+		--language zonelist
 
 # Generate the validation_data.json for testing purposes
 validation_data.json: zones.txt

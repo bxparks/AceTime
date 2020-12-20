@@ -92,7 +92,6 @@ def generate_zonedb(
     """Generate the zonedb/ or zonedbx/ files for Python or Arduino,
     but probably mostly for Arduino.
     """
-    logging.info('======== Generating zonedb files')
     generator: Generator
 
     # Create the Python or Arduino files as requested
@@ -114,12 +113,12 @@ def generate_zonedb(
         generator.generate_files(output_dir)
 
     elif language == 'json':
-        logging.info('======== Creating zonedb.json file')
+        logging.info('==== Creating zonedb.json file')
         generator = JsonGenerator(zidb=zidb)
         generator.generate_files(output_dir)
 
     elif language == 'zonelist':
-        logging.info('======== Creating zones.txt file')
+        logging.info('==== Creating zones.txt file')
         generator = ZoneListGenerator(
             invocation=invocation,
             zidb=zidb,
@@ -323,6 +322,7 @@ def main() -> None:
     tresult = transformer.get_data()
 
     # Generate the fields for the Arduino zoneinfo data.
+    logging.info('======== Transforming to Arduino Zones and Rules')
     arduino_transformer = ArduinoTransformer(
         tresult=tresult,
         scope=args.scope,
@@ -383,6 +383,7 @@ def main() -> None:
     )
 
     if args.action == 'zonedb':
+        logging.info('======== Generating zonedb files')
         for language in languages:
             generate_zonedb(
                 invocation=invocation,
