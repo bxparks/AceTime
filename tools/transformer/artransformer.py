@@ -1,12 +1,8 @@
 # Copyright 2020 Brian T. Park
 #
 # MIT License
-"""
-Process the ZonesMap and PoliciesMap for the zonedb files required on Arduino.
-Produce ArZonesMap, ArPoliciesMap.
-"""
 
-from typing import Tuple
+from typing import NamedTuple
 from typing import Optional
 from collections import OrderedDict
 from zonedb.data_types import ZonesMap
@@ -24,6 +20,10 @@ from zonedb.data_types import MAX_UNTIL_YEAR_TINY
 
 
 class ArduinoTransformer:
+    """Process the ZonesMap and PoliciesMap for the zone_info.{h,cpp} and
+    zone_policies.{h,cpp} files required on Arduino. Produces a new
+    TransformerResult from get_data().
+    """
 
     def __init__(
         self,
@@ -64,12 +64,12 @@ class ArduinoTransformer:
                 rule['fromYearTiny'] = _to_tiny_year(rule['fromYear'])
                 rule['toYearTiny'] = _to_tiny_year(rule['toYear'])
 
-                at_time_code, at_time_modifier = _to_code_and_modifier(
+                encoded_at_time = _to_encoded_time(
                     seconds=rule['atSecondsTruncated'],
                     suffix=rule['atTimeSuffix'],
                 )
-                rule['atTimeCode'] = at_time_code
-                rule['atTimeModifier'] = at_time_modifier
+                rule['atTimeCode'] = encoded_at_time.time_code
+                rule['atTimeModifier'] = encoded_at_time.modifier_code
 
                 # These will always be integers because transformer.py
                 # truncated them to 900 seconds appropriately.
@@ -98,22 +98,22 @@ class ArduinoTransformer:
 
                 # Generate the STDOFF and DST delta offset codes.
                 if self.scope == 'extended':
-                    offset_code, delta_code = _to_extended_offset_and_delta(
+                    encoded_offset = _to_extended_offset_and_delta(
                         era['offsetSecondsTruncated'], delta_seconds)
                 else:
-                    offset_code, delta_code = _to_basic_offset_and_delta(
+                    encoded_offset = _to_basic_offset_and_delta(
                         era['offsetSecondsTruncated'], delta_seconds)
-                era['offsetCode'] = offset_code
-                era['deltaCode'] = delta_code
+                era['offsetCode'] = encoded_offset.offset_code
+                era['deltaCode'] = encoded_offset.delta_code
 
-                # Generate the UNTIL fields
+                # Generate the UNTIL fields needed by Arduino ZoneProcessors
                 era['untilYearTiny'] = _to_tiny_until_year(era['untilYear'])
-                until_time_code, until_time_modifier = _to_code_and_modifier(
+                encoded_until_time = _to_encoded_time(
                     seconds=era['untilSecondsTruncated'],
                     suffix=era['untilTimeSuffix'],
                 )
-                era['untilTimeCode'] = until_time_code
-                era['untilTimeModifier'] = until_time_modifier
+                era['untilTimeCode'] = encoded_until_time.time_code
+                era['untilTimeModifier'] = encoded_until_time.modifier_code
 
                 # FORMAT field for Arduino C++ replaces %s with just a %.
                 era['formatShort'] = era['format'].replace('%s', '%')
@@ -166,26 +166,63 @@ def _to_tiny_until_year(year: int) -> int:
         return year - EPOCH_YEAR
 
 
-def _to_code_and_modifier(
+class EncodedTime(NamedTuple):
+    """Break apart a time in seconds with a suffix (e.g. 02:00w) into the
+    following parts so that it can be encoded in 2 bytes with a resolution of
+    1-minute:
+
+        * time_code: Time of day, in units of 15 minutes. Since time_code will
+          be placed in an 8-bit field with a range of -127 to 127 (-128 is an
+          error flag), the range of time that this can represent is -31:45 to
+          +31:59. I believe all time of day in the TZ database files are
+          positive, but it will occasionally have time strings of "25:00" which
+          means 1am the next day.
+        * time_minute: Remainder minutes (if any) which will be placed in the
+          bottom 4-bits (0-14) of the modifier_code. This quantity is already
+          included in modifier_code, so the purpose of this field is to allow
+          the caller to check for a non-zero value for logging purposes.
+        * suffix_code: An integer code that can be placed in the top 4-bits
+          (e.g. 0x00, 0x10, 0x20).
+        * modifier_code: suffix_code + time_minute
+
+    (Note: In hindsight, maybe I should have flipped the top and bottom 4-bit
+    locations of the suffix_code locations, so that the EncodedTime.time_minute
+    field is in the same location as EncodedOffset.time_minute field.)
+    """
+    time_code: int
+    time_minute: int
+    suffix_code: int
+    modifier_code: int
+
+
+def _to_encoded_time(
     seconds: int,
     suffix: str,
-) -> Tuple[int, int]:
-    """Return the packed (code, modifier) uint8_t integers that hold
-    the AT or UNTIL timeCode, timeMinute and the suffix.
+) -> EncodedTime:
+    """Return the EncodedTime tuple that represents the AT or UNTIL time, with a
+    resolution of 1-minute, along with an encoding of its suffix (i.e. 's', 'w',
+    'u').
     """
     time_code = seconds // 900
     time_minute = seconds % 900 // 60
-    modifier_code = _to_modifier_code(suffix)
-    return time_code, time_minute + modifier_code
+    suffix_code = _to_suffix_code(suffix)
+    modifier_code = time_minute + suffix_code
+    return EncodedTime(
+        time_code=time_code,
+        time_minute=time_minute,
+        suffix_code=suffix_code,
+        modifier_code=modifier_code,
+    )
 
 
-def _to_modifier_code(suffix: str) -> int:
-    """Return the modifier integer code corresponding to 'w', 's', and 'u'
-    suffix character in the TZ database files. Corresponds to the kSuffixW,
-    kSuffixS, kSuffixU constants in ZoneContext.h.
+def _to_suffix_code(suffix: str) -> int:
+    """Return the integer code corresponding to 'w', 's', and 'u' suffix
+    character in the TZ database files that can be placed in the top 4-bits of
+    the 'modifier' field. Corresponds to the kSuffixW, kSuffixS, kSuffixU
+    constants in ZoneContext.h.
     """
     if suffix == 'w':
-        return 0x0
+        return 0x00
     elif suffix == 's':
         return 0x10
     elif suffix == 'u':
@@ -194,47 +231,74 @@ def _to_modifier_code(suffix: str) -> int:
         raise Exception(f'Unknown suffix {suffix}')
 
 
+class EncodedOffset(NamedTuple):
+    """Encode the STD offset and DST offset into 2 8-bit integer fields.
+        * offset_code: STD offset in units of 15-minutes
+        * offset_minute: Remainder minutes (must be always 0 for scope=basic).
+          This quantity is already included in delta_code, so the purpose of
+          this field is to allow the caller to check for a non-zero value
+          and log a warning or error message.
+        * delta_code: Two slightly different encodings for basic or extended:
+            * basic: Just DST offset in units of 15-minutes
+            * extended: The lower 4-bits is the DST offset, in units of 15
+              minutes, after shifting by 1h. This allows encoding of DST shift
+              from -1:00 to +2:45. The upper 4-bits holds the offset_minute
+              remainder, to allow us to represent STD offsets in 1-minute
+              granularity.
+    """
+    offset_code: int
+    offset_minute: int
+    delta_code: int
+
+
 def _to_basic_offset_and_delta(
     offset_seconds: int,
     delta_seconds: int,
-) -> Tuple[int, int]:
+) -> EncodedOffset:
     """Return the (offset_code, delta_code) suitable for a BasicZoneProcessor.
     Both the offset_code and delta_code have a 15-minute resolution.
     """
     offset_code = offset_seconds // 900
+    offset_minute = (offset_seconds % 900) // 60  # always positive
     delta_code = delta_seconds // 900
-    return offset_code, delta_code
+    return EncodedOffset(
+        offset_code=offset_code,
+        offset_minute=offset_minute,
+        delta_code=delta_code,
+    )
 
 
 def _to_extended_offset_and_delta(
     offset_seconds: int,
     delta_seconds: int,
-) -> Tuple[int, int]:
+) -> EncodedOffset:
     """Return the (offset_code, delta_code) suitable for an
     ExtendedZoneProcessor which maintains a one-minute resolution for
     offset_seconds.
 
     * The offset_seconds is stored as the 'offset_code' in multiples of
       15-minutes.
-    * The remaining offsetMinutes is stored in the top 4-bits of the 'deltaCode'
+    * The remaining offset_minute is stored in the top 4-bits of the 'deltaCode'
       field.
-    * The lower 4-bits of 'deltaCode' stores the 'delta_seconds' in multiples of
-      15 minutes, shifted by one hour so that it can represent a DST shift in
+    * The lower 4-bits of 'delta_code' stores the 'delta_seconds' in multiples
+      of 15 minutes, shifted by one hour so that it can represent a DST shift in
       the range of -1:00 to +2:45.
-
-      The 'deltaCode' field of the tuple is returned as a string containing the
-      C++ expression to allow easier debugging.
     """
     offset_code = offset_seconds // 900  # truncate to -infinty
     offset_minute = (offset_seconds % 900) // 60  # always positive
 
-    # Calculate the base_delta_code in units of 15 minutes, offset by 1h:
-    # (delta_seconds + 1h) / 15m so that it's always positive. We can store that
-    # in the lower 4-bits of the uint8_t field, which will handle delta_seconds
-    # from -1:00h to +2:45h
-    base_delta_code = delta_seconds // 900 + 4
+    # Calculate the base_delta_code in units of 15 minutes, offset by 1h,
+    # (delta_seconds + 1h) / 15m, so that it's always positive. We can store
+    # that in the lower 4-bits of the uint8_t field, which will handle
+    # delta_seconds from -1:00h to +2:45h
+    base_delta_code = + delta_seconds // 900 + 4
+    delta_code = (offset_minute << 4) + base_delta_code
 
-    return offset_code, (offset_minute << 4) + base_delta_code
+    return EncodedOffset(
+        offset_code=offset_code,
+        offset_minute=offset_minute,
+        delta_code=delta_code,
+    )
 
 
 def _to_letter_index(
