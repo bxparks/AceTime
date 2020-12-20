@@ -71,7 +71,7 @@ class ZoneRuleRaw(TypedDict, total=False):
     atTime: str  # hour at which to transition to and from DST
     atTimeSuffix: str  # 's', 'w', 'u'
     deltaOffset: str  # DST offset from Standard time ('SAVE' field)
-    letter: str  # 'D', 'S', '-'
+    letter: str  # 'D', 'S', '-', but sometimes longer 'DD', 'CAT', etc.
     rawLine: str  # the original RULE line from the TZ file
 
     # Derived from above by transformer.py.

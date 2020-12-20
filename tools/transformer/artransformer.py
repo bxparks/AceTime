@@ -79,11 +79,11 @@ class ArduinoTransformer:
                 if encoded_at_time.time_minute != 0:
                     logging.info(
                         f"Notable policy: {policy_name}: "
-                        "AT not on 15-minute boundary"
+                        f"AT '{rule['atTime']}' not on 15-minute boundary"
                     )
                     add_comment(
                         self.tresult.notable_policies, policy_name,
-                        "AT not on 15-minute boundary"
+                        f"AT '{rule['atTime']}' not on 15-minute boundary"
                     )
 
                 # These will always be integers because transformer.py
@@ -95,10 +95,16 @@ class ArduinoTransformer:
                 rule['deltaCode'] = encoded_delta.delta_code
                 rule['deltaCodeEncoded'] = encoded_delta.delta_code_encoded
 
+                letter = rule['letter']
                 rule['letterIndex'] = _to_letter_index(
-                    letter=rule['letter'],
+                    letter=letter,
                     indexed_letters=self.letters_map.get(policy_name),
                 )
+                if len(letter) > 1:
+                    add_comment(
+                        self.tresult.notable_policies, policy_name,
+                        f"LETTER '{letter}' not single character"
+                    )
 
         return self.policies_map
 
@@ -128,11 +134,13 @@ class ArduinoTransformer:
                 if encoded_offset.offset_minute != 0:
                     logging.info(
                         f"Notable zone: {zone_name}: "
-                        "STDOFF is not on 15-minute boundary"
+                        f"STDOFF '{era['offsetString']}' "
+                        "not on 15-minute boundary"
                     )
                     add_comment(
                         self.tresult.notable_zones, zone_name,
-                        "STDOFF not on 15-minute boundary"
+                        f"STDOFF '{era['offsetString']}' "
+                        "not on 15-minute boundary"
                     )
 
                 # Generate the UNTIL fields needed by Arduino ZoneProcessors
@@ -149,11 +157,11 @@ class ArduinoTransformer:
                 if encoded_until_time.time_minute != 0:
                     logging.info(
                         f"Notable zone: {zone_name}: "
-                        "UNTIL not on 15-minute boundary"
+                        f"UNTIL '{era['untilTime']}' not on 15-minute boundary"
                     )
                     add_comment(
                         self.tresult.notable_zones, zone_name,
-                        "UNTIL not on 15-minute boundary"
+                        f"UNTIL '{era['untilTime']}' not on 15-minute boundary"
                     )
 
                 # FORMAT field for Arduino C++ replaces %s with just a %.
