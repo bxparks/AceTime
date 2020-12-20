@@ -40,5 +40,5 @@ class JsonGenerator:
         collection: CommentsMap = self.zidb[param]  # type: ignore
         self.zidb[param] = {  # type: ignore
             k: list(v)
-            for k, v in collection.items()
+            for k, v in sorted(collection.items())
         }
