@@ -1,12 +1,9 @@
 # Copyright 2020 Brian T. Park
 #
 # MIT License
-"""
-Process the ZonesMap and PoliciesMap for the zonedb files required on Arduino.
-Produce ArZonesMap, ArPoliciesMap.
-"""
 
 from typing import Tuple
+from typing import NamedTuple
 from typing import Optional
 from collections import OrderedDict
 from zonedb.data_types import ZonesMap
@@ -24,6 +21,10 @@ from zonedb.data_types import MAX_UNTIL_YEAR_TINY
 
 
 class ArduinoTransformer:
+    """Process the ZonesMap and PoliciesMap for the zone_info.{h,cpp} and
+    zone_policies.{h,cpp} files required on Arduino. Produces a new
+    TransformerResult from get_data().
+    """
 
     def __init__(
         self,
@@ -64,12 +65,12 @@ class ArduinoTransformer:
                 rule['fromYearTiny'] = _to_tiny_year(rule['fromYear'])
                 rule['toYearTiny'] = _to_tiny_year(rule['toYear'])
 
-                at_time_code, at_time_modifier = _to_code_and_modifier(
+                encoded_at_time = _to_encoded_time(
                     seconds=rule['atSecondsTruncated'],
                     suffix=rule['atTimeSuffix'],
                 )
-                rule['atTimeCode'] = at_time_code
-                rule['atTimeModifier'] = at_time_modifier
+                rule['atTimeCode'] = encoded_at_time.time_code
+                rule['atTimeModifier'] = encoded_at_time.modifier_code
 
                 # These will always be integers because transformer.py
                 # truncated them to 900 seconds appropriately.
@@ -106,14 +107,14 @@ class ArduinoTransformer:
                 era['offsetCode'] = offset_code
                 era['deltaCode'] = delta_code
 
-                # Generate the UNTIL fields
+                # Generate the UNTIL fields needed by Arduino ZoneProcessors
                 era['untilYearTiny'] = _to_tiny_until_year(era['untilYear'])
-                until_time_code, until_time_modifier = _to_code_and_modifier(
+                encoded_until_time = _to_encoded_time(
                     seconds=era['untilSecondsTruncated'],
                     suffix=era['untilTimeSuffix'],
                 )
-                era['untilTimeCode'] = until_time_code
-                era['untilTimeModifier'] = until_time_modifier
+                era['untilTimeCode'] = encoded_until_time.time_code
+                era['untilTimeModifier'] = encoded_until_time.modifier_code
 
                 # FORMAT field for Arduino C++ replaces %s with just a %.
                 era['formatShort'] = era['format'].replace('%s', '%')
@@ -166,26 +167,53 @@ def _to_tiny_until_year(year: int) -> int:
         return year - EPOCH_YEAR
 
 
-def _to_code_and_modifier(
+class EncodedTime(NamedTuple):
+    """Break apart a time in seconds with a suffix (e.g. 02:00w) into the
+    following parts so that it can be encoded in 2 bytes with a resolution of
+    1-minute:
+
+        * timeCode: in units of 15 minutes
+        * timeMinute: remainder minutes (if any) in the bottom 4-bits (0-14)
+        * suffixCode: an integer code that can be placed in the top 4-bits (e.g.
+          0x00, 0x10, 0x20)
+        * modifierCode: suffixCode + timeMinute
+    """
+    time_code: int
+    time_minute: int
+    suffix_code: int
+    modifier_code: int
+
+
+def _to_encoded_time(
     seconds: int,
     suffix: str,
-) -> Tuple[int, int]:
-    """Return the packed (code, modifier) uint8_t integers that hold
-    the AT or UNTIL timeCode, timeMinute and the suffix.
+) -> EncodedTime:
+    """Return the EncodedTime tuple that represents the AT or UNTIL time, with a
+    resolution of 1-minute, along with an encoding of its suffix (i.e. 's', 'w',
+    'u'). Since time_code will be placed in an 8-bit field with a range of -127
+    to 127 (-128 is an error flag), the range of time that this can represent is
+    -31h45m to +31h59m.
     """
     time_code = seconds // 900
     time_minute = seconds % 900 // 60
-    modifier_code = _to_modifier_code(suffix)
-    return time_code, time_minute + modifier_code
+    suffix_code = _to_suffix_code(suffix)
+    modifier_code = time_minute + suffix_code
+    return EncodedTime(
+        time_code=time_code,
+        time_minute=time_minute,
+        suffix_code=suffix_code,
+        modifier_code=modifier_code,
+    )
 
 
-def _to_modifier_code(suffix: str) -> int:
-    """Return the modifier integer code corresponding to 'w', 's', and 'u'
-    suffix character in the TZ database files. Corresponds to the kSuffixW,
-    kSuffixS, kSuffixU constants in ZoneContext.h.
+def _to_suffix_code(suffix: str) -> int:
+    """Return the integer code corresponding to 'w', 's', and 'u' suffix
+    character in the TZ database files that can be placed in the top 4-bits of
+    the 'modifier' field. Corresponds to the kSuffixW, kSuffixS, kSuffixU
+    constants in ZoneContext.h.
     """
     if suffix == 'w':
-        return 0x0
+        return 0x00
     elif suffix == 's':
         return 0x10
     elif suffix == 'u':
