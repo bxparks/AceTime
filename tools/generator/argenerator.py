@@ -372,7 +372,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
                 time_seconds=rule['atSecondsTruncated'],
                 suffix=rule['atTimeSuffix'],
             )
-            delta_code = rule['deltaCode']
+            delta_code = rule['deltaCodeEncoded']
             delta_code_comment = _get_rule_delta_code_comment(
                 delta_seconds=rule['deltaSecondsTruncated'],
                 scope=self.scope,
@@ -876,7 +876,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             zone_policy = f'&kPolicy{normalize_name(rules_policy_name)}'
 
         offset_code = era['offsetCode']
-        delta_code = era['deltaCode']
+        delta_code = era['deltaCodeEncoded']
         delta_code_comment = _get_era_delta_code_comment(
             offset_seconds=era['offsetSecondsTruncated'],
             delta_seconds=era['rulesDeltaSecondsTruncated'],
@@ -1051,7 +1051,7 @@ def _get_era_delta_code_comment(
     delta_seconds: int,
     scope: str,
 ) -> str:
-    """Create the comment that explains how the ZoneEra deltaCode was
+    """Create the comment that explains how the ZoneEra deltaCode[Encoded] was
     calculated.
     """
     offset_minute = offset_seconds % 900 // 60
@@ -1069,7 +1069,7 @@ def _get_rule_delta_code_comment(
     delta_seconds: int,
     scope: str,
 ) -> str:
-    """Create the comment that explains how the ZoneRule deltaCode was
+    """Create the comment that explains how the ZoneRule deltaCode[Encoded] was
     calculated.
     """
     delta_minute = delta_seconds // 60

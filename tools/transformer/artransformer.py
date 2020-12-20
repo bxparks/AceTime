@@ -72,7 +72,8 @@ class ArduinoTransformer:
                     suffix=rule['atTimeSuffix'],
                 )
                 rule['atTimeCode'] = encoded_at_time.time_code
-                rule['atTimeModifier'] = encoded_at_time.modifier_code
+                rule['atTimeMinute'] = encoded_at_time.time_minute
+                rule['atTimeModifier'] = encoded_at_time.modifier
 
                 # Check if AT is not on 15-minute boundary
                 if encoded_at_time.time_minute != 0:
@@ -87,13 +88,12 @@ class ArduinoTransformer:
 
                 # These will always be integers because transformer.py
                 # truncated them to 900 seconds appropriately.
-                # TODO: Move this into a function and check for 15-minute
-                # boundary.
-                if self.scope == 'extended':
-                    delta_code = rule['deltaSecondsTruncated'] // 900 + 4
-                else:
-                    delta_code = rule['deltaSecondsTruncated'] // 900
-                rule['deltaCode'] = delta_code
+                encoded_delta = _to_rule_offset(
+                    delta_seconds=rule['deltaSecondsTruncated'],
+                    scope=self.scope,
+                )
+                rule['deltaCode'] = encoded_delta.delta_code
+                rule['deltaCodeEncoded'] = encoded_delta.delta_code_encoded
 
                 rule['letterIndex'] = _to_letter_index(
                     letter=rule['letter'],
@@ -114,14 +114,15 @@ class ArduinoTransformer:
                     delta_seconds = 0
 
                 # Generate the STDOFF and DST delta offset codes.
-                if self.scope == 'extended':
-                    encoded_offset = _to_extended_offset_and_delta(
-                        era['offsetSecondsTruncated'], delta_seconds)
-                else:
-                    encoded_offset = _to_basic_offset_and_delta(
-                        era['offsetSecondsTruncated'], delta_seconds)
+                encoded_offset = _to_offset_and_delta(
+                    offset_seconds=era['offsetSecondsTruncated'],
+                    delta_seconds=delta_seconds,
+                    scope=self.scope,
+                )
                 era['offsetCode'] = encoded_offset.offset_code
+                era['offsetMinute'] = encoded_offset.offset_minute
                 era['deltaCode'] = encoded_offset.delta_code
+                era['deltaCodeEncoded'] = encoded_offset.delta_code_encoded
 
                 # Check if STDOFF is not on 15-minute boundary
                 if encoded_offset.offset_minute != 0:
@@ -141,7 +142,8 @@ class ArduinoTransformer:
                     suffix=era['untilTimeSuffix'],
                 )
                 era['untilTimeCode'] = encoded_until_time.time_code
-                era['untilTimeModifier'] = encoded_until_time.modifier_code
+                era['untilTimeMinute'] = encoded_until_time.time_minute
+                era['untilTimeModifier'] = encoded_until_time.modifier
 
                 # Check if UNTIL is not on 15-minute boundary
                 if encoded_until_time.time_minute != 0:
@@ -217,21 +219,22 @@ class EncodedTime(NamedTuple):
           positive, but it will occasionally have time strings of "25:00" which
           means 1am the next day.
         * time_minute: Remainder minutes (if any) which will be placed in the
-          bottom 4-bits (0-14) of the modifier_code. This quantity is already
-          included in modifier_code, so the purpose of this field is to allow
+          bottom 4-bits (0-14) of the modifier. This quantity is already
+          included in modifier, so the purpose of this field is to allow
           the caller to check for a non-zero value for logging purposes.
         * suffix_code: An integer code that can be placed in the top 4-bits
           (e.g. 0x00, 0x10, 0x20).
-        * modifier_code: suffix_code + time_minute
+        * modifier: suffix_code + time_minute
 
-    (Note: In hindsight, maybe I should have flipped the top and bottom 4-bit
-    locations of the suffix_code locations, so that the EncodedTime.time_minute
-    field is in the same location as EncodedOffset.time_minute field.)
+    (Note: In hindsight, I probably should have flipped the top and bottom 4-bit
+    locations of the suffix_code an time_minute, so that the
+    EncodedTime.time_minute field is in the same location as
+    EncodedOffset.time_minute field.)
     """
     time_code: int
     time_minute: int
     suffix_code: int
-    modifier_code: int
+    modifier: int
 
 
 def _to_encoded_time(
@@ -245,12 +248,12 @@ def _to_encoded_time(
     time_code = seconds // 900
     time_minute = seconds % 900 // 60
     suffix_code = _to_suffix_code(suffix)
-    modifier_code = time_minute + suffix_code
+    modifier = time_minute + suffix_code
     return EncodedTime(
         time_code=time_code,
         time_minute=time_minute,
         suffix_code=suffix_code,
-        modifier_code=modifier_code,
+        modifier=modifier,
     )
 
 
@@ -270,73 +273,80 @@ def _to_suffix_code(suffix: str) -> int:
         raise Exception(f'Unknown suffix {suffix}')
 
 
+class EncodedRuleOffset(NamedTuple):
+    """Encode the DST offset extracted from the SAVE column of the Rule entries.
+
+    * delta_code: delta offset in units of 15-min
+    * delta_code_encoded:
+        * basic: same as delta_code
+        * extended: delta_code + 4 (1h)
+    """
+    delta_code: int
+    delta_code_encoded: int
+
+
+def _to_rule_offset(
+    delta_seconds: int,
+    scope: str,
+) -> EncodedRuleOffset:
+    """Convert the delta_seconds extracted from the SAVE column of a RULE entry
+    to an EncodedRuleOffset. The transformer.py ensures that all entries are in
+    multiples of 15-minutes, so we don't need to worry about remainder minutes.
+    """
+    delta_code = delta_seconds // 900
+    # TODO: Maybe the encoding should be unified between 'basic' and 'extended'
+    if scope == 'extended':
+        delta_code_encoded = delta_code + 4
+    else:
+        delta_code_encoded = delta_code
+    return EncodedRuleOffset(
+        delta_code=delta_code,
+        delta_code_encoded=delta_code_encoded,
+    )
+
+
 class EncodedOffset(NamedTuple):
     """Encode the STD offset and DST offset into 2 8-bit integer fields.
-        * offset_code: STD offset in units of 15-minutes
-        * offset_minute: Remainder minutes (must be always 0 for scope=basic).
-          This quantity is already included in delta_code, so the purpose of
-          this field is to allow the caller to check for a non-zero value
-          and log a warning or error message.
-        * delta_code: Two slightly different encodings for basic or extended:
-            * basic: Just DST offset in units of 15-minutes
-            * extended: The lower 4-bits is the DST offset, in units of 15
-              minutes, after shifting by 1h. This allows encoding of DST shift
-              from -1:00 to +2:45. The upper 4-bits holds the offset_minute
-              remainder, to allow us to represent STD offsets in 1-minute
-              granularity.
+
+    * offset_code: STD offset in units of 15-minutes
+    * offset_minute: Remainder minutes (must be always 0 for scope=basic).
+        This quantity is already included in delta_code, so the purpose of
+        this field is to allow the caller to check for a non-zero value
+        and log a warning or error message.
+    * delta_code: delta offset in units of 15-minutes
+    * delta_code_encoded:
+        * basic: same as delta_code
+        * extended: The lower 4-bits is delta_code + 4 (i.e. 1h). Allows
+            encoding from -1:00 to +2:45. The upper 4-bits holds the
+            offset_minute.
     """
     offset_code: int
     offset_minute: int
     delta_code: int
+    delta_code_encoded: int
 
 
-def _to_basic_offset_and_delta(
+def _to_offset_and_delta(
     offset_seconds: int,
     delta_seconds: int,
+    scope: str,
 ) -> EncodedOffset:
-    """Return the (offset_code, delta_code) suitable for a BasicZoneProcessor.
-    Both the offset_code and delta_code have a 15-minute resolution.
-    """
-    offset_code = offset_seconds // 900
-    offset_minute = (offset_seconds % 900) // 60  # always positive
-    delta_code = delta_seconds // 900
-    return EncodedOffset(
-        offset_code=offset_code,
-        offset_minute=offset_minute,
-        delta_code=delta_code,
-    )
-
-
-def _to_extended_offset_and_delta(
-    offset_seconds: int,
-    delta_seconds: int,
-) -> EncodedOffset:
-    """Return the (offset_code, delta_code) suitable for an
-    ExtendedZoneProcessor which maintains a one-minute resolution for
-    offset_seconds.
-
-    * The offset_seconds is stored as the 'offset_code' in multiples of
-      15-minutes.
-    * The remaining offset_minute is stored in the top 4-bits of the 'deltaCode'
-      field.
-    * The lower 4-bits of 'delta_code' stores the 'delta_seconds' in multiples
-      of 15 minutes, shifted by one hour so that it can represent a DST shift in
-      the range of -1:00 to +2:45.
+    """Convert offset_seconds and delta_seconds to an EncodedOffset suitable for
+    a BasicZoneProcessor or ExtendedZoneProcessor.
     """
     offset_code = offset_seconds // 900  # truncate to -infinty
     offset_minute = (offset_seconds % 900) // 60  # always positive
-
-    # Calculate the base_delta_code in units of 15 minutes, offset by 1h,
-    # (delta_seconds + 1h) / 15m, so that it's always positive. We can store
-    # that in the lower 4-bits of the uint8_t field, which will handle
-    # delta_seconds from -1:00h to +2:45h
-    base_delta_code = + delta_seconds // 900 + 4
-    delta_code = (offset_minute << 4) + base_delta_code
+    delta_code = delta_seconds // 900
+    if scope == 'extended':
+        delta_code_encoded = (offset_minute << 4) + (delta_code + 4)
+    else:
+        delta_code_encoded = delta_code
 
     return EncodedOffset(
         offset_code=offset_code,
         offset_minute=offset_minute,
         delta_code=delta_code,
+        delta_code_encoded=delta_code_encoded,
     )
 
 
