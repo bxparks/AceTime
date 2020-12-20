@@ -292,13 +292,25 @@ def main() -> None:
     extractor.print_summary()
     policies_map, zones_map, links_map = extractor.get_data()
 
+    # Create initial TransformerResult
+    tresult = TransformerResult(
+        zones_map=zones_map,
+        policies_map=policies_map,
+        links_map=links_map,
+        removed_zones={},
+        removed_policies={},
+        removed_links={},
+        notable_zones={},
+        notable_policies={},
+        notable_links={},
+        letters_map={},
+    )
+
     # Transform the TZ zones and rules
     logging.info('======== Transforming Zones and Rules')
     logging.info('Extracting years [%d, %d)', args.start_year, args.until_year)
     transformer = Transformer(
-        zones_map=zones_map,
-        policies_map=policies_map,
-        links_map=links_map,
+        tresult=tresult,
         scope=args.scope,
         start_year=args.start_year,
         until_year=args.until_year,
@@ -308,14 +320,24 @@ def main() -> None:
     )
     transformer.transform()
     transformer.print_summary()
-    tdata: TransformerResult = transformer.get_data()
+    tresult = transformer.get_data()
+
+    # Generate the fields for the Arduino zoneinfo data.
+    arduino_transformer = ArduinoTransformer(
+        tresult=tresult,
+        scope=args.scope,
+        start_year=args.start_year,
+        until_year=args.until_year,
+    )
+    arduino_transformer.transform()
+    tresult = arduino_transformer.get_data()
 
     # Estimate the buffer size of ExtendedZoneProcessor.TransitionStorage.
     logging.info('======== Estimating transition buffer sizes')
     logging.info('Checking years in [%d, %d)', args.start_year, args.until_year)
     estimator = BufSizeEstimator(
-        zones_map=tdata.zones_map,
-        policies_map=tdata.policies_map,
+        zones_map=tresult.zones_map,
+        policies_map=tresult.policies_map,
         start_year=args.start_year,
         until_year=args.until_year,
     )
@@ -334,18 +356,7 @@ def main() -> None:
             raise Exception(msg)
 
     # Generate zone_ids (hash of zone_name).
-    zone_ids: Dict[str, int] = generate_zone_ids(tdata.zones_map)
-
-    # Generate the fields for the Arduino zoneinfo data.
-    arduino_transformer = ArduinoTransformer(
-        zones_map=tdata.zones_map,
-        policies_map=tdata.policies_map,
-        scope=args.scope,
-        start_year=args.start_year,
-        until_year=args.until_year,
-    )
-    arduino_transformer.transform()
-    atdata = arduino_transformer.get_data()
+    zone_ids: Dict[str, int] = generate_zone_ids(tresult.zones_map)
 
     # Collect TZ DB data into a single JSON-serializable object.
     zidb = create_zone_info_database(
@@ -357,18 +368,18 @@ def main() -> None:
         until_at_granularity=until_at_granularity,
         offset_granularity=offset_granularity,
         strict=args.strict,
-        zones_map=atdata.zones_map,
-        policies_map=tdata.policies_map,
-        links_map=tdata.links_map,
-        removed_zones=tdata.removed_zones,
-        removed_links=tdata.removed_links,
-        removed_policies=tdata.removed_policies,
-        notable_zones=tdata.notable_zones,
-        notable_links=tdata.notable_links,
-        notable_policies=tdata.notable_policies,
+        zones_map=tresult.zones_map,
+        policies_map=tresult.policies_map,
+        links_map=tresult.links_map,
+        removed_zones=tresult.removed_zones,
+        removed_links=tresult.removed_links,
+        removed_policies=tresult.removed_policies,
+        notable_zones=tresult.notable_zones,
+        notable_links=tresult.notable_links,
+        notable_policies=tresult.notable_policies,
         buf_size_info=buf_size_info,
         zone_ids=zone_ids,
-        letters_map=atdata.letters_map,
+        letters_map=tresult.letters_map,
     )
 
     if args.action == 'zonedb':

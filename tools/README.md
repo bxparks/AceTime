@@ -38,8 +38,8 @@ The TZ Database processing pipeline for `tzcompiler.py` looks something like
 this:
 
 ```
-Python
-packages
+Python packages     Python files/classes/data
+===============     =========================
 
                       TZDB files
   .------>                |
@@ -48,18 +48,20 @@ extractor            extractor.py
   |                       |
   .------>                v
   |                 transformer.py
-  |                    /  |  \                   <---------.
-  |                   /   |   v                            |
-transformer          /    |  inline_zone_info.py           |
-  |                 v     |    \                           |
-  |      artransformer.py |     v                          |
-  |               \       |   zone_specifier.py     zone_processor
-  |                \      |      \                         |
-  |                 \     |       v                        |
-  |                  \    |    bufestimator.py             |
-  `------>            \   |       /                        |
-  |                    \  |      /               <---------'
-  |                     v v     v
+  |                       |
+transformer               v
+  |                 artransformer.py
+  `------>                |   \
+  |                       |    v
+  |                       |   inline_zone_info.py
+  |                       |      \
+  |                       |       v
+zone_processor            |   zone_specifier.py
+  |                       |        \
+  |                       |        v
+  |                       |       bufestimator.py
+  .------>                |      /
+  |                       v     v
 zonedb             ZoneInfoDatabase
   |                 /     |     \
   .------>         /      |      \
