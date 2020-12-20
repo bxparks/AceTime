@@ -5,6 +5,8 @@
 from typing import List, Dict, Iterable
 from typing import Optional
 from typing import NamedTuple
+from typing import Set
+from typing import cast
 from typing_extensions import TypedDict
 
 """
@@ -156,7 +158,7 @@ LinksMap = Dict[str, str]
 IndexedLetters = Dict[str, int]
 LettersMap = Dict[str, IndexedLetters]
 
-# Map of {name -> Set[Comment]} used by Transformer to collect de-duped error
+# Map of {name -> Set[reason]} used by Transformer to collect de-duped error
 # messages or warnings. A set() collection does not serialize well to JSON, so #
 # jsongenerator.py will convert these into {name -> List[Comment]} internally.
 # We use an Iterable[str] instead of a Union[Dict[], Dict[]] or even a Dict[str,
@@ -176,6 +178,27 @@ class TransformerResult(NamedTuple):
     notable_policies: CommentsMap
     notable_links: CommentsMap
     letters_map: LettersMap
+
+
+def add_comment(comments: CommentsMap, name: str, reason: str) -> None:
+    """Add the human readable 'reason' to the 'comments' CommentsMap.
+    """
+    reasons = cast(Optional[Set[str]], comments.get(name))
+    if not reasons:
+        reasons = set()
+        comments[name] = reasons
+    reasons.add(reason)
+
+
+def merge_comments(target: CommentsMap, new: CommentsMap) -> None:
+    """Merge 'new' CommentsMap into 'target' CommentsMap.
+    """
+    for name, new_reasons in new.items():
+        old_reasons = cast(Optional[Set[str]], target.get(name))
+        if not old_reasons:
+            old_reasons = set()
+            target[name] = old_reasons
+        old_reasons.update(new_reasons)
 
 
 # -----------------------------------------------------------------------------
