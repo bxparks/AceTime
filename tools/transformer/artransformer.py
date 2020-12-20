@@ -13,7 +13,7 @@ from zonedb.data_types import ZonesMap
 from zonedb.data_types import PoliciesMap
 from zonedb.data_types import LettersMap
 from zonedb.data_types import IndexedLetters
-from zonedb.data_types import ArduinoTransformerResult
+from zonedb.data_types import TransformerResult
 from zonedb.data_types import EPOCH_YEAR
 from zonedb.data_types import MAX_YEAR
 from zonedb.data_types import MAX_YEAR_TINY
@@ -27,14 +27,14 @@ class ArduinoTransformer:
 
     def __init__(
         self,
-        zones_map: ZonesMap,
-        policies_map: PoliciesMap,
+        tresult: TransformerResult,
         scope: str,
         start_year: int,
         until_year: int,
     ) -> None:
-        self.zones_map = zones_map
-        self.policies_map = policies_map
+        self.tresult = tresult
+        self.zones_map = tresult.zones_map
+        self.policies_map = tresult.policies_map
         self.scope = scope
         self.start_year = start_year
         self.until_year = until_year
@@ -44,11 +44,18 @@ class ArduinoTransformer:
         self.policies_map = self._process_rules(self.policies_map)
         self.zones_map = self._process_eras(self.zones_map)
 
-    def get_data(self) -> ArduinoTransformerResult:
-        return ArduinoTransformerResult(
+    def get_data(self) -> TransformerResult:
+        return TransformerResult(
             zones_map=self.zones_map,
             policies_map=self.policies_map,
+            links_map=self.tresult.links_map,
             letters_map=self.letters_map,
+            removed_zones=self.tresult.removed_zones,
+            removed_policies=self.tresult.removed_policies,
+            removed_links=self.tresult.removed_links,
+            notable_zones=self.tresult.notable_zones,
+            notable_policies=self.tresult.notable_policies,
+            notable_links=self.tresult.notable_links,
         )
 
     def _process_rules(self, policies_map: PoliciesMap) -> PoliciesMap:

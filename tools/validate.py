@@ -54,6 +54,7 @@ Examples:
 
 import argparse
 import logging
+from zonedb.data_types import TransformerResult
 from extractor.extractor import Extractor
 from transformer.transformer import Transformer
 from zone_processor.inline_zone_info import (
@@ -267,31 +268,40 @@ def main() -> None:
     extractor.print_summary()
     policies_map, zones_map, links_map = extractor.get_data()
 
+    # Create initial TransformerResult
+    tresult = TransformerResult(
+        zones_map=zones_map,
+        policies_map=policies_map,
+        links_map=links_map,
+        removed_zones={},
+        removed_policies={},
+        removed_links={},
+        notable_zones={},
+        notable_policies={},
+        notable_links={},
+        letters_map={},
+    )
+
     # Transform the TZ zones and rules
     logging.info('======== Transforming Zones and Rules')
     logging.info('Extracting years [%d, %d)', args.start_year, args.until_year)
     transformer = Transformer(
-        zones_map,
-        policies_map,
-        links_map,
-        args.scope,
-        args.start_year,
-        args.until_year,
-        until_at_granularity,
-        offset_granularity,
-        args.strict,
+        tresult=tresult,
+        scope=args.scope,
+        start_year=args.start_year,
+        until_year=args.until_year,
+        until_at_granularity=until_at_granularity,
+        offset_granularity=offset_granularity,
+        strict=args.strict,
     )
     transformer.transform()
     transformer.print_summary()
-    (
-        zones_map, policies_map, links_map, removed_zones, removed_policies,
-        removed_links, notable_zones, notable_policies, notable_links,
-    ) = transformer.get_data()
+    tresult = transformer.get_data()
 
     # Generate internal versions of zone_infos and zone_policies
     # so that ZoneSpecifier can be created.
     logging.info('======== Generating inlined zone_infos and zone_policies')
-    inline_zone_info = InlineZoneInfo(zones_map, policies_map)
+    inline_zone_info = InlineZoneInfo(tresult.zones_map, tresult.policies_map)
     zone_infos, zone_policies = inline_zone_info.generate_zonedb()
     logging.info(
         'Inlined zone_infos=%d; zone_policies=%d',

@@ -44,9 +44,7 @@ PoliciesToZones = Dict[str, List[str]]
 class Transformer:
     def __init__(
         self,
-        zones_map: ZonesMap,
-        policies_map: PoliciesMap,
-        links_map: LinksMap,
+        tresult: TransformerResult,
         scope: str,
         start_year: int,
         until_year: int,
@@ -67,9 +65,10 @@ class Transformer:
             strict: throw out Zones or Rules which are not exactly
                 on the time boundary defined by granularity
         """
-        self.zones_map = zones_map
-        self.policies_map = policies_map
-        self.links_map = links_map
+        self.tresult = tresult
+        self.zones_map = tresult.zones_map
+        self.policies_map = tresult.policies_map
+        self.links_map = tresult.links_map
         self.scope = scope
         self.start_year = start_year
         self.until_year = until_year
@@ -77,17 +76,16 @@ class Transformer:
         self.offset_granularity = offset_granularity
         self.strict = strict
 
-        self.original_zone_count = len(zones_map)
-        self.original_rule_count = len(policies_map)
-        self.original_link_count = len(links_map)
-
         self.all_removed_zones: CommentsMap = {}
         self.all_removed_policies: CommentsMap = {}
         self.all_removed_links: CommentsMap = {}
-
         self.all_notable_zones: CommentsMap = {}
         self.all_notable_policies: CommentsMap = {}
         self.all_notable_links: CommentsMap = {}
+
+        self.original_zone_count = len(self.zones_map)
+        self.original_rule_count = len(self.policies_map)
+        self.original_link_count = len(self.links_map)
 
     def transform(self) -> None:
         """
@@ -185,17 +183,24 @@ class Transformer:
         self.links_map = links_map
 
     def get_data(self) -> TransformerResult:
-        """Return the result of the transform() operation."""
+        """Merge the result of transform() into the original tresult."""
+        _merge_reasons(self.tresult.removed_zones, self.all_removed_zones)
+        _merge_reasons(self.tresult.removed_policies, self.all_removed_policies)
+        _merge_reasons(self.tresult.removed_links, self.all_removed_links)
+        _merge_reasons(self.tresult.notable_zones, self.all_notable_zones)
+        _merge_reasons(self.tresult.notable_policies, self.all_notable_policies)
+        _merge_reasons(self.tresult.notable_links, self.all_notable_links)
         return TransformerResult(
             zones_map=self.zones_map,
             policies_map=self.policies_map,
             links_map=self.links_map,
-            removed_zones=self.all_removed_zones,
-            removed_policies=self.all_removed_policies,
-            removed_links=self.all_removed_links,
-            notable_zones=self.all_notable_zones,
-            notable_policies=self.all_notable_policies,
-            notable_links=self.all_notable_links,
+            removed_zones=self.tresult.removed_zones,
+            removed_policies=self.tresult.removed_policies,
+            removed_links=self.tresult.removed_links,
+            notable_zones=self.tresult.notable_zones,
+            notable_policies=self.tresult.notable_policies,
+            notable_links=self.tresult.notable_links,
+            letters_map=self.tresult.letters_map,
         )
 
     def print_summary(self) -> None:
