@@ -17,6 +17,7 @@ import datetime
 from collections import OrderedDict
 from typing import Dict
 from typing import List
+from typing import Iterable
 from typing import Optional
 from typing import Set
 from typing import Tuple
@@ -27,16 +28,13 @@ from zonedb.data_types import ZoneEraRaw
 from zonedb.data_types import ZonesMap
 from zonedb.data_types import PoliciesMap
 from zonedb.data_types import LinksMap
+from zonedb.data_types import CommentsMap
 from zonedb.data_types import TransformerResult
 from zonedb.data_types import MAX_UNTIL_YEAR
 from zonedb.data_types import MIN_YEAR
 from zonedb.data_types import MAX_YEAR
 
 INVALID_SECONDS = 999999  # 277h46m69s
-
-# Map of zoneName -> Set[Comment] used internally by Transformer to collect
-# de-duped error messages or warnings. Exported as data_types.CommentsMap.
-CommentsCollection = Dict[str, Set[str]]
 
 # Map of policyName -> zoneName[] used internally by Transformer to track the
 # Zones which references the given policyName.
@@ -83,13 +81,13 @@ class Transformer:
         self.original_rule_count = len(policies_map)
         self.original_link_count = len(links_map)
 
-        self.all_removed_zones: CommentsCollection = {}  # name -> reason[]
-        self.all_removed_policies: CommentsCollection = {}  # name -> reason[]
-        self.all_removed_links: CommentsCollection = {}  # link -> reason[]
+        self.all_removed_zones: CommentsMap = {}
+        self.all_removed_policies: CommentsMap = {}
+        self.all_removed_links: CommentsMap = {}
 
-        self.all_notable_zones: CommentsCollection = {}  # zone -> reason[]
-        self.all_notable_policies: CommentsCollection = {}  # policy -> reason[]
-        self.all_notable_links: CommentsCollection = {}  # link -> reason[]
+        self.all_notable_zones: CommentsMap = {}
+        self.all_notable_policies: CommentsMap = {}
+        self.all_notable_links: CommentsMap = {}
 
     def transform(self) -> None:
         """
@@ -187,38 +185,17 @@ class Transformer:
         self.links_map = links_map
 
     def get_data(self) -> TransformerResult:
-        """Return the result of the transform() operation. The fields of type
-        CommentsCollection (using Set) are converted to CommentsMap (using List)
-        to allow direct serialization to JSON.
-        """
+        """Return the result of the transform() operation."""
         return TransformerResult(
             zones_map=self.zones_map,
             policies_map=self.policies_map,
             links_map=self.links_map,
-            removed_zones={
-                k: list(v)
-                for k, v in self.all_removed_zones.items()
-            },
-            removed_policies={
-                k: list(v)
-                for k, v in self.all_removed_policies.items()
-            },
-            removed_links={
-                k: list(v)
-                for k, v in self.all_removed_links.items()
-            },
-            notable_zones={
-                k: list(v)
-                for k, v in self.all_notable_zones.items()
-            },
-            notable_policies={
-                k: list(v)
-                for k, v in self.all_notable_policies.items()
-            },
-            notable_links={
-                k: list(v)
-                for k, v in self.all_notable_links.items()
-            },
+            removed_zones=self.all_removed_zones,
+            removed_policies=self.all_removed_policies,
+            removed_links=self.all_removed_links,
+            notable_zones=self.all_notable_zones,
+            notable_policies=self.all_notable_policies,
+            notable_links=self.all_notable_links,
         )
 
     def print_summary(self) -> None:
@@ -240,12 +217,12 @@ class Transformer:
             f"; removed={len(self.all_removed_links)}"
             f"; noted={len(self.all_notable_links)}")
 
-    def _print_removed_map(self, removed_map: CommentsCollection) -> None:
+    def _print_removed_map(self, removed_map: CommentsMap) -> None:
         """Helper routine that prints the removed Zone rules or Zone eras along
         with the reason why it was removed.
         """
         name: str
-        reasons: Set[str]
+        reasons: Iterable[str]
         for name, reasons in sorted(removed_map.items()):
             print(f'  {name} ({reasons})', file=sys.stderr)
 
@@ -255,7 +232,7 @@ class Transformer:
 
     def _remove_zones_without_slash(self, zones_map: ZonesMap) -> ZonesMap:
         results: ZonesMap = {}
-        removed_zones: CommentsCollection = {}
+        removed_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             if name.rfind('/') >= 0:
                 results[name] = eras
@@ -351,7 +328,7 @@ class Transformer:
         until_year are too narrow. This prevents the C++ code from crashing.
         """
         results: ZonesMap = {}
-        removed_zones: CommentsCollection = {}
+        removed_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             if eras:
                 results[name] = eras
@@ -371,7 +348,7 @@ class Transformer:
         These are not supported by BasicZoneSpecifier.
         """
         results: ZonesMap = {}
-        removed_zones: CommentsCollection = {}
+        removed_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -396,8 +373,8 @@ class Transformer:
             * Zone America/Grand_Turk 2015 Nov Sun>=1 2:00
         """
         results: ZonesMap = {}
-        removed_zones: CommentsCollection = {}
-        notable_zones: CommentsCollection = {}
+        removed_zones: CommentsMap = {}
+        notable_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -455,8 +432,8 @@ class Transformer:
         """ Create 'untilSeconds' and 'untilSecondsTruncated' from 'untilTime'.
         """
         results: ZonesMap = {}
-        removed_zones: CommentsCollection = {}
-        notable_zones: CommentsCollection = {}
+        removed_zones: CommentsMap = {}
+        notable_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -518,7 +495,7 @@ class Transformer:
             supported_suffices = ['w', 's', 'u']
 
         results: ZonesMap = {}
-        removed_zones: CommentsCollection = {}
+        removed_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -547,8 +524,8 @@ class Transformer:
         """ Create expanded offset 'offsetSeconds' from zone.offsetString.
         """
         results: ZonesMap = {}
-        removed_zones: CommentsCollection = {}
-        notable_zones: CommentsCollection = {}
+        removed_zones: CommentsMap = {}
+        notable_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -620,8 +597,8 @@ class Transformer:
         contains no '%' or '/'. Generate a warning for now.
         """
         results: ZonesMap = {}
-        removed_zones: CommentsCollection = {}
-        notable_zones: CommentsCollection = {}
+        removed_zones: CommentsMap = {}
+        notable_zones: CommentsMap = {}
         for zone_name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -671,8 +648,8 @@ class Transformer:
             * a string reference of the zone policy containing the rules
         """
         results: ZonesMap = {}
-        removed_zones: CommentsCollection = {}
-        notable_zones: CommentsCollection = {}
+        removed_zones: CommentsMap = {}
+        notable_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -743,7 +720,7 @@ class Transformer:
         a set of Rules, which cannot be found.
         """
         results: ZonesMap = {}
-        removed_zones: CommentsCollection = {}
+        removed_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             for era in eras:
@@ -772,7 +749,7 @@ class Transformer:
             2) does not end in year=MAX_UNTIL_YEAR
         """
         results: ZonesMap = {}
-        removed_zones: CommentsCollection = {}
+        removed_zones: CommentsMap = {}
         for name, eras in zones_map.items():
             valid = True
             prev_until = None
@@ -863,7 +840,7 @@ class Transformer:
 
         # Third pass: Remove rule policies with multiple counts.
         results: PoliciesMap = {}
-        removed_policies: CommentsCollection = {}
+        removed_policies: CommentsMap = {}
         for name, rules in policies_map.items():
             removal = removals.get(name)
             if removal:
@@ -891,7 +868,7 @@ class Transformer:
         """Return a new map which filters out rules with long DST letter.
         """
         results: PoliciesMap = {}
-        removed_policies: CommentsCollection = {}
+        removed_policies: CommentsMap = {}
         for name, rules in policies_map.items():
             valid = True
             for rule in rules:
@@ -924,7 +901,7 @@ class Transformer:
         """
         supported_suffices = ['w', 's', 'u']
         results: PoliciesMap = {}
-        removed_policies: CommentsCollection = {}
+        removed_policies: CommentsMap = {}
         for name, rules in policies_map.items():
             valid = True
             for rule in rules:
@@ -1020,7 +997,7 @@ class Transformer:
         """
         results: PoliciesMap = {}
         removed_rule_count = 0
-        removed_policies: CommentsCollection = {}
+        removed_policies: CommentsMap = {}
         for name, rules in policies_map.items():
             used_rules = []
             for rule in rules:
@@ -1051,7 +1028,7 @@ class Transformer:
         int8_t. In other words, y < 1872 or (y > 2127 and y != 9999).
         """
         results: PoliciesMap = {}
-        removed_policies: CommentsCollection = {}
+        removed_policies: CommentsMap = {}
         for name, rules in policies_map.items():
             valid = True
             for rule in rules:
@@ -1082,7 +1059,7 @@ class Transformer:
         rule['onDay']. The onDayOfMonth will be negative if "<=" is used.
         """
         results: PoliciesMap = {}
-        removed_policies: CommentsCollection = {}
+        removed_policies: CommentsMap = {}
         for name, rules in policies_map.items():
             valid = True
             for rule in rules:
@@ -1194,7 +1171,8 @@ class Transformer:
                 anchor_info['earliestDate'] = rule_date
                 anchor_info['rule'] = rule
 
-        anchor_rule = cast(ZoneRuleRaw, anchor_info['rule']).copy()
+        assert anchor_info['rule'] is not None
+        anchor_rule = anchor_info['rule'].copy()
         anchor_rule['fromYear'] = MIN_YEAR
         anchor_rule['toYear'] = MIN_YEAR
         anchor_rule['inMonth'] = 1
@@ -1219,7 +1197,7 @@ class Transformer:
         supported by BasicZoneSpecifier.
         """
         results: PoliciesMap = {}
-        removed_policies: CommentsCollection = {}
+        removed_policies: CommentsMap = {}
         for name, rules in policies_map.items():
             valid = True
             for rule in rules:
@@ -1254,8 +1232,8 @@ class Transformer:
         """ Create 'atSeconds' parameter from rule['atTime'].
         """
         results: PoliciesMap = {}
-        removed_policies: CommentsCollection = {}
-        notable_policies: CommentsCollection = {}
+        removed_policies: CommentsMap = {}
+        notable_policies: CommentsMap = {}
         for policy_name, rules in policies_map.items():
             valid = True
             for rule in rules:
@@ -1322,8 +1300,8 @@ class Transformer:
         rule['deltaOffset'].
         """
         results = {}
-        removed_policies: CommentsCollection = {}
-        notable_policies: CommentsCollection = {}
+        removed_policies: CommentsMap = {}
+        notable_policies: CommentsMap = {}
         for name, rules in policies_map.items():
             valid = True
             for rule in rules:
@@ -1391,7 +1369,7 @@ class Transformer:
         zones_map: ZonesMap
     ) -> LinksMap:
         results = {}
-        removed_links: CommentsCollection = {}
+        removed_links: CommentsMap = {}
         for link_name, zone_name in links_map.items():
             if zones_map.get(zone_name):
                 results[link_name] = zone_name
@@ -1412,8 +1390,8 @@ class Transformer:
         normalized_names: Dict[str, str] = {}  # normalized_name, name
         result_zones: ZonesMap = {}
         result_links: LinksMap = {}
-        removed_zones: CommentsCollection = {}
-        removed_links: CommentsCollection = {}
+        removed_zones: CommentsMap = {}
+        removed_links: CommentsMap = {}
 
         # Check for duplicate zone names.
         for zone_name, zone in zones_map.items():
@@ -1802,21 +1780,21 @@ def hash_name(name: str) -> int:
     return hash
 
 
-def _add_reason(m: CommentsCollection, name: str, reason: str) -> None:
+def _add_reason(m: CommentsMap, name: str, reason: str) -> None:
     """Add the human readable 'reason' to a map of {name -> Set(reasons)}.
     """
-    reasons = m.get(name)
+    reasons = cast(Optional[Set[str]], m.get(name))
     if not reasons:
         reasons = set()
         m[name] = reasons
     reasons.add(reason)
 
 
-def _merge_reasons(m: CommentsCollection, n: CommentsCollection) -> None:
+def _merge_reasons(m: CommentsMap, n: CommentsMap) -> None:
     """Given 2 dict of {name -> Set(reasons)}, merge n into m.
     """
     for name, new_reasons in n.items():
-        old_reasons = m.get(name)
+        old_reasons = cast(Optional[Set[str]], m.get(name))
         if not old_reasons:
             old_reasons = set()
             m[name] = old_reasons
