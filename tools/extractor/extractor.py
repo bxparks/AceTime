@@ -344,9 +344,7 @@ def _process_rule_line(line: str) -> ZoneRuleRaw:
 
     in_month: int = MONTH_TO_MONTH_INDEX[tokens[5]]
     on_day: str = tokens[6]
-    at_time: str
-    at_time_suffix: str
-    (at_time, at_time_suffix) = parse_at_time_string(tokens[7])
+    at_time, at_time_suffix = parse_at_time_string(tokens[7])
     delta_offset = tokens[8]
 
     # Return map corresponding to a ZoneRule instance
@@ -413,8 +411,6 @@ def _process_zone_line(line: str) -> ZoneEraRaw:
     else:
         until_day = '1'
 
-    until_time: str
-    until_time_suffix: str
     if len(tokens) >= 7:
         (until_time, until_time_suffix) = parse_at_time_string(tokens[6])
     else:
