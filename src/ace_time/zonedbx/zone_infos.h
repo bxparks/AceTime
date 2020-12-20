@@ -1045,10 +1045,12 @@ extern const extended::ZoneInfo& kZoneZulu; // Zulu -> Etc/UTC
 
 
 //---------------------------------------------------------------------------
-// Notable zones: 1
+// Notable zones: 3
 //---------------------------------------------------------------------------
 
 // Africa/Johannesburg (RULES not fixed but FORMAT is missing '%' or '/')
+// Antarctica/Casey (UNTIL '0:01' not on 15-minute boundary)
+// Asia/Gaza (UNTIL '0:01' not on 15-minute boundary)
 
 
 //---------------------------------------------------------------------------

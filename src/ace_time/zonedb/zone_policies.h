@@ -183,8 +183,9 @@ extern const basic::ZonePolicy kPolicyZion;
 // kPolicyWS (unused)
 
 
-// Notable zone policies: 0
+// Notable zone policies: 1
 //
+// kPolicyMoncton (AT '0:01' not on 15-minute boundary)
 
 
 }
