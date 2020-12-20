@@ -52,16 +52,14 @@ class Transformer:
     ):
         """
         Args:
-            zones_map: Zone names to ZoneEras
-            policies_map: Policy names to ZoneRules
-            links_map: Link name to Zone Name
+            tresult: TransformerResult
             scope: scope of database (basic, or extended)
             start_year: include only years on or after start_year
             until_year: include only years valid before until_year
             until_at_granularity: truncate UNTIL, AT to this many seconds
             offset_granularity: SAVE, RULES(offset) to this many seconds
             strict: throw out Zones or Rules which are not exactly
-                on the time boundary defined by granularity
+                    on the time boundary defined by granularity
         """
         self.tresult = tresult
         self.zones_map = tresult.zones_map
@@ -88,31 +86,8 @@ class Transformer:
     def transform(self) -> None:
         """
         Transforms the zones_map and policies_map given in the constructor
-        through a series of filters, and produces the following results
-        which can be retrieved using the get_zone_data() function.
-
-        * self.zones_map: map of (zoneName -> ZoneEraRaw[]).
-        * self.policies_map: map of (policyName -> ZoneRuleRaw[]).
-        * self.links_map: map of (linkName -> zoneName)
-        * self.all_removed_zones: map of the zones which were removed:
-            name: name of zone
-            reasons: human readable reasons
-        * self.all_removed_policies: map of the policies which were removed:
-            name: name of policy
-            reasons: human readable reasons
-        * self.all_removed_links: map of removed
-            name: name of link
-            reasons: human readable reasons
-         self.all_notable_zones: map of the zones with caveats,
-            e.g., truncation of '00:01' to '00:00'.
-            name: name of zone
-            reasons: human readable reasons
-        * self.all_notable_policies: map of policies with caveats:
-            name: name of policy
-            reasons: human readable reasons
-        * self.all_notable_links: map of links with caveats:
-            name: name of link
-            reasons: human readable reasons
+        through a series of filters, and produces the TransformerResult
+        can be retrieved using the get_data() function.
         """
 
         zones_map = self.zones_map

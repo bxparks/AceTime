@@ -167,7 +167,18 @@ CommentsMap = Dict[str, Iterable[str]]
 
 
 class TransformerResult(NamedTuple):
-    """Result type of Transformer.get_data()."""
+    """Result type of Transformer.get_data().
+    * zones_map: map of (zoneName -> ZoneEraRaw[]).
+    * policies_map: map of (policyName -> ZoneRuleRaw[]).
+    * links_map: map of (linkName -> zoneName)
+    * removed_zones: {zoneName -> reasons[]}
+    * removed_policies: {policyName -> reasons[]}
+    * removed_links: {linkName -> reasons[]}
+    * notable_zones: {zoneName -> reasons[]}
+    * notable_policies: {policyName -> reasons[]}
+    * notable_links: {linkName -> reasons[]}
+    * letters_map: {policyName -> {letter -> index}[]}
+    """
     zones_map: ZonesMap
     policies_map: PoliciesMap
     links_map: LinksMap
