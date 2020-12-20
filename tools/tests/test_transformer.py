@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-#
 # Copyright 2018 Brian T. Park
 #
 # MIT License
@@ -136,7 +134,3 @@ class TestHash(unittest.TestCase):
         self.assertEqual(193485963, hash_name('abc'))
         self.assertEqual(2090069583, hash_name('abcd'))
         self.assertEqual(252819604, hash_name('abcde'))
-
-
-if __name__ == '__main__':
-    unittest.main()

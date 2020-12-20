@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-#
 # Copyright 2018 Brian T. Park
 #
 # MIT License
@@ -897,7 +895,3 @@ class TestZoneSpecifierGetTransition(unittest.TestCase):
         dt = datetime(2000, 4, 2, 2, 59, 59)
         transition = zone_specifier.get_transition_for_datetime(dt)
         self.assertIsNotNone(transition)
-
-
-if __name__ == '__main__':
-    unittest.main()
