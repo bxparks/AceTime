@@ -33,7 +33,8 @@ The Transformer class accepts a number of options:
   * --granularity {seconds}
   * --until_at_granularity {seconds}
   * --offset_granularity {seconds}
-  * --strict
+  * --delta_granularity {seconds}
+  * --strict, --nostrict
 
 which determine which Rules or Zones are retained during the 'transformation'
 process.
@@ -169,27 +170,39 @@ def main() -> None:
         help='Until year of Zone Eras (default: 2038)',
         type=int,
         default=2038)
+
     parser.add_argument(
         '--granularity',
         help=(
-            'Truncate UNTIL, AT, SAVE and RULES fields to '
-            + 'this many seconds (default: 60)'
+            'If given, overrides the other granularity flags to '
+            'truncate UNTIL, AT, STDOFF (offset), SAVE (delta) and '
+            'RULES (rulesDelta) fields to this many seconds (default: None)'
         ),
-        type=int)
+        type=int,
+    )
     parser.add_argument(
         '--until_at_granularity',
         help=(
-            'Truncate UNTIL and AT fields to this many seconds '
-            + '(default: --granularity)'
+            'Truncate UNTIL and AT fields to this many seconds (default: 60)'
         ),
-        type=int)
+        type=int,
+    )
     parser.add_argument(
         '--offset_granularity',
         help=(
-            'Truncate SAVE, RULES (offset) fields to this many seconds'
-            + '(default: --granularity)'
+            'Truncate STDOFF (offset) fields to this many seconds'
+            '(default: 900 (basic), 60 (extended))'
         ),
-        type=int)
+        type=int,
+    )
+    parser.add_argument(
+        '--delta_granularity',
+        help=(
+            'Truncate SAVE (delta) and RULES (rulesDelta) field to this many'
+            'seconds (default: 900)'
+        ),
+        type=int,
+    )
 
     # Make --strict the default, --nostrict optional.
     parser.add_argument(
@@ -283,6 +296,7 @@ def main() -> None:
     if args.granularity:
         until_at_granularity = args.granularity
         offset_granularity = args.granularity
+        delta_granularity = args.granularity
     else:
         if args.until_at_granularity:
             until_at_granularity = args.until_at_granularity
@@ -297,10 +311,17 @@ def main() -> None:
             else:
                 offset_granularity = 60
 
-    logging.info('Using UNTIL/AT granularity: %d', until_at_granularity)
+        if args.delta_granularity:
+            delta_granularity = args.delta_granularity
+        else:
+            delta_granularity = 900
+
+    logging.info('Granularity for UNTIL/AT: %d', until_at_granularity)
+    logging.info('Granularity for STDOFF (offset): %d', offset_granularity)
     logging.info(
-        'Using RULES/SAVE (offset) granularity: %d',
-        offset_granularity)
+        'Granularity for RULES (rulesDelta) and SAVE (delta): %d',
+        delta_granularity,
+    )
 
     # Extract the TZ files
     logging.info('======== Extracting TZ Data files')
@@ -333,6 +354,7 @@ def main() -> None:
         until_year=args.until_year,
         until_at_granularity=until_at_granularity,
         offset_granularity=offset_granularity,
+        delta_granularity=delta_granularity,
         strict=args.strict,
     )
     transformer.transform()

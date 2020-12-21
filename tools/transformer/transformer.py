@@ -45,6 +45,7 @@ class Transformer:
         until_year: int,
         until_at_granularity: int,
         offset_granularity: int,
+        delta_granularity: int,
         strict: bool,
     ):
         """
@@ -54,7 +55,9 @@ class Transformer:
             start_year: include only years on or after start_year
             until_year: include only years valid before until_year
             until_at_granularity: truncate UNTIL, AT to this many seconds
-            offset_granularity: SAVE, RULES(offset) to this many seconds
+            offset_granularity: truncate STDOFF (offset) to this many seconds
+            delta_granularity: truncate SAVE (offset), RULES (rulesOffset) to
+                    this many seconds
             strict: throw out Zones or Rules which are not exactly
                     on the time boundary defined by granularity
         """
@@ -67,6 +70,7 @@ class Transformer:
         self.until_year = until_year
         self.until_at_granularity = until_at_granularity
         self.offset_granularity = offset_granularity
+        self.delta_granularity = delta_granularity
         self.strict = strict
 
         self.all_removed_zones: CommentsMap = {}
@@ -555,7 +559,7 @@ class Transformer:
                         f"invalid STDOFF '{offset_string}'")
                     break
 
-                # Truncate to requested granularity.
+                # Truncate offset to requested granularity.
                 offset_seconds_truncated = truncate_to_granularity(
                     offset_seconds, self.offset_granularity)
                 if offset_seconds != offset_seconds_truncated:
@@ -697,15 +701,17 @@ class Transformer:
                             f"unexpected 0:00 RULES string '{rules_string}'")
                         break
 
+                    # Check that RULES delta is a multiple of 15-minutes
+                    # (or whatever delta_granularity is set to).
                     rules_delta_seconds_truncated = truncate_to_granularity(
-                        rules_delta_seconds, self.offset_granularity)
+                        rules_delta_seconds, self.delta_granularity)
                     if rules_delta_seconds != rules_delta_seconds_truncated:
                         if self.strict:
                             valid = False
                             add_comment(
                                 removed_zones, name,
-                                f"RULES delta offset '{rules_string}' must be "
-                                f"multiples of '{self.offset_granularity}' "
+                                f"RULES delta '{rules_string}' must be "
+                                f"multiples of '{self.delta_granularity}' "
                                 f"seconds")
                             break
                         else:
@@ -716,6 +722,18 @@ class Transformer:
                                 f"RULES delta offset '{rules_string}'"
                                 f"truncated to '{hm}'")
 
+                    # Check that rules_delta fits inside 4-bits, because that's
+                    # how it is stored in the Arduino zonedb files.
+                    rules_delta_code = rules_delta_seconds_truncated // 900
+                    if rules_delta_code < -4 or rules_delta_code > 11:
+                        valid = False
+                        add_comment(
+                            removed_zones, name,
+                            f"RULES '{rules_string}' too large for 4-bits")
+                        break
+
+                    # Set the ZoneEra['rules'] to ':' to indicate that the RULES
+                    # field is a DST offset.
                     era['rules'] = ':'
                     era['rulesDeltaSeconds'] = rules_delta_seconds
                     era['rulesDeltaSecondsTruncated'] = \
@@ -1330,38 +1348,39 @@ class Transformer:
                     valid = False
                     add_comment(
                         removed_policies, name,
-                        f"invalid deltaOffset '{delta_offset}'")
+                        f"invalid SAVE (deltaOffset) '{delta_offset}'")
                     break
 
                 # Truncate to requested granularity.
                 delta_seconds_truncated = truncate_to_granularity(
-                    delta_seconds, self.offset_granularity)
+                    delta_seconds, self.delta_granularity)
                 if delta_seconds != delta_seconds_truncated:
                     if self.strict:
                         valid = False
                         add_comment(
                             removed_policies, name,
-                            f"deltaOffset '{delta_offset}' must be "
-                            f"a multiple of '{self.offset_granularity}' "
+                            f"SAVE (deltaOffset) '{delta_offset}' must be "
+                            f"a multiple of '{self.delta_granularity}' "
                             f"seconds")
                         break
                     else:
                         add_comment(
                             notable_policies, name,
-                            f"deltaOffset '{delta_offset}' truncated to"
-                            f"a multiple of '{self.offset_granularity}' "
+                            f"SAVE deltaOffset '{delta_offset}' truncated to"
+                            f"a multiple of '{self.delta_granularity}' "
                             f"seconds")
 
                 # Check that delta seconds can fit in a 4-bit timeCode field
                 # with 15-minute granularity, defined as (timeCode =
                 # delta_seconds / 900s + 1h) which encodes -1:00 as 0 and 3:45
                 # as 15.
-                delta_code = div_to_zero(delta_seconds_truncated, 900) + 4
-                if delta_code < 0 or delta_code > 15:
+                delta_code = delta_seconds_truncated // 900
+                if delta_code < -4 or delta_code > 11:
                     valid = False
                     add_comment(
                         removed_policies, name,
-                        f"deltaOffset '{delta_offset}' too large for 4-bits")
+                        f"SAVE deltaOffset '{delta_offset}' "
+                        "too large for 4-bits")
                     break
 
                 rule['deltaSeconds'] = delta_seconds
@@ -1371,7 +1390,7 @@ class Transformer:
 
         self._print_comments_map(
             removed_map=removed_policies,
-            explanation='rule policies with invalid deltaOffset',
+            explanation='rule policies with invalid SAVE (deltaOffset)',
             notable_map=notable_policies,
         )
         merge_comments(self.all_removed_policies, removed_policies)
