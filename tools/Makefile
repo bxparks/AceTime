@@ -59,6 +59,18 @@ zonedb.json: $(SRC) $(TZ_VERSION)
 		--tz_version \
 		$(TZ_VERSION) \
 		--input_dir $(TZ_VERSION) \
+		--scope basic \
+		--language json \
+		--ignore_buf_size_too_large \
+		--start_year 2000 \
+		--until_year 2050
+
+# Generate zonedbx.json for testing purposes.
+zonedbx.json: $(SRC) $(TZ_VERSION)
+	./tzcompiler.py \
+		--tz_version \
+		$(TZ_VERSION) \
+		--input_dir $(TZ_VERSION) \
 		--scope extended \
 		--language json \
 		--ignore_buf_size_too_large \
@@ -89,9 +101,10 @@ validation_tests.cpp: validation_data.h
 	@true
 
 clean:
-	rm -f zones.txt zonedb.json validation_data.json validation_data.h \
-		validation_data.cpp validation_tests.cpp
+	rm -f zones.txt zonedb.json zonedbx.json validation_data.json \
+		validation_data.h validation_data.cpp validation_tests.cpp
 	rm -rf $(TZ_VERSION)
 	make -C compare_pytz clean
+	make -C compare_dateutil clean
 	make -C compare_java clean
 	make -C compare_cpp clean

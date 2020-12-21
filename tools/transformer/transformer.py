@@ -15,7 +15,6 @@ import datetime
 from collections import OrderedDict
 from typing import Dict
 from typing import List
-from typing import Iterable
 from typing import Optional
 from typing import Tuple
 from typing_extensions import TypedDict
@@ -193,14 +192,49 @@ class Transformer:
             f"; removed={len(self.all_removed_links)}"
             f"; noted={len(self.all_notable_links)}")
 
-    def _print_removed_map(self, removed_map: CommentsMap) -> None:
-        """Helper routine that prints the removed Zone rules or Zone eras along
-        with the reason why it was removed.
+    def _print_comments_map(
+        self,
+        *,
+        removed_map: CommentsMap,
+        explanation: str,
+        notable_map: Optional[CommentsMap] = None,
+    ) -> None:
+        """Helper routine that prints the 'Removed' Zone rules or Zone eras
+        along with the reason why it was removed. Print up to a maximum of
+        MAX_COMMENTS zones or eras. Also prints the 'Notable' rules or eras if
+        available.
         """
-        name: str
-        reasons: Iterable[str]
-        for name, reasons in sorted(removed_map.items()):
-            logging.info(f'        {name} ({reasons})')
+        # Print summary line, e.g.:
+        # "Removed 0 rule policies with fromYear or toYear out of bounds"
+        logging.info(f'Removed {len(removed_map)} {explanation}')
+
+        # Print all lines if len() <= MAX_COMMENTS. Otherwise, print top half of
+        # MAX_COMMENTS and bottom half of MAX_COMMENTS.
+        MAX_COMMENTS = 5
+        sorted_map = sorted(removed_map.items())
+        num_items = len(sorted_map)
+        if num_items <= MAX_COMMENTS:
+            for name, reasons in sorted_map:
+                logging.info(f'- {name} ({reasons})')
+        else:
+            index = 0
+            ellipses_printed = False
+            limit = (MAX_COMMENTS - 1) // 2
+            for name, reasons in sorted_map:
+                if ((index >= 0 and index < limit)
+                        or (index >= num_items - limit and index < num_items)):
+                    logging.info(f'- {name} ({reasons})')
+                else:
+                    if not ellipses_printed:
+                        logging.info('- [...]')
+                        ellipses_printed = True
+                index += 1
+
+        # Print notable zones, eras or links if given.
+        if notable_map:
+            logging.info(f'Noted {len(notable_map)} {explanation}')
+            for name, reasons in sorted(notable_map.items()):
+                logging.info(f'- {name} ({reasons})')
 
     # --------------------------------------------------------------------
     # Methods related to Zones.
@@ -311,9 +345,10 @@ class Transformer:
             else:
                 add_comment(removed_zones, name, "no ZoneEra found")
 
-        logging.info(
-            "Removed %s zone infos without ZoneEras", len(removed_zones))
-        self._print_removed_map(removed_zones)
+        self._print_comments_map(
+            removed_map=removed_zones,
+            explanation='zone infos without ZoneEras',
+        )
         merge_comments(self.all_removed_zones, removed_zones)
         return results
 
@@ -336,8 +371,10 @@ class Transformer:
             if valid:
                 results[name] = eras
 
-        logging.info("Removed %s zone infos with UNTIL month/day/time",
-                     len(removed_zones))
+        self._print_comments_map(
+            removed_map=removed_zones,
+            explanation='zone infos with UNTIL month/day/time',
+        )
         merge_comments(self.all_removed_zones, removed_zones)
         return results
 
@@ -395,9 +432,11 @@ class Transformer:
             if valid:
                 results[name] = eras
 
-        logging.info("Removed %s zone infos with invalid untilDay",
-                     len(removed_zones))
-        self._print_removed_map(removed_zones)
+        self._print_comments_map(
+            removed_map=removed_zones,
+            explanation='zone infos with invalid untilDay',
+            notable_map=notable_zones,
+        )
         merge_comments(self.all_removed_zones, removed_zones)
         merge_comments(self.all_notable_zones, notable_zones)
         return results
@@ -449,9 +488,11 @@ class Transformer:
             if valid:
                 results[name] = eras
 
-        logging.info("Removed %s zone infos with invalid UNTIL time",
-                     len(removed_zones))
-        self._print_removed_map(removed_zones)
+        self._print_comments_map(
+            removed_map=removed_zones,
+            explanation='zone infos with invalid UNTIL time',
+            notable_map=notable_zones,
+        )
         merge_comments(self.all_removed_zones, removed_zones)
         merge_comments(self.all_notable_zones, notable_zones)
         return results
@@ -487,10 +528,10 @@ class Transformer:
             if valid:
                 results[name] = eras
 
-        logging.info(
-            "Removed %s zone infos with unsupported UNTIL time suffix",
-            len(removed_zones))
-        self._print_removed_map(removed_zones)
+        self._print_comments_map(
+            removed_map=removed_zones,
+            explanation='zone infos with unsupported UNTIL time suffix',
+        )
         merge_comments(self.all_removed_policies, removed_zones)
         return results
 
@@ -547,9 +588,11 @@ class Transformer:
             if valid:
                 results[name] = eras
 
-        logging.info("Removed %s zones with invalid offsetString",
-                     len(removed_zones))
-        self._print_removed_map(removed_zones)
+        self._print_comments_map(
+            removed_map=removed_zones,
+            explanation='zones with invalid offsetString',
+            notable_map=notable_zones,
+        )
         merge_comments(self.all_removed_zones, removed_zones)
         merge_comments(self.all_notable_zones, notable_zones)
         return results
@@ -600,9 +643,11 @@ class Transformer:
             if valid:
                 results[zone_name] = eras
 
-        logging.info("Removed %s zones with invalid RULES and FORMAT combo",
-                     len(removed_zones))
-        self._print_removed_map(removed_zones)
+        self._print_comments_map(
+            removed_map=removed_zones,
+            explanation='zones with invalid RULES and FORMAT combo',
+            notable_map=notable_zones,
+        )
         merge_comments(self.all_removed_zones, removed_zones)
         merge_comments(self.all_notable_zones, notable_zones)
         return results
@@ -682,9 +727,11 @@ class Transformer:
             if valid:
                 results[name] = eras
 
-        logging.info("Removed %s zone infos with invalid RULES",
-                     len(removed_zones))
-        self._print_removed_map(removed_zones)
+        self._print_comments_map(
+            removed_map=removed_zones,
+            explanation='zone infos with invalid RULES',
+            notable_map=notable_zones,
+        )
         merge_comments(self.all_removed_zones, removed_zones)
         merge_comments(self.all_notable_zones, notable_zones)
         return results
@@ -711,9 +758,10 @@ class Transformer:
             if valid:
                 results[name] = eras
 
-        logging.info(
-            "Removed %s zone infos without rules", len(removed_zones))
-        self._print_removed_map(removed_zones)
+        self._print_comments_map(
+            removed_map=removed_zones,
+            explanation='zone infos without rules',
+        )
         merge_comments(self.all_removed_zones, removed_zones)
         return results
 
@@ -769,9 +817,10 @@ class Transformer:
             if valid:
                 results[name] = eras
 
-        logging.info("Removed %s zone infos with invalid UNTIL fields",
-                     len(removed_zones))
-        self._print_removed_map(removed_zones)
+        self._print_comments_map(
+            removed_map=removed_zones,
+            explanation='zone infos with invalid UNTIL fields',
+        )
         merge_comments(self.all_removed_zones, removed_zones)
         return results
 
@@ -829,11 +878,10 @@ class Transformer:
             else:
                 results[name] = rules
 
-        logging.info(
-            'Removed %s rule policies with multiple transitions in one month',
-            len(removed_policies)
+        self._print_comments_map(
+            removed_map=removed_policies,
+            explanation='rule policies with multiple transitions in one month',
         )
-        self._print_removed_map(removed_policies)
         merge_comments(self.all_removed_policies, removed_policies)
         return results
 
@@ -858,11 +906,10 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info(
-            'Removed %s rule policies with long DST letter',
-            len(removed_policies)
+        self._print_comments_map(
+            removed_map=removed_policies,
+            explanation='rule policies with long DST letter',
         )
-        self._print_removed_map(removed_policies)
         merge_comments(self.all_removed_policies, removed_policies)
         return results
 
@@ -893,11 +940,10 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info(
-            "Removed %s rule policies with unsupported AT suffix",
-            len(removed_policies)
+        self._print_comments_map(
+            removed_map=removed_policies,
+            explanation='rule policies with unsupported AT suffix',
         )
-        self._print_removed_map(removed_policies)
         merge_comments(self.all_removed_policies, removed_policies)
         return results
 
@@ -989,7 +1035,7 @@ class Transformer:
                 add_comment(removed_policies, name, 'unused')
 
         logging.info(
-            'Removed %s rule policies (%s rules) not used',
+            'Removed %s rule policies (with %s rules) not used',
             len(removed_policies),
             removed_rule_count
         )
@@ -1020,11 +1066,10 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info(
-            'Removed %s rule policies with fromYear or toYear out of bounds',
-            len(removed_policies)
+        self._print_comments_map(
+            removed_map=removed_policies,
+            explanation='rule policies with fromYear or toYear out of bounds',
         )
-        self._print_removed_map(removed_policies)
         merge_comments(self.all_removed_policies, removed_policies)
         return results
 
@@ -1073,11 +1118,10 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info(
-            'Removed %s rule policies with invalid onDay',
-            len(removed_policies)
+        self._print_comments_map(
+            removed_map=removed_policies,
+            explanation='rule policies with invalid onDay',
         )
-        self._print_removed_map(removed_policies)
         merge_comments(self.all_removed_policies, removed_policies)
         return results
 
@@ -1192,11 +1236,10 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info(
-            "Removed %s rule policies with border Transitions",
-            len(removed_policies)
+        self._print_comments_map(
+            removed_map=removed_policies,
+            explanation='rule policies with border Transitions',
         )
-        self._print_removed_map(removed_policies)
         merge_comments(self.all_removed_policies, removed_policies)
         return results
 
@@ -1259,11 +1302,11 @@ class Transformer:
             if valid:
                 results[policy_name] = rules
 
-        logging.info(
-            'Removed %s rule policies with invalid atTime',
-            len(removed_policies)
+        self._print_comments_map(
+            removed_map=removed_policies,
+            explanation='rule policies with invalid atTime',
+            notable_map=notable_policies,
         )
-        self._print_removed_map(removed_policies)
         merge_comments(self.all_removed_policies, removed_policies)
         merge_comments(self.all_notable_policies, notable_policies)
         return results
@@ -1326,11 +1369,11 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info(
-            'Removed %s rule policies with invalid deltaOffset',
-            len(removed_policies)
+        self._print_comments_map(
+            removed_map=removed_policies,
+            explanation='rule policies with invalid deltaOffset',
+            notable_map=notable_policies,
         )
-        self._print_removed_map(removed_policies)
         merge_comments(self.all_removed_policies, removed_policies)
         merge_comments(self.all_notable_policies, notable_policies)
         return results
@@ -1354,7 +1397,10 @@ class Transformer:
                     removed_links, link_name,
                     f'Target Zone "{zone_name}" missing')
 
-        logging.info('Removed %s links with missing zones', len(removed_links))
+        self._print_comments_map(
+            removed_map=removed_links,
+            explanation='links with missing zones',
+        )
         merge_comments(self.all_removed_links, removed_links)
         return results
 
