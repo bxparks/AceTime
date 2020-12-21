@@ -7,6 +7,7 @@ from typing import Optional
 from typing import NamedTuple
 from typing import Set
 from typing import cast
+from collections import OrderedDict
 from typing_extensions import TypedDict
 
 """
@@ -294,6 +295,7 @@ def create_zone_info_database(
     letters_map: LettersMap,
 ) -> ZoneInfoDatabase:
     """Return an instance of ZoneInfoDatabase from the various ingrediants."""
+
     return {
         # Context data.
         'tz_version': tz_version,
@@ -311,12 +313,12 @@ def create_zone_info_database(
         'links_map': links_map,
 
         # Data from Transformer.
-        'removed_zones': removed_zones,
-        'removed_links': removed_links,
-        'removed_policies': removed_policies,
-        'notable_zones': notable_zones,
-        'notable_links': notable_links,
-        'notable_policies': notable_policies,
+        'removed_zones': _sort_comments(removed_zones),
+        'removed_links': _sort_comments(removed_links),
+        'removed_policies': _sort_comments(removed_policies),
+        'notable_zones': _sort_comments(notable_zones),
+        'notable_links': _sort_comments(notable_links),
+        'notable_policies': _sort_comments(notable_policies),
 
         # Data from BufSizeEstimator
         'buf_sizes': buf_size_info['buf_sizes'],
@@ -328,3 +330,13 @@ def create_zone_info_database(
         # Letters map
         'letters_map': letters_map,
     }
+
+
+def _sort_comments(comments: CommentsMap) -> CommentsMap:
+    """Sort and convert {name -> Set(str)} to {name -> List(str)} to provide
+    deterministic ordering.
+    """
+    return OrderedDict(
+        (k, list(sorted(v)))
+        for k, v in sorted(comments.items())
+    )

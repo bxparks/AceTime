@@ -187,10 +187,10 @@ extern const extended::ZonePolicy kPolicyZion;
 //
 // kPolicyBelize (LETTER 'CST' not single character)
 // kPolicyMoncton (AT '0:01' not on 15-minute boundary)
-// kPolicyNamibia (LETTER 'WAT' not single character, LETTER 'CAT' not single character)
+// kPolicyNamibia (LETTER 'CAT' not single character, LETTER 'WAT' not single character)
 // kPolicyPalestine (AT '0:01' not on 15-minute boundary)
 // kPolicyStJohns (AT '0:01' not on 15-minute boundary, LETTER 'DD' not single character)
-// kPolicyTroll (LETTER '+02' not single character, LETTER '+00' not single character)
+// kPolicyTroll (LETTER '+00' not single character, LETTER '+02' not single character)
 
 
 }

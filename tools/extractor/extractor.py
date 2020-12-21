@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-#
 # Copyright 2018 Brian T. Park
 #
 # MIT License.
