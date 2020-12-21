@@ -87,6 +87,7 @@ def generate_zonedb(
     db_namespace: str,
     language: str,
     output_dir: str,
+    json_file: str,
     zidb: ZoneInfoDatabase,
 ) -> None:
     """Generate the zonedb/ or zonedbx/ files for Python or Arduino,
@@ -114,7 +115,7 @@ def generate_zonedb(
 
     elif language == 'json':
         logging.info('==== Creating zonedb.json file')
-        generator = JsonGenerator(zidb=zidb)
+        generator = JsonGenerator(zidb=zidb, json_file=json_file)
         generator.generate_files(output_dir)
 
     elif language == 'zonelist':
@@ -224,7 +225,15 @@ def main() -> None:
     # automatically be set to 'zonedb' or 'zonedbx' depending on the 'scope'.
     parser.add_argument(
         '--db_namespace',
-        help='C++ namespace for the zonedb files (default: zonedb or zonedbx)')
+        help='C++ namespace for the zonedb files (default: zonedb or zonedbx)',
+    )
+
+    # For language=json, specify the output file.
+    parser.add_argument(
+        '--json_file',
+        help='The JSON output file (default: zonedb.json)',
+        default='zonedb.json',
+    )
 
     # The tz_version does not affect any data processing. Its value is
     # copied into the various generated files and usually placed in the
@@ -401,6 +410,7 @@ def main() -> None:
                 language=language,
                 output_dir=args.output_dir,
                 zidb=zidb,
+                json_file=args.json_file,
             )
     else:
         logging.error(f"Unrecognized action '{args.action}'")

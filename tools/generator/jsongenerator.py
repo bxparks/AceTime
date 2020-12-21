@@ -9,17 +9,20 @@ from zonedb.data_types import ZoneInfoDatabase
 
 
 class JsonGenerator:
-    """Generate the JSON representation of the ZoneInfoDatabase named
-    'zonedb.json'.
+    """Generate the JSON representation of the ZoneInfoDatabase to the given
+    'json_file'.
     """
-    _OUTPUT_FILE = 'zonedb.json'
-
-    def __init__(self, zidb: ZoneInfoDatabase):
+    def __init__(
+        self,
+        zidb: ZoneInfoDatabase,
+        json_file: str
+    ):
         self.zidb = zidb
+        self.json_file = json_file
 
     def generate_files(self, output_dir: str) -> None:
-        """Serialize ZoneInfoDatabase to a zonedb.json file."""
-        full_filename = os.path.join(output_dir, self._OUTPUT_FILE)
+        """Serialize ZoneInfoDatabase to the specified file."""
+        full_filename = os.path.join(output_dir, self.json_file)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
             json.dump(self.zidb, output_file, indent=2)
             print(file=output_file)  # add terminating newline
