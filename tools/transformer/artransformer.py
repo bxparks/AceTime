@@ -37,6 +37,7 @@ class ArduinoTransformer:
         self.tresult = tresult
         self.zones_map = tresult.zones_map
         self.policies_map = tresult.policies_map
+        self.links_map = tresult.links_map
         self.scope = scope
         self.start_year = start_year
         self.until_year = until_year
@@ -58,6 +59,14 @@ class ArduinoTransformer:
             notable_zones=self.tresult.notable_zones,
             notable_policies=self.tresult.notable_policies,
             notable_links=self.tresult.notable_links,
+        )
+
+    def print_summary(self) -> None:
+        logging.info(
+            "Summary"
+            f": Zones {len(self.zones_map)}"
+            f"; Policies {len(self.policies_map)}"
+            f"; Links {len(self.links_map)}"
         )
 
     def _process_rules(self, policies_map: PoliciesMap) -> PoliciesMap:

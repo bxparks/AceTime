@@ -339,6 +339,7 @@ def main() -> None:
         until_year=args.until_year,
     )
     arduino_transformer.transform()
+    arduino_transformer.print_summary()
     tresult = arduino_transformer.get_data()
 
     # Estimate the buffer size of ExtendedZoneProcessor.TransitionStorage.

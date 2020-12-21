@@ -46,7 +46,7 @@ class BufSizeEstimator:
         inline_zone_info = InlineZoneInfo(self.zones_map, self.policies_map)
         zone_infos, zone_policies = inline_zone_info.generate_zonedb()
         logging.info(
-            'Inlined zone_infos=%d; zone_policies=%d',
+            'InlinedZoneInfo: Zones %d; Policies %d',
             len(zone_infos), len(zone_policies))
 
         # Calculate buffer sizes using a ZoneSpecifier.
