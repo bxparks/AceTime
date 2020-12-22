@@ -11,8 +11,9 @@ from collections import OrderedDict
 from typing_extensions import TypedDict
 
 """
-Data types created or consumed by various classes under the tools package.
-These allow typing checking to be performed using mypy.
+Data types created or consumed by various classes under the tools package. These
+allow typing checking to be performed using mypy. Also contains global constants
+used by multiple packages.
 """
 
 # -----------------------------------------------------------------------------

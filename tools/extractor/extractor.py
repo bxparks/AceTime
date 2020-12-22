@@ -69,7 +69,7 @@ from typing import TextIO
 from typing import Tuple
 import logging
 import os
-from zonedb.data_types import (
+from data_types.at_types import (
     ZoneRuleRaw,
     ZoneEraRaw,
     PoliciesMap,

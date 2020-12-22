@@ -5,7 +5,7 @@
 import os
 import logging
 import json
-from zonedb.data_types import ZoneInfoDatabase
+from data_types.at_types import ZoneInfoDatabase
 
 
 class JsonGenerator:

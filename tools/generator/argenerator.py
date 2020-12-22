@@ -12,16 +12,16 @@ from typing import List
 from typing import Optional
 from typing import Tuple
 from typing import cast
-from zonedb.data_types import ZoneRuleRaw
-from zonedb.data_types import ZoneEraRaw
-from zonedb.data_types import ZonesMap
-from zonedb.data_types import PoliciesMap
-from zonedb.data_types import LinksMap
-from zonedb.data_types import CommentsMap
-from zonedb.data_types import IndexedLetters
-from zonedb.data_types import LettersMap
-from zonedb.data_types import ZoneInfoDatabase
-from zonedb.data_types import BufSizeMap
+from data_types.at_types import ZoneRuleRaw
+from data_types.at_types import ZoneEraRaw
+from data_types.at_types import ZonesMap
+from data_types.at_types import PoliciesMap
+from data_types.at_types import LinksMap
+from data_types.at_types import CommentsMap
+from data_types.at_types import IndexedLetters
+from data_types.at_types import LettersMap
+from data_types.at_types import ZoneInfoDatabase
+from data_types.at_types import BufSizeMap
 from transformer.transformer import normalize_name
 from transformer.transformer import normalize_raw
 

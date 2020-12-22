@@ -16,3 +16,7 @@ class TestParseAtHourString(unittest.TestCase):
 
     def test_pase_at_time_string_fails(self) -> None:
         self.assertRaises(Exception, parse_at_time_string, '2:00p')
+
+
+if __name__ == '__main__':
+    unittest.main()

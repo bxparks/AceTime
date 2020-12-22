@@ -13,7 +13,7 @@ continuous integration pipeline, it's too easy to bitrot.
 from typing import List, Dict
 import logging
 from datetime import datetime
-from zonedb.data_types import SECONDS_SINCE_UNIX_EPOCH
+from data_types.at_types import SECONDS_SINCE_UNIX_EPOCH
 from zone_processor.inline_zone_info import ZoneInfoMap
 from zone_processor.inline_zone_info import ZonePolicyMap
 from zone_processor.zone_specifier import ZoneSpecifier

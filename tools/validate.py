@@ -55,7 +55,7 @@ Examples:
 
 import argparse
 import logging
-from zonedb.data_types import TransformerResult
+from data_types.at_types import TransformerResult
 from extractor.extractor import Extractor
 from transformer.transformer import Transformer
 from zone_processor.inline_zone_info import (

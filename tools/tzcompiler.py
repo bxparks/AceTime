@@ -55,11 +55,11 @@ import sys
 from collections import OrderedDict
 from typing import Dict
 from typing_extensions import Protocol
-from zonedb.data_types import ZonesMap
-from zonedb.data_types import TransformerResult
-from zonedb.data_types import ZoneInfoDatabase
-from zonedb.data_types import create_zone_info_database
-from zonedb.data_types import BufSizeInfo
+from data_types.at_types import ZonesMap
+from data_types.at_types import TransformerResult
+from data_types.at_types import ZoneInfoDatabase
+from data_types.at_types import create_zone_info_database
+from data_types.at_types import BufSizeInfo
 from zone_processor.bufestimator import BufSizeEstimator
 from extractor.extractor import Extractor
 from transformer.transformer import Transformer, hash_name

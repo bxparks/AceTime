@@ -24,7 +24,7 @@ from typing import TYPE_CHECKING
 from typing import Union
 from typing import cast
 from typing_extensions import Protocol
-from zonedb.data_types import MIN_YEAR, SECONDS_SINCE_UNIX_EPOCH
+from data_types.at_types import MIN_YEAR, SECONDS_SINCE_UNIX_EPOCH
 from transformer.transformer import seconds_to_hms
 from transformer.transformer import hms_to_seconds
 from transformer.transformer import calc_day_of_month

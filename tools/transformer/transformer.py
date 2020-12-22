@@ -18,16 +18,16 @@ from typing import List
 from typing import Optional
 from typing import Tuple
 from typing_extensions import TypedDict
-from zonedb.data_types import ZoneRuleRaw
-from zonedb.data_types import ZoneEraRaw
-from zonedb.data_types import ZonesMap
-from zonedb.data_types import PoliciesMap
-from zonedb.data_types import LinksMap
-from zonedb.data_types import CommentsMap
-from zonedb.data_types import TransformerResult, add_comment, merge_comments
-from zonedb.data_types import MAX_UNTIL_YEAR
-from zonedb.data_types import MIN_YEAR
-from zonedb.data_types import MAX_YEAR
+from data_types.at_types import ZoneRuleRaw
+from data_types.at_types import ZoneEraRaw
+from data_types.at_types import ZonesMap
+from data_types.at_types import PoliciesMap
+from data_types.at_types import LinksMap
+from data_types.at_types import CommentsMap
+from data_types.at_types import TransformerResult, add_comment, merge_comments
+from data_types.at_types import MAX_UNTIL_YEAR
+from data_types.at_types import MIN_YEAR
+from data_types.at_types import MAX_YEAR
 
 INVALID_SECONDS = 999999  # 277h46m69s
 

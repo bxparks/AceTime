@@ -9,12 +9,12 @@ import logging
 import os
 from typing import List
 from typing import Tuple
-from zonedb.data_types import ZoneEraRaw
-from zonedb.data_types import ZoneRuleRaw
-from zonedb.data_types import ZonesMap
-from zonedb.data_types import PoliciesMap
-from zonedb.data_types import CommentsMap
-from zonedb.data_types import ZoneInfoDatabase
+from data_types.at_types import ZoneEraRaw
+from data_types.at_types import ZoneRuleRaw
+from data_types.at_types import ZonesMap
+from data_types.at_types import PoliciesMap
+from data_types.at_types import CommentsMap
+from data_types.at_types import ZoneInfoDatabase
 from transformer.transformer import normalize_name
 from transformer.transformer import normalize_raw
 

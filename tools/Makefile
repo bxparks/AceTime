@@ -4,6 +4,7 @@ TZ_VERSION := 2020d
 SRC := \
 compare_dateutil \
 compare_pytz \
+data_types \
 extractor \
 generate_validation.py \
 generator \
@@ -15,8 +16,7 @@ validate.py \
 validation \
 validator \
 zinfo.py \
-zone_processor \
-zonedb
+zone_processor
 
 # Files without Python typing.
 SRC_UNTYPED := \
