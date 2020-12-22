@@ -175,6 +175,7 @@ class Transformer:
             notable_policies=self.tresult.notable_policies,
             notable_links=self.tresult.notable_links,
             letters_map=self.tresult.letters_map,
+            all_letters_map=self.tresult.all_letters_map,
         )
 
     def print_summary(self) -> None:

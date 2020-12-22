@@ -4,6 +4,8 @@
 
 from typing import NamedTuple
 from typing import Optional
+from typing import Set
+from typing import Tuple
 from collections import OrderedDict
 import logging
 from data_types.at_types import ZonesMap
@@ -43,7 +45,8 @@ class ArduinoTransformer:
         self.until_year = until_year
 
     def transform(self) -> None:
-        self.letters_map = _collect_letter_strings(self.policies_map)
+        self.letters_map, self.all_letters_map = \
+            _collect_letter_strings(self.policies_map)
         self.policies_map = self._process_rules(self.policies_map)
         self.zones_map = self._process_eras(self.zones_map)
 
@@ -53,6 +56,7 @@ class ArduinoTransformer:
             policies_map=self.policies_map,
             links_map=self.tresult.links_map,
             letters_map=self.letters_map,
+            all_letters_map=self.all_letters_map,
             removed_zones=self.tresult.removed_zones,
             removed_policies=self.tresult.removed_policies,
             removed_links=self.tresult.removed_links,
@@ -179,25 +183,39 @@ class ArduinoTransformer:
         return self.zones_map
 
 
-def _collect_letter_strings(policies_map: PoliciesMap) -> LettersMap:
-    """Loop through all ZoneRules and collect the LETTERs which are
-    more than one letter long into self.letters_map.
+def _collect_letter_strings(
+    policies_map: PoliciesMap,
+) -> Tuple[LettersMap, IndexedLetters]:
+    """Loop through all ZoneRules and collect:
+    1) a sorted collection of all LETTERs, with their self index,
+    2) LETTERs more than one letter long, grouped by policyName
     """
     letters_map: LettersMap = OrderedDict()
+    all_letters: Set[str] = set()
     for policy_name, rules in sorted(policies_map.items()):
-        letters = set()
+        policy_letters: Set[str] = set()
         for rule in rules:
-            if len(rule['letter']) > 1:
-                letters.add(rule['letter'])
+            letter = rule['letter']
+            all_letters.add(letter)
+            if len(letter) > 1:
+                policy_letters.add(letter)
 
-        if letters:
+        if policy_letters:
             indexed_letters: IndexedLetters = OrderedDict()
             index = 0
-            for letter in sorted(letters):
+            for letter in sorted(policy_letters):
                 indexed_letters[letter] = index
                 index += 1
             letters_map[policy_name] = indexed_letters
-    return letters_map
+
+    # Create a map of all letters, including single letters.
+    index = 0
+    all_letters_map: IndexedLetters = OrderedDict()
+    for letter in sorted(all_letters):
+        all_letters_map[letter] = index
+        index += 1
+
+    return letters_map, all_letters_map
 
 
 def _to_tiny_year(year: int) -> int:
