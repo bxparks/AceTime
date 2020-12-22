@@ -11,7 +11,6 @@ from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
-from typing import cast
 from data_types.at_types import ZoneRuleRaw
 from data_types.at_types import ZoneEraRaw
 from data_types.at_types import ZonesMap
@@ -421,10 +420,10 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         memory_letters8 = 0
         memory_letters32 = 0
         if num_letters:
-            letters = cast(IndexMap, indexed_letters)
+            assert indexed_letters is not None
             letter_array_ref = f'kLetters{policy_name}'
             letterItems = ''
-            for name, index in letters.items():
+            for name, index in indexed_letters.items():
                 letterItems += f'  /*{index}*/ "{name}",\n'
                 memory_letters8 += len(name) + 1 + 2  # NUL terminated
                 memory_letters32 += len(name) + 1 + 4  # NUL terminated
