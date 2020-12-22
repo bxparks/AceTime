@@ -187,8 +187,8 @@ def _collect_letter_strings(
     policies_map: PoliciesMap,
 ) -> Tuple[LettersMap, IndexMap]:
     """Loop through all ZoneRules and collect:
-    1) a sorted collection of all LETTERs, with their self index,
-    2) LETTERs more than one letter long, grouped by policyName
+    1) a sorted collection of all multi-LETTERs, with their self index,
+    2) collection of multi-LETTERs, grouped by policyName
     """
     letters_map: LettersMap = OrderedDict()
     all_letters: Set[str] = set()
@@ -196,8 +196,8 @@ def _collect_letter_strings(
         policy_letters: Set[str] = set()
         for rule in rules:
             letter = rule['letter']
-            all_letters.add(letter)
             if len(letter) > 1:
+                all_letters.add(letter)
                 policy_letters.add(letter)
 
         if policy_letters:
@@ -208,7 +208,7 @@ def _collect_letter_strings(
                 index += 1
             letters_map[policy_name] = indexed_letters
 
-    # Create a map of all letters, including single letters.
+    # Create a map of all multi-letters
     index = 0
     all_letters_map: IndexMap = OrderedDict()
     for letter in sorted(all_letters):
