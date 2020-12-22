@@ -18,7 +18,7 @@ from data_types.at_types import ZonesMap
 from data_types.at_types import PoliciesMap
 from data_types.at_types import LinksMap
 from data_types.at_types import CommentsMap
-from data_types.at_types import IndexedLetters
+from data_types.at_types import IndexMap
 from data_types.at_types import LettersMap
 from data_types.at_types import ZoneInfoDatabase
 from data_types.at_types import BufSizeMap
@@ -333,8 +333,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         memory32 = 32
         num_rules = 0
         for name, rules in sorted(self.policies_map.items()):
-            indexed_letters: Optional[IndexedLetters] = \
-                self.letters_map.get(name)
+            indexed_letters: Optional[IndexMap] = self.letters_map.get(name)
             num_rules += len(rules)
             policy_item, policy_memory8, policy_memory32 = \
                 self._generate_policy_item(name, rules, indexed_letters)
@@ -360,7 +359,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         self,
         name: str,
         rules: List[ZoneRuleRaw],
-        indexed_letters: Optional[IndexedLetters],
+        indexed_letters: Optional[IndexMap],
     ) -> Tuple[str, int, int]:
 
         # Generate kZoneRules*[]
@@ -422,7 +421,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         memory_letters8 = 0
         memory_letters32 = 0
         if num_letters:
-            letters = cast(IndexedLetters, indexed_letters)
+            letters = cast(IndexMap, indexed_letters)
             letter_array_ref = f'kLetters{policy_name}'
             letterItems = ''
             for name, index in letters.items():
