@@ -11,7 +11,7 @@ import logging
 from data_types.at_types import ZonesMap
 from data_types.at_types import PoliciesMap
 from data_types.at_types import LettersMap
-from data_types.at_types import IndexedLetters
+from data_types.at_types import IndexMap
 from data_types.at_types import TransformerResult
 from data_types.at_types import EPOCH_YEAR
 from data_types.at_types import MAX_YEAR
@@ -185,7 +185,7 @@ class ArduinoTransformer:
 
 def _collect_letter_strings(
     policies_map: PoliciesMap,
-) -> Tuple[LettersMap, IndexedLetters]:
+) -> Tuple[LettersMap, IndexMap]:
     """Loop through all ZoneRules and collect:
     1) a sorted collection of all LETTERs, with their self index,
     2) LETTERs more than one letter long, grouped by policyName
@@ -201,7 +201,7 @@ def _collect_letter_strings(
                 policy_letters.add(letter)
 
         if policy_letters:
-            indexed_letters: IndexedLetters = OrderedDict()
+            indexed_letters: IndexMap = OrderedDict()
             index = 0
             for letter in sorted(policy_letters):
                 indexed_letters[letter] = index
@@ -210,7 +210,7 @@ def _collect_letter_strings(
 
     # Create a map of all letters, including single letters.
     index = 0
-    all_letters_map: IndexedLetters = OrderedDict()
+    all_letters_map: IndexMap = OrderedDict()
     for letter in sorted(all_letters):
         all_letters_map[letter] = index
         index += 1
@@ -387,7 +387,7 @@ def _to_offset_and_delta(
 
 def _to_letter_index(
     letter: str,
-    indexed_letters: Optional[IndexedLetters]
+    indexed_letters: Optional[IndexMap]
 ) -> int:
     """
     Return an index into the indexed_letters if len(letter) > 1.
