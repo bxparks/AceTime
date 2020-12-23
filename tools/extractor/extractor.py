@@ -256,44 +256,44 @@ class Extractor:
             return line
 
     def print_summary(self) -> None:
-        rule_entry_count: int = 0
-
-        name: str
-        lines: List[str]
+        rule_entry_count = 0
         for name, rules in self.policies_map.items():
             rule: ZoneRuleRaw
             for rule in rules:
                 rule_entry_count += 1
 
-        zone_entry_count: int = 0
-        eras: List[ZoneEraRaw]
+        zone_entry_count = 0
         for name, eras in self.zones_map.items():
             era: ZoneEraRaw
             for era in eras:
                 zone_entry_count += 1
 
         logging.info(
-            'Summary: Line count (Rule, Zone, Link): ('
-            f'{len(self.rule_lines)}, '
-            f'{len(self.zone_lines)}, '
-            f'{len(self.link_lines)})')
+            'Summary: Line count: %d Rules, %d Zones, %d Links',
+            len(self.rule_lines),
+            len(self.zone_lines),
+            len(self.link_lines),
+        )
         logging.info(
-            'Summary: Name count (Rule, Zone, Link): ('
-            f'{len(self.policies_map)}, '
-            f'{len(self.zones_map)}, '
-            f'{len(self.links_map)})')
+            'Summary: Name count: %d Rules, %d Zones, %d Links',
+            len(self.policies_map),
+            len(self.zones_map),
+            len(self.links_map),
+        )
         logging.info(f'Summary: Rule entry count: {rule_entry_count}')
         logging.info(f'Summary: Zone entry count: {zone_entry_count}')
         logging.info(
-            'Summary: Ignored lines (Rule, Zone, Link): ('
-            f'{self.ignored_rule_lines}, '
-            f'{self.ignored_zone_lines}, '
-            f'{self.ignored_link_lines})')
+            'Summary: Ignored lines: %d Rules, %d Zones, %d Links',
+            self.ignored_rule_lines,
+            self.ignored_zone_lines,
+            self.ignored_link_lines,
+        )
         logging.info(
-            'Summary: Invalid lines: (Rule, Zone, Link): ('
-            f'{self.invalid_rule_lines}, '
-            f'{self.invalid_zone_lines}, '
-            f'{self.invalid_link_lines})')
+            'Summary: Invalid lines: %d Rules, %d Zones, %d Links',
+            self.invalid_rule_lines,
+            self.invalid_zone_lines,
+            self.invalid_link_lines,
+        )
 
 
 def _add_item(table: Dict[str, List[Any]], name: str, line: Any) -> None:

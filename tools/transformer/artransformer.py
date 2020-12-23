@@ -4,10 +4,12 @@
 
 from typing import NamedTuple
 from typing import Optional
+from typing import Dict
 from typing import Set
 from typing import Tuple
 from collections import OrderedDict
 import logging
+from transformer.transformer import hash_name
 from data_types.at_types import ZonesMap
 from data_types.at_types import PoliciesMap
 from data_types.at_types import LettersMap
@@ -45,35 +47,42 @@ class ArduinoTransformer:
         self.until_year = until_year
 
     def transform(self) -> None:
-        self.letters_map, self.all_letters_map = \
+        self.letters_per_policy, self.letters_map = \
             _collect_letter_strings(self.policies_map)
+        self.formats_map = _collect_format_strings(self.zones_map)
         self.policies_map = self._process_rules(self.policies_map)
         self.zones_map = self._process_eras(self.zones_map)
+        self.zone_ids = _generate_zone_ids(self.zones_map)
 
     def get_data(self) -> TransformerResult:
         return TransformerResult(
             zones_map=self.zones_map,
             policies_map=self.policies_map,
             links_map=self.tresult.links_map,
-            letters_map=self.letters_map,
-            all_letters_map=self.all_letters_map,
             removed_zones=self.tresult.removed_zones,
             removed_policies=self.tresult.removed_policies,
             removed_links=self.tresult.removed_links,
             notable_zones=self.tresult.notable_zones,
             notable_policies=self.tresult.notable_policies,
             notable_links=self.tresult.notable_links,
+            zone_ids=self.zone_ids,
+            letters_per_policy=self.letters_per_policy,
+            letters_map=self.letters_map,
+            formats_map=self.formats_map,
         )
 
     def print_summary(self) -> None:
         logging.info(
             "Summary"
-            f": Zones {len(self.zones_map)}"
-            f"; Policies {len(self.policies_map)}"
-            f"; Links {len(self.links_map)}"
+            f": {len(self.zones_map)} Zones"
+            f"; {len(self.policies_map)} Policies"
+            f"; {len(self.links_map)} Links"
         )
 
     def _process_rules(self, policies_map: PoliciesMap) -> PoliciesMap:
+        """Convert various ZoneRule fields into values that are consumed by the
+        ZoneInfo and ZonePolicy classes of the Arduino AceTime library.
+        """
         for policy_name, rules in policies_map.items():
             for rule in rules:
                 rule['fromYearTiny'] = _to_tiny_year(rule['fromYear'])
@@ -111,7 +120,7 @@ class ArduinoTransformer:
                 letter = rule['letter']
                 rule['letterIndex'] = _to_letter_index(
                     letter=letter,
-                    indexed_letters=self.letters_map.get(policy_name),
+                    indexed_letters=self.letters_per_policy.get(policy_name),
                 )
                 if len(letter) > 1:
                     add_comment(
@@ -122,6 +131,9 @@ class ArduinoTransformer:
         return self.policies_map
 
     def _process_eras(self, zones_map: ZonesMap) -> ZonesMap:
+        """Convert various ZoneRule fields into values that are consumed by the
+        ZoneInfo and ZonePolicy classes of the Arduino AceTime library.
+        """
         for zone_name, eras in zones_map.items():
             for era in eras:
 
@@ -190,7 +202,7 @@ def _collect_letter_strings(
     1) a sorted collection of all multi-LETTERs, with their self index,
     2) collection of multi-LETTERs, grouped by policyName
     """
-    letters_map: LettersMap = OrderedDict()
+    letters_per_policy: LettersMap = OrderedDict()
     all_letters: Set[str] = set()
     for policy_name, rules in sorted(policies_map.items()):
         policy_letters: Set[str] = set()
@@ -206,16 +218,34 @@ def _collect_letter_strings(
             for letter in sorted(policy_letters):
                 indexed_letters[letter] = index
                 index += 1
-            letters_map[policy_name] = indexed_letters
+            letters_per_policy[policy_name] = indexed_letters
 
     # Create a map of all multi-letters
     index = 0
-    all_letters_map: IndexMap = OrderedDict()
+    letters_map: IndexMap = OrderedDict()
     for letter in sorted(all_letters):
-        all_letters_map[letter] = index
+        letters_map[letter] = index
         index += 1
 
-    return letters_map, all_letters_map
+    return letters_per_policy, letters_map
+
+
+def _collect_format_strings(zones_map: ZonesMap) -> IndexMap:
+    """Collect the 'formats' field and return a map of indexes."""
+    short_formats: Set[str] = set()
+    for zone_name, eras in zones_map.items():
+        for era in eras:
+            format = era['format']
+            short_format = format.replace('%s', '%')
+            short_formats.add(short_format)
+
+    index = 0
+    short_formats_map: IndexMap = OrderedDict()
+    for short_format in sorted(short_formats):
+        short_formats_map[short_format] = index
+        index += 1
+
+    return short_formats_map
 
 
 def _to_tiny_year(year: int) -> int:
@@ -406,3 +436,9 @@ def _to_letter_index(
         raise Exception('len(letter) == 0; should not happen')
 
     return letter_index
+
+
+def _generate_zone_ids(zones_map: ZonesMap) -> Dict[str, int]:
+    """Generate {zoneName -> zoneId} map."""
+    ids: Dict[str, int] = {name: hash_name(name) for name in zones_map.keys()}
+    return OrderedDict(sorted(ids.items()))

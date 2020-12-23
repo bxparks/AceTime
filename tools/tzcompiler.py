@@ -52,17 +52,14 @@ Examples:
 import argparse
 import logging
 import sys
-from collections import OrderedDict
-from typing import Dict
 from typing_extensions import Protocol
-from data_types.at_types import ZonesMap
 from data_types.at_types import TransformerResult
 from data_types.at_types import ZoneInfoDatabase
 from data_types.at_types import create_zone_info_database
 from data_types.at_types import BufSizeInfo
 from zone_processor.bufestimator import BufSizeEstimator
 from extractor.extractor import Extractor
-from transformer.transformer import Transformer, hash_name
+from transformer.transformer import Transformer
 from transformer.artransformer import ArduinoTransformer
 from generator.argenerator import ArduinoGenerator
 from generator.pygenerator import PythonGenerator
@@ -129,11 +126,6 @@ def generate_zonedb(
 
     else:
         raise Exception(f"Unrecognized language '{language}'")
-
-
-def generate_zone_ids(zones_map: ZonesMap) -> Dict[str, int]:
-    ids: Dict[str, int] = {name: hash_name(name) for name in zones_map.keys()}
-    return OrderedDict(sorted(ids.items()))
 
 
 def main() -> None:
@@ -316,6 +308,17 @@ def main() -> None:
         else:
             delta_granularity = 900
 
+    logging.info('======== TZ Compiler settings')
+    logging.info(f'Scope: {args.scope}')
+    logging.info(
+        f'Start year: {args.start_year}; Until year: {args.until_year}'
+    )
+    logging.info(f'Strict: {args.strict}')
+    logging.info(f'TZ Version: {args.tz_version}')
+    logging.info(
+        'Ignore too large transition buf_size: '
+        f'{args.ignore_buf_size_too_large}'
+    )
     logging.info('Granularity for UNTIL/AT: %d', until_at_granularity)
     logging.info('Granularity for STDOFF (offset): %d', offset_granularity)
     logging.info(
@@ -341,8 +344,10 @@ def main() -> None:
         notable_zones={},
         notable_policies={},
         notable_links={},
+        zone_ids={},
+        letters_per_policy={},
         letters_map={},
-        all_letters_map={},
+        formats_map={},
     )
 
     # Transform the TZ zones and rules
@@ -397,9 +402,6 @@ def main() -> None:
         else:
             raise Exception(msg)
 
-    # Generate zone_ids (hash of zone_name).
-    zone_ids: Dict[str, int] = generate_zone_ids(tresult.zones_map)
-
     # Collect TZ DB data into a single JSON-serializable object.
     zidb = create_zone_info_database(
         tz_version=args.tz_version,
@@ -410,19 +412,8 @@ def main() -> None:
         until_at_granularity=until_at_granularity,
         offset_granularity=offset_granularity,
         strict=args.strict,
-        zones_map=tresult.zones_map,
-        policies_map=tresult.policies_map,
-        links_map=tresult.links_map,
-        removed_zones=tresult.removed_zones,
-        removed_links=tresult.removed_links,
-        removed_policies=tresult.removed_policies,
-        notable_zones=tresult.notable_zones,
-        notable_links=tresult.notable_links,
-        notable_policies=tresult.notable_policies,
+        tresult=tresult,
         buf_size_info=buf_size_info,
-        zone_ids=zone_ids,
-        letters_map=tresult.letters_map,
-        all_letters_map=tresult.all_letters_map,
     )
 
     if args.action == 'zonedb':

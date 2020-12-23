@@ -176,17 +176,19 @@ CommentsMap = Dict[str, Iterable[str]]
 
 class TransformerResult(NamedTuple):
     """Result type of Transformer.get_data().
-    * zones_map: map of (zoneName -> ZoneEraRaw[]).
-    * policies_map: map of (policyName -> ZoneRuleRaw[]).
-    * links_map: map of (linkName -> zoneName)
+    * zones_map: (zoneName -> ZoneEraRaw[]).
+    * policies_map: (policyName -> ZoneRuleRaw[]).
+    * links_map: (linkName -> zoneName)
     * removed_zones: {zoneName -> reasons[]}
     * removed_policies: {policyName -> reasons[]}
     * removed_links: {linkName -> reasons[]}
     * notable_zones: {zoneName -> reasons[]}
     * notable_policies: {policyName -> reasons[]}
     * notable_links: {linkName -> reasons[]}
-    * letters_map: {policyName -> {letter -> index}}
-    * all_letters_map: {letter -> index}
+    * zone_ids: {zoneName -> zoneHash}
+    * letters_per_policy: {policyName -> {letter -> index}}
+    * letters_map: {letter -> index}
+    * formats_map: {format -> index}
     """
     zones_map: ZonesMap
     policies_map: PoliciesMap
@@ -197,8 +199,10 @@ class TransformerResult(NamedTuple):
     notable_zones: CommentsMap
     notable_policies: CommentsMap
     notable_links: CommentsMap
-    letters_map: LettersMap
-    all_letters_map: IndexMap
+    zone_ids: Dict[str, int]
+    letters_per_policy: LettersMap
+    letters_map: IndexMap
+    formats_map: IndexMap
 
 
 def add_comment(comments: CommentsMap, name: str, reason: str) -> None:
@@ -274,12 +278,11 @@ class ZoneInfoDatabase(TypedDict):
     buf_sizes: BufSizeMap
     max_buf_size: int
 
-    # ZoneIds
-    zone_ids: Dict[str, int]
-
-    # ZonePolicy letters that are more than 1 character long.
-    letters_map: LettersMap
-    all_letters_map: IndexMap
+    # Data from ArduinoTransformer
+    zone_ids: Dict[str, int]  # hash(zoneName)
+    letters_per_policy: LettersMap  # multi-character letters by zonePolicy
+    letters_map: IndexMap  # all multi-character letters
+    formats_map: IndexMap  # shortened format strings.
 
 
 def create_zone_info_database(
@@ -291,19 +294,8 @@ def create_zone_info_database(
     until_at_granularity: int,
     offset_granularity: int,
     strict: bool,
-    zones_map: ZonesMap,
-    policies_map: PoliciesMap,
-    links_map: LinksMap,
-    removed_zones: CommentsMap,
-    removed_links: CommentsMap,
-    removed_policies: CommentsMap,
-    notable_zones: CommentsMap,
-    notable_links: CommentsMap,
-    notable_policies: CommentsMap,
+    tresult: TransformerResult,
     buf_size_info: BufSizeInfo,
-    zone_ids: Dict[str, int],
-    letters_map: LettersMap,
-    all_letters_map: IndexMap,
 ) -> ZoneInfoDatabase:
     """Return an instance of ZoneInfoDatabase from the various ingrediants."""
 
@@ -320,28 +312,27 @@ def create_zone_info_database(
         'strict': strict,
 
         # Data from Extractor filtered through Transformer.
-        'zones_map': zones_map,
-        'policies_map': policies_map,
-        'links_map': links_map,
+        'zones_map': tresult.zones_map,
+        'policies_map': tresult.policies_map,
+        'links_map': tresult.links_map,
 
         # Data from Transformer.
-        'removed_zones': _sort_comments(removed_zones),
-        'removed_links': _sort_comments(removed_links),
-        'removed_policies': _sort_comments(removed_policies),
-        'notable_zones': _sort_comments(notable_zones),
-        'notable_links': _sort_comments(notable_links),
-        'notable_policies': _sort_comments(notable_policies),
+        'removed_zones': _sort_comments(tresult.removed_zones),
+        'removed_links': _sort_comments(tresult.removed_links),
+        'removed_policies': _sort_comments(tresult.removed_policies),
+        'notable_zones': _sort_comments(tresult.notable_zones),
+        'notable_links': _sort_comments(tresult.notable_links),
+        'notable_policies': _sort_comments(tresult.notable_policies),
 
         # Data from BufSizeEstimator
         'buf_sizes': buf_size_info['buf_sizes'],
         'max_buf_size': buf_size_info['max_buf_size'],
 
-        # ZoneIds
-        'zone_ids': zone_ids,
-
-        # Letters map
-        'letters_map': letters_map,
-        'all_letters_map': all_letters_map,
+        # Data from ArduinoTransformer
+        'zone_ids': tresult.zone_ids,
+        'letters_per_policy': tresult.letters_per_policy,
+        'letters_map': tresult.letters_map,
+        'formats_map': tresult.formats_map,
     }
 
 

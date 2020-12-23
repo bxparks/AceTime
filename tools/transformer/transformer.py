@@ -95,12 +95,17 @@ class Transformer:
         policies_map = self.policies_map
         links_map = self.links_map
 
-        logging.info('Found %s zone infos', len(self.zones_map))
-        logging.info('Found %s rule policies', len(self.policies_map))
+        logging.info(
+            'Found %d zones, %d policies, %d links',
+            len(self.zones_map),
+            len(self.policies_map),
+            len(self.links_map),
+        )
 
         # Part 1: Transform the zones_map
         # zones_map = self._remove_zones_without_slash(zones_map)
-        zones_map = self._detect_hash_collisions(zones_map)
+        zones_map, links_map = self._detect_hash_collisions(
+            zones_map=zones_map, links_map=links_map)
         zones_map = self._remove_zone_eras_too_old(zones_map)
         zones_map = self._remove_zone_eras_too_new(zones_map)
         zones_map = self._remove_zones_without_eras(zones_map)
@@ -116,8 +121,8 @@ class Transformer:
         zones_map = self._remove_zones_with_non_monotonic_until(zones_map)
 
         # Part 2: Transformations requring both zones_map and policies_map.
-        (zones_map, policies_map) = self._mark_rules_used_by_zones(
-            zones_map, policies_map)
+        zones_map, policies_map = self._mark_rules_used_by_zones(
+            zones_map=zones_map, policies_map=policies_map)
         policies_to_zones = _create_policies_to_zones(zones_map, policies_map)
 
         # Part 3: Transform the policies_map
@@ -140,16 +145,15 @@ class Transformer:
             policies_map = self._remove_rules_long_dst_letter(policies_map)
 
         # Part 4: Go back to zones_map and remove unused.
-        zones_map = self._remove_zones_without_rules(zones_map, policies_map)
+        zones_map = self._remove_zones_without_rules(
+            zones_map=zones_map, policies_map=policies_map)
 
         # Part 5: Remove links which point to removed zones.
         links_map = self.remove_links_to_missing_zones(links_map, zones_map)
 
         # Part 6: Remove zones and links whose normalized names conflict.
-        # For example, "GTM+0" and "GMT-0" will normalize to the same
-        # kZoneGMT_0, so cannot be used.
         zones_map, links_map = self.remove_zones_and_links_with_similar_names(
-            zones_map, links_map)
+            zones_map=zones_map, links_map=links_map)
 
         # Part 7: Replace the original maps with the transformed ones.
         self.policies_map = policies_map
@@ -174,8 +178,10 @@ class Transformer:
             notable_zones=self.tresult.notable_zones,
             notable_policies=self.tresult.notable_policies,
             notable_links=self.tresult.notable_links,
+            letters_per_policy=self.tresult.letters_per_policy,
             letters_map=self.tresult.letters_map,
-            all_letters_map=self.tresult.all_letters_map,
+            formats_map=self.tresult.formats_map,
+            zone_ids=self.tresult.zone_ids,
         )
 
     def print_summary(self) -> None:
@@ -261,24 +267,52 @@ class Transformer:
         merge_comments(self.all_removed_zones, removed_zones)
         return results
 
-    def _detect_hash_collisions(self, zones_map: ZonesMap) -> ZonesMap:
-        """Detect a hash collision of a zone name and throw an exception. With
-        only a few hundred zone names and a 32-bit hash, the chances of a
-        collision is extremely low. However, if it ever happens, it is a severe
-        error because we must guarantee that each zone name has a unique and
-        stable hash for the life of this library. If this exception ever
-        happens, we must create another hash for the colliding zone name, and
-        keep the second hash unique and stable as well.
+    def _detect_hash_collisions(
+        self,
+        zones_map: ZonesMap,
+        links_map: LinksMap,
+    ) -> Tuple[ZonesMap, LinksMap]:
+        """Detect a hash collision of a zone name or a link name and throw an
+        exception. With only about ~400 zone names and ~200 link names, the
+        chances of a collision using a 32-bit hash is extremely low. However, if
+        it ever happens, it is a severe error because we must guarantee that
+        each zone name has a unique and stable hash for the life of this
+        library.
+
+        If this exception ever happens, we must create another hash for the
+        colliding zone name, and keep the second hash unique and stable as well.
+        A possible solution is to keep an internal list of colliding hashes
+        (which ought to be few), and use a second hash function on the original
+        zone name or link name to generate the new hash, and then use the the
+        2nd hash for the 2nd name, while keeping the 1st hash for the original
+        name. Because the hash of the 1st name must be remain unchanged.
         """
         hashes: Dict[int, str] = {}
+
+        # Check zone names
         for name, _ in zones_map.items():
             h = hash_name(name)
             colliding_name = hashes.get(h)
             if colliding_name:
-                raise Exception("Hash collision: {name} and {colliding_name}")
-            else:
-                hashes[h] = name
-        return zones_map
+                raise Exception(
+                    "Hash collision: "
+                    f"Zone {name} with existing {colliding_name}"
+                )
+            hashes[h] = name
+
+        # Check link names
+        for name, _ in links_map.items():
+            h = hash_name(name)
+            colliding_name = hashes.get(h)
+            if colliding_name:
+                raise Exception(
+                    "Hash collision: "
+                    f"Link {name} with existing {colliding_name}"
+                )
+            hashes[h] = name
+
+        logging.info('Detected no hash collisions')
+        return zones_map, links_map
 
     def _remove_zone_eras_too_old(self, zones_map: ZonesMap) -> ZonesMap:
         """Remove zone eras which are too old, i.e. before (self.start_year-1).
@@ -1429,6 +1463,10 @@ class Transformer:
         zones_map: ZonesMap,
         links_map: LinksMap,
     ) -> Tuple[ZonesMap, LinksMap]:
+        """Currently, there are no conflicts, but if there were 2 zones names
+        like "Etc/GMT-0" and "Etc/GMT_0", both would normalize to "Etc/GMT_0",
+        producing a symbol "kZoneEtc_GMT_0, so one of them is thrown out.
+        """
         normalized_names: Dict[str, str] = {}  # normalized_name, name
         result_zones: ZonesMap = {}
         result_links: LinksMap = {}
