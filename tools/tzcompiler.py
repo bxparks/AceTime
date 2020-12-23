@@ -343,6 +343,7 @@ def main() -> None:
         notable_links={},
         letters_map={},
         all_letters_map={},
+        formats_map={},
     )
 
     # Transform the TZ zones and rules
@@ -423,6 +424,7 @@ def main() -> None:
         zone_ids=zone_ids,
         letters_map=tresult.letters_map,
         all_letters_map=tresult.all_letters_map,
+        formats_map=tresult.formats_map,
     )
 
     if args.action == 'zonedb':

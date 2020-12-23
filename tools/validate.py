@@ -313,6 +313,7 @@ def main() -> None:
         notable_links={},
         letters_map={},
         all_letters_map={},
+        formats_map={},
     )
 
     # Transform the TZ zones and rules

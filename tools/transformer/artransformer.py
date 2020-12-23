@@ -47,6 +47,7 @@ class ArduinoTransformer:
     def transform(self) -> None:
         self.letters_map, self.all_letters_map = \
             _collect_letter_strings(self.policies_map)
+        self.formats_map = _collect_format_strings(self.zones_map)
         self.policies_map = self._process_rules(self.policies_map)
         self.zones_map = self._process_eras(self.zones_map)
 
@@ -55,14 +56,15 @@ class ArduinoTransformer:
             zones_map=self.zones_map,
             policies_map=self.policies_map,
             links_map=self.tresult.links_map,
-            letters_map=self.letters_map,
-            all_letters_map=self.all_letters_map,
             removed_zones=self.tresult.removed_zones,
             removed_policies=self.tresult.removed_policies,
             removed_links=self.tresult.removed_links,
             notable_zones=self.tresult.notable_zones,
             notable_policies=self.tresult.notable_policies,
             notable_links=self.tresult.notable_links,
+            letters_map=self.letters_map,
+            all_letters_map=self.all_letters_map,
+            formats_map=self.formats_map,
         )
 
     def print_summary(self) -> None:
@@ -74,6 +76,9 @@ class ArduinoTransformer:
         )
 
     def _process_rules(self, policies_map: PoliciesMap) -> PoliciesMap:
+        """Convert various ZoneRule fields into values that are consumed by the
+        ZoneInfo and ZonePolicy classes of the Arduino AceTime library.
+        """
         for policy_name, rules in policies_map.items():
             for rule in rules:
                 rule['fromYearTiny'] = _to_tiny_year(rule['fromYear'])
@@ -122,6 +127,9 @@ class ArduinoTransformer:
         return self.policies_map
 
     def _process_eras(self, zones_map: ZonesMap) -> ZonesMap:
+        """Convert various ZoneRule fields into values that are consumed by the
+        ZoneInfo and ZonePolicy classes of the Arduino AceTime library.
+        """
         for zone_name, eras in zones_map.items():
             for era in eras:
 
@@ -216,6 +224,24 @@ def _collect_letter_strings(
         index += 1
 
     return letters_map, all_letters_map
+
+
+def _collect_format_strings(zones_map: ZonesMap) -> IndexMap:
+    """Collect the 'formats' field and return a map of indexes."""
+    short_formats: Set[str] = set()
+    for zone_name, eras in zones_map.items():
+        for era in eras:
+            format = era['format']
+            short_format = format.replace('%s', '%')
+            short_formats.add(short_format)
+
+    index = 0
+    short_formats_map: IndexMap = OrderedDict()
+    for short_format in sorted(short_formats):
+        short_formats_map[short_format] = index
+        index += 1
+
+    return short_formats_map
 
 
 def _to_tiny_year(year: int) -> int:

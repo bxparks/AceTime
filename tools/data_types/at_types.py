@@ -187,6 +187,7 @@ class TransformerResult(NamedTuple):
     * notable_links: {linkName -> reasons[]}
     * letters_map: {policyName -> {letter -> index}}
     * all_letters_map: {letter -> index}
+    * formats_map: {format -> index}
     """
     zones_map: ZonesMap
     policies_map: PoliciesMap
@@ -199,6 +200,7 @@ class TransformerResult(NamedTuple):
     notable_links: CommentsMap
     letters_map: LettersMap
     all_letters_map: IndexMap
+    formats_map: IndexMap
 
 
 def add_comment(comments: CommentsMap, name: str, reason: str) -> None:
@@ -281,6 +283,9 @@ class ZoneInfoDatabase(TypedDict):
     letters_map: LettersMap
     all_letters_map: IndexMap
 
+    # Format strings from Zone Era entries
+    formats_map: IndexMap
+
 
 def create_zone_info_database(
     tz_version: str,
@@ -304,6 +309,7 @@ def create_zone_info_database(
     zone_ids: Dict[str, int],
     letters_map: LettersMap,
     all_letters_map: IndexMap,
+    formats_map: IndexMap,
 ) -> ZoneInfoDatabase:
     """Return an instance of ZoneInfoDatabase from the various ingrediants."""
 
@@ -342,6 +348,9 @@ def create_zone_info_database(
         # Letters map
         'letters_map': letters_map,
         'all_letters_map': all_letters_map,
+
+        # Formats map
+        'formats_map': formats_map,
     }
 
 

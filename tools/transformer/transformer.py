@@ -180,6 +180,7 @@ class Transformer:
             notable_links=self.tresult.notable_links,
             letters_map=self.tresult.letters_map,
             all_letters_map=self.tresult.all_letters_map,
+            formats_map=self.tresult.formats_map,
         )
 
     def print_summary(self) -> None:
