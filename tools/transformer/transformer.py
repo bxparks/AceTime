@@ -121,8 +121,8 @@ class Transformer:
         zones_map = self._remove_zones_with_non_monotonic_until(zones_map)
 
         # Part 2: Transformations requring both zones_map and policies_map.
-        (zones_map, policies_map) = self._mark_rules_used_by_zones(
-            zones_map, policies_map)
+        zones_map, policies_map = self._mark_rules_used_by_zones(
+            zones_map=zones_map, policies_map=policies_map)
         policies_to_zones = _create_policies_to_zones(zones_map, policies_map)
 
         # Part 3: Transform the policies_map
@@ -145,16 +145,15 @@ class Transformer:
             policies_map = self._remove_rules_long_dst_letter(policies_map)
 
         # Part 4: Go back to zones_map and remove unused.
-        zones_map = self._remove_zones_without_rules(zones_map, policies_map)
+        zones_map = self._remove_zones_without_rules(
+            zones_map=zones_map, policies_map=policies_map)
 
         # Part 5: Remove links which point to removed zones.
         links_map = self.remove_links_to_missing_zones(links_map, zones_map)
 
         # Part 6: Remove zones and links whose normalized names conflict.
-        # For example, "GTM+0" and "GMT-0" will normalize to the same
-        # kZoneGMT_0, so cannot be used.
         zones_map, links_map = self.remove_zones_and_links_with_similar_names(
-            zones_map, links_map)
+            zones_map=zones_map, links_map=links_map)
 
         # Part 7: Replace the original maps with the transformed ones.
         self.policies_map = policies_map
@@ -1462,6 +1461,10 @@ class Transformer:
         zones_map: ZonesMap,
         links_map: LinksMap,
     ) -> Tuple[ZonesMap, LinksMap]:
+        """Currently, there are no conflicts, but if there were 2 zones names
+        like "Etc/GMT-0" and "Etc/GMT_0", both would normalize to "Etc/GMT_0",
+        producing a symbol "kZoneEtc_GMT_0, so one of them is thrown out.
+        """
         normalized_names: Dict[str, str] = {}  # normalized_name, name
         result_zones: ZonesMap = {}
         result_links: LinksMap = {}
