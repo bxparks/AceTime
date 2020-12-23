@@ -411,20 +411,9 @@ def main() -> None:
         until_at_granularity=until_at_granularity,
         offset_granularity=offset_granularity,
         strict=args.strict,
-        zones_map=tresult.zones_map,
-        policies_map=tresult.policies_map,
-        links_map=tresult.links_map,
-        removed_zones=tresult.removed_zones,
-        removed_links=tresult.removed_links,
-        removed_policies=tresult.removed_policies,
-        notable_zones=tresult.notable_zones,
-        notable_links=tresult.notable_links,
-        notable_policies=tresult.notable_policies,
+        tresult=tresult,
         buf_size_info=buf_size_info,
         zone_ids=zone_ids,
-        letters_map=tresult.letters_map,
-        all_letters_map=tresult.all_letters_map,
-        formats_map=tresult.formats_map,
     )
 
     if args.action == 'zonedb':
