@@ -47,7 +47,7 @@ class ArduinoTransformer:
         self.until_year = until_year
 
     def transform(self) -> None:
-        self.letters_map, self.all_letters_map = \
+        self.letters_per_policy, self.letters_map = \
             _collect_letter_strings(self.policies_map)
         self.formats_map = _collect_format_strings(self.zones_map)
         self.policies_map = self._process_rules(self.policies_map)
@@ -66,8 +66,8 @@ class ArduinoTransformer:
             notable_policies=self.tresult.notable_policies,
             notable_links=self.tresult.notable_links,
             zone_ids=self.zone_ids,
+            letters_per_policy=self.letters_per_policy,
             letters_map=self.letters_map,
-            all_letters_map=self.all_letters_map,
             formats_map=self.formats_map,
         )
 
@@ -120,7 +120,7 @@ class ArduinoTransformer:
                 letter = rule['letter']
                 rule['letterIndex'] = _to_letter_index(
                     letter=letter,
-                    indexed_letters=self.letters_map.get(policy_name),
+                    indexed_letters=self.letters_per_policy.get(policy_name),
                 )
                 if len(letter) > 1:
                     add_comment(
@@ -202,7 +202,7 @@ def _collect_letter_strings(
     1) a sorted collection of all multi-LETTERs, with their self index,
     2) collection of multi-LETTERs, grouped by policyName
     """
-    letters_map: LettersMap = OrderedDict()
+    letters_per_policy: LettersMap = OrderedDict()
     all_letters: Set[str] = set()
     for policy_name, rules in sorted(policies_map.items()):
         policy_letters: Set[str] = set()
@@ -218,16 +218,16 @@ def _collect_letter_strings(
             for letter in sorted(policy_letters):
                 indexed_letters[letter] = index
                 index += 1
-            letters_map[policy_name] = indexed_letters
+            letters_per_policy[policy_name] = indexed_letters
 
     # Create a map of all multi-letters
     index = 0
-    all_letters_map: IndexMap = OrderedDict()
+    letters_map: IndexMap = OrderedDict()
     for letter in sorted(all_letters):
-        all_letters_map[letter] = index
+        letters_map[letter] = index
         index += 1
 
-    return letters_map, all_letters_map
+    return letters_per_policy, letters_map
 
 
 def _collect_format_strings(zones_map: ZonesMap) -> IndexMap:

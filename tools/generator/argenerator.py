@@ -71,7 +71,7 @@ class ArduinoGenerator:
             removed_policies=zidb['removed_policies'],
             notable_zones=zidb['notable_zones'],
             notable_policies=zidb['notable_policies'],
-            letters_map=zidb['letters_map'],
+            letters_per_policy=zidb['letters_per_policy'],
         )
         self.zone_infos_generator = ZoneInfosGenerator(
             invocation=wrapped_invocation,
@@ -275,7 +275,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         removed_policies: CommentsMap,
         notable_zones: CommentsMap,
         notable_policies: CommentsMap,
-        letters_map: LettersMap,
+        letters_per_policy: LettersMap,
     ):
         self.invocation = invocation
         self.tz_version = tz_version
@@ -288,7 +288,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         self.removed_policies = removed_policies
         self.notable_zones = notable_zones
         self.notable_policies = notable_policies
-        self.letters_map = letters_map
+        self.letters_per_policy = letters_per_policy
 
         self.db_header_namespace = self.db_namespace.upper()
 
@@ -332,7 +332,8 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         memory32 = 32
         num_rules = 0
         for name, rules in sorted(self.policies_map.items()):
-            indexed_letters: Optional[IndexMap] = self.letters_map.get(name)
+            indexed_letters: Optional[IndexMap] = \
+                self.letters_per_policy.get(name)
             num_rules += len(rules)
             policy_item, policy_memory8, policy_memory32 = \
                 self._generate_policy_item(name, rules, indexed_letters)

@@ -178,8 +178,8 @@ class Transformer:
             notable_zones=self.tresult.notable_zones,
             notable_policies=self.tresult.notable_policies,
             notable_links=self.tresult.notable_links,
+            letters_per_policy=self.tresult.letters_per_policy,
             letters_map=self.tresult.letters_map,
-            all_letters_map=self.tresult.all_letters_map,
             formats_map=self.tresult.formats_map,
             zone_ids=self.tresult.zone_ids,
         )

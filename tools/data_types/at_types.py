@@ -186,8 +186,8 @@ class TransformerResult(NamedTuple):
     * notable_policies: {policyName -> reasons[]}
     * notable_links: {linkName -> reasons[]}
     * zone_ids: {zoneName -> zoneHash}
-    * letters_map: {policyName -> {letter -> index}}
-    * all_letters_map: {letter -> index}
+    * letters_per_policy: {policyName -> {letter -> index}}
+    * letters_map: {letter -> index}
     * formats_map: {format -> index}
     """
     zones_map: ZonesMap
@@ -200,8 +200,8 @@ class TransformerResult(NamedTuple):
     notable_policies: CommentsMap
     notable_links: CommentsMap
     zone_ids: Dict[str, int]
-    letters_map: LettersMap
-    all_letters_map: IndexMap
+    letters_per_policy: LettersMap
+    letters_map: IndexMap
     formats_map: IndexMap
 
 
@@ -280,8 +280,8 @@ class ZoneInfoDatabase(TypedDict):
 
     # Data from ArduinoTransformer
     zone_ids: Dict[str, int]  # hash(zoneName)
-    letters_map: LettersMap  # multi-character letters by zonePolicy
-    all_letters_map: IndexMap  # all multi-character letters
+    letters_per_policy: LettersMap  # multi-character letters by zonePolicy
+    letters_map: IndexMap  # all multi-character letters
     formats_map: IndexMap  # shortened format strings.
 
 
@@ -330,8 +330,8 @@ def create_zone_info_database(
 
         # Data from ArduinoTransformer
         'zone_ids': tresult.zone_ids,
+        'letters_per_policy': tresult.letters_per_policy,
         'letters_map': tresult.letters_map,
-        'all_letters_map': tresult.all_letters_map,
         'formats_map': tresult.formats_map,
     }
 
