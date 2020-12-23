@@ -248,6 +248,7 @@ class ZoneInfoDatabase(TypedDict):
 
     # Context data.
     tz_version: str
+    tz_version_number: int
     tz_files: List[str]
     scope: str
     start_year: int
@@ -309,6 +310,7 @@ def create_zone_info_database(
     return {
         # Context data.
         'tz_version': tz_version,
+        'tz_version_number': _to_version_number(tz_version),
         'tz_files': tz_files,
         'scope': scope,
         'start_year': start_year,
@@ -351,3 +353,13 @@ def _sort_comments(comments: CommentsMap) -> CommentsMap:
         (k, list(sorted(v)))
         for k, v in sorted(comments.items())
     )
+
+
+def _to_version_number(version: str) -> int:
+    """Convert version string (e.g. '2020a') to an integer of the form YYNN
+    (e.g. '2001'), where YY is (year - 2000) and NN is the patch number,
+    where 'a' is 01.
+    """
+    year = version[0:4]
+    patch = version[4]
+    return (int(year) - 2000) * 100 + (ord(patch) - ord('a') + 1)
