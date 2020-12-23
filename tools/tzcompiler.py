@@ -308,6 +308,17 @@ def main() -> None:
         else:
             delta_granularity = 900
 
+    logging.info('======== TZ Compiler settings')
+    logging.info(f'Scope: {args.scope}')
+    logging.info(
+        f'Start year: {args.start_year}; Until year: {args.until_year}'
+    )
+    logging.info(f'Strict: {args.strict}')
+    logging.info(f'TZ Version: {args.tz_version}')
+    logging.info(
+        'Ignore too large transition buf_size: '
+        f'{args.ignore_buf_size_too_large}'
+    )
     logging.info('Granularity for UNTIL/AT: %d', until_at_granularity)
     logging.info('Granularity for STDOFF (offset): %d', offset_granularity)
     logging.info(

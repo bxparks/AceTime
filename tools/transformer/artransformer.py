@@ -74,9 +74,9 @@ class ArduinoTransformer:
     def print_summary(self) -> None:
         logging.info(
             "Summary"
-            f": Zones {len(self.zones_map)}"
-            f"; Policies {len(self.policies_map)}"
-            f"; Links {len(self.links_map)}"
+            f": {len(self.zones_map)} Zones"
+            f"; {len(self.policies_map)} Policies"
+            f"; {len(self.links_map)} Links"
         )
 
     def _process_rules(self, policies_map: PoliciesMap) -> PoliciesMap:
