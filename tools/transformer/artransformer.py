@@ -4,10 +4,12 @@
 
 from typing import NamedTuple
 from typing import Optional
+from typing import Dict
 from typing import Set
 from typing import Tuple
 from collections import OrderedDict
 import logging
+from transformer.transformer import hash_name
 from data_types.at_types import ZonesMap
 from data_types.at_types import PoliciesMap
 from data_types.at_types import LettersMap
@@ -50,6 +52,7 @@ class ArduinoTransformer:
         self.formats_map = _collect_format_strings(self.zones_map)
         self.policies_map = self._process_rules(self.policies_map)
         self.zones_map = self._process_eras(self.zones_map)
+        self.zone_ids = _generate_zone_ids(self.zones_map)
 
     def get_data(self) -> TransformerResult:
         return TransformerResult(
@@ -62,6 +65,7 @@ class ArduinoTransformer:
             notable_zones=self.tresult.notable_zones,
             notable_policies=self.tresult.notable_policies,
             notable_links=self.tresult.notable_links,
+            zone_ids=self.zone_ids,
             letters_map=self.letters_map,
             all_letters_map=self.all_letters_map,
             formats_map=self.formats_map,
@@ -432,3 +436,9 @@ def _to_letter_index(
         raise Exception('len(letter) == 0; should not happen')
 
     return letter_index
+
+
+def _generate_zone_ids(zones_map: ZonesMap) -> Dict[str, int]:
+    """Generate {zoneName -> zoneId} map."""
+    ids: Dict[str, int] = {name: hash_name(name) for name in zones_map.keys()}
+    return OrderedDict(sorted(ids.items()))

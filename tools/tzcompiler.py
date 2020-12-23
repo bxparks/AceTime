@@ -52,17 +52,14 @@ Examples:
 import argparse
 import logging
 import sys
-from collections import OrderedDict
-from typing import Dict
 from typing_extensions import Protocol
-from data_types.at_types import ZonesMap
 from data_types.at_types import TransformerResult
 from data_types.at_types import ZoneInfoDatabase
 from data_types.at_types import create_zone_info_database
 from data_types.at_types import BufSizeInfo
 from zone_processor.bufestimator import BufSizeEstimator
 from extractor.extractor import Extractor
-from transformer.transformer import Transformer, hash_name
+from transformer.transformer import Transformer
 from transformer.artransformer import ArduinoTransformer
 from generator.argenerator import ArduinoGenerator
 from generator.pygenerator import PythonGenerator
@@ -129,11 +126,6 @@ def generate_zonedb(
 
     else:
         raise Exception(f"Unrecognized language '{language}'")
-
-
-def generate_zone_ids(zones_map: ZonesMap) -> Dict[str, int]:
-    ids: Dict[str, int] = {name: hash_name(name) for name in zones_map.keys()}
-    return OrderedDict(sorted(ids.items()))
 
 
 def main() -> None:
@@ -341,6 +333,7 @@ def main() -> None:
         notable_zones={},
         notable_policies={},
         notable_links={},
+        zone_ids={},
         letters_map={},
         all_letters_map={},
         formats_map={},
@@ -398,9 +391,6 @@ def main() -> None:
         else:
             raise Exception(msg)
 
-    # Generate zone_ids (hash of zone_name).
-    zone_ids: Dict[str, int] = generate_zone_ids(tresult.zones_map)
-
     # Collect TZ DB data into a single JSON-serializable object.
     zidb = create_zone_info_database(
         tz_version=args.tz_version,
@@ -413,7 +403,6 @@ def main() -> None:
         strict=args.strict,
         tresult=tresult,
         buf_size_info=buf_size_info,
-        zone_ids=zone_ids,
     )
 
     if args.action == 'zonedb':

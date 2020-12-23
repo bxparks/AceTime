@@ -176,15 +176,16 @@ CommentsMap = Dict[str, Iterable[str]]
 
 class TransformerResult(NamedTuple):
     """Result type of Transformer.get_data().
-    * zones_map: map of (zoneName -> ZoneEraRaw[]).
-    * policies_map: map of (policyName -> ZoneRuleRaw[]).
-    * links_map: map of (linkName -> zoneName)
+    * zones_map: (zoneName -> ZoneEraRaw[]).
+    * policies_map: (policyName -> ZoneRuleRaw[]).
+    * links_map: (linkName -> zoneName)
     * removed_zones: {zoneName -> reasons[]}
     * removed_policies: {policyName -> reasons[]}
     * removed_links: {linkName -> reasons[]}
     * notable_zones: {zoneName -> reasons[]}
     * notable_policies: {policyName -> reasons[]}
     * notable_links: {linkName -> reasons[]}
+    * zone_ids: {zoneName -> zoneHash}
     * letters_map: {policyName -> {letter -> index}}
     * all_letters_map: {letter -> index}
     * formats_map: {format -> index}
@@ -198,6 +199,7 @@ class TransformerResult(NamedTuple):
     notable_zones: CommentsMap
     notable_policies: CommentsMap
     notable_links: CommentsMap
+    zone_ids: Dict[str, int]
     letters_map: LettersMap
     all_letters_map: IndexMap
     formats_map: IndexMap
@@ -276,15 +278,11 @@ class ZoneInfoDatabase(TypedDict):
     buf_sizes: BufSizeMap
     max_buf_size: int
 
-    # ZoneIds
-    zone_ids: Dict[str, int]
-
-    # ZonePolicy letters that are more than 1 character long.
-    letters_map: LettersMap
-    all_letters_map: IndexMap
-
-    # Format strings from Zone Era entries
-    formats_map: IndexMap
+    # Data from ArduinoTransformer
+    zone_ids: Dict[str, int]  # hash(zoneName)
+    letters_map: LettersMap  # multi-character letters by zonePolicy
+    all_letters_map: IndexMap  # all multi-character letters
+    formats_map: IndexMap  # shortened format strings.
 
 
 def create_zone_info_database(
@@ -296,9 +294,8 @@ def create_zone_info_database(
     until_at_granularity: int,
     offset_granularity: int,
     strict: bool,
+    tresult: TransformerResult,
     buf_size_info: BufSizeInfo,
-    zone_ids: Dict[str, int],
-    tresult: TransformerResult
 ) -> ZoneInfoDatabase:
     """Return an instance of ZoneInfoDatabase from the various ingrediants."""
 
@@ -331,10 +328,8 @@ def create_zone_info_database(
         'buf_sizes': buf_size_info['buf_sizes'],
         'max_buf_size': buf_size_info['max_buf_size'],
 
-        # ZoneIds
-        'zone_ids': zone_ids,
-
         # Data from ArduinoTransformer
+        'zone_ids': tresult.zone_ids,
         'letters_map': tresult.letters_map,
         'all_letters_map': tresult.all_letters_map,
         'formats_map': tresult.formats_map,

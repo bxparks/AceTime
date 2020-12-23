@@ -311,6 +311,7 @@ def main() -> None:
         notable_zones={},
         notable_policies={},
         notable_links={},
+        zone_ids={},
         letters_map={},
         all_letters_map={},
         formats_map={},
