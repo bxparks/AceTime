@@ -62,7 +62,6 @@ zonedb.json: $(SRC) $(TZ_VERSION)
 		--scope basic \
 		--language json \
 		--json_file $@ \
-		--ignore_buf_size_too_large \
 		--start_year 2000 \
 		--until_year 2050
 
@@ -75,8 +74,7 @@ zonedbx.json: $(SRC) $(TZ_VERSION)
 		--scope extended \
 		--language json \
 		--json_file $@ \
-		--ignore_buf_size_too_large \
-		--start_year 1970 \
+		--start_year 2000 \
 		--until_year 2050
 
 # Generate the zones.txt file for testing purposes.

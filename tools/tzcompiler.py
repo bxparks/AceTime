@@ -411,6 +411,7 @@ def main() -> None:
         until_year=args.until_year,
         until_at_granularity=until_at_granularity,
         offset_granularity=offset_granularity,
+        delta_granularity=delta_granularity,
         strict=args.strict,
         tresult=tresult,
         buf_size_info=buf_size_info,

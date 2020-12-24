@@ -259,7 +259,9 @@ class ZoneInfoDatabase(TypedDict):
     until_year: int
     until_at_granularity: int
     offset_granularity: int
+    delta_granularity: int
     strict: bool
+    num_zones: int
 
     # Data from Extractor filtered through Transformer
     zones_map: ZonesMap
@@ -293,6 +295,7 @@ def create_zone_info_database(
     until_year: int,
     until_at_granularity: int,
     offset_granularity: int,
+    delta_granularity: int,
     strict: bool,
     tresult: TransformerResult,
     buf_size_info: BufSizeInfo,
@@ -309,7 +312,9 @@ def create_zone_info_database(
         'until_year': until_year,
         'until_at_granularity': until_at_granularity,
         'offset_granularity': offset_granularity,
+        'delta_granularity': delta_granularity,
         'strict': strict,
+        'num_zones': len(tresult.zones_map),
 
         # Data from Extractor filtered through Transformer.
         'zones_map': tresult.zones_map,
