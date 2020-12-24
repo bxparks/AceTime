@@ -18,7 +18,7 @@ from data_types.at_types import PoliciesMap
 from data_types.at_types import LinksMap
 from data_types.at_types import CommentsMap
 from data_types.at_types import IndexMap
-from data_types.at_types import LettersMap
+from data_types.at_types import LettersPerPolicy
 from data_types.at_types import ZoneInfoDatabase
 from data_types.at_types import BufSizeMap
 from transformer.transformer import normalize_name
@@ -275,7 +275,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         removed_policies: CommentsMap,
         notable_zones: CommentsMap,
         notable_policies: CommentsMap,
-        letters_per_policy: LettersMap,
+        letters_per_policy: LettersPerPolicy,
     ):
         self.invocation = invocation
         self.tz_version = tz_version

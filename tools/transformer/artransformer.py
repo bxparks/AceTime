@@ -12,7 +12,7 @@ import logging
 from transformer.transformer import hash_name
 from data_types.at_types import ZonesMap
 from data_types.at_types import PoliciesMap
-from data_types.at_types import LettersMap
+from data_types.at_types import LettersPerPolicy
 from data_types.at_types import IndexMap
 from data_types.at_types import TransformerResult
 from data_types.at_types import EPOCH_YEAR
@@ -197,12 +197,12 @@ class ArduinoTransformer:
 
 def _collect_letter_strings(
     policies_map: PoliciesMap,
-) -> Tuple[LettersMap, IndexMap]:
+) -> Tuple[LettersPerPolicy, IndexMap]:
     """Loop through all ZoneRules and collect:
     1) a sorted collection of all multi-LETTERs, with their self index,
     2) collection of multi-LETTERs, grouped by policyName
     """
-    letters_per_policy: LettersMap = OrderedDict()
+    letters_per_policy: LettersPerPolicy = OrderedDict()
     all_letters: Set[str] = set()
     for policy_name, rules in sorted(policies_map.items()):
         policy_letters: Set[str] = set()

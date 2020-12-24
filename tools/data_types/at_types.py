@@ -164,7 +164,7 @@ IndexMap = Dict[str, int]
 # ZonePolicy. Allows the 'letter' index to be localzed to the given ZonePolicy
 # (i.e. will only be 0 or 1). Created by artransformer.py. map{policy_name ->
 # map{letter -> index}}
-LettersMap = Dict[str, IndexMap]
+LettersPerPolicy = Dict[str, IndexMap]
 
 # Map of {name -> Set[reason]} used by Transformer to collect de-duped error
 # messages or warnings. A set() collection does not serialize well to JSON, so #
@@ -200,7 +200,7 @@ class TransformerResult(NamedTuple):
     notable_policies: CommentsMap
     notable_links: CommentsMap
     zone_ids: Dict[str, int]
-    letters_per_policy: LettersMap
+    letters_per_policy: LettersPerPolicy
     letters_map: IndexMap
     formats_map: IndexMap
 
@@ -282,7 +282,7 @@ class ZoneInfoDatabase(TypedDict):
 
     # Data from ArduinoTransformer
     zone_ids: Dict[str, int]  # hash(zoneName)
-    letters_per_policy: LettersMap  # multi-character letters by zonePolicy
+    letters_per_policy: LettersPerPolicy  # multi-char letters by zonePolicy
     letters_map: IndexMap  # all multi-character letters
     formats_map: IndexMap  # shortened format strings.
 
