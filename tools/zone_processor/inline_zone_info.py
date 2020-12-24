@@ -21,14 +21,14 @@ from transformer.transformer import normalize_name
 
 ZoneRule = TypedDict(
     'ZoneRule', {
-        'fromYear': int,
-        'toYear': int,
-        'inMonth': int,
-        'onDayOfWeek': int,
-        'onDayOfMonth': int,
-        'atSeconds': int,
-        'atTimeSuffix': str,
-        'deltaSeconds': int,
+        'from_year': int,
+        'to_year': int,
+        'in_month': int,
+        'on_day_of_week': int,
+        'on_day_of_month': int,
+        'at_seconds': int,
+        'at_time_suffix': str,
+        'delta_seconds': int,
         'letter': str,
     })
 
@@ -42,15 +42,15 @@ ZonePolicyMap = Dict[str, ZonePolicy]
 
 ZoneEra = TypedDict(
     'ZoneEra', {
-        'offsetSeconds': int,
-        'zonePolicy': Union[ZonePolicy, str],  # '-', ':', or ZonePolicy
-        'rulesDeltaSeconds': int,
+        'offset_seconds': int,
+        'zone_policy': Union[ZonePolicy, str],  # '-', ':', or ZonePolicy
+        'rules_delta_seconds': int,
         'format': str,
-        'untilYear': int,
-        'untilMonth': int,
-        'untilDay': int,
-        'untilSeconds': int,
-        'untilTimeSuffix': str,
+        'until_year': int,
+        'until_month': int,
+        'until_day': int,
+        'until_seconds': int,
+        'until_time_suffix': str,
     })
 
 ZoneInfo = TypedDict(
@@ -93,14 +93,14 @@ class InlineZoneInfo:
             for rule in rules:
                 # yapf: disable
                 policy_rules.append({
-                    'fromYear': rule['fromYear'],
-                    'toYear': rule['toYear'],
-                    'inMonth': rule['inMonth'],
-                    'onDayOfWeek': rule['onDayOfWeek'],
-                    'onDayOfMonth': rule['onDayOfMonth'],
-                    'atSeconds': rule['atSecondsTruncated'],
-                    'atTimeSuffix': rule['atTimeSuffix'],
-                    'deltaSeconds': rule['deltaSecondsTruncated'],
+                    'from_year': rule['from_year'],
+                    'to_year': rule['to_year'],
+                    'in_month': rule['in_month'],
+                    'on_day_of_week': rule['on_day_of_week'],
+                    'on_day_of_month': rule['on_day_of_month'],
+                    'at_seconds': rule['at_seconds_truncated'],
+                    'at_time_suffix': rule['at_time_suffix'],
+                    'delta_seconds': rule['delta_seconds_truncated'],
                     'letter': rule['letter']
                 })
                 # yapf: enable
@@ -125,15 +125,15 @@ class InlineZoneInfo:
 
                 # yapf: disable
                 zone_eras.append({
-                    'offsetSeconds': era['offsetSecondsTruncated'],
-                    'zonePolicy': zone_policy,
-                    'rulesDeltaSeconds': era['rulesDeltaSecondsTruncated'],
+                    'offset_seconds': era['offset_seconds_truncated'],
+                    'zone_policy': zone_policy,
+                    'rules_delta_seconds': era['rules_delta_seconds_truncated'],
                     'format': era['format'],
-                    'untilYear': era['untilYear'],
-                    'untilMonth': era['untilMonth'],
-                    'untilDay': era['untilDay'],
-                    'untilSeconds': era['untilSecondsTruncated'],
-                    'untilTimeSuffix': era['untilTimeSuffix'],
+                    'until_year': era['until_year'],
+                    'until_month': era['until_month'],
+                    'until_day': era['until_day'],
+                    'until_seconds': era['until_seconds_truncated'],
+                    'until_time_suffix': era['until_time_suffix'],
                 })
                 # yapf: enable
             self.zone_infos[zone_name] = {'name': zone_name, 'eras': zone_eras}

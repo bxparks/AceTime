@@ -243,16 +243,16 @@ static const char* const kLetters{policyName}[] {progmem} = {{
 """
 
     ZONE_POLICIES_CPP_RULE_ITEM = """\
-  // {rawLine}
+  // {raw_line}
   {{
-    {fromYearTiny} /*fromYearTiny*/,
-    {toYearTiny} /*toYearTiny*/,
-    {inMonth} /*inMonth*/,
-    {onDayOfWeek} /*onDayOfWeek*/,
-    {onDayOfMonth} /*onDayOfMonth*/,
-    {atTimeCode} /*atTimeCode*/,
-    {atTimeModifier} /*atTimeModifier ({atTimeModifierComment})*/,
-    {deltaCode} /*deltaCode ({deltaCodeComment})*/,
+    {from_year_tiny} /*fromYearTiny*/,
+    {to_year_tiny} /*toYearTiny*/,
+    {in_month} /*inMonth*/,
+    {on_day_of_week} /*onDayOfWeek*/,
+    {on_day_of_month} /*onDayOfMonth*/,
+    {at_time_code} /*atTimeCode*/,
+    {at_time_modifier} /*atTimeModifier ({at_time_modifier_comment})*/,
+    {delta_code} /*deltaCode ({delta_code_comment})*/,
     {letter} /*letter{letterComment}*/,
   }},
 """
@@ -365,19 +365,19 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         # Generate kZoneRules*[]
         rule_items = ''
         for rule in rules:
-            at_time_code = rule['atTimeCode']
-            at_time_modifier = rule['atTimeModifier']
+            at_time_code = rule['at_time_code']
+            at_time_modifier = rule['at_time_modifier']
             at_time_modifier_comment = _get_time_modifier_comment(
-                time_seconds=rule['atSecondsTruncated'],
-                suffix=rule['atTimeSuffix'],
+                time_seconds=rule['at_seconds_truncated'],
+                suffix=rule['at_time_suffix'],
             )
-            delta_code = rule['deltaCodeEncoded']
+            delta_code = rule['delta_code_encoded']
             delta_code_comment = _get_rule_delta_code_comment(
-                delta_seconds=rule['deltaSecondsTruncated'],
+                delta_seconds=rule['delta_seconds_truncated'],
                 scope=self.scope,
             )
-            from_year_tiny = rule['fromYearTiny']
-            to_year_tiny = rule['toYearTiny']
+            from_year_tiny = rule['from_year_tiny']
+            to_year_tiny = rule['to_year_tiny']
 
             # Single-character 'letter' values are represented as themselves
             # using the C++ 'char' type ('A'-'Z'). But some 'letter' fields hold
@@ -394,24 +394,24 @@ static const char* const kLetters{policyName}[] {progmem} = {{
                 letter = f"'{letter}'"
             elif len(letter) > 1:
                 letterComment = f' (index to "{letter}")'
-                letter = str(rule['letterIndexPerPolicy'])
+                letter = str(rule['letter_index_per_policy'])
             else:
                 raise Exception(
                     'len(%s) == 0; should not happen'
                     % rule['letter'])
 
             rule_items += self.ZONE_POLICIES_CPP_RULE_ITEM.format(
-                rawLine=normalize_raw(rule['rawLine']),
-                fromYearTiny=from_year_tiny,
-                toYearTiny=to_year_tiny,
-                inMonth=rule['inMonth'],
-                onDayOfWeek=rule['onDayOfWeek'],
-                onDayOfMonth=rule['onDayOfMonth'],
-                atTimeCode=at_time_code,
-                atTimeModifier=at_time_modifier,
-                atTimeModifierComment=at_time_modifier_comment,
-                deltaCode=delta_code,
-                deltaCodeComment=delta_code_comment,
+                raw_line=normalize_raw(rule['raw_line']),
+                from_year_tiny=from_year_tiny,
+                to_year_tiny=to_year_tiny,
+                in_month=rule['in_month'],
+                on_day_of_week=rule['on_day_of_week'],
+                on_day_of_month=rule['on_day_of_month'],
+                at_time_code=at_time_code,
+                at_time_modifier=at_time_modifier,
+                at_time_modifier_comment=at_time_modifier_comment,
+                delta_code=delta_code,
+                delta_code_comment=delta_code_comment,
                 letter=letter,
                 letterComment=letterComment)
 
@@ -600,8 +600,8 @@ namespace {dbNamespace} {{
 const char kTzDatabaseVersion[] = "{tz_version}";
 
 const {scope}::ZoneContext kZoneContext = {{
-  {startYear} /*startYear*/,
-  {untilYear} /*untilYear*/,
+  {start_year} /*startYear*/,
+  {until_year} /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,
 }};
 
@@ -647,19 +647,19 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
 """
 
     ZONE_INFOS_CPP_ERA_ITEM = """\
-  // {rawLine}
+  // {raw_line}
   {{
-    {zonePolicy} /*zonePolicy*/,
+    {zone_policy} /*zonePolicy*/,
     "{format}" /*format*/,
-    {offsetCode} /*offsetCode*/,
-    {deltaCode} /*deltaCode ({deltaCodeComment})*/,
-    {untilYearTiny} /*untilYearTiny*/,
-    {untilMonth} /*untilMonth*/,
-    {untilDay} /*untilDay*/,
-    {untilTimeCode} /*untilTimeCode*/,
-    {untilTimeModifier} /*untilTimeModifier ({untilTimeModifierComment})*/,
+    {offset_code} /*offsetCode*/,
+    {delta_code} /*deltaCode ({delta_code_comment})*/,
+    {until_year_tiny} /*untilYearTiny*/,
+    {until_month} /*untilMonth*/,
+    {until_day} /*untilDay*/,
+    {until_time_code} /*untilTimeCode*/,
+    {until_time_modifier} /*untilTimeModifier ({until_time_modifier_comment})*/,
   }},
-"""
+"""  # noqa
 
     ZONE_INFOS_CPP_LINK_ITEM = """\
 const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
@@ -813,8 +813,8 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             tz_files=self.tz_files,
             tz_version=self.tz_version,
             scope=self.scope,
-            startYear=self.start_year,
-            untilYear=self.until_year,
+            start_year=self.start_year,
+            until_year=self.until_year,
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
             numInfos=num_infos,
@@ -874,38 +874,38 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         else:
             zone_policy = f'&kPolicy{normalize_name(rules_policy_name)}'
 
-        offset_code = era['offsetCode']
-        delta_code = era['deltaCodeEncoded']
+        offset_code = era['offset_code']
+        delta_code = era['delta_code_encoded']
         delta_code_comment = _get_era_delta_code_comment(
-            offset_seconds=era['offsetSecondsTruncated'],
-            delta_seconds=era['rulesDeltaSecondsTruncated'],
+            offset_seconds=era['offset_seconds_truncated'],
+            delta_seconds=era['rules_delta_seconds_truncated'],
             scope=self.scope,
         )
-        until_year_tiny = era['untilYearTiny']
-        until_month = era['untilMonth']
-        until_day = era['untilDay']
-        until_time_code = era['untilTimeCode']
-        until_time_modifier = era['untilTimeModifier']
+        until_year_tiny = era['until_year_tiny']
+        until_month = era['until_month']
+        until_day = era['until_day']
+        until_time_code = era['until_time_code']
+        until_time_modifier = era['until_time_modifier']
         until_time_modifier_comment = _get_time_modifier_comment(
-            time_seconds=era['untilSecondsTruncated'],
-            suffix=era['untilTimeSuffix'],
+            time_seconds=era['until_seconds_truncated'],
+            suffix=era['until_time_suffix'],
         )
-        format_short = era['formatShort']
+        format_short = era['format_short']
         string_length = len(format_short) + 1
 
         era_item = self.ZONE_INFOS_CPP_ERA_ITEM.format(
-            rawLine=normalize_raw(era['rawLine']),
-            offsetCode=offset_code,
-            deltaCode=delta_code,
-            deltaCodeComment=delta_code_comment,
-            zonePolicy=zone_policy,
+            raw_line=normalize_raw(era['raw_line']),
+            offset_code=offset_code,
+            delta_code=delta_code,
+            delta_code_comment=delta_code_comment,
+            zone_policy=zone_policy,
             format=format_short,
-            untilYearTiny=until_year_tiny,
-            untilMonth=until_month,
-            untilDay=until_day,
-            untilTimeCode=until_time_code,
-            untilTimeModifier=until_time_modifier,
-            untilTimeModifierComment=until_time_modifier_comment,
+            until_year_tiny=until_year_tiny,
+            until_month=until_month,
+            until_day=until_day,
+            until_time_code=until_time_code,
+            until_time_modifier=until_time_modifier,
+            until_time_modifier_comment=until_time_modifier_comment,
         )
 
         return (era_item, string_length)
@@ -1031,8 +1031,8 @@ def _get_time_modifier_comment(
     time_seconds: int,
     suffix: str,
 ) -> str:
-    """Create the comment that explains how the untilTimeCode or atTimeCode was
-    calculated.
+    """Create the comment that explains how the until_time_code or at_time_code
+    was calculated.
     """
     if suffix == 'w':
         comment = 'kSuffixW'
@@ -1050,7 +1050,7 @@ def _get_era_delta_code_comment(
     delta_seconds: int,
     scope: str,
 ) -> str:
-    """Create the comment that explains how the ZoneEra deltaCode[Encoded] was
+    """Create the comment that explains how the ZoneEra delta_code[_encoded] was
     calculated.
     """
     offset_minute = offset_seconds % 900 // 60
@@ -1068,8 +1068,8 @@ def _get_rule_delta_code_comment(
     delta_seconds: int,
     scope: str,
 ) -> str:
-    """Create the comment that explains how the ZoneRule deltaCode[Encoded] was
-    calculated.
+    """Create the comment that explains how the ZoneRule delta_code[_encoded]
+    was calculated.
     """
     delta_minute = delta_seconds // 60
     if scope == 'extended':

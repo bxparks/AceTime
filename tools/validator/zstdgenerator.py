@@ -170,7 +170,7 @@ class TestDataGenerator:
             for transition in zone_specifier.transitions:
                 # Some Transitions from ZoneSpecifier are in previous or post
                 # years (e.g. viewing_months = [14, 36]), so skip those.
-                start = transition.startDateTime
+                start = transition.start_date_time
                 transition_year = start.y
                 if transition_year != year:
                     continue
