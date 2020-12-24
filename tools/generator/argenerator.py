@@ -394,7 +394,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
                 letter = f"'{letter}'"
             elif len(letter) > 1:
                 letterComment = f' (index to "{letter}")'
-                letter = str(rule['letterIndex'])
+                letter = str(rule['letterIndexPerPolicy'])
             else:
                 raise Exception(
                     'len(%s) == 0; should not happen'

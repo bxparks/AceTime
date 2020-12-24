@@ -117,8 +117,13 @@ class ArduinoTransformer:
                 rule['deltaCode'] = encoded_delta.delta_code
                 rule['deltaCodeEncoded'] = encoded_delta.delta_code_encoded
 
+                # Get letter indexes, per policy and global
                 letter = rule['letter']
                 rule['letterIndex'] = _to_letter_index(
+                    letter=letter,
+                    indexed_letters=self.letters_map,
+                )
+                rule['letterIndexPerPolicy'] = _to_letter_index(
                     letter=letter,
                     indexed_letters=self.letters_per_policy.get(policy_name),
                 )

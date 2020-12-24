@@ -93,7 +93,8 @@ class ZoneRuleRaw(TypedDict, total=False):
     atTimeModifier: int  # 's', 'w' or 'u' + atTimeMinute
     deltaCode: int  # DST delta offset in units of 15-min
     deltaCodeEncoded: int  # encoded version of deltaCode
-    letterIndex: int  # index into letters[], or -1 if all are single character
+    letterIndexPerPolicy: int  # index into letters_per_policy, or -1
+    letterIndex: int  # index into letters_map[], or -1
 
 
 class ZoneEraRaw(TypedDict, total=False):
