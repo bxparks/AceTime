@@ -113,8 +113,8 @@ class TestZoneSpecifierHelperMethods(unittest.TestCase):
 class TestCompareTransitionToMatch(unittest.TestCase):
     def test_compare_exact(self) -> None:
         match = ZoneMatch({
-            'startDateTime': DateTuple(2000, 1, 1, 0, 'w'),
-            'untilDateTime': DateTuple(2001, 1, 1, 0, 'w')
+            'start_date_time': DateTuple(2000, 1, 1, 0, 'w'),
+            'until_date_time': DateTuple(2001, 1, 1, 0, 'w')
         })
 
         transition = Transition({
@@ -140,8 +140,8 @@ class TestCompareTransitionToMatch(unittest.TestCase):
 
     def test_compare_fuzzy(self) -> None:
         match = ZoneMatch({
-            'startDateTime': DateTuple(2000, 1, 1, 0, 'w'),
-            'untilDateTime': DateTuple(2001, 1, 1, 0, 'w')
+            'start_date_time': DateTuple(2000, 1, 1, 0, 'w'),
+            'until_date_time': DateTuple(2001, 1, 1, 0, 'w')
         })
 
         transition = Transition({
@@ -195,36 +195,38 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(1, len(matches))
 
         self.assertEqual(
-            DateTuple(1999, 12, 1, 0, 'w'), matches[0].startDateTime)
+            DateTuple(1999, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
-            DateTuple(2001, 2, 1, 0, 'w'), matches[0].untilDateTime)
-        self.assertEqual('US', matches[0].zoneEra.policyName)
+            DateTuple(2001, 2, 1, 0, 'w'), matches[0].until_date_time)
+        self.assertEqual('US', matches[0].zone_era.policyName)
 
         transitions = zone_specifier.transitions
         self.assertEqual(3, len(transitions))
 
         self.assertEqual(
-            DateTuple(1999, 12, 1, 0, 'w'), transitions[0].startDateTime)
+            DateTuple(1999, 12, 1, 0, 'w'), transitions[0].start_date_time)
         self.assertEqual(
-            DateTuple(2000, 4, 2, 2 * 3600, 'w'), transitions[0].untilDateTime)
-        self.assertEqual(-8 * 3600, transitions[0].offsetSeconds)
-        self.assertEqual(0, transitions[0].deltaSeconds)
+            DateTuple(2000, 4, 2, 2 * 3600, 'w'),
+            transitions[0].until_date_time)
+        self.assertEqual(-8 * 3600, transitions[0].offset_seconds)
+        self.assertEqual(0, transitions[0].delta_seconds)
 
         self.assertEqual(
-            DateTuple(2000, 4, 2, 3 * 3600, 'w'), transitions[1].startDateTime)
+            DateTuple(2000, 4, 2, 3 * 3600, 'w'),
+            transitions[1].start_date_time)
         self.assertEqual(
             DateTuple(2000, 10, 29, 2 * 3600, 'w'),
-            transitions[1].untilDateTime)
-        self.assertEqual(-8 * 3600, transitions[1].offsetSeconds)
-        self.assertEqual(1 * 3600, transitions[1].deltaSeconds)
+            transitions[1].until_date_time)
+        self.assertEqual(-8 * 3600, transitions[1].offset_seconds)
+        self.assertEqual(1 * 3600, transitions[1].delta_seconds)
 
         self.assertEqual(
             DateTuple(2000, 10, 29, 1 * 3600, 'w'),
-            transitions[2].startDateTime)
+            transitions[2].start_date_time)
         self.assertEqual(
-            DateTuple(2001, 2, 1, 0, 'w'), transitions[2].untilDateTime)
-        self.assertEqual(-8 * 3600, transitions[2].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[2].deltaSeconds)
+            DateTuple(2001, 2, 1, 0, 'w'), transitions[2].until_date_time)
+        self.assertEqual(-8 * 3600, transitions[2].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[2].delta_seconds)
 
     def test_Petersburg(self) -> None:
         """America/Indianapolis/Petersbug moved from central to eastern time in
@@ -239,42 +241,44 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(2, len(matches))
 
         self.assertEqual(
-            DateTuple(2005, 12, 1, 0, 'w'), matches[0].startDateTime)
+            DateTuple(2005, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
-            DateTuple(2006, 4, 2, 2 * 3600, 'w'), matches[0].untilDateTime)
-        self.assertEqual('-', matches[0].zoneEra.policyName)
+            DateTuple(2006, 4, 2, 2 * 3600, 'w'), matches[0].until_date_time)
+        self.assertEqual('-', matches[0].zone_era.policyName)
 
         self.assertEqual(
-            DateTuple(2006, 4, 2, 2 * 3600, 'w'), matches[1].startDateTime)
+            DateTuple(2006, 4, 2, 2 * 3600, 'w'), matches[1].start_date_time)
         self.assertEqual(
-            DateTuple(2007, 2, 1, 0, 'w'), matches[1].untilDateTime)
-        self.assertEqual('US', matches[1].zoneEra.policyName)
+            DateTuple(2007, 2, 1, 0, 'w'), matches[1].until_date_time)
+        self.assertEqual('US', matches[1].zone_era.policyName)
 
         transitions = zone_specifier.transitions
         self.assertEqual(3, len(transitions))
 
         self.assertEqual(
-            DateTuple(2005, 12, 1, 0, 'w'), transitions[0].startDateTime)
+            DateTuple(2005, 12, 1, 0, 'w'), transitions[0].start_date_time)
         self.assertEqual(
-            DateTuple(2006, 4, 2, 2 * 3600, 'w'), transitions[0].untilDateTime)
-        self.assertEqual(-5 * 3600, transitions[0].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[0].deltaSeconds)
+            DateTuple(2006, 4, 2, 2 * 3600, 'w'),
+            transitions[0].until_date_time)
+        self.assertEqual(-5 * 3600, transitions[0].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[0].delta_seconds)
 
         self.assertEqual(
-            DateTuple(2006, 4, 2, 2 * 3600, 'w'), transitions[1].startDateTime)
+            DateTuple(2006, 4, 2, 2 * 3600, 'w'),
+            transitions[1].start_date_time)
         self.assertEqual(
             DateTuple(2006, 10, 29, 2 * 3600, 'w'),
-            transitions[1].untilDateTime)
-        self.assertEqual(-6 * 3600, transitions[1].offsetSeconds)
-        self.assertEqual(1 * 3600, transitions[1].deltaSeconds)
+            transitions[1].until_date_time)
+        self.assertEqual(-6 * 3600, transitions[1].offset_seconds)
+        self.assertEqual(1 * 3600, transitions[1].delta_seconds)
 
         self.assertEqual(
             DateTuple(2006, 10, 29, 1 * 3600, 'w'),
-            transitions[2].startDateTime)
+            transitions[2].start_date_time)
         self.assertEqual(
-            DateTuple(2007, 2, 1, 0, 'w'), transitions[2].untilDateTime)
-        self.assertEqual(-6 * 3600, transitions[2].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[2].deltaSeconds)
+            DateTuple(2007, 2, 1, 0, 'w'), transitions[2].until_date_time)
+        self.assertEqual(-6 * 3600, transitions[2].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[2].delta_seconds)
 
     def test_London(self) -> None:
         """Europe/London uses a EU which has a 'u' in the AT field.
@@ -287,38 +291,38 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(1, len(matches))
 
         self.assertEqual(
-            DateTuple(1999, 12, 1, 0, 'w'), matches[0].startDateTime)
+            DateTuple(1999, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
-            DateTuple(2001, 2, 1, 0, 'w'), matches[0].untilDateTime)
-        self.assertEqual('EU', matches[0].zoneEra.policyName)
+            DateTuple(2001, 2, 1, 0, 'w'), matches[0].until_date_time)
+        self.assertEqual('EU', matches[0].zone_era.policyName)
 
         transitions = zone_specifier.transitions
         self.assertEqual(3, len(transitions))
 
         self.assertEqual(
-            DateTuple(1999, 12, 1, 0, 'w'), transitions[0].startDateTime)
+            DateTuple(1999, 12, 1, 0, 'w'), transitions[0].start_date_time)
         self.assertEqual(
             DateTuple(2000, 3, 26, 1 * 3600, 'w'),
-            transitions[0].untilDateTime)
-        self.assertEqual(0 * 3600, transitions[0].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[0].deltaSeconds)
+            transitions[0].until_date_time)
+        self.assertEqual(0 * 3600, transitions[0].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[0].delta_seconds)
 
         self.assertEqual(
             DateTuple(2000, 3, 26, 2 * 3600, 'w'),
-            transitions[1].startDateTime)
+            transitions[1].start_date_time)
         self.assertEqual(
             DateTuple(2000, 10, 29, 2 * 3600, 'w'),
-            transitions[1].untilDateTime)
-        self.assertEqual(0 * 3600, transitions[1].offsetSeconds)
-        self.assertEqual(1 * 3600, transitions[1].deltaSeconds)
+            transitions[1].until_date_time)
+        self.assertEqual(0 * 3600, transitions[1].offset_seconds)
+        self.assertEqual(1 * 3600, transitions[1].delta_seconds)
 
         self.assertEqual(
             DateTuple(2000, 10, 29, 1 * 3600, 'w'),
-            transitions[2].startDateTime)
+            transitions[2].start_date_time)
         self.assertEqual(
-            DateTuple(2001, 2, 1, 0, 'w'), transitions[2].untilDateTime)
-        self.assertEqual(0 * 3600, transitions[2].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[2].deltaSeconds)
+            DateTuple(2001, 2, 1, 0, 'w'), transitions[2].until_date_time)
+        self.assertEqual(0 * 3600, transitions[2].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[2].delta_seconds)
 
     def test_Winnipeg(self) -> None:
         """America/Winnipeg uses 'Rule Winn' until 2006 which has an 's' suffix
@@ -332,49 +336,52 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(2, len(matches))
 
         self.assertEqual(
-            DateTuple(2004, 12, 1, 0, 'w'), matches[0].startDateTime)
+            DateTuple(2004, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
-            DateTuple(2006, 1, 1, 0 * 3600, 'w'), matches[0].untilDateTime)
-        self.assertEqual('Winn', matches[0].zoneEra.policyName)
+            DateTuple(2006, 1, 1, 0 * 3600, 'w'), matches[0].until_date_time)
+        self.assertEqual('Winn', matches[0].zone_era.policyName)
 
         self.assertEqual(
-            DateTuple(2006, 1, 1, 0 * 3600, 'w'), matches[1].startDateTime)
+            DateTuple(2006, 1, 1, 0 * 3600, 'w'), matches[1].start_date_time)
         self.assertEqual(
-            DateTuple(2006, 2, 1, 0 * 3600, 'w'), matches[1].untilDateTime)
-        self.assertEqual('Canada', matches[1].zoneEra.policyName)
+            DateTuple(2006, 2, 1, 0 * 3600, 'w'), matches[1].until_date_time)
+        self.assertEqual('Canada', matches[1].zone_era.policyName)
 
         transitions = zone_specifier.transitions
         self.assertEqual(4, len(transitions))
 
         self.assertEqual(
-            DateTuple(2004, 12, 1, 0, 'w'), transitions[0].startDateTime)
+            DateTuple(2004, 12, 1, 0, 'w'), transitions[0].start_date_time)
         self.assertEqual(
-            DateTuple(2005, 4, 3, 2 * 3600, 'w'), transitions[0].untilDateTime)
-        self.assertEqual(-6 * 3600, transitions[0].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[0].deltaSeconds)
+            DateTuple(2005, 4, 3, 2 * 3600, 'w'),
+            transitions[0].until_date_time)
+        self.assertEqual(-6 * 3600, transitions[0].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[0].delta_seconds)
 
         self.assertEqual(
-            DateTuple(2005, 4, 3, 3 * 3600, 'w'), transitions[1].startDateTime)
+            DateTuple(2005, 4, 3, 3 * 3600, 'w'),
+            transitions[1].start_date_time)
         self.assertEqual(
             DateTuple(2005, 10, 30, 3 * 3600, 'w'),
-            transitions[1].untilDateTime)
-        self.assertEqual(-6 * 3600, transitions[1].offsetSeconds)
-        self.assertEqual(1 * 3600, transitions[1].deltaSeconds)
+            transitions[1].until_date_time)
+        self.assertEqual(-6 * 3600, transitions[1].offset_seconds)
+        self.assertEqual(1 * 3600, transitions[1].delta_seconds)
 
         self.assertEqual(
             DateTuple(2005, 10, 30, 2 * 3600, 'w'),
-            transitions[2].startDateTime)
+            transitions[2].start_date_time)
         self.assertEqual(
-            DateTuple(2006, 1, 1, 0, 'w'), transitions[2].untilDateTime)
-        self.assertEqual(-6 * 3600, transitions[2].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[2].deltaSeconds)
+            DateTuple(2006, 1, 1, 0, 'w'), transitions[2].until_date_time)
+        self.assertEqual(-6 * 3600, transitions[2].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[2].delta_seconds)
 
         self.assertEqual(
-            DateTuple(2006, 1, 1, 0 * 3600, 'w'), transitions[3].startDateTime)
+            DateTuple(2006, 1, 1, 0 * 3600, 'w'),
+            transitions[3].start_date_time)
         self.assertEqual(
-            DateTuple(2006, 2, 1, 0, 'w'), transitions[3].untilDateTime)
-        self.assertEqual(-6 * 3600, transitions[3].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[3].deltaSeconds)
+            DateTuple(2006, 2, 1, 0, 'w'), transitions[3].until_date_time)
+        self.assertEqual(-6 * 3600, transitions[3].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[3].delta_seconds)
 
     def test_Moscow(self) -> None:
         """Europe/Moscow uses 's' in the Zone UNTIL field.
@@ -387,35 +394,36 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(2, len(matches))
 
         self.assertEqual(
-            DateTuple(2010, 12, 1, 0, 'w'), matches[0].startDateTime)
+            DateTuple(2010, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
-            DateTuple(2011, 3, 27, 2 * 3600, 's'), matches[0].untilDateTime)
-        self.assertEqual('Russia', matches[0].zoneEra.policyName)
+            DateTuple(2011, 3, 27, 2 * 3600, 's'), matches[0].until_date_time)
+        self.assertEqual('Russia', matches[0].zone_era.policyName)
 
         self.assertEqual(
-            DateTuple(2011, 3, 27, 2 * 3600, 's'), matches[1].startDateTime)
+            DateTuple(2011, 3, 27, 2 * 3600, 's'), matches[1].start_date_time)
         self.assertEqual(
-            DateTuple(2012, 2, 1, 0, 'w'), matches[1].untilDateTime)
-        self.assertEqual('-', matches[1].zoneEra.policyName)
+            DateTuple(2012, 2, 1, 0, 'w'), matches[1].until_date_time)
+        self.assertEqual('-', matches[1].zone_era.policyName)
 
         transitions = zone_specifier.transitions
         self.assertEqual(2, len(transitions))
 
         self.assertEqual(
-            DateTuple(2010, 12, 1, 0, 'w'), transitions[0].startDateTime)
+            DateTuple(2010, 12, 1, 0, 'w'), transitions[0].start_date_time)
         self.assertEqual(
             DateTuple(2011, 3, 27, 2 * 3600, 'w'),
-            transitions[0].untilDateTime)
-        self.assertEqual(3 * 3600, transitions[0].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[0].deltaSeconds)
+            transitions[0].until_date_time)
+        self.assertEqual(3 * 3600, transitions[0].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[0].delta_seconds)
 
         self.assertEqual(
             DateTuple(2011, 3, 27, 3 * 3600, 'w'),
-            transitions[1].startDateTime)
+            transitions[1].start_date_time)
         self.assertEqual(
-            DateTuple(2012, 2, 1, 0 * 3600, 'w'), transitions[1].untilDateTime)
-        self.assertEqual(4 * 3600, transitions[1].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[1].deltaSeconds)
+            DateTuple(2012, 2, 1, 0 * 3600, 'w'),
+            transitions[1].until_date_time)
+        self.assertEqual(4 * 3600, transitions[1].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[1].delta_seconds)
 
     def test_Famagusta(self) -> None:
         """Asia/Famagusta uses 'u' in the Zone UNTIL field.
@@ -428,35 +436,36 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(2, len(matches))
 
         self.assertEqual(
-            DateTuple(2016, 12, 1, 0, 'w'), matches[0].startDateTime)
+            DateTuple(2016, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
-            DateTuple(2017, 10, 29, 1 * 3600, 'u'), matches[0].untilDateTime)
-        self.assertEqual('-', matches[0].zoneEra.policyName)
+            DateTuple(2017, 10, 29, 1 * 3600, 'u'), matches[0].until_date_time)
+        self.assertEqual('-', matches[0].zone_era.policyName)
 
         self.assertEqual(
-            DateTuple(2017, 10, 29, 1 * 3600, 'u'), matches[1].startDateTime)
+            DateTuple(2017, 10, 29, 1 * 3600, 'u'), matches[1].start_date_time)
         self.assertEqual(
-            DateTuple(2018, 2, 1, 0, 'w'), matches[1].untilDateTime)
-        self.assertEqual('EUAsia', matches[1].zoneEra.policyName)
+            DateTuple(2018, 2, 1, 0, 'w'), matches[1].until_date_time)
+        self.assertEqual('EUAsia', matches[1].zone_era.policyName)
 
         transitions = zone_specifier.transitions
         self.assertEqual(2, len(transitions))
 
         self.assertEqual(
-            DateTuple(2016, 12, 1, 0, 'w'), transitions[0].startDateTime)
+            DateTuple(2016, 12, 1, 0, 'w'), transitions[0].start_date_time)
         self.assertEqual(
             DateTuple(2017, 10, 29, 4 * 3600, 'w'),
-            transitions[0].untilDateTime)
-        self.assertEqual(3 * 3600, transitions[0].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[0].deltaSeconds)
+            transitions[0].until_date_time)
+        self.assertEqual(3 * 3600, transitions[0].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[0].delta_seconds)
 
         self.assertEqual(
             DateTuple(2017, 10, 29, 3 * 3600, 'w'),
-            transitions[1].startDateTime)
+            transitions[1].start_date_time)
         self.assertEqual(
-            DateTuple(2018, 2, 1, 0 * 3600, 'w'), transitions[1].untilDateTime)
-        self.assertEqual(2 * 3600, transitions[1].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[1].deltaSeconds)
+            DateTuple(2018, 2, 1, 0 * 3600, 'w'),
+            transitions[1].until_date_time)
+        self.assertEqual(2 * 3600, transitions[1].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[1].delta_seconds)
 
     def test_Santo_Domingo(self) -> None:
         """America/Santo_Domingo uses 2 ZoneEra changes in year 2000.
@@ -470,50 +479,50 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(3, len(matches))
 
         self.assertEqual(
-            DateTuple(1999, 12, 1, 0, 'w'), matches[0].startDateTime)
+            DateTuple(1999, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
-            DateTuple(2000, 10, 29, 2 * 3600, 'w'), matches[0].untilDateTime)
-        self.assertEqual('-', matches[0].zoneEra.policyName)
+            DateTuple(2000, 10, 29, 2 * 3600, 'w'), matches[0].until_date_time)
+        self.assertEqual('-', matches[0].zone_era.policyName)
 
         self.assertEqual(
-            DateTuple(2000, 10, 29, 2 * 3600, 'w'), matches[1].startDateTime)
+            DateTuple(2000, 10, 29, 2 * 3600, 'w'), matches[1].start_date_time)
         self.assertEqual(
-            DateTuple(2000, 12, 3, 1 * 3600, 'w'), matches[1].untilDateTime)
-        self.assertEqual('US', matches[1].zoneEra.policyName)
+            DateTuple(2000, 12, 3, 1 * 3600, 'w'), matches[1].until_date_time)
+        self.assertEqual('US', matches[1].zone_era.policyName)
 
         self.assertEqual(
-            DateTuple(2000, 12, 3, 1 * 3600, 'w'), matches[2].startDateTime)
+            DateTuple(2000, 12, 3, 1 * 3600, 'w'), matches[2].start_date_time)
         self.assertEqual(
-            DateTuple(2001, 2, 1, 0, 'w'), matches[2].untilDateTime)
-        self.assertEqual('-', matches[2].zoneEra.policyName)
+            DateTuple(2001, 2, 1, 0, 'w'), matches[2].until_date_time)
+        self.assertEqual('-', matches[2].zone_era.policyName)
 
         transitions = zone_specifier.transitions
         self.assertEqual(3, len(transitions))
 
         self.assertEqual(
-            DateTuple(1999, 12, 1, 0, 'w'), transitions[0].startDateTime)
+            DateTuple(1999, 12, 1, 0, 'w'), transitions[0].start_date_time)
         self.assertEqual(
             DateTuple(2000, 10, 29, 2 * 3600, 'w'),
-            transitions[0].untilDateTime)
-        self.assertEqual(-4 * 3600, transitions[0].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[0].deltaSeconds)
+            transitions[0].until_date_time)
+        self.assertEqual(-4 * 3600, transitions[0].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[0].delta_seconds)
 
         self.assertEqual(
             DateTuple(2000, 10, 29, 1 * 3600, 'w'),
-            transitions[1].startDateTime)
+            transitions[1].start_date_time)
         self.assertEqual(
             DateTuple(2000, 12, 3, 1 * 3600, 'w'),
-            transitions[1].untilDateTime)
-        self.assertEqual(-5 * 3600, transitions[1].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[1].deltaSeconds)
+            transitions[1].until_date_time)
+        self.assertEqual(-5 * 3600, transitions[1].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[1].delta_seconds)
 
         self.assertEqual(
             DateTuple(2000, 12, 3, 2 * 3600, 'w'),
-            transitions[2].startDateTime)
+            transitions[2].start_date_time)
         self.assertEqual(
-            DateTuple(2001, 2, 1, 0, 'w'), transitions[2].untilDateTime)
-        self.assertEqual(-4 * 3600, transitions[2].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[2].deltaSeconds)
+            DateTuple(2001, 2, 1, 0, 'w'), transitions[2].until_date_time)
+        self.assertEqual(-4 * 3600, transitions[2].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[2].delta_seconds)
 
     def test_Moncton(self) -> None:
         """America/Moncton transitioned DST at 00:01 through 2006.
@@ -526,51 +535,52 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(2, len(matches))
 
         self.assertEqual(
-            DateTuple(2005, 12, 1, 0, 'w'), matches[0].startDateTime)
+            DateTuple(2005, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
-            DateTuple(2007, 1, 1, 0 * 3600, 'w'), matches[0].untilDateTime)
-        self.assertEqual('Moncton', matches[0].zoneEra.policyName)
+            DateTuple(2007, 1, 1, 0 * 3600, 'w'), matches[0].until_date_time)
+        self.assertEqual('Moncton', matches[0].zone_era.policyName)
 
         self.assertEqual(
-            DateTuple(2007, 1, 1, 0 * 3600, 'w'), matches[1].startDateTime)
+            DateTuple(2007, 1, 1, 0 * 3600, 'w'), matches[1].start_date_time)
         self.assertEqual(
-            DateTuple(2007, 2, 1, 0, 'w'), matches[1].untilDateTime)
-        self.assertEqual('Canada', matches[1].zoneEra.policyName)
+            DateTuple(2007, 2, 1, 0, 'w'), matches[1].until_date_time)
+        self.assertEqual('Canada', matches[1].zone_era.policyName)
 
         transitions = zone_specifier.transitions
         self.assertEqual(4, len(transitions))
 
         self.assertEqual(
-            DateTuple(2005, 12, 1, 0, 'w'), transitions[0].startDateTime)
+            DateTuple(2005, 12, 1, 0, 'w'), transitions[0].start_date_time)
         self.assertEqual(
             DateTuple(2006, 4, 2, 0 * 3600 + 60, 'w'),
-            transitions[0].untilDateTime)
-        self.assertEqual(-4 * 3600, transitions[0].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[0].deltaSeconds)
+            transitions[0].until_date_time)
+        self.assertEqual(-4 * 3600, transitions[0].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[0].delta_seconds)
 
         self.assertEqual(
             DateTuple(2006, 4, 2, 1 * 3600 + 60, 'w'),
-            transitions[1].startDateTime)
+            transitions[1].start_date_time)
         self.assertEqual(
             DateTuple(2006, 10, 29, 0 * 3600 + 60, 'w'),
-            transitions[1].untilDateTime)
-        self.assertEqual(-4 * 3600, transitions[1].offsetSeconds)
-        self.assertEqual(1 * 3600, transitions[1].deltaSeconds)
+            transitions[1].until_date_time)
+        self.assertEqual(-4 * 3600, transitions[1].offset_seconds)
+        self.assertEqual(1 * 3600, transitions[1].delta_seconds)
 
         self.assertEqual(
             DateTuple(2006, 10, 28, 23 * 3600 + 60, 'w'),
-            transitions[2].startDateTime)
+            transitions[2].start_date_time)
         self.assertEqual(
-            DateTuple(2007, 1, 1, 0, 'w'), transitions[2].untilDateTime)
-        self.assertEqual(-4 * 3600, transitions[2].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[2].deltaSeconds)
+            DateTuple(2007, 1, 1, 0, 'w'), transitions[2].until_date_time)
+        self.assertEqual(-4 * 3600, transitions[2].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[2].delta_seconds)
 
         self.assertEqual(
-            DateTuple(2007, 1, 1, 0 * 3600, 'w'), transitions[3].startDateTime)
+            DateTuple(2007, 1, 1, 0 * 3600, 'w'),
+            transitions[3].start_date_time)
         self.assertEqual(
-            DateTuple(2007, 2, 1, 0, 'w'), transitions[3].untilDateTime)
-        self.assertEqual(-4 * 3600, transitions[3].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[3].deltaSeconds)
+            DateTuple(2007, 2, 1, 0, 'w'), transitions[3].until_date_time)
+        self.assertEqual(-4 * 3600, transitions[3].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[3].delta_seconds)
 
     def test_Istanbul(self) -> None:
         """Europe/Istanbul uses an 'hh:mm' offset in the RULES field in 2015.
@@ -583,59 +593,59 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(3, len(matches))
 
         self.assertEqual(
-            DateTuple(2014, 12, 1, 0, 'w'), matches[0].startDateTime)
+            DateTuple(2014, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
-            DateTuple(2015, 10, 25, 1 * 3600, 'u'), matches[0].untilDateTime)
-        self.assertEqual('EU', matches[0].zoneEra.policyName)
+            DateTuple(2015, 10, 25, 1 * 3600, 'u'), matches[0].until_date_time)
+        self.assertEqual('EU', matches[0].zone_era.policyName)
 
         self.assertEqual(
-            DateTuple(2015, 10, 25, 1 * 3600, 'u'), matches[1].startDateTime)
+            DateTuple(2015, 10, 25, 1 * 3600, 'u'), matches[1].start_date_time)
         self.assertEqual(
-            DateTuple(2015, 11, 8, 1 * 3600, 'u'), matches[1].untilDateTime)
-        self.assertEqual(':', matches[1].zoneEra.policyName)
+            DateTuple(2015, 11, 8, 1 * 3600, 'u'), matches[1].until_date_time)
+        self.assertEqual(':', matches[1].zone_era.policyName)
 
         self.assertEqual(
-            DateTuple(2015, 11, 8, 1 * 3600, 'u'), matches[2].startDateTime)
+            DateTuple(2015, 11, 8, 1 * 3600, 'u'), matches[2].start_date_time)
         self.assertEqual(
-            DateTuple(2016, 2, 1, 0, 'w'), matches[2].untilDateTime)
-        self.assertEqual('EU', matches[2].zoneEra.policyName)
+            DateTuple(2016, 2, 1, 0, 'w'), matches[2].until_date_time)
+        self.assertEqual('EU', matches[2].zone_era.policyName)
 
         transitions = zone_specifier.transitions
         self.assertEqual(4, len(transitions))
 
         self.assertEqual(
-            DateTuple(2014, 12, 1, 0, 'w'), transitions[0].startDateTime)
+            DateTuple(2014, 12, 1, 0, 'w'), transitions[0].start_date_time)
         self.assertEqual(
             DateTuple(2015, 3, 29, 3 * 3600, 'w'),
-            transitions[0].untilDateTime)
-        self.assertEqual(2 * 3600, transitions[0].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[0].deltaSeconds)
+            transitions[0].until_date_time)
+        self.assertEqual(2 * 3600, transitions[0].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[0].delta_seconds)
 
         self.assertEqual(
             DateTuple(2015, 3, 29, 4 * 3600, 'w'),
-            transitions[1].startDateTime)
+            transitions[1].start_date_time)
         self.assertEqual(
             DateTuple(2015, 10, 25, 4 * 3600, 'w'),
-            transitions[1].untilDateTime)
-        self.assertEqual(2 * 3600, transitions[1].offsetSeconds)
-        self.assertEqual(1 * 3600, transitions[1].deltaSeconds)
+            transitions[1].until_date_time)
+        self.assertEqual(2 * 3600, transitions[1].offset_seconds)
+        self.assertEqual(1 * 3600, transitions[1].delta_seconds)
 
         self.assertEqual(
             DateTuple(2015, 10, 25, 4 * 3600, 'w'),
-            transitions[2].startDateTime)
+            transitions[2].start_date_time)
         self.assertEqual(
             DateTuple(2015, 11, 8, 4 * 3600, 'w'),
-            transitions[2].untilDateTime)
-        self.assertEqual(2 * 3600, transitions[2].offsetSeconds)
-        self.assertEqual(1 * 3600, transitions[2].deltaSeconds)
+            transitions[2].until_date_time)
+        self.assertEqual(2 * 3600, transitions[2].offset_seconds)
+        self.assertEqual(1 * 3600, transitions[2].delta_seconds)
 
         self.assertEqual(
             DateTuple(2015, 11, 8, 3 * 3600, 'w'),
-            transitions[3].startDateTime)
+            transitions[3].start_date_time)
         self.assertEqual(
-            DateTuple(2016, 2, 1, 0, 'w'), transitions[3].untilDateTime)
-        self.assertEqual(2 * 3600, transitions[3].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[3].deltaSeconds)
+            DateTuple(2016, 2, 1, 0, 'w'), transitions[3].until_date_time)
+        self.assertEqual(2 * 3600, transitions[3].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[3].delta_seconds)
 
     def test_Dublin(self) -> None:
         """Europe/Dublin uses negative DST during Winter.
@@ -648,38 +658,38 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(1, len(matches))
 
         self.assertEqual(
-            DateTuple(1999, 12, 1, 0, 'w'), matches[0].startDateTime)
+            DateTuple(1999, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
-            DateTuple(2001, 2, 1, 0, 'w'), matches[0].untilDateTime)
-        self.assertEqual('Eire', matches[0].zoneEra.policyName)
+            DateTuple(2001, 2, 1, 0, 'w'), matches[0].until_date_time)
+        self.assertEqual('Eire', matches[0].zone_era.policyName)
 
         transitions = zone_specifier.transitions
         self.assertEqual(3, len(transitions))
 
         self.assertEqual(
-            DateTuple(1999, 12, 1, 0, 'w'), transitions[0].startDateTime)
+            DateTuple(1999, 12, 1, 0, 'w'), transitions[0].start_date_time)
         self.assertEqual(
             DateTuple(2000, 3, 26, 1 * 3600, 'w'),
-            transitions[0].untilDateTime)
-        self.assertEqual(1 * 3600, transitions[0].offsetSeconds)
-        self.assertEqual(-1 * 3600, transitions[0].deltaSeconds)
+            transitions[0].until_date_time)
+        self.assertEqual(1 * 3600, transitions[0].offset_seconds)
+        self.assertEqual(-1 * 3600, transitions[0].delta_seconds)
 
         self.assertEqual(
             DateTuple(2000, 3, 26, 2 * 3600, 'w'),
-            transitions[1].startDateTime)
+            transitions[1].start_date_time)
         self.assertEqual(
             DateTuple(2000, 10, 29, 2 * 3600, 'w'),
-            transitions[1].untilDateTime)
-        self.assertEqual(1 * 3600, transitions[1].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[1].deltaSeconds)
+            transitions[1].until_date_time)
+        self.assertEqual(1 * 3600, transitions[1].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[1].delta_seconds)
 
         self.assertEqual(
             DateTuple(2000, 10, 29, 1 * 3600, 'w'),
-            transitions[2].startDateTime)
+            transitions[2].start_date_time)
         self.assertEqual(
-            DateTuple(2001, 2, 1, 0, 'w'), transitions[2].untilDateTime)
-        self.assertEqual(1 * 3600, transitions[2].offsetSeconds)
-        self.assertEqual(-1 * 3600, transitions[2].deltaSeconds)
+            DateTuple(2001, 2, 1, 0, 'w'), transitions[2].until_date_time)
+        self.assertEqual(1 * 3600, transitions[2].offset_seconds)
+        self.assertEqual(-1 * 3600, transitions[2].delta_seconds)
 
     def test_Apia(self) -> None:
         """Pacific/Apia uses a transition time of 24:00 on Dec 29, 2011,
@@ -694,50 +704,52 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(2, len(matches))
 
         self.assertEqual(
-            DateTuple(2010, 12, 1, 0, 'w'), matches[0].startDateTime)
+            DateTuple(2010, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
-            DateTuple(2011, 12, 29, 24 * 3600, 'w'), matches[0].untilDateTime)
-        self.assertEqual('WS', matches[0].zoneEra.policyName)
+            DateTuple(2011, 12, 29, 24 * 3600, 'w'), matches[0].until_date_time)
+        self.assertEqual('WS', matches[0].zone_era.policyName)
 
         self.assertEqual(
-            DateTuple(2011, 12, 29, 24 * 3600, 'w'), matches[1].startDateTime)
+            DateTuple(2011, 12, 29, 24 * 3600, 'w'), matches[1].start_date_time)
         self.assertEqual(
-            DateTuple(2012, 2, 1, 0, 'w'), matches[1].untilDateTime)
-        self.assertEqual('WS', matches[1].zoneEra.policyName)
+            DateTuple(2012, 2, 1, 0, 'w'), matches[1].until_date_time)
+        self.assertEqual('WS', matches[1].zone_era.policyName)
 
         transitions = zone_specifier.transitions
         self.assertEqual(4, len(transitions))
 
         self.assertEqual(
-            DateTuple(2010, 12, 1, 0, 'w'), transitions[0].startDateTime)
+            DateTuple(2010, 12, 1, 0, 'w'), transitions[0].start_date_time)
         self.assertEqual(
-            DateTuple(2011, 4, 2, 4 * 3600, 'w'), transitions[0].untilDateTime)
-        self.assertEqual(-11 * 3600, transitions[0].offsetSeconds)
-        self.assertEqual(1 * 3600, transitions[0].deltaSeconds)
+            DateTuple(2011, 4, 2, 4 * 3600, 'w'),
+            transitions[0].until_date_time)
+        self.assertEqual(-11 * 3600, transitions[0].offset_seconds)
+        self.assertEqual(1 * 3600, transitions[0].delta_seconds)
 
         self.assertEqual(
-            DateTuple(2011, 4, 2, 3 * 3600, 'w'), transitions[1].startDateTime)
+            DateTuple(2011, 4, 2, 3 * 3600, 'w'),
+            transitions[1].start_date_time)
         self.assertEqual(
             DateTuple(2011, 9, 24, 3 * 3600, 'w'),
-            transitions[1].untilDateTime)
-        self.assertEqual(-11 * 3600, transitions[1].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[1].deltaSeconds)
+            transitions[1].until_date_time)
+        self.assertEqual(-11 * 3600, transitions[1].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[1].delta_seconds)
 
         self.assertEqual(
             DateTuple(2011, 9, 24, 4 * 3600, 'w'),
-            transitions[2].startDateTime)
+            transitions[2].start_date_time)
         self.assertEqual(
-            DateTuple(2011, 12, 30, 0, 'w'), transitions[2].untilDateTime)
-        self.assertEqual(-11 * 3600, transitions[2].offsetSeconds)
-        self.assertEqual(1 * 3600, transitions[2].deltaSeconds)
+            DateTuple(2011, 12, 30, 0, 'w'), transitions[2].until_date_time)
+        self.assertEqual(-11 * 3600, transitions[2].offset_seconds)
+        self.assertEqual(1 * 3600, transitions[2].delta_seconds)
 
         self.assertEqual(
             DateTuple(2011, 12, 31, 0 * 3600, 'w'),
-            transitions[3].startDateTime)
+            transitions[3].start_date_time)
         self.assertEqual(
-            DateTuple(2012, 2, 1, 0, 'w'), transitions[3].untilDateTime)
-        self.assertEqual(13 * 3600, transitions[3].offsetSeconds)
-        self.assertEqual(1 * 3600, transitions[3].deltaSeconds)
+            DateTuple(2012, 2, 1, 0, 'w'), transitions[3].until_date_time)
+        self.assertEqual(13 * 3600, transitions[3].offset_seconds)
+        self.assertEqual(1 * 3600, transitions[3].delta_seconds)
 
     def test_Macquarie(self) -> None:
         """Antarctica/Macquarie changes ZoneEra in 2011 using a 'w' time, but
@@ -754,33 +766,36 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(2, len(matches))
 
         self.assertEqual(
-            DateTuple(2009, 12, 1, 0, 'w'), matches[0].startDateTime)
+            DateTuple(2009, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
-            DateTuple(2010, 4, 4, 3 * 3600, 'w'), matches[0].untilDateTime)
-        self.assertEqual('AT', matches[0].zoneEra.policyName)
+            DateTuple(2010, 4, 4, 3 * 3600, 'w'), matches[0].until_date_time)
+        self.assertEqual('AT', matches[0].zone_era.policyName)
 
         self.assertEqual(
-            DateTuple(2010, 4, 4, 3 * 3600, 'w'), matches[1].startDateTime)
+            DateTuple(2010, 4, 4, 3 * 3600, 'w'), matches[1].start_date_time)
         self.assertEqual(
-            DateTuple(2011, 2, 1, 0, 'w'), matches[1].untilDateTime)
-        self.assertEqual('-', matches[1].zoneEra.policyName)
+            DateTuple(2011, 2, 1, 0, 'w'), matches[1].until_date_time)
+        self.assertEqual('-', matches[1].zone_era.policyName)
 
         transitions = zone_specifier.transitions
         self.assertEqual(2, len(transitions))
 
         self.assertEqual(
-            DateTuple(2009, 12, 1, 0, 'w'), transitions[0].startDateTime)
+            DateTuple(2009, 12, 1, 0, 'w'), transitions[0].start_date_time)
         self.assertEqual(
-            DateTuple(2010, 4, 4, 3 * 3600, 'w'), transitions[0].untilDateTime)
-        self.assertEqual(10 * 3600, transitions[0].offsetSeconds)
-        self.assertEqual(1 * 3600, transitions[0].deltaSeconds)
+            DateTuple(2010, 4, 4, 3 * 3600, 'w'),
+            transitions[0].until_date_time)
+        self.assertEqual(10 * 3600, transitions[0].offset_seconds)
+        self.assertEqual(1 * 3600, transitions[0].delta_seconds)
 
         self.assertEqual(
-            DateTuple(2010, 4, 4, 3 * 3600, 'w'), transitions[1].startDateTime)
+            DateTuple(2010, 4, 4, 3 * 3600, 'w'),
+            transitions[1].start_date_time)
         self.assertEqual(
-            DateTuple(2011, 2, 1, 0 * 3600, 'w'), transitions[1].untilDateTime)
-        self.assertEqual(11 * 3600, transitions[1].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[1].deltaSeconds)
+            DateTuple(2011, 2, 1, 0 * 3600, 'w'),
+            transitions[1].until_date_time)
+        self.assertEqual(11 * 3600, transitions[1].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[1].delta_seconds)
 
     def test_Simferopol(self) -> None:
         """Asia/Simferopol in 2014 uses a bizarre mixture of 'w' when using EU
@@ -795,50 +810,51 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(3, len(matches))
 
         self.assertEqual(
-            DateTuple(2013, 12, 1, 0 * 3600, 'w'), matches[0].startDateTime)
+            DateTuple(2013, 12, 1, 0 * 3600, 'w'), matches[0].start_date_time)
         self.assertEqual(
-            DateTuple(2014, 3, 30, 2 * 3600, 'w'), matches[0].untilDateTime)
-        self.assertEqual('EU', matches[0].zoneEra.policyName)
+            DateTuple(2014, 3, 30, 2 * 3600, 'w'), matches[0].until_date_time)
+        self.assertEqual('EU', matches[0].zone_era.policyName)
 
         self.assertEqual(
-            DateTuple(2014, 3, 30, 2 * 3600, 'w'), matches[1].startDateTime)
+            DateTuple(2014, 3, 30, 2 * 3600, 'w'), matches[1].start_date_time)
         self.assertEqual(
-            DateTuple(2014, 10, 26, 2 * 3600, 's'), matches[1].untilDateTime)
-        self.assertEqual('-', matches[1].zoneEra.policyName)
+            DateTuple(2014, 10, 26, 2 * 3600, 's'), matches[1].until_date_time)
+        self.assertEqual('-', matches[1].zone_era.policyName)
 
         self.assertEqual(
-            DateTuple(2014, 10, 26, 2 * 3600, 's'), matches[2].startDateTime)
+            DateTuple(2014, 10, 26, 2 * 3600, 's'), matches[2].start_date_time)
         self.assertEqual(
-            DateTuple(2015, 2, 1, 0 * 3600, 'w'), matches[2].untilDateTime)
-        self.assertEqual('-', matches[2].zoneEra.policyName)
+            DateTuple(2015, 2, 1, 0 * 3600, 'w'), matches[2].until_date_time)
+        self.assertEqual('-', matches[2].zone_era.policyName)
 
         transitions = zone_specifier.transitions
         self.assertEqual(3, len(transitions))
 
         self.assertEqual(
-            DateTuple(2013, 12, 1, 0, 'w'), transitions[0].startDateTime)
+            DateTuple(2013, 12, 1, 0, 'w'), transitions[0].start_date_time)
         self.assertEqual(
             DateTuple(2014, 3, 30, 2 * 3600, 'w'),
-            transitions[0].untilDateTime)
-        self.assertEqual(2 * 3600, transitions[0].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[0].deltaSeconds)
+            transitions[0].until_date_time)
+        self.assertEqual(2 * 3600, transitions[0].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[0].delta_seconds)
 
         self.assertEqual(
             DateTuple(2014, 3, 30, 4 * 3600, 'w'),
-            transitions[1].startDateTime)
+            transitions[1].start_date_time)
         self.assertEqual(
             DateTuple(2014, 10, 26, 2 * 3600, 'w'),
-            transitions[1].untilDateTime)
-        self.assertEqual(4 * 3600, transitions[1].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[1].deltaSeconds)
+            transitions[1].until_date_time)
+        self.assertEqual(4 * 3600, transitions[1].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[1].delta_seconds)
 
         self.assertEqual(
             DateTuple(2014, 10, 26, 1 * 3600, 'w'),
-            transitions[2].startDateTime)
+            transitions[2].start_date_time)
         self.assertEqual(
-            DateTuple(2015, 2, 1, 0 * 3600, 'w'), transitions[2].untilDateTime)
-        self.assertEqual(3 * 3600, transitions[2].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[2].deltaSeconds)
+            DateTuple(2015, 2, 1, 0 * 3600, 'w'),
+            transitions[2].until_date_time)
+        self.assertEqual(3 * 3600, transitions[2].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[2].delta_seconds)
 
     def test_Kamchatka(self) -> None:
         """Asia/Kamchatka uses 's' in the Zone UNTIL and Rule AT fields.
@@ -851,35 +867,36 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         self.assertEqual(2, len(matches))
 
         self.assertEqual(
-            DateTuple(2010, 12, 1, 0 * 3600, 'w'), matches[0].startDateTime)
+            DateTuple(2010, 12, 1, 0 * 3600, 'w'), matches[0].start_date_time)
         self.assertEqual(
-            DateTuple(2011, 3, 27, 2 * 3600, 's'), matches[0].untilDateTime)
-        self.assertEqual('Russia', matches[0].zoneEra.policyName)
+            DateTuple(2011, 3, 27, 2 * 3600, 's'), matches[0].until_date_time)
+        self.assertEqual('Russia', matches[0].zone_era.policyName)
 
         self.assertEqual(
-            DateTuple(2011, 3, 27, 2 * 3600, 's'), matches[1].startDateTime)
+            DateTuple(2011, 3, 27, 2 * 3600, 's'), matches[1].start_date_time)
         self.assertEqual(
-            DateTuple(2012, 2, 1, 0 * 3600, 'w'), matches[1].untilDateTime)
-        self.assertEqual('-', matches[1].zoneEra.policyName)
+            DateTuple(2012, 2, 1, 0 * 3600, 'w'), matches[1].until_date_time)
+        self.assertEqual('-', matches[1].zone_era.policyName)
 
         transitions = zone_specifier.transitions
         self.assertEqual(2, len(transitions))
 
         self.assertEqual(
-            DateTuple(2010, 12, 1, 0, 'w'), transitions[0].startDateTime)
+            DateTuple(2010, 12, 1, 0, 'w'), transitions[0].start_date_time)
         self.assertEqual(
             DateTuple(2011, 3, 27, 2 * 3600, 'w'),
-            transitions[0].untilDateTime)
-        self.assertEqual(11 * 3600, transitions[0].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[0].deltaSeconds)
+            transitions[0].until_date_time)
+        self.assertEqual(11 * 3600, transitions[0].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[0].delta_seconds)
 
         self.assertEqual(
             DateTuple(2011, 3, 27, 3 * 3600, 'w'),
-            transitions[1].startDateTime)
+            transitions[1].start_date_time)
         self.assertEqual(
-            DateTuple(2012, 2, 1, 0 * 3600, 'w'), transitions[1].untilDateTime)
-        self.assertEqual(12 * 3600, transitions[1].offsetSeconds)
-        self.assertEqual(0 * 3600, transitions[1].deltaSeconds)
+            DateTuple(2012, 2, 1, 0 * 3600, 'w'),
+            transitions[1].until_date_time)
+        self.assertEqual(12 * 3600, transitions[1].offset_seconds)
+        self.assertEqual(0 * 3600, transitions[1].delta_seconds)
 
 
 class TestZoneSpecifierGetTransition(unittest.TestCase):
