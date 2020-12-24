@@ -347,15 +347,15 @@ def _process_rule_line(line: str) -> ZoneRuleRaw:
 
     # Return map corresponding to a ZoneRule instance
     return {
-        'fromYear': from_year,
-        'toYear': to_year,
-        'inMonth': in_month,
-        'onDay': on_day,
-        'atTime': at_time,
-        'atTimeSuffix': at_time_suffix,
-        'deltaOffset': delta_offset,
+        'from_year': from_year,
+        'to_year': to_year,
+        'in_month': in_month,
+        'on_day': on_day,
+        'at_time': at_time,
+        'at_time_suffix': at_time_suffix,
+        'delta_offset': delta_offset,
         'letter': tokens[9],
-        'rawLine': line,
+        'raw_line': line,
     }
 
 
@@ -420,14 +420,14 @@ def _process_zone_line(line: str) -> ZoneEraRaw:
 
     # Return map corresponding to a ZoneEra instance
     return {
-        'offsetString': offset_string,
+        'offset_string': offset_string,
         'rules': rules_string,
         'format': format,
-        'untilYear': until_year,
-        'untilYearOnly': until_year_only,
-        'untilMonth': until_month,
-        'untilDayString': until_day,
-        'untilTime': until_time,
-        'untilTimeSuffix': until_time_suffix,
-        'rawLine': line,
+        'until_year': until_year,
+        'until_year_only': until_year_only,
+        'until_month': until_month,
+        'until_day_string': until_day,
+        'until_time': until_time,
+        'until_time_suffix': until_time_suffix,
+        'raw_line': line,
     }

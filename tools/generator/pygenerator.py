@@ -97,16 +97,16 @@ ZONE_POLICY_{policyName} = {{
 """
 
     ZONE_RULE_ITEM = """\
-    # {rawLine}
+    # {raw_line}
     {{
-        'fromYear': {fromYear},
-        'toYear': {toYear},
-        'inMonth': {inMonth},
-        'onDayOfWeek': {onDayOfWeek},
-        'onDayOfMonth': {onDayOfMonth},
-        'atSeconds': {atSeconds},
-        'atTimeSuffix': '{atTimeSuffix}',
-        'deltaSeconds': {deltaSeconds},
+        'from_year': {from_year},
+        'to_year': {to_year},
+        'in_month': {in_month},
+        'on_day_of_week': {on_day_of_week},
+        'on_day_of_month': {on_day_of_month},
+        'at_seconds': {at_seconds},
+        'at_time_suffix': '{at_time_suffix}',
+        'delta_seconds': {delta_seconds},
         'letter': '{letter}',
     }},
 """
@@ -179,17 +179,17 @@ ZONE_INFO_{zoneNormalizedName} = {{
 """
 
     ZONE_ERA_ITEM = """\
-    # {rawLine}
+    # {raw_line}
     {{
-      'offsetSeconds': {offsetSeconds},
-      'zonePolicy': {zonePolicy},
-      'rulesDeltaSeconds': {rulesDeltaSeconds},
+      'offset_seconds': {offset_seconds},
+      'zone_policy': {zone_policy},
+      'rules_delta_seconds': {rules_delta_seconds},
       'format': '{format}',
-      'untilYear': {untilYear},
-      'untilMonth': {untilMonth},
-      'untilDay': {untilDay},
-      'untilSeconds': {untilSeconds},
-      'untilTimeSuffix': '{untilTimeSuffix}',
+      'until_year': {until_year},
+      'until_month': {until_month},
+      'until_day': {until_day},
+      'until_seconds': {until_seconds},
+      'until_time_suffix': '{until_time_suffix}',
     }},
 """
 
@@ -273,15 +273,15 @@ ZONE_INFO_{zoneNormalizedName} = {{
         for rule in rules:
             rule_items += self.ZONE_RULE_ITEM.format(
                 policyName=normalize_name(name),
-                rawLine=normalize_raw(rule['rawLine']),
-                fromYear=rule['fromYear'],
-                toYear=rule['toYear'],
-                inMonth=rule['inMonth'],
-                onDayOfWeek=rule['onDayOfWeek'],
-                onDayOfMonth=rule['onDayOfMonth'],
-                atSeconds=rule['atSecondsTruncated'],
-                atTimeSuffix=rule['atTimeSuffix'],
-                deltaSeconds=rule['deltaSecondsTruncated'],
+                raw_line=normalize_raw(rule['raw_line']),
+                from_year=rule['from_year'],
+                to_year=rule['to_year'],
+                in_month=rule['in_month'],
+                on_day_of_week=rule['on_day_of_week'],
+                on_day_of_month=rule['on_day_of_month'],
+                at_seconds=rule['at_seconds_truncated'],
+                at_time_suffix=rule['at_time_suffix'],
+                delta_seconds=rule['delta_seconds_truncated'],
                 letter=rule['letter'])
         return self.ZONE_POLICY_ITEM.format(
             policyName=normalize_name(name),
@@ -388,13 +388,13 @@ ZONE_INFO_{zoneNormalizedName} = {{
             zone_policy = f'ZONE_POLICY_{normalize_name(policy_name)}'
 
         return self.ZONE_ERA_ITEM.format(
-            rawLine=normalize_raw(era['rawLine']),
-            offsetSeconds=era['offsetSecondsTruncated'],
-            zonePolicy=zone_policy,
-            rulesDeltaSeconds=era['rulesDeltaSecondsTruncated'],
+            raw_line=normalize_raw(era['raw_line']),
+            offset_seconds=era['offset_seconds_truncated'],
+            zone_policy=zone_policy,
+            rules_delta_seconds=era['rules_delta_seconds_truncated'],
             format=era['format'],  # preserve the %s
-            untilYear=era['untilYear'],
-            untilMonth=era['untilMonth'],
-            untilDay=era['untilDay'],
-            untilSeconds=era['untilSecondsTruncated'],
-            untilTimeSuffix=era['untilTimeSuffix'])
+            until_year=era['until_year'],
+            until_month=era['until_month'],
+            until_day=era['until_day'],
+            until_seconds=era['until_seconds_truncated'],
+            until_time_suffix=era['until_time_suffix'])

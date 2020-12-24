@@ -66,35 +66,35 @@ class ZoneRuleRaw(TypedDict, total=False):
     Rule    US      2007    max   -    Mar  Sun>=8  2:00    1:00    D
     Rule    US      2007    max   -    Nov  Sun>=1  2:00    0       S
     """
-    fromYear: int  # from year
-    toYear: int  # to year, 1 to MAX_YEAR (9999) means 'max'
-    inMonth: int  # month index (1-12)
-    onDay: str  # 'lastSun' or 'Sun>=2', or 'dayOfMonth'
-    atTime: str  # hour at which to transition to and from DST
-    atTimeSuffix: str  # 's', 'w', 'u'
-    deltaOffset: str  # DST offset from Standard time ('SAVE' field)
+    from_year: int  # from year
+    to_year: int  # to year, 1 to MAX_YEAR (9999) means 'max'
+    in_month: int  # month index (1-12)
+    on_day: str  # 'lastSun' or 'Sun>=2', or 'dayOfMonth'
+    at_time: str  # hour at which to transition to and from DST
+    at_time_suffix: str  # 's', 'w', 'u'
+    delta_offset: str  # DST offset from Standard time ('SAVE' field)
     letter: str  # 'D', 'S', '-', but sometimes longer 'DD', 'CAT', etc.
-    rawLine: str  # the original RULE line from the TZ file
+    raw_line: str  # the original RULE line from the TZ file
 
     # Derived from above by transformer.py.
-    onDayOfWeek: int  # 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
-    onDayOfMonth: int  # 1-31 "dow>=xx", -(1-31) "dow<=xx", 0={lastXxx}
-    atSeconds: int  # atTime in seconds since 00:00:00
-    atSecondsTruncated: int  # atSeconds truncated to granularity
-    deltaSeconds: int  # offset from Standard time in seconds
-    deltaSecondsTruncated: int  # deltaSeconds truncated to granularity
+    on_day_of_week: int  # 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
+    on_day_of_month: int  # 1-31 "dow>=xx", -(1-31) "dow<=xx", 0={lastXxx}
+    at_seconds: int  # at_time in seconds since 00:00:00
+    at_seconds_truncated: int  # at_seconds truncated to granularity
+    delta_seconds: int  # offset from Standard time in seconds
+    delta_seconds_truncated: int  # delta_seconds truncated to granularity
     used: Optional[bool]  # whether or not the rule is used by a zone
 
     # Derived from above by artransformer.py
-    fromYearTiny: int  # fromYear - 2000, with special cases for MIN and MAX
-    toYearTiny: int  # fromYear - 2000, with special cases for MIN and MAX
-    atTimeCode: int  # atTime in units of 15-min
-    atTimeMinute: int  # atTime remainder minutes
-    atTimeModifier: int  # 's', 'w' or 'u' + atTimeMinute
-    deltaCode: int  # DST delta offset in units of 15-min
-    deltaCodeEncoded: int  # encoded version of deltaCode
-    letterIndexPerPolicy: int  # index into letters_per_policy, or -1
-    letterIndex: int  # index into letters_map[], or -1
+    from_year_tiny: int  # (from_year - 2000), w/ special cases for MIN and MAX
+    to_year_tiny: int  # (to_year - 2000), w/ special cases for MIN and MAX
+    at_time_code: int  # at_time in units of 15-min
+    at_time_minute: int  # at_time remainder minutes
+    at_time_modifier: int  # 's', 'w' or 'u' + at_time_minute
+    delta_code: int  # DST delta offset in units of 15-min
+    delta_code_encoded: int  # encoded version of delta_code
+    letter_index_per_policy: int  # index into letters_per_policy, or -1
+    letter_index: int  # index into letters_map[], or -1
 
 
 class ZoneEraRaw(TypedDict, total=False):
@@ -108,39 +108,39 @@ class ZoneEraRaw(TypedDict, total=False):
                                 -6:00       US      C%sT
 
     """
-    offsetString: str   # STD offset from UTC/GMT
+    offset_string: str   # STD offset from UTC/GMT
     rules: str  # name of the Rule in effect, '-', or ':'
     format: str  # abbreviation format (e.g. P%sT, E%sT, GMT/BST)
-    untilYear: int  # MAX_UNTIL_YEAR means 'max'
-    untilYearOnly: bool  # true if only the year is given
-    untilMonth: int  # 1-12
-    untilDayString: str  # e.g. 'lastSun', 'Sun>=3', or '1'-'31'
-    untilTime: str  # e.g. '2:00', '00:01'
-    untilTimeSuffix: str  # '', 's', 'w', 'g', 'u', 'z'
-    rawLine: str  # original ZONE line in TZ file
+    until_year: int  # MAX_UNTIL_YEAR means 'max'
+    until_year_only: bool  # true if only the year is given
+    until_month: int  # 1-12
+    until_day_string: str  # e.g. 'lastSun', 'Sun>=3', or '1'-'31'
+    until_time: str  # e.g. '2:00', '00:01'
+    until_time_suffix: str  # '', 's', 'w', 'g', 'u', 'z'
+    raw_line: str  # original ZONE line in TZ file
 
     # Derived from above by transfomer.py
-    offsetSeconds: int  # STD offset from UTC/GMT in seconds
-    offsetSecondsTruncated: int  # offsetSeconds truncated to granularity
+    offset_seconds: int  # STD offset from UTC/GMT in seconds
+    offset_seconds_truncated: int  # offset_seconds truncated to granularity
     # If RULES is a DST offset string of the form # hh:mm[:ss], then 'rules' is
-    # set to ':', and'rulesDeltaSeconds' contains the parsed delta offset from
+    # set to ':', and'rules_delta_seconds' contains the parsed delta offset from
     # UTC in seconds. If RULES is '-', then this is set to 0.
-    rulesDeltaSeconds: int
-    rulesDeltaSecondsTruncated: int  # rulesDeltaSeconds trunc. to granularity
-    untilDay: int  # 1-31
-    untilSeconds: int  # untilTime converted into total seconds
-    untilSecondsTruncated: int  # untilSeconds after truncation
+    rules_delta_seconds: int
+    rules_delta_seconds_truncated: int  # truncated to granularity
+    until_day: int  # 1-31
+    until_seconds: int  # until_time converted into total seconds
+    until_seconds_truncated: int  # untilSeconds after truncation
 
     # Derived from above by artransformer.py
-    offsetCode: int  # STD offset in units of 15-min
-    offsetMinute: int  # STD offset remainder minutes
-    deltaCode: int  # DST offset in units of 15-min
-    deltaCodeEncoded: int  # deltaCode + offsetMinute, encoded into 2 x 4-bits
-    untilYearTiny: int  # untilYear - 2000, with special cases for MIN and MAX
-    untilTimeCode: int  # untilTime in units of 15-min
-    untilTimeMinute: int  # untilTime remainder minutes
-    untilTimeModifier: int  # 's', 'w' or 'u' + untilTimeMinute
-    formatShort: str  # Arduino version of format with %s -> %
+    offset_code: int  # STD offset in units of 15-min
+    offset_minute: int  # STD offset remainder minutes
+    delta_code: int  # DST offset in units of 15-min
+    delta_code_encoded: int  # delta_code + offset_minute, in 2 x 4-bits
+    until_year_tiny: int  # until_year - 2000, w/ special cases for MIN and MAX
+    until_time_code: int  # until_time in units of 15-min
+    until_time_minute: int  # until_time remainder minutes
+    until_time_modifier: int  # 's', 'w' or 'u' + until_time_minute
+    format_short: str  # Arduino version of format with %s -> %
 
 
 # Map of policyName -> ZoneRuleRaw[]. Created by extractor.py.

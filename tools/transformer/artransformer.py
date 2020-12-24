@@ -85,45 +85,45 @@ class ArduinoTransformer:
         """
         for policy_name, rules in policies_map.items():
             for rule in rules:
-                rule['fromYearTiny'] = _to_tiny_year(rule['fromYear'])
-                rule['toYearTiny'] = _to_tiny_year(rule['toYear'])
+                rule['from_year_tiny'] = _to_tiny_year(rule['from_year'])
+                rule['to_year_tiny'] = _to_tiny_year(rule['to_year'])
 
-                # Convert atSeconds to atTimeCode and atTimeModifier
+                # Convert at_seconds to at_time_code and at_time_modifier
                 encoded_at_time = _to_encoded_time(
-                    seconds=rule['atSecondsTruncated'],
-                    suffix=rule['atTimeSuffix'],
+                    seconds=rule['at_seconds_truncated'],
+                    suffix=rule['at_time_suffix'],
                 )
-                rule['atTimeCode'] = encoded_at_time.time_code
-                rule['atTimeMinute'] = encoded_at_time.time_minute
-                rule['atTimeModifier'] = encoded_at_time.modifier
+                rule['at_time_code'] = encoded_at_time.time_code
+                rule['at_time_minute'] = encoded_at_time.time_minute
+                rule['at_time_modifier'] = encoded_at_time.modifier
 
                 # Check if AT is not on 15-minute boundary
                 if encoded_at_time.time_minute != 0:
                     logging.info(
                         f"Notable policy: {policy_name}: "
-                        f"AT '{rule['atTime']}' not on 15-minute boundary"
+                        f"AT '{rule['at_time']}' not on 15-minute boundary"
                     )
                     add_comment(
                         self.tresult.notable_policies, policy_name,
-                        f"AT '{rule['atTime']}' not on 15-minute boundary"
+                        f"AT '{rule['at_time']}' not on 15-minute boundary"
                     )
 
                 # These will always be integers because transformer.py
                 # truncated them to 900 seconds appropriately.
                 encoded_delta = _to_rule_offset(
-                    delta_seconds=rule['deltaSecondsTruncated'],
+                    delta_seconds=rule['delta_seconds_truncated'],
                     scope=self.scope,
                 )
-                rule['deltaCode'] = encoded_delta.delta_code
-                rule['deltaCodeEncoded'] = encoded_delta.delta_code_encoded
+                rule['delta_code'] = encoded_delta.delta_code
+                rule['delta_code_encoded'] = encoded_delta.delta_code_encoded
 
                 # Get letter indexes, per policy and global
                 letter = rule['letter']
-                rule['letterIndex'] = _to_letter_index(
+                rule['letter_index'] = _to_letter_index(
                     letter=letter,
                     indexed_letters=self.letters_map,
                 )
-                rule['letterIndexPerPolicy'] = _to_letter_index(
+                rule['letter_index_per_policy'] = _to_letter_index(
                     letter=letter,
                     indexed_letters=self.letters_per_policy.get(policy_name),
                 )
@@ -145,57 +145,57 @@ class ArduinoTransformer:
                 # Determine the current delta seconds, based on the RULES field.
                 rule_policy_name = era['rules']
                 if rule_policy_name == ':':
-                    delta_seconds = era['rulesDeltaSecondsTruncated']
+                    delta_seconds = era['rules_delta_seconds_truncated']
                 else:
                     delta_seconds = 0
 
                 # Generate the STDOFF and DST delta offset codes.
                 encoded_offset = _to_offset_and_delta(
-                    offset_seconds=era['offsetSecondsTruncated'],
+                    offset_seconds=era['offset_seconds_truncated'],
                     delta_seconds=delta_seconds,
                     scope=self.scope,
                 )
-                era['offsetCode'] = encoded_offset.offset_code
-                era['offsetMinute'] = encoded_offset.offset_minute
-                era['deltaCode'] = encoded_offset.delta_code
-                era['deltaCodeEncoded'] = encoded_offset.delta_code_encoded
+                era['offset_code'] = encoded_offset.offset_code
+                era['offset_minute'] = encoded_offset.offset_minute
+                era['delta_code'] = encoded_offset.delta_code
+                era['delta_code_encoded'] = encoded_offset.delta_code_encoded
 
                 # Check if STDOFF is not on 15-minute boundary
                 if encoded_offset.offset_minute != 0:
                     logging.info(
                         f"Notable zone: {zone_name}: "
-                        f"STDOFF '{era['offsetString']}' "
+                        f"STDOFF '{era['offset_string']}' "
                         "not on 15-minute boundary"
                     )
                     add_comment(
                         self.tresult.notable_zones, zone_name,
-                        f"STDOFF '{era['offsetString']}' "
+                        f"STDOFF '{era['offset_string']}' "
                         "not on 15-minute boundary"
                     )
 
                 # Generate the UNTIL fields needed by Arduino ZoneProcessors
-                era['untilYearTiny'] = _to_tiny_until_year(era['untilYear'])
+                era['until_year_tiny'] = _to_tiny_until_year(era['until_year'])
                 encoded_until_time = _to_encoded_time(
-                    seconds=era['untilSecondsTruncated'],
-                    suffix=era['untilTimeSuffix'],
+                    seconds=era['until_seconds_truncated'],
+                    suffix=era['until_time_suffix'],
                 )
-                era['untilTimeCode'] = encoded_until_time.time_code
-                era['untilTimeMinute'] = encoded_until_time.time_minute
-                era['untilTimeModifier'] = encoded_until_time.modifier
+                era['until_time_code'] = encoded_until_time.time_code
+                era['until_time_minute'] = encoded_until_time.time_minute
+                era['until_time_modifier'] = encoded_until_time.modifier
 
                 # Check if UNTIL is not on 15-minute boundary
                 if encoded_until_time.time_minute != 0:
                     logging.info(
                         f"Notable zone: {zone_name}: "
-                        f"UNTIL '{era['untilTime']}' not on 15-minute boundary"
+                        f"UNTIL '{era['until_time']}' not on 15-minute boundary"
                     )
                     add_comment(
                         self.tresult.notable_zones, zone_name,
-                        f"UNTIL '{era['untilTime']}' not on 15-minute boundary"
+                        f"UNTIL '{era['until_time']}' not on 15-minute boundary"
                     )
 
                 # FORMAT field for Arduino C++ replaces %s with just a %.
-                era['formatShort'] = era['format'].replace('%s', '%')
+                era['format_short'] = era['format'].replace('%s', '%')
 
         return self.zones_map
 
