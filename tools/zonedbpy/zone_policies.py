@@ -3,7 +3,7 @@
 #   $ ../tzcompiler.py
 #     --input_dir /home/brian/dev/tz
 #     --output_dir /home/brian/src/AceTime/tools/zonedbpy
-#     --tz_version 2020a
+#     --tz_version 2020d
 #     --action zonedb
 #     --language python
 #     --scope extended
@@ -20,12 +20,12 @@
 #   northamerica
 #   southamerica
 #
-# from https://github.com/eggert/tz/releases/tag/2020a
+# from https://github.com/eggert/tz/releases/tag/2020d
 #
 # DO NOT EDIT
 
 # numPolicies: 84
-# numRules: 509
+# numRules: 515
 
 #---------------------------------------------------------------------------
 # Policy name: AN
@@ -2201,7 +2201,7 @@ ZONE_POLICY_Falk = {
 
 #---------------------------------------------------------------------------
 # Policy name: Fiji
-# Rule count: 11
+# Rule count: 13
 #---------------------------------------------------------------------------
 ZONE_RULES_Fiji = [
     # Rule    Fiji    1998    1999    -    Nov    Sun>=1    2:00    1:00    -
@@ -2324,9 +2324,33 @@ ZONE_RULES_Fiji = [
         'delta_seconds': 0,
         'letter': '-',
     },
-    # Rule    Fiji    2019    max    -    Nov    Sun>=8    2:00    1:00    -
+    # Rule    Fiji    2019    only    -    Nov    Sun>=8    2:00    1:00    -
     {
         'from_year': 2019,
+        'to_year': 2019,
+        'in_month': 11,
+        'on_day_of_week': 7,
+        'on_day_of_month': 8,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Fiji    2020    only    -    Dec    20    2:00    1:00    -
+    {
+        'from_year': 2020,
+        'to_year': 2020,
+        'in_month': 12,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Fiji    2021    max    -    Nov    Sun>=8    2:00    1:00    -
+    {
+        'from_year': 2021,
         'to_year': 9999,
         'in_month': 11,
         'on_day_of_week': 7,
@@ -4424,13 +4448,13 @@ ZONE_RULES_Morocco = [
         'delta_seconds': -3600,
         'letter': '-',
     },
-    # Rule    Morocco    2023    only    -    Apr    23     2:00    0    -
+    # Rule    Morocco    2023    only    -    Apr    30     2:00    0    -
     {
         'from_year': 2023,
         'to_year': 2023,
         'in_month': 4,
         'on_day_of_week': 0,
-        'on_day_of_month': 23,
+        'on_day_of_month': 30,
         'at_seconds': 7200,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
@@ -4616,13 +4640,13 @@ ZONE_RULES_Morocco = [
         'delta_seconds': -3600,
         'letter': '-',
     },
-    # Rule    Morocco    2031    only    -    Jan    26     2:00    0    -
+    # Rule    Morocco    2031    only    -    Feb     2     2:00    0    -
     {
         'from_year': 2031,
         'to_year': 2031,
-        'in_month': 1,
+        'in_month': 2,
         'on_day_of_week': 0,
-        'on_day_of_month': 26,
+        'on_day_of_month': 2,
         'at_seconds': 7200,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
@@ -4808,13 +4832,13 @@ ZONE_RULES_Morocco = [
         'delta_seconds': -3600,
         'letter': '-',
     },
-    # Rule    Morocco    2038    only    -    Oct    31     2:00    0    -
+    # Rule    Morocco    2038    only    -    Nov     7     2:00    0    -
     {
         'from_year': 2038,
         'to_year': 2038,
-        'in_month': 10,
+        'in_month': 11,
         'on_day_of_week': 0,
-        'on_day_of_month': 31,
+        'on_day_of_month': 7,
         'at_seconds': 7200,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
@@ -5213,7 +5237,7 @@ ZONE_POLICY_Pakistan = {
 
 #---------------------------------------------------------------------------
 # Policy name: Palestine
-# Rule count: 25
+# Rule count: 29
 #---------------------------------------------------------------------------
 ZONE_RULES_Palestine = [
     # Anchor: Rule Palestine    1999    2003    -    Oct    Fri>=15    0:00    0    -
@@ -5300,13 +5324,13 @@ ZONE_RULES_Palestine = [
         'delta_seconds': 0,
         'letter': '-',
     },
-    # Rule Palestine    2007    only    -    Sep    Thu>=8    2:00    0    -
+    # Rule Palestine    2007    only    -    Sep    13    2:00    0    -
     {
         'from_year': 2007,
         'to_year': 2007,
         'in_month': 9,
-        'on_day_of_week': 4,
-        'on_day_of_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 13,
         'at_seconds': 7200,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
@@ -5336,13 +5360,13 @@ ZONE_RULES_Palestine = [
         'delta_seconds': 0,
         'letter': '-',
     },
-    # Rule Palestine    2009    only    -    Sep    Fri>=1    1:00    0    -
+    # Rule Palestine    2009    only    -    Sep     4    1:00    0    -
     {
         'from_year': 2009,
         'to_year': 2009,
         'in_month': 9,
-        'on_day_of_week': 5,
-        'on_day_of_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 4,
         'at_seconds': 3600,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
@@ -5444,41 +5468,53 @@ ZONE_RULES_Palestine = [
         'delta_seconds': 0,
         'letter': '-',
     },
-    # Rule Palestine    2013    only    -    Sep    Fri>=21    0:00    0    -
+    # Rule Palestine    2013    only    -    Sep    27    0:00    0    -
     {
         'from_year': 2013,
         'to_year': 2013,
         'in_month': 9,
-        'on_day_of_week': 5,
-        'on_day_of_month': 21,
+        'on_day_of_week': 0,
+        'on_day_of_month': 27,
         'at_seconds': 0,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': '-',
     },
-    # Rule Palestine    2014    2015    -    Oct    Fri>=21    0:00    0    -
+    # Rule Palestine    2014    only    -    Oct    24    0:00    0    -
     {
         'from_year': 2014,
-        'to_year': 2015,
+        'to_year': 2014,
         'in_month': 10,
-        'on_day_of_week': 5,
-        'on_day_of_month': 21,
+        'on_day_of_week': 0,
+        'on_day_of_month': 24,
         'at_seconds': 0,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': '-',
     },
-    # Rule Palestine    2015    only    -    Mar    lastFri    24:00    1:00    S
+    # Rule Palestine    2015    only    -    Mar    28    0:00    1:00    S
     {
         'from_year': 2015,
         'to_year': 2015,
         'in_month': 3,
-        'on_day_of_week': 5,
-        'on_day_of_month': 0,
-        'at_seconds': 86400,
+        'on_day_of_week': 0,
+        'on_day_of_month': 28,
+        'at_seconds': 0,
         'at_time_suffix': 'w',
         'delta_seconds': 3600,
         'letter': 'S',
+    },
+    # Rule Palestine    2015    only    -    Oct    23    1:00    0    -
+    {
+        'from_year': 2015,
+        'to_year': 2015,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 23,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
     },
     # Rule Palestine    2016    2018    -    Mar    Sat>=24    1:00    1:00    S
     {
@@ -5492,29 +5528,65 @@ ZONE_RULES_Palestine = [
         'delta_seconds': 3600,
         'letter': 'S',
     },
-    # Rule Palestine    2016    max    -    Oct    lastSat    1:00    0    -
+    # Rule Palestine    2016    2018    -    Oct    Sat>=24    1:00    0    -
     {
         'from_year': 2016,
-        'to_year': 9999,
+        'to_year': 2018,
         'in_month': 10,
         'on_day_of_week': 6,
-        'on_day_of_month': 0,
+        'on_day_of_month': 24,
         'at_seconds': 3600,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': '-',
     },
-    # Rule Palestine    2019    max    -    Mar    lastFri    0:00    1:00    S
+    # Rule Palestine    2019    only    -    Mar    29    0:00    1:00    S
     {
         'from_year': 2019,
-        'to_year': 9999,
+        'to_year': 2019,
         'in_month': 3,
-        'on_day_of_week': 5,
-        'on_day_of_month': 0,
+        'on_day_of_week': 0,
+        'on_day_of_month': 29,
         'at_seconds': 0,
         'at_time_suffix': 'w',
         'delta_seconds': 3600,
         'letter': 'S',
+    },
+    # Rule Palestine    2019    only    -    Oct    Sat>=24    0:00    0    -
+    {
+        'from_year': 2019,
+        'to_year': 2019,
+        'in_month': 10,
+        'on_day_of_week': 6,
+        'on_day_of_month': 24,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule Palestine    2020    max    -    Mar    Sat>=24    0:00    1:00    S
+    {
+        'from_year': 2020,
+        'to_year': 9999,
+        'in_month': 3,
+        'on_day_of_week': 6,
+        'on_day_of_month': 24,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule Palestine    2020    max    -    Oct    Sat>=24    1:00    0    -
+    {
+        'from_year': 2020,
+        'to_year': 9999,
+        'in_month': 10,
+        'on_day_of_week': 6,
+        'on_day_of_month': 24,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
     },
 
 ]

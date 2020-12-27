@@ -778,6 +778,11 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         the ZoneRule transitions use an 's' time, which happens to coincide with
         the change in ZoneEra. The code must treat those 2 transition times as
         the same point in time.
+
+        In TZ version 2020b (specifically commit
+        6427fe6c0cca1dc0f8580f8b96348911ad051570 for github.com/eggert/tz on Thu
+        Oct 1 23:59:18 2020) adds an additional ZoneEra line for 2010, changing
+        this from 2 to 3. Antarctica/Macquarie stays on AEDT all year in 2010.
         """
         zone_specifier = ZoneSpecifier(
             cast(ZoneInfo, zone_infos.ZONE_INFO_Antarctica_Macquarie),
@@ -786,39 +791,55 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
         zone_specifier.init_for_year(2010)
 
         matches = zone_specifier.matches
-        self.assertEqual(2, len(matches))
+        self.assertEqual(3, len(matches))
 
+        # Match 0
         self.assertEqual(
             DateTuple(2009, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
-            DateTuple(2010, 4, 4, 3 * 3600, 'w'), matches[0].until_date_time)
+            DateTuple(2010, 1, 1, 0, 'w'), matches[0].until_date_time)
         self.assertEqual('AT', matches[0].zone_era.policyName)
 
+        # Match 1
         self.assertEqual(
-            DateTuple(2010, 4, 4, 3 * 3600, 'w'), matches[1].start_date_time)
+            DateTuple(2010, 1, 1, 0, 'w'), matches[1].start_date_time)
         self.assertEqual(
-            DateTuple(2011, 2, 1, 0, 'w'), matches[1].until_date_time)
-        self.assertEqual('-', matches[1].zone_era.policyName)
+            DateTuple(2011, 1, 1, 0, 'w'), matches[1].until_date_time)
+        self.assertEqual(':', matches[1].zone_era.policyName)
+
+        # Match 2
+        self.assertEqual(
+            DateTuple(2011, 1, 1, 0, 'w'), matches[2].start_date_time)
+        self.assertEqual(
+            DateTuple(2011, 2, 1, 0, 'w'), matches[2].until_date_time)
+        self.assertEqual('AT', matches[2].zone_era.policyName)
 
         transitions = zone_specifier.transitions
-        self.assertEqual(2, len(transitions))
+        self.assertEqual(3, len(transitions))
 
+        # Transition 0
         self.assertEqual(
             DateTuple(2009, 12, 1, 0, 'w'), transitions[0].start_date_time)
         self.assertEqual(
-            DateTuple(2010, 4, 4, 3 * 3600, 'w'),
-            transitions[0].until_date_time)
+            DateTuple(2010, 1, 1, 0, 'w'), transitions[0].until_date_time)
         self.assertEqual(10 * 3600, transitions[0].offset_seconds)
         self.assertEqual(1 * 3600, transitions[0].delta_seconds)
 
+        # Transition 1
         self.assertEqual(
-            DateTuple(2010, 4, 4, 3 * 3600, 'w'),
-            transitions[1].start_date_time)
+            DateTuple(2010, 1, 1, 0, 'w'), transitions[1].start_date_time)
         self.assertEqual(
-            DateTuple(2011, 2, 1, 0 * 3600, 'w'),
-            transitions[1].until_date_time)
-        self.assertEqual(11 * 3600, transitions[1].offset_seconds)
-        self.assertEqual(0 * 3600, transitions[1].delta_seconds)
+            DateTuple(2011, 1, 1, 0, 'w'), transitions[1].until_date_time)
+        self.assertEqual(10 * 3600, transitions[1].offset_seconds)
+        self.assertEqual(1 * 3600, transitions[1].delta_seconds)
+
+        # Transition 2
+        self.assertEqual(
+            DateTuple(2011, 1, 1, 0, 'w'), transitions[2].start_date_time)
+        self.assertEqual(
+            DateTuple(2011, 2, 1, 0, 'w'), transitions[2].until_date_time)
+        self.assertEqual(10 * 3600, transitions[2].offset_seconds)
+        self.assertEqual(1 * 3600, transitions[2].delta_seconds)
 
     def test_Simferopol(self) -> None:
         """Asia/Simferopol in 2014 uses a bizarre mixture of 'w' when using EU

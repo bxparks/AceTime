@@ -1,6 +1,6 @@
 TARGETS := zone_infos.py zone_policies.py
 
-TZ_VERSION := 2020a
+TZ_VERSION := 2020d
 
 all: $(TARGETS)
 
