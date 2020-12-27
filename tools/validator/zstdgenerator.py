@@ -181,7 +181,7 @@ class TestDataGenerator:
                     if start.M == 1 and start.d == 1 and start.ss == 0:
                         continue
 
-                epoch_seconds = transition.startEpochSecond
+                epoch_seconds = transition.start_epoch_second
 
                 # Add a test data just before the transition
                 test_item = self._create_test_item_from_epoch_seconds(

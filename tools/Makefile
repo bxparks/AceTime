@@ -10,6 +10,7 @@ generate_validation.py \
 generator \
 tests/test_extractor.py \
 tests/test_transformer.py \
+tests/test_zone_specifier.py \
 tzcompiler.py \
 transformer \
 validate.py \
