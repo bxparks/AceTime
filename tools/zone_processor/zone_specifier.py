@@ -392,7 +392,7 @@ class Transition:
                           self.offset_seconds, self.delta_seconds, self.abbrev)
 
     def __repr__(self) -> str:
-        sepoch = self.startEpochSecond if self.startEpochSecond else 0
+        sepoch = self.startEpochSecond if self.startEpochSecond else '-'
         policy_name = self.zone_era.policyName
         offset_seconds = self.offset_seconds
         delta_seconds = self.delta_seconds
@@ -402,26 +402,16 @@ class Transition:
         # yapf: disable
         if policy_name in ['-', ':']:
             return (
-                'Trans('
-                + 'act: %s; '
-                + 'tt: %s; '
-                + 'st: %s; '
-                + 'ut: %s; '
-                + 'epch: %d; '
-                + 'pol: %s; '
-                + '%s; '
-                + 'fmt: %s; '
-                + 'ab: %s)'
-            ) % (
-                'y' if self.isActive else '-',
-                date_tuple_to_string(self.transitionTime),
-                date_tuple_to_string(self.start_date_time),
-                date_tuple_to_string(self.until_date_time),
-                sepoch,
-                policy_name,
-                to_utc_string(offset_seconds, delta_seconds),
-                format,
-                abbrev,
+                'T('
+                f"act={'y' if self.isActive else '-'};"
+                f"tt={date_tuple_to_string(self.transitionTime)};"
+                f"st={date_tuple_to_string(self.start_date_time)};"
+                f"ut={date_tuple_to_string(self.until_date_time)};"
+                f"ep={sepoch};"
+                f"pol={policy_name};"
+                f"{to_utc_string(offset_seconds, delta_seconds)};"
+                f"fmt={format};"
+                f"ab={abbrev})"
             )
         else:
             delta_seconds = self.delta_seconds
@@ -429,34 +419,24 @@ class Transition:
             zone_rule = self.zoneRule
             zone_rule_from = cast(ZoneRuleCooked, zone_rule).from_year
             zone_rule_to = cast(ZoneRuleCooked, zone_rule).to_year
+            original_transition = (
+                date_tuple_to_string(self.originalTransitionTime)
+                if self.originalTransitionTime
+                else ''
+            )
 
             return (
-                'Trans('
-                + 'act: %s; '
-                + 'tt: %s; '
-                + 'st: %s; '
-                + 'ut: %s; '
-                + 'ot: %s; '
-                + 'epch: %d; '
-                + 'pol: %s[%d,%d]; '
-                + '%s; '
-                + 'fmt: %s(%s); '
-                + 'ab: %s)'
-            ) % (
-                'y' if self.isActive else '-',
-                date_tuple_to_string(self.transitionTime),
-                date_tuple_to_string(self.start_date_time),
-                date_tuple_to_string(self.until_date_time),
-                (date_tuple_to_string(self.originalTransitionTime)
-                    if self.originalTransitionTime else ''),
-                sepoch,
-                policy_name,
-                zone_rule_from,
-                zone_rule_to,
-                to_utc_string(offset_seconds, delta_seconds),
-                format,
-                letter,
-                abbrev,
+                'T('
+                f"act={'y' if self.isActive else '-'};"
+                f"tt={date_tuple_to_string(self.transitionTime)};"
+                f"st={date_tuple_to_string(self.start_date_time)};"
+                f"ut={date_tuple_to_string(self.until_date_time)};"
+                f"ot={original_transition};"
+                f"ep={sepoch};"
+                f"pol={policy_name}[{zone_rule_from},{zone_rule_to}];"
+                f"{to_utc_string(offset_seconds, delta_seconds)};"
+                f"fmt={format}({letter});"
+                f"ab={abbrev})"
             )
         # yapf: enable
 
@@ -1011,15 +991,15 @@ class ZoneSpecifier:
         return transitions
 
     def print_matches_and_transitions(self) -> None:
-        logging.info('---- Max Buffer Size: %s',
-                     self.max_transition_buffer_size)
-        logging.info('---- Matches:')
+        logging.info('---- Buffer Size')
+        logging.info('Max: %s', self.max_transition_buffer_size)
+        logging.info('---- Matches')
         for m in self.matches:
             logging.info(m)
-        logging.info('---- Transitions:')
+        logging.info('---- Transitions')
         for t in self.transitions:
             logging.info(t)
-        logging.info('---- Candidate Transitions:')
+        logging.info('---- Candidate Transitions')
         for t in self.all_candidate_transitions:
             logging.info(t)
 
