@@ -56,10 +56,12 @@ function usage() {
 tag=''
 git_repo=$SOURCE_DIR
 output_dir=''
+skip_checkout=0
 while [[ $# -gt 0 ]]; do
     case $1 in
         --source) shift; git_repo=$1 ;;
         --output_dir) shift; output_dir=$1 ;;
+        --skip_checkout) skip_checkout=1 ;;
         --help|-h) usage ;;
         -*) echo "Unknown flag '$1'"; usage ;;
         *) break ;;
@@ -84,11 +86,13 @@ target_path=$(realpath -m $target_dir)
 echo "+ mkdir -p $target_path"
 mkdir -p $target_path
 
-# Check out the $tag
+# Check out the $tag, unless --skip_checkout flag is given.
 echo "+ cd $git_repo"
 cd $git_repo
-echo "+ git checkout $tag"
-git checkout -q $tag
+if [[ $skip_checkout == 0 ]]; then
+    echo "+ git checkout $tag"
+    git checkout -q $tag
+fi
 
 # Copy the files into the target directory. The 'echo' below strips off the
 # newline characters.
@@ -96,8 +100,10 @@ copy_cmd="cp $(echo $TZ_FILES) $target_path"
 echo "+ $copy_cmd"
 eval "$copy_cmd"
 
-# Set the repo to the 'master' branch.
-echo "+ git checkout master"
-git checkout -q master
+# Set the repo back to the 'master' branch.
+if [[ $skip_checkout == 0 ]]; then
+    echo "+ git checkout master"
+    git checkout -q master
+fi
 
 echo "==== Copied TZ files into '$target_dir' directory"
