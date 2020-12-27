@@ -8,11 +8,9 @@ data_types \
 extractor \
 generate_validation.py \
 generator \
-tests/test_extractor.py \
-tests/test_transformer.py \
-tests/test_zone_specifier.py \
-tzcompiler.py \
+tests \
 transformer \
+tzcompiler.py \
 validate.py \
 validation \
 validator \
