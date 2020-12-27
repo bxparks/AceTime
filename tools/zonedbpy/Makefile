@@ -7,8 +7,11 @@ all: $(TARGETS)
 .PHONY: $(TARGETS)
 
 zone_infos.py:
-	../tzcompiler.sh --tag $(TZ_VERSION) --action zonedb \
-		--language python --scope extended
+	../tzcompiler.sh \
+		--tag $(TZ_VERSION) \
+		--action zonedb \
+		--language python \
+		--scope extended
 
 zone_policies.py: zone_infos.py
 
