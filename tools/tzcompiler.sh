@@ -65,6 +65,7 @@ OUTPUT_DIR=$PWD
 function usage() {
     echo 'Usage: tzcompiler.sh '
     echo '      --tag tag '
+    echo '      [--skip_checkout] '
     echo '      --language (python|arduino|json) '
     echo '      --scope (basic|extended) '
     echo '      [...other python_flags...] '
@@ -73,9 +74,11 @@ function usage() {
 
 pass_thru_flags=''
 tag=''
+skip_checkout=0
 while [[ $# -gt 0 ]]; do
     case $1 in
         --tag) shift; tag=$1 ;;
+        --skip_checkout) skip_checkout=1 ;;
         --help|-h) usage ;;
         -*) break ;;
         *) break ;;
@@ -86,14 +89,16 @@ if [[ "$tag" == '' ]]; then
     usage
 fi
 
-echo "\$ pushd $INPUT_DIR"
-pushd $INPUT_DIR
+if [[ $skip_checkout == '0' ]]; then
+    echo "\$ pushd $INPUT_DIR"
+    pushd $INPUT_DIR
 
-echo "\$ git checkout $tag"
-git checkout -q $tag
+    echo "\$ git checkout $tag"
+    git checkout -q $tag
 
-echo '$ popd'
-popd
+    echo '$ popd'
+    popd
+fi
 
 echo \$ $DIRNAME/tzcompiler.py \
     --input_dir $INPUT_DIR \
@@ -109,8 +114,10 @@ $DIRNAME/tzcompiler.py \
 echo "\$ pushd $INPUT_DIR"
 pushd $INPUT_DIR
 
-echo "\$ git checkout master"
-git checkout -q master
+if [[ $skip_checkout == '0' ]]; then
+    echo "\$ git checkout master"
+    git checkout -q master
+fi
 
 echo '$ popd'
 popd

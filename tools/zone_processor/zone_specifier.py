@@ -307,30 +307,30 @@ class Transition:
     __slots__ = [
         # The start and until times are initially copied from ZoneMatch, then
         # updated later by _generate_start_until_times().
-        #   * The until_date_time comes from transitionTime of the *next*
+        #   * The until_date_time comes from transition_time of the *next*
         #   Transition.
-        #   * The start_date_time is the current transitionTime converted into
+        #   * The start_date_time is the current transition_time converted into
         #   the UTC offset of the current Transition.
         'start_date_time',  # replaced with actual start time
         'until_date_time',  # replaced with actual until time
         'zone_era',  # (ZoneEra)
 
         # These are added for simple Match and named Match.
-        # For a simple Transition, the transitionTime is the startTime of the
-        # ZoneEra. For a named Transition, the transitionTime is the AT field of
-        # the corresponding ZoneRule (see _create_transition_for_year()).
-        'originalTransitionTime',  # (DateTuple) transition time before shifting
-        'transitionTime',  # 'w' time
-        'transitionTimeS',  # 's' time
-        'transitionTimeU',  # 'u' time
+        # For a simple Transition, the transition_time is the startTime of the
+        # ZoneEra. For a named Transition, the transition_time is the AT field
+        # of the corresponding ZoneRule (see _create_transition_for_year()).
+        'original_transition_time',  # transition time before shifting
+        'transition_time',  # 'w' time
+        'transition_time_s',  # 's' time
+        'transition_time_u',  # 'u' time
         'abbrev',  # abbreviation
-        'startEpochSecond',  # the starting time in epoch seconds
+        'start_epoch_second',  # the starting time in epoch seconds
 
         # Added for named Match.
-        'zoneRule',  # Defined for named Match.
+        'zone_rule',  # Defined for named Match.
 
         # Flag to indicate if Transition is active or not
-        'isActive',  # Transition is inside ZoneMatch and is active
+        'is_active',  # Transition is inside ZoneMatch and is active
     ]
 
     # Hack because '__slots__' is unsupported by mypy. See
@@ -339,16 +339,16 @@ class Transition:
         start_date_time: DateTuple
         until_date_time: DateTuple
         zone_era: ZoneEraCooked
-        originalTransitionTime: DateTuple
-        transitionTime: DateTuple
-        transitionTimeS: DateTuple
-        transitionTimeU: DateTuple
+        original_transition_time: DateTuple
+        transition_time: DateTuple
+        transition_time_s: DateTuple
+        transition_time_u: DateTuple
         abbrev: str
-        startEpochSecond: int
-        zoneRule: Optional[ZoneRuleCooked]
-        isActive: bool
+        start_epoch_second: int
+        zone_rule: Optional[ZoneRuleCooked]
+        is_active: bool
 
-    def __init__(self, arg: ZoneMatch):
+    def __init__(self, arg: Union[ZoneMatch, Dict[str, Any]]):
         for s in self.__slots__:
             setattr(self, s, None)
         if isinstance(arg, dict):
@@ -368,11 +368,11 @@ class Transition:
 
     @property
     def letter(self) -> str:
-        return self.zoneRule.letter if self.zoneRule else ''
+        return self.zone_rule.letter if self.zone_rule else ''
 
     @property
     def delta_seconds(self) -> int:
-        return self.zoneRule.delta_seconds if self.zoneRule \
+        return self.zone_rule.delta_seconds if self.zone_rule \
             else self.zone_era.rules_delta_seconds
 
     def copy(self) -> 'Transition':
@@ -392,7 +392,7 @@ class Transition:
                           self.offset_seconds, self.delta_seconds, self.abbrev)
 
     def __repr__(self) -> str:
-        sepoch = self.startEpochSecond if self.startEpochSecond else 0
+        sepoch = self.start_epoch_second if self.start_epoch_second else '-'
         policy_name = self.zone_era.policyName
         offset_seconds = self.offset_seconds
         delta_seconds = self.delta_seconds
@@ -402,61 +402,41 @@ class Transition:
         # yapf: disable
         if policy_name in ['-', ':']:
             return (
-                'Trans('
-                + 'act: %s; '
-                + 'tt: %s; '
-                + 'st: %s; '
-                + 'ut: %s; '
-                + 'epch: %d; '
-                + 'pol: %s; '
-                + '%s; '
-                + 'fmt: %s; '
-                + 'ab: %s)'
-            ) % (
-                'y' if self.isActive else '-',
-                date_tuple_to_string(self.transitionTime),
-                date_tuple_to_string(self.start_date_time),
-                date_tuple_to_string(self.until_date_time),
-                sepoch,
-                policy_name,
-                to_utc_string(offset_seconds, delta_seconds),
-                format,
-                abbrev,
+                'T('
+                f"act={'y' if self.is_active else '-'};"
+                f"tt={date_tuple_to_string(self.transition_time)};"
+                f"st={date_tuple_to_string(self.start_date_time)};"
+                f"ut={date_tuple_to_string(self.until_date_time)};"
+                f"ep={sepoch};"
+                f"pol={policy_name};"
+                f"{to_utc_string(offset_seconds, delta_seconds)};"
+                f"fmt={format};"
+                f"ab={abbrev})"
             )
         else:
             delta_seconds = self.delta_seconds
             letter = self.letter
-            zone_rule = self.zoneRule
+            zone_rule = self.zone_rule
             zone_rule_from = cast(ZoneRuleCooked, zone_rule).from_year
             zone_rule_to = cast(ZoneRuleCooked, zone_rule).to_year
+            original_transition = (
+                date_tuple_to_string(self.original_transition_time)
+                if self.original_transition_time
+                else ''
+            )
 
             return (
-                'Trans('
-                + 'act: %s; '
-                + 'tt: %s; '
-                + 'st: %s; '
-                + 'ut: %s; '
-                + 'ot: %s; '
-                + 'epch: %d; '
-                + 'pol: %s[%d,%d]; '
-                + '%s; '
-                + 'fmt: %s(%s); '
-                + 'ab: %s)'
-            ) % (
-                'y' if self.isActive else '-',
-                date_tuple_to_string(self.transitionTime),
-                date_tuple_to_string(self.start_date_time),
-                date_tuple_to_string(self.until_date_time),
-                (date_tuple_to_string(self.originalTransitionTime)
-                    if self.originalTransitionTime else ''),
-                sepoch,
-                policy_name,
-                zone_rule_from,
-                zone_rule_to,
-                to_utc_string(offset_seconds, delta_seconds),
-                format,
-                letter,
-                abbrev,
+                'T('
+                f"act={'y' if self.is_active else '-'};"
+                f"tt={date_tuple_to_string(self.transition_time)};"
+                f"st={date_tuple_to_string(self.start_date_time)};"
+                f"ut={date_tuple_to_string(self.until_date_time)};"
+                f"ot={original_transition};"
+                f"ep={sepoch};"
+                f"pol={policy_name}[{zone_rule_from},{zone_rule_to}];"
+                f"{to_utc_string(offset_seconds, delta_seconds)};"
+                f"fmt={format}({letter});"
+                f"ab={abbrev})"
             )
         # yapf: enable
 
@@ -507,7 +487,7 @@ class ZoneSpecifier:
 
         * 12 = [year-Jan, (year+1)-Jan) (experimental)
         * 13 = [year-Jan, (year+1)-Feb) (works)
-        * 14 = [(year-1)-Dec, (year+1)-Feb) (works)
+        * 14 = [(year-1)-Dec, (year+1)-Feb) (works, and well tested)
         * 36 = [(year-1)-Jan, (year+2)-Jan) (not well tested,
                seems to mostly work except for 2000)
     """
@@ -783,9 +763,9 @@ class ZoneSpecifier:
         """
         matching_transition = None
         for transition in self.transitions:
-            if transition.startEpochSecond <= epoch_seconds:
+            if transition.start_epoch_second <= epoch_seconds:
                 matching_transition = transition
-            elif transition.startEpochSecond > epoch_seconds:
+            elif transition.start_epoch_second > epoch_seconds:
                 break
         return matching_transition
 
@@ -912,7 +892,7 @@ class ZoneSpecifier:
             logging.info('_find_transitions_from_simple_match(): %s', match)
         transition = Transition(match)
         transition.update({
-            'transitionTime': match.start_date_time,
+            'transition_time': match.start_date_time,
         })
         transitions = [transition]
         self._update_transition_buffer_size(transitions)
@@ -1011,15 +991,15 @@ class ZoneSpecifier:
         return transitions
 
     def print_matches_and_transitions(self) -> None:
-        logging.info('---- Max Buffer Size: %s',
-                     self.max_transition_buffer_size)
-        logging.info('---- Matches:')
+        logging.info('---- Buffer Size')
+        logging.info('Max: %s', self.max_transition_buffer_size)
+        logging.info('---- Matches')
         for m in self.matches:
             logging.info(m)
-        logging.info('---- Transitions:')
+        logging.info('---- Transitions')
         for t in self.transitions:
             logging.info(t)
-        logging.info('---- Candidate Transitions:')
+        logging.info('---- Candidate Transitions')
         for t in self.all_candidate_transitions:
             logging.info(t)
 
@@ -1032,7 +1012,7 @@ class ZoneSpecifier:
             if not prev:
                 prev = transition
                 continue
-            if prev.transitionTime > transition.transitionTime:
+            if prev.transition_time > transition.transition_time:
                 print_transitions(transitions)
                 raise Exception('Transitions not sorted')
 
@@ -1094,12 +1074,12 @@ class ZoneSpecifier:
         """Calculate the various start and until times of the Transitions in the
         following way:
             1) The 'until_date_time' of the previous Transition is the
-            'transitionTime' of the current Transition with no adjustments.
+            'transition_time' of the current Transition with no adjustments.
             2) The local 'start_date_time' of the current Transition is
-            the current 'transitionTime' - (prevOffset + prevDelta) +
+            the current 'transition_time' - (prevOffset + prevDelta) +
             (currentOffset + currentDelta).
-            3) The 'startEpochSecond' of the current Transition is the
-            'transitionTime' using the UTC offset of the *previous* Transition.
+            3) The 'start_epoch_second' of the current Transition is the
+            'transition_time' using the UTC offset of the *previous* Transition.
 
         Got all that?
 
@@ -1111,7 +1091,7 @@ class ZoneSpecifier:
         prev = transitions[0]
         is_after_first = False
         for transition in transitions:
-            tt = transition.transitionTime
+            tt = transition.transition_time
 
             # 1) Update the 'until_date_time' of the previous Transition.
             if is_after_first:
@@ -1135,17 +1115,17 @@ class ZoneSpecifier:
             transition.start_date_time = DateTuple(
                 y=st.year, M=st.month, d=st.day, ss=secs, f=tt.f)
 
-            # 3) The epochSecond of the 'transitionTime' is determined by the
+            # 3) The epochSecond of the 'transition_time' is determined by the
             # UTC offset of the *previous* Transition. However, the
-            # transitionTime can be represented by an illegal time (e.g. 24:00).
-            # So, it is better to use the properly normalized start_date_time
-            # (calculated above) with the *current* UTC offset.
+            # transition_time can be represented by an illegal time (e.g.
+            # 24:00). So, it is better to use the properly normalized
+            # start_date_time (calculated above) with the *current* UTC offset.
             utc_offset_seconds = transition.offset_seconds \
                 + transition.delta_seconds
             z = timezone(timedelta(seconds=utc_offset_seconds))
             dt = st.replace(tzinfo=z)
             epoch_second = int((dt - ACETIME_EPOCH).total_seconds())
-            transition.startEpochSecond = epoch_second
+            transition.start_epoch_second = epoch_second
 
             prev = transition
             is_after_first = True
@@ -1158,7 +1138,7 @@ class ZoneSpecifier:
 
     @staticmethod
     def _fix_transition_times(transitions: List[Transition]) -> None:
-        """Convert the transtion['transitionTime'] to the wall time ('w') of
+        """Convert the transtion['transition_time'] to the wall time ('w') of
         the previous rule's time offset. The Transition time comes from either:
             1) The UNTIL field of the previous Zone Era entry, or
             2) The (in_month, on_day, at_seconds) fields of the Zone Rule.
@@ -1179,11 +1159,11 @@ class ZoneSpecifier:
         prev = transitions[0].copy()
         for transition in transitions:
             (
-                transition.transitionTime,
-                transition.transitionTimeS,
-                transition.transitionTimeU,
+                transition.transition_time,
+                transition.transition_time_s,
+                transition.transition_time_u,
             ) = ZoneSpecifier._expand_date_tuple(
-                transition.transitionTime,
+                transition.transition_time,
                 prev.offset_seconds,
                 prev.delta_seconds,
             )
@@ -1473,7 +1453,7 @@ class CandidateFinderOptimized:
         """Return the latest prior transition.
         """
         if prior_transition:
-            if transition.transitionTime > prior_transition.transitionTime:
+            if transition.transition_time > prior_transition.transition_time:
                 return transition
             else:
                 return prior_transition
@@ -1536,9 +1516,9 @@ class ActiveSelectorBasic:
 
             # Adjust the transition time to be the start of the ZoneMatch.
             prior_transition = prior_transition.copy()
-            prior_transition.originalTransitionTime = \
-                prior_transition.transitionTime
-            prior_transition.transitionTime = match.start_date_time
+            prior_transition.original_transition_time = \
+                prior_transition.transition_time
+            prior_transition.transition_time = match.start_date_time
             _add_transition_sorted(transitions, prior_transition)
 
         return transitions
@@ -1603,8 +1583,8 @@ class ActiveSelectorBasic:
             if not latest_prior_transition:
                 results['latestPriorTransition'] = transition
             else:
-                transition_time = transition.transitionTime
-                if transition_time > latest_prior_transition.transitionTime:
+                transition_time = transition.transition_time
+                if transition_time > latest_prior_transition.transition_time:
                     results['latestPriorTransition'] = transition
 
 
@@ -1619,7 +1599,7 @@ class ActiveSelectorInPlace:
     ) -> List[Transition]:
         """Similar to ActiveSelectorBasic.select_active_transitions() except
         that it does not use any additional dynamically allocated array of
-        Transitions. It uses the Transition.isActive flag to mark if a
+        Transitions. It uses the Transition.is_active flag to mark if a
         Transition is active or not.
         """
         if self.debug:
@@ -1629,13 +1609,13 @@ class ActiveSelectorInPlace:
         for transition in transitions:
             prior = self._process_transition(match, transition, prior)
 
-        if prior and prior.transitionTime < match.start_date_time:
-            prior.originalTransitionTime = prior.transitionTime
-            prior.transitionTime = match.start_date_time
+        if prior and prior.transition_time < match.start_date_time:
+            prior.original_transition_time = prior.transition_time
+            prior.transition_time = match.start_date_time
 
         active_transitions = []
         for transition in transitions:
-            if transition.isActive:
+            if transition.is_active:
                 active_transitions.append(transition)
         return active_transitions
 
@@ -1653,22 +1633,22 @@ class ActiveSelectorInPlace:
         transition_compared_to_match = _compare_transition_to_match(
             transition, match)
         if transition_compared_to_match == 2:
-            transition.isActive = False
+            transition.is_active = False
         elif transition_compared_to_match == 1:
-            transition.isActive = True
+            transition.is_active = True
         elif transition_compared_to_match == 0:
-            transition.isActive = True
+            transition.is_active = True
             if prior:
-                prior.isActive = False
+                prior.is_active = False
             prior = transition
         else:  # transition_compared_to_match < 0:
             if prior:
-                if transition.transitionTime > prior.transitionTime:
-                    prior.isActive = False
-                    transition.isActive = True
+                if transition.transition_time > prior.transition_time:
+                    prior.is_active = False
+                    transition.is_active = True
                     prior = transition
             else:
-                transition.isActive = True
+                transition.is_active = True
                 prior = transition
         return prior
 
@@ -1684,7 +1664,7 @@ def _add_transition_sorted(
         transition: Transition,
 ) -> None:
     """Add the transition to the transitions array so that it is sorted by
-    transitionTime. This is not normally how this would be done in Python. This
+    transition_time. This is not normally how this would be done in Python. This
     is emulating the code that would be written in an Arduino C++ environment,
     without dynamic arrays and a sort() function. This will allow this class to
     be more easily ported to C++. The O(N^2) insertion sort algorithm should be
@@ -1694,7 +1674,7 @@ def _add_transition_sorted(
     for i in range(len(transitions) - 1, 0, -1):
         curr = transitions[i]
         prev = transitions[i - 1]
-        if _compare_date_tuple(curr.transitionTime, prev.transitionTime) < 0:
+        if _compare_date_tuple(curr.transition_time, prev.transition_time) < 0:
             transitions[i - 1] = curr
             transitions[i] = prev
 
@@ -1722,8 +1702,8 @@ def _create_transition_for_year(
     transition_time = _get_transition_time(year, rule)
     transition = Transition(match)
     transition.update({
-        'transitionTime': transition_time,
-        'zoneRule': rule,
+        'transition_time': transition_time,
+        'zone_rule': rule,
     })
     return transition
 
@@ -1781,11 +1761,11 @@ def _compare_transition_to_match(
     """
     match_start = match.start_date_time
     if match_start.f == 'w':
-        transition_time = transition.transitionTime
+        transition_time = transition.transition_time
     elif match_start.f == 's':
-        transition_time = transition.transitionTimeS
+        transition_time = transition.transition_time_s
     elif match_start.f == 'u':
-        transition_time = transition.transitionTimeU
+        transition_time = transition.transition_time_u
     else:
         raise Exception(f"Unknown suffix: {match_start.f}")
     if transition_time < match_start:
@@ -1795,11 +1775,11 @@ def _compare_transition_to_match(
 
     match_until = match.until_date_time
     if match_until.f == 'w':
-        transition_time = transition.transitionTime
+        transition_time = transition.transition_time
     elif match_until.f == 's':
-        transition_time = transition.transitionTimeS
+        transition_time = transition.transition_time_s
     elif match_until.f == 'u':
-        transition_time = transition.transitionTimeU
+        transition_time = transition.transition_time_u
     else:
         raise Exception(f"Unknown suffix: {match_until.f}")
     if match_until <= transition_time:
@@ -1823,7 +1803,7 @@ def _compare_transition_to_match_fuzzy(
         * 1 if within match,
         * 2 if greater than match
     """
-    tt = transition.transitionTime
+    tt = transition.transition_time
     transition_time = 12 * tt.y + tt.M
 
     ms = match.start_date_time

@@ -3,7 +3,7 @@
 #   $ ../tzcompiler.py
 #     --input_dir /home/brian/dev/tz
 #     --output_dir /home/brian/src/AceTime/tools/zonedbpy
-#     --tz_version 2020a
+#     --tz_version 2020d
 #     --action zonedb
 #     --language python
 #     --scope extended
@@ -20,14 +20,14 @@
 #   northamerica
 #   southamerica
 #
-# from https://github.com/eggert/tz/releases/tag/2020a
+# from https://github.com/eggert/tz/releases/tag/2020d
 #
 # DO NOT EDIT
 
 from .zone_policies import *
 
 # numInfos: 387
-# numEras: 668
+# numEras: 674
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Abidjan
@@ -2409,16 +2409,16 @@ ZONE_INFO_America_Danmarkshavn = {
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Dawson = [
-    #             -8:00    Canada    P%sT    2020 Mar  8  2:00
+    #             -8:00    Canada    P%sT    2020 Nov  1
     {
       'offset_seconds': -28800,
       'zone_policy': ZONE_POLICY_Canada,
       'rules_delta_seconds': 0,
       'format': 'P%sT',
       'until_year': 2020,
-      'until_month': 3,
-      'until_day': 8,
-      'until_seconds': 7200,
+      'until_month': 11,
+      'until_day': 1,
+      'until_seconds': 0,
       'until_time_suffix': 'w',
     },
     #             -7:00    -    MST
@@ -5401,16 +5401,16 @@ ZONE_INFO_America_Vancouver = {
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Whitehorse = [
-    #             -8:00    Canada    P%sT    2020 Mar  8  2:00
+    #             -8:00    Canada    P%sT    2020 Nov  1
     {
       'offset_seconds': -28800,
       'zone_policy': ZONE_POLICY_Canada,
       'rules_delta_seconds': 0,
       'format': 'P%sT',
       'until_year': 2020,
-      'until_month': 3,
-      'until_day': 8,
-      'until_seconds': 7200,
+      'until_month': 11,
+      'until_day': 1,
+      'until_seconds': 0,
       'until_time_suffix': 'w',
     },
     #             -7:00    -    MST
@@ -5521,11 +5521,11 @@ ZONE_INFO_America_Yellowknife = {
 
 #---------------------------------------------------------------------------
 # Zone name: Antarctica/Casey
-# Era count: 7
+# Era count: 12
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Antarctica_Casey = [
-    #             8:00    -    +08    2009 Oct 18  2:00
+    #              8:00    -    +08    2009 Oct 18  2:00
     {
       'offset_seconds': 28800,
       'zone_policy': '-',
@@ -5549,7 +5549,7 @@ ZONE_ERAS_Antarctica_Casey = [
       'until_seconds': 7200,
       'until_time_suffix': 'w',
     },
-    #             8:00    -    +08    2011 Oct 28  2:00
+    #              8:00    -    +08    2011 Oct 28  2:00
     {
       'offset_seconds': 28800,
       'zone_policy': '-',
@@ -5573,7 +5573,7 @@ ZONE_ERAS_Antarctica_Casey = [
       'until_seconds': 61200,
       'until_time_suffix': 'u',
     },
-    #             8:00    -    +08    2016 Oct 22
+    #              8:00    -    +08    2016 Oct 22
     {
       'offset_seconds': 28800,
       'zone_policy': '-',
@@ -5597,12 +5597,72 @@ ZONE_ERAS_Antarctica_Casey = [
       'until_seconds': 14400,
       'until_time_suffix': 'w',
     },
-    #             8:00    -    +08
+    #              8:00    -    +08    2018 Oct  7  4:00
     {
       'offset_seconds': 28800,
       'zone_policy': '-',
       'rules_delta_seconds': 0,
       'format': '+08',
+      'until_year': 2018,
+      'until_month': 10,
+      'until_day': 7,
+      'until_seconds': 14400,
+      'until_time_suffix': 'w',
+    },
+    #             11:00    -    +11    2019 Mar 17  3:00
+    {
+      'offset_seconds': 39600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+11',
+      'until_year': 2019,
+      'until_month': 3,
+      'until_day': 17,
+      'until_seconds': 10800,
+      'until_time_suffix': 'w',
+    },
+    #              8:00    -    +08    2019 Oct  4  3:00
+    {
+      'offset_seconds': 28800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+08',
+      'until_year': 2019,
+      'until_month': 10,
+      'until_day': 4,
+      'until_seconds': 10800,
+      'until_time_suffix': 'w',
+    },
+    #             11:00    -    +11    2020 Mar  8  3:00
+    {
+      'offset_seconds': 39600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+11',
+      'until_year': 2020,
+      'until_month': 3,
+      'until_day': 8,
+      'until_seconds': 10800,
+      'until_time_suffix': 'w',
+    },
+    #              8:00    -    +08    2020 Oct  4  0:01
+    {
+      'offset_seconds': 28800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+08',
+      'until_year': 2020,
+      'until_month': 10,
+      'until_day': 4,
+      'until_seconds': 60,
+      'until_time_suffix': 'w',
+    },
+    #             11:00    -    +11
+    {
+      'offset_seconds': 39600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+11',
       'until_year': 10000,
       'until_month': 1,
       'until_day': 1,
@@ -5716,28 +5776,40 @@ ZONE_INFO_Antarctica_DumontDUrville = {
 
 #---------------------------------------------------------------------------
 # Zone name: Antarctica/Macquarie
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Antarctica_Macquarie = [
-    #             10:00    AT    AE%sT    2010 Apr  4  3:00
+    #             10:00    AT    AE%sT    2010
     {
       'offset_seconds': 36000,
       'zone_policy': ZONE_POLICY_AT,
       'rules_delta_seconds': 0,
       'format': 'AE%sT',
       'until_year': 2010,
-      'until_month': 4,
-      'until_day': 4,
-      'until_seconds': 10800,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
       'until_time_suffix': 'w',
     },
-    #             11:00    -    +11
+    #             10:00    1:00    AEDT    2011
     {
-      'offset_seconds': 39600,
-      'zone_policy': '-',
+      'offset_seconds': 36000,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': 'AEDT',
+      'until_year': 2011,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             10:00    AT    AE%sT
+    {
+      'offset_seconds': 36000,
+      'zone_policy': ZONE_POLICY_AT,
       'rules_delta_seconds': 0,
-      'format': '+11',
+      'format': 'AE%sT',
       'until_year': 10000,
       'until_month': 1,
       'until_day': 1,
@@ -13483,8 +13555,9 @@ ZONE_INFO_MAP = {
 
 # The following zones may have inaccuracies due to the following reasons:
 #
-# numInfos: 2
+# numInfos: 3
 #
 # Africa/Johannesburg (["RULES not fixed but FORMAT is missing '%' or '/'"])
+# Antarctica/Casey (["UNTIL '0:01' not on 15-minute boundary"])
 # Asia/Gaza (["UNTIL '0:01' not on 15-minute boundary"])
 

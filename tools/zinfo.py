@@ -75,11 +75,23 @@ def main() -> None:
     parser.add_argument(
         '--in_place_transitions',
         help='Use in-place Transition array to determine Active Transitions',
-        action="store_true")
+        action="store_true",
+        default=True)
+    parser.add_argument(
+        '--no_in_place_transitions',
+        help='Disable --in_place_transitions',
+        action="store_false",
+        dest='in_place_transitions')
     parser.add_argument(
         '--optimize_candidates',
         help='Optimize the candidate transitions',
-        action='store_true')
+        action='store_true',
+        default=True)
+    parser.add_argument(
+        '--no_optimize_candidates',
+        help='Disable --optimize_candidates',
+        action='store_false',
+        dest='optimize_candidates')
     parser.add_argument('--zone', help='Name of time zone', required=True)
     parser.add_argument('--year', help='Year of interest', type=int)
     parser.add_argument('--date', help='DateTime of interest')
