@@ -403,13 +403,13 @@ class Transition:
         if policy_name in ['-', ':']:
             return (
                 'T('
+                f"{to_utc_string(offset_seconds, delta_seconds)};"
                 f"act={'y' if self.is_active else '-'};"
                 f"tt={date_tuple_to_string(self.transition_time)};"
                 f"st={date_tuple_to_string(self.start_date_time)};"
                 f"ut={date_tuple_to_string(self.until_date_time)};"
                 f"ep={sepoch};"
                 f"pol={policy_name};"
-                f"{to_utc_string(offset_seconds, delta_seconds)};"
                 f"fmt={format};"
                 f"ab={abbrev})"
             )
@@ -427,6 +427,7 @@ class Transition:
 
             return (
                 'T('
+                f"{to_utc_string(offset_seconds, delta_seconds)};"
                 f"act={'y' if self.is_active else '-'};"
                 f"tt={date_tuple_to_string(self.transition_time)};"
                 f"st={date_tuple_to_string(self.start_date_time)};"
@@ -434,7 +435,6 @@ class Transition:
                 f"ot={original_transition};"
                 f"ep={sepoch};"
                 f"pol={policy_name}[{zone_rule_from},{zone_rule_to}];"
-                f"{to_utc_string(offset_seconds, delta_seconds)};"
                 f"fmt={format}({letter});"
                 f"ab={abbrev})"
             )
