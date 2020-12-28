@@ -62,7 +62,7 @@ zone_processor            |   zone_specifier.py
   |                       |       bufestimator.py
   .------>                |      /
   |                       v     v
-zonedb             ZoneInfoDatabase
+data_types         ZoneInfoDatabase
   |                 /     |     \
   .------>         /      |      \
   |               /       |       ------------------------.
