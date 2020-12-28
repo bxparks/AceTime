@@ -105,13 +105,13 @@ zones.txt
    |     java.time
    |        |
    |        v
-   +--> compare_java/TestDataGenerator.java -----.
+   +--> compare_java/GenerateData.java ----------.
    |                                             |
    |                                             |
    |    Hinnant/date                             |
    |        |                                    |
    |        v                                    |
-   +--> compare_cpp/test_data_generator.cpp ---> +
+   +--> compare_cpp/generate_data.cpp ---------> +
    |                                             |
    |                                             |
    |         pytz                                |
@@ -120,7 +120,7 @@ zones.txt
    |   tdgenerator.py   validation/data.py       |
    |          |         /                        |
    |          v        v                         |
-   +----> compare_pytz/test_data_generator.py--> +
+   +----> compare_pytz/generate_data.py -------> +
    |                                             |
    |                                             |
    |   python-dateutil                           |
@@ -129,7 +129,7 @@ zones.txt
    |   tdgenerator.py   validation/data.py       |
    |          |         /                        |
    |          v        v                         |
-   +-> compare_dateutil/test_data_generator.py-> +
+   +-> compare_dateutil/generate_data.py ------> +
                                                 /
                                                /
         validation_data.json <----------------.
@@ -224,8 +224,8 @@ $ make
 
 To generate the various `validation_data.*` files for the validation tests under
 `tests/validation/`, use the `--action zonelist` to generate the `zones.txt`
-file. Then feed this file into the `tools/compare_java/TestDataGenerator.java`
-or the `tools/compare_cpp/test_data_generator.cpp` programs, which then generate
+file. Then feed this file into the `tools/compare_java/GenerateData.java`
+or the `tools/compare_cpp/generate_data.cpp` programs, which then generate
 the various `validation_data.*` files.
 
 For validation against `pytz`, the 2 steps were combined into a single step

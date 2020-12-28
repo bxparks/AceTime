@@ -35,8 +35,8 @@ import java.util.TreeSet;
  *
  * <pre>
  * {@code
- * $ javac TestDataGenerator.java
- * $ java TestDataGenerator [--start_year start] [--until_year until] [--validate_dst]
+ * $ javac GenerateData.java
+ * $ java GenerateData [--start_year start] [--until_year until] [--validate_dst]
  *      < zones.txt
  * }
  * </pre>
@@ -50,13 +50,13 @@ import java.util.TreeSet;
  * }
  * </pre>
  */
-public class TestDataGenerator {
+public class GenerateData {
   // Number of seconds from Unix epoch (1970-01-01T00:00:00Z) to AceTime epoch
   // (2000-01-01T00:00:00Z).
   private static final int SECONDS_SINCE_UNIX_EPOCH = 946684800;
 
   public static void main(String[] argv) throws IOException {
-    String invocation = "java TestDataGenerator " + String.join(" ", argv);
+    String invocation = "java GenerateData " + String.join(" ", argv);
 
     // Parse command line flags
     int argc = argv.length;
@@ -92,14 +92,14 @@ public class TestDataGenerator {
     int untilYear = Integer.parseInt(until);
 
     List<String> zones = readZones();
-    TestDataGenerator generator = new TestDataGenerator(
+    GenerateData generator = new GenerateData(
         invocation, startYear, untilYear);
     Map<String, List<TestItem>> testData = generator.createTestData(zones);
     generator.printJson(testData);
   }
 
   private static void usageAndExit() {
-    System.err.println("Usage: java TestDataGenerator [--start_year {start}]");
+    System.err.println("Usage: java GenerateData [--start_year {start}]");
     System.err.println("  [--until_year {until}] [--validate_dst] < zones.txt");
     System.exit(1);
   }
@@ -144,7 +144,7 @@ public class TestDataGenerator {
   }
 
   /** Constructor. */
-  private TestDataGenerator(String invocation, int startYear, int untilYear) {
+  private GenerateData(String invocation, int startYear, int untilYear) {
     this.invocation = invocation;
     this.startYear = startYear;
     this.untilYear = untilYear;
