@@ -164,18 +164,18 @@ class ZoneEraCooked:
     """
     # yapf: disable
     __slots__ = [
-        'offset_seconds',  # (int) offset from UTC/GMT in seconds
-        'zone_policy',  # (ZonePolicyCooked or str) ZonePolicyCooked if 'RULES'
-                        # field is a named policy, otherwise '-' or ':'
-        'rules_delta_seconds',  # (int) delta offset from UTC in seconds
+        'offset_seconds',  # offset from UTC/GMT in seconds
+        'zone_policy',  # ZonePolicyCooked if 'RULES' field is a named policy,
+                        # otherwise '-' or ':'
+        'rules_delta_seconds',  # delta offset from UTC in seconds
                                 # if zone_policy == ':'. Always 0 if zone_policy
                                 # is '-'.
-        'format',  # (string) abbreviation format (e.g. P%sT, E%sT, GMT/BST)
-        'until_year',  # (int) MAX_UNTIL_YEAR means 'max'
-        'until_month',  # (int) 1-12
-        'until_day',  # (int) 1-31
-        'until_seconds',  # (int) until_time converted into total seconds
-        'until_time_suffix',  # (char) '', 's', 'w', 'u'
+        'format',  # abbreviation format (e.g. P%sT, E%sT, GMT/BST)
+        'until_year',  # MAX_UNTIL_YEAR means 'max'
+        'until_month',  # 1-12
+        'until_day',  # 1-31
+        'until_seconds',  # until_time converted into total seconds
+        'until_time_suffix',  # '', 's', 'w', 'u'
     ]
     # yapf: enable
 
@@ -254,9 +254,9 @@ class ZoneMatch:
     before the year of interest, and extends a month after the year of interest.
     """
     __slots__ = [
-        'start_date_time',  # (DateTuple) the until_time of the previous ZoneEra
-        'until_date_time',  # (DateTuple) the until_time of the current ZoneEra
-        'zone_era',  # (ZoneEra) the ZoneEra corresponding to this match
+        'start_date_time',  # the until_time of the previous ZoneEra
+        'until_date_time',  # the until_time of the current ZoneEra
+        'zone_era',  # the ZoneEra corresponding to this match
     ]
 
     # Hack because '__slots__' is unsupported by mypy. See
