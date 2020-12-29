@@ -7,6 +7,9 @@
 #     --action zonedb
 #     --language python
 #     --scope extended
+#     --ignore_buf_size_too_large
+#     --start_year 1974
+#     --until_year 2050
 #
 # using the TZ Database files
 #
@@ -24,14 +27,98 @@
 #
 # DO NOT EDIT
 
-# numPolicies: 84
-# numRules: 515
+# numPolicies: 117
+# numRules: 1140
 
 #---------------------------------------------------------------------------
 # Policy name: AN
-# Rule count: 9
+# Rule count: 16
 #---------------------------------------------------------------------------
 ZONE_RULES_AN = [
+    # Rule    AN    1971    1985    -    Oct    lastSun    2:00s    1:00    D
+    {
+        'from_year': 1971,
+        'to_year': 1985,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    AN    1972    only    -    Feb    27    2:00s    0    S
+    {
+        'from_year': 1972,
+        'to_year': 1972,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 27,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AN    1973    1981    -    Mar    Sun>=1    2:00s    0    S
+    {
+        'from_year': 1973,
+        'to_year': 1981,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AN    1982    only    -    Apr    Sun>=1    2:00s    0    S
+    {
+        'from_year': 1982,
+        'to_year': 1982,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AN    1983    1985    -    Mar    Sun>=1    2:00s    0    S
+    {
+        'from_year': 1983,
+        'to_year': 1985,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AN    1986    1989    -    Mar    Sun>=15    2:00s    0    S
+    {
+        'from_year': 1986,
+        'to_year': 1989,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 15,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AN    1986    only    -    Oct    19    2:00s    1:00    D
+    {
+        'from_year': 1986,
+        'to_year': 1986,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 19,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    AN    1987    1999    -    Oct    lastSun    2:00s    1:00    D
     {
         'from_year': 1987,
@@ -149,9 +236,33 @@ ZONE_POLICY_AN = {
 
 #---------------------------------------------------------------------------
 # Policy name: AQ
-# Rule count: 1
+# Rule count: 3
 #---------------------------------------------------------------------------
 ZONE_RULES_AQ = [
+    # Rule    AQ    1972    only    -    Feb    lastSun    2:00s    0    S
+    {
+        'from_year': 1972,
+        'to_year': 1972,
+        'in_month': 2,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AQ    1989    1991    -    Oct    lastSun    2:00s    1:00    D
+    {
+        'from_year': 1989,
+        'to_year': 1991,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    AQ    1990    1992    -    Mar    Sun>=1    2:00s    0    S
     {
         'from_year': 1990,
@@ -173,9 +284,33 @@ ZONE_POLICY_AQ = {
 
 #---------------------------------------------------------------------------
 # Policy name: AS
-# Rule count: 7
+# Rule count: 15
 #---------------------------------------------------------------------------
 ZONE_RULES_AS = [
+    # Rule    AS    1971    1985    -    Oct    lastSun    2:00s    1:00    D
+    {
+        'from_year': 1971,
+        'to_year': 1985,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    AS    1986    only    -    Oct    19    2:00s    1:00    D
+    {
+        'from_year': 1986,
+        'to_year': 1986,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 19,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    AS    1987    2007    -    Oct    lastSun    2:00s    1:00    D
     {
         'from_year': 1987,
@@ -187,6 +322,78 @@ ZONE_RULES_AS = [
         'at_time_suffix': 's',
         'delta_seconds': 3600,
         'letter': 'D',
+    },
+    # Rule    AS    1972    only    -    Feb    27    2:00s    0    S
+    {
+        'from_year': 1972,
+        'to_year': 1972,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 27,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AS    1973    1985    -    Mar    Sun>=1    2:00s    0    S
+    {
+        'from_year': 1973,
+        'to_year': 1985,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AS    1986    1990    -    Mar    Sun>=15    2:00s    0    S
+    {
+        'from_year': 1986,
+        'to_year': 1990,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 15,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AS    1991    only    -    Mar    3    2:00s    0    S
+    {
+        'from_year': 1991,
+        'to_year': 1991,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 3,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AS    1992    only    -    Mar    22    2:00s    0    S
+    {
+        'from_year': 1992,
+        'to_year': 1992,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 22,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AS    1993    only    -    Mar    7    2:00s    0    S
+    {
+        'from_year': 1993,
+        'to_year': 1993,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 7,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
     },
     # Rule    AS    1994    only    -    Mar    20    2:00s    0    S
     {
@@ -269,9 +476,105 @@ ZONE_POLICY_AS = {
 
 #---------------------------------------------------------------------------
 # Policy name: AT
-# Rule count: 8
+# Rule count: 16
 #---------------------------------------------------------------------------
 ZONE_RULES_AT = [
+    # Rule    AT    1968    1985    -    Oct    lastSun    2:00s    1:00    D
+    {
+        'from_year': 1968,
+        'to_year': 1985,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    AT    1972    only    -    Feb    lastSun    2:00s    0    S
+    {
+        'from_year': 1972,
+        'to_year': 1972,
+        'in_month': 2,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AT    1973    1981    -    Mar    Sun>=1    2:00s    0    S
+    {
+        'from_year': 1973,
+        'to_year': 1981,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AT    1982    1983    -    Mar    lastSun    2:00s    0    S
+    {
+        'from_year': 1982,
+        'to_year': 1983,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AT    1984    1986    -    Mar    Sun>=1    2:00s    0    S
+    {
+        'from_year': 1984,
+        'to_year': 1986,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AT    1986    only    -    Oct    Sun>=15    2:00s    1:00    D
+    {
+        'from_year': 1986,
+        'to_year': 1986,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 15,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    AT    1987    1990    -    Mar    Sun>=15    2:00s    0    S
+    {
+        'from_year': 1987,
+        'to_year': 1990,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 15,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AT    1987    only    -    Oct    Sun>=22    2:00s    1:00    D
+    {
+        'from_year': 1987,
+        'to_year': 1987,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 22,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    AT    1988    1990    -    Oct    lastSun    2:00s    1:00    D
     {
         'from_year': 1988,
@@ -377,9 +680,69 @@ ZONE_POLICY_AT = {
 
 #---------------------------------------------------------------------------
 # Policy name: AV
-# Rule count: 9
+# Rule count: 14
 #---------------------------------------------------------------------------
 ZONE_RULES_AV = [
+    # Rule    AV    1971    1985    -    Oct    lastSun    2:00s    1:00    D
+    {
+        'from_year': 1971,
+        'to_year': 1985,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    AV    1972    only    -    Feb    lastSun    2:00s    0    S
+    {
+        'from_year': 1972,
+        'to_year': 1972,
+        'in_month': 2,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AV    1973    1985    -    Mar    Sun>=1    2:00s    0    S
+    {
+        'from_year': 1973,
+        'to_year': 1985,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AV    1986    1990    -    Mar    Sun>=15    2:00s    0    S
+    {
+        'from_year': 1986,
+        'to_year': 1990,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 15,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AV    1986    1987    -    Oct    Sun>=15    2:00s    1:00    D
+    {
+        'from_year': 1986,
+        'to_year': 1987,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 15,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    AV    1988    1999    -    Oct    lastSun    2:00s    1:00    D
     {
         'from_year': 1988,
@@ -497,9 +860,81 @@ ZONE_POLICY_AV = {
 
 #---------------------------------------------------------------------------
 # Policy name: AW
-# Rule count: 4
+# Rule count: 10
 #---------------------------------------------------------------------------
 ZONE_RULES_AW = [
+    # Anchor: Rule    AW    1975    only    -    Mar    Sun>=1    2:00s    0    S
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AW    1974    only    -    Oct    lastSun    2:00s    1:00    D
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    AW    1975    only    -    Mar    Sun>=1    2:00s    0    S
+    {
+        'from_year': 1975,
+        'to_year': 1975,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AW    1983    only    -    Oct    lastSun    2:00s    1:00    D
+    {
+        'from_year': 1983,
+        'to_year': 1983,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    AW    1984    only    -    Mar    Sun>=1    2:00s    0    S
+    {
+        'from_year': 1984,
+        'to_year': 1984,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    AW    1991    only    -    Nov    17    2:00s    1:00    D
+    {
+        'from_year': 1991,
+        'to_year': 1991,
+        'in_month': 11,
+        'on_day_of_week': 0,
+        'on_day_of_month': 17,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    AW    1992    only    -    Mar    Sun>=1    2:00s    0    S
     {
         'from_year': 1992,
@@ -556,10 +991,430 @@ ZONE_POLICY_AW = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Albania
+# Rule count: 22
+#---------------------------------------------------------------------------
+ZONE_RULES_Albania = [
+    # Rule    Albania    1943    only    -    Apr    10    3:00    0    -
+    {
+        'from_year': 1943,
+        'to_year': 1943,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 10,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Albania    1974    only    -    May     4    0:00    1:00    S
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 4,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Albania    1974    only    -    Oct     2    0:00    0    -
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Albania    1975    only    -    May     1    0:00    1:00    S
+    {
+        'from_year': 1975,
+        'to_year': 1975,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Albania    1975    only    -    Oct     2    0:00    0    -
+    {
+        'from_year': 1975,
+        'to_year': 1975,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Albania    1976    only    -    May     2    0:00    1:00    S
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Albania    1976    only    -    Oct     3    0:00    0    -
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 3,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Albania    1977    only    -    May     8    0:00    1:00    S
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 8,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Albania    1977    only    -    Oct     2    0:00    0    -
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Albania    1978    only    -    May     6    0:00    1:00    S
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Albania    1978    only    -    Oct     1    0:00    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Albania    1979    only    -    May     5    0:00    1:00    S
+    {
+        'from_year': 1979,
+        'to_year': 1979,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 5,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Albania    1979    only    -    Sep    30    0:00    0    -
+    {
+        'from_year': 1979,
+        'to_year': 1979,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Albania    1980    only    -    May     3    0:00    1:00    S
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 3,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Albania    1980    only    -    Oct     4    0:00    0    -
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 4,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Albania    1981    only    -    Apr    26    0:00    1:00    S
+    {
+        'from_year': 1981,
+        'to_year': 1981,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 26,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Albania    1981    only    -    Sep    27    0:00    0    -
+    {
+        'from_year': 1981,
+        'to_year': 1981,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 27,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Albania    1982    only    -    May     2    0:00    1:00    S
+    {
+        'from_year': 1982,
+        'to_year': 1982,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Albania    1982    only    -    Oct     3    0:00    0    -
+    {
+        'from_year': 1982,
+        'to_year': 1982,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 3,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Albania    1983    only    -    Apr    18    0:00    1:00    S
+    {
+        'from_year': 1983,
+        'to_year': 1983,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 18,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Albania    1983    only    -    Oct     1    0:00    0    -
+    {
+        'from_year': 1983,
+        'to_year': 1983,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Albania    1984    only    -    Apr     1    0:00    1:00    S
+    {
+        'from_year': 1984,
+        'to_year': 1984,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+
+]
+ZONE_POLICY_Albania = {
+    'name': 'Albania',
+    'rules': ZONE_RULES_Albania
+}
+
+#---------------------------------------------------------------------------
+# Policy name: Algeria
+# Rule count: 7
+#---------------------------------------------------------------------------
+ZONE_RULES_Algeria = [
+    # Rule    Algeria    1971    only    -    Sep    26    23:00s    0    -
+    {
+        'from_year': 1971,
+        'to_year': 1971,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 26,
+        'at_seconds': 82800,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Algeria    1977    only    -    May     6     0:00    1:00    S
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Algeria    1977    only    -    Oct    21     0:00    0    -
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Algeria    1978    only    -    Mar    24     1:00    1:00    S
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 24,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Algeria    1978    only    -    Sep    22     3:00    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 22,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Algeria    1980    only    -    Apr    25     0:00    1:00    S
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 25,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Algeria    1980    only    -    Oct    31     2:00    0    -
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Algeria = {
+    'name': 'Algeria',
+    'rules': ZONE_RULES_Algeria
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Arg
-# Rule count: 6
+# Rule count: 11
 #---------------------------------------------------------------------------
 ZONE_RULES_Arg = [
+    # Rule    Arg    1968    1969    -    Apr    Sun>=1    0:00    0    -
+    {
+        'from_year': 1968,
+        'to_year': 1969,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Arg    1974    only    -    Jan    23    0:00    1:00    -
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 23,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Arg    1974    only    -    May     1    0:00    0    -
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Arg    1988    only    -    Dec     1    0:00    1:00    -
+    {
+        'from_year': 1988,
+        'to_year': 1988,
+        'in_month': 12,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
     # Rule    Arg    1989    1993    -    Mar    Sun>=1    0:00    0    -
     {
         'from_year': 1989,
@@ -570,6 +1425,18 @@ ZONE_RULES_Arg = [
         'at_seconds': 0,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Arg    1989    1992    -    Oct    Sun>=15    0:00    1:00    -
+    {
+        'from_year': 1989,
+        'to_year': 1992,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 15,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
         'letter': '-',
     },
     # Rule    Arg    1999    only    -    Oct    Sun>=1    0:00    1:00    -
@@ -712,10 +1579,70 @@ ZONE_POLICY_Aus = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Austria
+# Rule count: 3
+#---------------------------------------------------------------------------
+ZONE_RULES_Austria = [
+    # Rule    Austria    1947    1948    -    Oct    Sun>=1    2:00s    0    -
+    {
+        'from_year': 1947,
+        'to_year': 1948,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Austria    1980    only    -    Apr     6    0:00    1:00    S
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Austria    1980    only    -    Sep    28    0:00    0    -
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 28,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Austria = {
+    'name': 'Austria',
+    'rules': ZONE_RULES_Austria
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Azer
-# Rule count: 2
+# Rule count: 3
 #---------------------------------------------------------------------------
 ZONE_RULES_Azer = [
+    # Anchor: Rule    Azer    1997    2015    -    Oct    lastSun     5:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule    Azer    1997    2015    -    Mar    lastSun     4:00    1:00    -
     {
         'from_year': 1997,
@@ -748,10 +1675,106 @@ ZONE_POLICY_Azer = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Bahamas
+# Rule count: 2
+#---------------------------------------------------------------------------
+ZONE_RULES_Bahamas = [
+    # Rule    Bahamas    1964    1975    -    Oct    lastSun    2:00    0    S
+    {
+        'from_year': 1964,
+        'to_year': 1975,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Bahamas    1964    1975    -    Apr    lastSun    2:00    1:00    D
+    {
+        'from_year': 1964,
+        'to_year': 1975,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+
+]
+ZONE_POLICY_Bahamas = {
+    'name': 'Bahamas',
+    'rules': ZONE_RULES_Bahamas
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Barb
-# Rule count: 1
+# Rule count: 6
 #---------------------------------------------------------------------------
 ZONE_RULES_Barb = [
+    # Anchor: Rule    Barb    1977    1978    -    Oct    Sun>=1    2:00    0    S
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Barb    1977    only    -    Jun    12    2:00    1:00    D
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 12,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Barb    1977    1978    -    Oct    Sun>=1    2:00    0    S
+    {
+        'from_year': 1977,
+        'to_year': 1978,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Barb    1978    1980    -    Apr    Sun>=15    2:00    1:00    D
+    {
+        'from_year': 1978,
+        'to_year': 1980,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 15,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Barb    1979    only    -    Sep    30    2:00    0    S
+    {
+        'from_year': 1979,
+        'to_year': 1979,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
     # Rule    Barb    1980    only    -    Sep    25    2:00    0    S
     {
         'from_year': 1980,
@@ -772,10 +1795,82 @@ ZONE_POLICY_Barb = {
 }
 
 #---------------------------------------------------------------------------
-# Policy name: Belize
+# Policy name: Belgium
 # Rule count: 1
 #---------------------------------------------------------------------------
+ZONE_RULES_Belgium = [
+    # Rule    Belgium    1946    only    -    Oct     7     2:00s    0    -
+    {
+        'from_year': 1946,
+        'to_year': 1946,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 7,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Belgium = {
+    'name': 'Belgium',
+    'rules': ZONE_RULES_Belgium
+}
+
+#---------------------------------------------------------------------------
+# Policy name: Belize
+# Rule count: 5
+#---------------------------------------------------------------------------
 ZONE_RULES_Belize = [
+    # Rule    Belize    1919    1943    -    Feb    Sun>=9    0:00    0    CST
+    {
+        'from_year': 1919,
+        'to_year': 1943,
+        'in_month': 2,
+        'on_day_of_week': 7,
+        'on_day_of_month': 9,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'CST',
+    },
+    # Rule    Belize    1973    only    -    Dec     5    0:00    1:00    CDT
+    {
+        'from_year': 1973,
+        'to_year': 1973,
+        'in_month': 12,
+        'on_day_of_week': 0,
+        'on_day_of_month': 5,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'CDT',
+    },
+    # Rule    Belize    1974    only    -    Feb     9    0:00    0    CST
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 9,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'CST',
+    },
+    # Rule    Belize    1982    only    -    Dec    18    0:00    1:00    CDT
+    {
+        'from_year': 1982,
+        'to_year': 1982,
+        'in_month': 12,
+        'on_day_of_week': 0,
+        'on_day_of_month': 18,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'CDT',
+    },
     # Rule    Belize    1983    only    -    Feb    12    0:00    0    CST
     {
         'from_year': 1983,
@@ -797,9 +1892,297 @@ ZONE_POLICY_Belize = {
 
 #---------------------------------------------------------------------------
 # Policy name: Brazil
-# Rule count: 20
+# Rule count: 44
 #---------------------------------------------------------------------------
 ZONE_RULES_Brazil = [
+    # Rule    Brazil    1966    1968    -    Mar     1     0:00    0    -
+    {
+        'from_year': 1966,
+        'to_year': 1968,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Brazil    1985    only    -    Nov     2     0:00    1:00    -
+    {
+        'from_year': 1985,
+        'to_year': 1985,
+        'in_month': 11,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Brazil    1986    only    -    Mar    15     0:00    0    -
+    {
+        'from_year': 1986,
+        'to_year': 1986,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 15,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Brazil    1986    only    -    Oct    25     0:00    1:00    -
+    {
+        'from_year': 1986,
+        'to_year': 1986,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 25,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Brazil    1987    only    -    Feb    14     0:00    0    -
+    {
+        'from_year': 1987,
+        'to_year': 1987,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 14,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Brazil    1987    only    -    Oct    25     0:00    1:00    -
+    {
+        'from_year': 1987,
+        'to_year': 1987,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 25,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Brazil    1988    only    -    Feb     7     0:00    0    -
+    {
+        'from_year': 1988,
+        'to_year': 1988,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 7,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Brazil    1988    only    -    Oct    16     0:00    1:00    -
+    {
+        'from_year': 1988,
+        'to_year': 1988,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 16,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Brazil    1989    only    -    Jan    29     0:00    0    -
+    {
+        'from_year': 1989,
+        'to_year': 1989,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 29,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Brazil    1989    only    -    Oct    15     0:00    1:00    -
+    {
+        'from_year': 1989,
+        'to_year': 1989,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 15,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Brazil    1990    only    -    Feb    11     0:00    0    -
+    {
+        'from_year': 1990,
+        'to_year': 1990,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 11,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Brazil    1990    only    -    Oct    21     0:00    1:00    -
+    {
+        'from_year': 1990,
+        'to_year': 1990,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Brazil    1991    only    -    Feb    17     0:00    0    -
+    {
+        'from_year': 1991,
+        'to_year': 1991,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 17,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Brazil    1991    only    -    Oct    20     0:00    1:00    -
+    {
+        'from_year': 1991,
+        'to_year': 1991,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Brazil    1992    only    -    Feb     9     0:00    0    -
+    {
+        'from_year': 1992,
+        'to_year': 1992,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 9,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Brazil    1992    only    -    Oct    25     0:00    1:00    -
+    {
+        'from_year': 1992,
+        'to_year': 1992,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 25,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Brazil    1993    only    -    Jan    31     0:00    0    -
+    {
+        'from_year': 1993,
+        'to_year': 1993,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Brazil    1993    1995    -    Oct    Sun>=11     0:00    1:00    -
+    {
+        'from_year': 1993,
+        'to_year': 1995,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 11,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Brazil    1994    1995    -    Feb    Sun>=15     0:00    0    -
+    {
+        'from_year': 1994,
+        'to_year': 1995,
+        'in_month': 2,
+        'on_day_of_week': 7,
+        'on_day_of_month': 15,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Brazil    1996    only    -    Feb    11     0:00    0    -
+    {
+        'from_year': 1996,
+        'to_year': 1996,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 11,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Brazil    1996    only    -    Oct     6     0:00    1:00    -
+    {
+        'from_year': 1996,
+        'to_year': 1996,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Brazil    1997    only    -    Feb    16     0:00    0    -
+    {
+        'from_year': 1997,
+        'to_year': 1997,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 16,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Brazil    1997    only    -    Oct     6     0:00    1:00    -
+    {
+        'from_year': 1997,
+        'to_year': 1997,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Brazil    1998    only    -    Mar     1     0:00    0    -
+    {
+        'from_year': 1998,
+        'to_year': 1998,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule    Brazil    1998    only    -    Oct    11     0:00    1:00    -
     {
         'from_year': 1998,
@@ -1048,10 +2431,142 @@ ZONE_POLICY_Brazil = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Bulg
+# Rule count: 6
+#---------------------------------------------------------------------------
+ZONE_RULES_Bulg = [
+    # Anchor: Rule    Bulg    1979    only    -    Oct     1     1:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Bulg    1979    only    -    Mar    31    23:00    1:00    S
+    {
+        'from_year': 1979,
+        'to_year': 1979,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 82800,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Bulg    1979    only    -    Oct     1     1:00    0    -
+    {
+        'from_year': 1979,
+        'to_year': 1979,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Bulg    1980    1982    -    Apr    Sat>=1    23:00    1:00    S
+    {
+        'from_year': 1980,
+        'to_year': 1982,
+        'in_month': 4,
+        'on_day_of_week': 6,
+        'on_day_of_month': 1,
+        'at_seconds': 82800,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Bulg    1980    only    -    Sep    29     1:00    0    -
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 29,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Bulg    1981    only    -    Sep    27     2:00    0    -
+    {
+        'from_year': 1981,
+        'to_year': 1981,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 27,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Bulg = {
+    'name': 'Bulg',
+    'rules': ZONE_RULES_Bulg
+}
+
+#---------------------------------------------------------------------------
 # Policy name: C_Eur
-# Rule count: 3
+# Rule count: 7
 #---------------------------------------------------------------------------
 ZONE_RULES_C_Eur = [
+    # Rule    C-Eur    1945    only    -    Sep    16     2:00s    0    -
+    {
+        'from_year': 1945,
+        'to_year': 1945,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 16,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    C-Eur    1977    1980    -    Apr    Sun>=1     2:00s    1:00    S
+    {
+        'from_year': 1977,
+        'to_year': 1980,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    C-Eur    1977    only    -    Sep    lastSun     2:00s    0    -
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    C-Eur    1978    only    -    Oct     1     2:00s    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule    C-Eur    1979    1995    -    Sep    lastSun     2:00s    0    -
     {
         'from_year': 1979,
@@ -1097,9 +2612,33 @@ ZONE_POLICY_C_Eur = {
 
 #---------------------------------------------------------------------------
 # Policy name: CO
-# Rule count: 1
+# Rule count: 3
 #---------------------------------------------------------------------------
 ZONE_RULES_CO = [
+    # Anchor: Rule    CO    1993    only    -    Apr     4    0:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    CO    1992    only    -    May     3    0:00    1:00    -
+    {
+        'from_year': 1992,
+        'to_year': 1992,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 3,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
     # Rule    CO    1993    only    -    Apr     4    0:00    0    -
     {
         'from_year': 1993,
@@ -1121,9 +2660,69 @@ ZONE_POLICY_CO = {
 
 #---------------------------------------------------------------------------
 # Policy name: CR
-# Rule count: 1
+# Rule count: 6
 #---------------------------------------------------------------------------
 ZONE_RULES_CR = [
+    # Anchor: Rule    CR    1979    1980    -    Jun    Sun>=1    0:00    0    S
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    CR    1979    1980    -    Feb    lastSun    0:00    1:00    D
+    {
+        'from_year': 1979,
+        'to_year': 1980,
+        'in_month': 2,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    CR    1979    1980    -    Jun    Sun>=1    0:00    0    S
+    {
+        'from_year': 1979,
+        'to_year': 1980,
+        'in_month': 6,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    CR    1991    1992    -    Jan    Sat>=15    0:00    1:00    D
+    {
+        'from_year': 1991,
+        'to_year': 1992,
+        'in_month': 1,
+        'on_day_of_week': 6,
+        'on_day_of_month': 15,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    CR    1991    only    -    Jul     1    0:00    0    S
+    {
+        'from_year': 1991,
+        'to_year': 1991,
+        'in_month': 7,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
     # Rule    CR    1992    only    -    Mar    15    0:00    0    S
     {
         'from_year': 1992,
@@ -1145,9 +2744,21 @@ ZONE_POLICY_CR = {
 
 #---------------------------------------------------------------------------
 # Policy name: Canada
-# Rule count: 5
+# Rule count: 6
 #---------------------------------------------------------------------------
 ZONE_RULES_Canada = [
+    # Rule    Canada    1945    only    -    Sep    30    2:00    0    S
+    {
+        'from_year': 1945,
+        'to_year': 1945,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
     # Rule    Canada    1974    1986    -    Apr    lastSun    2:00    1:00    D
     {
         'from_year': 1974,
@@ -1217,9 +2828,69 @@ ZONE_POLICY_Canada = {
 
 #---------------------------------------------------------------------------
 # Policy name: Chatham
-# Rule count: 5
+# Rule count: 10
 #---------------------------------------------------------------------------
 ZONE_RULES_Chatham = [
+    # Anchor: Rule    Chatham    1975    only    -    Feb    lastSun    2:45s    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Chatham    1974    only    -    Nov    Sun>=1    2:45s    1:00    -
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 11,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 9900,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Chatham    1975    only    -    Feb    lastSun    2:45s    0    -
+    {
+        'from_year': 1975,
+        'to_year': 1975,
+        'in_month': 2,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 9900,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Chatham    1975    1988    -    Oct    lastSun    2:45s    1:00    -
+    {
+        'from_year': 1975,
+        'to_year': 1988,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 9900,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Chatham    1976    1989    -    Mar    Sun>=1    2:45s    0    -
+    {
+        'from_year': 1976,
+        'to_year': 1989,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 9900,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule    Chatham    1989    only    -    Oct    Sun>=8    2:45s    1:00    -
     {
         'from_year': 1989,
@@ -1289,9 +2960,153 @@ ZONE_POLICY_Chatham = {
 
 #---------------------------------------------------------------------------
 # Policy name: Chile
-# Rule count: 15
+# Rule count: 27
 #---------------------------------------------------------------------------
 ZONE_RULES_Chile = [
+    # Rule    Chile    1970    1972    -    Oct    Sun>=9    4:00u    1:00    -
+    {
+        'from_year': 1970,
+        'to_year': 1972,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 9,
+        'at_seconds': 14400,
+        'at_time_suffix': 'u',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Chile    1972    1986    -    Mar    Sun>=9    3:00u    0    -
+    {
+        'from_year': 1972,
+        'to_year': 1986,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 9,
+        'at_seconds': 10800,
+        'at_time_suffix': 'u',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Chile    1973    only    -    Sep    30    4:00u    1:00    -
+    {
+        'from_year': 1973,
+        'to_year': 1973,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 14400,
+        'at_time_suffix': 'u',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Chile    1974    1987    -    Oct    Sun>=9    4:00u    1:00    -
+    {
+        'from_year': 1974,
+        'to_year': 1987,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 9,
+        'at_seconds': 14400,
+        'at_time_suffix': 'u',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Chile    1987    only    -    Apr    12    3:00u    0    -
+    {
+        'from_year': 1987,
+        'to_year': 1987,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 12,
+        'at_seconds': 10800,
+        'at_time_suffix': 'u',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Chile    1988    1990    -    Mar    Sun>=9    3:00u    0    -
+    {
+        'from_year': 1988,
+        'to_year': 1990,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 9,
+        'at_seconds': 10800,
+        'at_time_suffix': 'u',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Chile    1988    1989    -    Oct    Sun>=9    4:00u    1:00    -
+    {
+        'from_year': 1988,
+        'to_year': 1989,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 9,
+        'at_seconds': 14400,
+        'at_time_suffix': 'u',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Chile    1990    only    -    Sep    16    4:00u    1:00    -
+    {
+        'from_year': 1990,
+        'to_year': 1990,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 16,
+        'at_seconds': 14400,
+        'at_time_suffix': 'u',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Chile    1991    1996    -    Mar    Sun>=9    3:00u    0    -
+    {
+        'from_year': 1991,
+        'to_year': 1996,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 9,
+        'at_seconds': 10800,
+        'at_time_suffix': 'u',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Chile    1991    1997    -    Oct    Sun>=9    4:00u    1:00    -
+    {
+        'from_year': 1991,
+        'to_year': 1997,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 9,
+        'at_seconds': 14400,
+        'at_time_suffix': 'u',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Chile    1997    only    -    Mar    30    3:00u    0    -
+    {
+        'from_year': 1997,
+        'to_year': 1997,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 10800,
+        'at_time_suffix': 'u',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Chile    1998    only    -    Mar    Sun>=9    3:00u    0    -
+    {
+        'from_year': 1998,
+        'to_year': 1998,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 9,
+        'at_seconds': 10800,
+        'at_time_suffix': 'u',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule    Chile    1998    only    -    Sep    27    4:00u    1:00    -
     {
         'from_year': 1998,
@@ -1481,9 +3296,33 @@ ZONE_POLICY_Chile = {
 
 #---------------------------------------------------------------------------
 # Policy name: Cook
-# Rule count: 1
+# Rule count: 4
 #---------------------------------------------------------------------------
 ZONE_RULES_Cook = [
+    # Anchor: Rule    Cook    1979    1991    -    Mar    Sun>=1    0:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Cook    1978    only    -    Nov    12    0:00    0:30    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 11,
+        'on_day_of_week': 0,
+        'on_day_of_month': 12,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 1800,
+        'letter': '-',
+    },
     # Rule    Cook    1979    1991    -    Mar    Sun>=1    0:00    0    -
     {
         'from_year': 1979,
@@ -1496,6 +3335,18 @@ ZONE_RULES_Cook = [
         'delta_seconds': 0,
         'letter': '-',
     },
+    # Rule    Cook    1979    1990    -    Oct    lastSun    0:00    0:30    -
+    {
+        'from_year': 1979,
+        'to_year': 1990,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 1800,
+        'letter': '-',
+    },
 
 ]
 ZONE_POLICY_Cook = {
@@ -1505,9 +3356,153 @@ ZONE_POLICY_Cook = {
 
 #---------------------------------------------------------------------------
 # Policy name: Cuba
-# Rule count: 14
+# Rule count: 26
 #---------------------------------------------------------------------------
 ZONE_RULES_Cuba = [
+    # Rule    Cuba    1969    1977    -    Apr    lastSun    0:00    1:00    D
+    {
+        'from_year': 1969,
+        'to_year': 1977,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Cuba    1969    1971    -    Oct    lastSun    0:00    0    S
+    {
+        'from_year': 1969,
+        'to_year': 1971,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Cuba    1972    1974    -    Oct    8    0:00    0    S
+    {
+        'from_year': 1972,
+        'to_year': 1974,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 8,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Cuba    1975    1977    -    Oct    lastSun    0:00    0    S
+    {
+        'from_year': 1975,
+        'to_year': 1977,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Cuba    1978    only    -    May    7    0:00    1:00    D
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 7,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Cuba    1978    1990    -    Oct    Sun>=8    0:00    0    S
+    {
+        'from_year': 1978,
+        'to_year': 1990,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 8,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Cuba    1979    1980    -    Mar    Sun>=15    0:00    1:00    D
+    {
+        'from_year': 1979,
+        'to_year': 1980,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 15,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Cuba    1981    1985    -    May    Sun>=5    0:00    1:00    D
+    {
+        'from_year': 1981,
+        'to_year': 1985,
+        'in_month': 5,
+        'on_day_of_week': 7,
+        'on_day_of_month': 5,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Cuba    1986    1989    -    Mar    Sun>=14    0:00    1:00    D
+    {
+        'from_year': 1986,
+        'to_year': 1989,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 14,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Cuba    1990    1997    -    Apr    Sun>=1    0:00    1:00    D
+    {
+        'from_year': 1990,
+        'to_year': 1997,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Cuba    1991    1995    -    Oct    Sun>=8    0:00s    0    S
+    {
+        'from_year': 1991,
+        'to_year': 1995,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 8,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Cuba    1996    only    -    Oct     6    0:00s    0    S
+    {
+        'from_year': 1996,
+        'to_year': 1996,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
     # Rule    Cuba    1997    only    -    Oct    12    0:00s    0    S
     {
         'from_year': 1997,
@@ -1684,6 +3679,234 @@ ZONE_POLICY_Cuba = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Cyprus
+# Rule count: 10
+#---------------------------------------------------------------------------
+ZONE_RULES_Cyprus = [
+    # Anchor: Rule    Cyprus    1975    only    -    Oct    12    0:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Cyprus    1975    only    -    Apr    13    0:00    1:00    S
+    {
+        'from_year': 1975,
+        'to_year': 1975,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 13,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Cyprus    1975    only    -    Oct    12    0:00    0    -
+    {
+        'from_year': 1975,
+        'to_year': 1975,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 12,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Cyprus    1976    only    -    May    15    0:00    1:00    S
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 15,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Cyprus    1976    only    -    Oct    11    0:00    0    -
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 11,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Cyprus    1977    1980    -    Apr    Sun>=1    0:00    1:00    S
+    {
+        'from_year': 1977,
+        'to_year': 1980,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Cyprus    1977    only    -    Sep    25    0:00    0    -
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 25,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Cyprus    1978    only    -    Oct    2    0:00    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Cyprus    1979    1997    -    Sep    lastSun    0:00    0    -
+    {
+        'from_year': 1979,
+        'to_year': 1997,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Cyprus    1981    1998    -    Mar    lastSun    0:00    1:00    S
+    {
+        'from_year': 1981,
+        'to_year': 1998,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+
+]
+ZONE_POLICY_Cyprus = {
+    'name': 'Cyprus',
+    'rules': ZONE_RULES_Cyprus
+}
+
+#---------------------------------------------------------------------------
+# Policy name: Czech
+# Rule count: 1
+#---------------------------------------------------------------------------
+ZONE_RULES_Czech = [
+    # Rule    Czech    1946    1949    -    Oct    Sun>=1    2:00s    0    -
+    {
+        'from_year': 1946,
+        'to_year': 1949,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Czech = {
+    'name': 'Czech',
+    'rules': ZONE_RULES_Czech
+}
+
+#---------------------------------------------------------------------------
+# Policy name: DR
+# Rule count: 3
+#---------------------------------------------------------------------------
+ZONE_RULES_DR = [
+    # Rule    DR    1969    1973    -    Oct    lastSun    0:00    0:30    -0430
+    {
+        'from_year': 1969,
+        'to_year': 1973,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 1800,
+        'letter': '-0430',
+    },
+    # Rule    DR    1971    only    -    Jan    20    0:00    0    EST
+    {
+        'from_year': 1971,
+        'to_year': 1971,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'EST',
+    },
+    # Rule    DR    1972    1974    -    Jan    21    0:00    0    EST
+    {
+        'from_year': 1972,
+        'to_year': 1974,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'EST',
+    },
+
+]
+ZONE_POLICY_DR = {
+    'name': 'DR',
+    'rules': ZONE_RULES_DR
+}
+
+#---------------------------------------------------------------------------
+# Policy name: Denmark
+# Rule count: 1
+#---------------------------------------------------------------------------
+ZONE_RULES_Denmark = [
+    # Rule    Denmark    1948    only    -    Aug     8     2:00s    0    -
+    {
+        'from_year': 1948,
+        'to_year': 1948,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 8,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Denmark = {
+    'name': 'Denmark',
+    'rules': ZONE_RULES_Denmark
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Dhaka
 # Rule count: 3
 #---------------------------------------------------------------------------
@@ -1732,10 +3955,94 @@ ZONE_POLICY_Dhaka = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: E_Eur
+# Rule count: 5
+#---------------------------------------------------------------------------
+ZONE_RULES_E_Eur = [
+    # Anchor: Rule    E-Eur    1979    1995    -    Sep    lastSun     0:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    E-Eur    1977    1980    -    Apr    Sun>=1     0:00    1:00    S
+    {
+        'from_year': 1977,
+        'to_year': 1980,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    E-Eur    1979    1995    -    Sep    lastSun     0:00    0    -
+    {
+        'from_year': 1979,
+        'to_year': 1995,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    E-Eur    1981    max    -    Mar    lastSun     0:00    1:00    S
+    {
+        'from_year': 1981,
+        'to_year': 9999,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    E-Eur    1996    max    -    Oct    lastSun     0:00    0    -
+    {
+        'from_year': 1996,
+        'to_year': 9999,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_E_Eur = {
+    'name': 'E_Eur',
+    'rules': ZONE_RULES_E_Eur
+}
+
+#---------------------------------------------------------------------------
 # Policy name: E_EurAsia
-# Rule count: 3
+# Rule count: 4
 #---------------------------------------------------------------------------
 ZONE_RULES_E_EurAsia = [
+    # Anchor: Rule E-EurAsia    1979    1995    -    Sep    lastSun     0:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule E-EurAsia    1981    max    -    Mar    lastSun     0:00    1:00    -
     {
         'from_year': 1981,
@@ -1781,9 +4088,57 @@ ZONE_POLICY_E_EurAsia = {
 
 #---------------------------------------------------------------------------
 # Policy name: EU
-# Rule count: 3
+# Rule count: 7
 #---------------------------------------------------------------------------
 ZONE_RULES_EU = [
+    # Anchor: Rule    EU    1977    only    -    Sep    lastSun     1:00u    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    EU    1977    1980    -    Apr    Sun>=1     1:00u    1:00    S
+    {
+        'from_year': 1977,
+        'to_year': 1980,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 3600,
+        'at_time_suffix': 'u',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    EU    1977    only    -    Sep    lastSun     1:00u    0    -
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 3600,
+        'at_time_suffix': 'u',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    EU    1978    only    -    Oct     1     1:00u    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 3600,
+        'at_time_suffix': 'u',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule    EU    1979    1995    -    Sep    lastSun     1:00u    0    -
     {
         'from_year': 1979,
@@ -1829,9 +4184,21 @@ ZONE_POLICY_EU = {
 
 #---------------------------------------------------------------------------
 # Policy name: EUAsia
-# Rule count: 3
+# Rule count: 4
 #---------------------------------------------------------------------------
 ZONE_RULES_EUAsia = [
+    # Anchor: Rule    EUAsia    1979    1995    -    Sep    lastSun     1:00u    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule    EUAsia    1981    max    -    Mar    lastSun     1:00u    1:00    S
     {
         'from_year': 1981,
@@ -1877,9 +4244,33 @@ ZONE_POLICY_EUAsia = {
 
 #---------------------------------------------------------------------------
 # Policy name: Ecuador
-# Rule count: 1
+# Rule count: 3
 #---------------------------------------------------------------------------
 ZONE_RULES_Ecuador = [
+    # Anchor: Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Ecuador    1992    only    -    Nov    28    0:00    1:00    -
+    {
+        'from_year': 1992,
+        'to_year': 1992,
+        'in_month': 11,
+        'on_day_of_week': 0,
+        'on_day_of_month': 28,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
     # Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
     {
         'from_year': 1993,
@@ -1900,10 +4291,82 @@ ZONE_POLICY_Ecuador = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Edm
+# Rule count: 3
+#---------------------------------------------------------------------------
+ZONE_RULES_Edm = [
+    # Rule    Edm    1947    only    -    Sep    lastSun    2:00    0    S
+    {
+        'from_year': 1947,
+        'to_year': 1947,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Edm    1972    1986    -    Apr    lastSun    2:00    1:00    D
+    {
+        'from_year': 1972,
+        'to_year': 1986,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Edm    1972    2006    -    Oct    lastSun    2:00    0    S
+    {
+        'from_year': 1972,
+        'to_year': 2006,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+
+]
+ZONE_POLICY_Edm = {
+    'name': 'Edm',
+    'rules': ZONE_RULES_Edm
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Egypt
-# Rule count: 14
+# Rule count: 21
 #---------------------------------------------------------------------------
 ZONE_RULES_Egypt = [
+    # Rule    Egypt    1959    1981    -    May     1    1:00    1:00    S
+    {
+        'from_year': 1959,
+        'to_year': 1981,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Egypt    1959    1965    -    Sep    30    3:00    0    -
+    {
+        'from_year': 1959,
+        'to_year': 1965,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule    Egypt    1966    1994    -    Oct     1    3:00    0    -
     {
         'from_year': 1966,
@@ -1915,6 +4378,66 @@ ZONE_RULES_Egypt = [
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': '-',
+    },
+    # Rule    Egypt    1982    only    -    Jul    25    1:00    1:00    S
+    {
+        'from_year': 1982,
+        'to_year': 1982,
+        'in_month': 7,
+        'on_day_of_week': 0,
+        'on_day_of_month': 25,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Egypt    1983    only    -    Jul    12    1:00    1:00    S
+    {
+        'from_year': 1983,
+        'to_year': 1983,
+        'in_month': 7,
+        'on_day_of_week': 0,
+        'on_day_of_month': 12,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Egypt    1984    1988    -    May     1    1:00    1:00    S
+    {
+        'from_year': 1984,
+        'to_year': 1988,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Egypt    1989    only    -    May     6    1:00    1:00    S
+    {
+        'from_year': 1989,
+        'to_year': 1989,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Egypt    1990    1994    -    May     1    1:00    1:00    S
+    {
+        'from_year': 1990,
+        'to_year': 1994,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
     },
     # Rule    Egypt    1995    2010    -    Apr    lastFri     0:00s    1:00    S
     {
@@ -2081,9 +4604,45 @@ ZONE_POLICY_Egypt = {
 
 #---------------------------------------------------------------------------
 # Policy name: Eire
-# Rule count: 3
+# Rule count: 7
 #---------------------------------------------------------------------------
 ZONE_RULES_Eire = [
+    # Rule    Eire    1971    only    -    Oct    31     2:00u    -1:00    -
+    {
+        'from_year': 1971,
+        'to_year': 1971,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 7200,
+        'at_time_suffix': 'u',
+        'delta_seconds': -3600,
+        'letter': '-',
+    },
+    # Rule    Eire    1972    1980    -    Mar    Sun>=16     2:00u    0    -
+    {
+        'from_year': 1972,
+        'to_year': 1980,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 16,
+        'at_seconds': 7200,
+        'at_time_suffix': 'u',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Eire    1972    1980    -    Oct    Sun>=23     2:00u    -1:00    -
+    {
+        'from_year': 1972,
+        'to_year': 1980,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 23,
+        'at_seconds': 7200,
+        'at_time_suffix': 'u',
+        'delta_seconds': -3600,
+        'letter': '-',
+    },
     # Rule    Eire    1981    max    -    Mar    lastSun     1:00u    0    -
     {
         'from_year': 1981,
@@ -2094,6 +4653,18 @@ ZONE_RULES_Eire = [
         'at_seconds': 3600,
         'at_time_suffix': 'u',
         'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Eire    1981    1989    -    Oct    Sun>=23     1:00u    -1:00    -
+    {
+        'from_year': 1981,
+        'to_year': 1989,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 23,
+        'at_seconds': 3600,
+        'at_time_suffix': 'u',
+        'delta_seconds': -3600,
         'letter': '-',
     },
     # Rule    Eire    1990    1995    -    Oct    Sun>=22     1:00u    -1:00    -
@@ -2129,9 +4700,33 @@ ZONE_POLICY_Eire = {
 
 #---------------------------------------------------------------------------
 # Policy name: Falk
-# Rule count: 5
+# Rule count: 8
 #---------------------------------------------------------------------------
 ZONE_RULES_Falk = [
+    # Rule    Falk    1943    only    -    Jan    1    0:00    0    -
+    {
+        'from_year': 1943,
+        'to_year': 1943,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Falk    1983    only    -    Sep    lastSun    0:00    1:00    -
+    {
+        'from_year': 1983,
+        'to_year': 1983,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
     # Rule    Falk    1984    1985    -    Apr    lastSun    0:00    0    -
     {
         'from_year': 1984,
@@ -2142,6 +4737,18 @@ ZONE_RULES_Falk = [
         'at_seconds': 0,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Falk    1984    only    -    Sep    16    0:00    1:00    -
+    {
+        'from_year': 1984,
+        'to_year': 1984,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 16,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
         'letter': '-',
     },
     # Rule    Falk    1985    2000    -    Sep    Sun>=9    0:00    1:00    -
@@ -2201,9 +4808,21 @@ ZONE_POLICY_Falk = {
 
 #---------------------------------------------------------------------------
 # Policy name: Fiji
-# Rule count: 13
+# Rule count: 14
 #---------------------------------------------------------------------------
 ZONE_RULES_Fiji = [
+    # Anchor: Rule    Fiji    1999    2000    -    Feb    lastSun    3:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule    Fiji    1998    1999    -    Nov    Sun>=1    2:00    1:00    -
     {
         'from_year': 1998,
@@ -2368,6 +4987,210 @@ ZONE_POLICY_Fiji = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Finland
+# Rule count: 3
+#---------------------------------------------------------------------------
+ZONE_RULES_Finland = [
+    # Rule    Finland    1942    only    -    Oct    4    1:00    0    -
+    {
+        'from_year': 1942,
+        'to_year': 1942,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 4,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Finland    1981    1982    -    Mar    lastSun    2:00    1:00    S
+    {
+        'from_year': 1981,
+        'to_year': 1982,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Finland    1981    1982    -    Sep    lastSun    3:00    0    -
+    {
+        'from_year': 1981,
+        'to_year': 1982,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Finland = {
+    'name': 'Finland',
+    'rules': ZONE_RULES_Finland
+}
+
+#---------------------------------------------------------------------------
+# Policy name: France
+# Rule count: 3
+#---------------------------------------------------------------------------
+ZONE_RULES_France = [
+    # Rule    France    1945    only    -    Sep    16     3:00    0    -
+    {
+        'from_year': 1945,
+        'to_year': 1945,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 16,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    France    1976    only    -    Mar    28     1:00    1:00    S
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 28,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    France    1976    only    -    Sep    26     1:00    0    -
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 26,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_France = {
+    'name': 'France',
+    'rules': ZONE_RULES_France
+}
+
+#---------------------------------------------------------------------------
+# Policy name: GB_Eire
+# Rule count: 6
+#---------------------------------------------------------------------------
+ZONE_RULES_GB_Eire = [
+    # Rule    GB-Eire    1961    1968    -    Oct    Sun>=23    2:00s    0    GMT
+    {
+        'from_year': 1961,
+        'to_year': 1968,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 23,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'GMT',
+    },
+    # Rule    GB-Eire    1972    1980    -    Mar    Sun>=16    2:00s    1:00    BST
+    {
+        'from_year': 1972,
+        'to_year': 1980,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 16,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'BST',
+    },
+    # Rule    GB-Eire    1972    1980    -    Oct    Sun>=23    2:00s    0    GMT
+    {
+        'from_year': 1972,
+        'to_year': 1980,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 23,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'GMT',
+    },
+    # Rule    GB-Eire    1981    1995    -    Mar    lastSun    1:00u    1:00    BST
+    {
+        'from_year': 1981,
+        'to_year': 1995,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 3600,
+        'at_time_suffix': 'u',
+        'delta_seconds': 3600,
+        'letter': 'BST',
+    },
+    # Rule    GB-Eire 1981    1989    -    Oct    Sun>=23    1:00u    0    GMT
+    {
+        'from_year': 1981,
+        'to_year': 1989,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 23,
+        'at_seconds': 3600,
+        'at_time_suffix': 'u',
+        'delta_seconds': 0,
+        'letter': 'GMT',
+    },
+    # Rule    GB-Eire 1990    1995    -    Oct    Sun>=22    1:00u    0    GMT
+    {
+        'from_year': 1990,
+        'to_year': 1995,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 22,
+        'at_seconds': 3600,
+        'at_time_suffix': 'u',
+        'delta_seconds': 0,
+        'letter': 'GMT',
+    },
+
+]
+ZONE_POLICY_GB_Eire = {
+    'name': 'GB_Eire',
+    'rules': ZONE_RULES_GB_Eire
+}
+
+#---------------------------------------------------------------------------
+# Policy name: Germany
+# Rule count: 1
+#---------------------------------------------------------------------------
+ZONE_RULES_Germany = [
+    # Rule    Germany    1947    1949    -    Oct    Sun>=1    2:00s    0    -
+    {
+        'from_year': 1947,
+        'to_year': 1949,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Germany = {
+    'name': 'Germany',
+    'rules': ZONE_RULES_Germany
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Ghana
 # Rule count: 1
 #---------------------------------------------------------------------------
@@ -2392,10 +5215,238 @@ ZONE_POLICY_Ghana = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Greece
+# Rule count: 12
+#---------------------------------------------------------------------------
+ZONE_RULES_Greece = [
+    # Rule    Greece    1952    only    -    Nov     2    0:00    0    -
+    {
+        'from_year': 1952,
+        'to_year': 1952,
+        'in_month': 11,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Greece    1975    only    -    Apr    12    0:00s    1:00    S
+    {
+        'from_year': 1975,
+        'to_year': 1975,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 12,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Greece    1975    only    -    Nov    26    0:00s    0    -
+    {
+        'from_year': 1975,
+        'to_year': 1975,
+        'in_month': 11,
+        'on_day_of_week': 0,
+        'on_day_of_month': 26,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Greece    1976    only    -    Apr    11    2:00s    1:00    S
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 11,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Greece    1976    only    -    Oct    10    2:00s    0    -
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 10,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Greece    1977    1978    -    Apr    Sun>=1    2:00s    1:00    S
+    {
+        'from_year': 1977,
+        'to_year': 1978,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Greece    1977    only    -    Sep    26    2:00s    0    -
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 26,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Greece    1978    only    -    Sep    24    4:00    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 24,
+        'at_seconds': 14400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Greece    1979    only    -    Apr     1    9:00    1:00    S
+    {
+        'from_year': 1979,
+        'to_year': 1979,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 32400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Greece    1979    only    -    Sep    29    2:00    0    -
+    {
+        'from_year': 1979,
+        'to_year': 1979,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 29,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Greece    1980    only    -    Apr     1    0:00    1:00    S
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Greece    1980    only    -    Sep    28    0:00    0    -
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 28,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Greece = {
+    'name': 'Greece',
+    'rules': ZONE_RULES_Greece
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Guam
-# Rule count: 1
+# Rule count: 7
 #---------------------------------------------------------------------------
 ZONE_RULES_Guam = [
+    # Rule    Guam    1970    1971    -    Sep    Sun>=1    2:00    0    S
+    {
+        'from_year': 1970,
+        'to_year': 1971,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Guam    1973    only    -    Dec    16    2:00    1:00    D
+    {
+        'from_year': 1973,
+        'to_year': 1973,
+        'in_month': 12,
+        'on_day_of_week': 0,
+        'on_day_of_month': 16,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Guam    1974    only    -    Feb    24    2:00    0    S
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 24,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Guam    1976    only    -    May    26    2:00    1:00    D
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 26,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Guam    1976    only    -    Aug    22    2:01    0    S
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 22,
+        'at_seconds': 7260,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Guam    1977    only    -    Apr    24    2:00    1:00    D
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 24,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    Guam    1977    only    -    Aug    28    2:00    0    S
     {
         'from_year': 1977,
@@ -2417,9 +5468,81 @@ ZONE_POLICY_Guam = {
 
 #---------------------------------------------------------------------------
 # Policy name: Guat
-# Rule count: 3
+# Rule count: 9
 #---------------------------------------------------------------------------
 ZONE_RULES_Guat = [
+    # Anchor: Rule    Guat    1974    only    -    Feb    24    0:00    0    S
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Guat    1973    only    -    Nov    25    0:00    1:00    D
+    {
+        'from_year': 1973,
+        'to_year': 1973,
+        'in_month': 11,
+        'on_day_of_week': 0,
+        'on_day_of_month': 25,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Guat    1974    only    -    Feb    24    0:00    0    S
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 24,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Guat    1983    only    -    May    21    0:00    1:00    D
+    {
+        'from_year': 1983,
+        'to_year': 1983,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Guat    1983    only    -    Sep    22    0:00    0    S
+    {
+        'from_year': 1983,
+        'to_year': 1983,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 22,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Guat    1991    only    -    Mar    23    0:00    1:00    D
+    {
+        'from_year': 1991,
+        'to_year': 1991,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 23,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    Guat    1991    only    -    Sep     7    0:00    0    S
     {
         'from_year': 1991,
@@ -2465,9 +5588,69 @@ ZONE_POLICY_Guat = {
 
 #---------------------------------------------------------------------------
 # Policy name: HK
-# Rule count: 1
+# Rule count: 6
 #---------------------------------------------------------------------------
 ZONE_RULES_HK = [
+    # Rule    HK    1953    1964    -    Oct    Sun>=31    3:30    0    -
+    {
+        'from_year': 1953,
+        'to_year': 1964,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 31,
+        'at_seconds': 12600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    HK    1965    1976    -    Apr    Sun>=16    3:30    1:00    S
+    {
+        'from_year': 1965,
+        'to_year': 1976,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 16,
+        'at_seconds': 12600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    HK    1965    1976    -    Oct    Sun>=16    3:30    0    -
+    {
+        'from_year': 1965,
+        'to_year': 1976,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 16,
+        'at_seconds': 12600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    HK    1973    only    -    Dec    30    3:30    1:00    S
+    {
+        'from_year': 1973,
+        'to_year': 1973,
+        'in_month': 12,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 12600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    HK    1979    only    -    May    13    3:30    1:00    S
+    {
+        'from_year': 1979,
+        'to_year': 1979,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 13,
+        'at_seconds': 12600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
     # Rule    HK    1979    only    -    Oct    21    3:30    0    -
     {
         'from_year': 1979,
@@ -2489,9 +5672,69 @@ ZONE_POLICY_HK = {
 
 #---------------------------------------------------------------------------
 # Policy name: Haiti
-# Rule count: 7
+# Rule count: 12
 #---------------------------------------------------------------------------
 ZONE_RULES_Haiti = [
+    # Anchor: Rule    Haiti    1983    1987    -    Oct    lastSun    0:00    0    S
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Haiti    1983    only    -    May    8    0:00    1:00    D
+    {
+        'from_year': 1983,
+        'to_year': 1983,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 8,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Haiti    1984    1987    -    Apr    lastSun    0:00    1:00    D
+    {
+        'from_year': 1984,
+        'to_year': 1987,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Haiti    1983    1987    -    Oct    lastSun    0:00    0    S
+    {
+        'from_year': 1983,
+        'to_year': 1987,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Haiti    1988    1997    -    Apr    Sun>=1    1:00s    1:00    D
+    {
+        'from_year': 1988,
+        'to_year': 1997,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 3600,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    Haiti    1988    1997    -    Oct    lastSun    1:00s    0    S
     {
         'from_year': 1988,
@@ -2584,10 +5827,82 @@ ZONE_POLICY_Haiti = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Halifax
+# Rule count: 3
+#---------------------------------------------------------------------------
+ZONE_RULES_Halifax = [
+    # Rule    Halifax    1956    1959    -    Sep    lastSun    2:00    0    S
+    {
+        'from_year': 1956,
+        'to_year': 1959,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Halifax    1962    1973    -    Apr    lastSun    2:00    1:00    D
+    {
+        'from_year': 1962,
+        'to_year': 1973,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Halifax    1962    1973    -    Oct    lastSun    2:00    0    S
+    {
+        'from_year': 1962,
+        'to_year': 1973,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+
+]
+ZONE_POLICY_Halifax = {
+    'name': 'Halifax',
+    'rules': ZONE_RULES_Halifax
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Holiday
-# Rule count: 1
+# Rule count: 3
 #---------------------------------------------------------------------------
 ZONE_RULES_Holiday = [
+    # Anchor: Rule    Holiday    1993    1994    -    Mar    Sun>=1    2:00s    0    S
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Holiday    1992    1993    -    Oct    lastSun    2:00s    1:00    D
+    {
+        'from_year': 1992,
+        'to_year': 1993,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    Holiday    1993    1994    -    Mar    Sun>=1    2:00s    0    S
     {
         'from_year': 1993,
@@ -2609,9 +5924,33 @@ ZONE_POLICY_Holiday = {
 
 #---------------------------------------------------------------------------
 # Policy name: Hond
-# Rule count: 3
+# Rule count: 5
 #---------------------------------------------------------------------------
 ZONE_RULES_Hond = [
+    # Anchor: Rule    Hond    1987    1988    -    Sep    lastSun    0:00    0    S
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Hond    1987    1988    -    May    Sun>=1    0:00    1:00    D
+    {
+        'from_year': 1987,
+        'to_year': 1988,
+        'in_month': 5,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    Hond    1987    1988    -    Sep    lastSun    0:00    0    S
     {
         'from_year': 1987,
@@ -2656,10 +5995,190 @@ ZONE_POLICY_Hond = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Hungary
+# Rule count: 5
+#---------------------------------------------------------------------------
+ZONE_RULES_Hungary = [
+    # Rule    Hungary    1956    1957    -    Sep    lastSun     3:00    0    -
+    {
+        'from_year': 1956,
+        'to_year': 1957,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Hungary    1980    only    -    Apr     6     0:00    1:00    S
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Hungary    1980    only    -    Sep    28     1:00    0    -
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 28,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Hungary    1981    1983    -    Mar    lastSun     0:00    1:00    S
+    {
+        'from_year': 1981,
+        'to_year': 1983,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Hungary    1981    1983    -    Sep    lastSun     1:00    0    -
+    {
+        'from_year': 1981,
+        'to_year': 1983,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Hungary = {
+    'name': 'Hungary',
+    'rules': ZONE_RULES_Hungary
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Iran
-# Rule count: 43
+# Rule count: 64
 #---------------------------------------------------------------------------
 ZONE_RULES_Iran = [
+    # Anchor: Rule    Iran    1978    only    -    Oct    20    24:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Iran    1978    1980    -    Mar    20    24:00    1:00    -
+    {
+        'from_year': 1978,
+        'to_year': 1980,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Iran    1978    only    -    Oct    20    24:00    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Iran    1979    only    -    Sep    18    24:00    0    -
+    {
+        'from_year': 1979,
+        'to_year': 1979,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 18,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Iran    1980    only    -    Sep    22    24:00    0    -
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 22,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Iran    1991    only    -    May     2    24:00    1:00    -
+    {
+        'from_year': 1991,
+        'to_year': 1991,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Iran    1992    1995    -    Mar    21    24:00    1:00    -
+    {
+        'from_year': 1992,
+        'to_year': 1995,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Iran    1991    1995    -    Sep    21    24:00    0    -
+    {
+        'from_year': 1991,
+        'to_year': 1995,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Iran    1996    only    -    Mar    20    24:00    1:00    -
+    {
+        'from_year': 1996,
+        'to_year': 1996,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
     # Rule    Iran    1996    only    -    Sep    20    24:00    0    -
     {
         'from_year': 1996,
@@ -3176,6 +6695,150 @@ ZONE_RULES_Iran = [
         'delta_seconds': 0,
         'letter': '-',
     },
+    # Rule    Iran    2040    2041    -    Mar    20    24:00    1:00    -
+    {
+        'from_year': 2040,
+        'to_year': 2041,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Iran    2040    2041    -    Sep    20    24:00    0    -
+    {
+        'from_year': 2040,
+        'to_year': 2041,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Iran    2042    2043    -    Mar    21    24:00    1:00    -
+    {
+        'from_year': 2042,
+        'to_year': 2043,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Iran    2042    2043    -    Sep    21    24:00    0    -
+    {
+        'from_year': 2042,
+        'to_year': 2043,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Iran    2044    2045    -    Mar    20    24:00    1:00    -
+    {
+        'from_year': 2044,
+        'to_year': 2045,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Iran    2044    2045    -    Sep    20    24:00    0    -
+    {
+        'from_year': 2044,
+        'to_year': 2045,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Iran    2046    2047    -    Mar    21    24:00    1:00    -
+    {
+        'from_year': 2046,
+        'to_year': 2047,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Iran    2046    2047    -    Sep    21    24:00    0    -
+    {
+        'from_year': 2046,
+        'to_year': 2047,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Iran    2048    2049    -    Mar    20    24:00    1:00    -
+    {
+        'from_year': 2048,
+        'to_year': 2049,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Iran    2048    2049    -    Sep    20    24:00    0    -
+    {
+        'from_year': 2048,
+        'to_year': 2049,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Iran    2050    2051    -    Mar    21    24:00    1:00    -
+    {
+        'from_year': 2050,
+        'to_year': 2051,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Iran    2050    2051    -    Sep    21    24:00    0    -
+    {
+        'from_year': 2050,
+        'to_year': 2051,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
 
 ]
 ZONE_POLICY_Iran = {
@@ -3185,9 +6848,69 @@ ZONE_POLICY_Iran = {
 
 #---------------------------------------------------------------------------
 # Policy name: Iraq
-# Rule count: 3
+# Rule count: 9
 #---------------------------------------------------------------------------
 ZONE_RULES_Iraq = [
+    # Anchor: Rule    Iraq    1982    1984    -    Oct    1    0:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Iraq    1982    only    -    May    1    0:00    1:00    -
+    {
+        'from_year': 1982,
+        'to_year': 1982,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Iraq    1982    1984    -    Oct    1    0:00    0    -
+    {
+        'from_year': 1982,
+        'to_year': 1984,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Iraq    1983    only    -    Mar    31    0:00    1:00    -
+    {
+        'from_year': 1983,
+        'to_year': 1983,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Iraq    1984    1985    -    Apr    1    0:00    1:00    -
+    {
+        'from_year': 1984,
+        'to_year': 1985,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
     # Rule    Iraq    1985    1990    -    Sep    lastSun    1:00s    0    -
     {
         'from_year': 1985,
@@ -3198,6 +6921,18 @@ ZONE_RULES_Iraq = [
         'at_seconds': 3600,
         'at_time_suffix': 's',
         'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Iraq    1986    1990    -    Mar    lastSun    1:00s    1:00    -
+    {
+        'from_year': 1986,
+        'to_year': 1990,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 3600,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
         'letter': '-',
     },
     # Rule    Iraq    1991    2007    -    Apr     1    3:00s    1:00    -
@@ -3232,6 +6967,138 @@ ZONE_POLICY_Iraq = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Italy
+# Rule count: 10
+#---------------------------------------------------------------------------
+ZONE_RULES_Italy = [
+    # Rule    Italy    1972    only    -    Oct     1     0:00s    0    -
+    {
+        'from_year': 1972,
+        'to_year': 1972,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Italy    1973    only    -    Jun     3     0:00s    1:00    S
+    {
+        'from_year': 1973,
+        'to_year': 1973,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 3,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Italy    1973    1974    -    Sep    lastSun     0:00s    0    -
+    {
+        'from_year': 1973,
+        'to_year': 1974,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Italy    1974    only    -    May    26     0:00s    1:00    S
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 26,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Italy    1975    only    -    Jun     1     0:00s    1:00    S
+    {
+        'from_year': 1975,
+        'to_year': 1975,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Italy    1975    1977    -    Sep    lastSun     0:00s    0    -
+    {
+        'from_year': 1975,
+        'to_year': 1977,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Italy    1976    only    -    May    30     0:00s    1:00    S
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Italy    1977    1979    -    May    Sun>=22     0:00s    1:00    S
+    {
+        'from_year': 1977,
+        'to_year': 1979,
+        'in_month': 5,
+        'on_day_of_week': 7,
+        'on_day_of_month': 22,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Italy    1978    only    -    Oct     1     0:00s    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Italy    1979    only    -    Sep    30     0:00s    0    -
+    {
+        'from_year': 1979,
+        'to_year': 1979,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Italy = {
+    'name': 'Italy',
+    'rules': ZONE_RULES_Italy
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Japan
 # Rule count: 1
 #---------------------------------------------------------------------------
@@ -3257,9 +7124,249 @@ ZONE_POLICY_Japan = {
 
 #---------------------------------------------------------------------------
 # Policy name: Jordan
-# Rule count: 12
+# Rule count: 32
 #---------------------------------------------------------------------------
 ZONE_RULES_Jordan = [
+    # Anchor: Rule    Jordan    1973    1975    -    Oct    1    0:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Jordan    1973    only    -    Jun    6    0:00    1:00    S
+    {
+        'from_year': 1973,
+        'to_year': 1973,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Jordan    1973    1975    -    Oct    1    0:00    0    -
+    {
+        'from_year': 1973,
+        'to_year': 1975,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Jordan    1974    1977    -    May    1    0:00    1:00    S
+    {
+        'from_year': 1974,
+        'to_year': 1977,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Jordan    1976    only    -    Nov    1    0:00    0    -
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 11,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Jordan    1977    only    -    Oct    1    0:00    0    -
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Jordan    1978    only    -    Apr    30    0:00    1:00    S
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Jordan    1978    only    -    Sep    30    0:00    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Jordan    1985    only    -    Apr    1    0:00    1:00    S
+    {
+        'from_year': 1985,
+        'to_year': 1985,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Jordan    1985    only    -    Oct    1    0:00    0    -
+    {
+        'from_year': 1985,
+        'to_year': 1985,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Jordan    1986    1988    -    Apr    Fri>=1    0:00    1:00    S
+    {
+        'from_year': 1986,
+        'to_year': 1988,
+        'in_month': 4,
+        'on_day_of_week': 5,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Jordan    1986    1990    -    Oct    Fri>=1    0:00    0    -
+    {
+        'from_year': 1986,
+        'to_year': 1990,
+        'in_month': 10,
+        'on_day_of_week': 5,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Jordan    1989    only    -    May    8    0:00    1:00    S
+    {
+        'from_year': 1989,
+        'to_year': 1989,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 8,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Jordan    1990    only    -    Apr    27    0:00    1:00    S
+    {
+        'from_year': 1990,
+        'to_year': 1990,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 27,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Jordan    1991    only    -    Apr    17    0:00    1:00    S
+    {
+        'from_year': 1991,
+        'to_year': 1991,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 17,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Jordan    1991    only    -    Sep    27    0:00    0    -
+    {
+        'from_year': 1991,
+        'to_year': 1991,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 27,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Jordan    1992    only    -    Apr    10    0:00    1:00    S
+    {
+        'from_year': 1992,
+        'to_year': 1992,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 10,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Jordan    1992    1993    -    Oct    Fri>=1    0:00    0    -
+    {
+        'from_year': 1992,
+        'to_year': 1993,
+        'in_month': 10,
+        'on_day_of_week': 5,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Jordan    1993    1998    -    Apr    Fri>=1    0:00    1:00    S
+    {
+        'from_year': 1993,
+        'to_year': 1998,
+        'in_month': 4,
+        'on_day_of_week': 5,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Jordan    1994    only    -    Sep    Fri>=15    0:00    0    -
+    {
+        'from_year': 1994,
+        'to_year': 1994,
+        'in_month': 9,
+        'on_day_of_week': 5,
+        'on_day_of_month': 15,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule    Jordan    1995    1998    -    Sep    Fri>=15    0:00s    0    -
     {
         'from_year': 1995,
@@ -3413,9 +7520,33 @@ ZONE_POLICY_Jordan = {
 
 #---------------------------------------------------------------------------
 # Policy name: Kyrgyz
-# Rule count: 3
+# Rule count: 5
 #---------------------------------------------------------------------------
 ZONE_RULES_Kyrgyz = [
+    # Anchor: Rule    Kyrgyz    1992    1996    -    Sep    lastSun    0:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Kyrgyz    1992    1996    -    Apr    Sun>=7    0:00s    1:00    -
+    {
+        'from_year': 1992,
+        'to_year': 1996,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 7,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
     # Rule    Kyrgyz    1992    1996    -    Sep    lastSun    0:00    0    -
     {
         'from_year': 1992,
@@ -3461,9 +7592,81 @@ ZONE_POLICY_Kyrgyz = {
 
 #---------------------------------------------------------------------------
 # Policy name: LH
-# Rule count: 9
+# Rule count: 15
 #---------------------------------------------------------------------------
 ZONE_RULES_LH = [
+    # Anchor: Rule    LH    1982    1985    -    Mar    Sun>=1    2:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    LH    1981    1984    -    Oct    lastSun    2:00    1:00    -
+    {
+        'from_year': 1981,
+        'to_year': 1984,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    LH    1982    1985    -    Mar    Sun>=1    2:00    0    -
+    {
+        'from_year': 1982,
+        'to_year': 1985,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    LH    1985    only    -    Oct    lastSun    2:00    0:30    -
+    {
+        'from_year': 1985,
+        'to_year': 1985,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 1800,
+        'letter': '-',
+    },
+    # Rule    LH    1986    1989    -    Mar    Sun>=15    2:00    0    -
+    {
+        'from_year': 1986,
+        'to_year': 1989,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 15,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    LH    1986    only    -    Oct    19    2:00    0:30    -
+    {
+        'from_year': 1986,
+        'to_year': 1986,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 19,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 1800,
+        'letter': '-',
+    },
     # Rule    LH    1987    1999    -    Oct    lastSun    2:00    0:30    -
     {
         'from_year': 1987,
@@ -3580,10 +7783,190 @@ ZONE_POLICY_LH = {
 }
 
 #---------------------------------------------------------------------------
-# Policy name: Lebanon
+# Policy name: Latvia
 # Rule count: 3
 #---------------------------------------------------------------------------
+ZONE_RULES_Latvia = [
+    # Anchor: Rule    Latvia    1989    1996    -    Sep    lastSun     2:00s    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Latvia    1989    1996    -    Mar    lastSun     2:00s    1:00    S
+    {
+        'from_year': 1989,
+        'to_year': 1996,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Latvia    1989    1996    -    Sep    lastSun     2:00s    0    -
+    {
+        'from_year': 1989,
+        'to_year': 1996,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Latvia = {
+    'name': 'Latvia',
+    'rules': ZONE_RULES_Latvia
+}
+
+#---------------------------------------------------------------------------
+# Policy name: Lebanon
+# Rule count: 14
+#---------------------------------------------------------------------------
 ZONE_RULES_Lebanon = [
+    # Rule    Lebanon    1972    only    -    Jun    22    0:00    1:00    S
+    {
+        'from_year': 1972,
+        'to_year': 1972,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 22,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Lebanon    1972    1977    -    Oct    1    0:00    0    -
+    {
+        'from_year': 1972,
+        'to_year': 1977,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Lebanon    1973    1977    -    May    1    0:00    1:00    S
+    {
+        'from_year': 1973,
+        'to_year': 1977,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Lebanon    1978    only    -    Apr    30    0:00    1:00    S
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Lebanon    1978    only    -    Sep    30    0:00    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Lebanon    1984    1987    -    May    1    0:00    1:00    S
+    {
+        'from_year': 1984,
+        'to_year': 1987,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Lebanon    1984    1991    -    Oct    16    0:00    0    -
+    {
+        'from_year': 1984,
+        'to_year': 1991,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 16,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Lebanon    1988    only    -    Jun    1    0:00    1:00    S
+    {
+        'from_year': 1988,
+        'to_year': 1988,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Lebanon    1989    only    -    May    10    0:00    1:00    S
+    {
+        'from_year': 1989,
+        'to_year': 1989,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 10,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Lebanon    1990    1992    -    May    1    0:00    1:00    S
+    {
+        'from_year': 1990,
+        'to_year': 1992,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Lebanon    1992    only    -    Oct    4    0:00    0    -
+    {
+        'from_year': 1992,
+        'to_year': 1992,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 4,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule    Lebanon    1993    max    -    Mar    lastSun    0:00    1:00    S
     {
         'from_year': 1993,
@@ -3629,9 +8012,117 @@ ZONE_POLICY_Lebanon = {
 
 #---------------------------------------------------------------------------
 # Policy name: Libya
-# Rule count: 3
+# Rule count: 12
 #---------------------------------------------------------------------------
 ZONE_RULES_Libya = [
+    # Rule    Libya    1956    only    -    Jan     1    0:00    0    -
+    {
+        'from_year': 1956,
+        'to_year': 1956,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Libya    1982    1984    -    Apr     1    0:00    1:00    S
+    {
+        'from_year': 1982,
+        'to_year': 1984,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Libya    1982    1985    -    Oct     1    0:00    0    -
+    {
+        'from_year': 1982,
+        'to_year': 1985,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Libya    1985    only    -    Apr     6    0:00    1:00    S
+    {
+        'from_year': 1985,
+        'to_year': 1985,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Libya    1986    only    -    Apr     4    0:00    1:00    S
+    {
+        'from_year': 1986,
+        'to_year': 1986,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 4,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Libya    1986    only    -    Oct     3    0:00    0    -
+    {
+        'from_year': 1986,
+        'to_year': 1986,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 3,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Libya    1987    1989    -    Apr     1    0:00    1:00    S
+    {
+        'from_year': 1987,
+        'to_year': 1989,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Libya    1987    1989    -    Oct     1    0:00    0    -
+    {
+        'from_year': 1987,
+        'to_year': 1989,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Libya    1997    only    -    Apr     4    0:00    1:00    S
+    {
+        'from_year': 1997,
+        'to_year': 1997,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 4,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
     # Rule    Libya    1997    only    -    Oct     4    0:00    0    -
     {
         'from_year': 1997,
@@ -3677,9 +8168,81 @@ ZONE_POLICY_Libya = {
 
 #---------------------------------------------------------------------------
 # Policy name: Macau
-# Rule count: 1
+# Rule count: 7
 #---------------------------------------------------------------------------
 ZONE_RULES_Macau = [
+    # Rule    Macau    1965    1973    -    Apr    Sun>=16    03:30    1:00    D
+    {
+        'from_year': 1965,
+        'to_year': 1973,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 16,
+        'at_seconds': 12600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Macau    1965    1966    -    Oct    Sun>=16    02:30    0    S
+    {
+        'from_year': 1965,
+        'to_year': 1966,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 16,
+        'at_seconds': 9000,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Macau    1967    1976    -    Oct    Sun>=16    03:30    0    S
+    {
+        'from_year': 1967,
+        'to_year': 1976,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 16,
+        'at_seconds': 12600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Macau    1973    only    -    Dec    30    03:30    1:00    D
+    {
+        'from_year': 1973,
+        'to_year': 1973,
+        'in_month': 12,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 12600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Macau    1975    1976    -    Apr    Sun>=16    03:30    1:00    D
+    {
+        'from_year': 1975,
+        'to_year': 1976,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 16,
+        'at_seconds': 12600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Macau    1979    only    -    May    13    03:30    1:00    D
+    {
+        'from_year': 1979,
+        'to_year': 1979,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 13,
+        'at_seconds': 12600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    Macau    1979    only    -    Oct    Sun>=16    03:30    0    S
     {
         'from_year': 1979,
@@ -3700,10 +8263,142 @@ ZONE_POLICY_Macau = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Malta
+# Rule count: 8
+#---------------------------------------------------------------------------
+ZONE_RULES_Malta = [
+    # Anchor: Rule    Malta    1973    only    -    Sep    29    0:00s    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Malta    1973    only    -    Mar    31    0:00s    1:00    S
+    {
+        'from_year': 1973,
+        'to_year': 1973,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Malta    1973    only    -    Sep    29    0:00s    0    -
+    {
+        'from_year': 1973,
+        'to_year': 1973,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 29,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Malta    1974    only    -    Apr    21    0:00s    1:00    S
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Malta    1974    only    -    Sep    16    0:00s    0    -
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 16,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Malta    1975    1979    -    Apr    Sun>=15    2:00    1:00    S
+    {
+        'from_year': 1975,
+        'to_year': 1979,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 15,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Malta    1975    1980    -    Sep    Sun>=15    2:00    0    -
+    {
+        'from_year': 1975,
+        'to_year': 1980,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 15,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Malta    1980    only    -    Mar    31    2:00    1:00    S
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+
+]
+ZONE_POLICY_Malta = {
+    'name': 'Malta',
+    'rules': ZONE_RULES_Malta
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Mauritius
-# Rule count: 3
+# Rule count: 5
 #---------------------------------------------------------------------------
 ZONE_RULES_Mauritius = [
+    # Anchor: Rule Mauritius    1983    only    -    Mar    21    0:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule Mauritius    1982    only    -    Oct    10    0:00    1:00    -
+    {
+        'from_year': 1982,
+        'to_year': 1982,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 10,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
     # Rule Mauritius    1983    only    -    Mar    21    0:00    0    -
     {
         'from_year': 1983,
@@ -3845,9 +8540,21 @@ ZONE_POLICY_Mexico = {
 
 #---------------------------------------------------------------------------
 # Policy name: Moldova
-# Rule count: 2
+# Rule count: 3
 #---------------------------------------------------------------------------
 ZONE_RULES_Moldova = [
+    # Anchor: Rule    Moldova    1997    max    -    Oct    lastSun     3:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule    Moldova    1997    max    -    Mar    lastSun     2:00    1:00    S
     {
         'from_year': 1997,
@@ -3929,9 +8636,57 @@ ZONE_POLICY_Moncton = {
 
 #---------------------------------------------------------------------------
 # Policy name: Mongol
-# Rule count: 6
+# Rule count: 10
 #---------------------------------------------------------------------------
 ZONE_RULES_Mongol = [
+    # Anchor: Rule    Mongol    1983    only    -    Oct    1    0:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Mongol    1983    1984    -    Apr    1    0:00    1:00    -
+    {
+        'from_year': 1983,
+        'to_year': 1984,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Mongol    1983    only    -    Oct    1    0:00    0    -
+    {
+        'from_year': 1983,
+        'to_year': 1983,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Mongol    1985    1998    -    Mar    lastSun    0:00    1:00    -
+    {
+        'from_year': 1985,
+        'to_year': 1998,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
     # Rule    Mongol    1984    1998    -    Sep    lastSun    0:00    0    -
     {
         'from_year': 1984,
@@ -4013,9 +8768,93 @@ ZONE_POLICY_Mongol = {
 
 #---------------------------------------------------------------------------
 # Policy name: Morocco
-# Rule count: 70
+# Rule count: 101
 #---------------------------------------------------------------------------
 ZONE_RULES_Morocco = [
+    # Rule    Morocco    1967    only    -    Oct     1     0:00    0    -
+    {
+        'from_year': 1967,
+        'to_year': 1967,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    1974    only    -    Jun    24     0:00    1:00    -
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 24,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Morocco    1974    only    -    Sep     1     0:00    0    -
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    1976    1977    -    May     1     0:00    1:00    -
+    {
+        'from_year': 1976,
+        'to_year': 1977,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Morocco    1976    only    -    Aug     1     0:00    0    -
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    1977    only    -    Sep    28     0:00    0    -
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 28,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    1978    only    -    Jun     1     0:00    1:00    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
     # Rule    Morocco    1978    only    -    Aug     4     0:00    0    -
     {
         'from_year': 1978,
@@ -4856,6 +9695,294 @@ ZONE_RULES_Morocco = [
         'delta_seconds': -3600,
         'letter': '-',
     },
+    # Rule    Morocco    2039    only    -    Oct    23     2:00    0    -
+    {
+        'from_year': 2039,
+        'to_year': 2039,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 23,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    2040    only    -    Sep     2     3:00    -1:00    -
+    {
+        'from_year': 2040,
+        'to_year': 2040,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': -3600,
+        'letter': '-',
+    },
+    # Rule    Morocco    2040    only    -    Oct    14     2:00    0    -
+    {
+        'from_year': 2040,
+        'to_year': 2040,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 14,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    2041    only    -    Aug    25     3:00    -1:00    -
+    {
+        'from_year': 2041,
+        'to_year': 2041,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 25,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': -3600,
+        'letter': '-',
+    },
+    # Rule    Morocco    2041    only    -    Sep    29     2:00    0    -
+    {
+        'from_year': 2041,
+        'to_year': 2041,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 29,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    2042    only    -    Aug    10     3:00    -1:00    -
+    {
+        'from_year': 2042,
+        'to_year': 2042,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 10,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': -3600,
+        'letter': '-',
+    },
+    # Rule    Morocco    2042    only    -    Sep    21     2:00    0    -
+    {
+        'from_year': 2042,
+        'to_year': 2042,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    2043    only    -    Aug     2     3:00    -1:00    -
+    {
+        'from_year': 2043,
+        'to_year': 2043,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': -3600,
+        'letter': '-',
+    },
+    # Rule    Morocco    2043    only    -    Sep    13     2:00    0    -
+    {
+        'from_year': 2043,
+        'to_year': 2043,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 13,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    2044    only    -    Jul    24     3:00    -1:00    -
+    {
+        'from_year': 2044,
+        'to_year': 2044,
+        'in_month': 7,
+        'on_day_of_week': 0,
+        'on_day_of_month': 24,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': -3600,
+        'letter': '-',
+    },
+    # Rule    Morocco    2044    only    -    Aug    28     2:00    0    -
+    {
+        'from_year': 2044,
+        'to_year': 2044,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 28,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    2045    only    -    Jul     9     3:00    -1:00    -
+    {
+        'from_year': 2045,
+        'to_year': 2045,
+        'in_month': 7,
+        'on_day_of_week': 0,
+        'on_day_of_month': 9,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': -3600,
+        'letter': '-',
+    },
+    # Rule    Morocco    2045    only    -    Aug    20     2:00    0    -
+    {
+        'from_year': 2045,
+        'to_year': 2045,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    2046    only    -    Jul     1     3:00    -1:00    -
+    {
+        'from_year': 2046,
+        'to_year': 2046,
+        'in_month': 7,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': -3600,
+        'letter': '-',
+    },
+    # Rule    Morocco    2046    only    -    Aug    12     2:00    0    -
+    {
+        'from_year': 2046,
+        'to_year': 2046,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 12,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    2047    only    -    Jun    23     3:00    -1:00    -
+    {
+        'from_year': 2047,
+        'to_year': 2047,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 23,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': -3600,
+        'letter': '-',
+    },
+    # Rule    Morocco    2047    only    -    Jul    28     2:00    0    -
+    {
+        'from_year': 2047,
+        'to_year': 2047,
+        'in_month': 7,
+        'on_day_of_week': 0,
+        'on_day_of_month': 28,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    2048    only    -    Jun     7     3:00    -1:00    -
+    {
+        'from_year': 2048,
+        'to_year': 2048,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 7,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': -3600,
+        'letter': '-',
+    },
+    # Rule    Morocco    2048    only    -    Jul    19     2:00    0    -
+    {
+        'from_year': 2048,
+        'to_year': 2048,
+        'in_month': 7,
+        'on_day_of_week': 0,
+        'on_day_of_month': 19,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    2049    only    -    May    30     3:00    -1:00    -
+    {
+        'from_year': 2049,
+        'to_year': 2049,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': -3600,
+        'letter': '-',
+    },
+    # Rule    Morocco    2049    only    -    Jul     4     2:00    0    -
+    {
+        'from_year': 2049,
+        'to_year': 2049,
+        'in_month': 7,
+        'on_day_of_week': 0,
+        'on_day_of_month': 4,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    2050    only    -    May    15     3:00    -1:00    -
+    {
+        'from_year': 2050,
+        'to_year': 2050,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 15,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': -3600,
+        'letter': '-',
+    },
+    # Rule    Morocco    2050    only    -    Jun    26     2:00    0    -
+    {
+        'from_year': 2050,
+        'to_year': 2050,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 26,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Morocco    2051    only    -    May     7     3:00    -1:00    -
+    {
+        'from_year': 2051,
+        'to_year': 2051,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 7,
+        'at_seconds': 10800,
+        'at_time_suffix': 'w',
+        'delta_seconds': -3600,
+        'letter': '-',
+    },
 
 ]
 ZONE_POLICY_Morocco = {
@@ -4865,9 +9992,57 @@ ZONE_POLICY_Morocco = {
 
 #---------------------------------------------------------------------------
 # Policy name: NC
-# Rule count: 1
+# Rule count: 5
 #---------------------------------------------------------------------------
 ZONE_RULES_NC = [
+    # Anchor: Rule    NC    1978    1979    -    Feb    27    0:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    NC    1977    1978    -    Dec    Sun>=1    0:00    1:00    -
+    {
+        'from_year': 1977,
+        'to_year': 1978,
+        'in_month': 12,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    NC    1978    1979    -    Feb    27    0:00    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1979,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 27,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    NC    1996    only    -    Dec     1    2:00s    1:00    -
+    {
+        'from_year': 1996,
+        'to_year': 1996,
+        'in_month': 12,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
     # Rule    NC    1997    only    -    Mar     2    2:00s    0    -
     {
         'from_year': 1997,
@@ -4889,9 +10064,21 @@ ZONE_POLICY_NC = {
 
 #---------------------------------------------------------------------------
 # Policy name: NT_YK
-# Rule count: 3
+# Rule count: 4
 #---------------------------------------------------------------------------
 ZONE_RULES_NT_YK = [
+    # Rule    NT_YK    1965    only    -    Oct    lastSun    2:00    0    S
+    {
+        'from_year': 1965,
+        'to_year': 1965,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
     # Rule    NT_YK    1980    1986    -    Apr    lastSun    2:00    1:00    D
     {
         'from_year': 1980,
@@ -4937,9 +10124,69 @@ ZONE_POLICY_NT_YK = {
 
 #---------------------------------------------------------------------------
 # Policy name: NZ
-# Rule count: 5
+# Rule count: 10
 #---------------------------------------------------------------------------
 ZONE_RULES_NZ = [
+    # Rule    NZ    1946    only    -    Jan     1    0:00    0    S
+    {
+        'from_year': 1946,
+        'to_year': 1946,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    NZ    1974    only    -    Nov    Sun>=1    2:00s    1:00    D
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 11,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    NZ    1975    only    -    Feb    lastSun    2:00s    0    S
+    {
+        'from_year': 1975,
+        'to_year': 1975,
+        'in_month': 2,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    NZ    1975    1988    -    Oct    lastSun    2:00s    1:00    D
+    {
+        'from_year': 1975,
+        'to_year': 1988,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    NZ    1976    1989    -    Mar    Sun>=1    2:00s    0    S
+    {
+        'from_year': 1976,
+        'to_year': 1989,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
     # Rule    NZ    1989    only    -    Oct    Sun>=8    2:00s    1:00    D
     {
         'from_year': 1989,
@@ -5009,9 +10256,21 @@ ZONE_POLICY_NZ = {
 
 #---------------------------------------------------------------------------
 # Policy name: Namibia
-# Rule count: 3
+# Rule count: 4
 #---------------------------------------------------------------------------
 ZONE_RULES_Namibia = [
+    # Anchor: Rule    Namibia    1994    2017    -    Sep    Sun>=1    2:00    0    CAT
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'CAT',
+    },
     # Rule    Namibia    1994    only    -    Mar    21    0:00    -1:00    WAT
     {
         'from_year': 1994,
@@ -5056,10 +10315,58 @@ ZONE_POLICY_Namibia = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Neth
+# Rule count: 1
+#---------------------------------------------------------------------------
+ZONE_RULES_Neth = [
+    # Rule    Neth    1945    only    -    Sep    16    2:00s    0    -
+    {
+        'from_year': 1945,
+        'to_year': 1945,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 16,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Neth = {
+    'name': 'Neth',
+    'rules': ZONE_RULES_Neth
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Nic
-# Rule count: 5
+# Rule count: 7
 #---------------------------------------------------------------------------
 ZONE_RULES_Nic = [
+    # Anchor: Rule    Nic    1979    1980    -    Jun    Mon>=23    0:00    0    S
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Nic    1979    1980    -    Mar    Sun>=16    0:00    1:00    D
+    {
+        'from_year': 1979,
+        'to_year': 1980,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 16,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    Nic    1979    1980    -    Jun    Mon>=23    0:00    0    S
     {
         'from_year': 1979,
@@ -5128,10 +10435,58 @@ ZONE_POLICY_Nic = {
 }
 
 #---------------------------------------------------------------------------
-# Policy name: PRC
+# Policy name: Norway
 # Rule count: 1
 #---------------------------------------------------------------------------
+ZONE_RULES_Norway = [
+    # Rule    Norway    1959    1965    -    Sep    Sun>=15    2:00s    0    -
+    {
+        'from_year': 1959,
+        'to_year': 1965,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 15,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Norway = {
+    'name': 'Norway',
+    'rules': ZONE_RULES_Norway
+}
+
+#---------------------------------------------------------------------------
+# Policy name: PRC
+# Rule count: 4
+#---------------------------------------------------------------------------
 ZONE_RULES_PRC = [
+    # Anchor: Rule    PRC    1986    1991    -    Sep    Sun>=11     2:00    0    S
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    PRC    1986    only    -    May     4     2:00    1:00    D
+    {
+        'from_year': 1986,
+        'to_year': 1986,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 4,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    PRC    1986    1991    -    Sep    Sun>=11     2:00    0    S
     {
         'from_year': 1986,
@@ -5143,6 +10498,18 @@ ZONE_RULES_PRC = [
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': 'S',
+    },
+    # Rule    PRC    1987    1991    -    Apr    Sun>=11     2:00    1:00    D
+    {
+        'from_year': 1987,
+        'to_year': 1991,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 11,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
     },
 
 ]
@@ -5597,9 +10964,165 @@ ZONE_POLICY_Palestine = {
 
 #---------------------------------------------------------------------------
 # Policy name: Para
-# Rule count: 10
+# Rule count: 23
 #---------------------------------------------------------------------------
 ZONE_RULES_Para = [
+    # Anchor: Rule    Para    1975    1978    -    Mar     1    0:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Para    1975    1988    -    Oct     1    0:00    1:00    -
+    {
+        'from_year': 1975,
+        'to_year': 1988,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Para    1975    1978    -    Mar     1    0:00    0    -
+    {
+        'from_year': 1975,
+        'to_year': 1978,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Para    1979    1991    -    Apr     1    0:00    0    -
+    {
+        'from_year': 1979,
+        'to_year': 1991,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Para    1989    only    -    Oct    22    0:00    1:00    -
+    {
+        'from_year': 1989,
+        'to_year': 1989,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 22,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Para    1990    only    -    Oct     1    0:00    1:00    -
+    {
+        'from_year': 1990,
+        'to_year': 1990,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Para    1991    only    -    Oct     6    0:00    1:00    -
+    {
+        'from_year': 1991,
+        'to_year': 1991,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Para    1992    only    -    Mar     1    0:00    0    -
+    {
+        'from_year': 1992,
+        'to_year': 1992,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Para    1992    only    -    Oct     5    0:00    1:00    -
+    {
+        'from_year': 1992,
+        'to_year': 1992,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 5,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Para    1993    only    -    Mar    31    0:00    0    -
+    {
+        'from_year': 1993,
+        'to_year': 1993,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Para    1993    1995    -    Oct     1    0:00    1:00    -
+    {
+        'from_year': 1993,
+        'to_year': 1995,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Para    1994    1995    -    Feb    lastSun    0:00    0    -
+    {
+        'from_year': 1994,
+        'to_year': 1995,
+        'in_month': 2,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Para    1996    only    -    Mar     1    0:00    0    -
+    {
+        'from_year': 1996,
+        'to_year': 1996,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule    Para    1996    2001    -    Oct    Sun>=1    0:00    1:00    -
     {
         'from_year': 1996,
@@ -5729,9 +11252,81 @@ ZONE_POLICY_Para = {
 
 #---------------------------------------------------------------------------
 # Policy name: Peru
-# Rule count: 1
+# Rule count: 7
 #---------------------------------------------------------------------------
 ZONE_RULES_Peru = [
+    # Rule    Peru    1939    1940    -    Mar    Sun>=24    0:00    0    -
+    {
+        'from_year': 1939,
+        'to_year': 1940,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 24,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Peru    1986    1987    -    Jan     1    0:00    1:00    -
+    {
+        'from_year': 1986,
+        'to_year': 1987,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Peru    1986    1987    -    Apr     1    0:00    0    -
+    {
+        'from_year': 1986,
+        'to_year': 1987,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Peru    1990    only    -    Jan     1    0:00    1:00    -
+    {
+        'from_year': 1990,
+        'to_year': 1990,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Peru    1990    only    -    Apr     1    0:00    0    -
+    {
+        'from_year': 1990,
+        'to_year': 1990,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Peru    1994    only    -    Jan     1    0:00    1:00    -
+    {
+        'from_year': 1994,
+        'to_year': 1994,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
     # Rule    Peru    1994    only    -    Apr     1    0:00    0    -
     {
         'from_year': 1994,
@@ -5753,9 +11348,33 @@ ZONE_POLICY_Peru = {
 
 #---------------------------------------------------------------------------
 # Policy name: Phil
-# Rule count: 1
+# Rule count: 3
 #---------------------------------------------------------------------------
 ZONE_RULES_Phil = [
+    # Rule    Phil    1954    only    -    Jul    1    0:00    0    S
+    {
+        'from_year': 1954,
+        'to_year': 1954,
+        'in_month': 7,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Phil    1978    only    -    Mar    22    0:00    1:00    D
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 22,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    Phil    1978    only    -    Sep    21    0:00    0    S
     {
         'from_year': 1978,
@@ -5776,10 +11395,178 @@ ZONE_POLICY_Phil = {
 }
 
 #---------------------------------------------------------------------------
-# Policy name: ROK
+# Policy name: Poland
 # Rule count: 1
 #---------------------------------------------------------------------------
+ZONE_RULES_Poland = [
+    # Rule    Poland    1962    1964    -    Sep    lastSun    1:00s    0    -
+    {
+        'from_year': 1962,
+        'to_year': 1964,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 3600,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Poland = {
+    'name': 'Poland',
+    'rules': ZONE_RULES_Poland
+}
+
+#---------------------------------------------------------------------------
+# Policy name: Port
+# Rule count: 9
+#---------------------------------------------------------------------------
+ZONE_RULES_Port = [
+    # Rule    Port    1951    1965    -    Oct    Sun>=1     2:00s    0    -
+    {
+        'from_year': 1951,
+        'to_year': 1965,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Port    1977    only    -    Mar    27     0:00s    1:00    S
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 27,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Port    1977    only    -    Sep    25     0:00s    0    -
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 25,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Port    1978    1979    -    Apr    Sun>=1     0:00s    1:00    S
+    {
+        'from_year': 1978,
+        'to_year': 1979,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Port    1978    only    -    Oct     1     0:00s    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Port    1979    1982    -    Sep    lastSun     1:00s    0    -
+    {
+        'from_year': 1979,
+        'to_year': 1982,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 3600,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Port    1980    only    -    Mar    lastSun     0:00s    1:00    S
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Port    1981    1982    -    Mar    lastSun     1:00s    1:00    S
+    {
+        'from_year': 1981,
+        'to_year': 1982,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 3600,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Port    1983    only    -    Mar    lastSun     2:00s    1:00    S
+    {
+        'from_year': 1983,
+        'to_year': 1983,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+
+]
+ZONE_POLICY_Port = {
+    'name': 'Port',
+    'rules': ZONE_RULES_Port
+}
+
+#---------------------------------------------------------------------------
+# Policy name: ROK
+# Rule count: 3
+#---------------------------------------------------------------------------
 ZONE_RULES_ROK = [
+    # Rule    ROK    1957    1960    -    Sep    Sat>=17    24:00    0    S
+    {
+        'from_year': 1957,
+        'to_year': 1960,
+        'in_month': 9,
+        'on_day_of_week': 6,
+        'on_day_of_month': 17,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    ROK    1987    1988    -    May    Sun>=8     2:00    1:00    D
+    {
+        'from_year': 1987,
+        'to_year': 1988,
+        'in_month': 5,
+        'on_day_of_week': 7,
+        'on_day_of_month': 8,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    ROK    1987    1988    -    Oct    Sun>=8     3:00    0    S
     {
         'from_year': 1987,
@@ -5800,10 +11587,142 @@ ZONE_POLICY_ROK = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Romania
+# Rule count: 7
+#---------------------------------------------------------------------------
+ZONE_RULES_Romania = [
+    # Rule    Romania    1932    1939    -    Oct    Sun>=1     0:00s    0    -
+    {
+        'from_year': 1932,
+        'to_year': 1939,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Romania    1979    only    -    May    27     0:00    1:00    S
+    {
+        'from_year': 1979,
+        'to_year': 1979,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 27,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Romania    1979    only    -    Sep    lastSun     0:00    0    -
+    {
+        'from_year': 1979,
+        'to_year': 1979,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Romania    1980    only    -    Apr     5    23:00    1:00    S
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 5,
+        'at_seconds': 82800,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Romania    1980    only    -    Sep    lastSun     1:00    0    -
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Romania    1991    1993    -    Mar    lastSun     0:00s    1:00    S
+    {
+        'from_year': 1991,
+        'to_year': 1993,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Romania    1991    1993    -    Sep    lastSun     0:00s    0    -
+    {
+        'from_year': 1991,
+        'to_year': 1993,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Romania = {
+    'name': 'Romania',
+    'rules': ZONE_RULES_Romania
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Russia
-# Rule count: 3
+# Rule count: 6
 #---------------------------------------------------------------------------
 ZONE_RULES_Russia = [
+    # Rule    Russia    1921    only    -    Oct     1     0:00    0    -
+    {
+        'from_year': 1921,
+        'to_year': 1921,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Russia    1981    1984    -    Apr     1     0:00    1:00    S
+    {
+        'from_year': 1981,
+        'to_year': 1984,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Russia    1981    1983    -    Oct     1     0:00    0    -
+    {
+        'from_year': 1981,
+        'to_year': 1983,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule    Russia    1984    1995    -    Sep    lastSun     2:00s    0    -
     {
         'from_year': 1984,
@@ -5849,9 +11768,45 @@ ZONE_POLICY_Russia = {
 
 #---------------------------------------------------------------------------
 # Policy name: RussiaAsia
-# Rule count: 3
+# Rule count: 6
 #---------------------------------------------------------------------------
 ZONE_RULES_RussiaAsia = [
+    # Anchor: Rule RussiaAsia    1981    1983    -    Oct    1     0:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule RussiaAsia    1981    1984    -    Apr    1     0:00    1:00    -
+    {
+        'from_year': 1981,
+        'to_year': 1984,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule RussiaAsia    1981    1983    -    Oct    1     0:00    0    -
+    {
+        'from_year': 1981,
+        'to_year': 1983,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
     # Rule RussiaAsia    1984    1995    -    Sep    lastSun     2:00s    0    -
     {
         'from_year': 1984,
@@ -5921,9 +11876,33 @@ ZONE_POLICY_SA = {
 
 #---------------------------------------------------------------------------
 # Policy name: Salv
-# Rule count: 1
+# Rule count: 3
 #---------------------------------------------------------------------------
 ZONE_RULES_Salv = [
+    # Anchor: Rule    Salv    1987    1988    -    Sep    lastSun    0:00    0    S
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Salv    1987    1988    -    May    Sun>=1    0:00    1:00    D
+    {
+        'from_year': 1987,
+        'to_year': 1988,
+        'in_month': 5,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    Salv    1987    1988    -    Sep    lastSun    0:00    0    S
     {
         'from_year': 1987,
@@ -5992,10 +11971,274 @@ ZONE_POLICY_SanLuis = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Spain
+# Rule count: 8
+#---------------------------------------------------------------------------
+ZONE_RULES_Spain = [
+    # Rule    Spain    1949    only    -    Oct     2     1:00    0    -
+    {
+        'from_year': 1949,
+        'to_year': 1949,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Spain    1974    1975    -    Apr    Sat>=12    23:00    1:00    S
+    {
+        'from_year': 1974,
+        'to_year': 1975,
+        'in_month': 4,
+        'on_day_of_week': 6,
+        'on_day_of_month': 12,
+        'at_seconds': 82800,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Spain    1974    1975    -    Oct    Sun>=1     1:00    0    -
+    {
+        'from_year': 1974,
+        'to_year': 1975,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Spain    1976    only    -    Mar    27    23:00    1:00    S
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 27,
+        'at_seconds': 82800,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Spain    1976    1977    -    Sep    lastSun     1:00    0    -
+    {
+        'from_year': 1976,
+        'to_year': 1977,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Spain    1977    only    -    Apr     2    23:00    1:00    S
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 82800,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Spain    1978    only    -    Apr     2     2:00s    1:00    S
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Spain    1978    only    -    Oct     1     2:00s    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Spain = {
+    'name': 'Spain',
+    'rules': ZONE_RULES_Spain
+}
+
+#---------------------------------------------------------------------------
+# Policy name: SpainAfrica
+# Rule count: 8
+#---------------------------------------------------------------------------
+ZONE_RULES_SpainAfrica = [
+    # Rule SpainAfrica 1967    only    -    Oct     1     0:00    0    -
+    {
+        'from_year': 1967,
+        'to_year': 1967,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule SpainAfrica 1974    only    -    Jun    24     0:00    1:00    S
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 24,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule SpainAfrica 1974    only    -    Sep     1     0:00    0    -
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule SpainAfrica 1976    1977    -    May     1     0:00    1:00    S
+    {
+        'from_year': 1976,
+        'to_year': 1977,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule SpainAfrica 1976    only    -    Aug     1     0:00    0    -
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule SpainAfrica 1977    only    -    Sep    28     0:00    0    -
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 28,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule SpainAfrica 1978    only    -    Jun     1     0:00    1:00    S
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule SpainAfrica 1978    only    -    Aug     4     0:00    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 4,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_SpainAfrica = {
+    'name': 'SpainAfrica',
+    'rules': ZONE_RULES_SpainAfrica
+}
+
+#---------------------------------------------------------------------------
 # Policy name: StJohns
-# Rule count: 5
+# Rule count: 9
 #---------------------------------------------------------------------------
 ZONE_RULES_StJohns = [
+    # Rule    StJohns    1951    1986    -    Apr    lastSun    2:00    1:00    D
+    {
+        'from_year': 1951,
+        'to_year': 1986,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    StJohns    1951    1959    -    Sep    lastSun    2:00    0    S
+    {
+        'from_year': 1951,
+        'to_year': 1959,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    StJohns    1960    1986    -    Oct    lastSun    2:00    0    S
+    {
+        'from_year': 1960,
+        'to_year': 1986,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    StJohns    1987    only    -    Apr    Sun>=1    0:01    1:00    D
+    {
+        'from_year': 1987,
+        'to_year': 1987,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 60,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    StJohns    1987    2006    -    Oct    lastSun    0:01    0    S
     {
         'from_year': 1987,
@@ -6065,7 +12308,7 @@ ZONE_POLICY_StJohns = {
 
 #---------------------------------------------------------------------------
 # Policy name: Sudan
-# Rule count: 1
+# Rule count: 3
 #---------------------------------------------------------------------------
 ZONE_RULES_Sudan = [
     # Rule    Sudan    1970    1985    -    Oct    15    0:00    0    -
@@ -6080,6 +12323,30 @@ ZONE_RULES_Sudan = [
         'delta_seconds': 0,
         'letter': '-',
     },
+    # Rule    Sudan    1971    only    -    Apr    30    0:00    1:00    S
+    {
+        'from_year': 1971,
+        'to_year': 1971,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Sudan    1972    1985    -    Apr    lastSun    0:00    1:00    S
+    {
+        'from_year': 1972,
+        'to_year': 1985,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
 
 ]
 ZONE_POLICY_Sudan = {
@@ -6088,10 +12355,286 @@ ZONE_POLICY_Sudan = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Swiss
+# Rule count: 1
+#---------------------------------------------------------------------------
+ZONE_RULES_Swiss = [
+    # Rule    Swiss    1941    1942    -    Oct    Mon>=1    2:00    0    -
+    {
+        'from_year': 1941,
+        'to_year': 1942,
+        'in_month': 10,
+        'on_day_of_week': 1,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Swiss = {
+    'name': 'Swiss',
+    'rules': ZONE_RULES_Swiss
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Syria
-# Rule count: 12
+# Rule count: 33
 #---------------------------------------------------------------------------
 ZONE_RULES_Syria = [
+    # Rule    Syria    1966    only    -    Apr    24    2:00    1:00    S
+    {
+        'from_year': 1966,
+        'to_year': 1966,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 24,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Syria    1966    1976    -    Oct    1    2:00    0    -
+    {
+        'from_year': 1966,
+        'to_year': 1976,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Syria    1967    1978    -    May    1    2:00    1:00    S
+    {
+        'from_year': 1967,
+        'to_year': 1978,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Syria    1977    1978    -    Sep    1    2:00    0    -
+    {
+        'from_year': 1977,
+        'to_year': 1978,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Syria    1983    1984    -    Apr    9    2:00    1:00    S
+    {
+        'from_year': 1983,
+        'to_year': 1984,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 9,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Syria    1983    1984    -    Oct    1    2:00    0    -
+    {
+        'from_year': 1983,
+        'to_year': 1984,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Syria    1986    only    -    Feb    16    2:00    1:00    S
+    {
+        'from_year': 1986,
+        'to_year': 1986,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 16,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Syria    1986    only    -    Oct    9    2:00    0    -
+    {
+        'from_year': 1986,
+        'to_year': 1986,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 9,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Syria    1987    only    -    Mar    1    2:00    1:00    S
+    {
+        'from_year': 1987,
+        'to_year': 1987,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Syria    1987    1988    -    Oct    31    2:00    0    -
+    {
+        'from_year': 1987,
+        'to_year': 1988,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Syria    1988    only    -    Mar    15    2:00    1:00    S
+    {
+        'from_year': 1988,
+        'to_year': 1988,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 15,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Syria    1989    only    -    Mar    31    2:00    1:00    S
+    {
+        'from_year': 1989,
+        'to_year': 1989,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Syria    1989    only    -    Oct    1    2:00    0    -
+    {
+        'from_year': 1989,
+        'to_year': 1989,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Syria    1990    only    -    Apr    1    2:00    1:00    S
+    {
+        'from_year': 1990,
+        'to_year': 1990,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Syria    1990    only    -    Sep    30    2:00    0    -
+    {
+        'from_year': 1990,
+        'to_year': 1990,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Syria    1991    only    -    Apr     1    0:00    1:00    S
+    {
+        'from_year': 1991,
+        'to_year': 1991,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Syria    1991    1992    -    Oct     1    0:00    0    -
+    {
+        'from_year': 1991,
+        'to_year': 1992,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Syria    1992    only    -    Apr     8    0:00    1:00    S
+    {
+        'from_year': 1992,
+        'to_year': 1992,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 8,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Syria    1993    only    -    Mar    26    0:00    1:00    S
+    {
+        'from_year': 1993,
+        'to_year': 1993,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 26,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Syria    1993    only    -    Sep    25    0:00    0    -
+    {
+        'from_year': 1993,
+        'to_year': 1993,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 25,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Syria    1994    1996    -    Apr     1    0:00    1:00    S
+    {
+        'from_year': 1994,
+        'to_year': 1996,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
     # Rule    Syria    1994    2005    -    Oct     1    0:00    0    -
     {
         'from_year': 1994,
@@ -6245,9 +12788,57 @@ ZONE_POLICY_Syria = {
 
 #---------------------------------------------------------------------------
 # Policy name: Taiwan
-# Rule count: 1
+# Rule count: 5
 #---------------------------------------------------------------------------
 ZONE_RULES_Taiwan = [
+    # Rule    Taiwan    1955    1961    -    Oct    1    0:00    0    S
+    {
+        'from_year': 1955,
+        'to_year': 1961,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Taiwan    1974    1975    -    Apr    1    0:00    1:00    D
+    {
+        'from_year': 1974,
+        'to_year': 1975,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Taiwan    1974    1975    -    Oct    1    0:00    0    S
+    {
+        'from_year': 1974,
+        'to_year': 1975,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Taiwan    1979    only    -    Jul    1    0:00    1:00    D
+    {
+        'from_year': 1979,
+        'to_year': 1979,
+        'in_month': 7,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    Taiwan    1979    only    -    Oct    1    0:00    0    S
     {
         'from_year': 1979,
@@ -6269,9 +12860,33 @@ ZONE_POLICY_Taiwan = {
 
 #---------------------------------------------------------------------------
 # Policy name: Thule
-# Rule count: 5
+# Rule count: 7
 #---------------------------------------------------------------------------
 ZONE_RULES_Thule = [
+    # Anchor: Rule    Thule    1991    1992    -    Sep    lastSun    2:00    0    S
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Thule    1991    1992    -    Mar    lastSun    2:00    1:00    D
+    {
+        'from_year': 1991,
+        'to_year': 1992,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    Thule    1991    1992    -    Sep    lastSun    2:00    0    S
     {
         'from_year': 1991,
@@ -6436,6 +13051,54 @@ ZONE_POLICY_Tonga = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Toronto
+# Rule count: 3
+#---------------------------------------------------------------------------
+ZONE_RULES_Toronto = [
+    # Rule    Toronto    1950    1973    -    Apr    lastSun    2:00    1:00    D
+    {
+        'from_year': 1950,
+        'to_year': 1973,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Toronto    1951    1956    -    Sep    lastSun    2:00    0    S
+    {
+        'from_year': 1951,
+        'to_year': 1956,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Toronto    1957    1973    -    Oct    lastSun    2:00    0    S
+    {
+        'from_year': 1957,
+        'to_year': 1973,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+
+]
+ZONE_POLICY_Toronto = {
+    'name': 'Toronto',
+    'rules': ZONE_RULES_Toronto
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Troll
 # Rule count: 3
 #---------------------------------------------------------------------------
@@ -6485,9 +13148,81 @@ ZONE_POLICY_Troll = {
 
 #---------------------------------------------------------------------------
 # Policy name: Tunisia
-# Rule count: 5
+# Rule count: 13
 #---------------------------------------------------------------------------
 ZONE_RULES_Tunisia = [
+    # Rule    Tunisia    1945    only    -    Sep    16     0:00    0    -
+    {
+        'from_year': 1945,
+        'to_year': 1945,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 16,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Tunisia    1977    only    -    Apr    30     0:00s    1:00    S
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Tunisia    1977    only    -    Sep    24     0:00s    0    -
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 24,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Tunisia    1978    only    -    May     1     0:00s    1:00    S
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Tunisia    1978    only    -    Oct     1     0:00s    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Tunisia    1988    only    -    Jun     1     0:00s    1:00    S
+    {
+        'from_year': 1988,
+        'to_year': 1988,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
     # Rule    Tunisia    1988    1990    -    Sep    lastSun     0:00s    0    -
     {
         'from_year': 1988,
@@ -6499,6 +13234,30 @@ ZONE_RULES_Tunisia = [
         'at_time_suffix': 's',
         'delta_seconds': 0,
         'letter': '-',
+    },
+    # Rule    Tunisia    1989    only    -    Mar    26     0:00s    1:00    S
+    {
+        'from_year': 1989,
+        'to_year': 1989,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 26,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Tunisia    1990    only    -    May     1     0:00s    1:00    S
+    {
+        'from_year': 1990,
+        'to_year': 1990,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
     },
     # Rule    Tunisia    2005    only    -    May     1     0:00s    1:00    S
     {
@@ -6557,9 +13316,177 @@ ZONE_POLICY_Tunisia = {
 
 #---------------------------------------------------------------------------
 # Policy name: Turkey
-# Rule count: 3
+# Rule count: 18
 #---------------------------------------------------------------------------
 ZONE_RULES_Turkey = [
+    # Rule    Turkey    1964    only    -    Oct     1    0:00    0    -
+    {
+        'from_year': 1964,
+        'to_year': 1964,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Turkey    1973    only    -    Jun     3    1:00    1:00    S
+    {
+        'from_year': 1973,
+        'to_year': 1973,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 3,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Turkey    1973    1976    -    Oct    Sun>=31    2:00    0    -
+    {
+        'from_year': 1973,
+        'to_year': 1976,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 31,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Turkey    1974    only    -    Mar    31    2:00    1:00    S
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Turkey    1975    only    -    Mar    22    2:00    1:00    S
+    {
+        'from_year': 1975,
+        'to_year': 1975,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 22,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Turkey    1976    only    -    Mar    21    2:00    1:00    S
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Turkey    1977    1978    -    Apr    Sun>=1    2:00    1:00    S
+    {
+        'from_year': 1977,
+        'to_year': 1978,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Turkey    1977    1978    -    Oct    Sun>=15    2:00    0    -
+    {
+        'from_year': 1977,
+        'to_year': 1978,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 15,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Turkey    1978    only    -    Jun    29    0:00    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 6,
+        'on_day_of_week': 0,
+        'on_day_of_month': 29,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Turkey    1983    only    -    Jul    31    2:00    1:00    S
+    {
+        'from_year': 1983,
+        'to_year': 1983,
+        'in_month': 7,
+        'on_day_of_week': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Turkey    1983    only    -    Oct     2    2:00    0    -
+    {
+        'from_year': 1983,
+        'to_year': 1983,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Turkey    1985    only    -    Apr    20    1:00s    1:00    S
+    {
+        'from_year': 1985,
+        'to_year': 1985,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 3600,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    Turkey    1985    only    -    Sep    28    1:00s    0    -
+    {
+        'from_year': 1985,
+        'to_year': 1985,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 28,
+        'at_seconds': 3600,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Turkey    1986    1993    -    Mar    lastSun    1:00s    1:00    S
+    {
+        'from_year': 1986,
+        'to_year': 1993,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 3600,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
     # Rule    Turkey    1986    1995    -    Sep    lastSun    1:00s    0    -
     {
         'from_year': 1986,
@@ -6571,6 +13498,18 @@ ZONE_RULES_Turkey = [
         'at_time_suffix': 's',
         'delta_seconds': 0,
         'letter': '-',
+    },
+    # Rule    Turkey    1994    only    -    Mar    20    1:00s    1:00    S
+    {
+        'from_year': 1994,
+        'to_year': 1994,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 3600,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
     },
     # Rule    Turkey    1995    2006    -    Mar    lastSun    1:00s    1:00    S
     {
@@ -6605,9 +13544,21 @@ ZONE_POLICY_Turkey = {
 
 #---------------------------------------------------------------------------
 # Policy name: US
-# Rule count: 5
+# Rule count: 9
 #---------------------------------------------------------------------------
 ZONE_RULES_US = [
+    # Rule    US    1945    only    -    Sep    30    2:00    0    S
+    {
+        'from_year': 1945,
+        'to_year': 1945,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
     # Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
     {
         'from_year': 1967,
@@ -6619,6 +13570,42 @@ ZONE_RULES_US = [
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': 'S',
+    },
+    # Rule    US    1967    1973    -    Apr    lastSun    2:00    1:00    D
+    {
+        'from_year': 1967,
+        'to_year': 1973,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    US    1974    only    -    Jan    6    2:00    1:00    D
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    US    1975    only    -    Feb    lastSun    2:00    1:00    D
+    {
+        'from_year': 1975,
+        'to_year': 1975,
+        'in_month': 2,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
     },
     # Rule    US    1976    1986    -    Apr    lastSun    2:00    1:00    D
     {
@@ -6677,9 +13664,273 @@ ZONE_POLICY_US = {
 
 #---------------------------------------------------------------------------
 # Policy name: Uruguay
-# Rule count: 6
+# Rule count: 28
 #---------------------------------------------------------------------------
 ZONE_RULES_Uruguay = [
+    # Rule    Uruguay    1972    only    -    Jul    16     0:00    0    -
+    {
+        'from_year': 1972,
+        'to_year': 1972,
+        'in_month': 7,
+        'on_day_of_week': 0,
+        'on_day_of_month': 16,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1974    only    -    Jan    13     0:00    1:30    -
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 13,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 5400,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1974    only    -    Mar    10     0:00    0:30    -
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 10,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 1800,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1974    only    -    Sep     1     0:00    0    -
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1974    only    -    Dec    22     0:00    1:00    -
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 12,
+        'on_day_of_week': 0,
+        'on_day_of_month': 22,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1975    only    -    Mar    30     0:00    0    -
+    {
+        'from_year': 1975,
+        'to_year': 1975,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1976    only    -    Dec    19     0:00    1:00    -
+    {
+        'from_year': 1976,
+        'to_year': 1976,
+        'in_month': 12,
+        'on_day_of_week': 0,
+        'on_day_of_month': 19,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1977    only    -    Mar     6     0:00    0    -
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1977    only    -    Dec     4     0:00    1:00    -
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 12,
+        'on_day_of_week': 0,
+        'on_day_of_month': 4,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1978    1979    -    Mar    Sun>=1     0:00    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1979,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1978    only    -    Dec    17     0:00    1:00    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 12,
+        'on_day_of_week': 0,
+        'on_day_of_month': 17,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1979    only    -    Apr    29     0:00    1:00    -
+    {
+        'from_year': 1979,
+        'to_year': 1979,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 29,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1980    only    -    Mar    16     0:00    0    -
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 16,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1987    only    -    Dec    14     0:00    1:00    -
+    {
+        'from_year': 1987,
+        'to_year': 1987,
+        'in_month': 12,
+        'on_day_of_week': 0,
+        'on_day_of_month': 14,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1988    only    -    Feb    28     0:00    0    -
+    {
+        'from_year': 1988,
+        'to_year': 1988,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 28,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1988    only    -    Dec    11     0:00    1:00    -
+    {
+        'from_year': 1988,
+        'to_year': 1988,
+        'in_month': 12,
+        'on_day_of_week': 0,
+        'on_day_of_month': 11,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1989    only    -    Mar     5     0:00    0    -
+    {
+        'from_year': 1989,
+        'to_year': 1989,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 5,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1989    only    -    Oct    29     0:00    1:00    -
+    {
+        'from_year': 1989,
+        'to_year': 1989,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 29,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1990    only    -    Feb    25     0:00    0    -
+    {
+        'from_year': 1990,
+        'to_year': 1990,
+        'in_month': 2,
+        'on_day_of_week': 0,
+        'on_day_of_month': 25,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1990    1991    -    Oct    Sun>=21     0:00    1:00    -
+    {
+        'from_year': 1990,
+        'to_year': 1991,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 21,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1991    1992    -    Mar    Sun>=1     0:00    0    -
+    {
+        'from_year': 1991,
+        'to_year': 1992,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Uruguay    1992    only    -    Oct    18     0:00    1:00    -
+    {
+        'from_year': 1992,
+        'to_year': 1992,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 18,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
     # Rule    Uruguay    1993    only    -    Feb    28     0:00    0    -
     {
         'from_year': 1993,
@@ -6760,10 +14011,118 @@ ZONE_POLICY_Uruguay = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Vanc
+# Rule count: 3
+#---------------------------------------------------------------------------
+ZONE_RULES_Vanc = [
+    # Rule    Vanc    1946    1986    -    Apr    lastSun    2:00    1:00    D
+    {
+        'from_year': 1946,
+        'to_year': 1986,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Vanc    1947    1961    -    Sep    lastSun    2:00    0    S
+    {
+        'from_year': 1947,
+        'to_year': 1961,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Vanc    1962    2006    -    Oct    lastSun    2:00    0    S
+    {
+        'from_year': 1962,
+        'to_year': 2006,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+
+]
+ZONE_POLICY_Vanc = {
+    'name': 'Vanc',
+    'rules': ZONE_RULES_Vanc
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Vanuatu
-# Rule count: 1
+# Rule count: 7
 #---------------------------------------------------------------------------
 ZONE_RULES_Vanuatu = [
+    # Anchor: Rule    Vanuatu    1984    1991    -    Mar    Sun>=23    0:00    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Vanuatu    1983    only    -    Sep    25    0:00    1:00    -
+    {
+        'from_year': 1983,
+        'to_year': 1983,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 25,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Vanuatu    1984    1991    -    Mar    Sun>=23    0:00    0    -
+    {
+        'from_year': 1984,
+        'to_year': 1991,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 23,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Vanuatu    1984    only    -    Oct    23    0:00    1:00    -
+    {
+        'from_year': 1984,
+        'to_year': 1984,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 23,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Vanuatu    1985    1991    -    Sep    Sun>=23    0:00    1:00    -
+    {
+        'from_year': 1985,
+        'to_year': 1991,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 23,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
     # Rule    Vanuatu    1992    1993    -    Jan    Sun>=23    0:00    0    -
     {
         'from_year': 1992,
@@ -6776,11 +14135,107 @@ ZONE_RULES_Vanuatu = [
         'delta_seconds': 0,
         'letter': '-',
     },
+    # Rule    Vanuatu    1992    only    -    Oct    Sun>=23    0:00    1:00    -
+    {
+        'from_year': 1992,
+        'to_year': 1992,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 23,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
 
 ]
 ZONE_POLICY_Vanuatu = {
     'name': 'Vanuatu',
     'rules': ZONE_RULES_Vanuatu
+}
+
+#---------------------------------------------------------------------------
+# Policy name: W_Eur
+# Rule count: 6
+#---------------------------------------------------------------------------
+ZONE_RULES_W_Eur = [
+    # Anchor: Rule    W-Eur    1977    only    -    Sep    lastSun     1:00s    0    -
+    {
+        'from_year': 0,
+        'to_year': 0,
+        'in_month': 1,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    W-Eur    1977    1980    -    Apr    Sun>=1     1:00s    1:00    S
+    {
+        'from_year': 1977,
+        'to_year': 1980,
+        'in_month': 4,
+        'on_day_of_week': 7,
+        'on_day_of_month': 1,
+        'at_seconds': 3600,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+    # Rule    W-Eur    1977    only    -    Sep    lastSun     1:00s    0    -
+    {
+        'from_year': 1977,
+        'to_year': 1977,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 3600,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    W-Eur    1978    only    -    Oct     1     1:00s    0    -
+    {
+        'from_year': 1978,
+        'to_year': 1978,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 3600,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    W-Eur    1979    1995    -    Sep    lastSun     1:00s    0    -
+    {
+        'from_year': 1979,
+        'to_year': 1995,
+        'in_month': 9,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 3600,
+        'at_time_suffix': 's',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    W-Eur    1981    max    -    Mar    lastSun     1:00s    1:00    S
+    {
+        'from_year': 1981,
+        'to_year': 9999,
+        'in_month': 3,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 3600,
+        'at_time_suffix': 's',
+        'delta_seconds': 3600,
+        'letter': 'S',
+    },
+
+]
+ZONE_POLICY_W_Eur = {
+    'name': 'W_Eur',
+    'rules': ZONE_RULES_W_Eur
 }
 
 #---------------------------------------------------------------------------
@@ -6869,9 +14324,21 @@ ZONE_POLICY_WS = {
 
 #---------------------------------------------------------------------------
 # Policy name: Winn
-# Rule count: 3
+# Rule count: 4
 #---------------------------------------------------------------------------
 ZONE_RULES_Winn = [
+    # Rule    Winn    1963    only    -    Sep    22    2:00    0    S
+    {
+        'from_year': 1963,
+        'to_year': 1963,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 22,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
     # Rule    Winn    1966    1986    -    Apr    lastSun    2:00s    1:00    D
     {
         'from_year': 1966,
@@ -6917,9 +14384,441 @@ ZONE_POLICY_Winn = {
 
 #---------------------------------------------------------------------------
 # Policy name: Zion
-# Rule count: 24
+# Rule count: 60
 #---------------------------------------------------------------------------
 ZONE_RULES_Zion = [
+    # Rule    Zion    1957    only    -    Sep    22    0:00    0    S
+    {
+        'from_year': 1957,
+        'to_year': 1957,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 22,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1974    only    -    Jul     7    0:00    1:00    D
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 7,
+        'on_day_of_week': 0,
+        'on_day_of_month': 7,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1974    only    -    Oct    13    0:00    0    S
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 13,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1975    only    -    Apr    20    0:00    1:00    D
+    {
+        'from_year': 1975,
+        'to_year': 1975,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1975    only    -    Aug    31    0:00    0    S
+    {
+        'from_year': 1975,
+        'to_year': 1975,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1980    only    -    Aug     2    0:00    1:00    D
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1980    only    -    Sep    13    1:00    0    S
+    {
+        'from_year': 1980,
+        'to_year': 1980,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 13,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1984    only    -    May     5    0:00    1:00    D
+    {
+        'from_year': 1984,
+        'to_year': 1984,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 5,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1984    only    -    Aug    25    1:00    0    S
+    {
+        'from_year': 1984,
+        'to_year': 1984,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 25,
+        'at_seconds': 3600,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1985    only    -    Apr    14    0:00    1:00    D
+    {
+        'from_year': 1985,
+        'to_year': 1985,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 14,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1985    only    -    Sep    15    0:00    0    S
+    {
+        'from_year': 1985,
+        'to_year': 1985,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 15,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1986    only    -    May    18    0:00    1:00    D
+    {
+        'from_year': 1986,
+        'to_year': 1986,
+        'in_month': 5,
+        'on_day_of_week': 0,
+        'on_day_of_month': 18,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1986    only    -    Sep     7    0:00    0    S
+    {
+        'from_year': 1986,
+        'to_year': 1986,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 7,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1987    only    -    Apr    15    0:00    1:00    D
+    {
+        'from_year': 1987,
+        'to_year': 1987,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 15,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1987    only    -    Sep    13    0:00    0    S
+    {
+        'from_year': 1987,
+        'to_year': 1987,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 13,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1988    only    -    Apr    10    0:00    1:00    D
+    {
+        'from_year': 1988,
+        'to_year': 1988,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 10,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1988    only    -    Sep     4    0:00    0    S
+    {
+        'from_year': 1988,
+        'to_year': 1988,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 4,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1989    only    -    Apr    30    0:00    1:00    D
+    {
+        'from_year': 1989,
+        'to_year': 1989,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1989    only    -    Sep     3    0:00    0    S
+    {
+        'from_year': 1989,
+        'to_year': 1989,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 3,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1990    only    -    Mar    25    0:00    1:00    D
+    {
+        'from_year': 1990,
+        'to_year': 1990,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 25,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1990    only    -    Aug    26    0:00    0    S
+    {
+        'from_year': 1990,
+        'to_year': 1990,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 26,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1991    only    -    Mar    24    0:00    1:00    D
+    {
+        'from_year': 1991,
+        'to_year': 1991,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 24,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1991    only    -    Sep     1    0:00    0    S
+    {
+        'from_year': 1991,
+        'to_year': 1991,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1992    only    -    Mar    29    0:00    1:00    D
+    {
+        'from_year': 1992,
+        'to_year': 1992,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 29,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1992    only    -    Sep     6    0:00    0    S
+    {
+        'from_year': 1992,
+        'to_year': 1992,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1993    only    -    Apr     2    0:00    1:00    D
+    {
+        'from_year': 1993,
+        'to_year': 1993,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1993    only    -    Sep     5    0:00    0    S
+    {
+        'from_year': 1993,
+        'to_year': 1993,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 5,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1994    only    -    Apr     1    0:00    1:00    D
+    {
+        'from_year': 1994,
+        'to_year': 1994,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1994    only    -    Aug    28    0:00    0    S
+    {
+        'from_year': 1994,
+        'to_year': 1994,
+        'in_month': 8,
+        'on_day_of_week': 0,
+        'on_day_of_month': 28,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1995    only    -    Mar    31    0:00    1:00    D
+    {
+        'from_year': 1995,
+        'to_year': 1995,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1995    only    -    Sep     3    0:00    0    S
+    {
+        'from_year': 1995,
+        'to_year': 1995,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 3,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1996    only    -    Mar    15    0:00    1:00    D
+    {
+        'from_year': 1996,
+        'to_year': 1996,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 15,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1996    only    -    Sep    16    0:00    0    S
+    {
+        'from_year': 1996,
+        'to_year': 1996,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 16,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1997    only    -    Mar    21    0:00    1:00    D
+    {
+        'from_year': 1997,
+        'to_year': 1997,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 21,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1997    only    -    Sep    14    0:00    0    S
+    {
+        'from_year': 1997,
+        'to_year': 1997,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 14,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1998    only    -    Mar    20    0:00    1:00    D
+    {
+        'from_year': 1998,
+        'to_year': 1998,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 0,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
     # Rule    Zion    1998    only    -    Sep     6    0:00    0    S
     {
         'from_year': 1998,
@@ -7226,13 +15125,19 @@ ZONE_POLICY_MAP = {
     'AT': ZONE_POLICY_AT,
     'AV': ZONE_POLICY_AV,
     'AW': ZONE_POLICY_AW,
+    'Albania': ZONE_POLICY_Albania,
+    'Algeria': ZONE_POLICY_Algeria,
     'Arg': ZONE_POLICY_Arg,
     'Armenia': ZONE_POLICY_Armenia,
     'Aus': ZONE_POLICY_Aus,
+    'Austria': ZONE_POLICY_Austria,
     'Azer': ZONE_POLICY_Azer,
+    'Bahamas': ZONE_POLICY_Bahamas,
     'Barb': ZONE_POLICY_Barb,
+    'Belgium': ZONE_POLICY_Belgium,
     'Belize': ZONE_POLICY_Belize,
     'Brazil': ZONE_POLICY_Brazil,
+    'Bulg': ZONE_POLICY_Bulg,
     'CO': ZONE_POLICY_CO,
     'CR': ZONE_POLICY_CR,
     'C_Eur': ZONE_POLICY_C_Eur,
@@ -7241,31 +15146,47 @@ ZONE_POLICY_MAP = {
     'Chile': ZONE_POLICY_Chile,
     'Cook': ZONE_POLICY_Cook,
     'Cuba': ZONE_POLICY_Cuba,
+    'Cyprus': ZONE_POLICY_Cyprus,
+    'Czech': ZONE_POLICY_Czech,
+    'DR': ZONE_POLICY_DR,
+    'Denmark': ZONE_POLICY_Denmark,
     'Dhaka': ZONE_POLICY_Dhaka,
     'EU': ZONE_POLICY_EU,
     'EUAsia': ZONE_POLICY_EUAsia,
+    'E_Eur': ZONE_POLICY_E_Eur,
     'E_EurAsia': ZONE_POLICY_E_EurAsia,
     'Ecuador': ZONE_POLICY_Ecuador,
+    'Edm': ZONE_POLICY_Edm,
     'Egypt': ZONE_POLICY_Egypt,
     'Eire': ZONE_POLICY_Eire,
     'Falk': ZONE_POLICY_Falk,
     'Fiji': ZONE_POLICY_Fiji,
+    'Finland': ZONE_POLICY_Finland,
+    'France': ZONE_POLICY_France,
+    'GB_Eire': ZONE_POLICY_GB_Eire,
+    'Germany': ZONE_POLICY_Germany,
     'Ghana': ZONE_POLICY_Ghana,
+    'Greece': ZONE_POLICY_Greece,
     'Guam': ZONE_POLICY_Guam,
     'Guat': ZONE_POLICY_Guat,
     'HK': ZONE_POLICY_HK,
     'Haiti': ZONE_POLICY_Haiti,
+    'Halifax': ZONE_POLICY_Halifax,
     'Holiday': ZONE_POLICY_Holiday,
     'Hond': ZONE_POLICY_Hond,
+    'Hungary': ZONE_POLICY_Hungary,
     'Iran': ZONE_POLICY_Iran,
     'Iraq': ZONE_POLICY_Iraq,
+    'Italy': ZONE_POLICY_Italy,
     'Japan': ZONE_POLICY_Japan,
     'Jordan': ZONE_POLICY_Jordan,
     'Kyrgyz': ZONE_POLICY_Kyrgyz,
     'LH': ZONE_POLICY_LH,
+    'Latvia': ZONE_POLICY_Latvia,
     'Lebanon': ZONE_POLICY_Lebanon,
     'Libya': ZONE_POLICY_Libya,
     'Macau': ZONE_POLICY_Macau,
+    'Malta': ZONE_POLICY_Malta,
     'Mauritius': ZONE_POLICY_Mauritius,
     'Mexico': ZONE_POLICY_Mexico,
     'Moldova': ZONE_POLICY_Moldova,
@@ -7276,32 +15197,43 @@ ZONE_POLICY_MAP = {
     'NT_YK': ZONE_POLICY_NT_YK,
     'NZ': ZONE_POLICY_NZ,
     'Namibia': ZONE_POLICY_Namibia,
+    'Neth': ZONE_POLICY_Neth,
     'Nic': ZONE_POLICY_Nic,
+    'Norway': ZONE_POLICY_Norway,
     'PRC': ZONE_POLICY_PRC,
     'Pakistan': ZONE_POLICY_Pakistan,
     'Palestine': ZONE_POLICY_Palestine,
     'Para': ZONE_POLICY_Para,
     'Peru': ZONE_POLICY_Peru,
     'Phil': ZONE_POLICY_Phil,
+    'Poland': ZONE_POLICY_Poland,
+    'Port': ZONE_POLICY_Port,
     'ROK': ZONE_POLICY_ROK,
+    'Romania': ZONE_POLICY_Romania,
     'Russia': ZONE_POLICY_Russia,
     'RussiaAsia': ZONE_POLICY_RussiaAsia,
     'SA': ZONE_POLICY_SA,
     'Salv': ZONE_POLICY_Salv,
     'SanLuis': ZONE_POLICY_SanLuis,
+    'Spain': ZONE_POLICY_Spain,
+    'SpainAfrica': ZONE_POLICY_SpainAfrica,
     'StJohns': ZONE_POLICY_StJohns,
     'Sudan': ZONE_POLICY_Sudan,
+    'Swiss': ZONE_POLICY_Swiss,
     'Syria': ZONE_POLICY_Syria,
     'Taiwan': ZONE_POLICY_Taiwan,
     'Thule': ZONE_POLICY_Thule,
     'Tonga': ZONE_POLICY_Tonga,
+    'Toronto': ZONE_POLICY_Toronto,
     'Troll': ZONE_POLICY_Troll,
     'Tunisia': ZONE_POLICY_Tunisia,
     'Turkey': ZONE_POLICY_Turkey,
     'US': ZONE_POLICY_US,
     'Uruguay': ZONE_POLICY_Uruguay,
+    'Vanc': ZONE_POLICY_Vanc,
     'Vanuatu': ZONE_POLICY_Vanuatu,
     'WS': ZONE_POLICY_WS,
+    'W_Eur': ZONE_POLICY_W_Eur,
     'Winn': ZONE_POLICY_Winn,
     'Zion': ZONE_POLICY_Zion,
 
@@ -7312,63 +15244,30 @@ ZONE_POLICY_MAP = {
 # The following zone policies are not supported in the current version of
 # AceTime.
 #
-# numPolicies: 55
+# numPolicies: 22
 #
-# Albania (['unused'])
-# Algeria (['unused'])
-# Austria (['unused'])
-# Bahamas (['unused'])
-# Belgium (['unused'])
-# Bulg (['unused'])
 # CA (['unused'])
 # Chicago (['unused'])
-# Cyprus (['unused'])
-# Czech (['unused'])
-# DR (['unused'])
-# Denmark (['unused'])
 # Denver (['unused'])
 # Detroit (['unused'])
-# E_Eur (['unused'])
-# Edm (['unused'])
 # EgyptAsia (['unused'])
-# Finland (['unused'])
-# France (['unused'])
-# GB_Eire (['unused'])
-# Germany (['unused'])
-# Greece (['unused'])
-# Halifax (['unused'])
-# Hungary (['unused'])
 # Iceland (['unused'])
 # Indianapolis (['unused'])
-# Italy (['unused'])
-# Latvia (['unused'])
 # Louisville (['unused'])
 # Lux (['unused'])
-# Malta (['unused'])
 # Marengo (['unused'])
 # Menominee (['unused'])
 # NBorneo (['unused'])
 # NYC (['unused'])
-# Neth (['unused'])
-# Norway (['unused'])
 # Perry (['unused'])
 # Pike (['unused'])
-# Poland (['unused'])
-# Port (['unused'])
 # Pulaski (['unused'])
 # Regina (['unused'])
-# Romania (['unused'])
 # Shang (['unused'])
 # SovietZone (['unused'])
-# Spain (['unused'])
-# SpainAfrica (['unused'])
 # Starke (['unused'])
 # Swift (['unused'])
-# Swiss (['unused'])
-# Toronto (['unused'])
-# Vanc (['unused'])
 # Vincennes (['unused'])
-# W_Eur (['unused'])
 
 
 #---------------------------------------------------------------------------
@@ -7376,9 +15275,12 @@ ZONE_POLICY_MAP = {
 # The following zone policies may have inaccuracies due to the following
 # reasons:
 #
-# numPolicies: 6
+# numPolicies: 9
 #
-# Belize (["LETTER 'CST' not single character"])
+# Belize (["LETTER 'CDT' not single character", "LETTER 'CST' not single character"])
+# DR (["LETTER '-0430' not single character", "LETTER 'EST' not single character"])
+# GB_Eire (["LETTER 'BST' not single character", "LETTER 'GMT' not single character"])
+# Guam (["AT '2:01' not on 15-minute boundary"])
 # Moncton (["AT '0:01' not on 15-minute boundary"])
 # Namibia (["LETTER 'CAT' not single character", "LETTER 'WAT' not single character"])
 # Palestine (["AT '0:01' not on 15-minute boundary"])

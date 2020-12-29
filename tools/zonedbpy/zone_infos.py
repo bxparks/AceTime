@@ -7,6 +7,9 @@
 #     --action zonedb
 #     --language python
 #     --scope extended
+#     --ignore_buf_size_too_large
+#     --start_year 1974
+#     --until_year 2050
 #
 # using the TZ Database files
 #
@@ -27,7 +30,7 @@
 from .zone_policies import *
 
 # numInfos: 387
-# numEras: 674
+# numEras: 1071
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Abidjan
@@ -81,10 +84,46 @@ ZONE_INFO_Africa_Accra = {
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Algiers
-# Era count: 1
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Africa_Algiers = [
+    #             0:00    Algeria    WE%sT    1977 Oct 21
+    {
+      'offset_seconds': 0,
+      'zone_policy': ZONE_POLICY_Algeria,
+      'rules_delta_seconds': 0,
+      'format': 'WE%sT',
+      'until_year': 1977,
+      'until_month': 10,
+      'until_day': 21,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             1:00    Algeria    CE%sT    1979 Oct 26
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Algeria,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1979,
+      'until_month': 10,
+      'until_day': 26,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             0:00    Algeria    WE%sT    1981 May
+    {
+      'offset_seconds': 0,
+      'zone_policy': ZONE_POLICY_Algeria,
+      'rules_delta_seconds': 0,
+      'format': 'WE%sT',
+      'until_year': 1981,
+      'until_month': 5,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    -    CET
     {
       'offset_seconds': 3600,
@@ -106,10 +145,22 @@ ZONE_INFO_Africa_Algiers = {
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Bissau
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Africa_Bissau = [
+    #             -1:00    -    -01    1975
+    {
+      'offset_seconds': -3600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-01',
+      'until_year': 1975,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              0:00    -    GMT
     {
       'offset_seconds': 0,
@@ -156,10 +207,34 @@ ZONE_INFO_Africa_Cairo = {
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Casablanca
-# Era count: 2
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Africa_Casablanca = [
+    #              0:00    Morocco    +00/+01    1984 Mar 16
+    {
+      'offset_seconds': 0,
+      'zone_policy': ZONE_POLICY_Morocco,
+      'rules_delta_seconds': 0,
+      'format': '+00/+01',
+      'until_year': 1984,
+      'until_month': 3,
+      'until_day': 16,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #              1:00    -    +01    1986
+    {
+      'offset_seconds': 3600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+01',
+      'until_year': 1986,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              0:00    Morocco    +00/+01    2018 Oct 28  3:00
     {
       'offset_seconds': 0,
@@ -193,10 +268,34 @@ ZONE_INFO_Africa_Casablanca = {
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Ceuta
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Africa_Ceuta = [
+    #              0:00 SpainAfrica WE%sT    1984 Mar 16
+    {
+      'offset_seconds': 0,
+      'zone_policy': ZONE_POLICY_SpainAfrica,
+      'rules_delta_seconds': 0,
+      'format': 'WE%sT',
+      'until_year': 1984,
+      'until_month': 3,
+      'until_day': 16,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #              1:00    -    CET    1986
+    {
+      'offset_seconds': 3600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CET',
+      'until_year': 1986,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -218,10 +317,22 @@ ZONE_INFO_Africa_Ceuta = {
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/El_Aaiun
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Africa_El_Aaiun = [
+    #             -1:00    -    -01    1976 Apr 14
+    {
+      'offset_seconds': -3600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-01',
+      'until_year': 1976,
+      'until_month': 4,
+      'until_day': 14,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              0:00    Morocco    +00/+01    2018 Oct 28  3:00
     {
       'offset_seconds': 0,
@@ -466,10 +577,34 @@ ZONE_INFO_Africa_Nairobi = {
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Ndjamena
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Africa_Ndjamena = [
+    #             1:00    -    WAT    1979 Oct 14
+    {
+      'offset_seconds': 3600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'WAT',
+      'until_year': 1979,
+      'until_month': 10,
+      'until_day': 14,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             1:00    1:00    WAST    1980 Mar  8
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': 'WAST',
+      'until_year': 1980,
+      'until_month': 3,
+      'until_day': 8,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    -    WAT
     {
       'offset_seconds': 3600,
@@ -540,10 +675,58 @@ ZONE_INFO_Africa_Sao_Tome = {
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Tripoli
-# Era count: 3
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Africa_Tripoli = [
+    #             2:00    -    EET    1982
+    {
+      'offset_seconds': 7200,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EET',
+      'until_year': 1982,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             1:00    Libya    CE%sT    1990 May  4
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Libya,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1990,
+      'until_month': 5,
+      'until_day': 4,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             2:00    -    EET    1996 Sep 30
+    {
+      'offset_seconds': 7200,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EET',
+      'until_year': 1996,
+      'until_month': 9,
+      'until_day': 30,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             1:00    Libya    CE%sT    1997 Oct  4
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Libya,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1997,
+      'until_month': 10,
+      'until_day': 4,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    -    EET    2012 Nov 10  2:00
     {
       'offset_seconds': 7200,
@@ -614,10 +797,22 @@ ZONE_INFO_Africa_Tunis = {
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Windhoek
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Africa_Windhoek = [
+    #             2:00    -    SAST    1990 Mar 21
+    {
+      'offset_seconds': 7200,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'SAST',
+      'until_year': 1990,
+      'until_month': 3,
+      'until_day': 21,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    Namibia    %s
     {
       'offset_seconds': 7200,
@@ -639,10 +834,34 @@ ZONE_INFO_Africa_Windhoek = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Adak
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Adak = [
+    #             -11:00    US    B%sT    1983 Oct 30  2:00
+    {
+      'offset_seconds': -39600,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'B%sT',
+      'until_year': 1983,
+      'until_month': 10,
+      'until_day': 30,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #             -10:00    US    AH%sT    1983 Nov 30
+    {
+      'offset_seconds': -36000,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'AH%sT',
+      'until_year': 1983,
+      'until_month': 11,
+      'until_day': 30,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -10:00    US    H%sT
     {
       'offset_seconds': -36000,
@@ -664,10 +883,34 @@ ZONE_INFO_America_Adak = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Anchorage
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Anchorage = [
+    #             -10:00    US    AH%sT    1983 Oct 30  2:00
+    {
+      'offset_seconds': -36000,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'AH%sT',
+      'until_year': 1983,
+      'until_month': 10,
+      'until_day': 30,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #              -9:00    US    Y%sT    1983 Nov 30
+    {
+      'offset_seconds': -32400,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'Y%sT',
+      'until_year': 1983,
+      'until_month': 11,
+      'until_day': 30,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              -9:00    US    AK%sT
     {
       'offset_seconds': -32400,
@@ -689,10 +932,34 @@ ZONE_INFO_America_Anchorage = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Araguaina
-# Era count: 4
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Araguaina = [
+    #             -3:00    Brazil    -03/-02    1990 Sep 17
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Brazil,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1990,
+      'until_month': 9,
+      'until_day': 17,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -3:00    -    -03    1995 Sep 14
+    {
+      'offset_seconds': -10800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-03',
+      'until_year': 1995,
+      'until_month': 9,
+      'until_day': 14,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    Brazil    -03/-02    2003 Sep 24
     {
       'offset_seconds': -10800,
@@ -799,10 +1066,34 @@ ZONE_INFO_America_Argentina_Buenos_Aires = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Catamarca
-# Era count: 6
+# Era count: 8
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Argentina_Catamarca = [
+    #             -3:00    Arg    -03/-02    1991 Mar  3
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Arg,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 3,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    -    -04    1991 Oct 20
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-04',
+      'until_year': 1991,
+      'until_month': 10,
+      'until_day': 20,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    Arg    -03/-02    1999 Oct  3
     {
       'offset_seconds': -10800,
@@ -884,10 +1175,34 @@ ZONE_INFO_America_Argentina_Catamarca = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Cordoba
-# Era count: 3
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Argentina_Cordoba = [
+    #             -3:00    Arg    -03/-02    1991 Mar  3
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Arg,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 3,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    -    -04    1991 Oct 20
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-04',
+      'until_year': 1991,
+      'until_month': 10,
+      'until_day': 20,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    Arg    -03/-02    1999 Oct  3
     {
       'offset_seconds': -10800,
@@ -933,10 +1248,70 @@ ZONE_INFO_America_Argentina_Cordoba = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Jujuy
-# Era count: 4
+# Era count: 9
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Argentina_Jujuy = [
+    #             -3:00    Arg    -03/-02    1990 Mar  4
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Arg,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1990,
+      'until_month': 3,
+      'until_day': 4,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    -    -04    1990 Oct 28
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-04',
+      'until_year': 1990,
+      'until_month': 10,
+      'until_day': 28,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    1:00    -03    1991 Mar 17
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': '-03',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 17,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    -    -04    1991 Oct  6
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-04',
+      'until_year': 1991,
+      'until_month': 10,
+      'until_day': 6,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -3:00    1:00    -02    1992
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': '-02',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    Arg    -03/-02    1999 Oct  3
     {
       'offset_seconds': -10800,
@@ -994,10 +1369,34 @@ ZONE_INFO_America_Argentina_Jujuy = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/La_Rioja
-# Era count: 6
+# Era count: 8
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Argentina_La_Rioja = [
+    #             -3:00    Arg    -03/-02    1991 Mar  1
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Arg,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    -    -04    1991 May  7
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-04',
+      'until_year': 1991,
+      'until_month': 5,
+      'until_day': 7,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    Arg    -03/-02    1999 Oct  3
     {
       'offset_seconds': -10800,
@@ -1079,10 +1478,82 @@ ZONE_INFO_America_Argentina_La_Rioja = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Mendoza
-# Era count: 6
+# Era count: 12
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Argentina_Mendoza = [
+    #             -3:00    Arg    -03/-02    1990 Mar  4
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Arg,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1990,
+      'until_month': 3,
+      'until_day': 4,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    -    -04    1990 Oct 15
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-04',
+      'until_year': 1990,
+      'until_month': 10,
+      'until_day': 15,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    1:00    -03    1991 Mar  1
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': '-03',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    -    -04    1991 Oct 15
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-04',
+      'until_year': 1991,
+      'until_month': 10,
+      'until_day': 15,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    1:00    -03    1992 Mar  1
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': '-03',
+      'until_year': 1992,
+      'until_month': 3,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    -    -04    1992 Oct 18
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-04',
+      'until_year': 1992,
+      'until_month': 10,
+      'until_day': 18,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    Arg    -03/-02    1999 Oct  3
     {
       'offset_seconds': -10800,
@@ -1249,10 +1720,34 @@ ZONE_INFO_America_Argentina_Rio_Gallegos = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Salta
-# Era count: 4
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Argentina_Salta = [
+    #             -3:00    Arg    -03/-02    1991 Mar  3
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Arg,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 3,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    -    -04    1991 Oct 20
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-04',
+      'until_year': 1991,
+      'until_month': 10,
+      'until_day': 20,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    Arg    -03/-02    1999 Oct  3
     {
       'offset_seconds': -10800,
@@ -1310,10 +1805,34 @@ ZONE_INFO_America_Argentina_Salta = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/San_Juan
-# Era count: 6
+# Era count: 8
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Argentina_San_Juan = [
+    #             -3:00    Arg    -03/-02    1991 Mar  1
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Arg,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    -    -04    1991 May  7
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-04',
+      'until_year': 1991,
+      'until_month': 5,
+      'until_day': 7,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    Arg    -03/-02    1999 Oct  3
     {
       'offset_seconds': -10800,
@@ -1395,10 +1914,70 @@ ZONE_INFO_America_Argentina_San_Juan = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/San_Luis
-# Era count: 7
+# Era count: 12
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Argentina_San_Luis = [
+    #             -3:00    Arg    -03/-02    1990
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Arg,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1990,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -3:00    1:00    -02    1990 Mar 14
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': '-02',
+      'until_year': 1990,
+      'until_month': 3,
+      'until_day': 14,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    -    -04    1990 Oct 15
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-04',
+      'until_year': 1990,
+      'until_month': 10,
+      'until_day': 15,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    1:00    -03    1991 Mar  1
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': '-03',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    -    -04    1991 Jun  1
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-04',
+      'until_year': 1991,
+      'until_month': 6,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    -    -03    1999 Oct  3
     {
       'offset_seconds': -10800,
@@ -1492,10 +2071,34 @@ ZONE_INFO_America_Argentina_San_Luis = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Tucuman
-# Era count: 5
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Argentina_Tucuman = [
+    #             -3:00    Arg    -03/-02    1991 Mar  3
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Arg,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 3,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    -    -04    1991 Oct 20
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-04',
+      'until_year': 1991,
+      'until_month': 10,
+      'until_day': 20,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    Arg    -03/-02    1999 Oct  3
     {
       'offset_seconds': -10800,
@@ -1650,10 +2253,22 @@ ZONE_INFO_America_Argentina_Ushuaia = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Asuncion
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Asuncion = [
+    #             -3:00    -    -03    1974 Apr
+    {
+      'offset_seconds': -10800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-03',
+      'until_year': 1974,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -4:00    Para    -04/-03
     {
       'offset_seconds': -14400,
@@ -1823,10 +2438,22 @@ ZONE_INFO_America_Barbados = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Belem
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Belem = [
+    #             -3:00    Brazil    -03/-02    1988 Sep 12
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Brazil,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1988,
+      'until_month': 9,
+      'until_day': 12,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    -    -03
     {
       'offset_seconds': -10800,
@@ -1898,10 +2525,22 @@ ZONE_INFO_America_Blanc_Sablon = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Boa_Vista
-# Era count: 3
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Boa_Vista = [
+    #             -4:00    Brazil    -04/-03    1988 Sep 12
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ZONE_POLICY_Brazil,
+      'rules_delta_seconds': 0,
+      'format': '-04/-03',
+      'until_year': 1988,
+      'until_month': 9,
+      'until_day': 12,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -4:00    -    -04    1999 Sep 30
     {
       'offset_seconds': -14400,
@@ -1972,10 +2611,34 @@ ZONE_INFO_America_Bogota = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Boise
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Boise = [
+    #             -7:00    US    M%sT    1974
+    {
+      'offset_seconds': -25200,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'M%sT',
+      'until_year': 1974,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -7:00    -    MST    1974 Feb  3  2:00
+    {
+      'offset_seconds': -25200,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'MST',
+      'until_year': 1974,
+      'until_month': 2,
+      'until_day': 3,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             -7:00    US    M%sT
     {
       'offset_seconds': -25200,
@@ -2095,10 +2758,34 @@ ZONE_INFO_America_Campo_Grande = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Cancun
-# Era count: 2
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Cancun = [
+    #             -6:00    -    CST    1981 Dec 23
+    {
+      'offset_seconds': -21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CST',
+      'until_year': 1981,
+      'until_month': 12,
+      'until_day': 23,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -5:00    Mexico    E%sT    1998 Aug  2  2:00
+    {
+      'offset_seconds': -18000,
+      'zone_policy': ZONE_POLICY_Mexico,
+      'rules_delta_seconds': 0,
+      'format': 'E%sT',
+      'until_year': 1998,
+      'until_month': 8,
+      'until_day': 2,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             -6:00    Mexico    C%sT    2015 Feb  1  2:00
     {
       'offset_seconds': -21600,
@@ -2231,10 +2918,46 @@ ZONE_INFO_America_Chicago = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Chihuahua
-# Era count: 1
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Chihuahua = [
+    #             -6:00    -    CST    1996
+    {
+      'offset_seconds': -21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CST',
+      'until_year': 1996,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -6:00    Mexico    C%sT    1998
+    {
+      'offset_seconds': -21600,
+      'zone_policy': ZONE_POLICY_Mexico,
+      'rules_delta_seconds': 0,
+      'format': 'C%sT',
+      'until_year': 1998,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -6:00    -    CST    1998 Apr Sun>=1  3:00
+    {
+      'offset_seconds': -21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CST',
+      'until_year': 1998,
+      'until_month': 4,
+      'until_day': 5,
+      'until_seconds': 10800,
+      'until_time_suffix': 'w',
+    },
     #             -7:00    Mexico    M%sT
     {
       'offset_seconds': -25200,
@@ -2380,10 +3103,34 @@ ZONE_INFO_America_Curacao = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Danmarkshavn
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Danmarkshavn = [
+    #             -3:00    -    -03    1980 Apr  6  2:00
+    {
+      'offset_seconds': -10800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-03',
+      'until_year': 1980,
+      'until_month': 4,
+      'until_day': 6,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #             -3:00    EU    -03/-02    1996
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_EU,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1996,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             0:00    -    GMT
     {
       'offset_seconds': 0,
@@ -2405,10 +3152,34 @@ ZONE_INFO_America_Danmarkshavn = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Dawson
-# Era count: 2
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Dawson = [
+    #             -9:00    NT_YK    Y%sT    1973 Oct 28  0:00
+    {
+      'offset_seconds': -32400,
+      'zone_policy': ZONE_POLICY_NT_YK,
+      'rules_delta_seconds': 0,
+      'format': 'Y%sT',
+      'until_year': 1973,
+      'until_month': 10,
+      'until_day': 28,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -8:00    NT_YK    P%sT    1980
+    {
+      'offset_seconds': -28800,
+      'zone_policy': ZONE_POLICY_NT_YK,
+      'rules_delta_seconds': 0,
+      'format': 'P%sT',
+      'until_year': 1980,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -8:00    Canada    P%sT    2020 Nov  1
     {
       'offset_seconds': -28800,
@@ -2492,10 +3263,46 @@ ZONE_INFO_America_Denver = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Detroit
-# Era count: 1
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Detroit = [
+    #             -5:00    -    EST    1973
+    {
+      'offset_seconds': -18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EST',
+      'until_year': 1973,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -5:00    US    E%sT    1975
+    {
+      'offset_seconds': -18000,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'E%sT',
+      'until_year': 1975,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -5:00    -    EST    1975 Apr 27  2:00
+    {
+      'offset_seconds': -18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EST',
+      'until_year': 1975,
+      'until_month': 4,
+      'until_day': 27,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             -5:00    US    E%sT
     {
       'offset_seconds': -18000,
@@ -2517,10 +3324,22 @@ ZONE_INFO_America_Detroit = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Edmonton
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Edmonton = [
+    #             -7:00    Edm    M%sT    1987
+    {
+      'offset_seconds': -25200,
+      'zone_policy': ZONE_POLICY_Edm,
+      'rules_delta_seconds': 0,
+      'format': 'M%sT',
+      'until_year': 1987,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -7:00    Canada    M%sT
     {
       'offset_seconds': -25200,
@@ -2542,10 +3361,46 @@ ZONE_INFO_America_Edmonton = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Eirunepe
-# Era count: 3
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Eirunepe = [
+    #             -5:00    Brazil    -05/-04    1988 Sep 12
+    {
+      'offset_seconds': -18000,
+      'zone_policy': ZONE_POLICY_Brazil,
+      'rules_delta_seconds': 0,
+      'format': '-05/-04',
+      'until_year': 1988,
+      'until_month': 9,
+      'until_day': 12,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -5:00    -    -05    1993 Sep 28
+    {
+      'offset_seconds': -18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-05',
+      'until_year': 1993,
+      'until_month': 9,
+      'until_day': 28,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -5:00    Brazil    -05/-04    1994 Sep 22
+    {
+      'offset_seconds': -18000,
+      'zone_policy': ZONE_POLICY_Brazil,
+      'rules_delta_seconds': 0,
+      'format': '-05/-04',
+      'until_year': 1994,
+      'until_month': 9,
+      'until_day': 22,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -5:00    -    -05    2008 Jun 24  0:00
     {
       'offset_seconds': -18000,
@@ -2616,10 +3471,22 @@ ZONE_INFO_America_El_Salvador = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Fort_Nelson
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Fort_Nelson = [
+    #             -8:00    Vanc    P%sT    1987
+    {
+      'offset_seconds': -28800,
+      'zone_policy': ZONE_POLICY_Vanc,
+      'rules_delta_seconds': 0,
+      'format': 'P%sT',
+      'until_year': 1987,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -8:00    Canada    P%sT    2015 Mar  8  2:00
     {
       'offset_seconds': -28800,
@@ -2653,10 +3520,22 @@ ZONE_INFO_America_Fort_Nelson = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Fortaleza
-# Era count: 5
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Fortaleza = [
+    #             -3:00    Brazil    -03/-02    1990 Sep 17
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Brazil,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1990,
+      'until_month': 9,
+      'until_day': 17,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    -    -03    1999 Sep 30
     {
       'offset_seconds': -10800,
@@ -2726,10 +3605,22 @@ ZONE_INFO_America_Fortaleza = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Glace_Bay
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Glace_Bay = [
+    #             -4:00    Halifax    A%sT    1974
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ZONE_POLICY_Halifax,
+      'rules_delta_seconds': 0,
+      'format': 'A%sT',
+      'until_year': 1974,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -4:00    Canada    A%sT
     {
       'offset_seconds': -14400,
@@ -2788,10 +3679,22 @@ ZONE_INFO_America_Goose_Bay = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Grand_Turk
-# Era count: 3
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Grand_Turk = [
+    #             -5:00    -    EST    1979
+    {
+      'offset_seconds': -18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EST',
+      'until_year': 1979,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -5:00    US    E%sT    2015 Nov Sun>=1 2:00
     {
       'offset_seconds': -18000,
@@ -2887,10 +3790,34 @@ ZONE_INFO_America_Guayaquil = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Guyana
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Guyana = [
+    #             -3:45    -    -0345    1975 Jul 31
+    {
+      'offset_seconds': -13500,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-0345',
+      'until_year': 1975,
+      'until_month': 7,
+      'until_day': 31,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -3:00    -    -03    1991
+    {
+      'offset_seconds': -10800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-03',
+      'until_year': 1991,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -4:00    -    -04
     {
       'offset_seconds': -14400,
@@ -2912,10 +3839,22 @@ ZONE_INFO_America_Guyana = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Halifax
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Halifax = [
+    #             -4:00    Halifax    A%sT    1974
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ZONE_POLICY_Halifax,
+      'rules_delta_seconds': 0,
+      'format': 'A%sT',
+      'until_year': 1974,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -4:00    Canada    A%sT
     {
       'offset_seconds': -14400,
@@ -3036,10 +3975,22 @@ ZONE_INFO_America_Indiana_Indianapolis = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Indiana/Knox
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Indiana_Knox = [
+    #             -6:00    US    C%sT    1991 Oct 27  2:00
+    {
+      'offset_seconds': -21600,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'C%sT',
+      'until_year': 1991,
+      'until_month': 10,
+      'until_day': 27,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
       'offset_seconds': -18000,
@@ -3073,10 +4024,46 @@ ZONE_INFO_America_Indiana_Knox = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Indiana/Marengo
-# Era count: 2
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Indiana_Marengo = [
+    #             -5:00    US    E%sT    1974 Jan  6  2:00
+    {
+      'offset_seconds': -18000,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'E%sT',
+      'until_year': 1974,
+      'until_month': 1,
+      'until_day': 6,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #             -6:00    1:00    CDT    1974 Oct 27  2:00
+    {
+      'offset_seconds': -21600,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': 'CDT',
+      'until_year': 1974,
+      'until_month': 10,
+      'until_day': 27,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #             -5:00    US    E%sT    1976
+    {
+      'offset_seconds': -18000,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'E%sT',
+      'until_year': 1976,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -5:00    -    EST    2006
     {
       'offset_seconds': -18000,
@@ -3110,10 +4097,22 @@ ZONE_INFO_America_Indiana_Marengo = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Indiana/Petersburg
-# Era count: 3
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Indiana_Petersburg = [
+    #             -6:00    US    C%sT    1977 Oct 30  2:00
+    {
+      'offset_seconds': -21600,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'C%sT',
+      'until_year': 1977,
+      'until_month': 10,
+      'until_day': 30,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
       'offset_seconds': -18000,
@@ -3196,10 +4195,22 @@ ZONE_INFO_America_Indiana_Tell_City = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Indiana/Vevay
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Indiana_Vevay = [
+    #             -5:00    US    E%sT    1973
+    {
+      'offset_seconds': -18000,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'E%sT',
+      'until_year': 1973,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -5:00    -    EST    2006
     {
       'offset_seconds': -18000,
@@ -3331,10 +4342,34 @@ ZONE_INFO_America_Indiana_Winamac = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Inuvik
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Inuvik = [
+    #             -8:00    NT_YK    P%sT    1979 Apr lastSun  2:00
+    {
+      'offset_seconds': -28800,
+      'zone_policy': ZONE_POLICY_NT_YK,
+      'rules_delta_seconds': 0,
+      'format': 'P%sT',
+      'until_year': 1979,
+      'until_month': 4,
+      'until_day': 29,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #             -7:00    NT_YK    M%sT    1980
+    {
+      'offset_seconds': -25200,
+      'zone_policy': ZONE_POLICY_NT_YK,
+      'rules_delta_seconds': 0,
+      'format': 'M%sT',
+      'until_year': 1980,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -7:00    Canada    M%sT
     {
       'offset_seconds': -25200,
@@ -3405,10 +4440,34 @@ ZONE_INFO_America_Iqaluit = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Jamaica
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Jamaica = [
+    #             -5:00    -    EST    1974
+    {
+      'offset_seconds': -18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EST',
+      'until_year': 1974,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -5:00    US    E%sT    1984
+    {
+      'offset_seconds': -18000,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'E%sT',
+      'until_year': 1984,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -5:00    -    EST
     {
       'offset_seconds': -18000,
@@ -3430,10 +4489,58 @@ ZONE_INFO_America_Jamaica = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Juneau
-# Era count: 1
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Juneau = [
+    #              -8:00    US    P%sT    1980 Apr 27  2:00
+    {
+      'offset_seconds': -28800,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'P%sT',
+      'until_year': 1980,
+      'until_month': 4,
+      'until_day': 27,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #              -9:00    US    Y%sT    1980 Oct 26  2:00
+    {
+      'offset_seconds': -32400,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'Y%sT',
+      'until_year': 1980,
+      'until_month': 10,
+      'until_day': 26,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #              -8:00    US    P%sT    1983 Oct 30  2:00
+    {
+      'offset_seconds': -28800,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'P%sT',
+      'until_year': 1983,
+      'until_month': 10,
+      'until_day': 30,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #              -9:00    US    Y%sT    1983 Nov 30
+    {
+      'offset_seconds': -32400,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'Y%sT',
+      'until_year': 1983,
+      'until_month': 11,
+      'until_day': 30,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              -9:00    US    AK%sT
     {
       'offset_seconds': -32400,
@@ -3455,10 +4562,34 @@ ZONE_INFO_America_Juneau = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Kentucky/Louisville
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Kentucky_Louisville = [
+    #             -5:00    US    E%sT    1974 Jan  6  2:00
+    {
+      'offset_seconds': -18000,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'E%sT',
+      'until_year': 1974,
+      'until_month': 1,
+      'until_day': 6,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #             -6:00    1:00    CDT    1974 Oct 27  2:00
+    {
+      'offset_seconds': -21600,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': 'CDT',
+      'until_year': 1974,
+      'until_month': 10,
+      'until_day': 27,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             -5:00    US    E%sT
     {
       'offset_seconds': -18000,
@@ -3592,10 +4723,46 @@ ZONE_INFO_America_Los_Angeles = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Maceio
-# Era count: 5
+# Era count: 8
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Maceio = [
+    #             -3:00    Brazil    -03/-02    1990 Sep 17
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Brazil,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1990,
+      'until_month': 9,
+      'until_day': 17,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -3:00    -    -03    1995 Oct 13
+    {
+      'offset_seconds': -10800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-03',
+      'until_year': 1995,
+      'until_month': 10,
+      'until_day': 13,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -3:00    Brazil    -03/-02    1996 Sep  4
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Brazil,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1996,
+      'until_month': 9,
+      'until_day': 4,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    -    -03    1999 Sep 30
     {
       'offset_seconds': -10800,
@@ -3665,10 +4832,82 @@ ZONE_INFO_America_Maceio = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Managua
-# Era count: 1
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Managua = [
+    #             -6:00    -    CST    1973 May
+    {
+      'offset_seconds': -21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CST',
+      'until_year': 1973,
+      'until_month': 5,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -5:00    -    EST    1975 Feb 16
+    {
+      'offset_seconds': -18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EST',
+      'until_year': 1975,
+      'until_month': 2,
+      'until_day': 16,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -6:00    Nic    C%sT    1992 Jan  1  4:00
+    {
+      'offset_seconds': -21600,
+      'zone_policy': ZONE_POLICY_Nic,
+      'rules_delta_seconds': 0,
+      'format': 'C%sT',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 14400,
+      'until_time_suffix': 'w',
+    },
+    #             -5:00    -    EST    1992 Sep 24
+    {
+      'offset_seconds': -18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EST',
+      'until_year': 1992,
+      'until_month': 9,
+      'until_day': 24,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -6:00    -    CST    1993
+    {
+      'offset_seconds': -21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CST',
+      'until_year': 1993,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -5:00    -    EST    1997
+    {
+      'offset_seconds': -18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EST',
+      'until_year': 1997,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -6:00    Nic    C%sT
     {
       'offset_seconds': -21600,
@@ -3690,10 +4929,46 @@ ZONE_INFO_America_Managua = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Manaus
-# Era count: 1
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Manaus = [
+    #             -4:00    Brazil    -04/-03    1988 Sep 12
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ZONE_POLICY_Brazil,
+      'rules_delta_seconds': 0,
+      'format': '-04/-03',
+      'until_year': 1988,
+      'until_month': 9,
+      'until_day': 12,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    -    -04    1993 Sep 28
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-04',
+      'until_year': 1993,
+      'until_month': 9,
+      'until_day': 28,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    Brazil    -04/-03    1994 Sep 22
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ZONE_POLICY_Brazil,
+      'rules_delta_seconds': 0,
+      'format': '-04/-03',
+      'until_year': 1994,
+      'until_month': 9,
+      'until_day': 22,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -4:00    -    -04
     {
       'offset_seconds': -14400,
@@ -3715,10 +4990,34 @@ ZONE_INFO_America_Manaus = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Martinique
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Martinique = [
+    #             -4:00    -    AST    1980 Apr  6
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'AST',
+      'until_year': 1980,
+      'until_month': 4,
+      'until_day': 6,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    1:00    ADT    1980 Sep 28
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': 'ADT',
+      'until_year': 1980,
+      'until_month': 9,
+      'until_day': 28,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -4:00    -    AST
     {
       'offset_seconds': -14400,
@@ -3740,10 +5039,34 @@ ZONE_INFO_America_Martinique = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Matamoros
-# Era count: 2
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Matamoros = [
+    #             -6:00    -    CST    1988
+    {
+      'offset_seconds': -21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CST',
+      'until_year': 1988,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -6:00    US    C%sT    1989
+    {
+      'offset_seconds': -21600,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'C%sT',
+      'until_year': 1989,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -6:00    Mexico    C%sT    2010
     {
       'offset_seconds': -21600,
@@ -3802,10 +5125,22 @@ ZONE_INFO_America_Mazatlan = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Menominee
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Menominee = [
+    #             -5:00    -    EST    1973 Apr 29  2:00
+    {
+      'offset_seconds': -18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EST',
+      'until_year': 1973,
+      'until_month': 4,
+      'until_day': 29,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             -6:00    US    C%sT
     {
       'offset_seconds': -21600,
@@ -3827,10 +5162,34 @@ ZONE_INFO_America_Menominee = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Merida
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Merida = [
+    #             -6:00    -    CST    1981 Dec 23
+    {
+      'offset_seconds': -21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CST',
+      'until_year': 1981,
+      'until_month': 12,
+      'until_day': 23,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -5:00    -    EST    1982 Dec  2
+    {
+      'offset_seconds': -18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EST',
+      'until_year': 1982,
+      'until_month': 12,
+      'until_day': 2,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -6:00    Mexico    C%sT
     {
       'offset_seconds': -21600,
@@ -3852,10 +5211,22 @@ ZONE_INFO_America_Merida = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Metlakatla
-# Era count: 4
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Metlakatla = [
+    #              -8:00    US    P%sT    1983 Oct 30  2:00
+    {
+      'offset_seconds': -28800,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'P%sT',
+      'until_year': 1983,
+      'until_month': 10,
+      'until_day': 30,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #              -8:00    -    PST    2015 Nov  1  2:00
     {
       'offset_seconds': -28800,
@@ -3962,10 +5333,34 @@ ZONE_INFO_America_Mexico_City = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Miquelon
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Miquelon = [
+    #             -4:00    -    AST    1980 May
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'AST',
+      'until_year': 1980,
+      'until_month': 5,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -3:00    -    -03    1987
+    {
+      'offset_seconds': -10800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-03',
+      'until_year': 1987,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    Canada    -03/-02
     {
       'offset_seconds': -10800,
@@ -3987,10 +5382,34 @@ ZONE_INFO_America_Miquelon = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Moncton
-# Era count: 2
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Moncton = [
+    #             -4:00    Moncton    A%sT    1973
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ZONE_POLICY_Moncton,
+      'rules_delta_seconds': 0,
+      'format': 'A%sT',
+      'until_year': 1973,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    Canada    A%sT    1993
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ZONE_POLICY_Canada,
+      'rules_delta_seconds': 0,
+      'format': 'A%sT',
+      'until_year': 1993,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -4:00    Moncton    A%sT    2007
     {
       'offset_seconds': -14400,
@@ -4024,10 +5443,34 @@ ZONE_INFO_America_Moncton = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Monterrey
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Monterrey = [
+    #             -6:00    -    CST    1988
+    {
+      'offset_seconds': -21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CST',
+      'until_year': 1988,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -6:00    US    C%sT    1989
+    {
+      'offset_seconds': -21600,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'C%sT',
+      'until_year': 1989,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -6:00    Mexico    C%sT
     {
       'offset_seconds': -21600,
@@ -4049,10 +5492,46 @@ ZONE_INFO_America_Monterrey = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Montevideo
-# Era count: 1
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Montevideo = [
+    #             -3:00    Uruguay    -03/-02    1974
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Uruguay,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1974,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -3:00    Uruguay    -03/-0130 1974 Mar 10
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Uruguay,
+      'rules_delta_seconds': 0,
+      'format': '-03/-0130',
+      'until_year': 1974,
+      'until_month': 3,
+      'until_day': 10,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -3:00    Uruguay    -03/-0230 1974 Dec 22
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Uruguay,
+      'rules_delta_seconds': 0,
+      'format': '-03/-0230',
+      'until_year': 1974,
+      'until_month': 12,
+      'until_day': 22,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    Uruguay    -03/-02
     {
       'offset_seconds': -10800,
@@ -4074,10 +5553,22 @@ ZONE_INFO_America_Montevideo = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Nassau
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Nassau = [
+    #             -5:00    Bahamas    E%sT    1976
+    {
+      'offset_seconds': -18000,
+      'zone_policy': ZONE_POLICY_Bahamas,
+      'rules_delta_seconds': 0,
+      'format': 'E%sT',
+      'until_year': 1976,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -5:00    US    E%sT
     {
       'offset_seconds': -18000,
@@ -4149,10 +5640,34 @@ ZONE_INFO_America_Nipigon = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Nome
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Nome = [
+    #             -11:00    US    B%sT    1983 Oct 30  2:00
+    {
+      'offset_seconds': -39600,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'B%sT',
+      'until_year': 1983,
+      'until_month': 10,
+      'until_day': 30,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #              -9:00    US    Y%sT    1983 Nov 30
+    {
+      'offset_seconds': -32400,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'Y%sT',
+      'until_year': 1983,
+      'until_month': 11,
+      'until_day': 30,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              -9:00    US    AK%sT
     {
       'offset_seconds': -32400,
@@ -4174,10 +5689,22 @@ ZONE_INFO_America_Nome = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Noronha
-# Era count: 5
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Noronha = [
+    #             -2:00    Brazil    -02/-01    1990 Sep 17
+    {
+      'offset_seconds': -7200,
+      'zone_policy': ZONE_POLICY_Brazil,
+      'rules_delta_seconds': 0,
+      'format': '-02/-01',
+      'until_year': 1990,
+      'until_month': 9,
+      'until_day': 17,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -2:00    -    -02    1999 Sep 30
     {
       'offset_seconds': -7200,
@@ -4284,10 +5811,22 @@ ZONE_INFO_America_North_Dakota_Beulah = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/North_Dakota/Center
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_North_Dakota_Center = [
+    #             -7:00    US    M%sT    1992 Oct 25  2:00
+    {
+      'offset_seconds': -25200,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'M%sT',
+      'until_year': 1992,
+      'until_month': 10,
+      'until_day': 25,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             -6:00    US    C%sT
     {
       'offset_seconds': -21600,
@@ -4346,10 +5885,22 @@ ZONE_INFO_America_North_Dakota_New_Salem = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Nuuk
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Nuuk = [
+    #             -3:00    -    -03    1980 Apr  6  2:00
+    {
+      'offset_seconds': -10800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-03',
+      'until_year': 1980,
+      'until_month': 4,
+      'until_day': 6,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    EU    -03/-02
     {
       'offset_seconds': -10800,
@@ -4371,10 +5922,46 @@ ZONE_INFO_America_Nuuk = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Ojinaga
-# Era count: 2
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Ojinaga = [
+    #             -6:00    -    CST    1996
+    {
+      'offset_seconds': -21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CST',
+      'until_year': 1996,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -6:00    Mexico    C%sT    1998
+    {
+      'offset_seconds': -21600,
+      'zone_policy': ZONE_POLICY_Mexico,
+      'rules_delta_seconds': 0,
+      'format': 'C%sT',
+      'until_year': 1998,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -6:00    -    CST    1998 Apr Sun>=1  3:00
+    {
+      'offset_seconds': -21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CST',
+      'until_year': 1998,
+      'until_month': 4,
+      'until_day': 5,
+      'until_seconds': 10800,
+      'until_time_suffix': 'w',
+    },
     #             -7:00    Mexico    M%sT    2010
     {
       'offset_seconds': -25200,
@@ -4433,10 +6020,22 @@ ZONE_INFO_America_Panama = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Pangnirtung
-# Era count: 3
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Pangnirtung = [
+    #             -4:00    NT_YK    A%sT    1995 Apr Sun>=1  2:00
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ZONE_POLICY_NT_YK,
+      'rules_delta_seconds': 0,
+      'format': 'A%sT',
+      'until_year': 1995,
+      'until_month': 4,
+      'until_day': 2,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             -5:00    Canada    E%sT    1999 Oct 31  2:00
     {
       'offset_seconds': -18000,
@@ -4482,10 +6081,22 @@ ZONE_INFO_America_Pangnirtung = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Paramaribo
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Paramaribo = [
+    #             -3:30    -    -0330    1984 Oct
+    {
+      'offset_seconds': -12600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-0330',
+      'until_year': 1984,
+      'until_month': 10,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    -    -03
     {
       'offset_seconds': -10800,
@@ -4582,10 +6193,22 @@ ZONE_INFO_America_Port_of_Spain = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Porto_Velho
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Porto_Velho = [
+    #             -4:00    Brazil    -04/-03    1988 Sep 12
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ZONE_POLICY_Brazil,
+      'rules_delta_seconds': 0,
+      'format': '-04/-03',
+      'until_year': 1988,
+      'until_month': 9,
+      'until_day': 12,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -4:00    -    -04
     {
       'offset_seconds': -14400,
@@ -4743,10 +6366,22 @@ ZONE_INFO_America_Rankin_Inlet = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Recife
-# Era count: 5
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Recife = [
+    #             -3:00    Brazil    -03/-02    1990 Sep 17
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Brazil,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1990,
+      'until_month': 9,
+      'until_day': 17,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    -    -03    1999 Sep 30
     {
       'offset_seconds': -10800,
@@ -4914,10 +6549,22 @@ ZONE_INFO_America_Resolute = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Rio_Branco
-# Era count: 3
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Rio_Branco = [
+    #             -5:00    Brazil    -05/-04    1988 Sep 12
+    {
+      'offset_seconds': -18000,
+      'zone_policy': ZONE_POLICY_Brazil,
+      'rules_delta_seconds': 0,
+      'format': '-05/-04',
+      'until_year': 1988,
+      'until_month': 9,
+      'until_day': 12,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -5:00    -    -05    2008 Jun 24  0:00
     {
       'offset_seconds': -18000,
@@ -4963,10 +6610,22 @@ ZONE_INFO_America_Rio_Branco = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Santarem
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Santarem = [
+    #             -4:00    Brazil    -04/-03    1988 Sep 12
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ZONE_POLICY_Brazil,
+      'rules_delta_seconds': 0,
+      'format': '-04/-03',
+      'until_year': 1988,
+      'until_month': 9,
+      'until_day': 12,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -4:00    -    -04    2008 Jun 24  0:00
     {
       'offset_seconds': -14400,
@@ -5025,10 +6684,22 @@ ZONE_INFO_America_Santiago = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Santo_Domingo
-# Era count: 3
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Santo_Domingo = [
+    #             -5:00    DR    %s    1974 Oct 27
+    {
+      'offset_seconds': -18000,
+      'zone_policy': ZONE_POLICY_DR,
+      'rules_delta_seconds': 0,
+      'format': '%s',
+      'until_year': 1974,
+      'until_month': 10,
+      'until_day': 27,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -4:00    -    AST    2000 Oct 29  2:00
     {
       'offset_seconds': -14400,
@@ -5099,10 +6770,34 @@ ZONE_INFO_America_Sao_Paulo = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Scoresbysund
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Scoresbysund = [
+    #             -2:00    -    -02    1980 Apr  6  2:00
+    {
+      'offset_seconds': -7200,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-02',
+      'until_year': 1980,
+      'until_month': 4,
+      'until_day': 6,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #             -2:00    C-Eur    -02/-01    1981 Mar 29
+    {
+      'offset_seconds': -7200,
+      'zone_policy': ZONE_POLICY_C_Eur,
+      'rules_delta_seconds': 0,
+      'format': '-02/-01',
+      'until_year': 1981,
+      'until_month': 3,
+      'until_day': 29,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -1:00    EU    -01/+00
     {
       'offset_seconds': -3600,
@@ -5124,10 +6819,34 @@ ZONE_INFO_America_Scoresbysund = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Sitka
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Sitka = [
+    #              -8:00    US    P%sT    1983 Oct 30  2:00
+    {
+      'offset_seconds': -28800,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'P%sT',
+      'until_year': 1983,
+      'until_month': 10,
+      'until_day': 30,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #              -9:00    US    Y%sT    1983 Nov 30
+    {
+      'offset_seconds': -32400,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'Y%sT',
+      'until_year': 1983,
+      'until_month': 11,
+      'until_day': 30,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              -9:00    US    AK%sT
     {
       'offset_seconds': -32400,
@@ -5261,10 +6980,34 @@ ZONE_INFO_America_Thule = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Thunder_Bay
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Thunder_Bay = [
+    #             -5:00    Toronto    E%sT    1973
+    {
+      'offset_seconds': -18000,
+      'zone_policy': ZONE_POLICY_Toronto,
+      'rules_delta_seconds': 0,
+      'format': 'E%sT',
+      'until_year': 1973,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -5:00    -    EST    1974
+    {
+      'offset_seconds': -18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EST',
+      'until_year': 1974,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -5:00    Canada    E%sT
     {
       'offset_seconds': -18000,
@@ -5286,10 +7029,34 @@ ZONE_INFO_America_Thunder_Bay = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Tijuana
-# Era count: 4
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Tijuana = [
+    #             -8:00    -    PST    1976
+    {
+      'offset_seconds': -28800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'PST',
+      'until_year': 1976,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -8:00    US    P%sT    1996
+    {
+      'offset_seconds': -28800,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'P%sT',
+      'until_year': 1996,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -8:00    Mexico    P%sT    2001
     {
       'offset_seconds': -28800,
@@ -5347,10 +7114,22 @@ ZONE_INFO_America_Tijuana = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Toronto
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Toronto = [
+    #             -5:00    Toronto    E%sT    1974
+    {
+      'offset_seconds': -18000,
+      'zone_policy': ZONE_POLICY_Toronto,
+      'rules_delta_seconds': 0,
+      'format': 'E%sT',
+      'until_year': 1974,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -5:00    Canada    E%sT
     {
       'offset_seconds': -18000,
@@ -5372,10 +7151,22 @@ ZONE_INFO_America_Toronto = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Vancouver
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Vancouver = [
+    #             -8:00    Vanc    P%sT    1987
+    {
+      'offset_seconds': -28800,
+      'zone_policy': ZONE_POLICY_Vanc,
+      'rules_delta_seconds': 0,
+      'format': 'P%sT',
+      'until_year': 1987,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -8:00    Canada    P%sT
     {
       'offset_seconds': -28800,
@@ -5397,10 +7188,22 @@ ZONE_INFO_America_Vancouver = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Whitehorse
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Whitehorse = [
+    #             -8:00    NT_YK    P%sT    1980
+    {
+      'offset_seconds': -28800,
+      'zone_policy': ZONE_POLICY_NT_YK,
+      'rules_delta_seconds': 0,
+      'format': 'P%sT',
+      'until_year': 1980,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -8:00    Canada    P%sT    2020 Nov  1
     {
       'offset_seconds': -28800,
@@ -5471,10 +7274,22 @@ ZONE_INFO_America_Winnipeg = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Yakutat
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Yakutat = [
+    #              -9:00    US    Y%sT    1983 Nov 30
+    {
+      'offset_seconds': -32400,
+      'zone_policy': ZONE_POLICY_US,
+      'rules_delta_seconds': 0,
+      'format': 'Y%sT',
+      'until_year': 1983,
+      'until_month': 11,
+      'until_day': 30,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              -9:00    US    AK%sT
     {
       'offset_seconds': -32400,
@@ -5496,10 +7311,22 @@ ZONE_INFO_America_Yakutat = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Yellowknife
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_America_Yellowknife = [
+    #             -7:00    NT_YK    M%sT    1980
+    {
+      'offset_seconds': -25200,
+      'zone_policy': ZONE_POLICY_NT_YK,
+      'rules_delta_seconds': 0,
+      'format': 'M%sT',
+      'until_year': 1980,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -7:00    Canada    M%sT
     {
       'offset_seconds': -25200,
@@ -5862,10 +7689,22 @@ ZONE_INFO_Antarctica_Mawson = {
 
 #---------------------------------------------------------------------------
 # Zone name: Antarctica/Palmer
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Antarctica_Palmer = [
+    #             -3:00    Arg    -03/-02    1982 May
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Arg,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1982,
+      'until_month': 5,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -4:00    Chile    -04/-03    2016 Dec  4
     {
       'offset_seconds': -14400,
@@ -5899,10 +7738,22 @@ ZONE_INFO_Antarctica_Palmer = {
 
 #---------------------------------------------------------------------------
 # Zone name: Antarctica/Rothera
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Antarctica_Rothera = [
+    # 0 - -00 1976 Dec 1
+    {
+      'offset_seconds': 0,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-00',
+      'until_year': 1976,
+      'until_month': 12,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -3:00    -    -03
     {
       'offset_seconds': -10800,
@@ -6011,10 +7862,34 @@ ZONE_INFO_Antarctica_Vostok = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Almaty
-# Era count: 2
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Almaty = [
+    #             6:00 RussiaAsia +06/+07    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 21600,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+06/+07',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             5:00 RussiaAsia    +05/+06    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             6:00 RussiaAsia    +06/+07    2004 Oct 31  2:00s
     {
       'offset_seconds': 21600,
@@ -6073,10 +7948,46 @@ ZONE_INFO_Asia_Amman = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Anadyr
-# Era count: 3
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Anadyr = [
+    #             13:00    Russia    +13/+14    1982 Apr  1  0:00s
+    {
+      'offset_seconds': 46800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+13/+14',
+      'until_year': 1982,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 's',
+    },
+    #             12:00    Russia    +12/+13    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 43200,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+12/+13',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             11:00    Russia    +11/+12    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 39600,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+11/+12',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             12:00    Russia    +12/+13    2010 Mar 28  2:00s
     {
       'offset_seconds': 43200,
@@ -6122,10 +8033,70 @@ ZONE_INFO_Asia_Anadyr = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Aqtau
-# Era count: 2
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Aqtau = [
+    #             5:00    -    +05    1981 Oct  1
+    {
+      'offset_seconds': 18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+05',
+      'until_year': 1981,
+      'until_month': 10,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             6:00    -    +06    1982 Apr  1
+    {
+      'offset_seconds': 21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+06',
+      'until_year': 1982,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             5:00 RussiaAsia    +05/+06    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             4:00 RussiaAsia    +04/+05    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             5:00 RussiaAsia    +05/+06    1994 Sep 25  2:00s
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1994,
+      'until_month': 9,
+      'until_day': 25,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             4:00 RussiaAsia    +04/+05    2004 Oct 31  2:00s
     {
       'offset_seconds': 14400,
@@ -6159,10 +8130,70 @@ ZONE_INFO_Asia_Aqtau = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Aqtobe
-# Era count: 2
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Aqtobe = [
+    #             5:00    -    +05    1981 Apr  1
+    {
+      'offset_seconds': 18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+05',
+      'until_year': 1981,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             5:00    1:00    +06    1981 Oct  1
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': '+06',
+      'until_year': 1981,
+      'until_month': 10,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             6:00    -    +06    1982 Apr  1
+    {
+      'offset_seconds': 21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+06',
+      'until_year': 1982,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             5:00 RussiaAsia    +05/+06    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             4:00 RussiaAsia    +04/+05    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             5:00 RussiaAsia    +05/+06    2004 Oct 31  2:00s
     {
       'offset_seconds': 18000,
@@ -6196,10 +8227,34 @@ ZONE_INFO_Asia_Aqtobe = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Ashgabat
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Ashgabat = [
+    #             5:00 RussiaAsia    +05/+06    1991 Mar 31  2:00
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #             4:00 RussiaAsia    +04/+05    1992 Jan 19  2:00
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             5:00    -    +05
     {
       'offset_seconds': 18000,
@@ -6221,10 +8276,58 @@ ZONE_INFO_Asia_Ashgabat = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Atyrau
-# Era count: 3
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Atyrau = [
+    #             5:00    -    +05    1981 Oct  1
+    {
+      'offset_seconds': 18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+05',
+      'until_year': 1981,
+      'until_month': 10,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             6:00    -    +06    1982 Apr  1
+    {
+      'offset_seconds': 21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+06',
+      'until_year': 1982,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             5:00 RussiaAsia    +05/+06    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             4:00 RussiaAsia    +04/+05    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             5:00 RussiaAsia    +05/+06    1999 Mar 28  2:00s
     {
       'offset_seconds': 18000,
@@ -6270,10 +8373,22 @@ ZONE_INFO_Asia_Atyrau = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Baghdad
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Baghdad = [
+    #             3:00    -    +03    1982 May
+    {
+      'offset_seconds': 10800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+03',
+      'until_year': 1982,
+      'until_month': 5,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             3:00    Iraq    +03/+04
     {
       'offset_seconds': 10800,
@@ -6295,10 +8410,58 @@ ZONE_INFO_Asia_Baghdad = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Baku
-# Era count: 1
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Baku = [
+    #             4:00 RussiaAsia +04/+05    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             3:00 RussiaAsia    +03/+04    1992 Sep lastSun  2:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+03/+04',
+      'until_year': 1992,
+      'until_month': 9,
+      'until_day': 27,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             4:00    -    +04    1996
+    {
+      'offset_seconds': 14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+04',
+      'until_year': 1996,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             4:00    EUAsia    +04/+05    1997
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_EUAsia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1997,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             4:00    Azer    +04/+05
     {
       'offset_seconds': 14400,
@@ -6345,10 +8508,46 @@ ZONE_INFO_Asia_Bangkok = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Barnaul
-# Era count: 4
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Barnaul = [
+    #              7:00    Russia    +07/+08    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 25200,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+07/+08',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              6:00    Russia    +06/+07    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 21600,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+06/+07',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              7:00    Russia    +07/+08    1995 May 28
+    {
+      'offset_seconds': 25200,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+07/+08',
+      'until_year': 1995,
+      'until_month': 5,
+      'until_day': 28,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              6:00    Russia    +06/+07    2011 Mar 27  2:00s
     {
       'offset_seconds': 21600,
@@ -6431,10 +8630,34 @@ ZONE_INFO_Asia_Beirut = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Bishkek
-# Era count: 2
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Bishkek = [
+    #             6:00 RussiaAsia +06/+07    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 21600,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+06/+07',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             5:00 RussiaAsia    +05/+06    1991 Aug 31  2:00
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1991,
+      'until_month': 8,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             5:00    Kyrgyz    +05/+06    2005 Aug 12
     {
       'offset_seconds': 18000,
@@ -6493,10 +8716,34 @@ ZONE_INFO_Asia_Brunei = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Chita
-# Era count: 4
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Chita = [
+    #              9:00    Russia    +09/+10    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 32400,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+09/+10',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              8:00    Russia    +08/+09    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 28800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+08/+09',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              9:00    Russia    +09/+10    2011 Mar 27  2:00s
     {
       'offset_seconds': 32400,
@@ -6554,10 +8801,34 @@ ZONE_INFO_Asia_Chita = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Choibalsan
-# Era count: 2
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Choibalsan = [
+    #             7:00    -    +07    1978
+    {
+      'offset_seconds': 25200,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+07',
+      'until_year': 1978,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             8:00    -    +08    1983 Apr
+    {
+      'offset_seconds': 28800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+08',
+      'until_year': 1983,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             9:00    Mongol    +09/+10    2008 Mar 31
     {
       'offset_seconds': 32400,
@@ -6591,10 +8862,34 @@ ZONE_INFO_Asia_Choibalsan = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Colombo
-# Era count: 2
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Colombo = [
+    #             5:30    -    +0530    1996 May 25  0:00
+    {
+      'offset_seconds': 19800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+0530',
+      'until_year': 1996,
+      'until_month': 5,
+      'until_day': 25,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             6:30    -    +0630    1996 Oct 26  0:30
+    {
+      'offset_seconds': 23400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+0630',
+      'until_year': 1996,
+      'until_month': 10,
+      'until_day': 26,
+      'until_seconds': 1800,
+      'until_time_suffix': 'w',
+    },
     #             6:00    -    +06    2006 Apr 15  0:30
     {
       'offset_seconds': 21600,
@@ -6690,10 +8985,22 @@ ZONE_INFO_Asia_Dhaka = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Dili
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Dili = [
+    #             9:00    -    +09    1976 May  3
+    {
+      'offset_seconds': 32400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+09',
+      'until_year': 1976,
+      'until_month': 5,
+      'until_day': 3,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             8:00    -    +08    2000 Sep 17  0:00
     {
       'offset_seconds': 28800,
@@ -6752,10 +9059,34 @@ ZONE_INFO_Asia_Dubai = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Dushanbe
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Dushanbe = [
+    #             6:00 RussiaAsia +06/+07    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 21600,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+06/+07',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             5:00    1:00    +05/+06    1991 Sep  9  2:00s
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': '+05/+06',
+      'until_year': 1991,
+      'until_month': 9,
+      'until_day': 9,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             5:00    -    +05
     {
       'offset_seconds': 18000,
@@ -6777,10 +9108,22 @@ ZONE_INFO_Asia_Dushanbe = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Famagusta
-# Era count: 3
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Famagusta = [
+    #             2:00    Cyprus    EE%sT    1998 Sep
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Cyprus,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1998,
+      'until_month': 9,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    EUAsia    EE%sT    2016 Sep  8
     {
       'offset_seconds': 7200,
@@ -6826,10 +9169,22 @@ ZONE_INFO_Asia_Famagusta = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Gaza
-# Era count: 8
+# Era count: 9
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Gaza = [
+    #             2:00    Zion    I%sT    1996
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Zion,
+      'rules_delta_seconds': 0,
+      'format': 'I%sT',
+      'until_year': 1996,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    Jordan    EE%sT    1999
     {
       'offset_seconds': 7200,
@@ -6935,10 +9290,22 @@ ZONE_INFO_Asia_Gaza = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Hebron
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Hebron = [
+    #             2:00    Zion    I%sT    1996
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Zion,
+      'rules_delta_seconds': 0,
+      'format': 'I%sT',
+      'until_year': 1996,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    Jordan    EE%sT    1999
     {
       'offset_seconds': 7200,
@@ -6972,10 +9339,22 @@ ZONE_INFO_Asia_Hebron = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Ho_Chi_Minh
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Ho_Chi_Minh = [
+    #             8:00    -    +08    1975 Jun 13
+    {
+      'offset_seconds': 28800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+08',
+      'until_year': 1975,
+      'until_month': 6,
+      'until_day': 13,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             7:00    -    +07
     {
       'offset_seconds': 25200,
@@ -7022,10 +9401,22 @@ ZONE_INFO_Asia_Hong_Kong = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Hovd
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Hovd = [
+    #             6:00    -    +06    1978
+    {
+      'offset_seconds': 21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+06',
+      'until_year': 1978,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             7:00    Mongol    +07/+08
     {
       'offset_seconds': 25200,
@@ -7047,10 +9438,34 @@ ZONE_INFO_Asia_Hovd = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Irkutsk
-# Era count: 3
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Irkutsk = [
+    #              8:00    Russia    +08/+09    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 28800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+08/+09',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              7:00    Russia    +07/+08    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 25200,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+07/+08',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              8:00    Russia    +08/+09    2011 Mar 27  2:00s
     {
       'offset_seconds': 28800,
@@ -7196,10 +9611,34 @@ ZONE_INFO_Asia_Kabul = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Kamchatka
-# Era count: 3
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Kamchatka = [
+    #             12:00    Russia    +12/+13    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 43200,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+12/+13',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             11:00    Russia    +11/+12    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 39600,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+11/+12',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             12:00    Russia    +12/+13    2010 Mar 28  2:00s
     {
       'offset_seconds': 43200,
@@ -7270,10 +9709,22 @@ ZONE_INFO_Asia_Karachi = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Kathmandu
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Kathmandu = [
+    #             5:30    -    +0530    1986
+    {
+      'offset_seconds': 19800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+0530',
+      'until_year': 1986,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             5:45    -    +0545
     {
       'offset_seconds': 20700,
@@ -7295,10 +9746,34 @@ ZONE_INFO_Asia_Kathmandu = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Khandyga
-# Era count: 5
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Khandyga = [
+    #              9:00    Russia    +09/+10    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 32400,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+09/+10',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              8:00    Russia    +08/+09    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 28800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+08/+09',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              9:00    Russia    +09/+10    2004
     {
       'offset_seconds': 32400,
@@ -7393,10 +9868,34 @@ ZONE_INFO_Asia_Kolkata = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Krasnoyarsk
-# Era count: 3
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Krasnoyarsk = [
+    #              7:00    Russia    +07/+08    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 25200,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+07/+08',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              6:00    Russia    +06/+07    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 21600,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+06/+07',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              7:00    Russia    +07/+08    2011 Mar 27  2:00s
     {
       'offset_seconds': 25200,
@@ -7442,10 +9941,22 @@ ZONE_INFO_Asia_Krasnoyarsk = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Kuala_Lumpur
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Kuala_Lumpur = [
+    #             7:30    -    +0730    1982 Jan  1
+    {
+      'offset_seconds': 27000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+0730',
+      'until_year': 1982,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             8:00    -    +08
     {
       'offset_seconds': 28800,
@@ -7517,10 +10028,34 @@ ZONE_INFO_Asia_Macau = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Magadan
-# Era count: 4
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Magadan = [
+    #             11:00    Russia    +11/+12    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 39600,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+11/+12',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             10:00    Russia    +10/+11    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 36000,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+10/+11',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             11:00    Russia    +11/+12    2011 Mar 27  2:00s
     {
       'offset_seconds': 39600,
@@ -7628,10 +10163,22 @@ ZONE_INFO_Asia_Manila = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Nicosia
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Nicosia = [
+    #             2:00    Cyprus    EE%sT    1998 Sep
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Cyprus,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1998,
+      'until_month': 9,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    EUAsia    EE%sT
     {
       'offset_seconds': 7200,
@@ -7653,10 +10200,34 @@ ZONE_INFO_Asia_Nicosia = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Novokuznetsk
-# Era count: 3
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Novokuznetsk = [
+    #              7:00    Russia    +07/+08    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 25200,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+07/+08',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              6:00    Russia    +06/+07    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 21600,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+06/+07',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              7:00    Russia    +07/+08    2010 Mar 28  2:00s
     {
       'offset_seconds': 25200,
@@ -7702,10 +10273,46 @@ ZONE_INFO_Asia_Novokuznetsk = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Novosibirsk
-# Era count: 4
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Novosibirsk = [
+    #              7:00    Russia    +07/+08    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 25200,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+07/+08',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              6:00    Russia    +06/+07    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 21600,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+06/+07',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              7:00    Russia    +07/+08    1993 May 23
+    {
+      'offset_seconds': 25200,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+07/+08',
+      'until_year': 1993,
+      'until_month': 5,
+      'until_day': 23,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              6:00    Russia    +06/+07    2011 Mar 27  2:00s
     {
       'offset_seconds': 21600,
@@ -7763,10 +10370,34 @@ ZONE_INFO_Asia_Novosibirsk = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Omsk
-# Era count: 3
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Omsk = [
+    #              6:00    Russia    +06/+07    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 21600,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+06/+07',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              5:00    Russia    +05/+06    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              6:00    Russia    +06/+07    2011 Mar 27  2:00s
     {
       'offset_seconds': 21600,
@@ -7812,10 +10443,82 @@ ZONE_INFO_Asia_Omsk = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Oral
-# Era count: 2
+# Era count: 8
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Oral = [
+    #             5:00    -    +05    1981 Apr  1
+    {
+      'offset_seconds': 18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+05',
+      'until_year': 1981,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             5:00    1:00    +06    1981 Oct  1
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': '+06',
+      'until_year': 1981,
+      'until_month': 10,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             6:00    -    +06    1982 Apr  1
+    {
+      'offset_seconds': 21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+06',
+      'until_year': 1982,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             5:00 RussiaAsia    +05/+06    1989 Mar 26  2:00s
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1989,
+      'until_month': 3,
+      'until_day': 26,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             4:00 RussiaAsia    +04/+05    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             5:00 RussiaAsia    +05/+06    1992 Mar 29  2:00s
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1992,
+      'until_month': 3,
+      'until_day': 29,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             4:00 RussiaAsia    +04/+05    2004 Oct 31  2:00s
     {
       'offset_seconds': 14400,
@@ -7849,10 +10552,22 @@ ZONE_INFO_Asia_Oral = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Pontianak
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Pontianak = [
+    #             8:00    -    WITA    1988 Jan  1
+    {
+      'offset_seconds': 28800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'WITA',
+      'until_year': 1988,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             7:00    -    WIB
     {
       'offset_seconds': 25200,
@@ -7948,10 +10663,70 @@ ZONE_INFO_Asia_Qatar = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Qostanay
-# Era count: 2
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Qostanay = [
+    #             5:00    -    +05    1981 Apr  1
+    {
+      'offset_seconds': 18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+05',
+      'until_year': 1981,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             5:00    1:00    +06    1981 Oct  1
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': '+06',
+      'until_year': 1981,
+      'until_month': 10,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             6:00    -    +06    1982 Apr  1
+    {
+      'offset_seconds': 21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+06',
+      'until_year': 1982,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             5:00 RussiaAsia    +05/+06    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             4:00 RussiaAsia    +04/+05    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             5:00 RussiaAsia    +05/+06    2004 Oct 31  2:00s
     {
       'offset_seconds': 18000,
@@ -7985,10 +10760,94 @@ ZONE_INFO_Asia_Qostanay = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Qyzylorda
-# Era count: 3
+# Era count: 10
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Qyzylorda = [
+    #             5:00    -    +05    1981 Apr  1
+    {
+      'offset_seconds': 18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+05',
+      'until_year': 1981,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             5:00    1:00    +06    1981 Oct  1
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': '+06',
+      'until_year': 1981,
+      'until_month': 10,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             6:00    -    +06    1982 Apr  1
+    {
+      'offset_seconds': 21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+06',
+      'until_year': 1982,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             5:00 RussiaAsia    +05/+06    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             4:00 RussiaAsia    +04/+05    1991 Sep 29  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1991,
+      'until_month': 9,
+      'until_day': 29,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             5:00 RussiaAsia    +05/+06    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             6:00 RussiaAsia    +06/+07    1992 Mar 29  2:00s
+    {
+      'offset_seconds': 21600,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+06/+07',
+      'until_year': 1992,
+      'until_month': 3,
+      'until_day': 29,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             5:00 RussiaAsia    +05/+06    2004 Oct 31  2:00s
     {
       'offset_seconds': 18000,
@@ -8059,10 +10918,46 @@ ZONE_INFO_Asia_Riyadh = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Sakhalin
-# Era count: 4
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Sakhalin = [
+    #             11:00    Russia    +11/+12    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 39600,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+11/+12',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             10:00    Russia    +10/+11    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 36000,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+10/+11',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             11:00    Russia    +11/+12    1997 Mar lastSun  2:00s
+    {
+      'offset_seconds': 39600,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+11/+12',
+      'until_year': 1997,
+      'until_month': 3,
+      'until_day': 30,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             10:00    Russia    +10/+11    2011 Mar 27  2:00s
     {
       'offset_seconds': 36000,
@@ -8120,10 +11015,58 @@ ZONE_INFO_Asia_Sakhalin = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Samarkand
-# Era count: 1
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Samarkand = [
+    #             5:00    -    +05    1981 Apr  1
+    {
+      'offset_seconds': 18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+05',
+      'until_year': 1981,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             5:00    1:00    +06    1981 Oct  1
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': '+06',
+      'until_year': 1981,
+      'until_month': 10,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             6:00    -    +06    1982 Apr  1
+    {
+      'offset_seconds': 21600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+06',
+      'until_year': 1982,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             5:00 RussiaAsia    +05/+06    1992
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             5:00    -    +05
     {
       'offset_seconds': 18000,
@@ -8195,10 +11138,22 @@ ZONE_INFO_Asia_Shanghai = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Singapore
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Singapore = [
+    #             7:30    -    +0730    1982 Jan  1
+    {
+      'offset_seconds': 27000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+0730',
+      'until_year': 1982,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             8:00    -    +08
     {
       'offset_seconds': 28800,
@@ -8220,10 +11175,34 @@ ZONE_INFO_Asia_Singapore = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Srednekolymsk
-# Era count: 3
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Srednekolymsk = [
+    #             11:00    Russia    +11/+12    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 39600,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+11/+12',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             10:00    Russia    +10/+11    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 36000,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+10/+11',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             11:00    Russia    +11/+12    2011 Mar 27  2:00s
     {
       'offset_seconds': 39600,
@@ -8294,10 +11273,34 @@ ZONE_INFO_Asia_Taipei = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Tashkent
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Tashkent = [
+    #             6:00 RussiaAsia    +06/+07    1991 Mar 31  2:00
+    {
+      'offset_seconds': 21600,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+06/+07',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #             5:00 RussiaAsia    +05/+06    1992
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             5:00    -    +05
     {
       'offset_seconds': 18000,
@@ -8319,10 +11322,70 @@ ZONE_INFO_Asia_Tashkent = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Tbilisi
-# Era count: 3
+# Era count: 8
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Tbilisi = [
+    #             4:00 RussiaAsia +04/+05    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             3:00 RussiaAsia +03/+04    1992
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+03/+04',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             3:00 E-EurAsia    +03/+04    1994 Sep lastSun
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_E_EurAsia,
+      'rules_delta_seconds': 0,
+      'format': '+03/+04',
+      'until_year': 1994,
+      'until_month': 9,
+      'until_day': 25,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             4:00 E-EurAsia    +04/+05    1996 Oct lastSun
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_E_EurAsia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1996,
+      'until_month': 10,
+      'until_day': 27,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             4:00    1:00    +05    1997 Mar lastSun
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': '+05',
+      'until_year': 1997,
+      'until_month': 3,
+      'until_day': 30,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             4:00 E-EurAsia    +04/+05    2004 Jun 27
     {
       'offset_seconds': 14400,
@@ -8368,10 +11431,34 @@ ZONE_INFO_Asia_Tbilisi = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Tehran
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Tehran = [
+    #             3:30    -    +0330    1977 Nov
+    {
+      'offset_seconds': 12600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+0330',
+      'until_year': 1977,
+      'until_month': 11,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             4:00    Iran    +04/+05    1979
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_Iran,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1979,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             3:30    Iran    +0330/+0430
     {
       'offset_seconds': 12600,
@@ -8393,10 +11480,22 @@ ZONE_INFO_Asia_Tehran = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Thimphu
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Thimphu = [
+    #             5:30    -    +0530    1987 Oct
+    {
+      'offset_seconds': 19800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+0530',
+      'until_year': 1987,
+      'until_month': 10,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             6:00    -    +06
     {
       'offset_seconds': 21600,
@@ -8443,10 +11542,34 @@ ZONE_INFO_Asia_Tokyo = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Tomsk
-# Era count: 5
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Tomsk = [
+    #              7:00    Russia    +07/+08    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 25200,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+07/+08',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              6:00    Russia    +06/+07    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 21600,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+06/+07',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              7:00    Russia    +07/+08    2002 May  1  3:00
     {
       'offset_seconds': 25200,
@@ -8516,10 +11639,22 @@ ZONE_INFO_Asia_Tomsk = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Ulaanbaatar
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Ulaanbaatar = [
+    #             7:00    -    +07    1978
+    {
+      'offset_seconds': 25200,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+07',
+      'until_year': 1978,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             8:00    Mongol    +08/+09
     {
       'offset_seconds': 28800,
@@ -8566,10 +11701,46 @@ ZONE_INFO_Asia_Urumqi = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Ust-Nera
-# Era count: 4
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Ust_Nera = [
+    #              9:00    Russia    +09/+10    1981 Apr  1
+    {
+      'offset_seconds': 32400,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+09/+10',
+      'until_year': 1981,
+      'until_month': 4,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             11:00    Russia    +11/+12    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 39600,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+11/+12',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             10:00    Russia    +10/+11    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 36000,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+10/+11',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             11:00    Russia    +11/+12    2011 Mar 27  2:00s
     {
       'offset_seconds': 39600,
@@ -8627,10 +11798,34 @@ ZONE_INFO_Asia_Ust_Nera = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Vladivostok
-# Era count: 3
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Vladivostok = [
+    #             10:00    Russia    +10/+11    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 36000,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+10/+11',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              9:00    Russia    +09/+10    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 32400,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+09/+10',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             10:00    Russia    +10/+11    2011 Mar 27  2:00s
     {
       'offset_seconds': 36000,
@@ -8676,10 +11871,34 @@ ZONE_INFO_Asia_Vladivostok = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Yakutsk
-# Era count: 3
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Yakutsk = [
+    #              9:00    Russia    +09/+10    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 32400,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+09/+10',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              8:00    Russia    +08/+09    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 28800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+08/+09',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              9:00    Russia    +09/+10    2011 Mar 27  2:00s
     {
       'offset_seconds': 32400,
@@ -8750,10 +11969,34 @@ ZONE_INFO_Asia_Yangon = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Yekaterinburg
-# Era count: 3
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Yekaterinburg = [
+    #              5:00    Russia    +05/+06    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 18000,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+05/+06',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              4:00    Russia    +04/+05    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              5:00    Russia    +05/+06    2011 Mar 27  2:00s
     {
       'offset_seconds': 18000,
@@ -8799,10 +12042,46 @@ ZONE_INFO_Asia_Yekaterinburg = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Yerevan
-# Era count: 2
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Asia_Yerevan = [
+    #             4:00 RussiaAsia +04/+05    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             3:00 RussiaAsia    +03/+04    1995 Sep 24  2:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_RussiaAsia,
+      'rules_delta_seconds': 0,
+      'format': '+03/+04',
+      'until_year': 1995,
+      'until_month': 9,
+      'until_day': 24,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             4:00    -    +04    1997
+    {
+      'offset_seconds': 14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+04',
+      'until_year': 1997,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             4:00 RussiaAsia    +04/+05    2011
     {
       'offset_seconds': 14400,
@@ -8836,10 +12115,46 @@ ZONE_INFO_Asia_Yerevan = {
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/Azores
-# Era count: 1
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Atlantic_Azores = [
+    #             -1:00    Port    -01/+00    1983 Sep 25  1:00s
+    {
+      'offset_seconds': -3600,
+      'zone_policy': ZONE_POLICY_Port,
+      'rules_delta_seconds': 0,
+      'format': '-01/+00',
+      'until_year': 1983,
+      'until_month': 9,
+      'until_day': 25,
+      'until_seconds': 3600,
+      'until_time_suffix': 's',
+    },
+    #             -1:00    W-Eur    -01/+00    1992 Sep 27  1:00s
+    {
+      'offset_seconds': -3600,
+      'zone_policy': ZONE_POLICY_W_Eur,
+      'rules_delta_seconds': 0,
+      'format': '-01/+00',
+      'until_year': 1992,
+      'until_month': 9,
+      'until_day': 27,
+      'until_seconds': 3600,
+      'until_time_suffix': 's',
+    },
+    #              0:00    EU    WE%sT    1993 Mar 28  1:00u
+    {
+      'offset_seconds': 0,
+      'zone_policy': ZONE_POLICY_EU,
+      'rules_delta_seconds': 0,
+      'format': 'WE%sT',
+      'until_year': 1993,
+      'until_month': 3,
+      'until_day': 28,
+      'until_seconds': 3600,
+      'until_time_suffix': 'u',
+    },
     #             -1:00    EU    -01/+00
     {
       'offset_seconds': -3600,
@@ -8861,10 +12176,34 @@ ZONE_INFO_Atlantic_Azores = {
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/Bermuda
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Atlantic_Bermuda = [
+    #             -4:00    -    AST    1974 Apr 28  2:00
+    {
+      'offset_seconds': -14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'AST',
+      'until_year': 1974,
+      'until_month': 4,
+      'until_day': 28,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #             -4:00    Canada    A%sT    1976
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ZONE_POLICY_Canada,
+      'rules_delta_seconds': 0,
+      'format': 'A%sT',
+      'until_year': 1976,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -4:00    US    A%sT
     {
       'offset_seconds': -14400,
@@ -8886,10 +12225,34 @@ ZONE_INFO_Atlantic_Bermuda = {
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/Canary
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Atlantic_Canary = [
+    #              0:00    -    WET    1980 Apr  6  0:00s
+    {
+      'offset_seconds': 0,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'WET',
+      'until_year': 1980,
+      'until_month': 4,
+      'until_day': 6,
+      'until_seconds': 0,
+      'until_time_suffix': 's',
+    },
+    #              0:00    1:00    WEST    1980 Sep 28  1:00u
+    {
+      'offset_seconds': 0,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': 'WEST',
+      'until_year': 1980,
+      'until_month': 9,
+      'until_day': 28,
+      'until_seconds': 3600,
+      'until_time_suffix': 'u',
+    },
     #              0:00    EU    WE%sT
     {
       'offset_seconds': 0,
@@ -8911,10 +12274,22 @@ ZONE_INFO_Atlantic_Canary = {
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/Cape_Verde
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Atlantic_Cape_Verde = [
+    #             -2:00    -    -02    1975 Nov 25  2:00
+    {
+      'offset_seconds': -7200,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-02',
+      'until_year': 1975,
+      'until_month': 11,
+      'until_day': 25,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             -1:00    -    -01
     {
       'offset_seconds': -3600,
@@ -8936,10 +12311,22 @@ ZONE_INFO_Atlantic_Cape_Verde = {
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/Faroe
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Atlantic_Faroe = [
+    #              0:00    -    WET    1981
+    {
+      'offset_seconds': 0,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'WET',
+      'until_year': 1981,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              0:00    EU    WE%sT
     {
       'offset_seconds': 0,
@@ -8961,10 +12348,22 @@ ZONE_INFO_Atlantic_Faroe = {
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/Madeira
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Atlantic_Madeira = [
+    #              0:00    Port    WE%sT    1983 Sep 25  1:00s
+    {
+      'offset_seconds': 0,
+      'zone_policy': ZONE_POLICY_Port,
+      'rules_delta_seconds': 0,
+      'format': 'WE%sT',
+      'until_year': 1983,
+      'until_month': 9,
+      'until_day': 25,
+      'until_seconds': 3600,
+      'until_time_suffix': 's',
+    },
     #              0:00    EU    WE%sT
     {
       'offset_seconds': 0,
@@ -9036,10 +12435,34 @@ ZONE_INFO_Atlantic_South_Georgia = {
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/Stanley
-# Era count: 2
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Atlantic_Stanley = [
+    #             -4:00    Falk    -04/-03    1983 May
+    {
+      'offset_seconds': -14400,
+      'zone_policy': ZONE_POLICY_Falk,
+      'rules_delta_seconds': 0,
+      'format': '-04/-03',
+      'until_year': 1983,
+      'until_month': 5,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -3:00    Falk    -03/-02    1985 Sep 15
+    {
+      'offset_seconds': -10800,
+      'zone_policy': ZONE_POLICY_Falk,
+      'rules_delta_seconds': 0,
+      'format': '-03/-02',
+      'until_year': 1985,
+      'until_month': 9,
+      'until_day': 15,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -4:00    Falk    -04/-03    2010 Sep  5  2:00
     {
       'offset_seconds': -14400,
@@ -9260,10 +12683,22 @@ ZONE_INFO_Australia_Hobart = {
 
 #---------------------------------------------------------------------------
 # Zone name: Australia/Lindeman
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Australia_Lindeman = [
+    #             10:00    AQ    AE%sT    1992 Jul
+    {
+      'offset_seconds': 36000,
+      'zone_policy': ZONE_POLICY_AQ,
+      'rules_delta_seconds': 0,
+      'format': 'AE%sT',
+      'until_year': 1992,
+      'until_month': 7,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             10:00    Holiday    AE%sT
     {
       'offset_seconds': 36000,
@@ -9285,10 +12720,34 @@ ZONE_INFO_Australia_Lindeman = {
 
 #---------------------------------------------------------------------------
 # Zone name: Australia/Lord_Howe
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Australia_Lord_Howe = [
+    #             10:00    -    AEST    1981 Mar
+    {
+      'offset_seconds': 36000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'AEST',
+      'until_year': 1981,
+      'until_month': 3,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             10:30    LH    +1030/+1130 1985 Jul
+    {
+      'offset_seconds': 37800,
+      'zone_policy': ZONE_POLICY_LH,
+      'rules_delta_seconds': 0,
+      'format': '+1030/+1130',
+      'until_year': 1985,
+      'until_month': 7,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             10:30    LH    +1030/+11
     {
       'offset_seconds': 37800,
@@ -10210,10 +13669,22 @@ ZONE_INFO_Etc_UTC = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Amsterdam
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Amsterdam = [
+    #             1:00    Neth    CE%sT    1977
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Neth,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1977,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -10235,10 +13706,22 @@ ZONE_INFO_Europe_Amsterdam = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Andorra
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Andorra = [
+    #             1:00    -    CET    1985 Mar 31  2:00
+    {
+      'offset_seconds': 3600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CET',
+      'until_year': 1985,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -10260,10 +13743,46 @@ ZONE_INFO_Europe_Andorra = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Astrakhan
-# Era count: 4
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Astrakhan = [
+    #              4:00    Russia    +04/+05    1989 Mar 26  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1989,
+      'until_month': 3,
+      'until_day': 26,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              3:00    Russia    +03/+04    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+03/+04',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              4:00    -    +04    1992 Mar 29  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+04',
+      'until_year': 1992,
+      'until_month': 3,
+      'until_day': 29,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
     {
       'offset_seconds': 10800,
@@ -10321,10 +13840,22 @@ ZONE_INFO_Europe_Astrakhan = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Athens
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Athens = [
+    #             2:00    Greece    EE%sT    1981
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Greece,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1981,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    EU    EE%sT
     {
       'offset_seconds': 7200,
@@ -10346,10 +13877,22 @@ ZONE_INFO_Europe_Athens = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Belgrade
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Belgrade = [
+    #             1:00    -    CET    1982 Nov 27
+    {
+      'offset_seconds': 3600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CET',
+      'until_year': 1982,
+      'until_month': 11,
+      'until_day': 27,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -10371,10 +13914,22 @@ ZONE_INFO_Europe_Belgrade = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Berlin
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Berlin = [
+    #             1:00    Germany    CE%sT    1980
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Germany,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1980,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -10396,10 +13951,22 @@ ZONE_INFO_Europe_Berlin = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Brussels
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Brussels = [
+    #             1:00    Belgium    CE%sT    1977
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Belgium,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1977,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -10421,10 +13988,58 @@ ZONE_INFO_Europe_Brussels = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Bucharest
-# Era count: 1
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Bucharest = [
+    #             2:00    Romania    EE%sT    1981 Mar 29  2:00s
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Romania,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1981,
+      'until_month': 3,
+      'until_day': 29,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             2:00    C-Eur    EE%sT    1991
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_C_Eur,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1991,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             2:00    Romania    EE%sT    1994
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Romania,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1994,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             2:00    E-Eur    EE%sT    1997
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_E_Eur,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1997,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    EU    EE%sT
     {
       'offset_seconds': 7200,
@@ -10446,10 +14061,22 @@ ZONE_INFO_Europe_Bucharest = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Budapest
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Budapest = [
+    #             1:00    Hungary    CE%sT    1984
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Hungary,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1984,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -10471,10 +14098,46 @@ ZONE_INFO_Europe_Budapest = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Chisinau
-# Era count: 1
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Chisinau = [
+    #             3:00    Russia    MSK/MSD    1990 May  6  2:00
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': 'MSK/MSD',
+      'until_year': 1990,
+      'until_month': 5,
+      'until_day': 6,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #             2:00    Russia    EE%sT    1992
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             2:00    E-Eur    EE%sT    1997
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_E_Eur,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1997,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    Moldova    EE%sT
     {
       'offset_seconds': 7200,
@@ -10496,10 +14159,22 @@ ZONE_INFO_Europe_Chisinau = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Copenhagen
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Copenhagen = [
+    #              1:00    Denmark    CE%sT    1980
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Denmark,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1980,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -10546,10 +14221,22 @@ ZONE_INFO_Europe_Dublin = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Gibraltar
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Gibraltar = [
+    #             1:00    -    CET    1982
+    {
+      'offset_seconds': 3600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CET',
+      'until_year': 1982,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -10571,10 +14258,22 @@ ZONE_INFO_Europe_Gibraltar = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Helsinki
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Helsinki = [
+    #             2:00    Finland    EE%sT    1983
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Finland,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1983,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    EU    EE%sT
     {
       'offset_seconds': 7200,
@@ -10596,10 +14295,34 @@ ZONE_INFO_Europe_Helsinki = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Istanbul
-# Era count: 9
+# Era count: 11
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Istanbul = [
+    #             2:00    Turkey    EE%sT    1978 Jun 29
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Turkey,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1978,
+      'until_month': 6,
+      'until_day': 29,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             3:00    Turkey    +03/+04    1984 Nov  1  2:00
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Turkey,
+      'rules_delta_seconds': 0,
+      'format': '+03/+04',
+      'until_year': 1984,
+      'until_month': 11,
+      'until_day': 1,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             2:00    Turkey    EE%sT    2007
     {
       'offset_seconds': 7200,
@@ -10717,10 +14440,22 @@ ZONE_INFO_Europe_Istanbul = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Kaliningrad
-# Era count: 3
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Kaliningrad = [
+    #              3:00    Russia    MSK/MSD    1989 Mar 26  2:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': 'MSK/MSD',
+      'until_year': 1989,
+      'until_month': 3,
+      'until_day': 26,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              2:00    Russia    EE%sT    2011 Mar 27  2:00s
     {
       'offset_seconds': 7200,
@@ -10766,10 +14501,46 @@ ZONE_INFO_Europe_Kaliningrad = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Kiev
-# Era count: 1
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Kiev = [
+    #             3:00    Russia    MSK/MSD    1990 Jul  1  2:00
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': 'MSK/MSD',
+      'until_year': 1990,
+      'until_month': 7,
+      'until_day': 1,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #             2:00    1:00    EEST    1991 Sep 29  3:00
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': 'EEST',
+      'until_year': 1991,
+      'until_month': 9,
+      'until_day': 29,
+      'until_seconds': 10800,
+      'until_time_suffix': 'w',
+    },
+    #             2:00    E-Eur    EE%sT    1995
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_E_Eur,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1995,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    EU    EE%sT
     {
       'offset_seconds': 7200,
@@ -10791,10 +14562,46 @@ ZONE_INFO_Europe_Kiev = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Kirov
-# Era count: 3
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Kirov = [
+    #              4:00    Russia    +04/+05    1989 Mar 26  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1989,
+      'until_month': 3,
+      'until_day': 26,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              3:00    Russia    +03/+04    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+03/+04',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              4:00    -    +04    1992 Mar 29  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+04',
+      'until_year': 1992,
+      'until_month': 3,
+      'until_day': 29,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
     {
       'offset_seconds': 10800,
@@ -10840,10 +14647,58 @@ ZONE_INFO_Europe_Kirov = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Lisbon
-# Era count: 1
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Lisbon = [
+    #              1:00    -    CET    1976 Sep 26  1:00
+    {
+      'offset_seconds': 3600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CET',
+      'until_year': 1976,
+      'until_month': 9,
+      'until_day': 26,
+      'until_seconds': 3600,
+      'until_time_suffix': 'w',
+    },
+    #              0:00    Port    WE%sT    1983 Sep 25  1:00s
+    {
+      'offset_seconds': 0,
+      'zone_policy': ZONE_POLICY_Port,
+      'rules_delta_seconds': 0,
+      'format': 'WE%sT',
+      'until_year': 1983,
+      'until_month': 9,
+      'until_day': 25,
+      'until_seconds': 3600,
+      'until_time_suffix': 's',
+    },
+    #              0:00    W-Eur    WE%sT    1992 Sep 27  1:00s
+    {
+      'offset_seconds': 0,
+      'zone_policy': ZONE_POLICY_W_Eur,
+      'rules_delta_seconds': 0,
+      'format': 'WE%sT',
+      'until_year': 1992,
+      'until_month': 9,
+      'until_day': 27,
+      'until_seconds': 3600,
+      'until_time_suffix': 's',
+    },
+    #              1:00    EU    CE%sT    1996 Mar 31  1:00u
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_EU,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1996,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 3600,
+      'until_time_suffix': 'u',
+    },
     #              0:00    EU    WE%sT
     {
       'offset_seconds': 0,
@@ -10865,10 +14720,22 @@ ZONE_INFO_Europe_Lisbon = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/London
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_London = [
+    #              0:00    GB-Eire    %s    1996
+    {
+      'offset_seconds': 0,
+      'zone_policy': ZONE_POLICY_GB_Eire,
+      'rules_delta_seconds': 0,
+      'format': '%s',
+      'until_year': 1996,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              0:00    EU    GMT/BST
     {
       'offset_seconds': 0,
@@ -10890,10 +14757,22 @@ ZONE_INFO_Europe_London = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Luxembourg
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Luxembourg = [
+    #             1:00    Belgium    CE%sT    1977
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Belgium,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1977,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -10915,10 +14794,22 @@ ZONE_INFO_Europe_Luxembourg = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Madrid
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Madrid = [
+    #              1:00    Spain    CE%sT    1979
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Spain,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1979,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -10940,10 +14831,34 @@ ZONE_INFO_Europe_Madrid = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Malta
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Malta = [
+    #             1:00    Italy    CE%sT    1973 Mar 31
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Italy,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1973,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             1:00    Malta    CE%sT    1981
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Malta,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1981,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -10965,10 +14880,34 @@ ZONE_INFO_Europe_Malta = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Minsk
-# Era count: 2
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Minsk = [
+    #             3:00    Russia    MSK/MSD    1990
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': 'MSK/MSD',
+      'until_year': 1990,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             3:00    -    MSK    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'MSK',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             2:00    Russia    EE%sT    2011 Mar 27  2:00s
     {
       'offset_seconds': 7200,
@@ -11002,10 +14941,22 @@ ZONE_INFO_Europe_Minsk = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Monaco
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Monaco = [
+    #             1:00    France    CE%sT    1977
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_France,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1977,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -11027,10 +14978,34 @@ ZONE_INFO_Europe_Monaco = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Moscow
-# Era count: 3
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Moscow = [
+    #              3:00    Russia    MSK/MSD    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': 'MSK/MSD',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              2:00    Russia    EE%sT    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              3:00    Russia    MSK/MSD    2011 Mar 27  2:00s
     {
       'offset_seconds': 10800,
@@ -11076,10 +15051,22 @@ ZONE_INFO_Europe_Moscow = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Oslo
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Oslo = [
+    #             1:00    Norway    CE%sT    1980
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Norway,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1980,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -11101,10 +15088,22 @@ ZONE_INFO_Europe_Oslo = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Paris
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Paris = [
+    #             1:00    France    CE%sT    1977
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_France,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1977,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -11126,10 +15125,22 @@ ZONE_INFO_Europe_Paris = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Prague
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Prague = [
+    #             1:00    Czech    CE%sT    1979
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Czech,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1979,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -11151,10 +15162,46 @@ ZONE_INFO_Europe_Prague = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Riga
-# Era count: 3
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Riga = [
+    #             3:00    Russia    MSK/MSD    1989 Mar lastSun  2:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': 'MSK/MSD',
+      'until_year': 1989,
+      'until_month': 3,
+      'until_day': 26,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             2:00    1:00    EEST    1989 Sep lastSun  2:00s
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': 'EEST',
+      'until_year': 1989,
+      'until_month': 9,
+      'until_day': 24,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             2:00    Latvia    EE%sT    1997 Jan 21
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Latvia,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1997,
+      'until_month': 1,
+      'until_day': 21,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    EU    EE%sT    2000 Feb 29
     {
       'offset_seconds': 7200,
@@ -11200,10 +15247,22 @@ ZONE_INFO_Europe_Riga = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Rome
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Rome = [
+    #             1:00    Italy    CE%sT    1980
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Italy,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1980,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -11225,10 +15284,58 @@ ZONE_INFO_Europe_Rome = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Samara
-# Era count: 3
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Samara = [
+    #              4:00    Russia    +04/+05    1989 Mar 26  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1989,
+      'until_month': 3,
+      'until_day': 26,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              3:00    Russia    +03/+04    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+03/+04',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              2:00    Russia    +02/+03    1991 Sep 29  2:00s
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+02/+03',
+      'until_year': 1991,
+      'until_month': 9,
+      'until_day': 29,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              3:00    -    +03    1991 Oct 20  3:00
+    {
+      'offset_seconds': 10800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+03',
+      'until_year': 1991,
+      'until_month': 10,
+      'until_day': 20,
+      'until_seconds': 10800,
+      'until_time_suffix': 'w',
+    },
     #              4:00    Russia    +04/+05    2010 Mar 28  2:00s
     {
       'offset_seconds': 14400,
@@ -11274,10 +15381,46 @@ ZONE_INFO_Europe_Samara = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Saratov
-# Era count: 4
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Saratov = [
+    #              4:00    Russia    +04/+05    1988 Mar 27  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1988,
+      'until_month': 3,
+      'until_day': 27,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              3:00    Russia    +03/+04    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+03/+04',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              4:00    -    +04    1992 Mar 29  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+04',
+      'until_year': 1992,
+      'until_month': 3,
+      'until_day': 29,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
     {
       'offset_seconds': 10800,
@@ -11335,10 +15478,106 @@ ZONE_INFO_Europe_Saratov = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Simferopol
-# Era count: 3
+# Era count: 11
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Simferopol = [
+    #              3:00    Russia    MSK/MSD    1990
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': 'MSK/MSD',
+      'until_year': 1990,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #              3:00    -    MSK    1990 Jul  1  2:00
+    {
+      'offset_seconds': 10800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'MSK',
+      'until_year': 1990,
+      'until_month': 7,
+      'until_day': 1,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #              2:00    -    EET    1992
+    {
+      'offset_seconds': 7200,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EET',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #              2:00    E-Eur    EE%sT    1994 May
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_E_Eur,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1994,
+      'until_month': 5,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #              3:00    E-Eur    MSK/MSD    1996 Mar 31  0:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_E_Eur,
+      'rules_delta_seconds': 0,
+      'format': 'MSK/MSD',
+      'until_year': 1996,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 0,
+      'until_time_suffix': 's',
+    },
+    #              3:00    1:00    MSD    1996 Oct 27  3:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': 'MSD',
+      'until_year': 1996,
+      'until_month': 10,
+      'until_day': 27,
+      'until_seconds': 10800,
+      'until_time_suffix': 's',
+    },
+    #              3:00    Russia    MSK/MSD    1997
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': 'MSK/MSD',
+      'until_year': 1997,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #              3:00    -    MSK    1997 Mar lastSun  1:00u
+    {
+      'offset_seconds': 10800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'MSK',
+      'until_year': 1997,
+      'until_month': 3,
+      'until_day': 30,
+      'until_seconds': 3600,
+      'until_time_suffix': 'u',
+    },
     #              2:00    EU    EE%sT    2014 Mar 30  2:00
     {
       'offset_seconds': 7200,
@@ -11384,10 +15623,58 @@ ZONE_INFO_Europe_Simferopol = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Sofia
-# Era count: 1
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Sofia = [
+    #             2:00    -    EET    1979 Mar 31 23:00
+    {
+      'offset_seconds': 7200,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EET',
+      'until_year': 1979,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 82800,
+      'until_time_suffix': 'w',
+    },
+    #             2:00    Bulg    EE%sT    1982 Sep 26  3:00
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Bulg,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1982,
+      'until_month': 9,
+      'until_day': 26,
+      'until_seconds': 10800,
+      'until_time_suffix': 'w',
+    },
+    #             2:00    C-Eur    EE%sT    1991
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_C_Eur,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1991,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             2:00    E-Eur    EE%sT    1997
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_E_Eur,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1997,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    EU    EE%sT
     {
       'offset_seconds': 7200,
@@ -11409,10 +15696,22 @@ ZONE_INFO_Europe_Sofia = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Stockholm
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Stockholm = [
+    #             1:00    -    CET    1980
+    {
+      'offset_seconds': 3600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CET',
+      'until_year': 1980,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -11434,10 +15733,46 @@ ZONE_INFO_Europe_Stockholm = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Tallinn
-# Era count: 3
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Tallinn = [
+    #             3:00    Russia    MSK/MSD    1989 Mar 26  2:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': 'MSK/MSD',
+      'until_year': 1989,
+      'until_month': 3,
+      'until_day': 26,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             2:00    1:00    EEST    1989 Sep 24  2:00s
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': 'EEST',
+      'until_year': 1989,
+      'until_month': 9,
+      'until_day': 24,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             2:00    C-Eur    EE%sT    1998 Sep 22
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_C_Eur,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1998,
+      'until_month': 9,
+      'until_day': 22,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    EU    EE%sT    1999 Oct 31  4:00
     {
       'offset_seconds': 7200,
@@ -11483,10 +15818,22 @@ ZONE_INFO_Europe_Tallinn = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Tirane
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Tirane = [
+    #             1:00    Albania    CE%sT    1984 Jul
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Albania,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1984,
+      'until_month': 7,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -11508,10 +15855,46 @@ ZONE_INFO_Europe_Tirane = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Ulyanovsk
-# Era count: 4
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Ulyanovsk = [
+    #              4:00    Russia    +04/+05    1989 Mar 26  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1989,
+      'until_month': 3,
+      'until_day': 26,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              3:00    Russia    +03/+04    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+03/+04',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              2:00    Russia    +02/+03    1992 Jan 19  2:00s
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+02/+03',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 19,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
     {
       'offset_seconds': 10800,
@@ -11569,10 +15952,70 @@ ZONE_INFO_Europe_Ulyanovsk = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Uzhgorod
-# Era count: 1
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Uzhgorod = [
+    #             3:00    Russia    MSK/MSD    1990
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': 'MSK/MSD',
+      'until_year': 1990,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             3:00    -    MSK    1990 Jul  1  2:00
+    {
+      'offset_seconds': 10800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'MSK',
+      'until_year': 1990,
+      'until_month': 7,
+      'until_day': 1,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #             1:00    -    CET    1991 Mar 31  3:00
+    {
+      'offset_seconds': 3600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CET',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 10800,
+      'until_time_suffix': 'w',
+    },
+    #             2:00    -    EET    1992
+    {
+      'offset_seconds': 7200,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EET',
+      'until_year': 1992,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             2:00    E-Eur    EE%sT    1995
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_E_Eur,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1995,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    EU    EE%sT
     {
       'offset_seconds': 7200,
@@ -11594,10 +16037,22 @@ ZONE_INFO_Europe_Uzhgorod = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Vienna
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Vienna = [
+    #             1:00    Austria    CE%sT    1981
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Austria,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1981,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -11619,10 +16074,58 @@ ZONE_INFO_Europe_Vienna = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Vilnius
-# Era count: 3
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Vilnius = [
+    #             3:00    Russia    MSK/MSD    1989 Mar 26  2:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': 'MSK/MSD',
+      'until_year': 1989,
+      'until_month': 3,
+      'until_day': 26,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             2:00    Russia    EE%sT    1991 Sep 29  2:00s
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1991,
+      'until_month': 9,
+      'until_day': 29,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             2:00    C-Eur    EE%sT    1998
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_C_Eur,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1998,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             2:00    -    EET    1998 Mar 29  1:00u
+    {
+      'offset_seconds': 7200,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'EET',
+      'until_year': 1998,
+      'until_month': 3,
+      'until_day': 29,
+      'until_seconds': 3600,
+      'until_time_suffix': 'u',
+    },
     #             1:00    EU    CE%sT    1999 Oct 31  1:00u
     {
       'offset_seconds': 3600,
@@ -11668,10 +16171,46 @@ ZONE_INFO_Europe_Vilnius = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Volgograd
-# Era count: 4
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Volgograd = [
+    #              4:00    Russia    +04/+05    1988 Mar 27  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+04/+05',
+      'until_year': 1988,
+      'until_month': 3,
+      'until_day': 27,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              3:00    Russia    +03/+04    1991 Mar 31  2:00s
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': '+03/+04',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              4:00    -    +04    1992 Mar 29  2:00s
+    {
+      'offset_seconds': 14400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+04',
+      'until_year': 1992,
+      'until_month': 3,
+      'until_day': 29,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
     {
       'offset_seconds': 10800,
@@ -11729,10 +16268,34 @@ ZONE_INFO_Europe_Volgograd = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Warsaw
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Warsaw = [
+    #             1:00    Poland    CE%sT    1977
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Poland,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1977,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             1:00    W-Eur    CE%sT    1988
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_W_Eur,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1988,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -11754,10 +16317,34 @@ ZONE_INFO_Europe_Warsaw = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Zaporozhye
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Zaporozhye = [
+    #             3:00    Russia    MSK/MSD    1991 Mar 31  2:00
+    {
+      'offset_seconds': 10800,
+      'zone_policy': ZONE_POLICY_Russia,
+      'rules_delta_seconds': 0,
+      'format': 'MSK/MSD',
+      'until_year': 1991,
+      'until_month': 3,
+      'until_day': 31,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
+    #             2:00    E-Eur    EE%sT    1995
+    {
+      'offset_seconds': 7200,
+      'zone_policy': ZONE_POLICY_E_Eur,
+      'rules_delta_seconds': 0,
+      'format': 'EE%sT',
+      'until_year': 1995,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             2:00    EU    EE%sT
     {
       'offset_seconds': 7200,
@@ -11779,10 +16366,22 @@ ZONE_INFO_Europe_Zaporozhye = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Zurich
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Zurich = [
+    #             1:00    Swiss    CE%sT    1981
+    {
+      'offset_seconds': 3600,
+      'zone_policy': ZONE_POLICY_Swiss,
+      'rules_delta_seconds': 0,
+      'format': 'CE%sT',
+      'until_year': 1981,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             1:00    EU    CE%sT
     {
       'offset_seconds': 3600,
@@ -11829,10 +16428,22 @@ ZONE_INFO_HST = {
 
 #---------------------------------------------------------------------------
 # Zone name: Indian/Chagos
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Indian_Chagos = [
+    #             5:00    -    +05    1996
+    {
+      'offset_seconds': 18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+05',
+      'until_year': 1996,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             6:00    -    +06
     {
       'offset_seconds': 21600,
@@ -12278,10 +16889,22 @@ ZONE_INFO_Pacific_Chuuk = {
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Easter
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Pacific_Easter = [
+    #             -7:00    Chile    -07/-06    1982 Mar 14 3:00u
+    {
+      'offset_seconds': -25200,
+      'zone_policy': ZONE_POLICY_Chile,
+      'rules_delta_seconds': 0,
+      'format': '-07/-06',
+      'until_year': 1982,
+      'until_month': 3,
+      'until_day': 14,
+      'until_seconds': 10800,
+      'until_time_suffix': 'u',
+    },
     #             -6:00    Chile    -06/-05
     {
       'offset_seconds': -21600,
@@ -12328,10 +16951,34 @@ ZONE_INFO_Pacific_Efate = {
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Enderbury
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Pacific_Enderbury = [
+    #             -12:00    -    -12    1979 Oct
+    {
+      'offset_seconds': -43200,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-12',
+      'until_year': 1979,
+      'until_month': 10,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -11:00    -    -11    1994 Dec 31
+    {
+      'offset_seconds': -39600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-11',
+      'until_year': 1994,
+      'until_month': 12,
+      'until_day': 31,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              13:00    -    +13
     {
       'offset_seconds': 46800,
@@ -12440,10 +17087,22 @@ ZONE_INFO_Pacific_Funafuti = {
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Galapagos
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Pacific_Galapagos = [
+    #             -5:00    -    -05    1986
+    {
+      'offset_seconds': -18000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-05',
+      'until_year': 1986,
+      'until_month': 1,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -6:00    Ecuador    -06/-05
     {
       'offset_seconds': -21600,
@@ -12577,10 +17236,34 @@ ZONE_INFO_Pacific_Honolulu = {
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Kiritimati
-# Era count: 1
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Pacific_Kiritimati = [
+    #             -10:40    -    -1040    1979 Oct
+    {
+      'offset_seconds': -38400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-1040',
+      'until_year': 1979,
+      'until_month': 10,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             -10:00    -    -10    1994 Dec 31
+    {
+      'offset_seconds': -36000,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-10',
+      'until_year': 1994,
+      'until_month': 12,
+      'until_day': 31,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #              14:00    -    +14
     {
       'offset_seconds': 50400,
@@ -12639,10 +17322,22 @@ ZONE_INFO_Pacific_Kosrae = {
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Kwajalein
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Pacific_Kwajalein = [
+    #             -12:00    -    -12    1993 Aug 20 24:00
+    {
+      'offset_seconds': -43200,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-12',
+      'until_year': 1993,
+      'until_month': 8,
+      'until_day': 20,
+      'until_seconds': 86400,
+      'until_time_suffix': 'w',
+    },
     #              12:00    -    +12
     {
       'offset_seconds': 43200,
@@ -12714,10 +17409,22 @@ ZONE_INFO_Pacific_Marquesas = {
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Nauru
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Pacific_Nauru = [
+    #             11:30    -    +1130    1979 Feb 10  2:00
+    {
+      'offset_seconds': 41400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+1130',
+      'until_year': 1979,
+      'until_month': 2,
+      'until_day': 10,
+      'until_seconds': 7200,
+      'until_time_suffix': 'w',
+    },
     #             12:00    -    +12
     {
       'offset_seconds': 43200,
@@ -12739,10 +17446,22 @@ ZONE_INFO_Pacific_Nauru = {
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Niue
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Pacific_Niue = [
+    #             -11:30    -    -1130    1978 Oct  1
+    {
+      'offset_seconds': -41400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-1130',
+      'until_year': 1978,
+      'until_month': 10,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -11:00    -    -11
     {
       'offset_seconds': -39600,
@@ -12764,10 +17483,34 @@ ZONE_INFO_Pacific_Niue = {
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Norfolk
-# Era count: 3
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Pacific_Norfolk = [
+    #             11:30    -    +1130    1974 Oct 27 02:00s
+    {
+      'offset_seconds': 41400,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+1130',
+      'until_year': 1974,
+      'until_month': 10,
+      'until_day': 27,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #             11:30    1:00    +1230    1975 Mar  2 02:00s
+    {
+      'offset_seconds': 41400,
+      'zone_policy': ':',
+      'rules_delta_seconds': 3600,
+      'format': '+1230',
+      'until_year': 1975,
+      'until_month': 3,
+      'until_day': 2,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
     #             11:30    -    +1130    2015 Oct  4 02:00s
     {
       'offset_seconds': 41400,
@@ -12888,10 +17631,22 @@ ZONE_INFO_Pacific_Palau = {
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Pitcairn
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Pacific_Pitcairn = [
+    #             -8:30    -    -0830    1998 Apr 27  0:00
+    {
+      'offset_seconds': -30600,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-0830',
+      'until_year': 1998,
+      'until_month': 4,
+      'until_day': 27,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -8:00    -    -08
     {
       'offset_seconds': -28800,
@@ -12963,10 +17718,22 @@ ZONE_INFO_Pacific_Port_Moresby = {
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Rarotonga
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Pacific_Rarotonga = [
+    #             -10:30    -    -1030    1978 Nov 12
+    {
+      'offset_seconds': -37800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '-1030',
+      'until_year': 1978,
+      'until_month': 11,
+      'until_day': 12,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
     #             -10:00    Cook    -10/-0930
     {
       'offset_seconds': -36000,
@@ -13555,9 +18322,10 @@ ZONE_INFO_MAP = {
 
 # The following zones may have inaccuracies due to the following reasons:
 #
-# numInfos: 3
+# numInfos: 4
 #
 # Africa/Johannesburg (["RULES not fixed but FORMAT is missing '%' or '/'"])
 # Antarctica/Casey (["UNTIL '0:01' not on 15-minute boundary"])
 # Asia/Gaza (["UNTIL '0:01' not on 15-minute boundary"])
+# Pacific/Kiritimati (["STDOFF '-10:40' not on 15-minute boundary"])
 
