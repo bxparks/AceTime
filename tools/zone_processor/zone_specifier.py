@@ -298,33 +298,55 @@ class ZoneMatch:
 class Transition:
     """A description of a potential change in DST offset. It can come from
     a number of sources:
-        1) An instance of a ZoneRule that was referenced by the RULES column,
-        instantiated for the given year, which then determines the start date
-        and until date.
-        2) A boundary between one ZoneEra and the next ZoneEra.
-        3) A ZoneRule that has been shifted to the boundary of a ZoneEra.
+
+    1) An instance of a ZoneRule that was referenced by the RULES column,
+       instantiated for the given year, which then determines the start date
+       and until date.
+    2) A boundary between one ZoneEra and the next ZoneEra.
+    3) A ZoneRule that has been shifted to the boundary of a ZoneEra.
     """
     __slots__ = [
-        # The start and until times are initially copied from ZoneMatch, then
-        # updated later by _generate_start_until_times().
-        #   * The until_date_time comes from transition_time of the *next*
+        # The start and until times are initially copied from ZoneMatch, where
+        #
+        # * 'start_date_time' is the UNTIL time of the previous ZoneEra, and
+        # * 'until_date_time' is the UNTIL time of the current ZoneEra.
+        #
+        # Then the transition times are generated. Then these fields are updated
+        # in-situ by _generate_start_until_times() using those transition times:
+        #
+        # * 'start_date_time' is set to the current transition_time converted
+        #   into the UTC offset of the current Transition.
+        # * 'until_date_time' is set to the transition_time of the *next*
         #   Transition.
-        #   * The start_date_time is the current transition_time converted into
-        #   the UTC offset of the current Transition.
+        # * 'start_epoch_seconds' is set to the 'start_date_time' converted
+        #   to epoch seconds using the UTC offset of the *prev* transition
         'start_date_time',  # replaced with actual start time
         'until_date_time',  # replaced with actual until time
         'zone_era',  # (ZoneEra)
+        'start_epoch_second',  # the starting time in epoch seconds
 
-        # These are added for simple Match and named Match.
+        # These transition times (in 'w', 's' and 'u' variants) are added for
+        # both simple Match and named Match.
+        #
         # For a simple Transition, the transition_time is the startTime of the
         # ZoneEra. For a named Transition, the transition_time is the AT field
         # of the corresponding ZoneRule (see _create_transition_for_year()).
-        'original_transition_time',  # transition time before shifting
+        #
+        # The 'transition_time' is the wall date-time of the transition, using
+        # the UTC offset of the *previous* transition. The TZ file will
+        # sometimes specify these as 's' or 'u', so the _fix_transition_times()
+        # will normalize and generate all 3 versions.
         'transition_time',  # 'w' time
         'transition_time_s',  # 's' time
         'transition_time_u',  # 'u' time
+
+        # For the latest prior transition, the actual transition time is shifted
+        # to be the start time of the ZoneMatch. This field preserves the
+        # original transition time for debugging. Not used by any subsequent
+        # calculation.
+        'original_transition_time',  # transition time before shifting
+
         'abbrev',  # abbreviation
-        'start_epoch_second',  # the starting time in epoch seconds
 
         # Added for named Match.
         'zone_rule',  # Defined for named Match.
@@ -609,18 +631,19 @@ class ZoneSpecifier:
         """Initialize the Matches and Transitions for the year. Call this
         explicitly before accessing self.matches, self.transitions, and
         self.all_candidate_transitions. The high level algorithm is as follows:
-            * Extract the list of ZoneEras which overlap with the given year
-              and the given window size (e.g. 13, 14, 36 months). These
-              are called ZoneMatches.
-            * Find the list of Transitions corresponding to the ZoneMatches
-              using _find_transitions_for_match().
-            * Convert the transition times of the Transition objects into
-              start and until times according to the UTC offset of each
-              Transition.
-            * Determine the start and until times of each transitions according
-              to the wall time of each Transition.
-            * Determine the time zone abbreviations (e.g. "PDT", "GMT") of
-              each Transition.
+
+        * Extract the list of ZoneEras which overlap with the given year
+          and the given window size (e.g. 13, 14, 36 months). These
+          are called ZoneMatches.
+        * Find the list of Transitions corresponding to the ZoneMatches
+          using _find_transitions_for_match().
+        * Convert the transition times of the Transition objects into
+          start and until times according to the UTC offset of each
+          Transition.
+        * Determine the start and until times of each transitions according
+          to the wall time of each Transition.
+        * Determine the time zone abbreviations (e.g. "PDT", "GMT") of
+          each Transition.
         """
         if self.debug:
             logging.info('init_for_year(): year: %d', year)
@@ -659,6 +682,8 @@ class ZoneSpecifier:
         if self.debug:
             logging.info('==== Finding (raw) transitions')
         self._find_transitions(self.matches)
+        if self.debug:
+            print_transitions(self.transitions)
 
         # Some transitions from simple match may be in 's' or 'u', so convert
         # to 'w'.
@@ -724,8 +749,11 @@ class ZoneSpecifier:
         if total > self.max_transition_buffer_size:
             self.max_transition_buffer_size = total
         if self.debug:
-            logging.info('max_transition_buffer_size: %s',
-                         self.max_transition_buffer_size)
+            logging.info(
+                '_update_transition_buffer_size(): '
+                'max_transition_buffer_size: %s',
+                self.max_transition_buffer_size,
+            )
         self.all_candidate_transitions.extend(candidate_transitions)
 
     def _init_for_second(self, epoch_seconds: int) -> None:
@@ -896,6 +924,8 @@ class ZoneSpecifier:
         })
         transitions = [transition]
         self._update_transition_buffer_size(transitions)
+        if self.debug:
+            print_transitions(transitions)
         return transitions
 
     def _find_transitions_from_named_match(
@@ -905,18 +935,18 @@ class ZoneSpecifier:
         """Find the transitions of the named ZoneMatch. The search for the
         relevant Transition occurs in 2 passes:
 
-            1 Find the candidate Transitions defined by the ZoneMatch using the
-              *whole* years of the ZoneMatch (i.e. ignoring the month, day, and
-              time fields). Whole years are used because the ZoneRules defined
-              recurring rules based on whole years. This pass includes something
-              called the "most recent prior" Transition, because we need to know
-              the Transition that occurred just before the beginning of the
-              given year. In this rough pass, multiple "prior" Transitions may
-              be included as candidates.
-            2 Precisely select the Transitions which are "active", as determined
-              by the entire date fields of ZoneMatch (including month, day and
-              time) fields. In this pass, only a single "most recent prior"
-              Transition will be found.
+        1 Find the candidate Transitions defined by the ZoneMatch using the
+          *whole* years of the ZoneMatch (i.e. ignoring the month, day, and
+          time fields). Whole years are used because the ZoneRules define
+          recurring rules based on whole years. This pass includes something
+          called the "most recent prior" Transition, because we need to know
+          the Transition that occurred just before the beginning of the
+          given year. In this rough pass, multiple "prior" Transitions may
+          be included as candidates.
+        2 Precisely select the Transitions which are "active", as determined
+          by the entire date fields of ZoneMatch (including month, day and
+          time) fields. In this pass, only a single "most recent prior"
+          Transition will be found.
 
         For each pass, I implemented 2 different algorithms (for a total of
         4 different independent combinations). The "Basic" versions are the
@@ -933,6 +963,8 @@ class ZoneSpecifier:
         internal buffer space needed by the various algorithms. See comments in
         __init__().
         """
+        if self.debug:
+            logging.info('_find_transitions_from_named_match(): %s', match)
         zone_era = match.zone_era
         zone_policy = zone_era.zone_policy
         assert isinstance(zone_policy, ZonePolicyCooked)
@@ -945,7 +977,7 @@ class ZoneSpecifier:
 
         # Find candidate transitions using whole years.
         if self.debug:
-            logging.info('==== Get candidate transitions for named ZoneMatch')
+            logging.info('---- Get candidate transitions for named ZoneMatch')
         candidate_transitions = finder.find_candidate_transitions(match, rules)
         if self.debug:
             print_transitions(candidate_transitions)
@@ -965,7 +997,7 @@ class ZoneSpecifier:
         # Select only those Transitions which overlap with the actual start and
         # until times of the ZoneMatch.
         if self.debug:
-            logging.info('==== Select active transitions')
+            logging.info('---- Select active transitions')
         selector: 'ActiveSelector'
         if self.in_place_transitions:
             selector = ActiveSelectorInPlace(self.debug)
@@ -983,7 +1015,7 @@ class ZoneSpecifier:
 
         # Verify that the "most recent prior" Transition is properly sorted.
         if self.debug:
-            logging.info('==== Final check for sorted transitions')
+            logging.info('---- Final check for sorted transitions')
         self._check_transitions_sorted(transitions)
         if self.debug:
             print_transitions(transitions)
@@ -1026,9 +1058,9 @@ class ZoneSpecifier:
         """Create the Zone Match object for the given Zone Era, truncated at
         the low and high end by start_ym and until_ym:
 
-            * ZoneMatch.start_date_time is prev_era.until_time
-            * ZoneMatch.until_date_time is zone_era.until_time
-            * ZoneMatch.policy_name is '-', ':' or the string name of ZonePolicy
+        * ZoneMatch.start_date_time is prev_era.until_time
+        * ZoneMatch.until_date_time is zone_era.until_time
+        * ZoneMatch.policy_name is '-', ':' or the string name of ZonePolicy
 
         The start_date_time of the current ZoneMatch is determined by the UNTIL
         datetime of the prev_era, which uses the UTC offset of the *previous*
@@ -1073,17 +1105,23 @@ class ZoneSpecifier:
     def _generate_start_until_times(transitions: List[Transition]) -> None:
         """Calculate the various start and until times of the Transitions in the
         following way:
-            1) The 'until_date_time' of the previous Transition is the
-            'transition_time' of the current Transition with no adjustments.
-            2) The local 'start_date_time' of the current Transition is
-            the current 'transition_time' - (prevOffset + prevDelta) +
-            (currentOffset + currentDelta).
-            3) The 'start_epoch_second' of the current Transition is the
-            'transition_time' using the UTC offset of the *previous* Transition.
 
-        Got all that?
+        1) The 'until_date_time' of the previous Transition is the
+           'transition_time' of the current Transition with no adjustments.
+        2) The local 'start_date_time' of the current Transition is
+           the current 'transition_time' - (prevOffset + prevDelta) +
+           (currentOffset + currentDelta), which converts it into the UTC offset
+           of the current transition.
+        3) The 'start_epoch_second' of the current Transition is the
+           'transition_time' using the UTC offset of the *previous*
+           Transition.
 
-        All transitionTimes ought to be in 'w' mode by the time this is called.
+        Got all that? Good, because I often cannot understand my own comments
+        after a period of time.
+
+        The 'transition_time' field is assumed to have been normalized into the
+        'w' mode by calling _fix_transition_times() before this method is
+        called.
         """
 
         # As before, bootstrap the prev transition with the first transition
@@ -1234,11 +1272,11 @@ class ZoneSpecifier:
     def _calc_abbrev(transitions: List[Transition]) -> None:
         """Calculate the time zone abbreviations for each Transition.
         There are several cases:
-            1) 'format' contains 'A/B', meaning 'A' for standard time, and 'B'
-                for DST time.
-            2) 'format' contains a %s, which substitutes the 'letter'
-                2a) If 'letter' is '-', replace with nothing.
-                2b) The 'format' could be just a '%s'.
+        1) 'format' contains 'A/B', meaning 'A' for standard time, and 'B'
+            for DST time.
+        2) 'format' contains a %s, which substitutes the 'letter'
+            2a) If 'letter' is '-', replace with nothing.
+            2b) The 'format' could be just a '%s'.
         """
         for transition in transitions:
             format = transition.format
@@ -1367,10 +1405,12 @@ class CandidateFinderBasic:
         """Return the array of years within the Rule's [from_year, to_year]
         range which should be evaluated to obtain the transitions necessary for
         the matched ZoneEra that spans [start_year, end_year].
-            1) Include all years which overlap [start_year, end_year].
-            2) Add the latest year prior to [start_year]. This is guaranteed to
-            exists because we added an anchor rule at year 0 for those zone
-            policies that need it.
+
+        1) Include all years which overlap [start_year, end_year].
+        2) Add the latest year prior to [start_year]. This is guaranteed to
+           exists because we added an anchor rule at year 0 for those zone
+           policies that need it.
+
         If [start_year, end_year] spans a 3-year interval (which will be the
         case for all supported values of 'viewing_months'), then the maximum
         number of elements in 'years' will be 4.
@@ -1533,13 +1573,13 @@ class ActiveSelectorBasic:
         following situations:
 
         1) If the Transition is outside the time range of the ZoneMatch,
-        ignore the transition.
+           ignore the transition.
         2) If the Transition is within the matching ZoneMatch, it is added
-        to the map at results['transitions'].
+           to the map at results['transitions'].
         2a) If the Transition occurs at the very start of the ZoneMatch, then
-        set the flag "startTransitionFound" to true.
+            set the flag "startTransitionFound" to true.
         3) If the Transition is earlier than the ZoneMatch, then add it to the
-        'latestPriorTransition' if it is the largest prior transition.
+           'latestPriorTransition' if it is the largest prior transition.
 
         This method assumes that the transition time of the Transition has been
         fixed using the _fix_transition_times() method, so that the comparison
@@ -1553,15 +1593,16 @@ class ActiveSelectorBasic:
             }
 
         where:
-            * If transition >= match.until:
-                * do nothing
-            * If transition within match:
-                * add transition to results['transitions']
-                * if transition == match.start
-                    * set results['startTransitionFound'] = True
-            * If transition < match:
-                * if not startTransitionFound:
-                    * set results['latestPriorTransition'] = latest
+
+        * If transition >= match.until:
+            * do nothing
+        * If transition within match:
+            * add transition to results['transitions']
+            * if transition == match.start
+                * set results['startTransitionFound'] = True
+        * If transition < match:
+            * if not startTransitionFound:
+                * set results['latestPriorTransition'] = latest
         """
         # Determine if the transition falls within the match range.
         transition_compared_to_match = _compare_transition_to_match(
@@ -1654,7 +1695,7 @@ class ActiveSelectorInPlace:
 
 
 def print_transitions(transitions: List[Transition]) -> None:
-    logging.info('Num transitions: %d', len(transitions))
+    logging.info('print_transitions(): num transitions: %d', len(transitions))
     for t in transitions:
         logging.info(t)
 
