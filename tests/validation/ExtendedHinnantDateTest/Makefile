@@ -33,7 +33,7 @@ runtests:
 # --ignore_buf_size_too_large flag to prevent an exception.
 SCOPE = extended
 TZ_VERSION = 2020d
-START_YEAR = 2000
+START_YEAR = 1974
 UNTIL_YEAR = 2050
 
 validation_data.cpp: validation_data.h
@@ -78,6 +78,7 @@ $(DB_NAMESPACE)/zone_infos.h: tzfiles/$(TZ_VERSION)
 	mkdir -p $(DB_NAMESPACE); \
 	cd $(DB_NAMESPACE); \
 	../../../../tools/tzcompiler.py \
+		--ignore_buf_size_too_large \
 		--input_dir ../tzfiles/$(TZ_VERSION) \
 		--tz_version $(TZ_VERSION) \
 		--language arduino,zonelist \
