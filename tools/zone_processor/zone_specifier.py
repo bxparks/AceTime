@@ -24,6 +24,7 @@ from typing import TYPE_CHECKING
 from typing import Union
 from typing import cast
 from typing_extensions import Protocol
+from typing_extensions import TypedDict
 from data_types.at_types import MIN_YEAR, SECONDS_SINCE_UNIX_EPOCH
 from transformer.transformer import seconds_to_hms
 from transformer.transformer import hms_to_seconds
@@ -1501,6 +1502,12 @@ class CandidateFinderOptimized:
             return transition
 
 
+class ProcessTransitionResult(TypedDict):
+    start_transition_found: Optional[bool]
+    latest_prior_transition: Optional[Transition]
+    transitions: List[Transition]
+
+
 class ActiveSelector(Protocol):
     """Define the common methods of ActiveSelectorBasic and
     ActiveSelectorInPlace for mypy type checking.
@@ -1534,7 +1541,7 @@ class ActiveSelectorBasic:
             logging.info('ActiveSelectorBasic.select_active_transitions()')
 
         # Commulative results of _process_transition()
-        results: Dict[str, Any] = {
+        results: ProcessTransitionResult = {
             'start_transition_found': None,
             'latest_prior_transition': None,
             'transitions': []
@@ -1567,7 +1574,7 @@ class ActiveSelectorBasic:
     def _process_transition(
         match: ZoneMatch,
         transition: Transition,
-        results: Dict[str, Any],
+        results: ProcessTransitionResult,
     ) -> None:
         """Compare the given transition to the given match, checking the
         following situations:
