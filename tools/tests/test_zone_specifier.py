@@ -202,7 +202,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
             DateTuple(1999, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
             DateTuple(2001, 2, 1, 0, 'w'), matches[0].until_date_time)
-        self.assertEqual('US', matches[0].zone_era.policyName)
+        self.assertEqual('US', matches[0].zone_era.policy_name)
 
         transitions = zone_specifier.transitions
         self.assertEqual(3, len(transitions))
@@ -249,13 +249,13 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
             DateTuple(2005, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
             DateTuple(2006, 4, 2, 2 * 3600, 'w'), matches[0].until_date_time)
-        self.assertEqual('-', matches[0].zone_era.policyName)
+        self.assertEqual('-', matches[0].zone_era.policy_name)
 
         self.assertEqual(
             DateTuple(2006, 4, 2, 2 * 3600, 'w'), matches[1].start_date_time)
         self.assertEqual(
             DateTuple(2007, 2, 1, 0, 'w'), matches[1].until_date_time)
-        self.assertEqual('US', matches[1].zone_era.policyName)
+        self.assertEqual('US', matches[1].zone_era.policy_name)
 
         transitions = zone_specifier.transitions
         self.assertEqual(3, len(transitions))
@@ -301,7 +301,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
             DateTuple(1999, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
             DateTuple(2001, 2, 1, 0, 'w'), matches[0].until_date_time)
-        self.assertEqual('EU', matches[0].zone_era.policyName)
+        self.assertEqual('EU', matches[0].zone_era.policy_name)
 
         transitions = zone_specifier.transitions
         self.assertEqual(3, len(transitions))
@@ -348,13 +348,13 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
             DateTuple(2004, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
             DateTuple(2006, 1, 1, 0 * 3600, 'w'), matches[0].until_date_time)
-        self.assertEqual('Winn', matches[0].zone_era.policyName)
+        self.assertEqual('Winn', matches[0].zone_era.policy_name)
 
         self.assertEqual(
             DateTuple(2006, 1, 1, 0 * 3600, 'w'), matches[1].start_date_time)
         self.assertEqual(
             DateTuple(2006, 2, 1, 0 * 3600, 'w'), matches[1].until_date_time)
-        self.assertEqual('Canada', matches[1].zone_era.policyName)
+        self.assertEqual('Canada', matches[1].zone_era.policy_name)
 
         transitions = zone_specifier.transitions
         self.assertEqual(4, len(transitions))
@@ -408,13 +408,13 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
             DateTuple(2010, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
             DateTuple(2011, 3, 27, 2 * 3600, 's'), matches[0].until_date_time)
-        self.assertEqual('Russia', matches[0].zone_era.policyName)
+        self.assertEqual('Russia', matches[0].zone_era.policy_name)
 
         self.assertEqual(
             DateTuple(2011, 3, 27, 2 * 3600, 's'), matches[1].start_date_time)
         self.assertEqual(
             DateTuple(2012, 2, 1, 0, 'w'), matches[1].until_date_time)
-        self.assertEqual('-', matches[1].zone_era.policyName)
+        self.assertEqual('-', matches[1].zone_era.policy_name)
 
         transitions = zone_specifier.transitions
         self.assertEqual(2, len(transitions))
@@ -452,13 +452,13 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
             DateTuple(2016, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
             DateTuple(2017, 10, 29, 1 * 3600, 'u'), matches[0].until_date_time)
-        self.assertEqual('-', matches[0].zone_era.policyName)
+        self.assertEqual('-', matches[0].zone_era.policy_name)
 
         self.assertEqual(
             DateTuple(2017, 10, 29, 1 * 3600, 'u'), matches[1].start_date_time)
         self.assertEqual(
             DateTuple(2018, 2, 1, 0, 'w'), matches[1].until_date_time)
-        self.assertEqual('EUAsia', matches[1].zone_era.policyName)
+        self.assertEqual('EUAsia', matches[1].zone_era.policy_name)
 
         transitions = zone_specifier.transitions
         self.assertEqual(2, len(transitions))
@@ -496,19 +496,19 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
             DateTuple(1999, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
             DateTuple(2000, 10, 29, 2 * 3600, 'w'), matches[0].until_date_time)
-        self.assertEqual('-', matches[0].zone_era.policyName)
+        self.assertEqual('-', matches[0].zone_era.policy_name)
 
         self.assertEqual(
             DateTuple(2000, 10, 29, 2 * 3600, 'w'), matches[1].start_date_time)
         self.assertEqual(
             DateTuple(2000, 12, 3, 1 * 3600, 'w'), matches[1].until_date_time)
-        self.assertEqual('US', matches[1].zone_era.policyName)
+        self.assertEqual('US', matches[1].zone_era.policy_name)
 
         self.assertEqual(
             DateTuple(2000, 12, 3, 1 * 3600, 'w'), matches[2].start_date_time)
         self.assertEqual(
             DateTuple(2001, 2, 1, 0, 'w'), matches[2].until_date_time)
-        self.assertEqual('-', matches[2].zone_era.policyName)
+        self.assertEqual('-', matches[2].zone_era.policy_name)
 
         transitions = zone_specifier.transitions
         self.assertEqual(3, len(transitions))
@@ -554,13 +554,13 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
             DateTuple(2005, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
             DateTuple(2007, 1, 1, 0 * 3600, 'w'), matches[0].until_date_time)
-        self.assertEqual('Moncton', matches[0].zone_era.policyName)
+        self.assertEqual('Moncton', matches[0].zone_era.policy_name)
 
         self.assertEqual(
             DateTuple(2007, 1, 1, 0 * 3600, 'w'), matches[1].start_date_time)
         self.assertEqual(
             DateTuple(2007, 2, 1, 0, 'w'), matches[1].until_date_time)
-        self.assertEqual('Canada', matches[1].zone_era.policyName)
+        self.assertEqual('Canada', matches[1].zone_era.policy_name)
 
         transitions = zone_specifier.transitions
         self.assertEqual(4, len(transitions))
@@ -614,19 +614,19 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
             DateTuple(2014, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
             DateTuple(2015, 10, 25, 1 * 3600, 'u'), matches[0].until_date_time)
-        self.assertEqual('EU', matches[0].zone_era.policyName)
+        self.assertEqual('EU', matches[0].zone_era.policy_name)
 
         self.assertEqual(
             DateTuple(2015, 10, 25, 1 * 3600, 'u'), matches[1].start_date_time)
         self.assertEqual(
             DateTuple(2015, 11, 8, 1 * 3600, 'u'), matches[1].until_date_time)
-        self.assertEqual(':', matches[1].zone_era.policyName)
+        self.assertEqual(':', matches[1].zone_era.policy_name)
 
         self.assertEqual(
             DateTuple(2015, 11, 8, 1 * 3600, 'u'), matches[2].start_date_time)
         self.assertEqual(
             DateTuple(2016, 2, 1, 0, 'w'), matches[2].until_date_time)
-        self.assertEqual('EU', matches[2].zone_era.policyName)
+        self.assertEqual('EU', matches[2].zone_era.policy_name)
 
         transitions = zone_specifier.transitions
         self.assertEqual(4, len(transitions))
@@ -681,7 +681,7 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
             DateTuple(1999, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
             DateTuple(2001, 2, 1, 0, 'w'), matches[0].until_date_time)
-        self.assertEqual('Eire', matches[0].zone_era.policyName)
+        self.assertEqual('Eire', matches[0].zone_era.policy_name)
 
         transitions = zone_specifier.transitions
         self.assertEqual(3, len(transitions))
@@ -729,13 +729,13 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
             DateTuple(2010, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
             DateTuple(2011, 12, 29, 24 * 3600, 'w'), matches[0].until_date_time)
-        self.assertEqual('WS', matches[0].zone_era.policyName)
+        self.assertEqual('WS', matches[0].zone_era.policy_name)
 
         self.assertEqual(
             DateTuple(2011, 12, 29, 24 * 3600, 'w'), matches[1].start_date_time)
         self.assertEqual(
             DateTuple(2012, 2, 1, 0, 'w'), matches[1].until_date_time)
-        self.assertEqual('WS', matches[1].zone_era.policyName)
+        self.assertEqual('WS', matches[1].zone_era.policy_name)
 
         transitions = zone_specifier.transitions
         self.assertEqual(4, len(transitions))
@@ -798,21 +798,21 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
             DateTuple(2009, 12, 1, 0, 'w'), matches[0].start_date_time)
         self.assertEqual(
             DateTuple(2010, 1, 1, 0, 'w'), matches[0].until_date_time)
-        self.assertEqual('AT', matches[0].zone_era.policyName)
+        self.assertEqual('AT', matches[0].zone_era.policy_name)
 
         # Match 1
         self.assertEqual(
             DateTuple(2010, 1, 1, 0, 'w'), matches[1].start_date_time)
         self.assertEqual(
             DateTuple(2011, 1, 1, 0, 'w'), matches[1].until_date_time)
-        self.assertEqual(':', matches[1].zone_era.policyName)
+        self.assertEqual(':', matches[1].zone_era.policy_name)
 
         # Match 2
         self.assertEqual(
             DateTuple(2011, 1, 1, 0, 'w'), matches[2].start_date_time)
         self.assertEqual(
             DateTuple(2011, 2, 1, 0, 'w'), matches[2].until_date_time)
-        self.assertEqual('AT', matches[2].zone_era.policyName)
+        self.assertEqual('AT', matches[2].zone_era.policy_name)
 
         transitions = zone_specifier.transitions
         self.assertEqual(3, len(transitions))
@@ -859,19 +859,19 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
             DateTuple(2013, 12, 1, 0 * 3600, 'w'), matches[0].start_date_time)
         self.assertEqual(
             DateTuple(2014, 3, 30, 2 * 3600, 'w'), matches[0].until_date_time)
-        self.assertEqual('EU', matches[0].zone_era.policyName)
+        self.assertEqual('EU', matches[0].zone_era.policy_name)
 
         self.assertEqual(
             DateTuple(2014, 3, 30, 2 * 3600, 'w'), matches[1].start_date_time)
         self.assertEqual(
             DateTuple(2014, 10, 26, 2 * 3600, 's'), matches[1].until_date_time)
-        self.assertEqual('-', matches[1].zone_era.policyName)
+        self.assertEqual('-', matches[1].zone_era.policy_name)
 
         self.assertEqual(
             DateTuple(2014, 10, 26, 2 * 3600, 's'), matches[2].start_date_time)
         self.assertEqual(
             DateTuple(2015, 2, 1, 0 * 3600, 'w'), matches[2].until_date_time)
-        self.assertEqual('-', matches[2].zone_era.policyName)
+        self.assertEqual('-', matches[2].zone_era.policy_name)
 
         transitions = zone_specifier.transitions
         self.assertEqual(3, len(transitions))
@@ -918,13 +918,13 @@ class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
             DateTuple(2010, 12, 1, 0 * 3600, 'w'), matches[0].start_date_time)
         self.assertEqual(
             DateTuple(2011, 3, 27, 2 * 3600, 's'), matches[0].until_date_time)
-        self.assertEqual('Russia', matches[0].zone_era.policyName)
+        self.assertEqual('Russia', matches[0].zone_era.policy_name)
 
         self.assertEqual(
             DateTuple(2011, 3, 27, 2 * 3600, 's'), matches[1].start_date_time)
         self.assertEqual(
             DateTuple(2012, 2, 1, 0 * 3600, 'w'), matches[1].until_date_time)
-        self.assertEqual('-', matches[1].zone_era.policyName)
+        self.assertEqual('-', matches[1].zone_era.policy_name)
 
         transitions = zone_specifier.transitions
         self.assertEqual(2, len(transitions))

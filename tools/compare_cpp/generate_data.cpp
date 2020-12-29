@@ -5,7 +5,7 @@
  * even though we don't need it here.
  *
  * Usage:
- * $ ./test_data_generator.out --tz_version {version} \
+ * $ ./generate_data.out --tz_version {version} \
  *    [--start_year start] [--until_year until] \
  *    < zones.txt
  *
@@ -270,7 +270,7 @@ void sortTestData(TestData& testData) {
 }
 
 /**
- * Generate the validation_data.json file. Adopted from TestDataGenerator.java.
+ * Generate the validation_data.json file. Adopted from GenerateData.java.
  */
 void printJson(const TestData& testData) {
   FILE* fp = fopen(VALIDATION_DATA_JSON, "w");
@@ -336,7 +336,7 @@ void printJson(const TestData& testData) {
 
 void usageAndExit() {
   fprintf(stderr,
-    "Usage: test_data_generator --tz_version {version}\n"
+    "Usage: generate_data --tz_version {version}\n"
     "   [--start_year start] [--until_year until]\n"
     "   < zones.txt\n");
   exit(1);

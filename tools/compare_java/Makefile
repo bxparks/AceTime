@@ -1,4 +1,4 @@
-SRCS := TestDataGenerator.java
+SRCS := GenerateData.java
 CLASSES := $(SRCS:.java=.class)
 
 .SUFFIXES:.java .class
@@ -11,7 +11,7 @@ all: classes
 classes: $(CLASSES)
 
 json: $(CLASSES) small.txt
-	java -cp . TestDataGenerator \
+	java -cp . GenerateData \
 		--start_year 2000 \
 		--until_year 2038 \
 		< small.txt

@@ -10,7 +10,7 @@ from data_types.at_types import ZoneInfoDatabase
 class ZoneListGenerator:
     """Create a `zones.txt` file that contains the names of zones supported by
     zonedb and zonedbx. Will be used by external programs (e.g.
-    TestDataGenerator.java or test_data_generator.cpp) to generate the
+    GenerateData.java or generate_data.cpp) to generate the
     validation_data.* files using the appropriate third party timezone library
     (e.g. java.time or Hinnant date library).
     """

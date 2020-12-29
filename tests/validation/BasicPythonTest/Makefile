@@ -47,7 +47,7 @@ validation_data.h: validation_data.json
 		< validation_data.json
 
 validation_data.json: $(DB_NAMESPACE)/zones.txt
-	../../../tools/compare_pytz/test_data_generator.py \
+	../../../tools/compare_pytz/generate_data.py \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
 		< $(DB_NAMESPACE)/zones.txt

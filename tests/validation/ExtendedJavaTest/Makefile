@@ -49,13 +49,13 @@ validation_data.h: validation_data.json
 		< validation_data.json
 
 validation_data.json: $(DB_NAMESPACE)/zones.txt \
-../../../tools/compare_java/TestDataGenerator.class
-	java -cp ../../../tools/compare_java TestDataGenerator \
+../../../tools/compare_java/GenerateData.class
+	java -cp ../../../tools/compare_java GenerateData \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
 		< $(DB_NAMESPACE)/zones.txt
 
-../../../tools/compare_java/TestDataGenerator.class:
+../../../tools/compare_java/GenerateData.class:
 	make -C ../../../tools/compare_java
 
 $(DB_NAMESPACE)/%.o: $(DB_NAMESPACE)/%.cpp

@@ -4,7 +4,7 @@ all:
 	@echo 'No compilation necessary'
 
 json:
-	./test_data_generator.py \
+	./generate_data.py \
 		< small.txt
 
 clean:

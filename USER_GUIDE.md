@@ -2749,7 +2749,7 @@ following versions of `dateutil` have been tested:
 The Java 11 `java.time` library is not limited to 2038 but supports years
 through the [year 1,000,000,000
 (billion)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/class-use/Instant.html).
-I wrote the [TestDataGenerator.java](tools/compare_java/TestDataGenerator.java)
+I wrote the [GenerateData.java](tools/compare_java/GenerateData.java)
 program to generate a `validation_data.cpp` file in exactly the same format as
 the `tzcompiler.py` program, and produced data points from year 2000 to year
 2050, which is the exact range of years supported by the `zonedb::` and
