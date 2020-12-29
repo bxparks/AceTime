@@ -215,7 +215,7 @@ class ZoneEraCooked:
                 setattr(self, key, value)
 
     @property
-    def policyName(self) -> str:
+    def policy_name(self) -> str:
         """Return the human-readable name of the zone policy used by
         this zone_era (i.e. value of RULES column). Will be in one of 3 states:
         '-', ':' or a reference
@@ -290,7 +290,7 @@ class ZoneMatch:
             'ZoneMatch('
             f'start: {date_tuple_to_string(self.start_date_time)}'
             f'; until: {date_tuple_to_string(self.until_date_time)}'
-            f'; policyName: {self.zone_era.policyName}'
+            f'; policy_name: {self.zone_era.policy_name}'
             ')'
         )
 
@@ -415,7 +415,7 @@ class Transition:
 
     def __repr__(self) -> str:
         sepoch = self.start_epoch_second if self.start_epoch_second else '-'
-        policy_name = self.zone_era.policyName
+        policy_name = self.zone_era.policy_name
         offset_seconds = self.offset_seconds
         delta_seconds = self.delta_seconds
         format = self.format
@@ -1535,8 +1535,8 @@ class ActiveSelectorBasic:
 
         # Commulative results of _process_transition()
         results: Dict[str, Any] = {
-            'startTransitionFound': None,
-            'latestPriorTransition': None,
+            'start_transition_found': None,
+            'latest_prior_transition': None,
             'transitions': []
         }
 
@@ -1548,8 +1548,8 @@ class ActiveSelectorBasic:
         # Add the latest prior transition. Adding this at the end of the array
         # will likely cause the transitions to become unsorted, requiring
         # another sorting pass.
-        if not results.get('startTransitionFound'):
-            prior_transition = results.get('latestPriorTransition')
+        if not results.get('start_transition_found'):
+            prior_transition = results.get('latest_prior_transition')
             if not prior_transition:
                 raise Exception(
                     'Prior transition not found; should not happen')
@@ -1577,9 +1577,9 @@ class ActiveSelectorBasic:
         2) If the Transition is within the matching ZoneMatch, it is added
            to the map at results['transitions'].
         2a) If the Transition occurs at the very start of the ZoneMatch, then
-            set the flag "startTransitionFound" to true.
+            set the flag "start_transition_found" to true.
         3) If the Transition is earlier than the ZoneMatch, then add it to the
-           'latestPriorTransition' if it is the largest prior transition.
+           'latest_prior_transition' if it is the largest prior transition.
 
         This method assumes that the transition time of the Transition has been
         fixed using the _fix_transition_times() method, so that the comparison
@@ -1587,8 +1587,8 @@ class ActiveSelectorBasic:
 
         The 'results' is a map that keeps track of the processing, and contains:
             {
-                'startTransitionFound': bool,
-                'latestPriorTransition': transition,
+                'start_transition_found': bool,
+                'latest_prior_transition': transition,
                 'transitions': {}
             }
 
@@ -1599,10 +1599,10 @@ class ActiveSelectorBasic:
         * If transition within match:
             * add transition to results['transitions']
             * if transition == match.start
-                * set results['startTransitionFound'] = True
+                * set results['start_transition_found'] = True
         * If transition < match:
-            * if not startTransitionFound:
-                * set results['latestPriorTransition'] = latest
+            * if not start_transition_found:
+                * set results['latest_prior_transition'] = latest
         """
         # Determine if the transition falls within the match range.
         transition_compared_to_match = _compare_transition_to_match(
@@ -1612,21 +1612,21 @@ class ActiveSelectorBasic:
         elif transition_compared_to_match in [0, 1]:
             _add_transition_sorted(results['transitions'], transition)
             if transition_compared_to_match == 0:
-                results['startTransitionFound'] = True
+                results['start_transition_found'] = True
         else:  # transition_compared_to_match < 0:
             # If a Transition exists on the start bounary of the ZoneMatch,
             # then we don't need to search for the latest prior.
-            if results.get('startTransitionFound'):
+            if results.get('start_transition_found'):
                 return
 
             # Determine the latest prior transition
-            latest_prior_transition = results.get('latestPriorTransition')
+            latest_prior_transition = results.get('latest_prior_transition')
             if not latest_prior_transition:
-                results['latestPriorTransition'] = transition
+                results['latest_prior_transition'] = transition
             else:
                 transition_time = transition.transition_time
                 if transition_time > latest_prior_transition.transition_time:
-                    results['latestPriorTransition'] = transition
+                    results['latest_prior_transition'] = transition
 
 
 class ActiveSelectorInPlace:
