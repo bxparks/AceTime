@@ -342,8 +342,14 @@ void usageAndExit() {
   exit(1);
 }
 
-#define SHIFT(argc, argv) do { argc--; argv++; } while(0)
-#define ARG_EQUALS(s, t) (strcmp(s, t) == 0)
+void shift(int& argc, const char* const*& argv) {
+  argc--;
+  argv++;
+}
+
+bool argEquals(const char* s, const char* t) {
+  return strcmp(s, t) == 0;
+}
 
 int main(int argc, const char* const* argv) {
   // Parse command line flags.
@@ -351,22 +357,22 @@ int main(int argc, const char* const* argv) {
   string until = "2050";
   string tzVersion = "";
 
-  SHIFT(argc, argv);
+  shift(argc, argv);
   while (argc > 0) {
-    if (ARG_EQUALS(argv[0], "--start_year")) {
-      SHIFT(argc, argv);
+    if (argEquals(argv[0], "--start_year")) {
+      shift(argc, argv);
       if (argc == 0) usageAndExit();
       start = argv[0];
-    } else if (ARG_EQUALS(argv[0], "--until_year")) {
-      SHIFT(argc, argv);
+    } else if (argEquals(argv[0], "--until_year")) {
+      shift(argc, argv);
       if (argc == 0) usageAndExit();
       until = argv[0];
-    } else if (ARG_EQUALS(argv[0], "--tz_version")) {
-      SHIFT(argc, argv);
+    } else if (argEquals(argv[0], "--tz_version")) {
+      shift(argc, argv);
       if (argc == 0) usageAndExit();
       tzVersion = argv[0];
-    } else if (ARG_EQUALS(argv[0], "--")) {
-      SHIFT(argc, argv);
+    } else if (argEquals(argv[0], "--")) {
+      shift(argc, argv);
       break;
     } else if (strncmp(argv[0], "-", 1) == 0) {
       fprintf(stderr, "Unknonwn flag '%s'\n", argv[0]);
@@ -374,7 +380,7 @@ int main(int argc, const char* const* argv) {
     } else {
       break;
     }
-    SHIFT(argc, argv);
+    shift(argc, argv);
   }
 
   if (tzVersion.empty()) {
