@@ -5,8 +5,11 @@
  * even though we don't need it here.
  *
  * Usage:
- * $ ./generate_data.out --tz_version {version} \
- *    [--start_year start] [--until_year until] \
+ * $ ./generate_data.out
+ *    [--install_dir {dir}]
+ *    [--tz_version {version}]
+ *    [--start_year start]
+ *    [--until_year until]
  *    < zones.txt
  *
  * Produces a 'validation_data.json' file in the current directory.
@@ -336,37 +339,48 @@ void printJson(const TestData& testData) {
 
 void usageAndExit() {
   fprintf(stderr,
-    "Usage: generate_data --tz_version {version}\n"
+    "Usage: generate_data [--install_dir {dir}] [--tz_version {version}]\n"
     "   [--start_year start] [--until_year until]\n"
     "   < zones.txt\n");
   exit(1);
 }
 
-#define SHIFT(argc, argv) do { argc--; argv++; } while(0)
-#define ARG_EQUALS(s, t) (strcmp(s, t) == 0)
+void shift(int& argc, const char* const*& argv) {
+  argc--;
+  argv++;
+}
+
+bool argEquals(const char* s, const char* t) {
+  return strcmp(s, t) == 0;
+}
 
 int main(int argc, const char* const* argv) {
   // Parse command line flags.
   string start = "2000";
   string until = "2050";
   string tzVersion = "";
+  string installDir = "";
 
-  SHIFT(argc, argv);
+  shift(argc, argv);
   while (argc > 0) {
-    if (ARG_EQUALS(argv[0], "--start_year")) {
-      SHIFT(argc, argv);
+    if (argEquals(argv[0], "--start_year")) {
+      shift(argc, argv);
       if (argc == 0) usageAndExit();
       start = argv[0];
-    } else if (ARG_EQUALS(argv[0], "--until_year")) {
-      SHIFT(argc, argv);
+    } else if (argEquals(argv[0], "--until_year")) {
+      shift(argc, argv);
       if (argc == 0) usageAndExit();
       until = argv[0];
-    } else if (ARG_EQUALS(argv[0], "--tz_version")) {
-      SHIFT(argc, argv);
+    } else if (argEquals(argv[0], "--tz_version")) {
+      shift(argc, argv);
       if (argc == 0) usageAndExit();
       tzVersion = argv[0];
-    } else if (ARG_EQUALS(argv[0], "--")) {
-      SHIFT(argc, argv);
+    } else if (argEquals(argv[0], "--install_dir")) {
+      shift(argc, argv);
+      if (argc == 0) usageAndExit();
+      installDir = argv[0];
+    } else if (argEquals(argv[0], "--")) {
+      shift(argc, argv);
       break;
     } else if (strncmp(argv[0], "-", 1) == 0) {
       fprintf(stderr, "Unknonwn flag '%s'\n", argv[0]);
@@ -374,30 +388,52 @@ int main(int argc, const char* const* argv) {
     } else {
       break;
     }
-    SHIFT(argc, argv);
+    shift(argc, argv);
   }
 
+/*
   if (tzVersion.empty()) {
     fprintf(stderr, "Must give --tz_version flag for Hinnant Date'\n");
     usageAndExit();
   }
+*/
 
   startYear = atoi(start.c_str());
   untilYear = atoi(until.c_str());
 
-  // Load the TZ Database at a specific version. See
+  // Set the install directory if specified. Otherwise the default is
+  // ~/Downloads/tzdata on a Linux/MacOS machine. See
+  // https://howardhinnant.github.io/date/tz.html#Installation.
+  if (! installDir.empty()) {
+    set_install(installDir);
+  }
+
+  // Explicitly download load the TZ Database at the specified version if
+  // --tz_version is given. This works even if AUTO_DOWNLOAD=0. See
   // https://github.com/HowardHinnant/date/wiki/Examples-and-Recipes#thoughts-on-reloading-the-iana-tzdb-for-long-running-programs
   // and https://howardhinnant.github.io/date/tz.html#database.
-  if (! remote_download(tzVersion)) {
-    fprintf(stderr, "Failed to download TZ Version %s\n", tzVersion.c_str());
-    exit(1);
+  if (! tzVersion.empty()) {
+    if (! remote_download(tzVersion)) {
+      fprintf(stderr, "Failed to download TZ Version %s\n", tzVersion.c_str());
+      exit(1);
+    }
+    if (! remote_install(tzVersion)) {
+      fprintf(stderr, "Failed to install TZ Version %s\n", tzVersion.c_str());
+      exit(1);
+    }
   }
-  if (! remote_install(tzVersion)) {
-    fprintf(stderr, "Failed to install TZ Version %s\n", tzVersion.c_str());
-    exit(1);
-  }
+
+  // Install the TZ database. Caution: If the source directory is pointed to
+  // the raw https://github.com/eggert/tz/ repo, it is not in the form that is
+  // expected (I think the 'version' file is missing), so the version returned
+  // by get_tzdb() will be in correct.
   reload_tzdb();
-  fprintf(stderr, "Loaded TZ Version %s\n", tzVersion.c_str());
+  if (tzVersion.empty()) {
+    fprintf(stderr, "Loaded existing TZ Version %s\n",
+        date::get_tzdb().version.c_str());
+  } else {
+    fprintf(stderr, "Loaded TZ Version %s\n", tzVersion.c_str());
+  }
 
   // Process the zones on the STDIN
   vector<string> zones = readZones();

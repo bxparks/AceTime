@@ -7,9 +7,8 @@ generate_data.out: generate_data.cpp
 
 json: generate_data.out small.txt
 	./generate_data.out \
-		--tz_version 2019c \
 		--start_year 2000 \
-		--until_year 2038 \
+		--until_year 2050 \
 		< small.txt
 
 clean:
