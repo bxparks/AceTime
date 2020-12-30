@@ -3,7 +3,7 @@
 #   $ ../tzcompiler.py
 #     --input_dir /home/brian/dev/tz
 #     --output_dir /home/brian/src/AceTime/tools/zonedbpy
-#     --tz_version 2020d
+#     --tz_version 2020f
 #     --action zonedb
 #     --language python
 #     --scope extended
@@ -23,13 +23,13 @@
 #   northamerica
 #   southamerica
 #
-# from https://github.com/eggert/tz/releases/tag/2020d
+# from https://github.com/eggert/tz/releases/tag/2020f
 #
 # DO NOT EDIT
 
 from .zone_policies import *
 
-# numInfos: 387
+# numInfos: 386
 # numEras: 1071
 
 #---------------------------------------------------------------------------
@@ -63,12 +63,12 @@ ZONE_INFO_Africa_Abidjan = {
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Africa_Accra = [
-    #              0:00    Ghana    GMT/+0020
+    #              0:00    Ghana    %s
     {
       'offset_seconds': 0,
       'zone_policy': ZONE_POLICY_Ghana,
       'rules_delta_seconds': 0,
-      'format': 'GMT/+0020',
+      'format': '%s',
       'until_year': 10000,
       'until_month': 1,
       'until_day': 1,
@@ -3695,19 +3695,19 @@ ZONE_ERAS_America_Grand_Turk = [
       'until_seconds': 0,
       'until_time_suffix': 'w',
     },
-    #             -5:00    US    E%sT    2015 Nov Sun>=1 2:00
+    #             -5:00    US    E%sT    2015 Mar  8  2:00
     {
       'offset_seconds': -18000,
       'zone_policy': ZONE_POLICY_US,
       'rules_delta_seconds': 0,
       'format': 'E%sT',
       'until_year': 2015,
-      'until_month': 11,
-      'until_day': 1,
+      'until_month': 3,
+      'until_day': 8,
       'until_seconds': 7200,
       'until_time_suffix': 'w',
     },
-    #             -4:00    -    AST    2018 Mar 11 3:00
+    #             -4:00    -    AST    2018 Mar 11  3:00
     {
       'offset_seconds': -14400,
       'zone_policy': '-',
@@ -12180,12 +12180,12 @@ ZONE_INFO_Atlantic_Azores = {
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Atlantic_Bermuda = [
-    #             -4:00    -    AST    1974 Apr 28  2:00
+    #             -4:00    Bermuda    A%sT    1974 Apr 28  2:00
     {
       'offset_seconds': -14400,
-      'zone_policy': '-',
+      'zone_policy': ZONE_POLICY_Bermuda,
       'rules_delta_seconds': 0,
-      'format': 'AST',
+      'format': 'A%sT',
       'until_year': 1974,
       'until_month': 4,
       'until_day': 28,
@@ -12579,31 +12579,6 @@ ZONE_ERAS_Australia_Broken_Hill = [
 ZONE_INFO_Australia_Broken_Hill = {
     'name': 'Australia/Broken_Hill',
     'eras': ZONE_ERAS_Australia_Broken_Hill
-}
-
-#---------------------------------------------------------------------------
-# Zone name: Australia/Currie
-# Era count: 1
-#---------------------------------------------------------------------------
-
-ZONE_ERAS_Australia_Currie = [
-    #             10:00    AT    AE%sT
-    {
-      'offset_seconds': 36000,
-      'zone_policy': ZONE_POLICY_AT,
-      'rules_delta_seconds': 0,
-      'format': 'AE%sT',
-      'until_year': 10000,
-      'until_month': 1,
-      'until_day': 1,
-      'until_seconds': 0,
-      'until_time_suffix': 'w',
-    },
-
-]
-ZONE_INFO_Australia_Currie = {
-    'name': 'Australia/Currie',
-    'eras': ZONE_ERAS_Australia_Currie
 }
 
 #---------------------------------------------------------------------------
@@ -16171,7 +16146,7 @@ ZONE_INFO_Europe_Vilnius = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Volgograd
-# Era count: 7
+# Era count: 8
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Europe_Volgograd = [
@@ -16247,12 +16222,24 @@ ZONE_ERAS_Europe_Volgograd = [
       'until_seconds': 7200,
       'until_time_suffix': 's',
     },
-    #              4:00    -    +04
+    #              4:00    -    +04    2020 Dec 27  2:00s
     {
       'offset_seconds': 14400,
       'zone_policy': '-',
       'rules_delta_seconds': 0,
       'format': '+04',
+      'until_year': 2020,
+      'until_month': 12,
+      'until_day': 27,
+      'until_seconds': 7200,
+      'until_time_suffix': 's',
+    },
+    #              3:00    -    +03
+    {
+      'offset_seconds': 10800,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': '+03',
       'until_year': 10000,
       'until_month': 1,
       'until_day': 1,
@@ -18169,7 +18156,6 @@ ZONE_INFO_MAP = {
     'Australia/Adelaide': ZONE_INFO_Australia_Adelaide, # Australia/Adelaide
     'Australia/Brisbane': ZONE_INFO_Australia_Brisbane, # Australia/Brisbane
     'Australia/Broken_Hill': ZONE_INFO_Australia_Broken_Hill, # Australia/Broken_Hill
-    'Australia/Currie': ZONE_INFO_Australia_Currie, # Australia/Currie
     'Australia/Darwin': ZONE_INFO_Australia_Darwin, # Australia/Darwin
     'Australia/Eucla': ZONE_INFO_Australia_Eucla, # Australia/Eucla
     'Australia/Hobart': ZONE_INFO_Australia_Hobart, # Australia/Hobart

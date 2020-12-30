@@ -3,7 +3,7 @@
 #   $ ../tzcompiler.py
 #     --input_dir /home/brian/dev/tz
 #     --output_dir /home/brian/src/AceTime/tools/zonedbpy
-#     --tz_version 2020d
+#     --tz_version 2020f
 #     --action zonedb
 #     --language python
 #     --scope extended
@@ -23,12 +23,12 @@
 #   northamerica
 #   southamerica
 #
-# from https://github.com/eggert/tz/releases/tag/2020d
+# from https://github.com/eggert/tz/releases/tag/2020f
 #
 # DO NOT EDIT
 
-# numPolicies: 117
-# numRules: 1140
+# numPolicies: 118
+# numRules: 1142
 
 #---------------------------------------------------------------------------
 # Policy name: AN
@@ -1559,7 +1559,7 @@ ZONE_POLICY_Armenia = {
 # Rule count: 1
 #---------------------------------------------------------------------------
 ZONE_RULES_Aus = [
-    # Rule    Aus    1943    1944    -    Mar    lastSun    2:00    0    S
+    # Rule    Aus    1943    1944    -    Mar    lastSun    2:00s    0    S
     {
         'from_year': 1943,
         'to_year': 1944,
@@ -1567,7 +1567,7 @@ ZONE_RULES_Aus = [
         'on_day_of_week': 7,
         'on_day_of_month': 0,
         'at_seconds': 7200,
-        'at_time_suffix': 'w',
+        'at_time_suffix': 's',
         'delta_seconds': 0,
         'letter': 'S',
     },
@@ -1676,9 +1676,21 @@ ZONE_POLICY_Azer = {
 
 #---------------------------------------------------------------------------
 # Policy name: Bahamas
-# Rule count: 2
+# Rule count: 3
 #---------------------------------------------------------------------------
 ZONE_RULES_Bahamas = [
+    # Rule    Bahamas    1945    only    -    Oct    17    24:00    0    S
+    {
+        'from_year': 1945,
+        'to_year': 1945,
+        'in_month': 10,
+        'on_day_of_week': 0,
+        'on_day_of_month': 17,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
     # Rule    Bahamas    1964    1975    -    Oct    lastSun    2:00    0    S
     {
         'from_year': 1964,
@@ -1823,14 +1835,14 @@ ZONE_POLICY_Belgium = {
 # Rule count: 5
 #---------------------------------------------------------------------------
 ZONE_RULES_Belize = [
-    # Rule    Belize    1919    1943    -    Feb    Sun>=9    0:00    0    CST
+    # Rule    Belize    1948    1968    -    Feb    Sat>=8    24:00    0    CST
     {
-        'from_year': 1919,
-        'to_year': 1943,
+        'from_year': 1948,
+        'to_year': 1968,
         'in_month': 2,
-        'on_day_of_week': 7,
-        'on_day_of_month': 9,
-        'at_seconds': 0,
+        'on_day_of_week': 6,
+        'on_day_of_month': 8,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': 'CST',
@@ -1888,6 +1900,30 @@ ZONE_RULES_Belize = [
 ZONE_POLICY_Belize = {
     'name': 'Belize',
     'rules': ZONE_RULES_Belize
+}
+
+#---------------------------------------------------------------------------
+# Policy name: Bermuda
+# Rule count: 1
+#---------------------------------------------------------------------------
+ZONE_RULES_Bermuda = [
+    # Rule    Bermuda    1956    only    -    Oct    lastSun     2:00    0    S
+    {
+        'from_year': 1956,
+        'to_year': 1956,
+        'in_month': 10,
+        'on_day_of_week': 7,
+        'on_day_of_month': 0,
+        'at_seconds': 7200,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+
+]
+ZONE_POLICY_Bermuda = {
+    'name': 'Bermuda',
+    'rules': ZONE_RULES_Bermuda
 }
 
 #---------------------------------------------------------------------------
@@ -5195,17 +5231,17 @@ ZONE_POLICY_Germany = {
 # Rule count: 1
 #---------------------------------------------------------------------------
 ZONE_RULES_Ghana = [
-    # Rule    Ghana    1920    1942    -    Dec    31    0:00    0    -
+    # Rule    Ghana    1951    1956    -    Jan     1    2:00    0    GMT
     {
-        'from_year': 1920,
-        'to_year': 1942,
-        'in_month': 12,
+        'from_year': 1951,
+        'to_year': 1956,
+        'in_month': 1,
         'on_day_of_week': 0,
-        'on_day_of_month': 31,
-        'at_seconds': 0,
+        'on_day_of_month': 1,
+        'at_seconds': 7200,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
-        'letter': '-',
+        'letter': 'GMT',
     },
 
 ]
@@ -14063,7 +14099,7 @@ ZONE_POLICY_Vanc = {
 # Rule count: 7
 #---------------------------------------------------------------------------
 ZONE_RULES_Vanuatu = [
-    # Anchor: Rule    Vanuatu    1984    1991    -    Mar    Sun>=23    0:00    0    -
+    # Anchor: Rule    Vanuatu    1974    only    -    Mar    30    12:00u    0    -
     {
         'from_year': 0,
         'to_year': 0,
@@ -14075,74 +14111,74 @@ ZONE_RULES_Vanuatu = [
         'delta_seconds': 0,
         'letter': '-',
     },
-    # Rule    Vanuatu    1983    only    -    Sep    25    0:00    1:00    -
+    # Rule    Vanuatu    1973    only    -    Dec    22    12:00u    1:00    -
+    {
+        'from_year': 1973,
+        'to_year': 1973,
+        'in_month': 12,
+        'on_day_of_week': 0,
+        'on_day_of_month': 22,
+        'at_seconds': 43200,
+        'at_time_suffix': 'u',
+        'delta_seconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Vanuatu    1974    only    -    Mar    30    12:00u    0    -
+    {
+        'from_year': 1974,
+        'to_year': 1974,
+        'in_month': 3,
+        'on_day_of_week': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 43200,
+        'at_time_suffix': 'u',
+        'delta_seconds': 0,
+        'letter': '-',
+    },
+    # Rule    Vanuatu    1983    1991    -    Sep    Sat>=22    24:00    1:00    -
     {
         'from_year': 1983,
-        'to_year': 1983,
+        'to_year': 1991,
         'in_month': 9,
-        'on_day_of_week': 0,
-        'on_day_of_month': 25,
-        'at_seconds': 0,
+        'on_day_of_week': 6,
+        'on_day_of_month': 22,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 3600,
         'letter': '-',
     },
-    # Rule    Vanuatu    1984    1991    -    Mar    Sun>=23    0:00    0    -
+    # Rule    Vanuatu    1984    1991    -    Mar    Sat>=22    24:00    0    -
     {
         'from_year': 1984,
         'to_year': 1991,
         'in_month': 3,
-        'on_day_of_week': 7,
-        'on_day_of_month': 23,
-        'at_seconds': 0,
+        'on_day_of_week': 6,
+        'on_day_of_month': 22,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': '-',
     },
-    # Rule    Vanuatu    1984    only    -    Oct    23    0:00    1:00    -
-    {
-        'from_year': 1984,
-        'to_year': 1984,
-        'in_month': 10,
-        'on_day_of_week': 0,
-        'on_day_of_month': 23,
-        'at_seconds': 0,
-        'at_time_suffix': 'w',
-        'delta_seconds': 3600,
-        'letter': '-',
-    },
-    # Rule    Vanuatu    1985    1991    -    Sep    Sun>=23    0:00    1:00    -
-    {
-        'from_year': 1985,
-        'to_year': 1991,
-        'in_month': 9,
-        'on_day_of_week': 7,
-        'on_day_of_month': 23,
-        'at_seconds': 0,
-        'at_time_suffix': 'w',
-        'delta_seconds': 3600,
-        'letter': '-',
-    },
-    # Rule    Vanuatu    1992    1993    -    Jan    Sun>=23    0:00    0    -
+    # Rule    Vanuatu    1992    1993    -    Jan    Sat>=22    24:00    0    -
     {
         'from_year': 1992,
         'to_year': 1993,
         'in_month': 1,
-        'on_day_of_week': 7,
-        'on_day_of_month': 23,
-        'at_seconds': 0,
+        'on_day_of_week': 6,
+        'on_day_of_month': 22,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': '-',
     },
-    # Rule    Vanuatu    1992    only    -    Oct    Sun>=23    0:00    1:00    -
+    # Rule    Vanuatu    1992    only    -    Oct    Sat>=22    24:00    1:00    -
     {
         'from_year': 1992,
         'to_year': 1992,
         'in_month': 10,
-        'on_day_of_week': 7,
-        'on_day_of_month': 23,
-        'at_seconds': 0,
+        'on_day_of_week': 6,
+        'on_day_of_month': 22,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 3600,
         'letter': '-',
@@ -14387,302 +14423,302 @@ ZONE_POLICY_Winn = {
 # Rule count: 60
 #---------------------------------------------------------------------------
 ZONE_RULES_Zion = [
-    # Rule    Zion    1957    only    -    Sep    22    0:00    0    S
+    # Rule    Zion    1957    only    -    Sep    21    24:00u    0    S
     {
         'from_year': 1957,
         'to_year': 1957,
         'in_month': 9,
         'on_day_of_week': 0,
-        'on_day_of_month': 22,
-        'at_seconds': 0,
-        'at_time_suffix': 'w',
+        'on_day_of_month': 21,
+        'at_seconds': 86400,
+        'at_time_suffix': 'u',
         'delta_seconds': 0,
         'letter': 'S',
     },
-    # Rule    Zion    1974    only    -    Jul     7    0:00    1:00    D
+    # Rule    Zion    1974    only    -    Jul     6    24:00    1:00    D
     {
         'from_year': 1974,
         'to_year': 1974,
         'in_month': 7,
         'on_day_of_week': 0,
-        'on_day_of_month': 7,
-        'at_seconds': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 3600,
         'letter': 'D',
     },
-    # Rule    Zion    1974    only    -    Oct    13    0:00    0    S
+    # Rule    Zion    1974    only    -    Oct    12    24:00    0    S
     {
         'from_year': 1974,
         'to_year': 1974,
         'in_month': 10,
         'on_day_of_week': 0,
-        'on_day_of_month': 13,
-        'at_seconds': 0,
+        'on_day_of_month': 12,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': 'S',
     },
-    # Rule    Zion    1975    only    -    Apr    20    0:00    1:00    D
+    # Rule    Zion    1975    only    -    Apr    19    24:00    1:00    D
     {
         'from_year': 1975,
         'to_year': 1975,
         'in_month': 4,
         'on_day_of_week': 0,
-        'on_day_of_month': 20,
-        'at_seconds': 0,
+        'on_day_of_month': 19,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 3600,
         'letter': 'D',
     },
-    # Rule    Zion    1975    only    -    Aug    31    0:00    0    S
+    # Rule    Zion    1975    only    -    Aug    30    24:00    0    S
     {
         'from_year': 1975,
         'to_year': 1975,
         'in_month': 8,
         'on_day_of_week': 0,
-        'on_day_of_month': 31,
-        'at_seconds': 0,
+        'on_day_of_month': 30,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': 'S',
     },
-    # Rule    Zion    1980    only    -    Aug     2    0:00    1:00    D
+    # Rule    Zion    1980    only    -    Aug     2    24:00s    1:00    D
     {
         'from_year': 1980,
         'to_year': 1980,
         'in_month': 8,
         'on_day_of_week': 0,
         'on_day_of_month': 2,
-        'at_seconds': 0,
-        'at_time_suffix': 'w',
+        'at_seconds': 86400,
+        'at_time_suffix': 's',
         'delta_seconds': 3600,
         'letter': 'D',
     },
-    # Rule    Zion    1980    only    -    Sep    13    1:00    0    S
+    # Rule    Zion    1980    only    -    Sep    13    24:00s    0    S
     {
         'from_year': 1980,
         'to_year': 1980,
         'in_month': 9,
         'on_day_of_week': 0,
         'on_day_of_month': 13,
-        'at_seconds': 3600,
-        'at_time_suffix': 'w',
+        'at_seconds': 86400,
+        'at_time_suffix': 's',
         'delta_seconds': 0,
         'letter': 'S',
     },
-    # Rule    Zion    1984    only    -    May     5    0:00    1:00    D
+    # Rule    Zion    1984    only    -    May     5    24:00s    1:00    D
     {
         'from_year': 1984,
         'to_year': 1984,
         'in_month': 5,
         'on_day_of_week': 0,
         'on_day_of_month': 5,
-        'at_seconds': 0,
-        'at_time_suffix': 'w',
+        'at_seconds': 86400,
+        'at_time_suffix': 's',
         'delta_seconds': 3600,
         'letter': 'D',
     },
-    # Rule    Zion    1984    only    -    Aug    25    1:00    0    S
+    # Rule    Zion    1984    only    -    Aug    25    24:00s    0    S
     {
         'from_year': 1984,
         'to_year': 1984,
         'in_month': 8,
         'on_day_of_week': 0,
         'on_day_of_month': 25,
-        'at_seconds': 3600,
-        'at_time_suffix': 'w',
+        'at_seconds': 86400,
+        'at_time_suffix': 's',
         'delta_seconds': 0,
         'letter': 'S',
     },
-    # Rule    Zion    1985    only    -    Apr    14    0:00    1:00    D
+    # Rule    Zion    1985    only    -    Apr    13    24:00    1:00    D
     {
         'from_year': 1985,
         'to_year': 1985,
         'in_month': 4,
         'on_day_of_week': 0,
-        'on_day_of_month': 14,
-        'at_seconds': 0,
+        'on_day_of_month': 13,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 3600,
         'letter': 'D',
     },
-    # Rule    Zion    1985    only    -    Sep    15    0:00    0    S
+    # Rule    Zion    1985    only    -    Aug    31    24:00    0    S
     {
         'from_year': 1985,
         'to_year': 1985,
-        'in_month': 9,
+        'in_month': 8,
         'on_day_of_week': 0,
-        'on_day_of_month': 15,
-        'at_seconds': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': 'S',
     },
-    # Rule    Zion    1986    only    -    May    18    0:00    1:00    D
+    # Rule    Zion    1986    only    -    May    17    24:00    1:00    D
     {
         'from_year': 1986,
         'to_year': 1986,
         'in_month': 5,
         'on_day_of_week': 0,
-        'on_day_of_month': 18,
-        'at_seconds': 0,
+        'on_day_of_month': 17,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 3600,
         'letter': 'D',
     },
-    # Rule    Zion    1986    only    -    Sep     7    0:00    0    S
+    # Rule    Zion    1986    only    -    Sep     6    24:00    0    S
     {
         'from_year': 1986,
         'to_year': 1986,
         'in_month': 9,
         'on_day_of_week': 0,
-        'on_day_of_month': 7,
-        'at_seconds': 0,
+        'on_day_of_month': 6,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': 'S',
     },
-    # Rule    Zion    1987    only    -    Apr    15    0:00    1:00    D
+    # Rule    Zion    1987    only    -    Apr    14    24:00    1:00    D
     {
         'from_year': 1987,
         'to_year': 1987,
         'in_month': 4,
         'on_day_of_week': 0,
-        'on_day_of_month': 15,
-        'at_seconds': 0,
+        'on_day_of_month': 14,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 3600,
         'letter': 'D',
     },
-    # Rule    Zion    1987    only    -    Sep    13    0:00    0    S
+    # Rule    Zion    1987    only    -    Sep    12    24:00    0    S
     {
         'from_year': 1987,
         'to_year': 1987,
         'in_month': 9,
         'on_day_of_week': 0,
-        'on_day_of_month': 13,
-        'at_seconds': 0,
+        'on_day_of_month': 12,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': 'S',
     },
-    # Rule    Zion    1988    only    -    Apr    10    0:00    1:00    D
+    # Rule    Zion    1988    only    -    Apr     9    24:00    1:00    D
     {
         'from_year': 1988,
         'to_year': 1988,
         'in_month': 4,
         'on_day_of_week': 0,
-        'on_day_of_month': 10,
-        'at_seconds': 0,
+        'on_day_of_month': 9,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 3600,
         'letter': 'D',
     },
-    # Rule    Zion    1988    only    -    Sep     4    0:00    0    S
+    # Rule    Zion    1988    only    -    Sep     3    24:00    0    S
     {
         'from_year': 1988,
         'to_year': 1988,
-        'in_month': 9,
-        'on_day_of_week': 0,
-        'on_day_of_month': 4,
-        'at_seconds': 0,
-        'at_time_suffix': 'w',
-        'delta_seconds': 0,
-        'letter': 'S',
-    },
-    # Rule    Zion    1989    only    -    Apr    30    0:00    1:00    D
-    {
-        'from_year': 1989,
-        'to_year': 1989,
-        'in_month': 4,
-        'on_day_of_week': 0,
-        'on_day_of_month': 30,
-        'at_seconds': 0,
-        'at_time_suffix': 'w',
-        'delta_seconds': 3600,
-        'letter': 'D',
-    },
-    # Rule    Zion    1989    only    -    Sep     3    0:00    0    S
-    {
-        'from_year': 1989,
-        'to_year': 1989,
         'in_month': 9,
         'on_day_of_week': 0,
         'on_day_of_month': 3,
-        'at_seconds': 0,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': 'S',
     },
-    # Rule    Zion    1990    only    -    Mar    25    0:00    1:00    D
+    # Rule    Zion    1989    only    -    Apr    29    24:00    1:00    D
+    {
+        'from_year': 1989,
+        'to_year': 1989,
+        'in_month': 4,
+        'on_day_of_week': 0,
+        'on_day_of_month': 29,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 3600,
+        'letter': 'D',
+    },
+    # Rule    Zion    1989    only    -    Sep     2    24:00    0    S
+    {
+        'from_year': 1989,
+        'to_year': 1989,
+        'in_month': 9,
+        'on_day_of_week': 0,
+        'on_day_of_month': 2,
+        'at_seconds': 86400,
+        'at_time_suffix': 'w',
+        'delta_seconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1990    only    -    Mar    24    24:00    1:00    D
     {
         'from_year': 1990,
         'to_year': 1990,
         'in_month': 3,
         'on_day_of_week': 0,
-        'on_day_of_month': 25,
-        'at_seconds': 0,
+        'on_day_of_month': 24,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 3600,
         'letter': 'D',
     },
-    # Rule    Zion    1990    only    -    Aug    26    0:00    0    S
+    # Rule    Zion    1990    only    -    Aug    25    24:00    0    S
     {
         'from_year': 1990,
         'to_year': 1990,
         'in_month': 8,
         'on_day_of_week': 0,
-        'on_day_of_month': 26,
-        'at_seconds': 0,
+        'on_day_of_month': 25,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': 'S',
     },
-    # Rule    Zion    1991    only    -    Mar    24    0:00    1:00    D
+    # Rule    Zion    1991    only    -    Mar    23    24:00    1:00    D
     {
         'from_year': 1991,
         'to_year': 1991,
         'in_month': 3,
         'on_day_of_week': 0,
-        'on_day_of_month': 24,
-        'at_seconds': 0,
+        'on_day_of_month': 23,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 3600,
         'letter': 'D',
     },
-    # Rule    Zion    1991    only    -    Sep     1    0:00    0    S
+    # Rule    Zion    1991    only    -    Aug    31    24:00    0    S
     {
         'from_year': 1991,
         'to_year': 1991,
-        'in_month': 9,
+        'in_month': 8,
         'on_day_of_week': 0,
-        'on_day_of_month': 1,
-        'at_seconds': 0,
+        'on_day_of_month': 31,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': 'S',
     },
-    # Rule    Zion    1992    only    -    Mar    29    0:00    1:00    D
+    # Rule    Zion    1992    only    -    Mar    28    24:00    1:00    D
     {
         'from_year': 1992,
         'to_year': 1992,
         'in_month': 3,
         'on_day_of_week': 0,
-        'on_day_of_month': 29,
-        'at_seconds': 0,
+        'on_day_of_month': 28,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 3600,
         'letter': 'D',
     },
-    # Rule    Zion    1992    only    -    Sep     6    0:00    0    S
+    # Rule    Zion    1992    only    -    Sep     5    24:00    0    S
     {
         'from_year': 1992,
         'to_year': 1992,
         'in_month': 9,
         'on_day_of_week': 0,
-        'on_day_of_month': 6,
-        'at_seconds': 0,
+        'on_day_of_month': 5,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': 'S',
@@ -14759,50 +14795,50 @@ ZONE_RULES_Zion = [
         'delta_seconds': 0,
         'letter': 'S',
     },
-    # Rule    Zion    1996    only    -    Mar    15    0:00    1:00    D
+    # Rule    Zion    1996    only    -    Mar    14    24:00    1:00    D
     {
         'from_year': 1996,
         'to_year': 1996,
         'in_month': 3,
         'on_day_of_week': 0,
-        'on_day_of_month': 15,
-        'at_seconds': 0,
+        'on_day_of_month': 14,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 3600,
         'letter': 'D',
     },
-    # Rule    Zion    1996    only    -    Sep    16    0:00    0    S
+    # Rule    Zion    1996    only    -    Sep    15    24:00    0    S
     {
         'from_year': 1996,
         'to_year': 1996,
         'in_month': 9,
         'on_day_of_week': 0,
-        'on_day_of_month': 16,
-        'at_seconds': 0,
+        'on_day_of_month': 15,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': 'S',
     },
-    # Rule    Zion    1997    only    -    Mar    21    0:00    1:00    D
+    # Rule    Zion    1997    only    -    Mar    20    24:00    1:00    D
     {
         'from_year': 1997,
         'to_year': 1997,
         'in_month': 3,
         'on_day_of_week': 0,
-        'on_day_of_month': 21,
-        'at_seconds': 0,
+        'on_day_of_month': 20,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 3600,
         'letter': 'D',
     },
-    # Rule    Zion    1997    only    -    Sep    14    0:00    0    S
+    # Rule    Zion    1997    only    -    Sep    13    24:00    0    S
     {
         'from_year': 1997,
         'to_year': 1997,
         'in_month': 9,
         'on_day_of_week': 0,
-        'on_day_of_month': 14,
-        'at_seconds': 0,
+        'on_day_of_month': 13,
+        'at_seconds': 86400,
         'at_time_suffix': 'w',
         'delta_seconds': 0,
         'letter': 'S',
@@ -15136,6 +15172,7 @@ ZONE_POLICY_MAP = {
     'Barb': ZONE_POLICY_Barb,
     'Belgium': ZONE_POLICY_Belgium,
     'Belize': ZONE_POLICY_Belize,
+    'Bermuda': ZONE_POLICY_Bermuda,
     'Brazil': ZONE_POLICY_Brazil,
     'Bulg': ZONE_POLICY_Bulg,
     'CO': ZONE_POLICY_CO,
@@ -15275,11 +15312,12 @@ ZONE_POLICY_MAP = {
 # The following zone policies may have inaccuracies due to the following
 # reasons:
 #
-# numPolicies: 9
+# numPolicies: 10
 #
 # Belize (["LETTER 'CDT' not single character", "LETTER 'CST' not single character"])
 # DR (["LETTER '-0430' not single character", "LETTER 'EST' not single character"])
 # GB_Eire (["LETTER 'BST' not single character", "LETTER 'GMT' not single character"])
+# Ghana (["LETTER 'GMT' not single character"])
 # Guam (["AT '2:01' not on 15-minute boundary"])
 # Moncton (["AT '0:01' not on 15-minute boundary"])
 # Namibia (["LETTER 'CAT' not single character", "LETTER 'WAT' not single character"])
