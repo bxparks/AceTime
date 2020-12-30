@@ -22,16 +22,16 @@ micro.txt:
 	./collect.sh micro $@
 
 samd.txt:
-	./collect.sh mkrzero $@
+	./collect.sh samd $@
 
 esp8266.txt:
-	./collect.sh esp8266 $@
+	./collect.sh nodemcu $@
 
 esp32.txt:
 	./collect.sh esp32 $@
 
 teensy32.txt:
-	./collect.sh teensy32 $@
+	./collect.sh --ide teensy32 $@
 
 more_clean:
 	echo "Use 'make clean_benchmarks' to remove *.txt files"

@@ -29,7 +29,7 @@ the baseline, and its memory usage  numbers are subtracted from the subsequent
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
-**Version**: AceTime v1.3
+**Version**: AceTime v1.4
 
 ## How to Regenerate
 
@@ -94,6 +94,8 @@ this penalty in flash size.
 ```
 {samd_results}
 ```
+
+(SAMD compiler does not produce RAM usage numbers.)
 
 ## ESP8266
 
