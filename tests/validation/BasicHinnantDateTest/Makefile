@@ -30,7 +30,7 @@ runtests:
 
 # Define the scope of the test data.
 SCOPE = basic
-TZ_VERSION = 2020d
+TZ_VERSION = 2020f
 START_YEAR = 2000
 UNTIL_YEAR = 2050
 
