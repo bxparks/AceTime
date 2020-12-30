@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.4 (2020-12-30, TZ DB version 2020f)
     * Add entry for `ManualZoneManager` in
       [examples/MemoryBenchmark](examples/MemoryBenchmark). It seems to need
       between 0'ish to 250 bytes of flash.
@@ -36,6 +37,15 @@
         * Add documentation that the `ZonedDateTime` must always be within
           `startYear` and `untilYear`. An error object will be returned outside
           of that range.
+    * Update TZ Database from 2020d to version 2020f
+        * 2020e
+            * https://mm.icann.org/pipermail/tz-announce/2020-December/000063.html
+            * "Volgograd switches to Moscow time on 2020-12-27 at 02:00."
+        * 2020f
+            * https://mm.icann.org/pipermail/tz-announce/2020-December/000064.html
+            * "'make rearguard_tarballs' no longer generates a bad rearguard.zi,
+              fixing a 2020e bug.  (Problem reported by Deborah Goldsmith.)"
+        * AceTime skips 2020e
     * Huge amounts of Python `tools` refactoring
         * Convert all remaining `%` string formatting to f-strings.
         * Convert all internal camelCase dictionary keys to snake_case for

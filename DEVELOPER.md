@@ -125,14 +125,18 @@ available.
         * `$ ./ExtendedHinnantDateTest.out | grep failed`
         * There should be no failures: `TestRunner summary: 387 passed, 0
           failed, 0 skipped, 0 timed out, out of 387 test(s).`
-* Update the `src/ace_time/zonedb` and `zonedbx` zone info files:
-    * zonedb
+* Update the various zone info files:
+    * `src/ace_time/zonedb`
         * `$ cd src/ace_time/zonedb`
-        * Update the `TZ_VERSION` in the `Makefile`.
+        * Edit the `Makefile` and update the `TZ_VERSION`.
         * `$ make`
-    * zonedbx
+    * `src/ace_time/zonedbx`
         * `$ cd src/ace_time/zonedbx`
-        * Update the `TZ_VERSION` in the `Makefile`.
+        * Edit the `Makefile` and update the `TZ_VERSION`.
+        * `$ make`
+    * `tools/zonedbpy`
+        * `$ cd tools/zonedbpy`
+        * Edit the Makefile and update the `TZ_VERSION`.
         * `$ make`
 * Update the CHANGELOG.md.
 * Commit the changes to git
