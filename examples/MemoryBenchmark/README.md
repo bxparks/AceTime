@@ -109,7 +109,7 @@ this penalty in flash size.
 ## SAMD21 M0 Mini
 
 * Arduino IDE 1.8.13
-* Arduino SAMD Boards 1.8.9
+* Sparkfun SAMD Boards 1.8.1
 
 ```
 +--------------------------------------------------------------+
@@ -135,8 +135,6 @@ this penalty in flash size.
 +--------------------------------------------------------------+
 
 ```
-
-(SAMD compiler does not produce RAM usage numbers.)
 
 ## ESP8266
 
