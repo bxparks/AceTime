@@ -34,47 +34,6 @@ const uint32_t MILLIS_TO_NANO_PER_ITERATION = ((uint32_t) 1000000 / COUNT);
       (reinterpret_cast<const __FlashStringHelper *>(pstr_pointer))
 #endif
 
-// The following strings are placed into PROGMEM flash memory to prevent them
-// from consuming static RAM on the AVR platform. This reduces the static RAM
-// usage on an Nano from 1957 bytes to 1059 bytes, which allows this program to
-// run on a controller with 2kB of RAM.
-const char TOP[] PROGMEM =
-  "+--------------------------------------------------+----------+";
-const char HEADER[] PROGMEM =
-  "| Method                                           |   micros |";
-const char ROW_DIVIDER[] PROGMEM =
-  "|--------------------------------------------------|----------|";
-const char* const BOTTOM = TOP;
-const char COL_DIVIDER[] PROGMEM = " |";
-const char EMPTY_LOOP_LABEL[] PROGMEM =
-  "| Empty loop                                       | ";
-const char LOCAL_DATE_FOR_EPOCH_DAYS_LABEL[] PROGMEM =
-  "| LocalDate::forEpochDays()                        | ";
-const char LOCAL_DATE_TO_EPOCH_DAYS_LABEL[] PROGMEM =
-  "| LocalDate::toEpochDays()                         | ";
-const char LOCAL_DATE_DAY_OF_WEEK_LABEL[] PROGMEM =
-  "| LocalDate::dayOfWeek()                           | ";
-
-const char OFFSET_DATE_TIME_FOR_EPOCH_SECONDS_LABEL[] PROGMEM =
-  "| OffsetDateTime::forEpochSeconds()                | ";
-const char OFFSET_DATE_TIME_TO_EPOCH_SECONDS_LABEL[] PROGMEM =
-  "| OffsetDateTime::toEpochSeconds()                 | ";
-
-const char DATE_TIME_TO_EPOCH_DAYS_LABEL[] PROGMEM =
-  "| ZonedDateTime::toEpochDays()                     | ";
-const char DATE_TIME_TO_EPOCH_SECONDS_LABEL[] PROGMEM =
-  "| ZonedDateTime::toEpochSeconds()                  | ";
-const char DATE_TIME_FOR_EPOCH_SECONDS_LABEL[] PROGMEM =
-  "| ZonedDateTime::forEpochSeconds(UTC)              | ";
-const char DATE_TIME_FOR_EPOCH_SECONDS_BASIC_NO_CACHE[] PROGMEM =
-  "| ZonedDateTime::forEpochSeconds(Basic nocache)    | ";
-const char DATE_TIME_FOR_EPOCH_SECONDS_BASIC_CACHED[] PROGMEM =
-  "| ZonedDateTime::forEpochSeconds(Basic cached)     | ";
-const char DATE_TIME_FOR_EPOCH_SECONDS_EXTENDED_NO_CACHE[] PROGMEM =
-  "| ZonedDateTime::forEpochSeconds(Extended nocache) | ";
-const char DATE_TIME_FOR_EPOCH_SECONDS_EXTENDED_CACHED[] PROGMEM =
-  "| ZonedDateTime::forEpochSeconds(Extended cached)  | ";
-
 // The compiler is extremelly good about removing code that does nothing. This
 // volatile variable is used to create side-effects that prevent the compiler
 // from optimizing out the code that's being tested. Each disableOptimization()
@@ -150,7 +109,8 @@ static void printMicrosPerIteration(long elapsedMillis) {
   unsigned long nanos = elapsedMillis * MILLIS_TO_NANO_PER_ITERATION;
   uint16_t whole = nanos / 1000;
   uint16_t frac = nanos % 1000;
-  ace_common::printPad4To(SERIAL_PORT_MONITOR, whole, ' ');
+  SERIAL_PORT_MONITOR.print(' ');
+  SERIAL_PORT_MONITOR.print(whole);
   SERIAL_PORT_MONITOR.print('.');
   ace_common::printPad3To(SERIAL_PORT_MONITOR, frac, '0');
 }
@@ -160,9 +120,9 @@ static void runEmptyLoop() {
     unsigned long tickMillis = millis();
     disableOptimization(tickMillis);
   });
-  SERIAL_PORT_MONITOR.print(FPSTR(EMPTY_LOOP_LABEL));
+  SERIAL_PORT_MONITOR.print(F("EmptyLoop"));
   printMicrosPerIteration(emptyLoopMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println();
 }
 
 // LocalDate::forEpochDays()
@@ -178,9 +138,9 @@ static void runLocalDateForEpochDays() {
   });
   long elapsedMillis = localDateForDaysMillis - emptyLoopMillis;
 
-  SERIAL_PORT_MONITOR.print(FPSTR(LOCAL_DATE_FOR_EPOCH_DAYS_LABEL));
+  SERIAL_PORT_MONITOR.print(F("LocalDate::forEpochDays()"));
   printMicrosPerIteration(elapsedMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println();
 }
 
 // LocalDate::toEpochDays()
@@ -198,9 +158,9 @@ static void runLocalDateToEpochDays() {
   });
   long elapsedMillis = localDateToEpochDaysMillis - forEpochDaysMillis;
 
-  SERIAL_PORT_MONITOR.print(FPSTR(LOCAL_DATE_TO_EPOCH_DAYS_LABEL));
+  SERIAL_PORT_MONITOR.print(F("LocalDate::toEpochDays()"));
   printMicrosPerIteration(elapsedMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println();
 }
 
 // LocalDate::dayOfWeek()
@@ -219,9 +179,9 @@ static void runLocalDateDaysOfWeek() {
   });
   long elapsedMillis = localDateDayOfWeekMillis - forEpochDaysMillis;
 
-  SERIAL_PORT_MONITOR.print(FPSTR(LOCAL_DATE_DAY_OF_WEEK_LABEL));
+  SERIAL_PORT_MONITOR.print(F("LocalDate::dayOfWeek()"));
   printMicrosPerIteration(elapsedMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println();
 }
 
 // OffsetDateTime::forEpochSeconds()
@@ -238,9 +198,9 @@ static void runOffsetDateTimeForEpochSeconds() {
   });
   long elapsedMillis = localDateForDaysMillis - emptyLoopMillis;
 
-  SERIAL_PORT_MONITOR.print(FPSTR(OFFSET_DATE_TIME_FOR_EPOCH_SECONDS_LABEL));
+  SERIAL_PORT_MONITOR.print(F("OffsetDateTime::forEpochSeconds()"));
   printMicrosPerIteration(elapsedMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println();
 }
 
 // OffsetDateTime::toEpochSeconds()
@@ -260,9 +220,9 @@ static void runOffsetDateTimeToEpochSeconds() {
   });
   long elapsedMillis = localDateToEpochDaysMillis - forEpochDaysMillis;
 
-  SERIAL_PORT_MONITOR.print(FPSTR(OFFSET_DATE_TIME_TO_EPOCH_SECONDS_LABEL));
+  SERIAL_PORT_MONITOR.print(F("OffsetDateTime::toEpochSeconds()"));
   printMicrosPerIteration(elapsedMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println();
 }
 
 // ZonedDateTime::forEpochSeconds(seconds)
@@ -279,9 +239,9 @@ static void runZonedDateTimeForEpochSeconds() {
   });
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
-  SERIAL_PORT_MONITOR.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_LABEL));
+  SERIAL_PORT_MONITOR.print(F("ZonedDateTime::forEpochSeconds(UTC)"));
   printMicrosPerIteration(elapsedMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println();
 }
 
 // ZonedDateTime::toEpochDays()
@@ -301,9 +261,9 @@ static void runZonedDateTimeToEpochDays() {
   });
   long elapsedMillis = toEpochDaysMillis - forEpochSecondsMillis;
 
-  SERIAL_PORT_MONITOR.print(FPSTR(DATE_TIME_TO_EPOCH_DAYS_LABEL));
+  SERIAL_PORT_MONITOR.print(F("ZonedDateTime::toEpochDays()"));
   printMicrosPerIteration(elapsedMillis < 0 ? 0 : elapsedMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println();
 }
 
 // ZonedDateTime::toEpochSeconds()
@@ -323,9 +283,9 @@ static void runZonedDateTimeToEpochSeconds() {
   });
   long elapsedMillis = toEpochSecondsMillis - forEpochSecondsMillis;
 
-  SERIAL_PORT_MONITOR.print(FPSTR(DATE_TIME_TO_EPOCH_SECONDS_LABEL));
+  SERIAL_PORT_MONITOR.print(F("ZonedDateTime::toEpochSeconds()"));
   printMicrosPerIteration(elapsedMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println();
 }
 
 static const acetime_t kTwoYears = 2 * 365 * 24 * 3600L;
@@ -360,9 +320,9 @@ static void runZonedDateTimeForEpochSecondsBasicZoneManager() {
   });
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
-  SERIAL_PORT_MONITOR.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_BASIC_NO_CACHE));
+  SERIAL_PORT_MONITOR.print(F("ZonedDateTime::forEpochSeconds(Basic_nocache)"));
   printMicrosPerIteration(elapsedMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println();
 }
 
 // ZonedDateTime::forEpochSeconds(seconds, tz) cached
@@ -383,9 +343,9 @@ static void runZonedDateTimeForEpochSecondsBasicZoneManagerCached() {
   });
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
-  SERIAL_PORT_MONITOR.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_BASIC_CACHED));
+  SERIAL_PORT_MONITOR.print(F("ZonedDateTime::forEpochSeconds(Basic_cached)"));
   printMicrosPerIteration(elapsedMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println();
 }
 
 static const extended::ZoneInfo* const kExtendedZoneRegistry[]
@@ -420,9 +380,10 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManager() {
   });
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
-  SERIAL_PORT_MONITOR.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_EXTENDED_NO_CACHE));
+  SERIAL_PORT_MONITOR.print(
+    F("ZonedDateTime::forEpochSeconds(Extended_nocache)"));
   printMicrosPerIteration(elapsedMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println();
 }
 
 // ZonedDateTime::forEpochSeconds(seconds, tz) cached ExtendedZoneManager
@@ -444,18 +405,14 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManagerCached() {
   });
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
-  SERIAL_PORT_MONITOR.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_EXTENDED_CACHED));
+  SERIAL_PORT_MONITOR.print(
+    F("ZonedDateTime::forEpochSeconds(Extended_cached)"));
   printMicrosPerIteration(elapsedMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println();
 }
 
 void runBenchmarks() {
-  SERIAL_PORT_MONITOR.println(FPSTR(TOP));
-  SERIAL_PORT_MONITOR.println(FPSTR(HEADER));
-  SERIAL_PORT_MONITOR.println(FPSTR(ROW_DIVIDER));
-
   runEmptyLoop();
-  SERIAL_PORT_MONITOR.println(FPSTR(ROW_DIVIDER));
 
   runLocalDateForEpochDays();
   runLocalDateToEpochDays();
@@ -473,8 +430,6 @@ void runBenchmarks() {
   runZonedDateTimeForEpochSecondsExtendedZoneManager();
   runZonedDateTimeForEpochSecondsExtendedZoneManagerCached();
 
-  SERIAL_PORT_MONITOR.println(FPSTR(BOTTOM));
-
-  SERIAL_PORT_MONITOR.print(F("Number of iterations per run: "));
+  SERIAL_PORT_MONITOR.print(F("Iterations_per_run "));
   SERIAL_PORT_MONITOR.println(COUNT);
 }

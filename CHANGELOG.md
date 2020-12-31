@@ -46,6 +46,10 @@
             * "'make rearguard_tarballs' no longer generates a bad rearguard.zi,
               fixing a 2020e bug.  (Problem reported by Deborah Goldsmith.)"
         * AceTime skips 2020e
+    * Update `examples/AutoBenchmark` to allow auto-generation of ASCII tables,
+      which allows auto-generation of the `README.md` file. Update CPU
+      benchmarks for v1.4 from v0.8, since it is much easier to update these
+      numbers now. No significant performance change from v0.8.
     * Huge amounts of Python `tools` refactoring
         * Convert all remaining `%` string formatting to f-strings.
         * Convert all internal camelCase dictionary keys to snake_case for
