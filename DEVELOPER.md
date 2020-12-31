@@ -136,7 +136,7 @@ available.
         * `$ make`
     * `tools/zonedbpy`
         * `$ cd tools/zonedbpy`
-        * Edit the Makefile and update the `TZ_VERSION`.
+        * Edit the `Makefile` and update the `TZ_VERSION`.
         * `$ make`
 * Update the CHANGELOG.md.
 * Commit the changes to git
@@ -159,9 +159,6 @@ will fail until the underying timezone database of the OS is updated.
     * `docs/doxygen.cfg`
     * `library.properties`
     * `CHANGELOG.md`
-    * Bump the version numbers in the unit tests:
-        * `BasicZoneProcessorTest/BasicZoneProcessorTest.ino`
-        * `ExtendedZoneProcessorTest/ExtendedZoneProcessorTest.ino`
     * `$ git commit -m "..."`
 * Update and commit the Doxygen docs. This is done as a separate git commit
   because the Doxygen changes are often so large that they obscure all other
