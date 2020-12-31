@@ -263,6 +263,8 @@ class ZoneInfoDatabase(TypedDict):
     delta_granularity: int
     strict: bool
     num_zones: int
+    num_policies: int
+    num_links: int
 
     # Data from Extractor filtered through Transformer
     zones_map: ZonesMap
@@ -315,9 +317,11 @@ def create_zone_info_database(
         'offset_granularity': offset_granularity,
         'delta_granularity': delta_granularity,
         'strict': strict,
-        'num_zones': len(tresult.zones_map),
 
         # Data from Extractor filtered through Transformer.
+        'num_zones': len(tresult.zones_map),
+        'num_policies': len(tresult.policies_map),
+        'num_links': len(tresult.links_map),
         'zones_map': tresult.zones_map,
         'policies_map': tresult.policies_map,
         'links_map': tresult.links_map,
