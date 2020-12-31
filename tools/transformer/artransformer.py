@@ -12,6 +12,7 @@ import logging
 from transformer.transformer import hash_name
 from data_types.at_types import ZonesMap
 from data_types.at_types import PoliciesMap
+from data_types.at_types import LinksMap
 from data_types.at_types import LettersPerPolicy
 from data_types.at_types import IndexMap
 from data_types.at_types import TransformerResult
@@ -39,12 +40,13 @@ class ArduinoTransformer:
         until_year: int,
     ) -> None:
         self.tresult = tresult
-        self.zones_map = tresult.zones_map
-        self.policies_map = tresult.policies_map
-        self.links_map = tresult.links_map
         self.scope = scope
         self.start_year = start_year
         self.until_year = until_year
+
+        self.zones_map = tresult.zones_map
+        self.policies_map = tresult.policies_map
+        self.links_map = tresult.links_map
 
     def transform(self) -> None:
         self.letters_per_policy, self.letters_map = \
@@ -53,6 +55,7 @@ class ArduinoTransformer:
         self.policies_map = self._process_rules(self.policies_map)
         self.zones_map = self._process_eras(self.zones_map)
         self.zone_ids = _generate_zone_ids(self.zones_map)
+        self.link_ids = _generate_link_ids(self.links_map)
 
     def get_data(self) -> TransformerResult:
         return TransformerResult(
@@ -66,6 +69,7 @@ class ArduinoTransformer:
             notable_policies=self.tresult.notable_policies,
             notable_links=self.tresult.notable_links,
             zone_ids=self.zone_ids,
+            link_ids=self.link_ids,
             letters_per_policy=self.letters_per_policy,
             letters_map=self.letters_map,
             formats_map=self.formats_map,
@@ -443,7 +447,17 @@ def _to_letter_index(
     return letter_index
 
 
-def _generate_zone_ids(zones_map: ZonesMap) -> Dict[str, int]:
-    """Generate {zoneName -> zoneId} map."""
+def _generate_zone_ids(
+    zones_map: ZonesMap,
+) -> Dict[str, int]:
+    """Generate {zoneName -> zoneId} map of zones."""
     ids: Dict[str, int] = {name: hash_name(name) for name in zones_map.keys()}
+    return OrderedDict(sorted(ids.items()))
+
+
+def _generate_link_ids(
+    links_map: LinksMap,
+) -> Dict[str, int]:
+    """Generate {linkName -> linkId} map of links."""
+    ids: Dict[str, int] = {name: hash_name(name) for name in links_map.keys()}
     return OrderedDict(sorted(ids.items()))

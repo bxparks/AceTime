@@ -87,6 +87,7 @@ def generate_zonedb(
     output_dir: str,
     json_file: str,
     zidb: ZoneInfoDatabase,
+    fat_links: bool,
 ) -> None:
     """Generate the zonedb/ or zonedbx/ files for Python or Arduino,
     but probably mostly for Arduino.
@@ -108,6 +109,7 @@ def generate_zonedb(
             invocation=invocation,
             db_namespace=db_namespace,
             zidb=zidb,
+            fat_links=fat_links,
         )
         generator.generate_files(output_dir)
 
@@ -266,6 +268,15 @@ def main() -> None:
         action='store_true',
     )
 
+    # Enable fat links to create Link entries which have real ZoneInfo objects,
+    # instead of being just references to its corresponding Zone entry. The name
+    # of the Link is preserved, as well as an independent zoneId.
+    parser.add_argument(
+        '--fat_links',
+        help='Generate fat Link entries',
+        action='store_true',
+    )
+
     # Parse the command line arguments
     args = parser.parse_args()
 
@@ -345,6 +356,7 @@ def main() -> None:
         notable_policies={},
         notable_links={},
         zone_ids={},
+        link_ids={},
         letters_per_policy={},
         letters_map={},
         formats_map={},
@@ -427,6 +439,7 @@ def main() -> None:
                 output_dir=args.output_dir,
                 zidb=zidb,
                 json_file=args.json_file,
+                fat_links=args.fat_links,
             )
     else:
         logging.error(f"Unrecognized action '{args.action}'")

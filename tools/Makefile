@@ -1,4 +1,4 @@
-TZ_VERSION := 2020d
+TZ_VERSION := 2020f
 
 # Files which pass 'mypy --strict'.
 SRC := \
@@ -55,11 +55,11 @@ validate: $(TZ_VERSION)
 # Generate zonedb.json for testing purposes.
 zonedb.json: $(SRC) $(TZ_VERSION)
 	./tzcompiler.py \
-		--tz_version \
-		$(TZ_VERSION) \
+		--tz_version $(TZ_VERSION) \
 		--input_dir $(TZ_VERSION) \
 		--scope basic \
 		--language json \
+		--fat_links \
 		--json_file $@ \
 		--start_year 2000 \
 		--until_year 2050
@@ -67,11 +67,11 @@ zonedb.json: $(SRC) $(TZ_VERSION)
 # Generate zonedbx.json for testing purposes.
 zonedbx.json: $(SRC) $(TZ_VERSION)
 	./tzcompiler.py \
-		--tz_version \
-		$(TZ_VERSION) \
+		--tz_version $(TZ_VERSION) \
 		--input_dir $(TZ_VERSION) \
 		--scope extended \
 		--language json \
+		--fat_links \
 		--json_file $@ \
 		--start_year 2000 \
 		--until_year 2050
