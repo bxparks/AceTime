@@ -1,6 +1,9 @@
 # Changelog
 
 * Unreleased
+* 1.4.1 (2020-12-30, TZDB version 2020f for real)
+    * Actually update `src/ace_time/zonedb` and `src/ace_time/zonedbx`
+      zone info files to 2020f. Oops.
 * 1.4 (2020-12-30, TZ DB version 2020f)
     * Add entry for `ManualZoneManager` in
       [examples/MemoryBenchmark](examples/MemoryBenchmark). It seems to need
