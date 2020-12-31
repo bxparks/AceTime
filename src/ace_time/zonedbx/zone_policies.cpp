@@ -3,7 +3,7 @@
 //   $ ../../../tools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2020d
+//     --tz_version 2020f
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -22,12 +22,12 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2020d
+// from https://github.com/eggert/tz/releases/tag/2020f
 //
 // Policies: 84
 // Rules: 551
-// Memory (8-bit): 5498
-// Memory (32-bit): 7699
+// Memory (8-bit): 5504
+// Memory (32-bit): 7707
 //
 // DO NOT EDIT
 
@@ -769,7 +769,7 @@ const extended::ZonePolicy kPolicyArmenia ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const extended::ZoneRule kZoneRulesAus[] ACE_TIME_PROGMEM = {
-  // Rule    Aus    1943    1944    -    Mar    lastSun    2:00    0    S
+  // Rule    Aus    1943    1944    -    Mar    lastSun    2:00s    0    S
   {
     -57 /*fromYearTiny*/,
     -56 /*toYearTiny*/,
@@ -777,7 +777,7 @@ static const extended::ZoneRule kZoneRulesAus[] ACE_TIME_PROGMEM = {
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
     4 /*deltaCode (deltaMinute=0/15 + 4)*/,
     'S' /*letter*/,
   },
@@ -2624,33 +2624,37 @@ const extended::ZonePolicy kPolicyFiji ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: Ghana
 // Rules: 1
-// Memory (8-bit): 15
-// Memory (32-bit): 24
+// Memory (8-bit): 21
+// Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
 static const extended::ZoneRule kZoneRulesGhana[] ACE_TIME_PROGMEM = {
-  // Rule    Ghana    1920    1942    -    Dec    31    0:00    0    -
+  // Rule    Ghana    1951    1956    -    Jan     1    2:00    0    GMT
   {
-    -80 /*fromYearTiny*/,
-    -58 /*toYearTiny*/,
-    12 /*inMonth*/,
+    -49 /*fromYearTiny*/,
+    -44 /*toYearTiny*/,
+    1 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    31 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
+    1 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
     4 /*deltaCode (deltaMinute=0/15 + 4)*/,
-    '-' /*letter*/,
+    0 /*letter (index to "GMT")*/,
   },
 
 };
 
+static const char* const kLettersGhana[] ACE_TIME_PROGMEM = {
+  /*0*/ "GMT",
+
+};
 
 
 const extended::ZonePolicy kPolicyGhana ACE_TIME_PROGMEM = {
   kZoneRulesGhana /*rules*/,
-  nullptr /*letters*/,
+  kLettersGhana /*letters*/,
   1 /*numRules*/,
-  0 /*numLetters*/,
+  1 /*numLetters*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7867,14 +7871,14 @@ const extended::ZonePolicy kPolicyUruguay ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const extended::ZoneRule kZoneRulesVanuatu[] ACE_TIME_PROGMEM = {
-  // Rule    Vanuatu    1992    1993    -    Jan    Sun>=23    0:00    0    -
+  // Rule    Vanuatu    1992    1993    -    Jan    Sat>=22    24:00    0    -
   {
     -8 /*fromYearTiny*/,
     -7 /*toYearTiny*/,
     1 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    23 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
+    6 /*onDayOfWeek*/,
+    22 /*onDayOfMonth*/,
+    96 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
     4 /*deltaCode (deltaMinute=0/15 + 4)*/,
     '-' /*letter*/,

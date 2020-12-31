@@ -1284,8 +1284,9 @@ class Transformer:
                         valid = False
                         add_comment(
                             removed_policies, name,
-                            "Transition in early year (%04d-%02d-%02d)" %
-                            (from_year, month, on_day_of_month))
+                            "Transition on Jan 1 not supported "
+                            f"({from_year:04}-{month:02}-{on_day_of_month:02})"
+                        )
                         break
             if valid:
                 results[name] = rules

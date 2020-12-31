@@ -3,7 +3,7 @@
 //   $ ../../../tools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2020d
+//     --tz_version 2020f
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2020d
+// from https://github.com/eggert/tz/releases/tag/2020f
 //
 // DO NOT EDIT
 
@@ -124,13 +124,14 @@ extern const extended::ZonePolicy kPolicyZion;
 
 
 //---------------------------------------------------------------------------
-// Unsupported zone policies: 55
+// Unsupported zone policies: 56
 //
 // kPolicyAlbania (unused)
 // kPolicyAlgeria (unused)
 // kPolicyAustria (unused)
 // kPolicyBahamas (unused)
 // kPolicyBelgium (unused)
+// kPolicyBermuda (unused)
 // kPolicyBulg (unused)
 // kPolicyCA (unused)
 // kPolicyChicago (unused)
@@ -183,9 +184,10 @@ extern const extended::ZonePolicy kPolicyZion;
 // kPolicyW-Eur (unused)
 
 
-// Notable zone policies: 6
+// Notable zone policies: 7
 //
 // kPolicyBelize (LETTER 'CST' not single character)
+// kPolicyGhana (LETTER 'GMT' not single character)
 // kPolicyMoncton (AT '0:01' not on 15-minute boundary)
 // kPolicyNamibia (LETTER 'CAT' not single character, LETTER 'WAT' not single character)
 // kPolicyPalestine (AT '0:01' not on 15-minute boundary)

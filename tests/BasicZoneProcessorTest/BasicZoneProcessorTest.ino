@@ -116,10 +116,6 @@ static const basic::ZoneInfo kZonePacific_Galapagos ACE_TIME_PROGMEM = {
 // BasicZoneProcessor: test private methods
 // --------------------------------------------------------------------------
 
-test(BasicZoneProcessorTest, tzVersion) {
-  assertEqual("2020d", zonedb::kTzDatabaseVersion);
-}
-
 test(BasicZoneProcessorTest, operatorEqualEqual) {
   BasicZoneProcessor a(&zonedb::kZoneAmerica_Los_Angeles);
   BasicZoneProcessor b(&zonedb::kZoneAustralia_Darwin);

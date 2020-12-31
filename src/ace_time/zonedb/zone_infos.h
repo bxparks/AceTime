@@ -3,7 +3,7 @@
 //   $ ../../../tools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2020d
+//     --tz_version 2020f
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2020d
+// from https://github.com/eggert/tz/releases/tag/2020f
 //
 // DO NOT EDIT
 
@@ -45,11 +45,10 @@ extern const char kTzDatabaseVersion[];
 extern const basic::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 268
+// Supported zones: 266
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
-extern const basic::ZoneInfo kZoneAfrica_Accra; // Africa/Accra
 extern const basic::ZoneInfo kZoneAfrica_Algiers; // Africa/Algiers
 extern const basic::ZoneInfo kZoneAfrica_Bissau; // Africa/Bissau
 extern const basic::ZoneInfo kZoneAfrica_Ceuta; // Africa/Ceuta
@@ -197,7 +196,6 @@ extern const basic::ZoneInfo kZoneAtlantic_South_Georgia; // Atlantic/South_Geor
 extern const basic::ZoneInfo kZoneAustralia_Adelaide; // Australia/Adelaide
 extern const basic::ZoneInfo kZoneAustralia_Brisbane; // Australia/Brisbane
 extern const basic::ZoneInfo kZoneAustralia_Broken_Hill; // Australia/Broken_Hill
-extern const basic::ZoneInfo kZoneAustralia_Currie; // Australia/Currie
 extern const basic::ZoneInfo kZoneAustralia_Darwin; // Australia/Darwin
 extern const basic::ZoneInfo kZoneAustralia_Eucla; // Australia/Eucla
 extern const basic::ZoneInfo kZoneAustralia_Hobart; // Australia/Hobart
@@ -319,7 +317,6 @@ extern const basic::ZoneInfo kZoneWET; // WET
 
 
 const uint32_t kZoneIdAfrica_Abidjan = 0xc21305a3; // Africa/Abidjan
-const uint32_t kZoneIdAfrica_Accra = 0x77d5b054; // Africa/Accra
 const uint32_t kZoneIdAfrica_Algiers = 0xd94515c1; // Africa/Algiers
 const uint32_t kZoneIdAfrica_Bissau = 0x75564141; // Africa/Bissau
 const uint32_t kZoneIdAfrica_Ceuta = 0x77fb46ec; // Africa/Ceuta
@@ -467,7 +464,6 @@ const uint32_t kZoneIdAtlantic_South_Georgia = 0x33013174; // Atlantic/South_Geo
 const uint32_t kZoneIdAustralia_Adelaide = 0x2428e8a3; // Australia/Adelaide
 const uint32_t kZoneIdAustralia_Brisbane = 0x4fedc9c0; // Australia/Brisbane
 const uint32_t kZoneIdAustralia_Broken_Hill = 0xb06eada3; // Australia/Broken_Hill
-const uint32_t kZoneIdAustralia_Currie = 0x278b6a24; // Australia/Currie
 const uint32_t kZoneIdAustralia_Darwin = 0x2876bdff; // Australia/Darwin
 const uint32_t kZoneIdAustralia_Eucla = 0x8cf99e44; // Australia/Eucla
 const uint32_t kZoneIdAustralia_Hobart = 0x32bf951a; // Australia/Hobart
@@ -589,7 +585,7 @@ const uint32_t kZoneIdWET = 0x0b882e35; // WET
 
 
 //---------------------------------------------------------------------------
-// Supported links: 182
+// Supported links: 183
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo& kZoneAfrica_Addis_Ababa; // Africa/Addis_Ababa -> Africa/Nairobi
@@ -681,6 +677,7 @@ extern const basic::ZoneInfo& kZoneAtlantic_Jan_Mayen; // Atlantic/Jan_Mayen -> 
 extern const basic::ZoneInfo& kZoneAtlantic_St_Helena; // Atlantic/St_Helena -> Africa/Abidjan
 extern const basic::ZoneInfo& kZoneAustralia_ACT; // Australia/ACT -> Australia/Sydney
 extern const basic::ZoneInfo& kZoneAustralia_Canberra; // Australia/Canberra -> Australia/Sydney
+extern const basic::ZoneInfo& kZoneAustralia_Currie; // Australia/Currie -> Australia/Hobart
 extern const basic::ZoneInfo& kZoneAustralia_LHI; // Australia/LHI -> Australia/Lord_Howe
 extern const basic::ZoneInfo& kZoneAustralia_NSW; // Australia/NSW -> Australia/Sydney
 extern const basic::ZoneInfo& kZoneAustralia_North; // Australia/North -> Australia/Darwin
@@ -777,9 +774,10 @@ extern const basic::ZoneInfo& kZoneZulu; // Zulu -> Etc/UTC
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 119
+// Unsupported zones: 120
 //---------------------------------------------------------------------------
 
+// Africa/Accra (policy 'Ghana' not found)
 // Africa/Cairo (policy 'Egypt' not found)
 // Africa/Casablanca (UNTIL contains month/day/time)
 // Africa/El_Aaiun (UNTIL contains month/day/time)

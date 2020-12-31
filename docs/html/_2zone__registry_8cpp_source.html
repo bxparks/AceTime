@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.4</span>
+   &#160;<span id="projectnumber">1.4.1</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -76,7 +76,7 @@ $(function() {
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//   $ ../../../tools/tzcompiler.py</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">//     --input_dir /home/brian/dev/tz</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//     --tz_version 2020d</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//     --tz_version 2020f</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//     --action zonedb</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//     --language arduino</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">//     --scope extended</span></div>
@@ -95,7 +95,7 @@ $(function() {
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">//   northamerica</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">//   southamerica</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// from https://github.com/eggert/tz/releases/tag/2020d</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// from https://github.com/eggert/tz/releases/tag/2020f</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// DO NOT EDIT</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
@@ -109,7 +109,7 @@ $(function() {
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">//---------------------------------------------------------------------------</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">// Zone registry. Sorted by zone name.</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">//---------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">const</span> extended::ZoneInfo* <span class="keyword">const</span> kZoneRegistry[387] ACE_TIME_PROGMEM = {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">const</span> extended::ZoneInfo* <span class="keyword">const</span> kZoneRegistry[386] ACE_TIME_PROGMEM = {</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  &amp;kZoneAfrica_Abidjan, <span class="comment">// Africa/Abidjan</span></div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  &amp;kZoneAfrica_Accra, <span class="comment">// Africa/Accra</span></div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  &amp;kZoneAfrica_Algiers, <span class="comment">// Africa/Algiers</span></div>
@@ -359,149 +359,148 @@ $(function() {
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;  &amp;kZoneAustralia_Adelaide, <span class="comment">// Australia/Adelaide</span></div>
 <div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;  &amp;kZoneAustralia_Brisbane, <span class="comment">// Australia/Brisbane</span></div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;  &amp;kZoneAustralia_Broken_Hill, <span class="comment">// Australia/Broken_Hill</span></div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;  &amp;kZoneAustralia_Currie, <span class="comment">// Australia/Currie</span></div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;  &amp;kZoneAustralia_Darwin, <span class="comment">// Australia/Darwin</span></div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;  &amp;kZoneAustralia_Eucla, <span class="comment">// Australia/Eucla</span></div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;  &amp;kZoneAustralia_Hobart, <span class="comment">// Australia/Hobart</span></div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;  &amp;kZoneAustralia_Lindeman, <span class="comment">// Australia/Lindeman</span></div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;  &amp;kZoneAustralia_Lord_Howe, <span class="comment">// Australia/Lord_Howe</span></div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;  &amp;kZoneAustralia_Melbourne, <span class="comment">// Australia/Melbourne</span></div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;  &amp;kZoneAustralia_Perth, <span class="comment">// Australia/Perth</span></div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;  &amp;kZoneAustralia_Sydney, <span class="comment">// Australia/Sydney</span></div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;  &amp;kZoneCET, <span class="comment">// CET</span></div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;  &amp;kZoneCST6CDT, <span class="comment">// CST6CDT</span></div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;  &amp;kZoneEET, <span class="comment">// EET</span></div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;  &amp;kZoneEST, <span class="comment">// EST</span></div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;  &amp;kZoneEST5EDT, <span class="comment">// EST5EDT</span></div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;  &amp;kZoneEtc_GMT, <span class="comment">// Etc/GMT</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;  &amp;kZoneEtc_GMT_PLUS_1, <span class="comment">// Etc/GMT+1</span></div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;  &amp;kZoneEtc_GMT_PLUS_10, <span class="comment">// Etc/GMT+10</span></div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;  &amp;kZoneEtc_GMT_PLUS_11, <span class="comment">// Etc/GMT+11</span></div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;  &amp;kZoneEtc_GMT_PLUS_12, <span class="comment">// Etc/GMT+12</span></div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;  &amp;kZoneEtc_GMT_PLUS_2, <span class="comment">// Etc/GMT+2</span></div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;  &amp;kZoneEtc_GMT_PLUS_3, <span class="comment">// Etc/GMT+3</span></div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;  &amp;kZoneEtc_GMT_PLUS_4, <span class="comment">// Etc/GMT+4</span></div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  &amp;kZoneEtc_GMT_PLUS_5, <span class="comment">// Etc/GMT+5</span></div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;  &amp;kZoneEtc_GMT_PLUS_6, <span class="comment">// Etc/GMT+6</span></div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;  &amp;kZoneEtc_GMT_PLUS_7, <span class="comment">// Etc/GMT+7</span></div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;  &amp;kZoneEtc_GMT_PLUS_8, <span class="comment">// Etc/GMT+8</span></div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;  &amp;kZoneEtc_GMT_PLUS_9, <span class="comment">// Etc/GMT+9</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;  &amp;kZoneEtc_GMT_1, <span class="comment">// Etc/GMT-1</span></div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  &amp;kZoneEtc_GMT_10, <span class="comment">// Etc/GMT-10</span></div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;  &amp;kZoneEtc_GMT_11, <span class="comment">// Etc/GMT-11</span></div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;  &amp;kZoneEtc_GMT_12, <span class="comment">// Etc/GMT-12</span></div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;  &amp;kZoneEtc_GMT_13, <span class="comment">// Etc/GMT-13</span></div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;  &amp;kZoneEtc_GMT_14, <span class="comment">// Etc/GMT-14</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;  &amp;kZoneEtc_GMT_2, <span class="comment">// Etc/GMT-2</span></div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;  &amp;kZoneEtc_GMT_3, <span class="comment">// Etc/GMT-3</span></div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;  &amp;kZoneEtc_GMT_4, <span class="comment">// Etc/GMT-4</span></div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;  &amp;kZoneEtc_GMT_5, <span class="comment">// Etc/GMT-5</span></div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;  &amp;kZoneEtc_GMT_6, <span class="comment">// Etc/GMT-6</span></div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;  &amp;kZoneEtc_GMT_7, <span class="comment">// Etc/GMT-7</span></div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;  &amp;kZoneEtc_GMT_8, <span class="comment">// Etc/GMT-8</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;  &amp;kZoneEtc_GMT_9, <span class="comment">// Etc/GMT-9</span></div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;  &amp;kZoneEtc_UTC, <span class="comment">// Etc/UTC</span></div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;  &amp;kZoneEurope_Amsterdam, <span class="comment">// Europe/Amsterdam</span></div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;  &amp;kZoneEurope_Andorra, <span class="comment">// Europe/Andorra</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;  &amp;kZoneEurope_Astrakhan, <span class="comment">// Europe/Astrakhan</span></div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;  &amp;kZoneEurope_Athens, <span class="comment">// Europe/Athens</span></div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;  &amp;kZoneEurope_Belgrade, <span class="comment">// Europe/Belgrade</span></div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;  &amp;kZoneEurope_Berlin, <span class="comment">// Europe/Berlin</span></div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;  &amp;kZoneEurope_Brussels, <span class="comment">// Europe/Brussels</span></div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;  &amp;kZoneEurope_Bucharest, <span class="comment">// Europe/Bucharest</span></div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;  &amp;kZoneEurope_Budapest, <span class="comment">// Europe/Budapest</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;  &amp;kZoneEurope_Chisinau, <span class="comment">// Europe/Chisinau</span></div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;  &amp;kZoneEurope_Copenhagen, <span class="comment">// Europe/Copenhagen</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;  &amp;kZoneEurope_Dublin, <span class="comment">// Europe/Dublin</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;  &amp;kZoneEurope_Gibraltar, <span class="comment">// Europe/Gibraltar</span></div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;  &amp;kZoneEurope_Helsinki, <span class="comment">// Europe/Helsinki</span></div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;  &amp;kZoneEurope_Istanbul, <span class="comment">// Europe/Istanbul</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;  &amp;kZoneEurope_Kaliningrad, <span class="comment">// Europe/Kaliningrad</span></div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;  &amp;kZoneEurope_Kiev, <span class="comment">// Europe/Kiev</span></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;  &amp;kZoneEurope_Kirov, <span class="comment">// Europe/Kirov</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;  &amp;kZoneEurope_Lisbon, <span class="comment">// Europe/Lisbon</span></div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;  &amp;kZoneEurope_London, <span class="comment">// Europe/London</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;  &amp;kZoneEurope_Luxembourg, <span class="comment">// Europe/Luxembourg</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;  &amp;kZoneEurope_Madrid, <span class="comment">// Europe/Madrid</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;  &amp;kZoneEurope_Malta, <span class="comment">// Europe/Malta</span></div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;  &amp;kZoneEurope_Minsk, <span class="comment">// Europe/Minsk</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;  &amp;kZoneEurope_Monaco, <span class="comment">// Europe/Monaco</span></div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;  &amp;kZoneEurope_Moscow, <span class="comment">// Europe/Moscow</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;  &amp;kZoneEurope_Oslo, <span class="comment">// Europe/Oslo</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;  &amp;kZoneEurope_Paris, <span class="comment">// Europe/Paris</span></div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;  &amp;kZoneEurope_Prague, <span class="comment">// Europe/Prague</span></div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;  &amp;kZoneEurope_Riga, <span class="comment">// Europe/Riga</span></div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;  &amp;kZoneEurope_Rome, <span class="comment">// Europe/Rome</span></div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;  &amp;kZoneEurope_Samara, <span class="comment">// Europe/Samara</span></div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;  &amp;kZoneEurope_Saratov, <span class="comment">// Europe/Saratov</span></div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;  &amp;kZoneEurope_Simferopol, <span class="comment">// Europe/Simferopol</span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;  &amp;kZoneEurope_Sofia, <span class="comment">// Europe/Sofia</span></div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  &amp;kZoneEurope_Stockholm, <span class="comment">// Europe/Stockholm</span></div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;  &amp;kZoneEurope_Tallinn, <span class="comment">// Europe/Tallinn</span></div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  &amp;kZoneEurope_Tirane, <span class="comment">// Europe/Tirane</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  &amp;kZoneEurope_Ulyanovsk, <span class="comment">// Europe/Ulyanovsk</span></div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;  &amp;kZoneEurope_Uzhgorod, <span class="comment">// Europe/Uzhgorod</span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;  &amp;kZoneEurope_Vienna, <span class="comment">// Europe/Vienna</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;  &amp;kZoneEurope_Vilnius, <span class="comment">// Europe/Vilnius</span></div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;  &amp;kZoneEurope_Volgograd, <span class="comment">// Europe/Volgograd</span></div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;  &amp;kZoneEurope_Warsaw, <span class="comment">// Europe/Warsaw</span></div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;  &amp;kZoneEurope_Zaporozhye, <span class="comment">// Europe/Zaporozhye</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;  &amp;kZoneEurope_Zurich, <span class="comment">// Europe/Zurich</span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;  &amp;kZoneHST, <span class="comment">// HST</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;  &amp;kZoneIndian_Chagos, <span class="comment">// Indian/Chagos</span></div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;  &amp;kZoneIndian_Christmas, <span class="comment">// Indian/Christmas</span></div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;  &amp;kZoneIndian_Cocos, <span class="comment">// Indian/Cocos</span></div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;  &amp;kZoneIndian_Kerguelen, <span class="comment">// Indian/Kerguelen</span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;  &amp;kZoneIndian_Mahe, <span class="comment">// Indian/Mahe</span></div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;  &amp;kZoneIndian_Maldives, <span class="comment">// Indian/Maldives</span></div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;  &amp;kZoneIndian_Mauritius, <span class="comment">// Indian/Mauritius</span></div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;  &amp;kZoneIndian_Reunion, <span class="comment">// Indian/Reunion</span></div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;  &amp;kZoneMET, <span class="comment">// MET</span></div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;  &amp;kZoneMST, <span class="comment">// MST</span></div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;  &amp;kZoneMST7MDT, <span class="comment">// MST7MDT</span></div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;  &amp;kZonePST8PDT, <span class="comment">// PST8PDT</span></div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;  &amp;kZonePacific_Apia, <span class="comment">// Pacific/Apia</span></div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;  &amp;kZonePacific_Auckland, <span class="comment">// Pacific/Auckland</span></div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;  &amp;kZonePacific_Bougainville, <span class="comment">// Pacific/Bougainville</span></div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;  &amp;kZonePacific_Chatham, <span class="comment">// Pacific/Chatham</span></div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;  &amp;kZonePacific_Chuuk, <span class="comment">// Pacific/Chuuk</span></div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;  &amp;kZonePacific_Easter, <span class="comment">// Pacific/Easter</span></div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;  &amp;kZonePacific_Efate, <span class="comment">// Pacific/Efate</span></div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;  &amp;kZonePacific_Enderbury, <span class="comment">// Pacific/Enderbury</span></div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;  &amp;kZonePacific_Fakaofo, <span class="comment">// Pacific/Fakaofo</span></div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;  &amp;kZonePacific_Fiji, <span class="comment">// Pacific/Fiji</span></div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;  &amp;kZonePacific_Funafuti, <span class="comment">// Pacific/Funafuti</span></div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;  &amp;kZonePacific_Galapagos, <span class="comment">// Pacific/Galapagos</span></div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;  &amp;kZonePacific_Gambier, <span class="comment">// Pacific/Gambier</span></div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;  &amp;kZonePacific_Guadalcanal, <span class="comment">// Pacific/Guadalcanal</span></div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;  &amp;kZonePacific_Guam, <span class="comment">// Pacific/Guam</span></div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;  &amp;kZonePacific_Honolulu, <span class="comment">// Pacific/Honolulu</span></div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;  &amp;kZonePacific_Kiritimati, <span class="comment">// Pacific/Kiritimati</span></div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;  &amp;kZonePacific_Kosrae, <span class="comment">// Pacific/Kosrae</span></div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;  &amp;kZonePacific_Kwajalein, <span class="comment">// Pacific/Kwajalein</span></div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;  &amp;kZonePacific_Majuro, <span class="comment">// Pacific/Majuro</span></div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;  &amp;kZonePacific_Marquesas, <span class="comment">// Pacific/Marquesas</span></div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;  &amp;kZonePacific_Nauru, <span class="comment">// Pacific/Nauru</span></div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;  &amp;kZonePacific_Niue, <span class="comment">// Pacific/Niue</span></div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;  &amp;kZonePacific_Norfolk, <span class="comment">// Pacific/Norfolk</span></div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;  &amp;kZonePacific_Noumea, <span class="comment">// Pacific/Noumea</span></div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;  &amp;kZonePacific_Pago_Pago, <span class="comment">// Pacific/Pago_Pago</span></div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;  &amp;kZonePacific_Palau, <span class="comment">// Pacific/Palau</span></div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;  &amp;kZonePacific_Pitcairn, <span class="comment">// Pacific/Pitcairn</span></div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;  &amp;kZonePacific_Pohnpei, <span class="comment">// Pacific/Pohnpei</span></div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;  &amp;kZonePacific_Port_Moresby, <span class="comment">// Pacific/Port_Moresby</span></div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;  &amp;kZonePacific_Rarotonga, <span class="comment">// Pacific/Rarotonga</span></div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;  &amp;kZonePacific_Tahiti, <span class="comment">// Pacific/Tahiti</span></div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;  &amp;kZonePacific_Tarawa, <span class="comment">// Pacific/Tarawa</span></div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;  &amp;kZonePacific_Tongatapu, <span class="comment">// Pacific/Tongatapu</span></div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;  &amp;kZonePacific_Wake, <span class="comment">// Pacific/Wake</span></div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;  &amp;kZonePacific_Wallis, <span class="comment">// Pacific/Wallis</span></div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;  &amp;kZoneWET, <span class="comment">// WET</span></div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160; </div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;};</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160; </div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;  &amp;kZoneAustralia_Darwin, <span class="comment">// Australia/Darwin</span></div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;  &amp;kZoneAustralia_Eucla, <span class="comment">// Australia/Eucla</span></div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;  &amp;kZoneAustralia_Hobart, <span class="comment">// Australia/Hobart</span></div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;  &amp;kZoneAustralia_Lindeman, <span class="comment">// Australia/Lindeman</span></div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;  &amp;kZoneAustralia_Lord_Howe, <span class="comment">// Australia/Lord_Howe</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;  &amp;kZoneAustralia_Melbourne, <span class="comment">// Australia/Melbourne</span></div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;  &amp;kZoneAustralia_Perth, <span class="comment">// Australia/Perth</span></div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;  &amp;kZoneAustralia_Sydney, <span class="comment">// Australia/Sydney</span></div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;  &amp;kZoneCET, <span class="comment">// CET</span></div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;  &amp;kZoneCST6CDT, <span class="comment">// CST6CDT</span></div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;  &amp;kZoneEET, <span class="comment">// EET</span></div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;  &amp;kZoneEST, <span class="comment">// EST</span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;  &amp;kZoneEST5EDT, <span class="comment">// EST5EDT</span></div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;  &amp;kZoneEtc_GMT, <span class="comment">// Etc/GMT</span></div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;  &amp;kZoneEtc_GMT_PLUS_1, <span class="comment">// Etc/GMT+1</span></div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;  &amp;kZoneEtc_GMT_PLUS_10, <span class="comment">// Etc/GMT+10</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;  &amp;kZoneEtc_GMT_PLUS_11, <span class="comment">// Etc/GMT+11</span></div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;  &amp;kZoneEtc_GMT_PLUS_12, <span class="comment">// Etc/GMT+12</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;  &amp;kZoneEtc_GMT_PLUS_2, <span class="comment">// Etc/GMT+2</span></div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;  &amp;kZoneEtc_GMT_PLUS_3, <span class="comment">// Etc/GMT+3</span></div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;  &amp;kZoneEtc_GMT_PLUS_4, <span class="comment">// Etc/GMT+4</span></div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;  &amp;kZoneEtc_GMT_PLUS_5, <span class="comment">// Etc/GMT+5</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  &amp;kZoneEtc_GMT_PLUS_6, <span class="comment">// Etc/GMT+6</span></div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;  &amp;kZoneEtc_GMT_PLUS_7, <span class="comment">// Etc/GMT+7</span></div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;  &amp;kZoneEtc_GMT_PLUS_8, <span class="comment">// Etc/GMT+8</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;  &amp;kZoneEtc_GMT_PLUS_9, <span class="comment">// Etc/GMT+9</span></div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;  &amp;kZoneEtc_GMT_1, <span class="comment">// Etc/GMT-1</span></div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;  &amp;kZoneEtc_GMT_10, <span class="comment">// Etc/GMT-10</span></div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  &amp;kZoneEtc_GMT_11, <span class="comment">// Etc/GMT-11</span></div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;  &amp;kZoneEtc_GMT_12, <span class="comment">// Etc/GMT-12</span></div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;  &amp;kZoneEtc_GMT_13, <span class="comment">// Etc/GMT-13</span></div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;  &amp;kZoneEtc_GMT_14, <span class="comment">// Etc/GMT-14</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;  &amp;kZoneEtc_GMT_2, <span class="comment">// Etc/GMT-2</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;  &amp;kZoneEtc_GMT_3, <span class="comment">// Etc/GMT-3</span></div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;  &amp;kZoneEtc_GMT_4, <span class="comment">// Etc/GMT-4</span></div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;  &amp;kZoneEtc_GMT_5, <span class="comment">// Etc/GMT-5</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;  &amp;kZoneEtc_GMT_6, <span class="comment">// Etc/GMT-6</span></div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;  &amp;kZoneEtc_GMT_7, <span class="comment">// Etc/GMT-7</span></div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;  &amp;kZoneEtc_GMT_8, <span class="comment">// Etc/GMT-8</span></div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;  &amp;kZoneEtc_GMT_9, <span class="comment">// Etc/GMT-9</span></div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;  &amp;kZoneEtc_UTC, <span class="comment">// Etc/UTC</span></div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;  &amp;kZoneEurope_Amsterdam, <span class="comment">// Europe/Amsterdam</span></div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;  &amp;kZoneEurope_Andorra, <span class="comment">// Europe/Andorra</span></div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;  &amp;kZoneEurope_Astrakhan, <span class="comment">// Europe/Astrakhan</span></div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;  &amp;kZoneEurope_Athens, <span class="comment">// Europe/Athens</span></div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;  &amp;kZoneEurope_Belgrade, <span class="comment">// Europe/Belgrade</span></div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;  &amp;kZoneEurope_Berlin, <span class="comment">// Europe/Berlin</span></div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;  &amp;kZoneEurope_Brussels, <span class="comment">// Europe/Brussels</span></div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;  &amp;kZoneEurope_Bucharest, <span class="comment">// Europe/Bucharest</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;  &amp;kZoneEurope_Budapest, <span class="comment">// Europe/Budapest</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;  &amp;kZoneEurope_Chisinau, <span class="comment">// Europe/Chisinau</span></div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;  &amp;kZoneEurope_Copenhagen, <span class="comment">// Europe/Copenhagen</span></div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;  &amp;kZoneEurope_Dublin, <span class="comment">// Europe/Dublin</span></div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;  &amp;kZoneEurope_Gibraltar, <span class="comment">// Europe/Gibraltar</span></div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;  &amp;kZoneEurope_Helsinki, <span class="comment">// Europe/Helsinki</span></div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;  &amp;kZoneEurope_Istanbul, <span class="comment">// Europe/Istanbul</span></div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;  &amp;kZoneEurope_Kaliningrad, <span class="comment">// Europe/Kaliningrad</span></div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;  &amp;kZoneEurope_Kiev, <span class="comment">// Europe/Kiev</span></div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;  &amp;kZoneEurope_Kirov, <span class="comment">// Europe/Kirov</span></div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;  &amp;kZoneEurope_Lisbon, <span class="comment">// Europe/Lisbon</span></div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;  &amp;kZoneEurope_London, <span class="comment">// Europe/London</span></div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;  &amp;kZoneEurope_Luxembourg, <span class="comment">// Europe/Luxembourg</span></div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;  &amp;kZoneEurope_Madrid, <span class="comment">// Europe/Madrid</span></div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;  &amp;kZoneEurope_Malta, <span class="comment">// Europe/Malta</span></div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;  &amp;kZoneEurope_Minsk, <span class="comment">// Europe/Minsk</span></div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;  &amp;kZoneEurope_Monaco, <span class="comment">// Europe/Monaco</span></div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;  &amp;kZoneEurope_Moscow, <span class="comment">// Europe/Moscow</span></div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;  &amp;kZoneEurope_Oslo, <span class="comment">// Europe/Oslo</span></div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;  &amp;kZoneEurope_Paris, <span class="comment">// Europe/Paris</span></div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;  &amp;kZoneEurope_Prague, <span class="comment">// Europe/Prague</span></div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;  &amp;kZoneEurope_Riga, <span class="comment">// Europe/Riga</span></div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;  &amp;kZoneEurope_Rome, <span class="comment">// Europe/Rome</span></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;  &amp;kZoneEurope_Samara, <span class="comment">// Europe/Samara</span></div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;  &amp;kZoneEurope_Saratov, <span class="comment">// Europe/Saratov</span></div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;  &amp;kZoneEurope_Simferopol, <span class="comment">// Europe/Simferopol</span></div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;  &amp;kZoneEurope_Sofia, <span class="comment">// Europe/Sofia</span></div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;  &amp;kZoneEurope_Stockholm, <span class="comment">// Europe/Stockholm</span></div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  &amp;kZoneEurope_Tallinn, <span class="comment">// Europe/Tallinn</span></div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;  &amp;kZoneEurope_Tirane, <span class="comment">// Europe/Tirane</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  &amp;kZoneEurope_Ulyanovsk, <span class="comment">// Europe/Ulyanovsk</span></div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  &amp;kZoneEurope_Uzhgorod, <span class="comment">// Europe/Uzhgorod</span></div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;  &amp;kZoneEurope_Vienna, <span class="comment">// Europe/Vienna</span></div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;  &amp;kZoneEurope_Vilnius, <span class="comment">// Europe/Vilnius</span></div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;  &amp;kZoneEurope_Volgograd, <span class="comment">// Europe/Volgograd</span></div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;  &amp;kZoneEurope_Warsaw, <span class="comment">// Europe/Warsaw</span></div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;  &amp;kZoneEurope_Zaporozhye, <span class="comment">// Europe/Zaporozhye</span></div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;  &amp;kZoneEurope_Zurich, <span class="comment">// Europe/Zurich</span></div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;  &amp;kZoneHST, <span class="comment">// HST</span></div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;  &amp;kZoneIndian_Chagos, <span class="comment">// Indian/Chagos</span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;  &amp;kZoneIndian_Christmas, <span class="comment">// Indian/Christmas</span></div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;  &amp;kZoneIndian_Cocos, <span class="comment">// Indian/Cocos</span></div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;  &amp;kZoneIndian_Kerguelen, <span class="comment">// Indian/Kerguelen</span></div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;  &amp;kZoneIndian_Mahe, <span class="comment">// Indian/Mahe</span></div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;  &amp;kZoneIndian_Maldives, <span class="comment">// Indian/Maldives</span></div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;  &amp;kZoneIndian_Mauritius, <span class="comment">// Indian/Mauritius</span></div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;  &amp;kZoneIndian_Reunion, <span class="comment">// Indian/Reunion</span></div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;  &amp;kZoneMET, <span class="comment">// MET</span></div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;  &amp;kZoneMST, <span class="comment">// MST</span></div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;  &amp;kZoneMST7MDT, <span class="comment">// MST7MDT</span></div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;  &amp;kZonePST8PDT, <span class="comment">// PST8PDT</span></div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;  &amp;kZonePacific_Apia, <span class="comment">// Pacific/Apia</span></div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;  &amp;kZonePacific_Auckland, <span class="comment">// Pacific/Auckland</span></div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;  &amp;kZonePacific_Bougainville, <span class="comment">// Pacific/Bougainville</span></div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;  &amp;kZonePacific_Chatham, <span class="comment">// Pacific/Chatham</span></div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;  &amp;kZonePacific_Chuuk, <span class="comment">// Pacific/Chuuk</span></div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;  &amp;kZonePacific_Easter, <span class="comment">// Pacific/Easter</span></div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;  &amp;kZonePacific_Efate, <span class="comment">// Pacific/Efate</span></div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;  &amp;kZonePacific_Enderbury, <span class="comment">// Pacific/Enderbury</span></div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;  &amp;kZonePacific_Fakaofo, <span class="comment">// Pacific/Fakaofo</span></div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;  &amp;kZonePacific_Fiji, <span class="comment">// Pacific/Fiji</span></div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;  &amp;kZonePacific_Funafuti, <span class="comment">// Pacific/Funafuti</span></div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;  &amp;kZonePacific_Galapagos, <span class="comment">// Pacific/Galapagos</span></div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;  &amp;kZonePacific_Gambier, <span class="comment">// Pacific/Gambier</span></div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;  &amp;kZonePacific_Guadalcanal, <span class="comment">// Pacific/Guadalcanal</span></div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;  &amp;kZonePacific_Guam, <span class="comment">// Pacific/Guam</span></div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;  &amp;kZonePacific_Honolulu, <span class="comment">// Pacific/Honolulu</span></div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;  &amp;kZonePacific_Kiritimati, <span class="comment">// Pacific/Kiritimati</span></div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;  &amp;kZonePacific_Kosrae, <span class="comment">// Pacific/Kosrae</span></div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;  &amp;kZonePacific_Kwajalein, <span class="comment">// Pacific/Kwajalein</span></div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;  &amp;kZonePacific_Majuro, <span class="comment">// Pacific/Majuro</span></div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;  &amp;kZonePacific_Marquesas, <span class="comment">// Pacific/Marquesas</span></div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;  &amp;kZonePacific_Nauru, <span class="comment">// Pacific/Nauru</span></div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;  &amp;kZonePacific_Niue, <span class="comment">// Pacific/Niue</span></div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;  &amp;kZonePacific_Norfolk, <span class="comment">// Pacific/Norfolk</span></div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;  &amp;kZonePacific_Noumea, <span class="comment">// Pacific/Noumea</span></div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;  &amp;kZonePacific_Pago_Pago, <span class="comment">// Pacific/Pago_Pago</span></div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;  &amp;kZonePacific_Palau, <span class="comment">// Pacific/Palau</span></div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;  &amp;kZonePacific_Pitcairn, <span class="comment">// Pacific/Pitcairn</span></div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;  &amp;kZonePacific_Pohnpei, <span class="comment">// Pacific/Pohnpei</span></div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;  &amp;kZonePacific_Port_Moresby, <span class="comment">// Pacific/Port_Moresby</span></div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;  &amp;kZonePacific_Rarotonga, <span class="comment">// Pacific/Rarotonga</span></div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;  &amp;kZonePacific_Tahiti, <span class="comment">// Pacific/Tahiti</span></div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;  &amp;kZonePacific_Tarawa, <span class="comment">// Pacific/Tarawa</span></div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;  &amp;kZonePacific_Tongatapu, <span class="comment">// Pacific/Tongatapu</span></div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;  &amp;kZonePacific_Wake, <span class="comment">// Pacific/Wake</span></div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;  &amp;kZonePacific_Wallis, <span class="comment">// Pacific/Wallis</span></div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;  &amp;kZoneWET, <span class="comment">// WET</span></div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160; </div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;};</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160; </div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;}</div>
 <div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;}</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="acompat_8h_html"><div class="ttname"><a href="compat_8h.html">compat.h</a></div></div>
 <!-- start footer part -->

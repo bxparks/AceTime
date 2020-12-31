@@ -64,7 +64,7 @@
 
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 10400
-#define ACE_TIME_VERSION_STRING "1.4.0"
+#define ACE_TIME_VERSION 10401
+#define ACE_TIME_VERSION_STRING "1.4.1"
 
 #endif
