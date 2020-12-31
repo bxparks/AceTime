@@ -3,7 +3,7 @@
 //   $ ../../../tools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2020d
+//     --tz_version 2020f
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2020d
+// from https://github.com/eggert/tz/releases/tag/2020f
 //
 // DO NOT EDIT
 
@@ -45,7 +45,7 @@ extern const char kTzDatabaseVersion[];
 extern const extended::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 387
+// Supported zones: 386
 //---------------------------------------------------------------------------
 
 extern const extended::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
@@ -297,7 +297,6 @@ extern const extended::ZoneInfo kZoneAtlantic_Stanley; // Atlantic/Stanley
 extern const extended::ZoneInfo kZoneAustralia_Adelaide; // Australia/Adelaide
 extern const extended::ZoneInfo kZoneAustralia_Brisbane; // Australia/Brisbane
 extern const extended::ZoneInfo kZoneAustralia_Broken_Hill; // Australia/Broken_Hill
-extern const extended::ZoneInfo kZoneAustralia_Currie; // Australia/Currie
 extern const extended::ZoneInfo kZoneAustralia_Darwin; // Australia/Darwin
 extern const extended::ZoneInfo kZoneAustralia_Eucla; // Australia/Eucla
 extern const extended::ZoneInfo kZoneAustralia_Hobart; // Australia/Hobart
@@ -686,7 +685,6 @@ const uint32_t kZoneIdAtlantic_Stanley = 0x7bb3e1c4; // Atlantic/Stanley
 const uint32_t kZoneIdAustralia_Adelaide = 0x2428e8a3; // Australia/Adelaide
 const uint32_t kZoneIdAustralia_Brisbane = 0x4fedc9c0; // Australia/Brisbane
 const uint32_t kZoneIdAustralia_Broken_Hill = 0xb06eada3; // Australia/Broken_Hill
-const uint32_t kZoneIdAustralia_Currie = 0x278b6a24; // Australia/Currie
 const uint32_t kZoneIdAustralia_Darwin = 0x2876bdff; // Australia/Darwin
 const uint32_t kZoneIdAustralia_Eucla = 0x8cf99e44; // Australia/Eucla
 const uint32_t kZoneIdAustralia_Hobart = 0x32bf951a; // Australia/Hobart
@@ -827,7 +825,7 @@ const uint32_t kZoneIdWET = 0x0b882e35; // WET
 
 
 //---------------------------------------------------------------------------
-// Supported links: 206
+// Supported links: 207
 //---------------------------------------------------------------------------
 
 extern const extended::ZoneInfo& kZoneAfrica_Addis_Ababa; // Africa/Addis_Ababa -> Africa/Nairobi
@@ -931,6 +929,7 @@ extern const extended::ZoneInfo& kZoneAtlantic_Jan_Mayen; // Atlantic/Jan_Mayen 
 extern const extended::ZoneInfo& kZoneAtlantic_St_Helena; // Atlantic/St_Helena -> Africa/Abidjan
 extern const extended::ZoneInfo& kZoneAustralia_ACT; // Australia/ACT -> Australia/Sydney
 extern const extended::ZoneInfo& kZoneAustralia_Canberra; // Australia/Canberra -> Australia/Sydney
+extern const extended::ZoneInfo& kZoneAustralia_Currie; // Australia/Currie -> Australia/Hobart
 extern const extended::ZoneInfo& kZoneAustralia_LHI; // Australia/LHI -> Australia/Lord_Howe
 extern const extended::ZoneInfo& kZoneAustralia_NSW; // Australia/NSW -> Australia/Sydney
 extern const extended::ZoneInfo& kZoneAustralia_North; // Australia/North -> Australia/Darwin

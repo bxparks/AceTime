@@ -3,7 +3,7 @@
 //   $ ../../../tools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2020d
+//     --tz_version 2020f
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -22,13 +22,13 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2020d
+// from https://github.com/eggert/tz/releases/tag/2020f
 //
-// Zones: 387
-// Links: 206
-// Strings (bytes): 9491
-// Memory (8-bit): 21549
-// Memory (32-bit): 28015
+// Zones: 386
+// Links: 207
+// Strings (bytes): 9465
+// Memory (8-bit): 21511
+// Memory (32-bit): 27969
 //
 // DO NOT EDIT
 
@@ -43,7 +43,7 @@ namespace zonedbx {
 // ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] = "2020d";
+const char kTzDatabaseVersion[] = "2020f";
 
 const extended::ZoneContext kZoneContext = {
   2000 /*startYear*/,
@@ -52,7 +52,7 @@ const extended::ZoneContext kZoneContext = {
 };
 
 //---------------------------------------------------------------------------
-// Zones: 387
+// Zones: 386
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -93,16 +93,16 @@ const extended::ZoneInfo kZoneAfrica_Abidjan ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Zone name: Africa/Accra
 // Zone Eras: 1
-// Strings (bytes): 23
-// Memory (8-bit): 46
-// Memory (32-bit): 59
+// Strings (bytes): 15
+// Memory (8-bit): 38
+// Memory (32-bit): 51
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAfrica_Accra[] ACE_TIME_PROGMEM = {
-  //              0:00    Ghana    GMT/+0020
+  //              0:00    Ghana    %s
   {
     &kPolicyGhana /*zonePolicy*/,
-    "GMT/+0020" /*format*/,
+    "%" /*format*/,
     0 /*offsetCode*/,
     4 /*deltaCode ((offsetMinute=0 << 4) + (deltaMinute=0/15 + 4))*/,
     127 /*untilYearTiny*/,
@@ -3511,19 +3511,19 @@ const extended::ZoneInfo kZoneAmerica_Goose_Bay ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Grand_Turk[] ACE_TIME_PROGMEM = {
-  //             -5:00    US    E%sT    2015 Nov Sun>=1 2:00
+  //             -5:00    US    E%sT    2015 Mar  8  2:00
   {
     &kPolicyUS /*zonePolicy*/,
     "E%T" /*format*/,
     -20 /*offsetCode*/,
     4 /*deltaCode ((offsetMinute=0 << 4) + (deltaMinute=0/15 + 4))*/,
     15 /*untilYearTiny*/,
-    11 /*untilMonth*/,
-    1 /*untilDay*/,
+    3 /*untilMonth*/,
+    8 /*untilDay*/,
     8 /*untilTimeCode*/,
     0 /*untilTimeModifier (kSuffixW + minute=0)*/,
   },
-  //             -4:00    -    AST    2018 Mar 11 3:00
+  //             -4:00    -    AST    2018 Mar 11  3:00
   {
     nullptr /*zonePolicy*/,
     "AST" /*format*/,
@@ -11675,41 +11675,6 @@ const extended::ZoneInfo kZoneAustralia_Broken_Hill ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Zone name: Australia/Currie
-// Zone Eras: 1
-// Strings (bytes): 22
-// Memory (8-bit): 45
-// Memory (32-bit): 58
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraAustralia_Currie[] ACE_TIME_PROGMEM = {
-  //             10:00    AT    AE%sT
-  {
-    &kPolicyAT /*zonePolicy*/,
-    "AE%T" /*format*/,
-    40 /*offsetCode*/,
-    4 /*deltaCode ((offsetMinute=0 << 4) + (deltaMinute=0/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAustralia_Currie[] ACE_TIME_PROGMEM = "Australia/Currie";
-
-const extended::ZoneInfo kZoneAustralia_Currie ACE_TIME_PROGMEM = {
-  kZoneNameAustralia_Currie /*name*/,
-  0x278b6a24 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  5 /*transitionBufSize*/,
-  1 /*numEras*/,
-  kZoneEraAustralia_Currie /*eras*/,
-};
-
-//---------------------------------------------------------------------------
 // Zone name: Australia/Darwin
 // Zone Eras: 1
 // Strings (bytes): 22
@@ -15024,10 +14989,10 @@ const extended::ZoneInfo kZoneEurope_Vilnius ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Volgograd
-// Zone Eras: 4
-// Strings (bytes): 37
-// Memory (8-bit): 93
-// Memory (32-bit): 121
+// Zone Eras: 5
+// Strings (bytes): 41
+// Memory (8-bit): 108
+// Memory (32-bit): 141
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraEurope_Volgograd[] ACE_TIME_PROGMEM = {
@@ -15067,11 +15032,23 @@ static const extended::ZoneEra kZoneEraEurope_Volgograd[] ACE_TIME_PROGMEM = {
     8 /*untilTimeCode*/,
     16 /*untilTimeModifier (kSuffixS + minute=0)*/,
   },
-  //              4:00    -    +04
+  //              4:00    -    +04    2020 Dec 27  2:00s
   {
     nullptr /*zonePolicy*/,
     "+04" /*format*/,
     16 /*offsetCode*/,
+    4 /*deltaCode ((offsetMinute=0 << 4) + (deltaMinute=0/15 + 4))*/,
+    20 /*untilYearTiny*/,
+    12 /*untilMonth*/,
+    27 /*untilDay*/,
+    8 /*untilTimeCode*/,
+    16 /*untilTimeModifier (kSuffixS + minute=0)*/,
+  },
+  //              3:00    -    +03
+  {
+    nullptr /*zonePolicy*/,
+    "+03" /*format*/,
+    12 /*offsetCode*/,
     4 /*deltaCode ((offsetMinute=0 << 4) + (deltaMinute=0/15 + 4))*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
@@ -15089,7 +15066,7 @@ const extended::ZoneInfo kZoneEurope_Volgograd ACE_TIME_PROGMEM = {
   0x3ed0f389 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
-  4 /*numEras*/,
+  5 /*numEras*/,
   kZoneEraEurope_Volgograd /*eras*/,
 };
 
@@ -17047,7 +17024,7 @@ const extended::ZoneInfo kZoneWET ACE_TIME_PROGMEM = {
 
 
 //---------------------------------------------------------------------------
-// Links: 206
+// Links: 207
 //---------------------------------------------------------------------------
 
 const extended::ZoneInfo& kZoneAfrica_Addis_Ababa = kZoneAfrica_Nairobi;
@@ -17151,6 +17128,7 @@ const extended::ZoneInfo& kZoneAtlantic_Jan_Mayen = kZoneEurope_Oslo;
 const extended::ZoneInfo& kZoneAtlantic_St_Helena = kZoneAfrica_Abidjan;
 const extended::ZoneInfo& kZoneAustralia_ACT = kZoneAustralia_Sydney;
 const extended::ZoneInfo& kZoneAustralia_Canberra = kZoneAustralia_Sydney;
+const extended::ZoneInfo& kZoneAustralia_Currie = kZoneAustralia_Hobart;
 const extended::ZoneInfo& kZoneAustralia_LHI = kZoneAustralia_Lord_Howe;
 const extended::ZoneInfo& kZoneAustralia_NSW = kZoneAustralia_Sydney;
 const extended::ZoneInfo& kZoneAustralia_North = kZoneAustralia_Darwin;

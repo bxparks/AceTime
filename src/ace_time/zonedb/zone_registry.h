@@ -3,7 +3,7 @@
 //   $ ../../../tools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2020d
+//     --tz_version 2020f
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2020d
+// from https://github.com/eggert/tz/releases/tag/2020f
 //
 // DO NOT EDIT
 
@@ -34,9 +34,9 @@
 namespace ace_time {
 namespace zonedb {
 
-const uint16_t kZoneRegistrySize = 268;
+const uint16_t kZoneRegistrySize = 266;
 
-extern const basic::ZoneInfo* const kZoneRegistry[268];
+extern const basic::ZoneInfo* const kZoneRegistry[266];
 
 }
 }

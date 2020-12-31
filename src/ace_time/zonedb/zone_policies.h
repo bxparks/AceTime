@@ -3,7 +3,7 @@
 //   $ ../../../tools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2020d
+//     --tz_version 2020f
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2020d
+// from https://github.com/eggert/tz/releases/tag/2020f
 //
 // DO NOT EDIT
 
@@ -35,7 +35,7 @@ namespace ace_time {
 namespace zonedb {
 
 //---------------------------------------------------------------------------
-// Supported zone policies: 65
+// Supported zone policies: 64
 //
 extern const basic::ZonePolicy kPolicyAN;
 extern const basic::ZonePolicy kPolicyAQ;
@@ -62,7 +62,6 @@ extern const basic::ZonePolicy kPolicyEUAsia;
 extern const basic::ZonePolicy kPolicyEcuador;
 extern const basic::ZonePolicy kPolicyEire;
 extern const basic::ZonePolicy kPolicyFiji;
-extern const basic::ZonePolicy kPolicyGhana;
 extern const basic::ZonePolicy kPolicyGuat;
 extern const basic::ZonePolicy kPolicyHK;
 extern const basic::ZonePolicy kPolicyHaiti;
@@ -105,7 +104,7 @@ extern const basic::ZonePolicy kPolicyZion;
 
 
 //---------------------------------------------------------------------------
-// Unsupported zone policies: 74
+// Unsupported zone policies: 76
 //
 // kPolicyAlbania (unused)
 // kPolicyAlgeria (unused)
@@ -114,6 +113,7 @@ extern const basic::ZonePolicy kPolicyZion;
 // kPolicyBahamas (unused)
 // kPolicyBelgium (unused)
 // kPolicyBelize (LETTER 'CST' too long)
+// kPolicyBermuda (unused)
 // kPolicyBulg (unused)
 // kPolicyCA (unused)
 // kPolicyChicago (unused)
@@ -133,6 +133,7 @@ extern const basic::ZonePolicy kPolicyZion;
 // kPolicyFrance (unused)
 // kPolicyGB-Eire (unused)
 // kPolicyGermany (unused)
+// kPolicyGhana (Transition on Jan 1 not supported (1951-01-01))
 // kPolicyGreece (unused)
 // kPolicyGuam (unused)
 // kPolicyHalifax (unused)

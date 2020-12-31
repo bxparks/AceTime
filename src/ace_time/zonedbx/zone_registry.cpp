@@ -3,7 +3,7 @@
 //   $ ../../../tools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2020d
+//     --tz_version 2020f
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2020d
+// from https://github.com/eggert/tz/releases/tag/2020f
 //
 // DO NOT EDIT
 
@@ -36,7 +36,7 @@ namespace zonedbx {
 //---------------------------------------------------------------------------
 // Zone registry. Sorted by zone name.
 //---------------------------------------------------------------------------
-const extended::ZoneInfo* const kZoneRegistry[387] ACE_TIME_PROGMEM = {
+const extended::ZoneInfo* const kZoneRegistry[386] ACE_TIME_PROGMEM = {
   &kZoneAfrica_Abidjan, // Africa/Abidjan
   &kZoneAfrica_Accra, // Africa/Accra
   &kZoneAfrica_Algiers, // Africa/Algiers
@@ -286,7 +286,6 @@ const extended::ZoneInfo* const kZoneRegistry[387] ACE_TIME_PROGMEM = {
   &kZoneAustralia_Adelaide, // Australia/Adelaide
   &kZoneAustralia_Brisbane, // Australia/Brisbane
   &kZoneAustralia_Broken_Hill, // Australia/Broken_Hill
-  &kZoneAustralia_Currie, // Australia/Currie
   &kZoneAustralia_Darwin, // Australia/Darwin
   &kZoneAustralia_Eucla, // Australia/Eucla
   &kZoneAustralia_Hobart, // Australia/Hobart
