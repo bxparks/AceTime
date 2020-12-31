@@ -169,7 +169,7 @@ static const ZoneInfo kZoneTestLos_Angeles ACE_TIME_PROGMEM = {
 // --------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, tzVersion) {
-  assertEqual("2020d", zonedbx::kTzDatabaseVersion);
+  assertEqual("2020f", zonedbx::kTzDatabaseVersion);
 }
 
 static const ZoneEra era ACE_TIME_PROGMEM =
