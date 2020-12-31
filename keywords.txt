@@ -22,8 +22,10 @@ BasicZone	KEYWORD1
 ExtendedZone	KEYWORD1
 TimeZone	KEYWORD1
 ZonedDateTime	KEYWORD1
+ZoneManager	KEYWORD1
 BasicZoneManager	KEYWORD1
 ExtendedZoneManager	KEYWORD1
+ManualZoneManager	KEYWORD1
 TimePeriod	KEYWORD1
 
 # src/ace_time/clock
