@@ -9,17 +9,18 @@
 #define FEATURE_BASELINE 0
 #define FEATURE_LOCAL_DATE_TIME 1
 #define FEATURE_ZONED_DATE_TIME 2
-#define FEATURE_BASIC_TIME_ZONE 3
-#define FEATURE_BASIC_TIME_ZONE2 4
-#define FEATURE_BASIC_ZONE_MANAGER_1 5
-#define FEATURE_BASIC_ZONE_MANAGER_ALL 6
-#define FEATURE_EXTENDED_TIME_ZONE 7
-#define FEATURE_EXTENDED_TIME_ZONE2 8
-#define FEATURE_EXTENDED_ZONE_MANAGER_1 9
-#define FEATURE_EXTENDED_ZONE_MANAGER_ALL 10
-#define FEATURE_SYSTEM_CLOCK 11
-#define FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE 12
-#define FEATURE_SYSTEM_CLOCK_AND_EXTENDED_TIME_ZONE 13
+#define FEATURE_MANUAL_ZONE_MANAGER 3
+#define FEATURE_BASIC_TIME_ZONE 4
+#define FEATURE_BASIC_TIME_ZONE2 5
+#define FEATURE_BASIC_ZONE_MANAGER_1 6
+#define FEATURE_BASIC_ZONE_MANAGER_ALL 7
+#define FEATURE_EXTENDED_TIME_ZONE 8
+#define FEATURE_EXTENDED_TIME_ZONE2 9
+#define FEATURE_EXTENDED_ZONE_MANAGER_1 10
+#define FEATURE_EXTENDED_ZONE_MANAGER_ALL 11
+#define FEATURE_SYSTEM_CLOCK 12
+#define FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE 13
+#define FEATURE_SYSTEM_CLOCK_AND_EXTENDED_TIME_ZONE 14
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
@@ -66,6 +67,13 @@ void setup() {
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_ZONED_DATE_TIME
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, TimeZone());
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
+#elif FEATURE == FEATURE_MANUAL_ZONE_MANAGER
+  TimeZoneData tzd = { -8*60 /*stdMinutes*/, 60 /*dstMinutes*/ };
+  ManualZoneManager manager;
+  auto tz = manager.createForTimeZoneData(tzd);
+  auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_BASIC_TIME_ZONE

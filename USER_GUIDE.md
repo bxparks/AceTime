@@ -2,9 +2,9 @@
 
 See the [README.md](README.md) for introductory background.
 
-**Version**: 1.3 (2020-11-30, TZ DB version 2020d)
+**Version**: 1.4 (2020-12-30, TZ DB version 2020f)
 
-**Table of Contents**
+## Table of Contents
 
 * [Installation](#Installation)
     * [Source Code](#SourceCode)
@@ -33,7 +33,9 @@ See the [README.md](README.md) for introductory background.
     * [ZoneInfo Files](#ZoneInfoFiles)
         * [Basic zonedb](#BasicZonedb)
         * [Extended zonedbx](#ExtendedZonedbx)
-        * [BasicZone and ExtendedZone](#BasicZoneExtendedZone)
+        * [BasicZone and ExtendedZone](#BasicZoneAndExtendedZone)
+        * [TZ Database Version](#TzDatabaseVersion)
+        * [Zone Info Year Range](#ZoneInfoYearRange)
     * [ZoneManager](#ZoneManager)
         * [Default Zone Registry](#DefaultZoneRegistry)
         * [Custom Zone Registry](#CustomZoneRegistry)
@@ -42,7 +44,6 @@ See the [README.md](README.md) for introductory background.
         * [createForZoneIndex()](#CreateForZoneIndex)
         * [createForTimeZoneData()](#CreateForTimeZoneData)
         * [ManualZoneManager](#ManualZoneManager)
-    * [TZ Database Version](#TZDatabaseVersion)
     * [Print To String](#PrintToString)
 * [Mutations](#Mutations)
     * [TimeOffset Mutations](#TimeOffsetMutations)
@@ -619,8 +620,8 @@ ISO 8601 formatted string and returns the `LocalDateTime` object.
 The `TimePeriod` class can be used to represents a difference between two
 `XxxDateTime` objects, if the difference is not too large. Internally, it is
 implemented as 3 unsigned `uint8_t` integers representing the hour, minute and
-seconds. There is a 4th signed `int8_t` integer that holds the sign (-1 or +1)
-of the time period. The largest (or smallest) time period that can be
+second components. There is a 4th signed `int8_t` integer that holds the sign
+(-1 or +1) of the time period. The largest (or smallest) time period that can be
 represented by this class is +/- 255h59m59s, corresponding to +/- 921599
 seconds.
 
@@ -629,8 +630,13 @@ namespace ace_time {
 
 class TimePeriod {
   public:
+    static const int32_t kInvalidPeriodSeconds = INT32_MIN;
+    static const int32_t kMaxPeriodSeconds = 921599;
+
+    static TimePeriod forError();
+
     explicit TimePeriod(uint8_t hour, uint8_t minute, uint8_t second,
-            int8_t sign = 1);
+        int8_t sign = 1);
     explicit TimePeriod(int32_t seconds = 0);
 
     uint8_t hour() const;
@@ -646,6 +652,8 @@ class TimePeriod {
     void sign(int8_t sign);
 
     int32_t toSeconds() const;
+
+    bool isError() const;
 
     int8_t compareTo(const TimePeriod& that) const;
     void printTo(Print& printer) const;
@@ -666,6 +674,13 @@ acetime_t diffSeconds = target.toEpochSeconds() - current.toEpochSeconds();
 TimePeriod timePeriod(diffSeconds);
 timePeriod.printTo(Serial)
 ```
+
+Sometimes it is useful to create a `TimePeriod` object that represents an error
+condition, for example, if the time interval is too large. The
+`TimePeriod::forError()` factory method returns a special instance that
+represents an error. The `TimePeriod::isError()` method on that object will
+return `true`. Calling `TimePeriod::toSeconds()` on an error object returns
+`kInvalidPeriodSeconds`.
 
 <a name="TimeOffset"></a>
 ### TimeOffset
@@ -888,11 +903,22 @@ class TimeZone {
     static const uint8_t kTypeExtendedManaged =
         ZoneProcessorCache::kTypeExtended;
 
-    static TimeZone forTimeOffset(TimeOffset stdOffset,
+    static TimeZone forTimeOffset(
+        TimeOffset stdOffset,
         TimeOffset dstOffset = TimeOffset());
-    static TimeZone forZoneInfo(const basic::ZoneInfo* zoneInfo,
+    static TimeZone forHours(int8_t stdHours, int8_t dstHours = 0);
+    static TimeZone forMinutes(int8_t stdMinutes, int8_t dstMinutes = 0);
+    static TimeZone forHourMinute(
+        int8_t stdHour,
+        int8_t stdMinute,
+        int8_t dstHour = 0,
+        int8_t dstMinute = 0);
+
+    static TimeZone forZoneInfo(
+        const basic::ZoneInfo* zoneInfo,
         BasicZoneProcessor* zoneProcessor);
-    static TimeZone forZoneInfo(const extended::ZoneInfo* zoneInfo,
+    static TimeZone forZoneInfo(
+        const extended::ZoneInfo* zoneInfo,
         ExtendedZoneProcessor* zoneProcessor);
     static TimeZone forUtc();
 
@@ -971,26 +997,36 @@ offset. This is also identical to the `forUtc()` method:
 
 ```C++
 TimeZone tz; // UTC+00:00
-auto tz = TimeZone::forUtc(); // UTC+00:00
+auto tz = TimeZone::forUtc(); // identical to above
 ```
 
 To create `TimeZone` instances with other offsets, use the `forTimeOffset()`
-factory method:
+factory method, or starting with v1.4, use the `forHours()`, `forMinutes()` and
+`forHourMinute()` convenience methods:
 
 ```C++
-auto tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8)); // UTC-08:00
-auto tz = TimeZone::forTimeOffset(TimeOffset::forHourMinute(-4, -30)); // UTC-04:30
+// UTC-08:00, no DST shift
+auto tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
+auto tz = TimeZone::forHours(-8); // identical to above
+
+// UTC-04:30, no DST shift
+auto tz = TimeZone::forTimeOffset(TimeOffset::forHourMinute(-4, -30));
+auto tz = TimeZone::forHourMinute(-4, -30); // identical to above
+
+// UTC-03:30 with a 01:00 DST shift, so effectively UTC-02:30
 auto tz = TimeZone::forTimeOffset(
-    TimeOffset::forHours(-8),
-    TimeOffset::forHours(1)); // UTC-08:00+01:00 (effectively -07:00)
+    TimeOffset::forHourMinute(-3, -30),
+    TimeOffset::forHourMinute(1, 0));
+auto tz = TimeZone::forHourMinute(-3, -30, 1, 0); // identical to above
 ```
 
 The `TimeZone::isUtc()`, `TimeZone::isDst()` and `TimeZone::setDst(bool)`
 methods work only if the `TimeZone` is a `kTypeManual`.
 
 The `setDstOffset()` takes a `TimeOffset` as the argument instead of a simple
-`bool` because there are some zones (e.g. Europe/Dublin) which uses a negative
-offset in the winter, instead of adding a postive offset in the summer.
+`bool` because there are a handful of rare zones (e.g. Europe/Dublin, I think
+there is one other) which use a negative offset in the winter, instead of adding
+a postive offset in the summer.
 
 The `setStdOffset()` allows the base time offset to be changed, but this
 method is not expected to be used often.
@@ -1412,7 +1448,77 @@ are:
 In the current version (v1.2), this database contains all 387 timezones from
 the year 2000 to 2049 (inclusive).
 
-<a name="BasicZoneExtendedZone"></a>
+<a name="TzDatabaseVersion"></a>
+#### TZ Database Version
+
+The IANA TZ Database is updated continually. As of this writing, the latest
+stable version is 2020d. When a new version of the database is released, I
+regenerate the zoneinfo files under the `src/ace_time/zonedb/` and
+`src/ace_time/zonedbx/` directories.
+
+The current TZ Database version can be programmatically accessed using the
+`kTzDatabaseVersion` constant:
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+
+void printVersionTzVersions() {
+    const char* tzVersion = zonedb::kTzDatabaseVersion;
+    Serial.print("zonedb TZ version: ");
+    Serial.println(tzVersion); // e.g. "2020d"
+
+    tzVersion = zonedbx::kTzDatabaseVersion;
+    Serial.print("zonedbx TZ version: ");
+    Serial.println(tzVersion); // e.g. "2020d"
+}
+```
+
+It is technically possible for the 2 versions to be different, but since they
+are generated by the same set of scripts, I expect they will always be the same.
+
+<a name="ZoneInfoYearRange"></a>
+#### ZoneInfo Year Range
+
+As mentioned above, both the `zonedb` and `zonedbx` databases are generated with
+a specific `startYear` and `untilYear` range. If you try to create a
+`ZonedDateTime` object outside of the year range, the constructed object will be
+`ZonedDateTime::forError()` whose `isError()` method returns `true`.
+
+Applications can access the valid `startYear` and `untilYear` of the `zonedb` or
+`zonedbx` databases through the `kZoneContext` data structure:
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+
+void printStartAndUntilYears() {
+    Serial.print("zonedb: startYear: ");
+    Serial.print(zonedb::kZoneContext.startYear); // e.g. 2000
+    Serial.print("; untilYear: ");
+    Serial.println(zonedb::kZoneContext.untilYear); // e.g. 2050
+
+    Serial.print("zonedbx: startYear: ");
+    Serial.print(zonedbx::kZoneContext.startYear); // e.g. 2000
+    Serial.print("; untilYear: ");
+    Serial.println(zonedbx::kZoneContext.untilYear); // e.g. 2050
+}
+```
+
+I looked into supporting some sort of "graceful degradation" mode of the
+`ZonedDateTime` class, where creating instances before `startYear` or after
+`untilYear` would actually succeed, even though those instances would have some
+undefined errors due to incorrect or missing DST offsets. However, so much of
+the code in `BasicZoneProcessor` and `ExtendedZonedProcessor` depend on the
+intricate details of the zoneinfo files being in a valid state, I could not
+guarantee that a catastrophic situation (e.g. infinite loop) could be avoided
+outside of the safe zone. Therefore, attempting to create a `ZonedTimeDate`
+object outside of the supported `startYear` and `untilYear` range will always
+return an error object. Applications should either check the year range first
+before creating a `ZonedDateTime` object, or check the
+`ZonedDateTime::isError()` method after creation.
+
+<a name="BasicZoneAndExtendedZone"></a>
 #### BasicZone and ExtendedZone
 
 The `basic::ZoneInfo` and `extended::ZoneInfo` (and its related data structures)
@@ -1665,7 +1771,7 @@ zone name:
 BasicZoneManager<NUM_ZONES> manager(...);
 
 void someFunction() {
-  auto tz = manager.createForZoneName("America/Los_Angeles");
+  TimeZone tz = manager.createForZoneName("America/Los_Angeles");
   ...
 }
 ```
@@ -1676,7 +1782,7 @@ be done more efficiently (less memory, less CPU time) using:
 BasicZoneManager<NUM_ZONES> manager(...);
 
 void someFunction() {
-  auto tz = manager.createForZoneInfo(zonedb::kZoneAmerica_Los_Angeles);
+  TimeZone tz = manager.createForZoneInfo(zonedb::kZoneAmerica_Los_Angeles);
   ...
 }
 ```
@@ -1709,14 +1815,14 @@ corresponding to the given `zoneId`:
 BasicZoneManager<NUM_ZONES> manager(...);
 
 void someFunction() {
-  auto tz = manager.createForZoneId(kZoneIdAmerica_New_York);
+  TimeZone tz = manager.createForZoneId(kZoneIdAmerica_New_York);
   ...
 }
 
 ExtendedZoneManager<NUM_ZONES> manager(...);
 
 void someFunction() {
-  auto tz = manager.createForZoneId(kZoneIdAmerica_New_York);
+  TimeZone tz = manager.createForZoneId(kZoneIdAmerica_New_York);
   ...
 }
 ```
@@ -1796,13 +1902,6 @@ If an application is specifically targeted to a low-memory chip, and it is known
 at compile-time that only `TimeZone::kTypeManual` are supported, then you should
 not need to use the `ManualZoneManager`. You can use `TimeZone::forTimeOffset()`
 factory method directory.
-
-<a name="TZDatabaseVersion"></a>
-### TZ Database Version
-
-The IANA TZ Database is updated continually. As of this writing, the latest
-stable version is 2019b. When a new version of the database is released, it is
-relatively easy to regenerate the `zonedb/` and `zonedbx/` zoneinfo files.
 
 <a name="PrintToString"></a>
 ### Print To String
@@ -2650,7 +2749,7 @@ following versions of `dateutil` have been tested:
 The Java 11 `java.time` library is not limited to 2038 but supports years
 through the [year 1,000,000,000
 (billion)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/class-use/Instant.html).
-I wrote the [TestDataGenerator.java](tools/compare_java/TestDataGenerator.java)
+I wrote the [GenerateData.java](tools/compare_java/GenerateData.java)
 program to generate a `validation_data.cpp` file in exactly the same format as
 the `tzcompiler.py` program, and produced data points from year 2000 to year
 2050, which is the exact range of years supported by the `zonedb::` and
@@ -3006,10 +3105,18 @@ get some time to take a closer look in the future.
      as well as it could be, and the algorithm may change in the future. To keep
      the code size within reasonble limits of a small Arduino controller, the
      algorithm may be permanently sub-optimal.
+* `ZonedDateTime` Must Be Within StartYear and UntilYear
+    * The `src/ace_time/zonedb` and `src/ace_time/zonedbx` zone files are
+      valid only within the specified `startYear` and `untilYear` range, defined
+      in the `kZoneContext` struct:
+        * `ace_time::zonedb::kZoneContext`
+        * `ace_time::zonedbx::kZoneContext`
+    * A `ZonedDateTime` object cannot be created outside of that valid year
+      range. This is explained in [ZoneInfo Year Range](#ZoneInfoYearRange).
 * `NtpClock`
     * The `NtpClock` on an ESP8266 calls `WiFi.hostByName()` to resolve
       the IP address of the NTP server. Unfortunately, when I tested this
-      library, it seems to be blocking call (later versions may have fixed
+      library, it seems to be a blocking call (later versions may have fixed
       this). When the DNS resolver is working properly, this call returns in
       ~10ms or less. But sometimes, the DNS resolver seems to get into a state
       where it takes 4-5 **seconds** to time out. Even if you use AceRoutine

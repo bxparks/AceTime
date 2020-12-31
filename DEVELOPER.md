@@ -125,14 +125,18 @@ available.
         * `$ ./ExtendedHinnantDateTest.out | grep failed`
         * There should be no failures: `TestRunner summary: 387 passed, 0
           failed, 0 skipped, 0 timed out, out of 387 test(s).`
-* Update the `src/ace_time/zonedb` and `zonedbx` zone info files:
-    * zonedb
+* Update the various zone info files:
+    * `src/ace_time/zonedb`
         * `$ cd src/ace_time/zonedb`
-        * Update the `TZ_VERSION` in the `Makefile`.
+        * Edit the `Makefile` and update the `TZ_VERSION`.
         * `$ make`
-    * zonedbx
+    * `src/ace_time/zonedbx`
         * `$ cd src/ace_time/zonedbx`
-        * Update the `TZ_VERSION` in the `Makefile`.
+        * Edit the `Makefile` and update the `TZ_VERSION`.
+        * `$ make`
+    * `tools/zonedbpy`
+        * `$ cd tools/zonedbpy`
+        * Edit the Makefile and update the `TZ_VERSION`.
         * `$ make`
 * Update the CHANGELOG.md.
 * Commit the changes to git
@@ -170,13 +174,13 @@ will fail until the underying timezone database of the OS is updated.
 * Merge the `develop` branch into `master`.
     * Normally I do this with a PR on GitHub to keep an audit trail.
     * Go to https://github.com/bxparks/AceTime.
-    * Create a Pull Request from `develop` to `master`
+    * Create a Pull Request from `develop` to `master`.
     * Approve and merge the PR.
 * Create a new Release.
     * Go to https://github.com/bxparks/AceTime
     * Click on "Releases"
     * Click on "Draft a new release"
-    * Enter a tag version (e.g. 'v1.2`), targeting the `master` branch.
+    * Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
     * Enter the release title.
     * Enter the release notes. I normally just copy and paste the latest changes
       from `CHANGELOG.md`.

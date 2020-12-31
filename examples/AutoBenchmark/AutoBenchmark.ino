@@ -20,7 +20,9 @@ void setup() {
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Wait until ready - Leonardo/Micro
 
-  // ace_time primitives
+  SERIAL_PORT_MONITOR.println("SIZEOF");
+
+  // print sizeof() various ace_time primitives
 
   SERIAL_PORT_MONITOR.print(F("sizeof(LocalDate): "));
   SERIAL_PORT_MONITOR.println(sizeof(LocalDate));
@@ -73,10 +75,10 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("sizeof(clock::DS3231Clock): "));
   SERIAL_PORT_MONITOR.println(sizeof(clock::DS3231Clock));
 
-#if defined(ESP8266) || defined(ESP32)
-  SERIAL_PORT_MONITOR.print(F("sizeof(clock::NtpClock): "));
-  SERIAL_PORT_MONITOR.println(sizeof(clock::NtpClock));
-#endif
+  #if defined(ESP8266) || defined(ESP32)
+    SERIAL_PORT_MONITOR.print(F("sizeof(clock::NtpClock): "));
+    SERIAL_PORT_MONITOR.println(sizeof(clock::NtpClock));
+  #endif
 #endif
 
   SERIAL_PORT_MONITOR.print(F("sizeof(clock::SystemClock): "));
@@ -114,7 +116,10 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("sizeof(extended::ZoneMatch): "));
   SERIAL_PORT_MONITOR.println(sizeof(extended::ZoneMatch));
 
+  SERIAL_PORT_MONITOR.println("BENCHMARKS");
   runBenchmarks();
+  SERIAL_PORT_MONITOR.println("END");
+
 #if defined(UNIX_HOST_DUINO)
   exit(0);
 #endif

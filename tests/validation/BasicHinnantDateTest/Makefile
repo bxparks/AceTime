@@ -30,7 +30,7 @@ runtests:
 
 # Define the scope of the test data.
 SCOPE = basic
-TZ_VERSION = 2020d
+TZ_VERSION = 2020f
 START_YEAR = 2000
 UNTIL_YEAR = 2050
 
@@ -46,14 +46,14 @@ validation_data.h: validation_data.json
 		< validation_data.json
 
 validation_data.json: $(DB_NAMESPACE)/zones.txt \
-../../../tools/compare_cpp/test_data_generator.out
-	../../../tools/compare_cpp/test_data_generator.out \
+../../../tools/compare_cpp/generate_data.out
+	../../../tools/compare_cpp/generate_data.out \
 		--tz_version $(TZ_VERSION) \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
 		< $(DB_NAMESPACE)/zones.txt
 
-../../../tools/compare_cpp/test_data_generator.out:
+../../../tools/compare_cpp/generate_data.out:
 	make -C ../../../tools/compare_cpp/
 
 $(DB_NAMESPACE)/%.o: $(DB_NAMESPACE)/%.cpp
@@ -78,8 +78,7 @@ $(DB_NAMESPACE)/zone_infos.h: tzfiles/$(TZ_VERSION)
 	../../../../tools/tzcompiler.py \
 		--input_dir ../tzfiles/$(TZ_VERSION) \
 		--tz_version $(TZ_VERSION) \
-		--action zonedb,zonelist \
-		--language arduino \
+		--language arduino,zonelist \
 		--scope $(SCOPE) \
 		--db_namespace $(DB_NAMESPACE) \
 		--start_year $(START_YEAR) \

@@ -6,11 +6,11 @@
 
 """
 Generate the 'validation_data.json' containing the validation test data from
-the pytz (using .tdgenerator.TestDataGenerator) given the 'zones.txt' file
-from the tzcompiler.py.
+the dateutil package (using .tdgenerator.TestDataGenerator) given the
+'zones.txt' file from the tzcompiler.py.
 
 Usage
-$ ./test_data_generator.py [--start_year start] [--until_year until] \
+$ ./generate_data.py [--start_year start] [--until_year until] \
     [--sampling_interval hours] < zones.txt
 """
 
@@ -33,7 +33,7 @@ sys.path.insert(1, dirname(dirname(abspath(__file__))))  # noqa
 
 # Can't use relative import (.tdgenerator) here because PEP 3122 got rejected
 # https://mail.python.org/pipermail/python-3000/2007-April/006793.html.
-from compare_pytz.tdgenerator import TestDataGenerator  # noqa
+from compare_dateutil.tdgenerator import TestDataGenerator  # noqa
 
 
 class Generator:

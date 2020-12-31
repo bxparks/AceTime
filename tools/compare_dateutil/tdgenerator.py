@@ -238,8 +238,7 @@ class TestDataGenerator():
                     or current['y'] != item['y'] or current['M'] != item['M']
                     or current['d'] != item['d'] or current['h'] != item['h']
                     or current['m'] != item['m'] or current['s'] != item['s']):
-                raise Exception('Item %s does not match item %s' % (
-                    current, item))
+                raise Exception(f'Item {current} does not match item {item}')
             # 'A' and 'B' takes precedence over 'S' or 'Y'
             if item['type'] in ['A', 'B']:
                 items_map[item['epoch']] = item

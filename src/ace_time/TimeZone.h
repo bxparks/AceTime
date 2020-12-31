@@ -49,9 +49,9 @@ template<typename ZI, typename ZR, typename ZSC> class ZoneManagerImpl;
  * The TimeZone class should be treated as a const value type. (Except for
  * kTypeManual which is self-contained and allows the stdOffset and dstOffset
  * to be modified.) It can be passed around by value, but since it is between 5
- * bytes (8-bit) and 24 bytes (32-bit) big, it may be slightly more efficient
- * to pass by const reference, then save locally by-value when needed. The
- * ZonedDateTime holds the TimeZone object by-value.
+ * bytes (8-bit processors) and 12 bytes (32-bit processors) big, it may be
+ * slightly more efficient to pass by const reference, then save locally
+ * by-value when needed. The ZonedDateTime holds the TimeZone object by-value.
  *
  * Semantically, TimeZone really really wants to be a reference type because it
  * needs have a reference to the ZoneProcessor helper class to do its work. In
@@ -99,13 +99,66 @@ class TimeZone {
 
     /**
      * Factory method to create from a UTC offset and an optional DST offset.
+     * It may be easier to use the following convenience methods:
+     *
+     * * TimeZone::forHours(stdHours, dstHours = 0)
+     * * TimeZone::forMinutes(stdMinutes, dstMinutes = 0)
+     * * TimeZone::forHourMinute(stdHour, stdMinute, dstHour = 0, dstMinute = 0)
+     *
+     * This method may become deprecated in the future.
      *
      * @param stdOffset the base offset
      * @param dstOffset the DST offset, default TimeOffset() (i.e. 0 offset)
      */
-    static TimeZone forTimeOffset(TimeOffset stdOffset,
-        TimeOffset dstOffset = TimeOffset()) {
+    static TimeZone forTimeOffset(
+        TimeOffset stdOffset,
+        TimeOffset dstOffset = TimeOffset()
+    ) {
       return TimeZone(stdOffset, dstOffset);
+    }
+
+    /**
+     * Factory method to create from UTC hour offset and optional DST hour
+     * offset. This is a convenience alternative to
+     * `forTimeOffset(TimeOffset::forHours(stdHour),
+     * TimeOffset::forHours(stdHour))`.
+     */
+    static TimeZone forHours(int8_t stdHours, int8_t dstHours = 0) {
+      return TimeZone::forTimeOffset(
+          TimeOffset::forHours(stdHours),
+          TimeOffset::forHours(dstHours)
+      );
+    }
+
+    /**
+     * Factory method to create from UTC minute offset and optional DST minute
+     * offset. This is a convenience alternative to
+     * `forTimeOffset(TimeOffset::forMinutes(stdMinutes),
+     * TimeOffset::forMinutes(dstMinutes))`.
+     */
+    static TimeZone forMinutes(int8_t stdMinutes, int8_t dstMinutes = 0) {
+      return TimeZone::forTimeOffset(
+          TimeOffset::forMinutes(stdMinutes),
+          TimeOffset::forMinutes(dstMinutes)
+      );
+    }
+
+    /**
+     * Factory method to create from UTC (hour, minute) pair and optional DST
+     * (hour, minute) pair. This is a convenience alternative to
+     * `forTimeOffset(TimeOffset::forHour(stdHour),
+     * TimeOffset::forHour(stdHour))`.
+     */
+    static TimeZone forHourMinute(
+        int8_t stdHour,
+        int8_t stdMinute,
+        int8_t dstHour = 0,
+        int8_t dstMinute = 0
+    ) {
+      return TimeZone::forTimeOffset(
+          TimeOffset::forHourMinute(stdHour, stdMinute),
+          TimeOffset::forHourMinute(dstHour, dstMinute)
+      );
     }
 
     /**
@@ -116,8 +169,10 @@ class TimeZone {
      * @param zoneInfo a basic::ZoneInfo that identifies the zone
      * @param zoneProcessor a pointer to a ZoneProcessor, cannot be nullptr
      */
-    static TimeZone forZoneInfo(const basic::ZoneInfo* zoneInfo,
-        BasicZoneProcessor* zoneProcessor) {
+    static TimeZone forZoneInfo(
+        const basic::ZoneInfo* zoneInfo,
+        BasicZoneProcessor* zoneProcessor
+    ) {
       return TimeZone(kTypeBasic, zoneInfo, zoneProcessor);
     }
 
@@ -129,8 +184,10 @@ class TimeZone {
      * @param zoneInfo an extended::ZoneInfo that identifies the zone
      * @param zoneProcessor a pointer to a ZoneProcessor, cannot be nullptr
      */
-    static TimeZone forZoneInfo(const extended::ZoneInfo* zoneInfo,
-        ExtendedZoneProcessor* zoneProcessor) {
+    static TimeZone forZoneInfo(
+        const extended::ZoneInfo* zoneInfo,
+        ExtendedZoneProcessor* zoneProcessor
+    ) {
       return TimeZone(kTypeExtended, zoneInfo, zoneProcessor);
     }
 
@@ -406,11 +463,14 @@ class TimeZone {
      * Constructor for kType*Managed. Intended to be used ONLY by
      * BasicZoneManager and ExtendedZoneManager.
      *
-     * @param zoneInfo a pointer to a basic::ZoneInfo. Cannot be nullptr.
+     * @param zoneInfo a pointer to a basic::ZoneInfo or an extended::ZoneInfo.
+     *        Cannot be nullptr.
      * @param zoneProcessorCache a cache of ZoneInfo -> ZoneProcessor
      */
-    explicit TimeZone(const void* zoneInfo,
-        ZoneProcessorCache* zoneProcessorCache):
+    explicit TimeZone(
+        const void* zoneInfo,
+        ZoneProcessorCache* zoneProcessorCache
+    ) :
         mType(zoneProcessorCache->getType()),
         mZoneInfo(zoneInfo),
         mZoneProcessorCache(zoneProcessorCache) {}
@@ -453,8 +513,8 @@ class TimeZone {
 
       struct {
         /**
-         * Used by kTypeBasic, kTypeExtended, kTypeBasicManaged,
-         * kTypeExtendedManaged.
+         * Either a basic::ZoneInfo or an extended::ZoneInfo. Used by
+         * kTypeBasic, kTypeExtended, kTypeBasicManaged, kTypeExtendedManaged.
          */
         const void* mZoneInfo;
 

@@ -7,7 +7,7 @@ the baseline, and its memory usage  numbers are subtracted from the subsequent
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
-**Version**: AceTime v1.3
+**Version**: AceTime v1.4
 
 ## How to Regenerate
 
@@ -53,12 +53,13 @@ this penalty in flash size.
 
 ```
 +--------------------------------------------------------------+
-| Functionality                   |    flash/ram |       Delta |
+| Functionality                   |  flash/  ram |       delta |
 |---------------------------------+--------------+-------------|
 | Baseline                        |    448/   10 |     0/    0 |
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   |   1648/  123 |  1200/  113 |
 | ZonedDateTime                   |   2440/  123 |  1992/  113 |
+| Manual ZoneManager              |   2684/  123 |  2236/  113 |
 | Basic TimeZone (1 zone)         |   6910/  187 |  6462/  177 |
 | Basic TimeZone (2 zones)        |   7488/  193 |  7040/  183 |
 | Basic ZoneManager (1 zone)      |   8374/  213 |  7926/  203 |
@@ -82,12 +83,13 @@ this penalty in flash size.
 
 ```
 +--------------------------------------------------------------+
-| Functionality                   |    flash/ram |       Delta |
+| Functionality                   |  flash/  ram |       delta |
 |---------------------------------+--------------+-------------|
 | Baseline                        |   3464/  150 |     0/    0 |
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   |   4772/  263 |  1308/  113 |
 | ZonedDateTime                   |   5564/  263 |  2100/  113 |
+| Manual ZoneManager              |   5808/  263 |  2344/  113 |
 | Basic TimeZone (1 zone)         |  10012/  327 |  6548/  177 |
 | Basic TimeZone (2 zones)        |  10588/  331 |  7124/  181 |
 | Basic ZoneManager (1 zone)      |  11476/  353 |  8012/  203 |
@@ -107,28 +109,29 @@ this penalty in flash size.
 ## SAMD21 M0 Mini
 
 * Arduino IDE 1.8.13
-* Arduino SAMD Boards 1.8.9
+* Sparkfun SAMD Boards 1.8.1
 
 ```
 +--------------------------------------------------------------+
-| Functionality                   |    flash/ram |       Delta |
+| Functionality                   |  flash/  ram |       delta |
 |---------------------------------+--------------+-------------|
-| Baseline                        |  11096/ 2368 |     0/    0 |
+| Baseline                        |  10064/    0 |     0/    0 |
 |---------------------------------+--------------+-------------|
-| LocalDateTime                   |  11976/ 2948 |   880/  580 |
-| ZonedDateTime                   |  12132/ 2948 |  1036/  580 |
-| Basic TimeZone (1 zone)         |  16144/ 2948 |  5048/  580 |
-| Basic TimeZone (2 zones)        |  16532/ 2948 |  5436/  580 |
-| Basic ZoneManager (1 zone)      |  16732/ 2948 |  5636/  580 |
-| Basic ZoneManager (all)         |  35760/ 2948 | 24664/  580 |
-| Extended TimeZone (1 zone)      |  18028/ 2948 |  6932/  580 |
-| Extended TimeZone (2 zones)     |  18428/ 2948 |  7332/  580 |
-| Extended ZoneManager (1 zone)   |  18616/ 2948 |  7520/  580 |
-| Extended ZoneManager (all)      |  50840/ 2948 | 39744/  580 |
+| LocalDateTime                   |  10920/    0 |   856/    0 |
+| ZonedDateTime                   |  11160/    0 |  1096/    0 |
+| Manual ZoneManager              |  11184/    0 |  1120/    0 |
+| Basic TimeZone (1 zone)         |  15060/    0 |  4996/    0 |
+| Basic TimeZone (2 zones)        |  15444/    0 |  5380/    0 |
+| Basic ZoneManager (1 zone)      |  15924/    0 |  5860/    0 |
+| Basic ZoneManager (all)         |  35196/    0 | 25132/    0 |
+| Extended TimeZone (1 zone)      |  16828/    0 |  6764/    0 |
+| Extended TimeZone (2 zones)     |  17252/    0 |  7188/    0 |
+| Extended ZoneManager (1 zone)   |  17692/    0 |  7628/    0 |
+| Extended ZoneManager (all)      |  50276/    0 | 40212/    0 |
 |---------------------------------+--------------+-------------|
-| SystemClock                     |  14300/ 2948 |  3204/  580 |
-| SystemClock+Basic TimeZone      |  17716/ 2948 |  6620/  580 |
-| SystemClock+Extended TimeZone   |  19664/ 2948 |  8568/  580 |
+| SystemClock                     |  13264/    0 |  3200/    0 |
+| SystemClock+Basic TimeZone      |  16700/    0 |  6636/    0 |
+| SystemClock+Extended TimeZone   |  18652/    0 |  8588/    0 |
 +--------------------------------------------------------------+
 
 ```
@@ -142,24 +145,25 @@ this penalty in flash size.
 
 ```
 +--------------------------------------------------------------+
-| Functionality                   |    flash/ram |       Delta |
+| Functionality                   |  flash/  ram |       delta |
 |---------------------------------+--------------+-------------|
 | Baseline                        | 256700/26776 |     0/    0 |
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   | 258820/27264 |  2120/  488 |
-| ZonedDateTime                   | 259508/27264 |  2808/  488 |
+| ZonedDateTime                   | 259492/27264 |  2792/  488 |
+| Manual ZoneManager              | 259540/27264 |  2840/  488 |
 | Basic TimeZone (1 zone)         | 264800/27692 |  8100/  916 |
-| Basic TimeZone (2 zones)        | 265040/27692 |  8340/  916 |
+| Basic TimeZone (2 zones)        | 265024/27692 |  8324/  916 |
 | Basic ZoneManager (1 zone)      | 265776/27692 |  9076/  916 |
-| Basic ZoneManager (all)         | 285216/27692 | 28516/  916 |
-| Extended TimeZone (1 zone)      | 266824/27788 | 10124/ 1012 |
+| Basic ZoneManager (all)         | 285200/27692 | 28500/  916 |
+| Extended TimeZone (1 zone)      | 266808/27788 | 10108/ 1012 |
 | Extended TimeZone (2 zones)     | 267128/27788 | 10428/ 1012 |
 | Extended ZoneManager (1 zone)   | 267800/27788 | 11100/ 1012 |
-| Extended ZoneManager (all)      | 300620/27792 | 43920/ 1016 |
+| Extended ZoneManager (all)      | 300604/27792 | 43904/ 1016 |
 |---------------------------------+--------------+-------------|
-| SystemClock                     | 262284/27276 |  5584/  500 |
-| SystemClock+Basic TimeZone      | 267212/27692 | 10512/  916 |
-| SystemClock+Extended TimeZone   | 269476/27788 | 12776/ 1012 |
+| SystemClock                     | 262268/27276 |  5568/  500 |
+| SystemClock+Basic TimeZone      | 267196/27692 | 10496/  916 |
+| SystemClock+Extended TimeZone   | 269460/27788 | 12760/ 1012 |
 +--------------------------------------------------------------+
 
 ```
@@ -171,20 +175,21 @@ this penalty in flash size.
 
 ```
 +--------------------------------------------------------------+
-| Functionality                   |    flash/ram |       Delta |
+| Functionality                   |  flash/  ram |       delta |
 |---------------------------------+--------------+-------------|
 | Baseline                        | 206435/14564 |     0/    0 |
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   | 218129/16084 | 11694/ 1520 |
 | ZonedDateTime                   | 218933/16084 | 12498/ 1520 |
+| Manual ZoneManager              | 218965/16084 | 12530/ 1520 |
 | Basic TimeZone (1 zone)         | 222633/16084 | 16198/ 1520 |
 | Basic TimeZone (2 zones)        | 222885/16084 | 16450/ 1520 |
-| Basic ZoneManager (1 zone)      | 223461/16084 | 17026/ 1520 |
-| Basic ZoneManager (all)         | 242857/16084 | 36422/ 1520 |
+| Basic ZoneManager (1 zone)      | 223465/16084 | 17030/ 1520 |
+| Basic ZoneManager (all)         | 242861/16084 | 36426/ 1520 |
 | Extended TimeZone (1 zone)      | 224521/16084 | 18086/ 1520 |
 | Extended TimeZone (2 zones)     | 224797/16084 | 18362/ 1520 |
-| Extended ZoneManager (1 zone)   | 225325/16084 | 18890/ 1520 |
-| Extended ZoneManager (all)      | 258133/16084 | 51698/ 1520 |
+| Extended ZoneManager (1 zone)   | 225329/16084 | 18894/ 1520 |
+| Extended ZoneManager (all)      | 258137/16084 | 51702/ 1520 |
 |---------------------------------+--------------+-------------|
 | SystemClock                     | 225717/16188 | 19282/ 1624 |
 | SystemClock+Basic TimeZone      | 229317/16188 | 22882/ 1624 |
@@ -204,16 +209,17 @@ usage by objects.
 
 ```
 +--------------------------------------------------------------+
-| Functionality                   |    flash/ram |       Delta |
+| Functionality                   |  flash/  ram |       delta |
 |---------------------------------+--------------+-------------|
 | Baseline                        |   7656/ 3048 |     0/    0 |
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   |  13300/ 4812 |  5644/ 1764 |
 | ZonedDateTime                   |  13300/ 4812 |  5644/ 1764 |
+| Manual ZoneManager              |  13300/ 4812 |  5644/ 1764 |
 | Basic TimeZone (1 zone)         |  22024/ 4812 | 14368/ 1764 |
 | Basic TimeZone (2 zones)        |  22760/ 4812 | 15104/ 1764 |
 | Basic ZoneManager (1 zone)      |  23680/ 4812 | 16024/ 1764 |
-| Basic ZoneManager (all)         |  43240/ 4812 | 35584/ 1764 |
+| Basic ZoneManager (all)         |  43176/ 4812 | 35520/ 1764 |
 | Extended TimeZone (1 zone)      |  24280/ 4812 | 16624/ 1764 |
 | Extended TimeZone (2 zones)     |  24952/ 4812 | 17296/ 1764 |
 | Extended ZoneManager (1 zone)   |  25872/ 4812 | 18216/ 1764 |

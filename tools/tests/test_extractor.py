@@ -1,11 +1,9 @@
-#!/usr/bin/env python3
-#
 # Copyright 2018 Brian T. Park
 #
 # MIT License
 
 import unittest
-from tzdb.extractor import parse_at_time_string
+from extractor.extractor import parse_at_time_string
 
 
 class TestParseAtHourString(unittest.TestCase):

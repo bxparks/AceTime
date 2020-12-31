@@ -90,9 +90,9 @@ class ManualZoneManager : public ZoneManager {
 
     TimeZone createForTimeZoneData(const TimeZoneData& d) override {
       switch (d.type) {
-        case TimeZone::kTypeError:
+        case TimeZoneData::kTypeError:
           return TimeZone::forError();
-        case TimeZone::kTypeManual:
+        case TimeZoneData::kTypeManual:
           return TimeZone::forTimeOffset(
               TimeOffset::forMinutes(d.stdOffsetMinutes),
               TimeOffset::forMinutes(d.dstOffsetMinutes));
@@ -154,14 +154,13 @@ class ZoneManagerImpl : public ZoneManager {
 
     TimeZone createForTimeZoneData(const TimeZoneData& d) override {
       switch (d.type) {
-        case TimeZone::kTypeError:
+        case TimeZoneData::kTypeError:
           return TimeZone::forError();
-        case TimeZone::kTypeManual:
+        case TimeZoneData::kTypeManual:
           return TimeZone::forTimeOffset(
               TimeOffset::forMinutes(d.stdOffsetMinutes),
               TimeOffset::forMinutes(d.dstOffsetMinutes));
-        case TimeZone::kTypeBasic:
-        case TimeZone::kTypeExtended:
+        case TimeZoneData::kTypeZoneId:
           return createForZoneId(d.zoneId);
         default:
           // Maybe this should return TimeZone::forError()?

@@ -34,7 +34,7 @@ const uint16_t kNumUnsortedEntries =
 
 // Verify that we can use kZoneIdAmerica_Los_Angeles everywhere.
 test(BasicZoneRegistrarTest, kZoneId) {
-  assertEqual(0xb7f7e8f2, zonedb::kZoneIdAmerica_Los_Angeles);
+  assertEqual((uint32_t) 0xb7f7e8f2, zonedb::kZoneIdAmerica_Los_Angeles);
 }
 
 // --------------------------------------------------------------------------

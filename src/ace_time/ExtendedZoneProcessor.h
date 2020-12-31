@@ -1316,9 +1316,9 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     }
 
     /**
-     * Convert the given 'tt', offsetMinutes, and deltaMinutes into the 'w', 's' and
-     * 'u' versions of the DateTuple. The 'tt' may become a 'w' if it was
-     * originally 's' or 'u'. On return, tt, tts and ttu are all modified.
+     * Convert the given 'tt', offsetMinutes, and deltaMinutes into the 'w',
+     * 's' and 'u' versions of the DateTuple. The 'tt' may become a 'w' if it
+     * was originally 's' or 'u'. On return, tt, tts and ttu are all modified.
      */
     static void expandDateTuple(extended::DateTuple* tt,
         extended::DateTuple* tts, extended::DateTuple* ttu,

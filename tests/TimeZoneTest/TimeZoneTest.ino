@@ -113,7 +113,7 @@ test(TimeZoneTest, manual_utc) {
   printStr.flush();
 }
 
-test(TimeZoneTest, manual_no_dst) {
+test(TimeZoneTest, forTimeOffset_no_dst) {
   PrintStr<16> printStr;
   TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
 
@@ -133,10 +133,12 @@ test(TimeZoneTest, manual_no_dst) {
   printStr.flush();
 }
 
-test(TimeZoneTest, manual_dst) {
+test(TimeZoneTest, forTimeOffset_dst) {
   PrintStr<16> printStr;
-  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8),
-      TimeOffset::forHours(1));
+  TimeZone tz = TimeZone::forTimeOffset(
+      TimeOffset::forHours(-8),
+      TimeOffset::forHours(1)
+  );
 
   assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(-7*60, tz.getUtcOffset(0).toMinutes());
@@ -152,6 +154,24 @@ test(TimeZoneTest, manual_dst) {
   tz.printShortTo(printStr);
   assertEqual(F("-07:00(DST)"), printStr.getCstr());
   printStr.flush();
+}
+
+test(TimeZoneTest, forHours) {
+  TimeZone tz = TimeZone::forHours(-8, 1);
+  assertEqual(-8*60, tz.getStdOffset().toMinutes());
+  assertEqual(1*60, tz.getDstOffset().toMinutes());
+}
+
+test(TimeZoneTest, forMinutes) {
+  TimeZone tz = TimeZone::forMinutes(-120, 60);
+  assertEqual(-120, tz.getStdOffset().toMinutes());
+  assertEqual(60, tz.getDstOffset().toMinutes());
+}
+
+test(TimeZoneTest, forHourMinute) {
+  TimeZone tz = TimeZone::forHourMinute(-4, -15, 1, 30);
+  assertEqual(-4*60-15, tz.getStdOffset().toMinutes());
+  assertEqual(1*60+30, tz.getDstOffset().toMinutes());
 }
 
 // --------------------------------------------------------------------------
@@ -349,8 +369,7 @@ test(TimeZoneDataTest, utc) {
 }
 
 test(TimeZoneDataTest, manual) {
-  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8),
-      TimeOffset::forHours(1));
+  TimeZone tz = TimeZone::forHours(-8, 1);
   TimeZoneData tzd = tz.toTimeZoneData();
 
   TimeZoneData expected{-8 * 60, 1 * 60};
@@ -407,8 +426,8 @@ test(TimeZoneDataTest, crossed) {
 // --------------------------------------------------------------------------
 
 test(TimeZoneExtendedTest, operatorEqualEqual_managedZones) {
-  TimeZone manual = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
-  TimeZone manual2 = TimeZone::forTimeOffset(TimeOffset::forHours(-7));
+  TimeZone manual = TimeZone::forHours(-8);
+  TimeZone manual2 = TimeZone::forHours(-7);
   assertTrue(manual != manual2);
 
   TimeZone basicManaged = basicZoneManager.createForZoneInfo(
@@ -439,8 +458,8 @@ BasicZoneProcessor basicZoneProcessor;
 ExtendedZoneProcessor extendedZoneProcessor;
 
 test(TimeZoneTest, operatorEqualEqual_directZone) {
-  TimeZone manual = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
-  TimeZone manual2 = TimeZone::forTimeOffset(TimeOffset::forHours(-7));
+  TimeZone manual = TimeZone::forHours(-8);
+  TimeZone manual2 = TimeZone::forHours(-7);
   assertTrue(manual != manual2);
 
   TimeZone basic = TimeZone::forZoneInfo(
