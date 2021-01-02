@@ -13,10 +13,11 @@ all:
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
 
-tzdb.json:
+zonedbx.json:
 	../../../tools/tzcompiler.sh \
 		--tag $(TZ_VERSION) \
-		--action tzdb \
+		--action zonedb \
+		--language json \
 		--scope extended \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)

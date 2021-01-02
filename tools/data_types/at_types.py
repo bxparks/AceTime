@@ -187,6 +187,7 @@ class TransformerResult(NamedTuple):
     * notable_policies: {policyName -> reasons[]}
     * notable_links: {linkName -> reasons[]}
     * zone_ids: {zoneName -> zoneHash}
+    * link_ids: {linkName -> zoneHash}
     * letters_per_policy: {policyName -> {letter -> index}}
     * letters_map: {letter -> index}
     * formats_map: {format -> index}
@@ -201,6 +202,7 @@ class TransformerResult(NamedTuple):
     notable_policies: CommentsMap
     notable_links: CommentsMap
     zone_ids: Dict[str, int]
+    link_ids: Dict[str, int]
     letters_per_policy: LettersPerPolicy
     letters_map: IndexMap
     formats_map: IndexMap
@@ -263,6 +265,8 @@ class ZoneInfoDatabase(TypedDict):
     delta_granularity: int
     strict: bool
     num_zones: int
+    num_policies: int
+    num_links: int
 
     # Data from Extractor filtered through Transformer
     zones_map: ZonesMap
@@ -283,6 +287,7 @@ class ZoneInfoDatabase(TypedDict):
 
     # Data from ArduinoTransformer
     zone_ids: Dict[str, int]  # hash(zoneName)
+    link_ids: Dict[str, int]  # hash(linkName)
     letters_per_policy: LettersPerPolicy  # multi-char letters by zonePolicy
     letters_map: IndexMap  # all multi-character letters
     formats_map: IndexMap  # shortened format strings.
@@ -315,9 +320,11 @@ def create_zone_info_database(
         'offset_granularity': offset_granularity,
         'delta_granularity': delta_granularity,
         'strict': strict,
-        'num_zones': len(tresult.zones_map),
 
         # Data from Extractor filtered through Transformer.
+        'num_zones': len(tresult.zones_map),
+        'num_policies': len(tresult.policies_map),
+        'num_links': len(tresult.links_map),
         'zones_map': tresult.zones_map,
         'policies_map': tresult.policies_map,
         'links_map': tresult.links_map,
@@ -336,6 +343,7 @@ def create_zone_info_database(
 
         # Data from ArduinoTransformer
         'zone_ids': tresult.zone_ids,
+        'link_ids': tresult.link_ids,
         'letters_per_policy': tresult.letters_per_policy,
         'letters_map': tresult.letters_map,
         'formats_map': tresult.formats_map,
