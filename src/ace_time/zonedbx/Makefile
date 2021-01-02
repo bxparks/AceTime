@@ -7,6 +7,7 @@ UNTIL_YEAR = 2050
 all:
 	../../../tools/tzcompiler.sh \
 		--tag $(TZ_VERSION) \
+		--action zonedb \
 		--language arduino \
 		--scope extended \
 		--start_year $(START_YEAR) \
@@ -15,6 +16,7 @@ all:
 zonedbx.json:
 	../../../tools/tzcompiler.sh \
 		--tag $(TZ_VERSION) \
+		--action zonedb \
 		--language json \
 		--scope extended \
 		--start_year $(START_YEAR) \
