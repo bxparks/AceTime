@@ -191,6 +191,7 @@ class TransformerResult(NamedTuple):
     * letters_per_policy: {policyName -> {letter -> index}}
     * letters_map: {letter -> index}
     * formats_map: {format -> index}
+    * fragments_map: {fragment -> index}
     """
     zones_map: ZonesMap
     policies_map: PoliciesMap
@@ -206,6 +207,7 @@ class TransformerResult(NamedTuple):
     letters_per_policy: LettersPerPolicy
     letters_map: IndexMap
     formats_map: IndexMap
+    fragments_map: IndexMap
 
 
 def add_comment(comments: CommentsMap, name: str, reason: str) -> None:
@@ -291,6 +293,7 @@ class ZoneInfoDatabase(TypedDict):
     letters_per_policy: LettersPerPolicy  # multi-char letters by zonePolicy
     letters_map: IndexMap  # all multi-character letters
     formats_map: IndexMap  # shortened format strings.
+    fragments_map: IndexMap  # zoneName fragment -> index
 
 
 def create_zone_info_database(
@@ -347,6 +350,7 @@ def create_zone_info_database(
         'letters_per_policy': tresult.letters_per_policy,
         'letters_map': tresult.letters_map,
         'formats_map': tresult.formats_map,
+        'fragments_map': tresult.fragments_map,
     }
 
 

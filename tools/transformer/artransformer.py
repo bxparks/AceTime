@@ -7,7 +7,8 @@ from typing import Optional
 from typing import Dict
 from typing import Set
 from typing import Tuple
-from collections import OrderedDict
+from collections import OrderedDict, Counter
+import itertools
 import logging
 from transformer.transformer import hash_name
 from data_types.at_types import ZonesMap
@@ -56,6 +57,7 @@ class ArduinoTransformer:
         self.zones_map = self._process_eras(self.zones_map)
         self.zone_ids = _generate_zone_ids(self.zones_map)
         self.link_ids = _generate_link_ids(self.links_map)
+        self.fragments_map = _generate_fragments(self.zones_map, self.links_map)
 
     def get_data(self) -> TransformerResult:
         return TransformerResult(
@@ -73,6 +75,7 @@ class ArduinoTransformer:
             letters_per_policy=self.letters_per_policy,
             letters_map=self.letters_map,
             formats_map=self.formats_map,
+            fragments_map=self.fragments_map,
         )
 
     def print_summary(self) -> None:
@@ -461,3 +464,41 @@ def _generate_link_ids(
     """Generate {linkName -> linkId} map of links."""
     ids: Dict[str, int] = {name: hash_name(name) for name in links_map.keys()}
     return OrderedDict(sorted(ids.items()))
+
+
+def _generate_fragments(zones_map: ZonesMap, links_map: LinksMap) -> IndexMap:
+    """Generate a list of fragments and their indexes, sorted by fragment.
+    E.g. { "Africa": 1, "America": 2, ... }
+    """
+    # Collect the frequency of fragments longer than 3 characters
+    fragments: Dict[str, int] = Counter()
+    for name in itertools.chain(zones_map.keys(), links_map.keys()):
+        fragment = _extract_fragment(name)
+        if len(fragment) > 3:
+            fragments[fragment] += 1
+
+    # Collect fragments which occur more than 3 times.
+    fragments_map: IndexMap = OrderedDict()
+    index = 1  # start at 1 because '\0' is the c-string termination char
+    for fragment, count in sorted(fragments.items()):
+        if count > 3:
+            fragments_map[fragment] = index
+            index += 1
+        else:
+            logging.info(
+                f"Ignoring fragment '{fragment}' with count {count}, too few"
+            )
+
+    # Make sure that index is < 32, before ASCII-space.
+    if index >= 32:
+        raise Exception("Too many fragments {index}")
+
+    return fragments_map
+
+
+def _extract_fragment(name: str) -> str:
+    """Return the fragment before '/' or None if no '/' in name."""
+    pos = name.find('/')
+    if pos < 0:
+        return ""
+    return name[:pos]
