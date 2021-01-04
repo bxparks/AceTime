@@ -92,10 +92,16 @@ class ZoneRegistrar {
 
     /** Find the index for zone name. Return kInvalidIndex if not found. */
     uint16_t findIndexForName(const char* name) const {
-      if (mIsSorted && mRegistrySize >= kBinarySearchThreshold) {
-        return binarySearchByName(mZoneRegistry, mRegistrySize, name);
+      uint32_t zoneId = ace_common::hashDjb2(name);
+      uint16_t index = findIndexForId(zoneId);
+      if (index == kInvalidIndex) return kInvalidIndex;
+
+      // Verify that the zoneName actually matches, in case of hash collision.
+      const char* foundName = ZIB(ZRB(mZoneRegistry).zoneInfo(index)).name();
+      if (STRCMP_P(name, foundName) == 0) {
+        return index;
       } else {
-        return linearSearchByName(mZoneRegistry, mRegistrySize, name);
+        return kInvalidIndex;
       }
     }
 
