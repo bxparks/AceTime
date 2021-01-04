@@ -18,7 +18,7 @@ const uint32_t COUNT = 100000;
 const uint32_t COUNT = 100000;
 #elif defined(UNIX_HOST_DUINO)
 // Linux or MacOS
-const uint32_t COUNT = 100000;
+const uint32_t COUNT = 200000;
 #else
 // A generic Arduino board that we have not looked at.
 const uint32_t COUNT = 10000;
@@ -115,11 +115,16 @@ static void printMicrosPerIteration(long elapsedMillis) {
   ace_common::printPad3To(SERIAL_PORT_MONITOR, frac, '0');
 }
 
-static void runEmptyLoop() {
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
+// Return how long the empty lookup takes.
+unsigned long runEmptyLoopMillis() {
+  return runLambda(COUNT, []() {
     unsigned long tickMillis = millis();
     disableOptimization(tickMillis);
   });
+}
+
+static void runEmptyLoop() {
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   SERIAL_PORT_MONITOR.print(F("EmptyLoop"));
   printMicrosPerIteration(emptyLoopMillis);
   SERIAL_PORT_MONITOR.println();
@@ -132,10 +137,7 @@ static void runLocalDateForEpochDays() {
     LocalDate localDate = LocalDate::forEpochDays(fakeEpochDays);
     disableOptimization(localDate);
   });
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    unsigned long emptyMillis = millis();
-    disableOptimization(emptyMillis);
-  });
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   long elapsedMillis = localDateForDaysMillis - emptyLoopMillis;
 
   SERIAL_PORT_MONITOR.print(F("LocalDate::forEpochDays()"));
@@ -192,10 +194,7 @@ static void runOffsetDateTimeForEpochSeconds() {
         fakeEpochSeconds, TimeOffset());
     disableOptimization(odt);
   });
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    unsigned long emptyMillis = millis();
-    disableOptimization(emptyMillis);
-  });
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   long elapsedMillis = localDateForDaysMillis - emptyLoopMillis;
 
   SERIAL_PORT_MONITOR.print(F("OffsetDateTime::forEpochSeconds()"));
@@ -233,10 +232,7 @@ static void runZonedDateTimeForEpochSeconds() {
         TimeZone());
     disableOptimization(dateTime);
   });
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    unsigned long emptyMillis = millis();
-    disableOptimization(emptyMillis);
-  });
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
   SERIAL_PORT_MONITOR.print(F("ZonedDateTime::forEpochSeconds(UTC)"));
@@ -314,10 +310,7 @@ static void runZonedDateTimeForEpochSecondsBasicZoneManager() {
         fakeEpochSeconds, tzLosAngeles);
     disableOptimization(dateTime);
   });
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    unsigned long fakeEpochSeconds = millis();
-    disableOptimization(fakeEpochSeconds);
-  });
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
   SERIAL_PORT_MONITOR.print(F("ZonedDateTime::forEpochSeconds(Basic_nocache)"));
@@ -337,10 +330,7 @@ static void runZonedDateTimeForEpochSecondsBasicZoneManagerCached() {
         fakeEpochSeconds, tzLosAngeles);
     disableOptimization(dateTime);
   });
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    unsigned long fakeEpochSeconds = millis();
-    disableOptimization(fakeEpochSeconds);
-  });
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
   SERIAL_PORT_MONITOR.print(F("ZonedDateTime::forEpochSeconds(Basic_cached)"));
@@ -374,10 +364,7 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManager() {
         fakeEpochSeconds, tzLosAngeles);
     disableOptimization(dateTime);
   });
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    unsigned long fakeEpochSeconds = millis();
-    disableOptimization(fakeEpochSeconds);
-  });
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
   SERIAL_PORT_MONITOR.print(
@@ -399,10 +386,7 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManagerCached() {
         fakeEpochSeconds, tzLosAngeles);
     disableOptimization(dateTime);
   });
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    unsigned long fakeEpochSeconds = millis();
-    disableOptimization(fakeEpochSeconds);
-  });
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
   SERIAL_PORT_MONITOR.print(
