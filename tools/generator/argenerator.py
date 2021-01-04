@@ -93,6 +93,7 @@ class ArduinoGenerator:
             buf_sizes=zidb['buf_sizes'],
             zone_ids=zidb['zone_ids'],
             link_ids=zidb['link_ids'],
+            fragments_map=zidb['fragments_map'],
         )
         self.zone_registry_generator = ZoneRegistryGenerator(
             invocation=wrapped_invocation,
@@ -584,10 +585,16 @@ namespace {dbNamespace} {{
 
 const char kTzDatabaseVersion[] = "{tz_version}";
 
+const char* const kFragments[] = {{
+{fragments}
+}};
+
 const {scope}::ZoneContext kZoneContext = {{
   {start_year} /*startYear*/,
   {until_year} /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,
+  {numFragments} /*numFragments*/,
+  kFragments /*fragments*/,
 }};
 
 //---------------------------------------------------------------------------
@@ -671,6 +678,7 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
         buf_sizes: BufSizeMap,
         zone_ids: Dict[str, int],
         link_ids: Dict[str, int],
+        fragments_map: IndexMap,
     ):
         self.invocation = invocation
         self.db_namespace = db_namespace
@@ -691,6 +699,7 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
         self.buf_sizes = buf_sizes
         self.zone_ids = zone_ids
         self.link_ids = link_ids
+        self.fragments_map = fragments_map
 
         self.db_header_namespace = self.db_namespace.upper()
 
@@ -851,6 +860,11 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
             + num_links * 4  # sizeof(kZoneAndLinkRegistry)
         )
 
+        num_fragments = len(self.fragments_map)
+        fragments = '/*\\x00*/ nullptr,\n'
+        for fragment, index in self.fragments_map.items():
+            fragments += f'/*\\x{index:02x}*/ "{fragment}",\n'
+
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
             tz_files=self.tz_files,
@@ -870,7 +884,10 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
             zoneAndLinkMemory8=zone_and_link_memory8,
             zoneAndLinkMemory32=zone_and_link_memory32,
             infoItems=info_items,
-            linkItems=link_items)
+            linkItems=link_items,
+            numFragments=num_fragments,
+            fragments=fragments,
+        )
 
     def _generate_info_item(
         self,
