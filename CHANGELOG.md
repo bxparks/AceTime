@@ -2,6 +2,19 @@
 
 * Unreleased
     * Experimental `--fat_links` flag when generating zonedb and zonedbx files.
+    * Use binary search for both `ZoneManager::createForZoneName()` and
+      `ZoneManager::createForZoneId()`. Previously, the `zone_registry.cpp` was
+      sorted by zoneName, so only the `createForZoneName()` could use the binary
+      search. The new solution sorts the `zone_registry.cpp` entries by `zoneId`
+      instead of `zoneName`. The `createForZoneId()` can use the binary search
+      algorith. The `createForZoneName()` can also use the binary search because
+      the `zoneName` is converted dynamically to its `zoneId` using the same
+      djb2 hash algorithm used by the `tzcompiler.py`. If there is a match, a
+      final verification against the exact `zoneName` is performed to make sure
+      that there was no hash collision. Updated `AutoBenchmark.ino` to determine
+      that a binary search on the 386 zones in `zonedbx/zone_registry.cpp` is
+      10X faster (on average) than a linear search through the same list.
+      (Linear search takes ~190 iterations; binary search takes ~9 iterations.)
 * 1.4.1 (2020-12-30, TZDB version 2020f for real)
     * Actually update `src/ace_time/zonedb` and `src/ace_time/zonedbx`
       zone info files to 2020f. Oops.
