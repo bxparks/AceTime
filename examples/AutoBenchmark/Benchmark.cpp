@@ -1,10 +1,12 @@
+#include <Arduino.h>
 #include <stdint.h>
 #include <Arduino.h>
-#include <AceCommon.h>
+#include <AceCommon.h> // PrintStr
 #include <AceTime.h>
 #include "Benchmark.h"
 
 using namespace ace_time;
+using ace_common::PrintStr;
 
 #if defined(ARDUINO_ARCH_AVR)
 const uint32_t COUNT = 2500;
@@ -18,7 +20,7 @@ const uint32_t COUNT = 100000;
 const uint32_t COUNT = 100000;
 #elif defined(UNIX_HOST_DUINO)
 // Linux or MacOS
-const uint32_t COUNT = 100000;
+const uint32_t COUNT = 200000;
 #else
 // A generic Arduino board that we have not looked at.
 const uint32_t COUNT = 10000;
@@ -115,11 +117,16 @@ static void printMicrosPerIteration(long elapsedMillis) {
   ace_common::printPad3To(SERIAL_PORT_MONITOR, frac, '0');
 }
 
-static void runEmptyLoop() {
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
+// Return how long the empty lookup takes.
+unsigned long runEmptyLoopMillis() {
+  return runLambda(COUNT, []() {
     unsigned long tickMillis = millis();
     disableOptimization(tickMillis);
   });
+}
+
+static void runEmptyLoop() {
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   SERIAL_PORT_MONITOR.print(F("EmptyLoop"));
   printMicrosPerIteration(emptyLoopMillis);
   SERIAL_PORT_MONITOR.println();
@@ -132,10 +139,7 @@ static void runLocalDateForEpochDays() {
     LocalDate localDate = LocalDate::forEpochDays(fakeEpochDays);
     disableOptimization(localDate);
   });
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    unsigned long emptyMillis = millis();
-    disableOptimization(emptyMillis);
-  });
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   long elapsedMillis = localDateForDaysMillis - emptyLoopMillis;
 
   SERIAL_PORT_MONITOR.print(F("LocalDate::forEpochDays()"));
@@ -192,10 +196,7 @@ static void runOffsetDateTimeForEpochSeconds() {
         fakeEpochSeconds, TimeOffset());
     disableOptimization(odt);
   });
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    unsigned long emptyMillis = millis();
-    disableOptimization(emptyMillis);
-  });
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   long elapsedMillis = localDateForDaysMillis - emptyLoopMillis;
 
   SERIAL_PORT_MONITOR.print(F("OffsetDateTime::forEpochSeconds()"));
@@ -233,10 +234,7 @@ static void runZonedDateTimeForEpochSeconds() {
         TimeZone());
     disableOptimization(dateTime);
   });
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    unsigned long emptyMillis = millis();
-    disableOptimization(emptyMillis);
-  });
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
   SERIAL_PORT_MONITOR.print(F("ZonedDateTime::forEpochSeconds(UTC)"));
@@ -314,10 +312,7 @@ static void runZonedDateTimeForEpochSecondsBasicZoneManager() {
         fakeEpochSeconds, tzLosAngeles);
     disableOptimization(dateTime);
   });
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    unsigned long fakeEpochSeconds = millis();
-    disableOptimization(fakeEpochSeconds);
-  });
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
   SERIAL_PORT_MONITOR.print(F("ZonedDateTime::forEpochSeconds(Basic_nocache)"));
@@ -337,10 +332,7 @@ static void runZonedDateTimeForEpochSecondsBasicZoneManagerCached() {
         fakeEpochSeconds, tzLosAngeles);
     disableOptimization(dateTime);
   });
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    unsigned long fakeEpochSeconds = millis();
-    disableOptimization(fakeEpochSeconds);
-  });
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
   SERIAL_PORT_MONITOR.print(F("ZonedDateTime::forEpochSeconds(Basic_cached)"));
@@ -374,10 +366,7 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManager() {
         fakeEpochSeconds, tzLosAngeles);
     disableOptimization(dateTime);
   });
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    unsigned long fakeEpochSeconds = millis();
-    disableOptimization(fakeEpochSeconds);
-  });
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
   SERIAL_PORT_MONITOR.print(
@@ -399,10 +388,7 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManagerCached() {
         fakeEpochSeconds, tzLosAngeles);
     disableOptimization(dateTime);
   });
-  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    unsigned long fakeEpochSeconds = millis();
-    disableOptimization(fakeEpochSeconds);
-  });
+  unsigned long emptyLoopMillis = runEmptyLoopMillis();
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
   SERIAL_PORT_MONITOR.print(
@@ -410,6 +396,76 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManagerCached() {
   printMicrosPerIteration(elapsedMillis);
   SERIAL_PORT_MONITOR.println();
 }
+
+// These are too big for small AVR chips
+#if ! defined(ARDUINO_ARCH_AVR)
+
+static void runIndexForZoneName() {
+	ExtendedZoneManager<2> manager(
+      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
+
+  unsigned long runMillis = runLambda(COUNT, [&manager]() {
+    PrintStr<20> printStr; // deliberately short to truncate some zones
+    uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
+    const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
+    const __FlashStringHelper* name = ExtendedZone(info).name();
+    printStr.print(name);
+
+    uint16_t index = manager.indexForZoneName(printStr.getCstr());
+    disableOptimization(index);
+  });
+
+  unsigned long emptyLoopMillis = runLambda(COUNT, [&manager]() {
+    PrintStr<20> printStr; // deliberately short to truncate some zones
+    uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
+    const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
+    const __FlashStringHelper* name = ExtendedZone(info).name();
+    printStr.print(name);
+
+    uint16_t len = printStr.length();
+    const char* s = printStr.getCstr();
+    uint32_t tmp = s[0]
+      + ((len > 1) ? ((uint32_t) s[1] << 8) : 0)
+      + ((len > 2) ? ((uint32_t) s[2] << 16) : 0)
+      + ((len > 3) ? ((uint32_t) s[3] << 24) : 0);
+    disableOptimization((uint32_t) tmp);
+  });
+
+  long elapsedMillis = runMillis - emptyLoopMillis;
+
+  SERIAL_PORT_MONITOR.print(F("ExtendedZoneManager::indexForZoneName()"));
+  printMicrosPerIteration(elapsedMillis);
+  SERIAL_PORT_MONITOR.println();
+}
+
+static void runIndexForZoneId() {
+	ExtendedZoneManager<2> manager(
+      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
+  unsigned long runMillis = runLambda(COUNT, [&manager]() {
+    uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
+    const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
+    uint32_t zoneId = ExtendedZone(info).zoneId();
+
+    uint16_t index = manager.indexForZoneId(zoneId);
+    disableOptimization(index);
+  });
+
+  unsigned long emptyLoopMillis = runLambda(COUNT, [&manager]() {
+    uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
+    const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
+    uint32_t zoneId = ExtendedZone(info).zoneId();
+
+    disableOptimization(zoneId);
+  });
+
+  long elapsedMillis = runMillis - emptyLoopMillis;
+
+  SERIAL_PORT_MONITOR.print(F("ExtendedZoneManager::indexForZoneId()"));
+  printMicrosPerIteration(elapsedMillis);
+  SERIAL_PORT_MONITOR.println();
+}
+
+#endif // defined(ARDUINO_ARCH_AVR)
 
 void runBenchmarks() {
   runEmptyLoop();
@@ -429,6 +485,11 @@ void runBenchmarks() {
   runZonedDateTimeForEpochSecondsBasicZoneManagerCached();
   runZonedDateTimeForEpochSecondsExtendedZoneManager();
   runZonedDateTimeForEpochSecondsExtendedZoneManagerCached();
+
+#if ! defined(ARDUINO_ARCH_AVR)
+  runIndexForZoneName();
+  runIndexForZoneId();
+#endif
 
   SERIAL_PORT_MONITOR.print(F("Iterations_per_run "));
   SERIAL_PORT_MONITOR.println(COUNT);

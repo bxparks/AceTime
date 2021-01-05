@@ -10,25 +10,25 @@ using namespace ace_time;
 // Define some registries used later on.
 // --------------------------------------------------------------------------
 
-const basic::ZoneInfo* const kSortedRegistry[] ACE_TIME_PROGMEM = {
-  &zonedb::kZoneAmerica_Chicago,
-  &zonedb::kZoneAmerica_Denver,
-  &zonedb::kZoneAmerica_Los_Angeles,
-  &zonedb::kZoneAmerica_New_York,
+const uint16_t kNumSortedEntries = 4;
+
+const basic::ZoneInfo* const kSortedRegistry[kNumSortedEntries]
+    ACE_TIME_PROGMEM = {
+  &zonedb::kZoneAmerica_New_York,     // 0x1e2a7654
+  &zonedb::kZoneAmerica_Chicago,      // 0x4b92b5d4
+  &zonedb::kZoneAmerica_Denver,       // 0x97d10b2a
+  &zonedb::kZoneAmerica_Los_Angeles,  // 0xb7f7e8f2
 };
 
-const uint16_t kNumSortedEntries =
-    sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*);
+const uint16_t kNumUnsortedEntries = 4;
 
-const basic::ZoneInfo* const kUnsortedRegistry[] ACE_TIME_PROGMEM = {
-  &zonedb::kZoneAmerica_Chicago,
-  &zonedb::kZoneAmerica_New_York,
-  &zonedb::kZoneAmerica_Denver,
-  &zonedb::kZoneAmerica_Los_Angeles,
+const basic::ZoneInfo* const kUnsortedRegistry[kNumUnsortedEntries]
+    ACE_TIME_PROGMEM = {
+  &zonedb::kZoneAmerica_Chicago,      // 0x4b92b5d4
+  &zonedb::kZoneAmerica_Denver,       // 0x97d10b2a
+  &zonedb::kZoneAmerica_Los_Angeles,  // 0xb7f7e8f2
+  &zonedb::kZoneAmerica_New_York,     // 0x1e2a7654
 };
-
-const uint16_t kNumUnsortedEntries =
-    sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*);
 
 // --------------------------------------------------------------------------
 
@@ -64,16 +64,8 @@ test(BasicZoneRegistrarTest, getZoneInfo_not_found) {
   BasicZoneRegistrar zoneRegistrar(
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
   const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForName(
-      "not found");
+      "doesNotExist");
   assertEqual(zoneInfo, nullptr);
-}
-
-test(BasicZoneRegistrarTest, getZoneInfo_Index_0) {
-  BasicZoneRegistrar zoneRegistrar(
-      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(0);
-  assertNotEqual(zoneInfo, nullptr);
-  assertEqual(F("Africa/Abidjan"), BasicZone(zoneInfo).name());
 }
 
 test(BasicZoneRegistrarTest, getZoneInfo_Index_not_found) {
@@ -109,7 +101,7 @@ test(BasicZoneRegistrarTest, getZoneInfoForId_not_found) {
 test(BasicZoneRegistrarTest, findIndexForName) {
   BasicZoneRegistrar zoneRegistrar(kNumSortedEntries, kSortedRegistry);
   uint16_t index = zoneRegistrar.findIndexForName("America/Los_Angeles");
-  assertEqual(2, index);
+  assertEqual(3, index);
 }
 
 test(BasicZoneRegistrarTest, findIndexForName_not_found) {
@@ -122,82 +114,22 @@ test(BasicZoneRegistrarTest, findIndexForId) {
   BasicZoneRegistrar zoneRegistrar(kNumSortedEntries, kSortedRegistry);
   uint16_t index = zoneRegistrar.findIndexForId(
       zonedb::kZoneIdAmerica_Los_Angeles);
-  assertEqual(2, index);
+  assertEqual(3, index);
 }
 
 test(BasicZoneRegistrarTest, findIndexForId_not_found) {
   BasicZoneRegistrar zoneRegistrar(kNumSortedEntries, kSortedRegistry);
-  uint16_t index = zoneRegistrar.findIndexForId(0x0 /* should not exist */);
+  uint16_t index = zoneRegistrar.findIndexForId(0x0);
   assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
 }
 
 // --------------------------------------------------------------------------
-// Test ZoneRegistrar protected methods: ZoneRegistrar::isSorted(),
-// binarySearchByName(), linearSearchByName() linearSearchyById() for *sorted*
-// registry. Sufficient to test BasicZoneRegistrar only since they are the same
-// for ExtendedZoneRegistrar.
+// Test ZoneRegistrar::isSorted().
 // --------------------------------------------------------------------------
 
 test(BasicZoneRegistrarTest_Sorted, isSorted) {
   assertTrue(BasicZoneRegistrar::isSorted(kSortedRegistry, kNumSortedEntries));
 }
-
-test(BasicZoneRegistrarTest_Sorted, linearSearchByName) {
-  uint16_t index = BasicZoneRegistrar::linearSearchByName(
-      kSortedRegistry, kNumSortedEntries, "America/Los_Angeles");
-  assertEqual(2, index);
-}
-
-test(BasicZoneRegistrarTest_Sorted, linearSearchByName_not_found) {
-  uint16_t index = BasicZoneRegistrar::linearSearchByName(kSortedRegistry,
-      kNumSortedEntries, "America/NotFound");
-  assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
-}
-
-test(BasicZoneRegistrarTest_Sorted, binarySearchByName) {
-  uint16_t index;
-
-  index = BasicZoneRegistrar::binarySearchByName(
-      kSortedRegistry, kNumSortedEntries, "America/Chicago");
-  assertEqual(0, index);
-
-  index = BasicZoneRegistrar::binarySearchByName(
-      kSortedRegistry, kNumSortedEntries, "America/Denver");
-  assertEqual(1, index);
-
-  index = BasicZoneRegistrar::binarySearchByName(
-      kSortedRegistry, kNumSortedEntries, "America/Los_Angeles");
-  assertEqual(2, index);
-
-  index = BasicZoneRegistrar::binarySearchByName(
-      kSortedRegistry, kNumSortedEntries, "America/New_York");
-  assertEqual(3, index);
-}
-
-test(BasicZoneRegistrarTest_Sorted, binarySearchByName_not_found) {
-  uint16_t index = BasicZoneRegistrar::binarySearchByName(
-      kSortedRegistry, kNumSortedEntries, "America/NotFound");
-  assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
-}
-
-test(BasicZoneRegistrarTest_Sorted, linearSearchById) {
-  uint16_t index = BasicZoneRegistrar::linearSearchById(
-      kSortedRegistry, kNumSortedEntries, zonedb::kZoneIdAmerica_Los_Angeles);
-  assertEqual(2, index);
-}
-
-test(BasicZoneRegistrarTest_Sorted, linearSearchById_not_found) {
-  uint16_t index = BasicZoneRegistrar::linearSearchById(
-      kSortedRegistry, kNumSortedEntries, 0 /* hopefully no */);
-  assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
-}
-
-// --------------------------------------------------------------------------
-// Test ZoneRegistrar protected methods: ZoneRegistrar::isSorted(),
-// binarySearchByName(), linearSearchByName(), and linearSearchById() for
-// *unsorted* registry. Sufficient to test BasicZoneRegistrar only since they
-// are the same for ExtendedZoneRegistrar.
-// --------------------------------------------------------------------------
 
 test(BasicZoneRegistrarTest_Unsorted, isSorted) {
   bool isSorted = BasicZoneRegistrar::isSorted(
@@ -205,27 +137,74 @@ test(BasicZoneRegistrarTest_Unsorted, isSorted) {
   assertFalse(isSorted);
 }
 
-test(BasicZoneRegistrarTest_Unsorted, linearSearchByName) {
-  uint16_t index = BasicZoneRegistrar::linearSearchByName(
-      kUnsortedRegistry, kNumUnsortedEntries, "America/Los_Angeles");
+// --------------------------------------------------------------------------
+// BasicZoneRegistrar::linearSearchById() w/ sorted registry.
+// --------------------------------------------------------------------------
+
+test(BasicZoneRegistrarTest_Sorted, linearSearchById) {
+  uint16_t index = BasicZoneRegistrar::linearSearchById(
+      kSortedRegistry, kNumSortedEntries, zonedb::kZoneIdAmerica_Los_Angeles);
   assertEqual(3, index);
 }
 
-test(BasicZoneRegistrarTest_Unsorted, linearSearchByName_not_found) {
-  uint16_t index = BasicZoneRegistrar::linearSearchByName(
-      kUnsortedRegistry, kNumUnsortedEntries, "America/NotFound");
+test(BasicZoneRegistrarTest_Sorted, linearSearchById_not_found) {
+  uint16_t index = BasicZoneRegistrar::linearSearchById(
+      kSortedRegistry, kNumSortedEntries, 0);
   assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
 }
 
+// --------------------------------------------------------------------------
+// BasicZoneRegistrar::binarySearchById() w/ sorted registry.
+// --------------------------------------------------------------------------
+
+test(BasicZoneRegistrarTest_Sorted, binarySearchById_zeroEntries) {
+  uint16_t index = BasicZoneRegistrar::binarySearchById(
+      kSortedRegistry,
+      0 /* kNumSortedEntries */,
+      zonedb::kZoneIdAmerica_Los_Angeles);
+  assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
+}
+
+test(BasicZoneRegistrarTest_Sorted, binarySearchById) {
+  uint16_t index;
+
+  index = BasicZoneRegistrar::binarySearchById(
+      kSortedRegistry, kNumSortedEntries, zonedb::kZoneIdAmerica_New_York);
+  assertEqual(0, index);
+
+  index = BasicZoneRegistrar::binarySearchById(
+      kSortedRegistry, kNumSortedEntries, zonedb::kZoneIdAmerica_Chicago);
+  assertEqual(1, index);
+
+  index = BasicZoneRegistrar::binarySearchById(
+      kSortedRegistry, kNumSortedEntries, zonedb::kZoneIdAmerica_Denver);
+  assertEqual(2, index);
+
+  index = BasicZoneRegistrar::binarySearchById(
+      kSortedRegistry, kNumSortedEntries, zonedb::kZoneIdAmerica_Los_Angeles);
+  assertEqual(3, index);
+}
+
+test(BasicZoneRegistrarTest_Sorted, binarySearchById_not_found) {
+  uint16_t index = BasicZoneRegistrar::binarySearchById(
+      kSortedRegistry, kNumSortedEntries, 0);
+  assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
+}
+
+// --------------------------------------------------------------------------
+// ZoneRegistrar::linearSearchById() with *unsorted* registry.
+// --------------------------------------------------------------------------
+
 test(BasicZoneRegistrarTest_Unsorted, linearSearchById) {
   uint16_t index = BasicZoneRegistrar::linearSearchById(
-      kUnsortedRegistry, kNumSortedEntries, zonedb::kZoneIdAmerica_Los_Angeles);
-  assertEqual(3, index);
+      kUnsortedRegistry, kNumUnsortedEntries,
+      zonedb::kZoneIdAmerica_Los_Angeles);
+  assertEqual(2, index);
 }
 
 test(BasicZoneRegistrarTest_Unsorted, linearSearchById_not_found) {
   uint16_t index = BasicZoneRegistrar::linearSearchById(
-      kUnsortedRegistry, kNumSortedEntries, 0 /* hopefully no */);
+      kUnsortedRegistry, kNumUnsortedEntries, 0);
   assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
 }
 
