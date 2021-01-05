@@ -5,6 +5,7 @@
 from typing import NamedTuple
 from typing import Optional
 from typing import Dict
+from typing import List
 from typing import Set
 from typing import Tuple
 from collections import OrderedDict, Counter
@@ -473,9 +474,10 @@ def _generate_fragments(zones_map: ZonesMap, links_map: LinksMap) -> IndexMap:
     # Collect the frequency of fragments longer than 3 characters
     fragments: Dict[str, int] = Counter()
     for name in itertools.chain(zones_map.keys(), links_map.keys()):
-        fragment = _extract_fragment(name)
-        if len(fragment) > 3:
-            fragments[fragment] += 1
+        fragment_list = _extract_fragments(name)
+        for fragment in fragment_list:
+            if len(fragment) > 3:
+                fragments[fragment] += 1
 
     # Collect fragments which occur more than 3 times.
     fragments_map: IndexMap = OrderedDict()
@@ -496,9 +498,10 @@ def _generate_fragments(zones_map: ZonesMap, links_map: LinksMap) -> IndexMap:
     return fragments_map
 
 
-def _extract_fragment(name: str) -> str:
-    """Return the fragment before '/' or None if no '/' in name."""
-    pos = name.find('/')
-    if pos < 0:
-        return ""
-    return name[:pos]
+def _extract_fragments(name: str) -> List[str]:
+    """Return the fragments between '/', excluding the final fragment. In other
+    words "America/Argentina/Buenos_Aires" returns ["America", "Argentina"]. But
+    "UTC" returns [].
+    """
+    fragments = name.split('/')
+    return fragments[:-1]
