@@ -103,6 +103,7 @@ class ArduinoGenerator:
             tz_version=zidb['tz_version'],
             scope=zidb['scope'],
             zones_map=zidb['zones_map'],
+            zone_ids=zidb['zone_ids'],
         )
 
     def generate_files(self, output_dir: str) -> None:
@@ -1005,7 +1006,7 @@ namespace ace_time {{
 namespace {dbNamespace} {{
 
 //---------------------------------------------------------------------------
-// Zone registry. Sorted by zone name.
+// Zone registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
 const {scope}::ZoneInfo* const kZoneRegistry[{numZones}] {progmem} = {{
 {zoneRegistryItems}
@@ -1053,6 +1054,7 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
         scope: str,
         db_namespace: str,
         zones_map: ZonesMap,
+        zone_ids: Dict[str, int],
     ):
         self.invocation = invocation
         self.tz_version = tz_version
@@ -1060,14 +1062,24 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
         self.scope = scope
         self.db_namespace = db_namespace
         self.zones_map = zones_map
+        self.zone_ids = zone_ids
 
         self.db_header_namespace = self.db_namespace.upper()
 
     def generate_registry_cpp(self) -> str:
+        # Sort the zones by zoneId (instead of zoneName) to enable
+        # ZoneRegistrar::binarySearchById().
         zone_registry_items = ''
-        for zone_name, eras in sorted(self.zones_map.items()):
+        for zone_name, eras in sorted(
+                self.zones_map.items(),
+                key=lambda x: self.zone_ids[x[0]],
+        ):
             name = normalize_name(zone_name)
-            zone_registry_items += f'  &kZone{name}, // {zone_name}\n'
+            zone_id = self.zone_ids[zone_name]
+            zone_registry_items += f"""\
+  &kZone{name}, // {zone_name} - 0x{zone_id:08x}
+"""
+
         return self.ZONE_REGISTRY_CPP_FILE.format(
             invocation=self.invocation,
             tz_files=self.tz_files,

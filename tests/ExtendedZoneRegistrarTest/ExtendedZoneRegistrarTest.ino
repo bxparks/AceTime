@@ -26,9 +26,7 @@ test(ExtendedZoneRegistrarTest, registrySize) {
 test(ExtendedZoneRegistrarTest, getZoneInfoForName_Los_Angeles) {
   ExtendedZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-  // FIXME: tzcompiler.py must be updated to sort the kZoneRegistry using
-  // zoneId, not zoneName.
-  //assertTrue(zoneRegistrar.isSorted());
+  assertTrue(zoneRegistrar.isSorted());
 
   const extended::ZoneInfo* zoneInfo =
       zoneRegistrar.getZoneInfoForName("America/Los_Angeles");
@@ -44,14 +42,6 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForName_not_found) {
   const extended::ZoneInfo* zoneInfo =
       zoneRegistrar.getZoneInfoForName("doesNotExist");
   assertEqual(zoneInfo, nullptr);
-}
-
-test(ExtendedZoneRegistrarTest, getZoneInfo_Index_0) {
-  ExtendedZoneRegistrar zoneRegistrar(
-      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-  const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(0);
-  assertNotEqual(zoneInfo, nullptr);
-  assertEqual(F("Africa/Abidjan"), ExtendedZone(zoneInfo).name());
 }
 
 test(ExtendedZoneRegistrarTest, getZoneInfo_Index_not_found) {

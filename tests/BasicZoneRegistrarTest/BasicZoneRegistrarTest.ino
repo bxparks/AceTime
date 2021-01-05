@@ -50,9 +50,7 @@ test(BasicZoneRegistrarTest, registrySize) {
 test(BasicZoneRegistrarTest, getZoneInfo_Los_Angeles) {
   BasicZoneRegistrar zoneRegistrar(
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-  // FIXME: tzcompiler.py must be updated to sort the kZoneRegistry using
-  // zoneId, not zoneName.
-  //assertTrue(zoneRegistrar.isSorted());
+  assertTrue(zoneRegistrar.isSorted());
 
   const basic::ZoneInfo* zoneInfo =
       zoneRegistrar.getZoneInfoForName("America/Los_Angeles");
@@ -68,14 +66,6 @@ test(BasicZoneRegistrarTest, getZoneInfo_not_found) {
   const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForName(
       "doesNotExist");
   assertEqual(zoneInfo, nullptr);
-}
-
-test(BasicZoneRegistrarTest, getZoneInfo_Index_0) {
-  BasicZoneRegistrar zoneRegistrar(
-      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(0);
-  assertNotEqual(zoneInfo, nullptr);
-  assertEqual(F("Africa/Abidjan"), BasicZone(zoneInfo).name());
 }
 
 test(BasicZoneRegistrarTest, getZoneInfo_Index_not_found) {
