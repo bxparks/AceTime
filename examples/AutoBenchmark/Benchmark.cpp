@@ -1,10 +1,12 @@
+#include <Arduino.h>
 #include <stdint.h>
 #include <Arduino.h>
-#include <AceCommon.h>
+#include <AceCommon.h> // PrintStr
 #include <AceTime.h>
 #include "Benchmark.h"
 
 using namespace ace_time;
+using ace_common::PrintStr;
 
 #if defined(ARDUINO_ARCH_AVR)
 const uint32_t COUNT = 2500;
@@ -395,6 +397,76 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManagerCached() {
   SERIAL_PORT_MONITOR.println();
 }
 
+// These are too big for small AVR chips
+#if ! defined(ARDUINO_ARCH_AVR)
+
+static void runIndexForZoneName() {
+	ExtendedZoneManager<2> manager(
+      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
+
+  unsigned long runMillis = runLambda(COUNT, [&manager]() {
+    PrintStr<20> printStr; // deliberately short to truncate some zones
+    uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
+    const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
+    const __FlashStringHelper* name = ExtendedZone(info).name();
+    printStr.print(name);
+
+    uint16_t index = manager.indexForZoneName(printStr.getCstr());
+    disableOptimization(index);
+  });
+
+  unsigned long emptyLoopMillis = runLambda(COUNT, [&manager]() {
+    PrintStr<20> printStr; // deliberately short to truncate some zones
+    uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
+    const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
+    const __FlashStringHelper* name = ExtendedZone(info).name();
+    printStr.print(name);
+
+    uint16_t len = printStr.length();
+    const char* s = printStr.getCstr();
+    uint32_t tmp = s[0]
+      + ((len > 1) ? ((uint32_t) s[1] << 8) : 0)
+      + ((len > 2) ? ((uint32_t) s[2] << 16) : 0)
+      + ((len > 3) ? ((uint32_t) s[3] << 24) : 0);
+    disableOptimization((uint32_t) tmp);
+  });
+
+  long elapsedMillis = runMillis - emptyLoopMillis;
+
+  SERIAL_PORT_MONITOR.print(F("ExtendedZoneManager::indexForZoneName()"));
+  printMicrosPerIteration(elapsedMillis);
+  SERIAL_PORT_MONITOR.println();
+}
+
+static void runIndexForZoneId() {
+	ExtendedZoneManager<2> manager(
+      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
+  unsigned long runMillis = runLambda(COUNT, [&manager]() {
+    uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
+    const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
+    uint32_t zoneId = ExtendedZone(info).zoneId();
+
+    uint16_t index = manager.indexForZoneId(zoneId);
+    disableOptimization(index);
+  });
+
+  unsigned long emptyLoopMillis = runLambda(COUNT, [&manager]() {
+    uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
+    const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
+    uint32_t zoneId = ExtendedZone(info).zoneId();
+
+    disableOptimization(zoneId);
+  });
+
+  long elapsedMillis = runMillis - emptyLoopMillis;
+
+  SERIAL_PORT_MONITOR.print(F("ExtendedZoneManager::indexForZoneId()"));
+  printMicrosPerIteration(elapsedMillis);
+  SERIAL_PORT_MONITOR.println();
+}
+
+#endif // defined(ARDUINO_ARCH_AVR)
+
 void runBenchmarks() {
   runEmptyLoop();
 
@@ -413,6 +485,11 @@ void runBenchmarks() {
   runZonedDateTimeForEpochSecondsBasicZoneManagerCached();
   runZonedDateTimeForEpochSecondsExtendedZoneManager();
   runZonedDateTimeForEpochSecondsExtendedZoneManagerCached();
+
+#if ! defined(ARDUINO_ARCH_AVR)
+  runIndexForZoneName();
+  runIndexForZoneId();
+#endif
 
   SERIAL_PORT_MONITOR.print(F("Iterations_per_run "));
   SERIAL_PORT_MONITOR.println(COUNT);
