@@ -159,25 +159,32 @@ class ZoneRegistrar {
 
     /**
      * Find the registry index corresponding to name using a binary search.
-     * Returns kInvalidIndex if not found.
+     * Returns kInvalidIndex if not found. The largest registrySize is
+     * UINT16_MAX (so that the highest index is UINT16_MAX - 1), since
+     * UINT16_MAX is equal to kInvalidIndex which is used to indicate "Not
+     * Found".
+     *
+     * See also https://www.solipsys.co.uk/new/BinarySearchReconsidered.html
+     * which shows how hard it is to write a binary search correctly. I got it
+     * wrong in my first iteration.
      */
     static uint16_t binarySearchByName(const ZI* const* registry,
         uint16_t registrySize, const char* name) {
       uint16_t a = 0;
       uint16_t b = registrySize - 1;
       const ZRB zoneRegistry(registry);
-      while (true) {
-        uint16_t c = (a + b) / 2;
+      while (a <= b) {
+        uint16_t c = a + (b - a) / 2;
         const ZI* zoneInfo = zoneRegistry.zoneInfo(c);
         int8_t compare = STRCMP_P(name, ZIB(zoneInfo).name());
         if (compare == 0) return c;
-        if (a == b) return kInvalidIndex;
         if (compare < 0) {
           b = c - 1;
         } else {
           a = c + 1;
         }
       }
+      return kInvalidIndex;
     }
 
     /** Find the registry index corresponding to id using linear search. */
