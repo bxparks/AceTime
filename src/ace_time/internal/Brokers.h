@@ -318,6 +318,10 @@ class ZoneInfoBroker {
 
   #if ACE_TIME_USE_PROGMEM
 
+    const ZoneContext* zoneContext() const {
+      return (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
+    }
+
     const char* name() const {
       return (const char*) pgm_read_ptr(&mZoneInfo->name);
     }
@@ -327,15 +331,11 @@ class ZoneInfoBroker {
     }
 
     int16_t startYear() const {
-      const ZoneContext* zoneContext =
-          (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
-      return zoneContext->startYear;
+      return zoneContext()->startYear;
     }
 
     int16_t untilYear() const {
-      const ZoneContext* zoneContext =
-          (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
-      return zoneContext->untilYear;
+      return zoneContext()->untilYear;
     }
 
     uint8_t numEras() const {
@@ -348,6 +348,8 @@ class ZoneInfoBroker {
     }
 
   #else
+
+    const ZoneContext* zoneContext() const { return mZoneInfo->zoneContext; }
 
     const char* name() const { return mZoneInfo->name; }
 
@@ -691,6 +693,10 @@ class ZoneInfoBroker {
 
   #if ACE_TIME_USE_PROGMEM
 
+    const ZoneContext* zoneContext() const {
+      return (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
+    }
+
     const char* name() const {
       return (const char*) pgm_read_ptr(&mZoneInfo->name);
     }
@@ -700,15 +706,11 @@ class ZoneInfoBroker {
     }
 
     int16_t startYear() const {
-      const ZoneContext* zoneContext =
-          (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
-      return zoneContext->startYear;
+      return zoneContext()->startYear;
     }
 
     int16_t untilYear() const {
-      const ZoneContext* zoneContext =
-          (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
-      return zoneContext->untilYear;
+      return zoneContext()->untilYear;
     }
 
     uint8_t numEras() const {
@@ -721,6 +723,8 @@ class ZoneInfoBroker {
     }
 
   #else
+
+    const ZoneContext* zoneContext() const { return mZoneInfo->zoneContext; }
 
     const char* name() const { return mZoneInfo->name; }
 

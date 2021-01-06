@@ -108,6 +108,7 @@ test(BasicBrokerTest, ZoneEraBroker) {
 
 test(BasicBrokerTest, ZoneInfoBroker) {
   basic::ZoneInfoBroker info(&kZoneAmerica_Los_Angeles);
+  assertEqual(&kZoneContext, info.zoneContext());
   assertEqual(kZoneNameAmerica_Los_Angeles, info.name());
   assertEqual((uint32_t) 0xb7f7e8f2, info.zoneId());
   assertEqual(2000, info.startYear());
