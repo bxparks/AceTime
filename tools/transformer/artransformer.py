@@ -539,6 +539,6 @@ def _compress_name(name: str, fragments: IndexMap) -> str:
         if keyword_index is None:
             compressed += fragment
         else:
-            compressed += f'\\x{keyword_index:02x}'
+            compressed += chr(keyword_index)
     compressed += components[-1]
     return compressed

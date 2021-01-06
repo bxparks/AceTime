@@ -639,7 +639,7 @@ static const {scope}::ZoneEra kZoneEra{zoneNormalizedName}[] {progmem} = {{
 }};
 
 static const char kZoneName{zoneNormalizedName}[] {progmem} = \
-"{compressedName}";
+{compressedName};
 
 const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
   kZoneName{zoneNormalizedName} /*name*/,
@@ -852,14 +852,14 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
             len(name) + 1 for name in self.zones_map.keys()
         ])
         zone_string_size = sum([
-            self._compressed_len(self.compressed_names[name]) + 1
+            len(self.compressed_names[name]) + 1
             for name in self.zones_map.keys()
         ])
         link_string_original_size = sum([
             len(name) + 1 for name in self.links_map.keys()
         ])
         link_string_size = sum([
-            self._compressed_len(self.compressed_names[name]) + 1
+            len(self.compressed_names[name]) + 1
             for name in self.links_map.keys()
         ])
         format_size = sum([len(s) + 1 for s in self.formats_map.keys()])
@@ -936,10 +936,10 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
             era_items += era_item
 
         compressed_name = self.compressed_names[zone_name]
-        compressed_length = self._compressed_len(compressed_name)
+        rendered_name = _compressed_name_to_c_string(compressed_name)
 
         # Calculate memory sizes
-        zone_name_size = compressed_length + 1
+        zone_name_size = len(compressed_name) + 1
         format_size = 0
         for era in eras:
             format_size += len(era['format_short']) + 1
@@ -959,7 +959,7 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
             scope=self.scope,
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name),
-            compressedName=compressed_name,
+            compressedName=rendered_name,
             zoneId=self.zone_ids[zone_name],
             numEras=num_eras,
             stringSize=string_size,
@@ -969,20 +969,6 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
             eraItems=era_items,
             progmem='ACE_TIME_PROGMEM')
         return info_item
-
-    def _compressed_len(self, compressed_name: str) -> int:
-        """Return the length of the compressed name, counting an escaped hex
-        character (\\xHH) as one character.
-        """
-        i = 0
-        compressed_length = 0
-        total_length = len(compressed_name)
-        while i < total_length:
-            if compressed_name[i] == '\\':
-                i += 3
-            i += 1
-            compressed_length += 1
-        return compressed_length
 
     def _generate_era_item(
         self, zone_name: str, era: ZoneEraRaw
@@ -1283,3 +1269,31 @@ def _get_rule_delta_code_comment(
         return f"deltaMinute={delta_minute}/15 + 4"
     else:
         return f"deltaMinute={delta_minute}/15"
+
+
+def _compressed_name_to_c_string(compressed_name: str) -> str:
+    """Convert a compressed name (with fragment references) to a string that
+    the C++ compiler will accept. The primary reason for this function is
+    because the hex escape sequence (\\xHH) in C/C++ has no length limit, so
+    will happily run into the characters after the HH. So we have to break
+    those references into separate strings. Example: converts ("\x01ab")
+    into ("\x01" "ab").
+    """
+    rendered_string = ''
+    in_normal_string = False
+    for c in compressed_name:
+        if ord(c) < 0x20:
+            if in_normal_string:
+                rendered_string += f'" "\\x{ord(c):02x}" '
+                in_normal_string = False
+            else:
+                rendered_string += f'"\\x{ord(c):02x}" '
+        else:
+            if in_normal_string:
+                rendered_string += c
+            else:
+                rendered_string += f'"{c}'
+            in_normal_string = True
+    if in_normal_string:
+        rendered_string += '"'
+    return rendered_string.strip()
