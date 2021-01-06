@@ -7,7 +7,6 @@
 #define ACE_TIME_ZONE_REGISTRAR_H
 
 #include <stdint.h>
-#include <string.h> // strcmp(), strcmp_P()
 #include <AceCommon.h> // KString
 #include "common/compat.h" // ACE_TIME_USE_PROGMEM
 #include "internal/ZoneInfo.h"
@@ -29,9 +28,6 @@ class __FlashStringHelper;
 
 namespace ace_time {
 
-/** Typedef for functions that work like a strcmp(). */
-typedef int (*strcmp_t)(const char*, const char*);
-
 /**
  * Class that allows looking up the ZoneInfo (ZI) from its TZDB identifier
  * (e.g. "America/Los_Angeles"), zoneId (hash from its name), or the index in
@@ -40,13 +36,8 @@ typedef int (*strcmp_t)(const char*, const char*);
  * @tparam ZI ZoneInfo type (e.g. basic::ZoneInfo)
  * @tparam ZRB ZoneRegistryBroker type (e.g. basic::ZoneRegistryBroker)
  * @tparam ZIB ZoneInfoBroker type (e.g. basic::ZoneInfoBroker)
- * @tparam STRCMP_P a function that compares a normal string to flash string
- * (e.g strcmp_P())
- * @tparam STRCMP_PP a function that compares 2 flash strings (must be custom
- *    written)
  */
-template<typename ZI, typename ZRB, typename ZIB, strcmp_t STRCMP_P,
-    strcmp_t STRCMP_PP>
+template<typename ZI, typename ZRB, typename ZIB>
 class ZoneRegistrar {
   public:
     /** Invalid index to indicate error or not found. */
@@ -230,27 +221,23 @@ class ZoneRegistrar {
  * Concrete template instantiation of ZoneRegistrar for basic::ZoneInfo, which
  * can be used with BasicZoneProcessor.
  */
-#if ACE_TIME_USE_PROGMEM
-typedef ZoneRegistrar<basic::ZoneInfo, basic::ZoneRegistryBroker,
-    basic::ZoneInfoBroker, acetime_strcmp_P, ace_common::strcmp_PP>
+typedef ZoneRegistrar<
+    basic::ZoneInfo,
+    basic::ZoneRegistryBroker,
+    basic::ZoneInfoBroker
+  >
     BasicZoneRegistrar;
-#else
-typedef ZoneRegistrar<basic::ZoneInfo, basic::ZoneRegistryBroker,
-    basic::ZoneInfoBroker, strcmp, strcmp> BasicZoneRegistrar;
-#endif
 
 /**
  * Concrete template instantiation of ZoneRegistrar for extended::ZoneInfo,
  * which can be used with ExtendedZoneProcessor.
  */
-#if ACE_TIME_USE_PROGMEM
-typedef ZoneRegistrar<extended::ZoneInfo, extended::ZoneRegistryBroker,
-    extended::ZoneInfoBroker, acetime_strcmp_P, ace_common::strcmp_PP>
+typedef ZoneRegistrar<
+    extended::ZoneInfo,
+    extended::ZoneRegistryBroker,
+    extended::ZoneInfoBroker
+  >
     ExtendedZoneRegistrar;
-#else
-typedef ZoneRegistrar<extended::ZoneInfo, extended::ZoneRegistryBroker,
-    extended::ZoneInfoBroker, strcmp, strcmp> ExtendedZoneRegistrar;
-#endif
 
 }
 
