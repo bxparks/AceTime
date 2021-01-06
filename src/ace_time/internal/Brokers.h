@@ -11,25 +11,25 @@
  *
  * The classes provide a thin layer of indirection for accessing the
  * zoneinfo files stored in the zonedb/ and zonedbx/ directories. When
- * ACE_TIME_USE_PROGMEM or ACE_TIME_USE_PROGMEM are enabled, the
- * zoneinfo files are stored in flash memory (using the PROGMEM keyword), and
- * cannot be accessed directly on microcontrollers using the Harvard
- * architecture (e.g. AVR) where data and program live in 2 different address
- * spaces. The data in flash memory must be accessed using helper routines in
- * <pgmspace.h>. These classes abstract away this difference so that the code
- * BasicZoneProcessor and ExtendedZoneProcessor can be written to be (mostly)
- * agnostic to how the zoneinfo files are stored.
+ * ACE_TIME_USE_PROGMEM is enabled, the zoneinfo files are stored in flash
+ * memory (using the PROGMEM keyword), and cannot be accessed directly on
+ * microcontrollers using the Harvard architecture (e.g. AVR) where data and
+ * program live in 2 different address spaces. The data in flash memory must be
+ * accessed using helper routines in <pgmspace.h>. These classes abstract away
+ * this difference so that the code BasicZoneProcessor and
+ * ExtendedZoneProcessor can be written to be (mostly) agnostic to how the
+ * zoneinfo files are stored.
  *
- * When ACE_TIME_USE_PROGMEM are disabled, the compiler will optimize away this
+ * When ACE_TIME_USE_PROGMEM is disabled, the compiler will optimize away this
  * entire abstraction layer, so the resulting machine code is no bigger than
- * (and in most cases, identifical to) accessing the zoneinfo files directly.
+ * (and in most cases, identical to) accessing the zoneinfo files directly.
  *
  * The abstraction layer is thin enough that the code in BasicZoneProcessor and
  * ExtendedZoneProcessor did not change very much. It was mostly a mechanical
  * source code replacement of direct zoneinfo access to using these data
  * brokers.
  *
- * The helper functions live in the internal:: namespace. The classes are
+ * The helper functions live in the `internal::` namespace. The classes are
  * somewhat duplicated between the 'basic' and 'extended' namespaces. They used
  * to be identical so that they could be templatized. But supporting one-minute
  * resolution for 'extended' meant that the implementations diverged, so I had
