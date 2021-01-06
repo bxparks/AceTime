@@ -408,8 +408,7 @@ static void runIndexForZoneName() {
     PrintStr<20> printStr; // deliberately short to truncate some zones
     uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
     const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
-    const __FlashStringHelper* name = ExtendedZone(info).name();
-    printStr.print(name);
+    ExtendedZone(info).printNameTo(printStr);
 
     uint16_t index = registrar.findIndexForName(printStr.getCstr());
     disableOptimization(index);
@@ -419,8 +418,7 @@ static void runIndexForZoneName() {
     PrintStr<20> printStr; // deliberately short to truncate some zones
     uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
     const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
-    const __FlashStringHelper* name = ExtendedZone(info).name();
-    printStr.print(name);
+    ExtendedZone(info).printNameTo(printStr);
 
     uint16_t len = printStr.length();
     const char* s = printStr.getCstr();

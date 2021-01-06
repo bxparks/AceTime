@@ -56,8 +56,31 @@ test(BasicZoneRegistrarTest, getZoneInfo_Los_Angeles) {
       zoneRegistrar.getZoneInfoForName("America/Los_Angeles");
   assertNotEqual(zoneInfo, nullptr);
 
-  assertEqual(F("America/Los_Angeles"), BasicZone(zoneInfo).name());
-  assertEqual(F("Los_Angeles"), BasicZone(zoneInfo).shortName());
+  ace_common::PrintStr<32> printStr;
+  BasicZone(zoneInfo).printNameTo(printStr);
+  assertEqual(F("America/Los_Angeles"), printStr.getCstr());
+
+  printStr.flush();
+  BasicZone(zoneInfo).printShortNameTo(printStr);
+  assertEqual(F("Los_Angeles"), printStr.getCstr());
+}
+
+// Test a zone without separators, "EST".
+test(BasicZoneRegistrarTest, getZoneInfo_EST) {
+  BasicZoneRegistrar zoneRegistrar(
+      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+  assertTrue(zoneRegistrar.isSorted());
+
+  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForName("EST");
+  assertNotEqual(zoneInfo, nullptr);
+
+  ace_common::PrintStr<32> printStr;
+  BasicZone(zoneInfo).printNameTo(printStr);
+  assertEqual(F("EST"), printStr.getCstr());
+
+  printStr.flush();
+  BasicZone(zoneInfo).printShortNameTo(printStr);
+  assertEqual(F("EST"), printStr.getCstr());
 }
 
 test(BasicZoneRegistrarTest, getZoneInfo_not_found) {
