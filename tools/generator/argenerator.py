@@ -72,6 +72,7 @@ class ArduinoGenerator:
             notable_zones=zidb['notable_zones'],
             notable_policies=zidb['notable_policies'],
             letters_per_policy=zidb['letters_per_policy'],
+            letters_map=zidb['letters_map'],
         )
         self.zone_infos_generator = ZoneInfosGenerator(
             invocation=wrapped_invocation,
@@ -190,8 +191,9 @@ namespace {dbNamespace} {{
 //
 // Policies: {numPolicies}
 // Rules: {numRules}
-// Memory (8-bit): {memory8}
-// Memory (32-bit): {memory32}
+// Letter Size (bytes): {letterSize}
+// Total Memory 8-bit (bytes): {memory8}
+// Total Memory 32-bit (bytes): {memory32}
 //
 // DO NOT EDIT
 
@@ -249,6 +251,7 @@ const {scope}::ZonePolicy kPolicy{policyName} {progmem} = {{
         notable_zones: CommentsMap,
         notable_policies: CommentsMap,
         letters_per_policy: LettersPerPolicy,
+        letters_map: IndexMap,
     ):
         self.invocation = invocation
         self.tz_version = tz_version
@@ -262,6 +265,7 @@ const {scope}::ZonePolicy kPolicy{policyName} {progmem} = {{
         self.notable_zones = notable_zones
         self.notable_policies = notable_policies
         self.letters_per_policy = letters_per_policy
+        self.letters_map = letters_map
 
         self.db_header_namespace = self.db_namespace.upper()
 
@@ -322,6 +326,9 @@ extern const {scope}::ZonePolicy kPolicy{policyName};
             memory32 += policy_memory32
 
         num_policies = len(self.policies_map)
+        letter_size = sum([
+            len(letter) + 1 for letter in self.letters_map.keys()
+        ])
 
         return self.ZONE_POLICIES_CPP_FILE.format(
             invocation=self.invocation,
@@ -331,6 +338,7 @@ extern const {scope}::ZonePolicy kPolicy{policyName};
             dbHeaderNamespace=self.db_header_namespace,
             numPolicies=num_policies,
             numRules=num_rules,
+            letterSize=letter_size,
             memory8=memory8,
             memory32=memory32,
             policyItems=policy_items)
