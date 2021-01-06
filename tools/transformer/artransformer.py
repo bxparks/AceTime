@@ -503,12 +503,14 @@ def _generate_fragments(zones_map: ZonesMap, links_map: LinksMap) -> IndexMap:
 
 
 def _extract_fragments(name: str) -> List[str]:
-    """Return the fragments between '/', excluding the final fragment. In other
-    words "America/Argentina/Buenos_Aires" returns ["America", "Argentina"]. But
-    "UTC" returns [].
+    """Return the fragments deliminted by '/', excluding the final component.
+    Since every component before the final component is followed by a '/', each
+    fragment returned by this method includes the trailing '/' to obtain higher
+    compression. For example, "America/Argentina/Buenos_Aires" returns
+    ["America/", "Argentina/"]. But "UTC" returns [].
     """
-    fragments = name.split('/')
-    return fragments[:-1]
+    components = name.split('/')
+    return [component + '/' for component in components[:-1]]
 
 
 def _generate_compressed_names(
@@ -526,15 +528,17 @@ def _generate_compressed_names(
 
 def _compress_name(name: str, fragments: IndexMap) -> str:
     """Convert 'name' into keyword-compressed format suitable for the C++
-    KString class. For example, "America/Chicago" -> "\x01/Chicago".
+    KString class. For example, "America/Chicago" -> "\x01Chicago".
     Returns the compressed name.
     """
-    exploded = name.split('/')
-    substituted: List[str] = []
-    for fragment in exploded:
+    compressed = ''
+    components = name.split('/')
+    for component in components[:-1]:
+        fragment = component + '/'
         keyword_index = fragments.get(fragment)
         if keyword_index is None:
-            substituted.append(fragment)
+            compressed += fragment
         else:
-            substituted.append(f'\\x{keyword_index:02x}')
-    return '/'.join(substituted)
+            compressed += f'\\x{keyword_index:02x}'
+    compressed += components[-1]
+    return compressed
