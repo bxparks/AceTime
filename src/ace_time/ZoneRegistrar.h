@@ -13,6 +13,8 @@
 #include "internal/ZoneInfo.h"
 #include "internal/Brokers.h"
 
+void runIndexForZoneIdBinary();
+void runIndexForZoneIdLinear();
 class BasicZoneRegistrarTest_Sorted_isSorted;
 class BasicZoneRegistrarTest_Unsorted_isSorted;
 class BasicZoneRegistrarTest_Sorted_linearSearchById;
@@ -102,7 +104,7 @@ class ZoneRegistrar {
 
     /** Find the index for zone id. Return kInvalidIndex if not found. */
     uint16_t findIndexForId(uint32_t zoneId) const {
-      if (mIsSorted && mRegistrySize > 8) {
+      if (mIsSorted && mRegistrySize >= kBinarySearchThreshold) {
         return binarySearchById(mZoneRegistry, mRegistrySize, zoneId);
       } else {
         return linearSearchById(mZoneRegistry, mRegistrySize, zoneId);
@@ -110,6 +112,8 @@ class ZoneRegistrar {
     }
 
   protected:
+    friend void ::runIndexForZoneIdBinary();
+    friend void ::runIndexForZoneIdLinear();
     friend class ::BasicZoneRegistrarTest_Sorted_isSorted;
     friend class ::BasicZoneRegistrarTest_Unsorted_isSorted;
     friend class ::BasicZoneRegistrarTest_Sorted_linearSearchById;
@@ -121,7 +125,7 @@ class ZoneRegistrar {
     friend class ::BasicZoneRegistrarTest_Unsorted_linearSearchById_not_found;
 
     /** Use binarySearch() if registrySize >= threshold. */
-    static const uint8_t kBinarySearchThreshold = 6;
+    static const uint8_t kBinarySearchThreshold = 8;
 
     /** Determine if the given zone registry is sorted by id. */
     static bool isSorted(const ZI* const* registry, uint16_t registrySize) {
@@ -197,6 +201,16 @@ class ZoneRegistrar {
         }
       }
       return kInvalidIndex;
+    }
+
+    /** Exposed only for benchmarking purposes. */
+    uint16_t findIndexForIdLinear(uint32_t zoneId) const {
+      return linearSearchById(mZoneRegistry, mRegistrySize, zoneId);
+    }
+
+    /** Exposed only for benchmarking purposes. */
+    uint16_t findIndexForIdBinary(uint32_t zoneId) const {
+      return binarySearchById(mZoneRegistry, mRegistrySize, zoneId);
     }
 
     uint16_t const mRegistrySize;
