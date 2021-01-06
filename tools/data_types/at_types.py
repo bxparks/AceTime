@@ -192,6 +192,7 @@ class TransformerResult(NamedTuple):
     * letters_map: {letter -> index}
     * formats_map: {format -> index}
     * fragments_map: {fragment -> index}
+    * compressed_names: {zoneName -> compressedName}
     """
     zones_map: ZonesMap
     policies_map: PoliciesMap
@@ -208,6 +209,7 @@ class TransformerResult(NamedTuple):
     letters_map: IndexMap
     formats_map: IndexMap
     fragments_map: IndexMap
+    compressed_names: Dict[str, str]
 
 
 def add_comment(comments: CommentsMap, name: str, reason: str) -> None:
@@ -294,6 +296,7 @@ class ZoneInfoDatabase(TypedDict):
     letters_map: IndexMap  # all multi-character letters
     formats_map: IndexMap  # shortened format strings.
     fragments_map: IndexMap  # zoneName fragment -> index
+    compressed_names: Dict[str, str]  # zoneName -> compressedName
 
 
 def create_zone_info_database(
@@ -351,6 +354,7 @@ def create_zone_info_database(
         'letters_map': tresult.letters_map,
         'formats_map': tresult.formats_map,
         'fragments_map': tresult.fragments_map,
+        'compressed_names': tresult.compressed_names,
     }
 
 

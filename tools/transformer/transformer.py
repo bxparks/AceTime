@@ -184,6 +184,7 @@ class Transformer:
             letters_map=self.tresult.letters_map,
             formats_map=self.tresult.formats_map,
             fragments_map=self.tresult.fragments_map,
+            compressed_names=self.tresult.compressed_names,
         )
 
     def print_summary(self) -> None:

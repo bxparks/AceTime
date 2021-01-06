@@ -96,6 +96,7 @@ class ArduinoGenerator:
             link_ids=zidb['link_ids'],
             formats_map=zidb['formats_map'],
             fragments_map=zidb['fragments_map'],
+            compressed_names=zidb['compressed_names'],
         )
         self.zone_registry_generator = ZoneRegistryGenerator(
             invocation=wrapped_invocation,
@@ -571,11 +572,14 @@ extern const {scope}::ZoneContext kZoneContext;
 // Zones: {numInfos}
 // Links: {numLinks}
 // kZoneRegistry sizes (bytes):
-//   Strings: {zoneStringSize}
+//   Strings: {zoneStringSize} (originally {zoneStringOriginalSize})
+//   Format Size: {formatSize}
 //   Memory (8-bit): {zoneMemory8}
 //   Memory (32-bit): {zoneMemory32}
 // kZoneAndLinkRegistry sizes (bytes):
-//   Strings: {zoneAndLinkStringSize}
+//   Strings: {zoneAndLinkStringSize} \
+(originally {zoneAndLinkStringOriginalSize})
+//   Format Size: {formatSize}
 //   Memory (8-bit): {zoneAndLinkMemory8}
 //   Memory (32-bit): {zoneAndLinkMemory32}
 //
@@ -625,7 +629,7 @@ const {scope}::ZoneContext kZoneContext = {{
 //---------------------------------------------------------------------------
 // Zone name: {zoneFullName}
 // Zone Eras: {numEras}
-// Strings (bytes): {stringSize}
+// Strings (bytes): {stringSize} (originally {originalSize})
 // Memory (8-bit): {memory8}
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
@@ -634,7 +638,8 @@ static const {scope}::ZoneEra kZoneEra{zoneNormalizedName}[] {progmem} = {{
 {eraItems}
 }};
 
-static const char kZoneName{zoneNormalizedName}[] {progmem} = "{zoneFullName}";
+static const char kZoneName{zoneNormalizedName}[] {progmem} = \
+"{compressedName}";
 
 const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
   kZoneName{zoneNormalizedName} /*name*/,
@@ -689,6 +694,7 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
         link_ids: Dict[str, int],
         formats_map: IndexMap,
         fragments_map: IndexMap,
+        compressed_names: Dict[str, str],
     ):
         self.invocation = invocation
         self.db_namespace = db_namespace
@@ -711,6 +717,7 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
         self.link_ids = link_ids
         self.formats_map = formats_map
         self.fragments_map = fragments_map
+        self.compressed_names = compressed_names
 
         self.db_header_namespace = self.db_namespace.upper()
 
@@ -841,11 +848,19 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
         # database, factoring in deduping.
         num_infos = len(self.zones_map)
         num_links = len(self.links_map)
-        zone_string_size = sum([
+        zone_string_original_size = sum([
             len(name) + 1 for name in self.zones_map.keys()
         ])
-        link_string_size = sum([
+        zone_string_size = sum([
+            self._compressed_len(self.compressed_names[name]) + 1
+            for name in self.zones_map.keys()
+        ])
+        link_string_original_size = sum([
             len(name) + 1 for name in self.links_map.keys()
+        ])
+        link_string_size = sum([
+            self._compressed_len(self.compressed_names[name]) + 1
+            for name in self.links_map.keys()
         ])
         format_size = sum([len(s) + 1 for s in self.formats_map.keys()])
         zone_memory8 = (
@@ -880,6 +895,9 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
         for fragment, index in self.fragments_map.items():
             fragments += f'/*\\x{index:02x}*/ "{fragment}",\n'
 
+        zone_and_link_string_original_size = (
+            zone_string_original_size + link_string_original_size
+        )
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
             tz_files=self.tz_files,
@@ -893,11 +911,14 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
             numLinks=num_links,
             numEras=num_eras,
             zoneStringSize=zone_string_size,
+            zoneStringOriginalSize=zone_string_original_size,
             zoneMemory8=zone_memory8,
             zoneMemory32=zone_memory32,
             zoneAndLinkStringSize=(zone_string_size + link_string_size),
+            zoneAndLinkStringOriginalSize=zone_and_link_string_original_size,
             zoneAndLinkMemory8=zone_and_link_memory8,
             zoneAndLinkMemory32=zone_and_link_memory32,
+            formatSize=format_size,
             infoItems=info_items,
             linkItems=link_items,
             numFragments=num_fragments,
@@ -914,8 +935,11 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
             era_item = self._generate_era_item(zone_name, era)
             era_items += era_item
 
+        compressed_name = self.compressed_names[zone_name]
+        compressed_length = self._compressed_len(compressed_name)
+
         # Calculate memory sizes
-        zone_name_size = len(zone_name) + 1
+        zone_name_size = compressed_length + 1
         format_size = 0
         for era in eras:
             format_size += len(era['format_short']) + 1
@@ -930,18 +954,35 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
         )
 
         string_size = zone_name_size + format_size
+        original_size = len(zone_name) + 1 + format_size
         info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
             scope=self.scope,
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name),
+            compressedName=compressed_name,
             zoneId=self.zone_ids[zone_name],
             numEras=num_eras,
             stringSize=string_size,
+            originalSize=original_size,
             memory8=data_size8 + string_size,
             memory32=data_size32 + string_size,
             eraItems=era_items,
             progmem='ACE_TIME_PROGMEM')
         return info_item
+
+    def _compressed_len(self, compressed_name: str) -> int:
+        """Return the length of the compressed name, counting an escaped hex
+        character (\\xHH) as one character.
+        """
+        i = 0
+        compressed_length = 0
+        total_length = len(compressed_name)
+        while i < total_length:
+            if compressed_name[i] == '\\':
+                i += 3
+            i += 1
+            compressed_length += 1
+        return compressed_length
 
     def _generate_era_item(
         self, zone_name: str, era: ZoneEraRaw

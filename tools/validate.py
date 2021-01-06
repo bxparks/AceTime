@@ -317,6 +317,7 @@ def main() -> None:
         letters_map={},
         formats_map={},
         fragments_map={},
+        compressed_names={},
     )
 
     # Transform the TZ zones and rules

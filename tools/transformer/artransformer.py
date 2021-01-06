@@ -59,6 +59,9 @@ class ArduinoTransformer:
         self.zone_ids = _generate_zone_ids(self.zones_map)
         self.link_ids = _generate_link_ids(self.links_map)
         self.fragments_map = _generate_fragments(self.zones_map, self.links_map)
+        self.compressed_names = _generate_compressed_names(
+            self.zones_map, self.links_map, self.fragments_map
+        )
 
     def get_data(self) -> TransformerResult:
         return TransformerResult(
@@ -77,6 +80,7 @@ class ArduinoTransformer:
             letters_map=self.letters_map,
             formats_map=self.formats_map,
             fragments_map=self.fragments_map,
+            compressed_names=self.compressed_names,
         )
 
     def print_summary(self) -> None:
@@ -505,3 +509,32 @@ def _extract_fragments(name: str) -> List[str]:
     """
     fragments = name.split('/')
     return fragments[:-1]
+
+
+def _generate_compressed_names(
+    zones_map: ZonesMap,
+    links_map: LinksMap,
+    fragments_map: IndexMap,
+) -> Dict[str, str]:
+    compressed_names: Dict[str, str] = OrderedDict()
+    for name in sorted(zones_map.keys()):
+        compressed_names[name] = _compress_name(name, fragments_map)
+    for name in sorted(links_map.keys()):
+        compressed_names[name] = _compress_name(name, fragments_map)
+    return compressed_names
+
+
+def _compress_name(name: str, fragments: IndexMap) -> str:
+    """Convert 'name' into keyword-compressed format suitable for the C++
+    KString class. For example, "America/Chicago" -> "\x01/Chicago".
+    Returns the compressed name.
+    """
+    exploded = name.split('/')
+    substituted: List[str] = []
+    for fragment in exploded:
+        keyword_index = fragments.get(fragment)
+        if keyword_index is None:
+            substituted.append(fragment)
+        else:
+            substituted.append(f'\\x{keyword_index:02x}')
+    return '/'.join(substituted)
