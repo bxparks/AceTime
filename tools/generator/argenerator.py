@@ -93,6 +93,7 @@ class ArduinoGenerator:
             buf_sizes=zidb['buf_sizes'],
             zone_ids=zidb['zone_ids'],
             link_ids=zidb['link_ids'],
+            formats_map=zidb['formats_map'],
             fragments_map=zidb['fragments_map'],
         )
         self.zone_registry_generator = ZoneRegistryGenerator(
@@ -616,7 +617,7 @@ const {scope}::ZoneContext kZoneContext = {{
 //---------------------------------------------------------------------------
 // Zone name: {zoneFullName}
 // Zone Eras: {numEras}
-// Strings (bytes): {stringLength}
+// Strings (bytes): {stringSize}
 // Memory (8-bit): {memory8}
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
@@ -653,9 +654,9 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
 """  # noqa
 
     SIZEOF_ZONE_ERA_8 = 11
-    SIZEOF_ZONE_ERA_32 = 16
+    SIZEOF_ZONE_ERA_32 = 16  # 15 + 1 for 4-byte alignment
     SIZEOF_ZONE_INFO_8 = 11
-    SIZEOF_ZONE_INFO_32 = 20
+    SIZEOF_ZONE_INFO_32 = 20  # 18 + 2 for 4-byte alignment
 
     def __init__(
         self,
@@ -678,6 +679,7 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
         buf_sizes: BufSizeMap,
         zone_ids: Dict[str, int],
         link_ids: Dict[str, int],
+        formats_map: IndexMap,
         fragments_map: IndexMap,
     ):
         self.invocation = invocation
@@ -699,6 +701,7 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
         self.buf_sizes = buf_sizes
         self.zone_ids = zone_ids
         self.link_ids = link_ids
+        self.formats_map = formats_map
         self.fragments_map = fragments_map
 
         self.db_header_namespace = self.db_namespace.upper()
@@ -813,36 +816,40 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
 
     def generate_infos_cpp(self) -> str:
         # Generate the list of zone infos
-        zone_string_size = 0
-        info_items = ''
         num_eras = 0
+        info_items = ''
         for zone_name, eras in sorted(self.zones_map.items()):
-            info_item, string_length = self._generate_info_item(
-                zone_name, eras)
+            info_item = self._generate_info_item(zone_name, eras)
             info_items += info_item
-            zone_string_size += string_length
             num_eras += len(eras)
 
         # Generate links references.
-        link_string_size = 0
         link_items = ''
         for link_name, zone_name in sorted(self.links_map.items()):
-            link_item, string_length = self._generate_link_item(
-                link_name, zone_name)
+            link_item = self._generate_link_item(link_name, zone_name)
             link_items += link_item
-            link_string_size += string_length
 
-        # Estimate size of entire zone info database.
+        # Estimate size of entire kZoneRegistry or kZoneAndLinkRegistry
+        # database, factoring in deduping.
         num_infos = len(self.zones_map)
         num_links = len(self.links_map)
+        zone_string_size = sum([
+            len(name) + 1 for name in self.zones_map.keys()
+        ])
+        link_string_size = sum([
+            len(name) + 1 for name in self.links_map.keys()
+        ])
+        format_size = sum([len(s) + 1 for s in self.formats_map.keys()])
         zone_memory8 = (
             zone_string_size
+            + format_size
             + num_eras * self.SIZEOF_ZONE_ERA_8
             + num_infos * self.SIZEOF_ZONE_INFO_8
             + num_infos * 2  # sizeof(kZoneRegistry)
         )
         zone_memory32 = (
             zone_string_size
+            + format_size
             + num_eras * self.SIZEOF_ZONE_ERA_32
             + num_infos * self.SIZEOF_ZONE_INFO_32
             + num_infos * 4  # sizeof(kZoneRegistry)
@@ -860,7 +867,7 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
             + num_links * 4  # sizeof(kZoneAndLinkRegistry)
         )
 
-        num_fragments = len(self.fragments_map)
+        num_fragments = len(self.fragments_map) + 1
         fragments = '/*\\x00*/ nullptr,\n'
         for fragment, index in self.fragments_map.items():
             fragments += f'/*\\x{index:02x}*/ "{fragment}",\n'
@@ -893,41 +900,44 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
         self,
         zone_name: str,
         eras: List[ZoneEraRaw],
-    ) -> Tuple[str, int]:
+    ) -> str:
         era_items = ''
-        string_length = 0
         for era in eras:
-            (era_item, length) = self._generate_era_item(zone_name, era)
+            era_item = self._generate_era_item(zone_name, era)
             era_items += era_item
-            string_length += length
 
-        string_length += len(zone_name) + 1
+        # Calculate memory sizes
+        zone_name_size = len(zone_name) + 1
+        format_size = 0
+        for era in eras:
+            format_size += len(era['format_short']) + 1
         num_eras = len(eras)
-        memory8 = (
-            string_length
-            + num_eras * self.SIZEOF_ZONE_ERA_8
-            + 1 * self.SIZEOF_ZONE_INFO_8)
-        memory32 = (
-            string_length
-            + num_eras * self.SIZEOF_ZONE_ERA_32
-            + 1 * self.SIZEOF_ZONE_INFO_32)
+        data_size8 = (
+            num_eras * self.SIZEOF_ZONE_ERA_8
+            + self.SIZEOF_ZONE_INFO_8
+        )
+        data_size32 = (
+            num_eras * self.SIZEOF_ZONE_ERA_32
+            + self.SIZEOF_ZONE_INFO_32
+        )
 
+        string_size = zone_name_size + format_size
         info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
             scope=self.scope,
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name),
             zoneId=self.zone_ids[zone_name],
             numEras=num_eras,
-            stringLength=string_length,
-            memory8=memory8,
-            memory32=memory32,
+            stringSize=string_size,
+            memory8=data_size8 + string_size,
+            memory32=data_size32 + string_size,
             eraItems=era_items,
             progmem='ACE_TIME_PROGMEM')
-        return (info_item, string_length)
+        return info_item
 
     def _generate_era_item(
         self, zone_name: str, era: ZoneEraRaw
-    ) -> Tuple[str, int]:
+    ) -> str:
         rules_policy_name = era['rules']
         if rules_policy_name == '-' or rules_policy_name == ':':
             zone_policy = 'nullptr'
@@ -951,7 +961,6 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
             suffix=era['until_time_suffix'],
         )
         format_short = era['format_short']
-        string_length = len(format_short) + 1
 
         era_item = self.ZONE_INFOS_CPP_ERA_ITEM.format(
             raw_line=normalize_raw(era['raw_line']),
@@ -968,17 +977,17 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
             until_time_modifier_comment=until_time_modifier_comment,
         )
 
-        return (era_item, string_length)
+        return era_item
 
     def _generate_link_item(
         self, link_name: str, zone_name: str,
-    ) -> Tuple[str, int]:
-        """Return the Link item and the amount of string space consumed by this
-        Link entry.
+    ) -> str:
+        """Return the Link item.
         """
         ZONE_INFOS_CPP_LINK_ITEM = """\
 //---------------------------------------------------------------------------
 // Link name: {linkFullName} -> {zoneFullName}
+// Strings (bytes): {stringSize}
 // Memory (8-bit): {memory8}
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
@@ -994,7 +1003,9 @@ const {scope}::ZoneInfo kZone{linkNormalizedName} {progmem} = {{
 }};
 
 """
-
+        link_name_size = len(link_name) + 1
+        memory8 = link_name_size + self.SIZEOF_ZONE_INFO_8
+        memory32 = link_name_size + self.SIZEOF_ZONE_INFO_32
         link_item = ZONE_INFOS_CPP_LINK_ITEM.format(
             scope=self.scope,
             linkFullName=link_name,
@@ -1002,14 +1013,14 @@ const {scope}::ZoneInfo kZone{linkNormalizedName} {progmem} = {{
             linkId=self.link_ids[link_name],
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name),
+            stringSize=link_name_size,
+            memory8=memory8,
+            memory32=memory32,
             numEras=len(self.zones_map[zone_name]),
             progmem='ACE_TIME_PROGMEM',
-            memory8=self.SIZEOF_ZONE_INFO_8,
-            memory32=self.SIZEOF_ZONE_INFO_32,
         )
-        string_length = len(link_name) + 1
 
-        return link_item, string_length
+        return link_item
 
 
 class ZoneRegistryGenerator:
