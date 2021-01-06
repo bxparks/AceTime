@@ -8,8 +8,8 @@
 
 #include <stdint.h>
 #include <string.h> // strcmp(), strcmp_P()
-#include <AceCommon.h> // strcmp_PP()
-#include "common/compat.h"
+#include <AceCommon.h> // KString
+#include "common/compat.h" // ACE_TIME_USE_PROGMEM
 #include "internal/ZoneInfo.h"
 #include "internal/Brokers.h"
 
@@ -24,6 +24,8 @@ class BasicZoneRegistrarTest_Sorted_binarySearchById;
 class BasicZoneRegistrarTest_Sorted_binarySearchById_not_found;
 class BasicZoneRegistrarTest_Unsorted_linearSearchById;
 class BasicZoneRegistrarTest_Unsorted_linearSearchById_not_found;
+
+class __FlashStringHelper;
 
 namespace ace_time {
 
@@ -94,12 +96,18 @@ class ZoneRegistrar {
       if (index == kInvalidIndex) return kInvalidIndex;
 
       // Verify that the zoneName actually matches, in case of hash collision.
-      const char* foundName = ZIB(ZRB(mZoneRegistry).zoneInfo(index)).name();
-      if (STRCMP_P(name, foundName) == 0) {
-        return index;
-      } else {
-        return kInvalidIndex;
-      }
+      ZIB zoneInfoBroker(ZRB(mZoneRegistry).zoneInfo(index));
+      const char* foundName = zoneInfoBroker.name();
+      ace_common::KString kname(
+#if ACE_TIME_USE_PROGMEM
+        (const __FlashStringHelper*) foundName,
+#else
+        foundName,
+#endif
+        zoneInfoBroker.zoneContext()->fragments,
+        zoneInfoBroker.zoneContext()->numFragments
+      );
+      return (kname.compareTo(name) == 0) ? index : kInvalidIndex;
     }
 
     /** Find the index for zone id. Return kInvalidIndex if not found. */
