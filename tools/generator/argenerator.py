@@ -572,14 +572,15 @@ extern const {scope}::ZoneContext kZoneContext;
 // Zones: {numInfos}
 // Links: {numLinks}
 // kZoneRegistry sizes (bytes):
-//   Strings: {zoneStringSize} (originally {zoneStringOriginalSize})
-//   Format Size: {formatSize}
+//   Names: {zoneStringSize} (originally {zoneStringOriginalSize})
+//   Formats: {formatSize}
+//   Fragments: {fragmentSize}
 //   Memory (8-bit): {zoneMemory8}
 //   Memory (32-bit): {zoneMemory32}
 // kZoneAndLinkRegistry sizes (bytes):
-//   Strings: {zoneAndLinkStringSize} \
-(originally {zoneAndLinkStringOriginalSize})
-//   Format Size: {formatSize}
+//   Names: {zoneAndLinkStringSize} (originally {zoneAndLinkStringOriginalSize})
+//   Formats: {formatSize}
+//   Fragments: {fragmentSize}
 //   Memory (8-bit): {zoneAndLinkMemory8}
 //   Memory (32-bit): {zoneAndLinkMemory32}
 //
@@ -844,8 +845,14 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
             link_item = self._generate_link_item(link_name, zone_name)
             link_items += link_item
 
-        # Estimate size of entire kZoneRegistry or kZoneAndLinkRegistry
-        # database, factoring in deduping.
+        # Generate fragments.
+        num_fragments = len(self.fragments_map) + 1
+        fragments = '/*\\x00*/ nullptr,\n'
+        for fragment, index in self.fragments_map.items():
+            fragments += f'/*\\x{index:02x}*/ "{fragment}",\n'
+
+        # Estimate size of entire ZoneInfo database, factoring in deduping
+        # of strings
         num_infos = len(self.zones_map)
         num_links = len(self.links_map)
         zone_string_original_size = sum([
@@ -863,19 +870,25 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
             for name in self.links_map.keys()
         ])
         format_size = sum([len(s) + 1 for s in self.formats_map.keys()])
+        fragment_size = sum([len(s) + 1 for s in self.fragments_map.keys()])
+
         zone_memory8 = (
             zone_string_size
             + format_size
+            + fragment_size
             + num_eras * self.SIZEOF_ZONE_ERA_8
             + num_infos * self.SIZEOF_ZONE_INFO_8
             + num_infos * 2  # sizeof(kZoneRegistry)
+            + num_fragments * 2
         )
         zone_memory32 = (
             zone_string_size
             + format_size
+            + fragment_size
             + num_eras * self.SIZEOF_ZONE_ERA_32
             + num_infos * self.SIZEOF_ZONE_INFO_32
             + num_infos * 4  # sizeof(kZoneRegistry)
+            + num_fragments * 2
         )
         zone_and_link_memory8 = (
             zone_memory8
@@ -889,15 +902,10 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
             + num_links * self.SIZEOF_ZONE_INFO_32
             + num_links * 4  # sizeof(kZoneAndLinkRegistry)
         )
-
-        num_fragments = len(self.fragments_map) + 1
-        fragments = '/*\\x00*/ nullptr,\n'
-        for fragment, index in self.fragments_map.items():
-            fragments += f'/*\\x{index:02x}*/ "{fragment}",\n'
-
         zone_and_link_string_original_size = (
             zone_string_original_size + link_string_original_size
         )
+
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
             tz_files=self.tz_files,
@@ -919,6 +927,7 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
             zoneAndLinkMemory8=zone_and_link_memory8,
             zoneAndLinkMemory32=zone_and_link_memory32,
             formatSize=format_size,
+            fragmentSize=fragment_size,
             infoItems=info_items,
             linkItems=link_items,
             numFragments=num_fragments,
