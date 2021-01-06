@@ -26,21 +26,14 @@
   #define ACE_TIME_PROGMEM
 #endif
 
-// Include the correct pgmspace.h depending on architecture. Define a
-// consistent acetime_strcmp_P() which can be passed as a function pointer
-// into the ZoneManager template class.
+// Include the correct pgmspace.h depending on architecture.
 #if defined(ARDUINO_ARCH_AVR)
   #include <avr/pgmspace.h>
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
-  #define acetime_strcmp_P strcmp_P
 
 #elif defined(ARDUINO_ARCH_SAMD)
   #include <avr/pgmspace.h>
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
-
-  // strcmp_P(a,b) is defined to be strcmp(a,b), but we need a function
-  // pointer, so map it directly to strcmp()
-  #define acetime_strcmp_P strcmp
 
   // Set this to 1 to clobber SERIAL_PORT_MONITOR to SerialUSB on
   // an original Arduino Zero when using the Native port. See USER_GUIDE.md for
@@ -55,33 +48,11 @@
   #include <avr/pgmspace.h>
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
 
-  // Teensyduino defines strcmp_P(a, b) as strcmp(a,b), which cannot be
-  // passed as a function pointer, so we have to use strcmp() directly.
-  #define acetime_strcmp_P strcmp
-
 #elif defined(ESP8266)
   #include <pgmspace.h>
-  #include <AceCommon.h>
-
-  // ESP8266 2.5.2 defines strcmp_P() as a macro function, but we need a real
-  // function.
-  inline int acetime_strcmp_P(const char* str1, const char* str2P) {
-    return strcmp_P((str1), (str2P));
-  }
-
-  // ESP8266 2.5.2 doesn't have these so use versions from AceCommon
-  using ace_common::strchr_P;
-  using ace_common::strrchr_P;
 
 #elif defined(ESP32)
   #include <pgmspace.h>
-  #include <AceCommon.h>
-
-  #define acetime_strcmp_P strcmp_P
-
-  // ESP32 1.0.4 doesn't have these so use versions from AceCommon
-  using ace_common::strchr_P;
-  using ace_common::strrchr_P;
 
   // ESP32 does not define SERIAL_PORT_MONITOR. Define it unless another
   // library has already defined it.
@@ -91,21 +62,13 @@
 
 #elif defined(UNIX_HOST_DUINO)
   #include <pgmspace.h>
-  #define acetime_strcmp_P strcmp_P
-
-
 
 #elif defined(ARDUINO_ARCH_STM32)
   #include <avr/pgmspace.h>
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
 
-  // strcmp_P(a,b) is defined to be strcmp(a,b), but we need a function
-  // pointer, so map it directly to strcmp()
-  #define acetime_strcmp_P strcmp
-
   #undef SERIAL_PORT_MONITOR
   #define SERIAL_PORT_MONITOR Serial
-
 
 #else
   #error Unsupported platform
