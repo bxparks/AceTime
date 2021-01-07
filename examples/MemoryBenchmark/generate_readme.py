@@ -74,6 +74,11 @@ processors due to 4-byte alignment). We save 266 bytes for `BasicZoneManager`
 and 386 bytes for `ExtendedZoneManager` when all the zones are loaded into the
 zone registry.
 
+Also for v1.4.1+, incorporating zoneName compression causes flash/ram usage to
+increase by ~250/120 bytes when using only 1-2 zones, but *decreases* flash
+consumption by 1200-2400 bytes when all the zones are loaded into the
+`ZoneManager`.
+
 ## Arduino Nano
 
 * Arduino IDE 1.8.13
