@@ -133,9 +133,13 @@ test(ZonedDateTimeBasicTest, forComponents_afterOverlap) {
 }
 
 // Test the linked zones are same as the target zones.
+// Commented out because this test does not work with "fat" Link which behave
+// just like a normal Zone. TODO: Figure out how to detect fat links at runtime.
+/*
 test(ZonedDateTimeBasicTest, linked_zones) {
   assertEqual(&zonedb::kZoneAmerica_Los_Angeles, &zonedb::kZoneUS_Pacific);
 }
+*/
 
 // --------------------------------------------------------------------------
 

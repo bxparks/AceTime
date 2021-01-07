@@ -59,7 +59,6 @@ zonedb.json: $(SRC) $(TZ_VERSION)
 		--input_dir $(TZ_VERSION) \
 		--scope basic \
 		--language json \
-		--fat_links \
 		--json_file $@ \
 		--start_year 2000 \
 		--until_year 2050
@@ -71,7 +70,6 @@ zonedbx.json: $(SRC) $(TZ_VERSION)
 		--input_dir $(TZ_VERSION) \
 		--scope extended \
 		--language json \
-		--fat_links \
 		--json_file $@ \
 		--start_year 2000 \
 		--until_year 2050

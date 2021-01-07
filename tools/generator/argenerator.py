@@ -40,7 +40,6 @@ class ArduinoGenerator:
         invocation: str,
         db_namespace: str,
         zidb: ZoneInfoDatabase,
-        fat_links: bool,
     ):
         # If I add a backslash (\) at the end of each line (which is needed if I
         # want to copy and paste the shell command), the C++ compiler spews out
@@ -78,7 +77,6 @@ class ArduinoGenerator:
             invocation=wrapped_invocation,
             tz_files=wrapped_tzfiles,
             db_namespace=db_namespace,
-            fat_links=fat_links,
             tz_version=zidb['tz_version'],
             scope=zidb['scope'],
             start_year=zidb['start_year'],
@@ -100,7 +98,6 @@ class ArduinoGenerator:
             invocation=wrapped_invocation,
             tz_files=wrapped_tzfiles,
             db_namespace=db_namespace,
-            fat_links=fat_links,
             tz_version=zidb['tz_version'],
             scope=zidb['scope'],
             zones_map=zidb['zones_map'],
@@ -563,9 +560,14 @@ extern const {scope}::ZoneContext kZoneContext;
 //
 // Zones: {numInfos}
 // Links: {numLinks}
-// Strings (bytes): {stringLength}
-// Memory (8-bit): {memory8}
-// Memory (32-bit): {memory32}
+// kZoneRegistry sizes (bytes):
+//   Strings: {zoneStringSize}
+//   Memory (8-bit): {zoneMemory8}
+//   Memory (32-bit): {zoneMemory32}
+// kZoneAndLinkRegistry sizes (bytes):
+//   Strings: {zoneAndLinkStringSize}
+//   Memory (8-bit): {zoneAndLinkMemory8}
+//   Memory (32-bit): {zoneAndLinkMemory32}
 //
 // DO NOT EDIT
 
@@ -652,7 +654,6 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
         self,
         invocation: str,
         db_namespace: str,
-        fat_links: bool,
         tz_version: str,
         tz_files: str,
         scope: str,
@@ -673,7 +674,6 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
     ):
         self.invocation = invocation
         self.db_namespace = db_namespace
-        self.fat_links = fat_links
         self.tz_version = tz_version
         self.tz_files = tz_files
         self.scope = scope
@@ -725,38 +725,26 @@ const uint8_t kZoneBufSize{zoneNormalizedName} = {bufSize};  // {zoneFullName}
                 bufSize=self.buf_sizes[zone_name],
             )
 
-        ZONE_INFOS_H_FAT_LINK_ITEM = """\
+        ZONE_INFOS_H_LINK_ITEM = """\
 extern const {scope}::ZoneInfo kZone{linkNormalizedName}; \
 // {linkFullName} -> {zoneFullName}
 """
         ZONE_INFOS_H_LINK_ID = """\
 const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
 """
-        ZONE_INFOS_H_LINK_ITEM = """\
-extern const {scope}::ZoneInfo& kZone{linkNormalizedName}; \
-// {linkFullName} -> {zoneFullName}
-"""
         link_items = ''
         link_ids = ''
-        if self.fat_links:
-            for link_name, zone_name in sorted(self.links_map.items()):
-                link_items += ZONE_INFOS_H_FAT_LINK_ITEM.format(
-                    scope=self.scope,
-                    linkNormalizedName=normalize_name(link_name),
-                    linkFullName=link_name,
-                    zoneFullName=zone_name)
-                link_ids += ZONE_INFOS_H_LINK_ID.format(
-                    linkNormalizedName=normalize_name(link_name),
-                    linkFullName=link_name,
-                    linkId=self.link_ids[link_name],
-                )
-        else:
-            for link_name, zone_name in sorted(self.links_map.items()):
-                link_items += ZONE_INFOS_H_LINK_ITEM.format(
-                    scope=self.scope,
-                    linkNormalizedName=normalize_name(link_name),
-                    linkFullName=link_name,
-                    zoneFullName=zone_name)
+        for link_name, zone_name in sorted(self.links_map.items()):
+            link_items += ZONE_INFOS_H_LINK_ITEM.format(
+                scope=self.scope,
+                linkNormalizedName=normalize_name(link_name),
+                linkFullName=link_name,
+                zoneFullName=zone_name)
+            link_ids += ZONE_INFOS_H_LINK_ID.format(
+                linkNormalizedName=normalize_name(link_name),
+                linkFullName=link_name,
+                linkId=self.link_ids[link_name],
+            )
 
         ZONE_INFOS_H_REMOVED_INFO_ITEM = """\
 // {zoneFullName} ({reason})
@@ -815,42 +803,53 @@ extern const {scope}::ZoneInfo& kZone{linkNormalizedName}; \
         )
 
     def generate_infos_cpp(self) -> str:
-        string_length = 0
-
         # Generate the list of zone infos
+        zone_string_size = 0
         info_items = ''
         num_eras = 0
         for zone_name, eras in sorted(self.zones_map.items()):
-            info_item, info_string_length = self._generate_info_item(
+            info_item, string_length = self._generate_info_item(
                 zone_name, eras)
             info_items += info_item
-            string_length += info_string_length
+            zone_string_size += string_length
             num_eras += len(eras)
 
         # Generate links references.
+        link_string_size = 0
         link_items = ''
         for link_name, zone_name in sorted(self.links_map.items()):
-            link_item, link_string_length = self._generate_link_item(
+            link_item, string_length = self._generate_link_item(
                 link_name, zone_name)
             link_items += link_item
-            string_length += link_string_length
+            link_string_size += string_length
 
         # Estimate size of entire zone info database.
         num_infos = len(self.zones_map)
         num_links = len(self.links_map)
-        memory8 = (
-            string_length
+        zone_memory8 = (
+            zone_string_size
             + num_eras * self.SIZEOF_ZONE_ERA_8
             + num_infos * self.SIZEOF_ZONE_INFO_8
+            + num_infos * 2  # sizeof(kZoneRegistry)
         )
-        memory32 = (
-            string_length
+        zone_memory32 = (
+            zone_string_size
             + num_eras * self.SIZEOF_ZONE_ERA_32
             + num_infos * self.SIZEOF_ZONE_INFO_32
+            + num_infos * 4  # sizeof(kZoneRegistry)
         )
-        if self.fat_links:
-            memory8 += num_links * self.SIZEOF_ZONE_INFO_8
-            memory32 += num_links * self.SIZEOF_ZONE_INFO_32
+        zone_and_link_memory8 = (
+            zone_memory8
+            + link_string_size
+            + num_links * self.SIZEOF_ZONE_INFO_8
+            + num_links * 2  # sizeof(kZoneAndLinkRegistry)
+        )
+        zone_and_link_memory32 = (
+            zone_memory32
+            + link_string_size
+            + num_links * self.SIZEOF_ZONE_INFO_32
+            + num_links * 4  # sizeof(kZoneAndLinkRegistry)
+        )
 
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
@@ -864,9 +863,12 @@ extern const {scope}::ZoneInfo& kZone{linkNormalizedName}; \
             numInfos=num_infos,
             numLinks=num_links,
             numEras=num_eras,
-            stringLength=string_length,
-            memory8=memory8,
-            memory32=memory32,
+            zoneStringSize=zone_string_size,
+            zoneMemory8=zone_memory8,
+            zoneMemory32=zone_memory32,
+            zoneAndLinkStringSize=(zone_string_size + link_string_size),
+            zoneAndLinkMemory8=zone_and_link_memory8,
+            zoneAndLinkMemory32=zone_and_link_memory32,
             infoItems=info_items,
             linkItems=link_items)
 
@@ -954,12 +956,14 @@ extern const {scope}::ZoneInfo& kZone{linkNormalizedName}; \
     def _generate_link_item(
         self, link_name: str, zone_name: str,
     ) -> Tuple[str, int]:
-        """Return the Link item (whose format depends on --fat_link),
-        and the amount of string space consumed by this Link entry.
+        """Return the Link item and the amount of string space consumed by this
+        Link entry.
         """
-        ZONE_INFOS_CPP_FAT_LINK_ITEM = """\
+        ZONE_INFOS_CPP_LINK_ITEM = """\
 //---------------------------------------------------------------------------
 // Link name: {linkFullName} -> {zoneFullName}
+// Memory (8-bit): {memory8}
+// Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
 static const char kZoneName{linkNormalizedName}[] {progmem} = "{linkFullName}";
@@ -973,31 +977,20 @@ const {scope}::ZoneInfo kZone{linkNormalizedName} {progmem} = {{
 }};
 
 """
-        ZONE_INFOS_CPP_LINK_ITEM = """\
-const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
-"""
 
-        if self.fat_links:
-            link_item = ZONE_INFOS_CPP_FAT_LINK_ITEM.format(
-                scope=self.scope,
-                linkFullName=link_name,
-                linkNormalizedName=normalize_name(link_name),
-                linkId=self.link_ids[link_name],
-                zoneFullName=zone_name,
-                zoneNormalizedName=normalize_name(zone_name),
-                numEras=len(self.zones_map[zone_name]),
-                progmem='ACE_TIME_PROGMEM',
-            )
-            string_length = len(link_name) + 1
-        else:
-            link_item = ZONE_INFOS_CPP_LINK_ITEM.format(
-                scope=self.scope,
-                linkFullName=link_name,
-                linkNormalizedName=normalize_name(link_name),
-                zoneFullName=zone_name,
-                zoneNormalizedName=normalize_name(zone_name),
-            )
-            string_length = 0
+        link_item = ZONE_INFOS_CPP_LINK_ITEM.format(
+            scope=self.scope,
+            linkFullName=link_name,
+            linkNormalizedName=normalize_name(link_name),
+            linkId=self.link_ids[link_name],
+            zoneFullName=zone_name,
+            zoneNormalizedName=normalize_name(zone_name),
+            numEras=len(self.zones_map[zone_name]),
+            progmem='ACE_TIME_PROGMEM',
+            memory8=self.SIZEOF_ZONE_INFO_8,
+            memory32=self.SIZEOF_ZONE_INFO_32,
+        )
+        string_length = len(link_name) + 1
 
         return link_item, string_length
 
@@ -1084,7 +1077,6 @@ extern const {scope}::ZoneInfo* const kZoneAndLinkRegistry[{numZonesAndLinks}];
         tz_files: str,
         scope: str,
         db_namespace: str,
-        fat_links: bool,
         zones_map: ZonesMap,
         links_map: LinksMap,
         zone_ids: Dict[str, int],
@@ -1095,7 +1087,6 @@ extern const {scope}::ZoneInfo* const kZoneAndLinkRegistry[{numZonesAndLinks}];
         self.tz_files = tz_files
         self.scope = scope
         self.db_namespace = db_namespace
-        self.fat_links = fat_links
         self.zones_map = zones_map
         self.links_map = links_map
         self.zone_ids = zone_ids
@@ -1122,25 +1113,22 @@ extern const {scope}::ZoneInfo* const kZoneAndLinkRegistry[{numZonesAndLinks}];
 
         # Generate Zones and Links, sorted by zoneId.
         zone_and_link_registry_items = ''
-        if self.fat_links:
-            num_zones_and_links = len(self.zones_and_links)
-            for zone_name in sorted(
-                self.zones_and_links,
-                key=lambda x: self.zone_and_link_ids[x],
-            ):
-                normalized_name = normalize_name(zone_name)
-                zone_id = self.zone_and_link_ids[zone_name]
-                target_name = self.links_map.get(zone_name)
-                if target_name:
-                    desc_name = f'{zone_name} -> {target_name}'
-                else:
-                    desc_name = zone_name
+        num_zones_and_links = len(self.zones_and_links)
+        for zone_name in sorted(
+            self.zones_and_links,
+            key=lambda x: self.zone_and_link_ids[x],
+        ):
+            normalized_name = normalize_name(zone_name)
+            zone_id = self.zone_and_link_ids[zone_name]
+            target_name = self.links_map.get(zone_name)
+            if target_name:
+                desc_name = f'{zone_name} -> {target_name}'
+            else:
+                desc_name = zone_name
 
-                zone_and_link_registry_items += f"""\
+            zone_and_link_registry_items += f"""\
   &kZone{normalized_name}, // 0x{zone_id:08x}, {desc_name}
 """
-        else:
-            num_zones_and_links = 0
 
         return self.ZONE_REGISTRY_CPP_FILE.format(
             invocation=self.invocation,
@@ -1157,11 +1145,6 @@ extern const {scope}::ZoneInfo* const kZoneAndLinkRegistry[{numZonesAndLinks}];
         )
 
     def generate_registry_h(self) -> str:
-        if self.fat_links:
-            num_zones_and_links = len(self.zones_and_links)
-        else:
-            num_zones_and_links = 0
-
         return self.ZONE_REGISTRY_H_FILE.format(
             invocation=self.invocation,
             tz_files=self.tz_files,
@@ -1170,7 +1153,7 @@ extern const {scope}::ZoneInfo* const kZoneAndLinkRegistry[{numZonesAndLinks}];
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
             numZones=len(self.zones_map),
-            numZonesAndLinks=num_zones_and_links,
+            numZonesAndLinks=len(self.zones_and_links),
         )
 
 
