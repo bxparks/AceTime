@@ -32,7 +32,8 @@ class BasicTransitionTest: public aunit::TestOnce {
         const basic::ZoneInfo* const zoneInfo,
         const ValidationData* const testData,
         ValidationScope dstValidationScope,
-        ValidationScope abbrevValidationScope) {
+        ValidationScope abbrevValidationScope,
+        uint8_t /*bufSize*/) {
 
       BasicZoneProcessor zoneProcessor;
       TimeZone tz = TimeZone::forZoneInfo(zoneInfo, &zoneProcessor);

@@ -264,11 +264,13 @@ using namespace ace_time::{self.db_namespace};
             test_case = f"""\
 testF({self.test_class}, {normalized_name}) {{
   assertValid(
-     &kZone{normalized_name},
-     &kValidationData{normalized_name},
-     {dst_validation_scope} /*dstValidationScope{dst_validation_comment}*/,
-     {abbrev_validation_scope} \
-/*abbrevValidationScope{abbrev_validation_comment}*/);
+    &kZone{normalized_name},
+    &kValidationData{normalized_name},
+    {dst_validation_scope} /*dstValidationScope{dst_validation_comment}*/,
+    {abbrev_validation_scope} \
+/*abbrevValidationScope{abbrev_validation_comment}*/,
+    kZoneBufSize{normalized_name} /*bufSize*/
+  );
 }}
 """
             test_cases += test_case

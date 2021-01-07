@@ -46,6 +46,12 @@ applications targetted towards 8-bit processors will normally have fixed number
 of timezones at compile time, so they can avoid using a `ZoneManager`, and avoid
 this penalty in flash size.
 
+In v1.4.1+, we removed the `ZoneInfo::transitionBufSize` field from the
+`ZoneInfo` struct, which saves 1 byte on 8-bit processors (none on 32-bit
+processors due to 4-byte alignment). We save 266 bytes for `BasicZoneManager`
+and 386 bytes for `ExtendedZoneManager` when all the zones are loaded into the
+zone registry.
+
 ## Arduino Nano
 
 * Arduino IDE 1.8.13
@@ -61,17 +67,17 @@ this penalty in flash size.
 | ZonedDateTime                   |   2440/  123 |  1992/  113 |
 | Manual ZoneManager              |   2684/  123 |  2236/  113 |
 | Basic TimeZone (1 zone)         |   6910/  187 |  6462/  177 |
-| Basic TimeZone (2 zones)        |   7488/  193 |  7040/  183 |
+| Basic TimeZone (2 zones)        |   7486/  193 |  7038/  183 |
 | Basic ZoneManager (1 zone)      |   8428/  213 |  7980/  203 |
-| Basic ZoneManager (all)         |  23206/  591 | 22758/  581 |
-| Extended TimeZone (1 zone)      |   9690/  187 |  9242/  177 |
-| Extended TimeZone (2 zones)     |  10166/  193 |  9718/  183 |
-| Extended ZoneManager (1 zone)   |  11368/  213 | 10920/  203 |
-| Extended ZoneManager (all)      |  36232/  697 | 35784/  687 |
+| Basic ZoneManager (all)         |  22940/  591 | 22492/  581 |
+| Extended TimeZone (1 zone)      |   9688/  187 |  9240/  177 |
+| Extended TimeZone (2 zones)     |  10164/  193 |  9716/  183 |
+| Extended ZoneManager (1 zone)   |  11366/  213 | 10918/  203 |
+| Extended ZoneManager (all)      |  35846/  697 | 35398/  687 |
 |---------------------------------+--------------+-------------|
 | SystemClock                     |   5662/  282 |  5214/  272 |
 | SystemClock+Basic TimeZone      |   9990/  334 |  9542/  324 |
-| SystemClock+Extended TimeZone   |  12996/  334 | 12548/  324 |
+| SystemClock+Extended TimeZone   |  12994/  334 | 12546/  324 |
 +--------------------------------------------------------------+
 
 ```
@@ -91,17 +97,17 @@ this penalty in flash size.
 | ZonedDateTime                   |   5564/  263 |  2100/  113 |
 | Manual ZoneManager              |   5808/  263 |  2344/  113 |
 | Basic TimeZone (1 zone)         |  10012/  327 |  6548/  177 |
-| Basic TimeZone (2 zones)        |  10588/  331 |  7124/  181 |
+| Basic TimeZone (2 zones)        |  10586/  331 |  7122/  181 |
 | Basic ZoneManager (1 zone)      |  11530/  353 |  8066/  203 |
-| Basic ZoneManager (all)         |  26306/  729 | 22842/  579 |
-| Extended TimeZone (1 zone)      |  12792/  327 |  9328/  177 |
-| Extended TimeZone (2 zones)     |  13266/  331 |  9802/  181 |
-| Extended ZoneManager (1 zone)   |  14470/  353 | 11006/  203 |
-| Extended ZoneManager (all)      |  39334/  837 | 35870/  687 |
+| Basic ZoneManager (all)         |  26040/  729 | 22576/  579 |
+| Extended TimeZone (1 zone)      |  12790/  327 |  9326/  177 |
+| Extended TimeZone (2 zones)     |  13264/  331 |  9800/  181 |
+| Extended ZoneManager (1 zone)   |  14468/  353 | 11004/  203 |
+| Extended ZoneManager (all)      |  38948/  837 | 35484/  687 |
 |---------------------------------+--------------+-------------|
 | SystemClock                     |   8646/  422 |  5182/  272 |
 | SystemClock+Basic TimeZone      |  12974/  474 |  9510/  324 |
-| SystemClock+Extended TimeZone   |  15980/  474 | 12516/  324 |
+| SystemClock+Extended TimeZone   |  15978/  474 | 12514/  324 |
 +--------------------------------------------------------------+
 
 ```

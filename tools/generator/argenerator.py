@@ -508,6 +508,16 @@ extern const {scope}::ZoneContext kZoneContext;
 {linkIds}
 
 //---------------------------------------------------------------------------
+// Estimated size of the Transition buffer in ExtendedZoneProcessor for each
+// zone. Used only in the tests/validation/Extended*Test tests for
+// ExtendedZoneProcessor. This used to be included in the ZoneInfo data struct
+// above, but it is used only for tests, so pulling them out to these constants
+// means that they take up no permanent storage space.
+//---------------------------------------------------------------------------
+
+{bufSizes}
+
+//---------------------------------------------------------------------------
 // Unsupported zones: {numRemovedInfos}
 //---------------------------------------------------------------------------
 
@@ -609,7 +619,6 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
   kZoneName{zoneNormalizedName} /*name*/,
   0x{zoneId:08x} /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  {transitionBufSize} /*transitionBufSize*/,
   {numEras} /*numEras*/,
   kZoneEra{zoneNormalizedName} /*eras*/,
 }};
@@ -689,18 +698,28 @@ extern const {scope}::ZoneInfo kZone{zoneNormalizedName}; // {zoneFullName}
         ZONE_INFOS_H_INFO_ZONE_ID = """\
 const uint32_t kZoneId{zoneNormalizedName} = 0x{zoneId:08x}; // {zoneFullName}
 """
+        ZONE_INFOS_H_BUF_SIZE = """\
+const uint8_t kZoneBufSize{zoneNormalizedName} = {bufSize};  // {zoneFullName}
+"""
         info_items = ''
         info_zone_ids = ''
+        info_buf_sizes = ''
         for zone_name, eras in sorted(self.zones_map.items()):
+            normalized_name = normalize_name(zone_name)
             info_items += ZONE_INFOS_H_INFO_ITEM.format(
                 scope=self.scope,
-                zoneNormalizedName=normalize_name(zone_name),
+                zoneNormalizedName=normalized_name,
                 zoneFullName=zone_name,
             )
             info_zone_ids += ZONE_INFOS_H_INFO_ZONE_ID.format(
-                zoneNormalizedName=normalize_name(zone_name),
+                zoneNormalizedName=normalized_name,
                 zoneFullName=zone_name,
                 zoneId=self.zone_ids[zone_name],
+            )
+            info_buf_sizes += ZONE_INFOS_H_BUF_SIZE.format(
+                zoneNormalizedName=normalized_name,
+                zoneFullName=zone_name,
+                bufSize=self.buf_sizes[zone_name],
             )
 
         ZONE_INFOS_H_FAT_LINK_ITEM = """\
@@ -788,7 +807,9 @@ extern const {scope}::ZoneInfo& kZone{linkNormalizedName}; \
             numRemovedLinks=len(self.removed_links),
             removedLinkItems=removed_link_items,
             numNotableLinks=len(self.notable_links),
-            notableLinkItems=notable_link_items)
+            notableLinkItems=notable_link_items,
+            bufSizes=info_buf_sizes,
+        )
 
     def generate_infos_cpp(self) -> str:
         string_length = 0
@@ -869,14 +890,11 @@ extern const {scope}::ZoneInfo& kZone{linkNormalizedName}; \
             + num_eras * self.SIZEOF_ZONE_ERA_32
             + 1 * self.SIZEOF_ZONE_INFO_32)
 
-        transition_buf_size = self.buf_sizes[zone_name]
-
         info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
             scope=self.scope,
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name),
             zoneId=self.zone_ids[zone_name],
-            transitionBufSize=transition_buf_size,
             numEras=num_eras,
             stringLength=string_length,
             memory8=memory8,
@@ -947,7 +965,6 @@ const {scope}::ZoneInfo kZone{linkNormalizedName} {progmem} = {{
   kZoneName{linkNormalizedName} /*name*/,
   0x{linkId:08x} /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  {transitionBufSize} /*transitionBufSize*/,
   {numEras} /*numEras*/,
   kZoneEra{zoneNormalizedName} /*eras*/,
 }};
@@ -965,7 +982,6 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
                 linkId=self.link_ids[link_name],
                 zoneFullName=zone_name,
                 zoneNormalizedName=normalize_name(zone_name),
-                transitionBufSize=self.buf_sizes[zone_name],
                 numEras=len(self.zones_map[zone_name]),
                 progmem='ACE_TIME_PROGMEM',
             )
