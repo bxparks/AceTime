@@ -1031,12 +1031,13 @@ const uint32_t kZoneId{linkNormalizedName} = 0x{linkId:08x}; // {linkFullName}
         ZONE_INFOS_CPP_LINK_ITEM = """\
 //---------------------------------------------------------------------------
 // Link name: {linkFullName} -> {zoneFullName}
-// Strings (bytes): {stringSize}
+// Strings (bytes): {stringSize} (originally {originalSize})
 // Memory (8-bit): {memory8}
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const char kZoneName{linkNormalizedName}[] {progmem} = "{linkFullName}";
+static const char kZoneName{linkNormalizedName}[] {progmem} = \
+{compressedName};
 
 const {scope}::ZoneInfo kZone{linkNormalizedName} {progmem} = {{
   kZoneName{linkNormalizedName} /*name*/,
@@ -1047,17 +1048,23 @@ const {scope}::ZoneInfo kZone{linkNormalizedName} {progmem} = {{
 }};
 
 """
-        link_name_size = len(link_name) + 1
+        compressed_name = self.compressed_names[link_name]
+        rendered_name = _compressed_name_to_c_string(compressed_name)
+
+        link_name_size = len(compressed_name) + 1
+        original_size = len(link_name) + 1
         memory8 = link_name_size + self.SIZEOF_ZONE_INFO_8
         memory32 = link_name_size + self.SIZEOF_ZONE_INFO_32
         link_item = ZONE_INFOS_CPP_LINK_ITEM.format(
             scope=self.scope,
             linkFullName=link_name,
             linkNormalizedName=normalize_name(link_name),
+            compressedName=rendered_name,
             linkId=self.link_ids[link_name],
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name),
             stringSize=link_name_size,
+            originalSize=original_size,
             memory8=memory8,
             memory32=memory32,
             numEras=len(self.zones_map[zone_name]),
