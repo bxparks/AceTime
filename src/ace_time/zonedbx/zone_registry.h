@@ -34,9 +34,13 @@
 namespace ace_time {
 namespace zonedbx {
 
+// Zones
 const uint16_t kZoneRegistrySize = 386;
-
 extern const extended::ZoneInfo* const kZoneRegistry[386];
+
+// Zones and Links
+const uint16_t kZoneAndLinkRegistrySize = 593;
+extern const extended::ZoneInfo* const kZoneAndLinkRegistry[593];
 
 }
 }
