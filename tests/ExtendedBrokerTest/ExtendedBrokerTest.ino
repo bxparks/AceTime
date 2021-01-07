@@ -67,7 +67,6 @@ const extended::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Los_Angeles /*name*/,
   0xb7f7e8f2 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  6 /*transitionBufSize*/,
   1 /*numEras*/,
   kZoneEraAmerica_Los_Angeles /*eras*/,
 };

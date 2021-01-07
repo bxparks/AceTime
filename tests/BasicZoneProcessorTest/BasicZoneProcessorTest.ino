@@ -107,7 +107,6 @@ static const basic::ZoneInfo kZonePacific_Galapagos ACE_TIME_PROGMEM = {
   kZoneNamePacific_Galapagos /*name*/,
   0xa952f752 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  4 /*transitionBufSize*/,
   2 /*numEras*/,
   kZoneEraPacific_Galapagos /*eras*/,
 };
