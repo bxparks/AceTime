@@ -1,7 +1,6 @@
 # Changelog
 
 * Unreleased
-    * Experimental `--fat_links` flag when generating zonedb and zonedbx files.
     * Use binary search for both `ZoneManager::createForZoneName()` and
       `ZoneManager::createForZoneId()`. Previously, the `zone_registry.cpp` was
       sorted by zoneName, so only the `createForZoneName()` could use the binary
@@ -15,16 +14,21 @@
       that a binary search on the 386 zones in `zonedbx/zone_registry.cpp` is
       9-10X faster (on average) than a linear search through the same list.
       (Linear search takes ~190 iterations; binary search takes ~9 iterations.)
-    * Remove `transitionBufSize` from `ZoneInfo` struct, and migrate to
-      `kZoneBufSize{xxx}` constants in the `zone_infos.h` files. This was used
-      only in validation tests under `tests/validation` and only for
-      `Extended{xxx}` tests. Saves 1 byte per Zone on 8-bit processors, but none
-      on 32-bit processors due to 4-byte alignment. This has no impact on client
-      code since this field was used only for validation testing.
+    * Upgrade Link entries to be "fat links". Links become essentially identical
+      to Zone entries, with references to the same underlying `ZoneEra` records.
+      Add `kZoneAndLinkRegistry[]` array in `zone_registry.h` that contains all
+      Links as well as Zones.
     * Implement zoneName compression using `ace_common::KString`. Saves about
-      1500 bytes for basic `zonedb` info files, and 2500 bytes for extended
-      `zonedbx` info files.
-    * **Breaking Change**: Replace `BasicZone::name()` and `shortName()
+      1500-2300 bytes for basic `zonedb` info files, and 2500-3400 bytes for
+      extended `zonedbx` info files.
+    * **Potentially Breaking Change**: Remove `transitionBufSize` from
+      `ZoneInfo` struct, and migrate to `kZoneBufSize{xxx}` constants in the
+      `zone_infos.h` files. This was used only in validation tests under
+      `tests/validation` and only for `Extended{xxx}` tests. Saves 1 byte per
+      Zone on 8-bit processors, but none on 32-bit processors due to 4-byte
+      alignment. This has no impact on client code since this field was used
+      only for validation testing.
+    * **API Breaking Change**: Replace `BasicZone::name()` and `shortName()
       with `printNameTo()` and `printShortNameTo()`. Same with
       `ExtendedZone::name()` and `shortName()`, replaced with `printNameTo()`
       and `printShortNameTo()`. After implementing zoneName compression, it was
