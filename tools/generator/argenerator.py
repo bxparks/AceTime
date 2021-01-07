@@ -100,10 +100,13 @@ class ArduinoGenerator:
             invocation=wrapped_invocation,
             tz_files=wrapped_tzfiles,
             db_namespace=db_namespace,
+            fat_links=fat_links,
             tz_version=zidb['tz_version'],
             scope=zidb['scope'],
             zones_map=zidb['zones_map'],
+            links_map=zidb['links_map'],
             zone_ids=zidb['zone_ids'],
+            link_ids=zidb['link_ids'],
         )
 
     def generate_files(self, output_dir: str) -> None:
@@ -1028,6 +1031,14 @@ const {scope}::ZoneInfo* const kZoneRegistry[{numZones}] {progmem} = {{
 {zoneRegistryItems}
 }};
 
+//---------------------------------------------------------------------------
+// Zone and Link registry. Sorted by zoneId.
+//---------------------------------------------------------------------------
+const {scope}::ZoneInfo* const kZoneAndLinkRegistry[{numZonesAndLinks}] \
+{progmem} = {{
+{zoneAndLinkRegistryItems}
+}};
+
 }}
 }}
 """
@@ -1053,9 +1064,13 @@ const {scope}::ZoneInfo* const kZoneRegistry[{numZones}] {progmem} = {{
 namespace ace_time {{
 namespace {dbNamespace} {{
 
+// Zones
 const uint16_t kZoneRegistrySize = {numZones};
-
 extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
+
+// Zones and Links
+const uint16_t kZoneAndLinkRegistrySize = {numZonesAndLinks};
+extern const {scope}::ZoneInfo* const kZoneAndLinkRegistry[{numZonesAndLinks}];
 
 }}
 }}
@@ -1069,32 +1084,63 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
         tz_files: str,
         scope: str,
         db_namespace: str,
+        fat_links: bool,
         zones_map: ZonesMap,
+        links_map: LinksMap,
         zone_ids: Dict[str, int],
+        link_ids: Dict[str, int],
     ):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
         self.scope = scope
         self.db_namespace = db_namespace
+        self.fat_links = fat_links
         self.zones_map = zones_map
+        self.links_map = links_map
         self.zone_ids = zone_ids
+        self.link_ids = link_ids
 
         self.db_header_namespace = self.db_namespace.upper()
+        self.zones_and_links = list(zones_map.keys()) + list(links_map.keys())
+        self.zone_and_link_ids = zone_ids.copy()
+        self.zone_and_link_ids.update(link_ids)
 
     def generate_registry_cpp(self) -> str:
-        # Sort the zones by zoneId (instead of zoneName) to enable
+        # Generate only Zones, sorted by zoneId to enable
         # ZoneRegistrar::binarySearchById().
         zone_registry_items = ''
-        for zone_name, eras in sorted(
-                self.zones_map.items(),
-                key=lambda x: self.zone_ids[x[0]],
+        for zone_name in sorted(
+                self.zones_map.keys(),
+                key=lambda x: self.zone_ids[x],
         ):
-            name = normalize_name(zone_name)
+            normalized_name = normalize_name(zone_name)
             zone_id = self.zone_ids[zone_name]
             zone_registry_items += f"""\
-  &kZone{name}, // {zone_name} - 0x{zone_id:08x}
+  &kZone{normalized_name}, // 0x{zone_id:08x}, {zone_name}
 """
+
+        # Generate Zones and Links, sorted by zoneId.
+        zone_and_link_registry_items = ''
+        if self.fat_links:
+            num_zones_and_links = len(self.zones_and_links)
+            for zone_name in sorted(
+                self.zones_and_links,
+                key=lambda x: self.zone_and_link_ids[x],
+            ):
+                normalized_name = normalize_name(zone_name)
+                zone_id = self.zone_and_link_ids[zone_name]
+                target_name = self.links_map.get(zone_name)
+                if target_name:
+                    desc_name = f'{zone_name} -> {target_name}'
+                else:
+                    desc_name = zone_name
+
+                zone_and_link_registry_items += f"""\
+  &kZone{normalized_name}, // 0x{zone_id:08x}, {desc_name}
+"""
+        else:
+            num_zones_and_links = 0
 
         return self.ZONE_REGISTRY_CPP_FILE.format(
             invocation=self.invocation,
@@ -1104,10 +1150,18 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
             numZones=len(self.zones_map),
+            numZonesAndLinks=num_zones_and_links,
             zoneRegistryItems=zone_registry_items,
-            progmem='ACE_TIME_PROGMEM')
+            zoneAndLinkRegistryItems=zone_and_link_registry_items,
+            progmem='ACE_TIME_PROGMEM',
+        )
 
     def generate_registry_h(self) -> str:
+        if self.fat_links:
+            num_zones_and_links = len(self.zones_and_links)
+        else:
+            num_zones_and_links = 0
+
         return self.ZONE_REGISTRY_H_FILE.format(
             invocation=self.invocation,
             tz_files=self.tz_files,
@@ -1115,7 +1169,9 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             scope=self.scope,
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
-            numZones=len(self.zones_map))
+            numZones=len(self.zones_map),
+            numZonesAndLinks=num_zones_and_links,
+        )
 
 
 def _get_time_modifier_comment(
