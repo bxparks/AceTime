@@ -26,8 +26,9 @@
 //
 // Policies: 84
 // Rules: 551
-// Memory (8-bit): 5504
-// Memory (32-bit): 7707
+// Letter Size (bytes): 27
+// Total Memory 8-bit (bytes): 5504
+// Total Memory 32-bit (bytes): 7707
 //
 // DO NOT EDIT
 

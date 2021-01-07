@@ -33,4 +33,10 @@ struct ZoneContext {
 
   /** TZ Database version which generated the zone info. */
   const char* const tzVersion;
+
+  /** Number of fragments. */
+  const uint8_t numFragments;
+
+  /** Zone Name fragment list. */
+  const char* const* const fragments;
 };

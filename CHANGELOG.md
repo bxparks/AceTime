@@ -13,7 +13,7 @@
       final verification against the exact `zoneName` is performed to make sure
       that there was no hash collision. Updated `AutoBenchmark.ino` to determine
       that a binary search on the 386 zones in `zonedbx/zone_registry.cpp` is
-      10X faster (on average) than a linear search through the same list.
+      9-10X faster (on average) than a linear search through the same list.
       (Linear search takes ~190 iterations; binary search takes ~9 iterations.)
     * Remove `transitionBufSize` from `ZoneInfo` struct, and migrate to
       `kZoneBufSize{xxx}` constants in the `zone_infos.h` files. This was used
@@ -21,6 +21,19 @@
       `Extended{xxx}` tests. Saves 1 byte per Zone on 8-bit processors, but none
       on 32-bit processors due to 4-byte alignment. This has no impact on client
       code since this field was used only for validation testing.
+    * Implement zoneName compression using `ace_common::KString`. Saves about
+      1500 bytes for basic `zonedb` info files, and 2500 bytes for extended
+      `zonedbx` info files.
+    * **Breaking Change**: Replace `BasicZone::name()` and `shortName()
+      with `printNameTo()` and `printShortNameTo()`. Same with
+      `ExtendedZone::name()` and `shortName()`, replaced with `printNameTo()`
+      and `printShortNameTo()`. After implementing zoneName compression, it was
+      no longer possible to return a simple pointer to the `name` and
+      `shortName` without using static memory buffers. I expect almost no one to
+      be using the `BasicZone` and `ExtendedZone` classes, since they are mostly
+      useful for internal algorithms. Client code that needs the old
+      functionality can print to a `ace_common::PrintStr<>` object, then extract
+      the c-string using `PrintStr::getCstr()`.
 * 1.4.1 (2020-12-30, TZDB version 2020f for real)
     * Actually update `src/ace_time/zonedb` and `src/ace_time/zonedbx`
       zone info files to 2020f. Oops.

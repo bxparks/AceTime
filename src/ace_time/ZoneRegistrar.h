@@ -7,9 +7,8 @@
 #define ACE_TIME_ZONE_REGISTRAR_H
 
 #include <stdint.h>
-#include <string.h> // strcmp(), strcmp_P()
-#include <AceCommon.h> // strcmp_PP()
-#include "common/compat.h"
+#include <AceCommon.h> // KString
+#include "common/compat.h" // ACE_TIME_USE_PROGMEM
 #include "internal/ZoneInfo.h"
 #include "internal/Brokers.h"
 
@@ -25,10 +24,9 @@ class BasicZoneRegistrarTest_Sorted_binarySearchById_not_found;
 class BasicZoneRegistrarTest_Unsorted_linearSearchById;
 class BasicZoneRegistrarTest_Unsorted_linearSearchById_not_found;
 
-namespace ace_time {
+class __FlashStringHelper;
 
-/** Typedef for functions that work like a strcmp(). */
-typedef int (*strcmp_t)(const char*, const char*);
+namespace ace_time {
 
 /**
  * Class that allows looking up the ZoneInfo (ZI) from its TZDB identifier
@@ -38,13 +36,8 @@ typedef int (*strcmp_t)(const char*, const char*);
  * @tparam ZI ZoneInfo type (e.g. basic::ZoneInfo)
  * @tparam ZRB ZoneRegistryBroker type (e.g. basic::ZoneRegistryBroker)
  * @tparam ZIB ZoneInfoBroker type (e.g. basic::ZoneInfoBroker)
- * @tparam STRCMP_P a function that compares a normal string to flash string
- * (e.g strcmp_P())
- * @tparam STRCMP_PP a function that compares 2 flash strings (must be custom
- *    written)
  */
-template<typename ZI, typename ZRB, typename ZIB, strcmp_t STRCMP_P,
-    strcmp_t STRCMP_PP>
+template<typename ZI, typename ZRB, typename ZIB>
 class ZoneRegistrar {
   public:
     /** Invalid index to indicate error or not found. */
@@ -94,12 +87,18 @@ class ZoneRegistrar {
       if (index == kInvalidIndex) return kInvalidIndex;
 
       // Verify that the zoneName actually matches, in case of hash collision.
-      const char* foundName = ZIB(ZRB(mZoneRegistry).zoneInfo(index)).name();
-      if (STRCMP_P(name, foundName) == 0) {
-        return index;
-      } else {
-        return kInvalidIndex;
-      }
+      ZIB zoneInfoBroker(ZRB(mZoneRegistry).zoneInfo(index));
+      const char* foundName = zoneInfoBroker.name();
+      ace_common::KString kname(
+#if ACE_TIME_USE_PROGMEM
+        (const __FlashStringHelper*) foundName,
+#else
+        foundName,
+#endif
+        zoneInfoBroker.zoneContext()->fragments,
+        zoneInfoBroker.zoneContext()->numFragments
+      );
+      return (kname.compareTo(name) == 0) ? index : kInvalidIndex;
     }
 
     /** Find the index for zone id. Return kInvalidIndex if not found. */
@@ -222,27 +221,23 @@ class ZoneRegistrar {
  * Concrete template instantiation of ZoneRegistrar for basic::ZoneInfo, which
  * can be used with BasicZoneProcessor.
  */
-#if ACE_TIME_USE_PROGMEM
-typedef ZoneRegistrar<basic::ZoneInfo, basic::ZoneRegistryBroker,
-    basic::ZoneInfoBroker, acetime_strcmp_P, ace_common::strcmp_PP>
+typedef ZoneRegistrar<
+    basic::ZoneInfo,
+    basic::ZoneRegistryBroker,
+    basic::ZoneInfoBroker
+  >
     BasicZoneRegistrar;
-#else
-typedef ZoneRegistrar<basic::ZoneInfo, basic::ZoneRegistryBroker,
-    basic::ZoneInfoBroker, strcmp, strcmp> BasicZoneRegistrar;
-#endif
 
 /**
  * Concrete template instantiation of ZoneRegistrar for extended::ZoneInfo,
  * which can be used with ExtendedZoneProcessor.
  */
-#if ACE_TIME_USE_PROGMEM
-typedef ZoneRegistrar<extended::ZoneInfo, extended::ZoneRegistryBroker,
-    extended::ZoneInfoBroker, acetime_strcmp_P, ace_common::strcmp_PP>
+typedef ZoneRegistrar<
+    extended::ZoneInfo,
+    extended::ZoneRegistryBroker,
+    extended::ZoneInfoBroker
+  >
     ExtendedZoneRegistrar;
-#else
-typedef ZoneRegistrar<extended::ZoneInfo, extended::ZoneRegistryBroker,
-    extended::ZoneInfoBroker, strcmp, strcmp> ExtendedZoneRegistrar;
-#endif
 
 }
 

@@ -25,11 +25,11 @@ const extended::ZoneEra ExtendedZoneProcessor::kAnchorEra ACE_TIME_PROGMEM = {
 };
 
 void ExtendedZoneProcessor::printTo(Print& printer) const {
-  printer.print(ExtendedZone(mZoneInfo.zoneInfo()).name());
+  ExtendedZone(mZoneInfo.zoneInfo()).printNameTo(printer);
 }
 
 void ExtendedZoneProcessor::printShortTo(Print& printer) const {
-  printer.print(ExtendedZone(mZoneInfo.zoneInfo()).shortName());
+  ExtendedZone(mZoneInfo.zoneInfo()).printShortNameTo(printer);
 }
 
 }
