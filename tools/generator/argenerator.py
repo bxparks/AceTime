@@ -642,7 +642,7 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
 
     SIZEOF_ZONE_ERA_8 = 11
     SIZEOF_ZONE_ERA_32 = 16
-    SIZEOF_ZONE_INFO_8 = 12
+    SIZEOF_ZONE_INFO_8 = 11
     SIZEOF_ZONE_INFO_32 = 20
 
     def __init__(
