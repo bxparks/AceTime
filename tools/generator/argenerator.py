@@ -508,6 +508,12 @@ extern const {scope}::ZoneContext kZoneContext;
 {linkIds}
 
 //---------------------------------------------------------------------------
+// Transition buffer sizes (for validation tests)
+//---------------------------------------------------------------------------
+
+{bufSizes}
+
+//---------------------------------------------------------------------------
 // Unsupported zones: {numRemovedInfos}
 //---------------------------------------------------------------------------
 
@@ -689,18 +695,28 @@ extern const {scope}::ZoneInfo kZone{zoneNormalizedName}; // {zoneFullName}
         ZONE_INFOS_H_INFO_ZONE_ID = """\
 const uint32_t kZoneId{zoneNormalizedName} = 0x{zoneId:08x}; // {zoneFullName}
 """
+        ZONE_INFOS_H_BUF_SIZE = """\
+const uint8_t kZoneBufSize{zoneNormalizedName} = {bufSize};  // {zoneFullName}
+"""
         info_items = ''
         info_zone_ids = ''
+        info_buf_sizes = ''
         for zone_name, eras in sorted(self.zones_map.items()):
+            normalized_name = normalize_name(zone_name)
             info_items += ZONE_INFOS_H_INFO_ITEM.format(
                 scope=self.scope,
-                zoneNormalizedName=normalize_name(zone_name),
+                zoneNormalizedName=normalized_name,
                 zoneFullName=zone_name,
             )
             info_zone_ids += ZONE_INFOS_H_INFO_ZONE_ID.format(
-                zoneNormalizedName=normalize_name(zone_name),
+                zoneNormalizedName=normalized_name,
                 zoneFullName=zone_name,
                 zoneId=self.zone_ids[zone_name],
+            )
+            info_buf_sizes += ZONE_INFOS_H_BUF_SIZE.format(
+                zoneNormalizedName=normalized_name,
+                zoneFullName=zone_name,
+                bufSize=self.buf_sizes[zone_name],
             )
 
         ZONE_INFOS_H_FAT_LINK_ITEM = """\
@@ -788,7 +804,9 @@ extern const {scope}::ZoneInfo& kZone{linkNormalizedName}; \
             numRemovedLinks=len(self.removed_links),
             removedLinkItems=removed_link_items,
             numNotableLinks=len(self.notable_links),
-            notableLinkItems=notable_link_items)
+            notableLinkItems=notable_link_items,
+            bufSizes=info_buf_sizes,
+        )
 
     def generate_infos_cpp(self) -> str:
         string_length = 0
