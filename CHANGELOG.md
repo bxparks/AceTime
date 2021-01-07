@@ -15,6 +15,12 @@
       that a binary search on the 386 zones in `zonedbx/zone_registry.cpp` is
       10X faster (on average) than a linear search through the same list.
       (Linear search takes ~190 iterations; binary search takes ~9 iterations.)
+    * Remove `transitionBufSize` from `ZoneInfo` struct, and migrate to
+      `kZoneBufSize{xxx}` constants in the `zone_infos.h` files. This was used
+      only in validation tests under `tests/validation` and only for
+      `Extended{xxx}` tests. Saves 1 byte per Zone on 8-bit processors, but none
+      on 32-bit processors due to 4-byte alignment. This has no impact on client
+      code since this field was used only for validation testing.
 * 1.4.1 (2020-12-30, TZDB version 2020f for real)
     * Actually update `src/ace_time/zonedb` and `src/ace_time/zonedbx`
       zone info files to 2020f. Oops.
