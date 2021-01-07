@@ -68,6 +68,12 @@ applications targetted towards 8-bit processors will normally have fixed number
 of timezones at compile time, so they can avoid using a `ZoneManager`, and avoid
 this penalty in flash size.
 
+In v1.4.1+, we removed the `ZoneInfo::transitionBufSize` field from the
+`ZoneInfo` struct, which saves 1 byte on 8-bit processors (none on 32-bit
+processors due to 4-byte alignment). We save 266 bytes for `BasicZoneManager`
+and 386 bytes for `ExtendedZoneManager` when all the zones are loaded into the
+zone registry.
+
 ## Arduino Nano
 
 * Arduino IDE 1.8.13
