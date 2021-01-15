@@ -1263,14 +1263,14 @@ def _get_era_delta_code_comment(
     calculated.
     """
     offset_minute = offset_seconds % 900 // 60
-    delta_minute = delta_seconds // 60
+    delta_minutes = delta_seconds // 60
     if scope == 'extended':
         return (
-            f"(offsetMinute={offset_minute} << 4) + "
-            f"(deltaMinute={delta_minute}/15 + 4)"
+            f"((offsetMinute={offset_minute}) << 4) + "
+            f"((deltaMinutes={delta_minutes})/15 + 4)"
         )
     else:
-        return f"deltaMinute={delta_minute}/15"
+        return f"(deltaMinutes={delta_minutes})/15"
 
 
 def _get_rule_delta_code_comment(
@@ -1280,11 +1280,11 @@ def _get_rule_delta_code_comment(
     """Create the comment that explains how the ZoneRule delta_code[_encoded]
     was calculated.
     """
-    delta_minute = delta_seconds // 60
+    delta_minutes = delta_seconds // 60
     if scope == 'extended':
-        return f"deltaMinute={delta_minute}/15 + 4"
+        return f"(deltaMinutes={delta_minutes})/15 + 4"
     else:
-        return f"deltaMinute={delta_minute}/15"
+        return f"(deltaMinutes={delta_minutes})/15"
 
 
 def _compressed_name_to_c_string(compressed_name: str) -> str:
