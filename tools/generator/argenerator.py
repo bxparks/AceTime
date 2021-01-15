@@ -234,9 +234,9 @@ const {scope}::ZonePolicy kPolicy{policyName} {progmem} = {{
 """
 
     SIZEOF_ZONE_RULE_8 = 9
-    SIZEOF_ZONE_RULE_32 = 12
+    SIZEOF_ZONE_RULE_32 = 12  # 9 rounded to 4-byte alignment
     SIZEOF_ZONE_POLICY_8 = 6
-    SIZEOF_ZONE_POLICY_32 = 12
+    SIZEOF_ZONE_POLICY_32 = 12  # 10 rounded to 4-byte alignment
 
     def __init__(
         self,
@@ -314,7 +314,7 @@ extern const {scope}::ZonePolicy kPolicy{policyName};
     def generate_policies_cpp(self) -> str:
         policy_items = ''
         memory8 = 0
-        memory32 = 32
+        memory32 = 0
         num_rules = 0
         for name, rules in sorted(self.policies_map.items()):
             indexed_letters: Optional[IndexMap] = \
@@ -668,9 +668,9 @@ const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
 """  # noqa
 
     SIZEOF_ZONE_ERA_8 = 11
-    SIZEOF_ZONE_ERA_32 = 16  # 15 + 1 for 4-byte alignment
+    SIZEOF_ZONE_ERA_32 = 16  # 15 rounded to 4-byte alignment
     SIZEOF_ZONE_INFO_8 = 11
-    SIZEOF_ZONE_INFO_32 = 20  # 18 + 2 for 4-byte alignment
+    SIZEOF_ZONE_INFO_32 = 20  # 18 rounded to 4-byte alignment
 
     def __init__(
         self,
