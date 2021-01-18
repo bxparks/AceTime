@@ -1,32 +1,14 @@
 #line 2 "ZonedDateTimeBasicTest.ino"
 
 #include <AUnit.h>
-#include <AceCommon.h>
+#include <AceCommon.h> // PrintStr
 #include <AceTime.h>
 
 using namespace aunit;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
-// ZonedDateTime + BasicZoneProcessor
-// --------------------------------------------------------------------------
-
-test(ZonedDateTimeBasicTest, printTo) {
-  BasicZoneProcessor zoneProcessor;
-  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
-      &zoneProcessor);
-  auto dt = ZonedDateTime::forComponents(2020, 1, 2, 3, 4, 5, tz);
-
-  ace_common::PrintStr<64> dateString;
-  dt.printTo(dateString);
-  assertEqual(
-      dateString.getCstr(),
-      "2020-01-02T03:04:05-08:00[America/Los_Angeles]"
-  );
-}
-
-// --------------------------------------------------------------------------
-// BasicZoneManager
+// Create BasicZoneManager
 // --------------------------------------------------------------------------
 
 const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
@@ -39,12 +21,25 @@ const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
 const uint16_t kBasicZoneRegistrySize =
     sizeof(kBasicZoneRegistry) / sizeof(kBasicZoneRegistry[0]);
 
-BasicZoneManager<2> basicZoneManager(
+BasicZoneManager<1> basicZoneManager(
     kBasicZoneRegistrySize, kBasicZoneRegistry);
 
 // --------------------------------------------------------------------------
 // ZonedDateTime + BasicZoneManager
 // --------------------------------------------------------------------------
+
+test(ZonedDateTimeBasicTest, printTo) {
+  TimeZone tz = basicZoneManager.createForZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(2020, 1, 2, 3, 4, 5, tz);
+
+  ace_common::PrintStr<64> dateString;
+  dt.printTo(dateString);
+  assertEqual(
+      dateString.getCstr(),
+      F("2020-01-02T03:04:05-08:00[America/Los_Angeles]")
+  );
+}
 
 test(ZonedDateTimeBasicTest, forComponents_isError) {
   TimeZone tz = basicZoneManager.createForZoneInfo(
@@ -148,7 +143,7 @@ void setup() {
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
 }
 
 void loop() {
