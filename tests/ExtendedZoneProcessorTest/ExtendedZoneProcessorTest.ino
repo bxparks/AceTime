@@ -16,6 +16,8 @@ static const ZoneContext kZoneContext = {
   2000 /*startYear*/,
   2020 /*untilYear*/,
   "testing" /*tzVersion*/,
+  0 /*numFragments*/,
+  nullptr /*fragments*/,
 };
 
 // Create simplified ZoneEras which approximate America/Los_Angeles

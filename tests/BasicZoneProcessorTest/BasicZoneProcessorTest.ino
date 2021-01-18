@@ -25,6 +25,8 @@ static const basic::ZoneContext kZoneContext = {
   1980 /*startYear*/,
   2050 /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,
+  0 /*numFragments*/,
+  nullptr /*fragments*/,
 };
 
 static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {

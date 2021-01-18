@@ -21,6 +21,8 @@ static const extended::ZoneContext kZoneContext = {
   2000 /*startYear*/,
   2050 /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,
+  0 /*numFragments*/,
+  nullptr /*fragments*/,
 };
 
 static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
