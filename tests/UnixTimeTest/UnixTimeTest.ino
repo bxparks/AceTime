@@ -45,7 +45,7 @@ using namespace ace_time;
 #if defined(AVR) || defined(ESP8266) || defined(ESP32) || defined(__linux__) \
     || defined(__APPLE__)
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(UnixTimeTest, toEpochSeconds) {
   auto dt = LocalDateTime::forComponents(2018, 1, 1, 0, 0, 0);
@@ -103,12 +103,14 @@ test(UnixTimeTest, forEpochSeconds) {
 
 #endif
 
+//---------------------------------------------------------------------------
+
 void setup() {
 #if ! defined(UNIX_HOST_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 }
 
 void loop() {

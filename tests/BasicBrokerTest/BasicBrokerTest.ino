@@ -13,7 +13,7 @@ test(timeCodeToMinutes) {
       ace_time::internal::timeCodeToMinutes(code, modifier));
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 static const char kTzDatabaseVersion[] = "2019b";
 
@@ -21,9 +21,12 @@ static const basic::ZoneContext kZoneContext = {
   2000 /*startYear*/,
   2050 /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,
+  0 /*numFragments*/,
+  nullptr /*fragments*/,
 };
 
-static const char kZoneNameAmerica_Los_Angeles[] ACE_TIME_PROGMEM = "America/Los_Angeles";
+static const char kZoneNameAmerica_Los_Angeles[] ACE_TIME_PROGMEM =
+  "America/Los_Angeles";
 
 static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   // Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
@@ -115,14 +118,14 @@ test(BasicBrokerTest, ZoneInfoBroker) {
   assertEqual(1, info.numEras());
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void setup() {
 #if ! defined(UNIX_HOST_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 }
 
 void loop() {

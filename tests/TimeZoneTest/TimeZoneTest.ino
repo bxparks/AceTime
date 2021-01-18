@@ -54,13 +54,13 @@ const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
 const uint16_t kBasicZoneRegistrySize =
     sizeof(kBasicZoneRegistry) / sizeof(kBasicZoneRegistry[0]);
 
-BasicZoneManager<2> basicZoneManager(
+BasicZoneManager<1> basicZoneManager(
     kBasicZoneRegistrySize, kBasicZoneRegistry);
 
 // --------------------------------------------------------------------------
 
 // Use ExtendedZoneManager only for non AVR because we run out of RAM.
-#if !defined(__AVR__)
+#if ! defined(ARDUINO_ARCH_AVR)
 
 const extended::ZoneInfo* const kExtendedZoneRegistry[] ACE_TIME_PROGMEM = {
   &zonedbx::kZoneAmerica_Chicago,
@@ -72,7 +72,7 @@ const extended::ZoneInfo* const kExtendedZoneRegistry[] ACE_TIME_PROGMEM = {
 const uint16_t kExtendedZoneRegistrySize =
     sizeof(kExtendedZoneRegistry) / sizeof(kExtendedZoneRegistry[0]);
 
-ExtendedZoneManager<2> extendedZoneManager(
+ExtendedZoneManager<1> extendedZoneManager(
     kExtendedZoneRegistrySize, kExtendedZoneRegistry);
 
 #endif
@@ -180,7 +180,7 @@ test(TimeZoneTest, forHourMinute) {
 
 test(TimeZoneManualTest, registrySize) {
   ManualZoneManager manualZoneManager;
-  assertEqual(0, manualZoneManager.registrySize());
+  assertEqual((uint16_t) 0, manualZoneManager.registrySize());
 }
 
 test(TimeZoneManualTest, createForTimeZoneData) {
@@ -210,7 +210,7 @@ test(TimeZoneManualTest, createForZoneId) {
 // --------------------------------------------------------------------------
 
 test(TimeZoneBasicTest, registrySize) {
-  assertEqual(4, basicZoneManager.registrySize());
+  assertEqual((uint16_t) 4, basicZoneManager.registrySize());
 }
 
 test(TimeZoneBasicTest, createForZoneName) {
@@ -239,7 +239,7 @@ test(TimeZoneBasicTest, createForZoneIndex) {
 
 test(TimeZoneBasicTest, indexForZoneName) {
   uint16_t index = basicZoneManager.indexForZoneName("America/Los_Angeles");
-  assertEqual(2, index);
+  assertEqual((uint16_t) 2, index);
 
   index = basicZoneManager.indexForZoneName("America/not_found");
   assertEqual(ZoneManager::kInvalidIndex, index);
@@ -248,7 +248,7 @@ test(TimeZoneBasicTest, indexForZoneName) {
 test(TimeZoneBasicTest, indexForZoneId) {
   uint16_t index = basicZoneManager.indexForZoneId(
       zonedb::kZoneIdAmerica_New_York);
-  assertEqual(3, index);
+  assertEqual((uint16_t) 3, index);
 
   index = basicZoneManager.indexForZoneId(0 /* not found */);
   assertEqual(ZoneManager::kInvalidIndex, index);
@@ -258,8 +258,10 @@ test(TimeZoneBasicTest, indexForZoneId) {
 // TimeZone + ExtendedZoneManager
 // --------------------------------------------------------------------------
 
+#if ! defined(ARDUINO_ARCH_AVR)
+
 test(TimeZoneExtendedTest, registrySize) {
-  assertEqual(4, extendedZoneManager.registrySize());
+  assertEqual((uint16_t) 4, extendedZoneManager.registrySize());
 }
 
 test(TimeZoneExtendedTest, createForZoneName) {
@@ -297,11 +299,13 @@ test(TimeZoneExtendedTest, indexForZoneName) {
 test(TimeZoneExtendedTest, indexForZoneId) {
   uint16_t index = extendedZoneManager.indexForZoneId(
       zonedbx::kZoneIdAmerica_New_York);
-  assertEqual(3, index);
+  assertEqual((uint16_t) 3, index);
 
   index = extendedZoneManager.indexForZoneId(0 /* not found */);
   assertEqual(ZoneManager::kInvalidIndex, index);
 }
+
+#endif // ARDUINO_ARCH_AVR
 
 // --------------------------------------------------------------------------
 // kTypeBasicManaged + BasicZoneManager
@@ -391,7 +395,7 @@ test(TimeZoneDataTest, basicManaged) {
   assertTrue(tz == tzCycle);
 }
 
-#if !defined(__AVR__)
+#if ! defined(ARDUINO_ARCH_AVR)
 test(TimeZoneDataTest, extendedManaged) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles);
@@ -420,7 +424,7 @@ test(TimeZoneDataTest, crossed) {
 }
 #endif
 
-#if !defined(__AVR__)
+#if ! defined(ARDUINO_ARCH_AVR)
 // --------------------------------------------------------------------------
 // operator==() for kTypeExtendedManaged.
 // --------------------------------------------------------------------------
@@ -449,44 +453,13 @@ test(TimeZoneExtendedTest, operatorEqualEqual_managedZones) {
 #endif
 
 // --------------------------------------------------------------------------
-// operator==() for kTypeBasic and kTypeExtended.
-// --------------------------------------------------------------------------
-
-// We can reuse the processors for these unit tests because the unit tests
-// don't actuallly use them.
-BasicZoneProcessor basicZoneProcessor;
-ExtendedZoneProcessor extendedZoneProcessor;
-
-test(TimeZoneTest, operatorEqualEqual_directZone) {
-  TimeZone manual = TimeZone::forHours(-8);
-  TimeZone manual2 = TimeZone::forHours(-7);
-  assertTrue(manual != manual2);
-
-  TimeZone basic = TimeZone::forZoneInfo(
-      &zonedb::kZoneAmerica_Los_Angeles, &basicZoneProcessor);
-  TimeZone basic2 = TimeZone::forZoneInfo(
-      &zonedb::kZoneAmerica_New_York, &basicZoneProcessor);
-  assertTrue(basic != basic2);
-
-  TimeZone extended = TimeZone::forZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles, &extendedZoneProcessor);
-  TimeZone extended2 = TimeZone::forZoneInfo(
-      &zonedbx::kZoneAmerica_New_York, &extendedZoneProcessor);
-  assertTrue(extended != extended2);
-
-  assertTrue(manual != basic);
-  assertTrue(manual != extended);
-  assertTrue(basic != extended);
-}
-
-// --------------------------------------------------------------------------
 
 void setup() {
 #if ! defined(UNIX_HOST_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 }
 
 void loop() {

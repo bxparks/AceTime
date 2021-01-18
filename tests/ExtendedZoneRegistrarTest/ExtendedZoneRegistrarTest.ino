@@ -6,16 +6,16 @@
 using namespace aunit;
 using namespace ace_time;
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 // Verify that we can use kZoneIdAmerica_Los_Angeles everywhere.
 test(ExtendedZoneRegistrarTest, kZoneId) {
   assertEqual((uint32_t) 0xb7f7e8f2, zonedbx::kZoneIdAmerica_Los_Angeles);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // ExtendedZoneRegistrar
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(ExtendedZoneRegistrarTest, registrySize) {
   ExtendedZoneRegistrar zoneRegistrar(
@@ -93,14 +93,14 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForId_not_found) {
   assertEqual(zoneInfo, nullptr);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void setup() {
 #if ! defined(UNIX_HOST_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 }
 
 void loop() {
