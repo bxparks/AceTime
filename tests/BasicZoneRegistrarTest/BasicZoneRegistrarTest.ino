@@ -6,9 +6,9 @@
 using namespace aunit;
 using namespace ace_time;
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // Define some registries used later on.
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 const uint16_t kNumSortedEntries = 4;
 
@@ -30,16 +30,16 @@ const basic::ZoneInfo* const kUnsortedRegistry[kNumUnsortedEntries]
   &zonedb::kZoneAmerica_New_York,     // 0x1e2a7654
 };
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 // Verify that we can use kZoneIdAmerica_Los_Angeles everywhere.
 test(BasicZoneRegistrarTest, kZoneId) {
   assertEqual((uint32_t) 0xb7f7e8f2, zonedb::kZoneIdAmerica_Los_Angeles);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // BasicZoneRegistrar public methods
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(BasicZoneRegistrarTest, registrySize) {
   BasicZoneRegistrar zoneRegistrar(
@@ -117,9 +117,9 @@ test(BasicZoneRegistrarTest, getZoneInfoForId_not_found) {
   assertEqual(zoneInfo, nullptr);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // Tests for findIndexFor*() need a stable registry.
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(BasicZoneRegistrarTest, findIndexForName) {
   BasicZoneRegistrar zoneRegistrar(kNumSortedEntries, kSortedRegistry);
@@ -146,9 +146,9 @@ test(BasicZoneRegistrarTest, findIndexForId_not_found) {
   assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // Test ZoneRegistrar::isSorted().
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(BasicZoneRegistrarTest_Sorted, isSorted) {
   assertTrue(BasicZoneRegistrar::isSorted(kSortedRegistry, kNumSortedEntries));
@@ -160,9 +160,9 @@ test(BasicZoneRegistrarTest_Unsorted, isSorted) {
   assertFalse(isSorted);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // BasicZoneRegistrar::linearSearchById() w/ sorted registry.
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(BasicZoneRegistrarTest_Sorted, linearSearchById) {
   uint16_t index = BasicZoneRegistrar::linearSearchById(
@@ -176,9 +176,9 @@ test(BasicZoneRegistrarTest_Sorted, linearSearchById_not_found) {
   assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // BasicZoneRegistrar::binarySearchById() w/ sorted registry.
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(BasicZoneRegistrarTest_Sorted, binarySearchById_zeroEntries) {
   uint16_t index = BasicZoneRegistrar::binarySearchById(
@@ -214,9 +214,9 @@ test(BasicZoneRegistrarTest_Sorted, binarySearchById_not_found) {
   assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // ZoneRegistrar::linearSearchById() with *unsorted* registry.
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(BasicZoneRegistrarTest_Unsorted, linearSearchById) {
   uint16_t index = BasicZoneRegistrar::linearSearchById(
@@ -231,14 +231,14 @@ test(BasicZoneRegistrarTest_Unsorted, linearSearchById_not_found) {
   assertEqual(BasicZoneRegistrar::kInvalidIndex, index);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void setup() {
 #if ! defined(UNIX_HOST_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 }
 
 void loop() {

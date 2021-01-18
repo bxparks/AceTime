@@ -385,14 +385,14 @@ test(OffsetDateTimeTest, forDateString_errors) {
   assertTrue(dt.isError());
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void setup() {
 #if ! defined(UNIX_HOST_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 }
 
 void loop() {

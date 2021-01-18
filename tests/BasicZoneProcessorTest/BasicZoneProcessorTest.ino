@@ -6,7 +6,7 @@
 using namespace aunit;
 using namespace ace_time;
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // Test zoneinfo files. Taken from Pacific/Galapagos which transitions
 // from simple Rule to named Rule in 1986:
 //
@@ -17,7 +17,7 @@ using namespace ace_time;
 //Zone Pacific/Galapagos  -5:58:24 -      LMT     1931 # Puerto Baquerizo Moreno
 //                        -5:00   -       -05     1986
 //                        -6:00   Ecuador -06/-05
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 static const char kTzDatabaseVersion[] = "2019b";
 
@@ -113,9 +113,9 @@ static const basic::ZoneInfo kZonePacific_Galapagos ACE_TIME_PROGMEM = {
   kZoneEraPacific_Galapagos /*eras*/,
 };
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // BasicZoneProcessor: test private methods
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(BasicZoneProcessorTest, operatorEqualEqual) {
   BasicZoneProcessor a(&zonedb::kZoneAmerica_Los_Angeles);
@@ -410,9 +410,9 @@ test(BasicZoneProcessorTest, createAbbreviation) {
   assertEqual("PDT34", dst);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // Test public methods
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 // https://www.timeanddate.com/time/zone/usa/los-angeles
 test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles) {
@@ -510,14 +510,14 @@ test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles_outOfBounds) {
   assertEqual("", zoneProcessor.getAbbrev(epochSeconds));
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void setup() {
 #if ! defined(UNIX_HOST_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 }
 
 void loop() {
