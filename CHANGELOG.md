@@ -38,6 +38,7 @@
       useful for internal algorithms. Client code that needs the old
       functionality can print to a `ace_common::PrintStr<>` object, then extract
       the c-string using `PrintStr::getCstr()`.
+    * Update UnixHostDuino 0.4 to EpoxyDuino 0.5.
 * 1.4.1 (2020-12-30, TZDB version 2020f for real)
     * Actually update `src/ace_time/zonedb` and `src/ace_time/zonedbx`
       zone info files to 2020f. Oops.

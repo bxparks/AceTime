@@ -11,7 +11,7 @@ other libraries:
 
 These unit tests require a desktop-class machine running Linux or MacOS. They
 are too big to run on any Arduino microcontroller that I know of. They use the
-[UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulation layer to run
+[EpoxyDuino](https://github.com/bxparks/EpoxyDuino) emulation layer to run
 these programs on the desktop machine. They also use various files (e.g.
 `validation_data.h`, `validation_data.cpp`, `validation_tests.cpp`) which are
 *generated* dynamically by the various `Makefile` files. (These files used to be
@@ -34,8 +34,8 @@ The various `Makefile` files under the subdirectories here will run `make -C` in
 those directories to build the Java and C++ binaries as necessary. Here is a
 (potentially out of date) summary of the 3rd party prerequisites:
 
-1. Install UnixHostDuino as a sibling project to `AceTime`:
-    * `$ git clone https://github.com/bxparks/UnixHostDuino`
+1. Install EpoxyDuino as a sibling project to `AceTime`:
+    * `$ git clone https://github.com/bxparks/EpoxyDuino`
 1. Clone the IANA TZ database as a sibling project to `AceTime`:
     * `$ git clone https://github.com/eggert/tz`
 1. Install the Python `pytz` and `dateutil` libraries:

@@ -141,7 +141,7 @@ test(TimeOffsetMutationTest, increment15Minutes) {
 //---------------------------------------------------------------------------
 
 void setup() {
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);

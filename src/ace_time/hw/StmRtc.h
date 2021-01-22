@@ -6,7 +6,7 @@
 #ifndef ACE_TIME_HW_STM_RTC_H
 #define ACE_TIME_HW_STM_RTC_H
 
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
 #if defined(ARDUINO_ARCH_STM32)
 
 #include <stdint.h>
@@ -47,5 +47,5 @@ class StmRtc {
 } // ace_time
 
 #endif //  #if defined(ARDUINO_ARCH_STM32)
-#endif //  #if ! defined(UNIX_HOST_DUINO)
+#endif //  #if ! defined(EPOXY_DUINO)
 #endif //  #ifndef ACE_TIME_HW_STM_RTC_H

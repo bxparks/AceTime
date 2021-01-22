@@ -18,7 +18,7 @@ const uint32_t COUNT = 10000;
 const uint32_t COUNT = 100000;
 #elif defined(TEENSYDUINO)
 const uint32_t COUNT = 100000;
-#elif defined(UNIX_HOST_DUINO)
+#elif defined(EPOXY_DUINO)
 // Linux or MacOS
 const uint32_t COUNT = 100000;
 #else

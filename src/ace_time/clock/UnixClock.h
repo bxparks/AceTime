@@ -6,7 +6,7 @@
 #ifndef ACE_TIME_UNIX_CLOCK_H
 #define ACE_TIME_UNIX_CLOCK_H
 
-#if defined(UNIX_HOST_DUINO)
+#if defined(EPOXY_DUINO)
 
 #include <time.h> // time()
 #include "Clock.h"
@@ -16,7 +16,7 @@ namespace ace_time {
 namespace clock {
 
 /**
- * An implementation of Clock that works on Unix using UnixHostDuino.
+ * An implementation of Clock that works on Unix using EpoxyDuino.
  */
 class UnixClock: public Clock {
   public:

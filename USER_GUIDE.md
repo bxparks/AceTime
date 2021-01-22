@@ -124,7 +124,7 @@ The source files are organized as follows:
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
 * `tests/validation` - integration tests using AUnit which must be run
    on desktop Linux or MacOS machines using
-   [UnixHostDuino](https://github.com/bxparks/UnixHostDuino)
+   [EpoxyDuino](https://github.com/bxparks/EpoxyDuino)
 * `examples/` - example programs
 * `tools/` - parser for the TZ Database files, code generators for `zonedb::`
   and `zonedbx::` zone files, and code generators for various unit tests
@@ -160,7 +160,7 @@ Various scripts in the `tools/` directory depend on:
 If you want to run the unit tests or some of the command line examples using a
 Linux or MacOS machine, you need:
 
-* UnixHostDuino (https://github.com/bxparks/UnixHostDuino)
+* EpoxyDuino (https://github.com/bxparks/EpoxyDuino)
 
 <a name="Examples"></a>
 ### Examples
@@ -2718,7 +2718,7 @@ components are identical.
 The resulting data test set contains between 150k to 220k data points, and can
 no longer fit in any Arduino microcontroller that I am aware of. They can be
 executed only on desktop-class Linux or MacOS machines through the use of the
-[UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulation framework.
+[EpoxyDuino](https://github.com/bxparks/EpoxyDuino) emulation framework.
 
 The `pytz` library supports [dates only until
 2038](https://answers.launchpad.net/pytz/+question/262216). It is also tricky to

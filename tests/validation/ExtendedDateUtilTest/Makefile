@@ -1,4 +1,4 @@
-# See https://github.com/bxparks/UnixHostDuino for documentation about this
+# See https://github.com/bxparks/EpoxyDuino for documentation about this
 # Makefile to compile and run Arduino programs natively on Linux or MacOS.
 
 DB_NAMESPACE := zonedbxdateutil
@@ -21,7 +21,7 @@ OBJS := validation_data.o \
 APP_NAME := ExtendedDateUtilTest
 ARDUINO_LIBS := AUnit AceCommon AceTime
 MORE_CLEAN := more_clean
-include ../../../../UnixHostDuino/UnixHostDuino.mk
+include ../../../../EpoxyDuino/EpoxyDuino.mk
 
 #.PHONY: $(GENERATED)
 
