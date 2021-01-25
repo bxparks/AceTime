@@ -152,7 +152,7 @@ dataset instead of using `zonedb::` and `zonedbx::` zone files provided in this
 library.
 
 It is expected that most applications using AceTime will use only a small number
-of timezones at the same time (1 to 3 zones have been extensively tested) and
+of timezones at the same time (1 to 4 zones have been extensively tested) and
 that this set is known at compile-time. The C++ compiler will include only the
 subset of zoneinfo files needed to support those timezones, instead of compiling
 in the entire TZ Database. But on microcontrollers with enough memory, the
@@ -243,9 +243,9 @@ library for some of its low-level routines. See the
     * [WorldClock](#WorldClock)
 * [Documentation](#Documentation)
 * [System Requirements](#SystemRequirements)
+    * [Hardware](#Hardware)
     * [Tool Chain](#ToolChain)
     * [Operating System](#OperatingSystem)
-    * [Hardware](#Hardware)
 * [License](#License)
 * [Feedback and Support](#Feedback)
 * [Authors](#Authors)
@@ -517,19 +517,50 @@ for all 3 zones:
 <a name="SystemRequirements"></a>
 ## System Requirements
 
+<a name="Hardware"></a>
+### Hardware
+
+The library is tested on the following boards:
+
+* Arduino Nano clone (16 MHz ATmega328P)
+* SparkFun Pro Micro clone (16 MHz ATmega32U4)
+* SAMD21 M0 Mini (48 MHz ARM Cortex-M0+)
+* STM32 Blue Pill (STM32F103C8, 72 MHz ARM Cortex-M3)
+* NodeMCU 1.0 (ESP-12E module, 80 MHz ESP8266)
+* WeMos D1 Mini (ESP-12E module, 80 MHz ESP8266)
+* ESP32 dev board (ESP-WROOM-32 module, 240 MHz dual core Tensilica LX6)
+* Teensy 3.2 (96 MHz ARM Cortex-M4)
+
+I will occasionally test on the following hardware as a sanity check:
+
+* Mini Mega 2560 (Arduino Mega 2560 compatible, 16 MHz ATmega2560)
+* Teensy LC (48 MHz ARM Cortex-M0+)
+
+The following boards are *not* supported:
+
+* megaAVR (e.g. Nano Every)
+* SAMD21 boards w/ `arduino:samd` version >= 1.8.10 (e.g. MKRZero)
+
 <a name="ToolChain"></a>
 ### Tool Chain
 
 This library was developed and tested using:
 
 * [Arduino IDE 1.8.13](https://www.arduino.cc/en/Main/Software)
+* [Arduino CLI 0.14.0](https://arduino.github.io/arduino-cli)
 * [Arduino AVR Boards 1.8.3](https://github.com/arduino/ArduinoCore-avr)
 * [Arduino SAMD Boards 1.8.9](https://github.com/arduino/ArduinoCore-samd)
 * [SparkFun AVR Boards 1.1.13](https://github.com/sparkfun/Arduino_Boards)
 * [SparkFun SAMD Boards 1.8.1](https://github.com/sparkfun/Arduino_Boards)
+* [STM32duino 1.9.0](https://github.com/stm32duino/Arduino_Core_STM32)
 * [ESP8266 Arduino 2.7.4](https://github.com/esp8266/Arduino)
 * [ESP32 Arduino 1.0.4](https://github.com/espressif/arduino-esp32)
 * [Teensydino 1.53](https://www.pjrc.com/teensy/td_download.html)
+
+This library is *not* compatible with:
+* [Arduino megaAVR](https://github.com/arduino/ArduinoCore-megaavr/)
+* [MegaCoreX](https://github.com/MCUdude/MegaCoreX)
+* [Arduino SAMD Boards >=1.8.10](https://github.com/arduino/ArduinoCore-samd)
 
 It should work with [PlatformIO](https://platformio.org/) but I have
 not tested it.
@@ -544,23 +575,6 @@ I use Ubuntu 18.04 and 20.04 for the vast majority of my development. I expect
 that the library will work fine under MacOS and Windows, but I have not tested
 them.
 
-<a name="Hardware"></a>
-### Hardware
-
-The library is extensively tested on the following boards:
-
-* Arduino Nano clone (16 MHz ATmega328P)
-* SparkFun Pro Micro clone (16 MHz ATmega32U4)
-* WeMos D1 Mini clone (ESP-12E module, 80 MHz ESP8266)
-* ESP32 dev board (ESP-WROOM-32 module, 240 MHz dual core Tensilica LX6)
-* SAMD21 M0 Mini (48 MHz ARM Cortex-M0+) (compatible with Arduino Zero) (See
-  notes in the [USER_GUIDE.md](USER_GUIDE.md) for some potential issues.)
-
-I will occasionally test on the following hardware as a sanity check:
-
-* Teensy 3.2 (72 MHz ARM Cortex-M4)
-* Mini Mega 2560 (Arduino Mega 2560 compatible, 16 MHz ATmega2560)
-
 <a name="License"></a>
 ## License
 
@@ -568,6 +582,10 @@ I will occasionally test on the following hardware as a sanity check:
 
 <a name="Feedback"></a>
 ## Feedback and Support
+
+If you find this library useful, consider starring this project on GitHub. The
+stars will let me prioritize the more popular libraries over the less popular
+ones.
 
 If you have any questions, comments, bug reports, or feature requests, please
 file a GitHub ticket instead of emailing me unless the content is sensitive.
