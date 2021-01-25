@@ -2,43 +2,55 @@
 
 * Unreleased
     * Use binary search for both `ZoneManager::createForZoneName()` and
-      `ZoneManager::createForZoneId()`. Previously, the `zone_registry.cpp` was
-      sorted by zoneName, so only the `createForZoneName()` could use the binary
-      search. The new solution sorts the `zone_registry.cpp` entries by `zoneId`
-      instead of `zoneName`. The `createForZoneId()` can use the binary search
-      algorith. The `createForZoneName()` can also use the binary search because
-      the `zoneName` is converted dynamically to its `zoneId` using the same
-      djb2 hash algorithm used by the `tzcompiler.py`. If there is a match, a
-      final verification against the exact `zoneName` is performed to make sure
-      that there was no hash collision. Updated `AutoBenchmark.ino` to determine
-      that a binary search on the 386 zones in `zonedbx/zone_registry.cpp` is
-      9-10X faster (on average) than a linear search through the same list.
-      (Linear search takes ~190 iterations; binary search takes ~9 iterations.)
-    * Upgrade Link entries to be "fat links". Links become essentially identical
-      to Zone entries, with references to the same underlying `ZoneEra` records.
-      Add `kZoneAndLinkRegistry[]` array in `zone_registry.h` that contains all
-      Links as well as Zones.
-    * Implement zoneName compression using `ace_common::KString`. Saves about
-      1500-2300 bytes for basic `zonedb` info files, and 2500-3400 bytes for
-      extended `zonedbx` info files.
+      `ZoneManager::createForZoneId()`.
+        * Previously, the `zone_registry.cpp` was sorted by zoneName, so only
+          the `createForZoneName()` could use the binary search. The new
+          solution sorts the `zone_registry.cpp` entries by `zoneId` instead of
+          `zoneName`. The `createForZoneId()` can use the binary search
+          algorith.
+        * The `createForZoneName()` can also use the binary search because
+          the `zoneName` is converted dynamically to its `zoneId` using the same
+          djb2 hash algorithm used by the `tzcompiler.py`. If there is a match,
+          a final verification against the exact `zoneName` is performed to make
+          sure that there was no hash collision.
+        * Updated `AutoBenchmark.ino` to determine that a binary search on the
+          386 zones in `zonedbx/zone_registry.cpp` is 9-10X faster (on average)
+          than a linear search through the same list. (Linear search takes ~190
+          iterations; binary search takes ~9 iterations.)
+    * Upgrade Link entries to be "fat links".
+        * Links become essentially identical to Zone entries, with references to
+          the same underlying `ZoneEra` records.
+        * Add `kZoneAndLinkRegistry[]` array in `zone_registry.h` that contains
+          all Links as well as Zones.
+        * Add "Zones and Links" section in `USER_GUIDE.md`.
+    * Implement zoneName compression using `ace_common::KString`.
+        * Saves about 1500-2300 bytes for basic `zonedb` info files, and
+          2500-3400 bytes for extended `zonedbx` info files.
     * **Potentially Breaking Change**: Remove `transitionBufSize` from
       `ZoneInfo` struct, and migrate to `kZoneBufSize{xxx}` constants in the
-      `zone_infos.h` files. This was used only in validation tests under
-      `tests/validation` and only for `Extended{xxx}` tests. Saves 1 byte per
-      Zone on 8-bit processors, but none on 32-bit processors due to 4-byte
-      alignment. This has no impact on client code since this field was used
-      only for validation testing.
+      `zone_infos.h` files.
+        * This was used only in validation tests under `tests/validation` and
+          only for `Extended{xxx}` tests. Saves 1 byte per Zone on 8-bit
+          processors, but none on 32-bit processors due to 4-byte alignment.
+        * This should have no impact on client code since this field was used
+          only for validation testing.
     * **API Breaking Change**: Replace `BasicZone::name()` and `shortName()
       with `printNameTo()` and `printShortNameTo()`. Same with
       `ExtendedZone::name()` and `shortName()`, replaced with `printNameTo()`
-      and `printShortNameTo()`. After implementing zoneName compression, it was
-      no longer possible to return a simple pointer to the `name` and
-      `shortName` without using static memory buffers. I expect almost no one to
-      be using the `BasicZone` and `ExtendedZone` classes, since they are mostly
-      useful for internal algorithms. Client code that needs the old
-      functionality can print to a `ace_common::PrintStr<>` object, then extract
-      the c-string using `PrintStr::getCstr()`.
+      and `printShortNameTo()`.
+        * After implementing zoneName compression, it was no longer possible to
+          return a simple pointer to the `name` and `shortName` without using
+          static memory buffers.
+        * I expect almost no one to be using the `BasicZone` and `ExtendedZone`
+          classes, since they are mostly useful for internal algorithms.
+        * Client code that needs the old functionality can print to a
+          `ace_common::PrintStr<>` object, then extract the c-string using
+          `PrintStr::getCstr()`.
     * Update UnixHostDuino 0.4 to EpoxyDuino 0.5.
+    * Explicitly blacklist megaAVR boards, and SAMD21 boards using
+      `arduino:samd` Core >= 1.8.10.
+        * This allows a helpful message to be shown to the user, instead of the
+          pages and pages of compiler errors.
 * 1.4.1 (2020-12-30, TZDB version 2020f for real)
     * Actually update `src/ace_time/zonedb` and `src/ace_time/zonedbx`
       zone info files to 2020f. Oops.

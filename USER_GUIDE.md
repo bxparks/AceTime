@@ -45,6 +45,9 @@ See the [README.md](README.md) for introductory background.
         * [createForTimeZoneData()](#CreateForTimeZoneData)
         * [ManualZoneManager](#ManualZoneManager)
     * [Print To String](#PrintToString)
+* [Zones and Links](#ZonesAndLinks)
+    * [Thin Links (Prior to v1.5)](#ThinLinks)
+    * [Fat Links (From v1.5)](#FatLinks)
 * [Mutations](#Mutations)
     * [TimeOffset Mutations](#TimeOffsetMutations)
     * [LocalDate Mutations](#LocalDateMutations)
@@ -1946,6 +1949,104 @@ using namespace ace_common;
 }
 ```
 
+<a name="ZonesAndLinks"></a>
+## Zones and Links
+
+It seems worthwhile to describe the difference between Zones and Links in the
+IANA TZ database, and how they are implemented in AceTime. A Zone entry is the
+canonical name of a given time zone in the IANA database (e.g.
+`America/Los_Angeles`). A Link entry is an alias, an alternate name, for a
+canonical entry (e.g. `US/Pacific`).
+
+<a name="ThinLinks"></a>
+### Thin Links (Prior to v1.5)
+
+Prior to AceTime v1.5, a Link entry was implemented using a C++ reference to the
+corresponding Zone entry. In other words, `kZoneUS_Pacific` was a reference to
+the `kZoneAmerica_Los_Angeles` Zone data structure, and the `kZoneUS_Pacific`
+object did not have an existence of its own. The main positive aspects of this
+design were:
+
+* the `kZoneUS_Pacific` Link entry consumed *no* additional flash memory,
+  because the data structure for the Link did not exist
+* the implementation was very simple, just a C++ reference
+
+There were several negative consequences however:
+
+* the `name` component of a `kZoneUS_Pacific` data structure was set to
+  `"America/Los_Angeles"`, not `"US/Pacific"`, because the Link entry was just a
+  C++ reference to the Zone entry
+    * this means that `ZonedDateTime.printTo()` prints `America/Los_Angeles`,
+      not `US/Pacific`
+* similarly, the `zoneId` component of a `kZoneUS_Pacific` struct was set to
+  the same `zoneId` of `kZoneAmerica_Los_Angeles`
+* the `kZoneIdUS_Pacific` constant did not exist, in constrast to the target
+  `KZoneIdAmerica_Los_Angeles` constant
+* the `zonedb::kZoneRegistry` and `zonedbx::kZoneRegistry` contained only
+  the Zone entries, not the Link entries
+    * it was then not possible to create a `TimeZone` object through
+      `ZoneManager::createForZoneName()` or `ZoneManager::createForZoneId()`
+      using the Link identifiers instead of the Zone identifiers
+
+But the biggest problem was that the IANA TZ database does not guarantee the
+stability of the Zone and Link identifiers. Sometimes a Zone entry becomes a
+Link entry. For example, in TZ DB version 2020f, the Zone `Australia/Currie`
+became a Link that points to Zone `Australia/Hobart`. This causes problems
+at both compile-time and run-time for applications using AceTime:
+
+**Compile-time**: If the application was using the ZoneId symbol
+`kZoneIdAustralia_Currie`, the app would no longer compile after upgrading to
+TZDB 2020f.
+
+**Run-time**: If the application had stored the ZoneId of `Australia/Currie` or
+the string `"Australia/Currie"` into the EEPROM, the application would no longer
+be able to obtain the `TimeZone` object of `Australia/Currie` after upgrading to
+TZDB 2020f.
+
+<a name="FatLinks"></a>
+### Fat Links (From v1.5)
+
+With AceTime v1.5, the implementation of Links was changed to something called
+Fat Links internally, and Link entries become identical to their corresponding
+Zone entries. In other words:
+
+* the ZoneInfo `kZone{xxx}` constant exists for every Link entry
+* the ZoneId `kZoneId{xxx}` constant exists for every Link entry
+* the `kZone{xxx}.name` field points to the full name of the **Link** entry,
+  not the target Zone entry
+* the `kZone{xxx}.zoneId` field is set to the ZoneId of the **Link** entry
+
+The underlying `ZonePolicy` and `ZoneInfo` data structures are shared between
+the corresponding Zone and Link entries, to save memory, but those Link entries
+now do consume extra flash memory. Because of the extra memory usage, I provide
+2 different Zone registries in the default `zonedb/zone_registry.h` and
+`zonedbx/zone_registry.h` files:
+
+* `zonedb::kZoneRegistry`, `zonedbx::kZoneRegistry`
+    * contain only the Zone entries
+* `zonedb::kZoneAndLinkRegistry`, `zonedbx::kZoneAndLinkRegistry`
+    * contain both Zone and Link entries
+
+The approximate sizes of those registries are given in the corresponding
+`zone_infos.cpp` files, for example, for the `zonedbx`:
+
+* `zonedbx::kZoneRegistry`:
+    * 386 Zones
+    * 17kB (8-bits), 24kB (32-bits)
+* `zonedbx::kZoneAndLinkRegistry`:
+    * 386 Zones, 207 Links
+    * 21kB (8-bits), 31kB (32-bits)
+
+If you have enough flash memory, and forward-compatibility is important, then I
+recommend using the complete `kZoneAndLinkRegistry`. However, if you don't have
+enough memory, and you can tolerate occasional instability of the Zone and Link
+names, then perhaps `kZoneRegistry` is good enough.
+
+If you are creating your own Zone registry, then you don't have to worry about
+forward compatiblity with v1.5 and onwards, because the ZoneName and ZoneId of a
+particular Zone will be stable, even when it changes from a Zone to a Link (or
+the other way).
+
 <a name="Mutations"></a>
 ## Mutations
 
@@ -3173,14 +3274,6 @@ get some time to take a closer look in the future.
       supported. The `tzcompiler.py` will exclude and flag the Rules which could
       potentially shift to a different year. As of version 2019b, no such Rule
       seems to exist.
-* `Link` entries
-    * The TZ Database `Link` entries are implemented as C++ references to
-      the equivalent `Zone` entries. For example,
-      `zonedb::kZoneUS_Pacific` is just a reference to
-      `zonedb::kZoneAmerica_Los_Angeles`. This means that if a `ZonedDateTime`
-      is created with a `TimeZone` associated with `kZoneUS_Pacific`, the
-      `ZonedDateTime::printTo()` will print "[America/Los_Angeles]" not
-      "[US/Pacific]".
 * Arduino Zero and SAMD21 Boards
     * SAMD21 boards (which all identify themselves as `ARDUINO_SAMD_ZERO`) are
       supported, but there are some tricky points.
