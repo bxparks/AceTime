@@ -3274,6 +3274,13 @@ get some time to take a closer look in the future.
       supported. The `tzcompiler.py` will exclude and flag the Rules which could
       potentially shift to a different year. As of version 2019b, no such Rule
       seems to exist.
+* Links
+    * Even with the implementation of "fat links" (see *Zones and Links* section
+      above), it is not possible to determine whether a given `ZoneInfo`
+      instance is a Zone or a Link at run time.
+    * Adding a byte-flag would be straight forward, but would increase flash
+      memory consumption of `kZoneAndLinkRegistry` by 593 bytes. It's not clear
+      if this feature is worth the cost of extra memory usage.
 * Arduino Zero and SAMD21 Boards
     * SAMD21 boards (which all identify themselves as `ARDUINO_SAMD_ZERO`) are
       supported, but there are some tricky points.
