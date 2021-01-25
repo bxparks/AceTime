@@ -60,9 +60,6 @@
     #define SERIAL_PORT_MONITOR Serial
   #endif
 
-#elif defined(EPOXY_DUINO)
-  #include <pgmspace.h>
-
 #elif defined(ARDUINO_ARCH_STM32)
   #include <avr/pgmspace.h>
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
@@ -70,8 +67,22 @@
   #undef SERIAL_PORT_MONITOR
   #define SERIAL_PORT_MONITOR Serial
 
+#elif defined(EPOXY_DUINO)
+  #include <pgmspace.h>
+
 #else
-  #error Unsupported platform
-#endif
+  #warning Untested platform. AceTime may still work...
+
+  #include <avr/pgmspace.h>
+
+  #if ! defined(FPSTR)
+    #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
+  #endif
+
+  #if ! defined(SERIAL_PORT_MONITOR)
+    #define SERIAL_PORT_MONITOR Serial
+  #endif
 
 #endif
+
+#endif // ACE_TIME_COMMON_COMPAT_H
