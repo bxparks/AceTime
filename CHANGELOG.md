@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.5
     * Use binary search for both `ZoneManager::createForZoneName()` and
       `ZoneManager::createForZoneId()`.
         * Previously, the `zone_registry.cpp` was sorted by zoneName, so only
@@ -14,7 +15,7 @@
           a final verification against the exact `zoneName` is performed to make
           sure that there was no hash collision.
         * Updated `AutoBenchmark.ino` to determine that a binary search on the
-          386 zones in `zonedbx/zone_registry.cpp` is 9-10X faster (on average)
+          266 zones in `zonedb/zone_registry.cpp` is 9-10X faster (on average)
           than a linear search through the same list. (Linear search takes ~190
           iterations; binary search takes ~9 iterations.)
     * Upgrade Link entries to be "fat links".
@@ -43,9 +44,11 @@
           static memory buffers.
         * I expect almost no one to be using the `BasicZone` and `ExtendedZone`
           classes, since they are mostly useful for internal algorithms.
-        * Client code that needs the old functionality can print to a
-          `ace_common::PrintStr<>` object, then extract the c-string using
-          `PrintStr::getCstr()`.
+        * Client code that needs the old functionality can use
+          `BasicZone::printNameTo(Print&)`,
+          `BasicZone::printShortNameTo(Print&)` (similarly for `ExtendedZone`)
+          to print to a `ace_common::PrintStr<>` object, then extract the
+          c-string using `PrintStr::getCstr()`.
     * Update UnixHostDuino 0.4 to EpoxyDuino 0.5.
     * Explicitly blacklist megaAVR boards, and SAMD21 boards using
       `arduino:samd` Core >= 1.8.10.
@@ -53,8 +56,7 @@
           pages and pages of compiler errors.
     * Update TZ Database to 2021a.
         * https://mm.icann.org/pipermail/tz-announce/2021-January/000065.html
-        * "South Sudan changes from +03 to +02 on 2021-02-01 at 00:00.
-          (Thanks to Steffen Thorsen.)"
+        * "South Sudan changes from +03 to +02 on 2021-02-01 at 00:00."
 * 1.4.1 (2020-12-30, TZDB version 2020f for real)
     * Actually update `src/ace_time/zonedb` and `src/ace_time/zonedbx`
       zone info files to 2020f. Oops.

@@ -49,13 +49,13 @@ C++ namespaces:
 * TZ Database zone files
     * data structures generated from the TZ Database zone files
     * intended to be used as opaque data objects
-    * `ace_time::zonedb` (270 zones and 182 links)
+    * `ace_time::zonedb` (266 zones and 183 links)
         * `ace_time::zonedb::kZoneAfrica_Abidjan`
         * `ace_time::zonedb::kZoneAfrica_Accra`
         * ...
         * `ace_time::zonedb::kZonePacific_Wake`
         * `ace_time::zonedb::kZonePacific_Wallis`
-    * `ace_time::zonedbx` (387 zones and 205 links)
+    * `ace_time::zonedbx` (386 zones and 207 links)
         * `ace_time::zonedbx::kZoneAfrica_Abidjan`
         * `ace_time::zonedbx::kZoneAfrica_Accra`
         * ...
@@ -124,7 +124,7 @@ The library provides 2 sets of zoneinfo files created from the IANA TZ Database:
   from the year 2000 until 2050. These zones have (relatively) simple time zone
   transition rules, which can handled by the `BasicZoneProcessor` class.
 * [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h) contains `kZone*`
-  declarations (e.g. `kZoneAfrica_Casablanca`) for 387 zones and 205 links in
+  declarations (e.g. `kZoneAfrica_Casablanca`) for 386 zones and 207 links in
   the TZ Database (essentially the entire database) from the year 2000 until
   2050. These are intended to be used with the `ExtendedZoneProcessor` class.
 
@@ -187,20 +187,30 @@ time.
 The zoneinfo files are stored in flash memory (using the `PROGMEM` compiler
 directive) if the microcontroller allows it (e.g. AVR, ESP8266) so that they do
 not consume static RAM. The
-[examples/MemoryBenchmark](examples/MemoryBenchmark/) program shows that:
+[examples/MemoryBenchmark](examples/MemoryBenchmark/) program shows the
+flash memory consumption for the ZoneInfo data files are:
 
-* 270 timezones supported by `BasicZoneProcessor`consume about:
-    * 15 kB of flash on an 8-bit processor (AVR)
-    * 20 kB of flash on a 32-bit processor (ESP8266)
-* 387 timezones supported by `ExtendedZoneProcessor` consume:
-    * 24 kB of flash on an 8-bit processor (AVR)
-    * 33 kB of flash on a 32-bit processor (ESP8266)
+* `BasicZoneProcessor`
+    * 266 Zones
+        * 13 kB (8-bit processor)
+        * 17 kB (32-bit processor)
+    * 266 Zones and 183 Links
+        * 22 kB (8-bit processor)
+        * 27 kB (32-bit processor)
+* `ExtendedZoneProcessor`
+    * 386 Zones
+        * 22 kB (8-bit processor)
+        * 30 kB (32-bit processor)
+    * 386 Zones and 207 Links
+        * 30 kB (8-bit processor)
+        * 37 kB (32-bit processor)
 
 Normally a small application will use only a small number of timezones. The
 AceTime library with one timezone using the `BasicZoneProcessor` and the
 `SystemClock` consumes:
-* 9-10 kB of flash and 350 bytes of RAM on an 8-bit AVR processors,
-* 6-22 kB of flash and 900-1800 bytes of RAM on a 32-bit processors.
+
+* 9-10 kB of flash and 4-500 bytes of RAM on an 8-bit AVR processors,
+* 6-23 kB of flash and 900-1800 bytes of RAM on a 32-bit processors.
 
 An example of more complex application is the
 WorldClock (https://github.com/bxparks/clocks/tree/master/WorldClock)
@@ -212,21 +222,34 @@ debouncing and event dispatching provided by the AceButton
 
 Conversion from date-time components (year, month, day, etc) to epochSeconds
 (`ZonedDateTime::toEpochSeconds()`) takes about:
-* 90 microseconds on an 8-bit AVR processor,
-* 14 microseconds on an SAMD21,
-* 7 microseconds on an ESP8266,
-* 1.4 microseconds on an ESP32,
-* 0.5 microseconds on a Teensy 3.2.
+
+* ~90 microseconds on an 8-bit AVR processor,
+* ~17 microseconds on a SAMD21,
+* ~4 microseconds on an STM32 Blue Pill,
+* ~7 microseconds on an ESP8266,
+* ~1.4 microseconds on an ESP32,
+* ~0.4 microseconds on a Teensy 3.2.
 
 Conversion from an epochSeconds to date-time components including timezone
 (`ZonedDateTime::forEpochSeconds()`) takes (assuming cache hits):
-* 600 microseconds on an 8-bit AVR,
-* 50 microseconds on an SAMD21,
-* 27 microseconds on an ESP8266,
-* 2.8 microseconds on an ESP32,
-* 6 microseconds on a Teensy 3.2.
 
-**Version**: 1.4.1 (2020-12-30, TZ DB version 2020f)
+* ~600 microseconds on an 8-bit AVR,
+* ~70 microseconds on an SAMD21,
+* ~10-11 microseconds on an STM32 Blue Pill,
+* ~27 microseconds on an ESP8266,
+* ~2.5 microseconds on an ESP32,
+* ~5-6 microseconds on a Teensy 3.2.
+
+The creation of a TimeZone from its zoneName or its zoneId through the
+`ZoneManager`, using the 266 entries of `zonedb::kZoneRegistry`, takes about:
+
+* 4-14 microseconds, for a SAMD21
+* 3-12 microseconds for an STM32 Blue Pill,
+* 9-17 microseconds for an ESP8266,
+* 0.7-3 microseconds for an ESP32,
+* 3-7 microseconds for a Teensy 3.2.
+
+**Version**: 1.5 (2021-01-26, TZ DB version 2021a)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
