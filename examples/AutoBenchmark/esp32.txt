@@ -6,10 +6,10 @@ sizeof(TimeOffset): 2
 sizeof(OffsetDateTime): 8
 sizeof(BasicZoneProcessor): 156
 sizeof(ExtendedZoneProcessor): 532
-sizeof(BasicZoneRegistrar): 12
-sizeof(ExtendedZoneRegistrar): 12
-sizeof(BasicZoneManager<1>): 180
-sizeof(ExtendedZoneManager<1>): 556
+sizeof(BasicZoneRegistrar): 8
+sizeof(ExtendedZoneRegistrar): 8
+sizeof(BasicZoneManager<1>): 176
+sizeof(ExtendedZoneManager<1>): 552
 sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
@@ -19,7 +19,7 @@ sizeof(clock::NtpClock): 116
 sizeof(clock::SystemClock): 24
 sizeof(clock::SystemClockLoop): 44
 sizeof(clock::SystemClockCoroutine): 68
-sizeof(basic::ZoneContext): 8
+sizeof(basic::ZoneContext): 16
 sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9
@@ -30,16 +30,19 @@ sizeof(extended::ZoneMatch): 16
 BENCHMARKS
 EmptyLoop 1.400
 LocalDate::forEpochDays() 0.470
-LocalDate::toEpochDays() 0.410
-LocalDate::dayOfWeek() 0.410
+LocalDate::toEpochDays() 0.380
+LocalDate::dayOfWeek() 0.450
 OffsetDateTime::forEpochSeconds() 0.930
-OffsetDateTime::toEpochSeconds() 1.430
+OffsetDateTime::toEpochSeconds() 1.420
 ZonedDateTime::toEpochSeconds() 1.410
 ZonedDateTime::toEpochDays() 1.070
-ZonedDateTime::forEpochSeconds(UTC) 1.210
-ZonedDateTime::forEpochSeconds(Basic_nocache) 15.330
-ZonedDateTime::forEpochSeconds(Basic_cached) 2.600
-ZonedDateTime::forEpochSeconds(Extended_nocache) 29.960
-ZonedDateTime::forEpochSeconds(Extended_cached) 2.530
+ZonedDateTime::forEpochSeconds(UTC) 1.220
+ZonedDateTime::forEpochSeconds(Basic_nocache) 15.260
+ZonedDateTime::forEpochSeconds(Basic_cached) 2.540
+ZonedDateTime::forEpochSeconds(Extended_nocache) 29.850
+ZonedDateTime::forEpochSeconds(Extended_cached) 2.450
+BasicZoneManager::indexForZoneName(binary) 3.100
+BasicZoneManager::indexForZoneId(binary) 0.700
+BasicZoneManager::indexForZoneId(linear) 13.930
 Iterations_per_run 100000
 END

@@ -12,12 +12,14 @@ using ace_common::PrintStr;
 const uint32_t COUNT = 2500;
 #elif defined(ARDUINO_ARCH_SAMD)
 const uint32_t COUNT = 10000;
+#elif defined(ARDUINO_ARCH_STM32)
+const uint32_t COUNT = 10000;
 #elif defined(ESP8266)
 const uint32_t COUNT = 10000;
 #elif defined(ESP32)
-const uint32_t COUNT = 100000;
+const uint32_t COUNT = 50000;
 #elif defined(TEENSYDUINO)
-const uint32_t COUNT = 100000;
+const uint32_t COUNT = 50000;
 #elif defined(EPOXY_DUINO)
 // Linux or MacOS
 const uint32_t COUNT = 100000;
@@ -300,7 +302,7 @@ static const uint16_t kBasicZoneRegistrySize =
 
 // ZonedDateTime::forEpochSeconds(seconds, tz), uncached
 static void runZonedDateTimeForEpochSecondsBasicZoneManager() {
-	BasicZoneManager<2> manager(kBasicZoneRegistrySize, kBasicZoneRegistry);
+	BasicZoneManager<1> manager(kBasicZoneRegistrySize, kBasicZoneRegistry);
   acetime_t offset = 0;
 
   unsigned long forEpochSecondsMillis = runLambda(COUNT, [&offset, &manager]() {
@@ -322,7 +324,7 @@ static void runZonedDateTimeForEpochSecondsBasicZoneManager() {
 
 // ZonedDateTime::forEpochSeconds(seconds, tz) cached
 static void runZonedDateTimeForEpochSecondsBasicZoneManagerCached() {
-	BasicZoneManager<2> manager(kBasicZoneRegistrySize, kBasicZoneRegistry);
+	BasicZoneManager<1> manager(kBasicZoneRegistrySize, kBasicZoneRegistry);
 
   unsigned long forEpochSecondsMillis = runLambda(COUNT, [&manager]() {
     unsigned long fakeEpochSeconds = millis();
@@ -353,7 +355,7 @@ static const uint16_t kExtendedZoneRegistrySize =
 
 // ZonedDateTime::forEpochSeconds(seconds, tz), uncached
 static void runZonedDateTimeForEpochSecondsExtendedZoneManager() {
-	ExtendedZoneManager<2> manager(
+	ExtendedZoneManager<1> manager(
       kExtendedZoneRegistrySize, kExtendedZoneRegistry);
   acetime_t offset = 0;
 
@@ -377,7 +379,7 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManager() {
 
 // ZonedDateTime::forEpochSeconds(seconds, tz) cached ExtendedZoneManager
 static void runZonedDateTimeForEpochSecondsExtendedZoneManagerCached() {
-	ExtendedZoneManager<2> manager(
+	ExtendedZoneManager<1> manager(
       kExtendedZoneRegistrySize, kExtendedZoneRegistry);
 
   unsigned long forEpochSecondsMillis = runLambda(COUNT, [&manager]() {
@@ -401,14 +403,14 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManagerCached() {
 #if ! defined(ARDUINO_ARCH_AVR)
 
 static void runIndexForZoneName() {
-  ExtendedZoneRegistrar registrar(
-      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
+  BasicZoneRegistrar registrar(
+      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
 
   unsigned long runMillis = runLambda(COUNT, [&registrar]() {
     PrintStr<20> printStr; // deliberately short to truncate some zones
-    uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
-    const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
-    ExtendedZone(info).printNameTo(printStr);
+    uint16_t randomIndex = random(zonedb::kZoneRegistrySize);
+    const basic::ZoneInfo* info = zonedb::kZoneRegistry[randomIndex];
+    BasicZone(info).printNameTo(printStr);
 
     uint16_t index = registrar.findIndexForName(printStr.getCstr());
     disableOptimization(index);
@@ -416,9 +418,9 @@ static void runIndexForZoneName() {
 
   unsigned long emptyLoopMillis = runLambda(COUNT, []() {
     PrintStr<20> printStr; // deliberately short to truncate some zones
-    uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
-    const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
-    ExtendedZone(info).printNameTo(printStr);
+    uint16_t randomIndex = random(zonedb::kZoneRegistrySize);
+    const basic::ZoneInfo* info = zonedb::kZoneRegistry[randomIndex];
+    BasicZone(info).printNameTo(printStr);
 
     uint16_t len = printStr.length();
     const char* s = printStr.getCstr();
@@ -431,65 +433,65 @@ static void runIndexForZoneName() {
 
   long elapsedMillis = runMillis - emptyLoopMillis;
 
-  SERIAL_PORT_MONITOR.print(F("ExtendedZoneManager::indexForZoneName(binary)"));
+  SERIAL_PORT_MONITOR.print(F("BasicZoneManager::indexForZoneName(binary)"));
   printMicrosPerIteration(elapsedMillis);
   SERIAL_PORT_MONITOR.println();
 }
 
-// non-static to allow friend access into ExtendedZoneRegistrar
+// non-static to allow friend access into BasicZoneRegistrar
 void runIndexForZoneIdBinary() {
-	ExtendedZoneRegistrar registrar(
-      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
+	BasicZoneRegistrar registrar(
+      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
 
   unsigned long runMillis = runLambda(COUNT, [&registrar]() {
-    uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
-    const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
-    uint32_t zoneId = ExtendedZone(info).zoneId();
+    uint16_t randomIndex = random(zonedb::kZoneRegistrySize);
+    const basic::ZoneInfo* info = zonedb::kZoneRegistry[randomIndex];
+    uint32_t zoneId = BasicZone(info).zoneId();
 
     uint16_t index = registrar.findIndexForIdBinary(zoneId);
     disableOptimization(index);
   });
 
   unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
-    const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
-    uint32_t zoneId = ExtendedZone(info).zoneId();
+    uint16_t randomIndex = random(zonedb::kZoneRegistrySize);
+    const basic::ZoneInfo* info = zonedb::kZoneRegistry[randomIndex];
+    uint32_t zoneId = BasicZone(info).zoneId();
 
     disableOptimization(zoneId);
   });
 
   long elapsedMillis = runMillis - emptyLoopMillis;
 
-  SERIAL_PORT_MONITOR.print(F("ExtendedZoneManager::indexForZoneId(binary)"));
+  SERIAL_PORT_MONITOR.print(F("BasicZoneManager::indexForZoneId(binary)"));
   printMicrosPerIteration(elapsedMillis);
   SERIAL_PORT_MONITOR.println();
 }
 
-// non-static to allow friend access into ExtendedZoneRegistrar
+// non-static to allow friend access into BasicZoneRegistrar
 void runIndexForZoneIdLinear() {
-	ExtendedZoneRegistrar registrar(
-      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
+	BasicZoneRegistrar registrar(
+      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
 
   unsigned long runMillis = runLambda(COUNT, [&registrar]() {
-    uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
-    const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
-    uint32_t zoneId = ExtendedZone(info).zoneId();
+    uint16_t randomIndex = random(zonedb::kZoneRegistrySize);
+    const basic::ZoneInfo* info = zonedb::kZoneRegistry[randomIndex];
+    uint32_t zoneId = BasicZone(info).zoneId();
 
     uint16_t index = registrar.findIndexForIdLinear(zoneId);
     disableOptimization(index);
   });
 
   unsigned long emptyLoopMillis = runLambda(COUNT, []() {
-    uint16_t randomIndex = random(zonedbx::kZoneRegistrySize);
-    const extended::ZoneInfo* info = zonedbx::kZoneRegistry[randomIndex];
-    uint32_t zoneId = ExtendedZone(info).zoneId();
+    uint16_t randomIndex = random(zonedb::kZoneRegistrySize);
+    const basic::ZoneInfo* info = zonedb::kZoneRegistry[randomIndex];
+    uint32_t zoneId = BasicZone(info).zoneId();
 
     disableOptimization(zoneId);
   });
 
   long elapsedMillis = runMillis - emptyLoopMillis;
 
-  SERIAL_PORT_MONITOR.print(F("ExtendedZoneManager::indexForZoneId(linear)"));
+  SERIAL_PORT_MONITOR.print(F("BasicZoneManager::indexForZoneId(linear)"));
   printMicrosPerIteration(elapsedMillis);
   SERIAL_PORT_MONITOR.println();
 }

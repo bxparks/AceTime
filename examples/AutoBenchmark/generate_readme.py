@@ -12,13 +12,14 @@ micro_results = check_output(
     "./generate_table.awk < micro.txt", shell=True, text=True)
 samd_results = check_output(
     "./generate_table.awk < samd.txt", shell=True, text=True)
+stm32_results = check_output(
+    "./generate_table.awk < stm32.txt", shell=True, text=True)
 esp8266_results = check_output(
     "./generate_table.awk < esp8266.txt", shell=True, text=True)
 esp32_results = check_output(
     "./generate_table.awk < esp32.txt", shell=True, text=True)
-#teensy32_results = check_output(
-#    "./generate_table.awk < teensy32.txt", shell=True, text=True)
-teensy32_results = 'TBD'
+teensy32_results = check_output(
+    "./generate_table.awk < teensy32.txt", shell=True, text=True)
 
 print(f"""\
 # Auto Benchmark
@@ -27,7 +28,7 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
-**Version**: AceTime v1.4
+**Version**: AceTime v1.5
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
@@ -76,7 +77,16 @@ The CPU times below are given in microseconds.
 
 ## CPU Time Changes
 
-The CPU time did not change much from v0.8 to v1.4.
+* The CPU time did not change much from v0.8 to v1.4.
+* The CPU time of most classes did not change much from v1.4 to v1.5. The
+  big difference is that the Zone registries (kZoneRegistry,
+  kZoneAndLinkRegistry) are now sorted by zoneId instead of zoneName, and the
+  `ZoneManager::indexForZoneId()` will use a binary search, instead of a linear
+  search. This makes it 10-15X faster for ~266 entries. The
+  `ZoneManager::indexForZoneName()` also converts to a zoneId, then performs a
+  binary search, instead of doing a binary search on the zoneName directly. Even
+  with the extra level of indirection, the `indexForZoneName()` is between
+  1.5-2X faster than the previous version.
 
 ## Arduino Nano
 
@@ -106,6 +116,16 @@ The CPU time did not change much from v0.8 to v1.4.
 
 ```
 {samd_results}
+```
+
+## STM32 Blue Pill
+
+* STM32F103C8, 72 MHz ARM Cortex-M3
+* Arduino IDE 1.8.13
+* STM32duino 1.9.0
+
+```
+{stm32_results}
 ```
 
 ## ESP8266
