@@ -35,8 +35,13 @@ END {
   base_flash = u[0]["flash"]
   base_ram = u[0]["ram"]
   for (i = 0; i <= NUM_FEATURES; i++) {
-    u[i]["d_flash"] = u[i]["flash"] - base_flash
-    u[i]["d_ram"] = u[i]["ram"]- base_ram
+    if (u[i]["flash"] == -1) {
+      u[i]["d_flash"] = -1
+      u[i]["d_ram"] = -1
+    } else {
+      u[i]["d_flash"] = u[i]["flash"] - base_flash
+      u[i]["d_ram"] = u[i]["ram"]- base_ram
+    }
   }
 
   printf("+----------------------------------------------------------------+\n")
