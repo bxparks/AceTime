@@ -7,7 +7,7 @@ the baseline, and its memory usage  numbers are subtracted from the subsequent
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
-**Version**: AceTime v1.4.1
+**Version**: AceTime v1.5
 
 ## How to Regenerate
 
@@ -59,6 +59,7 @@ consumption by 1200-2400 bytes when all the zones are loaded into the
 
 ## Arduino Nano
 
+* 16MHz ATmega328P
 * Arduino IDE 1.8.13
 * Arduino AVR Boards 1.8.3
 
@@ -79,8 +80,8 @@ consumption by 1200-2400 bytes when all the zones are loaded into the
 | Extended TimeZone (1 zone)        |   9982/  343 |  9534/  333 |
 | Extended TimeZone (2 zones)       |  10450/  347 | 10002/  337 |
 | ExtendedZoneManager (1 zone)      |  11790/  369 | 11342/  359 |
-| ExtendedZoneManager (all zones)   |  33844/  853 | 33396/  843 |
-| ExtendedZoneManager (zones+links) |  38488/  853 | 38040/  843 |
+| ExtendedZoneManager (all zones)   |  33854/  853 | 33406/  843 |
+| ExtendedZoneManager (zones+links) |  38498/  853 | 38050/  843 |
 |-----------------------------------+--------------+-------------|
 | SystemClock                       |   5662/  282 |  5214/  272 |
 | SystemClock+Basic TimeZone        |  10248/  456 |  9800/  446 |
@@ -91,6 +92,7 @@ consumption by 1200-2400 bytes when all the zones are loaded into the
 
 ## Sparkfun Pro Micro
 
+* 16 MHz ATmega32U4
 * Arduino IDE 1.8.13
 * SparkFun AVR Boards 1.1.13
 
@@ -111,8 +113,8 @@ consumption by 1200-2400 bytes when all the zones are loaded into the
 | Extended TimeZone (1 zone)        |  13082/  481 |  9618/  331 |
 | Extended TimeZone (2 zones)       |  13552/  487 | 10088/  337 |
 | ExtendedZoneManager (1 zone)      |  14890/  507 | 11426/  357 |
-| ExtendedZoneManager (all zones)   |  36944/  991 | 33480/  841 |
-| ExtendedZoneManager (zones+links) |  41588/  991 | 38124/  841 |
+| ExtendedZoneManager (all zones)   |  36954/  991 | 33490/  841 |
+| ExtendedZoneManager (zones+links) |  41598/  991 | 38134/  841 |
 |-----------------------------------+--------------+-------------|
 | SystemClock                       |   8646/  422 |  5182/  272 |
 | SystemClock+Basic TimeZone        |  13230/  594 |  9766/  444 |
@@ -123,6 +125,7 @@ consumption by 1200-2400 bytes when all the zones are loaded into the
 
 ## SAMD21 M0 Mini
 
+* 48 MHz ARM Cortex-M0+
 * Arduino IDE 1.8.13
 * Sparkfun SAMD Boards 1.8.1
 
@@ -143,8 +146,8 @@ consumption by 1200-2400 bytes when all the zones are loaded into the
 | Extended TimeZone (1 zone)        |  17108/    0 |  7044/    0 |
 | Extended TimeZone (2 zones)       |  17532/    0 |  7468/    0 |
 | ExtendedZoneManager (1 zone)      |  18140/    0 |  8076/    0 |
-| ExtendedZoneManager (all zones)   |  48164/    0 | 38100/    0 |
-| ExtendedZoneManager (zones+links) |  55252/    0 | 45188/    0 |
+| ExtendedZoneManager (all zones)   |  48180/    0 | 38116/    0 |
+| ExtendedZoneManager (zones+links) |  55268/    0 | 45204/    0 |
 |-----------------------------------+--------------+-------------|
 | SystemClock                       |  13264/    0 |  3200/    0 |
 | SystemClock+Basic TimeZone        |  16948/    0 |  6884/    0 |
@@ -155,8 +158,47 @@ consumption by 1200-2400 bytes when all the zones are loaded into the
 
 (SAMD compiler does not produce RAM usage numbers.)
 
+## STM32 Blue Pill
+
+* STM32F103C8, 72 MHz ARM Cortex-M3
+* Arduino IDE 1.8.13
+* STM32duino 1.9.0
+
+```
++----------------------------------------------------------------+
+| Functionality                     |  flash/  ram |       delta |
+|-----------------------------------+--------------+-------------|
+| Baseline                          |  19136/ 3788 |     0/    0 |
+|-----------------------------------+--------------+-------------|
+| LocalDateTime                     |  23128/ 3988 |  3992/  200 |
+| ZonedDateTime                     |  23280/ 3988 |  4144/  200 |
+| Manual ZoneManager                |  23288/ 3988 |  4152/  200 |
+| Basic TimeZone (1 zone)           |  27140/ 3988 |  8004/  200 |
+| Basic TimeZone (2 zones)          |  27576/ 3988 |  8440/  200 |
+| BasicZoneManager (1 zone)         |  27844/ 3988 |  8708/  200 |
+| BasicZoneManager (all zones)      |  45124/ 3988 | 25988/  200 |
+| BasicZoneManager (zones+links)    |  51224/ 3988 | 32088/  200 |
+| Extended TimeZone (1 zone)        |  28924/ 3988 |  9788/  200 |
+| Extended TimeZone (2 zones)       |  29176/ 3988 | 10040/  200 |
+| ExtendedZoneManager (1 zone)      |  29620/ 3988 | 10484/  200 |
+| ExtendedZoneManager (all zones)   |  59312/ 3988 | 40176/  200 |
+| ExtendedZoneManager (zones+links) |     -1/   -1 |    -1/   -1 |
+|-----------------------------------+--------------+-------------|
+| SystemClock                       |  26004/ 3988 |  6868/  200 |
+| SystemClock+Basic TimeZone        |  29688/ 3988 | 10552/  200 |
+| SystemClock+Extended TimeZone     |  31480/ 3988 | 12344/  200 |
++----------------------------------------------------------------+
+
+```
+
+An entry of `-1` indicates that the memory usage exceeded the maximum of the
+microcontroller and the compiler did not generate the desired information.
+
+(SAMD compiler does not produce RAM usage numbers.)
+
 ## ESP8266
 
+* NodeMCU 1.0, 80MHz ESP8266
 * Arduino IDE 1.8.13
 * ESP8266 Boards 2.7.4
 
@@ -177,8 +219,8 @@ consumption by 1200-2400 bytes when all the zones are loaded into the
 | Extended TimeZone (1 zone)        | 267292/27968 | 10592/ 1192 |
 | Extended TimeZone (2 zones)       | 267580/27968 | 10880/ 1192 |
 | ExtendedZoneManager (1 zone)      | 268412/27968 | 11712/ 1192 |
-| ExtendedZoneManager (all zones)   | 298608/27980 | 41908/ 1204 |
-| ExtendedZoneManager (zones+links) | 305536/27980 | 48836/ 1204 |
+| ExtendedZoneManager (all zones)   | 298624/27980 | 41924/ 1204 |
+| ExtendedZoneManager (zones+links) | 305552/27980 | 48852/ 1204 |
 |-----------------------------------+--------------+-------------|
 | SystemClock                       | 262268/27276 |  5568/  500 |
 | SystemClock+Basic TimeZone        | 267624/27824 | 10924/ 1048 |
@@ -189,6 +231,7 @@ consumption by 1200-2400 bytes when all the zones are loaded into the
 
 ## ESP32
 
+* ESP32-01 Dev Board, 240 MHz Tensilica LX6
 * Arduino IDE 1.8.13
 * ESP32 Boards 1.0.4
 
@@ -209,8 +252,8 @@ consumption by 1200-2400 bytes when all the zones are loaded into the
 | Extended TimeZone (1 zone)        | 225153/16116 | 18718/ 1552 |
 | Extended TimeZone (2 zones)       | 225421/16116 | 18986/ 1552 |
 | ExtendedZoneManager (1 zone)      | 226109/16116 | 19674/ 1552 |
-| ExtendedZoneManager (all zones)   | 256393/16116 | 49958/ 1552 |
-| ExtendedZoneManager (zones+links) | 263601/16116 | 57166/ 1552 |
+| ExtendedZoneManager (all zones)   | 256409/16116 | 49974/ 1552 |
+| ExtendedZoneManager (zones+links) | 263617/16116 | 57182/ 1552 |
 |-----------------------------------+--------------+-------------|
 | SystemClock                       | 226013/16220 | 19578/ 1656 |
 | SystemClock+Basic TimeZone        | 229909/16220 | 23474/ 1656 |
@@ -225,6 +268,7 @@ usage by objects.
 
 ## Teensy 3.2
 
+* 96 MHz ARM Cortex-M4
 * Arduino IDE 1.8.13
 * Teensyduino 1.53
 
@@ -232,25 +276,25 @@ usage by objects.
 +----------------------------------------------------------------+
 | Functionality                     |  flash/  ram |       delta |
 |-----------------------------------+--------------+-------------|
-| Baseline                          |   7624/ 3048 |     0/    0 |
+| Baseline                          |   7656/ 3048 |     0/    0 |
 |-----------------------------------+--------------+-------------|
-| LocalDateTime                     |  13268/ 4812 |  5644/ 1764 |
-| ZonedDateTime                     |  13268/ 4812 |  5644/ 1764 |
-| Manual ZoneManager                |  13268/ 4812 |  5644/ 1764 |
-| Basic TimeZone (1 zone)           |  22264/ 4812 | 14640/ 1764 |
-| Basic TimeZone (2 zones)          |  22992/ 4812 | 15368/ 1764 |
-| BasicZoneManager (1 zone)         |  23536/ 4812 | 15912/ 1764 |
-| BasicZoneManager (all zones)      |  41280/ 4812 | 33656/ 1764 |
-| BasicZoneManager (zones+links)    |  47624/ 4812 | 40000/ 1764 |
-| Extended TimeZone (1 zone)        |  24564/ 4812 | 16940/ 1764 |
-| Extended TimeZone (2 zones)       |  25228/ 4812 | 17604/ 1764 |
-| ExtendedZoneManager (1 zone)      |  25836/ 4812 | 18212/ 1764 |
-| ExtendedZoneManager (all zones)   |  56116/ 4812 | 48492/ 1764 |
-| ExtendedZoneManager (zones+links) |  63324/ 4812 | 55700/ 1764 |
+| LocalDateTime                     |  13300/ 4812 |  5644/ 1764 |
+| ZonedDateTime                     |  13300/ 4812 |  5644/ 1764 |
+| Manual ZoneManager                |  13300/ 4812 |  5644/ 1764 |
+| Basic TimeZone (1 zone)           |  22328/ 4812 | 14672/ 1764 |
+| Basic TimeZone (2 zones)          |  22992/ 4812 | 15336/ 1764 |
+| BasicZoneManager (1 zone)         |  23600/ 4812 | 15944/ 1764 |
+| BasicZoneManager (all zones)      |  41344/ 4812 | 33688/ 1764 |
+| BasicZoneManager (zones+links)    |  47688/ 4812 | 40032/ 1764 |
+| Extended TimeZone (1 zone)        |  24564/ 4812 | 16908/ 1764 |
+| Extended TimeZone (2 zones)       |  25292/ 4812 | 17636/ 1764 |
+| ExtendedZoneManager (1 zone)      |  25836/ 4812 | 18180/ 1764 |
+| ExtendedZoneManager (all zones)   |  56196/ 4812 | 48540/ 1764 |
+| ExtendedZoneManager (zones+links) |  63404/ 4812 | 55748/ 1764 |
 |-----------------------------------+--------------+-------------|
-| SystemClock                       |  16192/ 4812 |  8568/ 1764 |
-| SystemClock+Basic TimeZone        |  25372/ 4812 | 17748/ 1764 |
-| SystemClock+Extended TimeZone     |  27672/ 4812 | 20048/ 1764 |
+| SystemClock                       |  16224/ 4812 |  8568/ 1764 |
+| SystemClock+Basic TimeZone        |  25436/ 4812 | 17780/ 1764 |
+| SystemClock+Extended TimeZone     |  27672/ 4812 | 20016/ 1764 |
 +----------------------------------------------------------------+
 
 ```

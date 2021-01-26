@@ -12,6 +12,8 @@ micro_results = check_output(
     "./generate_table.awk < micro.txt", shell=True, text=True)
 samd_results = check_output(
     "./generate_table.awk < samd.txt", shell=True, text=True)
+stm32_results = check_output(
+    "./generate_table.awk < stm32.txt", shell=True, text=True)
 esp8266_results = check_output(
     "./generate_table.awk < esp8266.txt", shell=True, text=True)
 esp32_results = check_output(
@@ -29,7 +31,7 @@ the baseline, and its memory usage  numbers are subtracted from the subsequent
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
-**Version**: AceTime v1.4.1
+**Version**: AceTime v1.5
 
 ## How to Regenerate
 
@@ -81,6 +83,7 @@ consumption by 1200-2400 bytes when all the zones are loaded into the
 
 ## Arduino Nano
 
+* 16MHz ATmega328P
 * Arduino IDE 1.8.13
 * Arduino AVR Boards 1.8.3
 
@@ -90,6 +93,7 @@ consumption by 1200-2400 bytes when all the zones are loaded into the
 
 ## Sparkfun Pro Micro
 
+* 16 MHz ATmega32U4
 * Arduino IDE 1.8.13
 * SparkFun AVR Boards 1.1.13
 
@@ -99,6 +103,7 @@ consumption by 1200-2400 bytes when all the zones are loaded into the
 
 ## SAMD21 M0 Mini
 
+* 48 MHz ARM Cortex-M0+
 * Arduino IDE 1.8.13
 * Sparkfun SAMD Boards 1.8.1
 
@@ -108,8 +113,24 @@ consumption by 1200-2400 bytes when all the zones are loaded into the
 
 (SAMD compiler does not produce RAM usage numbers.)
 
+## STM32 Blue Pill
+
+* STM32F103C8, 72 MHz ARM Cortex-M3
+* Arduino IDE 1.8.13
+* STM32duino 1.9.0
+
+```
+{stm32_results}
+```
+
+An entry of `-1` indicates that the memory usage exceeded the maximum of the
+microcontroller and the compiler did not generate the desired information.
+
+(SAMD compiler does not produce RAM usage numbers.)
+
 ## ESP8266
 
+* NodeMCU 1.0, 80MHz ESP8266
 * Arduino IDE 1.8.13
 * ESP8266 Boards 2.7.4
 
@@ -119,6 +140,7 @@ consumption by 1200-2400 bytes when all the zones are loaded into the
 
 ## ESP32
 
+* ESP32-01 Dev Board, 240 MHz Tensilica LX6
 * Arduino IDE 1.8.13
 * ESP32 Boards 1.0.4
 
@@ -132,6 +154,7 @@ usage by objects.
 
 ## Teensy 3.2
 
+* 96 MHz ARM Cortex-M4
 * Arduino IDE 1.8.13
 * Teensyduino 1.53
 

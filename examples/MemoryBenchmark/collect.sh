@@ -54,21 +54,38 @@ function collect_for_board() {
         sed -i -e "s/#define FEATURE [0-9]*/#define FEATURE $feature/" \
             $PROGRAM_NAME
 
-        if ! ($AUNITER_CMD "$cli_flag" verify $board $PROGRAM_NAME 2>&1) > \
-            $auniter_out_file; then
+        if ($AUNITER_CMD "$cli_flag" verify $board $PROGRAM_NAME 2>&1) > \
+                $auniter_out_file; then
+            extract_memory "$feature" "$result_file"
+
+        elif grep -q 'Sketch too big' $auniter_out_file; then
             # Ignore 'Sketch too big' condition, since we just want to
             # collect the flash and ram usage numbers.
-            if ! grep -q 'Sketch too big' $auniter_out_file; then
-                cat $auniter_out_file
-                exit 1
-            fi
+            extract_memory "$feature" "$result_file"
+
+        elif grep -q 'region.*overflowed by' $auniter_out_file; then
+            # When STM32duino overflows, it does not print any useful info.
+            # Print special markers to tell generate_table.awk about the
+            # overflow.
+            echo $feature -1 -1 -1 -1 >> $result_file
+
+        else
+            # Can't handle the error, so echo the output and exit the script.
+            cat $auniter_out_file
+            exit 1
         fi
-        flash=$(grep 'Sketch uses' $auniter_out_file |
-            awk '{print $3, $12}')
-        memory=$(grep 'Global variables' $auniter_out_file |
-            awk '{print $4, $18}')
-        echo $feature $flash $memory >> $result_file
     done
+}
+
+function extract_memory() {
+    local feature=$1
+    local result_file=$2
+
+    local flash=$(grep 'Sketch uses' $auniter_out_file |
+        awk '{print $3, $12}')
+    local memory=$(grep 'Global variables' $auniter_out_file |
+        awk '{print $4, $18}')
+    echo $feature $flash $memory >> $result_file
 }
 
 trap "cleanup" EXIT
