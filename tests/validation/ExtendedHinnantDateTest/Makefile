@@ -32,7 +32,7 @@ runtests:
 # If START_YEAR < ~1974, then tzcompiler.py must be given the
 # --ignore_buf_size_too_large flag to prevent an exception.
 SCOPE = extended
-TZ_VERSION = 2020f
+TZ_VERSION = 2021a
 START_YEAR = 1974
 UNTIL_YEAR = 2050
 

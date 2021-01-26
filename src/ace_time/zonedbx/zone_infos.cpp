@@ -3,7 +3,7 @@
 //   $ ../../../tools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2020f
+//     --tz_version 2021a
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2020f
+// from https://github.com/eggert/tz/releases/tag/2021a
 //
 // Zones: 386
 // Links: 207
@@ -30,14 +30,14 @@
 //   Names: 3667 (originally 6100)
 //   Formats: 597
 //   Fragments: 122
-//   Memory (8-bit): 16848
-//   Memory (32-bit): 24464
+//   Memory (8-bit): 16859
+//   Memory (32-bit): 24480
 // kZoneAndLinkRegistry sizes (bytes):
 //   Names: 5620 (originally 9027)
 //   Formats: 597
 //   Fragments: 122
-//   Memory (8-bit): 21492
-//   Memory (32-bit): 31385
+//   Memory (8-bit): 21503
+//   Memory (32-bit): 31401
 //
 // DO NOT EDIT
 
@@ -52,7 +52,7 @@ namespace zonedbx {
 // ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] = "2020f";
+const char kTzDatabaseVersion[] = "2021a";
 
 const char* const kFragments[] = {
 /*\x00*/ nullptr,
@@ -417,10 +417,10 @@ const extended::ZoneInfo kZoneAfrica_Johannesburg ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Juba
-// Zone Eras: 2
-// Strings (bytes): 15 (originally 21)
-// Memory (8-bit): 48
-// Memory (32-bit): 67
+// Zone Eras: 3
+// Strings (bytes): 19 (originally 25)
+// Memory (8-bit): 63
+// Memory (32-bit): 87
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAfrica_Juba[] ACE_TIME_PROGMEM = {
@@ -436,11 +436,23 @@ static const extended::ZoneEra kZoneEraAfrica_Juba[] ACE_TIME_PROGMEM = {
     48 /*untilTimeCode*/,
     0 /*untilTimeModifier (kSuffixW + minute=0)*/,
   },
-  //             3:00    -    EAT
+  //             3:00    -    EAT    2021 Feb  1 00:00
   {
     nullptr /*zonePolicy*/,
     "EAT" /*format*/,
     12 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    21 /*untilYearTiny*/,
+    2 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             2:00    -    CAT
+  {
+    nullptr /*zonePolicy*/,
+    "CAT" /*format*/,
+    8 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
@@ -457,7 +469,7 @@ const extended::ZoneInfo kZoneAfrica_Juba ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Juba /*name*/,
   0xd51b395c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  2 /*numEras*/,
+  3 /*numEras*/,
   kZoneEraAfrica_Juba /*eras*/,
 };
 

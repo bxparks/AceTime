@@ -3,7 +3,7 @@
 #   $ ../tzcompiler.py
 #     --input_dir /home/brian/dev/tz
 #     --output_dir /home/brian/src/AceTime/tools/zonedbpy
-#     --tz_version 2020f
+#     --tz_version 2021a
 #     --action zonedb
 #     --language python
 #     --scope extended
@@ -23,14 +23,14 @@
 #   northamerica
 #   southamerica
 #
-# from https://github.com/eggert/tz/releases/tag/2020f
+# from https://github.com/eggert/tz/releases/tag/2021a
 #
 # DO NOT EDIT
 
 from .zone_policies import *
 
 # numInfos: 386
-# numEras: 1071
+# numEras: 1072
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Abidjan
@@ -391,7 +391,7 @@ ZONE_INFO_Africa_Johannesburg = {
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Juba
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Africa_Juba = [
@@ -407,12 +407,24 @@ ZONE_ERAS_Africa_Juba = [
       'until_seconds': 43200,
       'until_time_suffix': 'w',
     },
-    #             3:00    -    EAT
+    #             3:00    -    EAT    2021 Feb  1 00:00
     {
       'offset_seconds': 10800,
       'zone_policy': '-',
       'rules_delta_seconds': 0,
       'format': 'EAT',
+      'until_year': 2021,
+      'until_month': 2,
+      'until_day': 1,
+      'until_seconds': 0,
+      'until_time_suffix': 'w',
+    },
+    #             2:00    -    CAT
+    {
+      'offset_seconds': 7200,
+      'zone_policy': '-',
+      'rules_delta_seconds': 0,
+      'format': 'CAT',
       'until_year': 10000,
       'until_month': 1,
       'until_day': 1,
