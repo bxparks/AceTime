@@ -1,11 +1,8 @@
 from typing import cast, Optional
 from datetime import datetime, tzinfo, timedelta
 from zonedbpy import zone_infos
-from zonedb.zone_specifier import (  # noqa
-    ZoneSpecifier,
-    SECONDS_SINCE_UNIX_EPOCH,
-)
-from zonedb.ingenerator import ZoneInfo
+from zone_processor.zone_specifier import ZoneSpecifier
+from zone_processor.inline_zone_info import ZoneInfo
 
 __version__ = '1.1'
 

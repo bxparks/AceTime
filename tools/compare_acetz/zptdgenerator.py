@@ -15,10 +15,10 @@ from typing import cast
 import logging
 from datetime import tzinfo, datetime, timezone, timedelta
 import acetz
-from zonedb.zone_specifier import ZoneSpecifier
-from zonedb.zone_specifier import SECONDS_SINCE_UNIX_EPOCH
-from zonedb.zone_specifier import DateTuple
-from zonedb.ingenerator import ZoneInfoMap
+from data_types.at_types import SECONDS_SINCE_UNIX_EPOCH
+from zone_processor.zone_specifier import ZoneSpecifier
+from zone_processor.zone_specifier import DateTuple
+from zone_processor.inline_zone_info import ZoneInfoMap
 from zonedbpy.zone_infos import ZONE_INFO_MAP
 from validation.data import TestItem, TestData, ValidationData
 
@@ -115,7 +115,7 @@ class TestDataGenerator:
             for transition in zone_specifier.transitions:
                 # Some Transitions from ZoneSpecifier are in previous or post
                 # years (e.g. viewing_months = [14, 36]), so skip those.
-                start = transition.startDateTime
+                start = transition.start_date_time
                 transition_year = start.y
                 if transition_year != year:
                     continue
@@ -126,7 +126,7 @@ class TestDataGenerator:
                     if start.M == 1 and start.d == 1 and start.ss == 0:
                         continue
 
-                epoch_seconds = transition.startEpochSecond
+                epoch_seconds = transition.start_epoch_second
 
                 # Add a test data just before the transition
                 test_item = self._create_test_item_from_epoch_seconds(
@@ -224,7 +224,8 @@ class TestDataGenerator:
         if current:
             # If a duplicate TestItem exists for epoch, then check that the
             # data is exactly the same.
-            if (current['total_offset'] != item['total_offset']
+            if (
+                current['total_offset'] != item['total_offset']
                 or current['dst_offset'] != item['dst_offset']
                 or current['y'] != item['y'] or current['M'] != item['M']
                 or current['d'] != item['d'] or current['h'] != item['h']

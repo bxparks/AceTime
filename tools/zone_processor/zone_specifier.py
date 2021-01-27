@@ -852,8 +852,8 @@ class ZoneSpecifier:
         match = None
         exact_match = True
         for transition in self.transitions:
-            start_time = transition.startDateTime
-            until_time = transition.untilDateTime
+            start_time = transition.start_date_time
+            until_time = transition.until_date_time
 
             if dt_time < start_time:
                 if not exact_match:

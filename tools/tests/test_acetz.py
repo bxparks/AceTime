@@ -1,7 +1,8 @@
 import unittest
 from datetime import datetime, timedelta, timezone
-from acetz import gettz as agettz, SECONDS_SINCE_UNIX_EPOCH
 from dateutil.tz import gettz
+from data_types.at_types import SECONDS_SINCE_UNIX_EPOCH
+from acetz import gettz as agettz
 
 
 class TestAceTz(unittest.TestCase):
@@ -22,15 +23,21 @@ class TestAceTz(unittest.TestCase):
         self.assertEqual(ddt.year, adt.year)
 
         self.assertEqual(ddt.timestamp(), adt.timestamp())
+        ddt_utcoffset = ddt.utcoffset()
+        assert(ddt_utcoffset is not None)
+        adt_utcoffset = adt.utcoffset()
+        assert(adt_utcoffset is not None)
         self.assertEqual(
-            ddt.utcoffset().total_seconds(),
-            adt.utcoffset().total_seconds(),
+            ddt_utcoffset.total_seconds(),
+            adt_utcoffset.total_seconds(),
         )
+        assert(ddt.tzinfo is not None)
+        assert(adt.tzinfo is not None)
         self.assertEqual(ddt.tzinfo.tzname(ddt), adt.tzinfo.tzname(adt))
 
     def test_before_spring_forward(self) -> None:
         tz = agettz('America/Los_Angeles')
-        zs = tz.zone_specifier()
+        # zs = tz.zone_specifier()
 
         # One second before DST shift, 01:59:59 UTC-8
         epoch_seconds = 7984799
@@ -63,7 +70,7 @@ class TestAceTz(unittest.TestCase):
 
     def test_after_spring_forward(self) -> None:
         tz = agettz('America/Los_Angeles')
-        zs = tz.zone_specifier()
+        # zs = tz.zone_specifier()
 
         # Right after DST forward shift, 03:00:00 UTC-7
         epoch_seconds = 7984800
@@ -96,7 +103,7 @@ class TestAceTz(unittest.TestCase):
 
     def test_before_fall_back(self) -> None:
         tz = agettz('America/Los_Angeles')
-        zs = tz.zone_specifier()
+        # zs = tz.zone_specifier()
 
         # One second before DST shift, 01:59:59 UTC-7
         epoch_seconds = 26125199
@@ -115,22 +122,22 @@ class TestAceTz(unittest.TestCase):
         self.assertEqual(59, dtt.second)
 
         # Date from component
-        #dtc = datetime(2000, 10, 29, 1, 59, 59, tzinfo=tz)
-        #self.assertEqual(unix_seconds, dtc.timestamp())
-        #self.assertEqual(2000, dtc.year)
-        #self.assertEqual(10, dtc.month)
-        #self.assertEqual(29, dtc.day)
-        #self.assertEqual(1, dtc.hour)
-        #self.assertEqual(59, dtc.minute)
-        #self.assertEqual(59, dtc.second)
-        #self.assertEqual(timedelta(hours=-7), tz.utcoffset(dtc))
-        #self.assertEqual(timedelta(hours=1), tz.dst(dtc))
+        # dtc = datetime(2000, 10, 29, 1, 59, 59, tzinfo=tz)
+        # self.assertEqual(unix_seconds, dtc.timestamp())
+        # self.assertEqual(2000, dtc.year)
+        # self.assertEqual(10, dtc.month)
+        # self.assertEqual(29, dtc.day)
+        # self.assertEqual(1, dtc.hour)
+        # self.assertEqual(59, dtc.minute)
+        # self.assertEqual(59, dtc.second)
+        # self.assertEqual(timedelta(hours=-7), tz.utcoffset(dtc))
+        # self.assertEqual(timedelta(hours=1), tz.dst(dtc))
 
-        #self.assertEqual(dtc, dtt)
+        # self.assertEqual(dtc, dtt)
 
     def test_after_fall_back(self) -> None:
         tz = agettz('America/Los_Angeles')
-        zs = tz.zone_specifier()
+        # zs = tz.zone_specifier()
 
         # Just after DST fall back 01:00:00 UTC-8
         epoch_seconds = 26125200
@@ -163,7 +170,7 @@ class TestAceTz(unittest.TestCase):
 
     def test_way_after_fall_back(self) -> None:
         tz = agettz('America/Los_Angeles')
-        zs = tz.zone_specifier()
+        # zs = tz.zone_specifier()
 
         # Just after DST fall back 02:00:00 UTC-8
         epoch_seconds = 26125200 + 3600
@@ -199,6 +206,7 @@ class TestDateUtil(unittest.TestCase):
 
     def test_before_fall_back(self) -> None:
         tz = gettz('America/Los_Angeles')
+        assert(tz is not None)
 
         # One second before DST shift, 01:59:59 UTC-7
         epoch_seconds = 26125199
@@ -233,6 +241,7 @@ class TestDateUtil(unittest.TestCase):
 
     def test_after_fall_back(self) -> None:
         tz = gettz('America/Los_Angeles')
+        assert(tz is not None)
 
         # Just after DST fall back 01:00:00 UTC-8
         epoch_seconds = 26125200
@@ -264,4 +273,3 @@ class TestDateUtil(unittest.TestCase):
         self.assertEqual(timedelta(hours=0), tz.dst(dtc))
 
         self.assertEqual(dtc, dtt)
-

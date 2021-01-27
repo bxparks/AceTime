@@ -4,7 +4,6 @@ TZ_VERSION := 2020f
 SRC := \
 acetz.py \
 compare_acetz \
-compare_pytz \
 compare_dateutil \
 compare_pytz \
 data_types \
