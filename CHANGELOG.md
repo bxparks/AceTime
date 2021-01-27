@@ -35,7 +35,7 @@
           processors, but none on 32-bit processors due to 4-byte alignment.
         * This should have no impact on client code since this field was used
           only for validation testing.
-    * **API Breaking Change**: Replace `BasicZone::name()` and `shortName()
+    * **API Breaking Change**: Replace `BasicZone::name()` and `shortName()`
       with `printNameTo()` and `printShortNameTo()`. Same with
       `ExtendedZone::name()` and `shortName()`, replaced with `printNameTo()`
       and `printShortNameTo()`.
