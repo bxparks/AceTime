@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.4.1</span>
+   &#160;<span id="projectnumber">1.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -212,46 +212,74 @@ $(function() {
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="preprocessor">#if 1</span></div>
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160; </div>
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="keyword">template</span>&lt;u<span class="keywordtype">int</span>16_t SIZE&gt;</div>
-<div class="line"><a name="l00222"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZoneManager.html">  222</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1BasicZoneManager.html">BasicZoneManager</a>: <span class="keyword">public</span> <a class="code" href="classace__time_1_1ZoneManagerImpl.html">ZoneManagerImpl</a>&lt;basic::ZoneInfo,</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    BasicZoneRegistrar, BasicZoneProcessorCache&lt;SIZE&gt;&gt; {</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <a class="code" href="classace__time_1_1BasicZoneManager.html">BasicZoneManager</a>(uint16_t registrySize,</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <span class="keyword">const</span> basic::ZoneInfo* <span class="keyword">const</span>* zoneRegistry):</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <a class="code" href="classace__time_1_1ZoneManagerImpl.html">ZoneManagerImpl</a>&lt;basic::ZoneInfo, <a class="code" href="classace__time_1_1ZoneRegistrar.html">BasicZoneRegistrar</a>,</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            <a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache&lt;SIZE&gt;</a>&gt;(registrySize, zoneRegistry) {}</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;};</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="keyword">template</span>&lt;u<span class="keywordtype">int</span>16_t SIZE&gt;</div>
-<div class="line"><a name="l00238"></a><span class="lineno"><a class="line" href="classace__time_1_1ExtendedZoneManager.html">  238</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1ExtendedZoneManager.html">ExtendedZoneManager</a>: <span class="keyword">public</span> <a class="code" href="classace__time_1_1ZoneManagerImpl.html">ZoneManagerImpl</a>&lt;extended::ZoneInfo,</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    ExtendedZoneRegistrar, ExtendedZoneProcessorCache&lt;SIZE&gt;&gt; {</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <a class="code" href="classace__time_1_1ExtendedZoneManager.html">ExtendedZoneManager</a>(uint16_t registrySize,</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        <span class="keyword">const</span> extended::ZoneInfo* <span class="keyword">const</span>* zoneRegistry):</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        <a class="code" href="classace__time_1_1ZoneManagerImpl.html">ZoneManagerImpl</a>&lt;extended::ZoneInfo, <a class="code" href="classace__time_1_1ZoneRegistrar.html">ExtendedZoneRegistrar</a>,</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            <a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache&lt;SIZE&gt;</a>&gt;(registrySize, zoneRegistry) {}</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;};</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160; </div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="comment">// NOTE: The following typedef seems shorter and easier to maintain. The</span></div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="comment">// problem is that it makes error messages basically impossible to decipher</span></div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="comment">// because the immensely long full template class name is printed out. There</span></div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="comment">// seems to be no difference in code size between the two. The compiler seems</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="comment">// to optimize away the vtables of the parent and child classes.</span></div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160; </div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="keyword">template</span>&lt;u<span class="keywordtype">int</span>8_t SIZE&gt;</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="keyword">using</span> <a class="code" href="classace__time_1_1BasicZoneManager.html">BasicZoneManager</a> = <a class="code" href="classace__time_1_1ZoneManagerImpl.html">ZoneManagerImpl</a>&lt;basic::ZoneInfo,</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <a class="code" href="classace__time_1_1ZoneRegistrar.html">BasicZoneRegistrar</a>, <a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache&lt;SIZE&gt;</a>&gt;;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160; </div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="keyword">template</span>&lt;u<span class="keywordtype">int</span>8_t SIZE&gt;</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="keyword">using</span> <a class="code" href="classace__time_1_1ExtendedZoneManager.html">ExtendedZoneManager</a> = <a class="code" href="classace__time_1_1ZoneManagerImpl.html">ZoneManagerImpl</a>&lt;extended::ZoneInfo,</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <a class="code" href="classace__time_1_1ZoneRegistrar.html">ExtendedZoneRegistrar</a>, <a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache&lt;SIZE&gt;</a>&gt;;</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160; </div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160; </div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;}</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZoneManager.html">  222</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1BasicZoneManager.html">BasicZoneManager</a>: <span class="keyword">public</span> <a class="code" href="classace__time_1_1ZoneManagerImpl.html">ZoneManagerImpl</a>&lt;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;      basic::ZoneInfo,</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;      BasicZoneRegistrar,</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;      BasicZoneProcessorCache&lt;SIZE&gt;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    &gt; {</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; </div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <a class="code" href="classace__time_1_1BasicZoneManager.html">BasicZoneManager</a>(</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        uint16_t registrySize,</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        <span class="keyword">const</span> basic::ZoneInfo* <span class="keyword">const</span>* zoneRegistry</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    ):</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        <a class="code" href="classace__time_1_1ZoneManagerImpl.html">ZoneManagerImpl</a>&lt;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;            basic::ZoneInfo,</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;            <a class="code" href="classace__time_1_1ZoneRegistrar.html">BasicZoneRegistrar</a>,</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            <a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache&lt;SIZE&gt;</a></div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        &gt;(</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;          registrySize,</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;          zoneRegistry</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        )</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    {}</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;};</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160; </div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="keyword">template</span>&lt;u<span class="keywordtype">int</span>16_t SIZE&gt;</div>
+<div class="line"><a name="l00251"></a><span class="lineno"><a class="line" href="classace__time_1_1ExtendedZoneManager.html">  251</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1ExtendedZoneManager.html">ExtendedZoneManager</a>: <span class="keyword">public</span> <a class="code" href="classace__time_1_1ZoneManagerImpl.html">ZoneManagerImpl</a>&lt;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;      extended::ZoneInfo,</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;      ExtendedZoneRegistrar,</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;      ExtendedZoneProcessorCache&lt;SIZE&gt;</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    &gt; {</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <a class="code" href="classace__time_1_1ExtendedZoneManager.html">ExtendedZoneManager</a>(</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        uint16_t registrySize,</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        <span class="keyword">const</span> extended::ZoneInfo* <span class="keyword">const</span>* zoneRegistry</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    ):</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        <a class="code" href="classace__time_1_1ZoneManagerImpl.html">ZoneManagerImpl</a>&lt;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            extended::ZoneInfo,</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;            <a class="code" href="classace__time_1_1ZoneRegistrar.html">ExtendedZoneRegistrar</a>,</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;            <a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache&lt;SIZE&gt;</a></div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        &gt;(</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;          registrySize,</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;          zoneRegistry</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        )</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    {}</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;};</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160; </div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160; </div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;<span class="comment">// NOTE: The following typedefs seem shorter and easier to maintain. The</span></div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="comment">// problem is that they make error messages basically impossible to decipher</span></div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="comment">// because the template class names are far too long for human comprehension.</span></div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="comment">// Fortunatley, there seems to be no difference in code size between the above</span></div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="comment">// solution using subclasses and this solution using typedefs. The compiler</span></div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="comment">// seems to optimize away the vtables of the parent and child classes. So we&#39;ll</span></div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="comment">// use the above subclassing solution to get better error messages.</span></div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160; </div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="keyword">template</span>&lt;u<span class="keywordtype">int</span>8_t SIZE&gt;</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="keyword">using</span> <a class="code" href="classace__time_1_1BasicZoneManager.html">BasicZoneManager</a> = <a class="code" href="classace__time_1_1ZoneManagerImpl.html">ZoneManagerImpl</a>&lt;basic::ZoneInfo,</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    <a class="code" href="classace__time_1_1ZoneRegistrar.html">BasicZoneRegistrar</a>, <a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache&lt;SIZE&gt;</a>&gt;;</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160; </div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="keyword">template</span>&lt;u<span class="keywordtype">int</span>8_t SIZE&gt;</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="keyword">using</span> <a class="code" href="classace__time_1_1ExtendedZoneManager.html">ExtendedZoneManager</a> = <a class="code" href="classace__time_1_1ZoneManagerImpl.html">ZoneManagerImpl</a>&lt;extended::ZoneInfo,</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <a class="code" href="classace__time_1_1ZoneRegistrar.html">ExtendedZoneRegistrar</a>, <a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache&lt;SIZE&gt;</a>&gt;;</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160; </div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160; </div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;}</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; </div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassace__time_1_1ManualZoneManager_html_ad69b0651475348bf740bae6d268b57dd"><div class="ttname"><a href="classace__time_1_1ManualZoneManager.html#ad69b0651475348bf740bae6d268b57dd">ace_time::ManualZoneManager::createForZoneId</a></div><div class="ttdeci">TimeZone createForZoneId(uint32_t) override</div><div class="ttdoc">Create a TimeZone for the given 32-bit zoneId.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneManager_8h_source.html#l00083">ZoneManager.h:83</a></div></div>
 <div class="ttc" id="aclassace__time_1_1BasicZoneProcessorCache_html"><div class="ttname"><a href="classace__time_1_1BasicZoneProcessorCache.html">ace_time::BasicZoneProcessorCache</a></div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessorCache_8h_source.html#l00102">ZoneProcessorCache.h:102</a></div></div>
@@ -262,7 +290,7 @@ $(function() {
 <div class="ttc" id="aclassace__time_1_1TimeZone_html_aa145ae518fa6bfbcd9c712a7047d510d"><div class="ttname"><a href="classace__time_1_1TimeZone.html#aa145ae518fa6bfbcd9c712a7047d510d">ace_time::TimeZone::forError</a></div><div class="ttdeci">static TimeZone forError()</div><div class="ttdoc">Return a TimeZone representing an error condition.</div><div class="ttdef"><b>Definition:</b> <a href="TimeZone_8h_source.html#l00198">TimeZone.h:198</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ZoneManagerImpl_html_a327071178558033a2570697f84eeba87"><div class="ttname"><a href="classace__time_1_1ZoneManagerImpl.html#a327071178558033a2570697f84eeba87">ace_time::ZoneManagerImpl::createForZoneInfo</a></div><div class="ttdeci">TimeZone createForZoneInfo(const ZI *zoneInfo)</div><div class="ttdoc">Create a TimeZone from an explicit ZoneInfo reference.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneManager_8h_source.html#l00189">ZoneManager.h:189</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ZoneManager_html_a77b4e5f49a441132efbda808e7870a73"><div class="ttname"><a href="classace__time_1_1ZoneManager.html#a77b4e5f49a441132efbda808e7870a73">ace_time::ZoneManager::indexForZoneName</a></div><div class="ttdeci">virtual uint16_t indexForZoneName(const char *name) const =0</div><div class="ttdoc">Find the registry index for the given time zone name.</div></div>
-<div class="ttc" id="aclassace__time_1_1ZoneRegistrar_html"><div class="ttname"><a href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a></div><div class="ttdoc">Class that allows looking up the ZoneInfo (ZI) from its TZDB identifier (e.g.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00051">ZoneRegistrar.h:51</a></div></div>
+<div class="ttc" id="aclassace__time_1_1ZoneRegistrar_html"><div class="ttname"><a href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a></div><div class="ttdoc">Class that allows looking up the ZoneInfo (ZI) from its TZDB identifier (e.g.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00041">ZoneRegistrar.h:41</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ZoneManager_html_a00d6073f55d5773e5b7c9b12f9be55e1"><div class="ttname"><a href="classace__time_1_1ZoneManager.html#a00d6073f55d5773e5b7c9b12f9be55e1">ace_time::ZoneManager::createForZoneId</a></div><div class="ttdeci">virtual TimeZone createForZoneId(uint32_t id)=0</div><div class="ttdoc">Create a TimeZone for the given 32-bit zoneId.</div></div>
 <div class="ttc" id="aclassace__time_1_1BasicZoneManager_html"><div class="ttname"><a href="classace__time_1_1BasicZoneManager.html">ace_time::BasicZoneManager</a></div><div class="ttdoc">An implementation of the ZoneManager which uses a registry of basic::ZoneInfo records.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneManager_8h_source.html#l00222">ZoneManager.h:222</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ZoneManager_html_a7977d6c1471fd2e889a518a47fa3f2a2"><div class="ttname"><a href="classace__time_1_1ZoneManager.html#a7977d6c1471fd2e889a518a47fa3f2a2">ace_time::ZoneManager::kInvalidIndex</a></div><div class="ttdeci">static const uint16_t kInvalidIndex</div><div class="ttdoc">Registry index which is not valid.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneManager_8h_source.html#l00027">ZoneManager.h:27</a></div></div>
@@ -275,7 +303,7 @@ $(function() {
 <div class="ttc" id="astructace__time_1_1TimeZoneData_html"><div class="ttname"><a href="structace__time_1_1TimeZoneData.html">ace_time::TimeZoneData</a></div><div class="ttdoc">Data structure that captures the internal state of a TimeZone object with enough information so that ...</div><div class="ttdef"><b>Definition:</b> <a href="TimeZoneData_8h_source.html#l00038">TimeZoneData.h:38</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ManualZoneManager_html_a9af5afe872e13b8ef284399d65c835b3"><div class="ttname"><a href="classace__time_1_1ManualZoneManager.html#a9af5afe872e13b8ef284399d65c835b3">ace_time::ManualZoneManager::createForZoneIndex</a></div><div class="ttdeci">TimeZone createForZoneIndex(uint16_t) override</div><div class="ttdoc">Create a TimeZone for the given index in the ZoneInfo registry that was used to create this ZoneManag...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneManager_8h_source.html#l00087">ZoneManager.h:87</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ManualZoneManager_html_a9c9ca83110924ac15810e159912df5f2"><div class="ttname"><a href="classace__time_1_1ManualZoneManager.html#a9c9ca83110924ac15810e159912df5f2">ace_time::ManualZoneManager::createForTimeZoneData</a></div><div class="ttdeci">TimeZone createForTimeZoneData(const TimeZoneData &amp;d) override</div><div class="ttdoc">Create a TimeZone from the TimeZoneData created by TimeZone::toTimeZoneData().</div><div class="ttdef"><b>Definition:</b> <a href="ZoneManager_8h_source.html#l00091">ZoneManager.h:91</a></div></div>
-<div class="ttc" id="aclassace__time_1_1ExtendedZoneManager_html"><div class="ttname"><a href="classace__time_1_1ExtendedZoneManager.html">ace_time::ExtendedZoneManager</a></div><div class="ttdoc">An implementation of the ZoneManager which uses a registry of extended::ZoneInfo records.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneManager_8h_source.html#l00238">ZoneManager.h:238</a></div></div>
+<div class="ttc" id="aclassace__time_1_1ExtendedZoneManager_html"><div class="ttname"><a href="classace__time_1_1ExtendedZoneManager.html">ace_time::ExtendedZoneManager</a></div><div class="ttdoc">An implementation of the ZoneManager which uses a registry of extended::ZoneInfo records.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneManager_8h_source.html#l00251">ZoneManager.h:251</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ZoneManagerImpl_html"><div class="ttname"><a href="classace__time_1_1ZoneManagerImpl.html">ace_time::ZoneManagerImpl</a></div><div class="ttdoc">A templatized implementation of ZoneManager that binds the (Basic|Extended)ZoneRegistrar with the cor...</div><div class="ttdef"><b>Definition:</b> <a href="TimeZone_8h_source.html#l00023">TimeZone.h:23</a></div></div>
 <div class="ttc" id="aclassace__time_1_1TimeZone_html"><div class="ttname"><a href="classace__time_1_1TimeZone.html">ace_time::TimeZone</a></div><div class="ttdoc">Class that describes a time zone.</div><div class="ttdef"><b>Definition:</b> <a href="TimeZone_8h_source.html#l00084">TimeZone.h:84</a></div></div>
 <div class="ttc" id="aclassace__time_1_1TimeZone_html_ae12df54ad1a75a6b0f1c24ff71af4bb9"><div class="ttname"><a href="classace__time_1_1TimeZone.html#ae12df54ad1a75a6b0f1c24ff71af4bb9">ace_time::TimeZone::forTimeOffset</a></div><div class="ttdeci">static TimeZone forTimeOffset(TimeOffset stdOffset, TimeOffset dstOffset=TimeOffset())</div><div class="ttdoc">Factory method to create from a UTC offset and an optional DST offset.</div><div class="ttdef"><b>Definition:</b> <a href="TimeZone_8h_source.html#l00113">TimeZone.h:113</a></div></div>

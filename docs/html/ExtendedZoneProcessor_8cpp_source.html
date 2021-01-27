@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.4.1</span>
+   &#160;<span id="projectnumber">1.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -98,17 +98,17 @@ $(function() {
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;};</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
 <div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classace__time_1_1ExtendedZoneProcessor.html#ac48a94acb7028a6f2a791fe268198756">   27</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classace__time_1_1ExtendedZoneProcessor.html#ac48a94acb7028a6f2a791fe268198756">ExtendedZoneProcessor::printTo</a>(Print&amp; printer)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  printer.print(<a class="code" href="classace__time_1_1ExtendedZone.html">ExtendedZone</a>(mZoneInfo.zoneInfo()).name());</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <a class="code" href="classace__time_1_1ExtendedZone.html">ExtendedZone</a>(mZoneInfo.zoneInfo()).printNameTo(printer);</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="classace__time_1_1ExtendedZoneProcessor.html#ab68cb446aeb2a8097f18697abecfc80f">   31</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classace__time_1_1ExtendedZoneProcessor.html#ab68cb446aeb2a8097f18697abecfc80f">ExtendedZoneProcessor::printShortTo</a>(Print&amp; printer)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  printer.print(<a class="code" href="classace__time_1_1ExtendedZone.html">ExtendedZone</a>(mZoneInfo.zoneInfo()).shortName());</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <a class="code" href="classace__time_1_1ExtendedZone.html">ExtendedZone</a>(mZoneInfo.zoneInfo()).printShortNameTo(printer);</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassace__time_1_1ExtendedZoneProcessor_html_ab68cb446aeb2a8097f18697abecfc80f"><div class="ttname"><a href="classace__time_1_1ExtendedZoneProcessor.html#ab68cb446aeb2a8097f18697abecfc80f">ace_time::ExtendedZoneProcessor::printShortTo</a></div><div class="ttdeci">void printShortTo(Print &amp;printer) const override</div><div class="ttdoc">Print a short human-readable identifier (e.g.</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZoneProcessor_8cpp_source.html#l00031">ExtendedZoneProcessor.cpp:31</a></div></div>
-<div class="ttc" id="aclassace__time_1_1ExtendedZone_html"><div class="ttname"><a href="classace__time_1_1ExtendedZone.html">ace_time::ExtendedZone</a></div><div class="ttdoc">A thin wrapper around an extended::ZoneInfo data structure to provide a stable API access to some use...</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZone_8h_source.html#l00023">ExtendedZone.h:23</a></div></div>
+<div class="ttc" id="aclassace__time_1_1ExtendedZone_html"><div class="ttname"><a href="classace__time_1_1ExtendedZone.html">ace_time::ExtendedZone</a></div><div class="ttdoc">A thin wrapper around an extended::ZoneInfo data structure to provide a stable API access to some use...</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZone_8h_source.html#l00022">ExtendedZone.h:22</a></div></div>
 <div class="ttc" id="aclassace__time_1_1LocalDate_html_ab488f7039935fb19e1d53f63ec47a5f8"><div class="ttname"><a href="classace__time_1_1LocalDate.html#ab488f7039935fb19e1d53f63ec47a5f8">ace_time::LocalDate::kInvalidYearTiny</a></div><div class="ttdeci">static const int8_t kInvalidYearTiny</div><div class="ttdoc">Sentinel yearTiny which indicates an error condition or sometimes a year that 'does not exist'.</div><div class="ttdef"><b>Definition:</b> <a href="LocalDate_8h_source.html#l00045">LocalDate.h:45</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ExtendedZoneProcessor_html_ac48a94acb7028a6f2a791fe268198756"><div class="ttname"><a href="classace__time_1_1ExtendedZoneProcessor.html#ac48a94acb7028a6f2a791fe268198756">ace_time::ExtendedZoneProcessor::printTo</a></div><div class="ttdeci">void printTo(Print &amp;printer) const override</div><div class="ttdoc">Print a human-readable identifier (e.g.</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZoneProcessor_8cpp_source.html#l00027">ExtendedZoneProcessor.cpp:27</a></div></div>
 <!-- start footer part -->
