@@ -7,9 +7,9 @@
 using namespace aunit;
 using namespace ace_time;
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // ZonedDateTime + Manual TimeZone
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 // Check that ZonedDateTime with Manual TimeZone agrees with simpler
 // OffsetDateTime.
@@ -162,9 +162,9 @@ test(ZonedDateTimeTest_Manual, error) {
   assertTrue(zdt.isError());
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // forDateString()
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(ZonedDateTimeTest, forDateString) {
   // exact ISO8601 format
@@ -220,9 +220,9 @@ test(ZonedDateTimeTest, forDateString_errors) {
   assertTrue(dt.isError());
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // printTo()
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(ZonedDateTimeTest_Manual, printTo) {
   ace_common::PrintStr<64> dateString;
@@ -240,9 +240,9 @@ test(ZonedDateTimeTest_Manual, printTo) {
   assertEqual(dateString.getCstr(), "2018-03-11T01:59:59-08:00[-08:00+00:00]");
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // data_time_mutation
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(DateTimeMutationTest, increment) {
   ZonedDateTime dt = ZonedDateTime::forComponents(2001, 2, 3, 4, 5, 6,
@@ -301,14 +301,14 @@ test(DateTimeMutationTest, increment) {
   assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void setup() {
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 }
 
 void loop() {

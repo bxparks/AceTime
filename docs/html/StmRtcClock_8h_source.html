@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.4.1</span>
+   &#160;<span id="projectnumber">1.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -81,7 +81,7 @@ $(function() {
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#ifndef ACE_TIME_STM_RTC_CLOCK_H</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#define ACE_TIME_STM_RTC_CLOCK_H</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#if ! defined(UNIX_HOST_DUINO)</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#if ! defined(EPOXY_DUINO)</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#if defined(ARDUINO_ARCH_STM32)</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
@@ -135,7 +135,7 @@ $(function() {
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;} <span class="comment">// ace_time</span></div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#endif // #if defined(ARDUINO_ARCH_STM32)</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#endif // #if ! defined(UNIX_HOST_DUINO)</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#endif // #if ! defined(EPOXY_DUINO)</span></div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">#endif // #ifndef ACE_TIME_STM_RTC_CLOCK_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassace__time_1_1LocalDateTime_html_aa039d7c6417156350a8d712c564c5832"><div class="ttname"><a href="classace__time_1_1LocalDateTime.html#aa039d7c6417156350a8d712c564c5832">ace_time::LocalDateTime::forComponents</a></div><div class="ttdeci">static LocalDateTime forComponents(int16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second)</div><div class="ttdoc">Factory method using separated date and time components.</div><div class="ttdef"><b>Definition:</b> <a href="LocalDateTime_8h_source.html#l00043">LocalDateTime.h:43</a></div></div>

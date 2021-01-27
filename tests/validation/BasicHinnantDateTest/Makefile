@@ -1,4 +1,4 @@
-# See https://github.com/bxparks/UnixHostDuino for documentation about this
+# See https://github.com/bxparks/EpoxyDuino for documentation about this
 # Makefile to compile and run Arduino programs natively on Linux or MacOS.
 
 DB_NAMESPACE := zonedbhd
@@ -21,7 +21,7 @@ OBJS := validation_data.o \
 APP_NAME := BasicHinnantDateTest
 ARDUINO_LIBS := AUnit AceCommon AceTime
 MORE_CLEAN := more_clean
-include ../../../../UnixHostDuino/UnixHostDuino.mk
+include ../../../../EpoxyDuino/EpoxyDuino.mk
 
 #.PHONY: $(GENERATED)
 
@@ -30,7 +30,7 @@ runtests:
 
 # Define the scope of the test data.
 SCOPE = basic
-TZ_VERSION = 2020f
+TZ_VERSION = 2021a
 START_YEAR = 2000
 UNTIL_YEAR = 2050
 

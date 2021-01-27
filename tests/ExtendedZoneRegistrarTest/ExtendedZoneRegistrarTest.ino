@@ -6,16 +6,16 @@
 using namespace aunit;
 using namespace ace_time;
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 // Verify that we can use kZoneIdAmerica_Los_Angeles everywhere.
 test(ExtendedZoneRegistrarTest, kZoneId) {
   assertEqual((uint32_t) 0xb7f7e8f2, zonedbx::kZoneIdAmerica_Los_Angeles);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // ExtendedZoneRegistrar
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(ExtendedZoneRegistrarTest, registrySize) {
   ExtendedZoneRegistrar zoneRegistrar(
@@ -32,24 +32,39 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForName_Los_Angeles) {
       zoneRegistrar.getZoneInfoForName("America/Los_Angeles");
   assertNotEqual(zoneInfo, nullptr);
 
-  assertEqual(F("America/Los_Angeles"), ExtendedZone(zoneInfo).name());
-  assertEqual(F("Los_Angeles"), ExtendedZone(zoneInfo).shortName());
+  ace_common::PrintStr<32> printStr;
+  ExtendedZone(zoneInfo).printNameTo(printStr);
+  assertEqual(F("America/Los_Angeles"), printStr.getCstr());
+
+  printStr.flush();
+  ExtendedZone(zoneInfo).printShortNameTo(printStr);
+  assertEqual(F("Los_Angeles"), printStr.getCstr());
+}
+
+// Test a zone without separators, "EST".
+test(ExtendedZoneRegistrarTest, getZoneInfoForName_EST) {
+  ExtendedZoneRegistrar zoneRegistrar(
+      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
+  assertTrue(zoneRegistrar.isSorted());
+
+  const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForName("EST");
+  assertNotEqual(zoneInfo, nullptr);
+
+  ace_common::PrintStr<32> printStr;
+  ExtendedZone(zoneInfo).printNameTo(printStr);
+  assertEqual(F("EST"), printStr.getCstr());
+
+  printStr.flush();
+  ExtendedZone(zoneInfo).printShortNameTo(printStr);
+  assertEqual(F("EST"), printStr.getCstr());
 }
 
 test(ExtendedZoneRegistrarTest, getZoneInfoForName_not_found) {
   ExtendedZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo =
-      zoneRegistrar.getZoneInfoForName("not found");
+      zoneRegistrar.getZoneInfoForName("doesNotExist");
   assertEqual(zoneInfo, nullptr);
-}
-
-test(ExtendedZoneRegistrarTest, getZoneInfo_Index_0) {
-  ExtendedZoneRegistrar zoneRegistrar(
-      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-  const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(0);
-  assertNotEqual(zoneInfo, nullptr);
-  assertEqual(F("Africa/Abidjan"), ExtendedZone(zoneInfo).name());
 }
 
 test(ExtendedZoneRegistrarTest, getZoneInfo_Index_not_found) {
@@ -78,14 +93,14 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForId_not_found) {
   assertEqual(zoneInfo, nullptr);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void setup() {
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 }
 
 void loop() {

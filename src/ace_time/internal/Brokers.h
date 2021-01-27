@@ -11,25 +11,25 @@
  *
  * The classes provide a thin layer of indirection for accessing the
  * zoneinfo files stored in the zonedb/ and zonedbx/ directories. When
- * ACE_TIME_USE_PROGMEM or ACE_TIME_USE_PROGMEM are enabled, the
- * zoneinfo files are stored in flash memory (using the PROGMEM keyword), and
- * cannot be accessed directly on microcontrollers using the Harvard
- * architecture (e.g. AVR) where data and program live in 2 different address
- * spaces. The data in flash memory must be accessed using helper routines in
- * <pgmspace.h>. These classes abstract away this difference so that the code
- * BasicZoneProcessor and ExtendedZoneProcessor can be written to be (mostly)
- * agnostic to how the zoneinfo files are stored.
+ * ACE_TIME_USE_PROGMEM is enabled, the zoneinfo files are stored in flash
+ * memory (using the PROGMEM keyword), and cannot be accessed directly on
+ * microcontrollers using the Harvard architecture (e.g. AVR) where data and
+ * program live in 2 different address spaces. The data in flash memory must be
+ * accessed using helper routines in <pgmspace.h>. These classes abstract away
+ * this difference so that the code BasicZoneProcessor and
+ * ExtendedZoneProcessor can be written to be (mostly) agnostic to how the
+ * zoneinfo files are stored.
  *
- * When ACE_TIME_USE_PROGMEM are disabled, the compiler will optimize away this
+ * When ACE_TIME_USE_PROGMEM is disabled, the compiler will optimize away this
  * entire abstraction layer, so the resulting machine code is no bigger than
- * (and in most cases, identifical to) accessing the zoneinfo files directly.
+ * (and in most cases, identical to) accessing the zoneinfo files directly.
  *
  * The abstraction layer is thin enough that the code in BasicZoneProcessor and
  * ExtendedZoneProcessor did not change very much. It was mostly a mechanical
  * source code replacement of direct zoneinfo access to using these data
  * brokers.
  *
- * The helper functions live in the internal:: namespace. The classes are
+ * The helper functions live in the `internal::` namespace. The classes are
  * somewhat duplicated between the 'basic' and 'extended' namespaces. They used
  * to be identical so that they could be templatized. But supporting one-minute
  * resolution for 'extended' meant that the implementations diverged, so I had
@@ -318,6 +318,10 @@ class ZoneInfoBroker {
 
   #if ACE_TIME_USE_PROGMEM
 
+    const ZoneContext* zoneContext() const {
+      return (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
+    }
+
     const char* name() const {
       return (const char*) pgm_read_ptr(&mZoneInfo->name);
     }
@@ -327,15 +331,11 @@ class ZoneInfoBroker {
     }
 
     int16_t startYear() const {
-      const ZoneContext* zoneContext =
-          (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
-      return zoneContext->startYear;
+      return zoneContext()->startYear;
     }
 
     int16_t untilYear() const {
-      const ZoneContext* zoneContext =
-          (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
-      return zoneContext->untilYear;
+      return zoneContext()->untilYear;
     }
 
     uint8_t numEras() const {
@@ -348,6 +348,8 @@ class ZoneInfoBroker {
     }
 
   #else
+
+    const ZoneContext* zoneContext() const { return mZoneInfo->zoneContext; }
 
     const char* name() const { return mZoneInfo->name; }
 
@@ -691,6 +693,10 @@ class ZoneInfoBroker {
 
   #if ACE_TIME_USE_PROGMEM
 
+    const ZoneContext* zoneContext() const {
+      return (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
+    }
+
     const char* name() const {
       return (const char*) pgm_read_ptr(&mZoneInfo->name);
     }
@@ -700,15 +706,11 @@ class ZoneInfoBroker {
     }
 
     int16_t startYear() const {
-      const ZoneContext* zoneContext =
-          (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
-      return zoneContext->startYear;
+      return zoneContext()->startYear;
     }
 
     int16_t untilYear() const {
-      const ZoneContext* zoneContext =
-          (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
-      return zoneContext->untilYear;
+      return zoneContext()->untilYear;
     }
 
     uint8_t numEras() const {
@@ -721,6 +723,8 @@ class ZoneInfoBroker {
     }
 
   #else
+
+    const ZoneContext* zoneContext() const { return mZoneInfo->zoneContext; }
 
     const char* name() const { return mZoneInfo->name; }
 

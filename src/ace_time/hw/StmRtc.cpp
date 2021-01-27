@@ -3,7 +3,7 @@
  * Copyright (c) 2020 Brian T. Park, Anatoli Arkhipenko
  */
 
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
 #if defined(ARDUINO_ARCH_STM32)
 
 #include <Print.h> // Print
@@ -75,5 +75,5 @@ bool StmRtc::isTimeSet() const {
 } // hw
 } // ace_time
 
-#endif  //  #if ! defined(UNIX_HOST_DUINO)
+#endif  //  #if ! defined(EPOXY_DUINO)
 #endif  //  #if defined(ARDUINO_ARCH_STM32)

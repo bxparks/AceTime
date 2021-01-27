@@ -26,7 +26,7 @@ jobs:
     - name: Checkout 3rd Party Repos
       run: |
         cd ..
-        git clone https://github.com/bxparks/UnixHostDuino
+        git clone https://github.com/bxparks/EpoxyDuino
         git clone https://github.com/bxparks/AUnit
         git clone https://github.com/bxparks/AceCommon
         git clone https://github.com/eggert/tz

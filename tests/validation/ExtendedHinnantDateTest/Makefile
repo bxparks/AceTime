@@ -1,4 +1,4 @@
-# See https://github.com/bxparks/UnixHostDuino for documentation about this
+# See https://github.com/bxparks/EpoxyDuino for documentation about this
 # Makefile to compile and run Arduino programs natively on Linux or MacOS.
 
 DB_NAMESPACE := zonedbxhd
@@ -21,7 +21,7 @@ OBJS := validation_data.o \
 APP_NAME := ExtendedHinnantDateTest
 ARDUINO_LIBS := AUnit AceCommon AceTime
 MORE_CLEAN := more_clean
-include ../../../../UnixHostDuino/UnixHostDuino.mk
+include ../../../../EpoxyDuino/EpoxyDuino.mk
 
 #.PHONY: $(GENERATED)
 
@@ -32,7 +32,7 @@ runtests:
 # If START_YEAR < ~1974, then tzcompiler.py must be given the
 # --ignore_buf_size_too_large flag to prevent an exception.
 SCOPE = extended
-TZ_VERSION = 2020f
+TZ_VERSION = 2021a
 START_YEAR = 1974
 UNTIL_YEAR = 2050
 

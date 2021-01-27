@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-**Version**: 1.4.1 (2020-12-30, TZ DB version 2020f)
+**Version**: 1.5 (2021-01-26, TZ DB version 2021a)
 
 ## Table of Contents
 
@@ -45,6 +45,9 @@ See the [README.md](README.md) for introductory background.
         * [createForTimeZoneData()](#CreateForTimeZoneData)
         * [ManualZoneManager](#ManualZoneManager)
     * [Print To String](#PrintToString)
+* [Zones and Links](#ZonesAndLinks)
+    * [Thin Links (Prior to v1.5)](#ThinLinks)
+    * [Fat Links (From v1.5)](#FatLinks)
 * [Mutations](#Mutations)
     * [TimeOffset Mutations](#TimeOffsetMutations)
     * [LocalDate Mutations](#LocalDateMutations)
@@ -124,7 +127,7 @@ The source files are organized as follows:
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
 * `tests/validation` - integration tests using AUnit which must be run
    on desktop Linux or MacOS machines using
-   [UnixHostDuino](https://github.com/bxparks/UnixHostDuino)
+   [EpoxyDuino](https://github.com/bxparks/EpoxyDuino)
 * `examples/` - example programs
 * `tools/` - parser for the TZ Database files, code generators for `zonedb::`
   and `zonedbx::` zone files, and code generators for various unit tests
@@ -160,7 +163,7 @@ Various scripts in the `tools/` directory depend on:
 If you want to run the unit tests or some of the command line examples using a
 Linux or MacOS machine, you need:
 
-* UnixHostDuino (https://github.com/bxparks/UnixHostDuino)
+* EpoxyDuino (https://github.com/bxparks/EpoxyDuino)
 
 <a name="Examples"></a>
 ### Examples
@@ -243,7 +246,7 @@ released (several times a year), I can regenerate the zone files, recompile the
 application, and it will instantly use the new transition rules, without the
 developer needing to create a new POSIX string. To address the memory constraint
 problem, the AceTime library is designed to load only of the smallest subset of
-the TZ Database that is required to support the selected timezones (1 to 3 have
+the TZ Database that is required to support the selected timezones (1 to 4 have
 been extensively tested). Dynamic lookup of the time zone is possible using the
 `ZoneManager`, and the app develop can customize it with the list of zones that
 are compiled into the app. On microcontrollers with more than about 32kB of
@@ -1946,6 +1949,104 @@ using namespace ace_common;
 }
 ```
 
+<a name="ZonesAndLinks"></a>
+## Zones and Links
+
+It seems worthwhile to describe the difference between Zones and Links in the
+IANA TZ database, and how they are implemented in AceTime. A Zone entry is the
+canonical name of a given time zone in the IANA database (e.g.
+`America/Los_Angeles`). A Link entry is an alias, an alternate name, for a
+canonical entry (e.g. `US/Pacific`).
+
+<a name="ThinLinks"></a>
+### Thin Links (Prior to v1.5)
+
+Prior to AceTime v1.5, a Link entry was implemented using a C++ reference to the
+corresponding Zone entry. In other words, `kZoneUS_Pacific` was a reference to
+the `kZoneAmerica_Los_Angeles` Zone data structure, and the `kZoneUS_Pacific`
+object did not have an existence of its own. The main positive aspects of this
+design were:
+
+* the `kZoneUS_Pacific` Link entry consumed *no* additional flash memory,
+  because the data structure for the Link did not exist
+* the implementation was very simple, just a C++ reference
+
+There were several negative consequences however:
+
+* the `name` component of a `kZoneUS_Pacific` data structure was set to
+  `"America/Los_Angeles"`, not `"US/Pacific"`, because the Link entry was just a
+  C++ reference to the Zone entry
+    * this means that `ZonedDateTime.printTo()` prints `America/Los_Angeles`,
+      not `US/Pacific`
+* similarly, the `zoneId` component of a `kZoneUS_Pacific` struct was set to
+  the same `zoneId` of `kZoneAmerica_Los_Angeles`
+* the `kZoneIdUS_Pacific` constant did not exist, in constrast to the target
+  `KZoneIdAmerica_Los_Angeles` constant
+* the `zonedb::kZoneRegistry` and `zonedbx::kZoneRegistry` contained only
+  the Zone entries, not the Link entries
+    * it was then not possible to create a `TimeZone` object through
+      `ZoneManager::createForZoneName()` or `ZoneManager::createForZoneId()`
+      using the Link identifiers instead of the Zone identifiers
+
+But the biggest problem was that the IANA TZ database does not guarantee the
+stability of the Zone and Link identifiers. Sometimes a Zone entry becomes a
+Link entry. For example, in TZ DB version 2020f, the Zone `Australia/Currie`
+became a Link that points to Zone `Australia/Hobart`. This causes problems
+at both compile-time and run-time for applications using AceTime:
+
+**Compile-time**: If the application was using the ZoneId symbol
+`kZoneIdAustralia_Currie`, the app would no longer compile after upgrading to
+TZDB 2020f.
+
+**Run-time**: If the application had stored the ZoneId of `Australia/Currie` or
+the string `"Australia/Currie"` into the EEPROM, the application would no longer
+be able to obtain the `TimeZone` object of `Australia/Currie` after upgrading to
+TZDB 2020f.
+
+<a name="FatLinks"></a>
+### Fat Links (From v1.5)
+
+With AceTime v1.5, the implementation of Links was changed to something called
+Fat Links internally, and Link entries become identical to their corresponding
+Zone entries. In other words:
+
+* the ZoneInfo `kZone{xxx}` constant exists for every Link entry
+* the ZoneId `kZoneId{xxx}` constant exists for every Link entry
+* the `kZone{xxx}.name` field points to the full name of the **Link** entry,
+  not the target Zone entry
+* the `kZone{xxx}.zoneId` field is set to the ZoneId of the **Link** entry
+
+The underlying `ZonePolicy` and `ZoneInfo` data structures are shared between
+the corresponding Zone and Link entries, to save memory, but those Link entries
+now do consume extra flash memory. Because of the extra memory usage, I provide
+2 different Zone registries in the default `zonedb/zone_registry.h` and
+`zonedbx/zone_registry.h` files:
+
+* `zonedb::kZoneRegistry`, `zonedbx::kZoneRegistry`
+    * contain only the Zone entries
+* `zonedb::kZoneAndLinkRegistry`, `zonedbx::kZoneAndLinkRegistry`
+    * contain both Zone and Link entries
+
+The approximate sizes of those registries are given in the corresponding
+`zone_infos.cpp` files, for example, for the `zonedbx`:
+
+* `zonedbx::kZoneRegistry`:
+    * 386 Zones
+    * 17kB (8-bits), 24kB (32-bits)
+* `zonedbx::kZoneAndLinkRegistry`:
+    * 386 Zones, 207 Links
+    * 21kB (8-bits), 31kB (32-bits)
+
+If you have enough flash memory, and forward-compatibility is important, then I
+recommend using the complete `kZoneAndLinkRegistry`. However, if you don't have
+enough memory, and you can tolerate occasional instability of the Zone and Link
+names, then perhaps `kZoneRegistry` is good enough.
+
+If you are creating your own Zone registry, then you don't have to worry about
+forward compatiblity with v1.5 and onwards, because the ZoneName and ZoneId of a
+particular Zone will be stable, even when it changes from a Zone to a Link (or
+the other way).
+
 <a name="Mutations"></a>
 ## Mutations
 
@@ -2718,7 +2819,7 @@ components are identical.
 The resulting data test set contains between 150k to 220k data points, and can
 no longer fit in any Arduino microcontroller that I am aware of. They can be
 executed only on desktop-class Linux or MacOS machines through the use of the
-[UnixHostDuino](https://github.com/bxparks/UnixHostDuino) emulation framework.
+[EpoxyDuino](https://github.com/bxparks/EpoxyDuino) emulation framework.
 
 The `pytz` library supports [dates only until
 2038](https://answers.launchpad.net/pytz/+question/262216). It is also tricky to
@@ -3173,14 +3274,13 @@ get some time to take a closer look in the future.
       supported. The `tzcompiler.py` will exclude and flag the Rules which could
       potentially shift to a different year. As of version 2019b, no such Rule
       seems to exist.
-* `Link` entries
-    * The TZ Database `Link` entries are implemented as C++ references to
-      the equivalent `Zone` entries. For example,
-      `zonedb::kZoneUS_Pacific` is just a reference to
-      `zonedb::kZoneAmerica_Los_Angeles`. This means that if a `ZonedDateTime`
-      is created with a `TimeZone` associated with `kZoneUS_Pacific`, the
-      `ZonedDateTime::printTo()` will print "[America/Los_Angeles]" not
-      "[US/Pacific]".
+* Links
+    * Even with the implementation of "fat links" (see *Zones and Links* section
+      above), it is not possible to determine whether a given `ZoneInfo`
+      instance is a Zone or a Link at run time.
+    * Adding a byte-flag would be straight forward, but would increase flash
+      memory consumption of `kZoneAndLinkRegistry` by 593 bytes. It's not clear
+      if this feature is worth the cost of extra memory usage.
 * Arduino Zero and SAMD21 Boards
     * SAMD21 boards (which all identify themselves as `ARDUINO_SAMD_ZERO`) are
       supported, but there are some tricky points.

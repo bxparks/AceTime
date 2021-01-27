@@ -10,7 +10,7 @@ This unit test compares the DST transitions calculated by the
 The Java tool generates about 130,000 data points spanning the year 2000 to
 2050. It is too large to run on any Arduino board that I am aware of, including
 the ESP32. However it does run on a Linux machine using the
-[UnixHostDuino](https://github.com/bxparks/UnixHostDuino) adapter layer.
+[EpoxyDuino](https://github.com/bxparks/EpoxyDuino) adapter layer.
 
 Assuming that you have `g++` and `make` installed, just type:
 ```

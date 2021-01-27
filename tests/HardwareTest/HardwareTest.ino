@@ -8,9 +8,9 @@
 using namespace aunit;
 using namespace ace_time::hw;
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // HardwareTemperature
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(temperatureCompareAndEquals) {
   HardwareTemperature a;
@@ -37,9 +37,9 @@ test(temperatureToTemperature256) {
   assertEqual(258, a.toTemperature256());
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // HardwareTemperature
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(dateTimeEqual) {
   HardwareDateTime a;
@@ -78,14 +78,14 @@ test(dateTimeEqual) {
   assertTrue(a != b);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void setup() {
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 }
 
 void loop() {

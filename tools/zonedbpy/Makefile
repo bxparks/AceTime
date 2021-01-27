@@ -1,6 +1,6 @@
 TARGETS := zone_infos.py zone_policies.py
 
-TZ_VERSION := 2020f
+TZ_VERSION := 2021a
 START_YEAR := 1974
 UNTIL_YEAR := 2050
 

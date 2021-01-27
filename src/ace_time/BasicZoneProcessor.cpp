@@ -10,11 +10,11 @@
 namespace ace_time {
 
 void BasicZoneProcessor::printTo(Print& printer) const {
-  printer.print(BasicZone(mZoneInfo.zoneInfo()).name());
+  BasicZone(mZoneInfo.zoneInfo()).printNameTo(printer);
 }
 
 void BasicZoneProcessor::printShortTo(Print& printer) const {
-  printer.print(BasicZone(mZoneInfo.zoneInfo()).shortName());
+  BasicZone(mZoneInfo.zoneInfo()).printShortNameTo(printer);
 }
 
 }

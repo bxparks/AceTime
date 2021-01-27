@@ -17,6 +17,15 @@
 #ifndef ACE_TIME_ACE_TIME_H
 #define ACE_TIME_ACE_TIME_H
 
+// Blacklist boards using new Arduino API due to incompatibilities. This
+// currently includes all megaAVR boards and SAMD21 boards using arduino::samd
+// >= 1.8.10. Boards using arduino:samd <= 1.8.9 or SparkFun:samd are fine.
+#if defined(ARDUINO_ARCH_MEGAAVR)
+#error MegaAVR not supported, https://github.com/bxparks/AceTime/issues/44
+#elif defined(ARDUINO_ARCH_SAMD) && defined(ARDUINO_API_VERSION)
+#error SAMD21 with arduino:samd >= 1.8.10 not supported, https://github.com/bxparks/AceTime/issues/45
+#endif
+
 #include "ace_time/common/compat.h"
 #include "ace_time/common/common.h"
 #include "ace_time/common/DateStrings.h"
@@ -64,7 +73,7 @@
 
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 10401
-#define ACE_TIME_VERSION_STRING "1.4.1"
+#define ACE_TIME_VERSION 10500
+#define ACE_TIME_VERSION_STRING "1.5"
 
 #endif

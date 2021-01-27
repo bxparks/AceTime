@@ -5,13 +5,16 @@
 from typing import NamedTuple
 from typing import Optional
 from typing import Dict
+from typing import List
 from typing import Set
 from typing import Tuple
-from collections import OrderedDict
+from collections import OrderedDict, Counter
+import itertools
 import logging
 from transformer.transformer import hash_name
 from data_types.at_types import ZonesMap
 from data_types.at_types import PoliciesMap
+from data_types.at_types import LinksMap
 from data_types.at_types import LettersPerPolicy
 from data_types.at_types import IndexMap
 from data_types.at_types import TransformerResult
@@ -39,12 +42,13 @@ class ArduinoTransformer:
         until_year: int,
     ) -> None:
         self.tresult = tresult
-        self.zones_map = tresult.zones_map
-        self.policies_map = tresult.policies_map
-        self.links_map = tresult.links_map
         self.scope = scope
         self.start_year = start_year
         self.until_year = until_year
+
+        self.zones_map = tresult.zones_map
+        self.policies_map = tresult.policies_map
+        self.links_map = tresult.links_map
 
     def transform(self) -> None:
         self.letters_per_policy, self.letters_map = \
@@ -53,6 +57,11 @@ class ArduinoTransformer:
         self.policies_map = self._process_rules(self.policies_map)
         self.zones_map = self._process_eras(self.zones_map)
         self.zone_ids = _generate_zone_ids(self.zones_map)
+        self.link_ids = _generate_link_ids(self.links_map)
+        self.fragments_map = _generate_fragments(self.zones_map, self.links_map)
+        self.compressed_names = _generate_compressed_names(
+            self.zones_map, self.links_map, self.fragments_map
+        )
 
     def get_data(self) -> TransformerResult:
         return TransformerResult(
@@ -66,9 +75,12 @@ class ArduinoTransformer:
             notable_policies=self.tresult.notable_policies,
             notable_links=self.tresult.notable_links,
             zone_ids=self.zone_ids,
+            link_ids=self.link_ids,
             letters_per_policy=self.letters_per_policy,
             letters_map=self.letters_map,
             formats_map=self.formats_map,
+            fragments_map=self.fragments_map,
+            compressed_names=self.compressed_names,
         )
 
     def print_summary(self) -> None:
@@ -443,7 +455,90 @@ def _to_letter_index(
     return letter_index
 
 
-def _generate_zone_ids(zones_map: ZonesMap) -> Dict[str, int]:
-    """Generate {zoneName -> zoneId} map."""
+def _generate_zone_ids(
+    zones_map: ZonesMap,
+) -> Dict[str, int]:
+    """Generate {zoneName -> zoneId} map of zones."""
     ids: Dict[str, int] = {name: hash_name(name) for name in zones_map.keys()}
     return OrderedDict(sorted(ids.items()))
+
+
+def _generate_link_ids(
+    links_map: LinksMap,
+) -> Dict[str, int]:
+    """Generate {linkName -> linkId} map of links."""
+    ids: Dict[str, int] = {name: hash_name(name) for name in links_map.keys()}
+    return OrderedDict(sorted(ids.items()))
+
+
+def _generate_fragments(zones_map: ZonesMap, links_map: LinksMap) -> IndexMap:
+    """Generate a list of fragments and their indexes, sorted by fragment.
+    E.g. { "Africa": 1, "America": 2, ... }
+    """
+    # Collect the frequency of fragments longer than 3 characters
+    fragments: Dict[str, int] = Counter()
+    for name in itertools.chain(zones_map.keys(), links_map.keys()):
+        fragment_list = _extract_fragments(name)
+        for fragment in fragment_list:
+            if len(fragment) > 3:
+                fragments[fragment] += 1
+
+    # Collect fragments which occur more than 3 times.
+    fragments_map: IndexMap = OrderedDict()
+    index = 1  # start at 1 because '\0' is the c-string termination char
+    for fragment, count in sorted(fragments.items()):
+        if count > 3:
+            fragments_map[fragment] = index
+            index += 1
+        else:
+            logging.info(
+                f"Ignoring fragment '{fragment}' with count {count}, too few"
+            )
+
+    # Make sure that index is < 32, before ASCII-space.
+    if index >= 32:
+        raise Exception("Too many fragments {index}")
+
+    return fragments_map
+
+
+def _extract_fragments(name: str) -> List[str]:
+    """Return the fragments deliminted by '/', excluding the final component.
+    Since every component before the final component is followed by a '/', each
+    fragment returned by this method includes the trailing '/' to obtain higher
+    compression. For example, "America/Argentina/Buenos_Aires" returns
+    ["America/", "Argentina/"]. But "UTC" returns [].
+    """
+    components = name.split('/')
+    return [component + '/' for component in components[:-1]]
+
+
+def _generate_compressed_names(
+    zones_map: ZonesMap,
+    links_map: LinksMap,
+    fragments_map: IndexMap,
+) -> Dict[str, str]:
+    compressed_names: Dict[str, str] = OrderedDict()
+    for name in sorted(zones_map.keys()):
+        compressed_names[name] = _compress_name(name, fragments_map)
+    for name in sorted(links_map.keys()):
+        compressed_names[name] = _compress_name(name, fragments_map)
+    return compressed_names
+
+
+def _compress_name(name: str, fragments: IndexMap) -> str:
+    """Convert 'name' into keyword-compressed format suitable for the C++
+    KString class. For example, "America/Chicago" -> "\x01Chicago".
+    Returns the compressed name.
+    """
+    compressed = ''
+    components = name.split('/')
+    for component in components[:-1]:
+        fragment = component + '/'
+        keyword_index = fragments.get(fragment)
+        if keyword_index is None:
+            compressed += fragment
+        else:
+            compressed += chr(keyword_index)
+    compressed += components[-1]
+    return compressed

@@ -33,7 +33,8 @@ class ExtendedTransitionTest: public aunit::TestOnce {
         const extended::ZoneInfo* const zoneInfo,
         const ValidationData* const testData,
         ValidationScope dstValidationScope,
-        ValidationScope abbrevValidationScope) {
+        ValidationScope abbrevValidationScope,
+        uint8_t bufSize) {
 
       ExtendedZoneProcessor zoneProcessor;
       TimeZone tz = TimeZone::forZoneInfo(zoneInfo, &zoneProcessor);
@@ -82,13 +83,7 @@ class ExtendedTransitionTest: public aunit::TestOnce {
       // Assert that size of the internal Transitions buffer never got
       // above the expected buffer size. The buffer size is only relevant for
       // the ExtendedZoneProcessor class.
-      //
-      // TODO: In theory, we should use
-      // ExtendedZone(zoneInfo).transitionBufSize() for compability with
-      // PROGMEM but this code works only on Linux or MacOS, not on an actual
-      // Arduino microncontroller, so it doesn't really matter.
-      assertLess(zoneProcessor.getTransitionHighWater(),
-        zoneInfo->transitionBufSize);
+      assertLess(zoneProcessor.getTransitionHighWater(), bufSize);
     }
 
     void checkComponent(bool& passed, int i, const ValidationItem& item,

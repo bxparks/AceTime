@@ -6,10 +6,10 @@ sizeof(TimeOffset): 2
 sizeof(OffsetDateTime): 8
 sizeof(BasicZoneProcessor): 156
 sizeof(ExtendedZoneProcessor): 532
-sizeof(BasicZoneRegistrar): 12
-sizeof(ExtendedZoneRegistrar): 12
-sizeof(BasicZoneManager<1>): 180
-sizeof(ExtendedZoneManager<1>): 556
+sizeof(BasicZoneRegistrar): 8
+sizeof(ExtendedZoneRegistrar): 8
+sizeof(BasicZoneManager<1>): 176
+sizeof(ExtendedZoneManager<1>): 552
 sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
@@ -18,7 +18,7 @@ sizeof(clock::DS3231Clock): 8
 sizeof(clock::SystemClock): 24
 sizeof(clock::SystemClockLoop): 44
 sizeof(clock::SystemClockCoroutine): 68
-sizeof(basic::ZoneContext): 8
+sizeof(basic::ZoneContext): 16
 sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9
@@ -28,17 +28,20 @@ sizeof(extended::Transition): 52
 sizeof(extended::ZoneMatch): 16
 BENCHMARKS
 EmptyLoop 1.300
-LocalDate::forEpochDays() 23.200
-LocalDate::toEpochDays() 9.700
-LocalDate::dayOfWeek() 12.300
-OffsetDateTime::forEpochSeconds() 35.000
-OffsetDateTime::toEpochSeconds() 17.100
-ZonedDateTime::toEpochSeconds() 18.200
-ZonedDateTime::toEpochDays() 16.300
-ZonedDateTime::forEpochSeconds(UTC) 41.300
-ZonedDateTime::forEpochSeconds(Basic_nocache) 235.200
-ZonedDateTime::forEpochSeconds(Basic_cached) 73.800
-ZonedDateTime::forEpochSeconds(Extended_nocache) 435.100
-ZonedDateTime::forEpochSeconds(Extended_cached) 74.100
+LocalDate::forEpochDays() 23.700
+LocalDate::toEpochDays() 9.400
+LocalDate::dayOfWeek() 12.200
+OffsetDateTime::forEpochSeconds() 35.300
+OffsetDateTime::toEpochSeconds() 16.600
+ZonedDateTime::toEpochSeconds() 18.100
+ZonedDateTime::toEpochDays() 15.800
+ZonedDateTime::forEpochSeconds(UTC) 41.400
+ZonedDateTime::forEpochSeconds(Basic_nocache) 234.500
+ZonedDateTime::forEpochSeconds(Basic_cached) 73.000
+ZonedDateTime::forEpochSeconds(Extended_nocache) 435.800
+ZonedDateTime::forEpochSeconds(Extended_cached) 73.200
+BasicZoneManager::createForZoneName(binary) 15.500
+BasicZoneManager::createForZoneId(binary) 3.500
+BasicZoneManager::createForZoneId(linear) 14.400
 Iterations_per_run 10000
 END

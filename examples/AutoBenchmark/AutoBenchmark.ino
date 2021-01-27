@@ -13,14 +13,14 @@
 using namespace ace_time;
 
 void setup() {
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
   delay(1000);
 #endif
 
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Wait until ready - Leonardo/Micro
 
-  SERIAL_PORT_MONITOR.println("SIZEOF");
+  SERIAL_PORT_MONITOR.println(F("SIZEOF"));
 
   // print sizeof() various ace_time primitives
 
@@ -71,7 +71,7 @@ void setup() {
 
   // ace_time::clock classes
 
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
   SERIAL_PORT_MONITOR.print(F("sizeof(clock::DS3231Clock): "));
   SERIAL_PORT_MONITOR.println(sizeof(clock::DS3231Clock));
 
@@ -116,11 +116,11 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("sizeof(extended::ZoneMatch): "));
   SERIAL_PORT_MONITOR.println(sizeof(extended::ZoneMatch));
 
-  SERIAL_PORT_MONITOR.println("BENCHMARKS");
+  SERIAL_PORT_MONITOR.println(F("BENCHMARKS"));
   runBenchmarks();
-  SERIAL_PORT_MONITOR.println("END");
+  SERIAL_PORT_MONITOR.println(F("END"));
 
-#if defined(UNIX_HOST_DUINO)
+#if defined(EPOXY_DUINO)
   exit(0);
 #endif
 }

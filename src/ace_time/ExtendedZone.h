@@ -8,9 +8,8 @@
 
 #include "internal/ZoneInfo.h"
 #include "internal/Brokers.h"
-#include "common/compat.h"
 
-class __FlashStringHelper;
+class Print;
 
 namespace ace_time {
 
@@ -25,30 +24,8 @@ class ExtendedZone {
     ExtendedZone(const extended::ZoneInfo* zoneInfo):
         mZoneInfoBroker(zoneInfo) {}
 
-// TODO: Merge this with BasicZone.h now that they both use the same
-// ACE_TIME_USE_PROGMEM macro.
-#if ACE_TIME_USE_PROGMEM
-    const __FlashStringHelper* name() const {
-      return (const __FlashStringHelper*) mZoneInfoBroker.name();
-    }
-
-    const __FlashStringHelper* shortName() const {
-      const char* name = mZoneInfoBroker.name();
-      const char* slash = strrchr_P(name, '/');
-      return (slash) ? (const __FlashStringHelper*) (slash + 1)
-          : (const __FlashStringHelper*) name;
-    }
-#else
-    const char* name() const {
-      return mZoneInfoBroker.name();
-    }
-
-    const char* shortName() const {
-      const char* name = mZoneInfoBroker.name();
-      const char* slash = strrchr(name, '/');
-      return (slash) ? (slash + 1) : name;
-    }
-#endif
+    void printNameTo(Print& printer) const;
+    void printShortNameTo(Print& printer) const;
 
     uint32_t zoneId() const {
       return mZoneInfoBroker.zoneId();
@@ -58,6 +35,20 @@ class ExtendedZone {
     // disable copy constructor and assignment operator
     ExtendedZone(const ExtendedZone&) = delete;
     ExtendedZone& operator=(const ExtendedZone&) = delete;
+
+    /**
+     * Find the short name that begins after the last separator '/', a keyword
+     * reference, or at the beginning of the string if no separator or keyword.
+     * The last component of the full ZoneName is never compressed, which
+     * allows this to be implemented without using ace_common::KString.
+     *
+     * For example, "America/Los_Angeles" returns a pointer to "Los_Angeles",
+     * and "\x01Denver" returns a ponter to "Denver". This method returns
+     * either a (const char*) or a (const __FlashStringHelper*) depending on
+     * whether PROGMEM is used or not. The caller is responsible for casting to
+     * the correct type.
+     */
+    static const char* findShortName(const char* name);
 
     const extended::ZoneInfoBroker mZoneInfoBroker;
 };

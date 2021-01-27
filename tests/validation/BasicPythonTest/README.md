@@ -12,7 +12,7 @@ The Python tool generates about 130,000 data points spanning the year 2000 to
 the ESP32.
 
 The unit test does run on a Linux machine using the
-[UnixHostDuino](https://github.com/bxparks/UnixHostDuino) adapter layer.
+[EpoxyDuino](https://github.com/bxparks/EpoxyDuino) adapter layer.
 Assuming that you have `g++` and `make` installed, just type:
 
 ```

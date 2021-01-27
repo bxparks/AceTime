@@ -8,9 +8,9 @@ using namespace aunit;
 using namespace ace_time;
 using namespace ace_common;
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // LocalDateTime
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(LocalDateTimeTest, accessors) {
   LocalDateTime dt = LocalDateTime::forComponents(2001, 2, 3, 4, 5, 6);
@@ -315,14 +315,14 @@ test(LocalDateTimeTest, printTo) {
   assertEqual(dateString.getCstr(), "2020-10-30T01:02:03");
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void setup() {
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 }
 
 void loop() {
