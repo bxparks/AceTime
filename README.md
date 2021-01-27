@@ -223,7 +223,7 @@ debouncing and event dispatching provided by the AceButton
 Conversion from date-time components (year, month, day, etc) to epochSeconds
 (`ZonedDateTime::toEpochSeconds()`) takes about:
 
-* ~90 microseconds on an 8-bit AVR processor,
+* ~90 microseconds on an 8-bit AVR,
 * ~17 microseconds on a SAMD21,
 * ~4 microseconds on an STM32 Blue Pill,
 * ~7 microseconds on an ESP8266,
@@ -240,14 +240,15 @@ Conversion from an epochSeconds to date-time components including timezone
 * ~2.5 microseconds on an ESP32,
 * ~5-6 microseconds on a Teensy 3.2.
 
-The creation of a TimeZone from its zoneName or its zoneId through the
-`ZoneManager`, using the 266 entries of `zonedb::kZoneRegistry`, takes about:
+The creation of a TimeZone from its zoneName or its zoneId using a
+`BasicZoneManager` configured with a custom ZoneRegistry with 85 zones takes:
 
+* 36-400 microseconds, for an 8-bit AVR,
 * 4-14 microseconds, for a SAMD21
-* 3-12 microseconds for an STM32 Blue Pill,
-* 9-17 microseconds for an ESP8266,
-* 0.7-3 microseconds for an ESP32,
-* 3-7 microseconds for a Teensy 3.2.
+* 3-18 microseconds for an STM32 Blue Pill,
+* 7-50 microseconds for an ESP8266,
+* 0.6-3 microseconds for an ESP32,
+* 3-10 microseconds for a Teensy 3.2.
 
 **Version**: 1.5 (2021-01-26, TZ DB version 2021a)
 

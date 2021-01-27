@@ -20,7 +20,7 @@ void setup() {
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Wait until ready - Leonardo/Micro
 
-  SERIAL_PORT_MONITOR.println("SIZEOF");
+  SERIAL_PORT_MONITOR.println(F("SIZEOF"));
 
   // print sizeof() various ace_time primitives
 
@@ -116,9 +116,9 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("sizeof(extended::ZoneMatch): "));
   SERIAL_PORT_MONITOR.println(sizeof(extended::ZoneMatch));
 
-  SERIAL_PORT_MONITOR.println("BENCHMARKS");
+  SERIAL_PORT_MONITOR.println(F("BENCHMARKS"));
   runBenchmarks();
-  SERIAL_PORT_MONITOR.println("END");
+  SERIAL_PORT_MONITOR.println(F("END"));
 
 #if defined(EPOXY_DUINO)
   exit(0);
