@@ -19,10 +19,6 @@ validator \
 zinfo.py \
 zone_processor
 
-# Files without Python typing.
-SRC_UNTYPED := \
-tests/test_zone_specifier.py
-
 .PHONY: all mypy flake8 tests
 
 all: mypy flake8 tests
