@@ -81,11 +81,11 @@ The CPU times below are given in microseconds.
 * The CPU time of most classes did not change much from v1.4 to v1.5. The
   big difference is that the Zone registries (kZoneRegistry,
   kZoneAndLinkRegistry) are now sorted by zoneId instead of zoneName, and the
-  `ZoneManager::indexForZoneId()` will use a binary search, instead of a linear
+  `ZoneManager::createForZoneId()` will use a binary search, instead of a linear
   search. This makes it 10-15X faster for ~266 entries. The
-  `ZoneManager::indexForZoneName()` also converts to a zoneId, then performs a
+  `ZoneManager::createForZoneName()` also converts to a zoneId, then performs a
   binary search, instead of doing a binary search on the zoneName directly. Even
-  with the extra level of indirection, the `indexForZoneName()` is between
+  with the extra level of indirection, the `createForZoneName()` is between
   1.5-2X faster than the previous version.
 
 ## Arduino Nano

@@ -446,7 +446,7 @@ static void runIndexForZoneName() {
     disableOptimization((uint32_t) tmp);
   });
 
-  printResult(F("BasicZoneManager::indexForZoneName(binary)"), runMillis,
+  printResult(F("BasicZoneManager::createForZoneName(binary)"), runMillis,
       emptyLoopMillis);
 }
 
@@ -478,7 +478,7 @@ void runIndexForZoneIdBinary() {
     disableOptimization(zoneId);
   });
 
-  printResult(F("BasicZoneManager::indexForZoneId(binary)"), runMillis,
+  printResult(F("BasicZoneManager::createForZoneId(binary)"), runMillis,
       emptyLoopMillis);
 }
 
@@ -505,7 +505,7 @@ void runIndexForZoneIdLinear() {
     disableOptimization(zoneId);
   });
 
-  printResult(F("BasicZoneManager::indexForZoneId(linear)"), runMillis,
+  printResult(F("BasicZoneManager::createForZoneId(linear)"), runMillis,
       emptyLoopMillis);
 }
 

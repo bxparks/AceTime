@@ -57,11 +57,11 @@ The CPU times below are given in microseconds.
 * The CPU time of most classes did not change much from v1.4 to v1.5. The
   big difference is that the Zone registries (kZoneRegistry,
   kZoneAndLinkRegistry) are now sorted by zoneId instead of zoneName, and the
-  `ZoneManager::indexForZoneId()` will use a binary search, instead of a linear
+  `ZoneManager::createForZoneId()` will use a binary search, instead of a linear
   search. This makes it 10-15X faster for ~266 entries. The
-  `ZoneManager::indexForZoneName()` also converts to a zoneId, then performs a
+  `ZoneManager::createForZoneName()` also converts to a zoneId, then performs a
   binary search, instead of doing a binary search on the zoneName directly. Even
-  with the extra level of indirection, the `indexForZoneName()` is between
+  with the extra level of indirection, the `createForZoneName()` is between
   1.5-2X faster than the previous version.
 
 ## Arduino Nano
@@ -118,9 +118,9 @@ CPU:
 | ZonedDateTime::forEpochSeconds(Basic_cached)     |    617.0 |
 | ZonedDateTime::forEpochSeconds(Extended_nocache) |   2022.0 |
 | ZonedDateTime::forEpochSeconds(Extended_cached)  |    618.0 |
-| BasicZoneManager::indexForZoneName(binary)       |    110.0 |
-| BasicZoneManager::indexForZoneId(binary)         |     36.0 |
-| BasicZoneManager::indexForZoneId(linear)         |    392.0 |
+| BasicZoneManager::createForZoneName(binary)      |    110.0 |
+| BasicZoneManager::createForZoneId(binary)        |     36.0 |
+| BasicZoneManager::createForZoneId(linear)        |    392.0 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 1000
 
@@ -180,9 +180,9 @@ CPU:
 | ZonedDateTime::forEpochSeconds(Basic_cached)     |    619.0 |
 | ZonedDateTime::forEpochSeconds(Extended_nocache) |   2034.0 |
 | ZonedDateTime::forEpochSeconds(Extended_cached)  |    621.0 |
-| BasicZoneManager::indexForZoneName(binary)       |    110.0 |
-| BasicZoneManager::indexForZoneId(binary)         |     38.0 |
-| BasicZoneManager::indexForZoneId(linear)         |    398.0 |
+| BasicZoneManager::createForZoneName(binary)      |    110.0 |
+| BasicZoneManager::createForZoneId(binary)        |     38.0 |
+| BasicZoneManager::createForZoneId(linear)        |    398.0 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 1000
 
@@ -242,9 +242,9 @@ CPU:
 | ZonedDateTime::forEpochSeconds(Basic_cached)     |     73.0 |
 | ZonedDateTime::forEpochSeconds(Extended_nocache) |    435.8 |
 | ZonedDateTime::forEpochSeconds(Extended_cached)  |     73.2 |
-| BasicZoneManager::indexForZoneName(binary)       |     15.5 |
-| BasicZoneManager::indexForZoneId(binary)         |      3.5 |
-| BasicZoneManager::indexForZoneId(linear)         |     14.4 |
+| BasicZoneManager::createForZoneName(binary)      |     15.5 |
+| BasicZoneManager::createForZoneId(binary)        |      3.5 |
+| BasicZoneManager::createForZoneId(linear)        |     14.4 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 10000
 
@@ -304,9 +304,9 @@ CPU:
 | ZonedDateTime::forEpochSeconds(Basic_cached)     |     10.3 |
 | ZonedDateTime::forEpochSeconds(Extended_nocache) |    128.4 |
 | ZonedDateTime::forEpochSeconds(Extended_cached)  |     10.1 |
-| BasicZoneManager::indexForZoneName(binary)       |     11.8 |
-| BasicZoneManager::indexForZoneId(binary)         |      2.6 |
-| BasicZoneManager::indexForZoneId(linear)         |     17.9 |
+| BasicZoneManager::createForZoneName(binary)      |     11.8 |
+| BasicZoneManager::createForZoneId(binary)        |      2.6 |
+| BasicZoneManager::createForZoneId(linear)        |     17.9 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 10000
 
@@ -367,9 +367,9 @@ CPU:
 | ZonedDateTime::forEpochSeconds(Basic_cached)     |     26.5 |
 | ZonedDateTime::forEpochSeconds(Extended_nocache) |    200.2 |
 | ZonedDateTime::forEpochSeconds(Extended_cached)  |     26.6 |
-| BasicZoneManager::indexForZoneName(binary)       |     15.9 |
-| BasicZoneManager::indexForZoneId(binary)         |      7.4 |
-| BasicZoneManager::indexForZoneId(linear)         |     50.6 |
+| BasicZoneManager::createForZoneName(binary)      |     15.9 |
+| BasicZoneManager::createForZoneId(binary)        |      7.4 |
+| BasicZoneManager::createForZoneId(linear)        |     50.6 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 10000
 
@@ -430,9 +430,9 @@ CPU:
 | ZonedDateTime::forEpochSeconds(Basic_cached)     |      2.5 |
 | ZonedDateTime::forEpochSeconds(Extended_nocache) |     30.1 |
 | ZonedDateTime::forEpochSeconds(Extended_cached)  |      2.4 |
-| BasicZoneManager::indexForZoneName(binary)       |      2.9 |
-| BasicZoneManager::indexForZoneId(binary)         |      0.6 |
-| BasicZoneManager::indexForZoneId(linear)         |      2.6 |
+| BasicZoneManager::createForZoneName(binary)      |      2.9 |
+| BasicZoneManager::createForZoneId(binary)        |      0.6 |
+| BasicZoneManager::createForZoneId(linear)        |      2.6 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 50000
 
@@ -496,9 +496,9 @@ CPU:
 | ZonedDateTime::forEpochSeconds(Basic_cached)     |      6.0 |
 | ZonedDateTime::forEpochSeconds(Extended_nocache) |     67.6 |
 | ZonedDateTime::forEpochSeconds(Extended_cached)  |      5.8 |
-| BasicZoneManager::indexForZoneName(binary)       |      6.6 |
-| BasicZoneManager::indexForZoneId(binary)         |      2.3 |
-| BasicZoneManager::indexForZoneId(linear)         |     10.5 |
+| BasicZoneManager::createForZoneName(binary)      |      6.6 |
+| BasicZoneManager::createForZoneId(binary)        |      2.3 |
+| BasicZoneManager::createForZoneId(linear)        |     10.5 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 50000
 

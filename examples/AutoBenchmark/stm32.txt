@@ -40,8 +40,8 @@ ZonedDateTime::forEpochSeconds(Basic_nocache) 66.300
 ZonedDateTime::forEpochSeconds(Basic_cached) 10.300
 ZonedDateTime::forEpochSeconds(Extended_nocache) 128.400
 ZonedDateTime::forEpochSeconds(Extended_cached) 10.100
-BasicZoneManager::indexForZoneName(binary) 11.800
-BasicZoneManager::indexForZoneId(binary) 2.600
-BasicZoneManager::indexForZoneId(linear) 17.900
+BasicZoneManager::createForZoneName(binary) 11.800
+BasicZoneManager::createForZoneId(binary) 2.600
+BasicZoneManager::createForZoneId(linear) 17.900
 Iterations_per_run 10000
 END
