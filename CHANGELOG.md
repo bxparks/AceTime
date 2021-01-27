@@ -57,6 +57,7 @@
     * Update TZ Database to 2021a.
         * https://mm.icann.org/pipermail/tz-announce/2021-January/000065.html
         * "South Sudan changes from +03 to +02 on 2021-02-01 at 00:00."
+    * Officially support STM32 and STM32duino after testing on STM32 Blue Pill.
 * 1.4.1 (2020-12-30, TZDB version 2020f for real)
     * Actually update `src/ace_time/zonedb` and `src/ace_time/zonedbx`
       zone info files to 2020f. Oops.
