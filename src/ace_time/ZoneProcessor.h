@@ -142,6 +142,15 @@ inline bool operator!=(const ZoneProcessor& a, const ZoneProcessor& b) {
 
 namespace internal {
 
+/**
+  * Longest abbreviation currently seems to be 5 characters
+  * (https://www.timeanddate.com/time/zones/) but the TZ database spec says
+  * that abbreviations are 3 to 6 characters
+  * (https://data.iana.org/time-zones/theory.html#abbreviations), so use 6 as
+  * the maximum.
+  */
+static const uint8_t kAbbrevSize = 6 + 1;
+
 /** The result of calcStartDayOfMonth(). */
 struct MonthDay {
   uint8_t month;

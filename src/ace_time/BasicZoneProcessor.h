@@ -52,15 +52,6 @@ namespace basic {
  * processors without making the program size bigger for 8-bit processors.
  */
 struct Transition {
-  /**
-   * Longest abbreviation currently seems to be 5 characters
-   * (https://www.timeanddate.com/time/zones/) but the TZ database spec says
-   * that abbreviations are 3 to 6 characters
-   * (https://data.iana.org/time-zones/theory.html#abbreviations), so use 6 as
-   * the maximum.
-   */
-  static const uint8_t kAbbrevSize = 6 + 1;
-
   /** The ZoneEra that matched the given year. NonNullable.
    *
    * This field is used only during the init() phase, not during the
@@ -109,7 +100,7 @@ struct Transition {
    * in PROGMEM). That 'letter' is used later in the init() to generate
    * the correct abbreviation which will replace the 'letter' in here.
    */
-  char abbrev[kAbbrevSize];
+  char abbrev[internal::kAbbrevSize];
 
   /** Used only for debugging. */
   void log() const {
@@ -867,7 +858,7 @@ class BasicZoneProcessor: public ZoneProcessor {
     static void calcAbbreviation(basic::Transition* transition) {
       createAbbreviation(
           transition->abbrev,
-          basic::Transition::kAbbrevSize,
+          internal::kAbbrevSize,
           transition->era.format(),
           transition->deltaMinutes,
           transition->abbrev[0]);
