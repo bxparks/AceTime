@@ -47,7 +47,12 @@ class BasicZone {
      * whether PROGMEM is used or not. The caller is responsible for casting to
      * the correct type.
      */
+  #if ACE_TIME_USE_PROGMEM
+    static const __FlashStringHelper* findShortName(
+        const __FlashStringHelper* fname);
+  #else
     static const char* findShortName(const char* name);
+  #endif
 
     const basic::ZoneInfoBroker mZoneInfoBroker;
 };

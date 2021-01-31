@@ -39,6 +39,8 @@
 #include "BrokerCommon.h"
 #include "ZoneInfo.h"
 
+class __FlashStringHelper;
+
 namespace ace_time {
 namespace extended {
 
@@ -329,9 +331,8 @@ class ZoneInfoBroker {
       return (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
     }
 
-    /** Returns a pointer to a flash string. */
-    const char* name() const {
-      return (const char*) pgm_read_ptr(&mZoneInfo->name);
+    const __FlashStringHelper* name() const {
+      return FPSTR(pgm_read_ptr(&mZoneInfo->name));
     }
 
     uint32_t zoneId() const {
@@ -359,7 +360,6 @@ class ZoneInfoBroker {
 
     const ZoneContext* zoneContext() const { return mZoneInfo->zoneContext; }
 
-    /** Returns a pointer to a normal string. */
     const char* name() const { return mZoneInfo->name; }
 
     uint32_t zoneId() const { return mZoneInfo->zoneId; }

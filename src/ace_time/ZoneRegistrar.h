@@ -89,13 +89,8 @@ class ZoneRegistrar {
 
       // Verify that the zoneName actually matches, in case of hash collision.
       ZIB zoneInfoBroker(ZRB(mZoneRegistry).zoneInfo(index));
-      const char* foundName = zoneInfoBroker.name();
       ace_common::KString kname(
-#if ACE_TIME_USE_PROGMEM
-        (const __FlashStringHelper*) foundName,
-#else
-        foundName,
-#endif
+        zoneInfoBroker.name(),
         zoneInfoBroker.zoneContext()->fragments,
         zoneInfoBroker.zoneContext()->numFragments
       );

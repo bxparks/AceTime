@@ -14,19 +14,21 @@ namespace ace_time {
 #if ACE_TIME_USE_PROGMEM
 
 void ExtendedZone::printNameTo(Print& printer) const {
-  const auto* name = (const __FlashStringHelper*) mZoneInfoBroker.name();
+  const __FlashStringHelper* name = mZoneInfoBroker.name();
   const extended::ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();
   KString kname(name, zoneContext->fragments, zoneContext->numFragments);
   kname.printTo(printer);
 }
 
 void ExtendedZone::printShortNameTo(Print& printer) const {
-  const char* name = mZoneInfoBroker.name();
-  const auto* shortName = (const __FlashStringHelper*) findShortName(name);
+  const __FlashStringHelper* name = mZoneInfoBroker.name();
+  const __FlashStringHelper* shortName = findShortName(name);
   printer.print(shortName);
 }
 
-const char* ExtendedZone::findShortName(const char* name) {
+const __FlashStringHelper* ExtendedZone::findShortName(
+    const __FlashStringHelper* fname) {
+  const char* name = (const char*) fname;
   size_t len = strlen_P(name);
   const char* begin = name + len;
   bool separatorFound = false;
@@ -39,7 +41,7 @@ const char* ExtendedZone::findShortName(const char* name) {
     }
   }
   if (separatorFound) begin++;
-  return begin;
+  return (const __FlashStringHelper*) begin;
 }
 
 #else
