@@ -32,7 +32,7 @@ class BasicZoneProcessorTest_calcRuleOffsetMinutes;
 
 namespace ace_time {
 
-template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
 class ZoneProcessorCacheImpl;
 
 namespace basic {
@@ -396,7 +396,7 @@ class BasicZoneProcessor: public ZoneProcessor {
     friend class ::BasicZoneProcessorTest_calcStartDayOfMonth;
     friend class ::BasicZoneProcessorTest_calcRuleOffsetMinutes;
 
-    template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+    template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
     friend class ZoneProcessorCacheImpl; // setZoneInfo()
 
     /**

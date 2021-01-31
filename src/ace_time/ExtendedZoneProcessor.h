@@ -52,7 +52,7 @@ class TransitionStorageTest_findTransitionForDateTime;
 
 namespace ace_time {
 
-template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
 class ZoneProcessorCacheImpl;
 
 namespace extended {
@@ -804,7 +804,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_setZoneInfo;
     friend class ::TransitionStorageTest_findTransitionForDateTime;
 
-    template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+    template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
     friend class ZoneProcessorCacheImpl; // setZoneInfo()
 
     // Disable copy constructor and assignment operator.

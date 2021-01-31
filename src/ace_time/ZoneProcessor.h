@@ -14,7 +14,7 @@ class Print;
 
 namespace ace_time {
 
-template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
 class ZoneProcessorCacheImpl;
 
 class LocalDateTime;
@@ -111,7 +111,7 @@ class ZoneProcessor {
 
     friend class TimeZone; // setZoneInfo()
 
-    template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+    template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
     friend class ZoneProcessorCacheImpl; // setZoneInfo()
 
     // Disable copy constructor and assignment operator.

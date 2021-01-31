@@ -47,13 +47,13 @@ class ZoneProcessorCache {
  *    zones *concurrently* used in the app. It is expected that this will be
  *    small. It can be 1 if the app never changes the TimeZone. It should be 2
  *    if the user is able to select different timezones from a menu.
- * @tparam ZS type of ZoneProcessor (BasicZoneProcessor or
- * ExtendedZoneProcessor)
+ * @tparam ZP type of ZoneProcessor (BasicZoneProcessor or
+ *    ExtendedZoneProcessor)
  * @tparam ZI type of ZoneInfo (basic::ZoneInfo or extended::ZoneInfo)
  * @tparam ZIB type of ZoneInfoBroker (basic::ZoneInfoBroker or 
  *    extended::ZoneInfoBroker)
  */
-template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
 class ZoneProcessorCacheImpl: public ZoneProcessorCache {
   public:
     ZoneProcessorCacheImpl() {}
@@ -62,7 +62,7 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
 
     /** Get the ZoneProcessor from the zoneInfo. Will never return nullptr. */
     ZoneProcessor* getZoneProcessor(const void* zoneInfo) override {
-      ZS* zoneProcessor = findUsingZoneInfo((const ZI*) zoneInfo);
+      ZP* zoneProcessor = findUsingZoneInfo((const ZI*) zoneInfo);
       if (zoneProcessor) return zoneProcessor;
 
       // Allocate the next ZoneProcessor in the cache using round-robin.
@@ -83,7 +83,7 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
      * Returns nullptr if not found. This is a linear search, which should
      * be perfectly ok if SIZE is small, say <= 5.
      */
-    ZS* findUsingZoneInfo(const ZI* zoneInfoKey) {
+    ZP* findUsingZoneInfo(const ZI* zoneInfoKey) {
       for (uint8_t i = 0; i < SIZE; i++) {
         const ZI* zoneInfo = (const ZI*) mZoneProcessors[i].getZoneInfo();
         if (zoneInfo == zoneInfoKey) {
@@ -93,7 +93,7 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
       return nullptr;
     }
 
-    ZS mZoneProcessors[SIZE];
+    ZP mZoneProcessors[SIZE];
     uint8_t mCurrentIndex = 0;
 };
 
