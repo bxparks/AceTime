@@ -1,4 +1,4 @@
-TZ_VERSION := 2020f
+TZ_VERSION := 2021a
 
 # Files which pass 'mypy --strict'.
 SRC := \
