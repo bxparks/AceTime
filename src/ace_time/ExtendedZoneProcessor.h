@@ -11,6 +11,7 @@
 #include "common/compat.h"
 #include "internal/ZonePolicy.h"
 #include "internal/ZoneInfo.h"
+#include "internal/ExtendedBrokers.h"
 #include "common/logging.h"
 #include "TimeOffset.h"
 #include "LocalDate.h"

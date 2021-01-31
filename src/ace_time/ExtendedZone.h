@@ -7,7 +7,7 @@
 #define ACE_TIME_EXTENDED_ZONE_H
 
 #include "internal/ZoneInfo.h"
-#include "internal/Brokers.h"
+#include "internal/ExtendedBrokers.h"
 
 class Print;
 

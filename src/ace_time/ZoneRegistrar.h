@@ -10,7 +10,8 @@
 #include <AceCommon.h> // KString
 #include "common/compat.h" // ACE_TIME_USE_PROGMEM
 #include "internal/ZoneInfo.h"
-#include "internal/Brokers.h"
+#include "internal/BasicBrokers.h"
+#include "internal/ExtendedBrokers.h"
 
 void runIndexForZoneIdBinary();
 void runIndexForZoneIdLinear();
