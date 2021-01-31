@@ -140,6 +140,35 @@ inline bool operator!=(const ZoneProcessor& a, const ZoneProcessor& b) {
   return ! (a == b);
 }
 
-}
+namespace internal {
+
+/** The result of calcStartDayOfMonth(). */
+struct MonthDay {
+  uint8_t month;
+  uint8_t day;
+};
+
+/**
+  * Calculate the actual (month, day) of the expresssion (onDayOfWeek >=
+  * onDayOfMonth) or (onDayOfWeek <= onDayOfMonth).
+  *
+  * There are 4 combinations:
+  *
+  * @verbatim
+  * onDayOfWeek=0, onDayOfMonth=(1-31): exact match
+  * onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek>=dayOfMonth
+  * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
+  * onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek<=dayOfMonth
+  * @endverbatim
+  *
+  * Caveats: This method handles expressions which crosses month boundaries,
+  * but not year boundaries (e.g. Jan to Dec of the previous year, or Dec to
+  * Jan of the following year.)
+  */
+MonthDay calcStartDayOfMonth(int16_t year, uint8_t month,
+    uint8_t onDayOfWeek, int8_t onDayOfMonth);
+
+} // internal
+} // ace_time
 
 #endif

@@ -1229,7 +1229,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
 
     static extended::DateTuple getTransitionTime(
         int8_t yearTiny, const extended::ZoneRuleBroker rule) {
-      basic::MonthDay monthDay = BasicZoneProcessor::calcStartDayOfMonth(
+      internal::MonthDay monthDay = internal::calcStartDayOfMonth(
           yearTiny + LocalDate::kEpochYear, rule.inMonth(), rule.onDayOfWeek(),
           rule.onDayOfMonth());
       return {yearTiny, monthDay.month, monthDay.day,
