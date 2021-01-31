@@ -20,7 +20,7 @@ namespace ace_time {
 
 // Allow ZoneManager to access the TimeZone() constructor that accepts
 // a ZoneProcessorCache.
-template<typename ZI, typename ZR, typename ZSC> class ZoneManagerImpl;
+template<typename ZI, typename ZR, typename ZPC> class ZoneManagerImpl;
 
 /**
  * Class that describes a time zone. There are 2 colloquial usages of "time
@@ -456,7 +456,7 @@ class TimeZone {
 
     // Allow ZoneManager to access the TimeZone() constructor that accepts
     // a ZoneProcessorCache.
-    template<typename ZI, typename ZR, typename ZSC>
+    template<typename ZI, typename ZR, typename ZPC>
     friend class ZoneManagerImpl;
 
     /**
