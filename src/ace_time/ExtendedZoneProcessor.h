@@ -11,12 +11,12 @@
 #include "common/compat.h"
 #include "internal/ZonePolicy.h"
 #include "internal/ZoneInfo.h"
+#include "internal/ExtendedBrokers.h"
 #include "common/logging.h"
 #include "TimeOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
 #include "ZoneProcessor.h"
-#include "BasicZoneProcessor.h"
 #include "local_date_mutation.h"
 
 #define ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG 0
@@ -172,9 +172,6 @@ struct ZoneMatch {
  * processors without making the program size bigger for 8-bit processors.
  */
 struct Transition {
-  /** Size of the timezone abbreviation. */
-  static const uint8_t kAbbrevSize = basic::Transition::kAbbrevSize;
-
   /** The match which generated this Transition. */
   const ZoneMatch* match;
 
@@ -245,7 +242,7 @@ struct Transition {
   int16_t deltaMinutes;
 
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
-  char abbrev[kAbbrevSize];
+  char abbrev[internal::kAbbrevSize];
 
   /** Storage for the single letter 'letter' field if 'rule' is not null. */
   char letterBuf[2];
@@ -1229,7 +1226,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
 
     static extended::DateTuple getTransitionTime(
         int8_t yearTiny, const extended::ZoneRuleBroker rule) {
-      basic::MonthDay monthDay = BasicZoneProcessor::calcStartDayOfMonth(
+      internal::MonthDay monthDay = internal::calcStartDayOfMonth(
           yearTiny + LocalDate::kEpochYear, rule.inMonth(), rule.onDayOfWeek(),
           rule.onDayOfMonth());
       return {yearTiny, monthDay.month, monthDay.day,
@@ -1595,7 +1592,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
             "calcAbbreviations(): format:%s, deltaMinutes:%d, letter:%s\n",
             t->format(), t->deltaMinutes, t->letter());
         }
-        createAbbreviation(t->abbrev, extended::Transition::kAbbrevSize,
+        createAbbreviation(t->abbrev, internal::kAbbrevSize,
             t->format(), t->deltaMinutes, t->letter());
       }
     }

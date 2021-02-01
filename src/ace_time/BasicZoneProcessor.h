@@ -10,7 +10,7 @@
 #include <stdint.h>
 #include "internal/ZonePolicy.h"
 #include "internal/ZoneInfo.h"
-#include "internal/Brokers.h"
+#include "internal/BasicBrokers.h"
 #include "common/logging.h"
 #include "TimeOffset.h"
 #include "LocalDate.h"
@@ -27,7 +27,6 @@ class BasicZoneProcessorTest_init_primitives;
 class BasicZoneProcessorTest_init;
 class BasicZoneProcessorTest_setZoneInfo;
 class BasicZoneProcessorTest_createAbbreviation;
-class BasicZoneProcessorTest_calcStartDayOfMonth;
 class BasicZoneProcessorTest_calcRuleOffsetMinutes;
 
 namespace ace_time {
@@ -53,15 +52,6 @@ namespace basic {
  * processors without making the program size bigger for 8-bit processors.
  */
 struct Transition {
-  /**
-   * Longest abbreviation currently seems to be 5 characters
-   * (https://www.timeanddate.com/time/zones/) but the TZ database spec says
-   * that abbreviations are 3 to 6 characters
-   * (https://data.iana.org/time-zones/theory.html#abbreviations), so use 6 as
-   * the maximum.
-   */
-  static const uint8_t kAbbrevSize = 6 + 1;
-
   /** The ZoneEra that matched the given year. NonNullable.
    *
    * This field is used only during the init() phase, not during the
@@ -110,7 +100,7 @@ struct Transition {
    * in PROGMEM). That 'letter' is used later in the init() to generate
    * the correct abbreviation which will replace the 'letter' in here.
    */
-  char abbrev[kAbbrevSize];
+  char abbrev[internal::kAbbrevSize];
 
   /** Used only for debugging. */
   void log() const {
@@ -132,12 +122,6 @@ struct Transition {
       logging::printf("\n");
     }
   }
-};
-
-/** The result of calcStartDayOfMonth(). */
-struct MonthDay {
-  uint8_t month;
-  uint8_t day;
 };
 
 /** Compare two (year, month) pairs and return (-1, 0, 1). */
@@ -330,60 +314,6 @@ class BasicZoneProcessor: public ZoneProcessor {
       }
     }
 
-    /**
-     * Calculate the actual (month, day) of the expresssion (onDayOfWeek >=
-     * onDayOfMonth) or (onDayOfWeek <= onDayOfMonth).
-     *
-     * There are 4 combinations:
-     *
-     * @verbatim
-     * onDayOfWeek=0, onDayOfMonth=(1-31): exact match
-     * onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek>=dayOfMonth
-     * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
-     * onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek<=dayOfMonth
-     * @endverbatim
-     *
-     * Caveats: This method handles expressions which crosses month boundaries,
-     * but not year boundaries (e.g. Jan to Dec of the previous year, or Dec to
-     * Jan of the following year.)
-     *
-     * Not private, used by ExtendedZoneProcessor.
-     */
-    static basic::MonthDay calcStartDayOfMonth(int16_t year, uint8_t month,
-        uint8_t onDayOfWeek, int8_t onDayOfMonth) {
-      if (onDayOfWeek == 0) return {month, (uint8_t) onDayOfMonth};
-
-      if (onDayOfMonth >= 0) {
-        // Convert "last{Xxx}" to "last{Xxx}>={daysInMonth-6}".
-        uint8_t daysInMonth = LocalDate::daysInMonth(year, month);
-        if (onDayOfMonth == 0) {
-          onDayOfMonth =  daysInMonth - 6;
-        }
-
-        auto limitDate = LocalDate::forComponents(year, month, onDayOfMonth);
-        uint8_t dayOfWeekShift = (onDayOfWeek - limitDate.dayOfWeek() + 7) % 7;
-        uint8_t day = (uint8_t) (onDayOfMonth + dayOfWeekShift);
-        if (day > daysInMonth) {
-          // TODO: Support shifting from Dec to Jan of following  year.
-          day -= daysInMonth;
-          month++;
-        }
-        return {month, day};
-      } else {
-        onDayOfMonth = -onDayOfMonth;
-        auto limitDate = LocalDate::forComponents(year, month, onDayOfMonth);
-        int8_t dayOfWeekShift = (limitDate.dayOfWeek() - onDayOfWeek + 7) % 7;
-        int8_t day = onDayOfMonth - dayOfWeekShift;
-        if (day < 1) {
-          // TODO: Support shifting from Jan to Dec of the previous year.
-          month--;
-          uint8_t daysInPrevMonth = LocalDate::daysInMonth(year, month);
-          day += daysInPrevMonth;
-        }
-        return {month, (uint8_t) day};
-      }
-    }
-
   private:
     friend class ::BasicZoneProcessorTest_priorYearOfRule;
     friend class ::BasicZoneProcessorTest_compareRulesBeforeYear;
@@ -393,7 +323,6 @@ class BasicZoneProcessor: public ZoneProcessor {
     friend class ::BasicZoneProcessorTest_init;
     friend class ::BasicZoneProcessorTest_setZoneInfo;
     friend class ::BasicZoneProcessorTest_createAbbreviation;
-    friend class ::BasicZoneProcessorTest_calcStartDayOfMonth;
     friend class ::BasicZoneProcessorTest_calcRuleOffsetMinutes;
 
     template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
@@ -871,7 +800,7 @@ class BasicZoneProcessor: public ZoneProcessor {
           // and the effective offset code.
 
           // Determine the start date of the rule.
-          const basic::MonthDay monthDay = calcStartDayOfMonth(
+          const internal::MonthDay monthDay = internal::calcStartDayOfMonth(
               year, transition.month, transition.rule.onDayOfWeek(),
               transition.rule.onDayOfMonth());
 
@@ -929,7 +858,7 @@ class BasicZoneProcessor: public ZoneProcessor {
     static void calcAbbreviation(basic::Transition* transition) {
       createAbbreviation(
           transition->abbrev,
-          basic::Transition::kAbbrevSize,
+          internal::kAbbrevSize,
           transition->era.format(),
           transition->deltaMinutes,
           transition->abbrev[0]);
