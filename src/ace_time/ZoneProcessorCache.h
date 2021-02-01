@@ -28,7 +28,7 @@ class ZoneProcessorCache {
         ZoneProcessor::kTypeExtended + 2;
 
     /** Return the type of this cache. */
-    virtual uint8_t getType() = 0;
+    uint8_t getType() const { return mType; }
 
     /**
      * Get ZoneProcessor from either a basic::ZoneInfo or an
@@ -37,6 +37,18 @@ class ZoneProcessorCache {
      * classes.
      */
     virtual ZoneProcessor* getZoneProcessor(const void* zoneInfo) = 0;
+
+  protected:
+    ZoneProcessorCache(uint8_t type)
+      : mType(type)
+    {}
+
+  private:
+    // disable copy constructor and assignment operator
+    ZoneProcessorCache(const ZoneProcessorCache&) = delete;
+    ZoneProcessorCache& operator=(const ZoneProcessorCache&) = delete;
+
+    uint8_t const mType;
 };
 
 /**
@@ -47,18 +59,21 @@ class ZoneProcessorCache {
  *    zones *concurrently* used in the app. It is expected that this will be
  *    small. It can be 1 if the app never changes the TimeZone. It should be 2
  *    if the user is able to select different timezones from a menu.
+ * @tparam TYPE integer constant identifying the type of TimeZone (e.g.
+ *    TimeZone::kTypeBasic, kTypeExtended, kTypeBasicManaged,
+ *    kTypeExtendedManaged)
  * @tparam ZP type of ZoneProcessor (BasicZoneProcessor or
  *    ExtendedZoneProcessor)
  * @tparam ZI type of ZoneInfo (basic::ZoneInfo or extended::ZoneInfo)
- * @tparam ZIB type of ZoneInfoBroker (basic::ZoneInfoBroker or 
+ * @tparam ZIB type of ZoneInfoBroker (basic::ZoneInfoBroker or
  *    extended::ZoneInfoBroker)
  */
 template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
 class ZoneProcessorCacheImpl: public ZoneProcessorCache {
   public:
-    ZoneProcessorCacheImpl() {}
-
-    uint8_t getType() override { return TYPE; }
+    ZoneProcessorCacheImpl()
+      : ZoneProcessorCache(TYPE)
+    {}
 
     /** Get the ZoneProcessor from the zoneInfo. Will never return nullptr. */
     ZoneProcessor* getZoneProcessor(const void* zoneInfo) override {
@@ -93,21 +108,26 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
       return nullptr;
     }
 
-    ZP mZoneProcessors[SIZE];
     uint8_t mCurrentIndex = 0;
+    ZP mZoneProcessors[SIZE];
 };
 
 #if 1
 template<uint8_t SIZE>
 class BasicZoneProcessorCache: public ZoneProcessorCacheImpl<
-    SIZE, ZoneProcessorCache::kTypeBasicManaged,
-    BasicZoneProcessor, basic::ZoneInfo, basic::ZoneInfoBroker> {
+    SIZE,
+    ZoneProcessorCache::kTypeBasicManaged,
+    BasicZoneProcessor,
+    basic::ZoneInfo, basic::ZoneInfoBroker> {
 };
 
 template<uint8_t SIZE>
 class ExtendedZoneProcessorCache: public ZoneProcessorCacheImpl<
-    SIZE, ZoneProcessorCache::kTypeExtendedManaged,
-    ExtendedZoneProcessor, extended::ZoneInfo, extended::ZoneInfoBroker> {
+    SIZE,
+    ZoneProcessorCache::kTypeExtendedManaged,
+    ExtendedZoneProcessor,
+    extended::ZoneInfo,
+    extended::ZoneInfoBroker> {
 };
 #else
 
@@ -119,13 +139,19 @@ class ExtendedZoneProcessorCache: public ZoneProcessorCacheImpl<
 
 template<uint8_t SIZE>
 using BasicZoneProcessorCache = ZoneProcessorCacheImpl<
-    SIZE, ZoneProcessorCache::kTypeBasicManaged,
-    BasicZoneProcessor, basic::ZoneInfo, basic::ZoneInfoBroker>;
+    SIZE,
+    ZoneProcessorCache::kTypeBasicManaged,
+    BasicZoneProcessor,
+    basic::ZoneInfo,
+    basic::ZoneInfoBroker>;
 
 template<uint8_t SIZE>
 using ExtendedZoneProcessorCache  = ZoneProcessorCacheImpl<
-    SIZE, ZoneProcessorCache::kTypeExtendedManaged,
-    ExtendedZoneProcessor, extended::ZoneInfo, extended::ZoneInfoBroker>;
+    SIZE,
+    ZoneProcessorCache::kTypeExtendedManaged,
+    ExtendedZoneProcessor,
+    extended::ZoneInfo,
+    extended::ZoneInfoBroker>;
 #endif
 
 }

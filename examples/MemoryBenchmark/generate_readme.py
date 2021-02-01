@@ -81,6 +81,13 @@ increase by ~250/120 bytes when using only 1-2 zones, but *decreases* flash
 consumption by 1200-2400 bytes when all the zones are loaded into the
 `ZoneManager`.
 
+In v1.5+, changing just a single method, `ZoneProcessorCache::getType()`, from a
+`virtual` to a non-virtual method saves 250-350 bytes of flash memory when using
+a `BasicZoneManager` or an `ExtendedZoneManager` on an 8-bit AVR processor.
+Unexpectedly, the flash memory consumption *increases* slightly (~0-50 bytes)
+for some ARM processors and the ESP32. Since those processors have far more
+flash memory, this seems like a good tradeoff.
+
 ## Arduino Nano
 
 * 16MHz ATmega328P
