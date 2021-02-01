@@ -51,10 +51,6 @@ class TransitionStorageTest_resetCandidatePool;
 class TransitionStorageTest_findTransitionForDateTime;
 
 namespace ace_time {
-
-template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
-class ZoneProcessorCacheImpl;
-
 namespace extended {
 
 /**
@@ -779,6 +775,16 @@ class ExtendedZoneProcessor: public ZoneProcessor {
       return mTransitionStorage.getHighWater();
     }
 
+    void setZoneInfo(const void* zoneInfo) override {
+      if (mZoneInfo.zoneInfo() == zoneInfo) return;
+
+      mZoneInfo = extended::ZoneInfoBroker(
+          (const extended::ZoneInfo*) zoneInfo);
+      mYear = 0;
+      mIsFilled = false;
+      mNumMatches = 0;
+    }
+
   private:
     friend class ::ExtendedZoneProcessorTest_compareEraToYearMonth;
     friend class ::ExtendedZoneProcessorTest_compareEraToYearMonth2;
@@ -800,9 +806,6 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_createAbbreviation;
     friend class ::ExtendedZoneProcessorTest_setZoneInfo;
     friend class ::TransitionStorageTest_findTransitionForDateTime;
-
-    template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
-    friend class ZoneProcessorCacheImpl; // setZoneInfo()
 
     // Disable copy constructor and assignment operator.
     ExtendedZoneProcessor(const ExtendedZoneProcessor&) = delete;
@@ -836,27 +839,6 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     bool equals(const ZoneProcessor& other) const override {
       const auto& that = (const ExtendedZoneProcessor&) other;
       return getZoneInfo() == that.getZoneInfo();
-    }
-
-    /**
-     * Set the underlying ZoneInfo.
-     *
-     * Normally a ZoneProcessor object is associated with a single TimeZone.
-     * However, the ZoneProcessorCache will sometimes "take over" a
-     * ZoneProcessor from another TimeZone using this method. The other
-     * TimeZone will take back control of the ZoneProcessor if it needed. To
-     * avoid bouncing the ownership of this object repeatedly, the
-     * ZoneProcessorCache should allocate enough ZoneProcessors to handle the
-     * usage pattern.
-     */
-    void setZoneInfo(const void* zoneInfo) override {
-      if (mZoneInfo.zoneInfo() == zoneInfo) return;
-
-      mZoneInfo = extended::ZoneInfoBroker(
-          (const extended::ZoneInfo*) zoneInfo);
-      mYear = 0;
-      mIsFilled = false;
-      mNumMatches = 0;
     }
 
     /**

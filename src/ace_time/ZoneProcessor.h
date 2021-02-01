@@ -106,13 +106,27 @@ class ZoneProcessor {
     /** Print a short human-readable identifier (e.g. "Los_Angeles") */
     virtual void printShortTo(Print& printer) const = 0;
 
+    /**
+     * Set the opaque zoneInfo of this object to a new value, reseting any
+     * internally cached information.
+     *
+     * Normally a ZoneProcessor object is associated with a single TimeZone.
+     * However, the ZoneProcessorCache will sometimes "take over" a
+     * ZoneProcessor from another TimeZone using this method. The other
+     * TimeZone will take back control of the ZoneProcessor if needed. To avoid
+     * bouncing the ownership of this object repeatedly, the ZoneProcessorCache
+     * should allocate enough ZoneProcessors to handle the usage pattern.
+     *
+     * This method should be considered to be private, to be used only by the
+     * TimeZone and ZoneProcessorCache classes. I had to make it public because
+     * it got too ugly to maintain the `friend` list in C++.
+     */
+    virtual void setZoneInfo(const void* zoneInfo) = 0;
+
   protected:
     friend bool operator==(const ZoneProcessor& a, const ZoneProcessor& b);
 
     friend class TimeZone; // setZoneInfo()
-
-    template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
-    friend class ZoneProcessorCacheImpl; // setZoneInfo()
 
     // Disable copy constructor and assignment operator.
     ZoneProcessor(const ZoneProcessor&) = delete;
@@ -124,9 +138,6 @@ class ZoneProcessor {
 
     /** Return true if equal. */
     virtual bool equals(const ZoneProcessor& other) const = 0;
-
-    /** Set the opaque zoneInfo. */
-    virtual void setZoneInfo(const void* zoneInfo) = 0;
 
     uint8_t mType;
 };

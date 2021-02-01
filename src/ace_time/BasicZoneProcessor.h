@@ -30,10 +30,6 @@ class BasicZoneProcessorTest_createAbbreviation;
 class BasicZoneProcessorTest_calcRuleOffsetMinutes;
 
 namespace ace_time {
-
-template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
-class ZoneProcessorCacheImpl;
-
 namespace basic {
 
 /**
@@ -298,6 +294,15 @@ class BasicZoneProcessor: public ZoneProcessor {
 
     void printShortTo(Print& printer) const override;
 
+    void setZoneInfo(const void* zoneInfo) override {
+      if (mZoneInfo.zoneInfo() == zoneInfo) return;
+
+      mZoneInfo = basic::ZoneInfoBroker((const basic::ZoneInfo*) zoneInfo);
+      mYearTiny = LocalDate::kInvalidYearTiny;
+      mIsFilled = false;
+      mNumTransitions = 0;
+    }
+
     /** Used only for debugging. */
     void log() const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
@@ -325,9 +330,6 @@ class BasicZoneProcessor: public ZoneProcessor {
     friend class ::BasicZoneProcessorTest_createAbbreviation;
     friend class ::BasicZoneProcessorTest_calcRuleOffsetMinutes;
 
-    template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
-    friend class ZoneProcessorCacheImpl; // setZoneInfo()
-
     /**
      * Maximum size of Transition cache across supported zones. This number (5)
      * is derived from the following:
@@ -354,26 +356,6 @@ class BasicZoneProcessor: public ZoneProcessor {
     bool equals(const ZoneProcessor& other) const override {
       const auto& that = (const BasicZoneProcessor&) other;
       return getZoneInfo() == that.getZoneInfo();
-    }
-
-    /**
-     * Set the underlying ZoneInfo.
-     *
-     * Normally a ZoneProcessor object is associated with a single TimeZone.
-     * However, the ZoneProcessorCache will sometimes "take over" a
-     * ZoneProcessor from another TimeZone using this method. The other
-     * TimeZone will take back control of the ZoneProcessor if it needed. To
-     * avoid bouncing the ownership of this object repeatedly, the
-     * ZoneProcessorCache should allocate enough ZoneProcessors to handle the
-     * usage pattern.
-     */
-    void setZoneInfo(const void* zoneInfo) override {
-      if (mZoneInfo.zoneInfo() == zoneInfo) return;
-
-      mZoneInfo = basic::ZoneInfoBroker((const basic::ZoneInfo*) zoneInfo);
-      mYearTiny = LocalDate::kInvalidYearTiny;
-      mIsFilled = false;
-      mNumTransitions = 0;
     }
 
     /** Return the Transition at the given epochSeconds. */
@@ -995,6 +977,6 @@ class BasicZoneProcessor: public ZoneProcessor {
     mutable basic::Transition mTransitions[kMaxCacheEntries];
 };
 
-}
+} // namespace ace_time
 
 #endif
