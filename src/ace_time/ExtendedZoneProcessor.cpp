@@ -12,7 +12,13 @@ namespace ace_time {
 
 // This is the only instance of ZoneEra whose 'format' field is set to nullptr.
 // Should it be set to something like "" instead?
-const extended::ZoneEra ExtendedZoneProcessor::kAnchorEra ACE_TIME_PROGMEM = {
+template<>
+const extended::ZoneEra ExtendedZoneProcessorTemplate<
+    extended::ZoneInfoBroker,
+    extended::ZoneEraBroker,
+    extended::ZonePolicyBroker,
+    extended::ZoneRuleBroker
+>::kAnchorEra ACE_TIME_PROGMEM = {
   nullptr /*zonePolicy*/,
   nullptr /*format*/,
   0 /*offsetCode*/,
@@ -23,13 +29,5 @@ const extended::ZoneEra ExtendedZoneProcessor::kAnchorEra ACE_TIME_PROGMEM = {
   0 /*untilTimeCode*/,
   extended::ZoneContext::kSuffixW /*untilTimeModifier*/
 };
-
-void ExtendedZoneProcessor::printTo(Print& printer) const {
-  ExtendedZone(mZoneInfo.zoneInfo()).printNameTo(printer);
-}
-
-void ExtendedZoneProcessor::printShortTo(Print& printer) const {
-  ExtendedZone(mZoneInfo.zoneInfo()).printShortNameTo(printer);
-}
 
 }
