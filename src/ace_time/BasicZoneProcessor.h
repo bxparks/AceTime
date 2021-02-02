@@ -195,10 +195,10 @@ inline int8_t compareYearMonth(int8_t aYear, uint8_t aMonth,
  */
 template <typename ZIB, typename ZEB, typename ZPB, typename ZRB>
 class BasicZoneProcessorTemplate: public ZoneProcessor {
-  private:
+  public:
+    /** Exposed only for testing purposes. */
     typedef basic::TransitionTemplate<ZIB, ZEB, ZPB, ZRB> Transition;
 
-  public:
     /**
      * Constructor. The ZoneInfo is given only for unit tests.
      * @param zoneInfo pointer to a ZoneInfo.

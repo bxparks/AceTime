@@ -363,10 +363,13 @@ struct TransitionTemplate {
  */
 template<uint8_t SIZE, typename ZEB, typename ZPB, typename ZRB>
 class TransitionStorageTemplate {
-  private:
+  public:
+    /**
+     * Template instantiation of TransitionTemplate used by this class. This
+     * should be treated as a private, it is exposed only for testing purposes.
+     */
     typedef TransitionTemplate<ZEB, ZPB, ZRB> Transition;
 
-  public:
     /** Constructor. */
     TransitionStorageTemplate() {}
 
@@ -682,7 +685,7 @@ class TransitionStorageTemplate {
  */
 template <typename ZIB, typename ZEB, typename ZPB, typename ZRB>
 class ExtendedZoneProcessorTemplate: public ZoneProcessor {
-  private:
+  public:
     /**
      * Max number of Transitions required for a given Zone, including the most
      * recent prior Transition. This value for each Zone is given by the
@@ -693,12 +696,16 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      */
     static const uint8_t kMaxTransitions = 8;
 
+    /** Exposed only for testing purposes. */
     typedef extended::TransitionTemplate<ZEB, ZPB, ZRB> Transition;
+
+    /** Exposed only for testing purposes. */
     typedef extended::ZoneMatchTemplate<ZEB> ZoneMatch;
+
+    /** Exposed only for testing purposes. */
     typedef extended::TransitionStorageTemplate<kMaxTransitions, ZEB, ZPB, ZRB>
         TransitionStorage;
 
-  public:
     /**
      * Constructor. The ZoneInfo is given only for unit tests.
      * @param zoneInfo pointer to a ZoneInfo.
