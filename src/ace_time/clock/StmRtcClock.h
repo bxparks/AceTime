@@ -82,3 +82,4 @@ class StmRtcClock: public Clock {
 #endif
 
 #endif  //  ACE_TIME_STMRTC_CLOCK_H
+
