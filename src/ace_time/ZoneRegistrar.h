@@ -39,13 +39,13 @@ namespace ace_time {
  * @tparam ZIB ZoneInfoBroker type (e.g. basic::ZoneInfoBroker)
  */
 template<typename ZI, typename ZRB, typename ZIB>
-class ZoneRegistrar {
+class ZoneRegistrarTemplate {
   public:
     /** Invalid index to indicate error or not found. */
     static const uint16_t kInvalidIndex = 0xffff;
 
     /** Constructor. */
-    ZoneRegistrar(uint16_t registrySize, const ZI* const* zoneRegistry):
+    ZoneRegistrarTemplate(uint16_t registrySize, const ZI* const* zoneRegistry):
         mRegistrySize(registrySize),
         mIsSorted(isSorted(zoneRegistry, registrySize)),
         mZoneRegistry(zoneRegistry) {}
@@ -213,28 +213,70 @@ class ZoneRegistrar {
     const ZI* const* const mZoneRegistry;
 };
 
+// Use subclassing instead of template typedef so that error messages are
+// understandable. The compiler seems to optimize away the subclass overhead.
+#if 1
+
 /**
- * Concrete template instantiation of ZoneRegistrar for basic::ZoneInfo, which
- * can be used with BasicZoneProcessor.
+ * Concrete template instantiation of ZoneRegistrarTemplate for
+ * basic::ZoneInfo, which can be used with BasicZoneProcessor.
  */
-typedef ZoneRegistrar<
+class BasicZoneRegistrar: public ZoneRegistrarTemplate<
+    basic::ZoneInfo,
+    basic::ZoneRegistryBroker,
+    basic::ZoneInfoBroker
+> {
+  public:
+    BasicZoneRegistrar(
+        uint16_t registrySize,
+        const basic::ZoneInfo* const* zoneRegistry
+    ) :
+      ZoneRegistrarTemplate<
+        basic::ZoneInfo,
+        basic::ZoneRegistryBroker,
+        basic::ZoneInfoBroker>(registrySize, zoneRegistry)
+    {}
+};
+
+/**
+ * Concrete template instantiation of ZoneRegistrarTemplate for
+ * extended::ZoneInfo, which can be used with ExtendedZoneProcessor.
+ */
+class ExtendedZoneRegistrar: public ZoneRegistrarTemplate<
+    extended::ZoneInfo,
+    extended::ZoneRegistryBroker,
+    extended::ZoneInfoBroker
+> {
+  public:
+    ExtendedZoneRegistrar(
+        uint16_t registrySize,
+        const extended::ZoneInfo* const* zoneRegistry
+    ) :
+      ZoneRegistrarTemplate<
+        extended::ZoneInfo,
+        extended::ZoneRegistryBroker,
+        extended::ZoneInfoBroker>(registrySize, zoneRegistry)
+    {}
+};
+
+#else
+
+typedef ZoneRegistrarTemplate<
     basic::ZoneInfo,
     basic::ZoneRegistryBroker,
     basic::ZoneInfoBroker
   >
     BasicZoneRegistrar;
 
-/**
- * Concrete template instantiation of ZoneRegistrar for extended::ZoneInfo,
- * which can be used with ExtendedZoneProcessor.
- */
-typedef ZoneRegistrar<
+typedef ZoneRegistrarTemplate<
     extended::ZoneInfo,
     extended::ZoneRegistryBroker,
     extended::ZoneInfoBroker
   >
     ExtendedZoneRegistrar;
 
-}
-
 #endif
+
+} // ace_time
+
+#endif // ACE_TIME_ZONE_REGISTRAR_H
