@@ -137,6 +137,33 @@ inline int8_t compareYearMonth(int8_t aYear, uint8_t aMonth,
   return 0;
 }
 
+/**
+  * Copy at most dstSize characters from src to dst, while replacing all
+  * occurences of oldChar with newChar. If newChar is '\0', then replace with
+  * nothing. The resulting dst string is always NUL terminated.
+  */
+inline void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
+    char oldChar, char newChar) {
+  while (*src != '\0' && dstSize > 0) {
+    if (*src == oldChar) {
+      if (newChar != '\0') {
+        *dst = newChar;
+        dst++;
+        dstSize--;
+      }
+      src++;
+    } else {
+      *dst++ = *src++;
+      dstSize--;
+    }
+  }
+
+  if (dstSize == 0) {
+    --dst;
+  }
+  *dst = '\0';
+}
+
 } // namespace basic
 
 /**
@@ -925,7 +952,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
           strncpy(dest, format, destSize - 1);
           dest[destSize - 1] = '\0';
         } else {
-          copyAndReplace(dest, destSize, format, '%', letter);
+          basic::copyAndReplace(dest, destSize, format, '%',
+              letter == '-' ? '\0' : letter);
         }
       } else {
         // Check if FORMAT contains a '/'.
@@ -948,35 +976,6 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
           dest[destSize - 1] = '\0';
         }
       }
-    }
-
-    /**
-     * Copy at most dstSize characters from src to dst, while replacing all
-     * occurences of oldChar with newChar. If newChar is '-', then replace with
-     * nothing. The resulting dst string is always NUL terminated.
-     */
-    static void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
-        char oldChar, char newChar) {
-      while (*src != '\0' && dstSize > 0) {
-        if (*src == oldChar) {
-          if (newChar == '-') {
-            src++;
-          } else {
-            *dst = newChar;
-            dst++;
-            src++;
-            dstSize--;
-          }
-        } else {
-          *dst++ = *src++;
-          dstSize--;
-        }
-      }
-
-      if (dstSize == 0) {
-        --dst;
-      }
-      *dst = '\0';
     }
 
     /** Search the cache and find closest Transition. */

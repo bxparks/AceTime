@@ -653,6 +653,32 @@ class TransitionStorageTemplate {
     uint8_t mHighWater = 0;
 };
 
+/**
+  * Copy at most dstSize characters from src to dst, while replacing all
+  * occurance of oldChar with newString. If newString is "", then replace
+  * with nothing. The resulting dst string is always NUL terminated.
+  */
+inline void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
+    char oldChar, const char* newString) {
+  while (*src != '\0' && dstSize > 0) {
+    if (*src == oldChar) {
+      while (*newString != '\0' && dstSize > 0) {
+        *dst++ = *newString++;
+        dstSize--;
+      }
+      src++;
+    } else {
+      *dst++ = *src++;
+      dstSize--;
+    }
+  }
+
+  if (dstSize == 0) {
+    --dst;
+  }
+  *dst = '\0';
+}
+
 } // namespace extended
 
 /**
@@ -1646,7 +1672,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           strncpy(dest, format, destSize - 1);
           dest[destSize - 1] = '\0';
         } else {
-          copyAndReplace(dest, destSize, format, '%', letterString);
+          extended::copyAndReplace(dest, destSize, format, '%', letterString);
         }
       } else {
         // Check if FORMAT contains a '/'.
@@ -1669,32 +1695,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           dest[destSize - 1] = '\0';
         }
       }
-    }
-
-    /**
-     * Copy at most dstSize characters from src to dst, while replacing all
-     * occurance of oldChar with newString. If newString is "", then replace
-     * with nothing. The resulting dst string is always NUL terminated.
-     */
-    static void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
-        char oldChar, const char* newString) {
-      while (*src != '\0' && dstSize > 0) {
-        if (*src == oldChar) {
-          while (*newString != '\0' && dstSize > 0) {
-            *dst++ = *newString++;
-            dstSize--;
-          }
-          src++;
-        } else {
-          *dst++ = *src++;
-          dstSize--;
-        }
-      }
-
-      if (dstSize == 0) {
-        --dst;
-      }
-      *dst = '\0';
     }
 
     ZIB mZoneInfo;
