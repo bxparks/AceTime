@@ -1,5 +1,12 @@
 # AceTime
 
+![AUnit
+Tests](https://github.com/bxparks/AceTime/workflows/AUnit%20Tests/badge.svg)
+![Python
+Tools](https://github.com/bxparks/AceTime/workflows/Python%20Tools/badge.svg)
+![Validation
+Tests](https://github.com/bxparks/AceTime/workflows/Validation%20Tests/badge.svg)
+
 This library provides date and time classes for the Arduino platform with
 support for time zones in the [IANA TZ
 database](https://www.iana.org/time-zones). Date and time from one timezone can
@@ -195,9 +202,9 @@ An example of more complex application is the
 WorldClock (https://github.com/bxparks/clocks/tree/master/WorldClock)
 which has 3 OLED displays over SPI, 3 timezones using `BasicZoneProcessor`, a
 `SystemClock` synchronized to a DS3231 chip on I2C, and 2 buttons with
-debouncing and event dispatching provided by the
-AceButton (https://github.com/bxparks/AceButton) library. This application fits
-inside the 30 kB flash size of an Arduino Pro Micro controller.
+debouncing and event dispatching provided by the AceButton
+(https://github.com/bxparks/AceButton) library. This application consumes about
+24 kB, well inside the 28 kB flash limit of an Arduino Pro Micro controller.
 
 Conversion from date-time components (year, month, day, etc) to epochSeconds
 (`ZonedDateTime::toEpochSeconds()`) takes about:
@@ -223,15 +230,26 @@ Conversion from an epochSeconds to date-time components including timezone
 library for some of its low-level routines. See the
 [USER_GUIDE.md](USER_GUIDE.md) for installation instructions.
 
-![AUnit
-Tests](https://github.com/bxparks/AceTime/workflows/AUnit%20Tests/badge.svg)
-![Python
-Tools](https://github.com/bxparks/AceTime/workflows/Python%20Tools/badge.svg)
-![Validation
-Tests](https://github.com/bxparks/AceTime/workflows/Validation%20Tests/badge.svg)
+## Table of Contents
 
+* [Quick Examples](#QuickExamples)
+    * [HelloDateTime](#HelloDateTime)
+    * [HelloZoneManager](#HelloZoneManager)
+    * [HelloSystemClock](#HelloSystemClock)
+    * [WorldClock](#WorldClock)
+* [Documentation](#Documentation)
+* [System Requirements](#SystemRequirements)
+    * [Tool Chain](#ToolChain)
+    * [Operating System](#OperatingSystem)
+    * [Hardware](#Hardware)
+* [License](#License)
+* [Feedback and Support](#Feedback)
+* [Authors](#Authors)
+
+<a name="QuickExamples"></a>
 ## Quick Examples
 
+<a name="HelloDateTime"></a>
 ### HelloDateTime
 
 Here is a simple program (see [examples/HelloDateTime](examples/HelloDateTime))
@@ -344,6 +362,7 @@ pacificTime.compareTo(londonTime): 0
 pacificTime == londonTime: false
 ```
 
+<a name="HelloZoneManager"></a>
 ### HelloZoneManager
 
 The [examples/HelloZoneManager](examples/HelloZoneManager) example shows how to
@@ -397,6 +416,7 @@ Arduino Nano or Micro . It produces the following output:
 2019-03-10T21:00:00+11:00[Australia/Sydney]
 ```
 
+<a name="HelloSystemClock"></a>
 ### HelloSystemClock
 
 This is the example code for using the `SystemClock` taken from
@@ -462,6 +482,7 @@ then printing the system time every 2 seconds:
 ...
 ```
 
+<a name="WorldClock"></a>
 ### WorldClock
 
 Here is a photo of the WorldClock
@@ -471,6 +492,7 @@ for all 3 zones:
 
 ![WorldClock](https://github.com/bxparks/clocks/blob/master/WorldClock/WorldClock.jpg)
 
+<a name="Documentation"></a>
 ## Documentation
 
 * [README.md](README.md) - this file
@@ -488,8 +510,10 @@ for all 3 zones:
     * Bugs and Limitations
 * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
 
+<a name="SystemRequirements"></a>
 ## System Requirements
 
+<a name="ToolChain"></a>
 ### Tool Chain
 
 This library was developed and tested using:
@@ -509,12 +533,14 @@ not tested it.
 The library works on Linux or MacOS (using both g++ and clang++ compilers) using
 the UnixHostDuino (https://github.com/bxparks/UnixHostDuino) emulation layer.
 
+<a name="OperatingSystem"></a>
 ### Operating System
 
 I use Ubuntu 18.04 and 20.04 for the vast majority of my development. I expect
 that the library will work fine under MacOS and Windows, but I have not tested
 them.
 
+<a name="Hardware"></a>
 ### Hardware
 
 The library is extensively tested on the following boards:
@@ -531,10 +557,12 @@ I will occasionally test on the following hardware as a sanity check:
 * Teensy 3.2 (72 MHz ARM Cortex-M4)
 * Mini Mega 2560 (Arduino Mega 2560 compatible, 16 MHz ATmega2560)
 
+<a name="License"></a>
 ## License
 
 [MIT License](https://opensource.org/licenses/MIT)
 
+<a name="Feedback"></a>
 ## Feedback and Support
 
 If you have any questions, comments, bug reports, or feature requests, please
@@ -544,8 +572,12 @@ other people ask similar questions later.) I'd love to hear about how this
 software and its documentation can be improved. I can't promise that I will
 incorporate everything, but I will give your ideas serious consideration.
 
+<a name="Authors"></a>
 ## Authors
 
 * Created by Brian T. Park (brian@xparks.net).
-* Support an existing WiFi connection in `NtpClock` by @denis-stepanov
+* Support an existing WiFi connection in `NtpClock` by denis-stepanov@
   [#24](https://github.com/bxparks/AceTime/issues/24).
+* Support for STM32RTC through the `ace_time::clock::StmRtcClock` class
+  by Anatoli Arkhipenko (arkhipenko@)
+  [#39](https://github.com/bxparks/AceTime/pull/39).

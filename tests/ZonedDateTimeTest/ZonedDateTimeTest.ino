@@ -14,7 +14,7 @@ using namespace ace_time;
 // Check that ZonedDateTime with Manual TimeZone agrees with simpler
 // OffsetDateTime.
 test(ZonedDateTimeTest_Manual, agreesWithOffsetDateTime) {
-  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
+  TimeZone tz = TimeZone::forHours(-8);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
 
   OffsetDateTime otz = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
@@ -64,7 +64,7 @@ test(ZonedDateTimeTest_Manual, forComponents) {
 
   // 2018-01-01 00:00:00+00:15 Monday
   dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0,
-      TimeZone::forTimeOffset(TimeOffset::forHourMinute(0, 15)));
+      TimeZone::forHourMinute(0, 15));
   assertEqual((acetime_t) 6574, dt.toEpochDays());
   assertEqual((acetime_t) 17531, dt.toUnixDays());
   assertEqual(6575 * (acetime_t) 86400 - 15*60, dt.toEpochSeconds());
@@ -116,7 +116,7 @@ test(ZonedDateTimeTest_Manual, toAndForUnixSeconds) {
   assertTrue(dt == udt);
 
   // 2018-08-30T06:45:01-07:00
-  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-7));
+  TimeZone tz = TimeZone::forHours(-7);
   dt = ZonedDateTime::forComponents(2018, 8, 30, 6, 45, 1, tz);
   assertEqual((acetime_t) 1535636701, dt.toUnixSeconds());
   udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), tz);
@@ -130,7 +130,7 @@ test(ZonedDateTimeTest_Manual, toAndForUnixSeconds) {
 }
 
 test(ZonedDateTimeTest_Manual, convertToTimeZone) {
-  TimeZone stdTz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
+  TimeZone stdTz = TimeZone::forHours(-8);
   ZonedDateTime std = ZonedDateTime::forComponents(
       2018, 3, 11, 1, 59, 59, stdTz);
   acetime_t stdEpochSeconds = std.toEpochSeconds();
@@ -152,7 +152,7 @@ test(ZonedDateTimeTest_Manual, convertToTimeZone) {
 }
 
 test(ZonedDateTimeTest_Manual, error) {
-  TimeZone stdTz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
+  TimeZone stdTz = TimeZone::forHours(-8);
 
   ZonedDateTime zdt = ZonedDateTime::forEpochSeconds(
       LocalTime::kInvalidSeconds, stdTz);
@@ -233,7 +233,7 @@ test(ZonedDateTimeTest_Manual, printTo) {
   assertEqual(dateString.getCstr(), "2001-02-03T04:05:06+00:00[UTC]");
 
   dateString.flush();
-  TimeZone stdTz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
+  TimeZone stdTz = TimeZone::forHours(-8);
   ZonedDateTime std = ZonedDateTime::forComponents(
       2018, 3, 11, 1, 59, 59, stdTz);
   std.printTo(dateString);

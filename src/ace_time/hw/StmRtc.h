@@ -29,7 +29,11 @@ class StmRtc {
   public:
     /** Constructor. */
     explicit StmRtc();
-
+    
+    /** Start RTC clock with clock source and format defined. Backwards compatible with defaults */
+    /** Select RTC clock source: LSI_CLOCK, LSE_CLOCK or HSE_CLOCK */
+    bool begin(const sourceClock_t clockSource = LSI_CLOCK, const hourFormat_t hourFormat = HOUR_FORMAT_24);
+    
     /** Read the time into the HardwareDateTime object. */
     void readDateTime(HardwareDateTime* dateTime) const;
 
@@ -37,6 +41,7 @@ class StmRtc {
     void setDateTime(const HardwareDateTime& dateTime) const;
 
     bool isTimeSet() const;
+    
   private:
     STM32RTC* mRtc;
 };

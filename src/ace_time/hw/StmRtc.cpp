@@ -19,12 +19,19 @@ namespace ace_time {
 namespace hw {
 
 StmRtc::StmRtc() {
+  
+}
 
+bool StmRtc::begin(const sourceClock_t clockSource, const hourFormat_t hourFormat) {
+  
   mRtc = &STM32RTC::getInstance();
   if ( mRtc ) {
-    mRtc->setClockSource(STM32RTC::LSI_CLOCK);
-    mRtc->begin(HOUR_FORMAT_24);
+  // Select RTC clock source: LSI_CLOCK, LSE_CLOCK or HSE_CLOCK.
+    mRtc->setClockSource((STM32RTC::Source_Clock) clockSource);
+    mRtc->begin(hourFormat);
+    return true;
   }
+  return false;
 }
 
 
@@ -60,7 +67,7 @@ void StmRtc::setDateTime(const HardwareDateTime& dateTime) const {
   if ( mRtc ) {
 //  Serial.println("STMRTC::setDateTime rtc is set");
     mRtc->setTime(dateTime.hour, dateTime.minute, dateTime.second);
-    mRtc->setDate(dateTime.dayOfWeek, dateTime.day, dateTime.month, dateTime.year);
+    mRtc->setDate(dateTime.day, dateTime.month, dateTime.year);
   }
 }
 
