@@ -65,10 +65,8 @@ class ZoneProcessorCache {
  * @tparam ZP type of ZoneProcessor (BasicZoneProcessor or
  *    ExtendedZoneProcessor)
  * @tparam ZI type of ZoneInfo (basic::ZoneInfo or extended::ZoneInfo)
- * @tparam ZIB type of ZoneInfoBroker (basic::ZoneInfoBroker or
- *    extended::ZoneInfoBroker)
  */
-template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
+template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI>
 class ZoneProcessorCacheImpl: public ZoneProcessorCache {
   public:
     ZoneProcessorCacheImpl()
@@ -118,7 +116,7 @@ class BasicZoneProcessorCache: public ZoneProcessorCacheImpl<
     SIZE,
     ZoneProcessorCache::kTypeBasicManaged,
     BasicZoneProcessor,
-    basic::ZoneInfo, basic::ZoneInfoBroker> {
+    basic::ZoneInfo> {
 };
 
 template<uint8_t SIZE>
@@ -126,8 +124,7 @@ class ExtendedZoneProcessorCache: public ZoneProcessorCacheImpl<
     SIZE,
     ZoneProcessorCache::kTypeExtendedManaged,
     ExtendedZoneProcessor,
-    extended::ZoneInfo,
-    extended::ZoneInfoBroker> {
+    extended::ZoneInfo> {
 };
 #else
 
@@ -142,16 +139,14 @@ using BasicZoneProcessorCache = ZoneProcessorCacheImpl<
     SIZE,
     ZoneProcessorCache::kTypeBasicManaged,
     BasicZoneProcessor,
-    basic::ZoneInfo,
-    basic::ZoneInfoBroker>;
+    basic::ZoneInfo>;
 
 template<uint8_t SIZE>
 using ExtendedZoneProcessorCache  = ZoneProcessorCacheImpl<
     SIZE,
     ZoneProcessorCache::kTypeExtendedManaged,
     ExtendedZoneProcessor,
-    extended::ZoneInfo,
-    extended::ZoneInfoBroker>;
+    extended::ZoneInfo>;
 #endif
 
 }
