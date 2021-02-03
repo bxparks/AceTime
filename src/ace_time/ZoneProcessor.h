@@ -14,7 +14,7 @@ class Print;
 
 namespace ace_time {
 
-template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI>
+template<uint8_t SIZE, uint8_t TYPE, typename ZP>
 class ZoneProcessorCacheImpl;
 
 class LocalDateTime;

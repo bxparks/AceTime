@@ -64,9 +64,8 @@ class ZoneProcessorCache {
  *    kTypeExtendedManaged)
  * @tparam ZP type of ZoneProcessor (BasicZoneProcessor or
  *    ExtendedZoneProcessor)
- * @tparam ZI type of ZoneInfo (basic::ZoneInfo or extended::ZoneInfo)
  */
-template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI>
+template<uint8_t SIZE, uint8_t TYPE, typename ZP>
 class ZoneProcessorCacheImpl: public ZoneProcessorCache {
   public:
     ZoneProcessorCacheImpl()
@@ -75,14 +74,14 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
 
     /** Get the ZoneProcessor from the zoneInfo. Will never return nullptr. */
     ZoneProcessor* getZoneProcessor(const void* zoneInfo) override {
-      ZP* zoneProcessor = findUsingZoneInfo((const ZI*) zoneInfo);
+      ZP* zoneProcessor = findUsingZoneInfo(zoneInfo);
       if (zoneProcessor) return zoneProcessor;
 
       // Allocate the next ZoneProcessor in the cache using round-robin.
       zoneProcessor = &mZoneProcessors[mCurrentIndex];
       mCurrentIndex++;
       if (mCurrentIndex >= SIZE) mCurrentIndex = 0;
-      zoneProcessor->setZoneInfo((const ZI*) zoneInfo);
+      zoneProcessor->setZoneInfo(zoneInfo);
       return zoneProcessor;
     }
 
@@ -92,13 +91,13 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
     ZoneProcessorCacheImpl& operator=(const ZoneProcessorCacheImpl&) = delete;
 
     /**
-     * Find an existing ZoneProcessor with the same zoneInfo.
+     * Find an existing ZoneProcessor with the ZoneInfo given by zoneInfoKey.
      * Returns nullptr if not found. This is a linear search, which should
      * be perfectly ok if SIZE is small, say <= 5.
      */
-    ZP* findUsingZoneInfo(const ZI* zoneInfoKey) {
+    ZP* findUsingZoneInfo(const void* zoneInfoKey) {
       for (uint8_t i = 0; i < SIZE; i++) {
-        const ZI* zoneInfo = (const ZI*) mZoneProcessors[i].getZoneInfo();
+        const void* zoneInfo = mZoneProcessors[i].getZoneInfo();
         if (zoneInfo == zoneInfoKey) {
           return &mZoneProcessors[i];
         }
@@ -115,16 +114,14 @@ template<uint8_t SIZE>
 class BasicZoneProcessorCache: public ZoneProcessorCacheImpl<
     SIZE,
     ZoneProcessorCache::kTypeBasicManaged,
-    BasicZoneProcessor,
-    basic::ZoneInfo> {
+    BasicZoneProcessor> {
 };
 
 template<uint8_t SIZE>
 class ExtendedZoneProcessorCache: public ZoneProcessorCacheImpl<
     SIZE,
     ZoneProcessorCache::kTypeExtendedManaged,
-    ExtendedZoneProcessor,
-    extended::ZoneInfo> {
+    ExtendedZoneProcessor> {
 };
 #else
 
@@ -138,15 +135,13 @@ template<uint8_t SIZE>
 using BasicZoneProcessorCache = ZoneProcessorCacheImpl<
     SIZE,
     ZoneProcessorCache::kTypeBasicManaged,
-    BasicZoneProcessor,
-    basic::ZoneInfo>;
+    BasicZoneProcessor>;
 
 template<uint8_t SIZE>
 using ExtendedZoneProcessorCache  = ZoneProcessorCacheImpl<
     SIZE,
     ZoneProcessorCache::kTypeExtendedManaged,
-    ExtendedZoneProcessor,
-    extended::ZoneInfo>;
+    ExtendedZoneProcessor>;
 #endif
 
 }
