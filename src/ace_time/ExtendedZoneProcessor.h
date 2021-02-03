@@ -706,12 +706,13 @@ inline void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
  *
  * Not thread-safe.
  *
+ * @tparam ZK opaque Zone primary key, either (const ZoneInfo*) or (uint32_t)
  * @tparam ZIB type of ZoneInfoBroker
  * @tparam ZEB type of ZoneEraBroker
  * @tparam ZPB type of ZonePolicyBroker
  * @tparam ZRB type of ZoneRuleBroker
  */
-template <typename ZIB, typename ZEB, typename ZPB, typename ZRB>
+template <typename ZK, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
 class ExtendedZoneProcessorTemplate: public ZoneProcessor {
   public:
     /**
@@ -738,15 +739,15 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * Constructor. The ZoneInfo is given only for unit tests.
      * @param zoneInfo pointer to a ZoneInfo.
      */
-    explicit ExtendedZoneProcessorTemplate(
-        const extended::ZoneInfo* zoneInfo = nullptr)
-      :
+    explicit ExtendedZoneProcessorTemplate(ZK zoneKey) :
         ZoneProcessor(kTypeExtended),
-        mZoneInfo(zoneInfo) {}
+        mZoneKey(zoneKey),
+        mZoneInfo(zoneKey)
+    {}
 
-    /** Return the underlying ZoneInfo. */
-    const void* getZoneInfo() const override {
-      return mZoneInfo.zoneInfo();
+    /** Returns true if the zoneKey matches. */
+    bool equalsZoneKey(ZK zoneKey) const {
+      return zoneKey == mZoneKey;
     }
 
     uint32_t getZoneId() const override { return mZoneInfo.zoneId(); }
@@ -865,9 +866,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void setZoneInfo(const void* zoneInfo) override {
-      if (mZoneInfo.zoneInfo() == zoneInfo) return;
+      if (equalsZoneKey((ZK) zoneInfo)) return;
 
-      mZoneInfo = ZIB((const extended::ZoneInfo*) zoneInfo);
+      mZoneKey = (ZK) zoneInfo;
+      mZoneInfo = ZIB(mZoneKey);
       mYear = 0;
       mIsFilled = false;
       mNumMatches = 0;
@@ -917,7 +919,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     static const extended::ZoneEra kAnchorEra;
 
     bool equals(const ZoneProcessor& other) const override {
-      return getZoneInfo() == other.getZoneInfo();
+      return mZoneKey ==
+          ((const ExtendedZoneProcessorTemplate&) other).mZoneKey;
     }
 
     /**
@@ -1696,6 +1699,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
+    ZK mZoneKey;
     ZIB mZoneInfo;
 
     mutable int16_t mYear = 0; // maybe create LocalDate::kInvalidYear?
@@ -1712,6 +1716,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
  * ZoneXxxBrokers which read from zonedb files in PROGMEM flash memory.
  */
 class ExtendedZoneProcessor: public ExtendedZoneProcessorTemplate<
+    const extended::ZoneInfo*,
     extended::ZoneInfoBroker,
     extended::ZoneEraBroker,
     extended::ZonePolicyBroker,
@@ -1720,6 +1725,7 @@ class ExtendedZoneProcessor: public ExtendedZoneProcessorTemplate<
   public:
     explicit ExtendedZoneProcessor(const extended::ZoneInfo* zoneInfo = nullptr)
       : ExtendedZoneProcessorTemplate<
+          const extended::ZoneInfo*,
           extended::ZoneInfoBroker,
           extended::ZoneEraBroker,
           extended::ZonePolicyBroker,

@@ -217,12 +217,13 @@ inline void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
  *
  * Not thread-safe.
  *
+ * @tparam ZK opaque Zone primary key, either (const ZoneInfo*) or (uint32_t)
  * @tparam ZIB type of ZoneInfoBroker
  * @tparam ZEB type of ZoneEraBroker
  * @tparam ZPB type of ZonePolicyBroker
  * @tparam ZRB type of ZoneRuleBroker
  */
-template <typename ZIB, typename ZEB, typename ZPB, typename ZRB>
+template <typename ZK, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
 class BasicZoneProcessorTemplate: public ZoneProcessor {
   public:
     /** Exposed only for testing purposes. */
@@ -232,15 +233,15 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * Constructor. The ZoneInfo is given only for unit tests.
      * @param zoneInfo pointer to a ZoneInfo.
      */
-    explicit BasicZoneProcessorTemplate(
-        const basic::ZoneInfo* zoneInfo = nullptr
-    ):
+    explicit BasicZoneProcessorTemplate(ZK zoneKey) :
         ZoneProcessor(kTypeBasic),
-        mZoneInfo(zoneInfo) {}
+        mZoneKey(zoneKey),
+        mZoneInfo(zoneKey)
+    {}
 
-    /** Return the underlying ZoneInfo. */
-    const void* getZoneInfo() const override {
-      return mZoneInfo.zoneInfo();
+    /** Returns true if the zoneKey matches. */
+    bool equalsZoneKey(ZK zoneKey) const {
+      return zoneKey == mZoneKey;
     }
 
     uint32_t getZoneId() const override { return mZoneInfo.zoneId(); }
@@ -346,9 +347,10 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void setZoneInfo(const void* zoneInfo) override {
-      if (mZoneInfo.zoneInfo() == zoneInfo) return;
+      if (equalsZoneKey((ZK) zoneInfo)) return;
 
-      mZoneInfo = ZIB((const basic::ZoneInfo*) zoneInfo);
+      mZoneKey = (ZK) zoneInfo;
+      mZoneInfo = ZIB(mZoneKey);
       mYearTiny = LocalDate::kInvalidYearTiny;
       mIsFilled = false;
       mNumTransitions = 0;
@@ -406,7 +408,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         delete;
 
     bool equals(const ZoneProcessor& other) const override {
-      return getZoneInfo() == other.getZoneInfo();
+      return mZoneKey == ((const BasicZoneProcessorTemplate&) other).mZoneKey;
     }
 
     /** Return the Transition at the given epochSeconds. */
@@ -642,8 +644,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         logging::printf("addTransitionAfterYear(): %d\n", yearTiny);
       }
 
-      const ZEB eraAfter = findZoneEra(
-          mZoneInfo, yearTiny + 1);
+      const ZEB eraAfter = findZoneEra(mZoneInfo, yearTiny + 1);
 
       // If the current era is the same as the following year, then we'll just
       // assume that the latest ZoneRule carries over to Jan 1st of the next
@@ -988,6 +989,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       return closestMatch;
     }
 
+    ZK mZoneKey;
     ZIB mZoneInfo;
 
     mutable int8_t mYearTiny = LocalDate::kInvalidYearTiny;
@@ -1001,6 +1003,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
  * ZoneXxxBrokers which read from zonedb files in PROGMEM flash memory.
  */
 class BasicZoneProcessor: public BasicZoneProcessorTemplate<
+    const basic::ZoneInfo*,
     basic::ZoneInfoBroker,
     basic::ZoneEraBroker,
     basic::ZonePolicyBroker,
@@ -1009,6 +1012,7 @@ class BasicZoneProcessor: public BasicZoneProcessorTemplate<
   public:
     explicit BasicZoneProcessor(const basic::ZoneInfo* zoneInfo = nullptr)
       : BasicZoneProcessorTemplate<
+          const basic::ZoneInfo*,
           basic::ZoneInfoBroker,
           basic::ZoneEraBroker,
           basic::ZonePolicyBroker,

@@ -13,6 +13,7 @@ namespace ace_time {
 // Should it be set to something like "" instead?
 template<>
 const extended::ZoneEra ExtendedZoneProcessorTemplate<
+    const extended::ZoneInfo*,
     extended::ZoneInfoBroker,
     extended::ZoneEraBroker,
     extended::ZonePolicyBroker,
