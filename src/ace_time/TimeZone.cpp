@@ -22,15 +22,6 @@ void TimeZone::printTo(Print& printer) const {
     case kTypeExtended:
       mZoneProcessor->printTo(printer);
       return;
-    case kTypeBasicManaged:
-    case kTypeExtendedManaged:
-    {
-      ZoneProcessor* processor =
-          mZoneProcessorCache->getZoneProcessor(mZoneInfo);
-      if (! processor) break;
-      processor->printTo(printer);
-      return;
-    }
   }
   printer.print("<Error>");
 }
@@ -53,15 +44,6 @@ void TimeZone::printShortTo(Print& printer) const {
     case kTypeExtended:
       mZoneProcessor->printShortTo(printer);
       return;
-    case kTypeBasicManaged:
-    case kTypeExtendedManaged:
-    {
-      ZoneProcessor* processor =
-          mZoneProcessorCache->getZoneProcessor(mZoneInfo);
-      if (! processor) break;
-      processor->printShortTo(printer);
-      return;
-    }
   }
   printer.print("<Error>");
 }
