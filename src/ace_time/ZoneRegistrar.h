@@ -35,10 +35,10 @@ namespace ace_time {
  * the zone registry.
  *
  * @tparam ZI ZoneInfo type (e.g. basic::ZoneInfo)
- * @tparam ZRB ZoneRegistryBroker type (e.g. basic::ZoneRegistryBroker)
+ * @tparam ZRGB ZoneRegistryBroker type (e.g. basic::ZoneRegistryBroker)
  * @tparam ZIB ZoneInfoBroker type (e.g. basic::ZoneInfoBroker)
  */
-template<typename ZI, typename ZRB, typename ZIB>
+template<typename ZI, typename ZRGB, typename ZIB>
 class ZoneRegistrarTemplate {
   public:
     /** Invalid index to indicate error or not found. */
@@ -61,7 +61,7 @@ class ZoneRegistrarTemplate {
 
     /** Return the ZoneInfo at index i. Return nullptr if i is out of range. */
     const ZI* getZoneInfoForIndex(uint16_t i) const {
-      return (i < mRegistrySize) ? ZRB(mZoneRegistry).zoneInfo(i) : nullptr;
+      return (i < mRegistrySize) ? ZRGB(mZoneRegistry).zoneInfo(i) : nullptr;
     }
 
     /**
@@ -71,14 +71,14 @@ class ZoneRegistrarTemplate {
     const ZI* getZoneInfoForName(const char* name) const {
       uint16_t index = findIndexForName(name);
       if (index == kInvalidIndex) return nullptr;
-      return ZRB(mZoneRegistry).zoneInfo(index);
+      return ZRGB(mZoneRegistry).zoneInfo(index);
     }
 
     /** Return the ZoneInfo using the zoneId. Return nullptr if not found. */
     const ZI* getZoneInfoForId(uint32_t zoneId) const {
       uint16_t index = findIndexForId(zoneId);
       if (index == kInvalidIndex) return nullptr;
-      return ZRB(mZoneRegistry).zoneInfo(index);
+      return ZRGB(mZoneRegistry).zoneInfo(index);
     }
 
     /** Find the index for zone name. Return kInvalidIndex if not found. */
@@ -88,7 +88,7 @@ class ZoneRegistrarTemplate {
       if (index == kInvalidIndex) return kInvalidIndex;
 
       // Verify that the zoneName actually matches, in case of hash collision.
-      ZIB zoneInfoBroker(ZRB(mZoneRegistry).zoneInfo(index));
+      ZIB zoneInfoBroker(ZRGB(mZoneRegistry).zoneInfo(index));
       ace_common::KString kname(
         zoneInfoBroker.name(),
         zoneInfoBroker.zoneContext()->fragments,
@@ -128,7 +128,7 @@ class ZoneRegistrarTemplate {
         return false;
       }
 
-      const ZRB zoneRegistry(registry);
+      const ZRGB zoneRegistry(registry);
       uint32_t prevId = ZIB(zoneRegistry.zoneInfo(0)).zoneId();
       for (uint16_t i = 1; i < registrySize; ++i) {
         uint32_t currentId = ZIB(zoneRegistry.zoneInfo(i)).zoneId();
@@ -146,7 +146,7 @@ class ZoneRegistrarTemplate {
      */
     static uint16_t linearSearchById(const ZI* const* registry,
         uint16_t registrySize, uint32_t zoneId) {
-      const ZRB zoneRegistry(registry);
+      const ZRGB zoneRegistry(registry);
       for (uint16_t i = 0; i < registrySize; ++i) {
         const ZI* zoneInfo = zoneRegistry.zoneInfo(i);
         if (zoneId == ZIB(zoneInfo).zoneId()) {
@@ -180,7 +180,7 @@ class ZoneRegistrarTemplate {
         uint16_t registrySize, uint32_t zoneId) {
       uint16_t a = 0;
       uint16_t b = registrySize;
-      const ZRB zoneRegistry(registry);
+      const ZRGB zoneRegistry(registry);
       while (true){
         uint16_t diff = b - a;
         if (diff == 0) break;
