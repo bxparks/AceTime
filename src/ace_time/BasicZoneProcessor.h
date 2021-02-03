@@ -30,6 +30,8 @@ class BasicZoneProcessorTest_setZoneInfo;
 class BasicZoneProcessorTest_createAbbreviation;
 class BasicZoneProcessorTest_calcRuleOffsetMinutes;
 
+class Print;
+
 namespace ace_time {
 namespace basic {
 

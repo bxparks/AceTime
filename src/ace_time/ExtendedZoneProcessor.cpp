@@ -3,9 +3,8 @@
  * Copyright (c) 2019 Brian T. Park
  */
 
-#include <Print.h>
+#include "common/compat.h"
 #include "LocalDate.h"
-#include "ExtendedZone.h"
 #include "ExtendedZoneProcessor.h"
 
 namespace ace_time {

@@ -51,6 +51,8 @@ class TransitionStorageTest_addActiveCandidatesToActivePool;
 class TransitionStorageTest_resetCandidatePool;
 class TransitionStorageTest_findTransitionForDateTime;
 
+class Print;
+
 namespace ace_time {
 namespace extended {
 
