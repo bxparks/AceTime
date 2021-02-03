@@ -1,6 +1,17 @@
 # Changelog
 
 * Unreleased
+    * Remove `TimeZone::kTypeBasicManaged` and `TimeZone::kTypeExtendedManaged`
+      and merge them into just regular `TimeZone::kTypeBasic` and
+      `TimeZone::kTypeExtended`.
+        * Significantly simplifies the implementation of `TimeZone`.
+        * `TimeZone` no longer holds a reference to a `ZoneProcessorCache`, it
+          holds only a reference to `ZoneProcessor`.
+        * The binding of `TimeZone` to its `BasicZoneProcess` or
+          `ExtendedZoneProcessor` now happens early, inside the
+          `BasicZoneManager` or the `ExtendedZoneManager`, instead of delaying
+          it to various methods inside the `TimeZone` through the
+          `ZoneProcessorCache`.
 * 1.5
     * Use binary search for both `ZoneManager::createForZoneName()` and
       `ZoneManager::createForZoneId()`.

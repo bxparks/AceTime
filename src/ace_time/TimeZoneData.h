@@ -72,8 +72,8 @@ struct TimeZoneData {
     };
 
     /**
-     * All of kTypeBasic, kTypeExtended, kTypeBasicManaged,
-     * kTypeExtendedManaged collapse down to a kTypeZoneId.
+     * Both TimeZone::kTypeBasic and TimeZone::kTypeExtended are mapped to a
+     * TimeZoneData::kTypeZoneId.
      */
     uint32_t zoneId;
   };

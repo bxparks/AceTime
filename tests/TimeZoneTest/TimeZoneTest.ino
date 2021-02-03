@@ -22,22 +22,11 @@ test(TimeZoneTest, kType_distinct) {
   assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeManual);
   assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeBasic);
   assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeExtended);
-  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeBasicManaged);
-  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeExtendedManaged);
 
   assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeBasic);
   assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeExtended);
-  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeBasicManaged);
-  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeExtendedManaged);
 
   assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeExtended);
-  assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeBasicManaged);
-  assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeExtendedManaged);
-
-  assertNotEqual(TimeZone::kTypeExtended, TimeZone::kTypeBasicManaged);
-  assertNotEqual(TimeZone::kTypeExtended, TimeZone::kTypeExtendedManaged);
-
-  assertNotEqual(TimeZone::kTypeBasicManaged, TimeZone::kTypeExtendedManaged);
 }
 
 // --------------------------------------------------------------------------
@@ -254,62 +243,20 @@ test(TimeZoneBasicTest, indexForZoneId) {
   assertEqual(ZoneManager::kInvalidIndex, index);
 }
 
-// --------------------------------------------------------------------------
-// TimeZone + ExtendedZoneManager
-// --------------------------------------------------------------------------
+test(TimeZoneBasicTest, createForXxx_create_same_timezone) {
+  TimeZone a = basicZoneManager.createForZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles);
+  TimeZone b = basicZoneManager.createForZoneInfo(
+      &zonedb::kZoneAmerica_New_York);
+  assertTrue(a != b);
 
-#if ! defined(ARDUINO_ARCH_AVR)
+  TimeZone aa = basicZoneManager.createForZoneName("America/Los_Angeles");
+  TimeZone bb = basicZoneManager.createForZoneId(0x1e2a7654U); // New_York
 
-test(TimeZoneExtendedTest, registrySize) {
-  assertEqual((uint16_t) 4, extendedZoneManager.registrySize());
+  assertTrue(a == aa);
+  assertTrue(b == bb);
+  assertEqual((uint32_t) 0x1e2a7654, bb.getZoneId());
 }
-
-test(TimeZoneExtendedTest, createForZoneName) {
-  TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
-  TimeZone tzn = extendedZoneManager.createForZoneName("America/Los_Angeles");
-  assertTrue(tz == tzn);
-}
-
-test(TimeZoneExtendedTest, createForZoneId) {
-  TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_New_York);
-  TimeZone tzid = extendedZoneManager.createForZoneId(
-      zonedb::kZoneIdAmerica_New_York);
-  assertTrue(tz == tzid);
-  assertEqual((uint32_t) 0x1e2a7654, tz.getZoneId());
-  assertEqual((uint32_t) 0x1e2a7654, tzid.getZoneId());
-}
-
-test(TimeZoneExtendedTest, createForZoneIndex) {
-  TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Chicago);
-  TimeZone tzidx = extendedZoneManager.createForZoneIndex(0);
-  assertTrue(tz == tzidx);
-}
-
-test(TimeZoneExtendedTest, indexForZoneName) {
-  uint16_t index = extendedZoneManager.indexForZoneName("America/Los_Angeles");
-  assertEqual(2, index);
-
-  index = extendedZoneManager.indexForZoneName("America/not_found");
-  assertEqual(ZoneManager::kInvalidIndex, index);
-}
-
-test(TimeZoneExtendedTest, indexForZoneId) {
-  uint16_t index = extendedZoneManager.indexForZoneId(
-      zonedbx::kZoneIdAmerica_New_York);
-  assertEqual((uint16_t) 3, index);
-
-  index = extendedZoneManager.indexForZoneId(0 /* not found */);
-  assertEqual(ZoneManager::kInvalidIndex, index);
-}
-
-#endif // ARDUINO_ARCH_AVR
-
-// --------------------------------------------------------------------------
-// kTypeBasicManaged + BasicZoneManager
-// --------------------------------------------------------------------------
 
 test(TimeZoneBasicTest, Los_Angeles) {
   OffsetDateTime dt;
@@ -317,7 +264,7 @@ test(TimeZoneBasicTest, Los_Angeles) {
 
   TimeZone tz = basicZoneManager.createForZoneInfo(
       &zonedb::kZoneAmerica_Los_Angeles);
-  assertEqual(TimeZone::kTypeBasicManaged, tz.getType());
+  assertEqual(TimeZone::kTypeBasic, tz.getType());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
@@ -383,7 +330,7 @@ test(TimeZoneDataTest, manual) {
   assertTrue(tz == tzCycle);
 }
 
-test(TimeZoneDataTest, basicManaged) {
+test(TimeZoneDataTest, basic) {
   TimeZone tz = basicZoneManager.createForZoneInfo(
       &zonedb::kZoneAmerica_Los_Angeles);
   TimeZoneData tzd = tz.toTimeZoneData();
@@ -396,7 +343,7 @@ test(TimeZoneDataTest, basicManaged) {
 }
 
 #if ! defined(ARDUINO_ARCH_AVR)
-test(TimeZoneDataTest, extendedManaged) {
+test(TimeZoneDataTest, extended) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles);
   TimeZoneData tzd = tz.toTimeZoneData();
@@ -408,8 +355,8 @@ test(TimeZoneDataTest, extendedManaged) {
   assertTrue(tz == tzCycle);
 }
 
-// If we convert a kTypeExtendedManaged, we can read it back as a
-// kTypeBasicManaged if the ZoneManager supports it. The reverse also works.
+// If we convert a kTypeExtended, we can read it back as a
+// kTypeBasic if the ZoneManager supports it. The reverse also works.
 test(TimeZoneDataTest, crossed) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles);
@@ -420,35 +367,35 @@ test(TimeZoneDataTest, crossed) {
 
   TimeZone tzCycle = basicZoneManager.createForTimeZoneData(tzd);
   assertEqual(tz.getZoneId(), tzCycle.getZoneId());
-  assertEqual(TimeZone::kTypeBasicManaged, tzCycle.getType());
+  assertEqual(TimeZone::kTypeBasic, tzCycle.getType());
 }
 #endif
 
 #if ! defined(ARDUINO_ARCH_AVR)
 // --------------------------------------------------------------------------
-// operator==() for kTypeExtendedManaged.
+// operator==() for kTypeExtended.
 // --------------------------------------------------------------------------
 
-test(TimeZoneExtendedTest, operatorEqualEqual_managedZones) {
+test(TimeZoneExtendedTest, operatorEqualEqual) {
   TimeZone manual = TimeZone::forHours(-8);
   TimeZone manual2 = TimeZone::forHours(-7);
   assertTrue(manual != manual2);
 
-  TimeZone basicManaged = basicZoneManager.createForZoneInfo(
+  TimeZone basic = basicZoneManager.createForZoneInfo(
       &zonedb::kZoneAmerica_Los_Angeles);
-  TimeZone basicManaged2 = basicZoneManager.createForZoneInfo(
+  TimeZone basic2 = basicZoneManager.createForZoneInfo(
       &zonedb::kZoneAmerica_New_York);
-  assertTrue(basicManaged != basicManaged2);
+  assertTrue(basic != basic2);
 
-  TimeZone extendedManaged = extendedZoneManager.createForZoneInfo(
+  TimeZone extended = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles);
-  TimeZone extendedManaged2 = extendedZoneManager.createForZoneInfo(
+  TimeZone extended2 = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_New_York);
-  assertTrue(extendedManaged != extendedManaged2);
+  assertTrue(extended != extended2);
 
-  assertTrue(manual != basicManaged);
-  assertTrue(manual != extendedManaged);
-  assertTrue(basicManaged != extendedManaged);
+  assertTrue(manual != basic);
+  assertTrue(manual != extended);
+  assertTrue(basic != extended);
 }
 #endif
 

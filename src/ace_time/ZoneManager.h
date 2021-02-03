@@ -42,9 +42,7 @@ class ZoneManager {
 
     /**
      * Create a TimeZone from the TimeZoneData created by
-     * TimeZone::toTimeZoneData(). kTypeBasic is interpreted as a
-     * kTypeBasicManaged, and kTypeExtended is interpreted as a
-     * kTypeExtendedManaged.
+     * TimeZone::toTimeZoneData().
      */
     virtual TimeZone createForTimeZoneData(const TimeZoneData& d) = 0;
 
@@ -123,18 +121,21 @@ class ManualZoneManager : public ZoneManager {
  * be returned.
  *
  * If a ZoneProcessor exists in the ZoneProcessorCache that is already bound to
- * the given TimeZone, then the ZoneProcessor is reused. If not, another
+ * the given ZoneInfo, then the ZoneProcessor is reused. If not, another
  * ZoneProcessor is picked from the cache in a round-robin fashion (kicking off
- * the previously bound TimeZone). The type of the TimeZone will be assigned to
- * be the type of the ZoneProcessorCache, which will be either
- * kTypeBasicManaged or kTypeExtendedManaged.
+ * the previously bound TimeZone). The type of the TimeZone will be assigned
+ * based on the ZoneProcessor, which will be either kTypeBasic or kTypeExtended.
  *
  * @tparam ZI type of ZoneInfo (basic::ZoneInfo or extended::ZoneInfo) which
  *    make up the zone registry
  * @tparam ZRR class of ZoneRegistrar which holds the registry of ZoneInfo
- * @tparam ZPC class of ZoneProcessorCache
+ *    (e.g. BasicZoneRegistrar, ExtendedZoneRegistrar)
+ * @tparam ZP class of ZoneProcessor (e.g. BasicZoneProcessor,
+ *    ExtendedZoneProcessor)
+ * @tparam ZPC class of ZoneProcessorCache (e.g. BasicZoneProcessorCache,
+ *    ExtendedZoneProcessorCache)
  */
-template<typename ZI, typename ZRR, typename ZPC>
+template<typename ZI, typename ZRR, typename ZP, typename ZPC>
 class ZoneManagerImpl : public ZoneManager {
   public:
     TimeZone createForZoneName(const char* name) override {
@@ -183,12 +184,14 @@ class ZoneManagerImpl : public ZoneManager {
     /**
      * Create a TimeZone from an explicit ZoneInfo reference. The ZoneRegistrar
      * will be bypassed because the ZoneInfo is already available, but the
-     * TimeZone will reuse the ZoneProcessorCache. This is expected to be used
-     * mostly in tests, but it could be useful for applications.
+     * TimeZone will use a ZoneProcessor from its ZoneProcessorCache. This is
+     * expected to be used mostly in tests, but it could be useful for
+     * applications.
      */
     TimeZone createForZoneInfo(const ZI* zoneInfo) {
       if (! zoneInfo) return TimeZone::forError();
-      return TimeZone(zoneInfo, &mZoneProcessorCache);
+      ZP* processor = (ZP*) mZoneProcessorCache.getZoneProcessor(zoneInfo);
+      return TimeZone::forZoneInfo(zoneInfo, processor);
     }
 
   protected:
@@ -222,6 +225,7 @@ template<uint16_t SIZE>
 class BasicZoneManager: public ZoneManagerImpl<
       basic::ZoneInfo,
       BasicZoneRegistrar,
+      BasicZoneProcessor,
       BasicZoneProcessorCache<SIZE>
     > {
 
@@ -233,6 +237,7 @@ class BasicZoneManager: public ZoneManagerImpl<
         ZoneManagerImpl<
             basic::ZoneInfo,
             BasicZoneRegistrar,
+            BasicZoneProcessor,
             BasicZoneProcessorCache<SIZE>
         >(
           registrySize,
@@ -251,6 +256,7 @@ template<uint16_t SIZE>
 class ExtendedZoneManager: public ZoneManagerImpl<
       extended::ZoneInfo,
       ExtendedZoneRegistrar,
+      ExtendedZoneProcessor,
       ExtendedZoneProcessorCache<SIZE>
     > {
 
@@ -262,6 +268,7 @@ class ExtendedZoneManager: public ZoneManagerImpl<
         ZoneManagerImpl<
             extended::ZoneInfo,
             ExtendedZoneRegistrar,
+            ExtendedZoneProcessor,
             ExtendedZoneProcessorCache<SIZE>
         >(
           registrySize,

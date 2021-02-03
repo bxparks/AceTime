@@ -17,17 +17,16 @@ namespace ace_time {
 
 /**
  * Common interface to BasicZoneProcessorCache and ExtendedZoneProcessorCache.
- * This allows TimeZone to hold only a single implementation of
- * ZoneProcessorCache, without having to load the code for both
- * implementations.
+ * This allows ZoneManager to hold only a single implementation of
+ * ZoneProcessorCache, and avoid loading the code for both implementations.
  */
 class ZoneProcessorCache {
   public:
-    static const uint8_t kTypeBasicManaged = ZoneProcessor::kTypeBasic + 2;
-    static const uint8_t kTypeExtendedManaged =
-        ZoneProcessor::kTypeExtended + 2;
-
-    /** Return the type of this cache. */
+    /**
+     * Return the type of this cache, either ZoneProcessor::kTypeBasic, or
+     * ZoneProcessor::kTypeExtended.  TODO: This may not be used anywhere, so
+     * it may be possible to remove it.
+     */
     uint8_t getType() const { return mType; }
 
     /**
@@ -60,8 +59,7 @@ class ZoneProcessorCache {
  *    small. It can be 1 if the app never changes the TimeZone. It should be 2
  *    if the user is able to select different timezones from a menu.
  * @tparam TYPE integer constant identifying the type of TimeZone (e.g.
- *    TimeZone::kTypeBasic, kTypeExtended, kTypeBasicManaged,
- *    kTypeExtendedManaged)
+ *    ZoneProcessor::kTypeBasic, ZoneProcessor::kTypeExtended)
  * @tparam ZP type of ZoneProcessor (BasicZoneProcessor or
  *    ExtendedZoneProcessor)
  */
@@ -113,14 +111,14 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
 template<uint8_t SIZE>
 class BasicZoneProcessorCache: public ZoneProcessorCacheImpl<
     SIZE,
-    ZoneProcessorCache::kTypeBasicManaged,
+    ZoneProcessor::kTypeBasic,
     BasicZoneProcessor> {
 };
 
 template<uint8_t SIZE>
 class ExtendedZoneProcessorCache: public ZoneProcessorCacheImpl<
     SIZE,
-    ZoneProcessorCache::kTypeExtendedManaged,
+    ZoneProcessor::kTypeExtended,
     ExtendedZoneProcessor> {
 };
 #else
@@ -134,13 +132,13 @@ class ExtendedZoneProcessorCache: public ZoneProcessorCacheImpl<
 template<uint8_t SIZE>
 using BasicZoneProcessorCache = ZoneProcessorCacheImpl<
     SIZE,
-    ZoneProcessorCache::kTypeBasicManaged,
+    ZoneProcessor::kTypeBasic,
     BasicZoneProcessor>;
 
 template<uint8_t SIZE>
 using ExtendedZoneProcessorCache  = ZoneProcessorCacheImpl<
     SIZE,
-    ZoneProcessorCache::kTypeExtendedManaged,
+    ZoneProcessor::kTypeExtended,
     ExtendedZoneProcessor>;
 #endif
 

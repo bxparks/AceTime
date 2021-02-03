@@ -25,8 +25,6 @@ See the [README.md](README.md) for introductory background.
         * [Manual TimeZone](#ManualTimeZone)
         * [Basic TimeZone](#BasicTimeZone)
         * [Extended TimeZone](#ExtendedTimeZone)
-        * [Basic Managed TimeZone](#BasicManagedTimeZone)
-        * [Extended Managed TimeZone](#ExtendedManagedTimeZone)
     * [ZonedDateTime](#ZonedDateTime)
         * [Conversion to Other Time Zones](#TimeZoneConversion)
         * [Caching](#Caching)
@@ -854,17 +852,13 @@ A "time zone" is often used colloquially to mean 2 different things:
 from the UTC time using various transition rules.
 
 Both meanings of "time zone" are supported by the `TimeZone` class using
-5 different types as follows:
+3 different types as follows:
 
 * `TimeZone::kTypeManual`: a fixed base offset and optional DST offset from UTC
 * `TimeZone::kTypeBasic`: utilizes a `BasicZoneProcessor` which can
 be encoded with (relatively) simple rules from the TZ Database
 * `TimeZone::kTypeExtended`: utilizes a `ExtendedZoneProcessor` which can
 handle all zones in the TZ Database
-* `TimeZone::kTypeBasicManaged`: same as `kTypeBasic` but the
-  `BasicZoneProcessor` is managed by the `ZoneManager`
-* `TimeZone::kTypeExtendedManaged`: same as `kTypeExtended` but the
-  `ExtendedZoneProcessor` is managed by the `ZoneManager`
 
 The class hierarchy of `TimeZone` is shown below, where the arrow means
 "is-subclass-of" and the diamond-line means "is-aggregation-of". This is an
@@ -874,21 +868,18 @@ helps make better sense of the usage of the `TimeZone` class. A `TimeZone` can
 hold a reference to:
 
 * nothing (`kTypeManual`),
-* one `ZoneProcessor` object, (`kTypeBasic` or `kTypeExtended`) class, or
-* one `ZoneProcessorCache` object (`kTypeBasicManaged` or
-  `kTypeExtendedManaged`).
+* one `BasicZoneProcessor` object, (`kTypeBasic`), or
+* one `ExtendedZoneProcessor` object (`kTypeExtended`)
 
 ```
-            -----------------------------.
-           /                              \
-         <>    0..1                         \   0..1
-TimeZone <>-------- ZoneProcessor            ------- ZoneProcessorCache
-                          ^                                ^
-                          |                                |
-                   .----- +----.                     .---- +-----.
-                   |           |                     |           |
-              BasicZone        ExtendedZone       BasicZone     ExtendedZone
-              Processor        Processor     ProcessorCache     ProcessorCache
+               0..1
+TimeZone <>-------- ZoneProcessor
+                          ^
+                          |
+                   .----- +----.
+                   |           |
+              BasicZone        ExtendedZone
+              Processor        Processor
 ```
 
 Here is the class declaration of `TimeZone`:
@@ -902,9 +893,6 @@ class TimeZone {
     static const uint8_t kTypeManual = 1;
     static const uint8_t kTypeBasic = ZoneProcessor::kTypeBasic;
     static const uint8_t kTypeExtended = ZoneProcessor::kTypeExtended;
-    static const uint8_t kTypeBasicManaged = ZoneProcessorCache::kTypeExtended;
-    static const uint8_t kTypeExtendedManaged =
-        ZoneProcessorCache::kTypeExtended;
 
     static TimeZone forTimeOffset(
         TimeOffset stdOffset,
@@ -1177,63 +1165,22 @@ void someFunction() {
 
 The advantage of `ExtendedZoneProcessor` over `BasicZoneProcessor` is that
 `ExtendedZoneProcessor` supports all time zones in the TZ Database. The cost is
-that it consumes *5 times* more memory and is a bit slower. If
+that it consumes *5 times* more static memory and is a bit slower. If
 `BasicZoneProcessor` supports the zone that you want using the zone files in the
 `zonedb::` namespace, you should normally use that instead of
-`ExtendedZoneProcessor`. The one other advatnage of `ExtendedZoneProcessor` over
-`BasicZoneProcessor` is that `ExtendedZoneProcessor::forComponents()` is more
-accurate than `BasicZoneProcessor::forComponents()` because the `zonedbx::` data
-files contain transition information which are missing in the `zonedb::` data
-files due to space constraints.
+`ExtendedZoneProcessor`.
 
-<a name="BasicManagedTimeZone"></a>
-#### Basic Managed TimeZone (kTypeBasicManaged)
+The one other advantage of `ExtendedZoneProcessor` over `BasicZoneProcessor` is
+that `ExtendedZoneProcessor::forComponents()` is more accurate than
+`BasicZoneProcessor::forComponents()` because the `zonedbx::` data files contain
+transition information which are missing in the `zonedb::` data files due to
+space constraints.
 
-This TimeZone is similar to a `kTypeBasic` TimeZone, except that it is created
-using the `BasicZoneManager`, like this:
-
-```C++
-// Create ZoneManager (see ZoneManager section below)
-...
-const int NUM_ZONES = 2;
-BasicZoneManager<NUM_ZONES> basicZoneManager(
-    kBasicZoneRegistrySize, kBasicZoneRegistry);
-...
-
-void someFunction() {
-  auto tz = basicZoneManager.createForZoneInfo(
-      &zonedb::kZoneAmerica_Los_Angeles);
-  ...
-}
-
-```
-
-See the *ZoneManager* section below for information on how to create a
-`BasicZoneManager`.
-
-<a name="ExtendedManagedTimeZone"></a>
-#### Extended Managed TimeZone (kTypeExtendedManaged)
-
-This TimeZone is similar to the `kTypeExtended` TimeZone, except that it is
-created using the `ExtendedZoneManager`, like this:
-
-```C++
-// Create ZoneManager (see ZoneManager section below)
-...
-const int NUM_ZONES = 2;
-ExtendedZoneManager<NUM_ZONES> basicZoneManager(
-    kExtendedZoneRegistrySize, kExtendedZoneRegistry);
-...
-
-void someFunction() {
-  auto tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
-  ...
-}
-```
-
-See the *ZoneManager* section below for information on how to create an
-`ExtendedZoneManager`.
+Instead of managing the `BasicZoneProcessor` or `ExtendedZoneProcessor`
+manually, you can use the `ZoneManager` to manage a database of `ZoneInfo`
+files, and a cache of multiple `ZoneProcessor`s, and bind the `TimeZone` to its
+`ZoneInfo` and its `ZoneProcessor` more dynamically through the `ZoneManager`.
+See the section [ZoneManager](#ZoneManager) below for more information.
 
 <a name="ZonedDateTime"></a>
 ### ZonedDateTime

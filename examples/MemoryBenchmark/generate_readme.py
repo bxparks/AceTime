@@ -88,6 +88,12 @@ Unexpectedly, the flash memory consumption *increases* slightly (~0-50 bytes)
 for some ARM processors and the ESP32. Since those processors have far more
 flash memory, this seems like a good tradeoff.
 
+Also in v1.5+, changing `BasicZoneProcessor` and `ExtendedZoneProcessor` to be
+subclasses of the templatized `BasicZoneProcessorTemplate` and
+`ExtendedZoneProcessorTemplate` classes causes reduction of flash consumption by
+250-400 bytes for 32-bit processors. Don't know why. (Very little difference for
+8-bit AVR).
+
 ## Arduino Nano
 
 * 16MHz ATmega328P
