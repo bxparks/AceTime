@@ -131,10 +131,10 @@ class ManualZoneManager : public ZoneManager {
  *
  * @tparam ZI type of ZoneInfo (basic::ZoneInfo or extended::ZoneInfo) which
  *    make up the zone registry
- * @tparam ZR class of ZoneRegistrar which holds the registry of ZoneInfo
+ * @tparam ZRR class of ZoneRegistrar which holds the registry of ZoneInfo
  * @tparam ZPC class of ZoneProcessorCache
  */
-template<typename ZI, typename ZR, typename ZPC>
+template<typename ZI, typename ZRR, typename ZPC>
 class ZoneManagerImpl : public ZoneManager {
   public:
     TimeZone createForZoneName(const char* name) override {
@@ -207,7 +207,7 @@ class ZoneManagerImpl : public ZoneManager {
     ZoneManagerImpl(const ZoneManagerImpl&) = delete;
     ZoneManagerImpl& operator=(const ZoneManagerImpl&) = delete;
 
-    const ZR mZoneRegistrar;
+    const ZRR mZoneRegistrar;
     ZPC mZoneProcessorCache;
 };
 
