@@ -14,11 +14,7 @@ class Print;
 
 namespace ace_time {
 
-template<uint8_t SIZE, uint8_t TYPE, typename ZP>
-class ZoneProcessorCacheImpl;
-
 class LocalDateTime;
-class TimeZone;
 
 /**
  * Base interface for ZoneProcessor classes. There were 2 options for
@@ -125,8 +121,6 @@ class ZoneProcessor {
 
   protected:
     friend bool operator==(const ZoneProcessor& a, const ZoneProcessor& b);
-
-    friend class TimeZone; // setZoneInfo()
 
     // Disable copy constructor and assignment operator.
     ZoneProcessor(const ZoneProcessor&) = delete;
