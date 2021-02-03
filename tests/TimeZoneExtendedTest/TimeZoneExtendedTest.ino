@@ -23,9 +23,56 @@ const uint16_t kExtendedZoneRegistrySize =
 ExtendedZoneManager<2> extendedZoneManager(
     kExtendedZoneRegistrySize, kExtendedZoneRegistry);
 
-//---------------------------------------------------------------------------
+// --------------------------------------------------------------------------
+// TimeZone + ExtendedZoneManager
+// --------------------------------------------------------------------------
 
-test(TimeZoneExtendedTest, createFor) {
+test(TimeZoneExtendedTest, registrySize) {
+  assertEqual((uint16_t) 4, extendedZoneManager.registrySize());
+}
+
+test(TimeZoneExtendedTest, createForZoneName) {
+  TimeZone tz = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles);
+  TimeZone tzn = extendedZoneManager.createForZoneName("America/Los_Angeles");
+  assertTrue(tz == tzn);
+}
+
+test(TimeZoneExtendedTest, createForZoneId) {
+  TimeZone tz = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_New_York);
+  TimeZone tzid = extendedZoneManager.createForZoneId(
+      zonedb::kZoneIdAmerica_New_York);
+  assertTrue(tz == tzid);
+  assertEqual((uint32_t) 0x1e2a7654, tz.getZoneId());
+  assertEqual((uint32_t) 0x1e2a7654, tzid.getZoneId());
+}
+
+test(TimeZoneExtendedTest, createForZoneIndex) {
+  TimeZone tz = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_Chicago);
+  TimeZone tzidx = extendedZoneManager.createForZoneIndex(0);
+  assertTrue(tz == tzidx);
+}
+
+test(TimeZoneExtendedTest, indexForZoneName) {
+  uint16_t index = extendedZoneManager.indexForZoneName("America/Los_Angeles");
+  assertEqual((uint16_t) 2, index);
+
+  index = extendedZoneManager.indexForZoneName("America/not_found");
+  assertEqual(ZoneManager::kInvalidIndex, index);
+}
+
+test(TimeZoneExtendedTest, indexForZoneId) {
+  uint16_t index = extendedZoneManager.indexForZoneId(
+      zonedbx::kZoneIdAmerica_New_York);
+  assertEqual((uint16_t) 3, index);
+
+  index = extendedZoneManager.indexForZoneId(0 /* not found */);
+  assertEqual(ZoneManager::kInvalidIndex, index);
+}
+
+test(TimeZoneExtendedTest, createForXxx_create_same_timezone) {
   TimeZone a = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles);
   TimeZone b = extendedZoneManager.createForZoneInfo(
