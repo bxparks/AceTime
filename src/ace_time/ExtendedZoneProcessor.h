@@ -1344,8 +1344,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * of the current Transition, which happens to be given by the *previous*
      * Transition.
      */
-    static void fixTransitionTimes(
-        Transition** begin, Transition** end) {
+    static void fixTransitionTimes(Transition** begin, Transition** end) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("fixTransitionTimes(): #transitions: %d;\n",
           (int) (end - begin));
@@ -1574,8 +1573,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * the [start, end) iterators. The Transition::transitionTime should all be
      * in 'w' mode by the time this method is called.
      */
-    static void generateStartUntilTimes(
-        Transition** begin, Transition** end) {
+    static void generateStartUntilTimes(Transition** begin, Transition** end) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf(
           "generateStartUntilTimes(): #transitions: %d;\n",
@@ -1637,8 +1635,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     /**
      * Calculate the time zone abbreviations for each Transition.
      */
-    static void calcAbbreviations(
-        Transition** begin, Transition** end) {
+    static void calcAbbreviations(Transition** begin, Transition** end) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("calcAbbreviations(): #transitions: %d;\n",
           (int) (end - begin));

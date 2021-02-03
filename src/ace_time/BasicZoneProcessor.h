@@ -525,8 +525,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * yearTiny. Assume that there are no more than 1 rule per month.
      * Return null ZoneRule if ZonePoicy is null.
      */
-    static ZRB findLatestPriorRule(
-        ZPB zonePolicy, int8_t yearTiny) {
+    static ZRB findLatestPriorRule(ZPB zonePolicy, int8_t yearTiny) {
       ZRB latest;
       if (zonePolicy.isNull()) return latest;
 
@@ -561,8 +560,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      *    * If [from,to]<year, return (to).
      *    * Else we know [from<year<=to], so return (year-1).
      */
-    static int8_t priorYearOfRule(int8_t yearTiny,
-        const ZRB rule) {
+    static int8_t priorYearOfRule(int8_t yearTiny, const ZRB rule) {
       if (rule.toYearTiny() < yearTiny) {
         return rule.toYearTiny();
       }
@@ -573,8 +571,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * Add all matching transitions from the current year.
      * @return the ZoneEra of the current year.
      */
-    ZEB addTransitionsForYear(
-        int8_t yearTiny, ZEB priorEra) const {
+    ZEB addTransitionsForYear(int8_t yearTiny, ZEB priorEra) const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
         logging::printf("addTransitionsForYear(): %d\n", yearTiny);
       }
@@ -638,8 +635,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /** Add the rule just after the current year if there exists one. */
-    void addTransitionAfterYear(int8_t yearTiny,
-        ZEB currentEra) const {
+    void addTransitionAfterYear(int8_t yearTiny, ZEB currentEra) const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
         logging::printf("addTransitionAfterYear(): %d\n", yearTiny);
       }
