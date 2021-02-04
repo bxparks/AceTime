@@ -85,20 +85,20 @@ subclasses of the templatized `BasicZoneProcessorTemplate` and
 | LocalDateTime                     |   1648/  123 |  1200/  113 |
 | ZonedDateTime                     |   2440/  123 |  1992/  113 |
 | Manual ZoneManager                |   2684/  123 |  2236/  113 |
-| Basic TimeZone (1 zone)           |   7174/  309 |  6726/  299 |
-| Basic TimeZone (2 zones)          |   7742/  313 |  7294/  303 |
-| BasicZoneManager (1 zone)         |   8576/  333 |  8128/  323 |
-| BasicZoneManager (all zones)      |  21560/  709 | 21112/  699 |
-| BasicZoneManager (zones+links)    |  25652/  709 | 25204/  699 |
-| Extended TimeZone (1 zone)        |   9976/  343 |  9528/  333 |
-| Extended TimeZone (2 zones)       |  10462/  347 | 10014/  337 |
-| ExtendedZoneManager (1 zone)      |  11324/  367 | 10876/  357 |
-| ExtendedZoneManager (all zones)   |  33396/  851 | 32948/  841 |
-| ExtendedZoneManager (zones+links) |  38040/  851 | 37592/  841 |
+| Basic TimeZone (1 zone)           |   7132/  307 |  6684/  297 |
+| Basic TimeZone (2 zones)          |   7700/  311 |  7252/  301 |
+| BasicZoneManager (1 zone)         |   8516/  325 |  8068/  315 |
+| BasicZoneManager (all zones)      |  21500/  701 | 21052/  691 |
+| BasicZoneManager (zones+links)    |  25592/  701 | 25144/  691 |
+| Extended TimeZone (1 zone)        |   9938/  341 |  9490/  331 |
+| Extended TimeZone (2 zones)       |  10426/  345 |  9978/  335 |
+| ExtendedZoneManager (1 zone)      |  11272/  359 | 10824/  349 |
+| ExtendedZoneManager (all zones)   |  33344/  843 | 32896/  833 |
+| ExtendedZoneManager (zones+links) |  37988/  843 | 37540/  833 |
 |-----------------------------------+--------------+-------------|
 | SystemClock                       |   5662/  282 |  5214/  272 |
-| SystemClock+Basic TimeZone        |  10254/  456 |  9806/  446 |
-| SystemClock+Extended TimeZone     |  13282/  490 | 12834/  480 |
+| SystemClock+Basic TimeZone        |  10208/  454 |  9760/  444 |
+| SystemClock+Extended TimeZone     |  13244/  488 | 12796/  478 |
 +----------------------------------------------------------------+
 
 ```
@@ -118,20 +118,20 @@ subclasses of the templatized `BasicZoneProcessorTemplate` and
 | LocalDateTime                     |   4772/  263 |  1308/  113 |
 | ZonedDateTime                     |   5564/  263 |  2100/  113 |
 | Manual ZoneManager                |   5808/  263 |  2344/  113 |
-| Basic TimeZone (1 zone)           |  10274/  447 |  6810/  297 |
-| Basic TimeZone (2 zones)          |  10844/  453 |  7380/  303 |
-| BasicZoneManager (1 zone)         |  11676/  471 |  8212/  321 |
-| BasicZoneManager (all zones)      |  24662/  849 | 21198/  699 |
-| BasicZoneManager (zones+links)    |  28754/  849 | 25290/  699 |
-| Extended TimeZone (1 zone)        |  13076/  481 |  9612/  331 |
-| Extended TimeZone (2 zones)       |  13564/  487 | 10100/  337 |
-| ExtendedZoneManager (1 zone)      |  14424/  505 | 10960/  355 |
-| ExtendedZoneManager (all zones)   |  36496/  989 | 33032/  839 |
-| ExtendedZoneManager (zones+links) |  41140/  989 | 37676/  839 |
+| Basic TimeZone (1 zone)           |  10232/  445 |  6768/  295 |
+| Basic TimeZone (2 zones)          |  10802/  451 |  7338/  301 |
+| BasicZoneManager (1 zone)         |  11616/  463 |  8152/  313 |
+| BasicZoneManager (all zones)      |  24602/  841 | 21138/  691 |
+| BasicZoneManager (zones+links)    |  28694/  841 | 25230/  691 |
+| Extended TimeZone (1 zone)        |  13038/  479 |  9574/  329 |
+| Extended TimeZone (2 zones)       |  13528/  485 | 10064/  335 |
+| ExtendedZoneManager (1 zone)      |  14372/  497 | 10908/  347 |
+| ExtendedZoneManager (all zones)   |  36444/  981 | 32980/  831 |
+| ExtendedZoneManager (zones+links) |  41088/  981 | 37624/  831 |
 |-----------------------------------+--------------+-------------|
 | SystemClock                       |   8646/  422 |  5182/  272 |
-| SystemClock+Basic TimeZone        |  13236/  594 |  9772/  444 |
-| SystemClock+Extended TimeZone     |  16264/  628 | 12800/  478 |
+| SystemClock+Basic TimeZone        |  13190/  592 |  9726/  442 |
+| SystemClock+Extended TimeZone     |  16226/  626 | 12762/  476 |
 +----------------------------------------------------------------+
 
 ```
@@ -151,20 +151,20 @@ subclasses of the templatized `BasicZoneProcessorTemplate` and
 | LocalDateTime                     |  10920/    0 |   856/    0 |
 | ZonedDateTime                     |  11160/    0 |  1096/    0 |
 | Manual ZoneManager                |  11176/    0 |  1112/    0 |
-| Basic TimeZone (1 zone)           |  15148/    0 |  5084/    0 |
-| Basic TimeZone (2 zones)          |  15412/    0 |  5348/    0 |
-| BasicZoneManager (1 zone)         |  16020/    0 |  5956/    0 |
-| BasicZoneManager (all zones)      |  33564/    0 | 23500/    0 |
-| BasicZoneManager (zones+links)    |  39804/    0 | 29740/    0 |
-| Extended TimeZone (1 zone)        |  16916/    0 |  6852/    0 |
-| Extended TimeZone (2 zones)       |  17212/    0 |  7148/    0 |
-| ExtendedZoneManager (1 zone)      |  17596/    0 |  7532/    0 |
-| ExtendedZoneManager (all zones)   |  47676/    0 | 37612/    0 |
-| ExtendedZoneManager (zones+links) |  54764/    0 | 44700/    0 |
+| Basic TimeZone (1 zone)           |  15132/    0 |  5068/    0 |
+| Basic TimeZone (2 zones)          |  15396/    0 |  5332/    0 |
+| BasicZoneManager (1 zone)         |  15812/    0 |  5748/    0 |
+| BasicZoneManager (all zones)      |  33404/    0 | 23340/    0 |
+| BasicZoneManager (zones+links)    |  39644/    0 | 29580/    0 |
+| Extended TimeZone (1 zone)        |  16900/    0 |  6836/    0 |
+| Extended TimeZone (2 zones)       |  17196/    0 |  7132/    0 |
+| ExtendedZoneManager (1 zone)      |  17540/    0 |  7476/    0 |
+| ExtendedZoneManager (all zones)   |  47620/    0 | 37556/    0 |
+| ExtendedZoneManager (zones+links) |  54708/    0 | 44644/    0 |
 |-----------------------------------+--------------+-------------|
 | SystemClock                       |  13264/    0 |  3200/    0 |
-| SystemClock+Basic TimeZone        |  16764/    0 |  6700/    0 |
-| SystemClock+Extended TimeZone     |  18644/    0 |  8580/    0 |
+| SystemClock+Basic TimeZone        |  16756/    0 |  6692/    0 |
+| SystemClock+Extended TimeZone     |  18628/    0 |  8564/    0 |
 +----------------------------------------------------------------+
 
 ```
@@ -186,20 +186,20 @@ subclasses of the templatized `BasicZoneProcessorTemplate` and
 | LocalDateTime                     |  23128/ 3988 |  3992/  200 |
 | ZonedDateTime                     |  23280/ 3988 |  4144/  200 |
 | Manual ZoneManager                |  23288/ 3988 |  4152/  200 |
-| Basic TimeZone (1 zone)           |  26992/ 3988 |  7856/  200 |
-| Basic TimeZone (2 zones)          |  27212/ 3988 |  8076/  200 |
-| BasicZoneManager (1 zone)         |  27660/ 3988 |  8524/  200 |
-| BasicZoneManager (all zones)      |  44936/ 3988 | 25800/  200 |
-| BasicZoneManager (zones+links)    |  51040/ 3988 | 31904/  200 |
-| Extended TimeZone (1 zone)        |  28576/ 3988 |  9440/  200 |
-| Extended TimeZone (2 zones)       |  28888/ 3988 |  9752/  200 |
-| ExtendedZoneManager (1 zone)      |  29240/ 3988 | 10104/  200 |
-| ExtendedZoneManager (all zones)   |  58928/ 3988 | 39792/  200 |
+| Basic TimeZone (1 zone)           |  26976/ 3988 |  7840/  200 |
+| Basic TimeZone (2 zones)          |  27232/ 3988 |  8096/  200 |
+| BasicZoneManager (1 zone)         |  27612/ 3988 |  8476/  200 |
+| BasicZoneManager (all zones)      |  44892/ 3988 | 25756/  200 |
+| BasicZoneManager (zones+links)    |  50992/ 3988 | 31856/  200 |
+| Extended TimeZone (1 zone)        |  28556/ 3988 |  9420/  200 |
+| Extended TimeZone (2 zones)       |  28868/ 3988 |  9732/  200 |
+| ExtendedZoneManager (1 zone)      |  29196/ 3988 | 10060/  200 |
+| ExtendedZoneManager (all zones)   |  58888/ 3988 | 39752/  200 |
 | ExtendedZoneManager (zones+links) |     -1/   -1 |    -1/   -1 |
 |-----------------------------------+--------------+-------------|
 | SystemClock                       |  26004/ 3988 |  6868/  200 |
-| SystemClock+Basic TimeZone        |  29496/ 3988 | 10360/  200 |
-| SystemClock+Extended TimeZone     |  31180/ 3988 | 12044/  200 |
+| SystemClock+Basic TimeZone        |  29480/ 3988 | 10344/  200 |
+| SystemClock+Extended TimeZone     |  31160/ 3988 | 12024/  200 |
 +----------------------------------------------------------------+
 
 ```
@@ -224,20 +224,20 @@ microcontroller and the compiler did not generate the desired information.
 | LocalDateTime                     | 258820/27264 |  2120/  488 |
 | ZonedDateTime                     | 259012/27264 |  2312/  488 |
 | Manual ZoneManager                | 259076/27264 |  2376/  488 |
-| Basic TimeZone (1 zone)           | 264748/27824 |  8048/ 1048 |
-| Basic TimeZone (2 zones)          | 265100/27824 |  8400/ 1048 |
-| BasicZoneManager (1 zone)         | 265948/27824 |  9248/ 1048 |
-| BasicZoneManager (all zones)      | 283596/27824 | 26896/ 1048 |
-| BasicZoneManager (zones+links)    | 289692/27824 | 32992/ 1048 |
-| Extended TimeZone (1 zone)        | 266812/27968 | 10112/ 1192 |
-| Extended TimeZone (2 zones)       | 267148/27968 | 10448/ 1192 |
-| ExtendedZoneManager (1 zone)      | 267852/27968 | 11152/ 1192 |
-| ExtendedZoneManager (all zones)   | 298128/27980 | 41428/ 1204 |
-| ExtendedZoneManager (zones+links) | 305040/27980 | 48340/ 1204 |
+| Basic TimeZone (1 zone)           | 264700/27824 |  8000/ 1048 |
+| Basic TimeZone (2 zones)          | 265068/27824 |  8368/ 1048 |
+| BasicZoneManager (1 zone)         | 265724/27824 |  9024/ 1048 |
+| BasicZoneManager (all zones)      | 283404/27824 | 26704/ 1048 |
+| BasicZoneManager (zones+links)    | 289516/27824 | 32816/ 1048 |
+| Extended TimeZone (1 zone)        | 266764/27968 | 10064/ 1192 |
+| Extended TimeZone (2 zones)       | 267116/27968 | 10416/ 1192 |
+| ExtendedZoneManager (1 zone)      | 267756/27968 | 11056/ 1192 |
+| ExtendedZoneManager (all zones)   | 298016/27980 | 41316/ 1204 |
+| ExtendedZoneManager (zones+links) | 304928/27980 | 48228/ 1204 |
 |-----------------------------------+--------------+-------------|
 | SystemClock                       | 262268/27276 |  5568/  500 |
-| SystemClock+Basic TimeZone        | 267592/27824 | 10892/ 1048 |
-| SystemClock+Extended TimeZone     | 269704/27968 | 13004/ 1192 |
+| SystemClock+Basic TimeZone        | 267576/27824 | 10876/ 1048 |
+| SystemClock+Extended TimeZone     | 269688/27968 | 12988/ 1192 |
 +----------------------------------------------------------------+
 
 ```
@@ -257,20 +257,20 @@ microcontroller and the compiler did not generate the desired information.
 | LocalDateTime                     | 218225/16116 | 11790/ 1552 |
 | ZonedDateTime                     | 218533/16116 | 12098/ 1552 |
 | Manual ZoneManager                | 218581/16116 | 12146/ 1552 |
-| Basic TimeZone (1 zone)           | 223057/16116 | 16622/ 1552 |
-| Basic TimeZone (2 zones)          | 223381/16116 | 16946/ 1552 |
-| BasicZoneManager (1 zone)         | 223993/16116 | 17558/ 1552 |
-| BasicZoneManager (all zones)      | 241705/16116 | 35270/ 1552 |
-| BasicZoneManager (zones+links)    | 248049/16116 | 41614/ 1552 |
-| Extended TimeZone (1 zone)        | 224893/16116 | 18458/ 1552 |
-| Extended TimeZone (2 zones)       | 225241/16116 | 18806/ 1552 |
-| ExtendedZoneManager (1 zone)      | 225945/16116 | 19510/ 1552 |
-| ExtendedZoneManager (all zones)   | 256245/16116 | 49810/ 1552 |
-| ExtendedZoneManager (zones+links) | 263453/16116 | 57018/ 1552 |
+| Basic TimeZone (1 zone)           | 223009/16116 | 16574/ 1552 |
+| Basic TimeZone (2 zones)          | 223309/16116 | 16874/ 1552 |
+| BasicZoneManager (1 zone)         | 223925/16116 | 17490/ 1552 |
+| BasicZoneManager (all zones)      | 241637/16116 | 35202/ 1552 |
+| BasicZoneManager (zones+links)    | 247981/16116 | 41546/ 1552 |
+| Extended TimeZone (1 zone)        | 224861/16116 | 18426/ 1552 |
+| Extended TimeZone (2 zones)       | 225201/16116 | 18766/ 1552 |
+| ExtendedZoneManager (1 zone)      | 225877/16116 | 19442/ 1552 |
+| ExtendedZoneManager (all zones)   | 256177/16116 | 49742/ 1552 |
+| ExtendedZoneManager (zones+links) | 263385/16116 | 56950/ 1552 |
 |-----------------------------------+--------------+-------------|
 | SystemClock                       | 225813/16220 | 19378/ 1656 |
-| SystemClock+Basic TimeZone        | 229921/16220 | 23486/ 1656 |
-| SystemClock+Extended TimeZone     | 231853/16220 | 25418/ 1656 |
+| SystemClock+Basic TimeZone        | 229885/16220 | 23450/ 1656 |
+| SystemClock+Extended TimeZone     | 231817/16220 | 25382/ 1656 |
 +----------------------------------------------------------------+
 
 ```
@@ -294,20 +294,20 @@ usage by objects.
 | LocalDateTime                     |  13268/ 4812 |  5644/ 1764 |
 | ZonedDateTime                     |  13268/ 4812 |  5644/ 1764 |
 | Manual ZoneManager                |  13268/ 4812 |  5644/ 1764 |
-| Basic TimeZone (1 zone)           |  22264/ 4812 | 14640/ 1764 |
-| Basic TimeZone (2 zones)          |  22928/ 4812 | 15304/ 1764 |
-| BasicZoneManager (1 zone)         |  23916/ 4812 | 16292/ 1764 |
-| BasicZoneManager (all zones)      |  41596/ 4812 | 33972/ 1764 |
-| BasicZoneManager (zones+links)    |  47940/ 4812 | 40316/ 1764 |
-| Extended TimeZone (1 zone)        |  23924/ 4812 | 16300/ 1764 |
-| Extended TimeZone (2 zones)       |  24588/ 4812 | 16964/ 1764 |
-| ExtendedZoneManager (1 zone)      |  25512/ 4812 | 17888/ 1764 |
-| ExtendedZoneManager (all zones)   |  55872/ 4812 | 48248/ 1764 |
-| ExtendedZoneManager (zones+links) |  63080/ 4812 | 55456/ 1764 |
+| Basic TimeZone (1 zone)           |  22196/ 4812 | 14572/ 1764 |
+| Basic TimeZone (2 zones)          |  22860/ 4812 | 15236/ 1764 |
+| BasicZoneManager (1 zone)         |  23772/ 4812 | 16148/ 1764 |
+| BasicZoneManager (all zones)      |  41516/ 4812 | 33892/ 1764 |
+| BasicZoneManager (zones+links)    |  47860/ 4812 | 40236/ 1764 |
+| Extended TimeZone (1 zone)        |  23856/ 4812 | 16232/ 1764 |
+| Extended TimeZone (2 zones)       |  24584/ 4812 | 16960/ 1764 |
+| ExtendedZoneManager (1 zone)      |  25432/ 4812 | 17808/ 1764 |
+| ExtendedZoneManager (all zones)   |  55728/ 4812 | 48104/ 1764 |
+| ExtendedZoneManager (zones+links) |  62936/ 4812 | 55312/ 1764 |
 |-----------------------------------+--------------+-------------|
 | SystemClock                       |  16192/ 4812 |  8568/ 1764 |
-| SystemClock+Basic TimeZone        |  25372/ 4812 | 17748/ 1764 |
-| SystemClock+Extended TimeZone     |  26968/ 4812 | 19344/ 1764 |
+| SystemClock+Basic TimeZone        |  25304/ 4812 | 17680/ 1764 |
+| SystemClock+Extended TimeZone     |  26964/ 4812 | 19340/ 1764 |
 +----------------------------------------------------------------+
 
 ```
