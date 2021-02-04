@@ -91,7 +91,7 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
     ZP* findUsingZoneKey(ZK zoneKey) {
       for (uint8_t i = 0; i < SIZE; i++) {
         ZP* zoneProcessor = &mZoneProcessors[i];
-        if (zoneProcessor->equalsZoneKey(zoneInfoKey)) {
+        if (zoneProcessor->equalsZoneKey(zoneKey)) {
           return zoneProcessor;
         }
       }
