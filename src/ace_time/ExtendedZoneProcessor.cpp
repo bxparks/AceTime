@@ -10,6 +10,8 @@
 
 namespace ace_time {
 
+// This is the only instance of ZoneEra whose 'format' field is set to nullptr.
+// Should it be set to something like "" instead?
 const extended::ZoneEra ExtendedZoneProcessor::kAnchorEra ACE_TIME_PROGMEM = {
   nullptr /*zonePolicy*/,
   nullptr /*format*/,
@@ -23,11 +25,11 @@ const extended::ZoneEra ExtendedZoneProcessor::kAnchorEra ACE_TIME_PROGMEM = {
 };
 
 void ExtendedZoneProcessor::printTo(Print& printer) const {
-  printer.print(ExtendedZone(mZoneInfo.zoneInfo()).name());
+  ExtendedZone(mZoneInfo.zoneInfo()).printNameTo(printer);
 }
 
 void ExtendedZoneProcessor::printShortTo(Print& printer) const {
-  printer.print(ExtendedZone(mZoneInfo.zoneInfo()).shortName());
+  ExtendedZone(mZoneInfo.zoneInfo()).printShortNameTo(printer);
 }
 
 }

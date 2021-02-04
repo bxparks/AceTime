@@ -82,6 +82,11 @@ struct ZoneRule {
    * the ZonePolicy.letters[] array which contains a (const char*) of the
    * actual multi-character letter.
    *
+   * BasicZoneProcessor supports only a single LETTER value (i.e. >= 32), which
+   * also means that ZonePolicy.numLetters will always be 0 for a
+   * BasicZoneProcessor. ExtendedZoenProcessor supports a LETTER value of < 32,
+   * indicating a multi-character string.
+   *
    * As of TZ DB version 2018i, there are 4 ZonePolicies which have ZoneRules
    * with a LETTER field longer than 1 character:
    *

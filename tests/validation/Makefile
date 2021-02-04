@@ -1,5 +1,27 @@
 SHELL=/bin/bash
 
+# Build the BasicHinnantDateTest and ExtendedHinnantDateTest tests in series
+# (because parallel make of the two targets seem to collide while loading the
+# TZ database into Hinnant date library). The Hinnant date library is the only
+# one that can be configured to use the new TZ database version just after it
+# is released. The other ones require the corresponding package (e.g. OS, Java,
+# Python) to be released.
+validations:
+	(set -e; \
+	trap 'kill 0' SIGHUP SIGINT SIGQUIT SIGKILL SIGTERM; \
+	for i in *HinnantDateTest/Makefile; do \
+		echo '==== Making:' $$(dirname $$i); \
+		make -C $$(dirname $$i); \
+	done; \
+	wait)
+
+runvalidations:
+	set -e; \
+	for i in *HinnantDateTest/Makefile; do \
+		echo '==== Running:' $$(dirname $$i); \
+		$$(dirname $$i)/$$(dirname $$i).out; \
+	done
+
 # Build the validation tests in parallel for reduced waiting time.
 tests:
 	(set -e; \

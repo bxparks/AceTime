@@ -6,9 +6,9 @@
 using namespace aunit;
 using namespace ace_time;
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // LocalDate
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(LocalDateTest, isError_year_out_of_range) {
   assertTrue(LocalDate::forComponents(0, 1, 1).isError());
@@ -440,14 +440,14 @@ test(LocalDateTest, decrementOneDay_error) {
   assertTrue(ld.isError());
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void setup() {
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 }
 
 void loop() {

@@ -3,7 +3,7 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
 
 #include <Wire.h>
 #include <Print.h> // Print

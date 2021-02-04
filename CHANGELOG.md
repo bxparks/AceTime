@@ -1,6 +1,67 @@
 # Changelog
 
 * Unreleased
+* 1.5
+    * Use binary search for both `ZoneManager::createForZoneName()` and
+      `ZoneManager::createForZoneId()`.
+        * Previously, the `zone_registry.cpp` was sorted by zoneName, so only
+          the `createForZoneName()` could use the binary search. The new
+          solution sorts the `zone_registry.cpp` entries by `zoneId` instead of
+          `zoneName`. The `createForZoneId()` can use the binary search
+          algorith.
+        * The `createForZoneName()` can also use the binary search because
+          the `zoneName` is converted dynamically to its `zoneId` using the same
+          djb2 hash algorithm used by the `tzcompiler.py`. If there is a match,
+          a final verification against the exact `zoneName` is performed to make
+          sure that there was no hash collision.
+        * Updated `AutoBenchmark.ino` to determine that a binary search on the
+          266 zones in `zonedb/zone_registry.cpp` is 9-10X faster (on average)
+          than a linear search through the same list. (Linear search takes ~190
+          iterations; binary search takes ~9 iterations.)
+    * Upgrade Link entries to be "fat links".
+        * Links become essentially identical to Zone entries, with references to
+          the same underlying `ZoneEra` records.
+        * Add `kZoneAndLinkRegistry[]` array in `zone_registry.h` that contains
+          all Links as well as Zones.
+        * Add "Zones and Links" section in `USER_GUIDE.md`.
+    * Implement zoneName compression using `ace_common::KString`.
+        * Saves about 1500-2300 bytes for basic `zonedb` info files, and
+          2500-3400 bytes for extended `zonedbx` info files.
+    * **Potentially Breaking Change**: Remove `transitionBufSize` from
+      `ZoneInfo` struct, and migrate to `kZoneBufSize{xxx}` constants in the
+      `zone_infos.h` files.
+        * This was used only in validation tests under `tests/validation` and
+          only for `Extended{xxx}` tests. Saves 1 byte per Zone on 8-bit
+          processors, but none on 32-bit processors due to 4-byte alignment.
+        * This should have no impact on client code since this field was used
+          only for validation testing.
+    * **API Breaking Change**: Replace `BasicZone::name()` and `shortName()`
+      with `printNameTo()` and `printShortNameTo()`. Same with
+      `ExtendedZone::name()` and `shortName()`, replaced with `printNameTo()`
+      and `printShortNameTo()`.
+        * After implementing zoneName compression, it was no longer possible to
+          return a simple pointer to the `name` and `shortName` without using
+          static memory buffers.
+        * I expect almost no one to be using the `BasicZone` and `ExtendedZone`
+          classes, since they are mostly useful for internal algorithms.
+        * Client code that needs the old functionality can use
+          `BasicZone::printNameTo(Print&)`,
+          `BasicZone::printShortNameTo(Print&)` (similarly for `ExtendedZone`)
+          to print to a `ace_common::PrintStr<>` object, then extract the
+          c-string using `PrintStr::getCstr()`.
+    * Update UnixHostDuino 0.4 to EpoxyDuino 0.5.
+    * Explicitly blacklist megaAVR boards, and SAMD21 boards using
+      `arduino:samd` Core >= 1.8.10.
+        * This allows a helpful message to be shown to the user, instead of the
+          pages and pages of compiler errors.
+    * Update TZ Database to 2021a.
+        * https://mm.icann.org/pipermail/tz-announce/2021-January/000065.html
+        * "South Sudan changes from +03 to +02 on 2021-02-01 at 00:00."
+    * Officially support STM32 and STM32duino after testing on STM32 Blue Pill.
+* 1.4.1 (2020-12-30, TZDB version 2020f for real)
+    * Actually update `src/ace_time/zonedb` and `src/ace_time/zonedbx`
+      zone info files to 2020f. Oops.
+* 1.4 (2020-12-30, TZ DB version 2020f)
     * Add entry for `ManualZoneManager` in
       [examples/MemoryBenchmark](examples/MemoryBenchmark). It seems to need
       between 0'ish to 250 bytes of flash.
@@ -10,12 +71,95 @@
         * Add error checking to `toSeconds()` and `TimePeriod(seconds)`
           constructor.
         * Printing an error object prints `<Invalid TimePeriod>`.
-    * Add support for the STM32RTC clock on a STM32 through the
+    * Add support for the STM32RTC clock on an STM32 through the
       `ace_time::clock::StmRtcClock` class.
-        * Currently **experimental** since I do not have any STM32 boards, so I
-          cannot test this code.
+        * Currently **experimental** and untested.
+        * I do not have any STM32 boards right now, so I cannot test this code.
         * See [#39](https://github.com/bxparks/AceTime/pull/39) for details.
         * Thanks to Anatoli Arkhipenko (arkhipenko@).
+    * Add convenience factory methods for creating manual `TimeZone` objects.
+      Saves a lot of typing by avoiding the `TimeOffset` objects:
+        * `TimeZone::forHours()`
+        * `TimeZone::forMinutes()`
+        * `TimeZone::forHourMinute()`
+    * Fix incorrect `kTypeXxx` constants in `ZoneManager.h`. Fortunately, the
+      numerical values overlapped perfectly, so didn't cause any bugs in actual
+      code.
+    * `USER_GUIDE.md`
+        * Add documentation about accessing the meta information about the
+          `zonedb` and `zonedbx` databases:
+            * `zonedb::kTzDatabaseVersion`
+            * `zonedb::kZoneContext.startYear`
+            * `zonedb::kZoneContext.untilYear`
+            * `zonedbx::kTzDatabaseVersion`
+            * `zonedbx::kZoneContext.startYear`
+            * `zonedbx::kZoneContext.untilYear`
+        * Add documentation that the `ZonedDateTime` must always be within
+          `startYear` and `untilYear`. An error object will be returned outside
+          of that range.
+    * Update TZ Database from 2020d to version 2020f
+        * 2020e
+            * https://mm.icann.org/pipermail/tz-announce/2020-December/000063.html
+            * "Volgograd switches to Moscow time on 2020-12-27 at 02:00."
+        * 2020f
+            * https://mm.icann.org/pipermail/tz-announce/2020-December/000064.html
+            * "'make rearguard_tarballs' no longer generates a bad rearguard.zi,
+              fixing a 2020e bug.  (Problem reported by Deborah Goldsmith.)"
+        * AceTime skips 2020e
+    * Update `examples/AutoBenchmark` to allow auto-generation of ASCII tables,
+      which allows auto-generation of the `README.md` file. Update CPU
+      benchmarks for v1.4 from v0.8, since it is much easier to update these
+      numbers now. No significant performance change from v0.8.
+    * Huge amounts of Python `tools` refactoring
+        * Convert all remaining `%` string formatting to f-strings.
+        * Convert all internal camelCase dictionary keys to snake_case for
+          consistency.
+        * Finish adding typing info to pass strict mypy checking.
+        * Centralize most typing info into `data_types/at_types.py`.
+        * Move various global constants into `data_types/at_types.py`.
+        * Migrate most Arduino specific transformations into `artransformer.py`.
+        * Move offsetCode, deltaCode, atTimeCode, untilTimeCode, rulesDeltaCode
+          calculations and various bit-packing rules (e.g. `at_time_modifier`,
+          `ntil_time_modifier`) into `artransformer.py` instead of the
+          `argenerator.py`.
+        * Include general and platform specific transformations in
+          the JSON (`zonedb.json` or `zonedbx.json`) files.
+        * Make `argenerator.py` use only the JSON output instead of making
+          its own transformations.
+        * Produce both `LettersMap` and `LettersPerPolicy` in the JSON file.
+        * Unify `CommentsCollection` into `CommentsMap` using an `Iterable`
+          in `Dict[str, Iterable[str]]`.
+        * Unify all transformer results into `TransformerResult`.
+        * Check hash collisions for Link names, in addition to Zone names.
+        * Rename test data generator executables to `generate_data.*` or some
+          variations of it, to avoid confusion with unit tests which are often
+          named `test_xxx.py`.
+        * Add `--input_dir` flag to `generate_data.cpp` to allow the TZ database
+          directory to be specified.
+        * Add `--ignore_buf_size_too_big` to workaround a mismatch between
+          the estimated Transition buffer size calculated by `bufestimator.py`
+          and the actual buffer size required by `ExtendedZoneProcessor.cpp`.
+        * Add `--skip_checkout` flag to `tzcompiler.py` to allow local
+          modifications of the TZ database files to be used for code generation.
+        * Add `--delta_granularity` flag to `transformer.py` to decouple it
+          from `--offset_granularity`, so that the `SAVE` and `RULES`
+          granularity can be controlled independently from the `STDOFF`
+          granularity.  The `--until_at_granularity` continues to control `AT`
+          and `UNTIL`.
+        * Make output of `zinfo.py --debug` to be more readable.
+        * Remove `--generate_zone_strings` from `tzcompiler.py` which removes
+          the ability to create `zone_strings.{h,cpp}`. The storage and
+          optimization of strings are implementation details which seem to be
+          better handled later in the pipeline.
+        * Increase the range of `zonedbpy` database from the default
+          `[2000,2050)` to `[1974, 2050)` to allow `zinfo.py` to handle a larger
+          range of queries.
+        * Merge `--action` and `--language` flags for `tzcompiler.py`; only
+          `--language` flag needed right now.
+        * Rename `RulesMap` to `PoliciesMap`, `rules_map` to `policies_map`,
+          `rule_name` to `policy_name` etc. For consistency with `ZonesMap`,
+          `zones_map`, and `zone_name`.
+        * Add `ZoneId` hashes to JSON output files.
 * 1.3 (2020-11-30, TZ DB version 2020d)
     * Minor tweaks to silence clang++ warnings.
     * Create new `ZoneManager` interface (pure virtual) which is now the

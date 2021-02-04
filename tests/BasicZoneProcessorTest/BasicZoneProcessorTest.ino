@@ -6,7 +6,7 @@
 using namespace aunit;
 using namespace ace_time;
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // Test zoneinfo files. Taken from Pacific/Galapagos which transitions
 // from simple Rule to named Rule in 1986:
 //
@@ -17,7 +17,7 @@ using namespace ace_time;
 //Zone Pacific/Galapagos  -5:58:24 -      LMT     1931 # Puerto Baquerizo Moreno
 //                        -5:00   -       -05     1986
 //                        -6:00   Ecuador -06/-05
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 static const char kTzDatabaseVersion[] = "2019b";
 
@@ -25,6 +25,8 @@ static const basic::ZoneContext kZoneContext = {
   1980 /*startYear*/,
   2050 /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,
+  0 /*numFragments*/,
+  nullptr /*fragments*/,
 };
 
 static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
@@ -107,18 +109,13 @@ static const basic::ZoneInfo kZonePacific_Galapagos ACE_TIME_PROGMEM = {
   kZoneNamePacific_Galapagos /*name*/,
   0xa952f752 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  4 /*transitionBufSize*/,
   2 /*numEras*/,
   kZoneEraPacific_Galapagos /*eras*/,
 };
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // BasicZoneProcessor: test private methods
-// --------------------------------------------------------------------------
-
-test(BasicZoneProcessorTest, tzVersion) {
-  assertEqual("2020d", zonedb::kTzDatabaseVersion);
-}
+//---------------------------------------------------------------------------
 
 test(BasicZoneProcessorTest, operatorEqualEqual) {
   BasicZoneProcessor a(&zonedb::kZoneAmerica_Los_Angeles);
@@ -139,49 +136,6 @@ test(BasicZoneProcessorTest, setZoneInfo) {
   // Check that the cache remains valid if the zoneInfo does not change
   zoneInfo.setZoneInfo(&zonedb::kZoneAustralia_Darwin);
   assertTrue(zoneInfo.mIsFilled);
-}
-
-test(BasicZoneProcessorTest, calcStartDayOfMonth) {
-  // 2018-11, Sun>=1
-  basic::MonthDay monthDay = BasicZoneProcessor::calcStartDayOfMonth(
-      2018, 11, LocalDate::kSunday, 1);
-  assertEqual(11, monthDay.month);
-  assertEqual(4, monthDay.day);
-
-  // 2018-11, lastSun
-  monthDay = BasicZoneProcessor::calcStartDayOfMonth(
-      2018, 11, LocalDate::kSunday, 0);
-  assertEqual(11, monthDay.month);
-  assertEqual(25, monthDay.day);
-
-  // 2018-11, Sun>=30, should shift to 2018-12-2
-  monthDay = BasicZoneProcessor::calcStartDayOfMonth(
-      2018, 11, LocalDate::kSunday, 30);
-  assertEqual(12, monthDay.month);
-  assertEqual(2, monthDay.day);
-
-  // 2018-11, Mon<=7
-  monthDay = BasicZoneProcessor::calcStartDayOfMonth(
-      2018, 11, LocalDate::kMonday, -7);
-  assertEqual(11, monthDay.month);
-  assertEqual(5, monthDay.day);
-
-  // 2018-11, Mon<=1, shifts back into October
-  monthDay = BasicZoneProcessor::calcStartDayOfMonth(
-      2018, 11, LocalDate::kMonday, -1);
-  assertEqual(10, monthDay.month);
-  assertEqual(29, monthDay.day);
-
-  // 2018-03, Thu>=9
-  monthDay = BasicZoneProcessor::calcStartDayOfMonth(
-      2018, 3, LocalDate::kThursday, 9);
-  assertEqual(3, monthDay.month);
-  assertEqual(15, monthDay.day);
-
-  // 2018-03-30 exactly
-  monthDay = BasicZoneProcessor::calcStartDayOfMonth(2018, 3, 0, 30);
-  assertEqual(3, monthDay.month);
-  assertEqual(30, monthDay.day);
 }
 
 test(BasicZoneProcessorTest, calcRuleOffsetMinutes) {
@@ -413,9 +367,9 @@ test(BasicZoneProcessorTest, createAbbreviation) {
   assertEqual("PDT34", dst);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // Test public methods
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 // https://www.timeanddate.com/time/zone/usa/los-angeles
 test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles) {
@@ -513,14 +467,14 @@ test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles_outOfBounds) {
   assertEqual("", zoneProcessor.getAbbrev(epochSeconds));
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void setup() {
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 }
 
 void loop() {

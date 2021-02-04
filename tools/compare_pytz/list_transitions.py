@@ -73,7 +73,7 @@ def main() -> None:
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Find the DST transitions')
     parser.add_argument(
-        'zone',
+        'zone_name',
         help='Zone name (e.g. America/Los_Angeles',
     )
     parser.add_argument(

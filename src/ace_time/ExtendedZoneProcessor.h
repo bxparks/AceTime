@@ -11,12 +11,12 @@
 #include "common/compat.h"
 #include "internal/ZonePolicy.h"
 #include "internal/ZoneInfo.h"
+#include "internal/ExtendedBrokers.h"
 #include "common/logging.h"
 #include "TimeOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
 #include "ZoneProcessor.h"
-#include "BasicZoneProcessor.h"
 #include "local_date_mutation.h"
 
 #define ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG 0
@@ -52,7 +52,7 @@ class TransitionStorageTest_findTransitionForDateTime;
 
 namespace ace_time {
 
-template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
 class ZoneProcessorCacheImpl;
 
 namespace extended {
@@ -172,9 +172,6 @@ struct ZoneMatch {
  * processors without making the program size bigger for 8-bit processors.
  */
 struct Transition {
-  /** Size of the timezone abbreviation. */
-  static const uint8_t kAbbrevSize = basic::Transition::kAbbrevSize;
-
   /** The match which generated this Transition. */
   const ZoneMatch* match;
 
@@ -245,7 +242,7 @@ struct Transition {
   int16_t deltaMinutes;
 
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
-  char abbrev[kAbbrevSize];
+  char abbrev[internal::kAbbrevSize];
 
   /** Storage for the single letter 'letter' field if 'rule' is not null. */
   char letterBuf[2];
@@ -804,7 +801,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_setZoneInfo;
     friend class ::TransitionStorageTest_findTransitionForDateTime;
 
-    template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+    template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
     friend class ZoneProcessorCacheImpl; // setZoneInfo()
 
     // Disable copy constructor and assignment operator.
@@ -819,10 +816,11 @@ class ExtendedZoneProcessor: public ZoneProcessor {
 
     /**
      * Max number of Transitions required for a given Zone, including the most
-     * recent prior Transition. This value for each Zone is given by
-     * ZoneInfo.transitionBufSize, and ExtendedPythonTest
-     * and ExtendedJavaTest show that the maximum is 7. Set
-     * this to 8 for safety.
+     * recent prior Transition. This value for each Zone is given by the
+     * kZoneBufSize{zoneName} constant in the generated
+     * `zonedb[x]/zone_infos.h` file. The ExtendedPythonTest and
+     * ExtendedJavaTest tests show that the maximum is 7. Set this to 8 for
+     * safety.
      */
     static const uint8_t kMaxTransitions = 8;
 
@@ -1228,7 +1226,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
 
     static extended::DateTuple getTransitionTime(
         int8_t yearTiny, const extended::ZoneRuleBroker rule) {
-      basic::MonthDay monthDay = BasicZoneProcessor::calcStartDayOfMonth(
+      internal::MonthDay monthDay = internal::calcStartDayOfMonth(
           yearTiny + LocalDate::kEpochYear, rule.inMonth(), rule.onDayOfWeek(),
           rule.onDayOfMonth());
       return {yearTiny, monthDay.month, monthDay.day,
@@ -1316,9 +1314,9 @@ class ExtendedZoneProcessor: public ZoneProcessor {
     }
 
     /**
-     * Convert the given 'tt', offsetMinutes, and deltaMinutes into the 'w', 's' and
-     * 'u' versions of the DateTuple. The 'tt' may become a 'w' if it was
-     * originally 's' or 'u'. On return, tt, tts and ttu are all modified.
+     * Convert the given 'tt', offsetMinutes, and deltaMinutes into the 'w',
+     * 's' and 'u' versions of the DateTuple. The 'tt' may become a 'w' if it
+     * was originally 's' or 'u'. On return, tt, tts and ttu are all modified.
      */
     static void expandDateTuple(extended::DateTuple* tt,
         extended::DateTuple* tts, extended::DateTuple* ttu,
@@ -1594,7 +1592,7 @@ class ExtendedZoneProcessor: public ZoneProcessor {
             "calcAbbreviations(): format:%s, deltaMinutes:%d, letter:%s\n",
             t->format(), t->deltaMinutes, t->letter());
         }
-        createAbbreviation(t->abbrev, extended::Transition::kAbbrevSize,
+        createAbbreviation(t->abbrev, internal::kAbbrevSize,
             t->format(), t->deltaMinutes, t->letter());
       }
     }

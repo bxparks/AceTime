@@ -1,4 +1,4 @@
-# See https://github.com/bxparks/UnixHostDuino for documentation about this
+# See https://github.com/bxparks/EpoxyDuino for documentation about this
 # Makefile to compile and run Arduino programs natively on Linux or MacOS.
 
 DB_NAMESPACE := zonedbxdateutil
@@ -21,7 +21,7 @@ OBJS := validation_data.o \
 APP_NAME := ExtendedDateUtilTest
 ARDUINO_LIBS := AUnit AceCommon AceTime
 MORE_CLEAN := more_clean
-include ../../../../UnixHostDuino/UnixHostDuino.mk
+include ../../../../EpoxyDuino/EpoxyDuino.mk
 
 #.PHONY: $(GENERATED)
 
@@ -63,7 +63,7 @@ validation_data.h: validation_data.json
 		< validation_data.json
 
 validation_data.json: $(DB_NAMESPACE)/zones.txt
-	../../../tools/compare_dateutil/test_data_generator.py \
+	../../../tools/compare_dateutil/generate_data.py \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
 		< $(DB_NAMESPACE)/zones.txt
@@ -90,8 +90,7 @@ $(DB_NAMESPACE)/zone_infos.h: tzfiles/$(TZ_VERSION)
 	../../../../tools/tzcompiler.py \
 		--input_dir ../tzfiles/$(TZ_VERSION) \
 		--tz_version $(TZ_VERSION) \
-		--action zonedb,zonelist \
-		--language arduino \
+		--language arduino,zonelist \
 		--scope $(SCOPE) \
 		--db_namespace $(DB_NAMESPACE) \
 		--start_year $(START_YEAR) \

@@ -1,7 +1,7 @@
 # Test Data Generator using Hinnant Date Library
 
-The `test_data_generator.cpp` program generates the `validation_data.cpp`,
-`validation_data.h` and `validation_tests.cpp` files needed by:
+The `generate_data.cpp` program generates the `validation_data.json` file
+needed by:
 
     * `tests/validation/BasicHinnantDateTest/`
     * `tests/validation/ExtendedHinnantDateTest/`
@@ -29,7 +29,7 @@ I have tested this Ubuntu 18.04 and 20.04. Install the following:
       Occasionally, the repo may need to be updated manually with a `$ git
       pull`.
 
-Then type make to generate `test_data_generator.out`:
+Then type make to generate `generate_data.out`:
 ```
 $ make
 ```

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AceTime: ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB, STRCMP_P, STRCMP_PP &gt; Class Template Reference</title>
+<title>AceTime: ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.3</span>
+   &#160;<span id="projectnumber">1.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -70,13 +70,14 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#pro-static-attribs">Static Protected Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classace__time_1_1ZoneRegistrar-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB, STRCMP_P, STRCMP_PP &gt; Class Template Reference</div>  </div>
+<div class="title">ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -87,115 +88,113 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8549579fe1f0d7a9885d7a4beec1fcc4"><td class="memItemLeft" align="right" valign="top"><a id="a8549579fe1f0d7a9885d7a4beec1fcc4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a8549579fe1f0d7a9885d7a4beec1fcc4">ZoneRegistrar</a> (uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html#a3edbed9659729badf23d688afad7842c">registrySize</a>, const ZI *const *zoneRegistry)</td></tr>
-<tr class="memdesc:a8549579fe1f0d7a9885d7a4beec1fcc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br /></td></tr>
-<tr class="separator:a8549579fe1f0d7a9885d7a4beec1fcc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3edbed9659729badf23d688afad7842c"><td class="memItemLeft" align="right" valign="top"><a id="a3edbed9659729badf23d688afad7842c"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a3edbed9659729badf23d688afad7842c">registrySize</a> () const</td></tr>
-<tr class="memdesc:a3edbed9659729badf23d688afad7842c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of zones. <br /></td></tr>
-<tr class="separator:a3edbed9659729badf23d688afad7842c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19fad3dfbc49782cc6d7fee442f5beca"><td class="memItemLeft" align="right" valign="top"><a id="a19fad3dfbc49782cc6d7fee442f5beca"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a19fad3dfbc49782cc6d7fee442f5beca">isSorted</a> () const</td></tr>
-<tr class="memdesc:a19fad3dfbc49782cc6d7fee442f5beca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if zoneRegistry is sorted, and eligible to use a binary search. <br /></td></tr>
-<tr class="separator:a19fad3dfbc49782cc6d7fee442f5beca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dfc96bbea4e333699f87d6596ee27bb"><td class="memItemLeft" align="right" valign="top">const ZI *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a3dfc96bbea4e333699f87d6596ee27bb">getZoneInfoForIndex</a> (uint16_t i) const</td></tr>
-<tr class="memdesc:a3dfc96bbea4e333699f87d6596ee27bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the ZoneInfo at index i.  <a href="classace__time_1_1ZoneRegistrar.html#a3dfc96bbea4e333699f87d6596ee27bb">More...</a><br /></td></tr>
-<tr class="separator:a3dfc96bbea4e333699f87d6596ee27bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d4201b63d312b1ab5a2bd4ee49c5502"><td class="memItemLeft" align="right" valign="top">const ZI *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a6d4201b63d312b1ab5a2bd4ee49c5502">getZoneInfoForName</a> (const char *name) const</td></tr>
-<tr class="memdesc:a6d4201b63d312b1ab5a2bd4ee49c5502"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the ZoneInfo corresponding to the given zone name.  <a href="classace__time_1_1ZoneRegistrar.html#a6d4201b63d312b1ab5a2bd4ee49c5502">More...</a><br /></td></tr>
-<tr class="separator:a6d4201b63d312b1ab5a2bd4ee49c5502"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2dffb8eebcc08cc0abbbaab33f526e05"><td class="memItemLeft" align="right" valign="top">const ZI *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a2dffb8eebcc08cc0abbbaab33f526e05">getZoneInfoForId</a> (uint32_t zoneId) const</td></tr>
-<tr class="memdesc:a2dffb8eebcc08cc0abbbaab33f526e05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the ZoneInfo using the zoneId.  <a href="classace__time_1_1ZoneRegistrar.html#a2dffb8eebcc08cc0abbbaab33f526e05">More...</a><br /></td></tr>
-<tr class="separator:a2dffb8eebcc08cc0abbbaab33f526e05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf379a1b4122e803655f3ad97287ed8c"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#abf379a1b4122e803655f3ad97287ed8c">findIndexForName</a> (const char *name) const</td></tr>
-<tr class="memdesc:abf379a1b4122e803655f3ad97287ed8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the index for zone name.  <a href="classace__time_1_1ZoneRegistrar.html#abf379a1b4122e803655f3ad97287ed8c">More...</a><br /></td></tr>
-<tr class="separator:abf379a1b4122e803655f3ad97287ed8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae356aad159d366f56ed27c26e0e0e7b4"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#ae356aad159d366f56ed27c26e0e0e7b4">findIndexForId</a> (uint32_t zoneId) const</td></tr>
-<tr class="memdesc:ae356aad159d366f56ed27c26e0e0e7b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the index for zone id.  <a href="classace__time_1_1ZoneRegistrar.html#ae356aad159d366f56ed27c26e0e0e7b4">More...</a><br /></td></tr>
-<tr class="separator:ae356aad159d366f56ed27c26e0e0e7b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68035e6214ee58cc57d611bf288684c6"><td class="memItemLeft" align="right" valign="top"><a id="a68035e6214ee58cc57d611bf288684c6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a68035e6214ee58cc57d611bf288684c6">ZoneRegistrar</a> (uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html#ac172d1aebd5afdc406f6b9165a9ae6b0">registrySize</a>, const ZI *const *zoneRegistry)</td></tr>
+<tr class="memdesc:a68035e6214ee58cc57d611bf288684c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br /></td></tr>
+<tr class="separator:a68035e6214ee58cc57d611bf288684c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac172d1aebd5afdc406f6b9165a9ae6b0"><td class="memItemLeft" align="right" valign="top"><a id="ac172d1aebd5afdc406f6b9165a9ae6b0"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#ac172d1aebd5afdc406f6b9165a9ae6b0">registrySize</a> () const</td></tr>
+<tr class="memdesc:ac172d1aebd5afdc406f6b9165a9ae6b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of zones. <br /></td></tr>
+<tr class="separator:ac172d1aebd5afdc406f6b9165a9ae6b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05617a35dec66c571f64cf4fea75249b"><td class="memItemLeft" align="right" valign="top"><a id="a05617a35dec66c571f64cf4fea75249b"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a05617a35dec66c571f64cf4fea75249b">isSorted</a> () const</td></tr>
+<tr class="memdesc:a05617a35dec66c571f64cf4fea75249b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if zoneRegistry is sorted, and eligible to use a binary search. <br /></td></tr>
+<tr class="separator:a05617a35dec66c571f64cf4fea75249b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a172e6c17cea603fc6f43446b87f83713"><td class="memItemLeft" align="right" valign="top">const ZI *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a172e6c17cea603fc6f43446b87f83713">getZoneInfoForIndex</a> (uint16_t i) const</td></tr>
+<tr class="memdesc:a172e6c17cea603fc6f43446b87f83713"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the ZoneInfo at index i.  <a href="classace__time_1_1ZoneRegistrar.html#a172e6c17cea603fc6f43446b87f83713">More...</a><br /></td></tr>
+<tr class="separator:a172e6c17cea603fc6f43446b87f83713"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac26fd25ac22351f85ca0ed7cd93375fa"><td class="memItemLeft" align="right" valign="top">const ZI *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#ac26fd25ac22351f85ca0ed7cd93375fa">getZoneInfoForName</a> (const char *name) const</td></tr>
+<tr class="memdesc:ac26fd25ac22351f85ca0ed7cd93375fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the ZoneInfo corresponding to the given zone name.  <a href="classace__time_1_1ZoneRegistrar.html#ac26fd25ac22351f85ca0ed7cd93375fa">More...</a><br /></td></tr>
+<tr class="separator:ac26fd25ac22351f85ca0ed7cd93375fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0d28a8964d602569dac95fe2bcc69fa"><td class="memItemLeft" align="right" valign="top">const ZI *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#ad0d28a8964d602569dac95fe2bcc69fa">getZoneInfoForId</a> (uint32_t zoneId) const</td></tr>
+<tr class="memdesc:ad0d28a8964d602569dac95fe2bcc69fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the ZoneInfo using the zoneId.  <a href="classace__time_1_1ZoneRegistrar.html#ad0d28a8964d602569dac95fe2bcc69fa">More...</a><br /></td></tr>
+<tr class="separator:ad0d28a8964d602569dac95fe2bcc69fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b83124b229845d15f34c3e976e4fd40"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a1b83124b229845d15f34c3e976e4fd40">findIndexForName</a> (const char *name) const</td></tr>
+<tr class="memdesc:a1b83124b229845d15f34c3e976e4fd40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the index for zone name.  <a href="classace__time_1_1ZoneRegistrar.html#a1b83124b229845d15f34c3e976e4fd40">More...</a><br /></td></tr>
+<tr class="separator:a1b83124b229845d15f34c3e976e4fd40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a896948f8342bb0a50c6833ff24bf8b1f"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a896948f8342bb0a50c6833ff24bf8b1f">findIndexForId</a> (uint32_t zoneId) const</td></tr>
+<tr class="memdesc:a896948f8342bb0a50c6833ff24bf8b1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the index for zone id.  <a href="classace__time_1_1ZoneRegistrar.html#a896948f8342bb0a50c6833ff24bf8b1f">More...</a><br /></td></tr>
+<tr class="separator:a896948f8342bb0a50c6833ff24bf8b1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a03779807816c18656198f966956558c6"><td class="memItemLeft" align="right" valign="top"><a id="a03779807816c18656198f966956558c6"></a>
-static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a03779807816c18656198f966956558c6">kInvalidIndex</a> = 0xffff</td></tr>
-<tr class="memdesc:a03779807816c18656198f966956558c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invalid index to indicate error or not found. <br /></td></tr>
-<tr class="separator:a03779807816c18656198f966956558c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4173d80a7b2ac12e716715e61e07d369"><td class="memItemLeft" align="right" valign="top"><a id="a4173d80a7b2ac12e716715e61e07d369"></a>
+static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a4173d80a7b2ac12e716715e61e07d369">kInvalidIndex</a> = 0xffff</td></tr>
+<tr class="memdesc:a4173d80a7b2ac12e716715e61e07d369"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invalid index to indicate error or not found. <br /></td></tr>
+<tr class="separator:a4173d80a7b2ac12e716715e61e07d369"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a1ebbe1118e9fd200be66e9e8edd7dbee"><td class="memItemLeft" align="right" valign="top"><a id="a1ebbe1118e9fd200be66e9e8edd7dbee"></a>
+friend&#160;</td><td class="memItemRight" valign="bottom"><b>void ::runIndexForZoneIdBinary</b> ()</td></tr>
+<tr class="separator:a1ebbe1118e9fd200be66e9e8edd7dbee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1937c0e1008515f140bdfeccb9c43ee1"><td class="memItemLeft" align="right" valign="top"><a id="a1937c0e1008515f140bdfeccb9c43ee1"></a>
+friend&#160;</td><td class="memItemRight" valign="bottom"><b>void ::runIndexForZoneIdLinear</b> ()</td></tr>
+<tr class="separator:a1937c0e1008515f140bdfeccb9c43ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73acd3b875f158f97684088deeda819b"><td class="memItemLeft" align="right" valign="top"><a id="a73acd3b875f158f97684088deeda819b"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a73acd3b875f158f97684088deeda819b">findIndexForIdLinear</a> (uint32_t zoneId) const</td></tr>
+<tr class="memdesc:a73acd3b875f158f97684088deeda819b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exposed only for benchmarking purposes. <br /></td></tr>
+<tr class="separator:a73acd3b875f158f97684088deeda819b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad46c9c87740532282a297ffa258f3141"><td class="memItemLeft" align="right" valign="top"><a id="ad46c9c87740532282a297ffa258f3141"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#ad46c9c87740532282a297ffa258f3141">findIndexForIdBinary</a> (uint32_t zoneId) const</td></tr>
+<tr class="memdesc:ad46c9c87740532282a297ffa258f3141"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exposed only for benchmarking purposes. <br /></td></tr>
+<tr class="separator:ad46c9c87740532282a297ffa258f3141"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
 Static Protected Member Functions</h2></td></tr>
-<tr class="memitem:a0dcd5afba6985b33f2b333ae21d6433c"><td class="memItemLeft" align="right" valign="top"><a id="a0dcd5afba6985b33f2b333ae21d6433c"></a>
-static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a0dcd5afba6985b33f2b333ae21d6433c">isSorted</a> (const ZI *const *registry, uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html#a3edbed9659729badf23d688afad7842c">registrySize</a>)</td></tr>
-<tr class="memdesc:a0dcd5afba6985b33f2b333ae21d6433c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if the given zone registry is sorted by name. <br /></td></tr>
-<tr class="separator:a0dcd5afba6985b33f2b333ae21d6433c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7f3278e12dbd538a7e7a69b851a0897"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#aa7f3278e12dbd538a7e7a69b851a0897">linearSearchByName</a> (const ZI *const *registry, uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html#a3edbed9659729badf23d688afad7842c">registrySize</a>, const char *name)</td></tr>
-<tr class="memdesc:aa7f3278e12dbd538a7e7a69b851a0897"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the registry index corresponding to name using a linear search.  <a href="classace__time_1_1ZoneRegistrar.html#aa7f3278e12dbd538a7e7a69b851a0897">More...</a><br /></td></tr>
-<tr class="separator:aa7f3278e12dbd538a7e7a69b851a0897"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9665e785b3609515d92139eb97e08f6b"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a9665e785b3609515d92139eb97e08f6b">binarySearchByName</a> (const ZI *const *registry, uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html#a3edbed9659729badf23d688afad7842c">registrySize</a>, const char *name)</td></tr>
-<tr class="memdesc:a9665e785b3609515d92139eb97e08f6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the registry index corresponding to name using a binary search.  <a href="classace__time_1_1ZoneRegistrar.html#a9665e785b3609515d92139eb97e08f6b">More...</a><br /></td></tr>
-<tr class="separator:a9665e785b3609515d92139eb97e08f6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2993d8bdf650ad82c932f559746179e9"><td class="memItemLeft" align="right" valign="top"><a id="a2993d8bdf650ad82c932f559746179e9"></a>
-static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a2993d8bdf650ad82c932f559746179e9">linearSearchById</a> (const ZI *const *registry, uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html#a3edbed9659729badf23d688afad7842c">registrySize</a>, uint32_t zoneId)</td></tr>
-<tr class="memdesc:a2993d8bdf650ad82c932f559746179e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the registry index corresponding to id using linear search. <br /></td></tr>
-<tr class="separator:a2993d8bdf650ad82c932f559746179e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfdc3494d34d9d6f28cf3f63043e0335"><td class="memItemLeft" align="right" valign="top"><a id="abfdc3494d34d9d6f28cf3f63043e0335"></a>
+static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#abfdc3494d34d9d6f28cf3f63043e0335">isSorted</a> (const ZI *const *registry, uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html#ac172d1aebd5afdc406f6b9165a9ae6b0">registrySize</a>)</td></tr>
+<tr class="memdesc:abfdc3494d34d9d6f28cf3f63043e0335"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if the given zone registry is sorted by id. <br /></td></tr>
+<tr class="separator:abfdc3494d34d9d6f28cf3f63043e0335"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c1f8b5c1e9812beb5b7de82a3fde0db"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a6c1f8b5c1e9812beb5b7de82a3fde0db">linearSearchById</a> (const ZI *const *registry, uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html#ac172d1aebd5afdc406f6b9165a9ae6b0">registrySize</a>, uint32_t zoneId)</td></tr>
+<tr class="memdesc:a6c1f8b5c1e9812beb5b7de82a3fde0db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the registry index corresponding to zoneId using linear search.  <a href="classace__time_1_1ZoneRegistrar.html#a6c1f8b5c1e9812beb5b7de82a3fde0db">More...</a><br /></td></tr>
+<tr class="separator:a6c1f8b5c1e9812beb5b7de82a3fde0db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a803711b8ec17e7703a48cf8c8843c984"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a803711b8ec17e7703a48cf8c8843c984">binarySearchById</a> (const ZI *const *registry, uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html#ac172d1aebd5afdc406f6b9165a9ae6b0">registrySize</a>, uint32_t zoneId)</td></tr>
+<tr class="memdesc:a803711b8ec17e7703a48cf8c8843c984"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the registry index corresponding to zoneId using a binary search.  <a href="classace__time_1_1ZoneRegistrar.html#a803711b8ec17e7703a48cf8c8843c984">More...</a><br /></td></tr>
+<tr class="separator:a803711b8ec17e7703a48cf8c8843c984"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:afa126374585b41fc48edd5df8992a22a"><td class="memItemLeft" align="right" valign="top"><a id="afa126374585b41fc48edd5df8992a22a"></a>
+<tr class="memitem:a70ddee941f8aaeedbf78da736c87cccf"><td class="memItemLeft" align="right" valign="top"><a id="a70ddee941f8aaeedbf78da736c87cccf"></a>
 const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>mRegistrySize</b></td></tr>
-<tr class="separator:afa126374585b41fc48edd5df8992a22a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a786cce0e9e36d0afaa4345a809ff2efa"><td class="memItemLeft" align="right" valign="top"><a id="a786cce0e9e36d0afaa4345a809ff2efa"></a>
-const ZI *const  *const&#160;</td><td class="memItemRight" valign="bottom"><b>mZoneRegistry</b></td></tr>
-<tr class="separator:a786cce0e9e36d0afaa4345a809ff2efa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf2ea72becd0f5784168a1306898d930"><td class="memItemLeft" align="right" valign="top"><a id="aaf2ea72becd0f5784168a1306898d930"></a>
+<tr class="separator:a70ddee941f8aaeedbf78da736c87cccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a199dacb509bc0620f50e3d596ecc8722"><td class="memItemLeft" align="right" valign="top"><a id="a199dacb509bc0620f50e3d596ecc8722"></a>
 const bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsSorted</b></td></tr>
-<tr class="separator:aaf2ea72becd0f5784168a1306898d930"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a199dacb509bc0620f50e3d596ecc8722"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae471cf4dec800f5b3e24adf632a80eb9"><td class="memItemLeft" align="right" valign="top"><a id="ae471cf4dec800f5b3e24adf632a80eb9"></a>
+const ZI *const  *const&#160;</td><td class="memItemRight" valign="bottom"><b>mZoneRegistry</b></td></tr>
+<tr class="separator:ae471cf4dec800f5b3e24adf632a80eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
 Static Protected Attributes</h2></td></tr>
-<tr class="memitem:a9edefbab9c979f2ba03a25b8811b72b8"><td class="memItemLeft" align="right" valign="top"><a id="a9edefbab9c979f2ba03a25b8811b72b8"></a>
-static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a9edefbab9c979f2ba03a25b8811b72b8">kBinarySearchThreshold</a> = 6</td></tr>
-<tr class="memdesc:a9edefbab9c979f2ba03a25b8811b72b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use binarySearch() if registrySize &gt;= threshold. <br /></td></tr>
-<tr class="separator:a9edefbab9c979f2ba03a25b8811b72b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3505b8b2ae8072a16faa0f8d928057e8"><td class="memItemLeft" align="right" valign="top"><a id="a3505b8b2ae8072a16faa0f8d928057e8"></a>
+static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneRegistrar.html#a3505b8b2ae8072a16faa0f8d928057e8">kBinarySearchThreshold</a> = 8</td></tr>
+<tr class="memdesc:a3505b8b2ae8072a16faa0f8d928057e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use binarySearch() if registrySize &gt;= threshold. <br /></td></tr>
+<tr class="separator:a3505b8b2ae8072a16faa0f8d928057e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
 <tr class="memitem:a96a970761f8d0c9416244a3f83175c01"><td class="memItemLeft" align="right" valign="top"><a id="a96a970761f8d0c9416244a3f83175c01"></a>
 class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Sorted_isSorted</b></td></tr>
 <tr class="separator:a96a970761f8d0c9416244a3f83175c01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa026fd44b1927a20f8bce4732a562e31"><td class="memItemLeft" align="right" valign="top"><a id="aa026fd44b1927a20f8bce4732a562e31"></a>
-class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Sorted_linearSearchByName</b></td></tr>
-<tr class="separator:aa026fd44b1927a20f8bce4732a562e31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb6496d13630640575e99de0f100fde8"><td class="memItemLeft" align="right" valign="top"><a id="acb6496d13630640575e99de0f100fde8"></a>
-class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Sorted_linearSearchByName_not_found</b></td></tr>
-<tr class="separator:acb6496d13630640575e99de0f100fde8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a172a2b084abd81f9d037d2186bf97427"><td class="memItemLeft" align="right" valign="top"><a id="a172a2b084abd81f9d037d2186bf97427"></a>
-class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Sorted_binarySearchByName</b></td></tr>
-<tr class="separator:a172a2b084abd81f9d037d2186bf97427"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac595e7aa7a34e2e332f4a85224f8431c"><td class="memItemLeft" align="right" valign="top"><a id="ac595e7aa7a34e2e332f4a85224f8431c"></a>
-class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Sorted_binarySearchByName_not_found</b></td></tr>
-<tr class="separator:ac595e7aa7a34e2e332f4a85224f8431c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad971436c3e2f02e0f3cda164db59631c"><td class="memItemLeft" align="right" valign="top"><a id="ad971436c3e2f02e0f3cda164db59631c"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Unsorted_isSorted</b></td></tr>
+<tr class="separator:ad971436c3e2f02e0f3cda164db59631c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a695ad73262f28405cd3ef9200c8adfe9"><td class="memItemLeft" align="right" valign="top"><a id="a695ad73262f28405cd3ef9200c8adfe9"></a>
 class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Sorted_linearSearchById</b></td></tr>
 <tr class="separator:a695ad73262f28405cd3ef9200c8adfe9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3665a0593c6a19b60e3371d8d480dee9"><td class="memItemLeft" align="right" valign="top"><a id="a3665a0593c6a19b60e3371d8d480dee9"></a>
 class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Sorted_linearSearchById_not_found</b></td></tr>
 <tr class="separator:a3665a0593c6a19b60e3371d8d480dee9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad971436c3e2f02e0f3cda164db59631c"><td class="memItemLeft" align="right" valign="top"><a id="ad971436c3e2f02e0f3cda164db59631c"></a>
-class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Unsorted_isSorted</b></td></tr>
-<tr class="separator:ad971436c3e2f02e0f3cda164db59631c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cbb75c5034db8d659a6432972287ab7"><td class="memItemLeft" align="right" valign="top"><a id="a9cbb75c5034db8d659a6432972287ab7"></a>
-class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Unsorted_linearSearchByName</b></td></tr>
-<tr class="separator:a9cbb75c5034db8d659a6432972287ab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a098fe07859b303ff3edafc301006848f"><td class="memItemLeft" align="right" valign="top"><a id="a098fe07859b303ff3edafc301006848f"></a>
-class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Unsorted_linearSearchByName_not_found</b></td></tr>
-<tr class="separator:a098fe07859b303ff3edafc301006848f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae561f16ee1aa4f39542b44422637c87d"><td class="memItemLeft" align="right" valign="top"><a id="ae561f16ee1aa4f39542b44422637c87d"></a>
-class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Unsorted_binarySearchByName</b></td></tr>
-<tr class="separator:ae561f16ee1aa4f39542b44422637c87d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af771380b1ba035cc6502cbe3505d81ed"><td class="memItemLeft" align="right" valign="top"><a id="af771380b1ba035cc6502cbe3505d81ed"></a>
-class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Unsorted_binarySearchByName_not_found</b></td></tr>
-<tr class="separator:af771380b1ba035cc6502cbe3505d81ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa35214af8d31a585f3b9c9c938af5fff"><td class="memItemLeft" align="right" valign="top"><a id="aa35214af8d31a585f3b9c9c938af5fff"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Sorted_binarySearchById_zeroEntries</b></td></tr>
+<tr class="separator:aa35214af8d31a585f3b9c9c938af5fff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c4d80b5dab7da05eb6e977bdeb6647b"><td class="memItemLeft" align="right" valign="top"><a id="a5c4d80b5dab7da05eb6e977bdeb6647b"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Sorted_binarySearchById</b></td></tr>
+<tr class="separator:a5c4d80b5dab7da05eb6e977bdeb6647b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb57932eddeaf3173b6b5bf9864457cc"><td class="memItemLeft" align="right" valign="top"><a id="afb57932eddeaf3173b6b5bf9864457cc"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Sorted_binarySearchById_not_found</b></td></tr>
+<tr class="separator:afb57932eddeaf3173b6b5bf9864457cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44cee25f9952b8d492f001eef7434ff4"><td class="memItemLeft" align="right" valign="top"><a id="a44cee25f9952b8d492f001eef7434ff4"></a>
 class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrarTest_Unsorted_linearSearchById</b></td></tr>
 <tr class="separator:a44cee25f9952b8d492f001eef7434ff4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -204,8 +203,8 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::BasicZoneRegistrar
 <tr class="separator:ad739839e891e182dd85387c3265e5e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename ZI, typename ZRB, typename ZIB, strcmp_t STRCMP_P, strcmp_t STRCMP_PP&gt;<br />
-class ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB, STRCMP_P, STRCMP_PP &gt;</h3>
+<div class="textblock"><h3>template&lt;typename ZI, typename ZRB, typename ZIB&gt;<br />
+class ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB &gt;</h3>
 
 <p>Class that allows looking up the ZoneInfo (ZI) from its TZDB identifier (e.g. </p>
 <p>"America/Los_Angeles"), zoneId (hash from its name), or the index in the zone registry.</p>
@@ -214,27 +213,25 @@ class ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB, STRCMP_P, STRCMP_PP &gt;</h3>
     <tr><td class="paramname">ZI</td><td>ZoneInfo type (e.g. basic::ZoneInfo) </td></tr>
     <tr><td class="paramname">ZRB</td><td>ZoneRegistryBroker type (e.g. <a class="el" href="classace__time_1_1basic_1_1ZoneRegistryBroker.html" title="Data broker for accessing the ZoneRegistry.">basic::ZoneRegistryBroker</a>) </td></tr>
     <tr><td class="paramname">ZIB</td><td>ZoneInfoBroker type (e.g. <a class="el" href="classace__time_1_1basic_1_1ZoneInfoBroker.html" title="Data broker for accessing ZoneInfo.">basic::ZoneInfoBroker</a>) </td></tr>
-    <tr><td class="paramname">STRCMP_P</td><td>a function that compares a normal string to flash string (e.g strcmp_P()) </td></tr>
-    <tr><td class="paramname">STRCMP_PP</td><td>a function that compares 2 flash strings (must be custom written) </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00051">51</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00041">41</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a9665e785b3609515d92139eb97e08f6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9665e785b3609515d92139eb97e08f6b">&#9670;&nbsp;</a></span>binarySearchByName()</h2>
+<a id="a803711b8ec17e7703a48cf8c8843c984"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a803711b8ec17e7703a48cf8c8843c984">&#9670;&nbsp;</a></span>binarySearchById()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcmp_t STRCMP_PP&gt; </div>
+template&lt;typename ZI , typename ZRB , typename ZIB &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a>&lt; ZI, ZRB, ZIB, STRCMP_P, STRCMP_PP &gt;::binarySearchByName </td>
+          <td class="memname">static uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a>&lt; ZI, ZRB, ZIB &gt;::binarySearchById </td>
           <td>(</td>
           <td class="paramtype">const ZI *const *&#160;</td>
           <td class="paramname"><em>registry</em>, </td>
@@ -248,8 +245,8 @@ template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcm
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>name</em>&#160;</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>zoneId</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -264,26 +261,28 @@ template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcm
 </table>
 </div><div class="memdoc">
 
-<p>Find the registry index corresponding to name using a binary search. </p>
-<p>Returns kInvalidIndex if not found. </p>
+<p>Find the registry index corresponding to zoneId using a binary search. </p>
+<p>Returns kInvalidIndex if not found.</p>
+<p>The largest registrySize is UINT16_MAX so the largest valid index is UINT16_MAX - 1. This allows us to set kInvalidIndex to UINT16_MAX to indicate "Not Found".</p>
+<p>See also <a href="https://www.solipsys.co.uk/new/BinarySearchReconsidered.html">https://www.solipsys.co.uk/new/BinarySearchReconsidered.html</a> which shows how hard it is to write a binary search correctly. It took me 4 tries to get this right: Try 1) There was an infinite loop when searching for a non-existent zoneId due to the exit condition located at the wrong spot. Try 2) Could not search for zoneId=0 because I was using unsigned integers for a and b, and the (c-1) expression underflowed to 0xffff. Try 3) An infinite loop caused by incorrect lowerbound, should be a = c + 1, instead of just a = c. Try 4) Finally got it right. I hope! </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00164">164</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00183">183</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 
 </div>
 </div>
-<a id="ae356aad159d366f56ed27c26e0e0e7b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae356aad159d366f56ed27c26e0e0e7b4">&#9670;&nbsp;</a></span>findIndexForId()</h2>
+<a id="a896948f8342bb0a50c6833ff24bf8b1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a896948f8342bb0a50c6833ff24bf8b1f">&#9670;&nbsp;</a></span>findIndexForId()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcmp_t STRCMP_PP&gt; </div>
+template&lt;typename ZI , typename ZRB , typename ZIB &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a>&lt; ZI, ZRB, ZIB, STRCMP_P, STRCMP_PP &gt;::findIndexForId </td>
+          <td class="memname">uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a>&lt; ZI, ZRB, ZIB &gt;::findIndexForId </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>zoneId</em></td><td>)</td>
@@ -300,23 +299,23 @@ template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcm
 <p>Find the index for zone id. </p>
 <p>Return kInvalidIndex if not found. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00103">103</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00105">105</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 
 </div>
 </div>
-<a id="abf379a1b4122e803655f3ad97287ed8c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf379a1b4122e803655f3ad97287ed8c">&#9670;&nbsp;</a></span>findIndexForName()</h2>
+<a id="a1b83124b229845d15f34c3e976e4fd40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b83124b229845d15f34c3e976e4fd40">&#9670;&nbsp;</a></span>findIndexForName()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcmp_t STRCMP_PP&gt; </div>
+template&lt;typename ZI , typename ZRB , typename ZIB &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a>&lt; ZI, ZRB, ZIB, STRCMP_P, STRCMP_PP &gt;::findIndexForName </td>
+          <td class="memname">uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a>&lt; ZI, ZRB, ZIB &gt;::findIndexForName </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
@@ -333,23 +332,23 @@ template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcm
 <p>Find the index for zone name. </p>
 <p>Return kInvalidIndex if not found. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00094">94</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00084">84</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 
 </div>
 </div>
-<a id="a2dffb8eebcc08cc0abbbaab33f526e05"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2dffb8eebcc08cc0abbbaab33f526e05">&#9670;&nbsp;</a></span>getZoneInfoForId()</h2>
+<a id="ad0d28a8964d602569dac95fe2bcc69fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0d28a8964d602569dac95fe2bcc69fa">&#9670;&nbsp;</a></span>getZoneInfoForId()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcmp_t STRCMP_PP&gt; </div>
+template&lt;typename ZI , typename ZRB , typename ZIB &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const ZI* <a class="el" href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a>&lt; ZI, ZRB, ZIB, STRCMP_P, STRCMP_PP &gt;::getZoneInfoForId </td>
+          <td class="memname">const ZI* <a class="el" href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a>&lt; ZI, ZRB, ZIB &gt;::getZoneInfoForId </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>zoneId</em></td><td>)</td>
@@ -366,23 +365,23 @@ template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcm
 <p>Return the ZoneInfo using the zoneId. </p>
 <p>Return nullptr if not found. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00087">87</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00077">77</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 
 </div>
 </div>
-<a id="a3dfc96bbea4e333699f87d6596ee27bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3dfc96bbea4e333699f87d6596ee27bb">&#9670;&nbsp;</a></span>getZoneInfoForIndex()</h2>
+<a id="a172e6c17cea603fc6f43446b87f83713"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a172e6c17cea603fc6f43446b87f83713">&#9670;&nbsp;</a></span>getZoneInfoForIndex()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcmp_t STRCMP_PP&gt; </div>
+template&lt;typename ZI , typename ZRB , typename ZIB &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const ZI* <a class="el" href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a>&lt; ZI, ZRB, ZIB, STRCMP_P, STRCMP_PP &gt;::getZoneInfoForIndex </td>
+          <td class="memname">const ZI* <a class="el" href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a>&lt; ZI, ZRB, ZIB &gt;::getZoneInfoForIndex </td>
           <td>(</td>
           <td class="paramtype">uint16_t&#160;</td>
           <td class="paramname"><em>i</em></td><td>)</td>
@@ -399,23 +398,23 @@ template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcm
 <p>Return the ZoneInfo at index i. </p>
 <p>Return nullptr if i is out of range. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00072">72</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00062">62</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 
 </div>
 </div>
-<a id="a6d4201b63d312b1ab5a2bd4ee49c5502"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d4201b63d312b1ab5a2bd4ee49c5502">&#9670;&nbsp;</a></span>getZoneInfoForName()</h2>
+<a id="ac26fd25ac22351f85ca0ed7cd93375fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac26fd25ac22351f85ca0ed7cd93375fa">&#9670;&nbsp;</a></span>getZoneInfoForName()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcmp_t STRCMP_PP&gt; </div>
+template&lt;typename ZI , typename ZRB , typename ZIB &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const ZI* <a class="el" href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a>&lt; ZI, ZRB, ZIB, STRCMP_P, STRCMP_PP &gt;::getZoneInfoForName </td>
+          <td class="memname">const ZI* <a class="el" href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a>&lt; ZI, ZRB, ZIB &gt;::getZoneInfoForName </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
@@ -432,23 +431,23 @@ template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcm
 <p>Return the ZoneInfo corresponding to the given zone name. </p>
 <p>Return nullptr if not found. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00080">80</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00070">70</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 
 </div>
 </div>
-<a id="aa7f3278e12dbd538a7e7a69b851a0897"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7f3278e12dbd538a7e7a69b851a0897">&#9670;&nbsp;</a></span>linearSearchByName()</h2>
+<a id="a6c1f8b5c1e9812beb5b7de82a3fde0db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c1f8b5c1e9812beb5b7de82a3fde0db">&#9670;&nbsp;</a></span>linearSearchById()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcmp_t STRCMP_PP&gt; </div>
+template&lt;typename ZI , typename ZRB , typename ZIB &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a>&lt; ZI, ZRB, ZIB, STRCMP_P, STRCMP_PP &gt;::linearSearchByName </td>
+          <td class="memname">static uint16_t <a class="el" href="classace__time_1_1ZoneRegistrar.html">ace_time::ZoneRegistrar</a>&lt; ZI, ZRB, ZIB &gt;::linearSearchById </td>
           <td>(</td>
           <td class="paramtype">const ZI *const *&#160;</td>
           <td class="paramname"><em>registry</em>, </td>
@@ -462,8 +461,8 @@ template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcm
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>name</em>&#160;</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>zoneId</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -478,10 +477,10 @@ template&lt;typename ZI , typename ZRB , typename ZIB , strcmp_t STRCMP_P, strcm
 </table>
 </div><div class="memdoc">
 
-<p>Find the registry index corresponding to name using a linear search. </p>
+<p>Find the registry index corresponding to zoneId using linear search. </p>
 <p>Returns kInvalidIndex if not found. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00148">148</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00151">151</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 
 </div>
 </div>

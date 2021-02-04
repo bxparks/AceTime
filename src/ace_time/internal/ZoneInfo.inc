@@ -27,10 +27,29 @@ struct ZoneEra {
   const ZonePolicy* const zonePolicy;
 
   /**
-   * Zone abbreviations (e.g. PST, EST) determined by the FORMAT column. Only a
-   * single letter subsitution is supported so that '%s' is changed to just
-   * '%'. For example, 'E%ST' is stored as 'E%T', and the LETTER substitution
-   * is performed on the '%' character.
+   * Zone abbreviations (e.g. PST, EST) determined by the FORMAT column. It has
+   * 3 encodings in the TZ DB files:
+   *
+   *  1) A fixed string, e.g. "GMT".
+   *  2) Two strings separated by a '/', e.g. "-03/-02" indicating
+   *     "{std}/{dst}" options.
+   *  3) A single string with a substitution, e.g. "E%sT", where the "%s" is
+   *  replaced by the LETTER value from the ZoneRule.
+   *
+   * BasicZoneProcessor supports only a single letter subsitution from LETTER,
+   * but ExtendedZoneProcessor supports substituting multi-character strings
+   * (e.g. "CAT", "DD", "+00").
+   *
+   * The TZ DB files use '%s' to indicate the substitution, but for simplicity,
+   * AceTime replaces the "%s" with just a '%' character with no loss of
+   * functionality. This also makes the string-replacement code a little
+   * simpler. For example, 'E%sT' is stored as 'E%T', and the LETTER
+   * substitution is performed on the '%' character.
+   *
+   * This field will never be a 'nullptr' if it was derived from an actual
+   * entry from the TZ dtabase. There is an internal object named
+   * `ExtendedZoneProcessor::kAnchorEra` which does set this field to nullptr.
+   * Maybe it should be set to ""?
    */
   const char* const format;
 
@@ -109,15 +128,6 @@ struct ZoneInfo {
 
   /** ZoneContext metadata. */
   const ZoneContext* const zoneContext;
-
-  /**
-   * Estimated size of Transition buffer. Currently, this is used only in the
-   * validation unit test for ExtendedZoneProcessor. It is slightly wasteful to
-   * include it for the ZoneInfo and ZoneInfo classes used by
-   * BasicZoneProcessor, but it's only one byte and it seemed worth having this
-   * additional validation capability.
-   */
-  uint8_t const transitionBufSize;
 
   /** Number of ZoneEra entries. */
   uint8_t const numEras;

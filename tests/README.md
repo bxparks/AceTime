@@ -3,7 +3,7 @@
 You can run most of these unit tests on an Arduino board (tested on
 Nano, Pro Micro, SAMD21, ESP8266 and ESP32). But it is often far faster to run
 them on a Linux or MacOS machine using
-[UnixHostDuino](https://github.com/bxparks/UnixHostDuino).
+[EpoxyDuino](https://github.com/bxparks/EpoxyDuino).
 
 ## Running Tests on Linux or MacOS
 
@@ -20,9 +20,9 @@ them on a Linux or MacOS machine using
 1. Install [AUnit](https://github.com/bxparks/AUnit) as a sibling project to
   AceTime.
     * `$ (cd ../../..; git clone https://github.com/bxparks/AUnit)`
-1. Install [UnixHostDuino](https://github.com/bxparks/UnixHostDuino) as a
+1. Install [EpoxyDuino](https://github.com/bxparks/EpoxyDuino) as a
   sibling to AceTime
-    * `$ (cd ../../..; git clone https://github.com/bxparks/UnixHostDuino)`
+    * `$ (cd ../../..; git clone https://github.com/bxparks/EpoxyDuino)`
 
 Compile the unit test programs using the following `make` commands (or run
 the equivalent one-line shell commands shown in the `Makefile`):

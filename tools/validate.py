@@ -26,7 +26,8 @@ Flags:
         --granularity
         --until_at_granularity
         --offset_granularity
-        --strict
+        --delta_granularity
+        --strict, --nostrict
 
     TestDataGenerator:
 
@@ -54,10 +55,14 @@ Examples:
 
 import argparse
 import logging
-
-from tzdb.extractor import Extractor
-from tzdb.transformer import Transformer
-from zonedb.ingenerator import InlineGenerator, ZoneInfoMap, ZonePolicyMap
+from data_types.at_types import TransformerResult
+from extractor.extractor import Extractor
+from transformer.transformer import Transformer
+from zone_processor.inline_zone_info import (
+    InlineZoneInfo,
+    ZoneInfoMap,
+    ZonePolicyMap,
+)
 from validator.validator import Validator
 
 
@@ -124,43 +129,66 @@ def main() -> None:
         # extended: all 348 time zones for ExtendedZoneSpecifier
         choices=['basic', 'extended'],
         help='Size of the generated database (basic|extended)',
-        required=True)
+        required=True,
+    )
     parser.add_argument(
         '--start_year',
         help='Start year of Zone Eras (default: 2000)',
         type=int,
-        default=2000)
+        default=2000,
+    )
     parser.add_argument(
         '--until_year',
         help='Until year of Zone Eras (default: 2038)',
         type=int,
-        default=2038)
+        default=2038,
+    )
+
     parser.add_argument(
         '--granularity',
         help=(
-            'Truncate UNTIL, AT, SAVE and RULES fields to '
-            + 'this many seconds (default: 60)'
+            'If given, overrides the other granularity flags to '
+            'truncate UNTIL, AT, STDOFF (offset), SAVE (delta) and '
+            'RULES (rulesDelta) fields to this many seconds (default: None)'
         ),
-        type=int)
+        type=int,
+    )
     parser.add_argument(
         '--until_at_granularity',
         help=(
-            'Truncate UNTIL and AT fields to this many seconds '
-            + '(default: --granularity)'
+            'Truncate UNTIL and AT fields to this many seconds (default: 60)'
         ),
-        type=int)
+        type=int,
+    )
     parser.add_argument(
         '--offset_granularity',
         help=(
-            'Truncate SAVE, RULES (offset) fields to this many seconds'
-            + '(default: --granularity)'
+            'Truncate STDOFF (offset) fields to this many seconds'
+            '(default: 900 (basic), 60 (extended))'
         ),
-        type=int)
+        type=int,
+    )
+    parser.add_argument(
+        '--delta_granularity',
+        help=(
+            'Truncate SAVE (delta) and RULES (rulesDelta) field to this many'
+            'seconds (default: 900)'
+        ),
+        type=int,
+    )
+
     parser.add_argument(
         '--strict',
         help='Remove zones and rules not aligned at granularity time boundary',
         action='store_true',
-        default=False)
+        default=True,
+    )
+    parser.add_argument(
+        '--nostrict',
+        help='Retain zones and rules not aligned at granularity time boundary',
+        action='store_false',
+        dest='strict',
+    )
 
     # Validator flags.
     parser.add_argument(
@@ -238,6 +266,7 @@ def main() -> None:
     if args.granularity:
         until_at_granularity = args.granularity
         offset_granularity = args.granularity
+        delta_granularity = args.granularity
     else:
         if args.until_at_granularity:
             until_at_granularity = args.until_at_granularity
@@ -252,47 +281,70 @@ def main() -> None:
             else:
                 offset_granularity = 60
 
-    logging.info('Using UNTIL/AT granularity: %d', until_at_granularity)
+        if args.delta_granularity:
+            delta_granularity = args.delta_granularity
+        else:
+            delta_granularity = 900
+
+    logging.info('Granularity for UNTIL/AT: %d', until_at_granularity)
+    logging.info('Granularity for STDOFF (offset): %d', offset_granularity)
     logging.info(
-        'Using RULES/SAVE (offset) granularity: %d',
-        offset_granularity)
+        'Granularity for RULES (rulesDelta) and SAVE (delta): %d',
+        delta_granularity,
+    )
 
     # Extract the TZ files
     logging.info('======== Extracting TZ Data files')
     extractor = Extractor(args.input_dir)
     extractor.parse()
     extractor.print_summary()
-    rules_map, zones_map, links_map = extractor.get_data()
+    policies_map, zones_map, links_map = extractor.get_data()
+
+    # Create initial TransformerResult
+    tresult = TransformerResult(
+        zones_map=zones_map,
+        policies_map=policies_map,
+        links_map=links_map,
+        removed_zones={},
+        removed_policies={},
+        removed_links={},
+        notable_zones={},
+        notable_policies={},
+        notable_links={},
+        zone_ids={},
+        link_ids={},
+        letters_per_policy={},
+        letters_map={},
+        formats_map={},
+        fragments_map={},
+        compressed_names={},
+    )
 
     # Transform the TZ zones and rules
     logging.info('======== Transforming Zones and Rules')
     logging.info('Extracting years [%d, %d)', args.start_year, args.until_year)
     transformer = Transformer(
-        zones_map,
-        rules_map,
-        links_map,
-        args.scope,
-        args.start_year,
-        args.until_year,
-        until_at_granularity,
-        offset_granularity,
-        args.strict,
+        tresult=tresult,
+        scope=args.scope,
+        start_year=args.start_year,
+        until_year=args.until_year,
+        until_at_granularity=until_at_granularity,
+        offset_granularity=offset_granularity,
+        delta_granularity=delta_granularity,
+        strict=args.strict,
     )
     transformer.transform()
     transformer.print_summary()
-    (
-        zones_map, rules_map, links_map, removed_zones, removed_policies,
-        removed_links, notable_zones, notable_policies, notable_links,
-        format_strings, zone_strings,
-    ) = transformer.get_data()
+    tresult = transformer.get_data()
 
     # Generate internal versions of zone_infos and zone_policies
     # so that ZoneSpecifier can be created.
     logging.info('======== Generating inlined zone_infos and zone_policies')
-    inline_generator = InlineGenerator(zones_map, rules_map)
-    (zone_infos, zone_policies) = inline_generator.generate_maps()
-    logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
-                 len(zone_policies))
+    inline_zone_info = InlineZoneInfo(tresult.zones_map, tresult.policies_map)
+    zone_infos, zone_policies = inline_zone_info.generate_zonedb()
+    logging.info(
+        'Inlined zone_infos=%d; zone_policies=%d',
+        len(zone_infos), len(zone_policies))
 
     # Set the defaults for validation_start_year and validation_until_year
     # if they were not specified.

@@ -7,10 +7,9 @@
 #define ACE_TIME_EXTENDED_ZONE_H
 
 #include "internal/ZoneInfo.h"
-#include "internal/Brokers.h"
-#include "common/compat.h"
+#include "internal/ExtendedBrokers.h"
 
-class __FlashStringHelper;
+class Print;
 
 namespace ace_time {
 
@@ -25,30 +24,8 @@ class ExtendedZone {
     ExtendedZone(const extended::ZoneInfo* zoneInfo):
         mZoneInfoBroker(zoneInfo) {}
 
-// TODO: Merge this with BasicZone.h now that they both use the same
-// ACE_TIME_USE_PROGMEM macro.
-#if ACE_TIME_USE_PROGMEM
-    const __FlashStringHelper* name() const {
-      return (const __FlashStringHelper*) mZoneInfoBroker.name();
-    }
-
-    const __FlashStringHelper* shortName() const {
-      const char* name = mZoneInfoBroker.name();
-      const char* slash = strrchr_P(name, '/');
-      return (slash) ? (const __FlashStringHelper*) (slash + 1)
-          : (const __FlashStringHelper*) name;
-    }
-#else
-    const char* name() const {
-      return mZoneInfoBroker.name();
-    }
-
-    const char* shortName() const {
-      const char* name = mZoneInfoBroker.name();
-      const char* slash = strrchr(name, '/');
-      return (slash) ? (slash + 1) : name;
-    }
-#endif
+    void printNameTo(Print& printer) const;
+    void printShortNameTo(Print& printer) const;
 
     uint32_t zoneId() const {
       return mZoneInfoBroker.zoneId();

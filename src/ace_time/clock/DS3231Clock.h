@@ -6,7 +6,7 @@
 #ifndef ACE_TIME_DS3231_CLOCK_H
 #define ACE_TIME_DS3231_CLOCK_H
 
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
 
 #include <stdint.h>
 #include "../hw/DS3231.h"

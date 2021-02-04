@@ -6,9 +6,9 @@
 using namespace aunit;
 using namespace ace_time;
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // DateStrings
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(DateStringsTest, monthString) {
   DateStrings ds;
@@ -90,15 +90,14 @@ test(DateStringsTest, dayOfWeekStringsFitInBuffer) {
   assertLessOrEqual(maxLength, DateStrings::kBufferSize - 1);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void setup() {
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
-
-  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  SERIAL_PORT_MONITOR.begin(115200);
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 }
 
 void loop() {

@@ -11,7 +11,7 @@ from the 'validation_data.json' file on the STDIN.
 import logging
 import os
 from typing import List, Dict, Tuple, Optional
-from tzdb.transformer import div_to_zero, normalize_name
+from transformer.transformer import div_to_zero, normalize_name
 from .data import TestItem, TestData, ValidationData
 
 
@@ -264,11 +264,13 @@ using namespace ace_time::{self.db_namespace};
             test_case = f"""\
 testF({self.test_class}, {normalized_name}) {{
   assertValid(
-     &kZone{normalized_name},
-     &kValidationData{normalized_name},
-     {dst_validation_scope} /*dstValidationScope{dst_validation_comment}*/,
-     {abbrev_validation_scope} \
-/*abbrevValidationScope{abbrev_validation_comment}*/);
+    &kZone{normalized_name},
+    &kValidationData{normalized_name},
+    {dst_validation_scope} /*dstValidationScope{dst_validation_comment}*/,
+    {abbrev_validation_scope} \
+/*abbrevValidationScope{abbrev_validation_comment}*/,
+    kZoneBufSize{normalized_name} /*bufSize*/
+  );
 }}
 """
             test_cases += test_case

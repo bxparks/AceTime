@@ -19,7 +19,7 @@ static BasicZoneProcessor pacificProcessor;
 static SystemClockLoop systemClock(nullptr /*reference*/, nullptr /*backup*/);
 
 void setup() {
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
   delay(1000);
 #endif
   SERIAL_PORT_MONITOR.begin(115200);

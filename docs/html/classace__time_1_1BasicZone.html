@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.3</span>
+   &#160;<span id="projectnumber">1.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -85,12 +85,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a97ade70c7e0298971f76b6819cafc8b9"><td class="memItemLeft" align="right" valign="top"><a id="a97ade70c7e0298971f76b6819cafc8b9"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>BasicZone</b> (const basic::ZoneInfo *zoneInfo)</td></tr>
 <tr class="separator:a97ade70c7e0298971f76b6819cafc8b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a4dbd66fe9b77abe192e2b744e0fb62"><td class="memItemLeft" align="right" valign="top"><a id="a8a4dbd66fe9b77abe192e2b744e0fb62"></a>
-const __FlashStringHelper *&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () const</td></tr>
-<tr class="separator:a8a4dbd66fe9b77abe192e2b744e0fb62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54a1b3fdb466025b1e01dd07c209a545"><td class="memItemLeft" align="right" valign="top"><a id="a54a1b3fdb466025b1e01dd07c209a545"></a>
-const __FlashStringHelper *&#160;</td><td class="memItemRight" valign="bottom"><b>shortName</b> () const</td></tr>
-<tr class="separator:a54a1b3fdb466025b1e01dd07c209a545"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0f849d7c5382ab766e7aeb536b1b6e0"><td class="memItemLeft" align="right" valign="top"><a id="ae0f849d7c5382ab766e7aeb536b1b6e0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>printNameTo</b> (Print &amp;printer) const</td></tr>
+<tr class="separator:ae0f849d7c5382ab766e7aeb536b1b6e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf8e238a8c79d6a46c40f0bd36a6eb23"><td class="memItemLeft" align="right" valign="top"><a id="adf8e238a8c79d6a46c40f0bd36a6eb23"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>printShortNameTo</b> (Print &amp;printer) const</td></tr>
+<tr class="separator:adf8e238a8c79d6a46c40f0bd36a6eb23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a360efba115e043ad28c69511f229454d"><td class="memItemLeft" align="right" valign="top"><a id="a360efba115e043ad28c69511f229454d"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>zoneId</b> () const</td></tr>
 <tr class="separator:a360efba115e043ad28c69511f229454d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -99,9 +99,10 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>zoneId</b> () con
 <div class="textblock"><p>A thin wrapper around a basic::ZoneInfo data structure to provide a stable API access to some useful basic::ZoneInfo data. </p>
 <p>The basic::ZoneInfo data struct is intended to be an opaque type to the users of this library. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZone_8h_source.html#l00022">22</a> of file <a class="el" href="BasicZone_8h_source.html">BasicZone.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+<p class="definition">Definition at line <a class="el" href="BasicZone_8h_source.html#l00021">21</a> of file <a class="el" href="BasicZone_8h_source.html">BasicZone.h</a>.</p>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/brian/src/AceTime/src/ace_time/<a class="el" href="BasicZone_8h_source.html">BasicZone.h</a></li>
+<li>/home/brian/src/AceTime/src/ace_time/<a class="el" href="BasicZone_8cpp_source.html">BasicZone.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

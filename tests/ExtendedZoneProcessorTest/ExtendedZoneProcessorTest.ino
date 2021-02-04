@@ -7,15 +7,17 @@ using namespace aunit;
 using namespace ace_time;
 using namespace ace_time::extended;
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // A simplified version of America/Los_Angeles, using only simple ZoneEras
 // (i.e. no references to a ZonePolicy). Valid only for 2018.
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 static const ZoneContext kZoneContext = {
   2000 /*startYear*/,
   2020 /*untilYear*/,
   "testing" /*tzVersion*/,
+  0 /*numFragments*/,
+  nullptr /*fragments*/,
 };
 
 // Create simplified ZoneEras which approximate America/Los_Angeles
@@ -59,14 +61,13 @@ static const ZoneInfo kZoneAlmostLosAngeles ACE_TIME_PROGMEM = {
   "Almost_Los_Angeles" /*name*/,
   0x70166020 /*zoneId*/,
   &::kZoneContext /*zoneContext*/,
-  7 /*transitionBufSize*/,
   3 /*numEras*/,
   kZoneEraAlmostLosAngeles /*eras*/,
 };
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // A real ZoneInfo for America/Los_Angeles. Taken from zonedbx/zone_infos.cpp.
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 static const ZoneRule kZoneRulesTestUS[] ACE_TIME_PROGMEM = {
   // Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
@@ -159,18 +160,13 @@ static const ZoneInfo kZoneTestLos_Angeles ACE_TIME_PROGMEM = {
   "America/Los_Angeles" /*name*/,
   0xb7f7e8f2 /*zoneId*/,
   &::kZoneContext /*zoneContext*/,
-  7 /*transitionBufSize*/,
   1 /*numEras*/,
   kZoneEraTestLos_Angeles /*eras*/,
 };
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // ExtendedZoneProcessor: test private methods
-// --------------------------------------------------------------------------
-
-test(ExtendedZoneProcessorTest, tzVersion) {
-  assertEqual("2020d", zonedbx::kTzDatabaseVersion);
-}
+//---------------------------------------------------------------------------
 
 static const ZoneEra era ACE_TIME_PROGMEM =
     {nullptr, "", 0, 0, 0, 1, 2, 12, ZoneContext::kSuffixW};
@@ -784,9 +780,9 @@ test(ExtendedZoneProcessorTest, calcAbbreviations) {
 }
 
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // Test public methods
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, setZoneInfo) {
   ExtendedZoneProcessor zoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
@@ -803,14 +799,14 @@ test(ExtendedZoneProcessorTest, setZoneInfo) {
   assertTrue(zoneInfo.mIsFilled);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void setup() {
-#if ! defined(UNIX_HOST_DUINO)
+#if ! defined(EPOXY_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 
 #if 0
   TestRunner::exclude("*");

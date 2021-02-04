@@ -8,28 +8,28 @@ pytz. Similar to compare_pytz/tdgenerator.py but depends on the ZoneSpecifier
 class (hence the name 'zstdgenerator', 'Zone Specifier Test Data Generator') to
 determine the DST transitions because pytz does not expose that information
 natively. Pulling in ZoneSpecifier also means that it pulls in the ZoneInfo,
-ZonePolicy and many other related classes through the 'ingenerator' module.
+ZonePolicy and many other related classes through the 'inline_zone_info' module.
 
 Mostly deprecated. Used only by 'validator.py' to implement the interactive
 ZoneInfo validation exposed by 'validate.py' script.
 """
 
-import logging
-import datetime
-from datetime import tzinfo
-import pytz
-from zonedb.zone_specifier import ZoneSpecifier
-from zonedb.zone_specifier import SECONDS_SINCE_UNIX_EPOCH
-from zonedb.zone_specifier import DateTuple
-from zonedb.ingenerator import ZoneInfo
-from zonedb.ingenerator import ZoneInfoMap
-from zonedb.ingenerator import ZonePolicyMap
 from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
 from typing import NamedTuple
+import logging
+import datetime
+from datetime import tzinfo
+import pytz
+from data_types.at_types import SECONDS_SINCE_UNIX_EPOCH
+from zone_processor.zone_specifier import ZoneSpecifier
+from zone_processor.zone_specifier import DateTuple
+from zone_processor.inline_zone_info import ZoneInfo
+from zone_processor.inline_zone_info import ZoneInfoMap
+from zone_processor.inline_zone_info import ZonePolicyMap
 
 # An entry in the test data set.
 TestItem = NamedTuple("TestItem", [
@@ -127,8 +127,7 @@ class TestDataGenerator:
                     or current.y != item.y or current.M != item.M
                     or current.d != item.d or current.h != item.h
                     or current.m != item.m or current.s != item.s):
-                raise Exception('Item %s does not match item %s' % (current,
-                                                                    item))
+                raise Exception(f'Item {current} does not match item {item}')
             # 'A' and 'B' takes precedence over 'S' or 'Y'
             if item.type in ['A', 'B']:
                 items_map[item.epoch] = item
@@ -171,7 +170,7 @@ class TestDataGenerator:
             for transition in zone_specifier.transitions:
                 # Some Transitions from ZoneSpecifier are in previous or post
                 # years (e.g. viewing_months = [14, 36]), so skip those.
-                start = transition.startDateTime
+                start = transition.start_date_time
                 transition_year = start.y
                 if transition_year != year:
                     continue
@@ -182,7 +181,7 @@ class TestDataGenerator:
                     if start.M == 1 and start.d == 1 and start.ss == 0:
                         continue
 
-                epoch_seconds = transition.startEpochSecond
+                epoch_seconds = transition.start_epoch_second
 
                 # Add a test data just before the transition
                 test_item = self._create_test_item_from_epoch_seconds(

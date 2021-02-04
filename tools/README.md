@@ -38,52 +38,48 @@ The TZ Database processing pipeline for `tzcompiler.py` looks something like
 this:
 
 ```
-                    TZDB files
-                        |
-                        v
-                   extractor.py
-                        |
-                        v
-                  transformer.py
-                        |
-                        v          [tzdb]
-      .-------- tzdbcollector.py ----------> tzdb.json
-     /             /    |    \
-    /             /     |     \
-   /             /      |      \ [zonedb, python]
-  /             /       |       v
- /             /        |     pygenerator.py
-/             /         v           \
-|  [zonedb,  /  ingenerator.py       v
-|  arduino] /          /        zone_infos.py
-|          /          /         zone_policies.py
-|         /          /          zone_strings.py
-|        /          v                |
-|       / zone_specifier.py          v
-|      /           /            zinfo.py
-|     /           v
-|     |   bufestimator.py
-|     |      /
-|     |     /
-|     v    v
-|  argenerator.py
-|        |
-|        v
-|   zone_infos.{h,cpp}
-|   zone_policies.{h,cpp}
-|   zone_registry.{h,cpp}
-|   zone_strings.{h,cpp} (optional)
- \
-  \
-   v
-  zonelistgenerator.py
-      |
-      v
-  zones.txt
-```
+Python packages     Python files/classes/data
+===============     =========================
 
-The `[zonedb/*]` and `[zonelist]` annotations in the diagram correspond to the
-value of the `--action` and `--language` flags on the `tzcompiler.py` script.
+                      TZDB files
+  .------>                |
+  |                       v
+extractor            extractor.py
+  |                       |
+  .------>                v
+  |                 transformer.py
+  |                       |
+transformer               v
+  |                 artransformer.py
+  `------>                |   \
+  |                       |    v
+  |                       |   inline_zone_info.py
+  |                       |      \
+  |                       |       v
+zone_processor            |   zone_specifier.py
+  |                       |        \
+  |                       |        v
+  |                       |       bufestimator.py
+  .------>                |      /
+  |                       v     v
+data_types         ZoneInfoDatabase
+  |                 /     |     \
+  .------>         /      |      \
+  |               /       |       ------------------------.
+  |              /        |                  \             \
+generator       /         |                   \             \
+  |            v          v                    v             v
+  |   argenerator.py   pygenerator.py    jsongenerator.py  zonelist
+  |          /            |                    |           generator.py
+  `--->     /             |                    |                \
+           v              v                    v                 v
+zone_infos.{h,cpp}      zone_infos.py       zonedb.json      zones.txt
+zone_policies.{h,cpp}   zone_policies.py                         |
+zone_registry.{h,cpp}   zone_strings.py                          v
+zone_strings.{h,cpp}         |                             (cont. below)
+                             v
+                          zinfo.py
+```
 
 ## Validation Data Generation (`compare_xxx`)
 
@@ -101,7 +97,7 @@ The `zones.txt` from the `tzcompiler.py` determines the time zones which
 should be processed by the various `compare_xxx` scripts:
 
 ```
-tzcompiler.py
+(cont.)
    |
    v
 zones.txt
@@ -109,14 +105,13 @@ zones.txt
    |     java.time
    |        |
    |        v
-   +--> compare_java/TestDataGenerator.java -----.
-   |                                             |
+   +--> compare_java/GenerateData.java ----------.
    |                                             |
    |                                             |
    |    Hinnant/date                             |
    |        |                                    |
    |        v                                    |
-   +--> compare_cpp/test_data_generator.cpp ---> +
+   +--> compare_cpp/generate_data.cpp ---------> +
    |                                             |
    |                                             |
    |         pytz                                |
@@ -125,7 +120,7 @@ zones.txt
    |   tdgenerator.py   validation/data.py       |
    |          |         /                        |
    |          v        v                         |
-   +----> compare_pytz/test_data_generator.py--> +
+   +----> compare_pytz/generate_data.py -------> +
    |                                             |
    |                                             |
    |   python-dateutil                           |
@@ -134,10 +129,10 @@ zones.txt
    |   tdgenerator.py   validation/data.py       |
    |          |         /                        |
    |          v        v                         |
-   +-> compare_dateutil/test_data_generator.py-> +
+   +-> compare_dateutil/generate_data.py ------> +
                                                 /
                                                /
-        validation_data.json <----------------/
+        validation_data.json <----------------.
                 |
                 v
         generate_validation.py <-- compare*/blacklist.json
@@ -168,7 +163,7 @@ this
         transformer.py
              |
              v
-       ingenerator.py
+     inline_zone_info.py
          /        \
         /          v
        /         zone_specifier.py   pytz
@@ -229,8 +224,8 @@ $ make
 
 To generate the various `validation_data.*` files for the validation tests under
 `tests/validation/`, use the `--action zonelist` to generate the `zones.txt`
-file. Then feed this file into the `tools/compare_java/TestDataGenerator.java`
-or the `tools/compare_cpp/test_data_generator.cpp` programs, which then generate
+file. Then feed this file into the `tools/compare_java/GenerateData.java`
+or the `tools/compare_cpp/generate_data.cpp` programs, which then generate
 the various `validation_data.*` files.
 
 For validation against `pytz`, the 2 steps were combined into a single step

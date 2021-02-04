@@ -15,7 +15,7 @@ For the Python test files, we no longer do unit testing for the `ZoneSpecifier`
 class.
 
 ```
-        ingenerator.py
+        inline_zone_info.py
                |
                v
             zone_specifier.py
@@ -31,8 +31,4 @@ class.
         v                    v
 validation_data.{h,cpp}   validation_data.py
 validation_tests.cpp
-
-
-
-
 ```

@@ -43,7 +43,8 @@ from typing_extensions import TypedDict
 # * 'B': post-transition where the UTC offset is different
 # * 'a': pre-transition where only the DST offset is different
 # * 'b': post-transition where only the DST offset is different
-# * 'S': a monthly test sample
+# * 'S': a monthly test sample, on the 1st day of the month
+# * 'T': a monthly test sample, if the 1st was invalid for some reason
 # * 'Y': end of year test sample
 TestItem = TypedDict("TestItem", {
     'epoch': int,  # seconds from AceTime epoch of 2000-01-01T00:00:00Z

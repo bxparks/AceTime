@@ -14,7 +14,7 @@ class Print;
 
 namespace ace_time {
 
-template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
 class ZoneProcessorCacheImpl;
 
 class LocalDateTime;
@@ -111,7 +111,7 @@ class ZoneProcessor {
 
     friend class TimeZone; // setZoneInfo()
 
-    template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+    template<uint8_t SIZE, uint8_t TYPE, typename ZP, typename ZI, typename ZIB>
     friend class ZoneProcessorCacheImpl; // setZoneInfo()
 
     // Disable copy constructor and assignment operator.
@@ -140,6 +140,44 @@ inline bool operator!=(const ZoneProcessor& a, const ZoneProcessor& b) {
   return ! (a == b);
 }
 
-}
+namespace internal {
+
+/**
+  * Longest abbreviation currently seems to be 5 characters
+  * (https://www.timeanddate.com/time/zones/) but the TZ database spec says
+  * that abbreviations are 3 to 6 characters
+  * (https://data.iana.org/time-zones/theory.html#abbreviations), so use 6 as
+  * the maximum.
+  */
+static const uint8_t kAbbrevSize = 6 + 1;
+
+/** The result of calcStartDayOfMonth(). */
+struct MonthDay {
+  uint8_t month;
+  uint8_t day;
+};
+
+/**
+  * Calculate the actual (month, day) of the expresssion (onDayOfWeek >=
+  * onDayOfMonth) or (onDayOfWeek <= onDayOfMonth).
+  *
+  * There are 4 combinations:
+  *
+  * @verbatim
+  * onDayOfWeek=0, onDayOfMonth=(1-31): exact match
+  * onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek>=dayOfMonth
+  * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
+  * onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek<=dayOfMonth
+  * @endverbatim
+  *
+  * Caveats: This method handles expressions which crosses month boundaries,
+  * but not year boundaries (e.g. Jan to Dec of the previous year, or Dec to
+  * Jan of the following year.)
+  */
+MonthDay calcStartDayOfMonth(int16_t year, uint8_t month,
+    uint8_t onDayOfWeek, int8_t onDayOfMonth);
+
+} // internal
+} // ace_time
 
 #endif

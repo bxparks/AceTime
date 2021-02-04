@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.3</span>
+   &#160;<span id="projectnumber">1.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -83,17 +83,17 @@ $(function() {
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZoneProcessor.html#a2ffd1466b94ce686664c75c8aeea95c8">   12</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classace__time_1_1BasicZoneProcessor.html#a2ffd1466b94ce686664c75c8aeea95c8">BasicZoneProcessor::printTo</a>(Print&amp; printer)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  printer.print(<a class="code" href="classace__time_1_1BasicZone.html">BasicZone</a>(mZoneInfo.zoneInfo()).name());</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  <a class="code" href="classace__time_1_1BasicZone.html">BasicZone</a>(mZoneInfo.zoneInfo()).printNameTo(printer);</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
 <div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZoneProcessor.html#a4176537e82ef07950101c0d83b3a7f59">   16</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classace__time_1_1BasicZoneProcessor.html#a4176537e82ef07950101c0d83b3a7f59">BasicZoneProcessor::printShortTo</a>(Print&amp; printer)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  printer.print(<a class="code" href="classace__time_1_1BasicZone.html">BasicZone</a>(mZoneInfo.zoneInfo()).shortName());</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <a class="code" href="classace__time_1_1BasicZone.html">BasicZone</a>(mZoneInfo.zoneInfo()).printShortNameTo(printer);</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;}</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassace__time_1_1BasicZone_html"><div class="ttname"><a href="classace__time_1_1BasicZone.html">ace_time::BasicZone</a></div><div class="ttdoc">A thin wrapper around a basic::ZoneInfo data structure to provide a stable API access to some useful ...</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8h_source.html#l00022">BasicZone.h:22</a></div></div>
+<div class="ttc" id="aclassace__time_1_1BasicZone_html"><div class="ttname"><a href="classace__time_1_1BasicZone.html">ace_time::BasicZone</a></div><div class="ttdoc">A thin wrapper around a basic::ZoneInfo data structure to provide a stable API access to some useful ...</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8h_source.html#l00021">BasicZone.h:21</a></div></div>
 <div class="ttc" id="aclassace__time_1_1BasicZoneProcessor_html_a2ffd1466b94ce686664c75c8aeea95c8"><div class="ttname"><a href="classace__time_1_1BasicZoneProcessor.html#a2ffd1466b94ce686664c75c8aeea95c8">ace_time::BasicZoneProcessor::printTo</a></div><div class="ttdeci">void printTo(Print &amp;printer) const override</div><div class="ttdoc">Print a human-readable identifier (e.g.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZoneProcessor_8cpp_source.html#l00012">BasicZoneProcessor.cpp:12</a></div></div>
 <div class="ttc" id="aclassace__time_1_1BasicZoneProcessor_html_a4176537e82ef07950101c0d83b3a7f59"><div class="ttname"><a href="classace__time_1_1BasicZoneProcessor.html#a4176537e82ef07950101c0d83b3a7f59">ace_time::BasicZoneProcessor::printShortTo</a></div><div class="ttdeci">void printShortTo(Print &amp;printer) const override</div><div class="ttdoc">Print a short human-readable identifier (e.g.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZoneProcessor_8cpp_source.html#l00016">BasicZoneProcessor.cpp:16</a></div></div>
 <!-- start footer part -->

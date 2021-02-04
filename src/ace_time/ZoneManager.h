@@ -70,7 +70,7 @@ class ZoneManager {
  * DST offsets. This is useful in applications designed to run on
  * microcontrollers with small memory where a full BasicZoneManager or
  * ExtendedZoneManager generate too much code. This object can be used anywhere
- * a ZoneManager is expected, which reduces the need for C-precessor
+ * a ZoneManager is expected, which reduces the need for C-preprocessor
  * conditional code.
  */
 class ManualZoneManager : public ZoneManager {
@@ -90,9 +90,9 @@ class ManualZoneManager : public ZoneManager {
 
     TimeZone createForTimeZoneData(const TimeZoneData& d) override {
       switch (d.type) {
-        case TimeZone::kTypeError:
+        case TimeZoneData::kTypeError:
           return TimeZone::forError();
-        case TimeZone::kTypeManual:
+        case TimeZoneData::kTypeManual:
           return TimeZone::forTimeOffset(
               TimeOffset::forMinutes(d.stdOffsetMinutes),
               TimeOffset::forMinutes(d.dstOffsetMinutes));
@@ -132,9 +132,9 @@ class ManualZoneManager : public ZoneManager {
  * @tparam ZI type of ZoneInfo (basic::ZoneInfo or extended::ZoneInfo) which
  *    make up the zone registry
  * @tparam ZR class of ZoneRegistrar which holds the registry of ZoneInfo
- * @tparam ZSC class of ZoneProcessorCache
+ * @tparam ZPC class of ZoneProcessorCache
  */
-template<typename ZI, typename ZR, typename ZSC>
+template<typename ZI, typename ZR, typename ZPC>
 class ZoneManagerImpl : public ZoneManager {
   public:
     TimeZone createForZoneName(const char* name) override {
@@ -154,14 +154,13 @@ class ZoneManagerImpl : public ZoneManager {
 
     TimeZone createForTimeZoneData(const TimeZoneData& d) override {
       switch (d.type) {
-        case TimeZone::kTypeError:
+        case TimeZoneData::kTypeError:
           return TimeZone::forError();
-        case TimeZone::kTypeManual:
+        case TimeZoneData::kTypeManual:
           return TimeZone::forTimeOffset(
               TimeOffset::forMinutes(d.stdOffsetMinutes),
               TimeOffset::forMinutes(d.dstOffsetMinutes));
-        case TimeZone::kTypeBasic:
-        case TimeZone::kTypeExtended:
+        case TimeZoneData::kTypeZoneId:
           return createForZoneId(d.zoneId);
         default:
           // Maybe this should return TimeZone::forError()?
@@ -209,7 +208,7 @@ class ZoneManagerImpl : public ZoneManager {
     ZoneManagerImpl& operator=(const ZoneManagerImpl&) = delete;
 
     const ZR mZoneRegistrar;
-    ZSC mZoneProcessorCache;
+    ZPC mZoneProcessorCache;
 };
 
 #if 1
@@ -220,13 +219,26 @@ class ZoneManagerImpl : public ZoneManager {
  * @tparam SIZE size of the BasicZoneProcessorCache
  */
 template<uint16_t SIZE>
-class BasicZoneManager: public ZoneManagerImpl<basic::ZoneInfo,
-    BasicZoneRegistrar, BasicZoneProcessorCache<SIZE>> {
+class BasicZoneManager: public ZoneManagerImpl<
+      basic::ZoneInfo,
+      BasicZoneRegistrar,
+      BasicZoneProcessorCache<SIZE>
+    > {
+
   public:
-    BasicZoneManager(uint16_t registrySize,
-        const basic::ZoneInfo* const* zoneRegistry):
-        ZoneManagerImpl<basic::ZoneInfo, BasicZoneRegistrar,
-            BasicZoneProcessorCache<SIZE>>(registrySize, zoneRegistry) {}
+    BasicZoneManager(
+        uint16_t registrySize,
+        const basic::ZoneInfo* const* zoneRegistry
+    ):
+        ZoneManagerImpl<
+            basic::ZoneInfo,
+            BasicZoneRegistrar,
+            BasicZoneProcessorCache<SIZE>
+        >(
+          registrySize,
+          zoneRegistry
+        )
+    {}
 };
 
 /**
@@ -236,22 +248,37 @@ class BasicZoneManager: public ZoneManagerImpl<basic::ZoneInfo,
  * @tparam SIZE size of the ExtendedZoneProcessorCache
  */
 template<uint16_t SIZE>
-class ExtendedZoneManager: public ZoneManagerImpl<extended::ZoneInfo,
-    ExtendedZoneRegistrar, ExtendedZoneProcessorCache<SIZE>> {
+class ExtendedZoneManager: public ZoneManagerImpl<
+      extended::ZoneInfo,
+      ExtendedZoneRegistrar,
+      ExtendedZoneProcessorCache<SIZE>
+    > {
+
   public:
-    ExtendedZoneManager(uint16_t registrySize,
-        const extended::ZoneInfo* const* zoneRegistry):
-        ZoneManagerImpl<extended::ZoneInfo, ExtendedZoneRegistrar,
-            ExtendedZoneProcessorCache<SIZE>>(registrySize, zoneRegistry) {}
+    ExtendedZoneManager(
+        uint16_t registrySize,
+        const extended::ZoneInfo* const* zoneRegistry
+    ):
+        ZoneManagerImpl<
+            extended::ZoneInfo,
+            ExtendedZoneRegistrar,
+            ExtendedZoneProcessorCache<SIZE>
+        >(
+          registrySize,
+          zoneRegistry
+        )
+    {}
 };
 
 #else
 
-// NOTE: The following typedef seems shorter and easier to maintain. The
-// problem is that it makes error messages basically impossible to decipher
-// because the immensely long full template class name is printed out. There
-// seems to be no difference in code size between the two. The compiler seems
-// to optimize away the vtables of the parent and child classes.
+// NOTE: The following typedefs seem shorter and easier to maintain. The
+// problem is that they make error messages basically impossible to decipher
+// because the template class names are far too long for human comprehension.
+// Fortunatley, there seems to be no difference in code size between the above
+// solution using subclasses and this solution using typedefs. The compiler
+// seems to optimize away the vtables of the parent and child classes. So we'll
+// use the above subclassing solution to get better error messages.
 
 template<uint8_t SIZE>
 using BasicZoneManager = ZoneManagerImpl<basic::ZoneInfo,

@@ -6,9 +6,9 @@
 using namespace aunit;
 using namespace ace_time;
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // BasicZoneProcessorCache
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(BasicZoneProcessorCacheTest, getZoneProcessor) {
   BasicZoneProcessorCache<2> cache;
@@ -30,9 +30,9 @@ test(BasicZoneProcessorCacheTest, getZoneProcessor) {
   assertEqual(zoneProcessor1, zoneProcessor4);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // ExtendedZoneProcessorCache
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorCacheTest, getZoneProcessor) {
   ExtendedZoneProcessorCache<2> cache;
@@ -54,14 +54,14 @@ test(ExtendedZoneProcessorCacheTest, getZoneProcessor) {
   assertEqual(zoneProcessor1, zoneProcessor4);
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void setup() {
-#if ! defined(UNIX_HOST_DUINO)
-  delay(1000); // wait to prevent garbage SERIAL_PORT_MONITOR
+#if ! defined(EPOXY_DUINO)
+  delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
+  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
 }
 
 void loop() {
