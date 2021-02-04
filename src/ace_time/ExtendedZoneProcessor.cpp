@@ -3,9 +3,8 @@
  * Copyright (c) 2019 Brian T. Park
  */
 
-#include <Print.h>
+#include "common/compat.h"
 #include "LocalDate.h"
-#include "ExtendedZone.h"
 #include "ExtendedZoneProcessor.h"
 
 namespace ace_time {
@@ -14,6 +13,7 @@ namespace ace_time {
 // Should it be set to something like "" instead?
 template<>
 const extended::ZoneEra ExtendedZoneProcessorTemplate<
+    const extended::ZoneInfo*,
     extended::ZoneInfoBroker,
     extended::ZoneEraBroker,
     extended::ZonePolicyBroker,

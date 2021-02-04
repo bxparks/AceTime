@@ -29,14 +29,6 @@ class ZoneProcessorCache {
      */
     uint8_t getType() const { return mType; }
 
-    /**
-     * Get ZoneProcessor from either a basic::ZoneInfo or an
-     * extended::ZoneInfo. Unfortunately, this is not type-safe, but that's the
-     * only way we can avoid compile-time dependencies to both implementation
-     * classes.
-     */
-    virtual ZoneProcessor* getZoneProcessor(const void* zoneInfo) = 0;
-
   protected:
     ZoneProcessorCache(uint8_t type)
       : mType(type)
@@ -63,23 +55,26 @@ class ZoneProcessorCache {
  * @tparam ZP type of ZoneProcessor (BasicZoneProcessor or
  *    ExtendedZoneProcessor)
  */
-template<uint8_t SIZE, uint8_t TYPE, typename ZP>
+template<uint8_t SIZE, uint8_t TYPE, typename ZK, typename ZP>
 class ZoneProcessorCacheImpl: public ZoneProcessorCache {
   public:
     ZoneProcessorCacheImpl()
       : ZoneProcessorCache(TYPE)
     {}
 
-    /** Get the ZoneProcessor from the zoneInfo. Will never return nullptr. */
-    ZoneProcessor* getZoneProcessor(const void* zoneInfo) override {
-      ZP* zoneProcessor = findUsingZoneInfo(zoneInfo);
+    /**
+     * Get ZoneProcessor from either a ZoneKey, either a basic::ZoneInfo or an
+     * extended::ZoneInfo. This will never return nullptr.
+     */
+    ZoneProcessor* getZoneProcessor(ZK zoneKey) {
+      ZP* zoneProcessor = findUsingZoneKey(zoneKey);
       if (zoneProcessor) return zoneProcessor;
 
       // Allocate the next ZoneProcessor in the cache using round-robin.
       zoneProcessor = &mZoneProcessors[mCurrentIndex];
       mCurrentIndex++;
       if (mCurrentIndex >= SIZE) mCurrentIndex = 0;
-      zoneProcessor->setZoneInfo(zoneInfo);
+      zoneProcessor->setZoneInfo(zoneKey);
       return zoneProcessor;
     }
 
@@ -93,11 +88,11 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
      * Returns nullptr if not found. This is a linear search, which should
      * be perfectly ok if SIZE is small, say <= 5.
      */
-    ZP* findUsingZoneInfo(const void* zoneInfoKey) {
+    ZP* findUsingZoneKey(ZK zoneKey) {
       for (uint8_t i = 0; i < SIZE; i++) {
-        const void* zoneInfo = mZoneProcessors[i].getZoneInfo();
-        if (zoneInfo == zoneInfoKey) {
-          return &mZoneProcessors[i];
+        ZP* zoneProcessor = &mZoneProcessors[i];
+        if (zoneProcessor->equalsZoneKey(zoneInfoKey)) {
+          return zoneProcessor;
         }
       }
       return nullptr;
@@ -112,6 +107,7 @@ template<uint8_t SIZE>
 class BasicZoneProcessorCache: public ZoneProcessorCacheImpl<
     SIZE,
     ZoneProcessor::kTypeBasic,
+    const basic::ZoneInfo*,
     BasicZoneProcessor> {
 };
 
@@ -119,6 +115,7 @@ template<uint8_t SIZE>
 class ExtendedZoneProcessorCache: public ZoneProcessorCacheImpl<
     SIZE,
     ZoneProcessor::kTypeExtended,
+    const extended::ZoneInfo*,
     ExtendedZoneProcessor> {
 };
 #else

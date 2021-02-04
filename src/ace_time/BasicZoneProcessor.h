@@ -30,6 +30,8 @@ class BasicZoneProcessorTest_setZoneInfo;
 class BasicZoneProcessorTest_createAbbreviation;
 class BasicZoneProcessorTest_calcRuleOffsetMinutes;
 
+class Print;
+
 namespace ace_time {
 namespace basic {
 
@@ -215,12 +217,13 @@ inline void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
  *
  * Not thread-safe.
  *
+ * @tparam ZK opaque Zone primary key, either (const ZoneInfo*) or (uint32_t)
  * @tparam ZIB type of ZoneInfoBroker
  * @tparam ZEB type of ZoneEraBroker
  * @tparam ZPB type of ZonePolicyBroker
  * @tparam ZRB type of ZoneRuleBroker
  */
-template <typename ZIB, typename ZEB, typename ZPB, typename ZRB>
+template <typename ZK, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
 class BasicZoneProcessorTemplate: public ZoneProcessor {
   public:
     /** Exposed only for testing purposes. */
@@ -230,15 +233,15 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * Constructor. The ZoneInfo is given only for unit tests.
      * @param zoneInfo pointer to a ZoneInfo.
      */
-    explicit BasicZoneProcessorTemplate(
-        const basic::ZoneInfo* zoneInfo = nullptr
-    ):
+    explicit BasicZoneProcessorTemplate(ZK zoneKey) :
         ZoneProcessor(kTypeBasic),
-        mZoneInfo(zoneInfo) {}
+        mZoneKey(zoneKey),
+        mZoneInfo(zoneKey)
+    {}
 
-    /** Return the underlying ZoneInfo. */
-    const void* getZoneInfo() const override {
-      return mZoneInfo.zoneInfo();
+    /** Returns true if the zoneKey matches. */
+    bool equalsZoneKey(ZK zoneKey) const {
+      return zoneKey == mZoneKey;
     }
 
     uint32_t getZoneId() const override { return mZoneInfo.zoneId(); }
@@ -344,9 +347,10 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void setZoneInfo(const void* zoneInfo) override {
-      if (mZoneInfo.zoneInfo() == zoneInfo) return;
+      if (equalsZoneKey((ZK) zoneInfo)) return;
 
-      mZoneInfo = ZIB((const basic::ZoneInfo*) zoneInfo);
+      mZoneKey = (ZK) zoneInfo;
+      mZoneInfo = ZIB(mZoneKey);
       mYearTiny = LocalDate::kInvalidYearTiny;
       mIsFilled = false;
       mNumTransitions = 0;
@@ -404,7 +408,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         delete;
 
     bool equals(const ZoneProcessor& other) const override {
-      return getZoneInfo() == other.getZoneInfo();
+      return mZoneKey == ((const BasicZoneProcessorTemplate&) other).mZoneKey;
     }
 
     /** Return the Transition at the given epochSeconds. */
@@ -525,8 +529,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * yearTiny. Assume that there are no more than 1 rule per month.
      * Return null ZoneRule if ZonePoicy is null.
      */
-    static ZRB findLatestPriorRule(
-        ZPB zonePolicy, int8_t yearTiny) {
+    static ZRB findLatestPriorRule(ZPB zonePolicy, int8_t yearTiny) {
       ZRB latest;
       if (zonePolicy.isNull()) return latest;
 
@@ -561,8 +564,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      *    * If [from,to]<year, return (to).
      *    * Else we know [from<year<=to], so return (year-1).
      */
-    static int8_t priorYearOfRule(int8_t yearTiny,
-        const ZRB rule) {
+    static int8_t priorYearOfRule(int8_t yearTiny, const ZRB rule) {
       if (rule.toYearTiny() < yearTiny) {
         return rule.toYearTiny();
       }
@@ -573,8 +575,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * Add all matching transitions from the current year.
      * @return the ZoneEra of the current year.
      */
-    ZEB addTransitionsForYear(
-        int8_t yearTiny, ZEB priorEra) const {
+    ZEB addTransitionsForYear(int8_t yearTiny, ZEB priorEra) const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
         logging::printf("addTransitionsForYear(): %d\n", yearTiny);
       }
@@ -638,14 +639,12 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /** Add the rule just after the current year if there exists one. */
-    void addTransitionAfterYear(int8_t yearTiny,
-        ZEB currentEra) const {
+    void addTransitionAfterYear(int8_t yearTiny, ZEB currentEra) const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
         logging::printf("addTransitionAfterYear(): %d\n", yearTiny);
       }
 
-      const ZEB eraAfter = findZoneEra(
-          mZoneInfo, yearTiny + 1);
+      const ZEB eraAfter = findZoneEra(mZoneInfo, yearTiny + 1);
 
       // If the current era is the same as the following year, then we'll just
       // assume that the latest ZoneRule carries over to Jan 1st of the next
@@ -990,6 +989,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       return closestMatch;
     }
 
+    ZK mZoneKey;
     ZIB mZoneInfo;
 
     mutable int8_t mYearTiny = LocalDate::kInvalidYearTiny;
@@ -1003,6 +1003,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
  * ZoneXxxBrokers which read from zonedb files in PROGMEM flash memory.
  */
 class BasicZoneProcessor: public BasicZoneProcessorTemplate<
+    const basic::ZoneInfo*,
     basic::ZoneInfoBroker,
     basic::ZoneEraBroker,
     basic::ZonePolicyBroker,
@@ -1011,6 +1012,7 @@ class BasicZoneProcessor: public BasicZoneProcessorTemplate<
   public:
     explicit BasicZoneProcessor(const basic::ZoneInfo* zoneInfo = nullptr)
       : BasicZoneProcessorTemplate<
+          const basic::ZoneInfo*,
           basic::ZoneInfoBroker,
           basic::ZoneEraBroker,
           basic::ZonePolicyBroker,
