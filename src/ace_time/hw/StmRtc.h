@@ -1,12 +1,12 @@
 /*
  * MIT License
- * Copyright (c) 2020 Brian T. Park, Anatoli Arkhipenko
+ * Copyright (c) 2018 Brian T. Park, Anatoli Arkhipenko
  */
 
-#ifndef ACE_TIME_HW_STM_RTC_H
-#define ACE_TIME_HW_STM_RTC_H
+#ifndef ACE_TIME_HW_STMRTC_H
+#define ACE_TIME_HW_STMRTC_H
 
-#if ! defined(EPOXY_DUINO)
+#if ! defined(UNIX_HOST_DUINO)
 #if defined(ARDUINO_ARCH_STM32)
 
 #include <stdint.h>
@@ -18,34 +18,38 @@ namespace hw {
 class HardwareDateTime;
 
 /**
- * A class that reads and writes HardwareDateTime from a STM RTC chip. This
- * class is designed to access just enough features of the RTC chip to
- * implement the ace_time::StmRtcClock class. It is not meant to provide access
- * to all the features of the RTC chip.
- *
+ * A class that reads and writes HardwareDateTime and HardwareTemperature from a
+ * STM RTC chip. This class is designed to access just enough features of the
+ * RTC chip to implement the ace_time::StmRtcClock class. It is not
+ * meant to provide access to all the features of the RTC chip.
+ 
  * Requires https://github.com/stm32duino/STM32RTC
  */
 class StmRtc {
   public:
     /** Constructor. */
     explicit StmRtc();
-
+    
+    /** Start RTC clock with clock source and format defined. Backwards compatible with defaults */
+    /** Select RTC clock source: LSI_CLOCK, LSE_CLOCK or HSE_CLOCK */
+    bool begin(const sourceClock_t clockSource = LSI_CLOCK, const hourFormat_t hourFormat = HOUR_FORMAT_24);
+    
     /** Read the time into the HardwareDateTime object. */
     void readDateTime(HardwareDateTime* dateTime) const;
 
     /** Set the STM with the HardwareDateTime values. */
     void setDateTime(const HardwareDateTime& dateTime) const;
 
-    /** Return true if the RTC is available and the time is set. */
     bool isTimeSet() const;
-
+    
   private:
     STM32RTC* mRtc;
 };
 
-} // hw
-} // ace_time
+}
+}
+#endif  //  #if defined(ARDUINO_ARCH_STM32)
 
-#endif //  #if defined(ARDUINO_ARCH_STM32)
-#endif //  #if ! defined(EPOXY_DUINO)
-#endif //  #ifndef ACE_TIME_HW_STM_RTC_H
+#endif  //  #if ! defined(UNIX_HOST_DUINO)
+
+#endif  //  #ifndef ACE_TIME_HW_STMRTC_H
