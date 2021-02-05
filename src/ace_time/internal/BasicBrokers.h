@@ -298,8 +298,6 @@ class ZoneInfoBroker {
     // use default assignment operator
     ZoneInfoBroker& operator=(const ZoneInfoBroker&) = default;
 
-    const ZoneInfo* zoneInfo() const { return mZoneInfo; }
-
   #if ACE_TIME_USE_PROGMEM
 
     const ZoneContext* zoneContext() const {

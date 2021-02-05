@@ -339,11 +339,11 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void printTo(Print& printer) const override {
-      BasicZone(mZoneInfo.zoneInfo()).printNameTo(printer);
+      BasicZone(mZoneInfo).printNameTo(printer);
     }
 
     void printShortTo(Print& printer) const override {
-      BasicZone(mZoneInfo.zoneInfo()).printShortNameTo(printer);
+      BasicZone(mZoneInfo).printShortNameTo(printer);
     }
 
     void setZoneInfo(const void* zoneInfo) override {

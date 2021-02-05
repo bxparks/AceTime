@@ -835,11 +835,11 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void printTo(Print& printer) const override {
-      ExtendedZone(mZoneInfo.zoneInfo()).printNameTo(printer);
+      ExtendedZone(mZoneInfo).printNameTo(printer);
     }
 
     void printShortTo(Print& printer) const override {
-      ExtendedZone(mZoneInfo.zoneInfo()).printShortNameTo(printer);
+      ExtendedZone(mZoneInfo).printShortNameTo(printer);
     }
 
     /** Used only for debugging. */
