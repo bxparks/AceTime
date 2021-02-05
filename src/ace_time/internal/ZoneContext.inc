@@ -26,17 +26,17 @@ struct ZoneContext {
   //int16_t epoch_year;
 
   /** Start year of the zone files. */
-  const int16_t startYear;
+  int16_t startYear;
 
   /** Until year of the zone files. */
-  const int16_t untilYear;
+  int16_t untilYear;
 
   /** TZ Database version which generated the zone info. */
-  const char* const tzVersion;
+  const char* tzVersion;
 
   /** Number of fragments. */
-  const uint8_t numFragments;
+  uint8_t numFragments;
 
   /** Zone Name fragment list. */
-  const char* const* const fragments;
+  const char* const* fragments;
 };
