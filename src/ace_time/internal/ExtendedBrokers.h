@@ -226,9 +226,13 @@ class ZoneEraBroker {
     // use default assignment operator
     ZoneEraBroker& operator=(const ZoneEraBroker&) = default;
 
-    const ZoneEra* zoneEra() const { return mZoneEra; }
-
     bool isNull() const { return mZoneEra == nullptr; }
+
+    // Does not seem to be used, but defined here for symmetry with
+    // basic::ZoneEraBroker::equals().
+    bool equals(const ZoneEraBroker& other) const {
+      return mZoneEra == other.mZoneEra;
+    }
 
   #if ACE_TIME_USE_PROGMEM
 

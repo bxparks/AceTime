@@ -594,7 +594,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         return era;
       }
 
-      if (era.zoneEra() != priorEra.zoneEra()) {
+      if (! era.equals(priorEra)) {
         // The ZoneEra has changed, so we need to find the Rule in effect at
         // the start of the current year of the current ZoneEra. This may be a
         // rule far in the past, but shift the rule forward to {year, 1, 1}.
@@ -649,7 +649,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       // If the current era is the same as the following year, then we'll just
       // assume that the latest ZoneRule carries over to Jan 1st of the next
       // year. tzcompiler.py guarantees no ZoneRule occurs on Jan 1st.
-      if (currentEra.zoneEra() == eraAfter.zoneEra()) {
+      if (currentEra.equals(eraAfter)) {
         return;
       }
 

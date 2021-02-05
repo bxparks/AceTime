@@ -234,7 +234,7 @@ test(ExtendedZoneProcessorTest, createMatch) {
       ZoneContext::kSuffixW}));
   assertTrue((match.untilDateTime == DateTuple{1, 2, 1, 0,
       ZoneContext::kSuffixW}));
-  assertTrue(&era3 == match.era.zoneEra());
+  assertTrue(match.era.equals(extended::ZoneEraBroker(&era3)));
 
   startYm = {-1, 12};
   untilYm = {3, 2};
@@ -245,7 +245,7 @@ test(ExtendedZoneProcessorTest, createMatch) {
       ZoneContext::kSuffixW}));
   assertTrue((match.untilDateTime == DateTuple{2, 3, 4, 15*5,
       ZoneContext::kSuffixW}));
-  assertTrue(&era3 == match.era.zoneEra());
+  assertTrue(match.era.equals(extended::ZoneEraBroker(&era3)));
 }
 
 test(ExtendedZoneProcessorTest, findMatches_simple) {
@@ -262,19 +262,22 @@ test(ExtendedZoneProcessorTest, findMatches_simple) {
       ZoneContext::kSuffixW}));
   assertTrue((matches[0].untilDateTime == DateTuple{19, 3, 10, 15*8,
       ZoneContext::kSuffixW}));
-  assertTrue(&kZoneEraAlmostLosAngeles[0] == matches[0].era.zoneEra());
+  assertTrue(matches[0].era.equals(
+      extended::ZoneEraBroker(&kZoneEraAlmostLosAngeles[0])));
 
   assertTrue((matches[1].startDateTime == DateTuple{19, 3, 10, 15*8,
       ZoneContext::kSuffixW}));
   assertTrue((matches[1].untilDateTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::kSuffixW}));
-  assertTrue(&kZoneEraAlmostLosAngeles[1] == matches[1].era.zoneEra());
+  assertTrue(matches[1].era.equals(
+      extended::ZoneEraBroker(&kZoneEraAlmostLosAngeles[1])));
 
   assertTrue((matches[2].startDateTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::kSuffixW}));
   assertTrue((matches[2].untilDateTime == DateTuple{20, 2, 1, 0,
       ZoneContext::kSuffixW}));
-  assertTrue(&kZoneEraAlmostLosAngeles[2] == matches[2].era.zoneEra());
+  assertTrue(matches[2].era.equals(
+      extended::ZoneEraBroker(&kZoneEraAlmostLosAngeles[2])));
 }
 
 test(ExtendedZoneProcessorTest, findMatches_named) {
@@ -291,7 +294,8 @@ test(ExtendedZoneProcessorTest, findMatches_named) {
       ZoneContext::kSuffixW}));
   assertTrue((matches[0].untilDateTime == DateTuple{20, 2, 1, 0,
       ZoneContext::kSuffixW}));
-  assertTrue(&kZoneEraTestLos_Angeles[0] == matches[0].era.zoneEra());
+  assertTrue(matches[0].era.equals(
+      extended::ZoneEraBroker(&kZoneEraTestLos_Angeles[0])));
 }
 
 test(ExtendedZoneProcessorTest, getTransitionTime) {

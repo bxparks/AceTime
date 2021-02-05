@@ -96,7 +96,6 @@ test(BasicBrokerTest, ZonePolicyBroker) {
 
 test(BasicBrokerTest, ZoneEraBroker) {
   basic::ZoneEraBroker era(kZoneEraAmerica_Los_Angeles);
-  assertEqual(kZoneEraAmerica_Los_Angeles, era.zoneEra());
   assertFalse(era.isNull());
   assertEqual(-32 * 15, era.offsetMinutes());
   assertEqual(0 * 15, era.deltaMinutes());
@@ -106,6 +105,9 @@ test(BasicBrokerTest, ZoneEraBroker) {
   assertEqual((uint8_t)1, era.untilDay());
   assertEqual((uint16_t)31, era.untilTimeMinutes());
   assertEqual(basic::ZoneContext::kSuffixW, era.untilTimeSuffix());
+
+  basic::ZoneEraBroker era2(kZoneEraAmerica_Los_Angeles);
+  assertTrue(era.equals(era2));
 }
 
 test(BasicBrokerTest, ZoneInfoBroker) {

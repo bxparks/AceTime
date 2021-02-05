@@ -206,19 +206,21 @@ class ZoneEraBroker {
     // use default assignment operator
     ZoneEraBroker& operator=(const ZoneEraBroker&) = default;
 
-    const ZoneEra* zoneEra() const { return mZoneEra; }
-
     bool isNull() const { return mZoneEra == nullptr; }
 
-  #if ACE_TIME_USE_PROGMEM
-
-    int16_t offsetMinutes() const {
-      return 15 * (int8_t) pgm_read_byte(&mZoneEra->offsetCode);
+    bool equals(const ZoneEraBroker& other) const {
+      return mZoneEra == other.mZoneEra;
     }
+
+  #if ACE_TIME_USE_PROGMEM
 
     const ZonePolicyBroker zonePolicy() const {
       return ZonePolicyBroker(
           (const ZonePolicy*) pgm_read_ptr(&mZoneEra->zonePolicy));
+    }
+
+    int16_t offsetMinutes() const {
+      return 15 * (int8_t) pgm_read_byte(&mZoneEra->offsetCode);
     }
 
     int16_t deltaMinutes() const {
