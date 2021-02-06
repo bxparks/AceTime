@@ -11,6 +11,7 @@
 using namespace aunit;
 using namespace ace_time;
 using namespace ace_time::extended;
+using ace_time::internal::ZoneContext;
 
 // Create a custom template instantiation to use a different SIZE than the
 // pre-defined typedef in ExtendedZoneProcess::TransitionStorage.

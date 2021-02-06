@@ -329,8 +329,9 @@ class ZoneInfoBroker {
 
   #if ACE_TIME_USE_PROGMEM
 
-    const ZoneContext* zoneContext() const {
-      return (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
+    const internal::ZoneContext* zoneContext() const {
+      return (const internal::ZoneContext*)
+        pgm_read_ptr(&mZoneInfo->zoneContext);
     }
 
     const __FlashStringHelper* name() const {
@@ -360,7 +361,9 @@ class ZoneInfoBroker {
 
   #else
 
-    const ZoneContext* zoneContext() const { return mZoneInfo->zoneContext; }
+    const internal::ZoneContext* zoneContext() const {
+      return mZoneInfo->zoneContext;
+    }
 
     const char* name() const { return mZoneInfo->name; }
 

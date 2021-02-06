@@ -9,6 +9,8 @@
 #include "ExtendedZone.h"
 
 using ace_common::KString;
+using ace_time::internal::findShortName;
+using ace_time::internal::ZoneContext;
 
 namespace ace_time {
 
@@ -16,14 +18,14 @@ namespace ace_time {
 
 void ExtendedZone::printNameTo(Print& printer) const {
   const __FlashStringHelper* name = mZoneInfoBroker.name();
-  const extended::ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();
+  const ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();
   KString kname(name, zoneContext->fragments, zoneContext->numFragments);
   kname.printTo(printer);
 }
 
 void ExtendedZone::printShortNameTo(Print& printer) const {
   const __FlashStringHelper* name = mZoneInfoBroker.name();
-  const __FlashStringHelper* shortName = internal::findShortName(name);
+  const __FlashStringHelper* shortName = findShortName(name);
   printer.print(shortName);
 }
 
@@ -31,14 +33,14 @@ void ExtendedZone::printShortNameTo(Print& printer) const {
 
 void ExtendedZone::printNameTo(Print& printer) const {
   const char* name = mZoneInfoBroker.name();
-  const extended::ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();
+  const ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();
   KString kname(name, zoneContext->fragments, zoneContext->numFragments);
   kname.printTo(printer);
 }
 
 void ExtendedZone::printShortNameTo(Print& printer) const {
   const char* name = mZoneInfoBroker.name();
-  const char* shortName = internal::findShortName(name);
+  const char* shortName = findShortName(name);
   printer.print(shortName);
 }
 

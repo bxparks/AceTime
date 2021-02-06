@@ -127,7 +127,7 @@ struct ZoneInfo {
   uint32_t const zoneId;
 
   /** ZoneContext metadata. */
-  const ZoneContext* const zoneContext;
+  const internal::ZoneContext* const zoneContext;
 
   /** Number of ZoneEra entries. */
   uint8_t const numEras;
