@@ -915,9 +915,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      */
     static const uint8_t kMaxInteriorYears = 4;
 
-    /** A sentinel ZoneEra which has the smallest year. */
-    static const extended::ZoneEra kAnchorEra;
-
     bool equals(const ZoneProcessor& other) const override {
       return mZoneKey ==
           ((const ExtendedZoneProcessorTemplate&) other).mZoneKey;
@@ -1002,7 +999,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         logging::printf("findMatches()\n");
       }
       uint8_t iMatch = 0;
-      ZEB prev = ZEB(&kAnchorEra);
+      ZEB prev; // anchor ZoneEra, representing the earliest untilTime
       for (uint8_t iEra = 0; iEra < zoneInfo.numEras(); iEra++) {
         const ZEB era = zoneInfo.era(iEra);
         if (eraOverlapsInterval(prev, era, startYm, untilYm)) {
@@ -1024,14 +1021,16 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * current era is represented by the UNTIL fields of the previous era, so
      * the interval of the current era is [era.start=prev.UNTIL,
      * era.until=era.UNTIL). Overlap happens if (era.start < untilYm) and
-     * (era.until > startYm).
+     * (era.until > startYm). If prev.isNull(), then interpret prev as the
+     * earliest ZoneEra.
      */
     static bool eraOverlapsInterval(
         const ZEB prev,
         const ZEB era,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm) {
-      return compareEraToYearMonth(prev, untilYm.yearTiny, untilYm.month) < 0
+      return (prev.isNull() || compareEraToYearMonth(
+              prev, untilYm.yearTiny, untilYm.month) < 0)
           && compareEraToYearMonth(era, startYm.yearTiny, startYm.month) > 0;
     }
 
@@ -1059,10 +1058,16 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         const ZEB era,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm) {
-      extended::DateTuple startDate = {
-        prev.untilYearTiny(), prev.untilMonth(), prev.untilDay(),
-        (int16_t) prev.untilTimeMinutes(), prev.untilTimeSuffix()
-      };
+      // If prev.isNull(), set startDate to be earlier than all valid ZoneEra.
+      extended::DateTuple startDate = prev.isNull()
+          ? extended::DateTuple{
+              LocalDate::kInvalidYearTiny, 1, 1, 0,
+              extended::ZoneContext::kSuffixW
+            }
+          : extended::DateTuple{
+              prev.untilYearTiny(), prev.untilMonth(), prev.untilDay(),
+              (int16_t) prev.untilTimeMinutes(), prev.untilTimeSuffix()
+            };
       extended::DateTuple lowerBound = {
         startYm.yearTiny, startYm.month, 1, 0,
         extended::ZoneContext::kSuffixW
