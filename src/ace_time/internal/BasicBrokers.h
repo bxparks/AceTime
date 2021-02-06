@@ -300,8 +300,9 @@ class ZoneInfoBroker {
 
   #if ACE_TIME_USE_PROGMEM
 
-    const ZoneContext* zoneContext() const {
-      return (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
+    const internal::ZoneContext* zoneContext() const {
+      return (const internal::ZoneContext*)
+          pgm_read_ptr(&mZoneInfo->zoneContext);
     }
 
     const __FlashStringHelper* name() const {
@@ -310,14 +311,6 @@ class ZoneInfoBroker {
 
     uint32_t zoneId() const {
       return pgm_read_dword(&mZoneInfo->zoneId);
-    }
-
-    int16_t startYear() const {
-      return zoneContext()->startYear;
-    }
-
-    int16_t untilYear() const {
-      return zoneContext()->untilYear;
     }
 
     uint8_t numEras() const {
@@ -331,15 +324,13 @@ class ZoneInfoBroker {
 
   #else
 
-    const ZoneContext* zoneContext() const { return mZoneInfo->zoneContext; }
+    const internal::ZoneContext* zoneContext() const {
+      return mZoneInfo->zoneContext;
+    }
 
     const char* name() const { return mZoneInfo->name; }
 
     uint32_t zoneId() const { return mZoneInfo->zoneId; }
-
-    int16_t startYear() const { return mZoneInfo->zoneContext->startYear; }
-
-    int16_t untilYear() const { return mZoneInfo->zoneContext->untilYear; }
 
     uint8_t numEras() const { return mZoneInfo->numEras; }
 

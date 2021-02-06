@@ -5,6 +5,11 @@
 
 using namespace aunit;
 using namespace ace_time;
+using ace_time::basic::ZoneInfoBroker;
+using ace_time::basic::ZoneEraBroker;
+using ace_time::basic::ZoneRuleBroker;
+using ace_time::basic::ZonePolicyBroker;
+using ace_time::internal::ZoneContext;
 
 test(timeCodeToMinutes) {
   uint8_t code = 1;
@@ -17,7 +22,7 @@ test(timeCodeToMinutes) {
 
 static const char kTzDatabaseVersion[] = "2019b";
 
-static const basic::ZoneContext kZoneContext = {
+static const ZoneContext kZoneContext = {
   2000 /*startYear*/,
   2050 /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,
@@ -37,7 +42,7 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
-    basic::ZoneContext::kSuffixW /*atTimeModifier*/,
+    ZoneContext::kSuffixW /*atTimeModifier*/,
     0 /*deltaCode*/,
     'S' /*letter*/,
   },
@@ -61,7 +66,7 @@ static const basic::ZoneEra kZoneEraAmerica_Los_Angeles[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     2 /*untilTimeCode*/, // 00:31 = 2*15 + 1
-    basic::ZoneContext::kSuffixW + 1/*untilTimeModifier*/,
+    ZoneContext::kSuffixW + 1/*untilTimeModifier*/,
   },
 };
 
@@ -74,7 +79,7 @@ const basic::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_PROGMEM = {
 };
 
 test(BasicBrokerTest, ZoneRuleBroker) {
-  basic::ZoneRuleBroker rule(kZoneRulesUS);
+  ZoneRuleBroker rule(kZoneRulesUS);
   assertFalse(rule.isNull());
   assertEqual(-33, rule.fromYearTiny());
   assertEqual(6, rule.toYearTiny());
@@ -82,20 +87,20 @@ test(BasicBrokerTest, ZoneRuleBroker) {
   assertEqual(7, rule.onDayOfWeek());
   assertEqual(0, rule.onDayOfMonth());
   assertEqual((uint16_t)120, rule.atTimeMinutes());
-  assertEqual(basic::ZoneContext::kSuffixW, rule.atTimeSuffix());
+  assertEqual(ZoneContext::kSuffixW, rule.atTimeSuffix());
   assertEqual(0, rule.deltaMinutes());
   assertEqual((uint8_t)'S', rule.letter());
 }
 
 test(BasicBrokerTest, ZonePolicyBroker) {
-  basic::ZonePolicyBroker policy(&kPolicyUS);
+  ZonePolicyBroker policy(&kPolicyUS);
   assertFalse(policy.isNull());
   assertEqual(1, policy.numRules());
   assertEqual(0, policy.numLetters());
 }
 
 test(BasicBrokerTest, ZoneEraBroker) {
-  basic::ZoneEraBroker era(kZoneEraAmerica_Los_Angeles);
+  ZoneEraBroker era(kZoneEraAmerica_Los_Angeles);
   assertFalse(era.isNull());
   assertEqual(-32 * 15, era.offsetMinutes());
   assertEqual(0 * 15, era.deltaMinutes());
@@ -104,19 +109,19 @@ test(BasicBrokerTest, ZoneEraBroker) {
   assertEqual((uint8_t)1, era.untilMonth());
   assertEqual((uint8_t)1, era.untilDay());
   assertEqual((uint16_t)31, era.untilTimeMinutes());
-  assertEqual(basic::ZoneContext::kSuffixW, era.untilTimeSuffix());
+  assertEqual(ZoneContext::kSuffixW, era.untilTimeSuffix());
 
-  basic::ZoneEraBroker era2(kZoneEraAmerica_Los_Angeles);
+  ZoneEraBroker era2(kZoneEraAmerica_Los_Angeles);
   assertTrue(era.equals(era2));
 }
 
 test(BasicBrokerTest, ZoneInfoBroker) {
-  basic::ZoneInfoBroker info(&kZoneAmerica_Los_Angeles);
+  ZoneInfoBroker info(&kZoneAmerica_Los_Angeles);
   assertEqual(&kZoneContext, info.zoneContext());
   assertEqual(kZoneNameAmerica_Los_Angeles, info.name());
   assertEqual((uint32_t) 0xb7f7e8f2, info.zoneId());
-  assertEqual(2000, info.startYear());
-  assertEqual(2050, info.untilYear());
+  assertEqual(2000, info.zoneContext()->startYear);
+  assertEqual(2050, info.zoneContext()->untilYear);
   assertEqual(1, info.numEras());
 }
 

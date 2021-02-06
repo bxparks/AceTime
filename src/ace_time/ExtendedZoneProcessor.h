@@ -580,7 +580,7 @@ class TransitionStorageTemplate {
       // Convert LocalDateTime to DateTuple.
       DateTuple localDate = { ldt.yearTiny(), ldt.month(), ldt.day(),
           (int16_t) (ldt.hour() * 60 + ldt.minute()),
-          ZoneContext::kSuffixW };
+          internal::ZoneContext::kSuffixW };
       const Transition* match = nullptr;
 
       // Find the last Transition that matches
@@ -949,10 +949,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       mNumMatches = 0; // clear cache
       mTransitionStorage.init();
 
-      if (year < mZoneInfo.startYear() - 1 || mZoneInfo.untilYear() < year) {
+      if (year < mZoneInfo.zoneContext()->startYear - 1
+          || mZoneInfo.zoneContext()->untilYear < year) {
         if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
           logging::printf("init(): Year %d out of valid range [%d, %d)\n",
-              year, mZoneInfo.startYear(), mZoneInfo.untilYear());
+              year,
+              mZoneInfo.zoneContext()->startYear,
+              mZoneInfo.zoneContext()->untilYear);
         }
         return false;
       }
@@ -1062,7 +1065,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       extended::DateTuple startDate = prev.isNull()
           ? extended::DateTuple{
               LocalDate::kInvalidYearTiny, 1, 1, 0,
-              extended::ZoneContext::kSuffixW
+              internal::ZoneContext::kSuffixW
             }
           : extended::DateTuple{
               prev.untilYearTiny(), prev.untilMonth(), prev.untilDay(),
@@ -1070,7 +1073,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
             };
       extended::DateTuple lowerBound = {
         startYm.yearTiny, startYm.month, 1, 0,
-        extended::ZoneContext::kSuffixW
+        internal::ZoneContext::kSuffixW
       };
       if (startDate < lowerBound) {
         startDate = lowerBound;
@@ -1082,7 +1085,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       };
       extended::DateTuple upperBound = {
         untilYm.yearTiny, untilYm.month, 1, 0,
-        extended::ZoneContext::kSuffixW
+        internal::ZoneContext::kSuffixW
       };
       if (upperBound < untilDate) {
         untilDate = upperBound;
@@ -1391,31 +1394,31 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("expandDateTuple()\n");
       }
-      if (tt->suffix == extended::ZoneContext::kSuffixS) {
+      if (tt->suffix == internal::ZoneContext::kSuffixS) {
         *tts = *tt;
         *ttu = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes - offsetMinutes),
-            extended::ZoneContext::kSuffixU};
+            internal::ZoneContext::kSuffixU};
         *tt = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes + deltaMinutes),
-            extended::ZoneContext::kSuffixW};
-      } else if (tt->suffix == extended::ZoneContext::kSuffixU) {
+            internal::ZoneContext::kSuffixW};
+      } else if (tt->suffix == internal::ZoneContext::kSuffixU) {
         *ttu = *tt;
         *tts = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes + offsetMinutes),
-            extended::ZoneContext::kSuffixS};
+            internal::ZoneContext::kSuffixS};
         *tt = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes + (offsetMinutes + deltaMinutes)),
-            extended::ZoneContext::kSuffixW};
+            internal::ZoneContext::kSuffixW};
       } else {
         // Explicit set the suffix to 'w' in case it was something else.
-        tt->suffix = extended::ZoneContext::kSuffixW;
+        tt->suffix = internal::ZoneContext::kSuffixW;
         *tts = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes - deltaMinutes),
-            extended::ZoneContext::kSuffixS};
+            internal::ZoneContext::kSuffixS};
         *ttu = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes - (deltaMinutes + offsetMinutes)),
-            extended::ZoneContext::kSuffixU};
+            internal::ZoneContext::kSuffixU};
       }
 
       normalizeDateTuple(tt);
@@ -1554,10 +1557,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       const extended::DateTuple* transitionTime;
 
       const extended::DateTuple& matchStart = match->startDateTime;
-      if (matchStart.suffix == extended::ZoneContext::kSuffixS) {
+      if (matchStart.suffix == internal::ZoneContext::kSuffixS) {
         transitionTime = &transition->transitionTimeS;
-      } else if (matchStart.suffix ==
-          extended::ZoneContext::kSuffixU) {
+      } else if (matchStart.suffix == internal::ZoneContext::kSuffixU) {
         transitionTime = &transition->transitionTimeU;
       } else { // assume 'w'
         transitionTime = &transition->transitionTime;
@@ -1566,10 +1568,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (*transitionTime == matchStart) return 0;
 
       const extended::DateTuple& matchUntil = match->untilDateTime;
-      if (matchUntil.suffix == extended::ZoneContext::kSuffixS) {
+      if (matchUntil.suffix == internal::ZoneContext::kSuffixS) {
         transitionTime = &transition->transitionTimeS;
       } else if (matchUntil.suffix ==
-          extended::ZoneContext::kSuffixU) {
+          internal::ZoneContext::kSuffixU) {
         transitionTime = &transition->transitionTimeU;
       } else { // assume 'w'
         transitionTime = &transition->transitionTime;

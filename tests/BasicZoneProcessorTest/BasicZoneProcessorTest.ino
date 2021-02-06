@@ -5,6 +5,15 @@
 
 using namespace aunit;
 using namespace ace_time;
+using ace_time::internal::ZoneContext;
+using ace_time::basic::ZoneInfo;
+using ace_time::basic::ZoneEra;
+using ace_time::basic::ZoneRule;
+using ace_time::basic::ZonePolicy;
+using ace_time::basic::ZoneInfoBroker;
+using ace_time::basic::ZoneEraBroker;
+using ace_time::basic::ZoneRuleBroker;
+using ace_time::basic::ZonePolicyBroker;
 
 //---------------------------------------------------------------------------
 // basic::copyAndReplace()
@@ -47,7 +56,7 @@ test(copyAndReplace, outOfBounds) {
 
 static const char kTzDatabaseVersion[] = "2019b";
 
-static const basic::ZoneContext kZoneContext = {
+static const ZoneContext kZoneContext = {
   1980 /*startYear*/,
   2050 /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,
@@ -55,7 +64,7 @@ static const basic::ZoneContext kZoneContext = {
   nullptr /*fragments*/,
 };
 
-static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
+static const ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
   {
     -127 /*fromYearTiny*/,
@@ -64,7 +73,7 @@ static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
-    basic::ZoneContext::kSuffixW /*atTimeModifier*/,
+    ZoneContext::kSuffixW /*atTimeModifier*/,
     0 /*deltaCode*/,
     '-' /*letter*/,
   },
@@ -76,7 +85,7 @@ static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
-    basic::ZoneContext::kSuffixW /*atTimeModifier*/,
+    ZoneContext::kSuffixW /*atTimeModifier*/,
     4 /*deltaCode*/,
     '-' /*letter*/,
   },
@@ -88,20 +97,20 @@ static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
-    basic::ZoneContext::kSuffixW /*atTimeModifier*/,
+    ZoneContext::kSuffixW /*atTimeModifier*/,
     0 /*deltaCode*/,
     '-' /*letter*/,
   },
 };
 
-static const basic::ZonePolicy kPolicyEcuador ACE_TIME_PROGMEM = {
+static const ZonePolicy kPolicyEcuador ACE_TIME_PROGMEM = {
   kZoneRulesEcuador /*rules*/,
   nullptr /* letters */,
   3 /*numRules*/,
   0 /* numLetters */,
 };
 
-static const basic::ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
+static const ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
   //             -5:00    -    -05    1986
   {
     nullptr /*zonePolicy*/,
@@ -112,7 +121,7 @@ static const basic::ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    basic::ZoneContext::kSuffixW /*untilTimeModifier*/,
+    ZoneContext::kSuffixW /*untilTimeModifier*/,
   },
   //             -6:00    Ecuador    -06/-05
   {
@@ -124,14 +133,14 @@ static const basic::ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
-    basic::ZoneContext::kSuffixW /*untilTimeModifier*/,
+    ZoneContext::kSuffixW /*untilTimeModifier*/,
   },
 };
 
 static const char kZoneNamePacific_Galapagos[] ACE_TIME_PROGMEM =
     "Pacific/Galapagos";
 
-static const basic::ZoneInfo kZonePacific_Galapagos ACE_TIME_PROGMEM = {
+static const ZoneInfo kZonePacific_Galapagos ACE_TIME_PROGMEM = {
   kZoneNamePacific_Galapagos /*name*/,
   0xa952f752 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
@@ -166,17 +175,17 @@ test(BasicZoneProcessorTest, setZoneInfo) {
 
 test(BasicZoneProcessorTest, calcRuleOffsetMinutes) {
   assertEqual(0, BasicZoneProcessor::calcRuleOffsetMinutes(1, 2,
-      basic::ZoneContext::kSuffixU));
+      ZoneContext::kSuffixU));
   assertEqual(1, BasicZoneProcessor::calcRuleOffsetMinutes(1, 2,
-      basic::ZoneContext::kSuffixW));
+      ZoneContext::kSuffixW));
   assertEqual(2, BasicZoneProcessor::calcRuleOffsetMinutes(1, 2,
-      basic::ZoneContext::kSuffixS));
+      ZoneContext::kSuffixS));
 }
 
 test(BasicZoneProcessorTest, findZoneEra) {
-  basic::ZoneInfoBroker info(&kZonePacific_Galapagos);
+  ZoneInfoBroker info(&kZonePacific_Galapagos);
 
-  basic::ZoneEraBroker era = BasicZoneProcessor::findZoneEra(info, 1984-2000);
+  ZoneEraBroker era = BasicZoneProcessor::findZoneEra(info, 1984-2000);
   assertEqual(1986-2000, era.untilYearTiny());
 
   era = BasicZoneProcessor::findZoneEra(info, 1985-2000);
@@ -190,13 +199,13 @@ test(BasicZoneProcessorTest, findZoneEra) {
 }
 
 test(BasicZoneProcessorTest, findLatestPriorRule) {
-  basic::ZonePolicyBroker policy;
+  ZonePolicyBroker policy;
   int8_t yearTiny = 1986-2000;
-  basic::ZoneRuleBroker rule = BasicZoneProcessor::findLatestPriorRule(
+  ZoneRuleBroker rule = BasicZoneProcessor::findLatestPriorRule(
       policy, yearTiny);
   assertTrue(rule.isNull());
 
-  policy = basic::ZonePolicyBroker(&kPolicyEcuador);
+  policy = ZonePolicyBroker(&kPolicyEcuador);
   yearTiny = 1992-2000;
   rule = BasicZoneProcessor::findLatestPriorRule(policy, yearTiny);
   assertEqual(-127, rule.fromYearTiny());
@@ -215,7 +224,7 @@ test(BasicZoneProcessorTest, findLatestPriorRule) {
 }
 
 test(BasicZoneProcessorTest, priorYearOfRule) {
-  basic::ZonePolicyBroker policy(&kPolicyEcuador);
+  ZonePolicyBroker policy(&kPolicyEcuador);
 
   int8_t yearTiny = 1995-2000;
   assertEqual(1873-2000, BasicZoneProcessor::priorYearOfRule(
@@ -238,7 +247,7 @@ test(BasicZoneProcessorTest, priorYearOfRule) {
 }
 
 test(BasicZoneProcessorTest, compareRulesBeforeYear) {
-  basic::ZonePolicyBroker policy(&kPolicyEcuador);
+  ZonePolicyBroker policy(&kPolicyEcuador);
 
   // The last rule prior to 1995 should be 1993.
   int8_t yearTiny = 1995-2000;
@@ -260,7 +269,7 @@ test(BasicZoneProcessorTest, init_primitives) {
   zoneProcessor.mYearTiny = 2001-2000;
   zoneProcessor.mNumTransitions = 0;
 
-  basic::ZoneEraBroker priorEra = zoneProcessor.addTransitionPriorToYear(
+  ZoneEraBroker priorEra = zoneProcessor.addTransitionPriorToYear(
       2001-2000);
   assertEqual(1, zoneProcessor.mNumTransitions);
   assertEqual(-8*60, zoneProcessor.mTransitions[0].era.offsetMinutes());
@@ -269,7 +278,7 @@ test(BasicZoneProcessorTest, init_primitives) {
   assertEqual(2006-2000, zoneProcessor.mTransitions[0].rule.toYearTiny());
   assertEqual(10, zoneProcessor.mTransitions[0].rule.inMonth());
 
-  basic::ZoneEraBroker currentEra = zoneProcessor.addTransitionsForYear(
+  ZoneEraBroker currentEra = zoneProcessor.addTransitionsForYear(
       2001-2000, priorEra);
   assertEqual(3, zoneProcessor.mNumTransitions);
 
@@ -317,21 +326,21 @@ test(BasicZoneProcessorTest, init) {
   assertEqual(-8*60, zoneProcessor.mTransitions[0].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[0].era.format());
   assertEqual(2007-2000, zoneProcessor.mTransitions[0].rule.fromYearTiny());
-  assertEqual(basic::ZoneRule::kMaxYearTiny,
+  assertEqual(ZoneRule::kMaxYearTiny,
       zoneProcessor.mTransitions[0].rule.toYearTiny());
   assertEqual(11, zoneProcessor.mTransitions[0].rule.inMonth());
 
   assertEqual(-8*60, zoneProcessor.mTransitions[1].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[1].era.format());
   assertEqual(2007-2000, zoneProcessor.mTransitions[1].rule.fromYearTiny());
-  assertEqual(basic::ZoneRule::kMaxYearTiny,
+  assertEqual(ZoneRule::kMaxYearTiny,
       zoneProcessor.mTransitions[1].rule.toYearTiny());
   assertEqual(3, zoneProcessor.mTransitions[1].rule.inMonth());
 
   assertEqual(-8*60, zoneProcessor.mTransitions[2].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[2].era.format());
   assertEqual(2007-2000, zoneProcessor.mTransitions[2].rule.fromYearTiny());
-  assertEqual(basic::ZoneRule::kMaxYearTiny,
+  assertEqual(ZoneRule::kMaxYearTiny,
       zoneProcessor.mTransitions[2].rule.toYearTiny());
   assertEqual(11, zoneProcessor.mTransitions[2].rule.inMonth());
 

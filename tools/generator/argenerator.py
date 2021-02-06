@@ -500,7 +500,7 @@ namespace {dbNamespace} {{
 extern const char kTzDatabaseVersion[];
 
 // Metadata about the zonedb files.
-extern const {scope}::ZoneContext kZoneContext;
+extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
 // Supported zones: {numInfos}
@@ -603,7 +603,7 @@ const char* const kFragments[] = {{
 {fragments}
 }};
 
-const {scope}::ZoneContext kZoneContext = {{
+const internal::ZoneContext kZoneContext = {{
   {start_year} /*startYear*/,
   {until_year} /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,
