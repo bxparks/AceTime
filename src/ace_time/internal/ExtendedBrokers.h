@@ -342,14 +342,6 @@ class ZoneInfoBroker {
       return pgm_read_dword(&mZoneInfo->zoneId);
     }
 
-    int16_t startYear() const {
-      return zoneContext()->startYear;
-    }
-
-    int16_t untilYear() const {
-      return zoneContext()->untilYear;
-    }
-
     uint8_t numEras() const {
       return pgm_read_byte(&mZoneInfo->numEras);
     }
@@ -368,10 +360,6 @@ class ZoneInfoBroker {
     const char* name() const { return mZoneInfo->name; }
 
     uint32_t zoneId() const { return mZoneInfo->zoneId; }
-
-    int16_t startYear() const { return mZoneInfo->zoneContext->startYear; }
-
-    int16_t untilYear() const { return mZoneInfo->zoneContext->untilYear; }
 
     uint8_t numEras() const { return mZoneInfo->numEras; }
 

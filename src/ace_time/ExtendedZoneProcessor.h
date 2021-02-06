@@ -949,10 +949,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       mNumMatches = 0; // clear cache
       mTransitionStorage.init();
 
-      if (year < mZoneInfo.startYear() - 1 || mZoneInfo.untilYear() < year) {
+      if (year < mZoneInfo.zoneContext()->startYear - 1
+          || mZoneInfo.zoneContext()->untilYear < year) {
         if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
           logging::printf("init(): Year %d out of valid range [%d, %d)\n",
-              year, mZoneInfo.startYear(), mZoneInfo.untilYear());
+              year,
+              mZoneInfo.zoneContext()->startYear,
+              mZoneInfo.zoneContext()->untilYear);
         }
         return false;
       }

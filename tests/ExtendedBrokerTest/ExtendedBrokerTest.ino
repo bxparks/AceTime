@@ -116,8 +116,8 @@ test(ExtendedBrokerTest, ZoneInfoBroker) {
   assertEqual(&kZoneContext, info.zoneContext());
   assertEqual(kZoneNameAmerica_Los_Angeles, info.name());
   assertEqual((uint32_t) 0xb7f7e8f2, info.zoneId());
-  assertEqual(2000, info.startYear());
-  assertEqual(2050, info.untilYear());
+  assertEqual(2000, info.zoneContext()->startYear);
+  assertEqual(2050, info.zoneContext()->untilYear);
   assertEqual(1, info.numEras());
 }
 

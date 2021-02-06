@@ -467,8 +467,10 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       mYearTiny = yearTiny;
       mNumTransitions = 0; // clear cache
 
-      if (yearTiny + LocalDate::kEpochYear < mZoneInfo.startYear() - 1
-          || mZoneInfo.untilYear() < yearTiny + LocalDate::kEpochYear) {
+      if (yearTiny + LocalDate::kEpochYear
+              < mZoneInfo.zoneContext()->startYear - 1
+          || mZoneInfo.zoneContext()->untilYear
+              < yearTiny + LocalDate::kEpochYear) {
         return false;
       }
 
