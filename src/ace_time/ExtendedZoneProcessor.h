@@ -741,14 +741,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      */
     explicit ExtendedZoneProcessorTemplate(ZK zoneKey) :
         ZoneProcessor(kTypeExtended),
-        mZoneKey(zoneKey),
         mZoneInfo(zoneKey)
     {}
-
-    /** Returns true if the zoneKey matches. */
-    bool equalsZoneKey(ZK zoneKey) const {
-      return zoneKey == mZoneKey;
-    }
 
     uint32_t getZoneId() const override { return mZoneInfo.zoneId(); }
 
@@ -865,14 +859,17 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       return mTransitionStorage.getHighWater();
     }
 
-    void setZoneInfo(const void* zoneInfo) override {
-      if (equalsZoneKey((ZK) zoneInfo)) return;
+    void setZoneInfo(const void* zoneKey) override {
+      if (mZoneInfo.equals((ZK) zoneKey)) return;
 
-      mZoneKey = (ZK) zoneInfo;
-      mZoneInfo = ZIB(mZoneKey);
+      mZoneInfo = ZIB((ZK) zoneKey);
       mYear = 0;
       mIsFilled = false;
       mNumMatches = 0;
+    }
+
+    bool equalsZoneKey(const void* zoneKey) const override {
+      return mZoneInfo.equals((ZK) zoneKey);
     }
 
   private:
@@ -916,8 +913,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     static const uint8_t kMaxInteriorYears = 4;
 
     bool equals(const ZoneProcessor& other) const override {
-      return mZoneKey ==
-          ((const ExtendedZoneProcessorTemplate&) other).mZoneKey;
+      return mZoneInfo.equals(
+          ((const ExtendedZoneProcessorTemplate&) other).mZoneInfo);
     }
 
     /**
@@ -1706,7 +1703,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
-    ZK mZoneKey;
     ZIB mZoneInfo;
 
     mutable int16_t mYear = 0; // maybe create LocalDate::kInvalidYear?

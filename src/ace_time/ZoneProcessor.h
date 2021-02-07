@@ -116,6 +116,8 @@ class ZoneProcessor {
      */
     virtual void setZoneInfo(const void* zoneInfo) = 0;
 
+    virtual bool equalsZoneKey(const void* zoneInfo) const = 0;
+
   protected:
     friend bool operator==(const ZoneProcessor& a, const ZoneProcessor& b);
 

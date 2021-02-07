@@ -298,6 +298,14 @@ class ZoneInfoBroker {
     // use default assignment operator
     ZoneInfoBroker& operator=(const ZoneInfoBroker&) = default;
 
+    bool equals(const ZoneInfo* zoneInfo) const {
+      return mZoneInfo == zoneInfo;
+    }
+
+    bool equals(const ZoneInfoBroker& zoneInfoBroker) const {
+      return mZoneInfo == zoneInfoBroker.mZoneInfo;
+    }
+
   #if ACE_TIME_USE_PROGMEM
 
     const internal::ZoneContext* zoneContext() const {

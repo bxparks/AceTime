@@ -235,14 +235,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      */
     explicit BasicZoneProcessorTemplate(ZK zoneKey) :
         ZoneProcessor(kTypeBasic),
-        mZoneKey(zoneKey),
         mZoneInfo(zoneKey)
     {}
-
-    /** Returns true if the zoneKey matches. */
-    bool equalsZoneKey(ZK zoneKey) const {
-      return zoneKey == mZoneKey;
-    }
 
     uint32_t getZoneId() const override { return mZoneInfo.zoneId(); }
 
@@ -346,14 +340,17 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       BasicZone(mZoneInfo).printShortNameTo(printer);
     }
 
-    void setZoneInfo(const void* zoneInfo) override {
-      if (equalsZoneKey((ZK) zoneInfo)) return;
+    void setZoneInfo(const void* zoneKey) override {
+      if (mZoneInfo.equals((ZK) zoneKey)) return;
 
-      mZoneKey = (ZK) zoneInfo;
-      mZoneInfo = ZIB(mZoneKey);
+      mZoneInfo = ZIB((ZK) zoneKey);
       mYearTiny = LocalDate::kInvalidYearTiny;
       mIsFilled = false;
       mNumTransitions = 0;
+    }
+
+    bool equalsZoneKey(const void* zoneKey) const override {
+      return mZoneInfo.equals((ZK) zoneKey);
     }
 
     /** Used only for debugging. */
@@ -408,7 +405,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         delete;
 
     bool equals(const ZoneProcessor& other) const override {
-      return mZoneKey == ((const BasicZoneProcessorTemplate&) other).mZoneKey;
+      return mZoneInfo.equals(
+          ((const BasicZoneProcessorTemplate&) other).mZoneInfo);
     }
 
     /** Return the Transition at the given epochSeconds. */
@@ -991,7 +989,6 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       return closestMatch;
     }
 
-    ZK mZoneKey;
     ZIB mZoneInfo;
 
     mutable int8_t mYearTiny = LocalDate::kInvalidYearTiny;
