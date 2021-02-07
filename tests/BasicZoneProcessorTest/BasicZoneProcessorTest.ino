@@ -159,18 +159,18 @@ test(BasicZoneProcessorTest, operatorEqualEqual) {
 }
 
 test(BasicZoneProcessorTest, setZoneInfo) {
-  BasicZoneProcessor zoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
-  zoneInfo.getUtcOffset(0);
-  assertTrue(zoneInfo.mIsFilled);
+  BasicZoneProcessor zoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
+  zoneProcessor.getUtcOffset(0);
+  assertTrue(zoneProcessor.mIsFilled);
 
-  zoneInfo.setZoneInfo(&zonedb::kZoneAustralia_Darwin);
-  assertFalse(zoneInfo.mIsFilled);
-  zoneInfo.getUtcOffset(0);
-  assertTrue(zoneInfo.mIsFilled);
+  zoneProcessor.setZoneKey((uintptr_t) &zonedb::kZoneAustralia_Darwin);
+  assertFalse(zoneProcessor.mIsFilled);
+  zoneProcessor.getUtcOffset(0);
+  assertTrue(zoneProcessor.mIsFilled);
 
   // Check that the cache remains valid if the zoneInfo does not change
-  zoneInfo.setZoneInfo(&zonedb::kZoneAustralia_Darwin);
-  assertTrue(zoneInfo.mIsFilled);
+  zoneProcessor.setZoneKey((uintptr_t) &zonedb::kZoneAustralia_Darwin);
+  assertTrue(zoneProcessor.mIsFilled);
 }
 
 test(BasicZoneProcessorTest, calcRuleOffsetMinutes) {

@@ -55,7 +55,7 @@ class ZoneProcessorCache {
  * @tparam ZP type of ZoneProcessor (BasicZoneProcessor or
  *    ExtendedZoneProcessor)
  */
-template<uint8_t SIZE, uint8_t TYPE, typename ZK, typename ZP>
+template<uint8_t SIZE, uint8_t TYPE, typename ZP>
 class ZoneProcessorCacheImpl: public ZoneProcessorCache {
   public:
     ZoneProcessorCacheImpl()
@@ -66,7 +66,7 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
      * Get ZoneProcessor from either a ZoneKey, either a basic::ZoneInfo or an
      * extended::ZoneInfo. This will never return nullptr.
      */
-    ZoneProcessor* getZoneProcessor(ZK zoneKey) {
+    ZoneProcessor* getZoneProcessor(uintptr_t zoneKey) {
       ZP* zoneProcessor = findUsingZoneKey(zoneKey);
       if (zoneProcessor) return zoneProcessor;
 
@@ -74,7 +74,7 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
       zoneProcessor = &mZoneProcessors[mCurrentIndex];
       mCurrentIndex++;
       if (mCurrentIndex >= SIZE) mCurrentIndex = 0;
-      zoneProcessor->setZoneInfo(zoneKey);
+      zoneProcessor->setZoneKey(zoneKey);
       return zoneProcessor;
     }
 
@@ -88,7 +88,7 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
      * Returns nullptr if not found. This is a linear search, which should
      * be perfectly ok if SIZE is small, say <= 5.
      */
-    ZP* findUsingZoneKey(ZK zoneKey) {
+    ZP* findUsingZoneKey(uintptr_t zoneKey) {
       for (uint8_t i = 0; i < SIZE; i++) {
         ZP* zoneProcessor = &mZoneProcessors[i];
         if (zoneProcessor->equalsZoneKey(zoneKey)) {
@@ -107,7 +107,6 @@ template<uint8_t SIZE>
 class BasicZoneProcessorCache: public ZoneProcessorCacheImpl<
     SIZE,
     ZoneProcessor::kTypeBasic,
-    const basic::ZoneInfo*,
     BasicZoneProcessor> {
 };
 
@@ -115,7 +114,6 @@ template<uint8_t SIZE>
 class ExtendedZoneProcessorCache: public ZoneProcessorCacheImpl<
     SIZE,
     ZoneProcessor::kTypeExtended,
-    const extended::ZoneInfo*,
     ExtendedZoneProcessor> {
 };
 #else

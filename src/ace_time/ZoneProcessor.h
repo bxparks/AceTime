@@ -100,7 +100,7 @@ class ZoneProcessor {
     virtual void printShortTo(Print& printer) const = 0;
 
     /**
-     * Set the opaque zoneInfo of this object to a new value, reseting any
+     * Set the opaque zoneKey of this object to a new value, reseting any
      * internally cached information.
      *
      * Normally a ZoneProcessor object is associated with a single TimeZone.
@@ -114,7 +114,9 @@ class ZoneProcessor {
      * TimeZone and ZoneProcessorCache classes. I had to make it public because
      * it got too ugly to maintain the `friend` list in C++.
      */
-    virtual void setZoneInfo(const void* zoneInfo) = 0;
+    virtual void setZoneKey(uintptr_t zoneKey) = 0;
+
+    virtual bool equalsZoneKey(uintptr_t zoneKey) const = 0;
 
   protected:
     friend bool operator==(const ZoneProcessor& a, const ZoneProcessor& b);

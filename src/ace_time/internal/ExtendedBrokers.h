@@ -312,7 +312,6 @@ class ZoneEraBroker {
 
   private:
     const ZoneEra* mZoneEra;
-
 };
 
 /** Data broker for accessing ZoneInfo. */
@@ -327,11 +326,19 @@ class ZoneInfoBroker {
     // use default assignment operator
     ZoneInfoBroker& operator=(const ZoneInfoBroker&) = default;
 
+    bool equals(const ZoneInfo* zoneInfo) const {
+      return mZoneInfo == zoneInfo;
+    }
+
+    bool equals(const ZoneInfoBroker& zoneInfoBroker) const {
+      return mZoneInfo == zoneInfoBroker.mZoneInfo;
+    }
+
   #if ACE_TIME_USE_PROGMEM
 
     const internal::ZoneContext* zoneContext() const {
       return (const internal::ZoneContext*)
-        pgm_read_ptr(&mZoneInfo->zoneContext);
+          pgm_read_ptr(&mZoneInfo->zoneContext);
     }
 
     const __FlashStringHelper* name() const {

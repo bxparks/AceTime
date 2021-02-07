@@ -239,7 +239,7 @@ class TimeZone {
           return TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes);
         case kTypeBasic:
         case kTypeExtended:
-          mZoneProcessor->setZoneInfo(mZoneInfo);
+          mZoneProcessor->setZoneKey((uintptr_t) mZoneInfo);
           return mZoneProcessor->getUtcOffset(epochSeconds);
       }
       return TimeOffset::forError();
@@ -256,7 +256,7 @@ class TimeZone {
           return TimeOffset::forMinutes(mDstOffsetMinutes);
         case kTypeBasic:
         case kTypeExtended:
-          mZoneProcessor->setZoneInfo(mZoneInfo);
+          mZoneProcessor->setZoneKey((uintptr_t) mZoneInfo);
           return mZoneProcessor->getDeltaOffset(epochSeconds);
       }
       return TimeOffset::forError();
@@ -291,6 +291,7 @@ class TimeZone {
           }
         case kTypeBasic:
         case kTypeExtended:
+          mZoneProcessor->setZoneKey((uintptr_t) mZoneInfo);
           return mZoneProcessor->getAbbrev(epochSeconds);
       }
       return "";
@@ -311,7 +312,7 @@ class TimeZone {
           break;
         case kTypeBasic:
         case kTypeExtended:
-          mZoneProcessor->setZoneInfo(mZoneInfo);
+          mZoneProcessor->setZoneKey((uintptr_t) mZoneInfo);
           odt = mZoneProcessor->getOffsetDateTime(ldt);
           break;
       }

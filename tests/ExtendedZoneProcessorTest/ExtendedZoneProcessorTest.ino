@@ -830,18 +830,18 @@ test(ExtendedZoneProcessorTest, calcAbbreviations) {
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, setZoneInfo) {
-  ExtendedZoneProcessor zoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
-  zoneInfo.getUtcOffset(0);
-  assertTrue(zoneInfo.mIsFilled);
+  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+  zoneProcessor.getUtcOffset(0);
+  assertTrue(zoneProcessor.mIsFilled);
 
-  zoneInfo.setZoneInfo(&zonedbx::kZoneAustralia_Darwin);
-  assertFalse(zoneInfo.mIsFilled);
-  zoneInfo.getUtcOffset(0);
-  assertTrue(zoneInfo.mIsFilled);
+  zoneProcessor.setZoneKey((uintptr_t) &zonedbx::kZoneAustralia_Darwin);
+  assertFalse(zoneProcessor.mIsFilled);
+  zoneProcessor.getUtcOffset(0);
+  assertTrue(zoneProcessor.mIsFilled);
 
   // Check that the cache remains valid if the zoneInfo does not change
-  zoneInfo.setZoneInfo(&zonedbx::kZoneAustralia_Darwin);
-  assertTrue(zoneInfo.mIsFilled);
+  zoneProcessor.setZoneKey((uintptr_t) &zonedbx::kZoneAustralia_Darwin);
+  assertTrue(zoneProcessor.mIsFilled);
 }
 
 //---------------------------------------------------------------------------
