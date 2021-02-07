@@ -740,11 +740,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * @param zoneInfo pointer to a ZoneInfo.
      */
     explicit ExtendedZoneProcessorTemplate(ZK zoneKey) :
-        ZoneProcessor(kTypeExtended),
-        mZoneInfo(zoneKey)
-    {}
+        ZoneProcessor(kTypeExtended)
+    {
+      setZoneKey((uintptr_t) zoneKey);
+    }
 
-    uint32_t getZoneId() const override { return mZoneInfo.zoneId(); }
+    uint32_t getZoneId() const override { return mZoneInfoBroker.zoneId(); }
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       bool success = init(epochSeconds);
@@ -829,11 +830,11 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void printTo(Print& printer) const override {
-      ExtendedZone(mZoneInfo).printNameTo(printer);
+      ExtendedZone(mZoneInfoBroker).printNameTo(printer);
     }
 
     void printShortTo(Print& printer) const override {
-      ExtendedZone(mZoneInfo).printShortNameTo(printer);
+      ExtendedZone(mZoneInfoBroker).printShortNameTo(printer);
     }
 
     /** Used only for debugging. */
@@ -860,16 +861,16 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void setZoneKey(uintptr_t zoneKey) override {
-      if (mZoneInfo.equals((ZK) zoneKey)) return;
+      if (mZoneInfoBroker.equals((ZK) zoneKey)) return;
 
-      mZoneInfo = ZIB((ZK) zoneKey);
+      mZoneInfoBroker = ZIB((ZK) zoneKey);
       mYear = 0;
       mIsFilled = false;
       mNumMatches = 0;
     }
 
     bool equalsZoneKey(uintptr_t zoneKey) const override {
-      return mZoneInfo.equals((ZK) zoneKey);
+      return mZoneInfoBroker.equals((ZK) zoneKey);
     }
 
   private:
@@ -913,8 +914,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     static const uint8_t kMaxInteriorYears = 4;
 
     bool equals(const ZoneProcessor& other) const override {
-      return mZoneInfo.equals(
-          ((const ExtendedZoneProcessorTemplate&) other).mZoneInfo);
+      return mZoneInfoBroker.equals(
+          ((const ExtendedZoneProcessorTemplate&) other).mZoneInfoBroker);
     }
 
     /**
@@ -946,13 +947,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       mNumMatches = 0; // clear cache
       mTransitionStorage.init();
 
-      if (year < mZoneInfo.zoneContext()->startYear - 1
-          || mZoneInfo.zoneContext()->untilYear < year) {
+      if (year < mZoneInfoBroker.zoneContext()->startYear - 1
+          || mZoneInfoBroker.zoneContext()->untilYear < year) {
         if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
           logging::printf("init(): Year %d out of valid range [%d, %d)\n",
               year,
-              mZoneInfo.zoneContext()->startYear,
-              mZoneInfo.zoneContext()->untilYear);
+              mZoneInfoBroker.zoneContext()->startYear,
+              mZoneInfoBroker.zoneContext()->untilYear);
         }
         return false;
       }
@@ -962,7 +963,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       extended::YearMonthTuple untilYm =  {
         (int8_t) (year - LocalDate::kEpochYear + 1), 2 };
 
-      mNumMatches = findMatches(mZoneInfo, startYm, untilYm, mMatches,
+      mNumMatches = findMatches(mZoneInfoBroker, startYm, untilYm, mMatches,
           kMaxMatches);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
       findTransitions(mTransitionStorage, mMatches, mNumMatches);
@@ -1703,7 +1704,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
-    ZIB mZoneInfo;
+    ZIB mZoneInfoBroker;
 
     mutable int16_t mYear = 0; // maybe create LocalDate::kInvalidYear?
     mutable bool mIsFilled = false;

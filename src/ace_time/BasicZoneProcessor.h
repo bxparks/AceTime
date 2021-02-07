@@ -234,11 +234,12 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * @param zoneInfo pointer to a ZoneInfo.
      */
     explicit BasicZoneProcessorTemplate(ZK zoneKey) :
-        ZoneProcessor(kTypeBasic),
-        mZoneInfo(zoneKey)
-    {}
+        ZoneProcessor(kTypeBasic)
+    {
+      setZoneKey((uintptr_t) zoneKey);
+    }
 
-    uint32_t getZoneId() const override { return mZoneInfo.zoneId(); }
+    uint32_t getZoneId() const override { return mZoneInfoBroker.zoneId(); }
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       const Transition* transition = getTransition(epochSeconds);
@@ -333,24 +334,24 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void printTo(Print& printer) const override {
-      BasicZone(mZoneInfo).printNameTo(printer);
+      BasicZone(mZoneInfoBroker).printNameTo(printer);
     }
 
     void printShortTo(Print& printer) const override {
-      BasicZone(mZoneInfo).printShortNameTo(printer);
+      BasicZone(mZoneInfoBroker).printShortNameTo(printer);
     }
 
     void setZoneKey(uintptr_t zoneKey) override {
-      if (mZoneInfo.equals((ZK) zoneKey)) return;
+      if (mZoneInfoBroker.equals((ZK) zoneKey)) return;
 
-      mZoneInfo = ZIB((ZK) zoneKey);
+      mZoneInfoBroker = ZIB((ZK) zoneKey);
       mYearTiny = LocalDate::kInvalidYearTiny;
       mIsFilled = false;
       mNumTransitions = 0;
     }
 
     bool equalsZoneKey(uintptr_t zoneKey) const override {
-      return mZoneInfo.equals((ZK) zoneKey);
+      return mZoneInfoBroker.equals((ZK) zoneKey);
     }
 
     /** Used only for debugging. */
@@ -405,8 +406,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         delete;
 
     bool equals(const ZoneProcessor& other) const override {
-      return mZoneInfo.equals(
-          ((const BasicZoneProcessorTemplate&) other).mZoneInfo);
+      return mZoneInfoBroker.equals(
+          ((const BasicZoneProcessorTemplate&) other).mZoneInfoBroker);
     }
 
     /** Return the Transition at the given epochSeconds. */
@@ -466,8 +467,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       mNumTransitions = 0; // clear cache
 
       if (yearTiny + LocalDate::kEpochYear
-              < mZoneInfo.zoneContext()->startYear - 1
-          || mZoneInfo.zoneContext()->untilYear
+              < mZoneInfoBroker.zoneContext()->startYear - 1
+          || mZoneInfoBroker.zoneContext()->untilYear
               < yearTiny + LocalDate::kEpochYear) {
         return false;
       }
@@ -504,7 +505,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         logging::printf("addTransitionPriorToYear(): %d\n", yearTiny);
       }
 
-      const ZEB era = findZoneEra(mZoneInfo, yearTiny - 1);
+      const ZEB era = findZoneEra(mZoneInfoBroker, yearTiny - 1);
 
       // If the prior ZoneEra has a ZonePolicy), then find the latest rule
       // within the ZoneEra. Otherwise, add a Transition using a rule==nullptr.
@@ -580,7 +581,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         logging::printf("addTransitionsForYear(): %d\n", yearTiny);
       }
 
-      const ZEB era = findZoneEra(mZoneInfo, yearTiny);
+      const ZEB era = findZoneEra(mZoneInfoBroker, yearTiny);
 
       // If the ZonePolicy has no rules, then add a Transition which takes
       // effect at the start time of the current year.
@@ -644,7 +645,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         logging::printf("addTransitionAfterYear(): %d\n", yearTiny);
       }
 
-      const ZEB eraAfter = findZoneEra(mZoneInfo, yearTiny + 1);
+      const ZEB eraAfter = findZoneEra(mZoneInfoBroker, yearTiny + 1);
 
       // If the current era is the same as the following year, then we'll just
       // assume that the latest ZoneRule carries over to Jan 1st of the next
@@ -989,7 +990,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       return closestMatch;
     }
 
-    ZIB mZoneInfo;
+    ZIB mZoneInfoBroker;
 
     mutable int8_t mYearTiny = LocalDate::kInvalidYearTiny;
     mutable bool mIsFilled = false;

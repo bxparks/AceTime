@@ -317,7 +317,7 @@ class ZoneEraBroker {
 /** Data broker for accessing ZoneInfo. */
 class ZoneInfoBroker {
   public:
-    explicit ZoneInfoBroker(const ZoneInfo* zoneInfo):
+    explicit ZoneInfoBroker(const ZoneInfo* zoneInfo = nullptr):
         mZoneInfo(zoneInfo) {}
 
     // use default copy constructor
