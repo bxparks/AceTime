@@ -190,7 +190,8 @@ class ZoneManagerImpl : public ZoneManager {
      */
     TimeZone createForZoneInfo(const ZI* zoneInfo) {
       if (! zoneInfo) return TimeZone::forError();
-      ZP* processor = (ZP*) mZoneProcessorCache.getZoneProcessor(zoneInfo);
+      ZP* processor = (ZP*) mZoneProcessorCache.getZoneProcessor(
+          (uintptr_t) zoneInfo);
       return TimeZone::forZoneInfo(zoneInfo, processor);
     }
 
