@@ -7,7 +7,7 @@
 #define ACE_TIME_EXTENDED_ZONE_PROCESSOR_H
 
 #include <string.h> // memcpy()
-#include <stdint.h>
+#include <stdint.h> // uintptr_t
 #include "common/compat.h"
 #include "internal/ZonePolicy.h"
 #include "internal/ZoneInfo.h"
@@ -859,7 +859,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       return mTransitionStorage.getHighWater();
     }
 
-    void setZoneInfo(const void* zoneKey) override {
+    void setZoneKey(uintptr_t zoneKey) override {
       if (mZoneInfo.equals((ZK) zoneKey)) return;
 
       mZoneInfo = ZIB((ZK) zoneKey);
@@ -868,7 +868,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       mNumMatches = 0;
     }
 
-    bool equalsZoneKey(const void* zoneKey) const override {
+    bool equalsZoneKey(uintptr_t zoneKey) const override {
       return mZoneInfo.equals((ZK) zoneKey);
     }
 

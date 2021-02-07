@@ -52,6 +52,7 @@ class ZoneProcessorCache {
  *    if the user is able to select different timezones from a menu.
  * @tparam TYPE integer constant identifying the type of TimeZone (e.g.
  *    ZoneProcessor::kTypeBasic, ZoneProcessor::kTypeExtended)
+ * @tparam ZK type of the zoneKey (e.g. `const ZoneInfo*`)
  * @tparam ZP type of ZoneProcessor (BasicZoneProcessor or
  *    ExtendedZoneProcessor)
  */
@@ -74,7 +75,7 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
       zoneProcessor = &mZoneProcessors[mCurrentIndex];
       mCurrentIndex++;
       if (mCurrentIndex >= SIZE) mCurrentIndex = 0;
-      zoneProcessor->setZoneInfo(zoneKey);
+      zoneProcessor->setZoneKey((uintptr_t) zoneKey);
       return zoneProcessor;
     }
 
@@ -91,7 +92,7 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
     ZP* findUsingZoneKey(ZK zoneKey) {
       for (uint8_t i = 0; i < SIZE; i++) {
         ZP* zoneProcessor = &mZoneProcessors[i];
-        if (zoneProcessor->equalsZoneKey(zoneKey)) {
+        if (zoneProcessor->equalsZoneKey((uintptr_t) zoneKey)) {
           return zoneProcessor;
         }
       }

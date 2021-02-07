@@ -340,7 +340,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       BasicZone(mZoneInfo).printShortNameTo(printer);
     }
 
-    void setZoneInfo(const void* zoneKey) override {
+    void setZoneKey(uintptr_t zoneKey) override {
       if (mZoneInfo.equals((ZK) zoneKey)) return;
 
       mZoneInfo = ZIB((ZK) zoneKey);
@@ -349,7 +349,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       mNumTransitions = 0;
     }
 
-    bool equalsZoneKey(const void* zoneKey) const override {
+    bool equalsZoneKey(uintptr_t zoneKey) const override {
       return mZoneInfo.equals((ZK) zoneKey);
     }
 
