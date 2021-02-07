@@ -11,8 +11,6 @@
 #include "ZoneProcessor.h"
 #include "BasicZoneProcessor.h"
 #include "ExtendedZoneProcessor.h"
-#include "BasicZone.h"
-#include "ExtendedZone.h"
 #include "TimeZoneData.h"
 
 class Print;
@@ -220,9 +218,8 @@ class TimeZone {
         case kTypeManual:
           return 0;
         case kTypeBasic:
-          return BasicZone((const basic::ZoneInfo*) mZoneInfo).zoneId();
         case kTypeExtended:
-          return ExtendedZone((const extended::ZoneInfo*) mZoneInfo).zoneId();
+          return mZoneProcessor->getZoneId();
       }
       return 0;
     }
