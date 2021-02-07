@@ -6,7 +6,7 @@
 #ifndef ACE_TIME_TIME_ZONE_H
 #define ACE_TIME_TIME_ZONE_H
 
-#include <stdint.h>
+#include <stdint.h> // uintptr_t
 #include "TimeOffset.h"
 #include "ZoneProcessor.h"
 #include "BasicZoneProcessor.h"
@@ -160,7 +160,7 @@ class TimeZone {
         const basic::ZoneInfo* zoneInfo,
         BasicZoneProcessor* zoneProcessor
     ) {
-      return TimeZone(kTypeBasic, zoneInfo, zoneProcessor);
+      return TimeZone(kTypeBasic, (uintptr_t) zoneInfo, zoneProcessor);
     }
 
     /**
@@ -175,7 +175,7 @@ class TimeZone {
         const extended::ZoneInfo* zoneInfo,
         ExtendedZoneProcessor* zoneProcessor
     ) {
-      return TimeZone(kTypeExtended, zoneInfo, zoneProcessor);
+      return TimeZone(kTypeExtended, (uintptr_t) zoneInfo, zoneProcessor);
     }
 
     /**
@@ -191,6 +191,16 @@ class TimeZone {
         mType(kTypeManual),
         mStdOffsetMinutes(0),
         mDstOffsetMinutes(0) {}
+
+    /** Constructor using ZoneProcessor. Exposed for library extensions. */
+    explicit TimeZone(
+        uint8_t type,
+        uintptr_t zoneKey,
+        ZoneProcessor* mZoneProcessor
+    ):
+        mType(type),
+        mZoneKey(zoneKey),
+        mZoneProcessor(mZoneProcessor) {}
 
     /**
      * Return the type of TimeZone. This value is useful for serializing and
@@ -236,7 +246,7 @@ class TimeZone {
           return TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes);
         case kTypeBasic:
         case kTypeExtended:
-          mZoneProcessor->setZoneKey((uintptr_t) mZoneInfo);
+          mZoneProcessor->setZoneKey(mZoneKey);
           return mZoneProcessor->getUtcOffset(epochSeconds);
       }
       return TimeOffset::forError();
@@ -253,7 +263,7 @@ class TimeZone {
           return TimeOffset::forMinutes(mDstOffsetMinutes);
         case kTypeBasic:
         case kTypeExtended:
-          mZoneProcessor->setZoneKey((uintptr_t) mZoneInfo);
+          mZoneProcessor->setZoneKey(mZoneKey);
           return mZoneProcessor->getDeltaOffset(epochSeconds);
       }
       return TimeOffset::forError();
@@ -288,7 +298,7 @@ class TimeZone {
           }
         case kTypeBasic:
         case kTypeExtended:
-          mZoneProcessor->setZoneKey((uintptr_t) mZoneInfo);
+          mZoneProcessor->setZoneKey(mZoneKey);
           return mZoneProcessor->getAbbrev(epochSeconds);
       }
       return "";
@@ -309,7 +319,7 @@ class TimeZone {
           break;
         case kTypeBasic:
         case kTypeExtended:
-          mZoneProcessor->setZoneKey((uintptr_t) mZoneInfo);
+          mZoneProcessor->setZoneKey(mZoneKey);
           odt = mZoneProcessor->getOffsetDateTime(ldt);
           break;
       }
@@ -417,19 +427,12 @@ class TimeZone {
     explicit TimeZone(uint8_t type):
       mType(type) {}
 
-    /** Constructor for kTypeBasic or kTypeExtended. */
-    explicit TimeZone(uint8_t type, const void* zoneInfo,
-        ZoneProcessor* mZoneProcessor):
-        mType(type),
-        mZoneInfo(zoneInfo),
-        mZoneProcessor(mZoneProcessor) {}
-
     uint8_t mType;
 
     // 3 combinations:
     //   (type) (kTypeError)
     //   (type, mStdOffsetMinutes, mDstOffsetMinutes)
-    //   (type, mZoneInfo, mZoneProcessor)
+    //   (type, mZoneKey, mZoneProcessor)
     union {
       /** Used by kTypeManual. */
       struct {
@@ -439,8 +442,17 @@ class TimeZone {
 
       /* Used by kTypeBasic and kTypeExtended. */
       struct {
-        /** Either a basic::ZoneInfo or an extended::ZoneInfo. */
-        const void* mZoneInfo;
+        /**
+         * An opaque zone key.
+         *
+         *  * For kTypeBasic, this is a (const basic::ZoneInfo*).
+         *  * For kTypeError, this is a (const extended::ZoneInfo*).
+         *
+         * Internally, the TimeZone class does not care how this is
+         * implemented. The factory methods expose these types for the
+         * convenience of the end users.
+         */
+        uintptr_t mZoneKey;
 
         /** Either BasicZoneProcessor or ExtendedZoneProcessor. */
         ZoneProcessor* mZoneProcessor;
@@ -458,7 +470,7 @@ inline bool operator==(const TimeZone& a, const TimeZone& b) {
           && a.mDstOffsetMinutes == b.mDstOffsetMinutes;
     case TimeZone::kTypeBasic:
     case TimeZone::kTypeExtended:
-      return (a.mZoneInfo == b.mZoneInfo);
+      return (a.mZoneKey == b.mZoneKey);
     default:
       return false;
   }
