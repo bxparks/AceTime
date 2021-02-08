@@ -35,6 +35,7 @@
  * implementations diverged, so I had to manually duplicate the classes.
  */
 
+#include <stdint.h> // uintptr_t
 #include "../common/compat.h"
 #include "BrokerCommon.h"
 #include "ZoneInfo.h"
@@ -317,7 +318,7 @@ class ZoneEraBroker {
 /** Data broker for accessing ZoneInfo. */
 class ZoneInfoBroker {
   public:
-    explicit ZoneInfoBroker(const ZoneInfo* zoneInfo):
+    explicit ZoneInfoBroker(const ZoneInfo* zoneInfo = nullptr):
         mZoneInfo(zoneInfo) {}
 
     // use default copy constructor
@@ -326,8 +327,8 @@ class ZoneInfoBroker {
     // use default assignment operator
     ZoneInfoBroker& operator=(const ZoneInfoBroker&) = default;
 
-    bool equals(const ZoneInfo* zoneInfo) const {
-      return mZoneInfo == zoneInfo;
+    bool equals(uintptr_t zoneInfo) const {
+      return mZoneInfo == (const ZoneInfo*) zoneInfo;
     }
 
     bool equals(const ZoneInfoBroker& zoneInfoBroker) const {
@@ -376,6 +377,12 @@ class ZoneInfoBroker {
 
   #endif
 
+    /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
+    void printNameTo(Print& printer) const;
+
+    /** Print a short human-readable identifier (e.g. "Los_Angeles") */
+    void printShortNameTo(Print& printer) const;
+
   private:
     const ZoneInfo* mZoneInfo;
 };
@@ -411,6 +418,14 @@ class ZoneRegistryBroker {
 
   private:
     const ZoneInfo* const* mZoneRegistry;
+};
+
+/** A factory that creates a basic::ZoneInfoBroker. */
+class BrokerFactory {
+  public:
+    ZoneInfoBroker createZoneInfoBroker(uintptr_t zoneKey) const {
+      return ZoneInfoBroker((const ZoneInfo*) zoneKey);
+    }
 };
 
 } // extended

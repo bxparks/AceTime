@@ -15,7 +15,6 @@
 #include "TimeOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
-#include "BasicZone.h"
 #include "ZoneProcessor.h"
 
 #define ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG 0
@@ -217,28 +216,21 @@ inline void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
  *
  * Not thread-safe.
  *
- * @tparam ZK opaque Zone primary key, either (const ZoneInfo*) or (uint32_t)
+ * @tparam BF type of BrokerFactory, needed for implementations that require
+ *    more complex brokers, and allows this template class to be independent
+ *    of the exact type of the zone primary key
  * @tparam ZIB type of ZoneInfoBroker
  * @tparam ZEB type of ZoneEraBroker
  * @tparam ZPB type of ZonePolicyBroker
  * @tparam ZRB type of ZoneRuleBroker
  */
-template <typename ZK, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
+template <typename BF, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
 class BasicZoneProcessorTemplate: public ZoneProcessor {
   public:
     /** Exposed only for testing purposes. */
     typedef basic::TransitionTemplate<ZIB, ZEB, ZPB, ZRB> Transition;
 
-    /**
-     * Constructor. The ZoneInfo is given only for unit tests.
-     * @param zoneInfo pointer to a ZoneInfo.
-     */
-    explicit BasicZoneProcessorTemplate(ZK zoneKey) :
-        ZoneProcessor(kTypeBasic),
-        mZoneInfo(zoneKey)
-    {}
-
-    uint32_t getZoneId() const override { return mZoneInfo.zoneId(); }
+    uint32_t getZoneId() const override { return mZoneInfoBroker.zoneId(); }
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       const Transition* transition = getTransition(epochSeconds);
@@ -333,24 +325,24 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void printTo(Print& printer) const override {
-      BasicZone(mZoneInfo).printNameTo(printer);
+      mZoneInfoBroker.printNameTo(printer);
     }
 
     void printShortTo(Print& printer) const override {
-      BasicZone(mZoneInfo).printShortNameTo(printer);
+      mZoneInfoBroker.printShortNameTo(printer);
     }
 
     void setZoneKey(uintptr_t zoneKey) override {
-      if (mZoneInfo.equals((ZK) zoneKey)) return;
+      if (mZoneInfoBroker.equals(zoneKey)) return;
 
-      mZoneInfo = ZIB((ZK) zoneKey);
+      mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
       mYearTiny = LocalDate::kInvalidYearTiny;
       mIsFilled = false;
       mNumTransitions = 0;
     }
 
     bool equalsZoneKey(uintptr_t zoneKey) const override {
-      return mZoneInfo.equals((ZK) zoneKey);
+      return mZoneInfoBroker.equals(zoneKey);
     }
 
     /** Used only for debugging. */
@@ -367,6 +359,28 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
           mTransitions[i].log();
         }
       }
+    }
+
+    void setBrokerFactory(const BF* brokerFactory) {
+      mBrokerFactory = brokerFactory;
+    }
+
+  protected:
+
+    /**
+     * Constructor.
+     *
+     * @param brokerFactory pointer to a BrokerFactory that creates a ZIB
+     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*)
+     */
+    explicit BasicZoneProcessorTemplate(
+        const BF* brokerFactory = nullptr,
+        uintptr_t zoneKey = 0
+    ) :
+        ZoneProcessor(kTypeBasic),
+        mBrokerFactory(brokerFactory)
+    {
+      setZoneKey(zoneKey);
     }
 
   private:
@@ -405,8 +419,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         delete;
 
     bool equals(const ZoneProcessor& other) const override {
-      return mZoneInfo.equals(
-          ((const BasicZoneProcessorTemplate&) other).mZoneInfo);
+      return mZoneInfoBroker.equals(
+          ((const BasicZoneProcessorTemplate&) other).mZoneInfoBroker);
     }
 
     /** Return the Transition at the given epochSeconds. */
@@ -466,8 +480,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       mNumTransitions = 0; // clear cache
 
       if (yearTiny + LocalDate::kEpochYear
-              < mZoneInfo.zoneContext()->startYear - 1
-          || mZoneInfo.zoneContext()->untilYear
+              < mZoneInfoBroker.zoneContext()->startYear - 1
+          || mZoneInfoBroker.zoneContext()->untilYear
               < yearTiny + LocalDate::kEpochYear) {
         return false;
       }
@@ -504,7 +518,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         logging::printf("addTransitionPriorToYear(): %d\n", yearTiny);
       }
 
-      const ZEB era = findZoneEra(mZoneInfo, yearTiny - 1);
+      const ZEB era = findZoneEra(mZoneInfoBroker, yearTiny - 1);
 
       // If the prior ZoneEra has a ZonePolicy), then find the latest rule
       // within the ZoneEra. Otherwise, add a Transition using a rule==nullptr.
@@ -580,7 +594,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         logging::printf("addTransitionsForYear(): %d\n", yearTiny);
       }
 
-      const ZEB era = findZoneEra(mZoneInfo, yearTiny);
+      const ZEB era = findZoneEra(mZoneInfoBroker, yearTiny);
 
       // If the ZonePolicy has no rules, then add a Transition which takes
       // effect at the start time of the current year.
@@ -644,7 +658,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         logging::printf("addTransitionAfterYear(): %d\n", yearTiny);
       }
 
-      const ZEB eraAfter = findZoneEra(mZoneInfo, yearTiny + 1);
+      const ZEB eraAfter = findZoneEra(mZoneInfoBroker, yearTiny + 1);
 
       // If the current era is the same as the following year, then we'll just
       // assume that the latest ZoneRule carries over to Jan 1st of the next
@@ -989,7 +1003,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       return closestMatch;
     }
 
-    ZIB mZoneInfo;
+    const BF* mBrokerFactory;
+    ZIB mZoneInfoBroker;
 
     mutable int8_t mYearTiny = LocalDate::kInvalidYearTiny;
     mutable bool mIsFilled = false;
@@ -1002,7 +1017,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
  * ZoneXxxBrokers which read from zonedb files in PROGMEM flash memory.
  */
 class BasicZoneProcessor: public BasicZoneProcessorTemplate<
-    const basic::ZoneInfo*,
+    basic::BrokerFactory,
     basic::ZoneInfoBroker,
     basic::ZoneEraBroker,
     basic::ZonePolicyBroker,
@@ -1011,12 +1026,15 @@ class BasicZoneProcessor: public BasicZoneProcessorTemplate<
   public:
     explicit BasicZoneProcessor(const basic::ZoneInfo* zoneInfo = nullptr)
       : BasicZoneProcessorTemplate<
-          const basic::ZoneInfo*,
+          basic::BrokerFactory,
           basic::ZoneInfoBroker,
           basic::ZoneEraBroker,
           basic::ZonePolicyBroker,
-          basic::ZoneRuleBroker>(zoneInfo)
+          basic::ZoneRuleBroker>(&mBrokerFactory, (uintptr_t) zoneInfo)
     {}
+
+  private:
+    basic::BrokerFactory mBrokerFactory;
 };
 
 } // namespace ace_time

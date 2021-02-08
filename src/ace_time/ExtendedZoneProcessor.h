@@ -17,7 +17,6 @@
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
 #include "ZoneProcessor.h"
-#include "ExtendedZone.h"
 #include "local_date_mutation.h"
 
 #define ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG 0
@@ -706,13 +705,15 @@ inline void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
  *
  * Not thread-safe.
  *
- * @tparam ZK opaque Zone primary key, either (const ZoneInfo*) or (uint32_t)
+ * @tparam BF type of BrokerFactory, needed for implementations that require
+ *    more complex brokers, and allows this template class to be independent
+ *    of the exact type of the zone primary key
  * @tparam ZIB type of ZoneInfoBroker
  * @tparam ZEB type of ZoneEraBroker
  * @tparam ZPB type of ZonePolicyBroker
  * @tparam ZRB type of ZoneRuleBroker
  */
-template <typename ZK, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
+template <typename BF, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
 class ExtendedZoneProcessorTemplate: public ZoneProcessor {
   public:
     /**
@@ -735,16 +736,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     typedef extended::TransitionStorageTemplate<kMaxTransitions, ZEB, ZPB, ZRB>
         TransitionStorage;
 
-    /**
-     * Constructor. The ZoneInfo is given only for unit tests.
-     * @param zoneInfo pointer to a ZoneInfo.
-     */
-    explicit ExtendedZoneProcessorTemplate(ZK zoneKey) :
-        ZoneProcessor(kTypeExtended),
-        mZoneInfo(zoneKey)
-    {}
-
-    uint32_t getZoneId() const override { return mZoneInfo.zoneId(); }
+    uint32_t getZoneId() const override { return mZoneInfoBroker.zoneId(); }
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       bool success = init(epochSeconds);
@@ -829,11 +821,11 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void printTo(Print& printer) const override {
-      ExtendedZone(mZoneInfo).printNameTo(printer);
+      mZoneInfoBroker.printNameTo(printer);
     }
 
     void printShortTo(Print& printer) const override {
-      ExtendedZone(mZoneInfo).printShortNameTo(printer);
+      mZoneInfoBroker.printShortNameTo(printer);
     }
 
     /** Used only for debugging. */
@@ -860,16 +852,38 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void setZoneKey(uintptr_t zoneKey) override {
-      if (mZoneInfo.equals((ZK) zoneKey)) return;
+      if (mZoneInfoBroker.equals(zoneKey)) return;
 
-      mZoneInfo = ZIB((ZK) zoneKey);
+      mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
       mYear = 0;
       mIsFilled = false;
       mNumMatches = 0;
     }
 
     bool equalsZoneKey(uintptr_t zoneKey) const override {
-      return mZoneInfo.equals((ZK) zoneKey);
+      return mZoneInfoBroker.equals(zoneKey);
+    }
+
+    void setBrokerFactory(const BF* brokerFactory) {
+      mBrokerFactory = brokerFactory;
+    }
+
+  protected:
+
+    /**
+     * Constructor.
+     *
+     * @param brokerFactory pointer to a BrokerFactory that creates a ZIB
+     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*)
+     */
+    explicit ExtendedZoneProcessorTemplate(
+        const BF* brokerFactory,
+        uintptr_t zoneKey
+    ) :
+        ZoneProcessor(kTypeExtended),
+        mBrokerFactory(brokerFactory)
+    {
+      setZoneKey(zoneKey);
     }
 
   private:
@@ -913,8 +927,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     static const uint8_t kMaxInteriorYears = 4;
 
     bool equals(const ZoneProcessor& other) const override {
-      return mZoneInfo.equals(
-          ((const ExtendedZoneProcessorTemplate&) other).mZoneInfo);
+      return mZoneInfoBroker.equals(
+          ((const ExtendedZoneProcessorTemplate&) other).mZoneInfoBroker);
     }
 
     /**
@@ -946,13 +960,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       mNumMatches = 0; // clear cache
       mTransitionStorage.init();
 
-      if (year < mZoneInfo.zoneContext()->startYear - 1
-          || mZoneInfo.zoneContext()->untilYear < year) {
+      if (year < mZoneInfoBroker.zoneContext()->startYear - 1
+          || mZoneInfoBroker.zoneContext()->untilYear < year) {
         if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
           logging::printf("init(): Year %d out of valid range [%d, %d)\n",
               year,
-              mZoneInfo.zoneContext()->startYear,
-              mZoneInfo.zoneContext()->untilYear);
+              mZoneInfoBroker.zoneContext()->startYear,
+              mZoneInfoBroker.zoneContext()->untilYear);
         }
         return false;
       }
@@ -962,7 +976,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       extended::YearMonthTuple untilYm =  {
         (int8_t) (year - LocalDate::kEpochYear + 1), 2 };
 
-      mNumMatches = findMatches(mZoneInfo, startYm, untilYm, mMatches,
+      mNumMatches = findMatches(mZoneInfoBroker, startYm, untilYm, mMatches,
           kMaxMatches);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
       findTransitions(mTransitionStorage, mMatches, mNumMatches);
@@ -1703,7 +1717,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
-    ZIB mZoneInfo;
+    const BF* const mBrokerFactory;
+    ZIB mZoneInfoBroker;
 
     mutable int16_t mYear = 0; // maybe create LocalDate::kInvalidYear?
     mutable bool mIsFilled = false;
@@ -1719,7 +1734,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
  * ZoneXxxBrokers which read from zonedb files in PROGMEM flash memory.
  */
 class ExtendedZoneProcessor: public ExtendedZoneProcessorTemplate<
-    const extended::ZoneInfo*,
+    extended::BrokerFactory,
     extended::ZoneInfoBroker,
     extended::ZoneEraBroker,
     extended::ZonePolicyBroker,
@@ -1728,12 +1743,15 @@ class ExtendedZoneProcessor: public ExtendedZoneProcessorTemplate<
   public:
     explicit ExtendedZoneProcessor(const extended::ZoneInfo* zoneInfo = nullptr)
       : ExtendedZoneProcessorTemplate<
-          const extended::ZoneInfo*,
+          extended::BrokerFactory,
           extended::ZoneInfoBroker,
           extended::ZoneEraBroker,
           extended::ZonePolicyBroker,
-          extended::ZoneRuleBroker>(zoneInfo)
+          extended::ZoneRuleBroker>(&mBrokerFactory, (uintptr_t) zoneInfo)
     {}
+
+  private:
+    extended::BrokerFactory mBrokerFactory;
 };
 
 } // namespace ace_time

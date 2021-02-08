@@ -35,11 +35,13 @@
  * implementations diverged, so I had to manually duplicate the classes.
  */
 
+#include <stdint.h> // uintptr_t
 #include "../common/compat.h"
 #include "BrokerCommon.h"
 #include "ZoneInfo.h"
 
 class __FlashStringHelper;
+class Print;
 
 namespace ace_time {
 namespace basic {
@@ -47,11 +49,8 @@ namespace basic {
 /** Data broker for accessing ZoneRule. */
 class ZoneRuleBroker {
   public:
-    explicit ZoneRuleBroker(const ZoneRule* zoneRule):
+    explicit ZoneRuleBroker(const ZoneRule* zoneRule = nullptr):
         mZoneRule(zoneRule) {}
-
-    ZoneRuleBroker():
-        mZoneRule(nullptr) {}
 
     // use the default copy constructor
     ZoneRuleBroker(const ZoneRuleBroker&) = default;
@@ -135,11 +134,8 @@ class ZoneRuleBroker {
 /** Data broker for accessing ZonePolicy. */
 class ZonePolicyBroker {
   public:
-    explicit ZonePolicyBroker(const ZonePolicy* zonePolicy):
+    explicit ZonePolicyBroker(const ZonePolicy* zonePolicy = nullptr):
         mZonePolicy(zonePolicy) {}
-
-    ZonePolicyBroker():
-        mZonePolicy(nullptr) {}
 
     // use default copy constructor
     ZonePolicyBroker(const ZonePolicyBroker&) = default;
@@ -194,11 +190,8 @@ class ZonePolicyBroker {
 /** Data broker for accessing ZoneEra. */
 class ZoneEraBroker {
   public:
-    explicit ZoneEraBroker(const ZoneEra* zoneEra):
+    explicit ZoneEraBroker(const ZoneEra* zoneEra = nullptr):
         mZoneEra(zoneEra) {}
-
-    ZoneEraBroker():
-        mZoneEra(nullptr) {}
 
     // use default copy constructor
     ZoneEraBroker(const ZoneEraBroker&) = default;
@@ -289,7 +282,7 @@ class ZoneEraBroker {
 /** Data broker for accessing ZoneInfo. */
 class ZoneInfoBroker {
   public:
-    explicit ZoneInfoBroker(const ZoneInfo* zoneInfo):
+    explicit ZoneInfoBroker(const ZoneInfo* zoneInfo = nullptr):
         mZoneInfo(zoneInfo) {}
 
     // use default copy constructor
@@ -298,8 +291,8 @@ class ZoneInfoBroker {
     // use default assignment operator
     ZoneInfoBroker& operator=(const ZoneInfoBroker&) = default;
 
-    bool equals(const ZoneInfo* zoneInfo) const {
-      return mZoneInfo == zoneInfo;
+    bool equals(uintptr_t zoneKey) const {
+      return mZoneInfo == (const ZoneInfo*) zoneKey;
     }
 
     bool equals(const ZoneInfoBroker& zoneInfoBroker) const {
@@ -348,6 +341,12 @@ class ZoneInfoBroker {
 
   #endif
 
+    /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
+    void printNameTo(Print& printer) const;
+
+    /** Print a short human-readable identifier (e.g. "Los_Angeles") */
+    void printShortNameTo(Print& printer) const;
+
   private:
     const ZoneInfo* mZoneInfo;
 };
@@ -383,6 +382,14 @@ class ZoneRegistryBroker {
 
   private:
     const ZoneInfo* const* mZoneRegistry;
+};
+
+/** A factory that creates a basic::ZoneInfoBroker. */
+class BrokerFactory {
+  public:
+    ZoneInfoBroker createZoneInfoBroker(uintptr_t zoneKey) const {
+      return ZoneInfoBroker((const ZoneInfo*) zoneKey);
+    }
 };
 
 } // basic
