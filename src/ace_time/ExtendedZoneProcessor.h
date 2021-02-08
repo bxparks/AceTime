@@ -706,13 +706,16 @@ inline void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
  *
  * Not thread-safe.
  *
- * @tparam ZK opaque Zone primary key, either (const ZoneInfo*) or (uint32_t)
+ * @tparam ZK opaque Zone primary key, e.g. (const ZoneInfo*) or (uint16_t)
+ * @tparam BF type of BrokerFactory, needed for implementations that require
+ *    more complex brokers
  * @tparam ZIB type of ZoneInfoBroker
  * @tparam ZEB type of ZoneEraBroker
  * @tparam ZPB type of ZonePolicyBroker
  * @tparam ZRB type of ZoneRuleBroker
  */
-template <typename ZK, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
+template <typename ZK, typename BF, typename ZIB, typename ZEB, typename ZPB,
+    typename ZRB>
 class ExtendedZoneProcessorTemplate: public ZoneProcessor {
   public:
     /**
@@ -734,16 +737,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     /** Exposed only for testing purposes. */
     typedef extended::TransitionStorageTemplate<kMaxTransitions, ZEB, ZPB, ZRB>
         TransitionStorage;
-
-    /**
-     * Constructor. The ZoneInfo is given only for unit tests.
-     * @param zoneInfo pointer to a ZoneInfo.
-     */
-    explicit ExtendedZoneProcessorTemplate(ZK zoneKey) :
-        ZoneProcessor(kTypeExtended)
-    {
-      setZoneKey((uintptr_t) zoneKey);
-    }
 
     uint32_t getZoneId() const override { return mZoneInfoBroker.zoneId(); }
 
@@ -863,7 +856,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     void setZoneKey(uintptr_t zoneKey) override {
       if (mZoneInfoBroker.equals((ZK) zoneKey)) return;
 
-      mZoneInfoBroker = ZIB((ZK) zoneKey);
+      mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
       mYear = 0;
       mIsFilled = false;
       mNumMatches = 0;
@@ -871,6 +864,24 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     bool equalsZoneKey(uintptr_t zoneKey) const override {
       return mZoneInfoBroker.equals((ZK) zoneKey);
+    }
+
+  protected:
+
+    /**
+     * Constructor.
+     *
+     * @param brokerFactory pointer to a BrokerFactory that creates a ZIB
+     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*)
+     */
+    explicit ExtendedZoneProcessorTemplate(
+        const BF* brokerFactory,
+        ZK zoneKey
+    ) :
+        ZoneProcessor(kTypeExtended),
+        mBrokerFactory(brokerFactory)
+    {
+      setZoneKey((uintptr_t) zoneKey);
     }
 
   private:
@@ -1704,6 +1715,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
+    const BF* const mBrokerFactory;
     ZIB mZoneInfoBroker;
 
     mutable int16_t mYear = 0; // maybe create LocalDate::kInvalidYear?
@@ -1721,6 +1733,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
  */
 class ExtendedZoneProcessor: public ExtendedZoneProcessorTemplate<
     const extended::ZoneInfo*,
+    extended::BrokerFactory,
     extended::ZoneInfoBroker,
     extended::ZoneEraBroker,
     extended::ZonePolicyBroker,
@@ -1730,11 +1743,15 @@ class ExtendedZoneProcessor: public ExtendedZoneProcessorTemplate<
     explicit ExtendedZoneProcessor(const extended::ZoneInfo* zoneInfo = nullptr)
       : ExtendedZoneProcessorTemplate<
           const extended::ZoneInfo*,
+          extended::BrokerFactory,
           extended::ZoneInfoBroker,
           extended::ZoneEraBroker,
           extended::ZonePolicyBroker,
-          extended::ZoneRuleBroker>(zoneInfo)
+          extended::ZoneRuleBroker>(&mBrokerFactory, zoneInfo)
     {}
+
+  private:
+    extended::BrokerFactory mBrokerFactory;
 };
 
 } // namespace ace_time

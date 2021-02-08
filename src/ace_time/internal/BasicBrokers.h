@@ -35,6 +35,7 @@
  * implementations diverged, so I had to manually duplicate the classes.
  */
 
+#include <stdint.h> // uintptr_t
 #include "../common/compat.h"
 #include "BrokerCommon.h"
 #include "ZoneInfo.h"
@@ -383,6 +384,14 @@ class ZoneRegistryBroker {
 
   private:
     const ZoneInfo* const* mZoneRegistry;
+};
+
+/** A factory that creates a basic::ZoneInfoBroker. */
+class BrokerFactory {
+  public:
+    ZoneInfoBroker createZoneInfoBroker(uintptr_t zoneKey) const {
+      return ZoneInfoBroker((const ZoneInfo*) zoneKey);
+    }
 };
 
 } // basic
