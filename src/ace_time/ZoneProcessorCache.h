@@ -66,7 +66,7 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
      * Get ZoneProcessor from either a ZoneKey, either a basic::ZoneInfo or an
      * extended::ZoneInfo. This will never return nullptr.
      */
-    ZoneProcessor* getZoneProcessor(uintptr_t zoneKey) {
+    ZP* getZoneProcessor(uintptr_t zoneKey) {
       ZP* zoneProcessor = findUsingZoneKey(zoneKey);
       if (zoneProcessor) return zoneProcessor;
 
@@ -76,6 +76,11 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
       if (mCurrentIndex >= SIZE) mCurrentIndex = 0;
       zoneProcessor->setZoneKey(zoneKey);
       return zoneProcessor;
+    }
+
+    /** Return the ZoneProcessor at position i. Used for initialization. */
+    ZP* getZoneProcessor(uint8_t i) {
+      return &mZoneProcessors[i];
     }
 
   private:
