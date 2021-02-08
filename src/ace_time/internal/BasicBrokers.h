@@ -41,6 +41,7 @@
 #include "ZoneInfo.h"
 
 class __FlashStringHelper;
+class Print;
 
 namespace ace_time {
 namespace basic {
@@ -48,11 +49,8 @@ namespace basic {
 /** Data broker for accessing ZoneRule. */
 class ZoneRuleBroker {
   public:
-    explicit ZoneRuleBroker(const ZoneRule* zoneRule):
+    explicit ZoneRuleBroker(const ZoneRule* zoneRule = nullptr):
         mZoneRule(zoneRule) {}
-
-    ZoneRuleBroker():
-        mZoneRule(nullptr) {}
 
     // use the default copy constructor
     ZoneRuleBroker(const ZoneRuleBroker&) = default;
@@ -136,11 +134,8 @@ class ZoneRuleBroker {
 /** Data broker for accessing ZonePolicy. */
 class ZonePolicyBroker {
   public:
-    explicit ZonePolicyBroker(const ZonePolicy* zonePolicy):
+    explicit ZonePolicyBroker(const ZonePolicy* zonePolicy = nullptr):
         mZonePolicy(zonePolicy) {}
-
-    ZonePolicyBroker():
-        mZonePolicy(nullptr) {}
 
     // use default copy constructor
     ZonePolicyBroker(const ZonePolicyBroker&) = default;
@@ -195,11 +190,8 @@ class ZonePolicyBroker {
 /** Data broker for accessing ZoneEra. */
 class ZoneEraBroker {
   public:
-    explicit ZoneEraBroker(const ZoneEra* zoneEra):
+    explicit ZoneEraBroker(const ZoneEra* zoneEra = nullptr):
         mZoneEra(zoneEra) {}
-
-    ZoneEraBroker():
-        mZoneEra(nullptr) {}
 
     // use default copy constructor
     ZoneEraBroker(const ZoneEraBroker&) = default;
@@ -348,6 +340,12 @@ class ZoneInfoBroker {
     }
 
   #endif
+
+    /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
+    void printNameTo(Print& printer) const;
+
+    /** Print a short human-readable identifier (e.g. "Los_Angeles") */
+    void printShortNameTo(Print& printer) const;
 
   private:
     const ZoneInfo* mZoneInfo;

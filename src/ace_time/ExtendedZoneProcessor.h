@@ -17,7 +17,6 @@
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
 #include "ZoneProcessor.h"
-#include "ExtendedZone.h"
 #include "local_date_mutation.h"
 
 #define ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG 0
@@ -822,11 +821,11 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void printTo(Print& printer) const override {
-      ExtendedZone(mZoneInfoBroker).printNameTo(printer);
+      mZoneInfoBroker.printNameTo(printer);
     }
 
     void printShortTo(Print& printer) const override {
-      ExtendedZone(mZoneInfoBroker).printShortNameTo(printer);
+      mZoneInfoBroker.printShortNameTo(printer);
     }
 
     /** Used only for debugging. */
@@ -863,6 +862,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     bool equalsZoneKey(uintptr_t zoneKey) const override {
       return mZoneInfoBroker.equals(zoneKey);
+    }
+
+    void setBrokerFactory(const BF* brokerFactory) {
+      mBrokerFactory = brokerFactory;
     }
 
   protected:

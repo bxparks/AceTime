@@ -377,6 +377,12 @@ class ZoneInfoBroker {
 
   #endif
 
+    /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
+    void printNameTo(Print& printer) const;
+
+    /** Print a short human-readable identifier (e.g. "Los_Angeles") */
+    void printShortNameTo(Print& printer) const;
+
   private:
     const ZoneInfo* mZoneInfo;
 };

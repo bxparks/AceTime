@@ -15,7 +15,6 @@
 #include "TimeOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
-#include "BasicZone.h"
 #include "ZoneProcessor.h"
 
 #define ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG 0
@@ -326,11 +325,11 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void printTo(Print& printer) const override {
-      BasicZone(mZoneInfoBroker).printNameTo(printer);
+      mZoneInfoBroker.printNameTo(printer);
     }
 
     void printShortTo(Print& printer) const override {
-      BasicZone(mZoneInfoBroker).printShortNameTo(printer);
+      mZoneInfoBroker.printShortNameTo(printer);
     }
 
     void setZoneKey(uintptr_t zoneKey) override {
@@ -362,6 +361,10 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
+    void setBrokerFactory(const BF* brokerFactory) {
+      mBrokerFactory = brokerFactory;
+    }
+
   protected:
 
     /**
@@ -371,8 +374,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*)
      */
     explicit BasicZoneProcessorTemplate(
-        const BF* brokerFactory,
-        uintptr_t zoneKey
+        const BF* brokerFactory = nullptr,
+        uintptr_t zoneKey = 0
     ) :
         ZoneProcessor(kTypeBasic),
         mBrokerFactory(brokerFactory)
@@ -1000,7 +1003,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       return closestMatch;
     }
 
-    const BF* const mBrokerFactory;
+    const BF* mBrokerFactory;
     ZIB mZoneInfoBroker;
 
     mutable int8_t mYearTiny = LocalDate::kInvalidYearTiny;

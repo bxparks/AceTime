@@ -116,6 +116,10 @@ class ZoneProcessor {
      */
     virtual void setZoneKey(uintptr_t zoneKey) = 0;
 
+    /**
+     * Return true if ZoneProcessor is associated with the given opaque
+     * zoneKey. This method should be considered to be private.
+     */
     virtual bool equalsZoneKey(uintptr_t zoneKey) const = 0;
 
   protected:
