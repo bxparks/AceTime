@@ -1005,7 +1005,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * Each matching ZoneEra is wrapped inside a ZoneMatch object, placed in
      * the 'matches' array, and the number of matches is returned.
      */
-    static uint8_t findMatches(const ZIB zoneInfo,
+    static uint8_t findMatches(const ZIB& zoneInfo,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm,
         ZoneMatch* matches, uint8_t maxMatches) {
@@ -1039,8 +1039,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * earliest ZoneEra.
      */
     static bool eraOverlapsInterval(
-        const ZEB prev,
-        const ZEB era,
+        const ZEB& prev,
+        const ZEB& era,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm) {
       return (prev.isNull() || compareEraToYearMonth(
@@ -1049,7 +1049,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /** Return (1, 0, -1) depending on how era compares to (yearTiny, month). */
-    static int8_t compareEraToYearMonth(const ZEB era,
+    static int8_t compareEraToYearMonth(const ZEB& era,
         int8_t yearTiny, uint8_t month) {
       if (era.untilYearTiny() < yearTiny) return -1;
       if (era.untilYearTiny() > yearTiny) return 1;
@@ -1068,8 +1068,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * needed to define the startDateTime of the current era.
      */
     static ZoneMatch createMatch(
-        const ZEB prev,
-        const ZEB era,
+        const ZEB& prev,
+        const ZEB& era,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm) {
       // If prev.isNull(), set startDate to be earlier than all valid ZoneEra.
@@ -1144,7 +1144,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
       Transition* freeTransition = transitionStorage.getFreeAgent();
       createTransitionForYear(freeTransition, 0 /*not used*/,
-          ZRB(nullptr) /*rule*/, match);
+          ZRB() /*rule*/, match);
       transitionStorage.addFreeAgentToActivePool();
     }
 
@@ -1260,7 +1260,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * string, or filled with rule->letter with a NUL terminator.
      */
     static void createTransitionForYear(Transition* t, int8_t year,
-        const ZRB rule, const ZoneMatch* match) {
+        const ZRB& rule, const ZoneMatch* match) {
       t->match = match;
       t->rule = rule;
       t->offsetMinutes = match->era.offsetMinutes();
@@ -1307,7 +1307,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     static extended::DateTuple getTransitionTime(
-        int8_t yearTiny, const ZRB rule) {
+        int8_t yearTiny, const ZRB& rule) {
       internal::MonthDay monthDay = internal::calcStartDayOfMonth(
           yearTiny + LocalDate::kEpochYear, rule.inMonth(), rule.onDayOfWeek(),
           rule.onDayOfMonth());
@@ -1717,7 +1717,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
-    const BF* const mBrokerFactory;
+    const BF* mBrokerFactory;
     ZIB mZoneInfoBroker;
 
     mutable int16_t mYear = 0; // maybe create LocalDate::kInvalidYear?

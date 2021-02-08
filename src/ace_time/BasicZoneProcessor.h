@@ -487,8 +487,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       }
 
       ZEB priorEra = addTransitionPriorToYear(yearTiny);
-      ZEB currentEra = addTransitionsForYear(
-          yearTiny, priorEra);
+      ZEB currentEra = addTransitionsForYear(yearTiny, priorEra);
       addTransitionAfterYear(yearTiny, currentEra);
       calcTransitions();
       calcAbbreviations();
@@ -543,7 +542,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * yearTiny. Assume that there are no more than 1 rule per month.
      * Return null ZoneRule if ZonePoicy is null.
      */
-    static ZRB findLatestPriorRule(ZPB zonePolicy, int8_t yearTiny) {
+    static ZRB findLatestPriorRule(const ZPB& zonePolicy, int8_t yearTiny) {
       ZRB latest;
       if (zonePolicy.isNull()) return latest;
 
@@ -564,7 +563,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
 
     /** Compare two ZoneRules which are valid *prior* to the given year. */
     static int8_t compareRulesBeforeYear(int8_t yearTiny,
-        const ZRB a, const ZRB b) {
+        const ZRB& a, const ZRB& b) {
       return basic::compareYearMonth(
           priorYearOfRule(yearTiny, a), a.inMonth(),
           priorYearOfRule(yearTiny, b), b.inMonth());
@@ -578,7 +577,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      *    * If [from,to]<year, return (to).
      *    * Else we know [from<year<=to], so return (year-1).
      */
-    static int8_t priorYearOfRule(int8_t yearTiny, const ZRB rule) {
+    static int8_t priorYearOfRule(int8_t yearTiny, const ZRB& rule) {
       if (rule.toYearTiny() < yearTiny) {
         return rule.toYearTiny();
       }
@@ -589,7 +588,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * Add all matching transitions from the current year.
      * @return the ZoneEra of the current year.
      */
-    ZEB addTransitionsForYear(int8_t yearTiny, ZEB priorEra) const {
+    ZEB addTransitionsForYear(int8_t yearTiny, const ZEB& priorEra) const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
         logging::printf("addTransitionsForYear(): %d\n", yearTiny);
       }
@@ -653,7 +652,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /** Add the rule just after the current year if there exists one. */
-    void addTransitionAfterYear(int8_t yearTiny, ZEB currentEra) const {
+    void addTransitionAfterYear(int8_t yearTiny, const ZEB& currentEra) const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
         logging::printf("addTransitionAfterYear(): %d\n", yearTiny);
       }
@@ -670,8 +669,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       // If the ZoneEra did change, find the latest transition prior to
       // {yearTiny + 1, 1, 1}, then shift that Transition to Jan 1st of the
       // following year.
-      ZRB latest = findLatestPriorRule(
-          eraAfter.zonePolicy(), yearTiny + 1);
+      ZRB latest = findLatestPriorRule(eraAfter.zonePolicy(), yearTiny + 1);
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
         logging::printf(
             "addTransitionsAfterYear(): adding latest prior ");
@@ -708,8 +706,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * @param rule the ZoneRule which defined this transition, used to
      *    extract deltaMinutes(), letter()
      */
-    void addTransition(int8_t yearTiny, uint8_t month, ZEB era,
-          ZRB rule) const {
+    void addTransition(int8_t yearTiny, uint8_t month, const ZEB& era,
+          const ZRB& rule) const {
 
       // If a zone needs more transitions than kMaxCacheEntries, the check below
       // will cause the DST transition information to be inaccurate, and it is
@@ -754,7 +752,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * (potentially from PROGMEM).
      */
     static Transition createTransition(int8_t yearTiny, uint8_t month,
-        ZEB era, ZRB rule) {
+        const ZEB& era, const ZRB& rule) {
       int16_t deltaMinutes;
       char letter;
       uint8_t mon;
@@ -790,8 +788,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * satisfy (yearTiny < ZoneEra.untilYearTiny). Since the largest
      * untilYearTiny is 127, the largest supported 'year' is 2126.
      */
-    static ZEB findZoneEra(
-        ZIB info, int8_t yearTiny) {
+    static ZEB findZoneEra(const ZIB& info, int8_t yearTiny) {
       for (uint8_t i = 0; i < info.numEras(); i++) {
         const ZEB era = info.era(i);
         if (yearTiny < era.untilYearTiny()) return era;

@@ -69,11 +69,8 @@ inline int16_t toOffsetMinutes(int8_t offsetCode, int8_t deltaCode) {
 /** Data broker for accessing ZoneRule. */
 class ZoneRuleBroker {
   public:
-    explicit ZoneRuleBroker(const ZoneRule* zoneRule):
+    explicit ZoneRuleBroker(const ZoneRule* zoneRule = nullptr):
         mZoneRule(zoneRule) {}
-
-    ZoneRuleBroker():
-        mZoneRule(nullptr) {}
 
     // use the default copy constructor
     ZoneRuleBroker(const ZoneRuleBroker&) = default;
@@ -215,11 +212,8 @@ class ZonePolicyBroker {
 /** Data broker for accessing ZoneEra. */
 class ZoneEraBroker {
   public:
-    explicit ZoneEraBroker(const ZoneEra* zoneEra):
+    explicit ZoneEraBroker(const ZoneEra* zoneEra = nullptr):
         mZoneEra(zoneEra) {}
-
-    ZoneEraBroker():
-        mZoneEra(nullptr) {}
 
     // use default copy constructor
     ZoneEraBroker(const ZoneEraBroker&) = default;
