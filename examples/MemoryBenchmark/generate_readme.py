@@ -92,7 +92,9 @@ Also in v1.5+, changing `BasicZoneProcessor` and `ExtendedZoneProcessor` to be
 subclasses of the templatized `BasicZoneProcessorTemplate` and
 `ExtendedZoneProcessorTemplate` classes causes reduction of flash consumption by
 250-400 bytes for 32-bit processors. Don't know why. (Very little difference for
-8-bit AVR).
+8-bit AVR). Adding a `BrokerFactory` layer of indirection (to support more
+complex ZoneProcessors and Brokers) causes flash memory to go up by 100-200
+bytes.
 
 ## Arduino Nano
 
