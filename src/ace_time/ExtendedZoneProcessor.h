@@ -706,16 +706,15 @@ inline void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
  *
  * Not thread-safe.
  *
- * @tparam ZK opaque Zone primary key, e.g. (const ZoneInfo*) or (uint16_t)
  * @tparam BF type of BrokerFactory, needed for implementations that require
- *    more complex brokers
+ *    more complex brokers, and allows this template class to be independent
+ *    of the exact type of the zone primary key
  * @tparam ZIB type of ZoneInfoBroker
  * @tparam ZEB type of ZoneEraBroker
  * @tparam ZPB type of ZonePolicyBroker
  * @tparam ZRB type of ZoneRuleBroker
  */
-template <typename ZK, typename BF, typename ZIB, typename ZEB, typename ZPB,
-    typename ZRB>
+template <typename BF, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
 class ExtendedZoneProcessorTemplate: public ZoneProcessor {
   public:
     /**
@@ -854,7 +853,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void setZoneKey(uintptr_t zoneKey) override {
-      if (mZoneInfoBroker.equals((ZK) zoneKey)) return;
+      if (mZoneInfoBroker.equals(zoneKey)) return;
 
       mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
       mYear = 0;
@@ -863,7 +862,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     bool equalsZoneKey(uintptr_t zoneKey) const override {
-      return mZoneInfoBroker.equals((ZK) zoneKey);
+      return mZoneInfoBroker.equals(zoneKey);
     }
 
   protected:
@@ -876,12 +875,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      */
     explicit ExtendedZoneProcessorTemplate(
         const BF* brokerFactory,
-        ZK zoneKey
+        uintptr_t zoneKey
     ) :
         ZoneProcessor(kTypeExtended),
         mBrokerFactory(brokerFactory)
     {
-      setZoneKey((uintptr_t) zoneKey);
+      setZoneKey(zoneKey);
     }
 
   private:
@@ -1732,7 +1731,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
  * ZoneXxxBrokers which read from zonedb files in PROGMEM flash memory.
  */
 class ExtendedZoneProcessor: public ExtendedZoneProcessorTemplate<
-    const extended::ZoneInfo*,
     extended::BrokerFactory,
     extended::ZoneInfoBroker,
     extended::ZoneEraBroker,
@@ -1742,12 +1740,11 @@ class ExtendedZoneProcessor: public ExtendedZoneProcessorTemplate<
   public:
     explicit ExtendedZoneProcessor(const extended::ZoneInfo* zoneInfo = nullptr)
       : ExtendedZoneProcessorTemplate<
-          const extended::ZoneInfo*,
           extended::BrokerFactory,
           extended::ZoneInfoBroker,
           extended::ZoneEraBroker,
           extended::ZonePolicyBroker,
-          extended::ZoneRuleBroker>(&mBrokerFactory, zoneInfo)
+          extended::ZoneRuleBroker>(&mBrokerFactory, (uintptr_t) zoneInfo)
     {}
 
   private:

@@ -327,8 +327,8 @@ class ZoneInfoBroker {
     // use default assignment operator
     ZoneInfoBroker& operator=(const ZoneInfoBroker&) = default;
 
-    bool equals(const ZoneInfo* zoneInfo) const {
-      return mZoneInfo == zoneInfo;
+    bool equals(uintptr_t zoneInfo) const {
+      return mZoneInfo == (const ZoneInfo*) zoneInfo;
     }
 
     bool equals(const ZoneInfoBroker& zoneInfoBroker) const {
