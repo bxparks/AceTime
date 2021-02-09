@@ -1,5 +1,9 @@
+# See https://docs.github.com/en/actions/guides for documentation about GitHub
+# Actions.
+
 name: AUnit Tests
 
+# Run on all branches.
 on: [push]
 
 jobs:
