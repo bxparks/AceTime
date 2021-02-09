@@ -94,10 +94,10 @@ class ZoneProcessor {
         const = 0;
 
     /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
-    virtual void printTo(Print& printer) const = 0;
+    virtual void printNameTo(Print& printer) const = 0;
 
     /** Print a short human-readable identifier (e.g. "Los_Angeles") */
-    virtual void printShortTo(Print& printer) const = 0;
+    virtual void printShortNameTo(Print& printer) const = 0;
 
     /**
      * Set the opaque zoneKey of this object to a new value, reseting any

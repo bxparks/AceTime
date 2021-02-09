@@ -820,11 +820,11 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       return odt;
     }
 
-    void printTo(Print& printer) const override {
+    void printNameTo(Print& printer) const override {
       mZoneInfoBroker.printNameTo(printer);
     }
 
-    void printShortTo(Print& printer) const override {
+    void printShortNameTo(Print& printer) const override {
       mZoneInfoBroker.printShortNameTo(printer);
     }
 

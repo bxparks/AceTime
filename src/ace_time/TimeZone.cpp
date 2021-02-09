@@ -20,7 +20,7 @@ void TimeZone::printTo(Print& printer) const {
       return;
     case kTypeBasic:
     case kTypeExtended:
-      mZoneProcessor->printTo(printer);
+      mZoneProcessor->printNameTo(printer);
       return;
   }
   printer.print("<Error>");
@@ -42,7 +42,7 @@ void TimeZone::printShortTo(Print& printer) const {
       return;
     case kTypeBasic:
     case kTypeExtended:
-      mZoneProcessor->printShortTo(printer);
+      mZoneProcessor->printShortNameTo(printer);
       return;
   }
   printer.print("<Error>");

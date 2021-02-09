@@ -1,9 +1,11 @@
 #line 2 "BasicZoneProcessorTest.ino"
 
 #include <AUnit.h>
+#include <AceCommon.h> // PrintStr<>
 #include <AceTime.h>
 
 using namespace aunit;
+using ace_common::PrintStr;
 using namespace ace_time;
 using ace_time::internal::ZoneContext;
 using ace_time::basic::ZoneInfo;
@@ -409,6 +411,14 @@ test(BasicZoneProcessorTest, createAbbreviation) {
 // https://www.timeanddate.com/time/zone/usa/los-angeles
 test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles) {
   BasicZoneProcessor zoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
+
+  PrintStr<32> printStr;
+  zoneProcessor.printNameTo(printStr);
+  assertEqual(F("America/Los_Angeles"), printStr.getCstr());
+  printStr.flush();
+  zoneProcessor.printShortNameTo(printStr);
+  assertEqual(F("Los_Angeles"), printStr.getCstr());
+
   OffsetDateTime dt;
   acetime_t epochSeconds;
 

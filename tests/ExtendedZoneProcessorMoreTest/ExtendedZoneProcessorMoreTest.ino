@@ -4,9 +4,11 @@
 // Arduino Pro Micro.
 
 #include <AUnit.h>
+#include <AceCommon.h> // PrintStr<>
 #include <AceTime.h>
 
 using namespace aunit;
+using ace_common::PrintStr;
 using namespace ace_time;
 using namespace ace_time::zonedbx;
 
@@ -17,6 +19,14 @@ using namespace ace_time::zonedbx;
 // https://www.timeanddate.com/time/zone/usa/los-angeles
 test(ExtendedZoneProcessorTest, kZoneAmerica_Los_Angeles) {
   ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+
+  PrintStr<32> printStr;
+  zoneProcessor.printNameTo(printStr);
+  assertEqual(F("America/Los_Angeles"), printStr.getCstr());
+  printStr.flush();
+  zoneProcessor.printShortNameTo(printStr);
+  assertEqual(F("Los_Angeles"), printStr.getCstr());
+
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
