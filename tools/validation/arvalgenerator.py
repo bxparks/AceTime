@@ -11,12 +11,17 @@ from the 'validation_data.json' file on the STDIN.
 import logging
 import os
 from typing import List, Dict, Tuple, Optional
-from transformer.transformer import div_to_zero, normalize_name
+from transformer.transformer import div_to_zero, normalize_name, hash_name
 from .data import TestItem, TestData, ValidationData
 
 
 class ArduinoValidationGenerator:
-    """Generate Arduino data files for BasicPythonTest and ExtendedPythonTest.
+    """Generate Arduino data files for Basic{xxx}Test and Extended{xxx}Test
+    validation tests from the 'validation_data.json' file on the STDIN:
+
+        * validation_data.h
+        * validation_data.cpp
+        * validation_tests.cpp
 
     The blacklist is a dict of {zonename -> blacklist_policy}, where the
     blacklist_policy can be one of the following:
@@ -43,20 +48,31 @@ class ArduinoValidationGenerator:
         db_namespace: str,
         validation_data: ValidationData,
         blacklist: Dict[str, str],
+        zone_key_type: str,
+        test_class: str,
+        test_class_include_dir: str,
     ):
         self.invocation = invocation
         self.tz_version = tz_version
         self.db_namespace = db_namespace
         self.validation_data = validation_data
         self.blacklist = blacklist
+        self.zone_key_type = zone_key_type
+        self.test_class = test_class
+        self.test_class_include_dir = test_class_include_dir
 
         self.test_data = validation_data['test_data']
         self.file_base = 'validation'
         self.include_header_namespace = 'VALIDATION'
-        if scope == 'basic':
-            self.test_class = 'BasicTransitionTest'
-        else:
-            self.test_class = 'ExtendedTransitionTest'
+
+        if not self.test_class:
+            if scope == 'basic':
+                self.test_class = 'BasicTransitionTest'
+            else:
+                self.test_class = 'ExtendedTransitionTest'
+        if not self.test_class_include_dir:
+            self.test_class_include_dir = 'ace_time/testing'
+
         self.validation_data_h_file_name = (self.file_base + '_data.h')
         self.validation_data_cpp_file_name = (self.file_base + '_data.cpp')
         self.validation_tests_file_name = (self.file_base + '_tests.cpp')
@@ -227,7 +243,7 @@ const testing::ValidationData kValidationData{normalized_name} = {{
 // DO NOT EDIT
 
 #include <AUnitVerbose.h>
-#include <ace_time/testing/{self.test_class}.h>
+#include <{self.test_class_include_dir}/{self.test_class}.h>
 #include "{self.file_base}_data.h"
 #include "{self.db_namespace}/zone_infos.h"
 #include "{self.db_namespace}/zone_policies.h"
@@ -261,10 +277,16 @@ using namespace ace_time::{self.db_namespace};
                 self.blacklist.get(zone_name),
             )
 
+            zone_key = (
+                f'&kZone{normalized_name}'
+                if self.zone_key_type == 'zoneInfo'
+                else f'0x{hash_name(zone_name):08x}'
+            )
+
             test_case = f"""\
 testF({self.test_class}, {normalized_name}) {{
   assertValid(
-    &kZone{normalized_name},
+    {zone_key},
     &kValidationData{normalized_name},
     {dst_validation_scope} /*dstValidationScope{dst_validation_comment}*/,
     {abbrev_validation_scope} \

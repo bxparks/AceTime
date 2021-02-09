@@ -60,7 +60,7 @@ TestItem = TypedDict("TestItem", {
     'type': str,
 })
 
-# The test data set (epoch -> timezone info)
+# The test data set {zone_name -> [TestItem]}
 TestData = Dict[str, List[TestItem]]
 
 # The top-level validation data collection. This can be serialized to JSON.
