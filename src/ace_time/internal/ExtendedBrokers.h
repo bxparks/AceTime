@@ -35,6 +35,7 @@
  * implementations diverged, so I had to manually duplicate the classes.
  */
 
+#include <stdint.h> // uintptr_t
 #include "../common/compat.h"
 #include "BrokerCommon.h"
 #include "ZoneInfo.h"
@@ -68,11 +69,8 @@ inline int16_t toOffsetMinutes(int8_t offsetCode, int8_t deltaCode) {
 /** Data broker for accessing ZoneRule. */
 class ZoneRuleBroker {
   public:
-    explicit ZoneRuleBroker(const ZoneRule* zoneRule):
+    explicit ZoneRuleBroker(const ZoneRule* zoneRule = nullptr):
         mZoneRule(zoneRule) {}
-
-    ZoneRuleBroker():
-        mZoneRule(nullptr) {}
 
     // use the default copy constructor
     ZoneRuleBroker(const ZoneRuleBroker&) = default;
@@ -214,11 +212,8 @@ class ZonePolicyBroker {
 /** Data broker for accessing ZoneEra. */
 class ZoneEraBroker {
   public:
-    explicit ZoneEraBroker(const ZoneEra* zoneEra):
+    explicit ZoneEraBroker(const ZoneEra* zoneEra = nullptr):
         mZoneEra(zoneEra) {}
-
-    ZoneEraBroker():
-        mZoneEra(nullptr) {}
 
     // use default copy constructor
     ZoneEraBroker(const ZoneEraBroker&) = default;
@@ -226,9 +221,13 @@ class ZoneEraBroker {
     // use default assignment operator
     ZoneEraBroker& operator=(const ZoneEraBroker&) = default;
 
-    const ZoneEra* zoneEra() const { return mZoneEra; }
-
     bool isNull() const { return mZoneEra == nullptr; }
+
+    // Does not seem to be used, but defined here for symmetry with
+    // basic::ZoneEraBroker::equals().
+    bool equals(const ZoneEraBroker& other) const {
+      return mZoneEra == other.mZoneEra;
+    }
 
   #if ACE_TIME_USE_PROGMEM
 
@@ -308,13 +307,12 @@ class ZoneEraBroker {
 
   private:
     const ZoneEra* mZoneEra;
-
 };
 
 /** Data broker for accessing ZoneInfo. */
 class ZoneInfoBroker {
   public:
-    explicit ZoneInfoBroker(const ZoneInfo* zoneInfo):
+    explicit ZoneInfoBroker(const ZoneInfo* zoneInfo = nullptr):
         mZoneInfo(zoneInfo) {}
 
     // use default copy constructor
@@ -323,12 +321,19 @@ class ZoneInfoBroker {
     // use default assignment operator
     ZoneInfoBroker& operator=(const ZoneInfoBroker&) = default;
 
-    const ZoneInfo* zoneInfo() const { return mZoneInfo; }
+    bool equals(uintptr_t zoneInfo) const {
+      return mZoneInfo == (const ZoneInfo*) zoneInfo;
+    }
+
+    bool equals(const ZoneInfoBroker& zoneInfoBroker) const {
+      return mZoneInfo == zoneInfoBroker.mZoneInfo;
+    }
 
   #if ACE_TIME_USE_PROGMEM
 
-    const ZoneContext* zoneContext() const {
-      return (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
+    const internal::ZoneContext* zoneContext() const {
+      return (const internal::ZoneContext*)
+          pgm_read_ptr(&mZoneInfo->zoneContext);
     }
 
     const __FlashStringHelper* name() const {
@@ -337,14 +342,6 @@ class ZoneInfoBroker {
 
     uint32_t zoneId() const {
       return pgm_read_dword(&mZoneInfo->zoneId);
-    }
-
-    int16_t startYear() const {
-      return zoneContext()->startYear;
-    }
-
-    int16_t untilYear() const {
-      return zoneContext()->untilYear;
     }
 
     uint8_t numEras() const {
@@ -358,15 +355,13 @@ class ZoneInfoBroker {
 
   #else
 
-    const ZoneContext* zoneContext() const { return mZoneInfo->zoneContext; }
+    const internal::ZoneContext* zoneContext() const {
+      return mZoneInfo->zoneContext;
+    }
 
     const char* name() const { return mZoneInfo->name; }
 
     uint32_t zoneId() const { return mZoneInfo->zoneId; }
-
-    int16_t startYear() const { return mZoneInfo->zoneContext->startYear; }
-
-    int16_t untilYear() const { return mZoneInfo->zoneContext->untilYear; }
 
     uint8_t numEras() const { return mZoneInfo->numEras; }
 
@@ -375,6 +370,12 @@ class ZoneInfoBroker {
     }
 
   #endif
+
+    /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
+    void printNameTo(Print& printer) const;
+
+    /** Print a short human-readable identifier (e.g. "Los_Angeles") */
+    void printShortNameTo(Print& printer) const;
 
   private:
     const ZoneInfo* mZoneInfo;
@@ -411,6 +412,14 @@ class ZoneRegistryBroker {
 
   private:
     const ZoneInfo* const* mZoneRegistry;
+};
+
+/** A factory that creates a basic::ZoneInfoBroker. */
+class BrokerFactory {
+  public:
+    ZoneInfoBroker createZoneInfoBroker(uintptr_t zoneKey) const {
+      return ZoneInfoBroker((const ZoneInfo*) zoneKey);
+    }
 };
 
 } // extended

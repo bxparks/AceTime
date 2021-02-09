@@ -11,9 +11,23 @@
 using namespace aunit;
 using namespace ace_time;
 using namespace ace_time::extended;
+using ace_time::internal::ZoneContext;
+
+// Create a custom template instantiation to use a different SIZE than the
+// pre-defined typedef in ExtendedZoneProcess::TransitionStorage.
+typedef TransitionStorageTemplate<
+    4 /*SIZE*/,
+    extended::ZoneEraBroker,
+    extended::ZonePolicyBroker,
+    extended::ZoneRuleBroker> TransitionStorage;
+
+typedef TransitionTemplate<
+    extended::ZoneEraBroker,
+    extended::ZonePolicyBroker,
+    extended::ZoneRuleBroker> Transition;
 
 test(TransitionStorageTest, getFreeAgent) {
-  TransitionStorage<4> storage;
+  TransitionStorage storage;
   storage.init();
 
   Transition* freeAgent = storage.getFreeAgent();
@@ -38,7 +52,7 @@ test(TransitionStorageTest, getFreeAgent) {
 }
 
 test(TransitionStorageTest, getFreeAgent2) {
-  TransitionStorage<4> storage;
+  TransitionStorage storage;
   storage.init();
 
   Transition* freeAgent = storage.getFreeAgent();
@@ -67,7 +81,7 @@ test(TransitionStorageTest, getFreeAgent2) {
 }
 
 test(TransitionStorageTest, addFreeAgentToActivePool) {
-  TransitionStorage<4> storage;
+  TransitionStorage storage;
   storage.init();
 
   Transition* freeAgent = storage.getFreeAgent();
@@ -80,7 +94,7 @@ test(TransitionStorageTest, addFreeAgentToActivePool) {
 }
 
 test(TransitionStorageTest, reservePrior) {
-  TransitionStorage<4> storage;
+  TransitionStorage storage;
   storage.init();
   Transition** prior = storage.reservePrior();
   assertTrue(prior == &storage.mTransitions[0]);
@@ -95,7 +109,7 @@ test(TransitionStorageTest, reservePrior) {
 }
 
 test(TransitionStorageTest, setFreeAgentAsPrior) {
-  TransitionStorage<4> storage;
+  TransitionStorage storage;
   storage.init();
 
   Transition** priorReservation = storage.reservePrior();
@@ -112,7 +126,7 @@ test(TransitionStorageTest, setFreeAgentAsPrior) {
 }
 
 test(TransitionStorageTest, addFreeAgentToCandidatePool) {
-  TransitionStorage<4> storage;
+  TransitionStorage storage;
   storage.init();
 
   // create Prior to make it interesting
@@ -147,7 +161,7 @@ test(TransitionStorageTest, addFreeAgentToCandidatePool) {
 }
 
 test(TransitionStorageTest, addActiveCandidatesToActivePool) {
-  TransitionStorage<4> storage;
+  TransitionStorage storage;
   storage.init();
 
   // create Prior to make it interesting
@@ -187,7 +201,7 @@ test(TransitionStorageTest, addActiveCandidatesToActivePool) {
 }
 
 test(TransitionStorageTest, findTransition) {
-  TransitionStorage<4> storage;
+  TransitionStorage storage;
   storage.init();
 
   // Add 3 transitions to Active pool.
@@ -228,7 +242,7 @@ test(TransitionStorageTest, findTransition) {
 }
 
 test(TransitionStorageTest, findTransitionForDateTime) {
-  TransitionStorage<4> storage;
+  TransitionStorage storage;
   storage.init();
 
   // 2000-01-02T00:03
@@ -290,7 +304,7 @@ test(TransitionStorageTest, findTransitionForDateTime) {
 }
 
 test(TransitionStorageTest, resetCandidatePool) {
-  TransitionStorage<4> storage;
+  TransitionStorage storage;
   storage.init();
 
   // Add 2 transitions to Candidate pool, 2 active, 1 inactive.

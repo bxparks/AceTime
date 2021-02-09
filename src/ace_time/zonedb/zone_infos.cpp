@@ -70,7 +70,7 @@ const char* const kFragments[] = {
 
 };
 
-const basic::ZoneContext kZoneContext = {
+const internal::ZoneContext kZoneContext = {
   2000 /*startYear*/,
   2050 /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,

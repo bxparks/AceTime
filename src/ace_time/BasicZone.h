@@ -20,12 +20,28 @@ namespace ace_time {
  */
 class BasicZone {
   public:
+    /**
+     * Constructor from a raw basic::ZoneInfo* pointer, intended for manual
+     * inspection of a ZoneInfo record.
+     */
     BasicZone(const basic::ZoneInfo* zoneInfo):
         mZoneInfoBroker(zoneInfo) {}
 
+    /**
+     * Constructor from a basic::ZoneInfoBroker, used by BasicZoneProcessor.
+     * This allows the implementation details of ZoneInfoBroker to remain
+     * hidden.
+     */
+    BasicZone(const basic::ZoneInfoBroker& zoneInfo):
+        mZoneInfoBroker(zoneInfo) {}
+
+    /** Print the full zone name to printer. */
     void printNameTo(Print& printer) const;
+
+    /** Print the short zone to the printer. */
     void printShortNameTo(Print& printer) const;
 
+    /** Return the zoneId of the current zoneInfo. */
     uint32_t zoneId() const {
       return mZoneInfoBroker.zoneId();
     }

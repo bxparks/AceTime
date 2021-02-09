@@ -18,7 +18,7 @@ sizeof(clock::DS3231Clock): 3
 sizeof(clock::SystemClock): 17
 sizeof(clock::SystemClockLoop): 34
 sizeof(clock::SystemClockCoroutine): 43
-sizeof(basic::ZoneContext): 9
+sizeof(internal::ZoneContext): 9
 sizeof(basic::ZoneEra): 11
 sizeof(basic::ZoneInfo): 11
 sizeof(basic::ZoneRule): 9

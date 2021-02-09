@@ -5,7 +5,44 @@
 
 using namespace aunit;
 using namespace ace_time;
-using namespace ace_time::extended;
+using ace_time::internal::ZoneContext;
+using ace_time::extended::ZoneInfo;
+using ace_time::extended::ZoneEra;
+using ace_time::extended::ZoneRule;
+using ace_time::extended::ZonePolicy;
+using ace_time::extended::ZoneInfoBroker;
+using ace_time::extended::ZoneEraBroker;
+using ace_time::extended::ZoneRuleBroker;
+using ace_time::extended::ZonePolicyBroker;
+using ace_time::extended::YearMonthTuple;
+using ace_time::extended::DateTuple;
+using ace_time::extended::TransitionStorageTemplate;
+
+//---------------------------------------------------------------------------
+// extended::copyAndReplace()
+//---------------------------------------------------------------------------
+
+test(copyAndReplace, normal) {
+  const uint8_t dstSize = 20;
+  char dst[dstSize];
+
+  extended::copyAndReplace(dst, dstSize, "NOREPLACE", '%', "S");
+  assertEqual("NOREPLACE", dst);
+
+  extended::copyAndReplace(dst, dstSize, "E%T", '%', "S");
+  assertEqual("EST", dst);
+
+  extended::copyAndReplace(dst, dstSize, "E%T", '%', "");
+  assertEqual("ET", dst);
+}
+
+test(copyAndReplace, outOfBounds) {
+  const uint8_t dstSize = 3;
+  char dst[dstSize];
+
+  extended::copyAndReplace(dst, dstSize, "ET%", '%', "S");
+  assertEqual("ET", dst);
+}
 
 //---------------------------------------------------------------------------
 // A simplified version of America/Los_Angeles, using only simple ZoneEras
@@ -173,13 +210,13 @@ static const ZoneEra era ACE_TIME_PROGMEM =
 
 test(ExtendedZoneProcessorTest, compareEraToYearMonth) {
   assertEqual(1, ExtendedZoneProcessor::compareEraToYearMonth(
-      extended::ZoneEraBroker(&era), 0, 1));
+      ZoneEraBroker(&era), 0, 1));
   assertEqual(1, ExtendedZoneProcessor::compareEraToYearMonth(
-      extended::ZoneEraBroker(&era), 0, 1));
+      ZoneEraBroker(&era), 0, 1));
   assertEqual(-1, ExtendedZoneProcessor::compareEraToYearMonth(
-      extended::ZoneEraBroker(&era), 0, 2));
+      ZoneEraBroker(&era), 0, 2));
   assertEqual(-1, ExtendedZoneProcessor::compareEraToYearMonth(
-      extended::ZoneEraBroker(&era), 0, 3));
+      ZoneEraBroker(&era), 0, 3));
 }
 
 static const ZoneEra era2 ACE_TIME_PROGMEM =
@@ -187,7 +224,7 @@ static const ZoneEra era2 ACE_TIME_PROGMEM =
 
 test(ExtendedZoneProcessorTest, compareEraToYearMonth2) {
   assertEqual(0, ExtendedZoneProcessor::compareEraToYearMonth(
-      extended::ZoneEraBroker(&era2), 0, 1));
+      ZoneEraBroker(&era2), 0, 1));
 }
 
 // UNTIL = 2000-01-02 3:00
@@ -201,76 +238,80 @@ static const ZoneEra era3 ACE_TIME_PROGMEM =
 test(ExtendedZoneProcessorTest, createMatch) {
   YearMonthTuple startYm = {0, 12};
   YearMonthTuple untilYm = {1, 2};
-  ZoneMatch match = ExtendedZoneProcessor::createMatch(
-      extended::ZoneEraBroker(&prev), extended::ZoneEraBroker(&era3),
+  ExtendedZoneProcessor::ZoneMatch match = ExtendedZoneProcessor::createMatch(
+      ZoneEraBroker(&prev), ZoneEraBroker(&era3),
       startYm, untilYm);
   assertTrue((match.startDateTime == DateTuple{0, 12, 1, 0,
       ZoneContext::kSuffixW}));
   assertTrue((match.untilDateTime == DateTuple{1, 2, 1, 0,
       ZoneContext::kSuffixW}));
-  assertTrue(&era3 == match.era.zoneEra());
+  assertTrue(match.era.equals(ZoneEraBroker(&era3)));
 
   startYm = {-1, 12};
   untilYm = {3, 2};
   match = ExtendedZoneProcessor::createMatch(
-      extended::ZoneEraBroker(&prev), extended::ZoneEraBroker(&era3),
+      ZoneEraBroker(&prev), ZoneEraBroker(&era3),
       startYm, untilYm);
   assertTrue((match.startDateTime == DateTuple{0, 1, 2, 15*3,
       ZoneContext::kSuffixW}));
   assertTrue((match.untilDateTime == DateTuple{2, 3, 4, 15*5,
       ZoneContext::kSuffixW}));
-  assertTrue(&era3 == match.era.zoneEra());
+  assertTrue(match.era.equals(ZoneEraBroker(&era3)));
 }
 
 test(ExtendedZoneProcessorTest, findMatches_simple) {
   YearMonthTuple startYm = {18, 12};
   YearMonthTuple untilYm = {20, 2};
-  const uint8_t kMaxMaches = 4;
-  ZoneMatch matches[kMaxMaches];
+  const uint8_t kMaxMatches = 4;
+  ExtendedZoneProcessor::ZoneMatch matches[kMaxMatches];
   uint8_t numMatches = ExtendedZoneProcessor::findMatches(
-      extended::ZoneInfoBroker(&kZoneAlmostLosAngeles), startYm, untilYm,
-      matches, kMaxMaches);
+      ZoneInfoBroker(&kZoneAlmostLosAngeles), startYm, untilYm,
+      matches, kMaxMatches);
   assertEqual(3, numMatches);
 
   assertTrue((matches[0].startDateTime == DateTuple{18, 12, 1, 0,
       ZoneContext::kSuffixW}));
   assertTrue((matches[0].untilDateTime == DateTuple{19, 3, 10, 15*8,
       ZoneContext::kSuffixW}));
-  assertTrue(&kZoneEraAlmostLosAngeles[0] == matches[0].era.zoneEra());
+  assertTrue(matches[0].era.equals(
+      ZoneEraBroker(&kZoneEraAlmostLosAngeles[0])));
 
   assertTrue((matches[1].startDateTime == DateTuple{19, 3, 10, 15*8,
       ZoneContext::kSuffixW}));
   assertTrue((matches[1].untilDateTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::kSuffixW}));
-  assertTrue(&kZoneEraAlmostLosAngeles[1] == matches[1].era.zoneEra());
+  assertTrue(matches[1].era.equals(
+      ZoneEraBroker(&kZoneEraAlmostLosAngeles[1])));
 
   assertTrue((matches[2].startDateTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::kSuffixW}));
   assertTrue((matches[2].untilDateTime == DateTuple{20, 2, 1, 0,
       ZoneContext::kSuffixW}));
-  assertTrue(&kZoneEraAlmostLosAngeles[2] == matches[2].era.zoneEra());
+  assertTrue(matches[2].era.equals(
+      ZoneEraBroker(&kZoneEraAlmostLosAngeles[2])));
 }
 
 test(ExtendedZoneProcessorTest, findMatches_named) {
   YearMonthTuple startYm = {18, 12};
   YearMonthTuple untilYm = {20, 2};
-  const uint8_t kMaxMaches = 4;
-  ZoneMatch matches[kMaxMaches];
+  const uint8_t kMaxMatches = 4;
+  ExtendedZoneProcessor::ZoneMatch matches[kMaxMatches];
   uint8_t numMatches = ExtendedZoneProcessor::findMatches(
-      extended::ZoneInfoBroker(&kZoneTestLos_Angeles), startYm, untilYm,
-      matches, kMaxMaches);
+      ZoneInfoBroker(&kZoneTestLos_Angeles), startYm, untilYm,
+      matches, kMaxMatches);
   assertEqual(1, numMatches);
 
   assertTrue((matches[0].startDateTime == DateTuple{18, 12, 1, 0,
       ZoneContext::kSuffixW}));
   assertTrue((matches[0].untilDateTime == DateTuple{20, 2, 1, 0,
       ZoneContext::kSuffixW}));
-  assertTrue(&kZoneEraTestLos_Angeles[0] == matches[0].era.zoneEra());
+  assertTrue(matches[0].era.equals(
+      ZoneEraBroker(&kZoneEraTestLos_Angeles[0])));
 }
 
 test(ExtendedZoneProcessorTest, getTransitionTime) {
   // Nov Sun>=1
-  const auto rule = extended::ZoneRuleBroker(&kZoneRulesTestUS[4]);
+  const auto rule = ZoneRuleBroker(&kZoneRulesTestUS[4]);
 
   // Nov 4 2018
   DateTuple dt = ExtendedZoneProcessor::getTransitionTime(18, rule);
@@ -282,14 +323,14 @@ test(ExtendedZoneProcessorTest, getTransitionTime) {
 }
 
 test(ExtendedZoneProcessorTest, createTransitionForYear) {
-  const ZoneMatch match = {
+  const ExtendedZoneProcessor::ZoneMatch match = {
     {18, 12, 1, 0, ZoneContext::kSuffixW},
     {20, 2, 1, 0, ZoneContext::kSuffixW},
-    extended::ZoneEraBroker(&kZoneEraTestLos_Angeles[0])
+    ZoneEraBroker(&kZoneEraTestLos_Angeles[0])
   };
   // Nov Sun>=1
-  const auto rule = extended::ZoneRuleBroker(&kZoneRulesTestUS[4]);
-  Transition t;
+  const auto rule = ZoneRuleBroker(&kZoneRulesTestUS[4]);
+  ExtendedZoneProcessor::Transition t;
   ExtendedZoneProcessor::createTransitionForYear(&t, 19, rule, &match);
   assertTrue((t.transitionTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::kSuffixW}));
@@ -413,14 +454,14 @@ test(ExtendedZoneProcessorTest, getMostRecentPriorYear) {
 test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   const DateTuple EMPTY_DATE = { 0, 0, 0, 0, 0};
 
-  const ZoneMatch match = {
+  const ExtendedZoneProcessor::ZoneMatch match = {
     {0, 1, 1, 0, ZoneContext::kSuffixW} /* startDateTime */,
     {1, 1, 1, 0, ZoneContext::kSuffixW} /* untilDateTime */,
-    extended::ZoneEraBroker(nullptr)
+    ZoneEraBroker(nullptr)
   };
 
-  Transition transition = {
-    &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+  ExtendedZoneProcessor::Transition transition = {
+    &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
     {-1, 11, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
@@ -428,7 +469,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
       &transition, &match));
 
   transition = {
-    &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+    &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
     {-1, 12, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
@@ -436,7 +477,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
       &transition, &match));
 
   transition = {
-    &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+    &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
@@ -444,7 +485,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
       &transition, &match));
 
   transition = {
-    &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+    &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
     {1, 1, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
@@ -452,7 +493,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
       &transition, &match));
 
   transition = {
-    &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+    &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
     {1, 2, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
@@ -460,7 +501,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
       &transition, &match));
 
   transition = {
-    &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+    &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
     {1, 3, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
@@ -472,14 +513,14 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
 test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   const DateTuple EMPTY_DATE = { 0, 0, 0, 0, 0};
 
-  const ZoneMatch match = {
+  const ExtendedZoneProcessor::ZoneMatch match = {
     {0, 1, 1, 0, ZoneContext::kSuffixW} /*startDateTime*/,
     {1, 1, 1, 0, ZoneContext::kSuffixW} /*untilDateTime*/,
-    extended::ZoneEraBroker(nullptr) /*era*/
+    ZoneEraBroker(nullptr) /*era*/
   };
 
-  Transition transition = {
-    &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+  ExtendedZoneProcessor::Transition transition = {
+    &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
     {-1, 12, 31, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
@@ -487,7 +528,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
       &transition, &match));
 
   transition = {
-    &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+    &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
@@ -495,7 +536,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
       &transition, &match));
 
   transition = {
-    &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+    &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 2, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
@@ -503,7 +544,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
       &transition, &match));
 
   transition = {
-    &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+    &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
     {1, 1, 2, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
@@ -514,16 +555,16 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
 test(ExtendedZoneProcessorTest, processActiveTransition) {
   const DateTuple EMPTY_DATE = { 0, 0, 0, 0, 0};
 
-  Transition* prior = nullptr;
-  const ZoneMatch match = {
+  ExtendedZoneProcessor::Transition* prior = nullptr;
+  const ExtendedZoneProcessor::ZoneMatch match = {
     {0, 1, 1, 0, ZoneContext::kSuffixW} /*startDateTime*/,
     {1, 1, 1, 0, ZoneContext::kSuffixW} /*untilDateTime*/,
-    extended::ZoneEraBroker(nullptr) /*era*/
+    ZoneEraBroker(nullptr) /*era*/
   };
 
   // This transition occurs before the match, so prior should be filled.
-  Transition transition0 = {
-    &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+  ExtendedZoneProcessor::Transition transition0 = {
+    &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
     {-1, 12, 31, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
@@ -532,8 +573,8 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
   assertTrue(prior == &transition0);
 
   // This occurs at exactly match.startDateTime, so should replace
-  Transition transition1 = {
-    &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+  ExtendedZoneProcessor::Transition transition1 = {
+    &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
@@ -542,8 +583,8 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
   assertTrue(prior == &transition1);
 
   // An interior transition. Prior should not change.
-  Transition transition2 = {
-    &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+  ExtendedZoneProcessor::Transition transition2 = {
+    &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 2, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
@@ -552,8 +593,8 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
   assertTrue(prior == &transition1);
 
   // Occurs after match.untilDateTime, so should be rejected.
-  Transition transition3 = {
-    &match /*match*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+  ExtendedZoneProcessor::Transition transition3 = {
+    &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
     {1, 1, 2, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
@@ -562,15 +603,14 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
 }
 
 test(ExtendedZoneProcessorTest, findCandidateTransitions) {
-  const ZoneMatch match = {
+  const ExtendedZoneProcessor::ZoneMatch match = {
     {18, 12, 1, 0, ZoneContext::kSuffixW},
     {20, 2, 1, 0, ZoneContext::kSuffixW},
-    extended::ZoneEraBroker(&kZoneEraTestLos_Angeles[0])
+    ZoneEraBroker(&kZoneEraTestLos_Angeles[0])
   };
 
   // Reserve storage for the Transitions
-  const uint8_t kMaxStorage = 8;
-  TransitionStorage<kMaxStorage> storage;
+  ExtendedZoneProcessor::TransitionStorage storage;
   storage.init();
 
   // Verify compareTransitionToMatchFuzzy() elminates various transitions
@@ -584,7 +624,7 @@ test(ExtendedZoneProcessorTest, findCandidateTransitions) {
   ExtendedZoneProcessor::findCandidateTransitions(storage, &match);
   assertEqual(5,
       (int) (storage.getCandidatePoolEnd() - storage.getCandidatePoolBegin()));
-  Transition** t = storage.getCandidatePoolBegin();
+  ExtendedZoneProcessor::Transition** t = storage.getCandidatePoolBegin();
   assertTrue(((*t++)->transitionTime == DateTuple{18, 3, 11, 15*8,
       ZoneContext::kSuffixW}));
   assertTrue(((*t++)->transitionTime == DateTuple{18, 11, 4, 15*8,
@@ -598,21 +638,20 @@ test(ExtendedZoneProcessorTest, findCandidateTransitions) {
 }
 
 test(ExtendedZoneProcessorTest, findTransitionsFromNamedMatch) {
-  const ZoneMatch match = {
+  const ExtendedZoneProcessor::ZoneMatch match = {
     {18, 12, 1, 0, ZoneContext::kSuffixW},
     {20, 2, 1, 0, ZoneContext::kSuffixW},
-    extended::ZoneEraBroker(&kZoneEraTestLos_Angeles[0])
+    ZoneEraBroker(&kZoneEraTestLos_Angeles[0])
   };
 
   // Reserve storage for the Transitions
-  const uint8_t kMaxStorage = 8;
-  TransitionStorage<kMaxStorage> storage;
+  ExtendedZoneProcessor::TransitionStorage storage;
   storage.init();
 
   ExtendedZoneProcessor::findTransitionsFromNamedMatch(storage, &match);
   assertEqual(3,
       (int) (storage.getActivePoolEnd() - storage.getActivePoolBegin()));
-  Transition** t = storage.getActivePoolBegin();
+  ExtendedZoneProcessor::Transition** t = storage.getActivePoolBegin();
   assertTrue(((*t++)->transitionTime == DateTuple{18, 12, 1, 0,
       ZoneContext::kSuffixW}));
   assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 15*8,
@@ -625,43 +664,49 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
   // Create 3 matches for the AlmostLosAngeles test zone.
   YearMonthTuple startYm = {18, 12};
   YearMonthTuple untilYm = {20, 2};
-  const uint8_t kMaxMaches = 4;
-  ZoneMatch matches[kMaxMaches];
+  const uint8_t kMaxMatches = 4;
+  ExtendedZoneProcessor::ZoneMatch matches[kMaxMatches];
   uint8_t numMatches = ExtendedZoneProcessor::findMatches(
-      extended::ZoneInfoBroker(&kZoneAlmostLosAngeles), startYm, untilYm,
-      matches, kMaxMaches);
+      ZoneInfoBroker(&kZoneAlmostLosAngeles), startYm, untilYm,
+      matches, kMaxMatches);
   assertEqual(3, numMatches);
 
-  TransitionStorage<4> storage;
+  // Create a custom template instantiation to use a different SIZE than the
+  // pre-defined typedef in ExtendedZoneProcess::TransitionStorage.
+  TransitionStorageTemplate<
+      4 /*SIZE*/,
+      ZoneEraBroker,
+      ZonePolicyBroker,
+      ZoneRuleBroker> storage;
   storage.init();
 
   // Create 3 Transitions corresponding to the matches.
   // Implements ExtendedZoneProcessor::findTransitionsFromSimpleMatch().
-  Transition* transition1 = storage.getFreeAgent();
+  ExtendedZoneProcessor::Transition* transition1 = storage.getFreeAgent();
   ExtendedZoneProcessor::createTransitionForYear(
-      transition1, 0 /*not used*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+      transition1, 0 /*not used*/, ZoneRuleBroker(nullptr) /*rule*/,
       &matches[0]);
   transition1->active = true;
   storage.addFreeAgentToCandidatePool();
 
-  Transition* transition2 = storage.getFreeAgent();
+  ExtendedZoneProcessor::Transition* transition2 = storage.getFreeAgent();
   ExtendedZoneProcessor::createTransitionForYear(
-      transition2, 0 /*not used*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+      transition2, 0 /*not used*/, ZoneRuleBroker(nullptr) /*rule*/,
       &matches[1]);
   transition2->active = true;
   storage.addFreeAgentToCandidatePool();
 
-  Transition* transition3 = storage.getFreeAgent();
+  ExtendedZoneProcessor::Transition* transition3 = storage.getFreeAgent();
   ExtendedZoneProcessor::createTransitionForYear(
-      transition3, 0 /*not used*/, extended::ZoneRuleBroker(nullptr) /*rule*/,
+      transition3, 0 /*not used*/, ZoneRuleBroker(nullptr) /*rule*/,
       &matches[2]);
   transition3->active = true;
   storage.addFreeAgentToCandidatePool();
 
   // Move actives to Active pool.
   storage.addActiveCandidatesToActivePool();
-  Transition** begin = storage.getActivePoolBegin();
-  Transition** end = storage.getActivePoolEnd();
+  ExtendedZoneProcessor::Transition** begin = storage.getActivePoolBegin();
+  ExtendedZoneProcessor::Transition** end = storage.getActivePoolEnd();
   assertEqual(3, (int) (end - begin));
   assertTrue(begin[0] == transition1);
   assertTrue(begin[1] == transition2);
@@ -785,18 +830,18 @@ test(ExtendedZoneProcessorTest, calcAbbreviations) {
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, setZoneInfo) {
-  ExtendedZoneProcessor zoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
-  zoneInfo.getUtcOffset(0);
-  assertTrue(zoneInfo.mIsFilled);
+  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+  zoneProcessor.getUtcOffset(0);
+  assertTrue(zoneProcessor.mIsFilled);
 
-  zoneInfo.setZoneInfo(&zonedbx::kZoneAustralia_Darwin);
-  assertFalse(zoneInfo.mIsFilled);
-  zoneInfo.getUtcOffset(0);
-  assertTrue(zoneInfo.mIsFilled);
+  zoneProcessor.setZoneKey((uintptr_t) &zonedbx::kZoneAustralia_Darwin);
+  assertFalse(zoneProcessor.mIsFilled);
+  zoneProcessor.getUtcOffset(0);
+  assertTrue(zoneProcessor.mIsFilled);
 
   // Check that the cache remains valid if the zoneInfo does not change
-  zoneInfo.setZoneInfo(&zonedbx::kZoneAustralia_Darwin);
-  assertTrue(zoneInfo.mIsFilled);
+  zoneProcessor.setZoneKey((uintptr_t) &zonedbx::kZoneAustralia_Darwin);
+  assertTrue(zoneProcessor.mIsFilled);
 }
 
 //---------------------------------------------------------------------------

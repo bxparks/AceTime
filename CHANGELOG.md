@@ -1,6 +1,29 @@
 # Changelog
 
 * Unreleased
+    * Remove `TimeZone::kTypeBasicManaged` and `TimeZone::kTypeExtendedManaged`
+      and merge them into just regular `TimeZone::kTypeBasic` and
+      `TimeZone::kTypeExtended`.
+        * Significantly simplifies the implementation of `TimeZone`.
+        * `TimeZone` no longer holds a reference to a `ZoneProcessorCache`, it
+          holds only a reference to `ZoneProcessor`.
+        * The binding of `TimeZone` to its `BasicZoneProcess` or
+          `ExtendedZoneProcessor` now happens early, inside the
+          `BasicZoneManager` or the `ExtendedZoneManager`, instead of delaying
+          it to various methods inside the `TimeZone` through the
+          `ZoneProcessorCache`.
+    * Large internal refactoring of ZoneProcessor, no external change
+        * Fully templatize `BasicZoneProcessor` into
+          `BasicZoneProcessorTemplate`, and `ExtendedZoneProcessor` to
+          `ExtendedZoneProcessorTemplate`.
+        * Remove sentinel static `ZoneEra` anchor record which prevented
+          easy templatization.
+        * Remove direct dependency to `const ZoneInfo*`, replacing it with
+          generic `uintptr_t zoneKey`.
+        * Insert `BrokerFactory` indirection layer to provide mapping from a
+          generic `uintptr_t zoneKey` to the corresponding `ZoneInfoBroker`.
+        * Templatized classes now depend only on their respective
+          `Zone*Broker` classes.
 * 1.5
     * Use binary search for both `ZoneManager::createForZoneName()` and
       `ZoneManager::createForZoneId()`.

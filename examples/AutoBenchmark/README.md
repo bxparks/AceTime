@@ -91,7 +91,7 @@ sizeof(clock::DS3231Clock): 3
 sizeof(clock::SystemClock): 17
 sizeof(clock::SystemClockLoop): 34
 sizeof(clock::SystemClockCoroutine): 43
-sizeof(basic::ZoneContext): 9
+sizeof(internal::ZoneContext): 9
 sizeof(basic::ZoneEra): 11
 sizeof(basic::ZoneInfo): 11
 sizeof(basic::ZoneRule): 9
@@ -153,7 +153,7 @@ sizeof(clock::DS3231Clock): 3
 sizeof(clock::SystemClock): 17
 sizeof(clock::SystemClockLoop): 34
 sizeof(clock::SystemClockCoroutine): 43
-sizeof(basic::ZoneContext): 9
+sizeof(internal::ZoneContext): 9
 sizeof(basic::ZoneEra): 11
 sizeof(basic::ZoneInfo): 11
 sizeof(basic::ZoneRule): 9
@@ -215,7 +215,7 @@ sizeof(clock::DS3231Clock): 8
 sizeof(clock::SystemClock): 24
 sizeof(clock::SystemClockLoop): 44
 sizeof(clock::SystemClockCoroutine): 68
-sizeof(basic::ZoneContext): 16
+sizeof(internal::ZoneContext): 16
 sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9
@@ -277,7 +277,7 @@ sizeof(clock::DS3231Clock): 8
 sizeof(clock::SystemClock): 24
 sizeof(clock::SystemClockLoop): 44
 sizeof(clock::SystemClockCoroutine): 68
-sizeof(basic::ZoneContext): 16
+sizeof(internal::ZoneContext): 16
 sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9
@@ -340,7 +340,7 @@ sizeof(clock::NtpClock): 88
 sizeof(clock::SystemClock): 24
 sizeof(clock::SystemClockLoop): 44
 sizeof(clock::SystemClockCoroutine): 68
-sizeof(basic::ZoneContext): 16
+sizeof(internal::ZoneContext): 16
 sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9
@@ -403,7 +403,7 @@ sizeof(clock::NtpClock): 116
 sizeof(clock::SystemClock): 24
 sizeof(clock::SystemClockLoop): 44
 sizeof(clock::SystemClockCoroutine): 68
-sizeof(basic::ZoneContext): 16
+sizeof(internal::ZoneContext): 16
 sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9
@@ -469,7 +469,7 @@ sizeof(clock::DS3231Clock): 8
 sizeof(clock::SystemClock): 24
 sizeof(clock::SystemClockLoop): 44
 sizeof(clock::SystemClockCoroutine): 68
-sizeof(basic::ZoneContext): 16
+sizeof(internal::ZoneContext): 16
 sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9

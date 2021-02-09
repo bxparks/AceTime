@@ -19,7 +19,7 @@ sizeof(clock::NtpClock): 88
 sizeof(clock::SystemClock): 24
 sizeof(clock::SystemClockLoop): 44
 sizeof(clock::SystemClockCoroutine): 68
-sizeof(basic::ZoneContext): 16
+sizeof(internal::ZoneContext): 16
 sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
 sizeof(basic::ZoneRule): 9
