@@ -10,6 +10,11 @@ namespace ace_time {
 
 void TimeZone::printTo(Print& printer) const {
   switch (mType) {
+    case kTypeError:
+    case kTypeReserved:
+      printer.print("<Error>");
+      break;
+
     case kTypeManual:
       if (isUtc()) {
         printer.print("UTC");
@@ -17,17 +22,21 @@ void TimeZone::printTo(Print& printer) const {
         TimeOffset::forMinutes(mStdOffsetMinutes).printTo(printer);
         TimeOffset::forMinutes(mDstOffsetMinutes).printTo(printer);
       }
-      return;
-    case kTypeBasic:
-    case kTypeExtended:
+      break;
+
+    default:
       mZoneProcessor->printNameTo(printer);
-      return;
+      break;
   }
-  printer.print("<Error>");
 }
 
 void TimeZone::printShortTo(Print& printer) const {
   switch (mType) {
+    case kTypeError:
+    case kTypeReserved:
+      printer.print("<Error>");
+      break;
+
     case kTypeManual:
       if (isUtc()) {
         printer.print("UTC");
@@ -39,13 +48,12 @@ void TimeZone::printShortTo(Print& printer) const {
         printer.print((mDstOffsetMinutes != 0) ? "DST" : "STD");
         printer.print(')');
       }
-      return;
-    case kTypeBasic:
-    case kTypeExtended:
+      break;
+
+    default:
       mZoneProcessor->printShortNameTo(printer);
-      return;
+      break;
   }
-  printer.print("<Error>");
 }
 
 }

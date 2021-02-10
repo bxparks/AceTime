@@ -93,7 +93,7 @@ test(TimeZoneExtendedTest, Los_Angeles) {
 
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles);
-  assertEqual(TimeZone::kTypeExtended, tz.getType());
+  assertEqual(ExtendedZoneProcessor::kTypeExtended, tz.getType());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));

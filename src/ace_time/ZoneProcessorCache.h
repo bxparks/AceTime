@@ -111,14 +111,14 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
 template<uint8_t SIZE>
 class BasicZoneProcessorCache: public ZoneProcessorCacheImpl<
     SIZE,
-    ZoneProcessor::kTypeBasic,
+    BasicZoneProcessor::kTypeBasic,
     BasicZoneProcessor> {
 };
 
 template<uint8_t SIZE>
 class ExtendedZoneProcessorCache: public ZoneProcessorCacheImpl<
     SIZE,
-    ZoneProcessor::kTypeExtended,
+    ExtendedZoneProcessor::kTypeExtended,
     ExtendedZoneProcessor> {
 };
 #else
