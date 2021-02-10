@@ -7,7 +7,7 @@
 #define ACE_TIME_ZONE_REGISTRAR_H
 
 #include <stdint.h>
-#include <AceCommon.h> // KString
+#include <AceCommon.h> // KString, binarySearchByKey()
 #include "common/compat.h" // ACE_TIME_USE_PROGMEM
 #include "internal/ZoneInfo.h"
 #include "internal/BasicBrokers.h"
@@ -163,25 +163,32 @@ class ZoneRegistrarTemplate {
      * The largest registrySize is UINT16_MAX so the largest valid index is
      * UINT16_MAX - 1. This allows us to set kInvalidIndex to UINT16_MAX to
      * indicate "Not Found".
-     *
-     * See also https://www.solipsys.co.uk/new/BinarySearchReconsidered.html
-     * which shows how hard it is to write a binary search correctly. It took
-     * me 4 tries to get this right:
-     * Try 1) There was an infinite loop when searching for a non-existent
-     *        zoneId due to the exit condition located at the wrong spot.
-     * Try 2) Could not search for zoneId=0 because I was using unsigned
-     *        integers for a and b, and the (c-1) expression underflowed to
-     *        0xffff.
-     * Try 3) An infinite loop caused by incorrect lowerbound, should be
-     *        a = c + 1, instead of just a = c.
-     * Try 4) Finally got it right. I hope!
      */
+#if 1
+    static uint16_t binarySearchById(const ZI* const* registry,
+        uint16_t registrySize, uint32_t zoneId) {
+      const ZRGB zoneRegistry(registry);
+      return (uint16_t) ace_common::binarySearchByKey(
+          registry,
+          (size_t) registrySize,
+          zoneId,
+          [&zoneRegistry](size_t i) -> uint32_t {
+            const ZI* zoneInfo = zoneRegistry.zoneInfo(i);
+            return ZIB(zoneInfo).zoneId();
+          } // 'key' lambda expression, returns zoneId at index i
+      );
+    }
+#else
+    // Moved to ace_common::binarySearchByKey(). The templatized version
+    // produces identical code sizes for 8-bit processors. On 32-bit
+    // processors, the code size usually goes *down* by 4-60 bytes using the
+    // templatized version.
     static uint16_t binarySearchById(const ZI* const* registry,
         uint16_t registrySize, uint32_t zoneId) {
       uint16_t a = 0;
       uint16_t b = registrySize;
       const ZRGB zoneRegistry(registry);
-      while (true){
+      while (true) {
         uint16_t diff = b - a;
         if (diff == 0) break;
 
@@ -197,6 +204,7 @@ class ZoneRegistrarTemplate {
       }
       return kInvalidIndex;
     }
+#endif
 
     /** Exposed only for benchmarking purposes. */
     uint16_t findIndexForIdLinear(uint32_t zoneId) const {
