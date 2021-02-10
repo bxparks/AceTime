@@ -374,10 +374,11 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*)
      */
     explicit BasicZoneProcessorTemplate(
-        const BF* brokerFactory = nullptr,
-        uintptr_t zoneKey = 0
+        uint8_t type,
+        const BF* brokerFactory,
+        uintptr_t zoneKey
     ) :
-        ZoneProcessor(kTypeBasic),
+        ZoneProcessor(type),
         mBrokerFactory(brokerFactory)
     {
       setZoneKey(zoneKey);
@@ -1021,13 +1022,17 @@ class BasicZoneProcessor: public BasicZoneProcessorTemplate<
     basic::ZoneRuleBroker> {
 
   public:
+    /** Unique TimeZone type identifier for BasicZoneProcessor. */
+    static const uint8_t kTypeBasic = 3;
+
     explicit BasicZoneProcessor(const basic::ZoneInfo* zoneInfo = nullptr)
       : BasicZoneProcessorTemplate<
           basic::BrokerFactory,
           basic::ZoneInfoBroker,
           basic::ZoneEraBroker,
           basic::ZonePolicyBroker,
-          basic::ZoneRuleBroker>(&mBrokerFactory, (uintptr_t) zoneInfo)
+          basic::ZoneRuleBroker>(
+              kTypeBasic, &mBrokerFactory, (uintptr_t) zoneInfo)
     {}
 
   private:

@@ -877,10 +877,11 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*)
      */
     explicit ExtendedZoneProcessorTemplate(
+        uint8_t type,
         const BF* brokerFactory,
         uintptr_t zoneKey
     ) :
-        ZoneProcessor(kTypeExtended),
+        ZoneProcessor(type),
         mBrokerFactory(brokerFactory)
     {
       setZoneKey(zoneKey);
@@ -1741,13 +1742,17 @@ class ExtendedZoneProcessor: public ExtendedZoneProcessorTemplate<
     extended::ZoneRuleBroker> {
 
   public:
+    /** Unique TimeZone type identifier for BasicZoneProcessor. */
+    static const uint8_t kTypeExtended = 4;
+
     explicit ExtendedZoneProcessor(const extended::ZoneInfo* zoneInfo = nullptr)
       : ExtendedZoneProcessorTemplate<
           extended::BrokerFactory,
           extended::ZoneInfoBroker,
           extended::ZoneEraBroker,
           extended::ZonePolicyBroker,
-          extended::ZoneRuleBroker>(&mBrokerFactory, (uintptr_t) zoneInfo)
+          extended::ZoneRuleBroker>(
+              kTypeExtended, &mBrokerFactory, (uintptr_t) zoneInfo)
     {}
 
   private:

@@ -40,18 +40,6 @@ class LocalDateTime;
  */
 class ZoneProcessor {
   public:
-    /**
-     * Indicate BasicZoneProcessor. Must not be TimeZone::kTypeError (0) or
-     * TimeZone::kTypeManual (1).
-     */
-    static const uint8_t kTypeBasic = 2;
-
-    /**
-     * Indicate ExtendedZoneProcessor. Must not be TimeZone::kTypeError (0) or
-     * TimeZone::kTypeManual (1).
-     */
-    static const uint8_t kTypeExtended = 3;
-
     /** Return the kTypeXxx of the current instance. */
     uint8_t getType() const { return mType; }
 
@@ -136,7 +124,7 @@ class ZoneProcessor {
     /** Return true if equal. */
     virtual bool equals(const ZoneProcessor& other) const = 0;
 
-    uint8_t mType;
+    uint8_t const mType;
 };
 
 inline bool operator==(const ZoneProcessor& a, const ZoneProcessor& b) {

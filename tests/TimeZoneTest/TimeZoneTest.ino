@@ -20,13 +20,19 @@ using namespace ace_time;
 
 test(TimeZoneTest, kType_distinct) {
   assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeManual);
-  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeBasic);
-  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeExtended);
+  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeReserved);
+  assertNotEqual(TimeZone::kTypeError, BasicZoneProcessor::kTypeBasic);
+  assertNotEqual(TimeZone::kTypeError, ExtendedZoneProcessor::kTypeExtended);
 
-  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeBasic);
-  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeExtended);
+  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeReserved);
+  assertNotEqual(TimeZone::kTypeManual, BasicZoneProcessor::kTypeBasic);
+  assertNotEqual(TimeZone::kTypeManual, ExtendedZoneProcessor::kTypeExtended);
 
-  assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeExtended);
+  assertNotEqual(TimeZone::kTypeReserved, BasicZoneProcessor::kTypeBasic);
+  assertNotEqual(TimeZone::kTypeReserved, ExtendedZoneProcessor::kTypeExtended);
+
+  assertNotEqual(BasicZoneProcessor::kTypeBasic,
+      ExtendedZoneProcessor::kTypeExtended);
 }
 
 // --------------------------------------------------------------------------
@@ -264,7 +270,7 @@ test(TimeZoneBasicTest, Los_Angeles) {
 
   TimeZone tz = basicZoneManager.createForZoneInfo(
       &zonedb::kZoneAmerica_Los_Angeles);
-  assertEqual(TimeZone::kTypeBasic, tz.getType());
+  assertEqual(BasicZoneProcessor::kTypeBasic, tz.getType());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
@@ -367,7 +373,7 @@ test(TimeZoneDataTest, crossed) {
 
   TimeZone tzCycle = basicZoneManager.createForTimeZoneData(tzd);
   assertEqual(tz.getZoneId(), tzCycle.getZoneId());
-  assertEqual(TimeZone::kTypeBasic, tzCycle.getType());
+  assertEqual(BasicZoneProcessor::kTypeBasic, tzCycle.getType());
 }
 #endif
 
