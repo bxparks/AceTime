@@ -16,51 +16,20 @@
 namespace ace_time {
 
 /**
- * Common interface to BasicZoneProcessorCache and ExtendedZoneProcessorCache.
- * This allows ZoneManager to hold only a single implementation of
- * ZoneProcessorCache, and avoid loading the code for both implementations.
- */
-class ZoneProcessorCache {
-  public:
-    /**
-     * Return the type of this cache, either ZoneProcessor::kTypeBasic, or
-     * ZoneProcessor::kTypeExtended.  TODO: This may not be used anywhere, so
-     * it may be possible to remove it.
-     */
-    uint8_t getType() const { return mType; }
-
-  protected:
-    ZoneProcessorCache(uint8_t type)
-      : mType(type)
-    {}
-
-  private:
-    // disable copy constructor and assignment operator
-    ZoneProcessorCache(const ZoneProcessorCache&) = delete;
-    ZoneProcessorCache& operator=(const ZoneProcessorCache&) = delete;
-
-    uint8_t const mType;
-};
-
-/**
- * A cache of ZoneProcessors that provides a ZoneProcessor to the TimeZone
- * upon request.
+ * A cache of ZoneProcessors that provides a ZoneProcessor to the TimeZone upon
+ * request by the ZoneManager.
  *
  * @tparam SIZE number of zone processors, should be approximate the number
  *    zones *concurrently* used in the app. It is expected that this will be
  *    small. It can be 1 if the app never changes the TimeZone. It should be 2
  *    if the user is able to select different timezones from a menu.
- * @tparam TYPE integer constant identifying the type of TimeZone (e.g.
- *    ZoneProcessor::kTypeBasic, ZoneProcessor::kTypeExtended)
  * @tparam ZP type of ZoneProcessor (BasicZoneProcessor or
  *    ExtendedZoneProcessor)
  */
-template<uint8_t SIZE, uint8_t TYPE, typename ZP>
-class ZoneProcessorCacheImpl: public ZoneProcessorCache {
+template<uint8_t SIZE, typename ZP>
+class ZoneProcessorCacheTemplate {
   public:
-    ZoneProcessorCacheImpl()
-      : ZoneProcessorCache(TYPE)
-    {}
+    ZoneProcessorCacheTemplate() = default;
 
     /**
      * Get ZoneProcessor from either a ZoneKey, either a basic::ZoneInfo or an
@@ -85,8 +54,9 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
 
   private:
     // disable copy constructor and assignment operator
-    ZoneProcessorCacheImpl(const ZoneProcessorCacheImpl&) = delete;
-    ZoneProcessorCacheImpl& operator=(const ZoneProcessorCacheImpl&) = delete;
+    ZoneProcessorCacheTemplate(const ZoneProcessorCacheTemplate&) = delete;
+    ZoneProcessorCacheTemplate& operator=(const ZoneProcessorCacheTemplate&)
+        = delete;
 
     /**
      * Find an existing ZoneProcessor with the ZoneInfo given by zoneInfoKey.
@@ -109,17 +79,13 @@ class ZoneProcessorCacheImpl: public ZoneProcessorCache {
 
 #if 1
 template<uint8_t SIZE>
-class BasicZoneProcessorCache: public ZoneProcessorCacheImpl<
-    SIZE,
-    BasicZoneProcessor::kTypeBasic,
-    BasicZoneProcessor> {
+class BasicZoneProcessorCache: public ZoneProcessorCacheTemplate<
+    SIZE, BasicZoneProcessor> {
 };
 
 template<uint8_t SIZE>
-class ExtendedZoneProcessorCache: public ZoneProcessorCacheImpl<
-    SIZE,
-    ExtendedZoneProcessor::kTypeExtended,
-    ExtendedZoneProcessor> {
+class ExtendedZoneProcessorCache: public ZoneProcessorCacheTemplate<
+    SIZE, ExtendedZoneProcessor> {
 };
 #else
 
@@ -130,16 +96,12 @@ class ExtendedZoneProcessorCache: public ZoneProcessorCacheImpl<
 // to optimize away the vtables of the parent and child classes.
 
 template<uint8_t SIZE>
-using BasicZoneProcessorCache = ZoneProcessorCacheImpl<
-    SIZE,
-    ZoneProcessor::kTypeBasic,
-    BasicZoneProcessor>;
+using BasicZoneProcessorCache = ZoneProcessorCacheTemplate<
+    SIZE, BasicZoneProcessor>;
 
 template<uint8_t SIZE>
-using ExtendedZoneProcessorCache  = ZoneProcessorCacheImpl<
-    SIZE,
-    ZoneProcessor::kTypeExtended,
-    ExtendedZoneProcessor>;
+using ExtendedZoneProcessorCache  = ZoneProcessorCacheTemplate<
+    SIZE, ExtendedZoneProcessor>;
 #endif
 
 }
