@@ -1,9 +1,9 @@
-#line 2 "TimeZoneExtendedTest.ino"
+#line 2 "ExtendedZoneManagerTest.ino"
 
 #include <AUnit.h>
 #include <AceTime.h>
 
-using namespace aunit;
+using aunit::TestRunner;
 using namespace ace_time;
 
 //---------------------------------------------------------------------------
@@ -23,22 +23,22 @@ const uint16_t kExtendedZoneRegistrySize =
 ExtendedZoneManager<2> extendedZoneManager(
     kExtendedZoneRegistrySize, kExtendedZoneRegistry);
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // TimeZone + ExtendedZoneManager
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
-test(TimeZoneExtendedTest, registrySize) {
+test(ExtendedZoneManagerTest, registrySize) {
   assertEqual((uint16_t) 4, extendedZoneManager.registrySize());
 }
 
-test(TimeZoneExtendedTest, createForZoneName) {
+test(ExtendedZoneManagerTest, createForZoneName) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles);
   TimeZone tzn = extendedZoneManager.createForZoneName("America/Los_Angeles");
   assertTrue(tz == tzn);
 }
 
-test(TimeZoneExtendedTest, createForZoneId) {
+test(ExtendedZoneManagerTest, createForZoneId) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_New_York);
   TimeZone tzid = extendedZoneManager.createForZoneId(
@@ -48,14 +48,14 @@ test(TimeZoneExtendedTest, createForZoneId) {
   assertEqual((uint32_t) 0x1e2a7654, tzid.getZoneId());
 }
 
-test(TimeZoneExtendedTest, createForZoneIndex) {
+test(ExtendedZoneManagerTest, createForZoneIndex) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_Chicago);
   TimeZone tzidx = extendedZoneManager.createForZoneIndex(0);
   assertTrue(tz == tzidx);
 }
 
-test(TimeZoneExtendedTest, indexForZoneName) {
+test(ExtendedZoneManagerTest, indexForZoneName) {
   uint16_t index = extendedZoneManager.indexForZoneName("America/Los_Angeles");
   assertEqual((uint16_t) 2, index);
 
@@ -63,7 +63,7 @@ test(TimeZoneExtendedTest, indexForZoneName) {
   assertEqual(ZoneManager::kInvalidIndex, index);
 }
 
-test(TimeZoneExtendedTest, indexForZoneId) {
+test(ExtendedZoneManagerTest, indexForZoneId) {
   uint16_t index = extendedZoneManager.indexForZoneId(
       zonedbx::kZoneIdAmerica_New_York);
   assertEqual((uint16_t) 3, index);
@@ -72,7 +72,7 @@ test(TimeZoneExtendedTest, indexForZoneId) {
   assertEqual(ZoneManager::kInvalidIndex, index);
 }
 
-test(TimeZoneExtendedTest, createForXxx_create_same_timezone) {
+test(ExtendedZoneManagerTest, createForXxx_create_same_timezone) {
   TimeZone a = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles);
   TimeZone b = extendedZoneManager.createForZoneInfo(
@@ -87,27 +87,71 @@ test(TimeZoneExtendedTest, createForXxx_create_same_timezone) {
   assertEqual((uint32_t) 0x1e2a7654, bb.getZoneId());
 }
 
-test(TimeZoneExtendedTest, Los_Angeles) {
-  OffsetDateTime dt;
-  acetime_t epochSeconds;
+//---------------------------------------------------------------------------
 
-  TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
-  assertEqual(ExtendedZoneProcessor::kTypeExtended, tz.getType());
+test(ExtendedZoneManagerTest, createForTimeZoneData_error) {
+  TimeZone tz = TimeZone::forError();
+  TimeZoneData tzd = tz.toTimeZoneData();
 
-  dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      TimeOffset::forHours(-8));
-  epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
-  assertEqual(F("PST"), tz.getAbbrev(epochSeconds));
+  TimeZoneData expected{};
+  assertTrue(expected == tzd);
 
-  dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      TimeOffset::forHours(-8));
-  epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
-  assertEqual(F("PDT"), tz.getAbbrev(epochSeconds));
+  TimeZone tzRoundTrip = extendedZoneManager.createForTimeZoneData(tzd);
+  assertTrue(tz == tzRoundTrip);
+}
+
+test(ExtendedZoneManagerTest, createForTimeZoneData_utc) {
+  TimeZone tz = TimeZone::forUtc();
+  TimeZoneData tzd = tz.toTimeZoneData();
+
+  TimeZoneData expected{0, 0};
+  assertTrue(expected == tzd);
+
+  TimeZone tzRoundTrip = extendedZoneManager.createForTimeZoneData(tzd);
+  assertTrue(tz == tzRoundTrip);
+}
+
+test(ExtendedZoneManagerTest, createForTimeZoneData_manual) {
+  TimeZone tz = TimeZone::forHours(-8, 1);
+  TimeZoneData tzd = tz.toTimeZoneData();
+
+  TimeZoneData expected{-8 * 60, 1 * 60};
+  assertTrue(expected == tzd);
+
+  TimeZone tzRoundTrip = extendedZoneManager.createForTimeZoneData(tzd);
+  assertTrue(tz == tzRoundTrip);
+}
+
+test(ExtendedZoneManagerTest, createForTimeZoneData_zoneId) {
+  ExtendedZoneProcessor zoneProcessor;
+  TimeZone tz = TimeZone::forZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
+  TimeZoneData tzd = tz.toTimeZoneData();
+
+  TimeZoneData expected{zonedb::kZoneIdAmerica_Los_Angeles};
+  assertTrue(expected == tzd);
+
+  // BasicZoneManager should return the same TimeZone
+  TimeZone tzRoundTrip = extendedZoneManager.createForTimeZoneData(tzd);
+  assertTrue(tz == tzRoundTrip);
+}
+
+// If we save a kTypeBasic, verify that we can read it back as a kTypeExtended
+// if the ZoneManager supports it.
+test(ExtendedZoneManagerTest, createForTimeZoneData_crossed) {
+  BasicZoneProcessor zoneProcessor;
+  TimeZone tz = TimeZone::forZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
+  TimeZoneData tzd = tz.toTimeZoneData();
+
+  TimeZoneData expected{zonedb::kZoneIdAmerica_Los_Angeles};
+  assertTrue(expected == tzd);
+
+  TimeZone tzRoundTrip = extendedZoneManager.createForTimeZoneData(tzd);
+  assertEqual(tz.getZoneId(), tzRoundTrip.getZoneId());
+  assertEqual(ExtendedZoneProcessor::kTypeExtended, tzRoundTrip.getType());
 }
 
 //---------------------------------------------------------------------------
