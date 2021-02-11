@@ -119,7 +119,7 @@ class ZoneRegistrarTemplate {
     friend class ::BasicZoneRegistrarTest_Unsorted_linearSearchById;
     friend class ::BasicZoneRegistrarTest_Unsorted_linearSearchById_not_found;
 
-    /** Use binarySearch() if registrySize >= threshold. */
+    /** Use binarySearchById() if registrySize >= threshold. */
     static const uint8_t kBinarySearchThreshold = 8;
 
     /** Determine if the given zone registry is sorted by id. */
@@ -169,13 +169,12 @@ class ZoneRegistrarTemplate {
         uint16_t registrySize, uint32_t zoneId) {
       const ZRGB zoneRegistry(registry);
       return (uint16_t) ace_common::binarySearchByKey(
-          registry,
           (size_t) registrySize,
           zoneId,
           [&zoneRegistry](size_t i) -> uint32_t {
             const ZI* zoneInfo = zoneRegistry.zoneInfo(i);
             return ZIB(zoneInfo).zoneId();
-          } // 'key' lambda expression, returns zoneId at index i
+          } // lambda expression returns zoneId at index i
       );
     }
 #else
