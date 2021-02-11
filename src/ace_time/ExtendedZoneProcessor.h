@@ -858,6 +858,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       mYear = 0;
       mIsFilled = false;
       mNumMatches = 0;
+      resetTransitionHighWater();
     }
 
     bool equalsZoneKey(uintptr_t zoneKey) const override {
