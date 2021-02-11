@@ -32,7 +32,7 @@ test(ExtendedZoneProcessorTest, setZoneKey) {
 }
 
 // https://www.timeanddate.com/time/zone/usa/los-angeles
-test(ExtendedZoneProcessorTest, kZoneAmerica_Los_Angeles) {
+test(ExtendedZoneProcessorTest, Los_Angeles) {
   ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
 
   PrintStr<32> printStr;
@@ -81,7 +81,7 @@ test(ExtendedZoneProcessorTest, kZoneAmerica_Los_Angeles) {
   assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
 }
 
-test(ExtendedZoneProcessorTest, kZoneAmerica_Los_Angeles_outOfBounds) {
+test(ExtendedZoneProcessorTest, Los_Angeles_outOfBounds) {
   ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
   OffsetDateTime dt;
   acetime_t epochSeconds;
