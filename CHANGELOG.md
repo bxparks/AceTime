@@ -24,6 +24,17 @@
           generic `uintptr_t zoneKey` to the corresponding `ZoneInfoBroker`.
         * Templatized classes now depend only on their respective
           `Zone*Broker` classes.
+    * Fix stale `ZoneProcessor` binding to `TimeZone`.
+        * A dereferenced `nullptr` could crash the program if
+          `TimeZone::toTimeZoneData() was called immediately after calling the
+          `TimeZone::forZoneInfo()` factory method.
+        * Some accessor methods in `TimeZone` (`getZoneId()`, `printTo()`,
+          `printShortTo()`) could return incorrect values if the number of
+          unique TimeZones used by an application is greater than the cache
+          `SIZE` template parameter given to the `ZoneManager`.
+            * The problem occurs because the `ZoneProcessorCache` will rebind
+              a previously allocated `ZoneProcessor` to another `TimeZone` when
+              it runs out available processors in the cache.
 * 1.5
     * Use binary search for both `ZoneManager::createForZoneName()` and
       `ZoneManager::createForZoneId()`.
