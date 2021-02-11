@@ -1,8 +1,3 @@
-/*
- * MIT License
- * Copyright (c) 2021 Brian T. Park
- */
-
 #line 2 "BrokerCommonTest.ino"
 
 #include <Arduino.h>
@@ -11,6 +6,13 @@
 
 using aunit::TestRunner;
 using ace_time::internal::findShortName;
+using ace_time::internal::timeCodeToMinutes;
+
+test(timeCodeToMinutes) {
+  uint8_t code = 1;
+  uint8_t modifier = 0x01;
+  assertEqual((uint16_t)16, timeCodeToMinutes(code, modifier));
+}
 
 test(findShortStringTest_cstring) {
   assertEqual("", findShortName(""));
