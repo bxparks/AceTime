@@ -39,7 +39,7 @@ class ExtendedZoneProcessorTest_compareTransitionToMatch;
 class ExtendedZoneProcessorTest_processActiveTransition;
 class ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
 class ExtendedZoneProcessorTest_createAbbreviation;
-class ExtendedZoneProcessorTest_setZoneInfo;
+class ExtendedZoneProcessorTest_setZoneKey;
 class TransitionStorageTest_getFreeAgent;
 class TransitionStorageTest_getFreeAgent2;
 class TransitionStorageTest_addFreeAgentToActivePool;
@@ -907,7 +907,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_processActiveTransition;
     friend class ::ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
     friend class ::ExtendedZoneProcessorTest_createAbbreviation;
-    friend class ::ExtendedZoneProcessorTest_setZoneInfo;
+    friend class ::ExtendedZoneProcessorTest_setZoneKey;
     friend class ::TransitionStorageTest_findTransitionForDateTime;
 
     // Disable copy constructor and assignment operator.

@@ -25,7 +25,7 @@ class BasicZoneProcessorTest_findLatestPriorRule;
 class BasicZoneProcessorTest_findZoneEra;
 class BasicZoneProcessorTest_init_primitives;
 class BasicZoneProcessorTest_init;
-class BasicZoneProcessorTest_setZoneInfo;
+class BasicZoneProcessorTest_setZoneKey;
 class BasicZoneProcessorTest_createAbbreviation;
 class BasicZoneProcessorTest_calcRuleOffsetMinutes;
 
@@ -391,7 +391,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     friend class ::BasicZoneProcessorTest_findZoneEra;
     friend class ::BasicZoneProcessorTest_init_primitives;
     friend class ::BasicZoneProcessorTest_init;
-    friend class ::BasicZoneProcessorTest_setZoneInfo;
+    friend class ::BasicZoneProcessorTest_setZoneKey;
     friend class ::BasicZoneProcessorTest_createAbbreviation;
     friend class ::BasicZoneProcessorTest_calcRuleOffsetMinutes;
 

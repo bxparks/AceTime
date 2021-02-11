@@ -160,7 +160,7 @@ test(BasicZoneProcessorTest, operatorEqualEqual) {
   assertTrue(a != b);
 }
 
-test(BasicZoneProcessorTest, setZoneInfo) {
+test(BasicZoneProcessorTest, setZoneKey) {
   BasicZoneProcessor zoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
   zoneProcessor.getUtcOffset(0);
   assertTrue(zoneProcessor.mIsFilled);

@@ -829,7 +829,7 @@ test(ExtendedZoneProcessorTest, calcAbbreviations) {
 // Test public methods
 //---------------------------------------------------------------------------
 
-test(ExtendedZoneProcessorTest, setZoneInfo) {
+test(ExtendedZoneProcessorTest, setZoneKey) {
   ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
   zoneProcessor.getUtcOffset(0);
   assertTrue(zoneProcessor.mIsFilled);
