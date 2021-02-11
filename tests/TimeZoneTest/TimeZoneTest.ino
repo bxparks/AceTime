@@ -161,6 +161,54 @@ test(TimeZoneBasicTest, Los_Angeles) {
   assertEqual(F("PDT"), tz.getAbbrev(epochSeconds));
 }
 
+// A ZoneManager could bind the same ZoneProcessor to 2 different TimeZone if
+// it runs out of free processors in the cache. Verify that various methods on
+// TimeZone calls getBoundZoneProcessor() properly to rebind the zoneProcessor
+// properly before performing any calculations on the zoneProcessor.
+//
+// In theory we should do the same testing for ExtendedZoneProcessor, but the
+// code path in TimeZone should be identical so we'll just implement only this
+// version to save flash memory.
+test(TimeZoneBasicTest, zoneProcessor_rebinding) {
+  BasicZoneProcessor basicZoneProcessor;
+  TimeZone losAngeles = TimeZone::forZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles, &basicZoneProcessor);
+  TimeZone newYork = TimeZone::forZoneInfo(
+      &zonedb::kZoneAmerica_New_York, &basicZoneProcessor);
+
+  assertEqual(zonedb::kZoneIdAmerica_Los_Angeles, losAngeles.getZoneId());
+  assertEqual(zonedb::kZoneIdAmerica_New_York, newYork.getZoneId());
+
+  // 2018-03-10 was still STD time, so both Los Angeles and New York should
+  // return STD offset.
+  OffsetDateTime dt = OffsetDateTime::forComponents(2018, 3, 10, 0, 0, 0,
+      TimeOffset::forHours(-8));
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  assertEqual(-8*60, losAngeles.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual(-5*60, newYork.getUtcOffset(epochSeconds).toMinutes());
+
+  assertEqual(0, losAngeles.getDeltaOffset(epochSeconds).toMinutes());
+  assertEqual(0, newYork.getDeltaOffset(epochSeconds).toMinutes());
+
+  assertEqual(F("PST"), losAngeles.getAbbrev(epochSeconds));
+  assertEqual(F("EST"), newYork.getAbbrev(epochSeconds));
+
+  PrintStr<32> printStr;
+  losAngeles.printTo(printStr);
+  assertEqual(F("America/Los_Angeles"), printStr.getCstr());
+  printStr.flush();
+  newYork.printTo(printStr);
+  assertEqual(F("America/New_York"), printStr.getCstr());
+  printStr.flush();
+
+  losAngeles.printShortTo(printStr);
+  assertEqual(F("Los_Angeles"), printStr.getCstr());
+  printStr.flush();
+  newYork.printShortTo(printStr);
+  assertEqual(F("New_York"), printStr.getCstr());
+  printStr.flush();
+}
+
 //---------------------------------------------------------------------------
 // TimeZone (ExtendedZoneProcessor::kTypeExtended)
 //---------------------------------------------------------------------------

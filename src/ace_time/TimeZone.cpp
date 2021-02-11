@@ -25,7 +25,7 @@ void TimeZone::printTo(Print& printer) const {
       break;
 
     default:
-      mZoneProcessor->printNameTo(printer);
+      getBoundZoneProcessor()->printNameTo(printer);
       break;
   }
 }
@@ -51,7 +51,7 @@ void TimeZone::printShortTo(Print& printer) const {
       break;
 
     default:
-      mZoneProcessor->printShortNameTo(printer);
+      getBoundZoneProcessor()->printShortNameTo(printer);
       break;
   }
 }

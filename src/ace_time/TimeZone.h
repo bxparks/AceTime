@@ -174,7 +174,6 @@ class TimeZone {
         const basic::ZoneInfo* zoneInfo,
         BasicZoneProcessor* zoneProcessor
     ) {
-      zoneProcessor->setZoneKey((uintptr_t) zoneInfo);
       return TimeZone(
           zoneProcessor->getType(),
           (uintptr_t) zoneInfo,
@@ -194,7 +193,6 @@ class TimeZone {
         const extended::ZoneInfo* zoneInfo,
         ExtendedZoneProcessor* zoneProcessor
     ) {
-      zoneProcessor->setZoneKey((uintptr_t) zoneInfo);
       return TimeZone(
           zoneProcessor->getType(),
           (uintptr_t) zoneInfo,
@@ -257,7 +255,7 @@ class TimeZone {
           return 0;
 
         default:
-          return mZoneProcessor->getZoneId();
+          return getBoundZoneProcessor()->getZoneId();
       }
     }
 
@@ -277,8 +275,7 @@ class TimeZone {
           return TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes);
 
         default:
-          mZoneProcessor->setZoneKey(mZoneKey);
-          return mZoneProcessor->getUtcOffset(epochSeconds);
+          return getBoundZoneProcessor()->getUtcOffset(epochSeconds);
       }
     }
 
@@ -297,8 +294,7 @@ class TimeZone {
           return TimeOffset::forMinutes(mDstOffsetMinutes);
 
         default:
-          mZoneProcessor->setZoneKey(mZoneKey);
-          return mZoneProcessor->getDeltaOffset(epochSeconds);
+          return getBoundZoneProcessor()->getDeltaOffset(epochSeconds);
       }
     }
 
@@ -335,8 +331,7 @@ class TimeZone {
           }
 
         default:
-          mZoneProcessor->setZoneKey(mZoneKey);
-          return mZoneProcessor->getAbbrev(epochSeconds);
+          return getBoundZoneProcessor()->getAbbrev(epochSeconds);
       }
     }
 
@@ -359,8 +354,7 @@ class TimeZone {
           break;
 
         default:
-          mZoneProcessor->setZoneKey(mZoneKey);
-          odt = mZoneProcessor->getOffsetDateTime(ldt);
+          odt = getBoundZoneProcessor()->getOffsetDateTime(ldt);
           break;
       }
       return odt;
@@ -473,11 +467,24 @@ class TimeZone {
     explicit TimeZone(
         uint8_t type,
         uintptr_t zoneKey,
-        ZoneProcessor* mZoneProcessor
+        ZoneProcessor* zoneProcessor
     ):
         mType(type),
         mZoneKey(zoneKey),
-        mZoneProcessor(mZoneProcessor) {}
+        mZoneProcessor(zoneProcessor)
+    {}
+
+    /**
+     * Return the ZoneProcessor associated with this TimeZone after forcibly
+     * rebinding it to the current zoneKey. This is necessary because the
+     * ZoneProcessorCache could have bound the zoneProcessor to another
+     * TimeZone if it had run out of available ZoneProcessors. Cache
+     * invalidation is hard!
+     */
+    ZoneProcessor* getBoundZoneProcessor() const {
+      mZoneProcessor->setZoneKey(mZoneKey);
+      return mZoneProcessor;
+    }
 
     uint8_t mType;
 
