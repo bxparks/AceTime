@@ -174,6 +174,7 @@ class TimeZone {
         const basic::ZoneInfo* zoneInfo,
         BasicZoneProcessor* zoneProcessor
     ) {
+      zoneProcessor->setZoneKey((uintptr_t) zoneInfo);
       return TimeZone(
           zoneProcessor->getType(),
           (uintptr_t) zoneInfo,
@@ -193,6 +194,7 @@ class TimeZone {
         const extended::ZoneInfo* zoneInfo,
         ExtendedZoneProcessor* zoneProcessor
     ) {
+      zoneProcessor->setZoneKey((uintptr_t) zoneInfo);
       return TimeZone(
           zoneProcessor->getType(),
           (uintptr_t) zoneInfo,
