@@ -1,22 +1,16 @@
 #line 2 "BasicBrokerTest.ino"
 
+#include <Arduino.h>
 #include <AUnit.h>
 #include <AceTime.h>
 
-using namespace aunit;
+using aunit::TestRunner;
 using namespace ace_time;
 using ace_time::basic::ZoneInfoBroker;
 using ace_time::basic::ZoneEraBroker;
 using ace_time::basic::ZoneRuleBroker;
 using ace_time::basic::ZonePolicyBroker;
 using ace_time::internal::ZoneContext;
-
-test(timeCodeToMinutes) {
-  uint8_t code = 1;
-  uint8_t modifier = 0x01;
-  assertEqual((uint16_t)16,
-      ace_time::internal::timeCodeToMinutes(code, modifier));
-}
 
 //---------------------------------------------------------------------------
 

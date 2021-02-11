@@ -26,6 +26,8 @@ static const ZoneContext kZoneContext = {
   nullptr /*fragments*/,
 };
 
+//---------------------------------------------------------------------------
+
 static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   {
     7 /*fromYearTiny*/,
@@ -48,7 +50,8 @@ static const extended::ZonePolicy kPolicyUS ACE_TIME_PROGMEM = {
 };
 
 
-static const extended::ZoneEra kZoneEraAmerica_Los_Angeles[] ACE_TIME_PROGMEM = {
+static const extended::ZoneEra kZoneEraAmerica_Los_Angeles[] ACE_TIME_PROGMEM =
+{
   {
     // offset = -07:55, delta = 02:00
     // until = 01:09
@@ -64,7 +67,8 @@ static const extended::ZoneEra kZoneEraAmerica_Los_Angeles[] ACE_TIME_PROGMEM = 
   },
 };
 
-static const char kZoneNameAmerica_Los_Angeles[] ACE_TIME_PROGMEM = "America/Los_Angeles";
+static const char kZoneNameAmerica_Los_Angeles[] ACE_TIME_PROGMEM =
+    "America/Los_Angeles";
 
 const extended::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Los_Angeles /*name*/,
@@ -73,6 +77,8 @@ const extended::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_PROGMEM = {
   1 /*numEras*/,
   kZoneEraAmerica_Los_Angeles /*eras*/,
 };
+
+//---------------------------------------------------------------------------
 
 test(ExtendedBrokerTest, ZoneRuleBroker) {
   extended::ZoneRuleBroker rule(kZoneRulesUS);
@@ -119,6 +125,17 @@ test(ExtendedBrokerTest, ZoneInfoBroker) {
   assertEqual(2000, info.zoneContext()->startYear);
   assertEqual(2050, info.zoneContext()->untilYear);
   assertEqual(1, info.numEras());
+}
+
+//---------------------------------------------------------------------------
+
+test(ExtendedBrokerTest, ZonePolicyBroker_with_letters) {
+  extended::ZonePolicyBroker policy(&zonedbx::kPolicyNamibia);
+  assertFalse(policy.isNull());
+  assertEqual(3, policy.numRules());
+  assertEqual(2, policy.numLetters());
+  assertEqual(F("CAT"), policy.letter(0));
+  assertEqual(F("WAT"), policy.letter(1));
 }
 
 //---------------------------------------------------------------------------
