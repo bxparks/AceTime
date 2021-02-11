@@ -145,7 +145,6 @@ external dependencies. The comment section near the top of the `*.ino` file will
 usually have more precise dependency information:
 
 * AceRoutine (https://github.com/bxparks/AceRoutine)
-* AceButton (https://github.com/bxparks/AceButton)
 * Arduino Time Lib (https://github.com/PaulStoffregen/Time)
 * Arduino Timezone (https://github.com/JChristensen/Timezone)
 
@@ -161,6 +160,7 @@ Various scripts in the `tools/` directory depend on:
 If you want to run the unit tests or some of the command line examples using a
 Linux or MacOS machine, you need:
 
+* AUnit (https://github.com/bxparks/AUnit)
 * EpoxyDuino (https://github.com/bxparks/EpoxyDuino)
 
 <a name="Examples"></a>
