@@ -1,7 +1,7 @@
 #line 2 "ExtendedZoneProcessorMoreTest.ino"
 
 // Spillovers from ExtendedZoneProcessorTest.ino after it became too big for a
-// Arduino Pro Micro.
+// SparkFun Pro Micro.
 
 #include <AUnit.h>
 #include <AceCommon.h> // PrintStr<>
@@ -15,6 +15,21 @@ using namespace ace_time::zonedbx;
 //---------------------------------------------------------------------------
 // Test public methods
 //---------------------------------------------------------------------------
+
+test(ExtendedZoneProcessorTest, setZoneKey) {
+  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+  zoneProcessor.getUtcOffset(0);
+  assertTrue(zoneProcessor.mIsFilled);
+
+  zoneProcessor.setZoneKey((uintptr_t) &zonedbx::kZoneAustralia_Darwin);
+  assertFalse(zoneProcessor.mIsFilled);
+  zoneProcessor.getUtcOffset(0);
+  assertTrue(zoneProcessor.mIsFilled);
+
+  // Check that the cache remains valid if the zoneInfo does not change
+  zoneProcessor.setZoneKey((uintptr_t) &zonedbx::kZoneAustralia_Darwin);
+  assertTrue(zoneProcessor.mIsFilled);
+}
 
 // https://www.timeanddate.com/time/zone/usa/los-angeles
 test(ExtendedZoneProcessorTest, kZoneAmerica_Los_Angeles) {

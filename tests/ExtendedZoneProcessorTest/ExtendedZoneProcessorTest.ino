@@ -1,5 +1,10 @@
 #line 2 "ExtendedZoneProcessorTest.ino"
 
+// Tests for the private/protected implementation functions of
+// ExtendedZoneProcessor. The public ones have been moved to
+// ExtendedZoneProcessorMoreTest because they became too big for the ~30kB
+// limit of a Sparkfun Pro Micro.
+
 #include <AUnit.h>
 #include <AceTime.h>
 
@@ -822,26 +827,6 @@ test(ExtendedZoneProcessorTest, createAbbreviation) {
 
 test(ExtendedZoneProcessorTest, calcAbbreviations) {
   // TODO: Implement
-}
-
-
-//---------------------------------------------------------------------------
-// Test public methods
-//---------------------------------------------------------------------------
-
-test(ExtendedZoneProcessorTest, setZoneKey) {
-  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
-  zoneProcessor.getUtcOffset(0);
-  assertTrue(zoneProcessor.mIsFilled);
-
-  zoneProcessor.setZoneKey((uintptr_t) &zonedbx::kZoneAustralia_Darwin);
-  assertFalse(zoneProcessor.mIsFilled);
-  zoneProcessor.getUtcOffset(0);
-  assertTrue(zoneProcessor.mIsFilled);
-
-  // Check that the cache remains valid if the zoneInfo does not change
-  zoneProcessor.setZoneKey((uintptr_t) &zonedbx::kZoneAustralia_Darwin);
-  assertTrue(zoneProcessor.mIsFilled);
 }
 
 //---------------------------------------------------------------------------
