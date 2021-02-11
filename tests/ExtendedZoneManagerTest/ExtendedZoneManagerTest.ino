@@ -20,7 +20,7 @@ const extended::ZoneInfo* const kExtendedZoneRegistry[] ACE_TIME_PROGMEM = {
 const uint16_t kExtendedZoneRegistrySize =
     sizeof(kExtendedZoneRegistry) / sizeof(kExtendedZoneRegistry[0]);
 
-ExtendedZoneManager<2> extendedZoneManager(
+ExtendedZoneManager<1> extendedZoneManager(
     kExtendedZoneRegistrySize, kExtendedZoneRegistry);
 
 //---------------------------------------------------------------------------
@@ -132,7 +132,7 @@ test(ExtendedZoneManagerTest, createForTimeZoneData_zoneId) {
   TimeZoneData expected{zonedb::kZoneIdAmerica_Los_Angeles};
   assertTrue(expected == tzd);
 
-  // BasicZoneManager should return the same TimeZone
+  // ExtendedZoneManager should return the same TimeZone
   TimeZone tzRoundTrip = extendedZoneManager.createForTimeZoneData(tzd);
   assertTrue(tz == tzRoundTrip);
 }
