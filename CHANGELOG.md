@@ -34,7 +34,7 @@
           `SIZE` template parameter given to the `ZoneManager`.
             * The problem occurs because the `ZoneProcessorCache` will rebind
               a previously allocated `ZoneProcessor` to another `TimeZone` when
-              it runs out available processors in the cache.
+              it runs out of available processors in the cache.
 * 1.5
     * Use binary search for both `ZoneManager::createForZoneName()` and
       `ZoneManager::createForZoneId()`.
