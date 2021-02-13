@@ -25,8 +25,6 @@ class BasicZoneRegistrarTest_Sorted_binarySearchById_not_found;
 class BasicZoneRegistrarTest_Unsorted_linearSearchById;
 class BasicZoneRegistrarTest_Unsorted_linearSearchById_not_found;
 
-class __FlashStringHelper;
-
 namespace ace_time {
 
 /**
@@ -35,33 +33,33 @@ namespace ace_time {
  * the zone registry.
  *
  * @tparam ZI ZoneInfo type (e.g. basic::ZoneInfo)
- * @tparam ZRGB ZoneRegistryBroker type (e.g. basic::ZoneRegistryBroker)
  * @tparam ZIB ZoneInfoBroker type (e.g. basic::ZoneInfoBroker)
+ * @tparam ZRGB ZoneRegistryBroker type (e.g. basic::ZoneRegistryBroker)
  */
-template<typename ZI, typename ZRGB, typename ZIB>
+template<typename ZI, typename ZIB, typename ZRGB>
 class ZoneRegistrarTemplate {
   public:
     /** Invalid index to indicate error or not found. */
     static const uint16_t kInvalidIndex = 0xffff;
 
     /** Constructor. */
-    ZoneRegistrarTemplate(uint16_t registrySize, const ZI* const* zoneRegistry):
-        mRegistrySize(registrySize),
-        mIsSorted(isSorted(zoneRegistry, registrySize)),
-        mZoneRegistry(zoneRegistry) {}
+    ZoneRegistrarTemplate(
+        uint16_t zoneRegistrySize,
+        const ZI* const* zoneRegistry
+    ):
+        mZoneRegistrySize(zoneRegistrySize),
+        mZoneRegistry(zoneRegistry),
+        mIsSorted(isSorted(zoneRegistry, zoneRegistrySize))
+    {}
 
-    /** Return the number of zones. */
-    uint16_t registrySize() const { return mRegistrySize; }
-
-    /**
-     * Return true if zoneRegistry is sorted, and eligible to use a binary
-     * search.
-     */
-    bool isSorted() const { return mIsSorted; }
+    /** Return the number of zones and (fat) links. */
+    uint16_t zoneRegistrySize() const { return mZoneRegistrySize; }
 
     /** Return the ZoneInfo at index i. Return nullptr if i is out of range. */
     const ZI* getZoneInfoForIndex(uint16_t i) const {
-      return (i < mRegistrySize) ? ZRGB(mZoneRegistry).zoneInfo(i) : nullptr;
+      return (i < mZoneRegistrySize)
+          ? ZRGB(mZoneRegistry).zoneInfo(i)
+          : nullptr;
     }
 
     /**
@@ -99,10 +97,10 @@ class ZoneRegistrarTemplate {
 
     /** Find the index for zone id. Return kInvalidIndex if not found. */
     uint16_t findIndexForId(uint32_t zoneId) const {
-      if (mIsSorted && mRegistrySize >= kBinarySearchThreshold) {
-        return binarySearchById(mZoneRegistry, mRegistrySize, zoneId);
+      if (mIsSorted && mZoneRegistrySize >= kBinarySearchThreshold) {
+        return binarySearchById(mZoneRegistry, mZoneRegistrySize, zoneId);
       } else {
-        return linearSearchById(mZoneRegistry, mRegistrySize, zoneId);
+        return linearSearchById(mZoneRegistry, mZoneRegistrySize, zoneId);
       }
     }
 
@@ -119,7 +117,7 @@ class ZoneRegistrarTemplate {
     friend class ::BasicZoneRegistrarTest_Unsorted_linearSearchById;
     friend class ::BasicZoneRegistrarTest_Unsorted_linearSearchById_not_found;
 
-    /** Use binarySearchById() if registrySize >= threshold. */
+    /** Use binarySearchById() if zoneRegistrySize >= threshold. */
     static const uint8_t kBinarySearchThreshold = 8;
 
     /** Determine if the given zone registry is sorted by id. */
@@ -164,7 +162,6 @@ class ZoneRegistrarTemplate {
      * UINT16_MAX - 1. This allows us to set kInvalidIndex to UINT16_MAX to
      * indicate "Not Found".
      */
-#if 1
     static uint16_t binarySearchById(const ZI* const* registry,
         uint16_t registrySize, uint32_t zoneId) {
       const ZRGB zoneRegistry(registry);
@@ -177,51 +174,24 @@ class ZoneRegistrarTemplate {
           } // lambda expression returns zoneId at index i
       );
     }
-#else
-    // Moved to ace_common::binarySearchByKey(). The templatized version
-    // produces identical code sizes for 8-bit processors. On 32-bit
-    // processors, the code size usually goes *down* by 4-60 bytes using the
-    // templatized version.
-    static uint16_t binarySearchById(const ZI* const* registry,
-        uint16_t registrySize, uint32_t zoneId) {
-      uint16_t a = 0;
-      uint16_t b = registrySize;
-      const ZRGB zoneRegistry(registry);
-      while (true) {
-        uint16_t diff = b - a;
-        if (diff == 0) break;
-
-        uint16_t c = a + diff / 2;
-        const ZI* zoneInfo = zoneRegistry.zoneInfo(c);
-        uint32_t currentId = ZIB(zoneInfo).zoneId();
-        if (currentId == zoneId) return c;
-        if (zoneId < currentId) {
-          b = c;
-        } else {
-          a = c + 1;
-        }
-      }
-      return kInvalidIndex;
-    }
-#endif
 
     /** Exposed only for benchmarking purposes. */
     uint16_t findIndexForIdLinear(uint32_t zoneId) const {
-      return linearSearchById(mZoneRegistry, mRegistrySize, zoneId);
+      return linearSearchById(mZoneRegistry, mZoneRegistrySize, zoneId);
     }
 
     /** Exposed only for benchmarking purposes. */
     uint16_t findIndexForIdBinary(uint32_t zoneId) const {
-      return binarySearchById(mZoneRegistry, mRegistrySize, zoneId);
+      return binarySearchById(mZoneRegistry, mZoneRegistrySize, zoneId);
     }
 
-    uint16_t const mRegistrySize;
+  private:
+    // Ordering of fields optimized for 32-bit alignment.
+    uint16_t const mZoneRegistrySize;
+    const ZI* const* const mZoneRegistry; // not nullable
     bool const mIsSorted;
-    const ZI* const* const mZoneRegistry;
 };
 
-// Use subclassing instead of template typedef so that error messages are
-// understandable. The compiler seems to optimize away the subclass overhead.
 #if 1
 
 /**
@@ -230,18 +200,19 @@ class ZoneRegistrarTemplate {
  */
 class BasicZoneRegistrar: public ZoneRegistrarTemplate<
     basic::ZoneInfo,
-    basic::ZoneRegistryBroker,
-    basic::ZoneInfoBroker
+    basic::ZoneInfoBroker,
+    basic::ZoneRegistryBroker
 > {
   public:
     BasicZoneRegistrar(
-        uint16_t registrySize,
+        uint16_t zoneRegistrySize,
         const basic::ZoneInfo* const* zoneRegistry
     ) :
-      ZoneRegistrarTemplate<
-        basic::ZoneInfo,
-        basic::ZoneRegistryBroker,
-        basic::ZoneInfoBroker>(registrySize, zoneRegistry)
+        ZoneRegistrarTemplate<
+            basic::ZoneInfo,
+            basic::ZoneInfoBroker,
+            basic::ZoneRegistryBroker
+        >(zoneRegistrySize, zoneRegistry)
     {}
 };
 
@@ -251,35 +222,39 @@ class BasicZoneRegistrar: public ZoneRegistrarTemplate<
  */
 class ExtendedZoneRegistrar: public ZoneRegistrarTemplate<
     extended::ZoneInfo,
-    extended::ZoneRegistryBroker,
-    extended::ZoneInfoBroker
+    extended::ZoneInfoBroker,
+    extended::ZoneRegistryBroker
 > {
   public:
     ExtendedZoneRegistrar(
-        uint16_t registrySize,
+        uint16_t zoneRegistrySize,
         const extended::ZoneInfo* const* zoneRegistry
     ) :
-      ZoneRegistrarTemplate<
-        extended::ZoneInfo,
-        extended::ZoneRegistryBroker,
-        extended::ZoneInfoBroker>(registrySize, zoneRegistry)
+        ZoneRegistrarTemplate<
+            extended::ZoneInfo,
+            extended::ZoneInfoBroker,
+            extended::ZoneRegistryBroker
+        >(zoneRegistrySize, zoneRegistry)
     {}
 };
 
 #else
 
+// Use subclassing instead of template typedef so that error messages are
+// understandable. The compiler seems to optimize away the subclass overhead.
+
 typedef ZoneRegistrarTemplate<
     basic::ZoneInfo,
     basic::ZoneRegistryBroker,
     basic::ZoneInfoBroker
-  >
+>
     BasicZoneRegistrar;
 
 typedef ZoneRegistrarTemplate<
     extended::ZoneInfo,
     extended::ZoneRegistryBroker,
     extended::ZoneInfoBroker
-  >
+>
     ExtendedZoneRegistrar;
 
 #endif

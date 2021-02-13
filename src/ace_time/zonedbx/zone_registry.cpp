@@ -34,7 +34,7 @@ namespace ace_time {
 namespace zonedbx {
 
 //---------------------------------------------------------------------------
-// Zone registry. Sorted by zoneId.
+// Zone Info registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
 const extended::ZoneInfo* const kZoneRegistry[386] ACE_TIME_PROGMEM = {
   &kZoneAsia_Kuala_Lumpur, // 0x014763c4, Asia/Kuala_Lumpur
@@ -427,7 +427,7 @@ const extended::ZoneInfo* const kZoneRegistry[386] ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Zone and Link registry. Sorted by zoneId.
+// Zone and Link (fat) Info registry. Sorted by zoneId. Links act like Zones.
 //---------------------------------------------------------------------------
 const extended::ZoneInfo* const kZoneAndLinkRegistry[593] ACE_TIME_PROGMEM = {
   &kZoneGB, // 0x005973ae, GB -> Europe/London
@@ -1023,6 +1023,220 @@ const extended::ZoneInfo* const kZoneAndLinkRegistry[593] ACE_TIME_PROGMEM = {
   &kZoneMexico_BajaNorte, // 0xfcf7150f, Mexico/BajaNorte -> America/Tijuana
   &kZoneAmerica_Santa_Isabel, // 0xfd18a56c, America/Santa_Isabel -> America/Tijuana
   &kZoneAmerica_Campo_Grande, // 0xfec3e7a6, America/Campo_Grande
+
+};
+
+//---------------------------------------------------------------------------
+// Link (thin) Entry registry. Sorted by linkId. Links are references to Zones.
+//---------------------------------------------------------------------------
+const extended::LinkEntry kLinkRegistry[207] ACE_TIME_PROGMEM = {
+  { kZoneIdGB, kZoneIdEurope_London }, // 0x005973ae -> 0x5c6a84ae
+  { kZoneIdNZ, kZoneIdPacific_Auckland }, // 0x005974ad -> 0x25062f86
+  { kZoneIdAfrica_Libreville, kZoneIdAfrica_Lagos }, // 0x01d96de4 -> 0x789bb5d0
+  { kZoneIdAustralia_Victoria, kZoneIdAustralia_Melbourne }, // 0x0260d5db -> 0x0fe559a3
+  { kZoneIdAtlantic_Faeroe, kZoneIdAtlantic_Faroe }, // 0x031ec516 -> 0xe110a971
+  { kZoneIdAmerica_St_Kitts, kZoneIdAmerica_Port_of_Spain }, // 0x04c0507b -> 0xd8b28d59
+  { kZoneIdAfrica_Ouagadougou, kZoneIdAfrica_Abidjan }, // 0x04d7219a -> 0xc21305a3
+  { kZoneIdAmerica_St_Lucia, kZoneIdAmerica_Port_of_Spain }, // 0x04d8b3ba -> 0xd8b28d59
+  { kZoneIdAfrica_Bujumbura, kZoneIdAfrica_Maputo }, // 0x05232a47 -> 0x8e6ca1f0
+  { kZoneIdAmerica_St_Barthelemy, kZoneIdAmerica_Port_of_Spain }, // 0x054e6a79 -> 0xd8b28d59
+  { kZoneIdAfrica_Addis_Ababa, kZoneIdAfrica_Nairobi }, // 0x05ae1e65 -> 0xa87ab57e
+  { kZoneIdMexico_BajaSur, kZoneIdAmerica_Mazatlan }, // 0x08ee3641 -> 0x0532189e
+  { kZoneIdUS_Hawaii, kZoneIdPacific_Honolulu }, // 0x09c8de2f -> 0xe6e70af9
+  { kZoneIdGMT, kZoneIdEtc_GMT }, // 0x0b87eb2d -> 0xd8e2de58
+  { kZoneIdPRC, kZoneIdAsia_Shanghai }, // 0x0b88120a -> 0xf895a7f5
+  { kZoneIdROC, kZoneIdAsia_Taipei }, // 0x0b881a29 -> 0xd1a844ae
+  { kZoneIdROK, kZoneIdAsia_Seoul }, // 0x0b881a31 -> 0x15ce82da
+  { kZoneIdUCT, kZoneIdEtc_UTC }, // 0x0b882571 -> 0xd8e31abc
+  { kZoneIdUTC, kZoneIdEtc_UTC }, // 0x0b882791 -> 0xd8e31abc
+  { kZoneIdEurope_Mariehamn, kZoneIdEurope_Helsinki }, // 0x0caa6496 -> 0x6ab2975b
+  { kZoneIdEgypt, kZoneIdAfrica_Cairo }, // 0x0d1a278e -> 0x77f8e228
+  { kZoneIdGMT_PLUS_0, kZoneIdEtc_GMT }, // 0x0d2f7028 -> 0xd8e2de58
+  { kZoneIdGMT_0, kZoneIdEtc_GMT }, // 0x0d2f706a -> 0xd8e2de58
+  { kZoneIdJapan, kZoneIdAsia_Tokyo }, // 0x0d712f8f -> 0x15e606a8
+  { kZoneIdLibya, kZoneIdAfrica_Tripoli }, // 0x0d998b16 -> 0x9dfebd3d
+  { kZoneIdKwajalein, kZoneIdPacific_Kwajalein }, // 0x0e57afbb -> 0x8e216759
+  { kZoneIdAsia_Dacca, kZoneIdAsia_Dhaka }, // 0x14bcac5e -> 0x14c07b8b
+  { kZoneIdAsia_Ashkhabad, kZoneIdAsia_Ashgabat }, // 0x15454f09 -> 0xba87598d
+  { kZoneIdAsia_Macao, kZoneIdAsia_Macau }, // 0x155f88b3 -> 0x155f88b9
+  { kZoneIdAsia_Tel_Aviv, kZoneIdAsia_Jerusalem }, // 0x166d7c2c -> 0x5becd23a
+  { kZoneIdAmerica_Montserrat, kZoneIdAmerica_Port_of_Spain }, // 0x199b0a35 -> 0xd8b28d59
+  { kZoneIdEurope_Podgorica, kZoneIdEurope_Belgrade }, // 0x1c1a499c -> 0xe0532b3a
+  { kZoneIdAsia_Aden, kZoneIdAsia_Riyadh }, // 0x1fa7084a -> 0xcd973d93
+  { kZoneIdAmerica_Montreal, kZoneIdAmerica_Toronto }, // 0x203a1ea8 -> 0x792e851b
+  { kZoneIdAmerica_Argentina_ComodRivadavia, kZoneIdAmerica_Argentina_Catamarca }, // 0x22758877 -> 0x8d40986b
+  { kZoneIdPacific_Truk, kZoneIdPacific_Chuuk }, // 0x234010a9 -> 0x8a090b23
+  { kZoneIdEtc_Greenwich, kZoneIdEtc_GMT }, // 0x26daa98c -> 0xd8e2de58
+  { kZoneIdAustralia_Currie, kZoneIdAustralia_Hobart }, // 0x278b6a24 -> 0x32bf951a
+  { kZoneIdAustralia_Canberra, kZoneIdAustralia_Sydney }, // 0x2a09ae58 -> 0x4d1e9776
+  { kZoneIdJamaica, kZoneIdAmerica_Jamaica }, // 0x2e44fdab -> 0x565dad6c
+  { kZoneIdEtc_Universal, kZoneIdEtc_UTC }, // 0x2f8cb9a9 -> 0xd8e31abc
+  { kZoneIdAfrica_Djibouti, kZoneIdAfrica_Nairobi }, // 0x30ea01d4 -> 0xa87ab57e
+  { kZoneIdAfrica_Gaborone, kZoneIdAfrica_Maputo }, // 0x317c0aa7 -> 0x8e6ca1f0
+  { kZoneIdAsia_Calcutta, kZoneIdAsia_Kolkata }, // 0x328a44c3 -> 0x72c06cd9
+  { kZoneIdAsia_Istanbul, kZoneIdEurope_Istanbul }, // 0x382e7894 -> 0x9e09d6e6
+  { kZoneIdAsia_Ulan_Bator, kZoneIdAsia_Ulaanbaatar }, // 0x394db4d9 -> 0x30f0cc4e
+  { kZoneIdAfrica_Brazzaville, kZoneIdAfrica_Lagos }, // 0x39cda760 -> 0x789bb5d0
+  { kZoneIdAfrica_Porto_Novo, kZoneIdAfrica_Lagos }, // 0x3d1bf95d -> 0x789bb5d0
+  { kZoneIdAmerica_Marigot, kZoneIdAmerica_Port_of_Spain }, // 0x3dab3a59 -> 0xd8b28d59
+  { kZoneIdEurope_Guernsey, kZoneIdEurope_London }, // 0x3db12c16 -> 0x5c6a84ae
+  { kZoneIdAfrica_Nouakchott, kZoneIdAfrica_Abidjan }, // 0x3dc49dba -> 0xc21305a3
+  { kZoneIdAmerica_Louisville, kZoneIdAmerica_Kentucky_Louisville }, // 0x3dcb47ee -> 0x1a21024b
+  { kZoneIdCanada_Pacific, kZoneIdAmerica_Vancouver }, // 0x40fa3c7b -> 0x2c6f6b1f
+  { kZoneIdAtlantic_St_Helena, kZoneIdAfrica_Abidjan }, // 0x451fc5f7 -> 0xc21305a3
+  { kZoneIdIndian_Comoro, kZoneIdAfrica_Nairobi }, // 0x45f4deb6 -> 0xa87ab57e
+  { kZoneIdAmerica_Mendoza, kZoneIdAmerica_Argentina_Mendoza }, // 0x46b4e054 -> 0xa9f72d5c
+  { kZoneIdNZ_CHAT, kZoneIdPacific_Chatham }, // 0x4d42afda -> 0x2f0de999
+  { kZoneIdUS_Arizona, kZoneIdAmerica_Phoenix }, // 0x4ec52670 -> 0x34b5af01
+  { kZoneIdUS_Aleutian, kZoneIdAmerica_Adak }, // 0x4fe013ef -> 0x97fe49d7
+  { kZoneIdAmerica_Catamarca, kZoneIdAmerica_Argentina_Catamarca }, // 0x5036e963 -> 0x8d40986b
+  { kZoneIdAsia_Kashgar, kZoneIdAsia_Urumqi }, // 0x52955193 -> 0xd5379735
+  { kZoneIdCanada_Atlantic, kZoneIdAmerica_Halifax }, // 0x536b119c -> 0xbc5b7183
+  { kZoneIdUS_Samoa, kZoneIdPacific_Pago_Pago }, // 0x566821cd -> 0x603aebd0
+  { kZoneIdHongkong, kZoneIdAsia_Hong_Kong }, // 0x56d36560 -> 0x577f28ac
+  { kZoneIdEurope_Jersey, kZoneIdEurope_London }, // 0x570dae76 -> 0x5c6a84ae
+  { kZoneIdAtlantic_Jan_Mayen, kZoneIdEurope_Oslo }, // 0x5a7535b6 -> 0xa2c3fba1
+  { kZoneIdUS_Eastern, kZoneIdAmerica_New_York }, // 0x5bb7e78e -> 0x1e2a7654
+  { kZoneIdAmerica_Cordoba, kZoneIdAmerica_Argentina_Cordoba }, // 0x5c8a7600 -> 0xbfccc308
+  { kZoneIdAsia_Ujung_Pandang, kZoneIdAsia_Makassar }, // 0x5d001eb3 -> 0x6aa21c85
+  { kZoneIdAfrica_Mbabane, kZoneIdAfrica_Johannesburg }, // 0x5d3bdd40 -> 0xd5d157a0
+  { kZoneIdCanada_Central, kZoneIdAmerica_Winnipeg }, // 0x626710f5 -> 0x8c7dafc7
+  { kZoneIdBrazil_Acre, kZoneIdAmerica_Rio_Branco }, // 0x66934f93 -> 0x9d352764
+  { kZoneIdBrazil_East, kZoneIdAmerica_Sao_Paulo }, // 0x669578c5 -> 0x1063bfc9
+  { kZoneIdAfrica_Kinshasa, kZoneIdAfrica_Lagos }, // 0x6695d70c -> 0x789bb5d0
+  { kZoneIdBrazil_West, kZoneIdAmerica_Manaus }, // 0x669f689b -> 0xac86bf8b
+  { kZoneIdAfrica_Mogadishu, kZoneIdAfrica_Nairobi }, // 0x66bc159b -> 0xa87ab57e
+  { kZoneIdUS_Indiana_Starke, kZoneIdAmerica_Indiana_Knox }, // 0x67977be7 -> 0x6554adc9
+  { kZoneIdAmerica_Buenos_Aires, kZoneIdAmerica_Argentina_Buenos_Aires }, // 0x67d79a05 -> 0xd43b4c0d
+  { kZoneIdAfrica_Freetown, kZoneIdAfrica_Abidjan }, // 0x6823dd64 -> 0xc21305a3
+  { kZoneIdAmerica_Indianapolis, kZoneIdAmerica_Indiana_Indianapolis }, // 0x6a009ae1 -> 0x28a669a4
+  { kZoneIdEurope_Sarajevo, kZoneIdEurope_Belgrade }, // 0x6a576c3f -> 0xe0532b3a
+  { kZoneIdAmerica_Lower_Princes, kZoneIdAmerica_Curacao }, // 0x6ae45b62 -> 0x6a879184
+  { kZoneIdEurope_Skopje, kZoneIdEurope_Belgrade }, // 0x6c76fdd0 -> 0xe0532b3a
+  { kZoneIdAsia_Rangoon, kZoneIdAsia_Yangon }, // 0x6d1217c6 -> 0xdd54a8be
+  { kZoneIdUS_East_Indiana, kZoneIdAmerica_Indiana_Indianapolis }, // 0x6dcf558a -> 0x28a669a4
+  { kZoneIdUS_Mountain, kZoneIdAmerica_Denver }, // 0x6eb88247 -> 0x97d10b2a
+  { kZoneIdAntarctica_McMurdo, kZoneIdPacific_Auckland }, // 0x6eeb5585 -> 0x25062f86
+  { kZoneIdAfrica_Lubumbashi, kZoneIdAfrica_Maputo }, // 0x6fd88566 -> 0x8e6ca1f0
+  { kZoneIdAfrica_Asmara, kZoneIdAfrica_Nairobi }, // 0x73b278ef -> 0xa87ab57e
+  { kZoneIdAfrica_Asmera, kZoneIdAfrica_Nairobi }, // 0x73b289f3 -> 0xa87ab57e
+  { kZoneIdAfrica_Bamako, kZoneIdAfrica_Abidjan }, // 0x74c1e7a5 -> 0xc21305a3
+  { kZoneIdAfrica_Bangui, kZoneIdAfrica_Lagos }, // 0x74c28ed0 -> 0x789bb5d0
+  { kZoneIdAfrica_Banjul, kZoneIdAfrica_Abidjan }, // 0x74c29b96 -> 0xc21305a3
+  { kZoneIdEurope_Nicosia, kZoneIdAsia_Nicosia }, // 0x74efab8a -> 0x4b0fcf78
+  { kZoneIdUS_Michigan, kZoneIdAmerica_Detroit }, // 0x766bb7bc -> 0x925cfbc1
+  { kZoneIdCanada_Saskatchewan, kZoneIdAmerica_Regina }, // 0x77311f49 -> 0xb875371c
+  { kZoneIdAfrica_Dakar, kZoneIdAfrica_Abidjan }, // 0x780b00fd -> 0xc21305a3
+  { kZoneIdCanada_Yukon, kZoneIdAmerica_Whitehorse }, // 0x78dd35c2 -> 0x54e0e3e8
+  { kZoneIdAmerica_Tortola, kZoneIdAmerica_Port_of_Spain }, // 0x7931462b -> 0xd8b28d59
+  { kZoneIdAfrica_Douala, kZoneIdAfrica_Lagos }, // 0x7a6df310 -> 0x789bb5d0
+  { kZoneIdAfrica_Conakry, kZoneIdAfrica_Abidjan }, // 0x7ab36b31 -> 0xc21305a3
+  { kZoneIdAmerica_Ensenada, kZoneIdAmerica_Tijuana }, // 0x7bc95445 -> 0x6aa1df72
+  { kZoneIdEurope_Zagreb, kZoneIdEurope_Belgrade }, // 0x7c11c9ff -> 0xe0532b3a
+  { kZoneIdCuba, kZoneIdAmerica_Havana }, // 0x7c83cba0 -> 0xa0e15675
+  { kZoneIdEire, kZoneIdEurope_Dublin }, // 0x7c84b36a -> 0x4a275f62
+  { kZoneIdGMT0, kZoneIdEtc_GMT }, // 0x7c8550fd -> 0xd8e2de58
+  { kZoneIdIran, kZoneIdAsia_Tehran }, // 0x7c87090f -> 0xd1f02254
+  { kZoneIdW_SU, kZoneIdEurope_Moscow }, // 0x7c8d8ef1 -> 0x5ec266fc
+  { kZoneIdZulu, kZoneIdEtc_UTC }, // 0x7c9069b5 -> 0xd8e31abc
+  { kZoneIdChile_Continental, kZoneIdAmerica_Santiago }, // 0x7e2bdb18 -> 0x7410c9bc
+  { kZoneIdAmerica_Fort_Wayne, kZoneIdAmerica_Indiana_Indianapolis }, // 0x7eaaaf24 -> 0x28a669a4
+  { kZoneIdAfrica_Harare, kZoneIdAfrica_Maputo }, // 0x82c39a2d -> 0x8e6ca1f0
+  { kZoneIdAmerica_Shiprock, kZoneIdAmerica_Denver }, // 0x82fb7049 -> 0x97d10b2a
+  { kZoneIdAmerica_St_Vincent, kZoneIdAmerica_Port_of_Spain }, // 0x8460e523 -> 0xd8b28d59
+  { kZoneIdAsia_Vientiane, kZoneIdAsia_Bangkok }, // 0x89d68d75 -> 0x9d6e3aaf
+  { kZoneIdAfrica_Kigali, kZoneIdAfrica_Maputo }, // 0x8a4dcf2b -> 0x8e6ca1f0
+  { kZoneIdAustralia_ACT, kZoneIdAustralia_Sydney }, // 0x8a970eb2 -> 0x4d1e9776
+  { kZoneIdAustralia_LHI, kZoneIdAustralia_Lord_Howe }, // 0x8a973e17 -> 0xa748b67d
+  { kZoneIdAustralia_NSW, kZoneIdAustralia_Sydney }, // 0x8a974812 -> 0x4d1e9776
+  { kZoneIdPacific_Samoa, kZoneIdPacific_Pago_Pago }, // 0x8b2699b4 -> 0x603aebd0
+  { kZoneIdAfrica_Luanda, kZoneIdAfrica_Lagos }, // 0x8d7909cf -> 0x789bb5d0
+  { kZoneIdAfrica_Lusaka, kZoneIdAfrica_Maputo }, // 0x8d82b23b -> 0x8e6ca1f0
+  { kZoneIdAustralia_North, kZoneIdAustralia_Darwin }, // 0x8d997165 -> 0x2876bdff
+  { kZoneIdAustralia_South, kZoneIdAustralia_Adelaide }, // 0x8df3f8ad -> 0x2428e8a3
+  { kZoneIdAfrica_Malabo, kZoneIdAfrica_Lagos }, // 0x8e6a1906 -> 0x789bb5d0
+  { kZoneIdAfrica_Maseru, kZoneIdAfrica_Johannesburg }, // 0x8e6e02c7 -> 0xd5d157a0
+  { kZoneIdAmerica_Godthab, kZoneIdAmerica_Nuuk }, // 0x8f7eba1f -> 0x9805b5a9
+  { kZoneIdAustralia_Yancowinna, kZoneIdAustralia_Broken_Hill }, // 0x90bac131 -> 0xb06eada3
+  { kZoneIdAfrica_Niamey, kZoneIdAfrica_Lagos }, // 0x914a30fd -> 0x789bb5d0
+  { kZoneIdMexico_General, kZoneIdAmerica_Mexico_City }, // 0x93711d57 -> 0xd0d93f43
+  { kZoneIdAmerica_Cayman, kZoneIdAmerica_Panama }, // 0x953961df -> 0xb3863854
+  { kZoneIdAmerica_Grenada, kZoneIdAmerica_Port_of_Spain }, // 0x968ce4d8 -> 0xd8b28d59
+  { kZoneIdAmerica_Aruba, kZoneIdAmerica_Curacao }, // 0x97cf8651 -> 0x6a879184
+  { kZoneIdAmerica_Atka, kZoneIdAmerica_Adak }, // 0x97fe8f27 -> 0x97fe49d7
+  { kZoneIdAmerica_Jujuy, kZoneIdAmerica_Argentina_Jujuy }, // 0x9873dbbd -> 0x5f2f46c5
+  { kZoneIdBrazil_DeNoronha, kZoneIdAmerica_Noronha }, // 0x9b4cb496 -> 0xab5116fb
+  { kZoneIdAsia_Bahrain, kZoneIdAsia_Qatar }, // 0x9d078487 -> 0x15a8330b
+  { kZoneIdEtc_GMT_PLUS_0, kZoneIdEtc_GMT }, // 0x9d13da13 -> 0xd8e2de58
+  { kZoneIdEtc_GMT_0, kZoneIdEtc_GMT }, // 0x9d13da55 -> 0xd8e2de58
+  { kZoneIdIndian_Antananarivo, kZoneIdAfrica_Nairobi }, // 0x9ebf5289 -> 0xa87ab57e
+  { kZoneIdAfrica_Dar_es_Salaam, kZoneIdAfrica_Nairobi }, // 0xa04c47b6 -> 0xa87ab57e
+  { kZoneIdAsia_Katmandu, kZoneIdAsia_Kathmandu }, // 0xa7ec12c7 -> 0x9a96ce6f
+  { kZoneIdSingapore, kZoneIdAsia_Singapore }, // 0xa8598c8d -> 0xcf8581fa
+  { kZoneIdUS_Pacific, kZoneIdAmerica_Los_Angeles }, // 0xa950f6ab -> 0xb7f7e8f2
+  { kZoneIdAmerica_Coral_Harbour, kZoneIdAmerica_Atikokan }, // 0xabcb7569 -> 0x81b92098
+  { kZoneIdAmerica_Anguilla, kZoneIdAmerica_Port_of_Spain }, // 0xafe31333 -> 0xd8b28d59
+  { kZoneIdChile_EasterIsland, kZoneIdPacific_Easter }, // 0xb0982af8 -> 0xcf54f7e7
+  { kZoneIdPacific_Johnston, kZoneIdPacific_Honolulu }, // 0xb15d7b36 -> 0xe6e70af9
+  { kZoneIdAfrica_Timbuktu, kZoneIdAfrica_Abidjan }, // 0xb164d56f -> 0xc21305a3
+  { kZoneIdAmerica_St_Thomas, kZoneIdAmerica_Port_of_Spain }, // 0xb1b3d778 -> 0xd8b28d59
+  { kZoneIdCanada_Newfoundland, kZoneIdAmerica_St_Johns }, // 0xb396e991 -> 0x04b14e6e
+  { kZoneIdAsia_Harbin, kZoneIdAsia_Shanghai }, // 0xb5af1186 -> 0xf895a7f5
+  { kZoneIdIsrael, kZoneIdAsia_Jerusalem }, // 0xba88c9e5 -> 0x5becd23a
+  { kZoneIdPacific_Yap, kZoneIdPacific_Chuuk }, // 0xbb40138d -> 0x8a090b23
+  { kZoneIdEurope_Ljubljana, kZoneIdEurope_Belgrade }, // 0xbd98cdb7 -> 0xe0532b3a
+  { kZoneIdAsia_Kuwait, kZoneIdAsia_Riyadh }, // 0xbe1b2f27 -> 0xcd973d93
+  { kZoneIdEurope_Tiraspol, kZoneIdEurope_Chisinau }, // 0xbe704472 -> 0xad58aa18
+  { kZoneIdAmerica_Antigua, kZoneIdAmerica_Port_of_Spain }, // 0xc067a32f -> 0xd8b28d59
+  { kZoneIdEurope_Busingen, kZoneIdEurope_Zurich }, // 0xc06d2cdf -> 0x7d8195b9
+  { kZoneIdAfrica_Kampala, kZoneIdAfrica_Nairobi }, // 0xc1d30e31 -> 0xa87ab57e
+  { kZoneIdAmerica_Knox_IN, kZoneIdAmerica_Indiana_Knox }, // 0xc1db9a1c -> 0x6554adc9
+  { kZoneIdAmerica_Virgin, kZoneIdAmerica_Port_of_Spain }, // 0xc2183ab5 -> 0xd8b28d59
+  { kZoneIdAsia_Phnom_Penh, kZoneIdAsia_Bangkok }, // 0xc224945e -> 0x9d6e3aaf
+  { kZoneIdAsia_Muscat, kZoneIdAsia_Dubai }, // 0xc2c3565f -> 0x14c79f77
+  { kZoneIdPortugal, kZoneIdEurope_Lisbon }, // 0xc3274593 -> 0x5c00a70b
+  { kZoneIdNavajo, kZoneIdAmerica_Denver }, // 0xc4ef0e24 -> 0x97d10b2a
+  { kZoneIdAsia_Chungking, kZoneIdAsia_Shanghai }, // 0xc7121dd0 -> 0xf895a7f5
+  { kZoneIdGreenwich, kZoneIdEtc_GMT }, // 0xc84d4221 -> 0xd8e2de58
+  { kZoneIdPoland, kZoneIdEurope_Warsaw }, // 0xca913b23 -> 0x75185c19
+  { kZoneIdUS_Central, kZoneIdAmerica_Chicago }, // 0xcabdcb25 -> 0x4b92b5d4
+  { kZoneIdEurope_Vatican, kZoneIdEurope_Rome }, // 0xcb485dca -> 0xa2c58fd7
+  { kZoneIdAmerica_Porto_Acre, kZoneIdAmerica_Rio_Branco }, // 0xcce5bf54 -> 0x9d352764
+  { kZoneIdAmerica_Guadeloupe, kZoneIdAmerica_Port_of_Spain }, // 0xcd1f8a31 -> 0xd8b28d59
+  { kZoneIdAntarctica_South_Pole, kZoneIdPacific_Auckland }, // 0xcd96b290 -> 0x25062f86
+  { kZoneIdAmerica_Dominica, kZoneIdAmerica_Port_of_Spain }, // 0xcecb4c4a -> 0xd8b28d59
+  { kZoneIdEurope_San_Marino, kZoneIdEurope_Rome }, // 0xcef7724b -> 0xa2c58fd7
+  { kZoneIdAsia_Saigon, kZoneIdAsia_Ho_Chi_Minh }, // 0xcf52f713 -> 0x20f2d127
+  { kZoneIdEurope_Belfast, kZoneIdEurope_London }, // 0xd07dd1e5 -> 0x5c6a84ae
+  { kZoneIdUniversal, kZoneIdEtc_UTC }, // 0xd0ff523e -> 0xd8e31abc
+  { kZoneIdAsia_Thimbu, kZoneIdAsia_Thimphu }, // 0xd226e31b -> 0x170380d1
+  { kZoneIdArctic_Longyearbyen, kZoneIdEurope_Oslo }, // 0xd23e7859 -> 0xa2c3fba1
+  { kZoneIdAustralia_Queensland, kZoneIdAustralia_Brisbane }, // 0xd326ed0a -> 0x4fedc9c0
+  { kZoneIdTurkey, kZoneIdEurope_Istanbul }, // 0xd455e469 -> 0x9e09d6e6
+  { kZoneIdAfrica_Lome, kZoneIdAfrica_Abidjan }, // 0xd51c3a07 -> 0xc21305a3
+  { kZoneIdEtc_UCT, kZoneIdEtc_UTC }, // 0xd8e3189c -> 0xd8e31abc
+  { kZoneIdEurope_Bratislava, kZoneIdEurope_Prague }, // 0xda493bed -> 0x65ee5d48
+  { kZoneIdAustralia_West, kZoneIdAustralia_Perth }, // 0xdd858a5d -> 0x8db8269d
+  { kZoneIdAmerica_Rosario, kZoneIdAmerica_Argentina_Cordoba }, // 0xdf448665 -> 0xbfccc308
+  { kZoneIdAfrica_Blantyre, kZoneIdAfrica_Maputo }, // 0xe08d813b -> 0x8e6ca1f0
+  { kZoneIdPacific_Midway, kZoneIdPacific_Pago_Pago }, // 0xe286d38e -> 0x603aebd0
+  { kZoneIdIceland, kZoneIdAtlantic_Reykjavik }, // 0xe56a35b5 -> 0x1c2b4f74
+  { kZoneIdIndian_Mayotte, kZoneIdAfrica_Nairobi }, // 0xe6880bca -> 0xa87ab57e
+  { kZoneIdAustralia_Tasmania, kZoneIdAustralia_Hobart }, // 0xe6d76648 -> 0x32bf951a
+  { kZoneIdAmerica_Kralendijk, kZoneIdAmerica_Curacao }, // 0xe7c456c5 -> 0x6a879184
+  { kZoneIdPacific_Ponape, kZoneIdPacific_Pohnpei }, // 0xe9f80086 -> 0x28929f96
+  { kZoneIdEurope_Isle_of_Man, kZoneIdEurope_London }, // 0xeaf84580 -> 0x5c6a84ae
+  { kZoneIdPacific_Saipan, kZoneIdPacific_Guam }, // 0xeff7a35f -> 0x2338f9ed
+  { kZoneIdCanada_Eastern, kZoneIdAmerica_Toronto }, // 0xf3612d5e -> 0x792e851b
+  { kZoneIdEtc_GMT0, kZoneIdEtc_GMT }, // 0xf53ea988 -> 0xd8e2de58
+  { kZoneIdEtc_Zulu, kZoneIdEtc_UTC }, // 0xf549c240 -> 0xd8e31abc
+  { kZoneIdAsia_Chongqing, kZoneIdAsia_Shanghai }, // 0xf937fb90 -> 0xf895a7f5
+  { kZoneIdUS_Alaska, kZoneIdAmerica_Anchorage }, // 0xfa300bc9 -> 0x5a79260e
+  { kZoneIdGB_Eire, kZoneIdEurope_London }, // 0xfa70e300 -> 0x5c6a84ae
+  { kZoneIdCanada_Mountain, kZoneIdAmerica_Edmonton }, // 0xfb8a8217 -> 0x6cb9484a
+  { kZoneIdEurope_Vaduz, kZoneIdEurope_Zurich }, // 0xfbb81bae -> 0x7d8195b9
+  { kZoneIdMexico_BajaNorte, kZoneIdAmerica_Tijuana }, // 0xfcf7150f -> 0x6aa1df72
+  { kZoneIdAmerica_Santa_Isabel, kZoneIdAmerica_Tijuana }, // 0xfd18a56c -> 0x6aa1df72
 
 };
 

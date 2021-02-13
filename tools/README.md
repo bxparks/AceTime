@@ -46,12 +46,12 @@ Python packages     Python files/classes/data
   |                       v
 extractor            extractor.py
   |                       |
-  .------>                v
+  +------>                v
   |                 transformer.py
   |                       |
 transformer               v
   |                 artransformer.py
-  `------>                |   \
+  +------>                |   \
   |                       |    v
   |                       |   inline_zone_info.py
   |                       |      \
@@ -60,11 +60,11 @@ zone_processor            |   zone_specifier.py
   |                       |        \
   |                       |        v
   |                       |       bufestimator.py
-  .------>                |      /
+  +------>                |      /
   |                       v     v
 data_types         ZoneInfoDatabase
   |                 /     |     \
-  .------>         /      |      \
+  +------>         /      |      \
   |               /       |       ------------------------.
   |              /        |                  \             \
 generator       /         |                   \             \
@@ -97,7 +97,7 @@ The `zones.txt` from the `tzcompiler.py` determines the time zones which
 should be processed by the various `compare_xxx` scripts:
 
 ```
-(cont.)
+(cont. from above)
    |
    v
 zones.txt

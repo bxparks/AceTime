@@ -58,7 +58,12 @@ class ZoneManager {
      */
     virtual uint16_t indexForZoneId(uint32_t id) const = 0;
 
-    /** Return the number of elements in the registry. */
+    /**
+     * Return the number of elements in the Zone and Link registry. This
+     * should probably have been named zoneRegistrySize() or
+     * zoneAndLinkRegistrySize(), but we cannot fix it without breaking
+     * backwards compatibility.
+     */
     virtual uint16_t registrySize() const = 0;
 };
 
@@ -178,7 +183,7 @@ class ZoneManagerImpl : public ZoneManager {
     }
 
     uint16_t registrySize() const override {
-      return mZoneRegistrar.registrySize();
+      return mZoneRegistrar.zoneRegistrySize();
     }
 
     /**

@@ -1,11 +1,18 @@
 #line 2 "ExtendedBrokerTest.ino"
 
+#include <Arduino.h>
 #include <AUnit.h>
 #include <AceTime.h>
 
-using namespace aunit;
+using aunit::TestRunner;
 using namespace ace_time;
 using ace_time::internal::ZoneContext;
+using ace_time::extended::ZoneInfoBroker;
+using ace_time::extended::ZoneEraBroker;
+using ace_time::extended::ZoneRuleBroker;
+using ace_time::extended::ZonePolicyBroker;
+using ace_time::extended::LinkEntryBroker;
+using ace_time::extended::LinkRegistryBroker;
 
 test(timeCodeToMinutes) {
   uint8_t code = 1;
@@ -81,7 +88,7 @@ const extended::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 test(ExtendedBrokerTest, ZoneRuleBroker) {
-  extended::ZoneRuleBroker rule(kZoneRulesUS);
+  ZoneRuleBroker rule(kZoneRulesUS);
   assertFalse(rule.isNull());
   assertEqual(7, rule.fromYearTiny());
   assertEqual(126, rule.toYearTiny());
@@ -95,14 +102,23 @@ test(ExtendedBrokerTest, ZoneRuleBroker) {
 }
 
 test(ExtendedBrokerTest, ZonePolicyBroker) {
-  extended::ZonePolicyBroker policy(&kPolicyUS);
+  ZonePolicyBroker policy(&kPolicyUS);
   assertFalse(policy.isNull());
   assertEqual(1, policy.numRules());
   assertEqual(0, policy.numLetters());
 }
 
+test(ExtendedBrokerTest, ZonePolicyBroker_with_letters) {
+  ZonePolicyBroker policy(&zonedbx::kPolicyNamibia);
+  assertFalse(policy.isNull());
+  assertEqual(3, policy.numRules());
+  assertEqual(2, policy.numLetters());
+  assertEqual(F("CAT"), policy.letter(0));
+  assertEqual(F("WAT"), policy.letter(1));
+}
+
 test(ExtendedBrokerTest, ZoneEraBroker) {
-  extended::ZoneEraBroker era(kZoneEraAmerica_Los_Angeles);
+  ZoneEraBroker era(kZoneEraAmerica_Los_Angeles);
   assertFalse(era.isNull());
   assertEqual(-32 * 15 + 5, era.offsetMinutes());
   assertEqual(120, era.deltaMinutes());
@@ -113,12 +129,12 @@ test(ExtendedBrokerTest, ZoneEraBroker) {
   assertEqual((uint16_t)69, era.untilTimeMinutes());
   assertEqual(ZoneContext::kSuffixW, era.untilTimeSuffix());
 
-  extended::ZoneEraBroker era2(kZoneEraAmerica_Los_Angeles);
+  ZoneEraBroker era2(kZoneEraAmerica_Los_Angeles);
   assertTrue(era.equals(era2));
 }
 
 test(ExtendedBrokerTest, ZoneInfoBroker) {
-  extended::ZoneInfoBroker info(&kZoneAmerica_Los_Angeles);
+  ZoneInfoBroker info(&kZoneAmerica_Los_Angeles);
   assertEqual(&kZoneContext, info.zoneContext());
   assertEqual(kZoneNameAmerica_Los_Angeles, info.name());
   assertEqual((uint32_t) 0xb7f7e8f2, info.zoneId());
@@ -129,13 +145,11 @@ test(ExtendedBrokerTest, ZoneInfoBroker) {
 
 //---------------------------------------------------------------------------
 
-test(ExtendedBrokerTest, ZonePolicyBroker_with_letters) {
-  extended::ZonePolicyBroker policy(&zonedbx::kPolicyNamibia);
-  assertFalse(policy.isNull());
-  assertEqual(3, policy.numRules());
-  assertEqual(2, policy.numLetters());
-  assertEqual(F("CAT"), policy.letter(0));
-  assertEqual(F("WAT"), policy.letter(1));
+test(ExtendedBrokerTest, LinkRegistry_LinkEntryBroker) {
+  LinkRegistryBroker linkRegistryBroker(zonedbx::kLinkRegistry);
+  LinkEntryBroker linkEntryBroker(linkRegistryBroker.linkEntry(0));
+  assertEqual(zonedbx::kZoneIdGB, linkEntryBroker.linkId());
+  assertEqual(zonedbx::kZoneIdEurope_London, linkEntryBroker.zoneId());
 }
 
 //---------------------------------------------------------------------------
