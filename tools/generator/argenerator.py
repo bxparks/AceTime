@@ -1097,18 +1097,25 @@ namespace ace_time {{
 namespace {dbNamespace} {{
 
 //---------------------------------------------------------------------------
-// Zone registry. Sorted by zoneId.
+// Zone Info registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
 const {scope}::ZoneInfo* const kZoneRegistry[{numZones}] {progmem} = {{
 {zoneRegistryItems}
 }};
 
 //---------------------------------------------------------------------------
-// Zone and Link registry. Sorted by zoneId.
+// Zone and Link (fat) Info registry. Sorted by zoneId. Links act like Zones.
 //---------------------------------------------------------------------------
 const {scope}::ZoneInfo* const kZoneAndLinkRegistry[{numZonesAndLinks}] \
 {progmem} = {{
 {zoneAndLinkRegistryItems}
+}};
+
+//---------------------------------------------------------------------------
+// Link (thin) Entry registry. Sorted by linkId. Links are references to Zones.
+//---------------------------------------------------------------------------
+const {scope}::LinkEntry kLinkRegistry[{numLinks}] {progmem} = {{
+{linkRegistryItems}
 }};
 
 }}
@@ -1132,6 +1139,7 @@ const {scope}::ZoneInfo* const kZoneAndLinkRegistry[{numZonesAndLinks}] \
 #define ACE_TIME_{dbHeaderNamespace}_ZONE_REGISTRY_H
 
 #include <ace_time/internal/ZoneInfo.h>
+#include <ace_time/internal/LinkEntry.h>
 
 namespace ace_time {{
 namespace {dbNamespace} {{
@@ -1143,6 +1151,10 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
 // Zones and Links
 const uint16_t kZoneAndLinkRegistrySize = {numZonesAndLinks};
 extern const {scope}::ZoneInfo* const kZoneAndLinkRegistry[{numZonesAndLinks}];
+
+// Link Entries
+const uint16_t kLinkRegistrySize = {numLinks};
+extern const {scope}::LinkEntry kLinkRegistry[{numLinks}];
 
 }}
 }}
@@ -1177,6 +1189,7 @@ extern const {scope}::ZoneInfo* const kZoneAndLinkRegistry[{numZonesAndLinks}];
         self.zone_and_link_ids.update(link_ids)
 
     def generate_registry_cpp(self) -> str:
+
         # Generate only Zones, sorted by zoneId to enable
         # ZoneRegistrar::binarySearchById().
         zone_registry_items = ''
@@ -1209,6 +1222,24 @@ extern const {scope}::ZoneInfo* const kZoneAndLinkRegistry[{numZonesAndLinks}];
   &kZone{normalized_name}, // 0x{zone_id:08x}, {desc_name}
 """
 
+        # Generate Link table, sorted by linkId.
+        link_registry_items = ''
+        for link_name in sorted(
+            self.links_map,
+            key=lambda x: self.link_ids[x],
+        ):
+            zone_name = self.links_map.get(link_name)
+            link_id = self.link_ids[link_name]
+            zone_id = self.zone_ids[zone_name]
+
+            normalized_link_name = normalize_name(link_name)
+            normalized_zone_name = normalize_name(zone_name)
+
+            link_registry_items += f"""\
+  {{ kZoneId{normalized_link_name}, kZoneId{normalized_zone_name} }}, \
+// 0x{link_id:08x} -> 0x{zone_id:08x}
+"""
+
         return self.ZONE_REGISTRY_CPP_FILE.format(
             invocation=self.invocation,
             tz_files=self.tz_files,
@@ -1218,8 +1249,10 @@ extern const {scope}::ZoneInfo* const kZoneAndLinkRegistry[{numZonesAndLinks}];
             dbHeaderNamespace=self.db_header_namespace,
             numZones=len(self.zones_map),
             numZonesAndLinks=num_zones_and_links,
+            numLinks=len(self.links_map),
             zoneRegistryItems=zone_registry_items,
             zoneAndLinkRegistryItems=zone_and_link_registry_items,
+            linkRegistryItems=link_registry_items,
             progmem='ACE_TIME_PROGMEM',
         )
 
@@ -1233,6 +1266,7 @@ extern const {scope}::ZoneInfo* const kZoneAndLinkRegistry[{numZonesAndLinks}];
             dbHeaderNamespace=self.db_header_namespace,
             numZones=len(self.zones_map),
             numZonesAndLinks=len(self.zones_and_links),
+            numLinks=len(self.links_map),
         )
 
 

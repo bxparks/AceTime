@@ -6,11 +6,13 @@
 
 using aunit::TestRunner;
 using namespace ace_time;
+using ace_time::internal::ZoneContext;
 using ace_time::basic::ZoneInfoBroker;
 using ace_time::basic::ZoneEraBroker;
 using ace_time::basic::ZoneRuleBroker;
 using ace_time::basic::ZonePolicyBroker;
-using ace_time::internal::ZoneContext;
+using ace_time::basic::LinkEntryBroker;
+using ace_time::basic::LinkRegistryBroker;
 
 //---------------------------------------------------------------------------
 
@@ -72,6 +74,8 @@ const basic::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_PROGMEM = {
   kZoneEraAmerica_Los_Angeles /*eras*/,
 };
 
+//---------------------------------------------------------------------------
+
 test(BasicBrokerTest, ZoneRuleBroker) {
   ZoneRuleBroker rule(kZoneRulesUS);
   assertFalse(rule.isNull());
@@ -117,6 +121,15 @@ test(BasicBrokerTest, ZoneInfoBroker) {
   assertEqual(2000, info.zoneContext()->startYear);
   assertEqual(2050, info.zoneContext()->untilYear);
   assertEqual(1, info.numEras());
+}
+
+//---------------------------------------------------------------------------
+
+test(BasicBrokerTest, LinkRegistry_LinkEntryBroker) {
+  LinkRegistryBroker linkRegistryBroker(zonedb::kLinkRegistry);
+  LinkEntryBroker linkEntryBroker(linkRegistryBroker.linkEntry(0));
+  assertEqual(zonedb::kZoneIdGB, linkEntryBroker.linkId());
+  assertEqual(zonedb::kZoneIdEurope_London, linkEntryBroker.zoneId());
 }
 
 //---------------------------------------------------------------------------
