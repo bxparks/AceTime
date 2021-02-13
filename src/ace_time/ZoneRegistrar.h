@@ -46,15 +46,15 @@ class ZoneRegistrarTemplate {
 
     /** Constructor. */
     ZoneRegistrarTemplate(
-        uint16_t registrySize,
+        uint16_t zoneRegistrySize,
         const ZI* const* zoneRegistry
     ):
-        mRegistrySize(registrySize),
-        mIsSorted(isSorted(zoneRegistry, registrySize)),
+        mZoneRegistrySize(zoneRegistrySize),
+        mIsSorted(isSorted(zoneRegistry, zoneRegistrySize)),
         mZoneRegistry(zoneRegistry) {}
 
     /** Return the number of zones. */
-    uint16_t registrySize() const { return mRegistrySize; }
+    uint16_t zoneRegistrySize() const { return mZoneRegistrySize; }
 
     /**
      * Return true if zoneRegistry is sorted, and eligible to use a binary
@@ -64,7 +64,9 @@ class ZoneRegistrarTemplate {
 
     /** Return the ZoneInfo at index i. Return nullptr if i is out of range. */
     const ZI* getZoneInfoForIndex(uint16_t i) const {
-      return (i < mRegistrySize) ? ZRGB(mZoneRegistry).zoneInfo(i) : nullptr;
+      return (i < mZoneRegistrySize)
+          ? ZRGB(mZoneRegistry).zoneInfo(i)
+          : nullptr;
     }
 
     /**
@@ -102,10 +104,10 @@ class ZoneRegistrarTemplate {
 
     /** Find the index for zone id. Return kInvalidIndex if not found. */
     uint16_t findIndexForId(uint32_t zoneId) const {
-      if (mIsSorted && mRegistrySize >= kBinarySearchThreshold) {
-        return binarySearchById(mZoneRegistry, mRegistrySize, zoneId);
+      if (mIsSorted && mZoneRegistrySize >= kBinarySearchThreshold) {
+        return binarySearchById(mZoneRegistry, mZoneRegistrySize, zoneId);
       } else {
-        return linearSearchById(mZoneRegistry, mRegistrySize, zoneId);
+        return linearSearchById(mZoneRegistry, mZoneRegistrySize, zoneId);
       }
     }
 
@@ -122,7 +124,7 @@ class ZoneRegistrarTemplate {
     friend class ::BasicZoneRegistrarTest_Unsorted_linearSearchById;
     friend class ::BasicZoneRegistrarTest_Unsorted_linearSearchById_not_found;
 
-    /** Use binarySearchById() if registrySize >= threshold. */
+    /** Use binarySearchById() if zoneRegistrySize >= threshold. */
     static const uint8_t kBinarySearchThreshold = 8;
 
     /** Determine if the given zone registry is sorted by id. */
@@ -210,15 +212,15 @@ class ZoneRegistrarTemplate {
 
     /** Exposed only for benchmarking purposes. */
     uint16_t findIndexForIdLinear(uint32_t zoneId) const {
-      return linearSearchById(mZoneRegistry, mRegistrySize, zoneId);
+      return linearSearchById(mZoneRegistry, mZoneRegistrySize, zoneId);
     }
 
     /** Exposed only for benchmarking purposes. */
     uint16_t findIndexForIdBinary(uint32_t zoneId) const {
-      return binarySearchById(mZoneRegistry, mRegistrySize, zoneId);
+      return binarySearchById(mZoneRegistry, mZoneRegistrySize, zoneId);
     }
 
-    uint16_t const mRegistrySize;
+    uint16_t const mZoneRegistrySize;
     bool const mIsSorted;
     const ZI* const* const mZoneRegistry;
 };
@@ -236,14 +238,14 @@ class BasicZoneRegistrar: public ZoneRegistrarTemplate<
 > {
   public:
     BasicZoneRegistrar(
-        uint16_t registrySize,
+        uint16_t zoneRegistrySize,
         const basic::ZoneInfo* const* zoneRegistry
     ) :
         ZoneRegistrarTemplate<
             basic::ZoneInfo,
             basic::ZoneInfoBroker,
             basic::ZoneRegistryBroker
-        >(registrySize, zoneRegistry)
+        >(zoneRegistrySize, zoneRegistry)
     {}
 };
 
@@ -258,14 +260,14 @@ class ExtendedZoneRegistrar: public ZoneRegistrarTemplate<
 > {
   public:
     ExtendedZoneRegistrar(
-        uint16_t registrySize,
+        uint16_t zoneRegistrySize,
         const extended::ZoneInfo* const* zoneRegistry
     ) :
         ZoneRegistrarTemplate<
             extended::ZoneInfo,
             extended::ZoneInfoBroker,
             extended::ZoneRegistryBroker
-        >(registrySize, zoneRegistry)
+        >(zoneRegistrySize, zoneRegistry)
     {}
 };
 

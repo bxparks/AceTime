@@ -17,10 +17,10 @@ test(ExtendedZoneRegistrarTest, kZoneId) {
 // ExtendedZoneRegistrar
 //---------------------------------------------------------------------------
 
-test(ExtendedZoneRegistrarTest, registrySize) {
+test(ExtendedZoneRegistrarTest, zoneRegistrySize) {
   ExtendedZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-  assertEqual(zonedbx::kZoneRegistrySize, zoneRegistrar.registrySize());
+  assertEqual(zonedbx::kZoneRegistrySize, zoneRegistrar.zoneRegistrySize());
 }
 
 test(ExtendedZoneRegistrarTest, getZoneInfoForName_Los_Angeles) {

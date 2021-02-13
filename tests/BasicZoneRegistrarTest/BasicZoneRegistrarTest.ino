@@ -41,10 +41,10 @@ test(BasicZoneRegistrarTest, kZoneId) {
 // BasicZoneRegistrar public methods
 //---------------------------------------------------------------------------
 
-test(BasicZoneRegistrarTest, registrySize) {
+test(BasicZoneRegistrarTest, zoneRegistrySize) {
   BasicZoneRegistrar zoneRegistrar(
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-  assertEqual(zonedb::kZoneRegistrySize, zoneRegistrar.registrySize());
+  assertEqual(zonedb::kZoneRegistrySize, zoneRegistrar.zoneRegistrySize());
 }
 
 test(BasicZoneRegistrarTest, getZoneInfo_Los_Angeles) {
