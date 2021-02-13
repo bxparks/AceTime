@@ -50,7 +50,6 @@ test(BasicZoneRegistrarTest, zoneRegistrySize) {
 test(BasicZoneRegistrarTest, getZoneInfo_Los_Angeles) {
   BasicZoneRegistrar zoneRegistrar(
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-  assertTrue(zoneRegistrar.isSorted());
 
   const basic::ZoneInfo* zoneInfo =
       zoneRegistrar.getZoneInfoForName("America/Los_Angeles");
@@ -69,7 +68,6 @@ test(BasicZoneRegistrarTest, getZoneInfo_Los_Angeles) {
 test(BasicZoneRegistrarTest, getZoneInfo_EST) {
   BasicZoneRegistrar zoneRegistrar(
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-  assertTrue(zoneRegistrar.isSorted());
 
   const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForName("EST");
   assertNotEqual(zoneInfo, nullptr);
@@ -155,9 +153,8 @@ test(BasicZoneRegistrarTest_Sorted, isSorted) {
 }
 
 test(BasicZoneRegistrarTest_Unsorted, isSorted) {
-  bool isSorted = BasicZoneRegistrar::isSorted(
-      kUnsortedRegistry, kNumUnsortedEntries);
-  assertFalse(isSorted);
+  assertFalse(BasicZoneRegistrar::isSorted(
+      kUnsortedRegistry, kNumUnsortedEntries));
 }
 
 //---------------------------------------------------------------------------

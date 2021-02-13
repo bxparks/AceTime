@@ -25,8 +25,6 @@ class BasicZoneRegistrarTest_Sorted_binarySearchById_not_found;
 class BasicZoneRegistrarTest_Unsorted_linearSearchById;
 class BasicZoneRegistrarTest_Unsorted_linearSearchById_not_found;
 
-class __FlashStringHelper;
-
 namespace ace_time {
 
 /**
@@ -50,17 +48,12 @@ class ZoneRegistrarTemplate {
         const ZI* const* zoneRegistry
     ):
         mZoneRegistrySize(zoneRegistrySize),
-        mIsSorted(isSorted(zoneRegistry, zoneRegistrySize)),
-        mZoneRegistry(zoneRegistry) {}
+        mZoneRegistry(zoneRegistry),
+        mIsSorted(isSorted(zoneRegistry, zoneRegistrySize))
+    {}
 
-    /** Return the number of zones. */
+    /** Return the number of zones and (fat) links. */
     uint16_t zoneRegistrySize() const { return mZoneRegistrySize; }
-
-    /**
-     * Return true if zoneRegistry is sorted, and eligible to use a binary
-     * search.
-     */
-    bool isSorted() const { return mIsSorted; }
 
     /** Return the ZoneInfo at index i. Return nullptr if i is out of range. */
     const ZI* getZoneInfoForIndex(uint16_t i) const {
@@ -169,7 +162,6 @@ class ZoneRegistrarTemplate {
      * UINT16_MAX - 1. This allows us to set kInvalidIndex to UINT16_MAX to
      * indicate "Not Found".
      */
-#if 1
     static uint16_t binarySearchById(const ZI* const* registry,
         uint16_t registrySize, uint32_t zoneId) {
       const ZRGB zoneRegistry(registry);
@@ -182,33 +174,6 @@ class ZoneRegistrarTemplate {
           } // lambda expression returns zoneId at index i
       );
     }
-#else
-    // Moved to ace_common::binarySearchByKey(). The templatized version
-    // produces identical code sizes for 8-bit processors. On 32-bit
-    // processors, the code size usually goes *down* by 4-60 bytes using the
-    // templatized version.
-    static uint16_t binarySearchById(const ZI* const* registry,
-        uint16_t registrySize, uint32_t zoneId) {
-      uint16_t a = 0;
-      uint16_t b = registrySize;
-      const ZRGB zoneRegistry(registry);
-      while (true) {
-        uint16_t diff = b - a;
-        if (diff == 0) break;
-
-        uint16_t c = a + diff / 2;
-        const ZI* zoneInfo = zoneRegistry.zoneInfo(c);
-        uint32_t currentId = ZIB(zoneInfo).zoneId();
-        if (currentId == zoneId) return c;
-        if (zoneId < currentId) {
-          b = c;
-        } else {
-          a = c + 1;
-        }
-      }
-      return kInvalidIndex;
-    }
-#endif
 
     /** Exposed only for benchmarking purposes. */
     uint16_t findIndexForIdLinear(uint32_t zoneId) const {
@@ -220,9 +185,11 @@ class ZoneRegistrarTemplate {
       return binarySearchById(mZoneRegistry, mZoneRegistrySize, zoneId);
     }
 
+  private:
+    // Ordering of fields optimized for 32-bit alignment.
     uint16_t const mZoneRegistrySize;
+    const ZI* const* const mZoneRegistry; // not nullable
     bool const mIsSorted;
-    const ZI* const* const mZoneRegistry;
 };
 
 #if 1

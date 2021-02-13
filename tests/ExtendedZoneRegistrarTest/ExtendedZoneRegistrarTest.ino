@@ -26,7 +26,6 @@ test(ExtendedZoneRegistrarTest, zoneRegistrySize) {
 test(ExtendedZoneRegistrarTest, getZoneInfoForName_Los_Angeles) {
   ExtendedZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-  assertTrue(zoneRegistrar.isSorted());
 
   const extended::ZoneInfo* zoneInfo =
       zoneRegistrar.getZoneInfoForName("America/Los_Angeles");
@@ -45,7 +44,6 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForName_Los_Angeles) {
 test(ExtendedZoneRegistrarTest, getZoneInfoForName_EST) {
   ExtendedZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-  assertTrue(zoneRegistrar.isSorted());
 
   const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForName("EST");
   assertNotEqual(zoneInfo, nullptr);

@@ -49,6 +49,7 @@
 #include "ace_time/ZoneProcessor.h"
 #include "ace_time/BasicZoneProcessor.h"
 #include "ace_time/ExtendedZoneProcessor.h"
+#include "ace_time/LinkRegistrar.h"
 #include "ace_time/ZoneProcessorCache.h"
 #include "ace_time/ZoneManager.h"
 #include "ace_time/TimeZoneData.h"
