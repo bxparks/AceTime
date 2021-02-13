@@ -35,17 +35,20 @@ namespace ace_time {
  * the zone registry.
  *
  * @tparam ZI ZoneInfo type (e.g. basic::ZoneInfo)
- * @tparam ZRGB ZoneRegistryBroker type (e.g. basic::ZoneRegistryBroker)
  * @tparam ZIB ZoneInfoBroker type (e.g. basic::ZoneInfoBroker)
+ * @tparam ZRGB ZoneRegistryBroker type (e.g. basic::ZoneRegistryBroker)
  */
-template<typename ZI, typename ZRGB, typename ZIB>
+template<typename ZI, typename ZIB, typename ZRGB>
 class ZoneRegistrarTemplate {
   public:
     /** Invalid index to indicate error or not found. */
     static const uint16_t kInvalidIndex = 0xffff;
 
     /** Constructor. */
-    ZoneRegistrarTemplate(uint16_t registrySize, const ZI* const* zoneRegistry):
+    ZoneRegistrarTemplate(
+        uint16_t registrySize,
+        const ZI* const* zoneRegistry
+    ):
         mRegistrySize(registrySize),
         mIsSorted(isSorted(zoneRegistry, registrySize)),
         mZoneRegistry(zoneRegistry) {}
@@ -220,8 +223,6 @@ class ZoneRegistrarTemplate {
     const ZI* const* const mZoneRegistry;
 };
 
-// Use subclassing instead of template typedef so that error messages are
-// understandable. The compiler seems to optimize away the subclass overhead.
 #if 1
 
 /**
@@ -230,18 +231,19 @@ class ZoneRegistrarTemplate {
  */
 class BasicZoneRegistrar: public ZoneRegistrarTemplate<
     basic::ZoneInfo,
-    basic::ZoneRegistryBroker,
-    basic::ZoneInfoBroker
+    basic::ZoneInfoBroker,
+    basic::ZoneRegistryBroker
 > {
   public:
     BasicZoneRegistrar(
         uint16_t registrySize,
         const basic::ZoneInfo* const* zoneRegistry
     ) :
-      ZoneRegistrarTemplate<
-        basic::ZoneInfo,
-        basic::ZoneRegistryBroker,
-        basic::ZoneInfoBroker>(registrySize, zoneRegistry)
+        ZoneRegistrarTemplate<
+            basic::ZoneInfo,
+            basic::ZoneInfoBroker,
+            basic::ZoneRegistryBroker
+        >(registrySize, zoneRegistry)
     {}
 };
 
@@ -251,35 +253,39 @@ class BasicZoneRegistrar: public ZoneRegistrarTemplate<
  */
 class ExtendedZoneRegistrar: public ZoneRegistrarTemplate<
     extended::ZoneInfo,
-    extended::ZoneRegistryBroker,
-    extended::ZoneInfoBroker
+    extended::ZoneInfoBroker,
+    extended::ZoneRegistryBroker
 > {
   public:
     ExtendedZoneRegistrar(
         uint16_t registrySize,
         const extended::ZoneInfo* const* zoneRegistry
     ) :
-      ZoneRegistrarTemplate<
-        extended::ZoneInfo,
-        extended::ZoneRegistryBroker,
-        extended::ZoneInfoBroker>(registrySize, zoneRegistry)
+        ZoneRegistrarTemplate<
+            extended::ZoneInfo,
+            extended::ZoneInfoBroker,
+            extended::ZoneRegistryBroker
+        >(registrySize, zoneRegistry)
     {}
 };
 
 #else
 
+// Use subclassing instead of template typedef so that error messages are
+// understandable. The compiler seems to optimize away the subclass overhead.
+
 typedef ZoneRegistrarTemplate<
     basic::ZoneInfo,
     basic::ZoneRegistryBroker,
     basic::ZoneInfoBroker
-  >
+>
     BasicZoneRegistrar;
 
 typedef ZoneRegistrarTemplate<
     extended::ZoneInfo,
     extended::ZoneRegistryBroker,
     extended::ZoneInfoBroker
-  >
+>
     ExtendedZoneRegistrar;
 
 #endif

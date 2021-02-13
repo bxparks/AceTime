@@ -11,7 +11,6 @@
 #include "OffsetDateTime.h"
 #include "BasicZoneProcessor.h"
 #include "ExtendedZoneProcessor.h"
-#include "ZoneRegistrar.h"
 
 namespace ace_time {
 
