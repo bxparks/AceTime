@@ -7,7 +7,7 @@
 #define ACE_TIME_LINK_REGISTRAR_H
 
 #include <stdint.h>
-#include <AceCommon.h> // KString, binarySearchByKey()
+#include <AceCommon.h> // KString, binarySearchByKey(), isSortedByKey()
 #include "common/compat.h" // ACE_TIME_USE_PROGMEM
 #include "internal/LinkEntry.h"
 #include "internal/BasicBrokers.h"
@@ -77,20 +77,13 @@ class LinkRegistrarTemplate {
 
     /** Determine if the given link registry is sorted by id. */
     static bool isSorted(const LE* registry, uint16_t registrySize) {
-      if (registrySize == 0) {
-        return false;
-      }
-
       const LRGB linkRegistry(registry);
-      uint32_t prevId = LEB(linkRegistry.linkEntry(0)).linkId();
-      for (uint16_t i = 1; i < registrySize; ++i) {
-        uint32_t currentId = LEB(linkRegistry.linkEntry(i)).linkId();
-        if (prevId > currentId) {
-          return false;
-        }
-        prevId = currentId;
-      }
-      return true;
+      return ace_common::isSortedByKey(
+          (size_t) registrySize,
+          [&linkRegistry](size_t i) {
+            return LEB(linkRegistry.linkEntry((uint16_t) i)).linkId();
+          }
+      );
     }
 
     /**

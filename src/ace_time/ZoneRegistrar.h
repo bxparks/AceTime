@@ -7,7 +7,7 @@
 #define ACE_TIME_ZONE_REGISTRAR_H
 
 #include <stdint.h>
-#include <AceCommon.h> // KString, binarySearchByKey()
+#include <AceCommon.h> // KString, binarySearchByKey(), isSortedByKey()
 #include "common/compat.h" // ACE_TIME_USE_PROGMEM
 #include "internal/ZoneInfo.h"
 #include "internal/BasicBrokers.h"
@@ -122,20 +122,13 @@ class ZoneRegistrarTemplate {
 
     /** Determine if the given zone registry is sorted by id. */
     static bool isSorted(const ZI* const* registry, uint16_t registrySize) {
-      if (registrySize == 0) {
-        return false;
-      }
-
       const ZRGB zoneRegistry(registry);
-      uint32_t prevId = ZIB(zoneRegistry.zoneInfo(0)).zoneId();
-      for (uint16_t i = 1; i < registrySize; ++i) {
-        uint32_t currentId = ZIB(zoneRegistry.zoneInfo(i)).zoneId();
-        if (prevId > currentId) {
-          return false;
-        }
-        prevId = currentId;
-      }
-      return true;
+      return ace_common::isSortedByKey(
+          (size_t) registrySize,
+          [&zoneRegistry](size_t i) {
+            return ZIB(zoneRegistry.zoneInfo((uint16_t) i)).zoneId();
+          }
+      );
     }
 
     /**
