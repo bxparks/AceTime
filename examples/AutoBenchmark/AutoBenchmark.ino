@@ -45,12 +45,6 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneProcessor): "));
   SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessor));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneRegistrar): "));
-  SERIAL_PORT_MONITOR.println(sizeof(BasicZoneRegistrar));
-
-  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneRegistrar): "));
-  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneRegistrar));
-
   SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneManager<1>): "));
   SERIAL_PORT_MONITOR.println(sizeof(BasicZoneManager<1>));
 
@@ -107,18 +101,21 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZonePolicy): "));
   SERIAL_PORT_MONITOR.println(sizeof(basic::ZonePolicy));
 
+  SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZoneRegistrar): "));
+  SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneRegistrar));
+
   SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneProcessor::Transition): "));
   SERIAL_PORT_MONITOR.println(sizeof(BasicZoneProcessor::Transition));
 
   SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneProcessor::Transition): "));
   SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessor::Transition));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneProcessor::ZoneMatch): "));
-  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessor::ZoneMatch));
-
   SERIAL_PORT_MONITOR.print(
       F("sizeof(ExtendedZoneProcessor::TransitionStorage): "));
   SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessor::TransitionStorage));
+
+  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneProcessor::ZoneMatch): "));
+  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessor::ZoneMatch));
 
   SERIAL_PORT_MONITOR.println(F("BENCHMARKS"));
   runBenchmarks();

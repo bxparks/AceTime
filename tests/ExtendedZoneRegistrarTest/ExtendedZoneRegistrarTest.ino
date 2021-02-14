@@ -3,8 +3,9 @@
 #include <AUnit.h>
 #include <AceTime.h>
 
-using namespace aunit;
+using aunit::TestRunner;
 using namespace ace_time;
+using ace_time::extended::ZoneRegistrar;
 
 //---------------------------------------------------------------------------
 
@@ -14,17 +15,17 @@ test(ExtendedZoneRegistrarTest, kZoneId) {
 }
 
 //---------------------------------------------------------------------------
-// ExtendedZoneRegistrar
+// ZoneRegistrar
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneRegistrarTest, zoneRegistrySize) {
-  ExtendedZoneRegistrar zoneRegistrar(
+  ZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   assertEqual(zonedbx::kZoneRegistrySize, zoneRegistrar.zoneRegistrySize());
 }
 
 test(ExtendedZoneRegistrarTest, getZoneInfoForName_Los_Angeles) {
-  ExtendedZoneRegistrar zoneRegistrar(
+  ZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
 
   const extended::ZoneInfo* zoneInfo =
@@ -42,7 +43,7 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForName_Los_Angeles) {
 
 // Test a zone without separators, "EST".
 test(ExtendedZoneRegistrarTest, getZoneInfoForName_EST) {
-  ExtendedZoneRegistrar zoneRegistrar(
+  ZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
 
   const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForName("EST");
@@ -58,7 +59,7 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForName_EST) {
 }
 
 test(ExtendedZoneRegistrarTest, getZoneInfoForName_not_found) {
-  ExtendedZoneRegistrar zoneRegistrar(
+  ZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo =
       zoneRegistrar.getZoneInfoForName("doesNotExist");
@@ -66,7 +67,7 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForName_not_found) {
 }
 
 test(ExtendedZoneRegistrarTest, getZoneInfo_Index_not_found) {
-  ExtendedZoneRegistrar zoneRegistrar(
+  ZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(
       zonedbx::kZoneRegistrySize);
@@ -74,7 +75,7 @@ test(ExtendedZoneRegistrarTest, getZoneInfo_Index_not_found) {
 }
 
 test(ExtendedZoneRegistrarTest, getZoneInfoForId) {
-  ExtendedZoneRegistrar zoneRegistrar(
+  ZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
       zonedbx::kZoneIdAmerica_Los_Angeles);
@@ -84,7 +85,7 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForId) {
 }
 
 test(ExtendedZoneRegistrarTest, getZoneInfoForId_not_found) {
-  ExtendedZoneRegistrar zoneRegistrar(
+  ZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
       0x0 /* should not exist */);

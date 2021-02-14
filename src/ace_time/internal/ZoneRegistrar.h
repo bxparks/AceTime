@@ -8,10 +8,10 @@
 
 #include <stdint.h>
 #include <AceCommon.h> // KString, binarySearchByKey(), isSortedByKey()
-#include "common/compat.h" // ACE_TIME_USE_PROGMEM
-#include "internal/ZoneInfo.h"
-#include "internal/BasicBrokers.h"
-#include "internal/ExtendedBrokers.h"
+#include "../common/compat.h" // ACE_TIME_USE_PROGMEM
+#include "ZoneInfo.h"
+#include "BasicBrokers.h"
+#include "ExtendedBrokers.h"
 
 void runIndexForZoneIdBinary();
 void runIndexForZoneIdLinear();
@@ -26,6 +26,7 @@ class BasicZoneRegistrarTest_Unsorted_linearSearchById;
 class BasicZoneRegistrarTest_Unsorted_linearSearchById_not_found;
 
 namespace ace_time {
+namespace internal {
 
 /**
  * Class that allows looking up the ZoneInfo (ZI) from its TZDB identifier
@@ -48,8 +49,8 @@ class ZoneRegistrarTemplate {
         const ZI* const* zoneRegistry
     ):
         mZoneRegistrySize(zoneRegistrySize),
-        mZoneRegistry(zoneRegistry),
-        mIsSorted(isSorted(zoneRegistry, zoneRegistrySize))
+        mIsSorted(isSorted(zoneRegistry, zoneRegistrySize)),
+        mZoneRegistry(zoneRegistry)
     {}
 
     /** Return the number of zones and (fat) links. */
@@ -181,9 +182,13 @@ class ZoneRegistrarTemplate {
   private:
     // Ordering of fields optimized for 32-bit alignment.
     uint16_t const mZoneRegistrySize;
-    const ZI* const* const mZoneRegistry; // not nullable
     bool const mIsSorted;
+    const ZI* const* const mZoneRegistry; // not nullable
 };
+
+} // internal
+
+namespace basic {
 
 #if 1
 
@@ -191,17 +196,17 @@ class ZoneRegistrarTemplate {
  * Concrete template instantiation of ZoneRegistrarTemplate for
  * basic::ZoneInfo, which can be used with BasicZoneProcessor.
  */
-class BasicZoneRegistrar: public ZoneRegistrarTemplate<
+class ZoneRegistrar: public internal::ZoneRegistrarTemplate<
     basic::ZoneInfo,
     basic::ZoneInfoBroker,
     basic::ZoneRegistryBroker
 > {
   public:
-    BasicZoneRegistrar(
+    ZoneRegistrar(
         uint16_t zoneRegistrySize,
         const basic::ZoneInfo* const* zoneRegistry
     ) :
-        ZoneRegistrarTemplate<
+        internal::ZoneRegistrarTemplate<
             basic::ZoneInfo,
             basic::ZoneInfoBroker,
             basic::ZoneRegistryBroker
@@ -209,21 +214,43 @@ class BasicZoneRegistrar: public ZoneRegistrarTemplate<
     {}
 };
 
+#else
+
+namespace basic {
+
+// Use subclassing instead of template typedef so that error messages are
+// understandable. The compiler seems to optimize away the subclass overhead.
+
+typedef internal::ZoneRegistrarTemplate<
+    basic::ZoneInfo,
+    basic::ZoneRegistryBroker,
+    basic::ZoneInfoBroker
+>
+    ZoneRegistrar;
+
+#endif
+
+} // basic
+
+namespace extended {
+
+#if 1
+
 /**
  * Concrete template instantiation of ZoneRegistrarTemplate for
  * extended::ZoneInfo, which can be used with ExtendedZoneProcessor.
  */
-class ExtendedZoneRegistrar: public ZoneRegistrarTemplate<
+class ZoneRegistrar: public internal::ZoneRegistrarTemplate<
     extended::ZoneInfo,
     extended::ZoneInfoBroker,
     extended::ZoneRegistryBroker
 > {
   public:
-    ExtendedZoneRegistrar(
+    ZoneRegistrar(
         uint16_t zoneRegistrySize,
         const extended::ZoneInfo* const* zoneRegistry
     ) :
-        ZoneRegistrarTemplate<
+        internal::ZoneRegistrarTemplate<
             extended::ZoneInfo,
             extended::ZoneInfoBroker,
             extended::ZoneRegistryBroker
@@ -236,21 +263,16 @@ class ExtendedZoneRegistrar: public ZoneRegistrarTemplate<
 // Use subclassing instead of template typedef so that error messages are
 // understandable. The compiler seems to optimize away the subclass overhead.
 
-typedef ZoneRegistrarTemplate<
-    basic::ZoneInfo,
-    basic::ZoneRegistryBroker,
-    basic::ZoneInfoBroker
->
-    BasicZoneRegistrar;
-
-typedef ZoneRegistrarTemplate<
+typedef internal::ZoneRegistrarTemplate<
     extended::ZoneInfo,
     extended::ZoneRegistryBroker,
     extended::ZoneInfoBroker
 >
-    ExtendedZoneRegistrar;
+    ZoneRegistrar;
 
 #endif
+
+} // extended
 
 } // ace_time
 

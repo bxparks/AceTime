@@ -409,10 +409,10 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManagerCached() {
 // bytes."
 //#if ! defined(ARDUINO_AVR_PROMICRO)
 
-BasicZoneRegistrar* basicRegistrar;
+basic::ZoneRegistrar* basicRegistrar;
 
 static void runIndexForZoneName() {
-  BasicZoneRegistrar registrar(kBenchmarkZoneRegistrySize,
+  basic::ZoneRegistrar registrar(kBenchmarkZoneRegistrySize,
       kBenchmarkZoneRegistry);
   basicRegistrar = &registrar;
 
@@ -424,7 +424,7 @@ static void runIndexForZoneName() {
     BasicZone(info).printNameTo(printStr);
 
     uint16_t index = basicRegistrar->findIndexForName(printStr.getCstr());
-    if (index == BasicZoneRegistrar::kInvalidIndex) {
+    if (index == basic::ZoneRegistrar::kInvalidIndex) {
       SERIAL_PORT_MONITOR.println(F("Not found"));
     }
     disableOptimization(index);
@@ -450,9 +450,9 @@ static void runIndexForZoneName() {
       emptyLoopMillis);
 }
 
-// non-static to allow friend access into BasicZoneRegistrar
+// non-static to allow friend access into basic::ZoneRegistrar
 void runIndexForZoneIdBinary() {
-	BasicZoneRegistrar registrar(kBenchmarkZoneRegistrySize,
+	basic::ZoneRegistrar registrar(kBenchmarkZoneRegistrySize,
       kBenchmarkZoneRegistry);
   basicRegistrar = &registrar;
 
@@ -463,7 +463,7 @@ void runIndexForZoneIdBinary() {
     uint32_t zoneId = BasicZone(info).zoneId();
 
     uint16_t index = basicRegistrar->findIndexForIdBinary(zoneId);
-    if (index == BasicZoneRegistrar::kInvalidIndex) {
+    if (index == basic::ZoneRegistrar::kInvalidIndex) {
       SERIAL_PORT_MONITOR.println(F("Not found"));
     }
     disableOptimization(index);
@@ -482,9 +482,9 @@ void runIndexForZoneIdBinary() {
       emptyLoopMillis);
 }
 
-// non-static to allow friend access into BasicZoneRegistrar
+// non-static to allow friend access into basic::ZoneRegistrar
 void runIndexForZoneIdLinear() {
-	BasicZoneRegistrar registrar(kBenchmarkZoneRegistrySize,
+	basic::ZoneRegistrar registrar(kBenchmarkZoneRegistrySize,
       kBenchmarkZoneRegistry);
   basicRegistrar = &registrar;
 

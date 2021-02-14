@@ -6,8 +6,8 @@
 #ifndef ACE_TIME_ZONE_MANAGER_H
 #define ACE_TIME_ZONE_MANAGER_H
 
+#include "internal/ZoneRegistrar.h"
 #include "ZoneProcessorCache.h"
-#include "ZoneRegistrar.h"
 #include "TimeZoneData.h"
 #include "TimeZone.h"
 
@@ -116,11 +116,10 @@ class ManualZoneManager : public ZoneManager {
 };
 
 /**
- * A templatized implementation of ZoneManager that binds the
- * (Basic|Extended)ZoneRegistrar with the corresponding
- * (Basic|Extended)ZoneProcessorCache. Applications will normally use two
- * specific instantiation of this class: BasicZoneManager<SIZE> and
- * ExtendedZoneManager<SIZE>.
+ * A templatized implementation of ZoneManager that binds the ZoneRegistrar
+ * with the corresponding (Basic|Extended)ZoneProcessorCache. Applications will
+ * normally use two specific instantiation of this class:
+ * BasicZoneManager<SIZE> and ExtendedZoneManager<SIZE>.
  *
  * If an entry in the ZoneRegistrar is not found, then TimeZone::forError() will
  * be returned.
@@ -134,7 +133,7 @@ class ManualZoneManager : public ZoneManager {
  * @tparam ZI type of ZoneInfo (basic::ZoneInfo or extended::ZoneInfo) which
  *    make up the zone registry
  * @tparam ZRR class of ZoneRegistrar which holds the registry of ZoneInfo
- *    (e.g. BasicZoneRegistrar, ExtendedZoneRegistrar)
+ *    (e.g. basic::ZoneRegistrar, extended::ZoneRegistrar)
  * @tparam ZP class of ZoneProcessor (e.g. BasicZoneProcessor,
  *    ExtendedZoneProcessor)
  * @tparam ZPC class of ZoneProcessorCache (e.g. BasicZoneProcessorCache,
@@ -229,11 +228,11 @@ class ZoneManagerImpl : public ZoneManager {
  */
 template<uint16_t SIZE>
 class BasicZoneManager: public ZoneManagerImpl<
-      basic::ZoneInfo,
-      BasicZoneRegistrar,
-      BasicZoneProcessor,
-      BasicZoneProcessorCache<SIZE>
-    > {
+    basic::ZoneInfo,
+    basic::ZoneRegistrar,
+    BasicZoneProcessor,
+    BasicZoneProcessorCache<SIZE>
+> {
 
   public:
     BasicZoneManager(
@@ -242,7 +241,7 @@ class BasicZoneManager: public ZoneManagerImpl<
     ):
         ZoneManagerImpl<
             basic::ZoneInfo,
-            BasicZoneRegistrar,
+            basic::ZoneRegistrar,
             BasicZoneProcessor,
             BasicZoneProcessorCache<SIZE>
         >(
@@ -260,11 +259,11 @@ class BasicZoneManager: public ZoneManagerImpl<
  */
 template<uint16_t SIZE>
 class ExtendedZoneManager: public ZoneManagerImpl<
-      extended::ZoneInfo,
-      ExtendedZoneRegistrar,
-      ExtendedZoneProcessor,
-      ExtendedZoneProcessorCache<SIZE>
-    > {
+    extended::ZoneInfo,
+    extended::ZoneRegistrar,
+    ExtendedZoneProcessor,
+    ExtendedZoneProcessorCache<SIZE>
+> {
 
   public:
     ExtendedZoneManager(
@@ -273,7 +272,7 @@ class ExtendedZoneManager: public ZoneManagerImpl<
     ):
         ZoneManagerImpl<
             extended::ZoneInfo,
-            ExtendedZoneRegistrar,
+            extended::ZoneRegistrar,
             ExtendedZoneProcessor,
             ExtendedZoneProcessorCache<SIZE>
         >(
@@ -294,12 +293,20 @@ class ExtendedZoneManager: public ZoneManagerImpl<
 // use the above subclassing solution to get better error messages.
 
 template<uint8_t SIZE>
-using BasicZoneManager = ZoneManagerImpl<basic::ZoneInfo,
-    BasicZoneRegistrar, BasicZoneProcessorCache<SIZE>>;
+using BasicZoneManager = ZoneManagerImpl<
+    basic::ZoneInfo,
+    basic::ZoneRegistrar,
+    BasicZoneProcessor,
+    BasicZoneProcessorCache<SIZE>
+>;
 
 template<uint8_t SIZE>
-using ExtendedZoneManager = ZoneManagerImpl<extended::ZoneInfo,
-    ExtendedZoneRegistrar, ExtendedZoneProcessorCache<SIZE>>;
+using ExtendedZoneManager = ZoneManagerImpl<
+    extended::ZoneInfo,
+    extended::ZoneRegistrar,
+    ExtendedZoneProcessor,
+    ExtendedZoneProcessorCache<SIZE>
+>;
 
 #endif
 
