@@ -1,25 +1,30 @@
-#line 2 "BasicLinkRegistrarTest.ino"
+#line 2 "LinkRegistrarTest.ino"
+
+/*
+ * Tests for LinkRegistrar. It is sufficient to test just basic::LinkRegistrar
+ * since extended::LinkRegistrar is derived from the exact same
+ * LinkRegistrarTemplate class.
+ */
 
 #include <AUnit.h>
 #include <AceTime.h>
 
 using aunit::TestRunner;
 using namespace ace_time;
+using ace_time::basic::LinkRegistrar;
 
-test(BasicLinkRegistrarTest, linkRegistrySize) {
-  BasicLinkRegistrar linkRegistrar(
-      zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
+test(LinkRegistrarTest, linkRegistrySize) {
+  LinkRegistrar linkRegistrar(zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
   assertEqual(zonedb::kLinkRegistrySize, linkRegistrar.linkRegistrySize());
 }
 
-test(BasicLinkRegistrarTest, isSorted) {
-  assertTrue(BasicLinkRegistrar::isSorted(
+test(LinkRegistrarTest, isSorted) {
+  assertTrue(LinkRegistrar::isSorted(
       zonedb::kLinkRegistry, zonedb::kLinkRegistrySize));
 }
 
-test(BasicLinkRegistrarTest, getLinkEntry_US_Pacific) {
-  BasicLinkRegistrar linkRegistrar(
-      zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
+test(LinkRegistrarTest, getLinkEntry_US_Pacific) {
+  LinkRegistrar linkRegistrar(zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
 
   const basic::LinkEntry* linkEntry =
       linkRegistrar.getLinkEntryForId(zonedb::kZoneIdUS_Pacific);

@@ -1,6 +1,6 @@
 # See https://github.com/bxparks/EpoxyDuino for documentation about this
 # Makefile to compile and run Arduino programs natively on Linux or MacOS.
 
-APP_NAME := ExtendedLinkRegistrarTest
+APP_NAME := LinkRegistrarTest
 ARDUINO_LIBS := AUnit AceCommon AceTime
 include ../../../EpoxyDuino/EpoxyDuino.mk

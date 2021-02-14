@@ -8,15 +8,15 @@
 
 #include <stdint.h>
 #include <AceCommon.h> // KString, binarySearchByKey(), isSortedByKey()
-#include "common/compat.h" // ACE_TIME_USE_PROGMEM
-#include "internal/LinkEntry.h"
-#include "internal/BasicBrokers.h"
-#include "internal/ExtendedBrokers.h"
+#include "../common/compat.h" // ACE_TIME_USE_PROGMEM
+#include "LinkEntry.h"
+#include "BasicBrokers.h"
+#include "ExtendedBrokers.h"
 
-class BasicLinkRegistrarTest_isSorted;
-class ExtendedLinkRegistrarTest_isSorted;
+class LinkRegistrarTest_isSorted;
 
 namespace ace_time {
+namespace internal {
 
 /**
  * Class that allows looking up the LinkEntry (LE) from its LinkRegistry (LRGB)
@@ -69,8 +69,7 @@ class LinkRegistrarTemplate {
     }
 
   protected:
-    friend class ::BasicLinkRegistrarTest_isSorted;
-    friend class ::ExtendedLinkRegistrarTest_isSorted;
+    friend class ::LinkRegistrarTest_isSorted;
 
     /** Use binarySearchById() if linkRegistrySize >= threshold. */
     static const uint8_t kBinarySearchThreshold = 8;
@@ -140,48 +139,30 @@ class LinkRegistrarTemplate {
     bool const mIsSorted;
 };
 
+} // internal
+
+namespace basic {
+
 #if 1
 
 /**
  * Concrete template instantiation of LinkRegistrarTemplate for
- * basic::LinkEntry, which can be used with BasicZoneProcessor.
+ * basic::LinkEntry.
  */
-class BasicLinkRegistrar: public LinkRegistrarTemplate<
+class LinkRegistrar: public internal::LinkRegistrarTemplate<
     basic::LinkEntry,
     basic::LinkEntryBroker,
     basic::LinkRegistryBroker
 > {
   public:
-    BasicLinkRegistrar(
+    LinkRegistrar(
         uint16_t linkRegistrySize,
         const basic::LinkEntry* linkRegistry
     ) :
-        LinkRegistrarTemplate<
+        internal::LinkRegistrarTemplate<
             basic::LinkEntry,
             basic::LinkEntryBroker,
             basic::LinkRegistryBroker
-        >(linkRegistrySize, linkRegistry)
-    {}
-};
-
-/**
- * Concrete template instantiation of LinkRegistrarTemplate for
- * extended::LinkEntry, which can be used with ExtendedLinkProcessor.
- */
-class ExtendedLinkRegistrar: public LinkRegistrarTemplate<
-    extended::LinkEntry,
-    extended::LinkEntryBroker,
-    extended::LinkRegistryBroker
-> {
-  public:
-    ExtendedLinkRegistrar(
-        uint16_t linkRegistrySize,
-        const extended::LinkEntry* linkRegistry
-    ) :
-        LinkRegistrarTemplate<
-            extended::LinkEntry,
-            extended::LinkEntryBroker,
-            extended::LinkRegistryBroker
         >(linkRegistrySize, linkRegistry)
     {}
 };
@@ -191,21 +172,55 @@ class ExtendedLinkRegistrar: public LinkRegistrarTemplate<
 // Use subclassing instead of template typedef so that error messages are
 // understandable. The compiler seems to optimize away the subclass overhead.
 
-typedef LinkRegistrarTemplate<
+typedef internal::LinkRegistrarTemplate<
     basic::LinkEntry,
     basic::LinkRegistryBroker,
     basic::LinkEntryBroker
 >
-    BasicLinkRegistrar;
+    LinkRegistrar;
 
-typedef LinkRegistrarTemplate<
+#endif
+
+} // basic
+
+namespace extended {
+
+#if 1
+
+/**
+ * Concrete template instantiation of LinkRegistrarTemplate for
+ * extended::LinkEntry.
+ */
+class LinkRegistrar: public internal::LinkRegistrarTemplate<
+    extended::LinkEntry,
+    extended::LinkEntryBroker,
+    extended::LinkRegistryBroker
+> {
+  public:
+    LinkRegistrar(
+        uint16_t linkRegistrySize,
+        const extended::LinkEntry* linkRegistry
+    ) :
+        internal::LinkRegistrarTemplate<
+            extended::LinkEntry,
+            extended::LinkEntryBroker,
+            extended::LinkRegistryBroker
+        >(linkRegistrySize, linkRegistry)
+    {}
+};
+
+#else
+
+typedef internal::LinkRegistrarTemplate<
     extended::LinkEntry,
     extended::LinkRegistryBroker,
     extended::LinkEntryBroker
 >
-    ExtendedLinkRegistrar;
+    LinkRegistrar;
 
 #endif
+
+} // extended
 
 } // ace_time
 

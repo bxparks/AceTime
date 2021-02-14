@@ -1,9 +1,9 @@
 #line 2 "ZoneRegistrarTest.ino"
 
 /*
- * Test ZoneRegistrar. It is sufficient to test just basic::ZoneRegistrar since
- * extended::ZoneRegistrar is derived from the exact same ZoneRegistrarTemplate
- * class.
+ * Test for ZoneRegistrar. It is sufficient to test just basic::ZoneRegistrar
+ * since extended::ZoneRegistrar is derived from the exact same
+ * ZoneRegistrarTemplate class.
  */
 
 #include <AUnit.h>
