@@ -15,15 +15,15 @@
 
 void runIndexForZoneIdBinary();
 void runIndexForZoneIdLinear();
-class BasicZoneRegistrarTest_Sorted_isSorted;
-class BasicZoneRegistrarTest_Unsorted_isSorted;
-class BasicZoneRegistrarTest_Sorted_linearSearchById;
-class BasicZoneRegistrarTest_Sorted_linearSearchById_not_found;
-class BasicZoneRegistrarTest_Sorted_binarySearchById_zeroEntries;
-class BasicZoneRegistrarTest_Sorted_binarySearchById;
-class BasicZoneRegistrarTest_Sorted_binarySearchById_not_found;
-class BasicZoneRegistrarTest_Unsorted_linearSearchById;
-class BasicZoneRegistrarTest_Unsorted_linearSearchById_not_found;
+class ZoneRegistrarTest_Sorted_isSorted;
+class ZoneRegistrarTest_Unsorted_isSorted;
+class ZoneRegistrarTest_Sorted_linearSearchById;
+class ZoneRegistrarTest_Sorted_linearSearchById_not_found;
+class ZoneRegistrarTest_Sorted_binarySearchById_zeroEntries;
+class ZoneRegistrarTest_Sorted_binarySearchById;
+class ZoneRegistrarTest_Sorted_binarySearchById_not_found;
+class ZoneRegistrarTest_Unsorted_linearSearchById;
+class ZoneRegistrarTest_Unsorted_linearSearchById_not_found;
 
 namespace ace_time {
 namespace internal {
@@ -108,15 +108,15 @@ class ZoneRegistrarTemplate {
   protected:
     friend void ::runIndexForZoneIdBinary();
     friend void ::runIndexForZoneIdLinear();
-    friend class ::BasicZoneRegistrarTest_Sorted_isSorted;
-    friend class ::BasicZoneRegistrarTest_Unsorted_isSorted;
-    friend class ::BasicZoneRegistrarTest_Sorted_linearSearchById;
-    friend class ::BasicZoneRegistrarTest_Sorted_linearSearchById_not_found;
-    friend class ::BasicZoneRegistrarTest_Sorted_binarySearchById_zeroEntries;
-    friend class ::BasicZoneRegistrarTest_Sorted_binarySearchById;
-    friend class ::BasicZoneRegistrarTest_Sorted_binarySearchById_not_found;
-    friend class ::BasicZoneRegistrarTest_Unsorted_linearSearchById;
-    friend class ::BasicZoneRegistrarTest_Unsorted_linearSearchById_not_found;
+    friend class ::ZoneRegistrarTest_Sorted_isSorted;
+    friend class ::ZoneRegistrarTest_Unsorted_isSorted;
+    friend class ::ZoneRegistrarTest_Sorted_linearSearchById;
+    friend class ::ZoneRegistrarTest_Sorted_linearSearchById_not_found;
+    friend class ::ZoneRegistrarTest_Sorted_binarySearchById_zeroEntries;
+    friend class ::ZoneRegistrarTest_Sorted_binarySearchById;
+    friend class ::ZoneRegistrarTest_Sorted_binarySearchById_not_found;
+    friend class ::ZoneRegistrarTest_Unsorted_linearSearchById;
+    friend class ::ZoneRegistrarTest_Unsorted_linearSearchById_not_found;
 
     /** Use binarySearchById() if zoneRegistrySize >= threshold. */
     static const uint8_t kBinarySearchThreshold = 8;
