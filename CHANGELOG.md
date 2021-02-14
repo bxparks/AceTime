@@ -35,6 +35,12 @@
             * The problem occurs because the `ZoneProcessorCache` will rebind
               a previously allocated `ZoneProcessor` to another `TimeZone` when
               it runs out of available processors in the cache.
+    * **Unlikely Breaking Change**: Move `ZoneRegistrar.h` into `internal/`.
+        * Rename `BasicZoneRegistrar` to `basic::ZoneRegistrar`.
+        * Rename `ExtendedZoneRegistrar` to `extended::ZoneRegistrar`.
+        * The class is an implementation detail which is used only by
+          `BasicZoneManager` and `ExtendedZoneManager`. It was not exposed to
+          the end user and should not cause any breaking changes.
 * 1.5
     * Use binary search for both `ZoneManager::createForZoneName()` and
       `ZoneManager::createForZoneId()`.
