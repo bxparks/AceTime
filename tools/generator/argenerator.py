@@ -1228,7 +1228,7 @@ extern const {scope}::LinkEntry kLinkRegistry[{numLinks}];
             self.links_map,
             key=lambda x: self.link_ids[x],
         ):
-            zone_name = self.links_map.get(link_name)
+            zone_name = self.links_map[link_name]
             link_id = self.link_ids[link_name]
             zone_id = self.zone_ids[zone_name]
 
