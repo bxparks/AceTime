@@ -104,6 +104,9 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZoneRegistrar): "));
   SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneRegistrar));
 
+  SERIAL_PORT_MONITOR.print(F("sizeof(basic::LinkRegistrar): "));
+  SERIAL_PORT_MONITOR.println(sizeof(basic::LinkRegistrar));
+
   SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneProcessor::Transition): "));
   SERIAL_PORT_MONITOR.println(sizeof(BasicZoneProcessor::Transition));
 

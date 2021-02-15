@@ -38,8 +38,8 @@ class LinkRegistrarTemplate {
         const LE* linkRegistry = nullptr
     ):
         mLinkRegistrySize(linkRegistrySize),
-        mLinkRegistry(linkRegistry),
-        mIsSorted(isSorted(linkRegistry, linkRegistrySize))
+        mIsSorted(isSorted(linkRegistry, linkRegistrySize)),
+        mLinkRegistry(linkRegistry)
     {}
 
     /** Return the number of (thin) links. */
@@ -135,8 +135,8 @@ class LinkRegistrarTemplate {
   private:
     // Ordering of fields optimized for 32-bit alignment.
     uint16_t const mLinkRegistrySize;
-    const LE* const mLinkRegistry; // nullable
     bool const mIsSorted;
+    const LE* const mLinkRegistry; // nullable
 };
 
 } // internal
