@@ -21,7 +21,11 @@ const uint16_t kBasicZoneRegistrySize =
     sizeof(kBasicZoneRegistry) / sizeof(kBasicZoneRegistry[0]);
 
 BasicZoneManager<1> basicZoneManager(
-    kBasicZoneRegistrySize, kBasicZoneRegistry);
+    kBasicZoneRegistrySize,
+    kBasicZoneRegistry,
+    zonedb::kLinkRegistrySize,
+    zonedb::kLinkRegistry
+);
 
 //---------------------------------------------------------------------------
 
@@ -150,6 +154,23 @@ test(BasicZoneManagerTest, createForTimeZoneData_crossed) {
   TimeZone tzRoundTrip = basicZoneManager.createForTimeZoneData(tzd);
   assertEqual(tz.getZoneId(), tzRoundTrip.getZoneId());
   assertEqual(BasicZoneProcessor::kTypeBasic, tzRoundTrip.getType());
+}
+
+//---------------------------------------------------------------------------
+
+// Attempt to create a TimeZone for US/Pacific. There is no entry in the
+// kBasicZoneRegistry. But there is a mapping from US/Pacific ->
+// America/Los_Angeles in the Link Registry. So we should get back
+// America/Los_Angeles.
+test(BasicZoneManagerTest, createForZoneId_usingLinkEntry) {
+  TimeZone tzPacificByName = basicZoneManager.createForZoneName("US/Pacific");
+  assertTrue(tzPacificByName.isError());
+
+  TimeZone tzPacificById = basicZoneManager.createForZoneId(
+      zonedb::kZoneIdUS_Pacific);
+  TimeZone tzLosAngelesById = basicZoneManager.createForZoneId(
+      zonedb::kZoneIdAmerica_Los_Angeles);
+  assertTrue(tzPacificById == tzLosAngelesById);
 }
 
 //---------------------------------------------------------------------------

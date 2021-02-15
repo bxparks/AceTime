@@ -34,8 +34,8 @@ class LinkRegistrarTemplate {
 
     /** Constructor. */
     LinkRegistrarTemplate(
-        uint16_t linkRegistrySize = 0,
-        const LE* linkRegistry = nullptr
+        uint16_t linkRegistrySize,
+        const LE* linkRegistry
     ):
         mLinkRegistrySize(linkRegistrySize),
         mIsSorted(isSorted(linkRegistry, linkRegistrySize)),
@@ -54,6 +54,9 @@ class LinkRegistrarTemplate {
 
     /** Return the LinkEntry using the linkId. Return nullptr if not found. */
     const LE* getLinkEntryForId(uint32_t linkId) const {
+      if (mLinkRegistrySize == 0 || mLinkRegistry == nullptr) {
+        return nullptr;
+      }
       uint16_t index = findIndexForId(linkId);
       if (index == kInvalidIndex) return nullptr;
       return LRGB(mLinkRegistry).linkEntry(index);

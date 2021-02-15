@@ -41,6 +41,16 @@
         * The class is an implementation detail which is used only by
           `BasicZoneManager` and `ExtendedZoneManager`. It was not exposed to
           the end user and should not cause any breaking changes.
+    * Add optional `LinkRegistry` arrays to constructors of `BasicZoneManager`
+      and `ExtendedZoneManager`.
+        * The `zonedb/zone_registry.h` and `zonedbx/zone_registry.h` files
+          now contain a `kLinkRegistrySize` and `Linkentry kLinkRegistry[]`
+          array. Each record contains a mapping of `linkId` to its `zoneId`.
+        * When searching by `zoneId` using `ZoneManager::createForZoneId()`, it
+          is possible that a previously saved `zoneId` from an older TZDB
+          version got converted into a `linkId`.
+        * If the `kLinkRegistry[]` is given to the `ZoneManager`, the manager
+          will search the link registry if the `zoneId` is not found.
 * 1.5
     * Use binary search for both `ZoneManager::createForZoneName()` and
       `ZoneManager::createForZoneId()`.

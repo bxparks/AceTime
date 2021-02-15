@@ -18,6 +18,13 @@ test(LinkRegistrarTest, linkRegistrySize) {
   assertEqual(zonedb::kLinkRegistrySize, linkRegistrar.linkRegistrySize());
 }
 
+test(LinkRegistrarTest, emptyRegistry_returns_nullptr) {
+  LinkRegistrar linkRegistrar(0, nullptr);
+  assertEqual(
+      nullptr,
+      linkRegistrar.getLinkEntryForId(zonedb::kZoneIdUS_Pacific));
+}
+
 test(LinkRegistrarTest, isSorted) {
   assertTrue(LinkRegistrar::isSorted(
       zonedb::kLinkRegistry, zonedb::kLinkRegistrySize));
@@ -25,10 +32,9 @@ test(LinkRegistrarTest, isSorted) {
 
 test(LinkRegistrarTest, getLinkEntry_US_Pacific) {
   LinkRegistrar linkRegistrar(zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
-
-  const basic::LinkEntry* linkEntry =
-      linkRegistrar.getLinkEntryForId(zonedb::kZoneIdUS_Pacific);
-  assertNotEqual(linkEntry, nullptr);
+  assertNotEqual(
+      nullptr,
+      linkRegistrar.getLinkEntryForId(zonedb::kZoneIdUS_Pacific));
 }
 
 //---------------------------------------------------------------------------
