@@ -14,15 +14,17 @@
 #define FEATURE_BASIC_TIME_ZONE2 5
 #define FEATURE_BASIC_ZONE_MANAGER_ONE 6
 #define FEATURE_BASIC_ZONE_MANAGER_ZONES 7
-#define FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_LINKS 8
-#define FEATURE_EXTENDED_TIME_ZONE 9
-#define FEATURE_EXTENDED_TIME_ZONE2 10
-#define FEATURE_EXTENDED_ZONE_MANAGER_ONE 11
-#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES 12
-#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_LINKS 13
-#define FEATURE_SYSTEM_CLOCK 14
-#define FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE 15
-#define FEATURE_SYSTEM_CLOCK_AND_EXTENDED_TIME_ZONE 16
+#define FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_THIN_LINKS 8
+#define FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_FAT_LINKS 9
+#define FEATURE_EXTENDED_TIME_ZONE 10
+#define FEATURE_EXTENDED_TIME_ZONE2 11
+#define FEATURE_EXTENDED_ZONE_MANAGER_ONE 12
+#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES 13
+#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_THIN_LINKS 14
+#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS 15
+#define FEATURE_SYSTEM_CLOCK 16
+#define FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE 17
+#define FEATURE_SYSTEM_CLOCK_AND_EXTENDED_TIME_ZONE 18
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
@@ -104,14 +106,27 @@ void setup() {
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES
-  BasicZoneManager<1> manager(zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+  BasicZoneManager<1> manager(
+      zonedb::kZoneRegistrySize,
+      zonedb::kZoneRegistry);
   auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_LINKS
+#elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_THIN_LINKS
   BasicZoneManager<1> manager(
-    zonedb::kZoneAndLinkRegistrySize, zonedb::kZoneAndLinkRegistry);
+    zonedb::kZoneRegistrySize,
+    zonedb::kZoneRegistry,
+    zonedb::kLinkRegistrySize,
+    zonedb::kLinkRegistry);
+  auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
+#elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_FAT_LINKS
+  BasicZoneManager<1> manager(
+    zonedb::kZoneAndLinkRegistrySize,
+    zonedb::kZoneAndLinkRegistry);
   auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
@@ -144,14 +159,26 @@ void setup() {
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES
   ExtendedZoneManager<1> manager(
-      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
+      zonedbx::kZoneRegistrySize,
+      zonedbx::kZoneRegistry);
   auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_LINKS
+#elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_THIN_LINKS
   ExtendedZoneManager<1> manager(
-      zonedbx::kZoneAndLinkRegistrySize, zonedbx::kZoneAndLinkRegistry);
+      zonedbx::kZoneRegistrySize,
+      zonedbx::kZoneRegistry,
+      zonedbx::kLinkRegistrySize,
+      zonedbx::kLinkRegistry);
+  auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
+#elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS
+  ExtendedZoneManager<1> manager(
+      zonedbx::kZoneAndLinkRegistrySize,
+      zonedbx::kZoneAndLinkRegistry);
   auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
