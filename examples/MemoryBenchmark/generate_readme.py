@@ -96,6 +96,14 @@ subclasses of the templatized `BasicZoneProcessorTemplate` and
 complex ZoneProcessors and Brokers) causes flash memory to go up by 100-200
 bytes.
 
+In v1.6, support for `LinkRegistry` was added to `BasicZoneManager` and
+`ExtendedZoneManager`. This increases the flash memory usage by 150-500 bytes
+when using one of these classes due to the code required by `LinkRegistrar`.
+This extra cost is incurred even if the `LinkRegistry` is set to 0 elements.
+Each `LinkEntry` consumes 8 bytes (2 x `uint32_t`). So a `zonedb::kLinkRegistry`
+with 183 elements uses 1464 extra bytes of flash; a `zonedbx::kLinkRegistry`
+with 207 elements uses 1656 extra bytes.
+
 ## Arduino Nano
 
 * 16MHz ATmega328P
