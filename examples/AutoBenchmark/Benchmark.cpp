@@ -30,6 +30,14 @@
  *   bytes. (After replace BasicZoneManager and ExtendedZoneManager with
  *   BasicZoneProcessor and ExtendedZoneProcessor, since the ZoneManagers were
  *   not needed for the benchmark.)
+ *
+ * * Sketch uses 26776 bytes (87%) of program storage space. Maximum is 30720
+ *   bytes. (After adding support for LinkRegistry.)
+ *
+ * * (Pro Micro) Sketch uses 22780 bytes (79%) of program storage space.
+ *   Maximum is 28672 bytes. On a ProMicro, disabling
+ *   ZonedDateTime::forEpochSeconds(*) removes the dependency to
+ *   ExtendedZoneProcessor, reducing flash consumption from 28872 bytes.
  */
 
 #include <Arduino.h>
@@ -51,9 +59,9 @@ const uint32_t COUNT = 10000;
 #elif defined(ESP8266)
 const uint32_t COUNT = 10000;
 #elif defined(ESP32)
-const uint32_t COUNT = 50000;
+const uint32_t COUNT = 20000;
 #elif defined(TEENSYDUINO)
-const uint32_t COUNT = 50000;
+const uint32_t COUNT = 20000;
 #elif defined(EPOXY_DUINO)
 // Linux or MacOS
 const uint32_t COUNT = 50000;
@@ -142,6 +150,14 @@ static void printMicrosPerIteration(long elapsedMillis) {
   SERIAL_PORT_MONITOR.print('.');
   ace_common::printPad3To(SERIAL_PORT_MONITOR, frac, '0');
 }
+
+#if defined(ARDUINO_AVR_PROMICRO)
+// Print -1 to indicate that the benchmark was not executed, due to memory.
+static void printNullResult(const __FlashStringHelper* label) {
+  SERIAL_PORT_MONITOR.print(label);
+  SERIAL_PORT_MONITOR.println(" -1");
+}
+#endif
 
 static void printResult(
     const __FlashStringHelper* label,
@@ -317,7 +333,10 @@ static const acetime_t kTwoYears = 2 * 365 * 24 * 3600L;
 // flash memory consumption of this program enough to run on a 32kB Arduino
 // Nano.
 static BasicZoneProcessor* basicZoneProcessor;
-static ExtendedZoneProcessor* extendedZoneProcessor;
+
+#if ! defined(ARDUINO_AVR_PROMICRO)
+  static ExtendedZoneProcessor* extendedZoneProcessor;
+#endif
 
 // ZonedDateTime::forEpochSeconds(seconds, tz), uncached
 static void runZonedDateTimeForEpochSecondsBasicZoneManager() {
@@ -363,6 +382,10 @@ static void runZonedDateTimeForEpochSecondsBasicZoneManagerCached() {
 
 // ZonedDateTime::forEpochSeconds(seconds, tz), uncached
 static void runZonedDateTimeForEpochSecondsExtendedZoneManager() {
+#if defined(ARDUINO_AVR_PROMICRO)
+  printNullResult(F("ZonedDateTime::forEpochSeconds(Extended_nocache)"));
+
+#else
 	ExtendedZoneProcessor processor;
   extendedZoneProcessor = &processor;
   offset = 0;
@@ -381,10 +404,15 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManager() {
 
   printResult(F("ZonedDateTime::forEpochSeconds(Extended_nocache)"),
       forEpochSecondsMillis, emptyLoopMillis);
+#endif
 }
 
 // ZonedDateTime::forEpochSeconds(seconds, tz) cached
 static void runZonedDateTimeForEpochSecondsExtendedZoneManagerCached() {
+#if defined(ARDUINO_AVR_PROMICRO)
+  printNullResult(F("ZonedDateTime::forEpochSeconds(Extended_cache)"));
+
+#else
 	ExtendedZoneProcessor processor;
   extendedZoneProcessor = &processor;
 
@@ -401,13 +429,14 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManagerCached() {
 
   printResult(F("ZonedDateTime::forEpochSeconds(Extended_cached)"),
       forEpochSecondsMillis, emptyLoopMillis);
+#endif
+
 }
 
 // This sketch is small enough to run on an Arduino Nano with about ~32kB. It
 // currently squeezes just under the ~30kB limit for a SparkFun Pro Micro.
 // "Sketch uses 28394 bytes (99%) of program storage space. Maximum is 28672
 // bytes."
-//#if ! defined(ARDUINO_AVR_PROMICRO)
 
 basic::ZoneRegistrar* basicRegistrar;
 
@@ -509,8 +538,6 @@ void runIndexForZoneIdLinear() {
       emptyLoopMillis);
 }
 
-//#endif // defined(ARDUINO_AVR_PROMICRO)
-
 void runBenchmarks() {
   runEmptyLoop();
 
@@ -530,11 +557,9 @@ void runBenchmarks() {
   runZonedDateTimeForEpochSecondsExtendedZoneManager();
   runZonedDateTimeForEpochSecondsExtendedZoneManagerCached();
 
-//#if ! defined(ARDUINO_AVR_PROMICRO)
   runIndexForZoneName();
   runIndexForZoneIdBinary();
   runIndexForZoneIdLinear();
-//#endif
 
   SERIAL_PORT_MONITOR.print(F("Iterations_per_run "));
   SERIAL_PORT_MONITOR.println(COUNT);
