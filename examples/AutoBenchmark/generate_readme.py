@@ -87,6 +87,16 @@ The CPU times below are given in microseconds.
   binary search, instead of doing a binary search on the zoneName directly. Even
   with the extra level of indirection, the `createForZoneName()` is between
   1.5-2X faster than the previous version.
+* In v1.6, BasicZoneManager and ExtendedZoneManager can take an optional
+  LinkRegistry which will be searched if a zoneId is not found. The
+  `BasicZoneManager::createForZoneId(link)` benchmark shows that if the zoneId
+  is not found, the total search time is roughly double, because the
+  LinkRegistry must be search as a fallback. On some compilers, the
+  `BasicZoneManager::createForZoneName(binary)` becames slightly slower (~10%?)
+  because the algorithm was moved into the `ace_common::binarySearchByKey()`
+  template function, and the compiler is not able to optimize the resulting
+  function as well as the hand-rolled version. The slightly decrease in speed
+  seemed acceptable cost to reduce duplicate code maintenance.
 
 ## Arduino Nano
 

@@ -30,6 +30,20 @@
  *   bytes. (After replace BasicZoneManager and ExtendedZoneManager with
  *   BasicZoneProcessor and ExtendedZoneProcessor, since the ZoneManagers were
  *   not needed for the benchmark.)
+ *
+ * * Sketch uses 26776 bytes (87%) of program storage space. Maximum is 30720
+ *   bytes. (After adding support for LinkRegistry.)
+ *
+ * * (Pro Micro) Sketch uses 22780 bytes (79%) of program storage space.
+ *   Maximum is 28672 bytes. On a ProMicro, disabling
+ *   ZonedDateTime::forEpochSeconds(*) removes the dependency to
+ *   ExtendedZoneProcessor, reducing flash consumption from 28872 bytes.
+ *
+ * * (Pro Micro) Sketch uses 24862 bytes (86%) of program storage space.
+ *   After adding kLinkRegistry with 183 links to BasicZoneManager.
+ *
+ * * (Nano) Sketch uses 28856 bytes (93%) of program storage space.
+ *   After adding kLinkRegistry with 183 links to BasicZoneManager.
  */
 
 #include <Arduino.h>
@@ -45,15 +59,15 @@ using ace_common::PrintStr;
 #if defined(ARDUINO_ARCH_AVR)
 const uint32_t COUNT = 1000;
 #elif defined(ARDUINO_ARCH_SAMD)
-const uint32_t COUNT = 10000;
+const uint32_t COUNT = 5000;
 #elif defined(ARDUINO_ARCH_STM32)
 const uint32_t COUNT = 10000;
 #elif defined(ESP8266)
 const uint32_t COUNT = 10000;
 #elif defined(ESP32)
-const uint32_t COUNT = 50000;
+const uint32_t COUNT = 20000;
 #elif defined(TEENSYDUINO)
-const uint32_t COUNT = 50000;
+const uint32_t COUNT = 20000;
 #elif defined(EPOXY_DUINO)
 // Linux or MacOS
 const uint32_t COUNT = 50000;
@@ -142,6 +156,14 @@ static void printMicrosPerIteration(long elapsedMillis) {
   SERIAL_PORT_MONITOR.print('.');
   ace_common::printPad3To(SERIAL_PORT_MONITOR, frac, '0');
 }
+
+#if defined(ARDUINO_AVR_PROMICRO)
+// Print -1 to indicate that the benchmark was not executed, due to memory.
+static void printNullResult(const __FlashStringHelper* label) {
+  SERIAL_PORT_MONITOR.print(label);
+  SERIAL_PORT_MONITOR.println(" -1");
+}
+#endif
 
 static void printResult(
     const __FlashStringHelper* label,
@@ -252,7 +274,7 @@ static void runOffsetDateTimeToEpochSeconds() {
 }
 
 // ZonedDateTime::forEpochSeconds(seconds)
-static void runZonedDateTimeForEpochSeconds() {
+static void runZonedDateTimeForEpochSecondsUTC() {
   unsigned long forEpochSecondsMillis = runLambda([]() {
     unsigned long fakeEpochDays = millis();
     ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(fakeEpochDays,
@@ -317,16 +339,19 @@ static const acetime_t kTwoYears = 2 * 365 * 24 * 3600L;
 // flash memory consumption of this program enough to run on a 32kB Arduino
 // Nano.
 static BasicZoneProcessor* basicZoneProcessor;
-static ExtendedZoneProcessor* extendedZoneProcessor;
+
+#if ! defined(ARDUINO_AVR_PROMICRO)
+  static ExtendedZoneProcessor* extendedZoneProcessor;
+#endif
 
 // ZonedDateTime::forEpochSeconds(seconds, tz), uncached
-static void runZonedDateTimeForEpochSecondsBasicZoneManager() {
+static void runZonedDateTimeForEpochSecondsBasicNoCache() {
 	BasicZoneProcessor processor;
   basicZoneProcessor = &processor;
   offset = 0;
 
   unsigned long forEpochSecondsMillis = runLambda([]() {
-    offset = (offset) ? 0 : kTwoYears;
+    offset = (offset) ? 0 : kTwoYears;  // break caching
     unsigned long fakeEpochSeconds = millis() + offset;
     TimeZone tzLosAngeles = TimeZone::forZoneInfo(
         &zonedb::kZoneAmerica_Los_Angeles,
@@ -342,7 +367,7 @@ static void runZonedDateTimeForEpochSecondsBasicZoneManager() {
 }
 
 // ZonedDateTime::forEpochSeconds(seconds, tz) cached
-static void runZonedDateTimeForEpochSecondsBasicZoneManagerCached() {
+static void runZonedDateTimeForEpochSecondsBasicCached() {
 	BasicZoneProcessor processor;
   basicZoneProcessor = &processor;
 
@@ -362,7 +387,11 @@ static void runZonedDateTimeForEpochSecondsBasicZoneManagerCached() {
 }
 
 // ZonedDateTime::forEpochSeconds(seconds, tz), uncached
-static void runZonedDateTimeForEpochSecondsExtendedZoneManager() {
+static void runZonedDateTimeForEpochSecondsExtendedNoCache() {
+#if defined(ARDUINO_AVR_PROMICRO)
+  printNullResult(F("ZonedDateTime::forEpochSeconds(Extended_nocache)"));
+
+#else
 	ExtendedZoneProcessor processor;
   extendedZoneProcessor = &processor;
   offset = 0;
@@ -381,10 +410,15 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManager() {
 
   printResult(F("ZonedDateTime::forEpochSeconds(Extended_nocache)"),
       forEpochSecondsMillis, emptyLoopMillis);
+#endif
 }
 
 // ZonedDateTime::forEpochSeconds(seconds, tz) cached
-static void runZonedDateTimeForEpochSecondsExtendedZoneManagerCached() {
+static void runZonedDateTimeForEpochSecondsExtendedCached() {
+#if defined(ARDUINO_AVR_PROMICRO)
+  printNullResult(F("ZonedDateTime::forEpochSeconds(Extended_cache)"));
+
+#else
 	ExtendedZoneProcessor processor;
   extendedZoneProcessor = &processor;
 
@@ -401,29 +435,31 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManagerCached() {
 
   printResult(F("ZonedDateTime::forEpochSeconds(Extended_cached)"),
       forEpochSecondsMillis, emptyLoopMillis);
+#endif
+
 }
 
 // This sketch is small enough to run on an Arduino Nano with about ~32kB. It
 // currently squeezes just under the ~30kB limit for a SparkFun Pro Micro.
 // "Sketch uses 28394 bytes (99%) of program storage space. Maximum is 28672
 // bytes."
-//#if ! defined(ARDUINO_AVR_PROMICRO)
 
-basic::ZoneRegistrar* basicRegistrar;
+basic::ZoneRegistrar* basicZoneRegistrar;
 
 static void runIndexForZoneName() {
-  basic::ZoneRegistrar registrar(kBenchmarkZoneRegistrySize,
+  basic::ZoneRegistrar registrar(
+      kBenchmarkZoneRegistrySize,
       kBenchmarkZoneRegistry);
-  basicRegistrar = &registrar;
+  basicZoneRegistrar = &registrar;
 
   unsigned long runMillis = runLambda([]() {
     PrintStr<40> printStr;
     uint16_t randomIndex = random(kBenchmarkZoneRegistrySize);
-    const basic::ZoneInfo* info = basicRegistrar->getZoneInfoForIndex(
+    const basic::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
         randomIndex);
     BasicZone(info).printNameTo(printStr);
 
-    uint16_t index = basicRegistrar->findIndexForName(printStr.getCstr());
+    uint16_t index = basicZoneRegistrar->findIndexForName(printStr.getCstr());
     if (index == basic::ZoneRegistrar::kInvalidIndex) {
       SERIAL_PORT_MONITOR.println(F("Not found"));
     }
@@ -433,7 +469,7 @@ static void runIndexForZoneName() {
   unsigned long emptyLoopMillis = runLambda([]() {
     PrintStr<40> printStr;
     uint16_t randomIndex = random(kBenchmarkZoneRegistrySize);
-    const basic::ZoneInfo* info = basicRegistrar->getZoneInfoForIndex(
+    const basic::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
         randomIndex);
     BasicZone(info).printNameTo(printStr);
 
@@ -452,17 +488,18 @@ static void runIndexForZoneName() {
 
 // non-static to allow friend access into basic::ZoneRegistrar
 void runIndexForZoneIdBinary() {
-	basic::ZoneRegistrar registrar(kBenchmarkZoneRegistrySize,
+	basic::ZoneRegistrar registrar(
+      kBenchmarkZoneRegistrySize,
       kBenchmarkZoneRegistry);
-  basicRegistrar = &registrar;
+  basicZoneRegistrar = &registrar;
 
   unsigned long runMillis = runLambda([]() {
     uint16_t randomIndex = random(kBenchmarkZoneRegistrySize);
-    const basic::ZoneInfo* info = basicRegistrar->getZoneInfoForIndex(
+    const basic::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
         randomIndex);
     uint32_t zoneId = BasicZone(info).zoneId();
 
-    uint16_t index = basicRegistrar->findIndexForIdBinary(zoneId);
+    uint16_t index = basicZoneRegistrar->findIndexForIdBinary(zoneId);
     if (index == basic::ZoneRegistrar::kInvalidIndex) {
       SERIAL_PORT_MONITOR.println(F("Not found"));
     }
@@ -471,7 +508,7 @@ void runIndexForZoneIdBinary() {
 
   unsigned long emptyLoopMillis = runLambda([]() {
     uint16_t randomIndex = random(kBenchmarkZoneRegistrySize);
-    const basic::ZoneInfo* info = basicRegistrar->getZoneInfoForIndex(
+    const basic::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
         randomIndex);
     uint32_t zoneId = BasicZone(info).zoneId();
 
@@ -484,16 +521,17 @@ void runIndexForZoneIdBinary() {
 
 // non-static to allow friend access into basic::ZoneRegistrar
 void runIndexForZoneIdLinear() {
-	basic::ZoneRegistrar registrar(kBenchmarkZoneRegistrySize,
+	basic::ZoneRegistrar registrar(
+      kBenchmarkZoneRegistrySize,
       kBenchmarkZoneRegistry);
-  basicRegistrar = &registrar;
+  basicZoneRegistrar = &registrar;
 
   unsigned long runMillis = runLambda([]() {
     uint16_t randomIndex = random(kBenchmarkZoneRegistrySize);
     const basic::ZoneInfo* info = kBenchmarkZoneRegistry[randomIndex];
     uint32_t zoneId = BasicZone(info).zoneId();
 
-    uint16_t index = basicRegistrar->findIndexForIdLinear(zoneId);
+    uint16_t index = basicZoneRegistrar->findIndexForIdLinear(zoneId);
     disableOptimization(index);
   });
 
@@ -509,7 +547,51 @@ void runIndexForZoneIdLinear() {
       emptyLoopMillis);
 }
 
-//#endif // defined(ARDUINO_AVR_PROMICRO)
+basic::LinkRegistrar* basicLinkRegistrar;
+
+// non-static to allow friend access into basic::ZoneRegistrar
+void runIndexForZoneIdWithThinLinks() {
+	basic::ZoneRegistrar zoneRegistrar(
+      kBenchmarkZoneRegistrySize,
+      kBenchmarkZoneRegistry);
+  basicZoneRegistrar = &zoneRegistrar;
+
+  basic::LinkRegistrar linkRegistrar(
+      zonedb::kLinkRegistrySize,
+      zonedb::kLinkRegistry);
+  basicLinkRegistrar = &linkRegistrar;
+
+  unsigned long runMillis = runLambda([]() {
+    uint16_t randomIndex = random(zonedb::kLinkRegistrySize);
+    const basic::LinkEntry* entry = basicLinkRegistrar->getLinkEntryForIndex(
+        randomIndex);
+    uint32_t linkId = basic::LinkEntryBroker(entry).linkId();
+
+    uint16_t index = basicZoneRegistrar->findIndexForId(linkId);
+    if (index != basic::ZoneRegistrar::kInvalidIndex) {
+      SERIAL_PORT_MONITOR.println(F("ERROR: Link found in Zone registry"));
+    }
+
+    index = basicLinkRegistrar->findIndexForId(linkId);
+    if (index == basic::ZoneRegistrar::kInvalidIndex) {
+      SERIAL_PORT_MONITOR.println(F("ERROR: Link missing from Link registry"));
+    }
+
+    disableOptimization(index);
+  });
+
+  unsigned long emptyLoopMillis = runLambda([]() {
+    uint16_t randomIndex = random(zonedb::kLinkRegistrySize);
+    const basic::LinkEntry* entry = basicLinkRegistrar->getLinkEntryForIndex(
+        randomIndex);
+    uint32_t linkId = basic::LinkEntryBroker(entry).linkId();
+
+    disableOptimization(linkId);
+  });
+
+  printResult(F("BasicZoneManager::createForZoneId(link)"), runMillis,
+      emptyLoopMillis);
+}
 
 void runBenchmarks() {
   runEmptyLoop();
@@ -524,17 +606,16 @@ void runBenchmarks() {
   runZonedDateTimeToEpochSeconds();
   runZonedDateTimeToEpochDays();
 
-  runZonedDateTimeForEpochSeconds();
-  runZonedDateTimeForEpochSecondsBasicZoneManager();
-  runZonedDateTimeForEpochSecondsBasicZoneManagerCached();
-  runZonedDateTimeForEpochSecondsExtendedZoneManager();
-  runZonedDateTimeForEpochSecondsExtendedZoneManagerCached();
+  runZonedDateTimeForEpochSecondsUTC();
+  runZonedDateTimeForEpochSecondsBasicNoCache();
+  runZonedDateTimeForEpochSecondsBasicCached();
+  runZonedDateTimeForEpochSecondsExtendedNoCache();
+  runZonedDateTimeForEpochSecondsExtendedCached();
 
-//#if ! defined(ARDUINO_AVR_PROMICRO)
   runIndexForZoneName();
   runIndexForZoneIdBinary();
   runIndexForZoneIdLinear();
-//#endif
+  runIndexForZoneIdWithThinLinks();
 
   SERIAL_PORT_MONITOR.print(F("Iterations_per_run "));
   SERIAL_PORT_MONITOR.println(COUNT);
