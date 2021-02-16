@@ -83,8 +83,9 @@ class LinkRegistrarTemplate {
       return ace_common::isSortedByKey(
           (size_t) registrySize,
           [&linkRegistry](size_t i) {
-            return LEB(linkRegistry.linkEntry((uint16_t) i)).linkId();
-          }
+            const LE* linkEntry = linkRegistry.linkEntry(i);
+            return LEB(linkEntry).linkId();
+          } // lambda expression returns linkId at index i
       );
     }
 
@@ -95,13 +96,14 @@ class LinkRegistrarTemplate {
     static uint16_t linearSearchById(const LE* registry,
         uint16_t registrySize, uint32_t linkId) {
       const LRGB linkRegistry(registry);
-      for (uint16_t i = 0; i < registrySize; ++i) {
-        const LE* linkEntry = linkRegistry.linkEntry(i);
-        if (linkId == LEB(linkEntry).linkId()) {
-          return i;
-        }
-      }
-      return kInvalidIndex;
+      return (uint16_t) ace_common::linearSearchByKey(
+        (size_t) registrySize,
+        linkId,
+        [&linkRegistry](size_t i) {
+          const LE* linkEntry = linkRegistry.linkEntry(i);
+          return LEB(linkEntry).linkId();
+        } // lambda expression returns linkId at index i
+      );
     }
 
     /**
@@ -118,7 +120,7 @@ class LinkRegistrarTemplate {
       return (uint16_t) ace_common::binarySearchByKey(
           (size_t) registrySize,
           linkId,
-          [&linkRegistry](size_t i) -> uint32_t {
+          [&linkRegistry](size_t i) {
             const LE* linkEntry = linkRegistry.linkEntry(i);
             return LEB(linkEntry).linkId();
           } // lambda expression returns linkId at index i

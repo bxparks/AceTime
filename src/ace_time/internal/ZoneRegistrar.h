@@ -13,8 +13,11 @@
 #include "BasicBrokers.h"
 #include "ExtendedBrokers.h"
 
+// AutoBenchmark.ino
 void runIndexForZoneIdBinary();
 void runIndexForZoneIdLinear();
+
+// Tests
 class ZoneRegistrarTest_Sorted_isSorted;
 class ZoneRegistrarTest_Unsorted_isSorted;
 class ZoneRegistrarTest_Sorted_linearSearchById;
@@ -127,8 +130,9 @@ class ZoneRegistrarTemplate {
       return ace_common::isSortedByKey(
           (size_t) registrySize,
           [&zoneRegistry](size_t i) {
-            return ZIB(zoneRegistry.zoneInfo((uint16_t) i)).zoneId();
-          }
+            const ZI* zoneInfo = zoneRegistry.zoneInfo(i);
+            return ZIB(zoneInfo).zoneId();
+          } // lambda expression returns zoneId at index i
       );
     }
 
@@ -139,13 +143,14 @@ class ZoneRegistrarTemplate {
     static uint16_t linearSearchById(const ZI* const* registry,
         uint16_t registrySize, uint32_t zoneId) {
       const ZRGB zoneRegistry(registry);
-      for (uint16_t i = 0; i < registrySize; ++i) {
-        const ZI* zoneInfo = zoneRegistry.zoneInfo(i);
-        if (zoneId == ZIB(zoneInfo).zoneId()) {
-          return i;
-        }
-      }
-      return kInvalidIndex;
+      return (uint16_t) ace_common::linearSearchByKey(
+          (size_t) registrySize,
+          zoneId,
+          [&zoneRegistry](size_t i) -> uint32_t {
+            const ZI* zoneInfo = zoneRegistry.zoneInfo(i);
+            return ZIB(zoneInfo).zoneId();
+          } // lambda expression returns zoneId at index i
+      );
     }
 
     /**
