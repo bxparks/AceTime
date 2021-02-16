@@ -143,14 +143,26 @@ class ZoneRegistrarTemplate {
     static uint16_t linearSearchById(const ZI* const* registry,
         uint16_t registrySize, uint32_t zoneId) {
       const ZRGB zoneRegistry(registry);
+      for (uint16_t i = 0; i < registrySize; ++i) {
+        const ZI* zoneInfo = zoneRegistry.zoneInfo(i);
+        if (zoneId == ZIB(zoneInfo).zoneId()) {
+          return i;
+        }
+      }
+      return kInvalidIndex;
+
+      // The templatized version is 20-40% slower on some compilers (but not
+      // all), so let's use the hand-rolled version above.
+      /*
       return (uint16_t) ace_common::linearSearchByKey(
           (size_t) registrySize,
           zoneId,
-          [&zoneRegistry](size_t i) -> uint32_t {
+          [&zoneRegistry](size_t i) {
             const ZI* zoneInfo = zoneRegistry.zoneInfo(i);
             return ZIB(zoneInfo).zoneId();
           } // lambda expression returns zoneId at index i
       );
+      */
     }
 
     /**

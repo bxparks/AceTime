@@ -48,7 +48,7 @@ class LinkRegistrarTemplate {
     /** Return the LinkEntry at index i. Return nullptr if i is out of range. */
     const LE* getLinkEntryForIndex(uint16_t i) const {
       return (mLinkRegistry && i < mLinkRegistrySize)
-          ? LRBG(mLinkRegistry).linkEntry(i)
+          ? LRGB(mLinkRegistry).linkEntry(i)
           : nullptr;
     }
 
@@ -96,6 +96,18 @@ class LinkRegistrarTemplate {
     static uint16_t linearSearchById(const LE* registry,
         uint16_t registrySize, uint32_t linkId) {
       const LRGB linkRegistry(registry);
+
+      for (uint16_t i = 0; i < registrySize; ++i) {
+        const LE* linkEntry = linkRegistry.linkEntry(i);
+        if (linkId == LEB(linkEntry).linkId()) {
+          return i;
+        }
+      }
+      return kInvalidIndex;
+
+      // The templatized version is 20-40% slower on some compilers (but not
+      // all), so let's use the hand-rolled version above.
+      /*
       return (uint16_t) ace_common::linearSearchByKey(
         (size_t) registrySize,
         linkId,
@@ -104,6 +116,7 @@ class LinkRegistrarTemplate {
           return LEB(linkEntry).linkId();
         } // lambda expression returns linkId at index i
       );
+      */
     }
 
     /**
