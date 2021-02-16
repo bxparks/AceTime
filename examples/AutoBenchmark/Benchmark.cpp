@@ -268,7 +268,7 @@ static void runOffsetDateTimeToEpochSeconds() {
 }
 
 // ZonedDateTime::forEpochSeconds(seconds)
-static void runZonedDateTimeForEpochSeconds() {
+static void runZonedDateTimeForEpochSecondsUTC() {
   unsigned long forEpochSecondsMillis = runLambda([]() {
     unsigned long fakeEpochDays = millis();
     ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(fakeEpochDays,
@@ -339,13 +339,13 @@ static BasicZoneProcessor* basicZoneProcessor;
 #endif
 
 // ZonedDateTime::forEpochSeconds(seconds, tz), uncached
-static void runZonedDateTimeForEpochSecondsBasicZoneManager() {
+static void runZonedDateTimeForEpochSecondsBasicNoCache() {
 	BasicZoneProcessor processor;
   basicZoneProcessor = &processor;
   offset = 0;
 
   unsigned long forEpochSecondsMillis = runLambda([]() {
-    offset = (offset) ? 0 : kTwoYears;
+    offset = (offset) ? 0 : kTwoYears;  // break caching
     unsigned long fakeEpochSeconds = millis() + offset;
     TimeZone tzLosAngeles = TimeZone::forZoneInfo(
         &zonedb::kZoneAmerica_Los_Angeles,
@@ -361,7 +361,7 @@ static void runZonedDateTimeForEpochSecondsBasicZoneManager() {
 }
 
 // ZonedDateTime::forEpochSeconds(seconds, tz) cached
-static void runZonedDateTimeForEpochSecondsBasicZoneManagerCached() {
+static void runZonedDateTimeForEpochSecondsBasicCached() {
 	BasicZoneProcessor processor;
   basicZoneProcessor = &processor;
 
@@ -381,7 +381,7 @@ static void runZonedDateTimeForEpochSecondsBasicZoneManagerCached() {
 }
 
 // ZonedDateTime::forEpochSeconds(seconds, tz), uncached
-static void runZonedDateTimeForEpochSecondsExtendedZoneManager() {
+static void runZonedDateTimeForEpochSecondsExtendedNoCache() {
 #if defined(ARDUINO_AVR_PROMICRO)
   printNullResult(F("ZonedDateTime::forEpochSeconds(Extended_nocache)"));
 
@@ -408,7 +408,7 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManager() {
 }
 
 // ZonedDateTime::forEpochSeconds(seconds, tz) cached
-static void runZonedDateTimeForEpochSecondsExtendedZoneManagerCached() {
+static void runZonedDateTimeForEpochSecondsExtendedCached() {
 #if defined(ARDUINO_AVR_PROMICRO)
   printNullResult(F("ZonedDateTime::forEpochSeconds(Extended_cache)"));
 
@@ -551,11 +551,11 @@ void runBenchmarks() {
   runZonedDateTimeToEpochSeconds();
   runZonedDateTimeToEpochDays();
 
-  runZonedDateTimeForEpochSeconds();
-  runZonedDateTimeForEpochSecondsBasicZoneManager();
-  runZonedDateTimeForEpochSecondsBasicZoneManagerCached();
-  runZonedDateTimeForEpochSecondsExtendedZoneManager();
-  runZonedDateTimeForEpochSecondsExtendedZoneManagerCached();
+  runZonedDateTimeForEpochSecondsUTC();
+  runZonedDateTimeForEpochSecondsBasicNoCache();
+  runZonedDateTimeForEpochSecondsBasicCached();
+  runZonedDateTimeForEpochSecondsExtendedNoCache();
+  runZonedDateTimeForEpochSecondsExtendedCached();
 
   runIndexForZoneName();
   runIndexForZoneIdBinary();
