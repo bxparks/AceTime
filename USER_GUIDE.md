@@ -1571,14 +1571,16 @@ class ZoneManager {
 
     virtual uint16_t indexForZoneId(uint32_t id) const = 0;
 
-    virtual uint16_t registrySize() const = 0;
+    virtual uint16_t zoneRegistrySize() const = 0;
+
+    virtual uint16_t linkRegistrySize() const = 0;
 };
 
 template<uint16_t SIZE>
 class BasicZoneManager : public ZoneManager {
   public:
-    BasicZoneManager(uint16_t registrySize);
-        const basic::ZoneInfo* const* zoneRegistry,
+    BasicZoneManager(uint16_t registrySize,
+        const basic::ZoneInfo* const* zoneRegistry);
 
     TimeZone createForZoneInfo(const basic::ZoneInfo* zoneInfo);
 };

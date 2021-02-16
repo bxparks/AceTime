@@ -60,12 +60,15 @@ class ZoneManager {
     virtual uint16_t indexForZoneId(uint32_t id) const = 0;
 
     /**
-     * Return the number of elements in the Zone and Link registry. This
-     * should probably have been named zoneRegistrySize() or
-     * zoneAndLinkRegistrySize(), but we cannot fix it without breaking
-     * backwards compatibility.
+     * Return the number of elements in the Zone (and fat Link) registry.
+     * Previously named registrySize().
      */
-    virtual uint16_t registrySize() const = 0;
+    virtual uint16_t zoneRegistrySize() const = 0;
+
+    /**
+     * Return the number of elements in the (thin) Link registry.
+     */
+    virtual uint16_t linkRegistrySize() const = 0;
 };
 
 /**
@@ -113,7 +116,9 @@ class ManualZoneManager : public ZoneManager {
       return kInvalidIndex;
     }
 
-    uint16_t registrySize() const override { return 0; }
+    uint16_t zoneRegistrySize() const override { return 0; }
+
+    uint16_t linkRegistrySize() const override { return 0; }
 };
 
 /**
@@ -199,8 +204,12 @@ class ZoneManagerImpl : public ZoneManager {
       return mZoneRegistrar.findIndexForId(id);
     }
 
-    uint16_t registrySize() const override {
+    uint16_t zoneRegistrySize() const override {
       return mZoneRegistrar.zoneRegistrySize();
+    }
+
+    uint16_t linkRegistrySize() const override {
+      return mLinkRegistrar.linkRegistrySize();
     }
 
     /**

@@ -28,7 +28,8 @@ ExtendedZoneManager<1> extendedZoneManager(
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneManagerTest, registrySize) {
-  assertEqual((uint16_t) 4, extendedZoneManager.registrySize());
+  assertEqual((uint16_t) 4, extendedZoneManager.zoneRegistrySize());
+  assertEqual((uint16_t) 0, extendedZoneManager.linkRegistrySize());
 }
 
 test(ExtendedZoneManagerTest, createForZoneName) {

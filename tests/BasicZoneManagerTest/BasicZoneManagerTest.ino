@@ -20,6 +20,7 @@ const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
 const uint16_t kBasicZoneRegistrySize =
     sizeof(kBasicZoneRegistry) / sizeof(kBasicZoneRegistry[0]);
 
+// Include both the Zone Registry and Link Registry.
 BasicZoneManager<1> basicZoneManager(
     kBasicZoneRegistrySize,
     kBasicZoneRegistry,
@@ -30,7 +31,8 @@ BasicZoneManager<1> basicZoneManager(
 //---------------------------------------------------------------------------
 
 test(BasicZoneManagerTest, registrySize) {
-  assertEqual((uint16_t) 4, basicZoneManager.registrySize());
+  assertEqual((uint16_t) 4, basicZoneManager.zoneRegistrySize());
+  assertEqual(zonedb::kLinkRegistrySize, basicZoneManager.linkRegistrySize());
 }
 
 test(BasicZoneManagerTest, createForZoneName) {
