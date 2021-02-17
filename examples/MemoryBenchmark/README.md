@@ -225,8 +225,6 @@ with 207 elements uses 1656 extra bytes.
 An entry of `-1` indicates that the memory usage exceeded the maximum of the
 microcontroller and the compiler did not generate the desired information.
 
-(SAMD compiler does not produce RAM usage numbers.)
-
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266
