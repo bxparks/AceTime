@@ -1,0 +1,4 @@
+<map id="ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;" name="ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;">
+<area shape="rect" id="node1" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database." alt="" coords="5,80,268,121"/>
+<area shape="rect" id="node2" href="$classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes." alt="" coords="43,5,230,32"/>
+</map>

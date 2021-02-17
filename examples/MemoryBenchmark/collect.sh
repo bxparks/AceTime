@@ -49,7 +49,7 @@ function collect_for_board() {
     local board=$2
     local result_file=$3
 
-    for feature in {0..16}; do
+    for feature in {0..18}; do
         echo "Collecting flash and ram usage for FEATURE $feature"
         sed -i -e "s/#define FEATURE [0-9]*/#define FEATURE $feature/" \
             $PROGRAM_NAME

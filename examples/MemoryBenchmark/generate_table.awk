@@ -6,7 +6,7 @@
 # table that can be inserted into the README.md.
 
 BEGIN {
-  NUM_FEATURES = 16
+  NUM_FEATURES = 18
   labels[0] = "Baseline"
   labels[1] = "LocalDateTime"
   labels[2] = "ZonedDateTime"
@@ -14,16 +14,18 @@ BEGIN {
   labels[4] = "Basic TimeZone (1 zone)"
   labels[5] = "Basic TimeZone (2 zones)"
   labels[6] = "BasicZoneManager (1 zone)"
-  labels[7] = "BasicZoneManager (all zones)"
-  labels[8] = "BasicZoneManager (zones+links)"
-  labels[9] = "Extended TimeZone (1 zone)"
-  labels[10] = "Extended TimeZone (2 zones)"
-  labels[11] = "ExtendedZoneManager (1 zone)"
-  labels[12] = "ExtendedZoneManager (all zones)"
-  labels[13] = "ExtendedZoneManager (zones+links)"
-  labels[14] = "SystemClock"
-  labels[15] = "SystemClock+Basic TimeZone"
-  labels[16] = "SystemClock+Extended TimeZone"
+  labels[7] = "BasicZoneManager (zones)"
+  labels[8] = "BasicZoneManager (zones+thin links)"
+  labels[9] = "BasicZoneManager (zones+fat links)"
+  labels[10] = "Extended TimeZone (1 zone)"
+  labels[11] = "Extended TimeZone (2 zones)"
+  labels[12] = "ExtendedZoneManager (1 zone)"
+  labels[13] = "ExtendedZoneManager (zones)"
+  labels[14] = "ExtendedZoneManager (zones+thin links)"
+  labels[15] = "ExtendedZoneManager (zones+fat links)"
+  labels[16] = "SystemClock"
+  labels[17] = "SystemClock+Basic TimeZone"
+  labels[18] = "SystemClock+Extended TimeZone"
   record_index = 0
 }
 {
@@ -44,20 +46,27 @@ END {
     }
   }
 
-  printf("+----------------------------------------------------------------+\n")
-  printf("| Functionality                     |  flash/  ram |       delta |\n")
-  printf("|-----------------------------------+--------------+-------------|\n")
-  printf("| %-33s | %6d/%5d | %5d/%5d |\n",
-      labels[0], u[0]["flash"], u[0]["ram"], u[0]["d_flash"], u[0]["d_ram"])
-  printf("|-----------------------------------+--------------+-------------|\n")
-  for (i = 1; i <= 13; i++) {
-    printf("| %-33s | %6d/%5d | %5d/%5d |\n",
+  printf(\
+    "+---------------------------------------------------------------------+\n")
+  printf(\
+    "| Functionality                          |  flash/  ram |       delta |\n")
+  printf(\
+    "|----------------------------------------+--------------+-------------|\n")
+  printf(\
+    "| %-38s | %6d/%5d | %5d/%5d |\n",
+    labels[0], u[0]["flash"], u[0]["ram"], u[0]["d_flash"], u[0]["d_ram"])
+  printf(\
+    "|----------------------------------------+--------------+-------------|\n")
+  for (i = 1; i <= 15; i++) {
+    printf("| %-38s | %6d/%5d | %5d/%5d |\n",
         labels[i], u[i]["flash"], u[i]["ram"], u[i]["d_flash"], u[i]["d_ram"])
   }
-  printf("|-----------------------------------+--------------+-------------|\n")
-  for (i = 14; i <= NUM_FEATURES; i++) {
-    printf("| %-33s | %6d/%5d | %5d/%5d |\n",
+  printf(\
+    "|----------------------------------------+--------------+-------------|\n")
+  for (i = 16; i <= NUM_FEATURES; i++) {
+    printf("| %-38s | %6d/%5d | %5d/%5d |\n",
         labels[i], u[i]["flash"], u[i]["ram"], u[i]["d_flash"], u[i]["d_ram"])
   }
-  printf("+----------------------------------------------------------------+\n")
+  printf(\
+    "+---------------------------------------------------------------------+\n")
 }

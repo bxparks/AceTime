@@ -22,10 +22,6 @@ pipeline {
                     git url: 'https://github.com/bxparks/AUnit',
                         branch: 'develop'
                 }
-                dir('libraries/AceButton') {
-                    git url: 'https://github.com/bxparks/AceButton',
-                        branch: 'develop'
-                }
                 dir('libraries/AceSegment') {
                     git url: 'https://github.com/bxparks/AceSegment',
                         branch: 'develop'

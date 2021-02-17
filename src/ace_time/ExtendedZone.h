@@ -7,7 +7,7 @@
 #define ACE_TIME_EXTENDED_ZONE_H
 
 #include "internal/ZoneInfo.h"
-#include "internal/Brokers.h"
+#include "internal/ExtendedBrokers.h"
 
 class Print;
 
@@ -21,12 +21,28 @@ namespace ace_time {
  */
 class ExtendedZone {
   public:
+    /**
+     * Constructor from a raw extended::ZoneInfo* pointer, intended for manual
+     * inspection of a ZoneInfo record.
+     */
     ExtendedZone(const extended::ZoneInfo* zoneInfo):
         mZoneInfoBroker(zoneInfo) {}
 
+    /**
+     * Constructor from an extended::ZoneInfoBroker, used by
+     * ExtendedZoneProcessor. This allows the implementation details of
+     * ZoneInfoBroker to remain hidden.
+     */
+    ExtendedZone(const extended::ZoneInfoBroker& zoneInfo):
+        mZoneInfoBroker(zoneInfo) {}
+
+    /** Print the full zone name to printer. */
     void printNameTo(Print& printer) const;
+
+    /** Print the short zone to the printer. */
     void printShortNameTo(Print& printer) const;
 
+    /** Return the zoneId of the current zoneInfo. */
     uint32_t zoneId() const {
       return mZoneInfoBroker.zoneId();
     }
@@ -35,20 +51,6 @@ class ExtendedZone {
     // disable copy constructor and assignment operator
     ExtendedZone(const ExtendedZone&) = delete;
     ExtendedZone& operator=(const ExtendedZone&) = delete;
-
-    /**
-     * Find the short name that begins after the last separator '/', a keyword
-     * reference, or at the beginning of the string if no separator or keyword.
-     * The last component of the full ZoneName is never compressed, which
-     * allows this to be implemented without using ace_common::KString.
-     *
-     * For example, "America/Los_Angeles" returns a pointer to "Los_Angeles",
-     * and "\x01Denver" returns a ponter to "Denver". This method returns
-     * either a (const char*) or a (const __FlashStringHelper*) depending on
-     * whether PROGMEM is used or not. The caller is responsible for casting to
-     * the correct type.
-     */
-    static const char* findShortName(const char* name);
 
     const extended::ZoneInfoBroker mZoneInfoBroker;
 };

@@ -1,6 +1,68 @@
 # Changelog
 
 * Unreleased
+* 1.6
+    * Remove `TimeZone::kTypeBasicManaged` and `TimeZone::kTypeExtendedManaged`
+      and merge them into just regular `TimeZone::kTypeBasic` and
+      `TimeZone::kTypeExtended`.
+        * Significantly simplifies the implementation of `TimeZone`.
+        * `TimeZone` no longer holds a reference to a `ZoneProcessorCache`, it
+          holds only a reference to `ZoneProcessor`.
+        * The binding of `TimeZone` to its `BasicZoneProcessor` or
+          `ExtendedZoneProcessor` now happens early, inside the
+          `BasicZoneManager` or the `ExtendedZoneManager`, instead of delaying
+          it to various methods inside the `TimeZone` through the
+          `ZoneProcessorCache`.
+        * This change should be invisible to library clients.
+    * Large internal refactoring of ZoneProcessor, no external change
+        * Fully templatize `BasicZoneProcessor` into
+          `BasicZoneProcessorTemplate`, and `ExtendedZoneProcessor` to
+          `ExtendedZoneProcessorTemplate`.
+        * Remove sentinel static `ZoneEra` anchor record which prevented
+          easy templatization.
+        * Remove direct dependency to `const ZoneInfo*`, replacing it with
+          generic `uintptr_t zoneKey`.
+        * Insert `BrokerFactory` indirection layer to provide mapping from a
+          generic `uintptr_t zoneKey` to the corresponding `ZoneInfoBroker`.
+        * Templatized classes now depend only on their respective
+          `Zone*Broker` classes.
+        * This change should be invisible to library clients.
+    * Fix stale `ZoneProcessor` binding to `TimeZone`.
+        * A dereferenced `nullptr` could crash the program if
+          `TimeZone::toTimeZoneData() was called immediately after calling the
+          `TimeZone::forZoneInfo()` factory method.
+        * Some accessor methods in `TimeZone` (`getZoneId()`, `printTo()`,
+          `printShortTo()`) could return incorrect values if the number of
+          unique TimeZones used by an application is greater than the cache
+          `SIZE` template parameter given to the `ZoneManager`.
+            * The problem occurs because the `ZoneProcessorCache` will rebind
+              a previously allocated `ZoneProcessor` to another `TimeZone` when
+              it runs out of available processors in the cache.
+    * **Unlikely Breaking Change**: Move `ZoneRegistrar.h` into `internal/`.
+        * Rename `BasicZoneRegistrar` to `basic::ZoneRegistrar`.
+        * Rename `ExtendedZoneRegistrar` to `extended::ZoneRegistrar`.
+        * The class is an implementation detail which is used only by
+          `BasicZoneManager` and `ExtendedZoneManager`. It was not exposed to
+          the end user and should not cause any breaking changes.
+    * Add support for Thin Links using optional `linkRegistry[]` parameter in
+      the constructors of `BasicZoneManager` and `ExtendedZoneManager`.
+        * The `zonedb/zone_registry.h` and `zonedbx/zone_registry.h` files
+          now contain a `kLinkRegistrySize` and a `LinkEntry kLinkRegistry[]`
+          array. Each record in the array contains a mapping of `linkId` to its
+          `zoneId`.
+        * The `ZoneManager::createForZoneId()` method will search the Thin Link
+          registry if a `zoneId` is not found in the Zone registry.
+        * See [Zones and Links](USER_GUIDE.md#ZonesAndLinks) section in the
+          [USER_GUIDE.md](USER_GUIDE.md).
+    * **Breaking Change**: Rename `ZoneManager::registrySize()` to
+      `zoneRegistrySize()`.
+        * Add `ZoneManager::linkRegistrySize()` method.
+        * A `ZoneManager` can now hold 2 different registries: the Zone (and Fat
+          Link) registry, and the Thin Link registry. So we need to
+          distinguish between the 2 registries.
+        * See the [Default Registries](USER_GUIDE.md#DefaultRegistries) section
+          in the [USER_GUIDE.md](USER_GUIDE.md) for an explanation of the Zone
+          and Link registries.
 * 1.5
     * Use binary search for both `ZoneManager::createForZoneName()` and
       `ZoneManager::createForZoneId()`.
@@ -18,7 +80,7 @@
           266 zones in `zonedb/zone_registry.cpp` is 9-10X faster (on average)
           than a linear search through the same list. (Linear search takes ~190
           iterations; binary search takes ~9 iterations.)
-    * Upgrade Link entries to be "fat links".
+    * Upgrade Link entries to be Fat Links".
         * Links become essentially identical to Zone entries, with references to
           the same underlying `ZoneEra` records.
         * Add `kZoneAndLinkRegistry[]` array in `zone_registry.h` that contains
@@ -35,7 +97,7 @@
           processors, but none on 32-bit processors due to 4-byte alignment.
         * This should have no impact on client code since this field was used
           only for validation testing.
-    * **API Breaking Change**: Replace `BasicZone::name()` and `shortName()
+    * **API Breaking Change**: Replace `BasicZone::name()` and `shortName()`
       with `printNameTo()` and `printShortNameTo()`. Same with
       `ExtendedZone::name()` and `shortName()`, replaced with `printNameTo()`
       and `printShortNameTo()`.

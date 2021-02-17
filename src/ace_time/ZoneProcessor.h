@@ -14,11 +14,7 @@ class Print;
 
 namespace ace_time {
 
-template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
-class ZoneProcessorCacheImpl;
-
 class LocalDateTime;
-class TimeZone;
 
 /**
  * Base interface for ZoneProcessor classes. There were 2 options for
@@ -44,23 +40,8 @@ class TimeZone;
  */
 class ZoneProcessor {
   public:
-    /**
-     * Indicate BasicZoneProcessor. Must not be TimeZone::kTypeError (0) or
-     * TimeZone::kTypeManual (1).
-     */
-    static const uint8_t kTypeBasic = 2;
-
-    /**
-     * Indicate ExtendedZoneProcessor. Must not be TimeZone::kTypeError (0) or
-     * TimeZone::kTypeManual (1).
-     */
-    static const uint8_t kTypeExtended = 3;
-
     /** Return the kTypeXxx of the current instance. */
     uint8_t getType() const { return mType; }
-
-    /** Return the opaque zoneInfo. */
-    virtual const void* getZoneInfo() const = 0;
 
     /** Return the unique stable zoneId. */
     virtual uint32_t getZoneId() const = 0;
@@ -101,18 +82,36 @@ class ZoneProcessor {
         const = 0;
 
     /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
-    virtual void printTo(Print& printer) const = 0;
+    virtual void printNameTo(Print& printer) const = 0;
 
     /** Print a short human-readable identifier (e.g. "Los_Angeles") */
-    virtual void printShortTo(Print& printer) const = 0;
+    virtual void printShortNameTo(Print& printer) const = 0;
+
+    /**
+     * Set the opaque zoneKey of this object to a new value, reseting any
+     * internally cached information.
+     *
+     * Normally a ZoneProcessor object is associated with a single TimeZone.
+     * However, the ZoneProcessorCache will sometimes "take over" a
+     * ZoneProcessor from another TimeZone using this method. The other
+     * TimeZone will take back control of the ZoneProcessor if needed. To avoid
+     * bouncing the ownership of this object repeatedly, the ZoneProcessorCache
+     * should allocate enough ZoneProcessors to handle the usage pattern.
+     *
+     * This method should be considered to be private, to be used only by the
+     * TimeZone and ZoneProcessorCache classes. I had to make it public because
+     * it got too ugly to maintain the `friend` list in C++.
+     */
+    virtual void setZoneKey(uintptr_t zoneKey) = 0;
+
+    /**
+     * Return true if ZoneProcessor is associated with the given opaque
+     * zoneKey. This method should be considered to be private.
+     */
+    virtual bool equalsZoneKey(uintptr_t zoneKey) const = 0;
 
   protected:
     friend bool operator==(const ZoneProcessor& a, const ZoneProcessor& b);
-
-    friend class TimeZone; // setZoneInfo()
-
-    template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
-    friend class ZoneProcessorCacheImpl; // setZoneInfo()
 
     // Disable copy constructor and assignment operator.
     ZoneProcessor(const ZoneProcessor&) = delete;
@@ -125,10 +124,7 @@ class ZoneProcessor {
     /** Return true if equal. */
     virtual bool equals(const ZoneProcessor& other) const = 0;
 
-    /** Set the opaque zoneInfo. */
-    virtual void setZoneInfo(const void* zoneInfo) = 0;
-
-    uint8_t mType;
+    uint8_t const mType;
 };
 
 inline bool operator==(const ZoneProcessor& a, const ZoneProcessor& b) {
@@ -140,6 +136,44 @@ inline bool operator!=(const ZoneProcessor& a, const ZoneProcessor& b) {
   return ! (a == b);
 }
 
-}
+namespace internal {
+
+/**
+  * Longest abbreviation currently seems to be 5 characters
+  * (https://www.timeanddate.com/time/zones/) but the TZ database spec says
+  * that abbreviations are 3 to 6 characters
+  * (https://data.iana.org/time-zones/theory.html#abbreviations), so use 6 as
+  * the maximum.
+  */
+static const uint8_t kAbbrevSize = 6 + 1;
+
+/** The result of calcStartDayOfMonth(). */
+struct MonthDay {
+  uint8_t month;
+  uint8_t day;
+};
+
+/**
+  * Calculate the actual (month, day) of the expresssion (onDayOfWeek >=
+  * onDayOfMonth) or (onDayOfWeek <= onDayOfMonth).
+  *
+  * There are 4 combinations:
+  *
+  * @verbatim
+  * onDayOfWeek=0, onDayOfMonth=(1-31): exact match
+  * onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek>=dayOfMonth
+  * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
+  * onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek<=dayOfMonth
+  * @endverbatim
+  *
+  * Caveats: This method handles expressions which crosses month boundaries,
+  * but not year boundaries (e.g. Jan to Dec of the previous year, or Dec to
+  * Jan of the following year.)
+  */
+MonthDay calcStartDayOfMonth(int16_t year, uint8_t month,
+    uint8_t onDayOfWeek, int8_t onDayOfMonth);
+
+} // internal
+} // ace_time
 
 #endif

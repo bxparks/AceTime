@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['startdatetime_501',['startDateTime',['../structace__time_1_1extended_1_1ZoneMatch.html#aa28c802edb9fbfca7decac19b5e316b0',1,'ace_time::extended::ZoneMatch::startDateTime()'],['../structace__time_1_1extended_1_1Transition.html#aa02b144398b9faa503f3d3677e411b8b',1,'ace_time::extended::Transition::startDateTime()']]],
-  ['startepochseconds_502',['startEpochSeconds',['../structace__time_1_1basic_1_1Transition.html#a51b6a6da0be1647e1fa9702270beebca',1,'ace_time::basic::Transition::startEpochSeconds()'],['../structace__time_1_1extended_1_1Transition.html#a455d7d971489040388fb4750d2b93939',1,'ace_time::extended::Transition::startEpochSeconds()']]]
+  ['offsetminutes_572',['offsetMinutes',['../structace__time_1_1basic_1_1TransitionTemplate.html#aa5921648ab30c46ac806db1913866481',1,'ace_time::basic::TransitionTemplate::offsetMinutes()'],['../structace__time_1_1extended_1_1TransitionTemplate.html#a74c3bdbaa5e0a4a8e7e483bae29387fb',1,'ace_time::extended::TransitionTemplate::offsetMinutes()']]],
+  ['originaltransitiontime_573',['originalTransitionTime',['../structace__time_1_1extended_1_1TransitionTemplate.html#aa37ca4ac7cf1c50b037c7223a7dda372',1,'ace_time::extended::TransitionTemplate']]]
 ];

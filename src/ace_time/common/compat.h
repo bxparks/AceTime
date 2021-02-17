@@ -17,6 +17,7 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <WString.h> // FPSTR(), __FlashStringHelper
 
 /** Determine if zonedb and zonedbx zoneinfo files are placed in PROGMEM. */
 #define ACE_TIME_USE_PROGMEM 1

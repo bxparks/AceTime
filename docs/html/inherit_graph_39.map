@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classace__time_1_1ZoneProcessorCache.html" title="Common interface to BasicZoneProcessorCache and ExtendedZoneProcessorCache." alt="" coords="5,5,232,32"/>
+<area shape="rect" id="node1" href="$classace__time_1_1internal_1_1ZoneRegistrarTemplate.html" title=" " alt="" coords="5,5,188,91"/>
+<area shape="rect" id="node2" href="$classace__time_1_1basic_1_1ZoneRegistrar.html" title="Concrete template instantiation of ZoneRegistrarTemplate for basic::ZoneInfo, which can be used with ..." alt="" coords="236,35,460,61"/>
 </map>

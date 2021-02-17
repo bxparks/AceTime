@@ -1,9 +1,9 @@
-# See the following for information on how to setup the Python workflow for a
-# single version:
-# https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions
+# See https://docs.github.com/en/actions/guides for documentation about GitHub
+# Actions.
 
 name: Validation Tests
 
+# Run on all branches.
 on: [push]
 
 jobs:

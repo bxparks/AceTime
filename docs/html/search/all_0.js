@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['abbrev_0',['abbrev',['../structace__time_1_1basic_1_1Transition.html#a32036a045f41089f421c447040cc5c9d',1,'ace_time::basic::Transition::abbrev()'],['../structace__time_1_1extended_1_1Transition.html#ae0e25e6c0752e8c2e2668fdb1a2be6d5',1,'ace_time::extended::Transition::abbrev()']]],
+  ['abbrev_0',['abbrev',['../structace__time_1_1basic_1_1TransitionTemplate.html#abe2b5dd9d3dd7660c10e85a388494c2b',1,'ace_time::basic::TransitionTemplate::abbrev()'],['../structace__time_1_1extended_1_1TransitionTemplate.html#ad65c299286c1f8a96ff214ccddffd3f1',1,'ace_time::extended::TransitionTemplate::abbrev()']]],
   ['ace_5ftime_5fuse_5fprogmem_1',['ACE_TIME_USE_PROGMEM',['../compat_8h.html#a736a584901fd7e4d3c06ade513afd259',1,'compat.h']]],
-  ['active_2',['active',['../structace__time_1_1extended_1_1Transition.html#a204b9201f51a3e1a5c26549d6ae6be06',1,'ace_time::extended::Transition']]],
-  ['addactivecandidatestoactivepool_3',['addActiveCandidatesToActivePool',['../classace__time_1_1extended_1_1TransitionStorage.html#a114cb0ef4591f824fb41a81b329cded6',1,'ace_time::extended::TransitionStorage']]],
-  ['addfreeagenttoactivepool_4',['addFreeAgentToActivePool',['../classace__time_1_1extended_1_1TransitionStorage.html#a92f9a9c0bc6880f887c9f51ecce42f4e',1,'ace_time::extended::TransitionStorage']]],
-  ['addfreeagenttocandidatepool_5',['addFreeAgentToCandidatePool',['../classace__time_1_1extended_1_1TransitionStorage.html#a536a8449ba143034cb74dd181f2d9340',1,'ace_time::extended::TransitionStorage']]],
-  ['addpriortocandidatepool_6',['addPriorToCandidatePool',['../classace__time_1_1extended_1_1TransitionStorage.html#a2766b264550331c080d6ebca05cf0e56',1,'ace_time::extended::TransitionStorage']]],
+  ['active_2',['active',['../structace__time_1_1extended_1_1TransitionTemplate.html#ae9f4fd0cd8f7ab872f17e4b82a84aea7',1,'ace_time::extended::TransitionTemplate']]],
+  ['addactivecandidatestoactivepool_3',['addActiveCandidatesToActivePool',['../classace__time_1_1extended_1_1TransitionStorageTemplate.html#a53abf61c7cbfec2b08557c7244cbac50',1,'ace_time::extended::TransitionStorageTemplate']]],
+  ['addfreeagenttoactivepool_4',['addFreeAgentToActivePool',['../classace__time_1_1extended_1_1TransitionStorageTemplate.html#a0b23350e74c9e433d6d7d76111aeccfa',1,'ace_time::extended::TransitionStorageTemplate']]],
+  ['addfreeagenttocandidatepool_5',['addFreeAgentToCandidatePool',['../classace__time_1_1extended_1_1TransitionStorageTemplate.html#a7a242ca931d608e3913612fc662bb0e2',1,'ace_time::extended::TransitionStorageTemplate']]],
+  ['addpriortocandidatepool_6',['addPriorToCandidatePool',['../classace__time_1_1extended_1_1TransitionStorageTemplate.html#ad098d5eb67b3ae5f4fbeda5c5e4a1470',1,'ace_time::extended::TransitionStorageTemplate']]],
   ['acetime_20library_7',['AceTime Library',['../index.html',1,'']]]
 ];

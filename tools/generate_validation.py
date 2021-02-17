@@ -61,6 +61,7 @@ def main() -> None:
     parser.add_argument(
         '--blacklist',
         type=str,
+        help='JSON file containing DST blacklist',
     )
 
     # Ignore blacklist. Useful for debugging 3rd party timezones which have
@@ -68,6 +69,30 @@ def main() -> None:
     parser.add_argument(
         '--ignore_blacklist',
         action='store_true',
+        help='Ignore the --blacklist flag, useful for debugging',
+    )
+
+    # Whether to use a zoneId or zoneInfo as the zone key.
+    parser.add_argument(
+        '--zone_key_type',
+        choices=['zoneId', 'zoneInfo'],
+        help="Type of identifier for zone key (zoneId or zoneInfo)",
+        default='zoneInfo',
+    )
+
+    # Name of the test class. If empty, the default is 'BasicTransitionTest'
+    # for scope=basic and 'ExtendedTransitionTest' for scope=extended.
+    parser.add_argument(
+        '--test_class',
+        help="Name of the test class used by 'validation_tests.cpp'",
+        default='',
+    )
+
+    # Test class include directory. If empty, the default is 'ace_time/testing'.
+    parser.add_argument(
+        '--test_class_include_dir',
+        help="Include directory location of --test_class",
+        default='',
     )
 
     # Parse the command line arguments
@@ -99,6 +124,9 @@ def main() -> None:
         db_namespace=args.db_namespace,
         validation_data=validation_data,
         blacklist=blacklist,
+        zone_key_type=args.zone_key_type,
+        test_class=args.test_class,
+        test_class_include_dir=args.test_class_include_dir,
     )
     generator.generate_files(args.output_dir)
 

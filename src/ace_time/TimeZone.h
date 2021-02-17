@@ -6,21 +6,16 @@
 #ifndef ACE_TIME_TIME_ZONE_H
 #define ACE_TIME_TIME_ZONE_H
 
-#include <stdint.h>
+#include <stdint.h> // uintptr_t
 #include "TimeOffset.h"
 #include "ZoneProcessor.h"
-#include "ZoneProcessorCache.h"
-#include "BasicZone.h"
-#include "ExtendedZone.h"
+#include "BasicZoneProcessor.h"
+#include "ExtendedZoneProcessor.h"
 #include "TimeZoneData.h"
 
 class Print;
 
 namespace ace_time {
-
-// Allow ZoneManager to access the TimeZone() constructor that accepts
-// a ZoneProcessorCache.
-template<typename ZI, typename ZR, typename ZSC> class ZoneManagerImpl;
 
 /**
  * Class that describes a time zone. There are 2 colloquial usages of "time
@@ -31,20 +26,26 @@ template<typename ZI, typename ZR, typename ZSC> class ZoneManagerImpl;
  * source of these geographical regions is the TZ Database maintained by IANA
  * (https://www.iana.org/time-zones). The TimeZone class supports both meanings.
  *
- * There are 6 types of TimeZone:
+ * The TimeZone::getType() is designed to be extensible, so only some of its
+ * values are defined by this class:
  *
- *    * kTypeError: represents an error or unknown time zone
- *    * kTypeManual: holds a base offset and a DST offset, and
- *      allows the user to modify both of these fields
- *    * kTypeBasic: using an underlying BasicZoneProcessor which
- *      supports 231 geographical zones in the TZ Database.
- *    * kTypeExtended: a time zone using an underlying ExtendedZoneProcessor
- *      which supports 348 geographical zones in the TZ Database (essentially
- *      the entire database).
- *    * kTypeBasicManaged: created through the ZoneManager which contains
- *      an internal cache of BasicZoneProcessors.
- *    * kTypeExtendedManaged: created through the ZoneManager which contains
- *      an internal cache of ExtendedZoneProcessors.
+ *    * TimeZone::kTypeError
+ *        * represents an error or unknown time zone
+ *    * TimeZone::kTypeManual
+ *        * holds a base offset and a DST offset, and allows the user to modify
+ *          both of these fields
+ *    * TimeZone::kTypeReserved
+ *        * reserved for future extension, currently same as kTypeError
+ *    * Additional values are provided by specific subclasses of the
+ *      ZoneProcessor class. For example:
+ *        * BasicZoneProcessor::kTypeBasic
+ *            * uses the BasicZoneProcessor to support the zones and links
+ *              defined by `zonedb/zone_infos.h`.
+ *        * ExtendedZoneProcessor::kTypeExtended
+ *            * uses the ExtendedZoneProcessor to support all zones and links
+ *              defined by `zonedbx/zone_infos.h`
+ *        * Other ZoneProcessors can provide additional values, as long as
+ *          they are unique.
  *
  * The TimeZone class should be treated as a const value type. (Except for
  * kTypeManual which is self-contained and allows the stdOffset and dstOffset
@@ -83,14 +84,14 @@ template<typename ZI, typename ZR, typename ZSC> class ZoneManagerImpl;
  */
 class TimeZone {
   public:
+    /** A TimeZone that represents an invalid condition. */
     static const uint8_t kTypeError = 0;
+
+    /** Manual STD offset and DST offset. */
     static const uint8_t kTypeManual = 1;
-    static const uint8_t kTypeBasic = ZoneProcessor::kTypeBasic;
-    static const uint8_t kTypeExtended = ZoneProcessor::kTypeExtended;
-    static const uint8_t kTypeBasicManaged =
-        ZoneProcessorCache::kTypeBasicManaged;
-    static const uint8_t kTypeExtendedManaged =
-        ZoneProcessorCache::kTypeExtendedManaged;
+
+    /** Reserved for future use. */
+    static const uint8_t kTypeReserved = 2;
 
     /** Factory method to create a UTC TimeZone. */
     static TimeZone forUtc() {
@@ -162,7 +163,7 @@ class TimeZone {
     }
 
     /**
-     * Factory method to create from a zoneInfo and an associated
+     * Convenience factory method to create from a zoneInfo and an associated
      * BasicZoneProcessor. The ZoneInfo previously associated with the
      * given zoneProcessor is overridden.
      *
@@ -173,11 +174,15 @@ class TimeZone {
         const basic::ZoneInfo* zoneInfo,
         BasicZoneProcessor* zoneProcessor
     ) {
-      return TimeZone(kTypeBasic, zoneInfo, zoneProcessor);
+      return TimeZone(
+          zoneProcessor->getType(),
+          (uintptr_t) zoneInfo,
+          zoneProcessor
+      );
     }
 
     /**
-     * Factory method to create from a zoneInfo and an associated
+     * Convenience factory method to create from a zoneInfo and an associated
      * ExtendedZoneProcessor. The ZoneInfo previously associated with the
      * given zoneProcessor is overridden.
      *
@@ -188,7 +193,20 @@ class TimeZone {
         const extended::ZoneInfo* zoneInfo,
         ExtendedZoneProcessor* zoneProcessor
     ) {
-      return TimeZone(kTypeExtended, zoneInfo, zoneProcessor);
+      return TimeZone(
+          zoneProcessor->getType(),
+          (uintptr_t) zoneInfo,
+          zoneProcessor
+      );
+    }
+
+    /**
+     * Factory method to create from a generic zoneKey and a generic
+     * zoneProcessor. The 'type' of the TimeZone is extracted from
+     * ZoneProcessor::getType().
+     */
+    static TimeZone forZoneKey(uintptr_t zoneKey, ZoneProcessor* processor) {
+      return TimeZone(processor->getType(), zoneKey, processor);
     }
 
     /**
@@ -206,8 +224,11 @@ class TimeZone {
         mDstOffsetMinutes(0) {}
 
     /**
-     * Return the type of TimeZone. This value is useful for serializing and
-     * deserializing (or storing and restoring) the TimeZone object.
+     * Return the type of TimeZone, used to determine the behavior of certain
+     * methods at runtime. The exact value returned by this method is designed
+     * to be extensible and is an internal implementation detail. It  will
+     * probably not be stable across multiple versions of this library. For
+     * stable serialization, use the toTimeZoneData() method instead.
      */
     uint8_t getType() const { return mType; }
 
@@ -222,23 +243,20 @@ class TimeZone {
     }
 
     /**
-     * Return the zoneId for kTypeBasic, kTypeExtended, kTypeBasicManaged,
-     * kTypeExtendedManaged. Returns 0 for kTypeManual. (It is not entirely
-     * clear that a valid zoneId is always > 0, but there is little I can do
-     * without C++ exceptions.)
+     * Return the zoneId for kTypeBasic, kTypeExtended. Returns 0 for
+     * kTypeManual. (It is not entirely clear that a valid zoneId is always >
+     * 0, but there is little I can do without C++ exceptions.)
      */
     uint32_t getZoneId() const {
       switch (mType) {
+        case kTypeError:
+        case kTypeReserved:
         case kTypeManual:
           return 0;
-        case kTypeBasic:
-        case kTypeBasicManaged:
-          return BasicZone((const basic::ZoneInfo*) mZoneInfo).zoneId();
-        case kTypeExtended:
-        case kTypeExtendedManaged:
-          return ExtendedZone((const extended::ZoneInfo*) mZoneInfo).zoneId();
+
+        default:
+          return getBoundZoneProcessor()->getZoneId();
       }
-      return 0;
     }
 
     /** Return true if TimeZone is an error. */
@@ -249,22 +267,16 @@ class TimeZone {
      */
     TimeOffset getUtcOffset(acetime_t epochSeconds) const {
       switch (mType) {
+        case kTypeError:
+        case kTypeReserved:
+          return TimeOffset::forError();
+
         case kTypeManual:
           return TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes);
-        case kTypeBasic:
-        case kTypeExtended:
-          mZoneProcessor->setZoneInfo(mZoneInfo);
-          return mZoneProcessor->getUtcOffset(epochSeconds);
-        case kTypeBasicManaged:
-        case kTypeExtendedManaged:
-        {
-          ZoneProcessor* processor =
-              mZoneProcessorCache->getZoneProcessor(mZoneInfo);
-          if (! processor) break;
-          return processor->getUtcOffset(epochSeconds);
-        }
+
+        default:
+          return getBoundZoneProcessor()->getUtcOffset(epochSeconds);
       }
-      return TimeOffset::forError();
     }
 
     /**
@@ -274,31 +286,24 @@ class TimeZone {
      */
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const {
       switch (mType) {
+        case kTypeError:
+        case kTypeReserved:
+          return TimeOffset::forError();
+
         case kTypeManual:
           return TimeOffset::forMinutes(mDstOffsetMinutes);
-        case kTypeBasic:
-        case kTypeExtended:
-          mZoneProcessor->setZoneInfo(mZoneInfo);
-          return mZoneProcessor->getDeltaOffset(epochSeconds);
-        case kTypeBasicManaged:
-        case kTypeExtendedManaged:
-        {
-          ZoneProcessor* processor =
-              mZoneProcessorCache->getZoneProcessor(mZoneInfo);
-          if (! processor) break;
-          return processor->getDeltaOffset(epochSeconds);
-        }
+
+        default:
+          return getBoundZoneProcessor()->getDeltaOffset(epochSeconds);
       }
-      return TimeOffset::forError();
     }
 
     /**
      * Return the time zone abbreviation at the given epochSeconds.
      *
-     *   * kTypeManual returns "STD" or "DST",
-     *   * kTypeBasic, kTypeBasic, kTypeBasicManaged, kTypeExtendedManaged
-     *      * returns the "{abbrev}" (e.g. "PDT"),
-     *   * the empty string "" upon error.
+     *   * kTypeManual: returns "STD" or "DST",
+     *   * kTypeBasic, kTypeBasic: returns the "{abbrev}" (e.g. "PDT"),
+     *   * error condition: returns the empty string ""
      *
      * The IANA spec
      * (https://data.iana.org/time-zones/theory.html#abbreviations) says that
@@ -314,25 +319,20 @@ class TimeZone {
      */
     const char* getAbbrev(acetime_t epochSeconds) const {
       switch (mType) {
+        case kTypeError:
+        case kTypeReserved:
+          return "";
+
         case kTypeManual:
           if (isUtc()) {
             return "UTC";
           } else {
             return (mDstOffsetMinutes != 0) ? "DST" : "STD";
           }
-        case kTypeBasic:
-        case kTypeExtended:
-          return mZoneProcessor->getAbbrev(epochSeconds);
-        case kTypeBasicManaged:
-        case kTypeExtendedManaged:
-        {
-          ZoneProcessor* processor =
-              mZoneProcessorCache->getZoneProcessor(mZoneInfo);
-          if (! processor) break;
-          return processor->getAbbrev(epochSeconds);
-        }
+
+        default:
+          return getBoundZoneProcessor()->getAbbrev(epochSeconds);
       }
-      return "";
     }
 
     /**
@@ -344,24 +344,18 @@ class TimeZone {
     OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const {
       OffsetDateTime odt = OffsetDateTime::forError();
       switch (mType) {
+        case kTypeError:
+        case kTypeReserved:
+          break;
+
         case kTypeManual:
           odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt,
               TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes));
           break;
-        case kTypeBasic:
-        case kTypeExtended:
-          mZoneProcessor->setZoneInfo(mZoneInfo);
-          odt = mZoneProcessor->getOffsetDateTime(ldt);
+
+        default:
+          odt = getBoundZoneProcessor()->getOffsetDateTime(ldt);
           break;
-        case kTypeBasicManaged:
-        case kTypeExtendedManaged:
-        {
-          ZoneProcessor* processor =
-              mZoneProcessorCache->getZoneProcessor(mZoneInfo);
-          if (! processor) break;
-          odt = processor->getOffsetDateTime(ldt);
-          break;
-        }
       }
       return odt;
     }
@@ -404,27 +398,27 @@ class TimeZone {
 
     /**
      * Convert to a TimeZoneData object, which can be fed back into
-     * ZoneManager::createForTimeZoneData() to recreate the TimeZone. All of
-     * TimeZone::kTypeBasic, kTypeExtended, kTypeBasicManaged,
-     * kTypeExtendedManaged collapse into TimeZoneData::kTypeZoneId.
+     * ZoneManager::createForTimeZoneData() to recreate the TimeZone. Both
+     * TimeZone::kTypeBasic and TimeZone::kTypeExtended are mapped to
+     * TimeZoneData::kTypeZoneId.
      */
     TimeZoneData toTimeZoneData() const {
       TimeZoneData d;
       switch (mType) {
+        case kTypeError:
+        case kTypeReserved:
+          d.type = TimeZoneData::kTypeError;
+          break;
+
         case TimeZone::kTypeManual:
           d.stdOffsetMinutes = mStdOffsetMinutes;
           d.dstOffsetMinutes = mDstOffsetMinutes;
           d.type = TimeZoneData::kTypeManual;
           break;
-        case TimeZone::kTypeBasic:
-        case TimeZone::kTypeExtended:
-        case TimeZone::kTypeBasicManaged:
-        case TimeZone::kTypeExtendedManaged:
+
+        default:
           d.zoneId = getZoneId();
           d.type = TimeZoneData::kTypeZoneId;
-          break;
-        default:
-          d.type = TimeZoneData::kTypeError;
           break;
       }
       return d;
@@ -454,27 +448,6 @@ class TimeZone {
   private:
     friend bool operator==(const TimeZone& a, const TimeZone& b);
 
-    // Allow ZoneManager to access the TimeZone() constructor that accepts
-    // a ZoneProcessorCache.
-    template<typename ZI, typename ZR, typename ZSC>
-    friend class ZoneManagerImpl;
-
-    /**
-     * Constructor for kType*Managed. Intended to be used ONLY by
-     * BasicZoneManager and ExtendedZoneManager.
-     *
-     * @param zoneInfo a pointer to a basic::ZoneInfo or an extended::ZoneInfo.
-     *        Cannot be nullptr.
-     * @param zoneProcessorCache a cache of ZoneInfo -> ZoneProcessor
-     */
-    explicit TimeZone(
-        const void* zoneInfo,
-        ZoneProcessorCache* zoneProcessorCache
-    ) :
-        mType(zoneProcessorCache->getType()),
-        mZoneInfo(zoneInfo),
-        mZoneProcessorCache(zoneProcessorCache) {}
-
     /**
      * Constructor for a kTypeManual TimeZone.
      *
@@ -490,20 +463,35 @@ class TimeZone {
     explicit TimeZone(uint8_t type):
       mType(type) {}
 
-    /** Constructor for kTypeBasic or kTypeExtended. */
-    explicit TimeZone(uint8_t type, const void* zoneInfo,
-        ZoneProcessor* mZoneProcessor):
+    /** Constructor using ZoneProcessor. Exposed for library extensions. */
+    explicit TimeZone(
+        uint8_t type,
+        uintptr_t zoneKey,
+        ZoneProcessor* zoneProcessor
+    ):
         mType(type),
-        mZoneInfo(zoneInfo),
-        mZoneProcessor(mZoneProcessor) {}
+        mZoneKey(zoneKey),
+        mZoneProcessor(zoneProcessor)
+    {}
+
+    /**
+     * Return the ZoneProcessor associated with this TimeZone after forcibly
+     * rebinding it to the current zoneKey. This is necessary because the
+     * ZoneProcessorCache could have bound the zoneProcessor to another
+     * TimeZone if it had run out of available ZoneProcessors. Cache
+     * invalidation is hard!
+     */
+    ZoneProcessor* getBoundZoneProcessor() const {
+      mZoneProcessor->setZoneKey(mZoneKey);
+      return mZoneProcessor;
+    }
 
     uint8_t mType;
 
-    // 4 combinations:
-    //   (type) (kTypeError)
-    //   (type, mStdOffsetMinutes, mDstOffsetMinutes)
-    //   (type, mZoneInfo, mZoneProcessor)
-    //   (type, mZoneInfo, mZoneProcessorCache)
+    // 3 combinations:
+    //   (kTypeError)
+    //   (kTypeManual, mStdOffsetMinutes, mDstOffsetMinutes)
+    //   (type, mZoneKey, mZoneProcessor)
     union {
       /** Used by kTypeManual. */
       struct {
@@ -511,20 +499,25 @@ class TimeZone {
         int16_t mDstOffsetMinutes;
       };
 
+      /* Used by kTypeBasic and kTypeExtended. */
       struct {
         /**
-         * Either a basic::ZoneInfo or an extended::ZoneInfo. Used by
-         * kTypeBasic, kTypeExtended, kTypeBasicManaged, kTypeExtendedManaged.
+         * An opaque zone key.
+         *
+         *  * For kTypeBasic, this is a (const basic::ZoneInfo*).
+         *  * For kTypeExtended, this is a (const extended::ZoneInfo*).
+         *
+         * Internally, the TimeZone class does not care how this is
+         * implemented. The factory methods expose these types for the
+         * convenience of the end users.
          */
-        const void* mZoneInfo;
+        uintptr_t mZoneKey;
 
-        union {
-          /** Used by kTypeBasic, kTypeExtended. */
-          ZoneProcessor* mZoneProcessor;
-
-          /** Used by kTypeBasicManaged, kTypeExtendedManaged. */
-          ZoneProcessorCache* mZoneProcessorCache;
-        };
+        /**
+         * An instance of a ZoneProcessor, for example, BasicZoneProcessor or
+         * ExtendedZoneProcessor.
+         */
+        ZoneProcessor* mZoneProcessor;
       };
     };
 };
@@ -533,17 +526,15 @@ inline bool operator==(const TimeZone& a, const TimeZone& b) {
   if (a.mType != b.mType) return false;
   switch (a.mType) {
     case TimeZone::kTypeError:
+    case TimeZone::kTypeReserved:
       return true;
+
     case TimeZone::kTypeManual:
       return a.mStdOffsetMinutes == b.mStdOffsetMinutes
           && a.mDstOffsetMinutes == b.mDstOffsetMinutes;
-    case TimeZone::kTypeBasic:
-    case TimeZone::kTypeExtended:
-    case TimeZone::kTypeBasicManaged:
-    case TimeZone::kTypeExtendedManaged:
-      return (a.mZoneInfo == b.mZoneInfo);
+
     default:
-      return false;
+      return (a.mZoneKey == b.mZoneKey);
   }
 }
 

@@ -184,8 +184,8 @@ getUtcffset	KEYWORD2
 getDeltaOffset	KEYWORD2
 getAbbrev	KEYWORD2
 getUtcOffsetForDateTime	KEYWORD2
-printTo	KEYWORD2
-printShortTo	KEYWORD2
+printNameTo	KEYWORD2
+printShortNameTo	KEYWORD2
 
 # ExtendedZoneProcessor.h
 getType	KEYWORD2
@@ -193,19 +193,18 @@ getUtcffset	KEYWORD2
 getDeltaOffset	KEYWORD2
 getAbbrev	KEYWORD2
 getUtcOffsetForDateTime	KEYWORD2
-printTo	KEYWORD2
 resetTransitionHighWater	KEYWORD2
 getTransitionHighWater	KEYWORD2
-printTo	KEYWORD2
-printShortTo	KEYWORD2
+printNameTo	KEYWORD2
+printShortNameTo	KEYWORD2
 
 # BasicZone.h
-name	KEYWORD2
-shortName	KEYWORD2
+printNameTo	KEYWORD2
+printShortNameTo	KEYWORD2
 
 # ExtendedZone.h
-name	KEYWORD2
-shortName	KEYWORD2
+printNameTo	KEYWORD2
+printShortNameTo	KEYWORD2
 
 # TimeZone.h
 forTimeOffset	KEYWORD2
@@ -231,6 +230,8 @@ createForZoneIndex	KEYWORD2
 createForTimeZoneData	KEYWORD2
 indexForZoneName	KEYWORD2
 indexForZoneId	KEYWORD2
+zoneRegistrySize	KEYWORD2
+linkRegistrySize	KEYWORD2
 
 # TimePeriod.h
 hour	KEYWORD2

@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-**Version**: 1.5 (2021-01-26, TZ DB version 2021a)
+**Version**: 1.6 (2021-02-17, TZ DB version 2021a)
 
 ## Table of Contents
 
@@ -25,8 +25,6 @@ See the [README.md](README.md) for introductory background.
         * [Manual TimeZone](#ManualTimeZone)
         * [Basic TimeZone](#BasicTimeZone)
         * [Extended TimeZone](#ExtendedTimeZone)
-        * [Basic Managed TimeZone](#BasicManagedTimeZone)
-        * [Extended Managed TimeZone](#ExtendedManagedTimeZone)
     * [ZonedDateTime](#ZonedDateTime)
         * [Conversion to Other Time Zones](#TimeZoneConversion)
         * [Caching](#Caching)
@@ -37,8 +35,8 @@ See the [README.md](README.md) for introductory background.
         * [TZ Database Version](#TzDatabaseVersion)
         * [Zone Info Year Range](#ZoneInfoYearRange)
     * [ZoneManager](#ZoneManager)
-        * [Default Zone Registry](#DefaultZoneRegistry)
-        * [Custom Zone Registry](#CustomZoneRegistry)
+        * [Class Hierarchy](#ClassHierarchy)
+        * [Default Registries](#DefaultRegistries)
         * [createForZoneName()](#CreateForZoneName)
         * [createForZoneId()](#CreateForZoneId)
         * [createForZoneIndex()](#CreateForZoneIndex)
@@ -46,8 +44,10 @@ See the [README.md](README.md) for introductory background.
         * [ManualZoneManager](#ManualZoneManager)
     * [Print To String](#PrintToString)
 * [Zones and Links](#ZonesAndLinks)
-    * [Thin Links (Prior to v1.5)](#ThinLinks)
+    * [Ghost Links (Prior to v1.5)](#GhostLinks)
     * [Fat Links (From v1.5)](#FatLinks)
+    * [Thin Links (From v1.6)](#ThinLinks)
+    * [Custom Zone Registry](#CustomZoneRegistry)
 * [Mutations](#Mutations)
     * [TimeOffset Mutations](#TimeOffsetMutations)
     * [LocalDate Mutations](#LocalDateMutations)
@@ -147,7 +147,6 @@ external dependencies. The comment section near the top of the `*.ino` file will
 usually have more precise dependency information:
 
 * AceRoutine (https://github.com/bxparks/AceRoutine)
-* AceButton (https://github.com/bxparks/AceButton)
 * Arduino Time Lib (https://github.com/PaulStoffregen/Time)
 * Arduino Timezone (https://github.com/JChristensen/Timezone)
 
@@ -163,6 +162,7 @@ Various scripts in the `tools/` directory depend on:
 If you want to run the unit tests or some of the command line examples using a
 Linux or MacOS machine, you need:
 
+* AUnit (https://github.com/bxparks/AUnit)
 * EpoxyDuino (https://github.com/bxparks/EpoxyDuino)
 
 <a name="Examples"></a>
@@ -854,17 +854,13 @@ A "time zone" is often used colloquially to mean 2 different things:
 from the UTC time using various transition rules.
 
 Both meanings of "time zone" are supported by the `TimeZone` class using
-5 different types as follows:
+3 different types as follows:
 
 * `TimeZone::kTypeManual`: a fixed base offset and optional DST offset from UTC
 * `TimeZone::kTypeBasic`: utilizes a `BasicZoneProcessor` which can
 be encoded with (relatively) simple rules from the TZ Database
 * `TimeZone::kTypeExtended`: utilizes a `ExtendedZoneProcessor` which can
 handle all zones in the TZ Database
-* `TimeZone::kTypeBasicManaged`: same as `kTypeBasic` but the
-  `BasicZoneProcessor` is managed by the `ZoneManager`
-* `TimeZone::kTypeExtendedManaged`: same as `kTypeExtended` but the
-  `ExtendedZoneProcessor` is managed by the `ZoneManager`
 
 The class hierarchy of `TimeZone` is shown below, where the arrow means
 "is-subclass-of" and the diamond-line means "is-aggregation-of". This is an
@@ -874,21 +870,18 @@ helps make better sense of the usage of the `TimeZone` class. A `TimeZone` can
 hold a reference to:
 
 * nothing (`kTypeManual`),
-* one `ZoneProcessor` object, (`kTypeBasic` or `kTypeExtended`) class, or
-* one `ZoneProcessorCache` object (`kTypeBasicManaged` or
-  `kTypeExtendedManaged`).
+* one `BasicZoneProcessor` object, (`kTypeBasic`), or
+* one `ExtendedZoneProcessor` object (`kTypeExtended`)
 
 ```
-            -----------------------------.
-           /                              \
-         <>    0..1                         \   0..1
-TimeZone <>-------- ZoneProcessor            ------- ZoneProcessorCache
-                          ^                                ^
-                          |                                |
-                   .----- +----.                     .---- +-----.
-                   |           |                     |           |
-              BasicZone        ExtendedZone       BasicZone     ExtendedZone
-              Processor        Processor     ProcessorCache     ProcessorCache
+               0..1
+TimeZone <>-------- ZoneProcessor
+                          ^
+                          |
+                   .----- +----.
+                   |           |
+              BasicZone        ExtendedZone
+              Processor        Processor
 ```
 
 Here is the class declaration of `TimeZone`:
@@ -902,9 +895,6 @@ class TimeZone {
     static const uint8_t kTypeManual = 1;
     static const uint8_t kTypeBasic = ZoneProcessor::kTypeBasic;
     static const uint8_t kTypeExtended = ZoneProcessor::kTypeExtended;
-    static const uint8_t kTypeBasicManaged = ZoneProcessorCache::kTypeExtended;
-    static const uint8_t kTypeExtendedManaged =
-        ZoneProcessorCache::kTypeExtended;
 
     static TimeZone forTimeOffset(
         TimeOffset stdOffset,
@@ -982,7 +972,7 @@ if the `TimeZone` is a `kTypeManual`. Otherwise, `isUtc()` and `isDst()` return
 
 The `getZoneId()` returns a `uint32_t` integer which is a unique and stable
 identifier for the IANA timezone. This can be used to save and restore
-the `TimeZone`. See the section on `ZoneManager` below.
+the `TimeZone`. See the [ZoneManager](#ZoneManager) subsection below.
 
 The `printTo()` prints the fully-qualified unique name for the time zone.
 For example, `"UTC"`, `"-08:00", `"-08:00(DST)"`, `"America/Los_Angeles"`.
@@ -1177,63 +1167,22 @@ void someFunction() {
 
 The advantage of `ExtendedZoneProcessor` over `BasicZoneProcessor` is that
 `ExtendedZoneProcessor` supports all time zones in the TZ Database. The cost is
-that it consumes *5 times* more memory and is a bit slower. If
+that it consumes *5 times* more static memory and is a bit slower. If
 `BasicZoneProcessor` supports the zone that you want using the zone files in the
 `zonedb::` namespace, you should normally use that instead of
-`ExtendedZoneProcessor`. The one other advatnage of `ExtendedZoneProcessor` over
-`BasicZoneProcessor` is that `ExtendedZoneProcessor::forComponents()` is more
-accurate than `BasicZoneProcessor::forComponents()` because the `zonedbx::` data
-files contain transition information which are missing in the `zonedb::` data
-files due to space constraints.
+`ExtendedZoneProcessor`.
 
-<a name="BasicManagedTimeZone"></a>
-#### Basic Managed TimeZone (kTypeBasicManaged)
+The one other advantage of `ExtendedZoneProcessor` over `BasicZoneProcessor` is
+that `ExtendedZoneProcessor::forComponents()` is more accurate than
+`BasicZoneProcessor::forComponents()` because the `zonedbx::` data files contain
+transition information which are missing in the `zonedb::` data files due to
+space constraints.
 
-This TimeZone is similar to a `kTypeBasic` TimeZone, except that it is created
-using the `BasicZoneManager`, like this:
-
-```C++
-// Create ZoneManager (see ZoneManager section below)
-...
-const int NUM_ZONES = 2;
-BasicZoneManager<NUM_ZONES> basicZoneManager(
-    kBasicZoneRegistrySize, kBasicZoneRegistry);
-...
-
-void someFunction() {
-  auto tz = basicZoneManager.createForZoneInfo(
-      &zonedb::kZoneAmerica_Los_Angeles);
-  ...
-}
-
-```
-
-See the *ZoneManager* section below for information on how to create a
-`BasicZoneManager`.
-
-<a name="ExtendedManagedTimeZone"></a>
-#### Extended Managed TimeZone (kTypeExtendedManaged)
-
-This TimeZone is similar to the `kTypeExtended` TimeZone, except that it is
-created using the `ExtendedZoneManager`, like this:
-
-```C++
-// Create ZoneManager (see ZoneManager section below)
-...
-const int NUM_ZONES = 2;
-ExtendedZoneManager<NUM_ZONES> basicZoneManager(
-    kExtendedZoneRegistrySize, kExtendedZoneRegistry);
-...
-
-void someFunction() {
-  auto tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
-  ...
-}
-```
-
-See the *ZoneManager* section below for information on how to create an
-`ExtendedZoneManager`.
+Instead of managing the `BasicZoneProcessor` or `ExtendedZoneProcessor`
+manually, you can use the `ZoneManager` to manage a database of `ZoneInfo`
+files, and a cache of multiple `ZoneProcessor`s, and bind the `TimeZone` to its
+`ZoneInfo` and its `ZoneProcessor` more dynamically through the `ZoneManager`.
+See the section [ZoneManager](#ZoneManager) below for more information.
 
 <a name="ZonedDateTime"></a>
 ### ZonedDateTime
@@ -1467,13 +1416,11 @@ The current TZ Database version can be programmatically accessed using the
 using namespace ace_time;
 
 void printVersionTzVersions() {
-    const char* tzVersion = zonedb::kTzDatabaseVersion;
     Serial.print("zonedb TZ version: ");
-    Serial.println(tzVersion); // e.g. "2020d"
+    Serial.println(zonedb::kTzDatabaseVersion); // e.g. "2020d"
 
-    tzVersion = zonedbx::kTzDatabaseVersion;
     Serial.print("zonedbx TZ version: ");
-    Serial.println(tzVersion); // e.g. "2020d"
+    Serial.println(zonedbx::kTzDatabaseVersion); // e.g. "2020d"
 }
 ```
 
@@ -1593,17 +1540,21 @@ component (e.g. `"Los_Angeles"`).
 ### ZoneManager
 
 The `TimeZone::forZoneInfo()` methods are simple to use but have the
-disadvantage that the `BasicZoneProcessor` or `ExtendedZoneProcessor` need to be
-created manually for each `TimeZone` instance. This works well for a single time
-zone, but if you have an application that needs 3 or more time zones, this may
-become cumbersome. Also, it is difficult to reconstruct a `TimeZone`
+disadvantage that the `BasicZoneProcessor` or `ExtendedZoneProcessor` needs to
+be created manually for each `TimeZone` instance. This works well for a single
+time zone, but if you have an application that needs 3 or more time zones, this
+may become cumbersome. Also, it is difficult to reconstruct a `TimeZone`
 dynamically, say, from its fullly qualified name (e.g. `"America/Los_Angeles"`).
 
-The `ZoneManager` solves these problems. It keeps an internal cache or
+The `ZoneManager` solves these problems. It keeps an internal cache of
 `ZoneProcessors`, reusing them as needed. And it holds a registry of `ZoneInfo`
 objects, so that a `TimeZone` can be created using its `zoneName`, `zoneInfo`,
-or `zoneId`. The `ZoneManager` is an interface, and 3 implementation classes are
-provided:
+or `zoneId`.
+
+<a name="ClassHierarchy">
+#### Class Hierarchy
+
+The `ZoneManager` is an interface, and 3 implementation classes are provided:
 
 ```C++
 namespace ace_time{
@@ -1624,14 +1575,20 @@ class ZoneManager {
 
     virtual uint16_t indexForZoneId(uint32_t id) const = 0;
 
-    virtual uint16_t registrySize() const = 0;
+    virtual uint16_t zoneRegistrySize() const = 0;
+
+    virtual uint16_t linkRegistrySize() const = 0;
 };
 
 template<uint16_t SIZE>
 class BasicZoneManager : public ZoneManager {
   public:
-    BasicZoneManager(uint16_t registrySize);
+    BasicZoneManager(
+        uint16_t registrySize,
         const basic::ZoneInfo* const* zoneRegistry,
+        uint16_t linkRegistrySize = 0,
+        const basic::LinkEntry* linkRegistry = nullptr
+    );
 
     TimeZone createForZoneInfo(const basic::ZoneInfo* zoneInfo);
 };
@@ -1639,8 +1596,12 @@ class BasicZoneManager : public ZoneManager {
 template<uint16_t SIZE>
 class ExtendedZoneManager : public ZoneManager {
   public:
-    ExtendedZoneManager(uint16_t registrySize,
-        const extended::ZoneInfo* const* zoneRegistry);
+    ExtendedZoneManager(
+        uint16_t registrySize,
+        const extended::ZoneInfo* const* zoneRegistry,
+        uint16_t linkRegistrySize = 0,
+        const extended::LinkEntry* linkRegistry = nullptr
+    );
 
     TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
 };
@@ -1664,31 +1625,88 @@ old time zone to the new time zone selected by the user). In general, the `SIZE`
 should be set to the number of timezones displayed to the user concurrently,
 plus an additional 1 if the user is able to change the timezone dynamically.
 
-The constructor take a `zoneRegistry` and its `zoneRegistrySize`. It is a
-pointer to an array of pointers to the `zonedb::kZone*` or `zonedbx::kZone*`
-objects. You can use the default zone registry (which contains ALL zones in the
-`zonedb::` or `zonedbx::` database), or you can create your own custom zone
-registry, as described below.
+<a name="DefaultRegistries"></a>
+#### Default Registries
 
-<a name="DefaultZoneRegistry"></a>
-#### Default Zone Registry
-
-The default zoneinfo registry is available at:
+The constructors for `BasicZoneManager` and `ExtendedZoneManager` take a
+`zoneRegistry` and its `zoneRegistrySize`, and optionally the `linkRegistry` and
+`linkRegistrySize` parameters. The AceTime library comes with a set of
+pre-defined default Zone and Link registries which are defined by the following
+header files. These header files are automatically included in the `<AceTime.h>`
+header:
 
 * [zonedb/zone_registry.h](src/ace_time/zonedb/zone_registry.h)
+    * Zones and Links supported by `BasicZoneManager`
+    * `ace_time::zonedb` namespace
 * [zonedbx/zone_registry.h](src/ace_time/zonedbx/zone_registry.h)
+    * Zones and Links supported by `ExtendedZoneManager`
+    * `ace_time::zonedbx` namespace
 
-It contains the entire `zonedb` or `zonedbx` database. On an 8-bit processor,
-the basic `zonedb::` data set is about 14kB and the extended `zonedbx::`
-database is about 23kB. On 32-bit processors, the `zonedb::` data set is about
-23kB and the extended `zonedbx::` data set is about 36kB.
+If you decide to use the default registries, there are 6 possible configurations
+of the ZoneManager constructors as shown below. The following also shows the
+number of zones and links supported by each configuration, as well as the flash
+memory consumption of each configuration, as determined by
+[MemoryBenchmark](examples/MemoryBenchmark). These numbers are correct as of
+v1.6 with TZDB version 2021a:
+
+```C++
+// BasicZoneManager, Zones only
+// 266 zones
+// 21.6 kB (8-bits)
+// 27.1 kB (32-bits)
+BasicZoneManager manager(
+    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+
+// BasicZoneManager, Zones and Thin Links
+// 266 zones, 183 thin links
+// 23.2 kB (8-bits)
+// 28.6 kB (32-bits)
+BasicZoneManager manager(
+    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry,
+    zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
+
+// BasicZoneManager, Zones and Fat Links
+// 266 zones, 183 fat links
+// 25.7 kB (8-bits)
+// 33.2 kB (32-bits)
+BasicZoneManager manager(
+    zonedb::kZoneAndLinkRegistrySize, zonedb::kZoneAndLinkRegistry);
+
+// ExtendedZoneManager, Zones only
+// 386 Zones
+// 33.5 kB (8-bits)
+// 41.7 kB (32-bits)
+ExtendedZoneManager manager(
+    zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
+
+// ExtendedZoneManager, Zones and Thin Links
+// 386 Zones, 207 thin Links
+// 35.3 kB (8-bits)
+// 43.4 kB (32-bits)
+ExtendedZoneManager manager(
+    zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry,
+    zonedbx::kLinkRegistrySize, zonedbx::kLinkRegistry);
+
+// ExtendedZoneManager, Zones and Fat Links
+// 386 Zones, 207 fat Links
+// 38.2 kB (8-bits)
+// 48.7 kB (32-bits)
+ExtendedZoneManager manager(
+    zonedbx::kZoneAndLinkRegistrySize, zonedbx::kZoneAndLinkRegistry);
+```
+
+The difference between a "Thin Link" and a "Fat Link" is explained the
+[Zones and Links](#ZonesAndLinks) section below.
+
+Once the `ZoneManager` is configured with the appropriate registries, you can
+use one of the `createForXxx()` methods to create a `TimeZone`, like this:
 
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
 ...
-static const uint16_t SIZE = 2;
-static BasicZoneManager<SIZE> zoneManager(
+static const uint16_t CACHE_SIZE = 2;
+static BasicZoneManager<CACHE_SIZE> zoneManager(
     zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
 
 void someFunction(const char* zoneName) {
@@ -1700,69 +1718,10 @@ void someFunction(const char* zoneName) {
 }
 ```
 
-<a name="CustomZoneRegistry"></a>
-#### Custom Zone Registry
+Other `createForXxx()` methods are described in subsections below.
 
-On small microcontrollers, the default zone registries are too large. The
-`ZoneManager` can be configured with a custom zone registry. It needs
-to be given an array of `ZoneInfo` pointers when constructed. For example, here
-is a `BasicZoneManager` with only 4 zones from the `zonedb::` data set:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-...
-static const basic::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
-  &zonedb::kZoneAmerica_Los_Angeles,
-  &zonedb::kZoneAmerica_Denver,
-  &zonedb::kZoneAmerica_Chicago,
-  &zonedb::kZoneAmerica_New_York,
-};
-
-static const uint16_t kZoneRegistrySize =
-    sizeof(kZoneRegistry) / sizeof(basic::ZoneInfo*);
-
-static const uint16_t CACHE_SIZE = 2;
-static BasicZoneManager<CACHE_SIZE> zoneManager(
-    kZoneRegistrySize, kZoneRegistry);
-```
-
-Here is the equivalent `ExtendedZoneManager` with 4 zones from the `zonedbx::`
-data set:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-...
-static const extended::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
-  &zonedbx::kZoneAmerica_Los_Angeles,
-  &zonedbx::kZoneAmerica_Denver,
-  &zonedbx::kZoneAmerica_Chicago,
-  &zonedbx::kZoneAmerica_New_York,
-};
-
-static const uint16_t kZoneRegistrySize =
-    sizeof(kZoneRegistry) / sizeof(extended::ZoneInfo*);
-
-static const uint16_t CACHE_SIZE = 2;
-static ExtendedZoneManager<CACHE_SIZE> zoneManager(
-    kZoneRegistrySize, kZoneRegistry);
-```
-
-The `ACE_TIME_PROGMEM` macro is defined in
-[compat.h](src/ace_time/common/compat.h) and indicates whether the ZoneInfo
-files are stored in normal RAM or flash memory (i.e. `PROGMEM`). It **must** be
-used for custom zoneRegistries because the `BasicZoneManager` and
-`ExtendedZoneManager` expect to find them in static RAM or flash memory
-according to this macro.
-
-See examples in various unit tests:
-
-* [tests/BasicZoneRegistrarTest](tests/BasicZoneRegistrarTest)
-* [tests/ExtendedZoneRegistrarTest](tests/ExtendedZoneRegistrarTest)
-* [tests/TimeZoneTest](tests/TimeZoneTest)
-* [tests/ZonedDateTimeBasicTest](tests/ZonedDateTimeBasicTest)
-* [tests/ZonedDateTimeExtendedTest](tests/ZonedDateTimeExtendedTest)
+It is possible to create your own custom Zone and Link registries. See the
+[Custom Zone Registry](##CustomZoneRegistry) subsection below
 
 <a name="CreateForZoneName"></a>
 #### createForZoneName()
@@ -1779,8 +1738,8 @@ void someFunction() {
 }
 ```
 
-Of course, you wouldn't actually do this because the same functionality could
-be done more efficiently (less memory, less CPU time) using:
+Of course, you probably wouldn't actually do this because the same functionality
+could be done more efficiently (less memory, less CPU time) using:
 ```C++
 BasicZoneManager<NUM_ZONES> manager(...);
 
@@ -1800,8 +1759,8 @@ the user was allowed to type in the zone name, and you wanted to create a
 Each zone in the `zonedb::` and `zonedbx::` database is given a unique
 and stable zoneId. There are at least 3 ways to extract this zoneId:
 
-* from the `kZoneId{zone name} constants in `src/ace_time/zonedb/zone_infos.h`
-  and `src/ace_time/zonedbx/zone_infos.h` (v1.3):
+* from the `kZoneId{zone name}` constants in `src/ace_time/zonedb/zone_infos.h`
+  and `src/ace_time/zonedbx/zone_infos.h`:
     * `const uint32_t kZoneIdAmerica_New_York = 0x1e2a7654; // America/New_York`
     * `const uint32_t kZoneIdAmerica_Los_Angeles = 0xb7f7e8f2; // America/Los_Angeles`
     * ...
@@ -1864,6 +1823,13 @@ it will be far easier to create a `TimeZone` using `createForZoneId()`. You do
 pay a penalty in efficiency because `createForZoneId()` must scan the database,
 where as `createForZoneInfo()` does not perform a search since it has direct
 access to the `ZoneInfo` data structure.
+
+An interesting feature of the `createForZoneId()` method, explained more fully
+in the [Thin Links](#ThinLinks) subsection below, is that this method performs a
+search in the Thin Link registry if the given `zoneId` is not found in the main
+Zone registry. This allows `zoneId` to be forward compatibility with future
+versions of the TZDB database, since an existing `zoneId` will always resolve to
+a valid timezone if the Thin Link registry is provided.
 
 <a name="CreateForZoneIndex"></a>
 #### createForZoneIndex()
@@ -1952,20 +1918,33 @@ using namespace ace_common;
 <a name="ZonesAndLinks"></a>
 ## Zones and Links
 
-It seems worthwhile to describe the difference between Zones and Links in the
-IANA TZ database, and how they are implemented in AceTime. A Zone entry is the
-canonical name of a given time zone in the IANA database (e.g.
-`America/Los_Angeles`). A Link entry is an alias, an alternate name, for a
-canonical entry (e.g. `US/Pacific`).
+The IANA TZ database contains 2 types of timezones:
 
-<a name="ThinLinks"></a>
-### Thin Links (Prior to v1.5)
+* Zones, implemented by the `ZONE` keyword
+* Links, implemented by the `LINK` keyword
+
+A Zone entry is the canonical name of a given time zone in the IANA database
+(e.g. `America/Los_Angeles`). A Link entry is an alias, an alternate name, for a
+canonical entry (e.g. `US/Pacific` which points to `America/Los_Angeles`).
+
+AceTime implements 3 types of Links, of which 2 are available in the most recent
+version:
+
+* Ghost Links (prior to v1.5, but no longer implemented)
+* Fat Links (from v1.5 onwards)
+* Thin LInks (from v1.6 onwards)
+
+<a name="GhostLinks"></a>
+### Ghost Links (Prior to v1.5)
 
 Prior to AceTime v1.5, a Link entry was implemented using a C++ reference to the
-corresponding Zone entry. In other words, `kZoneUS_Pacific` was a reference to
-the `kZoneAmerica_Los_Angeles` Zone data structure, and the `kZoneUS_Pacific`
-object did not have an existence of its own. The main positive aspects of this
-design were:
+corresponding Zone entry. In other words, the `kZoneUS_Pacific` symbol
+was a C++ reference to the `kZoneAmerica_Los_Angeles` Zone data structure, and
+the `kZoneUS_Pacific` object did not have an existence of its own. Ghost Links
+existed only in the C++ source code, they did not exist within the AceTime
+library on the Arduino side.
+
+The positive aspects of this design were:
 
 * the `kZoneUS_Pacific` Link entry consumed *no* additional flash memory,
   because the data structure for the Link did not exist
@@ -1989,63 +1968,174 @@ There were several negative consequences however:
       using the Link identifiers instead of the Zone identifiers
 
 But the biggest problem was that the IANA TZ database does not guarantee the
-stability of the Zone and Link identifiers. Sometimes a Zone entry becomes a
-Link entry. For example, in TZ DB version 2020f, the Zone `Australia/Currie`
-became a Link that points to Zone `Australia/Hobart`. This causes problems
-at both compile-time and run-time for applications using AceTime:
+forward stability of the Zone and Link identifiers. Sometimes a Zone entry
+becomes a Link entry. For example, in TZ DB version 2020f, the Zone
+`Australia/Currie` became a Link that points to Zone `Australia/Hobart`. This
+causes problems at both compile-time and run-time for applications using
+AceTime:
 
-**Compile-time**: If the application was using the ZoneId symbol
-`kZoneIdAustralia_Currie`, the app would no longer compile after upgrading to
-TZDB 2020f.
+* Compile-time
+    * If the application was using the ZoneId symbol `kZoneIdAustralia_Currie`,
+      the app would no longer compile after upgrading to TZDB 2020f.
+* Run-time
+    * If the application had stored the ZoneId of `Australia/Currie` or the
+      string `"Australia/Currie"` into the EEPROM, the application would no
+      longer be able to obtain the `TimeZone` object of `Australia/Currie` after
+      upgrading to TZDB 2020f.
 
-**Run-time**: If the application had stored the ZoneId of `Australia/Currie` or
-the string `"Australia/Currie"` into the EEPROM, the application would no longer
-be able to obtain the `TimeZone` object of `Australia/Currie` after upgrading to
-TZDB 2020f.
+These disadvantages led me to abandon ghost links, and implement Fat Links and
+Thin Links described below.
 
 <a name="FatLinks"></a>
 ### Fat Links (From v1.5)
 
-With AceTime v1.5, the implementation of Links was changed to something called
-Fat Links internally, and Link entries become identical to their corresponding
-Zone entries. In other words:
+AceTime v1.5 provides support for Fat Links which make Links essentially
+identical to their corresponding Zones. In other words:
 
-* the ZoneInfo `kZone{xxx}` constant exists for every Link entry
-* the ZoneId `kZoneId{xxx}` constant exists for every Link entry
+* the ZoneInfo `kZone{xxx}` constant exists for every Link entry,
+* the ZoneId `kZoneId{xxx}` constant exists for every Link entry,
 * the `kZone{xxx}.name` field points to the full name of the **Link** entry,
-  not the target Zone entry
-* the `kZone{xxx}.zoneId` field is set to the ZoneId of the **Link** entry
+  not the target Zone entry,
+* the `kZone{xxx}.zoneId` field is set to the ZoneId of the **Link** entry.
+
+From the point of view on the Arduino side, there is no difference between Links
+and Zones. In fact, there is no ability to distinguish between a Zone and a Fat
+Link at runtime.
 
 The underlying `ZonePolicy` and `ZoneInfo` data structures are shared between
-the corresponding Zone and Link entries, to save memory, but those Link entries
-now do consume extra flash memory. Because of the extra memory usage, I provide
-2 different Zone registries in the default `zonedb/zone_registry.h` and
-`zonedbx/zone_registry.h` files:
+the corresponding Zone and Link entries, but those Link entries themselves
+do consume extra flash memory.
 
-* `zonedb::kZoneRegistry`, `zonedbx::kZoneRegistry`
-    * contain only the Zone entries
-* `zonedb::kZoneAndLinkRegistry`, `zonedbx::kZoneAndLinkRegistry`
-    * contain both Zone and Link entries
+To avoid performing a lookup in 2 separate registries, Fat Links are merged into
+the Zone registry. The ZoneManagers are constructed using the combined registry,
+like this:
 
-The approximate sizes of those registries are given in the corresponding
-`zone_infos.cpp` files, for example, for the `zonedbx`:
+```C++
+BasicZoneManager manager(
+    zonedb::kZoneAndLinkRegistrySize, zonedb::kZoneAndLinkRegistry);
 
-* `zonedbx::kZoneRegistry`:
-    * 386 Zones
-    * 17kB (8-bits), 24kB (32-bits)
-* `zonedbx::kZoneAndLinkRegistry`:
-    * 386 Zones, 207 Links
-    * 21kB (8-bits), 31kB (32-bits)
+ExtendedZoneManager manager(
+    zonedbx::kZoneAndLinkRegistrySize, zonedbx::kZoneAndLinkRegistry);
+```
 
-If you have enough flash memory, and forward-compatibility is important, then I
-recommend using the complete `kZoneAndLinkRegistry`. However, if you don't have
-enough memory, and you can tolerate occasional instability of the Zone and Link
-names, then perhaps `kZoneRegistry` is good enough.
+If you have enough flash memory, and forward-compatibility is important, then
+using Fat Links (and the combined `kZoneAndLinkRegistry`) provides the most
+flexibility, performance and forward compatibility. The cost is that Fat Links
+occupy substantial amount of extra flash memory, between 4kB to 7kB.
 
-If you are creating your own Zone registry, then you don't have to worry about
-forward compatiblity with v1.5 and onwards, because the ZoneName and ZoneId of a
-particular Zone will be stable, even when it changes from a Zone to a Link (or
-the other way).
+I attempted to reduce the amount of extra flash memory storage by creating Thin
+Links in v1.6 as described below.
+
+<a name="ThinLinks"></a>
+### Thin Links (From v1.6)
+
+Thin Links is a lighter weight version of Fat Links that preserves the forward
+stability of **zoneId** (e.g. `0xb7f7e8f2`) but not the **zoneName** (e.g.
+`America/Los_Angeles`). This is useful because in most embedded applications, I
+expect and recommend that the zoneId to be serialized and saved (e.g. in
+user-configuration EEPROM), but not the zoneName string (which is more difficult
+to store and retrieve due to its variable length).
+
+I created separate registry created for Thin Links which contain only the
+mapping of the `linkId` to the corresponding `zoneId`. The constructors for
+`BasicZoneManager` and `ExtendedZoneManager` were extended to take optional
+parameters related to the Thin Link registry:
+
+```C++
+// Zones and Thin Links
+BasicZoneManager manager(
+    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry,
+    zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
+
+// Zones and Thin Links
+ExtendedZoneManager manager(
+    zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry,
+    zonedbx::kLinkRegistrySize, zonedbx::kLinkRegistry);
+```
+
+When a Thin Link registry is given to the `ZoneManager`, the behavior of
+`ZoneManager::createForZoneId(zoneId)` method changes slightly to support
+forward compatibility of the `zoneId` and `linkId`:
+
+1) The given `zoneId` is first searched in the `kZoneRegistry`.
+2) If it is not found, it is then searched in the `kLinkRegistry`.
+3) If found in the Link registry, its target `zoneId` is retrieved from the Link
+registry, and the searched again in the Zone registry.
+
+This means that a given `zoneId` from a previous version of TZDB will always
+resolve to a valid time zone, because the IANA TZDB guarantees that an existing
+timezone will be preserve in future versions, migrated to a Link if necessary.
+
+It is probably useful to note that the `ZoneManager::createForZoneName()` cannot
+guarantee forward compatibility of zoneNames using the Thin Link registry,
+because the zone name strings are not stored with Thin Links. If you need
+`zoneName` forward compatibility, you need to use Fat Links as described above.
+
+<a name="CustomZoneRegistry"></a>
+### Custom Zone Registry
+
+On small microcontrollers, the default zone registries may be too large. The
+`ZoneManager` can be configured with a custom zone registry. It needs
+to be given an array of `ZoneInfo` pointers when constructed. For example, here
+is a `BasicZoneManager` with only 4 zones from the `zonedb::` data set:
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+...
+static const basic::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
+  &zonedb::kZoneAmerica_Los_Angeles,
+  &zonedb::kZoneAmerica_Denver,
+  &zonedb::kZoneAmerica_Chicago,
+  &zonedb::kZoneAmerica_New_York,
+};
+
+static const uint16_t kZoneRegistrySize =
+    sizeof(kZoneRegistry) / sizeof(basic::ZoneInfo*);
+
+static const uint16_t CACHE_SIZE = 2;
+static BasicZoneManager<CACHE_SIZE> zoneManager(
+    kZoneRegistrySize, kZoneRegistry);
+```
+
+Here is the equivalent `ExtendedZoneManager` with 4 zones from the `zonedbx::`
+data set:
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+...
+static const extended::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
+  &zonedbx::kZoneAmerica_Los_Angeles,
+  &zonedbx::kZoneAmerica_Denver,
+  &zonedbx::kZoneAmerica_Chicago,
+  &zonedbx::kZoneAmerica_New_York,
+};
+
+static const uint16_t kZoneRegistrySize =
+    sizeof(kZoneRegistry) / sizeof(extended::ZoneInfo*);
+
+static const uint16_t CACHE_SIZE = 2;
+static ExtendedZoneManager<CACHE_SIZE> zoneManager(
+    kZoneRegistrySize, kZoneRegistry);
+```
+
+The `ACE_TIME_PROGMEM` macro is defined in
+[compat.h](src/ace_time/common/compat.h) and indicates whether the ZoneInfo
+files are stored in normal RAM or flash memory (i.e. `PROGMEM`). It **must** be
+used for custom zoneRegistries because the `BasicZoneManager` and
+`ExtendedZoneManager` expect to find them in static RAM or flash memory
+according to this macro.
+
+See examples in various unit tests:
+
+* [tests/ZoneRegistrarTest](tests/ZoneRegistrarTest)
+* [tests/TimeZoneTest](tests/TimeZoneTest)
+* [tests/ZonedDateTimeBasicTest](tests/ZonedDateTimeBasicTest)
+* [tests/ZonedDateTimeExtendedTest](tests/ZonedDateTimeExtendedTest)
+
+(**TBD**: I think it would be useful to create a script that can generate the
+C++ code representing these custom zone registries from a list of zones.)
 
 <a name="Mutations"></a>
 ## Mutations

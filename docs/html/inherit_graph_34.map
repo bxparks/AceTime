@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classace__time_1_1ZoneManager.html" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa..." alt="" coords="5,5,185,32"/>
-<area shape="rect" id="node2" href="$classace__time_1_1ManualZoneManager.html" title="A ZoneManager that implements only createForTimeZoneData() to create TimeZones of type kTypeManual,..." alt="" coords="233,5,461,32"/>
+<area shape="rect" id="node1" href="$classace__time_1_1internal_1_1LinkRegistrarTemplate.html" title=" " alt="" coords="5,5,188,91"/>
+<area shape="rect" id="node2" href="$classace__time_1_1basic_1_1LinkRegistrar.html" title="Concrete template instantiation of LinkRegistrarTemplate for basic::LinkEntry." alt="" coords="236,35,455,61"/>
 </map>

@@ -10,6 +10,11 @@ namespace ace_time {
 
 void TimeZone::printTo(Print& printer) const {
   switch (mType) {
+    case kTypeError:
+    case kTypeReserved:
+      printer.print("<Error>");
+      break;
+
     case kTypeManual:
       if (isUtc()) {
         printer.print("UTC");
@@ -17,26 +22,21 @@ void TimeZone::printTo(Print& printer) const {
         TimeOffset::forMinutes(mStdOffsetMinutes).printTo(printer);
         TimeOffset::forMinutes(mDstOffsetMinutes).printTo(printer);
       }
-      return;
-    case kTypeBasic:
-    case kTypeExtended:
-      mZoneProcessor->printTo(printer);
-      return;
-    case kTypeBasicManaged:
-    case kTypeExtendedManaged:
-    {
-      ZoneProcessor* processor =
-          mZoneProcessorCache->getZoneProcessor(mZoneInfo);
-      if (! processor) break;
-      processor->printTo(printer);
-      return;
-    }
+      break;
+
+    default:
+      getBoundZoneProcessor()->printNameTo(printer);
+      break;
   }
-  printer.print("<Error>");
 }
 
 void TimeZone::printShortTo(Print& printer) const {
   switch (mType) {
+    case kTypeError:
+    case kTypeReserved:
+      printer.print("<Error>");
+      break;
+
     case kTypeManual:
       if (isUtc()) {
         printer.print("UTC");
@@ -48,22 +48,12 @@ void TimeZone::printShortTo(Print& printer) const {
         printer.print((mDstOffsetMinutes != 0) ? "DST" : "STD");
         printer.print(')');
       }
-      return;
-    case kTypeBasic:
-    case kTypeExtended:
-      mZoneProcessor->printShortTo(printer);
-      return;
-    case kTypeBasicManaged:
-    case kTypeExtendedManaged:
-    {
-      ZoneProcessor* processor =
-          mZoneProcessorCache->getZoneProcessor(mZoneInfo);
-      if (! processor) break;
-      processor->printShortTo(printer);
-      return;
-    }
+      break;
+
+    default:
+      getBoundZoneProcessor()->printShortNameTo(printer);
+      break;
   }
-  printer.print("<Error>");
 }
 
 }

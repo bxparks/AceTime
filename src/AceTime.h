@@ -32,13 +32,14 @@
 #include "ace_time/internal/ZoneContext.h"
 #include "ace_time/internal/ZoneInfo.h"
 #include "ace_time/internal/ZonePolicy.h"
+#include "ace_time/internal/ZoneRegistrar.h"
+#include "ace_time/internal/LinkRegistrar.h"
 #include "ace_time/zonedb/zone_policies.h"
 #include "ace_time/zonedb/zone_infos.h"
 #include "ace_time/zonedb/zone_registry.h"
 #include "ace_time/zonedbx/zone_policies.h"
 #include "ace_time/zonedbx/zone_infos.h"
 #include "ace_time/zonedbx/zone_registry.h"
-#include "ace_time/ZoneRegistrar.h"
 #include "ace_time/LocalDate.h"
 #include "ace_time/local_date_mutation.h"
 #include "ace_time/LocalTime.h"
@@ -69,11 +70,11 @@
 
 #if defined(ARDUINO_ARCH_STM32)
 #include "ace_time/clock/StmRtcClock.h"
-#endif // #if defined(STM32_ARCH_STM32)
+#endif // #if defined(ARDUINO_ARCH_STM32)
 
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 10500
-#define ACE_TIME_VERSION_STRING "1.5"
+#define ACE_TIME_VERSION 10600
+#define ACE_TIME_VERSION_STRING "1.6"
 
 #endif

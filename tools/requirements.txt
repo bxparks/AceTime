@@ -1,4 +1,4 @@
-mypy==0.790
+mypy==0.800
 python-dateutil==2.8.1
-pytz==2020.4
+pytz==2021.1
 flake8==3.8.4

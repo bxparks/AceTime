@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.6</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -66,12 +66,9 @@ $(function() {
 <div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div>
 
 <h3><a id="index_k"></a>- k -</h3><ul>
-<li>kAbbrevSize
-: <a class="el" href="structace__time_1_1basic_1_1Transition.html#a39d2a4e51aec03a856d6228251afd060">ace_time::basic::Transition</a>
-, <a class="el" href="structace__time_1_1extended_1_1Transition.html#a81c38032a01b572b95a244c804ce1ba9">ace_time::extended::Transition</a>
-</li>
 <li>kBinarySearchThreshold
-: <a class="el" href="classace__time_1_1ZoneRegistrar.html#a3505b8b2ae8072a16faa0f8d928057e8">ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB &gt;</a>
+: <a class="el" href="classace__time_1_1internal_1_1LinkRegistrarTemplate.html#a8f9dae41ff06a04a4cd94167a6746cf8">ace_time::internal::LinkRegistrarTemplate&lt; LE, LEB, LRGB &gt;</a>
+, <a class="el" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#ac00d339dfffbf172d3ae0a9369be97db">ace_time::internal::ZoneRegistrarTemplate&lt; ZI, ZIB, ZRGB &gt;</a>
 </li>
 <li>kBufferSize
 : <a class="el" href="classace__time_1_1DateStrings.html#aedbfa043f6da042c40fed6b2beb09588">ace_time::DateStrings</a>
@@ -98,8 +95,9 @@ $(function() {
 : <a class="el" href="classace__time_1_1LocalDate.html#a93246cf1e604993768fba270de04fb72">ace_time::LocalDate</a>
 </li>
 <li>kInvalidIndex
-: <a class="el" href="classace__time_1_1ZoneManager.html#a7977d6c1471fd2e889a518a47fa3f2a2">ace_time::ZoneManager</a>
-, <a class="el" href="classace__time_1_1ZoneRegistrar.html#a4173d80a7b2ac12e716715e61e07d369">ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB &gt;</a>
+: <a class="el" href="classace__time_1_1internal_1_1LinkRegistrarTemplate.html#a3f1dfe79433f600fbfd8b4321f5d8e41">ace_time::internal::LinkRegistrarTemplate&lt; LE, LEB, LRGB &gt;</a>
+, <a class="el" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">ace_time::internal::ZoneRegistrarTemplate&lt; ZI, ZIB, ZRGB &gt;</a>
+, <a class="el" href="classace__time_1_1ZoneManager.html#a7977d6c1471fd2e889a518a47fa3f2a2">ace_time::ZoneManager</a>
 </li>
 <li>kInvalidPeriodSeconds
 : <a class="el" href="classace__time_1_1TimePeriod.html#a06fc9b2e53f1cb9f73a6eaf8825affb7">ace_time::TimePeriod</a>
@@ -115,6 +113,9 @@ $(function() {
 </li>
 <li>kMaxPeriodSeconds
 : <a class="el" href="classace__time_1_1TimePeriod.html#a1f8bbf6bc456b88388ff29b44ecec9e6">ace_time::TimePeriod</a>
+</li>
+<li>kMaxTransitions
+: <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aca8230fd1f2db53e5a1d799a895fca3d">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
 </li>
 <li>kMaxYearTiny
 : <a class="el" href="classace__time_1_1LocalDate.html#a6f00db0e5431f38166a37adecedb7b4f">ace_time::LocalDate</a>
@@ -152,6 +153,15 @@ $(function() {
 <li>kStatusWaitForRetry
 : <a class="el" href="classace__time_1_1clock_1_1SystemClockLoop.html#a845c17d094b303a9cf7ca38d34df0982">ace_time::clock::SystemClockLoop</a>
 </li>
+<li>kSuffixS
+: <a class="el" href="structace__time_1_1internal_1_1ZoneContext.html#ad885684748440a19b6fdc3c42ef54307">ace_time::internal::ZoneContext</a>
+</li>
+<li>kSuffixU
+: <a class="el" href="structace__time_1_1internal_1_1ZoneContext.html#afc0def7a74e320d70eff74f313bba57f">ace_time::internal::ZoneContext</a>
+</li>
+<li>kSuffixW
+: <a class="el" href="structace__time_1_1internal_1_1ZoneContext.html#a25ffe9cfd5a3a3cb42fcf1dd4a461ff7">ace_time::internal::ZoneContext</a>
+</li>
 <li>kSunday
 : <a class="el" href="classace__time_1_1LocalDate.html#af2cb45cfd132d8d08d792935fa1a2520">ace_time::LocalDate</a>
 </li>
@@ -162,10 +172,19 @@ $(function() {
 : <a class="el" href="classace__time_1_1LocalDate.html#a0e088edd58f0f1d1331c937832cb890b">ace_time::LocalDate</a>
 </li>
 <li>kTypeBasic
-: <a class="el" href="classace__time_1_1ZoneProcessor.html#ad909271bf494774000a5102db0a66e09">ace_time::ZoneProcessor</a>
+: <a class="el" href="classace__time_1_1BasicZoneProcessor.html#a283ca9be07f106494c22eee2729482de">ace_time::BasicZoneProcessor</a>
+</li>
+<li>kTypeError
+: <a class="el" href="classace__time_1_1TimeZone.html#aa0f8a27139793d9d4933dcc05abade6a">ace_time::TimeZone</a>
 </li>
 <li>kTypeExtended
-: <a class="el" href="classace__time_1_1ZoneProcessor.html#a0664023085b5339025836f60ed1e1bc2">ace_time::ZoneProcessor</a>
+: <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#ae0cfa8f81df6c2cab008944941153bfd">ace_time::ExtendedZoneProcessor</a>
+</li>
+<li>kTypeManual
+: <a class="el" href="classace__time_1_1TimeZone.html#af7a422f59450abac8b76aafa72d4b5c9">ace_time::TimeZone</a>
+</li>
+<li>kTypeReserved
+: <a class="el" href="classace__time_1_1TimeZone.html#ae1a31092dca112ec74475c1c1703fde0">ace_time::TimeZone</a>
 </li>
 <li>kWednesday
 : <a class="el" href="classace__time_1_1LocalDate.html#a0221ea698dae2739a8bca89e11e1cd01">ace_time::LocalDate</a>

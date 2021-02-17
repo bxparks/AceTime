@@ -1,7 +1,9 @@
-TZ_VERSION := 2020f
+TZ_VERSION := 2021a
 
 # Files which pass 'mypy --strict'.
 SRC := \
+acetz.py \
+compare_acetz \
 compare_dateutil \
 compare_pytz \
 data_types \
@@ -16,10 +18,6 @@ validation \
 validator \
 zinfo.py \
 zone_processor
-
-# Files without Python typing.
-SRC_UNTYPED := \
-tests/test_zone_specifier.py
 
 .PHONY: all mypy flake8 tests
 

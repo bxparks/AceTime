@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.6</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -83,16 +83,23 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a97ade70c7e0298971f76b6819cafc8b9"><td class="memItemLeft" align="right" valign="top"><a id="a97ade70c7e0298971f76b6819cafc8b9"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BasicZone</b> (const basic::ZoneInfo *zoneInfo)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZone.html#a97ade70c7e0298971f76b6819cafc8b9">BasicZone</a> (const basic::ZoneInfo *zoneInfo)</td></tr>
+<tr class="memdesc:a97ade70c7e0298971f76b6819cafc8b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from a raw basic::ZoneInfo* pointer, intended for manual inspection of a ZoneInfo record. <br /></td></tr>
 <tr class="separator:a97ade70c7e0298971f76b6819cafc8b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc1f3d572422df7889c03322369ec12b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZone.html#abc1f3d572422df7889c03322369ec12b">BasicZone</a> (const <a class="el" href="classace__time_1_1basic_1_1ZoneInfoBroker.html">basic::ZoneInfoBroker</a> &amp;zoneInfo)</td></tr>
+<tr class="memdesc:abc1f3d572422df7889c03322369ec12b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from a <a class="el" href="classace__time_1_1basic_1_1ZoneInfoBroker.html" title="Data broker for accessing ZoneInfo.">basic::ZoneInfoBroker</a>, used by <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="A specific implementation of BasicZoneProcessorTemplate that uses ZoneXxxBrokers which read from zone...">BasicZoneProcessor</a>.  <a href="classace__time_1_1BasicZone.html#abc1f3d572422df7889c03322369ec12b">More...</a><br /></td></tr>
+<tr class="separator:abc1f3d572422df7889c03322369ec12b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0f849d7c5382ab766e7aeb536b1b6e0"><td class="memItemLeft" align="right" valign="top"><a id="ae0f849d7c5382ab766e7aeb536b1b6e0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>printNameTo</b> (Print &amp;printer) const</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZone.html#ae0f849d7c5382ab766e7aeb536b1b6e0">printNameTo</a> (Print &amp;printer) const</td></tr>
+<tr class="memdesc:ae0f849d7c5382ab766e7aeb536b1b6e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the full zone name to printer. <br /></td></tr>
 <tr class="separator:ae0f849d7c5382ab766e7aeb536b1b6e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf8e238a8c79d6a46c40f0bd36a6eb23"><td class="memItemLeft" align="right" valign="top"><a id="adf8e238a8c79d6a46c40f0bd36a6eb23"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>printShortNameTo</b> (Print &amp;printer) const</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZone.html#adf8e238a8c79d6a46c40f0bd36a6eb23">printShortNameTo</a> (Print &amp;printer) const</td></tr>
+<tr class="memdesc:adf8e238a8c79d6a46c40f0bd36a6eb23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the short zone to the printer. <br /></td></tr>
 <tr class="separator:adf8e238a8c79d6a46c40f0bd36a6eb23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a360efba115e043ad28c69511f229454d"><td class="memItemLeft" align="right" valign="top"><a id="a360efba115e043ad28c69511f229454d"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>zoneId</b> () const</td></tr>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZone.html#a360efba115e043ad28c69511f229454d">zoneId</a> () const</td></tr>
+<tr class="memdesc:a360efba115e043ad28c69511f229454d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the zoneId of the current zoneInfo. <br /></td></tr>
 <tr class="separator:a360efba115e043ad28c69511f229454d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -100,7 +107,39 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>zoneId</b> () con
 <p>The basic::ZoneInfo data struct is intended to be an opaque type to the users of this library. </p>
 
 <p class="definition">Definition at line <a class="el" href="BasicZone_8h_source.html#l00021">21</a> of file <a class="el" href="BasicZone_8h_source.html">BasicZone.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="abc1f3d572422df7889c03322369ec12b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc1f3d572422df7889c03322369ec12b">&#9670;&nbsp;</a></span>BasicZone()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ace_time::BasicZone::BasicZone </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classace__time_1_1basic_1_1ZoneInfoBroker.html">basic::ZoneInfoBroker</a> &amp;&#160;</td>
+          <td class="paramname"><em>zoneInfo</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructor from a <a class="el" href="classace__time_1_1basic_1_1ZoneInfoBroker.html" title="Data broker for accessing ZoneInfo.">basic::ZoneInfoBroker</a>, used by <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="A specific implementation of BasicZoneProcessorTemplate that uses ZoneXxxBrokers which read from zone...">BasicZoneProcessor</a>. </p>
+<p>This allows the implementation details of ZoneInfoBroker to remain hidden. </p>
+
+<p class="definition">Definition at line <a class="el" href="BasicZone_8h_source.html#l00035">35</a> of file <a class="el" href="BasicZone_8h_source.html">BasicZone.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/brian/src/AceTime/src/ace_time/<a class="el" href="BasicZone_8h_source.html">BasicZone.h</a></li>
 <li>/home/brian/src/AceTime/src/ace_time/<a class="el" href="BasicZone_8cpp_source.html">BasicZone.cpp</a></li>
 </ul>

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.6</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -83,34 +83,34 @@ $(function() {
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classace__time_1_1TimeZone.html#a3030d8f1dc9cd2bfb3c6ee556c385191">   11</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classace__time_1_1TimeZone.html#a3030d8f1dc9cd2bfb3c6ee556c385191">TimeZone::printTo</a>(Print&amp; printer)<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;  <span class="keywordflow">switch</span> (mType) {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">case</span> kTypeManual:</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;      <span class="keywordflow">if</span> (<a class="code" href="classace__time_1_1TimeZone.html#a6d6ff4bcb32d008473c7bd34123e43d8">isUtc</a>()) {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        printer.print(<span class="stringliteral">&quot;UTC&quot;</span>);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;      } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <a class="code" href="classace__time_1_1TimeOffset.html#aeb8480a999c6eba58304d02ac32133d2">TimeOffset::forMinutes</a>(mStdOffsetMinutes).<a class="code" href="classace__time_1_1TimeOffset.html#af1bcb885f413153ed61324a92e5bd730">printTo</a>(printer);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <a class="code" href="classace__time_1_1TimeOffset.html#aeb8480a999c6eba58304d02ac32133d2">TimeOffset::forMinutes</a>(mDstOffsetMinutes).<a class="code" href="classace__time_1_1TimeOffset.html#af1bcb885f413153ed61324a92e5bd730">printTo</a>(printer);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;      }</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;      <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">case</span> kTypeBasic:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">case</span> kTypeExtended:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;      <a class="code" href="classace__time_1_1TimeZone.html#a3380618145722bb6a76108db95153e42">mZoneProcessor</a>-&gt;<a class="code" href="classace__time_1_1ZoneProcessor.html#a44fb531504b00363fdc8195519884e7f">printTo</a>(printer);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;      <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">case</span> kTypeBasicManaged:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">case</span> kTypeExtendedManaged:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;      <a class="code" href="classace__time_1_1ZoneProcessor.html">ZoneProcessor</a>* processor =</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;          <a class="code" href="classace__time_1_1TimeZone.html#a3ab324046539f8a331b143b47e5eb434">mZoneProcessorCache</a>-&gt;<a class="code" href="classace__time_1_1ZoneProcessorCache.html#abc5e4b261adfc0992d40d8cb3de08d33">getZoneProcessor</a>(<a class="code" href="classace__time_1_1TimeZone.html#a46df4a9a5e825a3015b2b8953bd57462">mZoneInfo</a>);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      <span class="keywordflow">if</span> (! processor) <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;      processor-&gt;<a class="code" href="classace__time_1_1ZoneProcessor.html#a44fb531504b00363fdc8195519884e7f">printTo</a>(printer);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;      <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    }</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  }</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  printer.print(<span class="stringliteral">&quot;&lt;Error&gt;&quot;</span>);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classace__time_1_1TimeZone.html#a9feead66a867bbae10e751d30479bbfc">   38</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classace__time_1_1TimeZone.html#a9feead66a867bbae10e751d30479bbfc">TimeZone::printShortTo</a>(Print&amp; printer)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">switch</span> (mType) {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">case</span> kTypeManual:</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="classace__time_1_1TimeZone.html#aa0f8a27139793d9d4933dcc05abade6a">kTypeError</a>:</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="classace__time_1_1TimeZone.html#ae1a31092dca112ec74475c1c1703fde0">kTypeReserved</a>:</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;      printer.print(<span class="stringliteral">&quot;&lt;Error&gt;&quot;</span>);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="classace__time_1_1TimeZone.html#af7a422f59450abac8b76aafa72d4b5c9">kTypeManual</a>:</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;      <span class="keywordflow">if</span> (<a class="code" href="classace__time_1_1TimeZone.html#a6d6ff4bcb32d008473c7bd34123e43d8">isUtc</a>()) {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        printer.print(<span class="stringliteral">&quot;UTC&quot;</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;      } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <a class="code" href="classace__time_1_1TimeOffset.html#aeb8480a999c6eba58304d02ac32133d2">TimeOffset::forMinutes</a>(mStdOffsetMinutes).<a class="code" href="classace__time_1_1TimeOffset.html#af1bcb885f413153ed61324a92e5bd730">printTo</a>(printer);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="classace__time_1_1TimeOffset.html#aeb8480a999c6eba58304d02ac32133d2">TimeOffset::forMinutes</a>(mDstOffsetMinutes).<a class="code" href="classace__time_1_1TimeOffset.html#af1bcb885f413153ed61324a92e5bd730">printTo</a>(printer);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;      }</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;      getBoundZoneProcessor()-&gt;<a class="code" href="classace__time_1_1ZoneProcessor.html#a2ebdaf658f48d58a161086e21c1fc3f7">printNameTo</a>(printer);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classace__time_1_1TimeZone.html#a9feead66a867bbae10e751d30479bbfc">   33</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classace__time_1_1TimeZone.html#a9feead66a867bbae10e751d30479bbfc">TimeZone::printShortTo</a>(Print&amp; printer)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <span class="keywordflow">switch</span> (mType) {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="classace__time_1_1TimeZone.html#aa0f8a27139793d9d4933dcc05abade6a">kTypeError</a>:</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="classace__time_1_1TimeZone.html#ae1a31092dca112ec74475c1c1703fde0">kTypeReserved</a>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      printer.print(<span class="stringliteral">&quot;&lt;Error&gt;&quot;</span>);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="classace__time_1_1TimeZone.html#af7a422f59450abac8b76aafa72d4b5c9">kTypeManual</a>:</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      <span class="keywordflow">if</span> (<a class="code" href="classace__time_1_1TimeZone.html#a6d6ff4bcb32d008473c7bd34123e43d8">isUtc</a>()) {</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        printer.print(<span class="stringliteral">&quot;UTC&quot;</span>);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      } <span class="keywordflow">else</span> {</div>
@@ -121,38 +121,26 @@ $(function() {
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        printer.print((mDstOffsetMinutes != 0) ? <span class="stringliteral">&quot;DST&quot;</span> : <span class="stringliteral">&quot;STD&quot;</span>);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        printer.print(<span class="charliteral">&#39;)&#39;</span>);</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">case</span> kTypeBasic:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">case</span> kTypeExtended:</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <a class="code" href="classace__time_1_1TimeZone.html#a3380618145722bb6a76108db95153e42">mZoneProcessor</a>-&gt;<a class="code" href="classace__time_1_1ZoneProcessor.html#a79737097b177ce998f67c5704a626b6c">printShortTo</a>(printer);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">case</span> kTypeBasicManaged:</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">case</span> kTypeExtendedManaged:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <a class="code" href="classace__time_1_1ZoneProcessor.html">ZoneProcessor</a>* processor =</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;          <a class="code" href="classace__time_1_1TimeZone.html#a3ab324046539f8a331b143b47e5eb434">mZoneProcessorCache</a>-&gt;<a class="code" href="classace__time_1_1ZoneProcessorCache.html#abc5e4b261adfc0992d40d8cb3de08d33">getZoneProcessor</a>(<a class="code" href="classace__time_1_1TimeZone.html#a46df4a9a5e825a3015b2b8953bd57462">mZoneInfo</a>);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <span class="keywordflow">if</span> (! processor) <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      processor-&gt;<a class="code" href="classace__time_1_1ZoneProcessor.html#a79737097b177ce998f67c5704a626b6c">printShortTo</a>(printer);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  printer.print(<span class="stringliteral">&quot;&lt;Error&gt;&quot;</span>);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      getBoundZoneProcessor()-&gt;<a class="code" href="classace__time_1_1ZoneProcessor.html#a68ba2ce6b980f73f4f673450148c2416">printShortNameTo</a>(printer);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassace__time_1_1ZoneProcessorCache_html_abc5e4b261adfc0992d40d8cb3de08d33"><div class="ttname"><a href="classace__time_1_1ZoneProcessorCache.html#abc5e4b261adfc0992d40d8cb3de08d33">ace_time::ZoneProcessorCache::getZoneProcessor</a></div><div class="ttdeci">virtual ZoneProcessor * getZoneProcessor(const void *zoneInfo)=0</div><div class="ttdoc">Get ZoneProcessor from either a basic::ZoneInfo or an extended::ZoneInfo.</div></div>
 <div class="ttc" id="aclassace__time_1_1TimeZone_html_a3030d8f1dc9cd2bfb3c6ee556c385191"><div class="ttname"><a href="classace__time_1_1TimeZone.html#a3030d8f1dc9cd2bfb3c6ee556c385191">ace_time::TimeZone::printTo</a></div><div class="ttdeci">void printTo(Print &amp;printer) const</div><div class="ttdoc">Print the human readable representation of the time zone.</div><div class="ttdef"><b>Definition:</b> <a href="TimeZone_8cpp_source.html#l00011">TimeZone.cpp:11</a></div></div>
-<div class="ttc" id="aclassace__time_1_1TimeZone_html_a3380618145722bb6a76108db95153e42"><div class="ttname"><a href="classace__time_1_1TimeZone.html#a3380618145722bb6a76108db95153e42">ace_time::TimeZone::mZoneProcessor</a></div><div class="ttdeci">ZoneProcessor * mZoneProcessor</div><div class="ttdoc">Used by kTypeBasic, kTypeExtended.</div><div class="ttdef"><b>Definition:</b> <a href="TimeZone_8h_source.html#l00523">TimeZone.h:523</a></div></div>
-<div class="ttc" id="aclassace__time_1_1TimeZone_html_a6d6ff4bcb32d008473c7bd34123e43d8"><div class="ttname"><a href="classace__time_1_1TimeZone.html#a6d6ff4bcb32d008473c7bd34123e43d8">ace_time::TimeZone::isUtc</a></div><div class="ttdeci">bool isUtc() const</div><div class="ttdoc">Return true if UTC (+00:00+00:00).</div><div class="ttdef"><b>Definition:</b> <a href="TimeZone_8h_source.html#l00370">TimeZone.h:370</a></div></div>
-<div class="ttc" id="aclassace__time_1_1TimeZone_html_a46df4a9a5e825a3015b2b8953bd57462"><div class="ttname"><a href="classace__time_1_1TimeZone.html#a46df4a9a5e825a3015b2b8953bd57462">ace_time::TimeZone::mZoneInfo</a></div><div class="ttdeci">const void * mZoneInfo</div><div class="ttdoc">Either a basic::ZoneInfo or an extended::ZoneInfo.</div><div class="ttdef"><b>Definition:</b> <a href="TimeZone_8h_source.html#l00519">TimeZone.h:519</a></div></div>
+<div class="ttc" id="aclassace__time_1_1ZoneProcessor_html_a68ba2ce6b980f73f4f673450148c2416"><div class="ttname"><a href="classace__time_1_1ZoneProcessor.html#a68ba2ce6b980f73f4f673450148c2416">ace_time::ZoneProcessor::printShortNameTo</a></div><div class="ttdeci">virtual void printShortNameTo(Print &amp;printer) const =0</div><div class="ttdoc">Print a short human-readable identifier (e.g.</div></div>
+<div class="ttc" id="aclassace__time_1_1TimeZone_html_a6d6ff4bcb32d008473c7bd34123e43d8"><div class="ttname"><a href="classace__time_1_1TimeZone.html#a6d6ff4bcb32d008473c7bd34123e43d8">ace_time::TimeZone::isUtc</a></div><div class="ttdeci">bool isUtc() const</div><div class="ttdoc">Return true if UTC (+00:00+00:00).</div><div class="ttdef"><b>Definition:</b> <a href="TimeZone_8h_source.html#l00364">TimeZone.h:364</a></div></div>
+<div class="ttc" id="aclassace__time_1_1TimeZone_html_af7a422f59450abac8b76aafa72d4b5c9"><div class="ttname"><a href="classace__time_1_1TimeZone.html#af7a422f59450abac8b76aafa72d4b5c9">ace_time::TimeZone::kTypeManual</a></div><div class="ttdeci">static const uint8_t kTypeManual</div><div class="ttdoc">Manual STD offset and DST offset.</div><div class="ttdef"><b>Definition:</b> <a href="TimeZone_8h_source.html#l00091">TimeZone.h:91</a></div></div>
 <div class="ttc" id="aclassace__time_1_1TimeOffset_html_af1bcb885f413153ed61324a92e5bd730"><div class="ttname"><a href="classace__time_1_1TimeOffset.html#af1bcb885f413153ed61324a92e5bd730">ace_time::TimeOffset::printTo</a></div><div class="ttdeci">void printTo(Print &amp;printer) const</div><div class="ttdoc">Print the human readable string.</div><div class="ttdef"><b>Definition:</b> <a href="TimeOffset_8cpp_source.html#l00015">TimeOffset.cpp:15</a></div></div>
-<div class="ttc" id="aclassace__time_1_1TimeZone_html_a9feead66a867bbae10e751d30479bbfc"><div class="ttname"><a href="classace__time_1_1TimeZone.html#a9feead66a867bbae10e751d30479bbfc">ace_time::TimeZone::printShortTo</a></div><div class="ttdeci">void printShortTo(Print &amp;printer) const</div><div class="ttdoc">Print the short human readable representation of the time zone.</div><div class="ttdef"><b>Definition:</b> <a href="TimeZone_8cpp_source.html#l00038">TimeZone.cpp:38</a></div></div>
-<div class="ttc" id="aclassace__time_1_1ZoneProcessor_html"><div class="ttname"><a href="classace__time_1_1ZoneProcessor.html">ace_time::ZoneProcessor</a></div><div class="ttdoc">Base interface for ZoneProcessor classes.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessor_8h_source.html#l00045">ZoneProcessor.h:45</a></div></div>
+<div class="ttc" id="aclassace__time_1_1TimeZone_html_a9feead66a867bbae10e751d30479bbfc"><div class="ttname"><a href="classace__time_1_1TimeZone.html#a9feead66a867bbae10e751d30479bbfc">ace_time::TimeZone::printShortTo</a></div><div class="ttdeci">void printShortTo(Print &amp;printer) const</div><div class="ttdoc">Print the short human readable representation of the time zone.</div><div class="ttdef"><b>Definition:</b> <a href="TimeZone_8cpp_source.html#l00033">TimeZone.cpp:33</a></div></div>
+<div class="ttc" id="aclassace__time_1_1ZoneProcessor_html_a2ebdaf658f48d58a161086e21c1fc3f7"><div class="ttname"><a href="classace__time_1_1ZoneProcessor.html#a2ebdaf658f48d58a161086e21c1fc3f7">ace_time::ZoneProcessor::printNameTo</a></div><div class="ttdeci">virtual void printNameTo(Print &amp;printer) const =0</div><div class="ttdoc">Print a human-readable identifier (e.g.</div></div>
+<div class="ttc" id="aclassace__time_1_1TimeZone_html_ae1a31092dca112ec74475c1c1703fde0"><div class="ttname"><a href="classace__time_1_1TimeZone.html#ae1a31092dca112ec74475c1c1703fde0">ace_time::TimeZone::kTypeReserved</a></div><div class="ttdeci">static const uint8_t kTypeReserved</div><div class="ttdoc">Reserved for future use.</div><div class="ttdef"><b>Definition:</b> <a href="TimeZone_8h_source.html#l00094">TimeZone.h:94</a></div></div>
+<div class="ttc" id="aclassace__time_1_1TimeZone_html_aa0f8a27139793d9d4933dcc05abade6a"><div class="ttname"><a href="classace__time_1_1TimeZone.html#aa0f8a27139793d9d4933dcc05abade6a">ace_time::TimeZone::kTypeError</a></div><div class="ttdeci">static const uint8_t kTypeError</div><div class="ttdoc">A TimeZone that represents an invalid condition.</div><div class="ttdef"><b>Definition:</b> <a href="TimeZone_8h_source.html#l00088">TimeZone.h:88</a></div></div>
 <div class="ttc" id="aclassace__time_1_1TimeOffset_html_aeb8480a999c6eba58304d02ac32133d2"><div class="ttname"><a href="classace__time_1_1TimeOffset.html#aeb8480a999c6eba58304d02ac32133d2">ace_time::TimeOffset::forMinutes</a></div><div class="ttdeci">static TimeOffset forMinutes(int16_t minutes)</div><div class="ttdoc">Create TimeOffset from minutes from 00:00.</div><div class="ttdef"><b>Definition:</b> <a href="TimeOffset_8h_source.html#l00083">TimeOffset.h:83</a></div></div>
-<div class="ttc" id="aclassace__time_1_1ZoneProcessor_html_a79737097b177ce998f67c5704a626b6c"><div class="ttname"><a href="classace__time_1_1ZoneProcessor.html#a79737097b177ce998f67c5704a626b6c">ace_time::ZoneProcessor::printShortTo</a></div><div class="ttdeci">virtual void printShortTo(Print &amp;printer) const =0</div><div class="ttdoc">Print a short human-readable identifier (e.g.</div></div>
-<div class="ttc" id="aclassace__time_1_1TimeZone_html_a3ab324046539f8a331b143b47e5eb434"><div class="ttname"><a href="classace__time_1_1TimeZone.html#a3ab324046539f8a331b143b47e5eb434">ace_time::TimeZone::mZoneProcessorCache</a></div><div class="ttdeci">ZoneProcessorCache * mZoneProcessorCache</div><div class="ttdoc">Used by kTypeBasicManaged, kTypeExtendedManaged.</div><div class="ttdef"><b>Definition:</b> <a href="TimeZone_8h_source.html#l00526">TimeZone.h:526</a></div></div>
-<div class="ttc" id="aclassace__time_1_1ZoneProcessor_html_a44fb531504b00363fdc8195519884e7f"><div class="ttname"><a href="classace__time_1_1ZoneProcessor.html#a44fb531504b00363fdc8195519884e7f">ace_time::ZoneProcessor::printTo</a></div><div class="ttdeci">virtual void printTo(Print &amp;printer) const =0</div><div class="ttdoc">Print a human-readable identifier (e.g.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

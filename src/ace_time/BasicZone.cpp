@@ -5,48 +5,35 @@
 
 #include <Arduino.h>
 #include <AceCommon.h> // KString
+#include "internal/BrokerCommon.h" // findShortName()
 #include "BasicZone.h"
 
 using ace_common::KString;
+using ace_time::internal::findShortName;
+using ace_time::internal::ZoneContext;
 
 namespace ace_time {
 
 #if ACE_TIME_USE_PROGMEM
 
 void BasicZone::printNameTo(Print& printer) const {
-  const auto* name = (const __FlashStringHelper*) mZoneInfoBroker.name();
-  const basic::ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();
+  const __FlashStringHelper* name = mZoneInfoBroker.name();
+  const ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();
   KString kname(name, zoneContext->fragments, zoneContext->numFragments);
   kname.printTo(printer);
 }
 
 void BasicZone::printShortNameTo(Print& printer) const {
-  const char* name = mZoneInfoBroker.name();
-  const auto* shortName = (const __FlashStringHelper*) findShortName(name);
+  const __FlashStringHelper* name = mZoneInfoBroker.name();
+  const __FlashStringHelper* shortName = findShortName(name);
   printer.print(shortName);
-}
-
-const char* BasicZone::findShortName(const char* name) {
-  size_t len = strlen_P(name);
-  const char* begin = name + len;
-  bool separatorFound = false;
-  while (len--) {
-    begin--;
-    char c = pgm_read_byte(begin);
-    if (c == '/' || (0 < c && c < 32)) {
-      separatorFound = true;
-      break;
-    }
-  }
-  if (separatorFound) begin++;
-  return begin;
 }
 
 #else
 
 void BasicZone::printNameTo(Print& printer) const {
   const char* name = mZoneInfoBroker.name();
-  const basic::ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();
+  const ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();
   KString kname(name, zoneContext->fragments, zoneContext->numFragments);
   kname.printTo(printer);
 }
@@ -55,22 +42,6 @@ void BasicZone::printShortNameTo(Print& printer) const {
   const char* name = mZoneInfoBroker.name();
   const char* shortName = findShortName(name);
   printer.print(shortName);
-}
-
-const char* BasicZone::findShortName(const char* name) {
-  size_t len = strlen(name);
-  const char* begin = name + len;
-  bool separatorFound = false;
-  while (len--) {
-    begin--;
-    char c = *begin;
-    if (c == '/' || (0 < c && c < 32)) {
-      separatorFound = true;
-      break;
-    }
-  }
-  if (separatorFound) begin++;
-  return begin;
 }
 
 #endif // ACE_TIME_USE_PROGMEM

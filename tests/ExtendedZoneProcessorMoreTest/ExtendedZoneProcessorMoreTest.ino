@@ -1,12 +1,14 @@
 #line 2 "ExtendedZoneProcessorMoreTest.ino"
 
 // Spillovers from ExtendedZoneProcessorTest.ino after it became too big for a
-// Arduino Pro Micro.
+// SparkFun Pro Micro.
 
 #include <AUnit.h>
+#include <AceCommon.h> // PrintStr<>
 #include <AceTime.h>
 
 using namespace aunit;
+using ace_common::PrintStr;
 using namespace ace_time;
 using namespace ace_time::zonedbx;
 
@@ -14,9 +16,32 @@ using namespace ace_time::zonedbx;
 // Test public methods
 //---------------------------------------------------------------------------
 
-// https://www.timeanddate.com/time/zone/usa/los-angeles
-test(ExtendedZoneProcessorTest, kZoneAmerica_Los_Angeles) {
+test(ExtendedZoneProcessorTest, setZoneKey) {
   ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+  zoneProcessor.getUtcOffset(0);
+  assertTrue(zoneProcessor.mIsFilled);
+
+  zoneProcessor.setZoneKey((uintptr_t) &zonedbx::kZoneAustralia_Darwin);
+  assertFalse(zoneProcessor.mIsFilled);
+  zoneProcessor.getUtcOffset(0);
+  assertTrue(zoneProcessor.mIsFilled);
+
+  // Check that the cache remains valid if the zoneInfo does not change
+  zoneProcessor.setZoneKey((uintptr_t) &zonedbx::kZoneAustralia_Darwin);
+  assertTrue(zoneProcessor.mIsFilled);
+}
+
+// https://www.timeanddate.com/time/zone/usa/los-angeles
+test(ExtendedZoneProcessorTest, Los_Angeles) {
+  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+
+  PrintStr<32> printStr;
+  zoneProcessor.printNameTo(printStr);
+  assertEqual(F("America/Los_Angeles"), printStr.getCstr());
+  printStr.flush();
+  zoneProcessor.printShortNameTo(printStr);
+  assertEqual(F("Los_Angeles"), printStr.getCstr());
+
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
@@ -56,7 +81,7 @@ test(ExtendedZoneProcessorTest, kZoneAmerica_Los_Angeles) {
   assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
 }
 
-test(ExtendedZoneProcessorTest, kZoneAmerica_Los_Angeles_outOfBounds) {
+test(ExtendedZoneProcessorTest, Los_Angeles_outOfBounds) {
   ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
   OffsetDateTime dt;
   acetime_t epochSeconds;

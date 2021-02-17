@@ -7,7 +7,7 @@
 #define ACE_TIME_BASIC_ZONE_H
 
 #include "internal/ZoneInfo.h"
-#include "internal/Brokers.h"
+#include "internal/BasicBrokers.h"
 
 class Print;
 
@@ -20,12 +20,28 @@ namespace ace_time {
  */
 class BasicZone {
   public:
+    /**
+     * Constructor from a raw basic::ZoneInfo* pointer, intended for manual
+     * inspection of a ZoneInfo record.
+     */
     BasicZone(const basic::ZoneInfo* zoneInfo):
         mZoneInfoBroker(zoneInfo) {}
 
+    /**
+     * Constructor from a basic::ZoneInfoBroker, used by BasicZoneProcessor.
+     * This allows the implementation details of ZoneInfoBroker to remain
+     * hidden.
+     */
+    BasicZone(const basic::ZoneInfoBroker& zoneInfo):
+        mZoneInfoBroker(zoneInfo) {}
+
+    /** Print the full zone name to printer. */
     void printNameTo(Print& printer) const;
+
+    /** Print the short zone to the printer. */
     void printShortNameTo(Print& printer) const;
 
+    /** Return the zoneId of the current zoneInfo. */
     uint32_t zoneId() const {
       return mZoneInfoBroker.zoneId();
     }
@@ -34,20 +50,6 @@ class BasicZone {
     // disable default copy constructor and assignment operator
     BasicZone(const BasicZone&) = delete;
     BasicZone& operator=(const BasicZone&) = delete;
-
-    /**
-     * Find the short name that begins after the last separator '/', a keyword
-     * reference, or at the beginning of the string if no separator or keyword.
-     * The last component of the full ZoneName is never compressed, which
-     * allows this to be implemented without using ace_common::KString.
-     *
-     * For example, "America/Los_Angeles" returns a pointer to "Los_Angeles",
-     * and "\x01Denver" returns a ponter to "Denver". This method returns
-     * either a (const char*) or a (const __FlashStringHelper*) depending on
-     * whether PROGMEM is used or not. The caller is responsible for casting to
-     * the correct type.
-     */
-    static const char* findShortName(const char* name);
 
     const basic::ZoneInfoBroker mZoneInfoBroker;
 };
