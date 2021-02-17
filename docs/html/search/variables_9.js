@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['transitiontime_503',['transitionTime',['../structace__time_1_1extended_1_1Transition.html#a921304f2d1a1e7ffcaabd6d3c9f8e1b6',1,'ace_time::extended::Transition']]],
-  ['transitiontimes_504',['transitionTimeS',['../structace__time_1_1extended_1_1Transition.html#afef501c91a4b3c8284cac2bb282380ce',1,'ace_time::extended::Transition']]],
-  ['transitiontimeu_505',['transitionTimeU',['../structace__time_1_1extended_1_1Transition.html#af647be5804c1372e56fb8520ef673be0',1,'ace_time::extended::Transition']]]
+  ['rule_574',['rule',['../structace__time_1_1basic_1_1TransitionTemplate.html#a2ce8f0d17f189a25a6f80e9107edb239',1,'ace_time::basic::TransitionTemplate::rule()'],['../structace__time_1_1extended_1_1TransitionTemplate.html#a08e0996372e9c0c80fc60e9a5ceff41e',1,'ace_time::extended::TransitionTemplate::rule()']]]
 ];

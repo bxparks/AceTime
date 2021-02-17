@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.6</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -67,38 +67,42 @@ $(function() {
 
 <h3><a id="index_a"></a>- a -</h3><ul>
 <li>abbrev
-: <a class="el" href="structace__time_1_1basic_1_1Transition.html#a32036a045f41089f421c447040cc5c9d">ace_time::basic::Transition</a>
-, <a class="el" href="structace__time_1_1extended_1_1Transition.html#ae0e25e6c0752e8c2e2668fdb1a2be6d5">ace_time::extended::Transition</a>
+: <a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#abe2b5dd9d3dd7660c10e85a388494c2b">ace_time::basic::TransitionTemplate&lt; ZIB, ZEB, ZPB, ZRB &gt;</a>
+, <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#ad65c299286c1f8a96ff214ccddffd3f1">ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</a>
 </li>
 <li>active
-: <a class="el" href="structace__time_1_1extended_1_1Transition.html#a204b9201f51a3e1a5c26549d6ae6be06">ace_time::extended::Transition</a>
+: <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#ae9f4fd0cd8f7ab872f17e4b82a84aea7">ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</a>
 </li>
 </ul>
 
 
 <h3><a id="index_d"></a>- d -</h3><ul>
 <li>deltaMinutes
-: <a class="el" href="structace__time_1_1basic_1_1Transition.html#a261c010379de16856415a5d675395d24">ace_time::basic::Transition</a>
-, <a class="el" href="structace__time_1_1extended_1_1Transition.html#a3e72596e313327e621489c5cc507c5a3">ace_time::extended::Transition</a>
+: <a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#aefb15f684d43cd60da7511701b939a8f">ace_time::basic::TransitionTemplate&lt; ZIB, ZEB, ZPB, ZRB &gt;</a>
+, <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#ae9e5b29eca212f58b3af5d3b8cd39351">ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</a>
 </li>
 </ul>
 
 
 <h3><a id="index_e"></a>- e -</h3><ul>
 <li>era
-: <a class="el" href="structace__time_1_1basic_1_1Transition.html#a94cf9a8357c67aa1bd336f66755a9b2c">ace_time::basic::Transition</a>
-, <a class="el" href="structace__time_1_1extended_1_1ZoneMatch.html#a4f3e064d47c81a8a595f1f7465d01ece">ace_time::extended::ZoneMatch</a>
+: <a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#a5211a848e5d854af448d81faaa612d35">ace_time::basic::TransitionTemplate&lt; ZIB, ZEB, ZPB, ZRB &gt;</a>
+, <a class="el" href="structace__time_1_1extended_1_1ZoneMatchTemplate.html#a40f2f4ff2596f100bf85a85c3f2d33d4">ace_time::extended::ZoneMatchTemplate&lt; ZEB &gt;</a>
+</li>
+</ul>
+
+
+<h3><a id="index_f"></a>- f -</h3><ul>
+<li>fragments
+: <a class="el" href="structace__time_1_1internal_1_1ZoneContext.html#a96b167f783962436b6c1b78f0924a46e">ace_time::internal::ZoneContext</a>
 </li>
 </ul>
 
 
 <h3><a id="index_k"></a>- k -</h3><ul>
-<li>kAbbrevSize
-: <a class="el" href="structace__time_1_1basic_1_1Transition.html#a39d2a4e51aec03a856d6228251afd060">ace_time::basic::Transition</a>
-, <a class="el" href="structace__time_1_1extended_1_1Transition.html#a81c38032a01b572b95a244c804ce1ba9">ace_time::extended::Transition</a>
-</li>
 <li>kBinarySearchThreshold
-: <a class="el" href="classace__time_1_1ZoneRegistrar.html#a3505b8b2ae8072a16faa0f8d928057e8">ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB &gt;</a>
+: <a class="el" href="classace__time_1_1internal_1_1LinkRegistrarTemplate.html#a8f9dae41ff06a04a4cd94167a6746cf8">ace_time::internal::LinkRegistrarTemplate&lt; LE, LEB, LRGB &gt;</a>
+, <a class="el" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#ac00d339dfffbf172d3ae0a9369be97db">ace_time::internal::ZoneRegistrarTemplate&lt; ZI, ZIB, ZRGB &gt;</a>
 </li>
 <li>kBufferSize
 : <a class="el" href="classace__time_1_1DateStrings.html#aedbfa043f6da042c40fed6b2beb09588">ace_time::DateStrings</a>
@@ -122,8 +126,9 @@ $(function() {
 : <a class="el" href="classace__time_1_1LocalDate.html#a93246cf1e604993768fba270de04fb72">ace_time::LocalDate</a>
 </li>
 <li>kInvalidIndex
-: <a class="el" href="classace__time_1_1ZoneManager.html#a7977d6c1471fd2e889a518a47fa3f2a2">ace_time::ZoneManager</a>
-, <a class="el" href="classace__time_1_1ZoneRegistrar.html#a4173d80a7b2ac12e716715e61e07d369">ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB &gt;</a>
+: <a class="el" href="classace__time_1_1internal_1_1LinkRegistrarTemplate.html#a3f1dfe79433f600fbfd8b4321f5d8e41">ace_time::internal::LinkRegistrarTemplate&lt; LE, LEB, LRGB &gt;</a>
+, <a class="el" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">ace_time::internal::ZoneRegistrarTemplate&lt; ZI, ZIB, ZRGB &gt;</a>
+, <a class="el" href="classace__time_1_1ZoneManager.html#a7977d6c1471fd2e889a518a47fa3f2a2">ace_time::ZoneManager</a>
 </li>
 <li>kInvalidPeriodSeconds
 : <a class="el" href="classace__time_1_1TimePeriod.html#a06fc9b2e53f1cb9f73a6eaf8825affb7">ace_time::TimePeriod</a>
@@ -139,6 +144,9 @@ $(function() {
 </li>
 <li>kMaxPeriodSeconds
 : <a class="el" href="classace__time_1_1TimePeriod.html#a1f8bbf6bc456b88388ff29b44ecec9e6">ace_time::TimePeriod</a>
+</li>
+<li>kMaxTransitions
+: <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aca8230fd1f2db53e5a1d799a895fca3d">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
 </li>
 <li>kMaxYearTiny
 : <a class="el" href="classace__time_1_1LocalDate.html#a6f00db0e5431f38166a37adecedb7b4f">ace_time::LocalDate</a>
@@ -176,6 +184,15 @@ $(function() {
 <li>kStatusWaitForRetry
 : <a class="el" href="classace__time_1_1clock_1_1SystemClockLoop.html#a845c17d094b303a9cf7ca38d34df0982">ace_time::clock::SystemClockLoop</a>
 </li>
+<li>kSuffixS
+: <a class="el" href="structace__time_1_1internal_1_1ZoneContext.html#ad885684748440a19b6fdc3c42ef54307">ace_time::internal::ZoneContext</a>
+</li>
+<li>kSuffixU
+: <a class="el" href="structace__time_1_1internal_1_1ZoneContext.html#afc0def7a74e320d70eff74f313bba57f">ace_time::internal::ZoneContext</a>
+</li>
+<li>kSuffixW
+: <a class="el" href="structace__time_1_1internal_1_1ZoneContext.html#a25ffe9cfd5a3a3cb42fcf1dd4a461ff7">ace_time::internal::ZoneContext</a>
+</li>
 <li>kSunday
 : <a class="el" href="classace__time_1_1LocalDate.html#af2cb45cfd132d8d08d792935fa1a2520">ace_time::LocalDate</a>
 </li>
@@ -186,10 +203,19 @@ $(function() {
 : <a class="el" href="classace__time_1_1LocalDate.html#a0e088edd58f0f1d1331c937832cb890b">ace_time::LocalDate</a>
 </li>
 <li>kTypeBasic
-: <a class="el" href="classace__time_1_1ZoneProcessor.html#ad909271bf494774000a5102db0a66e09">ace_time::ZoneProcessor</a>
+: <a class="el" href="classace__time_1_1BasicZoneProcessor.html#a283ca9be07f106494c22eee2729482de">ace_time::BasicZoneProcessor</a>
+</li>
+<li>kTypeError
+: <a class="el" href="classace__time_1_1TimeZone.html#aa0f8a27139793d9d4933dcc05abade6a">ace_time::TimeZone</a>
 </li>
 <li>kTypeExtended
-: <a class="el" href="classace__time_1_1ZoneProcessor.html#a0664023085b5339025836f60ed1e1bc2">ace_time::ZoneProcessor</a>
+: <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#ae0cfa8f81df6c2cab008944941153bfd">ace_time::ExtendedZoneProcessor</a>
+</li>
+<li>kTypeManual
+: <a class="el" href="classace__time_1_1TimeZone.html#af7a422f59450abac8b76aafa72d4b5c9">ace_time::TimeZone</a>
+</li>
+<li>kTypeReserved
+: <a class="el" href="classace__time_1_1TimeZone.html#ae1a31092dca112ec74475c1c1703fde0">ace_time::TimeZone</a>
 </li>
 <li>kWednesday
 : <a class="el" href="classace__time_1_1LocalDate.html#a0221ea698dae2739a8bca89e11e1cd01">ace_time::LocalDate</a>
@@ -199,85 +225,98 @@ $(function() {
 
 <h3><a id="index_l"></a>- l -</h3><ul>
 <li>letterBuf
-: <a class="el" href="structace__time_1_1extended_1_1Transition.html#aa99cc94e4e829443328a0ab65228ed2d">ace_time::extended::Transition</a>
+: <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a9609afcd25072766cff26ea70ea68422">ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</a>
 </li>
 </ul>
 
 
 <h3><a id="index_m"></a>- m -</h3><ul>
 <li>match
-: <a class="el" href="structace__time_1_1extended_1_1Transition.html#abeeaebbe5515869406cf144f1cc68b1d">ace_time::extended::Transition</a>
+: <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a0cbe6e4081cd49fc1e730a5a05275d84">ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</a>
 </li>
 <li>month
-: <a class="el" href="structace__time_1_1basic_1_1Transition.html#a72c6b83ffa20cefe2a4fbba806cfd89e">ace_time::basic::Transition</a>
+: <a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#a10415486cabd71d413f6ff942abb938b">ace_time::basic::TransitionTemplate&lt; ZIB, ZEB, ZPB, ZRB &gt;</a>
 </li>
-<li>mZoneInfo
-: <a class="el" href="classace__time_1_1TimeZone.html#a46df4a9a5e825a3015b2b8953bd57462">ace_time::TimeZone</a>
+<li>mZoneKey
+: <a class="el" href="classace__time_1_1TimeZone.html#a8eafcad4aa772eb9ea6cbee9ba7110d8">ace_time::TimeZone</a>
 </li>
 <li>mZoneProcessor
 : <a class="el" href="classace__time_1_1TimeZone.html#a3380618145722bb6a76108db95153e42">ace_time::TimeZone</a>
 </li>
-<li>mZoneProcessorCache
-: <a class="el" href="classace__time_1_1TimeZone.html#a3ab324046539f8a331b143b47e5eb434">ace_time::TimeZone</a>
+</ul>
+
+
+<h3><a id="index_n"></a>- n -</h3><ul>
+<li>numFragments
+: <a class="el" href="structace__time_1_1internal_1_1ZoneContext.html#a3a6d2f66b0d5d7c2745e8924c851101d">ace_time::internal::ZoneContext</a>
 </li>
 </ul>
 
 
 <h3><a id="index_o"></a>- o -</h3><ul>
 <li>offsetMinutes
-: <a class="el" href="structace__time_1_1basic_1_1Transition.html#a124381c8110113623dfa676885ff4331">ace_time::basic::Transition</a>
-, <a class="el" href="structace__time_1_1extended_1_1Transition.html#a087a733dd46c922bc47780aba66e36c3">ace_time::extended::Transition</a>
+: <a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#aa5921648ab30c46ac806db1913866481">ace_time::basic::TransitionTemplate&lt; ZIB, ZEB, ZPB, ZRB &gt;</a>
+, <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a74c3bdbaa5e0a4a8e7e483bae29387fb">ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</a>
 </li>
 <li>originalTransitionTime
-: <a class="el" href="structace__time_1_1extended_1_1Transition.html#a5412a754b542c77797fa6e5906505d03">ace_time::extended::Transition</a>
+: <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#aa37ca4ac7cf1c50b037c7223a7dda372">ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</a>
 </li>
 </ul>
 
 
 <h3><a id="index_r"></a>- r -</h3><ul>
 <li>rule
-: <a class="el" href="structace__time_1_1basic_1_1Transition.html#ad70ac2546926652bd3fa20cb52d72d16">ace_time::basic::Transition</a>
-, <a class="el" href="structace__time_1_1extended_1_1Transition.html#a8ee7fffb5ccd09ad74658712d0782347">ace_time::extended::Transition</a>
+: <a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#a2ce8f0d17f189a25a6f80e9107edb239">ace_time::basic::TransitionTemplate&lt; ZIB, ZEB, ZPB, ZRB &gt;</a>
+, <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a08e0996372e9c0c80fc60e9a5ceff41e">ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</a>
 </li>
 </ul>
 
 
 <h3><a id="index_s"></a>- s -</h3><ul>
 <li>startDateTime
-: <a class="el" href="structace__time_1_1extended_1_1Transition.html#aa02b144398b9faa503f3d3677e411b8b">ace_time::extended::Transition</a>
-, <a class="el" href="structace__time_1_1extended_1_1ZoneMatch.html#aa28c802edb9fbfca7decac19b5e316b0">ace_time::extended::ZoneMatch</a>
+: <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#acf25fdb69df5d5f91c856f9e805c3792">ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</a>
+, <a class="el" href="structace__time_1_1extended_1_1ZoneMatchTemplate.html#afd34b02ce42d9000ceea2328342740fc">ace_time::extended::ZoneMatchTemplate&lt; ZEB &gt;</a>
 </li>
 <li>startEpochSeconds
-: <a class="el" href="structace__time_1_1basic_1_1Transition.html#a51b6a6da0be1647e1fa9702270beebca">ace_time::basic::Transition</a>
-, <a class="el" href="structace__time_1_1extended_1_1Transition.html#a455d7d971489040388fb4750d2b93939">ace_time::extended::Transition</a>
+: <a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#a2a6fa21f53305bb789f0fa98c68db62f">ace_time::basic::TransitionTemplate&lt; ZIB, ZEB, ZPB, ZRB &gt;</a>
+, <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a490879be0a08acbf211c0a943d99c36e">ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</a>
+</li>
+<li>startYear
+: <a class="el" href="structace__time_1_1internal_1_1ZoneContext.html#a7859ffdc83bb5269bd265079fcde20e8">ace_time::internal::ZoneContext</a>
 </li>
 </ul>
 
 
 <h3><a id="index_t"></a>- t -</h3><ul>
 <li>transitionTime
-: <a class="el" href="structace__time_1_1extended_1_1Transition.html#a921304f2d1a1e7ffcaabd6d3c9f8e1b6">ace_time::extended::Transition</a>
+: <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a34c175a369df6664710109bdb7643965">ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</a>
 </li>
 <li>transitionTimeS
-: <a class="el" href="structace__time_1_1extended_1_1Transition.html#afef501c91a4b3c8284cac2bb282380ce">ace_time::extended::Transition</a>
+: <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a505dc28a40e4b8062531e8bbde8d2a39">ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</a>
 </li>
 <li>transitionTimeU
-: <a class="el" href="structace__time_1_1extended_1_1Transition.html#af647be5804c1372e56fb8520ef673be0">ace_time::extended::Transition</a>
+: <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a9a894c82760a54455f1b2aa1aa179f8c">ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</a>
+</li>
+<li>tzVersion
+: <a class="el" href="structace__time_1_1internal_1_1ZoneContext.html#ad7d26b18392f5c5e70ded256953dd23d">ace_time::internal::ZoneContext</a>
 </li>
 </ul>
 
 
 <h3><a id="index_u"></a>- u -</h3><ul>
 <li>untilDateTime
-: <a class="el" href="structace__time_1_1extended_1_1Transition.html#ac63fcc948ca1e8157bb93ade38c26003">ace_time::extended::Transition</a>
-, <a class="el" href="structace__time_1_1extended_1_1ZoneMatch.html#adb5aada25ad9a3768d4bde754b3f4cca">ace_time::extended::ZoneMatch</a>
+: <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a526439328e2769dc07b3293d368b555e">ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</a>
+, <a class="el" href="structace__time_1_1extended_1_1ZoneMatchTemplate.html#a306ff3c99ca80b1b8e0644943852e5ff">ace_time::extended::ZoneMatchTemplate&lt; ZEB &gt;</a>
+</li>
+<li>untilYear
+: <a class="el" href="structace__time_1_1internal_1_1ZoneContext.html#a766f3740d801f4cad83cd955b7489a02">ace_time::internal::ZoneContext</a>
 </li>
 </ul>
 
 
 <h3><a id="index_y"></a>- y -</h3><ul>
 <li>yearTiny
-: <a class="el" href="structace__time_1_1basic_1_1Transition.html#a81474f9806382bfa270e319c58a68a95">ace_time::basic::Transition</a>
+: <a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#a88b323cadf6b08c8978da780365d94a6">ace_time::basic::TransitionTemplate&lt; ZIB, ZEB, ZPB, ZRB &gt;</a>
 </li>
 </ul>
 

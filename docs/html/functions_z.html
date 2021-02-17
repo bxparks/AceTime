@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.6</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -69,17 +69,28 @@ $(function() {
 <li>ZonedDateTime()
 : <a class="el" href="classace__time_1_1ZonedDateTime.html#acd0b9c37aa77071b6c4f5230f8f32caf">ace_time::ZonedDateTime</a>
 </li>
-<li>zoneId
-: <a class="el" href="structace__time_1_1TimeZoneData.html#a33cee3c6e0a13796bfc9bad62f18d567">ace_time::TimeZoneData</a>
+<li>zoneId()
+: <a class="el" href="classace__time_1_1BasicZone.html#a360efba115e043ad28c69511f229454d">ace_time::BasicZone</a>
+, <a class="el" href="classace__time_1_1ExtendedZone.html#a27bd334749849e8bc8bf56a2c47a5d61">ace_time::ExtendedZone</a>
+, <a class="el" href="structace__time_1_1TimeZoneData.html#a33cee3c6e0a13796bfc9bad62f18d567">ace_time::TimeZoneData</a>
 </li>
 <li>ZoneManagerImpl()
-: <a class="el" href="classace__time_1_1ZoneManagerImpl.html#a353fe3d293f5d462b4de4067f399f38b">ace_time::ZoneManagerImpl&lt; ZI, ZR, ZSC &gt;</a>
+: <a class="el" href="classace__time_1_1ZoneManagerImpl.html#ae79c8da2a4e1849372c71c234da95c3f">ace_time::ZoneManagerImpl&lt; ZI, ZRR, LE, LRR, ZP, ZPC &gt;</a>
+</li>
+<li>ZoneMatch
+: <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#acd0d2351f8ada53588ac6570d02b4dae">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
 </li>
 <li>ZoneProcessor()
 : <a class="el" href="classace__time_1_1ZoneProcessor.html#a1b45f4d91195b4dfc63bbd4e4e3acb60">ace_time::ZoneProcessor</a>
 </li>
-<li>ZoneRegistrar()
-: <a class="el" href="classace__time_1_1ZoneRegistrar.html#a68035e6214ee58cc57d611bf288684c6">ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB &gt;</a>
+<li>ZoneRegistrarTemplate()
+: <a class="el" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af4ac130d31cce28daf8770fce4a93450">ace_time::internal::ZoneRegistrarTemplate&lt; ZI, ZIB, ZRGB &gt;</a>
+</li>
+<li>zoneRegistrySize()
+: <a class="el" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">ace_time::internal::ZoneRegistrarTemplate&lt; ZI, ZIB, ZRGB &gt;</a>
+, <a class="el" href="classace__time_1_1ManualZoneManager.html#a6a725c1fb1948219d202aa1b532a3fa8">ace_time::ManualZoneManager</a>
+, <a class="el" href="classace__time_1_1ZoneManager.html#a2e6f6221b31f64dd2583f92453509dbb">ace_time::ZoneManager</a>
+, <a class="el" href="classace__time_1_1ZoneManagerImpl.html#ade0c73e12c6a54a000fb263328671b1a">ace_time::ZoneManagerImpl&lt; ZI, ZRR, LE, LRR, ZP, ZPC &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->

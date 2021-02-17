@@ -1,5 +1,0 @@
-<map id="ace_time::basic::Transition" name="ace_time::basic::Transition">
-<area shape="rect" id="node1" title="Data structure that defines the start of a specific UTC offset as described by the matching ZoneEra a..." alt="" coords="112,109,307,136"/>
-<area shape="rect" id="node2" href="$classace__time_1_1basic_1_1ZoneRuleBroker.html" title="Data broker for accessing ZoneRule." alt="" coords="5,5,200,47"/>
-<area shape="rect" id="node3" href="$classace__time_1_1basic_1_1ZoneEraBroker.html" title="Data broker for accessing ZoneEra." alt="" coords="224,5,411,47"/>
-</map>

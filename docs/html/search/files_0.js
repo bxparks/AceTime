@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['brokers_2eh_295',['Brokers.h',['../Brokers_8h.html',1,'']]]
+  ['basicbrokers_2eh_351',['BasicBrokers.h',['../BasicBrokers_8h.html',1,'']]],
+  ['brokercommon_2eh_352',['BrokerCommon.h',['../BrokerCommon_8h.html',1,'']]]
 ];

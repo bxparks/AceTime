@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.6</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -78,78 +78,55 @@ $(function() {
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Arduino.h&gt;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;AceCommon.h&gt;</span> <span class="comment">// KString</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;BasicZone.h&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using</span> ace_common::KString;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#if ACE_TIME_USE_PROGMEM</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">void</span> BasicZone::printNameTo(Print&amp; printer)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span>* name = (<span class="keyword">const</span> __FlashStringHelper*) mZoneInfoBroker.name();</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <span class="keyword">const</span> basic::ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  KString kname(name, zoneContext-&gt;fragments, zoneContext-&gt;numFragments);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  kname.printTo(printer);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keywordtype">void</span> BasicZone::printShortNameTo(Print&amp; printer)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span>* name = mZoneInfoBroker.name();</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span>* shortName = (<span class="keyword">const</span> __FlashStringHelper*) findShortName(name);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  printer.print(shortName);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span>* BasicZone::findShortName(<span class="keyword">const</span> <span class="keywordtype">char</span>* name) {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <span class="keywordtype">size_t</span> len = strlen_P(name);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span>* begin = name + len;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keywordtype">bool</span> separatorFound = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keywordflow">while</span> (len--) {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    begin--;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">char</span> c = pgm_read_byte(begin);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;/&#39;</span> || (0 &lt; c &amp;&amp; c &lt; 32)) {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      separatorFound = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    }</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  }</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span> (separatorFound) begin++;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">return</span> begin;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="BrokerCommon_8h.html">internal/BrokerCommon.h</a>&quot;</span> <span class="comment">// findShortName()</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;BasicZone.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using</span> ace_common::KString;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">using</span> ace_time::internal::findShortName;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1internal_1_1ZoneContext.html">ace_time::internal::ZoneContext</a>;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#if ACE_TIME_USE_PROGMEM</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZone.html#ae0f849d7c5382ab766e7aeb536b1b6e0">   19</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classace__time_1_1BasicZone.html#ae0f849d7c5382ab766e7aeb536b1b6e0">BasicZone::printNameTo</a>(Print&amp; printer)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keyword">const</span> __FlashStringHelper* name = mZoneInfoBroker.name();</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keyword">const</span> <a class="code" href="structace__time_1_1internal_1_1ZoneContext.html">ZoneContext</a>* zoneContext = mZoneInfoBroker.zoneContext();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  KString kname(name, zoneContext-&gt;<a class="code" href="structace__time_1_1internal_1_1ZoneContext.html#a96b167f783962436b6c1b78f0924a46e">fragments</a>, zoneContext-&gt;<a class="code" href="structace__time_1_1internal_1_1ZoneContext.html#a3a6d2f66b0d5d7c2745e8924c851101d">numFragments</a>);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  kname.printTo(printer);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZone.html#adf8e238a8c79d6a46c40f0bd36a6eb23">   26</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classace__time_1_1BasicZone.html#adf8e238a8c79d6a46c40f0bd36a6eb23">BasicZone::printShortNameTo</a>(Print&amp; printer)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keyword">const</span> __FlashStringHelper* name = mZoneInfoBroker.name();</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="keyword">const</span> __FlashStringHelper* shortName = findShortName(name);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  printer.print(shortName);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">void</span> <a class="code" href="classace__time_1_1BasicZone.html#ae0f849d7c5382ab766e7aeb536b1b6e0">BasicZone::printNameTo</a>(Print&amp; printer)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span>* name = mZoneInfoBroker.name();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="keyword">const</span> <a class="code" href="structace__time_1_1internal_1_1ZoneContext.html">ZoneContext</a>* zoneContext = mZoneInfoBroker.zoneContext();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  KString kname(name, zoneContext-&gt;<a class="code" href="structace__time_1_1internal_1_1ZoneContext.html#a96b167f783962436b6c1b78f0924a46e">fragments</a>, zoneContext-&gt;<a class="code" href="structace__time_1_1internal_1_1ZoneContext.html#a3a6d2f66b0d5d7c2745e8924c851101d">numFragments</a>);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  kname.printTo(printer);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordtype">void</span> <a class="code" href="classace__time_1_1BasicZone.html#adf8e238a8c79d6a46c40f0bd36a6eb23">BasicZone::printShortNameTo</a>(Print&amp; printer)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span>* name = mZoneInfoBroker.name();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span>* shortName = findShortName(name);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  printer.print(shortName);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keywordtype">void</span> BasicZone::printNameTo(Print&amp; printer)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span>* name = mZoneInfoBroker.name();</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keyword">const</span> basic::ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  KString kname(name, zoneContext-&gt;fragments, zoneContext-&gt;numFragments);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  kname.printTo(printer);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keywordtype">void</span> BasicZone::printShortNameTo(Print&amp; printer)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span>* name = mZoneInfoBroker.name();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span>* shortName = findShortName(name);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  printer.print(shortName);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span>* BasicZone::findShortName(<span class="keyword">const</span> <span class="keywordtype">char</span>* name) {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordtype">size_t</span> len = strlen(name);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span>* begin = name + len;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keywordtype">bool</span> separatorFound = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keywordflow">while</span> (len--) {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    begin--;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">char</span> c = *begin;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;/&#39;</span> || (0 &lt; c &amp;&amp; c &lt; 32)) {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      separatorFound = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <span class="keywordflow">if</span> (separatorFound) begin++;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="keywordflow">return</span> begin;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#endif // ACE_TIME_USE_PROGMEM</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;} <span class="comment">// ace_time</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif // ACE_TIME_USE_PROGMEM</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;} <span class="comment">// ace_time</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aBrokerCommon_8h_html"><div class="ttname"><a href="BrokerCommon_8h.html">BrokerCommon.h</a></div></div>
+<div class="ttc" id="aclassace__time_1_1BasicZone_html_ae0f849d7c5382ab766e7aeb536b1b6e0"><div class="ttname"><a href="classace__time_1_1BasicZone.html#ae0f849d7c5382ab766e7aeb536b1b6e0">ace_time::BasicZone::printNameTo</a></div><div class="ttdeci">void printNameTo(Print &amp;printer) const</div><div class="ttdoc">Print the full zone name to printer.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8cpp_source.html#l00019">BasicZone.cpp:19</a></div></div>
+<div class="ttc" id="astructace__time_1_1internal_1_1ZoneContext_html"><div class="ttname"><a href="structace__time_1_1internal_1_1ZoneContext.html">ace_time::internal::ZoneContext</a></div><div class="ttdoc">Metadata about the zone database.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneContext_8h_source.html#l00016">ZoneContext.h:16</a></div></div>
+<div class="ttc" id="aclassace__time_1_1BasicZone_html_adf8e238a8c79d6a46c40f0bd36a6eb23"><div class="ttname"><a href="classace__time_1_1BasicZone.html#adf8e238a8c79d6a46c40f0bd36a6eb23">ace_time::BasicZone::printShortNameTo</a></div><div class="ttdeci">void printShortNameTo(Print &amp;printer) const</div><div class="ttdoc">Print the short zone to the printer.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8cpp_source.html#l00026">BasicZone.cpp:26</a></div></div>
+<div class="ttc" id="astructace__time_1_1internal_1_1ZoneContext_html_a96b167f783962436b6c1b78f0924a46e"><div class="ttname"><a href="structace__time_1_1internal_1_1ZoneContext.html#a96b167f783962436b6c1b78f0924a46e">ace_time::internal::ZoneContext::fragments</a></div><div class="ttdeci">const char *const  * fragments</div><div class="ttdoc">Zone Name fragment list.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneContext_8h_source.html#l00047">ZoneContext.h:47</a></div></div>
+<div class="ttc" id="astructace__time_1_1internal_1_1ZoneContext_html_a3a6d2f66b0d5d7c2745e8924c851101d"><div class="ttname"><a href="structace__time_1_1internal_1_1ZoneContext.html#a3a6d2f66b0d5d7c2745e8924c851101d">ace_time::internal::ZoneContext::numFragments</a></div><div class="ttdeci">uint8_t numFragments</div><div class="ttdoc">Number of fragments.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneContext_8h_source.html#l00044">ZoneContext.h:44</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

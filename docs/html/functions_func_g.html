@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.6</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -67,14 +67,14 @@ $(function() {
 
 <h3><a id="index_g"></a>- g -</h3><ul>
 <li>getAbbrev()
-: <a class="el" href="classace__time_1_1BasicZoneProcessor.html#a1e9b2923af0d11dbe0158bce59606534">ace_time::BasicZoneProcessor</a>
-, <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#a7cd5f77f668db3bee9b83b23747021ba">ace_time::ExtendedZoneProcessor</a>
+: <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#ad531a7fd536501dcaaddd95f294d70e6">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
+, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4aa2f35e52d2224225af31bc7d9c08cf">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
 , <a class="el" href="classace__time_1_1TimeZone.html#a44106abad48466a38794f19d2fc6dad0">ace_time::TimeZone</a>
 , <a class="el" href="classace__time_1_1ZoneProcessor.html#aa080366d78d5b8d8cc56915857e49ddd">ace_time::ZoneProcessor</a>
 </li>
 <li>getDeltaOffset()
-: <a class="el" href="classace__time_1_1BasicZoneProcessor.html#ad46fed45e834e06bda00c12c1a322c59">ace_time::BasicZoneProcessor</a>
-, <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#aafc14ecd028eb05537ec2da9c3e51ddd">ace_time::ExtendedZoneProcessor</a>
+: <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a1832a04486d8ef551bc5867b20776ddb">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
+, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a99490e33fef641ff630a14a8cbfe2249">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
 , <a class="el" href="classace__time_1_1TimeZone.html#a0a06c028ece8f167e80e003c2bb1c257">ace_time::TimeZone</a>
 , <a class="el" href="classace__time_1_1ZoneProcessor.html#ac6c4abe6e32c646228cd667114dc81de">ace_time::ZoneProcessor</a>
 </li>
@@ -82,13 +82,19 @@ $(function() {
 : <a class="el" href="classace__time_1_1TimeZone.html#aab84a1543135827889c736eb96298fb4">ace_time::TimeZone</a>
 </li>
 <li>getFreeAgent()
-: <a class="el" href="classace__time_1_1extended_1_1TransitionStorage.html#a5db08dce4ba8cbf103b0a3e6c7674d12">ace_time::extended::TransitionStorage&lt; SIZE &gt;</a>
+: <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a447f3b08c7aff5b53129076487ab85c6">ace_time::extended::TransitionStorageTemplate&lt; SIZE, ZEB, ZPB, ZRB &gt;</a>
 </li>
 <li>getHighWater()
-: <a class="el" href="classace__time_1_1extended_1_1TransitionStorage.html#ab9521cf57f05a1db8bc8d7b6dc17533b">ace_time::extended::TransitionStorage&lt; SIZE &gt;</a>
+: <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a38d36c8647b7b71f7c2cfcbb4e5cb0f4">ace_time::extended::TransitionStorageTemplate&lt; SIZE, ZEB, ZPB, ZRB &gt;</a>
 </li>
 <li>getLastSyncTime()
 : <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a0a18e2aa66cb889e64579da2e8dcdd5d">ace_time::clock::SystemClock</a>
+</li>
+<li>getLinkEntryForId()
+: <a class="el" href="classace__time_1_1internal_1_1LinkRegistrarTemplate.html#a1df370af6f56b6a3e1ec15abe7351547">ace_time::internal::LinkRegistrarTemplate&lt; LE, LEB, LRGB &gt;</a>
+</li>
+<li>getLinkEntryForIndex()
+: <a class="el" href="classace__time_1_1internal_1_1LinkRegistrarTemplate.html#a1a118ae24f3a8d78b902fd715fac667c">ace_time::internal::LinkRegistrarTemplate&lt; LE, LEB, LRGB &gt;</a>
 </li>
 <li>getNow()
 : <a class="el" href="classace__time_1_1clock_1_1Clock.html#a018eaa1936dd0750eb2098e1c6ada9e4">ace_time::clock::Clock</a>
@@ -97,54 +103,47 @@ $(function() {
 , <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acdb29aa7095759101a9f33b79f863144">ace_time::clock::SystemClock</a>
 </li>
 <li>getOffsetDateTime()
-: <a class="el" href="classace__time_1_1BasicZoneProcessor.html#a74c95679a7a6b749e5c561b289fe5896">ace_time::BasicZoneProcessor</a>
-, <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#a4f4b9cbbdbcbe9a93908cb2d5e8c3b0f">ace_time::ExtendedZoneProcessor</a>
+: <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#ad9544ada0ee918048edddca96c44e28c">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
+, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a7434e1a3be298b41ef82e7385289426a">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
 , <a class="el" href="classace__time_1_1TimeZone.html#a542c6ccaf3b95419ef94a3709bee9197">ace_time::TimeZone</a>
 , <a class="el" href="classace__time_1_1ZoneProcessor.html#abb743cef9e4b5c69594f8f121da087ad">ace_time::ZoneProcessor</a>
 </li>
 <li>getPrior()
-: <a class="el" href="classace__time_1_1extended_1_1TransitionStorage.html#a14f1fd2101a77348e9b5378212687bd1">ace_time::extended::TransitionStorage&lt; SIZE &gt;</a>
+: <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a809ac80391c9cc919b3d9c9e054964ad">ace_time::extended::TransitionStorageTemplate&lt; SIZE, ZEB, ZPB, ZRB &gt;</a>
 </li>
 <li>getStdOffset()
 : <a class="el" href="classace__time_1_1TimeZone.html#af4f490577af626bb2800ad62ac861668">ace_time::TimeZone</a>
 </li>
 <li>getTransitionHighWater()
-: <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#a82f19ffb0c4e45fcbf466e65a4a2b874">ace_time::ExtendedZoneProcessor</a>
+: <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a7be6b145ae700170215b2ab390381be9">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
 </li>
 <li>getType()
 : <a class="el" href="classace__time_1_1TimeZone.html#a83e37a197999c7c9890fde96b741f6c6">ace_time::TimeZone</a>
 , <a class="el" href="classace__time_1_1ZoneProcessor.html#a059a9ffeab7e8885e6abe0e0abeb9bde">ace_time::ZoneProcessor</a>
-, <a class="el" href="classace__time_1_1ZoneProcessorCache.html#afc9d81c679edbbc9cd0c11831cb3af68">ace_time::ZoneProcessorCache</a>
 </li>
 <li>getUtcOffset()
-: <a class="el" href="classace__time_1_1BasicZoneProcessor.html#a5da5295e60026056dd5ba8b42e1950f5">ace_time::BasicZoneProcessor</a>
-, <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#a131d77cc5cda473d176ca76241ef02bf">ace_time::ExtendedZoneProcessor</a>
+: <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a8e288a8d3c89cf36b4b652a5b733edfa">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
+, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a9fc639d9259fcf8cd7580555bf57d436">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
 , <a class="el" href="classace__time_1_1TimeZone.html#a8d7c1a917c32520988049f6f03e0bf0f">ace_time::TimeZone</a>
 , <a class="el" href="classace__time_1_1ZoneProcessor.html#a606e678c83ced5f83920a5d517728b62">ace_time::ZoneProcessor</a>
 </li>
 <li>getZoneId()
-: <a class="el" href="classace__time_1_1BasicZoneProcessor.html#a17dd5f40899e12689bf7899af8baaf6c">ace_time::BasicZoneProcessor</a>
-, <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#adedc2ace077d7e9808531e86402d33be">ace_time::ExtendedZoneProcessor</a>
+: <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a170c16b0e0e6c56fe7df81ba06519ce9">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
+, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a01102daf0e54c23f9409db03e32f507a">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
 , <a class="el" href="classace__time_1_1TimeZone.html#a308954a7d1e74a155a821c3261a287ec">ace_time::TimeZone</a>
 , <a class="el" href="classace__time_1_1ZoneProcessor.html#a76f48e7b38f91503b1e522bee11dbd49">ace_time::ZoneProcessor</a>
 </li>
-<li>getZoneInfo()
-: <a class="el" href="classace__time_1_1BasicZoneProcessor.html#a0f6e649650dfdc86e953baae66d7e723">ace_time::BasicZoneProcessor</a>
-, <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#abd66b9ff4a6488e2484037b97a7c7a53">ace_time::ExtendedZoneProcessor</a>
-, <a class="el" href="classace__time_1_1ZoneProcessor.html#a0a4073493ffca9b14a4e60551c545c93">ace_time::ZoneProcessor</a>
-</li>
 <li>getZoneInfoForId()
-: <a class="el" href="classace__time_1_1ZoneRegistrar.html#ad0d28a8964d602569dac95fe2bcc69fa">ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB &gt;</a>
+: <a class="el" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a02efaecfa730966b632b59f51341ff79">ace_time::internal::ZoneRegistrarTemplate&lt; ZI, ZIB, ZRGB &gt;</a>
 </li>
 <li>getZoneInfoForIndex()
-: <a class="el" href="classace__time_1_1ZoneRegistrar.html#a172e6c17cea603fc6f43446b87f83713">ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB &gt;</a>
+: <a class="el" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a2bd6500ba3d946c06a929e41f7143e66">ace_time::internal::ZoneRegistrarTemplate&lt; ZI, ZIB, ZRGB &gt;</a>
 </li>
 <li>getZoneInfoForName()
-: <a class="el" href="classace__time_1_1ZoneRegistrar.html#ac26fd25ac22351f85ca0ed7cd93375fa">ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB &gt;</a>
+: <a class="el" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#adbeca9928a202d3eab537e2293963e6d">ace_time::internal::ZoneRegistrarTemplate&lt; ZI, ZIB, ZRGB &gt;</a>
 </li>
 <li>getZoneProcessor()
-: <a class="el" href="classace__time_1_1ZoneProcessorCache.html#abc5e4b261adfc0992d40d8cb3de08d33">ace_time::ZoneProcessorCache</a>
-, <a class="el" href="classace__time_1_1ZoneProcessorCacheImpl.html#a53246880e8abda6b3960404f05f2df5a">ace_time::ZoneProcessorCacheImpl&lt; SIZE, TYPE, ZS, ZI, ZIB &gt;</a>
+: <a class="el" href="classace__time_1_1ZoneProcessorCacheTemplate.html#a8bfa9e0eec7e03001f3776ad9ee1e70b">ace_time::ZoneProcessorCacheTemplate&lt; SIZE, ZP &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->

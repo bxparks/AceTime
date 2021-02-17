@@ -1,5 +1,4 @@
 <map id="ace_time::TimeZone" name="ace_time::TimeZone">
-<area shape="rect" id="node1" title="Class that describes a time zone." alt="" coords="135,95,291,121"/>
+<area shape="rect" id="node1" title="Class that describes a time zone." alt="" coords="21,95,177,121"/>
 <area shape="rect" id="node2" href="$classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes." alt="" coords="5,5,192,32"/>
-<area shape="rect" id="node3" href="$classace__time_1_1ZoneProcessorCache.html" title="Common interface to BasicZoneProcessorCache and ExtendedZoneProcessorCache." alt="" coords="216,5,443,32"/>
 </map>

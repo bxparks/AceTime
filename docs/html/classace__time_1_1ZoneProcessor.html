@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.6</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -69,7 +69,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
@@ -88,9 +87,13 @@ Inheritance diagram for ace_time::ZoneProcessor:</div>
 <div class="dyncontent">
 <div class="center"><img src="classace__time_1_1ZoneProcessor__inherit__graph.png" border="0" usemap="#ace__time_1_1ZoneProcessor_inherit__map" alt="Inheritance graph"/></div>
 <map name="ace__time_1_1ZoneProcessor_inherit__map" id="ace__time_1_1ZoneProcessor_inherit__map">
-<area shape="rect" title="Base interface for ZoneProcessor classes." alt="" coords="152,5,339,32"/>
-<area shape="rect" href="classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database." alt="" coords="5,80,227,107"/>
-<area shape="rect" href="classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database." alt="" coords="251,80,498,107"/>
+<area shape="rect" title="Base interface for ZoneProcessor classes." alt="" coords="5,137,192,164"/>
+<area shape="rect" href="classace__time_1_1BasicZoneProcessorTemplate.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database." alt="" coords="290,5,511,61"/>
+<area shape="rect" href="classace__time_1_1ExtendedZoneProcessorTemplate.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database." alt="" coords="269,86,532,127"/>
+<area shape="rect" href="classace__time_1_1BasicZoneProcessorTemplate.html" title=" " alt="" coords="253,152,548,237"/>
+<area shape="rect" href="classace__time_1_1ExtendedZoneProcessorTemplate.html" title=" " alt="" coords="240,261,561,347"/>
+<area shape="rect" href="classace__time_1_1BasicZoneProcessor.html" title="A specific implementation of BasicZoneProcessorTemplate that uses ZoneXxxBrokers which read from zone..." alt="" coords="622,181,843,208"/>
+<area shape="rect" href="classace__time_1_1ExtendedZoneProcessor.html" title="A specific implementation of ExtendedZoneProcessorTemplate that uses ZoneXxxBrokers which read from z..." alt="" coords="609,291,856,317"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -100,10 +103,6 @@ Public Member Functions</h2></td></tr>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a059a9ffeab7e8885e6abe0e0abeb9bde">getType</a> () const</td></tr>
 <tr class="memdesc:a059a9ffeab7e8885e6abe0e0abeb9bde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the kTypeXxx of the current instance. <br /></td></tr>
 <tr class="separator:a059a9ffeab7e8885e6abe0e0abeb9bde"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a4073493ffca9b14a4e60551c545c93"><td class="memItemLeft" align="right" valign="top"><a id="a0a4073493ffca9b14a4e60551c545c93"></a>
-virtual const void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a0a4073493ffca9b14a4e60551c545c93">getZoneInfo</a> () const =0</td></tr>
-<tr class="memdesc:a0a4073493ffca9b14a4e60551c545c93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the opaque zoneInfo. <br /></td></tr>
-<tr class="separator:a0a4073493ffca9b14a4e60551c545c93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76f48e7b38f91503b1e522bee11dbd49"><td class="memItemLeft" align="right" valign="top"><a id="a76f48e7b38f91503b1e522bee11dbd49"></a>
 virtual uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a76f48e7b38f91503b1e522bee11dbd49">getZoneId</a> () const =0</td></tr>
 <tr class="memdesc:a76f48e7b38f91503b1e522bee11dbd49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the unique stable zoneId. <br /></td></tr>
@@ -120,21 +119,18 @@ virtual uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 <tr class="memitem:abb743cef9e4b5c69594f8f121da087ad"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#abb743cef9e4b5c69594f8f121da087ad">getOffsetDateTime</a> (const <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> &amp;ldt) const =0</td></tr>
 <tr class="memdesc:abb743cef9e4b5c69594f8f121da087ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the best estimate of the <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and offset from UTC (timeOffset).">OffsetDateTime</a> at the given <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> for the timezone of the current <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a>.  <a href="classace__time_1_1ZoneProcessor.html#abb743cef9e4b5c69594f8f121da087ad">More...</a><br /></td></tr>
 <tr class="separator:abb743cef9e4b5c69594f8f121da087ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44fb531504b00363fdc8195519884e7f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a44fb531504b00363fdc8195519884e7f">printTo</a> (Print &amp;printer) const =0</td></tr>
-<tr class="memdesc:a44fb531504b00363fdc8195519884e7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a human-readable identifier (e.g.  <a href="classace__time_1_1ZoneProcessor.html#a44fb531504b00363fdc8195519884e7f">More...</a><br /></td></tr>
-<tr class="separator:a44fb531504b00363fdc8195519884e7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79737097b177ce998f67c5704a626b6c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a79737097b177ce998f67c5704a626b6c">printShortTo</a> (Print &amp;printer) const =0</td></tr>
-<tr class="memdesc:a79737097b177ce998f67c5704a626b6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a short human-readable identifier (e.g.  <a href="classace__time_1_1ZoneProcessor.html#a79737097b177ce998f67c5704a626b6c">More...</a><br /></td></tr>
-<tr class="separator:a79737097b177ce998f67c5704a626b6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:ad909271bf494774000a5102db0a66e09"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#ad909271bf494774000a5102db0a66e09">kTypeBasic</a> = 2</td></tr>
-<tr class="memdesc:ad909271bf494774000a5102db0a66e09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicate <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database.">BasicZoneProcessor</a>.  <a href="classace__time_1_1ZoneProcessor.html#ad909271bf494774000a5102db0a66e09">More...</a><br /></td></tr>
-<tr class="separator:ad909271bf494774000a5102db0a66e09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0664023085b5339025836f60ed1e1bc2"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a0664023085b5339025836f60ed1e1bc2">kTypeExtended</a> = 3</td></tr>
-<tr class="memdesc:a0664023085b5339025836f60ed1e1bc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicate <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database.">ExtendedZoneProcessor</a>.  <a href="classace__time_1_1ZoneProcessor.html#a0664023085b5339025836f60ed1e1bc2">More...</a><br /></td></tr>
-<tr class="separator:a0664023085b5339025836f60ed1e1bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ebdaf658f48d58a161086e21c1fc3f7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a2ebdaf658f48d58a161086e21c1fc3f7">printNameTo</a> (Print &amp;printer) const =0</td></tr>
+<tr class="memdesc:a2ebdaf658f48d58a161086e21c1fc3f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a human-readable identifier (e.g.  <a href="classace__time_1_1ZoneProcessor.html#a2ebdaf658f48d58a161086e21c1fc3f7">More...</a><br /></td></tr>
+<tr class="separator:a2ebdaf658f48d58a161086e21c1fc3f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68ba2ce6b980f73f4f673450148c2416"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a68ba2ce6b980f73f4f673450148c2416">printShortNameTo</a> (Print &amp;printer) const =0</td></tr>
+<tr class="memdesc:a68ba2ce6b980f73f4f673450148c2416"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a short human-readable identifier (e.g.  <a href="classace__time_1_1ZoneProcessor.html#a68ba2ce6b980f73f4f673450148c2416">More...</a><br /></td></tr>
+<tr class="separator:a68ba2ce6b980f73f4f673450148c2416"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af069bc08e2135e460c4442fd0be6d3e1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#af069bc08e2135e460c4442fd0be6d3e1">setZoneKey</a> (uintptr_t zoneKey)=0</td></tr>
+<tr class="memdesc:af069bc08e2135e460c4442fd0be6d3e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the opaque zoneKey of this object to a new value, reseting any internally cached information.  <a href="classace__time_1_1ZoneProcessor.html#af069bc08e2135e460c4442fd0be6d3e1">More...</a><br /></td></tr>
+<tr class="separator:af069bc08e2135e460c4442fd0be6d3e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5a25a2082ceed26ff15eb72cd1c5724"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#aa5a25a2082ceed26ff15eb72cd1c5724">equalsZoneKey</a> (uintptr_t zoneKey) const =0</td></tr>
+<tr class="memdesc:aa5a25a2082ceed26ff15eb72cd1c5724"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> is associated with the given opaque zoneKey.  <a href="classace__time_1_1ZoneProcessor.html#aa5a25a2082ceed26ff15eb72cd1c5724">More...</a><br /></td></tr>
+<tr class="separator:aa5a25a2082ceed26ff15eb72cd1c5724"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -152,26 +148,15 @@ Protected Member Functions</h2></td></tr>
 virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#aa78857884d8b64d4be4b499970d63a70">equals</a> (const <a class="el" href="classace__time_1_1ZoneProcessor.html">ZoneProcessor</a> &amp;other) const =0</td></tr>
 <tr class="memdesc:aa78857884d8b64d4be4b499970d63a70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if equal. <br /></td></tr>
 <tr class="separator:aa78857884d8b64d4be4b499970d63a70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa45972bbd4b45fb316108e0a824ca883"><td class="memItemLeft" align="right" valign="top"><a id="aa45972bbd4b45fb316108e0a824ca883"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#aa45972bbd4b45fb316108e0a824ca883">setZoneInfo</a> (const void *zoneInfo)=0</td></tr>
-<tr class="memdesc:aa45972bbd4b45fb316108e0a824ca883"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the opaque zoneInfo. <br /></td></tr>
-<tr class="separator:aa45972bbd4b45fb316108e0a824ca883"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:ae4876f974c869390351f53e5c4a4d040"><td class="memItemLeft" align="right" valign="top"><a id="ae4876f974c869390351f53e5c4a4d040"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr>
-<tr class="separator:ae4876f974c869390351f53e5c4a4d040"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f5411d4f8a2c186ec673aaac3d0c2a9"><td class="memItemLeft" align="right" valign="top"><a id="a5f5411d4f8a2c186ec673aaac3d0c2a9"></a>
+const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr>
+<tr class="separator:a5f5411d4f8a2c186ec673aaac3d0c2a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:aaf7113f0f77c7993613ed919d1ae24f4"><td class="memItemLeft" align="right" valign="top"><a id="aaf7113f0f77c7993613ed919d1ae24f4"></a>
-class&#160;</td><td class="memItemRight" valign="bottom"><b>TimeZone</b></td></tr>
-<tr class="separator:aaf7113f0f77c7993613ed919d1ae24f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7f148f891942bdd4f6d96b8c2d33012"><td class="memTemplParams" colspan="2"><a id="aa7f148f891942bdd4f6d96b8c2d33012"></a>
-template&lt;uint8_t SIZE, uint8_t TYPE, typename ZS , typename ZI , typename ZIB &gt; </td></tr>
-<tr class="memitem:aa7f148f891942bdd4f6d96b8c2d33012"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><b>ZoneProcessorCacheImpl</b></td></tr>
-<tr class="separator:aa7f148f891942bdd4f6d96b8c2d33012"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18310aa6bc6ef7fab0d8fb4708f22079"><td class="memItemLeft" align="right" valign="top"><a id="a18310aa6bc6ef7fab0d8fb4708f22079"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classace__time_1_1ZoneProcessor.html">ZoneProcessor</a> &amp;a, const <a class="el" href="classace__time_1_1ZoneProcessor.html">ZoneProcessor</a> &amp;b)</td></tr>
 <tr class="separator:a18310aa6bc6ef7fab0d8fb4708f22079"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,8 +168,39 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 <p>2) Fully implement a polymorphic class hierarchy, lifting various common methods (<a class="el" href="classace__time_1_1ZoneProcessor.html#a606e678c83ced5f83920a5d517728b62" title="Return the total UTC offset at epochSeconds, including DST offset.">getUtcOffset()</a>, <a class="el" href="classace__time_1_1ZoneProcessor.html#ac6c4abe6e32c646228cd667114dc81de" title="Return the DST delta offset at epochSeconds.">getDeltaOffset()</a>, <a class="el" href="classace__time_1_1ZoneProcessor.html#aa080366d78d5b8d8cc56915857e49ddd" title="Return the time zone abbreviation at epochSeconds.">getAbbrev()</a>) into this interface as virtual methods, then add a virtual <a class="el" href="classace__time_1_1ZoneProcessor.html#aa78857884d8b64d4be4b499970d63a70" title="Return true if equal.">equals()</a> method to implement the operator==().</p>
 <p>The problem with Option 1 is that the code for both subclasses would be compiled into the program, even if the application used only one of the subclasses. Instead I use Option 2, using a fully polymorphic class hierarchy, adding 3-4 virtual methods. When a program uses only a single subclass, only that particular subclass is included into the program. Unfortunately, this comes at the cost of forcing programs to use the virtual dispatch at runtime for some of the often-used methods. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00045">45</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00041">41</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa5a25a2082ceed26ff15eb72cd1c5724"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5a25a2082ceed26ff15eb72cd1c5724">&#9670;&nbsp;</a></span>equalsZoneKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool ace_time::ZoneProcessor::equalsZoneKey </td>
+          <td>(</td>
+          <td class="paramtype">uintptr_t&#160;</td>
+          <td class="paramname"><em>zoneKey</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return true if <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> is associated with the given opaque zoneKey. </p>
+<p>This method should be considered to be private. </p>
+
+<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a700795c7fd43f3af82727bf2a461c264">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a700795c7fd43f3af82727bf2a461c264">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a1d5077215681ac06c683f633be688fea">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a1d5077215681ac06c683f633be688fea">ace_time::BasicZoneProcessorTemplate&lt; basic::BrokerFactory, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
+
+</div>
+</div>
 <a id="aa080366d78d5b8d8cc56915857e49ddd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa080366d78d5b8d8cc56915857e49ddd">&#9670;&nbsp;</a></span>getAbbrev()</h2>
 
@@ -213,7 +229,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 <p>Returns an empty string ("") if an error occurs. The returned pointer points to a char buffer that could get overriden by subsequent method calls to this object. The pointer must not be stored permanently, it should be used as soon as possible (e.g. printed out).</p>
 <p>This is an experimental method that has not been tested thoroughly. Use with caution. </p>
 
-<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#a7cd5f77f668db3bee9b83b23747021ba">ace_time::ExtendedZoneProcessor</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessor.html#a1e9b2923af0d11dbe0158bce59606534">ace_time::BasicZoneProcessor</a>.</p>
+<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4aa2f35e52d2224225af31bc7d9c08cf">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4aa2f35e52d2224225af31bc7d9c08cf">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#ad531a7fd536501dcaaddd95f294d70e6">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#ad531a7fd536501dcaaddd95f294d70e6">ace_time::BasicZoneProcessorTemplate&lt; basic::BrokerFactory, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
 
 </div>
 </div>
@@ -244,7 +260,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 <p>Return the DST delta offset at epochSeconds. </p>
 <p>This is an experimental method that has not been tested thoroughly. Use with caution. Returns <a class="el" href="classace__time_1_1TimeOffset.html#a806d24189da02dd31a7570b0dcddc542" title="Return an error indicator.">TimeOffset::forError()</a> if an error occurs. </p>
 
-<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#aafc14ecd028eb05537ec2da9c3e51ddd">ace_time::ExtendedZoneProcessor</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessor.html#ad46fed45e834e06bda00c12c1a322c59">ace_time::BasicZoneProcessor</a>.</p>
+<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a99490e33fef641ff630a14a8cbfe2249">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a99490e33fef641ff630a14a8cbfe2249">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a1832a04486d8ef551bc5867b20776ddb">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a1832a04486d8ef551bc5867b20776ddb">ace_time::BasicZoneProcessorTemplate&lt; basic::BrokerFactory, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
 
 </div>
 </div>
@@ -275,7 +291,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 <p>Return the best estimate of the <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and offset from UTC (timeOffset).">OffsetDateTime</a> at the given <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> for the timezone of the current <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a>. </p>
 <p>Returns <a class="el" href="classace__time_1_1OffsetDateTime.html#a7212a3a5c48a938f10cbebbc41d5deeb" title="Factory method that returns an instance whose isError() is true.">OffsetDateTime::forError()</a> if an error occurs, for example, if the <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> is outside of the support date range of the underlying ZoneInfo files. </p>
 
-<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#a4f4b9cbbdbcbe9a93908cb2d5e8c3b0f">ace_time::ExtendedZoneProcessor</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessor.html#a74c95679a7a6b749e5c561b289fe5896">ace_time::BasicZoneProcessor</a>.</p>
+<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a7434e1a3be298b41ef82e7385289426a">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a7434e1a3be298b41ef82e7385289426a">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#ad9544ada0ee918048edddca96c44e28c">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#ad9544ada0ee918048edddca96c44e28c">ace_time::BasicZoneProcessorTemplate&lt; basic::BrokerFactory, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
 
 </div>
 </div>
@@ -306,12 +322,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 <p>Return the total UTC offset at epochSeconds, including DST offset. </p>
 <p>Returns <a class="el" href="classace__time_1_1TimeOffset.html#a806d24189da02dd31a7570b0dcddc542" title="Return an error indicator.">TimeOffset::forError()</a> if an error occurs. </p>
 
-<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#a131d77cc5cda473d176ca76241ef02bf">ace_time::ExtendedZoneProcessor</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessor.html#a5da5295e60026056dd5ba8b42e1950f5">ace_time::BasicZoneProcessor</a>.</p>
+<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a9fc639d9259fcf8cd7580555bf57d436">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a9fc639d9259fcf8cd7580555bf57d436">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a8e288a8d3c89cf36b4b652a5b733edfa">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a8e288a8d3c89cf36b4b652a5b733edfa">ace_time::BasicZoneProcessorTemplate&lt; basic::BrokerFactory, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a79737097b177ce998f67c5704a626b6c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79737097b177ce998f67c5704a626b6c">&#9670;&nbsp;</a></span>printShortTo()</h2>
+<a id="a2ebdaf658f48d58a161086e21c1fc3f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ebdaf658f48d58a161086e21c1fc3f7">&#9670;&nbsp;</a></span>printNameTo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -320,38 +336,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void ace_time::ZoneProcessor::printShortTo </td>
-          <td>(</td>
-          <td class="paramtype">Print &amp;&#160;</td>
-          <td class="paramname"><em>printer</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Print a short human-readable identifier (e.g. </p>
-<p>"Los_Angeles") </p>
-
-<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#ab68cb446aeb2a8097f18697abecfc80f">ace_time::ExtendedZoneProcessor</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessor.html#a4176537e82ef07950101c0d83b3a7f59">ace_time::BasicZoneProcessor</a>.</p>
-
-</div>
-</div>
-<a id="a44fb531504b00363fdc8195519884e7f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a44fb531504b00363fdc8195519884e7f">&#9670;&nbsp;</a></span>printTo()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void ace_time::ZoneProcessor::printTo </td>
+          <td class="memname">virtual void ace_time::ZoneProcessor::printNameTo </td>
           <td>(</td>
           <td class="paramtype">Print &amp;&#160;</td>
           <td class="paramname"><em>printer</em></td><td>)</td>
@@ -368,13 +353,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 <p>Print a human-readable identifier (e.g. </p>
 <p>"America/Los_Angeles"). </p>
 
-<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#ac48a94acb7028a6f2a791fe268198756">ace_time::ExtendedZoneProcessor</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessor.html#a2ffd1466b94ce686664c75c8aeea95c8">ace_time::BasicZoneProcessor</a>.</p>
+<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aefee4d3f9707a59b048619143a6d65b8">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aefee4d3f9707a59b048619143a6d65b8">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a89e7281bee80ccaab70debdb1a29c1a8">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a89e7281bee80ccaab70debdb1a29c1a8">ace_time::BasicZoneProcessorTemplate&lt; basic::BrokerFactory, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="ad909271bf494774000a5102db0a66e09"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad909271bf494774000a5102db0a66e09">&#9670;&nbsp;</a></span>kTypeBasic</h2>
+<a id="a68ba2ce6b980f73f4f673450148c2416"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68ba2ce6b980f73f4f673450148c2416">&#9670;&nbsp;</a></span>printShortNameTo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -383,25 +367,29 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const uint8_t ace_time::ZoneProcessor::kTypeBasic = 2</td>
+          <td class="memname">virtual void ace_time::ZoneProcessor::printShortNameTo </td>
+          <td>(</td>
+          <td class="paramtype">Print &amp;&#160;</td>
+          <td class="paramname"><em>printer</em></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Indicate <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database.">BasicZoneProcessor</a>. </p>
-<p>Must not be TimeZone::kTypeError (0) or TimeZone::kTypeManual (1). </p>
+<p>Print a short human-readable identifier (e.g. </p>
+<p>"Los_Angeles") </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00051">51</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a9da7621ec900dd2bf4738ef51e6ee879">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a9da7621ec900dd2bf4738ef51e6ee879">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#aabd83bcfc30eb2e1ddd1b806edf9d362">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#aabd83bcfc30eb2e1ddd1b806edf9d362">ace_time::BasicZoneProcessorTemplate&lt; basic::BrokerFactory, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a0664023085b5339025836f60ed1e1bc2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0664023085b5339025836f60ed1e1bc2">&#9670;&nbsp;</a></span>kTypeExtended</h2>
+<a id="af069bc08e2135e460c4442fd0be6d3e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af069bc08e2135e460c4442fd0be6d3e1">&#9670;&nbsp;</a></span>setZoneKey()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -410,20 +398,25 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const uint8_t ace_time::ZoneProcessor::kTypeExtended = 3</td>
+          <td class="memname">virtual void ace_time::ZoneProcessor::setZoneKey </td>
+          <td>(</td>
+          <td class="paramtype">uintptr_t&#160;</td>
+          <td class="paramname"><em>zoneKey</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Indicate <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database.">ExtendedZoneProcessor</a>. </p>
-<p>Must not be TimeZone::kTypeError (0) or TimeZone::kTypeManual (1). </p>
+<p>Set the opaque zoneKey of this object to a new value, reseting any internally cached information. </p>
+<p>Normally a <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> object is associated with a single <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a>. However, the ZoneProcessorCache will sometimes "take over" a <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> from another <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> using this method. The other <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> will take back control of the <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> if needed. To avoid bouncing the ownership of this object repeatedly, the ZoneProcessorCache should allocate enough ZoneProcessors to handle the usage pattern.</p>
+<p>This method should be considered to be private, to be used only by the <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> and ZoneProcessorCache classes. I had to make it public because it got too ugly to maintain the <code>friend</code> list in C++. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00057">57</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#adc346e63c3a99b9b8ef8908cf58c4ddd">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#adc346e63c3a99b9b8ef8908cf58c4ddd">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a8d4ce541670402a2dbb473e7fe6222d4">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a8d4ce541670402a2dbb473e7fe6222d4">ace_time::BasicZoneProcessorTemplate&lt; basic::BrokerFactory, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
 
 </div>
 </div>

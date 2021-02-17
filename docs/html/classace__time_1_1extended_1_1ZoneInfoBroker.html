@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.6</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -78,50 +78,101 @@ $(function() {
 <p>Data broker for accessing ZoneInfo.  
  <a href="classace__time_1_1extended_1_1ZoneInfoBroker.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="Brokers_8h_source.html">Brokers.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="ExtendedBrokers_8h_source.html">ExtendedBrokers.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abd9091ca2659cd5585fec2e576a0e36d"><td class="memItemLeft" align="right" valign="top"><a id="abd9091ca2659cd5585fec2e576a0e36d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ZoneInfoBroker</b> (const ZoneInfo *zoneInfo)</td></tr>
-<tr class="separator:abd9091ca2659cd5585fec2e576a0e36d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad95253cb7c218675cc3c8ef34986d9a7"><td class="memItemLeft" align="right" valign="top"><a id="ad95253cb7c218675cc3c8ef34986d9a7"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ZoneInfoBroker</b> (const ZoneInfo *zoneInfo=nullptr)</td></tr>
+<tr class="separator:ad95253cb7c218675cc3c8ef34986d9a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4db3e95e7f5523b9dd11e9ca81a253a9"><td class="memItemLeft" align="right" valign="top"><a id="a4db3e95e7f5523b9dd11e9ca81a253a9"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>ZoneInfoBroker</b> (const <a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html">ZoneInfoBroker</a> &amp;)=default</td></tr>
 <tr class="separator:a4db3e95e7f5523b9dd11e9ca81a253a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34f34bec8850a3722ae298c7188ca2a7"><td class="memItemLeft" align="right" valign="top"><a id="a34f34bec8850a3722ae298c7188ca2a7"></a>
 <a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html">ZoneInfoBroker</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html">ZoneInfoBroker</a> &amp;)=default</td></tr>
 <tr class="separator:a34f34bec8850a3722ae298c7188ca2a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac129e025338ec311c59dca66a9b83182"><td class="memItemLeft" align="right" valign="top"><a id="ac129e025338ec311c59dca66a9b83182"></a>
-const ZoneInfo *&#160;</td><td class="memItemRight" valign="bottom"><b>zoneInfo</b> () const</td></tr>
-<tr class="separator:ac129e025338ec311c59dca66a9b83182"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5fb77d4a4442508bc9c2b3bca704b7e5"><td class="memItemLeft" align="right" valign="top"><a id="a5fb77d4a4442508bc9c2b3bca704b7e5"></a>
-const ZoneContext *&#160;</td><td class="memItemRight" valign="bottom"><b>zoneContext</b> () const</td></tr>
-<tr class="separator:a5fb77d4a4442508bc9c2b3bca704b7e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4002a4f8aecea0ba44dddfd670bfad9"><td class="memItemLeft" align="right" valign="top"><a id="aa4002a4f8aecea0ba44dddfd670bfad9"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () const</td></tr>
-<tr class="separator:aa4002a4f8aecea0ba44dddfd670bfad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a52e7b595e6787ab9eb8e2451963bfd"><td class="memItemLeft" align="right" valign="top"><a id="a7a52e7b595e6787ab9eb8e2451963bfd"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>equals</b> (uintptr_t zoneInfo) const</td></tr>
+<tr class="separator:a7a52e7b595e6787ab9eb8e2451963bfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6deb28dc287ae9ab7aee98ad7bcb241"><td class="memItemLeft" align="right" valign="top"><a id="aa6deb28dc287ae9ab7aee98ad7bcb241"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>equals</b> (const <a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html">ZoneInfoBroker</a> &amp;zoneInfoBroker) const</td></tr>
+<tr class="separator:aa6deb28dc287ae9ab7aee98ad7bcb241"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3041563ccdb5a69d7d9615f6bbd229db"><td class="memItemLeft" align="right" valign="top"><a id="a3041563ccdb5a69d7d9615f6bbd229db"></a>
+const <a class="el" href="structace__time_1_1internal_1_1ZoneContext.html">internal::ZoneContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>zoneContext</b> () const</td></tr>
+<tr class="separator:a3041563ccdb5a69d7d9615f6bbd229db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6042a7627590f0a108a8781e454a2353"><td class="memItemLeft" align="right" valign="top"><a id="a6042a7627590f0a108a8781e454a2353"></a>
+const __FlashStringHelper *&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () const</td></tr>
+<tr class="separator:a6042a7627590f0a108a8781e454a2353"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb34c0055a1d9f8127a64a8d9e0277aa"><td class="memItemLeft" align="right" valign="top"><a id="abb34c0055a1d9f8127a64a8d9e0277aa"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>zoneId</b> () const</td></tr>
 <tr class="separator:abb34c0055a1d9f8127a64a8d9e0277aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af476b6d2fd8af140c06a8b1853dbd4d2"><td class="memItemLeft" align="right" valign="top"><a id="af476b6d2fd8af140c06a8b1853dbd4d2"></a>
-int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>startYear</b> () const</td></tr>
-<tr class="separator:af476b6d2fd8af140c06a8b1853dbd4d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb1cabf6ee6838cfa93f185ef0ff5944"><td class="memItemLeft" align="right" valign="top"><a id="afb1cabf6ee6838cfa93f185ef0ff5944"></a>
-int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>untilYear</b> () const</td></tr>
-<tr class="separator:afb1cabf6ee6838cfa93f185ef0ff5944"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f0fc7d3600fa9a0d082626f3560ce12"><td class="memItemLeft" align="right" valign="top"><a id="a7f0fc7d3600fa9a0d082626f3560ce12"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>numEras</b> () const</td></tr>
 <tr class="separator:a7f0fc7d3600fa9a0d082626f3560ce12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f04eeb76ca445d100020647855578de"><td class="memItemLeft" align="right" valign="top"><a id="a7f04eeb76ca445d100020647855578de"></a>
 const <a class="el" href="classace__time_1_1extended_1_1ZoneEraBroker.html">ZoneEraBroker</a>&#160;</td><td class="memItemRight" valign="bottom"><b>era</b> (uint8_t i) const</td></tr>
 <tr class="separator:a7f04eeb76ca445d100020647855578de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7956cee7a17cfe2b315b18f85a84a23f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html#a7956cee7a17cfe2b315b18f85a84a23f">printNameTo</a> (Print &amp;printer) const</td></tr>
+<tr class="memdesc:a7956cee7a17cfe2b315b18f85a84a23f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a human-readable identifier (e.g.  <a href="classace__time_1_1extended_1_1ZoneInfoBroker.html#a7956cee7a17cfe2b315b18f85a84a23f">More...</a><br /></td></tr>
+<tr class="separator:a7956cee7a17cfe2b315b18f85a84a23f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9378dea6840ae2cdea4076f18112b29b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html#a9378dea6840ae2cdea4076f18112b29b">printShortNameTo</a> (Print &amp;printer) const</td></tr>
+<tr class="memdesc:a9378dea6840ae2cdea4076f18112b29b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a short human-readable identifier (e.g.  <a href="classace__time_1_1extended_1_1ZoneInfoBroker.html#a9378dea6840ae2cdea4076f18112b29b">More...</a><br /></td></tr>
+<tr class="separator:a9378dea6840ae2cdea4076f18112b29b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Data broker for accessing ZoneInfo. </p>
 
-<p class="definition">Definition at line <a class="el" href="Brokers_8h_source.html#l00681">681</a> of file <a class="el" href="Brokers_8h_source.html">Brokers.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
-<li>/home/brian/src/AceTime/src/ace_time/internal/<a class="el" href="Brokers_8h_source.html">Brokers.h</a></li>
+<p class="definition">Definition at line <a class="el" href="ExtendedBrokers_8h_source.html#l00318">318</a> of file <a class="el" href="ExtendedBrokers_8h_source.html">ExtendedBrokers.h</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7956cee7a17cfe2b315b18f85a84a23f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7956cee7a17cfe2b315b18f85a84a23f">&#9670;&nbsp;</a></span>printNameTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_time::extended::ZoneInfoBroker::printNameTo </td>
+          <td>(</td>
+          <td class="paramtype">Print &amp;&#160;</td>
+          <td class="paramname"><em>printer</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print a human-readable identifier (e.g. </p>
+<p>"America/Los_Angeles"). </p>
+
+<p class="definition">Definition at line <a class="el" href="ExtendedBrokers_8cpp_source.html#l00018">18</a> of file <a class="el" href="ExtendedBrokers_8cpp_source.html">ExtendedBrokers.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a9378dea6840ae2cdea4076f18112b29b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9378dea6840ae2cdea4076f18112b29b">&#9670;&nbsp;</a></span>printShortNameTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_time::extended::ZoneInfoBroker::printShortNameTo </td>
+          <td>(</td>
+          <td class="paramtype">Print &amp;&#160;</td>
+          <td class="paramname"><em>printer</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print a short human-readable identifier (e.g. </p>
+<p>"Los_Angeles") </p>
+
+<p class="definition">Definition at line <a class="el" href="ExtendedBrokers_8cpp_source.html#l00024">24</a> of file <a class="el" href="ExtendedBrokers_8cpp_source.html">ExtendedBrokers.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>/home/brian/src/AceTime/src/ace_time/internal/<a class="el" href="ExtendedBrokers_8h_source.html">ExtendedBrokers.h</a></li>
+<li>/home/brian/src/AceTime/src/ace_time/internal/<a class="el" href="ExtendedBrokers_8cpp_source.html">ExtendedBrokers.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

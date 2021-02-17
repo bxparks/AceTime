@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.6</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -78,31 +78,31 @@ $(function() {
 <p>Data broker for accessing ZoneEra.  
  <a href="classace__time_1_1basic_1_1ZoneEraBroker.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="Brokers_8h_source.html">Brokers.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="BasicBrokers_8h_source.html">BasicBrokers.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa79acd306b763eae515ac1aad58a3643"><td class="memItemLeft" align="right" valign="top"><a id="aa79acd306b763eae515ac1aad58a3643"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ZoneEraBroker</b> (const ZoneEra *zoneEra)</td></tr>
-<tr class="separator:aa79acd306b763eae515ac1aad58a3643"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5bf18ecfef7aeb3005a1aacc3f5c97c"><td class="memItemLeft" align="right" valign="top"><a id="ab5bf18ecfef7aeb3005a1aacc3f5c97c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ZoneEraBroker</b> (const ZoneEra *zoneEra=nullptr)</td></tr>
+<tr class="separator:ab5bf18ecfef7aeb3005a1aacc3f5c97c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d473ca2ee19b982bc3f0b455afe4003"><td class="memItemLeft" align="right" valign="top"><a id="a9d473ca2ee19b982bc3f0b455afe4003"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>ZoneEraBroker</b> (const <a class="el" href="classace__time_1_1basic_1_1ZoneEraBroker.html">ZoneEraBroker</a> &amp;)=default</td></tr>
 <tr class="separator:a9d473ca2ee19b982bc3f0b455afe4003"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a843ad3feb889f9fa1bdb3790780b5fc6"><td class="memItemLeft" align="right" valign="top"><a id="a843ad3feb889f9fa1bdb3790780b5fc6"></a>
 <a class="el" href="classace__time_1_1basic_1_1ZoneEraBroker.html">ZoneEraBroker</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classace__time_1_1basic_1_1ZoneEraBroker.html">ZoneEraBroker</a> &amp;)=default</td></tr>
 <tr class="separator:a843ad3feb889f9fa1bdb3790780b5fc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa182bbb28d76fc98d6c584f63268821"><td class="memItemLeft" align="right" valign="top"><a id="afa182bbb28d76fc98d6c584f63268821"></a>
-const ZoneEra *&#160;</td><td class="memItemRight" valign="bottom"><b>zoneEra</b> () const</td></tr>
-<tr class="separator:afa182bbb28d76fc98d6c584f63268821"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2510e77d748e55495db6a502b50e5daf"><td class="memItemLeft" align="right" valign="top"><a id="a2510e77d748e55495db6a502b50e5daf"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>isNull</b> () const</td></tr>
 <tr class="separator:a2510e77d748e55495db6a502b50e5daf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad65d28a70674c0692f9a96595ef1904e"><td class="memItemLeft" align="right" valign="top"><a id="ad65d28a70674c0692f9a96595ef1904e"></a>
-int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>offsetMinutes</b> () const</td></tr>
-<tr class="separator:ad65d28a70674c0692f9a96595ef1904e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84e21c98d6731c3d30d63c1df36ec196"><td class="memItemLeft" align="right" valign="top"><a id="a84e21c98d6731c3d30d63c1df36ec196"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>equals</b> (const <a class="el" href="classace__time_1_1basic_1_1ZoneEraBroker.html">ZoneEraBroker</a> &amp;other) const</td></tr>
+<tr class="separator:a84e21c98d6731c3d30d63c1df36ec196"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b1470323b8f8a698421a83390d826a0"><td class="memItemLeft" align="right" valign="top"><a id="a2b1470323b8f8a698421a83390d826a0"></a>
 const <a class="el" href="classace__time_1_1basic_1_1ZonePolicyBroker.html">ZonePolicyBroker</a>&#160;</td><td class="memItemRight" valign="bottom"><b>zonePolicy</b> () const</td></tr>
 <tr class="separator:a2b1470323b8f8a698421a83390d826a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad65d28a70674c0692f9a96595ef1904e"><td class="memItemLeft" align="right" valign="top"><a id="ad65d28a70674c0692f9a96595ef1904e"></a>
+int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>offsetMinutes</b> () const</td></tr>
+<tr class="separator:ad65d28a70674c0692f9a96595ef1904e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6accebbef770961e948a918e06a216b7"><td class="memItemLeft" align="right" valign="top"><a id="a6accebbef770961e948a918e06a216b7"></a>
 int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>deltaMinutes</b> () const</td></tr>
 <tr class="separator:a6accebbef770961e948a918e06a216b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,9 +128,9 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>untilTimeSuffix</b
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Data broker for accessing ZoneEra. </p>
 
-<p class="definition">Definition at line <a class="el" href="Brokers_8h_source.html#l00213">213</a> of file <a class="el" href="Brokers_8h_source.html">Brokers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicBrokers_8h_source.html#l00194">194</a> of file <a class="el" href="BasicBrokers_8h_source.html">BasicBrokers.h</a>.</p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
-<li>/home/brian/src/AceTime/src/ace_time/internal/<a class="el" href="Brokers_8h_source.html">Brokers.h</a></li>
+<li>/home/brian/src/AceTime/src/ace_time/internal/<a class="el" href="BasicBrokers_8h_source.html">BasicBrokers.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

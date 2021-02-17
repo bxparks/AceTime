@@ -1,0 +1,4 @@
+<map id="ace_time::extended::ZoneMatchTemplate&lt; ZEB &gt;" name="ace_time::extended::ZoneMatchTemplate&lt; ZEB &gt;">
+<area shape="rect" id="node1" title="Data structure that captures the matching ZoneEra and its ZoneRule transitions for a given year." alt="" coords="5,124,168,180"/>
+<area shape="rect" id="node2" href="$structace__time_1_1extended_1_1DateTuple.html" title="A tuple that represents a date and time." alt="" coords="11,5,162,47"/>
+</map>
