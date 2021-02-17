@@ -28,7 +28,7 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
-**Version**: AceTime v1.5
+**Version**: AceTime v1.6
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 

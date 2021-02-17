@@ -7,7 +7,7 @@ the baseline, and its memory usage  numbers are subtracted from the subsequent
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
-**Version**: AceTime v1.5
+**Version**: AceTime v1.6
 
 ## How to Regenerate
 

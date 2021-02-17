@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-**Version**: 1.5 (2021-01-26, TZ DB version 2021a)
+**Version**: 1.6 (2021-02-17, TZ DB version 2021a)
 
 ## Table of Contents
 

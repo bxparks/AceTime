@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.6
     * Remove `TimeZone::kTypeBasicManaged` and `TimeZone::kTypeExtendedManaged`
       and merge them into just regular `TimeZone::kTypeBasic` and
       `TimeZone::kTypeExtended`.

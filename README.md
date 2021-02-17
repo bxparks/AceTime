@@ -250,7 +250,7 @@ The creation of a TimeZone from its zoneName or its zoneId using a
 * 0.6-3 microseconds for an ESP32,
 * 3-10 microseconds for a Teensy 3.2.
 
-**Version**: 1.5 (2021-01-26, TZ DB version 2021a)
+**Version**: 1.6 (2021-02-17, TZ DB version 2021a)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
