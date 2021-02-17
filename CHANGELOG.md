@@ -59,7 +59,7 @@
         * A `ZoneManager` can now hold 2 different registries: the Zone (and Fat
           Link) registry, and the Thin Link registry. So we need to
           distinguish between the 2 registries.
-        * See the [Default Registries](USER_GUIDE.md##DefaultRegistries) section
+        * See the [Default Registries](USER_GUIDE.md#DefaultRegistries) section
           in the [USER_GUIDE.md](USER_GUIDE.md) for an explanation of the Zone
           and Link registries.
 * 1.5
