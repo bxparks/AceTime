@@ -29,7 +29,7 @@
         * This change should be invisible to library clients.
     * Fix stale `ZoneProcessor` binding to `TimeZone`.
         * A dereferenced `nullptr` could crash the program if
-          `TimeZone::toTimeZoneData() was called immediately after calling the
+          `TimeZone::toTimeZoneData()` was called immediately after calling the
           `TimeZone::forZoneInfo()` factory method.
         * Some accessor methods in `TimeZone` (`getZoneId()`, `printTo()`,
           `printShortTo()`) could return incorrect values if the number of
