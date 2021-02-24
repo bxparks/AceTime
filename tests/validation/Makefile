@@ -1,4 +1,4 @@
-SHELL=/bin/bash
+SHELL=bash
 
 # Build the BasicHinnantDateTest and ExtendedHinnantDateTest tests in series
 # (because parallel make of the two targets seem to collide while loading the
