@@ -99,7 +99,7 @@ clean:
 	rm -f zones.txt zonedb.json zonedbx.json validation_data.json \
 		validation_data.h validation_data.cpp validation_tests.cpp
 	rm -rf $(TZ_VERSION)
-	make -C compare_pytz clean
-	make -C compare_dateutil clean
-	make -C compare_java clean
-	make -C compare_cpp clean
+	$(MAKE) -C compare_pytz clean
+	$(MAKE) -C compare_dateutil clean
+	$(MAKE) -C compare_java clean
+	$(MAKE) -C compare_cpp clean

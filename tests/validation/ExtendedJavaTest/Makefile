@@ -56,7 +56,7 @@ validation_data.json: $(DB_NAMESPACE)/zones.txt \
 		< $(DB_NAMESPACE)/zones.txt
 
 ../../../tools/compare_java/GenerateData.class:
-	make -C ../../../tools/compare_java
+	$(MAKE) -C ../../../tools/compare_java
 
 $(DB_NAMESPACE)/%.o: $(DB_NAMESPACE)/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@

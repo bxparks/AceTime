@@ -54,7 +54,7 @@ validation_data.json: $(DB_NAMESPACE)/zones.txt \
 		< $(DB_NAMESPACE)/zones.txt
 
 ../../../tools/compare_cpp/generate_data.out:
-	make -C ../../../tools/compare_cpp/
+	$(MAKE) -C ../../../tools/compare_cpp/
 
 $(DB_NAMESPACE)/%.o: $(DB_NAMESPACE)/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
