@@ -30,7 +30,7 @@ runtests:
 #	* pytz (2019.3) uses 2019c
 #	* pytz (2020.1) uses 2020a
 SCOPE = basic
-TZ_VERSION = 2020a
+TZ_VERSION = 2021a
 START_YEAR = 2000
 UNTIL_YEAR = 2038
 

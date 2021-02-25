@@ -46,7 +46,7 @@ runtests:
 #	Europe_Dublin failed.
 #	Pacific_Auckland failed.
 SCOPE = extended
-TZ_VERSION = 2020a
+TZ_VERSION = 2021a
 START_YEAR = 2000
 UNTIL_YEAR = 2037
 
