@@ -2353,15 +2353,20 @@ the power is restored.
 
 The class hierarchy diagram for these various classes looks like this, where the
 arrow means "is-subclass-of") and the diamond-line means ("is-aggregation-of"):
+
 ```
-                    0..2
-             Clock  ------------.
-            ^  ^  ^             |
-           /   |   \            |
-          /    |    \           |
-DS3231Clock    |    NtpClock    |
-             System             |
-             Clock <> ----------'
+                   0..2
+             Clock ----------.
+             ^  ^            |
+            /   |            |
+    NtpClock    |            |
+ DS3231Clock    |            |
+ StmRtcClock    |            |
+Stm32F1Clock    |            |
+   UnixClock    |            |
+                |            |
+             System          |
+             Clock <>--------'
                ^ ^
               /   \
              /     \
