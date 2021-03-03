@@ -1,7 +1,7 @@
 # Changelog
 
 * Unreleased
-* 1.6
+* 1.6 (2021-02-17, TZ DB version 2021a)
     * Remove `TimeZone::kTypeBasicManaged` and `TimeZone::kTypeExtendedManaged`
       and merge them into just regular `TimeZone::kTypeBasic` and
       `TimeZone::kTypeExtended`.
@@ -63,7 +63,7 @@
         * See the [Default Registries](USER_GUIDE.md#DefaultRegistries) section
           in the [USER_GUIDE.md](USER_GUIDE.md) for an explanation of the Zone
           and Link registries.
-* 1.5
+* 1.5 (2021-01-26, TZDB 2021a)
     * Use binary search for both `ZoneManager::createForZoneName()` and
       `ZoneManager::createForZoneId()`.
         * Previously, the `zone_registry.cpp` was sorted by zoneName, so only

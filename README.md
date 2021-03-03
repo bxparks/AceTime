@@ -1,11 +1,8 @@
 # AceTime
 
-![AUnit
-Tests](https://github.com/bxparks/AceTime/workflows/AUnit%20Tests/badge.svg)
-![Python
-Tools](https://github.com/bxparks/AceTime/workflows/Python%20Tools/badge.svg)
-![Validation
-Tests](https://github.com/bxparks/AceTime/workflows/Validation%20Tests/badge.svg)
+[![AUnit Tests](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml)
+[![Python Tools](https://github.com/bxparks/AceTime/actions/workflows/python_tools.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/python_tools.yml)
+[![Validation Tests](https://github.com/bxparks/AceTime/actions/workflows/validation.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/validation.yml)
 
 This library provides date and time classes for the Arduino platform with
 support for time zones in the [IANA TZ
