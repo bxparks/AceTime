@@ -3,8 +3,6 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#if ! defined(EPOXY_DUINO)
-
 #include <Wire.h>
 #include <Print.h> // Print
 #include <AceCommon.h> // bcdToDec(), decToBcd()
@@ -16,7 +14,6 @@ using ace_common::bcdToDec;
 using ace_common::decToBcd;
 
 namespace ace_time {
-
 namespace hw {
 
 void DS3231::readDateTime(HardwareDateTime* dateTime) const {
@@ -58,7 +55,5 @@ void DS3231::setDateTime(const HardwareDateTime& dateTime) const {
   Wire.endTransmission();
 }
 
-}
-}
-
-#endif
+} // hw
+} // ace_time

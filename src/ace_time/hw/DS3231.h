@@ -6,8 +6,6 @@
 #ifndef ACE_TIME_HW_DS3231_H
 #define ACE_TIME_HW_DS3231_H
 
-#if ! defined(EPOXY_DUINO)
-
 #include <stdint.h>
 
 namespace ace_time {
@@ -29,6 +27,10 @@ class HardwareTemperature;
  * This class will probably work for the DS1307 and DS3232 RTC chips (except
  * for the temperature function on the DS1307 which lacks this functionality)
  * but this has not been verified.
+ *
+ * This class compiles under EpoxyDuino which allows many Clock applications to
+ * be configured to use the DS3231Clock, and incorporated into Continuous
+ * Integration on GitHub Actions.
  */
 class DS3231 {
   public:
@@ -48,9 +50,7 @@ class DS3231 {
     static const uint8_t kAddress = 0x68;
 };
 
-}
-}
-
-#endif
+} // hw
+} // ace_time
 
 #endif
