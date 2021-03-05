@@ -70,6 +70,7 @@
 
 #if defined(ARDUINO_ARCH_STM32)
 #include "ace_time/clock/StmRtcClock.h"
+#include "ace_time/clock/Stm32F1Clock.h"
 #endif // #if defined(ARDUINO_ARCH_STM32)
 
 
