@@ -193,11 +193,19 @@ Various fully-featured hardware clocks can be found in the
 https://github.com/bxparks/clocks repo (previously hosted under `examples/`).
 
 * [CommandLineClock](https://github.com/bxparks/clocks/tree/master/CommandLineClock)
-    * a clock with a DS3231 RTC chip, an NTP client, and using the serial port
-      for receiving commands and printing results, useful for debugging
-* [OledClock](https://github.com/bxparks/clocks/tree/master/OledClock)
-    * a digital clock using a DS3231 RTC chip, an NTP client, 2 buttons, and an
-      SSD1306 OLED display
+    * a clock with using the serial port for receiving commands and printing
+      results
+    * various system clock options: `millis()`, DS3231, or NTP client
+    * useful for debugging or porting AceTime to a new hardware platform
+* [OneZoneClock](https://github.com/bxparks/clocks/tree/master/OneZoneClock)
+    * a digital clock showing one timezone selected from a menu of timezones
+    * typical hardware includes:
+        * DS3231 RTC chip
+        * 2 buttons
+        * an SSD1306 OLED display or PCD8544 LCD display
+* [MultiZoneClock](https://github.com/bxparks/clocks/tree/master/MultiZoneClock)
+    * similar to OneZoneClock but showing multiple timezones on the display,
+      selected from a menu of timezones.
 * [WorldClock](https://github.com/bxparks/clocks/tree/master/WorldClock)
     * a clock with 3 OLED screens showing the time at 3 different time zones
 
@@ -3407,9 +3415,6 @@ get some time to take a closer look in the future.
           this configuration is that the `SERIAL_PORT_MONITOR` is configured
           properly as well as the port pin numbers. However, I have found that
           the USB connection can be a bit flaky.
-    * The SAMD21 microcontroller does *not* provide any EEPROM. Therefore,
-      this feature is disabled in the apps under `examples` (e.g.
-      `CommandLineClock`, `OledClock`, and `WorldClock`) which use this feature.
     * The `MKR Zero` board generates far faster code (30%?) than the `SparkFun
       SAMD21 Mini Breakout` board. The `MKR Zero` could be using a different
       (more recent?) version of the GCC tool chain. I have not investigated

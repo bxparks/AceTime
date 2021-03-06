@@ -276,8 +276,9 @@
     * Move `common/CrcEeprom.h` to AceUtils
       (https://github.com/bxparks/AceUtils) library.
 * 1.1.2 (2020-10-25, TZ DB version 2020d)
-    * Move examples/WorldClock, examples/OledClock and examples/CommandLineClock
-      to a new repo (https://github.com/bxparks/clocks).
+    * Move examples/WorldClock, examples/OneZoneClock and
+      examples/CommandLineClock to a new repo
+      (https://github.com/bxparks/clocks).
     * Update `src/ace_time/zonedb` and `src/ace_time/zonedbx` to TZDB 2020d
       (https://mm.icann.org/pipermail/tz-announce/2020-October/000062.html).
         * "Palestine ends DST earlier than predicted, on 2020-10-24."
@@ -402,7 +403,7 @@
       SAMD21).
     * Fix Doxygen PREPROCESSOR so that it picks up classes which are enabled
       only on some environments (e.g. ESP8266, ESP32).
-    * Add circuit schematics to OledClock and WorldClock examples.
+    * Add circuit schematics to OneZoneClock and WorldClock examples.
     * Simplify logging::printf() used internally for debugging.
     * No functional change from 0.6.
 * 0.6 (2019-08-02, TZ DB version 2019a)
