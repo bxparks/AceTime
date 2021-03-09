@@ -55,11 +55,11 @@ public class GenerateData {
   // (2000-01-01T00:00:00Z).
   private static final int SECONDS_SINCE_UNIX_EPOCH = 946684800;
 
-  public static void main(String[] argv) throws IOException {
-    String invocation = "java GenerateData " + String.join(" ", argv);
+  public static void main(String[] args) throws IOException {
+    String invocation = "java GenerateData " + String.join(" ", args);
 
     // Parse command line flags
-    int argc = argv.length;
+    int argc = args.length;
     int argi = 0;
     if (argc == 0) {
       usageAndExit();
@@ -68,12 +68,12 @@ public class GenerateData {
     String until = "2050";
     String format = "cpp";
     while (argc > 0) {
-      String arg0 = argv[argi];
+      String arg0 = args[argi];
       if ("--start_year".equals(arg0)) {
-        {argc--; argi++; arg0 = argv[argi];} // shift-left
+        {argc--; argi++; arg0 = args[argi];} // shift-left
         start = arg0;
       } else if ("--until_year".equals(arg0)) {
-        {argc--; argi++; arg0 = argv[argi];} // shift-left
+        {argc--; argi++; arg0 = args[argi];} // shift-left
         until = arg0;
       } else if ("--".equals(arg0)) {
         break;
