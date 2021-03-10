@@ -39,6 +39,7 @@ import java.util.TreeSet;
  * $ javac GenerateData.java
  * $ java GenerateData [--start_year start] [--until_year until] [--validate_dst] [--print_zones]
  *      < zones.txt
+ *      > validation_data.json
  * }
  * </pre>
  *
@@ -107,7 +108,9 @@ public class GenerateData {
 
   private static void usageAndExit() {
     System.err.println("Usage: java GenerateData [--start_year {start}]");
-    System.err.println("  [--until_year {until}] [--validate_dst] < zones.txt");
+    System.err.println("    [--until_year {until}] [--validate_dst]");
+    System.err.println("    < zones.txt");
+    System.err.println("    > validation_data.json");
     System.exit(1);
   }
 
@@ -160,8 +163,6 @@ public class GenerateData {
     this.invocation = invocation;
     this.startYear = startYear;
     this.untilYear = untilYear;
-
-    this.jsonFile = "validation_data.json";
   }
 
   /**
@@ -177,7 +178,7 @@ public class GenerateData {
         ZoneId zoneId = ZoneId.of(zoneName);
         testItems = createValidationData(zoneId);
       } catch (ZoneRulesException e) {
-        System.out.printf("Zone '%s' not found%n", zoneName);
+        System.err.printf("Zone '%s' not found%n", zoneName);
         testItems = null;
       }
       testData.put(zoneName, testItems);
@@ -292,12 +293,12 @@ public class GenerateData {
   }
 
   /**
-   * Print the JSON representation of the testData. We serialize JSON manually to avoid pulling in
-   * any external dependencies, The TestData format is pretty simple.
+   * Print the JSON representation of the testData to the System.out.  Normally, it will be
+   * redirected to a file named 'validation_data.json'. We serialize JSON manually to avoid pulling
+   * in any external dependencies, The TestData format is pretty simple.
    */
-  /** Print the testData to a JSON file. */
   private void printJson(Map<String, List<TestItem>> testData) throws IOException {
-    try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(jsonFile)))) {
+    try (PrintWriter writer = new PrintWriter(System.out)) {
       String indentUnit = "  ";
 
       // JDK version
@@ -364,17 +365,12 @@ public class GenerateData {
 
       writer.printf("}\n");
     }
-
-    System.out.printf("Created %s%n", jsonFile);
   }
 
   // constructor parameters
   private final String invocation;
   private final int startYear;
   private final int untilYear;
-
-  // derived parameters
-  private final String jsonFile;;
 }
 
 class TestItem {

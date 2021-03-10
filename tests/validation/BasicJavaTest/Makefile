@@ -54,7 +54,8 @@ validation_data.json: $(DB_NAMESPACE)/zones.txt \
 	java -cp ../../../tools/compare_java GenerateData \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
-		< $(DB_NAMESPACE)/zones.txt
+		< $(DB_NAMESPACE)/zones.txt \
+		> $@
 
 ../../../tools/compare_java/GenerateData.class:
 	$(MAKE) -C ../../../tools/compare_java
