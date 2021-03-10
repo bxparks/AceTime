@@ -29,7 +29,7 @@ runtests:
 	./$(APP_NAME).out
 
 # Define the scope of the test data.
-#	* NodaTime 3.0.0 uses 2021a
+#	* NodaTime 3.0.5 uses 2021a
 SCOPE = extended
 TZ_VERSION = 2021a
 START_YEAR = 2000

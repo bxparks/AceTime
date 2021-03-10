@@ -7,7 +7,7 @@ program using [Noda Time](https://nodatime.org/).
 
 ## Running the Test
 
-The `compare_noda` tool generates about 130,000 data points spanning the year
+The `compare_noda` tool generates about 199,000 data points spanning the year
 2000 to 2050. It is too large to run on any Arduino board that I am aware of,
 including the ESP32. However it does run on a Linux machine using the
 [EpoxyDuino](https://github.com/bxparks/EpoxyDuino) adapter layer.
@@ -33,4 +33,4 @@ $ make clean
 
 The TZ Database version used by the `compare_noda` program and the
 version that generated the `zonedbx` files must match for this unit test to
-succeed. Noda Time 3.0.0 seems to be using TZDB 2021a.
+succeed. Noda Time 3.0.5 seems to be using TZDB 2021a.
