@@ -70,6 +70,7 @@ See the [README.md](README.md) for introductory background.
     * [Python dateutil](#TestPythonDateUtil)
     * [Java java.time](#TestJavaTime)
     * [C++ Hinnant Date](#TestHinnantDate)
+    * [Noda Time](#TestNodaTime)
 * [Benchmarks](#Benchmarks)
     * [CPU](#CPU)
     * [Memory](#Memory)
@@ -2893,6 +2894,7 @@ the AceTime library against 4 other timezone libraries:
 * Python [dateutil](https://pypi.org/project/python-dateutil)
 * Java 11 [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
 * C++11/14/17 [Hinnant date](https://github.com/HowardHinnant/date)
+* [Noda Time](https://nodatime.org) C# library
 
 When these tests pass, I become confident that AceTime is producing the correct
 results, but it is entirely expected that some obscure edge-case bugs will be
@@ -2928,6 +2930,9 @@ following versions of `pytz` have been tested:
 * pytz 2019.2, containing TZ Datbase 2019b
 * pytz 2019.3, containing TZ Datbase 2019c
 
+A number of zones did not match between pytz and AceTime. Those
+have been listed in the `compare_pytz/blacklist.json` file.
+
 <a name="TestPythonDateUtil"></a>
 ### Python dateutil
 
@@ -2941,6 +2946,9 @@ Similar to the `pytz` library, the `dateutil` library supports [dates only until
 following versions of `dateutil` have been tested:
 
 * dateutil 2.8.1, containing TZ Datbase 2019c
+
+A number of zones did not match between dateutil and AceTime. Those
+have been listed in the `compare_dateutil/blacklist.json` file.
 
 <a name="TestJavaTime"></a>
 ### Java java.time
@@ -2972,6 +2980,9 @@ the
 [TZUpdater](https://www.oracle.com/technetwork/java/javase/documentation/tzupdater-readme-136440.html)
 but I haven't figured it out.)
 
+A number of zones did not match between java.time and AceTime. Those
+have been listed in the `compare_java/blacklist.json` file.
+
 <a name="TestHinnantDate"></a>
 ### C++ Hinnant Date
 
@@ -2992,6 +3003,23 @@ following TZ Dabase versions:
 * TZ DB version 2019b
 * TZ DB version 2019c
 * TZ DB version 2020a
+
+AceTime matches Hinnant Date on all data points from the year 2000 to 2050. No
+`blacklist.json` file was needed.
+
+<a name="TestNodaTime"></a>
+### Noda Time
+
+I wrote the test data generator [Program.cs](tools/compare_noda/Program.cs)
+in C# to generate a `validation_data.cpp` using the [Noda
+Time](https://nodatime.org) library.
+The result is 2 validation programs under `tests/validation`:
+
+* [BasicNodaTest](tests/validation/BasicNodaTest/)
+* [ExtendedNodaTest](tests/validation/ExtendedNodaTest/)
+
+AceTime matches Noda Time on all data points from the year 2000 to 2050. No
+`blacklist.json` file was needed.
 
 <a name="Benchmarks"></a>
 ## Benchmarks

@@ -1,6 +1,8 @@
 # Changelog
 
 * Unreleased
+    * Add `tools/compare_noda` to compare Noda Time against AceTime. All test
+      data on all zones match from year 2000 until 2050.
 * 1.6 (2021-02-17, TZ DB version 2021a)
     * Remove `TimeZone::kTypeBasicManaged` and `TimeZone::kTypeExtendedManaged`
       and merge them into just regular `TimeZone::kTypeBasic` and
