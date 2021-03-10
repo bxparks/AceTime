@@ -57,6 +57,7 @@ class TestDataGenerator:
             'until_year': self.until_year,
             'source': 'acetz',
             'version': str(acetz.__version__),
+            'tz_version': 'unknown',
             'has_valid_abbrev': True,
             'has_valid_dst': True,
             'test_data': self.test_data,
