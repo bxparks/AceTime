@@ -31,8 +31,9 @@ runtests:
 # Define the scope of the test data.
 #	* openjdk 11.0.6 2020-01-14 uses 2019c
 #	* openjdk 11.0.8 2020-07-14 uses 2020a
+#	* openjdk 11.0.10 2020-07-14 uses 2020d
 SCOPE = basic
-TZ_VERSION = 2020a
+TZ_VERSION = 2020d
 START_YEAR = 2000
 UNTIL_YEAR = 2050
 
