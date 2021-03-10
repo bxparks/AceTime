@@ -17,7 +17,7 @@ namespace compare_noda
     class Program
     {
         // Usage:
-        // $ dotnet run -- [--help] [--start_year start] [--until_year until] [--validate_dst]
+        // $ dotnet run -- [--help] [--start_year start] [--until_year until]
         //      < zones.txt
         //      > validation_data.json
         //
@@ -139,6 +139,7 @@ namespace compare_noda
 
             var testItems = new SortedDictionary<int, TestItem>();
             AddTestItemsFromZoneIntervals(testItems, tz, startInstant, untilInstant);
+            AddTestItemsFromSampling(testItems, tz, startInstant, untilInstant);
 
             var items = new List<TestItem>();
             items.AddRange(testItems.Values);
@@ -154,42 +155,50 @@ namespace compare_noda
             var intervals = tz.GetZoneIntervals(startInstant, untilInstant);
             foreach (ZoneInterval zi in intervals)
             {
-                AddZoneInterval(testItems, zi, tz);
+                AddZoneInterval(testItems, tz, zi);
             }
         }
 
         private void AddZoneInterval(
             IDictionary<int, TestItem> testItems,
-            ZoneInterval zi,
-            DateTimeZone tz)
+            DateTimeZone tz,
+            ZoneInterval zi)
         {
             if (zi.HasStart)
             {
                 var isoStart = zi.IsoLocalStart;
                 if (isoStart.Year > startYear)
                 {
+                    // A: One minute before the transition
+                    // B: Right after the DST transition.
                     Instant after = zi.Start;
                     Duration oneMinute = Duration.FromMinutes(1);
                     Instant before = after - oneMinute;
 
-                    // One minute before
-                    TestItem beforeItem = CreateTestItem(before, tz, 'A');
-                    testItems.Add(toAceTimeEpochSeconds(before.ToUnixTimeSeconds()), beforeItem);
-
-                    // Just after DST transition.
-                    TestItem afterItem  = CreateTestItem(after, tz, 'B');
-                    testItems.Add(toAceTimeEpochSeconds(after.ToUnixTimeSeconds()), afterItem);
+                    AddTestItem(testItems, tz, before, 'A');
+                    AddTestItem(testItems, tz, after, 'B');
                 }
             }
         }
 
-        private TestItem CreateTestItem(Instant instant, DateTimeZone tz, char type)
+        private static void AddTestItem(
+            IDictionary<int, TestItem> testItems,
+            DateTimeZone tz,
+            Instant instant,
+            char type)
+        {
+            TestItem testItem = CreateTestItem(tz, instant, type);
+            if (testItems.ContainsKey(testItem.epochSeconds)) return;
+            testItems.Add(testItem.epochSeconds, testItem);
+        }
+
+        private static TestItem CreateTestItem(DateTimeZone tz, Instant instant, char type)
         {
             ZoneInterval zi = tz.GetZoneInterval(instant);
             ZonedDateTime zdt = instant.InZone(tz);
 
             var testItem = new TestItem();
-            testItem.epochSeconds = toAceTimeEpochSeconds(instant.ToUnixTimeSeconds());
+            testItem.epochSeconds = ToAceTimeEpochSeconds(instant.ToUnixTimeSeconds());
             testItem.utcOffset = zi.WallOffset.Seconds;
             testItem.dstOffset = zi.Savings.Seconds;
             testItem.year = zdt.Year;
@@ -201,6 +210,30 @@ namespace compare_noda
             testItem.abbrev = zi.Name;
             testItem.type = type;
             return testItem;
+        }
+
+        private void AddTestItemsFromSampling(
+            IDictionary<int, TestItem> testItems,
+            DateTimeZone tz,
+            Instant startInstant,
+            Instant untilInstant)
+        {
+            ZonedDateTime startDt = startInstant.InZone(tz);
+            ZonedDateTime untilDt = untilInstant.InZone(tz);
+
+            for (int year = startDt.Year; year < untilDt.Year; year++)
+            {
+                // Add the 1st of every month of every year.
+                for (int month = 1; month <= 12; month++)
+                {
+                    ZonedDateTime zdt = new LocalDateTime(year, month, 1, 0, 0).InZoneLeniently(tz);
+                    AddTestItem(testItems, tz, zdt.ToInstant(), 'S');
+                }
+
+                // Add the last day and hour of the year
+                ZonedDateTime lastdt = new LocalDateTime(year, 12, 31, 23, 0).InZoneLeniently(tz);
+                AddTestItem(testItems, tz, lastdt.ToInstant(), 'Y');
+            }
         }
 
         // Serialize to JSON manually, for 2 reasons:
@@ -268,7 +301,7 @@ namespace compare_noda
             Console.WriteLine("}");
         }
 
-        private static int toAceTimeEpochSeconds(long unixEpochSeconds)
+        private static int ToAceTimeEpochSeconds(long unixEpochSeconds)
         {
             return (int) (unixEpochSeconds - SECONDS_SINCE_UNIX_EPOCH);
         }
