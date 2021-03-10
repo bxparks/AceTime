@@ -51,7 +51,8 @@ validation_data.json: $(DB_NAMESPACE)/zones.txt \
 		--tz_version $(TZ_VERSION) \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
-		< $(DB_NAMESPACE)/zones.txt
+		< $(DB_NAMESPACE)/zones.txt \
+		> $@
 
 ../../../tools/compare_cpp/generate_data.out:
 	$(MAKE) -C ../../../tools/compare_cpp/

@@ -1,5 +1,5 @@
 /*
- * Generate the validation_data.json file for the zones given on the STDIN. The
+ * Generate the validation JSON output for the zones given on the STDIN. The
  * transition time and UTC offsets are calculated using Howard Hinnant's date.h
  * and tz.h library. The Hinnant date library requires the --tz_version flag
  * even though we don't need it here.
@@ -11,8 +11,7 @@
  *    [--start_year start]
  *    [--until_year until]
  *    < zones.txt
- *
- * Produces a 'validation_data.json' file in the current directory.
+ *    > validation_data.json
  */
 
 #include <iostream> // getline()
@@ -20,7 +19,7 @@
 #include <vector> // vector<>
 #include <algorithm> // sort()
 #include <string.h> // strcmp(), strncmp()
-#include <stdio.h> // fprintf()
+#include <stdio.h> // printf(), fprintf()
 #include <chrono>
 #include <date/date.h>
 #include <date/tz.h> // time_zone
@@ -59,9 +58,6 @@ struct TestItem {
 
 /** Difference between Unix epoch (1970-01-1) and AceTime Epoch (2000-01-01). */
 const long SECONDS_SINCE_UNIX_EPOCH = 946684800;
-
-/** Output file name for the JSON data. */
-const char VALIDATION_DATA_JSON[] = "validation_data.json";
 
 // Command line arguments
 int startYear = 2000;
@@ -273,22 +269,28 @@ void sortTestData(TestData& testData) {
 }
 
 /**
- * Generate the validation_data.json file. Adopted from GenerateData.java.
+ * Generate the JSON output on STDOUT which will be redirect into
+ * 'validation_data.json' file. Adopted from GenerateData.java.
  */
 void printJson(const TestData& testData) {
-  FILE* fp = fopen(VALIDATION_DATA_JSON, "w");
-
   string indentUnit = "  ";
-  fprintf(fp, "{\n");
+
+  // Version of Hinnant Date library
+  string version = "3.0.0";
+
+  // TZDB version
+  string tzVersion = date::get_tzdb().version.c_str();
+
+  printf("{\n");
   string indent0 = indentUnit;
-  fprintf(fp, "%s\"start_year\": %d,\n", indent0.c_str(), startYear);
-  fprintf(fp, "%s\"until_year\": %d,\n", indent0.c_str(), untilYear);
-  fprintf(fp, "%s\"source\": \"Hinnant Date\",\n", indent0.c_str());
-  fprintf(fp, "%s\"version\": \"%s\",\n",
-      indent0.c_str(), date::get_tzdb().version.c_str());
-  fprintf(fp, "%s\"has_valid_abbrev\": true,\n", indent0.c_str());
-  fprintf(fp, "%s\"has_valid_dst\": true,\n", indent0.c_str());
-  fprintf(fp, "%s\"test_data\": {\n", indent0.c_str());
+  printf("%s\"start_year\": %d,\n", indent0.c_str(), startYear);
+  printf("%s\"until_year\": %d,\n", indent0.c_str(), untilYear);
+  printf("%s\"source\": \"Hinnant Date\",\n", indent0.c_str());
+  printf("%s\"version\": \"%s\",\n", indent0.c_str(), version.c_str());
+  printf("%s\"tz_version\": \"%s\",\n", indent0.c_str(), tzVersion.c_str());
+  printf("%s\"has_valid_abbrev\": true,\n", indent0.c_str());
+  printf("%s\"has_valid_dst\": true,\n", indent0.c_str());
+  printf("%s\"test_data\": {\n", indent0.c_str());
 
   // Print each zone
   int zoneCount = 1;
@@ -296,45 +298,41 @@ void printJson(const TestData& testData) {
   for (const auto& zoneEntry : testData) {
     string indent1 = indent0 + indentUnit;
     string zoneName = zoneEntry.first;
-    fprintf(fp, "%s\"%s\": [\n", indent1.c_str(), zoneName.c_str());
+    printf("%s\"%s\": [\n", indent1.c_str(), zoneName.c_str());
 
     // Print each testItem
     int itemCount = 1;
     const vector<TestItem>& items = zoneEntry.second;
     for (const TestItem& item : items) {
       string indent2 = indent1 + indentUnit;
-      fprintf(fp, "%s{\n", indent2.c_str());
+      printf("%s{\n", indent2.c_str());
       {
         string indent3 = indent2 + indentUnit;
-        fprintf(fp, "%s\"epoch\": %ld,\n", indent3.c_str(), item.epochSeconds);
-        fprintf(fp, "%s\"total_offset\": %d,\n",
+        printf("%s\"epoch\": %ld,\n", indent3.c_str(), item.epochSeconds);
+        printf("%s\"total_offset\": %d,\n",
             indent3.c_str(), item.utcOffset);
-        fprintf(fp, "%s\"dst_offset\": %d,\n", indent3.c_str(), item.dstOffset);
-        fprintf(fp, "%s\"y\": %d,\n", indent3.c_str(), item.year);
-        fprintf(fp, "%s\"M\": %d,\n", indent3.c_str(), item.month);
-        fprintf(fp, "%s\"d\": %d,\n", indent3.c_str(), item.day);
-        fprintf(fp, "%s\"h\": %d,\n", indent3.c_str(), item.hour);
-        fprintf(fp, "%s\"m\": %d,\n", indent3.c_str(), item.minute);
-        fprintf(fp, "%s\"s\": %d,\n", indent3.c_str(), item.second);
-        fprintf(fp, "%s\"abbrev\": \"%s\",\n",
+        printf("%s\"dst_offset\": %d,\n", indent3.c_str(), item.dstOffset);
+        printf("%s\"y\": %d,\n", indent3.c_str(), item.year);
+        printf("%s\"M\": %d,\n", indent3.c_str(), item.month);
+        printf("%s\"d\": %d,\n", indent3.c_str(), item.day);
+        printf("%s\"h\": %d,\n", indent3.c_str(), item.hour);
+        printf("%s\"m\": %d,\n", indent3.c_str(), item.minute);
+        printf("%s\"s\": %d,\n", indent3.c_str(), item.second);
+        printf("%s\"abbrev\": \"%s\",\n",
             indent3.c_str(), item.abbrev.c_str());
-        fprintf(fp, "%s\"type\": \"%c\"\n", indent3.c_str(), item.type);
+        printf("%s\"type\": \"%c\"\n", indent3.c_str(), item.type);
       }
-      fprintf(fp, "%s}%s\n", indent2.c_str(),
+      printf("%s}%s\n", indent2.c_str(),
           (itemCount < (int)items.size()) ? "," : "");
       itemCount++;
     }
 
-    fprintf(fp, "%s]%s\n", indent1.c_str(), (zoneCount < numZones) ? "," : "");
+    printf("%s]%s\n", indent1.c_str(), (zoneCount < numZones) ? "," : "");
     zoneCount++;
   }
 
-  fprintf(fp, "%s}\n", indent0.c_str());
-  fprintf(fp, "}\n");
-
-  fclose(fp);
-
-  fprintf(stderr, "Created %s\n", VALIDATION_DATA_JSON);
+  printf("%s}\n", indent0.c_str());
+  printf("}\n");
 }
 
 void usageAndExit() {
