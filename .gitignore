@@ -75,3 +75,24 @@ tests/validation/*Test/validation_*.cpp
 tests/validation/*Test/validation_*.json
 tests/validation/*Test/zonedb*
 tests/validation/*Test/tzfiles
+
+#-------------------------------------------------------------------------
+# C# and .Net 5.0
+# See https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
+#-------------------------------------------------------------------------
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
