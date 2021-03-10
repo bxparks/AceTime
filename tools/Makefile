@@ -75,7 +75,7 @@ zonedbx.json: $(SRC) $(TZ_VERSION)
 # Generate the zones.txt file for testing purposes.
 zones.txt: $(SRC) $(TZ_VERSION)
 	./tzcompiler.py \
-		--tz_version $(TZ_VERSION)
+		--tz_version $(TZ_VERSION) \
 		--input_dir $(TZ_VERSION) \
 		--scope basic \
 		--language zonelist
