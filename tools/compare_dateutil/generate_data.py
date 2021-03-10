@@ -52,7 +52,7 @@ class Generator:
         self.sampling_interval = sampling_interval
 
     def generate(self) -> None:
-        """Generate the validation_data.json file."""
+        """Generate the validation_data JSON."""
 
         # Read the zones from the STDIN
         zones = read_zones()

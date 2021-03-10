@@ -50,7 +50,8 @@ validation_data.json: $(DB_NAMESPACE)/zones.txt
 	../../../tools/compare_pytz/generate_data.py \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
-		< $(DB_NAMESPACE)/zones.txt
+		< $(DB_NAMESPACE)/zones.txt \
+		> $@
 
 $(DB_NAMESPACE)/%.o: $(DB_NAMESPACE)/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
