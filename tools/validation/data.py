@@ -10,6 +10,7 @@ type can be serialized to JSON directly. The JSON looks like:
   'until_year': int,
   'source': str,
   'version': str,
+  'tz_version': str,
   'has_valid_abbrev': bool,
   'has_valid_dst': bool,
   'test_data': {
@@ -69,6 +70,7 @@ ValidationData = TypedDict('ValidationData', {
     'until_year': int,
     'source': str,
     'version': str,
+    'tz_version': str,
     'has_valid_abbrev': bool,  # 'abbrev' values are reliable
     'has_valid_dst': bool,  # DST offsets are reliable
     'test_data': TestData,
