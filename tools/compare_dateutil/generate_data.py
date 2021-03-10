@@ -17,7 +17,7 @@ $ ./generate_data.py [--start_year start] [--until_year until]
 """
 
 import sys
-from os.path import (join, dirname, abspath)
+from os.path import (dirname, abspath)
 import logging
 import json
 from argparse import ArgumentParser
