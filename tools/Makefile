@@ -82,7 +82,7 @@ zones.txt: $(SRC) $(TZ_VERSION)
 
 # Generate the validation_data.json for testing purposes
 validation_data.json: zones.txt
-	./compare_pytz/generate_data.py < $<
+	./compare_pytz/generate_data.py < $< > $@
 
 # Generate the validation_data.{h,cpp}, validation_tests.cpp
 validation_data.h: validation_data.json
@@ -103,3 +103,4 @@ clean:
 	$(MAKE) -C compare_dateutil clean
 	$(MAKE) -C compare_java clean
 	$(MAKE) -C compare_cpp clean
+	$(MAKE) -C compare_noda clean
