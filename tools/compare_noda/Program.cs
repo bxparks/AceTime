@@ -241,13 +241,15 @@ namespace compare_noda
         // b) to follow the Java code.
         public void PrintJson(IDictionary<string, List<TestItem>> testData)
         {
+            string tzVersion = DateTimeZoneProviders.Tzdb.VersionId;
+
             Console.WriteLine("{");
             string indent0 = indentUnit;
             Console.WriteLine($"{indent0}\"start_year\": {startYear},");
             Console.WriteLine($"{indent0}\"until_year\": {untilYear},");
             Console.WriteLine($"{indent0}\"source\": \"NodaTime\",");
             Console.WriteLine($"{indent0}\"version\": \"3.0\",");
-            Console.WriteLine($"{indent0}\"tz_version\": \"unknown\",");
+            Console.WriteLine($"{indent0}\"tz_version\": \"{tzVersion}\",");
             Console.WriteLine($"{indent0}\"has_valid_abbrev\": true,");
             Console.WriteLine($"{indent0}\"has_valid_dst\": true,");
             Console.WriteLine($"{indent0}\"test_data\": {{");
