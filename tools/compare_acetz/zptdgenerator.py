@@ -20,7 +20,7 @@ from zone_processor.zone_specifier import ZoneSpecifier
 from zone_processor.zone_specifier import DateTuple
 from zone_processor.inline_zone_info import ZoneInfoMap
 from zonedbpy.zone_infos import ZONE_INFO_MAP
-from validation.data import TestItem, TestData, ValidationData
+from data_types.validation_types import TestItem, TestData, ValidationData
 
 
 class TestDataGenerator:
