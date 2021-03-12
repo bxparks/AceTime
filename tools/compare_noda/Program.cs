@@ -18,6 +18,7 @@ namespace compare_noda
     {
         // Usage:
         // $ dotnet run -- [--help] [--start_year start] [--until_year until]
+        //      [--nzd_file {file}]
         //      < zones.txt
         //      > validation_data.json
         //
@@ -35,6 +36,7 @@ namespace compare_noda
             */
             string start = "2000";
             string until = "2050";
+            string nzdFilePath = "";
             while (argc > 0)
             {
                 string arg0 = args[argi];
@@ -47,6 +49,11 @@ namespace compare_noda
                 {
                     {argc--; argi++; arg0 = args[argi];} // shift-left
                     until = arg0;
+                }
+                else if ("--nzd_file".Equals(arg0))
+                {
+                    {argc--; argi++; arg0 = args[argi];} // shift-left
+                    nzdFilePath = arg0;
                 }
                 else if ("--help".Equals(arg0))
                 {
@@ -72,8 +79,23 @@ namespace compare_noda
             int startYear = int.Parse(start);
             int untilYear = int.Parse(until);
 
+            // https://nodatime.org/3.0.x/userguide/tzdb
+            IDateTimeZoneProvider provider;
+            if (! string.IsNullOrEmpty(nzdFilePath)) {
+                // Read the TZDB file from disk.
+				using (var stream = File.OpenRead(nzdFilePath))
+				{
+					var source = TzdbDateTimeZoneSource.FromStream(stream);
+					provider = new DateTimeZoneCache(source);
+				}
+            }
+            else
+            {
+                provider = DateTimeZoneProviders.Tzdb;
+            }
+
             List<string> zones = ReadZones();
-            GenerateData generator = new GenerateData(startYear, untilYear);
+            GenerateData generator = new GenerateData(startYear, untilYear, provider);
             IDictionary<string, List<TestItem>> testData = generator.CreateTestData(zones);
             generator.PrintJson(testData);
         }
@@ -110,12 +132,12 @@ namespace compare_noda
     {
         private const int SECONDS_SINCE_UNIX_EPOCH = 946684800;
         private const string indentUnit = "  ";
-        private const string jsonFile = "validation_data.json";
 
-        public GenerateData(int startYear, int untilYear)
+        public GenerateData(int startYear, int untilYear, IDateTimeZoneProvider provider)
         {
             this.startYear = startYear;
             this.untilYear = untilYear;
+            this.dateTimeZoneProvider = provider;
         }
 
         public IDictionary<string, List<TestItem>> CreateTestData(List<string> zones)
@@ -131,7 +153,7 @@ namespace compare_noda
 
         private List<TestItem> CreateValidationData(string zone)
         {
-            DateTimeZone tz = DateTimeZoneProviders.Tzdb[zone];
+            DateTimeZone tz = dateTimeZoneProvider[zone];
             var startInstant = new LocalDateTime(startYear, 1, 1, 0, 0)
                 .InZoneLeniently(tz).ToInstant();
             var untilInstant = new LocalDateTime(untilYear, 1, 1, 0, 0)
@@ -241,7 +263,7 @@ namespace compare_noda
         // b) to follow the Java code.
         public void PrintJson(IDictionary<string, List<TestItem>> testData)
         {
-            string tzVersion = DateTimeZoneProviders.Tzdb.VersionId;
+            string tzVersion = dateTimeZoneProvider.VersionId;
 
             Console.WriteLine("{");
             string indent0 = indentUnit;
@@ -310,6 +332,7 @@ namespace compare_noda
 
         private readonly int startYear;
         private readonly int untilYear;
+        private readonly IDateTimeZoneProvider dateTimeZoneProvider;
     }
 
     struct TestItem
