@@ -75,6 +75,7 @@ tests/validation/*Test/validation_*.cpp
 tests/validation/*Test/validation_*.json
 tests/validation/*Test/zonedb*
 tests/validation/*Test/tzfiles
+tests/validation/*Test/*.nzd
 
 #-------------------------------------------------------------------------
 # C# and .Net 5.0

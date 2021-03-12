@@ -1,10 +1,20 @@
 # Changelog
 
 * Unreleased
-    * Add `tools/compare_noda` to compare Noda Time against AceTime. All test
-      data on all zones match from year 2000 until 2050.
-    * Fix `SystemClock::forceSync()` crash if the referenceClock is null. This
-      is used mostly for debugging and testing, so I doubt anyone ran into this.
+    * Add `tools/compare_noda` to compare Noda Time against AceTime.
+        * Add `--nzd_file` flag to `compare_noda` to allow custom NodaZoneData
+          files.
+        * Run the Noda Time `TzdbCompiler` manually to generate custom
+          `tzdata$(TZ_VERSION).nzd` for the specific TZDB version specified in
+          the Makefile.
+        * Add `tests/validation/BasicNodaTest` which matches AceTime completely
+          from year 2000 until 2050.
+        * Add  `tests/validation/ExtendedNodaTest` which maches AceTime
+          completely from year 1974 until 2050.
+        * Identical results to `BasicHinnantDateTest` and
+          `ExtendedHinnantDateTest`.
+    * Fix `SystemClock::forceSync()` that crashes if the referenceClock is null.
+      This is used mostly for debugging and testing, so I doubt anyone ran into this.
 * 1.6 (2021-02-17, TZ DB version 2021a)
     * Remove `TimeZone::kTypeBasicManaged` and `TimeZone::kTypeExtendedManaged`
       and merge them into just regular `TimeZone::kTypeBasic` and
