@@ -11,10 +11,7 @@
 
 #if defined(STM32F1xx)
 
-#include <Arduino.h> // RTC, RCC, PWR
-
-// TODO(brian): Replace the following direct access to registers
-// with functions/macros in the STM32 HAL.
+#include <Arduino.h> // RTC, RCC, PWR, BKP
 
 #define RTC_CRH  RTC->CRH
 #define RTC_CRL  RTC->CRL
@@ -27,8 +24,8 @@
 #define RCC_BDCR    RCC->BDCR
 #define PWR_CR      PWR->CR
 
-#define BKP_DR        (((volatile uint32_t*)0x40006C00))
-#define RTC_INIT_REG  1
+//
+#define RTC_INIT_REG  BKP->DR1
 #define RTC_INIT_BIT  0
 #define RTC_INIT_FLAG (1 << RTC_INIT_BIT)
 
@@ -41,6 +38,15 @@ namespace hw {
  * A thin abstraction above the RTC_CNTL and RTC_CNTH registers which are in
  * the "backup domain". When powered by LSE_CLOCK (Low Speed External) the
  * counter continues to count as long as the VBat is powered.
+ *
+ * The STM32RTC library (https://github.com/stm32duino/STM32RTC) uses SRAM on
+ * STM32F1 to hold the date fields, which means that the date fields are not
+ * preserved during power loss. This class completely bypasses the HAL (hardware
+ * abstarction layer) and writes the 32-bit epochSeconds quantity directly into
+ * the `RTC->CNTH` and `RTC->CNTL` registers.
+ *
+ * The Backup DR2 register is used to hold a single bit, indicating whether or
+ * not the RTC has been initialized.
  */
 class Stm32F1Rtc {
   public:
@@ -48,12 +54,10 @@ class Stm32F1Rtc {
 
     void setTime(uint32_t time);
 
-    uint32_t getTime() {
-      return (RTC_CNTH << 16) | RTC_CNTL;
-    }
+    uint32_t getTime();
 
     bool isInitialized() {
-      return (BKP_DR[RTC_INIT_REG] & RTC_INIT_FLAG) == RTC_INIT_FLAG;
+      return (RTC_INIT_REG & RTC_INIT_FLAG) == RTC_INIT_FLAG;
     }
 
   private:

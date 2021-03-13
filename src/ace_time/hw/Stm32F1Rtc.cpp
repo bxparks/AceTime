@@ -37,8 +37,26 @@ void Stm32F1Rtc::init() {
   RTC_PRLL = 0x7FFF;
   exitConfigMode();
   waitFinished();
-  BKP_DR[RTC_INIT_REG] |= RTC_INIT_FLAG; // Signals that RTC initilized
+  RTC_INIT_REG |= RTC_INIT_FLAG; // Signals that RTC initilized
   disableBackupWrites();
+}
+
+// The 32-bit RTC counter is spread over 2 registers so it cannot be read
+// atomically. We need to read the high word twice and check if it has rolled
+// over. If it has, then read the low word a second time to get its new, rolled
+// over value. See the RTC_ReadTimeCounter() in
+// system/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc.c.
+uint32_t Stm32F1Rtc::getTime() {
+  uint16_t high1 = RTC_CNTH;
+  uint16_t low = RTC_CNTL;
+  uint16_t high2 = RTC_CNTH;
+
+  if (high1 != high2) {
+    low = RTC_CNTL;
+    high1 = high2;
+  }
+
+  return (high1 << 16) | low;
 }
 
 void Stm32F1Rtc::setTime(uint32_t time) {
