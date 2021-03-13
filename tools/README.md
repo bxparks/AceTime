@@ -18,6 +18,7 @@ A number of scripts are exposed at the top level:
     * `compare_dateutil` - generate test data using `python-dateutil`
     * `compare_java` - generate test data using Java's `java.time` library
     * `compare_cpp` - generate test data using Howard Hinnant `date` library
+    * `compare_noda` - generate test data using the Noda Time library
 * `generate_validation.py`
     * generates the `validation_data.{h,cpp}` and `validation_tests.cpp` files
       for the `tests/validation` unit tests
@@ -84,17 +85,19 @@ zone_strings.{h,cpp}         |                             (cont. below)
 ## Validation Data Generation (`compare_xxx`)
 
 These programs generate a list of `TestItem` which contains the `epoch_seconds`
-and the date/time components from various 3rd party date/time libraries. The
-AceTime data/time libraries (specifically the `ZoneProcessor` classes) will be
-tested against the expected results from these 3rd party libraries:
+and the date/time components from various 3rd party date/time libraries. Each
+`TestItem` is recalculated through the AceTime algorithms and compared with the
+expected results from these 3rd party libraries:
 
 * `compare_pytz` - Python `pytz` library
 * `compare_dateutil` - Python `python-dateutil` library
 * `compare_java` - Java JDK11 `java.time` library
 * `compare_cpp` - C++ Hinnant Date library
+* `compare_noda` - Noda Time library
 
-The `zones.txt` from the `tzcompiler.py` determines the time zones which
-should be processed by the various `compare_xxx` scripts:
+The `zones.txt` from the `tzcompiler.py` determines the time zones which should
+be processed by the various `compare_xxx` scripts. Here is the data flow
+diagram:
 
 ```
 (cont. from above)
@@ -116,30 +119,42 @@ zones.txt
    |                                             |
    |         pytz                                |
    |          |                                  |
-   |          v                                  |
-   |   tdgenerator.py   validation/data.py       |
+   |          v         date_types/              |
+   |   tdgenerator.py   validation_types.py      |
    |          |         /                        |
    |          v        v                         |
-   +----> compare_pytz/generate_data.py -------> +
+   +--> compare_pytz/generate_data.py ---------> +
    |                                             |
    |                                             |
    |   python-dateutil                           |
    |          |                                  |
-   |          v                                  |
-   |   tdgenerator.py   validation/data.py       |
+   |          v         data_types/              |
+   |   tdgenerator.py   validation_types.py      |
    |          |         /                        |
    |          v        v                         |
-   +-> compare_dateutil/generate_data.py ------> +
-                                                /
-                                               /
-        validation_data.json <----------------.
-                |
-                v
-        generate_validation.py <-- compare*/blacklist.json
-                |
-                v
-       validation_data.{h,cpp}
-       validation_tests.cpp
+   +--> compare_dateutil/generate_data.py -----> +
+   |                                             |
+   |                                             |
+   |   tzdata{yyyya}.tar.gz                      |
+   |          |                                  |
+   |          v                                  |
+   |     TzdbCompiler                            |
+   |          |                                  |
+   |          v                                  |
+   |   Noda Time library                         |
+   |          |                                  |
+   |          v                                  |
+   +--> compare_noda/Program.cs ---------------> +
+                                                 |
+                                                 v
+                                        validation_data.json
+                                                 |
+                                                 v
+        compare_*/blacklist.json ----> generate_validation.py
+                                                 |
+                                                 v
+                                        validation_data.{h,cpp}
+                                        validation_tests.cpp
 ```
 
 ## Interactive Validation (validate.py)
