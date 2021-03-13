@@ -50,19 +50,34 @@ namespace hw {
  */
 class Stm32F1Rtc {
   public:
+    /**
+     * Call this to initialize this class at the start of the application. If
+     * the underlying RTC requires initialization, then this will call init(),
+     * and a flag will be set to indicate that the RTC has been initialized. The
+     * flag is preserved through a power cycle if power is supplied to VBat.
+     * When this is called again after the processor is reset, the init() will
+     * not be called, thereby preserving the current time on the RTC.
+     */
     bool begin();
 
+    /** Call this manually to reset the internal RTC counter. */
+    void init();
+
+    /** Set the internal 32-bit RTC clock to the given value. */
     void setTime(uint32_t time);
 
+    /** Return the internal 32-bit RTC clock. */
     uint32_t getTime();
 
+    /**
+     * Returns true if the internal RTC has been initialized. This information
+     * is preserved through a power cycle if backup power is supplied to VBat.
+     */
     bool isInitialized() {
       return (RTC_INIT_REG & RTC_INIT_FLAG) == RTC_INIT_FLAG;
     }
 
   private:
-    void init();
-
     void waitSync() {
       RTC_CRL &= ~RTC_CRL_RSF;
       while ((RTC_CRL & RTC_CRL_RSF) == 0);

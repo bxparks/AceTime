@@ -16,10 +16,11 @@ namespace hw {
 bool Stm32F1Rtc::begin() {
   bool isInit = isInitialized();
   enableClockInterface();
-  if (isInit)
+  if (isInit) {
     waitSync();
-  else
+  } else {
     init();
+  }
   return isInit;
 }
 
@@ -63,8 +64,10 @@ void Stm32F1Rtc::setTime(uint32_t time) {
   enableBackupWrites();
   waitFinished();
   enterConfigMode();
+
   RTC_CNTH = time >> 16;
   RTC_CNTL = time & 0xFFFF;
+
   exitConfigMode();
   waitFinished();
   disableBackupWrites();
