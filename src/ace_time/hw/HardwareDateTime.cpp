@@ -3,8 +3,6 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#if ! defined(EPOXY_DUINO)
-
 #include <AceCommon.h>
 #include "HardwareDateTime.h"
 #include "../common/DateStrings.h"
@@ -40,5 +38,3 @@ void HardwareDateTime::printTo(Print& printer) const {
 
 }
 }
-
-#endif
