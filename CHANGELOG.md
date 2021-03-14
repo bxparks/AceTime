@@ -14,7 +14,8 @@
         * Identical results to `BasicHinnantDateTest` and
           `ExtendedHinnantDateTest`.
     * Fix `SystemClock::forceSync()` that crashes if the referenceClock is null.
-        * Used mostly for debugging and testing, so I doubt anyone ran into this.
+        * Used mostly for debugging and testing, so I doubt anyone ran into
+          this.
     * Add `ace_time::clock::Stm32F1Clock` and `ace_time::hw::Stm32F1Rtc` classes
       which are specialized for the STM32F1 chip (e.g. Blue Pill) using the
       `LSE_CLOCK` (low speed external clock).
@@ -27,6 +28,17 @@
         * The `Stm32F1Clock` and `Stm32F1Rtc` classes write directly into the
           32-bit RTC register, allowing AceTime to preserve both date and time
           fields.
+    * `USER_GUIDE.md` and `README.md`
+        * Massive refactoring, reorganizing and rewriting for more clarity I
+          hope.
+        * Conceptually split "Clock" classes from "Date, Time, and TimeZone"
+          classes, since they are relatively independent modules of the library.
+        * Split the user guide for `Clock` classes into separate
+          `CLOCK_GUIDE.md`
+        * Split Installation instructions into `INSTALLATION.md`.
+        * Split Validation and Testing information into `VALIDATION.md`.
+        * Make `USER_GUIDE.md` shorter and hopefully more digestable.
+        * Add documentation for `StmRtcClock` and `Stm32F1Clock`.
 * 1.6 (2021-02-17, TZ DB version 2021a)
     * Remove `TimeZone::kTypeBasicManaged` and `TimeZone::kTypeExtendedManaged`
       and merge them into just regular `TimeZone::kTypeBasic` and

@@ -1,17 +1,29 @@
-# AceTime Library User Guide
+# AceTime Date, Time, TimeZone User Guide
 
-See the [README.md](README.md) for introductory background.
+The classes in this section of the AceTime library are in the following
+namespaces:
 
-**Version**: 1.6 (2021-02-17, TZ DB version 2021a)
+* `ace_time`
+* `ace_time::zonedb`: zoneinfo files for `BasicZoneProcessor`
+* `ace_time::zonedbx`: zoneinfo files for `ExtendedZoneProcessor`
+* `ace_time::basic`: creating custom zone registries for `BasicZoneManager`
+* `ace_time::extended`: creating custom zone registries for
+  `ExtendedZoneManager`
+* `ace_time::internal`: not normally needed by app developers
+
+**Version**: 1.6+ (2021-03-14, TZ DB version 2021a)
+
+**Related documents**:
+
+* [README.md](README.md): introductory background
+* [INSTALLATION.md](INSTALLATION.md): how to install the library
+* [USER_GUIDE.md](USER_GUIDE.md): the time, date and time zone classes
+* [CLOCK_GUIDE.md](CLOCK_GUIDE.md): the clock classes
+* [VALIDATION.md](VALIDATION.md): testing and validating the library
+* [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
 
 ## Table of Contents
 
-* [Installation](#Installation)
-    * [Source Code](#SourceCode)
-    * [Dependencies](#Dependencies)
-    * [Examples](#Examples)
-* [Documentation](#Documentation)
-* [Motivation and Design Considerations](#Motivation)
 * [Headers and Namespaces](#Headers)
 * [Date and Time Classes](#Classes)
     * [Epoch Seconds Typedef](#EpochSeconds)
@@ -56,21 +68,6 @@ See the [README.md](README.md) for introductory background.
 * [Error Handling](#ErrorHandling)
     * [isError()](#IsError)
     * [LocalDate::kInvalidEpochSeconds](#KInvalidEpochSeconds)
-* [Clocks](#Clocks)
-    * [Clock Class](#ClockClass)
-    * [NTP Clock](#NtpClock)
-    * [DS3231 Clock](#DS3231Clock)
-    * [System Clock](#SystemClock)
-    * [System Clock Maintenance Tasks](#SystemClockMaintenance)
-    * [System Clock Loop](#SystemClockLoop)
-    * [System Clock Coroutine](#SystemClockCoroutine)
-    * [System Clock Examples](#SystemClockExamples)
-* [Testing](#Testing)
-    * [Python pytz](#TestPythonPytz)
-    * [Python dateutil](#TestPythonDateUtil)
-    * [Java java.time](#TestJavaTime)
-    * [C++ Hinnant Date](#TestHinnantDate)
-    * [Noda Time](#TestNodaTime)
 * [Benchmarks](#Benchmarks)
     * [CPU](#CPU)
     * [Memory](#Memory)
@@ -82,264 +79,15 @@ See the [README.md](README.md) for introductory background.
     * [Java Time, Joda-Time, Noda Time](#JavaTime)
     * [Howard Hinnant Date Library](#HinnantDate)
     * [Google cctz](#Cctz)
+* [Motivation and Design Considerations](#Motivation)
 * [Bugs and Limitations](#Bugs)
-
-
-<a name="Installation"></a>
-## Installation
-
-The latest stable release is available in the Arduino IDE Library Manager. Two
-libraries need to be installed since v1.2:
-
-* Search for "AceTime". Click Install.
-* Search for "AceCommon". Click Install.
-
-The development version can be installed by cloning the 2 git repos:
-
-* AceTime (https://github.com/bxparks/AceTime)
-* AceCommon (https://github.com/bxparks/AceCommon)
-
-You can copy over the contents to the `./libraries` directory used by the
-Arduino IDE. (The result is a directory named `./libraries/AceTime` and
-`./libraries/AceCommon`). Or you can create symlinks from `./libraries` to these
-directories.
-
-The `develop` branch contains the latest development.
-The `master` branch contains the stable release.
-
-<a name="SourceCode"></a>
-### Source Code
-
-The source files are organized as follows:
-* `src/AceTime.h` - main header file
-* `src/ace_time/` - date and time classes (`ace_time::`)
-* `src/ace_time/common/` - shared classes and utilities (`ace_time::common`,
-  `ace_time::logging`)
-* `src/ace_time/internal/` - internal classes (`ace_time::basic`,
-  `ace_time::extended`)
-* `src/ace_time/hw/` - thin hardware abstraction layer (`ace_time::hw`)
-* `src/ace_time/clock/` - system clock from RTC or NTP sources
-  (`ace_time::clock`)
-* `src/ace_time/testing/` - files used in unit tests (`ace_time::testing`)
-* `src/ace_time/zonedb/` - files generated from TZ Database for
-  `BasicZoneProcessor` (`ace_time::zonedb`)
-* `src/ace_time/zonedbx/` - files generated from TZ Database for
-  `ExtendedZoneProcessor` (`ace_time::zonedbx`)
-* `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
-* `tests/validation` - integration tests using AUnit which must be run
-   on desktop Linux or MacOS machines using
-   [EpoxyDuino](https://github.com/bxparks/EpoxyDuino)
-* `examples/` - example programs
-* `tools/` - parser for the TZ Database files, code generators for `zonedb::`
-  and `zonedbx::` zone files, and code generators for various unit tests
-
-<a name="Dependencies"></a>
-### Dependencies
-
-The AceTime library depends on:
-
-* AceCommon (https://github.com/bxparks/AceCommon)
-* AceRoutine (https://github.com/bxparks/AceRoutine)
-    * Optional. Needed if you use the `SystemClockCoroutine` class for automatic
-      syncing. This is recommended but not strictly necessary.
-
-Various programs in the `examples/` directory have one or more of the following
-external dependencies. The comment section near the top of the `*.ino` file will
-usually have more precise dependency information:
-
-* AceRoutine (https://github.com/bxparks/AceRoutine)
-* Arduino Time Lib (https://github.com/PaulStoffregen/Time)
-* Arduino Timezone (https://github.com/JChristensen/Timezone)
-
-Various scripts in the `tools/` directory depend on:
-
-* IANA TZ Database (https://github.com/eggert/tz)
-* Python pytz library (https://pypi.org/project/pytz/)
-* Python dateutil library (https://pypi.org/project/python-dateutil)
-* Hinnant date library (https://github.com/HowardHinnant/date)
-* Python 3.6 or greater
-* Java OpenJDK 11
-
-If you want to run the unit tests or some of the command line examples using a
-Linux or MacOS machine, you need:
-
-* AUnit (https://github.com/bxparks/AUnit)
-* EpoxyDuino (https://github.com/bxparks/EpoxyDuino)
-
-<a name="Examples"></a>
-### Examples
-
-The following programs are provided in the `examples/` directory:
-
-* [HelloDateTime](examples/HelloDateTime/)
-    * demo program of various date and time classes
-* [HelloSystemClock](examples/HelloSystemClock/)
-    * demo program of `SystemClock`
-* [HelloSystemClockCoroutine](examples/HelloSystemClockCoroutine/)
-    * same as `HelloSystemClock` but using AceRoutine coroutines
-* [HelloNtpClock](examples/HelloNtpClock/)
-    * demo program of `NtpClock`
-* [AutoBenchmark](examples/AutoBenchmark/)
-    * perform CPU and memory benchmarking of various methods and print a report
-* [MemoryBenchmark](examples/MemoryBenchmark/)
-    * compiles `MemoryBenchmark.ino` for 13 different features and collecs the
-      flash and static RAM usage from the compiler into a `*.txt` file for
-      a number of platforms (AVR, SAMD, ESP8266, etc)
-    * the `README.md` transforms the `*.txt` file into a human-readable form
-* [ComparisonBenchmark](examples/ComparisonBenchmark/)
-    * compare AceTime with
-    [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
-
-Various fully-featured hardware clocks can be found in the
-https://github.com/bxparks/clocks repo (previously hosted under `examples/`).
-
-* [CommandLineClock](https://github.com/bxparks/clocks/tree/master/CommandLineClock)
-    * a clock with using the serial port for receiving commands and printing
-      results
-    * various system clock options: `millis()`, DS3231, or NTP client
-    * useful for debugging or porting AceTime to a new hardware platform
-* [OneZoneClock](https://github.com/bxparks/clocks/tree/master/OneZoneClock)
-    * a digital clock showing one timezone selected from a menu of timezones
-    * typical hardware includes:
-        * DS3231 RTC chip
-        * 2 buttons
-        * an SSD1306 OLED display or PCD8544 LCD display
-* [MultiZoneClock](https://github.com/bxparks/clocks/tree/master/MultiZoneClock)
-    * similar to OneZoneClock but showing multiple timezones on the display,
-      selected from a menu of timezones.
-* [WorldClock](https://github.com/bxparks/clocks/tree/master/WorldClock)
-    * a clock with 3 OLED screens showing the time at 3 different time zones
-
-<a name="Documentation"></a>
-## Documentation
-
-* [README.md](README.md)
-* [USER_GUIDE.md](USER_GUIDE.md) - this file
-* [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
-
-<a name="Motivation"></a>
-## Motivation and Design Considerations
-
-In the beginning, I created a digital clock using an Arduino Nano board, a small
-OLED display, and a DS3231 RTC chip. Everything worked, it was great. Then I
-wanted the clock to figure out the Daylight Saving Time (DST) automatically. And
-I wanted to create a clock that could display multiple timezones. Thus began my
-journey down the rabbit hole of
-[timezones](https://en.wikipedia.org/wiki/Time_zone).
-
-In full-featured operating systems (e.g. Linux, MacOS, Windows) and languages
-with timezone library support (e.g. Java, Python, JavaScript, C#, Go), the user
-has the ability to specify the Daylight Saving time (DST) transitions using 2
-ways:
-* [POSIX
-format](https://www.gnu.org/software/libc/manual/html_node/TZ-Variable.html)
-which encodes the DST transitions into a string (e.g.
-`EST+5EDT,M3.2.0/2,M11.1.0/2`) that can be parsed programmatically, or
-* a reference to a [TZ Database](https://www.iana.org/time-zones) entry
-(e.g. `America/Los_Angeles` or `Europe/London`) which identifies a set of time
-transition rules for the given timezone.
-
-The problem with the POSIX format is that it is somewhat difficult for a human
-to understand, and the programmer must manually update this string when a
-timezone changes its DST transition rules. Also, there is no historical
-information in the POSIX string, so date and time written in the past cannot be
-accurately expressed. The problem with the TZ Database is that most
-implementations are too large to fit inside most Arduino environments. The
-Arduino libraries that I am aware of use the POSIX format (e.g.
-[ropg/ezTime](https://github.com/ropg/ezTime) or
-[JChristensen/Timezone](https://github.com/JChristensen/Timezone)) for
-simplicity and smaller memory footprint.
-
-The AceTime library uses the TZ Database. When new versions of the database are
-released (several times a year), I can regenerate the zone files, recompile the
-application, and it will instantly use the new transition rules, without the
-developer needing to create a new POSIX string. To address the memory constraint
-problem, the AceTime library is designed to load only of the smallest subset of
-the TZ Database that is required to support the selected timezones (1 to 4 have
-been extensively tested). Dynamic lookup of the time zone is possible using the
-`ZoneManager`, and the app develop can customize it with the list of zones that
-are compiled into the app. On microcontrollers with more than about 32kB of
-flash memory (e.g. ESP8266, ESP32, Teensy 3.2) and depending on the size of the
-rest of the application, it may be possible to load the entire IANA TZ database.
-This will allow the end-user to select the timezone dynamically, just like on
-the big-iron machines.
-
-The AceTime library is inspired by and borrows from:
-* [Java 11 Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
-* [Micro Time Zone](https://github.com/evq/utz)
-* [Arduino Timezone](https://github.com/JChristensen/Timezone)
-* [Arduino Time](https://github.com/PaulStoffregen/Time)
-* [Joda-Time](https://www.joda.org/joda-time/)
-* [Noda Time](https://nodatime.org/)
-* [Python datetime](https://docs.python.org/3/library/datetime.html)
-* [Python pytz](https://pypi.org/project/pytz/)
-* [ezTime](https://github.com/ropg/ezTime)
-
-The names and API of AceTime classes are heavily borrowed from the [Java JDK 11
-java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
-package. Some important differences come from the fact that in Java, most
-objects are reference objects and created on the heap. To allow AceTime to work
-on an Arduino chip with only 2kB of RAM and 32kB of flash, the AceTime C++
-classes perform *no* heap allocations (i.e. no calls to `operator new()` or
-`malloc()`). Many of the smaller classes in the library are expected to be used
-as "value objects", in other words, created on the stack and copied by value.
-Fortunately, the C++ compilers are extremely good at optimizing away unnecessary
-copies of these small objects. It is not possible to remove all complex memory
-allocations when dealing with the TZ Database. In the AceTime library, I managed
-to move most of the complex memory handling logic into the `ZoneProcessor` class
-hierarchy. These are relatively large objects which are meant to be opaque
-to the application developer, created statically at start-up time of
-the application, and never deleted during the lifetime of the application.
-
-The [Arduino Time Library](https://github.com/PaulStoffregen/Time) uses a set of
-C functions similar to the [traditional C/Unix library
-methods](http://www.catb.org/esr/time-programming/) (e.g `makeTime()` and
-`breaktime()`). It also uses the Unix epoch of 1970-01-01T00:00:00Z and a
-`int32_t` type as its `time_t` to track the number of seconds since the epoch.
-That means that the largest date it can handle is 2038-01-19T03:14:07Z. AceTime
-uses an epoch that starts on 2000-01-01T00:00:00Z using the same `int32_t` as
-its `ace_time::acetime_t`, which means that maximum date increases to
-2068-01-19T03:14:07Z. AceTime is also quite a bit faster than the Arduino Time
-Library (although in most cases, performance of the Time Library is not an
-issue): AceTime is **2-5X** faster on an ATmega328P, **3-5X** faster on the
-ESP8266, **7-8X** faster on the ESP32, and **7-8X** faster on the Teensy ARM
-processor.
-
-AceTime aims to be the smallest library that can run on the basic Arduino
-platform (e.g. Nano with 32kB flash and 2kB of RAM) that fully supports all
-timezones in the TZ Database at compile-time. Memory constraints of the smallest
-Arduino boards may limit the number of timezones supported by a single program
-at runtime to 1-3 timezones. The library also aims to be as portable as
-possible, and supports AVR microcontrollers, as well as ESP8266, ESP32 and
-Teensy microcontrollers.
 
 <a name="Headers"></a>
 ## Headers and Namespaces
 
 Only a single header file `AceTime.h` is required to use this library.
 To prevent name clashes with other libraries that the calling code may use, all
-classes are separated into a number of namespaces. They are related in the
-following way, where the arrow means "depends on":
-
-```
-ace_time::clock     ace_time::testing
-      |       \        /
-      |        v      v
-      |        ace_time
-      |         |\     \
-      |         | \     v
-      |         |  \    ace_time::zonedb
-      |         |   \   ace_time::zonedbx
-      |         |    \     |
-      v         |     v    v
-ace_time::hw    |     ace_time::basic
-          \     |     ace_time::extended
-           \    |     /
-            \   |    /
-             v  v   v
-           ace_time::common
-           ace_time::logging
-```
+classes are separated into a number of namespaces.
 
 To use the classes without prepending the namespace prefixes, use one or more of
 the following `using` directives:
@@ -347,9 +95,20 @@ the following `using` directives:
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
-using namespace ace_time::clock;
-using namespace ace_time::common;
-...
+```
+
+To use the zoneinfo data structures needed by `BasicZoneProcessor` and
+`BasicZoneManager`, you may need:
+
+```C++
+using namespace ace_time::zonedb;
+```
+
+To use the zoneinfo data structures needed by `ExtendedZoneProcessor` and
+`ExtendedZoneManager`, you may need:
+
+```C++
+using namespace ace_time::zonedbx;
 ```
 
 <a name="Classes"></a>
@@ -2146,6 +1905,11 @@ See examples in various unit tests:
 (**TBD**: I think it would be useful to create a script that can generate the
 C++ code representing these custom zone registries from a list of zones.)
 
+(**TBD**: It might also be useful for app developers to create custom datasets
+with different range of years. The tools are all here, but not explicitly
+documented currently. Examples of how to this do exist inside the various
+`Makefile` files in the `tests/validation/` directory.)
+
 <a name="Mutations"></a>
 ## Mutations
 
@@ -2338,694 +2102,6 @@ returns a object of time `LocalDateTime`, `OffsetDateTime` or `ZonedDateTime`.
 When these methods are passed a value of `LocalDate::kInvalidEpochSeconds`, the
 resulting object will return a true value for `isError()`.
 
-<a name="Clocks"></a>
-## Clocks
-
-The `acetime::clock` namespace contains classes needed to implement various
-types of clocks using different sources. For example, the `DS3231Clock` uses the
-DS3231 RTC chip, and the `NtpClock` uses an NTP server. The `SystemClock` is
-powered by the internal `millis()` function, but that function is usually not
-accurate enough. So the `SystemClock` has the ability to synchronize against
-more accurate external clocks such as the `DS3231Clock` and the `NtpClock`. The
-`SystemClock` also has the ability to backup the current time to a non-volatile
-time source (e.g. `DS3231Clock`) so that the current time can be restored when
-the power is restored.
-
-The class hierarchy diagram for these various classes looks like this, where the
-arrow means "is-subclass-of") and the diamond-line means ("is-aggregation-of"):
-
-```
-                   0..2
-             Clock ----------.
-             ^  ^            |
-            /   |            |
-    NtpClock    |            |
- DS3231Clock    |            |
- StmRtcClock    |            |
-Stm32F1Clock    |            |
-   UnixClock    |            |
-                |            |
-             System          |
-             Clock <>--------'
-               ^ ^
-              /   \
-             /     \
-   SystemClock    SystemClock
-          Loop    Coroutine
-```
-
-<a name="ClockClass"></a>
-### Clock Class
-
-This is an abstract class which provides 3 functionalities:
-
-* `setNow(acetime_t now)`: set the current time
-* `acetime_ getNow()`: get current time (blocking)
-* `sendRequest()`, `isResponseReady()`, `readResponse()`: get current time (non-blocking)
-
-```C++
-namespace ace_time {
-namespace clock {
-
-class Clock {
-  public:
-    static const acetime_t kInvalidSeconds = LocalTime::kInvalidSeconds;
-
-    virtual void setNow(acetime_t epochSeconds) {}
-    virtual acetime_t getNow() const = 0;
-
-    virtual void sendRequest() const {}
-    virtual bool isResponseReady() const { return true; }
-    virtual acetime_t readResponse() const { return getNow(); }
-};
-
-}
-}
-```
-
-Examples of the `Clock` include an NTP client, a GPS client, or a DS3231 RTC
-chip.
-
-Not all clocks can implement the `setNow()` method (e.g. an NTP client)
-so the default implementation `Clock::setNow()` is a no-op. However, all clocks
-are expected to provide a `getNow()` method. On some clocks, the `getNow()`
-function can consume a large amount (many seconds) of time (e.g. `NtpClock`) so
-these classes are expected to provide a non-blocking implementation of the
-`getNow()` functionality through the `sendRequest()`, `isResponseReady()` and
-`readResponse()` methods. The `Clock` base class provides a default
-implementation of the non-blocking API by simply calling the `getNow()` blocking
-API, but subclasses are expected to provide the non-blocking interface when
-needed.
-
-The `acetime_t` value from `getNow()` can be converted into the desired time
-zone using the `ZonedDateTime` and `TimeZone` classes desribed in the previous
-sections.
-
-<a name="NtpClock"></a>
-### NTP Clock
-
-The `NtpClock` class is available on the ESP8266 and ESP32 which have builtin
-WiFi capability. (I have not tested the code on the Arduino WiFi shield because
-I don't have that hardware.) This class uses an NTP client to fetch the current
-time from the specified NTP server. The constructor takes 3 parameters which
-have default values so they are optional.
-
-The class declaration looks like this:
-
-```C++
-namespace ace_time {
-namespace clock {
-
-class NtpClock: public Clock {
-  public:
-    explicit NtpClock(
-        const char* server = kNtpServerName,
-        uint16_t localPort = kLocalPort,
-        uint16_t requestTimeout = kRequestTimeout);
-
-    void setup(const char* ssid, const char* password);
-    bool isSetup() const;
-    const char* getServer() const;
-
-    acetime_t getNow() const override;
-
-    void sendRequest() const override;
-    bool isResponseReady() const override;
-    acetime_t readResponse() const override;
-};
-
-}
-}
-```
-
-The constructor takes the name of the NTP server. The default value is
-`kNtpServerName` which is `us.pool.npt.org`. The default `kLocalPort` is set to
-8888. And the default `kRequestTimeout` is 1000 milliseconds.
-
-You need to call the `setup()` with the `ssid` and `password` of the WiFi
-connection. The method will time out after 5 seconds if the connection cannot
-be established. Here is a sample of how it can be used:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-using namespace ace_time::clock;
-
-const char SSID[] = ...; // Warning: don't store SSID in GitHub
-const char PASSWORD[] = ...; // Warning: don't store passwd in GitHub
-
-NtpClock ntpClock;
-
-void setup() {
-  Serial.begin(115200);
-  while(!Serial); // needed for Leonardo/Micro
-  ...
-  ntpClock.setup(SSID, PASSWORD);
-  if (ntpClock.isSetup()) {
-    Serial.println("WiFi connection failed... try again.");
-    ...
-  }
-}
-
-// Print the NTP time every 10 seconds, in UTC-08:00 time zone.
-void loop() {
-  acetime_t nowSeconds = ntpClock.getNow();
-  // convert epochSeconds to UTC-08:00
-  OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHours(-8));
-  odt.printTo(Serial);
-  delay(10000); // wait 10 seconds
-}
-```
-
-**Security Warning**: You should avoid committing your SSID and PASSWORD into a
-public repository like GitHub because they will become public to anyone. Even if
-you delete the commit, they can be retrieved from the git history.
-
-<a name="DS3231Clock"></a>
-### DS3231 Clock
-
-The `DS3231Clock` class uses the DS3231 RTC chip. It contains
-an internal temperature-compensated osciallator that counts time in 1
-second steps. It is often connected to a battery or a supercapacitor to survive
-power failures. The DS3231 chip stores the time broken down by various date and
-time components (i.e. year, month, day, hour, minute, seconds). It contains
-internal logic that knows about the number of days in an month, and leap years.
-It supports dates from 2000 to 2099. It does *not* contain the concept of a time
-zone. Therefore, The `DS3231Clock` assumes that the date/time components
-stored on the chip is in **UTC** time.
-
-The class declaration looks like this:
-
-```C++
-namespace ace_time {
-namespace clock {
-
-class DS3231Clock: public Clock {
-  public:
-    explicit DS3231Clock();
-
-    void setup();
-    acetime_t getNow() const override;
-    void setNow(acetime_t epochSeconds) override;
-};
-
-}
-}
-```
-
-The `DS3231Clock::getNow()` returns the number of seconds since
-AceTime Epoch by converting the UTC date and time components to `acetime_t`
-(using `LocalDatetime` internally). Users can convert the epoch seconds
-into either an `OffsetDateTime` or a `ZonedDateTime` as needed.
-
-The `DS3231Clock::setup()` should be called from the global `setup()`
-function to initialize the object. Here is a sample that:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-using namespace ace_time::clock;
-
-DS3231Clock dsClock;
-...
-void setup() {
-  Serial.begin(115200);
-  while(!Serial); // needed for Leonardo/Micro
-  ...
-  dsClock.setup();
-  dsClock.setNow(0); // 2000-01-01T00:00:00Z
-}
-
-void loop() {
-  acetime_t nowSeconds = dsClock.getNow();
-  // convert epochSeconds to UTC-08:00
-  OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHours(-8));
-  odt.printTo(Serial);
-  delay(10000); // wait 10 seconds
-}
-```
-
-It has been claimed that the DS1307 and DS3232 RTC chips have exactly same
-interface as DS3231 when accessing the time and date functionality. I don't have
-these chips so I cannot confirm that. Contact @Naguissa
-(https://github.com/Naguissa) for more info.
-
-<a name="SystemClock"></a>
-### System Clock
-
-The `SystemClock` is a special `Clock` that uses the Arduino built-in `millis()`
-method as the source of its time. The biggest advantage of `SystemClock` is that
-its `getNow()` has very little overhead so it can be called as frequently as
-needed, compared to the `getNow()` method of other `Clock` classes which can
-consume a significant amount of time. For example, the `DS3231Clock` must talk
-to the DS3231 RTC chip over an I2C bus. Even worse, the `NtpClock` must the talk
-to the NTP server over the network which can be unpredictably slow.
-
-Unfortunately, the `millis()` internal clock of most (all?) Arduino boards is
-not very accurate and unsuitable for implementing an accurate clock. Therefore,
-the `SystemClock` provides the option to synchronize its clock to an external
-`reference Clock`.
-
-The other problem with the `millis()` internal clock is that it does not survive
-a power failure. The `SystemClock` provides a way to save the current time
-to a `backupClock` (e.g. the `DS3231Clock` using the DS3231 chip with battery
-backup). When the `SystemClock` starts up, it will read the `backup Clock` and
-set the current time. When it synchronizes with the `referenceClock`, (e.g. the
-`NtpClock`), it saves a copy of it into the `backupClock`.
-
-The `SystemClock` is an abstract class, and this library provides 2 concrete
-implementations, `SystemClockLoop` and `SystemClockCoroutine`:
-
-```C++
-namespace ace_time {
-namespace clock {
-
-class SystemClock: public Clock {
-  public:
-    void setup();
-
-    acetime_t getNow() const override;
-    void setNow(acetime_t epochSeconds) override;
-
-    bool isInit() const;
-    void forceSync();
-    acetime_t getLastSyncTime() const;
-
-  protected:
-    virtual unsigned long clockMillis() const { return ::millis(); }
-
-    explicit SystemClock(
-        Clock* referenceClock /* nullable */,
-        Clock* backupClock /* nullable */);
-};
-
-class SystemClockLoop: public SystemClock {
-  public:
-    explicit SystemClockLoop(
-        Clock* referenceClock /* nullable */,
-        Clock* backupClock /* nullable */,
-        uint16_t syncPeriodSeconds = 3600,
-        uint16_t initialSyncPeriodSeconds = 5);
-
-    void loop();
-};
-
-#if defined(ACE_ROUTINE_VERSION)
-
-class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
-  public:
-    explicit SystemClockCoroutine(
-        Clock* referenceClock /* nullable */,
-        Clock* backupClock /* nullable */,
-        uint16_t syncPeriodSeconds = 3600,
-        uint16_t initialSyncPeriodSeconds = 5,
-        uint16_t requestTimeoutMillis = 1000,
-        ace_common::TimingStats* timingStats = nullptr);
-
-    int runCoroutine() override;
-    uint8_t getRequestStatus() const;
-};
-
-#endif
-
-}
-}
-```
-
-The `SystemClockCoroutine` class is available only if you have installed the
-[AceRoutine](https://github.com/bxparks/AceRoutine) library and include its
-header before `<AceTime.h>`, like this:
-
-```C++
-#include <AceRoutine.h>
-#include <AceTime.h>
-...
-```
-
-The constructor of each of the 2 concrete implementations take optional
-parameters, the `referenceClock` and the `backupClock`. Each of these parameters
-are optional, so there are 4 combinations:
-
-```C++
-SystemClock*(nullptr, nullptr); // no referenceClock or backupClock
-
-SystemClock*(referenceClock, nullptr); // referenceClock only
-
-SystemClock*(nullptr, backupClock); // backupClock only
-
-SystemClock*(referenceClock, backupClock); // both clocks
-```
-
-<a name="SystemClockMaintenance"></a>
-### SystemClock Maintenance Tasks
-
-There are 2 internal maintenance tasks that must be performed periodically.
-
-First, the `SystemClock` must be synchronized to the `millis()` function
-before an internal integer overflow occurs. The internal integer overflow
-happens every 65.536 seconds.
-
-Second (optionally), the SystemClock can be synchronized to the `referenceClock`
-since internal `millis()` clock is not very accurate. How often this should
-happen depends on the accuracy of the `millis()`, which depends on the hardware
-oscillator of the chip, and the cost of the call to the `getNow()` method of the
-syncing time clock. If the `referenceClock` is the DS3231 chip, syncing once
-every 1-10 minutes might be acceptable since talking to the RTC chip over
-I2C is relatively cheap. If the `referenceClock` is the `NtpClock`, the network
-connection is fairly expensive so maybe once every 1-12 hours might be
-advisable.
-
-The `SystemClock` provides 2 subclasses which differ in the way they perform
-these maintenance tasks:
-
-* the `SystemClockLoop` class uses the `::loop()` method which should be called
-  from the global `loop()` function, and
-* the `SystemClockCoroutine` class uses the `::runCoroutine()` method which
-  uses the AceRoutine library
-
-<a name="SystemClockLoop"></a>
-### SystemClockLoop
-
-This class synchronizes to the `referenceClock` through the
-`SystemClockLoop::loop()` method that is meant to be called from the global
-`loop()` method, like this:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-using namespace ace_time::clock;
-...
-
-DS3231Clock dsClock;
-SystemClockLoop systemClock(dsClock, nullptr /*backup*/);
-
-void setup() {
-  dsClock.setup();
-  systemClock.setup();
-}
-
-void loop() {
-  ...
-  systemClock.loop();
-  ...
-}
-```
-
-`SystemClockLoop` keeps an internal counter to limit the syncing process to
-every 1 hour. This is configurable through parameters in the `SystemClockLoop()`
-constructor.
-
-<a name="SystemClockCoroutine"></a>
-### SystemClockCoroutine
-
-This class synchronizes to the `referenceClock` using an
-[AceRoutine](https://github.com/bxparks/AceRoutine) coroutine.
-
-```C++
-#include <AceRoutine.h> // include this before <AceTime.h>
-#include <AceTime.h>
-using namespace ace_time;
-using namespace ace_time::clock;
-using namespace ace_routine;
-...
-
-DS3231Clock dsClock;
-SystemClock systemClock(dsClock, nullptr /*backup*/);
-
-void setup() {
-  ...
-  dsClock.setup();
-  systemClock.setupCoroutine(F("systemClock"));
-  CoroutineScheduler::setup();
-  ...
-}
-
-void loop() {
-  ...
-  CoroutineScheduler::loop();
-  ...
-}
-```
-
-`SystemClockCoroutine` keeps internal counters to limit the syncing process to
-every 1 hour. This is configurable through parameters in the
-`SystemClockCoroutine()` constructor.
-
-Previously, the `SystemClockLoop::loop()` used the blocking `Clock::getNow()`
-method, and the `SystemClockCoroutine::runCoroutine()` used the non-blocking
-methods of `Clock`. However, since version 0.6, both of them use the
-*non-blocking* calls, so there should be little difference between the two
-except in how the methods are called.
-
-<a name="SystemClockExamples"></a>
-### SystemClock Examples
-
-Here is an example of a `SystemClockLoop` that uses no `referenceClock` or a
-`backupClock`. The accuracy of this clock is limited by the accuracy of the
-internal `millis()` function, and the clock has no backup against power failure.
-Upon reboot, the user must be asked to call `SystemClock::setNow()` to set the
-current time. The `SystemClock::loop()` must still be called to perform a
-maintenance task to synchronize to `millis()`.
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-using namespace ace_time::clock;
-
-SystemClock systemClock(&dsClock /*reference*/, nullptr /*backup*/);
-...
-
-void setup() {
-  systemClock.setup();
-  ...
-}
-
-void loop() {
-  systemClock.loop();
-  ...
-}
-```
-
-Here is a more realistic example of a `SystemClockLoop` using the `NtpClock` as
-the `referenceClock` and the `DS3231Clock` as the `backupClock`.
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-using namespace ace_time::clock;
-
-DS3231Clock dsClock;
-NtpClock ntpClock(SSID, PASSWORD);
-SystemClockLoop systemClock(&ntpClock /*reference*/, &dsClock /*backup*/);
-...
-
-void setup() {
-  Serial.begin(115200);
-  while(!Serial); // needed for Leonardo/Micro
-  ...
-  dsClock.setup();
-  ntpClock.setup();
-  systemClock.setup();
-}
-
-// do NOT use delay(), it breaks systemClock.loop()
-void loop() {
-  static acetime_t prevNow = systemClock.getNow();
-
-  systemClock.loop();
-  acetime_t now = systemClock.getNow();
-  if (now - prevNow >= 10) {
-    auto odt = OffsetDateTime::forEpochSeconds(
-        now, TimeOffset::forHours(-8)); // convert epochSeconds to UTC-08:00
-    odt.printTo(Serial);
-  }
-}
-```
-
-If you wanted to use the `DS3231Clock` as *both* the backup and sync
-time sources, then the setup would something like this:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-using namespace ace_time::clock;
-
-DS3231Clock dsClock;
-SystemClockLoop systemClock(&dsClock /*reference*/, &dsClock /*backup*/);
-...
-
-void setup() {
-  dsClock.setup();
-  systemClock.setup();
-  ...
-}
-
-void loop() {
-  systemClock.loop();
-  ...
-}
-```
-
-<a name="Testing"></a>
-## Testing
-
-Writing tests for this library was very challenging, probably taking up 2-3X
-more effort than the core of the library. I think the reason is that the number
-input variables into the library and the number of output variables are
-substantially large, making it difficult to write isolated unit tests. Secondly,
-the TZ Database zone files are deceptively easy to read by humans, but
-contain so many implicit rules that are incredibly difficult to translate into
-computer algorithms, creating a large number of code paths to test.
-
-It is simply impractical to manually create the inputs and expected outputs
-using the TZ database. The calculation of one data point can take several
-minutes manually. The solution would be to programmatically generate the data
-points. To that end, I wrote the 2 different implementations of `ZoneProcessor`
-(`BasicZoneProcessor` and `ExtendedZoneProcessor`) partially as an attempt to
-write different versions of the algorithms to validate them against each other.
-(I think I wrote 4-5 different versions altogether, of which only 2 made it into
-this library). However, it turned out that the number of timezones supported by
-the `ExtendedZoneProcessor` was much larger than the ones supported by
-`BasicZoneProcessor` so it became infeasible to test the non-overlapping
-timezones.
-
-My next idea was to validate AceTime against a known, independently created,
-timezone library that also supports the TZ Database. Currently, I validate
-the AceTime library against 4 other timezone libraries:
-
-* Python [pytz](https://pypi.org/project/pytz/)
-* Python [dateutil](https://pypi.org/project/python-dateutil)
-* Java 11 [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
-* C++11/14/17 [Hinnant date](https://github.com/HowardHinnant/date)
-* [Noda Time](https://nodatime.org) C# library
-
-When these tests pass, I become confident that AceTime is producing the correct
-results, but it is entirely expected that some obscure edge-case bugs will be
-found in the future.
-
-<a name="TestPythonPytz"></a>
-### Python pytz
-
-The Python pytz library was a natural choice since the `tzcompiler.py` was
-already written in Python. I created:
-
-* [BasicPythonTest](tests/validation/BasicPythonTest/)
-* [ExtendedPythonTest](tests/validation/ExtendedPythonTest/)
-
-The `pytz` library is used to generate various C++ source code
-(`validation_data.cpp`, `validation_data.h`, `validation_tests.cpp`) which
-contain a list of epochSeconds, the UTC offset, the DST offset, at DST
-transition points, for all timezones. The integration test then compiles in the
-`ZonedDateTime` and verifies that the expected DST transitions and date
-components are identical.
-
-The resulting data test set contains between 150k to 220k data points, and can
-no longer fit in any Arduino microcontroller that I am aware of. They can be
-executed only on desktop-class Linux or MacOS machines through the use of the
-[EpoxyDuino](https://github.com/bxparks/EpoxyDuino) emulation framework.
-
-The `pytz` library supports [dates only until
-2038](https://answers.launchpad.net/pytz/+question/262216). It is also tricky to
-match the `pytz` version to the TZ Database version used by AceTime. The
-following versions of `pytz` have been tested:
-
-* pytz 2019.1, containing TZ Datbase 2019a
-* pytz 2019.2, containing TZ Datbase 2019b
-* pytz 2019.3, containing TZ Datbase 2019c
-
-A number of zones did not match between pytz and AceTime. Those
-have been listed in the `compare_pytz/blacklist.json` file.
-
-<a name="TestPythonDateUtil"></a>
-### Python dateutil
-
-Validation against the Python dateutil library is similar to pytz. I created:
-
-* [BasicDateUtilTest](tests/validation/BasicDateUtilTest/)
-* [ExtendedDateUtilTest](tests/validation/ExtendedDateUtilTest/)
-
-Similar to the `pytz` library, the `dateutil` library supports [dates only until
-2038](https://github.com/dateutil/dateutil/issues/462). The
-following versions of `dateutil` have been tested:
-
-* dateutil 2.8.1, containing TZ Datbase 2019c
-
-A number of zones did not match between dateutil and AceTime. Those
-have been listed in the `compare_dateutil/blacklist.json` file.
-
-<a name="TestJavaTime"></a>
-### Java java.time
-
-The Java 11 `java.time` library is not limited to 2038 but supports years
-through the [year 1,000,000,000
-(billion)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/class-use/Instant.html).
-I wrote the [GenerateData.java](tools/compare_java/GenerateData.java)
-program to generate a `validation_data.cpp` file in exactly the same format as
-the `tzcompiler.py` program, and produced data points from year 2000 to year
-2050, which is the exact range of years supported by the `zonedb::` and
-`zonedbx::` zoneinfo files.
-
-The result is 2 validation programs under `tests/validation`:
-
-* [BasicJavaTest](tests/validation/BasicJavaTest/)
-* [ExtendedJavaTest](tests/validation/ExtendedJavaTest/)
-
-The most difficult part of using Java is figuring out how to install it
-and figuring out which of the many variants of the JDK to use. On Ubuntu 18.04,
-I used `openjdk 11.0.4 2019-07-16` which seems to use TZ Database 2018g. I have
-no recollection how I installed it, I think it was something like `$ sudo apt
-install openjdk-11-jdk:amd64`.
-
-The underlying timezone database used by the `java.time` package seems to be
-locked to the release version of the JDK. I have not been able to figure out a
-way to upgrade the timezone database independently (it's something to do with
-the
-[TZUpdater](https://www.oracle.com/technetwork/java/javase/documentation/tzupdater-readme-136440.html)
-but I haven't figured it out.)
-
-A number of zones did not match between java.time and AceTime. Those
-have been listed in the `compare_java/blacklist.json` file.
-
-<a name="TestHinnantDate"></a>
-### C++ Hinnant Date
-
-I looked for a timezone library that allowed me to control the specific
-version of the TZ Database. This led me to the C++11/14/17 [Hinnant
-date](https://github.com/HowardHinnant/date) library, which has apparently been
-accepted into the C++20 standard. This date and timezone library is incredible
-powerful, complex and difficult to use. I managed to incorporate it into 2 more
-validation tests, and verified that the AceTime library matches the Hinnant date
-library for all timezones from 2000 to 2049 (inclusive):
-
-* [BasicHinnantDateTest](tests/validation/BasicHinnantDateTest/)
-* [ExtendedHinnantDateTest](tests/validation/ExtendedHinnantDateTest/)
-
-I have validated the AceTime library with the Hinnant date library for the
-following TZ Dabase versions:
-* TZ DB version 2019a
-* TZ DB version 2019b
-* TZ DB version 2019c
-* TZ DB version 2020a
-
-AceTime matches Hinnant Date on all data points from the year 2000 to 2050. No
-`blacklist.json` file was needed.
-
-<a name="TestNodaTime"></a>
-### Noda Time
-
-I wrote the test data generator [Program.cs](tools/compare_noda/Program.cs)
-in C# to generate a `validation_data.cpp` using the [Noda
-Time](https://nodatime.org) library.
-The result is 2 validation programs under `tests/validation`:
-
-* [BasicNodaTest](tests/validation/BasicNodaTest/)
-* [ExtendedNodaTest](tests/validation/ExtendedNodaTest/)
-
-AceTime matches Noda Time on all data points from the year 2000 to 2050. No
-`blacklist.json` file was needed.
-
 <a name="Benchmarks"></a>
 ## Benchmarks
 
@@ -3147,15 +2223,23 @@ Some version of the standard Unix/C library `<time.h>` is available in *some*
 Arduino platforms, but not others:
 
 * The [AVR libc time
-  library](https://www.nongnu.org/avr-libc/user-manual/group__avr__time.html),
-  contains methods such as `gmtime()` to convert `time_t` integer into date time
-  components `struct tm`, and `mk_gmtime()` to convert components into a
-  `time_t` integer. The `time_t` integer is unsigned, and starts at
-  2000-01-01T00:00:00Z. There is no support for timezones.
+  library](https://www.nongnu.org/avr-libc/user-manual/group__avr__time.html)
+    * contains methods such as `gmtime()` to convert `time_t` integer into date
+      time components `struct tm`,
+    * and a non-standard `mk_gmtime()` to convert components into a `time_t`
+      integer
+    * the `time_t` integer is unsigned, and starts at 2000-01-01T00:00:00 UTC
+    * no support for timezones
+    * the `time()` value does *not* auto-increment. The `system_tick()` function
+      must be manually called, probably in an ISR (interrupt service routine).
 * The SAMD21 and Teensy platforms do not seem to have a `<time.h>` library.
-* The ESP8266 and ESP32 have a `<time.h>` library. There seems to be some
-  rudimentary support for POSIX formatted timezones. It does not have
-  the equivalent of the (non-standard) `mk_gmtime()` AVR function.
+* The ESP8266 and ESP32 have a `<time.h>` library.
+    * contains some rudimentary support for POSIX formatted timezones.
+    * does not have the equivalent of the (non-standard) `mk_gmtime()` AVR
+      function.
+    * unknown, not researched:
+        * does the `time()` value auto-increment?
+        * is the source of `time()` the same as `millis()` or a different RTC?
 
 These libraries are all based upon the [traditional C/Unix library
 methods](http://www.catb.org/esr/time-programming/) which can be difficult to
@@ -3255,6 +2339,102 @@ The [cctz](https://github.com/google/cctz) library from Google is also based on
 the `<chrono>` library. I have not looked at this library closely because I
 assumed that it would *not* fit inside an Arduino controller. Hopefully I will
 get some time to take a closer look in the future.
+
+<a name="Motivation"></a>
+## Motivation and Design Considerations
+
+In the beginning, I created a digital clock using an Arduino Nano board, a small
+OLED display, and a DS3231 RTC chip. Everything worked, it was great. Then I
+wanted the clock to figure out the Daylight Saving Time (DST) automatically. And
+I wanted to create a clock that could display multiple timezones. Thus began my
+journey down the rabbit hole of
+[timezones](https://en.wikipedia.org/wiki/Time_zone).
+
+In full-featured operating systems (e.g. Linux, MacOS, Windows) and languages
+with timezone library support (e.g. Java, Python, JavaScript, C#, Go), the user
+has the ability to specify the Daylight Saving time (DST) transitions using 2
+ways:
+* [POSIX
+format](https://www.gnu.org/software/libc/manual/html_node/TZ-Variable.html)
+which encodes the DST transitions into a string (e.g.
+`EST+5EDT,M3.2.0/2,M11.1.0/2`) that can be parsed programmatically, or
+* a reference to a [TZ Database](https://www.iana.org/time-zones) entry
+(e.g. `America/Los_Angeles` or `Europe/London`) which identifies a set of time
+transition rules for the given timezone.
+
+The problem with the POSIX format is that it is somewhat difficult for a human
+to understand, and the programmer must manually update this string when a
+timezone changes its DST transition rules. Also, there is no historical
+information in the POSIX string, so date and time written in the past cannot be
+accurately expressed. The problem with the TZ Database is that most
+implementations are too large to fit inside most Arduino environments. The
+Arduino libraries that I am aware of use the POSIX format (e.g.
+[ropg/ezTime](https://github.com/ropg/ezTime) or
+[JChristensen/Timezone](https://github.com/JChristensen/Timezone)) for
+simplicity and smaller memory footprint.
+
+The AceTime library uses the TZ Database. When new versions of the database are
+released (several times a year), I can regenerate the zone files, recompile the
+application, and it will instantly use the new transition rules, without the
+developer needing to create a new POSIX string. To address the memory constraint
+problem, the AceTime library is designed to load only of the smallest subset of
+the TZ Database that is required to support the selected timezones (1 to 4 have
+been extensively tested). Dynamic lookup of the time zone is possible using the
+`ZoneManager`, and the app develop can customize it with the list of zones that
+are compiled into the app. On microcontrollers with more than about 32kB of
+flash memory (e.g. ESP8266, ESP32, Teensy 3.2) and depending on the size of the
+rest of the application, it may be possible to load the entire IANA TZ database.
+This will allow the end-user to select the timezone dynamically, just like on
+the big-iron machines.
+
+The AceTime library is inspired by and borrows from:
+* [Java 11 Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
+* [Micro Time Zone](https://github.com/evq/utz)
+* [Arduino Timezone](https://github.com/JChristensen/Timezone)
+* [Arduino Time](https://github.com/PaulStoffregen/Time)
+* [Joda-Time](https://www.joda.org/joda-time/)
+* [Noda Time](https://nodatime.org/)
+* [Python datetime](https://docs.python.org/3/library/datetime.html)
+* [Python pytz](https://pypi.org/project/pytz/)
+* [ezTime](https://github.com/ropg/ezTime)
+
+The names and API of AceTime classes are heavily borrowed from the [Java JDK 11
+java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
+package. Some important differences come from the fact that in Java, most
+objects are reference objects and created on the heap. To allow AceTime to work
+on an Arduino chip with only 2kB of RAM and 32kB of flash, the AceTime C++
+classes perform *no* heap allocations (i.e. no calls to `operator new()` or
+`malloc()`). Many of the smaller classes in the library are expected to be used
+as "value objects", in other words, created on the stack and copied by value.
+Fortunately, the C++ compilers are extremely good at optimizing away unnecessary
+copies of these small objects. It is not possible to remove all complex memory
+allocations when dealing with the TZ Database. In the AceTime library, I managed
+to move most of the complex memory handling logic into the `ZoneProcessor` class
+hierarchy. These are relatively large objects which are meant to be opaque
+to the application developer, created statically at start-up time of
+the application, and never deleted during the lifetime of the application.
+
+The [Arduino Time Library](https://github.com/PaulStoffregen/Time) uses a set of
+C functions similar to the [traditional C/Unix library
+methods](http://www.catb.org/esr/time-programming/) (e.g `makeTime()` and
+`breaktime()`). It also uses the Unix epoch of 1970-01-01T00:00:00Z and a
+`int32_t` type as its `time_t` to track the number of seconds since the epoch.
+That means that the largest date it can handle is 2038-01-19T03:14:07Z. AceTime
+uses an epoch that starts on 2000-01-01T00:00:00Z using the same `int32_t` as
+its `ace_time::acetime_t`, which means that maximum date increases to
+2068-01-19T03:14:07Z. AceTime is also quite a bit faster than the Arduino Time
+Library (although in most cases, performance of the Time Library is not an
+issue): AceTime is **2-5X** faster on an ATmega328P, **3-5X** faster on the
+ESP8266, **7-8X** faster on the ESP32, and **7-8X** faster on the Teensy ARM
+processor.
+
+AceTime aims to be the smallest library that can run on the basic Arduino
+platform (e.g. Nano with 32kB flash and 2kB of RAM) that fully supports all
+timezones in the TZ Database at compile-time. Memory constraints of the smallest
+Arduino boards may limit the number of timezones supported by a single program
+at runtime to 1-3 timezones. The library also aims to be as portable as
+possible, and supports AVR microcontrollers, as well as ESP8266, ESP32 and
+Teensy microcontrollers.
 
 <a name="Bugs"></a>
 ## Bugs and Limitations

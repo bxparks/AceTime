@@ -3,6 +3,30 @@
 Information which are useful for developers and maintainers of the AceTime
 library.
 
+## Namespace Dependency
+
+The various AceTime namespaces are related in the following way, where the arrow
+means "depends on":
+
+```
+ace_time::clock     ace_time::testing
+      |       \        /
+      |        v      v
+      |        ace_time
+      |         |\     \
+      |         | \     v
+      |         |  \    ace_time::zonedb
+      |         |   \   ace_time::zonedbx
+      |         |    \     |
+      v         |     v    v
+ace_time::hw    |     ace_time::basic
+          \     |     ace_time::extended
+           \    |     /
+            \   |    /
+             v  v   v
+           ace_time::logging
+```
+
 ## Zone DB Files
 
 As explained in the README.md, the AceTime library comes with 2 versions of the
@@ -146,7 +170,7 @@ STDOFF (1-min resolution)
                    \
                     \                   +--------------------+
                      \                  |     deltaCode      |
-                      \                 +--------------------+
+                      \                 |--------------------|
                        ---------------> | minute  | code     |
                                         | (4-bits)| (4-bits) |
                                         +--------------------+
@@ -167,7 +191,7 @@ UNTIL (1-min resolution)
                              \                                    \
                               \         +--------------------+     |
                                \        | untilTimeModifier  |     |
-                                \       +--------------------+    /
+                                \       |--------------------|    /
                                  -----> | suffix  | minute   | <-'
                                         | (4-bits)| (4-bits) |
                                         +--------------------+
@@ -185,7 +209,7 @@ AT (1-min resolution)
                              \                                    \
                               \         +--------------------+     |
                                \        |   atTimeModifier   |     |
-                                \       +--------------------+    /
+                                \       |--------------------|    /
                                  -----> | suffix  | minute   | <-'
                                         | (4-bits)| (4-bits) |
                                         +--------------------+
