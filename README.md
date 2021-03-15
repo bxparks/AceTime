@@ -622,7 +622,6 @@ See [INSTALLATION.md](INSTALLATION.md).
     * this file
 * [USER_GUIDE.md](USER_GUIDE.md)
     * Date, Time, and TimeZone classes
-    * Mutations
     * Zones and Links
     * Error Handling
     * Benchmarks
@@ -631,8 +630,7 @@ See [INSTALLATION.md](INSTALLATION.md).
     * Bugs and Limitations
 * [CLOCK_GUIDE.md](CLOCK_GUIDE.md)
     * Clocks
-    * NTP Clock
-    * DS3231 Clock
+    * NTP Clock, DS3231 Clock, STM32 RTC Clock, STM32F1 Clock
     * System Clock
 * [VALIDATION.md](VALIDATION.md)
     * Testing and Validation

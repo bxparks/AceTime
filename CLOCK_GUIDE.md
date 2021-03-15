@@ -34,9 +34,14 @@ classes live within the AceTime library.
 * [STM32F1 Clock](#Stm32F1Clock)
 * [System Clock](#SystemClock)
     * [System Clock Maintenance Tasks](#SystemClockMaintenance)
+    * [Reference And Backup Clocks](#ReferenceAndBackupClocks)
     * [System Clock Loop](#SystemClockLoop)
     * [System Clock Coroutine](#SystemClockCoroutine)
-    * [System Clock Examples](#SystemClockExamples)
+* [System Clock Examples](#SystemClockExamples)
+    * [No Reference And No Backup](#NoReferenceAndNoBackup)
+    * [DS3231 Reference](#DS3231Reference)
+    * [NTP Reference With DS3231 Backup](#NtpReferenceWithDS3231Backup)
+    * [DS3231 Reference and Backup](#DS3231ReferenceAndBackup)
 
 <a name="Overview"></a>
 ## Overview
@@ -447,17 +452,31 @@ to the NTP server over the network which can be unpredictably slow.
 Unfortunately, the `millis()` internal clock of most (all?) Arduino boards is
 not very accurate and unsuitable for implementing an accurate clock. Therefore,
 the `SystemClock` provides the option to synchronize its clock to an external
-`reference Clock`.
+`referenceClock`.
 
 The other problem with the `millis()` internal clock is that it does not survive
 a power failure. The `SystemClock` provides a way to save the current time
 to a `backupClock` (e.g. the `DS3231Clock` using the DS3231 chip with battery
-backup). When the `SystemClock` starts up, it will read the `backup Clock` and
+backup). When the `SystemClock` starts up, it will read the `backupClock` and
 set the current time. When it synchronizes with the `referenceClock`, (e.g. the
 `NtpClock`), it saves a copy of it into the `backupClock`.
 
 The `SystemClock` is an abstract class, and this library provides 2 concrete
 implementations, `SystemClockLoop` and `SystemClockCoroutine`:
+
+* The `SystemClockLoop` is designed to be called from the global `loop()`
+  function.
+* The `SystemClockCoroutine` is coroutine designed to be called through the
+  AceRoutine (https://github.com/bxparks/AceRoutine) library.
+
+They implement the periodic maintenance that is required on the `SystemClock`
+(see the [SystemClockMaintenance](#SystemClockMaintenance) subsection below).
+One of the maintenance task is to synchronize the system clock with an external
+clock. But getting the time from the external clock is an expensive process
+because, for example, it could go over the network to an NTP server. So the
+`SystemClockCoroutine::runCoroutine()` and the `SystemClockLoop::loop()` methods
+both use the non-block API of the `Clock` interface to retrieve the external
+time, which allow other things to to continue to run on the microcontroller.
 
 ```C++
 namespace ace_time {
@@ -471,11 +490,14 @@ class SystemClock: public Clock {
     void setNow(acetime_t epochSeconds) override;
 
     bool isInit() const;
-    void forceSync();
     acetime_t getLastSyncTime() const;
 
   protected:
     virtual unsigned long clockMillis() const { return ::millis(); }
+
+    void keepAlive();
+
+    void syncNow(acetime_t epochSeconds);
 
     explicit SystemClock(
         Clock* referenceClock /* nullable */,
@@ -506,7 +528,6 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
         ace_common::TimingStats* timingStats = nullptr);
 
     int runCoroutine() override;
-    uint8_t getRequestStatus() const;
 };
 
 #endif
@@ -525,19 +546,61 @@ header before `<AceTime.h>`, like this:
 ...
 ```
 
-The constructor of each of the 2 concrete implementations take optional
-parameters, the `referenceClock` and the `backupClock`. Each of these parameters
-are optional, so there are 4 combinations:
+<a name="ReferenceAndBackupClocks"></a>
+### Reference and Backup Clocks
 
-```C++
-SystemClock*(nullptr, nullptr); // no referenceClock or backupClock
+The constructor of both `SystemClockLoop` and `SystemClockCoroutine`
+take 2 required but *nullable* parameters:
 
-SystemClock*(referenceClock, nullptr); // referenceClock only
+* the `referenceClock`
+    * an instance of the `Clock` class which provides an external clock of high
+      accuracy
+    * assumed to be expensive to use (e.g. the `NtpClock` requires a network
+      request and can take multiple seconds.)
+    * the `SystemClock` will synchronize against the `referenceClock` on a
+      periodic basis using the non-blocking API of the `Clock` interface
+    * synchronized time is a configurable parameter in the constructor
+      (default, every 1 hour).
+* the `backupClock`
+    * an instance of the `Clock` class which preserves the time and *continues
+      to tick* after the power is lost
+    * e.g. `DS3231Clock` backed by a battery or a super capacitor
+    * upon initialized, the `SystemClock` can retrieve the current time
+      from the `backupClock` so that the current time available in the
+      `SystemClock` right away, without having to wait to resychronize with a
+      slow `referenceClock` (e.g. the `NtpClock`).
 
-SystemClock*(nullptr, backupClock); // backupClock only
+Both parameters are required but each are nullable, so there are 4 combinations:
 
-SystemClock*(referenceClock, backupClock); // both clocks
-```
+* `SystemClock{Loop,Coroutine}(nullptr, nullptr)`
+    * no referenceClock or backupClock
+    * only the `millis()` function is used
+* `SystemClock{Loop,Coroutine}(referenceClock, nullptr)`
+    * performs periodic syncing with referenceClock
+    * if the referenceClock does not keep time after power loss, then the
+      date/time much be reset after reinitialization
+    * an example configuration would use the `NtpClock` or `DS3231Clock`
+      as the referenceClock, and set the `backupClock` to `nullptr`
+        * the `backupClock` is not needed because both the `NptClock` and
+          `DS3231Clock` will preserve their time through a power loss
+* `SystemClock{Loop,Coroutine}(nullptr, backupClock)`
+    * `millis()` used as the reference
+    * date and time retrieve from backupClock upon initial startup
+    * I think the `backupClock` gets set only when the user manually
+      calls `SystemClock::setNow()`, no further syncing happens to the
+      backupClock.
+    * It is difficult to see this configuration being useful in practice, so I
+      don't recommend it.
+* `SystemClock{Loop,Coroutine}(referenceClock, backupClock)`
+    * the `referenceClock` and `backupClock` are assumed to be different
+    * using both `referenceClock` and `backupClock` provides the most redundancy
+      and rapid initialization
+    * see example below where the `referenceClock` is an `NtpClock` which can
+      take many seconds to initialize, and the `backupClock` is a `DS3231`
+      which can initialize the `SystemClock` quickly when the board
+      restarts
+    * this configuration allows the clock to keep working if the network goes
+      down
 
 <a name="SystemClockMaintenance"></a>
 ### SystemClock Maintenance Tasks
@@ -641,21 +704,29 @@ methods of `Clock`. However, since version 0.6, both of them use the
 except in how the methods are called.
 
 <a name="SystemClockExamples"></a>
-### SystemClock Examples
+## SystemClock Examples
 
-Here is an example of a `SystemClockLoop` that uses no `referenceClock` or a
-`backupClock`. The accuracy of this clock is limited by the accuracy of the
-internal `millis()` function, and the clock has no backup against power failure.
-Upon reboot, the user must be asked to call `SystemClock::setNow()` to set the
-current time. The `SystemClock::loop()` must still be called to perform a
-maintenance task to synchronize to `millis()`.
+<a name="NoReferenceAndNoBackup"></a>
+### No Reference And No Backup
+
+This is the most basic example of a `SystemClockLoop` that uses no
+`referenceClock` or a `backupClock`. The accuracy of this clock is limited by
+the accuracy of the internal `millis()` function, and the clock has no backup
+against power failure. Upon reboot, the `SystemClock::setNow()` must be called
+to set the current time. The `SystemClock::loop()` must still be called to
+perform a maintenance task of incrementing the AceTime epochSeconds returned by
+`SystemClock::getNow()` using the progression of the Arduino `millis()`
+function.
+
+This configuration is not very practical, but it might be useful for quick
+debugging.
 
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
 using namespace ace_time::clock;
 
-SystemClock systemClock(&dsClock /*reference*/, nullptr /*backup*/);
+SystemClock systemClock(nullptr /*reference*/, nullptr /*backup*/);
 ...
 
 void setup() {
@@ -669,8 +740,58 @@ void loop() {
 }
 ```
 
-Here is a more realistic example of a `SystemClockLoop` using the `NtpClock` as
-the `referenceClock` and the `DS3231Clock` as the `backupClock`.
+<a name="DS3231Reference"></a>
+### DS3231 Reference
+
+This `SystemClockLoop` uses a `DS3231Clock` as a `referenceClock`. No backup
+clock is actually needed because the DS3231 RTC preserves its info as long as a
+battery is connected to it. The `SystemClock::loop()` advances the internal
+`epochSeconds` every second using the `millis()` function, and it synchronizes
+the `epochSeconds` to the `DS3231` clock every one hour (by default).
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+using namespace ace_time::clock;
+
+DS3231Clock dsClock;
+SystemClock systemClock(&dsClock /*reference*/, nullptr /*backup*/);
+...
+
+void setup() {
+  dsClock.setup();
+  systemClock.setup();
+  ...
+}
+
+void loop() {
+  systemClock.loop();
+  ...
+}
+```
+
+<a name="NtpReferenceWithDS3231Backup"></a>
+### NTP Reference With DS3231 Backup
+
+This is a more sophisticated example of a `SystemClockLoop` configured to use
+the `NtpClock` as the `referenceClock` and the `DS3231Clock` as the
+`backupClock`. Currently, the `NptClock` supports only the ESP8266 and the ESP32
+microcontrollers, but it could be readily extended to support other controllers
+which have network capabilities.
+
+Every hour (by default), the `SystemClockLoop` makes a request to the `NtpClock`
+to get the most accurate time. This is a network request that can potentially
+take several seconds. Fortunately, `SystemClockLoop` uses the non-blocking API
+of `NtpClock` when making this request, so everything else on the
+microcontroller keeps running while the request is being fulfilled. When the
+request to `NtpClock` is successful, the result is also written into the
+`DS3231Clock` backup clock, just to keep it in sync as well.
+
+(It just occurs to me that `Clock::setNow()` is a blocking call, so this code
+assumes that updating the `backupClock` is a relatively quick operation. This
+seems to me a reasonable assumption because a `backupClock` that takes a long
+time to update does not seem like not a good candidate as a `backupClock`. But
+let me know if my assumptions are incorrect.)
 
 ```C++
 #include <AceTime.h>
@@ -684,18 +805,20 @@ SystemClockLoop systemClock(&ntpClock /*reference*/, &dsClock /*backup*/);
 
 void setup() {
   Serial.begin(115200);
-  while(!Serial); // needed for Leonardo/Micro
-  ...
+  while (!Serial); // wait for Leonardo/Micro
+
   dsClock.setup();
   ntpClock.setup();
   systemClock.setup();
 }
 
-// do NOT use delay(), it breaks systemClock.loop()
+
 void loop() {
   static acetime_t prevNow = systemClock.getNow();
 
   systemClock.loop();
+
+  // Print the date/time every 10 seconds.
   acetime_t now = systemClock.getNow();
   if (now - prevNow >= 10) {
     auto odt = OffsetDateTime::forEpochSeconds(
@@ -705,8 +828,19 @@ void loop() {
 }
 ```
 
-If you wanted to use the `DS3231Clock` as *both* the backup and sync
-time sources, then the setup would something like this:
+**Note**: This is configuration does *not* provide fail-over. In other words, if
+the `referenceClock` is unreachable, then the code does not automatically start
+using the `backupClock` as the reference clock. The `backupClock` is used *only*
+during initial startup to initialize the `SystemClock`. If the network continues
+to be unreachable for a long time, then the `SystemClock` will be only as
+accurate as the `millis()` function.
+
+<a name="DS3231ReferenceAndBackup"></a>
+### DS3231 Both Reference and Backup (don't do this)
+
+It might be tempting to specify the `DS3231Clock` as *both* the reference and
+backup clock sources like this (and an earlier version of this guide actually
+had an example of this):
 
 ```C++
 #include <AceTime.h>
@@ -714,17 +848,16 @@ using namespace ace_time;
 using namespace ace_time::clock;
 
 DS3231Clock dsClock;
+
+// **Don't do this**
 SystemClockLoop systemClock(&dsClock /*reference*/, &dsClock /*backup*/);
 ...
-
-void setup() {
-  dsClock.setup();
-  systemClock.setup();
-  ...
-}
-
-void loop() {
-  systemClock.loop();
-  ...
-}
 ```
+
+It turns out the code detects the situation where the `referenceClock` is the
+same as the `backupClock`, and then ignores the `backupClock` completely in this
+case because there is no benefit in this configuration, while actually harming
+the accuracy of the time keeping. In practice, if something like the DS3231 with
+a battery is used as the `referenceClock`, there is no need for a `backupClock`
+because the DS3231 automatically retains its time info while the battery is
+attached to it.
