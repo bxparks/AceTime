@@ -288,8 +288,8 @@ will fail until the underying timezone database of the OS is updated.
 * Update and commit the version numbers in various files:
     * `src/AceTime.h`
     * `README.md`
-    * `docs/date_time_timezone_guide.md`
-    * `docs/clock_guide.md`
+    * `docs/date_time_timezone.md`
+    * `docs/clock_system_clock.md`
     * `docs/installation.md`
     * `docs/validation.md`
     * ...

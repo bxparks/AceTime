@@ -4,9 +4,9 @@ Related documents:
 
 * [README.md](README.md): introductory background
 * [docs/installation.md](docs/installation.md): how to install the library
-* [docs/date_time_timezone_guide.md](docs/installation.md): the time, date and time
-  zone classes
-* [docs/clock_guide.md](docs/clock_guide.md): the clock classes
+* [docs/date_time_timezone.md](docs/date_time_timezone.md): the time, date and
+  time zone classes
+* [docs/clock_system_clock.md](docs/clock_system_clock.md): the clock classes
 * [docs/validation.md](docs/validation.md): testing and validating the library
 * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
 

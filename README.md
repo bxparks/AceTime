@@ -41,7 +41,7 @@ This library can be an alternative to the Arduino Time
 
 **IMPORTANT CHANGE for v1.2**: This library now depends on the the "AceCommon"
 library for some of its low-level routines. See the
-[docs/date_time_timezone_guide.md](docs/date_time_timezone_guide.md) for
+[docs/date_time_timezone.md](docs/date_time_timezone.md) for
 installation instructions.
 
 ## Table of Contents
@@ -106,7 +106,7 @@ The Date, Time, and TimeZone classes provide an abstraction layer to make it
 easier to use and manipulate date and time fields, in different time zones.
 
 The documentation of these classes are given in
-[docs/date_time_timezone_guide.md](docs/date_time_timezone_guide.md):
+[docs/date_time_timezone.md](docs/date_time_timezone.md):
 
 * date and time classes and types
     * `ace_time::acetime_t`
@@ -170,7 +170,7 @@ integer (`acetime_t` typedef'ed to `int32_t`) that represents the number of
 seconds since a fixed point in the past called the "Epoch".
 
 The documentation of these classes are given in
-[docs/clock_guide.md](docs/clock_guide.md):
+[docs/clock_system_clock.md](docs/clock_system_clock.md):
 
 * `ace_time::clock::Clock`
     * `ace_time::clock::DS3231Clock`
@@ -550,7 +550,7 @@ See [docs/installation.md](docs/installation.md).
 
 * [README.md](README.md)
     * this file
-* [docs/date_time_timezone_guide.md](docs/date_time_timezone_guide.md)
+* [docs/date_time_timezone.md](docs/date_time_timezone.md)
     * Date, Time, and TimeZone classes
     * Zones and Links
     * Error Handling
@@ -558,7 +558,7 @@ See [docs/installation.md](docs/installation.md).
     * Comparison to Other Libraries
     * Motivation and Design Considerations
     * Bugs and Limitations
-* [docs/clock_guide.md](docs/clock_guide.md)
+* [docs/clock_system_clock.md](docs/clock_system_clock.md)
     * Clocks
     * NTP Clock, DS3231 Clock, STM32 RTC Clock, STM32F1 Clock
     * System Clock
