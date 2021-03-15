@@ -95,7 +95,7 @@ library for some of its low-level routines. See the
 * [Feedback and Support](#Feedback)
 * [Authors](#Authors)
 
-<a name="Overview">
+<a name="Overview"></a>
 ## Overview
 
 The various classes are organized into 2 modules mentioned above, using roughly
@@ -191,7 +191,7 @@ sampling at least as fast as 10 times per second, but ideally much faster than
 1000 times a second.
 
 The `SystemClockRoutine` and `SystemClockLoop` classes provide a mechanism to
-synchronize the `epochSeconds of the `SystemClock` with a more accurate
+synchronize the `epochSeconds` of the `SystemClock` with a more accurate
 `referenceClock` provided by one of the other `Clock` subclasses.
 
 <a name="MemoryUsage"></a>
