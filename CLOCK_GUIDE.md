@@ -34,7 +34,7 @@ classes live within the AceTime library.
 * [STM32F1 Clock](#Stm32F1Clock)
 * [System Clock](#SystemClock)
     * [System Clock Maintenance Tasks](#SystemClockMaintenance)
-    * [Reference And Backup Clocks](#ReferenceAndBackupClocks)
+    * [Reference Clock And Backup Clock](#ReferenceClockAndBackupClock)
     * [System Clock Loop](#SystemClockLoop)
     * [System Clock Coroutine](#SystemClockCoroutine)
 * [System Clock Examples](#SystemClockExamples)
@@ -42,6 +42,7 @@ classes live within the AceTime library.
     * [DS3231 Reference](#DS3231Reference)
     * [NTP Reference With DS3231 Backup](#NtpReferenceWithDS3231Backup)
     * [DS3231 Reference and Backup](#DS3231ReferenceAndBackup)
+* [System Clock Configurable Parameters](#SystemClockConfigurableParameters)
 
 <a name="Overview"></a>
 ## Overview
@@ -87,14 +88,16 @@ features:
 
 Those familiar with the `time.h` functions in the C-library may be wondering why
 we can't just use the `time()` function. On the AVR platform, the value of the
-`time()` function does not auto-increment. On the SAMD21 and Teensy platforms,
-the `time.h` header file does not exist. These substantial differences among
-different Arduino platforms made it worthwhile to create the `SystemClock` class
-that could be used across all Arduino platforms.
+`time()` function does not auto-increment. It must be incremented from an
+*external* process (e.g. in an Interrupt Service Routine, ISR) which must call
+the `system_tick()` function exactly once a second. On the SAMD21 and Teensy
+platforms, the `time.h` header file does not exist. These substantial
+differences among different Arduino platforms made it worthwhile to create the
+`SystemClock` class that could be used across all Arduino platforms.
 
-The class hierarchy diagram for these various classes looks like this, where the
-upward arrow means "is-subclass-of", the side-ways arrow means "depends on", and
-the diamond-line means "is-aggregation-of":
+The class hierarchy diagram for these various classes looks like the following.
+The upward arrow means "is-subclass-of", the side-ways arrow means "depends on",
+and the diamond-line means "is-aggregation-of":
 
 ```
      (0..2)
@@ -113,18 +116,18 @@ the diamond-line means "is-aggregation-of":
 SystemClockLoop      SystemClockCoroutine
 ```
 
-The classes in the `ace_time::hw` namespace provide a very thin abstraction
-layer between the specific `Clock` subclass and the underlying hardware or
-network device.
+The classes in the `ace_time::hw` namespace provide a thin abstraction or
+translation layer between the specific `Clock` subclass and the underlying
+hardware or network device.
 
 The `SystemClockLoop` and `SystemClockCoroutine` subclasses provide 2 different
-ways of keeping the `SystemClock` constantly synchronized with the Arduino
-`millis()` function, the `referenceClock` and the `backupClock`. (It could be
-argued that these classes would be better implemented using composition, as
-adapter classes around the `SystemClock` object, instead of using inheritance. I
-went back and forth and finally decided that inheritance made these classes
-easier to use, but I agree that composition would lead to better "separation of
-concerns".)
+ways of keeping the `SystemClock` continually synchronized with the Arduino
+`millis()` function, with the `referenceClock`, and with the `backupClock`. (It
+could be argued that these classes would be better implemented using
+composition, as adapter classes around the `SystemClock` object, instead of
+using inheritance. I went back and forth on this, there were pros and cons
+either way, and finally decided that inheritance made these classes easier to
+use.)
 
 <a name="Headers"></a>
 ## Headers and Namespaces
@@ -546,11 +549,11 @@ header before `<AceTime.h>`, like this:
 ...
 ```
 
-<a name="ReferenceAndBackupClocks"></a>
-### Reference and Backup Clocks
+<a name="ReferenceClockAndBackupClock"></a>
+### Reference Clock and Backup Clock
 
 The constructor of both `SystemClockLoop` and `SystemClockCoroutine`
-take 2 required but *nullable* parameters:
+take 2 parameters which are required but are *nullable*:
 
 * the `referenceClock`
     * an instance of the `Clock` class which provides an external clock of high
@@ -570,7 +573,7 @@ take 2 required but *nullable* parameters:
       `SystemClock` right away, without having to wait to resychronize with a
       slow `referenceClock` (e.g. the `NtpClock`).
 
-Both parameters are required but each are nullable, so there are 4 combinations:
+Since both parameters are nullable, there are 4 combinations:
 
 * `SystemClock{Loop,Coroutine}(nullptr, nullptr)`
     * no referenceClock or backupClock
@@ -579,22 +582,16 @@ Both parameters are required but each are nullable, so there are 4 combinations:
     * performs periodic syncing with referenceClock
     * if the referenceClock does not keep time after power loss, then the
       date/time much be reset after reinitialization
-    * an example configuration would use the `NtpClock` or `DS3231Clock`
-      as the referenceClock, and set the `backupClock` to `nullptr`
-        * the `backupClock` is not needed because both the `NptClock` and
-          `DS3231Clock` will preserve their time through a power loss
 * `SystemClock{Loop,Coroutine}(nullptr, backupClock)`
     * `millis()` used as the reference
     * date and time retrieve from backupClock upon initial startup
-    * I think the `backupClock` gets set only when the user manually
-      calls `SystemClock::setNow()`, no further syncing happens to the
-      backupClock.
+    * `backupClock` updated when `SystemClock::setNow()` is called
+    * no further syncing happens to the backupClock
     * It is difficult to see this configuration being useful in practice, so I
       don't recommend it.
 * `SystemClock{Loop,Coroutine}(referenceClock, backupClock)`
     * the `referenceClock` and `backupClock` are assumed to be different
-    * using both `referenceClock` and `backupClock` provides the most redundancy
-      and rapid initialization
+    * using both provides the redundancy and rapid initialization
     * see example below where the `referenceClock` is an `NtpClock` which can
       take many seconds to initialize, and the `backupClock` is a `DS3231`
       which can initialize the `SystemClock` quickly when the board
@@ -607,19 +604,28 @@ Both parameters are required but each are nullable, so there are 4 combinations:
 
 There are 2 internal maintenance tasks that must be performed periodically.
 
-First, the `SystemClock` must be synchronized to the `millis()` function
-before an internal integer overflow occurs. The internal integer overflow
-happens every 65.536 seconds.
+First, the `SystemClock` advances the internal `epochSeconds` counter using the
+`millis()` function when the `getNow()` method is called. This synchronization
+with `millis()` must happen every 65.536 seconds or faster. Most of the time,
+this will not be problem because the `getNow()` method will be called very
+frequently, say 10 times a second, to detect a transition of the time from one
+second to the next second. But there may be applications where `getNow()` is not
+called frequently, so the `SystemClock` maintenance task must make sure that
+`getNow()` is called frequently enough even if the calling application does not
+do so.
 
-Second (optionally), the SystemClock can be synchronized to the `referenceClock`
-since internal `millis()` clock is not very accurate. How often this should
-happen depends on the accuracy of the `millis()`, which depends on the hardware
-oscillator of the chip, and the cost of the call to the `getNow()` method of the
-syncing time clock. If the `referenceClock` is the DS3231 chip, syncing once
-every 1-10 minutes might be acceptable since talking to the RTC chip over
-I2C is relatively cheap. If the `referenceClock` is the `NtpClock`, the network
-connection is fairly expensive so maybe once every 1-12 hours might be
-advisable.
+Second, if the `referenceClock` is given, the `SystemClock` should synchronize
+its internal `epochSeconds` with the reference clock periodically.
+The frequency of this sync'ing will likely depend on the accuracy of the
+`millis()`, and how expensive the call to the `referenceClock` is. If the
+`referenceClock` is a DS3231 chip, syncing once every 1-10 minutes might be
+acceptable since talking to the RTC chip over I2C is relatively cheap. If the
+`referenceClock` is the `NtpClock`, the network connection is fairly expensive
+so maybe once every 1-12 hours might be advisable. Since the `SystemClock` does
+not actually know what kind of `referenceClock` is attached to it, it needs to
+be given a some reasonable default value. The current default value is every
+**one hour**. This value can be changed in the constructor of one of the
+following subclasses.
 
 The `SystemClock` provides 2 subclasses which differ in the way they perform
 these maintenance tasks:
@@ -693,15 +699,9 @@ void loop() {
 }
 ```
 
-`SystemClockCoroutine` keeps internal counters to limit the syncing process to
-every 1 hour. This is configurable through parameters in the
-`SystemClockCoroutine()` constructor.
-
-Previously, the `SystemClockLoop::loop()` used the blocking `Clock::getNow()`
-method, and the `SystemClockCoroutine::runCoroutine()` used the non-blocking
-methods of `Clock`. However, since version 0.6, both of them use the
-*non-blocking* calls, so there should be little difference between the two
-except in how the methods are called.
+I suspect that most people will feel more comfortable using the
+`SystemClockLoop` class. But if you are already using the AceRoutine library, it
+may be more convenient to use the `SystemClockCoroutine` class instead.
 
 <a name="SystemClockExamples"></a>
 ## SystemClock Examples
@@ -851,13 +851,61 @@ DS3231Clock dsClock;
 
 // **Don't do this**
 SystemClockLoop systemClock(&dsClock /*reference*/, &dsClock /*backup*/);
-...
 ```
 
-It turns out the code detects the situation where the `referenceClock` is the
-same as the `backupClock`, and then ignores the `backupClock` completely in this
-case because there is no benefit in this configuration, while actually harming
-the accuracy of the time keeping. In practice, if something like the DS3231 with
-a battery is used as the `referenceClock`, there is no need for a `backupClock`
-because the DS3231 automatically retains its time info while the battery is
-attached to it.
+It turns out the `SystemClock` will detect the situation where the
+`referenceClock` is the same as the `backupClock`, and then ignore the
+`backupClock` completely because there is no benefit in this configuration,
+while actually harming the accuracy of the time keeping. In practice, if
+something like the DS3231 with a battery is used as the `referenceClock`, there
+is no need for a `backupClock` because the DS3231 automatically retains its time
+info while the battery is attached to it.
+
+<a name="SystemClockConfigurableParameters"></a>
+## System Clock Configurable Parameters
+
+The constructors of both `SystemClockLoop` and `SystemClockCoroutine` take an
+identical list of parameters, some of which have default values. This section
+explains the meaning of those parameters. Both construtors look exactly like
+this:
+
+```C++
+explicit SystemClockLoop(
+    Clock* referenceClock /* nullable */,
+    Clock* backupClock /* nullable */,
+    uint16_t syncPeriodSeconds = 3600,
+    uint16_t initialSyncPeriodSeconds = 5,
+    uint16_t requestTimeoutMillis = 1000,
+    ace_common::TimingStats* timingStats = nullptr);
+```
+
+* `syncPeriodSeconds`
+    * Number of seconds between successive requests to the `referenceClock` to
+      obtain the current time.
+    * If requests to the `referenceClock` is cheap (e.g. `DS3231Clock` over
+      I2C), then this value could be lowered (e.g. 1 minute) without much
+      detriment.
+    * If requests to the `referenceClock` is expensive (e.g. `NtpClock`) then
+      this value should remain relatively large.
+* `initialSyncPeriodSeconds`
+    * Number of seconds to wait between the very first request to the
+      `referenceClock` just after reboot, and the *second* request to the
+      `referenceClock` if the first request fails.
+    * If the request fails again, the `SystemClockLoop::loop()` and
+      `SystemClockCoroutine::runCoroutine()` methods will use an [exponential
+      backoff](https://en.wikipedia.org/wiki/Exponential_backoff) algorithm and
+      double the number of seconds between each successive retry attempt.
+    * The retry interval keeps increasing until it becomes greater than or equal
+      to `syncPeriodSeconds`, after which the retry interval becomes pegged to
+      `syncPeriodSeconds`.
+* `requestTimeoutMillis`
+    * Number of milliseconds to wait after making a request to the
+      `referenceClock` before marking the request as timed out, and therefore,
+      failed.
+    * Note that since the non-blocking request API of `Clock` is used, other
+      tasks continue to run while we wait for a response from the
+      `referenceClock`.
+* `timingStats`
+    * An instance of `ace_common::TimingStats` used for debugging and
+      benchmarking.
+    * Application developers are not expected to use this normally.
