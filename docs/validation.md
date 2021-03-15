@@ -3,10 +3,11 @@
 Related documents:
 
 * [README.md](README.md): introductory background
-* [INSTALLATION.md](INSTALLATION.md): how to install the library
-* [USER_GUIDE.md](INSTALLATION.md): the time, date and time zone classes
-* [CLOCK_GUIDE.md](CLOCK_GUIDE.md): the clock classes
-* [VALIDATION.md](VALIDATION.md): testing and validating the library
+* [docs/installation.md](docs/installation.md): how to install the library
+* [docs/date_time_timezone_guide.md](docs/installation.md): the time, date and time
+  zone classes
+* [docs/clock_guide.md](docs/clock_guide.md): the clock classes
+* [docs/validation.md](docs/validation.md): testing and validating the library
 * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
 
 Writing tests for this library was challenging, probably taking up 2-3X more

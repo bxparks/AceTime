@@ -41,7 +41,8 @@ This library can be an alternative to the Arduino Time
 
 **IMPORTANT CHANGE for v1.2**: This library now depends on the the "AceCommon"
 library for some of its low-level routines. See the
-[USER_GUIDE.md](USER_GUIDE.md) for installation instructions.
+[docs/date_time_timezone_guide.md](docs/date_time_timezone_guide.md) for
+installation instructions.
 
 ## Table of Contents
 
@@ -104,7 +105,8 @@ make it easier to understand how to use this library.
 The Date, Time, and TimeZone classes provide an abstraction layer to make it
 easier to use and manipulate date and time fields, in different time zones.
 
-The documentation of these classes are given in [USER_GUIDE.md](USER_GUIDE.md):
+The documentation of these classes are given in
+[docs/date_time_timezone_guide.md](docs/date_time_timezone_guide.md):
 
 * date and time classes and types
     * `ace_time::acetime_t`
@@ -168,7 +170,7 @@ integer (`acetime_t` typedef'ed to `int32_t`) that represents the number of
 seconds since a fixed point in the past called the "Epoch".
 
 The documentation of these classes are given in
-[CLOCK_GUIDE.md](CLOCK_GUIDE.md):
+[docs/clock_guide.md](docs/clock_guide.md):
 
 * `ace_time::clock::Clock`
     * `ace_time::clock::DS3231Clock`
@@ -275,7 +277,7 @@ The creation of a TimeZone from its zoneName or its zoneId using a
 ### Validation
 
 The details of how the Date, Time and TimeZone classes are validated are given
-in [VALIDATION.md](VALIDATION.md).
+in [docs/validation.md](docs/validation.md).
 
 The zoneinfo files and the algorithms in this library have been validated to
 match the UTC offsets calculated using 5 other date/time libraries written in
@@ -541,14 +543,14 @@ for all 3 zones:
 <a name="Installation"></a>
 ## Installation
 
-See [INSTALLATION.md](INSTALLATION.md).
+See [docs/installation.md](docs/installation.md).
 
 <a name="Documentation"></a>
 ## Documentation
 
 * [README.md](README.md)
     * this file
-* [USER_GUIDE.md](USER_GUIDE.md)
+* [docs/date_time_timezone_guide.md](docs/date_time_timezone_guide.md)
     * Date, Time, and TimeZone classes
     * Zones and Links
     * Error Handling
@@ -556,11 +558,11 @@ See [INSTALLATION.md](INSTALLATION.md).
     * Comparison to Other Libraries
     * Motivation and Design Considerations
     * Bugs and Limitations
-* [CLOCK_GUIDE.md](CLOCK_GUIDE.md)
+* [docs/clock_guide.md](docs/clock_guide.md)
     * Clocks
     * NTP Clock, DS3231 Clock, STM32 RTC Clock, STM32F1 Clock
     * System Clock
-* [VALIDATION.md](VALIDATION.md)
+* [docs/validation.md](docs/validation.md)
     * Testing and Validation
 * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
 
