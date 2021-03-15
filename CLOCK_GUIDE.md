@@ -49,21 +49,24 @@ classes live within the AceTime library.
 
 The main purpose of the `Clock` classes in this module is to provide a 32-bit
 signed integer (`acetime_t` typedefed to `int32_t`) that represents the number
-of seconds since a fixed point in the past called the "Epoch". The `SystemClock`
-ensures that this integer increments by one every second.
+of seconds since a fixed point in the past called the "Epoch". The AceTime Epoch
+is defined to be 2000-01-01 00:00:00 UTC.
 
-The `acetime::clock` namespace contains classes needed to implement various
-types of clocks using different sources:
+The `epochSeconds` can come from many different sources and different subclasses
+of `Clock` provide access to these different sources:
 
-* the `DS3231Clock` uses the DS3231 RTC chip,
-* the `NtpClock` uses an NTP server,
-* the `StmRtcClock` should be used for all other STM32 chips,
-* the `Stm32F1Clock` uses the RTC built-into the STM32F1 chip,
-* the `UnixClock` uses the `time()` method provided by the
-  C library, used mostly for testing and debugging.
+* the `DS3231Clock` uses the DS3231 RTC chip over I2C,
+* the `NtpClock` talks to an NTP server, sing the ESP8266 and ESP32 chips,
+* the `StmRtcClock` reads the built-in RTC module on STM32 chips,
+* the `Stm32F1Clock` targets the special RTC module on the STM32F1 chip,
+* the `UnixClock` uses the `time()` method provided by the C library, used
+  mostly for testing and debugging.
 
-The `SystemClock` is a special subclass of the `Clock` class. It has a number of
-features:
+The `SystemClock` is a special subclass of the `Clock` class. Its job
+is to provide an auto-incrementing epochSeconds that can be access very quickly
+and cheaply. At a minimum, it should handle at least 10 requests per second, but
+the current implementation should be able to handle 1000 to 1M requests per
+second, depending on the processor. It has a number of features:
 
 * It is powered by the internal `millis()` function that is provided by all
   Arduino platforms. The `millis()` function can be accessed extremely cheaply

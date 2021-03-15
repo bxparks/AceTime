@@ -1,7 +1,8 @@
 # AceTime Date, Time, TimeZone User Guide
 
-The classes in this section of the AceTime library are in the following
-namespaces:
+The Date, Time, and TimeZone classes provide an abstraction layer to make it
+easier to use and manipulate date and time fields. These classes are in the
+following namespaces:
 
 * `ace_time`
 * `ace_time::zonedb`: zoneinfo files for `BasicZoneProcessor`
@@ -24,6 +25,7 @@ namespaces:
 
 ## Table of Contents
 
+* [Overview](#Overview)
 * [Headers and Namespaces](#Headers)
 * [Date and Time Classes](#Classes)
     * [Epoch Seconds Typedef](#EpochSeconds)
@@ -81,6 +83,82 @@ namespaces:
     * [Google cctz](#Cctz)
 * [Motivation and Design Considerations](#Motivation)
 * [Bugs and Limitations](#Bugs)
+
+<a name="Overview"></a>
+## Overview
+
+The Date, Time, and TimeZone classes provide an abstraction layer to make it
+easier to use and manipulate date and time fields. For example, each of the
+`LocalDateTime`, `OffsetDateTime` and `ZonedDateTime` classes provide the
+`toEpochSeconds()` method which returns the number of seconds from an epoch
+date, the `forEpochSeconds()` method which constructs the date and time fields
+from the epoch seconds, the `forComponents()` method which constructs the object
+from the individual (year, month, day, hour, minute, second) components, and the
+`dayOfWeek()` method which returns the day of the week of the given date.
+
+The Epoch in AceTime is defined to be 2000-01-01T00:00:00 UTC, in contrast to
+the Epoch in Unix which is 1970-01-01T00:00:00 UTC. Internally, the current time
+is represented as "seconds from Epoch" stored as a 32-bit signed integer
+(`acetime_t` aliased to `int32_t`). The smallest 32-bit signed integer (`-2^31`)
+is used to indicate an internal Error condition, so the range of valid
+`acetime_t` value is `-2^31+1` to `2^31-1`. Therefore, the range of dates that
+the `acetime_t` type can handle is 1931-12-13T20:45:53Z to 2068-01-19T03:14:07Z
+(inclusive). (In contrast, the 32-bit Unix `time_t` range is
+1901-12-13T20:45:52Z to 2038-01-19T03:14:07Z which is the cause of the [Year
+2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem)).
+
+The various date classes (`LocalDate`, `LocalDateTime`, `OffsetDateTime`,
+`ZonedDateTime`) store the year component internally as a signed 8-bit integer
+offset from the year 2000. The range of this integer is -128 to +127, but -128
+is used to indicate an internal Error condition, so the actual range is -127 to
++127. Therefore, these classes can represent dates from 1873-01-01T00:00:00 to
+2127-12-31T23:59:59 (inclusive). Notice that these classes can represent all
+dates that can be expressed by the `acetime_t` type, but the reverse is not
+true. There are date objects that cannot be converted into a valid `acetime_t`
+value. To be safe, users of this library should stay at least 1 day away from
+the lower and upper limits of `acetime_t` (i.e. stay within the year 1932 to
+2067 inclusive).
+
+The `ZonedDateTime` class works with the `TimeZone` class to implement the DST
+transition rules defined by the TZ Database. It also allows conversions to other
+timezones using the `ZonedDateTime::convertToTimeZone()` method.
+
+The library provides 2 sets of zoneinfo files created from the IANA TZ Database:
+
+* [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) contains `kZone*`
+  declarations (e.g. `kZoneAmerica_Los_Angeles`) for 270 zones and 182 links
+  from the year 2000 until 2050. These zones have (relatively) simple time zone
+  transition rules, which can handled by the `BasicZoneProcessor` class.
+* [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h) contains `kZone*`
+  declarations (e.g. `kZoneAfrica_Casablanca`) for 386 zones and 207 links in
+  the TZ Database (essentially the entire database) from the year 2000 until
+  2050. These are intended to be used with the `ExtendedZoneProcessor` class.
+
+The zoneinfo files (and their associated `ZoneProcessor` classes) have a
+resolution of 1 minute, which is sufficient to represent all UTC offsets and DST
+shifts of all timezones after 1972 (Africa/Monrovia seems like the last timezone
+to conform to UTC time on Jan 7, 1972).
+
+It is expected that most applications using AceTime will use only a small number
+of timezones at the same time (1 to 4 zones have been extensively tested) and
+that this set is known at compile-time. The C++ compiler will include only the
+subset of zoneinfo files needed to support those timezones, instead of compiling
+in the entire TZ Database. But on microcontrollers with enough memory, the
+`ZoneManager` can be used to load the entire TZ Database into the app and
+the `TimeZone` objects can be dynamically created as needed.
+
+Each timezone in the TZ Database is identified by its fully qualified zone name
+(e.g. `"America/Los_Angeles"`). On small microcontroller environments, these
+strings can consume precious memory (e.g. 30 bytes for
+`"America/Argentina/Buenos_Aires"`) and are not convenient to serialize over the
+network or to save to EEPROM.
+
+The AceTime library provides each timezone with an alternative `zoneId`
+identifier of type `uint32_t` which is guaranteed to be unique and stable. For
+example, the zoneId for `"America/Los_Angeles"` is provided by
+`zonedb::kZoneIdAmerica_Los_Angeles` or `zonedbx::kZoneIdAmerica_Los_Angele`
+which both have the value `0xb7f7e8f2`. A `TimeZone` object can be saved as a
+`zoneId` and then recreated using the `ZoneManager::createFromZoneId()` method.
 
 <a name="Headers"></a>
 ## Headers and Namespaces
