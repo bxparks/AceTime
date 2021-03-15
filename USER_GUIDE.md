@@ -1,3 +1,4 @@
 # AceTime User Guide
 
-Moved to [docs/date_time_timezone.md](docs/date_time_timezone.md).
+Split into multiple files in [docs/](docs/). See [README.md](README.md) for a
+table of contents.

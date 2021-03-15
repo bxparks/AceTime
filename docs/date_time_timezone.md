@@ -14,14 +14,11 @@ following namespaces:
 
 **Version**: 1.6+ (2021-03-14, TZ DB version 2021a)
 
-**Related documents**:
+**Related Documents**:
 
 * [README.md](README.md): introductory background
 * [docs/installation.md](docs/installation.md): how to install the library
-* [docs/date_time_timezone.md](docs/date_time_timezone.md): the
-  time, date and time zone classes
 * [docs/clock_system_clock.md](docs/clock_system_clock.md): the clock classes
-* [docs/validation.md](docs/validation.md): testing and validating the library
 * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
 
 ## Table of Contents
