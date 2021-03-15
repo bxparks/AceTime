@@ -29,15 +29,14 @@
           32-bit RTC register, allowing AceTime to preserve both date and time
           fields.
     * `USER_GUIDE.md` and `README.md`
-        * Massive refactoring, reorganizing and rewriting for more clarity I
-          hope.
-        * Conceptually split "Clock" classes from "Date, Time, and TimeZone"
-          classes, since they are relatively independent modules of the library.
-        * Split the user guide for `Clock` classes into separate
-          `CLOCK_GUIDE.md`
-        * Split Installation instructions into `INSTALLATION.md`.
-        * Split Validation and Testing information into `VALIDATION.md`.
-        * Make `USER_GUIDE.md` shorter and hopefully more digestable.
+        * Massive rewriting and reorganizing for more clarity I
+          hope. Extract subsections of `USER_GUIDE.md` into separate docs,
+          making `USER_GUIDE.md` shorter and hopefully more digestable.
+        * Rename `USER_GUIDE.md` into `docs/date_time_timezone.md`.
+        * Extract `Clock` classes into `docs/clock_system_clock.md`
+        * Extract Installation into `docs/installation.md`.
+        * Extract Validation and Testing into `docs/validation.md`.
+        * Extract Comparisons into `docs/comparisons.md`.
         * Add documentation for `StmRtcClock` and `Stm32F1Clock`.
 * 1.6 (2021-02-17, TZ DB version 2021a)
     * Remove `TimeZone::kTypeBasicManaged` and `TimeZone::kTypeExtendedManaged`
