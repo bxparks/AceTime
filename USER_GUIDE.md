@@ -1319,7 +1319,7 @@ The `ZoneManager` solves these problems. It keeps an internal cache of
 objects, so that a `TimeZone` can be created using its `zoneName`, `zoneInfo`,
 or `zoneId`.
 
-<a name="ClassHierarchy">
+<a name="ClassHierarchy"></a>
 #### Class Hierarchy
 
 The `ZoneManager` is an interface, and 3 implementation classes are provided:

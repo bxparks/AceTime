@@ -4,34 +4,53 @@
 [![Python Tools](https://github.com/bxparks/AceTime/actions/workflows/python_tools.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/python_tools.yml)
 [![Validation Tests](https://github.com/bxparks/AceTime/actions/workflows/validation.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/validation.yml)
 
-The AceTime library offers 2 somewhat independent sets of date and time
-functionalities for the Arduino platform:
+The AceTime library provide Date, Time, TimeZone and Clock classes which
+can convert "epoch seconds" to human-readable local date and time fields. Those
+classes can also convert local date and time between different time zones,
+properly accounting for all DST transitions from the year 2000 until 2050.
+
+The library also provides Clock classes to retrieve the time from more
+accurate sources (such as an
+[NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) server, or
+a [DS3231 RTC](https://www.maximintegrated.com/en/products/analog/real-time-clocks/DS3231.html)
+chip. A special version of the `Clock` class called the `SystemClock` provides a
+fast and accurate "epoch seconds" across all Arduino compatible systems. This
+"epoch seconds" can be given to the Date, Time and TimeZone classes to display
+the current date and time in any desired timezone.
+
+The primordial motivation of the AceTime library was to build a digital clock
+with an OLED or LED display, that would show the date and time of multiple
+timezones at the same time, while adjusting for any DST changes in the selected
+timezone automatically. The secondary guideline that I have tried to follow is
+to keep the library as small as practical. A substantial portion of this library
+will run under the 32kB of flash and 2kB of RAM of an Arduino Nano or a SparkFun
+Pro Micro dev board.
+
+The classes in this library can be grouped into roughly 2 parts:
 
 * Date, time and time zone classes
+    * convert epoch seconds to human readable date and time fields,
     * support all time zones in the
       [IANA TZ database](https://www.iana.org/time-zones)
     * calculate DST transitions on all timezones
-    * convert date and time from one timezone to another
+    * convert local date and time from one timezone to another
 * Clock classes
-    * provide access to more reliable and accurate external time sources, e.g.
-        * [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) server
-        * [DS3231 RTC](https://www.maximintegrated.com/en/products/analog/real-time-clocks/DS3231.html) chip
-    * provide a fast and auto-updating "Epoch Seconds" on all Arduino platforms
+    * provide access to more accurate external time sources
+    * provide a fast access to an auto-updating "Epoch Seconds" on all Arduino
+      platforms
 
-The `Clock` classes have a slight dependency to the Date, Time and TimeZone
-classes, but there is no dependency from the other direction. In other words,
-the Date, Time and TimeZone classes can be used without the `Clock` classes, or
-a totally different library could be used instead of the `Clock` classes. The
-main connection between the two sections is the `acetime_t` type which is
-aliased to a `int32_t` integer that represents the "number of seconds since
-AceTime Epoch". The "AceTime Epoch" is defined to be 2000-01-01 00:00:00 UTC.
+The Date, Time and TimeZone classes can be used independently of the `Clock`
+classes. The `Clock` classes depend on just the `acetime_t` type which is
+aliased to `int32_t` which represents the "epoch seconds". The AceTime "Epoch"
+is defined to be 2000-01-01 00:00:00 UTC.
 
-When the library was first created, it seemed convenient to include the 2
-modules described above in this single library. As this library evolved and
-accumulated more features, it may be easier for new users treat the 2 parts of
-the library as somewhat separate libraries. (I don't want to move the Clock
-functionality into a separate Arduino library right now due to backwards
-compatibility concerns, but that could change the future.)
+When the library was first created, it seemed convenient to include the 2 parts
+described above in a single library. As this library evolved and accumulated
+more features, it might have been better for the 2 parts to be separate Arduino
+libraries. However, I am resisting the temptation to make this sweeping change
+in order to preserve backwards compatibility for existing users of this library.
+What I have done is rewrite this `README.md` and the accompanying documentation
+to make the 2 parts more clear, to make it easier to understand this library.
 
 This library can be an alternative to the Arduino Time
 (https://github.com/PaulStoffregen/Time) and Arduino Timezone
@@ -74,10 +93,10 @@ library for some of its low-level routines. See the
 The various classes are arranged in roughly 4 bundles, placed in different C++
 namespaces, split into the 2 modules mentioned above.
 
-<a name="DateTimeAndTimeZone">
+<a name="DateTimeAndTimeZone"></a>
 ### Date, Time, and TimeZone
 
-The User Guide these classes are given in [USER_GUIDE.md](USER_GUIDE.md).
+The documentation of these classes are given in [USER_GUIDE.md](USER_GUIDE.md).
 
 * date and time classes and types
     * `ace_time::acetime_t`
@@ -203,16 +222,18 @@ guaranteed to be unique and stable. For example, the zoneId for
 `TimeZone` object can be saved as a `zoneId` and then recreated using the
 `ZoneManager::createFromZoneId()` method.
 
-<a name="Clocks">
+<a name="Clocks"></a>
 ### Clocks
 
-The User Guide these classes are given in [CLOCK_GUIDE.md](CLOCK_GUIDE.md).
+The documentation of these classes are given in
+[CLOCK_GUIDE.md](CLOCK_GUIDE.md).
 
 * `ace_time::clock::Clock`
     * `ace_time::clock::DS3231Clock`
     * `ace_time::clock::NtpClock`
     * `ace_time::clock::StmRtcClock`
     * `ace_time::clock::Stm32F1Clock`
+    * `ace_time::clock::UnixClock`
     * `ace_time::clock::SystemClock`
         * `ace_time::clock::SystemClockCoroutine`
         * `ace_time::clock::SystemClockLoop`
@@ -221,10 +242,10 @@ The main purpose of the `Clock` class is to provide a 32-bit signed integer
 (`acetime_t` typedef'ed to `int32_t`) that represents the number of seconds
 since a fixed point in the past called the "Epoch". In AceTime, that Epoch is
 defined to be 2000-01-01 00:00:00 UTC (unlike Unix where the Epoch is 1970-01-01
-00:00:00 UTC). This `epochSeconds` parameter can be fed into the Date, Time and
-TimeZone classes described above to convert it into human-readable formats. (It
-is worth noting that the `epochSeconds` field does not need to come from the
-`Clock` classes.)
+00:00:00 UTC). This `epochSeconds` parameter can be given into the Date, Time
+and TimeZone classes described above to convert it into human-readable formats.
+(It might be worth noting that the `epochSeconds` field does not need to come
+from the `Clock` classes.)
 
 The purpose of the `SystemClock` subclass is to ensure that the `epochSeconds`
 integer increments by one every second. And to allow fast access to this
@@ -244,7 +265,7 @@ from accurate clock sources can be expensive, so the `SystemClock` uses the
 built-in `millis()` function to provide fast access to a reasonably accurate
 clock, but synchronizes to more accurate clocks periodically.
 
-<a name="MemoryUsage">
+<a name="MemoryUsage"></a>
 ### Memory Usage
 
 This library does not perform dynamic allocation of memory so that it can be
@@ -289,7 +310,7 @@ debouncing and event dispatching provided by the AceButton
 (https://github.com/bxparks/AceButton) library. This application consumes about
 24 kB, well inside the 28 kB flash limit of an Arduino Pro Micro controller.
 
-<a name="CPUUsage">
+<a name="CPUUsage"></a>
 ### CPU Usage
 
 Conversion from date-time components (year, month, day, etc) to epochSeconds
@@ -322,7 +343,7 @@ The creation of a TimeZone from its zoneName or its zoneId using a
 * 0.6-3 microseconds for an ESP32,
 * 3-10 microseconds for a Teensy 3.2.
 
-<a name="Validation">
+<a name="Validation"></a>
 ### Validation
 
 The details of how the Date, Time and TimeZone classes are validated are given
