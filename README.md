@@ -41,7 +41,7 @@ This library can be an alternative to the Arduino Time
 
 **IMPORTANT CHANGE for v1.2**: This library now depends on the the "AceCommon"
 library for some of its low-level routines. See the
-[docs/date_time_timezone.md](docs/date_time_timezone.md) for
+[docs/installation.md](docs/installation.md) for
 installation instructions.
 
 ## Table of Contents
@@ -58,7 +58,13 @@ installation instructions.
     * [HelloSystemClock](#HelloSystemClock)
     * [WorldClock](#WorldClock)
 * [Installation](#Installation)
-* [Documentation](#Documentation)
+* [User Guides](#UserGuides)
+    * [docs/date_time_timezone.md](docs/date_time_timezone.md)
+    * [docs/clock_system_clock.md](docs/clock_system_clock.md)
+    * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub
+      Pages
+* [Benchmarks](#Benchmarks)
+* [Comparisons](#Comparisons)
 * [System Requirements](#SystemRequirements)
     * [Hardware](#Hardware)
     * [Tool Chain](#ToolChain)
@@ -204,11 +210,11 @@ used in small microcontroller environments. In other words, it does not call the
 `String` class. Everything it needs is allocated statically at initialization
 time.
 
-The zoneinfo files are stored in flash memory (using the `PROGMEM` compiler
-directive) if the microcontroller allows it (e.g. AVR, ESP8266) so that they do
-not consume static RAM. The
-[examples/MemoryBenchmark](examples/MemoryBenchmark/) program shows the
-flash memory consumption for the ZoneInfo data files are:
+The ZoneInfo Database entries are stored in flash memory (using the `PROGMEM`
+compiler directive) if the microcontroller allows it (e.g. AVR, ESP8266) so that
+they do not consume static RAM. The
+[examples/MemoryBenchmark](examples/MemoryBenchmark/) program shows the flash
+memory consumption for the ZoneInfo data files are:
 
 * `BasicZoneProcessor`
     * 266 Zones
@@ -279,7 +285,7 @@ The creation of a TimeZone from its zoneName or its zoneId using a
 The details of how the Date, Time and TimeZone classes are validated are given
 in [docs/validation.md](docs/validation.md).
 
-The zoneinfo files and the algorithms in this library have been validated to
+The ZoneInfo Database and the algorithms in this library have been validated to
 match the UTC offsets calculated using 5 other date/time libraries written in
 different programming languages:
 
@@ -545,26 +551,34 @@ for all 3 zones:
 
 See [docs/installation.md](docs/installation.md).
 
-<a name="Documentation"></a>
-## Documentation
+<a name="UserGuides"></a>
+## User Guides
 
 * [README.md](README.md)
     * this file
 * [docs/date_time_timezone.md](docs/date_time_timezone.md)
-    * Date, Time, and TimeZone classes
-    * Zones and Links
+    * Date and Time classes
+    * TimeZone classes
+    * ZoneInfo Database
+    * Mutations
     * Error Handling
-    * Benchmarks
-    * Comparison to Other Libraries
     * Motivation and Design Considerations
     * Bugs and Limitations
 * [docs/clock_system_clock.md](docs/clock_system_clock.md)
-    * Clocks
+    * Clock
     * NTP Clock, DS3231 Clock, STM32 RTC Clock, STM32F1 Clock
-    * System Clock
-* [docs/validation.md](docs/validation.md)
-    * Testing and Validation
+    * SystemClock, SystemClockLoop, SystemClockCoroutine
 * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
+
+<a name="Benchmarks"></a>
+## Benchmarks
+
+See [docs/benchmarks.md](docs/benchmarks.md).
+
+<a name="Comparisons"></a>
+## Comparisons
+
+See [docs/comparisons.md](docs/comparisons.md).
 
 <a name="SystemRequirements"></a>
 ## System Requirements
