@@ -4,19 +4,115 @@
 [![Python Tools](https://github.com/bxparks/AceTime/actions/workflows/python_tools.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/python_tools.yml)
 [![Validation Tests](https://github.com/bxparks/AceTime/actions/workflows/validation.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/validation.yml)
 
-This library provides date and time classes for the Arduino platform with
-support for time zones in the [IANA TZ
-database](https://www.iana.org/time-zones). Date and time from one timezone can
-be converted to another timezone. The library also provides a SystemClock that
-can be synchronized from a more reliable external time source, such as an
-[NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) server or a [DS3231
-RTC](https://www.maximintegrated.com/en/products/analog/real-time-clocks/DS3231.html)
-chip. This library can be an alternative to the Arduino
-Time (https://github.com/PaulStoffregen/Time) and Arduino
-Timezone (https://github.com/JChristensen/Timezone) libraries.
+The AceTime library provides Date, Time, and TimeZone classes which can convert
+"epoch seconds" to human-readable local date and time fields. Those classes can
+also convert local date and time between different time zones, properly
+accounting for all DST transitions from the year 2000 until 2050. The ZoneInfo
+Database is extracted from the [IANA TZ
+database](https://www.iana.org/time-zones). Different subsets of the ZoneInfo
+Database can be compiled into the application to reduce flash memory size.
 
-The AceTime classes are organized into roughly 4 bundles, placed in different
-C++ namespaces:
+The library also provides Clock classes to retrieve the time from more
+accurate sources (such as an
+[NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) server, or
+a [DS3231 RTC](https://www.maximintegrated.com/en/products/analog/real-time-clocks/DS3231.html)
+chip. A special version of the `Clock` class called the `SystemClock` provides a
+fast and accurate "epoch seconds" across all Arduino compatible systems. This
+"epoch seconds" can be given to the Date, Time and TimeZone classes to display
+the current date and time in any desired timezone.
+
+The primordial motivation for creating the AceTime library was to build a
+digital clock with an OLED or LED display, that would show the date and time of
+multiple timezones at the same time, while adjusting for any DST changes in the
+selected timezone automatically. Another major goal of the library is to keep
+the resource (flash and RAM) consumption as small as practical, to allow
+substantial portion of this library to run inside the 32kB of flash and 2kB of
+RAM limits of an Arduino Nano or a SparkFun Pro Micro dev board. To meet that
+goal, this library does not perform any dynamic allocation of memory. Everything
+it needs is allocated statically.
+
+This library can be an alternative to the Arduino Time
+(https://github.com/PaulStoffregen/Time) and Arduino Timezone
+(https://github.com/JChristensen/Timezone) libraries.
+
+**Version**: 1.6+ (2021-03-14, TZ DB version 2021a)
+
+**Changelog**: [CHANGELOG.md](CHANGELOG.md)
+
+**IMPORTANT CHANGE for v1.2**: This library now depends on the the "AceCommon"
+library for some of its low-level routines. See the
+[docs/installation.md](docs/installation.md) for
+installation instructions.
+
+## Table of Contents
+
+* [Overview](#Overview)
+    * [Date, Time, TimeZone](#DateTimeAndTimeZone)
+    * [Clocks](#Clocks)
+    * [MemoryUsage](#MemoryUsage)
+    * [CPU Usage](#CPUUsage)
+    * [Validation](#Validation)
+* [Quick Examples](#QuickExamples)
+    * [HelloDateTime](#HelloDateTime)
+    * [HelloZoneManager](#HelloZoneManager)
+    * [HelloSystemClock](#HelloSystemClock)
+    * [WorldClock](#WorldClock)
+* [Installation](#Installation)
+* [User Guides](#UserGuides)
+    * [docs/date_time_timezone.md](docs/date_time_timezone.md)
+    * [docs/clock_system_clock.md](docs/clock_system_clock.md)
+    * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub
+      Pages
+* [Benchmarks](#Benchmarks)
+* [Comparisons](#Comparisons)
+* [System Requirements](#SystemRequirements)
+    * [Hardware](#Hardware)
+    * [Tool Chain](#ToolChain)
+    * [Operating System](#OperatingSystem)
+* [License](#License)
+* [Feedback and Support](#Feedback)
+* [Authors](#Authors)
+
+<a name="Overview"></a>
+## Overview
+
+The classes in this library can be grouped into roughly 2 parts:
+
+* Date, time and time zone classes
+    * convert epoch seconds to human readable date and time fields,
+    * support all time zones in the
+      [IANA TZ Database](https://www.iana.org/time-zones)
+    * calculate DST transitions on all timezones
+    * convert local date and time from one timezone to another
+* Clock classes
+    * provide access to more accurate external time sources
+    * provide a fast access to an auto-updating "Epoch Seconds" on all Arduino
+      platforms
+
+The Date, Time and TimeZone classes can be used independently of the Clock
+classes. The Clock classes are only minimally coupled to the Date, Time,
+TimeZone classes, depending on only the `acetime_t` type (aliased to
+`int32_t`) which represents the "epoch seconds". The AceTime "Epoch" is defined
+to be 2000-01-01 00:00:00 UTC.
+
+When the library was first created, it seemed convenient to include the 2 parts
+described above in a single library. As this library evolved and accumulated
+more features, it might have been better for the 2 parts to be separated into
+independent Arduino libraries. However, I am resisting the temptation to make
+this change in order to preserve backwards compatibility for existing users of
+this library. The change that I have done is substantially rewrite this
+`README.md` and the accompanying documentation so that the 2 parts of this
+library are more decoupled from each other. Hopefully this will make it easier
+to understand how to use this library.
+
+<a name="DateTimeAndTimeZone"></a>
+### Date, Time, and TimeZone
+
+The Date, Time, and TimeZone classes provide an abstraction layer to make it
+easier to use and manipulate date and time fields, in different time zones.
+
+The documentation of these classes are given in
+[docs/date_time_timezone.md](docs/date_time_timezone.md):
 
 * date and time classes and types
     * `ace_time::acetime_t`
@@ -26,155 +122,89 @@ C++ namespaces:
     * `ace_time::LocalDateTime`
     * `ace_time::TimeOffset`
     * `ace_time::OffsetDateTime`
-    * `ace_time::ZoneProcessor`
-        * `ace_time::BasicZoneProcessor`
-        * `ace_time::ExtendedZoneProcessor`
-    * `ace_time::TimeZone`
-    * `ace_time::ZonedDateTime`
     * `ace_time::TimePeriod`
-    * `ace_time::BasicZone`
-    * `ace_time::ExtendedZone`
-    * `ace_time::ZoneManager`
-        * `ace_time::BasicZoneManager`
-        * `ace_time::ExtendedZoneManager`
-        * `ace_time::ManualZoneManager`
     * mutation helpers
         * `ace_time::local_date_mutation::`
         * `ace_time::time_offset_mutation::`
         * `ace_time::time_period_mutation::`
         * `ace_time::zoned_date_time_mutation::`
-* TZ Database zone files
-    * data structures generated from the TZ Database zone files
-    * intended to be used as opaque data objects
-    * `ace_time::zonedb` (266 zones and 183 links)
-        * `ace_time::zonedb::kZoneAfrica_Abidjan`
-        * `ace_time::zonedb::kZoneAfrica_Accra`
-        * ...
-        * `ace_time::zonedb::kZonePacific_Wake`
-        * `ace_time::zonedb::kZonePacific_Wallis`
-    * `ace_time::zonedbx` (386 zones and 207 links)
-        * `ace_time::zonedbx::kZoneAfrica_Abidjan`
-        * `ace_time::zonedbx::kZoneAfrica_Accra`
-        * ...
-        * `ace_time::zonedbx::kZonePacific_Wake`
-        * `ace_time::zonedbx::kZonePacific_Wallis`
-* system clock classes
-    * `ace_time::clock::Clock`
-        * `ace_time::clock::DS3231Clock`
-        * `ace_time::clock::NtpClock`
-        * `ace_time::clock::StmRtcClock` (experimental as of v1.4)
-        * `ace_time::clock::SystemClock`
-            * `ace_time::clock::SystemClockCoroutine`
-            * `ace_time::clock::SystemClockLoop`
-* internal helper classes (not normally used by app developers)
-    * `ace_time::basic::ZoneContext`
-    * `ace_time::basic::ZoneEra`
-    * `ace_time::basic::ZoneInfo`
-    * `ace_time::basic::ZonePolicy`
-    * `ace_time::basic::ZoneRule`
-    * `ace_time::extended::ZoneContext`
-    * `ace_time::extended::ZoneInfo`
-    * `ace_time::extended::ZoneEra`
-    * `ace_time::extended::ZonePolicy`
-    * `ace_time::extended::ZoneRule`
+* timezone classes
+    * `ace_time::ZoneProcessor`
+        * `ace_time::BasicZoneProcessor`
+        * `ace_time::ExtendedZoneProcessor`
+    * `ace_time::TimeZone`
+    * `ace_time::ZonedDateTime`
+    * `ace_time::ZoneManager`
+        * `ace_time::BasicZoneManager`
+        * `ace_time::ExtendedZoneManager`
+        * `ace_time::ManualZoneManager`
+* ZoneInfo Database
+    * programmatically generated from the IANA TZ Database files
+    * two sets of timezone data are provided (Basic and Extended) because
+      2 slightly different algorithms for handling timezone data are provided
+    * ZoneInfo (opaque reference to a timezone)
+        * `ace_time::basic::ZoneInfo` (266 zones and 183 links, as of 2021a)
+            * `ace_time::zonedb::kZoneAfrica_Abidjan`
+            * `ace_time::zonedb::kZoneAfrica_Accra`
+            * ...
+            * `ace_time::zonedb::kZonePacific_Wake`
+            * `ace_time::zonedb::kZonePacific_Wallis`
+        * `ace_time::extended::ZoneInfo` (386 zones and 207 links, as of 2021a)
+            * `ace_time::zonedbx::kZoneAfrica_Abidjan`
+            * `ace_time::zonedbx::kZoneAfrica_Accra`
+            * ...
+            * `ace_time::zonedbx::kZonePacific_Wake`
+            * `ace_time::zonedbx::kZonePacific_Wallis`
+    * ZoneId
+        * unique and stable `uint32_t` identifiers for each timezone
+        * Basic
+            * `ace_time::zonedb::kZoneIdAfrica_Abidjan`
+            * `ace_time::zonedb::kZoneIdAfrica_Accra`
+            * ...
+            * `ace_time::zonedb::kZoneIdPacific_Wake`
+            * `ace_time::zonedb::kZoneIdPacific_Wallis`
+        * Extended
+            * `ace_time::zonedbx::kZoneIdAfrica_Abidjan`
+            * `ace_time::zonedbx::kZoneIdAfrica_Accra`
+            * ...
+            * `ace_time::zonedbx::kZoneIdPacific_Wake`
+            * `ace_time::zonedbx::kZoneIdPacific_Wallis`
 
-The "date and time" classes provide an abstraction layer to make it easier
-to use and manipulate date and time fields. For example, each of the
-`LocalDateTime`, `OffsetDateTime` and `ZonedDateTime` classes provide the
-`toEpochSeconds()` method which returns the number of seconds from an epoch
-date, the `forEpochSeconds()` method which constructs the date and time fields
-from the epoch seconds, the `forComponents()` method which constructs the object
-from the individual (year, month, day, hour, minute, second) components, and the
-`dayOfWeek()` method which returns the day of the week of the given date.
+<a name="Clocks"></a>
+### Clocks
 
-The Epoch in AceTime is defined to be 2000-01-01T00:00:00Z, in contrast to the
-Epoch in Unix which is 1970-01-01T00:00:00Z. Internally, the current time is
-represented as "seconds from Epoch" stored as a 32-bit signed integer
-(`acetime_t` aliased to `int32_t`). The smallest 32-bit signed integer (`-2^31`)
-is used to indicate an internal Error condition, so the range of valid
-`acetime_t` value is `-2^31+1` to `2^31-1`. Therefore, the range of dates that
-the `acetime_t` type can handle is 1931-12-13T20:45:53Z to 2068-01-19T03:14:07Z
-(inclusive). (In contrast, the 32-bit Unix `time_t` range is
-1901-12-13T20:45:52Z to 2038-01-19T03:14:07Z which is the cause of the [Year
-2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem)).
+The main purpose of the `Clock` class hierarchy is to provide a 32-bit signed
+integer (`acetime_t` typedef'ed to `int32_t`) that represents the number of
+seconds since a fixed point in the past called the "Epoch".
 
-The various date classes (`LocalDate`, `LocalDateTime`, `OffsetDateTime`,
-`ZonedDateTime`) store the year component internally as a signed 8-bit integer
-offset from the year 2000. The range of this integer is -128 to +127, but -128
-is used to indicate an internal Error condition, so the actual range is -127 to
-+127. Therefore, these classes can represent dates from 1873-01-01T00:00:00 to
-2127-12-31T23:59:59 (inclusive). Notice that these classes can represent all
-dates that can be expressed by the `acetime_t` type, but the reverse is not
-true. There are date objects that cannot be converted into a valid `acetime_t`
-value. To be safe, users of this library should stay at least 1 day away from
-the lower and upper limits of `acetime_t` (i.e. stay within the year 1932 to
-2067 inclusive).
+The documentation of these classes are given in
+[docs/clock_system_clock.md](docs/clock_system_clock.md):
 
-The `ZonedDateTime` class works with the `TimeZone` class to implement the DST
-transition rules defined by the TZ Database. It also allows conversions to other
-timezones using the `ZonedDateTime::convertToTimeZone()` method.
+* `ace_time::clock::Clock`
+    * `ace_time::clock::DS3231Clock`
+    * `ace_time::clock::NtpClock`
+    * `ace_time::clock::StmRtcClock`
+    * `ace_time::clock::Stm32F1Clock`
+    * `ace_time::clock::UnixClock`
+    * `ace_time::clock::SystemClock`
+        * `ace_time::clock::SystemClockCoroutine`
+        * `ace_time::clock::SystemClockLoop`
 
-The library provides 2 sets of zoneinfo files created from the IANA TZ Database:
+Different subclasses of `Clock` provide access to different hardware or network
+devices that provide a source of time.
 
-* [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) contains `kZone*`
-  declarations (e.g. `kZoneAmerica_Los_Angeles`) for 270 zones and 182 links
-  from the year 2000 until 2050. These zones have (relatively) simple time zone
-  transition rules, which can handled by the `BasicZoneProcessor` class.
-* [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h) contains `kZone*`
-  declarations (e.g. `kZoneAfrica_Casablanca`) for 386 zones and 207 links in
-  the TZ Database (essentially the entire database) from the year 2000 until
-  2050. These are intended to be used with the `ExtendedZoneProcessor` class.
+The `SystemClock` subclass is a special class whose purpose is to provide an
+`epochSeconds` integer increments by one every second. It then allows fast
+access to this auto-incrementing integer. By fast, I mean that it should allow
+sampling at least as fast as 10 times per second, but ideally much faster than
+1000 times a second.
 
-The zoneinfo files (and their associated `ZoneProcessor` classes) have a
-resolution of 1 minute, which is sufficient to represent all UTC offsets and DST
-shifts of all timezones after 1972 (Africa/Monrovia was the last timezone to
-switch to UTC time on Jan 7, 1972). These zoneinfo files and the algorithms in
-this library have been validated to match the UTC offsets calculated using 4
-other date/time libraries:
+The `SystemClockRoutine` and `SystemClockLoop` classes provide a mechanism to
+synchronize the `epochSeconds` of the `SystemClock` with a more accurate
+`referenceClock` provided by one of the other `Clock` subclasses.
 
-* the Python pytz (https://pypi.org/project/pytz/) library from the year 2000
-  until 2037 (inclusive),
-* the Python  dateutil (https://pypi.org/project/python-dateutil/) library from
-  the year 2000 until 2037 (inclusive),
-* the Java JDK 11
-  [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
-  library from year 2000 to 2049 (inclusive),
-* the C++11/14/17 Hinnant date (https://github.com/HowardHinnant/date) library
-  from year 1975 to 2049 (inclusive).
-* the Noda Time (https://nodatime.org) C# library from 2000 to 2049 (inclusive)
-
-Custom datasets with smaller or larger range of years may be generated by
-developers using scripts provided in this library (although this is not
-documented currently). The target application may be compiled against the custom
-dataset instead of using `zonedb::` and `zonedbx::` zone files provided in this
-library.
-
-It is expected that most applications using AceTime will use only a small number
-of timezones at the same time (1 to 4 zones have been extensively tested) and
-that this set is known at compile-time. The C++ compiler will include only the
-subset of zoneinfo files needed to support those timezones, instead of compiling
-in the entire TZ Database. But on microcontrollers with enough memory, the
-`ZoneManager` can be used to load the entire TZ Database into the app and
-the `TimeZone` objects can be dynamically created as needed.
-
-Each timezone in the TZ Database is identified by its fully qualified zone name
-(e.g. `"America/Los_Angeles"`). On small microcontroller environments, these
-strings can consume precious memory (e.g. 30 bytes for
-`"America/Argentina/Buenos_Aires"`) and are not convenient to serialize over the
-network or to save to EEPROM. Therefore, the AceTime library provides each
-timezone with an alternative `zoneId` identifier of type `uint32_t` which is
-guaranteed to be unique and stable. For example, the zoneId for
-`"America/Los_Angeles"` is provided by `zonedb::kZoneIdAmerica_Los_Angeles` or
-`zonedbx::kZoneIdAmerica_Los_Angele` which both have the value `0xb7f7e8f2`. A
-`TimeZone` object can be saved as a `zoneId` and then recreated using the
-`ZoneManager::createFromZoneId()` method.
-
-The `ace_time::clock` classes collaborate together to implement the
-SystemClock which can obtain its time from various sources, such as a DS3231 RTC
-chip, or an Network Time Protocol (NTP) server. Retrieving the current time
-from accurate clock sources can be expensive, so the `SystemClock` uses the
-built-in `millis()` function to provide fast access to a reasonably accurate
-clock, but synchronizes to more accurate clocks periodically.
+<a name="MemoryUsage"></a>
+### Memory Usage
 
 This library does not perform dynamic allocation of memory so that it can be
 used in small microcontroller environments. In other words, it does not call the
@@ -182,11 +212,11 @@ used in small microcontroller environments. In other words, it does not call the
 `String` class. Everything it needs is allocated statically at initialization
 time.
 
-The zoneinfo files are stored in flash memory (using the `PROGMEM` compiler
-directive) if the microcontroller allows it (e.g. AVR, ESP8266) so that they do
-not consume static RAM. The
-[examples/MemoryBenchmark](examples/MemoryBenchmark/) program shows the
-flash memory consumption for the ZoneInfo data files are:
+The ZoneInfo Database entries are stored in flash memory (using the `PROGMEM`
+compiler directive) if the microcontroller allows it (e.g. AVR, ESP8266) so that
+they do not consume static RAM. The
+[examples/MemoryBenchmark](examples/MemoryBenchmark/) program shows the flash
+memory consumption for the ZoneInfo data files are:
 
 * `BasicZoneProcessor`
     * 266 Zones
@@ -218,6 +248,9 @@ debouncing and event dispatching provided by the AceButton
 (https://github.com/bxparks/AceButton) library. This application consumes about
 24 kB, well inside the 28 kB flash limit of an Arduino Pro Micro controller.
 
+<a name="CPUUsage"></a>
+### CPU Usage
+
 Conversion from date-time components (year, month, day, etc) to epochSeconds
 (`ZonedDateTime::toEpochSeconds()`) takes about:
 
@@ -248,29 +281,26 @@ The creation of a TimeZone from its zoneName or its zoneId using a
 * 0.6-3 microseconds for an ESP32,
 * 3-10 microseconds for a Teensy 3.2.
 
-**Version**: 1.6 (2021-02-17, TZ DB version 2021a)
+<a name="Validation"></a>
+### Validation
 
-**Changelog**: [CHANGELOG.md](CHANGELOG.md)
+The details of how the Date, Time and TimeZone classes are validated are given
+in [docs/validation.md](docs/validation.md).
 
-**IMPORTANT CHANGE for v1.2**: This library now depends on the the "AceCommon"
-library for some of its low-level routines. See the
-[USER_GUIDE.md](USER_GUIDE.md) for installation instructions.
+The ZoneInfo Database and the algorithms in this library have been validated to
+match the UTC offsets calculated using 5 other date/time libraries written in
+different programming languages:
 
-## Table of Contents
-
-* [Quick Examples](#QuickExamples)
-    * [HelloDateTime](#HelloDateTime)
-    * [HelloZoneManager](#HelloZoneManager)
-    * [HelloSystemClock](#HelloSystemClock)
-    * [WorldClock](#WorldClock)
-* [Documentation](#Documentation)
-* [System Requirements](#SystemRequirements)
-    * [Hardware](#Hardware)
-    * [Tool Chain](#ToolChain)
-    * [Operating System](#OperatingSystem)
-* [License](#License)
-* [Feedback and Support](#Feedback)
-* [Authors](#Authors)
+* the Python pytz (https://pypi.org/project/pytz/) library from the year 2000
+  until 2037 (inclusive),
+* the Python  dateutil (https://pypi.org/project/python-dateutil/) library from
+  the year 2000 until 2037 (inclusive),
+* the Java JDK 11
+  [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
+  library from year 2000 to 2049 (inclusive),
+* the C++11/14/17 Hinnant date (https://github.com/HowardHinnant/date) library
+  from year 1974 to 2049 (inclusive).
+* the C# Noda Time (https://nodatime.org) library from 1974 to 2049 (inclusive)
 
 <a name="QuickExamples"></a>
 ## Quick Examples
@@ -392,8 +422,8 @@ pacificTime == londonTime: false
 ### HelloZoneManager
 
 The [examples/HelloZoneManager](examples/HelloZoneManager) example shows how to
-load the entire TZ Database into a `BasicZoneManager`, then create 3 time zones
-using 3 different ways: `createForZoneInfo()`, `createForZoneName()`, and
+load the entire ZoneInfo Database into a `BasicZoneManager`, then create 3 time
+zones using 3 different ways: `createForZoneInfo()`, `createForZoneName()`, and
 `createForZoneId()`.
 
 ```C++
@@ -401,7 +431,7 @@ using 3 different ways: `createForZoneInfo()`, `createForZoneName()`, and
 
 using namespace ace_time;
 
-// Create a BasicZoneManager with the entire TZ Database.
+// Create a BasicZoneManager with the entire ZoneInfo Database.
 static const int CACHE_SIZE = 3;
 static BasicZoneManager<CACHE_SIZE> manager(
   zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
@@ -518,23 +548,39 @@ for all 3 zones:
 
 ![WorldClock](https://github.com/bxparks/clocks/blob/master/WorldClock/WorldClock.jpg)
 
-<a name="Documentation"></a>
-## Documentation
+<a name="Installation"></a>
+## Installation
 
-* [README.md](README.md) - this file
-* [USER_GUIDE.md](USER_GUIDE.md)
-    * Installation
-    * Documentation
-    * Motivation and Design Considerations
+See [docs/installation.md](docs/installation.md).
+
+<a name="UserGuides"></a>
+## User Guides
+
+* [README.md](README.md)
+    * this file
+* [docs/date_time_timezone.md](docs/date_time_timezone.md)
     * Date and Time classes
+    * TimeZone classes
+    * ZoneInfo Database
     * Mutations
     * Error Handling
-    * Clocks
-    * Testing
-    * Benchmarks
-    * Comparison to Other Libraries
+    * Motivation and Design Considerations
     * Bugs and Limitations
+* [docs/clock_system_clock.md](docs/clock_system_clock.md)
+    * Clock
+    * NTP Clock, DS3231 Clock, STM32 RTC Clock, STM32F1 Clock
+    * SystemClock, SystemClockLoop, SystemClockCoroutine
 * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
+
+<a name="Benchmarks"></a>
+## Benchmarks
+
+See [docs/benchmarks.md](docs/benchmarks.md).
+
+<a name="Comparisons"></a>
+## Comparisons
+
+See [docs/comparisons.md](docs/comparisons.md).
 
 <a name="SystemRequirements"></a>
 ## System Requirements
