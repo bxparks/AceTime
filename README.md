@@ -102,8 +102,8 @@ independent Arduino libraries. However, I am resisting the temptation to make
 this change in order to preserve backwards compatibility for existing users of
 this library. The change that I have done is substantially rewrite this
 `README.md` and the accompanying documentation so that the 2 parts of this
-library are more isolated and decoupled from each other. Hopefully this will
-make it easier to understand how to use this library.
+library are more decoupled from each other. Hopefully this will make it easier
+to understand how to use this library.
 
 <a name="DateTimeAndTimeZone"></a>
 ### Date, Time, and TimeZone
@@ -140,6 +140,8 @@ The documentation of these classes are given in
         * `ace_time::ManualZoneManager`
 * ZoneInfo Database
     * programmatically generated from the IANA TZ Database files
+    * two sets of timezone data are provided (Basic and Extended) because
+      2 slightly different algorithms for handling timezone data are provided
     * ZoneInfo (opaque reference to a timezone)
         * `ace_time::basic::ZoneInfo` (266 zones and 183 links, as of 2021a)
             * `ace_time::zonedb::kZoneAfrica_Abidjan`

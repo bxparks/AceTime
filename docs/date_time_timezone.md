@@ -7,19 +7,12 @@ following namespaces:
 * `ace_time`
 * `ace_time::zonedb`: ZoneInfo entries for `BasicZoneProcessor`
 * `ace_time::zonedbx`: ZoneInfo entries for `ExtendedZoneProcessor`
-* `ace_time::basic`: creating custom zone registries for `BasicZoneManager`
-* `ace_time::extended`: creating custom zone registries for
+* `ace_time::basic`: for creating custom zone registries for `BasicZoneManager`
+* `ace_time::extended`: for creating custom zone registries for
   `ExtendedZoneManager`
 * `ace_time::internal`: not normally needed by app developers
 
 **Version**: 1.6+ (2021-03-14, TZ DB version 2021a)
-
-**Related Documents**:
-
-* [README.md](README.md): introductory background
-* [docs/installation.md](docs/installation.md): how to install the library
-* [docs/clock_system_clock.md](docs/clock_system_clock.md): the clock classes
-* [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
 
 ## Table of Contents
 
@@ -75,6 +68,13 @@ following namespaces:
     * [LocalDate::kInvalidEpochSeconds](#KInvalidEpochSeconds)
 * [Motivation and Design Considerations](#Motivation)
 * [Bugs and Limitations](#Bugs)
+
+**Related Documents**:
+
+* [README.md](README.md): introductory background
+* [docs/installation.md](docs/installation.md): how to install the library
+* [docs/clock_system_clock.md](docs/clock_system_clock.md): the clock classes
+* [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
 
 <a name="Overview"></a>
 ## Overview
@@ -282,6 +282,18 @@ defined to be 2000-01-01 00:00:00 UTC time. In contrast, the Unix Epoch is
 defined to be 1970-01-01 00:00:00 UTC. Since `acetime_t` is a 32-bit signed
 integer, the largest value is 2,147,483,647. Therefore, the largest date
 that can be represented in this library is 2068-01-19T03:14:07 UTC.
+
+The `acetime_t` is analogous to the `time_t` type in the standard C library,
+with 3 major differences:
+
+* The `time_t` does not exist on all Arduino platforms.
+* Modern implementations of the `time_t` type uses a 64-bit `int64_t` to prevent
+  the "Year 2038" overflow problem. Unfortunately, it is too resource intensive
+  to use a 64-bit integer on 8-bit processors.
+* Most `time_t` implementations uses the Unix Epoch of 1970-01-01 00:00:00 UTC.
+  It is possible to convert between a `time_t` and an `acetime_t` by adding or
+  subtracting the appropriate number of seconds between the 2 Epoch dates. See
+  `LocalDate::kSecondsSinceUnixEpoch`
 
 <a name="LocalDateAndLocalTime"></a>
 ### LocalDate and LocalTime

@@ -14,14 +14,6 @@ classes live within the AceTime library.
 
 **Version**: 1.6+ (2021-03-14, TZ DB version 2021a)
 
-**Related Documents**:
-
-* [README.md](README.md): introductory background.
-* [docs/installation.md](docs/installation.md): how to install the library
-* [docs/date_time_timezone.md](docs/date_time_timezone.md): the
-  Date, Time and TimeZone classes
-* [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
-
 ## Table of Contents
 
 * [Overview](#Overview)
@@ -31,6 +23,7 @@ classes live within the AceTime library.
 * [DS3231 Clock](#DS3231Clock)
 * [STM RTC Clock](#StmRtcClock)
 * [STM32F1 Clock](#Stm32F1Clock)
+* [Unix Clock](#UnixClock)
 * [System Clock](#SystemClock)
     * [System Clock Maintenance Tasks](#SystemClockMaintenance)
     * [Reference Clock And Backup Clock](#ReferenceClockAndBackupClock)
@@ -42,6 +35,14 @@ classes live within the AceTime library.
     * [NTP Reference With DS3231 Backup](#NtpReferenceWithDS3231Backup)
     * [DS3231 Reference and Backup](#DS3231ReferenceAndBackup)
 * [System Clock Configurable Parameters](#SystemClockConfigurableParameters)
+
+**Related Documents**:
+
+* [README.md](README.md): introductory background.
+* [docs/installation.md](docs/installation.md): how to install the library
+* [docs/date_time_timezone.md](docs/date_time_timezone.md): the
+  Date, Time and TimeZone classes
+* [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
 
 <a name="Overview"></a>
 ## Overview
@@ -405,23 +406,30 @@ class Stm32F1Clock: public Clock {
 ```
 
 Underneath the covers, the `Stm32F1Clock` delegates its functionality to the
-`hw::Stm32F1Rtc` class. The `Stm32F1Rtc` class bypasses the (buggy) HAL code for
-the STM32F1. and writes the AceTime epochSeconds directly into the 32-bit RTC
-counter. More information can be found in the class docstring on Doxygen (TBD:
-Add direct link after regenerating the docs.)
+`hw::Stm32F1Rtc` class. The `Stm32F1Rtc` class bypasses the HAL code for
+the STM32F1 because the RTC HAL layer for the STM32F1 has a bug which causes the
+date components to be lost after a power reset:
 
-I also add a cautionary note that there should be nothing connected to the PC14
-and PC15 pins of the Blue Pill board, not even the male header pins. The male
-header pins changed the capacitance of the oscillator circuit enough to cause my
-`LSE_CLOCK` to run 5-10% too slow. Removing the pins fixed the accuracy problem,
-making the clock accurate to better than 1 second per 48 hours. See for example:
+* https://github.com/stm32duino/STM32RTC/issues/29
+* https://github.com/stm32duino/Arduino_Core_STM32/issues/266
+* https://github.com/stm32duino/STM32RTC/issues/32
+
+Instead, the `hw::Stm32F1Rtc` class writes the AceTime epochSeconds directly
+into the 32-bit RTC counter on the STM32F1. More information can be found in the
+class docstring on Doxygen (TBD: Add direct link after regenerating the docs.)
+
+I also recommend that nothing should be connected to the PC14 and PC15 pins of
+the Blue Pill board, not even the male header pins. The male header pins changed
+the capacitance of the oscillator circuit enough to cause my `LSE_CLOCK` to run
+5-10% too slow. Removing the pins fixed the problem, giving me a clock That is
+accurate to better than 1 second per 48 hours. See for example:
 
 * https://github.com/rogerclarkmelbourne/Arduino_STM32/issues/572
 * https://www.stm32duino.com/viewtopic.php?t=143
 
 The `Stm32F1Clock` and `Stm32F1Rtc` classes are new for v1.7 and should be
-considered experimental. They seem to work great for me on my Blue Pill if that
-makes a difference.
+considered experimental. They seem to work great for me on my Blue Pill for what
+it is worth.
 
 <a name="UnixClock"></a>
 ## Unix Clock
@@ -430,7 +438,7 @@ The `UnixClock` is a version of `Clock` that retrieves the epochSeconds from the
 `time()` function on a POSIX or Unix compatible environment with a `time.h`
 header file. It is currently activated only for EpoxyDuino
 (https://github.com/bxparks/EpoxyDuino) but it could possibly to useful in other
-environments, I don't know. Currently, it's used only for testing purposes.
+environments, I don't know. Currently, it's used only for testing.
 
 ```C++
 class UnixClock: public Clock {
@@ -564,16 +572,16 @@ take 2 parameters which are required but are *nullable*:
       request and can take multiple seconds.)
     * the `SystemClock` will synchronize against the `referenceClock` on a
       periodic basis using the non-blocking API of the `Clock` interface
-    * synchronized time is a configurable parameter in the constructor
-      (default, every 1 hour).
+    * the synchronization interval is a configurable parameter in the
+      constructor (default, every 1 hour).
 * the `backupClock`
     * an instance of the `Clock` class which preserves the time and *continues
       to tick* after the power is lost
     * e.g. `DS3231Clock` backed by a battery or a super capacitor
-    * upon initialized, the `SystemClock` can retrieve the current time
+    * upon initialized, the `SystemClock` retrieves the current time
       from the `backupClock` so that the current time available in the
-      `SystemClock` right away, without having to wait to resychronize with a
-      slow `referenceClock` (e.g. the `NtpClock`).
+      `SystemClock` right away, without having to wait for synchronization with
+      the slower `referenceClock` (e.g. the `NtpClock`).
 
 Since both parameters are nullable, there are 4 combinations:
 
@@ -589,8 +597,7 @@ Since both parameters are nullable, there are 4 combinations:
     * date and time retrieve from backupClock upon initial startup
     * `backupClock` updated when `SystemClock::setNow()` is called
     * no further syncing happens to the backupClock
-    * It is difficult to see this configuration being useful in practice, so I
-      don't recommend it.
+    * *Not Recommended*: It is difficult to see this configuration being useful.
 * `SystemClock{Loop,Coroutine}(referenceClock, backupClock)`
     * the `referenceClock` and `backupClock` are assumed to be different
     * using both provides the redundancy and rapid initialization
@@ -607,14 +614,17 @@ Since both parameters are nullable, there are 4 combinations:
 There are 2 internal maintenance tasks that must be performed periodically.
 
 First, the `SystemClock` advances the internal `epochSeconds` counter using the
-`millis()` function when the `getNow()` method is called. This synchronization
-with `millis()` must happen every 65.536 seconds or faster. Most of the time,
-this will not be problem because the `getNow()` method will be called very
-frequently, say 10 times a second, to detect a transition of the time from one
-second to the next second. But there may be applications where `getNow()` is not
-called frequently, so the `SystemClock` maintenance task must make sure that
-`getNow()` is called frequently enough even if the calling application does not
-do so.
+`millis()` function when the `getNow()` method is called. This functionality
+is needed because on the AVR platform, the `time()` function does not
+automatically advance. On other platforms, the `time()` function does not even
+exist. For cross-platform compatibility, We are forced to use the `millis()`
+function as a substitute. The synchronization with `millis()` must happen every
+65.536 seconds or faster. Most of the time, this will not be problem because the
+`getNow()` method will be called very frequently, say 10 times a second, to
+detect a transition of the time from one second to the next second. But there
+may be applications where `getNow()` is not called frequently, so the
+`SystemClock` maintenance task must make sure that `getNow()` is called
+frequently enough even if the calling application does not do so.
 
 Second, if the `referenceClock` is given, the `SystemClock` should synchronize
 its internal `epochSeconds` with the reference clock periodically.
@@ -838,7 +848,7 @@ to be unreachable for a long time, then the `SystemClock` will be only as
 accurate as the `millis()` function.
 
 <a name="DS3231ReferenceAndBackup"></a>
-### DS3231 Both Reference and Backup (don't do this)
+### DS3231 As Both Reference and Backup (don't do this)
 
 It might be tempting to specify the `DS3231Clock` as *both* the reference and
 backup clock sources like this (and an earlier version of this guide actually
@@ -857,11 +867,10 @@ SystemClockLoop systemClock(&dsClock /*reference*/, &dsClock /*backup*/);
 
 It turns out the `SystemClock` will detect the situation where the
 `referenceClock` is the same as the `backupClock`, and then ignore the
-`backupClock` completely because there is no benefit in this configuration,
-while actually harming the accuracy of the time keeping. In practice, if
-something like the DS3231 with a battery is used as the `referenceClock`, there
-is no need for a `backupClock` because the DS3231 automatically retains its time
-info while the battery is attached to it.
+`backupClock` completely because there is no benefit in this configuration.
+If something like the DS3231 with a battery backup is used as the
+`referenceClock`, there is no need for a `backupClock` because the DS3231
+automatically retains its time info while the battery is attached to it.
 
 <a name="SystemClockConfigurableParameters"></a>
 ## System Clock Configurable Parameters
