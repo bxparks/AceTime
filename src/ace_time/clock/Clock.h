@@ -25,6 +25,9 @@ class Clock {
      */
     static const acetime_t kInvalidSeconds = LocalTime::kInvalidSeconds;
 
+    /** Default constructor. */
+    Clock() = default;
+
     /**
      * We deliberately avoid using a virtual destructor. This saves 618 bytes
      * of flash on 8-bit AVR processors, 328 bytes on SAMD21, but only 50-60
@@ -62,6 +65,11 @@ class Clock {
      * GPS clocks and this method will be a no-op.
      */
     virtual void setNow(acetime_t /*epochSeconds*/) {}
+
+  private:
+    // disable copy constructor and assignment operator
+    Clock(const Clock&) = delete;
+    Clock& operator=(const Clock&) = delete;
 };
 
 }
