@@ -599,14 +599,26 @@ Since both parameters are nullable, there are 4 combinations:
     * no further syncing happens to the backupClock
     * *Not Recommended*: It is difficult to see this configuration being useful.
 * `SystemClock{Loop,Coroutine}(referenceClock, backupClock)`
-    * the `referenceClock` and `backupClock` are assumed to be different
-    * using both provides the redundancy and rapid initialization
+    * the `referenceClock` and `backupClock` will usually be different objects
+    * using both provides redundancy and rapid initialization
     * see example below where the `referenceClock` is an `NtpClock` which can
-      take many seconds to initialize, and the `backupClock` is a `DS3231`
-      which can initialize the `SystemClock` quickly when the board
-      restarts
+      take many seconds to initialize, and the `backupClock` is a `DS3231` which
+      can initialize the `SystemClock` quickly when the board restarts
     * this configuration allows the clock to keep working if the network goes
       down
+* `SystemClock{Loop,Coroutine}(referenceClock, referenceClock)`
+    * if the `backupClock` is defined to be identical to the `referenceClock`
+      then the code takes special precautions to avoid updating the
+      `backupClock` when `syncNow()` is called
+    * this avoids writing the same value back into the RTC, which would cause
+      progressive loss of accuracy due to the overwriting of sub-second
+      information
+    * this configuration has the benefit of guaranteeing that the `SystemClock`
+      returns a valid epochSeconds as soon as the `setup()` method returns
+      successfully, because the `backupClock` is called in the `setup()` to
+      initialize the `SystemClock`
+    * see [DS3231 As Both Reference and Backup](#DS3231ReferenceAndBackup)
+      example below
 
 <a name="SystemClockMaintenance"></a>
 ### SystemClock Maintenance Tasks
@@ -848,11 +860,10 @@ to be unreachable for a long time, then the `SystemClock` will be only as
 accurate as the `millis()` function.
 
 <a name="DS3231ReferenceAndBackup"></a>
-### DS3231 As Both Reference and Backup (don't do this)
+### DS3231 As Both Reference and Backup
 
-It might be tempting to specify the `DS3231Clock` as *both* the reference and
-backup clock sources like this (and an earlier version of this guide actually
-had an example of this):
+The `DS3231Clock` for example can be given as *both* the reference and backup
+clock sources, like this:
 
 ```C++
 #include <AceTime.h>
@@ -861,16 +872,38 @@ using namespace ace_time::clock;
 
 DS3231Clock dsClock;
 
-// **Don't do this**
 SystemClockLoop systemClock(&dsClock /*reference*/, &dsClock /*backup*/);
 ```
 
-It turns out the `SystemClock` will detect the situation where the
-`referenceClock` is the same as the `backupClock`, and then ignore the
-`backupClock` completely because there is no benefit in this configuration.
-If something like the DS3231 with a battery backup is used as the
-`referenceClock`, there is no need for a `backupClock` because the DS3231
-automatically retains its time info while the battery is attached to it.
+The `SystemClock` will notice that the `referenceClock` is the same as the
+`backupClock`, and will take precautions to avoid writing to the  `backupClock`
+in the `syncNow()` method. Otherwise, there would be progressive skewing the
+`referenceClock`. To see how this would happen, recall that the `referenceClock`
+is the original source of the `epochSeconds` given to `syncNow()`. If the
+`epochSeconds` is written back into the `referenceClock` (through the
+`backupClock` reference), then the internal subsecond resolution of the RTC
+would be lost, and the RTC would lose a small fraction of a second each time
+`syncNow()` is called.
+
+The biggest advantage of using this configuration (where the same clock is used
+as `referenceClock` and `backupClock`) is guarantee a valid state of
+`SystemClock` after a successful call to `setup()`. Without a `backupClock`, the
+`SystemClock::getNow()` returns a `kInvalidSeconds` error condition until the
+first successful `syncNow()` complete. With a `backupClock`, the
+`SystemClock::setup()` blocks until a valid time is retrieved from the
+`backupClock`, uses that value to initialize the `SystemClock`. The `getNow()`
+method will always return a valid vlaue (as long as both reference and backup
+clock remain valid).
+
+In summary, if your application can tolerate a short period (order of seconds or
+less) where the `SystemClock::getNow()` can return `kInvalidSeconds`, then you
+can use just define the reference clock without reusing it as a backup clock,
+`SystemClockLoop(&dsClock, nullptr)`. For robustness, most applications should
+be written to tolerate and correctly handle this situation anyways, but I
+understand that people want to do the least amount of work, and handling error
+conditions is more work. Configuring the `referenceClock` as the `backupClock`
+provides a slightly better well-behaved `SystemClock`, at the expense of having
+possibility that the setup process of the application could take longer.
 
 <a name="SystemClockConfigurableParameters"></a>
 ## System Clock Configurable Parameters
