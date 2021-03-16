@@ -19,12 +19,16 @@ namespace testing {
  */
 class TestableSystemClockLoop: public clock::SystemClockLoop {
   public:
-    explicit TestableSystemClockLoop(
-          Clock* referenceClock /* nullable */,
-          Clock* backupClock /* nullable */,
-          FakeMillis* fakeMillis):
-        SystemClockLoop(referenceClock, backupClock),
-        mFakeMillis(fakeMillis) {}
+    explicit TestableSystemClockLoop() {}
+
+    void init(
+        Clock* referenceClock /* nullable */,
+        Clock* backupClock /* nullable */,
+        FakeMillis* fakeMillis
+    ) {
+      initSystemClock(referenceClock, backupClock);
+      mFakeMillis = fakeMillis;
+    }
 
     unsigned long clockMillis() const override {
       return mFakeMillis->millis();

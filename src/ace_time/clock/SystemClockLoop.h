@@ -132,6 +132,10 @@ class SystemClockLoop: public SystemClock {
       }
     }
 
+  protected:
+    /** Empty constructor used for testing. */
+    SystemClockLoop() {}
+
   private:
     friend class ::SystemClockLoopTest_loop;
 
@@ -139,13 +143,13 @@ class SystemClockLoop: public SystemClock {
     SystemClockLoop(const SystemClockLoop&) = delete;
     SystemClockLoop& operator=(const SystemClockLoop&) = delete;
 
-    uint16_t const mSyncPeriodSeconds;
-    uint16_t const mRequestTimeoutMillis;
-    ace_common::TimingStats* const mTimingStats;
+    uint16_t const mSyncPeriodSeconds = 3600;
+    uint16_t const mRequestTimeoutMillis = 1000;
+    ace_common::TimingStats* const mTimingStats = nullptr;
 
     unsigned long mLastSyncMillis;
     unsigned long mRequestStartMillis;
-    uint16_t mCurrentSyncPeriodSeconds;
+    uint16_t mCurrentSyncPeriodSeconds = 5;
     uint8_t mRequestStatus = kStatusReady;
 };
 

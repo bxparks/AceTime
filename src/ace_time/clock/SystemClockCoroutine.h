@@ -142,6 +142,10 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
     /** Return the current request status. Mostly for debugging. */
     uint8_t getRequestStatus() const { return mRequestStatus; }
 
+  protected:
+    /** Empty constructor used for testing. */
+    SystemClockCoroutine() {}
+
   private:
     friend class ::SystemClockCoroutineTest_runCoroutine;
 
@@ -149,12 +153,12 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
     SystemClockCoroutine(const SystemClockCoroutine&) = delete;
     SystemClockCoroutine& operator=(const SystemClockCoroutine&) = delete;
 
-    uint16_t const mSyncPeriodSeconds;
-    uint16_t const mRequestTimeoutMillis;
-    ace_common::TimingStats* const mTimingStats;
+    uint16_t const mSyncPeriodSeconds = 3600;
+    uint16_t const mRequestTimeoutMillis = 1000;
+    ace_common::TimingStats* const mTimingStats = nullptr;
 
     uint16_t mRequestStartMillis; // lower 16-bit of millis()
-    uint16_t mCurrentSyncPeriodSeconds;
+    uint16_t mCurrentSyncPeriodSeconds = 5;
     uint8_t mRequestStatus = kStatusUnknown;
 };
 

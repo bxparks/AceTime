@@ -73,7 +73,7 @@ class SystemClock: public Clock {
       // 1) A physical clock with an external display will want to refresh
       // its display 5-10 times a second, so that it can capture the transition
       // from one second to the next without too much jitter. So it will call
-      // this method to check if one second has passed.
+      // this method multiple times a second to check if one second has passed.
       //
       // 2) If the SystemClockCoroutine or SystemClockLoop classes is used,
       // then the keepAlive() method will be called perhaps 100's times per
@@ -160,6 +160,26 @@ class SystemClock: public Clock {
         mBackupClock(backupClock) {}
 
     /**
+     * Empty constructor primarily for tests. The init() must be called before
+     * using the object.
+     */
+    explicit SystemClock() {}
+
+    /** Same as constructor but allows delayed initialization, e.g. in tests. */
+    void initSystemClock(
+        Clock* referenceClock /* nullable */,
+        Clock* backupClock /* nullable */
+    ) {
+      mReferenceClock = referenceClock;
+      mBackupClock = backupClock;
+
+      mEpochSeconds = kInvalidSeconds;
+      mLastSyncTime = kInvalidSeconds;
+      mPrevMillis = 0;
+      mIsInit = false;
+    }
+
+    /**
      * Return the Arduino millis(). Override for unit testing. Named
      * 'clockMillis()' to avoid conflict with Coroutine::millis().
      */
@@ -225,12 +245,12 @@ class SystemClock: public Clock {
       }
     }
 
-    Clock* const mReferenceClock;
-    Clock* const mBackupClock;
+    Clock* mReferenceClock;
+    Clock* mBackupClock;
 
     mutable acetime_t mEpochSeconds = kInvalidSeconds;
     acetime_t mLastSyncTime = kInvalidSeconds; // time when last synced
-    mutable uint16_t mPrevMillis = 0;  // lower 16-bits of clockMillis()
+    mutable uint16_t mPrevMillis = 0; // lower 16-bits of clockMillis()
     bool mIsInit = false; // true if setNow() or syncNow() was successful
 };
 

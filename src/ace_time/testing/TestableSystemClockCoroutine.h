@@ -19,12 +19,16 @@ namespace testing {
  */
 class TestableSystemClockCoroutine: public clock::SystemClockCoroutine {
   public:
-    TestableSystemClockCoroutine(
+    TestableSystemClockCoroutine() {}
+
+    void init(
         Clock* referenceClock /* nullable */,
         Clock* backupClock /* nullable */,
-        FakeMillis* fakeMillis):
-      SystemClockCoroutine(referenceClock, backupClock),
-      mFakeMillis(fakeMillis) {}
+        FakeMillis* fakeMillis
+    ) {
+      initSystemClock(referenceClock, backupClock);
+      mFakeMillis = fakeMillis;
+    }
 
     unsigned long coroutineMillis() const override {
       return mFakeMillis->millis();
