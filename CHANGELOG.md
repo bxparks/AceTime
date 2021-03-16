@@ -38,6 +38,9 @@
         * Extract Validation and Testing into `docs/validation.md`.
         * Extract Comparisons into `docs/comparisons.md`.
         * Add documentation for `StmRtcClock` and `Stm32F1Clock`.
+    * Remove virtual destructor from `ace_time::clock::Clock` class.
+        * Saves 618 bytes of flash on 8-bit AVR processors, 328 bytes on SAMD21,
+          but only 50-60 bytes on other 32-bit processors.
 * 1.6 (2021-02-17, TZ DB version 2021a)
     * Remove `TimeZone::kTypeBasicManaged` and `TimeZone::kTypeExtendedManaged`
       and merge them into just regular `TimeZone::kTypeBasic` and
