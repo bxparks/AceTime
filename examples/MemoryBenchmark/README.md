@@ -240,21 +240,21 @@ microcontroller and the compiler did not generate the desired information.
 | LocalDateTime                          | 258820/27264 |  2120/  488 |
 | ZonedDateTime                          | 259012/27264 |  2312/  488 |
 | Manual ZoneManager                     | 259076/27264 |  2376/  488 |
-| Basic TimeZone (1 zone)                | 264908/27824 |  8208/ 1048 |
+| Basic TimeZone (1 zone)                | 264924/27824 |  8224/ 1048 |
 | Basic TimeZone (2 zones)               | 265260/27824 |  8560/ 1048 |
-| BasicZoneManager (1 zone)              | 266140/27824 |  9440/ 1048 |
+| BasicZoneManager (1 zone)              | 266156/27824 |  9456/ 1048 |
 | BasicZoneManager (zones)               | 283788/27824 | 27088/ 1048 |
 | BasicZoneManager (zones+thin links)    | 285308/27824 | 28608/ 1048 |
 | BasicZoneManager (zones+fat links)     | 289884/27824 | 33184/ 1048 |
 | Extended TimeZone (1 zone)             | 267020/27968 | 10320/ 1192 |
 | Extended TimeZone (2 zones)            | 267356/27968 | 10656/ 1192 |
-| ExtendedZoneManager (1 zone)           | 268252/27968 | 11552/ 1192 |
+| ExtendedZoneManager (1 zone)           | 268268/27968 | 11568/ 1192 |
 | ExtendedZoneManager (zones)            | 298480/27980 | 41780/ 1204 |
 | ExtendedZoneManager (zones+thin links) | 300176/27980 | 43476/ 1204 |
 | ExtendedZoneManager (zones+fat links)  | 305392/27980 | 48692/ 1204 |
 |----------------------------------------+--------------+-------------|
-| SystemClock                            | 262268/27276 |  5568/  500 |
-| SystemClock+Basic TimeZone             | 267720/27824 | 11020/ 1048 |
+| SystemClock                            | 262284/27276 |  5584/  500 |
+| SystemClock+Basic TimeZone             | 267736/27824 | 11036/ 1048 |
 | SystemClock+Extended TimeZone          | 269848/27968 | 13148/ 1192 |
 +---------------------------------------------------------------------+
 
