@@ -86,7 +86,7 @@ target_path=$(realpath -m $target_dir)
 echo "+ mkdir -p $target_path"
 mkdir -p $target_path
 
-# Check out the $tag, unless --skip_checkout flag is given.
+# Check out TZDB repo at the $tag, unless --skip_checkout flag is given.
 echo "+ cd $git_repo"
 cd $git_repo
 if [[ $skip_checkout == 0 ]]; then
@@ -100,10 +100,10 @@ copy_cmd="cp $(echo $TZ_FILES) $target_path"
 echo "+ $copy_cmd"
 eval "$copy_cmd"
 
-# Set the repo back to the 'master' branch.
+# Revert the TZDB repo back to the 'main' branch.
 if [[ $skip_checkout == 0 ]]; then
-    echo "+ git checkout master"
-    git checkout -q master
+    echo "+ git checkout main"
+    git checkout -q main
 fi
 
 echo "==== Copied TZ files into '$target_dir' directory"
