@@ -408,11 +408,15 @@ class Transition:
         for key, value in arg.items():
             setattr(self, key, value)
 
-    def to_timezone_tuple(self) -> OffsetInfo:
+    def to_offset_info(self) -> OffsetInfo:
         """Convert a Transition into a OffsetInfo.
         """
-        return OffsetInfo(self.offset_seconds + self.delta_seconds,
-                          self.offset_seconds, self.delta_seconds, self.abbrev)
+        return OffsetInfo(
+            self.offset_seconds + self.delta_seconds,
+            self.offset_seconds,
+            self.delta_seconds,
+            self.abbrev,
+        )
 
     def __repr__(self) -> str:
         sepoch = self.start_epoch_second if self.start_epoch_second else '-'
@@ -494,15 +498,13 @@ class ZoneSpecifier:
 
         # Validate matches and transitions
         zone_specifier.init_for_year(args.year)
-        self.print_matches_and_transitions()
+        zone_specifier.print_matches_and_transitions()
 
-        # Get (offset_seconds, dst_seconds, abbrev) for an epoch_seconds.
-        (offset_seconds, dst_seconds, abbrev) = \
-            zone_specifier.get_timezone_info_for_seconds(epoch_seconds)
+        # Get OffsetInfo for an epoch_seconds.
+        info = zone_specifier.get_timezone_info_for_seconds(epoch_seconds)
 
-        # Get (offset_seconds, dst_seconds, abbrev) for a datetime.
-        (offset_seconds, dst_seconds, abbrev) = \
-            zone_specifier.get_timezone_info_for_datetime(dt)
+        # Get OffsetInfo for a datetime.
+        info = zone_specifier.get_timezone_info_for_datetime(dt)
 
     Note:
         The viewing_months parameter determines the month interval to use to
@@ -611,14 +613,13 @@ class ZoneSpecifier:
         return self._find_transition_for_datetime(dt)
 
     def get_timezone_info_for_seconds(self, epoch_seconds: int) -> OffsetInfo:
-        """Return a tuple of (total_offset, dst_seconds, abbrev).
+        """Return the OffsetInfo of the given epoch_seconds.
         """
         self._init_for_second(epoch_seconds)
 
-        # TODO(bpark): Check for None
-        transition = cast(Transition,
-                          self._find_transition_for_seconds(epoch_seconds))
-        return transition.to_timezone_tuple()
+        transition = self._find_transition_for_seconds(epoch_seconds)
+        assert transition is not None
+        return transition.to_offset_info()
 
     def get_timezone_info_for_datetime(
         self,
@@ -628,7 +629,7 @@ class ZoneSpecifier:
         """
         self.init_for_year(dt.year)
         transition = self._find_transition_for_datetime(dt)
-        return transition.to_timezone_tuple() if transition else None
+        return transition.to_offset_info() if transition else None
 
     def init_for_year(self, year: int) -> None:
         """Initialize the Matches and Transitions for the year. Call this
