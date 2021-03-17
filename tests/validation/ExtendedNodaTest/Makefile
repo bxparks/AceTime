@@ -61,6 +61,7 @@ validation_data.json: $(DB_NAMESPACE)/zones.txt \
 tzdata$(TZ_VERSION).nzd:
 	dotnet run \
 		-p $(NODA_TIME_DIR)/src/NodaTime.TzdbCompiler/NodaTime.TzdbCompiler.csproj \
+		-f net5.0 \
 		-- \
 		-s https://data.iana.org/time-zones/releases/tzdata$(TZ_VERSION).tar.gz \
 		-w $(NODA_TIME_DIR)/data/cldr/windowsZones-38-1.xml \
