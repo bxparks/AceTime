@@ -840,23 +840,39 @@ class ZoneSpecifier:
         if matching_index == -1:
             return None
 
-        # Determine the 'fold' by looking at the transition just before the
-        # matching one. If the wall time overlaps, then set the fold to 1,
-        # otherwise 0.
-        if (
-            matching_index >= 1
-            and self.transitions[matching_index - 1].until_date_time
-                > self.transitions[matching_index].start_date_time
-        ):
-            fold = 1
-        else:
-            fold = 0
+        fold = self._determine_fold(epoch_seconds, matching_index)
 
         transition_match = TransitionMatch(
             self.transitions[matching_index],
             fold,
         )
         return transition_match
+
+    def _determine_fold(self, epoch_seconds: int, matching_index: int) -> int:
+        """Determine the 'fold' by looking at the transition just before the
+        matching one. If the prev and current transition overlap, *and* the
+        epoch_seconds falls within the overlap, then set the fold to 1,
+        otherwise 0.
+        """
+        if matching_index < 1:
+            return 0
+
+        overlap_interval = _subtract_date_tuple(
+            self.transitions[matching_index - 1].until_date_time,
+            self.transitions[matching_index].start_date_time,
+        )
+        if overlap_interval <= 0:
+            return 0
+
+        seconds_from_zone_era_start = (
+            epoch_seconds
+            - self.transitions[matching_index].start_epoch_second
+        )
+
+        if seconds_from_zone_era_start >= overlap_interval:
+            return 0
+
+        return 1
 
     def _find_transition_for_datetime(
         self,

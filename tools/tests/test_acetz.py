@@ -262,3 +262,46 @@ class TestAceTzLosAngeles(unittest.TestCase):
         self.assertEqual(timedelta(hours=0), dtc.dst())
 
         self.assertEqual(dtc, dtt)
+
+
+class TestAceTzTunis(unittest.TestCase):
+
+    def test_2006_01_01(self) -> None:
+        tz = agettz('Africa/Tunis')
+
+        epoch_seconds = 189385200
+        unix_seconds = epoch_seconds + SECONDS_SINCE_UNIX_EPOCH
+        dtu = datetime.fromtimestamp(unix_seconds, tz=timezone.utc)
+
+        # print_zs_at_dt(tz, dtu)
+
+        # Date from epoch seconds.
+        dtt = dtu.astimezone(tz)
+        self.assertEqual(
+            epoch_seconds,
+            int(dtt.timestamp()) - SECONDS_SINCE_UNIX_EPOCH
+        )
+        self.assertEqual(2006, dtt.year)
+        self.assertEqual(1, dtt.month)
+        self.assertEqual(1, dtt.day)
+        self.assertEqual(0, dtt.hour)
+        self.assertEqual(0, dtt.minute)
+        self.assertEqual(0, dtt.second)
+        self.assertEqual("CET", dtt.tzname())
+        self.assertEqual(timedelta(hours=1), dtt.utcoffset())
+        self.assertEqual(timedelta(hours=0), dtt.dst())
+
+        # Date from component
+        dtc = datetime(2006, 1, 1, 0, 0, 0, tzinfo=tz)
+        self.assertEqual(unix_seconds, int(dtc.timestamp()))
+        self.assertEqual(2006, dtc.year)
+        self.assertEqual(1, dtc.month)
+        self.assertEqual(1, dtc.day)
+        self.assertEqual(0, dtc.hour)
+        self.assertEqual(0, dtc.minute)
+        self.assertEqual(0, dtc.second)
+        self.assertEqual("CET", dtc.tzname())
+        self.assertEqual(timedelta(hours=1), dtc.utcoffset())
+        self.assertEqual(timedelta(hours=0), dtc.dst())
+
+        self.assertEqual(dtc, dtt)
