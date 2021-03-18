@@ -18,7 +18,7 @@ OBJS := validation_data.o \
 	$(DB_NAMESPACE)/zone_infos.o \
 	$(DB_NAMESPACE)/zone_policies.o \
 	$(DB_NAMESPACE)/zone_registry.o
-APP_NAME := BasicAcetzTest
+APP_NAME := ExtendedAcetzTest
 ARDUINO_LIBS := AUnit AceCommon AceTime
 MORE_CLEAN := more_clean
 include ../../../../EpoxyDuino/EpoxyDuino.mk
@@ -27,7 +27,7 @@ runtests:
 	./$(APP_NAME).out
 
 # Define the scope of the test data.
-SCOPE = basic
+SCOPE = extended
 TZ_VERSION = 2021a
 START_YEAR = 2000
 UNTIL_YEAR = 2050
