@@ -206,11 +206,11 @@ class Validator:
             if self.debug_specifier:
                 logging.info(header)
 
-            try:
-                info = zone_specifier.get_timezone_info_for_seconds(item.epoch)
-            except Exception:
-                logging.exception('Exception with test data {item}')
-                raise
+            info = zone_specifier.get_timezone_info_for_seconds(item.epoch)
+            if not info:
+                logging.info("timezone info not found")
+                continue
+
             is_matched = info.total_offset == item.total_offset
             status = '**Matched**' if is_matched else '**Mismatched**'
             ace_time_string = to_utc_string(info.utc_offset, info.dst_offset)

@@ -1,11 +1,44 @@
+import sys
 import unittest
+import logging
 from datetime import datetime, timedelta, timezone
 from dateutil.tz import gettz
+
 from data_types.at_types import SECONDS_SINCE_UNIX_EPOCH
-from acetz import gettz as agettz
+from acetz import gettz as agettz, acetz
+
+
+# Enable logging during unittests.
+# https://stackoverflow.com/questions/7472863
+logger = logging.getLogger()
+logger.level = logging.DEBUG
+stream_handler = logging.StreamHandler(sys.stdout)
+logger.addHandler(stream_handler)
 
 
 class TestAceTz(unittest.TestCase):
+
+    def print_zs_at_dt(self, tz: acetz, dt: datetime) -> None:
+        zs = tz.zone_specifier()
+        zs.init_for_year(dt.year)
+        zs.print_matches_and_transitions()
+        unix_seconds = int(dt.timestamp())
+        epoch_seconds = unix_seconds - SECONDS_SINCE_UNIX_EPOCH
+        info = zs.get_timezone_info_for_seconds(epoch_seconds)
+        if info:
+            print(
+                f"print_zs_at_dt(): epoch_seconds={epoch_seconds} "
+                f"total_offset={info.total_offset} "
+                f"utc_offset={info.utc_offset} "
+                f"dst_offset={info.dst_offset} "
+                f"abbrev={info.abbrev} "
+                f"fold={info.fold}"
+            )
+        else:
+            print(
+                f"print_zs_at_dt(): epoch_seconds={epoch_seconds} "
+                " transition not found"
+            )
 
     def test_constructor(self) -> None:
         dtz = gettz('America/Los_Angeles')
@@ -37,40 +70,47 @@ class TestAceTz(unittest.TestCase):
 
     def test_before_spring_forward(self) -> None:
         tz = agettz('America/Los_Angeles')
-        # zs = tz.zone_specifier()
 
         # One second before DST shift, 01:59:59 UTC-8
         epoch_seconds = 7984799
         unix_seconds = epoch_seconds + SECONDS_SINCE_UNIX_EPOCH
         dtu = datetime.fromtimestamp(unix_seconds, tz=timezone.utc)
 
+        # self.print_zs_at_dt(tz, dtu)
+
         # Date from epoch seconds.
         dtt = dtu.astimezone(tz)
-        self.assertEqual(unix_seconds, dtt.timestamp())
+        self.assertEqual(
+            epoch_seconds,
+            int(dtt.timestamp()) - SECONDS_SINCE_UNIX_EPOCH
+        )
         self.assertEqual(2000, dtt.year)
         self.assertEqual(4, dtt.month)
         self.assertEqual(2, dtt.day)
         self.assertEqual(1, dtt.hour)
         self.assertEqual(59, dtt.minute)
         self.assertEqual(59, dtt.second)
+        self.assertEqual("PST", dtt.tzname())
+        self.assertEqual(timedelta(hours=-8), dtt.utcoffset())
+        self.assertEqual(timedelta(hours=0), dtt.dst())
 
         # Date from component
         dtc = datetime(2000, 4, 2, 1, 59, 59, tzinfo=tz)
-        self.assertEqual(unix_seconds, dtc.timestamp())
+        self.assertEqual(unix_seconds, int(dtc.timestamp()))
         self.assertEqual(2000, dtc.year)
         self.assertEqual(4, dtc.month)
         self.assertEqual(2, dtc.day)
         self.assertEqual(1, dtc.hour)
         self.assertEqual(59, dtc.minute)
         self.assertEqual(59, dtc.second)
-        self.assertEqual(timedelta(hours=-8), tz.utcoffset(dtc))
-        self.assertEqual(timedelta(hours=0), tz.dst(dtc))
+        self.assertEqual("PST", dtc.tzname())
+        self.assertEqual(timedelta(hours=-8), dtc.utcoffset())
+        self.assertEqual(timedelta(hours=0), dtc.dst())
 
         self.assertEqual(dtc, dtt)
 
     def test_after_spring_forward(self) -> None:
         tz = agettz('America/Los_Angeles')
-        # zs = tz.zone_specifier()
 
         # Right after DST forward shift, 03:00:00 UTC-7
         epoch_seconds = 7984800
@@ -79,13 +119,16 @@ class TestAceTz(unittest.TestCase):
 
         # Date from epoch seconds
         dtt = dtu.astimezone(tz)
-        self.assertEqual(unix_seconds, dtt.timestamp())
+        self.assertEqual(unix_seconds, int(dtt.timestamp()))
         self.assertEqual(2000, dtt.year)
         self.assertEqual(4, dtt.month)
         self.assertEqual(2, dtt.day)
         self.assertEqual(3, dtt.hour)
         self.assertEqual(0, dtt.minute)
         self.assertEqual(0, dtt.second)
+        self.assertEqual("PDT", dtt.tzname())
+        self.assertEqual(timedelta(hours=-7), dtt.utcoffset())
+        self.assertEqual(timedelta(hours=1), dtt.dst())
 
         # Date from component
         dtc = datetime(2000, 4, 2, 3, 0, 0, tzinfo=tz)
@@ -96,48 +139,64 @@ class TestAceTz(unittest.TestCase):
         self.assertEqual(3, dtc.hour)
         self.assertEqual(0, dtc.minute)
         self.assertEqual(0, dtc.second)
-        self.assertEqual(timedelta(hours=-7), tz.utcoffset(dtc))
-        self.assertEqual(timedelta(hours=1), tz.dst(dtc))
+        self.assertEqual("PDT", dtc.tzname())
+        self.assertEqual(timedelta(hours=-7), dtc.utcoffset())
+        self.assertEqual(timedelta(hours=1), dtc.dst())
 
         self.assertEqual(dtc, dtt)
 
     def test_before_fall_back(self) -> None:
         tz = agettz('America/Los_Angeles')
-        # zs = tz.zone_specifier()
 
         # One second before DST shift, 01:59:59 UTC-7
         epoch_seconds = 26125199
         unix_seconds = epoch_seconds + SECONDS_SINCE_UNIX_EPOCH
         dtu = datetime.fromtimestamp(unix_seconds, tz=timezone.utc)
 
-        # Date from epoch seconds.
+        # Date from epoch seconds. By default, should match the 1st transition.
         dtt = dtu.astimezone(tz)
-        # Round-trip does not work.
-        # self.assertEqual(unix_seconds, dtt.timestamp())
+        self.assertEqual(
+            epoch_seconds,
+            int(dtt.timestamp()) - SECONDS_SINCE_UNIX_EPOCH
+        )
         self.assertEqual(2000, dtt.year)
         self.assertEqual(10, dtt.month)
         self.assertEqual(29, dtt.day)
         self.assertEqual(1, dtt.hour)
         self.assertEqual(59, dtt.minute)
         self.assertEqual(59, dtt.second)
+        self.assertEqual("PDT", dtt.tzname())
+        self.assertEqual(timedelta(hours=-7), dtt.utcoffset())
+        self.assertEqual(timedelta(hours=1), dtt.dst())
 
-        # Date from component
-        # dtc = datetime(2000, 10, 29, 1, 59, 59, tzinfo=tz)
-        # self.assertEqual(unix_seconds, dtc.timestamp())
-        # self.assertEqual(2000, dtc.year)
-        # self.assertEqual(10, dtc.month)
-        # self.assertEqual(29, dtc.day)
-        # self.assertEqual(1, dtc.hour)
-        # self.assertEqual(59, dtc.minute)
-        # self.assertEqual(59, dtc.second)
-        # self.assertEqual(timedelta(hours=-7), tz.utcoffset(dtc))
-        # self.assertEqual(timedelta(hours=1), tz.dst(dtc))
+        # Date from component. With fold=0, should match the 1st transition.
+        dtc = datetime(2000, 10, 29, 1, 59, 59, tzinfo=tz)
+        self.assertEqual(unix_seconds, int(dtc.timestamp()))
+        self.assertEqual(2000, dtc.year)
+        self.assertEqual(10, dtc.month)
+        self.assertEqual(29, dtc.day)
+        self.assertEqual(1, dtc.hour)
+        self.assertEqual(59, dtc.minute)
+        self.assertEqual(59, dtc.second)
+        self.assertEqual("PDT", dtc.tzname())
+        self.assertEqual(timedelta(hours=-7), dtc.utcoffset())
+        self.assertEqual(timedelta(hours=1), dtc.dst())
 
-        # self.assertEqual(dtc, dtt)
+        # Test the second transition with fold=1
+        dtc = datetime(2000, 10, 29, 1, 59, 59, tzinfo=tz, fold=1)
+        self.assertEqual(unix_seconds + 3600, int(dtc.timestamp()))
+        self.assertEqual(2000, dtc.year)
+        self.assertEqual(10, dtc.month)
+        self.assertEqual(29, dtc.day)
+        self.assertEqual(1, dtc.hour)
+        self.assertEqual(59, dtc.minute)
+        self.assertEqual(59, dtc.second)
+        self.assertEqual("PST", dtc.tzname())
+        self.assertEqual(timedelta(hours=-8), dtc.utcoffset())
+        self.assertEqual(timedelta(hours=0), dtc.dst())
 
     def test_after_fall_back(self) -> None:
         tz = agettz('America/Los_Angeles')
-        # zs = tz.zone_specifier()
 
         # Just after DST fall back 01:00:00 UTC-8
         epoch_seconds = 26125200
@@ -146,31 +205,37 @@ class TestAceTz(unittest.TestCase):
 
         # Date from epoch seconds.
         dtt = dtu.astimezone(tz)
-        self.assertEqual(unix_seconds, dtt.timestamp())
+        self.assertEqual(
+            epoch_seconds,
+            int(dtt.timestamp()) - SECONDS_SINCE_UNIX_EPOCH
+        )
         self.assertEqual(2000, dtt.year)
         self.assertEqual(10, dtt.month)
         self.assertEqual(29, dtt.day)
         self.assertEqual(1, dtt.hour)
         self.assertEqual(0, dtt.minute)
         self.assertEqual(0, dtt.second)
+        self.assertEqual("PST", dtt.tzname())
+        self.assertEqual(timedelta(hours=-8), dtt.utcoffset())
+        self.assertEqual(timedelta(hours=0), dtt.dst())
 
         # Date from component
-        dtc = datetime(2000, 10, 29, 1, 0, 0, tzinfo=tz)
-        self.assertEqual(unix_seconds, dtc.timestamp())
+        dtc = datetime(2000, 10, 29, 1, 0, 0, tzinfo=tz, fold=1)
+        self.assertEqual(unix_seconds, int(dtc.timestamp()))
         self.assertEqual(2000, dtc.year)
         self.assertEqual(10, dtc.month)
         self.assertEqual(29, dtc.day)
         self.assertEqual(1, dtc.hour)
         self.assertEqual(0, dtc.minute)
         self.assertEqual(0, dtc.second)
-        self.assertEqual(timedelta(hours=-8), tz.utcoffset(dtc))
-        self.assertEqual(timedelta(hours=0), tz.dst(dtc))
+        self.assertEqual("PST", dtc.tzname())
+        self.assertEqual(timedelta(hours=-8), dtc.utcoffset())
+        self.assertEqual(timedelta(hours=0), dtc.dst())
 
         self.assertEqual(dtc, dtt)
 
     def test_way_after_fall_back(self) -> None:
         tz = agettz('America/Los_Angeles')
-        # zs = tz.zone_specifier()
 
         # Just after DST fall back 02:00:00 UTC-8
         epoch_seconds = 26125200 + 3600
@@ -179,25 +244,29 @@ class TestAceTz(unittest.TestCase):
 
         # Date from epoch seconds.
         dtt = dtu.astimezone(tz)
-        self.assertEqual(unix_seconds, dtt.timestamp())
+        self.assertEqual(unix_seconds, int(dtt.timestamp()))
         self.assertEqual(2000, dtt.year)
         self.assertEqual(10, dtt.month)
         self.assertEqual(29, dtt.day)
         self.assertEqual(2, dtt.hour)
         self.assertEqual(0, dtt.minute)
         self.assertEqual(0, dtt.second)
+        self.assertEqual("PST", dtt.tzname())
+        self.assertEqual(timedelta(hours=-8), dtt.utcoffset())
+        self.assertEqual(timedelta(hours=0), dtt.dst())
 
         # Date from component
         dtc = datetime(2000, 10, 29, 2, 0, 0, tzinfo=tz)
-        self.assertEqual(unix_seconds, dtc.timestamp())
+        self.assertEqual(unix_seconds, int(dtc.timestamp()))
         self.assertEqual(2000, dtc.year)
         self.assertEqual(10, dtc.month)
         self.assertEqual(29, dtc.day)
         self.assertEqual(2, dtc.hour)
         self.assertEqual(0, dtc.minute)
         self.assertEqual(0, dtc.second)
-        self.assertEqual(timedelta(hours=-8), tz.utcoffset(dtc))
-        self.assertEqual(timedelta(hours=0), tz.dst(dtc))
+        self.assertEqual("PST", dtc.tzname())
+        self.assertEqual(timedelta(hours=-8), dtc.utcoffset())
+        self.assertEqual(timedelta(hours=0), dtc.dst())
 
         self.assertEqual(dtc, dtt)
 
@@ -215,7 +284,7 @@ class TestDateUtil(unittest.TestCase):
 
         # Date from epoch seconds.
         dtt = dtu.astimezone(tz)
-        self.assertEqual(unix_seconds, dtt.timestamp())
+        self.assertEqual(unix_seconds, int(dtt.timestamp()))
         self.assertEqual(2000, dtt.year)
         self.assertEqual(10, dtt.month)
         self.assertEqual(29, dtt.day)
@@ -223,19 +292,23 @@ class TestDateUtil(unittest.TestCase):
         self.assertEqual(59, dtt.minute)
         self.assertEqual(59, dtt.second)
         self.assertEqual(0, dtt.fold)
+        self.assertEqual("PDT", dtt.tzname())
+        self.assertEqual(timedelta(hours=-7), dtt.utcoffset())
+        self.assertEqual(timedelta(hours=1), dtt.dst())
 
         # Date from component
         dtc = datetime(2000, 10, 29, 1, 59, 59, fold=0, tzinfo=tz)
-        self.assertEqual(unix_seconds, dtc.timestamp())
+        self.assertEqual(unix_seconds, int(dtc.timestamp()))
         self.assertEqual(2000, dtc.year)
         self.assertEqual(10, dtc.month)
         self.assertEqual(29, dtc.day)
         self.assertEqual(1, dtc.hour)
         self.assertEqual(59, dtc.minute)
         self.assertEqual(59, dtc.second)
-        self.assertEqual(0, dtt.fold)
-        self.assertEqual(timedelta(hours=-7), tz.utcoffset(dtc))
-        self.assertEqual(timedelta(hours=1), tz.dst(dtc))
+        self.assertEqual(0, dtc.fold)
+        self.assertEqual("PDT", dtc.tzname())
+        self.assertEqual(timedelta(hours=-7), dtc.utcoffset())
+        self.assertEqual(timedelta(hours=1), dtc.dst())
 
         self.assertEqual(dtc, dtt)
 
@@ -250,7 +323,7 @@ class TestDateUtil(unittest.TestCase):
 
         # Date from epoch seconds.
         dtt = dtu.astimezone(tz)
-        self.assertEqual(unix_seconds, dtt.timestamp())
+        self.assertEqual(unix_seconds, int(dtt.timestamp()))
         self.assertEqual(2000, dtt.year)
         self.assertEqual(10, dtt.month)
         self.assertEqual(29, dtt.day)
@@ -258,18 +331,22 @@ class TestDateUtil(unittest.TestCase):
         self.assertEqual(0, dtt.minute)
         self.assertEqual(0, dtt.second)
         self.assertEqual(1, dtt.fold)
+        self.assertEqual("PST", dtt.tzname())
+        self.assertEqual(timedelta(hours=-8), dtt.utcoffset())
+        self.assertEqual(timedelta(hours=0), dtt.dst())
 
         # Date from component
         dtc = datetime(2000, 10, 29, 1, 0, 0, fold=1, tzinfo=tz)
-        self.assertEqual(unix_seconds, dtc.timestamp())
+        self.assertEqual(unix_seconds, int(dtc.timestamp()))
         self.assertEqual(2000, dtc.year)
         self.assertEqual(10, dtc.month)
         self.assertEqual(29, dtc.day)
         self.assertEqual(1, dtc.hour)
         self.assertEqual(0, dtc.minute)
         self.assertEqual(0, dtc.second)
-        self.assertEqual(1, dtt.fold)
-        self.assertEqual(timedelta(hours=-8), tz.utcoffset(dtc))
-        self.assertEqual(timedelta(hours=0), tz.dst(dtc))
+        self.assertEqual(1, dtc.fold)
+        self.assertEqual("PST", dtc.tzname())
+        self.assertEqual(timedelta(hours=-8), dtc.utcoffset())
+        self.assertEqual(timedelta(hours=0), dtc.dst())
 
         self.assertEqual(dtc, dtt)

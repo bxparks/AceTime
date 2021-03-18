@@ -53,12 +53,14 @@ YearMonthTuple = NamedTuple('YearMonthTuple', [
 #   * total_offset = utc_offset + dst_offset
 #   * utc_offset: seconds
 #   * dst_offset: seconds
-#   * abbrev
+#   * abbrev: str
+#   * fold: int
 OffsetInfo = NamedTuple('OffsetInfo', [
     ('total_offset', int),
     ('utc_offset', int),
     ('dst_offset', int),
     ('abbrev', str),
+    ('fold', int),
 ])
 
 # A tuple that holds a count and the year which it is related to.
@@ -408,16 +410,6 @@ class Transition:
         for key, value in arg.items():
             setattr(self, key, value)
 
-    def to_offset_info(self) -> OffsetInfo:
-        """Convert a Transition into a OffsetInfo.
-        """
-        return OffsetInfo(
-            self.offset_seconds + self.delta_seconds,
-            self.offset_seconds,
-            self.delta_seconds,
-            self.abbrev,
-        )
-
     def __repr__(self) -> str:
         sepoch = self.start_epoch_second if self.start_epoch_second else '-'
         policy_name = self.zone_era.policy_name
@@ -466,6 +458,27 @@ class Transition:
                 f"ab={abbrev})"
             )
         # yapf: enable
+
+
+class TransitionMatch(NamedTuple):
+    """The result of a _find_transition_for_seconds().
+    * fold=0 means there was no overlap with the previous transition
+    * fold=1 means there was an overlap with the previous transition
+    """
+    transition: Transition
+    fold: int
+
+
+def to_offset_info(transition: Transition, fold: int) -> OffsetInfo:
+    """Convert a Transition and fold into a OffsetInfo.
+    """
+    return OffsetInfo(
+        transition.offset_seconds + transition.delta_seconds,
+        transition.offset_seconds,
+        transition.delta_seconds,
+        transition.abbrev,
+        fold,
+    )
 
 
 class ZoneSpecifier:
@@ -599,27 +612,39 @@ class ZoneSpecifier:
         epoch_seconds: int,
     ) -> Optional[Transition]:
         """Return Transition for the given epoch_seconds.
+
+        TOOD: Does not seem to be used at all. Remove?
         """
         self._init_for_second(epoch_seconds)
-        return self._find_transition_for_seconds(epoch_seconds)
+        tmatch = self._find_transition_for_seconds(epoch_seconds)
+        return tmatch.transition if tmatch else None
 
     def get_transition_for_datetime(
         self,
         dt: datetime,
     ) -> Optional[Transition]:
         """Return Transition for the given datetime.
+
+        TODO: Used only in zinfo.py and test_zone_specifier.py. I think this
+        could be replaced by get_timezone_info_for_datetime().
         """
         self.init_for_year(dt.year)
         return self._find_transition_for_datetime(dt)
 
-    def get_timezone_info_for_seconds(self, epoch_seconds: int) -> OffsetInfo:
+    def get_timezone_info_for_seconds(
+        self,
+        epoch_seconds: int
+    ) -> Optional[OffsetInfo]:
         """Return the OffsetInfo of the given epoch_seconds.
         """
         self._init_for_second(epoch_seconds)
 
-        transition = self._find_transition_for_seconds(epoch_seconds)
-        assert transition is not None
-        return transition.to_offset_info()
+        tmatch = self._find_transition_for_seconds(epoch_seconds)
+        return (
+            to_offset_info(tmatch.transition, tmatch.fold)
+            if tmatch
+            else None
+        )
 
     def get_timezone_info_for_datetime(
         self,
@@ -629,7 +654,9 @@ class ZoneSpecifier:
         """
         self.init_for_year(dt.year)
         transition = self._find_transition_for_datetime(dt)
-        return transition.to_offset_info() if transition else None
+        if not transition:
+            return None
+        return to_offset_info(transition, fold=dt.fold)
 
     def init_for_year(self, year: int) -> None:
         """Initialize the Matches and Transitions for the year. Call this
@@ -790,16 +817,45 @@ class ZoneSpecifier:
     def _find_transition_for_seconds(
         self,
         epoch_seconds: int,
-    ) -> Optional[Transition]:
-        """Return the matching transition, or None if not found.
+    ) -> Optional[TransitionMatch]:
+        """Return the matching transition along with the 'fold' information.
+        Return None if not found.
+
+        * fold==0 if the transition was the first matching transition
+        * fold==1 if the transition was the second of an overlapping match.
         """
-        matching_transition = None
-        for transition in self.transitions:
-            if transition.start_epoch_second <= epoch_seconds:
-                matching_transition = transition
-            elif transition.start_epoch_second > epoch_seconds:
+        # Use indexing instead of iterator because we need access to the
+        # transition[match-2] element, and it's much easier to do that with
+        # indexing. Scan until we get to a transition *just* after the one that
+        # matches.
+        matching_index = -1
+        for i in range(len(self.transitions)):
+            transition = self.transitions[i]
+            if transition.start_epoch_second > epoch_seconds:
                 break
-        return matching_transition
+            matching_index = i
+
+        # If no match, return None.
+        if matching_index == -1:
+            return None
+
+        # Determine the 'fold' by looking at the transition just before the
+        # matching one. If the wall time overlaps, then set the fold to 1,
+        # otherwise 0.
+        if (
+            matching_index >= 1
+            and self.transitions[matching_index - 1].until_date_time
+                > self.transitions[matching_index].start_date_time
+        ):
+            fold = 1
+        else:
+            fold = 0
+
+        transition_match = TransitionMatch(
+            self.transitions[matching_index],
+            fold,
+        )
+        return transition_match
 
     def _find_transition_for_datetime(
         self,
@@ -818,11 +874,11 @@ class ZoneSpecifier:
         The algorithm matches the one implemented by
         ExtendedZoneProcessor::findTransitionForDateTime():
 
-            1) If the 'dt' falls in a DST gap, the transition just before the
-            DST gap is returned.
+        1) If the 'dt' falls in a DST gap, the transition just before the DST
+        gap is returned.
 
-            2) If the 'dt' falls within a DST overlap, there are 2 matching
-            transitions. The algorithm returns the later transition.
+        2) If the 'dt' falls within a DST overlap, there are 2 matching
+        transitions. The algorithm returns the later transition.
 
         The method can return None if the 'dt' is earlier than any known
         transition.
@@ -830,7 +886,7 @@ class ZoneSpecifier:
         secs = hms_to_seconds(dt.hour, dt.minute, dt.second)
         dt_time = DateTuple(y=dt.year, M=dt.month, d=dt.day, ss=secs, f='w')
 
-        match = None
+        match: Optional[Transition] = None
         for transition in self.transitions:
             start_time = transition.start_date_time
             if start_time > dt_time:
@@ -843,26 +899,36 @@ class ZoneSpecifier:
         dt: datetime,
     ) -> Optional[Transition]:
         """Return the match transition using an algorithm that works for
-        Python's datetime.tzinfo. Return the last matching transition.
-        If the 'dt' is in the gap, return the upcoming transition.
-        If the 'dt' is in the overlap, return the earlier transition.
+        Python's datetime.tzinfo.
+
+        * If the 'dt' is in the gap, return the upcoming transition.
+        * If the 'dt' is in the overlap:
+            * return the earlier transition if dt.fold == 0, else,
+            * return the later transition if dt.fold == 1.
         """
         secs = hms_to_seconds(dt.hour, dt.minute, dt.second)
         dt_time = DateTuple(y=dt.year, M=dt.month, d=dt.day, ss=secs, f='w')
+        # print(f"zs._find_transition_for_datetime_python(): dt_time={dt_time}")
 
-        match = None
+        match: Optional[Transition] = None
         exact_match = True
         for transition in self.transitions:
             start_time = transition.start_date_time
             until_time = transition.until_date_time
 
-            if dt_time < start_time:
-                if not exact_match:
-                    match = transition
+            if start_time > dt_time:
+                match = transition
                 break
 
             match = transition
             exact_match = start_time <= dt_time and dt_time < until_time
+            if exact_match:
+                # If dt.fold == 0, match the earlier transition by breaking out
+                # of the loop. Otherwise continue looping once more to match the
+                # later transition.
+                if dt.fold == 0:
+                    break
+
         return match
 
     def _find_matches(
