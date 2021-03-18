@@ -1771,13 +1771,9 @@ class BasicZone {
 
     uint32_t zoneId() const;
 
-#if ACE_TIME_USE_PROGMEM
-    const __FlashStringHelper* name() const;
-    const __FlashStringHelper* shortName() const;
-#else
-    const char* name() const;
-    const char* shortName() const;
-#endif
+    void printNameTo(Print& printer) const;
+
+    void printShortNameTo(Print& printer) const;
 };
 
 
@@ -1787,35 +1783,49 @@ class ExtendedZone {
 
     uint32_t zoneId() const;
 
-#if ACE_TIME_USE_PROGMEM
-    const __FlashStringHelper* name() const;
-    const __FlashStringHelper* shortName() const;
-#else
-    const char* name() const;
-    const char* shortName() const;
-#endif
+    void printNameTo(Print& printer) const;
 
+    void printShortNameTo(Print& printer) const;
 }
 ```
 
+The `printNameTo()` method prints the full zone name (e.g.
+`America/Los_Angeles`), and `printShortNameTo()` prints only the last component
+(e.g. `Los_Angeles`).
+
 The `BasicZone` and `ExtendedZone` objects are meant to be used transiently,
-for example:
+created on the stack then thrown away. For example:
+
 ```C++
-...
 const basic::ZoneInfo* zoneInfo = ...;
-Serial.println(BasicZone(zoneInfo).shortName());
+BasicZone(zoneInfo).printNameTo(Serial);
+Serial.println();
+```
+
+Both `BasicZone` and `ExtendedZone` are light-weight wrapper objects around a
+`const ZoneInfo*` pointer. In fact, they are so light-weight that the C++
+compiler should be able to optimize away both wrapper classes entirely, so that
+they are equivalent to using the `const ZoneInfo*` pointer directly.
+
+If you need to copy the zone names into memory, use the `PrintStr<N>` class from
+the the AceComon library (https://github.com/bxparks/AceCommon) to print the
+zone name into the memory buffer, then extract the string from the buffer:
+
+```C++
+#include <AceCommon.h>
+using ace_common::PrintStr;
+...
+
+const basic::ZoneInfo* zoneInfo = ...;
+PrintStr<32> printStr; // buffer of 32 bytes on the stack
+BasicZone(zoneInfo).printNameTo(printStr);
+
+const char* name = printStr.getCstr();
+// do stuff with 'name', but only while 'printStr' is alive
 ...
 ```
 
-The return type of `name()` and `shortName()` change whether or not the zone
-name is stored in flash memory or in static memory. As of v0.4,
-`ACE_TIME_USE_PROGMEM=1` for all platforms. On platforms which do not directly
-support `PROGMEM`, they provide macros which retain compatibilty with `PROGMEM`
-so everything should work transparently.
-
-The `name()` method returns the full zone name from the TZ Database (e.g.
-`"America/Los_Angeles"`). The `shortName()` method returns only the last
-component (e.g. `"Los_Angeles"`).
+See also the [Print To String](#PrintToString) section below.
 
 <a name="ZonesAndLinks"></a>
 ### Zones and Links
@@ -2069,8 +2079,8 @@ An example usage looks like this:
 #include <AceCommon.h>
 #include <AceTime.h>
 
+using ace_common::PrintStr;
 using namespace ace_time;
-using namespace ace_common;
 ...
 {
   TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
