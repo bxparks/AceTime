@@ -38,7 +38,8 @@ def print_zs_at_dt(tz: acetz, dt: datetime) -> None:
         )
 
 
-class TestAceTzLosAngeles(unittest.TestCase):
+# @unittest.skip
+class TestLosAngeles(unittest.TestCase):
 
     def test_constructor(self) -> None:
         atz = agettz('America/Los_Angeles')
@@ -264,7 +265,8 @@ class TestAceTzLosAngeles(unittest.TestCase):
         self.assertEqual(dtc, dtt)
 
 
-class TestAceTzTunis(unittest.TestCase):
+# @unittest.skip
+class TestTunis(unittest.TestCase):
 
     def test_2006_01_01(self) -> None:
         tz = agettz('Africa/Tunis')
@@ -302,6 +304,50 @@ class TestAceTzTunis(unittest.TestCase):
         self.assertEqual(0, dtc.second)
         self.assertEqual("CET", dtc.tzname())
         self.assertEqual(timedelta(hours=1), dtc.utcoffset())
+        self.assertEqual(timedelta(hours=0), dtc.dst())
+
+        self.assertEqual(dtc, dtt)
+
+
+class TestSydney(unittest.TestCase):
+
+    def test_2000_03_26_after_fall_back(self) -> None:
+        tz = agettz('Australia/Sydney')
+
+        epoch_seconds = 7315200
+        unix_seconds = epoch_seconds + SECONDS_SINCE_UNIX_EPOCH
+        dtu = datetime.fromtimestamp(unix_seconds, tz=timezone.utc)
+
+        # print_zs_at_dt(tz, dtu)
+
+        # Date from epoch seconds.
+        dtt = dtu.astimezone(tz)
+        print(f"TestSydney: dtt={dtt.date()}T{dtt.time()} fold={dtt.fold}")
+        self.assertEqual(
+            epoch_seconds,
+            int(dtt.timestamp()) - SECONDS_SINCE_UNIX_EPOCH
+        )
+        self.assertEqual(2000, dtt.year)
+        self.assertEqual(3, dtt.month)
+        self.assertEqual(26, dtt.day)
+        self.assertEqual(2, dtt.hour)
+        self.assertEqual(0, dtt.minute)
+        self.assertEqual(0, dtt.second)
+        self.assertEqual("AEST", dtt.tzname())
+        self.assertEqual(timedelta(hours=10), dtt.utcoffset())
+        self.assertEqual(timedelta(hours=0), dtt.dst())
+
+        # Date from component
+        dtc = datetime(2000, 3, 26, 2, 0, 0, tzinfo=tz, fold=1)
+        self.assertEqual(unix_seconds, int(dtc.timestamp()))
+        self.assertEqual(2000, dtc.year)
+        self.assertEqual(3, dtc.month)
+        self.assertEqual(26, dtc.day)
+        self.assertEqual(2, dtc.hour)
+        self.assertEqual(0, dtc.minute)
+        self.assertEqual(0, dtc.second)
+        self.assertEqual("AEST", dtc.tzname())
+        self.assertEqual(timedelta(hours=10), dtc.utcoffset())
         self.assertEqual(timedelta(hours=0), dtc.dst())
 
         self.assertEqual(dtc, dtt)

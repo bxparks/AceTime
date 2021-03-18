@@ -20,24 +20,30 @@ class acetz(tzinfo):
 
     def utcoffset(self, dt: Optional[datetime]) -> timedelta:
         assert dt
-        # print("utcoffset(): start traceback", file=sys.stderr)
-        # traceback.print_stack()
-        # print("utcoffset(): end traceback", file=sys.stderr)
-        # print(f"acetz.utcoffset(): dt={dt.date()} {dt.time()}")
-
-        offset_info = self.zs.get_timezone_info_for_datetime(dt)
-        if not offset_info:
+        info = self.zs.get_timezone_info_for_datetime(dt)
+        if not info:
             raise Exception(
                 f'Unknown timezone info for '
                 f'{dt.year:04}-{dt.month:02}-{dt.day:02} '
                 f'{dt.hour:02}:{dt.minute:02}:{dt.second:02}'
             )
-        return timedelta(seconds=offset_info.total_offset)
+
+        # print("utcoffset(): start traceback", file=sys.stderr)
+        # traceback.print_stack()
+        # print("utcoffset(): end traceback", file=sys.stderr)
+        # print(f"acetz.utcoffset(): dt={dt.date()} {dt.time()} fold={dt.fold}")
+        # print(
+        #     f"acetz.utcoffset(): info: "
+        #     f"utc_offset={info.utc_offset} "
+        #     f"dst_offset={info.dst_offset} "
+        #     f"abbrev={info.abbrev} "
+        #     f"fold={info.fold}"
+        # )
+
+        return timedelta(seconds=info.total_offset)
 
     def dst(self, dt: Optional[datetime]) -> timedelta:
         assert dt
-        # print(f"acetz.dst(): dt={dt.date()} {dt.time()}")
-
         offset_info = self.zs.get_timezone_info_for_datetime(dt)
         if not offset_info:
             raise Exception(

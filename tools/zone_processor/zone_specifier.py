@@ -486,14 +486,14 @@ class ZoneSpecifier:
     """Extract DST transition information for a given ZoneInfo. The
     DST transition information can be retrieved using the following methods:
 
-        * get_timezone_info_for_seconds(): get info using epoch_seconds (from
-          2000-01-01 00:00:00 UTC)
-        * get_timezone_info_for_datetime(): get info using a 'datetime.datetime'
-          instance
+    * get_timezone_info_for_seconds(): get info using epoch_seconds (from
+        2000-01-01 00:00:00 UTC)
+    * get_timezone_info_for_datetime(): get info using a 'datetime.datetime'
+        instance
 
-    The DST transition information is returned as a tuple of (offset_seconds,
-    dst_seconds, abbrev) which is valid at the given epoch_seconds or
-    'datetime'.
+    The DST transition information is returned as an OffsetInfo tuple
+    contain (total_offset, utc_offset, dst_offset, abbrev, fold) which is valid
+    at the given epoch_seconds or 'datetime'.
 
     Both get_timezone_info_for_seconds() and get_timezone_info_for_datetime()
     call init_for_year() using a window size (e.g. 12, 13, 14 or 36 months)
@@ -916,37 +916,48 @@ class ZoneSpecifier:
         dt: datetime,
     ) -> Optional[Transition]:
         """Return the match transition using an algorithm that works for
-        Python's datetime.tzinfo.
+        Python's datetime.tzinfo. See PEP 495
+        (https://www.python.org/dev/peps/pep-0495/) for how to handle the 'fold'
+        parameter in the 'datetime' within the fold and within the gap.
 
-        * If the 'dt' is in the gap, return the upcoming transition.
         * If the 'dt' is in the overlap:
-            * return the earlier transition if dt.fold == 0, else,
-            * return the later transition if dt.fold == 1.
+            * return the earlier transition (earlier UTC) if dt.fold == 0,
+            * return the later transition (later UTC) if dt.fold == 1.
+        * If the 'dt' is in the gap:
+            * return the earlier transition (later UTC) if dt.fold == 0,
+            * return the later transition (earlier UTC) if dt.fold == 1,
+            * see PEP 495 for details.
         """
         secs = hms_to_seconds(dt.hour, dt.minute, dt.second)
         dt_time = DateTuple(y=dt.year, M=dt.month, d=dt.day, ss=secs, f='w')
         # print(f"zs._find_transition_for_datetime_python(): dt_time={dt_time}")
 
-        match: Optional[Transition] = None
-        exact_match = True
+        prev_exact: Optional[Transition] = None
+        prev_transition: Optional[Transition] = None
         for transition in self.transitions:
             start_time = transition.start_date_time
             until_time = transition.until_date_time
 
-            if start_time > dt_time:
-                match = transition
-                break
-
-            match = transition
             exact_match = start_time <= dt_time and dt_time < until_time
             if exact_match:
-                # If dt.fold == 0, match the earlier transition by breaking out
-                # of the loop. Otherwise continue looping once more to match the
-                # later transition.
                 if dt.fold == 0:
-                    break
+                    return transition
+                if prev_exact is not None:
+                    # In the fold/overlap.
+                    return transition
+                prev_exact = transition
+            elif start_time > dt_time:
+                if prev_exact:
+                    return prev_exact
+                # In the gap.
+                if dt.fold == 0:
+                    return prev_transition
+                else:
+                    return transition
 
-        return match
+            prev_transition = transition
+
+        return prev_exact or prev_transition
 
     def _find_matches(
         self,
