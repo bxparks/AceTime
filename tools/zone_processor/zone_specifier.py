@@ -14,6 +14,7 @@ import logging
 from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
+from datetime import date
 from typing import Any
 from typing import Dict
 from typing import List
@@ -2002,3 +2003,13 @@ def seconds_to_hm_string(secs: int) -> str:
     else:
         hms = seconds_to_hms(secs)
         return f'+{hms[0]:02}:{hms[1]:02}'
+
+
+def _subtract_date_tuple(a: DateTuple, b: DateTuple) -> int:
+    """Number of seconds in (a - b), ignoring the 'format' field.
+    """
+    da = date(a.y, a.M, a.d)
+    db = date(b.y, b.M, b.d)
+    diff_days = da.toordinal() - db.toordinal()
+    diff_seconds = a.ss - b.ss
+    return diff_days * 86400 + diff_seconds

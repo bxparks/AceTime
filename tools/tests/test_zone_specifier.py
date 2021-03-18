@@ -15,6 +15,7 @@ from zone_processor.zone_specifier import ZoneSpecifier
 from zone_processor.zone_specifier import CandidateFinderBasic
 from zone_processor.zone_specifier import _compare_transition_to_match
 from zone_processor.zone_specifier import _compare_transition_to_match_fuzzy
+from zone_processor.zone_specifier import _subtract_date_tuple
 from zone_processor.inline_zone_info import ZoneInfo
 
 
@@ -110,6 +111,31 @@ class TestZoneSpecifierHelperMethods(unittest.TestCase):
             DateTuple(2000, 2, 29, 23 * 3600, 'u'),
             ZoneSpecifier._normalize_date_tuple(
                 DateTuple(2000, 3, 1, -3600, 'u')))
+
+    def test_subtract_date_tuple(self) -> None:
+        self.assertEqual(
+            -1,
+            _subtract_date_tuple(
+                DateTuple(2000, 1, 1, 43, 'w'),
+                DateTuple(2000, 1, 1, 44, 'w'),
+            )
+        )
+
+        self.assertEqual(
+            24 * 3600 - 1,
+            _subtract_date_tuple(
+                DateTuple(2000, 1, 2, 43, 'w'),
+                DateTuple(2000, 1, 1, 44, 'w'),
+            )
+        )
+
+        self.assertEqual(
+            -31 * 24 * 3600 + 24 * 3600 - 1,
+            _subtract_date_tuple(
+                DateTuple(2000, 1, 2, 43, 'w'),
+                DateTuple(2000, 2, 1, 44, 'w'),
+            )
+        )
 
 
 class TestCompareTransitionToMatch(unittest.TestCase):
