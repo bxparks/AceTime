@@ -91,7 +91,7 @@ The classes in this library can be grouped into roughly 2 parts:
 
 The Date, Time and TimeZone classes can be used independently of the Clock
 classes. The Clock classes are only minimally coupled to the Date, Time,
-TimeZone classes, depending on only the `acetime_t` type (aliased to
+TimeZone classes, depending mostly on the `acetime_t` type (aliased to
 `int32_t`) which represents the "epoch seconds". The AceTime "Epoch" is defined
 to be 2000-01-01 00:00:00 UTC.
 
@@ -100,7 +100,7 @@ described above in a single library. As this library evolved and accumulated
 more features, it might have been better for the 2 parts to be separated into
 independent Arduino libraries. However, I am resisting the temptation to make
 this change in order to preserve backwards compatibility for existing users of
-this library. The change that I have done is substantially rewrite this
+this library. The change that I have done is to substantially rewrite this
 `README.md` and the accompanying documentation so that the 2 parts of this
 library are more decoupled from each other. Hopefully this will make it easier
 to understand how to use this library.
@@ -194,7 +194,7 @@ Different subclasses of `Clock` provide access to different hardware or network
 devices that provide a source of time.
 
 The `SystemClock` subclass is a special class whose purpose is to provide an
-`epochSeconds` integer increments by one every second. It then allows fast
+`epochSeconds` integer that increments by one every second. It then allows fast
 access to this auto-incrementing integer. By fast, I mean that it should allow
 sampling at least as fast as 10 times per second, but ideally much faster than
 1000 times a second.
@@ -246,7 +246,7 @@ which has 3 OLED displays over SPI, 3 timezones using `BasicZoneProcessor`, a
 `SystemClock` synchronized to a DS3231 chip on I2C, and 2 buttons with
 debouncing and event dispatching provided by the AceButton
 (https://github.com/bxparks/AceButton) library. This application consumes about
-24 kB, well inside the 28 kB flash limit of an Arduino Pro Micro controller.
+24 kB, well inside the 28 kB flash limit of a SparkFun Pro Micro controller.
 
 <a name="CPUUsage"></a>
 ### CPU Usage
