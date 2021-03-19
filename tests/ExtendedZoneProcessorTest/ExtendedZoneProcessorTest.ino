@@ -24,32 +24,6 @@ using ace_time::extended::DateTuple;
 using ace_time::extended::TransitionStorageTemplate;
 
 //---------------------------------------------------------------------------
-// extended::copyAndReplace()
-//---------------------------------------------------------------------------
-
-test(copyAndReplace, normal) {
-  const uint8_t dstSize = 20;
-  char dst[dstSize];
-
-  extended::copyAndReplace(dst, dstSize, "NOREPLACE", '%', "S");
-  assertEqual("NOREPLACE", dst);
-
-  extended::copyAndReplace(dst, dstSize, "E%T", '%', "S");
-  assertEqual("EST", dst);
-
-  extended::copyAndReplace(dst, dstSize, "E%T", '%', "");
-  assertEqual("ET", dst);
-}
-
-test(copyAndReplace, outOfBounds) {
-  const uint8_t dstSize = 3;
-  char dst[dstSize];
-
-  extended::copyAndReplace(dst, dstSize, "ET%", '%', "S");
-  assertEqual("ET", dst);
-}
-
-//---------------------------------------------------------------------------
 // A simplified version of America/Los_Angeles, using only simple ZoneEras
 // (i.e. no references to a ZonePolicy). Valid only for 2018.
 //---------------------------------------------------------------------------
