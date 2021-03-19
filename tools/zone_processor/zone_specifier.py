@@ -13,7 +13,6 @@ import sys
 import logging
 from datetime import datetime
 from datetime import timedelta
-from datetime import timezone
 from datetime import date
 from typing import Any
 from typing import Dict
@@ -77,7 +76,7 @@ class BufferSizeInfo(NamedTuple):
     max_buffer_size: CountAndYear
 
 
-ACETIME_EPOCH = datetime(2000, 1, 1, tzinfo=timezone.utc)
+ACETIME_EPOCH = datetime(2000, 1, 1)  # in UTC
 
 
 # Note on the various XxxCooked classes: The ZoneRuleCooked, ZonePolicyCooked,
@@ -1279,12 +1278,18 @@ class ZoneSpecifier:
             # 3) The epochSecond of the 'transition_time' is determined by the
             # UTC offset of the *previous* Transition. However, the
             # transition_time can be represented by an illegal time (e.g.
-            # 24:00). So, it is better to use the properly normalized
-            # start_date_time (calculated above) with the *current* UTC offset.
-            utc_offset_seconds = transition.offset_seconds \
-                + transition.delta_seconds
-            z = timezone(timedelta(seconds=utc_offset_seconds))
-            dt = st.replace(tzinfo=z)
+            # 24:00). So use the properly normalized start_date_time
+            # (calculated above) with the *current* UTC offset.
+            #
+            # A previous version of this used a `timezone` object set to the
+            # fixed `utc_offset_seconds`, then converted the timezone-naive `st`
+            # object into a timezone-aware `st` object at that fixed `timezone`.
+            # But this bring in the only dependency to the Python `timezone`
+            # class which is unnecessary because we can calculate the epoch
+            # seconds directly.
+            utc_offset_seconds = (
+                transition.offset_seconds + transition.delta_seconds)
+            dt = st - timedelta(seconds=utc_offset_seconds)  # dt now in UTC
             epoch_second = int((dt - ACETIME_EPOCH).total_seconds())
             transition.start_epoch_second = epoch_second
 
