@@ -221,7 +221,7 @@ memory consumption, except on the ESP32 where it increased by 200-300 bytes.
 | ExtendedZoneManager (1 zone)           |  29672/ 3988 | 10536/  200 |
 | ExtendedZoneManager (zones)            |  59328/ 3988 | 40192/  200 |
 | ExtendedZoneManager (zones+thin links) |  60988/ 3988 | 41852/  200 |
-| ExtendedZoneManager (zones+fat links)  |     -1/   -1 |    -1/   -1 |
+| ExtendedZoneManager (zones+fat links)  |  66248/ 3988 | 47112/  200 |
 |----------------------------------------+--------------+-------------|
 | SystemClock                            |  25952/ 3988 |  6816/  200 |
 | SystemClock+Basic TimeZone             |  29624/ 3988 | 10488/  200 |
