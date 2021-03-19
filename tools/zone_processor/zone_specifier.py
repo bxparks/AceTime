@@ -901,8 +901,7 @@ class ZoneSpecifier:
         The method can return None if the 'dt' is earlier than any known
         transition.
         """
-        secs = hms_to_seconds(dt.hour, dt.minute, dt.second)
-        dt_time = DateTuple(y=dt.year, M=dt.month, d=dt.day, ss=secs, f='w')
+        dt_time = _datetime_to_datetuple(dt, 'w')
 
         match: Optional[Transition] = None
         for transition in self.transitions:
@@ -929,9 +928,7 @@ class ZoneSpecifier:
             * return the later transition (earlier UTC) if dt.fold == 1,
             * see PEP 495 for details.
         """
-        secs = hms_to_seconds(dt.hour, dt.minute, dt.second)
-        dt_time = DateTuple(y=dt.year, M=dt.month, d=dt.day, ss=secs, f='w')
-        # print(f"zs._find_transition_for_datetime_python(): dt_time={dt_time}")
+        dt_time = _datetime_to_datetuple(dt, 'w')
 
         prev_exact: Optional[Transition] = None
         prev_transition: Optional[Transition] = None
@@ -1283,9 +1280,7 @@ class ZoneSpecifier:
             #        self.zone_info['name'], h, m, s)
             st = datetime(tt.y, tt.M, tt.d, 0, 0, 0)
             st += timedelta(seconds=secs)
-            secs = hms_to_seconds(st.hour, st.minute, st.second)
-            transition.start_date_time = DateTuple(
-                y=st.year, M=st.month, d=st.day, ss=secs, f=tt.f)
+            transition.start_date_time = _datetime_to_datetuple(st, tt.f)
 
             # 3) The epochSecond of the 'transition_time' is determined by the
             # UTC offset of the *previous* Transition. However, the
@@ -1396,8 +1391,7 @@ class ZoneSpecifier:
             st = datetime(tt.y, tt.M, tt.d, 0, 0, 0)
             delta = timedelta(seconds=tt.ss)
             st += delta
-            secs = hms_to_seconds(st.hour, st.minute, st.second)
-            return DateTuple(y=st.year, M=st.month, d=st.day, ss=secs, f=tt.f)
+            return _datetime_to_datetuple(st, tt.f)
         except:  # noqa: E722
             logging.error('Invalid datetime: %s + %s', st, delta)
             sys.exit(1)
@@ -1868,6 +1862,14 @@ def _compare_date_tuple(a: DateTuple, b: DateTuple) -> int:
     if a.d < b.d: return -1  # noqa: #701
     if a.d > b.d: return 1  # noqa: #701
     return 0
+
+
+def _datetime_to_datetuple(dt: datetime, format: str) -> DateTuple:
+    """Create a DateTuple from the given 'datetime' along with the 'format'
+    modifer ('s', 'u', 'w').
+    """
+    secs = hms_to_seconds(dt.hour, dt.minute, dt.second)
+    return DateTuple(y=dt.year, M=dt.month, d=dt.day, ss=secs, f=format)
 
 
 def _create_transition_for_year(

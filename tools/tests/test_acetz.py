@@ -322,7 +322,6 @@ class TestSydney(unittest.TestCase):
 
         # Date from epoch seconds.
         dtt = dtu.astimezone(tz)
-        print(f"TestSydney: dtt={dtt.date()}T{dtt.time()} fold={dtt.fold}")
         self.assertEqual(
             epoch_seconds,
             int(dtt.timestamp()) - SECONDS_SINCE_UNIX_EPOCH
