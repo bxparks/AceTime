@@ -471,7 +471,7 @@ class TransitionMatch(NamedTuple):
     fold: int
 
 
-def to_offset_info(transition: Transition, fold: int) -> OffsetInfo:
+def _to_offset_info(transition: Transition, fold: int) -> OffsetInfo:
     """Convert a Transition and fold into a OffsetInfo.
     """
     return OffsetInfo(
@@ -630,7 +630,7 @@ class ZoneSpecifier:
 
         tmatch = self._find_transition_for_seconds(epoch_seconds)
         return (
-            to_offset_info(tmatch.transition, tmatch.fold)
+            _to_offset_info(tmatch.transition, tmatch.fold)
             if tmatch
             else None
         )
@@ -645,7 +645,7 @@ class ZoneSpecifier:
         transition = self._find_transition_for_datetime(dt)
         if not transition:
             return None
-        return to_offset_info(transition, fold=dt.fold)
+        return _to_offset_info(transition, fold=dt.fold)
 
     def init_for_year(self, year: int) -> None:
         """Initialize the Matches and Transitions for the year. Call this
