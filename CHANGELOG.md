@@ -41,6 +41,10 @@
     * Remove virtual destructor from `ace_time::clock::Clock` class.
         * Saves 618 bytes of flash on 8-bit AVR processors, 328 bytes on SAMD21,
           but only 50-60 bytes on other 32-bit processors.
+    * Finish working implementation of `acetz.py`.
+        * Includes support for `fold`.
+        * Create `BasicAcetzTest` and `ExtendedAcetzTest` and verify all zones
+          validate.
 * 1.6 (2021-02-17, TZ DB version 2021a)
     * Remove `TimeZone::kTypeBasicManaged` and `TimeZone::kTypeExtendedManaged`
       and merge them into just regular `TimeZone::kTypeBasic` and
