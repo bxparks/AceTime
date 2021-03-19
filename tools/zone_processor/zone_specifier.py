@@ -532,19 +532,6 @@ class ZoneSpecifier:
                seems to mostly work except for 2000)
     """
 
-    # Sentinel ZoneEra that represents the earliest zone era.
-    ZONE_ERA_ANCHOR = ZoneEraCooked({
-        'offset_seconds': 0,
-        'zone_policy': '',
-        'rules_delta_seconds': 0,
-        'format': '',
-        'until_year': MIN_YEAR,
-        'until_month': 1,
-        'until_day': 1,
-        'until_seconds': 0,
-        'until_time_suffix': 'w',
-    })
-
     def __init__(
             self,
             zone_info_data: ZoneInfo,
@@ -992,13 +979,14 @@ class ZoneSpecifier:
         reduce the number of candidate transitions.
         """
         zone_eras = self.zone_info.eras
-        prev_era = self.ZONE_ERA_ANCHOR
-        matches = []
+        prev_era: Optional[ZoneEraCooked] = None  # the earliest possible
+        matches: List[ZoneMatch] = []
         for zone_era in zone_eras:
-            if self._era_overlaps_interval(prev_era, zone_era, start_ym,
-                                           until_ym):
-                match = self._create_match(prev_era, zone_era, start_ym,
-                                           until_ym)
+            if self._era_overlaps_interval(
+                    prev_era, zone_era, start_ym, until_ym
+            ):
+                match = self._create_match(
+                    prev_era, zone_era, start_ym, until_ym)
                 if self.debug:
                     logging.info('_find_matches(): %s', match)
                 matches.append(match)
@@ -1181,7 +1169,7 @@ class ZoneSpecifier:
 
     @staticmethod
     def _create_match(
-        prev_era: ZoneEraCooked,
+        prev_era: Optional[ZoneEraCooked],
         zone_era: ZoneEraCooked,
         start_ym: YearMonthTuple,
         until_ym: YearMonthTuple,
@@ -1203,13 +1191,19 @@ class ZoneSpecifier:
 
         See _fix_transition_times() which normalizes these start times to the
         wall time uniformly.
+
+        A value of `prev_era==None` means the earliest possible ZoneEra.
         """
-        start_date_time = DateTuple(
-            y=prev_era.until_year,
-            M=prev_era.until_month,
-            d=prev_era.until_day,
-            ss=prev_era.until_seconds,
-            f=prev_era.until_time_suffix)
+        if prev_era is None:
+            start_date_time = DateTuple(
+                y=MIN_YEAR, M=1, d=1, ss=0, f='w')
+        else:
+            start_date_time = DateTuple(
+                y=prev_era.until_year,
+                M=prev_era.until_month,
+                d=prev_era.until_day,
+                ss=prev_era.until_seconds,
+                f=prev_era.until_time_suffix)
         if start_date_time < DateTuple(
                 y=start_ym.y, M=start_ym.M, d=1, ss=0, f='w'):
             start_date_time = DateTuple(
@@ -1428,7 +1422,7 @@ class ZoneSpecifier:
 
     @staticmethod
     def _era_overlaps_interval(
-        prev_era: ZoneEraCooked,
+        prev_era: Optional[ZoneEraCooked],
         era: ZoneEraCooked,
         start_ym: YearMonthTuple,
         until_ym: YearMonthTuple,
@@ -1437,12 +1431,16 @@ class ZoneSpecifier:
         ignoring the day, time and timeSuffix. The start date of the current
         era is represented by the prev_era.UNTIL, so the interval of the current
         era is [start_era, until_era) = [prev_era.UNTIL, era.UNTIL). Overlap
-        happens if (start_era < until_ym) and (until_era > start_ym).
+        happens if (start_era < until_ym) and (until_era > start_ym). A
+        'prev_era==None' means the earliest possible ZoneEra.
         """
-        return (ZoneSpecifier._compare_era_to_year_month(
-                prev_era, until_ym.y, until_ym.M) < 0
-                and ZoneSpecifier._compare_era_to_year_month(
-                    era, start_ym.y, start_ym.M) > 0)
+        return (
+            (prev_era is None
+                or ZoneSpecifier._compare_era_to_year_month(
+                    prev_era, until_ym.y, until_ym.M) < 0)
+            and ZoneSpecifier._compare_era_to_year_month(
+                era, start_ym.y, start_ym.M) > 0
+        )
 
     @staticmethod
     def _compare_era_to_year_month(
