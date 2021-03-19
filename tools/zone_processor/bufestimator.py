@@ -81,7 +81,7 @@ class BufSizeEstimator:
             # The TransitionStorage size should be one more than the estimate
             # because TransitionStorage.getFreeAgent() needs one slot even if
             # it's not used.
-            buf_size = buffer_size_info.max_buffer_size.count + 1
+            buf_size = buffer_size_info.max_buffer_size.number + 1
 
             # The estimate is off for Asia/Atyrau. ZoneSpecifier returns
             # max_buf_size[0]==4 which means 5 should be enough, but

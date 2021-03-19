@@ -1,3 +1,7 @@
+# Copyright 2020 Brian T. Park
+#
+# MIT License
+
 # import sys, traceback
 from typing import cast, Optional
 from datetime import datetime, tzinfo, timedelta, timezone

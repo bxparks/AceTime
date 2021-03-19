@@ -35,49 +35,50 @@ from .inline_zone_info import ZonePolicy
 from .inline_zone_info import ZoneEra
 from .inline_zone_info import ZoneInfo
 
-# A datetime representation using seconds instead of h:m:s
-DateTuple = NamedTuple('DateTuple', [
-    ('y', int),
-    ('M', int),
-    ('d', int),
-    ('ss', int),
-    ('f', str),
-])
 
-# A tuple of (year, month)
-YearMonthTuple = NamedTuple('YearMonthTuple', [
-    ('y', int),
-    ('M', int),
-])
+class DateTuple(NamedTuple):
+    """A datetime representation using seconds instead of h:m:s. I think this
+    class makes arithmetic operations on this easier.
+    """
+    y: int  # year
+    M: int  # month
+    d: int  # day
+    ss: int  # total number of seconds
+    f: str  # modifier ('w', 's', 'u')
 
-# UTC offset at the current time:
-#   * total_offset = utc_offset + dst_offset
-#   * utc_offset: seconds
-#   * dst_offset: seconds
-#   * abbrev: str
-#   * fold: int
-OffsetInfo = NamedTuple('OffsetInfo', [
-    ('total_offset', int),
-    ('utc_offset', int),
-    ('dst_offset', int),
-    ('abbrev', str),
-    ('fold', int),
-])
 
-# A tuple that holds a count and the year which it is related to.
-CountAndYear = NamedTuple('CountAndYear', [
-    ('count', int),
-    ('year', int),
-])
+class YearMonthTuple(NamedTuple):
+    """A tuple of (year, month)"""
+    y: int
+    M: int
 
-# Return type that contains the maximum active transitions and the year which
-# that occurred, and the max_buffer_size of TransitionStorage and its year.
-BufferSizeInfo = NamedTuple('BufferSizeInfo', [
-    ('max_actives', CountAndYear),
-    ('max_buffer_size', CountAndYear),
-])
+
+class OffsetInfo(NamedTuple):
+    """Various bits of the Transition information at the current time.
+    """
+    total_offset: int  # total_offset = utc_offset + dst_offset
+    utc_offset: int  # seconds
+    dst_offset: int  # seconds
+    abbrev: str  # short abbreviations
+    fold: int  # same meaning as datetime.fold
+
+
+class CountAndYear(NamedTuple):
+    """A tuple that holds a count and the year which it is related to."""
+    number: int
+    year: int
+
+
+class BufferSizeInfo(NamedTuple):
+    """A tuple containings the maximum active transitions and the year which
+    that occurred, and the max_buffer_size of TransitionStorage and its year.
+    """
+    max_actives: CountAndYear
+    max_buffer_size: CountAndYear
+
 
 ACETIME_EPOCH = datetime(2000, 1, 1, tzinfo=timezone.utc)
+
 
 # Note on the various XxxCooked classes: The ZoneRuleCooked, ZonePolicyCooked,
 # ZoneEraCooked, ZoneInfoCooked classes are thin class wrappers around the
@@ -754,12 +755,12 @@ class ZoneSpecifier:
 
             # Number of active transitions.
             transition_count = len(self.transitions)
-            if transition_count > max_actives.count:
+            if transition_count > max_actives.number:
                 max_actives = CountAndYear(transition_count, year)
 
             # Max size of the transition buffer.
             buffer_size = self.max_transition_buffer_size
-            if buffer_size > max_buffer_size.count:
+            if buffer_size > max_buffer_size.number:
                 max_buffer_size = CountAndYear(buffer_size, year)
 
         return BufferSizeInfo(
