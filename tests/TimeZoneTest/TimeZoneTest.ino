@@ -87,7 +87,7 @@ test(TimeZoneTest, forTimeOffset_no_dst) {
   printStr.flush();
 
   tz.printShortTo(printStr);
-  assertEqual(F("-08:00(STD)"), printStr.getCstr());
+  assertEqual(F("-08:00(S)"), printStr.getCstr());
   printStr.flush();
 }
 
@@ -110,7 +110,7 @@ test(TimeZoneTest, forTimeOffset_dst) {
   printStr.flush();
 
   tz.printShortTo(printStr);
-  assertEqual(F("-07:00(DST)"), printStr.getCstr());
+  assertEqual(F("-07:00(D)"), printStr.getCstr());
   printStr.flush();
 }
 
@@ -202,10 +202,10 @@ test(TimeZoneBasicTest, zoneProcessor_rebinding) {
   printStr.flush();
 
   losAngeles.printShortTo(printStr);
-  assertEqual(F("Los_Angeles"), printStr.getCstr());
+  assertEqual(F("Los Angeles"), printStr.getCstr());
   printStr.flush();
   newYork.printShortTo(printStr);
-  assertEqual(F("New_York"), printStr.getCstr());
+  assertEqual(F("New York"), printStr.getCstr());
   printStr.flush();
 }
 

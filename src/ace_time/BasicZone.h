@@ -35,10 +35,14 @@ class BasicZone {
     BasicZone(const basic::ZoneInfoBroker& zoneInfo):
         mZoneInfoBroker(zoneInfo) {}
 
-    /** Print the full zone name to printer. */
+    /** Print the full zone name to printer. Example "America/Los_Angeles". */
     void printNameTo(Print& printer) const;
 
-    /** Print the short zone to the printer. */
+    /**
+     * Print the short pretty zone name to the printer.
+     * Underscores are replaced with spaces.
+     * Example "Los Angeles".
+     */
     void printShortNameTo(Print& printer) const;
 
     /** Return the zoneId of the current zoneInfo. */

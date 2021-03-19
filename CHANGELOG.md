@@ -45,6 +45,15 @@
         * Includes support for `fold`.
         * Create `BasicAcetzTest` and `ExtendedAcetzTest` and verify all zones
           validate.
+    * Time zone short names are printed with spaces instead of underscore.
+        * Various `printShortNameTo()` and `printShortTo()` methods now print
+          the short names with the underscore replaced with a space. Example,
+          instead of "Los_Angeles", it is now "Los Angeles".
+        * It seems to be more reasonable for most time zones.
+        * The time zone full name continues to print the entire canonical
+          timezone identifier, e.g. "America/Los_Angeles".
+        * Applications that need finer control will have to provide their own
+          rendering logic.
 * 1.6 (2021-02-17, TZ DB version 2021a)
     * Remove `TimeZone::kTypeBasicManaged` and `TimeZone::kTypeExtendedManaged`
       and merge them into just regular `TimeZone::kTypeBasic` and

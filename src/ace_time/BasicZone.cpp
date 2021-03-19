@@ -9,6 +9,7 @@
 #include "BasicZone.h"
 
 using ace_common::KString;
+using ace_common::printReplaceCharTo;
 using ace_time::internal::findShortName;
 using ace_time::internal::ZoneContext;
 
@@ -26,7 +27,7 @@ void BasicZone::printNameTo(Print& printer) const {
 void BasicZone::printShortNameTo(Print& printer) const {
   const __FlashStringHelper* name = mZoneInfoBroker.name();
   const __FlashStringHelper* shortName = findShortName(name);
-  printer.print(shortName);
+  printReplaceCharTo(printer, shortName, '_', ' ');
 }
 
 #else
@@ -41,7 +42,7 @@ void BasicZone::printNameTo(Print& printer) const {
 void BasicZone::printShortNameTo(Print& printer) const {
   const char* name = mZoneInfoBroker.name();
   const char* shortName = findShortName(name);
-  printer.print(shortName);
+  printReplaceCharTo(printer, shortName, '_', ' ');
 }
 
 #endif // ACE_TIME_USE_PROGMEM

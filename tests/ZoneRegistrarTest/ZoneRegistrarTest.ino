@@ -66,7 +66,7 @@ test(ZoneRegistrarTest, getZoneInfo_Los_Angeles) {
 
   printStr.flush();
   BasicZone(zoneInfo).printShortNameTo(printStr);
-  assertEqual(F("Los_Angeles"), printStr.getCstr());
+  assertEqual(F("Los Angeles"), printStr.getCstr());
 }
 
 // Test a zone without separators, "EST".
