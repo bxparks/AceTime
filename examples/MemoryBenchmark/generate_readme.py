@@ -104,6 +104,14 @@ Each `LinkEntry` consumes 8 bytes (2 x `uint32_t`). So a `zonedb::kLinkRegistry`
 with 183 elements uses 1464 extra bytes of flash; a `zonedbx::kLinkRegistry`
 with 207 elements uses 1656 extra bytes.
 
+In v1.7, the virtual destructor on the `Clock` base class was removed. This
+reduced the flash usage by 618 bytes on AVR processors , 328 bytes on the
+SAMD21, but only 50-60 bytes on other 32-bit processors. Also in v1.6, the
+various `printShortNameTo()` or `printShortTo()` was changed to replace the
+underscore in the zone names (e.g. `Los_Angeles`) with spaces (e.g. `Los
+Angeles`) to be more human friendly. This made little difference in the flash
+memory consumption, except on the ESP32 where it increased by 200-300 bytes.
+
 ## Arduino Nano
 
 * 16MHz ATmega328P
