@@ -1265,13 +1265,10 @@ class ZoneSpecifier:
             # previous day.
             secs = (tt.ss - prev.offset_seconds - prev.delta_seconds
                     + transition.offset_seconds + transition.delta_seconds)
-            # if secs < 0 or secs >= 24 * 60 * 60:
-            #   (h, m, s) = seconds_to_hms(secs)
-            #    logging.info(
-            #        "Zone '%s': Transition start_date_time shifted into "
-            #        + "a different day: (%02d:%02d:%02d)",
-            #        self.zone_info['name'], h, m, s)
-            st = datetime(tt.y, tt.M, tt.d, 0, 0, 0)
+            # If (secs < 0 or secs >= 24 * 60 * 60), then we shifted into a
+            # different day. During debugging, it was useful to know that, but
+            # not so useful in production code, so don't print anything.
+            st = datetime(tt.y, tt.M, tt.d)
             st += timedelta(seconds=secs)
             transition.start_date_time = _datetime_to_datetuple(st, tt.f)
 
@@ -1387,7 +1384,7 @@ class ZoneSpecifier:
             return DateTuple(y=MIN_YEAR, M=1, d=1, ss=0, f=tt.f)
 
         try:
-            st = datetime(tt.y, tt.M, tt.d, 0, 0, 0)
+            st = datetime(tt.y, tt.M, tt.d)
             delta = timedelta(seconds=tt.ss)
             st += delta
             return _datetime_to_datetuple(st, tt.f)
