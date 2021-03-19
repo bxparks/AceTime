@@ -1369,28 +1369,11 @@ class ZoneSpecifier:
                           dt)
             sys.exit(1)
 
-        dtw = ZoneSpecifier._normalize_date_tuple(dtw)
-        dts = ZoneSpecifier._normalize_date_tuple(dts)
-        dtu = ZoneSpecifier._normalize_date_tuple(dtu)
+        dtw = _normalize_date_tuple(dtw)
+        dts = _normalize_date_tuple(dts)
+        dtu = _normalize_date_tuple(dtu)
 
         return (dtw, dts, dtu)
-
-    @staticmethod
-    def _normalize_date_tuple(tt: DateTuple) -> DateTuple:
-        """Return the normalized DateTuple where the dt.ss could be negative or
-        greater than 24h.
-        """
-        if tt.y == MIN_YEAR:
-            return DateTuple(y=MIN_YEAR, M=1, d=1, ss=0, f=tt.f)
-
-        try:
-            st = datetime(tt.y, tt.M, tt.d)
-            delta = timedelta(seconds=tt.ss)
-            st += delta
-            return _datetime_to_datetuple(st, tt.f)
-        except:  # noqa: E722
-            logging.error('Invalid datetime: %s + %s', st, delta)
-            sys.exit(1)
 
     @staticmethod
     def _calc_abbrev(transitions: List[Transition]) -> None:
@@ -1870,6 +1853,23 @@ def _datetime_to_datetuple(dt: datetime, format: str) -> DateTuple:
     """
     secs = hms_to_seconds(dt.hour, dt.minute, dt.second)
     return DateTuple(y=dt.year, M=dt.month, d=dt.day, ss=secs, f=format)
+
+
+def _normalize_date_tuple(tt: DateTuple) -> DateTuple:
+    """Return the normalized DateTuple where the dt.ss could be negative or
+    greater than 24h. Throws exception if the normalization fails.
+    """
+    if tt.y == MIN_YEAR:
+        return DateTuple(y=MIN_YEAR, M=1, d=1, ss=0, f=tt.f)
+
+    try:
+        st = datetime(tt.y, tt.M, tt.d)
+        delta = timedelta(seconds=tt.ss)
+        st += delta
+        return _datetime_to_datetuple(st, tt.f)
+    except:  # noqa: E722
+        logging.error('Invalid datetime: %s + %s', st, delta)
+        raise
 
 
 def _create_transition_for_year(

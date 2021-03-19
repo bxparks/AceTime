@@ -6,8 +6,6 @@ from typing import cast
 import unittest
 from datetime import datetime
 from zonedbpy import zone_infos
-# from zonedbpy import validation_data # reenable using zoneinfo.json?
-# from validation.tdgenerator import TestItem
 from zone_processor.zone_specifier import DateTuple
 from zone_processor.zone_specifier import Transition
 from zone_processor.zone_specifier import ZoneMatch
@@ -16,29 +14,8 @@ from zone_processor.zone_specifier import CandidateFinderBasic
 from zone_processor.zone_specifier import _compare_transition_to_match
 from zone_processor.zone_specifier import _compare_transition_to_match_fuzzy
 from zone_processor.zone_specifier import _subtract_date_tuple
+from zone_processor.zone_specifier import _normalize_date_tuple
 from zone_processor.inline_zone_info import ZoneInfo
-
-
-# class TestValidationData(unittest.TestCase):
-#     @unittest.skip("zonedb/validation_data.py not generated")
-#     def test_validation_data(self) -> None:
-#         test_data = validation_data.VALIDATION_DATA[
-#             'America/Los_Angeles']
-#         self.assertTrue(isinstance(test_data[0], TestItem))
-#
-#     @unittest.skip("zonedb/validation_data.py not generated")
-#     def test_zone_specifier_using_validation_data(self) -> None:
-#         for name, items in validation_data.VALIDATION_DATA.items():
-#             zone_info = zone_infos.ZONE_INFO_MAP[name]
-#             zone_specifier = ZoneSpecifier(zone_info, viewing_months=14)
-#             for item in items:
-#                 info = zone_specifier.get_timezone_info_for_seconds(
-#                       item.epoch)
-#                 self.assertEqual(
-#                     item.total_offset * 60, info.total_offset,
-#                     ('Zone %s; epoch:%s; %04d-%02d-%02d %02d:%02d:%02d' %
-#                      (name, item.epoch, item.y, item.M, item.d, item.h,
-#                       item.m, item.s)))
 
 
 class TestZoneSpecifierHelperMethods(unittest.TestCase):
@@ -100,17 +77,15 @@ class TestZoneSpecifierHelperMethods(unittest.TestCase):
     def test_normalize_date_tuple(self) -> None:
         self.assertEqual(
             DateTuple(2000, 2, 1, 0, 'w'),
-            ZoneSpecifier._normalize_date_tuple(DateTuple(2000, 2, 1, 0, 'w')))
+            _normalize_date_tuple(DateTuple(2000, 2, 1, 0, 'w')))
 
         self.assertEqual(
             DateTuple(2000, 2, 1, 0, 's'),
-            ZoneSpecifier._normalize_date_tuple(
-                DateTuple(2000, 1, 31, 24 * 3600, 's')))
+            _normalize_date_tuple(DateTuple(2000, 1, 31, 24 * 3600, 's')))
 
         self.assertEqual(
             DateTuple(2000, 2, 29, 23 * 3600, 'u'),
-            ZoneSpecifier._normalize_date_tuple(
-                DateTuple(2000, 3, 1, -3600, 'u')))
+            _normalize_date_tuple(DateTuple(2000, 3, 1, -3600, 'u')))
 
     def test_subtract_date_tuple(self) -> None:
         self.assertEqual(
