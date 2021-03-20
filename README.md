@@ -580,12 +580,14 @@ See [docs/installation.md](docs/installation.md).
 <a name="Benchmarks"></a>
 ## Benchmarks
 
-See [docs/benchmarks.md](docs/benchmarks.md).
+See [docs/benchmarks.md](docs/benchmarks.md) for CPU and memory usage
+benchmarks.
 
 <a name="Comparisons"></a>
 ## Comparisons
 
-See [docs/comparisons.md](docs/comparisons.md).
+See [docs/comparisons.md](docs/comparisons.md) for comparisons to other date,
+time and timezone libraries.
 
 <a name="SystemRequirements"></a>
 ## System Requirements
