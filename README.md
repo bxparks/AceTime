@@ -4,6 +4,11 @@
 [![Python Tools](https://github.com/bxparks/AceTime/actions/workflows/python_tools.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/python_tools.yml)
 [![Validation Tests](https://github.com/bxparks/AceTime/actions/workflows/validation.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/validation.yml)
 
+**New**: [GitHub Discussions](https://github.com/bxparks/AceTime/discussions)
+for this project is now active! Let's use that for general support questions,
+and reserve the [GitHub Issues](https://github.com/bxparks/AceTime/issues)
+section for actual bugs and technical issues related to the code.
+
 The AceTime library provides Date, Time, and TimeZone classes which can convert
 "epoch seconds" to human-readable local date and time fields. Those classes can
 also convert local date and time between different time zones, properly
