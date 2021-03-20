@@ -7,7 +7,7 @@
 **New**: [GitHub Discussions](https://github.com/bxparks/AceTime/discussions)
 for this project is now active! Let's use that for general support questions,
 and reserve the [GitHub Issues](https://github.com/bxparks/AceTime/issues)
-section for actual bugs and technical issues related to the code.
+section for bugs and feature requests.
 
 The AceTime library provides Date, Time, and TimeZone classes which can convert
 "epoch seconds" to human-readable local date and time fields. Those classes can
@@ -660,12 +660,16 @@ If you find this library useful, consider starring this project on GitHub. The
 stars will let me prioritize the more popular libraries over the less popular
 ones.
 
-If you have any questions, comments, bug reports, or feature requests, please
-file a GitHub ticket instead of emailing me unless the content is sensitive.
-(The problem with email is that I cannot reference the email conversation when
-other people ask similar questions later.) I'd love to hear about how this
-software and its documentation can be improved. I can't promise that I will
-incorporate everything, but I will give your ideas serious consideration.
+If you have any questions, comments and other support requestions about how to
+use this library, please use the
+[GitHub Discussions](https://github.com/bxparks/AceTime/discussions)
+for this project. If you have bug reports or feature requests, please file a
+ticket in [GitHub Issues](https://github.com/bxparks/AceTime/issues). Please
+refrain from emailing me directly unless the content is sensitive. (The problem
+with email is that I cannot reference the email conversation when other people
+ask similar questions later.) I'd love to hear about how this software and its
+documentation can be improved. I can't promise that I will incorporate
+everything, but I will give your ideas serious consideration.
 
 <a name="Authors"></a>
 ## Authors
