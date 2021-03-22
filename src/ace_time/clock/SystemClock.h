@@ -123,6 +123,20 @@ class SystemClock: public Clock {
       return mLastSyncTime;
     }
 
+    /**
+     * Difference between this clock compared to reference at last sync. A
+     * negative value means that the SystemClock was slower than the
+     * referenceClock, and a positive value means that the SystemClock was
+     * faster than the referenceClock.
+     *
+     * The clock skew is expected to be very small, a few seconds, so we use
+     * `int16_t` type to save memory. The maximum clock skew that can be stored
+     * is 32767 seconds, or just over 9 hours.
+     */
+    int16_t getClockSkew() const {
+      return mClockSkew;
+    }
+
     /** Return true if initialized by setNow() or syncNow(). */
     bool isInit() const { return mIsInit; }
 
@@ -234,7 +248,9 @@ class SystemClock: public Clock {
       if (epochSeconds == kInvalidSeconds) return;
 
       mLastSyncTime = epochSeconds;
-      if (mEpochSeconds == epochSeconds) return;
+      acetime_t skew = mEpochSeconds - epochSeconds;
+      mClockSkew = skew;
+      if (skew == 0) return;
 
       mEpochSeconds = epochSeconds;
       mPrevMillis = clockMillis();
@@ -245,12 +261,14 @@ class SystemClock: public Clock {
       }
     }
 
+  protected:
     Clock* mReferenceClock;
     Clock* mBackupClock;
 
     mutable acetime_t mEpochSeconds = kInvalidSeconds;
     acetime_t mLastSyncTime = kInvalidSeconds; // time when last synced
     mutable uint16_t mPrevMillis = 0; // lower 16-bits of clockMillis()
+    int16_t mClockSkew = 0; // diff between reference and this clock
     bool mIsInit = false; // true if setNow() or syncNow() was successful
 };
 

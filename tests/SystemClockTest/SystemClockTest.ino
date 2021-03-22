@@ -72,6 +72,7 @@ testF(SystemClockLoopTest, syncNow) {
   assertEqual((acetime_t) 0, systemClock.getNow());
   assertEqual((acetime_t) 0, systemClock.getLastSyncTime());
   assertEqual((acetime_t) 0, backupAndReferenceClock.getNow());
+  assertEqual((int16_t) 0, systemClock.getClockSkew());
 
   unsigned long nowMillis = 1;
   fakeMillis.millis(nowMillis);
@@ -83,6 +84,9 @@ testF(SystemClockLoopTest, syncNow) {
   assertEqual((acetime_t) 100, systemClock.getNow());
   assertEqual((acetime_t) 100, systemClock.getLastSyncTime());
   assertEqual((acetime_t) 0, backupAndReferenceClock.getNow());
+  // The clock was skewed by 100 seconds, because the test clock does not
+  // auto-advance.
+  assertEqual((int16_t) -100, systemClock.getClockSkew());
 }
 
 testF(SystemClockLoopTest, getNow) {
