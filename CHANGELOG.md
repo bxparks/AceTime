@@ -54,6 +54,9 @@
           timezone identifier, e.g. "America/Los_Angeles".
         * Applications that need finer control will have to provide their own
           rendering logic.
+    * Add methods to retrieve the sync status of `SystemClock`
+        * `getSecondsSinceSyncAttempt()`, `getSecondsToSyncAttempt()`,
+          `getClockSlew(), `getSyncStatusCode()`
 * 1.6 (2021-02-17, TZ DB version 2021a)
     * Remove `TimeZone::kTypeBasicManaged` and `TimeZone::kTypeExtendedManaged`
       and merge them into just regular `TimeZone::kTypeBasic` and
