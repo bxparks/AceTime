@@ -51,6 +51,14 @@ namespace clock {
  */
 class SystemClock: public Clock {
   public:
+    /** Sync was successful. */
+    static const uint8_t kSyncStatusOk = 0;
+
+    /** Sync request failed. */
+    static const uint8_t kSyncStatusError = 1;
+
+    /** Sync request timed out. */
+    static const uint8_t kSyncStatusTimedOut = 2;
 
     /** Attempt to retrieve the time from the backupClock if it exists. */
     void setup() {
@@ -65,7 +73,7 @@ class SystemClock: public Clock {
       // Update mEpochSeconds by the number of seconds elapsed according to the
       // millis(). This method is expected to be called multiple times a second,
       // so the while() loop below will normally execute 0 times, until the
-      // millis() clock goes past the mPrevMillis by 1 second.
+      // millis() clock goes past the mPrevKeepAliveMillis by 1 second.
       //
       // There are 2 reasons why this method will be called multiple times a
       // second:
@@ -78,8 +86,9 @@ class SystemClock: public Clock {
       // 2) If the SystemClockCoroutine or SystemClockLoop classes is used,
       // then the keepAlive() method will be called perhaps 100's times per
       // second, as fast as the iteration speed of the global loop() function.
-      while ((uint16_t) ((uint16_t) clockMillis() - mPrevMillis) >= 1000) {
-        mPrevMillis += 1000;
+      while ((uint16_t) ((uint16_t) clockMillis() - mPrevKeepAliveMillis)
+          >= 1000) {
+        mPrevKeepAliveMillis += 1000;
         mEpochSeconds += 1;
       }
 
@@ -116,11 +125,38 @@ class SystemClock: public Clock {
     }
 
     /**
-     * Return the time (seconds since Epoch) of the last valid sync() call.
-     * Returns kInvalidSeconds if never synced.
+     * Return the time (seconds since Epoch) of the last successful syncNow()
+     * call. Returns kInvalidSeconds if never synced.
      */
     acetime_t getLastSyncTime() const {
       return mLastSyncTime;
+    }
+
+    /** Get sync status code. */
+    uint8_t getSyncStatusCode() const { return mSyncStatusCode; }
+
+    /**
+     * Return the number of seconds since the previous sync attempt, successful
+     * or not. This should always return a positive integer, unless the last
+     * sync attempt happened so long ago that the `int16_t` wrapped around,
+     * which is an undefined behavior in C (and probably C++ too).
+     *
+     * It can be converted into a human readable form using the TimePeriod
+     * class. In some UI, it might be make sense to display this as a negative
+     * number.
+     *
+     * Returns kInvalidSeconds if never attempted.
+     */
+    int32_t getSecondsSinceSyncAttempt() const {
+      return mSecondsSinceSyncAttempt;
+    }
+
+    /**
+     * Return the number of seconds until the next syncNow() attempt. Returns
+     * kInvalidSeconds if sync not scheduled yet.
+     */
+    int32_t getSecondsToSyncAttempt() const {
+      return mSecondsToSyncAttempt;
     }
 
     /**
@@ -188,10 +224,15 @@ class SystemClock: public Clock {
       mBackupClock = backupClock;
 
       mEpochSeconds = kInvalidSeconds;
-      mLastSyncTime = kInvalidSeconds;
-      mPrevMillis = 0;
+      mSecondsSinceSyncAttempt = kInvalidSeconds;
+      mSecondsToSyncAttempt = kInvalidSeconds;
+      mPrevKeepAliveMillis = 0;
       mIsInit = false;
+      mSyncStatusCode = kSyncStatusOk;
     }
+
+    /** Get referenceClock. */
+    Clock* getReferenceClock() const { return mReferenceClock; }
 
     /**
      * Return the Arduino millis(). Override for unit testing. Named
@@ -253,7 +294,7 @@ class SystemClock: public Clock {
       if (skew == 0) return;
 
       mEpochSeconds = epochSeconds;
-      mPrevMillis = clockMillis();
+      mPrevKeepAliveMillis = clockMillis();
       mIsInit = true;
 
       if (mBackupClock != mReferenceClock) {
@@ -261,15 +302,43 @@ class SystemClock: public Clock {
       }
     }
 
-  protected:
+    /** Set the secondsToSyncAttempt. */
+    void setSecondsToSyncAttempt(int32_t seconds) {
+      mSecondsToSyncAttempt = seconds;
+    }
+
+    /** Add 'delta' seconds to secondsSinceSyncAttempt. */
+    void addSecondsSinceSyncAttempt(int32_t delta) {
+      mSecondsSinceSyncAttempt += delta;
+    }
+
+    /** Set the secondsSinceSyncAttempt. */
+    void setSecondsSinceSyncAttempt(int32_t seconds) {
+      mSecondsSinceSyncAttempt = seconds;
+    }
+
+    /** Add 'delta' seconds to secondsToSyncAttempt. */
+    void addSecondsToSyncAttempt(int32_t delta) {
+      mSecondsToSyncAttempt += delta;
+    }
+
+    /** Set the status code of most recent sync attempt. */
+    void setSyncStatusCode(bool code) {
+      mSyncStatusCode = code;
+    }
+
+  private:
     Clock* mReferenceClock;
     Clock* mBackupClock;
 
     mutable acetime_t mEpochSeconds = kInvalidSeconds;
     acetime_t mLastSyncTime = kInvalidSeconds; // time when last synced
-    mutable uint16_t mPrevMillis = 0; // lower 16-bits of clockMillis()
+    int32_t mSecondsSinceSyncAttempt = kInvalidSeconds;
+    int32_t mSecondsToSyncAttempt = kInvalidSeconds;
+    mutable uint16_t mPrevKeepAliveMillis = 0; // lower 16-bits of clockMillis()
     int16_t mClockSkew = 0; // diff between reference and this clock
     bool mIsInit = false; // true if setNow() or syncNow() was successful
+    uint8_t mSyncStatusCode = kSyncStatusOk;
 };
 
 }

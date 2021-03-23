@@ -20,30 +20,33 @@ namespace ace_time {
 namespace clock {
 
 /**
- * A version of SystemClock that mixes in the ace_routine::Coroutine class so
- * that that the non-block methods of mReferenceClock are called. This is
- * helpful when the referenceClock issues a network request to an NTP server.
+ * A subclass of SystemClock that mixes in the ace_routine::Coroutine class of
+ * the AceRoutine library to turn it into a coroutine. It uses the non-blocking
+ * Clock API of the referenceClock. This is helpful when the referenceClock
+ * issues a network request to an NTP server. The `CoroutineScheduler` can be
+ * used if it is already used for something else, or you can call the
+ * `SystemCoroutine::runCoroutine()` directly from the global loop() function.
  *
- * Initially, the class attempts to sync with its referenceClock every
+ * The class attempts to sync with its referenceClock every
  * initialSyncPeriodSeconds. If the request fails, then it retries with an
  * exponential backoff (doubling the delay every iteration), until the sync
  * period becomes greater than syncPeriodSeconds, then the delay is set
  * permanently to syncPeriodSeconds.
+ *
+ * Initially, `SystemClockLoop` used the blocking API of Clock, and
+ * `SystemClockCoroutine` used the non-blocking API. That meant that
+ * `SystemClockCoroutine` was better suited for referenceClocks that could block
+ * for a long time (e.g. NtpClock). At some point however, `SystemClockLoop`
+ * was converted to use the non-blocking API as well, so the two classes are now
+ * functionally equivalent. I keep around the SystemClockCoroutine class because
+ * I find the code easier to understand. But for the end-users of the library,
+ * they are equivalent.
  */
-class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
+class SystemClockCoroutine :
+    public SystemClock,
+    public ace_routine::Coroutine {
+
   public:
-    /** Request state unknown. For diagnostics only. */
-    static const uint8_t kStatusUnknown = 0;
-
-    /** Request has been sent and waiting for response. For diagnostics only. */
-    static const uint8_t kStatusSent = 1;
-
-    /** Request received and valid. */
-    static const uint8_t kStatusOk = 2;
-
-    /** Request timed out. */
-    static const uint8_t kStatusTimedOut = 3;
-
     /**
      * Constructor.
      *
@@ -58,7 +61,7 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
      *    the systemClock is not initialized (default 5)
      * @param requestTimeoutMillis number of milliseconds before the request to
      *    referenceClock times out
-     * @param timingStats internal statistics
+     * @param timingStats internal statistics (nullable)
      */
     explicit SystemClockCoroutine(
         Clock* referenceClock /* nullable */,
@@ -76,23 +79,34 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
     /**
      * @copydoc Coroutine::runCoroutine()
      *
-     * The CoroutineScheduler will use this method if enabled. Don't forget to
-     * call setupCoroutine() (inherited from Coroutine) in the global setup() to
-     * register this coroutine into the CoroutineScheduler.
+     * Make a request to the referenceClock, wait for the request, then set the
+     * SystemClock (the parent class) to the time returned by the
+     * referneceClock. If the referenceClock returns an error, implement a retry
+     * algorithm with an exponential backoff, until a maximum of
+     * syncPeriodSeconds interval is reached.
+     *
+     * Two ways to run this:
+     *
+     * 1) Call this method directly from the global loop() function.
+     * 2) Register this coroutine with CoroutineScheduler using
+     *    Coroutine::setupCoroutine() in the global setup(). Then call
+     *    CoroutineScheduler::loop() in the global loop() function.
      */
     int runCoroutine() override {
       keepAlive();
-      if (mReferenceClock == nullptr) return 0;
+      if (getReferenceClock() == nullptr) return 0;
 
       COROUTINE_LOOP() {
         // Send request
-        mReferenceClock->sendRequest();
+        getReferenceClock()->sendRequest();
         mRequestStartMillis = coroutineMillis();
         mRequestStatus = kStatusSent;
+        setSecondsSinceSyncAttempt(0);
+        setSecondsToSyncAttempt(mCurrentSyncPeriodSeconds);
 
         // Wait for request
         while (true) {
-          if (mReferenceClock->isResponseReady()) {
+          if (getReferenceClock()->isResponseReady()) {
             mRequestStatus = kStatusOk;
             break;
           }
@@ -105,6 +119,7 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
                 (uint16_t) coroutineMillis() - mRequestStartMillis;
             if (waitMillis >= mRequestTimeoutMillis) {
               mRequestStatus = kStatusTimedOut;
+              setSyncStatusCode(kSyncStatusTimedOut);
               break;
             }
           }
@@ -114,22 +129,44 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
 
         // Process the response
         if (mRequestStatus == kStatusOk) {
-          acetime_t nowSeconds = mReferenceClock->readResponse();
+          acetime_t nowSeconds = getReferenceClock()->readResponse();
           if (mTimingStats != nullptr) {
             uint16_t elapsedMillis =
                 (uint16_t) coroutineMillis() - mRequestStartMillis;
             mTimingStats->update(elapsedMillis);
           }
-          syncNow(nowSeconds);
-          mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
+
+          if (nowSeconds == kInvalidSeconds) {
+            setSyncStatusCode(kSyncStatusError);
+            // Clobber the mRequestStatus to trigger the exponential backoff
+            mRequestStatus = kStatusUnknown;
+          } else {
+            syncNow(nowSeconds);
+            mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
+            setSyncStatusCode(kSyncStatusOk);
+          }
         }
 
-        COROUTINE_DELAY_SECONDS(mCurrentSyncPeriodSeconds);
+        // Do an explicit loop for a period of mCurrentSyncPeriodSeconds,
+        // instead of using a COROUTINE_DELAY_SECONDS() so that we can update
+        // the mSecondsSinceSyncAttempt and mSecondsToSyncAttempt counters.
+        //COROUTINE_DELAY_SECONDS(mCurrentSyncPeriodSeconds);
+        setSecondsSinceSyncAttempt(0);
+        setSecondsToSyncAttempt(mCurrentSyncPeriodSeconds);
+        for (mWaitCount = 0;
+            mWaitCount < mCurrentSyncPeriodSeconds;
+            ++mWaitCount
+        ) {
+          COROUTINE_DELAY(1000);
+          addSecondsSinceSyncAttempt(1);
+          addSecondsToSyncAttempt(-1);
+        }
+
 
         // Determine the retry delay time based on success or failure. If
         // failure, retry with exponential backoff, until the delay becomes
         // mSyncPeriodSeconds.
-        if (mRequestStatus == kStatusTimedOut) {
+        if (mRequestStatus != kStatusOk) {
           if (mCurrentSyncPeriodSeconds >= mSyncPeriodSeconds / 2) {
             mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
           } else {
@@ -149,6 +186,18 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
   private:
     friend class ::SystemClockCoroutineTest_runCoroutine;
 
+    /** Request state unknown or request error. */
+    static const uint8_t kStatusUnknown = 0;
+
+    /** Request has been sent and waiting for response. */
+    static const uint8_t kStatusSent = 1;
+
+    /** Request received and valid. */
+    static const uint8_t kStatusOk = 2;
+
+    /** Request timed out. */
+    static const uint8_t kStatusTimedOut = 3;
+
     // disable copy constructor and assignment operator
     SystemClockCoroutine(const SystemClockCoroutine&) = delete;
     SystemClockCoroutine& operator=(const SystemClockCoroutine&) = delete;
@@ -159,6 +208,7 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
 
     uint16_t mRequestStartMillis; // lower 16-bit of millis()
     uint16_t mCurrentSyncPeriodSeconds = 5;
+    uint16_t mWaitCount;
     uint8_t mRequestStatus = kStatusUnknown;
 };
 

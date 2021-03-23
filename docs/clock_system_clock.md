@@ -497,6 +497,10 @@ namespace clock {
 
 class SystemClock: public Clock {
   public:
+    static const uint8_t kSyncStatusOk = 0;
+    static const uint8_t kSyncStatusError = 1;
+    static const uint8_t kSyncStatusTimedOut = 2;
+
     void setup();
 
     acetime_t getNow() const override;
@@ -504,17 +508,25 @@ class SystemClock: public Clock {
 
     bool isInit() const;
     acetime_t getLastSyncTime() const;
+    uint8_t getSyncStatusCode() const;
+    int32_t getSecondsSinceSyncAttempt() const;
+    int32_t getSecondsToSyncAttempt() const;
+    int16_t getClockSkew() const;
 
   protected:
+    explicit SystemClock(
+        Clock* referenceClock /* nullable */,
+        Clock* backupClock /* nullable */);
+
+    Clock* getReferenceClock() const { return mReferenceClock; }
+
     virtual unsigned long clockMillis() const { return ::millis(); }
 
     void keepAlive();
 
-    void syncNow(acetime_t epochSeconds);
+    void backupNow(acetime_t nowSeconds);
 
-    explicit SystemClock(
-        Clock* referenceClock /* nullable */,
-        Clock* backupClock /* nullable */);
+    void syncNow(acetime_t epochSeconds);
 };
 
 class SystemClockLoop: public SystemClock {
@@ -537,8 +549,7 @@ class SystemClockCoroutine: public SystemClock, public ace_routine::Coroutine {
         Clock* backupClock /* nullable */,
         uint16_t syncPeriodSeconds = 3600,
         uint16_t initialSyncPeriodSeconds = 5,
-        uint16_t requestTimeoutMillis = 1000,
-        ace_common::TimingStats* timingStats = nullptr);
+        uint16_t requestTimeoutMillis = 1000);
 
     int runCoroutine() override;
 };
@@ -727,6 +738,57 @@ I suspect that most people will feel more comfortable using the
 `SystemClockLoop` class. But if you are already using the AceRoutine library, it
 may be more convenient to use the `SystemClockCoroutine` class instead.
 
+<a name="SystemClockInspection"></a>
+### SystemClock Inspection
+
+The `SystemClock` exposes a number of methods that allow inspection of its sync
+status with the referenceClock.
+
+```C++
+class SystemClock: public Clock {
+  public:
+    static const uint8_t kSyncStatusOk = 0;
+    static const uint8_t kSyncStatusError = 1;
+    static const uint8_t kSyncStatusTimedOut = 2;
+
+    ...
+
+    acetime_t getLastSyncTime() const;
+    uint8_t getSyncStatusCode() const;
+    int32_t getSecondsSinceSyncAttempt() const;
+    int32_t getSecondsToSyncAttempt() const;
+    int16_t getClockSkew() const;
+};
+```
+
+* `getLastSyncTime()`
+    * the `acetime_t` time of the most recent **successful** syncing with the
+      referenceClock
+    * (there is no equilvalent `getLastFailedSyncTime()` method, because if the
+      sync fails, we don't get the correct time, so we don't know what time it
+      failed, but see `getSecondsSinceSyncAttempt()` below)
+* `getSyncStatusCode()`
+    * status code of the most recent attempt to sync with the referenceClock
+* `getSecondsSinceSyncAttempt()`
+    * number of seconds since the most recent sync attempt with the
+      referenceClock, regardless whether it failed or succeeded
+    * this a positive number, but it sometimes makes sense to display this
+      number as a negative value, to indicate that it occurred in the past
+    * elapsed time is extracted from the global `millis()` function
+* `getSecondsToSyncAttempt()`
+    * number of seconds estimated until the next sync attempt with the
+      referenceClock
+    * elapsed time is extracted from the global `millis()` function
+* `getClockSkew()`
+    * number of seconds that the `SystemClock` was slow (negative) or fast
+      (postive) compared to the referenceClock, at the time of the most recent
+      *successful* sync
+    * if the syncing is done often enough, and the `millis()` function is
+      reasonably calibrated, this value should be almost always `0`.
+
+The quantities returned by the above methods can be fed into the `TimePeriod`
+object to extract the hour, minute and second components.
+
 <a name="SystemClockExamples"></a>
 ## SystemClock Examples
 
@@ -852,7 +914,7 @@ void loop() {
 }
 ```
 
-**Note**: This is configuration does *not* provide fail-over. In other words, if
+**Note**: This configuration does *not* provide fail-over. In other words, if
 the `referenceClock` is unreachable, then the code does not automatically start
 using the `backupClock` as the reference clock. The `backupClock` is used *only*
 during initial startup to initialize the `SystemClock`. If the network continues
