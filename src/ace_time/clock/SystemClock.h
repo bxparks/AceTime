@@ -73,7 +73,7 @@ class SystemClock: public Clock {
       // Update mEpochSeconds by the number of seconds elapsed according to the
       // millis(). This method is expected to be called multiple times a second,
       // so the while() loop below will normally execute 0 times, until the
-      // millis() clock goes past the mPrevMillis by 1 second.
+      // millis() clock goes past the mPrevKeepAliveMillis by 1 second.
       //
       // There are 2 reasons why this method will be called multiple times a
       // second:
@@ -86,8 +86,9 @@ class SystemClock: public Clock {
       // 2) If the SystemClockCoroutine or SystemClockLoop classes is used,
       // then the keepAlive() method will be called perhaps 100's times per
       // second, as fast as the iteration speed of the global loop() function.
-      while ((uint16_t) ((uint16_t) clockMillis() - mPrevMillis) >= 1000) {
-        mPrevMillis += 1000;
+      while ((uint16_t) ((uint16_t) clockMillis() - mPrevKeepAliveMillis)
+          >= 1000) {
+        mPrevKeepAliveMillis += 1000;
         mEpochSeconds += 1;
       }
 
@@ -225,7 +226,7 @@ class SystemClock: public Clock {
       mEpochSeconds = kInvalidSeconds;
       mSecondsSinceSyncAttempt = kInvalidSeconds;
       mSecondsToSyncAttempt = kInvalidSeconds;
-      mPrevMillis = 0;
+      mPrevKeepAliveMillis = 0;
       mIsInit = false;
       mSyncStatusCode = kSyncStatusOk;
     }
@@ -293,7 +294,7 @@ class SystemClock: public Clock {
       if (skew == 0) return;
 
       mEpochSeconds = epochSeconds;
-      mPrevMillis = clockMillis();
+      mPrevKeepAliveMillis = clockMillis();
       mIsInit = true;
 
       if (mBackupClock != mReferenceClock) {
@@ -334,7 +335,7 @@ class SystemClock: public Clock {
     acetime_t mLastSyncTime = kInvalidSeconds; // time when last synced
     int32_t mSecondsSinceSyncAttempt = kInvalidSeconds;
     int32_t mSecondsToSyncAttempt = kInvalidSeconds;
-    mutable uint16_t mPrevMillis = 0; // lower 16-bits of clockMillis()
+    mutable uint16_t mPrevKeepAliveMillis = 0; // lower 16-bits of clockMillis()
     int16_t mClockSkew = 0; // diff between reference and this clock
     bool mIsInit = false; // true if setNow() or syncNow() was successful
     uint8_t mSyncStatusCode = kSyncStatusOk;
