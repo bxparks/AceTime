@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.6</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -210,7 +210,7 @@ class ace_time::extended::TransitionStorageTemplate&lt; SIZE, ZEB, ZPB, ZRB &gt;
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00366">366</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00367">367</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a64209f8ee979ac7b223bdc8bbe64bd46"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a64209f8ee979ac7b223bdc8bbe64bd46">&#9670;&nbsp;</a></span>Transition</h2>
@@ -229,7 +229,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Template instantiation of <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta.">TransitionTemplate</a> used by this class. </p>
 <p>This should be treated as a private, it is exposed only for testing purposes. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00372">372</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00373">373</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -262,7 +262,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Immediately add the free agent Transition at index mIndexFree to the Active pool. </p>
 <p>Then increment mIndexFree to remove the free agent from the Free pool. This assumes that the Pending and Candidate pool are empty, which makes the Active pool come immediately before the Free pool. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00454">454</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00455">455</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -294,7 +294,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Add the free agent Transition at index mIndexFree to the Candidate pool, sorted by transitionTime. </p>
 <p>Then increment mIndexFree by one to remove the free agent from the Free pool. Essentially this is an Insertion Sort keyed by the 'transitionTime' (ignoring the DateTuple.suffix). </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00492">492</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00493">493</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -326,7 +326,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Add the current prior into the Candidates pool. </p>
 <p>Prior is always just before the start of the Candidate pool, so we just need to shift back the start index of the Candidate pool. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00482">482</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00483">483</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -359,7 +359,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Return the Transition matching the given epochSeconds. </p>
 <p>Return nullptr if no matching Transition found. If a zone does not have any transition according to TZ Database, the tools/transformer.py script adds an "anchor" transition at the "beginning of time" which happens to be the year 1872 (because the year is stored as an int8_t). Therefore, this method should never return a nullptr for a well-formed ZoneInfo file. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00535">535</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00536">536</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -394,7 +394,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>1) If the localDateTime falls in the DST transition gap where 0 Transitions ought to be found, e.g. between 02:00 and 03:00 in America/Los_Angeles when standard time switches to DST time), the immediate prior Transition is returned (in effect extending the UTC offset of the prior Transition through the gap. For example, when DST starts, 02:00 becomes 03:00, so a time of 02:30 does not exist, but the Transition returned will be the one valid at 01:59. When it is converted to epoch_seconds and converted back to a <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>, the 02:30 time will become 03:30, since the later UTC offset will be used.</p>
 <p>2) If the localDateTime falls in a time period where there are 2 Transitions, hence 2 valid UTC offsets, the later Transition is returned. For example, when DST ends in America/Los_Angeles, 02:00 becomes 01:00, so a time of 01:30 could belong to the earlier or later Transition. This method returns the later Transition. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00572">572</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00573">573</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -426,7 +426,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Return a pointer to the first Transition in the free pool. </p>
 <p>If this transition is not used, then it's ok to just drop it. The next time <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a447f3b08c7aff5b53129076487ab85c6" title="Return a pointer to the first Transition in the free pool.">getFreeAgent()</a> is called, the same Transition will be returned. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00433">433</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00434">434</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -458,7 +458,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Return the high water mark. </p>
 <p>This is the largest value of mIndexFree that was used. If this returns SIZE, it indicates that the Transition mPool overflowed. For debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00629">629</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00630">630</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -490,7 +490,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Verify that the indexes are valid. </p>
 <p>Used only for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00595">595</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00596">596</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -522,7 +522,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Allocate one Transition just after the Active pool, but before the Candidate pool, to keep the most recent prior Transition. </p>
 <p>Shift the Candidate pool and Free pool up by one. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00466">466</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00467">467</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -554,7 +554,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Empty the Candidate pool by resetting the various indexes. </p>
 <p>If every iteration of findTransitionsForMatch() finishes with <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a0b23350e74c9e433d6d7d76111aeccfa" title="Immediately add the free agent Transition at index mIndexFree to the Active pool.">addFreeAgentToActivePool()</a> or <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a53abf61c7cbfec2b08557c7244cbac50" title="Add active candidates into the Active pool, and collapse the Candidate pool.">addActiveCandidatesToActivePool()</a>, it may be possible to remove this. But it's safer to reset the indexes upon each iteration. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00409">409</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00410">410</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -586,7 +586,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Reset the high water mark. </p>
 <p>For debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00622">622</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00623">623</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>

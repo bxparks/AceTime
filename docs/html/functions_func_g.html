@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.6</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -72,6 +72,9 @@ $(function() {
 , <a class="el" href="classace__time_1_1TimeZone.html#a44106abad48466a38794f19d2fc6dad0">ace_time::TimeZone</a>
 , <a class="el" href="classace__time_1_1ZoneProcessor.html#aa080366d78d5b8d8cc56915857e49ddd">ace_time::ZoneProcessor</a>
 </li>
+<li>getClockSkew()
+: <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aa92f1b406a96c2a150b17c9137590bbc">ace_time::clock::SystemClock</a>
+</li>
 <li>getDeltaOffset()
 : <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a1832a04486d8ef551bc5867b20776ddb">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
 , <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a99490e33fef641ff630a14a8cbfe2249">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
@@ -101,6 +104,7 @@ $(function() {
 , <a class="el" href="classace__time_1_1clock_1_1DS3231Clock.html#a592ae27a125b29e277d32ec280004911">ace_time::clock::DS3231Clock</a>
 , <a class="el" href="classace__time_1_1clock_1_1NtpClock.html#a98da4bb8736d7833454d3efaa6bc6364">ace_time::clock::NtpClock</a>
 , <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acdb29aa7095759101a9f33b79f863144">ace_time::clock::SystemClock</a>
+, <a class="el" href="classace__time_1_1clock_1_1UnixClock.html#a43a41defeb27cd3abea5ca86b985be69">ace_time::clock::UnixClock</a>
 </li>
 <li>getOffsetDateTime()
 : <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#ad9544ada0ee918048edddca96c44e28c">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
@@ -111,8 +115,23 @@ $(function() {
 <li>getPrior()
 : <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a809ac80391c9cc919b3d9c9e054964ad">ace_time::extended::TransitionStorageTemplate&lt; SIZE, ZEB, ZPB, ZRB &gt;</a>
 </li>
+<li>getReferenceClock()
+: <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aca8986b96e508a82024f7fd739d02d24">ace_time::clock::SystemClock</a>
+</li>
+<li>getSecondsSinceSyncAttempt()
+: <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aef27358031ea74dce02ecd3413f5f28b">ace_time::clock::SystemClock</a>
+</li>
+<li>getSecondsToSyncAttempt()
+: <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a539f0d808b63c3221c55721a2ec1ed55">ace_time::clock::SystemClock</a>
+</li>
+<li>getServer()
+: <a class="el" href="classace__time_1_1clock_1_1NtpClock.html#a04dbe54fc274819097e77110992b34c1">ace_time::clock::NtpClock</a>
+</li>
 <li>getStdOffset()
 : <a class="el" href="classace__time_1_1TimeZone.html#af4f490577af626bb2800ad62ac861668">ace_time::TimeZone</a>
+</li>
+<li>getSyncStatusCode()
+: <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a95eb895cd8f8a630158b0843debe5e58">ace_time::clock::SystemClock</a>
 </li>
 <li>getTransitionHighWater()
 : <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a7be6b145ae700170215b2ab390381be9">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
@@ -143,7 +162,7 @@ $(function() {
 : <a class="el" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#adbeca9928a202d3eab537e2293963e6d">ace_time::internal::ZoneRegistrarTemplate&lt; ZI, ZIB, ZRGB &gt;</a>
 </li>
 <li>getZoneProcessor()
-: <a class="el" href="classace__time_1_1ZoneProcessorCacheTemplate.html#a8bfa9e0eec7e03001f3776ad9ee1e70b">ace_time::ZoneProcessorCacheTemplate&lt; SIZE, ZP &gt;</a>
+: <a class="el" href="classace__time_1_1ZoneProcessorCacheTemplate.html#a32dc7af6d34a3b69652779265de8b634">ace_time::ZoneProcessorCacheTemplate&lt; SIZE, ZP &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->

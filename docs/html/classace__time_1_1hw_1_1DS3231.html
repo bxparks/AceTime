@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.6</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -103,9 +103,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <div class="textblock"><p>A class that reads and writes <a class="el" href="structace__time_1_1hw_1_1HardwareDateTime.html" title="The date (year, month, day) and time (hour, minute, second) fields supported by the DS3231 RTC chip.">HardwareDateTime</a> and <a class="el" href="structace__time_1_1hw_1_1HardwareTemperature.html" title="The temperature in Celcius as a signed (8.8) fixed-point integer.">HardwareTemperature</a> from a <a class="el" href="classace__time_1_1hw_1_1DS3231.html" title="A class that reads and writes HardwareDateTime and HardwareTemperature from a DS3231 RTC chip.">DS3231</a> RTC chip. </p>
 <p>This class is designed to access just enough features of the <a class="el" href="classace__time_1_1hw_1_1DS3231.html" title="A class that reads and writes HardwareDateTime and HardwareTemperature from a DS3231 RTC chip.">DS3231</a> chip to implement the ace_time::DS3231Clock class. It is not meant to provide access to all the features of the <a class="el" href="classace__time_1_1hw_1_1DS3231.html" title="A class that reads and writes HardwareDateTime and HardwareTemperature from a DS3231 RTC chip.">DS3231</a> chip. There are other libraries which are far better for that purpose.</p>
 <p>According to <a href="https://learn.adafruit.com/i2c-addresses/the-list,">https://learn.adafruit.com/i2c-addresses/the-list,</a> the <a class="el" href="classace__time_1_1hw_1_1DS3231.html" title="A class that reads and writes HardwareDateTime and HardwareTemperature from a DS3231 RTC chip.">DS3231</a> is always on I2C address 0x68, so let's hardcode that.</p>
-<p>This class will probably work for the DS1307 and DS3232 RTC chips (except for the temperature function on the DS1307 which lacks this functionality) but this has not been verified. </p>
+<p>This class will probably work for the DS1307 and DS3232 RTC chips (except for the temperature function on the DS1307 which lacks this functionality) but this has not been verified.</p>
+<p>This class compiles under EpoxyDuino which allows many Clock applications to be configured to use the DS3231Clock, and incorporated into Continuous Integration on GitHub Actions. </p>
 
-<p class="definition">Definition at line <a class="el" href="DS3231_8h_source.html#l00033">33</a> of file <a class="el" href="DS3231_8h_source.html">DS3231.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DS3231_8h_source.html#l00035">35</a> of file <a class="el" href="DS3231_8h_source.html">DS3231.h</a>.</p>
 </div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/brian/src/AceTime/src/ace_time/hw/<a class="el" href="DS3231_8h_source.html">DS3231.h</a></li>
 <li>/home/brian/src/AceTime/src/ace_time/hw/<a class="el" href="DS3231_8cpp_source.html">DS3231.cpp</a></li>

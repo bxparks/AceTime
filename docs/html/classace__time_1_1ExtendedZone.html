@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.6</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -89,13 +89,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a25726bb96da36e1c3418a75f456d812b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZone.html#a25726bb96da36e1c3418a75f456d812b">ExtendedZone</a> (const <a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html">extended::ZoneInfoBroker</a> &amp;zoneInfo)</td></tr>
 <tr class="memdesc:a25726bb96da36e1c3418a75f456d812b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from an <a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html" title="Data broker for accessing ZoneInfo.">extended::ZoneInfoBroker</a>, used by <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="A specific implementation of ExtendedZoneProcessorTemplate that uses ZoneXxxBrokers which read from z...">ExtendedZoneProcessor</a>.  <a href="classace__time_1_1ExtendedZone.html#a25726bb96da36e1c3418a75f456d812b">More...</a><br /></td></tr>
 <tr class="separator:a25726bb96da36e1c3418a75f456d812b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19897a2a827bdcdd61a75b55bc3a3964"><td class="memItemLeft" align="right" valign="top"><a id="a19897a2a827bdcdd61a75b55bc3a3964"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZone.html#a19897a2a827bdcdd61a75b55bc3a3964">printNameTo</a> (Print &amp;printer) const</td></tr>
-<tr class="memdesc:a19897a2a827bdcdd61a75b55bc3a3964"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the full zone name to printer. <br /></td></tr>
+<tr class="memitem:a19897a2a827bdcdd61a75b55bc3a3964"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZone.html#a19897a2a827bdcdd61a75b55bc3a3964">printNameTo</a> (Print &amp;printer) const</td></tr>
+<tr class="memdesc:a19897a2a827bdcdd61a75b55bc3a3964"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the full zone name to printer.  <a href="classace__time_1_1ExtendedZone.html#a19897a2a827bdcdd61a75b55bc3a3964">More...</a><br /></td></tr>
 <tr class="separator:a19897a2a827bdcdd61a75b55bc3a3964"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d10af90d4092d99c6344cc23df3f7a5"><td class="memItemLeft" align="right" valign="top"><a id="a6d10af90d4092d99c6344cc23df3f7a5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZone.html#a6d10af90d4092d99c6344cc23df3f7a5">printShortNameTo</a> (Print &amp;printer) const</td></tr>
-<tr class="memdesc:a6d10af90d4092d99c6344cc23df3f7a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the short zone to the printer. <br /></td></tr>
+<tr class="memitem:a6d10af90d4092d99c6344cc23df3f7a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZone.html#a6d10af90d4092d99c6344cc23df3f7a5">printShortNameTo</a> (Print &amp;printer) const</td></tr>
+<tr class="memdesc:a6d10af90d4092d99c6344cc23df3f7a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the short pretty zone name to the printer.  <a href="classace__time_1_1ExtendedZone.html#a6d10af90d4092d99c6344cc23df3f7a5">More...</a><br /></td></tr>
 <tr class="separator:a6d10af90d4092d99c6344cc23df3f7a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27bd334749849e8bc8bf56a2c47a5d61"><td class="memItemLeft" align="right" valign="top"><a id="a27bd334749849e8bc8bf56a2c47a5d61"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZone.html#a27bd334749849e8bc8bf56a2c47a5d61">zoneId</a> () const</td></tr>
@@ -136,6 +134,53 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <p>This allows the implementation details of ZoneInfoBroker to remain hidden. </p>
 
 <p class="definition">Definition at line <a class="el" href="ExtendedZone_8h_source.html#l00036">36</a> of file <a class="el" href="ExtendedZone_8h_source.html">ExtendedZone.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a19897a2a827bdcdd61a75b55bc3a3964"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19897a2a827bdcdd61a75b55bc3a3964">&#9670;&nbsp;</a></span>printNameTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_time::ExtendedZone::printNameTo </td>
+          <td>(</td>
+          <td class="paramtype">Print &amp;&#160;</td>
+          <td class="paramname"><em>printer</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print the full zone name to printer. </p>
+<p>Example "America/Los_Angeles". </p>
+
+<p class="definition">Definition at line <a class="el" href="ExtendedZone_8cpp_source.html#l00020">20</a> of file <a class="el" href="ExtendedZone_8cpp_source.html">ExtendedZone.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a6d10af90d4092d99c6344cc23df3f7a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d10af90d4092d99c6344cc23df3f7a5">&#9670;&nbsp;</a></span>printShortNameTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_time::ExtendedZone::printShortNameTo </td>
+          <td>(</td>
+          <td class="paramtype">Print &amp;&#160;</td>
+          <td class="paramname"><em>printer</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print the short pretty zone name to the printer. </p>
+<p>Underscores are replaced with spaces. Example "Los Angeles". </p>
+
+<p class="definition">Definition at line <a class="el" href="ExtendedZone_8cpp_source.html#l00027">27</a> of file <a class="el" href="ExtendedZone_8cpp_source.html">ExtendedZone.cpp</a>.</p>
 
 </div>
 </div>

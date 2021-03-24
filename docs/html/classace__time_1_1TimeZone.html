@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.6</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -144,7 +144,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:af4e12e7f8296fefe6b979fd5b9af5ba7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert to a <a class="el" href="structace__time_1_1TimeZoneData.html" title="Data structure that captures the internal state of a TimeZone object with enough information so that ...">TimeZoneData</a> object, which can be fed back into <a class="el" href="classace__time_1_1ZoneManager.html#a68c5afe5b8417afc6812f9475a063410" title="Create a TimeZone from the TimeZoneData created by TimeZone::toTimeZoneData().">ZoneManager::createForTimeZoneData()</a> to recreate the <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a>.  <a href="classace__time_1_1TimeZone.html#af4e12e7f8296fefe6b979fd5b9af5ba7">More...</a><br /></td></tr>
 <tr class="separator:af4e12e7f8296fefe6b979fd5b9af5ba7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3030d8f1dc9cd2bfb3c6ee556c385191"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1TimeZone.html#a3030d8f1dc9cd2bfb3c6ee556c385191">printTo</a> (Print &amp;printer) const</td></tr>
-<tr class="memdesc:a3030d8f1dc9cd2bfb3c6ee556c385191"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the human readable representation of the time zone.  <a href="classace__time_1_1TimeZone.html#a3030d8f1dc9cd2bfb3c6ee556c385191">More...</a><br /></td></tr>
+<tr class="memdesc:a3030d8f1dc9cd2bfb3c6ee556c385191"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the text representation of the time zone using the full canonical time zone name or UTC offset shift.  <a href="classace__time_1_1TimeZone.html#a3030d8f1dc9cd2bfb3c6ee556c385191">More...</a><br /></td></tr>
 <tr class="separator:a3030d8f1dc9cd2bfb3c6ee556c385191"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9feead66a867bbae10e751d30479bbfc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1TimeZone.html#a9feead66a867bbae10e751d30479bbfc">printShortTo</a> (Print &amp;printer) const</td></tr>
 <tr class="memdesc:a9feead66a867bbae10e751d30479bbfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the <em>short</em> human readable representation of the time zone.  <a href="classace__time_1_1TimeZone.html#a9feead66a867bbae10e751d30479bbfc">More...</a><br /></td></tr>
@@ -869,10 +869,12 @@ zone". The first refers to a simple fixed offset from UTC. For example, we may s
 </div><div class="memdoc">
 
 <p>Print the <em>short</em> human readable representation of the time zone. </p>
+<p>This method uses some rough heuristics for determine the reasonable human readable form. For basic and extended time zones, the last component of the canonical zone name is printed, with the underscore character replaced with just a space, for example "Los Angeles". For manual time zones, it prints the total UTC offset with a (D) if the DST flag is active and an (S) if not, for example, "-08:00(S)".</p>
+<p>If you need better control over how the time zone is displayed, you need to write that code yourself using the <a class="el" href="classace__time_1_1TimeZone.html#a83e37a197999c7c9890fde96b741f6c6" title="Return the type of TimeZone, used to determine the behavior of certain methods at runtime.">getType()</a> and the <a class="el" href="classace__time_1_1TimeZone.html#a308954a7d1e74a155a821c3261a287ec" title="Return the zoneId for kTypeBasic, kTypeExtended.">getZoneId()</a> identifiers.</p>
 <ul>
-<li>kTypeManual is printed as "+/-hh:mm(STD|DST)" (e.g. "-07:00(DST)")</li>
-<li>kTypeBasic is printed as "{zoneShortName}" (e.g. "Los_Angeles")</li>
-<li>kTypeExtended is printed as "{zoneShortName}" (e.g. "Los_Angeles") </li>
+<li>kTypeManual is printed as "+/-hh:mm(S|D)" depending on DST or STD flag (e.g. "-07:00(D)")</li>
+<li>kTypeBasic is printed as "{zoneShortName}" (e.g. "Los Angeles")</li>
+<li>kTypeExtended is printed as "{zoneShortName}" (e.g. "Los Angeles") </li>
 </ul>
 
 <p class="definition">Definition at line <a class="el" href="TimeZone_8cpp_source.html#l00033">33</a> of file <a class="el" href="TimeZone_8cpp_source.html">TimeZone.cpp</a>.</p>
@@ -895,11 +897,11 @@ zone". The first refers to a simple fixed offset from UTC. For example, we may s
       </table>
 </div><div class="memdoc">
 
-<p>Print the human readable representation of the time zone. </p>
+<p>Print the text representation of the time zone using the full canonical time zone name or UTC offset shift. </p>
 <ul>
 <li>kTypeManual is printed as "+/-hh:mm+/-hh:mm" (e.g. "-08:00+00:00")</li>
-<li>kTypeBasic is printed as "{zonename}" (e.g. "America/Los_Angeles")</li>
-<li>kTypeExtended is printed as "{zonename}" (e.g. "America/Los_Angeles") </li>
+<li>kTypeBasic is printed as "{zoneName}" (e.g. "America/Los_Angeles")</li>
+<li>kTypeExtended is printed as "{zoneName}" (e.g. "America/Los_Angeles") </li>
 </ul>
 
 <p class="definition">Definition at line <a class="el" href="TimeZone_8cpp_source.html#l00011">11</a> of file <a class="el" href="TimeZone_8cpp_source.html">TimeZone.cpp</a>.</p>
@@ -1018,7 +1020,7 @@ zone". The first refers to a simple fixed offset from UTC. For example, we may s
 </ul>
 <p>Internally, the <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> class does not care how this is implemented. The factory methods expose these types for the convenience of the end users. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00514">514</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00528">528</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
 
 </div>
 </div>
