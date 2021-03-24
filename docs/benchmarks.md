@@ -5,17 +5,20 @@
 
 The [AutoBenchmark.ino](examples/AutoBenchmark/) program measures the
 amount of CPU cycles taken by some of the more expensive methods. Here is a
-summary of the elapsed time for `OffsetDateTime::forEpochSeconds()` for some
-Arduino boards that I have access to:
+summary of the elapsed time for the `ZonedDateTime::forEpochSeconds()` method
+using a `BasicZoneManager` that already has its cache populated for the given
+`TimeZone`:
 ```
-----------------------------+---------+
-Board or CPU                |  micros |
-----------------------------+---------+
-ATmega328P 16MHz (Nano)     | 321.600 |
-ESP8266 80MHz               |  13.400 |
-ESP32 240MHz                |   1.470 |
-Teensy 3.2 96MHz            |   2.130 |
-----------------------------+---------+
+----------------------------+--------+
+Board or CPU                | micros |
+----------------------------+--------+
+ATmega328P 16 MHz (Nano)    |  618.0 |
+SAMD21 48 MHz               |   71.8 |
+STM32F1 72 MHz              |   10.4 |
+ESP8266 80 MHz              |   26.5 |
+ESP32 240 MHz               |    2.5 |
+Teensy 3.2 96 MHz           |    6.4 |
+----------------------------+--------+
 ```
 
 <a name="Memory"></a>
@@ -32,16 +35,16 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 2
 sizeof(OffsetDateTime): 8
-sizeof(BasicZoneProcessor): 113
-sizeof(ExtendedZoneProcessor): 453
-sizeof(BasicZoneManager<1>): 121
-sizeof(ExtendedZoneManager<1>): 461
+sizeof(BasicZoneProcessor): 116
+sizeof(ExtendedZoneProcessor): 456
+sizeof(BasicZoneManager<1>): 129
+sizeof(ExtendedZoneManager<1>): 469
 sizeof(TimeZone): 5
 sizeof(ZonedDateTime): 13
 sizeof(TimePeriod): 4
 sizeof(DS3231Clock): 3
-sizeof(SystemClockLoop): 34
-sizeof(SystemClockCoroutine): 44
+sizeof(SystemClockLoop): 45
+sizeof(SystemClockCoroutine): 56
 ```
 
 **32-bit processors**
@@ -51,16 +54,16 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 2
 sizeof(OffsetDateTime): 8
-sizeof(BasicZoneProcessor): 156
-sizeof(ExtendedZoneProcessor): 532
-sizeof(BasicZoneManager<1>): 176
-sizeof(ExtendedZoneManager<1>): 552
+sizeof(BasicZoneProcessor): 164
+sizeof(ExtendedZoneProcessor): 540
+sizeof(BasicZoneManager<1>): 188
+sizeof(ExtendedZoneManager<1>): 564
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
 sizeof(NtpClock): 88 (ESP8266), 116 (ESP32)
-sizeof(SystemClockLoop): 44
-sizeof(SystemClockCoroutine): 68
+sizeof(SystemClockLoop): 56
+sizeof(SystemClockCoroutine): 80
 ```
 
 The [MemoryBenchmark](examples/MemoryBenchmark) program gives a more
