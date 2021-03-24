@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.7 (2021-03-24, TZ DB version 2021a)
     * AceTime now has a
       [GitHub Discussion](https://github.com/bxparks/AceTime/discussions).
         * Use that for general questions and discussions.
