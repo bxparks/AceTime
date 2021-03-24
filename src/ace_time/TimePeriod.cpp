@@ -13,7 +13,7 @@ namespace ace_time {
 
 void TimePeriod::printTo(Print& printer) const {
   if (isError()) {
-    printer.print(F("<Invalid TimePeriod>"));
+    printer.print(F("<Error>"));
   }
 
   if (mSign < 0) {
