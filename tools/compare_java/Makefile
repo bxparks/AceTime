@@ -10,11 +10,12 @@ all: classes
 
 classes: $(CLASSES)
 
-json: $(CLASSES) small.txt
+validation_data.json: $(CLASSES) small.txt
 	java -cp . GenerateData \
 		--start_year 2000 \
 		--until_year 2038 \
-		< small.txt
+		< small.txt \
+		> validation_data.json
 
 clean:
-	rm -f *.class validation_data.* validation_tests.*
+	rm -f *.class validation_data.*

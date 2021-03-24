@@ -9,6 +9,7 @@
 #include "BasicBrokers.h"
 
 using ace_common::KString;
+using ace_common::printReplaceCharTo;
 using ace_time::internal::findShortName;
 using ace_time::internal::ZoneContext;
 
@@ -22,7 +23,7 @@ void ZoneInfoBroker::printNameTo(Print& printer) const {
 }
 
 void ZoneInfoBroker::printShortNameTo(Print& printer) const {
-  printer.print(findShortName(name()));
+  printReplaceCharTo(printer, findShortName(name()), '_', ' ');
 }
 
 } // basic

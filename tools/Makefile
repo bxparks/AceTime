@@ -75,14 +75,14 @@ zonedbx.json: $(SRC) $(TZ_VERSION)
 # Generate the zones.txt file for testing purposes.
 zones.txt: $(SRC) $(TZ_VERSION)
 	./tzcompiler.py \
-		--tz_version $(TZ_VERSION)
+		--tz_version $(TZ_VERSION) \
 		--input_dir $(TZ_VERSION) \
 		--scope basic \
 		--language zonelist
 
 # Generate the validation_data.json for testing purposes
 validation_data.json: zones.txt
-	./compare_pytz/generate_data.py < $<
+	./compare_pytz/generate_data.py < $< > $@
 
 # Generate the validation_data.{h,cpp}, validation_tests.cpp
 validation_data.h: validation_data.json
@@ -99,7 +99,8 @@ clean:
 	rm -f zones.txt zonedb.json zonedbx.json validation_data.json \
 		validation_data.h validation_data.cpp validation_tests.cpp
 	rm -rf $(TZ_VERSION)
-	make -C compare_pytz clean
-	make -C compare_dateutil clean
-	make -C compare_java clean
-	make -C compare_cpp clean
+	$(MAKE) -C compare_pytz clean
+	$(MAKE) -C compare_dateutil clean
+	$(MAKE) -C compare_java clean
+	$(MAKE) -C compare_cpp clean
+	$(MAKE) -C compare_noda clean

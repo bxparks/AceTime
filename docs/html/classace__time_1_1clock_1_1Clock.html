@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.6</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -76,7 +76,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Base class for objects that provide and store time.  
+<p>Abstract base class for objects that provide and store time.  
  <a href="classace__time_1_1clock_1_1Clock.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="Clock_8h_source.html">Clock.h</a>&gt;</code></p>
@@ -85,19 +85,24 @@ Inheritance diagram for ace_time::clock::Clock:</div>
 <div class="dyncontent">
 <div class="center"><img src="classace__time_1_1clock_1_1Clock__inherit__graph.png" border="0" usemap="#ace__time_1_1clock_1_1Clock_inherit__map" alt="Inheritance graph"/></div>
 <map name="ace__time_1_1clock_1_1Clock_inherit__map" id="ace__time_1_1clock_1_1Clock_inherit__map">
-<area shape="rect" title="Base class for objects that provide and store time." alt="" coords="5,56,173,83"/>
+<area shape="rect" title="Abstract base class for objects that provide and store time." alt="" coords="5,81,173,108"/>
 <area shape="rect" href="classace__time_1_1clock_1_1DS3231Clock.html" title="An implementation of Clock that uses a DS3231 RTC chip." alt="" coords="221,5,440,32"/>
 <area shape="rect" href="classace__time_1_1clock_1_1NtpClock.html" title="A Clock that retrieves the time from an NTP server." alt="" coords="235,56,426,83"/>
 <area shape="rect" href="classace__time_1_1clock_1_1SystemClock.html" title="A Clock that uses the Arduino millis() function to advance the time returned to the user." alt="" coords="222,107,439,133"/>
-<area shape="rect" href="classace__time_1_1clock_1_1SystemClockLoop.html" title="A subclass of SystemClock that sync with its mReferenceClock using a blocking mReferenceClock&#45;&gt;getNow..." alt="" coords="488,107,736,133"/>
+<area shape="rect" href="classace__time_1_1clock_1_1UnixClock.html" title="An implementation of Clock that works on Unix using EpoxyDuino." alt="" coords="231,157,430,184"/>
+<area shape="rect" href="classace__time_1_1clock_1_1SystemClockLoop.html" title="A subclass of SystemClock that sync with its mReferenceClock using the non&#45;blocking Clock API of the ..." alt="" coords="488,107,736,133"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad68077ac3bb5077e6751193b7f945263"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1Clock.html#ad68077ac3bb5077e6751193b7f945263">~Clock</a> ()</td></tr>
-<tr class="memdesc:ad68077ac3bb5077e6751193b7f945263"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor.  <a href="classace__time_1_1clock_1_1Clock.html#ad68077ac3bb5077e6751193b7f945263">More...</a><br /></td></tr>
-<tr class="separator:ad68077ac3bb5077e6751193b7f945263"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f80c56a13701aba06aa086325cccbc5"><td class="memItemLeft" align="right" valign="top"><a id="a7f80c56a13701aba06aa086325cccbc5"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1Clock.html#a7f80c56a13701aba06aa086325cccbc5">Clock</a> ()=default</td></tr>
+<tr class="memdesc:a7f80c56a13701aba06aa086325cccbc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
+<tr class="separator:a7f80c56a13701aba06aa086325cccbc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0d9d27352a1d8d09221f2f15bc0f9c4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1Clock.html#ad0d9d27352a1d8d09221f2f15bc0f9c4">~Clock</a> ()=default</td></tr>
+<tr class="memdesc:ad0d9d27352a1d8d09221f2f15bc0f9c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">We deliberately avoid using a virtual destructor.  <a href="classace__time_1_1clock_1_1Clock.html#ad0d9d27352a1d8d09221f2f15bc0f9c4">More...</a><br /></td></tr>
+<tr class="separator:ad0d9d27352a1d8d09221f2f15bc0f9c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a018eaa1936dd0750eb2098e1c6ada9e4"><td class="memItemLeft" align="right" valign="top">virtual acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1Clock.html#a018eaa1936dd0750eb2098e1c6ada9e4">getNow</a> () const =0</td></tr>
 <tr class="memdesc:a018eaa1936dd0750eb2098e1c6ada9e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z).  <a href="classace__time_1_1clock_1_1Clock.html#a018eaa1936dd0750eb2098e1c6ada9e4">More...</a><br /></td></tr>
 <tr class="separator:a018eaa1936dd0750eb2098e1c6ada9e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -119,17 +124,18 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:ae4fb852c09fbb9e37cc5764787dbf094"><td class="memItemLeft" align="right" valign="top"><a id="ae4fb852c09fbb9e37cc5764787dbf094"></a>
-static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kInvalidSeconds</b> = LocalTime::kInvalidSeconds</td></tr>
+static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1Clock.html#ae4fb852c09fbb9e37cc5764787dbf094">kInvalidSeconds</a> = LocalTime::kInvalidSeconds</td></tr>
+<tr class="memdesc:ae4fb852c09fbb9e37cc5764787dbf094"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error value returned by <a class="el" href="classace__time_1_1clock_1_1Clock.html#a018eaa1936dd0750eb2098e1c6ada9e4" title="Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z).">getNow()</a> and other methods when this object is not yet initialized. <br /></td></tr>
 <tr class="separator:ae4fb852c09fbb9e37cc5764787dbf094"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Base class for objects that provide and store time. </p>
+<div class="textblock"><p>Abstract base class for objects that provide and store time. </p>
 <p>For example, a DS3231 RTC chip, an NTP client, or a GPS module. </p>
 
 <p class="definition">Definition at line <a class="el" href="Clock_8h_source.html#l00020">20</a> of file <a class="el" href="Clock_8h_source.html">Clock.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ad68077ac3bb5077e6751193b7f945263"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad68077ac3bb5077e6751193b7f945263">&#9670;&nbsp;</a></span>~Clock()</h2>
+<a id="ad0d9d27352a1d8d09221f2f15bc0f9c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0d9d27352a1d8d09221f2f15bc0f9c4">&#9670;&nbsp;</a></span>~Clock()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -138,7 +144,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual ace_time::clock::Clock::~Clock </td>
+          <td class="memname">ace_time::clock::Clock::~Clock </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -146,15 +152,13 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Virtual destructor. </p>
-<p>Unused except in unit tests. </p>
-
-<p class="definition">Definition at line <a class="el" href="Clock_8h_source.html#l00025">25</a> of file <a class="el" href="Clock_8h_source.html">Clock.h</a>.</p>
+<p>We deliberately avoid using a virtual destructor. </p>
+<p>This saves 618 bytes of flash on 8-bit AVR processors, 328 bytes on SAMD21, but only 50-60 bytes on other 32-bit processors. </p>
 
 </div>
 </div>
@@ -186,7 +190,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 <p>Returns kInvalidSeconds if an error has occured.</p>
 <p>This is a blocking call. Some clocks (e.g. NTP client) this may take many seconds. On those clocks, use the asynchronous methods (<a class="el" href="classace__time_1_1clock_1_1Clock.html#a789be177b3a48408fca1805a90d7e34e" title="Send a time request asynchronously.">sendRequest()</a>, <a class="el" href="classace__time_1_1clock_1_1Clock.html#ada1474de64fd88ca8466bea08165b3c3" title="Return true if a response is ready.">isResponseReady()</a>, and <a class="el" href="classace__time_1_1clock_1_1Clock.html#acb014777a376ad582151486b64db67fc" title="Returns number of seconds since AceTime epoch (2000-01-01).">readResponse()</a>) instead. </p>
 
-<p>Implemented in <a class="el" href="classace__time_1_1clock_1_1NtpClock.html#a98da4bb8736d7833454d3efaa6bc6364">ace_time::clock::NtpClock</a>, <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acdb29aa7095759101a9f33b79f863144">ace_time::clock::SystemClock</a>, and <a class="el" href="classace__time_1_1clock_1_1DS3231Clock.html#a592ae27a125b29e277d32ec280004911">ace_time::clock::DS3231Clock</a>.</p>
+<p>Implemented in <a class="el" href="classace__time_1_1clock_1_1NtpClock.html#a98da4bb8736d7833454d3efaa6bc6364">ace_time::clock::NtpClock</a>, <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acdb29aa7095759101a9f33b79f863144">ace_time::clock::SystemClock</a>, <a class="el" href="classace__time_1_1clock_1_1DS3231Clock.html#a592ae27a125b29e277d32ec280004911">ace_time::clock::DS3231Clock</a>, and <a class="el" href="classace__time_1_1clock_1_1UnixClock.html#a43a41defeb27cd3abea5ca86b985be69">ace_time::clock::UnixClock</a>.</p>
 
 </div>
 </div>
@@ -218,7 +222,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 
 <p>Reimplemented in <a class="el" href="classace__time_1_1clock_1_1NtpClock.html#a091e4f4db13230151c6fa883a2135740">ace_time::clock::NtpClock</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Clock_8h_source.html#l00048">48</a> of file <a class="el" href="Clock_8h_source.html">Clock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Clock_8h_source.html#l00059">59</a> of file <a class="el" href="Clock_8h_source.html">Clock.h</a>.</p>
 
 </div>
 </div>
@@ -251,7 +255,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 
 <p>Reimplemented in <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aa33cfb495e1b6247916b986bbef6875d">ace_time::clock::SystemClock</a>, and <a class="el" href="classace__time_1_1clock_1_1DS3231Clock.html#a2c96ce733789c680ce6de67b950b0df6">ace_time::clock::DS3231Clock</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Clock_8h_source.html#l00056">56</a> of file <a class="el" href="Clock_8h_source.html">Clock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Clock_8h_source.html#l00067">67</a> of file <a class="el" href="Clock_8h_source.html">Clock.h</a>.</p>
 
 </div>
 </div>

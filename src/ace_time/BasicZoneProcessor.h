@@ -8,6 +8,7 @@
 
 #include <string.h> // strchr()
 #include <stdint.h>
+#include <AceCommon.h> // copyReplaceChar()
 #include "internal/ZonePolicy.h"
 #include "internal/ZoneInfo.h"
 #include "internal/BasicBrokers.h"
@@ -136,33 +137,6 @@ inline int8_t compareYearMonth(int8_t aYear, uint8_t aMonth,
   if (aMonth < bMonth) return -1;
   if (aMonth > bMonth) return 1;
   return 0;
-}
-
-/**
-  * Copy at most dstSize characters from src to dst, while replacing all
-  * occurences of oldChar with newChar. If newChar is '\0', then replace with
-  * nothing. The resulting dst string is always NUL terminated.
-  */
-inline void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
-    char oldChar, char newChar) {
-  while (*src != '\0' && dstSize > 0) {
-    if (*src == oldChar) {
-      if (newChar != '\0') {
-        *dst = newChar;
-        dst++;
-        dstSize--;
-      }
-      src++;
-    } else {
-      *dst++ = *src++;
-      dstSize--;
-    }
-  }
-
-  if (dstSize == 0) {
-    --dst;
-  }
-  *dst = '\0';
 }
 
 } // namespace basic
@@ -963,7 +937,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
           strncpy(dest, format, destSize - 1);
           dest[destSize - 1] = '\0';
         } else {
-          basic::copyAndReplace(dest, destSize, format, '%',
+          ace_common::copyReplaceChar(dest, destSize, format, '%',
               letter == '-' ? '\0' : letter);
         }
       } else {

@@ -51,6 +51,14 @@ namespace clock {
  */
 class SystemClock: public Clock {
   public:
+    /** Sync was successful. */
+    static const uint8_t kSyncStatusOk = 0;
+
+    /** Sync request failed. */
+    static const uint8_t kSyncStatusError = 1;
+
+    /** Sync request timed out. */
+    static const uint8_t kSyncStatusTimedOut = 2;
 
     /** Attempt to retrieve the time from the backupClock if it exists. */
     void setup() {
@@ -62,10 +70,28 @@ class SystemClock: public Clock {
     acetime_t getNow() const override {
       if (!mIsInit) return kInvalidSeconds;
 
-      while ((uint16_t) ((uint16_t) clockMillis() - mPrevMillis) >= 1000) {
-        mPrevMillis += 1000;
+      // Update mEpochSeconds by the number of seconds elapsed according to the
+      // millis(). This method is expected to be called multiple times a second,
+      // so the while() loop below will normally execute 0 times, until the
+      // millis() clock goes past the mPrevKeepAliveMillis by 1 second.
+      //
+      // There are 2 reasons why this method will be called multiple times a
+      // second:
+      //
+      // 1) A physical clock with an external display will want to refresh
+      // its display 5-10 times a second, so that it can capture the transition
+      // from one second to the next without too much jitter. So it will call
+      // this method multiple times a second to check if one second has passed.
+      //
+      // 2) If the SystemClockCoroutine or SystemClockLoop classes is used,
+      // then the keepAlive() method will be called perhaps 100's times per
+      // second, as fast as the iteration speed of the global loop() function.
+      while ((uint16_t) ((uint16_t) clockMillis() - mPrevKeepAliveMillis)
+          >= 1000) {
+        mPrevKeepAliveMillis += 1000;
         mEpochSeconds += 1;
       }
+
       return mEpochSeconds;
     }
 
@@ -78,18 +104,73 @@ class SystemClock: public Clock {
       }
     }
 
-    /** Force a sync with the mReferenceClock. */
+    /**
+     * Manually force a sync with the referenceClock if it exists. Intended to
+     * be mostly for diagnostic or debugging.
+     *
+     * This calls the synchronous Clock::getNow() method on the reference clock,
+     * which can block the program from continuing if the reference clock takes
+     * a long time.
+     *
+     * Normally syncing with the reference clock happens through the
+     * SystemClockCoroutine::runCoroutine() or SystemClockLoop::loop(), both of
+     * which use the non-blocking calls (Clock::sendRequest(),
+     * Clock::isResponseReady(), Clock::readResponse()) on the reference clock.
+     */
     void forceSync() {
-      acetime_t nowSeconds = mReferenceClock->getNow();
-      setNow(nowSeconds);
+      if (mReferenceClock) {
+        acetime_t nowSeconds = mReferenceClock->getNow();
+        syncNow(nowSeconds);
+      }
     }
 
     /**
-     * Return the time (seconds since Epoch) of the last valid sync() call.
-     * Returns kInvalidSeconds if never synced.
+     * Return the time (seconds since Epoch) of the last successful syncNow()
+     * call. Returns kInvalidSeconds if never synced.
      */
     acetime_t getLastSyncTime() const {
       return mLastSyncTime;
+    }
+
+    /** Get sync status code. */
+    uint8_t getSyncStatusCode() const { return mSyncStatusCode; }
+
+    /**
+     * Return the number of seconds since the previous sync attempt, successful
+     * or not. This should always return a positive integer, unless the last
+     * sync attempt happened so long ago that the `int16_t` wrapped around,
+     * which is an undefined behavior in C (and probably C++ too).
+     *
+     * It can be converted into a human readable form using the TimePeriod
+     * class. In some UI, it might be make sense to display this as a negative
+     * number.
+     *
+     * Returns kInvalidSeconds if never attempted.
+     */
+    int32_t getSecondsSinceSyncAttempt() const {
+      return mSecondsSinceSyncAttempt;
+    }
+
+    /**
+     * Return the number of seconds until the next syncNow() attempt. Returns
+     * kInvalidSeconds if sync not scheduled yet.
+     */
+    int32_t getSecondsToSyncAttempt() const {
+      return mSecondsToSyncAttempt;
+    }
+
+    /**
+     * Difference between this clock compared to reference at last sync. A
+     * negative value means that the SystemClock was slower than the
+     * referenceClock, and a positive value means that the SystemClock was
+     * faster than the referenceClock.
+     *
+     * The clock skew is expected to be very small, a few seconds, so we use
+     * `int16_t` type to save memory. The maximum clock skew that can be stored
+     * is 32767 seconds, or just over 9 hours.
+     */
+    int16_t getClockSkew() const {
+      return mClockSkew;
     }
 
     /** Return true if initialized by setNow() or syncNow(). */
@@ -106,17 +187,52 @@ class SystemClock: public Clock {
 
     /**
      * Constructor.
+     *
      * @param referenceClock The authoritative source of the time. If this is
-     *    null, object relies just on clockMillis() and the user to set the
-     *    proper time using setNow().
-     * @param backupClock An RTC chip which continues to keep time
-     *    even when power is lost. Can be null.
+     *    null, this object relies just on clockMillis() to keep time, and the
+     *    user is expected to set the proper time using setNow().
+     *
+     * @param backupClock An RTC chip which continues to keep time even when
+     *    power is lost. If this clock exists, then the time is retrieved from
+     *    the backupClock during setup() and used to set the referenceClock
+     *    which is assumed to have lost its info. If the reference clock
+     *    continues to keep time during power loss, then the backupClock does
+     *    not need to be given. One should never need to give the same clock
+     *    instance as both the referenceClock and the backupClock, but the code
+     *    tries to detect this case and attempts to do the right thing. This
+     *    parameter can be null.
      */
     explicit SystemClock(
-          Clock* referenceClock /* nullable */,
-          Clock* backupClock /* nullable */):
+        Clock* referenceClock /* nullable */,
+        Clock* backupClock /* nullable */
+    ) :
         mReferenceClock(referenceClock),
         mBackupClock(backupClock) {}
+
+    /**
+     * Empty constructor primarily for tests. The init() must be called before
+     * using the object.
+     */
+    explicit SystemClock() {}
+
+    /** Same as constructor but allows delayed initialization, e.g. in tests. */
+    void initSystemClock(
+        Clock* referenceClock /* nullable */,
+        Clock* backupClock /* nullable */
+    ) {
+      mReferenceClock = referenceClock;
+      mBackupClock = backupClock;
+
+      mEpochSeconds = kInvalidSeconds;
+      mSecondsSinceSyncAttempt = kInvalidSeconds;
+      mSecondsToSyncAttempt = kInvalidSeconds;
+      mPrevKeepAliveMillis = 0;
+      mIsInit = false;
+      mSyncStatusCode = kSyncStatusOk;
+    }
+
+    /** Get referenceClock. */
+    Clock* getReferenceClock() const { return mReferenceClock; }
 
     /**
      * Return the Arduino millis(). Override for unit testing. Named
@@ -126,7 +242,9 @@ class SystemClock: public Clock {
 
     /**
      * Call this (or getNow() every 65.535 seconds or faster to keep the
-     * internal counter in sync with millis().
+     * internal counter in sync with millis(). This will normally happen through
+     * the SystemClockCoroutine::runCoroutine() or SystemClockLoop::loop()
+     * methods.
      */
     void keepAlive() {
       getNow();
@@ -134,7 +252,9 @@ class SystemClock: public Clock {
 
     /**
      * Write the nowSeconds to the backupClock (which can be an RTC that has
-     * non-volatile memory, or simply flash memory which emulates a backupClock.
+     * non-volatile memory). If the referenceClock already preserves its date
+     * and time during power loss, then we don't need a backupClock and this
+     * method does not need to be called.
      */
     void backupNow(acetime_t nowSeconds) {
       if (mBackupClock != nullptr) {
@@ -143,10 +263,23 @@ class SystemClock: public Clock {
     }
 
     /**
-     * Similar to setNow() except that backupNow() is called only if the
-     * backupClock is different from the referenceClock. This prevents us from
-     * retrieving the time from the RTC, then saving it right back again, with
-     * a drift each time it is saved back.
+     * Set the current mEpochSeconds to the given epochSeconds. This method is
+     * intended to be used by the SystemClockCoroutine or SystemClockLoop
+     * classes to update the current mEpochSeconds using the epochSeconds
+     * retrieved from the referenceClock, using the asynchronous methods of the
+     * referenceClock to avoid blocking.
+     *
+     * This method exists because the implementation details of synchronizing
+     * the referenceClock to the systemClock is decoupled from this parent class
+     * and moved into the subclasses (currently one of SystemClockCoroutine and
+     * SystemClockLoop). This method is the hook that allows the subclasses to
+     * perform the synchronization.
+     *
+     * This method is the same as setNow() (in fact, setNow() just calls this
+     * method), except that we don't set the referenceClock, since that was the
+     * original source of the epochSeconds. If we saved it back to its source,
+     * we would probably see drifting of the referenceClock due to the 1-second
+     * granularity of many RTC clocks.
      *
      * TODO: Implement a more graceful syncNow() algorithm which shifts only a
      * few milliseconds per iteration, and which guarantees that the clock
@@ -154,11 +287,14 @@ class SystemClock: public Clock {
      */
     void syncNow(acetime_t epochSeconds) {
       if (epochSeconds == kInvalidSeconds) return;
+
       mLastSyncTime = epochSeconds;
-      if (mEpochSeconds == epochSeconds) return;
+      acetime_t skew = mEpochSeconds - epochSeconds;
+      mClockSkew = skew;
+      if (skew == 0) return;
 
       mEpochSeconds = epochSeconds;
-      mPrevMillis = clockMillis();
+      mPrevKeepAliveMillis = clockMillis();
       mIsInit = true;
 
       if (mBackupClock != mReferenceClock) {
@@ -166,13 +302,43 @@ class SystemClock: public Clock {
       }
     }
 
-    Clock* const mReferenceClock;
-    Clock* const mBackupClock;
+    /** Set the secondsToSyncAttempt. */
+    void setSecondsToSyncAttempt(int32_t seconds) {
+      mSecondsToSyncAttempt = seconds;
+    }
+
+    /** Add 'delta' seconds to secondsSinceSyncAttempt. */
+    void addSecondsSinceSyncAttempt(int32_t delta) {
+      mSecondsSinceSyncAttempt += delta;
+    }
+
+    /** Set the secondsSinceSyncAttempt. */
+    void setSecondsSinceSyncAttempt(int32_t seconds) {
+      mSecondsSinceSyncAttempt = seconds;
+    }
+
+    /** Add 'delta' seconds to secondsToSyncAttempt. */
+    void addSecondsToSyncAttempt(int32_t delta) {
+      mSecondsToSyncAttempt += delta;
+    }
+
+    /** Set the status code of most recent sync attempt. */
+    void setSyncStatusCode(bool code) {
+      mSyncStatusCode = code;
+    }
+
+  private:
+    Clock* mReferenceClock;
+    Clock* mBackupClock;
 
     mutable acetime_t mEpochSeconds = kInvalidSeconds;
     acetime_t mLastSyncTime = kInvalidSeconds; // time when last synced
-    mutable uint16_t mPrevMillis = 0;  // lower 16-bits of clockMillis()
+    int32_t mSecondsSinceSyncAttempt = kInvalidSeconds;
+    int32_t mSecondsToSyncAttempt = kInvalidSeconds;
+    mutable uint16_t mPrevKeepAliveMillis = 0; // lower 16-bits of clockMillis()
+    int16_t mClockSkew = 0; // diff between reference and this clock
     bool mIsInit = false; // true if setNow() or syncNow() was successful
+    uint8_t mSyncStatusCode = kSyncStatusOk;
 };
 
 }

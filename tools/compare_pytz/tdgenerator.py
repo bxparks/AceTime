@@ -15,7 +15,7 @@ import logging
 from datetime import datetime, timedelta
 import pytz
 from typing import Any, Tuple, List, Dict, Optional
-from validation.data import TestItem, TestData, ValidationData
+from data_types.validation_types import TestItem, TestData, ValidationData
 
 # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
 # (2000-01-01 00:00:00)
@@ -60,6 +60,7 @@ class TestDataGenerator():
             'until_year': self.until_year,
             'source': 'pytz',
             'version': str(pytz.__version__),  # type: ignore
+            'tz_version': 'unknown',
             'has_valid_abbrev': True,
             'has_valid_dst': True,
             'test_data': self.test_data,

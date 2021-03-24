@@ -6,8 +6,6 @@
 #ifndef ACE_TIME_DS3231_CLOCK_H
 #define ACE_TIME_DS3231_CLOCK_H
 
-#if ! defined(EPOXY_DUINO)
-
 #include <stdint.h>
 #include "../hw/DS3231.h"
 #include "../hw/HardwareDateTime.h"
@@ -66,7 +64,5 @@ class DS3231Clock: public Clock {
 
 }
 }
-
-#endif
 
 #endif

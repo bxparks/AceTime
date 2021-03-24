@@ -18,32 +18,6 @@ using ace_time::basic::ZoneRuleBroker;
 using ace_time::basic::ZonePolicyBroker;
 
 //---------------------------------------------------------------------------
-// basic::copyAndReplace()
-//---------------------------------------------------------------------------
-
-test(copyAndReplace, normal) {
-  const uint8_t dstSize = 20;
-  char dst[dstSize];
-
-  basic::copyAndReplace(dst, dstSize, "NOREPLACE", '%', 'S');
-  assertEqual("NOREPLACE", dst);
-
-  basic::copyAndReplace(dst, dstSize, "E%T", '%', 'S');
-  assertEqual("EST", dst);
-
-  basic::copyAndReplace(dst, dstSize, "E%T", '%', '\0');
-  assertEqual("ET", dst);
-}
-
-test(copyAndReplace, outOfBounds) {
-  const uint8_t dstSize = 3;
-  char dst[dstSize];
-
-  basic::copyAndReplace(dst, dstSize, "ET%", '%', 'S');
-  assertEqual("ET", dst);
-}
-
-//---------------------------------------------------------------------------
 // Test zoneinfo files. Taken from Pacific/Galapagos which transitions
 // from simple Rule to named Rule in 1986:
 //
@@ -417,7 +391,7 @@ test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles) {
   assertEqual(F("America/Los_Angeles"), printStr.getCstr());
   printStr.flush();
   zoneProcessor.printShortNameTo(printStr);
-  assertEqual(F("Los_Angeles"), printStr.getCstr());
+  assertEqual(F("Los Angeles"), printStr.getCstr());
 
   OffsetDateTime dt;
   acetime_t epochSeconds;

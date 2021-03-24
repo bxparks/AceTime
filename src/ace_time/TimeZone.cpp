@@ -45,7 +45,7 @@ void TimeZone::printShortTo(Print& printer) const {
             mStdOffsetMinutes + mDstOffsetMinutes);
         utcOffset.printTo(printer);
         printer.print('(');
-        printer.print((mDstOffsetMinutes != 0) ? "DST" : "STD");
+        printer.print((mDstOffsetMinutes != 0) ? "D" : "S");
         printer.print(')');
       }
       break;

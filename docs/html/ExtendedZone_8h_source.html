@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.6</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -96,30 +96,30 @@ $(function() {
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classace__time_1_1ExtendedZone.html#a19897a2a827bdcdd61a75b55bc3a3964">printNameTo</a>(Print&amp; printer) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classace__time_1_1ExtendedZone.html#a6d10af90d4092d99c6344cc23df3f7a5">printShortNameTo</a>(Print&amp; printer) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classace__time_1_1ExtendedZone.html#a27bd334749849e8bc8bf56a2c47a5d61">   46</a></span>&#160;    uint32_t <a class="code" href="classace__time_1_1ExtendedZone.html#a27bd334749849e8bc8bf56a2c47a5d61">zoneId</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keywordflow">return</span> mZoneInfoBroker.zoneId();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">// disable copy constructor and assignment operator</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="classace__time_1_1ExtendedZone.html#a957f28288f46b576446f406d4b1dda60">ExtendedZone</a>(<span class="keyword">const</span> <a class="code" href="classace__time_1_1ExtendedZone.html">ExtendedZone</a>&amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="classace__time_1_1ExtendedZone.html">ExtendedZone</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classace__time_1_1ExtendedZone.html">ExtendedZone</a>&amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">const</span> <a class="code" href="classace__time_1_1extended_1_1ZoneInfoBroker.html">extended::ZoneInfoBroker</a> mZoneInfoBroker;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classace__time_1_1ExtendedZone.html#a6d10af90d4092d99c6344cc23df3f7a5">printShortNameTo</a>(Print&amp; printer) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classace__time_1_1ExtendedZone.html#a27bd334749849e8bc8bf56a2c47a5d61">   50</a></span>&#160;    uint32_t <a class="code" href="classace__time_1_1ExtendedZone.html#a27bd334749849e8bc8bf56a2c47a5d61">zoneId</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">return</span> mZoneInfoBroker.zoneId();</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">// disable copy constructor and assignment operator</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="classace__time_1_1ExtendedZone.html#a957f28288f46b576446f406d4b1dda60">ExtendedZone</a>(<span class="keyword">const</span> <a class="code" href="classace__time_1_1ExtendedZone.html">ExtendedZone</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="classace__time_1_1ExtendedZone.html">ExtendedZone</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classace__time_1_1ExtendedZone.html">ExtendedZone</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">const</span> <a class="code" href="classace__time_1_1extended_1_1ZoneInfoBroker.html">extended::ZoneInfoBroker</a> mZoneInfoBroker;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;};</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassace__time_1_1ExtendedZone_html_a27bd334749849e8bc8bf56a2c47a5d61"><div class="ttname"><a href="classace__time_1_1ExtendedZone.html#a27bd334749849e8bc8bf56a2c47a5d61">ace_time::ExtendedZone::zoneId</a></div><div class="ttdeci">uint32_t zoneId() const</div><div class="ttdoc">Return the zoneId of the current zoneInfo.</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZone_8h_source.html#l00046">ExtendedZone.h:46</a></div></div>
-<div class="ttc" id="aclassace__time_1_1ExtendedZone_html_a6d10af90d4092d99c6344cc23df3f7a5"><div class="ttname"><a href="classace__time_1_1ExtendedZone.html#a6d10af90d4092d99c6344cc23df3f7a5">ace_time::ExtendedZone::printShortNameTo</a></div><div class="ttdeci">void printShortNameTo(Print &amp;printer) const</div><div class="ttdoc">Print the short zone to the printer.</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZone_8cpp_source.html#l00026">ExtendedZone.cpp:26</a></div></div>
+<div class="ttc" id="aclassace__time_1_1ExtendedZone_html_a27bd334749849e8bc8bf56a2c47a5d61"><div class="ttname"><a href="classace__time_1_1ExtendedZone.html#a27bd334749849e8bc8bf56a2c47a5d61">ace_time::ExtendedZone::zoneId</a></div><div class="ttdeci">uint32_t zoneId() const</div><div class="ttdoc">Return the zoneId of the current zoneInfo.</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZone_8h_source.html#l00050">ExtendedZone.h:50</a></div></div>
+<div class="ttc" id="aclassace__time_1_1ExtendedZone_html_a6d10af90d4092d99c6344cc23df3f7a5"><div class="ttname"><a href="classace__time_1_1ExtendedZone.html#a6d10af90d4092d99c6344cc23df3f7a5">ace_time::ExtendedZone::printShortNameTo</a></div><div class="ttdeci">void printShortNameTo(Print &amp;printer) const</div><div class="ttdoc">Print the short pretty zone name to the printer.</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZone_8cpp_source.html#l00027">ExtendedZone.cpp:27</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ExtendedZone_html"><div class="ttname"><a href="classace__time_1_1ExtendedZone.html">ace_time::ExtendedZone</a></div><div class="ttdoc">A thin wrapper around an extended::ZoneInfo data structure to provide a stable API access to some use...</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZone_8h_source.html#l00022">ExtendedZone.h:22</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ExtendedZone_html_a25726bb96da36e1c3418a75f456d812b"><div class="ttname"><a href="classace__time_1_1ExtendedZone.html#a25726bb96da36e1c3418a75f456d812b">ace_time::ExtendedZone::ExtendedZone</a></div><div class="ttdeci">ExtendedZone(const extended::ZoneInfoBroker &amp;zoneInfo)</div><div class="ttdoc">Constructor from an extended::ZoneInfoBroker, used by ExtendedZoneProcessor.</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZone_8h_source.html#l00036">ExtendedZone.h:36</a></div></div>
 <div class="ttc" id="aclassace__time_1_1extended_1_1ZoneInfoBroker_html"><div class="ttname"><a href="classace__time_1_1extended_1_1ZoneInfoBroker.html">ace_time::extended::ZoneInfoBroker</a></div><div class="ttdoc">Data broker for accessing ZoneInfo.</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedBrokers_8h_source.html#l00318">ExtendedBrokers.h:318</a></div></div>
-<div class="ttc" id="aclassace__time_1_1ExtendedZone_html_a19897a2a827bdcdd61a75b55bc3a3964"><div class="ttname"><a href="classace__time_1_1ExtendedZone.html#a19897a2a827bdcdd61a75b55bc3a3964">ace_time::ExtendedZone::printNameTo</a></div><div class="ttdeci">void printNameTo(Print &amp;printer) const</div><div class="ttdoc">Print the full zone name to printer.</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZone_8cpp_source.html#l00019">ExtendedZone.cpp:19</a></div></div>
+<div class="ttc" id="aclassace__time_1_1ExtendedZone_html_a19897a2a827bdcdd61a75b55bc3a3964"><div class="ttname"><a href="classace__time_1_1ExtendedZone.html#a19897a2a827bdcdd61a75b55bc3a3964">ace_time::ExtendedZone::printNameTo</a></div><div class="ttdeci">void printNameTo(Print &amp;printer) const</div><div class="ttdoc">Print the full zone name to printer.</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZone_8cpp_source.html#l00020">ExtendedZone.cpp:20</a></div></div>
 <div class="ttc" id="aExtendedBrokers_8h_html"><div class="ttname"><a href="ExtendedBrokers_8h.html">ExtendedBrokers.h</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ExtendedZone_html_a957f28288f46b576446f406d4b1dda60"><div class="ttname"><a href="classace__time_1_1ExtendedZone.html#a957f28288f46b576446f406d4b1dda60">ace_time::ExtendedZone::ExtendedZone</a></div><div class="ttdeci">ExtendedZone(const extended::ZoneInfo *zoneInfo)</div><div class="ttdoc">Constructor from a raw extended::ZoneInfo* pointer, intended for manual inspection of a ZoneInfo reco...</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZone_8h_source.html#l00028">ExtendedZone.h:28</a></div></div>
 <!-- start footer part -->

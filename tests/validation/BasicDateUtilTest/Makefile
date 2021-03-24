@@ -46,7 +46,7 @@ runtests:
 #	Europe_Dublin failed.
 #	Pacific_Auckland failed.
 SCOPE = basic
-TZ_VERSION = 2020a
+TZ_VERSION = 2021a
 START_YEAR = 2000
 UNTIL_YEAR = 2037
 
@@ -66,7 +66,8 @@ validation_data.json: $(DB_NAMESPACE)/zones.txt
 	../../../tools/compare_dateutil/generate_data.py \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
-		< $(DB_NAMESPACE)/zones.txt
+		< $(DB_NAMESPACE)/zones.txt \
+		> $@
 
 $(DB_NAMESPACE)/%.o: $(DB_NAMESPACE)/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@

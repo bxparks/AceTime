@@ -12,12 +12,16 @@ namespace testing {
 /** A class that allows injection of the millis() function. */
 class FakeMillis {
   public:
+    FakeMillis() { init(); }
+
+    void init() { mMillis = 0; }
+
     unsigned long millis() const { return mMillis; }
 
     void millis(unsigned long millis) { mMillis = millis; }
 
   private:
-    unsigned long mMillis = 0;
+    unsigned long mMillis;
 };
 
 }

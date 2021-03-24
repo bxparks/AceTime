@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.6</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -136,7 +136,7 @@ struct ace_time::basic::TransitionTemplate&lt; ZIB, ZEB, ZPB, ZRB &gt;</h3>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00058">58</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00059">59</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="abe2b5dd9d3dd7660c10e85a388494c2b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abe2b5dd9d3dd7660c10e85a388494c2b">&#9670;&nbsp;</a></span>abbrev</h2>
@@ -155,7 +155,7 @@ template&lt;typename ZIB , typename ZEB , typename ZPB , typename ZRB &gt; </div
 <p>The calculated effective time zone abbreviation, e.g. </p>
 <p>"PST" or "PDT". When the Transition is initially created using createTransition(), abbrev[0] is set to ZoneRule.letter (to avoid potentially another lookup in PROGMEM). That 'letter' is used later in the init() to generate the correct abbreviation which will replace the 'letter' in here. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00107">107</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00108">108</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -177,7 +177,7 @@ template&lt;typename ZIB , typename ZEB , typename ZPB , typename ZRB &gt; </div
 <p>NonNullable.</p>
 <p>This field is used only during the init() phase, not during the findMatch() phase. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00064">64</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00065">65</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -198,7 +198,7 @@ template&lt;typename ZIB , typename ZEB , typename ZPB , typename ZRB &gt; </div
 <p>Month of the transition. </p>
 <p>Copied from ZoneRule.inMonth() if it exists or set to 1 if ZoneRule is null (indicating that the ZoneEra represents a fixed offset for the entire year). </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00098">98</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00099">99</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -219,7 +219,7 @@ template&lt;typename ZIB , typename ZEB , typename ZPB , typename ZRB &gt; </div
 <p>The total effective UTC offset minutes at the start of transition, <em>including</em> DST offset. </p>
 <p>(Maybe rename this effectiveOffsetMinutes?) The DST offset is stored at deltaMinutes. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00085">85</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00086">86</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -241,7 +241,7 @@ template&lt;typename ZIB , typename ZEB , typename ZPB , typename ZRB &gt; </div
 <p>Set to nullptr if the RULES column is '-' or 'hh:mm'. The fixed DST offset placed in deltaOffset. Two examples of such a timezone isEurope/Istanbul and America/Argentina/San_Luis.</p>
 <p>This field is used only during the init() phase, not during the findMatch() phase. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00075">75</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00076">76</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>

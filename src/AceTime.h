@@ -70,11 +70,12 @@
 
 #if defined(ARDUINO_ARCH_STM32)
 #include "ace_time/clock/StmRtcClock.h"
+#include "ace_time/clock/Stm32F1Clock.h"
 #endif // #if defined(ARDUINO_ARCH_STM32)
 
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 10600
-#define ACE_TIME_VERSION_STRING "1.6"
+#define ACE_TIME_VERSION 10700
+#define ACE_TIME_VERSION_STRING "1.7"
 
 #endif

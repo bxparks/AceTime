@@ -14,9 +14,9 @@ sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
 sizeof(clock::DS3231Clock): 8
 sizeof(clock::NtpClock): 116
-sizeof(clock::SystemClock): 24
-sizeof(clock::SystemClockLoop): 44
-sizeof(clock::SystemClockCoroutine): 68
+sizeof(clock::SystemClock): 36
+sizeof(clock::SystemClockLoop): 56
+sizeof(clock::SystemClockCoroutine): 80
 sizeof(internal::ZoneContext): 16
 sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
@@ -38,11 +38,11 @@ OffsetDateTime::toEpochSeconds() 1.300
 ZonedDateTime::toEpochSeconds() 1.350
 ZonedDateTime::toEpochDays() 0.950
 ZonedDateTime::forEpochSeconds(UTC) 1.300
-ZonedDateTime::forEpochSeconds(Basic_nocache) 15.850
+ZonedDateTime::forEpochSeconds(Basic_nocache) 16.000
 ZonedDateTime::forEpochSeconds(Basic_cached) 2.500
 ZonedDateTime::forEpochSeconds(Extended_nocache) 30.800
 ZonedDateTime::forEpochSeconds(Extended_cached) 2.550
-BasicZoneManager::createForZoneName(binary) 3.000
+BasicZoneManager::createForZoneName(binary) 2.950
 BasicZoneManager::createForZoneId(binary) 0.700
 BasicZoneManager::createForZoneId(linear) 2.600
 BasicZoneManager::createForZoneId(link) 1.450

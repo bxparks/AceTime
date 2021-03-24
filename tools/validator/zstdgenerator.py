@@ -31,19 +31,20 @@ from zone_processor.inline_zone_info import ZoneInfo
 from zone_processor.inline_zone_info import ZoneInfoMap
 from zone_processor.inline_zone_info import ZonePolicyMap
 
-# An entry in the test data set.
-TestItem = NamedTuple("TestItem", [
-    ('epoch', int),
-    ('total_offset', int),
-    ('dst_offset', int),
-    ('y', int),
-    ('M', int),
-    ('d', int),
-    ('h', int),
-    ('m', int),
-    ('s', int),
-    ('type', str),
-])
+
+class TestItem(NamedTuple):
+    """An entry in the test data set."""
+    epoch: int
+    total_offset: int
+    dst_offset: int
+    y: int
+    M: int
+    d: int
+    h: int
+    m: int
+    s: int
+    type: str
+
 
 TestData = Dict[str, List[TestItem]]
 

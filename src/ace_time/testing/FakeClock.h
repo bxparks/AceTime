@@ -15,6 +15,13 @@ namespace testing {
 /** A clock whose output can be controller for testing purposes. */
 class FakeClock: public clock::Clock {
   public:
+    FakeClock() { init(); }
+
+    void init() {
+      mEpochSeconds = 0;
+      mIsResponseReady = false;
+    }
+
     void setNow(acetime_t epochSeconds) override {
       mEpochSeconds = epochSeconds;
     }
@@ -26,8 +33,8 @@ class FakeClock: public clock::Clock {
     void isResponseReady(bool ready) { mIsResponseReady = ready; }
 
   private:
-    acetime_t mEpochSeconds = 0;
-    bool mIsResponseReady = false;
+    acetime_t mEpochSeconds;
+    bool mIsResponseReady;
 };
 
 }

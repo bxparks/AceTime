@@ -1,4 +1,4 @@
-SHELL=/bin/bash
+SHELL=bash
 
 # Build the BasicHinnantDateTest and ExtendedHinnantDateTest tests in series
 # (because parallel make of the two targets seem to collide while loading the
@@ -11,7 +11,7 @@ validations:
 	trap 'kill 0' SIGHUP SIGINT SIGQUIT SIGKILL SIGTERM; \
 	for i in *HinnantDateTest/Makefile; do \
 		echo '==== Making:' $$(dirname $$i); \
-		make -C $$(dirname $$i); \
+		$(MAKE) -C $$(dirname $$i); \
 	done; \
 	wait)
 
@@ -28,7 +28,7 @@ tests:
 	trap 'kill 0' SIGHUP SIGINT SIGQUIT SIGKILL SIGTERM; \
 	for i in */Makefile; do \
 		echo '==== Making:' $$(dirname $$i); \
-		make -C $$(dirname $$i) & \
+		$(MAKE) -C $$(dirname $$i) & \
 	done; \
 	wait)
 
@@ -45,7 +45,7 @@ tests-serial:
 	set -e; \
 	for i in */Makefile; do \
 		echo '==== Making:' $$(dirname $$i); \
-		make -C $$(dirname $$i) ; \
+		$(MAKE) -C $$(dirname $$i) ; \
 	done;
 
 runtests:
@@ -59,5 +59,5 @@ clean:
 	set -e; \
 	for i in */Makefile; do \
 		echo '==== Cleaning:' $$(dirname $$i); \
-		make -C $$(dirname $$i) clean; \
+		$(MAKE) -C $$(dirname $$i) clean; \
 	done

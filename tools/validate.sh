@@ -75,8 +75,8 @@ $DIRNAME/validate.py --input_dir $INPUT_DIR "$@"
 echo "\$ pushd $INPUT_DIR"
 pushd $INPUT_DIR
 
-echo '$ git checkout master'
-git checkout -q master
+echo '$ git checkout main'
+git checkout -q main
 
 echo '$ popd'
 popd

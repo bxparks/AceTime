@@ -31,8 +31,9 @@ runtests:
 # Define the scope of the test data.
 #	* openjdk 11.0.6 2020-01-14 uses 2019c
 #	* openjdk 11.0.8 2020-07-14 uses 2020a
+#	* openjdk 11.0.10 2020-07-14 uses 2020d
 SCOPE = basic
-TZ_VERSION = 2020a
+TZ_VERSION = 2020d
 START_YEAR = 2000
 UNTIL_YEAR = 2050
 
@@ -53,10 +54,11 @@ validation_data.json: $(DB_NAMESPACE)/zones.txt \
 	java -cp ../../../tools/compare_java GenerateData \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR) \
-		< $(DB_NAMESPACE)/zones.txt
+		< $(DB_NAMESPACE)/zones.txt \
+		> $@
 
 ../../../tools/compare_java/GenerateData.class:
-	make -C ../../../tools/compare_java
+	$(MAKE) -C ../../../tools/compare_java
 
 $(DB_NAMESPACE)/%.o: $(DB_NAMESPACE)/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@

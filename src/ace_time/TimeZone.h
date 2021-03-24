@@ -425,19 +425,33 @@ class TimeZone {
     }
 
     /**
-     * Print the human readable representation of the time zone.
+     * Print the text representation of the time zone using the full canonical
+     * time zone name or UTC offset shift.
+     *
      *   * kTypeManual is printed as "+/-hh:mm+/-hh:mm" (e.g. "-08:00+00:00")
-     *   * kTypeBasic is printed as "{zonename}" (e.g. "America/Los_Angeles")
-     *   * kTypeExtended is printed as "{zonename}" (e.g.
+     *   * kTypeBasic is printed as "{zoneName}" (e.g. "America/Los_Angeles")
+     *   * kTypeExtended is printed as "{zoneName}" (e.g.
      *     "America/Los_Angeles")
      */
     void printTo(Print& printer) const;
 
     /**
-     * Print the *short* human readable representation of the time zone.
-     *   * kTypeManual is printed as "+/-hh:mm(STD|DST)" (e.g. "-07:00(DST)")
-     *   * kTypeBasic is printed as "{zoneShortName}" (e.g. "Los_Angeles")
-     *   * kTypeExtended is printed as "{zoneShortName}" (e.g. "Los_Angeles")
+     * Print the *short* human readable representation of the time zone. This
+     * method uses some rough heuristics for determine the reasonable human
+     * readable form. For basic and extended time zones, the last component of
+     * the canonical zone name is printed, with the underscore character
+     * replaced with just a space, for example "Los Angeles". For manual time
+     * zones, it prints the total UTC offset with a (D) if the DST flag is
+     * active and an (S) if not, for example, "-08:00(S)".
+     *
+     * If you need better control over how the time zone is displayed, you need
+     * to write that code yourself using the getType() and the getZoneId()
+     * identifiers.
+     *
+     *   * kTypeManual is printed as "+/-hh:mm(S|D)" depending on DST or STD
+     *     flag (e.g. "-07:00(D)")
+     *   * kTypeBasic is printed as "{zoneShortName}" (e.g. "Los Angeles")
+     *   * kTypeExtended is printed as "{zoneShortName}" (e.g. "Los Angeles")
      */
     void printShortTo(Print& printer) const;
 

@@ -89,6 +89,7 @@ if [[ "$tag" == '' ]]; then
     usage
 fi
 
+# Check out the TZDB repo at the specified tag
 if [[ $skip_checkout == '0' ]]; then
     echo "\$ pushd $INPUT_DIR"
     pushd $INPUT_DIR
@@ -111,13 +112,14 @@ $DIRNAME/tzcompiler.py \
     --tz_version $tag \
     "$@"
 
-echo "\$ pushd $INPUT_DIR"
-pushd $INPUT_DIR
-
+# Revert the TZ DB repo to the 'main' branch.
 if [[ $skip_checkout == '0' ]]; then
-    echo "\$ git checkout master"
-    git checkout -q master
-fi
+    echo "\$ pushd $INPUT_DIR"
+    pushd $INPUT_DIR
 
-echo '$ popd'
-popd
+    echo "\$ git checkout main"
+    git checkout -q main
+
+    echo '$ popd'
+    popd
+fi

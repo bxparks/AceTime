@@ -14,15 +14,26 @@ namespace ace_time {
 namespace clock {
 
 /**
- * Base class for objects that provide and store time. For example, a DS3231
- * RTC chip, an NTP client, or a GPS module.
+ * Abstract base class for objects that provide and store time. For example, a
+ * DS3231 RTC chip, an NTP client, or a GPS module.
  */
 class Clock {
   public:
+    /**
+     * Error value returned by getNow() and other methods when this object is
+     * not yet initialized.
+     */
     static const acetime_t kInvalidSeconds = LocalTime::kInvalidSeconds;
 
-    /** Virtual destructor. Unused except in unit tests. */
-    virtual ~Clock() {}
+    /** Default constructor. */
+    Clock() = default;
+
+    /**
+     * We deliberately avoid using a virtual destructor. This saves 618 bytes
+     * of flash on 8-bit AVR processors, 328 bytes on SAMD21, but only 50-60
+     * bytes on other 32-bit processors.
+     */
+    ~Clock() = default;
 
     /**
      * Return the number of seconds since the AceTime epoch
@@ -54,6 +65,11 @@ class Clock {
      * GPS clocks and this method will be a no-op.
      */
     virtual void setNow(acetime_t /*epochSeconds*/) {}
+
+  private:
+    // disable copy constructor and assignment operator
+    Clock(const Clock&) = delete;
+    Clock& operator=(const Clock&) = delete;
 };
 
 }

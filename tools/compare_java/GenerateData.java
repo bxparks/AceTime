@@ -20,6 +20,7 @@ import java.time.format.TextStyle;
 import java.time.zone.ZoneOffsetTransition;
 import java.time.zone.ZoneRules;
 import java.time.zone.ZoneRulesException;
+import java.time.zone.ZoneRulesProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,8 +37,9 @@ import java.util.TreeSet;
  * <pre>
  * {@code
  * $ javac GenerateData.java
- * $ java GenerateData [--start_year start] [--until_year until] [--validate_dst]
+ * $ java GenerateData [--start_year start] [--until_year until] [--validate_dst] [--print_zones]
  *      < zones.txt
+ *      > validation_data.json
  * }
  * </pre>
  *
@@ -46,7 +48,7 @@ import java.util.TreeSet;
  *
  * <pre>
  * {@code
- * $ ../../tools/tzcompiler.sh --tag 2019a --action zonedb --language java
+ * $ ../../tools/tzcompiler.sh --tag 2019a --action zonedb --language zonelist
  * }
  * </pre>
  */
@@ -55,26 +57,28 @@ public class GenerateData {
   // (2000-01-01T00:00:00Z).
   private static final int SECONDS_SINCE_UNIX_EPOCH = 946684800;
 
-  public static void main(String[] argv) throws IOException {
-    String invocation = "java GenerateData " + String.join(" ", argv);
+  public static void main(String[] args) throws IOException {
+    String invocation = "java GenerateData " + String.join(" ", args);
 
     // Parse command line flags
-    int argc = argv.length;
+    int argc = args.length;
     int argi = 0;
     if (argc == 0) {
       usageAndExit();
     }
     String start = "2000";
     String until = "2050";
-    String format = "cpp";
+    boolean printZones = false;
     while (argc > 0) {
-      String arg0 = argv[argi];
+      String arg0 = args[argi];
       if ("--start_year".equals(arg0)) {
-        {argc--; argi++; arg0 = argv[argi];} // shift-left
+        {argc--; argi++; arg0 = args[argi];} // shift-left
         start = arg0;
       } else if ("--until_year".equals(arg0)) {
-        {argc--; argi++; arg0 = argv[argi];} // shift-left
+        {argc--; argi++; arg0 = args[argi];} // shift-left
         until = arg0;
+      } else if ("--print_zones".equals(arg0)) {
+        printZones = true;
       } else if ("--".equals(arg0)) {
         break;
       } else if (arg0.startsWith("-")) {
@@ -86,21 +90,27 @@ public class GenerateData {
       {argc--; argi++;} // shift-left
     }
 
-    // Validate --start_year and --end_year.
-    // Should check for NumberFormatException but too much overhead for this simple tool.
-    int startYear = Integer.parseInt(start);
-    int untilYear = Integer.parseInt(until);
+    if (printZones) {
+      printAvailableZoneIds();
+    } else {
+      // Validate --start_year and --end_year.
+      // Should check for NumberFormatException but too much overhead for this simple tool.
+      int startYear = Integer.parseInt(start);
+      int untilYear = Integer.parseInt(until);
 
-    List<String> zones = readZones();
-    GenerateData generator = new GenerateData(
-        invocation, startYear, untilYear);
-    Map<String, List<TestItem>> testData = generator.createTestData(zones);
-    generator.printJson(testData);
+      List<String> zones = readZones();
+      GenerateData generator = new GenerateData(
+          invocation, startYear, untilYear);
+      Map<String, List<TestItem>> testData = generator.createTestData(zones);
+      generator.printJson(testData);
+    }
   }
 
   private static void usageAndExit() {
     System.err.println("Usage: java GenerateData [--start_year {start}]");
-    System.err.println("  [--until_year {until}] [--validate_dst] < zones.txt");
+    System.err.println("    [--until_year {until}] [--validate_dst]");
+    System.err.println("    < zones.txt");
+    System.err.println("    > validation_data.json");
     System.exit(1);
   }
 
@@ -111,12 +121,17 @@ public class GenerateData {
     SortedSet<String> selectedIds = new TreeSet<>();
     int numZones = 0;
     for (String id : allZones) {
+
+      // Not sure why I wanted to filter these out.
+      /*
       if (id.startsWith("Etc")) continue;
       if (id.startsWith("SystemV")) continue;
       if (id.startsWith("US")) continue;
       if (id.startsWith("Canada")) continue;
       if (id.startsWith("Brazil")) continue;
       if (!id.contains("/")) continue;
+      */
+
       selectedIds.add(id);
     }
     System.out.printf("Selected %s ids:\n", selectedIds.size());
@@ -148,8 +163,6 @@ public class GenerateData {
     this.invocation = invocation;
     this.startYear = startYear;
     this.untilYear = untilYear;
-
-    this.jsonFile = "validation_data.json";
   }
 
   /**
@@ -165,7 +178,7 @@ public class GenerateData {
         ZoneId zoneId = ZoneId.of(zoneName);
         testItems = createValidationData(zoneId);
       } catch (ZoneRulesException e) {
-        System.out.printf("Zone '%s' not found%n", zoneName);
+        System.err.printf("Zone '%s' not found%n", zoneName);
         testItems = null;
       }
       testData.put(zoneName, testItems);
@@ -184,11 +197,7 @@ public class GenerateData {
     addTestItemsFromTransitions(testItems, zoneId, startInstant, untilInstant);
     addTestItemsFromSampling(testItems, zoneId, startInstant, untilInstant);
 
-    List<TestItem> sortedItems = new ArrayList<>();
-    for (TestItem item : testItems.values()) {
-      sortedItems.add(item);
-    }
-
+    List<TestItem> sortedItems = new ArrayList<>(testItems.values());
     return sortedItems;
   }
 
@@ -284,19 +293,28 @@ public class GenerateData {
   }
 
   /**
-   * Print the JSON representation of the testData. We serialize JSON manually to avoid pulling in
-   * any external dependencies, The TestData format is pretty simple.
+   * Print the JSON representation of the testData to the System.out.  Normally, it will be
+   * redirected to a file named 'validation_data.json'. We serialize JSON manually to avoid pulling
+   * in any external dependencies, The TestData format is pretty simple.
    */
-  /** Print the testData to a JSON file. */
   private void printJson(Map<String, List<TestItem>> testData) throws IOException {
-    try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(jsonFile)))) {
+    try (PrintWriter writer = new PrintWriter(System.out)) {
       String indentUnit = "  ";
+
+      // JDK version
+      String version = System.getProperty("java.version");
+
+      // Get TZDB version.
+      // https://stackoverflow.com/questions/7956044
+      String tzDbVersion = ZoneRulesProvider.getVersions("UTC").lastEntry().getKey();
+
       writer.println("{");
       String indent0 = indentUnit;
       writer.printf("%s\"start_year\": %s,\n", indent0, startYear);
       writer.printf("%s\"until_year\": %s,\n", indent0, untilYear);
       writer.printf("%s\"source\": \"Java11/java.time\",\n", indent0);
-      writer.printf("%s\"version\": \"%s\",\n", indent0, System.getProperty("java.version"));
+      writer.printf("%s\"version\": \"%s\",\n", indent0, version);
+      writer.printf("%s\"tz_version\": \"%s\",\n", indent0, tzDbVersion);
       // Set 'has_valid_abbrev' to false because java.time abbreviations seem completely different
       // than the ones provided by the TZ Database files.
       writer.printf("%s\"has_valid_abbrev\": false,\n", indent0);
@@ -347,17 +365,12 @@ public class GenerateData {
 
       writer.printf("}\n");
     }
-
-    System.out.printf("Created %s%n", jsonFile);
   }
 
   // constructor parameters
   private final String invocation;
   private final int startYear;
   private final int untilYear;
-
-  // derived parameters
-  private final String jsonFile;;
 }
 
 class TestItem {

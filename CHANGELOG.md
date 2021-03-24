@@ -1,7 +1,86 @@
 # Changelog
 
 * Unreleased
-* 1.6
+* 1.7 (2021-03-24, TZ DB version 2021a)
+    * AceTime now has a
+      [GitHub Discussion](https://github.com/bxparks/AceTime/discussions).
+        * Use that for general questions and discussions.
+        * Reserve [GitHub Issues](https://github.com/bxparks/AceTime/issues)
+          for bugs and feature requests.
+    * Add `tools/compare_noda` to compare Noda Time against AceTime.
+        * Add `--nzd_file` flag to `compare_noda` to allow custom NodaZoneData
+          files.
+        * Run the Noda Time `TzdbCompiler` manually to generate custom
+          `tzdata$(TZ_VERSION).nzd` for the specific TZDB version specified in
+          the Makefile.
+        * Add `tests/validation/BasicNodaTest` which matches AceTime completely
+          from year 2000 until 2050.
+        * Add  `tests/validation/ExtendedNodaTest` which maches AceTime
+          completely from year 1974 until 2050.
+        * Identical results to `BasicHinnantDateTest` and
+          `ExtendedHinnantDateTest`.
+    * Add `ace_time::clock::Stm32F1Clock` and `ace_time::hw::Stm32F1Rtc`
+        * Specialized classes for the STM32F1 chip, particularly the Blue Pill
+          board, using the `LSE_CLOCK` (low speed external clock).
+            * Blue Pill already includes the external 32.768 kHz
+              crystal on pins C14 and C15.
+        * Alternative to the `ace_time::clock::StmRtcClock` class, which uses
+          the generic `STM32RTC` library, which does not fully work on the
+          STM32F1.
+            * `STM32RTC` forgets the date fields upon power reset, preserving
+              only the time fields.
+        * These classes write directly into the 32-bit RTC register on the F1,
+          allowing AceTime to preserve both date fields and time fields.
+    * Massive refactoring of `USER_GUIDE.md` and `README.md` for clarity
+        * Extract subsections of `USER_GUIDE.md` into separate docs,
+          making `USER_GUIDE.md` shorter and hopefully more digestable.
+        * Rename most of `USER_GUIDE.md` into `docs/date_time_timezone.md`.
+        * Extract `Clock` classes into `docs/clock_system_clock.md`
+        * Extract Installation into `docs/installation.md`.
+        * Extract Validation and Testing into `docs/validation.md`.
+        * Extract Comparisons into `docs/comparisons.md`.
+        * Add documentation for `StmRtcClock` and `Stm32F1Clock`.
+    * Remove virtual destructor from `ace_time::clock::Clock` class.
+        * Saves 618 bytes of flash on 8-bit AVR processors, 328 bytes on SAMD21,
+          but only 50-60 bytes on other 32-bit processors.
+    * Finish a working implementation of `acetz.py`.
+        * Includes support for `fold`.
+        * Create `BasicAcetzTest` and `ExtendedAcetzTest` and verify all zones
+          validate.
+    * Time zone short names are printed with spaces instead of underscore.
+        * Various `printShortNameTo()` and `printShortTo()` methods now print
+          the short names with the underscore replaced with a space. Example,
+          instead of "Los_Angeles", it is now "Los Angeles".
+        * It seems to be more reasonable for most time zones.
+        * The time zone full name continues to print the entire canonical
+          timezone identifier, e.g. "America/Los_Angeles".
+        * Applications that need finer control will have to provide their own
+          rendering logic.
+    * `SystemClock`
+        * Fix `SystemClock::forceSync()` that crashes if the referenceClock is
+          null.
+            * Used mostly for debugging and testing, so I doubt anyone ran into
+              this.
+        * Add methods to retrieve the sync status of `SystemClock`.
+            * `getSecondsSinceSyncAttempt()`
+            * `getSecondsToSyncAttempt()`
+            * `getClockSlew()
+            * `getSyncStatusCode()`
+            * See [System Clock
+              Status](docs/clock_system_clock.md#SystemClockStatus)
+              for details.
+        * **Potentially Breaking**: Move various internal constants in
+          `SystemClockLoop` and `SystemClockCoroutine` to `private`.
+            * Examples `kStatusReady`, kStatusSent`, `kStatusOk`k
+            * These were all related to the internal finite state machine which
+              should not have been exposed publically.
+            * The sync status of `SystemClock` is now exposed through
+              documented public methods described above.
+    * `NtpClock`
+        * Add warning that calling `analogRead()` too often (e.g. using buttons
+          on a resistor ladder using AceButton library) on ESP8266 causes the
+          WiFi connection to drop after 5-10 seconds.
+* 1.6 (2021-02-17, TZ DB version 2021a)
     * Remove `TimeZone::kTypeBasicManaged` and `TimeZone::kTypeExtendedManaged`
       and merge them into just regular `TimeZone::kTypeBasic` and
       `TimeZone::kTypeExtended`.
@@ -29,7 +108,7 @@
         * This change should be invisible to library clients.
     * Fix stale `ZoneProcessor` binding to `TimeZone`.
         * A dereferenced `nullptr` could crash the program if
-          `TimeZone::toTimeZoneData() was called immediately after calling the
+          `TimeZone::toTimeZoneData()` was called immediately after calling the
           `TimeZone::forZoneInfo()` factory method.
         * Some accessor methods in `TimeZone` (`getZoneId()`, `printTo()`,
           `printShortTo()`) could return incorrect values if the number of
@@ -63,7 +142,7 @@
         * See the [Default Registries](USER_GUIDE.md#DefaultRegistries) section
           in the [USER_GUIDE.md](USER_GUIDE.md) for an explanation of the Zone
           and Link registries.
-* 1.5
+* 1.5 (2021-01-26, TZDB 2021a)
     * Use binary search for both `ZoneManager::createForZoneName()` and
       `ZoneManager::createForZoneId()`.
         * Previously, the `zone_registry.cpp` was sorted by zoneName, so only
@@ -276,8 +355,9 @@
     * Move `common/CrcEeprom.h` to AceUtils
       (https://github.com/bxparks/AceUtils) library.
 * 1.1.2 (2020-10-25, TZ DB version 2020d)
-    * Move examples/WorldClock, examples/OledClock and examples/CommandLineClock
-      to a new repo (https://github.com/bxparks/clocks).
+    * Move examples/WorldClock, examples/OneZoneClock and
+      examples/CommandLineClock to a new repo
+      (https://github.com/bxparks/clocks).
     * Update `src/ace_time/zonedb` and `src/ace_time/zonedbx` to TZDB 2020d
       (https://mm.icann.org/pipermail/tz-announce/2020-October/000062.html).
         * "Palestine ends DST earlier than predicted, on 2020-10-24."
@@ -402,7 +482,7 @@
       SAMD21).
     * Fix Doxygen PREPROCESSOR so that it picks up classes which are enabled
       only on some environments (e.g. ESP8266, ESP32).
-    * Add circuit schematics to OledClock and WorldClock examples.
+    * Add circuit schematics to OneZoneClock and WorldClock examples.
     * Simplify logging::printf() used internally for debugging.
     * No functional change from 0.6.
 * 0.6 (2019-08-02, TZ DB version 2019a)

@@ -20,7 +20,7 @@ from zone_processor.zone_specifier import ZoneSpecifier
 from zone_processor.zone_specifier import DateTuple
 from zone_processor.inline_zone_info import ZoneInfoMap
 from zonedbpy.zone_infos import ZONE_INFO_MAP
-from validation.data import TestItem, TestData, ValidationData
+from data_types.validation_types import TestItem, TestData, ValidationData
 
 
 class TestDataGenerator:
@@ -57,6 +57,7 @@ class TestDataGenerator:
             'until_year': self.until_year,
             'source': 'acetz',
             'version': str(acetz.__version__),
+            'tz_version': 'unknown',
             'has_valid_abbrev': True,
             'has_valid_dst': True,
             'test_data': self.test_data,

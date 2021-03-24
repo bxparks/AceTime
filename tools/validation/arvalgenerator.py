@@ -12,7 +12,7 @@ import logging
 import os
 from typing import List, Dict, Tuple, Optional
 from transformer.transformer import div_to_zero, normalize_name, hash_name
-from .data import TestItem, TestData, ValidationData
+from data_types.validation_types import TestItem, TestData, ValidationData
 
 
 class ArduinoValidationGenerator:

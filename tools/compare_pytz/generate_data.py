@@ -5,17 +5,19 @@
 # MIT License
 
 """
-Generate the 'validation_data.json' containing the validation test data from
-the pytz (using .tdgenerator.TestDataGenerator) given the 'zones.txt' file
-from the tzcompiler.py.
+Generate the JSON validation test data on the STDOUT from the pytz (using
+.tdgenerator.TestDataGenerator) given the 'zones.txt' file from the
+tzcompiler.py on the STDIN.
 
 Usage
-$ ./generate_data.py [--start_year start] [--until_year until] \
-    [--sampling_interval hours] < zones.txt
+$ ./generate_data.py [--start_year start] [--until_year until]
+    [--sampling_interval hours]
+    < zones.txt
+    > validation_data.json
 """
 
 import sys
-from os.path import (join, dirname, abspath)
+from os.path import (dirname, abspath)
 import logging
 import json
 from argparse import ArgumentParser
@@ -43,18 +45,14 @@ class Generator:
         start_year: int,
         until_year: int,
         sampling_interval: int,
-        output_dir: str,
     ):
         self.invocation = invocation
         self.start_year = start_year
         self.until_year = until_year
         self.sampling_interval = sampling_interval
-        self.output_dir = output_dir
-
-        self.filename = 'validation_data.json'
 
     def generate(self) -> None:
-        """Generate the validation_data.json file."""
+        """Generate the validation_data JSON."""
 
         # Read the zones from the STDIN
         zones = read_zones()
@@ -69,11 +67,8 @@ class Generator:
         validation_data = test_generator.get_validation_data()
 
         # Write out the validation_data.json file.
-        full_filename = join(self.output_dir, self.filename)
-        with open(full_filename, 'w', encoding='utf-8') as output_file:
-            json.dump(validation_data, output_file, indent=2)
-            print(file=output_file)  # add terminating newline
-        logging.info("Created %s", full_filename)
+        json.dump(validation_data, sys.stdout, indent=2)
+        print()  # add terminating newline
 
 
 def read_zones() -> List[str]:
@@ -109,13 +104,6 @@ def main() -> None:
         help='Sampling interval in hours (default 22)',
     )
 
-    # Optional output directory.
-    parser.add_argument(
-        '--output_dir',
-        default='',
-        help='Location of the output directory',
-    )
-
     args = parser.parse_args()
 
     # Configure logging
@@ -128,7 +116,6 @@ def main() -> None:
         start_year=args.start_year,
         until_year=args.until_year,
         sampling_interval=args.sampling_interval,
-        output_dir=args.output_dir,
     )
     generator.generate()
 

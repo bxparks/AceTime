@@ -1,13 +1,14 @@
 # Validation Tests
 
 These tests compare the algorithm implemented by `ZonedDateTime` and
-`ZoneProcessor` classes with the equivalent functionalty from 4
+`ZoneProcessor` classes with the equivalent functionalty from 5
 other libraries:
 
 * [Python pytz](https://pypi.org/project/pytz/) library
 * [Python dateutil](https://pypi.org/project/python-dateutil/) library
 * [Java 11 Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html) library.
 * [Hinnant date](https://github.com/HowardHinnant/date) C++ library
+* [Noda Time](https://nodatime.org) C# library
 
 These unit tests require a desktop-class machine running Linux or MacOS. They
 are too big to run on any Arduino microcontroller that I know of. They use the
@@ -29,6 +30,7 @@ The required Python, Java and C++ tools and libraries are explained in:
 * [compare_dateutil](../../tools/compare_dateutil/)
 * [compare_java](../../tools/compare_java/)
 * [compare_cpp](../../tools/compare_cpp/)
+* [compare_noda](../../tools/compare_noda/)
 
 The various `Makefile` files under the subdirectories here will run `make -C` in
 those directories to build the Java and C++ binaries as necessary. Here is a
@@ -46,6 +48,11 @@ those directories to build the Java and C++ binaries as necessary. Here is a
    install the `libcurl4` library that it requires to download the tzfiles:
     * `$ git clone https://github.com/HowardHinnant/date`
     * `$ sudo apt install libcurl4-openssl-dev`
+1. Install Microsoft .NET 5.0 on Linux:
+    * See https://docs.microsoft.com/en-us/dotnet/core/install/linux
+    * The `compare_noda.csproj` file already contains the NuGet dependency
+      to Noda Time and will be automatically retrieved by the `dotnet build`
+      command.
 
 ### Running the Tests
 

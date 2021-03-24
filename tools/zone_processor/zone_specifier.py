@@ -13,7 +13,7 @@ import sys
 import logging
 from datetime import datetime
 from datetime import timedelta
-from datetime import timezone
+from datetime import date
 from typing import Any
 from typing import Dict
 from typing import List
@@ -34,47 +34,50 @@ from .inline_zone_info import ZonePolicy
 from .inline_zone_info import ZoneEra
 from .inline_zone_info import ZoneInfo
 
-# A datetime representation using seconds instead of h:m:s
-DateTuple = NamedTuple('DateTuple', [
-    ('y', int),
-    ('M', int),
-    ('d', int),
-    ('ss', int),
-    ('f', str),
-])
 
-# A tuple of (year, month)
-YearMonthTuple = NamedTuple('YearMonthTuple', [
-    ('y', int),
-    ('M', int),
-])
+class DateTuple(NamedTuple):
+    """A datetime representation using seconds instead of h:m:s. I think this
+    class makes arithmetic operations on this easier.
+    """
+    y: int  # year
+    M: int  # month
+    d: int  # day
+    ss: int  # total number of seconds
+    f: str  # modifier ('w', 's', 'u')
 
-# UTC offset at the current time:
-#   * total_offset = utc_offset + dst_offset
-#   * utc_offset: seconds
-#   * dst_offset: seconds
-#   * abbrev
-OffsetInfo = NamedTuple('OffsetInfo', [
-    ('total_offset', int),
-    ('utc_offset', int),
-    ('dst_offset', int),
-    ('abbrev', str),
-])
 
-# A tuple that holds a count and the year which it is related to.
-CountAndYear = NamedTuple('CountAndYear', [
-    ('count', int),
-    ('year', int),
-])
+class YearMonthTuple(NamedTuple):
+    """A tuple of (year, month)"""
+    y: int
+    M: int
 
-# Return type that contains the maximum active transitions and the year which
-# that occurred, and the max_buffer_size of TransitionStorage and its year.
-BufferSizeInfo = NamedTuple('BufferSizeInfo', [
-    ('max_actives', CountAndYear),
-    ('max_buffer_size', CountAndYear),
-])
 
-ACETIME_EPOCH = datetime(2000, 1, 1, tzinfo=timezone.utc)
+class OffsetInfo(NamedTuple):
+    """Various bits of the Transition information at the current time.
+    """
+    total_offset: int  # total_offset = utc_offset + dst_offset
+    utc_offset: int  # seconds
+    dst_offset: int  # seconds
+    abbrev: str  # short abbreviations
+    fold: int  # same meaning as datetime.fold
+
+
+class CountAndYear(NamedTuple):
+    """A tuple that holds a count and the year which it is related to."""
+    number: int
+    year: int
+
+
+class BufferSizeInfo(NamedTuple):
+    """A tuple containings the maximum active transitions and the year which
+    that occurred, and the max_buffer_size of TransitionStorage and its year.
+    """
+    max_actives: CountAndYear
+    max_buffer_size: CountAndYear
+
+
+ACETIME_EPOCH = datetime(2000, 1, 1)  # in UTC
+
 
 # Note on the various XxxCooked classes: The ZoneRuleCooked, ZonePolicyCooked,
 # ZoneEraCooked, ZoneInfoCooked classes are thin class wrappers around the
@@ -408,12 +411,6 @@ class Transition:
         for key, value in arg.items():
             setattr(self, key, value)
 
-    def to_timezone_tuple(self) -> OffsetInfo:
-        """Convert a Transition into a OffsetInfo.
-        """
-        return OffsetInfo(self.offset_seconds + self.delta_seconds,
-                          self.offset_seconds, self.delta_seconds, self.abbrev)
-
     def __repr__(self) -> str:
         sepoch = self.start_epoch_second if self.start_epoch_second else '-'
         policy_name = self.zone_era.policy_name
@@ -464,18 +461,39 @@ class Transition:
         # yapf: enable
 
 
+class TransitionMatch(NamedTuple):
+    """The result of a _find_transition_for_seconds().
+    * fold=0 means there was no overlap with the previous transition
+    * fold=1 means there was an overlap with the previous transition
+    """
+    transition: Transition
+    fold: int
+
+
+def _to_offset_info(transition: Transition, fold: int) -> OffsetInfo:
+    """Convert a Transition and fold into a OffsetInfo.
+    """
+    return OffsetInfo(
+        transition.offset_seconds + transition.delta_seconds,
+        transition.offset_seconds,
+        transition.delta_seconds,
+        transition.abbrev,
+        fold,
+    )
+
+
 class ZoneSpecifier:
     """Extract DST transition information for a given ZoneInfo. The
     DST transition information can be retrieved using the following methods:
 
-        * get_timezone_info_for_seconds(): get info using epoch_seconds (from
-          2000-01-01 00:00:00 UTC)
-        * get_timezone_info_for_datetime(): get info using a 'datetime.datetime'
-          instance
+    * get_timezone_info_for_seconds(): get info using epoch_seconds (from
+        2000-01-01 00:00:00 UTC)
+    * get_timezone_info_for_datetime(): get info using a 'datetime.datetime'
+        instance
 
-    The DST transition information is returned as a tuple of (offset_seconds,
-    dst_seconds, abbrev) which is valid at the given epoch_seconds or
-    'datetime'.
+    The DST transition information is returned as an OffsetInfo tuple
+    contain (total_offset, utc_offset, dst_offset, abbrev, fold) which is valid
+    at the given epoch_seconds or 'datetime'.
 
     Both get_timezone_info_for_seconds() and get_timezone_info_for_datetime()
     call init_for_year() using a window size (e.g. 12, 13, 14 or 36 months)
@@ -494,15 +512,13 @@ class ZoneSpecifier:
 
         # Validate matches and transitions
         zone_specifier.init_for_year(args.year)
-        self.print_matches_and_transitions()
+        zone_specifier.print_matches_and_transitions()
 
-        # Get (offset_seconds, dst_seconds, abbrev) for an epoch_seconds.
-        (offset_seconds, dst_seconds, abbrev) = \
-            zone_specifier.get_timezone_info_for_seconds(epoch_seconds)
+        # Get OffsetInfo for an epoch_seconds.
+        info = zone_specifier.get_timezone_info_for_seconds(epoch_seconds)
 
-        # Get (offset_seconds, dst_seconds, abbrev) for a datetime.
-        (offset_seconds, dst_seconds, abbrev) = \
-            zone_specifier.get_timezone_info_for_datetime(dt)
+        # Get OffsetInfo for a datetime.
+        info = zone_specifier.get_timezone_info_for_datetime(dt)
 
     Note:
         The viewing_months parameter determines the month interval to use to
@@ -514,19 +530,6 @@ class ZoneSpecifier:
         * 36 = [(year-1)-Jan, (year+2)-Jan) (not well tested,
                seems to mostly work except for 2000)
     """
-
-    # Sentinel ZoneEra that represents the earliest zone era.
-    ZONE_ERA_ANCHOR = ZoneEraCooked({
-        'offset_seconds': 0,
-        'zone_policy': '',
-        'rules_delta_seconds': 0,
-        'format': '',
-        'until_year': MIN_YEAR,
-        'until_month': 1,
-        'until_day': 1,
-        'until_seconds': 0,
-        'until_time_suffix': 'w',
-    })
 
     def __init__(
             self,
@@ -597,28 +600,39 @@ class ZoneSpecifier:
         epoch_seconds: int,
     ) -> Optional[Transition]:
         """Return Transition for the given epoch_seconds.
+
+        TOOD: Does not seem to be used at all. Remove?
         """
         self._init_for_second(epoch_seconds)
-        return self._find_transition_for_seconds(epoch_seconds)
+        tmatch = self._find_transition_for_seconds(epoch_seconds)
+        return tmatch.transition if tmatch else None
 
     def get_transition_for_datetime(
         self,
         dt: datetime,
     ) -> Optional[Transition]:
         """Return Transition for the given datetime.
+
+        TODO: Used only in zinfo.py and test_zone_specifier.py. I think this
+        could be replaced by get_timezone_info_for_datetime().
         """
         self.init_for_year(dt.year)
         return self._find_transition_for_datetime(dt)
 
-    def get_timezone_info_for_seconds(self, epoch_seconds: int) -> OffsetInfo:
-        """Return a tuple of (total_offset, dst_seconds, abbrev).
+    def get_timezone_info_for_seconds(
+        self,
+        epoch_seconds: int
+    ) -> Optional[OffsetInfo]:
+        """Return the OffsetInfo of the given epoch_seconds.
         """
         self._init_for_second(epoch_seconds)
 
-        # TODO(bpark): Check for None
-        transition = cast(Transition,
-                          self._find_transition_for_seconds(epoch_seconds))
-        return transition.to_timezone_tuple()
+        tmatch = self._find_transition_for_seconds(epoch_seconds)
+        return (
+            _to_offset_info(tmatch.transition, tmatch.fold)
+            if tmatch
+            else None
+        )
 
     def get_timezone_info_for_datetime(
         self,
@@ -628,7 +642,9 @@ class ZoneSpecifier:
         """
         self.init_for_year(dt.year)
         transition = self._find_transition_for_datetime(dt)
-        return transition.to_timezone_tuple() if transition else None
+        if not transition:
+            return None
+        return _to_offset_info(transition, fold=dt.fold)
 
     def init_for_year(self, year: int) -> None:
         """Initialize the Matches and Transitions for the year. Call this
@@ -725,12 +741,12 @@ class ZoneSpecifier:
 
             # Number of active transitions.
             transition_count = len(self.transitions)
-            if transition_count > max_actives.count:
+            if transition_count > max_actives.number:
                 max_actives = CountAndYear(transition_count, year)
 
             # Max size of the transition buffer.
             buffer_size = self.max_transition_buffer_size
-            if buffer_size > max_buffer_size.count:
+            if buffer_size > max_buffer_size.number:
                 max_buffer_size = CountAndYear(buffer_size, year)
 
         return BufferSizeInfo(
@@ -789,16 +805,61 @@ class ZoneSpecifier:
     def _find_transition_for_seconds(
         self,
         epoch_seconds: int,
-    ) -> Optional[Transition]:
-        """Return the matching transition, or None if not found.
+    ) -> Optional[TransitionMatch]:
+        """Return the matching transition along with the 'fold' information.
+        Return None if not found.
+
+        * fold==0 if the transition was the first matching transition
+        * fold==1 if the transition was the second of an overlapping match.
         """
-        matching_transition = None
-        for transition in self.transitions:
-            if transition.start_epoch_second <= epoch_seconds:
-                matching_transition = transition
-            elif transition.start_epoch_second > epoch_seconds:
+        # Use indexing instead of iterator because we need access to the
+        # transition[match-2] element, and it's much easier to do that with
+        # indexing. Scan until we get to a transition *just* after the one that
+        # matches.
+        matching_index = -1
+        for i in range(len(self.transitions)):
+            transition = self.transitions[i]
+            if transition.start_epoch_second > epoch_seconds:
                 break
-        return matching_transition
+            matching_index = i
+
+        # If no match, return None.
+        if matching_index == -1:
+            return None
+
+        fold = self._determine_fold(epoch_seconds, matching_index)
+
+        transition_match = TransitionMatch(
+            self.transitions[matching_index],
+            fold,
+        )
+        return transition_match
+
+    def _determine_fold(self, epoch_seconds: int, matching_index: int) -> int:
+        """Determine the 'fold' by looking at the transition just before the
+        matching one. If the prev and current transition overlap, *and* the
+        epoch_seconds falls within the overlap, then set the fold to 1,
+        otherwise 0.
+        """
+        if matching_index < 1:
+            return 0
+
+        overlap_interval = _subtract_date_tuple(
+            self.transitions[matching_index - 1].until_date_time,
+            self.transitions[matching_index].start_date_time,
+        )
+        if overlap_interval <= 0:
+            return 0
+
+        seconds_from_zone_era_start = (
+            epoch_seconds
+            - self.transitions[matching_index].start_epoch_second
+        )
+
+        if seconds_from_zone_era_start >= overlap_interval:
+            return 0
+
+        return 1
 
     def _find_transition_for_datetime(
         self,
@@ -817,19 +878,18 @@ class ZoneSpecifier:
         The algorithm matches the one implemented by
         ExtendedZoneProcessor::findTransitionForDateTime():
 
-            1) If the 'dt' falls in a DST gap, the transition just before the
-            DST gap is returned.
+        1) If the 'dt' falls in a DST gap, the transition just before the DST
+        gap is returned.
 
-            2) If the 'dt' falls within a DST overlap, there are 2 matching
-            transitions. The algorithm returns the later transition.
+        2) If the 'dt' falls within a DST overlap, there are 2 matching
+        transitions. The algorithm returns the later transition.
 
         The method can return None if the 'dt' is earlier than any known
         transition.
         """
-        secs = hms_to_seconds(dt.hour, dt.minute, dt.second)
-        dt_time = DateTuple(y=dt.year, M=dt.month, d=dt.day, ss=secs, f='w')
+        dt_time = _datetime_to_datetuple(dt, 'w')
 
-        match = None
+        match: Optional[Transition] = None
         for transition in self.transitions:
             start_time = transition.start_date_time
             if start_time > dt_time:
@@ -842,27 +902,46 @@ class ZoneSpecifier:
         dt: datetime,
     ) -> Optional[Transition]:
         """Return the match transition using an algorithm that works for
-        Python's datetime.tzinfo. Return the last matching transition.
-        If the 'dt' is in the gap, return the upcoming transition.
-        If the 'dt' is in the overlap, return the earlier transition.
-        """
-        secs = hms_to_seconds(dt.hour, dt.minute, dt.second)
-        dt_time = DateTuple(y=dt.year, M=dt.month, d=dt.day, ss=secs, f='w')
+        Python's datetime.tzinfo. See PEP 495
+        (https://www.python.org/dev/peps/pep-0495/) for how to handle the 'fold'
+        parameter in the 'datetime' within the fold and within the gap.
 
-        match = None
-        exact_match = True
+        * If the 'dt' is in the overlap:
+            * return the earlier transition (earlier UTC) if dt.fold == 0,
+            * return the later transition (later UTC) if dt.fold == 1.
+        * If the 'dt' is in the gap:
+            * return the earlier transition (later UTC) if dt.fold == 0,
+            * return the later transition (earlier UTC) if dt.fold == 1,
+            * see PEP 495 for details.
+        """
+        dt_time = _datetime_to_datetuple(dt, 'w')
+
+        prev_exact: Optional[Transition] = None
+        prev_transition: Optional[Transition] = None
         for transition in self.transitions:
             start_time = transition.start_date_time
             until_time = transition.until_date_time
 
-            if dt_time < start_time:
-                if not exact_match:
-                    match = transition
-                break
-
-            match = transition
             exact_match = start_time <= dt_time and dt_time < until_time
-        return match
+            if exact_match:
+                if dt.fold == 0:
+                    return transition
+                if prev_exact is not None:
+                    # In the fold/overlap.
+                    return transition
+                prev_exact = transition
+            elif start_time > dt_time:
+                if prev_exact:
+                    return prev_exact
+                # In the gap.
+                if dt.fold == 0:
+                    return prev_transition
+                else:
+                    return transition
+
+            prev_transition = transition
+
+        return prev_exact or prev_transition
 
     def _find_matches(
         self,
@@ -899,13 +978,14 @@ class ZoneSpecifier:
         reduce the number of candidate transitions.
         """
         zone_eras = self.zone_info.eras
-        prev_era = self.ZONE_ERA_ANCHOR
-        matches = []
+        prev_era: Optional[ZoneEraCooked] = None  # the earliest possible
+        matches: List[ZoneMatch] = []
         for zone_era in zone_eras:
-            if self._era_overlaps_interval(prev_era, zone_era, start_ym,
-                                           until_ym):
-                match = self._create_match(prev_era, zone_era, start_ym,
-                                           until_ym)
+            if self._era_overlaps_interval(
+                    prev_era, zone_era, start_ym, until_ym
+            ):
+                match = self._create_match(
+                    prev_era, zone_era, start_ym, until_ym)
                 if self.debug:
                     logging.info('_find_matches(): %s', match)
                 matches.append(match)
@@ -1088,7 +1168,7 @@ class ZoneSpecifier:
 
     @staticmethod
     def _create_match(
-        prev_era: ZoneEraCooked,
+        prev_era: Optional[ZoneEraCooked],
         zone_era: ZoneEraCooked,
         start_ym: YearMonthTuple,
         until_ym: YearMonthTuple,
@@ -1110,13 +1190,19 @@ class ZoneSpecifier:
 
         See _fix_transition_times() which normalizes these start times to the
         wall time uniformly.
+
+        A value of `prev_era==None` means the earliest possible ZoneEra.
         """
-        start_date_time = DateTuple(
-            y=prev_era.until_year,
-            M=prev_era.until_month,
-            d=prev_era.until_day,
-            ss=prev_era.until_seconds,
-            f=prev_era.until_time_suffix)
+        if prev_era is None:
+            start_date_time = DateTuple(
+                y=MIN_YEAR, M=1, d=1, ss=0, f='w')
+        else:
+            start_date_time = DateTuple(
+                y=prev_era.until_year,
+                M=prev_era.until_month,
+                d=prev_era.until_day,
+                ss=prev_era.until_seconds,
+                f=prev_era.until_time_suffix)
         if start_date_time < DateTuple(
                 y=start_ym.y, M=start_ym.M, d=1, ss=0, f='w'):
             start_date_time = DateTuple(
@@ -1179,27 +1265,28 @@ class ZoneSpecifier:
             # previous day.
             secs = (tt.ss - prev.offset_seconds - prev.delta_seconds
                     + transition.offset_seconds + transition.delta_seconds)
-            # if secs < 0 or secs >= 24 * 60 * 60:
-            #   (h, m, s) = seconds_to_hms(secs)
-            #    logging.info(
-            #        "Zone '%s': Transition start_date_time shifted into "
-            #        + "a different day: (%02d:%02d:%02d)",
-            #        self.zone_info['name'], h, m, s)
-            st = datetime(tt.y, tt.M, tt.d, 0, 0, 0)
+            # If (secs < 0 or secs >= 24 * 60 * 60), then we shifted into a
+            # different day. During debugging, it was useful to know that, but
+            # not so useful in production code, so don't print anything.
+            st = datetime(tt.y, tt.M, tt.d)
             st += timedelta(seconds=secs)
-            secs = hms_to_seconds(st.hour, st.minute, st.second)
-            transition.start_date_time = DateTuple(
-                y=st.year, M=st.month, d=st.day, ss=secs, f=tt.f)
+            transition.start_date_time = _datetime_to_datetuple(st, tt.f)
 
             # 3) The epochSecond of the 'transition_time' is determined by the
             # UTC offset of the *previous* Transition. However, the
             # transition_time can be represented by an illegal time (e.g.
-            # 24:00). So, it is better to use the properly normalized
-            # start_date_time (calculated above) with the *current* UTC offset.
-            utc_offset_seconds = transition.offset_seconds \
-                + transition.delta_seconds
-            z = timezone(timedelta(seconds=utc_offset_seconds))
-            dt = st.replace(tzinfo=z)
+            # 24:00). So use the properly normalized start_date_time
+            # (calculated above) with the *current* UTC offset.
+            #
+            # A previous version of this used a `timezone` object set to the
+            # fixed `utc_offset_seconds`, then converted the timezone-naive `st`
+            # object into a timezone-aware `st` object at that fixed `timezone`.
+            # But this bring in the only dependency to the Python `timezone`
+            # class which is unnecessary because we can calculate the epoch
+            # seconds directly.
+            utc_offset_seconds = (
+                transition.offset_seconds + transition.delta_seconds)
+            dt = st - timedelta(seconds=utc_offset_seconds)  # dt now in UTC
             epoch_second = int((dt - ACETIME_EPOCH).total_seconds())
             transition.start_epoch_second = epoch_second
 
@@ -1282,29 +1369,11 @@ class ZoneSpecifier:
                           dt)
             sys.exit(1)
 
-        dtw = ZoneSpecifier._normalize_date_tuple(dtw)
-        dts = ZoneSpecifier._normalize_date_tuple(dts)
-        dtu = ZoneSpecifier._normalize_date_tuple(dtu)
+        dtw = _normalize_date_tuple(dtw)
+        dts = _normalize_date_tuple(dts)
+        dtu = _normalize_date_tuple(dtu)
 
         return (dtw, dts, dtu)
-
-    @staticmethod
-    def _normalize_date_tuple(tt: DateTuple) -> DateTuple:
-        """Return the normalized DateTuple where the dt.ss could be negative or
-        greater than 24h.
-        """
-        if tt.y == MIN_YEAR:
-            return DateTuple(y=MIN_YEAR, M=1, d=1, ss=0, f=tt.f)
-
-        try:
-            st = datetime(tt.y, tt.M, tt.d, 0, 0, 0)
-            delta = timedelta(seconds=tt.ss)
-            st += delta
-            secs = hms_to_seconds(st.hour, st.minute, st.second)
-            return DateTuple(y=st.year, M=st.month, d=st.day, ss=secs, f=tt.f)
-        except:  # noqa: E722
-            logging.error('Invalid datetime: %s + %s', st, delta)
-            sys.exit(1)
 
     @staticmethod
     def _calc_abbrev(transitions: List[Transition]) -> None:
@@ -1338,7 +1407,7 @@ class ZoneSpecifier:
 
     @staticmethod
     def _era_overlaps_interval(
-        prev_era: ZoneEraCooked,
+        prev_era: Optional[ZoneEraCooked],
         era: ZoneEraCooked,
         start_ym: YearMonthTuple,
         until_ym: YearMonthTuple,
@@ -1347,12 +1416,16 @@ class ZoneSpecifier:
         ignoring the day, time and timeSuffix. The start date of the current
         era is represented by the prev_era.UNTIL, so the interval of the current
         era is [start_era, until_era) = [prev_era.UNTIL, era.UNTIL). Overlap
-        happens if (start_era < until_ym) and (until_era > start_ym).
+        happens if (start_era < until_ym) and (until_era > start_ym). A
+        'prev_era==None' means the earliest possible ZoneEra.
         """
-        return (ZoneSpecifier._compare_era_to_year_month(
-                prev_era, until_ym.y, until_ym.M) < 0
-                and ZoneSpecifier._compare_era_to_year_month(
-                    era, start_ym.y, start_ym.M) > 0)
+        return (
+            (prev_era is None
+                or ZoneSpecifier._compare_era_to_year_month(
+                    prev_era, until_ym.y, until_ym.M) < 0)
+            and ZoneSpecifier._compare_era_to_year_month(
+                era, start_ym.y, start_ym.M) > 0
+        )
 
     @staticmethod
     def _compare_era_to_year_month(
@@ -1774,6 +1847,31 @@ def _compare_date_tuple(a: DateTuple, b: DateTuple) -> int:
     return 0
 
 
+def _datetime_to_datetuple(dt: datetime, format: str) -> DateTuple:
+    """Create a DateTuple from the given 'datetime' along with the 'format'
+    modifer ('s', 'u', 'w').
+    """
+    secs = hms_to_seconds(dt.hour, dt.minute, dt.second)
+    return DateTuple(y=dt.year, M=dt.month, d=dt.day, ss=secs, f=format)
+
+
+def _normalize_date_tuple(tt: DateTuple) -> DateTuple:
+    """Return the normalized DateTuple where the dt.ss could be negative or
+    greater than 24h. Throws exception if the normalization fails.
+    """
+    if tt.y == MIN_YEAR:
+        return DateTuple(y=MIN_YEAR, M=1, d=1, ss=0, f=tt.f)
+
+    try:
+        st = datetime(tt.y, tt.M, tt.d)
+        delta = timedelta(seconds=tt.ss)
+        st += delta
+        return _datetime_to_datetuple(st, tt.f)
+    except:  # noqa: E722
+        logging.error('Invalid datetime: %s + %s', st, delta)
+        raise
+
+
 def _create_transition_for_year(
     year: int,
     rule: ZoneRuleCooked,
@@ -1935,3 +2033,13 @@ def seconds_to_hm_string(secs: int) -> str:
     else:
         hms = seconds_to_hms(secs)
         return f'+{hms[0]:02}:{hms[1]:02}'
+
+
+def _subtract_date_tuple(a: DateTuple, b: DateTuple) -> int:
+    """Number of seconds in (a - b), ignoring the 'format' field.
+    """
+    da = date(a.y, a.M, a.d)
+    db = date(b.y, b.M, b.d)
+    diff_days = da.toordinal() - db.toordinal()
+    diff_seconds = a.ss - b.ss
+    return diff_days * 86400 + diff_seconds

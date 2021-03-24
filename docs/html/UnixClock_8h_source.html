@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.6</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -88,13 +88,13 @@ $(function() {
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>clock {</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">class </span>UnixClock: <span class="keyword">public</span> Clock {</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classace__time_1_1clock_1_1UnixClock.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1clock_1_1UnixClock.html">UnixClock</a>: <span class="keyword">public</span> <a class="code" href="classace__time_1_1clock_1_1Clock.html">Clock</a> {</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">explicit</span> UnixClock() {}</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classace__time_1_1clock_1_1UnixClock.html">UnixClock</a>() {}</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">void</span> setup() {}</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    acetime_t getNow()<span class="keyword"> const override </span>{</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classace__time_1_1clock_1_1UnixClock.html#a43a41defeb27cd3abea5ca86b985be69">   27</a></span>&#160;    acetime_t <a class="code" href="classace__time_1_1clock_1_1UnixClock.html#a43a41defeb27cd3abea5ca86b985be69">getNow</a>()<span class="keyword"> const override </span>{</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;      <span class="keywordflow">return</span> time(<span class="keyword">nullptr</span>) - <a class="code" href="classace__time_1_1LocalDate.html#ab8a78ca9f2f6f0a5105fc1d14ad5eb55">LocalDate::kSecondsSinceUnixEpoch</a>;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    }</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;};</div>
@@ -107,6 +107,9 @@ $(function() {
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassace__time_1_1LocalDate_html_ab8a78ca9f2f6f0a5105fc1d14ad5eb55"><div class="ttname"><a href="classace__time_1_1LocalDate.html#ab8a78ca9f2f6f0a5105fc1d14ad5eb55">ace_time::LocalDate::kSecondsSinceUnixEpoch</a></div><div class="ttdeci">static const acetime_t kSecondsSinceUnixEpoch</div><div class="ttdoc">Number of seconds from Unix epoch (1970-01-01 00:00:00Z) to the AceTime epoch (2000-01-01 00:00:00Z).</div><div class="ttdef"><b>Definition:</b> <a href="LocalDate_8h_source.html#l00069">LocalDate.h:69</a></div></div>
+<div class="ttc" id="aclassace__time_1_1clock_1_1UnixClock_html"><div class="ttname"><a href="classace__time_1_1clock_1_1UnixClock.html">ace_time::clock::UnixClock</a></div><div class="ttdoc">An implementation of Clock that works on Unix using EpoxyDuino.</div><div class="ttdef"><b>Definition:</b> <a href="UnixClock_8h_source.html#l00021">UnixClock.h:21</a></div></div>
+<div class="ttc" id="aclassace__time_1_1clock_1_1Clock_html"><div class="ttname"><a href="classace__time_1_1clock_1_1Clock.html">ace_time::clock::Clock</a></div><div class="ttdoc">Abstract base class for objects that provide and store time.</div><div class="ttdef"><b>Definition:</b> <a href="Clock_8h_source.html#l00020">Clock.h:20</a></div></div>
+<div class="ttc" id="aclassace__time_1_1clock_1_1UnixClock_html_a43a41defeb27cd3abea5ca86b985be69"><div class="ttname"><a href="classace__time_1_1clock_1_1UnixClock.html#a43a41defeb27cd3abea5ca86b985be69">ace_time::clock::UnixClock::getNow</a></div><div class="ttdeci">acetime_t getNow() const override</div><div class="ttdoc">Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z).</div><div class="ttdef"><b>Definition:</b> <a href="UnixClock_8h_source.html#l00027">UnixClock.h:27</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
