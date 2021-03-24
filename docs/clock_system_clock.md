@@ -29,6 +29,7 @@ classes live within the AceTime library.
     * [Reference Clock And Backup Clock](#ReferenceClockAndBackupClock)
     * [System Clock Loop](#SystemClockLoop)
     * [System Clock Coroutine](#SystemClockCoroutine)
+    * [System Clock Status Inspection](#SystemClockStatus)
 * [System Clock Examples](#SystemClockExamples)
     * [No Reference And No Backup](#NoReferenceAndNoBackup)
     * [DS3231 Reference](#DS3231Reference)
@@ -738,8 +739,8 @@ I suspect that most people will feel more comfortable using the
 `SystemClockLoop` class. But if you are already using the AceRoutine library, it
 may be more convenient to use the `SystemClockCoroutine` class instead.
 
-<a name="SystemClockInspection"></a>
-### SystemClock Inspection
+<a name="SystemClockStatus"></a>
+### SystemClock Status Inspection
 
 The `SystemClock` exposes a number of methods that allow inspection of its sync
 status with the referenceClock.

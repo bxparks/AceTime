@@ -69,7 +69,7 @@ installation instructions.
     * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub
       Pages
 * [Benchmarks](#Benchmarks)
-* [Comparisons](#Comparisons)
+* [Comparisons to other Libraries](#Comparisons)
 * [System Requirements](#SystemRequirements)
     * [Hardware](#Hardware)
     * [Tool Chain](#ToolChain)
@@ -584,7 +584,7 @@ See [docs/benchmarks.md](docs/benchmarks.md) for CPU and memory usage
 benchmarks.
 
 <a name="Comparisons"></a>
-## Comparisons
+## Comparisons to Other Libraries
 
 See [docs/comparisons.md](docs/comparisons.md) for comparisons to other date,
 time and timezone libraries.

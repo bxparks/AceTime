@@ -1,6 +1,11 @@
 # Changelog
 
 * Unreleased
+    * AceTime now has a
+      [GitHub Discussion](https://github.com/bxparks/AceTime/discussions).
+        * Use that for general questions and discussions.
+        * Reserve [GitHub Issues](https://github.com/bxparks/AceTime/issues)
+          for bugs and feature requests.
     * Add `tools/compare_noda` to compare Noda Time against AceTime.
         * Add `--nzd_file` flag to `compare_noda` to allow custom NodaZoneData
           files.
@@ -13,26 +18,22 @@
           completely from year 1974 until 2050.
         * Identical results to `BasicHinnantDateTest` and
           `ExtendedHinnantDateTest`.
-    * Fix `SystemClock::forceSync()` that crashes if the referenceClock is null.
-        * Used mostly for debugging and testing, so I doubt anyone ran into
-          this.
-    * Add `ace_time::clock::Stm32F1Clock` and `ace_time::hw::Stm32F1Rtc` classes
-      which are specialized for the STM32F1 chip (e.g. Blue Pill) using the
-      `LSE_CLOCK` (low speed external clock).
-        * The Blue Pill dev board already includes the external 32.768 kHz
-          crystal on pins C14 and C15.
-        * This is meant to be a specialized alternative to the generic
-          `STM32RTC` library which does not fully work on the STM32F1. It has a
-          bug that forgets the date fields upon power reset, preserving only the
-          time fields.
-        * The `Stm32F1Clock` and `Stm32F1Rtc` classes write directly into the
-          32-bit RTC register, allowing AceTime to preserve both date and time
-          fields.
-    * `USER_GUIDE.md` and `README.md`
-        * Massive rewriting and reorganizing for more clarity I
-          hope. Extract subsections of `USER_GUIDE.md` into separate docs,
+    * Add `ace_time::clock::Stm32F1Clock` and `ace_time::hw::Stm32F1Rtc`
+        * Specialized classes for the STM32F1 chip, particularly the Blue Pill
+          board, using the `LSE_CLOCK` (low speed external clock).
+            * Blue Pill already includes the external 32.768 kHz
+              crystal on pins C14 and C15.
+        * Alternative to the `ace_time::clock::StmRtcClock` class, which uses
+          the generic `STM32RTC` library, which does not fully work on the
+          STM32F1.
+            * `STM32RTC` forgets the date fields upon power reset, preserving
+              only the time fields.
+        * These classes write directly into the 32-bit RTC register on the F1,
+          allowing AceTime to preserve both date fields and time fields.
+    * Massive refactoring of `USER_GUIDE.md` and `README.md` for clarity
+        * Extract subsections of `USER_GUIDE.md` into separate docs,
           making `USER_GUIDE.md` shorter and hopefully more digestable.
-        * Rename `USER_GUIDE.md` into `docs/date_time_timezone.md`.
+        * Rename most of `USER_GUIDE.md` into `docs/date_time_timezone.md`.
         * Extract `Clock` classes into `docs/clock_system_clock.md`
         * Extract Installation into `docs/installation.md`.
         * Extract Validation and Testing into `docs/validation.md`.
@@ -41,7 +42,7 @@
     * Remove virtual destructor from `ace_time::clock::Clock` class.
         * Saves 618 bytes of flash on 8-bit AVR processors, 328 bytes on SAMD21,
           but only 50-60 bytes on other 32-bit processors.
-    * Finish working implementation of `acetz.py`.
+    * Finish a working implementation of `acetz.py`.
         * Includes support for `fold`.
         * Create `BasicAcetzTest` and `ExtendedAcetzTest` and verify all zones
           validate.
@@ -54,9 +55,30 @@
           timezone identifier, e.g. "America/Los_Angeles".
         * Applications that need finer control will have to provide their own
           rendering logic.
-    * Add methods to retrieve the sync status of `SystemClock`
-        * `getSecondsSinceSyncAttempt()`, `getSecondsToSyncAttempt()`,
-          `getClockSlew(), `getSyncStatusCode()`
+    * `SystemClock`
+        * Fix `SystemClock::forceSync()` that crashes if the referenceClock is
+          null.
+            * Used mostly for debugging and testing, so I doubt anyone ran into
+              this.
+        * Add methods to retrieve the sync status of `SystemClock`.
+            * `getSecondsSinceSyncAttempt()`
+            * `getSecondsToSyncAttempt()`
+            * `getClockSlew()
+            * `getSyncStatusCode()`
+            * See [System Clock
+              Status](docs/clock_system_clock.md#SystemClockStatus)
+              for details.
+        * **Potentially Breaking**: Move various internal constants in
+          `SystemClockLoop` and `SystemClockCoroutine` to `private`.
+            * Examples `kStatusReady`, kStatusSent`, `kStatusOk`k
+            * These were all related to the internal finite state machine which
+              should not have been exposed publically.
+            * The sync status of `SystemClock` is now exposed through
+              documented public methods described above.
+    * `NtpClock`
+        * Add warning that calling `analogRead()` too often (e.g. using buttons
+          on a resistor ladder using AceButton library) on ESP8266 causes the
+          WiFi connection to drop after 5-10 seconds.
 * 1.6 (2021-02-17, TZ DB version 2021a)
     * Remove `TimeZone::kTypeBasicManaged` and `TimeZone::kTypeExtendedManaged`
       and merge them into just regular `TimeZone::kTypeBasic` and
