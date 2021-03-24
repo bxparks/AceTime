@@ -18,18 +18,18 @@ database](https://www.iana.org/time-zones). Different subsets of the ZoneInfo
 Database can be compiled into the application to reduce flash memory size.
 
 The library also provides Clock classes to retrieve the time from more
-accurate sources (such as an
+accurate sources, such as an
 [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) server, or
 a [DS3231 RTC](https://www.maximintegrated.com/en/products/analog/real-time-clocks/DS3231.html)
 chip. A special version of the `Clock` class called the `SystemClock` provides a
 fast and accurate "epoch seconds" across all Arduino compatible systems. This
-"epoch seconds" can be given to the Date, Time and TimeZone classes to display
+"epoch seconds" can be given to the Date, Time and TimeZone classes to retrieve
 the current date and time in any desired timezone.
 
 The primordial motivation for creating the AceTime library was to build a
 digital clock with an OLED or LED display, that would show the date and time of
 multiple timezones at the same time, while adjusting for any DST changes in the
-selected timezone automatically. Another major goal of the library is to keep
+selected timezones automatically. Another major goal of the library is to keep
 the resource (flash and RAM) consumption as small as practical, to allow
 substantial portion of this library to run inside the 32kB of flash and 2kB of
 RAM limits of an Arduino Nano or a SparkFun Pro Micro dev board. To meet that
