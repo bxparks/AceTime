@@ -52,7 +52,7 @@ testF(SystemClockLoopTest, setup) {
   backupAndReferenceClock.setNow(100);
   systemClock.setup();
   assertEqual((acetime_t) 100, systemClock.getNow());
-  assertEqual(SystemClock::kSyncStatusOk, systemClock.getSyncStatusCode());
+  assertEqual(SystemClock::kSyncStatusUnknown, systemClock.getSyncStatusCode());
 }
 
 testF(SystemClockLoopTest, backupNow) {
@@ -125,7 +125,7 @@ testF(SystemClockLoopTest, loop) {
   unsigned long millis = 0;
   backupAndReferenceClock.isResponseReady(false);
   assertEqual(SystemClockLoop::kStatusReady, systemClock.mRequestStatus);
-  assertEqual(SystemClock::kSyncStatusOk, systemClock.getSyncStatusCode());
+  assertEqual(SystemClock::kSyncStatusUnknown, systemClock.getSyncStatusCode());
 
   // retry with exponential backoff, doubling the delay on each
   // iteration, until we reach mSyncPeriodSeconds
@@ -133,6 +133,11 @@ testF(SystemClockLoopTest, loop) {
   bool firstRequestMade = false;
   for (; expectedDelaySeconds < systemClock.mSyncPeriodSeconds;
        expectedDelaySeconds *= 2) {
+
+  #if SYSTEM_CLOCK_TEST_DEBUG >= 1
+    Serial.print("expectedDelaySeconds: ");
+    Serial.println(expectedDelaySeconds);
+  #endif
 
     // t = 0, make a request and waits for response
     systemClock.loop();
@@ -142,33 +147,22 @@ testF(SystemClockLoopTest, loop) {
         systemClock.getSecondsToSyncAttempt());
     assertEqual(
         firstRequestMade
-            ? SystemClock::kSyncStatusError
-            : SystemClock::kSyncStatusOk,
+            ? SystemClock::kSyncStatusTimedOut
+            : SystemClock::kSyncStatusUnknown,
         systemClock.getSyncStatusCode());
     firstRequestMade = true;
 
-    // t= 1, request timed out
-    millis += 1000;
-    fakeMillis.millis(millis);
-    systemClock.loop();
-    assertEqual(SystemClockLoop::kStatusWaitForRetry,
-        systemClock.mRequestStatus);
-    assertEqual((int32_t) 1, systemClock.getSecondsSinceSyncAttempt());
-    assertEqual(expectedDelaySeconds,
-        systemClock.getSecondsToSyncAttempt());
-    assertEqual(SystemClock::kSyncStatusError, systemClock.getSyncStatusCode());
-
     // t = +1 s, back off for mCurrentSyncPeriodSeconds
-    for (uint16_t i = 1; i < expectedDelaySeconds - 1; i++) {
+    for (uint16_t i = 1; i < expectedDelaySeconds; i++) {
       millis += 1000;
       fakeMillis.millis(millis);
       systemClock.loop();
       assertEqual(SystemClockLoop::kStatusWaitForRetry,
           systemClock.mRequestStatus);
-      assertEqual((int32_t) i + 1, systemClock.getSecondsSinceSyncAttempt());
-      assertEqual((int32_t) expectedDelaySeconds - (i + 1),
+      assertEqual((int32_t) i, systemClock.getSecondsSinceSyncAttempt());
+      assertEqual((int32_t) expectedDelaySeconds - i,
           systemClock.getSecondsToSyncAttempt());
-      assertEqual(SystemClock::kSyncStatusError,
+      assertEqual(SystemClock::kSyncStatusTimedOut,
           systemClock.getSyncStatusCode());
     }
 
@@ -180,7 +174,8 @@ testF(SystemClockLoopTest, loop) {
     assertEqual((int32_t) expectedDelaySeconds,
         systemClock.getSecondsSinceSyncAttempt());
     assertEqual(0, systemClock.getSecondsToSyncAttempt());
-    assertEqual(SystemClock::kSyncStatusError, systemClock.getSyncStatusCode());
+    assertEqual(SystemClock::kSyncStatusTimedOut,
+        systemClock.getSyncStatusCode());
   }
 
   // Last iteration. Make a request.
@@ -189,14 +184,16 @@ testF(SystemClockLoopTest, loop) {
   assertEqual(0, systemClock.getSecondsSinceSyncAttempt());
   assertEqual(systemClock.mCurrentSyncPeriodSeconds,
       systemClock.getSecondsToSyncAttempt());
-  assertEqual(SystemClock::kSyncStatusError, systemClock.getSyncStatusCode());
+  assertEqual(SystemClock::kSyncStatusTimedOut,
+      systemClock.getSyncStatusCode());
 
   // wait for response
   millis += 1000;
   fakeMillis.millis(millis);
   systemClock.loop();
   assertEqual(SystemClockLoop::kStatusWaitForRetry, systemClock.mRequestStatus);
-  assertEqual(SystemClock::kSyncStatusError, systemClock.getSyncStatusCode());
+  assertEqual(SystemClock::kSyncStatusTimedOut,
+      systemClock.getSyncStatusCode());
 
   // Final wait for 3600 seconds
   expectedDelaySeconds = systemClock.mSyncPeriodSeconds;
@@ -207,7 +204,8 @@ testF(SystemClockLoopTest, loop) {
     systemClock.loop();
     assertEqual(SystemClockLoop::kStatusWaitForRetry,
         systemClock.mRequestStatus);
-    assertEqual(SystemClock::kSyncStatusError, systemClock.getSyncStatusCode());
+    assertEqual(SystemClock::kSyncStatusTimedOut,
+        systemClock.getSyncStatusCode());
   }
 
   // Let the loop timeout and go into a ready state.
@@ -215,7 +213,8 @@ testF(SystemClockLoopTest, loop) {
   fakeMillis.millis(millis);
   systemClock.loop();
   assertEqual(SystemClockLoop::kStatusReady, systemClock.mRequestStatus);
-  assertEqual(SystemClock::kSyncStatusError, systemClock.getSyncStatusCode());
+  assertEqual(SystemClock::kSyncStatusTimedOut,
+      systemClock.getSyncStatusCode());
 
   // Make a new request
   millis += 1000;
@@ -225,7 +224,8 @@ testF(SystemClockLoopTest, loop) {
   assertEqual(0, systemClock.getSecondsSinceSyncAttempt());
   assertEqual(systemClock.mCurrentSyncPeriodSeconds,
       systemClock.getSecondsToSyncAttempt());
-  assertEqual(SystemClock::kSyncStatusError, systemClock.getSyncStatusCode());
+  assertEqual(SystemClock::kSyncStatusTimedOut,
+      systemClock.getSyncStatusCode());
 
   // Check 1ms later for a successful request
   backupAndReferenceClock.isResponseReady(true);
@@ -238,7 +238,7 @@ testF(SystemClockLoopTest, loop) {
   assertEqual((acetime_t) 42, systemClock.getLastSyncTime());
   assertTrue(systemClock.isInit());
   assertEqual(0, systemClock.getSecondsSinceSyncAttempt());
-  assertEqual(systemClock.mCurrentSyncPeriodSeconds,
+  assertEqual(systemClock.mCurrentSyncPeriodSeconds - 1 /* 1 ms later */,
       systemClock.getSecondsToSyncAttempt());
   assertEqual(SystemClock::kSyncStatusOk, systemClock.getSyncStatusCode());
 }
@@ -267,21 +267,18 @@ testF(SystemClockCoroutineTest, runCoroutine) {
   unsigned long millis = 0;
   backupAndReferenceClock.isResponseReady(false);
   assertEqual(SystemClockCoroutine::kStatusUnknown, systemClock.mRequestStatus);
-  assertEqual(SystemClock::kSyncStatusOk, systemClock.getSyncStatusCode());
+  assertEqual(SystemClock::kSyncStatusUnknown, systemClock.getSyncStatusCode());
 
   // retry with exponential backoff 10 times, doubling the delay on each
   // iteration
   uint16_t expectedDelaySeconds = 5;
   bool firstRequestMade = false;
-#if SYSTEM_CLOCK_TEST_DEBUG
-  int iter = 0;
-#endif
   for (; expectedDelaySeconds < systemClock.mSyncPeriodSeconds;
        expectedDelaySeconds *= 2) {
 
-#if SYSTEM_CLOCK_TEST_DEBUG
-    logging::printf("Iteration %i\n", iter);
-    iter++;
+#if SYSTEM_CLOCK_TEST_DEBUG >= 1
+    Serial.print("expectedDelaySeconds: ");
+    Serial.println(expectedDelaySeconds);
 #endif
 
     // t = 0, sends request and waits for response
@@ -292,8 +289,8 @@ testF(SystemClockCoroutineTest, runCoroutine) {
         systemClock.getSecondsToSyncAttempt());
     assertEqual(
         firstRequestMade
-            ? SystemClock::kSyncStatusError
-            : SystemClock::kSyncStatusOk,
+            ? SystemClock::kSyncStatusTimedOut
+            : SystemClock::kSyncStatusUnknown,
         systemClock.getSyncStatusCode());
     firstRequestMade = true;
 
@@ -303,10 +300,10 @@ testF(SystemClockCoroutineTest, runCoroutine) {
       fakeMillis.millis(millis);
       systemClock.runCoroutine();
       assertTrue(systemClock.isDelaying());
-      assertEqual((int32_t) i, systemClock.getSecondsSinceSyncAttempt());
+      assertEqual((int32_t) i + 1, systemClock.getSecondsSinceSyncAttempt());
       assertEqual((int32_t) expectedDelaySeconds - i,
           systemClock.getSecondsToSyncAttempt());
-      assertEqual(SystemClock::kSyncStatusError,
+      assertEqual(SystemClock::kSyncStatusTimedOut,
           systemClock.getSyncStatusCode());
     }
 
@@ -322,7 +319,8 @@ testF(SystemClockCoroutineTest, runCoroutine) {
   assertEqual(0, systemClock.getSecondsSinceSyncAttempt());
   assertEqual(systemClock.mCurrentSyncPeriodSeconds,
       systemClock.getSecondsToSyncAttempt());
-  assertEqual(SystemClock::kSyncStatusError, systemClock.getSyncStatusCode());
+  assertEqual(SystemClock::kSyncStatusTimedOut,
+      systemClock.getSyncStatusCode());
 
   // Repeatedly check for final delay of 3600
   expectedDelaySeconds = systemClock.mSyncPeriodSeconds;
@@ -331,7 +329,8 @@ testF(SystemClockCoroutineTest, runCoroutine) {
     fakeMillis.millis(millis);
     systemClock.runCoroutine();
     assertTrue(systemClock.isDelaying());
-    assertEqual(SystemClock::kSyncStatusError, systemClock.getSyncStatusCode());
+    assertEqual(SystemClock::kSyncStatusTimedOut,
+        systemClock.getSyncStatusCode());
   }
 
   // Set up to make a successful request

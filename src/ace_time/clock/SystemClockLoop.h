@@ -70,11 +70,11 @@ class SystemClockLoop : public SystemClock {
       mCurrentSyncPeriodSeconds(initialSyncPeriodSeconds) {}
 
     /**
-     * Make a request to the referenceClock, wait for the request, then set the
-     * SystemClock (the parent class) to the time returned by the
-     * referneceClock. If the referenceClock returns an error, implement a retry
-     * algorithm with an exponential backoff, until a maximum of
-     * syncPeriodSeconds interval is reached.
+     * Make a request to the referenceClock every syncPeriodSeconds seconds.
+     * Wait for the request, then set the SystemClock (the parent class) to the
+     * time returned by the referenceClock. If the referenceClock returns an
+     * error, implement a retry algorithm with an exponential backoff, until a
+     * maximum of syncPeriodSeconds interval is reached.
      *
      * This method should be called from the global loop() method.
      */
@@ -82,7 +82,7 @@ class SystemClockLoop : public SystemClock {
       keepAlive();
       if (getReferenceClock() == nullptr) return;
 
-      unsigned long nowMillis = clockMillis();
+      uint32_t nowMillis = clockMillis();
 
       // Finite state machine based on mRequestStatus
       switch (mRequestStatus) {
@@ -90,26 +90,26 @@ class SystemClockLoop : public SystemClock {
           getReferenceClock()->sendRequest();
           mRequestStartMillis = nowMillis;
           mRequestStatus = kStatusSent;
-          setSecondsSinceSyncAttempt(0);
-          setSecondsToSyncAttempt(mCurrentSyncPeriodSeconds);
+          setPrevSyncAttemptMillis(nowMillis);
+          setNextSyncAttemptMillis(nowMillis
+              + mCurrentSyncPeriodSeconds * (uint32_t) 1000);
           break;
 
         case kStatusSent: {
-          unsigned long elapsedMillis = nowMillis - mRequestStartMillis;
-          setSecondsSinceSyncAttempt(elapsedMillis / 1000);
-          if (mTimingStats) mTimingStats->update(elapsedMillis);
+          uint32_t elapsedMillis = nowMillis - mRequestStartMillis;
+          if (mTimingStats) mTimingStats->update((uint16_t) elapsedMillis);
 
           if (getReferenceClock()->isResponseReady()) {
             acetime_t nowSeconds = getReferenceClock()->readResponse();
 
-            // If response came back but was invalid, reschedule.
             if (nowSeconds == kInvalidSeconds) {
+              // If response came back but was invalid, reschedule.
               mRequestStatus = kStatusWaitForRetry;
               setSyncStatusCode(kSyncStatusError);
             } else {
+              // Request succeeded.
               syncNow(nowSeconds);
               mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
-              mLastSyncMillis = nowMillis;
               mRequestStatus = kStatusOk;
               setSyncStatusCode(kSyncStatusOk);
             }
@@ -120,19 +120,15 @@ class SystemClockLoop : public SystemClock {
               setSyncStatusCode(kSyncStatusTimedOut);
             }
           }
-          setSecondsToSyncAttempt(mCurrentSyncPeriodSeconds);
           break;
         }
 
         // The previous request succeeded, so wait until the next sync attempt.
         case kStatusOk: {
-          unsigned long elapsedMillis = nowMillis - mLastSyncMillis;
-          setSecondsSinceSyncAttempt(elapsedMillis / 1000);
-          if (elapsedMillis >= mCurrentSyncPeriodSeconds * 1000UL) {
+          uint32_t elapsedMillis = nowMillis - mRequestStartMillis;
+          if (elapsedMillis >= mCurrentSyncPeriodSeconds * (uint32_t) 1000) {
             mRequestStatus = kStatusReady;
           }
-          setSecondsToSyncAttempt((int32_t) mCurrentSyncPeriodSeconds
-              - getSecondsSinceSyncAttempt());
           break;
         }
 
@@ -140,21 +136,15 @@ class SystemClockLoop : public SystemClock {
         // subsequent loop() retries with an exponential backoff, until a
         // maximum of mSyncPeriodSeconds is reached.
         case kStatusWaitForRetry: {
-          unsigned long elapsedMillis = nowMillis - mRequestStartMillis;
-          setSecondsSinceSyncAttempt(elapsedMillis / 1000);
-
+          uint32_t elapsedMillis = nowMillis - mRequestStartMillis;
           // Adjust mCurrentSyncPeriodSeconds using exponential backoff.
-          if (elapsedMillis >= mCurrentSyncPeriodSeconds * 1000UL) {
+          if (elapsedMillis >= mCurrentSyncPeriodSeconds * (uint32_t) 1000) {
             if (mCurrentSyncPeriodSeconds >= mSyncPeriodSeconds / 2) {
               mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
             } else {
               mCurrentSyncPeriodSeconds *= 2;
             }
             mRequestStatus = kStatusReady;
-            setSecondsToSyncAttempt(0);
-          } else {
-            setSecondsToSyncAttempt((int32_t) mCurrentSyncPeriodSeconds
-                - getSecondsSinceSyncAttempt());
           }
           break;
         }
@@ -164,6 +154,10 @@ class SystemClockLoop : public SystemClock {
   protected:
     /** Empty constructor used for testing. */
     SystemClockLoop() {}
+
+    // disable copy constructor and assignment operator
+    SystemClockLoop(const SystemClockLoop&) = delete;
+    SystemClockLoop& operator=(const SystemClockLoop&) = delete;
 
   private:
     friend class ::SystemClockLoopTest_loop;
@@ -180,16 +174,11 @@ class SystemClockLoop : public SystemClock {
     /** Request received but is invalid, so retry with exponential backoff. */
     static const uint8_t kStatusWaitForRetry = 3;
 
-    // disable copy constructor and assignment operator
-    SystemClockLoop(const SystemClockLoop&) = delete;
-    SystemClockLoop& operator=(const SystemClockLoop&) = delete;
-
     uint16_t const mSyncPeriodSeconds = 3600;
     uint16_t const mRequestTimeoutMillis = 1000;
     ace_common::TimingStats* const mTimingStats = nullptr;
 
-    unsigned long mLastSyncMillis;
-    unsigned long mRequestStartMillis;
+    uint32_t mRequestStartMillis;
     uint16_t mCurrentSyncPeriodSeconds = 5;
     uint8_t mRequestStatus = kStatusReady;
 };
