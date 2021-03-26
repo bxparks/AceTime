@@ -75,7 +75,7 @@ installation instructions.
     * [Tool Chain](#ToolChain)
     * [Operating System](#OperatingSystem)
 * [License](#License)
-* [Feedback and Support](#Feedback)
+* [Feedback and Support](#FeedbackSupport)
 * [Authors](#Authors)
 
 <a name="Overview"></a>
@@ -655,23 +655,25 @@ them.
 
 [MIT License](https://opensource.org/licenses/MIT)
 
-<a name="Feedback"></a>
+<a name="FeedbackSupport"></a>
 ## Feedback and Support
 
 If you find this library useful, consider starring this project on GitHub. The
 stars will let me prioritize the more popular libraries over the less popular
 ones.
 
-If you have any questions, comments and other support requestions about how to
+If you have any questions, comments and other support questions about how to
 use this library, please use the
 [GitHub Discussions](https://github.com/bxparks/AceTime/discussions)
 for this project. If you have bug reports or feature requests, please file a
-ticket in [GitHub Issues](https://github.com/bxparks/AceTime/issues). Please
-refrain from emailing me directly unless the content is sensitive. (The problem
-with email is that I cannot reference the email conversation when other people
-ask similar questions later.) I'd love to hear about how this software and its
-documentation can be improved. I can't promise that I will incorporate
-everything, but I will give your ideas serious consideration.
+ticket in [GitHub Issues](https://github.com/bxparks/AceTime/issues).
+I'd love to hear about how this software and its documentation can be improved.
+I can't promise that I will incorporate everything, but I will give your ideas
+serious consideration.
+
+Please refrain from emailing me directly unless the content is sensitive. The
+problem with email is that I cannot reference the email conversation when other
+people ask similar questions later.
 
 <a name="Authors"></a>
 ## Authors
