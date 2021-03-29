@@ -9,7 +9,7 @@
 #include <stddef.h> // size_t
 #include <stdint.h> // uint8_t, etc
 #include <string.h> // strlen()
-#include <Arduino.h> // strncpy_P()
+#include <avr/pgmspace.h> // strncpy_P()
 #include "LocalDate.h"
 #include "LocalTime.h"
 

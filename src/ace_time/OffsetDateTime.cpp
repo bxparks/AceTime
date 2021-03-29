@@ -3,6 +3,7 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
+#include <AceCommon.h>
 #include "LocalDateTime.h"
 #include "OffsetDateTime.h"
 
