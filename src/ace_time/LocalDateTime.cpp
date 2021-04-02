@@ -3,6 +3,8 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
+#include <string.h> // strlen()
+#include <Arduino.h> // strncpy_P(), Print
 #include <AceCommon.h>
 #include "common/DateStrings.h"
 #include "LocalDateTime.h"
@@ -59,5 +61,22 @@ LocalDateTime LocalDateTime::forDateStringChainable(const char*& dateString) {
   return LocalDateTime(ld, lt);
 }
 
+LocalDateTime LocalDateTime::forDateString(
+    const __FlashStringHelper* dateString) {
+  // Copy the F() string into a buffer. Use strncpy_P() because ESP32 and
+  // ESP8266 do not have strlcpy_P(). We need +1 for the '\0' character and
+  // another +1 to determine if the dateString is too long to fit.
+  char buffer[kDateTimeStringLength + 2];
+  strncpy_P(buffer, (const char*) dateString, sizeof(buffer));
+  buffer[kDateTimeStringLength + 1] = 0;
+
+  // check if the original F() was too long
+  size_t len = strlen(buffer);
+  if (len > kDateTimeStringLength) {
+    return forError();
+  }
+
+  return forDateString(buffer);
 }
 
+} // ace_time

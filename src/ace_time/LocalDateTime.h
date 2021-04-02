@@ -8,8 +8,6 @@
 
 #include <stddef.h> // size_t
 #include <stdint.h> // uint8_t, etc
-#include <string.h> // strlen()
-#include <Arduino.h> // strncpy_P()
 #include "LocalDate.h"
 #include "LocalTime.h"
 
@@ -135,22 +133,7 @@ class LocalDateTime {
      * Factory method. Create a LocalDateTime from date string in flash memory
      * F() strings. Mostly for unit testing.
      */
-    static LocalDateTime forDateString(const __FlashStringHelper* dateString) {
-      // Copy the F() string into a buffer. Use strncpy_P() because ESP32 and
-      // ESP8266 do not have strlcpy_P(). We need +1 for the '\0' character and
-      // another +1 to determine if the dateString is too long to fit.
-      char buffer[kDateTimeStringLength + 2];
-      strncpy_P(buffer, (const char*) dateString, sizeof(buffer));
-      buffer[kDateTimeStringLength + 1] = 0;
-
-      // check if the original F() was too long
-      size_t len = strlen(buffer);
-      if (len > kDateTimeStringLength) {
-        return forError();
-      }
-
-      return forDateString(buffer);
-    }
+    static LocalDateTime forDateString(const __FlashStringHelper* dateString);
 
     /** Factory method that returns an instance where isError() returns true. */
     static LocalDateTime forError() {
