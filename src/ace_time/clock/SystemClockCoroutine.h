@@ -96,15 +96,18 @@ class SystemClockCoroutine :
       keepAlive();
       if (getReferenceClock() == nullptr) return 0;
 
+      uint32_t nowMillis = clockMillis();
+
       COROUTINE_LOOP() {
         // Send request
         getReferenceClock()->sendRequest();
         mRequestStartMillis = coroutineMillis();
         mRequestStatus = kStatusSent;
-        setSecondsSinceSyncAttempt(0);
-        setSecondsToSyncAttempt(mCurrentSyncPeriodSeconds);
+        setPrevSyncAttemptMillis(nowMillis);
+        setNextSyncAttemptMillis(
+            nowMillis + mCurrentSyncPeriodSeconds * (uint32_t) 1000);
 
-        // Wait for request
+        // Wait for request until mRequestTimeoutMillis.
         while (true) {
           if (getReferenceClock()->isResponseReady()) {
             mRequestStatus = kStatusOk;
@@ -147,21 +150,10 @@ class SystemClockCoroutine :
           }
         }
 
-        // Do an explicit loop for a period of mCurrentSyncPeriodSeconds,
-        // instead of using a COROUTINE_DELAY_SECONDS() so that we can update
-        // the mSecondsSinceSyncAttempt and mSecondsToSyncAttempt counters.
-        //COROUTINE_DELAY_SECONDS(mCurrentSyncPeriodSeconds);
-        setSecondsSinceSyncAttempt(0);
-        setSecondsToSyncAttempt(mCurrentSyncPeriodSeconds);
-        for (mWaitCount = 0;
-            mWaitCount < mCurrentSyncPeriodSeconds;
-            ++mWaitCount
-        ) {
-          COROUTINE_DELAY(1000);
-          addSecondsSinceSyncAttempt(1);
-          addSecondsToSyncAttempt(-1);
-        }
-
+        // Wait for mCurrentSyncPeriodSeconds
+        setNextSyncAttemptMillis(
+            nowMillis + mCurrentSyncPeriodSeconds * (uint32_t) 1000);
+        COROUTINE_DELAY_SECONDS(mCurrentSyncPeriodSeconds);
 
         // Determine the retry delay time based on success or failure. If
         // failure, retry with exponential backoff, until the delay becomes

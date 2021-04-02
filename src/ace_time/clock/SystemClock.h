@@ -60,6 +60,9 @@ class SystemClock: public Clock {
     /** Sync request timed out. */
     static const uint8_t kSyncStatusTimedOut = 2;
 
+    /** Sync was never done. */
+    static const uint8_t kSyncStatusUnknown = 128;
+
     /** Attempt to retrieve the time from the backupClock if it exists. */
     void setup() {
       if (mBackupClock != nullptr) {
@@ -145,18 +148,21 @@ class SystemClock: public Clock {
      * class. In some UI, it might be make sense to display this as a negative
      * number.
      *
-     * Returns kInvalidSeconds if never attempted.
+     * The return value is undefined if getSyncStatusCode() is
+     * kSyncStatusUnknown.
      */
     int32_t getSecondsSinceSyncAttempt() const {
-      return mSecondsSinceSyncAttempt;
+      return (int32_t) (clockMillis() - mPrevSyncAttemptMillis) / 1000;
     }
 
     /**
-     * Return the number of seconds until the next syncNow() attempt. Returns
-     * kInvalidSeconds if sync not scheduled yet.
+     * Return the number of seconds until the next syncNow() attempt.
+     *
+     * The return value is undefined if getSyncStatusCode() is
+     * kSyncStatusUnknown.
      */
     int32_t getSecondsToSyncAttempt() const {
-      return mSecondsToSyncAttempt;
+      return (int32_t) (mNextSyncAttemptMillis - clockMillis()) / 1000;
     }
 
     /**
@@ -224,11 +230,11 @@ class SystemClock: public Clock {
       mBackupClock = backupClock;
 
       mEpochSeconds = kInvalidSeconds;
-      mSecondsSinceSyncAttempt = kInvalidSeconds;
-      mSecondsToSyncAttempt = kInvalidSeconds;
+      mPrevSyncAttemptMillis = 0;
+      mNextSyncAttemptMillis = 0;
       mPrevKeepAliveMillis = 0;
       mIsInit = false;
-      mSyncStatusCode = kSyncStatusOk;
+      mSyncStatusCode = kSyncStatusUnknown;
     }
 
     /** Get referenceClock. */
@@ -302,28 +308,18 @@ class SystemClock: public Clock {
       }
     }
 
-    /** Set the secondsToSyncAttempt. */
-    void setSecondsToSyncAttempt(int32_t seconds) {
-      mSecondsToSyncAttempt = seconds;
+    /** Set the millis to next sync attempt. */
+    void setNextSyncAttemptMillis(uint32_t ms) {
+      mNextSyncAttemptMillis = ms;
     }
 
-    /** Add 'delta' seconds to secondsSinceSyncAttempt. */
-    void addSecondsSinceSyncAttempt(int32_t delta) {
-      mSecondsSinceSyncAttempt += delta;
-    }
-
-    /** Set the secondsSinceSyncAttempt. */
-    void setSecondsSinceSyncAttempt(int32_t seconds) {
-      mSecondsSinceSyncAttempt = seconds;
-    }
-
-    /** Add 'delta' seconds to secondsToSyncAttempt. */
-    void addSecondsToSyncAttempt(int32_t delta) {
-      mSecondsToSyncAttempt += delta;
+    /** Set the millis of prev sync attempt. */
+    void setPrevSyncAttemptMillis(uint32_t ms) {
+      mPrevSyncAttemptMillis = ms;
     }
 
     /** Set the status code of most recent sync attempt. */
-    void setSyncStatusCode(bool code) {
+    void setSyncStatusCode(uint8_t code) {
       mSyncStatusCode = code;
     }
 
@@ -333,12 +329,12 @@ class SystemClock: public Clock {
 
     mutable acetime_t mEpochSeconds = kInvalidSeconds;
     acetime_t mLastSyncTime = kInvalidSeconds; // time when last synced
-    int32_t mSecondsSinceSyncAttempt = kInvalidSeconds;
-    int32_t mSecondsToSyncAttempt = kInvalidSeconds;
+    uint32_t mPrevSyncAttemptMillis = 0;
+    uint32_t mNextSyncAttemptMillis = 0;
     mutable uint16_t mPrevKeepAliveMillis = 0; // lower 16-bits of clockMillis()
     int16_t mClockSkew = 0; // diff between reference and this clock
     bool mIsInit = false; // true if setNow() or syncNow() was successful
-    uint8_t mSyncStatusCode = kSyncStatusOk;
+    uint8_t mSyncStatusCode = kSyncStatusUnknown;
 };
 
 }

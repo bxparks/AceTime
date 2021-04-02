@@ -1,6 +1,14 @@
 # Changelog
 
 * Unreleased
+* 1.7.1 (2021-04-02)
+    * Simplify calculation of `SystemClock::getSecondsSinceSyncAttempt()`
+      and `SystemClock::getSecondsToSyncAttempt()`, which substantially
+      simplifies the implementation of `SystemClockLoop` and
+      `SystemClockCoroutine`.
+    * Update `tests/auniter.ini` to be consistent with my other libraries. Add
+      entries for `env:teensy32` (which had been supported for a while) and
+      `env:mkr1000` (which I just received).
 * 1.7 (2021-03-24, TZ DB version 2021a)
     * AceTime now has a
       [GitHub Discussion](https://github.com/bxparks/AceTime/discussions).

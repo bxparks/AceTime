@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.7</span>
+   &#160;<span id="projectnumber">1.7.1</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -171,6 +171,10 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class
 static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a04e5417278f4734365b75d044a1d1e8b">kSyncStatusTimedOut</a> = 2</td></tr>
 <tr class="memdesc:a04e5417278f4734365b75d044a1d1e8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sync request timed out. <br /></td></tr>
 <tr class="separator:a04e5417278f4734365b75d044a1d1e8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef6818c3f4b6707c776847c2268bf788"><td class="memItemLeft" align="right" valign="top"><a id="aef6818c3f4b6707c776847c2268bf788"></a>
+static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aef6818c3f4b6707c776847c2268bf788">kSyncStatusUnknown</a> = 128</td></tr>
+<tr class="memdesc:aef6818c3f4b6707c776847c2268bf788"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sync was never done. <br /></td></tr>
+<tr class="separator:aef6818c3f4b6707c776847c2268bf788"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_attribs_classace__time_1_1clock_1_1Clock"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_classace__time_1_1clock_1_1Clock')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="classace__time_1_1clock_1_1Clock.html">ace_time::clock::Clock</a></td></tr>
 <tr class="memitem:ae4fb852c09fbb9e37cc5764787dbf094 inherit pub_static_attribs_classace__time_1_1clock_1_1Clock"><td class="memItemLeft" align="right" valign="top"><a id="ae4fb852c09fbb9e37cc5764787dbf094"></a>
 static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1Clock.html#ae4fb852c09fbb9e37cc5764787dbf094">kInvalidSeconds</a> = LocalTime::kInvalidSeconds</td></tr>
@@ -210,26 +214,18 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:acfd32b4775a05ff54d172f3829fc1de7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acfd32b4775a05ff54d172f3829fc1de7">syncNow</a> (acetime_t epochSeconds)</td></tr>
 <tr class="memdesc:acfd32b4775a05ff54d172f3829fc1de7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the current mEpochSeconds to the given epochSeconds.  <a href="classace__time_1_1clock_1_1SystemClock.html#acfd32b4775a05ff54d172f3829fc1de7">More...</a><br /></td></tr>
 <tr class="separator:acfd32b4775a05ff54d172f3829fc1de7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39bffae628df3c1f3f195d0f13d10004"><td class="memItemLeft" align="right" valign="top"><a id="a39bffae628df3c1f3f195d0f13d10004"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a39bffae628df3c1f3f195d0f13d10004">setSecondsToSyncAttempt</a> (int32_t seconds)</td></tr>
-<tr class="memdesc:a39bffae628df3c1f3f195d0f13d10004"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the secondsToSyncAttempt. <br /></td></tr>
-<tr class="separator:a39bffae628df3c1f3f195d0f13d10004"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72ebf7154ada37b5773bcee5450fe92f"><td class="memItemLeft" align="right" valign="top"><a id="a72ebf7154ada37b5773bcee5450fe92f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a72ebf7154ada37b5773bcee5450fe92f">addSecondsSinceSyncAttempt</a> (int32_t delta)</td></tr>
-<tr class="memdesc:a72ebf7154ada37b5773bcee5450fe92f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add 'delta' seconds to secondsSinceSyncAttempt. <br /></td></tr>
-<tr class="separator:a72ebf7154ada37b5773bcee5450fe92f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acba7cbd4579a8e1101eab87fc9e286b2"><td class="memItemLeft" align="right" valign="top"><a id="acba7cbd4579a8e1101eab87fc9e286b2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acba7cbd4579a8e1101eab87fc9e286b2">setSecondsSinceSyncAttempt</a> (int32_t seconds)</td></tr>
-<tr class="memdesc:acba7cbd4579a8e1101eab87fc9e286b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the secondsSinceSyncAttempt. <br /></td></tr>
-<tr class="separator:acba7cbd4579a8e1101eab87fc9e286b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24fd17d9f2e8a7acf720400dbc35250c"><td class="memItemLeft" align="right" valign="top"><a id="a24fd17d9f2e8a7acf720400dbc35250c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a24fd17d9f2e8a7acf720400dbc35250c">addSecondsToSyncAttempt</a> (int32_t delta)</td></tr>
-<tr class="memdesc:a24fd17d9f2e8a7acf720400dbc35250c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add 'delta' seconds to secondsToSyncAttempt. <br /></td></tr>
-<tr class="separator:a24fd17d9f2e8a7acf720400dbc35250c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9865a96b245f8874dc9be5cbf9cd72c"><td class="memItemLeft" align="right" valign="top"><a id="ae9865a96b245f8874dc9be5cbf9cd72c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClock.html#ae9865a96b245f8874dc9be5cbf9cd72c">setSyncStatusCode</a> (bool code)</td></tr>
-<tr class="memdesc:ae9865a96b245f8874dc9be5cbf9cd72c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the status code of most recent sync attempt. <br /></td></tr>
-<tr class="separator:ae9865a96b245f8874dc9be5cbf9cd72c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af487811c97076dcc3dfd3843ee8fa892"><td class="memItemLeft" align="right" valign="top"><a id="af487811c97076dcc3dfd3843ee8fa892"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClock.html#af487811c97076dcc3dfd3843ee8fa892">setNextSyncAttemptMillis</a> (uint32_t ms)</td></tr>
+<tr class="memdesc:af487811c97076dcc3dfd3843ee8fa892"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the millis to next sync attempt. <br /></td></tr>
+<tr class="separator:af487811c97076dcc3dfd3843ee8fa892"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac472dee2cb07cf95eb47b4f95429028f"><td class="memItemLeft" align="right" valign="top"><a id="ac472dee2cb07cf95eb47b4f95429028f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClock.html#ac472dee2cb07cf95eb47b4f95429028f">setPrevSyncAttemptMillis</a> (uint32_t ms)</td></tr>
+<tr class="memdesc:ac472dee2cb07cf95eb47b4f95429028f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the millis of prev sync attempt. <br /></td></tr>
+<tr class="separator:ac472dee2cb07cf95eb47b4f95429028f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b26e81754740ff0deea65599d9788af"><td class="memItemLeft" align="right" valign="top"><a id="a1b26e81754740ff0deea65599d9788af"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a1b26e81754740ff0deea65599d9788af">setSyncStatusCode</a> (uint8_t code)</td></tr>
+<tr class="memdesc:a1b26e81754740ff0deea65599d9788af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the status code of most recent sync attempt. <br /></td></tr>
+<tr class="separator:a1b26e81754740ff0deea65599d9788af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -250,7 +246,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockLoopTes
 <p>There are 2 maintenance tasks which this class must perform peridicallly:</p>
 <p>1) The value of the previous system time millis() is stored internally as a uint16_t. That has 2 advantages: 1) it saves memory, 2) the upper bound of the execution time of <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acdb29aa7095759101a9f33b79f863144" title="Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z).">getNow()</a> limited to 65 iterations. The disadvantage is the that internal counter will rollover within 65.535 milliseconds. To prevent that, <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#adfc9d74fc2b9a0356a44d1e41845b3de" title="Call this (or getNow() every 65.535 seconds or faster to keep the internal counter in sync with milli...">keepAlive()</a> must be called more frequently than every 65.536 seconds. 2) The current time can be synchronized to the referenceClock peridically. Some reference clocks can take hundreds or thousands of milliseconds to return, so it's important that the non-block methods of <a class="el" href="classace__time_1_1clock_1_1Clock.html" title="Abstract base class for objects that provide and store time.">Clock</a> are used to synchronize to the reference clock.</p>
 <p>Two subclasses of <a class="el" href="classace__time_1_1clock_1_1SystemClock.html" title="A Clock that uses the Arduino millis() function to advance the time returned to the user.">SystemClock</a> expose 2 different ways of performing these maintenance tasks.</p>
-<p>1) Call SystemClockCoroutine::runCoroutine using the framework of the AceRoutine library in the global loop() function. 2) Call the <a class="el" href="classace__time_1_1clock_1_1SystemClockLoop.html#a551fc36219fa3afb4e78a8c690a07fc8" title="Make a request to the referenceClock, wait for the request, then set the SystemClock (the parent clas...">SystemClockLoop::loop()</a> method from the global loop() function. </p>
+<p>1) Call SystemClockCoroutine::runCoroutine using the framework of the AceRoutine library in the global loop() function. 2) Call the <a class="el" href="classace__time_1_1clock_1_1SystemClockLoop.html#a551fc36219fa3afb4e78a8c690a07fc8" title="Make a request to the referenceClock every syncPeriodSeconds seconds.">SystemClockLoop::loop()</a> method from the global loop() function. </p>
 
 <p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00052">52</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -297,7 +293,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockLoopTes
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00205">205</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00211">211</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -327,7 +323,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockLoopTes
 <p>Empty constructor primarily for tests. </p>
 <p>The init() must be called before using the object. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00216">216</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00222">222</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -359,7 +355,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockLoopTes
 <p>Write the nowSeconds to the backupClock (which can be an RTC that has non-volatile memory). </p>
 <p>If the referenceClock already preserves its date and time during power loss, then we don't need a backupClock and this method does not need to be called. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00259">259</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00265">265</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -389,7 +385,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockLoopTes
 <p>Return the Arduino millis(). </p>
 <p>Override for unit testing. Named '<a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a1aa93c64a26f9dab8cd364dd7c0cb798" title="Return the Arduino millis().">clockMillis()</a>' to avoid conflict with Coroutine::millis(). </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00241">241</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00247">247</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -419,9 +415,9 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockLoopTes
 <p>Manually force a sync with the referenceClock if it exists. </p>
 <p>Intended to be mostly for diagnostic or debugging.</p>
 <p>This calls the synchronous <a class="el" href="classace__time_1_1clock_1_1Clock.html#a018eaa1936dd0750eb2098e1c6ada9e4" title="Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z).">Clock::getNow()</a> method on the reference clock, which can block the program from continuing if the reference clock takes a long time.</p>
-<p>Normally syncing with the reference clock happens through the SystemClockCoroutine::runCoroutine() or <a class="el" href="classace__time_1_1clock_1_1SystemClockLoop.html#a551fc36219fa3afb4e78a8c690a07fc8" title="Make a request to the referenceClock, wait for the request, then set the SystemClock (the parent clas...">SystemClockLoop::loop()</a>, both of which use the non-blocking calls (<a class="el" href="classace__time_1_1clock_1_1Clock.html#a789be177b3a48408fca1805a90d7e34e" title="Send a time request asynchronously.">Clock::sendRequest()</a>, <a class="el" href="classace__time_1_1clock_1_1Clock.html#ada1474de64fd88ca8466bea08165b3c3" title="Return true if a response is ready.">Clock::isResponseReady()</a>, <a class="el" href="classace__time_1_1clock_1_1Clock.html#acb014777a376ad582151486b64db67fc" title="Returns number of seconds since AceTime epoch (2000-01-01).">Clock::readResponse()</a>) on the reference clock. </p>
+<p>Normally syncing with the reference clock happens through the SystemClockCoroutine::runCoroutine() or <a class="el" href="classace__time_1_1clock_1_1SystemClockLoop.html#a551fc36219fa3afb4e78a8c690a07fc8" title="Make a request to the referenceClock every syncPeriodSeconds seconds.">SystemClockLoop::loop()</a>, both of which use the non-blocking calls (<a class="el" href="classace__time_1_1clock_1_1Clock.html#a789be177b3a48408fca1805a90d7e34e" title="Send a time request asynchronously.">Clock::sendRequest()</a>, <a class="el" href="classace__time_1_1clock_1_1Clock.html#ada1474de64fd88ca8466bea08165b3c3" title="Return true if a response is ready.">Clock::isResponseReady()</a>, <a class="el" href="classace__time_1_1clock_1_1Clock.html#acb014777a376ad582151486b64db67fc" title="Returns number of seconds since AceTime epoch (2000-01-01).">Clock::readResponse()</a>) on the reference clock. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00120">120</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00123">123</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -452,7 +448,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockLoopTes
 <p>A negative value means that the <a class="el" href="classace__time_1_1clock_1_1SystemClock.html" title="A Clock that uses the Arduino millis() function to advance the time returned to the user.">SystemClock</a> was slower than the referenceClock, and a positive value means that the <a class="el" href="classace__time_1_1clock_1_1SystemClock.html" title="A Clock that uses the Arduino millis() function to advance the time returned to the user.">SystemClock</a> was faster than the referenceClock.</p>
 <p>The clock skew is expected to be very small, a few seconds, so we use <code>int16_t</code> type to save memory. The maximum clock skew that can be stored is 32767 seconds, or just over 9 hours. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00172">172</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00178">178</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -482,7 +478,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockLoopTes
 <p>Return the time (seconds since Epoch) of the last successful <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acfd32b4775a05ff54d172f3829fc1de7" title="Set the current mEpochSeconds to the given epochSeconds.">syncNow()</a> call. </p>
 <p>Returns kInvalidSeconds if never synced. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00131">131</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00134">134</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -515,7 +511,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockLoopTes
 
 <p>Implements <a class="el" href="classace__time_1_1clock_1_1Clock.html#a018eaa1936dd0750eb2098e1c6ada9e4">ace_time::clock::Clock</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00070">70</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00073">73</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -545,9 +541,9 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockLoopTes
 <p>Return the number of seconds since the previous sync attempt, successful or not. </p>
 <p>This should always return a positive integer, unless the last sync attempt happened so long ago that the <code>int16_t</code> wrapped around, which is an undefined behavior in C (and probably C++ too).</p>
 <p>It can be converted into a human readable form using the <a class="el" href="classace__time_1_1TimePeriod.html" title="Represents a period of time relative to some known point in time, potentially represented by a DateTi...">TimePeriod</a> class. In some UI, it might be make sense to display this as a negative number.</p>
-<p>Returns kInvalidSeconds if never attempted. </p>
+<p>The return value is undefined if <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a95eb895cd8f8a630158b0843debe5e58" title="Get sync status code.">getSyncStatusCode()</a> is kSyncStatusUnknown. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00150">150</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00154">154</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -575,9 +571,9 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockLoopTes
 </div><div class="memdoc">
 
 <p>Return the number of seconds until the next <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acfd32b4775a05ff54d172f3829fc1de7" title="Set the current mEpochSeconds to the given epochSeconds.">syncNow()</a> attempt. </p>
-<p>Returns kInvalidSeconds if sync not scheduled yet. </p>
+<p>The return value is undefined if <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a95eb895cd8f8a630158b0843debe5e58" title="Get sync status code.">getSyncStatusCode()</a> is kSyncStatusUnknown. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00158">158</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00164">164</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -618,7 +614,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockLoopTes
 <p>Same as constructor but allows delayed initialization, e.g. </p>
 <p>in tests. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00219">219</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00225">225</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -646,9 +642,9 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockLoopTes
 </div><div class="memdoc">
 
 <p>Call this (or <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acdb29aa7095759101a9f33b79f863144" title="Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z).">getNow()</a> every 65.535 seconds or faster to keep the internal counter in sync with millis(). </p>
-<p>This will normally happen through the SystemClockCoroutine::runCoroutine() or <a class="el" href="classace__time_1_1clock_1_1SystemClockLoop.html#a551fc36219fa3afb4e78a8c690a07fc8" title="Make a request to the referenceClock, wait for the request, then set the SystemClock (the parent clas...">SystemClockLoop::loop()</a> methods. </p>
+<p>This will normally happen through the SystemClockCoroutine::runCoroutine() or <a class="el" href="classace__time_1_1clock_1_1SystemClockLoop.html#a551fc36219fa3afb4e78a8c690a07fc8" title="Make a request to the referenceClock every syncPeriodSeconds seconds.">SystemClockLoop::loop()</a> methods. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00249">249</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00255">255</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -681,7 +677,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockLoopTes
 
 <p>Reimplemented from <a class="el" href="classace__time_1_1clock_1_1Clock.html#a958ab88f7ba9893c557038e1424138ca">ace_time::clock::Clock</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00098">98</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00101">101</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -715,7 +711,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockLoopTes
 <p>This method is the same as <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aa33cfb495e1b6247916b986bbef6875d" title="Set the time to the indicated seconds.">setNow()</a> (in fact, <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aa33cfb495e1b6247916b986bbef6875d" title="Set the time to the indicated seconds.">setNow()</a> just calls this method), except that we don't set the referenceClock, since that was the original source of the epochSeconds. If we saved it back to its source, we would probably see drifting of the referenceClock due to the 1-second granularity of many RTC clocks.</p>
 <p>TODO: Implement a more graceful <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acfd32b4775a05ff54d172f3829fc1de7" title="Set the current mEpochSeconds to the given epochSeconds.">syncNow()</a> algorithm which shifts only a few milliseconds per iteration, and which guarantees that the clock never goes backwards in time. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00288">288</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00294">294</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
