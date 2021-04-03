@@ -391,9 +391,7 @@ class TransitionStorageTemplate {
     }
 
     /** Swap 2 transitions. */
-    void swap(
-        Transition** a,
-        Transition** b) {
+    static void swap(Transition** a, Transition** b) {
       auto* tmp = *a;
       *a = *b;
       *b = tmp;
@@ -1719,7 +1717,7 @@ class ExtendedZoneProcessor: public ExtendedZoneProcessorTemplate<
     extended::ZoneRuleBroker> {
 
   public:
-    /** Unique TimeZone type identifier for BasicZoneProcessor. */
+    /** Unique TimeZone type identifier for ExtendedZoneProcessor. */
     static const uint8_t kTypeExtended = 4;
 
     explicit ExtendedZoneProcessor(const extended::ZoneInfo* zoneInfo = nullptr)
