@@ -75,7 +75,7 @@ installation instructions.
     * [Tool Chain](#ToolChain)
     * [Operating System](#OperatingSystem)
 * [License](#License)
-* [Feedback and Support](#FeedbackSupport)
+* [Feedback and Support](#FeedbackAndSupport)
 * [Authors](#Authors)
 
 <a name="Overview"></a>
@@ -655,7 +655,7 @@ them.
 
 [MIT License](https://opensource.org/licenses/MIT)
 
-<a name="FeedbackSupport"></a>
+<a name="FeedbackAndSupport"></a>
 ## Feedback and Support
 
 If you find this library useful, consider starring this project on GitHub. The
