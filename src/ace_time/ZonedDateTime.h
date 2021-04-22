@@ -191,9 +191,6 @@ class ZonedDateTime {
      */
     uint8_t dayOfWeek() const { return mOffsetDateTime.dayOfWeek(); }
 
-    /** Return the offset zone of the OffsetDateTime. */
-    TimeOffset timeOffset() const { return mOffsetDateTime.timeOffset(); }
-
     /** Return the time zone of the ZonedDateTime. */
     const TimeZone& timeZone() const { return mTimeZone; }
 
@@ -203,9 +200,32 @@ class ZonedDateTime {
      */
     void timeZone(const TimeZone& timeZone) { mTimeZone = timeZone; }
 
+    /** Return the offset zone of the OffsetDateTime. */
+    TimeOffset timeOffset() const { return mOffsetDateTime.timeOffset(); }
+
     /** Return the LocalDateTime of the components. */
     const LocalDateTime& localDateTime() const {
       return mOffsetDateTime.localDateTime();
+    }
+
+    /**
+     * Normalize the ZonedDateTime after mutation. This must be called after any
+     * mutation method is called (i.e. year(), month(), day(), hour(), minute(),
+     * second(), timezone()) in order to obtain correct values for various
+     * derivative information (e.g. toEpochSeconds()). Multiple mutations can be
+     * batched together before calling this method.
+     *
+     * This method exists because AceTime objects are mutable instead of
+     * immutable. If the objects were immutable, then each mutation would create
+     * a new object that would be automatically normalized, and an unnormalized
+     * object would not be visible outside of the library. Unfortunately, making
+     * the AceTime classes immutable causes the library to consume too much
+     * additional memory and consume too much CPU resources on 8-bit processors.
+     * So we must provide this normalize() method which must be called
+     * manually by the client code.
+     */
+    void normalize() {
+      mOffsetDateTime = mTimeZone.getOffsetDateTime(localDateTime());
     }
 
     /**
