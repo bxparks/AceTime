@@ -1,6 +1,12 @@
 # Changelog
 
 * Unreleased
+    * **Bug Fix**: Add `ZonedDateTime::normalize()`, which must be called by
+      the client code after calling a `ZonedDateTime` mutation function. See
+      [ZonedDateTime
+      Normalization](docs/date_time_timezone.md#ZonedDateTimeNormalization).
+      Increases flash usage by 222 bytes by making this singel call on an AVR
+      unfortunately.
 * 1.7.1 (2021-04-02)
     * Simplify calculation of `SystemClock::getSecondsSinceSyncAttempt()`
       and `SystemClock::getSecondsToSyncAttempt()`, which substantially

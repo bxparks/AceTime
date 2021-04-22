@@ -563,7 +563,8 @@ See [docs/installation.md](docs/installation.md).
 
 * [README.md](README.md)
     * this file
-* [docs/date_time_timezone.md](docs/date_time_timezone.md)
+* Date, Time and TimeZones
+  ([docs/date_time_timezone.md](docs/date_time_timezone.md))
     * Date and Time classes
     * TimeZone classes
     * ZoneInfo Database
@@ -571,7 +572,8 @@ See [docs/installation.md](docs/installation.md).
     * Error Handling
     * Motivation and Design Considerations
     * Bugs and Limitations
-* [docs/clock_system_clock.md](docs/clock_system_clock.md)
+* Clocks and SystemClocks
+  ([docs/clock_system_clock.md](docs/clock_system_clock.md))
     * Clock
     * NTP Clock, DS3231 Clock, STM32 RTC Clock, STM32F1 Clock
     * SystemClock, SystemClockLoop, SystemClockCoroutine

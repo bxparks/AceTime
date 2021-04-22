@@ -138,6 +138,53 @@ test(ZonedDateTimeBasicTest, linked_zones) {
 
 // --------------------------------------------------------------------------
 
+test(ZonedDateTimeBasicTest, normalize) {
+  TimeZone tz = basicZoneManager.createForZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles);
+
+  // Start with epochSeconds = 0. Should translate to 1999-12-31T16:00:00-08:00.
+  auto dt = ZonedDateTime::forEpochSeconds(0, tz);
+  assertEqual(1999, dt.year());
+  assertEqual(12, dt.month());
+  assertEqual(31, dt.day());
+  assertEqual(16, dt.hour());
+  assertEqual(0, dt.minute());
+  assertEqual(0, dt.second());
+
+  // Set the date/time to 2021-04-20T11:00:00, which happens to be in DST.
+  dt.year(2021);
+  dt.month(4);
+  dt.day(20);
+  dt.hour(9);
+  dt.minute(0);
+  dt.second(0);
+
+  // If we blindly use the resulting epochSeconds to set the SystemClock, we
+  // will be off by one hour, because the TimeOffset stored internally (-08:00)
+  // does not match the TimeOffset that should appy at the new date (-07:00).
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  auto newDt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+  assertEqual(2021, newDt.year());
+  assertEqual(4, newDt.month());
+  assertEqual(20, newDt.day());
+  assertEqual(10, newDt.hour()); // should be 9, but becomes converted to 10.
+  assertEqual(0, newDt.minute());
+  assertEqual(0, newDt.second());
+
+  // We must normalize() after mutation.
+  dt.normalize();
+  epochSeconds = dt.toEpochSeconds();
+  newDt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+  assertEqual(2021, newDt.year());
+  assertEqual(4, newDt.month());
+  assertEqual(20, newDt.day());
+  assertEqual(9, newDt.hour()); // will now be correct
+  assertEqual(0, newDt.minute());
+  assertEqual(0, newDt.second());
+}
+
+// --------------------------------------------------------------------------
+
 void setup() {
 #if ! defined(EPOXY_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
