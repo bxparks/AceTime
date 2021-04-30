@@ -29,7 +29,9 @@ class StmRtcClock: public Clock {
   public:
     explicit StmRtcClock() {}
 
-    void setup() {}
+    void setup(const sourceClock_t clockSource = LSI_CLOCK, const hourFormat_t hourFormat = HOUR_FORMAT_24) {
+      mStmRtc.begin(clockSource, hourFormat);
+    }
 
     acetime_t getNow() const override {
       hw::HardwareDateTime hardwareDateTime;
@@ -70,7 +72,7 @@ class StmRtcClock: public Clock {
           dt.day(), dt.hour(), dt.minute(), dt.second(), dt.dayOfWeek()};
     }
 
-    const hw::StmRtc mStmRtc;
+    hw::StmRtc mStmRtc;
 };
 
 } // hw
