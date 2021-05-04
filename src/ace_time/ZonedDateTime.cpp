@@ -3,7 +3,7 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#include "common/DateStrings.h"
+#include <Arduino.h> // Print, F()
 #include "ZonedDateTime.h"
 
 namespace ace_time {

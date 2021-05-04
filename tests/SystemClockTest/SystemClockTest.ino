@@ -173,7 +173,7 @@ testF(SystemClockLoopTest, loop) {
     assertEqual(SystemClockLoop::kStatusReady, systemClock.mRequestStatus);
     assertEqual((int32_t) expectedDelaySeconds,
         systemClock.getSecondsSinceSyncAttempt());
-    assertEqual(0, systemClock.getSecondsToSyncAttempt());
+    assertEqual((int32_t) 0, systemClock.getSecondsToSyncAttempt());
     assertEqual(SystemClock::kSyncStatusTimedOut,
         systemClock.getSyncStatusCode());
   }
@@ -181,8 +181,8 @@ testF(SystemClockLoopTest, loop) {
   // Last iteration. Make a request.
   systemClock.loop();
   assertEqual(SystemClockLoop::kStatusSent, systemClock.mRequestStatus);
-  assertEqual(0, systemClock.getSecondsSinceSyncAttempt());
-  assertEqual(systemClock.mCurrentSyncPeriodSeconds,
+  assertEqual((int32_t) 0, systemClock.getSecondsSinceSyncAttempt());
+  assertEqual((int32_t) systemClock.mCurrentSyncPeriodSeconds,
       systemClock.getSecondsToSyncAttempt());
   assertEqual(SystemClock::kSyncStatusTimedOut,
       systemClock.getSyncStatusCode());
@@ -221,8 +221,8 @@ testF(SystemClockLoopTest, loop) {
   fakeMillis.millis(millis);
   systemClock.loop();
   assertEqual(SystemClockLoop::kStatusSent, systemClock.mRequestStatus);
-  assertEqual(0, systemClock.getSecondsSinceSyncAttempt());
-  assertEqual(systemClock.mCurrentSyncPeriodSeconds,
+  assertEqual((int32_t) 0, systemClock.getSecondsSinceSyncAttempt());
+  assertEqual((int32_t) systemClock.mCurrentSyncPeriodSeconds,
       systemClock.getSecondsToSyncAttempt());
   assertEqual(SystemClock::kSyncStatusTimedOut,
       systemClock.getSyncStatusCode());
@@ -237,8 +237,9 @@ testF(SystemClockLoopTest, loop) {
   assertEqual((acetime_t) 42, systemClock.getNow());
   assertEqual((acetime_t) 42, systemClock.getLastSyncTime());
   assertTrue(systemClock.isInit());
-  assertEqual(0, systemClock.getSecondsSinceSyncAttempt());
-  assertEqual(systemClock.mCurrentSyncPeriodSeconds - 1 /* 1 ms later */,
+  assertEqual((int32_t) 0, systemClock.getSecondsSinceSyncAttempt());
+  assertEqual(
+      (int32_t) systemClock.mCurrentSyncPeriodSeconds - 1 /* 1 ms later */,
       systemClock.getSecondsToSyncAttempt());
   assertEqual(SystemClock::kSyncStatusOk, systemClock.getSyncStatusCode());
 }
@@ -284,8 +285,8 @@ testF(SystemClockCoroutineTest, runCoroutine) {
     // t = 0, sends request and waits for response
     systemClock.runCoroutine();
     assertTrue(systemClock.isYielding());
-    assertEqual(0, systemClock.getSecondsSinceSyncAttempt());
-    assertEqual(systemClock.mCurrentSyncPeriodSeconds,
+    assertEqual((int32_t) 0, systemClock.getSecondsSinceSyncAttempt());
+    assertEqual((int32_t) systemClock.mCurrentSyncPeriodSeconds,
         systemClock.getSecondsToSyncAttempt());
     assertEqual(
         firstRequestMade
@@ -316,8 +317,8 @@ testF(SystemClockCoroutineTest, runCoroutine) {
   systemClock.runCoroutine();
   assertTrue(systemClock.isYielding());
   assertEqual(SystemClockCoroutine::kStatusSent, systemClock.mRequestStatus);
-  assertEqual(0, systemClock.getSecondsSinceSyncAttempt());
-  assertEqual(systemClock.mCurrentSyncPeriodSeconds,
+  assertEqual((int32_t) 0, systemClock.getSecondsSinceSyncAttempt());
+  assertEqual((int32_t) systemClock.mCurrentSyncPeriodSeconds,
       systemClock.getSecondsToSyncAttempt());
   assertEqual(SystemClock::kSyncStatusTimedOut,
       systemClock.getSyncStatusCode());
@@ -346,8 +347,8 @@ testF(SystemClockCoroutineTest, runCoroutine) {
   assertEqual((acetime_t) 42, systemClock.getNow());
   assertEqual((acetime_t) 42, systemClock.getLastSyncTime());
   assertTrue(systemClock.isInit());
-  assertEqual(0, systemClock.getSecondsSinceSyncAttempt());
-  assertEqual(systemClock.mCurrentSyncPeriodSeconds,
+  assertEqual((int32_t) 0, systemClock.getSecondsSinceSyncAttempt());
+  assertEqual((int32_t) systemClock.mCurrentSyncPeriodSeconds,
       systemClock.getSecondsToSyncAttempt());
   assertEqual(SystemClock::kSyncStatusOk, systemClock.getSyncStatusCode());
 }
