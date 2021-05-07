@@ -44,7 +44,7 @@ test(TimeZoneTest, forError) {
   auto tz = TimeZone::forError();
   assertEqual(TimeZone::kTypeError, tz.getType());
   tz.printTo(printStr);
-  assertEqual(F("<Error>"), printStr.getCstr());
+  assertEqual(F("<Error>"), printStr.cstr());
 }
 
 //---------------------------------------------------------------------------
@@ -63,11 +63,11 @@ test(TimeZoneTest, manual_utc) {
   assertEqual(F("UTC"), tz.getAbbrev(0));
 
   tz.printTo(printStr);
-  assertEqual(F("UTC"), printStr.getCstr());
+  assertEqual(F("UTC"), printStr.cstr());
   printStr.flush();
 
   tz.printShortTo(printStr);
-  assertEqual(F("UTC"), printStr.getCstr());
+  assertEqual(F("UTC"), printStr.cstr());
   printStr.flush();
 }
 
@@ -83,11 +83,11 @@ test(TimeZoneTest, forTimeOffset_no_dst) {
   assertEqual(F("STD"), tz.getAbbrev(0));
 
   tz.printTo(printStr);
-  assertEqual(F("-08:00+00:00"), printStr.getCstr());
+  assertEqual(F("-08:00+00:00"), printStr.cstr());
   printStr.flush();
 
   tz.printShortTo(printStr);
-  assertEqual(F("-08:00(S)"), printStr.getCstr());
+  assertEqual(F("-08:00(S)"), printStr.cstr());
   printStr.flush();
 }
 
@@ -106,11 +106,11 @@ test(TimeZoneTest, forTimeOffset_dst) {
   assertEqual(F("DST"), tz.getAbbrev(0));
 
   tz.printTo(printStr);
-  assertEqual(F("-08:00+01:00"), printStr.getCstr());
+  assertEqual(F("-08:00+01:00"), printStr.cstr());
   printStr.flush();
 
   tz.printShortTo(printStr);
-  assertEqual(F("-07:00(D)"), printStr.getCstr());
+  assertEqual(F("-07:00(D)"), printStr.cstr());
   printStr.flush();
 }
 
@@ -195,17 +195,17 @@ test(TimeZoneBasicTest, zoneProcessor_rebinding) {
 
   PrintStr<32> printStr;
   losAngeles.printTo(printStr);
-  assertEqual(F("America/Los_Angeles"), printStr.getCstr());
+  assertEqual(F("America/Los_Angeles"), printStr.cstr());
   printStr.flush();
   newYork.printTo(printStr);
-  assertEqual(F("America/New_York"), printStr.getCstr());
+  assertEqual(F("America/New_York"), printStr.cstr());
   printStr.flush();
 
   losAngeles.printShortTo(printStr);
-  assertEqual(F("Los Angeles"), printStr.getCstr());
+  assertEqual(F("Los Angeles"), printStr.cstr());
   printStr.flush();
   newYork.printShortTo(printStr);
-  assertEqual(F("New York"), printStr.getCstr());
+  assertEqual(F("New York"), printStr.cstr());
   printStr.flush();
 }
 

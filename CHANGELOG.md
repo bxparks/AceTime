@@ -7,6 +7,8 @@
       Normalization](docs/date_time_timezone.md#ZonedDateTimeNormalization).
       Increases flash usage by 222 bytes by making this singel call on an AVR
       unfortunately.
+    * Migrate `PrintStr::getCstr()` in AceCommon <=1.4.4 to the shorter
+      `PrintStr::cstr()` in AceCommon >= 1.4.5.
 * 1.7.1 (2021-04-02)
     * Simplify calculation of `SystemClock::getSecondsSinceSyncAttempt()`
       and `SystemClock::getSecondsToSyncAttempt()`, which substantially

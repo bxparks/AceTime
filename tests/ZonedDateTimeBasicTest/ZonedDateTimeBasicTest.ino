@@ -36,7 +36,7 @@ test(ZonedDateTimeBasicTest, printTo) {
   ace_common::PrintStr<64> dateString;
   dt.printTo(dateString);
   assertEqual(
-      dateString.getCstr(),
+      dateString.cstr(),
       F("2020-01-02T03:04:05-08:00[America/Los_Angeles]")
   );
 }

@@ -37,10 +37,10 @@ test(ExtendedZoneProcessorTest, Los_Angeles) {
 
   PrintStr<32> printStr;
   zoneProcessor.printNameTo(printStr);
-  assertEqual(F("America/Los_Angeles"), printStr.getCstr());
+  assertEqual(F("America/Los_Angeles"), printStr.cstr());
   printStr.flush();
   zoneProcessor.printShortNameTo(printStr);
-  assertEqual(F("Los Angeles"), printStr.getCstr());
+  assertEqual(F("Los Angeles"), printStr.cstr());
 
   OffsetDateTime dt;
   acetime_t epochSeconds;

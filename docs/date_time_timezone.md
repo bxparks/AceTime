@@ -1821,7 +1821,7 @@ const basic::ZoneInfo* zoneInfo = ...;
 PrintStr<32> printStr; // buffer of 32 bytes on the stack
 BasicZone(zoneInfo).printNameTo(printStr);
 
-const char* name = printStr.getCstr();
+const char* name = printStr.cstr();
 // do stuff with 'name', but only while 'printStr' is alive
 ...
 ```
@@ -2066,7 +2066,7 @@ which prints to the serial port.
 The AceCommon library (https://github.com:bxparks/AceCommon) provides a
 subclass of `Print` called `PrintStr` which allows printing to an in-memory
 buffer. The contents of the in-memory buffer can be retrieved as a normal
-c-string using the `PrintStr::getCstr()` method.
+c-string using the `PrintStr::cstr()` method.
 
 Instances of the `PrintStr` object is expected to be created on the stack. The
 object will be destroyed automatically when the stack is unwound after returning
@@ -2090,7 +2090,7 @@ using namespace ace_time;
 
   PrintStr<32> printStr; // 32-byte buffer
   dt.printTo(printStr);
-  const char* cstr = printStr.getCstr();
+  const char* cstr = printStr.cstr();
 
   // do stuff with cstr...
 

@@ -459,7 +459,7 @@ static void runIndexForZoneName() {
         randomIndex);
     BasicZone(info).printNameTo(printStr);
 
-    uint16_t index = basicZoneRegistrar->findIndexForName(printStr.getCstr());
+    uint16_t index = basicZoneRegistrar->findIndexForName(printStr.cstr());
     if (index == basic::ZoneRegistrar::kInvalidIndex) {
       SERIAL_PORT_MONITOR.println(F("Not found"));
     }
@@ -474,7 +474,7 @@ static void runIndexForZoneName() {
     BasicZone(info).printNameTo(printStr);
 
     uint16_t len = printStr.length();
-    const char* s = printStr.getCstr();
+    const char* s = printStr.cstr();
     uint32_t tmp = s[0]
       + ((len > 1) ? ((uint32_t) s[1] << 8) : 0)
       + ((len > 2) ? ((uint32_t) s[2] << 16) : 0)
