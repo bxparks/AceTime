@@ -12,7 +12,7 @@ sense for these classes to be in a separate library because the other parts of
 AceTime library are not dependent of the Clock classes. But for now, these
 classes live within the AceTime library.
 
-**Version**: 1.7.1 (2021-04-02, TZ DB version 2021a)
+**Version**: 1.7.2 (2021-06-02, TZ DB version 2021a)
 
 ## Table of Contents
 
@@ -49,7 +49,7 @@ classes live within the AceTime library.
 ## Overview
 
 The main purpose of the `Clock` classes in this module is to provide a 32-bit
-signed integer (`acetime_t` typedefed to `int32_t`) that represents the number
+signed integer (`acetime_t` typedef'ed to `int32_t`) that represents the number
 of seconds since a fixed point in the past called the "Epoch". The AceTime Epoch
 is defined to be 2000-01-01 00:00:00 UTC.
 
@@ -190,7 +190,7 @@ API, but subclasses are expected to provide the non-blocking interface when
 needed.
 
 The `acetime_t` value from `getNow()` can be converted into the desired time
-zone using the `ZonedDateTime` and `TimeZone` classes desribed in the previous
+zone using the `ZonedDateTime` and `TimeZone` classes described in the previous
 sections.
 
 <a name="NtpClock"></a>
@@ -278,7 +278,7 @@ you delete the commit, they can be retrieved from the git history.
 ## DS3231 Clock
 
 The `DS3231Clock` class uses the DS3231 RTC chip. It contains an internal
-temperature-compensated osciallator that counts time in 1 second steps. It is
+temperature-compensated oscillator that counts time in 1 second steps. It is
 often connected to a battery or a supercapacitor to survive power failures. The
 DS3231 chip stores the time broken down by various date and time components
 (i.e. year, month, day, hour, minute, seconds). It contains internal logic that

@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.7.2 (2021-06-02)
     * **Bug Fix**: Add `ZonedDateTime::normalize()`, which must be called by
       the client code after calling a `ZonedDateTime` mutation function.
         * See [ZonedDateTime Normalization](docs/date_time_timezone.md#ZonedDateTimeNormalization).
@@ -8,8 +9,8 @@
           AVR unfortunately.
     * Migrate `PrintStr::getCstr()` in AceCommon <=1.4.4 to the shorter
       `PrintStr::cstr()` in AceCommon >= 1.4.5.
-    * Migrate to AceRoutine v1.3, which changes `AceRoutine::coroutineMillis()`
-      into non-virtual.
+    * Migrate to AceRoutine v1.3.1, which changes
+      `AceRoutine::coroutineMillis()` into non-virtual.
     * Change `SystemClock` to instantiate from `SystemClockTemplate`, which
       allows `SystemClock::clockMillis()` to also become non-virtual. Saves
       20-40 bytes of flash. No discernible changes in CPU time.

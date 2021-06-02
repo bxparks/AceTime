@@ -12,7 +12,7 @@ following namespaces:
   `ExtendedZoneManager`
 * `ace_time::internal`: not normally needed by app developers
 
-**Version**: 1.7.1 (2021-04-02, TZ DB version 2021a)
+**Version**: 1.7.2 (2021-06-02, TZ DB version 2021a)
 
 ## Table of Contents
 
@@ -83,7 +83,7 @@ following namespaces:
 The Date, Time, and TimeZone classes provide an abstraction layer to make it
 easier to use and manipulate date and time fields, in different time zones. It
 is difficult to organize the various parts of this library in the most easily
-digestable way, but perhaps they can be categorized into three parts:
+digestible way, but perhaps they can be categorized into three parts:
 
 * Simple Date and Time classes for converting date and time fields to and
   from the "epoch seconds",
