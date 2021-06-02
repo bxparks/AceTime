@@ -1,0 +1,5 @@
+<map id="ace_time::clock::SystemClockLoopTemplate&lt; T_SCCI &gt;" name="ace_time::clock::SystemClockLoopTemplate&lt; T_SCCI &gt;">
+<area shape="rect" id="node1" title="A subclass of SystemClock that sync with its mReferenceClock using the non&#45;blocking Clock API of the ..." alt="" coords="5,169,223,211"/>
+<area shape="rect" id="node2" href="$classace__time_1_1clock_1_1SystemClockTemplate.html" title=" " alt="" coords="5,80,223,121"/>
+<area shape="rect" id="node3" href="$classace__time_1_1clock_1_1Clock.html" title="Abstract base class for objects that provide and store time." alt="" coords="30,5,198,32"/>
+</map>

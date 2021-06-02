@@ -12,7 +12,7 @@ following namespaces:
   `ExtendedZoneManager`
 * `ace_time::internal`: not normally needed by app developers
 
-**Version**: 1.7.1 (2021-04-02, TZ DB version 2021a)
+**Version**: 1.7.2 (2021-06-02, TZ DB version 2021a)
 
 ## Table of Contents
 
@@ -62,6 +62,7 @@ following namespaces:
     * [TimeOffset Mutations](#TimeOffsetMutations)
     * [LocalDate Mutations](#LocalDateMutations)
     * [ZonedDateTime Mutations](#ZonedDateTimeMutations)
+    * [ZonedDateTime Normalization](#ZonedDateTimeNormalization)
     * [TimePeriod Mutations](#TimePeriodMutations)
 * [Error Handling](#ErrorHandling)
     * [isError()](#IsError)
@@ -82,7 +83,7 @@ following namespaces:
 The Date, Time, and TimeZone classes provide an abstraction layer to make it
 easier to use and manipulate date and time fields, in different time zones. It
 is difficult to organize the various parts of this library in the most easily
-digestable way, but perhaps they can be categorized into three parts:
+digestible way, but perhaps they can be categorized into three parts:
 
 * Simple Date and Time classes for converting date and time fields to and
   from the "epoch seconds",
@@ -1820,7 +1821,7 @@ const basic::ZoneInfo* zoneInfo = ...;
 PrintStr<32> printStr; // buffer of 32 bytes on the stack
 BasicZone(zoneInfo).printNameTo(printStr);
 
-const char* name = printStr.getCstr();
+const char* name = printStr.cstr();
 // do stuff with 'name', but only while 'printStr' is alive
 ...
 ```
@@ -2065,7 +2066,7 @@ which prints to the serial port.
 The AceCommon library (https://github.com:bxparks/AceCommon) provides a
 subclass of `Print` called `PrintStr` which allows printing to an in-memory
 buffer. The contents of the in-memory buffer can be retrieved as a normal
-c-string using the `PrintStr::getCstr()` method.
+c-string using the `PrintStr::cstr()` method.
 
 Instances of the `PrintStr` object is expected to be created on the stack. The
 object will be destroyed automatically when the stack is unwound after returning
@@ -2089,7 +2090,7 @@ using namespace ace_time;
 
   PrintStr<32> printStr; // 32-byte buffer
   dt.printTo(printStr);
-  const char* cstr = printStr.getCstr();
+  const char* cstr = printStr.cstr();
 
   // do stuff with cstr...
 
@@ -2114,10 +2115,12 @@ the code size increased by 500-700 bytes, which I could not afford because the
 program takes up almost the entire flash memory of an Ardunio Pro Micro with
 only 28672 bytes of flash memory.
 
-Most date and time classes in the AceTime library are mutable. The mutation
-operations are not implemented within the class itself to avoid bloating
-the class API surface. The mutation functions live as functions in separate
-namespaces outside of the class definitions:
+Most date and time classes in the AceTime library are mutable. Except for
+primitive mutations of setting specific fields (e.g.
+`ZonedDateTime::year(uint16_t)`), most higher-level mutation operations are not
+implemented within the class itself to avoid bloating the class API surface. The
+mutation functions live as functions in separate namespaces outside of the class
+definitions:
 
 * `time_period_mutation.h`
 * `time_offset_mutation.h`
@@ -2145,8 +2148,12 @@ increment the `ZonedDateTime::day()` field from Feb 29 to Feb 30, then to Feb
 converted into an Epoch seconds (using `toEpochSeconds()`), then converted back
 to a `ZonedDateTime` object (using `forEpochSeconds()`). By deferring this
 normalization step until the user has finished setting all the clock fields, we
-can reduce the size of the code in flash. (The limiting factor for many Arduino
-environments is the code size, not the CPU time.)
+can reduce the size of the code in flash. (The limiting factor for many 8-bit
+Arduino environments is the code size, not the CPU time.)
+
+Mutating the `ZonedDateTime` requires calling the `ZonedDateTime::normalize()`
+method after making the changes. See the subsection on [ZonedDateTime
+Normalization](#ZonedDateTimeNormalization) below.
 
 It is not clear that making the AceTime objects mutable was the best design
 decision. But it seems to produce far smaller code sizes (hundreds of bytes of
@@ -2161,6 +2168,9 @@ The `TimeOffset` object can be mutated with:
 
 ```C++
 namespace ace_time {
+
+void setMinutes(int16_t minutes) {
+
 namespace time_offset_mutation {
 
 void increment15Minutes(TimeOffset& offset);
@@ -2172,10 +2182,15 @@ void increment15Minutes(TimeOffset& offset);
 <a name="LocalDateMutations"></a>
 ### LocalDate Mutations
 
-The `LocalDate` object can be mutated with the following methods:
+The `LocalDate` object can be mutated with the following methods and functions:
 
 ```C++
 namespace ace_time {
+
+void LocalDate::year(int16_t year);
+void LocalDate::month(uint8_t month);
+void LocalDate::day(uint8_t month);
+
 namespace local_date_mutation {
 
 void incrementOneDay(LocalDate& ld);
@@ -2188,10 +2203,20 @@ void decrementOneDay(LocalDate& ld);
 <a name="ZonedDateTimeMutations"></a>
 ### ZonedDateTime Mutations
 
-The `ZonedDateTime` object can be mutated using the following methods:
+The `ZonedDateTime` object can be mutated using the following methods and
+functions:
 
 ```C++
 namespace ace_time {
+
+void ZonedDateTime::year(int16_t year);
+void ZonedDateTime::month(uint8_t month);
+void ZonedDateTime::day(uint8_t month);
+void ZonedDateTime::hour(uint8_t hour);
+void ZonedDateTime::minute(uint8_t minute);
+void ZonedDateTime::second(uint8_t second);
+void ZonedDateTime::timeZone(const TimeZone& timeZone);
+
 namespace zoned_date_time_mutation {
 
 void incrementYear(ZonedDateTime& dateTime);
@@ -2204,6 +2229,35 @@ void incrementMinute(ZonedDateTime& dateTime);
 }
 ```
 
+<a name="ZonedDateTimeNormalization"></a>
+### ZonedDateTimeNormalization
+
+When the `ZonedDateTime` object is mutated using the methods and functions
+listed above, the client code must call `ZonedDateTime::normalize()` before
+calling a method that calculates derivative information, in particular, the
+`ZonedDateTime::toEpochSeconds()` method. Otherwise, the resulting epochSeconds
+may be incorrect if the old `ZonedDateTime` and the new `ZonedDatetime` crosses
+a DST boundary. Multiple mutations can be batched before calling
+`normalize()`.
+
+For example:
+
+```C++
+
+TimeZone tz = ...;
+ZonedDateTime zdt = ZonedDateTime::forComponent(2000, 1, 1, 0, 0, 0, tz);
+
+zdt.year(2021);
+zdt.month(4);
+zdt.day(20);
+zdt.normalize();
+acetime_t newEpochSeconds = zdt.toEpochSeconds();
+```
+
+Adding this single call to `normalize()` seems to increase flash consumption by
+220 bytes on an 8-bit AVR processor. Unfortunately, it must be called to ensure
+accuracy across DST boundaries.
+
 <a name="TimePeriodMutations"></a>
 ### TimePeriod Mutations
 
@@ -2211,6 +2265,12 @@ The `TimePeriod` can be mutated using the following methods:
 
 ```C++
 namespace ace_time {
+
+void TimePeriod::hour(uint8_t hour);
+void TimePeriod::minute(uint8_t minute);
+void TimePeriod::second(uint8_t second);
+void TimePeriod::sign(int8_t sign);
+
 namespace time_period_mutation {
 
 void negate(TimePeriod& period);

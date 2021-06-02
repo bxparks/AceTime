@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.7.1</span>
+   &#160;<span id="projectnumber">1.7.2</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -127,12 +127,13 @@ $(function() {
 </td></tr>
 <tr><td><img src="inherit_graph_11.png" border="0" usemap="#ace__time_1_1clock_1_1Clock" alt=""/>
 <map name="ace__time_1_1clock_1_1Clock" id="ace__time_1_1clock_1_1Clock">
-<area shape="rect" href="classace__time_1_1clock_1_1Clock.html" title="Abstract base class for objects that provide and store time." alt="" coords="5,81,173,108"/>
+<area shape="rect" href="classace__time_1_1clock_1_1Clock.html" title="Abstract base class for objects that provide and store time." alt="" coords="5,115,173,141"/>
 <area shape="rect" href="classace__time_1_1clock_1_1DS3231Clock.html" title="An implementation of Clock that uses a DS3231 RTC chip." alt="" coords="221,5,440,32"/>
 <area shape="rect" href="classace__time_1_1clock_1_1NtpClock.html" title="A Clock that retrieves the time from an NTP server." alt="" coords="235,56,426,83"/>
-<area shape="rect" href="classace__time_1_1clock_1_1SystemClock.html" title="A Clock that uses the Arduino millis() function to advance the time returned to the user." alt="" coords="222,107,439,133"/>
-<area shape="rect" href="classace__time_1_1clock_1_1UnixClock.html" title="An implementation of Clock that works on Unix using EpoxyDuino." alt="" coords="231,157,430,184"/>
-<area shape="rect" href="classace__time_1_1clock_1_1SystemClockLoop.html" title="A subclass of SystemClock that sync with its mReferenceClock using the non&#45;blocking Clock API of the ..." alt="" coords="488,107,736,133"/>
+<area shape="rect" href="classace__time_1_1clock_1_1SystemClockTemplate.html" title="A Clock that uses the Arduino millis() function to advance the time returned to the user." alt="" coords="222,107,439,149"/>
+<area shape="rect" href="classace__time_1_1clock_1_1UnixClock.html" title="An implementation of Clock that works on Unix using EpoxyDuino." alt="" coords="231,173,430,200"/>
+<area shape="rect" href="classace__time_1_1clock_1_1SystemClockTemplate.html" title=" " alt="" coords="222,225,439,266"/>
+<area shape="rect" href="classace__time_1_1clock_1_1SystemClockLoopTemplate.html" title="A subclass of SystemClock that sync with its mReferenceClock using the non&#45;blocking Clock API of the ..." alt="" coords="488,225,705,266"/>
 </map>
 </td></tr>
 <tr><td><img src="inherit_graph_12.png" border="0" usemap="#ace__time_1_1DateStrings" alt=""/>
@@ -230,111 +231,116 @@ $(function() {
 <area shape="rect" href="classace__time_1_1ExtendedZone.html" title="A thin wrapper around an extended::ZoneInfo data structure to provide a stable API access to some use..." alt="" coords="5,5,189,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_31.png" border="0" usemap="#ace__time_1_1hw_1_1DS3231" alt=""/>
+<tr><td><img src="inherit_graph_31.png" border="0" usemap="#ace__time_1_1hw_1_1ClockInterface" alt=""/>
+<map name="ace__time_1_1hw_1_1ClockInterface" id="ace__time_1_1hw_1_1ClockInterface">
+<area shape="rect" href="classace__time_1_1hw_1_1ClockInterface.html" title="A utility class that provides a layer of indirection to the Arduino clock functions (millis() and pot..." alt="" coords="5,5,216,32"/>
+</map>
+</td></tr>
+<tr><td><img src="inherit_graph_32.png" border="0" usemap="#ace__time_1_1hw_1_1DS3231" alt=""/>
 <map name="ace__time_1_1hw_1_1DS3231" id="ace__time_1_1hw_1_1DS3231">
 <area shape="rect" href="classace__time_1_1hw_1_1DS3231.html" title="A class that reads and writes HardwareDateTime and HardwareTemperature from a DS3231 RTC chip." alt="" coords="5,5,172,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_32.png" border="0" usemap="#ace__time_1_1hw_1_1HardwareDateTime" alt=""/>
+<tr><td><img src="inherit_graph_33.png" border="0" usemap="#ace__time_1_1hw_1_1HardwareDateTime" alt=""/>
 <map name="ace__time_1_1hw_1_1HardwareDateTime" id="ace__time_1_1hw_1_1HardwareDateTime">
 <area shape="rect" href="structace__time_1_1hw_1_1HardwareDateTime.html" title="The date (year, month, day) and time (hour, minute, second) fields supported by the DS3231 RTC chip." alt="" coords="5,5,248,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_33.png" border="0" usemap="#ace__time_1_1hw_1_1HardwareTemperature" alt=""/>
+<tr><td><img src="inherit_graph_34.png" border="0" usemap="#ace__time_1_1hw_1_1HardwareTemperature" alt=""/>
 <map name="ace__time_1_1hw_1_1HardwareTemperature" id="ace__time_1_1hw_1_1HardwareTemperature">
 <area shape="rect" href="structace__time_1_1hw_1_1HardwareTemperature.html" title="The temperature in Celcius as a signed (8.8) fixed&#45;point integer." alt="" coords="5,5,267,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_34.png" border="0" usemap="#ace__time_1_1internal_1_1LinkRegistrarTemplate_3_01basic_1_1LinkEntry_00_01basic_1_1LinkEntryBroker_00_01basic_1_1LinkRegistryBroker_01_4" alt=""/>
+<tr><td><img src="inherit_graph_35.png" border="0" usemap="#ace__time_1_1internal_1_1LinkRegistrarTemplate_3_01basic_1_1LinkEntry_00_01basic_1_1LinkEntryBroker_00_01basic_1_1LinkRegistryBroker_01_4" alt=""/>
 <map name="ace__time_1_1internal_1_1LinkRegistrarTemplate_3_01basic_1_1LinkEntry_00_01basic_1_1LinkEntryBroker_00_01basic_1_1LinkRegistryBroker_01_4" id="ace__time_1_1internal_1_1LinkRegistrarTemplate_3_01basic_1_1LinkEntry_00_01basic_1_1LinkEntryBroker_00_01basic_1_1LinkRegistryBroker_01_4">
 <area shape="rect" href="classace__time_1_1internal_1_1LinkRegistrarTemplate.html" title=" " alt="" coords="5,5,188,91"/>
 <area shape="rect" href="classace__time_1_1basic_1_1LinkRegistrar.html" title="Concrete template instantiation of LinkRegistrarTemplate for basic::LinkEntry." alt="" coords="236,35,455,61"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_35.png" border="0" usemap="#ace__time_1_1internal_1_1LinkRegistrarTemplate_3_01extended_1_1LinkEntry_00_01extended_1_1LinkEntryBroker_00_01extended_1_1LinkRegistryBroker_01_4" alt=""/>
+<tr><td><img src="inherit_graph_36.png" border="0" usemap="#ace__time_1_1internal_1_1LinkRegistrarTemplate_3_01extended_1_1LinkEntry_00_01extended_1_1LinkEntryBroker_00_01extended_1_1LinkRegistryBroker_01_4" alt=""/>
 <map name="ace__time_1_1internal_1_1LinkRegistrarTemplate_3_01extended_1_1LinkEntry_00_01extended_1_1LinkEntryBroker_00_01extended_1_1LinkRegistryBroker_01_4" id="ace__time_1_1internal_1_1LinkRegistrarTemplate_3_01extended_1_1LinkEntry_00_01extended_1_1LinkEntryBroker_00_01extended_1_1LinkRegistryBroker_01_4">
 <area shape="rect" href="classace__time_1_1internal_1_1LinkRegistrarTemplate.html" title=" " alt="" coords="5,5,239,91"/>
 <area shape="rect" href="classace__time_1_1extended_1_1LinkRegistrar.html" title="Concrete template instantiation of LinkRegistrarTemplate for extended::LinkEntry." alt="" coords="287,27,437,69"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_36.png" border="0" usemap="#ace__time_1_1internal_1_1LinkRegistrarTemplate_3_01LE_00_01LEB_00_01LRGB_01_4" alt=""/>
+<tr><td><img src="inherit_graph_37.png" border="0" usemap="#ace__time_1_1internal_1_1LinkRegistrarTemplate_3_01LE_00_01LEB_00_01LRGB_01_4" alt=""/>
 <map name="ace__time_1_1internal_1_1LinkRegistrarTemplate_3_01LE_00_01LEB_00_01LRGB_01_4" id="ace__time_1_1internal_1_1LinkRegistrarTemplate_3_01LE_00_01LEB_00_01LRGB_01_4">
 <area shape="rect" href="classace__time_1_1internal_1_1LinkRegistrarTemplate.html" title="Class that allows looking up the LinkEntry (LE) from its LinkRegistry (LRGB) using its linkId." alt="" coords="5,5,181,61"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_37.png" border="0" usemap="#ace__time_1_1internal_1_1MonthDay" alt=""/>
+<tr><td><img src="inherit_graph_38.png" border="0" usemap="#ace__time_1_1internal_1_1MonthDay" alt=""/>
 <map name="ace__time_1_1internal_1_1MonthDay" id="ace__time_1_1internal_1_1MonthDay">
 <area shape="rect" href="structace__time_1_1internal_1_1MonthDay.html" title="The result of calcStartDayOfMonth()." alt="" coords="5,5,145,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_38.png" border="0" usemap="#ace__time_1_1internal_1_1ZoneContext" alt=""/>
+<tr><td><img src="inherit_graph_39.png" border="0" usemap="#ace__time_1_1internal_1_1ZoneContext" alt=""/>
 <map name="ace__time_1_1internal_1_1ZoneContext" id="ace__time_1_1internal_1_1ZoneContext">
 <area shape="rect" href="structace__time_1_1internal_1_1ZoneContext.html" title="Metadata about the zone database." alt="" coords="5,5,145,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_39.png" border="0" usemap="#ace__time_1_1internal_1_1ZoneRegistrarTemplate_3_01basic_1_1ZoneInfo_00_01basic_1_1ZoneInfoBroker_00_01basic_1_1ZoneRegistryBroker_01_4" alt=""/>
+<tr><td><img src="inherit_graph_40.png" border="0" usemap="#ace__time_1_1internal_1_1ZoneRegistrarTemplate_3_01basic_1_1ZoneInfo_00_01basic_1_1ZoneInfoBroker_00_01basic_1_1ZoneRegistryBroker_01_4" alt=""/>
 <map name="ace__time_1_1internal_1_1ZoneRegistrarTemplate_3_01basic_1_1ZoneInfo_00_01basic_1_1ZoneInfoBroker_00_01basic_1_1ZoneRegistryBroker_01_4" id="ace__time_1_1internal_1_1ZoneRegistrarTemplate_3_01basic_1_1ZoneInfo_00_01basic_1_1ZoneInfoBroker_00_01basic_1_1ZoneRegistryBroker_01_4">
 <area shape="rect" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html" title=" " alt="" coords="5,5,188,91"/>
 <area shape="rect" href="classace__time_1_1basic_1_1ZoneRegistrar.html" title="Concrete template instantiation of ZoneRegistrarTemplate for basic::ZoneInfo, which can be used with ..." alt="" coords="236,35,460,61"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_40.png" border="0" usemap="#ace__time_1_1internal_1_1ZoneRegistrarTemplate_3_01extended_1_1ZoneInfo_00_01extended_1_1ZoneInfoBroker_00_01extended_1_1ZoneRegistryBroker_01_4" alt=""/>
+<tr><td><img src="inherit_graph_41.png" border="0" usemap="#ace__time_1_1internal_1_1ZoneRegistrarTemplate_3_01extended_1_1ZoneInfo_00_01extended_1_1ZoneInfoBroker_00_01extended_1_1ZoneRegistryBroker_01_4" alt=""/>
 <map name="ace__time_1_1internal_1_1ZoneRegistrarTemplate_3_01extended_1_1ZoneInfo_00_01extended_1_1ZoneInfoBroker_00_01extended_1_1ZoneRegistryBroker_01_4" id="ace__time_1_1internal_1_1ZoneRegistrarTemplate_3_01extended_1_1ZoneInfo_00_01extended_1_1ZoneInfoBroker_00_01extended_1_1ZoneRegistryBroker_01_4">
 <area shape="rect" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html" title=" " alt="" coords="5,5,239,91"/>
 <area shape="rect" href="classace__time_1_1extended_1_1ZoneRegistrar.html" title="Concrete template instantiation of ZoneRegistrarTemplate for extended::ZoneInfo, which can be used wi..." alt="" coords="287,27,437,69"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_41.png" border="0" usemap="#ace__time_1_1internal_1_1ZoneRegistrarTemplate_3_01ZI_00_01ZIB_00_01ZRGB_01_4" alt=""/>
+<tr><td><img src="inherit_graph_42.png" border="0" usemap="#ace__time_1_1internal_1_1ZoneRegistrarTemplate_3_01ZI_00_01ZIB_00_01ZRGB_01_4" alt=""/>
 <map name="ace__time_1_1internal_1_1ZoneRegistrarTemplate_3_01ZI_00_01ZIB_00_01ZRGB_01_4" id="ace__time_1_1internal_1_1ZoneRegistrarTemplate_3_01ZI_00_01ZIB_00_01ZRGB_01_4">
 <area shape="rect" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html" title="Class that allows looking up the ZoneInfo (ZI) from its TZDB identifier (e.g." alt="" coords="5,5,188,61"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_42.png" border="0" usemap="#ace__time_1_1LocalDate" alt=""/>
+<tr><td><img src="inherit_graph_43.png" border="0" usemap="#ace__time_1_1LocalDate" alt=""/>
 <map name="ace__time_1_1LocalDate" id="ace__time_1_1LocalDate">
 <area shape="rect" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone." alt="" coords="5,5,160,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_43.png" border="0" usemap="#ace__time_1_1LocalDateTime" alt=""/>
+<tr><td><img src="inherit_graph_44.png" border="0" usemap="#ace__time_1_1LocalDateTime" alt=""/>
 <map name="ace__time_1_1LocalDateTime" id="ace__time_1_1LocalDateTime">
 <area shape="rect" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date&#45;time as the components (year, month, day, hour, minute, second) without reg..." alt="" coords="5,5,193,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_44.png" border="0" usemap="#ace__time_1_1LocalTime" alt=""/>
+<tr><td><img src="inherit_graph_45.png" border="0" usemap="#ace__time_1_1LocalTime" alt=""/>
 <map name="ace__time_1_1LocalTime" id="ace__time_1_1LocalTime">
 <area shape="rect" href="classace__time_1_1LocalTime.html" title="The time (hour, minute, second) fields representing the time without regards to the day or the time z..." alt="" coords="5,5,163,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_45.png" border="0" usemap="#ace__time_1_1OffsetDateTime" alt=""/>
+<tr><td><img src="inherit_graph_46.png" border="0" usemap="#ace__time_1_1OffsetDateTime" alt=""/>
 <map name="ace__time_1_1OffsetDateTime" id="ace__time_1_1OffsetDateTime">
 <area shape="rect" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and offset from UTC (timeOffset)." alt="" coords="5,5,199,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_46.png" border="0" usemap="#ace__time_1_1TimeOffset" alt=""/>
+<tr><td><img src="inherit_graph_47.png" border="0" usemap="#ace__time_1_1TimeOffset" alt=""/>
 <map name="ace__time_1_1TimeOffset" id="ace__time_1_1TimeOffset">
 <area shape="rect" href="classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC,..." alt="" coords="5,5,168,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_47.png" border="0" usemap="#ace__time_1_1TimePeriod" alt=""/>
+<tr><td><img src="inherit_graph_48.png" border="0" usemap="#ace__time_1_1TimePeriod" alt=""/>
 <map name="ace__time_1_1TimePeriod" id="ace__time_1_1TimePeriod">
 <area shape="rect" href="classace__time_1_1TimePeriod.html" title="Represents a period of time relative to some known point in time, potentially represented by a DateTi..." alt="" coords="5,5,169,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_48.png" border="0" usemap="#ace__time_1_1TimeZone" alt=""/>
+<tr><td><img src="inherit_graph_49.png" border="0" usemap="#ace__time_1_1TimeZone" alt=""/>
 <map name="ace__time_1_1TimeZone" id="ace__time_1_1TimeZone">
 <area shape="rect" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone." alt="" coords="5,5,161,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_49.png" border="0" usemap="#ace__time_1_1TimeZoneData" alt=""/>
+<tr><td><img src="inherit_graph_50.png" border="0" usemap="#ace__time_1_1TimeZoneData" alt=""/>
 <map name="ace__time_1_1TimeZoneData" id="ace__time_1_1TimeZoneData">
 <area shape="rect" href="structace__time_1_1TimeZoneData.html" title="Data structure that captures the internal state of a TimeZone object with enough information so that ..." alt="" coords="5,5,192,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_50.png" border="0" usemap="#ace__time_1_1ZonedDateTime" alt=""/>
+<tr><td><img src="inherit_graph_51.png" border="0" usemap="#ace__time_1_1ZonedDateTime" alt=""/>
 <map name="ace__time_1_1ZonedDateTime" id="ace__time_1_1ZonedDateTime">
 <area shape="rect" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t..." alt="" coords="5,5,200,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_51.png" border="0" usemap="#ace__time_1_1ZoneManager" alt=""/>
+<tr><td><img src="inherit_graph_52.png" border="0" usemap="#ace__time_1_1ZoneManager" alt=""/>
 <map name="ace__time_1_1ZoneManager" id="ace__time_1_1ZoneManager">
 <area shape="rect" href="classace__time_1_1ZoneManager.html" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa..." alt="" coords="5,108,185,135"/>
 <area shape="rect" href="classace__time_1_1ManualZoneManager.html" title="A ZoneManager that implements only createForTimeZoneData() to create TimeZones of type kTypeManual,..." alt="" coords="295,5,523,32"/>
@@ -345,7 +351,7 @@ $(function() {
 <area shape="rect" href="classace__time_1_1ExtendedZoneManager.html" title="An implementation of the ZoneManager which uses a registry of extended::ZoneInfo records." alt="" coords="632,254,873,295"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_52.png" border="0" usemap="#ace__time_1_1ZoneProcessor" alt=""/>
+<tr><td><img src="inherit_graph_53.png" border="0" usemap="#ace__time_1_1ZoneProcessor" alt=""/>
 <map name="ace__time_1_1ZoneProcessor" id="ace__time_1_1ZoneProcessor">
 <area shape="rect" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes." alt="" coords="5,137,192,164"/>
 <area shape="rect" href="classace__time_1_1BasicZoneProcessorTemplate.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database." alt="" coords="290,5,511,61"/>
@@ -356,19 +362,19 @@ $(function() {
 <area shape="rect" href="classace__time_1_1ExtendedZoneProcessor.html" title="A specific implementation of ExtendedZoneProcessorTemplate that uses ZoneXxxBrokers which read from z..." alt="" coords="609,291,856,317"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_53.png" border="0" usemap="#ace__time_1_1ZoneProcessorCacheTemplate_3_01SIZE_00_01BasicZoneProcessor_01_4" alt=""/>
+<tr><td><img src="inherit_graph_54.png" border="0" usemap="#ace__time_1_1ZoneProcessorCacheTemplate_3_01SIZE_00_01BasicZoneProcessor_01_4" alt=""/>
 <map name="ace__time_1_1ZoneProcessorCacheTemplate_3_01SIZE_00_01BasicZoneProcessor_01_4" id="ace__time_1_1ZoneProcessorCacheTemplate_3_01SIZE_00_01BasicZoneProcessor_01_4">
 <area shape="rect" href="classace__time_1_1ZoneProcessorCacheTemplate.html" title=" " alt="" coords="5,5,285,47"/>
 <area shape="rect" href="classace__time_1_1BasicZoneProcessorCache.html" title=" " alt="" coords="333,5,555,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_54.png" border="0" usemap="#ace__time_1_1ZoneProcessorCacheTemplate_3_01SIZE_00_01ExtendedZoneProcessor_01_4" alt=""/>
+<tr><td><img src="inherit_graph_55.png" border="0" usemap="#ace__time_1_1ZoneProcessorCacheTemplate_3_01SIZE_00_01ExtendedZoneProcessor_01_4" alt=""/>
 <map name="ace__time_1_1ZoneProcessorCacheTemplate_3_01SIZE_00_01ExtendedZoneProcessor_01_4" id="ace__time_1_1ZoneProcessorCacheTemplate_3_01SIZE_00_01ExtendedZoneProcessor_01_4">
 <area shape="rect" href="classace__time_1_1ZoneProcessorCacheTemplate.html" title=" " alt="" coords="5,5,312,47"/>
 <area shape="rect" href="classace__time_1_1ExtendedZoneProcessorCache.html" title=" " alt="" coords="360,5,607,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_55.png" border="0" usemap="#ace__time_1_1ZoneProcessorCacheTemplate_3_01SIZE_00_01ZP_01_4" alt=""/>
+<tr><td><img src="inherit_graph_56.png" border="0" usemap="#ace__time_1_1ZoneProcessorCacheTemplate_3_01SIZE_00_01ZP_01_4" alt=""/>
 <map name="ace__time_1_1ZoneProcessorCacheTemplate_3_01SIZE_00_01ZP_01_4" id="ace__time_1_1ZoneProcessorCacheTemplate_3_01SIZE_00_01ZP_01_4">
 <area shape="rect" href="classace__time_1_1ZoneProcessorCacheTemplate.html" title="A cache of ZoneProcessors that provides a ZoneProcessor to the TimeZone upon request by the ZoneManag..." alt="" coords="5,5,232,47"/>
 </map>

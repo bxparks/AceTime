@@ -62,11 +62,11 @@ test(ZoneRegistrarTest, getZoneInfo_Los_Angeles) {
 
   ace_common::PrintStr<32> printStr;
   BasicZone(zoneInfo).printNameTo(printStr);
-  assertEqual(F("America/Los_Angeles"), printStr.getCstr());
+  assertEqual(F("America/Los_Angeles"), printStr.cstr());
 
   printStr.flush();
   BasicZone(zoneInfo).printShortNameTo(printStr);
-  assertEqual(F("Los Angeles"), printStr.getCstr());
+  assertEqual(F("Los Angeles"), printStr.cstr());
 }
 
 // Test a zone without separators, "EST".
@@ -78,11 +78,11 @@ test(ZoneRegistrarTest, getZoneInfo_EST) {
 
   ace_common::PrintStr<32> printStr;
   BasicZone(zoneInfo).printNameTo(printStr);
-  assertEqual(F("EST"), printStr.getCstr());
+  assertEqual(F("EST"), printStr.cstr());
 
   printStr.flush();
   BasicZone(zoneInfo).printShortNameTo(printStr);
-  assertEqual(F("EST"), printStr.getCstr());
+  assertEqual(F("EST"), printStr.cstr());
 }
 
 test(ZoneRegistrarTest, getZoneInfo_not_found) {

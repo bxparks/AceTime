@@ -40,7 +40,7 @@ This library can be an alternative to the Arduino Time
 (https://github.com/PaulStoffregen/Time) and Arduino Timezone
 (https://github.com/JChristensen/Timezone) libraries.
 
-**Version**: 1.7.1 (2021-04-02, TZ DB version 2021a)
+**Version**: 1.7.2 (2021-06-02, TZ DB version 2021a)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
@@ -75,7 +75,7 @@ installation instructions.
     * [Tool Chain](#ToolChain)
     * [Operating System](#OperatingSystem)
 * [License](#License)
-* [Feedback and Support](#FeedbackSupport)
+* [Feedback and Support](#FeedbackAndSupport)
 * [Authors](#Authors)
 
 <a name="Overview"></a>
@@ -563,7 +563,8 @@ See [docs/installation.md](docs/installation.md).
 
 * [README.md](README.md)
     * this file
-* [docs/date_time_timezone.md](docs/date_time_timezone.md)
+* Date, Time and TimeZones
+  ([docs/date_time_timezone.md](docs/date_time_timezone.md))
     * Date and Time classes
     * TimeZone classes
     * ZoneInfo Database
@@ -571,7 +572,8 @@ See [docs/installation.md](docs/installation.md).
     * Error Handling
     * Motivation and Design Considerations
     * Bugs and Limitations
-* [docs/clock_system_clock.md](docs/clock_system_clock.md)
+* Clocks and SystemClocks
+  ([docs/clock_system_clock.md](docs/clock_system_clock.md))
     * Clock
     * NTP Clock, DS3231 Clock, STM32 RTC Clock, STM32F1 Clock
     * SystemClock, SystemClockLoop, SystemClockCoroutine
@@ -655,7 +657,7 @@ them.
 
 [MIT License](https://opensource.org/licenses/MIT)
 
-<a name="FeedbackSupport"></a>
+<a name="FeedbackAndSupport"></a>
 ## Feedback and Support
 
 If you find this library useful, consider starring this project on GitHub. The

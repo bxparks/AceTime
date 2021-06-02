@@ -24,6 +24,9 @@
 #include <stdio.h> // vsnprintf(), vprintf()
 #include <stdarg.h> // va_list, va_start(), va_end()
 #include <Arduino.h> // SERIAL_PORT_MONITOR
+#ifndef SERIAL_PORT_MONITOR
+#define SERIAL_PORT_MONITOR Serial
+#endif
 
 namespace ace_time {
 namespace logging {
@@ -31,9 +34,9 @@ namespace logging {
 static const int BUF_SIZE = 192;
 
 inline void vprintf(const char *fmt, va_list args) {
-	char buf[BUF_SIZE];
-	vsnprintf(buf, BUF_SIZE, fmt, args);
-	SERIAL_PORT_MONITOR.print(buf);
+  char buf[BUF_SIZE];
+  vsnprintf(buf, BUF_SIZE, fmt, args);
+  SERIAL_PORT_MONITOR.print(buf);
 }
 
 /**
@@ -42,7 +45,7 @@ inline void vprintf(const char *fmt, va_list args) {
  */
 inline void printf(const char* fmt, ...) {
   va_list args;
-	va_start(args, fmt);
+  va_start(args, fmt);
   vprintf(fmt, args);
   va_end(args);
 }

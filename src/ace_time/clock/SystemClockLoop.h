@@ -10,7 +10,12 @@
 #include <AceCommon.h> // TimingStats
 #include "SystemClock.h"
 
+class SystemClockLoopTest;
 class SystemClockLoopTest_loop;
+class SystemClockLoopTest_setup;
+class SystemClockLoopTest_backupNow;
+class SystemClockLoopTest_syncNow;
+class SystemClockLoopTest_getNow;
 
 namespace ace_time {
 namespace clock {
@@ -36,8 +41,11 @@ namespace clock {
  * functionally equivalent. I keep around the SystemClockCoroutine class because
  * I find the code easier to understand. But for the end-users of the library,
  * they are equivalent.
+ *
+ * @tparam T_SCCI SystemClock ClockInterface
  */
-class SystemClockLoop : public SystemClock {
+template <typename T_SCCI>
+class SystemClockLoopTemplate : public SystemClockTemplate<T_SCCI> {
   public:
     /**
      * Constructor.
@@ -56,14 +64,14 @@ class SystemClockLoop : public SystemClock {
      *    referenceClock times out
      * @param timingStats internal statistics (nullable)
      */
-    explicit SystemClockLoop(
+    explicit SystemClockLoopTemplate(
         Clock* referenceClock /* nullable */,
         Clock* backupClock /* nullable */,
         uint16_t syncPeriodSeconds = 3600,
         uint16_t initialSyncPeriodSeconds = 5,
         uint16_t requestTimeoutMillis = 1000,
         ace_common::TimingStats* timingStats = nullptr):
-      SystemClock(referenceClock, backupClock),
+      SystemClockTemplate<T_SCCI>(referenceClock, backupClock),
       mSyncPeriodSeconds(syncPeriodSeconds),
       mRequestTimeoutMillis(requestTimeoutMillis),
       mTimingStats(timingStats),
@@ -79,19 +87,19 @@ class SystemClockLoop : public SystemClock {
      * This method should be called from the global loop() method.
      */
     void loop() {
-      keepAlive();
-      if (getReferenceClock() == nullptr) return;
+      this->keepAlive();
+      if (this->getReferenceClock() == nullptr) return;
 
-      uint32_t nowMillis = clockMillis();
+      uint32_t nowMillis = this->clockMillis();
 
       // Finite state machine based on mRequestStatus
       switch (mRequestStatus) {
         case kStatusReady:
-          getReferenceClock()->sendRequest();
+          this->getReferenceClock()->sendRequest();
           mRequestStartMillis = nowMillis;
           mRequestStatus = kStatusSent;
-          setPrevSyncAttemptMillis(nowMillis);
-          setNextSyncAttemptMillis(nowMillis
+          this->setPrevSyncAttemptMillis(nowMillis);
+          this->setNextSyncAttemptMillis(nowMillis
               + mCurrentSyncPeriodSeconds * (uint32_t) 1000);
           break;
 
@@ -99,25 +107,25 @@ class SystemClockLoop : public SystemClock {
           uint32_t elapsedMillis = nowMillis - mRequestStartMillis;
           if (mTimingStats) mTimingStats->update((uint16_t) elapsedMillis);
 
-          if (getReferenceClock()->isResponseReady()) {
-            acetime_t nowSeconds = getReferenceClock()->readResponse();
+          if (this->getReferenceClock()->isResponseReady()) {
+            acetime_t nowSeconds = this->getReferenceClock()->readResponse();
 
-            if (nowSeconds == kInvalidSeconds) {
+            if (nowSeconds == this->kInvalidSeconds) {
               // If response came back but was invalid, reschedule.
               mRequestStatus = kStatusWaitForRetry;
-              setSyncStatusCode(kSyncStatusError);
+              this->setSyncStatusCode(this->kSyncStatusError);
             } else {
               // Request succeeded.
-              syncNow(nowSeconds);
+              this->syncNow(nowSeconds);
               mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
-              mRequestStatus = kStatusOk;
-              setSyncStatusCode(kSyncStatusOk);
+              mRequestStatus = this->kStatusOk;
+              this->setSyncStatusCode(this->kSyncStatusOk);
             }
           } else {
             // If timed out, reschedule.
             if (elapsedMillis >= mRequestTimeoutMillis) {
-              mRequestStatus = kStatusWaitForRetry;
-              setSyncStatusCode(kSyncStatusTimedOut);
+              mRequestStatus = this->kStatusWaitForRetry;
+              this->setSyncStatusCode(this->kSyncStatusTimedOut);
             }
           }
           break;
@@ -153,14 +161,19 @@ class SystemClockLoop : public SystemClock {
 
   protected:
     /** Empty constructor used for testing. */
-    SystemClockLoop() {}
+    SystemClockLoopTemplate() {}
 
     // disable copy constructor and assignment operator
-    SystemClockLoop(const SystemClockLoop&) = delete;
-    SystemClockLoop& operator=(const SystemClockLoop&) = delete;
+    SystemClockLoopTemplate(const SystemClockLoopTemplate&) = delete;
+    SystemClockLoopTemplate& operator=(const SystemClockLoopTemplate&) = delete;
 
   private:
+    friend class ::SystemClockLoopTest;
     friend class ::SystemClockLoopTest_loop;
+    friend class ::SystemClockLoopTest_syncNow;
+    friend class ::SystemClockLoopTest_setup;
+    friend class ::SystemClockLoopTest_backupNow;
+    friend class ::SystemClockLoopTest_getNow;
 
     /** Ready to send request. */
     static const uint8_t kStatusReady = 0;
@@ -182,6 +195,13 @@ class SystemClockLoop : public SystemClock {
     uint16_t mCurrentSyncPeriodSeconds = 5;
     uint8_t mRequestStatus = kStatusReady;
 };
+
+/**
+ * Concrete template instance of SystemClockLoopTemplate that uses the real
+ * millis().
+ */
+using SystemClockLoop = SystemClockLoopTemplate<hw::ClockInterface>;
+
 
 }
 }

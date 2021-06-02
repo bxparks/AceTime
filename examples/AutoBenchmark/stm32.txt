@@ -14,8 +14,8 @@ sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
 sizeof(clock::DS3231Clock): 8
 sizeof(clock::SystemClock): 36
-sizeof(clock::SystemClockLoop): 56
-sizeof(clock::SystemClockCoroutine): 80
+sizeof(clock::SystemClockLoop): 52
+sizeof(clock::SystemClockCoroutine): 72
 sizeof(internal::ZoneContext): 16
 sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20
@@ -29,7 +29,7 @@ sizeof(ExtendedZoneProcessor::TransitionStorage): 452
 sizeof(ExtendedZoneProcessor::ZoneMatch): 16
 BENCHMARKS
 EmptyLoop 1.100
-LocalDate::forEpochDays() 2.200
+LocalDate::forEpochDays() 2.300
 LocalDate::toEpochDays() 1.100
 LocalDate::dayOfWeek() 1.400
 OffsetDateTime::forEpochSeconds() 3.700

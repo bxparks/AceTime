@@ -42,7 +42,6 @@ void setup() {
       2019, 6, 17, 19, 50, 0, pacificTz);
   systemClock.setNow(pacificTime.toEpochSeconds());
 
-  systemClock.setupCoroutine(F("systemClock"));
   CoroutineScheduler::setup();
 }
 

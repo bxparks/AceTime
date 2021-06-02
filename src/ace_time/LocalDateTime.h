@@ -91,8 +91,7 @@ class LocalDateTime {
 
     /**
      * Factory method that takes the number of seconds since Unix Epoch of
-     * 1970-01-01. Similar to forEpochSeconds(), the seconds corresponding to
-     * the partial day are truncated down towards the smallest whole day.
+     * 1970-01-01.
      *
      * Returns LocalDateTime::forError() if epochSeconds is equal to
      * LocalDate::kInvalidEpochSeconds.
@@ -272,11 +271,9 @@ class LocalDateTime {
      */
     int8_t compareTo(const LocalDateTime& that) const {
       int8_t dateCompare = localDate().compareTo(that.localDate());
-      if (dateCompare < 0) return -1;
-      if (dateCompare > 0) return 1;
+      if (dateCompare != 0) return dateCompare;
       int8_t timeCompare = localTime().compareTo(that.localTime());
-      if (timeCompare < 0) return -1;
-      if (timeCompare > 0) return 1;
+      if (timeCompare != 0) return timeCompare;
       return 0;
     }
 

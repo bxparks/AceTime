@@ -14,6 +14,7 @@
 #include <AceRoutine.h>
 #include "SystemClock.h"
 
+class SystemClockCoroutineTest;
 class SystemClockCoroutineTest_runCoroutine;
 
 namespace ace_time {
@@ -41,10 +42,14 @@ namespace clock {
  * functionally equivalent. I keep around the SystemClockCoroutine class because
  * I find the code easier to understand. But for the end-users of the library,
  * they are equivalent.
+ *
+ * @tparam T_SCCI SystemClock ClockInterface
+ * @tparam T_CRCI Coroutine ClockInterface
  */
-class SystemClockCoroutine :
-    public SystemClock,
-    public ace_routine::Coroutine {
+template <typename T_SCCI, typename T_CRCI>
+class SystemClockCoroutineTemplate :
+    public SystemClockTemplate<T_SCCI>,
+    public ace_routine::CoroutineTemplate<T_CRCI> {
 
   public:
     /**
@@ -63,14 +68,15 @@ class SystemClockCoroutine :
      *    referenceClock times out
      * @param timingStats internal statistics (nullable)
      */
-    explicit SystemClockCoroutine(
+    explicit SystemClockCoroutineTemplate(
         Clock* referenceClock /* nullable */,
         Clock* backupClock /* nullable */,
         uint16_t syncPeriodSeconds = 3600,
         uint16_t initialSyncPeriodSeconds = 5,
         uint16_t requestTimeoutMillis = 1000,
         ace_common::TimingStats* timingStats = nullptr):
-      SystemClock(referenceClock, backupClock),
+      SystemClockTemplate<T_SCCI>(referenceClock, backupClock),
+      ace_routine::CoroutineTemplate<T_CRCI>(),
       mSyncPeriodSeconds(syncPeriodSeconds),
       mRequestTimeoutMillis(requestTimeoutMillis),
       mTimingStats(timingStats),
@@ -93,23 +99,23 @@ class SystemClockCoroutine :
      *    CoroutineScheduler::loop() in the global loop() function.
      */
     int runCoroutine() override {
-      keepAlive();
-      if (getReferenceClock() == nullptr) return 0;
+      this->keepAlive();
+      if (this->getReferenceClock() == nullptr) return 0;
 
-      uint32_t nowMillis = clockMillis();
+      uint32_t nowMillis = this->clockMillis();
 
       COROUTINE_LOOP() {
         // Send request
-        getReferenceClock()->sendRequest();
-        mRequestStartMillis = coroutineMillis();
+        this->getReferenceClock()->sendRequest();
+        mRequestStartMillis = this->coroutineMillis();
         mRequestStatus = kStatusSent;
-        setPrevSyncAttemptMillis(nowMillis);
-        setNextSyncAttemptMillis(
+        this->setPrevSyncAttemptMillis(nowMillis);
+        this->setNextSyncAttemptMillis(
             nowMillis + mCurrentSyncPeriodSeconds * (uint32_t) 1000);
 
         // Wait for request until mRequestTimeoutMillis.
         while (true) {
-          if (getReferenceClock()->isResponseReady()) {
+          if (this->getReferenceClock()->isResponseReady()) {
             mRequestStatus = kStatusOk;
             break;
           }
@@ -119,10 +125,10 @@ class SystemClockCoroutine :
             // goto in COROUTINE_LOOP() skips past it. This seems to be
             // a problem only in clang++; g++ seems to be fine without it.
             uint16_t waitMillis =
-                (uint16_t) coroutineMillis() - mRequestStartMillis;
+                (uint16_t) this->coroutineMillis() - mRequestStartMillis;
             if (waitMillis >= mRequestTimeoutMillis) {
               mRequestStatus = kStatusTimedOut;
-              setSyncStatusCode(kSyncStatusTimedOut);
+              this->setSyncStatusCode(this->kSyncStatusTimedOut);
               break;
             }
           }
@@ -132,28 +138,33 @@ class SystemClockCoroutine :
 
         // Process the response
         if (mRequestStatus == kStatusOk) {
-          acetime_t nowSeconds = getReferenceClock()->readResponse();
+          acetime_t nowSeconds = this->getReferenceClock()->readResponse();
           if (mTimingStats != nullptr) {
             uint16_t elapsedMillis =
-                (uint16_t) coroutineMillis() - mRequestStartMillis;
+                (uint16_t) this->coroutineMillis() - mRequestStartMillis;
             mTimingStats->update(elapsedMillis);
           }
 
-          if (nowSeconds == kInvalidSeconds) {
-            setSyncStatusCode(kSyncStatusError);
+          if (nowSeconds == this->kInvalidSeconds) {
+            this->setSyncStatusCode(this->kSyncStatusError);
             // Clobber the mRequestStatus to trigger the exponential backoff
             mRequestStatus = kStatusUnknown;
           } else {
-            syncNow(nowSeconds);
+            this->syncNow(nowSeconds);
             mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
-            setSyncStatusCode(kSyncStatusOk);
+            this->setSyncStatusCode(this->kSyncStatusOk);
           }
         }
 
         // Wait for mCurrentSyncPeriodSeconds
-        setNextSyncAttemptMillis(
+        this->setNextSyncAttemptMillis(
             nowMillis + mCurrentSyncPeriodSeconds * (uint32_t) 1000);
-        COROUTINE_DELAY_SECONDS(mCurrentSyncPeriodSeconds);
+        for (mWaitCount = 0;
+            mWaitCount < mCurrentSyncPeriodSeconds;
+            mWaitCount++
+        ) {
+          COROUTINE_DELAY(1000);
+        }
 
         // Determine the retry delay time based on success or failure. If
         // failure, retry with exponential backoff, until the delay becomes
@@ -173,9 +184,10 @@ class SystemClockCoroutine :
 
   protected:
     /** Empty constructor used for testing. */
-    SystemClockCoroutine() {}
+    SystemClockCoroutineTemplate() {}
 
   private:
+    friend class ::SystemClockCoroutineTest;
     friend class ::SystemClockCoroutineTest_runCoroutine;
 
     /** Request state unknown or request error. */
@@ -191,8 +203,9 @@ class SystemClockCoroutine :
     static const uint8_t kStatusTimedOut = 3;
 
     // disable copy constructor and assignment operator
-    SystemClockCoroutine(const SystemClockCoroutine&) = delete;
-    SystemClockCoroutine& operator=(const SystemClockCoroutine&) = delete;
+    SystemClockCoroutineTemplate(const SystemClockCoroutineTemplate&) = delete;
+    SystemClockCoroutineTemplate& operator=(
+        const SystemClockCoroutineTemplate&) = delete;
 
     uint16_t const mSyncPeriodSeconds = 3600;
     uint16_t const mRequestTimeoutMillis = 1000;
@@ -203,6 +216,14 @@ class SystemClockCoroutine :
     uint16_t mWaitCount;
     uint8_t mRequestStatus = kStatusUnknown;
 };
+
+/**
+ * Concrete template instance of SystemClockCoroutineTemplate that uses the
+ * real millis().
+ */
+using SystemClockCoroutine = SystemClockCoroutineTemplate<
+    hw::ClockInterface, hw::ClockInterface
+>;
 
 }
 }

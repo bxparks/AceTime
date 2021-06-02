@@ -230,14 +230,14 @@ test(ZonedDateTimeTest_Manual, printTo) {
   ZonedDateTime dt = ZonedDateTime::forComponents(2001, 2, 3, 4, 5, 6,
       TimeZone());
   dt.printTo(dateString);
-  assertEqual(dateString.getCstr(), "2001-02-03T04:05:06+00:00[UTC]");
+  assertEqual(dateString.cstr(), "2001-02-03T04:05:06+00:00[UTC]");
 
   dateString.flush();
   TimeZone stdTz = TimeZone::forHours(-8);
   ZonedDateTime std = ZonedDateTime::forComponents(
       2018, 3, 11, 1, 59, 59, stdTz);
   std.printTo(dateString);
-  assertEqual(dateString.getCstr(), "2018-03-11T01:59:59-08:00[-08:00+00:00]");
+  assertEqual(dateString.cstr(), "2018-03-11T01:59:59-08:00[-08:00+00:00]");
 }
 
 //---------------------------------------------------------------------------

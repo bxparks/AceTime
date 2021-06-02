@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.7.1</span>
+   &#160;<span id="projectnumber">1.7.2</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -85,12 +85,13 @@ Inheritance diagram for ace_time::clock::Clock:</div>
 <div class="dyncontent">
 <div class="center"><img src="classace__time_1_1clock_1_1Clock__inherit__graph.png" border="0" usemap="#ace__time_1_1clock_1_1Clock_inherit__map" alt="Inheritance graph"/></div>
 <map name="ace__time_1_1clock_1_1Clock_inherit__map" id="ace__time_1_1clock_1_1Clock_inherit__map">
-<area shape="rect" title="Abstract base class for objects that provide and store time." alt="" coords="5,81,173,108"/>
+<area shape="rect" title="Abstract base class for objects that provide and store time." alt="" coords="5,115,173,141"/>
 <area shape="rect" href="classace__time_1_1clock_1_1DS3231Clock.html" title="An implementation of Clock that uses a DS3231 RTC chip." alt="" coords="221,5,440,32"/>
 <area shape="rect" href="classace__time_1_1clock_1_1NtpClock.html" title="A Clock that retrieves the time from an NTP server." alt="" coords="235,56,426,83"/>
-<area shape="rect" href="classace__time_1_1clock_1_1SystemClock.html" title="A Clock that uses the Arduino millis() function to advance the time returned to the user." alt="" coords="222,107,439,133"/>
-<area shape="rect" href="classace__time_1_1clock_1_1UnixClock.html" title="An implementation of Clock that works on Unix using EpoxyDuino." alt="" coords="231,157,430,184"/>
-<area shape="rect" href="classace__time_1_1clock_1_1SystemClockLoop.html" title="A subclass of SystemClock that sync with its mReferenceClock using the non&#45;blocking Clock API of the ..." alt="" coords="488,107,736,133"/>
+<area shape="rect" href="classace__time_1_1clock_1_1SystemClockTemplate.html" title="A Clock that uses the Arduino millis() function to advance the time returned to the user." alt="" coords="222,107,439,149"/>
+<area shape="rect" href="classace__time_1_1clock_1_1UnixClock.html" title="An implementation of Clock that works on Unix using EpoxyDuino." alt="" coords="231,173,430,200"/>
+<area shape="rect" href="classace__time_1_1clock_1_1SystemClockTemplate.html" title=" " alt="" coords="222,225,439,266"/>
+<area shape="rect" href="classace__time_1_1clock_1_1SystemClockLoopTemplate.html" title="A subclass of SystemClock that sync with its mReferenceClock using the non&#45;blocking Clock API of the ..." alt="" coords="488,225,705,266"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -190,7 +191,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a cla
 <p>Returns kInvalidSeconds if an error has occured.</p>
 <p>This is a blocking call. Some clocks (e.g. NTP client) this may take many seconds. On those clocks, use the asynchronous methods (<a class="el" href="classace__time_1_1clock_1_1Clock.html#a789be177b3a48408fca1805a90d7e34e" title="Send a time request asynchronously.">sendRequest()</a>, <a class="el" href="classace__time_1_1clock_1_1Clock.html#ada1474de64fd88ca8466bea08165b3c3" title="Return true if a response is ready.">isResponseReady()</a>, and <a class="el" href="classace__time_1_1clock_1_1Clock.html#acb014777a376ad582151486b64db67fc" title="Returns number of seconds since AceTime epoch (2000-01-01).">readResponse()</a>) instead. </p>
 
-<p>Implemented in <a class="el" href="classace__time_1_1clock_1_1NtpClock.html#a98da4bb8736d7833454d3efaa6bc6364">ace_time::clock::NtpClock</a>, <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acdb29aa7095759101a9f33b79f863144">ace_time::clock::SystemClock</a>, <a class="el" href="classace__time_1_1clock_1_1DS3231Clock.html#a592ae27a125b29e277d32ec280004911">ace_time::clock::DS3231Clock</a>, and <a class="el" href="classace__time_1_1clock_1_1UnixClock.html#a43a41defeb27cd3abea5ca86b985be69">ace_time::clock::UnixClock</a>.</p>
+<p>Implemented in <a class="el" href="classace__time_1_1clock_1_1NtpClock.html#a98da4bb8736d7833454d3efaa6bc6364">ace_time::clock::NtpClock</a>, <a class="el" href="classace__time_1_1clock_1_1SystemClockTemplate.html#a8f17cad1f2cb75751f5dddef1ceb44ac">ace_time::clock::SystemClockTemplate&lt; T_CI &gt;</a>, <a class="el" href="classace__time_1_1clock_1_1DS3231Clock.html#a592ae27a125b29e277d32ec280004911">ace_time::clock::DS3231Clock</a>, and <a class="el" href="classace__time_1_1clock_1_1UnixClock.html#a43a41defeb27cd3abea5ca86b985be69">ace_time::clock::UnixClock</a>.</p>
 
 </div>
 </div>
@@ -253,7 +254,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a cla
 <p>Set the time to the indicated seconds. </p>
 <p>Calling with a value of kInvalidSeconds indicates an error condition, so the method should do nothing. Some clocks do not support this feature, for example, NTP or GPS clocks and this method will be a no-op. </p>
 
-<p>Reimplemented in <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aa33cfb495e1b6247916b986bbef6875d">ace_time::clock::SystemClock</a>, and <a class="el" href="classace__time_1_1clock_1_1DS3231Clock.html#a2c96ce733789c680ce6de67b950b0df6">ace_time::clock::DS3231Clock</a>.</p>
+<p>Reimplemented in <a class="el" href="classace__time_1_1clock_1_1SystemClockTemplate.html#a68714576c3c3e9bf46ce34be9e6949dd">ace_time::clock::SystemClockTemplate&lt; T_CI &gt;</a>, <a class="el" href="classace__time_1_1clock_1_1SystemClockTemplate.html#a68714576c3c3e9bf46ce34be9e6949dd">ace_time::clock::SystemClockTemplate&lt; T_SCCI &gt;</a>, and <a class="el" href="classace__time_1_1clock_1_1DS3231Clock.html#a2c96ce733789c680ce6de67b950b0df6">ace_time::clock::DS3231Clock</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="Clock_8h_source.html#l00067">67</a> of file <a class="el" href="Clock_8h_source.html">Clock.h</a>.</p>
 

@@ -19,7 +19,7 @@ directories. Or you can `git clone` directly into the `./libraries` directory.
 The `develop` branch contains the latest development.
 The `master` branch contains the stable releases.
 
-**Version**: 1.7.1 (2021-04-02, TZ DB version 2021a)
+**Version**: 1.7.2 (2021-06-02, TZ DB version 2021a)
 
 <a name="SourceCode"></a>
 ## Source Code

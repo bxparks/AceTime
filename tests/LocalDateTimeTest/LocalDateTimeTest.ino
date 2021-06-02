@@ -312,7 +312,7 @@ test(LocalDateTimeTest, printTo) {
   LocalDateTime dt = LocalDateTime::forComponents(2020, 10, 30, 1, 2, 3);
   PrintStr<30> dateString;
   dt.printTo(dateString);
-  assertEqual(dateString.getCstr(), "2020-10-30T01:02:03");
+  assertEqual(dateString.cstr(), "2020-10-30T01:02:03");
 }
 
 //---------------------------------------------------------------------------

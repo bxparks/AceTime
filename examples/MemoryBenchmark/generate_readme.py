@@ -29,7 +29,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v1.7.1
+**Version**: AceTime v1.7.2
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -106,11 +106,15 @@ with 207 elements uses 1656 extra bytes.
 
 In v1.7, the virtual destructor on the `Clock` base class was removed. This
 reduced the flash usage by 618 bytes on AVR processors , 328 bytes on the
-SAMD21, but only 50-60 bytes on other 32-bit processors. Also in v1.6, the
-various `printShortNameTo()` or `printShortTo()` was changed to replace the
+SAMD21, but only 50-60 bytes on other 32-bit processors. The various
+`printShortNameTo()` or `printShortTo()` methods were changed to replace the
 underscore in the zone names (e.g. `Los_Angeles`) with spaces (e.g. `Los
 Angeles`) to be more human friendly. This made little difference in the flash
 memory consumption, except on the ESP32 where it increased by 200-300 bytes.
+
+In v1.7.2, the `SystemClock::clockMillis()` became non-virtual, using
+compile-time polymorphism through C++ template, and incorporating the same
+techniques from AceRoutine v1.3. Saves about 20-40 bytes of flash.
 
 ## Arduino Nano
 
