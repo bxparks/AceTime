@@ -521,7 +521,7 @@ class SystemClock: public Clock {
 
     Clock* getReferenceClock() const { return mReferenceClock; }
 
-    virtual unsigned long clockMillis() const { return ::millis(); }
+    unsigned long clockMillis() const { return ::millis(); }
 
     void keepAlive();
 

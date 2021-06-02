@@ -2,13 +2,17 @@
 
 * Unreleased
     * **Bug Fix**: Add `ZonedDateTime::normalize()`, which must be called by
-      the client code after calling a `ZonedDateTime` mutation function. See
-      [ZonedDateTime
-      Normalization](docs/date_time_timezone.md#ZonedDateTimeNormalization).
-      Increases flash usage by 222 bytes by making this singel call on an AVR
-      unfortunately.
+      the client code after calling a `ZonedDateTime` mutation function.
+        * See [ZonedDateTime Normalization](docs/date_time_timezone.md#ZonedDateTimeNormalization).
+        * Increases flash usage by 222 bytes by making this single call on an
+          AVR unfortunately.
     * Migrate `PrintStr::getCstr()` in AceCommon <=1.4.4 to the shorter
       `PrintStr::cstr()` in AceCommon >= 1.4.5.
+    * Migrate to AceRoutine v1.3, which changes `AceRoutine::coroutineMillis()`
+      into non-virtual.
+    * Change `SystemClock` to instantiate from `SystemClockTemplate`, which
+      allows `SystemClock::clockMillis()` to also become non-virtual. Saves
+      20-40 bytes of flash. No discernible changes in CPU time.
 * 1.7.1 (2021-04-02)
     * Simplify calculation of `SystemClock::getSecondsSinceSyncAttempt()`
       and `SystemClock::getSecondsToSyncAttempt()`, which substantially
