@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.7.1</span>
+   &#160;<span id="projectnumber">1.7.2</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -150,10 +150,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a252e514a2527c07c2715bb960f6c27d9">dayOfWeek</a> () const</td></tr>
 <tr class="memdesc:a252e514a2527c07c2715bb960f6c27d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the day of the week using ISO 8601 numbering where Monday=1 and Sunday=7. <br /></td></tr>
 <tr class="separator:a252e514a2527c07c2715bb960f6c27d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade77d29873786f45459a07d2271d8c64"><td class="memItemLeft" align="right" valign="top"><a id="ade77d29873786f45459a07d2271d8c64"></a>
-<a class="el" href="classace__time_1_1TimeOffset.html">TimeOffset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#ade77d29873786f45459a07d2271d8c64">timeOffset</a> () const</td></tr>
-<tr class="memdesc:ade77d29873786f45459a07d2271d8c64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the offset zone of the <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and offset from UTC (timeOffset).">OffsetDateTime</a>. <br /></td></tr>
-<tr class="separator:ade77d29873786f45459a07d2271d8c64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09369bb6bb3ca5c2f10c68c72c5edfd4"><td class="memItemLeft" align="right" valign="top"><a id="a09369bb6bb3ca5c2f10c68c72c5edfd4"></a>
 const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a09369bb6bb3ca5c2f10c68c72c5edfd4">timeZone</a> () const</td></tr>
 <tr class="memdesc:a09369bb6bb3ca5c2f10c68c72c5edfd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the time zone of the <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a>. <br /></td></tr>
@@ -161,10 +157,17 @@ const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;&#1
 <tr class="memitem:ad1c861034107afc92fb24a320c0696ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#ad1c861034107afc92fb24a320c0696ba">timeZone</a> (const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;timeZone)</td></tr>
 <tr class="memdesc:ad1c861034107afc92fb24a320c0696ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the time zone.  <a href="classace__time_1_1ZonedDateTime.html#ad1c861034107afc92fb24a320c0696ba">More...</a><br /></td></tr>
 <tr class="separator:ad1c861034107afc92fb24a320c0696ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade77d29873786f45459a07d2271d8c64"><td class="memItemLeft" align="right" valign="top"><a id="ade77d29873786f45459a07d2271d8c64"></a>
+<a class="el" href="classace__time_1_1TimeOffset.html">TimeOffset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#ade77d29873786f45459a07d2271d8c64">timeOffset</a> () const</td></tr>
+<tr class="memdesc:ade77d29873786f45459a07d2271d8c64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the offset zone of the <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and offset from UTC (timeOffset).">OffsetDateTime</a>. <br /></td></tr>
+<tr class="separator:ade77d29873786f45459a07d2271d8c64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6a26cb619efcbcfa55bad20af2b436d"><td class="memItemLeft" align="right" valign="top"><a id="af6a26cb619efcbcfa55bad20af2b436d"></a>
 const <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#af6a26cb619efcbcfa55bad20af2b436d">localDateTime</a> () const</td></tr>
 <tr class="memdesc:af6a26cb619efcbcfa55bad20af2b436d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> of the components. <br /></td></tr>
 <tr class="separator:af6a26cb619efcbcfa55bad20af2b436d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad74f2ea586bfa38a38c7e2ba1115b6c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#ad74f2ea586bfa38a38c7e2ba1115b6c4">normalize</a> ()</td></tr>
+<tr class="memdesc:ad74f2ea586bfa38a38c7e2ba1115b6c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalize the <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> after mutation.  <a href="classace__time_1_1ZonedDateTime.html#ad74f2ea586bfa38a38c7e2ba1115b6c4">More...</a><br /></td></tr>
+<tr class="separator:ad74f2ea586bfa38a38c7e2ba1115b6c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53c4825eb710b77030773b7890cf3909"><td class="memItemLeft" align="right" valign="top"><a id="a53c4825eb710b77030773b7890cf3909"></a>
 <a class="el" href="classace__time_1_1ZonedDateTime.html">ZonedDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a53c4825eb710b77030773b7890cf3909">convertToTimeZone</a> (const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;<a class="el" href="classace__time_1_1ZonedDateTime.html#a09369bb6bb3ca5c2f10c68c72c5edfd4">timeZone</a>) const</td></tr>
 <tr class="memdesc:a53c4825eb710b77030773b7890cf3909"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> in a different time zone (with the same epochSeconds). <br /></td></tr>
@@ -261,7 +264,7 @@ Friends</h2></td></tr>
 <p>If you want to know whether the local representatation of 'this' <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> occurs before or after the local representation of 'that', use <code>this-&gt;<a class="el" href="classace__time_1_1ZonedDateTime.html#af6a26cb619efcbcfa55bad20af2b436d" title="Return the LocalDateTime of the components.">localDateTime()</a>.compareTo(that.localDateTime())</code> instead. This expression ignores the time zone which is sometimes what you want.</p>
 <p>If either this-&gt;<a class="el" href="classace__time_1_1ZonedDateTime.html#a56d29157131aaaed23cbcfccfa664192" title="Return true if any component indicates an error condition.">isError()</a> or that.isError() is true, the result is undefined. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00273">273</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00293">293</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -513,6 +516,37 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="ad74f2ea586bfa38a38c7e2ba1115b6c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad74f2ea586bfa38a38c7e2ba1115b6c4">&#9670;&nbsp;</a></span>normalize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ace_time::ZonedDateTime::normalize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Normalize the <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> after mutation. </p>
+<p>This must be called after any mutation method is called (i.e. <a class="el" href="classace__time_1_1ZonedDateTime.html#a1837d67faca49ad7dd01fb699125b865" title="Return the year.">year()</a>, <a class="el" href="classace__time_1_1ZonedDateTime.html#af8483c5973c79f6514db8401aae77cb6" title="Return the month with January=1, December=12.">month()</a>, <a class="el" href="classace__time_1_1ZonedDateTime.html#a951bfb83ff1a03125cc122be6f5da675" title="Return the day of the month.">day()</a>, <a class="el" href="classace__time_1_1ZonedDateTime.html#a0b9b68dede5df8abe822155a8a10e914" title="Return the hour.">hour()</a>, <a class="el" href="classace__time_1_1ZonedDateTime.html#ad018aacdd07c8ac5b0f43f48ca8a994f" title="Return the minute.">minute()</a>, <a class="el" href="classace__time_1_1ZonedDateTime.html#a99768367d264cb915b924fb9360a641e" title="Return the second.">second()</a>, timezone()) in order to obtain correct values for various derivative information (e.g. <a class="el" href="classace__time_1_1ZonedDateTime.html#acfa87cc440b6b3ab00c6aeac190892b3" title="Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into account the time zone.">toEpochSeconds()</a>). Multiple mutations can be batched together before calling this method.</p>
+<p>This method exists because AceTime objects are mutable instead of immutable. If the objects were immutable, then each mutation would create a new object that would be automatically normalized, and an unnormalized object would not be visible outside of the library. Unfortunately, making the AceTime classes immutable causes the library to consume too much additional memory and consume too much CPU resources on 8-bit processors. So we must provide this <a class="el" href="classace__time_1_1ZonedDateTime.html#ad74f2ea586bfa38a38c7e2ba1115b6c4" title="Normalize the ZonedDateTime after mutation.">normalize()</a> method which must be called manually by the client code. </p>
+
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00227">227</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+
+</div>
+</div>
 <a id="a185351505b9ff59923656be956d0b326"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a185351505b9ff59923656be956d0b326">&#9670;&nbsp;</a></span>printTo()</h2>
 
@@ -563,7 +597,7 @@ Friends</h2></td></tr>
 <p>Set the time zone. </p>
 <p>Note that this does not convert a given <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> into a different <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a>. Use converToTimeZone() instead. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00204">204</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00201">201</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -593,7 +627,7 @@ Friends</h2></td></tr>
 <p>Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into account the time zone. </p>
 <p>Normally, Julian day starts at 12:00:00. We modify the formula given in wiki page to start the Gregorian day at 00:00:00. See <a href="https://en.wikipedia.org/wiki/Julian_day">https://en.wikipedia.org/wiki/Julian_day</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00242">242</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00262">262</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -624,7 +658,7 @@ Friends</h2></td></tr>
 <p>The return type is a acetime_t which can represent a range of 136 years.</p>
 <p>Tip: You can use the command 'date +s -d {iso8601date}' on a Unix box to print the unix seconds. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00253">253</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00273">273</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -727,7 +761,7 @@ Friends</h2></td></tr>
 <p>Return true if two <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> objects are equal in all components. </p>
 <p>Optimized for small changes in the less signficant fields, such as 'second' or 'minute'. The dayOfWeek is a derived field so it is not explicitly used to test equality, but it follows that if all the other fields are identical, then the dayOfWeek must also be equal. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00310">310</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00330">330</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>

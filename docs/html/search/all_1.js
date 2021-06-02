@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['backupnow_8',['backupNow',['../classace__time_1_1clock_1_1SystemClock.html#afd779bb277217f23fbcc96482d276584',1,'ace_time::clock::SystemClock']]],
+  ['backupnow_8',['backupNow',['../classace__time_1_1clock_1_1SystemClockTemplate.html#a55de288209cde197cee0abe9ab37ce8b',1,'ace_time::clock::SystemClockTemplate']]],
   ['basicbrokers_2eh_9',['BasicBrokers.h',['../BasicBrokers_8h.html',1,'']]],
   ['basiczone_10',['BasicZone',['../classace__time_1_1BasicZone.html',1,'ace_time::BasicZone'],['../classace__time_1_1BasicZone.html#a97ade70c7e0298971f76b6819cafc8b9',1,'ace_time::BasicZone::BasicZone(const basic::ZoneInfo *zoneInfo)'],['../classace__time_1_1BasicZone.html#abc1f3d572422df7889c03322369ec12b',1,'ace_time::BasicZone::BasicZone(const basic::ZoneInfoBroker &amp;zoneInfo)']]],
   ['basiczonemanager_11',['BasicZoneManager',['../classace__time_1_1BasicZoneManager.html',1,'ace_time']]],
