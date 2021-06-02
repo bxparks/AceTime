@@ -14,8 +14,8 @@ sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
 sizeof(clock::DS3231Clock): 8
 sizeof(clock::SystemClock): 36
-sizeof(clock::SystemClockLoop): 56
-sizeof(clock::SystemClockCoroutine): 80
+sizeof(clock::SystemClockLoop): 52
+sizeof(clock::SystemClockCoroutine): 72
 sizeof(internal::ZoneContext): 16
 sizeof(basic::ZoneEra): 16
 sizeof(basic::ZoneInfo): 20

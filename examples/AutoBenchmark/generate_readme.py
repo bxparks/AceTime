@@ -28,7 +28,7 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
-**Version**: AceTime v1.7
+**Version**: AceTime v1.7.2
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
@@ -97,6 +97,10 @@ The CPU times below are given in microseconds.
   template function, and the compiler is not able to optimize the resulting
   function as well as the hand-rolled version. The slightly decrease in speed
   seemed acceptable cost to reduce duplicate code maintenance.
+* In v1.7.2, `SystemClock::clockMillis()` became non-virtual after incorporating
+  AceRoutine v1.3. The sizeof `SystemClockLoop` and `SystemClockCoroutine`
+  decreases 4 bytes on AVR, and 4-8 bytes on 32-bit processors. No signficant
+  changes in CPU time.
 
 ## Arduino Nano
 
