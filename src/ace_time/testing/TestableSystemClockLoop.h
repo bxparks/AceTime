@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 #include "../clock/SystemClockLoop.h"
-#include "FakeMillis.h"
+#include "TestableClockInterface.h"
 
 namespace ace_time {
 namespace testing {
@@ -17,26 +17,9 @@ namespace testing {
  * A version of SystemClockLoop that allows the clockMillis() function to be
  * manually set for testing purposes.
  */
-class TestableSystemClockLoop: public clock::SystemClockLoop {
-  public:
-    explicit TestableSystemClockLoop() {}
-
-    void init(
-        Clock* referenceClock /* nullable */,
-        Clock* backupClock /* nullable */,
-        FakeMillis* fakeMillis
-    ) {
-      initSystemClock(referenceClock, backupClock);
-      mFakeMillis = fakeMillis;
-    }
-
-    unsigned long clockMillis() const override {
-      return mFakeMillis->millis();
-    }
-
-  private:
-    FakeMillis* mFakeMillis;
-};
+using TestableSystemClockLoop = clock::SystemClockLoopTemplate<
+    TestableClockInterface
+>;
 
 }
 }

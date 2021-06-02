@@ -8,11 +8,15 @@
 
 #include <stdint.h>
 #include "Clock.h"
+#include "../hw/ClockInterface.h"
 
-extern "C" unsigned long millis();
-class SystemClockLoopTest;
-class SystemClockLoopTest_syncNow;
 class SystemClockCoroutineTest;
+class SystemClockLoopTest;
+class SystemClockLoopTest_loop;
+class SystemClockLoopTest_setup;
+class SystemClockLoopTest_backupNow;
+class SystemClockLoopTest_syncNow;
+class SystemClockLoopTest_getNow;
 
 namespace ace_time {
 namespace clock {
@@ -48,8 +52,12 @@ namespace clock {
  *    the AceRoutine library in the global loop() function.
  *    2) Call the SystemClockLoop::loop() method from the global loop()
  *    function.
+ *
+ * @tparam T_CI class name of the ClockInterface, normally
+ *    ace_time::ClockInterface
  */
-class SystemClock: public Clock {
+template <typename T_CI>
+class SystemClockTemplate: public Clock {
   public:
     /** Sync was successful. */
     static const uint8_t kSyncStatusOk = 0;
@@ -185,11 +193,15 @@ class SystemClock: public Clock {
   protected:
     friend class ::SystemClockLoopTest;
     friend class ::SystemClockCoroutineTest;
+    friend class ::SystemClockLoopTest_loop;
     friend class ::SystemClockLoopTest_syncNow;
+    friend class ::SystemClockLoopTest_setup;
+    friend class ::SystemClockLoopTest_backupNow;
+    friend class ::SystemClockLoopTest_getNow;
 
     // disable copy constructor and assignment operator
-    SystemClock(const SystemClock&) = delete;
-    SystemClock& operator=(const SystemClock&) = delete;
+    SystemClockTemplate(const SystemClockTemplate&) = delete;
+    SystemClockTemplate& operator=(const SystemClockTemplate&) = delete;
 
     /**
      * Constructor.
@@ -208,7 +220,7 @@ class SystemClock: public Clock {
      *    tries to detect this case and attempts to do the right thing. This
      *    parameter can be null.
      */
-    explicit SystemClock(
+    explicit SystemClockTemplate(
         Clock* referenceClock /* nullable */,
         Clock* backupClock /* nullable */
     ) :
@@ -219,7 +231,7 @@ class SystemClock: public Clock {
      * Empty constructor primarily for tests. The init() must be called before
      * using the object.
      */
-    explicit SystemClock() {}
+    explicit SystemClockTemplate() {}
 
     /** Same as constructor but allows delayed initialization, e.g. in tests. */
     void initSystemClock(
@@ -244,7 +256,7 @@ class SystemClock: public Clock {
      * Return the Arduino millis(). Override for unit testing. Named
      * 'clockMillis()' to avoid conflict with Coroutine::millis().
      */
-    virtual unsigned long clockMillis() const { return ::millis(); }
+    unsigned long clockMillis() const { return T_CI::millis(); }
 
     /**
      * Call this (or getNow() every 65.535 seconds or faster to keep the
@@ -336,6 +348,9 @@ class SystemClock: public Clock {
     bool mIsInit = false; // true if setNow() or syncNow() was successful
     uint8_t mSyncStatusCode = kSyncStatusUnknown;
 };
+
+/** Base class of SystemClockLoop and SystemClockCoroutine. */
+using SystemClock = SystemClockTemplate<hw::ClockInterface>;
 
 }
 }
