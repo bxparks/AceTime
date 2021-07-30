@@ -64,7 +64,6 @@ class DS3231Module : public DS3231Interface {
       dateTime->day = bcdToDec(mWireInterface.read());
       dateTime->month = bcdToDec(mWireInterface.read());
       dateTime->year = bcdToDec(mWireInterface.read());
-      mWireInterface.endRequest();
     }
 
     /** Set the DS3231 with the HardwareDateTime values. */
@@ -92,7 +91,6 @@ class DS3231Module : public DS3231Interface {
       mWireInterface.requestFrom(kAddress, (uint8_t) 2);
       temperature->msb = mWireInterface.read();
       temperature->lsb = mWireInterface.read();
-      mWireInterface.endRequest();
     }
 
   private:
