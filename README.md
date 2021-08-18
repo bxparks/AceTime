@@ -4,11 +4,6 @@
 [![Python Tools](https://github.com/bxparks/AceTime/actions/workflows/python_tools.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/python_tools.yml)
 [![Validation Tests](https://github.com/bxparks/AceTime/actions/workflows/validation.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/validation.yml)
 
-**New**: [GitHub Discussions](https://github.com/bxparks/AceTime/discussions)
-for this project is now active! Let's use that for general support questions,
-and reserve the [GitHub Issues](https://github.com/bxparks/AceTime/issues)
-section for bugs and feature requests.
-
 The AceTime library provides Date, Time, and TimeZone classes which can convert
 "epoch seconds" to human-readable local date and time fields. Those classes can
 also convert local date and time between different time zones, properly
@@ -63,13 +58,7 @@ installation instructions.
     * [HelloSystemClock](#HelloSystemClock)
     * [WorldClock](#WorldClock)
 * [Installation](#Installation)
-* [User Guides](#UserGuides)
-    * [docs/date_time_timezone.md](docs/date_time_timezone.md)
-    * [docs/clock_system_clock.md](docs/clock_system_clock.md)
-    * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub
-      Pages
-* [Benchmarks](#Benchmarks)
-* [Comparisons to other Libraries](#Comparisons)
+* [Documentation](#Documentation)
 * [System Requirements](#SystemRequirements)
     * [Hardware](#Hardware)
     * [Tool Chain](#ToolChain)
@@ -558,13 +547,13 @@ for all 3 zones:
 
 See [docs/installation.md](docs/installation.md).
 
-<a name="UserGuides"></a>
-## User Guides
+<a name="Documentation"></a>
+## Documentation
 
 * [README.md](README.md)
     * this file
 * Date, Time and TimeZones
-  ([docs/date_time_timezone.md](docs/date_time_timezone.md))
+    * See [docs/date_time_timezone.md](docs/date_time_timezone.md)
     * Date and Time classes
     * TimeZone classes
     * ZoneInfo Database
@@ -573,23 +562,18 @@ See [docs/installation.md](docs/installation.md).
     * Motivation and Design Considerations
     * Bugs and Limitations
 * Clocks and SystemClocks
-  ([docs/clock_system_clock.md](docs/clock_system_clock.md))
-    * Clock
+    * See [docs/clock_system_clock.md](docs/clock_system_clock.md))
     * NTP Clock, DS3231 Clock, STM32 RTC Clock, STM32F1 Clock
     * SystemClock, SystemClockLoop, SystemClockCoroutine
-* [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
-
-<a name="Benchmarks"></a>
-## Benchmarks
-
-See [docs/benchmarks.md](docs/benchmarks.md) for CPU and memory usage
-benchmarks.
-
-<a name="Comparisons"></a>
-## Comparisons to Other Libraries
-
-See [docs/comparisons.md](docs/comparisons.md) for comparisons to other date,
-time and timezone libraries.
+* Doxygen docs
+    * See [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on
+      GitHub Pages
+* Benchmarks
+    * See [docs/benchmarks.md](docs/benchmarks.md) for CPU and memory usage
+      benchmarks
+* Comparisons to Other Libraries
+    * See [docs/comparisons.md](docs/comparisons.md) for comparisons to other
+      date, time and timezone libraries
 
 <a name="SystemRequirements"></a>
 ## System Requirements
@@ -597,7 +581,7 @@ time and timezone libraries.
 <a name="Hardware"></a>
 ### Hardware
 
-The library is tested on the following boards:
+This library has Tier 1 support on the following boards:
 
 * Arduino Nano clone (16 MHz ATmega328P)
 * SparkFun Pro Micro clone (16 MHz ATmega32U4)
@@ -608,15 +592,22 @@ The library is tested on the following boards:
 * ESP32 dev board (ESP-WROOM-32 module, 240 MHz dual core Tensilica LX6)
 * Teensy 3.2 (96 MHz ARM Cortex-M4)
 
-I will occasionally test on the following hardware as a sanity check:
+Tier 2 support can be expected on the following boards, mostly because I don't
+test these as often:
 
+* ATtiny85 (8 MHz ATtiny85)
+* Arduino Pro Mini (16 MHz ATmega328P)
 * Mini Mega 2560 (Arduino Mega 2560 compatible, 16 MHz ATmega2560)
 * Teensy LC (48 MHz ARM Cortex-M0+)
 
 The following boards are *not* supported:
 
-* megaAVR (e.g. Nano Every)
-* SAMD21 boards w/ `arduino:samd` version >= 1.8.10 (e.g. MKRZero)
+* Any platform using the ArduinoCore-API
+  (https://github.com/arduino/ArduinoCore-api), such as:
+    * megaAVR (e.g. Nano Every)
+    * SAMD21 boards w/ `arduino:samd` version >= 1.8.10 (e.g. MKRZero)
+    * MKRZero
+    * Raspberry Pi Pic RP2040
 
 <a name="ToolChain"></a>
 ### Tool Chain
@@ -625,13 +616,14 @@ This library was developed and tested using:
 
 * [Arduino IDE 1.8.13](https://www.arduino.cc/en/Main/Software)
 * [Arduino CLI 0.14.0](https://arduino.github.io/arduino-cli)
+* [SpenceKonde ATTinyCore 1.5.2](https://github.com/SpenceKonde/ATTinyCore)
 * [Arduino AVR Boards 1.8.3](https://github.com/arduino/ArduinoCore-avr)
 * [Arduino SAMD Boards 1.8.9](https://github.com/arduino/ArduinoCore-samd)
 * [SparkFun AVR Boards 1.1.13](https://github.com/sparkfun/Arduino_Boards)
-* [SparkFun SAMD Boards 1.8.1](https://github.com/sparkfun/Arduino_Boards)
-* [STM32duino 1.9.0](https://github.com/stm32duino/Arduino_Core_STM32)
+* [SparkFun SAMD Boards 1.8.3](https://github.com/sparkfun/Arduino_Boards)
+* [STM32duino 2.0.0](https://github.com/stm32duino/Arduino_Core_STM32)
 * [ESP8266 Arduino 2.7.4](https://github.com/esp8266/Arduino)
-* [ESP32 Arduino 1.0.4](https://github.com/espressif/arduino-esp32)
+* [ESP32 Arduino 1.0.6](https://github.com/espressif/arduino-esp32)
 * [Teensydino 1.53](https://www.pjrc.com/teensy/td_download.html)
 
 This library is *not* compatible with:
@@ -659,10 +651,6 @@ them.
 
 <a name="FeedbackAndSupport"></a>
 ## Feedback and Support
-
-If you find this library useful, consider starring this project on GitHub. The
-stars will let me prioritize the more popular libraries over the less popular
-ones.
 
 If you have any questions, comments and other support questions about how to
 use this library, please use the

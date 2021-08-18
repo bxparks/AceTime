@@ -39,9 +39,9 @@ classes live within the AceTime library.
 
 **Related Documents**:
 
-* [README.md](README.md): introductory background.
-* [docs/installation.md](docs/installation.md): how to install the library
-* [docs/date_time_timezone.md](docs/date_time_timezone.md): the
+* [README.md](../README.md): introductory background.
+* [docs/installation.md](../docs/installation.md): how to install the library
+* [docs/date_time_timezone.md](../docs/date_time_timezone.md): the
   Date, Time and TimeZone classes
 * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
 

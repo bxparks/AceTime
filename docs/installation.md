@@ -85,22 +85,22 @@ Linux or MacOS machine, you need:
 
 The following programs are provided in the `examples/` directory:
 
-* [HelloDateTime](examples/HelloDateTime/)
+* [HelloDateTime](../examples/HelloDateTime/)
     * demo program of various date and time classes
-* [HelloSystemClock](examples/HelloSystemClock/)
+* [HelloSystemClock](../examples/HelloSystemClock/)
     * demo program of `SystemClock`
-* [HelloSystemClockCoroutine](examples/HelloSystemClockCoroutine/)
+* [HelloSystemClockCoroutine](../examples/HelloSystemClockCoroutine/)
     * same as `HelloSystemClock` but using AceRoutine coroutines
-* [HelloNtpClock](examples/HelloNtpClock/)
+* [HelloNtpClock](../examples/HelloNtpClock/)
     * demo program of `NtpClock`
-* [AutoBenchmark](examples/AutoBenchmark/)
+* [AutoBenchmark](../examples/AutoBenchmark/)
     * perform CPU and memory benchmarking of various methods and print a report
-* [MemoryBenchmark](examples/MemoryBenchmark/)
+* [MemoryBenchmark](../examples/MemoryBenchmark/)
     * compiles `MemoryBenchmark.ino` for 13 different features and collecs the
       flash and static RAM usage from the compiler into a `*.txt` file for
       a number of platforms (AVR, SAMD, ESP8266, etc)
     * the `README.md` transforms the `*.txt` file into a human-readable form
-* [ComparisonBenchmark](examples/ComparisonBenchmark/)
+* [ComparisonBenchmark](../examples/ComparisonBenchmark/)
     * compare AceTime with
     [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
 

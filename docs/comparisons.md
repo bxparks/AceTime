@@ -15,13 +15,13 @@
 
 The AceTime library can be substantially faster than the equivalent methods in
 the [Arduino Time Library](https://github.com/PaulStoffregen/Time). The
-[ComparisonBenchmark.ino](examples/ComparisonBenchmark/) program compares the
+[ComparisonBenchmark.ino](../examples/ComparisonBenchmark/) program compares the
 CPU run time of `LocalDateTime::forEpochSeconds()` and
 `LocalDateTime::toEpochSeconds()` with the equivalent `breakTime()` and
 `makeTime()` functions of the Arduino Time Library. Details are given in the
-[ComparisonBenchmark/README.md](examples/ComparisonBenchmark/README.md) file in
-that folder, but here is a summary of the roundtrip times for various boards (in
-microseconds):
+[ComparisonBenchmark/README.md](../examples/ComparisonBenchmark/README.md) file
+in that folder, but here is a summary of the roundtrip times for various boards
+(in microseconds):
 
 ```
 ----------------------------+---------+----------+
@@ -141,9 +141,9 @@ environment because:
   library.
 
 The Hinnant date libraries were invaluable for writing the
-[BasicHinnantDateTest](tests/validation/BasicHinnantDateTest/)
+[BasicHinnantDateTest](../tests/validation/BasicHinnantDateTest/)
 and
-[ExtendedHinnantDateTest](tests/validation/ExtendedHinnantDateTest/)
+[ExtendedHinnantDateTest](../tests/validation/ExtendedHinnantDateTest/)
 validation tests which compare the AceTime algorithms to the Hinnant Date
 algorithms. For all times zones between the years 2000 until 2050, the AceTime
 UTC offsets (`TimeZone::getUtcOffset()`), timezone abbreviations
