@@ -1,7 +1,7 @@
 # Validation Tests
 
 These tests compare the algorithm implemented by `ZonedDateTime` and
-`ZoneProcessor` classes with the equivalent functionalty from 5
+`ZoneProcessor` classes with the equivalent functionality from 5
 other libraries:
 
 * [Python pytz](https://pypi.org/project/pytz/) library
