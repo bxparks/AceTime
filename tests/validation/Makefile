@@ -1,11 +1,26 @@
 SHELL=bash
 
-# Build the BasicHinnantDateTest and ExtendedHinnantDateTest tests in series
-# (because parallel make of the two targets seem to collide while loading the
-# TZ database into Hinnant date library). The Hinnant date library is the only
-# one that can be configured to use the new TZ database version just after it
-# is released. The other ones require the corresponding package (e.g. OS, Java,
-# Python) to be released.
+# There are 2 sets of validation test targets in this Makefile.
+#
+# 1) The minimal validation tests: BasicHinnantDateTest and
+# ExtendedHinnantDateTest. These are the only 2 validation tests which can be
+# configured to validate against a specific TZ version. These are used in the
+# GitHub CI workflow.
+#
+# $ make validations
+# $ make runvalidations
+#
+# 2) The full validation tests (6 x Basic*Test and 6 Extended*Test). Some of
+# these will be broken when a new TZ DB is released because the dependent
+# library has not released a new version of the library yet.
+#
+# $ make tests (or make tests-serial)
+# $ make runtests
+#
+# Sometimes `make tests` fails because it tries to build the targets in
+# parallel. In that case, we can use `make tests-serial`.
+
+# Build just BasicHinnantDateTest and ExtendedHinnantDateTest tests in series.
 validations:
 	(set -e; \
 	trap 'kill 0' SIGHUP SIGINT SIGQUIT SIGKILL SIGTERM; \
@@ -15,6 +30,8 @@ validations:
 	done; \
 	wait)
 
+# Run the BasicHinnantDateTest and ExtendedHinnantDateTest validation tests.
+# These are used in the GitHub CI workflow.
 runvalidations:
 	set -e; \
 	for i in *HinnantDateTest/Makefile; do \
@@ -22,7 +39,7 @@ runvalidations:
 		$$(dirname $$i)/$$(dirname $$i).out; \
 	done
 
-# Build the validation tests in parallel for reduced waiting time.
+# Build *all* validation tests in parallel for reduced waiting time.
 tests:
 	(set -e; \
 	trap 'kill 0' SIGHUP SIGINT SIGQUIT SIGKILL SIGTERM; \
@@ -32,15 +49,12 @@ tests:
 	done; \
 	wait)
 
-# Build the validation tests in series. This was the original 'tests' target
-# but as the validation tests grow slower and slower (mostly due to the new
-# implementation of compare_pytz and compare_dateutil), I wrote the paralel
-# version above to utilize multiple CPUs. I thought the serial version would be
-# useful for GitHub Actions, but even there it seems like the workflow runners
-# are allocated least 2 CPUs, and using the parallel version above reduces the
-# execution time from 11 min (serial) to 6 min (parallel). So I ended up just
-# using the parallel version even for Actions workflow. This target is retained
-# for historical reference.
+# Same as 'make tests' but in series not in parallel. I thought the serial
+# version would be useful for GitHub Actions, but even there it seems like the
+# workflow runners are allocated least 2 CPUs, and using the parallel version
+# above reduces the execution time from 11 min (serial) to 6 min (parallel).
+# Sometimes the serial version is needed when `make tests` failes due a race
+# condition.
 tests-serial:
 	set -e; \
 	for i in */Makefile; do \
@@ -48,6 +62,7 @@ tests-serial:
 		$(MAKE) -C $$(dirname $$i) ; \
 	done;
 
+# Run *all* validation tests.
 runtests:
 	set -e; \
 	for i in */Makefile; do \
@@ -55,6 +70,7 @@ runtests:
 		$$(dirname $$i)/$$(dirname $$i).out; \
 	done
 
+# Clean all validation tests.
 clean:
 	set -e; \
 	for i in */Makefile; do \

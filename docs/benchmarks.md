@@ -3,7 +3,7 @@
 <a name="CPU"></a>
 ## CPU
 
-The [AutoBenchmark.ino](examples/AutoBenchmark/) program measures the
+The [AutoBenchmark.ino](../examples/AutoBenchmark/) program measures the
 amount of CPU cycles taken by some of the more expensive methods. Here is a
 summary of the elapsed time for the `ZonedDateTime::forEpochSeconds()` method
 using a `BasicZoneManager` that already has its cache populated for the given
@@ -25,7 +25,7 @@ Teensy 3.2 96 MHz           |    6.4 |
 ## Memory
 
 Here is a quick summary of the amount of static RAM consumed by various
-classes (more details at [examples/AutoBenchmark](examples/AutoBenchmark):
+classes (more details at [examples/AutoBenchmark](../examples/AutoBenchmark):
 
 **8-bit processors**
 
@@ -66,7 +66,7 @@ sizeof(SystemClockLoop): 56
 sizeof(SystemClockCoroutine): 80
 ```
 
-The [MemoryBenchmark](examples/MemoryBenchmark) program gives a more
+The [MemoryBenchmark](../examples/MemoryBenchmark) program gives a more
 comprehensive answer to the amount of memory taken by this library.
 Here is a short summary for an 8-bit microcontroller (e.g. Arduino Nano):
 

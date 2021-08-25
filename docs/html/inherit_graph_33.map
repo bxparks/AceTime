@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structace__time_1_1hw_1_1HardwareDateTime.html" title="The date (year, month, day) and time (hour, minute, second) fields supported by the DS3231 RTC chip." alt="" coords="5,5,248,32"/>
+<area shape="rect" id="node1" href="$classace__time_1_1hw_1_1DS3231Interface.html" title="Abstract interface to the DS3231Module to allow different template instantiations (using different Ac..." alt="" coords="5,13,229,39"/>
+<area shape="rect" id="node2" href="$classace__time_1_1hw_1_1DS3231Module.html" title="Same as the hw/DS3231 class, but designed for use with one of the templatized interface classes of Ac..." alt="" coords="277,5,492,47"/>
 </map>

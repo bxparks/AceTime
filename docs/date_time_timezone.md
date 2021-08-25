@@ -12,7 +12,7 @@ following namespaces:
   `ExtendedZoneManager`
 * `ace_time::internal`: not normally needed by app developers
 
-**Version**: 1.7.2 (2021-06-02, TZ DB version 2021a)
+**Version**: 1.7.3 (2021-08-25, TZ DB version 2021a)
 
 ## Table of Contents
 
@@ -72,9 +72,9 @@ following namespaces:
 
 **Related Documents**:
 
-* [README.md](README.md): introductory background
-* [docs/installation.md](docs/installation.md): how to install the library
-* [docs/clock_system_clock.md](docs/clock_system_clock.md): the clock classes
+* [README.md](../README.md): introductory background
+* [docs/installation.md](installation.md): how to install the library
+* [docs/clock_system_clock.md](clock_system_clock.md): the clock classes
 * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
 
 <a name="Overview"></a>
@@ -178,14 +178,14 @@ data structures, which each timezone in the TZ Database being represented by a
 Two slightly different sets of ZoneInfo entries are generated, under 2 different
 directories, using 2 different C++ namespaces to avoid cross-contamination:
 
-* [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h)
+* [zonedb/zone_infos.h](../src/ace_time/zonedb/zone_infos.h)
     * intended for `BasicZoneProcessor` or `BasicZoneManager`
     * 266 zones and 183 links (as of version 2021a) from the year 2000 until
       2050, about 70% of the full IANA TZ Database
     * contains `kZone*` declarations (e.g. `kZoneAmerica_Los_Angeles`)
     * contains `kZoneId*` identifiers (e.g. `kZoneIdAmerica_Los_Angeles`)
     * slightly smaller and slightly faster
-* [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h)
+* [zonedbx/zone_infos.h](../src/ace_time/zonedbx/zone_infos.h)
     * intended for `ExtendedZoneProcessor` or `ExtendedZoneManager`
     * all 386 zones and 207 links (as of version 2021a) in the IANA TZ Database
       from the year 2000 until 2050.
@@ -973,7 +973,7 @@ method is not expected to be used often.
 
 This TimeZone is created using two objects:
 * the `basic::ZoneInfo` data objects contained in
-  [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h)
+  [zonedb/zone_infos.h](../src/ace_time/zonedb/zone_infos.h)
 * an external instance of `BasicZoneProcessor` needed for calculating zone
   transitions
 
@@ -1049,7 +1049,7 @@ void someFunction() {
 
 This TimeZone is created using two objects:
 * the `extended::ZoneInfo` data objects contained in
-  [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h)
+  [zonedbx/zone_infos.h](../src/ace_time/zonedbx/zone_infos.h)
 * an external instance of `ExtendedZoneProcessor` needed for calculating zone
   transitions
 
@@ -1275,12 +1275,12 @@ components (year, month, day, hour, minute, seconds) will be different.
 
 The conversion from an epochSeconds to date-time components using
 `ZonedDateTime::forEpochSeconds()` is an expensive operation (see
-[AutoBenchmark](examples/AutoBenchmark/)). To improve performance, the
+[AutoBenchmark](../examples/AutoBenchmark/)). To improve performance, the
 `BasicZoneProcessor` and `ExtendedZoneProcessor` implement internal caching
 based on the `year` component. This optimizes the most commonly expected
 use case where the epochSeconds is incremented by a clock (e.g. `SystemClock`)
 every second, and is converted to human-readable date-time components once a
-second. According to [AutoBenchmark](examples/AutoBenchmark/), the cache
+second. According to [AutoBenchmark](../examples/AutoBenchmark/), the cache
 improves performance by a factor of 2-3X (8-bit AVR) to 10-20X (32-bit
 processors) on consecutive calls to `forEpochSeconds()` with the same `year`.
 
@@ -1383,10 +1383,10 @@ pre-defined default Zone and Link registries which are defined by the following
 header files. These header files are automatically included in the `<AceTime.h>`
 header:
 
-* [zonedb/zone_registry.h](src/ace_time/zonedb/zone_registry.h)
+* [zonedb/zone_registry.h](../src/ace_time/zonedb/zone_registry.h)
     * Zones and Links supported by `BasicZoneManager`
     * `ace_time::zonedb` namespace
-* [zonedbx/zone_registry.h](src/ace_time/zonedbx/zone_registry.h)
+* [zonedbx/zone_registry.h](../src/ace_time/zonedbx/zone_registry.h)
     * Zones and Links supported by `ExtendedZoneManager`
     * `ace_time::zonedbx` namespace
 
@@ -1394,7 +1394,7 @@ If you decide to use the default registries, there are 6 possible configurations
 of the ZoneManager constructors as shown below. The following also shows the
 number of zones and links supported by each configuration, as well as the flash
 memory consumption of each configuration, as determined by
-[MemoryBenchmark](examples/MemoryBenchmark). These numbers are correct as of
+[MemoryBenchmark](../examples/MemoryBenchmark). These numbers are correct as of
 v1.6 with TZDB version 2021a:
 
 ```C++
@@ -1469,7 +1469,7 @@ void someFunction(const char* zoneName) {
 Other `createForXxx()` methods are described in subsections below.
 
 It is possible to create your own custom Zone and Link registries. See the
-[Custom Zone Registry](##CustomZoneRegistry) subsection below
+[Custom Zone Registry](#CustomZoneRegistry) subsection below
 
 <a name="CreateForZoneName"></a>
 #### createForZoneName()
@@ -1647,10 +1647,10 @@ internal structure of `ZoneInfo` data structures.
 
 The `zonedb/` entries do not support all the timezones in the IANA TZ Database.
 If a zone is excluded, the reason for the exclusion can be found at the
-bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
+bottom of the [zonedb/zone_infos.h](../src/ace_time/zonedb/zone_infos.h) file.
 The criteria for selecting the Basic `zonedb` entries are embedded
 in the `transformer.py` script and summarized in
-[BasicZoneProcessor.h](src/ace_time/BasicZoneProcessor.h):
+[BasicZoneProcessor.h](../src/ace_time/BasicZoneProcessor.h):
 
 * the DST offset is a multiple of 15-minutes (all current timezones satisfy
   this)
@@ -2034,7 +2034,7 @@ static ExtendedZoneManager<CACHE_SIZE> zoneManager(
 ```
 
 The `ACE_TIME_PROGMEM` macro is defined in
-[compat.h](src/ace_time/common/compat.h) and indicates whether the `ZoneInfo`
+[compat.h](../src/ace_time/common/compat.h) and indicates whether the `ZoneInfo`
 entries are stored in normal RAM or flash memory (i.e. `PROGMEM`). It **must**
 be used for custom zoneRegistries because the `BasicZoneManager` and
 `ExtendedZoneManager` expect to find them in static RAM or flash memory
@@ -2042,10 +2042,10 @@ according to this macro.
 
 See examples in various unit tests:
 
-* [tests/ZoneRegistrarTest](tests/ZoneRegistrarTest)
-* [tests/TimeZoneTest](tests/TimeZoneTest)
-* [tests/ZonedDateTimeBasicTest](tests/ZonedDateTimeBasicTest)
-* [tests/ZonedDateTimeExtendedTest](tests/ZonedDateTimeExtendedTest)
+* [tests/ZoneRegistrarTest](../tests/ZoneRegistrarTest)
+* [tests/TimeZoneTest](../tests/TimeZoneTest)
+* [tests/ZonedDateTimeBasicTest](../tests/ZonedDateTimeBasicTest)
+* [tests/ZonedDateTimeExtendedTest](../tests/ZonedDateTimeExtendedTest)
 
 (**TBD**: I think it would be useful to create a script that can generate the
 C++ code representing these custom zone registries from a list of zones.)
@@ -2225,7 +2225,8 @@ void incrementDay(ZonedDateTime& dateTime);
 void incrementHour(ZonedDateTime& dateTime);
 void incrementMinute(ZonedDateTime& dateTime);
 
-]
+}
+
 }
 ```
 
@@ -2572,7 +2573,7 @@ Teensy microcontrollers.
     * Tested against Java `java.time` from 2000 to until 2050.
     * Tested against [Hinnant date](https://github.com/HowardHinnant/date)
       using 1-minute resolution from 1975 to 2050. See
-      [ExtendedHinnantDateTest](tests/validation/ExtendedHinnantDateTest).
+      [ExtendedHinnantDateTest](../tests/validation/ExtendedHinnantDateTest).
 * `zonedb/` and `zonedbx/` ZoneInfo entries
     * These statically defined data structures are loaded into flash memory
       using the `PROGMEM` keyword. The vast majority of the data structure
@@ -2623,8 +2624,8 @@ Teensy microcontrollers.
       many clones called something like "Ardunio SAMD21 M0 Mini" (this is what I
       have), I have been unable to find a board configuration that is an exact
       match. You have a few choices:
-        * If you are running the [AceTime unit tests](tests/), you need to have
-          a working `SERIAL_PORT_MONITOR`, so the "Arduino MKR ZERO" board
+        * If you are running the [AceTime unit tests](../tests/), you need to
+          have a working `SERIAL_PORT_MONITOR`, so the "Arduino MKR ZERO" board
           might work better, instead of the "Arduino Zero (Native USB Port)"
           board.
         * If you are running an app that requires proper pin configuration,

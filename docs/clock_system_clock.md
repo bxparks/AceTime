@@ -12,7 +12,7 @@ sense for these classes to be in a separate library because the other parts of
 AceTime library are not dependent of the Clock classes. But for now, these
 classes live within the AceTime library.
 
-**Version**: 1.7.2 (2021-06-02, TZ DB version 2021a)
+**Version**: 1.7.3 (2021-08-25, TZ DB version 2021a)
 
 ## Table of Contents
 
@@ -39,9 +39,9 @@ classes live within the AceTime library.
 
 **Related Documents**:
 
-* [README.md](README.md): introductory background.
-* [docs/installation.md](docs/installation.md): how to install the library
-* [docs/date_time_timezone.md](docs/date_time_timezone.md): the
+* [README.md](../README.md): introductory background.
+* [docs/installation.md](../docs/installation.md): how to install the library
+* [docs/date_time_timezone.md](../docs/date_time_timezone.md): the
   Date, Time and TimeZone classes
 * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
 

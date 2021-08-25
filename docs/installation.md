@@ -19,7 +19,7 @@ directories. Or you can `git clone` directly into the `./libraries` directory.
 The `develop` branch contains the latest development.
 The `master` branch contains the stable releases.
 
-**Version**: 1.7.2 (2021-06-02, TZ DB version 2021a)
+**Version**: 1.7.3 (2021-08-25, TZ DB version 2021a)
 
 <a name="SourceCode"></a>
 ## Source Code
@@ -85,22 +85,22 @@ Linux or MacOS machine, you need:
 
 The following programs are provided in the `examples/` directory:
 
-* [HelloDateTime](examples/HelloDateTime/)
+* [HelloDateTime](../examples/HelloDateTime/)
     * demo program of various date and time classes
-* [HelloSystemClock](examples/HelloSystemClock/)
+* [HelloSystemClock](../examples/HelloSystemClock/)
     * demo program of `SystemClock`
-* [HelloSystemClockCoroutine](examples/HelloSystemClockCoroutine/)
+* [HelloSystemClockCoroutine](../examples/HelloSystemClockCoroutine/)
     * same as `HelloSystemClock` but using AceRoutine coroutines
-* [HelloNtpClock](examples/HelloNtpClock/)
+* [HelloNtpClock](../examples/HelloNtpClock/)
     * demo program of `NtpClock`
-* [AutoBenchmark](examples/AutoBenchmark/)
+* [AutoBenchmark](../examples/AutoBenchmark/)
     * perform CPU and memory benchmarking of various methods and print a report
-* [MemoryBenchmark](examples/MemoryBenchmark/)
+* [MemoryBenchmark](../examples/MemoryBenchmark/)
     * compiles `MemoryBenchmark.ino` for 13 different features and collecs the
       flash and static RAM usage from the compiler into a `*.txt` file for
       a number of platforms (AVR, SAMD, ESP8266, etc)
     * the `README.md` transforms the `*.txt` file into a human-readable form
-* [ComparisonBenchmark](examples/ComparisonBenchmark/)
+* [ComparisonBenchmark](../examples/ComparisonBenchmark/)
     * compare AceTime with
     [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
 
