@@ -7,14 +7,18 @@ using aunit::TestRunner;
 using namespace ace_time;
 
 //---------------------------------------------------------------------------
-// ExtendedZoneManager
+// Set up a ExtendedZoneManager with 4 zones.
 //---------------------------------------------------------------------------
 
 const extended::ZoneInfo* const kExtendedZoneRegistry[] ACE_TIME_PROGMEM = {
-  &zonedbx::kZoneAmerica_Chicago,
-  &zonedbx::kZoneAmerica_Denver,
-  &zonedbx::kZoneAmerica_Los_Angeles,
-  &zonedbx::kZoneAmerica_New_York,
+  &zonedbx::kZoneAmerica_Chicago, // 0, -06:00
+  &zonedbx::kZoneAmerica_Denver, // 1, -07:00
+  &zonedbx::kZoneAmerica_Los_Angeles, // 2, -08:00
+  &zonedbx::kZoneAmerica_New_York, // 3, -05:00
+  &zonedbx::kZoneAmerica_Toronto, // 4, -05:00
+  &zonedbx::kZoneAmerica_Vancouver, // 5, -08:00
+  &zonedbx::kZoneAmerica_Edmonton, // 6, -07:00
+  &zonedbx::kZoneAmerica_Winnipeg, // 7, -06:00
 };
 
 const uint16_t kExtendedZoneRegistrySize =
@@ -28,7 +32,9 @@ ExtendedZoneManager<1> extendedZoneManager(
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneManagerTest, registrySize) {
-  assertEqual((uint16_t) 4, extendedZoneManager.zoneRegistrySize());
+  assertEqual(
+      kExtendedZoneRegistrySize,
+      extendedZoneManager.zoneRegistrySize());
 }
 
 test(ExtendedZoneManagerTest, createForZoneName) {
@@ -87,6 +93,8 @@ test(ExtendedZoneManagerTest, createForXxx_create_same_timezone) {
   assertEqual((uint32_t) 0x1e2a7654, bb.getZoneId());
 }
 
+//---------------------------------------------------------------------------
+// createForTimeZoneData()
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneManagerTest, createForTimeZoneData_error) {
@@ -152,6 +160,70 @@ test(ExtendedZoneManagerTest, createForTimeZoneData_crossed) {
   TimeZone tzRoundTrip = extendedZoneManager.createForTimeZoneData(tzd);
   assertEqual(tz.getZoneId(), tzRoundTrip.getZoneId());
   assertEqual(ExtendedZoneProcessor::kTypeExtended, tzRoundTrip.getType());
+}
+
+//---------------------------------------------------------------------------
+// ExtendedZoneSorter
+//---------------------------------------------------------------------------
+
+test(ExtendedZoneManagerTest, sortIndexes) {
+  uint16_t indexes[] = {0, 1, 2, 3, 4, 5, 6, 7};
+  ExtendedZoneSorter<ExtendedZoneManager<1>> zoneSorter(extendedZoneManager);
+  zoneSorter.sortIndexes(indexes, sizeof(indexes)/sizeof(indexes[0]));
+  assertEqual(indexes[0], 2); // Los_Angeles, -08
+  assertEqual(indexes[1], 5); // Vancouver, -08
+  assertEqual(indexes[2], 1); // Denver, -07
+  assertEqual(indexes[3], 6); // Edmonton, -07
+  assertEqual(indexes[4], 0); // Chicago, -06
+  assertEqual(indexes[5], 7); // Winnipeg, -06
+  assertEqual(indexes[6], 3); // New_York, -05
+  assertEqual(indexes[7], 4); // Toronto, -05
+}
+
+test(ExtendedZoneManagerTest, sortIds) {
+  uint32_t ids[] = {
+    zonedbx::kZoneIdAmerica_Chicago,
+    zonedbx::kZoneIdAmerica_Denver,
+    zonedbx::kZoneIdAmerica_Los_Angeles,
+    zonedbx::kZoneIdAmerica_New_York,
+    zonedb::kZoneIdAmerica_Toronto,
+    zonedb::kZoneIdAmerica_Vancouver,
+    zonedb::kZoneIdAmerica_Edmonton,
+    zonedb::kZoneIdAmerica_Winnipeg,
+  };
+  ExtendedZoneSorter<ExtendedZoneManager<1>> zoneSorter(extendedZoneManager);
+  zoneSorter.sortIds(ids, sizeof(ids)/sizeof(ids[0]));
+  assertEqual(ids[0], zonedbx::kZoneIdAmerica_Los_Angeles);
+  assertEqual(ids[1], zonedbx::kZoneIdAmerica_Vancouver);
+  assertEqual(ids[2], zonedbx::kZoneIdAmerica_Denver);
+  assertEqual(ids[3], zonedbx::kZoneIdAmerica_Edmonton);
+  assertEqual(ids[4], zonedbx::kZoneIdAmerica_Chicago);
+  assertEqual(ids[5], zonedbx::kZoneIdAmerica_Winnipeg);
+  assertEqual(ids[6], zonedbx::kZoneIdAmerica_New_York);
+  assertEqual(ids[7], zonedbx::kZoneIdAmerica_Toronto);
+}
+
+test(ExtendedZoneManagerTest, sortNames) {
+  const char* names[] = {
+    "America/Chicago",
+    "America/Denver",
+    "America/Los_Angeles",
+    "America/New_York",
+    "America/Toronto",
+    "America/Vancouver",
+    "America/Edmonton",
+    "America/Winnipeg",
+  };
+  ExtendedZoneSorter<ExtendedZoneManager<1>> zoneSorter(extendedZoneManager);
+  zoneSorter.sortNames(names, sizeof(names)/sizeof(names[0]));
+  assertEqual(names[0], "America/Los_Angeles");
+  assertEqual(names[1], "America/Vancouver");
+  assertEqual(names[2], "America/Denver");
+  assertEqual(names[3], "America/Edmonton");
+  assertEqual(names[4], "America/Chicago");
+  assertEqual(names[5], "America/Winnipeg");
+  assertEqual(names[6], "America/New_York");
+  assertEqual(names[7], "America/Toronto");
 }
 
 //---------------------------------------------------------------------------

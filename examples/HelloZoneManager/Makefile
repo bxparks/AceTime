@@ -2,5 +2,5 @@
 # Makefile to compile and run Arduino programs natively on Linux or MacOS.
 
 APP_NAME := HelloZoneManager
-ARDUINO_LIBS := AceCommon AceTime
+ARDUINO_LIBS := AceCommon AceTime AceSorting
 include ../../../EpoxyDuino/EpoxyDuino.mk

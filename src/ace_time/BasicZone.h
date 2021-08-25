@@ -6,6 +6,7 @@
 #ifndef ACE_TIME_BASIC_ZONE_H
 #define ACE_TIME_BASIC_ZONE_H
 
+#include <AceCommon.h> // KString
 #include "internal/ZoneInfo.h"
 #include "internal/BasicBrokers.h"
 
@@ -35,6 +36,13 @@ class BasicZone {
     BasicZone(const basic::ZoneInfoBroker& zoneInfo):
         mZoneInfoBroker(zoneInfo) {}
 
+    // Use default copy constructor and assignment operator
+    BasicZone(const BasicZone&) = default;
+    BasicZone& operator=(const BasicZone&) = default;
+
+    /** Return true if zoneInfo is null. */
+    bool isNull() const { return mZoneInfoBroker.isNull(); }
+
     /** Print the full zone name to printer. Example "America/Los_Angeles". */
     void printNameTo(Print& printer) const;
 
@@ -50,11 +58,28 @@ class BasicZone {
       return mZoneInfoBroker.zoneId();
     }
 
-  private:
-    // disable default copy constructor and assignment operator
-    BasicZone(const BasicZone&) = delete;
-    BasicZone& operator=(const BasicZone&) = delete;
+    /** Return the STDOFF of the last ZoneEra. */
+    int16_t stdOffsetMinutes() const {
+      uint8_t numEras = mZoneInfoBroker.numEras();
+      basic::ZoneEraBroker zeb = mZoneInfoBroker.era(numEras - 1);
+      return zeb.offsetMinutes();
+    }
 
+    /** Return the name as a KString. */
+    ace_common::KString kname() const {
+    #if ACE_TIME_USE_PROGMEM
+      const __FlashStringHelper* name =
+    #else
+      const char* name =
+    #endif
+          isNull() ? nullptr : mZoneInfoBroker.name();
+
+      const internal::ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();
+      return ace_common::KString(
+          name, zoneContext->fragments, zoneContext->numFragments);
+    }
+
+  private:
     const basic::ZoneInfoBroker mZoneInfoBroker;
 };
 
