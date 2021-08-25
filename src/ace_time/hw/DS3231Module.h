@@ -18,11 +18,11 @@ class HardwareDateTime;
 class HardwareTemperature;
 
 /**
- * Abstract interface to the DS3231Module to allow all template instantiations
- * of DS3231Module to be accessed through a single interface. This is a
- * convenience interface. The overhead of making these calls through the virtual
- * dispatch is expected to be negligible compared to the calls into the I2C
- * library.
+ * Abstract interface to the DS3231Module to allow different template
+ * instantiations (using different AceWire implementations) of DS3231Module to
+ * be accessed through a single interface. The overhead of making these calls
+ * through the virtual dispatch is expected to be negligible compared to the
+ * calls into the I2C library.
  */
 class DS3231Interface {
   public:
@@ -36,15 +36,17 @@ class DS3231Interface {
  * interface classes of AceWire to access the I2C bus, instead of hardcoding
  * the use of the <Wire.h> library. Allows different software and hardware
  * I2C libraries to be selected at compile time.
+ *
+ * @tparam T_WIREI type of the AceWire implementation to communicate over I2C
  */
-template <typename T_WIRE>
+template <typename T_WIREI>
 class DS3231Module : public DS3231Interface {
   private:
     static const uint8_t kAddress = 0x68;
 
   public:
     /** Constructor. */
-    explicit DS3231Module(T_WIRE& wireInterface)
+    explicit DS3231Module(T_WIREI& wireInterface)
         : mWireInterface(wireInterface) {}
 
     /** Read the time into the HardwareDateTime object. */
@@ -94,7 +96,7 @@ class DS3231Module : public DS3231Interface {
     }
 
   private:
-    T_WIRE mWireInterface;
+    T_WIREI mWireInterface;
 };
 
 } // hw
