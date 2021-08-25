@@ -1,9 +1,12 @@
 # Changelog
 
 * Unreleased
+* 1.7.3 (2021-08-25)
     * Fix numerous broken links in documents moved to `docs/*.md` in an earlier
       refactoring.
     * Add experimental `DS3231Module` class that uses `AceWire` library.
+    * This is a maintenance release before some major refactoring. No changes to
+      core library code.
 * 1.7.2 (2021-06-02)
     * **Bug Fix**: Add `ZonedDateTime::normalize()`, which must be called by
       the client code after calling a `ZonedDateTime` mutation function.

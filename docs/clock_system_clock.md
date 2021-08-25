@@ -12,7 +12,7 @@ sense for these classes to be in a separate library because the other parts of
 AceTime library are not dependent of the Clock classes. But for now, these
 classes live within the AceTime library.
 
-**Version**: 1.7.2 (2021-06-02, TZ DB version 2021a)
+**Version**: 1.7.3 (2021-08-25, TZ DB version 2021a)
 
 ## Table of Contents
 
