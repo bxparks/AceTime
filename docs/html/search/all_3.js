@@ -9,5 +9,7 @@ var searchData=
   ['daysinmonth_37',['daysInMonth',['../classace__time_1_1LocalDate.html#a74ac1c52253c7aabb33efd8ce9b50dc2',1,'ace_time::LocalDate']]],
   ['deltaminutes_38',['deltaMinutes',['../structace__time_1_1basic_1_1TransitionTemplate.html#aefb15f684d43cd60da7511701b939a8f',1,'ace_time::basic::TransitionTemplate::deltaMinutes()'],['../structace__time_1_1extended_1_1TransitionTemplate.html#ae9e5b29eca212f58b3af5d3b8cd39351',1,'ace_time::extended::TransitionTemplate::deltaMinutes()']]],
   ['ds3231_39',['DS3231',['../classace__time_1_1hw_1_1DS3231.html',1,'ace_time::hw::DS3231'],['../classace__time_1_1hw_1_1DS3231.html#adb09db1034cb58b3b9ca2bc3f8207c0d',1,'ace_time::hw::DS3231::DS3231()']]],
-  ['ds3231clock_40',['DS3231Clock',['../classace__time_1_1clock_1_1DS3231Clock.html',1,'ace_time::clock']]]
+  ['ds3231clock_40',['DS3231Clock',['../classace__time_1_1clock_1_1DS3231Clock.html',1,'ace_time::clock']]],
+  ['ds3231interface_41',['DS3231Interface',['../classace__time_1_1hw_1_1DS3231Interface.html',1,'ace_time::hw']]],
+  ['ds3231module_42',['DS3231Module',['../classace__time_1_1hw_1_1DS3231Module.html',1,'ace_time::hw::DS3231Module&lt; T_WIREI &gt;'],['../classace__time_1_1hw_1_1DS3231Module.html#ad808d78f3fa9a731975fc68e6c4d74bd',1,'ace_time::hw::DS3231Module::DS3231Module()']]]
 ];
