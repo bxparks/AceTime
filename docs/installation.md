@@ -44,8 +44,6 @@ The source files are organized as follows:
    on desktop Linux or MacOS machines using
    [EpoxyDuino](https://github.com/bxparks/EpoxyDuino)
 * `examples/` - example programs
-* `tools/` - parser for the TZ Database files, code generators for `zonedb::`
-  and `zonedbx::` zone files, and code generators for various unit tests
 
 <a name="Dependencies"></a>
 ## Dependencies
@@ -65,14 +63,10 @@ usually have more precise dependency information:
 * Arduino Time Lib (https://github.com/PaulStoffregen/Time)
 * Arduino Timezone (https://github.com/JChristensen/Timezone)
 
-Various scripts in the `tools/` directory depend on:
+To regenerate the zoneinfo files in `src/ace_time/zonedb` and
+`src/ace_time/zonedbx`, you need:
 
-* IANA TZ Database (https://github.com/eggert/tz)
-* Python pytz library (https://pypi.org/project/pytz/)
-* Python dateutil library (https://pypi.org/project/python-dateutil)
-* Hinnant date library (https://github.com/HowardHinnant/date)
-* Python 3.6 or greater
-* Java OpenJDK 11
+* AceTimeTools (https://github.com/bxparks/AceTimeTools)
 
 If you want to run the unit tests or some of the command line examples using a
 Linux or MacOS machine, you need:

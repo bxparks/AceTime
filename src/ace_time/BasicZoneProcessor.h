@@ -175,7 +175,7 @@ inline int8_t compareYearMonth(int8_t aYear, uint8_t aMonth,
  * simplify the implementation of this class. The tzcompiler.py script will
  * remove zones which do not meet these constraints when generating the structs
  * defined by zonedb/zone_infos.h. The constraints are at least the following
- * (see tools/transformer.py for the authoratative algorithm):
+ * (see AceTimeTools/transformer.py for the authoratative algorithm):
  *
  *  * ZoneInfo UNTIL field must contain only the full year;
  *    cannot contain month, day, or time components
@@ -417,9 +417,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * support these zones, if the UTC date is 1/1, then we force the
      * transition cache to be generated using the *previous* year. This
      * workaround will fail for zones which have DST transitions on 1/1.
-     * Therefore, the zone_info.h generator (tools/tzcompiler.py) removes all
-     * zones which have time zone transitions on 1/1 from the list of supported
-     * zones.
+     * Therefore, the zone_info.h generator (AceTimeTools/tzcompiler.py) removes
+     * all zones which have time zone transitions on 1/1 from the list of
+     * supported zones.
      *
      * The high level algorithm for determining the DST transitions is as
      * follows:

@@ -26,11 +26,11 @@ seem worth checking in the generated code.)
 
 The required Python, Java and C++ tools and libraries are explained in:
 
-* [compare_pytz](../../tools/compare_pytz/)
-* [compare_dateutil](../../tools/compare_dateutil/)
-* [compare_java](../../tools/compare_java/)
-* [compare_cpp](../../tools/compare_cpp/)
-* [compare_noda](../../tools/compare_noda/)
+* [compare_pytz](https://github.com/bxparks/AceTimeTools/tree/develop/compare_pytz)
+* [compare_dateutil](https://github.com/bxparks/AceTimeTools/tree/develop/compare_dateutil)
+* [compare_java](https://github.com/bxparks/AceTimeTools/tree/develop/compare_java)
+* [compare_cpp](https://github.com/bxparks/AceTimeTools/tree/develop/compare_cpp)
+* [compare_noda](https://github.com/bxparks/AceTimeTools/tree/develop/compare_noda)
 
 The various `Makefile` files under the subdirectories here will run `make -C` in
 those directories to build the Java and C++ binaries as necessary. Here is a
