@@ -1,7 +1,6 @@
 # AceTime
 
 [![AUnit Tests](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml)
-[![Python Tools](https://github.com/bxparks/AceTime/actions/workflows/python_tools.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/python_tools.yml)
 [![Validation Tests](https://github.com/bxparks/AceTime/actions/workflows/validation.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/validation.yml)
 
 The AceTime library provides Date, Time, and TimeZone classes which can convert
@@ -35,14 +34,9 @@ This library can be an alternative to the Arduino Time
 (https://github.com/PaulStoffregen/Time) and Arduino Timezone
 (https://github.com/JChristensen/Timezone) libraries.
 
-**Version**: 1.7.3 (2021-08-25, TZ DB version 2021a)
+**Version**: 1.7.4 (2021-08-26, TZ DB version 2021a)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
-
-**IMPORTANT CHANGE for v1.2**: This library now depends on the the "AceCommon"
-library for some of its low-level routines. See the
-[docs/installation.md](docs/installation.md) for
-installation instructions.
 
 ## Table of Contents
 
@@ -279,7 +273,7 @@ The creation of a TimeZone from its zoneName or its zoneId using a
 ### Validation
 
 The details of how the Date, Time and TimeZone classes are validated are given
-in [docs/validation.md](docs/validation.md).
+in [AceTimeValidation](https://github.com/bxparks/AceTimeValidation).
 
 The ZoneInfo Database and the algorithms in this library have been validated to
 match the UTC offsets calculated using 5 other date/time libraries written in
@@ -607,7 +601,7 @@ The following boards are *not* supported:
     * megaAVR (e.g. Nano Every)
     * SAMD21 boards w/ `arduino:samd` version >= 1.8.10 (e.g. MKRZero)
     * MKRZero
-    * Raspberry Pi Pic RP2040
+    * Raspberry Pi Pico RP2040
 
 <a name="ToolChain"></a>
 ### Tool Chain
@@ -615,7 +609,7 @@ The following boards are *not* supported:
 This library was developed and tested using:
 
 * [Arduino IDE 1.8.13](https://www.arduino.cc/en/Main/Software)
-* [Arduino CLI 0.14.0](https://arduino.github.io/arduino-cli)
+* [Arduino CLI 0.15.2](https://arduino.github.io/arduino-cli)
 * [SpenceKonde ATTinyCore 1.5.2](https://github.com/SpenceKonde/ATTinyCore)
 * [Arduino AVR Boards 1.8.3](https://github.com/arduino/ArduinoCore-avr)
 * [Arduino SAMD Boards 1.8.9](https://github.com/arduino/ArduinoCore-samd)
@@ -627,9 +621,12 @@ This library was developed and tested using:
 * [Teensydino 1.53](https://www.pjrc.com/teensy/td_download.html)
 
 This library is *not* compatible with:
-* [Arduino megaAVR](https://github.com/arduino/ArduinoCore-megaavr/)
-* [MegaCoreX](https://github.com/MCUdude/MegaCoreX)
-* [Arduino SAMD Boards >=1.8.10](https://github.com/arduino/ArduinoCore-samd)
+
+* Any platform using the
+  [ArduinoCore-API](https://github.com/arduino/ArduinoCore-api), for example:
+    * [Arduino megaAVR](https://github.com/arduino/ArduinoCore-megaavr/)
+    * [MegaCoreX](https://github.com/MCUdude/MegaCoreX)
+    * [Arduino SAMD Boards >=1.8.10](https://github.com/arduino/ArduinoCore-samd)
 
 It should work with [PlatformIO](https://platformio.org/) but I have
 not tested it.

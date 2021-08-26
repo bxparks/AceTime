@@ -19,7 +19,7 @@ directories. Or you can `git clone` directly into the `./libraries` directory.
 The `develop` branch contains the latest development.
 The `master` branch contains the stable releases.
 
-**Version**: 1.7.3 (2021-08-25, TZ DB version 2021a)
+**Version**: 1.7.4 (2021-08-26, TZ DB version 2021a)
 
 <a name="SourceCode"></a>
 ## Source Code
@@ -40,12 +40,7 @@ The source files are organized as follows:
 * `src/ace_time/zonedbx/` - files generated from TZ Database for
   `ExtendedZoneProcessor` (`ace_time::zonedbx`)
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
-* `tests/validation` - integration tests using AUnit which must be run
-   on desktop Linux or MacOS machines using
-   [EpoxyDuino](https://github.com/bxparks/EpoxyDuino)
 * `examples/` - example programs
-* `tools/` - parser for the TZ Database files, code generators for `zonedb::`
-  and `zonedbx::` zone files, and code generators for various unit tests
 
 <a name="Dependencies"></a>
 ## Dependencies
@@ -65,20 +60,17 @@ usually have more precise dependency information:
 * Arduino Time Lib (https://github.com/PaulStoffregen/Time)
 * Arduino Timezone (https://github.com/JChristensen/Timezone)
 
-Various scripts in the `tools/` directory depend on:
+To regenerate the zoneinfo files in `src/ace_time/zonedb` and
+`src/ace_time/zonedbx`, you need:
 
-* IANA TZ Database (https://github.com/eggert/tz)
-* Python pytz library (https://pypi.org/project/pytz/)
-* Python dateutil library (https://pypi.org/project/python-dateutil)
-* Hinnant date library (https://github.com/HowardHinnant/date)
-* Python 3.6 or greater
-* Java OpenJDK 11
+* AceTimeTools (https://github.com/bxparks/AceTimeTools)
 
-If you want to run the unit tests or some of the command line examples using a
-Linux or MacOS machine, you need:
+If you want to run the unit tests or validation tests using a Linux or MacOS
+machine, you need:
 
 * AUnit (https://github.com/bxparks/AUnit)
 * EpoxyDuino (https://github.com/bxparks/EpoxyDuino)
+* AceTimeValidation (https://github.com/bxparks/AceTimeValidation)
 
 <a name="Examples"></a>
 ## Examples

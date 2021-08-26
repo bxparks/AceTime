@@ -1,6 +1,14 @@
 # Changelog
 
 * Unreleased
+* 1.7.4 (2021-08-26)
+    * Move `./tools` directory into new
+      [AceTimeTool](https://github.com/bxparks/AceTimeTools) repo.
+    * Move `./tests/validation` directory into new
+      [AceTimeValidation](https://github.com/bxparks/AceTimeValidation) repo.
+        * Update `.github/workflows/validation.yml` to use AceTimeValidation
+          instead of `./tests/validation`.
+    * This is a maintenance release. No changes to the core library code.
 * 1.7.3 (2021-08-25)
     * Fix numerous broken links in documents moved to `docs/*.md` in an earlier
       refactoring.
@@ -34,7 +42,7 @@
         * Use that for general questions and discussions.
         * Reserve [GitHub Issues](https://github.com/bxparks/AceTime/issues)
           for bugs and feature requests.
-    * Add `tools/compare_noda` to compare Noda Time against AceTime.
+    * Add `AceTimeTools/compare_noda` to compare Noda Time against AceTime.
         * Add `--nzd_file` flag to `compare_noda` to allow custom NodaZoneData
           files.
         * Run the Noda Time `TzdbCompiler` manually to generate custom

@@ -12,7 +12,7 @@ following namespaces:
   `ExtendedZoneManager`
 * `ace_time::internal`: not normally needed by app developers
 
-**Version**: 1.7.3 (2021-08-25, TZ DB version 2021a)
+**Version**: 1.7.4 (2021-08-26, TZ DB version 2021a)
 
 ## Table of Contents
 
@@ -2053,7 +2053,7 @@ C++ code representing these custom zone registries from a list of zones.)
 (**TBD**: It might also be useful for app developers to create custom datasets
 with different range of years. The tools are all here, but not explicitly
 documented currently. Examples of how to this do exist inside the various
-`Makefile` files in the `tests/validation/` directory.)
+`Makefile` files in the AceTimeValidation project.)
 
 <a name="PrintToString"></a>
 ## Print To String

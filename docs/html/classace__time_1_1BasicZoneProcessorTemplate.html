@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.7.3</span>
+   &#160;<span id="projectnumber">1.7.4</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -216,7 +216,7 @@ class ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</h3>
 * </pre><p>Each record is represented by basic::ZoneRule and the entire collection is represented by basic::ZonePolicy.</p>
 <p>The Zone records define the region which follows a specific set of Rules for certain time periods (given by UNTIL below): </p><pre class="fragment">* Zone NAME              GMTOFF    RULES FORMAT  [UNTIL]
 * </pre><p>Each record is represented by basic::ZoneEra and the entire collection is represented by basic::ZoneInfo.</p>
-<p>This class assumes that the various components of ZoneInfo, ZoneEra, and ZonePolicy, ZoneRule have a number of limitations and constraints which simplify the implementation of this class. The tzcompiler.py script will remove zones which do not meet these constraints when generating the structs defined by <a class="el" href="zone__infos_8h_source.html">zonedb/zone_infos.h</a>. The constraints are at least the following (see tools/transformer.py for the authoratative algorithm):</p>
+<p>This class assumes that the various components of ZoneInfo, ZoneEra, and ZonePolicy, ZoneRule have a number of limitations and constraints which simplify the implementation of this class. The tzcompiler.py script will remove zones which do not meet these constraints when generating the structs defined by <a class="el" href="zone__infos_8h_source.html">zonedb/zone_infos.h</a>. The constraints are at least the following (see AceTimeTools/transformer.py for the authoratative algorithm):</p>
 <ul>
 <li>ZoneInfo UNTIL field must contain only the full year; cannot contain month, day, or time components</li>
 <li>ZoneInfo untilTimeSuffix can contain only 'w' (not 's' or 'u')</li>
