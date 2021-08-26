@@ -39,11 +39,6 @@ This library can be an alternative to the Arduino Time
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
-**IMPORTANT CHANGE for v1.2**: This library now depends on the the "AceCommon"
-library for some of its low-level routines. See the
-[docs/installation.md](docs/installation.md) for
-installation instructions.
-
 ## Table of Contents
 
 * [Overview](#Overview)
@@ -627,9 +622,12 @@ This library was developed and tested using:
 * [Teensydino 1.53](https://www.pjrc.com/teensy/td_download.html)
 
 This library is *not* compatible with:
-* [Arduino megaAVR](https://github.com/arduino/ArduinoCore-megaavr/)
-* [MegaCoreX](https://github.com/MCUdude/MegaCoreX)
-* [Arduino SAMD Boards >=1.8.10](https://github.com/arduino/ArduinoCore-samd)
+
+* Any platform using the
+  [ArduinoCore-API](https://github.com/arduino/ArduinoCore-api), for example:
+    * [Arduino megaAVR](https://github.com/arduino/ArduinoCore-megaavr/)
+    * [MegaCoreX](https://github.com/MCUdude/MegaCoreX)
+    * [Arduino SAMD Boards >=1.8.10](https://github.com/arduino/ArduinoCore-samd)
 
 It should work with [PlatformIO](https://platformio.org/) but I have
 not tested it.
