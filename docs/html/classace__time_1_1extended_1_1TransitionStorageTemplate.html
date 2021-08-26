@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.7.3</span>
+   &#160;<span id="projectnumber">1.7.4</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -361,7 +361,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 </div><div class="memdoc">
 
 <p>Return the Transition matching the given epochSeconds. </p>
-<p>Return nullptr if no matching Transition found. If a zone does not have any transition according to TZ Database, the tools/transformer.py script adds an "anchor" transition at the "beginning of time" which happens to be the year 1872 (because the year is stored as an int8_t). Therefore, this method should never return a nullptr for a well-formed ZoneInfo file. </p>
+<p>Return nullptr if no matching Transition found. If a zone does not have any transition according to TZ Database, the AceTimeTools/transformer.py script adds an "anchor" transition at the "beginning of time" which happens to be the year 1872 (because the year is stored as an int8_t). Therefore, this method should never return a nullptr for a well-formed ZoneInfo file. </p>
 
 <p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00534">534</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
