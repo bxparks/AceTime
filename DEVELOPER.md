@@ -238,10 +238,11 @@ available.
   should be a sibling to the `AceTime` repo:
     * `$ cd ../date`
     * `$ git pull`
-* Verify that `AceTime` and Hinnant `date` agree with each other using the
-  same TZDB version.
+* Verify that the `AceTime` library and the Hinnant `date` library agree with
+  each other using the same TZDB version. This requires going into the
+  [AceTimeValidation](https://github.com/bxparks/AceTimeValidation) project.
     * BasicHinnantDateTest
-        * `$ cd tests/validation/BasicHinnantDateTest`
+        * `$ cd .../AceTimeValidation/BasicHinnantDateTest`
         * Update the `TZ_VERSION` variable in the `Makefile` with the commit tag
           of the new TZDB version. (e.g. `TZ_VERSION = 2020c`).
         * `$ make clean`
@@ -250,7 +251,7 @@ available.
         * There should be no failures: `TestRunner summary: 268 passed, 0
           failed, 0 skipped, 0 timed out, out of 268 test(s).`
     * ExtendedHinnantDateTest
-        * `$ cd tests/validation/ExtendedHinnantDateTest`
+        * `$ cd .../AceTimeValidation/ExtendedHinnantDateTest`
         * Update the `TZ_VERSION` variable in the `Makefile` with the commit tag
           of the new TZDB version. (e.g. `TZ_VERSION = 2020c`).
         * `$ make clean`
@@ -276,12 +277,12 @@ available.
     * `$ git add ...`
     * `$ git commit -m "..."`
 
-There are 6 other validation tests in `tests/validation` that compare AceTime
-with other 3rd party librarties (Python pytz, Python dateutil, and Java date).
-Unfortunately, they all seem to use the underlying TZDB version provided by the
-Operating System, and I have not been able to figure out how to manually update
-this dependency manually. When a new TZDB is released, all of these other tests
-will fail until the underying timezone database of the OS is updated.
+There are 6 other validation tests in the AceTimeValidation project that compare
+AceTime with other third party libraries (Python pytz, Python dateutil, and Java
+date). Unfortunately, they all seem to use the underlying TZDB version provided
+by the Operating System, and I have not been able to figure out how to manually
+update this dependency manually. When a new TZDB is released, all of these other
+tests will fail until the underlying timezone database of the OS is updated.
 
 ## Release Process
 
@@ -291,7 +292,6 @@ will fail until the underying timezone database of the OS is updated.
     * `docs/date_time_timezone.md`
     * `docs/clock_system_clock.md`
     * `docs/installation.md`
-    * `docs/validation.md`
     * ...
     * `docs/doxygen.cfg`
     * `library.properties`

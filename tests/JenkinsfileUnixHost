@@ -28,7 +28,11 @@ pipeline {
                 }
                 dir('libraries/AceTimeTools') {
                     git url: 'https://github.com/bxparks/AceTimeTools',
-                        branch: 'develop'
+                        branch: 'master'
+                }
+                dir('libraries/AceTimeValidation') {
+                    git url: 'https://github.com/bxparks/AceTimeValidation',
+                        branch: 'master'
                 }
                 dir('libraries/EpoxyDuino') {
                     git url: 'https://github.com/bxparks/EpoxyDuino',
@@ -49,13 +53,13 @@ pipeline {
                 sh "make -C libraries/AceTime/tests tests"
                 sh "make -C libraries/AceTimeTools/compare_java"
                 sh "make -C libraries/AceTimeTools/compare_cpp"
-                sh "make -C libraries/AceTime/tests/validation tests"
+                sh "make -C libraries/AceTimeValidation tests"
             }
         }
         stage('Test') {
             steps {
                 sh "make -C libraries/AceTime/tests runtests"
-                sh "make -C libraries/AceTime/tests/validation runtests"
+                sh "make -C libraries/AceTimeValidation runtests"
                 sh "cd libraries/AceTimeTools; python3 -m unittest"
             }
         }
@@ -63,7 +67,8 @@ pipeline {
     post {
         always {
             sh "make -C libraries/AceTime/tests clean"
-            sh "make -C libraries/AceTime/tests/validation clean"
+            sh "make -C libraries/AceTimeTools clean"
+            sh "make -C libraries/AceTimeValidation clean"
         }
     }
 }

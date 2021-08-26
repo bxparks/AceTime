@@ -30,13 +30,9 @@ jobs:
         git clone https://github.com/bxparks/AUnit
         git clone https://github.com/bxparks/AceCommon
         git clone https://github.com/bxparks/AceTimeTools
+        git clone https://github.com/bxparks/AceTimeValidation
         git clone https://github.com/eggert/tz
         git clone https://github.com/HowardHinnant/date
-
-    - name: Install libcurl4-openssl-dev
-      run: |
-        sudo apt update
-        sudo apt install -y libcurl4-openssl-dev
 
     - name: Set up Python 3.7
       uses: actions/setup-python@v1
@@ -51,6 +47,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r ../AceTimeTools/requirements.txt
 
+    - name: Install libcurl4-openssl-dev
+      run: |
+        sudo apt update
+        sudo apt install -y libcurl4-openssl-dev
+
     - name: Build compare_cpp
       run: |
         make -C ../AceTimeTools/compare_cpp
@@ -62,10 +63,12 @@ jobs:
 
     - name: BasicHinnantDateTest
       run: |
-        make -C tests/validation/BasicHinnantDateTest
-        make -C tests/validation/BasicHinnantDateTest runtests
+        cd ../AceTimeValidation
+        make -C BasicHinnantDateTest
+        make -C BasicHinnantDateTest runtests
 
     - name: ExtendedHinnantDateTest
       run: |
-        make -C tests/validation/ExtendedHinnantDateTest
-        make -C tests/validation/ExtendedHinnantDateTest runtests
+        cd ../AceTimeValidation
+        make -C ExtendedHinnantDateTest
+        make -C ExtendedHinnantDateTest runtests

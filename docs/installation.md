@@ -40,9 +40,6 @@ The source files are organized as follows:
 * `src/ace_time/zonedbx/` - files generated from TZ Database for
   `ExtendedZoneProcessor` (`ace_time::zonedbx`)
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
-* `tests/validation` - integration tests using AUnit which must be run
-   on desktop Linux or MacOS machines using
-   [EpoxyDuino](https://github.com/bxparks/EpoxyDuino)
 * `examples/` - example programs
 
 <a name="Dependencies"></a>
@@ -68,11 +65,12 @@ To regenerate the zoneinfo files in `src/ace_time/zonedb` and
 
 * AceTimeTools (https://github.com/bxparks/AceTimeTools)
 
-If you want to run the unit tests or some of the command line examples using a
-Linux or MacOS machine, you need:
+If you want to run the unit tests or validation tests using a Linux or MacOS
+machine, you need:
 
 * AUnit (https://github.com/bxparks/AUnit)
 * EpoxyDuino (https://github.com/bxparks/EpoxyDuino)
+* AceTimeValidation (https://github.com/bxparks/AceTimeValidation)
 
 <a name="Examples"></a>
 ## Examples

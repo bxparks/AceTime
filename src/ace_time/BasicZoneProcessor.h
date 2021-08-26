@@ -687,7 +687,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       // If a zone needs more transitions than kMaxCacheEntries, the check below
       // will cause the DST transition information to be inaccurate, and it is
       // highly likely that this situation would be caught in the
-      // 'tests/validation' unit tests. Since these unit tests pass, I feel
+      // AceTimeValidation tests. Since these integration tests pass, I feel
       // confident that those zones which need more than kMaxCacheEntries are
       // already filtered out by tzcompiler.py.
       //

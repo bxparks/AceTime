@@ -274,7 +274,7 @@ The creation of a TimeZone from its zoneName or its zoneId using a
 ### Validation
 
 The details of how the Date, Time and TimeZone classes are validated are given
-in [docs/validation.md](docs/validation.md).
+in [AceTimeValidation](https://github.com/bxparks/AceTimeValidation).
 
 The ZoneInfo Database and the algorithms in this library have been validated to
 match the UTC offsets calculated using 5 other date/time libraries written in

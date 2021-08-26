@@ -122,7 +122,7 @@ based upon the `<chrono>` standard library and consists of several libraries of
 which `date.h` and `tz.h` are comparable to AceTime. Modified versions of these
 libraries were voted into the C++20 standard.
 
-Unfortunately these libaries are not suitable for an Arduino microcontroller
+Unfortunately these libraries are not suitable for an Arduino microcontroller
 environment because:
 
 * The libraries depend extensively on 64-bit integers which are
@@ -141,14 +141,14 @@ environment because:
   library.
 
 The Hinnant date libraries were invaluable for writing the
-[BasicHinnantDateTest](../tests/validation/BasicHinnantDateTest/)
+[BasicHinnantDateTest](https://github.com/bxparks/AceTimeValidation/tree/master/BasicHinnantDateTest)
 and
-[ExtendedHinnantDateTest](../tests/validation/ExtendedHinnantDateTest/)
+[ExtendedHinnantDateTest](https://github.com/bxparks/AceTimeValidation/tree/master/ExtendedHinnantDateTest)
 validation tests which compare the AceTime algorithms to the Hinnant Date
 algorithms. For all times zones between the years 2000 until 2050, the AceTime
 UTC offsets (`TimeZone::getUtcOffset()`), timezone abbreviations
 (`TimeZone::getAbbrev()`), and epochSecond conversion to date components
-(`ZonedDateTime::fromEpochSeconds()`) match the results from the Hinannt Date
+(`ZonedDateTime::fromEpochSeconds()`) match the results from the Hinnant Date
 libraries.
 
 <a name="Cctz"></a>
