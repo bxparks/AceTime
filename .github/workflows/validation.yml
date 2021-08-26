@@ -23,12 +23,13 @@ jobs:
     - name: Checkout AceTime
       uses: actions/checkout@v2
 
-    - name: Checkout 3rd Party Repos
+    - name: Checkout Additional Repos
       run: |
         cd ..
         git clone https://github.com/bxparks/EpoxyDuino
         git clone https://github.com/bxparks/AUnit
         git clone https://github.com/bxparks/AceCommon
+        git clone https://github.com/bxparks/AceTimeTools
         git clone https://github.com/eggert/tz
         git clone https://github.com/HowardHinnant/date
 
@@ -48,12 +49,11 @@ jobs:
     - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r tools/requirements.txt
+        pip install -r ../AceTimeTools/requirements.txt
 
     - name: Build compare_cpp
       run: |
-        cd tools/compare_cpp
-        make
+        make -C ../AceTimeTools/compare_cpp
 
     # Run just BasicHinnantDateTest and ExtendedHinnantDateTest. When a new
     # TZDB version comes out, the Python pytz, dateutil, and Java validation

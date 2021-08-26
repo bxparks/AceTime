@@ -607,7 +607,7 @@ The following boards are *not* supported:
     * megaAVR (e.g. Nano Every)
     * SAMD21 boards w/ `arduino:samd` version >= 1.8.10 (e.g. MKRZero)
     * MKRZero
-    * Raspberry Pi Pic RP2040
+    * Raspberry Pi Pico RP2040
 
 <a name="ToolChain"></a>
 ### Tool Chain
@@ -615,7 +615,7 @@ The following boards are *not* supported:
 This library was developed and tested using:
 
 * [Arduino IDE 1.8.13](https://www.arduino.cc/en/Main/Software)
-* [Arduino CLI 0.14.0](https://arduino.github.io/arduino-cli)
+* [Arduino CLI 0.15.2](https://arduino.github.io/arduino-cli)
 * [SpenceKonde ATTinyCore 1.5.2](https://github.com/SpenceKonde/ATTinyCore)
 * [Arduino AVR Boards 1.8.3](https://github.com/arduino/ArduinoCore-avr)
 * [Arduino SAMD Boards 1.8.9](https://github.com/arduino/ArduinoCore-samd)

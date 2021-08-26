@@ -267,8 +267,8 @@ available.
         * `$ cd src/ace_time/zonedbx`
         * Edit the `Makefile` and update the `TZ_VERSION`.
         * `$ make`
-    * `tools/zonedbpy`
-        * `$ cd tools/zonedbpy`
+    * `AceTimeTools/zonedbpy`
+        * `$ cd AceTimeTools/zonedbpy`
         * Edit the `Makefile` and update the `TZ_VERSION`.
         * `$ make`
 * Update the CHANGELOG.md.

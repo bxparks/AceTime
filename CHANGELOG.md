@@ -1,6 +1,8 @@
 # Changelog
 
 * Unreleased
+    * Move `./tools` directory into new
+      [AceTimeTool](https://github.com/bxparks/AceTimeTools) repo.
 * 1.7.3 (2021-08-25)
     * Fix numerous broken links in documents moved to `docs/*.md` in an earlier
       refactoring.
@@ -34,7 +36,7 @@
         * Use that for general questions and discussions.
         * Reserve [GitHub Issues](https://github.com/bxparks/AceTime/issues)
           for bugs and feature requests.
-    * Add `tools/compare_noda` to compare Noda Time against AceTime.
+    * Add `AceTimeTools/compare_noda` to compare Noda Time against AceTime.
         * Add `--nzd_file` flag to `compare_noda` to allow custom NodaZoneData
           files.
         * Run the Noda Time `TzdbCompiler` manually to generate custom

@@ -102,7 +102,8 @@ have been listed in the `compare_dateutil/blacklist.json` file.
 The Java 11 `java.time` library is not limited to 2038 but supports years
 through the [year 1,000,000,000
 (billion)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/class-use/Instant.html).
-I wrote the [GenerateData.java](../tools/compare_java/GenerateData.java)
+I wrote the
+[compare_java](https://github.com/bxparks/AceTimeTools/tree/develop/compare_java)
 program to generate a `validation_data.cpp` file in exactly the same format as
 the `tzcompiler.py` program, and produced data points from year 2000 to year
 2050, which is the exact range of years supported by the `zonedb::` and
@@ -156,10 +157,11 @@ AceTime matches Hinnant Date on all data points from the year 2000 to 2050. No
 <a name="TestNodaTime"></a>
 ## Noda Time
 
-I wrote the test data generator [Program.cs](../tools/compare_noda/Program.cs)
-in C# to generate a `validation_data.cpp` using the [Noda
-Time](https://nodatime.org) library.
-The result is 2 validation programs under `tests/validation`:
+I wrote the test data generator
+[compare_noda](https://github.com/bxparks/AceTimeTools/tree/develop/compare_noda)
+in C# to generate a `validation_data.cpp` using the
+[Noda Time](https://nodatime.org) library. The result is 2 validation programs
+under `tests/validation`:
 
 * [BasicNodaTest](../tests/validation/BasicNodaTest/)
 * [ExtendedNodaTest](../tests/validation/ExtendedNodaTest/)
