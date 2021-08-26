@@ -319,3 +319,9 @@ tests will fail until the underlying timezone database of the OS is updated.
     * Enter the release notes. I normally just copy and paste the latest changes
       from `CHANGELOG.md`.
     * Click Publish release.
+* Add corresponding tags on AceTimeTools and AceTimeValidation for reference.
+    * Go to https://github.com/bxparks/AceTimeTools
+    * `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
+    * `$ git push --tags`
+    * Go to https://github.com/bxparks/AceTimeValidation
+    * (Same as above)
