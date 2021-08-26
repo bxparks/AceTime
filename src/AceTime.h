@@ -79,7 +79,7 @@
 
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 10703
-#define ACE_TIME_VERSION_STRING "1.7.3"
+#define ACE_TIME_VERSION 10704
+#define ACE_TIME_VERSION_STRING "1.7.4"
 
 #endif
