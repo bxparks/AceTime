@@ -3,7 +3,7 @@
 * Unreleased
 * 1.7.4 (2021-08-26)
     * Move `./tools` directory into new
-      [AceTimeTool](https://github.com/bxparks/AceTimeTools) repo.
+      [AceTimeTools](https://github.com/bxparks/AceTimeTools) repo.
     * Move `./tests/validation` directory into new
       [AceTimeValidation](https://github.com/bxparks/AceTimeValidation) repo.
         * Update `.github/workflows/validation.yml` to use AceTimeValidation
