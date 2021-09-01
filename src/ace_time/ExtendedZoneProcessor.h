@@ -951,16 +951,27 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       extended::YearMonthTuple untilYm =  {
         (int8_t) (year - LocalDate::kEpochYear + 1), 2 };
 
+      // Step 1 (See equivalent steps in
+      // zone_specifier.ZoneSpecifier.init_for_year())
       mNumMatches = findMatches(mZoneInfoBroker, startYm, untilYm, mMatches,
           kMaxMatches);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
+
+      // Step 2
       findTransitions(mTransitionStorage, mMatches, mNumMatches);
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
+
+      // Step 3
       Transition** begin = mTransitionStorage.getActivePoolBegin();
       Transition** end = mTransitionStorage.getActivePoolEnd();
       fixTransitionTimes(begin, end);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
+
+      // Step 4
       generateStartUntilTimes(begin, end);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
+
+      // Step 5
       calcAbbreviations(begin, end);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
 
