@@ -148,6 +148,14 @@ struct MatchingEraTemplate {
   }
 };
 
+/** Swap 2 parameters. */
+template <typename T>
+void swap(T& a, T& b) {
+  T tmp = a;
+  a = b;
+  b = tmp;
+}
+
 /**
  * Represents an interval of time where the time zone obeyed a certain UTC
  * offset and DST delta. The start of the interval is given by 'transitionTime'
@@ -390,13 +398,6 @@ class TransitionStorageTemplate {
       return mTransitions[mIndexPrior];
     }
 
-    /** Swap 2 transitions. */
-    static void swap(Transition** a, Transition** b) {
-      auto* tmp = *a;
-      *a = *b;
-      *b = tmp;
-    }
-
     /**
      * Empty the Candidate pool by resetting the various indexes.
      *
@@ -468,9 +469,11 @@ class TransitionStorageTemplate {
       return &mTransitions[mIndexPrior];
     }
 
-    /** Swap the Free agrent transition with the current Prior transition. */
+    /** Set the Free agrent transition to be the current Prior transition. */
     void setFreeAgentAsPrior() {
-      swap(&mTransitions[mIndexPrior], &mTransitions[mIndexFree]);
+      // Must use swap(), because we are moving pointers instead of the actual
+      // Transition objects.
+      swap(mTransitions[mIndexPrior], mTransitions[mIndexFree]);
     }
 
     /**
@@ -508,16 +511,21 @@ class TransitionStorageTemplate {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("addActiveCandidatesToActivePool()\n");
       }
+
+      // Shift active candidates to the left into the Active pool.
       uint8_t iActive = mIndexPrior;
       uint8_t iCandidate = mIndexCandidates;
       for (; iCandidate < mIndexFree; iCandidate++) {
         if (mTransitions[iCandidate]->active) {
           if (iActive != iCandidate) {
-            swap(&mTransitions[iActive], &mTransitions[iCandidate]);
+            // Must use swap(), because we are moving pointers instead of the
+            // actual Transition objects.
+            swap(mTransitions[iActive], mTransitions[iCandidate]);
           }
           ++iActive;
         }
       }
+
       mIndexPrior = iActive;
       mIndexCandidates = iActive;
       mIndexFree = iActive;
@@ -991,10 +999,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * Each matching ZoneEra is wrapped inside a MatchingEra object, placed in
      * the 'matches' array, and the number of matches is returned.
      */
-    static uint8_t findMatches(const ZIB& zoneInfo,
+    static uint8_t findMatches(
+        const ZIB& zoneInfo,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm,
-        MatchingEra* matches, uint8_t maxMatches) {
+        MatchingEra* matches,
+        uint8_t maxMatches
+    ) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("findMatches()\n");
       }
@@ -1102,6 +1113,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("findTransitions()\n");
       }
+
       for (uint8_t i = 0; i < numMatches; i++) {
         findTransitionsForMatch(transitionStorage, &matches[i]);
       }
@@ -1128,6 +1140,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("findTransitionsFromSimpleMatch()\n");
       }
+
       Transition* freeTransition = transitionStorage.getFreeAgent();
       createTransitionForYear(freeTransition, 0 /*not used*/,
           ZRB() /*rule*/, match);
@@ -1140,22 +1153,30 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("findTransitionsFromNamedMatch()\n");
       }
+
       transitionStorage.resetCandidatePool();
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         match->log(); logging::printf("\n");
       }
+
+      // Pass 1: Find candidate transitions using whole years.
       findCandidateTransitions(transitionStorage, match);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         transitionStorage.log(); logging::printf("\n");
       }
+
+      // Pass 2: Fix the transitions times, converting 's' and 'u' into 'w'
+      // uniformly.
       fixTransitionTimes(
           transitionStorage.getCandidatePoolBegin(),
           transitionStorage.getCandidatePoolEnd());
+
+      // Pass 3: Select only those Transitions which overlap with the actual
+      // start and until times of the MatchingEra.
       selectActiveTransitions(transitionStorage, match);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         transitionStorage.log(); logging::printf("\n");
       }
-
       transitionStorage.addActiveCandidatesToActivePool();
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         transitionStorage.log(); logging::printf("\n");
