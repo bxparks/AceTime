@@ -46,6 +46,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r ../AceTimeTools/requirements.txt
+        pip install -e ../AceTimeTools
 
     - name: Install libcurl4-openssl-dev
       run: |
