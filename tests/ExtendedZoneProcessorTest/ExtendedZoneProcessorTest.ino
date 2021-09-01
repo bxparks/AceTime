@@ -217,7 +217,7 @@ static const ZoneEra era3 ACE_TIME_PROGMEM =
 test(ExtendedZoneProcessorTest, createMatch) {
   YearMonthTuple startYm = {0, 12};
   YearMonthTuple untilYm = {1, 2};
-  ExtendedZoneProcessor::ZoneMatch match = ExtendedZoneProcessor::createMatch(
+  ExtendedZoneProcessor::MatchingEra match = ExtendedZoneProcessor::createMatch(
       ZoneEraBroker(&prev), ZoneEraBroker(&era3),
       startYm, untilYm);
   assertTrue((match.startDateTime == DateTuple{0, 12, 1, 0,
@@ -242,7 +242,7 @@ test(ExtendedZoneProcessorTest, findMatches_simple) {
   YearMonthTuple startYm = {18, 12};
   YearMonthTuple untilYm = {20, 2};
   const uint8_t kMaxMatches = 4;
-  ExtendedZoneProcessor::ZoneMatch matches[kMaxMatches];
+  ExtendedZoneProcessor::MatchingEra matches[kMaxMatches];
   uint8_t numMatches = ExtendedZoneProcessor::findMatches(
       ZoneInfoBroker(&kZoneAlmostLosAngeles), startYm, untilYm,
       matches, kMaxMatches);
@@ -274,7 +274,7 @@ test(ExtendedZoneProcessorTest, findMatches_named) {
   YearMonthTuple startYm = {18, 12};
   YearMonthTuple untilYm = {20, 2};
   const uint8_t kMaxMatches = 4;
-  ExtendedZoneProcessor::ZoneMatch matches[kMaxMatches];
+  ExtendedZoneProcessor::MatchingEra matches[kMaxMatches];
   uint8_t numMatches = ExtendedZoneProcessor::findMatches(
       ZoneInfoBroker(&kZoneTestLos_Angeles), startYm, untilYm,
       matches, kMaxMatches);
@@ -302,7 +302,7 @@ test(ExtendedZoneProcessorTest, getTransitionTime) {
 }
 
 test(ExtendedZoneProcessorTest, createTransitionForYear) {
-  const ExtendedZoneProcessor::ZoneMatch match = {
+  const ExtendedZoneProcessor::MatchingEra match = {
     {18, 12, 1, 0, ZoneContext::kSuffixW},
     {20, 2, 1, 0, ZoneContext::kSuffixW},
     ZoneEraBroker(&kZoneEraTestLos_Angeles[0])
@@ -433,7 +433,7 @@ test(ExtendedZoneProcessorTest, getMostRecentPriorYear) {
 test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   const DateTuple EMPTY_DATE = { 0, 0, 0, 0, 0};
 
-  const ExtendedZoneProcessor::ZoneMatch match = {
+  const ExtendedZoneProcessor::MatchingEra match = {
     {0, 1, 1, 0, ZoneContext::kSuffixW} /* startDateTime */,
     {1, 1, 1, 0, ZoneContext::kSuffixW} /* untilDateTime */,
     ZoneEraBroker(nullptr)
@@ -492,7 +492,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
 test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   const DateTuple EMPTY_DATE = { 0, 0, 0, 0, 0};
 
-  const ExtendedZoneProcessor::ZoneMatch match = {
+  const ExtendedZoneProcessor::MatchingEra match = {
     {0, 1, 1, 0, ZoneContext::kSuffixW} /*startDateTime*/,
     {1, 1, 1, 0, ZoneContext::kSuffixW} /*untilDateTime*/,
     ZoneEraBroker(nullptr) /*era*/
@@ -535,7 +535,7 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
   const DateTuple EMPTY_DATE = { 0, 0, 0, 0, 0};
 
   ExtendedZoneProcessor::Transition* prior = nullptr;
-  const ExtendedZoneProcessor::ZoneMatch match = {
+  const ExtendedZoneProcessor::MatchingEra match = {
     {0, 1, 1, 0, ZoneContext::kSuffixW} /*startDateTime*/,
     {1, 1, 1, 0, ZoneContext::kSuffixW} /*untilDateTime*/,
     ZoneEraBroker(nullptr) /*era*/
@@ -582,7 +582,7 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
 }
 
 test(ExtendedZoneProcessorTest, findCandidateTransitions) {
-  const ExtendedZoneProcessor::ZoneMatch match = {
+  const ExtendedZoneProcessor::MatchingEra match = {
     {18, 12, 1, 0, ZoneContext::kSuffixW},
     {20, 2, 1, 0, ZoneContext::kSuffixW},
     ZoneEraBroker(&kZoneEraTestLos_Angeles[0])
@@ -617,7 +617,7 @@ test(ExtendedZoneProcessorTest, findCandidateTransitions) {
 }
 
 test(ExtendedZoneProcessorTest, findTransitionsFromNamedMatch) {
-  const ExtendedZoneProcessor::ZoneMatch match = {
+  const ExtendedZoneProcessor::MatchingEra match = {
     {18, 12, 1, 0, ZoneContext::kSuffixW},
     {20, 2, 1, 0, ZoneContext::kSuffixW},
     ZoneEraBroker(&kZoneEraTestLos_Angeles[0])
@@ -644,7 +644,7 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
   YearMonthTuple startYm = {18, 12};
   YearMonthTuple untilYm = {20, 2};
   const uint8_t kMaxMatches = 4;
-  ExtendedZoneProcessor::ZoneMatch matches[kMaxMatches];
+  ExtendedZoneProcessor::MatchingEra matches[kMaxMatches];
   uint8_t numMatches = ExtendedZoneProcessor::findMatches(
       ZoneInfoBroker(&kZoneAlmostLosAngeles), startYm, untilYm,
       matches, kMaxMatches);

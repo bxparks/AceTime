@@ -27,7 +27,7 @@ sizeof(basic::LinkRegistrar): 8
 sizeof(BasicZoneProcessor::Transition): 28
 sizeof(ExtendedZoneProcessor::Transition): 52
 sizeof(ExtendedZoneProcessor::TransitionStorage): 452
-sizeof(ExtendedZoneProcessor::ZoneMatch): 16
+sizeof(ExtendedZoneProcessor::MatchingEra): 16
 BENCHMARKS
 EmptyLoop 1.400
 LocalDate::forEpochDays() 0.600

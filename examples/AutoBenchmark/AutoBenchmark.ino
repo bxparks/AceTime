@@ -117,8 +117,8 @@ void setup() {
       F("sizeof(ExtendedZoneProcessor::TransitionStorage): "));
   SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessor::TransitionStorage));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneProcessor::ZoneMatch): "));
-  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessor::ZoneMatch));
+  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneProcessor::MatchingEra): "));
+  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessor::MatchingEra));
 
   SERIAL_PORT_MONITOR.println(F("BENCHMARKS"));
   runBenchmarks();

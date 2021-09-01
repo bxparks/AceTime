@@ -1,9 +1,6 @@
 TARGETS := zone_infos.cpp zone_infos.h zone_policies.cpp zone_policies.h
 
-# Don't use $(abspath) here because the value of $(TOOLS) is included in the
-# generated files and I want that to be relative to the current project,
-# instead of being expanded to my home directory on a particular machine.
-TOOLS := ../../../../AceTimeTools
+TOOLS := $(abspath ../../../../AceTimeTools)
 
 TZ_VERSION := 2021a
 START_YEAR := 2000

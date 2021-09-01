@@ -113,7 +113,7 @@ sizeof(basic::LinkRegistrar): 5
 sizeof(BasicZoneProcessor::Transition): 21
 sizeof(ExtendedZoneProcessor::Transition): 46
 sizeof(ExtendedZoneProcessor::TransitionStorage): 388
-sizeof(ExtendedZoneProcessor::ZoneMatch): 14
+sizeof(ExtendedZoneProcessor::MatchingEra): 14
 
 CPU:
 +--------------------------------------------------+----------+
@@ -177,7 +177,7 @@ sizeof(basic::LinkRegistrar): 5
 sizeof(BasicZoneProcessor::Transition): 21
 sizeof(ExtendedZoneProcessor::Transition): 46
 sizeof(ExtendedZoneProcessor::TransitionStorage): 388
-sizeof(ExtendedZoneProcessor::ZoneMatch): 14
+sizeof(ExtendedZoneProcessor::MatchingEra): 14
 
 CPU:
 +--------------------------------------------------+----------+
@@ -241,7 +241,7 @@ sizeof(basic::LinkRegistrar): 8
 sizeof(BasicZoneProcessor::Transition): 28
 sizeof(ExtendedZoneProcessor::Transition): 52
 sizeof(ExtendedZoneProcessor::TransitionStorage): 452
-sizeof(ExtendedZoneProcessor::ZoneMatch): 16
+sizeof(ExtendedZoneProcessor::MatchingEra): 16
 
 CPU:
 +--------------------------------------------------+----------+
@@ -305,7 +305,7 @@ sizeof(basic::LinkRegistrar): 8
 sizeof(BasicZoneProcessor::Transition): 28
 sizeof(ExtendedZoneProcessor::Transition): 52
 sizeof(ExtendedZoneProcessor::TransitionStorage): 452
-sizeof(ExtendedZoneProcessor::ZoneMatch): 16
+sizeof(ExtendedZoneProcessor::MatchingEra): 16
 
 CPU:
 +--------------------------------------------------+----------+
@@ -370,7 +370,7 @@ sizeof(basic::LinkRegistrar): 8
 sizeof(BasicZoneProcessor::Transition): 28
 sizeof(ExtendedZoneProcessor::Transition): 52
 sizeof(ExtendedZoneProcessor::TransitionStorage): 452
-sizeof(ExtendedZoneProcessor::ZoneMatch): 16
+sizeof(ExtendedZoneProcessor::MatchingEra): 16
 
 CPU:
 +--------------------------------------------------+----------+
@@ -435,7 +435,7 @@ sizeof(basic::LinkRegistrar): 8
 sizeof(BasicZoneProcessor::Transition): 28
 sizeof(ExtendedZoneProcessor::Transition): 52
 sizeof(ExtendedZoneProcessor::TransitionStorage): 452
-sizeof(ExtendedZoneProcessor::ZoneMatch): 16
+sizeof(ExtendedZoneProcessor::MatchingEra): 16
 
 CPU:
 +--------------------------------------------------+----------+
@@ -503,7 +503,7 @@ sizeof(basic::LinkRegistrar): 8
 sizeof(BasicZoneProcessor::Transition): 28
 sizeof(ExtendedZoneProcessor::Transition): 52
 sizeof(ExtendedZoneProcessor::TransitionStorage): 452
-sizeof(ExtendedZoneProcessor::ZoneMatch): 16
+sizeof(ExtendedZoneProcessor::MatchingEra): 16
 
 CPU:
 +--------------------------------------------------+----------+
