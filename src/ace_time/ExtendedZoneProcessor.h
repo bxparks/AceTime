@@ -646,7 +646,7 @@ class TransitionStorageTemplate {
     friend class ::TransitionStorageTest_findTransitionForDateTime;
     friend class ::TransitionStorageTest_resetCandidatePool;
 
-    /** Return the transition at position i. */
+    /** Return the transition at position i. Used by unit tests. */
     Transition* getTransition(uint8_t i) {
       return mTransitions[i];
     }
@@ -905,7 +905,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     /**
      * Maximum number of interior years. For a viewing window of 14 months,
-     * this will be 4.
+     * this will be 4. (Verify: I think this can be changed to 3.)
      */
     static const uint8_t kMaxInteriorYears = 4;
 
@@ -1069,6 +1069,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         const ZEB& era,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm) {
+
       // If prev.isNull(), set startDate to be earlier than all valid ZoneEra.
       extended::DateTuple startDate = prev.isNull()
           ? extended::DateTuple{
@@ -1245,9 +1246,26 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     /**
      * Calculate interior years. Up to maxInteriorYears, usually 3 or 4.
      * Returns the number of interior years.
+     *
+     * If the MatchingEra's UNTIL year is Jan 1st 00:00, the end year is
+     * technically the previous year. However, we treat the UNTIL year as an
+     * inclusive endYear just in case there is a transition Rule on Jan 1 00:00.
+     *
+     * Normally we will use a 14-month matching interval (Dec of prev year,
+     * until Feb of the following year), so the maximum number of interior years
+     * that this will return should be 3.
+     *
+     * @param interiorYears a pointer to array of tiny years (int8_t)
+     * @param maxInteriorYears size of interiorYears
+     * @param fromYear FROM year field of a Rule entry
+     * @param toYear TO year field of a Rule entry
+     * @param startYear start year of the matching ZoneEra
+     * @param endYear until year of the matching ZoneEra
      */
-    static uint8_t calcInteriorYears(int8_t* interiorYears,
-        uint8_t maxInteriorYears, int8_t fromYear, int8_t toYear,
+    static uint8_t calcInteriorYears(
+        int8_t* interiorYears,
+        uint8_t maxInteriorYears,
+        int8_t fromYear, int8_t toYear,
         int8_t startYear, int8_t endYear) {
       uint8_t i = 0;
       for (int8_t year = startYear; year <= endYear; year++) {
@@ -1266,8 +1284,11 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * 'deltaMinutes' as well. 'letterBuf' is also well-defined, either an empty
      * string, or filled with rule->letter with a NUL terminator.
      */
-    static void createTransitionForYear(Transition* t, int8_t year,
-        const ZRB& rule, const MatchingEra* match) {
+    static void createTransitionForYear(
+        Transition* t,
+        int8_t year,
+        const ZRB& rule,
+        const MatchingEra* match) {
       t->match = match;
       t->rule = rule;
       t->offsetMinutes = match->era.offsetMinutes();
@@ -1290,18 +1311,31 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           // letterBuf, so will be retrieved by the letter() method below.
         }
       } else {
+        // Create a Transition using the MatchingEra for the transitionTime.
+        // Used for simple MatchingEra.
         t->transitionTime = match->startDateTime;
         t->deltaMinutes = match->era.deltaMinutes();
       }
     }
 
     /**
-     * Return the most recent prior year of the rule[from_year, to_year].
-     * Return LocalDate::kInvalidYearTiny (-128) if the rule[from_year,
-     * to_year] has no prior year to the match[start_year, end_year].
+     * Return the most recent year from the Rule[fromYear, toYear] which is
+     * prior to the matching ZoneEra years of [startYear, endYear].
+     *
+     * Return LocalDate::kInvalidYearTiny (-128) if the rule[fromYear,
+     * to_year] has no prior year to the MatchingEra[startYear, endYear].
+     *
+     * @param fromYear FROM year field of a Rule entry
+     * @param toYear TO year field of a Rule entry
+     * @param startYear start year of the matching ZoneEra
+     * @param endYear until year of the matching ZoneEra (unused)
      */
-    static int8_t getMostRecentPriorYear(int8_t fromYear, int8_t toYear,
-        int8_t startYear, int8_t /*endYear*/) {
+    static int8_t getMostRecentPriorYear(
+        int8_t fromYear, int8_t toYear,
+        int8_t startYear, int8_t endYear) {
+
+      (void) endYear; // disable compiler warnings
+
       if (fromYear < startYear) {
         if (toYear < startYear) {
           return toYear;
@@ -1313,13 +1347,25 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
+    /**
+     * Return the DateTuple representing the transition time of the given rule
+     * for the given yearTiny.
+     */
     static extended::DateTuple getTransitionTime(
         int8_t yearTiny, const ZRB& rule) {
+
       internal::MonthDay monthDay = internal::calcStartDayOfMonth(
-          yearTiny + LocalDate::kEpochYear, rule.inMonth(), rule.onDayOfWeek(),
+          yearTiny + LocalDate::kEpochYear,
+          rule.inMonth(),
+          rule.onDayOfWeek(),
           rule.onDayOfMonth());
-      return {yearTiny, monthDay.month, monthDay.day,
-          (int16_t) rule.atTimeMinutes(), rule.atTimeSuffix()};
+      return {
+        yearTiny,
+        monthDay.month,
+        monthDay.day,
+        (int16_t) rule.atTimeMinutes(),
+        rule.atTimeSuffix()
+      };
     }
 
     /**
@@ -1391,9 +1437,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           curr->log();
           logging::printf("\n");
         }
-        expandDateTuple(&curr->transitionTime,
-            &curr->transitionTimeS, &curr->transitionTimeU,
-            prev->offsetMinutes, prev->deltaMinutes);
+        expandDateTuple(
+            &curr->transitionTime,
+            &curr->transitionTimeS,
+            &curr->transitionTimeU,
+            prev->offsetMinutes,
+            prev->deltaMinutes);
         prev = curr;
       }
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
@@ -1406,12 +1455,16 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * 's' and 'u' versions of the DateTuple. The 'tt' may become a 'w' if it
      * was originally 's' or 'u'. On return, tt, tts and ttu are all modified.
      */
-    static void expandDateTuple(extended::DateTuple* tt,
-        extended::DateTuple* tts, extended::DateTuple* ttu,
-        int16_t offsetMinutes, int16_t deltaMinutes) {
+    static void expandDateTuple(
+        extended::DateTuple* tt,
+        extended::DateTuple* tts,
+        extended::DateTuple* ttu,
+        int16_t offsetMinutes,
+        int16_t deltaMinutes) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("expandDateTuple()\n");
       }
+
       if (tt->suffix == internal::ZoneContext::kSuffixS) {
         *tts = *tt;
         *ttu = {tt->yearTiny, tt->month, tt->day,
@@ -1501,6 +1554,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         logging::printf("selectActiveTransitions(): #candidates: %d\n",
           (int) (end - begin));
       }
+
       Transition* prior = nullptr;
       for (Transition** iter = begin; iter != end; ++iter) {
         Transition* transition = *iter;
@@ -1657,8 +1711,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       extended::DateTuple untilTime = prev->match->untilDateTime;
       extended::DateTuple untilTimeS; // needed only for expandDateTuple
       extended::DateTuple untilTimeU; // needed only for expandDateTuple
-      expandDateTuple(&untilTime, &untilTimeS, &untilTimeU,
-          prev->offsetMinutes, prev->deltaMinutes);
+      expandDateTuple(
+          &untilTime,
+          &untilTimeS,
+          &untilTimeU,
+          prev->offsetMinutes,
+          prev->deltaMinutes);
       prev->untilDateTime = untilTime;
     }
 
@@ -1677,8 +1735,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
             "calcAbbreviations(): format:%s, deltaMinutes:%d, letter:%s\n",
             t->format(), t->deltaMinutes, t->letter());
         }
-        createAbbreviation(t->abbrev, internal::kAbbrevSize,
-            t->format(), t->deltaMinutes, t->letter());
+        createAbbreviation(
+            t->abbrev,
+            internal::kAbbrevSize,
+            t->format(),
+            t->deltaMinutes,
+            t->letter());
       }
     }
 
@@ -1690,8 +1752,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * string if the LETTER was a '-', or a pointer to a non-empty string if
      * LETTER was a 'S', 'D', 'WAT' etc.
      */
-    static void createAbbreviation(char* dest, uint8_t destSize,
-        const char* format, uint16_t deltaMinutes, const char* letterString) {
+    static void createAbbreviation(
+        char* dest,
+        uint8_t destSize,
+        const char* format,
+        uint16_t deltaMinutes,
+        const char* letterString) {
+
       // Check if FORMAT contains a '%'.
       if (strchr(format, '%') != nullptr) {
         // Check if RULES column empty, therefore no 'letter'
