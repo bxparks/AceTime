@@ -493,6 +493,14 @@ class TransitionStorageTemplate {
      */
     void addFreeAgentToCandidatePool() {
       if (mIndexFree >= SIZE) return;
+
+      // This implementation makes pair-wise swaps to shift the current
+      // Transition leftwards into its correctly sorted position. At first
+      // glance, this seem inefficient compared to the alternative
+      // implementation where we save the current Transition, then slide all the
+      // elements to the left by one position rightwards. However,
+      // MemoryBenchmark shows that this implementation is 46 bytes smaller on
+      // an AVR processor.
       for (uint8_t i = mIndexFree; i > mIndexCandidates; i--) {
         Transition* curr = mTransitions[i];
         Transition* prev = mTransitions[i - 1];
