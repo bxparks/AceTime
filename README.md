@@ -599,8 +599,8 @@ The following boards are *not* supported:
 * Any platform using the ArduinoCore-API
   (https://github.com/arduino/ArduinoCore-api), such as:
     * megaAVR (e.g. Nano Every)
-    * SAMD21 boards w/ `arduino:samd` version >= 1.8.10 (e.g. MKRZero)
-    * MKRZero
+    * SAMD21 boards w/ `arduino:samd` version >= 1.8.10 (e.g. Nano 33 IoT,
+      MKRZero, etc)
     * Raspberry Pi Pico RP2040
 
 <a name="ToolChain"></a>
@@ -618,7 +618,7 @@ This library was developed and tested using:
 * [STM32duino 2.0.0](https://github.com/stm32duino/Arduino_Core_STM32)
 * [ESP8266 Arduino 2.7.4](https://github.com/esp8266/Arduino)
 * [ESP32 Arduino 1.0.6](https://github.com/espressif/arduino-esp32)
-* [Teensydino 1.53](https://www.pjrc.com/teensy/td_download.html)
+* [Teensyduino 1.54](https://www.pjrc.com/teensy/td_download.html)
 
 This library is *not* compatible with:
 
