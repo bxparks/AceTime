@@ -271,8 +271,8 @@ struct TransitionTemplate {
    * transitions. It is set by setAsPriorTransition() if the transition is a
    * prior transition.
    *
-   * 2) During processActiveTransition(), this flag indicates if the current
-   * transition falls within the date range of interest.
+   * 2) During processTransitionActiveStatus(), this flag indicates if the
+   * current transition falls within the date range of interest.
    */
   bool active;
 
@@ -1566,7 +1566,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       Transition* prior = nullptr;
       for (Transition** iter = begin; iter != end; ++iter) {
         Transition* transition = *iter;
-        processActiveTransition(match, transition, &prior);
+        processTransitionActiveStatus(match, transition, &prior);
       }
 
       // If the latest prior transition is found, shift it to start at the
@@ -1588,7 +1588,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * determine the latest prior transition before match, and mark that as
      * active.
      */
-    static void processActiveTransition(
+    static void processTransitionActiveStatus(
         const MatchingEra* match,
         Transition* transition,
         Transition** prior) {
