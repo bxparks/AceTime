@@ -63,7 +63,9 @@ This file contains one entry of the `basic::ZoneInfo` or
 The zone identifier is named `kZone{region}_{city}`, where the
 `{region}_{city}` comes directly from the TZ Database. Some minor character
 transformations are applied to create an valid C++ identifier. For example, all
-dashes `-` are converted to underscore `_`.
+dashes `-` are converted to underscore `_`. As an exception, the `+` character
+is converted to `_PLUS_` to differentiate "Etc/GMT+1" from "Etc/GMT-1", and so
+on.
 
 The `kTzDatabaseVersion` string constant identifies the version of the TZ
 Database that was used to generate these files, e.g. "2019a".
@@ -283,6 +285,147 @@ date). Unfortunately, they all seem to use the underlying TZDB version provided
 by the Operating System, and I have not been able to figure out how to manually
 update this dependency manually. When a new TZDB is released, all of these other
 tests will fail until the underlying timezone database of the OS is updated.
+
+## ExtendedZoneProcessor Algorithm
+
+To save memory, the `ExtendedZoneProcessor` class calculates the `Transition`
+objects on the fly when the `init(acetime_t)` or `init(LocalDate& ld)` is
+called. The alternative used by most Date-Time libraries to precalculate
+the Transitions for all Zones, for a certain range of years. Precalculation
+is definitely faster, and easier because the logic for calculating the
+Transition objects resides in only a single place. However, the expansion of the
+Transition objects consumes too much memory on an embedded microcontrollers.
+
+The calculation of the Transitions is very complex, and I find that I can no
+longer understand my own code after a few months away of this code base. So here
+are some notes to help my future-self.
+
+The class creates an array of `Transition` objects spanning 14 months that
+covers the given `year`, from 12/1 of the previous year until 2/1 of the
+following year. The extra month at the start and end of the one-year interval is
+to account for the fact that a local DateTime of 1/1 for a given year may
+actually occur in the previous year after shifting to UTC time. But the amount
+of shift is not known until we calculate the Transitions. By starting the
+interval of interest at 12/1, we make sure that correct Transition is determined
+for 12/31 if needed. Similarly, a local DateTime of 12/31 may actually occur on
+1/1 of the following year, so we extend our time interval of interest to 2/1 of
+the following year.
+
+Here is an example of a Zone where for the given year `y`, there are 3 matching
+ZoneEras: E1, E2, E3.
+
+```
+                                <------------------------------------ E1
+      1/1                                                 12/1       12/31
+       +----------------------------------------------------[----------+
+     E1|                                                    [..........|
+       |----------------------------------------------------[----------|
+y-1  R2|             ^                      v               [          |
+       |----------------------------------------------------[----------|
+     R3|                                                 ^  [   v      |
+       +----------------------------------------------------[----------+
+
+
+       <--- E1    <--------------- E2 ------------>        E3 --------->
+                 m/d                             mm/dd
+       +---------)[-------------------------------)[-------------------+
+     E1|.........)[                               )[                   |
+       |---------)[-------------------------------)[-------------------|
+ y   R2|         )[..^......................v.....)[                   |
+       |---------)[-------------------------------)[-------------------|
+     R3|         )[                               )[.....^......v......|
+       +---------)[-------------------------------)[-------------------+
+
+
+       E3 ---------------------------------------->
+                2/1
+       +---------)-----------------------------------------------------+
+     E1|         )                                                     |
+       |---------)-----------------------------------------------------|
+y+1  R2|         )   ^                      v                          |
+       |---------)-----------------------------------------------------|
+     R3|.........)                                       ^      v      |
+       +---------)-----------------------------------------------------+
+```
+
+The `findMatches()` returns the list of `ZoneEra` which overlap with the
+14-month interval from 12/1 to 2/1. In this case, it will return E1, E2 and E3.
+For each ZoneEra, the algorithm creates the appropriate Transition objects at
+the appropriate boundaries.
+
+In the example above, the E1 era is a simple `ZoneEra` which does not use a
+ZoneRule. The `STDOFF` and the `RULES` columns directly give the UTC offset and
+the DST offset. The Transition object can be created directly for 12/1.
+
+The E2 era contains various `ZoneRule` entries, R2, which are recurring rules
+that occur every year. This particular Zone switches from E1 to E2 at m/d, which
+is slightly different than one of the Transition rules specified in R2. To
+determine the Transition that applies at m/d, we must go back to the "most
+recent prior" Transition of R2, which occurred in the prior year. We take that
+Transition, the shift it to m/d to get the effective Transition at m/d.
+
+Sometimes (often?), the switch from one ZoneEra to another happens at exactly
+the same time as one of the Transitions specified by the ZoneRule of the next
+ZoneEra. There is code that checks for this situation to make sure that
+extraneous Transition objects are not created. (We don't want to switch to a new
+ZoneEra with a new ZonePolicy, then immediately switch to a different Transition
+due to the Rule in the new ZonePolicy.)
+
+The E3 era for this Zone begins at mm/dd in the above example, which is
+different than the Transitions defined by the R3 rules. Similar to E2, we must
+calculate the Transition at mm/dd using the "most recent prior" Transition,
+which happens to occur in the previous year. Note that the "most recent prior"
+Transition may have happened many years prior to the current year if the
+matching ZoneRule happened many years prior.
+
+Putting all this together, here is the final list of 7 Transitions which are
+needed for this Zone, for this given year `y`:
+
+```
+                                <------------------------------------ E1
+      1/1                                                 12/1       12/31
+       +----------------------------------------------------[----------+
+     E1|                                                    x          |
+       |----------------------------------------------------[----------|
+y-1  R2|                                                    [          |
+       |----------------------------------------------------[----------|
+     R3|                                                    [          |
+       +----------------------------------------------------[----------+
+
+
+       <--- E1    <--------------- E2 ------------>        E3 --------->
+                 m/d                             mm/dd
+       +---------)[-------------------------------)[-------------------+
+     E1|.........)[                               )[                   |
+       |---------)[-------------------------------)[-------------------|
+ y   R2|          x  ^                      v     )[                   |
+       |---------)[-------------------------------)[-------------------|
+     R3|         )[                               )x     ^      v      |
+       +---------)[-------------------------------)[-------------------+
+
+
+       E3 ---------------------------------------->
+                2/1
+       +---------)-----------------------------------------------------+
+     E1|         )                                                     |
+       |---------)-----------------------------------------------------|
+y+1  R2|         )                                                     |
+       |---------)-----------------------------------------------------|
+     R3|         )                                                     |
+       +---------)-----------------------------------------------------+
+```
+
+After the list of Transitions are created, the `Transition.startDateTime` field
+is adjusted so that they are correct in all 3 representations of time in the TZ
+data base: wall time (`w`), standard time (`s`), and UTC time (`u`).
+
+Next, the time zone abbreviations (e.g. "PST", "CET") are calculated.
+
+When a request to create a `ZonedDateTime` object comes in, the
+`ExtendedZoneProcessor.findTransition(epochSeconds)` method is called. It scans
+the list of Transitions calculated above, looking for a match. The matching
+Transition object contains the relevant standard offset and DST offset of that
+Zone.
 
 ## Release Process
 
