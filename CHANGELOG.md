@@ -1,6 +1,10 @@
 # Changelog
 
 * Unreleased
+    * Calculate exact Transition buffer sizes from AceTimeTools.
+        * Check for exact match between expected buffer size (from
+          `zone_processor.py`) and observed buffer size (from
+          `ExtendedZoneProcessor`).
 * 1.7.4 (2021-08-26)
     * Move `./tools` directory into new
       [AceTimeTools](https://github.com/bxparks/AceTimeTools) repo.

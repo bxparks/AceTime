@@ -34,7 +34,7 @@ class ExtendedTransitionTest: public aunit::TestOnce {
         const ValidationData* const testData,
         ValidationScope dstValidationScope,
         ValidationScope abbrevValidationScope,
-        uint8_t bufSize) {
+        uint8_t expectedBufSize) {
 
       ExtendedZoneProcessor zoneProcessor;
       TimeZone tz = TimeZone::forZoneInfo(zoneInfo, &zoneProcessor);
@@ -80,10 +80,10 @@ class ExtendedTransitionTest: public aunit::TestOnce {
       }
       assertTrue(passed);
 
-      // Assert that size of the internal Transitions buffer never got
-      // above the expected buffer size. The buffer size is only relevant for
-      // the ExtendedZoneProcessor class.
-      assertLess(zoneProcessor.getTransitionHighWater(), bufSize);
+      // Assert that the TransitionStorage buffer size is exactly the buffer
+      // size calculated from zone_processor.py.
+      uint8_t observedBufSize = zoneProcessor.getTransitionHighWater() + 1;
+      assertEqual(observedBufSize, expectedBufSize);
     }
 
     void checkComponent(bool& passed, int i, const ValidationItem& item,

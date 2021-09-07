@@ -464,6 +464,8 @@ class TransitionStorageTemplate {
      * Candidate pool and Free pool up by one.
      */
     Transition** reservePrior() {
+      getFreeAgent(); // update high water mark
+
       mIndexCandidates++;
       mIndexFree++;
       return &mTransitions[mIndexPrior];
@@ -675,7 +677,7 @@ class TransitionStorageTemplate {
  * An implementation of ZoneProcessor that supports for *all* zones defined by
  * the TZ Database. The supported zones are defined in the zonedbx/zone_infos.h
  * header file. The constructor expects a pointer to one of the ZoneInfo
- * structures declared in the zonedbx/zone_infos.h file. The zone_specifier.py
+ * structures declared in the zonedbx/zone_infos.h file. The zone_processor.py
  * file is the initial Python implementation of this class, which got
  * translated into C++.
  *
@@ -968,7 +970,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         (int8_t) (year - LocalDate::kEpochYear + 1), 2 };
 
       // Step 1 (See equivalent steps in
-      // zone_specifier.ZoneSpecifier.init_for_year())
+      // zone_processor.ZoneSpecifier.init_for_year())
       mNumMatches = findMatches(mZoneInfoBroker, startYm, untilYm, mMatches,
           kMaxMatches);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
