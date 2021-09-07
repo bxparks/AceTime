@@ -531,7 +531,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
       &transition, &match));
 }
 
-test(ExtendedZoneProcessorTest, processActiveTransition) {
+test(ExtendedZoneProcessorTest, processTransitionActiveStatus) {
   const DateTuple EMPTY_DATE = { 0, 0, 0, 0, 0};
 
   ExtendedZoneProcessor::Transition* prior = nullptr;
@@ -547,7 +547,8 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
     {-1, 12, 31, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
-  ExtendedZoneProcessor::processActiveTransition(&match, &transition0, &prior);
+  ExtendedZoneProcessor::processTransitionActiveStatus(
+      &match, &transition0, &prior);
   assertTrue(transition0.active);
   assertTrue(prior == &transition0);
 
@@ -557,7 +558,8 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
     {0, 1, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
-  ExtendedZoneProcessor::processActiveTransition(&match, &transition1, &prior);
+  ExtendedZoneProcessor::processTransitionActiveStatus(
+      &match, &transition1, &prior);
   assertTrue(transition1.active);
   assertTrue(prior == &transition1);
 
@@ -567,7 +569,8 @@ test(ExtendedZoneProcessorTest, processActiveTransition) {
     {0, 1, 2, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
-  ExtendedZoneProcessor::processActiveTransition(&match, &transition2, &prior);
+  ExtendedZoneProcessor::processTransitionActiveStatus(
+      &match, &transition2, &prior);
   assertTrue(transition2.active);
   assertTrue(prior == &transition1);
 
