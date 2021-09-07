@@ -619,7 +619,7 @@ test(ExtendedZoneProcessorTest, findCandidateTransitions) {
       ZoneContext::kSuffixW}));
 }
 
-test(ExtendedZoneProcessorTest, findTransitionsFromNamedMatch) {
+test(ExtendedZoneProcessorTest, createTransitionsFromNamedMatch) {
   const ExtendedZoneProcessor::MatchingEra match = {
     {18, 12, 1, 0, ZoneContext::kSuffixW},
     {20, 2, 1, 0, ZoneContext::kSuffixW},
@@ -630,7 +630,7 @@ test(ExtendedZoneProcessorTest, findTransitionsFromNamedMatch) {
   ExtendedZoneProcessor::TransitionStorage storage;
   storage.init();
 
-  ExtendedZoneProcessor::findTransitionsFromNamedMatch(storage, &match);
+  ExtendedZoneProcessor::createTransitionsFromNamedMatch(storage, &match);
   assertEqual(3,
       (int) (storage.getActivePoolEnd() - storage.getActivePoolBegin()));
   ExtendedZoneProcessor::Transition** t = storage.getActivePoolBegin();
@@ -663,7 +663,7 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
   storage.init();
 
   // Create 3 Transitions corresponding to the matches.
-  // Implements ExtendedZoneProcessor::findTransitionsFromSimpleMatch().
+  // Implements ExtendedZoneProcessor::createTransitionsFromSimpleMatch().
   ExtendedZoneProcessor::Transition* transition1 = storage.getFreeAgent();
   ExtendedZoneProcessor::createTransitionForYear(
       transition1, 0 /*not used*/, ZoneRuleBroker(nullptr) /*rule*/,
@@ -818,7 +818,7 @@ void setup() {
 #if 0
   TestRunner::exclude("*");
   TestRunner::include("ExtendedZoneProcessorTest",
-      "findTransitionsFromNamedMatch");
+      "createTransitionsFromNamedMatch");
 #endif
 }
 

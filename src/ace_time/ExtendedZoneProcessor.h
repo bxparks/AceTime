@@ -28,7 +28,7 @@ class ExtendedZoneProcessorTest_createMatch;
 class ExtendedZoneProcessorTest_findMatches_simple;
 class ExtendedZoneProcessorTest_findMatches_named;
 class ExtendedZoneProcessorTest_findCandidateTransitions;
-class ExtendedZoneProcessorTest_findTransitionsFromNamedMatch;
+class ExtendedZoneProcessorTest_createTransitionsFromNamedMatch;
 class ExtendedZoneProcessorTest_getTransitionTime;
 class ExtendedZoneProcessorTest_createTransitionForYear;
 class ExtendedZoneProcessorTest_normalizeDateTuple;
@@ -401,7 +401,7 @@ class TransitionStorageTemplate {
     /**
      * Empty the Candidate pool by resetting the various indexes.
      *
-     * If every iteration of findTransitionsForMatch() finishes with
+     * If every iteration of createTransitionsForMatch() finishes with
      * addFreeAgentToActivePool() or addActiveCandidatesToActivePool(), it may
      * be possible to remove this. But it's safer to reset the indexes upon
      * each iteration.
@@ -886,7 +886,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_findMatches_simple;
     friend class ::ExtendedZoneProcessorTest_findMatches_named;
     friend class ::ExtendedZoneProcessorTest_findCandidateTransitions;
-    friend class ::ExtendedZoneProcessorTest_findTransitionsFromNamedMatch;
+    friend class ::ExtendedZoneProcessorTest_createTransitionsFromNamedMatch;
     friend class ::ExtendedZoneProcessorTest_getTransitionTime;
     friend class ::ExtendedZoneProcessorTest_createTransitionForYear;
     friend class ::ExtendedZoneProcessorTest_normalizeDateTuple;
@@ -976,7 +976,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
 
       // Step 2
-      findTransitions(mTransitionStorage, mMatches, mNumMatches);
+      createTransitions(mTransitionStorage, mMatches, mNumMatches);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
 
       // Step 3
@@ -1117,39 +1117,39 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * Create the Transition objects which are defined by the list of matches
      * and store them in the transitionStorage container.
      */
-    static void findTransitions(
+    static void createTransitions(
         TransitionStorage& transitionStorage,
         MatchingEra* matches,
         uint8_t numMatches) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("findTransitions()\n");
+        logging::printf("createTransitions()\n");
       }
 
       for (uint8_t i = 0; i < numMatches; i++) {
-        findTransitionsForMatch(transitionStorage, &matches[i]);
+        createTransitionsForMatch(transitionStorage, &matches[i]);
       }
     }
 
     /** Create the Transitions defined by the given match. */
-    static void findTransitionsForMatch(
+    static void createTransitionsForMatch(
         TransitionStorage& transitionStorage,
         const MatchingEra* match) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("findTransitionsForMatch()\n");
+        logging::printf("createTransitionsForMatch()\n");
       }
       const ZPB policy = match->era.zonePolicy();
       if (policy.isNull()) {
-        findTransitionsFromSimpleMatch(transitionStorage, match);
+        createTransitionsFromSimpleMatch(transitionStorage, match);
       } else {
-        findTransitionsFromNamedMatch(transitionStorage, match);
+        createTransitionsFromNamedMatch(transitionStorage, match);
       }
     }
 
-    static void findTransitionsFromSimpleMatch(
+    static void createTransitionsFromSimpleMatch(
         TransitionStorage& transitionStorage,
         const MatchingEra* match) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("findTransitionsFromSimpleMatch()\n");
+        logging::printf("createTransitionsFromSimpleMatch()\n");
       }
 
       Transition* freeTransition = transitionStorage.getFreeAgent();
@@ -1158,11 +1158,11 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       transitionStorage.addFreeAgentToActivePool();
     }
 
-    static void findTransitionsFromNamedMatch(
+    static void createTransitionsFromNamedMatch(
         TransitionStorage& transitionStorage,
         const MatchingEra* match) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("findTransitionsFromNamedMatch()\n");
+        logging::printf("createTransitionsFromNamedMatch()\n");
       }
 
       transitionStorage.resetCandidatePool();
