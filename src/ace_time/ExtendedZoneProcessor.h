@@ -594,9 +594,13 @@ class TransitionStorageTemplate {
       }
 
       // Convert LocalDateTime to DateTuple.
-      DateTuple localDate = { ldt.yearTiny(), ldt.month(), ldt.day(),
+      DateTuple localDate{
+          ldt.yearTiny(),
+          ldt.month(),
+          ldt.day(),
           (int16_t) (ldt.hour() * 60 + ldt.minute()),
-          internal::ZoneContext::kSuffixW };
+          internal::ZoneContext::kSuffixW
+      };
       const Transition* match = nullptr;
 
       // Find the last Transition that matches
@@ -1083,27 +1087,42 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       // If prev.isNull(), set startDate to be earlier than all valid ZoneEra.
       extended::DateTuple startDate = prev.isNull()
           ? extended::DateTuple{
-              LocalDate::kInvalidYearTiny, 1, 1, 0,
+              LocalDate::kInvalidYearTiny,
+              1,
+              1,
+              0,
               internal::ZoneContext::kSuffixW
             }
           : extended::DateTuple{
-              prev.untilYearTiny(), prev.untilMonth(), prev.untilDay(),
-              (int16_t) prev.untilTimeMinutes(), prev.untilTimeSuffix()
+              prev.untilYearTiny(),
+              prev.untilMonth(),
+              prev.untilDay(),
+              (int16_t) prev.untilTimeMinutes(),
+              prev.untilTimeSuffix()
             };
-      extended::DateTuple lowerBound = {
-        startYm.yearTiny, startYm.month, 1, 0,
+      extended::DateTuple lowerBound{
+        startYm.yearTiny,
+        startYm.month,
+        1,
+        0,
         internal::ZoneContext::kSuffixW
       };
       if (startDate < lowerBound) {
         startDate = lowerBound;
       }
 
-      extended::DateTuple untilDate = {
-        era.untilYearTiny(), era.untilMonth(), era.untilDay(),
-        (int16_t) era.untilTimeMinutes(), era.untilTimeSuffix()
+      extended::DateTuple untilDate{
+        era.untilYearTiny(),
+        era.untilMonth(),
+        era.untilDay(),
+        (int16_t) era.untilTimeMinutes(),
+        era.untilTimeSuffix()
       };
-      extended::DateTuple upperBound = {
-        untilYm.yearTiny, untilYm.month, 1, 0,
+      extended::DateTuple upperBound{
+        untilYm.yearTiny,
+        untilYm.month,
+        1,
+        0,
         internal::ZoneContext::kSuffixW
       };
       if (upperBound < untilDate) {
