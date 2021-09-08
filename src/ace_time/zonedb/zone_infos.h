@@ -316,6 +316,8 @@ extern const basic::ZoneInfo kZonePacific_Wallis; // Pacific/Wallis
 extern const basic::ZoneInfo kZoneWET; // WET
 
 
+// Zone Ids
+
 const uint32_t kZoneIdAfrica_Abidjan = 0xc21305a3; // Africa/Abidjan
 const uint32_t kZoneIdAfrica_Algiers = 0xd94515c1; // Africa/Algiers
 const uint32_t kZoneIdAfrica_Bissau = 0x75564141; // Africa/Bissau
@@ -773,6 +775,8 @@ extern const basic::ZoneInfo kZoneUniversal; // Universal -> Etc/UTC
 extern const basic::ZoneInfo kZoneZulu; // Zulu -> Etc/UTC
 
 
+// Zone Ids
+
 const uint32_t kZoneIdAfrica_Addis_Ababa = 0x05ae1e65; // Africa/Addis_Ababa
 const uint32_t kZoneIdAfrica_Asmara = 0x73b278ef; // Africa/Asmara
 const uint32_t kZoneIdAfrica_Asmera = 0x73b289f3; // Africa/Asmera
@@ -959,11 +963,9 @@ const uint32_t kZoneIdZulu = 0x7c9069b5; // Zulu
 
 
 //---------------------------------------------------------------------------
-// Estimated size of the Transition buffer in ExtendedZoneProcessor for each
-// zone. Used only in the AceTimeValidation/Extended*Test tests for
-// ExtendedZoneProcessor. This used to be included in the ZoneInfo data struct
-// above, but it is used only for tests, so pulling them out to these constants
-// means that they take up no permanent storage space.
+// Maximum size of the Transition buffer in ExtendedZoneProcessor for each zone
+// over the given years. Used only in the AceTimeValidation/Extended*Test tests
+// for ExtendedZoneProcessor.
 //---------------------------------------------------------------------------
 
 const uint8_t kZoneBufSizeAfrica_Abidjan = 1;  // Africa/Abidjan in 2000

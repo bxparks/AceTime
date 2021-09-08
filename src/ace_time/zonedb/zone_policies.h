@@ -36,7 +36,8 @@ namespace zonedb {
 
 //---------------------------------------------------------------------------
 // Supported zone policies: 64
-//
+//---------------------------------------------------------------------------
+
 extern const basic::ZonePolicy kPolicyAN;
 extern const basic::ZonePolicy kPolicyAQ;
 extern const basic::ZonePolicy kPolicyAS;
@@ -105,7 +106,8 @@ extern const basic::ZonePolicy kPolicyZion;
 
 //---------------------------------------------------------------------------
 // Unsupported zone policies: 76
-//
+//---------------------------------------------------------------------------
+
 // kPolicyAlbania (unused)
 // kPolicyAlgeria (unused)
 // kPolicyArg (unused)
@@ -184,8 +186,10 @@ extern const basic::ZonePolicy kPolicyZion;
 // kPolicyWS (unused)
 
 
+//---------------------------------------------------------------------------
 // Notable zone policies: 1
-//
+//---------------------------------------------------------------------------
+
 // kPolicyMoncton (AT '0:01' not on 15-minute boundary)
 
 

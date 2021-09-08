@@ -36,7 +36,8 @@ namespace zonedbx {
 
 //---------------------------------------------------------------------------
 // Supported zone policies: 84
-//
+//---------------------------------------------------------------------------
+
 extern const extended::ZonePolicy kPolicyAN;
 extern const extended::ZonePolicy kPolicyAQ;
 extern const extended::ZonePolicy kPolicyAS;
@@ -125,7 +126,8 @@ extern const extended::ZonePolicy kPolicyZion;
 
 //---------------------------------------------------------------------------
 // Unsupported zone policies: 56
-//
+//---------------------------------------------------------------------------
+
 // kPolicyAlbania (unused)
 // kPolicyAlgeria (unused)
 // kPolicyAustria (unused)
@@ -184,8 +186,10 @@ extern const extended::ZonePolicy kPolicyZion;
 // kPolicyW-Eur (unused)
 
 
+//---------------------------------------------------------------------------
 // Notable zone policies: 7
-//
+//---------------------------------------------------------------------------
+
 // kPolicyBelize (LETTER 'CST' not single character)
 // kPolicyGhana (LETTER 'GMT' not single character)
 // kPolicyMoncton (AT '0:01' not on 15-minute boundary)
