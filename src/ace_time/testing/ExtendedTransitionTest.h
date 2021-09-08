@@ -115,7 +115,7 @@ class ExtendedTransitionTest: public aunit::TestOnce {
       logging::printf(
           "* failed %s: index=%d eps=%ld "
           "%04d-%02d-%02dT%02d:%02d:%02d: ",
-          tag, i, item.epochSeconds,
+          tag, i, (long) item.epochSeconds,
           item.year, item.month, item.day,
           item.hour, item.minute, item.second);
     }
