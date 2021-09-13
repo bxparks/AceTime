@@ -18,7 +18,7 @@ namespace ace_time {
  * Common interface to the BasicZoneManager and ExtendedZoneManager so that a
  * single interface can be passed around to various helper objects. Various
  * methods return a TimeZone object from one of its identifiers. The identifer
- * can be a string (e.g. "America/Los_Angeles"), or a unique hashed zoneId, an
+ * can be a string (e.g. "America/Los_Angeles"), a unique hashed zoneId, an
  * index into the ZoneRegistry, or the TimeZoneData object created by
  * TimeZone::toTimeZoneData().
  */
@@ -221,7 +221,7 @@ class ZoneManagerImpl : public ZoneManager {
      */
     TimeZone createForZoneInfo(const ZI* zoneInfo) {
       if (! zoneInfo) return TimeZone::forError();
-      ZP* processor = (ZP*) mZoneProcessorCache.getZoneProcessor(
+      ZP* processor = mZoneProcessorCache.getZoneProcessor(
           (uintptr_t) zoneInfo);
       return TimeZone::forZoneInfo(zoneInfo, processor);
     }
@@ -245,7 +245,6 @@ class ZoneManagerImpl : public ZoneManager {
         mLinkRegistrar(linkRegistrySize, linkRegistry),
         mZoneProcessorCache() {}
 
-  private:
     // disable copy constructor and assignment operator
     ZoneManagerImpl(const ZoneManagerImpl&) = delete;
     ZoneManagerImpl& operator=(const ZoneManagerImpl&) = delete;
@@ -287,12 +286,23 @@ class BasicZoneManager: public ZoneManagerImpl<
             BasicZoneProcessor,
             BasicZoneProcessorCache<SIZE>
         >(
-          zoneRegistrySize,
-          zoneRegistry,
-          linkRegistrySize,
-          linkRegistry
+            zoneRegistrySize,
+            zoneRegistry,
+            linkRegistrySize,
+            linkRegistry
         )
     {}
+
+    /**
+     * Return the BasicZoneProcessor for given zone name. Mostly for
+     * debugging purposes.
+     */
+    BasicZoneProcessor* getZoneProcessor(const char* name) {
+      const basic::ZoneInfo* zoneInfo =
+          this->mZoneRegistrar.getZoneInfoForName(name);
+      if (! zoneInfo) return nullptr;
+      return this->mZoneProcessorCache.getZoneProcessor((uintptr_t) zoneInfo);
+    }
 };
 
 /**
@@ -326,12 +336,23 @@ class ExtendedZoneManager: public ZoneManagerImpl<
             ExtendedZoneProcessor,
             ExtendedZoneProcessorCache<SIZE>
         >(
-          zoneRegistrySize,
-          zoneRegistry,
-          linkRegistrySize,
-          linkRegistry
+            zoneRegistrySize,
+            zoneRegistry,
+            linkRegistrySize,
+            linkRegistry
         )
     {}
+
+    /**
+     * Return the ExtendedZoneProcessor for given zone name. Mostly for
+     * debugging purposes.
+     */
+    ExtendedZoneProcessor* getZoneProcessor(const char* name) {
+      const extended::ZoneInfo* zoneInfo =
+          this->mZoneRegistrar.getZoneInfoForName(name);
+      if (! zoneInfo) return nullptr;
+      return this->mZoneProcessorCache.getZoneProcessor((uintptr_t) zoneInfo);
+    }
 };
 
 #else
@@ -339,7 +360,7 @@ class ExtendedZoneManager: public ZoneManagerImpl<
 // NOTE: The following typedefs seem shorter and easier to maintain. The
 // problem is that they make error messages basically impossible to decipher
 // because the template class names are far too long for human comprehension.
-// Fortunatley, there seems to be no difference in code size between the above
+// Fortunately, there seems to be no difference in code size between the above
 // solution using subclasses and this solution using typedefs. The compiler
 // seems to optimize away the vtables of the parent and child classes. So we'll
 // use the above subclassing solution to get better error messages.
