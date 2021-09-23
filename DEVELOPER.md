@@ -3,6 +3,60 @@
 Information which are useful for developers and maintainers of the AceTime
 library.
 
+## Table of Contents
+
+* [Project/Repo Dependency](#ProjectRepoDependency)
+* [Namespace Dependency](#NamespaceDependency)
+* [Zone DB Files](#ZoneDbFiles)
+* [Encoding Offset and Time Fields](#EncodingOffsetAndTimeFields)
+* [Upgrading ZoneInfo Files to a New TZDB Version](#UpgradingZoneInfoFiles)
+* [ExtendedZoneProcessor Algorithm](#ExtendedZoneProcessorAlgorithm)
+* [Release Process](#ReleaseProcess)
+
+<a name="ProjectRepoDependency"></a>
+## Project/Repo Dependency
+
+On 2021-08-25, the scripts under `./tools` were moved into the
+[AceTimeTools](https://github.com/bxparks/AceTimeTools/) project, and the
+integration tests under `./tests/validation` were moved into the
+[AceTimeValidations](https://github.com/bxparks/AceTimeValidation) project. Then
+on 2021-09-08, the Python timezone classes (`zone_processor.py`, `acetz.py`,
+etc) were moved into the
+[AceTimePython](https://github.com/bxparks/AceTimePython) project. Here is the
+dependency diagram among these projects.
+
+```
+            AceTimeTools --------
+            ^    ^   ^           \ artransformer.py
+creating   /     |    \ creating  \ -> bufestimator.py
+zonedb[x] /      |     \ zonedbpy  \ -> zone_processor.py
+         /       |      \           v
+      AceTime    |      AceTimePython
+          ^      |      ^
+           \     |     /
+            \    |    /
+         AceTimeValidation
+```
+
+There is slight circular dependency between `AceTimeTools` and `AceTimePython`.
+
+AceTimeTools needs AceTimePython when generating the C++ zoneinfo files under
+`AceTime/src/zonedb[x]`. The `tzcompiler.py` calls `bufestimator.py` to generate
+the buffer sizes needed by the C++ `ExtendedZoneProcessor` class. The
+`AceTimeTools/bufestimator.py` module needs `AceTimePython/zone_processor.py`
+module to calculate those buffer sizes.
+
+On the other hand, AceTimePython needs AceTimeTools to generate the zoneinfo
+files under `AceTimePython/zonedbpy`, which are consumed by the `acetz.py`
+module. Fortunately, AceTimePython does *not* need AceTimeTools during runtime,
+so 3rd party consumers can incorporate AceTimePython without pulling in
+AceTimeTools.
+
+Both AceTime and AceTimePython can be used as runtime libraries **without**
+pulling in the dependency to AceTimeTools (which is required only to generated
+the zoneinfo database files).
+
+<a name="NamespaceDependency"></a>
 ## Namespace Dependency
 
 The various AceTime namespaces are related in the following way, where the arrow
@@ -27,6 +81,7 @@ ace_time::hw    |     ace_time::basic
            ace_time::logging
 ```
 
+<a name="ZoneDbFiles"></a>
 ## Zone DB Files
 
 As explained in the README.md, the AceTime library comes with 2 versions of the
@@ -137,6 +192,7 @@ Just like `zone_infos.cpp`, the Memory section describes the amount of static
 RAM consumed by the particular `ZonePolicy` data structure (and associated
 `ZoneRule`.
 
+<a name="EncodingOffsetAndTimeFields"></a>
 ## Encoding Offset and Time Fields
 
 There are 5 offsets and moment-in-time quantities from the TZ zoneinfo files
@@ -223,6 +279,7 @@ SAVE (15-min resolution)
                                         +--------------------+
 ```
 
+<a name="UpgradingZoneInfoFiles"></a>
 ## Upgrading ZoneInfo Files to a New TZDB Version
 
 About 2-4 times a year, a new TZDB version is released. Here are some notes
@@ -286,6 +343,7 @@ by the Operating System, and I have not been able to figure out how to manually
 update this dependency manually. When a new TZDB is released, all of these other
 tests will fail until the underlying timezone database of the OS is updated.
 
+<a name="ExtendedZoneProcessorAlgorithm"></a>
 ## ExtendedZoneProcessor Algorithm
 
 To save memory, the `ExtendedZoneProcessor` class calculates the `Transition`
@@ -315,7 +373,7 @@ Here is an example of a Zone where for the given year `y`, there are 3 matching
 ZoneEras: E1, E2, E3.
 
 ```
-                                <------------------------------------ E1
+                                <--------------------------------- E1 --
       1/1                                                 12/1       12/31
        +----------------------------------------------------[----------+
      E1|                                                    [..........|
@@ -326,8 +384,8 @@ y-1  R2|             ^                      v               [          |
        +----------------------------------------------------[----------+
 
 
-       <--- E1    <--------------- E2 ------------>        E3 --------->
-                 m/d                             mm/dd
+       <--- E1 --)[--------------- E2 ------------)[------ E3 --------->
+                m1/d1                            m2/d2
        +---------)[-------------------------------)[-------------------+
      E1|.........)[                               )[                   |
        |---------)[-------------------------------)[-------------------|
@@ -337,7 +395,7 @@ y-1  R2|             ^                      v               [          |
        +---------)[-------------------------------)[-------------------+
 
 
-       E3 ---------------------------------------->
+       -- E3 ---------------------------------------->
                 2/1
        +---------)-----------------------------------------------------+
      E1|         )                                                     |
@@ -382,7 +440,7 @@ Putting all this together, here is the final list of 7 Transitions which are
 needed for this Zone, for this given year `y`:
 
 ```
-                                <------------------------------------ E1
+                                <--------------------------------- E1 --
       1/1                                                 12/1       12/31
        +----------------------------------------------------[----------+
      E1|                                                    x          |
@@ -393,8 +451,8 @@ y-1  R2|                                                    [          |
        +----------------------------------------------------[----------+
 
 
-       <--- E1    <--------------- E2 ------------>        E3 --------->
-                 m/d                             mm/dd
+       <--- E1 --)[--------------- E2 ------------)[------ E3 --------->
+                m1/d1                            m2/d2
        +---------)[-------------------------------)[-------------------+
      E1|.........)[                               )[                   |
        |---------)[-------------------------------)[-------------------|
@@ -404,7 +462,7 @@ y-1  R2|                                                    [          |
        +---------)[-------------------------------)[-------------------+
 
 
-       E3 ---------------------------------------->
+       -- E3 ------------------------------------->
                 2/1
        +---------)-----------------------------------------------------+
      E1|         )                                                     |
@@ -427,6 +485,7 @@ the list of Transitions calculated above, looking for a match. The matching
 Transition object contains the relevant standard offset and DST offset of that
 Zone.
 
+<a name="ReleaseProcess"></a>
 ## Release Process
 
 * Update and commit the version numbers in various files:
