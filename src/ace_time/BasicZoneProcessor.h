@@ -18,7 +18,9 @@
 #include "OffsetDateTime.h"
 #include "ZoneProcessor.h"
 
+#ifndef ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG
 #define ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG 0
+#endif
 
 class BasicZoneProcessorTest_priorYearOfRule;
 class BasicZoneProcessorTest_compareRulesBeforeYear;

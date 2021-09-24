@@ -20,7 +20,9 @@
 #include "ZoneProcessor.h"
 #include "local_date_mutation.h"
 
+#ifndef ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
 #define ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG 0
+#endif
 
 class ExtendedZoneProcessorTest_compareEraToYearMonth;
 class ExtendedZoneProcessorTest_compareEraToYearMonth2;
@@ -330,7 +332,11 @@ struct TransitionTemplate {
     logging::printf("; off=%dm", offsetMinutes);
     logging::printf("; dlt=%dm", deltaMinutes);
     logging::printf("; tt="); transitionTime.log();
-    if (! rule.isNull()) {
+    logging::printf("; tts="); transitionTimeS.log();
+    logging::printf("; ttu="); transitionTimeU.log();
+    if (rule.isNull()) {
+      logging::printf("; rule=-");
+    } else {
       logging::printf("; rule=R(");
       logging::printf("from=%d", rule.fromYearTiny() + LocalDate::kEpochYear);
       logging::printf(",to=%d", rule.toYearTiny() + LocalDate::kEpochYear);
@@ -614,9 +620,10 @@ class TransitionStorageTemplate {
     /** Verify that the indexes are valid. Used only for debugging. */
     void log() const {
       logging::printf("TransitionStorage: \n");
-      logging::printf("  mIndexPrior=%d", mIndexPrior);
-      logging::printf(", mIndexCandidates=%d", mIndexCandidates);
-      logging::printf(", mIndexFree=%d", mIndexFree);
+      logging::printf("nActives=%d", mIndexPrior);
+      logging::printf(", nPrior=%d", mIndexCandidates - mIndexPrior);
+      logging::printf(", nCandidates=%d", mIndexFree - mIndexCandidates);
+      logging::printf(", nFree=%d", SIZE - mIndexFree);
       logging::printf("\n");
 
       if (mIndexPrior != 0) {
@@ -1203,6 +1210,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       Transition* freeTransition = transitionStorage.getFreeAgent();
       createTransitionForYear(freeTransition, 0 /*not used*/,
           ZRB() /*rule*/, match);
+      freeTransition->active = true;
       transitionStorage.addFreeAgentToActivePool();
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         freeTransition->log();
@@ -1494,6 +1502,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("fixTransitionTimes(): START; #transitions=%d;\n",
           (int) (end - begin));
+        printTransitions(begin, end);
       }
 
       // extend first Transition to -infinity
@@ -1501,10 +1510,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
       for (Transition** iter = begin; iter != end; ++iter) {
         Transition* curr = *iter;
-        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-          curr->log();
-          logging::printf("\n");
-        }
         expandDateTuple(
             &curr->transitionTime,
             &curr->transitionTimeS,
@@ -1514,9 +1519,20 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         prev = curr;
       }
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("fixTransitionTimes(): FIXED\n");
+        printTransitions(begin, end);
         logging::printf("fixTransitionTimes(): END\n");
       }
     }
+
+  #ifdef ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
+    static void printTransitions(Transition** begin, Transition** end) {
+      for (Transition** iter = begin; iter != end; ++iter) {
+        (*iter)->log();
+        logging::printf("\n");
+      }
+    }
+  #endif
 
     /**
      * Convert the given 'tt', offsetMinutes, and deltaMinutes into the 'w',
@@ -1707,7 +1723,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     static void generateStartUntilTimes(Transition** begin, Transition** end) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf(
-          "generateStartUntilTimes(): #transitions: %d;\n",
+          "generateStartUntilTimes(): #transitions=%d\n",
           (int) (end - begin));
       }
 
