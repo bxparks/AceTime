@@ -526,6 +526,8 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
 
 
 test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
+  using ace_time::extended::MatchStatus;
+
   const DateTuple EMPTY_DATE = { 0, 0, 0, 0, 0};
 
   const ExtendedZoneProcessor::MatchingEra match = {
@@ -543,7 +545,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   assertEqual(
-      (uint8_t) ExtendedZoneProcessor::MatchStatus::kPrior,
+      (uint8_t) MatchStatus::kPrior,
       (uint8_t) ExtendedZoneProcessor::compareTransitionToMatch(
           &transition, &match)
   );
@@ -554,7 +556,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   assertEqual(
-      (uint8_t) ExtendedZoneProcessor::MatchStatus::kExactMatch,
+      (uint8_t) MatchStatus::kExactMatch,
       (uint8_t) ExtendedZoneProcessor::compareTransitionToMatch(
           &transition, &match)
   );
@@ -565,7 +567,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   assertEqual(
-      (uint8_t) ExtendedZoneProcessor::MatchStatus::kWithinMatch,
+      (uint8_t) MatchStatus::kWithinMatch,
       (uint8_t) ExtendedZoneProcessor::compareTransitionToMatch(
           &transition, &match)
   );
@@ -576,13 +578,15 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
   assertEqual(
-      (uint8_t) ExtendedZoneProcessor::MatchStatus::kFarFuture,
+      (uint8_t) MatchStatus::kFarFuture,
       (uint8_t) ExtendedZoneProcessor::compareTransitionToMatch(
           &transition, &match)
   );
 }
 
-test(ExtendedZoneProcessorTest, processTransitionActiveStatus) {
+test(ExtendedZoneProcessorTest, processTransitionMatchStatus) {
+  using ace_time::extended::MatchStatus;
+
   const DateTuple EMPTY_DATE = { 0, 0, 0, 0, 0};
 
   ExtendedZoneProcessor::Transition* prior = nullptr;
@@ -601,21 +605,25 @@ test(ExtendedZoneProcessorTest, processTransitionActiveStatus) {
     {-1, 12, 31, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
-  ExtendedZoneProcessor::processTransitionActiveStatus(
-      &transition0, &prior);
-  assertTrue(transition0.active);
-  assertTrue(prior == &transition0);
+  ExtendedZoneProcessor::processTransitionMatchStatus(&transition0, &prior);
+  assertEqual(
+      (uint8_t) MatchStatus::kPrior,
+      (uint8_t) transition0.matchStatus
+  );
+  assertEqual(prior, &transition0);
 
-  // This occurs at exactly match.startDateTime, so should replace
+  // This occurs at exactly match.startDateTime, so should replace the prior.
   ExtendedZoneProcessor::Transition transition1 = {
     &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
     {0, 1, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
-  ExtendedZoneProcessor::processTransitionActiveStatus(
-      &transition1, &prior);
-  assertTrue(transition1.active);
-  assertTrue(prior == &transition1);
+  ExtendedZoneProcessor::processTransitionMatchStatus(&transition1, &prior);
+  assertEqual(
+      (uint8_t) MatchStatus::kExactMatch,
+      (uint8_t) transition1.matchStatus
+  );
+  assertEqual(prior, &transition1);
 
   // An interior transition. Prior should not change.
   ExtendedZoneProcessor::Transition transition2 = {
@@ -623,10 +631,12 @@ test(ExtendedZoneProcessorTest, processTransitionActiveStatus) {
     {0, 1, 2, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
-  ExtendedZoneProcessor::processTransitionActiveStatus(
-      &transition2, &prior);
-  assertTrue(transition2.active);
-  assertTrue(prior == &transition1);
+  ExtendedZoneProcessor::processTransitionMatchStatus(&transition2, &prior);
+  assertEqual(
+      (uint8_t) MatchStatus::kWithinMatch,
+      (uint8_t) transition2.matchStatus
+  );
+  assertEqual(prior, &transition1);
 
   // Occurs after match.untilDateTime, so should be rejected.
   ExtendedZoneProcessor::Transition transition3 = {
@@ -634,8 +644,12 @@ test(ExtendedZoneProcessorTest, processTransitionActiveStatus) {
     {1, 1, 2, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE, EMPTY_DATE, 0, 0, 0, {0}, {0}, false
   };
-  assertFalse(transition3.active);
-  assertTrue(prior == &transition1);
+  ExtendedZoneProcessor::processTransitionMatchStatus(&transition3, &prior);
+  assertEqual(
+      (uint8_t) MatchStatus::kFarFuture,
+      (uint8_t) transition3.matchStatus
+  );
+  assertEqual(prior, &transition1);
 }
 
 test(ExtendedZoneProcessorTest, findCandidateTransitions) {
@@ -703,6 +717,8 @@ test(ExtendedZoneProcessorTest, createTransitionsFromNamedMatch) {
 }
 
 test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
+  using ace_time::extended::MatchStatus;
+
   // Create 3 matches for the AlmostLosAngeles test zone.
   YearMonthTuple startYm = {18, 12};
   YearMonthTuple untilYm = {20, 2};
@@ -726,23 +742,23 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
   // Implements ExtendedZoneProcessor::createTransitionsFromSimpleMatch().
   ExtendedZoneProcessor::Transition* transition1 = storage.getFreeAgent();
   ExtendedZoneProcessor::createTransitionForYear(
-      transition1, 0 /*not used*/, ZoneRuleBroker(nullptr) /*rule*/,
+      transition1, 0 /*year, not used*/, ZoneRuleBroker(nullptr) /*rule*/,
       &matches[0]);
-  transition1->active = true;
+  transition1->matchStatus = MatchStatus::kExactMatch; // synthetic example
   storage.addFreeAgentToCandidatePool();
 
   ExtendedZoneProcessor::Transition* transition2 = storage.getFreeAgent();
   ExtendedZoneProcessor::createTransitionForYear(
-      transition2, 0 /*not used*/, ZoneRuleBroker(nullptr) /*rule*/,
+      transition2, 0 /*year, not used*/, ZoneRuleBroker(nullptr) /*rule*/,
       &matches[1]);
-  transition2->active = true;
+  transition2->matchStatus = MatchStatus::kWithinMatch; // synthetic example
   storage.addFreeAgentToCandidatePool();
 
   ExtendedZoneProcessor::Transition* transition3 = storage.getFreeAgent();
   ExtendedZoneProcessor::createTransitionForYear(
-      transition3, 0 /*not used*/, ZoneRuleBroker(nullptr) /*rule*/,
+      transition3, 0 /*year, not used*/, ZoneRuleBroker(nullptr) /*rule*/,
       &matches[2]);
-  transition3->active = true;
+  transition3->matchStatus = MatchStatus::kWithinMatch; // synthetic example
   storage.addFreeAgentToCandidatePool();
 
   // Move actives to Active pool.

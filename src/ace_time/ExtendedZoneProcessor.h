@@ -39,7 +39,7 @@ class ExtendedZoneProcessorTest_calcInteriorYears;
 class ExtendedZoneProcessorTest_getMostRecentPriorYear;
 class ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
 class ExtendedZoneProcessorTest_compareTransitionToMatch;
-class ExtendedZoneProcessorTest_processTransitionActiveStatus;
+class ExtendedZoneProcessorTest_processTransitionMatchStatus;
 class ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
 class ExtendedZoneProcessorTest_createAbbreviation;
 class ExtendedZoneProcessorTest_setZoneKey;
@@ -174,6 +174,24 @@ void swap(T& a, T& b) {
 }
 
 /**
+ * The result of comparing the transition time of a Transition to the
+ * time interval of its corresponding MatchingEra.
+ */
+enum class MatchStatus : uint8_t {
+  kFarPast,
+  kPrior,
+  kExactMatch,
+  kWithinMatch,
+  kFarFuture,
+};
+
+inline bool isMatchStatusActive(MatchStatus status) {
+  return status == MatchStatus::kExactMatch
+      || status == MatchStatus::kWithinMatch
+      || status == MatchStatus::kPrior;
+}
+
+/**
  * Represents an interval of time where the time zone obeyed a certain UTC
  * offset and DST delta. The start of the interval is given by 'transitionTime'
  * which comes from the TZ Database file. The actual start and until time of
@@ -279,19 +297,21 @@ struct TransitionTemplate {
   /** Storage for the single letter 'letter' field if 'rule' is not null. */
   char letterBuf[2];
 
-  /**
-   * Flag used for 2 slightly different meanings at different stages of init()
-   * processing.
-   *
-   * 1) During findCandidateTransitions(), this flag indicates whether the
-   * current transition is a valid "prior" transition that occurs before other
-   * transitions. It is set by setAsPriorTransition() if the transition is a
-   * prior transition.
-   *
-   * 2) During processTransitionActiveStatus(), this flag indicates if the
-   * current transition falls within the date range of interest.
-   */
-  bool active;
+  union {
+    /**
+     * During findCandidateTransitions(), this flag indicates whether the
+     * current transition is a valid "prior" transition that occurs before other
+     * transitions. It is set by setAsPriorTransition() if the transition is a
+     * prior transition.
+     */
+    bool isValidPrior;
+
+    /**
+     * During processTransitionMatchStatus(), this flag indicates how the
+     * transition falls within the time interval of the MatchingEra.
+     */
+    MatchStatus matchStatus;
+  };
 
   //-------------------------------------------------------------------------
 
@@ -341,7 +361,7 @@ struct TransitionTemplate {
     } else {
       logging::printf("start=%ld", startEpochSeconds);
     }
-    logging::printf("; act=%c", active ? 'y' : '-');
+    logging::printf("; status=%d", matchStatus);
     logging::printf("; UTC");
     logHourMinute(offsetMinutes);
     logHourMinute(deltaMinutes);
@@ -561,7 +581,7 @@ class TransitionStorageTemplate {
       uint8_t iActive = mIndexPrior;
       uint8_t iCandidate = mIndexCandidates;
       for (; iCandidate < mIndexFree; iCandidate++) {
-        if (mTransitions[iCandidate]->active) {
+        if (isMatchStatusActive(mTransitions[iCandidate]->matchStatus)) {
           if (iActive != iCandidate) {
             // Must use swap(), because we are moving pointers instead of the
             // actual Transition objects.
@@ -998,14 +1018,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
   protected:
-    enum class MatchStatus : uint8_t {
-      kFarPast,
-      kPrior,
-      kExactMatch,
-      kWithinMatch,
-      kFarFuture,
-    };
-
     /**
      * Constructor.
      *
@@ -1039,7 +1051,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_getMostRecentPriorYear;
     friend class ::ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
     friend class ::ExtendedZoneProcessorTest_compareTransitionToMatch;
-    friend class ::ExtendedZoneProcessorTest_processTransitionActiveStatus;
+    friend class ::ExtendedZoneProcessorTest_processTransitionMatchStatus;
     friend class ::ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
     friend class ::ExtendedZoneProcessorTest_createAbbreviation;
     friend class ::ExtendedZoneProcessorTest_setZoneKey;
@@ -1250,7 +1262,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       Transition* freeTransition = transitionStorage.getFreeAgent();
       createTransitionForYear(freeTransition, 0 /*not used*/,
           ZRB() /*rule*/, match);
-      freeTransition->active = true;
+      freeTransition->matchStatus = extended::MatchStatus::kExactMatch;
       match->lastOffsetMinutes = freeTransition->offsetMinutes;
       match->lastDeltaMinutes = freeTransition->deltaMinutes;
       transitionStorage.addFreeAgentToActivePool();
@@ -1322,7 +1334,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       int8_t endY = match->untilDateTime.yearTiny;
 
       Transition** prior = transitionStorage.reservePrior();
-      (*prior)->active = false; // indicates "no prior transition"
+      (*prior)->isValidPrior = false; // indicates "no prior transition"
       for (uint8_t r = 0; r < numRules; r++) {
         const ZRB rule = policy.rule(r);
 
@@ -1357,12 +1369,14 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         }
       }
 
-      // Add the reserved prior into the Candidate pool only if 'active' is
-      // true, meaning that a prior was found.
-      if ((*prior)->active) {
+      // Add the reserved prior into the Candidate pool only if 'isValidPrior'
+      // is true.
+      if ((*prior)->isValidPrior) {
         if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
           logging::printf(
             "findCandidateTransitions(): adding prior to Candidate pool\n");
+          (*prior)->log();
+          logging::printf("\n");
         }
         transitionStorage.addPriorToCandidatePool();
       }
@@ -1524,13 +1538,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         TransitionStorage& transitionStorage,
         Transition* t) {
       Transition* prior = transitionStorage.getPrior();
-      if (prior->active) {
+      if (prior->isValidPrior) {
         if (prior->transitionTime < t->transitionTime) {
-          t->active = true;
+          t->isValidPrior = true;
           transitionStorage.setFreeAgentAsPrior();
         }
       } else {
-        t->active = true;
+        t->isValidPrior = true;
         transitionStorage.setFreeAgentAsPrior();
       }
     }
@@ -1665,7 +1679,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       Transition* prior = nullptr;
       for (Transition** iter = begin; iter != end; ++iter) {
         Transition* transition = *iter;
-        processTransitionActiveStatus(transition, &prior);
+        processTransitionMatchStatus(transition, &prior);
       }
 
       // If the latest prior transition is found, shift it to start at the
@@ -1681,36 +1695,32 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /**
-     * Determine the active status of a transition depending on the temporal
-     * relationship to the given match. If the transition is outside of the
-     * interval defined by match, then it is inactive. Otherwise active. Also
-     * determine the latest prior transition before match, and mark that as
-     * active.
+     * Determine the match status of a transition depending on the temporal
+     * relationship to the given MatchingEra. Also determine the latest prior
+     * transition before match, marking any previous prior transition as
+     * kFarPast.
      */
-    static void processTransitionActiveStatus(
+    static void processTransitionMatchStatus(
         Transition* transition,
         Transition** prior) {
-      MatchStatus status = compareTransitionToMatch(
+      extended::MatchStatus status = compareTransitionToMatch(
           transition, transition->match);
-      if (status == MatchStatus::kFarFuture) {
-        transition->active = false;
-      } else if (status == MatchStatus::kWithinMatch) {
-        transition->active = true;
-      } else if (status == MatchStatus::kExactMatch) {
+      transition->matchStatus = status;
+
+      if (status == extended::MatchStatus::kExactMatch) {
         if (*prior) {
-          (*prior)->active = false;
+          (*prior)->matchStatus = extended::MatchStatus::kFarPast;
         }
-        transition->active = true;
         (*prior) = transition;
-      } else { // (status == kPrior
+      } else if (status == extended::MatchStatus::kPrior) {
         if (*prior) {
-          if ((*prior)->transitionTime < transition->transitionTime) {
-            (*prior)->active = false;
-            transition->active = true;
+          if ((*prior)->transitionTimeU <= transition->transitionTimeU) {
+            (*prior)->matchStatus = extended::MatchStatus::kFarPast;
             (*prior) = transition;
+          } else {
+            transition->matchStatus = extended::MatchStatus::kFarPast;
           }
         } else {
-          transition->active = true;
           (*prior) = transition;
         }
       }
@@ -1724,7 +1734,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * MatchingEra.untilDateTime, the version will be determined by the suffix
      * of those parameters.
      */
-    static MatchStatus compareTransitionToMatch(
+    static extended::MatchStatus compareTransitionToMatch(
         const Transition* transition,
         const MatchingEra* match) {
       const extended::DateTuple* transitionTime;
@@ -1737,8 +1747,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       } else { // assume 'w'
         transitionTime = &transition->transitionTime;
       }
-      if (*transitionTime < matchStart) return MatchStatus::kPrior;
-      if (*transitionTime == matchStart) return MatchStatus::kExactMatch;
+      if (*transitionTime < matchStart) {
+        return extended::MatchStatus::kPrior;
+      }
+      if (*transitionTime == matchStart) {
+        return extended::MatchStatus::kExactMatch;
+      }
 
       const extended::DateTuple& matchUntil = match->untilDateTime;
       if (matchUntil.suffix == internal::ZoneContext::kSuffixS) {
@@ -1748,8 +1762,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       } else { // assume 'w'
         transitionTime = &transition->transitionTime;
       }
-      if (*transitionTime < matchUntil) return MatchStatus::kWithinMatch;
-      return MatchStatus::kFarFuture;
+      if (*transitionTime < matchUntil) {
+        return extended::MatchStatus::kWithinMatch;
+      }
+      return extended::MatchStatus::kFarFuture;
     }
 
     /**
