@@ -998,6 +998,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
   protected:
+    enum class MatchStatus : uint8_t {
+      kFarPast,
+      kPrior,
+      kExactMatch,
+      kWithinMatch,
+      kFarFuture,
+    };
 
     /**
      * Constructor.
@@ -1686,18 +1693,18 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         const MatchingEra* match,
         Transition* transition,
         Transition** prior) {
-      int8_t status = compareTransitionToMatch(transition, match);
-      if (status == 2) {
+      MatchStatus status = compareTransitionToMatch(transition, match);
+      if (status == MatchStatus::kFarFuture) {
         transition->active = false;
-      } else if (status == 1) {
+      } else if (status == MatchStatus::kWithinMatch) {
         transition->active = true;
-      } else if (status == 0) {
+      } else if (status == MatchStatus::kExactMatch) {
         if (*prior) {
           (*prior)->active = false;
         }
         transition->active = true;
         (*prior) = transition;
-      } else { // (status < 0)
+      } else { // (status == kPrior
         if (*prior) {
           if ((*prior)->transitionTime < transition->transitionTime) {
             (*prior)->active = false;
@@ -1718,14 +1725,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * comparing against the MatchingEra.startDateTime and
      * MatchingEra.untilDateTime, the version will be determined by the suffix
      * of those parameters.
-     *
-     * Returns:
-     *     * -1 if less than match
-     *     * 0 if equal to match_start
-     *     * 1 if within match,
-     *     * 2 if greater than match
      */
-    static int8_t compareTransitionToMatch(
+    static MatchStatus compareTransitionToMatch(
         const Transition* transition,
         const MatchingEra* match) {
       const extended::DateTuple* transitionTime;
@@ -1738,8 +1739,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       } else { // assume 'w'
         transitionTime = &transition->transitionTime;
       }
-      if (*transitionTime < matchStart) return -1;
-      if (*transitionTime == matchStart) return 0;
+      if (*transitionTime < matchStart) return MatchStatus::kPrior;
+      if (*transitionTime == matchStart) return MatchStatus::kExactMatch;
 
       const extended::DateTuple& matchUntil = match->untilDateTime;
       if (matchUntil.suffix == internal::ZoneContext::kSuffixS) {
@@ -1749,8 +1750,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       } else { // assume 'w'
         transitionTime = &transition->transitionTime;
       }
-      if (*transitionTime < matchUntil) return 1;
-      return 2;
+      if (*transitionTime < matchUntil) return MatchStatus::kWithinMatch;
+      return MatchStatus::kFarFuture;
     }
 
     /**
