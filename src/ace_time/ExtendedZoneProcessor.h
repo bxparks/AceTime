@@ -1295,7 +1295,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("---- Pass 3: selectActiveTransitions()\n");
       }
-      selectActiveTransitions(transitionStorage, match);
+      selectActiveTransitions(transitionStorage);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         transitionStorage.log();
       }
@@ -1654,9 +1654,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * Scan through the Candidate transitions, and mark the ones which are
      * active.
      */
-    static void selectActiveTransitions(
-        TransitionStorage& transitionStorage,
-        const MatchingEra* match) {
+    static void selectActiveTransitions(TransitionStorage& transitionStorage) {
       Transition** begin = transitionStorage.getCandidatePoolBegin();
       Transition** end = transitionStorage.getCandidatePoolEnd();
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
@@ -1667,7 +1665,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       Transition* prior = nullptr;
       for (Transition** iter = begin; iter != end; ++iter) {
         Transition* transition = *iter;
-        processTransitionActiveStatus(match, transition, &prior);
+        processTransitionActiveStatus(transition, &prior);
       }
 
       // If the latest prior transition is found, shift it to start at the
@@ -1678,7 +1676,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
             "selectActiveTransitions(): found latest prior\n");
         }
         prior->originalTransitionTime = prior->transitionTime;
-        prior->transitionTime = match->startDateTime;
+        prior->transitionTime = prior->match->startDateTime;
       }
     }
 
@@ -1690,10 +1688,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * active.
      */
     static void processTransitionActiveStatus(
-        const MatchingEra* match,
         Transition* transition,
         Transition** prior) {
-      MatchStatus status = compareTransitionToMatch(transition, match);
+      MatchStatus status = compareTransitionToMatch(
+          transition, transition->match);
       if (status == MatchStatus::kFarFuture) {
         transition->active = false;
       } else if (status == MatchStatus::kWithinMatch) {
