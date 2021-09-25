@@ -145,9 +145,9 @@ struct MatchingEraTemplate {
 
   void log() const {
     logging::printf("MatchingEra(");
-    logging::printf("Start:"); startDateTime.log();
-    logging::printf("; Until:"); untilDateTime.log();
-    logging::printf("; Era: %c", (era.isNull()) ? '-' : '*');
+    logging::printf("start="); startDateTime.log();
+    logging::printf("; until="); untilDateTime.log();
+    logging::printf("; era=%c", (era.isNull()) ? '-' : '*');
     logging::printf(")");
   }
 };
@@ -329,19 +329,34 @@ struct TransitionTemplate {
       logging::printf("start=%ld", startEpochSeconds);
     }
     logging::printf("; act=%c", active ? 'y' : '-');
-    logging::printf("; off=%dm", offsetMinutes);
-    logging::printf("; dlt=%dm", deltaMinutes);
+    logging::printf("; UTC");
+    logHourMinute(offsetMinutes);
+    logHourMinute(deltaMinutes);
     logging::printf("; tt="); transitionTime.log();
     logging::printf("; tts="); transitionTimeS.log();
     logging::printf("; ttu="); transitionTimeU.log();
     if (rule.isNull()) {
       logging::printf("; rule=-");
     } else {
-      logging::printf("; rule=R(");
-      logging::printf("from=%d", rule.fromYearTiny() + LocalDate::kEpochYear);
-      logging::printf(",to=%d", rule.toYearTiny() + LocalDate::kEpochYear);
-      logging::printf(")");
+      logging::printf("; rule=");
+      logging::printf("[%d,%d]",
+          rule.fromYearTiny() + LocalDate::kEpochYear,
+          rule.toYearTiny() + LocalDate::kEpochYear);
     }
+  }
+
+  /** Print minutes as [+/-]hh:mm. */
+  static void logHourMinute(int16_t minutes) {
+    char sign;
+    if (minutes < 0) {
+      sign = '-';
+      minutes = -minutes;
+    } else {
+      sign = '+';
+    }
+    uint8_t hour = minutes / 60;
+    uint8_t minute = minutes - hour * 60;
+    logging::printf("%c%02u:%02u", sign, (unsigned) hour, (unsigned) minute);
   }
 };
 
@@ -619,7 +634,7 @@ class TransitionStorageTemplate {
 
     /** Verify that the indexes are valid. Used only for debugging. */
     void log() const {
-      logging::printf("TransitionStorage: \n");
+      logging::printf("TransitionStorage: ");
       logging::printf("nActives=%d", mIndexPrior);
       logging::printf(", nPrior=%d", mIndexCandidates - mIndexPrior);
       logging::printf(", nCandidates=%d", mIndexFree - mIndexCandidates);
@@ -1500,7 +1515,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      */
     static void fixTransitionTimes(Transition** begin, Transition** end) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("fixTransitionTimes(): START; #transitions=%d;\n",
+        logging::printf("fixTransitionTimes(): START; #transitions=%d\n",
           (int) (end - begin));
         printTransitions(begin, end);
       }
@@ -1788,7 +1803,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      */
     static void calcAbbreviations(Transition** begin, Transition** end) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("calcAbbreviations(): #transitions: %d;\n",
+        logging::printf("calcAbbreviations(): #transitions: %d\n",
           (int) (end - begin));
       }
       for (Transition** iter = begin; iter != end; ++iter) {
