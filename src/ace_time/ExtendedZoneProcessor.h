@@ -134,7 +134,10 @@ struct YearMonthTuple {
  */
 template<typename ZEB>
 struct MatchingEraTemplate {
-  /** The effective start time of the matching ZoneEra. */
+  /**
+   * The effective start time of the matching ZoneEra, which uses the
+   * UTC offsets of the previous matching era.
+   */
   DateTuple startDateTime;
 
   /** The effective until time of the matching ZoneEra. */
@@ -142,6 +145,17 @@ struct MatchingEraTemplate {
 
   /** The ZoneEra that matched the given year. NonNullable. */
   ZEB era;
+
+  /** The previous MatchingEra, needed to interpret startDateTime.  */
+  MatchingEraTemplate* prevMatch;
+
+  /**
+   * The last transition of the current MatchingEra. Pass this index into the
+   * TransitionStorage::getTransition(uint8_t) to retrieve the Transition.
+   * Storing this as an index also solves a gnarly C++ forward declaration
+   * problem to TransitionTemplate<> which takes 3 template parameters.
+   */
+  uint8_t lastTransitionIndex;
 
   void log() const {
     logging::printf("MatchingEra(");
@@ -686,7 +700,7 @@ class TransitionStorageTemplate {
     friend class ::TransitionStorageTest_findTransitionForDateTime;
     friend class ::TransitionStorageTest_resetCandidatePool;
 
-    /** Return the transition at position i. Used by unit tests. */
+    /** Return the transition at position i.*/
     Transition* getTransition(uint8_t i) {
       return mTransitions[i];
     }
@@ -1075,16 +1089,16 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         logging::printf("findMatches()\n");
       }
       uint8_t iMatch = 0;
-      ZEB prev; // anchor ZoneEra, representing the earliest untilTime
+      MatchingEra* prevMatch = nullptr;
       for (uint8_t iEra = 0; iEra < zoneInfo.numEras(); iEra++) {
         const ZEB era = zoneInfo.era(iEra);
-        if (eraOverlapsInterval(prev, era, startYm, untilYm)) {
+        if (eraOverlapsInterval(prevMatch, era, startYm, untilYm)) {
           if (iMatch < maxMatches) {
-            matches[iMatch] = createMatch(prev, era, startYm, untilYm);
+            matches[iMatch] = createMatch(prevMatch, era, startYm, untilYm);
+            prevMatch = &matches[iMatch];
             iMatch++;
           }
         }
-        prev = era;
       }
       return iMatch;
     }
@@ -1101,12 +1115,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * earliest ZoneEra.
      */
     static bool eraOverlapsInterval(
-        const ZEB& prev,
+        const MatchingEra* prevMatch,
         const ZEB& era,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm) {
-      return (prev.isNull() || compareEraToYearMonth(
-              prev, untilYm.yearTiny, untilYm.month) < 0)
+      return (prevMatch == nullptr || compareEraToYearMonth(
+              prevMatch->era, untilYm.yearTiny, untilYm.month) < 0)
           && compareEraToYearMonth(era, startYm.yearTiny, startYm.month) > 0;
     }
 
@@ -1130,13 +1144,14 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * needed to define the startDateTime of the current era.
      */
     static MatchingEra createMatch(
-        const ZEB& prev,
+        MatchingEra* prevMatch,
         const ZEB& era,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm) {
 
-      // If prev.isNull(), set startDate to be earlier than all valid ZoneEra.
-      extended::DateTuple startDate = prev.isNull()
+      // If prevMatch is null, set startDate to be earlier than all valid
+      // ZoneEra.
+      extended::DateTuple startDate = (prevMatch == nullptr)
           ? extended::DateTuple{
               LocalDate::kInvalidYearTiny,
               1,
@@ -1145,11 +1160,11 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
               internal::ZoneContext::kSuffixW
             }
           : extended::DateTuple{
-              prev.untilYearTiny(),
-              prev.untilMonth(),
-              prev.untilDay(),
-              (int16_t) prev.untilTimeMinutes(),
-              prev.untilTimeSuffix()
+              prevMatch->era.untilYearTiny(),
+              prevMatch->era.untilMonth(),
+              prevMatch->era.untilDay(),
+              (int16_t) prevMatch->era.untilTimeMinutes(),
+              prevMatch->era.untilTimeSuffix()
             };
       extended::DateTuple lowerBound{
         startYm.yearTiny,
@@ -1180,7 +1195,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         untilDate = upperBound;
       }
 
-      return {startDate, untilDate, era};
+      return {startDate, untilDate, era, prevMatch, 0};
     }
 
     /**
