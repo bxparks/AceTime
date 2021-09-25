@@ -149,19 +149,18 @@ struct MatchingEraTemplate {
   /** The previous MatchingEra, needed to interpret startDateTime.  */
   MatchingEraTemplate* prevMatch;
 
-  /**
-   * The last transition of the current MatchingEra. Pass this index into the
-   * TransitionStorage::getTransition(uint8_t) to retrieve the Transition.
-   * Storing this as an index also solves a gnarly C++ forward declaration
-   * problem to TransitionTemplate<> which takes 3 template parameters.
-   */
-  uint8_t lastTransitionIndex;
+  /** The STD offset of the last Transition in this MatchingEra. */
+  uint16_t lastOffsetMinutes;
+
+  /** The DST offset of the last Transition in this MatchingEra. */
+  uint16_t lastDeltaMinutes;
 
   void log() const {
     logging::printf("MatchingEra(");
     logging::printf("start="); startDateTime.log();
     logging::printf("; until="); untilDateTime.log();
     logging::printf("; era=%c", (era.isNull()) ? '-' : '*');
+    logging::printf("; prevMatch=%c", (prevMatch) ? '*' : '-');
     logging::printf(")");
   }
 };
@@ -549,9 +548,11 @@ class TransitionStorageTemplate {
 
     /**
      * Add active candidates into the Active pool, and collapse the Candidate
-     * pool.
+     * pool. Every MatchingEra will have at least one Transition.
+     *
+     * @return the last Transition that was added
      */
-    void addActiveCandidatesToActivePool() {
+    Transition* addActiveCandidatesToActivePool() {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("addActiveCandidatesToActivePool()\n");
       }
@@ -573,6 +574,8 @@ class TransitionStorageTemplate {
       mIndexPrior = iActive;
       mIndexCandidates = iActive;
       mIndexFree = iActive;
+
+      return mTransitions[iActive - 1];
     }
 
     /**
@@ -1195,7 +1198,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         untilDate = upperBound;
       }
 
-      return {startDate, untilDate, era, prevMatch, 0};
+      return {startDate, untilDate, era, prevMatch, 0, 0};
     }
 
     /**
@@ -1218,7 +1221,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     /** Create the Transitions defined by the given match. */
     static void createTransitionsForMatch(
         TransitionStorage& transitionStorage,
-        const MatchingEra* match) {
+        MatchingEra* match) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("== createTransitionsForMatch()\n");
       }
@@ -1232,7 +1235,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     static void createTransitionsFromSimpleMatch(
         TransitionStorage& transitionStorage,
-        const MatchingEra* match) {
+        MatchingEra* match) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("== createTransitionsFromSimpleMatch()\n");
       }
@@ -1241,6 +1244,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       createTransitionForYear(freeTransition, 0 /*not used*/,
           ZRB() /*rule*/, match);
       freeTransition->active = true;
+      match->lastOffsetMinutes = freeTransition->offsetMinutes;
+      match->lastDeltaMinutes = freeTransition->deltaMinutes;
       transitionStorage.addFreeAgentToActivePool();
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         freeTransition->log();
@@ -1250,7 +1255,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     static void createTransitionsFromNamedMatch(
         TransitionStorage& transitionStorage,
-        const MatchingEra* match) {
+        MatchingEra* match) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("== createTransitionsFromNamedMatch()\n");
       }
@@ -1287,7 +1292,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         transitionStorage.log();
       }
-      transitionStorage.addActiveCandidatesToActivePool();
+      Transition* lastTransition =
+          transitionStorage.addActiveCandidatesToActivePool();
+      match->lastOffsetMinutes = lastTransition->offsetMinutes;
+      match->lastDeltaMinutes = lastTransition->deltaMinutes;
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         transitionStorage.log();
       }
