@@ -418,9 +418,9 @@ the DST offset. The Transition object can be created directly for 12/1.
 The E2 era contains various `ZoneRule` entries, R2, which are recurring rules
 that occur every year. This particular Zone switches from E1 to E2 at m/d, which
 is slightly different than one of the Transition rules specified in R2. To
-determine the Transition that applies at m/d, we must go back to the "most
+determine the Transition that applies at m1/d1, we must go back to the "most
 recent prior" Transition of R2, which occurred in the prior year. We take that
-Transition, the shift it to m/d to get the effective Transition at m/d.
+Transition, the shift it to m1/d1 to get the effective Transition at m1/d1.
 
 Sometimes (often?), the switch from one ZoneEra to another happens at exactly
 the same time as one of the Transitions specified by the ZoneRule of the next
@@ -429,9 +429,9 @@ extraneous Transition objects are not created. (We don't want to switch to a new
 ZoneEra with a new ZonePolicy, then immediately switch to a different Transition
 due to the Rule in the new ZonePolicy.)
 
-The E3 era for this Zone begins at mm/dd in the above example, which is
+The E3 era for this Zone begins at m2/d2 in the above example, which is
 different than the Transitions defined by the R3 rules. Similar to E2, we must
-calculate the Transition at mm/dd using the "most recent prior" Transition,
+calculate the Transition at m2/d2 using the "most recent prior" Transition,
 which happens to occur in the previous year. Note that the "most recent prior"
 Transition may have happened many years prior to the current year if the
 matching ZoneRule happened many years prior.
