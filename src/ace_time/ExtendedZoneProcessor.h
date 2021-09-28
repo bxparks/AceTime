@@ -178,11 +178,11 @@ void swap(T& a, T& b) {
  * time interval of its corresponding MatchingEra.
  */
 enum class MatchStatus : uint8_t {
-  kFarPast,
-  kPrior,
-  kExactMatch,
-  kWithinMatch,
-  kFarFuture,
+  kFarPast, // 0
+  kPrior, // 1
+  kExactMatch, // 2
+  kWithinMatch, // 3
+  kFarFuture, // 4
 };
 
 inline bool isMatchStatusActive(MatchStatus status) {
@@ -992,7 +992,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
       // Step 3
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("==== Step 3: fixTransitions()\n");
+        logging::printf("==== Step 3: fixTransitionTimes()\n");
       }
       Transition** begin = mTransitionStorage.getActivePoolBegin();
       Transition** end = mTransitionStorage.getActivePoolEnd();
@@ -1571,10 +1571,11 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         Transition* curr = *iter;
         expandDateTuple(
             &curr->transitionTime,
-            &curr->transitionTimeS,
-            &curr->transitionTimeU,
             prev->offsetMinutes,
-            prev->deltaMinutes);
+            prev->deltaMinutes,
+            &curr->transitionTime,
+            &curr->transitionTimeS,
+            &curr->transitionTimeU);
         prev = curr;
       }
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
@@ -1594,23 +1595,24 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
   #endif
 
     /**
-     * Convert the given 'tt', offsetMinutes, and deltaMinutes into the 'w',
-     * 's' and 'u' versions of the DateTuple. The 'tt' may become a 'w' if it
-     * was originally 's' or 'u'. On return, tt, tts and ttu are all modified.
+     * Convert the given 'tt', offsetMinutes, and deltaMinutes into the 'w', 's'
+     * and 'u' versions of the DateTuple. It is allowed for 'ttw' to be an alias
+     * of 'tt'.
      */
     static void expandDateTuple(
-        extended::DateTuple* tt,
-        extended::DateTuple* tts,
-        extended::DateTuple* ttu,
+        const extended::DateTuple* tt,
         int16_t offsetMinutes,
-        int16_t deltaMinutes) {
+        int16_t deltaMinutes,
+        extended::DateTuple* ttw,
+        extended::DateTuple* tts,
+        extended::DateTuple* ttu) {
 
       if (tt->suffix == internal::ZoneContext::kSuffixS) {
         *tts = *tt;
         *ttu = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes - offsetMinutes),
             internal::ZoneContext::kSuffixU};
-        *tt = {tt->yearTiny, tt->month, tt->day,
+        *ttw = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes + deltaMinutes),
             internal::ZoneContext::kSuffixW};
       } else if (tt->suffix == internal::ZoneContext::kSuffixU) {
@@ -1618,12 +1620,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         *tts = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes + offsetMinutes),
             internal::ZoneContext::kSuffixS};
-        *tt = {tt->yearTiny, tt->month, tt->day,
+        *ttw = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes + (offsetMinutes + deltaMinutes)),
             internal::ZoneContext::kSuffixW};
       } else {
         // Explicit set the suffix to 'w' in case it was something else.
-        tt->suffix = internal::ZoneContext::kSuffixW;
+        *ttw = *tt;
+        ttw->suffix = internal::ZoneContext::kSuffixW;
         *tts = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes - deltaMinutes),
             internal::ZoneContext::kSuffixS};
@@ -1632,7 +1635,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
             internal::ZoneContext::kSuffixU};
       }
 
-      normalizeDateTuple(tt);
+      normalizeDateTuple(ttw);
       normalizeDateTuple(tts);
       normalizeDateTuple(ttu);
     }
@@ -1737,30 +1740,59 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     static extended::MatchStatus compareTransitionToMatch(
         const Transition* transition,
         const MatchingEra* match) {
-      const extended::DateTuple* transitionTime;
 
-      const extended::DateTuple& matchStart = match->startDateTime;
-      if (matchStart.suffix == internal::ZoneContext::kSuffixS) {
-        transitionTime = &transition->transitionTimeS;
-      } else if (matchStart.suffix == internal::ZoneContext::kSuffixU) {
-        transitionTime = &transition->transitionTimeU;
-      } else { // assume 'w'
-        transitionTime = &transition->transitionTime;
+      // Find the previous Match offsets.
+      int16_t prevMatchOffsetMinutes;
+      int16_t prevMatchDeltaMinutes;
+      if (match->prevMatch) {
+        prevMatchOffsetMinutes = match->prevMatch->lastOffsetMinutes;
+        prevMatchDeltaMinutes = match->prevMatch->lastDeltaMinutes;
+      } else {
+        prevMatchOffsetMinutes = match->era.offsetMinutes();
+        prevMatchDeltaMinutes = 0;
       }
-      if (*transitionTime < matchStart) {
-        return extended::MatchStatus::kPrior;
-      }
-      if (*transitionTime == matchStart) {
+
+      // Expand start times.
+      extended::DateTuple stw;
+      extended::DateTuple sts;
+      extended::DateTuple stu;
+      expandDateTuple(
+          &match->startDateTime,
+          prevMatchOffsetMinutes,
+          prevMatchDeltaMinutes,
+          &stw,
+          &sts,
+          &stu);
+
+      // Transition times.
+      const extended::DateTuple& ttw = transition->transitionTime;
+      const extended::DateTuple& tts = transition->transitionTimeS;
+      const extended::DateTuple& ttu = transition->transitionTimeU;
+
+      // Compare Transition to Match, where equality is assumed if *any* of the
+      // 'w', 's', or 'u' versions of the DateTuple are equal. This prevents
+      // duplicate Transition instances from being created in a few cases.
+      if (ttw == stw || tts == sts || ttu == stu) {
         return extended::MatchStatus::kExactMatch;
       }
 
+      if (ttu < stu) {
+        return extended::MatchStatus::kPrior;
+      }
+
+      // Now check if the transition occurs after the given match. The
+      // untilDateTime of the current match uses the same UTC offsets as the
+      // transitionTime of the current transition, so no complicated adjustments
+      // are needed. We just make sure we compare 'w' with 'w', 's' with 's',
+      // and 'u' with 'u'.
       const extended::DateTuple& matchUntil = match->untilDateTime;
+      const extended::DateTuple* transitionTime;
       if (matchUntil.suffix == internal::ZoneContext::kSuffixS) {
-        transitionTime = &transition->transitionTimeS;
+        transitionTime = &tts;
       } else if (matchUntil.suffix == internal::ZoneContext::kSuffixU) {
-        transitionTime = &transition->transitionTimeU;
+        transitionTime = &ttu;
       } else { // assume 'w'
-        transitionTime = &transition->transitionTime;
+        transitionTime = &ttw;
       }
       if (*transitionTime < matchUntil) {
         return extended::MatchStatus::kWithinMatch;
@@ -1824,16 +1856,17 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
 
       // The last Transition's until time is the until time of the MatchingEra.
-      extended::DateTuple untilTime = prev->match->untilDateTime;
-      extended::DateTuple untilTimeS; // needed only for expandDateTuple
-      extended::DateTuple untilTimeU; // needed only for expandDateTuple
+      extended::DateTuple untilTimeW;
+      extended::DateTuple untilTimeS;
+      extended::DateTuple untilTimeU;
       expandDateTuple(
-          &untilTime,
-          &untilTimeS,
-          &untilTimeU,
+          &prev->match->untilDateTime,
           prev->offsetMinutes,
-          prev->deltaMinutes);
-      prev->untilDateTime = untilTime;
+          prev->deltaMinutes,
+          &untilTimeW,
+          &untilTimeS,
+          &untilTimeU);
+      prev->untilDateTime = untilTimeW;
     }
 
     /**
