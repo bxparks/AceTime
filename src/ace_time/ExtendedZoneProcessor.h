@@ -1307,7 +1307,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("---- Pass 3: selectActiveTransitions()\n");
       }
-      selectActiveTransitions(transitionStorage);
+      selectActiveTransitions(
+          transitionStorage.getCandidatePoolBegin(),
+          transitionStorage.getCandidatePoolEnd());
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         transitionStorage.log();
       }
@@ -1671,9 +1673,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * Scan through the Candidate transitions, and mark the ones which are
      * active.
      */
-    static void selectActiveTransitions(TransitionStorage& transitionStorage) {
-      Transition** begin = transitionStorage.getCandidatePoolBegin();
-      Transition** end = transitionStorage.getCandidatePoolEnd();
+    static void selectActiveTransitions(Transition** begin, Transition** end) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("selectActiveTransitions(): #candidates: %d\n",
           (int) (end - begin));
