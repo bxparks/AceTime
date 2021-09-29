@@ -101,11 +101,19 @@ The CPU times below are given in microseconds.
   AceRoutine v1.3. The sizeof `SystemClockLoop` and `SystemClockCoroutine`
   decreases 4 bytes on AVR, and 4-8 bytes on 32-bit processors. No signficant
   changes in CPU time.
-* In v1.7.4+, size of `ExtendedZoneProcessor` increases by 24 bytes on AVR, due
-  to sizeof(MatchingEra) increasing by 6 bytes (1 pointer, 2 x `uint16_t`) times
-  a cache of 4 elements. It increases by 32 bytes on 32-bit processors, from
-  MatchingEra increasing by 8 bytes (1 pointer, 2 x `uint16_t`) times a cache of
-  4 elements.
+* In v1.7.4+:
+    * changes to size of `ExtendedZoneProcessor`:
+        * 8-bit processors
+            * increases by 24 bytes on AVR, due adding 1 pointer and 2
+              `uint16_t` to MatchingEra
+            * decreases by 48 bytes on AVR, by disabling
+              `originalTransitionTime` unless
+              `ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG` is enabled.
+        * 32-bit processors
+            * increases by 32 bytes on 32-bit processors due to adding
+              a pointer and 2 `uint16_t` to MatchingEra
+            * decreases by 32 bytes on 32-bit processors due to disabling
+              `originalTransitionTime` in Transition
 
 ## Arduino Nano
 
