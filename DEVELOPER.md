@@ -9,8 +9,14 @@ library.
 * [Namespace Dependency](#NamespaceDependency)
 * [Zone DB Files](#ZoneDbFiles)
 * [Encoding Offset and Time Fields](#EncodingOffsetAndTimeFields)
+* [ExtendedZoneProcessor](#ExtendedZoneProcessor)
+    * [Stea 1: Find Matches](#Step1FindMatches)
+    * [Step 2: Create Transitions](#Step2CreateTransitions)
+    * [Step 2A: Transition Time versus StartDateTime](#Step2ATransitionTimeAndStartDateTime)
+    * [Step 3: Fix Transition Times](#Step3FixTransitionTimes)
+    * [Step 4: Generate Start Until Times](#Step4GenerateStartUntilTimes)
+    * [Step 5: Calculate Abbreviations](#Step5CalculateAbbreviations)
 * [Upgrading ZoneInfo Files to a New TZDB Version](#UpgradingZoneInfoFiles)
-* [ExtendedZoneProcessor Algorithm](#ExtendedZoneProcessorAlgorithm)
 * [Release Process](#ReleaseProcess)
 
 <a name="ProjectRepoDependency"></a>
@@ -279,84 +285,48 @@ SAVE (15-min resolution)
                                         +--------------------+
 ```
 
-<a name="UpgradingZoneInfoFiles"></a>
-## Upgrading ZoneInfo Files to a New TZDB Version
-
-About 2-4 times a year, a new TZDB version is released. Here are some notes
-(mostly for myself) on how to create a new release after a new TZDB version is
-available.
-
-* Update the TZDB repo (https://github.com/eggert/tz). This should be a
-  sibling to the `AceTime` repo (since it will cause the least problems
-  for various internal scripts):
-    * `$ cd ../tz`
-    * `$ git pull`
-    * Check that the correct tag is pulled (e.g. `2020c` tag if that's the
-      version that we want to upgrade to).
-* Update the Hinnant date repo (https://github.com:HowardHinnant/date). This
-  should be a sibling to the `AceTime` repo:
-    * `$ cd ../date`
-    * `$ git pull`
-* Verify that the `AceTime` library and the Hinnant `date` library agree with
-  each other using the same TZDB version. This requires going into the
-  [AceTimeValidation](https://github.com/bxparks/AceTimeValidation) project.
-    * BasicHinnantDateTest
-        * `$ cd .../AceTimeValidation/BasicHinnantDateTest`
-        * Update the `TZ_VERSION` variable in the `Makefile` with the commit tag
-          of the new TZDB version. (e.g. `TZ_VERSION = 2020c`).
-        * `$ make clean`
-        * `$ make`
-        * `$ ./BasicHinnantDateTest.out | grep failed`
-        * There should be no failures: `TestRunner summary: 268 passed, 0
-          failed, 0 skipped, 0 timed out, out of 268 test(s).`
-    * ExtendedHinnantDateTest
-        * `$ cd .../AceTimeValidation/ExtendedHinnantDateTest`
-        * Update the `TZ_VERSION` variable in the `Makefile` with the commit tag
-          of the new TZDB version. (e.g. `TZ_VERSION = 2020c`).
-        * `$ make clean`
-        * `$ make`
-        * `$ ./ExtendedHinnantDateTest.out | grep failed`
-        * There should be no failures: `TestRunner summary: 387 passed, 0
-          failed, 0 skipped, 0 timed out, out of 387 test(s).`
-* Update the various zone info files:
-    * `src/ace_time/zonedb`
-        * `$ cd src/ace_time/zonedb`
-        * Edit the `Makefile` and update the `TZ_VERSION`.
-        * `$ make`
-    * `src/ace_time/zonedbx`
-        * `$ cd src/ace_time/zonedbx`
-        * Edit the `Makefile` and update the `TZ_VERSION`.
-        * `$ make`
-    * `AceTimeTools/zonedbpy`
-        * `$ cd AceTimeTools/zonedbpy`
-        * Edit the `Makefile` and update the `TZ_VERSION`.
-        * `$ make`
-* Update the CHANGELOG.md.
-* Commit the changes to git
-    * `$ git add ...`
-    * `$ git commit -m "..."`
-
-There are 6 other validation tests in the AceTimeValidation project that compare
-AceTime with other third party libraries (Python pytz, Python dateutil, and Java
-date). Unfortunately, they all seem to use the underlying TZDB version provided
-by the Operating System, and I have not been able to figure out how to manually
-update this dependency manually. When a new TZDB is released, all of these other
-tests will fail until the underlying timezone database of the OS is updated.
-
-<a name="ExtendedZoneProcessorAlgorithm"></a>
-## ExtendedZoneProcessor Algorithm
+<a name="ExtendedZoneProcessor"></a>
+## ExtendedZoneProcessor
 
 To save memory, the `ExtendedZoneProcessor` class calculates the `Transition`
-objects on the fly when the `init(acetime_t)` or `init(LocalDate& ld)` is
-called. The alternative used by most Date-Time libraries to precalculate
-the Transitions for all Zones, for a certain range of years. Precalculation
-is definitely faster, and easier because the logic for calculating the
-Transition objects resides in only a single place. However, the expansion of the
-Transition objects consumes too much memory on an embedded microcontrollers.
+objects on the fly when the `initForEpochSeconds(acetime_t)` or
+`initForYear(int16_t)` method is called. The alternative used by most Date-Time
+libraries to precalculate the Transitions for all Zones, for a certain range of
+years. Precalculation is definitely faster, and easier because the logic for
+calculating the Transition objects resides in only a single place. However, the
+expansion of the Transition objects consumes too much memory on an embedded
+microcontrollers.
+
+When a request to create a `ZonedDateTime` object comes in, the
+`ExtendedZoneProcessor.findTransition(epochSeconds)` method is called. It scans
+the list of Transitions calculated above, looking for a match. The matching
+Transition object contains the relevant standard offset and DST offset of that
+Zone.
 
 The calculation of the Transitions is very complex, and I find that I can no
 longer understand my own code after a few months away of this code base. So here
-are some notes to help my future-self.
+are some notes to help my future-self. The code is in
+`Transition::initForYear(int16_t)` and is organized into 5 steps as described
+below.
+
+<a name="Step1FindMatches"></a>
+### Step 1: Find Matches
+
+The `ExtendedZoneProcessor.findMatches()` finds all `ZoneEra` objects which
+overlap with the 14-month interval from Dec 1 of the prior year until Feb 1 of
+the following year. For example, `initForYear(2010)` means that the interval is
+from 2009-12-01T00:00 until 2011-02-01T00:00.
+
+A 14-month interval is chosen because a local date time of Jan 1 could land in
+the prior year after the correct UTC offset is calculated, so we need to pick up
+Transitions in the prior year. Similarly, a local date time of Dec 31 could land
+in the following year after correcting for UTC offset.
+
+A `MatchingEra` is a wrapper around a `ZoneEra`, with its startDateTimea and
+untilDateTime truncated to be within the 14-month interval of interest.
+
+<a name="Step2CreateTransitions"></a>
+### Step 2: Create Transitions
 
 The class creates an array of `Transition` objects spanning 14 months that
 covers the given `year`, from 12/1 of the previous year until 2/1 of the
@@ -424,10 +394,14 @@ Transition, the shift it to m1/d1 to get the effective Transition at m1/d1.
 
 Sometimes (often?), the switch from one ZoneEra to another happens at exactly
 the same time as one of the Transitions specified by the ZoneRule of the next
-ZoneEra. There is code that checks for this situation to make sure that
-extraneous Transition objects are not created. (We don't want to switch to a new
-ZoneEra with a new ZonePolicy, then immediately switch to a different Transition
-due to the Rule in the new ZonePolicy.)
+ZoneEra. The code that checks for this situation is located at
+`ExtendedZoneProcessor::compareTransitionToMatch()` and was recently (v1.8)
+updated so that equality between a `Transition` and its `ZoneEra` is accepted
+if *any* of the `w`, `s` or `u` times match each other, instead of relying on
+just the `w` time. This prevents extraneous Transition objects are not created.
+(We don't want to switch to a new ZoneEra with a new ZonePolicy, then
+immediately switch to a different Transition due to the Rule in the new
+ZonePolicy.)
 
 The E3 era for this Zone begins at m2/d2 in the above example, which is
 different than the Transitions defined by the R3 rules. Similar to E2, we must
@@ -473,17 +447,158 @@ y+1  R2|         )                                                     |
        +---------)-----------------------------------------------------+
 ```
 
-After the list of Transitions are created, the `Transition.startDateTime` field
-is adjusted so that they are correct in all 3 representations of time in the TZ
-data base: wall time (`w`), standard time (`s`), and UTC time (`u`).
+<a name="Step2ATransitionTimeAndStartDateTime"></a>
+### Step 2A: Transition Time versus StartDateTime
 
-Next, the time zone abbreviations (e.g. "PST", "CET") are calculated.
+Many time stamps in the zonedb database are tricky to handle because they
+must be interpreted with the correct UTC offsets.
 
-When a request to create a `ZonedDateTime` object comes in, the
-`ExtendedZoneProcessor.findTransition(epochSeconds)` method is called. It scans
-the list of Transitions calculated above, looking for a match. The matching
-Transition object contains the relevant standard offset and DST offset of that
-Zone.
+Suppose we have 2 ZoneEras, which get converted into 2 MatchingEra (with
+truncated start and until years). Each MatchingEra contains only its
+untilDateTime which becomes copied over to the next MatchingEra's
+startDateTime. For example, in the diagram below, S2 is set to be equal to U1.
+The tricky part is that the startDateTime of a MatchingEra must be interpreted
+using the UTC offset of the *previous* MatchingEra.
+
+MatchingEra (E1) contains its Rules (R1) which generate the set of Transitions
+(T1X). MatchingEra (E2) contains Rules (R2) which generate Transitions (T2X).
+Similar to the startDateTime of the MatchingEra, the transitionTime (T1X, T2X)
+of each Transition must be interpreted using the UTC offset of the *previous*
+Transition.
+
+Given 2 MatchingEra objects, the set of Transitions may initially start like
+this:
+
+```
+ S1    E1                    U1S2      E2                            U2
+  |---------------------------)|-------------------------------------)
+
+                      T1b             T1c
+R1   ----------------)|--------------)|-------------->
+
+          T2b                  T2c             T2d
+R2  -----}|-------------------)|--------------)|------------------------>
+```
+
+When a Zone switches from one MatchingEra (E1) to another (E2), the Transition
+objects must be collapsed in a manner that makes sense. One of the most tricky
+part of the merge process is determining whether a Transition happens at the
+same time as a switch to a different MatchingEra.
+
+If T2c is determined to happen at the same time as U1/S2, then the combined
+Transition graph looks like this, where T1b is truncated to the end of U1, and
+immediately moves into T2c.
+
+```
+ S1    E1                    U1S2      E2                            U2
+  |---------------------------)|-------------------------------------)
+
+                      T1b      T2c             T2d
+     ----------------)|-------)|--------------)|------------------------>
+```
+
+However, if T2c is determined to happen *after* U1/S2, then an extra Transition
+(T2b) is picked up, like this:
+
+```
+ S1    E1                    U1S2      E2                            U2
+  |---------------------------)|-------------------------------------)
+
+                      T1b      T2b T2c         T2d
+     ----------------)|-------)|--)|----------)|------------------------>
+```
+
+<a name="Step3FixTransitionTimes"></a>
+### Step 3: Fix Transition Times
+
+After obtaining the combined list of Transitions, a final pass converts the
+transitionTime of all Transition (with any additional truncations and
+adjustments) into the wall time using the UTC offset of the *previous*
+Transition.
+
+<a name="Step4GenerateStartUntilTimes"></a>
+### Step 4: Generate Start Until Times
+
+After the list of Transitions is created, the `Transition.startDateTime`
+and `Transition.untilDateTime` created using the transtionTime field.
+
+* The `untilDateTime` of the previous Transition is the current `transitionTime`
+  shifted into the UTC offset of the *previous* Transition.
+* The `startDateTime` of the current Transition is the current `transitionTime`
+  shifted into the UTC offset of the *current* Transition.
+
+<a name="Step5CalculateAbbreviations"></a>
+### Step 5: Calculate Abbreviations
+
+Finally, the time zone abbreviations (e.g. "PST", "CET") are calculated for each
+Transition and recorded into the `Transition.abbrev` fixed sized array. The TZDB
+specification says that the maximum length of an abbreviation is 6, so this
+field is a static array of 7 characters (to account for the terminating NUL
+character).
+
+<a name="UpgradingZoneInfoFiles"></a>
+## Upgrading ZoneInfo Files to a New TZDB Version
+
+About 2-4 times a year, a new TZDB version is released. Here are some notes
+(mostly for myself) on how to create a new release after a new TZDB version is
+available.
+
+* Update the TZDB repo (https://github.com/eggert/tz). This should be a
+  sibling to the `AceTime` repo (since it will cause the least problems
+  for various internal scripts):
+    * `$ cd ../tz`
+    * `$ git pull`
+    * Check that the correct tag is pulled (e.g. `2020c` tag if that's the
+      version that we want to upgrade to).
+* Update the Hinnant date repo (https://github.com:HowardHinnant/date). This
+  should be a sibling to the `AceTime` repo:
+    * `$ cd ../date`
+    * `$ git pull`
+* Verify that the `AceTime` library and the Hinnant `date` library agree with
+  each other using the same TZDB version. This requires going into the
+  [AceTimeValidation](https://github.com/bxparks/AceTimeValidation) project.
+    * BasicHinnantDateTest
+        * `$ cd .../AceTimeValidation/BasicHinnantDateTest`
+        * Update the `TZ_VERSION` variable in the `Makefile` with the commit tag
+          of the new TZDB version. (e.g. `TZ_VERSION = 2020c`).
+        * `$ make clean`
+        * `$ make`
+        * `$ ./BasicHinnantDateTest.out | grep failed`
+        * There should be no failures: `TestRunner summary: 268 passed, 0
+          failed, 0 skipped, 0 timed out, out of 268 test(s).`
+    * ExtendedHinnantDateTest
+        * `$ cd .../AceTimeValidation/ExtendedHinnantDateTest`
+        * Update the `TZ_VERSION` variable in the `Makefile` with the commit tag
+          of the new TZDB version. (e.g. `TZ_VERSION = 2020c`).
+        * `$ make clean`
+        * `$ make`
+        * `$ ./ExtendedHinnantDateTest.out | grep failed`
+        * There should be no failures: `TestRunner summary: 387 passed, 0
+          failed, 0 skipped, 0 timed out, out of 387 test(s).`
+* Update the various zone info files:
+    * `src/ace_time/zonedb`
+        * `$ cd src/ace_time/zonedb`
+        * Edit the `Makefile` and update the `TZ_VERSION`.
+        * `$ make`
+    * `src/ace_time/zonedbx`
+        * `$ cd src/ace_time/zonedbx`
+        * Edit the `Makefile` and update the `TZ_VERSION`.
+        * `$ make`
+    * `AceTimeTools/zonedbpy`
+        * `$ cd AceTimeTools/zonedbpy`
+        * Edit the `Makefile` and update the `TZ_VERSION`.
+        * `$ make`
+* Update the CHANGELOG.md.
+* Commit the changes to git
+    * `$ git add ...`
+    * `$ git commit -m "..."`
+
+There are 6 other validation tests in the AceTimeValidation project that compare
+AceTime with other third party libraries (Python pytz, Python dateutil, and Java
+date). Unfortunately, they all seem to use the underlying TZDB version provided
+by the Operating System, and I have not been able to figure out how to manually
+update this dependency manually. When a new TZDB is released, all of these other
+tests will fail until the underlying timezone database of the OS is updated.
 
 <a name="ReleaseProcess"></a>
 ## Release Process
