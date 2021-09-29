@@ -116,6 +116,11 @@ In v1.7.2, the `SystemClock::clockMillis()` became non-virtual, using
 compile-time polymorphism through C++ template, and incorporating the same
 techniques from AceRoutine v1.3. Saves about 20-40 bytes of flash.
 
+In v1.7.4+, `ExtendedZoneProcessor.compareTransitionToMatch()` was modified to
+detect an exact equality between a `Transition` and its `MatchingEra` if any of
+the 3 time stamp versions ('w', 's', 'u') are equal. Adds about 120-150 bytes of
+flash on 8-bit and 32-bit processors.
+
 ## Arduino Nano
 
 * 16MHz ATmega328P
