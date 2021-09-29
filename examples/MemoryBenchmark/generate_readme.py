@@ -119,7 +119,8 @@ techniques from AceRoutine v1.3. Saves about 20-40 bytes of flash.
 In v1.7.4+, `ExtendedZoneProcessor.compareTransitionToMatch()` was modified to
 detect an exact equality between a `Transition` and its `MatchingEra` if any of
 the 3 time stamp versions ('w', 's', 'u') are equal. Adds about 120-150 bytes of
-flash on 8-bit and 32-bit processors.
+flash on 8-bit and 32-bit processors. But removing `originalTransitionTime` from
+`Transition` decreases flash usage by about 20 bytes.
 
 ## Arduino Nano
 
