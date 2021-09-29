@@ -270,11 +270,13 @@ struct TransitionTemplate {
     DateTuple untilDateTime;
   };
 
+#if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
   /**
    * If the transition is shifted to the beginning of a MatchingEra, this is set
-   * to the transitionTime for debugging. May be removed in the future.
+   * to the transitionTime for debugging.
    */
   DateTuple originalTransitionTime;
+#endif
 
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
@@ -1692,7 +1694,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           logging::printf(
             "selectActiveTransitions(): found latest prior\n");
         }
+      #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
         prior->originalTransitionTime = prior->transitionTime;
+      #endif
         prior->transitionTime = prior->match->startDateTime;
       }
     }
