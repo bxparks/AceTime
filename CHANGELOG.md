@@ -5,8 +5,14 @@
         * Check for exact match between expected buffer size (from
           `zone_processor.py`) and observed buffer size (from
           `ExtendedZoneProcessor`).
-    * Create `examples/ExtendedZoneInfo` for debugging the internal logic of
+    * Create `examples/DebugZoneProcessor` for debugging the internal logic of
       `ExtendedZoneProcessor`.
+    * Update `ExtendedZoneProcessor.py` for better detection of Transitions
+      that occur at the exact same time as the start time of a `ZoneEra`.
+        * They are considered to happen at the same time if any of the 'w'
+          time, 's' time, or 'u' time are equal.
+        * The behavior of `ExtendedZoneProcessor.py` should now be identical
+          to `zone_processor.py`.
 * 1.7.4 (2021-08-26)
     * Move `./tools` directory into new
       [AceTimeTools](https://github.com/bxparks/AceTimeTools) repo.
