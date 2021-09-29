@@ -48,7 +48,7 @@ class TransitionStorageTest_getFreeAgent2;
 class TransitionStorageTest_addFreeAgentToActivePool;
 class TransitionStorageTest_reservePrior;
 class TransitionStorageTest_addFreeAgentToCandidatePool;
-class TransitionStorageTest_setFreeAgentAsPrior;
+class TransitionStorageTest_setFreeAgentAsPriorIfValid;
 class TransitionStorageTest_addActiveCandidatesToActivePool;
 class TransitionStorageTest_resetCandidatePool;
 class TransitionStorageTest_findTransitionForDateTime;
@@ -303,8 +303,8 @@ struct TransitionTemplate {
     /**
      * During findCandidateTransitions(), this flag indicates whether the
      * current transition is a valid "prior" transition that occurs before other
-     * transitions. It is set by setAsPriorTransition() if the transition is a
-     * prior transition.
+     * transitions. It is set by setFreeAgentAsPriorIfValid() if the transition
+     * is a prior transition.
      */
     bool isValidPrior;
 
@@ -526,11 +526,16 @@ class TransitionStorageTemplate {
       return &mTransitions[mIndexPrior];
     }
 
-    /** Set the Free agrent transition to be the current Prior transition. */
-    void setFreeAgentAsPrior() {
-      // Must use swap(), because we are moving pointers instead of the actual
-      // Transition objects.
-      swap(mTransitions[mIndexPrior], mTransitions[mIndexFree]);
+    /** Set the free agent transition as the most recent prior. */
+    void setFreeAgentAsPriorIfValid() {
+      Transition* ft = getFreeAgent();
+      Transition* prior = getPrior();
+      if ((prior->isValidPrior && prior->transitionTime < ft->transitionTime)
+          || !prior->isValidPrior) {
+        ft->isValidPrior = true;
+        prior->isValidPrior = false;
+        swap(mTransitions[mIndexPrior], mTransitions[mIndexFree]);
+      }
     }
 
     /**
@@ -720,7 +725,7 @@ class TransitionStorageTemplate {
     friend class ::TransitionStorageTest_addFreeAgentToActivePool;
     friend class ::TransitionStorageTest_reservePrior;
     friend class ::TransitionStorageTest_addFreeAgentToCandidatePool;
-    friend class ::TransitionStorageTest_setFreeAgentAsPrior;
+    friend class ::TransitionStorageTest_setFreeAgentAsPriorIfValid;
     friend class ::TransitionStorageTest_addActiveCandidatesToActivePool;
     friend class ::TransitionStorageTest_findTransitionForDateTime;
     friend class ::TransitionStorageTest_resetCandidatePool;
@@ -1354,7 +1359,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           createTransitionForYear(t, year, rule, match);
           MatchStatus status = compareTransitionToMatchFuzzy(t, match);
           if (status == MatchStatus::kPrior) {
-            setAsPriorTransition(transitionStorage, t);
+            transitionStorage.setFreeAgentAsPriorIfValid();
           } else if (status == MatchStatus::kWithinMatch) {
             transitionStorage.addFreeAgentToCandidatePool();
           } else {
@@ -1374,7 +1379,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           }
           Transition* t = transitionStorage.getFreeAgent();
           createTransitionForYear(t, priorYear, rule, match);
-          setAsPriorTransition(transitionStorage, t);
+          transitionStorage.setFreeAgentAsPriorIfValid();
         }
       }
 
@@ -1542,22 +1547,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (matchUntilMonths + 2 <= ttMonths) return MatchStatus::kFarFuture;
 
       return MatchStatus::kWithinMatch;
-    }
-
-    /** Set the current transition as the most recent prior if it fits. */
-    static void setAsPriorTransition(
-        TransitionStorage& transitionStorage,
-        Transition* t) {
-      Transition* prior = transitionStorage.getPrior();
-      if (prior->isValidPrior) {
-        if (prior->transitionTime < t->transitionTime) {
-          t->isValidPrior = true;
-          transitionStorage.setFreeAgentAsPrior();
-        }
-      } else {
-        t->isValidPrior = true;
-        transitionStorage.setFreeAgentAsPrior();
-      }
     }
 
     /**

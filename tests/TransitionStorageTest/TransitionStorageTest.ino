@@ -108,21 +108,50 @@ test(TransitionStorageTest, reservePrior) {
   assertEqual(1, storage.mIndexFree);
 }
 
-test(TransitionStorageTest, setFreeAgentAsPrior) {
+test(TransitionStorageTest, setFreeAgentAsPriorIfValid) {
   TransitionStorage storage;
   storage.init();
 
+  // Initial prior
   Transition** priorReservation = storage.reservePrior();
   (*priorReservation)->isValidPrior = false;
+  (*priorReservation)->transitionTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
+
+  // Candiate prior.
   Transition* freeAgent = storage.getFreeAgent();
   freeAgent->isValidPrior = true;
-  storage.setFreeAgentAsPrior();
+  freeAgent->transitionTime = {2, 3, 4, 0, ZoneContext::kSuffixW};
+
+  // Should swap because prior->isValidPrior is false.
+  storage.setFreeAgentAsPriorIfValid();
 
   // Verify that the two have been swapped.
   Transition* prior = storage.getPrior();
   freeAgent = storage.getFreeAgent();
   assertTrue(prior->isValidPrior);
   assertFalse(freeAgent->isValidPrior);
+  assertTrue(prior->transitionTime
+      == DateTuple(2, 3, 4, 0, ZoneContext::kSuffixW));
+  assertTrue(freeAgent->transitionTime
+      == DateTuple(2, 3, 4, 5, ZoneContext::kSuffixW));
+
+  // Another Candidate prior.
+  freeAgent = storage.getFreeAgent();
+  freeAgent->isValidPrior = true;
+  freeAgent->transitionTime = {2, 3, 4, 6, ZoneContext::kSuffixW};
+
+  // Should swap because the transitionTime is newer
+  storage.setFreeAgentAsPriorIfValid();
+
+  // Verify that the two have been swapped.
+  prior = storage.getPrior();
+  freeAgent = storage.getFreeAgent();
+  assertTrue(prior->isValidPrior);
+  assertFalse(freeAgent->isValidPrior);
+  assertTrue(prior->transitionTime
+      == DateTuple(2, 3, 4, 6, ZoneContext::kSuffixW));
+  assertTrue(freeAgent->transitionTime
+      == DateTuple(2, 3, 4, 0, ZoneContext::kSuffixW));
 }
 
 test(TransitionStorageTest, addFreeAgentToCandidatePool) {
