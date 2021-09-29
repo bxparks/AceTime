@@ -467,6 +467,8 @@ test(ExtendedZoneProcessorTest, getMostRecentPriorYear) {
 }
 
 test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
+  using ace_time::extended::MatchStatus;
+
   const DateTuple EMPTY_DATE = {0, 0, 0, 0, 0};
 
   const ExtendedZoneProcessor::MatchingEra match = {
@@ -487,8 +489,10 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #endif
     0, 0, 0, {0}, {0}, false
   };
-  assertEqual(-1, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
-      &transition, &match));
+  assertEqual(
+      (uint8_t) MatchStatus::kPrior,
+      (uint8_t) ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
+          &transition, &match));
 
   transition = {
     &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
@@ -499,8 +503,10 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #endif
     0, 0, 0, {0}, {0}, false
   };
-  assertEqual(1, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
-      &transition, &match));
+  assertEqual(
+      (uint8_t) MatchStatus::kWithinMatch,
+      (uint8_t) ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
+          &transition, &match));
 
   transition = {
     &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
@@ -511,8 +517,10 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #endif
     0, 0, 0, {0}, {0}, false
   };
-  assertEqual(1, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
-      &transition, &match));
+  assertEqual(
+      (uint8_t) MatchStatus::kWithinMatch,
+      (uint8_t) ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
+          &transition, &match));
 
   transition = {
     &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
@@ -523,8 +531,10 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #endif
     0, 0, 0, {0}, {0}, false
   };
-  assertEqual(1, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
-      &transition, &match));
+  assertEqual(
+      (uint8_t) MatchStatus::kWithinMatch,
+      (uint8_t) ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
+          &transition, &match));
 
   transition = {
     &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
@@ -535,8 +545,10 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #endif
     0, 0, 0, {0}, {0}, false
   };
-  assertEqual(1, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
-      &transition, &match));
+  assertEqual(
+      (uint8_t) MatchStatus::kWithinMatch,
+      (uint8_t) ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
+          &transition, &match));
 
   transition = {
     &match /*match*/, ZoneRuleBroker(nullptr) /*rule*/,
@@ -547,8 +559,10 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #endif
     0, 0, 0, {0}, {0}, false
   };
-  assertEqual(2, ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
-      &transition, &match));
+  assertEqual(
+      (uint8_t) MatchStatus::kFarFuture,
+      (uint8_t) ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
+          &transition, &match));
 }
 
 

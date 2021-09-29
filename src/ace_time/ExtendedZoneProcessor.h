@@ -1327,6 +1327,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     static void findCandidateTransitions(
         TransitionStorage& transitionStorage,
         const MatchingEra* match) {
+      using extended::MatchStatus;
+
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("findCandidateTransitions(): \n");
         match->log();
@@ -1350,11 +1352,14 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           int8_t year = interiorYears[y];
           Transition* t = transitionStorage.getFreeAgent();
           createTransitionForYear(t, year, rule, match);
-          int8_t status = compareTransitionToMatchFuzzy(t, match);
-          if (status < 0) {
+          MatchStatus status = compareTransitionToMatchFuzzy(t, match);
+          if (status == MatchStatus::kPrior) {
             setAsPriorTransition(transitionStorage, t);
-          } else if (status == 1) {
+          } else if (status == MatchStatus::kWithinMatch) {
             transitionStorage.addFreeAgentToCandidatePool();
+          } else {
+            // Must be kFarFuture.
+            // Do nothing, allowing the free agent to be reused.
           }
         }
 
@@ -1516,25 +1521,27 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * least one-month of the match.start or match.until.
      *
      * Return:
-     *     * -1 if t less than match by at least one month
-     *     * 1 if t within match,
-     *     * 2 if t greater than match by at least one month
-     *     * 0 is never returned since we cannot know that t == match.start
+     *    * kPrior if t less than match by at least one month
+     *    * kWithinMatch if t within match,
+     *    * kFarFuture if t greater than match by at least one month
+     *    * kExactMatch is never returned, we cannot know that t == match.start
      */
-    static int8_t compareTransitionToMatchFuzzy(
+    static extended::MatchStatus compareTransitionToMatchFuzzy(
         const Transition* t, const MatchingEra* match) {
+      using extended::MatchStatus;
+
       int16_t ttMonths = t->transitionTime.yearTiny * 12
           + t->transitionTime.month;
 
       int16_t matchStartMonths = match->startDateTime.yearTiny * 12
           + match->startDateTime.month;
-      if (ttMonths < matchStartMonths - 1) return -1;
+      if (ttMonths < matchStartMonths - 1) return MatchStatus::kPrior;
 
       int16_t matchUntilMonths = match->untilDateTime.yearTiny * 12
           + match->untilDateTime.month;
-      if (matchUntilMonths + 2 <= ttMonths) return 2;
+      if (matchUntilMonths + 2 <= ttMonths) return MatchStatus::kFarFuture;
 
-      return 1;
+      return MatchStatus::kWithinMatch;
     }
 
     /** Set the current transition as the most recent prior if it fits. */
@@ -1710,22 +1717,24 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     static void processTransitionMatchStatus(
         Transition* transition,
         Transition** prior) {
-      extended::MatchStatus status = compareTransitionToMatch(
+      using extended::MatchStatus;
+
+      MatchStatus status = compareTransitionToMatch(
           transition, transition->match);
       transition->matchStatus = status;
 
-      if (status == extended::MatchStatus::kExactMatch) {
+      if (status == MatchStatus::kExactMatch) {
         if (*prior) {
-          (*prior)->matchStatus = extended::MatchStatus::kFarPast;
+          (*prior)->matchStatus = MatchStatus::kFarPast;
         }
         (*prior) = transition;
-      } else if (status == extended::MatchStatus::kPrior) {
+      } else if (status == MatchStatus::kPrior) {
         if (*prior) {
           if ((*prior)->transitionTimeU <= transition->transitionTimeU) {
-            (*prior)->matchStatus = extended::MatchStatus::kFarPast;
+            (*prior)->matchStatus = MatchStatus::kFarPast;
             (*prior) = transition;
           } else {
-            transition->matchStatus = extended::MatchStatus::kFarPast;
+            transition->matchStatus = MatchStatus::kFarPast;
           }
         } else {
           (*prior) = transition;
