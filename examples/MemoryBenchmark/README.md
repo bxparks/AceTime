@@ -32,71 +32,77 @@ ASCII table.
 
 ## Library Size Changes
 
-In v1.3, the `BasicZoneManager` and `ExtendedZoneManager` classes were unified
-under a new parent interface `ZoneManager`. This seems to have caused the flash
-size to increase by around 1200 bytes on the AVR processors (Nano, Pro Micro),
-about 500 bytes on a SAMD, about 800 bytes on a ESP8266, 100 bytes on a ESP32,
-and 1400 bytes on a Teensy 3.2. The 8-bit processors suffer the most
-flash size increase proportional to their limited 32kB limit.
+In v1.3:
+* The `BasicZoneManager` and `ExtendedZoneManager` classes were unified under a
+  new parent interface `ZoneManager`. This seems to have caused the flash size
+  to increase by around 1200 bytes on the AVR processors (Nano, Pro Micro),
+  about 500 bytes on a SAMD, about 800 bytes on a ESP8266, 100 bytes on a ESP32,
+  and 1400 bytes on a Teensy 3.2. The 8-bit processors suffer the most flash
+  size increase proportional to their limited 32kB limit.
+* Adding the `ZoneManager` interface simplifies a lot of the complexity with
+  saving and restoring time zones using the `TimeZoneData` object, and I think
+  it is worth the extra cost of flash size. The mitigating factor is that
+  applications targetted towards 8-bit processors will normally have fixed
+  number of timezones at compile time, so they can avoid using a `ZoneManager`,
+  and avoid this penalty in flash size.
 
-Adding the `ZoneManager` interface simplifies a lot of the complexity with
-saving and restoring time zones using the `TimeZoneData` object, and I think it
-is worth the extra cost of flash size. The mitigating factor is that
-applications targetted towards 8-bit processors will normally have fixed number
-of timezones at compile time, so they can avoid using a `ZoneManager`, and avoid
-this penalty in flash size.
+In v1.4.1+:
+* Removed the `ZoneInfo::transitionBufSize` field from the `ZoneInfo` struct,
+  which saves 1 byte on 8-bit processors (none on 32-bit processors due to
+  4-byte alignment). We save 266 bytes for `BasicZoneManager` and 386 bytes for
+  `ExtendedZoneManager` when all the zones are loaded into the zone registry.
+* Incorporated zoneName compression causes flash/ram usage to increase by
+  ~250/120 bytes when using only 1-2 zones, but *decreases* flash consumption by
+  1200-2400 bytes when all the zones are loaded into the `ZoneManager`.
 
-In v1.4.1+, we removed the `ZoneInfo::transitionBufSize` field from the
-`ZoneInfo` struct, which saves 1 byte on 8-bit processors (none on 32-bit
-processors due to 4-byte alignment). We save 266 bytes for `BasicZoneManager`
-and 386 bytes for `ExtendedZoneManager` when all the zones are loaded into the
-zone registry.
+In v1.5+:
+* Changing `ZoneProcessorCache::getType()` from a `virtual` to a non-virtual
+  method saves 250-350 bytes of flash memory when using a `BasicZoneManager` or
+  an `ExtendedZoneManager` on an 8-bit AVR processor. Unexpectedly, the flash
+  memory consumption *increases* slightly (~0-50 bytes) for some ARM processors
+  and the ESP32. Since those processors have far more flash memory, this seems
+  like a good tradeoff.
+* Changing `BasicZoneProcessor` and `ExtendedZoneProcessor` to be subclasses of
+  the templatized `BasicZoneProcessorTemplate` and
+  `ExtendedZoneProcessorTemplate` classes causes reduction of flash consumption
+  by 250-400 bytes for 32-bit processors. Don't know why. (Very little
+  difference for 8-bit AVR).
+* Adding a `BrokerFactory` layer of indirection (to support more complex
+  ZoneProcessors and Brokers) causes flash memory to go up by 100-200 bytes.
 
-Also for v1.4.1+, incorporating zoneName compression causes flash/ram usage to
-increase by ~250/120 bytes when using only 1-2 zones, but *decreases* flash
-consumption by 1200-2400 bytes when all the zones are loaded into the
-`ZoneManager`.
+In v1.6:
+* Added support for `LinkRegistry` to `BasicZoneManager` and
+  `ExtendedZoneManager`. This increases the flash memory usage by 150-500 bytes
+  when using one of these classes due to the code required by `LinkRegistrar`.
+  This extra cost is incurred even if the `LinkRegistry` is set to 0 elements.
+  Each `LinkEntry` consumes 8 bytes (2 x `uint32_t`). So a
+  `zonedb::kLinkRegistry` with 183 elements uses 1464 extra bytes of flash; a
+  `zonedbx::kLinkRegistry` with 207 elements uses 1656 extra bytes.
 
-In v1.5+, changing just a single method, `ZoneProcessorCache::getType()`, from a
-`virtual` to a non-virtual method saves 250-350 bytes of flash memory when using
-a `BasicZoneManager` or an `ExtendedZoneManager` on an 8-bit AVR processor.
-Unexpectedly, the flash memory consumption *increases* slightly (~0-50 bytes)
-for some ARM processors and the ESP32. Since those processors have far more
-flash memory, this seems like a good tradeoff.
+In v1.7:
+* The virtual destructor on the `Clock` base class removed. This reduced the
+  flash usage by 618 bytes on AVR processors , 328 bytes on the SAMD21, but only
+  50-60 bytes on other 32-bit processors.
+* The various `printShortNameTo()` or `printShortTo()` methods changed to
+  replace the underscore in the zone names (e.g. `Los_Angeles`) with spaces
+  (e.g. `Los Angeles`) to be more human friendly. This made little difference in
+  the flash memory consumption, except on the ESP32 where it increased by
+  200-300 bytes.
 
-Also in v1.5+, changing `BasicZoneProcessor` and `ExtendedZoneProcessor` to be
-subclasses of the templatized `BasicZoneProcessorTemplate` and
-`ExtendedZoneProcessorTemplate` classes causes reduction of flash consumption by
-250-400 bytes for 32-bit processors. Don't know why. (Very little difference for
-8-bit AVR). Adding a `BrokerFactory` layer of indirection (to support more
-complex ZoneProcessors and Brokers) causes flash memory to go up by 100-200
-bytes.
+In v1.7.2
+* The `SystemClock::clockMillis()` is now non-virtual, using compile-time
+  polymorphism through C++ template, and incorporating the same techniques from
+  AceRoutine v1.3. Saves about 20-40 bytes of flash.
 
-In v1.6, support for `LinkRegistry` was added to `BasicZoneManager` and
-`ExtendedZoneManager`. This increases the flash memory usage by 150-500 bytes
-when using one of these classes due to the code required by `LinkRegistrar`.
-This extra cost is incurred even if the `LinkRegistry` is set to 0 elements.
-Each `LinkEntry` consumes 8 bytes (2 x `uint32_t`). So a `zonedb::kLinkRegistry`
-with 183 elements uses 1464 extra bytes of flash; a `zonedbx::kLinkRegistry`
-with 207 elements uses 1656 extra bytes.
-
-In v1.7, the virtual destructor on the `Clock` base class was removed. This
-reduced the flash usage by 618 bytes on AVR processors , 328 bytes on the
-SAMD21, but only 50-60 bytes on other 32-bit processors. The various
-`printShortNameTo()` or `printShortTo()` methods were changed to replace the
-underscore in the zone names (e.g. `Los_Angeles`) with spaces (e.g. `Los
-Angeles`) to be more human friendly. This made little difference in the flash
-memory consumption, except on the ESP32 where it increased by 200-300 bytes.
-
-In v1.7.2, the `SystemClock::clockMillis()` became non-virtual, using
-compile-time polymorphism through C++ template, and incorporating the same
-techniques from AceRoutine v1.3. Saves about 20-40 bytes of flash.
-
-In v1.7.4+, `ExtendedZoneProcessor.compareTransitionToMatch()` was modified to
-detect an exact equality between a `Transition` and its `MatchingEra` if any of
-the 3 time stamp versions ('w', 's', 'u') are equal. Adds about 120-150 bytes of
-flash on 8-bit and 32-bit processors. But removing `originalTransitionTime` from
-`Transition` decreases flash usage by about 20 bytes.
+In v1.7.4+:
+* `ExtendedZoneProcessor.compareTransitionToMatch()` was modified to
+  detect an exact equality between a `Transition` and its `MatchingEra` if any
+  of the 3 time stamp versions ('w', 's', 'u') are equal. Adds about 120-150
+  bytes of flash on 8-bit and 32-bit processors. But removing
+  `originalTransitionTime` from `Transition` decreases flash usage by about 20
+  bytes.
+* Upgrade ESP8266 Core from 2.7.4 to 3.0.2. Flash consumption increases by
+  3-5 kB across the board.
 
 ## Arduino Nano
 
@@ -247,33 +253,33 @@ microcontroller and the compiler did not generate the desired information.
 
 * NodeMCU 1.0, 80MHz ESP8266
 * Arduino IDE 1.8.13
-* ESP8266 Boards 2.7.4
+* ESP8266 Boards 3.0.2
 
 ```
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               | 256700/26776 |     0/    0 |
+| Baseline                               | 260105/27892 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| LocalDateTime                          | 259992/27300 |  3292/  524 |
-| ZonedDateTime                          | 260168/27300 |  3468/  524 |
-| Manual ZoneManager                     | 260248/27300 |  3548/  524 |
-| Basic TimeZone (1 zone)                | 265968/27860 |  9268/ 1084 |
-| Basic TimeZone (2 zones)               | 266336/27860 |  9636/ 1084 |
-| BasicZoneManager (1 zone)              | 267200/27860 | 10500/ 1084 |
-| BasicZoneManager (zones)               | 284832/27860 | 28132/ 1084 |
-| BasicZoneManager (zones+thin links)    | 286352/27860 | 29652/ 1084 |
-| BasicZoneManager (zones+fat links)     | 290928/27860 | 34228/ 1084 |
-| Extended TimeZone (1 zone)             | 268224/28004 | 11524/ 1228 |
-| Extended TimeZone (2 zones)            | 268576/28004 | 11876/ 1228 |
-| ExtendedZoneManager (1 zone)           | 269440/28004 | 12740/ 1228 |
-| ExtendedZoneManager (zones)            | 299668/28008 | 42968/ 1232 |
-| ExtendedZoneManager (zones+thin links) | 301380/28008 | 44680/ 1232 |
-| ExtendedZoneManager (zones+fat links)  | 306580/28008 | 49880/ 1232 |
+| LocalDateTime                          | 263129/28440 |  3024/  548 |
+| ZonedDateTime                          | 263449/28440 |  3344/  548 |
+| Manual ZoneManager                     | 263465/28440 |  3360/  548 |
+| Basic TimeZone (1 zone)                | 269073/29000 |  8968/ 1108 |
+| Basic TimeZone (2 zones)               | 269457/29000 |  9352/ 1108 |
+| BasicZoneManager (1 zone)              | 270273/29000 | 10168/ 1108 |
+| BasicZoneManager (zones)               | 288017/29000 | 27912/ 1108 |
+| BasicZoneManager (zones+thin links)    | 289521/29000 | 29416/ 1108 |
+| BasicZoneManager (zones+fat links)     | 294353/29000 | 34248/ 1108 |
+| Extended TimeZone (1 zone)             | 271249/29144 | 11144/ 1252 |
+| Extended TimeZone (2 zones)            | 271649/29144 | 11544/ 1252 |
+| ExtendedZoneManager (1 zone)           | 272609/29144 | 12504/ 1252 |
+| ExtendedZoneManager (zones)            | 302901/29156 | 42796/ 1264 |
+| ExtendedZoneManager (zones+thin links) | 304565/29156 | 44460/ 1264 |
+| ExtendedZoneManager (zones+fat links)  | 310117/29156 | 50012/ 1264 |
 |----------------------------------------+--------------+-------------|
-| SystemClock                            | 263204/27304 |  6504/  528 |
-| SystemClock+Basic TimeZone             | 268544/27860 | 11844/ 1084 |
-| SystemClock+Extended TimeZone          | 270832/28004 | 14132/ 1228 |
+| SystemClock                            | 266341/28452 |  6236/  560 |
+| SystemClock+Basic TimeZone             | 271633/29000 | 11528/ 1108 |
+| SystemClock+Extended TimeZone          | 273825/29144 | 13720/ 1252 |
 +---------------------------------------------------------------------+
 
 ```

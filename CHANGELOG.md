@@ -13,6 +13,8 @@
           time, 's' time, or 'u' time are equal.
         * The behavior of `ExtendedZoneProcessor.py` should now be identical
           to `zone_processor.py`.
+    * Upgrade ESP8266 Core from 2.7.4 to 3.0.2.
+        * Flash consumption increases by 3-5 kB across the boad.
 * 1.7.4 (2021-08-26)
     * Move `./tools` directory into new
       [AceTimeTools](https://github.com/bxparks/AceTimeTools) repo.

@@ -53,43 +53,54 @@ The CPU times below are given in microseconds.
 
 ## CPU Time Changes
 
-* The CPU time did not change much from v0.8 to v1.4.
-* The CPU time of most classes did not change much from v1.4 to v1.5. The
-  big difference is that the Zone registries (kZoneRegistry,
-  kZoneAndLinkRegistry) are now sorted by zoneId instead of zoneName, and the
-  `ZoneManager::createForZoneId()` will use a binary search, instead of a linear
-  search. This makes it 10-15X faster for ~266 entries. The
-  `ZoneManager::createForZoneName()` also converts to a zoneId, then performs a
-  binary search, instead of doing a binary search on the zoneName directly. Even
-  with the extra level of indirection, the `createForZoneName()` is between
-  1.5-2X faster than the previous version.
-* In v1.6, BasicZoneManager and ExtendedZoneManager can take an optional
+v0.8 to v1.4:
+* The CPU time did not change much from
+
+In v1.5:
+* No significant changes to CPU time.
+* Zone registries (kZoneRegistry, kZoneAndLinkRegistry) are now sorted by zoneId
+  instead of zoneName, and the `ZoneManager::createForZoneId()` will use a
+  binary search, instead of a linear search. This makes it 10-15X faster for
+  ~266 entries.
+* The `ZoneManager::createForZoneName()` also converts to a zoneId, then
+  performs a binary search, instead of doing a binary search on the zoneName
+  directly. Even with the extra level of indirection, the `createForZoneName()`
+  is between 1.5-2X faster than the previous version.
+
+In v1.6:
+* BasicZoneManager and ExtendedZoneManager can take an optional
   LinkRegistry which will be searched if a zoneId is not found. The
   `BasicZoneManager::createForZoneId(link)` benchmark shows that if the zoneId
   is not found, the total search time is roughly double, because the
-  LinkRegistry must be search as a fallback. On some compilers, the
-  `BasicZoneManager::createForZoneName(binary)` becames slightly slower (~10%?)
-  because the algorithm was moved into the `ace_common::binarySearchByKey()`
-  template function, and the compiler is not able to optimize the resulting
-  function as well as the hand-rolled version. The slightly decrease in speed
-  seemed acceptable cost to reduce duplicate code maintenance.
-* In v1.7.2, `SystemClock::clockMillis()` became non-virtual after incorporating
+  LinkRegistry must be search as a fallback.
+* On some compilers, the `BasicZoneManager::createForZoneName(binary)` becames
+  slightly slower (~10%?) because the algorithm was moved into the
+  `ace_common::binarySearchByKey()` template function, and the compiler is not
+  able to optimize the resulting function as well as the hand-rolled version.
+  The slightly decrease in speed seemed acceptable cost to reduce duplicate code
+  maintenance.
+
+In v1.7.2:
+* `SystemClock::clockMillis()` became non-virtual after incorporating
   AceRoutine v1.3. The sizeof `SystemClockLoop` and `SystemClockCoroutine`
   decreases 4 bytes on AVR, and 4-8 bytes on 32-bit processors. No signficant
   changes in CPU time.
-* In v1.7.4+:
-    * changes to size of `ExtendedZoneProcessor`:
-        * 8-bit processors
-            * increases by 24 bytes on AVR, due adding 1 pointer and 2
-              `uint16_t` to MatchingEra
-            * decreases by 48 bytes on AVR, by disabling
-              `originalTransitionTime` unless
-              `ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG` is enabled.
-        * 32-bit processors
-            * increases by 32 bytes on 32-bit processors due to adding
-              a pointer and 2 `uint16_t` to MatchingEra
-            * decreases by 32 bytes on 32-bit processors due to disabling
-              `originalTransitionTime` in Transition
+
+In v1.7.4+:
+* significant changes to size of `ExtendedZoneProcessor`
+    * 8-bit processors
+        * increases by 24 bytes on AVR, due adding 1 pointer and 2
+            `uint16_t` to MatchingEra
+        * decreases by 48 bytes on AVR, by disabling
+            `originalTransitionTime` unless
+            `ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG` is enabled.
+    * 32-bit processors
+        * increases by 32 bytes on 32-bit processors due to adding
+            a pointer and 2 `uint16_t` to MatchingEra
+        * decreases by 32 bytes on 32-bit processors due to disabling
+            `originalTransitionTime` in Transition
+* Upgrade ESP8266 Core from 2.7.4 to 3.0.2.
+    * AutoBenchmark indicate that things are a few percentage faster.
 
 ## Arduino Nano
 
@@ -351,7 +362,7 @@ Iterations_per_run: 10000
 
 * NodeMCU 1.0 clone, 80MHz ESP8266
 * Arduino IDE 1.8.13
-* ESP8266 Boards 2.7.4
+* ESP8266 Boards 3.0.2
 
 ```
 Sizes of Objects:
@@ -369,7 +380,7 @@ sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
 sizeof(clock::DS3231Clock): 8
-sizeof(clock::NtpClock): 88
+sizeof(clock::NtpClock): 92
 sizeof(clock::SystemClock): 36
 sizeof(clock::SystemClockLoop): 52
 sizeof(clock::SystemClockCoroutine): 72
@@ -389,24 +400,24 @@ CPU:
 +--------------------------------------------------+----------+
 | Method                                           |   micros |
 |--------------------------------------------------+----------|
-| EmptyLoop                                        |      5.0 |
+| EmptyLoop                                        |      4.9 |
 |--------------------------------------------------+----------|
 | LocalDate::forEpochDays()                        |      8.0 |
-| LocalDate::toEpochDays()                         |      4.0 |
-| LocalDate::dayOfWeek()                           |      3.9 |
+| LocalDate::toEpochDays()                         |      3.8 |
+| LocalDate::dayOfWeek()                           |      3.8 |
 | OffsetDateTime::forEpochSeconds()                |     12.3 |
-| OffsetDateTime::toEpochSeconds()                 |      7.1 |
-| ZonedDateTime::toEpochSeconds()                  |      7.2 |
-| ZonedDateTime::toEpochDays()                     |      5.9 |
-| ZonedDateTime::forEpochSeconds(UTC)              |     13.1 |
-| ZonedDateTime::forEpochSeconds(Basic_nocache)    |     98.2 |
-| ZonedDateTime::forEpochSeconds(Basic_cached)     |     26.5 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) |    191.3 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |     26.3 |
-| BasicZoneManager::createForZoneName(binary)      |     16.1 |
-| BasicZoneManager::createForZoneId(binary)        |      7.6 |
-| BasicZoneManager::createForZoneId(linear)        |     50.8 |
-| BasicZoneManager::createForZoneId(link)          |     13.1 |
+| OffsetDateTime::toEpochSeconds()                 |      6.8 |
+| ZonedDateTime::toEpochSeconds()                  |      6.9 |
+| ZonedDateTime::toEpochDays()                     |      5.7 |
+| ZonedDateTime::forEpochSeconds(UTC)              |     12.9 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    |     95.4 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |     25.9 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |    189.6 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |     25.8 |
+| BasicZoneManager::createForZoneName(binary)      |     14.8 |
+| BasicZoneManager::createForZoneId(binary)        |      6.6 |
+| BasicZoneManager::createForZoneId(linear)        |     44.2 |
+| BasicZoneManager::createForZoneId(link)          |     11.5 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 10000
 
