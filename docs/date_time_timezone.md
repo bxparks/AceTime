@@ -817,11 +817,11 @@ hold a reference to:
 ```
                0..1
 TimeZone <>-------- ZoneProcessor
-                          ^
-                          |
-                   .----- +----.
+                         ^
+                         |
+                   .-----+-----.
                    |           |
-    BasicZoneProcessor        ExtendedZoneProcessor
+    BasicZoneProcessor       ExtendedZoneProcessor
 ```
 
 Here is the class declaration of `TimeZone`:
@@ -860,6 +860,7 @@ class TimeZone {
     static TimeZone forUtc();
 
     TimeZone(); // same as forUtc()
+    bool isError() const;
 
     uint8_t getType() const;
     TimeOffset getStdOffset() const;
@@ -869,10 +870,13 @@ class TimeZone {
     TimeOffset getUtcOffset(acetime_t epochSeconds) const;
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const;
     const char* getAbbrev(acetime_t epochSeconds) const;
-    TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const;
+
+    OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const;
 
     bool isUtc() const;
     bool isDst() const;
+
+    void setStdOffset(TimeOffset stdOffset);
     void setDstOffset(TimeOffset offset);
 
     TimeZoneData toTimeZoneData() const;
@@ -898,17 +902,17 @@ points to a temporary buffer whose contents may change upon subsequent calls to
 needs to be saved for a longer period of time, it should be saved to another
 char buffer.
 
-The `getUtcOffsetForDateTime(localDateTime)` method returns the best guess of
-the total UTC offset at the given local date time. This method is not
-normally expected to be used by the app developer directly. The reaon that this
-is a best guess is because the local date time is sometime ambiguious during a
-DST transition. For example, if the local clock shifts from 01:00 to 02:00 at
-the start of summer, then the time of 01:30 does not exist. If the
-`getUtcOffsetForDateTime()` method is given a non-existing time, it makes an
-educated guess at what the user meant. Additionally, when the local time
-transitions from 02:00 to 01:00 in the autumn, a given local time such as 01:30
-occurs twice. If the `getUtcOffsetForDateTime()` method is given a time of
-01:30, it will arbitrarily decide which offset to return.
+The `getOffsetDateTime(localDateTime)` method returns the best guess of
+the `OffsetDateTime` at the given local date time. This method is used by
+`ZonedDateTime::forComponents()` and is exposed mostly for debugging. The reaon
+that this is a best guess is because the local date time is sometime ambiguious
+during a DST transition. For example, if the local clock shifts from 01:00 to
+02:00 at the start of summer, then the time of 01:30 does not exist. If the
+`getOffsetDateTime()` method is given a non-existing time, it makes an educated
+guess at what the user meant. Additionally, when the local time transitions from
+02:00 to 01:00 in the autumn, a given local time such as 01:30 occurs twice. If
+the `getOffsetDateTime()` method is given a time of 01:30, it will arbitrarily
+decide which offset to return.
 
 The `isUtc()`, `isDst()` and `setDstOffset(TimeOffset)` methods are valid *only*
 if the `TimeZone` is a `kTypeManual`. Otherwise, `isUtc()` and `isDst()` return
