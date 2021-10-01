@@ -833,8 +833,7 @@ class TimeZone {
   public:
     static const uint8_t kTypeError = 0;
     static const uint8_t kTypeManual = 1;
-    static const uint8_t kTypeBasic = ZoneProcessor::kTypeBasic;
-    static const uint8_t kTypeExtended = ZoneProcessor::kTypeExtended;
+    static const uint8_t kTypeReserved = 2;
 
     static TimeZone forTimeOffset(
         TimeOffset stdOffset,
