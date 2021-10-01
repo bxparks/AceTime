@@ -806,7 +806,7 @@ handle all zones in the ZoneInfo Database
 The class hierarchy of `TimeZone` is shown below, where the arrow means
 "is-subclass-of" and the diamond-line means "is-aggregation-of". This is an
 internal implementation detail of the `TimeZone` class that the application
-develper will not normally need to be aware of all the time, but maybe this
+developer will not normally need to be aware of all the time, but maybe this
 helps make better sense of the usage of the `TimeZone` class. A `TimeZone` can
 hold a reference to:
 
@@ -922,7 +922,7 @@ identifier for the IANA timezone. This can be used to save and restore
 the `TimeZone`. See the [ZoneManager](#ZoneManager) subsection below.
 
 The `printTo()` prints the fully-qualified unique name for the time zone.
-For example, `"UTC"`, `"-08:00", `"-08:00(DST)"`, `"America/Los_Angeles"`.
+For example, `"UTC"`, `"-08:00"`, `"-08:00(DST)"`, `"America/Los_Angeles"`.
 
 The `printShortTo()` is similar to `printTo()` except that it prints the
 last component of the IANA TZ Database zone names. In other words,
@@ -966,7 +966,7 @@ methods work only if the `TimeZone` is a `kTypeManual`.
 The `setDstOffset()` takes a `TimeOffset` as the argument instead of a simple
 `bool` because there are a handful of rare zones (e.g. Europe/Dublin, I think
 there is one other) which use a negative offset in the winter, instead of adding
-a postive offset in the summer.
+a positive offset in the summer.
 
 The `setStdOffset()` allows the base time offset to be changed, but this
 method is not expected to be used often.
@@ -1295,7 +1295,7 @@ disadvantage that the `BasicZoneProcessor` or `ExtendedZoneProcessor` needs to
 be created manually for each `TimeZone` instance. This works well for a single
 time zone, but if you have an application that needs 3 or more time zones, this
 may become cumbersome. Also, it is difficult to reconstruct a `TimeZone`
-dynamically, say, from its fullly qualified name (e.g. `"America/Los_Angeles"`).
+dynamically, say, from its fully qualified name (e.g. `"America/Los_Angeles"`).
 
 The `ZoneManager` solves these problems. It keeps an internal cache of
 `ZoneProcessors`, reusing them as needed. And it holds a registry of `ZoneInfo`
@@ -1848,7 +1848,7 @@ version:
 
 * Ghost Links (prior to v1.5, but no longer implemented)
 * Fat Links (from v1.5 onwards)
-* Thin LInks (from v1.6 onwards)
+* Thin Links (from v1.6 onwards)
 
 <a name="GhostLinks"></a>
 #### Ghost Links (Prior to v1.5)
@@ -2234,7 +2234,7 @@ void incrementMinute(ZonedDateTime& dateTime);
 ```
 
 <a name="ZonedDateTimeNormalization"></a>
-### ZonedDateTimeNormalization
+### ZonedDateTime Normalization
 
 When the `ZonedDateTime` object is mutated using the methods and functions
 listed above, the client code must call `ZonedDateTime::normalize()` before
