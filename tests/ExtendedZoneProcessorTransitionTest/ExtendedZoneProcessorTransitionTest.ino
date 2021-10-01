@@ -3,17 +3,21 @@
 #include <Arduino.h>
 #include <AUnit.h>
 #include <AceTime.h>
+#include "EuropeLisbon.h"
 
 using aunit::TestRunner;
 using aunit::TestOnce;
-
 using namespace ace_time;
+
+//----------------------------------------------------------------------------
+
+ExtendedZoneProcessor zoneProcessor;
 
 extended::ZoneRegistrar zoneRegistrar(
     zonedbx::kZoneRegistrySize,
     zonedbx::kZoneRegistry);
 
-ExtendedZoneProcessor zoneProcessor;
+//----------------------------------------------------------------------------
 
 /**
  * Check that all Transitions for all years, for all zones in the zonedbx
@@ -24,19 +28,8 @@ ExtendedZoneProcessor zoneProcessor;
  */
 class TransitionValidation : public aunit::TestOnce {
   public:
-    void validate() {
-      for (uint16_t i = 0; i < zonedbx::kZoneRegistrySize; i++) {
-        const extended::ZoneInfo* info = zoneRegistrar.getZoneInfoForIndex(i);
-        zoneProcessor.setZoneKey((uintptr_t) info);
-        validateZone();
-      }
-    }
-
-  private:
-    void validateZone() {
-      for (int16_t year = zonedbx::kZoneContext.startYear;
-          year < zonedbx::kZoneContext.untilYear;
-          year++) {
+    void validateZone(int16_t startYear, int16_t untilYear) {
+      for (int16_t year = startYear; year < untilYear; year++) {
 
         bool status = zoneProcessor.initForYear(year);
         if (! status) {
@@ -53,6 +46,7 @@ class TransitionValidation : public aunit::TestOnce {
       }
     }
 
+  private:
     void checkSortedTransitions(
         int16_t year,
         ExtendedZoneProcessor::Transition** start,
@@ -104,10 +98,28 @@ class TransitionValidation : public aunit::TestOnce {
     }
 };
 
-//----------------------------------------------------------------------------
+testF(TransitionValidation, allZones) {
+  for (uint16_t i = 0; i < zonedbx::kZoneRegistrySize; i++) {
+    const extended::ZoneInfo* info = zoneRegistrar.getZoneInfoForIndex(i);
+    zoneProcessor.setZoneKey((uintptr_t) info);
+    assertNoFatalFailure(validateZone(
+      zonedbx::kZoneContext.startYear,
+      zonedbx::kZoneContext.untilYear));
+  }
+}
 
-testF(TransitionValidation, validate) {
-  assertNoFatalFailure(validate());
+//----------------------------------------------------------------------------
+// Verify Transitions for Europe/Lisbon in 1992. That is the only zone/year
+// where the previous ExtendedZoneProcessor algorithm failed, with a duplicate
+// Transition. The default zonedbx/ database spans from 2000 until 2050, so we
+// have to manually copy the ZoneInfo data for Europe/Lisbon.
+//---------------------------------------------------------------------------
+
+testF(TransitionValidation, lisbon1992) {
+  zoneProcessor.setZoneKey((uintptr_t) &zonedbxtest::kZoneEurope_Lisbon);
+  assertNoFatalFailure(validateZone(
+      zonedbxtest::kZoneContext.startYear,
+      zonedbxtest::kZoneContext.untilYear));
 }
 
 //----------------------------------------------------------------------------
