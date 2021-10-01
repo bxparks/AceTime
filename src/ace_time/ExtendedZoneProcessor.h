@@ -50,8 +50,9 @@ class TransitionStorageTest_reservePrior;
 class TransitionStorageTest_addFreeAgentToCandidatePool;
 class TransitionStorageTest_setFreeAgentAsPriorIfValid;
 class TransitionStorageTest_addActiveCandidatesToActivePool;
-class TransitionStorageTest_resetCandidatePool;
 class TransitionStorageTest_findTransitionForDateTime;
+class TransitionStorageTest_resetCandidatePool;
+class TransitionValidation;
 
 class Print;
 
@@ -1063,6 +1064,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_createAbbreviation;
     friend class ::ExtendedZoneProcessorTest_setZoneKey;
     friend class ::TransitionStorageTest_findTransitionForDateTime;
+    friend class ::TransitionValidation;
 
     // Disable copy constructor and assignment operator.
     ExtendedZoneProcessorTemplate(
