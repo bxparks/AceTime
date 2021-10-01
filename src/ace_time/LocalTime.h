@@ -98,10 +98,10 @@ class LocalTime {
     explicit LocalTime() {}
 
     /**
-     * Return true if any component is outside the normal time range of
-     * 00:00:00 to 23:59:59. We add the exception that 24:00:00 is also
-     * considered valid to allow AutoZoneSpecififier to support midnight
-     * transitions from the TZ Database.
+     * Return true if any component is outside the normal time range of 00:00:00
+     * to 23:59:59. We add the exception that 24:00:00 is also considered valid
+     * to allow ExtendedZoneProcessor (and maybe BasicZoneProcessor) to support
+     * midnight transitions from the TZ Database.
      */
     bool isError() const {
       if (mSecond >= 60) return true;
