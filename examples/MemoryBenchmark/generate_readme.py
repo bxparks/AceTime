@@ -143,6 +143,11 @@ In v1.7.5+:
     * Saves 500 bytes of flash on ESP8266.
     * Saves 3000-4000 bytes of flash on ESP32.
     * Saves 2500 bytes of flash on Teensy 3.2.
+* MemoryBenchmark:
+    * Add benchmark for `DS3231Clock` separatelyfrom `SytemClock`.
+    * Replace dependency to `<Wire.h>` with `<AceWire.h>`, reducing the
+      apparent flash consumption by 1000-3000 bytes.
+    * Rename `SystemClock` label to `SystemClockLoop`.
 
 ## Arduino Nano
 

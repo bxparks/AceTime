@@ -22,9 +22,10 @@
 #define FEATURE_EXTENDED_ZONE_MANAGER_ZONES 13
 #define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_THIN_LINKS 14
 #define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS 15
-#define FEATURE_SYSTEM_CLOCK 16
-#define FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE 17
-#define FEATURE_SYSTEM_CLOCK_AND_EXTENDED_TIME_ZONE 18
+#define FEATURE_DS3231_CLOCK 16
+#define FEATURE_SYSTEM_CLOCK 17
+#define FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE 18
+#define FEATURE_SYSTEM_CLOCK_AND_EXTENDED_TIME_ZONE 19
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
@@ -84,7 +85,8 @@ static const uint16_t kExtendedZoneRegistrySize =
   FooClass* foo;
 #endif
 
-#if FEATURE == FEATURE_SYSTEM_CLOCK \
+#if FEATURE == FEATURE_DS3231_CLOCK \
+    || FEATURE == FEATURE_SYSTEM_CLOCK \
     || FEATURE == FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE \
     || FEATURE == FEATURE_SYSTEM_CLOCK_AND_EXTENDED_TIME_ZONE
   #include <Wire.h> // TwoWire, Wire
@@ -218,20 +220,23 @@ void setup() {
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_SYSTEM_CLOCK
-  using WireInterface = ace_wire::TwoWireInterface<TwoWire>;
-  WireInterface wireInterface(Wire);
+
+#elif FEATURE == FEATURE_DS3231_CLOCK
+  using WireInterface = ace_wire::SimpleWireInterface;
+  WireInterface wireInterface(SDA, SCL, 4 /* delayMicros */);
   DS3231Clock<WireInterface> dsClock(wireInterface);
-  SystemClockLoop systemClock(&dsClock, &dsClock);
+  acetime_t now = dsClock.getNow();
+  guard ^= now;
+#elif FEATURE == FEATURE_SYSTEM_CLOCK
+  SystemClockLoop systemClock(nullptr, nullptr);
   systemClock.setup();
+  systemClock.setNow(random(65000));
   acetime_t now = systemClock.getNow();
   guard ^= now;
 #elif FEATURE == FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE
-  using WireInterface = ace_wire::TwoWireInterface<TwoWire>;
-  WireInterface wireInterface(Wire);
-  DS3231Clock<WireInterface> dsClock(wireInterface);
-  SystemClockLoop systemClock(&dsClock, &dsClock);
+  SystemClockLoop systemClock(nullptr, nullptr);
   systemClock.setup();
+  systemClock.setNow(random(65000));
   acetime_t now = systemClock.getNow();
   BasicZoneProcessor processor;
   auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
@@ -240,11 +245,9 @@ void setup() {
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_SYSTEM_CLOCK_AND_EXTENDED_TIME_ZONE
-  using WireInterface = ace_wire::TwoWireInterface<TwoWire>;
-  WireInterface wireInterface(Wire);
-  DS3231Clock<WireInterface> dsClock(wireInterface);
-  SystemClockLoop systemClock(&dsClock, &dsClock);
+  SystemClockLoop systemClock(nullptr, nullptr);
   systemClock.setup();
+  systemClock.setNow(random(65000));
   acetime_t now = systemClock.getNow();
   ExtendedZoneProcessor processor;
   auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,

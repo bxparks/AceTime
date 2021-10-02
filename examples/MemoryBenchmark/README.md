@@ -119,6 +119,11 @@ In v1.7.5+:
     * Saves 500 bytes of flash on ESP8266.
     * Saves 3000-4000 bytes of flash on ESP32.
     * Saves 2500 bytes of flash on Teensy 3.2.
+* MemoryBenchmark:
+    * Add benchmark for `DS3231Clock` separatelyfrom `SytemClock`.
+    * Replace dependency to `<Wire.h>` with `<AceWire.h>`, reducing the
+      apparent flash consumption by 1000-3000 bytes.
+    * Rename `SystemClock` label to `SystemClockLoop`.
 
 ## Arduino Nano
 
@@ -148,9 +153,10 @@ In v1.7.5+:
 | ExtendedZoneManager (zones+thin links) |  34406/  737 | 33932/  726 |
 | ExtendedZoneManager (zones+fat links)  |  37484/  737 | 37010/  726 |
 |----------------------------------------+--------------+-------------|
-| SystemClock                            |   5120/  263 |  4646/  252 |
-| SystemClock+Basic TimeZone             |   9908/  437 |  9434/  426 |
-| SystemClock+Extended TimeZone          |  12964/  471 | 12490/  460 |
+| DS3231Clock                            |   4108/  150 |  3634/  139 |
+| SystemClockLoop                        |   2692/  142 |  2218/  131 |
+| SystemClockLoop+1 Basic zone           |   8220/  328 |  7746/  317 |
+| SystemClockLoop+1 Extended zone        |  11230/  362 | 10756/  351 |
 +---------------------------------------------------------------------+
 
 ```
@@ -184,9 +190,10 @@ In v1.7.5+:
 | ExtendedZoneManager (zones+thin links) |  37398/  875 | 33928/  722 |
 | ExtendedZoneManager (zones+fat links)  |  40476/  875 | 37006/  722 |
 |----------------------------------------+--------------+-------------|
-| SystemClock                            |   8106/  405 |  4636/  252 |
-| SystemClock+Basic TimeZone             |  12892/  577 |  9422/  424 |
-| SystemClock+Extended TimeZone          |  15948/  611 | 12478/  458 |
+| DS3231Clock                            |   7216/  292 |  3746/  139 |
+| SystemClockLoop                        |   5796/  284 |  2326/  131 |
+| SystemClockLoop+1 Basic zone           |  11322/  468 |  7852/  315 |
+| SystemClockLoop+1 Extended zone        |  14332/  502 | 10862/  349 |
 +---------------------------------------------------------------------+
 
 ```
@@ -219,9 +226,10 @@ In v1.7.5+:
 | ExtendedZoneManager (zones+thin links) |  48716/    0 | 38652/    0 |
 | ExtendedZoneManager (zones+fat links)  |  54380/    0 | 44316/    0 |
 |----------------------------------------+--------------+-------------|
-| SystemClock                            |  12944/    0 |  2880/    0 |
-| SystemClock+Basic TimeZone             |  16572/    0 |  6508/    0 |
-| SystemClock+Extended TimeZone          |  18596/    0 |  8532/    0 |
+| DS3231Clock                            |  12728/    0 |  2664/    0 |
+| SystemClockLoop                        |  11616/    0 |  1552/    0 |
+| SystemClockLoop+1 Basic zone           |  15772/    0 |  5708/    0 |
+| SystemClockLoop+1 Extended zone        |  17756/    0 |  7692/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -256,9 +264,10 @@ In v1.7.5+:
 | ExtendedZoneManager (zones+thin links) |  59132/ 3568 | 37712/   32 |
 | ExtendedZoneManager (zones+fat links)  |  64656/ 3568 | 43236/   32 |
 |----------------------------------------+--------------+-------------|
-| SystemClock                            |  28668/ 3768 |  7248/  232 |
-| SystemClock+Basic TimeZone             |  32312/ 3768 | 10892/  232 |
-| SystemClock+Extended TimeZone          |  34060/ 3768 | 12640/  232 |
+| DS3231Clock                            |  29428/ 3788 |  8008/  252 |
+| SystemClockLoop                        |  31480/ 3876 | 10060/  340 |
+| SystemClockLoop+1 Basic zone           |  35516/ 3876 | 14096/  340 |
+| SystemClockLoop+1 Extended zone        |  37264/ 3876 | 15844/  340 |
 +---------------------------------------------------------------------+
 
 ```
@@ -294,9 +303,10 @@ microcontroller and the compiler did not generate the desired information.
 | ExtendedZoneManager (zones+thin links) | 303345/28688 | 43256/  796 |
 | ExtendedZoneManager (zones+fat links)  | 309169/28688 | 49080/  796 |
 |----------------------------------------+--------------+-------------|
-| SystemClock                            | 266341/28452 |  6252/  560 |
-| SystemClock+Basic TimeZone             | 271633/29000 | 11544/ 1108 |
-| SystemClock+Extended TimeZone          | 273825/29144 | 13736/ 1252 |
+| DS3231Clock                            | 265161/28452 |  5072/  560 |
+| SystemClockLoop                        | 263761/28448 |  3672/  556 |
+| SystemClockLoop+1 Basic zone           | 269737/29024 |  9648/ 1132 |
+| SystemClockLoop+1 Extended zone        | 271881/29168 | 11792/ 1276 |
 +---------------------------------------------------------------------+
 
 ```
@@ -329,9 +339,10 @@ microcontroller and the compiler did not generate the desired information.
 | ExtendedZoneManager (zones+thin links) | 245750/13432 | 48002/  348 |
 | ExtendedZoneManager (zones+fat links)  | 251558/13432 | 53810/  348 |
 |----------------------------------------+--------------+-------------|
-| SystemClock                            | 217786/14304 | 20038/ 1220 |
-| SystemClock+Basic TimeZone             | 222046/14304 | 24298/ 1220 |
-| SystemClock+Extended TimeZone          | 224074/14304 | 26326/ 1220 |
+| DS3231Clock                            | 211970/14192 | 14222/ 1108 |
+| SystemClockLoop                        | 210330/14192 | 12582/ 1108 |
+| SystemClockLoop+1 Basic zone           | 215250/14192 | 17502/ 1108 |
+| SystemClockLoop+1 Extended zone        | 217270/14192 | 19522/ 1108 |
 +---------------------------------------------------------------------+
 
 ```
@@ -368,9 +379,10 @@ usage by objects.
 | ExtendedZoneManager (zones+thin links) |  56848/ 4160 | 46664/    8 |
 | ExtendedZoneManager (zones+fat links)  |  62680/ 4160 | 52496/    8 |
 |----------------------------------------+--------------+-------------|
-| SystemClock                            |  16316/ 4820 |  6132/  668 |
-| SystemClock+Basic TimeZone             |  25184/ 4820 | 15000/  668 |
-| SystemClock+Extended TimeZone          |  29004/ 4820 | 18820/  668 |
+| DS3231Clock                            |  14472/ 4820 |  4288/  668 |
+| SystemClockLoop                        |  12976/ 4828 |  2792/  676 |
+| SystemClockLoop+1 Basic zone           |  21892/ 4828 | 11708/  676 |
+| SystemClockLoop+1 Extended zone        |  25648/ 4828 | 15464/  676 |
 +---------------------------------------------------------------------+
 
 ```

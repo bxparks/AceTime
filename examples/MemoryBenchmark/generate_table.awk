@@ -6,7 +6,7 @@
 # table that can be inserted into the README.md.
 
 BEGIN {
-  NUM_FEATURES = 18
+  NUM_FEATURES = 19
   labels[0] = "Baseline"
   labels[1] = "LocalDateTime"
   labels[2] = "ZonedDateTime"
@@ -23,9 +23,10 @@ BEGIN {
   labels[13] = "ExtendedZoneManager (zones)"
   labels[14] = "ExtendedZoneManager (zones+thin links)"
   labels[15] = "ExtendedZoneManager (zones+fat links)"
-  labels[16] = "SystemClock"
-  labels[17] = "SystemClock+Basic TimeZone"
-  labels[18] = "SystemClock+Extended TimeZone"
+  labels[16] = "DS3231Clock"
+  labels[17] = "SystemClockLoop"
+  labels[18] = "SystemClockLoop+1 Basic zone"
+  labels[19] = "SystemClockLoop+1 Extended zone"
   record_index = 0
 }
 {
