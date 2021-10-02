@@ -17,10 +17,15 @@ namespace clock {
 
 /**
  * An implementation of Clock that uses a DS3231 RTC chip.
+ *
+ * @tparam T_WIREI type of the AceWire implementation to communicate over I2C
  */
-class DS3231Clock: public Clock {
+template<typename T_WIREI>
+class DS3231Clock : public Clock {
   public:
-    explicit DS3231Clock() {}
+    explicit DS3231Clock(const T_WIREI& wireInterface) :
+        mDS3231(wireInterface)
+    {}
 
     void setup() {}
 
@@ -59,7 +64,8 @@ class DS3231Clock: public Clock {
           dt.day(), dt.hour(), dt.minute(), dt.second(), dt.dayOfWeek()};
     }
 
-    const hw::DS3231 mDS3231;
+  private:
+    const hw::DS3231<T_WIREI> mDS3231;
 };
 
 }
