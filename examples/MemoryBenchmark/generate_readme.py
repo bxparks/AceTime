@@ -129,7 +129,20 @@ In v1.7.5:
   3-5 kB across the board.
 * Upgrade Teensyduino from 1.54 to 1.55. Add memory consumed by `malloc()` and
   `free()` when using classes with virtual methods into baseline
-  MemoryBenchmark, reducing the actual memory usage of various features by ~3kB.
+  MemoryBenchmark, reducing the actual memory usage of various features by
+  ~3kB.
+
+In v1.7.5+:
+* Convert `DS3231.h` into a template class for `<AceWire.h>`, replacing direct
+  dependency on `<Wire.h>`.
+    * Just including the `<Wire.h>` header causes flash memory to be consumed,
+      even if `Wire` object is never used.
+    * Saves 1000-1500 bytes of flash on AVR processors.
+    * Saves 500 bytes of flash on SAMD.
+    * Saves 4000 bytes of flash STM32.
+    * Saves 500 bytes of flash on ESP8266.
+    * Saves 3000-4000 bytes of flash on ESP32.
+    * Saves 2500 bytes of flash on Teensy 3.2.
 
 ## Arduino Nano
 
@@ -145,6 +158,7 @@ In v1.7.5:
 
 * 16 MHz ATmega32U4
 * Arduino IDE 1.8.16, Arduino CLI 0.19.2
+>>>>>>> MemoryBenchmark: Regenerate after replacing direct dependency on <Wire.h> with <AceWire.h>; saves 500-4000 bytes of flash
 * SparkFun AVR Boards 1.1.13
 
 ```
