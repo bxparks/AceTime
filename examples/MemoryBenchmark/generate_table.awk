@@ -6,7 +6,7 @@
 # table that can be inserted into the README.md.
 
 BEGIN {
-  NUM_FEATURES = 19
+  NUM_FEATURES = 22
   labels[0] = "Baseline"
   labels[1] = "LocalDateTime"
   labels[2] = "ZonedDateTime"
@@ -27,6 +27,9 @@ BEGIN {
   labels[17] = "SystemClockLoop"
   labels[18] = "SystemClockLoop+1 Basic zone"
   labels[19] = "SystemClockLoop+1 Extended zone"
+  labels[20] = "SystemClockCoroutine"
+  labels[21] = "SystemClockCoroutine+1 Basic zone"
+  labels[22] = "SystemClockCoroutine+1 Extended zone"
   record_index = 0
 }
 {

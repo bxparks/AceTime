@@ -23,9 +23,12 @@
 #define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_THIN_LINKS 14
 #define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS 15
 #define FEATURE_DS3231_CLOCK 16
-#define FEATURE_SYSTEM_CLOCK 17
-#define FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE 18
-#define FEATURE_SYSTEM_CLOCK_AND_EXTENDED_TIME_ZONE 19
+#define FEATURE_SYSTEM_CLOCK_LOOP 17
+#define FEATURE_SYSTEM_CLOCK_LOOP_AND_BASIC_TIME_ZONE 18
+#define FEATURE_SYSTEM_CLOCK_LOOP_AND_EXTENDED_TIME_ZONE 19
+#define FEATURE_SYSTEM_CLOCK_COROUTINE 20
+#define FEATURE_SYSTEM_CLOCK_COROUTINE_AND_BASIC_TIME_ZONE 21
+#define FEATURE_SYSTEM_CLOCK_COROUTINE_AND_EXTENDED_TIME_ZONE 22
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
@@ -35,6 +38,7 @@
 #define FEATURE 0
 
 #if FEATURE != FEATURE_BASELINE
+  #include <AceRoutine.h> // activates SystemClockCoroutine
   #include <AceTime.h>
   using namespace ace_time;
   using namespace ace_time::clock;
@@ -86,9 +90,12 @@ static const uint16_t kExtendedZoneRegistrySize =
 #endif
 
 #if FEATURE == FEATURE_DS3231_CLOCK \
-    || FEATURE == FEATURE_SYSTEM_CLOCK \
-    || FEATURE == FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE \
-    || FEATURE == FEATURE_SYSTEM_CLOCK_AND_EXTENDED_TIME_ZONE
+    || FEATURE == FEATURE_SYSTEM_CLOCK_LOOP \
+    || FEATURE == FEATURE_SYSTEM_CLOCK_LOOP_AND_BASIC_TIME_ZONE \
+    || FEATURE == FEATURE_SYSTEM_CLOCK_LOOP_AND_EXTENDED_TIME_ZONE \
+    || FEATURE == FEATURE_SYSTEM_CLOCK_COROUTINE \
+    || FEATURE == FEATURE_SYSTEM_CLOCK_COROUTINE_AND_BASIC_TIME_ZONE \
+    || FEATURE == FEATURE_SYSTEM_CLOCK_COROUTINE_AND_EXTENDED_TIME_ZONE
   #include <Wire.h> // TwoWire, Wire
   #include <AceWire.h> // TwoWireInterface
 #endif
@@ -227,13 +234,14 @@ void setup() {
   DS3231Clock<WireInterface> dsClock(wireInterface);
   acetime_t now = dsClock.getNow();
   guard ^= now;
-#elif FEATURE == FEATURE_SYSTEM_CLOCK
+
+#elif FEATURE == FEATURE_SYSTEM_CLOCK_LOOP
   SystemClockLoop systemClock(nullptr, nullptr);
   systemClock.setup();
   systemClock.setNow(random(65000));
   acetime_t now = systemClock.getNow();
   guard ^= now;
-#elif FEATURE == FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE
+#elif FEATURE == FEATURE_SYSTEM_CLOCK_LOOP_AND_BASIC_TIME_ZONE
   SystemClockLoop systemClock(nullptr, nullptr);
   systemClock.setup();
   systemClock.setNow(random(65000));
@@ -244,10 +252,42 @@ void setup() {
   auto dt = ZonedDateTime::forEpochSeconds(now, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_SYSTEM_CLOCK_AND_EXTENDED_TIME_ZONE
+#elif FEATURE == FEATURE_SYSTEM_CLOCK_LOOP_AND_EXTENDED_TIME_ZONE
   SystemClockLoop systemClock(nullptr, nullptr);
   systemClock.setup();
   systemClock.setNow(random(65000));
+  acetime_t now = systemClock.getNow();
+  ExtendedZoneProcessor processor;
+  auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
+      &processor);
+  auto dt = ZonedDateTime::forEpochSeconds(now, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
+
+#elif FEATURE == FEATURE_SYSTEM_CLOCK_COROUTINE
+  SystemClockCoroutine systemClock(nullptr, nullptr);
+  systemClock.setup();
+  systemClock.setNow(random(65000));
+  systemClock.runCoroutine();
+  acetime_t now = systemClock.getNow();
+  guard ^= now;
+#elif FEATURE == FEATURE_SYSTEM_CLOCK_COROUTINE_AND_BASIC_TIME_ZONE
+  SystemClockCoroutine systemClock(nullptr, nullptr);
+  systemClock.setup();
+  systemClock.setNow(random(65000));
+  systemClock.runCoroutine();
+  acetime_t now = systemClock.getNow();
+  BasicZoneProcessor processor;
+  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &processor);
+  auto dt = ZonedDateTime::forEpochSeconds(now, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
+#elif FEATURE == FEATURE_SYSTEM_CLOCK_COROUTINE_AND_EXTENDED_TIME_ZONE
+  SystemClockCoroutine systemClock(nullptr, nullptr);
+  systemClock.setup();
+  systemClock.setNow(random(65000));
+  systemClock.runCoroutine();
   acetime_t now = systemClock.getNow();
   ExtendedZoneProcessor processor;
   auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,

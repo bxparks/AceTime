@@ -148,6 +148,8 @@ In v1.7.5+:
     * Replace dependency to `<Wire.h>` with `<AceWire.h>`, reducing the
       apparent flash consumption by 1000-3000 bytes.
     * Rename `SystemClock` label to `SystemClockLoop`.
+    * Add benchmarks for `SystemClockCoroutine` separately from
+      `SystemClockLoop`.
 
 ## Arduino Nano
 

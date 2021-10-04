@@ -124,6 +124,8 @@ In v1.7.5+:
     * Replace dependency to `<Wire.h>` with `<AceWire.h>`, reducing the
       apparent flash consumption by 1000-3000 bytes.
     * Rename `SystemClock` label to `SystemClockLoop`.
+    * Add benchmarks for `SystemClockCoroutine` separately from
+      `SystemClockLoop`.
 
 ## Arduino Nano
 
@@ -157,6 +159,9 @@ In v1.7.5+:
 | SystemClockLoop                        |   2692/  142 |  2218/  131 |
 | SystemClockLoop+1 Basic zone           |   8220/  328 |  7746/  317 |
 | SystemClockLoop+1 Extended zone        |  11230/  362 | 10756/  351 |
+| SystemClockCoroutine                   |   3456/  154 |  2982/  143 |
+| SystemClockCoroutine+1 Basic zone      |   9024/  340 |  8550/  329 |
+| SystemClockCoroutine+1 Extended zone   |  12034/  374 | 11560/  363 |
 +---------------------------------------------------------------------+
 
 ```
@@ -194,6 +199,9 @@ In v1.7.5+:
 | SystemClockLoop                        |   5796/  284 |  2326/  131 |
 | SystemClockLoop+1 Basic zone           |  11322/  468 |  7852/  315 |
 | SystemClockLoop+1 Extended zone        |  14332/  502 | 10862/  349 |
+| SystemClockCoroutine                   |   6560/  296 |  3090/  143 |
+| SystemClockCoroutine+1 Basic zone      |  12126/  480 |  8656/  327 |
+| SystemClockCoroutine+1 Extended zone   |  15136/  514 | 11666/  361 |
 +---------------------------------------------------------------------+
 
 ```
@@ -214,13 +222,13 @@ In v1.7.5+:
 | ZonedDateTime                          |  10584/    0 |   520/    0 |
 | Manual ZoneManager                     |  10608/    0 |   544/    0 |
 | Basic TimeZone (1 zone)                |  14532/    0 |  4468/    0 |
-| Basic TimeZone (2 zones)               |  14828/    0 |  4764/    0 |
+| Basic TimeZone (2 zones)               |  14836/    0 |  4772/    0 |
 | BasicZoneManager (1 zone)              |  15476/    0 |  5412/    0 |
 | BasicZoneManager (zones)               |  32588/    0 | 22524/    0 |
 | BasicZoneManager (zones+thin links)    |  34172/    0 | 24108/    0 |
 | BasicZoneManager (zones+fat links)     |  39196/    0 | 29132/    0 |
-| Extended TimeZone (1 zone)             |  16428/    0 |  6364/    0 |
-| Extended TimeZone (2 zones)            |  16764/    0 |  6700/    0 |
+| Extended TimeZone (1 zone)             |  16436/    0 |  6372/    0 |
+| Extended TimeZone (2 zones)            |  16772/    0 |  6708/    0 |
 | ExtendedZoneManager (1 zone)           |  17356/    0 |  7292/    0 |
 | ExtendedZoneManager (zones)            |  46940/    0 | 36876/    0 |
 | ExtendedZoneManager (zones+thin links) |  48716/    0 | 38652/    0 |
@@ -230,6 +238,9 @@ In v1.7.5+:
 | SystemClockLoop                        |  11616/    0 |  1552/    0 |
 | SystemClockLoop+1 Basic zone           |  15772/    0 |  5708/    0 |
 | SystemClockLoop+1 Extended zone        |  17756/    0 |  7692/    0 |
+| SystemClockCoroutine                   |  12144/    0 |  2080/    0 |
+| SystemClockCoroutine+1 Basic zone      |  16292/    0 |  6228/    0 |
+| SystemClockCoroutine+1 Extended zone   |  18292/    0 |  8228/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -251,23 +262,26 @@ In v1.7.5+:
 | LocalDateTime                          |  21604/ 3568 |   184/   32 |
 | ZonedDateTime                          |  21772/ 3568 |   352/   32 |
 | Manual ZoneManager                     |  21784/ 3568 |   364/   32 |
-| Basic TimeZone (1 zone)                |  25624/ 3568 |  4204/   32 |
-| Basic TimeZone (2 zones)               |  25888/ 3568 |  4468/   32 |
+| Basic TimeZone (1 zone)                |  25628/ 3568 |  4208/   32 |
+| Basic TimeZone (2 zones)               |  25892/ 3568 |  4472/   32 |
 | BasicZoneManager (1 zone)              |  26472/ 3568 |  5052/   32 |
 | BasicZoneManager (zones)               |  43348/ 3568 | 21928/   32 |
 | BasicZoneManager (zones+thin links)    |  44924/ 3568 | 23504/   32 |
 | BasicZoneManager (zones+fat links)     |  49792/ 3568 | 28372/   32 |
 | Extended TimeZone (1 zone)             |  27288/ 3568 |  5868/   32 |
 | Extended TimeZone (2 zones)            |  27596/ 3568 |  6176/   32 |
-| ExtendedZoneManager (1 zone)           |  28212/ 3568 |  6792/   32 |
-| ExtendedZoneManager (zones)            |  57388/ 3568 | 35968/   32 |
-| ExtendedZoneManager (zones+thin links) |  59132/ 3568 | 37712/   32 |
-| ExtendedZoneManager (zones+fat links)  |  64656/ 3568 | 43236/   32 |
+| ExtendedZoneManager (1 zone)           |  28216/ 3568 |  6796/   32 |
+| ExtendedZoneManager (zones)            |  57392/ 3568 | 35972/   32 |
+| ExtendedZoneManager (zones+thin links) |  59136/ 3568 | 37716/   32 |
+| ExtendedZoneManager (zones+fat links)  |  64660/ 3568 | 43240/   32 |
 |----------------------------------------+--------------+-------------|
 | DS3231Clock                            |  29428/ 3788 |  8008/  252 |
 | SystemClockLoop                        |  31480/ 3876 | 10060/  340 |
-| SystemClockLoop+1 Basic zone           |  35516/ 3876 | 14096/  340 |
+| SystemClockLoop+1 Basic zone           |  35520/ 3876 | 14100/  340 |
 | SystemClockLoop+1 Extended zone        |  37264/ 3876 | 15844/  340 |
+| SystemClockCoroutine                   |  31948/ 3880 | 10528/  344 |
+| SystemClockCoroutine+1 Basic zone      |  35992/ 3880 | 14572/  344 |
+| SystemClockCoroutine+1 Extended zone   |  37740/ 3880 | 16320/  344 |
 +---------------------------------------------------------------------+
 
 ```
@@ -307,6 +321,9 @@ microcontroller and the compiler did not generate the desired information.
 | SystemClockLoop                        | 263761/28448 |  3672/  556 |
 | SystemClockLoop+1 Basic zone           | 269737/29024 |  9648/ 1132 |
 | SystemClockLoop+1 Extended zone        | 271881/29168 | 11792/ 1276 |
+| SystemClockCoroutine                   | 264305/28448 |  4216/  556 |
+| SystemClockCoroutine+1 Basic zone      | 270297/29024 | 10208/ 1132 |
+| SystemClockCoroutine+1 Extended zone   | 272441/29168 | 12352/ 1276 |
 +---------------------------------------------------------------------+
 
 ```
@@ -323,26 +340,29 @@ microcontroller and the compiler did not generate the desired information.
 |----------------------------------------+--------------+-------------|
 | Baseline                               | 197748/13084 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| LocalDateTime                          | 206286/13432 |  8538/  348 |
-| ZonedDateTime                          | 206426/13432 |  8678/  348 |
-| Manual ZoneManager                     | 206486/13432 |  8738/  348 |
-| Basic TimeZone (1 zone)                | 211026/13432 | 13278/  348 |
-| Basic TimeZone (2 zones)               | 211410/13432 | 13662/  348 |
-| BasicZoneManager (1 zone)              | 212098/13432 | 14350/  348 |
-| BasicZoneManager (zones)               | 229414/13432 | 31666/  348 |
-| BasicZoneManager (zones+thin links)    | 230986/13432 | 33238/  348 |
-| BasicZoneManager (zones+fat links)     | 236118/13432 | 38370/  348 |
-| Extended TimeZone (1 zone)             | 213038/13432 | 15290/  348 |
-| Extended TimeZone (2 zones)            | 213410/13432 | 15662/  348 |
-| ExtendedZoneManager (1 zone)           | 214130/13432 | 16382/  348 |
-| ExtendedZoneManager (zones)            | 243990/13432 | 46242/  348 |
-| ExtendedZoneManager (zones+thin links) | 245750/13432 | 48002/  348 |
-| ExtendedZoneManager (zones+fat links)  | 251558/13432 | 53810/  348 |
+| LocalDateTime                          | 206318/13440 |  8570/  356 |
+| ZonedDateTime                          | 206458/13440 |  8710/  356 |
+| Manual ZoneManager                     | 206518/13440 |  8770/  356 |
+| Basic TimeZone (1 zone)                | 211058/13440 | 13310/  356 |
+| Basic TimeZone (2 zones)               | 211442/13440 | 13694/  356 |
+| BasicZoneManager (1 zone)              | 212130/13440 | 14382/  356 |
+| BasicZoneManager (zones)               | 229446/13440 | 31698/  356 |
+| BasicZoneManager (zones+thin links)    | 231018/13440 | 33270/  356 |
+| BasicZoneManager (zones+fat links)     | 236150/13440 | 38402/  356 |
+| Extended TimeZone (1 zone)             | 213070/13440 | 15322/  356 |
+| Extended TimeZone (2 zones)            | 213442/13440 | 15694/  356 |
+| ExtendedZoneManager (1 zone)           | 214162/13440 | 16414/  356 |
+| ExtendedZoneManager (zones)            | 244022/13440 | 46274/  356 |
+| ExtendedZoneManager (zones+thin links) | 245782/13440 | 48034/  356 |
+| ExtendedZoneManager (zones+fat links)  | 251590/13440 | 53842/  356 |
 |----------------------------------------+--------------+-------------|
-| DS3231Clock                            | 211970/14192 | 14222/ 1108 |
-| SystemClockLoop                        | 210330/14192 | 12582/ 1108 |
-| SystemClockLoop+1 Basic zone           | 215250/14192 | 17502/ 1108 |
-| SystemClockLoop+1 Extended zone        | 217270/14192 | 19522/ 1108 |
+| DS3231Clock                            | 212002/14200 | 14254/ 1116 |
+| SystemClockLoop                        | 210362/14200 | 12614/ 1116 |
+| SystemClockLoop+1 Basic zone           | 215282/14200 | 17534/ 1116 |
+| SystemClockLoop+1 Extended zone        | 217302/14200 | 19554/ 1116 |
+| SystemClockCoroutine                   | 210974/14208 | 13226/ 1124 |
+| SystemClockCoroutine+1 Basic zone      | 215894/14208 | 18146/ 1124 |
+| SystemClockCoroutine+1 Extended zone   | 217902/14208 | 20154/ 1124 |
 +---------------------------------------------------------------------+
 
 ```
@@ -383,6 +403,9 @@ usage by objects.
 | SystemClockLoop                        |  12976/ 4828 |  2792/  676 |
 | SystemClockLoop+1 Basic zone           |  21892/ 4828 | 11708/  676 |
 | SystemClockLoop+1 Extended zone        |  25648/ 4828 | 15464/  676 |
+| SystemClockCoroutine                   |  14184/ 4832 |  4000/  680 |
+| SystemClockCoroutine+1 Basic zone      |  23092/ 4832 | 12908/  680 |
+| SystemClockCoroutine+1 Extended zone   |  26912/ 4832 | 16728/  680 |
 +---------------------------------------------------------------------+
 
 ```
