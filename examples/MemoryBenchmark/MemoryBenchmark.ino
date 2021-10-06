@@ -62,7 +62,30 @@ static const uint16_t kExtendedZoneRegistrySize =
 
 #endif
 
+// TeensyDuino seems to pull in malloc() and free() when a class with virtual
+// functions is used polymorphically. This causes the memory consumption of
+// FEATURE_BASELINE (which normally has no classes defined, so does not include
+// malloc() and free()) to be artificially small which throws off the memory
+// consumption calculations for all subsequent features. Let's define a
+// throw-away class and call its method for all FEATURES, including BASELINE.
+#if defined(TEENSYDUINO)
+  class FooClass {
+    public:
+      virtual void doit() {
+        guard = 0;
+      }
+  };
+
+  FooClass* foo;
+#endif
+
 void setup() {
+#if defined(TEENSYDUINO)
+  // Force Teensy to bring in malloc(), free() and other things for virtual
+  // dispatch.
+  foo = new FooClass();
+#endif
+
 #if FEATURE == FEATURE_BASELINE
   guard = 0;
 #elif FEATURE == FEATURE_LOCAL_DATE_TIME

@@ -103,11 +103,14 @@ In v1.7.4+:
   bytes.
 * Upgrade ESP8266 Core from 2.7.4 to 3.0.2. Flash consumption increases by
   3-5 kB across the board.
+* Upgrade Teensyduino from 1.54 to 1.55. Add memory consumed by `malloc()` and
+  `free()` when using classes with virtual methods into baseline
+  MemoryBenchmark, reducing the actual memory usage of various features by ~3kB.
 
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * Arduino AVR Boards 1.8.3
 
 ```
@@ -142,7 +145,7 @@ In v1.7.4+:
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * SparkFun AVR Boards 1.1.13
 
 ```
@@ -177,8 +180,8 @@ In v1.7.4+:
 ## SAMD21 M0 Mini
 
 * 48 MHz ARM Cortex-M0+
-* Arduino IDE 1.8.13
-* Sparkfun SAMD Boards 1.8.1
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* Sparkfun SAMD Boards 1.8.4
 
 ```
 +---------------------------------------------------------------------+
@@ -214,8 +217,8 @@ In v1.7.4+:
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.13
-* STM32duino 1.9.0
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* STM32duino 2.0.0
 
 ```
 +---------------------------------------------------------------------+
@@ -252,7 +255,7 @@ microcontroller and the compiler did not generate the desired information.
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * ESP8266 Boards 3.0.2
 
 ```
@@ -287,8 +290,8 @@ microcontroller and the compiler did not generate the desired information.
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.13
-* ESP32 Boards 1.0.4
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* ESP32 Boards 1.0.6
 
 ```
 +---------------------------------------------------------------------+
@@ -326,34 +329,34 @@ usage by objects.
 ## Teensy 3.2
 
 * 96 MHz ARM Cortex-M4
-* Arduino IDE 1.8.13
-* Teensyduino 1.53
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* Teensyduino 1.55
 
 ```
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               |   6952/ 3048 |     0/    0 |
+| Baseline                               |  10184/ 4152 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| LocalDateTime                          |  12712/ 4812 |  5760/ 1764 |
-| ZonedDateTime                          |  12712/ 4812 |  5760/ 1764 |
-| Manual ZoneManager                     |  12712/ 4812 |  5760/ 1764 |
-| Basic TimeZone (1 zone)                |  21432/ 4812 | 14480/ 1764 |
-| Basic TimeZone (2 zones)               |  22096/ 4812 | 15144/ 1764 |
-| BasicZoneManager (1 zone)              |  23524/ 4812 | 16572/ 1764 |
-| BasicZoneManager (zones)               |  41204/ 4812 | 34252/ 1764 |
-| BasicZoneManager (zones+thin links)    |  42732/ 4812 | 35780/ 1764 |
-| BasicZoneManager (zones+fat links)     |  47548/ 4812 | 40596/ 1764 |
-| Extended TimeZone (1 zone)             |  25188/ 4812 | 18236/ 1764 |
-| Extended TimeZone (2 zones)            |  25916/ 4812 | 18964/ 1764 |
-| ExtendedZoneManager (1 zone)           |  27344/ 4812 | 20392/ 1764 |
-| ExtendedZoneManager (zones)            |  57640/ 4812 | 50688/ 1764 |
-| ExtendedZoneManager (zones+thin links) |  59360/ 4812 | 52408/ 1764 |
-| ExtendedZoneManager (zones+fat links)  |  64848/ 4812 | 57896/ 1764 |
+| LocalDateTime                          |  12772/ 4820 |  2588/  668 |
+| ZonedDateTime                          |  12772/ 4820 |  2588/  668 |
+| Manual ZoneManager                     |  12772/ 4820 |  2588/  668 |
+| Basic TimeZone (1 zone)                |  21508/ 4820 | 11324/  668 |
+| Basic TimeZone (2 zones)               |  22172/ 4820 | 11988/  668 |
+| BasicZoneManager (1 zone)              |  23600/ 4820 | 13416/  668 |
+| BasicZoneManager (zones)               |  41280/ 4820 | 31096/  668 |
+| BasicZoneManager (zones+thin links)    |  42808/ 4820 | 32624/  668 |
+| BasicZoneManager (zones+fat links)     |  47624/ 4820 | 37440/  668 |
+| Extended TimeZone (1 zone)             |  25264/ 4820 | 15080/  668 |
+| Extended TimeZone (2 zones)            |  25992/ 4820 | 15808/  668 |
+| ExtendedZoneManager (1 zone)           |  27356/ 4820 | 17172/  668 |
+| ExtendedZoneManager (zones)            |  57716/ 4820 | 47532/  668 |
+| ExtendedZoneManager (zones+thin links) |  59436/ 4820 | 49252/  668 |
+| ExtendedZoneManager (zones+fat links)  |  64924/ 4820 | 54740/  668 |
 |----------------------------------------+--------------+-------------|
-| SystemClock                            |  15560/ 4812 |  8608/ 1764 |
-| SystemClock+Basic TimeZone             |  24404/ 4812 | 17452/ 1764 |
-| SystemClock+Extended TimeZone          |  28224/ 4812 | 21272/ 1764 |
+| SystemClock                            |  15620/ 4820 |  5436/  668 |
+| SystemClock+Basic TimeZone             |  24480/ 4820 | 14296/  668 |
+| SystemClock+Extended TimeZone          |  28300/ 4820 | 18116/  668 |
 +---------------------------------------------------------------------+
 
 ```
