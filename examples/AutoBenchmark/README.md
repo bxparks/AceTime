@@ -105,7 +105,7 @@ In v1.7.4+:
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * Arduino AVR Boards 1.8.3
 
 ```
@@ -155,12 +155,12 @@ CPU:
 | ZonedDateTime::forEpochSeconds(UTC)              |    338.0 |
 | ZonedDateTime::forEpochSeconds(Basic_nocache)    |   1188.0 |
 | ZonedDateTime::forEpochSeconds(Basic_cached)     |    617.0 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) |   2125.0 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |   2139.0 |
 | ZonedDateTime::forEpochSeconds(Extended_cached)  |    616.0 |
-| BasicZoneManager::createForZoneName(binary)      |    123.0 |
+| BasicZoneManager::createForZoneName(binary)      |    121.0 |
 | BasicZoneManager::createForZoneId(binary)        |     48.0 |
 | BasicZoneManager::createForZoneId(linear)        |    307.0 |
-| BasicZoneManager::createForZoneId(link)          |     82.0 |
+| BasicZoneManager::createForZoneId(link)          |     83.0 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 1000
 
@@ -169,7 +169,7 @@ Iterations_per_run: 1000
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * SparkFun AVR Boards 1.1.13
 
 ```
@@ -210,21 +210,21 @@ CPU:
 | EmptyLoop                                        |      3.0 |
 |--------------------------------------------------+----------|
 | LocalDate::forEpochDays()                        |    219.0 |
-| LocalDate::toEpochDays()                         |     56.0 |
-| LocalDate::dayOfWeek()                           |     48.0 |
-| OffsetDateTime::forEpochSeconds()                |    324.0 |
-| OffsetDateTime::toEpochSeconds()                 |     81.0 |
-| ZonedDateTime::toEpochSeconds()                  |     80.0 |
-| ZonedDateTime::toEpochDays()                     |     68.0 |
-| ZonedDateTime::forEpochSeconds(UTC)              |    338.0 |
-| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   1174.0 |
-| ZonedDateTime::forEpochSeconds(Basic_cached)     |    621.0 |
+| LocalDate::toEpochDays()                         |     54.0 |
+| LocalDate::dayOfWeek()                           |     50.0 |
+| OffsetDateTime::forEpochSeconds()                |    322.0 |
+| OffsetDateTime::toEpochSeconds()                 |     80.0 |
+| ZonedDateTime::toEpochSeconds()                  |     79.0 |
+| ZonedDateTime::toEpochDays()                     |     70.0 |
+| ZonedDateTime::forEpochSeconds(UTC)              |    341.0 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   1175.0 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |    619.0 |
 | ZonedDateTime::forEpochSeconds(Extended_nocache) |     -1.0 |
 | ZonedDateTime::forEpochSeconds(Extended_cache)   |     -1.0 |
-| BasicZoneManager::createForZoneName(binary)      |    118.0 |
-| BasicZoneManager::createForZoneId(binary)        |     47.0 |
-| BasicZoneManager::createForZoneId(linear)        |    306.0 |
-| BasicZoneManager::createForZoneId(link)          |     85.0 |
+| BasicZoneManager::createForZoneName(binary)      |    120.0 |
+| BasicZoneManager::createForZoneId(binary)        |     48.0 |
+| BasicZoneManager::createForZoneId(linear)        |    307.0 |
+| BasicZoneManager::createForZoneId(link)          |     83.0 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 1000
 
@@ -233,8 +233,8 @@ Iterations_per_run: 1000
 ## SAMD21 M0 Mini
 
 * 48 MHz ARM Cortex-M0+
-* Arduino IDE 1.8.13
-* Sparkfun SAMD Core 1.8.1
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* Sparkfun SAMD Core 1.8.4
 
 ```
 Sizes of Objects:
@@ -273,21 +273,21 @@ CPU:
 |--------------------------------------------------+----------|
 | EmptyLoop                                        |      1.4 |
 |--------------------------------------------------+----------|
-| LocalDate::forEpochDays()                        |     24.2 |
-| LocalDate::toEpochDays()                         |      8.6 |
+| LocalDate::forEpochDays()                        |     24.6 |
+| LocalDate::toEpochDays()                         |      8.4 |
 | LocalDate::dayOfWeek()                           |     11.6 |
-| OffsetDateTime::forEpochSeconds()                |     35.0 |
-| OffsetDateTime::toEpochSeconds()                 |     18.6 |
-| ZonedDateTime::toEpochSeconds()                  |     18.4 |
-| ZonedDateTime::toEpochDays()                     |     14.8 |
-| ZonedDateTime::forEpochSeconds(UTC)              |     40.2 |
+| OffsetDateTime::forEpochSeconds()                |     35.2 |
+| OffsetDateTime::toEpochSeconds()                 |     18.4 |
+| ZonedDateTime::toEpochSeconds()                  |     18.6 |
+| ZonedDateTime::toEpochDays()                     |     14.4 |
+| ZonedDateTime::forEpochSeconds(UTC)              |     40.0 |
 | ZonedDateTime::forEpochSeconds(Basic_nocache)    |    235.0 |
-| ZonedDateTime::forEpochSeconds(Basic_cached)     |     71.8 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) |    473.8 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |     71.8 |
-| BasicZoneManager::createForZoneName(binary)      |     15.8 |
-| BasicZoneManager::createForZoneId(binary)        |      4.4 |
-| BasicZoneManager::createForZoneId(linear)        |     14.6 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |     72.0 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |    477.0 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |     72.0 |
+| BasicZoneManager::createForZoneName(binary)      |     15.4 |
+| BasicZoneManager::createForZoneId(binary)        |      4.2 |
+| BasicZoneManager::createForZoneId(linear)        |     14.4 |
 | BasicZoneManager::createForZoneId(link)          |      8.8 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 5000
@@ -297,8 +297,8 @@ Iterations_per_run: 5000
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.13
-* STM32duino 1.9.0
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* STM32duino 2.0.0
 
 ```
 Sizes of Objects:
@@ -338,21 +338,21 @@ CPU:
 | EmptyLoop                                        |      1.2 |
 |--------------------------------------------------+----------|
 | LocalDate::forEpochDays()                        |      2.3 |
-| LocalDate::toEpochDays()                         |      1.1 |
+| LocalDate::toEpochDays()                         |      1.0 |
 | LocalDate::dayOfWeek()                           |      1.2 |
-| OffsetDateTime::forEpochSeconds()                |      3.7 |
-| OffsetDateTime::toEpochSeconds()                 |      4.8 |
+| OffsetDateTime::forEpochSeconds()                |      3.8 |
+| OffsetDateTime::toEpochSeconds()                 |      5.0 |
 | ZonedDateTime::toEpochSeconds()                  |      4.9 |
-| ZonedDateTime::toEpochDays()                     |      3.6 |
-| ZonedDateTime::forEpochSeconds(UTC)              |      4.7 |
-| ZonedDateTime::forEpochSeconds(Basic_nocache)    |     70.5 |
+| ZonedDateTime::toEpochDays()                     |      3.8 |
+| ZonedDateTime::forEpochSeconds(UTC)              |      4.9 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    |     75.6 |
 | ZonedDateTime::forEpochSeconds(Basic_cached)     |     10.5 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) |    145.9 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |     10.2 |
-| BasicZoneManager::createForZoneName(binary)      |     11.8 |
-| BasicZoneManager::createForZoneId(binary)        |      3.1 |
-| BasicZoneManager::createForZoneId(linear)        |     17.7 |
-| BasicZoneManager::createForZoneId(link)          |      6.4 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |    150.0 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |     10.1 |
+| BasicZoneManager::createForZoneName(binary)      |     12.2 |
+| BasicZoneManager::createForZoneId(binary)        |      3.2 |
+| BasicZoneManager::createForZoneId(linear)        |     17.9 |
+| BasicZoneManager::createForZoneId(link)          |      6.5 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 10000
 
@@ -361,7 +361,7 @@ Iterations_per_run: 10000
 ## ESP8266
 
 * NodeMCU 1.0 clone, 80MHz ESP8266
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * ESP8266 Boards 3.0.2
 
 ```
@@ -402,21 +402,21 @@ CPU:
 |--------------------------------------------------+----------|
 | EmptyLoop                                        |      4.9 |
 |--------------------------------------------------+----------|
-| LocalDate::forEpochDays()                        |      8.0 |
+| LocalDate::forEpochDays()                        |      7.9 |
 | LocalDate::toEpochDays()                         |      3.8 |
 | LocalDate::dayOfWeek()                           |      3.8 |
 | OffsetDateTime::forEpochSeconds()                |     12.3 |
 | OffsetDateTime::toEpochSeconds()                 |      6.8 |
-| ZonedDateTime::toEpochSeconds()                  |      6.9 |
-| ZonedDateTime::toEpochDays()                     |      5.7 |
-| ZonedDateTime::forEpochSeconds(UTC)              |     12.9 |
+| ZonedDateTime::toEpochSeconds()                  |      6.8 |
+| ZonedDateTime::toEpochDays()                     |      5.8 |
+| ZonedDateTime::forEpochSeconds(UTC)              |     13.0 |
 | ZonedDateTime::forEpochSeconds(Basic_nocache)    |     95.4 |
 | ZonedDateTime::forEpochSeconds(Basic_cached)     |     25.9 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) |    189.6 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |     25.8 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |    189.5 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |     25.9 |
 | BasicZoneManager::createForZoneName(binary)      |     14.8 |
-| BasicZoneManager::createForZoneId(binary)        |      6.6 |
-| BasicZoneManager::createForZoneId(linear)        |     44.2 |
+| BasicZoneManager::createForZoneId(binary)        |      6.5 |
+| BasicZoneManager::createForZoneId(linear)        |     44.0 |
 | BasicZoneManager::createForZoneId(link)          |     11.5 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 10000
@@ -426,8 +426,8 @@ Iterations_per_run: 10000
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.13
-* ESP32 Boards 1.0.4
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* ESP32 Boards 1.0.6
 
 ```
 Sizes of Objects:
@@ -477,11 +477,11 @@ CPU:
 | ZonedDateTime::forEpochSeconds(UTC)              |      1.3 |
 | ZonedDateTime::forEpochSeconds(Basic_nocache)    |     16.1 |
 | ZonedDateTime::forEpochSeconds(Basic_cached)     |      2.6 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) |     34.0 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |     34.5 |
 | ZonedDateTime::forEpochSeconds(Extended_cached)  |      2.5 |
-| BasicZoneManager::createForZoneName(binary)      |      3.0 |
+| BasicZoneManager::createForZoneName(binary)      |      2.9 |
 | BasicZoneManager::createForZoneId(binary)        |      0.7 |
-| BasicZoneManager::createForZoneId(linear)        |      2.6 |
+| BasicZoneManager::createForZoneId(linear)        |      2.5 |
 | BasicZoneManager::createForZoneId(link)          |      1.4 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 20000
@@ -494,8 +494,8 @@ duration of an empty loop, the numbers become unreliable.
 ## Teensy 3.2
 
 * 96 MHz ARM Cortex-M4
-* Arduino IDE 1.8.13
-* Teensyduino 1.53
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* Teensyduino 1.55
 * Compiler options: "Faster"
 
 ```
@@ -539,18 +539,18 @@ CPU:
 | LocalDate::toEpochDays()                         |      0.1 |
 | LocalDate::dayOfWeek()                           |      0.9 |
 | OffsetDateTime::forEpochSeconds()                |      2.4 |
-| OffsetDateTime::toEpochSeconds()                 |      0.5 |
+| OffsetDateTime::toEpochSeconds()                 |      0.6 |
 | ZonedDateTime::toEpochSeconds()                  |      0.2 |
 | ZonedDateTime::toEpochDays()                     |      0.5 |
 | ZonedDateTime::forEpochSeconds(UTC)              |      2.6 |
 | ZonedDateTime::forEpochSeconds(Basic_nocache)    |     36.0 |
-| ZonedDateTime::forEpochSeconds(Basic_cached)     |      6.5 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) |     82.2 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |      5.7 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |      6.4 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |     83.5 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |      5.6 |
 | BasicZoneManager::createForZoneName(binary)      |      6.0 |
-| BasicZoneManager::createForZoneId(binary)        |      2.0 |
+| BasicZoneManager::createForZoneId(binary)        |      2.2 |
 | BasicZoneManager::createForZoneId(linear)        |     10.7 |
-| BasicZoneManager::createForZoneId(link)          |      4.7 |
+| BasicZoneManager::createForZoneId(link)          |      4.8 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 20000
 
