@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2021a
+//     --tz_version 2021c
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2021a
+// from https://github.com/eggert/tz/releases/tag/2021c
 //
 // DO NOT EDIT
 
@@ -105,14 +105,13 @@ extern const basic::ZonePolicy kPolicyZion;
 
 
 //---------------------------------------------------------------------------
-// Unsupported zone policies: 76
+// Unsupported zone policies: 74
 //---------------------------------------------------------------------------
 
 // kPolicyAlbania (unused)
 // kPolicyAlgeria (unused)
 // kPolicyArg (unused)
 // kPolicyAustria (unused)
-// kPolicyBahamas (unused)
 // kPolicyBelgium (unused)
 // kPolicyBelize (LETTER 'CST' too long)
 // kPolicyBermuda (unused)
@@ -135,7 +134,6 @@ extern const basic::ZonePolicy kPolicyZion;
 // kPolicyFrance (unused)
 // kPolicyGB-Eire (unused)
 // kPolicyGermany (unused)
-// kPolicyGhana (Transition on Jan 1 not supported (1951-01-01))
 // kPolicyGreece (unused)
 // kPolicyGuam (unused)
 // kPolicyHalifax (unused)

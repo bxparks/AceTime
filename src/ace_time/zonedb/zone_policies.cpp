@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2021a
+//     --tz_version 2021c
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -22,13 +22,13 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2021a
+// from https://github.com/eggert/tz/releases/tag/2021c
 //
 // Policies: 64
-// Rules: 361
+// Rules: 362
 // Letter Size (bytes): 0
-// Total Memory 8-bit (bytes): 3633
-// Total Memory 32-bit (bytes): 5100
+// Total Memory 8-bit (bytes): 3642
+// Total Memory 32-bit (bytes): 5112
 //
 // DO NOT EDIT
 
@@ -3220,9 +3220,9 @@ const basic::ZonePolicy kPolicyJapan ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: Jordan
-// Rules: 12
-// Memory (8-bit): 114
-// Memory (32-bit): 156
+// Rules: 13
+// Memory (8-bit): 123
+// Memory (32-bit): 168
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
@@ -3346,10 +3346,10 @@ static const basic::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     0 /*deltaCode ((deltaMinutes=0)/15)*/,
     '-' /*letter*/,
   },
-  // Rule    Jordan    2014    max    -    Mar    lastThu    24:00    1:00    S
+  // Rule    Jordan    2014    2021    -    Mar    lastThu    24:00    1:00    S
   {
     14 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    21 /*toYearTiny*/,
     3 /*inMonth*/,
     4 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -3370,6 +3370,18 @@ static const basic::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     0 /*deltaCode ((deltaMinutes=0)/15)*/,
     '-' /*letter*/,
   },
+  // Rule    Jordan    2022    max    -    Feb    lastThu    24:00    1:00    S
+  {
+    22 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
+    2 /*inMonth*/,
+    4 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    96 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    'S' /*letter*/,
+  },
 
 };
 
@@ -3378,7 +3390,7 @@ static const basic::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
 const basic::ZonePolicy kPolicyJordan ACE_TIME_PROGMEM = {
   kZoneRulesJordan /*rules*/,
   nullptr /*letters*/,
-  12 /*numRules*/,
+  13 /*numRules*/,
   0 /*numLetters*/,
 };
 
