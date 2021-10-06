@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2021a
+//     --tz_version 2021c
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -22,13 +22,13 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2021a
+// from https://github.com/eggert/tz/releases/tag/2021c
 //
-// Policies: 84
+// Policies: 83
 // Rules: 551
-// Letter Size (bytes): 27
-// Total Memory 8-bit (bytes): 5504
-// Total Memory 32-bit (bytes): 7675
+// Letter Size (bytes): 23
+// Total Memory 8-bit (bytes): 5492
+// Total Memory 32-bit (bytes): 7655
 //
 // DO NOT EDIT
 
@@ -2623,42 +2623,6 @@ const extended::ZonePolicy kPolicyFiji ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Policy name: Ghana
-// Rules: 1
-// Memory (8-bit): 21
-// Memory (32-bit): 32
-//---------------------------------------------------------------------------
-
-static const extended::ZoneRule kZoneRulesGhana[] ACE_TIME_PROGMEM = {
-  // Rule    Ghana    1951    1956    -    Jan     1    2:00    0    GMT
-  {
-    -49 /*fromYearTiny*/,
-    -44 /*toYearTiny*/,
-    1 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
-    0 /*letter (index to "GMT")*/,
-  },
-
-};
-
-static const char* const kLettersGhana[] ACE_TIME_PROGMEM = {
-  /*0*/ "GMT",
-
-};
-
-
-const extended::ZonePolicy kPolicyGhana ACE_TIME_PROGMEM = {
-  kZoneRulesGhana /*rules*/,
-  kLettersGhana /*letters*/,
-  1 /*numRules*/,
-  1 /*numLetters*/,
-};
-
-//---------------------------------------------------------------------------
 // Policy name: Guam
 // Rules: 1
 // Memory (8-bit): 15
@@ -3740,9 +3704,9 @@ const extended::ZonePolicy kPolicyJapan ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: Jordan
-// Rules: 12
-// Memory (8-bit): 114
-// Memory (32-bit): 156
+// Rules: 13
+// Memory (8-bit): 123
+// Memory (32-bit): 168
 //---------------------------------------------------------------------------
 
 static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
@@ -3866,10 +3830,10 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     '-' /*letter*/,
   },
-  // Rule    Jordan    2014    max    -    Mar    lastThu    24:00    1:00    S
+  // Rule    Jordan    2014    2021    -    Mar    lastThu    24:00    1:00    S
   {
     14 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    21 /*toYearTiny*/,
     3 /*inMonth*/,
     4 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -3890,6 +3854,18 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     '-' /*letter*/,
   },
+  // Rule    Jordan    2022    max    -    Feb    lastThu    24:00    1:00    S
+  {
+    22 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
+    2 /*inMonth*/,
+    4 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    96 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    'S' /*letter*/,
+  },
 
 };
 
@@ -3898,7 +3874,7 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
 const extended::ZonePolicy kPolicyJordan ACE_TIME_PROGMEM = {
   kZoneRulesJordan /*rules*/,
   nullptr /*letters*/,
-  12 /*numRules*/,
+  13 /*numRules*/,
   0 /*numLetters*/,
 };
 
@@ -7952,10 +7928,10 @@ static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     '-' /*letter*/,
   },
-  // Rule    WS    2012    max    -    Apr    Sun>=1    4:00    0    -
+  // Rule    WS    2012    2021    -    Apr    Sun>=1    4:00    0    -
   {
     12 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    21 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -7964,10 +7940,10 @@ static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
     4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     '-' /*letter*/,
   },
-  // Rule    WS    2012    max    -    Sep    lastSun    3:00    1    -
+  // Rule    WS    2012    2020    -    Sep    lastSun    3:00    1    -
   {
     12 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    20 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,

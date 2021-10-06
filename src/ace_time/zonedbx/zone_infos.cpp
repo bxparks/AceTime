@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2021a
+//     --tz_version 2021c
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -22,22 +22,22 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2021a
+// from https://github.com/eggert/tz/releases/tag/2021c
 //
-// Zones: 386
-// Links: 207
+// Zones: 377
+// Links: 217
 // kZoneRegistry sizes (bytes):
-//   Names: 3667 (originally 6100)
+//   Names: 3569 (originally 5934)
 //   Formats: 597
 //   Fragments: 122
-//   Memory (8-bit): 16859
-//   Memory (32-bit): 24480
+//   Memory (8-bit): 16545
+//   Memory (32-bit): 24022
 // kZoneAndLinkRegistry sizes (bytes):
-//   Names: 5620 (originally 9027)
+//   Names: 5628 (originally 9042)
 //   Formats: 597
 //   Fragments: 122
-//   Memory (8-bit): 21503
-//   Memory (32-bit): 31401
+//   Memory (8-bit): 21425
+//   Memory (32-bit): 31289
 //
 // DO NOT EDIT
 
@@ -52,7 +52,7 @@ namespace zonedbx {
 // ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] = "2021a";
+const char kTzDatabaseVersion[] = "2021c";
 
 const char* const kFragments[] = {
 /*\x00*/ nullptr,
@@ -82,7 +82,7 @@ const internal::ZoneContext kZoneContext = {
 };
 
 //---------------------------------------------------------------------------
-// Zones: 386
+// Zones: 377
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -117,40 +117,6 @@ const extended::ZoneInfo kZoneAfrica_Abidjan ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAfrica_Abidjan /*eras*/,
-};
-
-//---------------------------------------------------------------------------
-// Zone name: Africa/Accra
-// Zone Eras: 1
-// Strings (bytes): 9 (originally 15)
-// Memory (8-bit): 31
-// Memory (32-bit): 45
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraAfrica_Accra[] ACE_TIME_PROGMEM = {
-  //              0:00    Ghana    %s
-  {
-    &kPolicyGhana /*zonePolicy*/,
-    "%" /*format*/,
-    0 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAfrica_Accra[] ACE_TIME_PROGMEM = "\x01" "Accra";
-
-const extended::ZoneInfo kZoneAfrica_Accra ACE_TIME_PROGMEM = {
-  kZoneNameAfrica_Accra /*name*/,
-  0x77d5b054 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Accra /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2066,40 +2032,6 @@ const extended::ZoneInfo kZoneAmerica_Asuncion ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Zone name: America/Atikokan
-// Zone Eras: 1
-// Strings (bytes): 14 (originally 21)
-// Memory (8-bit): 36
-// Memory (32-bit): 50
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraAmerica_Atikokan[] ACE_TIME_PROGMEM = {
-  //             -5:00    -    EST
-  {
-    nullptr /*zonePolicy*/,
-    "EST" /*format*/,
-    -20 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAmerica_Atikokan[] ACE_TIME_PROGMEM = "\x02" "Atikokan";
-
-const extended::ZoneInfo kZoneAmerica_Atikokan ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Atikokan /*name*/,
-  0x81b92098 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Atikokan /*eras*/,
-};
-
-//---------------------------------------------------------------------------
 // Zone name: America/Bahia
 // Zone Eras: 4
 // Strings (bytes): 31 (originally 38)
@@ -2315,40 +2247,6 @@ const extended::ZoneInfo kZoneAmerica_Belize ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAmerica_Belize /*eras*/,
-};
-
-//---------------------------------------------------------------------------
-// Zone name: America/Blanc-Sablon
-// Zone Eras: 1
-// Strings (bytes): 18 (originally 25)
-// Memory (8-bit): 40
-// Memory (32-bit): 54
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraAmerica_Blanc_Sablon[] ACE_TIME_PROGMEM = {
-  //             -4:00    -    AST
-  {
-    nullptr /*zonePolicy*/,
-    "AST" /*format*/,
-    -16 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAmerica_Blanc_Sablon[] ACE_TIME_PROGMEM = "\x02" "Blanc-Sablon";
-
-const extended::ZoneInfo kZoneAmerica_Blanc_Sablon ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Blanc_Sablon /*name*/,
-  0x6e299892 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Blanc_Sablon /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2834,40 +2732,6 @@ const extended::ZoneInfo kZoneAmerica_Costa_Rica ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Zone name: America/Creston
-// Zone Eras: 1
-// Strings (bytes): 13 (originally 20)
-// Memory (8-bit): 35
-// Memory (32-bit): 49
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraAmerica_Creston[] ACE_TIME_PROGMEM = {
-  //             -7:00    -    MST
-  {
-    nullptr /*zonePolicy*/,
-    "MST" /*format*/,
-    -28 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAmerica_Creston[] ACE_TIME_PROGMEM = "\x02" "Creston";
-
-const extended::ZoneInfo kZoneAmerica_Creston ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Creston /*name*/,
-  0x62a70204 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Creston /*eras*/,
-};
-
-//---------------------------------------------------------------------------
 // Zone name: America/Cuiaba
 // Zone Eras: 3
 // Strings (bytes): 28 (originally 35)
@@ -2923,40 +2787,6 @@ const extended::ZoneInfo kZoneAmerica_Cuiaba ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   3 /*numEras*/,
   kZoneEraAmerica_Cuiaba /*eras*/,
-};
-
-//---------------------------------------------------------------------------
-// Zone name: America/Curacao
-// Zone Eras: 1
-// Strings (bytes): 13 (originally 20)
-// Memory (8-bit): 35
-// Memory (32-bit): 49
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraAmerica_Curacao[] ACE_TIME_PROGMEM = {
-  //             -4:00    -    AST
-  {
-    nullptr /*zonePolicy*/,
-    "AST" /*format*/,
-    -16 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAmerica_Curacao[] ACE_TIME_PROGMEM = "\x02" "Curacao";
-
-const extended::ZoneInfo kZoneAmerica_Curacao ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Curacao /*name*/,
-  0x6a879184 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Curacao /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5104,40 +4934,6 @@ const extended::ZoneInfo kZoneAmerica_Montevideo ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Zone name: America/Nassau
-// Zone Eras: 1
-// Strings (bytes): 12 (originally 19)
-// Memory (8-bit): 34
-// Memory (32-bit): 48
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraAmerica_Nassau[] ACE_TIME_PROGMEM = {
-  //             -5:00    US    E%sT
-  {
-    &kPolicyUS /*zonePolicy*/,
-    "E%T" /*format*/,
-    -20 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAmerica_Nassau[] ACE_TIME_PROGMEM = "\x02" "Nassau";
-
-const extended::ZoneInfo kZoneAmerica_Nassau ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Nassau /*name*/,
-  0xaedef011 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Nassau /*eras*/,
-};
-
-//---------------------------------------------------------------------------
 // Zone name: America/New_York
 // Zone Eras: 1
 // Strings (bytes): 14 (originally 21)
@@ -5719,40 +5515,6 @@ const extended::ZoneInfo kZoneAmerica_Port_au_Prince ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAmerica_Port_au_Prince /*eras*/,
-};
-
-//---------------------------------------------------------------------------
-// Zone name: America/Port_of_Spain
-// Zone Eras: 1
-// Strings (bytes): 19 (originally 26)
-// Memory (8-bit): 41
-// Memory (32-bit): 55
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraAmerica_Port_of_Spain[] ACE_TIME_PROGMEM = {
-  //             -4:00    -    AST
-  {
-    nullptr /*zonePolicy*/,
-    "AST" /*format*/,
-    -16 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAmerica_Port_of_Spain[] ACE_TIME_PROGMEM = "\x02" "Port_of_Spain";
-
-const extended::ZoneInfo kZoneAmerica_Port_of_Spain ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Port_of_Spain /*name*/,
-  0xd8b28d59 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Port_of_Spain /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7186,40 +6948,6 @@ const extended::ZoneInfo kZoneAntarctica_Davis ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Zone name: Antarctica/DumontDUrville
-// Zone Eras: 1
-// Strings (bytes): 20 (originally 30)
-// Memory (8-bit): 42
-// Memory (32-bit): 56
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraAntarctica_DumontDUrville[] ACE_TIME_PROGMEM = {
-  //             10:00    -    +10
-  {
-    nullptr /*zonePolicy*/,
-    "+10" /*format*/,
-    40 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAntarctica_DumontDUrville[] ACE_TIME_PROGMEM = "\x03" "DumontDUrville";
-
-const extended::ZoneInfo kZoneAntarctica_DumontDUrville ACE_TIME_PROGMEM = {
-  kZoneNameAntarctica_DumontDUrville /*name*/,
-  0x5a3c656c /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAntarctica_DumontDUrville /*eras*/,
-};
-
-//---------------------------------------------------------------------------
 // Zone name: Antarctica/Macquarie
 // Zone Eras: 3
 // Strings (bytes): 26 (originally 36)
@@ -7401,40 +7129,6 @@ const extended::ZoneInfo kZoneAntarctica_Rothera ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAntarctica_Rothera /*eras*/,
-};
-
-//---------------------------------------------------------------------------
-// Zone name: Antarctica/Syowa
-// Zone Eras: 1
-// Strings (bytes): 11 (originally 21)
-// Memory (8-bit): 33
-// Memory (32-bit): 47
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraAntarctica_Syowa[] ACE_TIME_PROGMEM = {
-  //             3:00    -    +03
-  {
-    nullptr /*zonePolicy*/,
-    "+03" /*format*/,
-    12 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAntarctica_Syowa[] ACE_TIME_PROGMEM = "\x03" "Syowa";
-
-const extended::ZoneInfo kZoneAntarctica_Syowa ACE_TIME_PROGMEM = {
-  kZoneNameAntarctica_Syowa /*name*/,
-  0xe330c7e1 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAntarctica_Syowa /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -15586,40 +15280,6 @@ const extended::ZoneInfo kZonePacific_Efate ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Zone name: Pacific/Enderbury
-// Zone Eras: 1
-// Strings (bytes): 15 (originally 22)
-// Memory (8-bit): 37
-// Memory (32-bit): 51
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraPacific_Enderbury[] ACE_TIME_PROGMEM = {
-  //              13:00    -    +13
-  {
-    nullptr /*zonePolicy*/,
-    "+13" /*format*/,
-    52 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNamePacific_Enderbury[] ACE_TIME_PROGMEM = "\x0e" "Enderbury";
-
-const extended::ZoneInfo kZonePacific_Enderbury ACE_TIME_PROGMEM = {
-  kZoneNamePacific_Enderbury /*name*/,
-  0x61599a93 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Enderbury /*eras*/,
-};
-
-//---------------------------------------------------------------------------
 // Zone name: Pacific/Fakaofo
 // Zone Eras: 2
 // Strings (bytes): 17 (originally 24)
@@ -15913,6 +15573,40 @@ const extended::ZoneInfo kZonePacific_Honolulu ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraPacific_Honolulu /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Pacific/Kanton
+// Zone Eras: 1
+// Strings (bytes): 12 (originally 19)
+// Memory (8-bit): 34
+// Memory (32-bit): 48
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraPacific_Kanton[] ACE_TIME_PROGMEM = {
+  //              13:00    -    +13
+  {
+    nullptr /*zonePolicy*/,
+    "+13" /*format*/,
+    52 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNamePacific_Kanton[] ACE_TIME_PROGMEM = "\x0e" "Kanton";
+
+const extended::ZoneInfo kZonePacific_Kanton ACE_TIME_PROGMEM = {
+  kZoneNamePacific_Kanton /*name*/,
+  0xdd512f0e /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraPacific_Kanton /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -16680,8 +16374,25 @@ const extended::ZoneInfo kZoneWET ACE_TIME_PROGMEM = {
 
 
 //---------------------------------------------------------------------------
-// Links: 207
+// Links: 217
 //---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+// Link name: Africa/Accra -> Africa/Abidjan
+// Strings (bytes): 7 (originally 13)
+// Memory (8-bit): 18
+// Memory (32-bit): 27
+//---------------------------------------------------------------------------
+
+static const char kZoneNameAfrica_Accra[] ACE_TIME_PROGMEM = "\x01" "Accra";
+
+const extended::ZoneInfo kZoneAfrica_Accra ACE_TIME_PROGMEM = {
+  kZoneNameAfrica_Accra /*name*/,
+  0x77d5b054 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAfrica_Abidjan /*eras*/,
+};
 
 //---------------------------------------------------------------------------
 // Link name: Africa/Addis_Ababa -> Africa/Nairobi
@@ -17262,7 +16973,7 @@ const extended::ZoneInfo kZoneAfrica_Timbuktu ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/Anguilla -> America/Port_of_Spain
+// Link name: America/Anguilla -> America/Puerto_Rico
 // Strings (bytes): 10 (originally 17)
 // Memory (8-bit): 21
 // Memory (32-bit): 30
@@ -17275,11 +16986,11 @@ const extended::ZoneInfo kZoneAmerica_Anguilla ACE_TIME_PROGMEM = {
   0xafe31333 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Port_of_Spain /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/Antigua -> America/Port_of_Spain
+// Link name: America/Antigua -> America/Puerto_Rico
 // Strings (bytes): 9 (originally 16)
 // Memory (8-bit): 20
 // Memory (32-bit): 29
@@ -17292,7 +17003,7 @@ const extended::ZoneInfo kZoneAmerica_Antigua ACE_TIME_PROGMEM = {
   0xc067a32f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Port_of_Spain /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -17313,7 +17024,7 @@ const extended::ZoneInfo kZoneAmerica_Argentina_ComodRivadavia ACE_TIME_PROGMEM 
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/Aruba -> America/Curacao
+// Link name: America/Aruba -> America/Puerto_Rico
 // Strings (bytes): 7 (originally 14)
 // Memory (8-bit): 18
 // Memory (32-bit): 27
@@ -17326,7 +17037,24 @@ const extended::ZoneInfo kZoneAmerica_Aruba ACE_TIME_PROGMEM = {
   0x97cf8651 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Curacao /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Link name: America/Atikokan -> America/Panama
+// Strings (bytes): 10 (originally 17)
+// Memory (8-bit): 21
+// Memory (32-bit): 30
+//---------------------------------------------------------------------------
+
+static const char kZoneNameAmerica_Atikokan[] ACE_TIME_PROGMEM = "\x02" "Atikokan";
+
+const extended::ZoneInfo kZoneAmerica_Atikokan ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Atikokan /*name*/,
+  0x81b92098 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAmerica_Panama /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -17344,6 +17072,23 @@ const extended::ZoneInfo kZoneAmerica_Atka ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAmerica_Adak /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Link name: America/Blanc-Sablon -> America/Puerto_Rico
+// Strings (bytes): 14 (originally 21)
+// Memory (8-bit): 25
+// Memory (32-bit): 34
+//---------------------------------------------------------------------------
+
+static const char kZoneNameAmerica_Blanc_Sablon[] ACE_TIME_PROGMEM = "\x02" "Blanc-Sablon";
+
+const extended::ZoneInfo kZoneAmerica_Blanc_Sablon ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Blanc_Sablon /*name*/,
+  0x6e299892 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -17398,7 +17143,7 @@ const extended::ZoneInfo kZoneAmerica_Cayman ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/Coral_Harbour -> America/Atikokan
+// Link name: America/Coral_Harbour -> America/Panama
 // Strings (bytes): 15 (originally 22)
 // Memory (8-bit): 26
 // Memory (32-bit): 35
@@ -17411,7 +17156,7 @@ const extended::ZoneInfo kZoneAmerica_Coral_Harbour ACE_TIME_PROGMEM = {
   0xabcb7569 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Atikokan /*eras*/,
+  kZoneEraAmerica_Panama /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -17432,7 +17177,41 @@ const extended::ZoneInfo kZoneAmerica_Cordoba ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/Dominica -> America/Port_of_Spain
+// Link name: America/Creston -> America/Phoenix
+// Strings (bytes): 9 (originally 16)
+// Memory (8-bit): 20
+// Memory (32-bit): 29
+//---------------------------------------------------------------------------
+
+static const char kZoneNameAmerica_Creston[] ACE_TIME_PROGMEM = "\x02" "Creston";
+
+const extended::ZoneInfo kZoneAmerica_Creston ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Creston /*name*/,
+  0x62a70204 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAmerica_Phoenix /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Link name: America/Curacao -> America/Puerto_Rico
+// Strings (bytes): 9 (originally 16)
+// Memory (8-bit): 20
+// Memory (32-bit): 29
+//---------------------------------------------------------------------------
+
+static const char kZoneNameAmerica_Curacao[] ACE_TIME_PROGMEM = "\x02" "Curacao";
+
+const extended::ZoneInfo kZoneAmerica_Curacao ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Curacao /*name*/,
+  0x6a879184 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Link name: America/Dominica -> America/Puerto_Rico
 // Strings (bytes): 10 (originally 17)
 // Memory (8-bit): 21
 // Memory (32-bit): 30
@@ -17445,7 +17224,7 @@ const extended::ZoneInfo kZoneAmerica_Dominica ACE_TIME_PROGMEM = {
   0xcecb4c4a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Port_of_Spain /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -17500,7 +17279,7 @@ const extended::ZoneInfo kZoneAmerica_Godthab ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/Grenada -> America/Port_of_Spain
+// Link name: America/Grenada -> America/Puerto_Rico
 // Strings (bytes): 9 (originally 16)
 // Memory (8-bit): 20
 // Memory (32-bit): 29
@@ -17513,11 +17292,11 @@ const extended::ZoneInfo kZoneAmerica_Grenada ACE_TIME_PROGMEM = {
   0x968ce4d8 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Port_of_Spain /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/Guadeloupe -> America/Port_of_Spain
+// Link name: America/Guadeloupe -> America/Puerto_Rico
 // Strings (bytes): 12 (originally 19)
 // Memory (8-bit): 23
 // Memory (32-bit): 32
@@ -17530,7 +17309,7 @@ const extended::ZoneInfo kZoneAmerica_Guadeloupe ACE_TIME_PROGMEM = {
   0xcd1f8a31 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Port_of_Spain /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -17585,7 +17364,7 @@ const extended::ZoneInfo kZoneAmerica_Knox_IN ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/Kralendijk -> America/Curacao
+// Link name: America/Kralendijk -> America/Puerto_Rico
 // Strings (bytes): 12 (originally 19)
 // Memory (8-bit): 23
 // Memory (32-bit): 32
@@ -17598,7 +17377,7 @@ const extended::ZoneInfo kZoneAmerica_Kralendijk ACE_TIME_PROGMEM = {
   0xe7c456c5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Curacao /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -17619,7 +17398,7 @@ const extended::ZoneInfo kZoneAmerica_Louisville ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/Lower_Princes -> America/Curacao
+// Link name: America/Lower_Princes -> America/Puerto_Rico
 // Strings (bytes): 15 (originally 22)
 // Memory (8-bit): 26
 // Memory (32-bit): 35
@@ -17632,11 +17411,11 @@ const extended::ZoneInfo kZoneAmerica_Lower_Princes ACE_TIME_PROGMEM = {
   0x6ae45b62 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Curacao /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/Marigot -> America/Port_of_Spain
+// Link name: America/Marigot -> America/Puerto_Rico
 // Strings (bytes): 9 (originally 16)
 // Memory (8-bit): 20
 // Memory (32-bit): 29
@@ -17649,7 +17428,7 @@ const extended::ZoneInfo kZoneAmerica_Marigot ACE_TIME_PROGMEM = {
   0x3dab3a59 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Port_of_Spain /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -17687,7 +17466,7 @@ const extended::ZoneInfo kZoneAmerica_Montreal ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/Montserrat -> America/Port_of_Spain
+// Link name: America/Montserrat -> America/Puerto_Rico
 // Strings (bytes): 12 (originally 19)
 // Memory (8-bit): 23
 // Memory (32-bit): 32
@@ -17700,7 +17479,41 @@ const extended::ZoneInfo kZoneAmerica_Montserrat ACE_TIME_PROGMEM = {
   0x199b0a35 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Port_of_Spain /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Link name: America/Nassau -> America/Toronto
+// Strings (bytes): 8 (originally 15)
+// Memory (8-bit): 19
+// Memory (32-bit): 28
+//---------------------------------------------------------------------------
+
+static const char kZoneNameAmerica_Nassau[] ACE_TIME_PROGMEM = "\x02" "Nassau";
+
+const extended::ZoneInfo kZoneAmerica_Nassau ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Nassau /*name*/,
+  0xaedef011 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAmerica_Toronto /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Link name: America/Port_of_Spain -> America/Puerto_Rico
+// Strings (bytes): 15 (originally 22)
+// Memory (8-bit): 26
+// Memory (32-bit): 35
+//---------------------------------------------------------------------------
+
+static const char kZoneNameAmerica_Port_of_Spain[] ACE_TIME_PROGMEM = "\x02" "Port_of_Spain";
+
+const extended::ZoneInfo kZoneAmerica_Port_of_Spain ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Port_of_Spain /*name*/,
+  0xd8b28d59 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -17772,7 +17585,7 @@ const extended::ZoneInfo kZoneAmerica_Shiprock ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/St_Barthelemy -> America/Port_of_Spain
+// Link name: America/St_Barthelemy -> America/Puerto_Rico
 // Strings (bytes): 15 (originally 22)
 // Memory (8-bit): 26
 // Memory (32-bit): 35
@@ -17785,11 +17598,11 @@ const extended::ZoneInfo kZoneAmerica_St_Barthelemy ACE_TIME_PROGMEM = {
   0x054e6a79 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Port_of_Spain /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/St_Kitts -> America/Port_of_Spain
+// Link name: America/St_Kitts -> America/Puerto_Rico
 // Strings (bytes): 10 (originally 17)
 // Memory (8-bit): 21
 // Memory (32-bit): 30
@@ -17802,11 +17615,11 @@ const extended::ZoneInfo kZoneAmerica_St_Kitts ACE_TIME_PROGMEM = {
   0x04c0507b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Port_of_Spain /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/St_Lucia -> America/Port_of_Spain
+// Link name: America/St_Lucia -> America/Puerto_Rico
 // Strings (bytes): 10 (originally 17)
 // Memory (8-bit): 21
 // Memory (32-bit): 30
@@ -17819,11 +17632,11 @@ const extended::ZoneInfo kZoneAmerica_St_Lucia ACE_TIME_PROGMEM = {
   0x04d8b3ba /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Port_of_Spain /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/St_Thomas -> America/Port_of_Spain
+// Link name: America/St_Thomas -> America/Puerto_Rico
 // Strings (bytes): 11 (originally 18)
 // Memory (8-bit): 22
 // Memory (32-bit): 31
@@ -17836,11 +17649,11 @@ const extended::ZoneInfo kZoneAmerica_St_Thomas ACE_TIME_PROGMEM = {
   0xb1b3d778 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Port_of_Spain /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/St_Vincent -> America/Port_of_Spain
+// Link name: America/St_Vincent -> America/Puerto_Rico
 // Strings (bytes): 12 (originally 19)
 // Memory (8-bit): 23
 // Memory (32-bit): 32
@@ -17853,11 +17666,11 @@ const extended::ZoneInfo kZoneAmerica_St_Vincent ACE_TIME_PROGMEM = {
   0x8460e523 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Port_of_Spain /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/Tortola -> America/Port_of_Spain
+// Link name: America/Tortola -> America/Puerto_Rico
 // Strings (bytes): 9 (originally 16)
 // Memory (8-bit): 20
 // Memory (32-bit): 29
@@ -17870,11 +17683,11 @@ const extended::ZoneInfo kZoneAmerica_Tortola ACE_TIME_PROGMEM = {
   0x7931462b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Port_of_Spain /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
-// Link name: America/Virgin -> America/Port_of_Spain
+// Link name: America/Virgin -> America/Puerto_Rico
 // Strings (bytes): 8 (originally 15)
 // Memory (8-bit): 19
 // Memory (32-bit): 28
@@ -17887,7 +17700,24 @@ const extended::ZoneInfo kZoneAmerica_Virgin ACE_TIME_PROGMEM = {
   0xc2183ab5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
-  kZoneEraAmerica_Port_of_Spain /*eras*/,
+  kZoneEraAmerica_Puerto_Rico /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Link name: Antarctica/DumontDUrville -> Pacific/Port_Moresby
+// Strings (bytes): 16 (originally 26)
+// Memory (8-bit): 27
+// Memory (32-bit): 36
+//---------------------------------------------------------------------------
+
+static const char kZoneNameAntarctica_DumontDUrville[] ACE_TIME_PROGMEM = "\x03" "DumontDUrville";
+
+const extended::ZoneInfo kZoneAntarctica_DumontDUrville ACE_TIME_PROGMEM = {
+  kZoneNameAntarctica_DumontDUrville /*name*/,
+  0x5a3c656c /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraPacific_Port_Moresby /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -17922,6 +17752,23 @@ const extended::ZoneInfo kZoneAntarctica_South_Pole ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraPacific_Auckland /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Link name: Antarctica/Syowa -> Asia/Riyadh
+// Strings (bytes): 7 (originally 17)
+// Memory (8-bit): 18
+// Memory (32-bit): 27
+//---------------------------------------------------------------------------
+
+static const char kZoneNameAntarctica_Syowa[] ACE_TIME_PROGMEM = "\x03" "Syowa";
+
+const extended::ZoneInfo kZoneAntarctica_Syowa ACE_TIME_PROGMEM = {
+  kZoneNameAntarctica_Syowa /*name*/,
+  0xe330c7e1 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAsia_Riyadh /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -19690,6 +19537,23 @@ const extended::ZoneInfo kZonePRC ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAsia_Shanghai /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Link name: Pacific/Enderbury -> Pacific/Kanton
+// Strings (bytes): 11 (originally 18)
+// Memory (8-bit): 22
+// Memory (32-bit): 31
+//---------------------------------------------------------------------------
+
+static const char kZoneNamePacific_Enderbury[] ACE_TIME_PROGMEM = "\x0e" "Enderbury";
+
+const extended::ZoneInfo kZonePacific_Enderbury ACE_TIME_PROGMEM = {
+  kZoneNamePacific_Enderbury /*name*/,
+  0x61599a93 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraPacific_Kanton /*eras*/,
 };
 
 //---------------------------------------------------------------------------
