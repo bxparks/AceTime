@@ -1,4 +1,4 @@
 <map id="ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;" name="ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;">
-<area shape="rect" id="node1" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta." alt="" coords="5,183,159,239"/>
+<area shape="rect" id="node1" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta." alt="" coords="5,168,159,224"/>
 <area shape="rect" id="node2" href="$structace__time_1_1extended_1_1DateTuple.html" title="A tuple that represents a date and time." alt="" coords="7,5,157,47"/>
 </map>

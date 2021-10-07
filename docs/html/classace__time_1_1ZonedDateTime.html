@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.7.4</span>
+   &#160;<span id="projectnumber">1.7.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -264,7 +264,7 @@ Friends</h2></td></tr>
 <p>If you want to know whether the local representatation of 'this' <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> occurs before or after the local representation of 'that', use <code>this-&gt;<a class="el" href="classace__time_1_1ZonedDateTime.html#af6a26cb619efcbcfa55bad20af2b436d" title="Return the LocalDateTime of the components.">localDateTime()</a>.compareTo(that.localDateTime())</code> instead. This expression ignores the time zone which is sometimes what you want.</p>
 <p>If either this-&gt;<a class="el" href="classace__time_1_1ZonedDateTime.html#a56d29157131aaaed23cbcfccfa664192" title="Return true if any component indicates an error condition.">isError()</a> or that.isError() is true, the result is undefined. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00293">293</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00292">292</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -334,7 +334,7 @@ Friends</h2></td></tr>
 
 <p>Factory method using separated date, time, and time zone fields. </p>
 <p>This is intended mostly for testing purposes. Most production code will use the <a class="el" href="classace__time_1_1ZonedDateTime.html#a9c02e18eba7ef8af1e41d4ecfe727bee" title="Factory method.">forEpochSeconds()</a> method.</p>
-<p>The <a class="el" href="classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC,...">TimeOffset</a> at the given date/time component is calculated using the ZoneProcessor::getUtcOffsetForDateTime() determined by the actual subtype of <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> held by the given timeZone.</p>
+<p>The <a class="el" href="classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC,...">TimeOffset</a> at the given date/time component is calculated using <a class="el" href="classace__time_1_1TimeZone.html#a542c6ccaf3b95419ef94a3709bee9197" title="Return the best estimate of the OffsetDateTime at the given LocalDateTime for the current TimeZone.">TimeZone::getOffsetDateTime()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">year</td><td>[1873-2127] </td></tr>
@@ -348,7 +348,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00051">51</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00050">50</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -379,7 +379,7 @@ Friends</h2></td></tr>
 <p>Factory method. </p>
 <p>Create a <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> from date string in flash memory F() strings. Mostly for unit testing. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00122">122</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00121">121</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -416,7 +416,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00113">113</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00112">112</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -464,7 +464,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00071">71</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00070">70</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -512,7 +512,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00092">92</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00091">91</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -543,7 +543,7 @@ Friends</h2></td></tr>
 <p>This must be called after any mutation method is called (i.e. <a class="el" href="classace__time_1_1ZonedDateTime.html#a1837d67faca49ad7dd01fb699125b865" title="Return the year.">year()</a>, <a class="el" href="classace__time_1_1ZonedDateTime.html#af8483c5973c79f6514db8401aae77cb6" title="Return the month with January=1, December=12.">month()</a>, <a class="el" href="classace__time_1_1ZonedDateTime.html#a951bfb83ff1a03125cc122be6f5da675" title="Return the day of the month.">day()</a>, <a class="el" href="classace__time_1_1ZonedDateTime.html#a0b9b68dede5df8abe822155a8a10e914" title="Return the hour.">hour()</a>, <a class="el" href="classace__time_1_1ZonedDateTime.html#ad018aacdd07c8ac5b0f43f48ca8a994f" title="Return the minute.">minute()</a>, <a class="el" href="classace__time_1_1ZonedDateTime.html#a99768367d264cb915b924fb9360a641e" title="Return the second.">second()</a>, timezone()) in order to obtain correct values for various derivative information (e.g. <a class="el" href="classace__time_1_1ZonedDateTime.html#acfa87cc440b6b3ab00c6aeac190892b3" title="Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into account the time zone.">toEpochSeconds()</a>). Multiple mutations can be batched together before calling this method.</p>
 <p>This method exists because AceTime objects are mutable instead of immutable. If the objects were immutable, then each mutation would create a new object that would be automatically normalized, and an unnormalized object would not be visible outside of the library. Unfortunately, making the AceTime classes immutable causes the library to consume too much additional memory and consume too much CPU resources on 8-bit processors. So we must provide this <a class="el" href="classace__time_1_1ZonedDateTime.html#ad74f2ea586bfa38a38c7e2ba1115b6c4" title="Normalize the ZonedDateTime after mutation.">normalize()</a> method which must be called manually by the client code. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00227">227</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00226">226</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -597,7 +597,7 @@ Friends</h2></td></tr>
 <p>Set the time zone. </p>
 <p>Note that this does not convert a given <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> into a different <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a>. Use converToTimeZone() instead. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00201">201</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00200">200</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -627,7 +627,7 @@ Friends</h2></td></tr>
 <p>Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into account the time zone. </p>
 <p>Normally, Julian day starts at 12:00:00. We modify the formula given in wiki page to start the Gregorian day at 00:00:00. See <a href="https://en.wikipedia.org/wiki/Julian_day">https://en.wikipedia.org/wiki/Julian_day</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00262">262</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00261">261</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -658,7 +658,7 @@ Friends</h2></td></tr>
 <p>The return type is a acetime_t which can represent a range of 136 years.</p>
 <p>Tip: You can use the command 'date +s -d {iso8601date}' on a Unix box to print the unix seconds. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00273">273</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00272">272</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -688,7 +688,7 @@ Friends</h2></td></tr>
 <p>Return the single-byte year offset from year 2000. </p>
 <p>Intended for memory constrained or performance critical code. May be deprecated in the future. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00149">149</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00148">148</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -719,7 +719,7 @@ Friends</h2></td></tr>
 <p>Set the single-byte year offset from year 2000. </p>
 <p>Intended for memory constrained or performance critical code. May be deprecated in the future. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00156">156</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00155">155</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -761,7 +761,7 @@ Friends</h2></td></tr>
 <p>Return true if two <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> objects are equal in all components. </p>
 <p>Optimized for small changes in the less signficant fields, such as 'second' or 'minute'. The dayOfWeek is a derived field so it is not explicitly used to test equality, but it follows that if all the other fields are identical, then the dayOfWeek must also be equal. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00330">330</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00329">329</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>

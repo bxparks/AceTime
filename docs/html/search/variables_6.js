@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['match_605',['match',['../structace__time_1_1extended_1_1TransitionTemplate.html#a0cbe6e4081cd49fc1e730a5a05275d84',1,'ace_time::extended::TransitionTemplate']]],
-  ['month_606',['month',['../structace__time_1_1basic_1_1TransitionTemplate.html#a10415486cabd71d413f6ff942abb938b',1,'ace_time::basic::TransitionTemplate']]],
-  ['mzonekey_607',['mZoneKey',['../classace__time_1_1TimeZone.html#a8eafcad4aa772eb9ea6cbee9ba7110d8',1,'ace_time::TimeZone']]],
-  ['mzoneprocessor_608',['mZoneProcessor',['../classace__time_1_1TimeZone.html#a3380618145722bb6a76108db95153e42',1,'ace_time::TimeZone']]]
+  ['lastdeltaminutes_613',['lastDeltaMinutes',['../structace__time_1_1extended_1_1MatchingEraTemplate.html#ad68b2ed172f4490432fa3aba43ca3b8e',1,'ace_time::extended::MatchingEraTemplate']]],
+  ['lastoffsetminutes_614',['lastOffsetMinutes',['../structace__time_1_1extended_1_1MatchingEraTemplate.html#a62ca52350ec0d6e122e166003bbf19c7',1,'ace_time::extended::MatchingEraTemplate']]],
+  ['letterbuf_615',['letterBuf',['../structace__time_1_1extended_1_1TransitionTemplate.html#a9609afcd25072766cff26ea70ea68422',1,'ace_time::extended::TransitionTemplate']]]
 ];
