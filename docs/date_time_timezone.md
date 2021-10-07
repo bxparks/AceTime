@@ -12,7 +12,7 @@ following namespaces:
   `ExtendedZoneManager`
 * `ace_time::internal`: not normally needed by app developers
 
-**Version**: 1.7.4 (2021-08-26, TZ DB version 2021a)
+**Version**: 1.7.5 (2021-10-06, TZDB 2021c)
 
 ## Table of Contents
 

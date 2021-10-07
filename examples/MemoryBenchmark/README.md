@@ -5,7 +5,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v1.7.4
+**Version**: AceTime v1.7.5
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -94,7 +94,7 @@ In v1.7.2
   polymorphism through C++ template, and incorporating the same techniques from
   AceRoutine v1.3. Saves about 20-40 bytes of flash.
 
-In v1.7.4+:
+In v1.7.5:
 * `ExtendedZoneProcessor.compareTransitionToMatch()` was modified to
   detect an exact equality between a `Transition` and its `MatchingEra` if any
   of the 3 time stamp versions ('w', 's', 'u') are equal. Adds about 120-150

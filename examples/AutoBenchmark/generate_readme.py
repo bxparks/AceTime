@@ -28,7 +28,7 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
-**Version**: AceTime v1.7.4
+**Version**: AceTime v1.7.5
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
@@ -110,7 +110,7 @@ In v1.7.2:
   decreases 4 bytes on AVR, and 4-8 bytes on 32-bit processors. No signficant
   changes in CPU time.
 
-In v1.7.4+:
+In v1.7.5:
 * significant changes to size of `ExtendedZoneProcessor`
     * 8-bit processors
         * increases by 24 bytes on AVR, due adding 1 pointer and 2

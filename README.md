@@ -34,7 +34,7 @@ This library can be an alternative to the Arduino Time
 (https://github.com/PaulStoffregen/Time) and Arduino Timezone
 (https://github.com/JChristensen/Timezone) libraries.
 
-**Version**: 1.7.4 (2021-08-26, TZ DB version 2021a)
+**Version**: 1.7.5 (2021-10-06, TZDB version 2021c)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
@@ -131,13 +131,13 @@ The documentation of these classes are given in
     * two sets of timezone data are provided (Basic and Extended) because
       2 slightly different algorithms for handling timezone data are provided
     * ZoneInfo (opaque reference to a timezone)
-        * `ace_time::basic::ZoneInfo` (266 zones and 183 links, as of 2021a)
+        * `ace_time::basic::ZoneInfo` (258 zones and 193 links, as of 2021c)
             * `ace_time::zonedb::kZoneAfrica_Abidjan`
             * `ace_time::zonedb::kZoneAfrica_Accra`
             * ...
             * `ace_time::zonedb::kZonePacific_Wake`
             * `ace_time::zonedb::kZonePacific_Wallis`
-        * `ace_time::extended::ZoneInfo` (386 zones and 207 links, as of 2021a)
+        * `ace_time::extended::ZoneInfo` (377 zones and 217 links, as of 2021c)
             * `ace_time::zonedbx::kZoneAfrica_Abidjan`
             * `ace_time::zonedbx::kZoneAfrica_Accra`
             * ...
@@ -577,8 +577,8 @@ See [docs/installation.md](docs/installation.md).
 
 This library has Tier 1 support on the following boards:
 
-* Arduino Nano clone (16 MHz ATmega328P)
-* SparkFun Pro Micro clone (16 MHz ATmega32U4)
+* Arduino Nano (16 MHz ATmega328P)
+* SparkFun Pro Micro (16 MHz ATmega32U4)
 * SAMD21 M0 Mini (48 MHz ARM Cortex-M0+)
 * STM32 Blue Pill (STM32F103C8, 72 MHz ARM Cortex-M3)
 * NodeMCU 1.0 (ESP-12E module, 80 MHz ESP8266)
@@ -608,17 +608,17 @@ The following boards are *not* supported:
 
 This library was developed and tested using:
 
-* [Arduino IDE 1.8.13](https://www.arduino.cc/en/Main/Software)
-* [Arduino CLI 0.19.1](https://arduino.github.io/arduino-cli)
+* [Arduino IDE 1.8.16](https://www.arduino.cc/en/Main/Software)
+* [Arduino CLI 0.19.2](https://arduino.github.io/arduino-cli)
 * [SpenceKonde ATTinyCore 1.5.2](https://github.com/SpenceKonde/ATTinyCore)
 * [Arduino AVR Boards 1.8.3](https://github.com/arduino/ArduinoCore-avr)
 * [Arduino SAMD Boards 1.8.9](https://github.com/arduino/ArduinoCore-samd)
 * [SparkFun AVR Boards 1.1.13](https://github.com/sparkfun/Arduino_Boards)
-* [SparkFun SAMD Boards 1.8.3](https://github.com/sparkfun/Arduino_Boards)
+* [SparkFun SAMD Boards 1.8.4](https://github.com/sparkfun/Arduino_Boards)
 * [STM32duino 2.0.0](https://github.com/stm32duino/Arduino_Core_STM32)
 * [ESP8266 Arduino 3.0.2](https://github.com/esp8266/Arduino)
 * [ESP32 Arduino 1.0.6](https://github.com/espressif/arduino-esp32)
-* [Teensyduino 1.54](https://www.pjrc.com/teensy/td_download.html)
+* [Teensyduino 1.55](https://www.pjrc.com/teensy/td_download.html)
 
 This library is *not* compatible with:
 
