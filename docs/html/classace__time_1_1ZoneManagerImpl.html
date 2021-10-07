@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.7.4</span>
+   &#160;<span id="projectnumber">1.7.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -70,6 +70,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classace__time_1_1ZoneManagerImpl-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">ace_time::ZoneManagerImpl&lt; ZI, ZRR, LE, LRR, ZP, ZPC &gt; Class Template Reference</div>  </div>
@@ -138,6 +139,24 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:ae79c8da2a4e1849372c71c234da95c3f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneManagerImpl.html#ae79c8da2a4e1849372c71c234da95c3f">ZoneManagerImpl</a> (uint16_t <a class="el" href="classace__time_1_1ZoneManagerImpl.html#ade0c73e12c6a54a000fb263328671b1a">zoneRegistrySize</a>, const ZI *const *zoneRegistry, uint16_t <a class="el" href="classace__time_1_1ZoneManagerImpl.html#a030d808360071cebd3c1e46d88be3bf0">linkRegistrySize</a>, const LE *linkRegistry)</td></tr>
 <tr class="memdesc:ae79c8da2a4e1849372c71c234da95c3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classace__time_1_1ZoneManagerImpl.html#ae79c8da2a4e1849372c71c234da95c3f">More...</a><br /></td></tr>
 <tr class="separator:ae79c8da2a4e1849372c71c234da95c3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d3f223b8edbfcc0f0dad36d6510a965"><td class="memItemLeft" align="right" valign="top"><a id="a7d3f223b8edbfcc0f0dad36d6510a965"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ZoneManagerImpl</b> (const <a class="el" href="classace__time_1_1ZoneManagerImpl.html">ZoneManagerImpl</a> &amp;)=delete</td></tr>
+<tr class="separator:a7d3f223b8edbfcc0f0dad36d6510a965"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae388cd124fce9cc18e5b3c52fa502346"><td class="memItemLeft" align="right" valign="top"><a id="ae388cd124fce9cc18e5b3c52fa502346"></a>
+<a class="el" href="classace__time_1_1ZoneManagerImpl.html">ZoneManagerImpl</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classace__time_1_1ZoneManagerImpl.html">ZoneManagerImpl</a> &amp;)=delete</td></tr>
+<tr class="separator:ae388cd124fce9cc18e5b3c52fa502346"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a3faf18f4400b4d75b280e9443ea1d22b"><td class="memItemLeft" align="right" valign="top"><a id="a3faf18f4400b4d75b280e9443ea1d22b"></a>
+const ZRR&#160;</td><td class="memItemRight" valign="bottom"><b>mZoneRegistrar</b></td></tr>
+<tr class="separator:a3faf18f4400b4d75b280e9443ea1d22b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0c407b2a46223616a214b6c32587db1"><td class="memItemLeft" align="right" valign="top"><a id="aa0c407b2a46223616a214b6c32587db1"></a>
+const LRR&#160;</td><td class="memItemRight" valign="bottom"><b>mLinkRegistrar</b></td></tr>
+<tr class="separator:aa0c407b2a46223616a214b6c32587db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47a542854bd2c6c11c2e16b5a1614599"><td class="memItemLeft" align="right" valign="top"><a id="a47a542854bd2c6c11c2e16b5a1614599"></a>
+ZPC&#160;</td><td class="memItemRight" valign="bottom"><b>mZoneProcessorCache</b></td></tr>
+<tr class="separator:a47a542854bd2c6c11c2e16b5a1614599"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>

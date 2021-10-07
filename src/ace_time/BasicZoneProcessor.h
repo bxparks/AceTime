@@ -18,7 +18,9 @@
 #include "OffsetDateTime.h"
 #include "ZoneProcessor.h"
 
+#ifndef ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG
 #define ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG 0
+#endif
 
 class BasicZoneProcessorTest_priorYearOfRule;
 class BasicZoneProcessorTest_compareRulesBeforeYear;
@@ -694,12 +696,12 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       // Ideally, the tzcompiler.py script would explicitly remove those zones
       // which need more than kMaxCacheEntries Transitions. But this would
       // require a Python version of the BasicZoneProcessor, and unfortunately,
-      // zone_specifier.py implements only the ExtendedZoneProcessor algorithm
-      // An early version of zone_specifier.py may have implemented something
+      // zone_processor.py implements only the ExtendedZoneProcessor algorithm
+      // An early version of zone_processor.py may have implemented something
       // close to BasicZoneProcessor, and it may be available in the git
       // history. But it seems like too much work right now to try to dig that
       // out, just to implement the explicit check for kMaxCacheEntries. It
-      // would mean maintaining another version of zone_specifier.py.
+      // would mean maintaining another version of zone_processor.py.
       if (mNumTransitions >= kMaxCacheEntries) return;
 
       // insert new element at the end of the list

@@ -32,8 +32,7 @@ class BasicTransitionTest: public aunit::TestOnce {
         const basic::ZoneInfo* const zoneInfo,
         const ValidationData* const testData,
         ValidationScope dstValidationScope,
-        ValidationScope abbrevValidationScope,
-        uint8_t /*bufSize*/) {
+        ValidationScope abbrevValidationScope) {
 
       BasicZoneProcessor zoneProcessor;
       TimeZone tz = TimeZone::forZoneInfo(zoneInfo, &zoneProcessor);
@@ -109,7 +108,7 @@ class BasicTransitionTest: public aunit::TestOnce {
       logging::printf(
           "* failed %s: index=%d eps=%ld "
           "%04d-%02d-%02dT%02d:%02d:%02d: ",
-          tag, i, item.epochSeconds,
+          tag, i, (long) item.epochSeconds,
           item.year, item.month, item.day,
           item.hour, item.minute, item.second);
     }

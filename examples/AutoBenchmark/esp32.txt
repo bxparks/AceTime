@@ -25,13 +25,13 @@ sizeof(basic::ZonePolicy): 12
 sizeof(basic::ZoneRegistrar): 8
 sizeof(basic::LinkRegistrar): 8
 sizeof(BasicZoneProcessor::Transition): 28
-sizeof(ExtendedZoneProcessor::Transition): 52
-sizeof(ExtendedZoneProcessor::TransitionStorage): 452
-sizeof(ExtendedZoneProcessor::ZoneMatch): 16
+sizeof(ExtendedZoneProcessor::Transition): 48
+sizeof(ExtendedZoneProcessor::TransitionStorage): 420
+sizeof(ExtendedZoneProcessor::MatchingEra): 24
 BENCHMARKS
 EmptyLoop 1.400
-LocalDate::forEpochDays() 0.600
-LocalDate::toEpochDays() 0.300
+LocalDate::forEpochDays() 0.650
+LocalDate::toEpochDays() 0.250
 LocalDate::dayOfWeek() 0.400
 OffsetDateTime::forEpochSeconds() 1.100
 OffsetDateTime::toEpochSeconds() 1.300
@@ -40,11 +40,11 @@ ZonedDateTime::toEpochDays() 0.950
 ZonedDateTime::forEpochSeconds(UTC) 1.300
 ZonedDateTime::forEpochSeconds(Basic_nocache) 16.100
 ZonedDateTime::forEpochSeconds(Basic_cached) 2.600
-ZonedDateTime::forEpochSeconds(Extended_nocache) 30.850
-ZonedDateTime::forEpochSeconds(Extended_cached) 2.550
+ZonedDateTime::forEpochSeconds(Extended_nocache) 34.500
+ZonedDateTime::forEpochSeconds(Extended_cached) 2.500
 BasicZoneManager::createForZoneName(binary) 2.900
 BasicZoneManager::createForZoneId(binary) 0.650
 BasicZoneManager::createForZoneId(linear) 2.550
-BasicZoneManager::createForZoneId(link) 1.500
+BasicZoneManager::createForZoneId(link) 1.450
 Iterations_per_run 20000
 END

@@ -1,21 +1,76 @@
 # Changelog
 
 * Unreleased
-* 1.7.4 (2021-08-26)
+* 1.7.5 (2021-10-06, TZDB 2021c)
+    * **Bug Fix**: Update `ExtendedZoneProcessor.h` to implement better
+      detection of Transitions that occur at the exact same time as the switch
+      to a different `ZoneEra`.
+        * They are now considered to happen at the same time if any of the 'w'
+          time, 's' time, or 'u' time are equal.
+        * The behavior of `ExtendedZoneProcessor.h` should now be identical
+          to `zone_processor.py` in the `AceTimePython` library.
+        * Seems to affect only `Europe/Lisbon` in 1992, which is not a part of
+          the predefined `zonedb` or `zonedbx` database, which normally include
+          only 2000 until 2050.
+    * Testing
+        * Create [AceTimePython](https://github.com/bxparks/AceTimePython)
+          library extracted from the previously split
+          [AceTimeTools](https://github.com/bxparks/AceTimeTools) project.
+        * Update `ace_time/testing/ExtendedTransitionTest.h` to validate
+          the exact equality between the observed maximum buffer size of
+          TransitionStorage as observed by `ExtendedZoneProcessor` and the
+          buffer size calculated by AceTimeTools using `zone_processor.py` of
+          `AceTimePython` library.
+        * Create `examples/DebugZoneProcessor` for debugging the internal logic
+          of `ExtendedZoneProcessor`.
+    * Tool Chain
+        * Upgrade ESP8266 Core from 2.7.4 to 3.0.2.
+            * Flash consumption increases by 3-5 kB across the boad.
+        * Upgrade Arduino CLI from 0.19.1 to 0.19.2.
+        * Upgrade Arduino IDE from 1.8.13 to 1.8.16.
+        * Upgrade Teensyduino from 1.54 to 1.55.
+        * Upgrade SparkFun SAMD Core from 1.8.3 to 1.8.4.
+    * **TZDB** Upgrade TZDB from 2021a to 2021c.
+        * TZDB 2021b is skipped because of controversial changes which were
+          reverted in 2021c.
+        * 2021c announcement:
+          https://mm.icann.org/pipermail/tz-announce/2021-October/000067.html
+        * 2021b announcement:
+          https://mm.icann.org/pipermail/tz-announce/2021-September/000066.html
+        * Jordan now starts DST on February's last Thursday.
+        * Samoa no longer observes DST.
+        * 10 Zones from 2021a were converted to Links:
+            * `Africa/Accra -> Africa/Abidjan`
+            * `America/Atikokan -> America/Panama`
+            * `America/Blanc-Sablon -> America/Puerto_Rico`
+            * `America/Creston -> America/Phoenix`
+            * `America/Curacao -> America/Puerto_Rico`
+            * `America/Nassau -> America/Toronto`
+            * `America/Port_of_Spain -> America/Puerto_Rico`
+            * `Antarctica/DumontDUrville -> Pacific/Port_Moresby`
+            * `Antarctica/Syowa -> Asia/Riyadh`
+            * `Pacific/Enderbury -> Pacific/Kanton`
+        * 1 new Zone was created:
+            * `Pacific/Kanton`
+        * BasicZoneManager now supports 258 Zones and 193 Links using the
+          `zonedb` database
+        * ExtendedZoneManager now supports 377 Zones and 217 Links using the
+          `zonedbx` database
+* 1.7.4 (2021-08-26, TZDB 2021a)
     * Move `./tools` directory into new
-      [AceTimeTool](https://github.com/bxparks/AceTimeTools) repo.
+      [AceTimeTools](https://github.com/bxparks/AceTimeTools) repo.
     * Move `./tests/validation` directory into new
       [AceTimeValidation](https://github.com/bxparks/AceTimeValidation) repo.
         * Update `.github/workflows/validation.yml` to use AceTimeValidation
           instead of `./tests/validation`.
     * This is a maintenance release. No changes to the core library code.
-* 1.7.3 (2021-08-25)
+* 1.7.3 (2021-08-25, TZDB 2021a)
     * Fix numerous broken links in documents moved to `docs/*.md` in an earlier
       refactoring.
     * Add experimental `DS3231Module` class that uses `AceWire` library.
     * This is a maintenance release before some major refactoring. No changes to
       core library code.
-* 1.7.2 (2021-06-02)
+* 1.7.2 (2021-06-02, TZDB 2021a)
     * **Bug Fix**: Add `ZonedDateTime::normalize()`, which must be called by
       the client code after calling a `ZonedDateTime` mutation function.
         * See [ZonedDateTime Normalization](docs/date_time_timezone.md#ZonedDateTimeNormalization).
@@ -28,7 +83,7 @@
     * Change `SystemClock` to instantiate from `SystemClockTemplate`, which
       allows `SystemClock::clockMillis()` to also become non-virtual. Saves
       20-40 bytes of flash. No discernible changes in CPU time.
-* 1.7.1 (2021-04-02)
+* 1.7.1 (2021-04-02, TZDB 2021a)
     * Simplify calculation of `SystemClock::getSecondsSinceSyncAttempt()`
       and `SystemClock::getSecondsToSyncAttempt()`, which substantially
       simplifies the implementation of `SystemClockLoop` and

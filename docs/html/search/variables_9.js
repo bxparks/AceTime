@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rule_612',['rule',['../structace__time_1_1basic_1_1TransitionTemplate.html#a2ce8f0d17f189a25a6f80e9107edb239',1,'ace_time::basic::TransitionTemplate::rule()'],['../structace__time_1_1extended_1_1TransitionTemplate.html#a08e0996372e9c0c80fc60e9a5ceff41e',1,'ace_time::extended::TransitionTemplate::rule()']]]
+  ['offsetminutes_622',['offsetMinutes',['../structace__time_1_1basic_1_1TransitionTemplate.html#aa5921648ab30c46ac806db1913866481',1,'ace_time::basic::TransitionTemplate::offsetMinutes()'],['../structace__time_1_1extended_1_1TransitionTemplate.html#a74c3bdbaa5e0a4a8e7e483bae29387fb',1,'ace_time::extended::TransitionTemplate::offsetMinutes()']]]
 ];

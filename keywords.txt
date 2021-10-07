@@ -174,7 +174,7 @@ getType	KEYWORD2
 getUtcOffset	KEYWORD2
 getDeltaOffset	KEYWORD2
 getAbbrev	KEYWORD2
-getUtcOffsetForDateTime	KEYWORD2
+getOffsetDateTime	KEYWORD2
 printTo	KEYWORD2
 printShortTo	KEYWORD2
 
@@ -183,7 +183,7 @@ getType	KEYWORD2
 getUtcffset	KEYWORD2
 getDeltaOffset	KEYWORD2
 getAbbrev	KEYWORD2
-getUtcOffsetForDateTime	KEYWORD2
+getOffsetDateTime	KEYWORD2
 printNameTo	KEYWORD2
 printShortNameTo	KEYWORD2
 
@@ -192,7 +192,7 @@ getType	KEYWORD2
 getUtcffset	KEYWORD2
 getDeltaOffset	KEYWORD2
 getAbbrev	KEYWORD2
-getUtcOffsetForDateTime	KEYWORD2
+getOffsetDateTime	KEYWORD2
 resetTransitionHighWater	KEYWORD2
 getTransitionHighWater	KEYWORD2
 printNameTo	KEYWORD2

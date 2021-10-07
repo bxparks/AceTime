@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.7.4</span>
+   &#160;<span id="projectnumber">1.7.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -417,7 +417,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><div class="memdoc">
 
 <p>Return true if any component is outside the normal time range of 00:00:00 to 23:59:59. </p>
-<p>We add the exception that 24:00:00 is also considered valid to allow AutoZoneSpecififier to support midnight transitions from the TZ Database. </p>
+<p>We add the exception that 24:00:00 is also considered valid to allow <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="A specific implementation of ExtendedZoneProcessorTemplate that uses ZoneXxxBrokers which read from z...">ExtendedZoneProcessor</a> (and maybe <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="A specific implementation of BasicZoneProcessorTemplate that uses ZoneXxxBrokers which read from zone...">BasicZoneProcessor</a>) to support midnight transitions from the TZ Database. </p>
 
 <p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00106">106</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 

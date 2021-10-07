@@ -5,7 +5,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v1.7.4
+**Version**: AceTime v1.7.5
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -32,70 +32,85 @@ ASCII table.
 
 ## Library Size Changes
 
-In v1.3, the `BasicZoneManager` and `ExtendedZoneManager` classes were unified
-under a new parent interface `ZoneManager`. This seems to have caused the flash
-size to increase by around 1200 bytes on the AVR processors (Nano, Pro Micro),
-about 500 bytes on a SAMD, about 800 bytes on a ESP8266, 100 bytes on a ESP32,
-and 1400 bytes on a Teensy 3.2. The 8-bit processors suffer the most
-flash size increase proportional to their limited 32kB limit.
+In v1.3:
+* The `BasicZoneManager` and `ExtendedZoneManager` classes were unified under a
+  new parent interface `ZoneManager`. This seems to have caused the flash size
+  to increase by around 1200 bytes on the AVR processors (Nano, Pro Micro),
+  about 500 bytes on a SAMD, about 800 bytes on a ESP8266, 100 bytes on a ESP32,
+  and 1400 bytes on a Teensy 3.2. The 8-bit processors suffer the most flash
+  size increase proportional to their limited 32kB limit.
+* Adding the `ZoneManager` interface simplifies a lot of the complexity with
+  saving and restoring time zones using the `TimeZoneData` object, and I think
+  it is worth the extra cost of flash size. The mitigating factor is that
+  applications targetted towards 8-bit processors will normally have fixed
+  number of timezones at compile time, so they can avoid using a `ZoneManager`,
+  and avoid this penalty in flash size.
 
-Adding the `ZoneManager` interface simplifies a lot of the complexity with
-saving and restoring time zones using the `TimeZoneData` object, and I think it
-is worth the extra cost of flash size. The mitigating factor is that
-applications targetted towards 8-bit processors will normally have fixed number
-of timezones at compile time, so they can avoid using a `ZoneManager`, and avoid
-this penalty in flash size.
+In v1.4.1+:
+* Removed the `ZoneInfo::transitionBufSize` field from the `ZoneInfo` struct,
+  which saves 1 byte on 8-bit processors (none on 32-bit processors due to
+  4-byte alignment). We save 266 bytes for `BasicZoneManager` and 386 bytes for
+  `ExtendedZoneManager` when all the zones are loaded into the zone registry.
+* Incorporated zoneName compression causes flash/ram usage to increase by
+  ~250/120 bytes when using only 1-2 zones, but *decreases* flash consumption by
+  1200-2400 bytes when all the zones are loaded into the `ZoneManager`.
 
-In v1.4.1+, we removed the `ZoneInfo::transitionBufSize` field from the
-`ZoneInfo` struct, which saves 1 byte on 8-bit processors (none on 32-bit
-processors due to 4-byte alignment). We save 266 bytes for `BasicZoneManager`
-and 386 bytes for `ExtendedZoneManager` when all the zones are loaded into the
-zone registry.
+In v1.5+:
+* Changing `ZoneProcessorCache::getType()` from a `virtual` to a non-virtual
+  method saves 250-350 bytes of flash memory when using a `BasicZoneManager` or
+  an `ExtendedZoneManager` on an 8-bit AVR processor. Unexpectedly, the flash
+  memory consumption *increases* slightly (~0-50 bytes) for some ARM processors
+  and the ESP32. Since those processors have far more flash memory, this seems
+  like a good tradeoff.
+* Changing `BasicZoneProcessor` and `ExtendedZoneProcessor` to be subclasses of
+  the templatized `BasicZoneProcessorTemplate` and
+  `ExtendedZoneProcessorTemplate` classes causes reduction of flash consumption
+  by 250-400 bytes for 32-bit processors. Don't know why. (Very little
+  difference for 8-bit AVR).
+* Adding a `BrokerFactory` layer of indirection (to support more complex
+  ZoneProcessors and Brokers) causes flash memory to go up by 100-200 bytes.
 
-Also for v1.4.1+, incorporating zoneName compression causes flash/ram usage to
-increase by ~250/120 bytes when using only 1-2 zones, but *decreases* flash
-consumption by 1200-2400 bytes when all the zones are loaded into the
-`ZoneManager`.
+In v1.6:
+* Added support for `LinkRegistry` to `BasicZoneManager` and
+  `ExtendedZoneManager`. This increases the flash memory usage by 150-500 bytes
+  when using one of these classes due to the code required by `LinkRegistrar`.
+  This extra cost is incurred even if the `LinkRegistry` is set to 0 elements.
+  Each `LinkEntry` consumes 8 bytes (2 x `uint32_t`). So a
+  `zonedb::kLinkRegistry` with 183 elements uses 1464 extra bytes of flash; a
+  `zonedbx::kLinkRegistry` with 207 elements uses 1656 extra bytes.
 
-In v1.5+, changing just a single method, `ZoneProcessorCache::getType()`, from a
-`virtual` to a non-virtual method saves 250-350 bytes of flash memory when using
-a `BasicZoneManager` or an `ExtendedZoneManager` on an 8-bit AVR processor.
-Unexpectedly, the flash memory consumption *increases* slightly (~0-50 bytes)
-for some ARM processors and the ESP32. Since those processors have far more
-flash memory, this seems like a good tradeoff.
+In v1.7:
+* The virtual destructor on the `Clock` base class removed. This reduced the
+  flash usage by 618 bytes on AVR processors , 328 bytes on the SAMD21, but only
+  50-60 bytes on other 32-bit processors.
+* The various `printShortNameTo()` or `printShortTo()` methods changed to
+  replace the underscore in the zone names (e.g. `Los_Angeles`) with spaces
+  (e.g. `Los Angeles`) to be more human friendly. This made little difference in
+  the flash memory consumption, except on the ESP32 where it increased by
+  200-300 bytes.
 
-Also in v1.5+, changing `BasicZoneProcessor` and `ExtendedZoneProcessor` to be
-subclasses of the templatized `BasicZoneProcessorTemplate` and
-`ExtendedZoneProcessorTemplate` classes causes reduction of flash consumption by
-250-400 bytes for 32-bit processors. Don't know why. (Very little difference for
-8-bit AVR). Adding a `BrokerFactory` layer of indirection (to support more
-complex ZoneProcessors and Brokers) causes flash memory to go up by 100-200
-bytes.
+In v1.7.2
+* The `SystemClock::clockMillis()` is now non-virtual, using compile-time
+  polymorphism through C++ template, and incorporating the same techniques from
+  AceRoutine v1.3. Saves about 20-40 bytes of flash.
 
-In v1.6, support for `LinkRegistry` was added to `BasicZoneManager` and
-`ExtendedZoneManager`. This increases the flash memory usage by 150-500 bytes
-when using one of these classes due to the code required by `LinkRegistrar`.
-This extra cost is incurred even if the `LinkRegistry` is set to 0 elements.
-Each `LinkEntry` consumes 8 bytes (2 x `uint32_t`). So a `zonedb::kLinkRegistry`
-with 183 elements uses 1464 extra bytes of flash; a `zonedbx::kLinkRegistry`
-with 207 elements uses 1656 extra bytes.
-
-In v1.7, the virtual destructor on the `Clock` base class was removed. This
-reduced the flash usage by 618 bytes on AVR processors , 328 bytes on the
-SAMD21, but only 50-60 bytes on other 32-bit processors. The various
-`printShortNameTo()` or `printShortTo()` methods were changed to replace the
-underscore in the zone names (e.g. `Los_Angeles`) with spaces (e.g. `Los
-Angeles`) to be more human friendly. This made little difference in the flash
-memory consumption, except on the ESP32 where it increased by 200-300 bytes.
-
-In v1.7.2, the `SystemClock::clockMillis()` became non-virtual, using
-compile-time polymorphism through C++ template, and incorporating the same
-techniques from AceRoutine v1.3. Saves about 20-40 bytes of flash.
+In v1.7.5:
+* `ExtendedZoneProcessor.compareTransitionToMatch()` was modified to
+  detect an exact equality between a `Transition` and its `MatchingEra` if any
+  of the 3 time stamp versions ('w', 's', 'u') are equal. Adds about 120-150
+  bytes of flash on 8-bit and 32-bit processors. But removing
+  `originalTransitionTime` from `Transition` decreases flash usage by about 20
+  bytes.
+* Upgrade ESP8266 Core from 2.7.4 to 3.0.2. Flash consumption increases by
+  3-5 kB across the board.
+* Upgrade Teensyduino from 1.54 to 1.55. Add memory consumed by `malloc()` and
+  `free()` when using classes with virtual methods into baseline
+  MemoryBenchmark, reducing the actual memory usage of various features by ~3kB.
 
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * Arduino AVR Boards 1.8.3
 
 ```
@@ -110,19 +125,19 @@ techniques from AceRoutine v1.3. Saves about 20-40 bytes of flash.
 | Basic TimeZone (1 zone)                |   7330/  309 |  6882/  299 |
 | Basic TimeZone (2 zones)               |   7834/  313 |  7386/  303 |
 | BasicZoneManager (1 zone)              |   9056/  329 |  8608/  319 |
-| BasicZoneManager (zones)               |  22022/  705 | 21574/  695 |
+| BasicZoneManager (zones)               |  22024/  705 | 21576/  695 |
 | BasicZoneManager (zones+thin links)    |  23558/  705 | 23110/  695 |
-| BasicZoneManager (zones+fat links)     |  26114/  705 | 25666/  695 |
-| Extended TimeZone (1 zone)             |  10258/  343 |  9810/  333 |
-| Extended TimeZone (2 zones)            |  10900/  347 | 10452/  337 |
-| ExtendedZoneManager (1 zone)           |  11952/  363 | 11504/  353 |
-| ExtendedZoneManager (zones)            |  34008/  847 | 33560/  837 |
-| ExtendedZoneManager (zones+thin links) |  35732/  847 | 35284/  837 |
-| ExtendedZoneManager (zones+fat links)  |  38652/  847 | 38204/  837 |
+| BasicZoneManager (zones+fat links)     |  26116/  705 | 25668/  695 |
+| Extended TimeZone (1 zone)             |  10338/  343 |  9890/  333 |
+| Extended TimeZone (2 zones)            |  10982/  347 | 10534/  337 |
+| ExtendedZoneManager (1 zone)           |  12024/  363 | 11576/  353 |
+| ExtendedZoneManager (zones)            |  34082/  847 | 33634/  837 |
+| ExtendedZoneManager (zones+thin links) |  35804/  847 | 35356/  837 |
+| ExtendedZoneManager (zones+fat links)  |  38726/  847 | 38278/  837 |
 |----------------------------------------+--------------+-------------|
 | SystemClock                            |   5054/  262 |  4606/  252 |
 | SystemClock+Basic TimeZone             |   9816/  436 |  9368/  426 |
-| SystemClock+Extended TimeZone          |  12792/  470 | 12344/  460 |
+| SystemClock+Extended TimeZone          |  12872/  470 | 12424/  460 |
 +---------------------------------------------------------------------+
 
 ```
@@ -130,7 +145,7 @@ techniques from AceRoutine v1.3. Saves about 20-40 bytes of flash.
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * SparkFun AVR Boards 1.1.13
 
 ```
@@ -145,19 +160,19 @@ techniques from AceRoutine v1.3. Saves about 20-40 bytes of flash.
 | Basic TimeZone (1 zone)                |  10430/  447 |  6966/  297 |
 | Basic TimeZone (2 zones)               |  10936/  453 |  7472/  303 |
 | BasicZoneManager (1 zone)              |  12156/  467 |  8692/  317 |
-| BasicZoneManager (zones)               |  25124/  845 | 21660/  695 |
+| BasicZoneManager (zones)               |  25126/  845 | 21662/  695 |
 | BasicZoneManager (zones+thin links)    |  26660/  845 | 23196/  695 |
-| BasicZoneManager (zones+fat links)     |  29216/  845 | 25752/  695 |
-| Extended TimeZone (1 zone)             |  13358/  481 |  9894/  331 |
-| Extended TimeZone (2 zones)            |  14002/  487 | 10538/  337 |
-| ExtendedZoneManager (1 zone)           |  15052/  501 | 11588/  351 |
-| ExtendedZoneManager (zones)            |  37108/  985 | 33644/  835 |
-| ExtendedZoneManager (zones+thin links) |  38832/  985 | 35368/  835 |
-| ExtendedZoneManager (zones+fat links)  |  41752/  985 | 38288/  835 |
+| BasicZoneManager (zones+fat links)     |  29218/  845 | 25754/  695 |
+| Extended TimeZone (1 zone)             |  13438/  481 |  9974/  331 |
+| Extended TimeZone (2 zones)            |  14084/  487 | 10620/  337 |
+| ExtendedZoneManager (1 zone)           |  15124/  501 | 11660/  351 |
+| ExtendedZoneManager (zones)            |  37182/  985 | 33718/  835 |
+| ExtendedZoneManager (zones+thin links) |  38904/  985 | 35440/  835 |
+| ExtendedZoneManager (zones+fat links)  |  41826/  985 | 38362/  835 |
 |----------------------------------------+--------------+-------------|
 | SystemClock                            |   8038/  402 |  4574/  252 |
 | SystemClock+Basic TimeZone             |  12798/  574 |  9334/  424 |
-| SystemClock+Extended TimeZone          |  15774/  608 | 12310/  458 |
+| SystemClock+Extended TimeZone          |  15854/  608 | 12390/  458 |
 +---------------------------------------------------------------------+
 
 ```
@@ -165,8 +180,8 @@ techniques from AceRoutine v1.3. Saves about 20-40 bytes of flash.
 ## SAMD21 M0 Mini
 
 * 48 MHz ARM Cortex-M0+
-* Arduino IDE 1.8.13
-* Sparkfun SAMD Boards 1.8.1
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* Sparkfun SAMD Boards 1.8.4
 
 ```
 +---------------------------------------------------------------------+
@@ -182,17 +197,17 @@ techniques from AceRoutine v1.3. Saves about 20-40 bytes of flash.
 | BasicZoneManager (1 zone)              |  16300/    0 |  6236/    0 |
 | BasicZoneManager (zones)               |  33844/    0 | 23780/    0 |
 | BasicZoneManager (zones+thin links)    |  35348/    0 | 25284/    0 |
-| BasicZoneManager (zones+fat links)     |  40084/    0 | 30020/    0 |
-| Extended TimeZone (1 zone)             |  17140/    0 |  7076/    0 |
-| Extended TimeZone (2 zones)            |  17468/    0 |  7404/    0 |
-| ExtendedZoneManager (1 zone)           |  18052/    0 |  7988/    0 |
-| ExtendedZoneManager (zones)            |  48124/    0 | 38060/    0 |
-| ExtendedZoneManager (zones+thin links) |  49820/    0 | 39756/    0 |
-| ExtendedZoneManager (zones+fat links)  |  55212/    0 | 45148/    0 |
+| BasicZoneManager (zones+fat links)     |  40092/    0 | 30028/    0 |
+| Extended TimeZone (1 zone)             |  17276/    0 |  7212/    0 |
+| Extended TimeZone (2 zones)            |  17604/    0 |  7540/    0 |
+| ExtendedZoneManager (1 zone)           |  18188/    0 |  8124/    0 |
+| ExtendedZoneManager (zones)            |  48268/    0 | 38204/    0 |
+| ExtendedZoneManager (zones+thin links) |  49956/    0 | 39892/    0 |
+| ExtendedZoneManager (zones+fat links)  |  55348/    0 | 45284/    0 |
 |----------------------------------------+--------------+-------------|
 | SystemClock                            |  12944/    0 |  2880/    0 |
 | SystemClock+Basic TimeZone             |  16572/    0 |  6508/    0 |
-| SystemClock+Extended TimeZone          |  18460/    0 |  8396/    0 |
+| SystemClock+Extended TimeZone          |  18596/    0 |  8532/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -202,34 +217,34 @@ techniques from AceRoutine v1.3. Saves about 20-40 bytes of flash.
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.13
-* STM32duino 1.9.0
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* STM32duino 2.0.0
 
 ```
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               |  19136/ 3788 |     0/    0 |
+| Baseline                               |  21420/ 3536 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| LocalDateTime                          |  23128/ 3988 |  3992/  200 |
-| ZonedDateTime                          |  23280/ 3988 |  4144/  200 |
-| Manual ZoneManager                     |  23288/ 3988 |  4152/  200 |
-| Basic TimeZone (1 zone)                |  27200/ 3988 |  8064/  200 |
-| Basic TimeZone (2 zones)               |  27472/ 3988 |  8336/  200 |
-| BasicZoneManager (1 zone)              |  28052/ 3988 |  8916/  200 |
-| BasicZoneManager (zones)               |  45328/ 3988 | 26192/  200 |
-| BasicZoneManager (zones+thin links)    |  46824/ 3988 | 27688/  200 |
-| BasicZoneManager (zones+fat links)     |  51428/ 3988 | 32292/  200 |
-| Extended TimeZone (1 zone)             |  28708/ 3988 |  9572/  200 |
-| Extended TimeZone (2 zones)            |  29028/ 3988 |  9892/  200 |
-| ExtendedZoneManager (1 zone)           |  29632/ 3988 | 10496/  200 |
-| ExtendedZoneManager (zones)            |  59288/ 3988 | 40152/  200 |
-| ExtendedZoneManager (zones+thin links) |  60948/ 3988 | 41812/  200 |
-| ExtendedZoneManager (zones+fat links)  |  66208/ 3988 | 47072/  200 |
+| LocalDateTime                          |  25888/ 3768 |  4468/  232 |
+| ZonedDateTime                          |  26040/ 3768 |  4620/  232 |
+| Manual ZoneManager                     |  26048/ 3768 |  4628/  232 |
+| Basic TimeZone (1 zone)                |  29960/ 3768 |  8540/  232 |
+| Basic TimeZone (2 zones)               |  30232/ 3768 |  8812/  232 |
+| BasicZoneManager (1 zone)              |  30812/ 3768 |  9392/  232 |
+| BasicZoneManager (zones)               |  48088/ 3768 | 26668/  232 |
+| BasicZoneManager (zones+thin links)    |  49584/ 3768 | 28164/  232 |
+| BasicZoneManager (zones+fat links)     |  54192/ 3768 | 32772/  232 |
+| Extended TimeZone (1 zone)             |  31624/ 3768 | 10204/  232 |
+| Extended TimeZone (2 zones)            |  31940/ 3768 | 10520/  232 |
+| ExtendedZoneManager (1 zone)           |  32548/ 3768 | 11128/  232 |
+| ExtendedZoneManager (zones)            |  62204/ 3768 | 40784/  232 |
+| ExtendedZoneManager (zones+thin links) |  63864/ 3768 | 42444/  232 |
+| ExtendedZoneManager (zones+fat links)  |  69124/ 3768 | 47704/  232 |
 |----------------------------------------+--------------+-------------|
-| SystemClock                            |  25948/ 3988 |  6812/  200 |
-| SystemClock+Basic TimeZone             |  29596/ 3988 | 10460/  200 |
-| SystemClock+Extended TimeZone          |  31188/ 3988 | 12052/  200 |
+| SystemClock                            |  28668/ 3768 |  7248/  232 |
+| SystemClock+Basic TimeZone             |  32316/ 3768 | 10896/  232 |
+| SystemClock+Extended TimeZone          |  34060/ 3768 | 12640/  232 |
 +---------------------------------------------------------------------+
 
 ```
@@ -240,34 +255,34 @@ microcontroller and the compiler did not generate the desired information.
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266
-* Arduino IDE 1.8.13
-* ESP8266 Boards 2.7.4
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* ESP8266 Boards 3.0.2
 
 ```
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               | 256700/26776 |     0/    0 |
+| Baseline                               | 260105/27892 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| LocalDateTime                          | 259992/27300 |  3292/  524 |
-| ZonedDateTime                          | 260168/27300 |  3468/  524 |
-| Manual ZoneManager                     | 260248/27300 |  3548/  524 |
-| Basic TimeZone (1 zone)                | 265968/27860 |  9268/ 1084 |
-| Basic TimeZone (2 zones)               | 266336/27860 |  9636/ 1084 |
-| BasicZoneManager (1 zone)              | 267200/27860 | 10500/ 1084 |
-| BasicZoneManager (zones)               | 284816/27860 | 28116/ 1084 |
-| BasicZoneManager (zones+thin links)    | 286352/27860 | 29652/ 1084 |
-| BasicZoneManager (zones+fat links)     | 290928/27860 | 34228/ 1084 |
-| Extended TimeZone (1 zone)             | 268064/28004 | 11364/ 1228 |
-| Extended TimeZone (2 zones)            | 268416/28004 | 11716/ 1228 |
-| ExtendedZoneManager (1 zone)           | 269296/28004 | 12596/ 1228 |
-| ExtendedZoneManager (zones)            | 299540/28008 | 42840/ 1232 |
-| ExtendedZoneManager (zones+thin links) | 301236/28008 | 44536/ 1232 |
-| ExtendedZoneManager (zones+fat links)  | 306452/28008 | 49752/ 1232 |
+| LocalDateTime                          | 263129/28440 |  3024/  548 |
+| ZonedDateTime                          | 263449/28440 |  3344/  548 |
+| Manual ZoneManager                     | 263465/28440 |  3360/  548 |
+| Basic TimeZone (1 zone)                | 269073/29000 |  8968/ 1108 |
+| Basic TimeZone (2 zones)               | 269457/29000 |  9352/ 1108 |
+| BasicZoneManager (1 zone)              | 270273/29000 | 10168/ 1108 |
+| BasicZoneManager (zones)               | 288017/29000 | 27912/ 1108 |
+| BasicZoneManager (zones+thin links)    | 289521/29000 | 29416/ 1108 |
+| BasicZoneManager (zones+fat links)     | 294353/29000 | 34248/ 1108 |
+| Extended TimeZone (1 zone)             | 271249/29144 | 11144/ 1252 |
+| Extended TimeZone (2 zones)            | 271649/29144 | 11544/ 1252 |
+| ExtendedZoneManager (1 zone)           | 272609/29144 | 12504/ 1252 |
+| ExtendedZoneManager (zones)            | 302901/29156 | 42796/ 1264 |
+| ExtendedZoneManager (zones+thin links) | 304565/29156 | 44460/ 1264 |
+| ExtendedZoneManager (zones+fat links)  | 310117/29156 | 50012/ 1264 |
 |----------------------------------------+--------------+-------------|
-| SystemClock                            | 263204/27304 |  6504/  528 |
-| SystemClock+Basic TimeZone             | 268544/27860 | 11844/ 1084 |
-| SystemClock+Extended TimeZone          | 270688/28004 | 13988/ 1228 |
+| SystemClock                            | 266341/28452 |  6236/  560 |
+| SystemClock+Basic TimeZone             | 271633/29000 | 11528/ 1108 |
+| SystemClock+Extended TimeZone          | 273825/29144 | 13720/ 1252 |
 +---------------------------------------------------------------------+
 
 ```
@@ -275,8 +290,8 @@ microcontroller and the compiler did not generate the desired information.
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.13
-* ESP32 Boards 1.0.4
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* ESP32 Boards 1.0.6
 
 ```
 +---------------------------------------------------------------------+
@@ -289,20 +304,20 @@ microcontroller and the compiler did not generate the desired information.
 | Manual ZoneManager                     | 210306/14200 | 12558/ 1116 |
 | Basic TimeZone (1 zone)                | 214930/14200 | 17182/ 1116 |
 | Basic TimeZone (2 zones)               | 215314/14200 | 17566/ 1116 |
-| BasicZoneManager (1 zone)              | 216022/14200 | 18274/ 1116 |
-| BasicZoneManager (zones)               | 233738/14200 | 35990/ 1116 |
+| BasicZoneManager (1 zone)              | 216018/14200 | 18270/ 1116 |
+| BasicZoneManager (zones)               | 233734/14200 | 35986/ 1116 |
 | BasicZoneManager (zones+thin links)    | 235230/14200 | 37482/ 1116 |
-| BasicZoneManager (zones+fat links)     | 240074/14200 | 42326/ 1116 |
-| Extended TimeZone (1 zone)             | 216810/14200 | 19062/ 1116 |
-| Extended TimeZone (2 zones)            | 217182/14200 | 19434/ 1116 |
-| ExtendedZoneManager (1 zone)           | 217918/14200 | 20170/ 1116 |
-| ExtendedZoneManager (zones)            | 248234/14200 | 50486/ 1116 |
-| ExtendedZoneManager (zones+thin links) | 249934/14200 | 52186/ 1116 |
-| ExtendedZoneManager (zones+fat links)  | 255450/14200 | 57702/ 1116 |
+| BasicZoneManager (zones+fat links)     | 240070/14200 | 42322/ 1116 |
+| Extended TimeZone (1 zone)             | 216946/14200 | 19198/ 1116 |
+| Extended TimeZone (2 zones)            | 217318/14200 | 19570/ 1116 |
+| ExtendedZoneManager (1 zone)           | 218054/14200 | 20306/ 1116 |
+| ExtendedZoneManager (zones)            | 248374/14200 | 50626/ 1116 |
+| ExtendedZoneManager (zones+thin links) | 250070/14200 | 52322/ 1116 |
+| ExtendedZoneManager (zones+fat links)  | 255590/14200 | 57842/ 1116 |
 |----------------------------------------+--------------+-------------|
 | SystemClock                            | 217790/14312 | 20042/ 1228 |
 | SystemClock+Basic TimeZone             | 222042/14312 | 24294/ 1228 |
-| SystemClock+Extended TimeZone          | 223950/14312 | 26202/ 1228 |
+| SystemClock+Extended TimeZone          | 224086/14312 | 26338/ 1228 |
 +---------------------------------------------------------------------+
 
 ```
@@ -314,34 +329,34 @@ usage by objects.
 ## Teensy 3.2
 
 * 96 MHz ARM Cortex-M4
-* Arduino IDE 1.8.13
-* Teensyduino 1.53
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* Teensyduino 1.55
 
 ```
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               |   7624/ 3048 |     0/    0 |
+| Baseline                               |  10184/ 4152 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| LocalDateTime                          |  13268/ 4812 |  5644/ 1764 |
-| ZonedDateTime                          |  13268/ 4812 |  5644/ 1764 |
-| Manual ZoneManager                     |  13268/ 4812 |  5644/ 1764 |
-| Basic TimeZone (1 zone)                |  22392/ 4812 | 14768/ 1764 |
-| Basic TimeZone (2 zones)               |  23120/ 4812 | 15496/ 1764 |
-| BasicZoneManager (1 zone)              |  24548/ 4812 | 16924/ 1764 |
-| BasicZoneManager (zones)               |  42228/ 4812 | 34604/ 1764 |
-| BasicZoneManager (zones+thin links)    |  43756/ 4812 | 36132/ 1764 |
-| BasicZoneManager (zones+fat links)     |  48572/ 4812 | 40948/ 1764 |
-| Extended TimeZone (1 zone)             |  23908/ 4812 | 16284/ 1764 |
-| Extended TimeZone (2 zones)            |  24636/ 4812 | 17012/ 1764 |
-| ExtendedZoneManager (1 zone)           |  26064/ 4812 | 18440/ 1764 |
-| ExtendedZoneManager (zones)            |  56360/ 4812 | 48736/ 1764 |
-| ExtendedZoneManager (zones+thin links) |  58080/ 4812 | 50456/ 1764 |
-| ExtendedZoneManager (zones+fat links)  |  63568/ 4812 | 55944/ 1764 |
+| LocalDateTime                          |  12772/ 4820 |  2588/  668 |
+| ZonedDateTime                          |  12772/ 4820 |  2588/  668 |
+| Manual ZoneManager                     |  12772/ 4820 |  2588/  668 |
+| Basic TimeZone (1 zone)                |  21508/ 4820 | 11324/  668 |
+| Basic TimeZone (2 zones)               |  22172/ 4820 | 11988/  668 |
+| BasicZoneManager (1 zone)              |  23600/ 4820 | 13416/  668 |
+| BasicZoneManager (zones)               |  41280/ 4820 | 31096/  668 |
+| BasicZoneManager (zones+thin links)    |  42808/ 4820 | 32624/  668 |
+| BasicZoneManager (zones+fat links)     |  47624/ 4820 | 37440/  668 |
+| Extended TimeZone (1 zone)             |  25264/ 4820 | 15080/  668 |
+| Extended TimeZone (2 zones)            |  25992/ 4820 | 15808/  668 |
+| ExtendedZoneManager (1 zone)           |  27356/ 4820 | 17172/  668 |
+| ExtendedZoneManager (zones)            |  57716/ 4820 | 47532/  668 |
+| ExtendedZoneManager (zones+thin links) |  59436/ 4820 | 49252/  668 |
+| ExtendedZoneManager (zones+fat links)  |  64924/ 4820 | 54740/  668 |
 |----------------------------------------+--------------+-------------|
-| SystemClock                            |  16116/ 4812 |  8492/ 1764 |
-| SystemClock+Basic TimeZone             |  25428/ 4812 | 17804/ 1764 |
-| SystemClock+Extended TimeZone          |  26944/ 4812 | 19320/ 1764 |
+| SystemClock                            |  15620/ 4820 |  5436/  668 |
+| SystemClock+Basic TimeZone             |  24480/ 4820 | 14296/  668 |
+| SystemClock+Extended TimeZone          |  28300/ 4820 | 18116/  668 |
 +---------------------------------------------------------------------+
 
 ```

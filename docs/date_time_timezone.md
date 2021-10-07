@@ -12,7 +12,7 @@ following namespaces:
   `ExtendedZoneManager`
 * `ace_time::internal`: not normally needed by app developers
 
-**Version**: 1.7.4 (2021-08-26, TZ DB version 2021a)
+**Version**: 1.7.5 (2021-10-06, TZDB 2021c)
 
 ## Table of Contents
 
@@ -806,7 +806,7 @@ handle all zones in the ZoneInfo Database
 The class hierarchy of `TimeZone` is shown below, where the arrow means
 "is-subclass-of" and the diamond-line means "is-aggregation-of". This is an
 internal implementation detail of the `TimeZone` class that the application
-develper will not normally need to be aware of all the time, but maybe this
+developer will not normally need to be aware of all the time, but maybe this
 helps make better sense of the usage of the `TimeZone` class. A `TimeZone` can
 hold a reference to:
 
@@ -817,11 +817,11 @@ hold a reference to:
 ```
                0..1
 TimeZone <>-------- ZoneProcessor
-                          ^
-                          |
-                   .----- +----.
+                         ^
+                         |
+                   .-----+-----.
                    |           |
-    BasicZoneProcessor        ExtendedZoneProcessor
+    BasicZoneProcessor       ExtendedZoneProcessor
 ```
 
 Here is the class declaration of `TimeZone`:
@@ -833,8 +833,7 @@ class TimeZone {
   public:
     static const uint8_t kTypeError = 0;
     static const uint8_t kTypeManual = 1;
-    static const uint8_t kTypeBasic = ZoneProcessor::kTypeBasic;
-    static const uint8_t kTypeExtended = ZoneProcessor::kTypeExtended;
+    static const uint8_t kTypeReserved = 2;
 
     static TimeZone forTimeOffset(
         TimeOffset stdOffset,
@@ -860,6 +859,7 @@ class TimeZone {
     static TimeZone forUtc();
 
     TimeZone(); // same as forUtc()
+    bool isError() const;
 
     uint8_t getType() const;
     TimeOffset getStdOffset() const;
@@ -869,10 +869,13 @@ class TimeZone {
     TimeOffset getUtcOffset(acetime_t epochSeconds) const;
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const;
     const char* getAbbrev(acetime_t epochSeconds) const;
-    TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const;
+
+    OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const;
 
     bool isUtc() const;
     bool isDst() const;
+
+    void setStdOffset(TimeOffset stdOffset);
     void setDstOffset(TimeOffset offset);
 
     TimeZoneData toTimeZoneData() const;
@@ -898,17 +901,17 @@ points to a temporary buffer whose contents may change upon subsequent calls to
 needs to be saved for a longer period of time, it should be saved to another
 char buffer.
 
-The `getUtcOffsetForDateTime(localDateTime)` method returns the best guess of
-the total UTC offset at the given local date time. This method is not
-normally expected to be used by the app developer directly. The reaon that this
-is a best guess is because the local date time is sometime ambiguious during a
-DST transition. For example, if the local clock shifts from 01:00 to 02:00 at
-the start of summer, then the time of 01:30 does not exist. If the
-`getUtcOffsetForDateTime()` method is given a non-existing time, it makes an
-educated guess at what the user meant. Additionally, when the local time
-transitions from 02:00 to 01:00 in the autumn, a given local time such as 01:30
-occurs twice. If the `getUtcOffsetForDateTime()` method is given a time of
-01:30, it will arbitrarily decide which offset to return.
+The `getOffsetDateTime(localDateTime)` method returns the best guess of
+the `OffsetDateTime` at the given local date time. This method is used by
+`ZonedDateTime::forComponents()` and is exposed mostly for debugging. The reaon
+that this is a best guess is because the local date time is sometime ambiguious
+during a DST transition. For example, if the local clock shifts from 01:00 to
+02:00 at the start of summer, then the time of 01:30 does not exist. If the
+`getOffsetDateTime()` method is given a non-existing time, it makes an educated
+guess at what the user meant. Additionally, when the local time transitions from
+02:00 to 01:00 in the autumn, a given local time such as 01:30 occurs twice. If
+the `getOffsetDateTime()` method is given a time of 01:30, it will arbitrarily
+decide which offset to return.
 
 The `isUtc()`, `isDst()` and `setDstOffset(TimeOffset)` methods are valid *only*
 if the `TimeZone` is a `kTypeManual`. Otherwise, `isUtc()` and `isDst()` return
@@ -919,7 +922,7 @@ identifier for the IANA timezone. This can be used to save and restore
 the `TimeZone`. See the [ZoneManager](#ZoneManager) subsection below.
 
 The `printTo()` prints the fully-qualified unique name for the time zone.
-For example, `"UTC"`, `"-08:00", `"-08:00(DST)"`, `"America/Los_Angeles"`.
+For example, `"UTC"`, `"-08:00"`, `"-08:00(DST)"`, `"America/Los_Angeles"`.
 
 The `printShortTo()` is similar to `printTo()` except that it prints the
 last component of the IANA TZ Database zone names. In other words,
@@ -963,7 +966,7 @@ methods work only if the `TimeZone` is a `kTypeManual`.
 The `setDstOffset()` takes a `TimeOffset` as the argument instead of a simple
 `bool` because there are a handful of rare zones (e.g. Europe/Dublin, I think
 there is one other) which use a negative offset in the winter, instead of adding
-a postive offset in the summer.
+a positive offset in the summer.
 
 The `setStdOffset()` allows the base time offset to be changed, but this
 method is not expected to be used often.
@@ -1292,7 +1295,7 @@ disadvantage that the `BasicZoneProcessor` or `ExtendedZoneProcessor` needs to
 be created manually for each `TimeZone` instance. This works well for a single
 time zone, but if you have an application that needs 3 or more time zones, this
 may become cumbersome. Also, it is difficult to reconstruct a `TimeZone`
-dynamically, say, from its fullly qualified name (e.g. `"America/Los_Angeles"`).
+dynamically, say, from its fully qualified name (e.g. `"America/Los_Angeles"`).
 
 The `ZoneManager` solves these problems. It keeps an internal cache of
 `ZoneProcessors`, reusing them as needed. And it holds a registry of `ZoneInfo`
@@ -1845,7 +1848,7 @@ version:
 
 * Ghost Links (prior to v1.5, but no longer implemented)
 * Fat Links (from v1.5 onwards)
-* Thin LInks (from v1.6 onwards)
+* Thin Links (from v1.6 onwards)
 
 <a name="GhostLinks"></a>
 #### Ghost Links (Prior to v1.5)
@@ -2231,7 +2234,7 @@ void incrementMinute(ZonedDateTime& dateTime);
 ```
 
 <a name="ZonedDateTimeNormalization"></a>
-### ZonedDateTimeNormalization
+### ZonedDateTime Normalization
 
 When the `ZonedDateTime` object is mutated using the methods and functions
 listed above, the client code must call `ZonedDateTime::normalize()` before

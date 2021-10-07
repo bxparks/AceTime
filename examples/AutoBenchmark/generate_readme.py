@@ -28,7 +28,7 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
-**Version**: AceTime v1.7.4
+**Version**: AceTime v1.7.5
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
@@ -77,35 +77,59 @@ The CPU times below are given in microseconds.
 
 ## CPU Time Changes
 
-* The CPU time did not change much from v0.8 to v1.4.
-* The CPU time of most classes did not change much from v1.4 to v1.5. The
-  big difference is that the Zone registries (kZoneRegistry,
-  kZoneAndLinkRegistry) are now sorted by zoneId instead of zoneName, and the
-  `ZoneManager::createForZoneId()` will use a binary search, instead of a linear
-  search. This makes it 10-15X faster for ~266 entries. The
-  `ZoneManager::createForZoneName()` also converts to a zoneId, then performs a
-  binary search, instead of doing a binary search on the zoneName directly. Even
-  with the extra level of indirection, the `createForZoneName()` is between
-  1.5-2X faster than the previous version.
-* In v1.6, BasicZoneManager and ExtendedZoneManager can take an optional
+v0.8 to v1.4:
+* The CPU time did not change much from
+
+In v1.5:
+* No significant changes to CPU time.
+* Zone registries (kZoneRegistry, kZoneAndLinkRegistry) are now sorted by zoneId
+  instead of zoneName, and the `ZoneManager::createForZoneId()` will use a
+  binary search, instead of a linear search. This makes it 10-15X faster for
+  ~266 entries.
+* The `ZoneManager::createForZoneName()` also converts to a zoneId, then
+  performs a binary search, instead of doing a binary search on the zoneName
+  directly. Even with the extra level of indirection, the `createForZoneName()`
+  is between 1.5-2X faster than the previous version.
+
+In v1.6:
+* BasicZoneManager and ExtendedZoneManager can take an optional
   LinkRegistry which will be searched if a zoneId is not found. The
   `BasicZoneManager::createForZoneId(link)` benchmark shows that if the zoneId
   is not found, the total search time is roughly double, because the
-  LinkRegistry must be search as a fallback. On some compilers, the
-  `BasicZoneManager::createForZoneName(binary)` becames slightly slower (~10%?)
-  because the algorithm was moved into the `ace_common::binarySearchByKey()`
-  template function, and the compiler is not able to optimize the resulting
-  function as well as the hand-rolled version. The slightly decrease in speed
-  seemed acceptable cost to reduce duplicate code maintenance.
-* In v1.7.2, `SystemClock::clockMillis()` became non-virtual after incorporating
+  LinkRegistry must be search as a fallback.
+* On some compilers, the `BasicZoneManager::createForZoneName(binary)` becames
+  slightly slower (~10%?) because the algorithm was moved into the
+  `ace_common::binarySearchByKey()` template function, and the compiler is not
+  able to optimize the resulting function as well as the hand-rolled version.
+  The slightly decrease in speed seemed acceptable cost to reduce duplicate code
+  maintenance.
+
+In v1.7.2:
+* `SystemClock::clockMillis()` became non-virtual after incorporating
   AceRoutine v1.3. The sizeof `SystemClockLoop` and `SystemClockCoroutine`
   decreases 4 bytes on AVR, and 4-8 bytes on 32-bit processors. No signficant
   changes in CPU time.
 
+In v1.7.5:
+* significant changes to size of `ExtendedZoneProcessor`
+    * 8-bit processors
+        * increases by 24 bytes on AVR, due adding 1 pointer and 2
+            `uint16_t` to MatchingEra
+        * decreases by 48 bytes on AVR, by disabling
+            `originalTransitionTime` unless
+            `ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG` is enabled.
+    * 32-bit processors
+        * increases by 32 bytes on 32-bit processors due to adding
+            a pointer and 2 `uint16_t` to MatchingEra
+        * decreases by 32 bytes on 32-bit processors due to disabling
+            `originalTransitionTime` in Transition
+* Upgrade ESP8266 Core from 2.7.4 to 3.0.2.
+    * AutoBenchmark indicate that things are a few percentage faster.
+
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * Arduino AVR Boards 1.8.3
 
 ```
@@ -115,7 +139,7 @@ The CPU times below are given in microseconds.
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.13
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
 * SparkFun AVR Boards 1.1.13
 
 ```
@@ -125,8 +149,8 @@ The CPU times below are given in microseconds.
 ## SAMD21 M0 Mini
 
 * 48 MHz ARM Cortex-M0+
-* Arduino IDE 1.8.13
-* Sparkfun SAMD Core 1.8.1
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* Sparkfun SAMD Core 1.8.4
 
 ```
 {samd_results}
@@ -135,8 +159,8 @@ The CPU times below are given in microseconds.
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.13
-* STM32duino 1.9.0
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* STM32duino 2.0.0
 
 ```
 {stm32_results}
@@ -145,8 +169,8 @@ The CPU times below are given in microseconds.
 ## ESP8266
 
 * NodeMCU 1.0 clone, 80MHz ESP8266
-* Arduino IDE 1.8.13
-* ESP8266 Boards 2.7.4
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* ESP8266 Boards 3.0.2
 
 ```
 {esp8266_results}
@@ -155,8 +179,8 @@ The CPU times below are given in microseconds.
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.13
-* ESP32 Boards 1.0.4
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* ESP32 Boards 1.0.6
 
 ```
 {esp32_results}
@@ -168,8 +192,8 @@ duration of an empty loop, the numbers become unreliable.
 ## Teensy 3.2
 
 * 96 MHz ARM Cortex-M4
-* Arduino IDE 1.8.13
-* Teensyduino 1.53
+* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* Teensyduino 1.55
 * Compiler options: "Faster"
 
 ```

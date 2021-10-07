@@ -34,8 +34,10 @@ micro.txt:
 samd.txt:
 	$(AUNITER_DIR)/auniter.sh --ide upmon -o $@ --eof END samd:ACM0
 
+# STM32 no longer works with CLI due to
+# https://github.com/arduino/arduino-cli/issues/1444. Use IDE instead.
 stm32.txt:
-	$(AUNITER_DIR)/auniter.sh --cli upmon -o $@ --eof END stm32:ACM0
+	$(AUNITER_DIR)/auniter.sh --ide upmon -o $@ --eof END stm32:ACM0
 
 esp8266.txt:
 	$(AUNITER_DIR)/auniter.sh --cli upmon -o $@ --eof END nodemcu:USB0

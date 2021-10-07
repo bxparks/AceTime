@@ -20,7 +20,9 @@
 #include "ZoneProcessor.h"
 #include "local_date_mutation.h"
 
+#ifndef ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
 #define ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG 0
+#endif
 
 class ExtendedZoneProcessorTest_compareEraToYearMonth;
 class ExtendedZoneProcessorTest_compareEraToYearMonth2;
@@ -28,7 +30,7 @@ class ExtendedZoneProcessorTest_createMatch;
 class ExtendedZoneProcessorTest_findMatches_simple;
 class ExtendedZoneProcessorTest_findMatches_named;
 class ExtendedZoneProcessorTest_findCandidateTransitions;
-class ExtendedZoneProcessorTest_findTransitionsFromNamedMatch;
+class ExtendedZoneProcessorTest_createTransitionsFromNamedMatch;
 class ExtendedZoneProcessorTest_getTransitionTime;
 class ExtendedZoneProcessorTest_createTransitionForYear;
 class ExtendedZoneProcessorTest_normalizeDateTuple;
@@ -37,7 +39,7 @@ class ExtendedZoneProcessorTest_calcInteriorYears;
 class ExtendedZoneProcessorTest_getMostRecentPriorYear;
 class ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
 class ExtendedZoneProcessorTest_compareTransitionToMatch;
-class ExtendedZoneProcessorTest_processActiveTransition;
+class ExtendedZoneProcessorTest_processTransitionMatchStatus;
 class ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
 class ExtendedZoneProcessorTest_createAbbreviation;
 class ExtendedZoneProcessorTest_setZoneKey;
@@ -46,10 +48,11 @@ class TransitionStorageTest_getFreeAgent2;
 class TransitionStorageTest_addFreeAgentToActivePool;
 class TransitionStorageTest_reservePrior;
 class TransitionStorageTest_addFreeAgentToCandidatePool;
-class TransitionStorageTest_setFreeAgentAsPrior;
+class TransitionStorageTest_setFreeAgentAsPriorIfValid;
 class TransitionStorageTest_addActiveCandidatesToActivePool;
-class TransitionStorageTest_resetCandidatePool;
 class TransitionStorageTest_findTransitionForDateTime;
+class TransitionStorageTest_resetCandidatePool;
+class TransitionValidation;
 
 class Print;
 
@@ -75,9 +78,11 @@ struct DateTuple {
   /** Used only for debugging. */
   void log() const {
     if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+      int hour = minutes / 60;
+      int minute = minutes - hour * 60;
       char c = "wsu"[(suffix>>4)];
-      logging::printf("DateTuple(%04d-%02u-%02uT%d'%c')",
-          yearTiny+LocalDate::kEpochYear, month, day, minutes, c);
+      logging::printf("%04d-%02u-%02uT%02d:%02d%c",
+          yearTiny+LocalDate::kEpochYear, month, day, hour, minute, c);
     }
   }
 };
@@ -129,8 +134,11 @@ struct YearMonthTuple {
  * @tparam ZEB type of ZoneEraBroker
  */
 template<typename ZEB>
-struct ZoneMatchTemplate {
-  /** The effective start time of the matching ZoneEra. */
+struct MatchingEraTemplate {
+  /**
+   * The effective start time of the matching ZoneEra, which uses the
+   * UTC offsets of the previous matching era.
+   */
   DateTuple startDateTime;
 
   /** The effective until time of the matching ZoneEra. */
@@ -139,14 +147,50 @@ struct ZoneMatchTemplate {
   /** The ZoneEra that matched the given year. NonNullable. */
   ZEB era;
 
+  /** The previous MatchingEra, needed to interpret startDateTime.  */
+  MatchingEraTemplate* prevMatch;
+
+  /** The STD offset of the last Transition in this MatchingEra. */
+  uint16_t lastOffsetMinutes;
+
+  /** The DST offset of the last Transition in this MatchingEra. */
+  uint16_t lastDeltaMinutes;
+
   void log() const {
-    logging::printf("ZoneMatch(");
-    logging::printf("Start:"); startDateTime.log();
-    logging::printf("; Until:"); untilDateTime.log();
-    logging::printf("; Era: %snull", (era.isNull()) ? "" : "!");
+    logging::printf("MatchingEra(");
+    logging::printf("start="); startDateTime.log();
+    logging::printf("; until="); untilDateTime.log();
+    logging::printf("; era=%c", (era.isNull()) ? '-' : '*');
+    logging::printf("; prevMatch=%c", (prevMatch) ? '*' : '-');
     logging::printf(")");
   }
 };
+
+/** Swap 2 parameters. */
+template <typename T>
+void swap(T& a, T& b) {
+  T tmp = a;
+  a = b;
+  b = tmp;
+}
+
+/**
+ * The result of comparing the transition time of a Transition to the
+ * time interval of its corresponding MatchingEra.
+ */
+enum class MatchStatus : uint8_t {
+  kFarPast, // 0
+  kPrior, // 1
+  kExactMatch, // 2
+  kWithinMatch, // 3
+  kFarFuture, // 4
+};
+
+inline bool isMatchStatusActive(MatchStatus status) {
+  return status == MatchStatus::kExactMatch
+      || status == MatchStatus::kWithinMatch
+      || status == MatchStatus::kPrior;
+}
 
 /**
  * Represents an interval of time where the time zone obeyed a certain UTC
@@ -180,11 +224,11 @@ struct ZoneMatchTemplate {
 template <typename ZEB, typename ZPB, typename ZRB>
 struct TransitionTemplate {
   /** The match which generated this Transition. */
-  const ZoneMatchTemplate<ZEB>* match;
+  const MatchingEraTemplate<ZEB>* match;
 
   /**
    * The Zone transition rule that matched for the the given year. Set to
-   * nullptr if the RULES column is '-', indicating that the ZoneMatch was
+   * nullptr if the RULES column is '-', indicating that the MatchingEra was
    * a "simple" ZoneEra.
    */
   ZRB rule;
@@ -227,11 +271,13 @@ struct TransitionTemplate {
     DateTuple untilDateTime;
   };
 
+#if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
   /**
-   * If the transition is shifted to the beginning of a ZoneMatch, this is set
-   * to the transitionTime for debugging. May be removed in the future.
+   * If the transition is shifted to the beginning of a MatchingEra, this is set
+   * to the transitionTime for debugging.
    */
   DateTuple originalTransitionTime;
+#endif
 
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
@@ -254,19 +300,21 @@ struct TransitionTemplate {
   /** Storage for the single letter 'letter' field if 'rule' is not null. */
   char letterBuf[2];
 
-  /**
-   * Flag used for 2 slightly different meanings at different stages of init()
-   * processing.
-   *
-   * 1) During findCandidateTransitions(), this flag indicates whether the
-   * current transition is a valid "prior" transition that occurs before other
-   * transitions. It is set by setAsPriorTransition() if the transition is a
-   * prior transition.
-   *
-   * 2) During processActiveTransition(), this flag indicates if the current
-   * transition falls within the date range of interest.
-   */
-  bool active;
+  union {
+    /**
+     * During findCandidateTransitions(), this flag indicates whether the
+     * current transition is a valid "prior" transition that occurs before other
+     * transitions. It is set by setFreeAgentAsPriorIfValid() if the transition
+     * is a prior transition.
+     */
+    bool isValidPrior;
+
+    /**
+     * During processTransitionMatchStatus(), this flag indicates how the
+     * transition falls within the time interval of the MatchingEra.
+     */
+    MatchStatus matchStatus;
+  };
 
   //-------------------------------------------------------------------------
 
@@ -312,23 +360,39 @@ struct TransitionTemplate {
   void log() const {
     logging::printf("Transition(");
     if (sizeof(acetime_t) <= sizeof(int)) {
-      logging::printf("sE: %d", startEpochSeconds);
+      logging::printf("start=%d", startEpochSeconds);
     } else {
-      logging::printf("sE: %ld", startEpochSeconds);
+      logging::printf("start=%ld", startEpochSeconds);
     }
-    logging::printf("; match: %snull", (match) ? "!" : "");
-    logging::printf("; era: %snull",
-        (match && match->era.isNull()) ? "" : "!");
-    logging::printf("; oMinutes: %d", offsetMinutes);
-    logging::printf("; dMinutes: %d", deltaMinutes);
-    logging::printf("; tt: "); transitionTime.log();
-    if (! rule.isNull()) {
-      logging::printf("; R.fY: %d", rule.fromYearTiny());
-      logging::printf("; R.tY: %d", rule.toYearTiny());
-      logging::printf("; R.M: %d", rule.inMonth());
-      logging::printf("; R.dow: %d", rule.onDayOfWeek());
-      logging::printf("; R.dom: %d", rule.onDayOfMonth());
+    logging::printf("; status=%d", matchStatus);
+    logging::printf("; UTC");
+    logHourMinute(offsetMinutes);
+    logHourMinute(deltaMinutes);
+    logging::printf("; tt="); transitionTime.log();
+    logging::printf("; tts="); transitionTimeS.log();
+    logging::printf("; ttu="); transitionTimeU.log();
+    if (rule.isNull()) {
+      logging::printf("; rule=-");
+    } else {
+      logging::printf("; rule=");
+      logging::printf("[%d,%d]",
+          rule.fromYearTiny() + LocalDate::kEpochYear,
+          rule.toYearTiny() + LocalDate::kEpochYear);
     }
+  }
+
+  /** Print minutes as [+/-]hh:mm. */
+  static void logHourMinute(int16_t minutes) {
+    char sign;
+    if (minutes < 0) {
+      sign = '-';
+      minutes = -minutes;
+    } else {
+      sign = '+';
+    }
+    uint8_t hour = minutes / 60;
+    uint8_t minute = minutes - hour * 60;
+    logging::printf("%c%02u:%02u", sign, (unsigned) hour, (unsigned) minute);
   }
 };
 
@@ -390,17 +454,10 @@ class TransitionStorageTemplate {
       return mTransitions[mIndexPrior];
     }
 
-    /** Swap 2 transitions. */
-    static void swap(Transition** a, Transition** b) {
-      auto* tmp = *a;
-      *a = *b;
-      *b = tmp;
-    }
-
     /**
      * Empty the Candidate pool by resetting the various indexes.
      *
-     * If every iteration of findTransitionsForMatch() finishes with
+     * If every iteration of createTransitionsForMatch() finishes with
      * addFreeAgentToActivePool() or addActiveCandidatesToActivePool(), it may
      * be possible to remove this. But it's safer to reset the indexes upon
      * each iteration.
@@ -463,14 +520,23 @@ class TransitionStorageTemplate {
      * Candidate pool and Free pool up by one.
      */
     Transition** reservePrior() {
+      getFreeAgent(); // update high water mark
+
       mIndexCandidates++;
       mIndexFree++;
       return &mTransitions[mIndexPrior];
     }
 
-    /** Swap the Free agrent transition with the current Prior transition. */
-    void setFreeAgentAsPrior() {
-      swap(&mTransitions[mIndexPrior], &mTransitions[mIndexFree]);
+    /** Set the free agent transition as the most recent prior. */
+    void setFreeAgentAsPriorIfValid() {
+      Transition* ft = getFreeAgent();
+      Transition* prior = getPrior();
+      if ((prior->isValidPrior && prior->transitionTime < ft->transitionTime)
+          || !prior->isValidPrior) {
+        ft->isValidPrior = true;
+        prior->isValidPrior = false;
+        swap(mTransitions[mIndexPrior], mTransitions[mIndexFree]);
+      }
     }
 
     /**
@@ -490,6 +556,14 @@ class TransitionStorageTemplate {
      */
     void addFreeAgentToCandidatePool() {
       if (mIndexFree >= SIZE) return;
+
+      // This implementation makes pair-wise swaps to shift the current
+      // Transition leftwards into its correctly sorted position. At first
+      // glance, this seem inefficient compared to the alternative
+      // implementation where we save the current Transition, then slide all the
+      // elements to the left by one position rightwards. However,
+      // MemoryBenchmark shows that this implementation is 46 bytes smaller on
+      // an AVR processor.
       for (uint8_t i = mIndexFree; i > mIndexCandidates; i--) {
         Transition* curr = mTransitions[i];
         Transition* prev = mTransitions[i - 1];
@@ -502,25 +576,34 @@ class TransitionStorageTemplate {
 
     /**
      * Add active candidates into the Active pool, and collapse the Candidate
-     * pool.
+     * pool. Every MatchingEra will have at least one Transition.
+     *
+     * @return the last Transition that was added
      */
-    void addActiveCandidatesToActivePool() {
+    Transition* addActiveCandidatesToActivePool() {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("addActiveCandidatesToActivePool()\n");
       }
+
+      // Shift active candidates to the left into the Active pool.
       uint8_t iActive = mIndexPrior;
       uint8_t iCandidate = mIndexCandidates;
       for (; iCandidate < mIndexFree; iCandidate++) {
-        if (mTransitions[iCandidate]->active) {
+        if (isMatchStatusActive(mTransitions[iCandidate]->matchStatus)) {
           if (iActive != iCandidate) {
-            swap(&mTransitions[iActive], &mTransitions[iCandidate]);
+            // Must use swap(), because we are moving pointers instead of the
+            // actual Transition objects.
+            swap(mTransitions[iActive], mTransitions[iCandidate]);
           }
           ++iActive;
         }
       }
+
       mIndexPrior = iActive;
       mIndexCandidates = iActive;
       mIndexFree = iActive;
+
+      return mTransitions[iActive - 1];
     }
 
     /**
@@ -576,9 +659,13 @@ class TransitionStorageTemplate {
       }
 
       // Convert LocalDateTime to DateTuple.
-      DateTuple localDate = { ldt.yearTiny(), ldt.month(), ldt.day(),
+      DateTuple localDate{
+          ldt.yearTiny(),
+          ldt.month(),
+          ldt.day(),
           (int16_t) (ldt.hour() * 60 + ldt.minute()),
-          internal::ZoneContext::kSuffixW };
+          internal::ZoneContext::kSuffixW
+      };
       const Transition* match = nullptr;
 
       // Find the last Transition that matches
@@ -592,25 +679,31 @@ class TransitionStorageTemplate {
 
     /** Verify that the indexes are valid. Used only for debugging. */
     void log() const {
-      logging::printf("TransitionStorage:\n");
-      logging::printf("  mIndexPrior: %d\n", mIndexPrior);
-      logging::printf("  mIndexCandidates: %d\n", mIndexCandidates);
-      logging::printf("  mIndexFree: %d\n", mIndexFree);
+      logging::printf("TransitionStorage: ");
+      logging::printf("nActives=%d", mIndexPrior);
+      logging::printf(", nPrior=%d", mIndexCandidates - mIndexPrior);
+      logging::printf(", nCandidates=%d", mIndexFree - mIndexCandidates);
+      logging::printf(", nFree=%d", SIZE - mIndexFree);
+      logging::printf("\n");
+
       if (mIndexPrior != 0) {
         logging::printf("  Actives:\n");
         for (uint8_t i = 0; i < mIndexPrior; i++) {
+          logging::printf("    ");
           mTransitions[i]->log();
           logging::printf("\n");
         }
       }
       if (mIndexPrior != mIndexCandidates) {
-        logging::printf("  Prior: ");
+        logging::printf("  Prior: \n");
+        logging::printf("    ");
         mTransitions[mIndexPrior]->log();
         logging::printf("\n");
       }
       if (mIndexCandidates != mIndexFree) {
         logging::printf("  Candidates:\n");
         for (uint8_t i = mIndexCandidates; i < mIndexFree; i++) {
+          logging::printf("    ");
           mTransitions[i]->log();
           logging::printf("\n");
         }
@@ -633,12 +726,12 @@ class TransitionStorageTemplate {
     friend class ::TransitionStorageTest_addFreeAgentToActivePool;
     friend class ::TransitionStorageTest_reservePrior;
     friend class ::TransitionStorageTest_addFreeAgentToCandidatePool;
-    friend class ::TransitionStorageTest_setFreeAgentAsPrior;
+    friend class ::TransitionStorageTest_setFreeAgentAsPriorIfValid;
     friend class ::TransitionStorageTest_addActiveCandidatesToActivePool;
     friend class ::TransitionStorageTest_findTransitionForDateTime;
     friend class ::TransitionStorageTest_resetCandidatePool;
 
-    /** Return the transition at position i. */
+    /** Return the transition at position i.*/
     Transition* getTransition(uint8_t i) {
       return mTransitions[i];
     }
@@ -659,7 +752,7 @@ class TransitionStorageTemplate {
  * An implementation of ZoneProcessor that supports for *all* zones defined by
  * the TZ Database. The supported zones are defined in the zonedbx/zone_infos.h
  * header file. The constructor expects a pointer to one of the ZoneInfo
- * structures declared in the zonedbx/zone_infos.h file. The zone_specifier.py
+ * structures declared in the zonedbx/zone_infos.h file. The zone_processor.py
  * file is the initial Python implementation of this class, which got
  * translated into C++.
  *
@@ -703,7 +796,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     typedef extended::TransitionTemplate<ZEB, ZPB, ZRB> Transition;
 
     /** Exposed only for testing purposes. */
-    typedef extended::ZoneMatchTemplate<ZEB> ZoneMatch;
+    typedef extended::MatchingEraTemplate<ZEB> MatchingEra;
 
     /** Exposed only for testing purposes. */
     typedef extended::TransitionStorageTemplate<kMaxTransitions, ZEB, ZPB, ZRB>
@@ -712,7 +805,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     uint32_t getZoneId() const override { return mZoneInfoBroker.zoneId(); }
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
-      bool success = init(epochSeconds);
+      bool success = initForEpochSeconds(epochSeconds);
       if (!success) return TimeOffset::forError();
       const Transition* transition = findTransition(epochSeconds);
       return (transition)
@@ -722,14 +815,14 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const override {
-      bool success = init(epochSeconds);
+      bool success = initForEpochSeconds(epochSeconds);
       if (!success) return TimeOffset::forError();
       const Transition* transition = findTransition(epochSeconds);
       return TimeOffset::forMinutes(transition->deltaMinutes);
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
-      bool success = init(epochSeconds);
+      bool success = initForEpochSeconds(epochSeconds);
       if (!success) return "";
       const Transition* transition = findTransition(epochSeconds);
       return transition->abbrev;
@@ -742,7 +835,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         ldt.printTo(SERIAL_PORT_MONITOR);
         SERIAL_PORT_MONITOR.println();
       }
-      bool success = init(ldt.localDate());
+      bool success = initForYear(ldt.year());
 
       // Find the Transition to get the DST offset
       if (success) {
@@ -803,7 +896,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     /** Used only for debugging. */
     void log() const {
-      logging::printf("ExtendedZoneProcessor:\n");
+      logging::printf("ExtendedZoneProcessor\n");
       logging::printf("  mYear: %d\n", mYear);
       logging::printf("  mNumMatches: %d\n", mNumMatches);
       for (int i = 0; i < mNumMatches; i++) {
@@ -838,12 +931,101 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       return mZoneInfoBroker.equals(zoneKey);
     }
 
+    /**
+     * Set the broker factory at runtime. This is an advanced usage where the
+     * custom subclass of ExtendedZoneProcessorTemplate does not know its broker
+     * factory at compile time, so it must be set at runtime through this
+     * method.
+     */
     void setBrokerFactory(const BF* brokerFactory) {
       mBrokerFactory = brokerFactory;
     }
 
-  protected:
+    /**
+     * Initialize using the epochSeconds.  The epochSeconds is converted to
+     * the LocalDate for UTC time, and the year is used to call initForYear().
+     * Exposed for debugging.
+     */
+    bool initForEpochSeconds(acetime_t epochSeconds) const {
+      LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
+      return initForYear(ld.year());
+    }
 
+    /**
+     * Initialize the zone rules cache, keyed by the "current" year.
+     * Returns success status: true if successful, false if an error occurred.
+     * Exposed for debugging.
+     */
+    bool initForYear(int16_t year) const {
+      if (isFilled(year)) return true;
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("initForYear(): %d\n", year);
+      }
+
+      mYear = year;
+      mNumMatches = 0; // clear cache
+      mTransitionStorage.init();
+
+      if (year < mZoneInfoBroker.zoneContext()->startYear - 1
+          || mZoneInfoBroker.zoneContext()->untilYear < year) {
+        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+          logging::printf("init(): Year %d out of valid range [%d, %d)\n",
+              year,
+              mZoneInfoBroker.zoneContext()->startYear,
+              mZoneInfoBroker.zoneContext()->untilYear);
+        }
+        return false;
+      }
+
+      extended::YearMonthTuple startYm = {
+        (int8_t) (year - LocalDate::kEpochYear - 1), 12 };
+      extended::YearMonthTuple untilYm =  {
+        (int8_t) (year - LocalDate::kEpochYear + 1), 2 };
+
+      // Step 1 (See equivalent steps in
+      // zone_processor.ZoneSpecifier.init_for_year())
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("==== Step 1: findMatches()\n");
+      }
+      mNumMatches = findMatches(mZoneInfoBroker, startYm, untilYm, mMatches,
+          kMaxMatches);
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
+
+      // Step 2
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("==== Step 2: createTransitions()\n");
+      }
+      createTransitions(mTransitionStorage, mMatches, mNumMatches);
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
+
+      // Step 3
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("==== Step 3: fixTransitionTimes()\n");
+      }
+      Transition** begin = mTransitionStorage.getActivePoolBegin();
+      Transition** end = mTransitionStorage.getActivePoolEnd();
+      fixTransitionTimes(begin, end);
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
+
+      // Step 4
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("==== Step 4: generateStartUntilTimes()\n");
+      }
+      generateStartUntilTimes(begin, end);
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
+
+      // Step 5
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("==== Step 5: calcAbbreviations()\n");
+      }
+      calcAbbreviations(begin, end);
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
+
+      mIsFilled = true;
+      return true;
+    }
+
+  protected:
     /**
      * Constructor.
      *
@@ -868,7 +1050,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_findMatches_simple;
     friend class ::ExtendedZoneProcessorTest_findMatches_named;
     friend class ::ExtendedZoneProcessorTest_findCandidateTransitions;
-    friend class ::ExtendedZoneProcessorTest_findTransitionsFromNamedMatch;
+    friend class ::ExtendedZoneProcessorTest_createTransitionsFromNamedMatch;
     friend class ::ExtendedZoneProcessorTest_getTransitionTime;
     friend class ::ExtendedZoneProcessorTest_createTransitionForYear;
     friend class ::ExtendedZoneProcessorTest_normalizeDateTuple;
@@ -877,11 +1059,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_getMostRecentPriorYear;
     friend class ::ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
     friend class ::ExtendedZoneProcessorTest_compareTransitionToMatch;
-    friend class ::ExtendedZoneProcessorTest_processActiveTransition;
+    friend class ::ExtendedZoneProcessorTest_processTransitionMatchStatus;
     friend class ::ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
     friend class ::ExtendedZoneProcessorTest_createAbbreviation;
     friend class ::ExtendedZoneProcessorTest_setZoneKey;
     friend class ::TransitionStorageTest_findTransitionForDateTime;
+    friend class ::TransitionValidation;
 
     // Disable copy constructor and assignment operator.
     ExtendedZoneProcessorTemplate(
@@ -897,7 +1080,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     /**
      * Maximum number of interior years. For a viewing window of 14 months,
-     * this will be 4.
+     * this will be 4. (Verify: I think this can be changed to 3.)
      */
     static const uint8_t kMaxInteriorYears = 4;
 
@@ -914,60 +1097,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       return mTransitionStorage.findTransition(epochSeconds);
     }
 
-    /** Initialize using the epochSeconds. */
-    bool init(acetime_t epochSeconds) const {
-      LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
-      return init(ld);
-    }
-
-    /**
-     * Initialize the zone rules cache, keyed by the "current" year.
-     * Returns success status: true if successful, false if an error occurred.
-     */
-    bool init(const LocalDate& ld) const {
-      int16_t year = ld.year();
-      if (isFilled(year)) return true;
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("init(): %d\n", year);
-      }
-
-      mYear = year;
-      mNumMatches = 0; // clear cache
-      mTransitionStorage.init();
-
-      if (year < mZoneInfoBroker.zoneContext()->startYear - 1
-          || mZoneInfoBroker.zoneContext()->untilYear < year) {
-        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-          logging::printf("init(): Year %d out of valid range [%d, %d)\n",
-              year,
-              mZoneInfoBroker.zoneContext()->startYear,
-              mZoneInfoBroker.zoneContext()->untilYear);
-        }
-        return false;
-      }
-
-      extended::YearMonthTuple startYm = {
-        (int8_t) (year - LocalDate::kEpochYear - 1), 12 };
-      extended::YearMonthTuple untilYm =  {
-        (int8_t) (year - LocalDate::kEpochYear + 1), 2 };
-
-      mNumMatches = findMatches(mZoneInfoBroker, startYm, untilYm, mMatches,
-          kMaxMatches);
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
-      findTransitions(mTransitionStorage, mMatches, mNumMatches);
-      Transition** begin = mTransitionStorage.getActivePoolBegin();
-      Transition** end = mTransitionStorage.getActivePoolEnd();
-      fixTransitionTimes(begin, end);
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
-      generateStartUntilTimes(begin, end);
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
-      calcAbbreviations(begin, end);
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
-
-      mIsFilled = true;
-      return true;
-    }
-
     /** Check if the ZoneRule cache is filled for the given year. */
     bool isFilled(int16_t year) const {
       return mIsFilled && (year == mYear);
@@ -977,27 +1106,30 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * Find the ZoneEras which overlap [startYm, untilYm), ignoring day, time
      * and timeSuffix. The start and until fields of the ZoneEra are
      * truncated at the low and high end by startYm and untilYm, respectively.
-     * Each matching ZoneEra is wrapped inside a ZoneMatch object, placed in
+     * Each matching ZoneEra is wrapped inside a MatchingEra object, placed in
      * the 'matches' array, and the number of matches is returned.
      */
-    static uint8_t findMatches(const ZIB& zoneInfo,
+    static uint8_t findMatches(
+        const ZIB& zoneInfo,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm,
-        ZoneMatch* matches, uint8_t maxMatches) {
+        MatchingEra* matches,
+        uint8_t maxMatches
+    ) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("findMatches()\n");
       }
       uint8_t iMatch = 0;
-      ZEB prev; // anchor ZoneEra, representing the earliest untilTime
+      MatchingEra* prevMatch = nullptr;
       for (uint8_t iEra = 0; iEra < zoneInfo.numEras(); iEra++) {
         const ZEB era = zoneInfo.era(iEra);
-        if (eraOverlapsInterval(prev, era, startYm, untilYm)) {
+        if (eraOverlapsInterval(prevMatch, era, startYm, untilYm)) {
           if (iMatch < maxMatches) {
-            matches[iMatch] = createMatch(prev, era, startYm, untilYm);
+            matches[iMatch] = createMatch(prevMatch, era, startYm, untilYm);
+            prevMatch = &matches[iMatch];
             iMatch++;
           }
         }
-        prev = era;
       }
       return iMatch;
     }
@@ -1014,12 +1146,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * earliest ZoneEra.
      */
     static bool eraOverlapsInterval(
-        const ZEB& prev,
+        const MatchingEra* prevMatch,
         const ZEB& era,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm) {
-      return (prev.isNull() || compareEraToYearMonth(
-              prev, untilYm.yearTiny, untilYm.month) < 0)
+      return (prevMatch == nullptr || compareEraToYearMonth(
+              prevMatch->era, untilYm.yearTiny, untilYm.month) < 0)
           && compareEraToYearMonth(era, startYm.yearTiny, startYm.month) > 0;
     }
 
@@ -1037,125 +1169,175 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /**
-     * Create a ZoneMatch object around the 'era' which intersects the half-open
-     * [startYm, untilYm) interval. The interval is assumed to overlap the
-     * ZoneEra using the eraOverlapsInterval() method. The 'prev' ZoneEra is
+     * Create a MatchingEra object around the 'era' which intersects the
+     * half-open [startYm, untilYm) interval. The interval is assumed to overlap
+     * the ZoneEra using the eraOverlapsInterval() method. The 'prev' ZoneEra is
      * needed to define the startDateTime of the current era.
      */
-    static ZoneMatch createMatch(
-        const ZEB& prev,
+    static MatchingEra createMatch(
+        MatchingEra* prevMatch,
         const ZEB& era,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm) {
-      // If prev.isNull(), set startDate to be earlier than all valid ZoneEra.
-      extended::DateTuple startDate = prev.isNull()
+
+      // If prevMatch is null, set startDate to be earlier than all valid
+      // ZoneEra.
+      extended::DateTuple startDate = (prevMatch == nullptr)
           ? extended::DateTuple{
-              LocalDate::kInvalidYearTiny, 1, 1, 0,
+              LocalDate::kInvalidYearTiny,
+              1,
+              1,
+              0,
               internal::ZoneContext::kSuffixW
             }
           : extended::DateTuple{
-              prev.untilYearTiny(), prev.untilMonth(), prev.untilDay(),
-              (int16_t) prev.untilTimeMinutes(), prev.untilTimeSuffix()
+              prevMatch->era.untilYearTiny(),
+              prevMatch->era.untilMonth(),
+              prevMatch->era.untilDay(),
+              (int16_t) prevMatch->era.untilTimeMinutes(),
+              prevMatch->era.untilTimeSuffix()
             };
-      extended::DateTuple lowerBound = {
-        startYm.yearTiny, startYm.month, 1, 0,
+      extended::DateTuple lowerBound{
+        startYm.yearTiny,
+        startYm.month,
+        1,
+        0,
         internal::ZoneContext::kSuffixW
       };
       if (startDate < lowerBound) {
         startDate = lowerBound;
       }
 
-      extended::DateTuple untilDate = {
-        era.untilYearTiny(), era.untilMonth(), era.untilDay(),
-        (int16_t) era.untilTimeMinutes(), era.untilTimeSuffix()
+      extended::DateTuple untilDate{
+        era.untilYearTiny(),
+        era.untilMonth(),
+        era.untilDay(),
+        (int16_t) era.untilTimeMinutes(),
+        era.untilTimeSuffix()
       };
-      extended::DateTuple upperBound = {
-        untilYm.yearTiny, untilYm.month, 1, 0,
+      extended::DateTuple upperBound{
+        untilYm.yearTiny,
+        untilYm.month,
+        1,
+        0,
         internal::ZoneContext::kSuffixW
       };
       if (upperBound < untilDate) {
         untilDate = upperBound;
       }
 
-      return {startDate, untilDate, era};
+      return {startDate, untilDate, era, prevMatch, 0, 0};
     }
 
     /**
      * Create the Transition objects which are defined by the list of matches
      * and store them in the transitionStorage container.
      */
-    static void findTransitions(
+    static void createTransitions(
         TransitionStorage& transitionStorage,
-        ZoneMatch* matches,
+        MatchingEra* matches,
         uint8_t numMatches) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("findTransitions()\n");
+        logging::printf("createTransitions()\n");
       }
+
       for (uint8_t i = 0; i < numMatches; i++) {
-        findTransitionsForMatch(transitionStorage, &matches[i]);
+        createTransitionsForMatch(transitionStorage, &matches[i]);
       }
     }
 
     /** Create the Transitions defined by the given match. */
-    static void findTransitionsForMatch(
+    static void createTransitionsForMatch(
         TransitionStorage& transitionStorage,
-        const ZoneMatch* match) {
+        MatchingEra* match) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("findTransitionsForMatch()\n");
+        logging::printf("== createTransitionsForMatch()\n");
       }
       const ZPB policy = match->era.zonePolicy();
       if (policy.isNull()) {
-        findTransitionsFromSimpleMatch(transitionStorage, match);
+        createTransitionsFromSimpleMatch(transitionStorage, match);
       } else {
-        findTransitionsFromNamedMatch(transitionStorage, match);
+        createTransitionsFromNamedMatch(transitionStorage, match);
       }
     }
 
-    static void findTransitionsFromSimpleMatch(
+    static void createTransitionsFromSimpleMatch(
         TransitionStorage& transitionStorage,
-        const ZoneMatch* match) {
+        MatchingEra* match) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("findTransitionsFromSimpleMatch()\n");
+        logging::printf("== createTransitionsFromSimpleMatch()\n");
       }
+
       Transition* freeTransition = transitionStorage.getFreeAgent();
       createTransitionForYear(freeTransition, 0 /*not used*/,
           ZRB() /*rule*/, match);
+      freeTransition->matchStatus = extended::MatchStatus::kExactMatch;
+      match->lastOffsetMinutes = freeTransition->offsetMinutes;
+      match->lastDeltaMinutes = freeTransition->deltaMinutes;
       transitionStorage.addFreeAgentToActivePool();
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        freeTransition->log();
+        logging::printf("\n");
+      }
     }
 
-    static void findTransitionsFromNamedMatch(
+    static void createTransitionsFromNamedMatch(
         TransitionStorage& transitionStorage,
-        const ZoneMatch* match) {
+        MatchingEra* match) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("findTransitionsFromNamedMatch()\n");
+        logging::printf("== createTransitionsFromNamedMatch()\n");
       }
+
       transitionStorage.resetCandidatePool();
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         match->log(); logging::printf("\n");
       }
+
+      // Pass 1: Find candidate transitions using whole years.
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("---- Pass 1: findCandidateTransitions()\n");
+      }
       findCandidateTransitions(transitionStorage, match);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        transitionStorage.log(); logging::printf("\n");
+        transitionStorage.log();
+      }
+
+      // Pass 2: Fix the transitions times, converting 's' and 'u' into 'w'
+      // uniformly.
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("---- Pass 2: fixTransitionTimes()\n");
       }
       fixTransitionTimes(
           transitionStorage.getCandidatePoolBegin(),
           transitionStorage.getCandidatePoolEnd());
-      selectActiveTransitions(transitionStorage, match);
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        transitionStorage.log(); logging::printf("\n");
-      }
 
-      transitionStorage.addActiveCandidatesToActivePool();
+      // Pass 3: Select only those Transitions which overlap with the actual
+      // start and until times of the MatchingEra.
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        transitionStorage.log(); logging::printf("\n");
+        logging::printf("---- Pass 3: selectActiveTransitions()\n");
+      }
+      selectActiveTransitions(
+          transitionStorage.getCandidatePoolBegin(),
+          transitionStorage.getCandidatePoolEnd());
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        transitionStorage.log();
+      }
+      Transition* lastTransition =
+          transitionStorage.addActiveCandidatesToActivePool();
+      match->lastOffsetMinutes = lastTransition->offsetMinutes;
+      match->lastDeltaMinutes = lastTransition->deltaMinutes;
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        transitionStorage.log();
       }
     }
 
     static void findCandidateTransitions(
         TransitionStorage& transitionStorage,
-        const ZoneMatch* match) {
+        const MatchingEra* match) {
+      using extended::MatchStatus;
+
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("findCandidateTransitions(): ");
+        logging::printf("findCandidateTransitions(): \n");
         match->log();
         logging::printf("\n");
       }
@@ -1165,7 +1347,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       int8_t endY = match->untilDateTime.yearTiny;
 
       Transition** prior = transitionStorage.reservePrior();
-      (*prior)->active = false; // indicates "no prior transition"
+      (*prior)->isValidPrior = false; // indicates "no prior transition"
       for (uint8_t r = 0; r < numRules; r++) {
         const ZRB rule = policy.rule(r);
 
@@ -1177,11 +1359,14 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           int8_t year = interiorYears[y];
           Transition* t = transitionStorage.getFreeAgent();
           createTransitionForYear(t, year, rule, match);
-          int8_t status = compareTransitionToMatchFuzzy(t, match);
-          if (status < 0) {
-            setAsPriorTransition(transitionStorage, t);
-          } else if (status == 1) {
+          MatchStatus status = compareTransitionToMatchFuzzy(t, match);
+          if (status == MatchStatus::kPrior) {
+            transitionStorage.setFreeAgentAsPriorIfValid();
+          } else if (status == MatchStatus::kWithinMatch) {
             transitionStorage.addFreeAgentToCandidatePool();
+          } else {
+            // Must be kFarFuture.
+            // Do nothing, allowing the free agent to be reused.
           }
         }
 
@@ -1191,20 +1376,23 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         if (priorYear != LocalDate::kInvalidYearTiny) {
           if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
             logging::printf(
-              "findCandidateTransitions(): priorYear: %d\n", priorYear);
+              "findCandidateTransitions(): priorYear: %d\n",
+              priorYear + LocalDate::kEpochYear);
           }
           Transition* t = transitionStorage.getFreeAgent();
           createTransitionForYear(t, priorYear, rule, match);
-          setAsPriorTransition(transitionStorage, t);
+          transitionStorage.setFreeAgentAsPriorIfValid();
         }
       }
 
-      // Add the reserved prior into the Candidate pool only if 'active' is
-      // true, meaning that a prior was found.
-      if ((*prior)->active) {
+      // Add the reserved prior into the Candidate pool only if 'isValidPrior'
+      // is true.
+      if ((*prior)->isValidPrior) {
         if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
           logging::printf(
             "findCandidateTransitions(): adding prior to Candidate pool\n");
+          (*prior)->log();
+          logging::printf("\n");
         }
         transitionStorage.addPriorToCandidatePool();
       }
@@ -1213,9 +1401,26 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     /**
      * Calculate interior years. Up to maxInteriorYears, usually 3 or 4.
      * Returns the number of interior years.
+     *
+     * If the MatchingEra's UNTIL year is Jan 1st 00:00, the end year is
+     * technically the previous year. However, we treat the UNTIL year as an
+     * inclusive endYear just in case there is a transition Rule on Jan 1 00:00.
+     *
+     * Normally we will use a 14-month matching interval (Dec of prev year,
+     * until Feb of the following year), so the maximum number of interior years
+     * that this will return should be 3.
+     *
+     * @param interiorYears a pointer to array of tiny years (int8_t)
+     * @param maxInteriorYears size of interiorYears
+     * @param fromYear FROM year field of a Rule entry
+     * @param toYear TO year field of a Rule entry
+     * @param startYear start year of the matching ZoneEra
+     * @param endYear until year of the matching ZoneEra
      */
-    static uint8_t calcInteriorYears(int8_t* interiorYears,
-        uint8_t maxInteriorYears, int8_t fromYear, int8_t toYear,
+    static uint8_t calcInteriorYears(
+        int8_t* interiorYears,
+        uint8_t maxInteriorYears,
+        int8_t fromYear, int8_t toYear,
         int8_t startYear, int8_t endYear) {
       uint8_t i = 0;
       for (int8_t year = startYear; year <= endYear; year++) {
@@ -1234,8 +1439,11 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * 'deltaMinutes' as well. 'letterBuf' is also well-defined, either an empty
      * string, or filled with rule->letter with a NUL terminator.
      */
-    static void createTransitionForYear(Transition* t, int8_t year,
-        const ZRB& rule, const ZoneMatch* match) {
+    static void createTransitionForYear(
+        Transition* t,
+        int8_t year,
+        const ZRB& rule,
+        const MatchingEra* match) {
       t->match = match;
       t->rule = rule;
       t->offsetMinutes = match->era.offsetMinutes();
@@ -1258,18 +1466,31 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           // letterBuf, so will be retrieved by the letter() method below.
         }
       } else {
+        // Create a Transition using the MatchingEra for the transitionTime.
+        // Used for simple MatchingEra.
         t->transitionTime = match->startDateTime;
         t->deltaMinutes = match->era.deltaMinutes();
       }
     }
 
     /**
-     * Return the most recent prior year of the rule[from_year, to_year].
-     * Return LocalDate::kInvalidYearTiny (-128) if the rule[from_year,
-     * to_year] has no prior year to the match[start_year, end_year].
+     * Return the most recent year from the Rule[fromYear, toYear] which is
+     * prior to the matching ZoneEra years of [startYear, endYear].
+     *
+     * Return LocalDate::kInvalidYearTiny (-128) if the rule[fromYear,
+     * to_year] has no prior year to the MatchingEra[startYear, endYear].
+     *
+     * @param fromYear FROM year field of a Rule entry
+     * @param toYear TO year field of a Rule entry
+     * @param startYear start year of the matching ZoneEra
+     * @param endYear until year of the matching ZoneEra (unused)
      */
-    static int8_t getMostRecentPriorYear(int8_t fromYear, int8_t toYear,
-        int8_t startYear, int8_t /*endYear*/) {
+    static int8_t getMostRecentPriorYear(
+        int8_t fromYear, int8_t toYear,
+        int8_t startYear, int8_t endYear) {
+
+      (void) endYear; // disable compiler warnings
+
       if (fromYear < startYear) {
         if (toYear < startYear) {
           return toYear;
@@ -1281,13 +1502,25 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
+    /**
+     * Return the DateTuple representing the transition time of the given rule
+     * for the given yearTiny.
+     */
     static extended::DateTuple getTransitionTime(
         int8_t yearTiny, const ZRB& rule) {
+
       internal::MonthDay monthDay = internal::calcStartDayOfMonth(
-          yearTiny + LocalDate::kEpochYear, rule.inMonth(), rule.onDayOfWeek(),
+          yearTiny + LocalDate::kEpochYear,
+          rule.inMonth(),
+          rule.onDayOfWeek(),
           rule.onDayOfMonth());
-      return {yearTiny, monthDay.month, monthDay.day,
-          (int16_t) rule.atTimeMinutes(), rule.atTimeSuffix()};
+      return {
+        yearTiny,
+        monthDay.month,
+        monthDay.day,
+        (int16_t) rule.atTimeMinutes(),
+        rule.atTimeSuffix()
+      };
     }
 
     /**
@@ -1295,44 +1528,27 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * least one-month of the match.start or match.until.
      *
      * Return:
-     *     * -1 if t less than match by at least one month
-     *     * 1 if t within match,
-     *     * 2 if t greater than match by at least one month
-     *     * 0 is never returned since we cannot know that t == match.start
+     *    * kPrior if t less than match by at least one month
+     *    * kWithinMatch if t within match,
+     *    * kFarFuture if t greater than match by at least one month
+     *    * kExactMatch is never returned, we cannot know that t == match.start
      */
-    static int8_t compareTransitionToMatchFuzzy(
-        const Transition* t, const ZoneMatch* match) {
+    static extended::MatchStatus compareTransitionToMatchFuzzy(
+        const Transition* t, const MatchingEra* match) {
+      using extended::MatchStatus;
+
       int16_t ttMonths = t->transitionTime.yearTiny * 12
           + t->transitionTime.month;
 
       int16_t matchStartMonths = match->startDateTime.yearTiny * 12
           + match->startDateTime.month;
-      if (ttMonths < matchStartMonths - 1) return -1;
+      if (ttMonths < matchStartMonths - 1) return MatchStatus::kPrior;
 
       int16_t matchUntilMonths = match->untilDateTime.yearTiny * 12
           + match->untilDateTime.month;
-      if (matchUntilMonths + 2 <= ttMonths) return 2;
+      if (matchUntilMonths + 2 <= ttMonths) return MatchStatus::kFarFuture;
 
-      return 1;
-    }
-
-    /** Set the current transition as the most recent prior if it fits. */
-    static void setAsPriorTransition(
-        TransitionStorage& transitionStorage,
-        Transition* t) {
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("setAsPriorTransition()\n");
-      }
-      Transition* prior = transitionStorage.getPrior();
-      if (prior->active) {
-        if (prior->transitionTime < t->transitionTime) {
-          t->active = true;
-          transitionStorage.setFreeAgentAsPrior();
-        }
-      } else {
-        t->active = true;
-        transitionStorage.setFreeAgentAsPrior();
-      }
+      return MatchStatus::kWithinMatch;
     }
 
     /**
@@ -1345,8 +1561,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      */
     static void fixTransitionTimes(Transition** begin, Transition** end) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("fixTransitionTimes(): #transitions: %d;\n",
+        logging::printf("fixTransitionTimes(): START; #transitions=%d\n",
           (int) (end - begin));
+        printTransitions(begin, end);
       }
 
       // extend first Transition to -infinity
@@ -1354,38 +1571,50 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
       for (Transition** iter = begin; iter != end; ++iter) {
         Transition* curr = *iter;
-        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-          logging::printf("fixTransitionTimes(): LOOP\n");
-          curr->log();
-          logging::printf("\n");
-        }
-        expandDateTuple(&curr->transitionTime,
-            &curr->transitionTimeS, &curr->transitionTimeU,
-            prev->offsetMinutes, prev->deltaMinutes);
+        expandDateTuple(
+            &curr->transitionTime,
+            prev->offsetMinutes,
+            prev->deltaMinutes,
+            &curr->transitionTime,
+            &curr->transitionTimeS,
+            &curr->transitionTimeU);
         prev = curr;
       }
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("fixTransitionTimes(): FIXED\n");
+        printTransitions(begin, end);
         logging::printf("fixTransitionTimes(): END\n");
       }
     }
 
-    /**
-     * Convert the given 'tt', offsetMinutes, and deltaMinutes into the 'w',
-     * 's' and 'u' versions of the DateTuple. The 'tt' may become a 'w' if it
-     * was originally 's' or 'u'. On return, tt, tts and ttu are all modified.
-     */
-    static void expandDateTuple(extended::DateTuple* tt,
-        extended::DateTuple* tts, extended::DateTuple* ttu,
-        int16_t offsetMinutes, int16_t deltaMinutes) {
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("expandDateTuple()\n");
+  #ifdef ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
+    static void printTransitions(Transition** begin, Transition** end) {
+      for (Transition** iter = begin; iter != end; ++iter) {
+        (*iter)->log();
+        logging::printf("\n");
       }
+    }
+  #endif
+
+    /**
+     * Convert the given 'tt', offsetMinutes, and deltaMinutes into the 'w', 's'
+     * and 'u' versions of the DateTuple. It is allowed for 'ttw' to be an alias
+     * of 'tt'.
+     */
+    static void expandDateTuple(
+        const extended::DateTuple* tt,
+        int16_t offsetMinutes,
+        int16_t deltaMinutes,
+        extended::DateTuple* ttw,
+        extended::DateTuple* tts,
+        extended::DateTuple* ttu) {
+
       if (tt->suffix == internal::ZoneContext::kSuffixS) {
         *tts = *tt;
         *ttu = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes - offsetMinutes),
             internal::ZoneContext::kSuffixU};
-        *tt = {tt->yearTiny, tt->month, tt->day,
+        *ttw = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes + deltaMinutes),
             internal::ZoneContext::kSuffixW};
       } else if (tt->suffix == internal::ZoneContext::kSuffixU) {
@@ -1393,12 +1622,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         *tts = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes + offsetMinutes),
             internal::ZoneContext::kSuffixS};
-        *tt = {tt->yearTiny, tt->month, tt->day,
+        *ttw = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes + (offsetMinutes + deltaMinutes)),
             internal::ZoneContext::kSuffixW};
       } else {
         // Explicit set the suffix to 'w' in case it was something else.
-        tt->suffix = internal::ZoneContext::kSuffixW;
+        *ttw = *tt;
+        ttw->suffix = internal::ZoneContext::kSuffixW;
         *tts = {tt->yearTiny, tt->month, tt->day,
             (int16_t) (tt->minutes - deltaMinutes),
             internal::ZoneContext::kSuffixS};
@@ -1407,26 +1637,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
             internal::ZoneContext::kSuffixU};
       }
 
-      normalizeDateTuple(tt);
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("expandDateTuple(): normalizeDateTuple(tt): ");
-        tt->log();
-        logging::printf("\n");
-      }
-
+      normalizeDateTuple(ttw);
       normalizeDateTuple(tts);
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("expandDateTuple(): normalizeDateTuple(tts): ");
-        tts->log();
-        logging::printf("\n");
-      }
-
       normalizeDateTuple(ttu);
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("expandDateTuple(): normalizeDateTuple(ttu): ");
-        ttu->log();
-        logging::printf("\n");
-      }
     }
 
     /**
@@ -1460,19 +1673,16 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * Scan through the Candidate transitions, and mark the ones which are
      * active.
      */
-    static void selectActiveTransitions(
-        TransitionStorage& transitionStorage,
-        const ZoneMatch* match) {
-      Transition** begin = transitionStorage.getCandidatePoolBegin();
-      Transition** end = transitionStorage.getCandidatePoolEnd();
+    static void selectActiveTransitions(Transition** begin, Transition** end) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("selectActiveTransitions(): #candidates: %d\n",
           (int) (end - begin));
       }
+
       Transition* prior = nullptr;
       for (Transition** iter = begin; iter != end; ++iter) {
         Transition* transition = *iter;
-        processActiveTransition(match, transition, &prior);
+        processTransitionMatchStatus(transition, &prior);
       }
 
       // If the latest prior transition is found, shift it to start at the
@@ -1482,42 +1692,42 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           logging::printf(
             "selectActiveTransitions(): found latest prior\n");
         }
+      #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
         prior->originalTransitionTime = prior->transitionTime;
-        prior->transitionTime = match->startDateTime;
+      #endif
+        prior->transitionTime = prior->match->startDateTime;
       }
     }
 
     /**
-     * Determine the active status of a transition depending on the temporal
-     * relationship to the given match. If the transition is outside of the
-     * interval defined by match, then it is inactive. Otherwise active. Also
-     * determine the latest prior transition before match, and mark that as
-     * active.
+     * Determine the match status of a transition depending on the temporal
+     * relationship to the given MatchingEra. Also determine the latest prior
+     * transition before match, marking any previous prior transition as
+     * kFarPast.
      */
-    static void processActiveTransition(
-        const ZoneMatch* match,
+    static void processTransitionMatchStatus(
         Transition* transition,
         Transition** prior) {
-      int8_t status = compareTransitionToMatch(transition, match);
-      if (status == 2) {
-        transition->active = false;
-      } else if (status == 1) {
-        transition->active = true;
-      } else if (status == 0) {
+      using extended::MatchStatus;
+
+      MatchStatus status = compareTransitionToMatch(
+          transition, transition->match);
+      transition->matchStatus = status;
+
+      if (status == MatchStatus::kExactMatch) {
         if (*prior) {
-          (*prior)->active = false;
+          (*prior)->matchStatus = MatchStatus::kFarPast;
         }
-        transition->active = true;
         (*prior) = transition;
-      } else { // (status < 0)
+      } else if (status == MatchStatus::kPrior) {
         if (*prior) {
-          if ((*prior)->transitionTime < transition->transitionTime) {
-            (*prior)->active = false;
-            transition->active = true;
+          if ((*prior)->transitionTimeU <= transition->transitionTimeU) {
+            (*prior)->matchStatus = MatchStatus::kFarPast;
             (*prior) = transition;
+          } else {
+            transition->matchStatus = MatchStatus::kFarPast;
           }
         } else {
-          transition->active = true;
           (*prior) = transition;
         }
       }
@@ -1527,43 +1737,71 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * Compare the temporal location of transition compared to the interval
      * defined by  the match. The transition time of the Transition is expanded
      * to include all 3 versions ('w', 's', and 'u') of the time stamp. When
-     * comparing against the ZoneMatch.startDateTime and
-     * ZoneMatch.untilDateTime, the version will be determined by the suffix
+     * comparing against the MatchingEra.startDateTime and
+     * MatchingEra.untilDateTime, the version will be determined by the suffix
      * of those parameters.
-     *
-     * Returns:
-     *     * -1 if less than match
-     *     * 0 if equal to match_start
-     *     * 1 if within match,
-     *     * 2 if greater than match
      */
-    static int8_t compareTransitionToMatch(
+    static extended::MatchStatus compareTransitionToMatch(
         const Transition* transition,
-        const ZoneMatch* match) {
-      const extended::DateTuple* transitionTime;
+        const MatchingEra* match) {
 
-      const extended::DateTuple& matchStart = match->startDateTime;
-      if (matchStart.suffix == internal::ZoneContext::kSuffixS) {
-        transitionTime = &transition->transitionTimeS;
-      } else if (matchStart.suffix == internal::ZoneContext::kSuffixU) {
-        transitionTime = &transition->transitionTimeU;
-      } else { // assume 'w'
-        transitionTime = &transition->transitionTime;
+      // Find the previous Match offsets.
+      int16_t prevMatchOffsetMinutes;
+      int16_t prevMatchDeltaMinutes;
+      if (match->prevMatch) {
+        prevMatchOffsetMinutes = match->prevMatch->lastOffsetMinutes;
+        prevMatchDeltaMinutes = match->prevMatch->lastDeltaMinutes;
+      } else {
+        prevMatchOffsetMinutes = match->era.offsetMinutes();
+        prevMatchDeltaMinutes = 0;
       }
-      if (*transitionTime < matchStart) return -1;
-      if (*transitionTime == matchStart) return 0;
 
+      // Expand start times.
+      extended::DateTuple stw;
+      extended::DateTuple sts;
+      extended::DateTuple stu;
+      expandDateTuple(
+          &match->startDateTime,
+          prevMatchOffsetMinutes,
+          prevMatchDeltaMinutes,
+          &stw,
+          &sts,
+          &stu);
+
+      // Transition times.
+      const extended::DateTuple& ttw = transition->transitionTime;
+      const extended::DateTuple& tts = transition->transitionTimeS;
+      const extended::DateTuple& ttu = transition->transitionTimeU;
+
+      // Compare Transition to Match, where equality is assumed if *any* of the
+      // 'w', 's', or 'u' versions of the DateTuple are equal. This prevents
+      // duplicate Transition instances from being created in a few cases.
+      if (ttw == stw || tts == sts || ttu == stu) {
+        return extended::MatchStatus::kExactMatch;
+      }
+
+      if (ttu < stu) {
+        return extended::MatchStatus::kPrior;
+      }
+
+      // Now check if the transition occurs after the given match. The
+      // untilDateTime of the current match uses the same UTC offsets as the
+      // transitionTime of the current transition, so no complicated adjustments
+      // are needed. We just make sure we compare 'w' with 'w', 's' with 's',
+      // and 'u' with 'u'.
       const extended::DateTuple& matchUntil = match->untilDateTime;
+      const extended::DateTuple* transitionTime;
       if (matchUntil.suffix == internal::ZoneContext::kSuffixS) {
-        transitionTime = &transition->transitionTimeS;
-      } else if (matchUntil.suffix ==
-          internal::ZoneContext::kSuffixU) {
-        transitionTime = &transition->transitionTimeU;
+        transitionTime = &tts;
+      } else if (matchUntil.suffix == internal::ZoneContext::kSuffixU) {
+        transitionTime = &ttu;
       } else { // assume 'w'
-        transitionTime = &transition->transitionTime;
+        transitionTime = &ttw;
       }
-      if (*transitionTime < matchUntil) return 1;
-      return 2;
+      if (*transitionTime < matchUntil) {
+        return extended::MatchStatus::kWithinMatch;
+      }
+      return extended::MatchStatus::kFarFuture;
     }
 
     /**
@@ -1574,7 +1812,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     static void generateStartUntilTimes(Transition** begin, Transition** end) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf(
-          "generateStartUntilTimes(): #transitions: %d;\n",
+          "generateStartUntilTimes(): #transitions=%d\n",
           (int) (end - begin));
       }
 
@@ -1621,13 +1859,18 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         isAfterFirst = true;
       }
 
-      // The last Transition's until time is the until time of the ZoneMatch.
-      extended::DateTuple untilTime = prev->match->untilDateTime;
-      extended::DateTuple untilTimeS; // needed only for expandDateTuple
-      extended::DateTuple untilTimeU; // needed only for expandDateTuple
-      expandDateTuple(&untilTime, &untilTimeS, &untilTimeU,
-          prev->offsetMinutes, prev->deltaMinutes);
-      prev->untilDateTime = untilTime;
+      // The last Transition's until time is the until time of the MatchingEra.
+      extended::DateTuple untilTimeW;
+      extended::DateTuple untilTimeS;
+      extended::DateTuple untilTimeU;
+      expandDateTuple(
+          &prev->match->untilDateTime,
+          prev->offsetMinutes,
+          prev->deltaMinutes,
+          &untilTimeW,
+          &untilTimeS,
+          &untilTimeU);
+      prev->untilDateTime = untilTimeW;
     }
 
     /**
@@ -1635,7 +1878,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      */
     static void calcAbbreviations(Transition** begin, Transition** end) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("calcAbbreviations(): #transitions: %d;\n",
+        logging::printf("calcAbbreviations(): #transitions: %d\n",
           (int) (end - begin));
       }
       for (Transition** iter = begin; iter != end; ++iter) {
@@ -1645,8 +1888,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
             "calcAbbreviations(): format:%s, deltaMinutes:%d, letter:%s\n",
             t->format(), t->deltaMinutes, t->letter());
         }
-        createAbbreviation(t->abbrev, internal::kAbbrevSize,
-            t->format(), t->deltaMinutes, t->letter());
+        createAbbreviation(
+            t->abbrev,
+            internal::kAbbrevSize,
+            t->format(),
+            t->deltaMinutes,
+            t->letter());
       }
     }
 
@@ -1658,8 +1905,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * string if the LETTER was a '-', or a pointer to a non-empty string if
      * LETTER was a 'S', 'D', 'WAT' etc.
      */
-    static void createAbbreviation(char* dest, uint8_t destSize,
-        const char* format, uint16_t deltaMinutes, const char* letterString) {
+    static void createAbbreviation(
+        char* dest,
+        uint8_t destSize,
+        const char* format,
+        uint16_t deltaMinutes,
+        const char* letterString) {
+
       // Check if FORMAT contains a '%'.
       if (strchr(format, '%') != nullptr) {
         // Check if RULES column empty, therefore no 'letter'
@@ -1700,7 +1952,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     mutable bool mIsFilled = false;
     // NOTE: Maybe move mNumMatches and mMatches into a MatchStorage object.
     mutable uint8_t mNumMatches = 0; // actual number of matches
-    mutable ZoneMatch mMatches[kMaxMatches];
+    mutable MatchingEra mMatches[kMaxMatches];
     mutable TransitionStorage mTransitionStorage;
 };
 

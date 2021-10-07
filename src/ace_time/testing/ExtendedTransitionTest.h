@@ -28,13 +28,16 @@ class ExtendedTransitionTest: public aunit::TestOnce {
      *  instead of terminating the test after the first failure.
      *  2) We want error messages with far more context information so that we
      *  can track down the exact test item that failed.
+     *
+     * @param expectedBufSize maximum size of TransitionStorage over the
+     *    year range of the zonedbx files. If 0, then skip this validation.
      */
     void assertValid(
         const extended::ZoneInfo* const zoneInfo,
         const ValidationData* const testData,
         ValidationScope dstValidationScope,
         ValidationScope abbrevValidationScope,
-        uint8_t bufSize) {
+        uint8_t expectedBufSize = 0) {
 
       ExtendedZoneProcessor zoneProcessor;
       TimeZone tz = TimeZone::forZoneInfo(zoneInfo, &zoneProcessor);
@@ -80,10 +83,12 @@ class ExtendedTransitionTest: public aunit::TestOnce {
       }
       assertTrue(passed);
 
-      // Assert that size of the internal Transitions buffer never got
-      // above the expected buffer size. The buffer size is only relevant for
-      // the ExtendedZoneProcessor class.
-      assertLess(zoneProcessor.getTransitionHighWater(), bufSize);
+      // Assert that the TransitionStorage buffer size is exactly the buffer
+      // size calculated from zone_processor.py.
+      if (expectedBufSize) {
+        uint8_t observedBufSize = zoneProcessor.getTransitionHighWater() + 1;
+        assertEqual(observedBufSize, expectedBufSize);
+      }
     }
 
     void checkComponent(bool& passed, int i, const ValidationItem& item,
@@ -115,7 +120,7 @@ class ExtendedTransitionTest: public aunit::TestOnce {
       logging::printf(
           "* failed %s: index=%d eps=%ld "
           "%04d-%02d-%02dT%02d:%02d:%02d: ",
-          tag, i, item.epochSeconds,
+          tag, i, (long) item.epochSeconds,
           item.year, item.month, item.day,
           item.hour, item.minute, item.second);
     }
