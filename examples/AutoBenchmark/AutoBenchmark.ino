@@ -65,27 +65,6 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("sizeof(TimePeriod): "));
   SERIAL_PORT_MONITOR.println(sizeof(TimePeriod));
 
-  // ace_time::clock classes
-
-  SERIAL_PORT_MONITOR.print(F("sizeof(clock::DS3231Clock): "));
-  SERIAL_PORT_MONITOR.println(sizeof(clock::DS3231Clock<SimpleWireInterface>));
-
-#if ! defined(EPOXY_DUINO)
-  #if defined(ESP8266) || defined(ESP32)
-    SERIAL_PORT_MONITOR.print(F("sizeof(clock::NtpClock): "));
-    SERIAL_PORT_MONITOR.println(sizeof(clock::NtpClock));
-  #endif
-#endif
-
-  SERIAL_PORT_MONITOR.print(F("sizeof(clock::SystemClock): "));
-  SERIAL_PORT_MONITOR.println(sizeof(clock::SystemClock));
-
-  SERIAL_PORT_MONITOR.print(F("sizeof(clock::SystemClockLoop): "));
-  SERIAL_PORT_MONITOR.println(sizeof(clock::SystemClockLoop));
-
-  SERIAL_PORT_MONITOR.print(F("sizeof(clock::SystemClockCoroutine): "));
-  SERIAL_PORT_MONITOR.println(sizeof(clock::SystemClockCoroutine));
-
   // ace_time::basic and ace_time::extended classes
 
   SERIAL_PORT_MONITOR.print(F("sizeof(internal::ZoneContext): "));
