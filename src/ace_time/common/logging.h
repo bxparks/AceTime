@@ -21,9 +21,11 @@
 #ifndef ACE_TIME_COMMON_LOGGING_H
 #define ACE_TIME_COMMON_LOGGING_H
 
-#include <stdio.h> // vsnprintf(), vprintf()
 #include <stdarg.h> // va_list, va_start(), va_end()
 #include <Arduino.h> // SERIAL_PORT_MONITOR
+#include <AceCommon.h> // vprintfTo()
+
+// ESP32 does not define SERIAL_PORT_MONITOR
 #ifndef SERIAL_PORT_MONITOR
 #define SERIAL_PORT_MONITOR Serial
 #endif
@@ -31,22 +33,16 @@
 namespace ace_time {
 namespace logging {
 
-static const int BUF_SIZE = 192;
-
-inline void vprintf(const char *fmt, va_list args) {
-  char buf[BUF_SIZE];
-  vsnprintf(buf, BUF_SIZE, fmt, args);
-  SERIAL_PORT_MONITOR.print(buf);
-}
-
 /**
- * A print() that works for Arduino using the built-in vsnprintf().
+ * A convenience printf() that prints to the SERIAL_PORT_MONITOR using
+ * AceCommon/printfTo.h. This is needed because the Serial object on AVR does
+ * support a printf() function unlike many other 3rd party Arduino platforms.
  * Append a '\\n' at the end of the string to print a newline.
  */
 inline void printf(const char* fmt, ...) {
   va_list args;
   va_start(args, fmt);
-  vprintf(fmt, args);
+  ace_common::vprintfTo(SERIAL_PORT_MONITOR, fmt, args);
   va_end(args);
 }
 
