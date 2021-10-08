@@ -8,9 +8,11 @@
 #include <Arduino.h>
 #include <AceRoutine.h> // activate SystemClock coroutines
 #include <AceTime.h>
+#include <AceWire.h> // SimpleWireInterface
 #include "Benchmark.h"
 
 using namespace ace_time;
+using ace_wire::SimpleWireInterface;
 
 void setup() {
 #if ! defined(EPOXY_DUINO)
@@ -65,10 +67,10 @@ void setup() {
 
   // ace_time::clock classes
 
-#if ! defined(EPOXY_DUINO)
   SERIAL_PORT_MONITOR.print(F("sizeof(clock::DS3231Clock): "));
-  SERIAL_PORT_MONITOR.println(sizeof(clock::DS3231Clock));
+  SERIAL_PORT_MONITOR.println(sizeof(clock::DS3231Clock<SimpleWireInterface>));
 
+#if ! defined(EPOXY_DUINO)
   #if defined(ESP8266) || defined(ESP32)
     SERIAL_PORT_MONITOR.print(F("sizeof(clock::NtpClock): "));
     SERIAL_PORT_MONITOR.println(sizeof(clock::NtpClock));

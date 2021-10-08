@@ -1,6 +1,15 @@
 # Changelog
 
 * Unreleased
+    * **Breaking Change**: Convert `DS3231.h` into a template class with an
+      indirect dependency to `<AceWire.h>`, replacing direct dependency on
+      `<Wire.h>`.
+        * Just including the `<Wire.h>` header causes flash memory to be
+          consumed, even if `Wire` object is never used.
+        * Saves 1000-1500 bytes of flash on AVR, and up to 4000 bytes on STM32.
+        * See [Migrating
+          DS3231Clock](docs/clock_system_clock.md#MigratingDS3231Clock) for
+          details on how to migrate to the new API.
 * 1.7.5 (2021-10-06, TZDB 2021c)
     * **Bug Fix**: Update `ExtendedZoneProcessor.h` to implement better
       detection of Transitions that occur at the exact same time as the switch
