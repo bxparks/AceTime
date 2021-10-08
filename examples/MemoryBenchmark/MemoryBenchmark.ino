@@ -22,13 +22,6 @@
 #define FEATURE_EXTENDED_ZONE_MANAGER_ZONES 13
 #define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_THIN_LINKS 14
 #define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS 15
-#define FEATURE_DS3231_CLOCK 16
-#define FEATURE_SYSTEM_CLOCK_LOOP 17
-#define FEATURE_SYSTEM_CLOCK_LOOP_AND_BASIC_TIME_ZONE 18
-#define FEATURE_SYSTEM_CLOCK_LOOP_AND_EXTENDED_TIME_ZONE 19
-#define FEATURE_SYSTEM_CLOCK_COROUTINE 20
-#define FEATURE_SYSTEM_CLOCK_COROUTINE_AND_BASIC_TIME_ZONE 21
-#define FEATURE_SYSTEM_CLOCK_COROUTINE_AND_EXTENDED_TIME_ZONE 22
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
@@ -38,11 +31,8 @@
 #define FEATURE 0
 
 #if FEATURE != FEATURE_BASELINE
-  #include <AceRoutine.h> // activates SystemClockCoroutine
   #include <AceTime.h>
   using namespace ace_time;
-  using namespace ace_time::clock;
-  using namespace ace_time::hw;
 #endif
 
 // Set this variable to prevent the compiler optimizer from removing the code
@@ -87,17 +77,6 @@ static const uint16_t kExtendedZoneRegistrySize =
   };
 
   FooClass* foo;
-#endif
-
-#if FEATURE == FEATURE_DS3231_CLOCK \
-    || FEATURE == FEATURE_SYSTEM_CLOCK_LOOP \
-    || FEATURE == FEATURE_SYSTEM_CLOCK_LOOP_AND_BASIC_TIME_ZONE \
-    || FEATURE == FEATURE_SYSTEM_CLOCK_LOOP_AND_EXTENDED_TIME_ZONE \
-    || FEATURE == FEATURE_SYSTEM_CLOCK_COROUTINE \
-    || FEATURE == FEATURE_SYSTEM_CLOCK_COROUTINE_AND_BASIC_TIME_ZONE \
-    || FEATURE == FEATURE_SYSTEM_CLOCK_COROUTINE_AND_EXTENDED_TIME_ZONE
-  #include <Wire.h> // TwoWire, Wire
-  #include <AceWire.h> // TwoWireInterface
 #endif
 
 void setup() {

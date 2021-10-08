@@ -6,7 +6,7 @@
 # table that can be inserted into the README.md.
 
 BEGIN {
-  NUM_FEATURES = 22
+  NUM_FEATURES = 15
   labels[0] = "Baseline"
   labels[1] = "LocalDateTime"
   labels[2] = "ZonedDateTime"
@@ -23,13 +23,6 @@ BEGIN {
   labels[13] = "ExtendedZoneManager (zones)"
   labels[14] = "ExtendedZoneManager (zones+thin links)"
   labels[15] = "ExtendedZoneManager (zones+fat links)"
-  labels[16] = "DS3231Clock"
-  labels[17] = "SystemClockLoop"
-  labels[18] = "SystemClockLoop+1 Basic zone"
-  labels[19] = "SystemClockLoop+1 Extended zone"
-  labels[20] = "SystemClockCoroutine"
-  labels[21] = "SystemClockCoroutine+1 Basic zone"
-  labels[22] = "SystemClockCoroutine+1 Extended zone"
   record_index = 0
 }
 {
@@ -61,13 +54,7 @@ END {
     labels[0], u[0]["flash"], u[0]["ram"], u[0]["d_flash"], u[0]["d_ram"])
   printf(\
     "|----------------------------------------+--------------+-------------|\n")
-  for (i = 1; i <= 15; i++) {
-    printf("| %-38s | %6d/%5d | %5d/%5d |\n",
-        labels[i], u[i]["flash"], u[i]["ram"], u[i]["d_flash"], u[i]["d_ram"])
-  }
-  printf(\
-    "|----------------------------------------+--------------+-------------|\n")
-  for (i = 16; i <= NUM_FEATURES; i++) {
+  for (i = 1; i <= NUM_FEATURES; i++) {
     printf("| %-38s | %6d/%5d | %5d/%5d |\n",
         labels[i], u[i]["flash"], u[i]["ram"], u[i]["d_flash"], u[i]["d_ram"])
   }

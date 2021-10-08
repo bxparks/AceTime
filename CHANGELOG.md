@@ -10,6 +10,11 @@
         * See [Migrating
           DS3231Clock](docs/clock_system_clock.md#MigratingDS3231Clock) for
           details on how to migrate to the new API.
+    * **Breaking Change**: Move clock classes under `ace_time::clock` and
+      implementation classes under `ace_time::hw` to the new
+      [AceTimeClock](https://github.com/bxparks/AceTimeClock) repo.
+        * Classes remain in the same C++ namespace.
+        * Client code needs to add `#include <AceTimeClock.h>`.
 * 1.7.5 (2021-10-06, TZDB 2021c)
     * **Bug Fix**: Update `ExtendedZoneProcessor.h` to implement better
       detection of Transitions that occur at the exact same time as the switch
