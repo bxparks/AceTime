@@ -28,20 +28,21 @@ integration tests under `./tests/validation` were moved into the
 [AceTimeValidations](https://github.com/bxparks/AceTimeValidation) project. Then
 on 2021-09-08, the Python timezone classes (`zone_processor.py`, `acetz.py`,
 etc) were moved into the
-[AceTimePython](https://github.com/bxparks/AceTimePython) project. Here is the
-dependency diagram among these projects.
+[AceTimePython](https://github.com/bxparks/AceTimePython) project.
+
+Here is the dependency diagram among these projects.
 
 ```
-            AceTimeTools --------
-            ^    ^   ^           \ artransformer.py
-creating   /     |    \ creating  \ -> bufestimator.py
-zonedb[x] /      |     \ zonedbpy  \ -> zone_processor.py
-         /       |      \           v
-      AceTime    |      AceTimePython
-          ^      |      ^
-           \     |     /
-            \    |    /
-         AceTimeValidation
+                    AceTimeTools --------
+                    ^    ^   ^           \ artransformer.py
+        creating   /     |    \ creating  \ -> bufestimator.py
+        zonedb[x] /      |     \ zonedbpy  \ -> zone_processor.py
+                 /       |      \           v
+              AceTime    |      AceTimePython
+             ^    ^      |      ^
+            /      \     |     /
+           /        \    |    /
+AceTimeClock    AceTimeValidation
 ```
 
 There is slight circular dependency between `AceTimeTools` and `AceTimePython`.
