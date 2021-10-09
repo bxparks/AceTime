@@ -57,10 +57,12 @@ moved to [AceTimeClock](https://github.com/bxparks/AceTimeClock).
     * [HelloZoneManager](#HelloZoneManager)
     * [WorldClock](#WorldClock)
 * [User Guide](#UserGuide)
-* [Resource Consumption](#ResourceConsumption)
-    * [MemoryUsage](#MemoryUsage)
-    * [CPU Usage](#CPUUsage)
 * [Validation](#Validation)
+* [Resource Consumption](#ResourceConsumption)
+    * [Size Of Classes](#SizeOfClasses)
+    * [Zone DB Size](#ZoneDbSize)
+    * [Flash And Static Memory](#FlashAndStaticMemory)
+    * [CPU Usage](#CPUUsage)
 * [System Requirements](#SystemRequirements)
     * [Hardware](#Hardware)
     * [Tool Chain](#ToolChain)
@@ -109,11 +111,28 @@ The source files are organized as follows:
       `ExtendedZoneProcessor` (`ace_time::zonedbx` namespace)
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
 * `examples/` - example programs and benchmarks
+    * Simple
+        * [examples/HelloDateTime](examples/HelloDateTime)
+            * Simple demo of `ZonedDateTime` class
+        * [examples/HelloZoneManager](examples/HelloZoneManager)
+            * Simple demo of `BasicZoneManager` class
+    * Benchmarks
+        * [examples/MemoryBenchmark](examples/MemoryBenchmark)
+            * determine flash and static memory consumption of various classes
+        * [examples/AutoBenchmark](examples/AutoBenchmark)
+            * determine CPU usage of various features
+        * [examples/ComparisonBenchmark](examples/ComparisonBenchmark)
+            * compare AceTime with
+            [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
+    * Debugging
+        * [examples/DebugZoneProcessor](examples/DebugZoneProcessor)
+            * Command-line debugging tool for ExtenedZoneProcessor using the
+            EpoxyDuino environment
 
 <a name="Dependencies"></a>
 ### Dependencies
 
-To use the AceTime library, client apps need:
+The AceTime library depends on the following library:
 
 * AceCommon (https://github.com/bxparks/AceCommon)
 
@@ -135,26 +154,11 @@ machine, you need:
 <a name="Documentation"></a>
 ## Documentation
 
-* this [README.md](README.md)
+* [README.md](README.md): this file
 * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
-* Benchmarks
-    * See [docs/benchmarks.md](docs/benchmarks.md) for CPU and memory usage
-      benchmarks
-    * [AutoBenchmark](examples/AutoBenchmark/)
-        * perform CPU and memory benchmarking of various methods and print a
-          report
-    * [MemoryBenchmark](examples/MemoryBenchmark/)
-        * compiles `MemoryBenchmark.ino` for 13 different features and collecs
-          the flash and static RAM usage from the compiler into a `*.txt` file
-          for a number of platforms (AVR, SAMD, ESP8266, etc)
-        * the `README.md` transforms the `*.txt` file into a human-readable form
-* Comparisons to Other Libraries
-    * See [docs/comparisons.md](docs/comparisons.md) for comparisons to other
-      date, time and timezone libraries
-    * [ComparisonBenchmark](examples/ComparisonBenchmark/)
-        * compare AceTime with
-        [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
 * [DEVELOPER.md](DEVELOPER.md) for developers of the AceTime library itself
+* [docs/comparisons.md](docs/comparisons.md) comparisons to other date, time and
+  timezone libraries
 
 <a name="HelloDateTime"></a>
 ### HelloDateTime
@@ -395,17 +399,68 @@ The full documentation of the following classes are given in the
             * `ace_time::zonedbx::kZoneIdPacific_Wake`
             * `ace_time::zonedbx::kZoneIdPacific_Wallis`
 
+<a name="Validation"></a>
+## Validation
+
+The details of how the Date, Time and TimeZone classes are validated are given
+in [AceTimeValidation](https://github.com/bxparks/AceTimeValidation).
+
+The ZoneInfo Database and the algorithms in this library have been validated to
+match the UTC offsets calculated using 5 other date/time libraries written in
+different programming languages:
+
+* the Python pytz (https://pypi.org/project/pytz/) library from the year 2000
+  until 2037 (inclusive),
+* the Python  dateutil (https://pypi.org/project/python-dateutil/) library from
+  the year 2000 until 2037 (inclusive),
+* the Java JDK 11
+  [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
+  library from year 2000 to 2049 (inclusive),
+* the C++11/14/17 Hinnant date (https://github.com/HowardHinnant/date) library
+  from year 1974 to 2049 (inclusive).
+* the C# Noda Time (https://nodatime.org) library from 1974 to 2049 (inclusive)
+
 <a name="ResourceConsumption"></a>
 ## Resource Consumption
 
-<a name="MemoryUsage"></a>
-### Memory Usage
+<a name="SizeOfClasses"></a>
+### SizeOf Classes
 
-This library does not perform dynamic allocation of memory so that it can be
-used in small microcontroller environments. In other words, it does not call the
-`new` operator nor the `malloc()` function, and it does not use the Arduino
-`String` class. Everything it needs is allocated statically at initialization
-time.
+**8-bit processors**
+
+```
+sizeof(LocalDate): 3
+sizeof(LocalTime): 3
+sizeof(LocalDateTime): 6
+sizeof(TimeOffset): 2
+sizeof(OffsetDateTime): 8
+sizeof(BasicZoneProcessor): 116
+sizeof(ExtendedZoneProcessor): 456
+sizeof(BasicZoneManager<1>): 129
+sizeof(ExtendedZoneManager<1>): 469
+sizeof(TimeZone): 5
+sizeof(ZonedDateTime): 13
+sizeof(TimePeriod): 4
+```
+
+**32-bit processors**
+```
+sizeof(LocalDate): 3
+sizeof(LocalTime): 3
+sizeof(LocalDateTime): 6
+sizeof(TimeOffset): 2
+sizeof(OffsetDateTime): 8
+sizeof(BasicZoneProcessor): 164
+sizeof(ExtendedZoneProcessor): 540
+sizeof(BasicZoneManager<1>): 188
+sizeof(ExtendedZoneManager<1>): 564
+sizeof(TimeZone): 12
+sizeof(ZonedDateTime): 20
+sizeof(TimePeriod): 4
+```
+
+<a name="ZoneDbSize"></a>
+### Zone DB Size
 
 The ZoneInfo Database entries are stored in flash memory (using the `PROGMEM`
 compiler directive) if the microcontroller allows it (e.g. AVR, ESP8266) so that
@@ -436,59 +491,133 @@ debouncing and event dispatching provided by the AceButton
 (https://github.com/bxparks/AceButton) library. This application consumes about
 24 kB, well inside the 28 kB flash limit of a SparkFun Pro Micro controller.
 
+This library does not perform dynamic allocation of memory so that it can be
+used in small microcontroller environments. In other words, it does not call the
+`new` operator nor the `malloc()` function, and it does not use the Arduino
+`String` class. Everything it needs is allocated statically at initialization
+time.
+
+<a name="FlashAndStaticMemory"></a>
+### Flash And Static Memory
+
+[MemoryBenchmark](examples/MemoryBenchmark/) was used to determine the
+size of the library for various microcontrollers (Arduino Nano to ESP32). Here
+are 2 samples:
+
+Arduino Nano
+
+```
++---------------------------------------------------------------------+
+| Functionality                          |  flash/  ram |       delta |
+|----------------------------------------+--------------+-------------|
+| Baseline                               |    474/   11 |     0/    0 |
+|----------------------------------------+--------------+-------------|
+| LocalDateTime                          |    820/   13 |   346/    2 |
+| ZonedDateTime                          |   1302/   13 |   828/    2 |
+| Manual ZoneManager                     |   1546/   13 |  1072/    2 |
+| Basic TimeZone (1 zone)                |   6174/  199 |  5700/  188 |
+| Basic TimeZone (2 zones)               |   6678/  203 |  6204/  192 |
+| BasicZoneManager (1 zone)              |   7900/  219 |  7426/  208 |
+| BasicZoneManager (zones)               |  20594/  595 | 20120/  584 |
+| BasicZoneManager (zones+thin links)    |  22208/  595 | 21734/  584 |
+| BasicZoneManager (zones+fat links)     |  24922/  595 | 24448/  584 |
+| Extended TimeZone (1 zone)             |   9182/  233 |  8708/  222 |
+| Extended TimeZone (2 zones)            |   9826/  237 |  9352/  226 |
+| ExtendedZoneManager (1 zone)           |  10868/  253 | 10394/  242 |
+| ExtendedZoneManager (zones)            |  32604/  737 | 32130/  726 |
+| ExtendedZoneManager (zones+thin links) |  34406/  737 | 33932/  726 |
+| ExtendedZoneManager (zones+fat links)  |  37484/  737 | 37010/  726 |
++---------------------------------------------------------------------+
+```
+
+ESP8266:
+
+```
++---------------------------------------------------------------------+
+| Functionality                          |  flash/  ram |       delta |
+|----------------------------------------+--------------+-------------|
+| Baseline                               | 260089/27892 |     0/    0 |
+|----------------------------------------+--------------+-------------|
+| LocalDateTime                          | 262597/27972 |  2508/   80 |
+| ZonedDateTime                          | 262709/27972 |  2620/   80 |
+| Manual ZoneManager                     | 262725/27972 |  2636/   80 |
+| Basic TimeZone (1 zone)                | 268253/28548 |  8164/  656 |
+| Basic TimeZone (2 zones)               | 268637/28548 |  8548/  656 |
+| BasicZoneManager (1 zone)              | 269453/28548 |  9364/  656 |
+| BasicZoneManager (zones)               | 286781/28548 | 26692/  656 |
+| BasicZoneManager (zones+thin links)    | 288365/28548 | 28276/  656 |
+| BasicZoneManager (zones+fat links)     | 293485/28548 | 33396/  656 |
+| Extended TimeZone (1 zone)             | 270445/28692 | 10356/  800 |
+| Extended TimeZone (2 zones)            | 270829/28692 | 10740/  800 |
+| ExtendedZoneManager (1 zone)           | 271789/28692 | 11700/  800 |
+| ExtendedZoneManager (zones)            | 301601/28688 | 41512/  796 |
+| ExtendedZoneManager (zones+thin links) | 303345/28688 | 43256/  796 |
+| ExtendedZoneManager (zones+fat links)  | 309169/28688 | 49080/  796 |
++---------------------------------------------------------------------+
+```
+
 <a name="CPUUsage"></a>
 ### CPU Usage
 
-Conversion from date-time components (year, month, day, etc) to epochSeconds
-(`ZonedDateTime::toEpochSeconds()`) takes about:
+[AutoBenchmark](examples/AutoBenchmark/) was used to determine the
+CPU time consume by various features of the classes in this library. Two samples
+are shown below:
 
-* ~90 microseconds on an 8-bit AVR,
-* ~17 microseconds on a SAMD21,
-* ~4 microseconds on an STM32 Blue Pill,
-* ~7 microseconds on an ESP8266,
-* ~1.4 microseconds on an ESP32,
-* ~0.4 microseconds on a Teensy 3.2.
+Arduino Nano
 
-Conversion from an epochSeconds to date-time components including timezone
-(`ZonedDateTime::forEpochSeconds()`) takes (assuming cache hits):
+```
++--------------------------------------------------+----------+
+| Method                                           |   micros |
+|--------------------------------------------------+----------|
+| EmptyLoop                                        |      4.0 |
+|--------------------------------------------------+----------|
+| LocalDate::forEpochDays()                        |    218.0 |
+| LocalDate::toEpochDays()                         |     56.0 |
+| LocalDate::dayOfWeek()                           |     49.0 |
+| OffsetDateTime::forEpochSeconds()                |    323.0 |
+| OffsetDateTime::toEpochSeconds()                 |     86.0 |
+| ZonedDateTime::toEpochSeconds()                  |     83.0 |
+| ZonedDateTime::toEpochDays()                     |     72.0 |
+| ZonedDateTime::forEpochSeconds(UTC)              |    338.0 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   1188.0 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |    617.0 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |   2139.0 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |    616.0 |
+| BasicZoneManager::createForZoneName(binary)      |    121.0 |
+| BasicZoneManager::createForZoneId(binary)        |     48.0 |
+| BasicZoneManager::createForZoneId(linear)        |    307.0 |
+| BasicZoneManager::createForZoneId(link)          |     83.0 |
++--------------------------------------------------+----------+
+Iterations_per_run: 1000
+```
 
-* ~600 microseconds on an 8-bit AVR,
-* ~70 microseconds on an SAMD21,
-* ~10-11 microseconds on an STM32 Blue Pill,
-* ~27 microseconds on an ESP8266,
-* ~2.5 microseconds on an ESP32,
-* ~5-6 microseconds on a Teensy 3.2.
+ESP8266
 
-The creation of a TimeZone from its zoneName or its zoneId using a
-`BasicZoneManager` configured with a custom ZoneRegistry with 85 zones takes:
-
-* 36-400 microseconds, for an 8-bit AVR,
-* 4-14 microseconds, for a SAMD21
-* 3-18 microseconds for an STM32 Blue Pill,
-* 7-50 microseconds for an ESP8266,
-* 0.6-3 microseconds for an ESP32,
-* 3-10 microseconds for a Teensy 3.2.
-
-<a name="Validation"></a>
-## Validation
-
-The details of how the Date, Time and TimeZone classes are validated are given
-in [AceTimeValidation](https://github.com/bxparks/AceTimeValidation).
-
-The ZoneInfo Database and the algorithms in this library have been validated to
-match the UTC offsets calculated using 5 other date/time libraries written in
-different programming languages:
-
-* the Python pytz (https://pypi.org/project/pytz/) library from the year 2000
-  until 2037 (inclusive),
-* the Python  dateutil (https://pypi.org/project/python-dateutil/) library from
-  the year 2000 until 2037 (inclusive),
-* the Java JDK 11
-  [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
-  library from year 2000 to 2049 (inclusive),
-* the C++11/14/17 Hinnant date (https://github.com/HowardHinnant/date) library
-  from year 1974 to 2049 (inclusive).
-* the C# Noda Time (https://nodatime.org) library from 1974 to 2049 (inclusive)
+```
++--------------------------------------------------+----------+
+| Method                                           |   micros |
+|--------------------------------------------------+----------|
+| EmptyLoop                                        |      4.9 |
+|--------------------------------------------------+----------|
+| LocalDate::forEpochDays()                        |      7.9 |
+| LocalDate::toEpochDays()                         |      3.8 |
+| LocalDate::dayOfWeek()                           |      3.8 |
+| OffsetDateTime::forEpochSeconds()                |     12.3 |
+| OffsetDateTime::toEpochSeconds()                 |      6.8 |
+| ZonedDateTime::toEpochSeconds()                  |      6.8 |
+| ZonedDateTime::toEpochDays()                     |      5.8 |
+| ZonedDateTime::forEpochSeconds(UTC)              |     13.0 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    |     95.4 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |     25.9 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |    189.5 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |     25.9 |
+| BasicZoneManager::createForZoneName(binary)      |     14.8 |
+| BasicZoneManager::createForZoneId(binary)        |      6.5 |
+| BasicZoneManager::createForZoneId(linear)        |     44.0 |
+| BasicZoneManager::createForZoneId(link)          |     11.5 |
++--------------------------------------------------+----------+
+Iterations_per_run: 10000
+```
 
 <a name="SystemRequirements"></a>
 ## System Requirements
