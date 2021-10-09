@@ -154,14 +154,6 @@ In v1.7.5+:
 | ExtendedZoneManager (zones)            |  32604/  737 | 32130/  726 |
 | ExtendedZoneManager (zones+thin links) |  34406/  737 | 33932/  726 |
 | ExtendedZoneManager (zones+fat links)  |  37484/  737 | 37010/  726 |
-|----------------------------------------+--------------+-------------|
-| DS3231Clock                            |   4108/  150 |  3634/  139 |
-| SystemClockLoop                        |   2692/  142 |  2218/  131 |
-| SystemClockLoop+1 Basic zone           |   8220/  328 |  7746/  317 |
-| SystemClockLoop+1 Extended zone        |  11230/  362 | 10756/  351 |
-| SystemClockCoroutine                   |   3456/  154 |  2982/  143 |
-| SystemClockCoroutine+1 Basic zone      |   9024/  340 |  8550/  329 |
-| SystemClockCoroutine+1 Extended zone   |  12034/  374 | 11560/  363 |
 +---------------------------------------------------------------------+
 
 ```
@@ -170,7 +162,6 @@ In v1.7.5+:
 
 * 16 MHz ATmega32U4
 * Arduino IDE 1.8.16, Arduino CLI 0.19.2
->>>>>>> MemoryBenchmark: Regenerate after replacing direct dependency on <Wire.h> with <AceWire.h>; saves 500-4000 bytes of flash
 * SparkFun AVR Boards 1.1.13
 
 ```
@@ -194,14 +185,6 @@ In v1.7.5+:
 | ExtendedZoneManager (zones)            |  35596/  875 | 32126/  722 |
 | ExtendedZoneManager (zones+thin links) |  37398/  875 | 33928/  722 |
 | ExtendedZoneManager (zones+fat links)  |  40476/  875 | 37006/  722 |
-|----------------------------------------+--------------+-------------|
-| DS3231Clock                            |   7216/  292 |  3746/  139 |
-| SystemClockLoop                        |   5796/  284 |  2326/  131 |
-| SystemClockLoop+1 Basic zone           |  11322/  468 |  7852/  315 |
-| SystemClockLoop+1 Extended zone        |  14332/  502 | 10862/  349 |
-| SystemClockCoroutine                   |   6560/  296 |  3090/  143 |
-| SystemClockCoroutine+1 Basic zone      |  12126/  480 |  8656/  327 |
-| SystemClockCoroutine+1 Extended zone   |  15136/  514 | 11666/  361 |
 +---------------------------------------------------------------------+
 
 ```
@@ -233,14 +216,6 @@ In v1.7.5+:
 | ExtendedZoneManager (zones)            |  46940/    0 | 36876/    0 |
 | ExtendedZoneManager (zones+thin links) |  48716/    0 | 38652/    0 |
 | ExtendedZoneManager (zones+fat links)  |  54380/    0 | 44316/    0 |
-|----------------------------------------+--------------+-------------|
-| DS3231Clock                            |  12728/    0 |  2664/    0 |
-| SystemClockLoop                        |  11616/    0 |  1552/    0 |
-| SystemClockLoop+1 Basic zone           |  15772/    0 |  5708/    0 |
-| SystemClockLoop+1 Extended zone        |  17756/    0 |  7692/    0 |
-| SystemClockCoroutine                   |  12144/    0 |  2080/    0 |
-| SystemClockCoroutine+1 Basic zone      |  16292/    0 |  6228/    0 |
-| SystemClockCoroutine+1 Extended zone   |  18292/    0 |  8228/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -274,14 +249,6 @@ In v1.7.5+:
 | ExtendedZoneManager (zones)            |  57392/ 3568 | 35972/   32 |
 | ExtendedZoneManager (zones+thin links) |  59136/ 3568 | 37716/   32 |
 | ExtendedZoneManager (zones+fat links)  |  64660/ 3568 | 43240/   32 |
-|----------------------------------------+--------------+-------------|
-| DS3231Clock                            |  29428/ 3788 |  8008/  252 |
-| SystemClockLoop                        |  31480/ 3876 | 10060/  340 |
-| SystemClockLoop+1 Basic zone           |  35520/ 3876 | 14100/  340 |
-| SystemClockLoop+1 Extended zone        |  37264/ 3876 | 15844/  340 |
-| SystemClockCoroutine                   |  31948/ 3880 | 10528/  344 |
-| SystemClockCoroutine+1 Basic zone      |  35992/ 3880 | 14572/  344 |
-| SystemClockCoroutine+1 Extended zone   |  37740/ 3880 | 16320/  344 |
 +---------------------------------------------------------------------+
 
 ```
@@ -316,14 +283,6 @@ microcontroller and the compiler did not generate the desired information.
 | ExtendedZoneManager (zones)            | 301601/28688 | 41512/  796 |
 | ExtendedZoneManager (zones+thin links) | 303345/28688 | 43256/  796 |
 | ExtendedZoneManager (zones+fat links)  | 309169/28688 | 49080/  796 |
-|----------------------------------------+--------------+-------------|
-| DS3231Clock                            | 265161/28452 |  5072/  560 |
-| SystemClockLoop                        | 263761/28448 |  3672/  556 |
-| SystemClockLoop+1 Basic zone           | 269737/29024 |  9648/ 1132 |
-| SystemClockLoop+1 Extended zone        | 271881/29168 | 11792/ 1276 |
-| SystemClockCoroutine                   | 264305/28448 |  4216/  556 |
-| SystemClockCoroutine+1 Basic zone      | 270297/29024 | 10208/ 1132 |
-| SystemClockCoroutine+1 Extended zone   | 272441/29168 | 12352/ 1276 |
 +---------------------------------------------------------------------+
 
 ```
@@ -355,14 +314,6 @@ microcontroller and the compiler did not generate the desired information.
 | ExtendedZoneManager (zones)            | 244022/13440 | 46274/  356 |
 | ExtendedZoneManager (zones+thin links) | 245782/13440 | 48034/  356 |
 | ExtendedZoneManager (zones+fat links)  | 251590/13440 | 53842/  356 |
-|----------------------------------------+--------------+-------------|
-| DS3231Clock                            | 212002/14200 | 14254/ 1116 |
-| SystemClockLoop                        | 210362/14200 | 12614/ 1116 |
-| SystemClockLoop+1 Basic zone           | 215282/14200 | 17534/ 1116 |
-| SystemClockLoop+1 Extended zone        | 217302/14200 | 19554/ 1116 |
-| SystemClockCoroutine                   | 210974/14208 | 13226/ 1124 |
-| SystemClockCoroutine+1 Basic zone      | 215894/14208 | 18146/ 1124 |
-| SystemClockCoroutine+1 Extended zone   | 217902/14208 | 20154/ 1124 |
 +---------------------------------------------------------------------+
 
 ```
@@ -398,14 +349,6 @@ usage by objects.
 | ExtendedZoneManager (zones)            |  55112/ 4160 | 44928/    8 |
 | ExtendedZoneManager (zones+thin links) |  56848/ 4160 | 46664/    8 |
 | ExtendedZoneManager (zones+fat links)  |  62680/ 4160 | 52496/    8 |
-|----------------------------------------+--------------+-------------|
-| DS3231Clock                            |  14472/ 4820 |  4288/  668 |
-| SystemClockLoop                        |  12976/ 4828 |  2792/  676 |
-| SystemClockLoop+1 Basic zone           |  21892/ 4828 | 11708/  676 |
-| SystemClockLoop+1 Extended zone        |  25648/ 4828 | 15464/  676 |
-| SystemClockCoroutine                   |  14184/ 4832 |  4000/  680 |
-| SystemClockCoroutine+1 Basic zone      |  23092/ 4832 | 12908/  680 |
-| SystemClockCoroutine+1 Extended zone   |  26912/ 4832 | 16728/  680 |
 +---------------------------------------------------------------------+
 
 ```

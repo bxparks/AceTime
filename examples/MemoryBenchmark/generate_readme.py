@@ -165,7 +165,6 @@ In v1.7.5+:
 
 * 16 MHz ATmega32U4
 * Arduino IDE 1.8.16, Arduino CLI 0.19.2
->>>>>>> MemoryBenchmark: Regenerate after replacing direct dependency on <Wire.h> with <AceWire.h>; saves 500-4000 bytes of flash
 * SparkFun AVR Boards 1.1.13
 
 ```
