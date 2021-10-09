@@ -39,10 +39,8 @@ This library can be an alternative to the Arduino Time
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
-**Breaking Change in v1.8**:
-
-* The SystemClock and other clock classes have been moved to
-  [AceTimeClock](https://github.com/bxparks/AceTimeClock).
+**Breaking Change in v1.8**: The `SystemClock` and other clock classes have been
+moved to [AceTimeClock](https://github.com/bxparks/AceTimeClock).
 
 **See Also**:
 
