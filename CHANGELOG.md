@@ -1,20 +1,21 @@
 # Changelog
 
 * Unreleased
+    * **Breaking Change**: Move clock classes under `ace_time::clock` and
+      implementation classes under `ace_time::hw` to the new
+      [AceTimeClock](https://github.com/bxparks/AceTimeClock) repo.
+        * Classes remain in the same C++ namespace.
+        * Client code needs to add `#include <AceTimeClock.h>`.
+        * See [Migration for v1.8](README.md#MigrationForVersion18) for
+          migration info.
     * **Breaking Change**: Convert `DS3231.h` into a template class with an
       indirect dependency to `<AceWire.h>`, replacing direct dependency on
       `<Wire.h>`.
         * Just including the `<Wire.h>` header causes flash memory to be
           consumed, even if `Wire` object is never used.
         * Saves 1000-1500 bytes of flash on AVR, and up to 4000 bytes on STM32.
-        * See [Migrating
-          DS3231Clock](docs/clock_system_clock.md#MigratingDS3231Clock) for
-          details on how to migrate to the new API.
-    * **Breaking Change**: Move clock classes under `ace_time::clock` and
-      implementation classes under `ace_time::hw` to the new
-      [AceTimeClock](https://github.com/bxparks/AceTimeClock) repo.
-        * Classes remain in the same C++ namespace.
-        * Client code needs to add `#include <AceTimeClock.h>`.
+        * See [Migration for v1.8](README.md#MigrationForVersion18) for
+          migration info.
     * Simplify documentation
         * Merge `docs/installation.md` into README.md.
         * Move `docs/date_time_timezone.md` to `USER_GUIDE.md`.

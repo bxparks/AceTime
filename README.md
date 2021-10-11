@@ -3,13 +3,27 @@
 [![AUnit Tests](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml)
 [![Validation Tests](https://github.com/bxparks/AceTime/actions/workflows/validation.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/validation.yml)
 
+**Breaking Change in v1.8**: Two major changes were made in v1.8 to reduce
+reduce the maintenance complexity of the library, and to reduce the flash
+memory consumption of downstream apps.
+
+1) The `SystemClock` and other clock classes was moved to
+   [AceTimeClock](https://github.com/bxparks/AceTimeClock).
+2) The `DS3231Clock` was converted into a template class to replace a direct
+   dependency to the I2C `<Wire.h>` library to an indirect dependency to the
+   [AceWire](https://github.com/bxparks/AceWire) library.
+
+The migration guide to v1.8 is given in the [Migration for
+v1.8](#MigrationForVersion18) subsection below.
+
 The AceTime library provides Date, Time, and TimeZone classes which can convert
-"epoch seconds" to human-readable local date and time fields. Those classes can
-also convert local date and time between different time zones, properly
-accounting for all DST transitions from the year 2000 until 2050. The ZoneInfo
-Database is extracted from the [IANA TZ
-database](https://www.iana.org/time-zones). Different subsets of the ZoneInfo
-Database can be compiled into the application to reduce flash memory size.
+"epoch seconds" (seconds from the AceTime Epoch of 2000-01-01T00:00:00 UTC) to
+human-readable local date and time fields. Those classes can also convert local
+date and time between different time zones, properly accounting for all DST
+transitions from the year 2000 until 2050. The ZoneInfo Database is extracted
+from the [IANA TZ database](https://www.iana.org/time-zones). Different subsets
+of the ZoneInfo Database can be compiled into the application to reduce flash
+memory size.
 
 The companion library [AceTimeClock](https://github.com/bxparks/AceTimeClock)
 provides Clock classes to retrieve the time from more accurate sources, such as
@@ -39,9 +53,6 @@ This library can be an alternative to the Arduino Time
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
-**Breaking Change in v1.8**: The `SystemClock` and other clock classes have been
-moved to [AceTimeClock](https://github.com/bxparks/AceTimeClock).
-
 **See Also**:
 
 * AceTimeClock (https://github.com/bxparks/AceTimeClock)
@@ -57,6 +68,9 @@ moved to [AceTimeClock](https://github.com/bxparks/AceTimeClock).
     * [HelloZoneManager](#HelloZoneManager)
     * [WorldClock](#WorldClock)
 * [User Guide](#UserGuide)
+* [Migration for v1.8](#MigrationForVersion18)
+    * [Migrating to AceTimeClock](#MigratingToAceTimeClock)
+    * [Migrating the DS3231Clock](#MigratingTheDS3231Clock)
 * [Validation](#Validation)
 * [Resource Consumption](#ResourceConsumption)
     * [Size Of Classes](#SizeOfClasses)
@@ -286,7 +300,10 @@ zones using 3 different ways: `createForZoneInfo()`, `createForZoneName()`, and
 
 using namespace ace_time;
 
-// Create a BasicZoneManager with the entire ZoneInfo Database.
+// Create a BasicZoneManager with the entire TZ Database of ZONE entries. Use
+// kZoneAndLinkRegistrySize and kZoneAndLinkRegistry to include LINK entries as
+// well, at the cost of additional flash consumption. Cache size of 3 means that
+// it can support 3 concurrent timezones without performance penalties.
 static const int CACHE_SIZE = 3;
 static BasicZoneManager<CACHE_SIZE> manager(
   zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
@@ -398,6 +415,121 @@ The full documentation of the following classes are given in the
             * ...
             * `ace_time::zonedbx::kZoneIdPacific_Wake`
             * `ace_time::zonedbx::kZoneIdPacific_Wallis`
+
+<a name="MigrationFor1.8"></a>
+## Migration for v1.8
+
+In AceTime v1.8, the `ace_time::clock` classes were moved into the new
+AceTimeClock library. At the same time, the `DS3231Clock` class was also
+converted into a template class, replacing its direct dependency to the
+pre-installed `<Wire.h>` library with an indirect dependency to the
+[AceWire](https://github.com/bxparks/AceWire) library.
+
+
+<a name="MigratingToAceTimeClock"></a>
+### Migrating to AceTimeClock
+
+For AceTime v1.8, the clock classes under the `ace_time::clock` namespace have
+been moved to the `AceTimeClock` library. To help backwards compatibility,
+the namespace of the clock classes remain in the `ace_time::clock` namespace.
+
+To migrate your old code, install `AceTimeClock` using the Arduino Library
+Manager. (See [AceTimeClock
+Installation](https://github.com/bxparks/AceTimeClock#Installation) for more
+details). Then you need to update your code to add the `<AceTimeClock.h>` header
+file, in addition to the `<AceTime.h>` header.
+
+For each instance of `<AceTime.h>`, add the `<AceTimeClock.h>` as well. So
+replace:
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+using namespace ace_time::clock;
+```
+with
+
+```C++
+#include <AceTime.h>
+#include <AceTimeClock.h>
+using namespace ace_time;
+using namespace ace_time::clock;
+```
+
+<a name="MigratingTheDS3231Clock"></a>
+### Migrating the DS3231Clock
+
+For AceTime v1.8, the `DS3231Clock` class was converted into a template class to
+replace a direct dependency to the `<Wire.h>` library with an indirect
+dependency to to the [AceWire](https://github.com/bxparks/AceWire) library.
+There were 2 primary motivation for the change.
+
+One, simply including the `<Wire.h>` header file increases the flash memory
+usage by ~1300 bytes on AVR, *even* if the `Wire` object is never used. The
+`DS3231Clock` class is the *only* class in the AceTime library that depended on
+the `<Wire.h>`. So any application that pulled in `<AceTime.h>` for the time
+zone classes, but did not use the clock classes, would suffers the increased
+flash usage of the `<Wire.h>` library.
+
+Two, the `TwoWire` class from `<Wire.h>` cannot be used polymorphically
+(see [SoftwareWire#28](https://github.com/Testato/SoftwareWire/issues/28) for
+more details.) If a library uses the `<Wire.h>` directly, it is impossible to
+replace the `Wire` object with a different I2C implementation (for example,
+one of the ones in this [Overview of Arduino I2C
+libraries](https://github.com/Testato/SoftwareWire/wiki/Arduino-I2C-libraries).
+The `<AceWire.h>` library solves this problem by using compile-time polymorphism
+using C++ templates.
+
+Here is the migration process. For all occurrences of the `DS3231Clock` class
+like this:
+
+```C++
+#include <AceTimeClock.h>
+using namespace ace_time;
+using namespace ace_time::clock;
+...
+DS3231Clock dsClock;
+```
+
+Replace that with a template instance of the `DS3231Clock<T>` class:
+
+```C++
+#include <AceTimeClock.h>
+#include <AceWire.h> // TwoWireInterface
+#include <Wire.h> // TwoWire, Wire
+using namespace ace_time;
+using namespace ace_time::clock;
+
+using WireInterface = ace_wire::TwoWireInterface<TwoWire>;
+WireInterface wireInterface(Wire);
+DS3231Clock<WireInterface> dsClock(wireInterface);
+```
+
+Here is another example where the `SimpleWireInterface` class is used instead of
+the `TwoWireInterface` shown above:
+
+```C++
+#include <AceTimeClock.h>
+#include <AceWire.h>
+using namespace ace_time;
+
+const uint8_t SCL_PIN = SCL;
+const uint8_t SDA_PIN = SDA;
+const uint8_t DELAY_MICROS = 4;
+using WireInterface = ace_wire::SimpleWireInterface;
+WireInterface wireInterface(SDA_PIN, SCL_PIN, DELAY_MICROS);
+DS3231Clock<WireInterface> dsClock(wireInterface);
+```
+
+According to the benchmarks at
+[AceWire/MemoryBenchmark](https://github.com/bxparks/AceWire/tree/develop/examples/MemoryBenchmark),
+using `SimpleWireInterface` instead of the `TwoWire` class reduces flash
+consumption by 1500 bytes on an AVR processor. The flash consumption can be
+reduced by 2000 bytes if the "fast" version `SimpleWireFastInterface` is used
+instead.
+
+Regardless of the specific I2C implementation selected, no changes to
+`DS3231Clock<T>` templatized class are required.
 
 <a name="Validation"></a>
 ## Validation
