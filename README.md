@@ -3,17 +3,9 @@
 [![AUnit Tests](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml)
 [![Validation Tests](https://github.com/bxparks/AceTime/actions/workflows/validation.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/validation.yml)
 
-**Breaking Change in v1.8**: Two major changes were made in v1.8 to reduce
-reduce the maintenance complexity of the library, and to reduce the flash
-memory consumption of downstream apps.
-
-1) The `SystemClock` and other clock classes was moved to
-   [AceTimeClock](https://github.com/bxparks/AceTimeClock).
-2) The `DS3231Clock` was converted into a template class to replace a direct
-   dependency to the I2C `<Wire.h>` library to an indirect dependency to the
-   [AceWire](https://github.com/bxparks/AceWire) library.
-
-The migration guide to v1.8 is given in the [Migration for
+**Breaking Changes in v1.8**: Two breaking changes were made in v1.8 to reduce
+the maintenance complexity of the library, and reduce the flash memory
+consumption of client applications. See the [Migration for
 v1.8](#MigrationForVersion18) subsection below.
 
 The AceTime library provides Date, Time, and TimeZone classes which can convert
@@ -416,15 +408,23 @@ The full documentation of the following classes are given in the
             * `ace_time::zonedbx::kZoneIdPacific_Wake`
             * `ace_time::zonedbx::kZoneIdPacific_Wallis`
 
-<a name="MigrationFor1.8"></a>
+<a name="MigrationForVersion18"></a>
 ## Migration for v1.8
 
-In AceTime v1.8, the `ace_time::clock` classes were moved into the new
-AceTimeClock library. At the same time, the `DS3231Clock` class was also
-converted into a template class, replacing its direct dependency to the
-pre-installed `<Wire.h>` library with an indirect dependency to the
-[AceWire](https://github.com/bxparks/AceWire) library.
+Two breaking changes were made in v1.8:
 
+1) The `SystemClock` and other clock classes were moved to
+   [AceTimeClock](https://github.com/bxparks/AceTimeClock). This improves the
+   decoupling between the AceTime and AceTimeClock features and allows
+   faster development and improvements to each library.
+2) The `DS3231Clock` class was converted into a template class to replace a
+   direct dependency to the I2C `<Wire.h>` library to an indirect dependency to
+   the [AceWire](https://github.com/bxparks/AceWire) library. This reduces the
+   flash memory consumption and increases the flexibility of the `DS3231Clock`
+   class.
+
+The following subsections show how to migrate client application from
+AceTime to v1.7.5 to AceTime v1.8.
 
 <a name="MigratingToAceTimeClock"></a>
 ### Migrating to AceTimeClock
@@ -436,11 +436,11 @@ the namespace of the clock classes remain in the `ace_time::clock` namespace.
 To migrate your old code, install `AceTimeClock` using the Arduino Library
 Manager. (See [AceTimeClock
 Installation](https://github.com/bxparks/AceTimeClock#Installation) for more
-details). Then you need to update your code to add the `<AceTimeClock.h>` header
+details). Then update the client code to add the `<AceTimeClock.h>` header
 file, in addition to the `<AceTime.h>` header.
 
-For each instance of `<AceTime.h>`, add the `<AceTimeClock.h>` as well. So
-replace:
+For each instance of `#includde <AceTime.h>`, include the `<AceTimeClock.h>` as
+well. The namespaces of various clock classes were not changed. So replace:
 
 ```C++
 #include <AceTime.h>
@@ -468,7 +468,7 @@ One, simply including the `<Wire.h>` header file increases the flash memory
 usage by ~1300 bytes on AVR, *even* if the `Wire` object is never used. The
 `DS3231Clock` class is the *only* class in the AceTime library that depended on
 the `<Wire.h>`. So any application that pulled in `<AceTime.h>` for the time
-zone classes, but did not use the clock classes, would suffers the increased
+zone classes, but did not use the clock classes, would suffer the increased
 flash usage of the `<Wire.h>` library.
 
 Two, the `TwoWire` class from `<Wire.h>` cannot be used polymorphically
@@ -505,8 +505,9 @@ WireInterface wireInterface(Wire);
 DS3231Clock<WireInterface> dsClock(wireInterface);
 ```
 
-Here is another example where the `SimpleWireInterface` class is used instead of
-the `TwoWireInterface` shown above:
+Here is another example where the `SimpleWireInterface` class is swapped
+in place of the `TwoWireInterface` class, without any changes to the
+`DS3231Clock` class:
 
 ```C++
 #include <AceTimeClock.h>
@@ -527,9 +528,6 @@ using `SimpleWireInterface` instead of the `TwoWire` class reduces flash
 consumption by 1500 bytes on an AVR processor. The flash consumption can be
 reduced by 2000 bytes if the "fast" version `SimpleWireFastInterface` is used
 instead.
-
-Regardless of the specific I2C implementation selected, no changes to
-`DS3231Clock<T>` templatized class are required.
 
 <a name="Validation"></a>
 ## Validation
