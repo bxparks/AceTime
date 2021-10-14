@@ -415,16 +415,17 @@ Two breaking changes were made in v1.8:
 
 1) The `SystemClock` and other clock classes were moved to
    [AceTimeClock](https://github.com/bxparks/AceTimeClock). This improves the
-   decoupling between the AceTime and AceTimeClock features and allows
-   faster development and improvements to each library.
+   decoupling between the AceTime and AceTimeClock libraries and allows
+   faster development of each library.
 2) The `DS3231Clock` class was converted into a template class to replace a
-   direct dependency to the I2C `<Wire.h>` library to an indirect dependency to
-   the [AceWire](https://github.com/bxparks/AceWire) library. This reduces the
-   flash memory consumption and increases the flexibility of the `DS3231Clock`
-   class.
+   direct dependency to the I2C `<Wire.h>` library with an indirect dependency
+   to the [AceWire](https://github.com/bxparks/AceWire) library. This reduces
+   the flash memory consumption by at least 1300 bytes on AVR for applications
+   which use only the AceTime portion of the library, and increases the
+   flexibility of the `DS3231Clock` class.
 
 The following subsections show how to migrate client application from
-AceTime to v1.7.5 to AceTime v1.8.
+AceTime v1.7.5 to AceTime v1.8.
 
 <a name="MigratingToAceTimeClock"></a>
 ### Migrating to AceTimeClock
@@ -437,17 +438,17 @@ To migrate your old code, install `AceTimeClock` using the Arduino Library
 Manager. (See [AceTimeClock
 Installation](https://github.com/bxparks/AceTimeClock#Installation) for more
 details). Then update the client code to add the `<AceTimeClock.h>` header
-file, in addition to the `<AceTime.h>` header.
+file just after the exiting `<AceTime.h>` header.
 
-For each instance of `#includde <AceTime.h>`, include the `<AceTimeClock.h>` as
-well. The namespaces of various clock classes were not changed. So replace:
+For example, if the original code looks like this:
 
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
 using namespace ace_time::clock;
 ```
-with
+
+Replace that with this:
 
 ```C++
 #include <AceTime.h>
@@ -468,17 +469,20 @@ One, simply including the `<Wire.h>` header file increases the flash memory
 usage by ~1300 bytes on AVR, *even* if the `Wire` object is never used. The
 `DS3231Clock` class is the *only* class in the AceTime library that depended on
 the `<Wire.h>`. So any application that pulled in `<AceTime.h>` for the time
-zone classes, but did not use the clock classes, would suffer the increased
-flash usage of the `<Wire.h>` library.
+zone classes would suffer the increased flash usage of the `<Wire.h>` library,
+even if the `Wire` was never referenced or used in the client application.
 
-Two, the `TwoWire` class from `<Wire.h>` cannot be used polymorphically
-(see [SoftwareWire#28](https://github.com/Testato/SoftwareWire/issues/28) for
-more details.) If a library uses the `<Wire.h>` directly, it is impossible to
-replace the `Wire` object with a different I2C implementation (for example,
-one of the ones in this [Overview of Arduino I2C
+Two, the `TwoWire` class from `<Wire.h>` is not designed to be used
+polymorphically (see
+[SoftwareWire#28](https://github.com/Testato/SoftwareWire/issues/28) for more
+details). In other words, it cannot be subclassed and cannot be replaced with
+a different implementation of the I2C protocol. If a 3rd party library contains
+a direct dependency to the `<Wire.h>` directly, it is impossible to replace the
+`Wire` object with a different I2C implementation (for example, one of the
+alternative I2C implementations listed in this [Overview of Arduino I2C
 libraries](https://github.com/Testato/SoftwareWire/wiki/Arduino-I2C-libraries).
 The `<AceWire.h>` library solves this problem by using compile-time polymorphism
-using C++ templates.
+through C++ templates.
 
 Here is the migration process. For all occurrences of the `DS3231Clock` class
 like this:
@@ -505,9 +509,10 @@ WireInterface wireInterface(Wire);
 DS3231Clock<WireInterface> dsClock(wireInterface);
 ```
 
-Here is another example where the `SimpleWireInterface` class is swapped
-in place of the `TwoWireInterface` class, without any changes to the
-`DS3231Clock` class:
+The new version requires more configuration. But in return, we gain more
+flexibility and potentially a large reduction of flash memory consumption. Here
+is another example where the `SimpleWireInterface` class is swapped in place of
+the `TwoWireInterface` class, without any changes to the `DS3231Clock` class:
 
 ```C++
 #include <AceTimeClock.h>
