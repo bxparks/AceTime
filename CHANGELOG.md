@@ -21,6 +21,7 @@
         * Move `docs/date_time_timezone.md` to `USER_GUIDE.md`.
         * Remove `docs/clock_system_clock.md` after migrating it to
           the AceTimeClock project.
+        * Merge `docs/comparisons.md` into READEM.md.
 * 1.7.5 (2021-10-06, TZDB 2021c)
     * **Bug Fix**: Update `ExtendedZoneProcessor.h` to implement better
       detection of Transitions that occur at the exact same time as the switch
