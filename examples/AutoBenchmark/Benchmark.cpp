@@ -615,7 +615,7 @@ void runBenchmarks() {
   runIndexForZoneName();
   runIndexForZoneIdBinary();
   runIndexForZoneIdLinear();
-  runIndexForZoneIdWithThinLinks();
+  //runIndexForZoneIdWithThinLinks();
 
   SERIAL_PORT_MONITOR.print(F("Iterations_per_run "));
   SERIAL_PORT_MONITOR.println(COUNT);

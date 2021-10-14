@@ -126,6 +126,10 @@ In v1.7.5:
 * Upgrade ESP8266 Core from 2.7.4 to 3.0.2.
     * AutoBenchmark indicate that things are a few percentage faster.
 
+In v1.8:
+* Remove `sizeof()` Clock classes which were moved to AceTimeClock library.
+* No significant changes to excution times of various benchmarks.
+
 ## Arduino Nano
 
 * 16MHz ATmega328P

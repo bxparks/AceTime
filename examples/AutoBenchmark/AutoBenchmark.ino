@@ -1,12 +1,11 @@
 /*
  * A program to determine how long it takes to execute some of the more complex
- * methods of ZonedDateTime and LocalDate.
+ * features of the AceTime library.
  *
  * This should compile on all microcontrollers supported by the Arduino IDE.
  */
 
 #include <Arduino.h>
-#include <AceRoutine.h> // activate SystemClock coroutines
 #include <AceTime.h>
 #include <AceWire.h> // SimpleWireInterface
 #include "Benchmark.h"
