@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.8.0 (2021-10-15, TZDB 2021c)
     * **Breaking Change**: Move clock classes under `ace_time::clock` and
       implementation classes under `ace_time::hw` to the new
       [AceTimeClock](https://github.com/bxparks/AceTimeClock) repo.

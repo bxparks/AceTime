@@ -3,10 +3,10 @@
 [![AUnit Tests](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml)
 [![Validation Tests](https://github.com/bxparks/AceTime/actions/workflows/validation.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/validation.yml)
 
-**Breaking Changes in v1.8**: Two breaking changes were made in v1.8 to reduce
-the maintenance complexity of the library, and reduce the flash memory
-consumption of client applications. See the
-[Migrating to v1.8](MIGRATING.md#MigratingToVersion180) document.
+**Breaking Changes in v1.8.0**: Three breaking changes were made in v1.8.0 to
+reduce the maintenance complexity of the library, and to reduce the flash memory
+consumption of client applications. See the [Migrating to
+v1.8.0](MIGRATING.md#MigratingToVersion180) document.
 
 The AceTime library provides Date, Time, and TimeZone classes which can convert
 "epoch seconds" (seconds from the AceTime Epoch of 2000-01-01T00:00:00 UTC) to
@@ -41,14 +41,13 @@ This library can be an alternative to the Arduino Time
 (https://github.com/PaulStoffregen/Time) and Arduino Timezone
 (https://github.com/JChristensen/Timezone) libraries.
 
-**Version**: 1.8 (2021-10-08, TZDB version 2021c)
+**Version**: 1.8.0 (2021-10-15, TZDB version 2021c)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
 **See Also**:
 
 * AceTimeClock (https://github.com/bxparks/AceTimeClock)
-* AceTimePython (https://github.com/bxparks/AceTimePython)
 
 ## Table of Contents
 
@@ -109,6 +108,7 @@ The `master` branch contains the stable releases.
 ### Source Code
 
 The source files are organized as follows:
+
 * `src/AceTime.h` - main header file
 * `src/ace_time/` - date and time classes (`ace_time::` namespace)
     * `src/ace_time/common/` - shared classes and utilities

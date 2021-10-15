@@ -2,15 +2,15 @@
 
 ## Table of Contents
 
-* [Migrating to v1.8](#MigratingToVersion180)
+* [Migrating to v1.8.0](#MigratingToVersion180)
     * [Migrating to AceTimeClock](#MigratingToAceTimeClock)
     * [Migrating the DS3231Clock](#MigratingTheDS3231Clock)
     * [Migrating to LinkManagers](#MigratingToLinkManagers)
 
 <a name="MigratingToVersion180"></a>
-## Migrating to v1.8
+## Migrating to v1.8.0
 
-Three breaking changes were made from v1.7.5 to v1.8:
+Three breaking changes were made from v1.7.5 to v1.8.0:
 
 1) The `SystemClock` and other clock classes were moved to
    [AceTimeClock](https://github.com/bxparks/AceTimeClock). This improves the
@@ -29,12 +29,12 @@ Three breaking changes were made from v1.7.5 to v1.8:
    200-500 bytes.
 
 The following subsections show how to migrate client application from
-AceTime v1.7.5 to AceTime v1.8.
+AceTime v1.7.5 to AceTime v1.8.0.
 
 <a name="MigratingToAceTimeClock"></a>
 ### Migrating to AceTimeClock
 
-For AceTime v1.8, the clock classes under the `ace_time::clock` namespace have
+For AceTime v1.8.0, the clock classes under the `ace_time::clock` namespace have
 been moved to the `AceTimeClock` library. To help backwards compatibility,
 the namespace of the clock classes remain in the `ace_time::clock` namespace.
 
@@ -64,8 +64,8 @@ using namespace ace_time::clock;
 <a name="MigratingTheDS3231Clock"></a>
 ### Migrating the DS3231Clock
 
-For AceTime v1.8, the `DS3231Clock` class was converted into a template class to
-replace a direct dependency to the `<Wire.h>` library with an indirect
+For AceTime v1.8.0, the `DS3231Clock` class was converted into a template class
+to replace a direct dependency to the `<Wire.h>` library with an indirect
 dependency to to the [AceWire](https://github.com/bxparks/AceWire) library.
 There were 2 primary motivation for the change.
 
@@ -159,7 +159,7 @@ This caused `BasicZoneManager::createForZoneId()` and
 `ExtendedZoneManager::createForZoneId()` to perform an additional lookup in the
 `kLinkRegistry` if a `zoneId` was not found in the `kZoneRegistry`.
 
-In v1.8, that fall-back functionality has been moved to the LinkManagers,
+In v1.8.0, that fall-back functionality has been moved to the LinkManagers,
 and the ZoneManager constructors no longer accept the link registry parameters:
 
 ```C++

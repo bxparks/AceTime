@@ -29,7 +29,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v1.7.5
+**Version**: AceTime v1.8.0
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -132,7 +132,7 @@ In v1.7.5:
   MemoryBenchmark, reducing the actual memory usage of various features by
   ~3kB.
 
-In v1.7.5+:
+In v1.8.0:
 * Move Clock and SystemClock benchmarks into AceTimeClock v1.0.0.
 * Extract thin links from BasicZoneManager and ExtendedZoneManager into
   new BasicLinkManager and ExtendedLinkManager classes.
