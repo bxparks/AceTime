@@ -1,4 +1,4 @@
-<map id="ace_time::ZoneManagerImpl&lt; ZI, ZRR, LE, LRR, ZP, ZPC &gt;" name="ace_time::ZoneManagerImpl&lt; ZI, ZRR, LE, LRR, ZP, ZPC &gt;">
-<area shape="rect" id="node1" title="A templatized implementation of ZoneManager that binds the ZoneRegistrar with the corresponding (Basi..." alt="" coords="5,80,220,121"/>
-<area shape="rect" id="node2" href="$classace__time_1_1ZoneManager.html" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa..." alt="" coords="23,5,203,32"/>
+<map id="ace_time::ZoneManagerImpl&lt; ZI, ZRR, ZP, ZPC &gt;" name="ace_time::ZoneManagerImpl&lt; ZI, ZRR, ZP, ZPC &gt;">
+<area shape="rect" id="node1" title="A templatized implementation of ZoneManager that binds the ZoneRegistrar with the corresponding (Basi..." alt="" coords="5,80,215,121"/>
+<area shape="rect" id="node2" href="$classace__time_1_1ZoneManager.html" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa..." alt="" coords="20,5,200,32"/>
 </map>

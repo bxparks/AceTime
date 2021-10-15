@@ -1,3 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC,..." alt="" coords="5,5,168,32"/>
+<area shape="rect" id="node1" href="$classace__time_1_1ZoneManager.html" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa..." alt="" coords="5,104,185,131"/>
+<area shape="rect" id="node2" href="$classace__time_1_1ManualZoneManager.html" title="A ZoneManager that implements only createForTimeZoneData() to create TimeZones of type kTypeManual,..." alt="" coords="268,5,496,32"/>
+<area shape="rect" id="node3" href="$classace__time_1_1ZoneManagerImpl.html" title="A templatized implementation of ZoneManager that binds the ZoneRegistrar with the corresponding (Basi..." alt="" coords="277,57,487,98"/>
+<area shape="rect" id="node4" href="$classace__time_1_1ZoneManagerImpl.html" title=" " alt="" coords="247,122,517,193"/>
+<area shape="rect" id="node6" href="$classace__time_1_1ZoneManagerImpl.html" title=" " alt="" coords="233,217,531,287"/>
+<area shape="rect" id="node5" href="$classace__time_1_1BasicZoneManager.html" title="An implementation of the ZoneManager which uses a registry of basic::ZoneInfo records." alt="" coords="592,137,807,178"/>
+<area shape="rect" id="node7" href="$classace__time_1_1ExtendedZoneManager.html" title="An implementation of the ZoneManager which uses a registry of extended::ZoneInfo records." alt="" coords="579,231,820,273"/>
 </map>

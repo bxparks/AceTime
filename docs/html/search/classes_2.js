@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['datestrings_317',['DateStrings',['../classace__time_1_1DateStrings.html',1,'ace_time']]],
-  ['datetuple_318',['DateTuple',['../structace__time_1_1extended_1_1DateTuple.html',1,'ace_time::extended']]],
-  ['ds3231_319',['DS3231',['../classace__time_1_1hw_1_1DS3231.html',1,'ace_time::hw']]],
-  ['ds3231clock_320',['DS3231Clock',['../classace__time_1_1clock_1_1DS3231Clock.html',1,'ace_time::clock']]],
-  ['ds3231interface_321',['DS3231Interface',['../classace__time_1_1hw_1_1DS3231Interface.html',1,'ace_time::hw']]],
-  ['ds3231module_322',['DS3231Module',['../classace__time_1_1hw_1_1DS3231Module.html',1,'ace_time::hw']]]
+  ['extendedlinkmanager_272',['ExtendedLinkManager',['../classace__time_1_1ExtendedLinkManager.html',1,'ace_time']]],
+  ['extendedzone_273',['ExtendedZone',['../classace__time_1_1ExtendedZone.html',1,'ace_time']]],
+  ['extendedzonemanager_274',['ExtendedZoneManager',['../classace__time_1_1ExtendedZoneManager.html',1,'ace_time']]],
+  ['extendedzoneprocessor_275',['ExtendedZoneProcessor',['../classace__time_1_1ExtendedZoneProcessor.html',1,'ace_time']]],
+  ['extendedzoneprocessorcache_276',['ExtendedZoneProcessorCache',['../classace__time_1_1ExtendedZoneProcessorCache.html',1,'ace_time']]],
+  ['extendedzoneprocessortemplate_277',['ExtendedZoneProcessorTemplate',['../classace__time_1_1ExtendedZoneProcessorTemplate.html',1,'ace_time']]],
+  ['extendedzoneprocessortemplate_3c_20extended_3a_3abrokerfactory_2c_20extended_3a_3azoneinfobroker_2c_20extended_3a_3azoneerabroker_2c_20extended_3a_3azonepolicybroker_2c_20extended_3a_3azonerulebroker_20_3e_278',['ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;',['../classace__time_1_1ExtendedZoneProcessorTemplate.html',1,'ace_time']]]
 ];

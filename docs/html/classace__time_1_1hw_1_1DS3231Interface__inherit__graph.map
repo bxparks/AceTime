@@ -1,4 +1,0 @@
-<map id="ace_time::hw::DS3231Interface" name="ace_time::hw::DS3231Interface">
-<area shape="rect" id="node1" title="Abstract interface to the DS3231Module to allow different template instantiations (using different Ac..." alt="" coords="5,5,229,32"/>
-<area shape="rect" id="node2" href="$classace__time_1_1hw_1_1DS3231Module.html" title="Same as the hw/DS3231 class, but designed for use with one of the templatized interface classes of Ac..." alt="" coords="10,80,225,121"/>
-</map>

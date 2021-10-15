@@ -1,9 +1,7 @@
 <map id="ace_time::ExtendedZoneManager&lt; SIZE &gt;" name="ace_time::ExtendedZoneManager&lt; SIZE &gt;">
-<area shape="rect" id="node1" title="An implementation of the ZoneManager which uses a registry of extended::ZoneInfo records." alt="" coords="1025,57,1267,98"/>
-<area shape="rect" id="node2" href="$classace__time_1_1ZoneManagerImpl.html" title=" " alt="" coords="625,35,976,120"/>
+<area shape="rect" id="node1" title="An implementation of the ZoneManager which uses a registry of extended::ZoneInfo records." alt="" coords="972,27,1213,69"/>
+<area shape="rect" id="node2" href="$classace__time_1_1ZoneManagerImpl.html" title=" " alt="" coords="625,13,923,83"/>
 <area shape="rect" id="node3" href="$classace__time_1_1ZoneManager.html" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa..." alt="" coords="288,5,468,32"/>
-<area shape="rect" id="node4" href="$classace__time_1_1extended_1_1LinkRegistrar.html" title="Concrete template instantiation of LinkRegistrarTemplate for extended::LinkEntry." alt="" coords="303,57,453,98"/>
-<area shape="rect" id="node5" href="$classace__time_1_1internal_1_1LinkRegistrarTemplate.html" title=" " alt="" coords="5,24,239,109"/>
-<area shape="rect" id="node6" href="$classace__time_1_1extended_1_1ZoneRegistrar.html" title="Concrete template instantiation of ZoneRegistrarTemplate for extended::ZoneInfo, which can be used wi..." alt="" coords="303,143,453,185"/>
-<area shape="rect" id="node7" href="$classace__time_1_1internal_1_1ZoneRegistrarTemplate.html" title=" " alt="" coords="5,133,239,219"/>
+<area shape="rect" id="node4" href="$classace__time_1_1extended_1_1ZoneRegistrar.html" title="Concrete template instantiation of ZoneRegistrarTemplate for extended::ZoneInfo, which can be used wi..." alt="" coords="303,57,453,98"/>
+<area shape="rect" id="node5" href="$classace__time_1_1internal_1_1ZoneRegistrarTemplate.html" title=" " alt="" coords="5,35,239,120"/>
 </map>
