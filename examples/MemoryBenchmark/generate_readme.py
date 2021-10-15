@@ -133,23 +133,13 @@ In v1.7.5:
   ~3kB.
 
 In v1.7.5+:
-* Convert `DS3231.h` into a template class for `<AceWire.h>`, replacing direct
-  dependency on `<Wire.h>`.
-    * Just including the `<Wire.h>` header causes flash memory to be consumed,
-      even if `Wire` object is never used.
-    * Saves 1000-1500 bytes of flash on AVR processors.
-    * Saves 500 bytes of flash on SAMD.
-    * Saves 4000 bytes of flash STM32.
-    * Saves 500 bytes of flash on ESP8266.
-    * Saves 3000-4000 bytes of flash on ESP32.
-    * Saves 2500 bytes of flash on Teensy 3.2.
-* MemoryBenchmark:
-    * Add benchmark for `DS3231Clock` separatelyfrom `SytemClock`.
-    * Replace dependency to `<Wire.h>` with `<AceWire.h>`, reducing the
-      apparent flash consumption by 1000-3000 bytes.
-    * Rename `SystemClock` label to `SystemClockLoop`.
-    * Add benchmarks for `SystemClockCoroutine` separately from
-      `SystemClockLoop`.
+* Move Clock and SystemClock benchmarks into AceTimeClock v1.0.0.
+* Extract thin links from BasicZoneManager and ExtendedZoneManager into
+  new BasicLinkManager and ExtendedLinkManager classes.
+    * Saves 200-500 bytes of flash for BasicZoneManager and ExtendedZoneManager.
+    * Applications can decide whether to use thin links through the LinkManager
+      (~2000 flash bytes for AVR) or use fat links through the
+      `kZoneAndLinkRegistry` (~5000 flash bytes for AVR).
 
 ## Arduino Nano
 
