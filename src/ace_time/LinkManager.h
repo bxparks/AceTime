@@ -18,8 +18,11 @@ namespace ace_time {
  */
 class LinkManager {
   public:
-    /** ZoneId which is not valid to indicates an error or not found. */
-    static const uint16_t kInvalidZoneId = 0x0;
+    /**
+     * ZoneId which is not valid to indicates an error or not found. The
+     * AceTimeTools project will never generate a zoneId of 0.
+     */
+    static const uint32_t kInvalidZoneId = 0;
 
     /**
      * Find the registry index for the given time link id. Returns
