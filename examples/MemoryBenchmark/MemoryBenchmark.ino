@@ -43,22 +43,75 @@ volatile int guard;
 // certain values (e.g. toEpochSeconds()) at compile-time.
 volatile int16_t year = 2019;
 
-#if FEATURE == FEATURE_BASIC_ZONE_MANAGER_ONE
-
-static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
-  &zonedb::kZoneAmerica_Los_Angeles,
-};
-static const uint16_t kBasicZoneRegistrySize =
-    sizeof(kBasicZoneRegistry) / sizeof(basic::ZoneInfo*);
-
+// Create the various objects that we want to measure as global variables so
+// that their static memory consumption is detected. The previous version placed
+// all these inside the setup() method, which creates the objects on the stack,
+// which do not get detected as memory consumption, so don't show up in the
+// *.txt files.
+#if FEATURE == FEATURE_LOCAL_DATE_TIME
+  auto dt = LocalDateTime::forComponents(year, 6, 17, 9, 18, 0);
+#elif FEATURE == FEATURE_ZONED_DATE_TIME
+  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, TimeZone());
+#elif FEATURE == FEATURE_MANUAL_ZONE_MANAGER
+  ManualZoneManager manager;
+#elif FEATURE == FEATURE_BASIC_TIME_ZONE
+  BasicZoneProcessor processor;
+#elif FEATURE == FEATURE_BASIC_TIME_ZONE2
+  // Same as FEATURE_BASIC_TIME_ZONE but with 2 zones
+  BasicZoneProcessor processor1;
+  BasicZoneProcessor processor2;
+#elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ONE
+  static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
+    &zonedb::kZoneAmerica_Los_Angeles,
+  };
+  static const uint16_t kBasicZoneRegistrySize =
+      sizeof(kBasicZoneRegistry) / sizeof(basic::ZoneInfo*);
+  BasicZoneManager<1> manager(kBasicZoneRegistrySize, kBasicZoneRegistry);
+#elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES
+  BasicZoneManager<1> manager(
+      zonedb::kZoneRegistrySize,
+      zonedb::kZoneRegistry);
+#elif FEATURE == FEATURE_BASIC_LINK_MANAGER
+  BasicLinkManager manager(
+    zonedb::kLinkRegistrySize,
+    zonedb::kLinkRegistry);
+#elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_FAT_LINKS
+  BasicZoneManager<1> manager(
+    zonedb::kZoneAndLinkRegistrySize,
+    zonedb::kZoneAndLinkRegistry);
+#elif FEATURE == FEATURE_EXTENDED_TIME_ZONE
+  ExtendedZoneProcessor processor;
+  auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
+      &processor);
+#elif FEATURE == FEATURE_EXTENDED_TIME_ZONE2
+  // Same as FEATURE_EXTENDED_TIME_ZONE but with 2 zones
+  ExtendedZoneProcessor processor1;
+  ExtendedZoneProcessor processor2;
+  auto tz1 = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
+      &processor1);
+  auto tz2 = TimeZone::forZoneInfo(&zonedbx::kZoneEurope_Amsterdam,
+      &processor2);
 #elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ONE
-
-static const extended::ZoneInfo* const kExtendedZoneRegistry[]
-    ACE_TIME_PROGMEM = {
-  &zonedbx::kZoneAmerica_Los_Angeles,
-};
-static const uint16_t kExtendedZoneRegistrySize =
-    sizeof(kExtendedZoneRegistry) / sizeof(extended::ZoneInfo*);
+  static const extended::ZoneInfo* const kExtendedZoneRegistry[]
+      ACE_TIME_PROGMEM = {
+    &zonedbx::kZoneAmerica_Los_Angeles,
+  };
+  static const uint16_t kExtendedZoneRegistrySize =
+      sizeof(kExtendedZoneRegistry) / sizeof(extended::ZoneInfo*);
+  ExtendedZoneManager<1> manager(
+      kExtendedZoneRegistrySize, kExtendedZoneRegistry);
+#elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES
+  ExtendedZoneManager<1> manager(
+      zonedbx::kZoneRegistrySize,
+      zonedbx::kZoneRegistry);
+#elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS
+  ExtendedZoneManager<1> manager(
+      zonedbx::kZoneAndLinkRegistrySize,
+      zonedbx::kZoneAndLinkRegistry);
+#elif FEATURE == FEATURE_EXTENDED_LINK_MANAGER
+  ExtendedLinkManager manager(
+      zonedbx::kLinkRegistrySize,
+      zonedbx::kLinkRegistry);
 
 #endif
 
@@ -89,22 +142,18 @@ void setup() {
 #if FEATURE == FEATURE_BASELINE
   guard = 0;
 #elif FEATURE == FEATURE_LOCAL_DATE_TIME
-  auto dt = LocalDateTime::forComponents(year, 6, 17, 9, 18, 0);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_ZONED_DATE_TIME
-  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, TimeZone());
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_MANUAL_ZONE_MANAGER
   TimeZoneData tzd = { -8*60 /*stdMinutes*/, 60 /*dstMinutes*/ };
-  ManualZoneManager manager;
   auto tz = manager.createForTimeZoneData(tzd);
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_BASIC_TIME_ZONE
-  BasicZoneProcessor processor;
   auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
       &processor);
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
@@ -112,8 +161,6 @@ void setup() {
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_BASIC_TIME_ZONE2
   // Same as FEATURE_BASIC_TIME_ZONE but with 2 zones
-  BasicZoneProcessor processor1;
-  BasicZoneProcessor processor2;
   auto tz1 = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
       &processor1);
   auto tz2 = TimeZone::forZoneInfo(&zonedb::kZoneEurope_Amsterdam,
@@ -123,80 +170,49 @@ void setup() {
   acetime_t epochSeconds = dt2.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ONE
-  BasicZoneManager<1> manager(kBasicZoneRegistrySize, kBasicZoneRegistry);
   auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES
-  BasicZoneManager<1> manager(
-      zonedb::kZoneRegistrySize,
-      zonedb::kZoneRegistry);
   auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_BASIC_LINK_MANAGER
-  BasicLinkManager manager(
-    zonedb::kLinkRegistrySize,
-    zonedb::kLinkRegistry);
   uint32_t zoneId = manager.zoneIdForLinkId(zonedb::kZoneIdUS_Pacific);
   guard ^= zoneId;
 #elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_FAT_LINKS
-  BasicZoneManager<1> manager(
-    zonedb::kZoneAndLinkRegistrySize,
-    zonedb::kZoneAndLinkRegistry);
   auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_EXTENDED_TIME_ZONE
-  ExtendedZoneProcessor processor;
-  auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
-      &processor);
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_EXTENDED_TIME_ZONE2
-  // Same as FEATURE_EXTENDED_TIME_ZONE but with 2 zones
-  ExtendedZoneProcessor processor1;
-  ExtendedZoneProcessor processor2;
-  auto tz1 = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
-      &processor1);
-  auto tz2 = TimeZone::forZoneInfo(&zonedbx::kZoneEurope_Amsterdam,
-      &processor2);
   auto dt1 = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz1);
   auto dt2 = dt1.convertToTimeZone(tz2);
   acetime_t epochSeconds = dt2.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ONE
-  ExtendedZoneManager<1> manager(
-      kExtendedZoneRegistrySize, kExtendedZoneRegistry);
   auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES
-  ExtendedZoneManager<1> manager(
-      zonedbx::kZoneRegistrySize,
-      zonedbx::kZoneRegistry);
   auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS
-  ExtendedZoneManager<1> manager(
-      zonedbx::kZoneAndLinkRegistrySize,
-      zonedbx::kZoneAndLinkRegistry);
   auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_EXTENDED_LINK_MANAGER
-  ExtendedLinkManager manager(
-      zonedbx::kLinkRegistrySize,
-      zonedbx::kLinkRegistry);
-  uint32_t zoneId = manager.zoneIdForLinkId(zonedbx::kZoneIdUS_Pacific);
+  uint32_t zoneId = manager.zoneIdForLinkId(zonedb::kZoneIdUS_Pacific);
   guard ^= zoneId;
 
 #else

@@ -140,6 +140,8 @@ In v1.7.5+:
     * Applications can decide whether to use thin links through the LinkManager
       (~2000 flash bytes for AVR) or use fat links through the
       `kZoneAndLinkRegistry` (~5000 flash bytes for AVR).
+* Create various test objects as global variables instead of stack variables
+  to get a more accurate measurement of their static memory consumption.
 
 ## Arduino Nano
 
