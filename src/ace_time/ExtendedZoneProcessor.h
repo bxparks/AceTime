@@ -217,9 +217,9 @@ inline bool isMatchStatusActive(MatchStatus status) {
  * Ordering of fields optimized along 4-byte boundaries to help 32-bit
  * processors without making the program size bigger for 8-bit processors.
  *
- * @tparm ZEB type of ZoneEraBroker
- * @tparm ZPB type of ZonePolicyBroker
- * @tparm ZRB type of ZoneRuleBroker
+ * @tparam ZEB type of ZoneEraBroker
+ * @tparam ZPB type of ZonePolicyBroker
+ * @tparam ZRB type of ZoneRuleBroker
  */
 template <typename ZEB, typename ZPB, typename ZRB>
 struct TransitionTemplate {
