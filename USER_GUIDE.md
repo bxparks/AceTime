@@ -1909,7 +1909,8 @@ ExtendedZoneManager manager(
 #### Thin Links (From v1.6)
 
 **Breaking Change in v1.8**: Thin link functionality has been extracted from
-the `ZoneManager` into `LinkManager`.
+the `ZoneManager` into `LinkManager`. See [Migrating to
+LinkManagers](MIGRATING.md#MigratingToLinkManagers) for migrating instructions.
 
 *Thin links* a lighter weight alternatives to *fat links* that may be useful if
 flash memory is tight. A thin link preserves the forward stability of **zoneId**
@@ -1990,8 +1991,8 @@ ExtendedLinkManager linkManager(
 TimeZone findTimeZone(uint32_t zoneId) {
   TimeZone tz = zoneManager.createForZoneId(zoneId);
   if (tz.isError()) {
-    // Try searching the link to zone registry.
-    uint32_t zoneId = linkManager.zoneIdForLinkId(zoneId);
+    // Search the link registry.
+    zoneId = linkManager.zoneIdForLinkId(zoneId);
     if (zoneId != LinkManager::kInvalidZoneId) {
       tz = zoneManager.createForZoneId(zoneId);
     }
