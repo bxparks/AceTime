@@ -7,7 +7,6 @@
 #define ACE_TIME_ZONE_MANAGER_H
 
 #include "internal/ZoneRegistrar.h"
-#include "internal/LinkRegistrar.h"
 #include "ZoneProcessorCache.h"
 #include "TimeZoneData.h"
 #include "TimeZone.h"
@@ -60,15 +59,10 @@ class ZoneManager {
     virtual uint16_t indexForZoneId(uint32_t id) const = 0;
 
     /**
-     * Return the number of elements in the Zone (and fat Link) registry.
+     * Return the number of elements in the Zone and Fat Link registry.
      * Previously named registrySize().
      */
     virtual uint16_t zoneRegistrySize() const = 0;
-
-    /**
-     * Return the number of elements in the (thin) Link registry.
-     */
-    virtual uint16_t linkRegistrySize() const = 0;
 };
 
 /**
@@ -117,8 +111,6 @@ class ManualZoneManager : public ZoneManager {
     }
 
     uint16_t zoneRegistrySize() const override { return 0; }
-
-    uint16_t linkRegistrySize() const override { return 0; }
 };
 
 /**
@@ -140,10 +132,6 @@ class ManualZoneManager : public ZoneManager {
  *    make up the zone registry
  * @tparam ZRR class of ZoneRegistrar which holds the registry of ZoneInfo
  *    (e.g. basic::ZoneRegistrar, extended::ZoneRegistrar)
- * @tparam LE type of LinkEntry (basic::LinkEntry or extended::LinkEntry) which
- *    make up the link registry
- * @tparam LRR class of LinkRegistrar which holds the registry of ZoneInfo
- *    (e.g. basic::LinkRegistrar, extended::LinkRegistrar)
  * @tparam ZP class of ZoneProcessor (e.g. BasicZoneProcessor,
  *    ExtendedZoneProcessor)
  * @tparam ZPC class of ZoneProcessorCache (e.g. BasicZoneProcessorCache,
@@ -151,7 +139,6 @@ class ManualZoneManager : public ZoneManager {
  */
 template<
     typename ZI, typename ZRR,
-    typename LE, typename LRR,
     typename ZP, typename ZPC
 >
 class ZoneManagerImpl : public ZoneManager {
@@ -163,15 +150,6 @@ class ZoneManagerImpl : public ZoneManager {
 
     TimeZone createForZoneId(uint32_t id) override {
       const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForId(id);
-
-      // zone not found, so search for matching link
-      if (zoneInfo == nullptr) {
-        const LE* linkEntry = mLinkRegistrar.getLinkEntryForId(id);
-        if (linkEntry) {
-          uint32_t targetZoneId = linkEntry->zoneId;
-          zoneInfo = mZoneRegistrar.getZoneInfoForId(targetZoneId);
-        }
-      }
       return createForZoneInfo(zoneInfo);
     }
 
@@ -208,10 +186,6 @@ class ZoneManagerImpl : public ZoneManager {
       return mZoneRegistrar.zoneRegistrySize();
     }
 
-    uint16_t linkRegistrySize() const override {
-      return mLinkRegistrar.linkRegistrySize();
-    }
-
     /**
      * Create a TimeZone from an explicit ZoneInfo reference. The ZoneRegistrar
      * will be bypassed because the ZoneInfo is already available, but the
@@ -232,17 +206,12 @@ class ZoneManagerImpl : public ZoneManager {
      *
      * @param zoneRegistrySize number of ZoneInfo entries in zoneRegistry
      * @param zoneRegistry an array of ZoneInfo entries
-     * @param linkRegistrySize number of LinkEntry entries in linkRegistry
-     * @param linkRegistry an array of LinkEntry entries
      */
     ZoneManagerImpl(
         uint16_t zoneRegistrySize,
-        const ZI* const* zoneRegistry,
-        uint16_t linkRegistrySize,
-        const LE* linkRegistry
+        const ZI* const* zoneRegistry
     ):
         mZoneRegistrar(zoneRegistrySize, zoneRegistry),
-        mLinkRegistrar(linkRegistrySize, linkRegistry),
         mZoneProcessorCache() {}
 
     // disable copy constructor and assignment operator
@@ -250,7 +219,6 @@ class ZoneManagerImpl : public ZoneManager {
     ZoneManagerImpl& operator=(const ZoneManagerImpl&) = delete;
 
     const ZRR mZoneRegistrar;
-    const LRR mLinkRegistrar;
     ZPC mZoneProcessorCache;
 };
 
@@ -265,8 +233,6 @@ template<uint16_t SIZE>
 class BasicZoneManager: public ZoneManagerImpl<
     basic::ZoneInfo,
     basic::ZoneRegistrar,
-    basic::LinkEntry,
-    basic::LinkRegistrar,
     BasicZoneProcessor,
     BasicZoneProcessorCache<SIZE>
 > {
@@ -274,22 +240,16 @@ class BasicZoneManager: public ZoneManagerImpl<
   public:
     BasicZoneManager(
         uint16_t zoneRegistrySize,
-        const basic::ZoneInfo* const* zoneRegistry,
-        uint16_t linkRegistrySize = 0,
-        const basic::LinkEntry* linkRegistry = nullptr
+        const basic::ZoneInfo* const* zoneRegistry
     ):
         ZoneManagerImpl<
             basic::ZoneInfo,
             basic::ZoneRegistrar,
-            basic::LinkEntry,
-            basic::LinkRegistrar,
             BasicZoneProcessor,
             BasicZoneProcessorCache<SIZE>
         >(
             zoneRegistrySize,
-            zoneRegistry,
-            linkRegistrySize,
-            linkRegistry
+            zoneRegistry
         )
     {}
 
@@ -315,8 +275,6 @@ template<uint16_t SIZE>
 class ExtendedZoneManager: public ZoneManagerImpl<
     extended::ZoneInfo,
     extended::ZoneRegistrar,
-    extended::LinkEntry,
-    extended::LinkRegistrar,
     ExtendedZoneProcessor,
     ExtendedZoneProcessorCache<SIZE>
 > {
@@ -324,22 +282,16 @@ class ExtendedZoneManager: public ZoneManagerImpl<
   public:
     ExtendedZoneManager(
         uint16_t zoneRegistrySize,
-        const extended::ZoneInfo* const* zoneRegistry,
-        uint16_t linkRegistrySize = 0,
-        const extended::LinkEntry* linkRegistry = nullptr
+        const extended::ZoneInfo* const* zoneRegistry
     ):
         ZoneManagerImpl<
             extended::ZoneInfo,
             extended::ZoneRegistrar,
-            extended::LinkEntry,
-            extended::LinkRegistrar,
             ExtendedZoneProcessor,
             ExtendedZoneProcessorCache<SIZE>
         >(
             zoneRegistrySize,
-            zoneRegistry,
-            linkRegistrySize,
-            linkRegistry
+            zoneRegistry
         )
     {}
 
@@ -369,8 +321,6 @@ template<uint8_t SIZE>
 using BasicZoneManager = ZoneManagerImpl<
     basic::ZoneInfo,
     basic::ZoneRegistrar,
-    basic::LinkEntry,
-    basic::LinkRegistrar,
     BasicZoneProcessor,
     BasicZoneProcessorCache<SIZE>
 >;
@@ -379,8 +329,6 @@ template<uint8_t SIZE>
 using ExtendedZoneManager = ZoneManagerImpl<
     extended::ZoneInfo,
     extended::ZoneRegistrar,
-    extended::LinkEntry,
-    extended::LinkRegistrar,
     ExtendedZoneProcessor,
     ExtendedZoneProcessorCache<SIZE>
 >;

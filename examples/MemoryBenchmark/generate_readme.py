@@ -29,7 +29,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v1.7.5
+**Version**: AceTime v1.8.0
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -129,7 +129,19 @@ In v1.7.5:
   3-5 kB across the board.
 * Upgrade Teensyduino from 1.54 to 1.55. Add memory consumed by `malloc()` and
   `free()` when using classes with virtual methods into baseline
-  MemoryBenchmark, reducing the actual memory usage of various features by ~3kB.
+  MemoryBenchmark, reducing the actual memory usage of various features by
+  ~3kB.
+
+In v1.8.0:
+* Move Clock and SystemClock benchmarks into AceTimeClock v1.0.0.
+* Extract thin links from BasicZoneManager and ExtendedZoneManager into
+  new BasicLinkManager and ExtendedLinkManager classes.
+    * Saves 200-500 bytes of flash for BasicZoneManager and ExtendedZoneManager.
+    * Applications can decide whether to use thin links through the LinkManager
+      (~2000 flash bytes for AVR) or use fat links through the
+      `kZoneAndLinkRegistry` (~5000 flash bytes for AVR).
+* Create various test objects as global variables instead of stack variables
+  to get a more accurate measurement of their static memory consumption.
 
 ## Arduino Nano
 

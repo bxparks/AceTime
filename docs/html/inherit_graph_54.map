@@ -1,9 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes." alt="" coords="5,137,192,164"/>
-<area shape="rect" id="node2" href="$classace__time_1_1BasicZoneProcessorTemplate.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database." alt="" coords="290,5,511,61"/>
-<area shape="rect" id="node3" href="$classace__time_1_1ExtendedZoneProcessorTemplate.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database." alt="" coords="269,86,532,127"/>
-<area shape="rect" id="node4" href="$classace__time_1_1BasicZoneProcessorTemplate.html" title=" " alt="" coords="253,152,548,237"/>
-<area shape="rect" id="node6" href="$classace__time_1_1ExtendedZoneProcessorTemplate.html" title=" " alt="" coords="240,261,561,347"/>
-<area shape="rect" id="node5" href="$classace__time_1_1BasicZoneProcessor.html" title="A specific implementation of BasicZoneProcessorTemplate that uses ZoneXxxBrokers which read from zone..." alt="" coords="622,181,843,208"/>
-<area shape="rect" id="node7" href="$classace__time_1_1ExtendedZoneProcessor.html" title="A specific implementation of ExtendedZoneProcessorTemplate that uses ZoneXxxBrokers which read from z..." alt="" coords="609,291,856,317"/>
-</map>

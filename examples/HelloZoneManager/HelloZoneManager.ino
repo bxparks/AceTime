@@ -14,7 +14,10 @@
 
 using namespace ace_time;
 
-// Create a BasicZoneManager with the entire TZ Database.
+// Create a BasicZoneManager with the entire TZ Database of ZONE entries. Use
+// kZoneAndLinkRegistrySize and kZoneAndLinkRegistry to include LINK entries as
+// well, at the cost of additional flash consumption. Cache size of 3 means that
+// it can support 3 concurrent timezones without performance penalties.
 static const int CACHE_SIZE = 3;
 static BasicZoneManager<CACHE_SIZE> manager(
     zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);

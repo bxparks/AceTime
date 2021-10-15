@@ -56,6 +56,7 @@
 #include "ace_time/ExtendedZoneProcessor.h"
 #include "ace_time/ZoneProcessorCache.h"
 #include "ace_time/ZoneManager.h"
+#include "ace_time/LinkManager.h"
 #include "ace_time/TimeZoneData.h"
 #include "ace_time/TimeZone.h"
 #include "ace_time/BasicZone.h"
@@ -64,22 +65,9 @@
 #include "ace_time/zoned_date_time_mutation.h"
 #include "ace_time/TimePeriod.h"
 #include "ace_time/time_period_mutation.h"
-#include "ace_time/clock/Clock.h"
-#include "ace_time/clock/NtpClock.h"
-#include "ace_time/clock/DS3231Clock.h"
-#include "ace_time/clock/UnixClock.h"
-#include "ace_time/clock/SystemClock.h"
-#include "ace_time/clock/SystemClockLoop.h"
-#include "ace_time/clock/SystemClockCoroutine.h"
-
-#if defined(ARDUINO_ARCH_STM32)
-#include "ace_time/clock/StmRtcClock.h"
-#include "ace_time/clock/Stm32F1Clock.h"
-#endif // #if defined(ARDUINO_ARCH_STM32)
-
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 10705
-#define ACE_TIME_VERSION_STRING "1.7.5"
+#define ACE_TIME_VERSION 10800
+#define ACE_TIME_VERSION_STRING "1.8.0"
 
 #endif

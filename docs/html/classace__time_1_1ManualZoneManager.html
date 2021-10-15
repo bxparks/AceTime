@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.7.5</span>
+   &#160;<span id="projectnumber">1.8.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -122,12 +122,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a4799532bd849d5aa25caf8ce602bc27f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the registry index for the given time zone id.  <a href="classace__time_1_1ManualZoneManager.html#a4799532bd849d5aa25caf8ce602bc27f">More...</a><br /></td></tr>
 <tr class="separator:a4799532bd849d5aa25caf8ce602bc27f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a725c1fb1948219d202aa1b532a3fa8"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ManualZoneManager.html#a6a725c1fb1948219d202aa1b532a3fa8">zoneRegistrySize</a> () const override</td></tr>
-<tr class="memdesc:a6a725c1fb1948219d202aa1b532a3fa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of elements in the Zone (and fat Link) registry.  <a href="classace__time_1_1ManualZoneManager.html#a6a725c1fb1948219d202aa1b532a3fa8">More...</a><br /></td></tr>
+<tr class="memdesc:a6a725c1fb1948219d202aa1b532a3fa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of elements in the Zone and Fat Link registry.  <a href="classace__time_1_1ManualZoneManager.html#a6a725c1fb1948219d202aa1b532a3fa8">More...</a><br /></td></tr>
 <tr class="separator:a6a725c1fb1948219d202aa1b532a3fa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9625470ab1cfdc04d22c21fab0c75b28"><td class="memItemLeft" align="right" valign="top"><a id="a9625470ab1cfdc04d22c21fab0c75b28"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ManualZoneManager.html#a9625470ab1cfdc04d22c21fab0c75b28">linkRegistrySize</a> () const override</td></tr>
-<tr class="memdesc:a9625470ab1cfdc04d22c21fab0c75b28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of elements in the (thin) Link registry. <br /></td></tr>
-<tr class="separator:a9625470ab1cfdc04d22c21fab0c75b28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -140,7 +136,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>A <a class="el" href="classace__time_1_1ZoneManager.html" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa...">ZoneManager</a> that implements only <a class="el" href="classace__time_1_1ManualZoneManager.html#a9c9ca83110924ac15810e159912df5f2" title="Create a TimeZone from the TimeZoneData created by TimeZone::toTimeZoneData().">createForTimeZoneData()</a> to create TimeZones of type kTypeManual, in other words, time zones with fixed STD and DST offsets. </p>
 <p>This is useful in applications designed to run on microcontrollers with small memory where a full <a class="el" href="classace__time_1_1BasicZoneManager.html" title="An implementation of the ZoneManager which uses a registry of basic::ZoneInfo records.">BasicZoneManager</a> or <a class="el" href="classace__time_1_1ExtendedZoneManager.html" title="An implementation of the ZoneManager which uses a registry of extended::ZoneInfo records.">ExtendedZoneManager</a> generate too much code. This object can be used anywhere a <a class="el" href="classace__time_1_1ZoneManager.html" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa...">ZoneManager</a> is expected, which reduces the need for C-preprocessor conditional code. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00083">83</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00077">77</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a66863aa1c9fe5b67ead48cb5bed700f8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a66863aa1c9fe5b67ead48cb5bed700f8">&#9670;&nbsp;</a></span>createForZoneName()</h2>
@@ -171,7 +167,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneManager.html#a9ffec7b4b374c9c1ab6e93181fa6026a">ace_time::ZoneManager</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00086">86</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00080">80</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
 
 </div>
 </div>
@@ -204,7 +200,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneManager.html#a8f101ce149365aac39ed1446be6c117f">ace_time::ZoneManager</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00115">115</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00109">109</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
 
 </div>
 </div>
@@ -237,7 +233,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneManager.html#a77b4e5f49a441132efbda808e7870a73">ace_time::ZoneManager</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00111">111</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00105">105</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
 
 </div>
 </div>
@@ -264,12 +260,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Return the number of elements in the Zone (and fat Link) registry. </p>
+<p>Return the number of elements in the Zone and Fat Link registry. </p>
 <p>Previously named registrySize(). </p>
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneManager.html#a2e6f6221b31f64dd2583f92453509dbb">ace_time::ZoneManager</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00119">119</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00113">113</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
 
 </div>
 </div>

@@ -1,6 +1,38 @@
 # Changelog
 
 * Unreleased
+* 1.8.0 (2021-10-15, TZDB 2021c)
+    * **Breaking Change**: Move clock classes under `ace_time::clock` and
+      implementation classes under `ace_time::hw` to the new
+      [AceTimeClock](https://github.com/bxparks/AceTimeClock) repo.
+        * Classes remain in the same C++ namespace.
+        * Client code needs to add `#include <AceTimeClock.h>`.
+        * See [Migrating to v1.8](MIGRATING.md#MigratingToVersion180) for
+          migration info.
+    * **Breaking Change**: Convert `DS3231.h` into a template class with an
+      indirect dependency to `<AceWire.h>`, replacing direct dependency on
+      `<Wire.h>`.
+        * Just including the `<Wire.h>` header causes flash memory to be
+          consumed, even if `Wire` object is never used.
+        * Saves 1000-1500 bytes of flash on AVR, and up to 4000 bytes on STM32.
+        * See [Migrating to v1.8](MIGRATING.md#MigratingToVersion180) for
+          migration info.
+    * **Breaking Change**: Extract thin link functionality from
+      `BasicZoneManager` and `ExtendedZoneManager` into new `BasicLinkManager`
+      and `ExtendedLinkManager`.
+        * Saves 200-500 bytes of flash memory if the feature is not used.
+        * Client application can determine whether to pay for this
+          functionality, instead of automatically being included into the
+          `ZoneManager`.
+        * See the [Thin Links](USER_GUIDE.md#ThinLinks) section in the User
+          Guide and [Migrating to v1.8](MIGRATING.md#MigratingToVersion180) for
+          migration info.
+    * Simplify documentation
+        * Merge `docs/installation.md` into README.md.
+        * Move `docs/date_time_timezone.md` to `USER_GUIDE.md`.
+        * Remove `docs/clock_system_clock.md` after migrating it to
+          the AceTimeClock project.
+        * Merge `docs/comparisons.md` into README.md.
 * 1.7.5 (2021-10-06, TZDB 2021c)
     * **Bug Fix**: Update `ExtendedZoneProcessor.h` to implement better
       detection of Transitions that occur at the exact same time as the switch

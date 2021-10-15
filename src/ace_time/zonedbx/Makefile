@@ -15,7 +15,7 @@ all:
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
 
-zonedbx.json:
+zonedb.json:
 	$(TOOLS)/tzcompiler.sh \
 		--tag $(TZ_VERSION) \
 		--action zonedb \

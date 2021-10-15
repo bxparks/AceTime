@@ -1,5 +1,5 @@
 <map id="ace_time::ExtendedZoneManager&lt; SIZE &gt;" name="ace_time::ExtendedZoneManager&lt; SIZE &gt;">
-<area shape="rect" id="node1" title="An implementation of the ZoneManager which uses a registry of extended::ZoneInfo records." alt="" coords="632,27,873,69"/>
-<area shape="rect" id="node2" href="$classace__time_1_1ZoneManagerImpl.html" title=" " alt="" coords="233,5,584,91"/>
-<area shape="rect" id="node3" href="$classace__time_1_1ZoneManager.html" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa..." alt="" coords="5,35,185,61"/>
+<area shape="rect" id="node1" title="An implementation of the ZoneManager which uses a registry of extended::ZoneInfo records." alt="" coords="579,20,820,61"/>
+<area shape="rect" id="node2" href="$classace__time_1_1ZoneManagerImpl.html" title=" " alt="" coords="233,5,531,76"/>
+<area shape="rect" id="node3" href="$classace__time_1_1ZoneManager.html" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa..." alt="" coords="5,27,185,54"/>
 </map>
