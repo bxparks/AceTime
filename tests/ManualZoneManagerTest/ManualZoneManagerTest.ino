@@ -18,7 +18,6 @@ ManualZoneManager zoneManager;
 
 test(ManualZoneManagerTest, registrySize) {
   assertEqual((uint16_t) 0, zoneManager.zoneRegistrySize());
-  assertEqual((uint16_t) 0, zoneManager.linkRegistrySize());
 }
 
 test(ManualZoneManagerTest, creatForZoneName) {

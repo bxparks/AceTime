@@ -14,14 +14,14 @@
 #define FEATURE_BASIC_TIME_ZONE2 5
 #define FEATURE_BASIC_ZONE_MANAGER_ONE 6
 #define FEATURE_BASIC_ZONE_MANAGER_ZONES 7
-#define FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_THIN_LINKS 8
-#define FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_FAT_LINKS 9
+#define FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_FAT_LINKS 8
+#define FEATURE_BASIC_LINK_MANAGER 9
 #define FEATURE_EXTENDED_TIME_ZONE 10
 #define FEATURE_EXTENDED_TIME_ZONE2 11
 #define FEATURE_EXTENDED_ZONE_MANAGER_ONE 12
 #define FEATURE_EXTENDED_ZONE_MANAGER_ZONES 13
-#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_THIN_LINKS 14
-#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS 15
+#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS 14
+#define FEATURE_EXTENDED_LINK_MANAGER 15
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
@@ -136,16 +136,12 @@ void setup() {
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_THIN_LINKS
-  BasicZoneManager<1> manager(
-    zonedb::kZoneRegistrySize,
-    zonedb::kZoneRegistry,
+#elif FEATURE == FEATURE_BASIC_LINK_MANAGER
+  BasicLinkManager manager(
     zonedb::kLinkRegistrySize,
     zonedb::kLinkRegistry);
-  auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
-  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
-  acetime_t epochSeconds = dt.toEpochSeconds();
-  guard ^= epochSeconds;
+  uint32_t zoneId = manager.zoneIdForLinkId(zonedb::kZoneIdUS_Pacific);
+  guard ^= zoneId;
 #elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_FAT_LINKS
   BasicZoneManager<1> manager(
     zonedb::kZoneAndLinkRegistrySize,
@@ -188,16 +184,6 @@ void setup() {
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_THIN_LINKS
-  ExtendedZoneManager<1> manager(
-      zonedbx::kZoneRegistrySize,
-      zonedbx::kZoneRegistry,
-      zonedbx::kLinkRegistrySize,
-      zonedbx::kLinkRegistry);
-  auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
-  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
-  acetime_t epochSeconds = dt.toEpochSeconds();
-  guard ^= epochSeconds;
 #elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS
   ExtendedZoneManager<1> manager(
       zonedbx::kZoneAndLinkRegistrySize,
@@ -206,74 +192,13 @@ void setup() {
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
+#elif FEATURE == FEATURE_EXTENDED_LINK_MANAGER
+  ExtendedLinkManager manager(
+      zonedbx::kLinkRegistrySize,
+      zonedbx::kLinkRegistry);
+  uint32_t zoneId = manager.zoneIdForLinkId(zonedbx::kZoneIdUS_Pacific);
+  guard ^= zoneId;
 
-#elif FEATURE == FEATURE_DS3231_CLOCK
-  using WireInterface = ace_wire::SimpleWireInterface;
-  WireInterface wireInterface(SDA, SCL, 4 /* delayMicros */);
-  DS3231Clock<WireInterface> dsClock(wireInterface);
-  acetime_t now = dsClock.getNow();
-  guard ^= now;
-
-#elif FEATURE == FEATURE_SYSTEM_CLOCK_LOOP
-  SystemClockLoop systemClock(nullptr, nullptr);
-  systemClock.setup();
-  systemClock.setNow(random(65000));
-  acetime_t now = systemClock.getNow();
-  guard ^= now;
-#elif FEATURE == FEATURE_SYSTEM_CLOCK_LOOP_AND_BASIC_TIME_ZONE
-  SystemClockLoop systemClock(nullptr, nullptr);
-  systemClock.setup();
-  systemClock.setNow(random(65000));
-  acetime_t now = systemClock.getNow();
-  BasicZoneProcessor processor;
-  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
-      &processor);
-  auto dt = ZonedDateTime::forEpochSeconds(now, tz);
-  acetime_t epochSeconds = dt.toEpochSeconds();
-  guard ^= epochSeconds;
-#elif FEATURE == FEATURE_SYSTEM_CLOCK_LOOP_AND_EXTENDED_TIME_ZONE
-  SystemClockLoop systemClock(nullptr, nullptr);
-  systemClock.setup();
-  systemClock.setNow(random(65000));
-  acetime_t now = systemClock.getNow();
-  ExtendedZoneProcessor processor;
-  auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
-      &processor);
-  auto dt = ZonedDateTime::forEpochSeconds(now, tz);
-  acetime_t epochSeconds = dt.toEpochSeconds();
-  guard ^= epochSeconds;
-
-#elif FEATURE == FEATURE_SYSTEM_CLOCK_COROUTINE
-  SystemClockCoroutine systemClock(nullptr, nullptr);
-  systemClock.setup();
-  systemClock.setNow(random(65000));
-  systemClock.runCoroutine();
-  acetime_t now = systemClock.getNow();
-  guard ^= now;
-#elif FEATURE == FEATURE_SYSTEM_CLOCK_COROUTINE_AND_BASIC_TIME_ZONE
-  SystemClockCoroutine systemClock(nullptr, nullptr);
-  systemClock.setup();
-  systemClock.setNow(random(65000));
-  systemClock.runCoroutine();
-  acetime_t now = systemClock.getNow();
-  BasicZoneProcessor processor;
-  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
-      &processor);
-  auto dt = ZonedDateTime::forEpochSeconds(now, tz);
-  acetime_t epochSeconds = dt.toEpochSeconds();
-  guard ^= epochSeconds;
-#elif FEATURE == FEATURE_SYSTEM_CLOCK_COROUTINE_AND_EXTENDED_TIME_ZONE
-  SystemClockCoroutine systemClock(nullptr, nullptr);
-  systemClock.setup();
-  systemClock.setNow(random(65000));
-  systemClock.runCoroutine();
-  acetime_t now = systemClock.getNow();
-  ExtendedZoneProcessor processor;
-  auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
-      &processor);
-  auto dt = ZonedDateTime::forEpochSeconds(now, tz);
-  acetime_t epochSeconds = dt.toEpochSeconds();
-  guard ^= epochSeconds;
 #else
   #error Unknown FEATURE
 #endif

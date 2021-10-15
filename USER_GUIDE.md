@@ -1321,8 +1321,6 @@ class ZoneManager {
     virtual uint16_t indexForZoneId(uint32_t id) const = 0;
 
     virtual uint16_t zoneRegistrySize() const = 0;
-
-    virtual uint16_t linkRegistrySize() const = 0;
 };
 
 template<uint16_t SIZE>
@@ -1330,9 +1328,7 @@ class BasicZoneManager : public ZoneManager {
   public:
     BasicZoneManager(
         uint16_t registrySize,
-        const basic::ZoneInfo* const* zoneRegistry,
-        uint16_t linkRegistrySize = 0,
-        const basic::LinkEntry* linkRegistry = nullptr
+        const basic::ZoneInfo* const* zoneRegistry
     );
 
     TimeZone createForZoneInfo(const basic::ZoneInfo* zoneInfo);
@@ -1343,9 +1339,7 @@ class ExtendedZoneManager : public ZoneManager {
   public:
     ExtendedZoneManager(
         uint16_t registrySize,
-        const extended::ZoneInfo* const* zoneRegistry,
-        uint16_t linkRegistrySize = 0,
-        const extended::LinkEntry* linkRegistry = nullptr
+        const extended::ZoneInfo* const* zoneRegistry
     );
 
     TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
@@ -1387,7 +1381,7 @@ header:
     * Zones and Links supported by `ExtendedZoneManager`
     * `ace_time::zonedbx` namespace
 
-If you decide to use the default registries, there are 6 possible configurations
+If you decide to use the default registries, there are 4 possible configurations
 of the ZoneManager constructors as shown below. The following also shows the
 number of zones and links supported by each configuration, as well as the flash
 memory consumption of each configuration, as determined by
@@ -1400,48 +1394,36 @@ v1.6 with TZDB version 2021a:
 // 21.6 kB (8-bits)
 // 27.1 kB (32-bits)
 BasicZoneManager manager(
-    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-
-// BasicZoneManager, Zones and Thin Links
-// 266 zones, 183 thin links
-// 23.2 kB (8-bits)
-// 28.6 kB (32-bits)
-BasicZoneManager manager(
-    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry,
-    zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
+    zonedb::kZoneRegistrySize,
+    zonedb::kZoneRegistry);
 
 // BasicZoneManager, Zones and Fat Links
 // 266 zones, 183 fat links
 // 25.7 kB (8-bits)
 // 33.2 kB (32-bits)
 BasicZoneManager manager(
-    zonedb::kZoneAndLinkRegistrySize, zonedb::kZoneAndLinkRegistry);
+    zonedb::kZoneAndLinkRegistrySize,
+    zonedb::kZoneAndLinkRegistry);
 
 // ExtendedZoneManager, Zones only
 // 386 Zones
 // 33.5 kB (8-bits)
 // 41.7 kB (32-bits)
 ExtendedZoneManager manager(
-    zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-
-// ExtendedZoneManager, Zones and Thin Links
-// 386 Zones, 207 thin Links
-// 35.3 kB (8-bits)
-// 43.4 kB (32-bits)
-ExtendedZoneManager manager(
-    zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry,
-    zonedbx::kLinkRegistrySize, zonedbx::kLinkRegistry);
+    zonedbx::kZoneRegistrySize,
+    zonedbx::kZoneRegistry);
 
 // ExtendedZoneManager, Zones and Fat Links
 // 386 Zones, 207 fat Links
 // 38.2 kB (8-bits)
 // 48.7 kB (32-bits)
 ExtendedZoneManager manager(
-    zonedbx::kZoneAndLinkRegistrySize, zonedbx::kZoneAndLinkRegistry);
+    zonedbx::kZoneAndLinkRegistrySize,
+    zonedbx::kZoneAndLinkRegistry);
 ```
 
-The difference between a "Thin Link" and a "Fat Link" is explained the
-[Zones and Links](#ZonesAndLinks) section below.
+A more complicated option of using *thin link* through the `LinkManager` is
+explained the [Zones and Links](#ZonesAndLinks) section below.
 
 Once the `ZoneManager` is configured with the appropriate registries, you can
 use one of the `createForXxx()` methods to create a `TimeZone`, like this:
@@ -1568,13 +1550,6 @@ it will be far easier to create a `TimeZone` using `createForZoneId()`. You do
 pay a penalty in efficiency because `createForZoneId()` must scan the database,
 where as `createForZoneInfo()` does not perform a search since it has direct
 access to the `ZoneInfo` data structure.
-
-An interesting feature of the `createForZoneId()` method, explained more fully
-in the [Thin Links](#ThinLinks) subsection below, is that this method performs a
-search in the Thin Link registry if the given `zoneId` is not found in the main
-Zone registry. This allows `zoneId` to be forward compatibility with future
-versions of the TZDB database, since an existing `zoneId` will always resolve to
-a valid timezone if the Thin Link registry is provided.
 
 <a name="CreateForZoneIndex"></a>
 #### createForZoneIndex()
@@ -1917,69 +1892,113 @@ the corresponding Zone and Link entries, but those Link entries themselves
 do consume extra flash memory.
 
 To avoid performing a lookup in 2 separate registries, Fat Links are merged into
-the Zone registry. The ZoneManagers are constructed using the combined registry,
+the Zone registry. The ZoneManagers can constructed using the combined registry,
 like this:
 
 ```C++
 BasicZoneManager manager(
-    zonedb::kZoneAndLinkRegistrySize, zonedb::kZoneAndLinkRegistry);
+    zonedb::kZoneAndLinkRegistrySize,
+    zonedb::kZoneAndLinkRegistry);
 
 ExtendedZoneManager manager(
-    zonedbx::kZoneAndLinkRegistrySize, zonedbx::kZoneAndLinkRegistry);
+    zonedbx::kZoneAndLinkRegistrySize,
+    zonedbx::kZoneAndLinkRegistry);
 ```
-
-If you have enough flash memory, and forward-compatibility is important, then
-using Fat Links (and the combined `kZoneAndLinkRegistry`) provides the most
-flexibility, performance and forward compatibility. The cost is that Fat Links
-occupy substantial amount of extra flash memory, between 4kB to 7kB.
-
-I attempted to reduce the amount of extra flash memory storage by creating Thin
-Links in v1.6 as described below.
 
 <a name="ThinLinks"></a>
 #### Thin Links (From v1.6)
 
-Thin Links is a lighter weight version of Fat Links that preserves the forward
-stability of **zoneId** (e.g. `0xb7f7e8f2`) but not the **zoneName** (e.g.
-`America/Los_Angeles`). This is useful because in most embedded applications, I
-expect and recommend that the zoneId to be serialized and saved (e.g. in
-user-configuration EEPROM), but not the zoneName string (which is more difficult
-to store and retrieve due to its variable length).
+**Breaking Change in v1.8**: Thin link functionality has been extracted from
+the `ZoneManager` into `LinkManager`.
 
-I created separate registry created for Thin Links which contain only the
-mapping of the `linkId` to the corresponding `zoneId`. The constructors for
-`BasicZoneManager` and `ExtendedZoneManager` were extended to take optional
-parameters related to the Thin Link registry:
+*Thin links* a lighter weight alternatives to *fat links* that may be useful if
+flash memory is tight. A thin link preserves the forward stability of **zoneId**
+(e.g. `0xb7f7e8f2`) but not the **zoneName** (e.g. `America/Los_Angeles`). Since
+only the 4-byte zoneIds are stored, they do not take up as much flash memory as
+fat links, but they are more tricky to use so I recommend them only if there is
+no other option.
+
+If the application stores the `zoneId` in EEPROM (for example), it is possible
+that a subsequent version of the TZDB changes the Zone into a Link. If the
+smaller `kZoneRegistry` is used instead of the full `kZoneAndLinkRegistry`, then
+previous `zoneId` would fail to resolve. The thin link registry provides a small
+lookup table that maps the old `zoneId` (which has now become a `linkId`) to its
+target `zoneId`.
+
+A separate registry called `kLinkRegistry` is provided that contains only the
+mapping of the `linkId` to the corresponding `zoneId`. These are available
+through the `BasicLinkManager` and `ExtendedLinkManager` classes, like this:
 
 ```C++
-// Zones and Thin Links
-BasicZoneManager manager(
-    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry,
-    zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
+namespace ace_time {
 
-// Zones and Thin Links
-ExtendedZoneManager manager(
-    zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry,
-    zonedbx::kLinkRegistrySize, zonedbx::kLinkRegistry);
+class LinkManager {
+  public:
+    static const uint16_t kInvalidZoneId = 0x0;
+    virtual uint32_t zoneIdForLinkId(uint32_t linkId) const = 0;
+    virtual uint16_t linkRegistrySize() const = 0;
+};
+
+class BasicLinkManager: public LinkManager {
+  public:
+    BasicLinkManager(
+        uint16_t linkRegistrySize,
+        const basic::LinkEntry* linkRegistry
+    );
+};
+
+class ExtendedLinkManager: public LinkManager {
+  public:
+    ExtendedLinkManager(
+        uint16_t linkRegistrySize,
+        const extended::LinkEntry* linkRegistry
+    );
+};
+
+}
 ```
 
-When a Thin Link registry is given to the `ZoneManager`, the behavior of
-`ZoneManager::createForZoneId(zoneId)` method changes slightly to support
-forward compatibility of the `zoneId` and `linkId`:
+These link managers are initialized with the `kLinkRegistrySize` and
+`kLinkRegistry` parameters from `zonedb/zone_registry.h` and
+`zonedbx/zone_registry.h` header files like this:
 
-1) The given `zoneId` is first searched in the `kZoneRegistry`.
-2) If it is not found, it is then searched in the `kLinkRegistry`.
-3) If found in the Link registry, its target `zoneId` is retrieved from the Link
-registry, and the searched again in the Zone registry.
+```C++
+#include <AceTime.h>
+using namespace ace_time;
 
-This means that a given `zoneId` from a previous version of TZDB will always
-resolve to a valid time zone, because the IANA TZDB guarantees that an existing
-timezone will be preserve in future versions, migrated to a Link if necessary.
+...
 
-It is probably useful to note that the `ZoneManager::createForZoneName()` cannot
-guarantee forward compatibility of zoneNames using the Thin Link registry,
-because the zone name strings are not stored with Thin Links. If you need
-`zoneName` forward compatibility, you need to use Fat Links as described above.
+// Thin links for the zonedb database
+BasicLinkManager manager(zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
+
+// Thin links for the zonedbx database
+ExtendedLinkManager manager(zonedbx::kLinkRegistrySize, zonedbx::kLinkRegistry);
+```
+
+When the search for a `zoneId` fails, then the client application can choose to
+perform a second lookup in the link registry, like this:
+
+```C++
+ExtendedZoneManager zoneManager(
+    zonedbx::kZoneRegistrySize,
+    zonedbx::kZoneRegistry);
+
+ExtendedLinkManager linkManager(
+    zonedbx::kLinkRegistrySize,
+    zonedbx::kLinkRegistry);
+
+TimeZone findTimeZone(uint32_t zoneId) {
+  TimeZone tz = zoneManager.createForZoneId(zoneId);
+  if (tz.isError()) {
+    // Try searching the link to zone registry.
+    uint32_t zoneId = linkManager.zoneIdForLinkId(zoneId);
+    if (zoneId != LinkManager::kInvalidZoneId) {
+      tz = zoneManager.createForZoneId(zoneId);
+    }
+  }
+  return tz;
+}
+```
 
 <a name="CustomZoneRegistry"></a>
 #### Custom Zone Registry

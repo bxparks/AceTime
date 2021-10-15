@@ -16,6 +16,15 @@
         * Saves 1000-1500 bytes of flash on AVR, and up to 4000 bytes on STM32.
         * See [Migration for v1.8](README.md#MigrationForVersion18) for
           migration info.
+    * **Breaking Change**: Extract thin link functionality from
+      `BasicZoneManager` and `ExtendedZoneManager` into new `BasicLinkManager`
+      and `ExtendedLinkManager`.
+        * Saves 200-500 bytes of flash memory if the feature is not used.
+        * Client application can determine whether to pay for this
+          functionality, instead of automatically being included into the
+          `ZoneManager`.
+        * See the [Thin Links](USER_GUIDE.md#ThinLinks) section in the User
+          Guide.
     * Simplify documentation
         * Merge `docs/installation.md` into README.md.
         * Move `docs/date_time_timezone.md` to `USER_GUIDE.md`.

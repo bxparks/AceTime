@@ -15,14 +15,14 @@ BEGIN {
   labels[5] = "Basic TimeZone (2 zones)"
   labels[6] = "BasicZoneManager (1 zone)"
   labels[7] = "BasicZoneManager (zones)"
-  labels[8] = "BasicZoneManager (zones+thin links)"
-  labels[9] = "BasicZoneManager (zones+fat links)"
+  labels[8] = "BasicZoneManager (zones+fat links)"
+  labels[9] = "BasicLinkManager"
   labels[10] = "Extended TimeZone (1 zone)"
   labels[11] = "Extended TimeZone (2 zones)"
   labels[12] = "ExtendedZoneManager (1 zone)"
   labels[13] = "ExtendedZoneManager (zones)"
-  labels[14] = "ExtendedZoneManager (zones+thin links)"
-  labels[15] = "ExtendedZoneManager (zones+fat links)"
+  labels[14] = "ExtendedZoneManager (zones+fat links)"
+  labels[15] = "ExtendedLinkManager"
   record_index = 0
 }
 {
