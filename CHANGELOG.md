@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+    * Add `make -C examples/MemoryBenchmark epoxy` to GitHub actions.
 * 1.8.0 (2021-10-15, TZDB 2021c)
     * **Breaking Change**: Move clock classes under `ace_time::clock` and
       implementation classes under `ace_time::hw` to the new
