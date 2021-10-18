@@ -88,8 +88,8 @@ libraries](https://github.com/Testato/SoftwareWire/wiki/Arduino-I2C-libraries).
 The `<AceWire.h>` library solves this problem by using compile-time polymorphism
 through C++ templates.
 
-Here is the migration process. For all occurrences of the `DS3231Clock` class
-like this:
+Here is the migration process. For all occurrences of the old `DS3231Clock`
+class that look like this:
 
 ```C++
 #include <AceTimeClock.h>
@@ -99,7 +99,8 @@ using namespace ace_time::clock;
 DS3231Clock dsClock;
 ```
 
-Replace that with a template instance of the `DS3231Clock<T>` class:
+Replace that with a template instance of the `DS3231Clock<T>` class, and its I2C
+interface classes (`TwoWire` and `TwoWireInterface`):
 
 ```C++
 #include <AceTimeClock.h>
@@ -111,17 +112,28 @@ using namespace ace_time::clock;
 using WireInterface = ace_wire::TwoWireInterface<TwoWire>;
 WireInterface wireInterface(Wire);
 DS3231Clock<WireInterface> dsClock(wireInterface);
+
+void setup() {
+  ...
+  Wire.begin();
+  wireInterface.begin();
+  dsClock.setup();
+  ...
+}
 ```
 
-The new version requires more configuration. But in return, we gain more
-flexibility and potentially a large reduction of flash memory consumption. Here
-is another example where the `SimpleWireInterface` class is swapped in place of
-the `TwoWireInterface` class, without any changes to the `DS3231Clock` class:
+The new `DS3231Clock<T>` class requires more configuration. But in return, we
+gain more flexibility and potentially a large reduction of flash memory
+consumption if the pre-installed `<Wire.h>` is replaced with a different I2C
+implementation.  For example, here is a version of the `DS3231Clock` object
+where the `SimpleWireInterface` software I2C class replaces the hardware
+`TwoWireInterface` class, without any changes to the `DS3231Clock` class:
 
 ```C++
 #include <AceTimeClock.h>
 #include <AceWire.h>
 using namespace ace_time;
+using namespace ace_time::clock;
 
 const uint8_t SCL_PIN = SCL;
 const uint8_t SDA_PIN = SDA;
@@ -129,6 +141,13 @@ const uint8_t DELAY_MICROS = 4;
 using WireInterface = ace_wire::SimpleWireInterface;
 WireInterface wireInterface(SDA_PIN, SCL_PIN, DELAY_MICROS);
 DS3231Clock<WireInterface> dsClock(wireInterface);
+
+void setup() {
+  ...
+  wireInterface.begin();
+  dsClock.setup();
+  ...
+}
 ```
 
 According to the benchmarks at

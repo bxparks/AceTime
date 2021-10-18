@@ -565,8 +565,7 @@ available.
         * `$ make clean`
         * `$ make`
         * `$ ./BasicHinnantDateTest.out | grep failed`
-        * There should be no failures: `TestRunner summary: 268 passed, 0
-          failed, 0 skipped, 0 timed out, out of 268 test(s).`
+        * There should be no failures.
     * ExtendedHinnantDateTest
         * `$ cd .../AceTimeValidation/ExtendedHinnantDateTest`
         * Update the `TZ_VERSION` variable in the `Makefile` with the commit tag
@@ -574,22 +573,44 @@ available.
         * `$ make clean`
         * `$ make`
         * `$ ./ExtendedHinnantDateTest.out | grep failed`
-        * There should be no failures: `TestRunner summary: 387 passed, 0
-          failed, 0 skipped, 0 timed out, out of 387 test(s).`
-* Update the various zone info files:
-    * `src/ace_time/zonedb`
+        * There should be no failures.
+* Verify that the `AceTime` library and the `AceTimePython` library agree with
+  each other using the same TZDB version. This requires going into the
+  [AceTimeValidation](https://github.com/bxparks/AceTimeValidation) project.
+    * BasicAcetzTest
+        * `$ cd .../AceTimeValidation/BasicAcetzTest`
+        * Update the `TZ_VERSION` variable in the `Makefile` with the commit tag
+          of the new TZDB version. (e.g. `TZ_VERSION = 2020c`).
+        * `$ make clean`
+        * `$ make`
+        * `$ ./BasicAcetzTest.out | grep failed`
+        * There should be no failures.
+    * ExtendedAcetzTest
+        * `$ cd .../AceTimeValidation/ExtendedAcetzTest`
+        * Update the `TZ_VERSION` variable in the `Makefile` with the commit tag
+          of the new TZDB version. (e.g. `TZ_VERSION = 2020c`).
+        * `$ make clean`
+        * `$ make`
+        * `$ ./ExtendedAcetzTest.out | grep failed`
+        * There should be no failures.
+* Update the various zoneinfo files for AceTime:
+    * `zonedb`
         * `$ cd src/ace_time/zonedb`
         * Edit the `Makefile` and update the `TZ_VERSION`.
         * `$ make`
-    * `src/ace_time/zonedbx`
+    * `zonedbx`
         * `$ cd src/ace_time/zonedbx`
         * Edit the `Makefile` and update the `TZ_VERSION`.
         * `$ make`
-    * `AceTimeTools/zonedbpy`
-        * `$ cd AceTimeTools/zonedbpy`
+* Update the zoneinfo files for AceTimePython:
+    * ``zonedbpy`
+        * `$ cd AceTimePython/src/acetime/zonedbpy`
         * Edit the `Makefile` and update the `TZ_VERSION`.
         * `$ make`
-* Update the CHANGELOG.md.
+* Update CHANGELOGs
+    * AceTime/CHANGELOG.md
+    * AceTimePython/CHANGELOG.md
+    * AceTimeValidation/CHANGELOG.md
 * Commit the changes to git
     * `$ git add ...`
     * `$ git commit -m "..."`
@@ -628,7 +649,7 @@ tests will fail until the underlying timezone database of the OS is updated.
     * Go to https://github.com/bxparks/AceTime.
     * Create a Pull Request from `develop` to `master`.
     * Approve and merge the PR.
-* Create a new Release.
+* Create a new Release of AceTime.
     * Go to https://github.com/bxparks/AceTime
     * Click on "Releases"
     * Click on "Draft a new release"
@@ -637,9 +658,19 @@ tests will fail until the underlying timezone database of the OS is updated.
     * Enter the release notes. I normally just copy and paste the latest changes
       from `CHANGELOG.md`.
     * Click Publish release.
+* Create a new Release of AceTimePython.
+    * Go to https://github.com/bxparks/AceTimePython
+    * Click on "Releases"
+    * Click on "Draft a new release"
+    * Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
+    * Enter the release title.
+    * Enter the release notes. I normally just copy and paste the latest changes
+      from `CHANGELOG.md`.
+    * Click Publish release.
 * Add corresponding tags on AceTimeTools and AceTimeValidation for reference.
-    * Go to https://github.com/bxparks/AceTimeTools
-    * `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
-    * `$ git push --tags`
-    * Go to https://github.com/bxparks/AceTimeValidation
-    * (Same as above)
+    * AceTimePython
+        * `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
+        * `$ git push --tags`
+    * AceTimeValidation
+        * `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
+        * `$ git push --tags`

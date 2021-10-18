@@ -41,7 +41,7 @@ This library can be an alternative to the Arduino Time
 (https://github.com/PaulStoffregen/Time) and Arduino Timezone
 (https://github.com/JChristensen/Timezone) libraries.
 
-**Version**: 1.8.0 (2021-10-15, TZDB version 2021c)
+**Version**: 1.8.1 (2021-10-18, TZDB version 2021d)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
@@ -87,17 +87,14 @@ This library can be an alternative to the Arduino Time
 
 The latest stable release is available in the Arduino Library Manager in the
 IDE. Search for "AceTime". Click install. The Library Manager should
-automatically install the dependent library:
-
-* AceCommon (https://github.com/bxparks/AceCommon)
-
-The development version can be installed by cloning the 2 git repos:
+automatically install AceTime and its the dependent library:
 
 * AceTime (https://github.com/bxparks/AceTime)
 * AceCommon (https://github.com/bxparks/AceCommon)
 
+The development version can be installed by cloning the above repos manually.
 You can copy over the contents to the `./libraries` directory used by the
-Arduino IDE. (The result is directories named `./libraries/AceTime` and
+Arduino IDE. (The result is a set of directories named `./libraries/AceTime` and
 `./libraries/AceCommon`). Or you can create symlinks from `./libraries` to these
 directories. Or you can `git clone` directly into the `./libraries` directory.
 
