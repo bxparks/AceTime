@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2021c
+//     --tz_version 2021d
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -22,13 +22,13 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2021c
+// from https://github.com/eggert/tz/releases/tag/2021d
 //
 // Policies: 83
-// Rules: 551
+// Rules: 552
 // Letter Size (bytes): 23
-// Total Memory 8-bit (bytes): 5492
-// Total Memory 32-bit (bytes): 7655
+// Total Memory 8-bit (bytes): 5501
+// Total Memory 32-bit (bytes): 7667
 //
 // DO NOT EDIT
 
@@ -2448,9 +2448,9 @@ const extended::ZonePolicy kPolicyFalk ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: Fiji
-// Rules: 13
-// Memory (8-bit): 123
-// Memory (32-bit): 168
+// Rules: 14
+// Memory (8-bit): 132
+// Memory (32-bit): 180
 //---------------------------------------------------------------------------
 
 static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
@@ -2562,10 +2562,10 @@ static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     '-' /*letter*/,
   },
-  // Rule    Fiji    2015    max    -    Jan    Sun>=12    3:00    0    -
+  // Rule    Fiji    2015    2021    -    Jan    Sun>=12    3:00    0    -
   {
     15 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    21 /*toYearTiny*/,
     1 /*inMonth*/,
     7 /*onDayOfWeek*/,
     12 /*onDayOfMonth*/,
@@ -2598,9 +2598,9 @@ static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     '-' /*letter*/,
   },
-  // Rule    Fiji    2021    max    -    Nov    Sun>=8    2:00    1:00    -
+  // Rule    Fiji    2022    max    -    Nov    Sun>=8    2:00    1:00    -
   {
-    21 /*fromYearTiny*/,
+    22 /*fromYearTiny*/,
     126 /*toYearTiny*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
@@ -2608,6 +2608,18 @@ static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Fiji    2023    max    -    Jan    Sun>=12    3:00    0    -
+  {
+    23 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
+    1 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    12 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     '-' /*letter*/,
   },
 
@@ -2618,7 +2630,7 @@ static const extended::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
 const extended::ZonePolicy kPolicyFiji ACE_TIME_PROGMEM = {
   kZoneRulesFiji /*rules*/,
   nullptr /*letters*/,
-  13 /*numRules*/,
+  14 /*numRules*/,
   0 /*numLetters*/,
 };
 
