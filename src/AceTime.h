@@ -67,7 +67,7 @@
 #include "ace_time/time_period_mutation.h"
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 10801
-#define ACE_TIME_VERSION_STRING "1.8.1"
+#define ACE_TIME_VERSION 10802
+#define ACE_TIME_VERSION_STRING "1.8.2"
 
 #endif
