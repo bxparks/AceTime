@@ -1,7 +1,7 @@
 # Changelog
 
 * Unreleased
-* 1.8.2 (2021-10-18, TZDB 2021e)
+* 1.8.2 (2021-10-28, TZDB 2021e)
     * Update to TZDB 2021e.
         * https://mm.icann.org/pipermail/tz-announce/2021-October/000069.html
         * Palestine will fall back 10-29 (not 10-30) at 01:00.
