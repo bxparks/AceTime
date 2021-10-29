@@ -574,6 +574,12 @@ available.
         * `$ make`
         * `$ ./ExtendedHinnantDateTest.out | grep failed`
         * There should be no failures.
+* Update the zoneinfo files for AceTimePython (needed by BasicAcetzTest and
+  ExtendedAcetzTest):
+    * ``zonedbpy`
+        * `$ cd AceTimePython/src/acetime/zonedbpy`
+        * Edit the `Makefile` and update the `TZ_VERSION`.
+        * `$ make`
 * Verify that the `AceTime` library and the `AceTimePython` library agree with
   each other using the same TZDB version. This requires going into the
   [AceTimeValidation](https://github.com/bxparks/AceTimeValidation) project.
@@ -600,11 +606,6 @@ available.
         * `$ make`
     * `zonedbx`
         * `$ cd src/ace_time/zonedbx`
-        * Edit the `Makefile` and update the `TZ_VERSION`.
-        * `$ make`
-* Update the zoneinfo files for AceTimePython:
-    * ``zonedbpy`
-        * `$ cd AceTimePython/src/acetime/zonedbpy`
         * Edit the `Makefile` and update the `TZ_VERSION`.
         * `$ make`
 * Update CHANGELOGs
@@ -649,8 +650,8 @@ tests will fail until the underlying timezone database of the OS is updated.
     * Go to https://github.com/bxparks/AceTime.
     * Create a Pull Request from `develop` to `master`.
     * Approve and merge the PR.
-* Create a new Release of AceTime.
-    * Go to https://github.com/bxparks/AceTime
+* Create a new Release of AceTimePython.
+    * Go to https://github.com/bxparks/AceTimePython
     * Click on "Releases"
     * Click on "Draft a new release"
     * Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
@@ -658,8 +659,8 @@ tests will fail until the underlying timezone database of the OS is updated.
     * Enter the release notes. I normally just copy and paste the latest changes
       from `CHANGELOG.md`.
     * Click Publish release.
-* Create a new Release of AceTimePython.
-    * Go to https://github.com/bxparks/AceTimePython
+* Create a new Release of AceTime.
+    * Go to https://github.com/bxparks/AceTime
     * Click on "Releases"
     * Click on "Draft a new release"
     * Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
