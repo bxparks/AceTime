@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2021d
+//     --tz_version 2021e
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2021d
+// from https://github.com/eggert/tz/releases/tag/2021e
 //
 // Zones: 258
 // Links: 193
@@ -52,7 +52,7 @@ namespace zonedb {
 // ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] = "2021d";
+const char kTzDatabaseVersion[] = "2021e";
 
 const char* const kFragments[] = {
 /*\x00*/ nullptr,

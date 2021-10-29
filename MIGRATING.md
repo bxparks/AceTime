@@ -19,14 +19,14 @@ Three breaking changes were made from v1.7.5 to v1.8.0:
 2) The `DS3231Clock` class was converted into a template class to replace a
    direct dependency to the I2C `<Wire.h>` library with an indirect dependency
    to the [AceWire](https://github.com/bxparks/AceWire) library. This reduces
-   the flash memory consumption by at least 1300 bytes on AVR for applications
-   which use only the AceTime portion of the library, and increases the
-   flexibility of the `DS3231Clock` class.
-3) Support for *thin links* was moved out of `BasicZoneManager` and
-   `ExtendedZoneManager` into the new `BasicLinkManager` and
-   `ExtendedLinkManager`. This simplifies the ZoneManagers, and reduces the
-   flash memory consumption of applications which do not use this feature by
-   200-500 bytes.
+   the flash memory consumption between 1300-2500 bytes on AVR processor
+   on applications which use only the AceTime portion of the library, and
+   increases the flexibility of the `DS3231Clock` class.
+3) Support for [thin links](USER_GUIDE.md#ThinLinks) was moved out of
+   `BasicZoneManager` and `ExtendedZoneManager` into the new `BasicLinkManager`
+   and `ExtendedLinkManager` classes. This simplifies the ZoneManagers, and
+   reduces the flash memory consumption of applications which do not use this
+   feature by 200-500 bytes.
 
 The following subsections show how to migrate client application from
 AceTime v1.7.5 to AceTime v1.8.0.
@@ -160,9 +160,9 @@ instead.
 <a name="MigratingToLinkManagers"></a>
 ### Migrating to LinkManagers
 
-In v1.7.5, thin links were activated by adding the `kLinkRegistrySize` and
-`kLinkRegistry` parameters to the constructor of `BasicZoneManager` and
-`ExtendedZoneManager`, like this:
+In v1.7.5, [thin links](USER_GUIDE.md#ThinLinks) were activated by adding the
+`kLinkRegistrySize` and `kLinkRegistry` parameters to the constructor of
+`BasicZoneManager` and `ExtendedZoneManager`, like this:
 
 ```C++
 BasicZoneManager zoneManager(
@@ -206,5 +206,6 @@ TimeZone findTimeZone(uint32_t zoneId) {
 }
 ```
 
-See the [Thin Links](USER_GUIDE.md#ThinLinks) section in the User Guide for
-additional information.
+This change allows the ZoneManagers to provide a consistent API for some
+upcoming features, and prevents unnecessary flash consumption (200-500 bytes) if
+the client application does not use the thin link feature.

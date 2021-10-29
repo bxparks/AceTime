@@ -41,7 +41,7 @@ This library can be an alternative to the Arduino Time
 (https://github.com/PaulStoffregen/Time) and Arduino Timezone
 (https://github.com/JChristensen/Timezone) libraries.
 
-**Version**: 1.8.1 (2021-10-18, TZDB version 2021d)
+**Version**: 1.8.2 (2021-10-28, TZDB version 2021e)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
@@ -959,14 +959,14 @@ get some time to take a closer look in the future.
 <a name="FeedbackAndSupport"></a>
 ## Feedback and Support
 
-If you have any questions, comments and other support questions about how to
-use this library, please use the
-[GitHub Discussions](https://github.com/bxparks/AceTime/discussions)
-for this project. If you have bug reports or feature requests, please file a
-ticket in [GitHub Issues](https://github.com/bxparks/AceTime/issues).
-I'd love to hear about how this software and its documentation can be improved.
-I can't promise that I will incorporate everything, but I will give your ideas
-serious consideration.
+If you have any questions, comments, or feature requests for this library,
+please use the [GitHub
+Discussions](https://github.com/bxparks/AceTime/discussions) for this project.
+If you have bug reports, please file a ticket in [GitHub
+Issues](https://github.com/bxparks/AceTime/issues). Feature requests should go
+into Discussions first because they often have alternative solutions which are
+useful to remain visible, instead of disappearing from the default view of the
+Issue tracker after the ticket is closed.
 
 Please refrain from emailing me directly unless the content is sensitive. The
 problem with email is that I cannot reference the email conversation when other
