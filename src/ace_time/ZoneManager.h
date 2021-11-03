@@ -141,7 +141,7 @@ class ManualZoneManager : public ZoneManager {
  * @tparam ZPC class of ZoneProcessorCache (e.g. BasicZoneProcessorCache,
  *    ExtendedZoneProcessorCache)
  * @tparam Z zone wrapper class, either BasicZone or ExtendedZone
-*/
+ */
 template<
     typename ZI, typename ZRR,
     typename ZP, typename ZPC,
@@ -216,12 +216,12 @@ class ZoneManagerImpl : public ZoneManager {
       return this->mZoneProcessorCache.getZoneProcessor((uintptr_t) zoneInfo);
     }
 
-    /** Return the Zone object wrapper around the ZoneInfo pointer. */
+    /** Return the Zone wrapper object around the ZoneInfo pointer. */
     Z getZone(const basic::ZoneInfo* zoneInfo) const {
       return Z(zoneInfo);
     }
 
-    /** Return the Zone object wrapper for the given index. */
+    /** Return the Zone wrapper object for the given index. */
     Z getZoneForIndex(uint16_t index) const {
       const ZI* zoneInfo = this->mZoneRegistrar.getZoneInfoForIndex(index);
       return Z(zoneInfo);

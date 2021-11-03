@@ -12,14 +12,14 @@
 namespace ace_time {
 
 /**
- * ZoneSorterTemplate, templatized on BasicZoneManager or ExtendedZoneManager.
+ * ZoneSorter, templatized on BasicZoneManager or ExtendedZoneManager.
  *
  * @tparam ZM ZoneManager
  */
-template <typename ZM, typename Z>
-class ZoneSorterTemplate {
+template <typename ZM>
+class ZoneSorter {
   public:
-    ZoneSorterTemplate(const ZM& zoneManager) :
+    ZoneSorter(const ZM& zoneManager) :
       mZoneManager(zoneManager)
     {}
 
@@ -59,15 +59,16 @@ class ZoneSorterTemplate {
 
   private:
     // disable copy constructor and assignment operator
-    ZoneSorterTemplate(const ZoneSorterTemplate&) = delete;
-    ZoneSorterTemplate& operator=(const ZoneSorterTemplate&) = delete;
+    ZoneSorter(const ZoneSorter&) = delete;
+    ZoneSorter& operator=(const ZoneSorter&) = delete;
 
     /**
      * Return <0, 0, or >0 depending on whether Zone a is <, ==, or > than Zone
-     * b. In C++11, we cannot use `auto` as the parameter type, so we are forced
-     * to use an explicit template parameter `Z`. Apparently, this is a C++14
-     * feature.
+     * b. We cannot use `auto` as the parameter type (apparently, that's a C++14
+     * feature), so we are forced to use template function. The `Z` template
+     * will be either the BasicZone or ExtendedZone class.
      */
+    template <typename Z>
     static int compareZone(const Z& a, const Z& b) {
       if (a.isNull()) {
         if (b.isNull()) {
@@ -87,24 +88,6 @@ class ZoneSorterTemplate {
 
   private:
     const ZM& mZoneManager;
-};
-
-/** ZoneSorter for a BasicZoneManager. */
-template <typename ZM>
-class BasicZoneSorter : public ZoneSorterTemplate<ZM, BasicZone> {
-  public:
-    BasicZoneSorter(const ZM& zoneManager) :
-        ZoneSorterTemplate<ZM, BasicZone>(zoneManager)
-    {}
-};
-
-/** ZoneSorter for an ExtendedZoneManager. */
-template <typename ZM>
-class ExtendedZoneSorter : public ZoneSorterTemplate<ZM, ExtendedZone> {
-  public:
-    ExtendedZoneSorter(const ZM& zoneManager) :
-        ZoneSorterTemplate<ZM, ExtendedZone>(zoneManager)
-    {}
 };
 
 }
