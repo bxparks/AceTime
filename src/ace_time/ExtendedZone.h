@@ -68,13 +68,7 @@ class ExtendedZone {
 
     /** Return the name as a KString. */
     ace_common::KString kname() const {
-    #if ACE_TIME_USE_PROGMEM
-      const __FlashStringHelper* name =
-    #else
-      const char* name =
-    #endif
-          isNull() ? nullptr : mZoneInfoBroker.name();
-
+      const auto* name = isNull() ? nullptr : mZoneInfoBroker.name();
       const internal::ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();
       return ace_common::KString(
           name, zoneContext->fragments, zoneContext->numFragments);
