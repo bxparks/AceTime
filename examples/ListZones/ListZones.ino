@@ -1,6 +1,17 @@
 /*
  * A program to list the zones of a ZoneManager sorted by UTC offset and name,
- * illustrating the ZoneSorter class.
+ * illustrating the ZoneSorterByName and ZoneSorterByOffsetAndName classes.
+ *
+ * By default, this sorts all zones and links by UTC offset first, then by name.
+ * On EpoxyDuino, the --sort command line flag allows sorting by name:
+ *
+ * $ ./ListZones [--sort (offset | name)]
+ * Sorted 594 zones in 8 millis
+ * UTC-12:00 Etc/GMT+12
+ * UTC-11:00 Etc/GMT+11
+ * ...
+ * UTC+14:00 Etc/GMT-14
+ * UTC+14:00 Pacific/Kiritimati
  */
 
 #if defined(EPOXY_DUINO)
@@ -14,6 +25,19 @@
 
 using namespace ace_time;
 using namespace ace_time::zonedbx;
+
+//---------------------------------------------------------------------------
+// Sorting option.
+//---------------------------------------------------------------------------
+
+enum class SortOrder : uint8_t {
+  kNone,
+  kOffsetAndName,
+  kName
+};
+
+// User-defined option parameters.
+SortOrder sortOrder = SortOrder::kOffsetAndName;
 
 //---------------------------------------------------------------------------
 // Parse command line flags and arguments.
@@ -40,9 +64,6 @@ static bool arg_equals(const char* s, const char* t) {
   return strcmp(s, t) == 0;
 }
 
-// User-defined option parameters.
-const char* sortOrder = "offset";
-
 /**
  * Parse command line flags.
  * Returns the index of the first argument after the flags.
@@ -55,7 +76,14 @@ static int parse_flags(int argc, const char* const* argv) {
     if (arg_equals(argv[0], "--sort")) {
       shift(argc, argv);
       if (argc == 0) usage_and_exit(1);
-      sortOrder = argv[0];
+      if (arg_equals(argv[0], "offset")) {
+        sortOrder = SortOrder::kOffsetAndName;
+      } else if (arg_equals(argv[0], "name")) {
+        sortOrder = SortOrder::kName;
+      } else {
+        fprintf(stderr, "Unknown option '%s'\n", argv[0]);
+        usage_and_exit(1);
+      }
     } else if (arg_equals(argv[0], "--")) {
       shift(argc, argv);
       break;
@@ -71,8 +99,8 @@ static int parse_flags(int argc, const char* const* argv) {
     shift(argc, argv);
   }
 
-  if (sortOrder == nullptr) {
-    fprintf(stderr, "Must provide --sortOrder\n");
+  if (sortOrder == SortOrder::kNone) {
+    fprintf(stderr, "Must provide --sort\n");
     usage_and_exit(1);
   }
 
@@ -91,24 +119,16 @@ ExtendedZoneManager<1> zoneManager(
   zonedbx::kZoneAndLinkRegistry
 );
 
-void printZonesSortedByOffsetAndName() {
-  uint16_t indexes[zonedbx::kZoneAndLinkRegistrySize];
-  ZoneSorter<ExtendedZoneManager<1>> zoneSorter(zoneManager);
-  zoneSorter.fillIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
-
-  uint16_t startMillis = millis();
-  zoneSorter.sortIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
-  uint16_t elapsedMillis = millis() - startMillis;
-
+void printZones(uint16_t elapsedMillis, uint16_t indexes[], uint16_t size) {
   SERIAL_PORT_MONITOR.print("Sorted ");
-  SERIAL_PORT_MONITOR.print(zonedbx::kZoneAndLinkRegistrySize);
+  SERIAL_PORT_MONITOR.print(size);
   SERIAL_PORT_MONITOR.print(" zones in ");
   SERIAL_PORT_MONITOR.print(elapsedMillis);
   SERIAL_PORT_MONITOR.println(" millis");
 
   // Print each zone in the form of:
   // "UTC-08:00 America/Los_Angeles"
-  for (uint16_t i = 0; i < zonedbx::kZoneAndLinkRegistrySize; i++) {
+  for (uint16_t i = 0; i < size; i++) {
     ExtendedZone zone = zoneManager.getZoneForIndex(indexes[i]);
     TimeOffset stdOffset = TimeOffset::forMinutes(zone.stdOffsetMinutes());
 
@@ -119,6 +139,30 @@ void printZonesSortedByOffsetAndName() {
     zone.printNameTo(SERIAL_PORT_MONITOR);
     SERIAL_PORT_MONITOR.println();
   }
+}
+
+void printZonesSortedByOffsetAndName() {
+  uint16_t indexes[zonedbx::kZoneAndLinkRegistrySize];
+  ZoneSorterByOffsetAndName<ExtendedZoneManager<1>> zoneSorter(zoneManager);
+  zoneSorter.fillIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
+
+  uint16_t startMillis = millis();
+  zoneSorter.sortIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
+  uint16_t elapsedMillis = millis() - startMillis;
+
+  printZones(elapsedMillis, indexes, zonedbx::kZoneAndLinkRegistrySize);
+}
+
+void printZonesSortedByName() {
+  uint16_t indexes[zonedbx::kZoneAndLinkRegistrySize];
+  ZoneSorterByName<ExtendedZoneManager<1>> zoneSorter(zoneManager);
+  zoneSorter.fillIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
+
+  uint16_t startMillis = millis();
+  zoneSorter.sortIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
+  uint16_t elapsedMillis = millis() - startMillis;
+
+  printZones(elapsedMillis, indexes, zonedbx::kZoneAndLinkRegistrySize);
 }
 
 //---------------------------------------------------------------------------
@@ -134,7 +178,16 @@ void setup() {
   /*int args = */parse_flags(epoxy_argc, epoxy_argv);
 #endif
 
-  printZonesSortedByOffsetAndName();
+  if (sortOrder == SortOrder::kOffsetAndName) {
+    printZonesSortedByOffsetAndName();
+  } else if (sortOrder == SortOrder::kName) {
+    printZonesSortedByName();
+  } else {
+#if defined(EPOXY_DUINO)
+    fprintf(stderr, "Invalid sortOrder\n");
+    usage_and_exit(1);
+#endif
+  }
 
 #if defined(EPOXY_DUINO)
   exit(0);

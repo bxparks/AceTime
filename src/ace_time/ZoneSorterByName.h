@@ -3,8 +3,8 @@
  * Copyright (c) 2021 Brian T. Park
  */
 
-#ifndef ACE_TIME_ZONE_SORTER_H
-#define ACE_TIME_ZONE_SORTER_H
+#ifndef ACE_TIME_ZONE_SORTER_BY_NAME_H
+#define ACE_TIME_ZONE_SORTER_BY_NAME_H
 
 #include <AceSorting.h>
 #include "ZoneManager.h"
@@ -12,19 +12,19 @@
 namespace ace_time {
 
 /**
- * ZoneSorter, templatized on BasicZoneManager or ExtendedZoneManager. Custom
- * sorting classes can be created by copying this class and modifying it.
+ * ZoneSorterByName, templatized on BasicZoneManager or ExtendedZoneManager.
+ * Sorts the array of zones by name.
  *
  * @tparam ZM ZoneManager
  */
 template <typename ZM>
-class ZoneSorter {
+class ZoneSorterByName {
   public:
     /**
      * Constructor.
      * @param zoneManager instance of the ZoneManager
      */
-    ZoneSorter(const ZM& zoneManager) :
+    ZoneSorterByName(const ZM& zoneManager) :
       mZoneManager(zoneManager)
     {}
 
@@ -44,7 +44,7 @@ class ZoneSorter {
         [this](uint16_t indexA, uint16_t indexB) -> bool {
           auto za = this->mZoneManager.getZoneForIndex(indexA);
           auto zb = this->mZoneManager.getZoneForIndex(indexB);
-          return this->compareZone(za, zb) < 0;
+          return za.kname().compareTo(zb.kname()) < 0;
         }
       );
     }
@@ -57,7 +57,7 @@ class ZoneSorter {
           uint16_t indexB = this->mZoneManager.indexForZoneId(b);
           auto za = this->mZoneManager.getZoneForIndex(indexA);
           auto zb = this->mZoneManager.getZoneForIndex(indexB);
-          return this->compareZone(za, zb) < 0;
+          return za.kname().compareTo(zb.kname()) < 0;
         }
       );
     }
@@ -70,41 +70,15 @@ class ZoneSorter {
           uint16_t indexB = this->mZoneManager.indexForZoneName(b);
           auto za = this->mZoneManager.getZoneForIndex(indexA);
           auto zb = this->mZoneManager.getZoneForIndex(indexB);
-          return this->compareZone(za, zb) < 0;
+          return za.kname().compareTo(zb.kname()) < 0;
         }
       );
     }
 
-    /**
-     * Return <0, 0, or >0 depending on whether Zone a is <, ==, or > than Zone
-     * b. The comparison function is by the zone's *last* UTC offset in the
-     * zoneInfo database, then by name for zones which have the same UTC offset.
-     * We cannot use `auto` as the parameter type (apparently, that's a C++14
-     * feature), so we are forced to use template function. The `Z` template
-     * will be either the BasicZone or ExtendedZone class.
-     */
-    template <typename Z>
-    static int compareZone(const Z& a, const Z& b) {
-      if (a.isNull()) {
-        if (b.isNull()) {
-          return 0;
-        } else {
-          return -1;
-        }
-      }
-      if (b.isNull()) return 1;
-
-      int16_t offsetA = a.stdOffsetMinutes();
-      int16_t offsetB = b.stdOffsetMinutes();
-      if (offsetA < offsetB) return -1;
-      if (offsetA > offsetB) return 1;
-      return a.kname().compareTo(b.kname());
-    }
-
   private:
     // disable copy constructor and assignment operator
-    ZoneSorter(const ZoneSorter&) = delete;
-    ZoneSorter& operator=(const ZoneSorter&) = delete;
+    ZoneSorterByName(const ZoneSorterByName&) = delete;
+    ZoneSorterByName& operator=(const ZoneSorterByName&) = delete;
 
   private:
     const ZM& mZoneManager;
