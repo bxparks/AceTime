@@ -1334,7 +1334,6 @@ class BasicZoneManager : public ZoneManager {
 
     TimeZone createForZoneInfo(const basic::ZoneInfo* zoneInfo);
     BasicZoneProcessor* getZoneProcessor(const char* name);
-    BasicZone getZone(const basic::ZoneInfo* zoneInfo) const;
     BasicZone getZoneForIndex(uint16_t index) const;
 };
 
@@ -1348,7 +1347,6 @@ class ExtendedZoneManager : public ZoneManager {
 
     TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
     ExtendedZoneProcessor* getZoneProcessor(const char* name);
-    ExtendedZone getZone(const basic::ZoneInfo* zoneInfo) const;
     ExtendedZone getZoneForIndex(uint16_t index) const;
 };
 

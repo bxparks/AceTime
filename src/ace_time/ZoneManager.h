@@ -216,11 +216,6 @@ class ZoneManagerImpl : public ZoneManager {
       return this->mZoneProcessorCache.getZoneProcessor((uintptr_t) zoneInfo);
     }
 
-    /** Return the Zone wrapper object around the ZoneInfo pointer. */
-    Z getZone(const basic::ZoneInfo* zoneInfo) const {
-      return Z(zoneInfo);
-    }
-
     /** Return the Zone wrapper object for the given index. */
     Z getZoneForIndex(uint16_t index) const {
       const ZI* zoneInfo = this->mZoneRegistrar.getZoneInfoForIndex(index);
