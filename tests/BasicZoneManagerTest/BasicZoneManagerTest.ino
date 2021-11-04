@@ -169,7 +169,7 @@ test(BasicZoneManagerTest, createForTimeZoneData_crossed) {
 
 test(BasicZoneManagerTest, sortIndexes) {
   uint16_t indexes[] = {0, 1, 2, 3, 4, 5, 6, 7};
-  ZoneSorter<BasicZoneManager<1>> zoneSorter(basicZoneManager);
+  ZoneSorterByOffsetAndName<BasicZoneManager<1>> zoneSorter(basicZoneManager);
   zoneSorter.sortIndexes(indexes, sizeof(indexes)/sizeof(indexes[0]));
   assertEqual(indexes[0], 2); // Los_Angeles, -08
   assertEqual(indexes[1], 5); // Vancouver, -08
@@ -192,7 +192,7 @@ test(BasicZoneManagerTest, sortIds) {
     zonedb::kZoneIdAmerica_Edmonton,
     zonedb::kZoneIdAmerica_Winnipeg,
   };
-  ZoneSorter<BasicZoneManager<1>> zoneSorter(basicZoneManager);
+  ZoneSorterByOffsetAndName<BasicZoneManager<1>> zoneSorter(basicZoneManager);
   zoneSorter.sortIds(ids, sizeof(ids)/sizeof(ids[0]));
   assertEqual(ids[0], zonedbx::kZoneIdAmerica_Los_Angeles);
   assertEqual(ids[1], zonedbx::kZoneIdAmerica_Vancouver);
@@ -215,7 +215,7 @@ test(BasicZoneManagerTest, sortNames) {
     "America/Edmonton",
     "America/Winnipeg",
   };
-  ZoneSorter<BasicZoneManager<1>> zoneSorter(basicZoneManager);
+  ZoneSorterByOffsetAndName<BasicZoneManager<1>> zoneSorter(basicZoneManager);
   zoneSorter.sortNames(names, sizeof(names)/sizeof(names[0]));
   assertEqual(names[0], "America/Los_Angeles");
   assertEqual(names[1], "America/Vancouver");
