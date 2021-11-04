@@ -6,6 +6,8 @@
       criteria: (1) by name, or (2) by UTC offset and then by name.
         * See the [Zone Sorting](USER_GUIDE.md#ZoneSorting) section in the
           `USER_GUIDE.md`.
+        * Adds a new dependency to
+          [AceSorting](https://github.com/bxparks/AceSorting) library.
 * 1.8.2 (2021-10-28, TZDB 2021e)
     * Update to TZDB 2021e.
         * https://mm.icann.org/pipermail/tz-announce/2021-October/000069.html
