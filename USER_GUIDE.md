@@ -54,6 +54,7 @@ human-readable components in different timezones.
         * [Fat Links (From v1.5)](#FatLinks)
         * [Thin Links (From v1.6)](#ThinLinks)
         * [Custom Zone Registry](#CustomZoneRegistry)
+* [Zone Sorting](#ZoneSorting)
 * [Print To String](#PrintToString)
 * [Mutations](#Mutations)
     * [TimeOffset Mutations](#TimeOffsetMutations)
@@ -1332,6 +1333,8 @@ class BasicZoneManager : public ZoneManager {
     );
 
     TimeZone createForZoneInfo(const basic::ZoneInfo* zoneInfo);
+    BasicZoneProcessor* getZoneProcessor(const char* name);
+    BasicZone getZoneForIndex(uint16_t index) const;
 };
 
 template<uint16_t SIZE>
@@ -1343,6 +1346,8 @@ class ExtendedZoneManager : public ZoneManager {
     );
 
     TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
+    ExtendedZoneProcessor* getZoneProcessor(const char* name);
+    ExtendedZone getZoneForIndex(uint16_t index) const;
 };
 
 class ManualZoneManager : public ZoneManager {
@@ -2071,6 +2076,135 @@ C++ code representing these custom zone registries from a list of zones.)
 with different range of years. The tools are all here, but not explicitly
 documented currently. Examples of how to this do exist inside the various
 `Makefile` files in the AceTimeValidation project.)
+
+<a name="ZoneSorting"></a>
+## Zone Sorting
+
+When a client application supports only a handful of zones in the `ZoneManager`,
+the order in which the zones are presented to the user may not be too important
+since the user can scan the entire list quickly. But when the `ZoneManager`
+contains the entire zoneInfo database (up to 594 zones and links), it becomes
+useful to sort the zones in a predictable way before showing them to the user.
+
+The `ZoneSorterByName` and `ZoneSorterByOffsetAndName` are 2 classes which can
+sort the list of zones. They look like this:
+
+```C++
+namespace ace_time {
+
+template <typename ZM>
+class ZoneSorterByName {
+  public:
+    ZoneSorterByName(const ZM& zoneManager);
+
+    void fillIndexes(uint16_t indexes[], uint16_t size) const;
+
+    void sortIndexes(uint16_t indexes[], uint16_t size) const;
+    void sortIds(uint32_t ids[], uint16_t size) const;
+    void sortNames(const char* names[], uint16_t size) const;
+};
+
+template <typename ZM>
+class ZoneSorterByOffsetAndName {
+  public:
+    ZoneSorterByOffsetAndName(const ZM& zoneManager);
+
+    void fillIndexes(uint16_t indexes[], uint16_t size) const;
+
+    void sortIndexes(uint16_t indexes[], uint16_t size) const;
+    void sortIds(uint32_t ids[], uint16_t size) const;
+    void sortNames(const char* names[], uint16_t size) const;
+};
+
+}
+```
+
+The `ZoneSorterByName` class sorts the given zones in ascending order by the
+zone's name. The `ZoneSorterByOffsetAndName` class sorts the zones by its UTC
+offset during standard time, then by the zone's name within the same UTC offset.
+Both of these are templatized on the specific instantiation of the
+`BasicZoneManager<SIZE>` or the `ExtendedZoneManager<SIZE>` classes. (These
+classes will not work for the `ZoneManager` interface, or with the
+`ManualZoneManager` class).
+
+To use these classes, the calling client first wraps an instance of one of these
+`ZoneSorter` classes around the `ZoneManager` class. Then it creates an
+`indexes` array filled with one of the following:
+
+* index into the `zoneRegistry`
+* the 32-bit zone id
+* a `const char*` c-string of the zone name
+
+Then it calls one of the `sortXxx()` methods.
+
+The code will look like this:
+
+```C++
+#include <AceTime.h>
+
+using namespace ace_time;
+using namespace ace_time::zonedbx;
+
+ExtendedZoneManager<1> zoneManager(
+  zonedbx::kZoneAndLinkRegistrySize,
+  zonedbx::kZoneAndLinkRegistry
+);
+
+// Print each zone in the form of:
+// "UTC-08:00 America/Los_Angeles"
+void printZones(uint16_t indexes[], uint16_t size) {
+  for (uint16_t i = 0; i < size; i++) {
+    ExtendedZone zone = zoneManager.getZoneForIndex(indexes[i]);
+    TimeOffset stdOffset = TimeOffset::forMinutes(zone.stdOffsetMinutes());
+
+    SERIAL_PORT_MONITOR.print(F("UTC"));
+    stdOffset.printTo(SERIAL_PORT_MONITOR);
+    SERIAL_PORT_MONITOR.print(' ');
+
+    zone.printNameTo(SERIAL_PORT_MONITOR);
+    SERIAL_PORT_MONITOR.println();
+  }
+}
+
+void sortAndPrintZones() {
+  uint16_t indexes[zonedbx::kZoneAndLinkRegistrySize];
+  ZoneSorterByOffsetAndName<ExtendedZoneManager<1>> zoneSorter(zoneManager);
+
+  zoneSorter.fillIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
+  zoneSorter.sortIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
+  printZones(indexes, zonedbx::kZoneAndLinkRegistrySize);
+}
+```
+
+See [examples/ListZones](examples/ListZones) for more details.
+
+The calling code can choose to sort only a subset of the zones registered into
+the `ZoneManager`. In the following example, 4 zone ids are placed into an array
+of 4 slots, then sorted by offset and name:
+
+```C++
+#include <AceTime.h>
+
+using namespace ace_time;
+
+ExtendedZoneManager<1> zoneManager(
+  zonedbx::kZoneAndLinkRegistrySize,
+  zonedbx::kZoneAndLinkRegistry
+);
+
+uint32_t zoneIds[4] = {
+  zonedbx::kZoneIdAmerica_Los_Angeles,
+  zonedbx::kZoneIdAmerica_New_York,
+  zonedbx::kZoneIdAmerica_Denver,
+  zonedbx::kZoneIdAmerica_Chicago,
+};
+
+void sortIds() {
+  ZoneSorterByOffsetAndName<ExtendedZoneManager<1>> zoneSorter(zoneManager);
+  zoneSorter.sortIds(zoneIds, 4);
+  ...
+}
+```
 
 <a name="PrintToString"></a>
 ## Print To String

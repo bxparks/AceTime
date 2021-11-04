@@ -2,5 +2,5 @@
 # Makefile to compile and run Arduino programs natively on Linux or MacOS.
 
 APP_NAME := ManualZoneManagerTest
-ARDUINO_LIBS := AUnit AceCommon AceTime
+ARDUINO_LIBS := AUnit AceCommon AceTime AceSorting
 include ../../../EpoxyDuino/EpoxyDuino.mk

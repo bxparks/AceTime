@@ -140,16 +140,16 @@ The source files are organized as follows:
 <a name="Dependencies"></a>
 ### Dependencies
 
-The AceTime library depends on the following library:
+The AceTime library depends on the following libraries:
 
 * AceCommon (https://github.com/bxparks/AceCommon)
+* AceSorting (https://github.com/bxparks/AceSorting)
 
 Various programs in the `examples/` directory have one or more of the following
 external dependencies. The comment section near the top of the `*.ino` file will
 usually have more precise dependency information:
 
 * AceTimeClock (https://github.com/bxparks/AceTimeClock)
-* AceRoutine (https://github.com/bxparks/AceRoutine)
 * Arduino Time Lib (https://github.com/PaulStoffregen/Time)
 * Arduino Timezone (https://github.com/JChristensen/Timezone)
 

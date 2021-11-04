@@ -6,10 +6,14 @@
 #ifndef ACE_TIME_ZONE_MANAGER_H
 #define ACE_TIME_ZONE_MANAGER_H
 
+#include <AceCommon.h>
+#include <AceSorting.h>
 #include "internal/ZoneRegistrar.h"
 #include "ZoneProcessorCache.h"
 #include "TimeZoneData.h"
 #include "TimeZone.h"
+#include "BasicZone.h"
+#include "ExtendedZone.h"
 
 namespace ace_time {
 
@@ -136,10 +140,12 @@ class ManualZoneManager : public ZoneManager {
  *    ExtendedZoneProcessor)
  * @tparam ZPC class of ZoneProcessorCache (e.g. BasicZoneProcessorCache,
  *    ExtendedZoneProcessorCache)
+ * @tparam Z zone wrapper class, either BasicZone or ExtendedZone
  */
 template<
     typename ZI, typename ZRR,
-    typename ZP, typename ZPC
+    typename ZP, typename ZPC,
+    typename Z
 >
 class ZoneManagerImpl : public ZoneManager {
   public:
@@ -200,6 +206,22 @@ class ZoneManagerImpl : public ZoneManager {
       return TimeZone::forZoneInfo(zoneInfo, processor);
     }
 
+    /**
+     * Return the ZoneProcessor for given zone name. Mostly for debugging
+     * purposes.
+     */
+    ZP* getZoneProcessor(const char* name) {
+      const ZI* zoneInfo = this->mZoneRegistrar.getZoneInfoForName(name);
+      if (! zoneInfo) return nullptr;
+      return this->mZoneProcessorCache.getZoneProcessor((uintptr_t) zoneInfo);
+    }
+
+    /** Return the Zone wrapper object for the given index. */
+    Z getZoneForIndex(uint16_t index) const {
+      const ZI* zoneInfo = this->mZoneRegistrar.getZoneInfoForIndex(index);
+      return Z(zoneInfo);
+    }
+
   protected:
     /**
      * Constructor.
@@ -218,6 +240,7 @@ class ZoneManagerImpl : public ZoneManager {
     ZoneManagerImpl(const ZoneManagerImpl&) = delete;
     ZoneManagerImpl& operator=(const ZoneManagerImpl&) = delete;
 
+  protected:
     const ZRR mZoneRegistrar;
     ZPC mZoneProcessorCache;
 };
@@ -234,7 +257,8 @@ class BasicZoneManager: public ZoneManagerImpl<
     basic::ZoneInfo,
     basic::ZoneRegistrar,
     BasicZoneProcessor,
-    BasicZoneProcessorCache<SIZE>
+    BasicZoneProcessorCache<SIZE>,
+    BasicZone
 > {
 
   public:
@@ -246,23 +270,14 @@ class BasicZoneManager: public ZoneManagerImpl<
             basic::ZoneInfo,
             basic::ZoneRegistrar,
             BasicZoneProcessor,
-            BasicZoneProcessorCache<SIZE>
+            BasicZoneProcessorCache<SIZE>,
+            BasicZone
         >(
             zoneRegistrySize,
             zoneRegistry
         )
     {}
 
-    /**
-     * Return the BasicZoneProcessor for given zone name. Mostly for
-     * debugging purposes.
-     */
-    BasicZoneProcessor* getZoneProcessor(const char* name) {
-      const basic::ZoneInfo* zoneInfo =
-          this->mZoneRegistrar.getZoneInfoForName(name);
-      if (! zoneInfo) return nullptr;
-      return this->mZoneProcessorCache.getZoneProcessor((uintptr_t) zoneInfo);
-    }
 };
 
 /**
@@ -276,7 +291,8 @@ class ExtendedZoneManager: public ZoneManagerImpl<
     extended::ZoneInfo,
     extended::ZoneRegistrar,
     ExtendedZoneProcessor,
-    ExtendedZoneProcessorCache<SIZE>
+    ExtendedZoneProcessorCache<SIZE>,
+    ExtendedZone
 > {
 
   public:
@@ -288,23 +304,13 @@ class ExtendedZoneManager: public ZoneManagerImpl<
             extended::ZoneInfo,
             extended::ZoneRegistrar,
             ExtendedZoneProcessor,
-            ExtendedZoneProcessorCache<SIZE>
+            ExtendedZoneProcessorCache<SIZE>,
+            ExtendedZone
         >(
             zoneRegistrySize,
             zoneRegistry
         )
     {}
-
-    /**
-     * Return the ExtendedZoneProcessor for given zone name. Mostly for
-     * debugging purposes.
-     */
-    ExtendedZoneProcessor* getZoneProcessor(const char* name) {
-      const extended::ZoneInfo* zoneInfo =
-          this->mZoneRegistrar.getZoneInfoForName(name);
-      if (! zoneInfo) return nullptr;
-      return this->mZoneProcessorCache.getZoneProcessor((uintptr_t) zoneInfo);
-    }
 };
 
 #else
@@ -322,7 +328,8 @@ using BasicZoneManager = ZoneManagerImpl<
     basic::ZoneInfo,
     basic::ZoneRegistrar,
     BasicZoneProcessor,
-    BasicZoneProcessorCache<SIZE>
+    BasicZoneProcessorCache<SIZE>,
+    BasicZone
 >;
 
 template<uint8_t SIZE>
@@ -330,7 +337,8 @@ using ExtendedZoneManager = ZoneManagerImpl<
     extended::ZoneInfo,
     extended::ZoneRegistrar,
     ExtendedZoneProcessor,
-    ExtendedZoneProcessorCache<SIZE>
+    ExtendedZoneProcessorCache<SIZE>,
+    ExtendedZone
 >;
 
 #endif

@@ -57,6 +57,8 @@
 #include "ace_time/ZoneProcessorCache.h"
 #include "ace_time/ZoneManager.h"
 #include "ace_time/LinkManager.h"
+#include "ace_time/ZoneSorterByName.h"
+#include "ace_time/ZoneSorterByOffsetAndName.h"
 #include "ace_time/TimeZoneData.h"
 #include "ace_time/TimeZone.h"
 #include "ace_time/BasicZone.h"
