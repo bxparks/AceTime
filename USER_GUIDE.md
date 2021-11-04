@@ -1333,6 +1333,9 @@ class BasicZoneManager : public ZoneManager {
     );
 
     TimeZone createForZoneInfo(const basic::ZoneInfo* zoneInfo);
+    BasicZoneProcessor* getZoneProcessor(const char* name);
+    BasicZone getZone(const basic::ZoneInfo* zoneInfo) const;
+    BasicZone getZoneForIndex(uint16_t index) const;
 };
 
 template<uint16_t SIZE>
@@ -1344,6 +1347,9 @@ class ExtendedZoneManager : public ZoneManager {
     );
 
     TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
+    ExtendedZoneProcessor* getZoneProcessor(const char* name);
+    ExtendedZone getZone(const basic::ZoneInfo* zoneInfo) const;
+    ExtendedZone getZoneForIndex(uint16_t index) const;
 };
 
 class ManualZoneManager : public ZoneManager {
@@ -2172,11 +2178,11 @@ void sortAndPrintZones() {
 }
 ```
 
-See [examples/ListZones](examples/ListZones)) for more details.
+See [examples/ListZones](examples/ListZones) for more details.
 
-The calling code does not need to sort the entire collection of zones. It can
-choose to sort only a subset of zones. In the following example, 4 zone ids are
-placed into an array of 4 slots, and sorted by offset and name:
+The calling code can choose to sort only a subset of the zones registered into
+the `ZoneManager`. In the following example, 4 zone ids are placed into an array
+of 4 slots, then sorted by offset and name:
 
 ```C++
 #include <AceTime.h>
