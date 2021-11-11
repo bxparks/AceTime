@@ -8,6 +8,10 @@
           `USER_GUIDE.md`.
         * Adds a new dependency to
           [AceSorting](https://github.com/bxparks/AceSorting) library.
+    * Add `examples/CompareAceTimeToHinnantDate` to compare the performance of
+      AceTime compared to Hinnant date library.
+        * AceTime seems to be about 90X faster for converting date-time
+          components to epoch seconds.
 * 1.8.2 (2021-10-28, TZDB 2021e)
     * Update to TZDB 2021e.
         * https://mm.icann.org/pipermail/tz-announce/2021-October/000069.html

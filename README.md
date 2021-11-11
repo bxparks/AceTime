@@ -132,10 +132,17 @@ The source files are organized as follows:
         * [examples/ComparisonBenchmark](examples/ComparisonBenchmark)
             * compare AceTime with
             [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
+        * [examples/CompareAceTimeToHinnantDate](examples/CompareAceTimeToHinnantDate)
+            * compare the performance of AceTime to Hinnant date library
+            * AceTime seems to be about 90X faster
     * Debugging
         * [examples/DebugZoneProcessor](examples/DebugZoneProcessor)
             * Command-line debugging tool for ExtenedZoneProcessor using the
             EpoxyDuino environment
+        * [examples/ListZones](examples/ListZones)
+            * List the zones managed by the `ExtendedZoneManager`, sorted
+              by name, or by UTC offset and name.
+            * Used to debug the `ZoneSorter` classes.
 
 <a name="Dependencies"></a>
 ### Dependencies
