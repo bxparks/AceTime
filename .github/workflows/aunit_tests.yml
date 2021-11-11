@@ -16,7 +16,10 @@ jobs:
 
     - name: Setup
       run: |
+        sudo apt update
+        sudo apt install -y libcurl4-openssl-dev
         cd ..
+        git clone https://github.com/HowardHinnant/date
         git clone https://github.com/bxparks/EpoxyDuino
         git clone https://github.com/bxparks/AceRoutine
         git clone https://github.com/bxparks/AUnit
