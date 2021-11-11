@@ -168,8 +168,6 @@ machine, you need:
   library
 * [MIGRATING.md](MIGRATING.md): migrating to versions with breaking changes
 * [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
-* [docs/comparisons.md](docs/comparisons.md) comparisons to other date, time and
-  timezone libraries
 
 <a name="HelloDateTime"></a>
 ### HelloDateTime
@@ -179,6 +177,7 @@ which demonstrates how to create and manipulate date and times in different time
 zones:
 
 ```C++
+#include <Arduino.h>
 #include <AceTime.h>
 
 using namespace ace_time;
@@ -293,6 +292,7 @@ zones using 3 different ways: `createForZoneInfo()`, `createForZoneName()`, and
 `createForZoneId()`.
 
 ```C++
+#include <Arduino.h>
 #include <AceTime.h>
 
 using namespace ace_time;
