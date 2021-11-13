@@ -756,12 +756,12 @@ class TransitionStorageTemplate {
  * file is the initial Python implementation of this class, which got
  * translated into C++.
  *
- * Currently (as of v0.7), the underlying zoneinfo files (extended::ZoneInfo,
- * etc) store the UTC and DST offsets of a timezone as a single signed byte in
- * 15-minute increments. This is sufficient to accurate describe all time zones
- * from the year 2000 until  2050. The AT and UNTIL transition times are stored
- * using a 1-minute resolution, which correctly handles the 5 timezones whose
- * DST transition times occur at 00:01. Those zones are:
+ * The underlying zoneinfo files (extended::ZoneInfo, etc) store the UTC and DST
+ * offsets of a timezone as a single signed byte in 15-minute increments. This
+ * is sufficient to accurate describe all time zones from the year 2000 until
+ * 2050. The AT and UNTIL transition times are stored using a 1-minute
+ * resolution, which correctly handles the 5 timezones whose DST transition
+ * times occur at 00:01. Those zones are:
  *
  *    - America/Goose_Bay
  *    - America/Moncton
@@ -783,12 +783,14 @@ template <typename BF, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
 class ExtendedZoneProcessorTemplate: public ZoneProcessor {
   public:
     /**
-     * Max number of Transitions required for a given Zone, including the most
-     * recent prior Transition. This value for each Zone is given by the
-     * kZoneBufSize{zoneName} constant in the generated
-     * `zonedb[x]/zone_infos.h` file. The ExtendedPythonTest and
-     * ExtendedJavaTest tests show that the maximum is 7. Set this to 8 for
-     * safety.
+     * Max number of Transitions required for all Zones supported by this class.
+     * This includes the most recent prior Transition. The max transitions for
+     * each Zone is given by the kZoneBufSize{zoneName} constant in the
+     * generated `zonedb[x]/zone_infos.h` file. The maximum over all zones is
+     * given in the 'MaxBufSize' comment in the `zone_infos.h` file. Currently
+     * that overall maximum is 7, which has been verified by the
+     * ExtendedDateUtilTest, ExtendedJavaTest, and ExtendedAcetzTest validation
+     * tests. We set this to one more than 7 for safety.
      */
     static const uint8_t kMaxTransitions = 8;
 
