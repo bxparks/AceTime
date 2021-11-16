@@ -15,20 +15,16 @@
 namespace ace_time {
 
 /**
- * A cache of ZoneProcessors that provides a ZoneProcessor to the TimeZone upon
- * request by the ZoneManager.
- *
- * @tparam SIZE number of zone processors, should be approximate the number
- *    zones *concurrently* used in the app. It is expected that this will be
- *    small. It can be 1 if the app never changes the TimeZone. It should be 2
- *    if the user is able to select different timezones from a menu.
- * @tparam ZP type of ZoneProcessor (BasicZoneProcessor or
- *    ExtendedZoneProcessor)
+ * The base class of BasicZoneProcessor<SIZE> or ExtendedZoneProcessor<SIZE> .
+ * This allows another implementation that creates the cache on the heap.
  */
-template<uint8_t SIZE, typename ZP>
-class ZoneProcessorCacheTemplate {
+template <typename ZP>
+class ZoneProcessorCacheBase {
   public:
-    ZoneProcessorCacheTemplate() = default;
+    ZoneProcessorCacheBase(ZP* zoneProcessors, uint8_t size) :
+      mSize(size),
+      mZoneProcessors(zoneProcessors)
+    {}
 
     /**
      * Get ZoneProcessor from either a ZoneKey, either a basic::ZoneInfo or an
@@ -41,29 +37,23 @@ class ZoneProcessorCacheTemplate {
       // Allocate the next ZoneProcessor in the cache using round-robin.
       zoneProcessor = &mZoneProcessors[mCurrentIndex];
       mCurrentIndex++;
-      if (mCurrentIndex >= SIZE) mCurrentIndex = 0;
+      if (mCurrentIndex >= mSize) mCurrentIndex = 0;
       zoneProcessor->setZoneKey(zoneKey);
       return zoneProcessor;
     }
 
-    /** Return the ZoneProcessor at position i. Used for initialization. */
-    ZP* getZoneProcessor(uint8_t i) {
-      return &mZoneProcessors[i];
-    }
-
   private:
     // disable copy constructor and assignment operator
-    ZoneProcessorCacheTemplate(const ZoneProcessorCacheTemplate&) = delete;
-    ZoneProcessorCacheTemplate& operator=(const ZoneProcessorCacheTemplate&)
-        = delete;
+    ZoneProcessorCacheBase(const ZoneProcessorCacheBase&) = delete;
+    ZoneProcessorCacheBase& operator=(const ZoneProcessorCacheBase&) = delete;
 
     /**
      * Find an existing ZoneProcessor with the ZoneInfo given by zoneInfoKey.
      * Returns nullptr if not found. This is a linear search, which should
-     * be perfectly ok if SIZE is small, say <= 5.
+     * be perfectly ok if mSize is small, say <= 5.
      */
     ZP* findUsingZoneKey(uintptr_t zoneKey) {
-      for (uint8_t i = 0; i < SIZE; i++) {
+      for (uint8_t i = 0; i < mSize; i++) {
         ZP* zoneProcessor = &mZoneProcessors[i];
         if (zoneProcessor->equalsZoneKey(zoneKey)) {
           return zoneProcessor;
@@ -72,7 +62,36 @@ class ZoneProcessorCacheTemplate {
       return nullptr;
     }
 
+  private:
+    uint8_t const mSize;
     uint8_t mCurrentIndex = 0;
+    ZP* const mZoneProcessors;
+};
+
+/**
+ * A cache of ZoneProcessors that provides a ZoneProcessor to the TimeZone upon
+ * request by the ZoneManager.
+ *
+ * @tparam SIZE number of zone processors, should be approximate the number
+ *    zones *concurrently* used in the app. It is expected that this will be
+ *    small. It can be 1 if the app never changes the TimeZone. It should be 2
+ *    if the user is able to select different timezones from a menu.
+ * @tparam ZP type of ZoneProcessor (BasicZoneProcessor or
+ *    ExtendedZoneProcessor)
+ */
+template<uint8_t SIZE, typename ZP>
+class ZoneProcessorCacheTemplate : public ZoneProcessorCacheBase<ZP> {
+  public:
+    ZoneProcessorCacheTemplate() :
+      ZoneProcessorCacheBase<ZP>(mZoneProcessors, SIZE)
+    {}
+
+  private:
+    // disable copy constructor and assignment operator
+    ZoneProcessorCacheTemplate(const ZoneProcessorCacheTemplate&) = delete;
+    ZoneProcessorCacheTemplate& operator=(const ZoneProcessorCacheTemplate&)
+        = delete;
+
     ZP mZoneProcessors[SIZE];
 };
 
