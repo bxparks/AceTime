@@ -7,7 +7,7 @@
 
 BEGIN {
   NUM_FEATURES = 15
-  labels[0] = "Baseline"
+  labels[0] = "baseline"
   labels[1] = "LocalDateTime"
   labels[2] = "ZonedDateTime"
   labels[3] = "Manual ZoneManager"
@@ -16,13 +16,13 @@ BEGIN {
   labels[6] = "BasicZoneManager (1 zone)"
   labels[7] = "BasicZoneManager (all zones)"
   labels[8] = "BasicZoneManager (all zones+links)"
-  labels[9] = "BasicLinkManager"
+  labels[9] = "BasicLinkManager (all links)"
   labels[10] = "Extended TimeZone (1 zone)"
   labels[11] = "Extended TimeZone (2 zones)"
   labels[12] = "ExtendedZoneManager (1 zone)"
   labels[13] = "ExtendedZoneManager (all zones)"
   labels[14] = "ExtendedZoneManager (all zones+links)"
-  labels[15] = "ExtendedLinkManager"
+  labels[15] = "ExtendedLinkManager (all links)"
   record_index = 0
 }
 {
@@ -47,16 +47,19 @@ END {
     "+---------------------------------------------------------------------+\n")
   printf(\
     "| Functionality                          |  flash/  ram |       delta |\n")
-  printf(\
+
+  for (i = 0; i <= NUM_FEATURES; i++) {
+    name = labels[i]
+    if (name ~ /^baseline/ \
+        || name ~ /^LocalDateTime/ \
+        || name ~ /^Basic TimeZone \(1 zone\)/ \
+        || name ~ /^Extended TimeZone \(1 zone\)/) {
+      printf(\
     "|----------------------------------------+--------------+-------------|\n")
-  printf(\
-    "| %-38s | %6d/%5d | %5d/%5d |\n",
-    labels[0], u[0]["flash"], u[0]["ram"], u[0]["d_flash"], u[0]["d_ram"])
-  printf(\
-    "|----------------------------------------+--------------+-------------|\n")
-  for (i = 1; i <= NUM_FEATURES; i++) {
+    }
+
     printf("| %-38s | %6d/%5d | %5d/%5d |\n",
-        labels[i], u[i]["flash"], u[i]["ram"], u[i]["d_flash"], u[i]["d_ram"])
+        name, u[i]["flash"], u[i]["ram"], u[i]["d_flash"], u[i]["d_ram"])
   }
   printf(\
     "+---------------------------------------------------------------------+\n")

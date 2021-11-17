@@ -129,23 +129,25 @@ In v1.8.0:
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               |    474/   11 |     0/    0 |
+| baseline                               |    474/   11 |     0/    0 |
 |----------------------------------------+--------------+-------------|
 | LocalDateTime                          |   1128/   19 |   654/    8 |
 | ZonedDateTime                          |   1378/   26 |   904/   15 |
 | Manual ZoneManager                     |   1546/   13 |  1072/    2 |
+|----------------------------------------+--------------+-------------|
 | Basic TimeZone (1 zone)                |   6094/  315 |  5620/  304 |
 | Basic TimeZone (2 zones)               |   6390/  435 |  5916/  424 |
 | BasicZoneManager (1 zone)              |   7448/  341 |  6974/  330 |
-| BasicZoneManager (all zones)           |  20200/  717 | 19726/  706 |
-| BasicZoneManager (all zones+links)     |  24528/  717 | 24054/  706 |
-| BasicLinkManager                       |   2446/   26 |  1972/   15 |
+| BasicZoneManager (all zones)           |  20208/  717 | 19734/  706 |
+| BasicZoneManager (all zones+links)     |  24538/  717 | 24064/  706 |
+| BasicLinkManager (all links)           |   2446/   26 |  1972/   15 |
+|----------------------------------------+--------------+-------------|
 | Extended TimeZone (1 zone)             |   8976/  670 |  8502/  659 |
 | Extended TimeZone (2 zones)            |   9368/ 1111 |  8894/ 1100 |
 | ExtendedZoneManager (1 zone)           |  10358/  691 |  9884/  680 |
-| ExtendedZoneManager (all zones)        |  32076/ 1175 | 31602/ 1164 |
-| ExtendedZoneManager (all zones+links)  |  36956/ 1175 | 36482/ 1164 |
-| ExtendedLinkManager                    |   2638/   26 |  2164/   15 |
+| ExtendedZoneManager (all zones)        |  32094/ 1175 | 31620/ 1164 |
+| ExtendedZoneManager (all zones+links)  |  36974/ 1175 | 36500/ 1164 |
+| ExtendedLinkManager (all links)        |   2638/   26 |  2164/   15 |
 +---------------------------------------------------------------------+
 
 ```
@@ -160,23 +162,25 @@ In v1.8.0:
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               |   3470/  153 |     0/    0 |
+| baseline                               |   3470/  153 |     0/    0 |
 |----------------------------------------+--------------+-------------|
 | LocalDateTime                          |   4100/  159 |   630/    6 |
 | ZonedDateTime                          |   4350/  166 |   880/   13 |
 | Manual ZoneManager                     |   4540/  153 |  1070/    0 |
+|----------------------------------------+--------------+-------------|
 | Basic TimeZone (1 zone)                |   9048/  453 |  5578/  300 |
 | Basic TimeZone (2 zones)               |   9346/  575 |  5876/  422 |
 | BasicZoneManager (1 zone)              |  10402/  479 |  6932/  326 |
-| BasicZoneManager (all zones)           |  23172/  857 | 19702/  704 |
-| BasicZoneManager (all zones+links)     |  27500/  857 | 24030/  704 |
-| BasicLinkManager                       |   5420/  168 |  1950/   15 |
+| BasicZoneManager (all zones)           |  23180/  857 | 19710/  704 |
+| BasicZoneManager (all zones+links)     |  27510/  857 | 24040/  704 |
+| BasicLinkManager (all links)           |   5420/  168 |  1950/   15 |
+|----------------------------------------+--------------+-------------|
 | Extended TimeZone (1 zone)             |  11930/  808 |  8460/  655 |
 | Extended TimeZone (2 zones)            |  12324/ 1251 |  8854/ 1098 |
 | ExtendedZoneManager (1 zone)           |  13312/  829 |  9842/  676 |
-| ExtendedZoneManager (all zones)        |  35046/ 1313 | 31576/ 1160 |
-| ExtendedZoneManager (all zones+links)  |  39926/ 1313 | 36456/ 1160 |
-| ExtendedLinkManager                    |   5612/  168 |  2142/   15 |
+| ExtendedZoneManager (all zones)        |  35064/ 1313 | 31594/ 1160 |
+| ExtendedZoneManager (all zones+links)  |  39944/ 1313 | 36474/ 1160 |
+| ExtendedLinkManager (all links)        |   5612/  168 |  2142/   15 |
 +---------------------------------------------------------------------+
 
 ```
@@ -191,23 +195,25 @@ In v1.8.0:
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               |  10064/    0 |     0/    0 |
+| baseline                               |  10128/    0 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| LocalDateTime                          |  10576/    0 |   512/    0 |
-| ZonedDateTime                          |  10664/    0 |   600/    0 |
-| Manual ZoneManager                     |  10608/    0 |   544/    0 |
-| Basic TimeZone (1 zone)                |  14556/    0 |  4492/    0 |
-| Basic TimeZone (2 zones)               |  14836/    0 |  4772/    0 |
-| BasicZoneManager (1 zone)              |  15316/    0 |  5252/    0 |
-| BasicZoneManager (all zones)           |  32428/    0 | 22364/    0 |
-| BasicZoneManager (all zones+links)     |  39028/    0 | 28964/    0 |
-| BasicLinkManager                       |  11832/    0 |  1768/    0 |
-| Extended TimeZone (1 zone)             |  16444/    0 |  6380/    0 |
-| Extended TimeZone (2 zones)            |  16764/    0 |  6700/    0 |
-| ExtendedZoneManager (1 zone)           |  17156/    0 |  7092/    0 |
-| ExtendedZoneManager (all zones)        |  46740/    0 | 36676/    0 |
-| ExtendedZoneManager (all zones+links)  |  54172/    0 | 44108/    0 |
-| ExtendedLinkManager                    |  12024/    0 |  1960/    0 |
+| LocalDateTime                          |  10640/    0 |   512/    0 |
+| ZonedDateTime                          |  10728/    0 |   600/    0 |
+| Manual ZoneManager                     |  10672/    0 |   544/    0 |
+|----------------------------------------+--------------+-------------|
+| Basic TimeZone (1 zone)                |  14620/    0 |  4492/    0 |
+| Basic TimeZone (2 zones)               |  14900/    0 |  4772/    0 |
+| BasicZoneManager (1 zone)              |  15380/    0 |  5252/    0 |
+| BasicZoneManager (all zones)           |  32500/    0 | 22372/    0 |
+| BasicZoneManager (all zones+links)     |  39100/    0 | 28972/    0 |
+| BasicLinkManager (all links)           |  11896/    0 |  1768/    0 |
+|----------------------------------------+--------------+-------------|
+| Extended TimeZone (1 zone)             |  16508/    0 |  6380/    0 |
+| Extended TimeZone (2 zones)            |  16828/    0 |  6700/    0 |
+| ExtendedZoneManager (1 zone)           |  17220/    0 |  7092/    0 |
+| ExtendedZoneManager (all zones)        |  46828/    0 | 36700/    0 |
+| ExtendedZoneManager (all zones+links)  |  54260/    0 | 44132/    0 |
+| ExtendedLinkManager (all links)        |  12088/    0 |  1960/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -224,23 +230,25 @@ In v1.8.0:
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               |  21420/ 3536 |     0/    0 |
+| baseline                               |  21420/ 3536 |     0/    0 |
 |----------------------------------------+--------------+-------------|
 | LocalDateTime                          |  21696/ 3548 |   276/   12 |
 | ZonedDateTime                          |  21776/ 3560 |   356/   24 |
 | Manual ZoneManager                     |  21700/ 3540 |   280/    4 |
+|----------------------------------------+--------------+-------------|
 | Basic TimeZone (1 zone)                |  25548/ 3704 |  4128/  168 |
 | Basic TimeZone (2 zones)               |  25852/ 3868 |  4432/  332 |
 | BasicZoneManager (1 zone)              |  26288/ 3720 |  4868/  184 |
-| BasicZoneManager (all zones)           |  43128/ 3720 | 21708/  184 |
-| BasicZoneManager (all zones+links)     |  49576/ 3720 | 28156/  184 |
-| BasicLinkManager                       |  23164/ 3548 |  1744/   12 |
+| BasicZoneManager (all zones)           |  43136/ 3720 | 21716/  184 |
+| BasicZoneManager (all zones+links)     |  49584/ 3720 | 28164/  184 |
+| BasicLinkManager (all links)           |  23164/ 3548 |  1744/   12 |
+|----------------------------------------+--------------+-------------|
 | Extended TimeZone (1 zone)             |  27232/ 4092 |  5812/  556 |
 | Extended TimeZone (2 zones)            |  27548/ 4644 |  6128/ 1108 |
 | ExtendedZoneManager (1 zone)           |  27940/ 4096 |  6520/  560 |
-| ExtendedZoneManager (all zones)        |  57120/ 4096 | 35700/  560 |
-| ExtendedZoneManager (all zones+links)  |  64388/ 4096 | 42968/  560 |
-| ExtendedLinkManager                    |  23356/ 3548 |  1936/   12 |
+| ExtendedZoneManager (all zones)        |  57140/ 4096 | 35720/  560 |
+| ExtendedZoneManager (all zones+links)  |  64408/ 4096 | 42988/  560 |
+| ExtendedLinkManager (all links)        |  23356/ 3548 |  1936/   12 |
 +---------------------------------------------------------------------+
 
 ```
@@ -258,23 +266,25 @@ microcontroller and the compiler did not generate the desired information.
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               | 260089/27892 |     0/    0 |
+| baseline                               | 260089/27892 |     0/    0 |
 |----------------------------------------+--------------+-------------|
 | LocalDateTime                          | 260545/27908 |   456/   16 |
 | ZonedDateTime                          | 260641/27924 |   552/   32 |
 | Manual ZoneManager                     | 260557/27896 |   468/    4 |
+|----------------------------------------+--------------+-------------|
 | Basic TimeZone (1 zone)                | 266169/28644 |  6080/  752 |
 | Basic TimeZone (2 zones)               | 266537/28804 |  6448/  912 |
 | BasicZoneManager (1 zone)              | 267225/28660 |  7136/  768 |
-| BasicZoneManager (all zones)           | 284489/28660 | 24400/  768 |
-| BasicZoneManager (all zones+links)     | 291193/28660 | 31104/  768 |
-| BasicLinkManager                       | 261997/27912 |  1908/   20 |
+| BasicZoneManager (all zones)           | 284505/28660 | 24416/  768 |
+| BasicZoneManager (all zones+links)     | 291209/28660 | 31120/  768 |
+| BasicLinkManager (all links)           | 261997/27912 |  1908/   20 |
+|----------------------------------------+--------------+-------------|
 | Extended TimeZone (1 zone)             | 268441/29172 |  8352/ 1280 |
 | Extended TimeZone (2 zones)            | 268745/29724 |  8656/ 1832 |
 | ExtendedZoneManager (1 zone)           | 269449/29180 |  9360/ 1288 |
-| ExtendedZoneManager (all zones)        | 299261/29176 | 39172/ 1284 |
-| ExtendedZoneManager (all zones+links)  | 306829/29176 | 46740/ 1284 |
-| ExtendedLinkManager                    | 262189/27912 |  2100/   20 |
+| ExtendedZoneManager (all zones)        | 299277/29176 | 39188/ 1284 |
+| ExtendedZoneManager (all zones+links)  | 306845/29176 | 46756/ 1284 |
+| ExtendedLinkManager (all links)        | 262189/27912 |  2100/   20 |
 +---------------------------------------------------------------------+
 
 ```
@@ -289,23 +299,25 @@ microcontroller and the compiler did not generate the desired information.
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               | 197748/13084 |     0/    0 |
+| baseline                               | 197748/13084 |     0/    0 |
 |----------------------------------------+--------------+-------------|
 | LocalDateTime                          | 199560/13212 |  1812/  128 |
 | ZonedDateTime                          | 199708/13228 |  1960/  144 |
 | Manual ZoneManager                     | 199656/13204 |  1908/  120 |
+|----------------------------------------+--------------+-------------|
 | Basic TimeZone (1 zone)                | 204188/13372 |  6440/  288 |
 | Basic TimeZone (2 zones)               | 204516/13532 |  6768/  448 |
 | BasicZoneManager (1 zone)              | 205172/13388 |  7424/  304 |
-| BasicZoneManager (all zones)           | 222440/13388 | 24692/  304 |
-| BasicZoneManager (all zones+links)     | 229144/13388 | 31396/  304 |
-| BasicLinkManager                       | 200920/13220 |  3172/  136 |
+| BasicZoneManager (all zones)           | 222456/13388 | 24708/  304 |
+| BasicZoneManager (all zones+links)     | 229160/13388 | 31412/  304 |
+| BasicLinkManager (all links)           | 200920/13220 |  3172/  136 |
+|----------------------------------------+--------------+-------------|
 | Extended TimeZone (1 zone)             | 206220/13756 |  8472/  672 |
 | Extended TimeZone (2 zones)            | 206508/14308 |  8760/ 1224 |
 | ExtendedZoneManager (1 zone)           | 207128/13764 |  9380/  680 |
-| ExtendedZoneManager (all zones)        | 236940/13764 | 39192/  680 |
-| ExtendedZoneManager (all zones+links)  | 244508/13764 | 46760/  680 |
-| ExtendedLinkManager                    | 201112/13220 |  3364/  136 |
+| ExtendedZoneManager (all zones)        | 236956/13764 | 39208/  680 |
+| ExtendedZoneManager (all zones+links)  | 244524/13764 | 46776/  680 |
+| ExtendedLinkManager (all links)        | 201112/13220 |  3364/  136 |
 +---------------------------------------------------------------------+
 
 ```
@@ -324,23 +336,25 @@ usage by objects.
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| Baseline                               |  10184/ 4152 |     0/    0 |
+| baseline                               |  10184/ 4152 |     0/    0 |
 |----------------------------------------+--------------+-------------|
 | LocalDateTime                          |  10512/ 4168 |   328/   16 |
 | ZonedDateTime                          |  10572/ 4180 |   388/   28 |
 | Manual ZoneManager                     |  10308/ 4160 |   124/    8 |
+|----------------------------------------+--------------+-------------|
 | Basic TimeZone (1 zone)                |  19396/ 4324 |  9212/  172 |
 | Basic TimeZone (2 zones)               |  20188/ 4488 | 10004/  336 |
 | BasicZoneManager (1 zone)              |  20972/ 4340 | 10788/  188 |
-| BasicZoneManager (all zones)           |  38304/ 4340 | 28120/  188 |
-| BasicZoneManager (all zones+links)     |  45008/ 4340 | 34824/  188 |
-| BasicLinkManager                       |  12048/ 4164 |  1864/   12 |
+| BasicZoneManager (all zones)           |  38312/ 4340 | 28128/  188 |
+| BasicZoneManager (all zones+links)     |  45016/ 4340 | 34832/  188 |
+| BasicLinkManager (all links)           |  12048/ 4164 |  1864/   12 |
+|----------------------------------------+--------------+-------------|
 | Extended TimeZone (1 zone)             |  23216/ 4712 | 13032/  560 |
 | Extended TimeZone (2 zones)            |  24008/ 5264 | 13824/ 1112 |
 | ExtendedZoneManager (1 zone)           |  24792/ 4716 | 14608/  564 |
-| ExtendedZoneManager (all zones)        |  54600/ 4716 | 44416/  564 |
-| ExtendedZoneManager (all zones+links)  |  62168/ 4716 | 51984/  564 |
-| ExtendedLinkManager                    |  12240/ 4164 |  2056/   12 |
+| ExtendedZoneManager (all zones)        |  54616/ 4716 | 44432/  564 |
+| ExtendedZoneManager (all zones+links)  |  62184/ 4716 | 52000/  564 |
+| ExtendedLinkManager (all links)        |  12240/ 4164 |  2056/   12 |
 +---------------------------------------------------------------------+
 
 ```
