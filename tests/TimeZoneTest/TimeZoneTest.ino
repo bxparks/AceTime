@@ -1,11 +1,5 @@
 #line 2 "TimeZoneTest.ino"
 
-/*
- * The TimeZone, TimeZoneData, ManualZoneManager, BasicZoneManager and
- * ExtendedZoneManager classes are tightly interrelated, so we will test all of
- * those in this single test file.
- */
-
 #include <AUnit.h>
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>

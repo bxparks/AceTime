@@ -20,29 +20,6 @@ test(ManualZoneManagerTest, registrySize) {
   assertEqual((uint16_t) 0, zoneManager.zoneRegistrySize());
 }
 
-test(ManualZoneManagerTest, creatForZoneName) {
-  assertTrue(zoneManager.createForZoneName("America/Los_Angeles").isError());
-}
-
-test(ManualZoneManagerTest, creatForZoneId) {
-  assertTrue(zoneManager.createForZoneId(
-      zonedb::kZoneIdAmerica_Los_Angeles).isError());
-}
-
-test(ManualZoneManagerTest, creatForZoneIndex) {
-  assertTrue(zoneManager.createForZoneIndex(0).isError());
-}
-
-test(ManualZoneManagerTest, indexForZoneName) {
-  assertEqual(ZoneManager::kInvalidIndex,
-      zoneManager.indexForZoneName("America/Los_Angeles"));
-}
-
-test(ManualZoneManagerTest, indexForZoneId) {
-  assertEqual(ZoneManager::kInvalidIndex,
-      zoneManager.indexForZoneId(zonedb::kZoneIdAmerica_Los_Angeles));
-}
-
 test(ManualZoneManagerTest, createForTimeZoneData_error) {
   TimeZone tz = TimeZone::forError();
   TimeZoneData tzd = tz.toTimeZoneData();

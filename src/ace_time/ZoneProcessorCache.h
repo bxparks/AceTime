@@ -69,6 +69,19 @@ class ZoneProcessorCacheBase {
 };
 
 /**
+ * Base class for all ZoneProcessorCache implementations that use a
+ * BasicZoneProcessor.
+ */
+using BasicZoneProcessorCacheBase = ZoneProcessorCacheBase<BasicZoneProcessor>;
+
+/**
+ * Base class for all ZoneProcessorCache implementations that use an
+ * ExtendedZoneProcessor.
+ */
+using ExtendedZoneProcessorCacheBase =
+    ZoneProcessorCacheBase<ExtendedZoneProcessor>;
+
+/**
  * A cache of ZoneProcessors that provides a ZoneProcessor to the TimeZone upon
  * request by the ZoneManager.
  *
@@ -96,11 +109,21 @@ class ZoneProcessorCacheTemplate : public ZoneProcessorCacheBase<ZP> {
 };
 
 #if 1
+/**
+ * An implementation of a BasicZoneProcessorCacheBase where the cache of size
+ * SIZE is embedded into the class itself. This is expected to be created as a
+ * global object and passed into the BasicZoneManager.
+ */
 template<uint8_t SIZE>
 class BasicZoneProcessorCache: public ZoneProcessorCacheTemplate<
     SIZE, BasicZoneProcessor> {
 };
 
+/**
+ * An implementation of an ExtendedZoneProcessorCacheBase where the cache of
+ * size SIZE is embedded into the class itself. This is expected to be created
+ * as a global object and passed into the ExtendedZoneManager.
+ */
 template<uint8_t SIZE>
 class ExtendedZoneProcessorCache: public ZoneProcessorCacheTemplate<
     SIZE, ExtendedZoneProcessor> {
