@@ -73,9 +73,7 @@ In v1.5+:
 In v1.6:
 * Added support for `LinkRegistry` to `BasicZoneManager` and
   `ExtendedZoneManager`. This increases the flash memory usage by 150-500 bytes
-  when using one of these classes due to the code required by `LinkRegistrar`.
-  This extra cost is incurred even if the `LinkRegistry` is set to 0 elements.
-  Each `LinkEntry` consumes 8 bytes (2 x `uint32_t`). So a
+  when using one of these classes due to the code required by `LinkRegistrar`. This extra cost is incurred even if the `LinkRegistry` is set to 0 elements. Each `LinkEntry` consumes 8 bytes (2 x `uint32_t`). So a
   `zonedb::kLinkRegistry` with 183 elements uses 1464 extra bytes of flash; a
   `zonedbx::kLinkRegistry` with 207 elements uses 1656 extra bytes.
 
@@ -127,6 +125,8 @@ In v1.9.0:
       non-templatized.
     * Remove all `virtual` methods from `ZoneManager`, making the ZoneManager
       hierarchy non-polymorphic.
+    * Looks like I am reverting some of the changes made in v1.3 when I created
+      the `ZoneManager` interface.
 
 ## Arduino Nano
 
