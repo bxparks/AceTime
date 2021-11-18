@@ -3,6 +3,14 @@
 [![AUnit Tests](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml)
 [![Validation Tests](https://github.com/bxparks/AceTime/actions/workflows/validation.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/validation.yml)
 
+**Breaking Changes in v1.9.0**: The flash memory consumption of
+`BasicZoneManager` and `ExtendedZoneManager` was reduced by 1100-1300 bytes
+on AVR processors. This was achieved by removing all `virtual` methods from the
+`ZoneManager` class, which makes the class hierarchy no longer polymorphic. To
+make that more palatable, the `BasicZoneManager` and `ExtendedZoneManager` are
+no longer templatized. See the [Migrating to
+v1.9.0](MIGRATING.md#MigratingToVersion190) section for more details.
+
 **Breaking Changes in v1.8.0**: Three breaking changes were made in v1.8.0 to
 reduce the maintenance complexity of the library, and to reduce the flash memory
 consumption of client applications. See the [Migrating to
