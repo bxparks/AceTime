@@ -55,11 +55,18 @@ END {
 
   printf("+--------------------------------------------------+----------+\n")
   printf("| Method                                           |   micros |\n")
-  printf("|--------------------------------------------------+----------|\n")
-  printf("| %-48s | %8.3f |\n", u[0]["name"], u[0]["micros"])
-  printf("|--------------------------------------------------+----------|\n")
-  for (i = 1; i < TOTAL_BENCHMARKS - 1; i++) {
-    printf("| %-48s | %8.3f |\n", u[i]["name"], u[i]["micros"])
+
+  for (i = 0; i < TOTAL_BENCHMARKS - 1; i++) {
+    name = u[i]["name"]
+    if (name ~ /^EmptyLoop/ \
+        || name ~ /^LocalDate::forEpochDays\(\)/ \
+        || name ~ /^OffsetDateTime::forEpochSeconds\(\)/ \
+        || name ~ /^ZonedDateTime::toEpochSeconds\(\)/ \
+        || name ~ /^BasicZoneManager::createForZoneName\(binary\)/) {
+      printf(\
+        "|--------------------------------------------------+----------|\n")
+    }
+    printf("| %-48s | %8.3f |\n", name, u[i]["micros"])
   }
   printf("+--------------------------------------------------+----------+\n")
   printf("%s: %d\n", u[i]["name"], u[i]["micros"])

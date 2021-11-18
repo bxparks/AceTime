@@ -66,19 +66,27 @@ volatile int16_t year = 2019;
   };
   static const uint16_t kBasicZoneRegistrySize =
       sizeof(kBasicZoneRegistry) / sizeof(basic::ZoneInfo*);
-  BasicZoneManager<1> manager(kBasicZoneRegistrySize, kBasicZoneRegistry);
+  BasicZoneProcessorCache<1> zoneProcessorCache;
+  BasicZoneManager manager(
+      kBasicZoneRegistrySize,
+      kBasicZoneRegistry,
+      zoneProcessorCache);
 #elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES
-  BasicZoneManager<1> manager(
+  BasicZoneProcessorCache<1> zoneProcessorCache;
+  BasicZoneManager manager(
       zonedb::kZoneRegistrySize,
-      zonedb::kZoneRegistry);
+      zonedb::kZoneRegistry,
+      zoneProcessorCache);
 #elif FEATURE == FEATURE_BASIC_LINK_MANAGER
   BasicLinkManager manager(
     zonedb::kLinkRegistrySize,
     zonedb::kLinkRegistry);
 #elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_FAT_LINKS
-  BasicZoneManager<1> manager(
+  BasicZoneProcessorCache<1> zoneProcessorCache;
+  BasicZoneManager manager(
     zonedb::kZoneAndLinkRegistrySize,
-    zonedb::kZoneAndLinkRegistry);
+    zonedb::kZoneAndLinkRegistry,
+    zoneProcessorCache);
 #elif FEATURE == FEATURE_EXTENDED_TIME_ZONE
   ExtendedZoneProcessor processor;
   auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
@@ -98,16 +106,21 @@ volatile int16_t year = 2019;
   };
   static const uint16_t kExtendedZoneRegistrySize =
       sizeof(kExtendedZoneRegistry) / sizeof(extended::ZoneInfo*);
-  ExtendedZoneManager<1> manager(
-      kExtendedZoneRegistrySize, kExtendedZoneRegistry);
+  ExtendedZoneProcessorCache<1> zoneProcessorCache;
+  ExtendedZoneManager manager(
+      kExtendedZoneRegistrySize, kExtendedZoneRegistry, zoneProcessorCache);
 #elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES
-  ExtendedZoneManager<1> manager(
+  ExtendedZoneProcessorCache<1> zoneProcessorCache;
+  ExtendedZoneManager manager(
       zonedbx::kZoneRegistrySize,
-      zonedbx::kZoneRegistry);
+      zonedbx::kZoneRegistry,
+      zoneProcessorCache);
 #elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS
-  ExtendedZoneManager<1> manager(
+  ExtendedZoneProcessorCache<1> zoneProcessorCache;
+  ExtendedZoneManager manager(
       zonedbx::kZoneAndLinkRegistrySize,
-      zonedbx::kZoneAndLinkRegistry);
+      zonedbx::kZoneAndLinkRegistry,
+      zoneProcessorCache);
 #elif FEATURE == FEATURE_EXTENDED_LINK_MANAGER
   ExtendedLinkManager manager(
       zonedbx::kLinkRegistrySize,

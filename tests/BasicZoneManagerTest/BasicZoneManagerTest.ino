@@ -7,7 +7,7 @@ using aunit::TestRunner;
 using namespace ace_time;
 
 //---------------------------------------------------------------------------
-// Set up a BasicZoneManager with 4 zones.
+// Set up a BasicZoneManager with a handful of zones.
 //---------------------------------------------------------------------------
 
 const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
@@ -24,10 +24,12 @@ const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
 const uint16_t kBasicZoneRegistrySize =
     sizeof(kBasicZoneRegistry) / sizeof(kBasicZoneRegistry[0]);
 
-// Include both the Zone Registry and Link Registry.
-BasicZoneManager<1> basicZoneManager(
+BasicZoneProcessorCache<1> zoneProcessorCache;
+
+BasicZoneManager basicZoneManager(
     kBasicZoneRegistrySize,
-    kBasicZoneRegistry
+    kBasicZoneRegistry,
+    zoneProcessorCache
 );
 
 //---------------------------------------------------------------------------
@@ -67,7 +69,7 @@ test(BasicZoneManagerTest, indexForZoneName) {
   assertEqual((uint16_t) 2, index);
 
   index = basicZoneManager.indexForZoneName("America/not_found");
-  assertEqual(ZoneManager::kInvalidIndex, index);
+  assertEqual(BasicZoneManager::kInvalidIndex, index);
 }
 
 test(BasicZoneManagerTest, indexForZoneId) {
@@ -76,7 +78,7 @@ test(BasicZoneManagerTest, indexForZoneId) {
   assertEqual((uint16_t) 3, index);
 
   index = basicZoneManager.indexForZoneId(0 /* not found */);
-  assertEqual(ZoneManager::kInvalidIndex, index);
+  assertEqual(BasicZoneManager::kInvalidIndex, index);
 }
 
 test(BasicZoneManagerTest, createForXxx_create_same_timezone) {
@@ -169,7 +171,7 @@ test(BasicZoneManagerTest, createForTimeZoneData_crossed) {
 
 test(BasicZoneManagerTest, sortIndexes) {
   uint16_t indexes[] = {0, 1, 2, 3, 4, 5, 6, 7};
-  ZoneSorterByOffsetAndName<BasicZoneManager<1>> zoneSorter(basicZoneManager);
+  ZoneSorterByOffsetAndName<BasicZoneManager> zoneSorter(basicZoneManager);
   zoneSorter.sortIndexes(indexes, sizeof(indexes)/sizeof(indexes[0]));
   assertEqual(indexes[0], 2); // Los_Angeles, -08
   assertEqual(indexes[1], 5); // Vancouver, -08
@@ -192,7 +194,7 @@ test(BasicZoneManagerTest, sortIds) {
     zonedb::kZoneIdAmerica_Edmonton,
     zonedb::kZoneIdAmerica_Winnipeg,
   };
-  ZoneSorterByOffsetAndName<BasicZoneManager<1>> zoneSorter(basicZoneManager);
+  ZoneSorterByOffsetAndName<BasicZoneManager> zoneSorter(basicZoneManager);
   zoneSorter.sortIds(ids, sizeof(ids)/sizeof(ids[0]));
   assertEqual(ids[0], zonedbx::kZoneIdAmerica_Los_Angeles);
   assertEqual(ids[1], zonedbx::kZoneIdAmerica_Vancouver);
@@ -215,7 +217,7 @@ test(BasicZoneManagerTest, sortNames) {
     "America/Edmonton",
     "America/Winnipeg",
   };
-  ZoneSorterByOffsetAndName<BasicZoneManager<1>> zoneSorter(basicZoneManager);
+  ZoneSorterByOffsetAndName<BasicZoneManager> zoneSorter(basicZoneManager);
   zoneSorter.sortNames(names, sizeof(names)/sizeof(names[0]));
   assertEqual(names[0], "America/Los_Angeles");
   assertEqual(names[1], "America/Vancouver");

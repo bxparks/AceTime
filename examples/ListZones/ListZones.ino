@@ -114,9 +114,11 @@ static int parse_flags(int argc, const char* const* argv) {
 // name.
 //---------------------------------------------------------------------------
 
-ExtendedZoneManager<1> zoneManager(
+ExtendedZoneProcessorCache<1> zoneProcessorCache;
+ExtendedZoneManager zoneManager(
   zonedbx::kZoneAndLinkRegistrySize,
-  zonedbx::kZoneAndLinkRegistry
+  zonedbx::kZoneAndLinkRegistry,
+  zoneProcessorCache
 );
 
 void printZones(uint16_t elapsedMillis, uint16_t indexes[], uint16_t size) {
@@ -143,7 +145,7 @@ void printZones(uint16_t elapsedMillis, uint16_t indexes[], uint16_t size) {
 
 void printZonesSortedByOffsetAndName() {
   uint16_t indexes[zonedbx::kZoneAndLinkRegistrySize];
-  ZoneSorterByOffsetAndName<ExtendedZoneManager<1>> zoneSorter(zoneManager);
+  ZoneSorterByOffsetAndName<ExtendedZoneManager> zoneSorter(zoneManager);
   zoneSorter.fillIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
 
   uint16_t startMillis = millis();
@@ -155,7 +157,7 @@ void printZonesSortedByOffsetAndName() {
 
 void printZonesSortedByName() {
   uint16_t indexes[zonedbx::kZoneAndLinkRegistrySize];
-  ZoneSorterByName<ExtendedZoneManager<1>> zoneSorter(zoneManager);
+  ZoneSorterByName<ExtendedZoneManager> zoneSorter(zoneManager);
   zoneSorter.fillIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
 
   uint16_t startMillis = millis();

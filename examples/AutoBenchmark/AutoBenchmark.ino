@@ -46,11 +46,17 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneProcessor): "));
   SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessor));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneManager<1>): "));
-  SERIAL_PORT_MONITOR.println(sizeof(BasicZoneManager<1>));
+  SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneProcessorCache<1>): "));
+  SERIAL_PORT_MONITOR.println(sizeof(BasicZoneProcessorCache<1>));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneManager<1>): "));
-  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneManager<1>));
+  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneProcessorCache<1>): "));
+  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessorCache<1>));
+
+  SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneManager): "));
+  SERIAL_PORT_MONITOR.println(sizeof(BasicZoneManager));
+
+  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneManager): "));
+  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneManager));
 
   SERIAL_PORT_MONITOR.print(F("sizeof(TimeZoneData): "));
   SERIAL_PORT_MONITOR.println(sizeof(TimeZoneData));

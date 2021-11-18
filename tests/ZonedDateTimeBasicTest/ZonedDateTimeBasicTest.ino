@@ -21,8 +21,10 @@ const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
 const uint16_t kBasicZoneRegistrySize =
     sizeof(kBasicZoneRegistry) / sizeof(kBasicZoneRegistry[0]);
 
-BasicZoneManager<1> basicZoneManager(
-    kBasicZoneRegistrySize, kBasicZoneRegistry);
+BasicZoneProcessorCache<1> zoneProcessorCache;
+
+BasicZoneManager basicZoneManager(
+    kBasicZoneRegistrySize, kBasicZoneRegistry, zoneProcessorCache);
 
 // --------------------------------------------------------------------------
 // ZonedDateTime + BasicZoneManager

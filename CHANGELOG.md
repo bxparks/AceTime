@@ -15,6 +15,13 @@
     * Add `MaxBufSize` comment field into `zonedb[x]/zone_infos.h` which is the
       maximum over all zones in that file. Must be less than or equal to
       `ExtendedZoneProcessor::kMaxTransitions`.
+    * **Breaking Change**: Extract `BasicZoneProcessorCache` and
+      `ExtendedZoneProcessorCache` out of `BasicZoneManager` and
+      `ExtendedZoneManager`. Remove all pure `virtual` methods from
+      `ZoneManager`, making the class hierarchy non-polymorphic.
+        * Saves 1100-1300 bytes of flash on AVR processors.
+        * See [Migrating to v1.9](MIGRATING.md#MigratingToVersion190) for
+          migration info.
 * 1.8.2 (2021-10-28, TZDB 2021e)
     * Update to TZDB 2021e.
         * https://mm.icann.org/pipermail/tz-announce/2021-October/000069.html

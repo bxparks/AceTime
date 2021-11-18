@@ -143,6 +143,15 @@ In v1.8.0:
 * Create various test objects as global variables instead of stack variables
   to get a more accurate measurement of their static memory consumption.
 
+In v1.9.0:
+* Reduce flash usage of `BasicZoneManager` and `ExtendedZoneManager` by
+  1100-1300 bytes on AVR processors:
+    * Extract `BasicZoneProcessorCache` and `ExtendedZoneProcessorCache` out
+      of `BasicZoneManager` and `ExtendedZoneManager`, making them
+      non-templatized.
+    * Remove all `virtual` methods from `ZoneManager`, making the ZoneManager
+      hierarchy non-polymorphic.
+
 ## Arduino Nano
 
 * 16MHz ATmega328P

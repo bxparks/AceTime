@@ -102,9 +102,11 @@ static int parse_flags(int argc, const char* const* argv) {
 // and year.
 //---------------------------------------------------------------------------
 
-ExtendedZoneManager<2> zoneManager(
+ExtendedZoneProcessorCache<2> zoneProcessorCache;
+ExtendedZoneManager zoneManager(
   zonedbx::kZoneRegistrySize,
-  zonedbx::kZoneRegistry
+  zonedbx::kZoneRegistry,
+  zoneProcessorCache
 );
 
 void printZoneInfo(const char* zoneName, int year) {

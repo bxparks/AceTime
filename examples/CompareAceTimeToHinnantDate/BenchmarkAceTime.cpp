@@ -12,9 +12,12 @@
 using namespace std;
 using namespace ace_time;
 
-static ExtendedZoneManager<1> zoneManager(
+static ExtendedZoneProcessorCache<1> zoneProcesorCache;
+
+static ExtendedZoneManager zoneManager(
   zonedbx::kZoneAndLinkRegistrySize,
-  zonedbx::kZoneAndLinkRegistry
+  zonedbx::kZoneAndLinkRegistry,
+  zoneProcesorCache
 );
 
 static volatile uint32_t epochSeconds;
