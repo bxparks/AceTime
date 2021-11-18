@@ -13,6 +13,9 @@
 <a name="MigratingToVersion190"></a>
 ## Migrating to v1.9.0
 
+The `ZoneManager` hierarchy (containing `ManualZoneManager`, `BasicZoneManager`,
+and `ExtendedZoneManager`) was refactored from v1.8.0 to v1.9.0.
+
 <a name="ConfiguringZoneManagers"></a>
 ### Configuring the Zone Managers
 
@@ -25,22 +28,22 @@ application code. The problem with such a polymorphic class hierarchy is that
 the virtual methods consume significant amounts of flash memory, especially on
 8-bit AVR processors with limited flash. The
 [examples/MemoryBenchmark](examples/MemoryBenchmark) program showed that this
-designed consumed an extra 1100-1300 bytes of flash.
+design consumed an extra 1100-1300 bytes of flash.
 
 In v1.9, several changes were made to reduce the flash memory size:
 
-1. All virtual methods have been removed from the `ZoneManager` and its
+1. All virtual methods were removed from the `ZoneManager` and its
    subclasses. 
 2. The `BasicZoneManager` and `ExtendedZoneManager` classes are no longer
-   template classes.
-3. The internal `ZoneProcessorCache`, whose size was configured by the `<SIZE>`
-   template parameter, has been extracted into a separate
-   `BasicZoneProcessorCache<SIZE>` and `ExtendedZoneProcessorCache<SIZE>`
-   classes. These are expected to be created separately, and passed into the
-   constructors of the `BasicZoneManager` and `ExtendedZoneManager` objects.
+   template classes, making them easier to use (e.g. in the `ZoneSorterByName`
+   and `ZoneSorterByOffsetAndName` classes).
+3. The internal `BasicZoneProcessorCache` and `ExtendedZoneProcessorCache`
+   member variables were extracted out from the respective ZoneManager classes.
+   These are now expected to be created separately, and passed into the
+   constructors of the `BasicZoneManager` and `ExtendedZoneManager` classes.
 
-The migration path looks like the following. In v1.8, the `BasicZoneManager` was
-configured like the following:
+The migration path is relatively simple. In v1.8, the `BasicZoneManager` was
+configured like this:
 
 ```C++
 static const uint8_t CACHE_SIZE = 4;
@@ -84,8 +87,8 @@ ExtendedoneManager zoneManager(
 ### Using the Zone Managers
 
 In v1.8, the `ZoneManager` was the parent interface class of all polymorphic
-subclasses. So the client code that needed a `ZoneManager` could do something
-like this:
+subclasses. So the client code that needed a specific subclass of `ZoneManager`
+could do something like this:
 
 ```C++
 class Controller {
@@ -104,17 +107,17 @@ class Controller {
 ```
 
 Any instance of `BasicZoneManager<SIZE>` or `ExtendedZoneManager<SIZE>` could be
-passed into the constructor. This provides some code simplicity and runtime
-flexibility. However, the runtime flexibility was never expected to be used
-(except for some internal test programs), and the simplicity offered by the
-single parent interface class is paid for by an extra 1100-1300 bytes of flash
-memory.
+passed into the constructor. This provided some runtime flexibility and code
+simplicity. However, the runtime flexibility did not seem useful for the vast
+majority of cases and the simplicity offered by the single parent interface
+class was paid for by an extra 1100-1300 bytes of flash memory.
 
-In v1.9, if the application needs to choose between a `BasicZoneManager` and an
-`ExtendedZoneManager` at compile time, the same `Controller` constructor should
-look something like this:
+In v1.9, the application still has the ability to choose between a
+`BasicZoneManager` and an `ExtendedZoneManager` at compile time. The same
+`Controller` constructor should look something like this:
 
 ```C++
+// Define the various TIME_ZONE_TYPE macros in config.h.
 #include "config.h"
 
 class Controller {
@@ -122,7 +125,7 @@ class Controller {
     Controller(
     #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
       BasicZoneManager* zoneManager,
-    #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
+    #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
       ExtendedZoneManager* zoneManager,
     #endif
       ...
@@ -134,14 +137,14 @@ class Controller {
   private:
   #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
     BasicZoneManager* mZoneManager;
-  #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
+  #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
     ExtendedZoneManager* mZoneManager;
   #endif
 };
 ```
 
-It is expected that most applications will pre-select either the
-`BasicZoneManasger` or the `ExtendedZoneManager`, and will not need this level
+It is assumed that most applications will hard code either the
+`BasicZoneManager` or the `ExtendedZoneManager`, and will not need this level
 of configuration.
 
 <a name="MigratingToVersion180"></a>

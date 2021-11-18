@@ -222,7 +222,8 @@ identifier of type `uint32_t` which is guaranteed to be unique and stable. For
 example, the zoneId for `"America/Los_Angeles"` is provided by
 `zonedb::kZoneIdAmerica_Los_Angeles` or `zonedbx::kZoneIdAmerica_Los_Angele`
 which both have the value `0xb7f7e8f2`. A `TimeZone` object can be saved as a
-`zoneId` and then recreated using the `ZoneManager::createFromZoneId()` method.
+`zoneId` and then recreated using the `BasicZoneManager::createForZoneId()`
+or `ExtendedZoneManager::createForZoneId()` method.
 
 <a name="Headers"></a>
 ### Headers and Namespaces
@@ -1357,8 +1358,9 @@ class ExtendedZoneManager {
 
 class ManualZoneManager {
   public:
-    TimeZone createForTimeZoneData(const TimeZoneData& d);
     uint16_t zoneRegistrySize() const;
+
+    TimeZone createForTimeZoneData(const TimeZoneData& d);
 };
 
 }
@@ -1404,33 +1406,37 @@ v1.6 with TZDB version 2021a:
 // 266 zones
 // 21.6 kB (8-bits)
 // 27.1 kB (32-bits)
-BasicZoneManager manager(
+BasicZoneManager zoneManager(
     zonedb::kZoneRegistrySize,
-    zonedb::kZoneRegistry);
+    zonedb::kZoneRegistry,
+    zoneProcessorCache);
 
 // BasicZoneManager, Zones and Fat Links
 // 266 zones, 183 fat links
 // 25.7 kB (8-bits)
 // 33.2 kB (32-bits)
-BasicZoneManager manager(
+BasicZoneManager zoneManager(
     zonedb::kZoneAndLinkRegistrySize,
-    zonedb::kZoneAndLinkRegistry);
+    zonedb::kZoneAndLinkRegistry,
+    zoneProcessorCache);
 
 // ExtendedZoneManager, Zones only
 // 386 Zones
 // 33.5 kB (8-bits)
 // 41.7 kB (32-bits)
-ExtendedZoneManager manager(
+ExtendedZoneManager zoneManager(
     zonedbx::kZoneRegistrySize,
-    zonedbx::kZoneRegistry);
+    zonedbx::kZoneRegistry,
+    zoneProcessorCache);
 
 // ExtendedZoneManager, Zones and Fat Links
 // 386 Zones, 207 fat Links
 // 38.2 kB (8-bits)
 // 48.7 kB (32-bits)
-ExtendedZoneManager manager(
+ExtendedZoneManager zoneManager(
     zonedbx::kZoneAndLinkRegistrySize,
-    zonedbx::kZoneAndLinkRegistry);
+    zonedbx::kZoneAndLinkRegistry,
+    zoneProcessorCache);
 ```
 
 A more complicated option of using *thin link* through the `LinkManager` is
@@ -1470,10 +1476,10 @@ zone name:
 
 ```C++
 BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-BasicZoneManager manager(..., zoneProcessorCache);
+BasicZoneManager zoneManager(..., zoneProcessorCache);
 
 void someFunction() {
-  TimeZone tz = manager.createForZoneName("America/Los_Angeles");
+  TimeZone tz = zoneManager.createForZoneName("America/Los_Angeles");
   ...
 }
 ```
@@ -1483,10 +1489,10 @@ could be done more efficiently (less memory, less CPU time) using:
 
 ```C++
 BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-BasicZoneManager manager(..., zoneProcessorCache);
+BasicZoneManager zoneManager(..., zoneProcessorCache);
 
 void someFunction() {
-  TimeZone tz = manager.createForZoneInfo(zonedb::kZoneAmerica_Los_Angeles);
+  TimeZone tz = zoneManager.createForZoneInfo(zonedb::kZoneAmerica_Los_Angeles);
   ...
 }
 ```
@@ -1517,18 +1523,18 @@ corresponding to the given `zoneId`:
 
 ```C++
 BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-BasicZoneManager manager(..., zoneProcessorCache);
+BasicZoneManager zoneManager(..., zoneProcessorCache);
 
 void someFunction() {
-  TimeZone tz = manager.createForZoneId(kZoneIdAmerica_New_York);
+  TimeZone tz = zoneManager.createForZoneId(kZoneIdAmerica_New_York);
   ...
 }
 
 ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-ExtendedZoneManager manager(..., zoneProcessorCache);
+ExtendedZoneManager zoneManager(..., zoneProcessorCache);
 
 void someFunction() {
-  TimeZone tz = manager.createForZoneId(kZoneIdAmerica_New_York);
+  TimeZone tz = zoneManager.createForZoneId(kZoneIdAmerica_New_York);
   ...
 }
 ```
@@ -1592,10 +1598,10 @@ to EEPROM.
 <a name="ManualZoneManager"></a>
 #### ManualZoneManager
 
-The `ManualZoneManager` is an implementation of `ZoneManager` that implements
-only the `createForTimeZoneData()` method, and handles only
-`TimeZoneData::kTypeManual`. In other words, it can only create `TimeZone`
-objects with fixed standard and DST offsets.
+The `ManualZoneManager` is a type of `ZoneManager` that implements only the
+`createForTimeZoneData()` method, and handles only `TimeZoneData::kTypeManual`.
+In other words, it can only create `TimeZone` objects with fixed standard and
+DST offsets.
 
 This class reduces the amount of conditional code (using `#if` statements)
 needed in applications which are normally targeted to use `BasicZoneManager` and
@@ -1913,11 +1919,11 @@ the Zone registry. The ZoneManagers can constructed using the combined registry,
 like this:
 
 ```C++
-BasicZoneManager manager(
+BasicZoneManager zoneManager(
     zonedb::kZoneAndLinkRegistrySize,
     zonedb::kZoneAndLinkRegistry);
 
-ExtendedZoneManager manager(
+ExtendedZoneManager zoneManager(
     zonedbx::kZoneAndLinkRegistrySize,
     zonedbx::kZoneAndLinkRegistry);
 ```
@@ -1987,10 +1993,12 @@ using namespace ace_time;
 ...
 
 // Thin links for the zonedb database
-BasicLinkManager manager(zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
+BasicLinkManager linkManager(
+    zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
 
 // Thin links for the zonedbx database
-ExtendedLinkManager manager(zonedbx::kLinkRegistrySize, zonedbx::kLinkRegistry);
+ExtendedLinkManager linkManager(
+    zonedbx::kLinkRegistrySize, zonedbx::kLinkRegistry);
 ```
 
 When the search for a `zoneId` fails, then the client application can choose to
@@ -2136,10 +2144,10 @@ class ZoneSorterByOffsetAndName {
 The `ZoneSorterByName` class sorts the given zones in ascending order by the
 zone's name. The `ZoneSorterByOffsetAndName` class sorts the zones by its UTC
 offset during standard time, then by the zone's name within the same UTC offset.
-Both of these are templatized on the specific instantiation of the
-`BasicZoneManager` or the `ExtendedZoneManager` classes. (These
-classes will not work for the `ZoneManager` interface, or with the
-`ManualZoneManager` class).
+Both of these are templatized on the `BasicZoneManager` or the
+`ExtendedZoneManager` classes because they require the methods implemented by
+those classes. The ZoneSorter classes will not compile if the
+`ManualZoneManager` class is given because it does not make sense.
 
 To use these classes, the calling client first wraps an instance of one of these
 `ZoneSorter` classes around the `ZoneManager` class. Then it creates an
