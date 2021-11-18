@@ -5,6 +5,7 @@
 * [Migrating to v1.9.0](#MigratingToVersion190)
     * [Configuring the Zone Managers](#ConfiguringZoneManagers)
     * [Using the Zone Managers](#UsingZoneManagers)
+    * [Link Managers](#LinkManagers)
 * [Migrating to v1.8.0](#MigratingToVersion180)
     * [Migrating to AceTimeClock](#MigratingToAceTimeClock)
     * [Migrating the DS3231Clock](#MigratingTheDS3231Clock)
@@ -146,6 +147,38 @@ class Controller {
 It is assumed that most applications will hard code either the
 `BasicZoneManager` or the `ExtendedZoneManager`, and will not need this level
 of configuration.
+
+<a name="LinkManagers"></a>
+### Link Managers
+
+In v1.8, the `LinkManager` was an interface class with pure virtual methods:
+
+```C++
+class LinkManager {
+  public:
+    static const uint16_t kInvalidZoneId = 0x0;
+    virtual uint32_t zoneIdForLinkId(uint32_t linkId) const = 0;
+    virtual uint16_t linkRegistrySize() const = 0;
+};
+```
+
+But allowing the `BasicLinkManager` and `ExtendedLinkManager` to be polymorphic
+did not seem worth the extra flash usage, similar to the `ZoneManager`
+hierarchy.
+
+In v1.9, the pure `virtual` methods were removed, but the static constant
+was retained for backwards compatibility:
+
+```C++
+class LinkManager {
+  public:
+    static const uint16_t kInvalidZoneId = 0x0;
+};
+```
+
+The `BasicLinkManager` and `ExtendedLinkManager` should be used directly,
+instead of through the `LinkManager` interface. Since Link Manager were
+introduced only in v1.8, I expect almost no one to be affected by this.
 
 <a name="MigratingToVersion180"></a>
 ## Migrating to v1.8.0

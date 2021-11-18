@@ -22,6 +22,11 @@
         * Saves 1100-1300 bytes of flash on AVR processors.
         * See [Migrating to v1.9](MIGRATING.md#MigratingToVersion190) for
           migration info.
+    * **Breaking Change**: Remove pure `virtual` methods from `LinkManager`,
+      analogous to their removal from `ZoneManager`.
+        * Saves 68 bytes of flash on AVR processors.
+        * See [Migrating to v1.9](MIGRATING.md#MigratingToVersion190) for
+          migration info.
 * 1.8.2 (2021-10-28, TZDB 2021e)
     * Update to TZDB 2021e.
         * https://mm.icann.org/pipermail/tz-announce/2021-October/000069.html

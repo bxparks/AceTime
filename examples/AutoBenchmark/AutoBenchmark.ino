@@ -40,6 +40,18 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("sizeof(OffsetDateTime): "));
   SERIAL_PORT_MONITOR.println(sizeof(OffsetDateTime));
 
+  SERIAL_PORT_MONITOR.print(F("sizeof(TimeZone): "));
+  SERIAL_PORT_MONITOR.println(sizeof(TimeZone));
+
+  SERIAL_PORT_MONITOR.print(F("sizeof(TimeZoneData): "));
+  SERIAL_PORT_MONITOR.println(sizeof(TimeZoneData));
+
+  SERIAL_PORT_MONITOR.print(F("sizeof(ZonedDateTime): "));
+  SERIAL_PORT_MONITOR.println(sizeof(ZonedDateTime));
+
+  SERIAL_PORT_MONITOR.print(F("sizeof(TimePeriod): "));
+  SERIAL_PORT_MONITOR.println(sizeof(TimePeriod));
+
   SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneProcessor): "));
   SERIAL_PORT_MONITOR.println(sizeof(BasicZoneProcessor));
 
@@ -58,17 +70,11 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneManager): "));
   SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneManager));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(TimeZoneData): "));
-  SERIAL_PORT_MONITOR.println(sizeof(TimeZoneData));
+  SERIAL_PORT_MONITOR.print(F("sizeof(BasicLinkManager): "));
+  SERIAL_PORT_MONITOR.println(sizeof(BasicLinkManager));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(TimeZone): "));
-  SERIAL_PORT_MONITOR.println(sizeof(TimeZone));
-
-  SERIAL_PORT_MONITOR.print(F("sizeof(ZonedDateTime): "));
-  SERIAL_PORT_MONITOR.println(sizeof(ZonedDateTime));
-
-  SERIAL_PORT_MONITOR.print(F("sizeof(TimePeriod): "));
-  SERIAL_PORT_MONITOR.println(sizeof(TimePeriod));
+  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedLinkManager): "));
+  SERIAL_PORT_MONITOR.println(sizeof(ExtendedLinkManager));
 
   // ace_time::basic and ace_time::extended classes
 
