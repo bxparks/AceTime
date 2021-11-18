@@ -1300,59 +1300,65 @@ or `zoneId`.
 <a name="ClassHierarchy"></a>
 #### Class Hierarchy
 
-The `ZoneManager` is an interface, and 3 implementation classes are provided:
+Three implementations of the `ZoneManager` are provided. Prior to v1.9, they
+were organized into a hierarchy with a top-level `ZoneManager` interface with
+pure virtual functions. However, in v1.9, the top-level `ZoneManager` interface
+was removed and all virtual functions were removed. This saves about 1100-1200
+bytes of flash on AVR processors.
 
 ```C++
 namespace ace_time{
 
-class ZoneManager {
-  public:
-    static const uint16_t kInvalidIndex = 0xffff;
-
-    virtual TimeZone createForZoneName(const char* name)  = 0;
-
-    virtual TimeZone createForZoneId(uint32_t id) = 0;
-
-    virtual TimeZone createForZoneIndex(uint16_t index) = 0;
-
-    virtual TimeZone createForTimeZoneData(const TimeZoneData& d) = 0;
-
-    virtual uint16_t indexForZoneName(const char* name) const = 0;
-
-    virtual uint16_t indexForZoneId(uint32_t id) const = 0;
-
-    virtual uint16_t zoneRegistrySize() const = 0;
-};
-
-template<uint16_t SIZE>
-class BasicZoneManager : public ZoneManager {
+class BasicZoneManager {
   public:
     BasicZoneManager(
         uint16_t registrySize,
-        const basic::ZoneInfo* const* zoneRegistry
+        const basic::ZoneInfo* const* zoneRegistry,
+        BasicZoneProcessorCacheBase& zoneProcessorCache
     );
 
+    uint16_t zoneRegistrySize() const;
+
+    TimeZone createForZoneName(const char* name);
+    TimeZone createForZoneId(uint32_t id);
+    TimeZone createForZoneIndex(uint16_t index);
+    TimeZone createForTimeZoneData(const TimeZoneData& d);
     TimeZone createForZoneInfo(const basic::ZoneInfo* zoneInfo);
+
+    uint16_t indexForZoneName(const char* name) const;
+    uint16_t indexForZoneId(uint32_t id) const;
+
     BasicZoneProcessor* getZoneProcessor(const char* name);
     BasicZone getZoneForIndex(uint16_t index) const;
 };
 
-template<uint16_t SIZE>
-class ExtendedZoneManager : public ZoneManager {
+class ExtendedZoneManager {
   public:
     ExtendedZoneManager(
         uint16_t registrySize,
-        const extended::ZoneInfo* const* zoneRegistry
+        const extended::ZoneInfo* const* zoneRegistry,
+        BasicZoneProcessorCacheBase& zoneProcessorCache
     );
 
+    uint16_t zoneRegistrySize() const;
+
     TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
+    TimeZone createForZoneId(uint32_t id);
+    TimeZone createForZoneIndex(uint16_t index);
+    TimeZone createForTimeZoneData(const TimeZoneData& d);
+    TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
+
+    uint16_t indexForZoneName(const char* name) const;
+    uint16_t indexForZoneId(uint32_t id) const;
+
     ExtendedZoneProcessor* getZoneProcessor(const char* name);
     ExtendedZone getZoneForIndex(uint16_t index) const;
 };
 
-class ManualZoneManager : public ZoneManager {
+class ManualZoneManager {
   public:
-    TimeZone createForTimeZoneData(const TimeZoneData& d) override;
+    TimeZone createForTimeZoneData(const TimeZoneData& d);
+    uint16_t zoneRegistrySize() const;
 };
 
 }
@@ -1438,8 +1444,9 @@ use one of the `createForXxx()` methods to create a `TimeZone`, like this:
 using namespace ace_time;
 ...
 static const uint16_t CACHE_SIZE = 2;
-static BasicZoneManager<CACHE_SIZE> zoneManager(
-    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+static BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+static BasicZoneManager zoneManager(
+    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry, zoneProcessorCache);
 
 void someFunction(const char* zoneName) {
   TimeZone tz = zoneManager.createForZoneName("America/Los_Angeles");
@@ -1462,7 +1469,8 @@ The `ZoneManager` allows creation of a `TimeZone` using the fully qualified
 zone name:
 
 ```C++
-BasicZoneManager<NUM_ZONES> manager(...);
+BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+BasicZoneManager manager(..., zoneProcessorCache);
 
 void someFunction() {
   TimeZone tz = manager.createForZoneName("America/Los_Angeles");
@@ -1472,8 +1480,10 @@ void someFunction() {
 
 Of course, you probably wouldn't actually do this because the same functionality
 could be done more efficiently (less memory, less CPU time) using:
+
 ```C++
-BasicZoneManager<NUM_ZONES> manager(...);
+BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+BasicZoneManager manager(..., zoneProcessorCache);
 
 void someFunction() {
   TimeZone tz = manager.createForZoneInfo(zonedb::kZoneAmerica_Los_Angeles);
@@ -1506,14 +1516,16 @@ The `ZoneManager::createForZoneId()` method returns the `TimeZone` object
 corresponding to the given `zoneId`:
 
 ```C++
-BasicZoneManager<NUM_ZONES> manager(...);
+BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+BasicZoneManager manager(..., zoneProcessorCache);
 
 void someFunction() {
   TimeZone tz = manager.createForZoneId(kZoneIdAmerica_New_York);
   ...
 }
 
-ExtendedZoneManager<NUM_ZONES> manager(...);
+ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+ExtendedZoneManager manager(..., zoneProcessorCache);
 
 void someFunction() {
   TimeZone tz = manager.createForZoneId(kZoneIdAmerica_New_York);
@@ -2029,8 +2041,9 @@ static const uint16_t kZoneRegistrySize =
     sizeof(kZoneRegistry) / sizeof(basic::ZoneInfo*);
 
 static const uint16_t CACHE_SIZE = 2;
-static BasicZoneManager<CACHE_SIZE> zoneManager(
-    kZoneRegistrySize, kZoneRegistry);
+static BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+static BasicZoneManager zoneManager(
+    kZoneRegistrySize, kZoneRegistry, zoneProcessorCache);
 ```
 
 Here is the equivalent `ExtendedZoneManager` with 4 zones from the `zonedbx::`
@@ -2051,8 +2064,9 @@ static const uint16_t kZoneRegistrySize =
     sizeof(kZoneRegistry) / sizeof(extended::ZoneInfo*);
 
 static const uint16_t CACHE_SIZE = 2;
-static ExtendedZoneManager<CACHE_SIZE> zoneManager(
-    kZoneRegistrySize, kZoneRegistry);
+static ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+static ExtendedZoneManager zoneManager(
+    kZoneRegistrySize, kZoneRegistry, zoneProcessorCache);
 ```
 
 The `ACE_TIME_PROGMEM` macro is defined in
@@ -2123,7 +2137,7 @@ The `ZoneSorterByName` class sorts the given zones in ascending order by the
 zone's name. The `ZoneSorterByOffsetAndName` class sorts the zones by its UTC
 offset during standard time, then by the zone's name within the same UTC offset.
 Both of these are templatized on the specific instantiation of the
-`BasicZoneManager<SIZE>` or the `ExtendedZoneManager<SIZE>` classes. (These
+`BasicZoneManager` or the `ExtendedZoneManager` classes. (These
 classes will not work for the `ZoneManager` interface, or with the
 `ManualZoneManager` class).
 
@@ -2145,9 +2159,11 @@ The code will look like this:
 using namespace ace_time;
 using namespace ace_time::zonedbx;
 
-ExtendedZoneManager<1> zoneManager(
+ExtendedZoneProcessorCache<1> zoneProcessorCache;
+ExtendedZoneManager zoneManager(
   zonedbx::kZoneAndLinkRegistrySize,
-  zonedbx::kZoneAndLinkRegistry
+  zonedbx::kZoneAndLinkRegistry,
+  zoneProcessorCache
 );
 
 // Print each zone in the form of:
@@ -2168,7 +2184,7 @@ void printZones(uint16_t indexes[], uint16_t size) {
 
 void sortAndPrintZones() {
   uint16_t indexes[zonedbx::kZoneAndLinkRegistrySize];
-  ZoneSorterByOffsetAndName<ExtendedZoneManager<1>> zoneSorter(zoneManager);
+  ZoneSorterByOffsetAndName<ExtendedZoneManager> zoneSorter(zoneManager);
 
   zoneSorter.fillIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
   zoneSorter.sortIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
@@ -2187,9 +2203,11 @@ of 4 slots, then sorted by offset and name:
 
 using namespace ace_time;
 
-ExtendedZoneManager<1> zoneManager(
+ExtendedZoneProcessorCache<1> zoneProcessorCache;
+ExtendedZoneManager zoneManager(
   zonedbx::kZoneAndLinkRegistrySize,
-  zonedbx::kZoneAndLinkRegistry
+  zonedbx::kZoneAndLinkRegistry,
+  zoneProcessorCache
 );
 
 uint32_t zoneIds[4] = {
@@ -2200,7 +2218,7 @@ uint32_t zoneIds[4] = {
 };
 
 void sortIds() {
-  ZoneSorterByOffsetAndName<ExtendedZoneManager<1>> zoneSorter(zoneManager);
+  ZoneSorterByOffsetAndName<ExtendedZoneManager> zoneSorter(zoneManager);
   zoneSorter.sortIds(zoneIds, 4);
   ...
 }
