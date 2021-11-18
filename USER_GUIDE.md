@@ -2590,11 +2590,12 @@ resulting object will return a true value for `isError()`.
       `TimeZone` instance as parameters which can be ambiguous or invalid for
       some values.
         * During the Standard time to DST transitions, a one-hour gap of
-      illegal values may exist. For example, 2am (Standard) shifts to 3am (DST),
-      therefore wall times between 02:00 and 03:00 (exclusive) are not valid.
+          illegal values may exist. For example, 2am (Standard) shifts to 3am
+          (DST), therefore wall times between 02:00 and 03:00 (exclusive) are
+          not valid.
         * During DST to Standard time transitions, a one-hour interval occurs
-        twice. For example, 2am (DST) shifts to 1am, so all times between 01:00
-        and 02:00 (exclusive) occurs twice in one day.
+          twice. For example, 2am (DST) shifts to 1am, so all times between
+          01:00 and 02:00 (exclusive) occurs twice in one day.
    * The `ZonedDateTime::forCommponent()` methods makes an educated guess
      at what the user meant, but the algorithm may not be robust, is not tested
      as well as it could be, and the algorithm may change in the future. To keep
@@ -2608,17 +2609,6 @@ resulting object will return a true value for `isError()`.
         * `ace_time::zonedbx::kZoneContext`
     * A `ZonedDateTime` object cannot be created outside of that valid year
       range. This is explained in [ZoneInfo Year Range](#ZoneInfoYearRange).
-* `NtpClock`
-    * The `NtpClock` on an ESP8266 calls `WiFi.hostByName()` to resolve
-      the IP address of the NTP server. Unfortunately, when I tested this
-      library, it seems to be a blocking call (later versions may have fixed
-      this). When the DNS resolver is working properly, this call returns in
-      ~10ms or less. But sometimes, the DNS resolver seems to get into a state
-      where it takes 4-5 **seconds** to time out. Even if you use AceRoutine
-      coroutines, the entire program will block for those 4-5 seconds.
-    * [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) uses an epoch
-      of 1900-01-01T00:00:00Z, with 32-bit unsigned integer as the seconds
-      counter. It will overflow just after 2036-02-07T06:28:15Z.
 * `BasicZoneProcessor`
     * Supports 1-minute resolution for AT and UNTIL fields.
     * Supports only a 15-minute resolution for STDOFF and DST offset fields,
