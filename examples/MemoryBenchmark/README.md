@@ -127,6 +127,9 @@ In v1.9.0:
       hierarchy non-polymorphic.
     * Looks like I am reverting some of the changes made in v1.3 when I created
       the `ZoneManager` interface.
+* Reduce flash usage of `BasicLinkManager` and `ExtendedLinkManager` by
+  68 bytes on AVR processors by removing pure `virtual` methods on `LinkManager`
+  base class.
 
 ## Arduino Nano
 
@@ -149,14 +152,14 @@ In v1.9.0:
 | BasicZoneManager (1 zone)              |   6300/  326 |  5826/  315 |
 | BasicZoneManager (all zones)           |  19042/  702 | 18568/  691 |
 | BasicZoneManager (all zones+links)     |  23374/  702 | 22900/  691 |
-| BasicLinkManager (all links)           |   2446/   26 |  1972/   15 |
+| BasicLinkManager (all links)           |   2378/   16 |  1904/    5 |
 |----------------------------------------+--------------+-------------|
 | Extended TimeZone (1 zone)             |   8976/  670 |  8502/  659 |
 | Extended TimeZone (2 zones)            |   9368/ 1111 |  8894/ 1100 |
 | ExtendedZoneManager (1 zone)           |   9152/  676 |  8678/  665 |
 | ExtendedZoneManager (all zones)        |  30918/ 1160 | 30444/ 1149 |
 | ExtendedZoneManager (all zones+links)  |  35798/ 1160 | 35324/ 1149 |
-| ExtendedLinkManager (all links)        |   2638/   26 |  2164/   15 |
+| ExtendedLinkManager (all links)        |   2570/   16 |  2096/    5 |
 +---------------------------------------------------------------------+
 
 ```
@@ -182,14 +185,14 @@ In v1.9.0:
 | BasicZoneManager (1 zone)              |   9254/  464 |  5784/  311 |
 | BasicZoneManager (all zones)           |  22014/  842 | 18544/  689 |
 | BasicZoneManager (all zones+links)     |  26346/  842 | 22876/  689 |
-| BasicLinkManager (all links)           |   5420/  168 |  1950/   15 |
+| BasicLinkManager (all links)           |   5352/  158 |  1882/    5 |
 |----------------------------------------+--------------+-------------|
 | Extended TimeZone (1 zone)             |  11930/  808 |  8460/  655 |
 | Extended TimeZone (2 zones)            |  12324/ 1251 |  8854/ 1098 |
 | ExtendedZoneManager (1 zone)           |  12106/  814 |  8636/  661 |
 | ExtendedZoneManager (all zones)        |  33888/ 1298 | 30418/ 1145 |
 | ExtendedZoneManager (all zones+links)  |  38768/ 1298 | 35298/ 1145 |
-| ExtendedLinkManager (all links)        |   5612/  168 |  2142/   15 |
+| ExtendedLinkManager (all links)        |   5544/  158 |  2074/    5 |
 +---------------------------------------------------------------------+
 
 ```
@@ -215,14 +218,14 @@ In v1.9.0:
 | BasicZoneManager (1 zone)              |  14748/    0 |  4620/    0 |
 | BasicZoneManager (all zones)           |  31868/    0 | 21740/    0 |
 | BasicZoneManager (all zones+links)     |  38468/    0 | 28340/    0 |
-| BasicLinkManager (all links)           |  11896/    0 |  1768/    0 |
+| BasicLinkManager (all links)           |  11856/    0 |  1728/    0 |
 |----------------------------------------+--------------+-------------|
 | Extended TimeZone (1 zone)             |  16508/    0 |  6380/    0 |
 | Extended TimeZone (2 zones)            |  16828/    0 |  6700/    0 |
 | ExtendedZoneManager (1 zone)           |  16628/    0 |  6500/    0 |
 | ExtendedZoneManager (all zones)        |  46236/    0 | 36108/    0 |
 | ExtendedZoneManager (all zones+links)  |  53676/    0 | 43548/    0 |
-| ExtendedLinkManager (all links)        |  12088/    0 |  1960/    0 |
+| ExtendedLinkManager (all links)        |  12048/    0 |  1920/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -250,14 +253,14 @@ In v1.9.0:
 | BasicZoneManager (1 zone)              |  25672/ 3724 |  4252/  188 |
 | BasicZoneManager (all zones)           |  42552/ 3724 | 21132/  188 |
 | BasicZoneManager (all zones+links)     |  48996/ 3724 | 27576/  188 |
-| BasicLinkManager (all links)           |  23164/ 3548 |  1744/   12 |
+| BasicLinkManager (all links)           |  23132/ 3544 |  1712/    8 |
 |----------------------------------------+--------------+-------------|
 | Extended TimeZone (1 zone)             |  27232/ 4092 |  5812/  556 |
 | Extended TimeZone (2 zones)            |  27548/ 4644 |  6128/ 1108 |
 | ExtendedZoneManager (1 zone)           |  27340/ 4100 |  5920/  564 |
 | ExtendedZoneManager (all zones)        |  56572/ 4100 | 35152/  564 |
 | ExtendedZoneManager (all zones+links)  |  63840/ 4100 | 42420/  564 |
-| ExtendedLinkManager (all links)        |  23356/ 3548 |  1936/   12 |
+| ExtendedLinkManager (all links)        |  23324/ 3544 |  1904/    8 |
 +---------------------------------------------------------------------+
 
 ```
@@ -286,14 +289,14 @@ microcontroller and the compiler did not generate the desired information.
 | BasicZoneManager (1 zone)              | 266313/28660 |  6224/  768 |
 | BasicZoneManager (all zones)           | 283657/28660 | 23568/  768 |
 | BasicZoneManager (all zones+links)     | 290361/28660 | 30272/  768 |
-| BasicLinkManager (all links)           | 261997/27912 |  1908/   20 |
+| BasicLinkManager (all links)           | 261933/27904 |  1844/   12 |
 |----------------------------------------+--------------+-------------|
 | Extended TimeZone (1 zone)             | 268441/29172 |  8352/ 1280 |
 | Extended TimeZone (2 zones)            | 268745/29724 |  8656/ 1832 |
 | ExtendedZoneManager (1 zone)           | 268569/29180 |  8480/ 1288 |
 | ExtendedZoneManager (all zones)        | 298461/29176 | 38372/ 1284 |
 | ExtendedZoneManager (all zones+links)  | 306029/29176 | 45940/ 1284 |
-| ExtendedLinkManager (all links)        | 262189/27912 |  2100/   20 |
+| ExtendedLinkManager (all links)        | 262125/27904 |  2036/   12 |
 +---------------------------------------------------------------------+
 
 ```
@@ -319,14 +322,14 @@ microcontroller and the compiler did not generate the desired information.
 | BasicZoneManager (1 zone)              | 204368/13388 |  6620/  304 |
 | BasicZoneManager (all zones)           | 221664/13388 | 23916/  304 |
 | BasicZoneManager (all zones+links)     | 228368/13388 | 30620/  304 |
-| BasicLinkManager (all links)           | 200920/13220 |  3172/  136 |
+| BasicLinkManager (all links)           | 200884/13212 |  3136/  128 |
 |----------------------------------------+--------------+-------------|
 | Extended TimeZone (1 zone)             | 206220/13756 |  8472/  672 |
 | Extended TimeZone (2 zones)            | 206508/14308 |  8760/ 1224 |
 | ExtendedZoneManager (1 zone)           | 206376/13764 |  8628/  680 |
 | ExtendedZoneManager (all zones)        | 236232/13764 | 38484/  680 |
 | ExtendedZoneManager (all zones+links)  | 243800/13764 | 46052/  680 |
-| ExtendedLinkManager (all links)        | 201112/13220 |  3364/  136 |
+| ExtendedLinkManager (all links)        | 201076/13212 |  3328/  128 |
 +---------------------------------------------------------------------+
 
 ```
@@ -356,14 +359,14 @@ usage by objects.
 | BasicZoneManager (1 zone)              |  19656/ 4344 |  9472/  192 |
 | BasicZoneManager (all zones)           |  36932/ 4344 | 26748/  192 |
 | BasicZoneManager (all zones+links)     |  43636/ 4344 | 33452/  192 |
-| BasicLinkManager (all links)           |  12048/ 4164 |  1864/   12 |
+| BasicLinkManager (all links)           |  11908/ 4160 |  1724/    8 |
 |----------------------------------------+--------------+-------------|
 | Extended TimeZone (1 zone)             |  23216/ 4712 | 13032/  560 |
 | Extended TimeZone (2 zones)            |  24008/ 5264 | 13824/ 1112 |
 | ExtendedZoneManager (1 zone)           |  23412/ 4720 | 13228/  568 |
 | ExtendedZoneManager (all zones)        |  53300/ 4720 | 43116/  568 |
 | ExtendedZoneManager (all zones+links)  |  60868/ 4720 | 50684/  568 |
-| ExtendedLinkManager (all links)        |  12240/ 4164 |  2056/   12 |
+| ExtendedLinkManager (all links)        |  12100/ 4160 |  1916/    8 |
 +---------------------------------------------------------------------+
 
 ```

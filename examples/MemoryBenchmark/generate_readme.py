@@ -151,6 +151,9 @@ In v1.9.0:
       hierarchy non-polymorphic.
     * Looks like I am reverting some of the changes made in v1.3 when I created
       the `ZoneManager` interface.
+* Reduce flash usage of `BasicLinkManager` and `ExtendedLinkManager` by
+  68 bytes on AVR processors by removing pure `virtual` methods on `LinkManager`
+  base class.
 
 ## Arduino Nano
 
