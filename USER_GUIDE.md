@@ -1959,8 +1959,6 @@ namespace ace_time {
 class LinkManager {
   public:
     static const uint16_t kInvalidZoneId = 0x0;
-    virtual uint32_t zoneIdForLinkId(uint32_t linkId) const = 0;
-    virtual uint16_t linkRegistrySize() const = 0;
 };
 
 class BasicLinkManager: public LinkManager {
@@ -1969,6 +1967,9 @@ class BasicLinkManager: public LinkManager {
         uint16_t linkRegistrySize,
         const basic::LinkEntry* linkRegistry
     );
+
+    uint32_t zoneIdForLinkId(uint32_t linkId) const;
+    uint16_t linkRegistrySize() const;
 };
 
 class ExtendedLinkManager: public LinkManager {
@@ -1977,6 +1978,9 @@ class ExtendedLinkManager: public LinkManager {
         uint16_t linkRegistrySize,
         const extended::LinkEntry* linkRegistry
     );
+
+    uint32_t zoneIdForLinkId(uint32_t linkId) const;
+    uint16_t linkRegistrySize() const;
 };
 
 }
