@@ -48,9 +48,10 @@ class ZoneProcessorCacheBaseTemplate {
 
   private:
     // disable copy constructor and assignment operator
-    ZoneProcessorCacheBaseTemplate(const ZoneProcessorCacheBaseTemplate&) = delete;
-    ZoneProcessorCacheBaseTemplate& operator=(const
-    ZoneProcessorCacheBaseTemplate&) = delete;
+    ZoneProcessorCacheBaseTemplate(const ZoneProcessorCacheBaseTemplate&)
+        = delete;
+    ZoneProcessorCacheBaseTemplate& operator=(
+        const ZoneProcessorCacheBaseTemplate&) = delete;
 
     /**
      * Find an existing ZoneProcessor with the ZoneInfo given by zoneInfoKey.
