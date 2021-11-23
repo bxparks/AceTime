@@ -15,13 +15,17 @@
 namespace ace_time {
 
 /**
- * The base class of BasicZoneProcessor<SIZE> or ExtendedZoneProcessor<SIZE> .
- * This allows another implementation that creates the cache on the heap.
+ * The template class of BasicZoneProcessorCacheBase or
+ * ExtendedZoneProcessorCacheBase. The common implementation
+ * BasicZoneProcessorCache<SIZE> and ExtendedZoneProcessorCacheBase<SIZE>
+ * creates the caches inside the class itself, which will normally be created at
+ * static initialization time. An alternative implementation would create the
+ * cache on the heap.
  */
 template <typename ZP>
-class ZoneProcessorCacheBase {
+class ZoneProcessorCacheBaseTemplate {
   public:
-    ZoneProcessorCacheBase(ZP* zoneProcessors, uint8_t size) :
+    ZoneProcessorCacheBaseTemplate(ZP* zoneProcessors, uint8_t size) :
       mSize(size),
       mZoneProcessors(zoneProcessors)
     {}
@@ -44,8 +48,9 @@ class ZoneProcessorCacheBase {
 
   private:
     // disable copy constructor and assignment operator
-    ZoneProcessorCacheBase(const ZoneProcessorCacheBase&) = delete;
-    ZoneProcessorCacheBase& operator=(const ZoneProcessorCacheBase&) = delete;
+    ZoneProcessorCacheBaseTemplate(const ZoneProcessorCacheBaseTemplate&) = delete;
+    ZoneProcessorCacheBaseTemplate& operator=(const
+    ZoneProcessorCacheBaseTemplate&) = delete;
 
     /**
      * Find an existing ZoneProcessor with the ZoneInfo given by zoneInfoKey.
@@ -72,61 +77,68 @@ class ZoneProcessorCacheBase {
  * Base class for all ZoneProcessorCache implementations that use a
  * BasicZoneProcessor.
  */
-using BasicZoneProcessorCacheBase = ZoneProcessorCacheBase<BasicZoneProcessor>;
+using BasicZoneProcessorCacheBase =
+    ZoneProcessorCacheBaseTemplate<BasicZoneProcessor>;
 
 /**
  * Base class for all ZoneProcessorCache implementations that use an
  * ExtendedZoneProcessor.
  */
 using ExtendedZoneProcessorCacheBase =
-    ZoneProcessorCacheBase<ExtendedZoneProcessor>;
-
-/**
- * A cache of ZoneProcessors that provides a ZoneProcessor to the TimeZone upon
- * request by the ZoneManager.
- *
- * @tparam SIZE number of zone processors, should be approximate the number
- *    zones *concurrently* used in the app. It is expected that this will be
- *    small. It can be 1 if the app never changes the TimeZone. It should be 2
- *    if the user is able to select different timezones from a menu.
- * @tparam ZP type of ZoneProcessor (BasicZoneProcessor or
- *    ExtendedZoneProcessor)
- */
-template<uint8_t SIZE, typename ZP>
-class ZoneProcessorCacheTemplate : public ZoneProcessorCacheBase<ZP> {
-  public:
-    ZoneProcessorCacheTemplate() :
-      ZoneProcessorCacheBase<ZP>(mZoneProcessors, SIZE)
-    {}
-
-  private:
-    // disable copy constructor and assignment operator
-    ZoneProcessorCacheTemplate(const ZoneProcessorCacheTemplate&) = delete;
-    ZoneProcessorCacheTemplate& operator=(const ZoneProcessorCacheTemplate&)
-        = delete;
-
-    ZP mZoneProcessors[SIZE];
-};
+    ZoneProcessorCacheBaseTemplate<ExtendedZoneProcessor>;
 
 #if 1
 /**
  * An implementation of a BasicZoneProcessorCacheBase where the cache of size
  * SIZE is embedded into the class itself. This is expected to be created as a
  * global object and passed into the BasicZoneManager.
+ *
+ * @tparam SIZE number of zone processors, should be approximate the number
+ *    zones *concurrently* used in the app. It is expected that this will be
+ *    small. It can be 1 if the app never changes the TimeZone. It should be 2
+ *    if the user is able to select different timezones from a menu.
  */
-template<uint8_t SIZE>
-class BasicZoneProcessorCache: public ZoneProcessorCacheTemplate<
-    SIZE, BasicZoneProcessor> {
+template <uint8_t SIZE>
+class BasicZoneProcessorCache : public BasicZoneProcessorCacheBase {
+  public:
+    BasicZoneProcessorCache() :
+      BasicZoneProcessorCacheBase(mZoneProcessors, SIZE)
+    {}
+
+  private:
+    // disable copy constructor and assignment operator
+    BasicZoneProcessorCache(const BasicZoneProcessorCache&) = delete;
+    BasicZoneProcessorCache& operator=(const BasicZoneProcessorCache&) = delete;
+
+  private:
+    BasicZoneProcessor mZoneProcessors[SIZE];
 };
 
 /**
  * An implementation of an ExtendedZoneProcessorCacheBase where the cache of
  * size SIZE is embedded into the class itself. This is expected to be created
  * as a global object and passed into the ExtendedZoneManager.
+ *
+ * @tparam SIZE number of zone processors, should be approximate the number
+ *    zones *concurrently* used in the app. It is expected that this will be
+ *    small. It can be 1 if the app never changes the TimeZone. It should be 2
+ *    if the user is able to select different timezones from a menu.
  */
-template<uint8_t SIZE>
-class ExtendedZoneProcessorCache: public ZoneProcessorCacheTemplate<
-    SIZE, ExtendedZoneProcessor> {
+template <uint8_t SIZE>
+class ExtendedZoneProcessorCache: public ExtendedZoneProcessorCacheBase {
+  public:
+    ExtendedZoneProcessorCache() :
+      ExtendedZoneProcessorCacheBase(mZoneProcessors, SIZE)
+    {}
+
+  private:
+    // disable copy constructor and assignment operator
+    ExtendedZoneProcessorCache(const ExtendedZoneProcessorCache&) = delete;
+    ExtendedZoneProcessorCache& operator=(const ExtendedZoneProcessorCache&)
+        = delete;
+
+  private:
+    ExtendedZoneProcessor mZoneProcessors[SIZE];
 };
 #else
 
@@ -136,11 +148,11 @@ class ExtendedZoneProcessorCache: public ZoneProcessorCacheTemplate<
 // seems to be no difference in code size between the two. The compiler seems
 // to optimize away the vtables of the parent and child classes.
 
-template<uint8_t SIZE>
+template <uint8_t SIZE>
 using BasicZoneProcessorCache = ZoneProcessorCacheTemplate<
     SIZE, BasicZoneProcessor>;
 
-template<uint8_t SIZE>
+template <uint8_t SIZE>
 using ExtendedZoneProcessorCache  = ZoneProcessorCacheTemplate<
     SIZE, ExtendedZoneProcessor>;
 #endif

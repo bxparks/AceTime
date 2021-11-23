@@ -18,10 +18,29 @@
 namespace ace_time {
 
 /**
- * A simple version of ZoneManager that converts a TimeZoneData into a TimeZone.
+ * Base class for ManualZoneManager, BasicZoneManager, and ExtendedZoneManager
+ * to keep ZoneManager::kInvalidIndex for backwards compatibility. Subclasses
+ * are not meant to be used polymorphically because none of the methods are
+ * virtual.
+ */
+class ZoneManager {
+  public:
+
+    /** Registry index which is not valid. Indicates an error or not found. */
+    static const uint16_t kInvalidIndex = 0xffff;
+};
+
+/**
+ * A simple version of ZoneManager that converts a manual TimeZoneData
+ * with fixed STD and DST offsets into a TimeZone.
  */
 class ManualZoneManager {
   public:
+    /**
+     * Create a TimeZone with fixed STD and DST offsets stored in the
+     * TimeZoneData which was created by TimeZone::toTimeZoneData().
+     * IANA timezones are not supported.
+     */
     TimeZone createForTimeZoneData(const TimeZoneData& d) {
       switch (d.type) {
         case TimeZoneData::kTypeError:
@@ -61,15 +80,12 @@ class ManualZoneManager {
  *    ExtendedZoneProcessor)
  * @tparam Z zone wrapper class, either BasicZone or ExtendedZone
  */
-template<
+template <
     typename ZI, typename ZRR,
     typename ZP, typename Z
 >
-class ZoneManagerImpl {
+class ZoneManagerTemplate : public ZoneManager {
   public:
-    /** Registry index which is not valid. Indicates an error or not found. */
-    static const uint16_t kInvalidIndex = 0xffff;
-
     /**
      * Create a TimeZone for the given zone name (e.g. "America/Los_Angeles").
      */
@@ -174,22 +190,22 @@ class ZoneManagerImpl {
      * @param zoneRegistrySize number of ZoneInfo entries in zoneRegistry
      * @param zoneRegistry an array of ZoneInfo entries
      */
-    ZoneManagerImpl(
+    ZoneManagerTemplate(
         uint16_t zoneRegistrySize,
         const ZI* const* zoneRegistry,
-        ZoneProcessorCacheBase<ZP>& zoneProcessorCache
+        ZoneProcessorCacheBaseTemplate<ZP>& zoneProcessorCache
     ):
         mZoneRegistrar(zoneRegistrySize, zoneRegistry),
         mZoneProcessorCache(zoneProcessorCache)
     {}
 
     // disable copy constructor and assignment operator
-    ZoneManagerImpl(const ZoneManagerImpl&) = delete;
-    ZoneManagerImpl& operator=(const ZoneManagerImpl&) = delete;
+    ZoneManagerTemplate(const ZoneManagerTemplate&) = delete;
+    ZoneManagerTemplate& operator=(const ZoneManagerTemplate&) = delete;
 
   protected:
     const ZRR mZoneRegistrar;
-    ZoneProcessorCacheBase<ZP>& mZoneProcessorCache;
+    ZoneProcessorCacheBaseTemplate<ZP>& mZoneProcessorCache;
 };
 
 #if 1
@@ -197,7 +213,7 @@ class ZoneManagerImpl {
  * An implementation of the ZoneManager which uses a registry of basic::ZoneInfo
  * records.
  */
-class BasicZoneManager: public ZoneManagerImpl<
+class BasicZoneManager: public ZoneManagerTemplate<
     basic::ZoneInfo,
     basic::ZoneRegistrar,
     BasicZoneProcessor,
@@ -210,7 +226,7 @@ class BasicZoneManager: public ZoneManagerImpl<
         const basic::ZoneInfo* const* zoneRegistry,
         BasicZoneProcessorCacheBase& zoneProcessorCache
     ):
-        ZoneManagerImpl<
+        ZoneManagerTemplate<
             basic::ZoneInfo,
             basic::ZoneRegistrar,
             BasicZoneProcessor,
@@ -228,7 +244,7 @@ class BasicZoneManager: public ZoneManagerImpl<
  * An implementation of the ZoneManager which uses a registry of
  * extended::ZoneInfo records.
  */
-class ExtendedZoneManager: public ZoneManagerImpl<
+class ExtendedZoneManager: public ZoneManagerTemplate<
     extended::ZoneInfo,
     extended::ZoneRegistrar,
     ExtendedZoneProcessor,
@@ -241,7 +257,7 @@ class ExtendedZoneManager: public ZoneManagerImpl<
         const extended::ZoneInfo* const* zoneRegistry,
         ExtendedZoneProcessorCacheBase& zoneProcessorCache
     ):
-        ZoneManagerImpl<
+        ZoneManagerTemplate<
             extended::ZoneInfo,
             extended::ZoneRegistrar,
             ExtendedZoneProcessor,
@@ -264,15 +280,15 @@ class ExtendedZoneManager: public ZoneManagerImpl<
 // seems to optimize away the vtables of the parent and child classes. So we'll
 // use the above subclassing solution to get better error messages.
 
-using BasicZoneManager = ZoneManagerImpl<
+using BasicZoneManager = ZoneManagerTemplate<
     basic::ZoneInfo,
     basic::ZoneRegistrar,
     BasicZoneProcessor,
     BasicZone
 >;
 
-template<uint8_t SIZE>
-using ExtendedZoneManager = ZoneManagerImpl<
+template <uint8_t SIZE>
+using ExtendedZoneManager = ZoneManagerTemplate<
     extended::ZoneInfo,
     extended::ZoneRegistrar,
     ExtendedZoneProcessor,
