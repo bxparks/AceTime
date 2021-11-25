@@ -237,7 +237,6 @@ class BasicZoneManager: public ZoneManagerTemplate<
             zoneProcessorCache
         )
     {}
-
 };
 
 /**
@@ -287,7 +286,6 @@ using BasicZoneManager = ZoneManagerTemplate<
     BasicZone
 >;
 
-template <uint8_t SIZE>
 using ExtendedZoneManager = ZoneManagerTemplate<
     extended::ZoneInfo,
     extended::ZoneRegistrar,

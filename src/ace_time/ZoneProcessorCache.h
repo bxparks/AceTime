@@ -30,6 +30,12 @@ class ZoneProcessorCacheBaseTemplate {
       mZoneProcessors(zoneProcessors)
     {}
 
+    /** Return the size of the cache. */
+    uint8_t size() const { return mSize; }
+
+    /** Get the ZoneProcessor at index i. */
+    ZP* getZoneProcessorAtIndex(uint8_t i) { return &mZoneProcessors[i]; }
+
     /**
      * Get ZoneProcessor from either a ZoneKey, either a basic::ZoneInfo or an
      * extended::ZoneInfo. This will never return nullptr.
