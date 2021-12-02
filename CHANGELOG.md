@@ -15,6 +15,17 @@
     * Add `MaxBufSize` comment field into `zonedb[x]/zone_infos.h` which is the
       maximum over all zones in that file. Must be less than or equal to
       `ExtendedZoneProcessor::kMaxTransitions`.
+    * **Potential Breaking Change**: `class TransitionStorage`
+        * Rename `getHighWater()` to `getAllocSize()`. This now returns the
+          maximum number of transitions that has been allocated so far, which
+          happens to be `getHighWater() + 1`.
+        * Rename `resetHighWater()` to `resetAllocSize()`.
+        * Rename `ExtendedZoneProcessor::resetTransitionHighWater()` to
+          `resetTransitionAllocSize()`.
+        * All of these methods were intended for internal debugging so these
+          changes are not considered to be an API change.
+        * The semantics of these methods are now closer to the algorithm in
+          `AceTimePython/zone_processor.ZoneProcessor`.
     * **Breaking Change**: Extract `BasicZoneProcessorCache` and
       `ExtendedZoneProcessorCache` out of `BasicZoneManager` and
       `ExtendedZoneManager`. Remove all pure `virtual` methods from

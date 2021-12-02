@@ -86,7 +86,7 @@ class ExtendedTransitionTest: public aunit::TestOnce {
       // Assert that the TransitionStorage buffer size is exactly the buffer
       // size calculated from zone_processor.py.
       if (expectedBufSize) {
-        uint8_t observedBufSize = zoneProcessor.getTransitionHighWater() + 1;
+        uint8_t observedBufSize = zoneProcessor.getTransitionAllocSize();
         assertEqual(observedBufSize, expectedBufSize);
       }
     }

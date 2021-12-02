@@ -409,13 +409,13 @@ struct TransitionTemplate {
  * pattern of creation and release of the various Transition objects within the
  * ExtendedZoneProcessor class.
  *
- * There are 4 pools indicated by the following half-open (exclusive) index
- * ranges:
+ * There are 4 pools indicated by the following half-open (inclusive to
+ * exclusive) index ranges:
  *
  * 1) Active pool: [0, mIndexPrior)
  * 2) Prior pool: [mIndexPrior, mIndexCandidates), either 0 or 1 element
  * 3) Candidate pool: [mIndexCandidates, mIndexFree)
- * 4) Free pool: [mIndexFree, SIZE)
+ * 4) Free agent pool: [mIndexFree, mAllocSize), 0 or 1 element
  *
  * At the completion of the ExtendedZoneProcessor::init(LocalDate& ld) method,
  * the Active pool will contain the active Transitions relevant to the
@@ -439,7 +439,12 @@ class TransitionStorageTemplate {
     /** Constructor. */
     TransitionStorageTemplate() {}
 
-    /** Initialize all pools. */
+    /**
+     * Initialize all pools to 0 size, usually when a new year is initialized.
+     * The mAllocSize is not reset, so that we can determine the maximum
+     * allocation size across multiple years. Call resetAllocSize() manually to
+     * reset the mAllocSize.
+     */
     void init() {
       for (uint8_t i = 0; i < SIZE; i++) {
         mTransitions[i] = &mPool[i];
@@ -487,22 +492,24 @@ class TransitionStorageTemplate {
      * getFreeAgent() is called, the same Transition will be returned.
      */
     Transition* getFreeAgent() {
-      // Set the internal high water mark. If that index becomes SIZE,
-      // then we know we have an overflow.
-      if (mIndexFree > mHighWater) {
-        mHighWater = mIndexFree;
-      }
-
       if (mIndexFree < SIZE) {
+        // Allocate a free transition.
+        if (mIndexFree >= mAllocSize) {
+          mAllocSize = mIndexFree + 1;
+        }
         return mTransitions[mIndexFree];
       } else {
+        // No more transition available in the buffer, so just return the last
+        // one. This will probably cause a bug in the timezone calculations, but
+        // I think this is better than triggering undefined behavior by running
+        // off the end of the mTransitions buffer.
         return mTransitions[SIZE - 1];
       }
     }
 
     /**
      * Immediately add the free agent Transition at index mIndexFree to the
-     * Active pool. Then increment mIndexFree to remove the free agent
+     * Active pool. Then increment mIndexFree to consume the free agent
      * from the Free pool. This assumes that the Pending and Candidate pool are
      * empty, which makes the Active pool come immediately before the Free
      * pool.
@@ -515,12 +522,15 @@ class TransitionStorageTemplate {
     }
 
     /**
-     * Allocate one Transition just after the Active pool, but before the
-     * Candidate pool, to keep the most recent prior Transition. Shift the
-     * Candidate pool and Free pool up by one.
+     * Allocate a free Transition then add it to the Prior pool. This assumes
+     * that the Prior pool and Candidate pool were both empty before calling
+     * this method. Shift the Candidate pool and Free pool up by one. Return a
+     * handle (pointer to pointer) to the Transition, so that the prior
+     * Transition can be swapped with another Transition, while keeping the
+     * handle valid.
      */
     Transition** reservePrior() {
-      getFreeAgent(); // update high water mark
+      getFreeAgent(); // allocate a new Transition
 
       mIndexCandidates++;
       mIndexFree++;
@@ -529,8 +539,8 @@ class TransitionStorageTemplate {
 
     /** Set the free agent transition as the most recent prior. */
     void setFreeAgentAsPriorIfValid() {
-      Transition* ft = getFreeAgent();
-      Transition* prior = getPrior();
+      Transition* ft = mTransitions[mIndexFree];
+      Transition* prior = mTransitions[mIndexPrior];
       if ((prior->isValidPrior && prior->transitionTime < ft->transitionTime)
           || !prior->isValidPrior) {
         ft->isValidPrior = true;
@@ -710,15 +720,15 @@ class TransitionStorageTemplate {
       }
     }
 
-    /** Reset the high water mark. For debugging. */
-    void resetHighWater() { mHighWater = 0; }
+    /** Reset the current allocation size. For debugging. */
+    void resetAllocSize() { mAllocSize = 0; }
 
     /**
-     * Return the high water mark. This is the largest value of mIndexFree that
-     * was used. If this returns SIZE, it indicates that the Transition mPool
-     * overflowed. For debugging.
+     * Return the maximum number of transitions which was allocated. If this is
+     * greater than SIZE, it indicates that the Transition mPool overflowed.
+     * This method is intended for debugging.
      */
-    uint8_t getHighWater() const { return mHighWater; }
+    uint8_t getAllocSize() const { return mAllocSize; }
 
   private:
     friend class ::TransitionStorageTest_getFreeAgent;
@@ -742,8 +752,8 @@ class TransitionStorageTemplate {
     uint8_t mIndexCandidates;
     uint8_t mIndexFree;
 
-    /** High water mark. For debugging. */
-    uint8_t mHighWater = 0;
+    /** Number of allocated transitions. */
+    uint8_t mAllocSize = 0;
 };
 
 } // namespace extended
@@ -910,13 +920,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /** Reset the TransitionStorage high water mark. For debugging. */
-    void resetTransitionHighWater() {
-      mTransitionStorage.resetHighWater();
+    void resetTransitionAllocSize() {
+      mTransitionStorage.resetAllocSize();
     }
 
-    /** Get the TransitionStorage high water mark. For debugging. */
-    uint8_t getTransitionHighWater() const {
-      return mTransitionStorage.getHighWater();
+    /** Get the largest allocation size of TransitionStorage. For debugging. */
+    uint8_t getTransitionAllocSize() const {
+      return mTransitionStorage.getAllocSize();
     }
 
     void setZoneKey(uintptr_t zoneKey) override {
@@ -926,7 +936,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       mYear = 0;
       mIsFilled = false;
       mNumMatches = 0;
-      resetTransitionHighWater();
+      resetTransitionAllocSize(); // clear the alloc size for new zone
     }
 
     bool equalsZoneKey(uintptr_t zoneKey) const override {
@@ -984,8 +994,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       extended::YearMonthTuple untilYm =  {
         (int8_t) (year - LocalDate::kEpochYear + 1), 2 };
 
-      // Step 1 (See equivalent steps in
-      // zone_processor.ZoneSpecifier.init_for_year())
+      // Step 1. The equivalent steps for the Python version are in the
+      // AceTimePython project, under
+      // zone_processor.ZoneProcessor.init_for_year().
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("==== Step 1: findMatches()\n");
       }
@@ -1348,6 +1359,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       int8_t startY = match->startDateTime.yearTiny;
       int8_t endY = match->untilDateTime.yearTiny;
 
+      // The prior is referenced through a handle (i.e. pointer to pointer)
+      // because the actual pointer to the prior could change through the
+      // transitionStorage.setFreeAgentAsPriorIfValid() method.
       Transition** prior = transitionStorage.reservePrior();
       (*prior)->isValidPrior = false; // indicates "no prior transition"
       for (uint8_t r = 0; r < numRules; r++) {
