@@ -95,7 +95,7 @@ This library can be an alternative to the Arduino Time
 
 The latest stable release is available in the Arduino Library Manager in the
 IDE. Search for "AceTime". Click install. The Library Manager should
-automatically install AceTime and its the dependent library:
+automatically install AceTime and its dependent libraries:
 
 * AceTime (https://github.com/bxparks/AceTime)
 * AceCommon (https://github.com/bxparks/AceCommon)
