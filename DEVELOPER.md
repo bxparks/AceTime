@@ -626,16 +626,15 @@ tests will fail until the underlying timezone database of the OS is updated.
 <a name="ReleaseProcess"></a>
 ## Release Process
 
+* Update `examples/MemoryBenchmark` and `examples/AutoBenchmark`.
 * Update and commit the version numbers in various files:
     * `src/AceTime.h`
     * `README.md`
-    * `docs/date_time_timezone.md`
-    * `docs/clock_system_clock.md`
-    * `docs/installation.md`
-    * ...
+    * `USER_GUIDE.md`
+    * `MIGRATING.md`
+    * `CHANGELOG.md`
     * `docs/doxygen.cfg`
     * `library.properties`
-    * `CHANGELOG.md`
     * `$ git commit -m "..."`
 * Update and commit the Doxygen docs. This is done as a separate git commit
   because the Doxygen changes are often so large that they obscure all other
@@ -652,6 +651,17 @@ tests will fail until the underlying timezone database of the OS is updated.
     * Approve and merge the PR.
 * Create a new Release of AceTimePython.
     * Go to https://github.com/bxparks/AceTimePython
+    * Bump version number on `develop`.
+    * Merge `develop` into `master`.
+    * Click on "Releases"
+    * Click on "Draft a new release"
+    * Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
+    * Enter the release title.
+    * Enter the release notes. I normally just copy and paste the latest changes
+      from `CHANGELOG.md`.
+    * Click Publish release.
+* Create a new Release of AceTimeTools.
+    * Go to https://github.com/bxparks/AceTimeTools
     * Click on "Releases"
     * Click on "Draft a new release"
     * Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
@@ -668,8 +678,12 @@ tests will fail until the underlying timezone database of the OS is updated.
     * Enter the release notes. I normally just copy and paste the latest changes
       from `CHANGELOG.md`.
     * Click Publish release.
-* Add corresponding tags on AceTimeTools and AceTimeValidation for reference.
+* Add corresponding tags on AceTimePython, AceTimeTools and AceTimeValidation
+  for reference.
     * AceTimePython
+        * `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
+        * `$ git push --tags`
+    * AceTimeTools
         * `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
         * `$ git push --tags`
     * AceTimeValidation
