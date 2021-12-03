@@ -19,8 +19,11 @@ using namespace ace_time;
 // well, at the cost of additional flash consumption. Cache size of 3 means that
 // it can support 3 concurrent timezones without performance penalties.
 static const int CACHE_SIZE = 3;
-static BasicZoneManager<CACHE_SIZE> manager(
-    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+static BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+static BasicZoneManager manager(
+    zonedb::kZoneRegistrySize,
+    zonedb::kZoneRegistry,
+    zoneProcessorCache);
 
 void setup() {
 #if ! defined(EPOXY_DUINO)

@@ -4,7 +4,7 @@ The primary purpose of AceTime classes is to convert between an integer
 representing the number of seconds since Epoch (2000-01-01T00:00:00 UTC) to
 human-readable components in different timezones.
 
-**Version**: 1.8.2 (2021-10-28, TZDB 2021e)
+**Version**: 1.9.0 (2021-12-02, TZDB 2021e)
 
 **Related Documents**:
 
@@ -54,6 +54,7 @@ human-readable components in different timezones.
         * [Fat Links (From v1.5)](#FatLinks)
         * [Thin Links (From v1.6)](#ThinLinks)
         * [Custom Zone Registry](#CustomZoneRegistry)
+* [Zone Sorting](#ZoneSorting)
 * [Print To String](#PrintToString)
 * [Mutations](#Mutations)
     * [TimeOffset Mutations](#TimeOffsetMutations)
@@ -221,7 +222,8 @@ identifier of type `uint32_t` which is guaranteed to be unique and stable. For
 example, the zoneId for `"America/Los_Angeles"` is provided by
 `zonedb::kZoneIdAmerica_Los_Angeles` or `zonedbx::kZoneIdAmerica_Los_Angele`
 which both have the value `0xb7f7e8f2`. A `TimeZone` object can be saved as a
-`zoneId` and then recreated using the `ZoneManager::createFromZoneId()` method.
+`zoneId` and then recreated using the `BasicZoneManager::createForZoneId()`
+or `ExtendedZoneManager::createForZoneId()` method.
 
 <a name="Headers"></a>
 ### Headers and Namespaces
@@ -1299,55 +1301,66 @@ or `zoneId`.
 <a name="ClassHierarchy"></a>
 #### Class Hierarchy
 
-The `ZoneManager` is an interface, and 3 implementation classes are provided:
+Three implementations of the `ZoneManager` are provided. Prior to v1.9, they
+were organized into a hierarchy with a top-level `ZoneManager` interface with
+pure virtual functions. However, in v1.9, the top-level `ZoneManager` interface
+was removed and all virtual functions were removed. This saves about 1100-1200
+bytes of flash on AVR processors.
 
 ```C++
 namespace ace_time{
 
-class ZoneManager {
-  public:
-    static const uint16_t kInvalidIndex = 0xffff;
-
-    virtual TimeZone createForZoneName(const char* name)  = 0;
-
-    virtual TimeZone createForZoneId(uint32_t id) = 0;
-
-    virtual TimeZone createForZoneIndex(uint16_t index) = 0;
-
-    virtual TimeZone createForTimeZoneData(const TimeZoneData& d) = 0;
-
-    virtual uint16_t indexForZoneName(const char* name) const = 0;
-
-    virtual uint16_t indexForZoneId(uint32_t id) const = 0;
-
-    virtual uint16_t zoneRegistrySize() const = 0;
-};
-
-template<uint16_t SIZE>
-class BasicZoneManager : public ZoneManager {
+class BasicZoneManager {
   public:
     BasicZoneManager(
         uint16_t registrySize,
-        const basic::ZoneInfo* const* zoneRegistry
+        const basic::ZoneInfo* const* zoneRegistry,
+        BasicZoneProcessorCacheBase& zoneProcessorCache
     );
 
+    uint16_t zoneRegistrySize() const;
+
+    TimeZone createForZoneName(const char* name);
+    TimeZone createForZoneId(uint32_t id);
+    TimeZone createForZoneIndex(uint16_t index);
+    TimeZone createForTimeZoneData(const TimeZoneData& d);
     TimeZone createForZoneInfo(const basic::ZoneInfo* zoneInfo);
+
+    uint16_t indexForZoneName(const char* name) const;
+    uint16_t indexForZoneId(uint32_t id) const;
+
+    BasicZoneProcessor* getZoneProcessor(const char* name);
+    BasicZone getZoneForIndex(uint16_t index) const;
 };
 
-template<uint16_t SIZE>
-class ExtendedZoneManager : public ZoneManager {
+class ExtendedZoneManager {
   public:
     ExtendedZoneManager(
         uint16_t registrySize,
-        const extended::ZoneInfo* const* zoneRegistry
+        const extended::ZoneInfo* const* zoneRegistry,
+        BasicZoneProcessorCacheBase& zoneProcessorCache
     );
 
+    uint16_t zoneRegistrySize() const;
+
     TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
+    TimeZone createForZoneId(uint32_t id);
+    TimeZone createForZoneIndex(uint16_t index);
+    TimeZone createForTimeZoneData(const TimeZoneData& d);
+    TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
+
+    uint16_t indexForZoneName(const char* name) const;
+    uint16_t indexForZoneId(uint32_t id) const;
+
+    ExtendedZoneProcessor* getZoneProcessor(const char* name);
+    ExtendedZone getZoneForIndex(uint16_t index) const;
 };
 
-class ManualZoneManager : public ZoneManager {
+class ManualZoneManager {
   public:
-    TimeZone createForTimeZoneData(const TimeZoneData& d) override;
+    uint16_t zoneRegistrySize() const;
+
+    TimeZone createForTimeZoneData(const TimeZoneData& d);
 };
 
 }
@@ -1393,33 +1406,37 @@ v1.6 with TZDB version 2021a:
 // 266 zones
 // 21.6 kB (8-bits)
 // 27.1 kB (32-bits)
-BasicZoneManager manager(
+BasicZoneManager zoneManager(
     zonedb::kZoneRegistrySize,
-    zonedb::kZoneRegistry);
+    zonedb::kZoneRegistry,
+    zoneProcessorCache);
 
 // BasicZoneManager, Zones and Fat Links
 // 266 zones, 183 fat links
 // 25.7 kB (8-bits)
 // 33.2 kB (32-bits)
-BasicZoneManager manager(
+BasicZoneManager zoneManager(
     zonedb::kZoneAndLinkRegistrySize,
-    zonedb::kZoneAndLinkRegistry);
+    zonedb::kZoneAndLinkRegistry,
+    zoneProcessorCache);
 
 // ExtendedZoneManager, Zones only
 // 386 Zones
 // 33.5 kB (8-bits)
 // 41.7 kB (32-bits)
-ExtendedZoneManager manager(
+ExtendedZoneManager zoneManager(
     zonedbx::kZoneRegistrySize,
-    zonedbx::kZoneRegistry);
+    zonedbx::kZoneRegistry,
+    zoneProcessorCache);
 
 // ExtendedZoneManager, Zones and Fat Links
 // 386 Zones, 207 fat Links
 // 38.2 kB (8-bits)
 // 48.7 kB (32-bits)
-ExtendedZoneManager manager(
+ExtendedZoneManager zoneManager(
     zonedbx::kZoneAndLinkRegistrySize,
-    zonedbx::kZoneAndLinkRegistry);
+    zonedbx::kZoneAndLinkRegistry,
+    zoneProcessorCache);
 ```
 
 A more complicated option of using *thin link* through the `LinkManager` is
@@ -1433,8 +1450,9 @@ use one of the `createForXxx()` methods to create a `TimeZone`, like this:
 using namespace ace_time;
 ...
 static const uint16_t CACHE_SIZE = 2;
-static BasicZoneManager<CACHE_SIZE> zoneManager(
-    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+static BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+static BasicZoneManager zoneManager(
+    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry, zoneProcessorCache);
 
 void someFunction(const char* zoneName) {
   TimeZone tz = zoneManager.createForZoneName("America/Los_Angeles");
@@ -1457,21 +1475,24 @@ The `ZoneManager` allows creation of a `TimeZone` using the fully qualified
 zone name:
 
 ```C++
-BasicZoneManager<NUM_ZONES> manager(...);
+BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+BasicZoneManager zoneManager(..., zoneProcessorCache);
 
 void someFunction() {
-  TimeZone tz = manager.createForZoneName("America/Los_Angeles");
+  TimeZone tz = zoneManager.createForZoneName("America/Los_Angeles");
   ...
 }
 ```
 
 Of course, you probably wouldn't actually do this because the same functionality
 could be done more efficiently (less memory, less CPU time) using:
+
 ```C++
-BasicZoneManager<NUM_ZONES> manager(...);
+BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+BasicZoneManager zoneManager(..., zoneProcessorCache);
 
 void someFunction() {
-  TimeZone tz = manager.createForZoneInfo(zonedb::kZoneAmerica_Los_Angeles);
+  TimeZone tz = zoneManager.createForZoneInfo(zonedb::kZoneAmerica_Los_Angeles);
   ...
 }
 ```
@@ -1501,17 +1522,19 @@ The `ZoneManager::createForZoneId()` method returns the `TimeZone` object
 corresponding to the given `zoneId`:
 
 ```C++
-BasicZoneManager<NUM_ZONES> manager(...);
+BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+BasicZoneManager zoneManager(..., zoneProcessorCache);
 
 void someFunction() {
-  TimeZone tz = manager.createForZoneId(kZoneIdAmerica_New_York);
+  TimeZone tz = zoneManager.createForZoneId(kZoneIdAmerica_New_York);
   ...
 }
 
-ExtendedZoneManager<NUM_ZONES> manager(...);
+ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+ExtendedZoneManager zoneManager(..., zoneProcessorCache);
 
 void someFunction() {
-  TimeZone tz = manager.createForZoneId(kZoneIdAmerica_New_York);
+  TimeZone tz = zoneManager.createForZoneId(kZoneIdAmerica_New_York);
   ...
 }
 ```
@@ -1575,10 +1598,10 @@ to EEPROM.
 <a name="ManualZoneManager"></a>
 #### ManualZoneManager
 
-The `ManualZoneManager` is an implementation of `ZoneManager` that implements
-only the `createForTimeZoneData()` method, and handles only
-`TimeZoneData::kTypeManual`. In other words, it can only create `TimeZone`
-objects with fixed standard and DST offsets.
+The `ManualZoneManager` is a type of `ZoneManager` that implements only the
+`createForTimeZoneData()` method, and handles only `TimeZoneData::kTypeManual`.
+In other words, it can only create `TimeZone` objects with fixed standard and
+DST offsets.
 
 This class reduces the amount of conditional code (using `#if` statements)
 needed in applications which are normally targeted to use `BasicZoneManager` and
@@ -1896,11 +1919,11 @@ the Zone registry. The ZoneManagers can constructed using the combined registry,
 like this:
 
 ```C++
-BasicZoneManager manager(
+BasicZoneManager zoneManager(
     zonedb::kZoneAndLinkRegistrySize,
     zonedb::kZoneAndLinkRegistry);
 
-ExtendedZoneManager manager(
+ExtendedZoneManager zoneManager(
     zonedbx::kZoneAndLinkRegistrySize,
     zonedbx::kZoneAndLinkRegistry);
 ```
@@ -1936,8 +1959,6 @@ namespace ace_time {
 class LinkManager {
   public:
     static const uint16_t kInvalidZoneId = 0x0;
-    virtual uint32_t zoneIdForLinkId(uint32_t linkId) const = 0;
-    virtual uint16_t linkRegistrySize() const = 0;
 };
 
 class BasicLinkManager: public LinkManager {
@@ -1946,6 +1967,9 @@ class BasicLinkManager: public LinkManager {
         uint16_t linkRegistrySize,
         const basic::LinkEntry* linkRegistry
     );
+
+    uint32_t zoneIdForLinkId(uint32_t linkId) const;
+    uint16_t linkRegistrySize() const;
 };
 
 class ExtendedLinkManager: public LinkManager {
@@ -1954,6 +1978,9 @@ class ExtendedLinkManager: public LinkManager {
         uint16_t linkRegistrySize,
         const extended::LinkEntry* linkRegistry
     );
+
+    uint32_t zoneIdForLinkId(uint32_t linkId) const;
+    uint16_t linkRegistrySize() const;
 };
 
 }
@@ -1970,10 +1997,12 @@ using namespace ace_time;
 ...
 
 // Thin links for the zonedb database
-BasicLinkManager manager(zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
+BasicLinkManager linkManager(
+    zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
 
 // Thin links for the zonedbx database
-ExtendedLinkManager manager(zonedbx::kLinkRegistrySize, zonedbx::kLinkRegistry);
+ExtendedLinkManager linkManager(
+    zonedbx::kLinkRegistrySize, zonedbx::kLinkRegistry);
 ```
 
 When the search for a `zoneId` fails, then the client application can choose to
@@ -2024,8 +2053,9 @@ static const uint16_t kZoneRegistrySize =
     sizeof(kZoneRegistry) / sizeof(basic::ZoneInfo*);
 
 static const uint16_t CACHE_SIZE = 2;
-static BasicZoneManager<CACHE_SIZE> zoneManager(
-    kZoneRegistrySize, kZoneRegistry);
+static BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+static BasicZoneManager zoneManager(
+    kZoneRegistrySize, kZoneRegistry, zoneProcessorCache);
 ```
 
 Here is the equivalent `ExtendedZoneManager` with 4 zones from the `zonedbx::`
@@ -2046,8 +2076,9 @@ static const uint16_t kZoneRegistrySize =
     sizeof(kZoneRegistry) / sizeof(extended::ZoneInfo*);
 
 static const uint16_t CACHE_SIZE = 2;
-static ExtendedZoneManager<CACHE_SIZE> zoneManager(
-    kZoneRegistrySize, kZoneRegistry);
+static ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+static ExtendedZoneManager zoneManager(
+    kZoneRegistrySize, kZoneRegistry, zoneProcessorCache);
 ```
 
 The `ACE_TIME_PROGMEM` macro is defined in
@@ -2071,6 +2102,163 @@ C++ code representing these custom zone registries from a list of zones.)
 with different range of years. The tools are all here, but not explicitly
 documented currently. Examples of how to this do exist inside the various
 `Makefile` files in the AceTimeValidation project.)
+
+<a name="ZoneSorting"></a>
+## Zone Sorting
+
+When a client application supports only a handful of zones in the `ZoneManager`,
+the order in which the zones are presented to the user may not be too important
+since the user can scan the entire list quickly. But when the `ZoneManager`
+contains the entire zoneInfo database (up to 594 zones and links), it becomes
+useful to sort the zones in a predictable way before showing them to the user.
+
+The `ZoneSorterByName` and `ZoneSorterByOffsetAndName` are 2 classes which can
+sort the list of zones. They look like this:
+
+```C++
+namespace ace_time {
+
+template <typename ZM>
+class ZoneSorterByName {
+  public:
+    ZoneSorterByName(const ZM& zoneManager);
+
+    void fillIndexes(uint16_t indexes[], uint16_t size) const;
+
+    void sortIndexes(uint16_t indexes[], uint16_t size) const;
+    void sortIds(uint32_t ids[], uint16_t size) const;
+    void sortNames(const char* names[], uint16_t size) const;
+};
+
+template <typename ZM>
+class ZoneSorterByOffsetAndName {
+  public:
+    ZoneSorterByOffsetAndName(const ZM& zoneManager);
+
+    void fillIndexes(uint16_t indexes[], uint16_t size) const;
+
+    void sortIndexes(uint16_t indexes[], uint16_t size) const;
+    void sortIds(uint32_t ids[], uint16_t size) const;
+    void sortNames(const char* names[], uint16_t size) const;
+};
+
+}
+```
+
+The `ZoneSorterByName` class sorts the given zones in ascending order by the
+zone's name. The `ZoneSorterByOffsetAndName` class sorts the zones by its UTC
+offset during standard time, then by the zone's name within the same UTC offset.
+Both of these are templatized on the `BasicZoneManager` or the
+`ExtendedZoneManager` classes because they require the methods implemented by
+those classes. The ZoneSorter classes will not compile if the
+`ManualZoneManager` class is given because it does not make sense.
+
+To use these classes, the calling client should follow these steps:
+
+1) Wrap an instance of a `ZoneSorterByName` class or `ZoneSorterByOffsetAndName`
+   class around the `ZoneManager` class.
+2) Create an array filled in the following manner:
+    * an `indexes[]` array filled with the index into the `zoneRegistry`; or
+    * an `ids[]` array filled with the 32-bit zone id; or
+    * a `names[]` array filled with the `const char*` string of the zone name.
+3) Call one of the `sortIndexes()`, `sortIds()`, or `sortNames()` methods of the
+  `ZoneSorter` class to sort the array.
+
+The code will look like this:
+
+```C++
+#include <AceTime.h>
+
+using namespace ace_time;
+using namespace ace_time::zonedbx;
+
+ExtendedZoneProcessorCache<1> zoneProcessorCache;
+ExtendedZoneManager zoneManager(
+  zonedbx::kZoneAndLinkRegistrySize,
+  zonedbx::kZoneAndLinkRegistry,
+  zoneProcessorCache
+);
+
+// Print each zone in the form of:
+// "UTC-08:00 America/Los_Angeles"
+// "UTC-07:00 America/Denver"
+// [...]
+void printZones(uint16_t indexes[], uint16_t size) {
+  for (uint16_t i = 0; i < size; i++) {
+    ExtendedZone zone = zoneManager.getZoneForIndex(indexes[i]);
+    TimeOffset stdOffset = TimeOffset::forMinutes(zone.stdOffsetMinutes());
+
+    // Print "UTC-08:00 America/Los_Angeles".
+    SERIAL_PORT_MONITOR.print(F("UTC"));
+    stdOffset.printTo(SERIAL_PORT_MONITOR);
+    SERIAL_PORT_MONITOR.print(' ');
+    zone.printNameTo(SERIAL_PORT_MONITOR);
+    SERIAL_PORT_MONITOR.println();
+  }
+}
+
+void sortAndPrintZones() {
+  // Create the indexes[kZoneAndLinkRegistrySize] on the stack. This has 594
+  // elements as of TZDB 2021e, so this requires a microcontroller which can
+  // support at least 1188 bytes on the stack.
+  uint16_t indexes[zonedbx::kZoneAndLinkRegistrySize];
+
+  // Create the sorter.
+  ZoneSorterByOffsetAndName<ExtendedZoneManager> zoneSorter(zoneManager);
+
+  // Fill the array with indexes from 0 to 593.
+  zoneSorter.fillIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
+
+  // Sort the indexes.
+  zoneSorter.sortIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
+
+  // Print in human readable form.
+  printZones(indexes, zonedbx::kZoneAndLinkRegistrySize);
+}
+```
+
+The `fillIndexes(uint16_t indexes[], uint16_t size)` method is a convenience
+method that fills the given `indexes[]` array from `0` to `size-1`, so that it
+can be sorted according to the specified sorting order. In other words, it is a
+short hand for:
+
+```C++
+for (uint16_t i = 0; i < size; i++ ) {
+  indexes[i] = i;
+}
+```
+
+See [examples/ListZones](examples/ListZones) for more examples.
+
+The calling code can choose to sort only a subset of the zones registered into
+the `ZoneManager`. In the following example, 4 zone ids are placed into an array
+of 4 slots, then sorted by offset and name:
+
+```C++
+#include <AceTime.h>
+
+using namespace ace_time;
+
+ExtendedZoneProcessorCache<1> zoneProcessorCache;
+ExtendedZoneManager zoneManager(
+  zonedbx::kZoneAndLinkRegistrySize,
+  zonedbx::kZoneAndLinkRegistry,
+  zoneProcessorCache
+);
+
+uint32_t zoneIds[4] = {
+  zonedbx::kZoneIdAmerica_Los_Angeles,
+  zonedbx::kZoneIdAmerica_New_York,
+  zonedbx::kZoneIdAmerica_Denver,
+  zonedbx::kZoneIdAmerica_Chicago,
+};
+
+void sortIds() {
+  ZoneSorterByOffsetAndName<ExtendedZoneManager> zoneSorter(zoneManager);
+  zoneSorter.sortIds(zoneIds, 4);
+  ...
+}
+```
 
 <a name="PrintToString"></a>
 ## Print To String
@@ -2438,11 +2626,12 @@ resulting object will return a true value for `isError()`.
       `TimeZone` instance as parameters which can be ambiguous or invalid for
       some values.
         * During the Standard time to DST transitions, a one-hour gap of
-      illegal values may exist. For example, 2am (Standard) shifts to 3am (DST),
-      therefore wall times between 02:00 and 03:00 (exclusive) are not valid.
+          illegal values may exist. For example, 2am (Standard) shifts to 3am
+          (DST), therefore wall times between 02:00 and 03:00 (exclusive) are
+          not valid.
         * During DST to Standard time transitions, a one-hour interval occurs
-        twice. For example, 2am (DST) shifts to 1am, so all times between 01:00
-        and 02:00 (exclusive) occurs twice in one day.
+          twice. For example, 2am (DST) shifts to 1am, so all times between
+          01:00 and 02:00 (exclusive) occurs twice in one day.
    * The `ZonedDateTime::forCommponent()` methods makes an educated guess
      at what the user meant, but the algorithm may not be robust, is not tested
      as well as it could be, and the algorithm may change in the future. To keep
@@ -2456,17 +2645,6 @@ resulting object will return a true value for `isError()`.
         * `ace_time::zonedbx::kZoneContext`
     * A `ZonedDateTime` object cannot be created outside of that valid year
       range. This is explained in [ZoneInfo Year Range](#ZoneInfoYearRange).
-* `NtpClock`
-    * The `NtpClock` on an ESP8266 calls `WiFi.hostByName()` to resolve
-      the IP address of the NTP server. Unfortunately, when I tested this
-      library, it seems to be a blocking call (later versions may have fixed
-      this). When the DNS resolver is working properly, this call returns in
-      ~10ms or less. But sometimes, the DNS resolver seems to get into a state
-      where it takes 4-5 **seconds** to time out. Even if you use AceRoutine
-      coroutines, the entire program will block for those 4-5 seconds.
-    * [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) uses an epoch
-      of 1900-01-01T00:00:00Z, with 32-bit unsigned integer as the seconds
-      counter. It will overflow just after 2036-02-07T06:28:15Z.
 * `BasicZoneProcessor`
     * Supports 1-minute resolution for AT and UNTIL fields.
     * Supports only a 15-minute resolution for STDOFF and DST offset fields,

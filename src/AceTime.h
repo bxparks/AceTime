@@ -57,6 +57,8 @@
 #include "ace_time/ZoneProcessorCache.h"
 #include "ace_time/ZoneManager.h"
 #include "ace_time/LinkManager.h"
+#include "ace_time/ZoneSorterByName.h"
+#include "ace_time/ZoneSorterByOffsetAndName.h"
 #include "ace_time/TimeZoneData.h"
 #include "ace_time/TimeZone.h"
 #include "ace_time/BasicZone.h"
@@ -67,7 +69,7 @@
 #include "ace_time/time_period_mutation.h"
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 10802
-#define ACE_TIME_VERSION_STRING "1.8.2"
+#define ACE_TIME_VERSION 10900
+#define ACE_TIME_VERSION_STRING "1.9.0"
 
 #endif

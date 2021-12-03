@@ -1,9 +1,8 @@
 <map id="ace_time::ZoneManager" name="ace_time::ZoneManager">
-<area shape="rect" id="node1" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa..." alt="" coords="5,104,185,131"/>
-<area shape="rect" id="node2" href="$classace__time_1_1ManualZoneManager.html" title="A ZoneManager that implements only createForTimeZoneData() to create TimeZones of type kTypeManual,..." alt="" coords="268,5,496,32"/>
-<area shape="rect" id="node3" href="$classace__time_1_1ZoneManagerImpl.html" title="A templatized implementation of ZoneManager that binds the ZoneRegistrar with the corresponding (Basi..." alt="" coords="277,57,487,98"/>
-<area shape="rect" id="node4" href="$classace__time_1_1ZoneManagerImpl.html" title=" " alt="" coords="247,122,517,193"/>
-<area shape="rect" id="node6" href="$classace__time_1_1ZoneManagerImpl.html" title=" " alt="" coords="233,217,531,287"/>
-<area shape="rect" id="node5" href="$classace__time_1_1BasicZoneManager.html" title="An implementation of the ZoneManager which uses a registry of basic::ZoneInfo records." alt="" coords="592,137,807,178"/>
-<area shape="rect" id="node7" href="$classace__time_1_1ExtendedZoneManager.html" title="An implementation of the ZoneManager which uses a registry of extended::ZoneInfo records." alt="" coords="579,231,820,273"/>
+<area shape="rect" id="node1" title="Base class for ManualZoneManager, BasicZoneManager, and ExtendedZoneManager to keep ZoneManager::kInv..." alt="" coords="5,93,185,119"/>
+<area shape="rect" id="node2" href="$classace__time_1_1ZoneManagerTemplate.html" title="A templatized implementation of ZoneManager that binds the ZoneRegistrar with the corresponding (Basi..." alt="" coords="259,5,499,47"/>
+<area shape="rect" id="node3" href="$classace__time_1_1ZoneManagerTemplate.html" title=" " alt="" coords="246,71,511,141"/>
+<area shape="rect" id="node5" href="$classace__time_1_1ZoneManagerTemplate.html" title=" " alt="" coords="233,165,524,236"/>
+<area shape="rect" id="node4" href="$classace__time_1_1BasicZoneManager.html" title="An implementation of the ZoneManager which uses a registry of basic::ZoneInfo records." alt="" coords="585,93,800,119"/>
+<area shape="rect" id="node6" href="$classace__time_1_1ExtendedZoneManager.html" title="An implementation of the ZoneManager which uses a registry of extended::ZoneInfo records." alt="" coords="572,187,813,214"/>
 </map>

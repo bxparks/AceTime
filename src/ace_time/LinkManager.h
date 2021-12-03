@@ -13,8 +13,10 @@
 namespace ace_time {
 
 /**
- * Common interface to the BasicLinkManager and ExtendedLinkManager so that a
- * single interface can be passed around to various helper objects.
+ * Base class for BasicLinkManager and ExtendedLinkManager mostly for backwards
+ * compatibility so that kInvalidZoneId can be referenced as
+ * `LinkManager::kInvalidZoneId`. No virtual methods are used to reduce flash
+ * memory usage, especially on 8-bit processors.
  */
 class LinkManager {
   public:
@@ -23,17 +25,6 @@ class LinkManager {
      * AceTimeTools project will never generate a zoneId of 0.
      */
     static const uint32_t kInvalidZoneId = 0;
-
-    /**
-     * Find the registry index for the given time link id. Returns
-     * kInvalidIndex if not found.
-     */
-    virtual uint32_t zoneIdForLinkId(uint32_t linkId) const = 0;
-
-    /**
-     * Return the number of elements in the (thin) Link registry.
-     */
-    virtual uint16_t linkRegistrySize() const = 0;
 };
 
 /**
@@ -54,14 +45,14 @@ class BasicLinkManager: public LinkManager {
         mLinkRegistrar(linkRegistrySize, linkRegistry)
     {}
 
-    uint32_t zoneIdForLinkId(uint32_t linkId) const override {
+    uint32_t zoneIdForLinkId(uint32_t linkId) const {
       const basic::LinkEntry* linkEntry =
           mLinkRegistrar.getLinkEntryForId(linkId);
       if (! linkEntry) return kInvalidZoneId;
       return basic::LinkEntryBroker(linkEntry).zoneId();
     }
 
-    uint16_t linkRegistrySize() const override {
+    uint16_t linkRegistrySize() const {
       return mLinkRegistrar.linkRegistrySize();
     }
 
@@ -91,14 +82,14 @@ class ExtendedLinkManager: public LinkManager {
         mLinkRegistrar(linkRegistrySize, linkRegistry)
     {}
 
-    uint32_t zoneIdForLinkId(uint32_t linkId) const override {
+    uint32_t zoneIdForLinkId(uint32_t linkId) const {
       const extended::LinkEntry* linkEntry =
           mLinkRegistrar.getLinkEntryForId(linkId);
       if (! linkEntry) return kInvalidZoneId;
       return extended::LinkEntryBroker(linkEntry).zoneId();
     }
 
-    uint16_t linkRegistrySize() const override {
+    uint16_t linkRegistrySize() const {
       return mLinkRegistrar.linkRegistrySize();
     }
 

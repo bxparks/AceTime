@@ -29,7 +29,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v1.8.0
+**Version**: AceTime v1.9.0
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -97,9 +97,7 @@ In v1.5+:
 In v1.6:
 * Added support for `LinkRegistry` to `BasicZoneManager` and
   `ExtendedZoneManager`. This increases the flash memory usage by 150-500 bytes
-  when using one of these classes due to the code required by `LinkRegistrar`.
-  This extra cost is incurred even if the `LinkRegistry` is set to 0 elements.
-  Each `LinkEntry` consumes 8 bytes (2 x `uint32_t`). So a
+  when using one of these classes due to the code required by `LinkRegistrar`. This extra cost is incurred even if the `LinkRegistry` is set to 0 elements. Each `LinkEntry` consumes 8 bytes (2 x `uint32_t`). So a
   `zonedb::kLinkRegistry` with 183 elements uses 1464 extra bytes of flash; a
   `zonedbx::kLinkRegistry` with 207 elements uses 1656 extra bytes.
 
@@ -142,6 +140,23 @@ In v1.8.0:
       `kZoneAndLinkRegistry` (~5000 flash bytes for AVR).
 * Create various test objects as global variables instead of stack variables
   to get a more accurate measurement of their static memory consumption.
+
+In v1.9.0:
+* Reduce flash usage of `BasicZoneManager` and `ExtendedZoneManager` by
+  1100-1300 bytes on AVR processors:
+    * Extract `BasicZoneProcessorCache` and `ExtendedZoneProcessorCache` out
+      of `BasicZoneManager` and `ExtendedZoneManager`, making them
+      non-templatized.
+    * Remove all `virtual` methods from `ZoneManager`, making the ZoneManager
+      hierarchy non-polymorphic.
+    * Looks like I am reverting some of the changes made in v1.3 when I created
+      the `ZoneManager` interface.
+* Reduce flash usage of `BasicLinkManager` and `ExtendedLinkManager` by
+  68 bytes on AVR processors by removing pure `virtual` methods on `LinkManager`
+  base class.
+* Increase flash usage by 34 bytes on AVR processors due to slight refactoring
+  of `getHighWater()` with `getAllocSize()`. Only 4-8 bytes increase on 32-bit
+  processors.
 
 ## Arduino Nano
 

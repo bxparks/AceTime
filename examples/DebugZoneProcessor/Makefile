@@ -3,5 +3,5 @@
 
 CPPFLAGS := -D ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG=1
 APP_NAME := DebugZoneProcessor
-ARDUINO_LIBS := AUnit AceCommon AceTime
+ARDUINO_LIBS := AUnit AceCommon AceTime AceSorting
 include ../../../EpoxyDuino/EpoxyDuino.mk

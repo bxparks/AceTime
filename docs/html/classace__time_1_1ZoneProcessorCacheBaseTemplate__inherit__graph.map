@@ -1,0 +1,5 @@
+<map id="ace_time::ZoneProcessorCacheBaseTemplate&lt; ZP &gt;" name="ace_time::ZoneProcessorCacheBaseTemplate&lt; ZP &gt;">
+<area shape="rect" id="node1" title="The template class of BasicZoneProcessorCacheBase or ExtendedZoneProcessorCacheBase." alt="" coords="5,39,232,80"/>
+<area shape="rect" id="node2" href="$classace__time_1_1BasicZoneProcessorCache.html" title="An implementation of a BasicZoneProcessorCacheBase where the cache of size SIZE is embedded into the ..." alt="" coords="293,5,516,47"/>
+<area shape="rect" id="node3" href="$classace__time_1_1ExtendedZoneProcessorCache.html" title="An implementation of an ExtendedZoneProcessorCacheBase where the cache of size SIZE is embedded into ..." alt="" coords="280,71,529,112"/>
+</map>

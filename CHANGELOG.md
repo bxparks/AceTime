@@ -1,6 +1,44 @@
 # Changelog
 
 * Unreleased
+* 1.9.0 (2021-12-02, TZDB 2021e)
+    * Add `ZoneSorterByName` and `ZoneSorterByOffsetAndName` classes
+      to sort zone indexes, ids, or names according to 2 pre-defined sorting
+      criteria: (1) by name, or (2) by UTC offset and then by name.
+        * See the [Zone Sorting](USER_GUIDE.md#ZoneSorting) section in the
+          `USER_GUIDE.md`.
+        * Adds a new dependency to
+          [AceSorting](https://github.com/bxparks/AceSorting) library.
+    * Add `examples/CompareAceTimeToHinnantDate` to compare the performance of
+      AceTime compared to Hinnant date library.
+        * AceTime seems to be about 90X faster for converting date-time
+          components to epoch seconds.
+    * Add `MaxBufSize` comment field into `zonedb[x]/zone_infos.h` which is the
+      maximum over all zones in that file. Must be less than or equal to
+      `ExtendedZoneProcessor::kMaxTransitions`.
+    * **Potential Breaking Change**: `class TransitionStorage`
+        * Rename `getHighWater()` to `getAllocSize()`. This now returns the
+          maximum number of transitions that has been allocated so far, which
+          happens to be `getHighWater() + 1`.
+        * Rename `resetHighWater()` to `resetAllocSize()`.
+        * Rename `ExtendedZoneProcessor::resetTransitionHighWater()` to
+          `resetTransitionAllocSize()`.
+        * All of these methods were intended for internal debugging so these
+          changes are not considered to be an API change.
+        * The semantics of these methods are now closer to the algorithm in
+          `AceTimePython/zone_processor.ZoneProcessor`.
+    * **Breaking Change**: Extract `BasicZoneProcessorCache` and
+      `ExtendedZoneProcessorCache` out of `BasicZoneManager` and
+      `ExtendedZoneManager`. Remove all pure `virtual` methods from
+      `ZoneManager`, making the class hierarchy non-polymorphic.
+        * Saves 1100-1300 bytes of flash on AVR processors.
+        * See [Migrating to v1.9](MIGRATING.md#MigratingToVersion190) for
+          migration info.
+    * **Breaking Change**: Remove pure `virtual` methods from `LinkManager`,
+      analogous to their removal from `ZoneManager`.
+        * Saves 68 bytes of flash on AVR processors.
+        * See [Migrating to v1.9](MIGRATING.md#MigratingToVersion190) for
+          migration info.
 * 1.8.2 (2021-10-28, TZDB 2021e)
     * Update to TZDB 2021e.
         * https://mm.icann.org/pipermail/tz-announce/2021-October/000069.html

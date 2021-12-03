@@ -9,7 +9,7 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     # Tried to use
     # https://github.com/actions/checkout#Checkout-multiple-repos-side-by-side,
@@ -29,6 +29,7 @@ jobs:
         git clone https://github.com/bxparks/EpoxyDuino
         git clone https://github.com/bxparks/AUnit
         git clone https://github.com/bxparks/AceCommon
+        git clone https://github.com/bxparks/AceSorting
         git clone https://github.com/bxparks/AceTimeTools
         git clone https://github.com/bxparks/AceTimePython
         git clone https://github.com/bxparks/AceTimeValidation
@@ -36,7 +37,7 @@ jobs:
         git clone https://github.com/HowardHinnant/date
 
     - name: Set up Python 3.7
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2
       with:
         python-version: '3.7'
 
@@ -60,19 +61,14 @@ jobs:
       run: |
         make -C ../AceTimeTools/compare_cpp
 
-    # Run just BasicHinnantDateTest and ExtendedHinnantDateTest. When a new
-    # TZDB version comes out, the Python pytz, dateutil, and Java validation
-    # tests will always fail because they depend on the obsolete TZ database on
-    # the hosted Operating System.
+    # Run the validations from AceTimeValidations (BasicHinnantDateTest,
+    # ExtendedHinnantDateTest, BasicAcetzTest, ExtendedAcetzTest). We don't run
+    # the others because when a new TZDB version comes out, the Python pytz,
+    # dateutil, and Java validation tests will fail because they depend
+    # on the obsolete TZ database on the host Operating System.
 
-    - name: BasicHinnantDateTest
+    - name: AceTimeValidation
       run: |
         cd ../AceTimeValidation
-        make -C BasicHinnantDateTest
-        make -C BasicHinnantDateTest runtests
-
-    - name: ExtendedHinnantDateTest
-      run: |
-        cd ../AceTimeValidation
-        make -C ExtendedHinnantDateTest
-        make -C ExtendedHinnantDateTest runtests
+        make validations
+        make runvalidations

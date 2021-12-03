@@ -6,90 +6,42 @@
 #ifndef ACE_TIME_ZONE_MANAGER_H
 #define ACE_TIME_ZONE_MANAGER_H
 
+#include <AceCommon.h>
+#include <AceSorting.h>
 #include "internal/ZoneRegistrar.h"
 #include "ZoneProcessorCache.h"
 #include "TimeZoneData.h"
 #include "TimeZone.h"
+#include "BasicZone.h"
+#include "ExtendedZone.h"
 
 namespace ace_time {
 
 /**
- * Common interface to the BasicZoneManager and ExtendedZoneManager so that a
- * single interface can be passed around to various helper objects. Various
- * methods return a TimeZone object from one of its identifiers. The identifer
- * can be a string (e.g. "America/Los_Angeles"), a unique hashed zoneId, an
- * index into the ZoneRegistry, or the TimeZoneData object created by
- * TimeZone::toTimeZoneData().
+ * Base class for ManualZoneManager, BasicZoneManager, and ExtendedZoneManager
+ * to keep ZoneManager::kInvalidIndex for backwards compatibility. Subclasses
+ * are not meant to be used polymorphically because none of the methods are
+ * virtual.
  */
 class ZoneManager {
   public:
+
     /** Registry index which is not valid. Indicates an error or not found. */
     static const uint16_t kInvalidIndex = 0xffff;
-
-    /**
-     * Create a TimeZone for the given zone name (e.g. "America/Los_Angeles").
-     */
-    virtual TimeZone createForZoneName(const char* name) = 0;
-
-    /** Create a TimeZone for the given 32-bit zoneId. */
-    virtual TimeZone createForZoneId(uint32_t id) = 0;
-
-    /**
-     * Create a TimeZone for the given index in the ZoneInfo registry that was
-     * used to create this ZoneManager.
-     */
-    virtual TimeZone createForZoneIndex(uint16_t index) = 0;
-
-    /**
-     * Create a TimeZone from the TimeZoneData created by
-     * TimeZone::toTimeZoneData().
-     */
-    virtual TimeZone createForTimeZoneData(const TimeZoneData& d) = 0;
-
-    /**
-     * Find the registry index for the given time zone name. Returns
-     * kInvalidIndex if not found.
-     */
-    virtual uint16_t indexForZoneName(const char* name) const = 0;
-
-    /**
-     * Find the registry index for the given time zone id. Returns
-     * kInvalidIndex if not found.
-     */
-    virtual uint16_t indexForZoneId(uint32_t id) const = 0;
-
-    /**
-     * Return the number of elements in the Zone and Fat Link registry.
-     * Previously named registrySize().
-     */
-    virtual uint16_t zoneRegistrySize() const = 0;
 };
 
 /**
- * A ZoneManager that implements only createForTimeZoneData() to create
- * TimeZones of type kTypeManual, in other words, time zones with fixed STD and
- * DST offsets. This is useful in applications designed to run on
- * microcontrollers with small memory where a full BasicZoneManager or
- * ExtendedZoneManager generate too much code. This object can be used anywhere
- * a ZoneManager is expected, which reduces the need for C-preprocessor
- * conditional code.
+ * A simple version of ZoneManager that converts a manual TimeZoneData
+ * with fixed STD and DST offsets into a TimeZone.
  */
-class ManualZoneManager : public ZoneManager {
+class ManualZoneManager {
   public:
-
-    TimeZone createForZoneName(const char* /*name*/) override {
-      return TimeZone::forError();
-    }
-
-    TimeZone createForZoneId(uint32_t /*id*/) override {
-      return TimeZone::forError();
-    }
-
-    TimeZone createForZoneIndex(uint16_t /*index*/) override {
-      return TimeZone::forError();
-    }
-
-    TimeZone createForTimeZoneData(const TimeZoneData& d) override {
+    /**
+     * Create a TimeZone with fixed STD and DST offsets stored in the
+     * TimeZoneData which was created by TimeZone::toTimeZoneData().
+     * IANA timezones are not supported.
+     */
+    TimeZone createForTimeZoneData(const TimeZoneData& d) {
       switch (d.type) {
         case TimeZoneData::kTypeError:
           return TimeZone::forError();
@@ -102,22 +54,14 @@ class ManualZoneManager : public ZoneManager {
       }
     }
 
-    uint16_t indexForZoneName(const char* /*name*/) const override {
-      return kInvalidIndex;
-    }
-
-    uint16_t indexForZoneId(uint32_t /*id*/) const override {
-      return kInvalidIndex;
-    }
-
-    uint16_t zoneRegistrySize() const override { return 0; }
+    uint16_t zoneRegistrySize() const { return 0; }
 };
 
 /**
  * A templatized implementation of ZoneManager that binds the ZoneRegistrar
  * with the corresponding (Basic|Extended)ZoneProcessorCache. Applications will
  * normally use two specific instantiation of this class:
- * BasicZoneManager<SIZE> and ExtendedZoneManager<SIZE>.
+ * BasicZoneManager and ExtendedZoneManager.
  *
  * If an entry in the ZoneRegistrar is not found, then TimeZone::forError() will
  * be returned.
@@ -134,31 +78,42 @@ class ManualZoneManager : public ZoneManager {
  *    (e.g. basic::ZoneRegistrar, extended::ZoneRegistrar)
  * @tparam ZP class of ZoneProcessor (e.g. BasicZoneProcessor,
  *    ExtendedZoneProcessor)
- * @tparam ZPC class of ZoneProcessorCache (e.g. BasicZoneProcessorCache,
- *    ExtendedZoneProcessorCache)
+ * @tparam Z zone wrapper class, either BasicZone or ExtendedZone
  */
-template<
+template <
     typename ZI, typename ZRR,
-    typename ZP, typename ZPC
+    typename ZP, typename Z
 >
-class ZoneManagerImpl : public ZoneManager {
+class ZoneManagerTemplate : public ZoneManager {
   public:
-    TimeZone createForZoneName(const char* name) override {
+    /**
+     * Create a TimeZone for the given zone name (e.g. "America/Los_Angeles").
+     */
+    TimeZone createForZoneName(const char* name) {
       const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForName(name);
       return createForZoneInfo(zoneInfo);
     }
 
-    TimeZone createForZoneId(uint32_t id) override {
+    /** Create a TimeZone for the given 32-bit zoneId. */
+    TimeZone createForZoneId(uint32_t id) {
       const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForId(id);
       return createForZoneInfo(zoneInfo);
     }
 
-    TimeZone createForZoneIndex(uint16_t index) override {
+    /**
+     * Create a TimeZone for the given index in the ZoneInfo registry that was
+     * used to create this ZoneManager.
+     */
+    TimeZone createForZoneIndex(uint16_t index) {
       const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForIndex(index);
       return createForZoneInfo(zoneInfo);
     }
 
-    TimeZone createForTimeZoneData(const TimeZoneData& d) override {
+    /**
+     * Create a TimeZone from the TimeZoneData created by
+     * TimeZone::toTimeZoneData().
+     */
+    TimeZone createForTimeZoneData(const TimeZoneData& d) {
       switch (d.type) {
         case TimeZoneData::kTypeError:
           return TimeZone::forError();
@@ -174,15 +129,27 @@ class ZoneManagerImpl : public ZoneManager {
       }
     }
 
-    uint16_t indexForZoneName(const char* name) const override {
+    /**
+     * Find the registry index for the given time zone name. Returns
+     * kInvalidIndex if not found.
+     */
+    uint16_t indexForZoneName(const char* name) const {
       return mZoneRegistrar.findIndexForName(name);
     }
 
-    uint16_t indexForZoneId(uint32_t id) const override {
+    /**
+     * Find the registry index for the given time zone id. Returns
+     * kInvalidIndex if not found.
+     */
+    uint16_t indexForZoneId(uint32_t id) const {
       return mZoneRegistrar.findIndexForId(id);
     }
 
-    uint16_t zoneRegistrySize() const override {
+    /**
+     * Return the number of elements in the Zone and Fat Link registry.
+     * Previously named registrySize().
+     */
+    uint16_t zoneRegistrySize() const {
       return mZoneRegistrar.zoneRegistrySize();
     }
 
@@ -200,6 +167,22 @@ class ZoneManagerImpl : public ZoneManager {
       return TimeZone::forZoneInfo(zoneInfo, processor);
     }
 
+    /**
+     * Return the ZoneProcessor for given zone name. Mostly for debugging
+     * purposes.
+     */
+    ZP* getZoneProcessor(const char* name) {
+      const ZI* zoneInfo = this->mZoneRegistrar.getZoneInfoForName(name);
+      if (! zoneInfo) return nullptr;
+      return this->mZoneProcessorCache.getZoneProcessor((uintptr_t) zoneInfo);
+    }
+
+    /** Return the Zone wrapper object for the given index. */
+    Z getZoneForIndex(uint16_t index) const {
+      const ZI* zoneInfo = this->mZoneRegistrar.getZoneInfoForIndex(index);
+      return Z(zoneInfo);
+    }
+
   protected:
     /**
      * Constructor.
@@ -207,104 +190,83 @@ class ZoneManagerImpl : public ZoneManager {
      * @param zoneRegistrySize number of ZoneInfo entries in zoneRegistry
      * @param zoneRegistry an array of ZoneInfo entries
      */
-    ZoneManagerImpl(
+    ZoneManagerTemplate(
         uint16_t zoneRegistrySize,
-        const ZI* const* zoneRegistry
+        const ZI* const* zoneRegistry,
+        ZoneProcessorCacheBaseTemplate<ZP>& zoneProcessorCache
     ):
         mZoneRegistrar(zoneRegistrySize, zoneRegistry),
-        mZoneProcessorCache() {}
+        mZoneProcessorCache(zoneProcessorCache)
+    {}
 
     // disable copy constructor and assignment operator
-    ZoneManagerImpl(const ZoneManagerImpl&) = delete;
-    ZoneManagerImpl& operator=(const ZoneManagerImpl&) = delete;
+    ZoneManagerTemplate(const ZoneManagerTemplate&) = delete;
+    ZoneManagerTemplate& operator=(const ZoneManagerTemplate&) = delete;
 
+  protected:
     const ZRR mZoneRegistrar;
-    ZPC mZoneProcessorCache;
+    ZoneProcessorCacheBaseTemplate<ZP>& mZoneProcessorCache;
 };
 
 #if 1
 /**
  * An implementation of the ZoneManager which uses a registry of basic::ZoneInfo
  * records.
- *
- * @tparam SIZE size of the BasicZoneProcessorCache
  */
-template<uint16_t SIZE>
-class BasicZoneManager: public ZoneManagerImpl<
+class BasicZoneManager: public ZoneManagerTemplate<
     basic::ZoneInfo,
     basic::ZoneRegistrar,
     BasicZoneProcessor,
-    BasicZoneProcessorCache<SIZE>
+    BasicZone
 > {
 
   public:
     BasicZoneManager(
         uint16_t zoneRegistrySize,
-        const basic::ZoneInfo* const* zoneRegistry
+        const basic::ZoneInfo* const* zoneRegistry,
+        BasicZoneProcessorCacheBase& zoneProcessorCache
     ):
-        ZoneManagerImpl<
+        ZoneManagerTemplate<
             basic::ZoneInfo,
             basic::ZoneRegistrar,
             BasicZoneProcessor,
-            BasicZoneProcessorCache<SIZE>
+            BasicZone
         >(
             zoneRegistrySize,
-            zoneRegistry
+            zoneRegistry,
+            zoneProcessorCache
         )
     {}
-
-    /**
-     * Return the BasicZoneProcessor for given zone name. Mostly for
-     * debugging purposes.
-     */
-    BasicZoneProcessor* getZoneProcessor(const char* name) {
-      const basic::ZoneInfo* zoneInfo =
-          this->mZoneRegistrar.getZoneInfoForName(name);
-      if (! zoneInfo) return nullptr;
-      return this->mZoneProcessorCache.getZoneProcessor((uintptr_t) zoneInfo);
-    }
 };
 
 /**
  * An implementation of the ZoneManager which uses a registry of
  * extended::ZoneInfo records.
- *
- * @tparam SIZE size of the ExtendedZoneProcessorCache
  */
-template<uint16_t SIZE>
-class ExtendedZoneManager: public ZoneManagerImpl<
+class ExtendedZoneManager: public ZoneManagerTemplate<
     extended::ZoneInfo,
     extended::ZoneRegistrar,
     ExtendedZoneProcessor,
-    ExtendedZoneProcessorCache<SIZE>
+    ExtendedZone
 > {
 
   public:
     ExtendedZoneManager(
         uint16_t zoneRegistrySize,
-        const extended::ZoneInfo* const* zoneRegistry
+        const extended::ZoneInfo* const* zoneRegistry,
+        ExtendedZoneProcessorCacheBase& zoneProcessorCache
     ):
-        ZoneManagerImpl<
+        ZoneManagerTemplate<
             extended::ZoneInfo,
             extended::ZoneRegistrar,
             ExtendedZoneProcessor,
-            ExtendedZoneProcessorCache<SIZE>
+            ExtendedZone
         >(
             zoneRegistrySize,
-            zoneRegistry
+            zoneRegistry,
+            zoneProcessorCache
         )
     {}
-
-    /**
-     * Return the ExtendedZoneProcessor for given zone name. Mostly for
-     * debugging purposes.
-     */
-    ExtendedZoneProcessor* getZoneProcessor(const char* name) {
-      const extended::ZoneInfo* zoneInfo =
-          this->mZoneRegistrar.getZoneInfoForName(name);
-      if (! zoneInfo) return nullptr;
-      return this->mZoneProcessorCache.getZoneProcessor((uintptr_t) zoneInfo);
-    }
 };
 
 #else
@@ -317,20 +279,18 @@ class ExtendedZoneManager: public ZoneManagerImpl<
 // seems to optimize away the vtables of the parent and child classes. So we'll
 // use the above subclassing solution to get better error messages.
 
-template<uint8_t SIZE>
-using BasicZoneManager = ZoneManagerImpl<
+using BasicZoneManager = ZoneManagerTemplate<
     basic::ZoneInfo,
     basic::ZoneRegistrar,
     BasicZoneProcessor,
-    BasicZoneProcessorCache<SIZE>
+    BasicZone
 >;
 
-template<uint8_t SIZE>
-using ExtendedZoneManager = ZoneManagerImpl<
+using ExtendedZoneManager = ZoneManagerTemplate<
     extended::ZoneInfo,
     extended::ZoneRegistrar,
     ExtendedZoneProcessor,
-    ExtendedZoneProcessorCache<SIZE>
+    ExtendedZone
 >;
 
 #endif

@@ -302,6 +302,8 @@ class ZoneInfoBroker {
       return mZoneInfo == zoneInfoBroker.mZoneInfo;
     }
 
+    bool isNull() const { return mZoneInfo == nullptr; }
+
   #if ACE_TIME_USE_PROGMEM
 
     const internal::ZoneContext* zoneContext() const {

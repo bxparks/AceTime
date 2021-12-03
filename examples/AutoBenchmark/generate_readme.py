@@ -28,7 +28,7 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
-**Version**: AceTime v1.8.0
+**Version**: AceTime v1.9.0
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
@@ -129,6 +129,13 @@ In v1.7.5:
 In v1.8.0:
 * Remove `sizeof()` Clock classes which were moved to AceTimeClock library.
 * No significant changes to excution times of various benchmarks.
+
+In v1.9.0:
+* Extract `BasicZoneProcessorCache<SIZE>` and `ExtendedZoneProcessorCache<SIZE>`
+  from `BasicZoneManager` and `ExtendedZoneManager`. Remove all pure `virtual`
+  methods from `ZoneManager`, making ZoneManager hierarchy non-polymorphic.
+    * Saves 1100-1300 of flash on AVR.
+    * No signficant changes to CPU performance.
 
 ## Arduino Nano
 

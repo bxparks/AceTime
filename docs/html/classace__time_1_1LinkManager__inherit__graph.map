@@ -1,5 +1,5 @@
 <map id="ace_time::LinkManager" name="ace_time::LinkManager">
-<area shape="rect" id="node1" title="Common interface to the BasicLinkManager and ExtendedLinkManager so that a single interface can be pa..." alt="" coords="145,5,320,32"/>
+<area shape="rect" id="node1" title="Base class for BasicLinkManager and ExtendedLinkManager mostly for backwards compatibility so that kI..." alt="" coords="145,5,320,32"/>
 <area shape="rect" id="node2" href="$classace__time_1_1BasicLinkManager.html" title="An implementation of the LinkManager which uses a registry of basic::ZoneInfo records." alt="" coords="5,80,215,107"/>
 <area shape="rect" id="node3" href="$classace__time_1_1ExtendedLinkManager.html" title="An implementation of the LinkManager which uses a registry of extended::ZoneInfo records." alt="" coords="239,80,474,107"/>
 </map>

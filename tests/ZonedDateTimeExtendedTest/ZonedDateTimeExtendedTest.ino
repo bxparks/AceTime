@@ -21,8 +21,12 @@ const extended::ZoneInfo* const kExtendedZoneRegistry[] ACE_TIME_PROGMEM = {
 const uint16_t kExtendedZoneRegistrySize =
     sizeof(kExtendedZoneRegistry) / sizeof(kExtendedZoneRegistry[0]);
 
-ExtendedZoneManager<1> extendedZoneManager(
-    kExtendedZoneRegistrySize, kExtendedZoneRegistry);
+ExtendedZoneProcessorCache<1> zoneProcessorCache;
+
+ExtendedZoneManager extendedZoneManager(
+    kExtendedZoneRegistrySize,
+    kExtendedZoneRegistry,
+    zoneProcessorCache);
 
 // --------------------------------------------------------------------------
 // ZonedDateTime + ExtendedZoneManager

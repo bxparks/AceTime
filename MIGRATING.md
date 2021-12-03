@@ -2,10 +2,183 @@
 
 ## Table of Contents
 
+* [Migrating to v1.9.0](#MigratingToVersion190)
+    * [Configuring the Zone Managers](#ConfiguringZoneManagers)
+    * [Using the Zone Managers](#UsingZoneManagers)
+    * [Link Managers](#LinkManagers)
 * [Migrating to v1.8.0](#MigratingToVersion180)
     * [Migrating to AceTimeClock](#MigratingToAceTimeClock)
     * [Migrating the DS3231Clock](#MigratingTheDS3231Clock)
     * [Migrating to LinkManagers](#MigratingToLinkManagers)
+
+<a name="MigratingToVersion190"></a>
+## Migrating to v1.9.0
+
+The `ZoneManager` hierarchy (containing `ManualZoneManager`, `BasicZoneManager`,
+and `ExtendedZoneManager`) was refactored from v1.8.0 to v1.9.0.
+
+<a name="ConfiguringZoneManagers"></a>
+### Configuring the Zone Managers
+
+In v1.8, the `ZoneManager` was an abstract interface class with 7 pure virtual
+methods that was the base class of the class hierarchy of all ZoneManager
+subclasses. This was convenient because the `TimeZone` related parts of the
+client application code could be written against the `ZoneManager` base class
+and the specific implementation could be configured in a small section of the
+application code. The problem with such a polymorphic class hierarchy is that
+the virtual methods consume significant amounts of flash memory, especially on
+8-bit AVR processors with limited flash. The
+[examples/MemoryBenchmark](examples/MemoryBenchmark) program showed that this
+design consumed an extra 1100-1300 bytes of flash.
+
+In v1.9, several changes were made to reduce the flash memory size:
+
+1. All virtual methods were removed from the `ZoneManager` and its
+   subclasses. 
+2. The `BasicZoneManager` and `ExtendedZoneManager` classes are no longer
+   template classes, making them easier to use (e.g. in the `ZoneSorterByName`
+   and `ZoneSorterByOffsetAndName` classes).
+3. The internal `BasicZoneProcessorCache` and `ExtendedZoneProcessorCache`
+   member variables were extracted out from the respective ZoneManager classes.
+   These are now expected to be created separately, and passed into the
+   constructors of the `BasicZoneManager` and `ExtendedZoneManager` classes.
+
+The migration path is relatively simple. In v1.8, the `BasicZoneManager` was
+configured like this:
+
+```C++
+static const uint8_t CACHE_SIZE = 4;
+BasicZoneManager<CACHE_SIZE> zoneManager(
+    kZoneRegistrySize,
+    kZoneRegistry);
+```
+
+In v1.9, this should be replaced with code that looks like:
+
+```C++
+static const uint8_t CACHE_SIZE = 4;
+BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+BasicZoneManager zoneManager(
+    kZoneRegistrySize,
+    kZoneRegistry,
+    zoneProcessorCache);
+```
+
+Similarly, in v1.8, the `ExtendedZoneManager` was configured like following:
+
+```C++
+static const uint8_t CACHE_SIZE = 4;
+ExtendedoneManager<CACHE_SIZE> zoneManager(
+    zonedb::kZoneRegistrySize,
+    zonedb::kZoneRegistry);
+```
+
+In v1.9, this should be replaced with code that looks like this:
+
+```C++
+static const uint8_t CACHE_SIZE = 4;
+ExtendedoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+ExtendedoneManager zoneManager(
+    zonedbx::kZoneRegistrySize,
+    zonedbx::kZoneRegistry,
+    zoneProcessorCache);
+```
+
+<a name="UsingZoneManagers"></a>
+### Using the Zone Managers
+
+In v1.8, the `ZoneManager` was the parent interface class of all polymorphic
+subclasses. So the client code that needed a specific subclass of `ZoneManager`
+could do something like this:
+
+```C++
+class Controller {
+  public:
+    Controller(
+      ZoneManager* zoneManager,
+      ...
+    ) :
+      mZoneManager(zoneManager),
+      ...
+    {}
+
+  private:
+    ZoneManager* mZoneManager;
+};
+```
+
+Any instance of `BasicZoneManager<SIZE>` or `ExtendedZoneManager<SIZE>` could be
+passed into the constructor. This provided some runtime flexibility and code
+simplicity. However, the runtime flexibility did not seem useful for the vast
+majority of cases and the simplicity offered by the single parent interface
+class was paid for by an extra 1100-1300 bytes of flash memory.
+
+In v1.9, the application still has the ability to choose between a
+`BasicZoneManager` and an `ExtendedZoneManager` at compile time. The same
+`Controller` constructor should look something like this:
+
+```C++
+// Define the various TIME_ZONE_TYPE macros in config.h.
+#include "config.h"
+
+class Controller {
+  public:
+    Controller(
+    #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
+      BasicZoneManager* zoneManager,
+    #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
+      ExtendedZoneManager* zoneManager,
+    #endif
+      ...
+    ) :
+      mZoneManager(zoneManager),
+      ...
+    {}
+
+  private:
+  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
+    BasicZoneManager* mZoneManager;
+  #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
+    ExtendedZoneManager* mZoneManager;
+  #endif
+};
+```
+
+It is assumed that most applications will hard code either the
+`BasicZoneManager` or the `ExtendedZoneManager`, and will not need this level
+of configuration.
+
+<a name="LinkManagers"></a>
+### Link Managers
+
+In v1.8, the `LinkManager` was an interface class with pure virtual methods:
+
+```C++
+class LinkManager {
+  public:
+    static const uint16_t kInvalidZoneId = 0x0;
+    virtual uint32_t zoneIdForLinkId(uint32_t linkId) const = 0;
+    virtual uint16_t linkRegistrySize() const = 0;
+};
+```
+
+But allowing the `BasicLinkManager` and `ExtendedLinkManager` to be polymorphic
+did not seem worth the extra flash usage, similar to the `ZoneManager`
+hierarchy.
+
+In v1.9, the pure `virtual` methods were removed, but the static constant
+was retained for backwards compatibility:
+
+```C++
+class LinkManager {
+  public:
+    static const uint16_t kInvalidZoneId = 0x0;
+};
+```
+
+The `BasicLinkManager` and `ExtendedLinkManager` should be used directly,
+instead of through the `LinkManager` interface. Since Link Managers were
+introduced only in v1.8, I expect almost no one to be affected by this.
 
 <a name="MigratingToVersion180"></a>
 ## Migrating to v1.8.0
