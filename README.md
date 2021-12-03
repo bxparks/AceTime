@@ -99,12 +99,14 @@ automatically install AceTime and its the dependent library:
 
 * AceTime (https://github.com/bxparks/AceTime)
 * AceCommon (https://github.com/bxparks/AceCommon)
+* AceSorting (https://github.com/bxparks/AceSorting)
 
 The development version can be installed by cloning the above repos manually.
 You can copy over the contents to the `./libraries` directory used by the
-Arduino IDE. (The result is a set of directories named `./libraries/AceTime` and
-`./libraries/AceCommon`). Or you can create symlinks from `./libraries` to these
-directories. Or you can `git clone` directly into the `./libraries` directory.
+Arduino IDE. (The result is a set of directories named `./libraries/AceTime`,
+`./libraries/AceCommon`, `./libraries/AceSorting`). Or you can create symlinks
+from `./libraries` to these directories. Or you can `git clone` directly into
+the `./libraries` directory.
 
 The `develop` branch contains the latest development.
 The `master` branch contains the stable releases.
@@ -441,13 +443,15 @@ different programming languages:
 
 * the Python pytz (https://pypi.org/project/pytz/) library from the year 2000
   until 2037 (inclusive),
-* the Python  dateutil (https://pypi.org/project/python-dateutil/) library from
+* the Python dateutil (https://pypi.org/project/python-dateutil/) library from
   the year 2000 until 2037 (inclusive),
+* the Python 3.9 zoneinfo (https://docs.python.org/3/library/zoneinfo.html)
+  library from the year 1974 until 2049 (inclusive),
 * the Java JDK 11
   [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
-  library from year 2000 to 2049 (inclusive),
+  library from year 2000 to 2049 (inclusive)
 * the C++11/14/17 Hinnant date (https://github.com/HowardHinnant/date) library
-  from year 1974 to 2049 (inclusive).
+  from year 1974 to 2049 (inclusive)
 * the C# Noda Time (https://nodatime.org) library from 1974 to 2049 (inclusive)
 
 <a name="ResourceConsumption"></a>
