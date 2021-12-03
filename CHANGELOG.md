@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.9.0 (2021-12-02, TZDB 2021e)
     * Add `ZoneSorterByName` and `ZoneSorterByOffsetAndName` classes
       to sort zone indexes, ids, or names according to 2 pre-defined sorting
       criteria: (1) by name, or (2) by UTC offset and then by name.

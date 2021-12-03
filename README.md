@@ -49,7 +49,7 @@ This library can be an alternative to the Arduino Time
 (https://github.com/PaulStoffregen/Time) and Arduino Timezone
 (https://github.com/JChristensen/Timezone) libraries.
 
-**Version**: 1.8.2 (2021-10-28, TZDB version 2021e)
+**Version**: 1.9.0 (2021-12-02, TZDB version 2021e)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
