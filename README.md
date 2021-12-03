@@ -585,12 +585,18 @@ Arduino Nano:
 | BasicZoneManager (all zones+links)     |  23374/  702 | 22900/  691 |
 | BasicLinkManager (all links)           |   2378/   16 |  1904/    5 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |   8976/  670 |  8502/  659 |
-| Extended TimeZone (2 zones)            |   9368/ 1111 |  8894/ 1100 |
-| ExtendedZoneManager (1 zone)           |   9152/  676 |  8678/  665 |
-| ExtendedZoneManager (all zones)        |  30918/ 1160 | 30444/ 1149 |
-| ExtendedZoneManager (all zones+links)  |  35798/ 1160 | 35324/ 1149 |
+| Basic ZoneSorterByName [1]             |   6494/  326 |   400/   11 |
+| Basic ZoneSorterByOffsetAndName [1]    |   6626/  326 |   532/   11 |
+|----------------------------------------+--------------+-------------|
+| Extended TimeZone (1 zone)             |   9010/  670 |  8536/  659 |
+| Extended TimeZone (2 zones)            |   9402/ 1111 |  8928/ 1100 |
+| ExtendedZoneManager (1 zone)           |   9186/  676 |  8712/  665 |
+| ExtendedZoneManager (all zones)        |  30952/ 1160 | 30478/ 1149 |
+| ExtendedZoneManager (all zones+links)  |  35832/ 1160 | 35358/ 1149 |
 | ExtendedLinkManager (all links)        |   2570/   16 |  2096/    5 |
+|----------------------------------------+--------------+-------------|
+| Extended ZoneSorterByName [2]          |   9192/  676 |   182/    6 |
+| Extended ZoneSorterByOffsetAndName [2] |   9334/  676 |   324/    6 |
 +---------------------------------------------------------------------+
 ```
 
@@ -613,12 +619,18 @@ ESP8266:
 | BasicZoneManager (all zones+links)     | 290361/28660 | 30272/  768 |
 | BasicLinkManager (all links)           | 261933/27904 |  1844/   12 |
 |----------------------------------------+--------------+-------------|
+| Basic ZoneSorterByName [1]             | 266645/28664 |   476/   20 |
+| Basic ZoneSorterByOffsetAndName [1]    | 266773/28664 |   604/   20 |
+|----------------------------------------+--------------+-------------|
 | Extended TimeZone (1 zone)             | 268441/29172 |  8352/ 1280 |
 | Extended TimeZone (2 zones)            | 268745/29724 |  8656/ 1832 |
 | ExtendedZoneManager (1 zone)           | 268569/29180 |  8480/ 1288 |
 | ExtendedZoneManager (all zones)        | 298461/29176 | 38372/ 1284 |
 | ExtendedZoneManager (all zones+links)  | 306029/29176 | 45940/ 1284 |
 | ExtendedLinkManager (all links)        | 262125/27904 |  2036/   12 |
+|----------------------------------------+--------------+-------------|
+| Extended ZoneSorterByName [2]          | 268773/29184 |   332/   12 |
+| Extended ZoneSorterByOffsetAndName [2] | 268885/29184 |   444/   12 |
 +---------------------------------------------------------------------+
 ```
 

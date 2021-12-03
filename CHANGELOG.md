@@ -1,6 +1,10 @@
 # Changelog
 
 * Unreleased
+    * MemoryBenchmark: Add memory consumption for `ZoneSorterByName` and
+      `ZoneSorterByOffsetAndName`.
+        * AVR: 180-530 bytes of flash
+        * 32-bit: 120-600 bytes of flash
 * 1.9.0 (2021-12-02, TZDB 2021e)
     * Add `ZoneSorterByName` and `ZoneSorterByOffsetAndName` classes
       to sort zone indexes, ids, or names according to 2 pre-defined sorting
