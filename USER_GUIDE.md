@@ -2153,15 +2153,16 @@ Both of these are templatized on the `BasicZoneManager` or the
 those classes. The ZoneSorter classes will not compile if the
 `ManualZoneManager` class is given because it does not make sense.
 
-To use these classes, the calling client first wraps an instance of one of these
-`ZoneSorter` classes around the `ZoneManager` class. Then it creates an
-`indexes` array filled with one of the following:
+To use these classes, the calling client should follow these steps:
 
-* index into the `zoneRegistry`
-* the 32-bit zone id
-* a `const char*` c-string of the zone name
-
-Then it calls one of the `sortXxx()` methods.
+1) Wrap an instance of a `ZoneSorterByName` class or `ZoneSorterByOffsetAndName`
+   class around the `ZoneManager` class.
+2) Create an array filled in the following manner:
+    * an `indexes[]` array filled with the index into the `zoneRegistry`; or
+    * an `ids[]` array filled with the 32-bit zone id; or
+    * a `names[]` array filled with the `const char*` string of the zone name.
+3) Call one of the `sortIndexes()`, `sortIds()`, or `sortNames()` methods of the
+  `ZoneSorter` class to sort the arrays.
 
 The code will look like this:
 
@@ -2180,6 +2181,8 @@ ExtendedZoneManager zoneManager(
 
 // Print each zone in the form of:
 // "UTC-08:00 America/Los_Angeles"
+// "UTC-07:00 America/Denver"
+// [...]
 void printZones(uint16_t indexes[], uint16_t size) {
   for (uint16_t i = 0; i < size; i++) {
     ExtendedZone zone = zoneManager.getZoneForIndex(indexes[i]);
@@ -2204,7 +2207,18 @@ void sortAndPrintZones() {
 }
 ```
 
-See [examples/ListZones](examples/ListZones) for more details.
+The `fillIndexes(uint16_t indexes[], uint16_t size)` method is a convenience
+method that fills the given `indexes[]` array from `0` to `size-1`, so that it
+can be sorted according to the specified sorting order. In other words, it is a
+short hand for:
+
+```C++
+for (uint16_t i = 0; i < size; i++ ) {
+  indexes[i] = i;
+}
+```
+
+See [examples/ListZones](examples/ListZones) for more examples.
 
 The calling code can choose to sort only a subset of the zones registered into
 the `ZoneManager`. In the following example, 4 zone ids are placed into an array
