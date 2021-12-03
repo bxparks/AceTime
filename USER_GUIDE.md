@@ -2162,7 +2162,7 @@ To use these classes, the calling client should follow these steps:
     * an `ids[]` array filled with the 32-bit zone id; or
     * a `names[]` array filled with the `const char*` string of the zone name.
 3) Call one of the `sortIndexes()`, `sortIds()`, or `sortNames()` methods of the
-  `ZoneSorter` class to sort the arrays.
+  `ZoneSorter` class to sort the array.
 
 The code will look like this:
 
@@ -2188,21 +2188,31 @@ void printZones(uint16_t indexes[], uint16_t size) {
     ExtendedZone zone = zoneManager.getZoneForIndex(indexes[i]);
     TimeOffset stdOffset = TimeOffset::forMinutes(zone.stdOffsetMinutes());
 
+    // Print "UTC-08:00 America/Los_Angeles".
     SERIAL_PORT_MONITOR.print(F("UTC"));
     stdOffset.printTo(SERIAL_PORT_MONITOR);
     SERIAL_PORT_MONITOR.print(' ');
-
     zone.printNameTo(SERIAL_PORT_MONITOR);
     SERIAL_PORT_MONITOR.println();
   }
 }
 
 void sortAndPrintZones() {
+  // Create the indexes[kZoneAndLinkRegistrySize] on the stack. This has 594
+  // elements as of TZDB 2021e, so this requires a microcontroller which can
+  // support at least 1188 bytes on the stack.
   uint16_t indexes[zonedbx::kZoneAndLinkRegistrySize];
+
+  // Create the sorter.
   ZoneSorterByOffsetAndName<ExtendedZoneManager> zoneSorter(zoneManager);
 
+  // Fill the array with indexes from 0 to 593.
   zoneSorter.fillIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
+
+  // Sort the indexes.
   zoneSorter.sortIndexes(indexes, zonedbx::kZoneAndLinkRegistrySize);
+
+  // Print in human readable form.
   printZones(indexes, zonedbx::kZoneAndLinkRegistrySize);
 }
 ```

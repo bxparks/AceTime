@@ -177,7 +177,7 @@ class LinkManager {
 ```
 
 The `BasicLinkManager` and `ExtendedLinkManager` should be used directly,
-instead of through the `LinkManager` interface. Since Link Manager were
+instead of through the `LinkManager` interface. Since Link Managers were
 introduced only in v1.8, I expect almost no one to be affected by this.
 
 <a name="MigratingToVersion180"></a>
