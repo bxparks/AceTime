@@ -22,9 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.8.0</span>
+   &#160;<span id="projectnumber">1.9.0</span>
    </div>
-   <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
+   <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
  </tr>
  </tbody>
@@ -94,9 +94,8 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a8ffed64413579a5a4f677ff5337176af">TransitionStorageTemplate</a> ()</td></tr>
 <tr class="memdesc:a8ffed64413579a5a4f677ff5337176af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br /></td></tr>
 <tr class="separator:a8ffed64413579a5a4f677ff5337176af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3712f4ba492834070c6b7a3160e2f16e"><td class="memItemLeft" align="right" valign="top"><a id="a3712f4ba492834070c6b7a3160e2f16e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a3712f4ba492834070c6b7a3160e2f16e">init</a> ()</td></tr>
-<tr class="memdesc:a3712f4ba492834070c6b7a3160e2f16e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize all pools. <br /></td></tr>
+<tr class="memitem:a3712f4ba492834070c6b7a3160e2f16e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a3712f4ba492834070c6b7a3160e2f16e">init</a> ()</td></tr>
+<tr class="memdesc:a3712f4ba492834070c6b7a3160e2f16e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize all pools to 0 size, usually when a new year is initialized.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a3712f4ba492834070c6b7a3160e2f16e">More...</a><br /></td></tr>
 <tr class="separator:a3712f4ba492834070c6b7a3160e2f16e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a809ac80391c9cc919b3d9c9e054964ad"><td class="memItemLeft" align="right" valign="top"><a id="a809ac80391c9cc919b3d9c9e054964ad"></a>
 <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a64209f8ee979ac7b223bdc8bbe64bd46">Transition</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a809ac80391c9cc919b3d9c9e054964ad">getPrior</a> ()</td></tr>
@@ -124,7 +123,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:a0b23350e74c9e433d6d7d76111aeccfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Immediately add the free agent Transition at index mIndexFree to the Active pool.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a0b23350e74c9e433d6d7d76111aeccfa">More...</a><br /></td></tr>
 <tr class="separator:a0b23350e74c9e433d6d7d76111aeccfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adbab076c5b46f0abd1374e8222345a0b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a64209f8ee979ac7b223bdc8bbe64bd46">Transition</a> **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#adbab076c5b46f0abd1374e8222345a0b">reservePrior</a> ()</td></tr>
-<tr class="memdesc:adbab076c5b46f0abd1374e8222345a0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate one Transition just after the Active pool, but before the Candidate pool, to keep the most recent prior Transition.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#adbab076c5b46f0abd1374e8222345a0b">More...</a><br /></td></tr>
+<tr class="memdesc:adbab076c5b46f0abd1374e8222345a0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate a free Transition then add it to the Prior pool.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#adbab076c5b46f0abd1374e8222345a0b">More...</a><br /></td></tr>
 <tr class="separator:adbab076c5b46f0abd1374e8222345a0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ff1a57981f28513f0990e9214175fb2"><td class="memItemLeft" align="right" valign="top"><a id="a3ff1a57981f28513f0990e9214175fb2"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a3ff1a57981f28513f0990e9214175fb2">setFreeAgentAsPriorIfValid</a> ()</td></tr>
@@ -148,12 +147,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:afe54661e39b03902fb0376401082e0de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#afe54661e39b03902fb0376401082e0de">log</a> () const</td></tr>
 <tr class="memdesc:afe54661e39b03902fb0376401082e0de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify that the indexes are valid.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#afe54661e39b03902fb0376401082e0de">More...</a><br /></td></tr>
 <tr class="separator:afe54661e39b03902fb0376401082e0de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a278e772f10b83d28023898eb0a0b0cd3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a278e772f10b83d28023898eb0a0b0cd3">resetHighWater</a> ()</td></tr>
-<tr class="memdesc:a278e772f10b83d28023898eb0a0b0cd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the high water mark.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a278e772f10b83d28023898eb0a0b0cd3">More...</a><br /></td></tr>
-<tr class="separator:a278e772f10b83d28023898eb0a0b0cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38d36c8647b7b71f7c2cfcbb4e5cb0f4"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a38d36c8647b7b71f7c2cfcbb4e5cb0f4">getHighWater</a> () const</td></tr>
-<tr class="memdesc:a38d36c8647b7b71f7c2cfcbb4e5cb0f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the high water mark.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a38d36c8647b7b71f7c2cfcbb4e5cb0f4">More...</a><br /></td></tr>
-<tr class="separator:a38d36c8647b7b71f7c2cfcbb4e5cb0f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0982f4f9aaa073bce690d78d8f3141c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a0982f4f9aaa073bce690d78d8f3141c4">resetAllocSize</a> ()</td></tr>
+<tr class="memdesc:a0982f4f9aaa073bce690d78d8f3141c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the current allocation size.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a0982f4f9aaa073bce690d78d8f3141c4">More...</a><br /></td></tr>
+<tr class="separator:a0982f4f9aaa073bce690d78d8f3141c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78c711ba3a5beb744bc2901065fb8a01"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a78c711ba3a5beb744bc2901065fb8a01">getAllocSize</a> () const</td></tr>
+<tr class="memdesc:a78c711ba3a5beb744bc2901065fb8a01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the maximum number of transitions which was allocated.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a78c711ba3a5beb744bc2901065fb8a01">More...</a><br /></td></tr>
+<tr class="separator:a78c711ba3a5beb744bc2901065fb8a01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -192,8 +191,8 @@ class ace_time::extended::TransitionStorageTemplate&lt; SIZE, ZEB, ZPB, ZRB &gt;
 <p>A heap manager which is specialized and tuned to manage a collection of Transitions, keeping track of unused, used, and active states, using a fixed array of Transitions. </p>
 <p>Its main purpose is to provide some illusion of dynamic memory allocation without actually performing any dynamic memory allocation.</p>
 <p>We create a fixed sized array for the total pool, determined by the template parameter SIZE, then manage the various sub-pools of Transition objects. The allocation of the various sub-pools is intricately tied to the precise pattern of creation and release of the various Transition objects within the <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="A specific implementation of ExtendedZoneProcessorTemplate that uses ZoneXxxBrokers which read from z...">ExtendedZoneProcessor</a> class.</p>
-<p>There are 4 pools indicated by the following half-open (exclusive) index ranges:</p>
-<p>1) Active pool: [0, mIndexPrior) 2) Prior pool: [mIndexPrior, mIndexCandidates), either 0 or 1 element 3) Candidate pool: [mIndexCandidates, mIndexFree) 4) Free pool: [mIndexFree, SIZE)</p>
+<p>There are 4 pools indicated by the following half-open (inclusive to exclusive) index ranges:</p>
+<p>1) Active pool: [0, mIndexPrior) 2) Prior pool: [mIndexPrior, mIndexCandidates), either 0 or 1 element 3) Candidate pool: [mIndexCandidates, mIndexFree) 4) Free agent pool: [mIndexFree, mAllocSize), 0 or 1 element</p>
 <p>At the completion of the ExtendedZoneProcessor::init(LocalDate&amp; ld) method, the Active pool will contain the active Transitions relevant to the 'year' defined by the <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a>. The Prior and Candidate pools will be empty, with the Free pool taking up the remaining space.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -258,7 +257,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Every MatchingEra will have at least one Transition.</p>
 <dl class="section return"><dt>Returns</dt><dd>the last Transition that was added </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00583">583</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00593">593</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -288,9 +287,9 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 </div><div class="memdoc">
 
 <p>Immediately add the free agent Transition at index mIndexFree to the Active pool. </p>
-<p>Then increment mIndexFree to remove the free agent from the Free pool. This assumes that the Pending and Candidate pool are empty, which makes the Active pool come immediately before the Free pool. </p>
+<p>Then increment mIndexFree to consume the free agent from the Free pool. This assumes that the Pending and Candidate pool are empty, which makes the Active pool come immediately before the Free pool. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00510">510</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00517">517</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -322,7 +321,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Add the free agent Transition at index mIndexFree to the Candidate pool, sorted by transitionTime. </p>
 <p>Then increment mIndexFree by one to remove the free agent from the Free pool. Essentially this is an Insertion Sort keyed by the 'transitionTime' (ignoring the DateTuple.suffix). </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00557">557</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00567">567</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -354,7 +353,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Add the current prior into the Candidates pool. </p>
 <p>Prior is always just before the start of the Candidate pool, so we just need to shift back the start index of the Candidate pool. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00547">547</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00557">557</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -387,7 +386,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Return the Transition matching the given epochSeconds. </p>
 <p>Return nullptr if no matching Transition found. If a zone does not have any transition according to TZ Database, the AceTimeTools/transformer.py script adds an "anchor" transition at the "beginning of time" which happens to be the year 1872 (because the year is stored as an int8_t). Therefore, this method should never return a nullptr for a well-formed ZoneInfo file. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00617">617</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00627">627</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -422,7 +421,39 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>1) If the localDateTime falls in the DST transition gap where 0 Transitions ought to be found, e.g. between 02:00 and 03:00 in America/Los_Angeles when standard time switches to DST time), the immediate prior Transition is returned (in effect extending the UTC offset of the prior Transition through the gap. For example, when DST starts, 02:00 becomes 03:00, so a time of 02:30 does not exist, but the Transition returned will be the one valid at 01:59. When it is converted to epoch_seconds and converted back to a <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>, the 02:30 time will become 03:30, since the later UTC offset will be used.</p>
 <p>2) If the localDateTime falls in a time period where there are 2 Transitions, hence 2 valid UTC offsets, the later Transition is returned. For example, when DST ends in America/Los_Angeles, 02:00 becomes 01:00, so a time of 01:30 could belong to the earlier or later Transition. This method returns the later Transition. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00654">654</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00664">664</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+
+</div>
+</div>
+<a id="a78c711ba3a5beb744bc2901065fb8a01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78c711ba3a5beb744bc2901065fb8a01">&#9670;&nbsp;</a></span>getAllocSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html">ace_time::extended::TransitionStorageTemplate</a>&lt; SIZE, ZEB, ZPB, ZRB &gt;::getAllocSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the maximum number of transitions which was allocated. </p>
+<p>If this is greater than SIZE, it indicates that the Transition mPool overflowed. This method is intended for debugging. </p>
+
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00731">731</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -454,12 +485,12 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Return a pointer to the first Transition in the free pool. </p>
 <p>If this transition is not used, then it's ok to just drop it. The next time <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a447f3b08c7aff5b53129076487ab85c6" title="Return a pointer to the first Transition in the free pool.">getFreeAgent()</a> is called, the same Transition will be returned. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00489">489</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00494">494</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
-<a id="a38d36c8647b7b71f7c2cfcbb4e5cb0f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a38d36c8647b7b71f7c2cfcbb4e5cb0f4">&#9670;&nbsp;</a></span>getHighWater()</h2>
+<a id="a3712f4ba492834070c6b7a3160e2f16e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3712f4ba492834070c6b7a3160e2f16e">&#9670;&nbsp;</a></span>init()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -470,10 +501,10 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html">ace_time::extended::TransitionStorageTemplate</a>&lt; SIZE, ZEB, ZPB, ZRB &gt;::getHighWater </td>
+          <td class="memname">void <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html">ace_time::extended::TransitionStorageTemplate</a>&lt; SIZE, ZEB, ZPB, ZRB &gt;::init </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -483,10 +514,10 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Return the high water mark. </p>
-<p>This is the largest value of mIndexFree that was used. If this returns SIZE, it indicates that the Transition mPool overflowed. For debugging. </p>
+<p>Initialize all pools to 0 size, usually when a new year is initialized. </p>
+<p>The mAllocSize is not reset, so that we can determine the maximum allocation size across multiple years. Call <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a0982f4f9aaa073bce690d78d8f3141c4" title="Reset the current allocation size.">resetAllocSize()</a> manually to reset the mAllocSize. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00721">721</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00448">448</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -518,7 +549,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Verify that the indexes are valid. </p>
 <p>Used only for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00681">681</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00691">691</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -547,10 +578,42 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Allocate one Transition just after the Active pool, but before the Candidate pool, to keep the most recent prior Transition. </p>
-<p>Shift the Candidate pool and Free pool up by one. </p>
+<p>Allocate a free Transition then add it to the Prior pool. </p>
+<p>This assumes that the Prior pool and Candidate pool were both empty before calling this method. Shift the Candidate pool and Free pool up by one. Return a handle (pointer to pointer) to the Transition, so that the prior Transition can be swapped with another Transition, while keeping the handle valid. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00522">522</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00532">532</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+
+</div>
+</div>
+<a id="a0982f4f9aaa073bce690d78d8f3141c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0982f4f9aaa073bce690d78d8f3141c4">&#9670;&nbsp;</a></span>resetAllocSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html">ace_time::extended::TransitionStorageTemplate</a>&lt; SIZE, ZEB, ZPB, ZRB &gt;::resetAllocSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reset the current allocation size. </p>
+<p>For debugging. </p>
+
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00724">724</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -582,39 +645,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Empty the Candidate pool by resetting the various indexes. </p>
 <p>If every iteration of createTransitionsForMatch() finishes with <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a0b23350e74c9e433d6d7d76111aeccfa" title="Immediately add the free agent Transition at index mIndexFree to the Active pool.">addFreeAgentToActivePool()</a> or <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#aaa860da6313337525d7fe83f532994b0" title="Add active candidates into the Active pool, and collapse the Candidate pool.">addActiveCandidatesToActivePool()</a>, it may be possible to remove this. But it's safer to reset the indexes upon each iteration. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00465">465</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
-
-</div>
-</div>
-<a id="a278e772f10b83d28023898eb0a0b0cd3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a278e772f10b83d28023898eb0a0b0cd3">&#9670;&nbsp;</a></span>resetHighWater()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html">ace_time::extended::TransitionStorageTemplate</a>&lt; SIZE, ZEB, ZPB, ZRB &gt;::resetHighWater </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Reset the high water mark. </p>
-<p>For debugging. </p>
-
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00714">714</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00470">470</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>

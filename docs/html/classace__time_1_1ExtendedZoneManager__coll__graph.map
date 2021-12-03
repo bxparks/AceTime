@@ -1,7 +1,8 @@
-<map id="ace_time::ExtendedZoneManager&lt; SIZE &gt;" name="ace_time::ExtendedZoneManager&lt; SIZE &gt;">
-<area shape="rect" id="node1" title="An implementation of the ZoneManager which uses a registry of extended::ZoneInfo records." alt="" coords="972,27,1213,69"/>
-<area shape="rect" id="node2" href="$classace__time_1_1ZoneManagerImpl.html" title=" " alt="" coords="625,13,923,83"/>
-<area shape="rect" id="node3" href="$classace__time_1_1ZoneManager.html" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa..." alt="" coords="288,5,468,32"/>
-<area shape="rect" id="node4" href="$classace__time_1_1extended_1_1ZoneRegistrar.html" title="Concrete template instantiation of ZoneRegistrarTemplate for extended::ZoneInfo, which can be used wi..." alt="" coords="303,57,453,98"/>
-<area shape="rect" id="node5" href="$classace__time_1_1internal_1_1ZoneRegistrarTemplate.html" title=" " alt="" coords="5,35,239,120"/>
+<map id="ace_time::ExtendedZoneManager" name="ace_time::ExtendedZoneManager">
+<area shape="rect" id="node1" title="An implementation of the ZoneManager which uses a registry of extended::ZoneInfo records." alt="" coords="1131,64,1372,91"/>
+<area shape="rect" id="node2" href="$classace__time_1_1ZoneManagerTemplate.html" title=" " alt="" coords="791,42,1081,113"/>
+<area shape="rect" id="node3" href="$classace__time_1_1ZoneManager.html" title="Base class for ManualZoneManager, BasicZoneManager, and ExtendedZoneManager to keep ZoneManager::kInv..." alt="" coords="349,5,529,32"/>
+<area shape="rect" id="node4" href="$classace__time_1_1ZoneProcessorCacheBaseTemplate.html" title=" " alt="" coords="288,57,589,98"/>
+<area shape="rect" id="node5" href="$classace__time_1_1extended_1_1ZoneRegistrar.html" title="Concrete template instantiation of ZoneRegistrarTemplate for extended::ZoneInfo, which can be used wi..." alt="" coords="363,122,514,163"/>
+<area shape="rect" id="node6" href="$classace__time_1_1internal_1_1ZoneRegistrarTemplate.html" title=" " alt="" coords="5,100,239,185"/>
 </map>

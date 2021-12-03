@@ -22,9 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.8.0</span>
+   &#160;<span id="projectnumber">1.9.0</span>
    </div>
-   <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
+   <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
  </tr>
  </tbody>
@@ -79,49 +79,72 @@ $(function() {
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#ifndef ACE_TIME_BASIC_ZONE_H</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#define ACE_TIME_BASIC_ZONE_H</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;internal/ZoneInfo.h&quot;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="BasicBrokers_8h.html">internal/BasicBrokers.h</a>&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">class </span>Print;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZone.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1BasicZone.html">BasicZone</a> {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZone.html#a97ade70c7e0298971f76b6819cafc8b9">   27</a></span>&#160;    <a class="code" href="classace__time_1_1BasicZone.html#a97ade70c7e0298971f76b6819cafc8b9">BasicZone</a>(<span class="keyword">const</span> basic::ZoneInfo* zoneInfo):</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        mZoneInfoBroker(zoneInfo) {}</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZone.html#abc1f3d572422df7889c03322369ec12b">   35</a></span>&#160;    <a class="code" href="classace__time_1_1BasicZone.html#abc1f3d572422df7889c03322369ec12b">BasicZone</a>(<span class="keyword">const</span> <a class="code" href="classace__time_1_1basic_1_1ZoneInfoBroker.html">basic::ZoneInfoBroker</a>&amp; zoneInfo):</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        mZoneInfoBroker(zoneInfo) {}</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classace__time_1_1BasicZone.html#ae0f849d7c5382ab766e7aeb536b1b6e0">printNameTo</a>(Print&amp; printer) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classace__time_1_1BasicZone.html#adf8e238a8c79d6a46c40f0bd36a6eb23">printShortNameTo</a>(Print&amp; printer) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZone.html#a360efba115e043ad28c69511f229454d">   49</a></span>&#160;    uint32_t <a class="code" href="classace__time_1_1BasicZone.html#a360efba115e043ad28c69511f229454d">zoneId</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keywordflow">return</span> mZoneInfoBroker.zoneId();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">// disable default copy constructor and assignment operator</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classace__time_1_1BasicZone.html#a97ade70c7e0298971f76b6819cafc8b9">BasicZone</a>(<span class="keyword">const</span> <a class="code" href="classace__time_1_1BasicZone.html">BasicZone</a>&amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="classace__time_1_1BasicZone.html">BasicZone</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classace__time_1_1BasicZone.html">BasicZone</a>&amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">const</span> <a class="code" href="classace__time_1_1basic_1_1ZoneInfoBroker.html">basic::ZoneInfoBroker</a> mZoneInfoBroker;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;};</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;AceCommon.h&gt;</span> <span class="comment">// KString</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;internal/ZoneInfo.h&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="BasicBrokers_8h.html">internal/BasicBrokers.h</a>&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">class </span>Print;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZone.html">   22</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1BasicZone.html">BasicZone</a> {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZone.html#a97ade70c7e0298971f76b6819cafc8b9">   28</a></span>&#160;    <a class="code" href="classace__time_1_1BasicZone.html#a97ade70c7e0298971f76b6819cafc8b9">BasicZone</a>(<span class="keyword">const</span> basic::ZoneInfo* zoneInfo):</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        mZoneInfoBroker(zoneInfo) {}</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZone.html#abc1f3d572422df7889c03322369ec12b">   36</a></span>&#160;    <a class="code" href="classace__time_1_1BasicZone.html#abc1f3d572422df7889c03322369ec12b">BasicZone</a>(<span class="keyword">const</span> <a class="code" href="classace__time_1_1basic_1_1ZoneInfoBroker.html">basic::ZoneInfoBroker</a>&amp; zoneInfo):</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        mZoneInfoBroker(zoneInfo) {}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment">// Use default copy constructor and assignment operator</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classace__time_1_1BasicZone.html#a97ade70c7e0298971f76b6819cafc8b9">BasicZone</a>(<span class="keyword">const</span> <a class="code" href="classace__time_1_1BasicZone.html">BasicZone</a>&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="classace__time_1_1BasicZone.html">BasicZone</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classace__time_1_1BasicZone.html">BasicZone</a>&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZone.html#aad95e97fd0ad2e930088357c5dc71748">   44</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classace__time_1_1BasicZone.html#aad95e97fd0ad2e930088357c5dc71748">isNull</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mZoneInfoBroker.isNull(); }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classace__time_1_1BasicZone.html#ae0f849d7c5382ab766e7aeb536b1b6e0">printNameTo</a>(Print&amp; printer) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classace__time_1_1BasicZone.html#adf8e238a8c79d6a46c40f0bd36a6eb23">printShortNameTo</a>(Print&amp; printer) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZone.html#a360efba115e043ad28c69511f229454d">   57</a></span>&#160;    uint32_t <a class="code" href="classace__time_1_1BasicZone.html#a360efba115e043ad28c69511f229454d">zoneId</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <span class="keywordflow">return</span> mZoneInfoBroker.zoneId();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    }</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZone.html#a840ffaef671458bbf3a1544b3f329978">   62</a></span>&#160;    int16_t <a class="code" href="classace__time_1_1BasicZone.html#a840ffaef671458bbf3a1544b3f329978">stdOffsetMinutes</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      uint8_t numEras = mZoneInfoBroker.numEras();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <a class="code" href="classace__time_1_1basic_1_1ZoneEraBroker.html">basic::ZoneEraBroker</a> zeb = mZoneInfoBroker.era(numEras - 1);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      <span class="keywordflow">return</span> zeb.offsetMinutes();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZone.html#a11a01b1146ec14f3630fcce74e065ac5">   69</a></span>&#160;    ace_common::KString <a class="code" href="classace__time_1_1BasicZone.html#a11a01b1146ec14f3630fcce74e065ac5">kname</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span>* name = <a class="code" href="classace__time_1_1BasicZone.html#aad95e97fd0ad2e930088357c5dc71748">isNull</a>() ? nullptr : mZoneInfoBroker.name();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <span class="keyword">const</span> <a class="code" href="structace__time_1_1internal_1_1ZoneContext.html">internal::ZoneContext</a>* zoneContext = mZoneInfoBroker.zoneContext();</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      <span class="keywordflow">return</span> ace_common::KString(</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;          name, zoneContext-&gt;<a class="code" href="structace__time_1_1internal_1_1ZoneContext.html#a96b167f783962436b6c1b78f0924a46e">fragments</a>, zoneContext-&gt;<a class="code" href="structace__time_1_1internal_1_1ZoneContext.html#a3a6d2f66b0d5d7c2745e8924c851101d">numFragments</a>);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">const</span> <a class="code" href="classace__time_1_1basic_1_1ZoneInfoBroker.html">basic::ZoneInfoBroker</a> mZoneInfoBroker;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;};</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassace__time_1_1BasicZone_html_abc1f3d572422df7889c03322369ec12b"><div class="ttname"><a href="classace__time_1_1BasicZone.html#abc1f3d572422df7889c03322369ec12b">ace_time::BasicZone::BasicZone</a></div><div class="ttdeci">BasicZone(const basic::ZoneInfoBroker &amp;zoneInfo)</div><div class="ttdoc">Constructor from a basic::ZoneInfoBroker, used by BasicZoneProcessor.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8h_source.html#l00035">BasicZone.h:35</a></div></div>
+<div class="ttc" id="aclassace__time_1_1BasicZone_html_abc1f3d572422df7889c03322369ec12b"><div class="ttname"><a href="classace__time_1_1BasicZone.html#abc1f3d572422df7889c03322369ec12b">ace_time::BasicZone::BasicZone</a></div><div class="ttdeci">BasicZone(const basic::ZoneInfoBroker &amp;zoneInfo)</div><div class="ttdoc">Constructor from a basic::ZoneInfoBroker, used by BasicZoneProcessor.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8h_source.html#l00036">BasicZone.h:36</a></div></div>
+<div class="ttc" id="aclassace__time_1_1BasicZone_html_a840ffaef671458bbf3a1544b3f329978"><div class="ttname"><a href="classace__time_1_1BasicZone.html#a840ffaef671458bbf3a1544b3f329978">ace_time::BasicZone::stdOffsetMinutes</a></div><div class="ttdeci">int16_t stdOffsetMinutes() const</div><div class="ttdoc">Return the STDOFF of the last ZoneEra.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8h_source.html#l00062">BasicZone.h:62</a></div></div>
+<div class="ttc" id="aclassace__time_1_1basic_1_1ZoneEraBroker_html"><div class="ttname"><a href="classace__time_1_1basic_1_1ZoneEraBroker.html">ace_time::basic::ZoneEraBroker</a></div><div class="ttdoc">Data broker for accessing ZoneEra.</div><div class="ttdef"><b>Definition:</b> <a href="BasicBrokers_8h_source.html#l00194">BasicBrokers.h:194</a></div></div>
 <div class="ttc" id="aclassace__time_1_1BasicZone_html_ae0f849d7c5382ab766e7aeb536b1b6e0"><div class="ttname"><a href="classace__time_1_1BasicZone.html#ae0f849d7c5382ab766e7aeb536b1b6e0">ace_time::BasicZone::printNameTo</a></div><div class="ttdeci">void printNameTo(Print &amp;printer) const</div><div class="ttdoc">Print the full zone name to printer.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8cpp_source.html#l00020">BasicZone.cpp:20</a></div></div>
+<div class="ttc" id="astructace__time_1_1internal_1_1ZoneContext_html"><div class="ttname"><a href="structace__time_1_1internal_1_1ZoneContext.html">ace_time::internal::ZoneContext</a></div><div class="ttdoc">Metadata about the zone database.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneContext_8h_source.html#l00016">ZoneContext.h:16</a></div></div>
 <div class="ttc" id="aBasicBrokers_8h_html"><div class="ttname"><a href="BasicBrokers_8h.html">BasicBrokers.h</a></div></div>
 <div class="ttc" id="aclassace__time_1_1BasicZone_html_adf8e238a8c79d6a46c40f0bd36a6eb23"><div class="ttname"><a href="classace__time_1_1BasicZone.html#adf8e238a8c79d6a46c40f0bd36a6eb23">ace_time::BasicZone::printShortNameTo</a></div><div class="ttdeci">void printShortNameTo(Print &amp;printer) const</div><div class="ttdoc">Print the short pretty zone name to the printer.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8cpp_source.html#l00027">BasicZone.cpp:27</a></div></div>
-<div class="ttc" id="aclassace__time_1_1BasicZone_html"><div class="ttname"><a href="classace__time_1_1BasicZone.html">ace_time::BasicZone</a></div><div class="ttdoc">A thin wrapper around a basic::ZoneInfo data structure to provide a stable API access to some useful ...</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8h_source.html#l00021">BasicZone.h:21</a></div></div>
+<div class="ttc" id="aclassace__time_1_1BasicZone_html"><div class="ttname"><a href="classace__time_1_1BasicZone.html">ace_time::BasicZone</a></div><div class="ttdoc">A thin wrapper around a basic::ZoneInfo data structure to provide a stable API access to some useful ...</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8h_source.html#l00022">BasicZone.h:22</a></div></div>
+<div class="ttc" id="aclassace__time_1_1BasicZone_html_aad95e97fd0ad2e930088357c5dc71748"><div class="ttname"><a href="classace__time_1_1BasicZone.html#aad95e97fd0ad2e930088357c5dc71748">ace_time::BasicZone::isNull</a></div><div class="ttdeci">bool isNull() const</div><div class="ttdoc">Return true if zoneInfo is null.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8h_source.html#l00044">BasicZone.h:44</a></div></div>
 <div class="ttc" id="aclassace__time_1_1basic_1_1ZoneInfoBroker_html"><div class="ttname"><a href="classace__time_1_1basic_1_1ZoneInfoBroker.html">ace_time::basic::ZoneInfoBroker</a></div><div class="ttdoc">Data broker for accessing ZoneInfo.</div><div class="ttdef"><b>Definition:</b> <a href="BasicBrokers_8h_source.html#l00286">BasicBrokers.h:286</a></div></div>
-<div class="ttc" id="aclassace__time_1_1BasicZone_html_a360efba115e043ad28c69511f229454d"><div class="ttname"><a href="classace__time_1_1BasicZone.html#a360efba115e043ad28c69511f229454d">ace_time::BasicZone::zoneId</a></div><div class="ttdeci">uint32_t zoneId() const</div><div class="ttdoc">Return the zoneId of the current zoneInfo.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8h_source.html#l00049">BasicZone.h:49</a></div></div>
-<div class="ttc" id="aclassace__time_1_1BasicZone_html_a97ade70c7e0298971f76b6819cafc8b9"><div class="ttname"><a href="classace__time_1_1BasicZone.html#a97ade70c7e0298971f76b6819cafc8b9">ace_time::BasicZone::BasicZone</a></div><div class="ttdeci">BasicZone(const basic::ZoneInfo *zoneInfo)</div><div class="ttdoc">Constructor from a raw basic::ZoneInfo* pointer, intended for manual inspection of a ZoneInfo record.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8h_source.html#l00027">BasicZone.h:27</a></div></div>
+<div class="ttc" id="astructace__time_1_1internal_1_1ZoneContext_html_a96b167f783962436b6c1b78f0924a46e"><div class="ttname"><a href="structace__time_1_1internal_1_1ZoneContext.html#a96b167f783962436b6c1b78f0924a46e">ace_time::internal::ZoneContext::fragments</a></div><div class="ttdeci">const char *const  * fragments</div><div class="ttdoc">Zone Name fragment list.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneContext_8h_source.html#l00047">ZoneContext.h:47</a></div></div>
+<div class="ttc" id="aclassace__time_1_1BasicZone_html_a11a01b1146ec14f3630fcce74e065ac5"><div class="ttname"><a href="classace__time_1_1BasicZone.html#a11a01b1146ec14f3630fcce74e065ac5">ace_time::BasicZone::kname</a></div><div class="ttdeci">ace_common::KString kname() const</div><div class="ttdoc">Return the name as a KString.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8h_source.html#l00069">BasicZone.h:69</a></div></div>
+<div class="ttc" id="aclassace__time_1_1BasicZone_html_a360efba115e043ad28c69511f229454d"><div class="ttname"><a href="classace__time_1_1BasicZone.html#a360efba115e043ad28c69511f229454d">ace_time::BasicZone::zoneId</a></div><div class="ttdeci">uint32_t zoneId() const</div><div class="ttdoc">Return the zoneId of the current zoneInfo.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8h_source.html#l00057">BasicZone.h:57</a></div></div>
+<div class="ttc" id="astructace__time_1_1internal_1_1ZoneContext_html_a3a6d2f66b0d5d7c2745e8924c851101d"><div class="ttname"><a href="structace__time_1_1internal_1_1ZoneContext.html#a3a6d2f66b0d5d7c2745e8924c851101d">ace_time::internal::ZoneContext::numFragments</a></div><div class="ttdeci">uint8_t numFragments</div><div class="ttdoc">Number of fragments.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneContext_8h_source.html#l00044">ZoneContext.h:44</a></div></div>
+<div class="ttc" id="aclassace__time_1_1BasicZone_html_a97ade70c7e0298971f76b6819cafc8b9"><div class="ttname"><a href="classace__time_1_1BasicZone.html#a97ade70c7e0298971f76b6819cafc8b9">ace_time::BasicZone::BasicZone</a></div><div class="ttdeci">BasicZone(const basic::ZoneInfo *zoneInfo)</div><div class="ttdoc">Constructor from a raw basic::ZoneInfo* pointer, intended for manual inspection of a ZoneInfo record.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8h_source.html#l00028">BasicZone.h:28</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

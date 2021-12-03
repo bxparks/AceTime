@@ -22,9 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.8.0</span>
+   &#160;<span id="projectnumber">1.9.0</span>
    </div>
-   <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
+   <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
  </tr>
  </tbody>
@@ -89,6 +89,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a25726bb96da36e1c3418a75f456d812b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZone.html#a25726bb96da36e1c3418a75f456d812b">ExtendedZone</a> (const <a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html">extended::ZoneInfoBroker</a> &amp;zoneInfo)</td></tr>
 <tr class="memdesc:a25726bb96da36e1c3418a75f456d812b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from an <a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html" title="Data broker for accessing ZoneInfo.">extended::ZoneInfoBroker</a>, used by <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="A specific implementation of ExtendedZoneProcessorTemplate that uses ZoneXxxBrokers which read from z...">ExtendedZoneProcessor</a>.  <a href="classace__time_1_1ExtendedZone.html#a25726bb96da36e1c3418a75f456d812b">More...</a><br /></td></tr>
 <tr class="separator:a25726bb96da36e1c3418a75f456d812b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5d2e227ac57f92783444c1a4299f803"><td class="memItemLeft" align="right" valign="top"><a id="aa5d2e227ac57f92783444c1a4299f803"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ExtendedZone</b> (const <a class="el" href="classace__time_1_1ExtendedZone.html">ExtendedZone</a> &amp;)=default</td></tr>
+<tr class="separator:aa5d2e227ac57f92783444c1a4299f803"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e9747077d5d8ff1383298ccf3e60913"><td class="memItemLeft" align="right" valign="top"><a id="a5e9747077d5d8ff1383298ccf3e60913"></a>
+<a class="el" href="classace__time_1_1ExtendedZone.html">ExtendedZone</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classace__time_1_1ExtendedZone.html">ExtendedZone</a> &amp;)=default</td></tr>
+<tr class="separator:a5e9747077d5d8ff1383298ccf3e60913"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1708a8b42839f34b6c78958a15ad226b"><td class="memItemLeft" align="right" valign="top"><a id="a1708a8b42839f34b6c78958a15ad226b"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZone.html#a1708a8b42839f34b6c78958a15ad226b">isNull</a> () const</td></tr>
+<tr class="memdesc:a1708a8b42839f34b6c78958a15ad226b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if zoneInfo is null. <br /></td></tr>
+<tr class="separator:a1708a8b42839f34b6c78958a15ad226b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19897a2a827bdcdd61a75b55bc3a3964"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZone.html#a19897a2a827bdcdd61a75b55bc3a3964">printNameTo</a> (Print &amp;printer) const</td></tr>
 <tr class="memdesc:a19897a2a827bdcdd61a75b55bc3a3964"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the full zone name to printer.  <a href="classace__time_1_1ExtendedZone.html#a19897a2a827bdcdd61a75b55bc3a3964">More...</a><br /></td></tr>
 <tr class="separator:a19897a2a827bdcdd61a75b55bc3a3964"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -99,12 +109,20 @@ Public Member Functions</h2></td></tr>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZone.html#a27bd334749849e8bc8bf56a2c47a5d61">zoneId</a> () const</td></tr>
 <tr class="memdesc:a27bd334749849e8bc8bf56a2c47a5d61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the zoneId of the current zoneInfo. <br /></td></tr>
 <tr class="separator:a27bd334749849e8bc8bf56a2c47a5d61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae46b04e3822af7a77dcad85662428516"><td class="memItemLeft" align="right" valign="top"><a id="ae46b04e3822af7a77dcad85662428516"></a>
+int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZone.html#ae46b04e3822af7a77dcad85662428516">stdOffsetMinutes</a> () const</td></tr>
+<tr class="memdesc:ae46b04e3822af7a77dcad85662428516"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the STDOFF of the last ZoneEra. <br /></td></tr>
+<tr class="separator:ae46b04e3822af7a77dcad85662428516"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6437ef36a01978001a93c055be791448"><td class="memItemLeft" align="right" valign="top"><a id="a6437ef36a01978001a93c055be791448"></a>
+ace_common::KString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZone.html#a6437ef36a01978001a93c055be791448">kname</a> () const</td></tr>
+<tr class="memdesc:a6437ef36a01978001a93c055be791448"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the name as a KString. <br /></td></tr>
+<tr class="separator:a6437ef36a01978001a93c055be791448"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A thin wrapper around an extended::ZoneInfo data structure to provide a stable API access to some useful extended::ZoneInfo data. </p>
 <p>The extended::ZoneInfo data struct is intended to be an opaque type to the users of this library. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZone_8h_source.html#l00022">22</a> of file <a class="el" href="ExtendedZone_8h_source.html">ExtendedZone.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZone_8h_source.html#l00023">23</a> of file <a class="el" href="ExtendedZone_8h_source.html">ExtendedZone.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a25726bb96da36e1c3418a75f456d812b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a25726bb96da36e1c3418a75f456d812b">&#9670;&nbsp;</a></span>ExtendedZone()</h2>
@@ -133,7 +151,7 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <p>Constructor from an <a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html" title="Data broker for accessing ZoneInfo.">extended::ZoneInfoBroker</a>, used by <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="A specific implementation of ExtendedZoneProcessorTemplate that uses ZoneXxxBrokers which read from z...">ExtendedZoneProcessor</a>. </p>
 <p>This allows the implementation details of ZoneInfoBroker to remain hidden. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZone_8h_source.html#l00036">36</a> of file <a class="el" href="ExtendedZone_8h_source.html">ExtendedZone.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZone_8h_source.html#l00037">37</a> of file <a class="el" href="ExtendedZone_8h_source.html">ExtendedZone.h</a>.</p>
 
 </div>
 </div>

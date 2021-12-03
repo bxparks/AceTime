@@ -1,7 +1,8 @@
-<map id="ace_time::BasicZoneManager&lt; SIZE &gt;" name="ace_time::BasicZoneManager&lt; SIZE &gt;">
-<area shape="rect" id="node1" title="An implementation of the ZoneManager which uses a registry of basic::ZoneInfo records." alt="" coords="939,23,1153,65"/>
-<area shape="rect" id="node2" href="$classace__time_1_1ZoneManagerImpl.html" title=" " alt="" coords="619,9,889,79"/>
-<area shape="rect" id="node3" href="$classace__time_1_1ZoneManager.html" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa..." alt="" coords="259,5,439,32"/>
-<area shape="rect" id="node4" href="$classace__time_1_1basic_1_1ZoneRegistrar.html" title="Concrete template instantiation of ZoneRegistrarTemplate for basic::ZoneInfo, which can be used with ..." alt="" coords="237,56,461,83"/>
-<area shape="rect" id="node5" href="$classace__time_1_1internal_1_1ZoneRegistrarTemplate.html" title=" " alt="" coords="5,27,188,112"/>
+<map id="ace_time::BasicZoneManager" name="ace_time::BasicZoneManager">
+<area shape="rect" id="node1" title="An implementation of the ZoneManager which uses a registry of basic::ZoneInfo records." alt="" coords="1028,64,1243,91"/>
+<area shape="rect" id="node2" href="$classace__time_1_1ZoneManagerTemplate.html" title=" " alt="" coords="713,42,979,113"/>
+<area shape="rect" id="node3" href="$classace__time_1_1ZoneManager.html" title="Base class for ManualZoneManager, BasicZoneManager, and ExtendedZoneManager to keep ZoneManager::kInv..." alt="" coords="285,5,465,32"/>
+<area shape="rect" id="node4" href="$classace__time_1_1ZoneProcessorCacheBaseTemplate.html" title=" " alt="" coords="237,57,512,98"/>
+<area shape="rect" id="node5" href="$classace__time_1_1basic_1_1ZoneRegistrar.html" title="Concrete template instantiation of ZoneRegistrarTemplate for basic::ZoneInfo, which can be used with ..." alt="" coords="263,123,487,149"/>
+<area shape="rect" id="node6" href="$classace__time_1_1internal_1_1ZoneRegistrarTemplate.html" title=" " alt="" coords="5,93,188,179"/>
 </map>

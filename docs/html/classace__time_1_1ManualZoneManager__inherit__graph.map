@@ -1,4 +1,0 @@
-<map id="ace_time::ManualZoneManager" name="ace_time::ManualZoneManager">
-<area shape="rect" id="node1" title="A ZoneManager that implements only createForTimeZoneData() to create TimeZones of type kTypeManual,..." alt="" coords="5,80,233,107"/>
-<area shape="rect" id="node2" href="$classace__time_1_1ZoneManager.html" title="Common interface to the BasicZoneManager and ExtendedZoneManager so that a single interface can be pa..." alt="" coords="29,5,209,32"/>
-</map>
