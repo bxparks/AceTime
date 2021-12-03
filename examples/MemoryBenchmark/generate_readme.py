@@ -29,7 +29,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v1.8.0
+**Version**: AceTime v1.9.0
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -154,6 +154,9 @@ In v1.9.0:
 * Reduce flash usage of `BasicLinkManager` and `ExtendedLinkManager` by
   68 bytes on AVR processors by removing pure `virtual` methods on `LinkManager`
   base class.
+* Increase flash usage by 34 bytes on AVR processors due to slight refactoring
+  of `getHighWater()` with `getAllocSize()`. Only 4-8 bytes increase on 32-bit
+  processors.
 
 ## Arduino Nano
 
