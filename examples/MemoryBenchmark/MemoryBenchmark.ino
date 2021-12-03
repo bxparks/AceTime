@@ -16,12 +16,16 @@
 #define FEATURE_BASIC_ZONE_MANAGER_ZONES 7
 #define FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_FAT_LINKS 8
 #define FEATURE_BASIC_LINK_MANAGER 9
-#define FEATURE_EXTENDED_TIME_ZONE 10
-#define FEATURE_EXTENDED_TIME_ZONE2 11
-#define FEATURE_EXTENDED_ZONE_MANAGER_ONE 12
-#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES 13
-#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS 14
-#define FEATURE_EXTENDED_LINK_MANAGER 15
+#define FEATURE_BASIC_ZONE_SORTER_BY_NAME 10
+#define FEATURE_BASIC_ZONE_SORTER_BY_OFFSET_AND_NAME 11
+#define FEATURE_EXTENDED_TIME_ZONE 12
+#define FEATURE_EXTENDED_TIME_ZONE2 13
+#define FEATURE_EXTENDED_ZONE_MANAGER_ONE 14
+#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES 15
+#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS 16
+#define FEATURE_EXTENDED_LINK_MANAGER 17
+#define FEATURE_EXTENDED_ZONE_SORTER_BY_NAME 18
+#define FEATURE_EXTENDED_ZONE_SORTER_BY_OFFSET_AND_NAME 19
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
@@ -77,16 +81,46 @@ volatile int16_t year = 2019;
       zonedb::kZoneRegistrySize,
       zonedb::kZoneRegistry,
       zoneProcessorCache);
-#elif FEATURE == FEATURE_BASIC_LINK_MANAGER
-  BasicLinkManager manager(
-    zonedb::kLinkRegistrySize,
-    zonedb::kLinkRegistry);
 #elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_FAT_LINKS
   BasicZoneProcessorCache<1> zoneProcessorCache;
   BasicZoneManager manager(
     zonedb::kZoneAndLinkRegistrySize,
     zonedb::kZoneAndLinkRegistry,
     zoneProcessorCache);
+#elif FEATURE == FEATURE_BASIC_LINK_MANAGER
+  BasicLinkManager manager(
+    zonedb::kLinkRegistrySize,
+    zonedb::kLinkRegistry);
+#elif FEATURE == FEATURE_BASIC_ZONE_SORTER_BY_NAME
+  // Construct the same BasicZoneManager as FEATURE_BASIC_TIME_ZONE, then
+  // subtract its memory consumption numbers to isolate just the
+  // ZoneSorterByName.
+  static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
+    &zonedb::kZoneAmerica_Los_Angeles,
+  };
+  static const uint16_t kBasicZoneRegistrySize =
+      sizeof(kBasicZoneRegistry) / sizeof(basic::ZoneInfo*);
+  BasicZoneProcessorCache<1> zoneProcessorCache;
+  BasicZoneManager manager(
+      kBasicZoneRegistrySize,
+      kBasicZoneRegistry,
+      zoneProcessorCache);
+  ZoneSorterByName<BasicZoneManager> zoneSorter(manager);
+#elif FEATURE == FEATURE_BASIC_ZONE_SORTER_BY_OFFSET_AND_NAME
+  // Construct the same BasicZoneManager as FEATURE_BASIC_TIME_ZONE, then
+  // subtract its memory consumption numbers to isolate just the
+  // ZoneSorterByOffsetAndName.
+  static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
+    &zonedb::kZoneAmerica_Los_Angeles,
+  };
+  static const uint16_t kBasicZoneRegistrySize =
+      sizeof(kBasicZoneRegistry) / sizeof(basic::ZoneInfo*);
+  BasicZoneProcessorCache<1> zoneProcessorCache;
+  BasicZoneManager manager(
+      kBasicZoneRegistrySize,
+      kBasicZoneRegistry,
+      zoneProcessorCache);
+  ZoneSorterByOffsetAndName<BasicZoneManager> zoneSorter(manager);
 #elif FEATURE == FEATURE_EXTENDED_TIME_ZONE
   ExtendedZoneProcessor processor;
   auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
@@ -108,7 +142,9 @@ volatile int16_t year = 2019;
       sizeof(kExtendedZoneRegistry) / sizeof(extended::ZoneInfo*);
   ExtendedZoneProcessorCache<1> zoneProcessorCache;
   ExtendedZoneManager manager(
-      kExtendedZoneRegistrySize, kExtendedZoneRegistry, zoneProcessorCache);
+      kExtendedZoneRegistrySize,
+      kExtendedZoneRegistry,
+      zoneProcessorCache);
 #elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES
   ExtendedZoneProcessorCache<1> zoneProcessorCache;
   ExtendedZoneManager manager(
@@ -125,6 +161,38 @@ volatile int16_t year = 2019;
   ExtendedLinkManager manager(
       zonedbx::kLinkRegistrySize,
       zonedbx::kLinkRegistry);
+#elif FEATURE == FEATURE_EXTENDED_ZONE_SORTER_BY_NAME
+  // Construct the same ExtendedZoneManager as FEATURE_EXTENDED_TIME_ZONE, then
+  // subtract its memory consumption numbers to isolate just the
+  // ZoneSorterByName.
+  static const extended::ZoneInfo* const kExtendedZoneRegistry[]
+      ACE_TIME_PROGMEM = {
+    &zonedbx::kZoneAmerica_Los_Angeles,
+  };
+  static const uint16_t kExtendedZoneRegistrySize =
+      sizeof(kExtendedZoneRegistry) / sizeof(extended::ZoneInfo*);
+  ExtendedZoneProcessorCache<1> zoneProcessorCache;
+  ExtendedZoneManager manager(
+      kExtendedZoneRegistrySize,
+      kExtendedZoneRegistry,
+      zoneProcessorCache);
+  ZoneSorterByName<ExtendedZoneManager> zoneSorter(manager);
+#elif FEATURE == FEATURE_EXTENDED_ZONE_SORTER_BY_OFFSET_AND_NAME
+  // Construct the same ExtendedZoneManager as FEATURE_EXTENDED_TIME_ZONE, then
+  // subtract its memory consumption numbers to isolate just the
+  // ZoneSorterByOffsetAndName.
+  static const extended::ZoneInfo* const kExtendedZoneRegistry[]
+      ACE_TIME_PROGMEM = {
+    &zonedbx::kZoneAmerica_Los_Angeles,
+  };
+  static const uint16_t kExtendedZoneRegistrySize =
+      sizeof(kExtendedZoneRegistry) / sizeof(extended::ZoneInfo*);
+  ExtendedZoneProcessorCache<1> zoneProcessorCache;
+  ExtendedZoneManager manager(
+      kExtendedZoneRegistrySize,
+      kExtendedZoneRegistry,
+      zoneProcessorCache);
+  ZoneSorterByOffsetAndName<ExtendedZoneManager> zoneSorter(manager);
 
 #endif
 
@@ -192,14 +260,22 @@ void setup() {
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_BASIC_LINK_MANAGER
-  uint32_t zoneId = manager.zoneIdForLinkId(zonedb::kZoneIdUS_Pacific);
-  guard ^= zoneId;
 #elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_FAT_LINKS
   auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
+#elif FEATURE == FEATURE_BASIC_LINK_MANAGER
+  uint32_t zoneId = manager.zoneIdForLinkId(zonedb::kZoneIdUS_Pacific);
+  guard ^= zoneId;
+#elif FEATURE == FEATURE_BASIC_ZONE_SORTER_BY_NAME
+  uint16_t indexes[2] = {0, 1};
+  zoneSorter.sortIndexes(indexes, 2);
+  guard ^= indexes[0];
+#elif FEATURE == FEATURE_BASIC_ZONE_SORTER_BY_OFFSET_AND_NAME
+  uint16_t indexes[2] = {0, 1};
+  zoneSorter.sortIndexes(indexes, 2);
+  guard ^= indexes[0];
 #elif FEATURE == FEATURE_EXTENDED_TIME_ZONE
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
@@ -227,6 +303,14 @@ void setup() {
 #elif FEATURE == FEATURE_EXTENDED_LINK_MANAGER
   uint32_t zoneId = manager.zoneIdForLinkId(zonedb::kZoneIdUS_Pacific);
   guard ^= zoneId;
+#elif FEATURE == FEATURE_EXTENDED_ZONE_SORTER_BY_NAME
+  uint16_t indexes[2] = {0, 1};
+  zoneSorter.sortIndexes(indexes, 2);
+  guard ^= indexes[0];
+#elif FEATURE == FEATURE_EXTENDED_ZONE_SORTER_BY_OFFSET_AND_NAME
+  uint16_t indexes[2] = {0, 1};
+  zoneSorter.sortIndexes(indexes, 2);
+  guard ^= indexes[0];
 
 #else
   #error Unknown FEATURE

@@ -158,6 +158,23 @@ In v1.9.0:
   of `getHighWater()` with `getAllocSize()`. Only 4-8 bytes increase on 32-bit
   processors.
 
+In v1.9.0+:
+* Add memory consumption benchmarks for `ZoneSorterByName` and
+  `ZoneSorterByOffsetAndName` for `BasicZoneManager` and `ExtendedZoneManager`.
+    * AVR: 180-530 bytes of flash
+    * 32-bit: 120-600 bytes of flash
+
+# Legend
+
+* [1] Delta flash and ram consumption for `ZoneSorterByName` and
+  `ZoneSorterByOffsetAndName` are calculated by subtracting the
+  `BasicZoneManager (1 zone)` numbers, to isolate the memory consumption
+  of just the sorter classes.
+* [2] Delta flash and ram consumption for `ZoneSorterByName` and
+  `ZoneSorterByOffsetAndName` are calculated by subtracting the
+  `ExtendedZoneManager (1 zone)` numbers, to isolate the memory
+  consumption of just the sorter classes.
+
 ## Arduino Nano
 
 * 16MHz ATmega328P
