@@ -36,7 +36,7 @@ Here is the dependency diagram among these projects.
                     AceTimeTools --------
                     ^    ^   ^           \ artransformer.py
         creating   /     |    \ creating  \ -> bufestimator.py
-        zonedb[x] /      |     \ zonedbpy  \ -> zone_processor.py
+        zonedb[x] /      |     \ zonedb    \ -> zone_processor.py
                  /       |      \           v
               AceTime    |      AceTimePython
              ^    ^      |      ^
@@ -54,7 +54,7 @@ the buffer sizes needed by the C++ `ExtendedZoneProcessor` class. The
 module to calculate those buffer sizes.
 
 On the other hand, AceTimePython needs AceTimeTools to generate the zoneinfo
-files under `AceTimePython/zonedbpy`, which are consumed by the `acetz.py`
+files under `AceTimePython/zonedb`, which are consumed by the `acetz.py`
 module. Fortunately, AceTimePython does *not* need AceTimeTools during runtime,
 so 3rd party consumers can incorporate AceTimePython without pulling in
 AceTimeTools.
@@ -574,12 +574,11 @@ available.
         * `$ make`
         * `$ ./ExtendedHinnantDateTest.out | grep failed`
         * There should be no failures.
-* Update the zoneinfo files for AceTimePython (needed by BasicAcetzTest and
+* Update the zonedb files for AceTimePython (needed by BasicAcetzTest and
   ExtendedAcetzTest):
-    * ``zonedbpy`
-        * `$ cd AceTimePython/src/acetime/zonedbpy`
-        * Edit the `Makefile` and update the `TZ_VERSION`.
-        * `$ make`
+    * `$ cd AceTimePython/src/acetime/zonedb`
+    * Edit the `Makefile` and update the `TZ_VERSION`.
+    * `$ make`
 * Verify that the `AceTime` library and the `AceTimePython` library agree with
   each other using the same TZDB version. This requires going into the
   [AceTimeValidation](https://github.com/bxparks/AceTimeValidation) project.
