@@ -122,7 +122,7 @@ class LocalTime {
     uint8_t minute() const { return mMinute; }
 
     /** Set the minute. */
-    void minute(uint8_t month) { mMinute = month; }
+    void minute(uint8_t minute) { mMinute = minute; }
 
     /** Return the second. */
     uint8_t second() const { return mSecond; }
