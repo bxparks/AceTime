@@ -22,6 +22,7 @@ namespace ace_time {
  * Parts of this class were inspired by the java.time.LocalTime class of Java
  * 11
  * (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalTime.html).
+ * The 'fold' parameter was inspired by the datetime package in Python 3.6.
  */
 class LocalTime {
   public:

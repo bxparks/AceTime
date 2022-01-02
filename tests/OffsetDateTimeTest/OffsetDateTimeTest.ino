@@ -5,7 +5,8 @@
 
 using namespace ace_time;
 
-test(OffsetDateTimeTest, accessors) {
+test(OffsetDateTimeTest, accessors_mutators) {
+  // accessors
   OffsetDateTime dt = OffsetDateTime::forComponents(2001, 2, 3, 4, 5, 6,
       TimeOffset());
   assertEqual((int16_t) 2001, dt.year());
@@ -16,6 +17,40 @@ test(OffsetDateTimeTest, accessors) {
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
   assertEqual(0, dt.timeOffset().toMinutes());
+  assertEqual(0, dt.fold());
+
+  // mutators
+  dt.year(2011);
+  dt.month(12);
+  dt.day(13);
+  dt.hour(14);
+  dt.minute(15);
+  dt.second(16);
+  dt.timeOffset(TimeOffset::forMinutes(17));
+  dt.fold(1);
+  assertEqual(2011, dt.year());
+  assertEqual(11, dt.yearTiny());
+  assertEqual(12, dt.month());
+  assertEqual(13, dt.day());
+  assertEqual(14, dt.hour());
+  assertEqual(15, dt.minute());
+  assertEqual(16, dt.second());
+  assertEqual(17, dt.timeOffset().toMinutes());
+  assertEqual(1, dt.fold());
+}
+
+test(OffsetDateTimeTest, constructor_with_fold) {
+  OffsetDateTime dt = OffsetDateTime::forComponents(
+      2001, 2, 3, 4, 5, 6, TimeOffset(), 1 /*fold*/);
+  assertEqual((int16_t) 2001, dt.year());
+  assertEqual(1, dt.yearTiny());
+  assertEqual(2, dt.month());
+  assertEqual(3, dt.day());
+  assertEqual(4, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+  assertEqual(0, dt.timeOffset().toMinutes());
+  assertEqual(1, dt.fold());
 }
 
 test(OffsetDateTimeTest, invalidSeconds) {
