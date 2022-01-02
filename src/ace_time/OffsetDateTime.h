@@ -42,19 +42,22 @@ class OffsetDateTime {
     /**
      * Factory method using separated date, time, and UTC offset fields.
      *
-     * @param year [1873-2127] @param month month with January=1, December=12
-     * @param day day of month [1-31] @param hour hour [0-23] @param minute
-     * minute [0-59] @param second second [0-59], does not support leap seconds
+     * @param year [1873-2127]
+     * @param month month with January=1, December=12
+     * @param day day of month [1-31]
+     * @param hour hour [0-23]
+     * @param minute minute [0-59]
+     * @param second second [0-59], does not support leap seconds
      * @param timeOffset the time offset from UTC. Using TimeOffset in the last
      * component (instead of an int8_t or int16_t) allows us to overload an
      * additional constructor that accepts a millisecond component in the
      * future.
      */
-    static OffsetDateTime forComponents(int16_t year, uint8_t month, uint8_t
-        day, uint8_t hour, uint8_t minute, uint8_t second, TimeOffset
-        timeOffset) {
-      auto ldt = LocalDateTime::forComponents(year, month, day, hour, minute,
-          second);
+    static OffsetDateTime forComponents(int16_t year, uint8_t month,
+        uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
+        TimeOffset timeOffset) {
+      auto ldt = LocalDateTime::forComponents(
+          year, month, day, hour, minute, second);
       return OffsetDateTime(ldt, timeOffset);
     }
 
