@@ -37,10 +37,11 @@ class LocalTime {
      * @param hour hour (0-23)
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
+     * @param fold optional disambiguation of multiple occurrences [0, 1]
      */
     static LocalTime forComponents(uint8_t hour, uint8_t minute,
-        uint8_t second) {
-      return LocalTime(hour, minute, second);
+        uint8_t second, uint8_t fold = 0) {
+      return LocalTime(hour, minute, second, fold);
     }
 
     /**
@@ -130,6 +131,12 @@ class LocalTime {
     /** Set the second. */
     void second(uint8_t second) { mSecond = second; }
 
+    /** Return the fold. */
+    uint8_t fold() const { return mFold; }
+
+    /** Set the fold. */
+    void fold(uint8_t fold) { mFold = fold; }
+
     /**
      * Return the number of seconds since midnight.
      * Return kInvalidSeconds if isError() is true.
@@ -146,6 +153,8 @@ class LocalTime {
     /**
      * Compare 'this' LocalTime with 'that' LocalTime, and return (<0, 0, >0)
      * according to whether 'this' occurs (before, same as, after) 'that'.
+     * The 'fold' parameter is ignored.
+     *
      * If either this->isError() or that.isError() is true, the behavior is
      * undefined.
      */
@@ -180,24 +189,32 @@ class LocalTime {
     static const uint8_t kInvalidValue = UINT8_MAX;
 
     /** Constructor that sets the components. */
-    explicit LocalTime(uint8_t hour, uint8_t minute, uint8_t second):
+    explicit LocalTime(
+        uint8_t hour,
+        uint8_t minute,
+        uint8_t second,
+        uint8_t fold = 0
+    ):
         mHour(hour),
         mMinute(minute),
-        mSecond(second) {}
+        mSecond(second),
+        mFold(fold)
+    {}
 
     uint8_t mHour; // [0, 23]
     uint8_t mMinute; // [0, 59]
     uint8_t mSecond; // [0, 59]
+    uint8_t mFold; // [0, 1]; TODO: Merge into a bit in the mHour field.
 };
 
-/** Return true if two LocalTime objects are equal. */
+/** Return true if two LocalTime objects are equal. The fold is ignored. */
 inline bool operator==(const LocalTime& a, const LocalTime& b) {
   return a.mSecond == b.mSecond
       && a.mMinute == b.mMinute
       && a.mHour == b.mHour;
 }
 
-/** Return true if two LocalTime objects are not equal. */
+/** Return true if two LocalTime objects are not equal. The fold is ignored. */
 inline bool operator!=(const LocalTime& a, const LocalTime& b) {
   return ! (a == b);
 }
