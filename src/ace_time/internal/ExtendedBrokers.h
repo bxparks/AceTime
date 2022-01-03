@@ -381,7 +381,10 @@ class ZoneInfoBroker {
     /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
     void printNameTo(Print& printer) const;
 
-    /** Print a short human-readable identifier (e.g. "Los_Angeles") */
+    /**
+     * Print a short human-readable identifier (e.g. "Los Angeles").
+     * Any underscore in the short name is replaced with a space.
+     */
     void printShortNameTo(Print& printer) const;
 
   private:

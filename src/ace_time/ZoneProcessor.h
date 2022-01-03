@@ -84,7 +84,10 @@ class ZoneProcessor {
     /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
     virtual void printNameTo(Print& printer) const = 0;
 
-    /** Print a short human-readable identifier (e.g. "Los_Angeles") */
+    /**
+     * Print a short human-readable identifier (e.g. "Los Angeles").
+     * Any underscore in the short name is replaced with a space.
+     */
     virtual void printShortNameTo(Print& printer) const = 0;
 
     /**

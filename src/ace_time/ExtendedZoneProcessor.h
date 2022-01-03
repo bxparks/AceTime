@@ -878,7 +878,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
       // Normalize the OffsetDateTime, causing LocalDateTime in the DST
       // transtion gap to be shifted forward one hour. For LocalDateTime in an
-      // overlap (DST->STD transition), the earlier UTC offset is selected// by
+      // overlap (DST->STD transition), the earlier UTC offset is selected by
       // findTransitionForDateTime(). Use that to calculate the epochSeconds,
       // then recalculate the offset. Use this final offset to determine the
       // effective OffsetDateTime that will survive a round-trip unchanged.
