@@ -207,14 +207,17 @@ inline bool isMatchStatusActive(MatchStatus status) {
  *  given by match->offsetMinutes. The additional DST delta is given by
  *  rule->deltaMinutes.
  *
- * The 'match', 'rule', 'transitionTime', 'transitionTimeS', 'transitionTimeU',
- * 'active', 'originalTransitionTime', 'letter()' and 'format()' are temporary
- * variables or parameters used in the init() method.
+ * Some of the instance variables (e.g. 'isValidPrior', 'matchStatus',
+ * 'transitionTime', 'transitionTimeS', 'transitionTimeU', 'letter()' and
+ * 'format()') are transient parameters which are in the implementation of the
+ * TransitionStorage::init() method.
  *
- * The 'offsetMinutes', 'deltaMinutes', 'startDateTime', 'abbrev' are the
- * derived parameters used in the findTransition() search.
+ * Other variables (e.g. 'startDateTime', 'startEpochSeconds', 'offsetMinutes',
+ * 'deltaMinutes', 'abbrev', 'letterBuf') are essential parameters which are
+ * required to find a matching Transition and construct the corresponding
+ * ZonedDateTime.
  *
- * Ordering of fields optimized along 4-byte boundaries to help 32-bit
+ * Ordering of fields are optimized along 4-byte boundaries to help 32-bit
  * processors without making the program size bigger for 8-bit processors.
  *
  * @tparam ZEB type of ZoneEraBroker
@@ -223,6 +226,7 @@ inline bool isMatchStatusActive(MatchStatus status) {
  */
 template <typename ZEB, typename ZPB, typename ZRB>
 struct TransitionTemplate {
+
   /** The match which generated this Transition. */
   const MatchingEraTemplate<ZEB>* match;
 
@@ -624,9 +628,10 @@ class TransitionStorageTemplate {
      * year 1872 (because the year is stored as an int8_t). Therefore, this
      * method should never return a nullptr for a well-formed ZoneInfo file.
      */
-    const Transition* findTransition(acetime_t epochSeconds) const {
+    const Transition* findTransitionForSeconds(acetime_t epochSeconds) const {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf( "findTransition(): mIndexFree: %d\n", mIndexFree);
+        logging::printf(
+            "findTransitionForSeconds(): mIndexFree: %d\n", mIndexFree);
       }
 
       const Transition* match = nullptr;
@@ -819,7 +824,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       bool success = initForEpochSeconds(epochSeconds);
       if (!success) return TimeOffset::forError();
-      const Transition* transition = findTransition(epochSeconds);
+      const Transition* transition =
+          mTransitionStorage.findTransitionForSeconds(epochSeconds);
       return (transition)
           ? TimeOffset::forMinutes(
               transition->offsetMinutes + transition->deltaMinutes)
@@ -829,14 +835,16 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const override {
       bool success = initForEpochSeconds(epochSeconds);
       if (!success) return TimeOffset::forError();
-      const Transition* transition = findTransition(epochSeconds);
+      const Transition* transition =
+          mTransitionStorage.findTransitionForSeconds(epochSeconds);
       return TimeOffset::forMinutes(transition->deltaMinutes);
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
       bool success = initForEpochSeconds(epochSeconds);
       if (!success) return "";
-      const Transition* transition = findTransition(epochSeconds);
+      const Transition* transition =
+          mTransitionStorage.findTransitionForSeconds(epochSeconds);
       return transition->abbrev;
     }
 
@@ -884,7 +892,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       // effective OffsetDateTime that will survive a round-trip unchanged.
       acetime_t epochSeconds = odt.toEpochSeconds();
       const Transition* transition =
-          mTransitionStorage.findTransition(epochSeconds);
+          mTransitionStorage.findTransitionForSeconds(epochSeconds);
       offset =  (transition)
             ? TimeOffset::forMinutes(
                 transition->offsetMinutes + transition->deltaMinutes)
@@ -981,7 +989,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (year < mZoneInfoBroker.zoneContext()->startYear - 1
           || mZoneInfoBroker.zoneContext()->untilYear < year) {
         if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-          logging::printf("init(): Year %d out of valid range [%d, %d)\n",
+          logging::printf(
+              "initForYear(): Year %d out of valid range [%d, %d)\n",
               year,
               mZoneInfoBroker.zoneContext()->startYear,
               mZoneInfoBroker.zoneContext()->untilYear);
@@ -1100,14 +1109,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     bool equals(const ZoneProcessor& other) const override {
       return mZoneInfoBroker.equals(
           ((const ExtendedZoneProcessorTemplate&) other).mZoneInfoBroker);
-    }
-
-    /**
-     * Return the Transition matching the given epochSeconds. Returns nullptr
-     * if no matching Transition found.
-     */
-    const Transition* findTransition(acetime_t epochSeconds) const {
-      return mTransitionStorage.findTransition(epochSeconds);
     }
 
     /** Check if the ZoneRule cache is filled for the given year. */

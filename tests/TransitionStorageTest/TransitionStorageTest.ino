@@ -229,7 +229,7 @@ test(TransitionStorageTest, addActiveCandidatesToActivePool) {
   assertEqual(2, storage.getTransition(2)->transitionTime.yearTiny);
 }
 
-test(TransitionStorageTest, findTransition) {
+test(TransitionStorageTest, findTransitionForSeconds) {
   TransitionStorage storage;
   storage.init();
 
@@ -257,16 +257,16 @@ test(TransitionStorageTest, findTransition) {
 
   // Check that we can find the transitions using the startEpochSeconds.
 
-  const Transition* t = storage.findTransition(1);
+  const Transition* t = storage.findTransitionForSeconds(1);
   assertEqual(0, t->transitionTime.yearTiny);
 
-  t = storage.findTransition(9);
+  t = storage.findTransitionForSeconds(9);
   assertEqual(0, t->transitionTime.yearTiny);
 
-  t = storage.findTransition(10);
+  t = storage.findTransitionForSeconds(10);
   assertEqual(1, t->transitionTime.yearTiny);
 
-  t = storage.findTransition(21);
+  t = storage.findTransitionForSeconds(21);
   assertEqual(2, t->transitionTime.yearTiny);
 }
 
