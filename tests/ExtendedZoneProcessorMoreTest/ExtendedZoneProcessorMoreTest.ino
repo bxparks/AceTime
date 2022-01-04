@@ -17,6 +17,43 @@ using ace_time::extended::normalizeDateTuple;
 // DateTuple.
 //---------------------------------------------------------------------------
 
+test(ExtendedZoneProcessorTest, dateTupleOperatorLessThan) {
+  assertTrue((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      < DateTuple{0, 1, 2, 4, ZoneContext::kSuffixS}));
+  assertTrue((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      < DateTuple{0, 1, 3, 3, ZoneContext::kSuffixS}));
+  assertTrue((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      < DateTuple{0, 2, 2, 3, ZoneContext::kSuffixS}));
+  assertTrue((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      < DateTuple{1, 1, 2, 3, ZoneContext::kSuffixS}));
+}
+
+test(ExtendedZoneProcessorTest, dateTupleOperatorEquals) {
+  assertTrue((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}));
+
+  assertFalse((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{0, 1, 2, 3, ZoneContext::kSuffixS}));
+  assertFalse((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{0, 1, 2, 4, ZoneContext::kSuffixW}));
+  assertFalse((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{0, 1, 3, 3, ZoneContext::kSuffixW}));
+  assertFalse((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{0, 2, 2, 3, ZoneContext::kSuffixW}));
+  assertFalse((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{1, 1, 2, 3, ZoneContext::kSuffixW}));
+}
+
 test(ExtendedZoneProcessorTest, normalizeDateTuple) {
   DateTuple dtp;
 
