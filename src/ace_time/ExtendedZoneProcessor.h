@@ -837,7 +837,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (!success) return TimeOffset::forError();
       const Transition* transition =
           mTransitionStorage.findTransitionForSeconds(epochSeconds);
-      return TimeOffset::forMinutes(transition->deltaMinutes);
+      return (transition)
+          ? TimeOffset::forMinutes(transition->deltaMinutes)
+          : TimeOffset::forError();
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
@@ -845,7 +847,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (!success) return "";
       const Transition* transition =
           mTransitionStorage.findTransitionForSeconds(epochSeconds);
-      return transition->abbrev;
+      return (transition) ? transition->abbrev : "";
     }
 
     OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const override {
