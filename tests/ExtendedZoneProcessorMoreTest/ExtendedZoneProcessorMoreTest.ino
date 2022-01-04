@@ -12,6 +12,7 @@ using namespace ace_time;
 using ace_time::internal::ZoneContext;
 using ace_time::extended::DateTuple;
 using ace_time::extended::normalizeDateTuple;
+using ace_time::extended::subtractDateTuple;
 
 //---------------------------------------------------------------------------
 // DateTuple.
@@ -80,6 +81,28 @@ test(ExtendedZoneProcessorTest, normalizeDateTuple) {
   dtp = {0, 1, 1, -15*97, ZoneContext::kSuffixW}; // -24:15
   normalizeDateTuple(&dtp);
   assertTrue((dtp == DateTuple{-1, 12, 31, -15, ZoneContext::kSuffixW}));
+}
+
+test(ExtendedZoneProcessorTest, substractDateTuple) {
+  DateTuple dta = {0, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
+  DateTuple dtb = {0, 1, 1, 1, ZoneContext::kSuffixW}; // 2000-01-01 00:01
+  acetime_t diff = subtractDateTuple(dta, dtb);
+  assertEqual(-60, diff);
+
+  dta = {0, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
+  dtb = {0, 1, 2, 0, ZoneContext::kSuffixW}; // 2000-01-02 00:00
+  diff = subtractDateTuple(dta, dtb);
+  assertEqual((int32_t) -86400, diff);
+
+  dta = {0, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
+  dtb = {0, 2, 1, 0, ZoneContext::kSuffixW}; // 2000-02-01 00:00
+  diff = subtractDateTuple(dta, dtb);
+  assertEqual((int32_t) -86400 * 31, diff); // January has 31 days
+
+  dta = {0, 2, 1, 0, ZoneContext::kSuffixW}; // 2000-02-01 00:00
+  dtb = {0, 3, 1, 0, ZoneContext::kSuffixW}; // 2000-03-01 00:00
+  diff = subtractDateTuple(dta, dtb);
+  assertEqual((int32_t) -86400 * 29, diff); // Feb 2000 is leap, 29 days
 }
 
 //---------------------------------------------------------------------------
