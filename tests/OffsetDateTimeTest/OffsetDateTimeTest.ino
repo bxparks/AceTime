@@ -3,7 +3,6 @@
 #include <AUnit.h>
 #include <AceTime.h>
 
-using namespace aunit;
 using namespace ace_time;
 
 test(OffsetDateTimeTest, accessors) {
@@ -396,5 +395,5 @@ void setup() {
 }
 
 void loop() {
-  TestRunner::run();
+  aunit::TestRunner::run();
 }

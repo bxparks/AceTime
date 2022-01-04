@@ -3,7 +3,6 @@
 #include <AUnit.h>
 #include <AceTime.h>
 
-using namespace aunit;
 using ace_time::LocalDate;
 using ace_time::internal::calcStartDayOfMonth;
 using ace_time::internal::MonthDay;
@@ -62,5 +61,5 @@ void setup() {
 }
 
 void loop() {
-  TestRunner::run();
+  aunit::TestRunner::run();
 }

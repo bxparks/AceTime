@@ -8,7 +8,6 @@
 #include <AUnit.h>
 #include <AceTime.h>
 
-using namespace aunit;
 using namespace ace_time;
 using namespace ace_time::extended;
 using ace_time::internal::ZoneContext;
@@ -393,5 +392,5 @@ void setup() {
 }
 
 void loop() {
-  TestRunner::run();
+  aunit::TestRunner::run();
 }

@@ -8,7 +8,6 @@
 #include <AUnit.h>
 #include <AceTime.h>
 
-using namespace aunit;
 using namespace ace_time;
 using ace_time::internal::ZoneContext;
 using ace_time::extended::ZoneInfo;
@@ -1035,14 +1034,8 @@ void setup() {
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
-
-#if 0
-  TestRunner::exclude("*");
-  TestRunner::include("ExtendedZoneProcessorTest",
-      "createTransitionsFromNamedMatch");
-#endif
 }
 
 void loop() {
-  TestRunner::run();
+  aunit::TestRunner::run();
 }

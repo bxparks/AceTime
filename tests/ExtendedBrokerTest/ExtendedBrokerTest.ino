@@ -4,7 +4,6 @@
 #include <AUnit.h>
 #include <AceTime.h>
 
-using aunit::TestRunner;
 using namespace ace_time;
 using ace_time::internal::ZoneContext;
 using ace_time::extended::ZoneInfoBroker;
@@ -163,5 +162,5 @@ void setup() {
 }
 
 void loop() {
-  TestRunner::run();
+  aunit::TestRunner::run();
 }

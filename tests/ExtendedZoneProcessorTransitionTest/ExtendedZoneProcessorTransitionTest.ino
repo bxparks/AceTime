@@ -5,8 +5,6 @@
 #include <AceTime.h>
 #include "EuropeLisbon.h"
 
-using aunit::TestRunner;
-using aunit::TestOnce;
 using namespace ace_time;
 
 //----------------------------------------------------------------------------
@@ -133,5 +131,5 @@ void setup() {
 }
 
 void loop() {
-  TestRunner::run();
+  aunit::TestRunner::run();
 }

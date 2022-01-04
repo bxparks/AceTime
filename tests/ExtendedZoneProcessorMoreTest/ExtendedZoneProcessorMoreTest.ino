@@ -7,7 +7,6 @@
 #include <AceCommon.h> // PrintStr<>
 #include <AceTime.h>
 
-using namespace aunit;
 using ace_common::PrintStr;
 using namespace ace_time;
 using namespace ace_time::zonedbx;
@@ -115,5 +114,5 @@ void setup() {
 }
 
 void loop() {
-  TestRunner::run();
+  aunit::TestRunner::run();
 }

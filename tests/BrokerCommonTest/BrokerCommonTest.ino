@@ -4,7 +4,6 @@
 #include <AUnit.h>
 #include <AceTime.h>
 
-using aunit::TestRunner;
 using ace_time::internal::findShortName;
 using ace_time::internal::timeCodeToMinutes;
 
@@ -43,5 +42,5 @@ void setup() {
 }
 
 void loop() {
-  TestRunner::run();
+  aunit::TestRunner::run();
 }
