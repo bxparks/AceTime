@@ -59,6 +59,8 @@ class Print;
 namespace ace_time {
 namespace extended {
 
+//---------------------------------------------------------------------------
+
 /**
  * A tuple that represents a date and time. Packed to 4-byte boundaries to
  * save space on 32-bit processors.
@@ -120,6 +122,32 @@ inline bool operator==(const DateTuple& a, const DateTuple& b) {
       && a.minutes == b.minutes
       && a.suffix == b.suffix;
 }
+
+/** Normalize DateTuple::minutes if its magnitude is more than 24 hours. */
+inline void normalizeDateTuple(DateTuple* dt) {
+  const int16_t kOneDayAsMinutes = 60 * 24;
+  if (dt->minutes <= -kOneDayAsMinutes) {
+    LocalDate ld = LocalDate::forTinyComponents(
+        dt->yearTiny, dt->month, dt->day);
+    local_date_mutation::decrementOneDay(ld);
+    dt->yearTiny = ld.yearTiny();
+    dt->month = ld.month();
+    dt->day = ld.day();
+    dt->minutes += kOneDayAsMinutes;
+  } else if (kOneDayAsMinutes <= dt->minutes) {
+    LocalDate ld = LocalDate::forTinyComponents(
+        dt->yearTiny, dt->month, dt->day);
+    local_date_mutation::incrementOneDay(ld);
+    dt->yearTiny = ld.yearTiny();
+    dt->month = ld.month();
+    dt->day = ld.day();
+    dt->minutes -= kOneDayAsMinutes;
+  } else {
+    // do nothing
+  }
+}
+
+//---------------------------------------------------------------------------
 
 /** A simple tuple to represent a year/month pair. */
 struct YearMonthTuple {
@@ -191,6 +219,8 @@ inline bool isMatchStatusActive(MatchStatus status) {
       || status == MatchStatus::kWithinMatch
       || status == MatchStatus::kPrior;
 }
+
+//---------------------------------------------------------------------------
 
 /**
  * Represents an interval of time where the time zone obeyed a certain UTC
@@ -1656,36 +1686,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
             internal::ZoneContext::kSuffixU};
       }
 
-      normalizeDateTuple(ttw);
-      normalizeDateTuple(tts);
-      normalizeDateTuple(ttu);
-    }
-
-    /**
-     * Normalize DateTuple::minutes if its magnitude is more than 24
-     * hours.
-     */
-    static void normalizeDateTuple(extended::DateTuple* dt) {
-      const int16_t kOneDayAsMinutes = 60 * 24;
-      if (dt->minutes <= -kOneDayAsMinutes) {
-        LocalDate ld = LocalDate::forTinyComponents(
-            dt->yearTiny, dt->month, dt->day);
-        local_date_mutation::decrementOneDay(ld);
-        dt->yearTiny = ld.yearTiny();
-        dt->month = ld.month();
-        dt->day = ld.day();
-        dt->minutes += kOneDayAsMinutes;
-      } else if (kOneDayAsMinutes <= dt->minutes) {
-        LocalDate ld = LocalDate::forTinyComponents(
-            dt->yearTiny, dt->month, dt->day);
-        local_date_mutation::incrementOneDay(ld);
-        dt->yearTiny = ld.yearTiny();
-        dt->month = ld.month();
-        dt->day = ld.day();
-        dt->minutes -= kOneDayAsMinutes;
-      } else {
-        // do nothing
-      }
+      extended::normalizeDateTuple(ttw);
+      extended::normalizeDateTuple(tts);
+      extended::normalizeDateTuple(ttu);
     }
 
     /**
@@ -1855,7 +1858,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
             + t->offsetMinutes + t->deltaMinutes);
         t->startDateTime = {tt.yearTiny, tt.month, tt.day, minutes,
             tt.suffix};
-        normalizeDateTuple(&t->startDateTime);
+        extended::normalizeDateTuple(&t->startDateTime);
 
         // 3) The epochSecond of the 'transitionTime' is determined by the
         // UTC offset of the *previous* Transition. However, the
