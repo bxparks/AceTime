@@ -443,6 +443,13 @@ struct TransitionTemplate {
   }
 };
 
+/** Tuple of a matching Transition and its 'fold'. */
+template <typename ZEB, typename ZPB, typename ZRB>
+struct MatchingTransitionTemplate {
+  const TransitionTemplate<ZEB, ZPB, ZRB>* transition;
+  uint8_t fold;
+};
+
 /**
  * A heap manager which is specialized and tuned to manage a collection of
  * Transitions, keeping track of unused, used, and active states, using a fixed
@@ -482,6 +489,13 @@ class TransitionStorageTemplate {
      * should be treated as a private, it is exposed only for testing purposes.
      */
     typedef TransitionTemplate<ZEB, ZPB, ZRB> Transition;
+
+    /**
+     * Template instantiation of MatchingTransitiontemplate used by this class.
+     * This should be treated as a private, it is exposed only for testing
+     * purposes.
+     */
+    typedef MatchingTransitionTemplate<ZEB, ZPB, ZRB> MatchingTransition;
 
     /** Constructor. */
     TransitionStorageTemplate() {}
@@ -671,19 +685,43 @@ class TransitionStorageTemplate {
      * year 1872 (because the year is stored as an int8_t). Therefore, this
      * method should never return a nullptr for a well-formed ZoneInfo file.
      */
-    const Transition* findTransitionForSeconds(acetime_t epochSeconds) const {
+    MatchingTransition findTransitionForSeconds(acetime_t epochSeconds)
+        const {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf(
             "findTransitionForSeconds(): mIndexFree: %d\n", mIndexFree);
       }
 
+      const Transition* prevMatch = nullptr;
       const Transition* match = nullptr;
       for (uint8_t i = 0; i < mIndexFree; i++) {
         const Transition* candidate = mTransitions[i];
         if (candidate->startEpochSeconds > epochSeconds) break;
+        prevMatch = match;
         match = candidate;
       }
-      return match;
+      uint8_t fold = calculateFold(epochSeconds, match, prevMatch);
+      return MatchingTransition{ match, fold };
+    }
+
+    static uint8_t calculateFold(
+        acetime_t epochSeconds,
+        const Transition* match,
+        const Transition* prevMatch) {
+
+      if (match == nullptr) return 0;
+      if (prevMatch == nullptr) return 0;
+
+      // Check if epochSeconds occurs during a "fall back" DST transition.
+      acetime_t overlapSeconds = subtractDateTuple(
+          prevMatch->untilDateTime, match->startDateTime);
+      if (overlapSeconds <= 0) return 0;
+      acetime_t secondsFromTransitionStart =
+          epochSeconds - match->startEpochSeconds;
+      if (secondsFromTransitionStart >= overlapSeconds) return 0;
+
+      // EpochSeconds occurs within the "fall back" overlap.
+      return 1;
     }
 
     /**
@@ -856,6 +894,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     typedef extended::TransitionTemplate<ZEB, ZPB, ZRB> Transition;
 
     /** Exposed only for testing purposes. */
+    typedef extended::MatchingTransitionTemplate<ZEB, ZPB, ZRB>
+        MatchingTransition;
+
+    /** Exposed only for testing purposes. */
     typedef extended::MatchingEraTemplate<ZEB> MatchingEra;
 
     /** Exposed only for testing purposes. */
@@ -867,8 +909,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       bool success = initForEpochSeconds(epochSeconds);
       if (!success) return TimeOffset::forError();
-      const Transition* transition =
+      MatchingTransition matchingTransition =
           mTransitionStorage.findTransitionForSeconds(epochSeconds);
+      const Transition* transition = matchingTransition.transition;
       return (transition)
           ? TimeOffset::forMinutes(
               transition->offsetMinutes + transition->deltaMinutes)
@@ -878,8 +921,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const override {
       bool success = initForEpochSeconds(epochSeconds);
       if (!success) return TimeOffset::forError();
-      const Transition* transition =
+      MatchingTransition matchingTransition =
           mTransitionStorage.findTransitionForSeconds(epochSeconds);
+      const Transition* transition = matchingTransition.transition;
       return (transition)
           ? TimeOffset::forMinutes(transition->deltaMinutes)
           : TimeOffset::forError();
@@ -888,8 +932,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     const char* getAbbrev(acetime_t epochSeconds) const override {
       bool success = initForEpochSeconds(epochSeconds);
       if (!success) return "";
-      const Transition* transition =
+      MatchingTransition matchingTransition =
           mTransitionStorage.findTransitionForSeconds(epochSeconds);
+      const Transition* transition = matchingTransition.transition;
       return (transition) ? transition->abbrev : "";
     }
 
@@ -936,8 +981,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       // then recalculate the offset. Use this final offset to determine the
       // effective OffsetDateTime that will survive a round-trip unchanged.
       acetime_t epochSeconds = odt.toEpochSeconds();
-      const Transition* transition =
+      MatchingTransition matchingTransition =
           mTransitionStorage.findTransitionForSeconds(epochSeconds);
+      const Transition* transition = matchingTransition.transition;
       offset =  (transition)
             ? TimeOffset::forMinutes(
                 transition->offsetMinutes + transition->deltaMinutes)

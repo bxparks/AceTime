@@ -230,6 +230,7 @@ test(TransitionStorageTest, addActiveCandidatesToActivePool) {
 
 test(TransitionStorageTest, findTransitionForSeconds) {
   TransitionStorage storage;
+  using MatchingTransition = TransitionStorage::MatchingTransition;
   storage.init();
 
   // Add 3 transitions to Active pool.
@@ -256,16 +257,20 @@ test(TransitionStorageTest, findTransitionForSeconds) {
 
   // Check that we can find the transitions using the startEpochSeconds.
 
-  const Transition* t = storage.findTransitionForSeconds(1);
+  MatchingTransition matchingTransition = storage.findTransitionForSeconds(1);
+  const Transition* t = matchingTransition.transition;
   assertEqual(0, t->transitionTime.yearTiny);
 
-  t = storage.findTransitionForSeconds(9);
+  matchingTransition = storage.findTransitionForSeconds(9);
+  t = matchingTransition.transition;
   assertEqual(0, t->transitionTime.yearTiny);
 
-  t = storage.findTransitionForSeconds(10);
+  matchingTransition = storage.findTransitionForSeconds(10);
+  t = matchingTransition.transition;
   assertEqual(1, t->transitionTime.yearTiny);
 
-  t = storage.findTransitionForSeconds(21);
+  matchingTransition = storage.findTransitionForSeconds(21);
+  t = matchingTransition.transition;
   assertEqual(2, t->transitionTime.yearTiny);
 }
 
