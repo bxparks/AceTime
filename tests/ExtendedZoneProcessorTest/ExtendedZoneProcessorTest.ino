@@ -347,34 +347,6 @@ test(ExtendedZoneProcessorTest, createTransitionForYear) {
       ZoneContext::kSuffixW}));
 }
 
-test(ExtendedZoneProcessorTest, normalizeDateTuple) {
-  DateTuple dtp;
-
-  dtp = {0, 1, 1, 0, ZoneContext::kSuffixW};
-  ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{0, 1, 1, 0, ZoneContext::kSuffixW}));
-
-  dtp = {0, 1, 1, 15*95, ZoneContext::kSuffixW}; // 23:45
-  ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{0, 1, 1, 15*95, ZoneContext::kSuffixW}));
-
-  dtp = {0, 1, 1, 15*96, ZoneContext::kSuffixW}; // 24:00
-  ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{0, 1, 2, 0, ZoneContext::kSuffixW}));
-
-  dtp = {0, 1, 1, 15*97, ZoneContext::kSuffixW}; // 24:15
-  ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{0, 1, 2, 15, ZoneContext::kSuffixW}));
-
-  dtp = {0, 1, 1, -15*96, ZoneContext::kSuffixW}; // -24:00
-  ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{-1, 12, 31, 0, ZoneContext::kSuffixW}));
-
-  dtp = {0, 1, 1, -15*97, ZoneContext::kSuffixW}; // -24:15
-  ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{-1, 12, 31, -15, ZoneContext::kSuffixW}));
-}
-
 test(ExtendedZoneProcessorTest, expandDateTuple) {
   DateTuple ttw;
   DateTuple tts;

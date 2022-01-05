@@ -9,10 +9,104 @@
 
 using ace_common::PrintStr;
 using namespace ace_time;
-using namespace ace_time::zonedbx;
+using ace_time::internal::ZoneContext;
+using ace_time::extended::DateTuple;
+using ace_time::extended::normalizeDateTuple;
+using ace_time::extended::subtractDateTuple;
 
 //---------------------------------------------------------------------------
-// Test public methods
+// DateTuple.
+//---------------------------------------------------------------------------
+
+test(ExtendedZoneProcessorTest, dateTupleOperatorLessThan) {
+  assertTrue((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      < DateTuple{0, 1, 2, 4, ZoneContext::kSuffixS}));
+  assertTrue((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      < DateTuple{0, 1, 3, 3, ZoneContext::kSuffixS}));
+  assertTrue((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      < DateTuple{0, 2, 2, 3, ZoneContext::kSuffixS}));
+  assertTrue((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      < DateTuple{1, 1, 2, 3, ZoneContext::kSuffixS}));
+}
+
+test(ExtendedZoneProcessorTest, dateTupleOperatorEquals) {
+  assertTrue((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}));
+
+  assertFalse((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{0, 1, 2, 3, ZoneContext::kSuffixS}));
+  assertFalse((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{0, 1, 2, 4, ZoneContext::kSuffixW}));
+  assertFalse((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{0, 1, 3, 3, ZoneContext::kSuffixW}));
+  assertFalse((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{0, 2, 2, 3, ZoneContext::kSuffixW}));
+  assertFalse((
+      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{1, 1, 2, 3, ZoneContext::kSuffixW}));
+}
+
+test(ExtendedZoneProcessorTest, normalizeDateTuple) {
+  DateTuple dtp;
+
+  dtp = {0, 1, 1, 0, ZoneContext::kSuffixW};
+  normalizeDateTuple(&dtp);
+  assertTrue((dtp == DateTuple{0, 1, 1, 0, ZoneContext::kSuffixW}));
+
+  dtp = {0, 1, 1, 15*95, ZoneContext::kSuffixW}; // 23:45
+  normalizeDateTuple(&dtp);
+  assertTrue((dtp == DateTuple{0, 1, 1, 15*95, ZoneContext::kSuffixW}));
+
+  dtp = {0, 1, 1, 15*96, ZoneContext::kSuffixW}; // 24:00
+  normalizeDateTuple(&dtp);
+  assertTrue((dtp == DateTuple{0, 1, 2, 0, ZoneContext::kSuffixW}));
+
+  dtp = {0, 1, 1, 15*97, ZoneContext::kSuffixW}; // 24:15
+  normalizeDateTuple(&dtp);
+  assertTrue((dtp == DateTuple{0, 1, 2, 15, ZoneContext::kSuffixW}));
+
+  dtp = {0, 1, 1, -15*96, ZoneContext::kSuffixW}; // -24:00
+  normalizeDateTuple(&dtp);
+  assertTrue((dtp == DateTuple{-1, 12, 31, 0, ZoneContext::kSuffixW}));
+
+  dtp = {0, 1, 1, -15*97, ZoneContext::kSuffixW}; // -24:15
+  normalizeDateTuple(&dtp);
+  assertTrue((dtp == DateTuple{-1, 12, 31, -15, ZoneContext::kSuffixW}));
+}
+
+test(ExtendedZoneProcessorTest, substractDateTuple) {
+  DateTuple dta = {0, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
+  DateTuple dtb = {0, 1, 1, 1, ZoneContext::kSuffixW}; // 2000-01-01 00:01
+  acetime_t diff = subtractDateTuple(dta, dtb);
+  assertEqual(-60, diff);
+
+  dta = {0, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
+  dtb = {0, 1, 2, 0, ZoneContext::kSuffixW}; // 2000-01-02 00:00
+  diff = subtractDateTuple(dta, dtb);
+  assertEqual((int32_t) -86400, diff);
+
+  dta = {0, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
+  dtb = {0, 2, 1, 0, ZoneContext::kSuffixW}; // 2000-02-01 00:00
+  diff = subtractDateTuple(dta, dtb);
+  assertEqual((int32_t) -86400 * 31, diff); // January has 31 days
+
+  dta = {0, 2, 1, 0, ZoneContext::kSuffixW}; // 2000-02-01 00:00
+  dtb = {0, 3, 1, 0, ZoneContext::kSuffixW}; // 2000-03-01 00:00
+  diff = subtractDateTuple(dta, dtb);
+  assertEqual((int32_t) -86400 * 29, diff); // Feb 2000 is leap, 29 days
+}
+
+//---------------------------------------------------------------------------
+// Test high level public methods of ExtendedZoneProcessor.
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, setZoneKey) {
