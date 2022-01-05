@@ -70,13 +70,9 @@ class ZonedDateTime {
      */
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
         const TimeZone& timeZone) {
-      OffsetDateTime odt;
-      if (epochSeconds == LocalDate::kInvalidEpochSeconds) {
-        odt = OffsetDateTime::forError();
-      } else {
-        TimeOffset timeOffset = timeZone.getUtcOffset(epochSeconds);
-        odt = OffsetDateTime::forEpochSeconds(epochSeconds, timeOffset);
-      }
+      OffsetDateTime odt = (epochSeconds == LocalDate::kInvalidEpochSeconds)
+          ? OffsetDateTime::forError()
+          : timeZone.getOffsetDateTime(epochSeconds);
       return ZonedDateTime(odt, timeZone);
     }
 

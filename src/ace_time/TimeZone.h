@@ -360,6 +360,16 @@ class TimeZone {
       return odt;
     }
 
+    /**
+     * Return the best estimate of the OffsetDateTime at the given epochSeconds.
+     * Used by ZonedDateTime::forEpochSeconds(), so exposed publically for
+     * testing and debugging.
+     */
+    OffsetDateTime getOffsetDateTime(acetime_t epochSeconds) const {
+      TimeOffset timeOffset = getUtcOffset(epochSeconds);
+      return OffsetDateTime::forEpochSeconds(epochSeconds, timeOffset);
+    }
+
     /** Return true if UTC (+00:00+00:00). */
     bool isUtc() const {
       if (mType != kTypeManual) return false;
