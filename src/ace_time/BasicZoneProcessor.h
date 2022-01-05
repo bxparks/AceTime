@@ -300,6 +300,11 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       return odt;
     }
 
+    OffsetDateTime getOffsetDateTime(acetime_t epochSeconds) const override {
+      TimeOffset timeOffset = getUtcOffset(epochSeconds);
+      return OffsetDateTime::forEpochSeconds(epochSeconds, timeOffset);
+    }
+
     void printNameTo(Print& printer) const override {
       mZoneInfoBroker.printNameTo(printer);
     }

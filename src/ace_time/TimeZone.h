@@ -349,7 +349,8 @@ class TimeZone {
           break;
 
         case kTypeManual:
-          odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt,
+          odt = OffsetDateTime::forLocalDateTimeAndOffset(
+              ldt,
               TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes));
           break;
 
@@ -366,8 +367,23 @@ class TimeZone {
      * testing and debugging.
      */
     OffsetDateTime getOffsetDateTime(acetime_t epochSeconds) const {
-      TimeOffset timeOffset = getUtcOffset(epochSeconds);
-      return OffsetDateTime::forEpochSeconds(epochSeconds, timeOffset);
+      OffsetDateTime odt = OffsetDateTime::forError();
+      switch (mType) {
+        case kTypeError:
+        case kTypeReserved:
+          break;
+
+        case kTypeManual:
+          odt = OffsetDateTime::forEpochSeconds(
+              epochSeconds,
+              TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes));
+          break;
+
+        default:
+          odt = getBoundZoneProcessor()->getOffsetDateTime(epochSeconds);
+          break;
+      }
+      return odt;
     }
 
     /** Return true if UTC (+00:00+00:00). */

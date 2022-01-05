@@ -997,6 +997,21 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       return odt;
     }
 
+    OffsetDateTime getOffsetDateTime(acetime_t epochSeconds) const override {
+      bool success = initForEpochSeconds(epochSeconds);
+      if (!success) return OffsetDateTime::forError();
+
+      MatchingTransition matchingTransition =
+          mTransitionStorage.findTransitionForSeconds(epochSeconds);
+      const Transition* transition = matchingTransition.transition;
+      TimeOffset timeOffset = (transition)
+          ? TimeOffset::forMinutes(
+              transition->offsetMinutes + transition->deltaMinutes)
+          : TimeOffset::forError();
+      return OffsetDateTime::forEpochSeconds(
+          epochSeconds, timeOffset, matchingTransition.fold);
+    }
+
     void printNameTo(Print& printer) const override {
       mZoneInfoBroker.printNameTo(printer);
     }

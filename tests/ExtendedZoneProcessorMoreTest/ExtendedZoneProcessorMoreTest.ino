@@ -198,6 +198,118 @@ test(ExtendedZoneProcessorTest, Los_Angeles_outOfBounds) {
 }
 
 //---------------------------------------------------------------------------
+// Test fold parameter.
+//---------------------------------------------------------------------------
+
+test(ExtendedZoneProcessorTest, Los_Angeles_fold_during_fall_back) {
+  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+
+  // Start our sampling at 01:29:00-07:00, which is 31 minutes before the DST
+  // fall-back.
+  OffsetDateTime odt = OffsetDateTime::forComponents(
+      2022, 11, 6, 1, 29, 0, TimeOffset::forHours(-7));
+  acetime_t epochSeconds = odt.toEpochSeconds();
+
+  // Verify fold==0 because this is the first time we're seeing this datetime.
+  OffsetDateTime observed = zoneProcessor.getOffsetDateTime(epochSeconds);
+  assertTrue(
+      OffsetDateTime::forComponents(
+          2022, 11, 6, 1, 29, 0, TimeOffset::forHours(-7))
+      == observed
+  );
+  assertEqual(0, observed.fold());
+
+  // 30 minutes later, we are at 01:59:00-07:00, a minute before fall-back, and
+  // fold should be 0 because this is the first time seeing the datetime.
+  epochSeconds += 1800;
+  observed = zoneProcessor.getOffsetDateTime(epochSeconds);
+  assertTrue(
+      OffsetDateTime::forComponents(
+          2022, 11, 6, 1, 59, 0, TimeOffset::forHours(-7))
+      == observed
+  );
+  assertEqual(0, observed.fold());
+
+  // 30 minutes into the overlap, we have either 02:29:00-07:00 or
+  // 01:29:00-08:00. DST fall-back has occurred, so ExtendedZoneProcessor should
+  // return 01:29:00-08:00, but with fold==1 because it's the second time we are
+  // seeing this datetime.
+  epochSeconds += 1800;
+  observed = zoneProcessor.getOffsetDateTime(epochSeconds);
+  assertTrue(
+      OffsetDateTime::forComponents(
+          2022, 11, 6, 1, 29, 0, TimeOffset::forHours(-8))
+      == observed
+  );
+  assertEqual(1, observed.fold());
+
+  // Another 30 minutes into the overlap, we have either 02:59:00-07:00 or
+  // 01:59:00-08:00. ExtendedZoneProcessor should return 01:59:00-08:00, but
+  // with fold==1 because we are seeing this datetime a second time.
+  epochSeconds += 1800;
+  observed = zoneProcessor.getOffsetDateTime(epochSeconds);
+  assertTrue(
+      OffsetDateTime::forComponents(
+          2022, 11, 6, 1, 59, 0, TimeOffset::forHours(-8))
+      == observed
+  );
+  assertEqual(1, observed.fold());
+
+  // One more minute into the overlap, we have either 03:00:00-07:00 or
+  // 02:00:00-08:00. ExtendedZoneProcessor should return 02:00:00-08:00,
+  // with fold==0 because 02:00:00 was the exact point of fall-back and never
+  // occurred twice.
+  epochSeconds += 60;
+  observed = zoneProcessor.getOffsetDateTime(epochSeconds);
+  assertTrue(
+      OffsetDateTime::forComponents(
+          2022, 11, 6, 2, 0, 0, TimeOffset::forHours(-8))
+      == observed
+  );
+  assertEqual(0, observed.fold());
+}
+
+test(ExtendedZoneProcessorTest, Los_Angeles_fold_during_spring_forward) {
+  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+
+  // Start our sampling at 01:29:00-08:00, which is 31 minutes before the DST
+  // spring-forward.
+  OffsetDateTime odt = OffsetDateTime::forComponents(
+      2022, 3, 13, 1, 29, 0, TimeOffset::forHours(-8));
+  acetime_t epochSeconds = odt.toEpochSeconds();
+
+  // Verify fold==0 always, because spring-forward never causes repeats.
+  OffsetDateTime observed = zoneProcessor.getOffsetDateTime(epochSeconds);
+  assertTrue(
+      OffsetDateTime::forComponents(
+          2022, 3, 13, 1, 29, 0, TimeOffset::forHours(-8))
+      == observed
+  );
+  assertEqual(0, observed.fold());
+
+  // 30 minutes later, we are at 01:59:00-07:00, a minute before spring-forward.
+  epochSeconds += 1800;
+  observed = zoneProcessor.getOffsetDateTime(epochSeconds);
+  assertTrue(
+      OffsetDateTime::forComponents(
+          2022, 3, 13, 1, 59, 0, TimeOffset::forHours(-8))
+      == observed
+  );
+  assertEqual(0, observed.fold());
+
+  // One minute later, we are at 02:00:00-08:00, which immediately turns into
+  // 03:00:00-07:00.
+  epochSeconds += 60;
+  observed = zoneProcessor.getOffsetDateTime(epochSeconds);
+  assertTrue(
+      OffsetDateTime::forComponents(
+          2022, 3, 13, 3, 0, 0, TimeOffset::forHours(-7))
+      == observed
+  );
+  assertEqual(0, observed.fold());
+}
+
+//---------------------------------------------------------------------------
 
 void setup() {
 #if ! defined(EPOXY_DUINO)
