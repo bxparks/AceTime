@@ -64,6 +64,7 @@ test(LocalTimeTest, toAndFromSeconds) {
   lt = LocalTime::forSeconds(0);
   assertTrue(lt == LocalTime::forComponents(0, 0, 0));
   assertEqual((acetime_t) 0, lt.toSeconds());
+  assertEqual(0, lt.fold());
 
   lt = LocalTime::forSeconds(3662);
   assertTrue(lt == LocalTime::forComponents(1, 1, 2));
@@ -72,6 +73,13 @@ test(LocalTimeTest, toAndFromSeconds) {
   lt = LocalTime::forSeconds(86399);
   assertTrue(lt == LocalTime::forComponents(23, 59, 59));
   assertEqual((acetime_t) 86399, lt.toSeconds());
+}
+
+test(LocalTimeTest, toAndFromSeconds_withFold) {
+  LocalTime lt = LocalTime::forSeconds(0, 1 /*fold*/);
+  assertTrue(lt == LocalTime::forComponents(0, 0, 0));
+  assertEqual((acetime_t) 0, lt.toSeconds());
+  assertEqual(1, lt.fold());
 }
 
 test(LocalTimeTest, compareTo) {

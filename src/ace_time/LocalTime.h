@@ -53,7 +53,7 @@ class LocalTime {
      *
      * @param seconds number of seconds from midnight, (0-86399)
      */
-    static LocalTime forSeconds(acetime_t seconds) {
+    static LocalTime forSeconds(acetime_t seconds, uint8_t fold = 0) {
       uint8_t second, minute, hour;
 
       if (seconds == kInvalidSeconds) {
@@ -66,7 +66,7 @@ class LocalTime {
       }
 
       // Return a single object to allow return value optimization.
-      return LocalTime(hour, minute, second);
+      return LocalTime(hour, minute, second, fold);
     }
 
     /**

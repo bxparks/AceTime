@@ -258,6 +258,23 @@ test(OffsetDateTimeTest, forEpochSeconds) {
   assertEqual(59, dt.minute());
   assertEqual(59, dt.second());
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
+  assertEqual(0, dt.fold());
+}
+
+test(OffsetDateTimeTest, forEpochSeconds_withFold) {
+  // 2029-12-31 23:59:59Z Monday
+  OffsetDateTime dt = OffsetDateTime::forEpochSeconds(
+      10958 * (acetime_t) 86400 - 1, TimeOffset(), 1 /*fold*/);
+
+  assertEqual((int16_t) 2029, dt.year());
+  assertEqual(29, dt.yearTiny());
+  assertEqual(12, dt.month());
+  assertEqual(31, dt.day());
+  assertEqual(23, dt.hour());
+  assertEqual(59, dt.minute());
+  assertEqual(59, dt.second());
+  assertEqual(LocalDate::kMonday, dt.dayOfWeek());
+  assertEqual(1, dt.fold());
 }
 
 test(OffsetDateTimeTest, convertToTimeOffset) {

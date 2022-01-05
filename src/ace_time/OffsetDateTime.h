@@ -73,11 +73,11 @@ class OffsetDateTime {
      * @param timeOffset time offset from UTC
      */
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
-          TimeOffset timeOffset) {
+          TimeOffset timeOffset, uint8_t fold = 0) {
       if (epochSeconds != LocalDate::kInvalidEpochSeconds) {
         epochSeconds += timeOffset.toSeconds();
       }
-      auto ldt = LocalDateTime::forEpochSeconds(epochSeconds);
+      auto ldt = LocalDateTime::forEpochSeconds(epochSeconds, fold);
       return OffsetDateTime(ldt, timeOffset);
     }
 

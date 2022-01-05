@@ -72,7 +72,9 @@ class LocalDateTime {
      *    (2000-01-01 00:00:00). Use LocalDate::kInvalidEpochSeconds to define
      *    an invalid instance whose isError() returns true.
      */
-    static LocalDateTime forEpochSeconds(acetime_t epochSeconds) {
+    static LocalDateTime forEpochSeconds(
+        acetime_t epochSeconds, uint8_t fold = 0) {
+
       LocalDate ld;
       LocalTime lt;
       if (epochSeconds == LocalDate::kInvalidEpochSeconds) {
@@ -88,7 +90,7 @@ class LocalDateTime {
         // epochSeconds could be negative.
         acetime_t seconds = epochSeconds - 86400 * days;
         ld = LocalDate::forEpochDays(days);
-        lt = LocalTime::forSeconds(seconds);
+        lt = LocalTime::forSeconds(seconds, fold);
       }
 
       return LocalDateTime(ld, lt);
