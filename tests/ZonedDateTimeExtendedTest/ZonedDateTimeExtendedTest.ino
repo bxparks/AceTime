@@ -110,10 +110,10 @@ test(ZonedDateTimeExtendedTest, forComponents_inOverlap) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles);
 
-  // There were two instances of 01:01. The algorithm picks the later offset,
-  // i.e. the most recent matching Transition, so should resolve to 01:01-08:00.
+  // There were two instances of 01:01. The algorithm picks the earlier
+  // Transition, by default (fold==0) so should resolve to 01:01-07:00.
   auto dt = ZonedDateTime::forComponents(2018, 11, 4, 1, 1, 0, tz);
-  assertEqual(TimeOffset::forHours(-8).toMinutes(),
+  assertEqual(TimeOffset::forHours(-7).toMinutes(),
       dt.timeOffset().toMinutes());
   auto expected = LocalDateTime::forComponents(2018, 11, 4, 1, 1, 0);
   assertTrue(expected == dt.localDateTime());

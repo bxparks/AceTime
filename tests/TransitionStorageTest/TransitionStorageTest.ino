@@ -20,10 +20,8 @@ typedef TransitionStorageTemplate<
     extended::ZonePolicyBroker,
     extended::ZoneRuleBroker> TransitionStorage;
 
-typedef TransitionTemplate<
-    extended::ZoneEraBroker,
-    extended::ZonePolicyBroker,
-    extended::ZoneRuleBroker> Transition;
+using Transition = TransitionStorage::Transition;
+using TransitionResult = TransitionStorage::TransitionResult;
 
 test(TransitionStorageTest, getFreeAgent) {
   TransitionStorage storage;
@@ -278,24 +276,27 @@ test(TransitionStorageTest, findTransitionForDateTime) {
   TransitionStorage storage;
   storage.init();
 
-  // 2000-01-02T00:03
+  // Transition 1: [2000-01-02T00:03, 2001-02-03T00:04)
   Transition* freeAgent = storage.getFreeAgent();
   freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::kSuffixW};
   freeAgent->startDateTime = freeAgent->transitionTime;
+  freeAgent->untilDateTime = {1, 2, 3, 4, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   storage.addFreeAgentToCandidatePool();
 
-  // 2001-02-03T00:04
+  // Transition 2: [2001-02-03T00:04, 2002-03-04T00:05)
   freeAgent = storage.getFreeAgent();
   freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::kSuffixW};
   freeAgent->startDateTime = freeAgent->transitionTime;
+  freeAgent->untilDateTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   storage.addFreeAgentToCandidatePool();
 
-  // 2002-03-04T00:05
+  // Transition 3: [2002-03-04T00:05, infinity)
   freeAgent = storage.getFreeAgent();
   freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
   freeAgent->startDateTime = freeAgent->transitionTime;
+  freeAgent->untilDateTime = {127, 1, 1, 0, ZoneContext::kSuffixW}; // infinity
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   storage.addFreeAgentToCandidatePool();
 
@@ -306,34 +307,36 @@ test(TransitionStorageTest, findTransitionForDateTime) {
   assertEqual(3, storage.mIndexCandidates);
   assertEqual(3, storage.mIndexFree);
 
-  // 2000-01-02T00:00
+  // 2000-01-02T00:00, too far past to match any Transition
   auto ldt = LocalDateTime::forComponents(2000, 1, 2, 0, 0, 0);
-  const Transition* t = storage.findTransitionForDateTime(ldt);
-  assertEqual(t, nullptr);
+  TransitionResult r = storage.findTransitionForDateTime(ldt);
+  assertEqual(r.searchStatus, TransitionResult::kStatusGap);
+  assertEqual(r.transition0, nullptr);
+  assertNotEqual(r.transition1, nullptr);
 
   // 2000-01-02T01:00
   ldt = LocalDateTime::forComponents(2000, 1, 2, 1, 0, 0);
-  t = storage.findTransitionForDateTime(ldt);
-  assertNotEqual(t, nullptr);
-  assertEqual(0, t->transitionTime.yearTiny);
+  r = storage.findTransitionForDateTime(ldt);
+  assertEqual(r.searchStatus, TransitionResult::kStatusExact);
+  assertEqual(0, r.transition0->transitionTime.yearTiny);
 
   // 2001-02-03T00:03
   ldt = LocalDateTime::forComponents(2001, 2, 3, 0, 3, 0);
-  t = storage.findTransitionForDateTime(ldt);
-  assertNotEqual(t, nullptr);
-  assertEqual(0, t->transitionTime.yearTiny);
+  r = storage.findTransitionForDateTime(ldt);
+  assertEqual(r.searchStatus, TransitionResult::kStatusExact);
+  assertEqual(0, r.transition0->transitionTime.yearTiny);
 
   // 2001-02-03T00:04
   ldt = LocalDateTime::forComponents(2001, 2, 3, 0, 4, 0);
-  t = storage.findTransitionForDateTime(ldt);
-  assertNotEqual(t, nullptr);
-  assertEqual(1, t->transitionTime.yearTiny);
+  r = storage.findTransitionForDateTime(ldt);
+  assertEqual(r.searchStatus, TransitionResult::kStatusExact);
+  assertEqual(1, r.transition0->transitionTime.yearTiny);
 
   // 2002-03-04T00:05
   ldt = LocalDateTime::forComponents(2002, 3, 4, 0, 5, 0);
-  t = storage.findTransitionForDateTime(ldt);
-  assertNotEqual(t, nullptr);
-  assertEqual(2, t->transitionTime.yearTiny);
+  r = storage.findTransitionForDateTime(ldt);
+  assertEqual(r.searchStatus, TransitionResult::kStatusExact);
+  assertEqual(2, r.transition0->transitionTime.yearTiny);
 }
 
 test(TransitionStorageTest, resetCandidatePool) {
