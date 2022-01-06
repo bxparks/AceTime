@@ -141,6 +141,146 @@ test(ZonedDateTimeExtendedTest, linked_zones) {
 */
 
 // --------------------------------------------------------------------------
+// ZonedDateTime with fold
+// --------------------------------------------------------------------------
+
+test(ZonedDateTimeExtendedTest, forEpochSecond_fall_back) {
+  TimeZone tz = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles);
+
+  // Start our sampling at 01:29:00-07:00, which is 31 minutes before the DST
+  // fall-back.
+  OffsetDateTime odt = OffsetDateTime::forComponents(
+      2022, 11, 6, 1, 29, 0, TimeOffset::forHours(-7));
+  acetime_t epochSeconds = odt.toEpochSeconds();
+
+  auto dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+  assertEqual(2022, dt.year());
+  assertEqual(11, dt.month());
+  assertEqual(6, dt.day());
+  assertEqual(1, dt.hour());
+  assertEqual(29, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(-7*60, dt.timeOffset().toMinutes());
+  assertEqual(0, dt.fold());
+
+  // Go forward an hour. Should return 01:29:00-08:00, the second time this
+  // was seen, so fold should be 1.
+  epochSeconds += 3600;
+  dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+  assertEqual(2022, dt.year());
+  assertEqual(11, dt.month());
+  assertEqual(6, dt.day());
+  assertEqual(1, dt.hour());
+  assertEqual(29, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(-8*60, dt.timeOffset().toMinutes());
+  assertEqual(1, dt.fold());
+
+  // Go forward another hour. Should return 02:29:00-08:00, which occurs only
+  // once, so fold should be 0.
+  epochSeconds += 3600;
+  dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+  assertEqual(2022, dt.year());
+  assertEqual(11, dt.month());
+  assertEqual(6, dt.day());
+  assertEqual(2, dt.hour());
+  assertEqual(29, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(-8*60, dt.timeOffset().toMinutes());
+  assertEqual(0, dt.fold());
+}
+
+test(ZonedDateTimeExtendedTest, forEpochSecond_spring_forward) {
+  TimeZone tz = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles);
+
+  // Start our sampling at 01:29:00-08:00, which is 31 minutes before the DST
+  // spring forward.
+  OffsetDateTime odt = OffsetDateTime::forComponents(
+      2022, 3, 13, 1, 29, 0, TimeOffset::forHours(-8));
+  acetime_t epochSeconds = odt.toEpochSeconds();
+
+  auto dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+  assertEqual(2022, dt.year());
+  assertEqual(3, dt.month());
+  assertEqual(13, dt.day());
+  assertEqual(1, dt.hour());
+  assertEqual(29, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(-8*60, dt.timeOffset().toMinutes());
+  assertEqual(0, dt.fold());
+
+  // An hour later, we spring forward to 03:29:00-07:00.
+  epochSeconds += 3600;
+  dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+  assertEqual(2022, dt.year());
+  assertEqual(3, dt.month());
+  assertEqual(13, dt.day());
+  assertEqual(3, dt.hour());
+  assertEqual(29, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(-7*60, dt.timeOffset().toMinutes());
+  assertEqual(0, dt.fold());
+}
+
+test(ZonedDateTimeExtendedTest, forComponents_fall_back) {
+  TimeZone tz = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles);
+
+  // First occurrence of 01:29:00, should be in -07:00.
+  auto dt = ZonedDateTime::forComponents(2022, 11, 6, 1, 29, 0, tz, 0 /*fold*/);
+  assertEqual(2022, dt.year());
+  assertEqual(11, dt.month());
+  assertEqual(6, dt.day());
+  assertEqual(1, dt.hour());
+  assertEqual(29, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(-7*60, dt.timeOffset().toMinutes());
+  assertEqual(0, dt.fold());
+
+  // Second occurrence of 01:29:00, should be in -08:00.
+  dt = ZonedDateTime::forComponents(2022, 11, 6, 1, 29, 0, tz, 1 /*fold*/);
+  assertEqual(2022, dt.year());
+  assertEqual(11, dt.month());
+  assertEqual(6, dt.day());
+  assertEqual(1, dt.hour());
+  assertEqual(29, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(-8*60, dt.timeOffset().toMinutes());
+  assertEqual(1, dt.fold());
+}
+
+test(ZonedDateTimeExtendedTest, forComponents_spring_forward) {
+  TimeZone tz = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles);
+
+  // 02:29:00 is in the gap. Setting fold=0 requests the earlier Transition,
+  // which returns the later UTC, which gets normalized to the later offset.
+  auto dt = ZonedDateTime::forComponents(2022, 3, 13, 2, 29, 0, tz, 0 /*fold*/);
+  assertEqual(2022, dt.year());
+  assertEqual(3, dt.month());
+  assertEqual(13, dt.day());
+  assertEqual(3, dt.hour());
+  assertEqual(29, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(-7*60, dt.timeOffset().toMinutes());
+  assertEqual(1, dt.fold());
+
+  // 02:29:00 is in the gap. Setting fold=1 requests the later Transition, which
+  // returns the earlier UTC, which gets normalized to the earlier offset.
+  dt = ZonedDateTime::forComponents(2022, 3, 13, 2, 29, 0, tz, 1 /*fold*/);
+  assertEqual(2022, dt.year());
+  assertEqual(3, dt.month());
+  assertEqual(13, dt.day());
+  assertEqual(1, dt.hour());
+  assertEqual(29, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(-8*60, dt.timeOffset().toMinutes());
+  assertEqual(0, dt.fold());
+}
+
+// --------------------------------------------------------------------------
 
 test(ZonedDateTimeExtendedTest, normalize) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
