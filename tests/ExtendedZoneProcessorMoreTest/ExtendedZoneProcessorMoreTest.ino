@@ -198,10 +198,10 @@ test(ExtendedZoneProcessorTest, Los_Angeles_outOfBounds) {
 }
 
 //---------------------------------------------------------------------------
-// Test fold parameter.
+// Test that getOffsetDateTime(acetime_t) returns correct fold parameter.
 //---------------------------------------------------------------------------
 
-test(ExtendedZoneProcessorTest, Los_Angeles_fold_during_fall_back) {
+test(ExtendedZoneProcessorTest, forEpochSeconds_during_fall_back) {
   ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
 
   // Start our sampling at 01:29:00-07:00, which is 31 minutes before the DST
@@ -269,7 +269,7 @@ test(ExtendedZoneProcessorTest, Los_Angeles_fold_during_fall_back) {
   assertEqual(0, observed.fold());
 }
 
-test(ExtendedZoneProcessorTest, Los_Angeles_fold_during_spring_forward) {
+test(ExtendedZoneProcessorTest, forEpochSeconds_during_spring_forward) {
   ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
 
   // Start our sampling at 01:29:00-08:00, which is 31 minutes before the DST
@@ -307,6 +307,81 @@ test(ExtendedZoneProcessorTest, Los_Angeles_fold_during_spring_forward) {
       == observed
   );
   assertEqual(0, observed.fold());
+}
+
+//---------------------------------------------------------------------------
+// Test that getOffsetDateTime(const LocalDateTime&) handles fold parameter
+// correctly.
+//---------------------------------------------------------------------------
+
+test(ExtendedZoneProcessorTest, forComponents_during_fall_back) {
+  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+
+  // 01:29:00, before fall-back
+  {
+    LocalDateTime ldt = LocalDateTime::forComponents(
+        2022, 11, 6, 1, 29, 0, 0 /*fold*/);
+    OffsetDateTime observed = zoneProcessor.getOffsetDateTime(ldt);
+    assertTrue(
+        OffsetDateTime::forComponents(
+            2022, 11, 6, 1, 29, 0, TimeOffset::forHours(-7))
+        == observed
+    );
+
+    // Verify fold remains unchanged.
+    assertEqual(0, observed.fold());
+  }
+
+  // 01:29:00, after fall-back
+  {
+    LocalDateTime ldt = LocalDateTime::forComponents(
+        2022, 11, 6, 1, 29, 0, 1 /*fold*/);
+    OffsetDateTime observed = zoneProcessor.getOffsetDateTime(ldt);
+    assertTrue(
+        OffsetDateTime::forComponents(
+            2022, 11, 6, 1, 29, 0, TimeOffset::forHours(-8))
+        == observed
+    );
+
+    // Verify fold remains unchanged.
+    assertEqual(1, observed.fold());
+  }
+}
+
+test(ExtendedZoneProcessorTest, forComponents_during_spring_forward) {
+  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+
+  // 02:29:00 in gap, fold==0, uses earlier transition, so maps to the later UTC
+  // time.
+  {
+    LocalDateTime ldt = LocalDateTime::forComponents(
+        2022, 3, 13, 2, 29, 0, 0 /*fold*/);
+    OffsetDateTime observed = zoneProcessor.getOffsetDateTime(ldt);
+    assertTrue(
+        OffsetDateTime::forComponents(
+            2022, 3, 13, 3, 29, 0, TimeOffset::forHours(-7))
+        == observed
+    );
+
+    // Verify that fold has flipped.
+    assertEqual(1, observed.fold());
+  }
+
+  // 02:29:00 in gap, fold==1, uses later transition, so maps to the earlier UTC
+  // time.
+  {
+    LocalDateTime ldt = LocalDateTime::forComponents(
+        2022, 3, 13, 2, 29, 0, 1 /*fold*/);
+    OffsetDateTime observed = zoneProcessor.getOffsetDateTime(ldt);
+    assertTrue(
+        OffsetDateTime::forComponents(
+            2022, 3, 13, 1, 29, 0, TimeOffset::forHours(-8))
+        == observed
+    );
+
+    // Verify that fold has flipped.
+    assertEqual(0, observed.fold());
+  }
 }
 
 //---------------------------------------------------------------------------
