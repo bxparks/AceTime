@@ -135,10 +135,26 @@ In v1.9.0:
   processors.
 
 In v1.9.0+:
-* Add memory consumption for `ZoneSorterByName` and `ZoneSorterByOffsetAndName`
-  for `BasicZoneManager` and `ExtendedZoneManager`.
+* Remove support for SAMD21 boards.
+    * Arduino IDE 1.8.19 with SparkFun SAMD 1.8.6 can no longer upload binaries
+      to these boards. Something about bossac 1.7.0 not found.
+* Add memory consumption benchmarks for `ZoneSorterByName` and
+  `ZoneSorterByOffsetAndName` for `BasicZoneManager` and `ExtendedZoneManager`.
     * AVR: 180-530 bytes of flash
     * 32-bit: 120-600 bytes of flash
+* Upgrade tool chain:
+    * Arduino IDE from 1.8.13 to 1.8.19
+    * Arduino AVR from 1.8.3 to 1.8.4
+    * STM32duino from 2.0.0 to 2.2.0
+    * ESP32 from 1.0.6 to 2.0.2
+    * Teensyduino from 1.55 to 1.56
+* Add support for `fold` parameter in `LocalDateTime`, `OffsetDateTime`,
+  `ZonedDateTime`, and `ExtendedZoneProcessor`. Increases flash usage:
+    * AVR:
+        * ~600 bytes, in `ExtendedZoneProcessor` for additional search logic,
+        * ~150 bytes, `BasicZoneProcessor`, to carry along the `fold` parameter
+    * most 32-bit: 400-600 bytes
+    * Teensy: 1300 bytes (no idea why)
 
 # Legend
 
@@ -154,8 +170,8 @@ In v1.9.0+:
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.16, Arduino CLI 0.19.2
-* Arduino AVR Boards 1.8.3
+* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino AVR Boards 1.8.4
 
 ```
 +---------------------------------------------------------------------+
@@ -177,15 +193,15 @@ In v1.9.0+:
 | Basic ZoneSorterByName [1]             |   6494/  326 |   400/   11 |
 | Basic ZoneSorterByOffsetAndName [1]    |   6626/  326 |   532/   11 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |   9010/  670 |  8536/  659 |
-| Extended TimeZone (2 zones)            |   9402/ 1111 |  8928/ 1100 |
-| ExtendedZoneManager (1 zone)           |   9186/  676 |  8712/  665 |
-| ExtendedZoneManager (all zones)        |  30952/ 1160 | 30478/ 1149 |
-| ExtendedZoneManager (all zones+links)  |  35832/ 1160 | 35358/ 1149 |
+| Extended TimeZone (1 zone)             |   9018/  670 |  8544/  659 |
+| Extended TimeZone (2 zones)            |   9410/ 1111 |  8936/ 1100 |
+| ExtendedZoneManager (1 zone)           |   9194/  676 |  8720/  665 |
+| ExtendedZoneManager (all zones)        |  30960/ 1160 | 30486/ 1149 |
+| ExtendedZoneManager (all zones+links)  |  35840/ 1160 | 35366/ 1149 |
 | ExtendedLinkManager (all links)        |   2570/   16 |  2096/    5 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |   9192/  676 |   182/    6 |
-| Extended ZoneSorterByOffsetAndName [2] |   9334/  676 |   324/    6 |
+| Extended ZoneSorterByName [2]          |   9200/  676 |   182/    6 |
+| Extended ZoneSorterByOffsetAndName [2] |   9342/  676 |   324/    6 |
 +---------------------------------------------------------------------+
 
 ```
@@ -193,7 +209,7 @@ In v1.9.0+:
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.19.2
 * SparkFun AVR Boards 1.1.13
 
 ```
@@ -216,65 +232,24 @@ In v1.9.0+:
 | Basic ZoneSorterByName [1]             |   9450/  466 |   402/   13 |
 | Basic ZoneSorterByOffsetAndName [1]    |   9582/  466 |   534/   13 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |  11964/  808 |  8494/  655 |
-| Extended TimeZone (2 zones)            |  12358/ 1251 |  8888/ 1098 |
-| ExtendedZoneManager (1 zone)           |  12140/  814 |  8670/  661 |
-| ExtendedZoneManager (all zones)        |  33922/ 1298 | 30452/ 1145 |
-| ExtendedZoneManager (all zones+links)  |  38802/ 1298 | 35332/ 1145 |
+| Extended TimeZone (1 zone)             |  11972/  808 |  8502/  655 |
+| Extended TimeZone (2 zones)            |  12366/ 1251 |  8896/ 1098 |
+| ExtendedZoneManager (1 zone)           |  12148/  814 |  8678/  661 |
+| ExtendedZoneManager (all zones)        |  33930/ 1298 | 30460/ 1145 |
+| ExtendedZoneManager (all zones+links)  |  38810/ 1298 | 35340/ 1145 |
 | ExtendedLinkManager (all links)        |   5544/  158 |  2074/    5 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  12148/  816 |   184/    8 |
-| Extended ZoneSorterByOffsetAndName [2] |  12290/  816 |   326/    8 |
+| Extended ZoneSorterByName [2]          |  12156/  816 |   184/    8 |
+| Extended ZoneSorterByOffsetAndName [2] |  12298/  816 |   326/    8 |
 +---------------------------------------------------------------------+
 
 ```
-
-## SAMD21 M0 Mini
-
-* 48 MHz ARM Cortex-M0+
-* Arduino IDE 1.8.16, Arduino CLI 0.19.2
-* Sparkfun SAMD Boards 1.8.4
-
-```
-+---------------------------------------------------------------------+
-| Functionality                          |  flash/  ram |       delta |
-|----------------------------------------+--------------+-------------|
-| baseline                               |  10128/    0 |     0/    0 |
-|----------------------------------------+--------------+-------------|
-| LocalDateTime                          |  10640/    0 |   512/    0 |
-| ZonedDateTime                          |  10728/    0 |   600/    0 |
-| Manual ZoneManager                     |  10672/    0 |   544/    0 |
-|----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                |  14620/    0 |  4492/    0 |
-| Basic TimeZone (2 zones)               |  14900/    0 |  4772/    0 |
-| BasicZoneManager (1 zone)              |  14748/    0 |  4620/    0 |
-| BasicZoneManager (all zones)           |  31868/    0 | 21740/    0 |
-| BasicZoneManager (all zones+links)     |  38468/    0 | 28340/    0 |
-| BasicLinkManager (all links)           |  11856/    0 |  1728/    0 |
-|----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             |  14852/    0 |   232/    0 |
-| Basic ZoneSorterByOffsetAndName [1]    |  14916/    0 |   296/    0 |
-|----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |  16516/    0 |  6388/    0 |
-| Extended TimeZone (2 zones)            |  16836/    0 |  6708/    0 |
-| ExtendedZoneManager (1 zone)           |  16636/    0 |  6508/    0 |
-| ExtendedZoneManager (all zones)        |  46244/    0 | 36116/    0 |
-| ExtendedZoneManager (all zones+links)  |  53684/    0 | 43556/    0 |
-| ExtendedLinkManager (all links)        |  12048/    0 |  1920/    0 |
-|----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  16764/    0 |   248/    0 |
-| Extended ZoneSorterByOffsetAndName [2] |  16852/    0 |   336/    0 |
-+---------------------------------------------------------------------+
-
-```
-
-(SAMD compiler does not produce RAM usage numbers.)
 
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.16, Arduino CLI 0.19.2
-* STM32duino 2.0.0
+* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* STM32duino 2.2.0
 
 ```
 +---------------------------------------------------------------------+
@@ -296,15 +271,15 @@ In v1.9.0+:
 | Basic ZoneSorterByName [1]             |  25820/ 3724 |   272/   20 |
 | Basic ZoneSorterByOffsetAndName [1]    |  25860/ 3724 |   312/   20 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |  27240/ 4092 |  5820/  556 |
-| Extended TimeZone (2 zones)            |  27556/ 4644 |  6136/ 1108 |
-| ExtendedZoneManager (1 zone)           |  27348/ 4100 |  5928/  564 |
-| ExtendedZoneManager (all zones)        |  56580/ 4100 | 35160/  564 |
-| ExtendedZoneManager (all zones+links)  |  63848/ 4100 | 42428/  564 |
+| Extended TimeZone (1 zone)             |  27248/ 4092 |  5828/  556 |
+| Extended TimeZone (2 zones)            |  27564/ 4644 |  6144/ 1108 |
+| ExtendedZoneManager (1 zone)           |  27356/ 4100 |  5936/  564 |
+| ExtendedZoneManager (all zones)        |  56588/ 4100 | 35168/  564 |
+| ExtendedZoneManager (all zones+links)  |  63856/ 4100 | 42436/  564 |
 | ExtendedLinkManager (all links)        |  23324/ 3544 |  1904/    8 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  27508/ 4100 |   268/    8 |
-| Extended ZoneSorterByOffsetAndName [2] |  27552/ 4100 |   312/    8 |
+| Extended ZoneSorterByName [2]          |  27516/ 4100 |   268/    8 |
+| Extended ZoneSorterByOffsetAndName [2] |  27560/ 4100 |   312/    8 |
 +---------------------------------------------------------------------+
 
 ```
@@ -315,7 +290,7 @@ microcontroller and the compiler did not generate the desired information.
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266
-* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.19.2
 * ESP8266 Boards 3.0.2
 
 ```
@@ -338,15 +313,15 @@ microcontroller and the compiler did not generate the desired information.
 | Basic ZoneSorterByName [1]             | 266645/28664 |   476/   20 |
 | Basic ZoneSorterByOffsetAndName [1]    | 266773/28664 |   604/   20 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             | 268441/29172 |  8352/ 1280 |
-| Extended TimeZone (2 zones)            | 268745/29724 |  8656/ 1832 |
-| ExtendedZoneManager (1 zone)           | 268569/29180 |  8480/ 1288 |
-| ExtendedZoneManager (all zones)        | 298461/29176 | 38372/ 1284 |
-| ExtendedZoneManager (all zones+links)  | 306029/29176 | 45940/ 1284 |
+| Extended TimeZone (1 zone)             | 268457/29172 |  8368/ 1280 |
+| Extended TimeZone (2 zones)            | 268761/29724 |  8672/ 1832 |
+| ExtendedZoneManager (1 zone)           | 268585/29180 |  8496/ 1288 |
+| ExtendedZoneManager (all zones)        | 298477/29176 | 38388/ 1284 |
+| ExtendedZoneManager (all zones+links)  | 306045/29176 | 45956/ 1284 |
 | ExtendedLinkManager (all links)        | 262125/27904 |  2036/   12 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          | 268773/29184 |   332/   12 |
-| Extended ZoneSorterByOffsetAndName [2] | 268885/29184 |   444/   12 |
+| Extended ZoneSorterByName [2]          | 268789/29184 |   332/   12 |
+| Extended ZoneSorterByOffsetAndName [2] | 268901/29184 |   444/   12 |
 +---------------------------------------------------------------------+
 
 ```
@@ -354,8 +329,8 @@ microcontroller and the compiler did not generate the desired information.
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.16, Arduino CLI 0.19.2
-* ESP32 Boards 1.0.6
+* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* ESP32 Boards 2.0.2
 
 ```
 +---------------------------------------------------------------------+
@@ -377,15 +352,15 @@ microcontroller and the compiler did not generate the desired information.
 | Basic ZoneSorterByName [1]             | 204536/13396 |   348/   24 |
 | Basic ZoneSorterByOffsetAndName [1]    | 204608/13396 |   420/   24 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             | 206224/13756 |  8476/  672 |
-| Extended TimeZone (2 zones)            | 206512/14308 |  8764/ 1224 |
-| ExtendedZoneManager (1 zone)           | 206380/13764 |  8632/  680 |
-| ExtendedZoneManager (all zones)        | 236236/13764 | 38488/  680 |
-| ExtendedZoneManager (all zones+links)  | 243804/13764 | 46056/  680 |
+| Extended TimeZone (1 zone)             | 206236/13756 |  8488/  672 |
+| Extended TimeZone (2 zones)            | 206524/14308 |  8776/ 1224 |
+| ExtendedZoneManager (1 zone)           | 206392/13764 |  8644/  680 |
+| ExtendedZoneManager (all zones)        | 236248/13764 | 38500/  680 |
+| ExtendedZoneManager (all zones+links)  | 243816/13764 | 46068/  680 |
 | ExtendedLinkManager (all links)        | 201076/13212 |  3328/  128 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          | 206456/13772 |   232/   16 |
-| Extended ZoneSorterByOffsetAndName [2] | 206540/13772 |   316/   16 |
+| Extended ZoneSorterByName [2]          | 206464/13772 |   228/   16 |
+| Extended ZoneSorterByOffsetAndName [2] | 206552/13772 |   316/   16 |
 +---------------------------------------------------------------------+
 
 ```
@@ -397,8 +372,8 @@ usage by objects.
 ## Teensy 3.2
 
 * 96 MHz ARM Cortex-M4
-* Arduino IDE 1.8.16, Arduino CLI 0.19.2
-* Teensyduino 1.55
+* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Teensyduino 1.56
 
 ```
 +---------------------------------------------------------------------+

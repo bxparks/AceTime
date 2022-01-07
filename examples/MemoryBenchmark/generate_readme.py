@@ -10,8 +10,6 @@ nano_results = check_output(
     "./generate_table.awk < nano.txt", shell=True, text=True)
 micro_results = check_output(
     "./generate_table.awk < micro.txt", shell=True, text=True)
-samd_results = check_output(
-    "./generate_table.awk < samd.txt", shell=True, text=True)
 stm32_results = check_output(
     "./generate_table.awk < stm32.txt", shell=True, text=True)
 esp8266_results = check_output(
@@ -159,10 +157,26 @@ In v1.9.0:
   processors.
 
 In v1.9.0+:
+* Remove support for SAMD21 boards.
+    * Arduino IDE 1.8.19 with SparkFun SAMD 1.8.6 can no longer upload binaries
+      to these boards. Something about bossac 1.7.0 not found.
 * Add memory consumption benchmarks for `ZoneSorterByName` and
   `ZoneSorterByOffsetAndName` for `BasicZoneManager` and `ExtendedZoneManager`.
     * AVR: 180-530 bytes of flash
     * 32-bit: 120-600 bytes of flash
+* Upgrade tool chain:
+    * Arduino IDE from 1.8.13 to 1.8.19
+    * Arduino AVR from 1.8.3 to 1.8.4
+    * STM32duino from 2.0.0 to 2.2.0
+    * ESP32 from 1.0.6 to 2.0.2
+    * Teensyduino from 1.55 to 1.56
+* Add support for `fold` parameter in `LocalDateTime`, `OffsetDateTime`,
+  `ZonedDateTime`, and `ExtendedZoneProcessor`. Increases flash usage:
+    * AVR:
+        * ~600 bytes, in `ExtendedZoneProcessor` for additional search logic,
+        * ~150 bytes, `BasicZoneProcessor`, to carry along the `fold` parameter
+    * most 32-bit: 400-600 bytes
+    * Teensy: 1300 bytes (no idea why)
 
 # Legend
 
@@ -178,8 +192,8 @@ In v1.9.0+:
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.16, Arduino CLI 0.19.2
-* Arduino AVR Boards 1.8.3
+* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino AVR Boards 1.8.4
 
 ```
 {nano_results}
@@ -188,30 +202,18 @@ In v1.9.0+:
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.19.2
 * SparkFun AVR Boards 1.1.13
 
 ```
 {micro_results}
 ```
 
-## SAMD21 M0 Mini
-
-* 48 MHz ARM Cortex-M0+
-* Arduino IDE 1.8.16, Arduino CLI 0.19.2
-* Sparkfun SAMD Boards 1.8.4
-
-```
-{samd_results}
-```
-
-(SAMD compiler does not produce RAM usage numbers.)
-
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.16, Arduino CLI 0.19.2
-* STM32duino 2.0.0
+* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* STM32duino 2.2.0
 
 ```
 {stm32_results}
@@ -223,7 +225,7 @@ microcontroller and the compiler did not generate the desired information.
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266
-* Arduino IDE 1.8.16, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.19.2
 * ESP8266 Boards 3.0.2
 
 ```
@@ -233,8 +235,8 @@ microcontroller and the compiler did not generate the desired information.
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.16, Arduino CLI 0.19.2
-* ESP32 Boards 1.0.6
+* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* ESP32 Boards 2.0.2
 
 ```
 {esp32_results}
@@ -247,8 +249,8 @@ usage by objects.
 ## Teensy 3.2
 
 * 96 MHz ARM Cortex-M4
-* Arduino IDE 1.8.16, Arduino CLI 0.19.2
-* Teensyduino 1.55
+* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Teensyduino 1.56
 
 ```
 {teensy32_results}
