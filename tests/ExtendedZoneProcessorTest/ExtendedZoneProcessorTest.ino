@@ -994,10 +994,6 @@ test(ExtendedZoneProcessorTest, createAbbreviation) {
   assertEqual("PDDT3", dst);
 }
 
-test(ExtendedZoneProcessorTest, calcAbbreviations) {
-  // TODO: Implement
-}
-
 //---------------------------------------------------------------------------
 
 void setup() {
