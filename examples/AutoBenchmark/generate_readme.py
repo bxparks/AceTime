@@ -148,6 +148,7 @@ In v1.9.0+:
 * Add support for `fold` parameter in `LocalDateTime`, `OffsetDateTime`,
   `ZonedDateTime`, and `ExtendedZoneProcessor`. No significant change in
   runtime.
+* Add benchmarks for `ZonedDateTime::forComponents()`.
 
 ## Arduino Nano
 
