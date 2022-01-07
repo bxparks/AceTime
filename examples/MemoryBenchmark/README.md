@@ -179,29 +179,29 @@ In v1.9.0+:
 |----------------------------------------+--------------+-------------|
 | baseline                               |    474/   11 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| LocalDateTime                          |   1128/   19 |   654/    8 |
-| ZonedDateTime                          |   1378/   26 |   904/   15 |
-| Manual ZoneManager                     |   1314/   13 |   840/    2 |
+| LocalDateTime                          |   1132/   20 |   658/    9 |
+| ZonedDateTime                          |   1306/   27 |   832/   16 |
+| Manual ZoneManager                     |   1242/   13 |   768/    2 |
 |----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                |   6094/  315 |  5620/  304 |
-| Basic TimeZone (2 zones)               |   6390/  435 |  5916/  424 |
-| BasicZoneManager (1 zone)              |   6300/  326 |  5826/  315 |
-| BasicZoneManager (all zones)           |  19042/  702 | 18568/  691 |
-| BasicZoneManager (all zones+links)     |  23374/  702 | 22900/  691 |
+| Basic TimeZone (1 zone)                |   6240/  317 |  5766/  306 |
+| Basic TimeZone (2 zones)               |   6398/  437 |  5924/  426 |
+| BasicZoneManager (1 zone)              |   6446/  328 |  5972/  317 |
+| BasicZoneManager (all zones)           |  19188/  704 | 18714/  693 |
+| BasicZoneManager (all zones+links)     |  23520/  704 | 23046/  693 |
 | BasicLinkManager (all links)           |   2378/   16 |  1904/    5 |
 |----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             |   6494/  326 |   400/   11 |
-| Basic ZoneSorterByOffsetAndName [1]    |   6626/  326 |   532/   11 |
+| Basic ZoneSorterByName [1]             |   6610/  328 |   370/   11 |
+| Basic ZoneSorterByOffsetAndName [1]    |   6742/  328 |   502/   11 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |   9018/  670 |  8544/  659 |
-| Extended TimeZone (2 zones)            |   9410/ 1111 |  8936/ 1100 |
-| ExtendedZoneManager (1 zone)           |   9194/  676 |  8720/  665 |
-| ExtendedZoneManager (all zones)        |  30960/ 1160 | 30486/ 1149 |
-| ExtendedZoneManager (all zones+links)  |  35840/ 1160 | 35366/ 1149 |
+| Extended TimeZone (1 zone)             |   9612/  672 |  9138/  661 |
+| Extended TimeZone (2 zones)            |   9836/ 1113 |  9362/ 1102 |
+| ExtendedZoneManager (1 zone)           |   9788/  678 |  9314/  667 |
+| ExtendedZoneManager (all zones)        |  31554/ 1162 | 31080/ 1151 |
+| ExtendedZoneManager (all zones+links)  |  36434/ 1162 | 35960/ 1151 |
 | ExtendedLinkManager (all links)        |   2570/   16 |  2096/    5 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |   9200/  676 |   182/    6 |
-| Extended ZoneSorterByOffsetAndName [2] |   9342/  676 |   324/    6 |
+| Extended ZoneSorterByName [2]          |   9968/  678 |   356/    6 |
+| Extended ZoneSorterByOffsetAndName [2] |  10110/  678 |   498/    6 |
 +---------------------------------------------------------------------+
 
 ```
@@ -218,29 +218,29 @@ In v1.9.0+:
 |----------------------------------------+--------------+-------------|
 | baseline                               |   3470/  153 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| LocalDateTime                          |   4100/  159 |   630/    6 |
-| ZonedDateTime                          |   4350/  166 |   880/   13 |
-| Manual ZoneManager                     |   4308/  153 |   838/    0 |
+| LocalDateTime                          |   4104/  160 |   634/    7 |
+| ZonedDateTime                          |   4278/  167 |   808/   14 |
+| Manual ZoneManager                     |   4236/  153 |   766/    0 |
 |----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                |   9048/  453 |  5578/  300 |
-| Basic TimeZone (2 zones)               |   9346/  575 |  5876/  422 |
-| BasicZoneManager (1 zone)              |   9254/  464 |  5784/  311 |
-| BasicZoneManager (all zones)           |  22014/  842 | 18544/  689 |
-| BasicZoneManager (all zones+links)     |  26346/  842 | 22876/  689 |
+| Basic TimeZone (1 zone)                |   9194/  455 |  5724/  302 |
+| Basic TimeZone (2 zones)               |   9354/  577 |  5884/  424 |
+| BasicZoneManager (1 zone)              |   9400/  466 |  5930/  313 |
+| BasicZoneManager (all zones)           |  22160/  844 | 18690/  691 |
+| BasicZoneManager (all zones+links)     |  26492/  844 | 23022/  691 |
 | BasicLinkManager (all links)           |   5352/  158 |  1882/    5 |
 |----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             |   9450/  466 |   402/   13 |
-| Basic ZoneSorterByOffsetAndName [1]    |   9582/  466 |   534/   13 |
+| Basic ZoneSorterByName [1]             |   9566/  468 |   372/   13 |
+| Basic ZoneSorterByOffsetAndName [1]    |   9698/  468 |   504/   13 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |  11972/  808 |  8502/  655 |
-| Extended TimeZone (2 zones)            |  12366/ 1251 |  8896/ 1098 |
-| ExtendedZoneManager (1 zone)           |  12148/  814 |  8678/  661 |
-| ExtendedZoneManager (all zones)        |  33930/ 1298 | 30460/ 1145 |
-| ExtendedZoneManager (all zones+links)  |  38810/ 1298 | 35340/ 1145 |
+| Extended TimeZone (1 zone)             |  12566/  810 |  9096/  657 |
+| Extended TimeZone (2 zones)            |  12792/ 1253 |  9322/ 1100 |
+| ExtendedZoneManager (1 zone)           |  12742/  816 |  9272/  663 |
+| ExtendedZoneManager (all zones)        |  34524/ 1300 | 31054/ 1147 |
+| ExtendedZoneManager (all zones+links)  |  39404/ 1300 | 35934/ 1147 |
 | ExtendedLinkManager (all links)        |   5544/  158 |  2074/    5 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  12156/  816 |   184/    8 |
-| Extended ZoneSorterByOffsetAndName [2] |  12298/  816 |   326/    8 |
+| Extended ZoneSorterByName [2]          |  12924/  818 |   358/    8 |
+| Extended ZoneSorterByOffsetAndName [2] |  13066/  818 |   500/    8 |
 +---------------------------------------------------------------------+
 
 ```
@@ -258,28 +258,28 @@ In v1.9.0+:
 | baseline                               |  21420/ 3536 |     0/    0 |
 |----------------------------------------+--------------+-------------|
 | LocalDateTime                          |  21696/ 3548 |   276/   12 |
-| ZonedDateTime                          |  21776/ 3560 |   356/   24 |
-| Manual ZoneManager                     |  21700/ 3540 |   280/    4 |
+| ZonedDateTime                          |  21944/ 3564 |   524/   28 |
+| Manual ZoneManager                     |  21940/ 3540 |   520/    4 |
 |----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                |  25548/ 3704 |  4128/  168 |
-| Basic TimeZone (2 zones)               |  25852/ 3868 |  4432/  332 |
-| BasicZoneManager (1 zone)              |  25672/ 3724 |  4252/  188 |
-| BasicZoneManager (all zones)           |  42552/ 3724 | 21132/  188 |
-| BasicZoneManager (all zones+links)     |  48996/ 3724 | 27576/  188 |
+| Basic TimeZone (1 zone)                |  25716/ 3704 |  4296/  168 |
+| Basic TimeZone (2 zones)               |  25900/ 3868 |  4480/  332 |
+| BasicZoneManager (1 zone)              |  25836/ 3724 |  4416/  188 |
+| BasicZoneManager (all zones)           |  42716/ 3724 | 21296/  188 |
+| BasicZoneManager (all zones+links)     |  49160/ 3724 | 27740/  188 |
 | BasicLinkManager (all links)           |  23132/ 3544 |  1712/    8 |
 |----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             |  25820/ 3724 |   272/   20 |
-| Basic ZoneSorterByOffsetAndName [1]    |  25860/ 3724 |   312/   20 |
+| Basic ZoneSorterByName [1]             |  25968/ 3724 |   252/   20 |
+| Basic ZoneSorterByOffsetAndName [1]    |  26008/ 3724 |   292/   20 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |  27248/ 4092 |  5828/  556 |
-| Extended TimeZone (2 zones)            |  27564/ 4644 |  6144/ 1108 |
-| ExtendedZoneManager (1 zone)           |  27356/ 4100 |  5936/  564 |
-| ExtendedZoneManager (all zones)        |  56588/ 4100 | 35168/  564 |
-| ExtendedZoneManager (all zones+links)  |  63856/ 4100 | 42436/  564 |
+| Extended TimeZone (1 zone)             |  27676/ 4092 |  6256/  556 |
+| Extended TimeZone (2 zones)            |  27884/ 4644 |  6464/ 1108 |
+| ExtendedZoneManager (1 zone)           |  27784/ 4100 |  6364/  564 |
+| ExtendedZoneManager (all zones)        |  57016/ 4100 | 35596/  564 |
+| ExtendedZoneManager (all zones+links)  |  64284/ 4100 | 42864/  564 |
 | ExtendedLinkManager (all links)        |  23324/ 3544 |  1904/    8 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  27516/ 4100 |   268/    8 |
-| Extended ZoneSorterByOffsetAndName [2] |  27560/ 4100 |   312/    8 |
+| Extended ZoneSorterByName [2]          |  28004/ 4100 |   328/    8 |
+| Extended ZoneSorterByOffsetAndName [2] |  28048/ 4100 |   372/    8 |
 +---------------------------------------------------------------------+
 
 ```
@@ -300,28 +300,28 @@ microcontroller and the compiler did not generate the desired information.
 | baseline                               | 260089/27892 |     0/    0 |
 |----------------------------------------+--------------+-------------|
 | LocalDateTime                          | 260545/27908 |   456/   16 |
-| ZonedDateTime                          | 260641/27924 |   552/   32 |
-| Manual ZoneManager                     | 260557/27896 |   468/    4 |
+| ZonedDateTime                          | 260961/27924 |   872/   32 |
+| Manual ZoneManager                     | 260941/27896 |   852/    4 |
 |----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                | 266169/28644 |  6080/  752 |
-| Basic TimeZone (2 zones)               | 266537/28804 |  6448/  912 |
-| BasicZoneManager (1 zone)              | 266313/28660 |  6224/  768 |
-| BasicZoneManager (all zones)           | 283657/28660 | 23568/  768 |
-| BasicZoneManager (all zones+links)     | 290361/28660 | 30272/  768 |
+| Basic TimeZone (1 zone)                | 266473/28644 |  6384/  752 |
+| Basic TimeZone (2 zones)               | 266841/28804 |  6752/  912 |
+| BasicZoneManager (1 zone)              | 266617/28660 |  6528/  768 |
+| BasicZoneManager (all zones)           | 283961/28660 | 23872/  768 |
+| BasicZoneManager (all zones+links)     | 290665/28660 | 30576/  768 |
 | BasicLinkManager (all links)           | 261933/27904 |  1844/   12 |
 |----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             | 266645/28664 |   476/   20 |
-| Basic ZoneSorterByOffsetAndName [1]    | 266773/28664 |   604/   20 |
+| Basic ZoneSorterByName [1]             | 266869/28664 |   396/   20 |
+| Basic ZoneSorterByOffsetAndName [1]    | 266981/28664 |   508/   20 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             | 268457/29172 |  8368/ 1280 |
-| Extended TimeZone (2 zones)            | 268761/29724 |  8672/ 1832 |
-| ExtendedZoneManager (1 zone)           | 268585/29180 |  8496/ 1288 |
-| ExtendedZoneManager (all zones)        | 298477/29176 | 38388/ 1284 |
-| ExtendedZoneManager (all zones+links)  | 306045/29176 | 45956/ 1284 |
+| Extended TimeZone (1 zone)             | 269113/29172 |  9024/ 1280 |
+| Extended TimeZone (2 zones)            | 269497/29724 |  9408/ 1832 |
+| ExtendedZoneManager (1 zone)           | 269241/29180 |  9152/ 1288 |
+| ExtendedZoneManager (all zones)        | 299133/29176 | 39044/ 1284 |
+| ExtendedZoneManager (all zones+links)  | 306701/29176 | 46612/ 1284 |
 | ExtendedLinkManager (all links)        | 262125/27904 |  2036/   12 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          | 268789/29184 |   332/   12 |
-| Extended ZoneSorterByOffsetAndName [2] | 268901/29184 |   444/   12 |
+| Extended ZoneSorterByName [2]          | 269461/29184 |   348/   12 |
+| Extended ZoneSorterByOffsetAndName [2] | 269573/29184 |   460/   12 |
 +---------------------------------------------------------------------+
 
 ```
@@ -338,29 +338,29 @@ microcontroller and the compiler did not generate the desired information.
 |----------------------------------------+--------------+-------------|
 | baseline                               | 197748/13084 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| LocalDateTime                          | 199560/13212 |  1812/  128 |
-| ZonedDateTime                          | 199708/13228 |  1960/  144 |
-| Manual ZoneManager                     | 199656/13204 |  1908/  120 |
+| LocalDateTime                          | 199564/13212 |  1816/  128 |
+| ZonedDateTime                          | 199968/13228 |  2220/  144 |
+| Manual ZoneManager                     | 200004/13204 |  2256/  120 |
 |----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                | 204188/13372 |  6440/  288 |
-| Basic TimeZone (2 zones)               | 204516/13532 |  6768/  448 |
-| BasicZoneManager (1 zone)              | 204368/13388 |  6620/  304 |
-| BasicZoneManager (all zones)           | 221664/13388 | 23916/  304 |
-| BasicZoneManager (all zones+links)     | 228368/13388 | 30620/  304 |
+| Basic TimeZone (1 zone)                | 204544/13372 |  6796/  288 |
+| Basic TimeZone (2 zones)               | 204936/13532 |  7188/  448 |
+| BasicZoneManager (1 zone)              | 204708/13388 |  6960/  304 |
+| BasicZoneManager (all zones)           | 222020/13388 | 24272/  304 |
+| BasicZoneManager (all zones+links)     | 228724/13388 | 30976/  304 |
 | BasicLinkManager (all links)           | 200884/13212 |  3136/  128 |
 |----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             | 204536/13396 |   348/   24 |
-| Basic ZoneSorterByOffsetAndName [1]    | 204608/13396 |   420/   24 |
+| Basic ZoneSorterByName [1]             | 204844/13396 |   300/   24 |
+| Basic ZoneSorterByOffsetAndName [1]    | 204916/13396 |   372/   24 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             | 206236/13756 |  8488/  672 |
-| Extended TimeZone (2 zones)            | 206524/14308 |  8776/ 1224 |
-| ExtendedZoneManager (1 zone)           | 206392/13764 |  8644/  680 |
-| ExtendedZoneManager (all zones)        | 236248/13764 | 38500/  680 |
-| ExtendedZoneManager (all zones+links)  | 243816/13764 | 46068/  680 |
+| Extended TimeZone (1 zone)             | 206916/13756 |  9168/  672 |
+| Extended TimeZone (2 zones)            | 207284/14308 |  9536/ 1224 |
+| ExtendedZoneManager (1 zone)           | 207072/13764 |  9324/  680 |
+| ExtendedZoneManager (all zones)        | 236928/13764 | 39180/  680 |
+| ExtendedZoneManager (all zones+links)  | 244496/13764 | 46748/  680 |
 | ExtendedLinkManager (all links)        | 201076/13212 |  3328/  128 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          | 206464/13772 |   228/   16 |
-| Extended ZoneSorterByOffsetAndName [2] | 206552/13772 |   316/   16 |
+| Extended ZoneSorterByName [2]          | 207136/13772 |   220/   16 |
+| Extended ZoneSorterByOffsetAndName [2] | 207232/13772 |   316/   16 |
 +---------------------------------------------------------------------+
 
 ```
@@ -382,28 +382,28 @@ usage by objects.
 | baseline                               |  10184/ 4152 |     0/    0 |
 |----------------------------------------+--------------+-------------|
 | LocalDateTime                          |  10512/ 4168 |   328/   16 |
-| ZonedDateTime                          |  10572/ 4180 |   388/   28 |
+| ZonedDateTime                          |  10600/ 4184 |   416/   32 |
 | Manual ZoneManager                     |  10308/ 4160 |   124/    8 |
 |----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                |  19396/ 4324 |  9212/  172 |
-| Basic TimeZone (2 zones)               |  20188/ 4488 | 10004/  336 |
-| BasicZoneManager (1 zone)              |  19656/ 4344 |  9472/  192 |
-| BasicZoneManager (all zones)           |  36932/ 4344 | 26748/  192 |
-| BasicZoneManager (all zones+links)     |  43636/ 4344 | 33452/  192 |
+| Basic TimeZone (1 zone)                |  20168/ 4324 |  9984/  172 |
+| Basic TimeZone (2 zones)               |  20960/ 4488 | 10776/  336 |
+| BasicZoneManager (1 zone)              |  20428/ 4344 | 10244/  192 |
+| BasicZoneManager (all zones)           |  37704/ 4344 | 27520/  192 |
+| BasicZoneManager (all zones+links)     |  44408/ 4344 | 34224/  192 |
 | BasicLinkManager (all links)           |  11908/ 4160 |  1724/    8 |
 |----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             |  19520/ 4340 |   124/   16 |
-| Basic ZoneSorterByOffsetAndName [1]    |  19584/ 4340 |   188/   16 |
+| Basic ZoneSorterByName [1]             |  20292/ 4340 |   124/   16 |
+| Basic ZoneSorterByOffsetAndName [1]    |  20292/ 4340 |   124/   16 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |  23216/ 4712 | 13032/  560 |
-| Extended TimeZone (2 zones)            |  24008/ 5264 | 13824/ 1112 |
-| ExtendedZoneManager (1 zone)           |  23412/ 4720 | 13228/  568 |
-| ExtendedZoneManager (all zones)        |  53300/ 4720 | 43116/  568 |
-| ExtendedZoneManager (all zones+links)  |  60868/ 4720 | 50684/  568 |
+| Extended TimeZone (1 zone)             |  24564/ 4712 | 14380/  560 |
+| Extended TimeZone (2 zones)            |  25420/ 5264 | 15236/ 1112 |
+| ExtendedZoneManager (1 zone)           |  24760/ 4720 | 14576/  568 |
+| ExtendedZoneManager (all zones)        |  54648/ 4720 | 44464/  568 |
+| ExtendedZoneManager (all zones+links)  |  62216/ 4720 | 52032/  568 |
 | ExtendedLinkManager (all links)        |  12100/ 4160 |  1916/    8 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  23340/ 4716 |   124/    4 |
-| Extended ZoneSorterByOffsetAndName [2] |  23340/ 4716 |   124/    4 |
+| Extended ZoneSorterByName [2]          |  24624/ 4716 |    60/    4 |
+| Extended ZoneSorterByOffsetAndName [2] |  24688/ 4716 |   124/    4 |
 +---------------------------------------------------------------------+
 
 ```
