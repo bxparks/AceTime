@@ -60,7 +60,7 @@ using ace_common::PrintStr;
 // ProMicro does not have enough flash, so this allows us to disable
 // ExtendedZoneProcessor when needed.
 #if defined(ARDUINO_AVR_PROMICRO)
-  #define ENABLE_EXTENDED_ZONE_PROCESSOR 1
+  #define ENABLE_EXTENDED_ZONE_PROCESSOR 0
 #else
   #define ENABLE_EXTENDED_ZONE_PROCESSOR 1
 #endif
