@@ -62,6 +62,7 @@ END {
         || name ~ /^LocalDate::forEpochDays\(\)/ \
         || name ~ /^OffsetDateTime::forEpochSeconds\(\)/ \
         || name ~ /^ZonedDateTime::toEpochSeconds\(\)/ \
+        || name ~ /^ZonedDateTime::forComponents\(Extended_nocache\)/ \
         || name ~ /^BasicZoneManager::createForZoneName\(binary\)/) {
       printf(\
         "|--------------------------------------------------+----------|\n")

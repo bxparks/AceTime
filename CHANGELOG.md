@@ -7,6 +7,10 @@
         * 32-bit: 120-600 bytes of flash
     * Rename internal `TransitionStorage::findTransition()` to
       `findTransitionForSeconds()` for clarify and self-documenation.
+    * Move third party SAMD21 boards to new Tier 3 (May work, but not supported)
+      level.
+        * I can no longer upload binaries to these boards using Arduino IDE
+          1.8.19 and SparkFun SAMD Core 1.8.6.
 * 1.9.0 (2021-12-02, TZDB 2021e)
     * Add `ZoneSorterByName` and `ZoneSorterByOffsetAndName` classes
       to sort zone indexes, ids, or names according to 2 pre-defined sorting

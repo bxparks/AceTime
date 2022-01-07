@@ -592,15 +592,15 @@ Arduino Nano:
 | Basic ZoneSorterByName [1]             |   6494/  326 |   400/   11 |
 | Basic ZoneSorterByOffsetAndName [1]    |   6626/  326 |   532/   11 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |   9010/  670 |  8536/  659 |
-| Extended TimeZone (2 zones)            |   9402/ 1111 |  8928/ 1100 |
-| ExtendedZoneManager (1 zone)           |   9186/  676 |  8712/  665 |
-| ExtendedZoneManager (all zones)        |  30952/ 1160 | 30478/ 1149 |
-| ExtendedZoneManager (all zones+links)  |  35832/ 1160 | 35358/ 1149 |
+| Extended TimeZone (1 zone)             |   9018/  670 |  8544/  659 |
+| Extended TimeZone (2 zones)            |   9410/ 1111 |  8936/ 1100 |
+| ExtendedZoneManager (1 zone)           |   9194/  676 |  8720/  665 |
+| ExtendedZoneManager (all zones)        |  30960/ 1160 | 30486/ 1149 |
+| ExtendedZoneManager (all zones+links)  |  35840/ 1160 | 35366/ 1149 |
 | ExtendedLinkManager (all links)        |   2570/   16 |  2096/    5 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |   9192/  676 |   182/    6 |
-| Extended ZoneSorterByOffsetAndName [2] |   9334/  676 |   324/    6 |
+| Extended ZoneSorterByName [2]          |   9200/  676 |   182/    6 |
+| Extended ZoneSorterByOffsetAndName [2] |   9342/  676 |   324/    6 |
 +---------------------------------------------------------------------+
 ```
 
@@ -626,15 +626,15 @@ ESP8266:
 | Basic ZoneSorterByName [1]             | 266645/28664 |   476/   20 |
 | Basic ZoneSorterByOffsetAndName [1]    | 266773/28664 |   604/   20 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             | 268441/29172 |  8352/ 1280 |
-| Extended TimeZone (2 zones)            | 268745/29724 |  8656/ 1832 |
-| ExtendedZoneManager (1 zone)           | 268569/29180 |  8480/ 1288 |
-| ExtendedZoneManager (all zones)        | 298461/29176 | 38372/ 1284 |
-| ExtendedZoneManager (all zones+links)  | 306029/29176 | 45940/ 1284 |
+| Extended TimeZone (1 zone)             | 268457/29172 |  8368/ 1280 |
+| Extended TimeZone (2 zones)            | 268761/29724 |  8672/ 1832 |
+| ExtendedZoneManager (1 zone)           | 268585/29180 |  8496/ 1288 |
+| ExtendedZoneManager (all zones)        | 298477/29176 | 38388/ 1284 |
+| ExtendedZoneManager (all zones+links)  | 306045/29176 | 45956/ 1284 |
 | ExtendedLinkManager (all links)        | 262125/27904 |  2036/   12 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          | 268773/29184 |   332/   12 |
-| Extended ZoneSorterByOffsetAndName [2] | 268885/29184 |   444/   12 |
+| Extended ZoneSorterByName [2]          | 268789/29184 |   332/   12 |
+| Extended ZoneSorterByOffsetAndName [2] | 268901/29184 |   444/   12 |
 +---------------------------------------------------------------------+
 ```
 
@@ -654,23 +654,26 @@ Arduino Nano:
 | EmptyLoop                                        |    4.000 |
 |--------------------------------------------------+----------|
 | LocalDate::forEpochDays()                        |  219.000 |
-| LocalDate::toEpochDays()                         |   57.000 |
-| LocalDate::dayOfWeek()                           |   48.000 |
+| LocalDate::toEpochDays()                         |   54.000 |
+| LocalDate::dayOfWeek()                           |   49.000 |
 |--------------------------------------------------+----------|
-| OffsetDateTime::forEpochSeconds()                |  324.000 |
+| OffsetDateTime::forEpochSeconds()                |  323.000 |
 | OffsetDateTime::toEpochSeconds()                 |   86.000 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::toEpochSeconds()                  |   84.000 |
+| ZonedDateTime::toEpochSeconds()                  |   85.000 |
 | ZonedDateTime::toEpochDays()                     |   73.000 |
-| ZonedDateTime::forEpochSeconds(UTC)              |  339.000 |
-| ZonedDateTime::forEpochSeconds(Basic_nocache)    | 1186.000 |
-| ZonedDateTime::forEpochSeconds(Basic_cached)     |  619.000 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) | 2139.000 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |  617.000 |
+| ZonedDateTime::forEpochSeconds(UTC)              |  338.000 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    | 1187.000 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |  616.000 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) | 2136.000 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |  615.000 |
+|--------------------------------------------------+----------|
+| ZonedDateTime::forComponents(Extended_nocache)   | 1990.000 |
+| ZonedDateTime::forComponents(Extended_cached)    |  474.000 |
 |--------------------------------------------------+----------|
 | BasicZoneManager::createForZoneName(binary)      |  119.000 |
-| BasicZoneManager::createForZoneId(binary)        |   48.000 |
-| BasicZoneManager::createForZoneId(linear)        |  305.000 |
+| BasicZoneManager::createForZoneId(binary)        |   45.000 |
+| BasicZoneManager::createForZoneId(linear)        |  304.000 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 1000
 ```
@@ -683,26 +686,29 @@ ESP8266:
 |--------------------------------------------------+----------|
 | EmptyLoop                                        |    4.800 |
 |--------------------------------------------------+----------|
-| LocalDate::forEpochDays()                        |    8.000 |
-| LocalDate::toEpochDays()                         |    3.800 |
-| LocalDate::dayOfWeek()                           |    3.800 |
+| LocalDate::forEpochDays()                        |    7.800 |
+| LocalDate::toEpochDays()                         |    3.200 |
+| LocalDate::dayOfWeek()                           |    3.600 |
 |--------------------------------------------------+----------|
-| OffsetDateTime::forEpochSeconds()                |   12.100 |
+| OffsetDateTime::forEpochSeconds()                |   12.000 |
 | OffsetDateTime::toEpochSeconds()                 |    6.800 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::toEpochSeconds()                  |    6.900 |
-| ZonedDateTime::toEpochDays()                     |    5.800 |
+| ZonedDateTime::toEpochSeconds()                  |    6.600 |
+| ZonedDateTime::toEpochDays()                     |    5.400 |
 | ZonedDateTime::forEpochSeconds(UTC)              |   13.000 |
-| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   95.700 |
-| ZonedDateTime::forEpochSeconds(Basic_cached)     |   26.100 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) |  189.600 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |   25.800 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   95.400 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |   25.800 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |  188.600 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |   26.000 |
 |--------------------------------------------------+----------|
-| BasicZoneManager::createForZoneName(binary)      |   14.700 |
-| BasicZoneManager::createForZoneId(binary)        |    6.600 |
-| BasicZoneManager::createForZoneId(linear)        |   43.900 |
+| ZonedDateTime::forComponents(Extended_nocache)   |  180.200 |
+| ZonedDateTime::forComponents(Extended_cached)    |   18.800 |
+|--------------------------------------------------+----------|
+| BasicZoneManager::createForZoneName(binary)      |   14.600 |
+| BasicZoneManager::createForZoneId(binary)        |    6.400 |
+| BasicZoneManager::createForZoneId(linear)        |   44.400 |
 +--------------------------------------------------+----------+
-Iterations_per_run: 10000
+Iterations_per_run: 5000
 ```
 
 <a name="SystemRequirements"></a>
@@ -711,26 +717,44 @@ Iterations_per_run: 10000
 <a name="Hardware"></a>
 ### Hardware
 
-This library has Tier 1 support on the following boards:
+**Tier 1: Fully supported**
+
+These boards are tested on each release:
 
 * Arduino Nano (16 MHz ATmega328P)
 * SparkFun Pro Micro (16 MHz ATmega32U4)
-* SAMD21 M0 Mini (48 MHz ARM Cortex-M0+)
 * STM32 Blue Pill (STM32F103C8, 72 MHz ARM Cortex-M3)
 * NodeMCU 1.0 (ESP-12E module, 80 MHz ESP8266)
 * WeMos D1 Mini (ESP-12E module, 80 MHz ESP8266)
 * ESP32 dev board (ESP-WROOM-32 module, 240 MHz dual core Tensilica LX6)
 * Teensy 3.2 (96 MHz ARM Cortex-M4)
 
-Tier 2 support can be expected on the following boards, mostly because I don't
-test these as often:
+**Tier 2: Should work**
+
+These boards should work but I don't test them as often:
 
 * ATtiny85 (8 MHz ATtiny85)
 * Arduino Pro Mini (16 MHz ATmega328P)
 * Mini Mega 2560 (Arduino Mega 2560 compatible, 16 MHz ATmega2560)
 * Teensy LC (48 MHz ARM Cortex-M0+)
 
-The following boards are *not* supported:
+**Tier 3: May work, but not supported**
+
+* SAMD21 M0 Mini (48 MHz ARM Cortex-M0+)
+    * Arduino-branded SAMD21 boards use the ArduinoCore-API, so are explicitly
+      blacklisted. See below.
+    * Other 3rd party SAMD21 boards *may* work using the SparkFun SAMD core.
+    * However, as of SparkFun SAMD Core v1.8.6 and Arduino IDE 1.8.19, I can no
+      longer upload binaries to these 3rd party boards due to errors.
+    * Therefore, third party SAMD21 boards are now in this new Tier 3 category.
+    * The AceTime library may work on these boards, but I can no longer support
+      them.
+
+**Blacklisted**
+
+The following boards are *not* supported and are explicitly blacklisted to allow
+the compiler to print useful error messages instead of hundreds of lines of
+compiler errors:
 
 * Any platform using the ArduinoCore-API
   (https://github.com/arduino/ArduinoCore-api), such as:
@@ -744,17 +768,17 @@ The following boards are *not* supported:
 
 This library was developed and tested using:
 
-* [Arduino IDE 1.8.16](https://www.arduino.cc/en/Main/Software)
+* [Arduino IDE 1.8.19](https://www.arduino.cc/en/Main/Software)
 * [Arduino CLI 0.19.2](https://arduino.github.io/arduino-cli)
 * [SpenceKonde ATTinyCore 1.5.2](https://github.com/SpenceKonde/ATTinyCore)
-* [Arduino AVR Boards 1.8.3](https://github.com/arduino/ArduinoCore-avr)
+* [Arduino AVR Boards 1.8.4](https://github.com/arduino/ArduinoCore-avr)
 * [Arduino SAMD Boards 1.8.9](https://github.com/arduino/ArduinoCore-samd)
 * [SparkFun AVR Boards 1.1.13](https://github.com/sparkfun/Arduino_Boards)
-* [SparkFun SAMD Boards 1.8.4](https://github.com/sparkfun/Arduino_Boards)
-* [STM32duino 2.0.0](https://github.com/stm32duino/Arduino_Core_STM32)
+* [SparkFun SAMD Boards 1.8.6](https://github.com/sparkfun/Arduino_Boards)
+* [STM32duino 2.2.0](https://github.com/stm32duino/Arduino_Core_STM32)
 * [ESP8266 Arduino 3.0.2](https://github.com/esp8266/Arduino)
-* [ESP32 Arduino 1.0.6](https://github.com/espressif/arduino-esp32)
-* [Teensyduino 1.55](https://www.pjrc.com/teensy/td_download.html)
+* [ESP32 Arduino 2.0.2](https://github.com/espressif/arduino-esp32)
+* [Teensyduino 1.56](https://www.pjrc.com/teensy/td_download.html)
 
 This library is *not* compatible with:
 

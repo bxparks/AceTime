@@ -29,20 +29,22 @@ sizeof(ExtendedZoneProcessor::TransitionStorage): 420
 sizeof(ExtendedZoneProcessor::MatchingEra): 24
 BENCHMARKS
 EmptyLoop 1.450
-LocalDate::forEpochDays() 0.600
+LocalDate::forEpochDays() 0.550
 LocalDate::toEpochDays() 0.250
 LocalDate::dayOfWeek() 0.350
-OffsetDateTime::forEpochSeconds() 1.050
+OffsetDateTime::forEpochSeconds() 1.000
 OffsetDateTime::toEpochSeconds() 1.400
 ZonedDateTime::toEpochSeconds() 1.350
 ZonedDateTime::toEpochDays() 0.950
-ZonedDateTime::forEpochSeconds(UTC) 1.350
-ZonedDateTime::forEpochSeconds(Basic_nocache) 16.100
+ZonedDateTime::forEpochSeconds(UTC) 1.300
+ZonedDateTime::forEpochSeconds(Basic_nocache) 16.050
 ZonedDateTime::forEpochSeconds(Basic_cached) 2.600
 ZonedDateTime::forEpochSeconds(Extended_nocache) 34.100
 ZonedDateTime::forEpochSeconds(Extended_cached) 2.500
+ZonedDateTime::forComponents(Extended_nocache) 34.400
+ZonedDateTime::forComponents(Extended_cached) 3.200
 BasicZoneManager::createForZoneName(binary) 2.950
 BasicZoneManager::createForZoneId(binary) 0.650
-BasicZoneManager::createForZoneId(linear) 2.600
+BasicZoneManager::createForZoneId(linear) 2.550
 Iterations_per_run 20000
 END
