@@ -205,7 +205,14 @@ class LocalTime {
     uint8_t mHour; // [0, 23]
     uint8_t mMinute; // [0, 59]
     uint8_t mSecond; // [0, 59]
-    uint8_t mFold; // [0, 1]; TODO: Merge into a bit in the mHour field.
+
+    // Use a separate byte for fold. If we implemented this using a C++ bit
+    // field (e.g. the upper bit of 'mHour'), it causes BasicZoneProcessor and
+    // ExtendedZoneProcessor to consume 200 extra bytes of flash due to the bit
+    // masking operations on accesses and mutations. Even on AVR processors, I
+    // think the increase in static memory is better than paying the 200 bytes
+    // of flash memory. Using a separate byte is also faster.
+    uint8_t mFold; // [0, 1]
 };
 
 /** Return true if two LocalTime objects are equal. The fold is ignored. */
