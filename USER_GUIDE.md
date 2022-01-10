@@ -1,8 +1,8 @@
 # AceTime User Guide
 
 The primary purpose of AceTime classes is to convert between an integer
-representing the number of seconds since Epoch (2000-01-01T00:00:00 UTC) to
-human-readable components in different timezones.
+representing the number of seconds since the AceTime Epoch (2000-01-01T00:00:00
+UTC) and the equivalent human-readable components in different timezones.
 
 **Version**: 1.9.0 (2021-12-02, TZDB 2021e)
 
@@ -32,11 +32,15 @@ human-readable components in different timezones.
         * [Basic TimeZone](#BasicTimeZone)
         * [Extended TimeZone](#ExtendedTimeZone)
     * [ZonedDateTime](#ZonedDateTime)
+        * [Class Declaration](#ZonedDateTimeDeclaration)
+        * [Creation](#ZonedDateTimeCreation)
         * [Conversion to Other Time Zones](#TimeZoneConversion)
-        * [Caching](#Caching)
+        * [DST Transition Caching](#DstTransitionCaching)
     * [ZoneManager](#ZoneManager)
         * [Class Hierarchy](#ClassHierarchy)
         * [Default Registries](#DefaultRegistries)
+        * [ZoneProcessorCache](#ZoneProcessorCache)
+        * [ZoneManager Creation](#ZoneManagerCreation)
         * [createForZoneName()](#CreateForZoneName)
         * [createForZoneId()](#CreateForZoneId)
         * [createForZoneIndex()](#CreateForZoneIndex)
@@ -1138,6 +1142,9 @@ does not care which one is used. You should use the `ZonedDateTime` when
 interacting with human beings, who are aware of timezones and DST transitions.
 It can also be used to convert time from one timezone to anther timezone.
 
+<a name="ZonedDateTimeDeclaration"></a>
+#### ZonedDateTime Declaration
+
 ```C++
 namespace ace_time {
 
@@ -1153,6 +1160,8 @@ class ZonedDateTime {
 
     static ZonedDateTime forUnixSeconds(acetime_t unixSeconds,
         const TimeZone& timeZone);
+
+    static ZonedDateTime forDateString(const char* dateString);
 
     explicit ZonedDateTime();
 
@@ -1197,36 +1206,57 @@ class ZonedDateTime {
 }
 ```
 
-Here is an example of how to create one and extract the epoch seconds:
+<a name="ZonedDateTimeCreation"></a>
+#### ZonedDateTime Creation
+
+There are 2 main factory methods for constructing this object:
+
+* `ZonedDateTime::forComponents()`
+* `ZonedDateTime::forEpochSeconds()`
+
+Here is an example of how these can be used:
 
 ```C++
-BasicZoneProcessor zoneProcessor;
+ExtendedZoneProcessor zoneProcessor;
 
 void someFunction() {
   ...
-  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+  auto tz = TimeZone::forZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles,
       &zoneProcessor);
 
-  // 2018-01-01 00:00:00+00:15
-  auto zonedDateTime = ZonedDateTime::forComponents(
-      2018, 1, 1, 0, 0, 0, tz);
-  acetime_t epochDays = zonedDateTime.toEpochDays();
-  acetime_t epochSeconds = zonedDateTime.toEpochSeconds();
+  // Create instance for 2018-01-01T00:00:00-08:00[America/Los_Angeles]
+  // using forComponents().
+  auto zdt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0, tz);
+  acetime_t epochSeconds = zdt.toEpochSeconds();
+  Serial.println(epochSeconds); // prints 568108800
 
-  zonedDateTime.printTo(Serial); // prints "2018-01-01 00:00:00-08:00"
-  Serial.println(epochDays); // prints 6574 [TODO: Check]
-  Serial.println(epochSeconds); // prints 568079100 [TODO: Check]
+  // Create an instance one day later using forEpochSeconds()
+  acetime_t oneDayAfterSeconds = epochSeconds + 86400;
+  auto zdtPlus1d = ZonedDateTime::forEpochSeconds(oneDayAfterSeconds, tz);
+
+  // Should print "2018-01-01T00:00:00-08:00[America/Los_Angeles]"
+  zdt.printTo(Serial);
+  Serial.println();
+
+  // Should print "2018-01-02T00:00:00-08:00[America/Los_Angeles]"
+  zdtPlus1d.printTo(Serial);
+  Serial.println();
   ...
 }
 ```
 
-Both `printTo()` and `forDateString()` are expected to be used only for
-debugging. The `printTo()` prints a human-readable representation of the date in
+The `printTo()` prints a human-readable representation of the date in
 [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format
 (yyyy-mm-ddThh:mm:ss+/-hh:mm) to the given `Print` object. The most common
 `Print` object is the `Serial` object which prints on the serial port. The
 `forDateString()` parses the ISO 8601 formatted string and returns the
 `ZonedDateTime` object.
+
+The third factory method, `ZonedDateTime::forDateString()`, converts a
+human-readable ISO 8601 date format into an instance of a `ZonedDateTime`.
+However, this is intended to be used only for debugging so its functionality is
+limited as follows.
 
 **Caveat**: The parser for `forDateString()` looks only at the UTC offset. It
 does *not* recognize the IANA TZ Database identifier (e.g.
@@ -1269,14 +1299,15 @@ The two `ZonedDateTime` objects will return the same value for `epochSeconds()`
 because that is not affected by the time zone. However, the various date time
 components (year, month, day, hour, minute, seconds) will be different.
 
-<a name="Caching"></a>
-#### Caching
+<a name="DstTransitionCaching"></a>
+#### DST Transition Caching
 
 The conversion from an epochSeconds to date-time components using
-`ZonedDateTime::forEpochSeconds()` is an expensive operation (see
-[AutoBenchmark](examples/AutoBenchmark/)). To improve performance, the
-`BasicZoneProcessor` and `ExtendedZoneProcessor` implement internal caching
-based on the `year` component. This optimizes the most commonly expected
+`ZonedDateTime::forEpochSeconds()` is an expensive operation
+that requires the computation of the relevant DST transitions for the given
+epochSeconds or date-time components. To improve performance, the
+`BasicZoneProcessor` and `ExtendedZoneProcessor` implement internal transition
+caching based on the `year` component. This optimizes the most commonly expected
 use case where the epochSeconds is incremented by a clock (e.g. `SystemClock`)
 every second, and is converted to human-readable date-time components once a
 second. According to [AutoBenchmark](examples/AutoBenchmark/), the cache
@@ -1290,13 +1321,15 @@ The `TimeZone::forZoneInfo()` methods are simple to use but have the
 disadvantage that the `BasicZoneProcessor` or `ExtendedZoneProcessor` needs to
 be created manually for each `TimeZone` instance. This works well for a single
 time zone, but if you have an application that needs 3 or more time zones, this
-may become cumbersome. Also, it is difficult to reconstruct a `TimeZone`
+can become cumbersome. Also, it is difficult to reconstruct a `TimeZone`
 dynamically, say, from its fully qualified name (e.g. `"America/Los_Angeles"`).
 
-The `ZoneManager` solves these problems. It keeps an internal cache of
-`ZoneProcessors`, reusing them as needed. And it holds a registry of `ZoneInfo`
-objects, so that a `TimeZone` can be created using its `zoneName`, `zoneInfo`,
-or `zoneId`.
+The `ZoneManager` solves these problems by implementing 2 features:
+
+1) It supports a registry of `ZoneInfo` objects, so that a `TimeZone` can be
+   created using its `zoneName` string, `zoneInfo` pointer, or `zoneId` integer.
+2) It supports the use of cache of `ZoneProcessors` that can be mapped to
+   a particular zone as needed.
 
 <a name="ClassHierarchy"></a>
 #### Class Hierarchy
@@ -1366,17 +1399,6 @@ class ManualZoneManager {
 }
 ```
 
-The `SIZE` template parameter is the size of the internal cache of
-`ZoneProcessor` objects. This should be set to the number of time zones that
-your application is expected to use *at the same time*. If your app never
-changes its time zone after initialization, then this can be `<1>` (although
-in this case, you may not even want to use the `ZoneManager`). If your app
-allows the user to dynamically change the time zone (e.g. from a menu of time
-zones), then this should be at least `<2>` (to allow the system to compare the
-old time zone to the new time zone selected by the user). In general, the `SIZE`
-should be set to the number of timezones displayed to the user concurrently,
-plus an additional 1 if the user is able to change the timezone dynamically.
-
 <a name="DefaultRegistries"></a>
 #### Default Registries
 
@@ -1394,6 +1416,39 @@ header:
     * Zones and Links supported by `ExtendedZoneManager`
     * `ace_time::zonedbx` namespace
 
+
+<a name="ZoneProcessorCache"></a>
+#### ZoneProcessorCache
+
+The `BasicZoneManager` and the `ExtendedZoneManager` classes need to be given an
+instance of a `BasicZoneProcessorCache<CACHE_SIZE>` or
+`ExtendedZoneProcessorCache<CACHE_SIZE>` object.
+
+```C++
+BasicZoneProcessorCache<CACHE_SIZE> basicZoneProcessorCache;
+ExtendedZoneProcessorCache<CACHE_SIZE> extendedZoneProcessorCache;
+```
+
+These used to be defined internally inside the `BasicZoneManager` and
+`ExtendedZoneManager` classes. But when they were refactored to be
+non-polymorphic to save flash memory, it was easier to extract the
+ZoneProcessorCache objects into separate classes to be passed into the
+ZoneManager classes.
+
+The `CACHE_SIZE` template parameter is an integer that specifies the size of the
+internal cache. This should be set to the number of time zones that your
+application is expected to use *at the same time*. If your app never changes its
+time zone after initialization, then this can be `<1>` (although in this case,
+you may not even want to use the `ZoneManager`). If your app allows the user to
+dynamically change the time zone (e.g. from a menu of time zones), then this
+should be at least `<2>` (to allow the system to compare the old time zone to
+the new time zone selected by the user). In general, the `CACHE_SIZE` should be
+set to the number of timezones displayed to the user concurrently, plus an
+additional 1 if the user is able to change the timezone dynamically.
+
+<a name="ZoneManagerCreation"></a>
+#### ZoneManager Creation
+
 If you decide to use the default registries, there are 4 possible configurations
 of the ZoneManager constructors as shown below. The following also shows the
 number of zones and links supported by each configuration, as well as the flash
@@ -1402,6 +1457,11 @@ memory consumption of each configuration, as determined by
 v1.6 with TZDB version 2021a:
 
 ```C++
+static const uint8_t CACHE_SIZE = 2; // tuned for application
+
+BasicZoneProcessorCache<CACHE_SIZE> basicZoneProcessorCache;
+ExtendedZoneProcessorCache<CACHE_SIZE> extendedZoneProcessorCache;
+
 // BasicZoneManager, Zones only
 // 266 zones
 // 21.6 kB (8-bits)
@@ -1409,7 +1469,7 @@ v1.6 with TZDB version 2021a:
 BasicZoneManager zoneManager(
     zonedb::kZoneRegistrySize,
     zonedb::kZoneRegistry,
-    zoneProcessorCache);
+    basicZoneProcessorCache);
 
 // BasicZoneManager, Zones and Fat Links
 // 266 zones, 183 fat links
@@ -1418,7 +1478,7 @@ BasicZoneManager zoneManager(
 BasicZoneManager zoneManager(
     zonedb::kZoneAndLinkRegistrySize,
     zonedb::kZoneAndLinkRegistry,
-    zoneProcessorCache);
+    basicZoneProcessorCache);
 
 // ExtendedZoneManager, Zones only
 // 386 Zones
@@ -1427,7 +1487,7 @@ BasicZoneManager zoneManager(
 ExtendedZoneManager zoneManager(
     zonedbx::kZoneRegistrySize,
     zonedbx::kZoneRegistry,
-    zoneProcessorCache);
+    extendedZoneProcessorCache);
 
 // ExtendedZoneManager, Zones and Fat Links
 // 386 Zones, 207 fat Links
@@ -1436,37 +1496,18 @@ ExtendedZoneManager zoneManager(
 ExtendedZoneManager zoneManager(
     zonedbx::kZoneAndLinkRegistrySize,
     zonedbx::kZoneAndLinkRegistry,
-    zoneProcessorCache);
+    extendedZoneProcessorCache);
 ```
 
 A more complicated option of using *thin link* through the `LinkManager` is
 explained the [Zones and Links](#ZonesAndLinks) section below.
 
 Once the `ZoneManager` is configured with the appropriate registries, you can
-use one of the `createForXxx()` methods to create a `TimeZone`, like this:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-...
-static const uint16_t CACHE_SIZE = 2;
-static BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-static BasicZoneManager zoneManager(
-    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry, zoneProcessorCache);
-
-void someFunction(const char* zoneName) {
-  TimeZone tz = zoneManager.createForZoneName("America/Los_Angeles");
-  if (tz.isError()) {
-    tz = TimeZone::forUtc();
-    ...
-  }
-}
-```
-
-Other `createForXxx()` methods are described in subsections below.
+use one of the `createForXxx()` methods to create a `TimeZone` as shown in the
+subsections below.
 
 It is possible to create your own custom Zone and Link registries. See the
-[Custom Zone Registry](#CustomZoneRegistry) subsection below
+[Custom Zone Registry](#CustomZoneRegistry) subsection below.
 
 <a name="CreateForZoneName"></a>
 #### createForZoneName()
@@ -1475,21 +1516,30 @@ The `ZoneManager` allows creation of a `TimeZone` using the fully qualified
 zone name:
 
 ```C++
-BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-BasicZoneManager zoneManager(..., zoneProcessorCache);
+ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+ExtendedZoneManager zoneManager(
+    zonedbx::kZoneRegistrySize,
+    zonedbx::kZoneRegistry,
+    zoneProcessorCache);
 
 void someFunction() {
   TimeZone tz = zoneManager.createForZoneName("America/Los_Angeles");
+  if (tz.isError()) {
+    // handle error
+  }
   ...
 }
 ```
 
 Of course, you probably wouldn't actually do this because the same functionality
-could be done more efficiently (less memory, less CPU time) using:
+could be done more efficiently using the `createForZoneInfo()` like this:
 
 ```C++
-BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-BasicZoneManager zoneManager(..., zoneProcessorCache);
+ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+ExtendedZoneManager zoneManager(
+    zonedbx::kZoneRegistrySize,
+    zonedbx::kZoneRegistry,
+    zoneProcessorCache);
 
 void someFunction() {
   TimeZone tz = zoneManager.createForZoneInfo(zonedb::kZoneAmerica_Los_Angeles);
@@ -1507,14 +1557,14 @@ the user was allowed to type in the zone name, and you wanted to create a
 Each zone in the `zonedb::` and `zonedbx::` database is given a unique
 and stable zoneId. There are at least 3 ways to extract this zoneId:
 
-* from the `kZoneId{zone name}` constants in `src/ace_time/zonedb/zone_infos.h`
+* the `kZoneId{zone name}` constants in `src/ace_time/zonedb/zone_infos.h`
   and `src/ace_time/zonedbx/zone_infos.h`:
     * `const uint32_t kZoneIdAmerica_New_York = 0x1e2a7654; // America/New_York`
     * `const uint32_t kZoneIdAmerica_Los_Angeles = 0xb7f7e8f2; // America/Los_Angeles`
     * ...
-* from the `TimeZone::getZoneId()` method:
+* the `TimeZone::getZoneId()` method:
     * `uint32_t zoneId = tz.getZoneId();`
-* from the `ZoneInfo` pointer using the `BasicZone()` helper object:
+* the `ZoneInfo` pointer using the `BasicZone()` helper object:
     * `uint32_t zoneId = BasicZone(&zonedb::kZoneAmerica_Los_Angeles).zoneId();`
     * `uint32_t zoneId = ExtendedZone(&zonedbx::kZoneAmerica_Los_Angeles).zoneId();`
 
@@ -1522,19 +1572,17 @@ The `ZoneManager::createForZoneId()` method returns the `TimeZone` object
 corresponding to the given `zoneId`:
 
 ```C++
-BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-BasicZoneManager zoneManager(..., zoneProcessorCache);
-
-void someFunction() {
-  TimeZone tz = zoneManager.createForZoneId(kZoneIdAmerica_New_York);
-  ...
-}
-
 ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-ExtendedZoneManager zoneManager(..., zoneProcessorCache);
+ExtendedZoneManager zoneManager(
+    zonedbx::kZoneRegistrySize,
+    zonedbx::kZoneRegistry,
+    zoneProcessorCache);
 
 void someFunction() {
   TimeZone tz = zoneManager.createForZoneId(kZoneIdAmerica_New_York);
+  if (tz.isError() {
+    // handle error
+  }
   ...
 }
 ```

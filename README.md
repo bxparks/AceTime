@@ -438,7 +438,7 @@ The details of how the Date, Time and TimeZone classes are validated are given
 in [AceTimeValidation](https://github.com/bxparks/AceTimeValidation).
 
 The ZoneInfo Database and the algorithms in this library have been validated to
-match the UTC offsets calculated using 5 other date/time libraries written in
+match the UTC offsets calculated using other date/time libraries written in
 different programming languages:
 
 * the Python pytz (https://pypi.org/project/pytz/) library from the year 2000
@@ -453,6 +453,8 @@ different programming languages:
 * the C++11/14/17 Hinnant date (https://github.com/HowardHinnant/date) library
   from year 1974 to 2049 (inclusive)
 * the C# Noda Time (https://nodatime.org) library from 1974 to 2049 (inclusive)
+* the Go lang 1.17 `time` package (https://pkg.go.dev/time) in the standard
+  library from 1974 to 2049 (inclusive)
 
 <a name="ResourceConsumption"></a>
 ## Resource Consumption
