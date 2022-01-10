@@ -1337,7 +1337,7 @@ The `ZoneManager` solves these problems by implementing 2 features:
 Three implementations of the `ZoneManager` are provided. Prior to v1.9, they
 were organized into a hierarchy with a top-level `ZoneManager` interface with
 pure virtual functions. However, in v1.9, the top-level `ZoneManager` interface
-was removed and all virtual functions were removed. This saves about 1100-1200
+was removed and all functions became nonvirtual. This saves about 1100-1200
 bytes of flash on AVR processors.
 
 ```C++
@@ -1716,7 +1716,7 @@ Database. Currently, as of version 2021a of the IANA TZ Database, this goal is
 met from the year 2000 to 2049 inclusive. Some restrictions of this database
 are:
 
-* the DST offset is a multipole of 15-minutes ranging from -1:00 to 2:45
+* the DST offset is a multiple of 15-minutes ranging from -1:00 to 2:45
   (all timezones from about 1972 support this)
 * the STDOFF offset is a multiple of 1-minute
 * the AT and UNTIL fields are multiples of 1-minute
@@ -1813,10 +1813,12 @@ class BasicZone {
   public:
     BasicZone(const basic::ZoneInfo* zoneInfo);
 
+    bool isNull() const;
     uint32_t zoneId() const;
+    int16_t stdOffsetMinutes() const;
+    ace_common::KString kname() const;
 
     void printNameTo(Print& printer) const;
-
     void printShortNameTo(Print& printer) const;
 };
 
@@ -1825,13 +1827,32 @@ class ExtendedZone {
   public:
     ExtendedZone(const extended::ZoneInfo* zoneInfo);
 
+    bool isNull() const;
     uint32_t zoneId() const;
+    int16_t stdOffsetMinutes() const;
+    ace_common::KString kname() const;
 
     void printNameTo(Print& printer) const;
-
     void printShortNameTo(Print& printer) const;
 }
 ```
+
+The `isNull()` method returns true if the object is a wrapper around a
+`nullptr`. This is often used to indicate an error condition, or a "Not Found"
+condition.
+
+The `stdOffsetMinutes()` method returns the standard (i.e. normal time, not DST
+summer time) timezone offset of the zone for the last occurring `ZoneEra` record
+in the database. In almost all cases, this should correspond to the current
+standard timezone, unless the timezone is scheduled to changes its standard
+timezone offset in the near future. The value of this method is used by the
+`ZoneSorterByOffsetAndName` class when sorting timezones by its offset.
+
+The `kname()` method returns the `KString` object representing the name of the
+zone. The `KString` object represents a string that has been compressed using a
+fragment dictionary. This object knows how to decompress the encoded form. This
+method is used by the `ZoneSorterByName` and `ZoneSorterByOffsetAndName` classes
+when sorting timezones.
 
 The `printNameTo()` method prints the full zone name (e.g.
 `America/Los_Angeles`), and `printShortNameTo()` prints only the last component
