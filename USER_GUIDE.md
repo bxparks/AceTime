@@ -46,6 +46,13 @@ UTC) and the equivalent human-readable components in different timezones.
         * [createForZoneIndex()](#CreateForZoneIndex)
         * [createForTimeZoneData()](#CreateForTimeZoneData)
         * [ManualZoneManager](#ManualZoneManager)
+    * [Handling Gaps and Overlaps](#HandlingGapsAndOverlaps)
+        * [Problems with Gaps and Overlaps](#ProblemsWithGapsAndOverlaps)
+        * [Classes with Fold](#ClassesWithFold)
+        * [FactoryMethods with Fold](#FactoryMethodsWithFold)
+        * [Resource Consumption with Fold](#ResourceConsumptionWithFold)
+        * [Semantic Changes with Fold](#SemanticChangesWithFold)
+        * [Examples with Fold](#ExamplesWithFold)
 * [ZoneInfo Database](#ZoneInfoDatabase)
     * [ZoneInfo Entries](#ZoneInfoEntries)
         * [Basic zonedb](#BasicZonedb)
@@ -1663,6 +1670,297 @@ at compile-time that only `TimeZone::kTypeManual` are supported, then you should
 not need to use the `ManualZoneManager`. You can use `TimeZone::forTimeOffset()`
 factory method directory.
 
+<a name="HandlingGapsAndOverlaps"></a>
+### Handling Gaps and Overlaps
+
+(Added in v1.10)
+
+Better control over DST gaps and overlaps was added in v1.10 using the
+techniques described by the [PEP 495](https://www.python.org/dev/peps/pep-0495/)
+document in Python 3.6.
+
+1) An additional parameter called `fold` was added to the `LocalTime`,
+   `LocalDateTime`, `OffsetDateTime`, and `ZonedDateTime` classes.
+2) Support for the `fold` parameter was added to `ExtendedZoneProcessor`. The
+  `BasicZoneProcessor` does *not* support the `fold` parameter and will ignore
+  it.
+
+<a name="ProblemsWithGapsAndOverlaps"></a>
+#### Problems with Gaps and Overlaps
+
+As a quick background, when a timezone changes its DST offset in the spring or
+fall, it creates either a gap (the UTC offset increases by one hour), or an
+overlap (the UTC offset decreases by one hour) in the local representation of
+the time. For example, in the "America/Los_Angeles" timezone (aka "US/Pacific"),
+the wall clock goes from 2am to 3am in the spring (spring forward) and goes back
+from 2am to 1am in the fall (fall back). In the spring, there are local time
+instances which are illegal because they never existed, and in the fall,
+there are local time instances which occur twice.
+
+Different date-time libraries in different languages handle these situations
+slightly differently. For example,
+
+* [Java 11 java.time package](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/chrono/ChronoLocalDate.html)
+    * returns the `ZonedDateTime` shifted forward by one hour during a gap
+    * returns the earlier `ZonedDateTime` during an overlap
+    * choices offered with additional methods:
+        * `ZonedDateTime.withEarlierOffsetAtOverlap()`
+        * `ZonedDateTime.withLaterOffsetAtOverlap()`
+* [C++ Hinnant date library](https://howardhinnant.github.io/date/tz.html)
+    * throws an exception in a gap or overlap if a specifier `choose::earliest`
+      or `choose::latest` is not specified
+* [Noda Time](https://nodatime.org/3.0.x/api/NodaTime.ZonedDateTime.html)
+    * throws `AmbiguousTimeException` or `SkippedTimeException`
+    * can specify an `Offset` to `ZonedDateTime` class to resolve ambiguity
+* [Python datetime](https://docs.python.org/3/library/datetime.html)
+    * uses a `fold` parameter to resolve ambiguous or non-existent time
+    * see [PEP 495](https://www.python.org/dev/peps/pep-0495/)
+
+The AceTime library cannot use exceptions because the Arduino C++ environment
+does not support exceptions. I chose to follow the techniques described by
+Python PEP 495 because it is well-documented, easy to understand, and relatively
+simple to implement.
+
+<a name="ClassesWithFold"></a>
+#### Classes with Fold
+
+An optional `fold` parameter was added to various constructors and factory
+methods. The default is `fold=0` if not specified. The `fold()` accessor and
+mutator methods were added to the various classes as well.
+
+```C++
+namespace ace_time {
+
+class LocalTime {
+  public:
+    static LocalTime forComponents(uint8_t hour, uint8_t minute,
+        uint8_t second, uint8_t fold = 0);
+
+    uint8_t fold() const;
+    void fold(uint8_t fold);
+
+    [...]
+};
+
+class LocalDateTime {
+  public:
+    static LocalDateTime forComponents(int16_t year, uint8_t month,
+        uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
+        uint8_t fold = 0);
+
+    uint8_t fold() const;
+    void fold(uint8_t fold);
+
+    [...]
+};
+
+class OffsetDateTime {
+  public:
+    static OffsetDateTime forComponents(int16_t year, uint8_t month,
+        uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
+        TimeOffset timeOffset, uint8_t fold = 0) {
+
+    uint8_t fold() const;
+    void fold(uint8_t fold);
+
+    [...]
+};
+
+class ZonedDateTime {
+  public:
+    static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
+        uint8_t hour, uint8_t minute, uint8_t second,
+        const TimeZone& timeZone, uint8_t fold = 0) {
+
+    uint8_t fold() const;
+    void fold(uint8_t fold);
+
+    [...]
+};
+
+}
+```
+
+<a name="FactoryMethodsWithFold"></a>
+#### Factory Methods with Fold
+
+There are 2 main factory methods on `ZonedDateTime`: `forEpochSeconds()` and
+`forComponents()`. The `fold` parameter is an *input* parameter for
+`forEpochSeconds(), and an *output* parameter for `forComponents()`. The
+mapping functionality of these methods are described in detail in the PEP 495
+document, but here is an ASCII diagram for reference:
+
+```
+              ^
+LocalDateTime |
+              |                  (overlap)   /
+          2am |                      /|    /
+              |                    /  |  /
+          1am |                  /    |/
+              |          /
+              |        /
+          3am |       |
+              |  (gap)|
+          2am |       |
+              |      /
+              |    /
+              |  /
+              +----------------------------------------->
+              spring-forward      fall-backward
+
+                          UTC/epochSeconds
+```
+
+The `forEpochSeconds()` takes the UTC/epochSeconds value and maps it to the
+LocalDateTime axis. It is a single-valued function which is defined for all
+values of epochSeconds, even with a DST shift forward or backward. The `fold`
+parameter is an *output* of the `forEpochSeconds()` function. During an overlap,
+a `ZonedDataTime` can occur twice. The earlier occurrence is returned with
+`fold==0', and the later occurrence is returned with `fold==1`. For all other
+cases where there is only a unique occurrence, the `fold` parameter is set to 0.
+
+The `forComponents()` takes the LocalDateTime value and maps it to the
+UTC/epochSeconds axis. During a gap, there exists certain LocalDateTime
+components which do not exist and are illegal. During an overlap, there are 2
+epochSeconds which can correspond to the given LocalDateTime. The `fold`
+parameter is an *input* parameter to the `forComponents()` in both cases.
+The impact of the `fold` parameter is as follows:
+
+**Overlap**: If `ZonedDateTime::forComponents()` is called with during an
+overlap of `LocalDateTime` (e.g. 2:30am during a fall back from 2am to 3am), the
+factory method uses the user-provided `fold` parameter to select the following:
+
+* `fold==0`
+    * Selects the *earlier* Transition element and returns the earlier
+      LocalDateTime.
+    * So 01:30 is interpreted as 01:30-07:00.
+* `fold==1`
+    * Selects the *later* Transition element and returns the later
+      LocalDateTime.
+    * So 01:30 is interpreted as 01:30-08:00.
+
+**Gap**: If `ZonedDateTime::forComponents()` is called with a `LocalDateTime`
+that does not exist (e.g. 2:30am during a spring forward night from 2am to 3am),
+the factory method *normalizes* the resulting `ZonedDateTime` object so that the
+components of the object are legal. The algorithm for normalization depends on
+the `fold` parameter. The `2:30am` value becomes either `3:30am` or `1:30am` in
+the following, and perhaps counter-intuitive, manner:
+
+* `fold==0`
+    * Selects the *earlier* Transition element, extended forward to apply to the
+      given LocalDateTime,
+    * Which maps to the *later* UTC/epochSeconds,
+    * Which becomes normalized to the *later* ZonedDateTime which has the
+      *later* UTC offset.
+    * So 02:30 is interpreted as 02:30-08:00, which is normalized to
+      03:30-07:00, and the `fold` after normalization is set to 0.
+* `fold==1`
+    * Selects the *later* Transition element, extended backward to apply to the
+      given LocalDateTime,
+    * Which maps to the *earlier* UTC/epochSeconds,
+    * Which becomes normalized to the *earlier* ZonedDateTime which has the
+      *earlier* UTC offset.
+    * So 02:30 is interpreted as 02:30-07:00, which is normalized to
+      01:30-08:00, and the `fold` after normalization is set to 0.
+
+The time shift during a gap seems to be the *opposite* of the shift during an
+overlap, but internally this is self-consistent. Just as importantly, this
+follows the same logic as PEP 495.
+
+<a name="SemanticChangesWithFold"></a>
+#### Semantic Changes with Fold
+
+The `fold` parameter has no effect on most existing methods. It is ignored in
+all comparison operators:
+
+* `operator==()`, `operator!=()` ignore the `fold`
+* `operator<()`, `operator>()`, etc. ignore the `fold`
+* `compareTo()` ignores the `fold`
+
+It impacts the behavior the factory methods of `LocalTime`, `LocalDateTime`,
+`OffsetDateTime` only trivially, causing the `fold` value to be passed into the
+internal holding variable:
+
+* `LocalTime::forSeconds()`
+* `LocalTime::forComponents()`
+* `LocalDateTime::forEpochSeconds()`
+* `LocalDateTime::forComponents()`
+* `OffsetDateTime::forEpochSeconds()`
+* `OffsetDateTime::forComponents()`
+
+The `fold` parameter has significant impact only on the `ZonedDateTime` factory
+methods, and only if the `ExtendeZoneProcessor` is used:
+
+* `ZonedDateTime::forEpochSeconds()`
+* `ZonedDateTime::forComponents()`
+
+The `fold` parameter is not exposed through any of the existing `printTo()` and
+`printShortTo()` methods. It can only be accessed and changes by the `fold()`
+accessor and mutator methods.
+
+A more subtle, but important semantic change, is that the `fold` parameter
+preserves information during gaps and overlaps. This means that we can do
+round-trip conversions of `ZonedDateTime` properly. We can start with
+epochSeconds, convert to components, then back to epochSeconds, and get back the
+same epochSeconds. With the `fold` parameter, this round-trip was not guaranteed
+during an overlap.
+
+<a name="ResourceConsumptionWithFold"></a>
+#### Resource Consumption with Fold
+
+According to [MemoryBenchmark](examples/MemoryBenchmark), adding support for
+`fold` increased flash usage of `ExtendedZoneProcessor` by about 600 bytes on
+AVR processors and 400-600 bytes on 32-bit processors. (The `BasicZoneProcessor`
+which ignores the `fold` parameter increased by ~150 bytes on AVR processors,
+because of the overhead of copying the internal `fold` parameter in various
+objects.) The static memory footprint of various classes increased by one byte
+on AVR processors, and 2-4 bytes on 32-bit processors due to 32-bit alignment.
+
+According to [AutoBenchmark](examples/AutoBenchmark), the performance of various
+functions did not change at all, except for `ZonedDataTime::forComponents()`,
+which became 5X *faster* on AVR processors and 1.5-3X faster on 32-bit
+processors. This is because the `fold` parameter tells us exactly when the
+internal normalization process is required, which allows us to skip the
+normalization step in the common case outside the gap. Within the gap, the
+`forComponents()` method performs about the same as before.
+
+<a name="ExamplesWithFold"></a>
+#### Examples with Fold
+
+Here are some examples taken from
+[ZonedDateTimeExtendedTest](tests/ZonedDateTimeExtendedTest):
+
+```C++
+ExtendedZoneProcessorCache<1> zoneProcessorCache;
+ExtendedZoneManager extendedZoneManager(
+    zonedbx::kZoneRegistrySize,
+    zonedbx::kZoneRegistry,
+    zoneProcessorCache);
+TimeZone tz = extendedZoneManager.createForZoneInfo(
+    &zonedbx::kZoneAmerica_Los_Angeles);
+
+// During fall back. This is the second occurrence of this local time, so should
+// print:
+// 2022-11-06T01:29:00-08:00[America/Los_Angeles]
+// fold=1
+acetime_t epochSeconds = 721042140;
+auto dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+Serial.printTo(dt); Serial.println();
+Serial.print("fold="); Serial.println(dt.fold());
+
+// During spring forward. In the gap, fold=0 selects earlier transition,
+// so selects -08:00 offset, which gets normalized to -07:00, so should print:
+// 2022-03-13T03:29:00-07:00[America/Los_Angeles]
+dt = ZonedDateTime::forComponents(2022, 3, 13, 2, 29, 0, tz, 0 /*fold*/);
+Serial.printTo(dt); Serial.println();
+
+// During spring forward. In the gap, fold=1 selects later transition,
+// so selects -07:00 offset, which gets normalized to -08:00, so should print:
+// 2022-03-13T01:29:00-08:00[America/Los_Angeles]
+dt = ZonedDateTime::forComponents(2022, 3, 13, 2, 29, 0, tz, 1 /*fold*/);
+Serial.printTo(dt); Serial.println();
+```
+
 <a name="ZoneInfoDatabase"></a>
 ## ZoneInfo Database
 
@@ -1705,8 +2003,8 @@ in the `transformer.py` script and summarized in
 * the UNTIL time suffix can only be 'w' (not 's' or 'u')
 * there can be only one DST transition in a single month
 
-In the current version (v1.2), this database contains 268 zones from the year
-2000 to 2049 (inclusive).
+As of version v1.9 (with TZDB 2021e), this database contains 258 Zone entries
+and 193 Link entries, supported from the year 2000 to 2049 (inclusive).
 
 <a name="ExtendedZonedbx"></a>
 #### Extended zonedbx
@@ -1722,8 +2020,8 @@ are:
 * the AT and UNTIL fields are multiples of 1-minute
 * the LETTER field can be arbitrary strings
 
-In the current version (v1.2), this database contains all 387 timezones from
-the year 2000 to 2049 (inclusive).
+As of version v1.9 (with TZDB 2021e), this database contains all 377 Zone
+entries and 217 Link entries, supported from the year 2000 to 2049 (inclusive).
 
 <a name="TzDatabaseVersion"></a>
 #### TZ Database Version
@@ -1873,7 +2171,7 @@ compiler should be able to optimize away both wrapper classes entirely, so that
 they are equivalent to using the `const ZoneInfo*` pointer directly.
 
 If you need to copy the zone names into memory, use the `PrintStr<N>` class from
-the the AceComon library (https://github.com/bxparks/AceCommon) to print the
+the AceCommon library (https://github.com/bxparks/AceCommon) to print the
 zone name into the memory buffer, then extract the string from the buffer:
 
 ```C++
@@ -1936,7 +2234,7 @@ There were several negative consequences however:
       not `US/Pacific`
 * similarly, the `zoneId` component of a `kZoneUS_Pacific` struct was set to
   the same `zoneId` of `kZoneAmerica_Los_Angeles`
-* the `kZoneIdUS_Pacific` constant did not exist, in constrast to the target
+* the `kZoneIdUS_Pacific` constant did not exist, in contrast to the target
   `KZoneIdAmerica_Los_Angeles` constant
 * the `zonedb::kZoneRegistry` and `zonedbx::kZoneRegistry` contained only
   the Zone entries, not the Link entries
@@ -2386,7 +2684,7 @@ immutable is definitely cleaner, but it causes the code size to increase
 significantly. For the case of the
 [WorldClock](https://github.com/bxparks/clocks/tree/master/WorldClock) program,
 the code size increased by 500-700 bytes, which I could not afford because the
-program takes up almost the entire flash memory of an Ardunio Pro Micro with
+program takes up almost the entire flash memory of an Arduino Pro Micro with
 only 28672 bytes of flash memory.
 
 Most date and time classes in the AceTime library are mutable. Except for

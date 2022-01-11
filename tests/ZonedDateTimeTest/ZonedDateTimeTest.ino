@@ -10,6 +10,57 @@ using namespace ace_time;
 // ZonedDateTime + Manual TimeZone
 //---------------------------------------------------------------------------
 
+test(ZonedDateTimeTest, accessors_mutators) {
+  // accessors
+  TimeZone tz = TimeZone::forHours(-8);
+  ZonedDateTime dt = ZonedDateTime::forComponents(2001, 2, 3, 4, 5, 6, tz);
+  assertEqual((int16_t) 2001, dt.year());
+  assertEqual(1, dt.yearTiny());
+  assertEqual(2, dt.month());
+  assertEqual(3, dt.day());
+  assertEqual(4, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+  assertEqual(-8 * 60, dt.timeOffset().toMinutes());
+  assertEqual(0, dt.fold());
+
+  // mutators
+  tz = TimeZone::forHours(-7);
+  dt.year(2011);
+  dt.month(12);
+  dt.day(13);
+  dt.hour(14);
+  dt.minute(15);
+  dt.second(16);
+  dt.timeZone(tz);
+  dt.fold(1);
+  dt.normalize(); // must be called after timeZone() mutation
+  assertEqual(2011, dt.year());
+  assertEqual(11, dt.yearTiny());
+  assertEqual(12, dt.month());
+  assertEqual(13, dt.day());
+  assertEqual(14, dt.hour());
+  assertEqual(15, dt.minute());
+  assertEqual(16, dt.second());
+  assertEqual(-7 * 60, dt.timeOffset().toMinutes());
+  assertEqual(1, dt.fold());
+}
+
+test(ZonedDateTimeTest, constructor_with_fold) {
+  TimeZone tz = TimeZone::forHours(-8);
+  ZonedDateTime dt = ZonedDateTime::forComponents(
+      2001, 2, 3, 4, 5, 6, tz, 1 /*fold*/);
+  assertEqual((int16_t) 2001, dt.year());
+  assertEqual(1, dt.yearTiny());
+  assertEqual(2, dt.month());
+  assertEqual(3, dt.day());
+  assertEqual(4, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+  assertEqual(-8 * 60, dt.timeOffset().toMinutes());
+  assertEqual(1, dt.fold());
+}
+
 // Check that ZonedDateTime with Manual TimeZone agrees with simpler
 // OffsetDateTime.
 test(ZonedDateTimeTest_Manual, agreesWithOffsetDateTime) {

@@ -145,10 +145,14 @@ In v1.9.0+:
     * STM32duino from 2.0.0 to 2.2.0
     * ESP32 from 1.0.6 to 2.0.2
     * Teensyduino from 1.55 to 1.56
-* Add support for `fold` parameter in `LocalDateTime`, `OffsetDateTime`,
-  `ZonedDateTime`, and `ExtendedZoneProcessor`. No significant change in
-  runtime.
 * Add benchmarks for `ZonedDateTime::forComponents()`.
+* Add support for `fold` parameter in `LocalDateTime`, `OffsetDateTime`,
+  `ZonedDateTime`, and `ExtendedZoneProcessor`.
+    * The `ZonedDateTime::forComponents()` can be made much faster using 'fold'.
+    * We know exactly when we must normalize and when we can avoid
+      normalization.
+    * 5X faster on AVR processors when cached, and
+    * 1.5-3X faster on 32-bit processors.
 
 ## Arduino Nano
 

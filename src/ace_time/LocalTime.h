@@ -22,6 +22,7 @@ namespace ace_time {
  * Parts of this class were inspired by the java.time.LocalTime class of Java
  * 11
  * (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalTime.html).
+ * The 'fold' parameter was inspired by the datetime package in Python 3.6.
  */
 class LocalTime {
   public:
@@ -37,10 +38,11 @@ class LocalTime {
      * @param hour hour (0-23)
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
+     * @param fold optional disambiguation of multiple occurrences [0, 1]
      */
     static LocalTime forComponents(uint8_t hour, uint8_t minute,
-        uint8_t second) {
-      return LocalTime(hour, minute, second);
+        uint8_t second, uint8_t fold = 0) {
+      return LocalTime(hour, minute, second, fold);
     }
 
     /**
@@ -51,7 +53,7 @@ class LocalTime {
      *
      * @param seconds number of seconds from midnight, (0-86399)
      */
-    static LocalTime forSeconds(acetime_t seconds) {
+    static LocalTime forSeconds(acetime_t seconds, uint8_t fold = 0) {
       uint8_t second, minute, hour;
 
       if (seconds == kInvalidSeconds) {
@@ -64,7 +66,7 @@ class LocalTime {
       }
 
       // Return a single object to allow return value optimization.
-      return LocalTime(hour, minute, second);
+      return LocalTime(hour, minute, second, fold);
     }
 
     /**
@@ -130,6 +132,12 @@ class LocalTime {
     /** Set the second. */
     void second(uint8_t second) { mSecond = second; }
 
+    /** Return the fold. */
+    uint8_t fold() const { return mFold; }
+
+    /** Set the fold. */
+    void fold(uint8_t fold) { mFold = fold; }
+
     /**
      * Return the number of seconds since midnight.
      * Return kInvalidSeconds if isError() is true.
@@ -146,6 +154,8 @@ class LocalTime {
     /**
      * Compare 'this' LocalTime with 'that' LocalTime, and return (<0, 0, >0)
      * according to whether 'this' occurs (before, same as, after) 'that'.
+     * The 'fold' parameter is ignored.
+     *
      * If either this->isError() or that.isError() is true, the behavior is
      * undefined.
      */
@@ -180,24 +190,39 @@ class LocalTime {
     static const uint8_t kInvalidValue = UINT8_MAX;
 
     /** Constructor that sets the components. */
-    explicit LocalTime(uint8_t hour, uint8_t minute, uint8_t second):
+    explicit LocalTime(
+        uint8_t hour,
+        uint8_t minute,
+        uint8_t second,
+        uint8_t fold = 0
+    ):
         mHour(hour),
         mMinute(minute),
-        mSecond(second) {}
+        mSecond(second),
+        mFold(fold)
+    {}
 
     uint8_t mHour; // [0, 23]
     uint8_t mMinute; // [0, 59]
     uint8_t mSecond; // [0, 59]
+
+    // Use a separate byte for fold. If we implemented this using a C++ bit
+    // field (e.g. the upper bit of 'mHour'), it causes BasicZoneProcessor and
+    // ExtendedZoneProcessor to consume 200 extra bytes of flash due to the bit
+    // masking operations on accesses and mutations. Even on AVR processors, I
+    // think the increase in static memory is better than paying the 200 bytes
+    // of flash memory. Using a separate byte is also faster.
+    uint8_t mFold; // [0, 1]
 };
 
-/** Return true if two LocalTime objects are equal. */
+/** Return true if two LocalTime objects are equal. The fold is ignored. */
 inline bool operator==(const LocalTime& a, const LocalTime& b) {
   return a.mSecond == b.mSecond
       && a.mMinute == b.mMinute
       && a.mHour == b.mHour;
 }
 
-/** Return true if two LocalTime objects are not equal. */
+/** Return true if two LocalTime objects are not equal. The fold is ignored. */
 inline bool operator!=(const LocalTime& a, const LocalTime& b) {
   return ! (a == b);
 }

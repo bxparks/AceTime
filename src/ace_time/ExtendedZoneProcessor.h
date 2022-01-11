@@ -444,6 +444,33 @@ struct TransitionTemplate {
 };
 
 /**
+ * Tuple of a matching Transition and its 'fold'. Used by
+ * findTransitionForSeconds() which is guaranteed to return only a single
+ * Transition if found.
+ */
+template <typename ZEB, typename ZPB, typename ZRB>
+struct MatchingTransitionTemplate {
+  const TransitionTemplate<ZEB, ZPB, ZRB>* transition;
+  uint8_t fold; // 1 if in the overlap, otherwise 0
+};
+
+/**
+ * The result of the findTransitionForDateTime(const LocalDatetime&) method
+ * which can return 2 possible Transitions if the DateTime is in the gap or the
+ * overlap.
+ */
+template <typename ZEB, typename ZPB, typename ZRB>
+struct TransitionResultTemplate {
+  static constexpr int8_t kStatusGap = 0; // no exact match
+  static constexpr int8_t kStatusExact = 1; // one exact match
+  static constexpr int8_t kStatusOverlap = 2; // two matches
+
+  const TransitionTemplate<ZEB, ZPB, ZRB>* transition0; // fold==0
+  const TransitionTemplate<ZEB, ZPB, ZRB>* transition1; // fold==1
+  int8_t searchStatus;
+};
+
+/**
  * A heap manager which is specialized and tuned to manage a collection of
  * Transitions, keeping track of unused, used, and active states, using a fixed
  * array of Transitions. Its main purpose is to provide some illusion of
@@ -482,6 +509,20 @@ class TransitionStorageTemplate {
      * should be treated as a private, it is exposed only for testing purposes.
      */
     typedef TransitionTemplate<ZEB, ZPB, ZRB> Transition;
+
+    /**
+     * Template instantiation of MatchingTransitiontemplate used by this class.
+     * This should be treated as a private, it is exposed only for testing
+     * purposes.
+     */
+    typedef MatchingTransitionTemplate<ZEB, ZPB, ZRB> MatchingTransition;
+
+    /**
+     * Template instantiation of TransitionResultTemplate used by this class.
+     * This should be treated as a private, it is exposed only for testing
+     * purposes.
+     */
+    typedef TransitionResultTemplate<ZEB, ZPB, ZRB> TransitionResult;
 
     /** Constructor. */
     TransitionStorageTemplate() {}
@@ -671,51 +712,52 @@ class TransitionStorageTemplate {
      * year 1872 (because the year is stored as an int8_t). Therefore, this
      * method should never return a nullptr for a well-formed ZoneInfo file.
      */
-    const Transition* findTransitionForSeconds(acetime_t epochSeconds) const {
+    MatchingTransition findTransitionForSeconds(acetime_t epochSeconds)
+        const {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf(
             "findTransitionForSeconds(): mIndexFree: %d\n", mIndexFree);
       }
 
+      const Transition* prevMatch = nullptr;
       const Transition* match = nullptr;
       for (uint8_t i = 0; i < mIndexFree; i++) {
         const Transition* candidate = mTransitions[i];
         if (candidate->startEpochSeconds > epochSeconds) break;
+        prevMatch = match;
         match = candidate;
       }
-      return match;
+      uint8_t fold = calculateFold(epochSeconds, match, prevMatch);
+      return MatchingTransition{ match, fold };
+    }
+
+    static uint8_t calculateFold(
+        acetime_t epochSeconds,
+        const Transition* match,
+        const Transition* prevMatch) {
+
+      if (match == nullptr) return 0;
+      if (prevMatch == nullptr) return 0;
+
+      // Check if epochSeconds occurs during a "fall back" DST transition.
+      acetime_t overlapSeconds = subtractDateTuple(
+          prevMatch->untilDateTime, match->startDateTime);
+      if (overlapSeconds <= 0) return 0;
+      acetime_t secondsFromTransitionStart =
+          epochSeconds - match->startEpochSeconds;
+      if (secondsFromTransitionStart >= overlapSeconds) return 0;
+
+      // EpochSeconds occurs within the "fall back" overlap.
+      return 1;
     }
 
     /**
-     * Return the Transition matching the given dateTime. Return nullptr if no
-     * matching Transition found. During DST changes, a particlar LocalDateTime
-     * may correspond to 2 Transitions or 0 Transitions, and there are
-     * potentially multiple ways to handle this. This method implements the
-     * following algorithm:
-     *
-     * 1) If the localDateTime falls in the DST transition gap where 0
-     * Transitions ought to be found, e.g. between 02:00 and 03:00 in
-     * America/Los_Angeles when standard time switches to DST time), the
-     * immediate prior Transition is returned (in effect extending the UTC
-     * offset of the prior Transition through the gap. For example, when DST
-     * starts, 02:00 becomes 03:00, so a time of 02:30 does not exist, but the
-     * Transition returned will be the one valid at 01:59. When it is converted
-     * to epoch_seconds and converted back to a LocalDateTime, the 02:30 time
-     * will become 03:30, since the later UTC offset will be used.
-     *
-     * 2) If the localDateTime falls in a time period where there are 2
-     * Transitions, hence 2 valid UTC offsets, the later Transition is
-     * returned. For example, when DST ends in America/Los_Angeles, 02:00
-     * becomes 01:00, so a time of 01:30 could belong to the earlier or later
-     * Transition. This method returns the later Transition.
+     * Return the candidate Transitions matching the given dateTime. The
+     * search may return 0, 1 or 2 Transitions, depending on whether the
+     * dateTime falls in a gap or overlap.
      */
-    const Transition* findTransitionForDateTime(const LocalDateTime& ldt)
+    TransitionResult findTransitionForDateTime(const LocalDateTime& ldt)
         const {
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf(
-            "findTransitionForDateTime(): mIndexFree: %d\n", mIndexFree);
-      }
-
       // Convert LocalDateTime to DateTuple.
       DateTuple localDate{
           ldt.yearTiny(),
@@ -724,15 +766,54 @@ class TransitionStorageTemplate {
           (int16_t) (ldt.hour() * 60 + ldt.minute()),
           internal::ZoneContext::kSuffixW
       };
-      const Transition* match = nullptr;
 
-      // Find the last Transition that matches
+      // Examine adjacent pairs of Transitions, looking for an exact match, gap,
+      // or overlap.
+      const Transition* prevCandidate = nullptr;
+      const Transition* candidate = nullptr;
+      int8_t searchStatus = TransitionResult::kStatusGap;
       for (uint8_t i = 0; i < mIndexFree; i++) {
-        const Transition* candidate = mTransitions[i];
-        if (candidate->startDateTime > localDate) break;
-        match = candidate;
+        candidate = mTransitions[i];
+
+        DateTuple startDateTime = candidate->startDateTime;
+        DateTuple untilDateTime = candidate->untilDateTime;
+        bool isExactMatch = (startDateTime <= localDate)
+            && (localDate < untilDateTime);
+
+        if (isExactMatch) {
+          // Check for a previous exact match to detect an overlap.
+          if (searchStatus == TransitionResult::kStatusExact) {
+            searchStatus = TransitionResult::kStatusOverlap;
+            break;
+          }
+
+          // Loop again to detect an overlap.
+          searchStatus = TransitionResult::kStatusExact;
+
+        } else if (startDateTime > localDate) {
+          // Exit loop since no more candidate transition.
+          break;
+        }
+
+        prevCandidate = candidate;
+
+        // Set nullptr so that if the loop runs off the end of the list of
+        // Transitions, the candidate is marked as nullptr.
+        candidate = nullptr;
       }
-      return match;
+
+      // Check if the prev was an exact match, and clear the current to
+      // avoid confusion.
+      if (searchStatus == TransitionResult::kStatusExact) {
+        candidate = nullptr;
+      }
+
+      // This should get optimized by RVO.
+      return TransitionResult{
+        prevCandidate,
+        candidate,
+        searchStatus,
+      };
     }
 
     /** Verify that the indexes are valid. Used only for debugging. */
@@ -856,6 +937,14 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     typedef extended::TransitionTemplate<ZEB, ZPB, ZRB> Transition;
 
     /** Exposed only for testing purposes. */
+    typedef extended::MatchingTransitionTemplate<ZEB, ZPB, ZRB>
+        MatchingTransition;
+
+    /** Exposed only for testing purposes. */
+    typedef extended::TransitionResultTemplate<ZEB, ZPB, ZRB>
+        TransitionResult;
+
+    /** Exposed only for testing purposes. */
     typedef extended::MatchingEraTemplate<ZEB> MatchingEra;
 
     /** Exposed only for testing purposes. */
@@ -867,8 +956,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       bool success = initForEpochSeconds(epochSeconds);
       if (!success) return TimeOffset::forError();
-      const Transition* transition =
+      MatchingTransition matchingTransition =
           mTransitionStorage.findTransitionForSeconds(epochSeconds);
+      const Transition* transition = matchingTransition.transition;
       return (transition)
           ? TimeOffset::forMinutes(
               transition->offsetMinutes + transition->deltaMinutes)
@@ -878,8 +968,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const override {
       bool success = initForEpochSeconds(epochSeconds);
       if (!success) return TimeOffset::forError();
-      const Transition* transition =
+      MatchingTransition matchingTransition =
           mTransitionStorage.findTransitionForSeconds(epochSeconds);
+      const Transition* transition = matchingTransition.transition;
       return (transition)
           ? TimeOffset::forMinutes(transition->deltaMinutes)
           : TimeOffset::forError();
@@ -888,67 +979,115 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     const char* getAbbrev(acetime_t epochSeconds) const override {
       bool success = initForEpochSeconds(epochSeconds);
       if (!success) return "";
-      const Transition* transition =
+      MatchingTransition matchingTransition =
           mTransitionStorage.findTransitionForSeconds(epochSeconds);
+      const Transition* transition = matchingTransition.transition;
       return (transition) ? transition->abbrev : "";
     }
 
+    /**
+     * @copydoc ZoneProcessor::getOffsetDateTime(const LocalDateTime&)
+     *
+     * In this implementation, the `LocalDateTime.fold()` parameter is an input
+     * parameter that determines whether to return the earlier Transition
+     * (fold==0) or the later Transition (fold==1). This is intended to be the
+     * same algorithm as Python PEP 495. In other words:
+     *
+     *  * If the 'ldt' is in the overlap:
+     *      * return the earlier transition (earlier UTC) if ldt.fold == 0,
+     *      * return the later transition (later UTC) if ldt.fold == 1.
+     *  * If the 'ldt' is in the gap:
+     *      * return the earlier transition (later UTC) if ldt.fold == 0,
+     *      * return the later transition (earlier UTC) if ldt.fold == 1,
+     *
+     * See also the
+     * zone_processor.ZoneProcessor._find_transition_for_datetime_python()
+     * function in the AceTimePython project.
+     */
     OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const override {
-      TimeOffset offset;
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("getOffsetDateTime(): ldt=");
-        ldt.printTo(SERIAL_PORT_MONITOR);
-        SERIAL_PORT_MONITOR.println();
-      }
       bool success = initForYear(ldt.year());
+      if (! success) {
+        return OffsetDateTime::forError();
+      }
 
-      // Find the Transition to get the DST offset
-      if (success) {
-        const Transition* transition =
-            mTransitionStorage.findTransitionForDateTime(ldt);
-        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-          logging::printf("getOffsetDateTime(): match transition=");
-          transition->log();
-          logging::printf("\n");
-        }
-        offset = (transition)
-            ? TimeOffset::forMinutes(
-                transition->offsetMinutes + transition->deltaMinutes)
-            : TimeOffset::forError();
+      // Find the Transition(s) in the gap or overlap.
+      TransitionResult result =
+          mTransitionStorage.findTransitionForDateTime(ldt);
+
+      // Extract the appropriate Transition, depending on the request ldt.fold
+      // and the result.searchStatus.
+      bool needsNormalization = false;
+      const Transition* transition;
+      if (result.searchStatus == TransitionResult::kStatusExact) {
+        transition = result.transition0;
       } else {
-        offset = TimeOffset::forError();
+        if (result.transition0 == nullptr || result.transition1 == nullptr) {
+          // ldt was far past or far future, and didn't match anything.
+          transition = nullptr;
+        } else {
+          needsNormalization =
+              (result.searchStatus == TransitionResult::kStatusGap);
+          transition = (ldt.fold() == 0)
+              ? result.transition0
+              : result.transition1;
+        }
       }
 
+      if (! transition) {
+        return OffsetDateTime::forError();
+      }
+
+      TimeOffset offset = TimeOffset::forMinutes(
+          transition->offsetMinutes + transition->deltaMinutes);
       auto odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset);
-      if (offset.isError()) {
-        return odt;
-      }
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("getOffsetDateTime(): odt=");
-        odt.printTo(SERIAL_PORT_MONITOR);
-        SERIAL_PORT_MONITOR.println();
+
+      if (needsNormalization) {
+        acetime_t epochSeconds = odt.toEpochSeconds();
+
+        // If in the gap, normalization means that we convert to epochSeconds
+        // then perform another search through the Transitions, then use
+        // that new Transition to convert the epochSeconds to OffsetDateTime. It
+        // turns out that this process identical to just using the other
+        // Transition returned in TransitionResult above.
+        const Transition* otherTransition = (ldt.fold() == 0)
+            ? result.transition1
+            : result.transition0;
+        TimeOffset otherOffset = TimeOffset::forMinutes(
+            otherTransition->offsetMinutes + otherTransition->deltaMinutes);
+        odt = OffsetDateTime::forEpochSeconds(epochSeconds, otherOffset);
+
+        // Invert the fold.
+        // 1) The normalization process causes the LocalDateTime to jump to the
+        // other transition.
+        // 2) Provides a user-accessible indicator that a gap normalization was
+        // performed.
+        odt.fold(1 - ldt.fold());
       }
 
-      // Normalize the OffsetDateTime, causing LocalDateTime in the DST
-      // transtion gap to be shifted forward one hour. For LocalDateTime in an
-      // overlap (DST->STD transition), the earlier UTC offset is selected by
-      // findTransitionForDateTime(). Use that to calculate the epochSeconds,
-      // then recalculate the offset. Use this final offset to determine the
-      // effective OffsetDateTime that will survive a round-trip unchanged.
-      acetime_t epochSeconds = odt.toEpochSeconds();
-      const Transition* transition =
-          mTransitionStorage.findTransitionForSeconds(epochSeconds);
-      offset =  (transition)
-            ? TimeOffset::forMinutes(
-                transition->offsetMinutes + transition->deltaMinutes)
-            : TimeOffset::forError();
-      odt = OffsetDateTime::forEpochSeconds(epochSeconds, offset);
-      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("getOffsetDateTime(): normalized(odt)=");
-        odt.printTo(SERIAL_PORT_MONITOR);
-        SERIAL_PORT_MONITOR.println();
-      }
       return odt;
+    }
+
+    /**
+     * @copydoc ZoneProcessor::getOffsetDateTime(acetime_t)
+     *
+     * This implementation calculates the `OffsetDateTime.fold()` parameter
+     * correctly, and indicates whether the localized datetime is before the
+     * overlap (fold==0) or after the overlap (fold==1). During a gap, there is
+     * no ambiguity when searching on epochSeconds so fold will always be 0.
+     */
+    OffsetDateTime getOffsetDateTime(acetime_t epochSeconds) const override {
+      bool success = initForEpochSeconds(epochSeconds);
+      if (!success) return OffsetDateTime::forError();
+
+      MatchingTransition matchingTransition =
+          mTransitionStorage.findTransitionForSeconds(epochSeconds);
+      const Transition* transition = matchingTransition.transition;
+      TimeOffset timeOffset = (transition)
+          ? TimeOffset::forMinutes(
+              transition->offsetMinutes + transition->deltaMinutes)
+          : TimeOffset::forError();
+      return OffsetDateTime::forEpochSeconds(
+          epochSeconds, timeOffset, matchingTransition.fold);
     }
 
     void printNameTo(Print& printer) const override {

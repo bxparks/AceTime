@@ -9,11 +9,31 @@ using namespace ace_time;
 // LocalTime
 //---------------------------------------------------------------------------
 
-test(LocalTimeTest, accessors) {
+test(LocalTimeTest, accessors_mutators) {
+  // accessors
   LocalTime lt = LocalTime::forComponents(1, 2, 3);
   assertEqual(1, lt.hour());
   assertEqual(2, lt.minute());
   assertEqual(3, lt.second());
+  assertEqual(0, lt.fold());
+
+  // mutators
+  lt.hour(11);
+  lt.minute(12);
+  lt.second(13);
+  lt.fold(1);
+  assertEqual(11, lt.hour());
+  assertEqual(12, lt.minute());
+  assertEqual(13, lt.second());
+  assertEqual(1, lt.fold());
+}
+
+test(LocalTimeTest, constructor_with_fold) {
+  LocalTime lt = LocalTime::forComponents(1, 2, 3, 1 /*fold*/);
+  assertEqual(1, lt.hour());
+  assertEqual(2, lt.minute());
+  assertEqual(3, lt.second());
+  assertEqual(1, lt.fold());
 }
 
 test(LocalTimeTest, isError) {
@@ -44,6 +64,7 @@ test(LocalTimeTest, toAndFromSeconds) {
   lt = LocalTime::forSeconds(0);
   assertTrue(lt == LocalTime::forComponents(0, 0, 0));
   assertEqual((acetime_t) 0, lt.toSeconds());
+  assertEqual(0, lt.fold());
 
   lt = LocalTime::forSeconds(3662);
   assertTrue(lt == LocalTime::forComponents(1, 1, 2));
@@ -52,6 +73,13 @@ test(LocalTimeTest, toAndFromSeconds) {
   lt = LocalTime::forSeconds(86399);
   assertTrue(lt == LocalTime::forComponents(23, 59, 59));
   assertEqual((acetime_t) 86399, lt.toSeconds());
+}
+
+test(LocalTimeTest, toAndFromSeconds_withFold) {
+  LocalTime lt = LocalTime::forSeconds(0, 1 /*fold*/);
+  assertTrue(lt == LocalTime::forComponents(0, 0, 0));
+  assertEqual((acetime_t) 0, lt.toSeconds());
+  assertEqual(1, lt.fold());
 }
 
 test(LocalTimeTest, compareTo) {

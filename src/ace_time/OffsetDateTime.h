@@ -52,12 +52,13 @@ class OffsetDateTime {
      * component (instead of an int8_t or int16_t) allows us to overload an
      * additional constructor that accepts a millisecond component in the
      * future.
+     * @param fold optional disambiguation of multiple occurences [0, 1]
      */
     static OffsetDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
-        TimeOffset timeOffset) {
+        TimeOffset timeOffset, uint8_t fold = 0) {
       auto ldt = LocalDateTime::forComponents(
-          year, month, day, hour, minute, second);
+          year, month, day, hour, minute, second, fold);
       return OffsetDateTime(ldt, timeOffset);
     }
 
@@ -72,11 +73,11 @@ class OffsetDateTime {
      * @param timeOffset time offset from UTC
      */
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
-          TimeOffset timeOffset) {
+          TimeOffset timeOffset, uint8_t fold = 0) {
       if (epochSeconds != LocalDate::kInvalidEpochSeconds) {
         epochSeconds += timeOffset.toSeconds();
       }
-      auto ldt = LocalDateTime::forEpochSeconds(epochSeconds);
+      auto ldt = LocalDateTime::forEpochSeconds(epochSeconds, fold);
       return OffsetDateTime(ldt, timeOffset);
     }
 
@@ -208,6 +209,12 @@ class OffsetDateTime {
 
     /** Set the second. */
     void second(uint8_t second) { mLocalDateTime.second(second); }
+
+    /** Return the fold. */
+    uint8_t fold() const { return mLocalDateTime.fold(); }
+
+    /** Set the fold. */
+    void fold(uint8_t fold) { mLocalDateTime.fold(fold); }
 
     /** Return the day of the week, Monday=1, Sunday=7 (per ISO 8601). */
     uint8_t dayOfWeek() const { return mLocalDateTime.dayOfWeek(); }

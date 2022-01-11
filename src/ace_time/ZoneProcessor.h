@@ -81,6 +81,17 @@ class ZoneProcessor {
     virtual OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt)
         const = 0;
 
+    /**
+     * Return the best estimate of the OffsetDateTime at the given
+     * epochSeconds for the timezone of the current ZoneProcessor, including
+     * the fold parameter.
+     *
+     * Returns OffsetDateTime::forError() if an error occurs, for example, if
+     * the epochSeconds is outside of the support date range of the underlying
+     * ZoneInfo files.
+     */
+    virtual OffsetDateTime getOffsetDateTime(acetime_t epochSeconds) const = 0;
+
     /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
     virtual void printNameTo(Print& printer) const = 0;
 

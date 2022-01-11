@@ -4,14 +4,15 @@
 #include <AceCommon.h>
 #include <AceTime.h>
 
+using ace_common::PrintStr;
 using namespace ace_time;
-using namespace ace_common;
 
 //---------------------------------------------------------------------------
 // LocalDateTime
 //---------------------------------------------------------------------------
 
-test(LocalDateTimeTest, accessors) {
+test(LocalDateTimeTest, accessors_mutators) {
+  // accessors
   LocalDateTime dt = LocalDateTime::forComponents(2001, 2, 3, 4, 5, 6);
   assertEqual((int16_t) 2001, dt.year());
   assertEqual(1, dt.yearTiny());
@@ -20,6 +21,37 @@ test(LocalDateTimeTest, accessors) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
+  assertEqual(0, dt.fold());
+
+  // mutators
+  dt.year(2011);
+  dt.month(12);
+  dt.day(13);
+  dt.hour(14);
+  dt.minute(15);
+  dt.second(16);
+  dt.fold(1);
+  assertEqual(2011, dt.year());
+  assertEqual(11, dt.yearTiny());
+  assertEqual(12, dt.month());
+  assertEqual(13, dt.day());
+  assertEqual(14, dt.hour());
+  assertEqual(15, dt.minute());
+  assertEqual(16, dt.second());
+  assertEqual(1, dt.fold());
+}
+
+test(LocalDateTimeTest, constructor_with_fold) {
+  LocalDateTime dt = LocalDateTime::forComponents(
+      2001, 2, 3, 4, 5, 6, 1 /*fold*/);
+  assertEqual((int16_t) 2001, dt.year());
+  assertEqual(1, dt.yearTiny());
+  assertEqual(2, dt.month());
+  assertEqual(3, dt.day());
+  assertEqual(4, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+  assertEqual(1, dt.fold());
 }
 
 test(LocalDateTimeTest, invalidSeconds) {
@@ -196,6 +228,23 @@ test(LocalDateTimeTest, forEpochSeconds) {
   assertEqual(59, dt.minute());
   assertEqual(59, dt.second());
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
+  assertEqual(0, dt.fold());
+}
+
+test(LocalDateTimeTest, forEpochSeconds_withFold) {
+  // 2029-12-31 23:59:59Z Monday
+  LocalDateTime dt = LocalDateTime::forEpochSeconds(
+      10958 * (acetime_t) 86400 - 1, 1 /*fold*/);
+
+  assertEqual((int16_t) 2029, dt.year());
+  assertEqual(29, dt.yearTiny());
+  assertEqual(12, dt.month());
+  assertEqual(31, dt.day());
+  assertEqual(23, dt.hour());
+  assertEqual(59, dt.minute());
+  assertEqual(59, dt.second());
+  assertEqual(LocalDate::kMonday, dt.dayOfWeek());
+  assertEqual(1, dt.fold());
 }
 
 test(LocalDateTimeTest, compareTo) {

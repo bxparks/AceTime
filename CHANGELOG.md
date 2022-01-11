@@ -11,6 +11,19 @@
       level.
         * I can no longer upload binaries to these boards using Arduino IDE
           1.8.19 and SparkFun SAMD Core 1.8.6.
+    * Add support for `fold` parameter to control behavior around DST gaps
+      and overlaps.
+        * The semantics of the `fold` parameter is intended to be identical to
+          [Python PEP 495](https://www.python.org/dev/peps/pep-0495).
+        * Add `LocalTime::fold()`, `LocalDateTime::fold()`,
+          `OffsetDateTime::fold()`, `ZonedDateTime::fold()`.
+        * Update `ExtendedZoneProcessor::getOffsetDateTime(acetime_t)` to
+          calculate the `OffsetDateTime::fold()` as an output parameter.
+        * Update `ExtendedZoneProcessor::getOffsetDateTime(const
+          LocalDateTime&)` to handle `LocalDateTime::fold()` as an input
+          parameter.
+        * Increases flash usage of `ExtendedZoneProcessor` by around 600 bytes
+          on AVR, and 400-600 bytes on 32-bit processors.
 * 1.9.0 (2021-12-02, TZDB 2021e)
     * Add `ZoneSorterByName` and `ZoneSorterByOffsetAndName` classes
       to sort zone indexes, ids, or names according to 2 pre-defined sorting

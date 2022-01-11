@@ -46,12 +46,13 @@ class ZonedDateTime {
      * @param minute minute [0-59]
      * @param second second [0-59], does not support leap seconds
      * @param timeZone a TimeZone instance (use TimeZone() for UTC)
+     * @param fold optional disambiguation of multiple occurences [0, 1]
      */
     static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
         uint8_t hour, uint8_t minute, uint8_t second,
-        const TimeZone& timeZone) {
+        const TimeZone& timeZone, uint8_t fold = 0) {
       auto ldt = LocalDateTime::forComponents(
-          year, month, day, hour, minute, second);
+          year, month, day, hour, minute, second, fold);
       auto odt = timeZone.getOffsetDateTime(ldt);
       return ZonedDateTime(odt, timeZone);
     }
@@ -69,13 +70,9 @@ class ZonedDateTime {
      */
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
         const TimeZone& timeZone) {
-      OffsetDateTime odt;
-      if (epochSeconds == LocalDate::kInvalidEpochSeconds) {
-        odt = OffsetDateTime::forError();
-      } else {
-        TimeOffset timeOffset = timeZone.getUtcOffset(epochSeconds);
-        odt = OffsetDateTime::forEpochSeconds(epochSeconds, timeOffset);
-      }
+      OffsetDateTime odt = (epochSeconds == LocalDate::kInvalidEpochSeconds)
+          ? OffsetDateTime::forError()
+          : timeZone.getOffsetDateTime(epochSeconds);
       return ZonedDateTime(odt, timeZone);
     }
 
@@ -183,6 +180,12 @@ class ZonedDateTime {
 
     /** Set the second. */
     void second(uint8_t second) { mOffsetDateTime.second(second); }
+
+    /** Return the fold. */
+    uint8_t fold() const { return mOffsetDateTime.fold(); }
+
+    /** Set the fold. */
+    void fold(uint8_t fold) { mOffsetDateTime.fold(fold); }
 
     /**
      * Return the day of the week using ISO 8601 numbering where Monday=1 and
