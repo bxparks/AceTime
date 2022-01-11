@@ -1900,7 +1900,7 @@ accessor and mutator methods.
 
 A more subtle, but important semantic change, is that the `fold` parameter
 preserves information during gaps and overlaps. This means that we can do
-round-trip conversions of of `ZonedDateTime` properly. We can start with
+round-trip conversions of `ZonedDateTime` properly. We can start with
 epochSeconds, convert to components, then back to epochSeconds, and get back the
 same epochSeconds. With the `fold` parameter, this round-trip was not guaranteed
 during an overlap.
@@ -1928,7 +1928,7 @@ normalization step in the common case outside the gap. Within the gap, the
 #### Examples with Fold
 
 Here are some examples taken from
-[ZonedDateTimeExtendedTest](examples/ZonedDateTimeExtendedTest):
+[ZonedDateTimeExtendedTest](tests/ZonedDateTimeExtendedTest):
 
 ```C++
 ExtendedZoneProcessorCache<1> zoneProcessorCache;
@@ -2003,8 +2003,8 @@ in the `transformer.py` script and summarized in
 * the UNTIL time suffix can only be 'w' (not 's' or 'u')
 * there can be only one DST transition in a single month
 
-In the current version (v1.2), this database contains 268 zones from the year
-2000 to 2049 (inclusive).
+As of version v1.9 (with TZDB 2021e), this database contains 258 Zone entries
+and 193 Link entries, supported from the year 2000 to 2049 (inclusive).
 
 <a name="ExtendedZonedbx"></a>
 #### Extended zonedbx
@@ -2020,8 +2020,8 @@ are:
 * the AT and UNTIL fields are multiples of 1-minute
 * the LETTER field can be arbitrary strings
 
-In the current version (v1.2), this database contains all 387 timezones from
-the year 2000 to 2049 (inclusive).
+As of version v1.9 (with TZDB 2021e), this database contains all 377 Zone
+entries and 217 Link entries, supported from the year 2000 to 2049 (inclusive).
 
 <a name="TzDatabaseVersion"></a>
 #### TZ Database Version
