@@ -32,8 +32,12 @@ void setup() {
 #if ! defined(EPOXY_DUINO)
   delay(1000);
 #endif
+
   SERIAL_PORT_MONITOR.begin(115200);
-  while (!SERIAL_PORT_MONITOR); // Wait until SERIAL_PORT_MONITOR is ready - Leonardo/Micro
+  while (!SERIAL_PORT_MONITOR); // Wait until ready - Leonardo/Micro
+#if defined(EPOXY_DUINO)
+  SERIAL_PORT_MONITOR.setLineModeUnix();
+#endif
 
   auto pacificTz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
       &pacificProcessor);
