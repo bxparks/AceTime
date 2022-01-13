@@ -95,26 +95,28 @@ void printNowUsingCLibrary(time_t now) {
 
 //-----------------------------------------------------------------------------
 
-// Define 2 zone processors to handle 2 timezones (America/Los_Angeles and
-// Europe/Paris) efficiently. But it is possible to use only 1 to save memory,
-// at the expense of performance. These are heavy-weight objects so should
-// be created during the initialization of the app.
+// Define 2 zone processors to handle 2 timezones (America/Los_Angeles,
+// Europe/Paris) efficiently. It is possible to use only 1 to save memory, at
+// the cost of slower performance. These are heavy-weight objects so should be
+// created during the initialization of the app.
 ExtendedZoneProcessor zoneProcessorLosAngeles;
 ExtendedZoneProcessor zoneProcessorParis;
 
 // Print the UTC time, America/Los_Angeles time, and Europe/Paris time using
-// the AceTime library.
+// the AceTime library. TimeZone objects are light-weight and can be created on
+// the fly.
 void printNowUsingAceTime(time_t now) {
   // Utility to convert ISO day of week with Monday=1 to human readable string.
   DateStrings dateStrings;
 
-  LocalDateTime odt = LocalDateTime::forUnixSeconds64(now);
-  odt.printTo(Serial);
+  // Convert to UTC time.
+  LocalDateTime ldt = LocalDateTime::forUnixSeconds64(now);
+  ldt.printTo(Serial);
   Serial.print(' ');
-  Serial.print(dateStrings.dayOfWeekLongString(odt.dayOfWeek()));
+  Serial.print(dateStrings.dayOfWeekLongString(ldt.dayOfWeek()));
   Serial.println(F(" (AceTime)"));
 
-  // TimeZone objects are light-weight and can be created on the fly.
+  // Convert Unix time to Los Angeles time.
   TimeZone tzLosAngeles = TimeZone::forZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles,
       &zoneProcessorLosAngeles);
@@ -124,6 +126,7 @@ void printNowUsingAceTime(time_t now) {
   Serial.print(' ');
   Serial.println(dateStrings.dayOfWeekLongString(zdtLosAngeles.dayOfWeek()));
 
+  // Convert Los Angeles time to Paris time.
   TimeZone tzParis = TimeZone::forZoneInfo(
       &zonedbx::kZoneEurope_Paris,
       &zoneProcessorParis);
@@ -135,18 +138,15 @@ void printNowUsingAceTime(time_t now) {
 
 //-----------------------------------------------------------------------------
 
-void setup() {
-  delay(1000);
-  Serial.begin(115200);
-
+// Connect to WiFi. Sometimes the board will connect instantly. Sometimes it
+// will struggle to connect. I don't know why. Performing a software reboot
+// seems to help, but not always.
+void configureWiFi() {
+  Serial.print(F("Connecting to WiFi"));
   WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
-  // Connect to WiFi. Sometimes the board will connect instantly. Sometimes,
-  // it will struggle to connect. I don't know why. Rebooting the board, in
-  // software, seems to help. But not always.
   unsigned long startMillis = millis();
-  Serial.print(F("Connecting to WiFi"));
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print('.');
@@ -170,20 +170,23 @@ void setup() {
   }
   Serial.println();
 
-  // Configure the SNTP. Set the local time zone to be UTC, with no DST offset,
-  // because we will be using AceTime to perform the timezone conversions. The
-  // built-in timezone support provided by the ESP8266/ESP32 API has a number of
-  // deficiencies, and the API can be quite confusing.
-  //
-  // Sometimes the SNTP client never finishes initialization. In a production
-  // system, you may want a timeout. But if the sole purpose of the app is to
-  // get the time, then maybe there is no point in continuing if the SNTP client
-  // cannot be configured?
+}
+
+// Configure the SNTP. Set the local time zone to be UTC, with no DST offset,
+// because we will be using AceTime to perform the timezone conversions. The
+// built-in timezone support provided by the ESP8266/ESP32 API has a number of
+// deficiencies, and the API can be quite confusing.
+//
+// Sometimes the SNTP client never finishes initialization. In a production
+// system, you may want a timeout. But if the sole purpose of the app is to get
+// the time, then maybe there is no point in continuing if the SNTP client
+// cannot be configured?
+void configureSntp() {
   Serial.print(F("Configuring SNTP"));
   configTime(0 /*timezone*/, 0 /*dst_sec*/, NTP_SERVER);
+
+  // Wait until SNTP stabilizes by ignoring values before year 2000.
   time_t now = 0;
-  // Wait until SNTP stabilizes by ignoring values before year 2000. The first
-  // few seems to return garage sometimes.
   while (now < EPOCH_2000_01_01) {
     now = time(nullptr);
     delay(500);
@@ -192,10 +195,21 @@ void setup() {
   Serial.println();
 }
 
+//-----------------------------------------------------------------------------
+
+void setup() {
+  delay(1000);
+  Serial.begin(115200);
+
+  configureWiFi();
+  configureSntp();
+}
+
 void loop() {
   time_t now = time(nullptr);
   printNowUsingCLibrary(now);
   printNowUsingAceTime(now);
   Serial.println();
+
   delay(5000);
 }
