@@ -30,6 +30,8 @@
           the internal limit of the 32-bit `acetime_t`).
         * These methods can be used with the `time_t` typedef for `int64_t` on
           the ESP8266 and ESP32 platforms.
+    * Add [EspTime](examples/EspTime) app that shows how to integrate
+      the SNTP client on the ESP8266 and ESP32 platforms with AceTime.
 * 1.9.0 (2021-12-02, TZDB 2021e)
     * Add `ZoneSorterByName` and `ZoneSorterByOffsetAndName` classes
       to sort zone indexes, ids, or names according to 2 pre-defined sorting

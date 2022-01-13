@@ -134,6 +134,9 @@ The source files are organized as follows:
             * Simple demo of `ZonedDateTime` class
         * [examples/HelloZoneManager](examples/HelloZoneManager)
             * Simple demo of `BasicZoneManager` class
+    * Advanced
+        * [examples/EspTime](examples/EspTime)
+            * Use AceTime with the built-in SNTP client of ESP8266 and ESP32.
     * Benchmarks
         * [examples/MemoryBenchmark](examples/MemoryBenchmark)
             * determine flash and static memory consumption of various classes
