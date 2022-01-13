@@ -27,7 +27,7 @@ namespace ace_time {
 class LocalTime {
   public:
     /** An invalid seconds marker that indicates isError() true. */
-    static const acetime_t kInvalidSeconds = INT32_MIN;
+    static const int32_t kInvalidSeconds = INT32_MIN;
 
     /**
      * Factory method using separated date, time, and time zone fields. The

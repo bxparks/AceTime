@@ -149,13 +149,13 @@ inline void normalizeDateTuple(DateTuple* dt) {
 
 /** Return the number of seconds in (a - b), ignoring suffix. */
 inline acetime_t subtractDateTuple(const DateTuple& a, const DateTuple& b) {
-  acetime_t epochDaysA = LocalDate::forTinyComponents(
+  int32_t epochDaysA = LocalDate::forTinyComponents(
       a.yearTiny, a.month, a.day).toEpochDays();
-  acetime_t epochSecondsA = epochDaysA * 86400 + a.minutes * 60;
+  int32_t epochSecondsA = epochDaysA * 86400 + a.minutes * 60;
 
-  acetime_t epochDaysB = LocalDate::forTinyComponents(
+  int32_t epochDaysB = LocalDate::forTinyComponents(
       b.yearTiny, b.month, b.day).toEpochDays();
-  acetime_t epochSecondsB = epochDaysB * 86400 + b.minutes * 60;
+  int32_t epochSecondsB = epochDaysB * 86400 + b.minutes * 60;
 
   return epochSecondsA - epochSecondsB;
 }
