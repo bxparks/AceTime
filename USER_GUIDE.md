@@ -74,8 +74,8 @@ UTC) and the equivalent human-readable components in different timezones.
     * [ZonedDateTime Normalization](#ZonedDateTimeNormalization)
     * [TimePeriod Mutations](#TimePeriodMutations)
 * [Error Handling](#ErrorHandling)
+    * [Invalid Sentinels](#InvalidSentinels)
     * [isError()](#IsError)
-    * [LocalDate::kInvalidEpochSeconds](#KInvalidEpochSeconds)
 * [Bugs and Limitations](#Bugs)
 
 <a name="Overview"></a>
@@ -344,9 +344,14 @@ class LocalTime {
 class LocalDate {
   public:
     static const int16_t kEpochYear = 2000;
-    static const acetime_t kInvalidEpochDays = INT32_MIN;
-    static const acetime_t kInvalidEpochSeconds = LocalTime::kInvalidSeconds;
     static const acetime_t kSecondsSinceUnixEpoch = 946684800;
+
+    static const int32_t kInvalidEpochDays = INT32_MIN;
+    static const acetime_t kInvalidEpochSeconds = INT32_MIN;
+
+    static const int32_t kInvalidUnixDays = INT32_MIN;
+    static const int32_t kInvalidUnixSeconds = INT32_MIN;
+    static const int64_t kInvalidUnixSeconds64 = INT64_MIN;
 
     static const uint8_t kMonday = 1;
     static const uint8_t kTuesday = 2;
@@ -357,10 +362,12 @@ class LocalDate {
     static const uint8_t kSunday = 7;
 
     static LocalDate forComponents(int16_t year, uint8_t month, uint8_t day);
-    static LocalDate forEpochDays(acetime_t epochDays);
-    static LocalDate forUnixDays(acetime_t unixDays);
+    static LocalDate forEpochDays(int32_t epochDays);
     static LocalDate forEpochSeconds(acetime_t epochSeconds);
-    static LocalDate forUnixSeconds(acetime_t unixSeconds);
+
+    static LocalDate forUnixDays(int32_t unixDays);
+    static LocalDate forUnixSeconds(int32_t unixSeconds);
+    static LocalDate forUnixSeconds64(int64_t unixSeconds);
 
     int16_t year() const;
     void year(int16_t year);
@@ -374,10 +381,12 @@ class LocalDate {
     uint8_t dayOfWeek() const;
     bool isError() const;
 
-    acetime_t toEpochDays() const {
-    acetime_t toUnixDays() const {
+    int32_t toEpochDays() const {
     acetime_t toEpochSeconds() const {
-    acetime_t toUnixSeconds() const {
+
+    int32_t toUnixDays() const {
+    int32_t toUnixSeconds() const {
+    int64_t toUnixSeconds64() const {
 
     int8_t compareTo(const LocalDate& that) const {
     void printTo(Print& printer) const;
@@ -493,7 +502,8 @@ class LocalDateTime {
     static LocalDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
     static LocalDateTime forEpochSeconds(acetime_t epochSeconds);
-    static LocalDateTime forUnixSeconds(acetime_t unixSeconds);
+    static LocalDateTime forUnixSeconds(int32_t unixSeconds);
+    static LocalDateTime forUnixSeconds64(int64_t unixSeconds);
     static LocalDateTime forDateString(const char* dateString);
 
     bool isError() const;
@@ -521,10 +531,12 @@ class LocalDateTime {
     const LocalDate& localDate() const;
     const LocalTime& localTime() const;
 
-    acetime_t toEpochDays() const;
-    acetime_t toUnixDays() const;
+    int32_t toEpochDays() const;
     acetime_t toEpochSeconds() const;
-    acetime_t toUnixSeconds() const;
+
+    int32_t toUnixDays() const;
+    int32_t toUnixSeconds() const;
+    int64_t toUnixSeconds64() const;
 
     int8_t compareTo(const LocalDateTime& that) const;
     void printTo(Print& printer) const;
@@ -710,7 +722,9 @@ class OffsetDateTime {
         TimeOffset timeOffset);
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
         TimeOffset timeOffset);
-    static OffsetDateTime forUnixSeconds(acetime_t unixSeconds,
+    static OffsetDateTime forUnixSeconds(int32_t unixSeconds,
+        TimeOffset timeOffset);
+    static OffsetDateTime forUnixSeconds64(int64_t unixSeconds,
         TimeOffset timeOffset);
     static OffsetDateTime forDateString(const char* dateString);
 
@@ -743,10 +757,12 @@ class OffsetDateTime {
     void timeOffset(TimeOffset timeOffset);
     OffsetDateTime convertToTimeOffset(TimeOffset timeOffset) const;
 
-    acetime_t toEpochDays() const;
-    acetime_t toUnixDays() const;
+    int32_t toEpochDays() const;
     acetime_t toEpochSeconds() const;
-    acetime_t toUnixSeconds() const;
+
+    int32_t toUnixDays() const;
+    int32_t toUnixSeconds() const;
+    int64_t toUnixSeconds64() const;
 
     int8_t compareTo(const OffsetDateTime& that) const;
     void printTo(Print& printer) const;
@@ -761,7 +777,7 @@ We can create the object using the `forComponents()` method:
 // 2018-01-01 00:00:00+00:15
 auto offsetDateTime = OffsetDateTime::forComponents(
     2018, 1, 1, 0, 0, 0, TimeOffset::forHourMinute(0, 15));
-acetime_t epochDays = offsetDateTime.toEpochDays();
+int32_t epochDays = offsetDateTime.toEpochDays();
 acetime_t epochSeconds = offsetDateTime.toEpochSeconds();
 
 offsetDateTime.printTo(Serial); // prints "2018-01-01 00:00:00+00:15"
@@ -1161,13 +1177,12 @@ class ZonedDateTime {
 
     static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
         uint8_t hour, uint8_t minute, uint8_t second, const TimeZone& timeZone);
-
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
         const TimeZone& timeZone);
-
-    static ZonedDateTime forUnixSeconds(acetime_t unixSeconds,
+    static ZonedDateTime forUnixSeconds(int32_t unixSeconds,
         const TimeZone& timeZone);
-
+    static ZonedDateTime forUnixSeconds64(int64_t unixSeconds,
+        const TimeZone& timeZone);
     static ZonedDateTime forDateString(const char* dateString);
 
     explicit ZonedDateTime();
@@ -1199,10 +1214,12 @@ class ZonedDateTime {
 
     ZonedDateTime convertToTimeZone(const TimeZone& timeZone) const;
 
-    acetime_t toEpochDays() const;
-    acetime_t toUnixDays() const;
+    int32_t toEpochDays() const;
     acetime_t toEpochSeconds() const;
-    acetime_t toUnixSeconds() const;
+
+    int32_t toUnixDays() const;
+    int32_t toUnixSeconds() const;
+    int64_t toUnixSeconds64() const;
 
     int8_t compareTo(const ZonedDateTime& that) const;
     void printTo(Print& printer) const;
@@ -2863,6 +2880,35 @@ validity in their inputs and outputs. The Arduino programming environment does
 not use C++ exceptions, so we handle invalid values by returning special version
 of various date/time objects to the caller.
 
+<a name="InvalidSentinels"></a>
+### Invalid Sentinels
+
+Many methods return an return integer value. Error conditions are indicated by
+special constants, many of whom are defined in the `LocalDate` class:
+
+* `int32_t LocalDate::kInvalidEpochDays`
+    * Error value returned by `toEpochDays()` methods
+* `acetime_t LocalDate::kInvalidEpochSeconds`
+    * Error value returned by `toEpochSeconds()` methods
+* `int32_t LocalDate::kInvalidUnixDays`
+    * Error value returned by `toUnixDays()` methods
+* `int32_t LocalDate::kInvalidUnixSeconds`
+    * Error value returned by `toUnixSeconds()` methods
+* `int64_t LocalDate::kInvalidUnixSeconds64`
+    * Error value returned by `toUnixSeconds64()` methods
+
+Similarly, many factory methods accept an `acetime_t`, `int32_t`, or `int64_t`
+arguments and return objects of various classes (e.g. `LocalDateTime`,
+`OffsetDateTime` or `ZonedDateTime`). When these methods are given the error
+constants, they return an object whoses `isError()` method returns `true`.
+
+It is understandable that error checking is often neglected, since it adds to
+the maintenance burden. And sometimes, it is not always clear what should be
+done when an error occurs, especially in a microcontroller environment. However,
+I encourage the application to check for these errors conditions as much as
+practical, and try to degrade to some reasonable default behavior when an error
+is detected.
+
 <a name="IsError"></a>
 ### isError()
 
@@ -2909,19 +2955,6 @@ auto dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 59, tz);
 Serial.println(dt.isError() ? "true" : "false");
 ```
 
-<a name="KInvalidEpochSeconds"></a>
-### LocalDate::kInvalidEpochSeconds
-
-Many methods return an `acetime_t` type. For example, `toEpochSeconds()` or
-`toUnixSeconds()` on `LocalDateTime`, `OffsetDateTime` or `ZonedDateTime`.
-These methods will return `LocalDate::kInvalidEpochSeconds` if an invalid
-value is calculated.
-
-Similarly, there are many methods which accept an `acetime_t` as an argument and
-returns a object of time `LocalDateTime`, `OffsetDateTime` or `ZonedDateTime`.
-When these methods are passed a value of `LocalDate::kInvalidEpochSeconds`, the
-resulting object will return a true value for `isError()`.
-
 <a name="Bugs"></a>
 ## Bugs and Limitations
 
@@ -2955,11 +2988,17 @@ resulting object will return a true value for `isError()`.
     * To be safe, users of this library should stay at least 1 year away from
       the lower and upper limits of `acetime_t` (i.e. stay within the year 1932
       to 2067, inclusive).
-* `toUnixSeconds()`
+* `toUnixSeconds()` and `forUnixSeconds()`
     * [Unix time](https://en.wikipedia.org/wiki/Unix_time) uses an epoch of
-      1970-01-01T00:00:00Z. This method returns an `acetime_t` which is
-      a signed integer, just like the old 32-bit Unix systems. The range of
-      dates is 1901-12-13T20:45:52Z to 2038-01-19T03:14:07Z.
+      1970-01-01T00:00:00Z. This method returns an `int32_t` like most 32-bit
+      Unix systems. The range of dates is 1901-12-13T20:45:52Z to
+      2038-01-19T03:14:07Z.
+* `toUnixSeconds64()` and `forUnixSeconds64()`
+    * 64-bit versions of `toUnixSeconds()` and `forUnixSeconds() were added in
+      v1.10. However, the largest value returned by this method is 3094168447,
+      far smaller than `INT64_MAX`. This value corresponds to
+      2068-01-19T03:14:07Z which is the largest date that can be stored
+      internally using 32-bit `acetime_t` types.
 * `TimeOffset`
     * Implemented using `int16_t` in 1 minute increments.
 * `LocalDate`, `LocalDateTime`

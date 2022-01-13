@@ -54,7 +54,7 @@ void setup() {
   SERIAL_PORT_MONITOR.println(epochSeconds);
 
   SERIAL_PORT_MONITOR.print(F("Unix Seconds: "));
-  acetime_t unixSeconds = startTime.toUnixSeconds();
+  int32_t unixSeconds = startTime.toUnixSeconds();
   SERIAL_PORT_MONITOR.println(unixSeconds);
 
   SERIAL_PORT_MONITOR.println(F("=== Los Angeles"));

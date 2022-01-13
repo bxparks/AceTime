@@ -24,6 +24,12 @@
           parameter.
         * Increases flash usage of `ExtendedZoneProcessor` by around 600 bytes
           on AVR, and 400-600 bytes on 32-bit processors.
+    * Add `toUnixSeconds64()` and `forUnixSeconds64()` which use 64-bit
+      `int64_t` integers.
+        * This allows unix seconds to be used up 2068-01-19T03:14:07Z (which is
+          the internal limit of the 32-bit `acetime_t`).
+        * These methods can be used with the `time_t` typedef for `int64_t` on
+          the ESP8266 and ESP32 platforms.
 * 1.9.0 (2021-12-02, TZDB 2021e)
     * Add `ZoneSorterByName` and `ZoneSorterByOffsetAndName` classes
       to sort zone indexes, ids, or names according to 2 pre-defined sorting

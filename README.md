@@ -223,7 +223,7 @@ void setup() {
   Serial.println(epochSeconds);
 
   Serial.print(F("Unix Seconds: "));
-  acetime_t unixSeconds = startTime.toUnixSeconds();
+  int32_t unixSeconds = startTime.toUnixSeconds();
   Serial.println(unixSeconds);
 
   Serial.println(F("=== Los_Angeles"));
