@@ -1803,7 +1803,7 @@ class ZonedDateTime {
 
 There are 2 main factory methods on `ZonedDateTime`: `forEpochSeconds()` and
 `forComponents()`. The `fold` parameter is an *input* parameter for
-`forEpochSeconds(), and an *output* parameter for `forComponents()`. The
+`forEpochSeconds()`, and an *output* parameter for `forComponents()`. The
 mapping functionality of these methods are described in detail in the PEP 495
 document, but here is an ASCII diagram for reference:
 
@@ -1833,7 +1833,7 @@ LocalDateTime axis. It is a single-valued function which is defined for all
 values of epochSeconds, even with a DST shift forward or backward. The `fold`
 parameter is an *output* of the `forEpochSeconds()` function. During an overlap,
 a `ZonedDataTime` can occur twice. The earlier occurrence is returned with
-`fold==0', and the later occurrence is returned with `fold==1`. For all other
+`fold==0`, and the later occurrence is returned with `fold==1`. For all other
 cases where there is only a unique occurrence, the `fold` parameter is set to 0.
 
 The `forComponents()` takes the LocalDateTime value and maps it to the
@@ -2994,11 +2994,11 @@ Serial.println(dt.isError() ? "true" : "false");
       Unix systems. The range of dates is 1901-12-13T20:45:52Z to
       2038-01-19T03:14:07Z.
 * `toUnixSeconds64()` and `forUnixSeconds64()`
-    * 64-bit versions of `toUnixSeconds()` and `forUnixSeconds() were added in
+    * 64-bit versions of `toUnixSeconds()` and `forUnixSeconds()` were added in
       v1.10. However, the largest value returned by this method is 3094168447,
       far smaller than `INT64_MAX`. This value corresponds to
       2068-01-19T03:14:07Z which is the largest date that can be stored
-      internally using 32-bit `acetime_t` types.
+      internally using the 32-bit `acetime_t` type.
 * `TimeOffset`
     * Implemented using `int16_t` in 1 minute increments.
 * `LocalDate`, `LocalDateTime`
@@ -3053,32 +3053,12 @@ Serial.println(dt.isError() ? "true" : "false");
       range. This is explained in [ZoneInfo Year Range](#ZoneInfoYearRange).
 * `BasicZoneProcessor`
     * Supports 1-minute resolution for AT and UNTIL fields.
-    * Supports only a 15-minute resolution for STDOFF and DST offset fields,
-      but this is sufficient to support the vast majority of timezones since
-      2000.
-    * The `zonedb/` files have been filtered to satisfy these constraints.
-    * Tested against Python [pytz](https://pypi.org/project/pytz/) from
-      2000 until 2038 (limited by pytz).
-    * Tested against Python
-      [dateutil](https://pypi.org/project/python-dateutil/) from
-      2000 until 2038 (limited by dateutil).
-    * Tested against Java `java.time` from 2000 to until 2050.
-    * Tested against C++11/14/17
-      [Hinnant date](https://github.com/HowardHinnant/date) from 2000 until
-      2050.
+    * Supports only a 15-minute resolution for the STDOFF and DST offset fields.
+    * Sufficient to support the vast majority of timezones since 2000.
 * `ExtendedZoneProcessor`
-    * Has a 1-minute resolution for all time fields.
-    * The `zonedbx/` files currently (version 2021a) do not have any timezones
-      with 1-minute resolution.
-    * Tested against Python [pytz](https://pypi.org/project/pytz/) from
-      2000 until 2038 (limited by pytz).
-    * Tested against Python
-      [dateutil](https://pypi.org/project/python-dateutil/) from
-      2000 until 2038 (limited by dateutil).
-    * Tested against Java `java.time` from 2000 to until 2050.
-    * Tested against [Hinnant date](https://github.com/HowardHinnant/date)
-      using 1-minute resolution from 1975 to 2050. See
-      [ExtendedHinnantDateTest](tests/validation/ExtendedHinnantDateTest).
+    * Has a 1-minute resolution for AT, UNTIL and STDOFF fields.
+    * Supports only a 15-minute resolution for DST field.
+    * All timezones after 1974 has DST offsets in 15-minutes increments.
 * `zonedb/` and `zonedbx/` ZoneInfo entries
     * These statically defined data structures are loaded into flash memory
       using the `PROGMEM` keyword. The vast majority of the data structure
