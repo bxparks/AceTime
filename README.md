@@ -81,6 +81,7 @@ This library can be an alternative to the Arduino Time
 * [Comparison to Other Time Libraries](#Comparisons)
     * [Arduino Time Library](#ArduinoTimeLibrary)
     * [C Time Library](#CLibrary)
+    * [ESP8266 and ESP32 TimeZones](#Esp8266AndEspTimeZones)
     * [ezTime](#EzTime)
     * [Micro Time Zone](#MicroTimeZone)
     * [Java Time, Joda-Time, Noda Time](#JavaTime)
@@ -832,26 +833,31 @@ The problem with the POSIX format is that it is somewhat difficult for a human
 to understand, and the programmer must manually update this string when a
 timezone changes its DST transition rules. Also, there is no historical
 information in the POSIX string, so date and time written in the past cannot be
-accurately expressed. The problem with the TZ Database is that most
-implementations are too large to fit inside most Arduino environments. The
-Arduino libraries that I am aware of use the POSIX format (e.g.
-[ropg/ezTime](https://github.com/ropg/ezTime) or
+accurately expressed. As far as I know, POSIX timezone strings can support only
+2 DST transitions per year. However, there are a handful of timezones which have
+(or used to have) 4 timezone transitions in a single year, which cannot be
+represented by a POSIX string. Most Arduino timezone libraries use the POSIX
+format (e.g. [ropg/ezTime](https://github.com/ropg/ezTime) or
 [JChristensen/Timezone](https://github.com/JChristensen/Timezone)) for
 simplicity and smaller memory footprint.
 
-The AceTime library uses the TZ Database. When new versions of the database are
-released (several times a year), I can regenerate the zone files, recompile the
-application, and it will instantly use the new transition rules, without the
-developer needing to create a new POSIX string. To address the memory constraint
-problem, the AceTime library is designed to load only of the smallest subset of
-the TZ Database that is required to support the selected timezones (1 to 4 have
-been extensively tested). Dynamic lookup of the time zone is possible using the
+The libraries that incorporate the full IANA TZ Database are often far too large
+to fit inside the resource constrained Arduino environments. The AceTime library
+has been optimized to reduce the flash memory size of the library as much as
+possible. The application can choose to load only of the smallest subset of the
+TZ Database that is required to support the selected timezones (1 to 4 have been
+extensively tested). Dynamic lookup of the time zone is possible using the
 `ZoneManager`, and the app develop can customize it with the list of zones that
 are compiled into the app. On microcontrollers with more than about 32kB of
 flash memory (e.g. ESP8266, ESP32, Teensy 3.2) and depending on the size of the
 rest of the application, it may be possible to load the entire IANA TZ database.
-This will allow the end-user to select the timezone dynamically, just like on
-the big-iron machines.
+This will allow the end-user to select the timezone dynamically, just like
+desktop-class machines.
+
+When new versions of the database are released (several times a year), I can
+regenerate the zone files, recompile the application, and it will instantly use
+the new transition rules, without the developer needing to create a new POSIX
+string.
 
 The AceTime library is inspired by and borrows from:
 * [Java 11 Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
@@ -947,16 +953,42 @@ Arduino platforms, but not others:
       must be manually called, probably in an ISR (interrupt service routine).
 * The SAMD21 and Teensy platforms do not seem to have a `<time.h>` library.
 * The ESP8266 and ESP32 have a `<time.h>` library.
-    * contains some rudimentary support for POSIX formatted timezones.
-    * does not have the equivalent of the (non-standard) `mk_gmtime()` AVR
-      function.
-    * unknown, not researched:
-        * does the `time()` value auto-increment?
-        * is the source of `time()` the same as `millis()` or a different RTC?
+    * The `time()` function automatically increments through the
+      `system_get_time()` system call.
+    * Provides an SNTP client that can synchronize with an NTP service
+      and resynchronize the `time()` function.
+    * Adds `configTime()` functions to configure the behavior of the
+      SNTP service, including POSIX timezones.
+    * ESP8266 `TZ.h` containing pre-calculated POSIX timezone strings.
 
 These libraries are all based upon the [traditional C/Unix library
 methods](http://www.catb.org/esr/time-programming/) which can be difficult to
 understand.
+
+<a name="Esp8266AndEspTimeZones"></a>
+### ESP8266 and ESP32 TimeZones
+
+The ESP8266 platform provides a
+[cores/esp8266/TZ.h](https://github.com/esp8266/Arduino/blob/master/cores/esp8266/TZ.h)
+file which contains a list of pre-generated POSIX timezone strings. These can be
+passed into the `configTime()` function that initializes the SNTP service.
+
+The ESP32 platform does not provide a `TZ.h` file as far as I can tell. I
+believe the same POSIX strings can be passed into its `configTime()` function.
+But POSIX timezone strings have limitations that I described in
+[Motivation](#Motivation), and the C-style library functions are often
+confusing and hard to use.
+
+Application developers can choose to use the built-in SNTP service and the
+`time()` function on the ESP8266 and ESP32 as the source of accurate clock, but
+take advantage of the versatility and power of the AceTime library for timezone
+conversions. AceTime v1.10 adds the `forUnixSeconds64()` and
+`toUnixSeconds64()` methods in various classes to make it far easier to interact
+with the 64-bit `time_t` integers returned by the `time()` function on these
+platforms.
+
+See [EspTime](examples/EspTime) for an example of how to integrate AceTime with
+the built-in SNTP service and `time()` function on the ESP8266 and ESP32.
 
 <a name="EzTime"></a>
 ### ezTime
