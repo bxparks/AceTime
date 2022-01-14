@@ -49,7 +49,7 @@ UTC) and the equivalent human-readable components in different timezones.
     * [Handling Gaps and Overlaps](#HandlingGapsAndOverlaps)
         * [Problems with Gaps and Overlaps](#ProblemsWithGapsAndOverlaps)
         * [Classes with Fold](#ClassesWithFold)
-        * [FactoryMethods with Fold](#FactoryMethodsWithFold)
+        * [Factory Methods with Fold](#FactoryMethodsWithFold)
         * [Resource Consumption with Fold](#ResourceConsumptionWithFold)
         * [Semantic Changes with Fold](#SemanticChangesWithFold)
         * [Examples with Fold](#ExamplesWithFold)
@@ -1802,8 +1802,8 @@ class ZonedDateTime {
 #### Factory Methods with Fold
 
 There are 2 main factory methods on `ZonedDateTime`: `forEpochSeconds()` and
-`forComponents()`. The `fold` parameter is an *input* parameter for
-`forEpochSeconds()`, and an *output* parameter for `forComponents()`. The
+`forComponents()`. The `fold` parameter is an *output* parameter for
+`forEpochSeconds()`, and an *input* parameter for `forComponents()`. The
 mapping functionality of these methods are described in detail in the PEP 495
 document, but here is an ASCII diagram for reference:
 
@@ -1837,7 +1837,7 @@ a `ZonedDataTime` can occur twice. The earlier occurrence is returned with
 cases where there is only a unique occurrence, the `fold` parameter is set to 0.
 
 The `forComponents()` takes the LocalDateTime value and maps it to the
-UTC/epochSeconds axis. During a gap, there exists certain LocalDateTime
+UTC/epochSeconds axis. During a gap, there are certain LocalDateTime
 components which do not exist and are illegal. During an overlap, there are 2
 epochSeconds which can correspond to the given LocalDateTime. The `fold`
 parameter is an *input* parameter to the `forComponents()` in both cases.
