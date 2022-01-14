@@ -6,7 +6,7 @@
         * AVR: 180-530 bytes of flash
         * 32-bit: 120-600 bytes of flash
     * Rename internal `TransitionStorage::findTransition()` to
-      `findTransitionForSeconds()` for clarify and self-documenation.
+      `findTransitionForSeconds()` for better self-documentation.
     * Move third party SAMD21 boards to new Tier 3 (May work, but not supported)
       level.
         * I can no longer upload binaries to these boards using Arduino IDE
@@ -24,12 +24,13 @@
           parameter.
         * Increases flash usage of `ExtendedZoneProcessor` by around 600 bytes
           on AVR, and 400-600 bytes on 32-bit processors.
-    * Add `toUnixSeconds64()` and `forUnixSeconds64()` which use 64-bit
-      `int64_t` integers.
-        * This allows unix seconds to be used up 2068-01-19T03:14:07Z (which is
-          the internal limit of the 32-bit `acetime_t`).
-        * These methods can be used with the `time_t` typedef for `int64_t` on
-          the ESP8266 and ESP32 platforms.
+    * Add `toUnixSeconds64()` and `forUnixSeconds64()` methods to
+      `LocalDate`, `LocalDateTime`, `OffsetDateTime`, `ZonedDateTime`.
+        * These use 64-bit `int64_t` integers, which allows Unix seconds to be
+          used up to 2068-01-19T03:14:07Z (which is the limit of these
+          various classes due to the internal use of 32-bit `acetime_t`).
+        * These methods make it easier to interoperate with the `time_t` typedef
+          for `int64_t` on the ESP8266 and ESP32 platforms.
     * Add [EspTime](examples/EspTime) app that shows how to integrate
       the SNTP client on the ESP8266 and ESP32 platforms with AceTime.
 * 1.9.0 (2021-12-02, TZDB 2021e)
