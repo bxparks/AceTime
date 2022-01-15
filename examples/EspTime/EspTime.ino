@@ -141,58 +141,77 @@ void printNowUsingAceTime(time_t now) {
 // Connect to WiFi. Sometimes the board will connect instantly. Sometimes it
 // will struggle to connect. I don't know why. Performing a software reboot
 // seems to help, but not always.
-void configureWiFi() {
+void setupWifi() {
   Serial.print(F("Connecting to WiFi"));
   WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
   unsigned long startMillis = millis();
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print('.');
+  while (true) {
+    Serial.print('.'); // Each '.' represents one attempt.
+    if (WiFi.status() == WL_CONNECTED) {
+      Serial.println(F(" Done."));
+      break;
+    }
 
     // Detect timeout and reboot.
-    if ((unsigned long) (millis() - startMillis) >= REBOOT_TIMEOUT_MILLIS) {
+    unsigned long nowMillis = millis();
+    if ((unsigned long) (nowMillis - startMillis) >= REBOOT_TIMEOUT_MILLIS) {
     #if defined(ESP8266)
-      Serial.println(F("FAILED! Rebooting.."));
+      Serial.println(F(" FAILED! Rebooting..."));
       delay(1000);
       ESP.reset();
     #elif defined(ESP32)
-      Serial.println(F("FAILED! Rebooting.."));
+      Serial.println(F(" FAILED! Rebooting..."));
       delay(1000);
       ESP.restart();
     #else
-      Serial.println(F("FAILED! But cannot reboot.. continuing.."));
-      delay(1000);
-      startMillis = millis();
+      Serial.print(F(" FAILED! But cannot reboot. Continuing"));
+      startMillis = nowMillis;
     #endif
     }
-  }
-  Serial.println();
 
+    delay(500);
+  }
 }
 
-// Configure the SNTP. Set the local time zone to be UTC, with no DST offset,
+// Setup the SNTP client. Set the local time zone to be UTC, with no DST offset,
 // because we will be using AceTime to perform the timezone conversions. The
 // built-in timezone support provided by the ESP8266/ESP32 API has a number of
 // deficiencies, and the API can be quite confusing.
-//
-// Sometimes the SNTP client never finishes initialization. In a production
-// system, you may want a timeout. But if the sole purpose of the app is to get
-// the time, then maybe there is no point in continuing if the SNTP client
-// cannot be configured?
-void configureSntp() {
+void setupSntp() {
   Serial.print(F("Configuring SNTP"));
   configTime(0 /*timezone*/, 0 /*dst_sec*/, NTP_SERVER);
 
   // Wait until SNTP stabilizes by ignoring values before year 2000.
-  time_t now = 0;
-  while (now < EPOCH_2000_01_01) {
-    now = time(nullptr);
+  unsigned long startMillis = millis();
+  while (true) {
+    Serial.print('.'); // Each '.' represents one attempt.
+    time_t now = time(nullptr);
+    if (now >= EPOCH_2000_01_01) {
+      Serial.println(F(" Done."));
+      break;
+    }
+
+    // Detect timeout and reboot.
+    unsigned long nowMillis = millis();
+    if ((unsigned long) (nowMillis - startMillis) >= REBOOT_TIMEOUT_MILLIS) {
+    #if defined(ESP8266)
+      Serial.println(F(" FAILED! Rebooting..."));
+      delay(1000);
+      ESP.reset();
+    #elif defined(ESP32)
+      Serial.println(F(" FAILED! Rebooting..."));
+      delay(1000);
+      ESP.restart();
+    #else
+      Serial.print(F(" FAILED! But cannot reboot. Continuing"));
+      startMillis = nowMillis;
+    #endif
+    }
+
     delay(500);
-    Serial.print('.');
   }
-  Serial.println();
 }
 
 //-----------------------------------------------------------------------------
@@ -201,8 +220,8 @@ void setup() {
   delay(1000);
   Serial.begin(115200);
 
-  configureWiFi();
-  configureSntp();
+  setupWifi();
+  setupSntp();
 }
 
 void loop() {

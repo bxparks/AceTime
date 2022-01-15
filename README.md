@@ -988,7 +988,11 @@ with the 64-bit `time_t` integers returned by the `time()` function on these
 platforms.
 
 See [EspTime](examples/EspTime) for an example of how to integrate AceTime with
-the built-in SNTP service and `time()` function on the ESP8266 and ESP32.
+the built-in SNTP service and `time()` function on the ESP8266 and ESP32. See
+also the
+[EspSntpClock](https://github.com/bxparks/AceTimeClock/blob/develop/src/ace_time/clock/EspSntpClock.h)
+class in the AceTimeClock project which provides a thin-wrapper around this
+service on the ESP platforms.
 
 <a name="EzTime"></a>
 ### ezTime
