@@ -126,8 +126,12 @@ void setup() {
 #if ! defined(EPOXY_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
 #endif
+
   SERIAL_PORT_MONITOR.begin(115200);
-  while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
+  while (!SERIAL_PORT_MONITOR); // Wait until ready - Leonardo/Micro
+#if defined(EPOXY_DUINO)
+  SERIAL_PORT_MONITOR.setLineModeUnix();
+#endif
 
   /*int args = */parse_flags(epoxy_argc, epoxy_argv);
   printZoneInfo(zoneName, year);

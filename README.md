@@ -23,7 +23,8 @@ date and time between different time zones, properly accounting for all DST
 transitions from the year 2000 until 2050. The ZoneInfo Database is extracted
 from the [IANA TZ database](https://www.iana.org/time-zones). Different subsets
 of the ZoneInfo Database can be compiled into the application to reduce flash
-memory size.
+memory size. Standard C-library `time_t` types, 32-bit and 64-bit, are supported
+through conversion methods.
 
 The companion library [AceTimeClock](https://github.com/bxparks/AceTimeClock)
 provides Clock classes to retrieve the time from more accurate sources, such as
@@ -33,7 +34,10 @@ RTC](https://www.maximintegrated.com/en/products/analog/real-time-clocks/DS3231.
 chip. A special version of the `Clock` class called the `SystemClock` provides a
 fast and accurate "epoch seconds" across all Arduino compatible systems. This
 "epoch seconds" can be given to the classes in this library to convert it into
-human readable components in different timezones.
+human readable components in different timezones. On the ESP8266 and ESP32, the
+AceTime library can be used with the SNTP client and the C-library `time()`
+function through the 64-bit `time_t` value. See [ESP8266 and ESP32
+TimeZones](#Esp8266AndEspTimeZones) below.
 
 The primordial motivation for creating the AceTime library was to build a
 digital clock with an OLED or LED display, that would show the date and time of
@@ -49,7 +53,7 @@ This library can be an alternative to the Arduino Time
 (https://github.com/PaulStoffregen/Time) and Arduino Timezone
 (https://github.com/JChristensen/Timezone) libraries.
 
-**Version**: 1.9.0 (2021-12-02, TZDB version 2021e)
+**Version**: 1.10.0 (2022-01-18, TZDB version 2021e)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
@@ -81,6 +85,7 @@ This library can be an alternative to the Arduino Time
 * [Comparison to Other Time Libraries](#Comparisons)
     * [Arduino Time Library](#ArduinoTimeLibrary)
     * [C Time Library](#CLibrary)
+    * [ESP8266 and ESP32 TimeZones](#Esp8266AndEspTimeZones)
     * [ezTime](#EzTime)
     * [Micro Time Zone](#MicroTimeZone)
     * [Java Time, Joda-Time, Noda Time](#JavaTime)
@@ -95,16 +100,18 @@ This library can be an alternative to the Arduino Time
 
 The latest stable release is available in the Arduino Library Manager in the
 IDE. Search for "AceTime". Click install. The Library Manager should
-automatically install AceTime and its the dependent library:
+automatically install AceTime and its dependent libraries:
 
 * AceTime (https://github.com/bxparks/AceTime)
 * AceCommon (https://github.com/bxparks/AceCommon)
+* AceSorting (https://github.com/bxparks/AceSorting)
 
 The development version can be installed by cloning the above repos manually.
 You can copy over the contents to the `./libraries` directory used by the
-Arduino IDE. (The result is a set of directories named `./libraries/AceTime` and
-`./libraries/AceCommon`). Or you can create symlinks from `./libraries` to these
-directories. Or you can `git clone` directly into the `./libraries` directory.
+Arduino IDE. (The result is a set of directories named `./libraries/AceTime`,
+`./libraries/AceCommon`, `./libraries/AceSorting`). Or you can create symlinks
+from `./libraries` to these directories. Or you can `git clone` directly into
+the `./libraries` directory.
 
 The `develop` branch contains the latest development.
 The `master` branch contains the stable releases.
@@ -131,7 +138,10 @@ The source files are organized as follows:
         * [examples/HelloDateTime](examples/HelloDateTime)
             * Simple demo of `ZonedDateTime` class
         * [examples/HelloZoneManager](examples/HelloZoneManager)
-            * Simple demo of `BasicZoneManager` class
+            * Simple demo of `ExtendedZoneManager` class
+    * Advanced
+        * [examples/EspTime](examples/EspTime)
+            * Use AceTime with the built-in SNTP client of ESP8266 and ESP32.
     * Benchmarks
         * [examples/MemoryBenchmark](examples/MemoryBenchmark)
             * determine flash and static memory consumption of various classes
@@ -198,7 +208,7 @@ zones:
 using namespace ace_time;
 
 // ZoneProcessor instances should be created statically at initialization time.
-static BasicZoneProcessor pacificProcessor;
+static BasicZoneProcessor losAngelesProcessor;
 static BasicZoneProcessor londonProcessor;
 
 void setup() {
@@ -206,52 +216,57 @@ void setup() {
   Serial.begin(115200);
   while (!Serial); // Wait until Serial is ready - Leonardo/Micro
 
-  auto pacificTz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
-        &pacificProcessor);
-  auto londonTz = TimeZone::forZoneInfo(&zonedb::kZoneEurope_London,
-        &londonProcessor);
+  // TimeZone objects are light-weight and can be created on the fly.
+  TimeZone losAngelesTz = TimeZone::forZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles,
+      &losAngelesProcessor);
+  TimeZone londonTz = TimeZone::forZoneInfo(
+      &zonedb::kZoneEurope_London,
+      &londonProcessor);
 
   // Create from components. 2019-03-10T03:00:00 is just after DST change in
   // Los Angeles (2am goes to 3am).
-  auto startTime = ZonedDateTime::forComponents(
-      2019, 3, 10, 3, 0, 0, pacificTz);
+  ZonedDateTime startTime = ZonedDateTime::forComponents(
+      2019, 3, 10, 3, 0, 0, losAngelesTz);
 
   Serial.print(F("Epoch Seconds: "));
   acetime_t epochSeconds = startTime.toEpochSeconds();
   Serial.println(epochSeconds);
 
   Serial.print(F("Unix Seconds: "));
-  acetime_t unixSeconds = startTime.toUnixSeconds();
+  int32_t unixSeconds = startTime.toUnixSeconds();
   Serial.println(unixSeconds);
 
   Serial.println(F("=== Los_Angeles"));
-  auto pacificTime = ZonedDateTime::forEpochSeconds(epochSeconds, pacificTz);
+  ZonedDateTime losAngelesTime = ZonedDateTime::forEpochSeconds(
+      epochSeconds, losAngelesTz);
   Serial.print(F("Time: "));
-  pacificTime.printTo(Serial);
+  losAngelesTime.printTo(Serial);
   Serial.println();
 
   Serial.print(F("Day of Week: "));
   Serial.println(
-      DateStrings().dayOfWeekLongString(pacificTime.dayOfWeek()));
+      DateStrings().dayOfWeekLongString(losAngelesTime.dayOfWeek()));
 
   // Print info about UTC offset
-  TimeOffset offset = pacificTime.timeOffset();
+  TimeOffset offset = losAngelesTime.timeOffset();
   Serial.print(F("Total UTC Offset: "));
   offset.printTo(Serial);
   Serial.println();
 
   // Print info about the current time zone
   Serial.print(F("Zone: "));
-  pacificTz.printTo(Serial);
+  losAngelesTz.printTo(Serial);
   Serial.println();
 
   // Print the current time zone abbreviation, e.g. "PST" or "PDT"
   Serial.print(F("Abbreviation: "));
-  Serial.print(pacificTz.getAbbrev(epochSeconds));
+  Serial.print(losAngelesTz.getAbbrev(epochSeconds));
   Serial.println();
 
   // Create from epoch seconds. London is still on standard time.
-  auto londonTime = ZonedDateTime::forEpochSeconds(epochSeconds, londonTz);
+  ZonedDateTime londonTime = ZonedDateTime::forEpochSeconds(
+      epochSeconds, londonTz);
 
   Serial.println(F("=== London"));
   Serial.print(F("Time: "));
@@ -263,16 +278,16 @@ void setup() {
   londonTz.printTo(Serial);
   Serial.println();
 
-  // Print the current time zone abbreviation, e.g. "PST" or "PDT"
+  // Print the current time zone abbreviation, e.g. "GMT" or "BST"
   Serial.print(F("Abbreviation: "));
   Serial.print(londonTz.getAbbrev(epochSeconds));
   Serial.println();
 
   Serial.println(F("=== Compare ZonedDateTime"));
-  Serial.print(F("pacificTime.compareTo(londonTime): "));
-  Serial.println(pacificTime.compareTo(londonTime));
-  Serial.print(F("pacificTime == londonTime: "));
-  Serial.println((pacificTime == londonTime) ? "true" : "false");
+  Serial.print(F("losAngelesTime.compareTo(londonTime): "));
+  Serial.println(losAngelesTime.compareTo(londonTime));
+  Serial.print(F("losAngelesTime == londonTime: "));
+  Serial.println((losAngelesTime == londonTime) ? "true" : "false");
 }
 
 void loop() {
@@ -294,17 +309,21 @@ Time: 2019-03-10T10:00:00+00:00[Europe/London]
 Zone: Europe/London
 Abbreviation: GMT
 === Compare ZonedDateTime
-pacificTime.compareTo(londonTime): 0
-pacificTime == londonTime: false
+losAngelesTime.compareTo(londonTime): 0
+losAngelesTime == londonTime: false
 ```
 
 <a name="HelloZoneManager"></a>
 ### HelloZoneManager
 
 The [examples/HelloZoneManager](examples/HelloZoneManager) example shows how to
-load the entire ZoneInfo Database into a `BasicZoneManager`, then create 3 time
-zones using 3 different ways: `createForZoneInfo()`, `createForZoneName()`, and
-`createForZoneId()`.
+load the entire ZoneInfo Database into an `ExtendedZoneManager`, then create 3
+time zones using 3 different ways: `createForZoneInfo()`, `createForZoneName()`,
+and `createForZoneId()`. This program requires a 32-bit microcontroller
+environment because of its flash memory size. Using the `ExtendedZoneManager`
+with the `zonedbx::kZoneRegistry` consumes ~34kB of flash which no longer fits
+on an Arduino Nano. If the `ExtendedZoneManager` is replaced with the
+`BasicZoneManager`, the flash size goes down to about ~22kB.
 
 ```C++
 #include <Arduino.h>
@@ -312,35 +331,37 @@ zones using 3 different ways: `createForZoneInfo()`, `createForZoneName()`, and
 
 using namespace ace_time;
 
-// Create a BasicZoneManager with the entire TZ Database of ZONE entries. Use
-// kZoneAndLinkRegistrySize and kZoneAndLinkRegistry to include LINK entries as
-// well, at the cost of additional flash consumption. Cache size of 3 means that
-// it can support 3 concurrent timezones without performance penalties.
+// Create an ExtendedZoneManager with the entire TZ Database of Zone entries.
+// Cache size of 3 means that it can support 3 concurrent timezones without
+// performance penalties.
 static const int CACHE_SIZE = 3;
-static BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-static BasicZoneManager manager(
-    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry, zoneProcessorCache);
+static ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+static ExtendedZoneManager manager(
+    zonedbx::kZoneRegistrySize,
+    zonedbx::kZoneRegistry,
+    zoneProcessorCache);
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial); // Wait Serial is ready - Leonardo/Micro
+  while (!Serial); // Wait until ready - Leonardo/Micro
 
-  // Create Los Angeles by ZoneInfo
-  auto pacificTz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
-  auto pacificTime = ZonedDateTime::forComponents(
-      2019, 3, 10, 3, 0, 0, pacificTz);
-  pacificTime.printTo(Serial);
+  // Create America/Los_Angeles timezone by ZoneInfo.
+  TimeZone losAngelesTz = manager.createForZoneInfo(
+        &zonedb::kZoneAmerica_Los_Angeles);
+  ZonedDateTime losAngelesTime = ZonedDateTime::forComponents(
+      2019, 3, 10, 3, 0, 0, losAngelesTz);
+  losAngelesTime.printTo(Serial);
   Serial.println();
 
-  // Create London by ZoneName
-  auto londonTz = manager.createForZoneName("Europe/London");
-  auto londonTime = pacificTime.convertToTimeZone(londonTz);
+  // Create Europe/London timezone by ZoneName.
+  TimeZone londonTz = manager.createForZoneName("Europe/London");
+  ZonedDateTime londonTime = losAngelesTime.convertToTimeZone(londonTz);
   londonTime.printTo(Serial);
   Serial.println();
 
-  // Create Sydney by ZoneId
-  auto sydneyTz = manager.createForZoneId(zonedb::kZoneIdAustralia_Sydney);
-  auto sydneyTime = pacificTime.convertToTimeZone(sydneyTz);
+  // Create Australia/Sydney timezone by ZoneId.
+  TimeZone sydneyTz = manager.createForZoneId(zonedb::kZoneIdAustralia_Sydney);
+  ZonedDateTime sydneyTime = losAngelesTime.convertToTimeZone(sydneyTz);
   sydneyTime.printTo(Serial);
   Serial.println();
 }
@@ -436,19 +457,23 @@ The details of how the Date, Time and TimeZone classes are validated are given
 in [AceTimeValidation](https://github.com/bxparks/AceTimeValidation).
 
 The ZoneInfo Database and the algorithms in this library have been validated to
-match the UTC offsets calculated using 5 other date/time libraries written in
+match the UTC offsets calculated using other date/time libraries written in
 different programming languages:
 
 * the Python pytz (https://pypi.org/project/pytz/) library from the year 2000
   until 2037 (inclusive),
-* the Python  dateutil (https://pypi.org/project/python-dateutil/) library from
+* the Python dateutil (https://pypi.org/project/python-dateutil/) library from
   the year 2000 until 2037 (inclusive),
+* the Python 3.9 zoneinfo (https://docs.python.org/3/library/zoneinfo.html)
+  library from the year 1974 until 2049 (inclusive),
 * the Java JDK 11
   [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
-  library from year 2000 to 2049 (inclusive),
+  library from year 2000 to 2049 (inclusive)
 * the C++11/14/17 Hinnant date (https://github.com/HowardHinnant/date) library
-  from year 1974 to 2049 (inclusive).
+  from year 1974 to 2049 (inclusive)
 * the C# Noda Time (https://nodatime.org) library from 1974 to 2049 (inclusive)
+* the Go lang 1.17 `time` package (https://pkg.go.dev/time) in the standard
+  library from 1974 to 2049 (inclusive)
 
 <a name="ResourceConsumption"></a>
 ## Resource Consumption
@@ -460,13 +485,13 @@ different programming languages:
 
 ```
 sizeof(LocalDate): 3
-sizeof(LocalTime): 3
-sizeof(LocalDateTime): 6
+sizeof(LocalTime): 4
+sizeof(LocalDateTime): 7
 sizeof(TimeOffset): 2
-sizeof(OffsetDateTime): 8
+sizeof(OffsetDateTime): 9
 sizeof(TimeZone): 5
 sizeof(TimeZoneData): 5
-sizeof(ZonedDateTime): 13
+sizeof(ZonedDateTime): 14
 sizeof(TimePeriod): 4
 sizeof(BasicZoneProcessor): 116
 sizeof(ExtendedZoneProcessor): 432
@@ -492,13 +517,13 @@ sizeof(ExtendedZoneProcessor::MatchingEra): 20
 **32-bit processors**
 ```
 sizeof(LocalDate): 3
-sizeof(LocalTime): 3
-sizeof(LocalDateTime): 6
+sizeof(LocalTime): 4
+sizeof(LocalDateTime): 7
 sizeof(TimeOffset): 2
-sizeof(OffsetDateTime): 8
+sizeof(OffsetDateTime): 10
 sizeof(TimeZone): 12
 sizeof(TimeZoneData): 8
-sizeof(ZonedDateTime): 20
+sizeof(ZonedDateTime): 24
 sizeof(TimePeriod): 4
 sizeof(BasicZoneProcessor): 164
 sizeof(ExtendedZoneProcessor): 540
@@ -574,23 +599,29 @@ Arduino Nano:
 |----------------------------------------+--------------+-------------|
 | baseline                               |    474/   11 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| LocalDateTime                          |   1128/   19 |   654/    8 |
-| ZonedDateTime                          |   1378/   26 |   904/   15 |
-| Manual ZoneManager                     |   1314/   13 |   840/    2 |
+| LocalDateTime                          |   1132/   20 |   658/    9 |
+| ZonedDateTime                          |   1306/   27 |   832/   16 |
+| Manual ZoneManager                     |   1242/   13 |   768/    2 |
 |----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                |   6094/  315 |  5620/  304 |
-| Basic TimeZone (2 zones)               |   6390/  435 |  5916/  424 |
-| BasicZoneManager (1 zone)              |   6300/  326 |  5826/  315 |
-| BasicZoneManager (all zones)           |  19042/  702 | 18568/  691 |
-| BasicZoneManager (all zones+links)     |  23374/  702 | 22900/  691 |
+| Basic TimeZone (1 zone)                |   6240/  317 |  5766/  306 |
+| Basic TimeZone (2 zones)               |   6398/  437 |  5924/  426 |
+| BasicZoneManager (1 zone)              |   6446/  328 |  5972/  317 |
+| BasicZoneManager (all zones)           |  19188/  704 | 18714/  693 |
+| BasicZoneManager (all zones+links)     |  23520/  704 | 23046/  693 |
 | BasicLinkManager (all links)           |   2378/   16 |  1904/    5 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |   8976/  670 |  8502/  659 |
-| Extended TimeZone (2 zones)            |   9368/ 1111 |  8894/ 1100 |
-| ExtendedZoneManager (1 zone)           |   9152/  676 |  8678/  665 |
-| ExtendedZoneManager (all zones)        |  30918/ 1160 | 30444/ 1149 |
-| ExtendedZoneManager (all zones+links)  |  35798/ 1160 | 35324/ 1149 |
+| Basic ZoneSorterByName [1]             |   6610/  328 |   370/   11 |
+| Basic ZoneSorterByOffsetAndName [1]    |   6742/  328 |   502/   11 |
+|----------------------------------------+--------------+-------------|
+| Extended TimeZone (1 zone)             |   9606/  672 |  9132/  661 |
+| Extended TimeZone (2 zones)            |   9830/ 1113 |  9356/ 1102 |
+| ExtendedZoneManager (1 zone)           |   9782/  678 |  9308/  667 |
+| ExtendedZoneManager (all zones)        |  31548/ 1162 | 31074/ 1151 |
+| ExtendedZoneManager (all zones+links)  |  36428/ 1162 | 35954/ 1151 |
 | ExtendedLinkManager (all links)        |   2570/   16 |  2096/    5 |
+|----------------------------------------+--------------+-------------|
+| Extended ZoneSorterByName [2]          |   9962/  678 |   356/    6 |
+| Extended ZoneSorterByOffsetAndName [2] |  10104/  678 |   498/    6 |
 +---------------------------------------------------------------------+
 ```
 
@@ -603,22 +634,28 @@ ESP8266:
 | baseline                               | 260089/27892 |     0/    0 |
 |----------------------------------------+--------------+-------------|
 | LocalDateTime                          | 260545/27908 |   456/   16 |
-| ZonedDateTime                          | 260641/27924 |   552/   32 |
-| Manual ZoneManager                     | 260557/27896 |   468/    4 |
+| ZonedDateTime                          | 260961/27924 |   872/   32 |
+| Manual ZoneManager                     | 260941/27896 |   852/    4 |
 |----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                | 266169/28644 |  6080/  752 |
-| Basic TimeZone (2 zones)               | 266537/28804 |  6448/  912 |
-| BasicZoneManager (1 zone)              | 266313/28660 |  6224/  768 |
-| BasicZoneManager (all zones)           | 283657/28660 | 23568/  768 |
-| BasicZoneManager (all zones+links)     | 290361/28660 | 30272/  768 |
+| Basic TimeZone (1 zone)                | 266473/28644 |  6384/  752 |
+| Basic TimeZone (2 zones)               | 266841/28804 |  6752/  912 |
+| BasicZoneManager (1 zone)              | 266633/28660 |  6544/  768 |
+| BasicZoneManager (all zones)           | 283961/28660 | 23872/  768 |
+| BasicZoneManager (all zones+links)     | 290665/28660 | 30576/  768 |
 | BasicLinkManager (all links)           | 261933/27904 |  1844/   12 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             | 268441/29172 |  8352/ 1280 |
-| Extended TimeZone (2 zones)            | 268745/29724 |  8656/ 1832 |
-| ExtendedZoneManager (1 zone)           | 268569/29180 |  8480/ 1288 |
-| ExtendedZoneManager (all zones)        | 298461/29176 | 38372/ 1284 |
-| ExtendedZoneManager (all zones+links)  | 306029/29176 | 45940/ 1284 |
+| Basic ZoneSorterByName [1]             | 266869/28664 |   396/   20 |
+| Basic ZoneSorterByOffsetAndName [1]    | 266981/28664 |   508/   20 |
+|----------------------------------------+--------------+-------------|
+| Extended TimeZone (1 zone)             | 269113/29172 |  9024/ 1280 |
+| Extended TimeZone (2 zones)            | 269481/29724 |  9392/ 1832 |
+| ExtendedZoneManager (1 zone)           | 269241/29180 |  9152/ 1288 |
+| ExtendedZoneManager (all zones)        | 299117/29176 | 39028/ 1284 |
+| ExtendedZoneManager (all zones+links)  | 306685/29176 | 46596/ 1284 |
 | ExtendedLinkManager (all links)        | 262125/27904 |  2036/   12 |
+|----------------------------------------+--------------+-------------|
+| Extended ZoneSorterByName [2]          | 269461/29184 |   348/   12 |
+| Extended ZoneSorterByOffsetAndName [2] | 269557/29184 |   444/   12 |
 +---------------------------------------------------------------------+
 ```
 
@@ -638,21 +675,24 @@ Arduino Nano:
 | EmptyLoop                                        |    4.000 |
 |--------------------------------------------------+----------|
 | LocalDate::forEpochDays()                        |  219.000 |
-| LocalDate::toEpochDays()                         |   57.000 |
-| LocalDate::dayOfWeek()                           |   48.000 |
+| LocalDate::toEpochDays()                         |   54.000 |
+| LocalDate::dayOfWeek()                           |   49.000 |
 |--------------------------------------------------+----------|
-| OffsetDateTime::forEpochSeconds()                |  324.000 |
-| OffsetDateTime::toEpochSeconds()                 |   86.000 |
+| OffsetDateTime::forEpochSeconds()                |  334.000 |
+| OffsetDateTime::toEpochSeconds()                 |   85.000 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::toEpochSeconds()                  |   84.000 |
-| ZonedDateTime::toEpochDays()                     |   73.000 |
-| ZonedDateTime::forEpochSeconds(UTC)              |  339.000 |
-| ZonedDateTime::forEpochSeconds(Basic_nocache)    | 1186.000 |
-| ZonedDateTime::forEpochSeconds(Basic_cached)     |  619.000 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) | 2139.000 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |  617.000 |
+| ZonedDateTime::toEpochSeconds()                  |   85.000 |
+| ZonedDateTime::toEpochDays()                     |   72.000 |
+| ZonedDateTime::forEpochSeconds(UTC)              |  362.000 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    | 1198.000 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |  643.000 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) | 2231.000 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |  647.000 |
 |--------------------------------------------------+----------|
-| BasicZoneManager::createForZoneName(binary)      |  119.000 |
+| ZonedDateTime::forComponents(Extended_nocache)   | 1598.000 |
+| ZonedDateTime::forComponents(Extended_cached)    |   82.000 |
+|--------------------------------------------------+----------|
+| BasicZoneManager::createForZoneName(binary)      |  121.000 |
 | BasicZoneManager::createForZoneId(binary)        |   48.000 |
 | BasicZoneManager::createForZoneId(linear)        |  305.000 |
 +--------------------------------------------------+----------+
@@ -667,26 +707,29 @@ ESP8266:
 |--------------------------------------------------+----------|
 | EmptyLoop                                        |    4.800 |
 |--------------------------------------------------+----------|
-| LocalDate::forEpochDays()                        |    8.000 |
-| LocalDate::toEpochDays()                         |    3.800 |
-| LocalDate::dayOfWeek()                           |    3.800 |
+| LocalDate::forEpochDays()                        |    7.800 |
+| LocalDate::toEpochDays()                         |    3.200 |
+| LocalDate::dayOfWeek()                           |    3.400 |
 |--------------------------------------------------+----------|
-| OffsetDateTime::forEpochSeconds()                |   12.100 |
-| OffsetDateTime::toEpochSeconds()                 |    6.800 |
+| OffsetDateTime::forEpochSeconds()                |   13.200 |
+| OffsetDateTime::toEpochSeconds()                 |    7.000 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::toEpochSeconds()                  |    6.900 |
-| ZonedDateTime::toEpochDays()                     |    5.800 |
-| ZonedDateTime::forEpochSeconds(UTC)              |   13.000 |
-| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   95.700 |
-| ZonedDateTime::forEpochSeconds(Basic_cached)     |   26.100 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) |  189.600 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |   25.800 |
+| ZonedDateTime::toEpochSeconds()                  |    7.000 |
+| ZonedDateTime::toEpochDays()                     |    5.600 |
+| ZonedDateTime::forEpochSeconds(UTC)              |   16.600 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   99.000 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |   29.800 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |  196.800 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |   30.200 |
 |--------------------------------------------------+----------|
-| BasicZoneManager::createForZoneName(binary)      |   14.700 |
-| BasicZoneManager::createForZoneId(binary)        |    6.600 |
-| BasicZoneManager::createForZoneId(linear)        |   43.900 |
+| ZonedDateTime::forComponents(Extended_nocache)   |  167.400 |
+| ZonedDateTime::forComponents(Extended_cached)    |    6.400 |
+|--------------------------------------------------+----------|
+| BasicZoneManager::createForZoneName(binary)      |   14.600 |
+| BasicZoneManager::createForZoneId(binary)        |    6.400 |
+| BasicZoneManager::createForZoneId(linear)        |   44.800 |
 +--------------------------------------------------+----------+
-Iterations_per_run: 10000
+Iterations_per_run: 5000
 ```
 
 <a name="SystemRequirements"></a>
@@ -695,26 +738,44 @@ Iterations_per_run: 10000
 <a name="Hardware"></a>
 ### Hardware
 
-This library has Tier 1 support on the following boards:
+**Tier 1: Fully supported**
+
+These boards are tested on each release:
 
 * Arduino Nano (16 MHz ATmega328P)
 * SparkFun Pro Micro (16 MHz ATmega32U4)
-* SAMD21 M0 Mini (48 MHz ARM Cortex-M0+)
 * STM32 Blue Pill (STM32F103C8, 72 MHz ARM Cortex-M3)
 * NodeMCU 1.0 (ESP-12E module, 80 MHz ESP8266)
 * WeMos D1 Mini (ESP-12E module, 80 MHz ESP8266)
 * ESP32 dev board (ESP-WROOM-32 module, 240 MHz dual core Tensilica LX6)
 * Teensy 3.2 (96 MHz ARM Cortex-M4)
 
-Tier 2 support can be expected on the following boards, mostly because I don't
-test these as often:
+**Tier 2: Should work**
+
+These boards should work but I don't test them as often:
 
 * ATtiny85 (8 MHz ATtiny85)
 * Arduino Pro Mini (16 MHz ATmega328P)
 * Mini Mega 2560 (Arduino Mega 2560 compatible, 16 MHz ATmega2560)
 * Teensy LC (48 MHz ARM Cortex-M0+)
 
-The following boards are *not* supported:
+**Tier 3: May work, but not supported**
+
+* SAMD21 M0 Mini (48 MHz ARM Cortex-M0+)
+    * Arduino-branded SAMD21 boards use the ArduinoCore-API, so are explicitly
+      blacklisted. See below.
+    * Other 3rd party SAMD21 boards *may* work using the SparkFun SAMD core.
+    * However, as of SparkFun SAMD Core v1.8.6 and Arduino IDE 1.8.19, I can no
+      longer upload binaries to these 3rd party boards due to errors.
+    * Therefore, third party SAMD21 boards are now in this new Tier 3 category.
+    * The AceTime library may work on these boards, but I can no longer support
+      them.
+
+**Tier Blacklisted**
+
+The following boards are *not* supported and are explicitly blacklisted to allow
+the compiler to print useful error messages instead of hundreds of lines of
+compiler errors:
 
 * Any platform using the ArduinoCore-API
   (https://github.com/arduino/ArduinoCore-api), such as:
@@ -728,17 +789,17 @@ The following boards are *not* supported:
 
 This library was developed and tested using:
 
-* [Arduino IDE 1.8.16](https://www.arduino.cc/en/Main/Software)
+* [Arduino IDE 1.8.19](https://www.arduino.cc/en/Main/Software)
 * [Arduino CLI 0.19.2](https://arduino.github.io/arduino-cli)
 * [SpenceKonde ATTinyCore 1.5.2](https://github.com/SpenceKonde/ATTinyCore)
-* [Arduino AVR Boards 1.8.3](https://github.com/arduino/ArduinoCore-avr)
+* [Arduino AVR Boards 1.8.4](https://github.com/arduino/ArduinoCore-avr)
 * [Arduino SAMD Boards 1.8.9](https://github.com/arduino/ArduinoCore-samd)
 * [SparkFun AVR Boards 1.1.13](https://github.com/sparkfun/Arduino_Boards)
-* [SparkFun SAMD Boards 1.8.4](https://github.com/sparkfun/Arduino_Boards)
-* [STM32duino 2.0.0](https://github.com/stm32duino/Arduino_Core_STM32)
+* [SparkFun SAMD Boards 1.8.6](https://github.com/sparkfun/Arduino_Boards)
+* [STM32duino 2.2.0](https://github.com/stm32duino/Arduino_Core_STM32)
 * [ESP8266 Arduino 3.0.2](https://github.com/esp8266/Arduino)
-* [ESP32 Arduino 1.0.6](https://github.com/espressif/arduino-esp32)
-* [Teensyduino 1.55](https://www.pjrc.com/teensy/td_download.html)
+* [ESP32 Arduino 2.0.2](https://github.com/espressif/arduino-esp32)
+* [Teensyduino 1.56](https://www.pjrc.com/teensy/td_download.html)
 
 This library is *not* compatible with:
 
@@ -787,26 +848,31 @@ The problem with the POSIX format is that it is somewhat difficult for a human
 to understand, and the programmer must manually update this string when a
 timezone changes its DST transition rules. Also, there is no historical
 information in the POSIX string, so date and time written in the past cannot be
-accurately expressed. The problem with the TZ Database is that most
-implementations are too large to fit inside most Arduino environments. The
-Arduino libraries that I am aware of use the POSIX format (e.g.
-[ropg/ezTime](https://github.com/ropg/ezTime) or
+accurately expressed. As far as I know, POSIX timezone strings can support only
+2 DST transitions per year. However, there are a handful of timezones which have
+(or used to have) 4 timezone transitions in a single year, which cannot be
+represented by a POSIX string. Most Arduino timezone libraries use the POSIX
+format (e.g. [ropg/ezTime](https://github.com/ropg/ezTime) or
 [JChristensen/Timezone](https://github.com/JChristensen/Timezone)) for
 simplicity and smaller memory footprint.
 
-The AceTime library uses the TZ Database. When new versions of the database are
-released (several times a year), I can regenerate the zone files, recompile the
-application, and it will instantly use the new transition rules, without the
-developer needing to create a new POSIX string. To address the memory constraint
-problem, the AceTime library is designed to load only of the smallest subset of
-the TZ Database that is required to support the selected timezones (1 to 4 have
-been extensively tested). Dynamic lookup of the time zone is possible using the
+The libraries that incorporate the full IANA TZ Database are often far too large
+to fit inside the resource constrained Arduino environments. The AceTime library
+has been optimized to reduce the flash memory size of the library as much as
+possible. The application can choose to load only of the smallest subset of the
+TZ Database that is required to support the selected timezones (1 to 4 have been
+extensively tested). Dynamic lookup of the time zone is possible using the
 `ZoneManager`, and the app develop can customize it with the list of zones that
 are compiled into the app. On microcontrollers with more than about 32kB of
 flash memory (e.g. ESP8266, ESP32, Teensy 3.2) and depending on the size of the
 rest of the application, it may be possible to load the entire IANA TZ database.
-This will allow the end-user to select the timezone dynamically, just like on
-the big-iron machines.
+This will allow the end-user to select the timezone dynamically, just like
+desktop-class machines.
+
+When new versions of the database are released (several times a year), I can
+regenerate the zone files, recompile the application, and it will instantly use
+the new transition rules, without the developer needing to create a new POSIX
+string.
 
 The AceTime library is inspired by and borrows from:
 * [Java 11 Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
@@ -902,16 +968,46 @@ Arduino platforms, but not others:
       must be manually called, probably in an ISR (interrupt service routine).
 * The SAMD21 and Teensy platforms do not seem to have a `<time.h>` library.
 * The ESP8266 and ESP32 have a `<time.h>` library.
-    * contains some rudimentary support for POSIX formatted timezones.
-    * does not have the equivalent of the (non-standard) `mk_gmtime()` AVR
-      function.
-    * unknown, not researched:
-        * does the `time()` value auto-increment?
-        * is the source of `time()` the same as `millis()` or a different RTC?
+    * The `time()` function automatically increments through the
+      `system_get_time()` system call.
+    * Provides an SNTP client that can synchronize with an NTP service
+      and resynchronize the `time()` function.
+    * Adds `configTime()` functions to configure the behavior of the
+      SNTP service, including POSIX timezones.
+    * ESP8266 `TZ.h` containing pre-calculated POSIX timezone strings.
 
 These libraries are all based upon the [traditional C/Unix library
 methods](http://www.catb.org/esr/time-programming/) which can be difficult to
 understand.
+
+<a name="Esp8266AndEspTimeZones"></a>
+### ESP8266 and ESP32 TimeZones
+
+The ESP8266 platform provides a
+[cores/esp8266/TZ.h](https://github.com/esp8266/Arduino/blob/master/cores/esp8266/TZ.h)
+file which contains a list of pre-generated POSIX timezone strings. These can be
+passed into the `configTime()` function that initializes the SNTP service.
+
+The ESP32 platform does not provide a `TZ.h` file as far as I can tell. I
+believe the same POSIX strings can be passed into its `configTime()` function.
+But POSIX timezone strings have limitations that I described in
+[Motivation](#Motivation), and the C-style library functions are often
+confusing and hard to use.
+
+Application developers can choose to use the built-in SNTP service and the
+`time()` function on the ESP8266 and ESP32 as the source of accurate clock, but
+take advantage of the versatility and power of the AceTime library for timezone
+conversions. AceTime v1.10 adds the `forUnixSeconds64()` and
+`toUnixSeconds64()` methods in various classes to make it far easier to interact
+with the 64-bit `time_t` integers returned by the `time()` function on these
+platforms.
+
+See [EspTime](examples/EspTime) for an example of how to integrate AceTime with
+the built-in SNTP service and `time()` function on the ESP8266 and ESP32. See
+also the
+[EspSntpClock](https://github.com/bxparks/AceTimeClock/blob/develop/src/ace_time/clock/EspSntpClock.h)
+class in the AceTimeClock project which provides a thin-wrapper around this
+service on the ESP platforms.
 
 <a name="EzTime"></a>
 ### ezTime

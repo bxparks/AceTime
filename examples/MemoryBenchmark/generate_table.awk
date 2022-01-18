@@ -6,7 +6,7 @@
 # table that can be inserted into the README.md.
 
 BEGIN {
-  NUM_FEATURES = 15
+  NUM_FEATURES = 19
   labels[0] = "baseline"
   labels[1] = "LocalDateTime"
   labels[2] = "ZonedDateTime"
@@ -17,12 +17,16 @@ BEGIN {
   labels[7] = "BasicZoneManager (all zones)"
   labels[8] = "BasicZoneManager (all zones+links)"
   labels[9] = "BasicLinkManager (all links)"
-  labels[10] = "Extended TimeZone (1 zone)"
-  labels[11] = "Extended TimeZone (2 zones)"
-  labels[12] = "ExtendedZoneManager (1 zone)"
-  labels[13] = "ExtendedZoneManager (all zones)"
-  labels[14] = "ExtendedZoneManager (all zones+links)"
-  labels[15] = "ExtendedLinkManager (all links)"
+  labels[10] = "Basic ZoneSorterByName [1]"
+  labels[11] = "Basic ZoneSorterByOffsetAndName [1]"
+  labels[12] = "Extended TimeZone (1 zone)"
+  labels[13] = "Extended TimeZone (2 zones)"
+  labels[14] = "ExtendedZoneManager (1 zone)"
+  labels[15] = "ExtendedZoneManager (all zones)"
+  labels[16] = "ExtendedZoneManager (all zones+links)"
+  labels[17] = "ExtendedLinkManager (all links)"
+  labels[18] = "Extended ZoneSorterByName [2]"
+  labels[19] = "Extended ZoneSorterByOffsetAndName [2]"
   record_index = 0
 }
 {
@@ -42,6 +46,15 @@ END {
       u[i]["d_ram"] = u[i]["ram"]- base_ram
     }
   }
+  # Subtract the ZoneManager to get the incremental footprint of ZoneSorter
+  u[10]["d_flash"] -= u[4]["d_flash"]
+  u[10]["d_ram"] -= u[4]["d_ram"]
+  u[11]["d_flash"] -= u[4]["d_flash"]
+  u[11]["d_ram"] -= u[4]["d_ram"]
+  u[18]["d_flash"] -= u[12]["d_flash"]
+  u[18]["d_ram"] -= u[12]["d_ram"]
+  u[19]["d_flash"] -= u[12]["d_flash"]
+  u[19]["d_ram"] -= u[12]["d_ram"]
 
   printf(\
     "+---------------------------------------------------------------------+\n")
@@ -53,7 +66,9 @@ END {
     if (name ~ /^baseline/ \
         || name ~ /^LocalDateTime/ \
         || name ~ /^Basic TimeZone \(1 zone\)/ \
-        || name ~ /^Extended TimeZone \(1 zone\)/) {
+        || name ~ /^Extended TimeZone \(1 zone\)/ \
+        || name ~ /^Basic ZoneSorterByName/ \
+        || name ~ /^Extended ZoneSorterByName/) {
       printf(\
     "|----------------------------------------+--------------+-------------|\n")
     }

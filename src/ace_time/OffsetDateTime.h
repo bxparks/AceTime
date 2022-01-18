@@ -42,19 +42,23 @@ class OffsetDateTime {
     /**
      * Factory method using separated date, time, and UTC offset fields.
      *
-     * @param year [1873-2127] @param month month with January=1, December=12
-     * @param day day of month [1-31] @param hour hour [0-23] @param minute
-     * minute [0-59] @param second second [0-59], does not support leap seconds
+     * @param year [1873-2127]
+     * @param month month with January=1, December=12
+     * @param day day of month [1-31]
+     * @param hour hour [0-23]
+     * @param minute minute [0-59]
+     * @param second second [0-59], does not support leap seconds
      * @param timeOffset the time offset from UTC. Using TimeOffset in the last
      * component (instead of an int8_t or int16_t) allows us to overload an
      * additional constructor that accepts a millisecond component in the
      * future.
+     * @param fold optional disambiguation of multiple occurences [0, 1]
      */
-    static OffsetDateTime forComponents(int16_t year, uint8_t month, uint8_t
-        day, uint8_t hour, uint8_t minute, uint8_t second, TimeOffset
-        timeOffset) {
-      auto ldt = LocalDateTime::forComponents(year, month, day, hour, minute,
-          second);
+    static OffsetDateTime forComponents(int16_t year, uint8_t month,
+        uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
+        TimeOffset timeOffset, uint8_t fold = 0) {
+      auto ldt = LocalDateTime::forComponents(
+          year, month, day, hour, minute, second, fold);
       return OffsetDateTime(ldt, timeOffset);
     }
 
@@ -69,11 +73,11 @@ class OffsetDateTime {
      * @param timeOffset time offset from UTC
      */
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
-          TimeOffset timeOffset) {
+          TimeOffset timeOffset, uint8_t fold = 0) {
       if (epochSeconds != LocalDate::kInvalidEpochSeconds) {
         epochSeconds += timeOffset.toSeconds();
       }
-      auto ldt = LocalDateTime::forEpochSeconds(epochSeconds);
+      auto ldt = LocalDateTime::forEpochSeconds(epochSeconds, fold);
       return OffsetDateTime(ldt, timeOffset);
     }
 
@@ -81,12 +85,41 @@ class OffsetDateTime {
      * Factory method that takes the number of seconds since Unix Epoch of
      * 1970-01-01. Similar to forEpochSeconds(), the seconds corresponding to
      * the partial day are truncated down towards the smallest whole day.
+     * Valid until unixSeconds reaches the maximum value of `int32_t` at
+     * 2038-01-19T03:14:07 UTC.
+     * Returns OffsetDateTime::forError() if unixSeconds is invalid.
+     *
+     * @param unixSeconds number of seconds since Unix epoch
+     *    (1970-01-01T00:00:00Z)
+     * @param timeOffset time offset from UTC
      */
-    static OffsetDateTime forUnixSeconds(acetime_t unixSeconds,
-          TimeOffset timeOffset) {
-      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidEpochSeconds)
-          ? unixSeconds
+    static OffsetDateTime forUnixSeconds(
+        int32_t unixSeconds, TimeOffset timeOffset) {
+      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidUnixSeconds)
+          ? LocalDate::kInvalidEpochSeconds
           : unixSeconds - LocalDate::kSecondsSinceUnixEpoch;
+      return forEpochSeconds(epochSeconds, timeOffset);
+    }
+
+    /**
+     * Factory method that takes the number of seconds (64-bit) since Unix Epoch
+     * of 1970-01-01. Similar to forEpochSeconds(), the seconds corresponding to
+     * the partial day are truncated down towards the smallest whole day.
+     * Valid until the 64-bit unixSeconds reaches the equivalent of
+     * 2068-01-19T03:14:07 UTC.
+     * Returns OffsetDateTime::forError() if unixSeconds is invalid.
+     *
+     * @param unixSeconds number of seconds since Unix epoch
+     *    (1970-01-01T00:00:00Z)
+     * @param timeOffset time offset from UTC
+     */
+    static OffsetDateTime forUnixSeconds64(
+        int64_t unixSeconds, TimeOffset timeOffset) {
+      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidUnixSeconds64
+          || unixSeconds > LocalDate::kMaxValidUnixSeconds64
+          || unixSeconds < LocalDate::kMinValidUnixSeconds64)
+          ? LocalDate::kInvalidEpochSeconds
+          : (acetime_t) (unixSeconds - LocalDate::kSecondsSinceUnixEpoch);
       return forEpochSeconds(epochSeconds, timeOffset);
     }
 
@@ -206,6 +239,12 @@ class OffsetDateTime {
     /** Set the second. */
     void second(uint8_t second) { mLocalDateTime.second(second); }
 
+    /** Return the fold. */
+    uint8_t fold() const { return mLocalDateTime.fold(); }
+
+    /** Set the fold. */
+    void fold(uint8_t fold) { mLocalDateTime.fold(fold); }
+
     /** Return the day of the week, Monday=1, Sunday=7 (per ISO 8601). */
     uint8_t dayOfWeek() const { return mLocalDateTime.dayOfWeek(); }
 
@@ -237,10 +276,10 @@ class OffsetDateTime {
      * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),
      * taking into account the offset zone.
      */
-    acetime_t toEpochDays() const {
+    int32_t toEpochDays() const {
       if (isError()) return LocalDate::kInvalidEpochDays;
 
-      acetime_t epochDays = mLocalDateTime.localDate().toEpochDays();
+      int32_t epochDays = mLocalDateTime.localDate().toEpochDays();
 
       // Increment or decrement the day count depending on the time offset.
       acetime_t timeOffset = mLocalDateTime.localTime().toSeconds()
@@ -251,8 +290,8 @@ class OffsetDateTime {
     }
 
     /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
-    acetime_t toUnixDays() const {
-      if (isError()) return LocalDate::kInvalidEpochDays;
+    int32_t toUnixDays() const {
+      if (isError()) return LocalDate::kInvalidUnixDays;
       return toEpochDays() + LocalDate::kDaysSinceUnixEpoch;
     }
 
@@ -267,14 +306,26 @@ class OffsetDateTime {
 
     /**
      * Return the number of seconds from Unix epoch 1970-01-01 00:00:00Z.
-     * It returns kInvalidEpochSeconds if isError() is true.
+     * It returns LocalDate::kInvalidUnixSeconds if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
      * convert an ISO8601 date to the unix seconds.
      */
-    acetime_t toUnixSeconds() const {
-      if (isError()) return LocalDate::kInvalidEpochSeconds;
+    int32_t toUnixSeconds() const {
+      if (isError()) return LocalDate::kInvalidUnixSeconds;
       return toEpochSeconds() + LocalDate::kSecondsSinceUnixEpoch;
+    }
+
+    /**
+     * Return the 64-bit number of seconds from Unix epoch 1970-01-01 00:00:00Z.
+     * Returns kInvalidUnixSeconds64 if isError() is true.
+     *
+     * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
+     * convert an ISO8601 date to the unix seconds.
+     */
+    int64_t toUnixSeconds64() const {
+      if (isError()) return LocalDate::kInvalidUnixSeconds64;
+      return toEpochSeconds() + (int64_t) LocalDate::kSecondsSinceUnixEpoch;
     }
 
     /**

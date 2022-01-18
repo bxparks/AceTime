@@ -1,12 +1,12 @@
 SIZEOF
 sizeof(LocalDate): 3
-sizeof(LocalTime): 3
-sizeof(LocalDateTime): 6
+sizeof(LocalTime): 4
+sizeof(LocalDateTime): 7
 sizeof(TimeOffset): 2
-sizeof(OffsetDateTime): 8
+sizeof(OffsetDateTime): 10
 sizeof(TimeZone): 12
 sizeof(TimeZoneData): 8
-sizeof(ZonedDateTime): 20
+sizeof(ZonedDateTime): 24
 sizeof(TimePeriod): 4
 sizeof(BasicZoneProcessor): 164
 sizeof(ExtendedZoneProcessor): 540
@@ -28,21 +28,23 @@ sizeof(ExtendedZoneProcessor::Transition): 48
 sizeof(ExtendedZoneProcessor::TransitionStorage): 420
 sizeof(ExtendedZoneProcessor::MatchingEra): 24
 BENCHMARKS
-EmptyLoop 0.400
-LocalDate::forEpochDays() 1.850
-LocalDate::toEpochDays() 0.250
-LocalDate::dayOfWeek() 1.000
-OffsetDateTime::forEpochSeconds() 2.600
-OffsetDateTime::toEpochSeconds() 0.350
-ZonedDateTime::toEpochSeconds() 0.100
-ZonedDateTime::toEpochDays() 0.150
-ZonedDateTime::forEpochSeconds(UTC) 2.500
-ZonedDateTime::forEpochSeconds(Basic_nocache) 36.000
-ZonedDateTime::forEpochSeconds(Basic_cached) 6.300
-ZonedDateTime::forEpochSeconds(Extended_nocache) 84.550
-ZonedDateTime::forEpochSeconds(Extended_cached) 5.500
-BasicZoneManager::createForZoneName(binary) 6.050
-BasicZoneManager::createForZoneId(binary) 2.200
-BasicZoneManager::createForZoneId(linear) 10.550
+EmptyLoop 0.450
+LocalDate::forEpochDays() 1.800
+LocalDate::toEpochDays() 0.200
+LocalDate::dayOfWeek() 0.850
+OffsetDateTime::forEpochSeconds() 2.350
+OffsetDateTime::toEpochSeconds() 0.300
+ZonedDateTime::toEpochSeconds() 0.250
+ZonedDateTime::toEpochDays() 0.200
+ZonedDateTime::forEpochSeconds(UTC) 2.750
+ZonedDateTime::forEpochSeconds(Basic_nocache) 34.850
+ZonedDateTime::forEpochSeconds(Basic_cached) 7.100
+ZonedDateTime::forEpochSeconds(Extended_nocache) 85.450
+ZonedDateTime::forEpochSeconds(Extended_cached) 6.150
+ZonedDateTime::forComponents(Extended_nocache) 83.950
+ZonedDateTime::forComponents(Extended_cached) 6.000
+BasicZoneManager::createForZoneName(binary) 6.100
+BasicZoneManager::createForZoneId(binary) 1.900
+BasicZoneManager::createForZoneId(linear) 10.450
 Iterations_per_run 20000
 END

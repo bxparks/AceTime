@@ -4,7 +4,6 @@
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
 
-using aunit::TestRunner;
 using ace_common::PrintStr;
 using namespace ace_time;
 
@@ -288,5 +287,5 @@ void setup() {
 }
 
 void loop() {
-  TestRunner::run();
+  aunit::TestRunner::run();
 }

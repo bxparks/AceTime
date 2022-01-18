@@ -1,10 +1,10 @@
 # AceTime User Guide
 
 The primary purpose of AceTime classes is to convert between an integer
-representing the number of seconds since Epoch (2000-01-01T00:00:00 UTC) to
-human-readable components in different timezones.
+representing the number of seconds since the AceTime Epoch (2000-01-01T00:00:00
+UTC) and the equivalent human-readable components in different timezones.
 
-**Version**: 1.9.0 (2021-12-02, TZDB 2021e)
+**Version**: 1.10.0 (2021-01-18, TZDB 2021e)
 
 **Related Documents**:
 
@@ -32,16 +32,27 @@ human-readable components in different timezones.
         * [Basic TimeZone](#BasicTimeZone)
         * [Extended TimeZone](#ExtendedTimeZone)
     * [ZonedDateTime](#ZonedDateTime)
+        * [Class Declaration](#ZonedDateTimeDeclaration)
+        * [Creation](#ZonedDateTimeCreation)
         * [Conversion to Other Time Zones](#TimeZoneConversion)
-        * [Caching](#Caching)
+        * [DST Transition Caching](#DstTransitionCaching)
     * [ZoneManager](#ZoneManager)
         * [Class Hierarchy](#ClassHierarchy)
         * [Default Registries](#DefaultRegistries)
+        * [ZoneProcessorCache](#ZoneProcessorCache)
+        * [ZoneManager Creation](#ZoneManagerCreation)
         * [createForZoneName()](#CreateForZoneName)
         * [createForZoneId()](#CreateForZoneId)
         * [createForZoneIndex()](#CreateForZoneIndex)
         * [createForTimeZoneData()](#CreateForTimeZoneData)
         * [ManualZoneManager](#ManualZoneManager)
+    * [Handling Gaps and Overlaps](#HandlingGapsAndOverlaps)
+        * [Problems with Gaps and Overlaps](#ProblemsWithGapsAndOverlaps)
+        * [Classes with Fold](#ClassesWithFold)
+        * [Factory Methods with Fold](#FactoryMethodsWithFold)
+        * [Resource Consumption with Fold](#ResourceConsumptionWithFold)
+        * [Semantic Changes with Fold](#SemanticChangesWithFold)
+        * [Examples with Fold](#ExamplesWithFold)
 * [ZoneInfo Database](#ZoneInfoDatabase)
     * [ZoneInfo Entries](#ZoneInfoEntries)
         * [Basic zonedb](#BasicZonedb)
@@ -63,8 +74,8 @@ human-readable components in different timezones.
     * [ZonedDateTime Normalization](#ZonedDateTimeNormalization)
     * [TimePeriod Mutations](#TimePeriodMutations)
 * [Error Handling](#ErrorHandling)
+    * [Invalid Sentinels](#InvalidSentinels)
     * [isError()](#IsError)
-    * [LocalDate::kInvalidEpochSeconds](#KInvalidEpochSeconds)
 * [Bugs and Limitations](#Bugs)
 
 <a name="Overview"></a>
@@ -281,16 +292,24 @@ integer, the largest value is 2,147,483,647. Therefore, the largest date
 that can be represented in this library is 2068-01-19T03:14:07 UTC.
 
 The `acetime_t` is analogous to the `time_t` type in the standard C library,
-with 3 major differences:
+with several major differences:
 
 * The `time_t` does not exist on all Arduino platforms.
-* Modern implementations of the `time_t` type uses a 64-bit `int64_t` to prevent
-  the "Year 2038" overflow problem. Unfortunately, it is too resource intensive
-  to use a 64-bit integer on 8-bit processors.
+* Some Arduino platforms and older Unix platforms use a 32-bit `int32_t` to
+  represent `time_t`.
+* Modern implementations (e.g. ESP8266 and ESP32) use a 64-bit `int64_t` to
+  represent `time_t` to prevent the "Year 2038" overflow problem. Unfortunately,
+  AceTime cannot use 64-bit integers internally because they are too resource
+  intensive on 8-bit processors.
 * Most `time_t` implementations uses the Unix Epoch of 1970-01-01 00:00:00 UTC.
-  It is possible to convert between a `time_t` and an `acetime_t` by adding or
-  subtracting the appropriate number of seconds between the 2 Epoch dates. See
-  `LocalDate::kSecondsSinceUnixEpoch`
+  AceTime uses an epoch of 2000-01-01 00:00:00 UTC.
+
+It is possible to convert between a `time_t` and an `acetime_t` by adding or
+subtracting the number of seconds between the 2 Epoch dates. This constant is
+946684800 and defined by `LocalDate::kSecondsSinceUnixEpoch`. Helper methods
+are available on various classes to avoid manual conversion between these 2
+epochs: `forUnixSeconds()` and `toUnixSeconds()`, and the corresponding
+`forUnixSeconds64()` and `toUnixSeconds64()` 64-bit versions added in v1.10.
 
 <a name="LocalDateAndLocalTime"></a>
 ### LocalDate and LocalTime
@@ -333,9 +352,14 @@ class LocalTime {
 class LocalDate {
   public:
     static const int16_t kEpochYear = 2000;
-    static const acetime_t kInvalidEpochDays = INT32_MIN;
-    static const acetime_t kInvalidEpochSeconds = LocalTime::kInvalidSeconds;
     static const acetime_t kSecondsSinceUnixEpoch = 946684800;
+
+    static const int32_t kInvalidEpochDays = INT32_MIN;
+    static const acetime_t kInvalidEpochSeconds = INT32_MIN;
+
+    static const int32_t kInvalidUnixDays = INT32_MIN;
+    static const int32_t kInvalidUnixSeconds = INT32_MIN;
+    static const int64_t kInvalidUnixSeconds64 = INT64_MIN;
 
     static const uint8_t kMonday = 1;
     static const uint8_t kTuesday = 2;
@@ -346,10 +370,12 @@ class LocalDate {
     static const uint8_t kSunday = 7;
 
     static LocalDate forComponents(int16_t year, uint8_t month, uint8_t day);
-    static LocalDate forEpochDays(acetime_t epochDays);
-    static LocalDate forUnixDays(acetime_t unixDays);
+    static LocalDate forEpochDays(int32_t epochDays);
     static LocalDate forEpochSeconds(acetime_t epochSeconds);
-    static LocalDate forUnixSeconds(acetime_t unixSeconds);
+
+    static LocalDate forUnixDays(int32_t unixDays);
+    static LocalDate forUnixSeconds(int32_t unixSeconds);
+    static LocalDate forUnixSeconds64(int64_t unixSeconds);
 
     int16_t year() const;
     void year(int16_t year);
@@ -363,10 +389,12 @@ class LocalDate {
     uint8_t dayOfWeek() const;
     bool isError() const;
 
-    acetime_t toEpochDays() const {
-    acetime_t toUnixDays() const {
+    int32_t toEpochDays() const {
     acetime_t toEpochSeconds() const {
-    acetime_t toUnixSeconds() const {
+
+    int32_t toUnixDays() const {
+    int32_t toUnixSeconds() const {
+    int64_t toUnixSeconds64() const {
 
     int8_t compareTo(const LocalDate& that) const {
     void printTo(Print& printer) const;
@@ -482,7 +510,8 @@ class LocalDateTime {
     static LocalDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
     static LocalDateTime forEpochSeconds(acetime_t epochSeconds);
-    static LocalDateTime forUnixSeconds(acetime_t unixSeconds);
+    static LocalDateTime forUnixSeconds(int32_t unixSeconds);
+    static LocalDateTime forUnixSeconds64(int64_t unixSeconds);
     static LocalDateTime forDateString(const char* dateString);
 
     bool isError() const;
@@ -510,10 +539,12 @@ class LocalDateTime {
     const LocalDate& localDate() const;
     const LocalTime& localTime() const;
 
-    acetime_t toEpochDays() const;
-    acetime_t toUnixDays() const;
+    int32_t toEpochDays() const;
     acetime_t toEpochSeconds() const;
-    acetime_t toUnixSeconds() const;
+
+    int32_t toUnixDays() const;
+    int32_t toUnixSeconds() const;
+    int64_t toUnixSeconds64() const;
 
     int8_t compareTo(const LocalDateTime& that) const;
     void printTo(Print& printer) const;
@@ -699,7 +730,9 @@ class OffsetDateTime {
         TimeOffset timeOffset);
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
         TimeOffset timeOffset);
-    static OffsetDateTime forUnixSeconds(acetime_t unixSeconds,
+    static OffsetDateTime forUnixSeconds(int32_t unixSeconds,
+        TimeOffset timeOffset);
+    static OffsetDateTime forUnixSeconds64(int64_t unixSeconds,
         TimeOffset timeOffset);
     static OffsetDateTime forDateString(const char* dateString);
 
@@ -732,10 +765,12 @@ class OffsetDateTime {
     void timeOffset(TimeOffset timeOffset);
     OffsetDateTime convertToTimeOffset(TimeOffset timeOffset) const;
 
-    acetime_t toEpochDays() const;
-    acetime_t toUnixDays() const;
+    int32_t toEpochDays() const;
     acetime_t toEpochSeconds() const;
-    acetime_t toUnixSeconds() const;
+
+    int32_t toUnixDays() const;
+    int32_t toUnixSeconds() const;
+    int64_t toUnixSeconds64() const;
 
     int8_t compareTo(const OffsetDateTime& that) const;
     void printTo(Print& printer) const;
@@ -750,7 +785,7 @@ We can create the object using the `forComponents()` method:
 // 2018-01-01 00:00:00+00:15
 auto offsetDateTime = OffsetDateTime::forComponents(
     2018, 1, 1, 0, 0, 0, TimeOffset::forHourMinute(0, 15));
-acetime_t epochDays = offsetDateTime.toEpochDays();
+int32_t epochDays = offsetDateTime.toEpochDays();
 acetime_t epochSeconds = offsetDateTime.toEpochSeconds();
 
 offsetDateTime.printTo(Serial); // prints "2018-01-01 00:00:00+00:15"
@@ -1138,6 +1173,9 @@ does not care which one is used. You should use the `ZonedDateTime` when
 interacting with human beings, who are aware of timezones and DST transitions.
 It can also be used to convert time from one timezone to anther timezone.
 
+<a name="ZonedDateTimeDeclaration"></a>
+#### ZonedDateTime Declaration
+
 ```C++
 namespace ace_time {
 
@@ -1147,12 +1185,13 @@ class ZonedDateTime {
 
     static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
         uint8_t hour, uint8_t minute, uint8_t second, const TimeZone& timeZone);
-
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
         const TimeZone& timeZone);
-
-    static ZonedDateTime forUnixSeconds(acetime_t unixSeconds,
+    static ZonedDateTime forUnixSeconds(int32_t unixSeconds,
         const TimeZone& timeZone);
+    static ZonedDateTime forUnixSeconds64(int64_t unixSeconds,
+        const TimeZone& timeZone);
+    static ZonedDateTime forDateString(const char* dateString);
 
     explicit ZonedDateTime();
 
@@ -1183,10 +1222,12 @@ class ZonedDateTime {
 
     ZonedDateTime convertToTimeZone(const TimeZone& timeZone) const;
 
-    acetime_t toEpochDays() const;
-    acetime_t toUnixDays() const;
+    int32_t toEpochDays() const;
     acetime_t toEpochSeconds() const;
-    acetime_t toUnixSeconds() const;
+
+    int32_t toUnixDays() const;
+    int32_t toUnixSeconds() const;
+    int64_t toUnixSeconds64() const;
 
     int8_t compareTo(const ZonedDateTime& that) const;
     void printTo(Print& printer) const;
@@ -1197,36 +1238,57 @@ class ZonedDateTime {
 }
 ```
 
-Here is an example of how to create one and extract the epoch seconds:
+<a name="ZonedDateTimeCreation"></a>
+#### ZonedDateTime Creation
+
+There are 2 main factory methods for constructing this object:
+
+* `ZonedDateTime::forComponents()`
+* `ZonedDateTime::forEpochSeconds()`
+
+Here is an example of how these can be used:
 
 ```C++
-BasicZoneProcessor zoneProcessor;
+ExtendedZoneProcessor zoneProcessor;
 
 void someFunction() {
   ...
-  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+  auto tz = TimeZone::forZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles,
       &zoneProcessor);
 
-  // 2018-01-01 00:00:00+00:15
-  auto zonedDateTime = ZonedDateTime::forComponents(
-      2018, 1, 1, 0, 0, 0, tz);
-  acetime_t epochDays = zonedDateTime.toEpochDays();
-  acetime_t epochSeconds = zonedDateTime.toEpochSeconds();
+  // Create instance for 2018-01-01T00:00:00-08:00[America/Los_Angeles]
+  // using forComponents().
+  auto zdt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0, tz);
+  acetime_t epochSeconds = zdt.toEpochSeconds();
+  Serial.println(epochSeconds); // prints 568108800
 
-  zonedDateTime.printTo(Serial); // prints "2018-01-01 00:00:00-08:00"
-  Serial.println(epochDays); // prints 6574 [TODO: Check]
-  Serial.println(epochSeconds); // prints 568079100 [TODO: Check]
+  // Create an instance one day later using forEpochSeconds()
+  acetime_t oneDayAfterSeconds = epochSeconds + 86400;
+  auto zdtPlus1d = ZonedDateTime::forEpochSeconds(oneDayAfterSeconds, tz);
+
+  // Should print "2018-01-01T00:00:00-08:00[America/Los_Angeles]"
+  zdt.printTo(Serial);
+  Serial.println();
+
+  // Should print "2018-01-02T00:00:00-08:00[America/Los_Angeles]"
+  zdtPlus1d.printTo(Serial);
+  Serial.println();
   ...
 }
 ```
 
-Both `printTo()` and `forDateString()` are expected to be used only for
-debugging. The `printTo()` prints a human-readable representation of the date in
+The `printTo()` prints a human-readable representation of the date in
 [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format
 (yyyy-mm-ddThh:mm:ss+/-hh:mm) to the given `Print` object. The most common
 `Print` object is the `Serial` object which prints on the serial port. The
 `forDateString()` parses the ISO 8601 formatted string and returns the
 `ZonedDateTime` object.
+
+The third factory method, `ZonedDateTime::forDateString()`, converts a
+human-readable ISO 8601 date format into an instance of a `ZonedDateTime`.
+However, this is intended to be used only for debugging so its functionality is
+limited as follows.
 
 **Caveat**: The parser for `forDateString()` looks only at the UTC offset. It
 does *not* recognize the IANA TZ Database identifier (e.g.
@@ -1269,14 +1331,15 @@ The two `ZonedDateTime` objects will return the same value for `epochSeconds()`
 because that is not affected by the time zone. However, the various date time
 components (year, month, day, hour, minute, seconds) will be different.
 
-<a name="Caching"></a>
-#### Caching
+<a name="DstTransitionCaching"></a>
+#### DST Transition Caching
 
 The conversion from an epochSeconds to date-time components using
-`ZonedDateTime::forEpochSeconds()` is an expensive operation (see
-[AutoBenchmark](examples/AutoBenchmark/)). To improve performance, the
-`BasicZoneProcessor` and `ExtendedZoneProcessor` implement internal caching
-based on the `year` component. This optimizes the most commonly expected
+`ZonedDateTime::forEpochSeconds()` is an expensive operation
+that requires the computation of the relevant DST transitions for the given
+epochSeconds or date-time components. To improve performance, the
+`BasicZoneProcessor` and `ExtendedZoneProcessor` implement internal transition
+caching based on the `year` component. This optimizes the most commonly expected
 use case where the epochSeconds is incremented by a clock (e.g. `SystemClock`)
 every second, and is converted to human-readable date-time components once a
 second. According to [AutoBenchmark](examples/AutoBenchmark/), the cache
@@ -1290,13 +1353,15 @@ The `TimeZone::forZoneInfo()` methods are simple to use but have the
 disadvantage that the `BasicZoneProcessor` or `ExtendedZoneProcessor` needs to
 be created manually for each `TimeZone` instance. This works well for a single
 time zone, but if you have an application that needs 3 or more time zones, this
-may become cumbersome. Also, it is difficult to reconstruct a `TimeZone`
+can become cumbersome. Also, it is difficult to reconstruct a `TimeZone`
 dynamically, say, from its fully qualified name (e.g. `"America/Los_Angeles"`).
 
-The `ZoneManager` solves these problems. It keeps an internal cache of
-`ZoneProcessors`, reusing them as needed. And it holds a registry of `ZoneInfo`
-objects, so that a `TimeZone` can be created using its `zoneName`, `zoneInfo`,
-or `zoneId`.
+The `ZoneManager` solves these problems by implementing 2 features:
+
+1) It supports a registry of `ZoneInfo` objects, so that a `TimeZone` can be
+   created using its `zoneName` string, `zoneInfo` pointer, or `zoneId` integer.
+2) It supports the use of cache of `ZoneProcessors` that can be mapped to
+   a particular zone as needed.
 
 <a name="ClassHierarchy"></a>
 #### Class Hierarchy
@@ -1304,7 +1369,7 @@ or `zoneId`.
 Three implementations of the `ZoneManager` are provided. Prior to v1.9, they
 were organized into a hierarchy with a top-level `ZoneManager` interface with
 pure virtual functions. However, in v1.9, the top-level `ZoneManager` interface
-was removed and all virtual functions were removed. This saves about 1100-1200
+was removed and all functions became nonvirtual. This saves about 1100-1200
 bytes of flash on AVR processors.
 
 ```C++
@@ -1366,17 +1431,6 @@ class ManualZoneManager {
 }
 ```
 
-The `SIZE` template parameter is the size of the internal cache of
-`ZoneProcessor` objects. This should be set to the number of time zones that
-your application is expected to use *at the same time*. If your app never
-changes its time zone after initialization, then this can be `<1>` (although
-in this case, you may not even want to use the `ZoneManager`). If your app
-allows the user to dynamically change the time zone (e.g. from a menu of time
-zones), then this should be at least `<2>` (to allow the system to compare the
-old time zone to the new time zone selected by the user). In general, the `SIZE`
-should be set to the number of timezones displayed to the user concurrently,
-plus an additional 1 if the user is able to change the timezone dynamically.
-
 <a name="DefaultRegistries"></a>
 #### Default Registries
 
@@ -1394,6 +1448,39 @@ header:
     * Zones and Links supported by `ExtendedZoneManager`
     * `ace_time::zonedbx` namespace
 
+
+<a name="ZoneProcessorCache"></a>
+#### ZoneProcessorCache
+
+The `BasicZoneManager` and the `ExtendedZoneManager` classes need to be given an
+instance of a `BasicZoneProcessorCache<CACHE_SIZE>` or
+`ExtendedZoneProcessorCache<CACHE_SIZE>` object.
+
+```C++
+BasicZoneProcessorCache<CACHE_SIZE> basicZoneProcessorCache;
+ExtendedZoneProcessorCache<CACHE_SIZE> extendedZoneProcessorCache;
+```
+
+These used to be defined internally inside the `BasicZoneManager` and
+`ExtendedZoneManager` classes. But when they were refactored to be
+non-polymorphic to save flash memory, it was easier to extract the
+ZoneProcessorCache objects into separate classes to be passed into the
+ZoneManager classes.
+
+The `CACHE_SIZE` template parameter is an integer that specifies the size of the
+internal cache. This should be set to the number of time zones that your
+application is expected to use *at the same time*. If your app never changes its
+time zone after initialization, then this can be `<1>` (although in this case,
+you may not even want to use the `ZoneManager`). If your app allows the user to
+dynamically change the time zone (e.g. from a menu of time zones), then this
+should be at least `<2>` (to allow the system to compare the old time zone to
+the new time zone selected by the user). In general, the `CACHE_SIZE` should be
+set to the number of timezones displayed to the user concurrently, plus an
+additional 1 if the user is able to change the timezone dynamically.
+
+<a name="ZoneManagerCreation"></a>
+#### ZoneManager Creation
+
 If you decide to use the default registries, there are 4 possible configurations
 of the ZoneManager constructors as shown below. The following also shows the
 number of zones and links supported by each configuration, as well as the flash
@@ -1402,6 +1489,11 @@ memory consumption of each configuration, as determined by
 v1.6 with TZDB version 2021a:
 
 ```C++
+static const uint8_t CACHE_SIZE = 2; // tuned for application
+
+BasicZoneProcessorCache<CACHE_SIZE> basicZoneProcessorCache;
+ExtendedZoneProcessorCache<CACHE_SIZE> extendedZoneProcessorCache;
+
 // BasicZoneManager, Zones only
 // 266 zones
 // 21.6 kB (8-bits)
@@ -1409,7 +1501,7 @@ v1.6 with TZDB version 2021a:
 BasicZoneManager zoneManager(
     zonedb::kZoneRegistrySize,
     zonedb::kZoneRegistry,
-    zoneProcessorCache);
+    basicZoneProcessorCache);
 
 // BasicZoneManager, Zones and Fat Links
 // 266 zones, 183 fat links
@@ -1418,7 +1510,7 @@ BasicZoneManager zoneManager(
 BasicZoneManager zoneManager(
     zonedb::kZoneAndLinkRegistrySize,
     zonedb::kZoneAndLinkRegistry,
-    zoneProcessorCache);
+    basicZoneProcessorCache);
 
 // ExtendedZoneManager, Zones only
 // 386 Zones
@@ -1427,7 +1519,7 @@ BasicZoneManager zoneManager(
 ExtendedZoneManager zoneManager(
     zonedbx::kZoneRegistrySize,
     zonedbx::kZoneRegistry,
-    zoneProcessorCache);
+    extendedZoneProcessorCache);
 
 // ExtendedZoneManager, Zones and Fat Links
 // 386 Zones, 207 fat Links
@@ -1436,37 +1528,18 @@ ExtendedZoneManager zoneManager(
 ExtendedZoneManager zoneManager(
     zonedbx::kZoneAndLinkRegistrySize,
     zonedbx::kZoneAndLinkRegistry,
-    zoneProcessorCache);
+    extendedZoneProcessorCache);
 ```
 
 A more complicated option of using *thin link* through the `LinkManager` is
 explained the [Zones and Links](#ZonesAndLinks) section below.
 
 Once the `ZoneManager` is configured with the appropriate registries, you can
-use one of the `createForXxx()` methods to create a `TimeZone`, like this:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-...
-static const uint16_t CACHE_SIZE = 2;
-static BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-static BasicZoneManager zoneManager(
-    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry, zoneProcessorCache);
-
-void someFunction(const char* zoneName) {
-  TimeZone tz = zoneManager.createForZoneName("America/Los_Angeles");
-  if (tz.isError()) {
-    tz = TimeZone::forUtc();
-    ...
-  }
-}
-```
-
-Other `createForXxx()` methods are described in subsections below.
+use one of the `createForXxx()` methods to create a `TimeZone` as shown in the
+subsections below.
 
 It is possible to create your own custom Zone and Link registries. See the
-[Custom Zone Registry](#CustomZoneRegistry) subsection below
+[Custom Zone Registry](#CustomZoneRegistry) subsection below.
 
 <a name="CreateForZoneName"></a>
 #### createForZoneName()
@@ -1475,21 +1548,30 @@ The `ZoneManager` allows creation of a `TimeZone` using the fully qualified
 zone name:
 
 ```C++
-BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-BasicZoneManager zoneManager(..., zoneProcessorCache);
+ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+ExtendedZoneManager zoneManager(
+    zonedbx::kZoneRegistrySize,
+    zonedbx::kZoneRegistry,
+    zoneProcessorCache);
 
 void someFunction() {
   TimeZone tz = zoneManager.createForZoneName("America/Los_Angeles");
+  if (tz.isError()) {
+    // handle error
+  }
   ...
 }
 ```
 
 Of course, you probably wouldn't actually do this because the same functionality
-could be done more efficiently (less memory, less CPU time) using:
+could be done more efficiently using the `createForZoneInfo()` like this:
 
 ```C++
-BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-BasicZoneManager zoneManager(..., zoneProcessorCache);
+ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+ExtendedZoneManager zoneManager(
+    zonedbx::kZoneRegistrySize,
+    zonedbx::kZoneRegistry,
+    zoneProcessorCache);
 
 void someFunction() {
   TimeZone tz = zoneManager.createForZoneInfo(zonedb::kZoneAmerica_Los_Angeles);
@@ -1507,14 +1589,14 @@ the user was allowed to type in the zone name, and you wanted to create a
 Each zone in the `zonedb::` and `zonedbx::` database is given a unique
 and stable zoneId. There are at least 3 ways to extract this zoneId:
 
-* from the `kZoneId{zone name}` constants in `src/ace_time/zonedb/zone_infos.h`
+* the `kZoneId{zone name}` constants in `src/ace_time/zonedb/zone_infos.h`
   and `src/ace_time/zonedbx/zone_infos.h`:
     * `const uint32_t kZoneIdAmerica_New_York = 0x1e2a7654; // America/New_York`
     * `const uint32_t kZoneIdAmerica_Los_Angeles = 0xb7f7e8f2; // America/Los_Angeles`
     * ...
-* from the `TimeZone::getZoneId()` method:
+* the `TimeZone::getZoneId()` method:
     * `uint32_t zoneId = tz.getZoneId();`
-* from the `ZoneInfo` pointer using the `BasicZone()` helper object:
+* the `ZoneInfo` pointer using the `BasicZone()` helper object:
     * `uint32_t zoneId = BasicZone(&zonedb::kZoneAmerica_Los_Angeles).zoneId();`
     * `uint32_t zoneId = ExtendedZone(&zonedbx::kZoneAmerica_Los_Angeles).zoneId();`
 
@@ -1522,19 +1604,17 @@ The `ZoneManager::createForZoneId()` method returns the `TimeZone` object
 corresponding to the given `zoneId`:
 
 ```C++
-BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-BasicZoneManager zoneManager(..., zoneProcessorCache);
-
-void someFunction() {
-  TimeZone tz = zoneManager.createForZoneId(kZoneIdAmerica_New_York);
-  ...
-}
-
 ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-ExtendedZoneManager zoneManager(..., zoneProcessorCache);
+ExtendedZoneManager zoneManager(
+    zonedbx::kZoneRegistrySize,
+    zonedbx::kZoneRegistry,
+    zoneProcessorCache);
 
 void someFunction() {
   TimeZone tz = zoneManager.createForZoneId(kZoneIdAmerica_New_York);
+  if (tz.isError() {
+    // handle error
+  }
   ...
 }
 ```
@@ -1615,6 +1695,297 @@ at compile-time that only `TimeZone::kTypeManual` are supported, then you should
 not need to use the `ManualZoneManager`. You can use `TimeZone::forTimeOffset()`
 factory method directory.
 
+<a name="HandlingGapsAndOverlaps"></a>
+### Handling Gaps and Overlaps
+
+(Added in v1.10)
+
+Better control over DST gaps and overlaps was added in v1.10 using the
+techniques described by the [PEP 495](https://www.python.org/dev/peps/pep-0495/)
+document in Python 3.6.
+
+1) An additional parameter called `fold` was added to the `LocalTime`,
+   `LocalDateTime`, `OffsetDateTime`, and `ZonedDateTime` classes.
+2) Support for the `fold` parameter was added to `ExtendedZoneProcessor`. The
+  `BasicZoneProcessor` does *not* support the `fold` parameter and will ignore
+  it.
+
+<a name="ProblemsWithGapsAndOverlaps"></a>
+#### Problems with Gaps and Overlaps
+
+As a quick background, when a timezone changes its DST offset in the spring or
+fall, it creates either a gap (the UTC offset increases by one hour), or an
+overlap (the UTC offset decreases by one hour) in the local representation of
+the time. For example, in the "America/Los_Angeles" timezone (aka "US/Pacific"),
+the wall clock goes from 2am to 3am in the spring (spring forward) and goes back
+from 2am to 1am in the fall (fall back). In the spring, there are local time
+instances which are illegal because they never existed, and in the fall,
+there are local time instances which occur twice.
+
+Different date-time libraries in different languages handle these situations
+slightly differently. For example,
+
+* [Java 11 java.time package](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/chrono/ChronoLocalDate.html)
+    * returns the `ZonedDateTime` shifted forward by one hour during a gap
+    * returns the earlier `ZonedDateTime` during an overlap
+    * choices offered with additional methods:
+        * `ZonedDateTime.withEarlierOffsetAtOverlap()`
+        * `ZonedDateTime.withLaterOffsetAtOverlap()`
+* [C++ Hinnant date library](https://howardhinnant.github.io/date/tz.html)
+    * throws an exception in a gap or overlap if a specifier `choose::earliest`
+      or `choose::latest` is not specified
+* [Noda Time](https://nodatime.org/3.0.x/api/NodaTime.ZonedDateTime.html)
+    * throws `AmbiguousTimeException` or `SkippedTimeException`
+    * can specify an `Offset` to `ZonedDateTime` class to resolve ambiguity
+* [Python datetime](https://docs.python.org/3/library/datetime.html)
+    * uses a `fold` parameter to resolve ambiguous or non-existent time
+    * see [PEP 495](https://www.python.org/dev/peps/pep-0495/)
+
+The AceTime library cannot use exceptions because the Arduino C++ environment
+does not support exceptions. I chose to follow the techniques described by
+Python PEP 495 because it is well-documented, easy to understand, and relatively
+simple to implement.
+
+<a name="ClassesWithFold"></a>
+#### Classes with Fold
+
+An optional `fold` parameter was added to various constructors and factory
+methods. The default is `fold=0` if not specified. The `fold()` accessor and
+mutator methods were added to the various classes as well.
+
+```C++
+namespace ace_time {
+
+class LocalTime {
+  public:
+    static LocalTime forComponents(uint8_t hour, uint8_t minute,
+        uint8_t second, uint8_t fold = 0);
+
+    uint8_t fold() const;
+    void fold(uint8_t fold);
+
+    [...]
+};
+
+class LocalDateTime {
+  public:
+    static LocalDateTime forComponents(int16_t year, uint8_t month,
+        uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
+        uint8_t fold = 0);
+
+    uint8_t fold() const;
+    void fold(uint8_t fold);
+
+    [...]
+};
+
+class OffsetDateTime {
+  public:
+    static OffsetDateTime forComponents(int16_t year, uint8_t month,
+        uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
+        TimeOffset timeOffset, uint8_t fold = 0) {
+
+    uint8_t fold() const;
+    void fold(uint8_t fold);
+
+    [...]
+};
+
+class ZonedDateTime {
+  public:
+    static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
+        uint8_t hour, uint8_t minute, uint8_t second,
+        const TimeZone& timeZone, uint8_t fold = 0) {
+
+    uint8_t fold() const;
+    void fold(uint8_t fold);
+
+    [...]
+};
+
+}
+```
+
+<a name="FactoryMethodsWithFold"></a>
+#### Factory Methods with Fold
+
+There are 2 main factory methods on `ZonedDateTime`: `forEpochSeconds()` and
+`forComponents()`. The `fold` parameter is an *output* parameter for
+`forEpochSeconds()`, and an *input* parameter for `forComponents()`. The
+mapping functionality of these methods are described in detail in the PEP 495
+document, but here is an ASCII diagram for reference:
+
+```
+              ^
+LocalDateTime |
+              |                  (overlap)   /
+          2am |                      /|    /
+              |                    /  |  /
+          1am |                  /    |/
+              |          /
+              |        /
+          3am |       |
+              |  (gap)|
+          2am |       |
+              |      /
+              |    /
+              |  /
+              +----------------------------------------->
+              spring-forward      fall-backward
+
+                          UTC/epochSeconds
+```
+
+The `forEpochSeconds()` takes the UTC/epochSeconds value and maps it to the
+LocalDateTime axis. It is a single-valued function which is defined for all
+values of epochSeconds, even with a DST shift forward or backward. The `fold`
+parameter is an *output* of the `forEpochSeconds()` function. During an overlap,
+a `ZonedDataTime` can occur twice. The earlier occurrence is returned with
+`fold==0`, and the later occurrence is returned with `fold==1`. For all other
+cases where there is only a unique occurrence, the `fold` parameter is set to 0.
+
+The `forComponents()` takes the LocalDateTime value and maps it to the
+UTC/epochSeconds axis. During a gap, there are certain LocalDateTime
+components which do not exist and are illegal. During an overlap, there are 2
+epochSeconds which can correspond to the given LocalDateTime. The `fold`
+parameter is an *input* parameter to the `forComponents()` in both cases.
+The impact of the `fold` parameter is as follows:
+
+**Overlap**: If `ZonedDateTime::forComponents()` is called with during an
+overlap of `LocalDateTime` (e.g. 2:30am during a fall back from 2am to 3am), the
+factory method uses the user-provided `fold` parameter to select the following:
+
+* `fold==0`
+    * Selects the *earlier* Transition element and returns the earlier
+      LocalDateTime.
+    * So 01:30 is interpreted as 01:30-07:00.
+* `fold==1`
+    * Selects the *later* Transition element and returns the later
+      LocalDateTime.
+    * So 01:30 is interpreted as 01:30-08:00.
+
+**Gap**: If `ZonedDateTime::forComponents()` is called with a `LocalDateTime`
+that does not exist (e.g. 2:30am during a spring forward night from 2am to 3am),
+the factory method *normalizes* the resulting `ZonedDateTime` object so that the
+components of the object are legal. The algorithm for normalization depends on
+the `fold` parameter. The `2:30am` value becomes either `3:30am` or `1:30am` in
+the following, and perhaps counter-intuitive, manner:
+
+* `fold==0`
+    * Selects the *earlier* Transition element, extended forward to apply to the
+      given LocalDateTime,
+    * Which maps to the *later* UTC/epochSeconds,
+    * Which becomes normalized to the *later* ZonedDateTime which has the
+      *later* UTC offset.
+    * So 02:30 is interpreted as 02:30-08:00, which is normalized to
+      03:30-07:00, and the `fold` after normalization is set to 0.
+* `fold==1`
+    * Selects the *later* Transition element, extended backward to apply to the
+      given LocalDateTime,
+    * Which maps to the *earlier* UTC/epochSeconds,
+    * Which becomes normalized to the *earlier* ZonedDateTime which has the
+      *earlier* UTC offset.
+    * So 02:30 is interpreted as 02:30-07:00, which is normalized to
+      01:30-08:00, and the `fold` after normalization is set to 0.
+
+The time shift during a gap seems to be the *opposite* of the shift during an
+overlap, but internally this is self-consistent. Just as importantly, this
+follows the same logic as PEP 495.
+
+<a name="SemanticChangesWithFold"></a>
+#### Semantic Changes with Fold
+
+The `fold` parameter has no effect on most existing methods. It is ignored in
+all comparison operators:
+
+* `operator==()`, `operator!=()` ignore the `fold`
+* `operator<()`, `operator>()`, etc. ignore the `fold`
+* `compareTo()` ignores the `fold`
+
+It impacts the behavior the factory methods of `LocalTime`, `LocalDateTime`,
+`OffsetDateTime` only trivially, causing the `fold` value to be passed into the
+internal holding variable:
+
+* `LocalTime::forSeconds()`
+* `LocalTime::forComponents()`
+* `LocalDateTime::forEpochSeconds()`
+* `LocalDateTime::forComponents()`
+* `OffsetDateTime::forEpochSeconds()`
+* `OffsetDateTime::forComponents()`
+
+The `fold` parameter has significant impact only on the `ZonedDateTime` factory
+methods, and only if the `ExtendeZoneProcessor` is used:
+
+* `ZonedDateTime::forEpochSeconds()`
+* `ZonedDateTime::forComponents()`
+
+The `fold` parameter is not exposed through any of the existing `printTo()` and
+`printShortTo()` methods. It can only be accessed and changes by the `fold()`
+accessor and mutator methods.
+
+A more subtle, but important semantic change, is that the `fold` parameter
+preserves information during gaps and overlaps. This means that we can do
+round-trip conversions of `ZonedDateTime` properly. We can start with
+epochSeconds, convert to components, then back to epochSeconds, and get back the
+same epochSeconds. With the `fold` parameter, this round-trip was not guaranteed
+during an overlap.
+
+<a name="ResourceConsumptionWithFold"></a>
+#### Resource Consumption with Fold
+
+According to [MemoryBenchmark](examples/MemoryBenchmark), adding support for
+`fold` increased flash usage of `ExtendedZoneProcessor` by about 600 bytes on
+AVR processors and 400-600 bytes on 32-bit processors. (The `BasicZoneProcessor`
+which ignores the `fold` parameter increased by ~150 bytes on AVR processors,
+because of the overhead of copying the internal `fold` parameter in various
+objects.) The static memory footprint of various classes increased by one byte
+on AVR processors, and 2-4 bytes on 32-bit processors due to 32-bit alignment.
+
+According to [AutoBenchmark](examples/AutoBenchmark), the performance of various
+functions did not change at all, except for `ZonedDataTime::forComponents()`,
+which became 5X *faster* on AVR processors and 1.5-3X faster on 32-bit
+processors. This is because the `fold` parameter tells us exactly when the
+internal normalization process is required, which allows us to skip the
+normalization step in the common case outside the gap. Within the gap, the
+`forComponents()` method performs about the same as before.
+
+<a name="ExamplesWithFold"></a>
+#### Examples with Fold
+
+Here are some examples taken from
+[ZonedDateTimeExtendedTest](tests/ZonedDateTimeExtendedTest):
+
+```C++
+ExtendedZoneProcessorCache<1> zoneProcessorCache;
+ExtendedZoneManager extendedZoneManager(
+    zonedbx::kZoneRegistrySize,
+    zonedbx::kZoneRegistry,
+    zoneProcessorCache);
+TimeZone tz = extendedZoneManager.createForZoneInfo(
+    &zonedbx::kZoneAmerica_Los_Angeles);
+
+// During fall back. This is the second occurrence of this local time, so should
+// print:
+// 2022-11-06T01:29:00-08:00[America/Los_Angeles]
+// fold=1
+acetime_t epochSeconds = 721042140;
+auto dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+Serial.printTo(dt); Serial.println();
+Serial.print("fold="); Serial.println(dt.fold());
+
+// During spring forward. In the gap, fold=0 selects earlier transition,
+// so selects -08:00 offset, which gets normalized to -07:00, so should print:
+// 2022-03-13T03:29:00-07:00[America/Los_Angeles]
+dt = ZonedDateTime::forComponents(2022, 3, 13, 2, 29, 0, tz, 0 /*fold*/);
+Serial.printTo(dt); Serial.println();
+
+// During spring forward. In the gap, fold=1 selects later transition,
+// so selects -07:00 offset, which gets normalized to -08:00, so should print:
+// 2022-03-13T01:29:00-08:00[America/Los_Angeles]
+dt = ZonedDateTime::forComponents(2022, 3, 13, 2, 29, 0, tz, 1 /*fold*/);
+Serial.printTo(dt); Serial.println();
+```
+
 <a name="ZoneInfoDatabase"></a>
 ## ZoneInfo Database
 
@@ -1657,8 +2028,8 @@ in the `transformer.py` script and summarized in
 * the UNTIL time suffix can only be 'w' (not 's' or 'u')
 * there can be only one DST transition in a single month
 
-In the current version (v1.2), this database contains 268 zones from the year
-2000 to 2049 (inclusive).
+As of version v1.9 (with TZDB 2021e), this database contains 258 Zone entries
+and 193 Link entries, supported from the year 2000 to 2049 (inclusive).
 
 <a name="ExtendedZonedbx"></a>
 #### Extended zonedbx
@@ -1668,14 +2039,14 @@ Database. Currently, as of version 2021a of the IANA TZ Database, this goal is
 met from the year 2000 to 2049 inclusive. Some restrictions of this database
 are:
 
-* the DST offset is a multipole of 15-minutes ranging from -1:00 to 2:45
+* the DST offset is a multiple of 15-minutes ranging from -1:00 to 2:45
   (all timezones from about 1972 support this)
 * the STDOFF offset is a multiple of 1-minute
 * the AT and UNTIL fields are multiples of 1-minute
 * the LETTER field can be arbitrary strings
 
-In the current version (v1.2), this database contains all 387 timezones from
-the year 2000 to 2049 (inclusive).
+As of version v1.9 (with TZDB 2021e), this database contains all 377 Zone
+entries and 217 Link entries, supported from the year 2000 to 2049 (inclusive).
 
 <a name="TzDatabaseVersion"></a>
 #### TZ Database Version
@@ -1765,10 +2136,12 @@ class BasicZone {
   public:
     BasicZone(const basic::ZoneInfo* zoneInfo);
 
+    bool isNull() const;
     uint32_t zoneId() const;
+    int16_t stdOffsetMinutes() const;
+    ace_common::KString kname() const;
 
     void printNameTo(Print& printer) const;
-
     void printShortNameTo(Print& printer) const;
 };
 
@@ -1777,13 +2150,32 @@ class ExtendedZone {
   public:
     ExtendedZone(const extended::ZoneInfo* zoneInfo);
 
+    bool isNull() const;
     uint32_t zoneId() const;
+    int16_t stdOffsetMinutes() const;
+    ace_common::KString kname() const;
 
     void printNameTo(Print& printer) const;
-
     void printShortNameTo(Print& printer) const;
 }
 ```
+
+The `isNull()` method returns true if the object is a wrapper around a
+`nullptr`. This is often used to indicate an error condition, or a "Not Found"
+condition.
+
+The `stdOffsetMinutes()` method returns the standard (i.e. normal time, not DST
+summer time) timezone offset of the zone for the last occurring `ZoneEra` record
+in the database. In almost all cases, this should correspond to the current
+standard timezone, unless the timezone is scheduled to changes its standard
+timezone offset in the near future. The value of this method is used by the
+`ZoneSorterByOffsetAndName` class when sorting timezones by its offset.
+
+The `kname()` method returns the `KString` object representing the name of the
+zone. The `KString` object represents a string that has been compressed using a
+fragment dictionary. This object knows how to decompress the encoded form. This
+method is used by the `ZoneSorterByName` and `ZoneSorterByOffsetAndName` classes
+when sorting timezones.
 
 The `printNameTo()` method prints the full zone name (e.g.
 `America/Los_Angeles`), and `printShortNameTo()` prints only the last component
@@ -1804,7 +2196,7 @@ compiler should be able to optimize away both wrapper classes entirely, so that
 they are equivalent to using the `const ZoneInfo*` pointer directly.
 
 If you need to copy the zone names into memory, use the `PrintStr<N>` class from
-the the AceComon library (https://github.com/bxparks/AceCommon) to print the
+the AceCommon library (https://github.com/bxparks/AceCommon) to print the
 zone name into the memory buffer, then extract the string from the buffer:
 
 ```C++
@@ -1867,7 +2259,7 @@ There were several negative consequences however:
       not `US/Pacific`
 * similarly, the `zoneId` component of a `kZoneUS_Pacific` struct was set to
   the same `zoneId` of `kZoneAmerica_Los_Angeles`
-* the `kZoneIdUS_Pacific` constant did not exist, in constrast to the target
+* the `kZoneIdUS_Pacific` constant did not exist, in contrast to the target
   `KZoneIdAmerica_Los_Angeles` constant
 * the `zonedb::kZoneRegistry` and `zonedbx::kZoneRegistry` contained only
   the Zone entries, not the Link entries
@@ -2317,7 +2709,7 @@ immutable is definitely cleaner, but it causes the code size to increase
 significantly. For the case of the
 [WorldClock](https://github.com/bxparks/clocks/tree/master/WorldClock) program,
 the code size increased by 500-700 bytes, which I could not afford because the
-program takes up almost the entire flash memory of an Ardunio Pro Micro with
+program takes up almost the entire flash memory of an Arduino Pro Micro with
 only 28672 bytes of flash memory.
 
 Most date and time classes in the AceTime library are mutable. Except for
@@ -2496,6 +2888,35 @@ validity in their inputs and outputs. The Arduino programming environment does
 not use C++ exceptions, so we handle invalid values by returning special version
 of various date/time objects to the caller.
 
+<a name="InvalidSentinels"></a>
+### Invalid Sentinels
+
+Many methods return an return integer value. Error conditions are indicated by
+special constants, many of whom are defined in the `LocalDate` class:
+
+* `int32_t LocalDate::kInvalidEpochDays`
+    * Error value returned by `toEpochDays()` methods
+* `acetime_t LocalDate::kInvalidEpochSeconds`
+    * Error value returned by `toEpochSeconds()` methods
+* `int32_t LocalDate::kInvalidUnixDays`
+    * Error value returned by `toUnixDays()` methods
+* `int32_t LocalDate::kInvalidUnixSeconds`
+    * Error value returned by `toUnixSeconds()` methods
+* `int64_t LocalDate::kInvalidUnixSeconds64`
+    * Error value returned by `toUnixSeconds64()` methods
+
+Similarly, many factory methods accept an `acetime_t`, `int32_t`, or `int64_t`
+arguments and return objects of various classes (e.g. `LocalDateTime`,
+`OffsetDateTime` or `ZonedDateTime`). When these methods are given the error
+constants, they return an object whoses `isError()` method returns `true`.
+
+It is understandable that error checking is often neglected, since it adds to
+the maintenance burden. And sometimes, it is not always clear what should be
+done when an error occurs, especially in a microcontroller environment. However,
+I encourage the application to check for these errors conditions as much as
+practical, and try to degrade to some reasonable default behavior when an error
+is detected.
+
 <a name="IsError"></a>
 ### isError()
 
@@ -2542,19 +2963,6 @@ auto dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 59, tz);
 Serial.println(dt.isError() ? "true" : "false");
 ```
 
-<a name="KInvalidEpochSeconds"></a>
-### LocalDate::kInvalidEpochSeconds
-
-Many methods return an `acetime_t` type. For example, `toEpochSeconds()` or
-`toUnixSeconds()` on `LocalDateTime`, `OffsetDateTime` or `ZonedDateTime`.
-These methods will return `LocalDate::kInvalidEpochSeconds` if an invalid
-value is calculated.
-
-Similarly, there are many methods which accept an `acetime_t` as an argument and
-returns a object of time `LocalDateTime`, `OffsetDateTime` or `ZonedDateTime`.
-When these methods are passed a value of `LocalDate::kInvalidEpochSeconds`, the
-resulting object will return a true value for `isError()`.
-
 <a name="Bugs"></a>
 ## Bugs and Limitations
 
@@ -2588,11 +2996,17 @@ resulting object will return a true value for `isError()`.
     * To be safe, users of this library should stay at least 1 year away from
       the lower and upper limits of `acetime_t` (i.e. stay within the year 1932
       to 2067, inclusive).
-* `toUnixSeconds()`
+* `toUnixSeconds()` and `forUnixSeconds()`
     * [Unix time](https://en.wikipedia.org/wiki/Unix_time) uses an epoch of
-      1970-01-01T00:00:00Z. This method returns an `acetime_t` which is
-      a signed integer, just like the old 32-bit Unix systems. The range of
-      dates is 1901-12-13T20:45:52Z to 2038-01-19T03:14:07Z.
+      1970-01-01T00:00:00Z. This method returns an `int32_t` like most 32-bit
+      Unix systems. The range of dates is 1901-12-13T20:45:52Z to
+      2038-01-19T03:14:07Z.
+* `toUnixSeconds64()` and `forUnixSeconds64()`
+    * 64-bit versions of `toUnixSeconds()` and `forUnixSeconds()` were added in
+      v1.10. However, the largest value returned by this method is 3094168447,
+      far smaller than `INT64_MAX`. This value corresponds to
+      2068-01-19T03:14:07Z which is the largest date that can be stored
+      internally using the 32-bit `acetime_t` type.
 * `TimeOffset`
     * Implemented using `int16_t` in 1 minute increments.
 * `LocalDate`, `LocalDateTime`
@@ -2647,32 +3061,12 @@ resulting object will return a true value for `isError()`.
       range. This is explained in [ZoneInfo Year Range](#ZoneInfoYearRange).
 * `BasicZoneProcessor`
     * Supports 1-minute resolution for AT and UNTIL fields.
-    * Supports only a 15-minute resolution for STDOFF and DST offset fields,
-      but this is sufficient to support the vast majority of timezones since
-      2000.
-    * The `zonedb/` files have been filtered to satisfy these constraints.
-    * Tested against Python [pytz](https://pypi.org/project/pytz/) from
-      2000 until 2038 (limited by pytz).
-    * Tested against Python
-      [dateutil](https://pypi.org/project/python-dateutil/) from
-      2000 until 2038 (limited by dateutil).
-    * Tested against Java `java.time` from 2000 to until 2050.
-    * Tested against C++11/14/17
-      [Hinnant date](https://github.com/HowardHinnant/date) from 2000 until
-      2050.
+    * Supports only a 15-minute resolution for the STDOFF and DST offset fields.
+    * Sufficient to support the vast majority of timezones since 2000.
 * `ExtendedZoneProcessor`
-    * Has a 1-minute resolution for all time fields.
-    * The `zonedbx/` files currently (version 2021a) do not have any timezones
-      with 1-minute resolution.
-    * Tested against Python [pytz](https://pypi.org/project/pytz/) from
-      2000 until 2038 (limited by pytz).
-    * Tested against Python
-      [dateutil](https://pypi.org/project/python-dateutil/) from
-      2000 until 2038 (limited by dateutil).
-    * Tested against Java `java.time` from 2000 to until 2050.
-    * Tested against [Hinnant date](https://github.com/HowardHinnant/date)
-      using 1-minute resolution from 1975 to 2050. See
-      [ExtendedHinnantDateTest](tests/validation/ExtendedHinnantDateTest).
+    * Has a 1-minute resolution for AT, UNTIL and STDOFF fields.
+    * Supports only a 15-minute resolution for DST field.
+    * All timezones after 1974 has DST offsets in 15-minutes increments.
 * `zonedb/` and `zonedbx/` ZoneInfo entries
     * These statically defined data structures are loaded into flash memory
       using the `PROGMEM` keyword. The vast majority of the data structure

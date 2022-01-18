@@ -56,6 +56,15 @@
 using namespace ace_time;
 using ace_common::PrintStr;
 
+// Sometimes, depending on the size of the AceTime library, the SparkFun
+// ProMicro does not have enough flash, so this allows us to disable
+// ExtendedZoneProcessor when needed.
+#if defined(ARDUINO_AVR_PROMICRO)
+  #define ENABLE_EXTENDED_ZONE_PROCESSOR 0
+#else
+  #define ENABLE_EXTENDED_ZONE_PROCESSOR 1
+#endif
+
 #if defined(ARDUINO_ARCH_AVR)
 const uint32_t COUNT = 1000;
 #elif defined(ARDUINO_ARCH_SAMD)
@@ -63,7 +72,7 @@ const uint32_t COUNT = 5000;
 #elif defined(ARDUINO_ARCH_STM32)
 const uint32_t COUNT = 10000;
 #elif defined(ESP8266)
-const uint32_t COUNT = 10000;
+const uint32_t COUNT = 5000;
 #elif defined(ESP32)
 const uint32_t COUNT = 20000;
 #elif defined(TEENSYDUINO)
@@ -157,7 +166,7 @@ static void printMicrosPerIteration(long elapsedMillis) {
   ace_common::printPad3To(SERIAL_PORT_MONITOR, frac, '0');
 }
 
-#if defined(ARDUINO_AVR_PROMICRO)
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
 // Print -1 to indicate that the benchmark was not executed, due to memory.
 static void printNullResult(const __FlashStringHelper* label) {
   SERIAL_PORT_MONITOR.print(label);
@@ -176,6 +185,9 @@ static void printResult(
   SERIAL_PORT_MONITOR.println();
 }
 
+// Save the empty loop time.
+static unsigned long emptyLoopMillis;
+
 // Return how long the empty lookup takes.
 unsigned long runEmptyLoopMillis() {
   return runLambda([]() {
@@ -185,7 +197,7 @@ unsigned long runEmptyLoopMillis() {
 }
 
 static void runEmptyLoop() {
-  unsigned long emptyLoopMillis = runEmptyLoopMillis();
+  emptyLoopMillis = runEmptyLoopMillis();
   printResult(F("EmptyLoop"), emptyLoopMillis, 0);
 }
 
@@ -196,7 +208,6 @@ static void runLocalDateForEpochDays() {
     LocalDate localDate = LocalDate::forEpochDays(fakeEpochDays);
     disableOptimization(localDate);
   });
-  unsigned long emptyLoopMillis = runEmptyLoopMillis();
 
   printResult(F("LocalDate::forEpochDays()"), localDateForDaysMillis,
       emptyLoopMillis);
@@ -207,7 +218,7 @@ static void runLocalDateToEpochDays() {
   unsigned long localDateToEpochDaysMillis = runLambda([]() {
     unsigned long fakeEpochDays = millis();
     LocalDate localDate = LocalDate::forEpochDays(fakeEpochDays);
-    acetime_t epochDays = localDate.toEpochDays();
+    int32_t epochDays = localDate.toEpochDays();
     disableOptimization(epochDays);
   });
   unsigned long forEpochDaysMillis = runLambda([]() {
@@ -247,7 +258,6 @@ static void runOffsetDateTimeForEpochSeconds() {
         fakeEpochSeconds, TimeOffset());
     disableOptimization(odt);
   });
-  unsigned long emptyLoopMillis = runEmptyLoopMillis();
 
   printResult(F("OffsetDateTime::forEpochSeconds()"), localDateForDaysMillis,
       emptyLoopMillis);
@@ -259,7 +269,7 @@ static void runOffsetDateTimeToEpochSeconds() {
     unsigned long fakeEpochSeconds = millis();
     OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
         fakeEpochSeconds, TimeOffset());
-    acetime_t epochDays = odt.toEpochSeconds();
+    int32_t epochDays = odt.toEpochSeconds();
     disableOptimization(epochDays);
   });
   unsigned long forEpochDaysMillis = runLambda([]() {
@@ -281,7 +291,6 @@ static void runZonedDateTimeForEpochSecondsUTC() {
         TimeZone());
     disableOptimization(dateTime);
   });
-  unsigned long emptyLoopMillis = runEmptyLoopMillis();
 
   printResult(F("ZonedDateTime::forEpochSeconds(UTC)"), forEpochSecondsMillis,
     emptyLoopMillis);
@@ -293,7 +302,7 @@ static void runZonedDateTimeToEpochDays() {
     unsigned long fakeEpochDays = millis();
     ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(fakeEpochDays,
         TimeZone());
-    acetime_t epochDays = dateTime.toEpochDays();
+    int32_t epochDays = dateTime.toEpochDays();
     disableOptimization(epochDays);
   });
   unsigned long forEpochSecondsMillis = runLambda([]() {
@@ -329,8 +338,11 @@ static void runZonedDateTimeToEpochSeconds() {
 
 // Epoch seconds offset alternating between 0 and kTwoYears on each iterations,
 // used to prevent caching to obtain benchmarking number without caching.
-static acetime_t offset = 0;
+static acetime_t offset = 0; // alternate between 0 and kTwoYears
 static const acetime_t kTwoYears = 2 * 365 * 24 * 3600L;
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 1
+static int16_t year = 2000; // alternate between 2000 and 2002
+#endif
 
 // Pointer to BasicZoneManager and ExtendedZoneManager, whose actual instances
 // are created within the specific test on the stack. These global variables
@@ -340,7 +352,7 @@ static const acetime_t kTwoYears = 2 * 365 * 24 * 3600L;
 // Nano.
 static BasicZoneProcessor* basicZoneProcessor;
 
-#if ! defined(ARDUINO_AVR_PROMICRO)
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 1
   static ExtendedZoneProcessor* extendedZoneProcessor;
 #endif
 
@@ -360,7 +372,6 @@ static void runZonedDateTimeForEpochSecondsBasicNoCache() {
         fakeEpochSeconds, tzLosAngeles);
     disableOptimization(dateTime);
   });
-  unsigned long emptyLoopMillis = runEmptyLoopMillis();
 
   printResult(F("ZonedDateTime::forEpochSeconds(Basic_nocache)"),
       forEpochSecondsMillis, emptyLoopMillis);
@@ -380,7 +391,6 @@ static void runZonedDateTimeForEpochSecondsBasicCached() {
         fakeEpochSeconds, tzLosAngeles);
     disableOptimization(dateTime);
   });
-  unsigned long emptyLoopMillis = runEmptyLoopMillis();
 
   printResult(F("ZonedDateTime::forEpochSeconds(Basic_cached)"),
       forEpochSecondsMillis, emptyLoopMillis);
@@ -388,7 +398,7 @@ static void runZonedDateTimeForEpochSecondsBasicCached() {
 
 // ZonedDateTime::forEpochSeconds(seconds, tz), uncached
 static void runZonedDateTimeForEpochSecondsExtendedNoCache() {
-#if defined(ARDUINO_AVR_PROMICRO)
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
   printNullResult(F("ZonedDateTime::forEpochSeconds(Extended_nocache)"));
 
 #else
@@ -406,7 +416,6 @@ static void runZonedDateTimeForEpochSecondsExtendedNoCache() {
         fakeEpochSeconds, tzLosAngeles);
     disableOptimization(dateTime);
   });
-  unsigned long emptyLoopMillis = runEmptyLoopMillis();
 
   printResult(F("ZonedDateTime::forEpochSeconds(Extended_nocache)"),
       forEpochSecondsMillis, emptyLoopMillis);
@@ -415,7 +424,7 @@ static void runZonedDateTimeForEpochSecondsExtendedNoCache() {
 
 // ZonedDateTime::forEpochSeconds(seconds, tz) cached
 static void runZonedDateTimeForEpochSecondsExtendedCached() {
-#if defined(ARDUINO_AVR_PROMICRO)
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
   printNullResult(F("ZonedDateTime::forEpochSeconds(Extended_cache)"));
 
 #else
@@ -431,12 +440,58 @@ static void runZonedDateTimeForEpochSecondsExtendedCached() {
         fakeEpochSeconds, tzLosAngeles);
     disableOptimization(dateTime);
   });
-  unsigned long emptyLoopMillis = runEmptyLoopMillis();
 
   printResult(F("ZonedDateTime::forEpochSeconds(Extended_cached)"),
       forEpochSecondsMillis, emptyLoopMillis);
 #endif
+}
 
+// ZonedDateTime::forComponents(year, m, d, h, m, s, tz), uncached
+static void runZonedDateTimeForComponentsExtendedNoCache() {
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
+  printNullResult(F("ZonedDateTime::forEpochSeconds(Extended_nocache)"));
+
+#else
+	ExtendedZoneProcessor processor;
+  extendedZoneProcessor = &processor;
+
+  unsigned long forComponentsMillis = runLambda([]() {
+    year = (year == 2000) ? 2002 : 2000;
+    TimeZone tzLosAngeles = TimeZone::forZoneInfo(
+        &zonedbx::kZoneAmerica_Los_Angeles,
+        extendedZoneProcessor);
+    ZonedDateTime dateTime = ZonedDateTime::forComponents(
+        year, 3, 1, 0, 0, 0, tzLosAngeles);
+    disableOptimization(dateTime);
+  });
+
+  printResult(F("ZonedDateTime::forComponents(Extended_nocache)"),
+      forComponentsMillis, emptyLoopMillis);
+#endif
+}
+
+// ZonedDateTime::forComponents(year, m, d, h, m, s, tz), cached
+static void runZonedDateTimeForComponentsExtendedCached() {
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
+  printNullResult(F("ZonedDateTime::forEpochSeconds(Extended_nocache)"));
+
+#else
+	ExtendedZoneProcessor processor;
+  extendedZoneProcessor = &processor;
+  year = 2000;
+
+  unsigned long forComponentsMillis = runLambda([]() {
+    TimeZone tzLosAngeles = TimeZone::forZoneInfo(
+        &zonedbx::kZoneAmerica_Los_Angeles,
+        extendedZoneProcessor);
+    ZonedDateTime dateTime = ZonedDateTime::forComponents(
+        year, 3, 1, 0, 0, 0, tzLosAngeles);
+    disableOptimization(dateTime);
+  });
+
+  printResult(F("ZonedDateTime::forComponents(Extended_cached)"),
+      forComponentsMillis, emptyLoopMillis);
+#endif
 }
 
 // This sketch is small enough to run on an Arduino Nano with about ~32kB. It
@@ -611,6 +666,9 @@ void runBenchmarks() {
   runZonedDateTimeForEpochSecondsBasicCached();
   runZonedDateTimeForEpochSecondsExtendedNoCache();
   runZonedDateTimeForEpochSecondsExtendedCached();
+
+  runZonedDateTimeForComponentsExtendedNoCache();
+  runZonedDateTimeForComponentsExtendedCached();
 
   runIndexForZoneName();
   runIndexForZoneIdBinary();

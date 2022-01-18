@@ -10,8 +10,7 @@ include ../../../EpoxyDuino/EpoxyDuino.mk
 
 AUNITER_DIR := ../../../AUniter/tools
 
-TARGETS := nano.txt micro.txt samd.txt stm32.txt esp8266.txt esp32.txt \
-teensy32.txt
+TARGETS := nano.txt micro.txt stm32.txt esp8266.txt esp32.txt teensy32.txt
 
 # It is not possible to auto-generate the $(TARGETS) because the USB ports are
 # dynamic.
@@ -30,9 +29,6 @@ nano.txt:
 
 micro.txt:
 	$(AUNITER_DIR)/auniter.sh --ide upmon -o $@ --eof END micro:ACM0
-
-samd.txt:
-	$(AUNITER_DIR)/auniter.sh --ide upmon -o $@ --eof END samd:ACM0
 
 # STM32 no longer works with CLI due to
 # https://github.com/arduino/arduino-cli/issues/1444. Use IDE instead.

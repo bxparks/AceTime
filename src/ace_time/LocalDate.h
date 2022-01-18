@@ -39,6 +39,12 @@ class LocalDate {
     static const int16_t kEpochYear = 2000;
 
     /**
+     * Number of seconds from Unix epoch (1970-01-01 00:00:00Z) to
+     * the AceTime epoch (2000-01-01 00:00:00Z).
+     */
+    static const int32_t kSecondsSinceUnixEpoch = 946684800;
+
+    /**
      * Sentinel yearTiny which indicates an error condition or sometimes a year
      * that 'does not exist'.
      */
@@ -57,22 +63,33 @@ class LocalDate {
     static const int8_t kMaxYearTiny = INT8_MAX;
 
     /** Sentinel epochDays which indicates an error. */
-    static const acetime_t kInvalidEpochDays = INT32_MIN;
+    static const int32_t kInvalidEpochDays = INT32_MIN;
 
     /** Sentinel epochSeconds which indicates an error. */
-    static const acetime_t kInvalidEpochSeconds = LocalTime::kInvalidSeconds;
+    static const int32_t kInvalidEpochSeconds = INT32_MIN;
 
-    /**
-     * Number of seconds from Unix epoch (1970-01-01 00:00:00Z) to
-     * the AceTime epoch (2000-01-01 00:00:00Z).
-     */
-    static const acetime_t kSecondsSinceUnixEpoch = 946684800;
+    /** Sentinel unixDays which indicates an error. */
+    static const int32_t kInvalidUnixDays = INT32_MIN;
+
+    /** Sentinel unixSeconds which indicates an error. */
+    static const int32_t kInvalidUnixSeconds = INT32_MIN;
+
+    /** Sentinel 64-bit unixSeconds which indicates an error. */
+    static const int64_t kInvalidUnixSeconds64 = INT64_MIN;
+
+    /** Maximum 64-bit Unix seconds supported by acetime_t. */
+    static const int64_t kMaxValidUnixSeconds64 =
+        (int64_t) (INT32_MAX) + kSecondsSinceUnixEpoch;
+
+    /** Minimum 64-bit Unix seconds supported by acetime_t. */
+    static const int64_t kMinValidUnixSeconds64 =
+        (int64_t) (INT32_MIN + 1) + kSecondsSinceUnixEpoch;
 
     /**
      * Number of days from Unix epoch (1970-01-01 00:00:00Z) to
      * the AceTime epoch (2000-01-01 00:00:00Z).
      */
-    static const acetime_t kDaysSinceUnixEpoch = 10957;
+    static const int32_t kDaysSinceUnixEpoch = 10957;
 
     /** Monday ISO 8601 number. */
     static const uint8_t kMonday = 1;
@@ -105,7 +122,8 @@ class LocalDate {
      */
     static LocalDate forComponents(int16_t year, uint8_t month, uint8_t day) {
       int8_t yearTiny = isYearValid(year)
-          ? year - kEpochYear : kInvalidYearTiny;
+          ? year - kEpochYear
+          : kInvalidYearTiny;
       return LocalDate(yearTiny, month, day);
     }
 
@@ -122,7 +140,7 @@ class LocalDate {
      *
      * @param epochDays number of days since AceTime epoch (2000-01-01)
      */
-    static LocalDate forEpochDays(acetime_t epochDays) {
+    static LocalDate forEpochDays(int32_t epochDays) {
       int16_t year;
       uint8_t month;
       uint8_t day;
@@ -135,9 +153,9 @@ class LocalDate {
     }
 
     /** Factory method using the number of days since Unix epoch 1970-01-1. */
-    static LocalDate forUnixDays(acetime_t unixDays) {
+    static LocalDate forUnixDays(int32_t unixDays) {
       if (unixDays == kInvalidEpochDays) {
-        return forEpochDays(unixDays);
+        return forError();
       } else {
         return forEpochDays(unixDays - kDaysSinceUnixEpoch);
       }
@@ -156,10 +174,10 @@ class LocalDate {
      */
     static LocalDate forEpochSeconds(acetime_t epochSeconds) {
       if (epochSeconds == kInvalidEpochSeconds) {
-        return forEpochDays(kInvalidEpochDays);
+        return forError();
       } else {
           // integer floor-division towards -infinity
-          acetime_t days = (epochSeconds < 0)
+          int32_t days = (epochSeconds < 0)
               ? (epochSeconds + 1) / 86400 - 1
               : epochSeconds / 86400;
         return forEpochDays(days);
@@ -170,12 +188,32 @@ class LocalDate {
      * Factory method that takes the number of seconds since Unix Epoch of
      * 1970-01-01. Similar to forEpochSeconds(), the seconds corresponding to
      * the partial day are truncated down towards the smallest whole day.
+     * Valid until unixSeconds reaches the maximum value of `int32_t` at
+     * 2038-01-19T03:14:07 UTC.
      */
-    static LocalDate forUnixSeconds(acetime_t unixSeconds) {
-      if (unixSeconds == kInvalidEpochSeconds) {
-        return forEpochSeconds(unixSeconds);
+    static LocalDate forUnixSeconds(int32_t unixSeconds) {
+      if (unixSeconds == kInvalidUnixSeconds) {
+        return forError();
       } else {
         return forEpochSeconds(unixSeconds - kSecondsSinceUnixEpoch);
+      }
+    }
+
+    /**
+     * Factory method that takes the 64-bit number of seconds since Unix Epoch
+     * of 1970-01-01. Similar to forEpochSeconds(), the seconds corresponding to
+     * the partial day are truncated down towards the smallest whole day.
+     * Valid until the 64-bit unixSeconds reaches the equivalent of
+     * 2068-01-19T03:14:07 UTC.
+     */
+    static LocalDate forUnixSeconds64(int64_t unixSeconds) {
+      if (unixSeconds == kInvalidUnixSeconds64
+          || unixSeconds > kMaxValidUnixSeconds64
+          || unixSeconds < kMinValidUnixSeconds64) {
+        return forError();
+      } else {
+        return forEpochSeconds(
+            (acetime_t) (unixSeconds - kSecondsSinceUnixEpoch));
       }
     }
 
@@ -297,7 +335,7 @@ class LocalDate {
      *
      * See https://en.wikipedia.org/wiki/Julian_day
      */
-    acetime_t toEpochDays() const {
+    int32_t toEpochDays() const {
       if (isError()) return kInvalidEpochDays;
 
       // From wiki article:
@@ -322,8 +360,8 @@ class LocalDate {
     }
 
     /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
-    acetime_t toUnixDays() const {
-      if (isError()) return kInvalidEpochDays;
+    int32_t toUnixDays() const {
+      if (isError()) return kInvalidUnixDays;
       return toEpochDays() + kDaysSinceUnixEpoch;
     }
 
@@ -345,9 +383,17 @@ class LocalDate {
     /**
      * Return the number of seconds since Unix epoch (1970-01-01 00:00:00).
      */
-    acetime_t toUnixSeconds() const {
-      if (isError()) return kInvalidEpochSeconds;
+    int32_t toUnixSeconds() const {
+      if (isError()) return kInvalidUnixSeconds;
       return 86400 * toUnixDays();
+    }
+
+    /**
+     * Return the number of seconds since Unix epoch (1970-01-01 00:00:00).
+     */
+    int64_t toUnixSeconds64() const {
+      if (isError()) return kInvalidUnixSeconds64;
+      return (int64_t) 86400 * toUnixDays();
     }
 
     /**
@@ -385,7 +431,7 @@ class LocalDate {
      * Number of days between the Julian calendar epoch (4713 BC 01-01) and the
      * AceTime epoch (2000-01-01).
      */
-    static const acetime_t kDaysSinceJulianEpoch = 2451545;
+    static const int32_t kDaysSinceJulianEpoch = 2451545;
 
     /** Minimum length of the date string. yyyy-mm-dd. */
     static const uint8_t kDateStringLength = 10;
@@ -411,7 +457,7 @@ class LocalDate {
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
-    static void extractYearMonthDay(acetime_t epochDays, int16_t& year,
+    static void extractYearMonthDay(int32_t epochDays, int16_t& year,
         uint8_t& month, uint8_t& day) {
       uint32_t J = epochDays + kDaysSinceJulianEpoch;
       uint32_t f = J + 1401 + (((4 * J + 274277 ) / 146097) * 3) / 4 - 38;

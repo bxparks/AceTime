@@ -8,7 +8,6 @@
 #include <AUnit.h>
 #include <AceTime.h>
 
-using namespace aunit;
 using namespace ace_time;
 using ace_time::internal::ZoneContext;
 using ace_time::extended::ZoneInfo;
@@ -346,34 +345,6 @@ test(ExtendedZoneProcessorTest, createTransitionForYear) {
   ExtendedZoneProcessor::createTransitionForYear(&t, 19, rule, &match);
   assertTrue((t.transitionTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::kSuffixW}));
-}
-
-test(ExtendedZoneProcessorTest, normalizeDateTuple) {
-  DateTuple dtp;
-
-  dtp = {0, 1, 1, 0, ZoneContext::kSuffixW};
-  ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{0, 1, 1, 0, ZoneContext::kSuffixW}));
-
-  dtp = {0, 1, 1, 15*95, ZoneContext::kSuffixW}; // 23:45
-  ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{0, 1, 1, 15*95, ZoneContext::kSuffixW}));
-
-  dtp = {0, 1, 1, 15*96, ZoneContext::kSuffixW}; // 24:00
-  ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{0, 1, 2, 0, ZoneContext::kSuffixW}));
-
-  dtp = {0, 1, 1, 15*97, ZoneContext::kSuffixW}; // 24:15
-  ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{0, 1, 2, 15, ZoneContext::kSuffixW}));
-
-  dtp = {0, 1, 1, -15*96, ZoneContext::kSuffixW}; // -24:00
-  ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{-1, 12, 31, 0, ZoneContext::kSuffixW}));
-
-  dtp = {0, 1, 1, -15*97, ZoneContext::kSuffixW}; // -24:15
-  ExtendedZoneProcessor::normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{-1, 12, 31, -15, ZoneContext::kSuffixW}));
 }
 
 test(ExtendedZoneProcessorTest, expandDateTuple) {
@@ -1023,10 +994,6 @@ test(ExtendedZoneProcessorTest, createAbbreviation) {
   assertEqual("PDDT3", dst);
 }
 
-test(ExtendedZoneProcessorTest, calcAbbreviations) {
-  // TODO: Implement
-}
-
 //---------------------------------------------------------------------------
 
 void setup() {
@@ -1035,14 +1002,8 @@ void setup() {
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
-
-#if 0
-  TestRunner::exclude("*");
-  TestRunner::include("ExtendedZoneProcessorTest",
-      "createTransitionsFromNamedMatch");
-#endif
 }
 
 void loop() {
-  TestRunner::run();
+  aunit::TestRunner::run();
 }

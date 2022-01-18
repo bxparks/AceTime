@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.9.0</span>
+   &#160;<span id="projectnumber">1.10.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -146,6 +146,14 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a97d98d1eda7b1f430dd550dfb56a4911">second</a> (uint8_t second)</td></tr>
 <tr class="memdesc:a97d98d1eda7b1f430dd550dfb56a4911"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the second. <br /></td></tr>
 <tr class="separator:a97d98d1eda7b1f430dd550dfb56a4911"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e5c076c20cd25aae740ae0036c846c9"><td class="memItemLeft" align="right" valign="top"><a id="a4e5c076c20cd25aae740ae0036c846c9"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a4e5c076c20cd25aae740ae0036c846c9">fold</a> () const</td></tr>
+<tr class="memdesc:a4e5c076c20cd25aae740ae0036c846c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the fold. <br /></td></tr>
+<tr class="separator:a4e5c076c20cd25aae740ae0036c846c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d80579bc7eafd9b0cff8ad9c3792c29"><td class="memItemLeft" align="right" valign="top"><a id="a0d80579bc7eafd9b0cff8ad9c3792c29"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a0d80579bc7eafd9b0cff8ad9c3792c29">fold</a> (uint8_t fold)</td></tr>
+<tr class="memdesc:a0d80579bc7eafd9b0cff8ad9c3792c29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the fold. <br /></td></tr>
+<tr class="separator:a0d80579bc7eafd9b0cff8ad9c3792c29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a252e514a2527c07c2715bb960f6c27d9"><td class="memItemLeft" align="right" valign="top"><a id="a252e514a2527c07c2715bb960f6c27d9"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a252e514a2527c07c2715bb960f6c27d9">dayOfWeek</a> () const</td></tr>
 <tr class="memdesc:a252e514a2527c07c2715bb960f6c27d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the day of the week using ISO 8601 numbering where Monday=1 and Sunday=7. <br /></td></tr>
@@ -172,20 +180,23 @@ const <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a
 <a class="el" href="classace__time_1_1ZonedDateTime.html">ZonedDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a53c4825eb710b77030773b7890cf3909">convertToTimeZone</a> (const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;<a class="el" href="classace__time_1_1ZonedDateTime.html#a09369bb6bb3ca5c2f10c68c72c5edfd4">timeZone</a>) const</td></tr>
 <tr class="memdesc:a53c4825eb710b77030773b7890cf3909"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> in a different time zone (with the same epochSeconds). <br /></td></tr>
 <tr class="separator:a53c4825eb710b77030773b7890cf3909"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a541d3478b947751a548c3315b5e9d33f"><td class="memItemLeft" align="right" valign="top"><a id="a541d3478b947751a548c3315b5e9d33f"></a>
-acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a541d3478b947751a548c3315b5e9d33f">toEpochDays</a> () const</td></tr>
-<tr class="memdesc:a541d3478b947751a548c3315b5e9d33f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z), taking into account the time zone. <br /></td></tr>
-<tr class="separator:a541d3478b947751a548c3315b5e9d33f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8821b987370687df8eece04fbd16199"><td class="memItemLeft" align="right" valign="top"><a id="af8821b987370687df8eece04fbd16199"></a>
-acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#af8821b987370687df8eece04fbd16199">toUnixDays</a> () const</td></tr>
-<tr class="memdesc:af8821b987370687df8eece04fbd16199"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of days since Unix epoch (1970-01-01 00:00:00). <br /></td></tr>
-<tr class="separator:af8821b987370687df8eece04fbd16199"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1394fa71ef1970c1b340198d3ed7350f"><td class="memItemLeft" align="right" valign="top"><a id="a1394fa71ef1970c1b340198d3ed7350f"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a1394fa71ef1970c1b340198d3ed7350f">toEpochDays</a> () const</td></tr>
+<tr class="memdesc:a1394fa71ef1970c1b340198d3ed7350f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z), taking into account the time zone. <br /></td></tr>
+<tr class="separator:a1394fa71ef1970c1b340198d3ed7350f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0d37e7ff87736533e58b20058b46a83"><td class="memItemLeft" align="right" valign="top"><a id="af0d37e7ff87736533e58b20058b46a83"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#af0d37e7ff87736533e58b20058b46a83">toUnixDays</a> () const</td></tr>
+<tr class="memdesc:af0d37e7ff87736533e58b20058b46a83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of days since Unix epoch (1970-01-01 00:00:00). <br /></td></tr>
+<tr class="separator:af0d37e7ff87736533e58b20058b46a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfa87cc440b6b3ab00c6aeac190892b3"><td class="memItemLeft" align="right" valign="top">acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#acfa87cc440b6b3ab00c6aeac190892b3">toEpochSeconds</a> () const</td></tr>
 <tr class="memdesc:acfa87cc440b6b3ab00c6aeac190892b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into account the time zone.  <a href="classace__time_1_1ZonedDateTime.html#acfa87cc440b6b3ab00c6aeac190892b3">More...</a><br /></td></tr>
 <tr class="separator:acfa87cc440b6b3ab00c6aeac190892b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5032901906035cce6b4fd1d1cfe55ef"><td class="memItemLeft" align="right" valign="top">acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#ab5032901906035cce6b4fd1d1cfe55ef">toUnixSeconds</a> () const</td></tr>
-<tr class="memdesc:ab5032901906035cce6b4fd1d1cfe55ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of seconds from Unix epoch 1970-01-01 00:00:00Z.  <a href="classace__time_1_1ZonedDateTime.html#ab5032901906035cce6b4fd1d1cfe55ef">More...</a><br /></td></tr>
-<tr class="separator:ab5032901906035cce6b4fd1d1cfe55ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71a1047465fec5c76c4f4cf70c44482b"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a71a1047465fec5c76c4f4cf70c44482b">toUnixSeconds</a> () const</td></tr>
+<tr class="memdesc:a71a1047465fec5c76c4f4cf70c44482b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of seconds from Unix epoch 1970-01-01 00:00:00Z.  <a href="classace__time_1_1ZonedDateTime.html#a71a1047465fec5c76c4f4cf70c44482b">More...</a><br /></td></tr>
+<tr class="separator:a71a1047465fec5c76c4f4cf70c44482b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79425f9f71b91ebd450f8587db8dacdf"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a79425f9f71b91ebd450f8587db8dacdf">toUnixSeconds64</a> () const</td></tr>
+<tr class="memdesc:a79425f9f71b91ebd450f8587db8dacdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the 64-bit number of seconds from Unix epoch 1970-01-01 00:00:00Z.  <a href="classace__time_1_1ZonedDateTime.html#a79425f9f71b91ebd450f8587db8dacdf">More...</a><br /></td></tr>
+<tr class="separator:a79425f9f71b91ebd450f8587db8dacdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a054c5f047a889f11fdfbb5ef55d212c3"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a054c5f047a889f11fdfbb5ef55d212c3">compareTo</a> (const <a class="el" href="classace__time_1_1ZonedDateTime.html">ZonedDateTime</a> &amp;that) const</td></tr>
 <tr class="memdesc:a054c5f047a889f11fdfbb5ef55d212c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare 'this' <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> with 'that' <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a>, and return (&lt;0, 0, &gt;0) according to whether the equivalent epochSeconds (with the timezone incorporated) is (a&lt;b, a==b, a&gt;b).  <a href="classace__time_1_1ZonedDateTime.html#a054c5f047a889f11fdfbb5ef55d212c3">More...</a><br /></td></tr>
 <tr class="separator:a054c5f047a889f11fdfbb5ef55d212c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -201,15 +212,18 @@ acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a75593fa05e2ec071ba144b4be6e52b9b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1ZonedDateTime.html">ZonedDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a75593fa05e2ec071ba144b4be6e52b9b">forComponents</a> (int16_t <a class="el" href="classace__time_1_1ZonedDateTime.html#a1837d67faca49ad7dd01fb699125b865">year</a>, uint8_t <a class="el" href="classace__time_1_1ZonedDateTime.html#af8483c5973c79f6514db8401aae77cb6">month</a>, uint8_t <a class="el" href="classace__time_1_1ZonedDateTime.html#a951bfb83ff1a03125cc122be6f5da675">day</a>, uint8_t <a class="el" href="classace__time_1_1ZonedDateTime.html#a0b9b68dede5df8abe822155a8a10e914">hour</a>, uint8_t <a class="el" href="classace__time_1_1ZonedDateTime.html#ad018aacdd07c8ac5b0f43f48ca8a994f">minute</a>, uint8_t <a class="el" href="classace__time_1_1ZonedDateTime.html#a99768367d264cb915b924fb9360a641e">second</a>, const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;<a class="el" href="classace__time_1_1ZonedDateTime.html#a09369bb6bb3ca5c2f10c68c72c5edfd4">timeZone</a>)</td></tr>
-<tr class="memdesc:a75593fa05e2ec071ba144b4be6e52b9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method using separated date, time, and time zone fields.  <a href="classace__time_1_1ZonedDateTime.html#a75593fa05e2ec071ba144b4be6e52b9b">More...</a><br /></td></tr>
-<tr class="separator:a75593fa05e2ec071ba144b4be6e52b9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00ab2ef530c51e068b3b67dc91a69ccf"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1ZonedDateTime.html">ZonedDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a00ab2ef530c51e068b3b67dc91a69ccf">forComponents</a> (int16_t <a class="el" href="classace__time_1_1ZonedDateTime.html#a1837d67faca49ad7dd01fb699125b865">year</a>, uint8_t <a class="el" href="classace__time_1_1ZonedDateTime.html#af8483c5973c79f6514db8401aae77cb6">month</a>, uint8_t <a class="el" href="classace__time_1_1ZonedDateTime.html#a951bfb83ff1a03125cc122be6f5da675">day</a>, uint8_t <a class="el" href="classace__time_1_1ZonedDateTime.html#a0b9b68dede5df8abe822155a8a10e914">hour</a>, uint8_t <a class="el" href="classace__time_1_1ZonedDateTime.html#ad018aacdd07c8ac5b0f43f48ca8a994f">minute</a>, uint8_t <a class="el" href="classace__time_1_1ZonedDateTime.html#a99768367d264cb915b924fb9360a641e">second</a>, const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;<a class="el" href="classace__time_1_1ZonedDateTime.html#a09369bb6bb3ca5c2f10c68c72c5edfd4">timeZone</a>, uint8_t <a class="el" href="classace__time_1_1ZonedDateTime.html#a4e5c076c20cd25aae740ae0036c846c9">fold</a>=0)</td></tr>
+<tr class="memdesc:a00ab2ef530c51e068b3b67dc91a69ccf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method using separated date, time, and time zone fields.  <a href="classace__time_1_1ZonedDateTime.html#a00ab2ef530c51e068b3b67dc91a69ccf">More...</a><br /></td></tr>
+<tr class="separator:a00ab2ef530c51e068b3b67dc91a69ccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c02e18eba7ef8af1e41d4ecfe727bee"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1ZonedDateTime.html">ZonedDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a9c02e18eba7ef8af1e41d4ecfe727bee">forEpochSeconds</a> (acetime_t epochSeconds, const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;<a class="el" href="classace__time_1_1ZonedDateTime.html#a09369bb6bb3ca5c2f10c68c72c5edfd4">timeZone</a>)</td></tr>
 <tr class="memdesc:a9c02e18eba7ef8af1e41d4ecfe727bee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method.  <a href="classace__time_1_1ZonedDateTime.html#a9c02e18eba7ef8af1e41d4ecfe727bee">More...</a><br /></td></tr>
 <tr class="separator:a9c02e18eba7ef8af1e41d4ecfe727bee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3db8e9540bd94e34a2a409ad07c90b62"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1ZonedDateTime.html">ZonedDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a3db8e9540bd94e34a2a409ad07c90b62">forUnixSeconds</a> (acetime_t unixSeconds, const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;<a class="el" href="classace__time_1_1ZonedDateTime.html#a09369bb6bb3ca5c2f10c68c72c5edfd4">timeZone</a>)</td></tr>
-<tr class="memdesc:a3db8e9540bd94e34a2a409ad07c90b62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create a <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> using the number of seconds from Unix epoch.  <a href="classace__time_1_1ZonedDateTime.html#a3db8e9540bd94e34a2a409ad07c90b62">More...</a><br /></td></tr>
-<tr class="separator:a3db8e9540bd94e34a2a409ad07c90b62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd9ae31381d8fa1706515840a93e7b01"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1ZonedDateTime.html">ZonedDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#acd9ae31381d8fa1706515840a93e7b01">forUnixSeconds</a> (int32_t unixSeconds, const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;<a class="el" href="classace__time_1_1ZonedDateTime.html#a09369bb6bb3ca5c2f10c68c72c5edfd4">timeZone</a>)</td></tr>
+<tr class="memdesc:acd9ae31381d8fa1706515840a93e7b01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create a <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> using the number of seconds from Unix epoch.  <a href="classace__time_1_1ZonedDateTime.html#acd9ae31381d8fa1706515840a93e7b01">More...</a><br /></td></tr>
+<tr class="separator:acd9ae31381d8fa1706515840a93e7b01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95b4ea8234de38744d3962291fb27ecd"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1ZonedDateTime.html">ZonedDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#a95b4ea8234de38744d3962291fb27ecd">forUnixSeconds64</a> (int64_t unixSeconds, const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;<a class="el" href="classace__time_1_1ZonedDateTime.html#a09369bb6bb3ca5c2f10c68c72c5edfd4">timeZone</a>)</td></tr>
+<tr class="memdesc:a95b4ea8234de38744d3962291fb27ecd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create a <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> using the 64-bit number of seconds from Unix epoch.  <a href="classace__time_1_1ZonedDateTime.html#a95b4ea8234de38744d3962291fb27ecd">More...</a><br /></td></tr>
+<tr class="separator:a95b4ea8234de38744d3962291fb27ecd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1a0e9051776bade2c00cbaf1c39dd97"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1ZonedDateTime.html">ZonedDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedDateTime.html#af1a0e9051776bade2c00cbaf1c39dd97">forDateString</a> (const char *dateString)</td></tr>
 <tr class="memdesc:af1a0e9051776bade2c00cbaf1c39dd97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method.  <a href="classace__time_1_1ZonedDateTime.html#af1a0e9051776bade2c00cbaf1c39dd97">More...</a><br /></td></tr>
 <tr class="separator:af1a0e9051776bade2c00cbaf1c39dd97"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -264,12 +278,12 @@ Friends</h2></td></tr>
 <p>If you want to know whether the local representatation of 'this' <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> occurs before or after the local representation of 'that', use <code>this-&gt;<a class="el" href="classace__time_1_1ZonedDateTime.html#af6a26cb619efcbcfa55bad20af2b436d" title="Return the LocalDateTime of the components.">localDateTime()</a>.compareTo(that.localDateTime())</code> instead. This expression ignores the time zone which is sometimes what you want.</p>
 <p>If either this-&gt;<a class="el" href="classace__time_1_1ZonedDateTime.html#a56d29157131aaaed23cbcfccfa664192" title="Return true if any component indicates an error condition.">isError()</a> or that.isError() is true, the result is undefined. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00292">292</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00328">328</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
-<a id="a75593fa05e2ec071ba144b4be6e52b9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75593fa05e2ec071ba144b4be6e52b9b">&#9670;&nbsp;</a></span>forComponents()</h2>
+<a id="a00ab2ef530c51e068b3b67dc91a69ccf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00ab2ef530c51e068b3b67dc91a69ccf">&#9670;&nbsp;</a></span>forComponents()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -317,7 +331,13 @@ Friends</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;&#160;</td>
-          <td class="paramname"><em>timeZone</em>&#160;</td>
+          <td class="paramname"><em>timeZone</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>fold</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -344,11 +364,12 @@ Friends</h2></td></tr>
     <tr><td class="paramname">minute</td><td>minute [0-59] </td></tr>
     <tr><td class="paramname">second</td><td>second [0-59], does not support leap seconds </td></tr>
     <tr><td class="paramname">timeZone</td><td>a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> instance (use TimeZone() for UTC) </td></tr>
+    <tr><td class="paramname">fold</td><td>optional disambiguation of multiple occurences [0, 1] </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00050">50</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00051">51</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -379,7 +400,7 @@ Friends</h2></td></tr>
 <p>Factory method. </p>
 <p>Create a <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> from date string in flash memory F() strings. Mostly for unit testing. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00121">121</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00141">141</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -416,7 +437,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00112">112</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00132">132</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -458,18 +479,18 @@ Friends</h2></td></tr>
 <p>Create the <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> from epochSeconds as seen from the given time zone. The dayOfWeek will be calculated internally. Returns <a class="el" href="classace__time_1_1ZonedDateTime.html#a9ad7a24801f799498c1c51c33fc5c971" title="Return an instance whose isError() returns true.">ZonedDateTime::forError()</a> if epochSeconds is invalid.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">epochSeconds</td><td>Number of seconds from AceTime epoch (2000-01-01 00:00:00Z). A value of <a class="el" href="classace__time_1_1LocalDate.html#a93246cf1e604993768fba270de04fb72" title="Sentinel epochSeconds which indicates an error.">LocalDate::kInvalidEpochSeconds</a> is a sentinel that is considered to be an error and causes <a class="el" href="classace__time_1_1ZonedDateTime.html#a56d29157131aaaed23cbcfccfa664192" title="Return true if any component indicates an error condition.">isError()</a> to return true. </td></tr>
+    <tr><td class="paramname">epochSeconds</td><td>Number of seconds from AceTime epoch (2000-01-01 00:00:00Z). A value of <a class="el" href="classace__time_1_1LocalDate.html#a9c90b1abe7223c1b585bd8f8f89f0516" title="Sentinel epochSeconds which indicates an error.">LocalDate::kInvalidEpochSeconds</a> is a sentinel that is considered to be an error and causes <a class="el" href="classace__time_1_1ZonedDateTime.html#a56d29157131aaaed23cbcfccfa664192" title="Return true if any component indicates an error condition.">isError()</a> to return true. </td></tr>
     <tr><td class="paramname">timeZone</td><td>a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> instance (use TimeZone() for UTC) </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00070">70</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00071">71</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
-<a id="a3db8e9540bd94e34a2a409ad07c90b62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3db8e9540bd94e34a2a409ad07c90b62">&#9670;&nbsp;</a></span>forUnixSeconds()</h2>
+<a id="acd9ae31381d8fa1706515840a93e7b01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd9ae31381d8fa1706515840a93e7b01">&#9670;&nbsp;</a></span>forUnixSeconds()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -480,7 +501,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">static <a class="el" href="classace__time_1_1ZonedDateTime.html">ZonedDateTime</a> ace_time::ZonedDateTime::forUnixSeconds </td>
           <td>(</td>
-          <td class="paramtype">acetime_t&#160;</td>
+          <td class="paramtype">int32_t&#160;</td>
           <td class="paramname"><em>unixSeconds</em>, </td>
         </tr>
         <tr>
@@ -503,7 +524,7 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Factory method to create a <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> using the number of seconds from Unix epoch. </p>
-<p>Returns <a class="el" href="classace__time_1_1ZonedDateTime.html#a9ad7a24801f799498c1c51c33fc5c971" title="Return an instance whose isError() returns true.">ZonedDateTime::forError()</a> if unixSeconds is invalid.</p>
+<p>Valid until unixSeconds reaches the maximum value of <code>int32_t</code> at 2038-01-19T03:14:07 UTC. Returns <a class="el" href="classace__time_1_1ZonedDateTime.html#a9ad7a24801f799498c1c51c33fc5c971" title="Return an instance whose isError() returns true.">ZonedDateTime::forError()</a> if unixSeconds is invalid.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">unixSeconds</td><td>number of seconds since Unix epoch (1970-01-01T00:00:00Z) </td></tr>
@@ -512,7 +533,55 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00091">91</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00090">90</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+
+</div>
+</div>
+<a id="a95b4ea8234de38744d3962291fb27ecd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95b4ea8234de38744d3962291fb27ecd">&#9670;&nbsp;</a></span>forUnixSeconds64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classace__time_1_1ZonedDateTime.html">ZonedDateTime</a> ace_time::ZonedDateTime::forUnixSeconds64 </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>unixSeconds</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;&#160;</td>
+          <td class="paramname"><em>timeZone</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Factory method to create a <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> using the 64-bit number of seconds from Unix epoch. </p>
+<p>Valid until the 64-bit unixSeconds reaches the equivalent of 2068-01-19T03:14:07 UTC. Returns <a class="el" href="classace__time_1_1ZonedDateTime.html#a9ad7a24801f799498c1c51c33fc5c971" title="Return an instance whose isError() returns true.">ZonedDateTime::forError()</a> if unixSeconds is invalid.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">unixSeconds</td><td>number of seconds since Unix epoch (1970-01-01T00:00:00Z) </td></tr>
+    <tr><td class="paramname">timeZone</td><td>a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> instance (use TimeZone() for UTC) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00109">109</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -543,7 +612,7 @@ Friends</h2></td></tr>
 <p>This must be called after any mutation method is called (i.e. <a class="el" href="classace__time_1_1ZonedDateTime.html#a1837d67faca49ad7dd01fb699125b865" title="Return the year.">year()</a>, <a class="el" href="classace__time_1_1ZonedDateTime.html#af8483c5973c79f6514db8401aae77cb6" title="Return the month with January=1, December=12.">month()</a>, <a class="el" href="classace__time_1_1ZonedDateTime.html#a951bfb83ff1a03125cc122be6f5da675" title="Return the day of the month.">day()</a>, <a class="el" href="classace__time_1_1ZonedDateTime.html#a0b9b68dede5df8abe822155a8a10e914" title="Return the hour.">hour()</a>, <a class="el" href="classace__time_1_1ZonedDateTime.html#ad018aacdd07c8ac5b0f43f48ca8a994f" title="Return the minute.">minute()</a>, <a class="el" href="classace__time_1_1ZonedDateTime.html#a99768367d264cb915b924fb9360a641e" title="Return the second.">second()</a>, timezone()) in order to obtain correct values for various derivative information (e.g. <a class="el" href="classace__time_1_1ZonedDateTime.html#acfa87cc440b6b3ab00c6aeac190892b3" title="Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into account the time zone.">toEpochSeconds()</a>). Multiple mutations can be batched together before calling this method.</p>
 <p>This method exists because AceTime objects are mutable instead of immutable. If the objects were immutable, then each mutation would create a new object that would be automatically normalized, and an unnormalized object would not be visible outside of the library. Unfortunately, making the AceTime classes immutable causes the library to consume too much additional memory and consume too much CPU resources on 8-bit processors. So we must provide this <a class="el" href="classace__time_1_1ZonedDateTime.html#ad74f2ea586bfa38a38c7e2ba1115b6c4" title="Normalize the ZonedDateTime after mutation.">normalize()</a> method which must be called manually by the client code. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00226">226</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00252">252</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -597,7 +666,7 @@ Friends</h2></td></tr>
 <p>Set the time zone. </p>
 <p>Note that this does not convert a given <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> into a different <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a>. Use converToTimeZone() instead. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00200">200</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00226">226</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -627,12 +696,12 @@ Friends</h2></td></tr>
 <p>Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into account the time zone. </p>
 <p>Normally, Julian day starts at 12:00:00. We modify the formula given in wiki page to start the Gregorian day at 00:00:00. See <a href="https://en.wikipedia.org/wiki/Julian_day">https://en.wikipedia.org/wiki/Julian_day</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00261">261</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00286">286</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
-<a id="ab5032901906035cce6b4fd1d1cfe55ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab5032901906035cce6b4fd1d1cfe55ef">&#9670;&nbsp;</a></span>toUnixSeconds()</h2>
+<a id="a71a1047465fec5c76c4f4cf70c44482b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71a1047465fec5c76c4f4cf70c44482b">&#9670;&nbsp;</a></span>toUnixSeconds()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -641,7 +710,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">acetime_t ace_time::ZonedDateTime::toUnixSeconds </td>
+          <td class="memname">int32_t ace_time::ZonedDateTime::toUnixSeconds </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -655,10 +724,41 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Return the number of seconds from Unix epoch 1970-01-01 00:00:00Z. </p>
-<p>The return type is a acetime_t which can represent a range of 136 years.</p>
+<p>It returns <a class="el" href="classace__time_1_1LocalDate.html#a76b912090a944c1196034c78614874ef" title="Sentinel unixSeconds which indicates an error.">LocalDate::kInvalidUnixSeconds</a> if <a class="el" href="classace__time_1_1ZonedDateTime.html#a56d29157131aaaed23cbcfccfa664192" title="Return true if any component indicates an error condition.">isError()</a> is true.</p>
 <p>Tip: You can use the command 'date +s -d {iso8601date}' on a Unix box to print the unix seconds. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00272">272</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00297">297</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+
+</div>
+</div>
+<a id="a79425f9f71b91ebd450f8587db8dacdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79425f9f71b91ebd450f8587db8dacdf">&#9670;&nbsp;</a></span>toUnixSeconds64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t ace_time::ZonedDateTime::toUnixSeconds64 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the 64-bit number of seconds from Unix epoch 1970-01-01 00:00:00Z. </p>
+<p>Returns kInvalidUnixSeconds64 if <a class="el" href="classace__time_1_1ZonedDateTime.html#a56d29157131aaaed23cbcfccfa664192" title="Return true if any component indicates an error condition.">isError()</a> is true.</p>
+<p>Tip: You can use the command 'date +s -d {iso8601date}' on a Unix box to print the unix seconds. </p>
+
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00308">308</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -688,7 +788,7 @@ Friends</h2></td></tr>
 <p>Return the single-byte year offset from year 2000. </p>
 <p>Intended for memory constrained or performance critical code. May be deprecated in the future. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00148">148</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00168">168</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -719,7 +819,7 @@ Friends</h2></td></tr>
 <p>Set the single-byte year offset from year 2000. </p>
 <p>Intended for memory constrained or performance critical code. May be deprecated in the future. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00155">155</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00175">175</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -761,7 +861,7 @@ Friends</h2></td></tr>
 <p>Return true if two <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a> objects are equal in all components. </p>
 <p>Optimized for small changes in the less signficant fields, such as 'second' or 'minute'. The dayOfWeek is a derived field so it is not explicitly used to test equality, but it follows that if all the other fields are identical, then the dayOfWeek must also be equal. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00329">329</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedDateTime_8h_source.html#l00365">365</a> of file <a class="el" href="ZonedDateTime_8h_source.html">ZonedDateTime.h</a>.</p>
 
 </div>
 </div>

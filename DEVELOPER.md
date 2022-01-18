@@ -36,7 +36,7 @@ Here is the dependency diagram among these projects.
                     AceTimeTools --------
                     ^    ^   ^           \ artransformer.py
         creating   /     |    \ creating  \ -> bufestimator.py
-        zonedb[x] /      |     \ zonedbpy  \ -> zone_processor.py
+        zonedb[x] /      |     \ zonedb    \ -> zone_processor.py
                  /       |      \           v
               AceTime    |      AceTimePython
              ^    ^      |      ^
@@ -54,7 +54,7 @@ the buffer sizes needed by the C++ `ExtendedZoneProcessor` class. The
 module to calculate those buffer sizes.
 
 On the other hand, AceTimePython needs AceTimeTools to generate the zoneinfo
-files under `AceTimePython/zonedbpy`, which are consumed by the `acetz.py`
+files under `AceTimePython/zonedb`, which are consumed by the `acetz.py`
 module. Fortunately, AceTimePython does *not* need AceTimeTools during runtime,
 so 3rd party consumers can incorporate AceTimePython without pulling in
 AceTimeTools.
@@ -289,31 +289,60 @@ SAVE (15-min resolution)
 <a name="ExtendedZoneProcessor"></a>
 ## ExtendedZoneProcessor
 
-To save memory, the `ExtendedZoneProcessor` class calculates the `Transition`
-objects on the fly when the `initForEpochSeconds(acetime_t)` or
-`initForYear(int16_t)` method is called. The alternative used by most Date-Time
-libraries to precalculate the Transitions for all Zones, for a certain range of
-years. Precalculation is definitely faster, and easier because the logic for
-calculating the Transition objects resides in only a single place. However, the
-expansion of the Transition objects consumes too much memory on an embedded
-microcontrollers.
+There are 2 fundamental ways that a `ZonedDateTime` can be constructed:
 
-When a request to create a `ZonedDateTime` object comes in, the
-`ExtendedZoneProcessor.findTransition(epochSeconds)` method is called. It scans
-the list of Transitions calculated above, looking for a match. The matching
-Transition object contains the relevant standard offset and DST offset of that
-Zone.
+1) Using its human-readable components and its timezone through the
+`ZonedDateTime::forComponents()` factory method. The human-readable date can be:
+    * An undefined time in a DST gap, or
+    * A duplicate time during a DST overlap.
+2) Using the epochSeconds and its timezone through the
+`ZoneDateTime::forEpochSeconds()` factory method.
+    * The epochSeconds always specifies a well-defined unique time.
 
-The calculation of the Transitions is very complex, and I find that I can no
-longer understand my own code after a few months away of this code base. So here
-are some notes to help my future-self. The code is in
-`Transition::initForYear(int16_t)` and is organized into 5 steps as described
-below.
+The call stack of the first method looks like this:
+
+```
+ZoneDateTime::forComponents()
+  -> TimeZone::getOffsetDateTime(LocalDateTime&)
+    -> ExtendeZoneProcessor::getOffsetDateTime(LocalDateTime&)
+      -> TransitionStorage::findTransitionForDateTime(LocalDateTime&)
+```
+
+The call stack of the second method looks like this:
+
+```
+ZoneDateTime::forEpochSeconds(acetime_t)
+  -> TimeZone::getUtcOffset(acetime_t)
+    -> ExtendedZoneProcessor::getUtcOffset(acetime_t)
+      -> TransitionStorage::findTransitionForSeconds(acetime_t)
+```
+
+Both the `findTransitionForDateTime()` and `findTransitionForSeconds()` methods
+search the list of Transitions of the specified TimeZone for a matching
+Transition. Most Date-Time libraries precalculate these Transitions for all
+Zones, for a certain range of years. Precalculation is definitely faster, and
+easier because the logic for calculating the Transition objects resides in only
+a single place.
+
+The precalculation of Transition objects for all zones and years consumes too
+much memory on an embedded microcontrollers. To save memory, the
+`ExtendedZoneProcessor` class in the AceTime library calculates the `Transition`
+objects lazily, for only a single zone and for a single year (technically, for a
+14-month interval covering the 12 months of the specified year) when the
+`initForEpochSeconds(acetime_t)` or `initForYear(int16_t)` method is called. The
+list of Transitions for a single year is cached, so that subsequent requests in
+the same year avoid the work of recalculating the Transitions.
+
+The calculation of the Transitions for a given zone and year is very complex,
+and I find that I can no longer understand my own code after a few months away
+of this code base. So here are some notes to help my future-self. The code is in
+`ExtendedZoneProcessor::initForYear(int16_t)` and is organized into 5 steps as
+described below.
 
 <a name="Step1FindMatches"></a>
 ### Step 1: Find Matches
 
-The `ExtendedZoneProcessor.findMatches()` finds all `ZoneEra` objects which
+The `ExtendedZoneProcessor::findMatches()` finds all `ZoneEra` objects which
 overlap with the 14-month interval from Dec 1 of the prior year until Feb 1 of
 the following year. For example, `initForYear(2010)` means that the interval is
 from 2009-12-01T00:00 until 2011-02-01T00:00.
@@ -574,12 +603,11 @@ available.
         * `$ make`
         * `$ ./ExtendedHinnantDateTest.out | grep failed`
         * There should be no failures.
-* Update the zoneinfo files for AceTimePython (needed by BasicAcetzTest and
+* Update the zonedb files for AceTimePython (needed by BasicAcetzTest and
   ExtendedAcetzTest):
-    * ``zonedbpy`
-        * `$ cd AceTimePython/src/acetime/zonedbpy`
-        * Edit the `Makefile` and update the `TZ_VERSION`.
-        * `$ make`
+    * `$ cd AceTimePython/src/acetime/zonedb`
+    * Edit the `Makefile` and update the `TZ_VERSION`.
+    * `$ make`
 * Verify that the `AceTime` library and the `AceTimePython` library agree with
   each other using the same TZDB version. This requires going into the
   [AceTimeValidation](https://github.com/bxparks/AceTimeValidation) project.

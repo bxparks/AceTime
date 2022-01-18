@@ -1,12 +1,12 @@
 SIZEOF
 sizeof(LocalDate): 3
-sizeof(LocalTime): 3
-sizeof(LocalDateTime): 6
+sizeof(LocalTime): 4
+sizeof(LocalDateTime): 7
 sizeof(TimeOffset): 2
-sizeof(OffsetDateTime): 8
+sizeof(OffsetDateTime): 10
 sizeof(TimeZone): 12
 sizeof(TimeZoneData): 8
-sizeof(ZonedDateTime): 20
+sizeof(ZonedDateTime): 24
 sizeof(TimePeriod): 4
 sizeof(BasicZoneProcessor): 164
 sizeof(ExtendedZoneProcessor): 540
@@ -29,20 +29,22 @@ sizeof(ExtendedZoneProcessor::TransitionStorage): 420
 sizeof(ExtendedZoneProcessor::MatchingEra): 24
 BENCHMARKS
 EmptyLoop 4.800
-LocalDate::forEpochDays() 8.000
-LocalDate::toEpochDays() 3.800
-LocalDate::dayOfWeek() 3.800
-OffsetDateTime::forEpochSeconds() 12.200
-OffsetDateTime::toEpochSeconds() 6.900
-ZonedDateTime::toEpochSeconds() 6.900
-ZonedDateTime::toEpochDays() 5.700
-ZonedDateTime::forEpochSeconds(UTC) 13.000
-ZonedDateTime::forEpochSeconds(Basic_nocache) 95.700
-ZonedDateTime::forEpochSeconds(Basic_cached) 26.000
-ZonedDateTime::forEpochSeconds(Extended_nocache) 188.400
-ZonedDateTime::forEpochSeconds(Extended_cached) 25.800
-BasicZoneManager::createForZoneName(binary) 14.800
-BasicZoneManager::createForZoneId(binary) 6.600
-BasicZoneManager::createForZoneId(linear) 44.000
-Iterations_per_run 10000
+LocalDate::forEpochDays() 7.800
+LocalDate::toEpochDays() 3.200
+LocalDate::dayOfWeek() 3.400
+OffsetDateTime::forEpochSeconds() 13.200
+OffsetDateTime::toEpochSeconds() 7.000
+ZonedDateTime::toEpochSeconds() 7.000
+ZonedDateTime::toEpochDays() 5.600
+ZonedDateTime::forEpochSeconds(UTC) 16.600
+ZonedDateTime::forEpochSeconds(Basic_nocache) 99.000
+ZonedDateTime::forEpochSeconds(Basic_cached) 29.800
+ZonedDateTime::forEpochSeconds(Extended_nocache) 196.800
+ZonedDateTime::forEpochSeconds(Extended_cached) 30.200
+ZonedDateTime::forComponents(Extended_nocache) 167.400
+ZonedDateTime::forComponents(Extended_cached) 6.400
+BasicZoneManager::createForZoneName(binary) 14.600
+BasicZoneManager::createForZoneId(binary) 6.400
+BasicZoneManager::createForZoneId(linear) 44.800
+Iterations_per_run 5000
 END

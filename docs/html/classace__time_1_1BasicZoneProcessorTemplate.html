@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.9.0</span>
+   &#160;<span id="projectnumber">1.10.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -126,6 +126,9 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <tr class="memitem:ad9544ada0ee918048edddca96c44e28c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#ad9544ada0ee918048edddca96c44e28c">getOffsetDateTime</a> (const <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> &amp;ldt) const override</td></tr>
 <tr class="memdesc:ad9544ada0ee918048edddca96c44e28c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the best estimate of the <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and offset from UTC (timeOffset).">OffsetDateTime</a> at the given <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> for the timezone of the current <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a>.  <a href="classace__time_1_1BasicZoneProcessorTemplate.html#ad9544ada0ee918048edddca96c44e28c">More...</a><br /></td></tr>
 <tr class="separator:ad9544ada0ee918048edddca96c44e28c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50eee06d2c32b3e735ad4ed6f39cf64d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a50eee06d2c32b3e735ad4ed6f39cf64d">getOffsetDateTime</a> (acetime_t epochSeconds) const override</td></tr>
+<tr class="memdesc:a50eee06d2c32b3e735ad4ed6f39cf64d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the best estimate of the <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and offset from UTC (timeOffset).">OffsetDateTime</a> at the given epochSeconds for the timezone of the current <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a>, including the fold parameter.  <a href="classace__time_1_1BasicZoneProcessorTemplate.html#a50eee06d2c32b3e735ad4ed6f39cf64d">More...</a><br /></td></tr>
+<tr class="separator:a50eee06d2c32b3e735ad4ed6f39cf64d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89e7281bee80ccaab70debdb1a29c1a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a89e7281bee80ccaab70debdb1a29c1a8">printNameTo</a> (Print &amp;printer) const override</td></tr>
 <tr class="memdesc:a89e7281bee80ccaab70debdb1a29c1a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a human-readable identifier (e.g.  <a href="classace__time_1_1BasicZoneProcessorTemplate.html#a89e7281bee80ccaab70debdb1a29c1a8">More...</a><br /></td></tr>
 <tr class="separator:a89e7281bee80ccaab70debdb1a29c1a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -291,7 +294,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00352">352</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00357">357</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -327,7 +330,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#aa5a25a2082ceed26ff15eb72cd1c5724">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00320">320</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00325">325</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -402,8 +405,43 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 </div>
 </div>
+<a id="a50eee06d2c32b3e735ad4ed6f39cf64d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50eee06d2c32b3e735ad4ed6f39cf64d">&#9670;&nbsp;</a></span>getOffsetDateTime() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename ZRB &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a> <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html">ace_time::BasicZoneProcessorTemplate</a>&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;::getOffsetDateTime </td>
+          <td>(</td>
+          <td class="paramtype">acetime_t&#160;</td>
+          <td class="paramname"><em>epochSeconds</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the best estimate of the <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and offset from UTC (timeOffset).">OffsetDateTime</a> at the given epochSeconds for the timezone of the current <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a>, including the fold parameter. </p>
+<p>Returns <a class="el" href="classace__time_1_1OffsetDateTime.html#a7212a3a5c48a938f10cbebbc41d5deeb" title="Factory method that returns an instance whose isError() is true.">OffsetDateTime::forError()</a> if an error occurs, for example, if the epochSeconds is outside of the support date range of the underlying ZoneInfo files. </p>
+
+<p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#ad089911bf92e4b1b32e0ca17f1ecbbe6">ace_time::ZoneProcessor</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00303">303</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+
+</div>
+</div>
 <a id="ad9544ada0ee918048edddca96c44e28c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9544ada0ee918048edddca96c44e28c">&#9670;&nbsp;</a></span>getOffsetDateTime()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9544ada0ee918048edddca96c44e28c">&#9670;&nbsp;</a></span>getOffsetDateTime() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -507,7 +545,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a2ebdaf658f48d58a161086e21c1fc3f7">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00303">303</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00308">308</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -538,11 +576,11 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 </div><div class="memdoc">
 
 <p>Print a short human-readable identifier (e.g. </p>
-<p>"Los_Angeles") </p>
+<p>"Los Angeles"). Any underscore in the short name is replaced with a space. </p>
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a68ba2ce6b980f73f4f673450148c2416">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00307">307</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00312">312</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -578,7 +616,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#af069bc08e2135e460c4442fd0be6d3e1">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00311">311</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00316">316</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
