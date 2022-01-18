@@ -292,16 +292,24 @@ integer, the largest value is 2,147,483,647. Therefore, the largest date
 that can be represented in this library is 2068-01-19T03:14:07 UTC.
 
 The `acetime_t` is analogous to the `time_t` type in the standard C library,
-with 3 major differences:
+with several major differences:
 
 * The `time_t` does not exist on all Arduino platforms.
-* Modern implementations of the `time_t` type uses a 64-bit `int64_t` to prevent
-  the "Year 2038" overflow problem. Unfortunately, it is too resource intensive
-  to use a 64-bit integer on 8-bit processors.
+* Some Arduino platforms and older Unix platforms use a 32-bit `int32_t` to
+  represent `time_t`.
+* Modern implementations (e.g. ESP8266 and ESP32) use a 64-bit `int64_t` to
+  represent `time_t` to prevent the "Year 2038" overflow problem. Unfortunately,
+  AceTime cannot use 64-bit integers internally because they are too resource
+  intensive on 8-bit processors.
 * Most `time_t` implementations uses the Unix Epoch of 1970-01-01 00:00:00 UTC.
-  It is possible to convert between a `time_t` and an `acetime_t` by adding or
-  subtracting the appropriate number of seconds between the 2 Epoch dates. See
-  `LocalDate::kSecondsSinceUnixEpoch`
+  AceTime uses an epoch of 2000-01-01 00:00:00 UTC.
+
+It is possible to convert between a `time_t` and an `acetime_t` by adding or
+subtracting the number of seconds between the 2 Epoch dates. This constant is
+946684800 and defined by `LocalDate::kSecondsSinceUnixEpoch`. Helper methods
+are available on various classes to avoid manual conversion between these 2
+epochs: `forUnixSeconds()` and `toUnixSeconds()`, and the corresponding
+`forUnixSeconds64()` and `toUnixSeconds64()` 64-bit versions added in v1.10.
 
 <a name="LocalDateAndLocalTime"></a>
 ### LocalDate and LocalTime

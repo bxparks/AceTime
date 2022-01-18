@@ -23,7 +23,8 @@ date and time between different time zones, properly accounting for all DST
 transitions from the year 2000 until 2050. The ZoneInfo Database is extracted
 from the [IANA TZ database](https://www.iana.org/time-zones). Different subsets
 of the ZoneInfo Database can be compiled into the application to reduce flash
-memory size.
+memory size. Standard C-library `time_t` types, 32-bit and 64-bit, are supported
+through conversion methods.
 
 The companion library [AceTimeClock](https://github.com/bxparks/AceTimeClock)
 provides Clock classes to retrieve the time from more accurate sources, such as
@@ -33,7 +34,10 @@ RTC](https://www.maximintegrated.com/en/products/analog/real-time-clocks/DS3231.
 chip. A special version of the `Clock` class called the `SystemClock` provides a
 fast and accurate "epoch seconds" across all Arduino compatible systems. This
 "epoch seconds" can be given to the classes in this library to convert it into
-human readable components in different timezones.
+human readable components in different timezones. On the ESP8266 and ESP32, the
+AceTime library can be used with the SNTP client and the C-library `time()`
+function through the 64-bit `time_t` value. See [ESP8266 and ESP32
+TimeZones](#Esp8266AndEspTimeZones) below.
 
 The primordial motivation for creating the AceTime library was to build a
 digital clock with an OLED or LED display, that would show the date and time of
