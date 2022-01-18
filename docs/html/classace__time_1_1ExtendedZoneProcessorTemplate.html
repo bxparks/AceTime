@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.9.0</span>
+   &#160;<span id="projectnumber">1.10.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -108,6 +108,14 @@ Public Types</h2></td></tr>
 typedef <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html">extended::TransitionTemplate</a>&lt; ZEB, ZPB, ZRB &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#ace2ae33ce0d8101542cd697958289fd2">Transition</a></td></tr>
 <tr class="memdesc:ace2ae33ce0d8101542cd697958289fd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exposed only for testing purposes. <br /></td></tr>
 <tr class="separator:ace2ae33ce0d8101542cd697958289fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b173249f28227a52e4afcb1b278cd0a"><td class="memItemLeft" align="right" valign="top"><a id="a4b173249f28227a52e4afcb1b278cd0a"></a>
+typedef <a class="el" href="structace__time_1_1extended_1_1MatchingTransitionTemplate.html">extended::MatchingTransitionTemplate</a>&lt; ZEB, ZPB, ZRB &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4b173249f28227a52e4afcb1b278cd0a">MatchingTransition</a></td></tr>
+<tr class="memdesc:a4b173249f28227a52e4afcb1b278cd0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exposed only for testing purposes. <br /></td></tr>
+<tr class="separator:a4b173249f28227a52e4afcb1b278cd0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba1f1bb6452618c1e42b28369614e287"><td class="memItemLeft" align="right" valign="top"><a id="aba1f1bb6452618c1e42b28369614e287"></a>
+typedef <a class="el" href="structace__time_1_1extended_1_1TransitionResultTemplate.html">extended::TransitionResultTemplate</a>&lt; ZEB, ZPB, ZRB &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aba1f1bb6452618c1e42b28369614e287">TransitionResult</a></td></tr>
+<tr class="memdesc:aba1f1bb6452618c1e42b28369614e287"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exposed only for testing purposes. <br /></td></tr>
+<tr class="separator:aba1f1bb6452618c1e42b28369614e287"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd5f76dcd187f20cb708e7c090c42139"><td class="memItemLeft" align="right" valign="top"><a id="afd5f76dcd187f20cb708e7c090c42139"></a>
 typedef <a class="el" href="structace__time_1_1extended_1_1MatchingEraTemplate.html">extended::MatchingEraTemplate</a>&lt; ZEB &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#afd5f76dcd187f20cb708e7c090c42139">MatchingEra</a></td></tr>
 <tr class="memdesc:afd5f76dcd187f20cb708e7c090c42139"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exposed only for testing purposes. <br /></td></tr>
@@ -133,8 +141,9 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <tr class="memdesc:a4aa2f35e52d2224225af31bc7d9c08cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the time zone abbreviation at epochSeconds.  <a href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4aa2f35e52d2224225af31bc7d9c08cf">More...</a><br /></td></tr>
 <tr class="separator:a4aa2f35e52d2224225af31bc7d9c08cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7434e1a3be298b41ef82e7385289426a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a7434e1a3be298b41ef82e7385289426a">getOffsetDateTime</a> (const <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> &amp;ldt) const override</td></tr>
-<tr class="memdesc:a7434e1a3be298b41ef82e7385289426a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the best estimate of the <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and offset from UTC (timeOffset).">OffsetDateTime</a> at the given <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> for the timezone of the current <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a>.  <a href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a7434e1a3be298b41ef82e7385289426a">More...</a><br /></td></tr>
 <tr class="separator:a7434e1a3be298b41ef82e7385289426a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bdc6301bb1d4ffff9192b161288a80f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4bdc6301bb1d4ffff9192b161288a80f">getOffsetDateTime</a> (acetime_t epochSeconds) const override</td></tr>
+<tr class="separator:a4bdc6301bb1d4ffff9192b161288a80f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefee4d3f9707a59b048619143a6d65b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aefee4d3f9707a59b048619143a6d65b8">printNameTo</a> (Print &amp;printer) const override</td></tr>
 <tr class="memdesc:aefee4d3f9707a59b048619143a6d65b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a human-readable identifier (e.g.  <a href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aefee4d3f9707a59b048619143a6d65b8">More...</a><br /></td></tr>
 <tr class="separator:aefee4d3f9707a59b048619143a6d65b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -296,7 +305,7 @@ class ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</h
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00793">793</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00922">922</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ae05ccd05ee8b92e02241122a6bd12029"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae05ccd05ee8b92e02241122a6bd12029">&#9670;&nbsp;</a></span>ExtendedZoneProcessorTemplate()</h2>
@@ -349,7 +358,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01048">1048</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01241">1241</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -385,7 +394,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#aa5a25a2082ceed26ff15eb72cd1c5724">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00942">942</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01134">1134</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -421,7 +430,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#aa080366d78d5b8d8cc56915857e49ddd">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00836">836</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00979">979</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -456,12 +465,47 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#ac6c4abe6e32c646228cd667114dc81de">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00829">829</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00968">968</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+
+</div>
+</div>
+<a id="a4bdc6301bb1d4ffff9192b161288a80f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bdc6301bb1d4ffff9192b161288a80f">&#9670;&nbsp;</a></span>getOffsetDateTime() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename ZRB &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a> <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html">ace_time::ExtendedZoneProcessorTemplate</a>&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;::getOffsetDateTime </td>
+          <td>(</td>
+          <td class="paramtype">acetime_t&#160;</td>
+          <td class="paramname"><em>epochSeconds</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p></p>
+<p>This implementation calculates the <code><a class="el" href="classace__time_1_1OffsetDateTime.html#a7664a39b4b4227657497163d25965edc" title="Return the fold.">OffsetDateTime.fold()</a></code> parameter correctly, and indicates whether the localized datetime is before the overlap (fold==0) or after the overlap (fold==1). During a gap, there is no ambiguity when searching on epochSeconds so fold will always be 0. </p>
+
+<p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#ad089911bf92e4b1b32e0ca17f1ecbbe6">ace_time::ZoneProcessor</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01078">1078</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
 <a id="a7434e1a3be298b41ef82e7385289426a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7434e1a3be298b41ef82e7385289426a">&#9670;&nbsp;</a></span>getOffsetDateTime()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7434e1a3be298b41ef82e7385289426a">&#9670;&nbsp;</a></span>getOffsetDateTime() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -486,12 +530,25 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 </table>
 </div><div class="memdoc">
 
-<p>Return the best estimate of the <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and offset from UTC (timeOffset).">OffsetDateTime</a> at the given <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> for the timezone of the current <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a>. </p>
-<p>Returns <a class="el" href="classace__time_1_1OffsetDateTime.html#a7212a3a5c48a938f10cbebbc41d5deeb" title="Factory method that returns an instance whose isError() is true.">OffsetDateTime::forError()</a> if an error occurs, for example, if the <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> is outside of the support date range of the underlying ZoneInfo files. </p>
+<p></p>
+<p>In this implementation, the <code><a class="el" href="classace__time_1_1LocalDateTime.html#a6d082508f73c7a9dbca81c0a2287eb40" title="Return the fold.">LocalDateTime.fold()</a></code> parameter is an input parameter that determines whether to return the earlier Transition (fold==0) or the later Transition (fold==1). This is intended to be the same algorithm as Python PEP 495. In other words:</p>
+<ul>
+<li>If the 'ldt' is in the overlap:<ul>
+<li>return the earlier transition (earlier UTC) if ldt.fold == 0,</li>
+<li>return the later transition (later UTC) if ldt.fold == 1.</li>
+</ul>
+</li>
+<li>If the 'ldt' is in the gap:<ul>
+<li>return the earlier transition (later UTC) if ldt.fold == 0,</li>
+<li>return the later transition (earlier UTC) if ldt.fold == 1,</li>
+</ul>
+</li>
+</ul>
+<p>See also the zone_processor.ZoneProcessor._find_transition_for_datetime_python() function in the AceTimePython project. </p>
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#abb743cef9e4b5c69594f8f121da087ad">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00843">843</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01007">1007</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -523,7 +580,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 <p>Get the largest allocation size of TransitionStorage. </p>
 <p>For debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00928">928</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01120">1120</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -558,7 +615,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a606e678c83ced5f83920a5d517728b62">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00819">819</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00956">956</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -591,7 +648,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 <p>Initialize using the epochSeconds. </p>
 <p>The epochSeconds is converted to the <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> for UTC time, and the year is used to call <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4fa710573e859ef109a29fd7e3407fa2" title="Initialize the zone rules cache, keyed by the &quot;current&quot; year.">initForYear()</a>. Exposed for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00961">961</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01153">1153</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -624,7 +681,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 <p>Initialize the zone rules cache, keyed by the "current" year. </p>
 <p>Returns success status: true if successful, false if an error occurred. Exposed for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00971">971</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01163">1163</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -659,7 +716,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a2ebdaf658f48d58a161086e21c1fc3f7">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00901">901</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01093">1093</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -690,11 +747,11 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 </div><div class="memdoc">
 
 <p>Print a short human-readable identifier (e.g. </p>
-<p>"Los_Angeles") </p>
+<p>"Los Angeles"). Any underscore in the short name is replaced with a space. </p>
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a68ba2ce6b980f73f4f673450148c2416">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00905">905</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01097">1097</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -726,7 +783,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 <p>Reset the TransitionStorage high water mark. </p>
 <p>For debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00923">923</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01115">1115</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -759,7 +816,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 <p>Set the broker factory at runtime. </p>
 <p>This is an advanced usage where the custom subclass of <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database.">ExtendedZoneProcessorTemplate</a> does not know its broker factory at compile time, so it must be set at runtime through this method. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00952">952</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01144">1144</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -795,7 +852,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#af069bc08e2135e460c4442fd0be6d3e1">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00932">932</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01124">1124</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -825,7 +882,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 <p>Max number of Transitions required for all Zones supported by this class. </p>
 <p>This includes the most recent prior Transition. The max transitions for each Zone is given by the kZoneBufSize{zoneName} constant in the generated <code>zonedb[x]/zone_infos.h</code> file. The maximum over all zones is given in the 'MaxBufSize' comment in the <code>zone_infos.h</code> file. Currently that overall maximum is 7, which has been verified by the ExtendedDateUtilTest, ExtendedJavaTest, and ExtendedAcetzTest validation tests. We set this to one more than 7 for safety. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00805">805</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00934">934</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.9.0</span>
+   &#160;<span id="projectnumber">1.10.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -122,6 +122,9 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>getZoneId</b> () 
 <tr class="separator:ad531a7fd536501dcaaddd95f294d70e6 inherit pub_methods_classace__time_1_1BasicZoneProcessorTemplate"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9544ada0ee918048edddca96c44e28c inherit pub_methods_classace__time_1_1BasicZoneProcessorTemplate"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#ad9544ada0ee918048edddca96c44e28c">getOffsetDateTime</a> (const <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> &amp;ldt) const override</td></tr>
 <tr class="separator:ad9544ada0ee918048edddca96c44e28c inherit pub_methods_classace__time_1_1BasicZoneProcessorTemplate"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50eee06d2c32b3e735ad4ed6f39cf64d inherit pub_methods_classace__time_1_1BasicZoneProcessorTemplate"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getOffsetDateTime</b> (acetime_t epochSeconds) const override</td></tr>
+<tr class="memdesc:a50eee06d2c32b3e735ad4ed6f39cf64d inherit pub_methods_classace__time_1_1BasicZoneProcessorTemplate"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the best estimate of the OffsetDateTime at the given epochSeconds for the timezone of the current ZoneProcessor, including the fold parameter.  <a href="classace__time_1_1BasicZoneProcessorTemplate.html#a50eee06d2c32b3e735ad4ed6f39cf64d">More...</a><br /></td></tr>
+<tr class="separator:a50eee06d2c32b3e735ad4ed6f39cf64d inherit pub_methods_classace__time_1_1BasicZoneProcessorTemplate"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89e7281bee80ccaab70debdb1a29c1a8 inherit pub_methods_classace__time_1_1BasicZoneProcessorTemplate"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><b>printNameTo</b> (Print &amp;printer) const override</td></tr>
 <tr class="memdesc:a89e7281bee80ccaab70debdb1a29c1a8 inherit pub_methods_classace__time_1_1BasicZoneProcessorTemplate"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a human-readable identifier (e.g.  <a href="classace__time_1_1BasicZoneProcessorTemplate.html#a89e7281bee80ccaab70debdb1a29c1a8">More...</a><br /></td></tr>
 <tr class="separator:a89e7281bee80ccaab70debdb1a29c1a8 inherit pub_methods_classace__time_1_1BasicZoneProcessorTemplate"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -188,7 +191,7 @@ const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></t
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A specific implementation of <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database.">BasicZoneProcessorTemplate</a> that uses ZoneXxxBrokers which read from zonedb files in PROGMEM flash memory. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00993">993</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00998">998</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/brian/src/AceTime/src/ace_time/<a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a></li>
 </ul>

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.9.0</span>
+   &#160;<span id="projectnumber">1.10.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -85,18 +85,24 @@ $(function() {
 <li>findIndexForName()
 : <a class="el" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a9f850b1e501782a0adbc79e94d25e82e">ace_time::internal::ZoneRegistrarTemplate&lt; ZI, ZIB, ZRGB &gt;</a>
 </li>
-<li>findTransition()
-: <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#af9183767c11b8431fcf5abcf12722056">ace_time::extended::TransitionStorageTemplate&lt; SIZE, ZEB, ZPB, ZRB &gt;</a>
-</li>
 <li>findTransitionForDateTime()
-: <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#af2e9d5d8520373ca82ecb232e2fc8f1a">ace_time::extended::TransitionStorageTemplate&lt; SIZE, ZEB, ZPB, ZRB &gt;</a>
+: <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a6ff4d508b408689a8e2cbca17df1d6cb">ace_time::extended::TransitionStorageTemplate&lt; SIZE, ZEB, ZPB, ZRB &gt;</a>
+</li>
+<li>findTransitionForSeconds()
+: <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#ad84866d31ff6bfdbedc588592b92aad7">ace_time::extended::TransitionStorageTemplate&lt; SIZE, ZEB, ZPB, ZRB &gt;</a>
+</li>
+<li>fold()
+: <a class="el" href="classace__time_1_1LocalDateTime.html#a6d082508f73c7a9dbca81c0a2287eb40">ace_time::LocalDateTime</a>
+, <a class="el" href="classace__time_1_1LocalTime.html#a2ce63c8501efc8026f722c43935c3d2d">ace_time::LocalTime</a>
+, <a class="el" href="classace__time_1_1OffsetDateTime.html#a7664a39b4b4227657497163d25965edc">ace_time::OffsetDateTime</a>
+, <a class="el" href="classace__time_1_1ZonedDateTime.html#a4e5c076c20cd25aae740ae0036c846c9">ace_time::ZonedDateTime</a>
 </li>
 <li>forComponents()
 : <a class="el" href="classace__time_1_1LocalDate.html#a03470885c11a33172e869825327b3058">ace_time::LocalDate</a>
-, <a class="el" href="classace__time_1_1LocalDateTime.html#aa039d7c6417156350a8d712c564c5832">ace_time::LocalDateTime</a>
-, <a class="el" href="classace__time_1_1LocalTime.html#acbb41a74008e4f8452574bb137f7d45d">ace_time::LocalTime</a>
-, <a class="el" href="classace__time_1_1OffsetDateTime.html#a67b27c2509c5ca547cacca3a56abe970">ace_time::OffsetDateTime</a>
-, <a class="el" href="classace__time_1_1ZonedDateTime.html#a75593fa05e2ec071ba144b4be6e52b9b">ace_time::ZonedDateTime</a>
+, <a class="el" href="classace__time_1_1LocalDateTime.html#a2fc60cd721cbfe128e4feec378bb9be0">ace_time::LocalDateTime</a>
+, <a class="el" href="classace__time_1_1LocalTime.html#a200a5eae3db7be400000414d058be248">ace_time::LocalTime</a>
+, <a class="el" href="classace__time_1_1OffsetDateTime.html#afcc18763dd38086c17221897d45f9b2c">ace_time::OffsetDateTime</a>
+, <a class="el" href="classace__time_1_1ZonedDateTime.html#a00ab2ef530c51e068b3b67dc91a69ccf">ace_time::ZonedDateTime</a>
 </li>
 <li>forDateString()
 : <a class="el" href="classace__time_1_1LocalDate.html#a8d639466331ab604d1a2fcf805aa7e3c">ace_time::LocalDate</a>
@@ -110,12 +116,12 @@ $(function() {
 , <a class="el" href="classace__time_1_1OffsetDateTime.html#a21dffc4999ae12be1d4fc30d5c66dd27">ace_time::OffsetDateTime</a>
 </li>
 <li>forEpochDays()
-: <a class="el" href="classace__time_1_1LocalDate.html#a7701920ef3275f613ec324a310b72c68">ace_time::LocalDate</a>
+: <a class="el" href="classace__time_1_1LocalDate.html#ad3fffbf6406717f246b7331324d9c903">ace_time::LocalDate</a>
 </li>
 <li>forEpochSeconds()
 : <a class="el" href="classace__time_1_1LocalDate.html#ab04f803683ec7c9ae5d4037efb297a77">ace_time::LocalDate</a>
-, <a class="el" href="classace__time_1_1LocalDateTime.html#afeae6e1d59d0fcb6d4d3660c5a6fd992">ace_time::LocalDateTime</a>
-, <a class="el" href="classace__time_1_1OffsetDateTime.html#aab3c2fc2d473fa5103315c99e7de29b4">ace_time::OffsetDateTime</a>
+, <a class="el" href="classace__time_1_1LocalDateTime.html#a22d1cb9b735e129f6a495f21d0c408e9">ace_time::LocalDateTime</a>
+, <a class="el" href="classace__time_1_1OffsetDateTime.html#ab9a8f6f8046721947f6922033cc0504f">ace_time::OffsetDateTime</a>
 , <a class="el" href="classace__time_1_1ZonedDateTime.html#a9c02e18eba7ef8af1e41d4ecfe727bee">ace_time::ZonedDateTime</a>
 </li>
 <li>forError()
@@ -150,7 +156,7 @@ $(function() {
 : <a class="el" href="classace__time_1_1TimeOffset.html#af20209f3ecb677c792721f2a9d4f527e">ace_time::TimeOffset</a>
 </li>
 <li>forSeconds()
-: <a class="el" href="classace__time_1_1LocalTime.html#a913eb403a49d40c447f4476507551300">ace_time::LocalTime</a>
+: <a class="el" href="classace__time_1_1LocalTime.html#add45f59f01066a9551f33bab114df263">ace_time::LocalTime</a>
 </li>
 <li>forTimeOffset()
 : <a class="el" href="classace__time_1_1TimeZone.html#ae12df54ad1a75a6b0f1c24ff71af4bb9">ace_time::TimeZone</a>
@@ -163,22 +169,28 @@ $(function() {
 </li>
 <li>forTinyComponents()
 : <a class="el" href="classace__time_1_1LocalDate.html#ac16b7d78c641cb281ad53a368481fe18">ace_time::LocalDate</a>
-, <a class="el" href="classace__time_1_1LocalDateTime.html#a8ccd70129848b054cf0d2b3de80f4418">ace_time::LocalDateTime</a>
+, <a class="el" href="classace__time_1_1LocalDateTime.html#ab6840c820484fbd8a9139b7460309d39">ace_time::LocalDateTime</a>
 </li>
 <li>forUnixDays()
-: <a class="el" href="classace__time_1_1LocalDate.html#aa77352c72cc1a3632b8a6985d6437066">ace_time::LocalDate</a>
+: <a class="el" href="classace__time_1_1LocalDate.html#ac79dde1baaf4f283cea2766a6985fb95">ace_time::LocalDate</a>
 </li>
 <li>forUnixSeconds()
-: <a class="el" href="classace__time_1_1LocalDate.html#a01c886db72b9035d9c669d089ea86b3e">ace_time::LocalDate</a>
-, <a class="el" href="classace__time_1_1LocalDateTime.html#aee177fcee12775c1ca1a52ea6e8ca99b">ace_time::LocalDateTime</a>
-, <a class="el" href="classace__time_1_1OffsetDateTime.html#ac193fa057ffda43a67028bcd5666fbcd">ace_time::OffsetDateTime</a>
-, <a class="el" href="classace__time_1_1ZonedDateTime.html#a3db8e9540bd94e34a2a409ad07c90b62">ace_time::ZonedDateTime</a>
+: <a class="el" href="classace__time_1_1LocalDate.html#a7ba914aca8565cb77c627a5342674903">ace_time::LocalDate</a>
+, <a class="el" href="classace__time_1_1LocalDateTime.html#aa6fc55b0c4f6ffa1e55beb7158a49be7">ace_time::LocalDateTime</a>
+, <a class="el" href="classace__time_1_1OffsetDateTime.html#af27d40764ac1fa7071b12803180ac1ad">ace_time::OffsetDateTime</a>
+, <a class="el" href="classace__time_1_1ZonedDateTime.html#acd9ae31381d8fa1706515840a93e7b01">ace_time::ZonedDateTime</a>
+</li>
+<li>forUnixSeconds64()
+: <a class="el" href="classace__time_1_1LocalDate.html#a21925fbcffdaaf85918aafcc4ee9547b">ace_time::LocalDate</a>
+, <a class="el" href="classace__time_1_1LocalDateTime.html#a9ae087d3f652b821d60d46a6cf2187fc">ace_time::LocalDateTime</a>
+, <a class="el" href="classace__time_1_1OffsetDateTime.html#ad8a9280eb0f90e864d285048e764f575">ace_time::OffsetDateTime</a>
+, <a class="el" href="classace__time_1_1ZonedDateTime.html#a95b4ea8234de38744d3962291fb27ecd">ace_time::ZonedDateTime</a>
 </li>
 <li>forUtc()
 : <a class="el" href="classace__time_1_1TimeZone.html#a6e0d4b2231806e3d42ed0191fe6db13a">ace_time::TimeZone</a>
 </li>
 <li>forZoneInfo()
-: <a class="el" href="classace__time_1_1TimeZone.html#ac8faf0b3af84d4d35b0c13a8c50918cb">ace_time::TimeZone</a>
+: <a class="el" href="classace__time_1_1TimeZone.html#a125526cfbe3f25fd4d1443fd18e8b172">ace_time::TimeZone</a>
 </li>
 <li>forZoneKey()
 : <a class="el" href="classace__time_1_1TimeZone.html#aa6aeb15831cac0ebd92996b5e4ab2813">ace_time::TimeZone</a>
