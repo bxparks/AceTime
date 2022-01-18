@@ -4,7 +4,7 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
-**Version**: AceTime v1.9.0
+**Version**: AceTime v1.10.0
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
@@ -113,7 +113,7 @@ In v1.9.0:
     * Saves 1100-1300 of flash on AVR.
     * No signficant changes to CPU performance.
 
-In v1.9.0+:
+In v1.10.0:
 * Remove support for SAMD21 boards.
     * Arduino IDE 1.8.19 with SparkFun SAMD 1.8.6 can no longer upload binaries
       to these boards. Something about bossac 1.7.0 not found.

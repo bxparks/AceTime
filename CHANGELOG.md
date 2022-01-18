@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.10.0 (2022-01-18, TZDB 2021e)
     * MemoryBenchmark: Add memory consumption for `ZoneSorterByName` and
       `ZoneSorterByOffsetAndName`.
         * AVR: 180-530 bytes of flash

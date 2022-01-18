@@ -27,7 +27,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v1.9.0
+**Version**: AceTime v1.10.0
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -156,7 +156,7 @@ In v1.9.0:
   of `getHighWater()` with `getAllocSize()`. Only 4-8 bytes increase on 32-bit
   processors.
 
-In v1.9.0+:
+In v1.10.0:
 * Remove support for SAMD21 boards.
     * Arduino IDE 1.8.19 with SparkFun SAMD 1.8.6 can no longer upload binaries
       to these boards. Something about bossac 1.7.0 not found.
