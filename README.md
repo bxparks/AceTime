@@ -134,7 +134,7 @@ The source files are organized as follows:
         * [examples/HelloDateTime](examples/HelloDateTime)
             * Simple demo of `ZonedDateTime` class
         * [examples/HelloZoneManager](examples/HelloZoneManager)
-            * Simple demo of `BasicZoneManager` class
+            * Simple demo of `ExtendedZoneManager` class
     * Advanced
         * [examples/EspTime](examples/EspTime)
             * Use AceTime with the built-in SNTP client of ESP8266 and ESP32.
@@ -204,7 +204,7 @@ zones:
 using namespace ace_time;
 
 // ZoneProcessor instances should be created statically at initialization time.
-static BasicZoneProcessor pacificProcessor;
+static BasicZoneProcessor losAngelesProcessor;
 static BasicZoneProcessor londonProcessor;
 
 void setup() {
@@ -212,15 +212,18 @@ void setup() {
   Serial.begin(115200);
   while (!Serial); // Wait until Serial is ready - Leonardo/Micro
 
-  auto pacificTz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
-        &pacificProcessor);
-  auto londonTz = TimeZone::forZoneInfo(&zonedb::kZoneEurope_London,
-        &londonProcessor);
+  // TimeZone objects are light-weight and can be created on the fly.
+  TimeZone losAngelesTz = TimeZone::forZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles,
+      &losAngelesProcessor);
+  TimeZone londonTz = TimeZone::forZoneInfo(
+      &zonedb::kZoneEurope_London,
+      &londonProcessor);
 
   // Create from components. 2019-03-10T03:00:00 is just after DST change in
   // Los Angeles (2am goes to 3am).
-  auto startTime = ZonedDateTime::forComponents(
-      2019, 3, 10, 3, 0, 0, pacificTz);
+  ZonedDateTime startTime = ZonedDateTime::forComponents(
+      2019, 3, 10, 3, 0, 0, losAngelesTz);
 
   Serial.print(F("Epoch Seconds: "));
   acetime_t epochSeconds = startTime.toEpochSeconds();
@@ -231,33 +234,35 @@ void setup() {
   Serial.println(unixSeconds);
 
   Serial.println(F("=== Los_Angeles"));
-  auto pacificTime = ZonedDateTime::forEpochSeconds(epochSeconds, pacificTz);
+  ZonedDateTime losAngelesTime = ZonedDateTime::forEpochSeconds(
+      epochSeconds, losAngelesTz);
   Serial.print(F("Time: "));
-  pacificTime.printTo(Serial);
+  losAngelesTime.printTo(Serial);
   Serial.println();
 
   Serial.print(F("Day of Week: "));
   Serial.println(
-      DateStrings().dayOfWeekLongString(pacificTime.dayOfWeek()));
+      DateStrings().dayOfWeekLongString(losAngelesTime.dayOfWeek()));
 
   // Print info about UTC offset
-  TimeOffset offset = pacificTime.timeOffset();
+  TimeOffset offset = losAngelesTime.timeOffset();
   Serial.print(F("Total UTC Offset: "));
   offset.printTo(Serial);
   Serial.println();
 
   // Print info about the current time zone
   Serial.print(F("Zone: "));
-  pacificTz.printTo(Serial);
+  losAngelesTz.printTo(Serial);
   Serial.println();
 
   // Print the current time zone abbreviation, e.g. "PST" or "PDT"
   Serial.print(F("Abbreviation: "));
-  Serial.print(pacificTz.getAbbrev(epochSeconds));
+  Serial.print(losAngelesTz.getAbbrev(epochSeconds));
   Serial.println();
 
   // Create from epoch seconds. London is still on standard time.
-  auto londonTime = ZonedDateTime::forEpochSeconds(epochSeconds, londonTz);
+  ZonedDateTime londonTime = ZonedDateTime::forEpochSeconds(
+      epochSeconds, londonTz);
 
   Serial.println(F("=== London"));
   Serial.print(F("Time: "));
@@ -269,16 +274,16 @@ void setup() {
   londonTz.printTo(Serial);
   Serial.println();
 
-  // Print the current time zone abbreviation, e.g. "PST" or "PDT"
+  // Print the current time zone abbreviation, e.g. "GMT" or "BST"
   Serial.print(F("Abbreviation: "));
   Serial.print(londonTz.getAbbrev(epochSeconds));
   Serial.println();
 
   Serial.println(F("=== Compare ZonedDateTime"));
-  Serial.print(F("pacificTime.compareTo(londonTime): "));
-  Serial.println(pacificTime.compareTo(londonTime));
-  Serial.print(F("pacificTime == londonTime: "));
-  Serial.println((pacificTime == londonTime) ? "true" : "false");
+  Serial.print(F("losAngelesTime.compareTo(londonTime): "));
+  Serial.println(losAngelesTime.compareTo(londonTime));
+  Serial.print(F("losAngelesTime == londonTime: "));
+  Serial.println((losAngelesTime == londonTime) ? "true" : "false");
 }
 
 void loop() {
@@ -300,17 +305,21 @@ Time: 2019-03-10T10:00:00+00:00[Europe/London]
 Zone: Europe/London
 Abbreviation: GMT
 === Compare ZonedDateTime
-pacificTime.compareTo(londonTime): 0
-pacificTime == londonTime: false
+losAngelesTime.compareTo(londonTime): 0
+losAngelesTime == londonTime: false
 ```
 
 <a name="HelloZoneManager"></a>
 ### HelloZoneManager
 
 The [examples/HelloZoneManager](examples/HelloZoneManager) example shows how to
-load the entire ZoneInfo Database into a `BasicZoneManager`, then create 3 time
-zones using 3 different ways: `createForZoneInfo()`, `createForZoneName()`, and
-`createForZoneId()`.
+load the entire ZoneInfo Database into an `ExtendedZoneManager`, then create 3
+time zones using 3 different ways: `createForZoneInfo()`, `createForZoneName()`,
+and `createForZoneId()`. This program requires a 32-bit microcontroller
+environment because of its flash memory size. Using the `ExtendedZoneManager`
+with the `zonedbx::kZoneRegistry` consumes ~34kB of flash which no longer fits
+on an Arduino Nano. If the `ExtendedZoneManager` is replaced with the
+`BasicZoneManager`, the flash size goes down to about ~22kB.
 
 ```C++
 #include <Arduino.h>
@@ -318,35 +327,37 @@ zones using 3 different ways: `createForZoneInfo()`, `createForZoneName()`, and
 
 using namespace ace_time;
 
-// Create a BasicZoneManager with the entire TZ Database of ZONE entries. Use
-// kZoneAndLinkRegistrySize and kZoneAndLinkRegistry to include LINK entries as
-// well, at the cost of additional flash consumption. Cache size of 3 means that
-// it can support 3 concurrent timezones without performance penalties.
+// Create an ExtendedZoneManager with the entire TZ Database of Zone entries.
+// Cache size of 3 means that it can support 3 concurrent timezones without
+// performance penalties.
 static const int CACHE_SIZE = 3;
-static BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-static BasicZoneManager manager(
-    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry, zoneProcessorCache);
+static ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+static ExtendedZoneManager manager(
+    zonedbx::kZoneRegistrySize,
+    zonedbx::kZoneRegistry,
+    zoneProcessorCache);
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial); // Wait Serial is ready - Leonardo/Micro
+  while (!Serial); // Wait until ready - Leonardo/Micro
 
-  // Create Los Angeles by ZoneInfo
-  auto pacificTz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
-  auto pacificTime = ZonedDateTime::forComponents(
-      2019, 3, 10, 3, 0, 0, pacificTz);
-  pacificTime.printTo(Serial);
+  // Create America/Los_Angeles timezone by ZoneInfo.
+  TimeZone losAngelesTz = manager.createForZoneInfo(
+        &zonedb::kZoneAmerica_Los_Angeles);
+  ZonedDateTime losAngelesTime = ZonedDateTime::forComponents(
+      2019, 3, 10, 3, 0, 0, losAngelesTz);
+  losAngelesTime.printTo(Serial);
   Serial.println();
 
-  // Create London by ZoneName
-  auto londonTz = manager.createForZoneName("Europe/London");
-  auto londonTime = pacificTime.convertToTimeZone(londonTz);
+  // Create Europe/London timezone by ZoneName.
+  TimeZone londonTz = manager.createForZoneName("Europe/London");
+  ZonedDateTime londonTime = losAngelesTime.convertToTimeZone(londonTz);
   londonTime.printTo(Serial);
   Serial.println();
 
-  // Create Sydney by ZoneId
-  auto sydneyTz = manager.createForZoneId(zonedb::kZoneIdAustralia_Sydney);
-  auto sydneyTime = pacificTime.convertToTimeZone(sydneyTz);
+  // Create Australia/Sydney timezone by ZoneId.
+  TimeZone sydneyTz = manager.createForZoneId(zonedb::kZoneIdAustralia_Sydney);
+  ZonedDateTime sydneyTime = losAngelesTime.convertToTimeZone(sydneyTz);
   sydneyTime.printTo(Serial);
   Serial.println();
 }

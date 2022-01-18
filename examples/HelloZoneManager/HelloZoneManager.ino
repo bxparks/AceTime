@@ -1,5 +1,5 @@
 /*
- * A program to demonstrate using the ZoneManager with the entire
+ * A program to demonstrate using the ExtendedZoneManager with the entire
  * zoneinfo database loaded, creating 3 timezones in 3 different ways
  * (createForZoneInfo(), createForZoneName() and createForZoneId()),
  * then displaying the time in those zones. Should print the following:
@@ -14,15 +14,24 @@
 
 using namespace ace_time;
 
-// Create a BasicZoneManager with the entire TZ Database of ZONE entries. Use
-// kZoneAndLinkRegistrySize and kZoneAndLinkRegistry to include LINK entries as
-// well, at the cost of additional flash consumption. Cache size of 3 means that
-// it can support 3 concurrent timezones without performance penalties.
+// ESP32 does not define SERIAL_PORT_MONITOR
+#ifndef SERIAL_PORT_MONITOR
+#define SERIAL_PORT_MONITOR Serial
+#endif
+
+// Create an ExtendedZoneManager with the entire TZ Database of Zone entries.
+// Cache size of 3 means that it can support 3 concurrent timezones without
+// performance penalties.
+//
+// Using an ExtendedZoneManager with the entire zonedbx::kZoneRegistry consumes
+// ~34kB bytes (112%) of the flash memory and no longer fits on an Arduino Nano.
+// You can replace it with the BasicZoneManager and use zonedb::kZoneRegistry to
+// reduce the program size to ~22kB.
 static const int CACHE_SIZE = 3;
-static BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-static BasicZoneManager manager(
-    zonedb::kZoneRegistrySize,
-    zonedb::kZoneRegistry,
+static ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+static ExtendedZoneManager manager(
+    zonedbx::kZoneRegistrySize,
+    zonedbx::kZoneRegistry,
     zoneProcessorCache);
 
 void setup() {
@@ -36,22 +45,23 @@ void setup() {
   SERIAL_PORT_MONITOR.setLineModeUnix();
 #endif
 
-  // Create Los Angeles by ZoneInfo
-  auto pacificTz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
-  auto pacificTime = ZonedDateTime::forComponents(
-      2019, 3, 10, 3, 0, 0, pacificTz);
-  pacificTime.printTo(SERIAL_PORT_MONITOR);
+  // Create America/Los_Angeles timezone by ZoneInfo.
+  TimeZone losAngelesTz = manager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles);
+  ZonedDateTime losAngelesTime = ZonedDateTime::forComponents(
+      2019, 3, 10, 3, 0, 0, losAngelesTz);
+  losAngelesTime.printTo(SERIAL_PORT_MONITOR);
   SERIAL_PORT_MONITOR.println();
 
-  // Create London by ZoneName
-  auto londonTz = manager.createForZoneName("Europe/London");
-  auto londonTime = pacificTime.convertToTimeZone(londonTz);
+  // Create Europe/London timezone by ZoneName.
+  TimeZone londonTz = manager.createForZoneName("Europe/London");
+  ZonedDateTime londonTime = losAngelesTime.convertToTimeZone(londonTz);
   londonTime.printTo(SERIAL_PORT_MONITOR);
   SERIAL_PORT_MONITOR.println();
 
-  // Create Sydney by ZoneId
-  auto sydneyTz = manager.createForZoneId(zonedb::kZoneIdAustralia_Sydney);
-  auto sydneyTime = pacificTime.convertToTimeZone(sydneyTz);
+  // Create Australia/Sydney timezone by ZoneId.
+  TimeZone sydneyTz = manager.createForZoneId(zonedb::kZoneIdAustralia_Sydney);
+  ZonedDateTime sydneyTime = losAngelesTime.convertToTimeZone(sydneyTz);
   sydneyTime.printTo(SERIAL_PORT_MONITOR);
   SERIAL_PORT_MONITOR.println();
 
