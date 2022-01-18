@@ -613,15 +613,15 @@ Arduino Nano:
 | Basic ZoneSorterByName [1]             |   6610/  328 |   370/   11 |
 | Basic ZoneSorterByOffsetAndName [1]    |   6742/  328 |   502/   11 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |   9612/  672 |  9138/  661 |
-| Extended TimeZone (2 zones)            |   9836/ 1113 |  9362/ 1102 |
-| ExtendedZoneManager (1 zone)           |   9788/  678 |  9314/  667 |
-| ExtendedZoneManager (all zones)        |  31554/ 1162 | 31080/ 1151 |
-| ExtendedZoneManager (all zones+links)  |  36434/ 1162 | 35960/ 1151 |
+| Extended TimeZone (1 zone)             |   9606/  672 |  9132/  661 |
+| Extended TimeZone (2 zones)            |   9830/ 1113 |  9356/ 1102 |
+| ExtendedZoneManager (1 zone)           |   9782/  678 |  9308/  667 |
+| ExtendedZoneManager (all zones)        |  31548/ 1162 | 31074/ 1151 |
+| ExtendedZoneManager (all zones+links)  |  36428/ 1162 | 35954/ 1151 |
 | ExtendedLinkManager (all links)        |   2570/   16 |  2096/    5 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |   9968/  678 |   356/    6 |
-| Extended ZoneSorterByOffsetAndName [2] |  10110/  678 |   498/    6 |
+| Extended ZoneSorterByName [2]          |   9962/  678 |   356/    6 |
+| Extended ZoneSorterByOffsetAndName [2] |  10104/  678 |   498/    6 |
 +---------------------------------------------------------------------+
 ```
 
@@ -639,7 +639,7 @@ ESP8266:
 |----------------------------------------+--------------+-------------|
 | Basic TimeZone (1 zone)                | 266473/28644 |  6384/  752 |
 | Basic TimeZone (2 zones)               | 266841/28804 |  6752/  912 |
-| BasicZoneManager (1 zone)              | 266617/28660 |  6528/  768 |
+| BasicZoneManager (1 zone)              | 266633/28660 |  6544/  768 |
 | BasicZoneManager (all zones)           | 283961/28660 | 23872/  768 |
 | BasicZoneManager (all zones+links)     | 290665/28660 | 30576/  768 |
 | BasicLinkManager (all links)           | 261933/27904 |  1844/   12 |
@@ -648,14 +648,14 @@ ESP8266:
 | Basic ZoneSorterByOffsetAndName [1]    | 266981/28664 |   508/   20 |
 |----------------------------------------+--------------+-------------|
 | Extended TimeZone (1 zone)             | 269113/29172 |  9024/ 1280 |
-| Extended TimeZone (2 zones)            | 269497/29724 |  9408/ 1832 |
+| Extended TimeZone (2 zones)            | 269481/29724 |  9392/ 1832 |
 | ExtendedZoneManager (1 zone)           | 269241/29180 |  9152/ 1288 |
-| ExtendedZoneManager (all zones)        | 299133/29176 | 39044/ 1284 |
-| ExtendedZoneManager (all zones+links)  | 306701/29176 | 46612/ 1284 |
+| ExtendedZoneManager (all zones)        | 299117/29176 | 39028/ 1284 |
+| ExtendedZoneManager (all zones+links)  | 306685/29176 | 46596/ 1284 |
 | ExtendedLinkManager (all links)        | 262125/27904 |  2036/   12 |
 |----------------------------------------+--------------+-------------|
 | Extended ZoneSorterByName [2]          | 269461/29184 |   348/   12 |
-| Extended ZoneSorterByOffsetAndName [2] | 269573/29184 |   460/   12 |
+| Extended ZoneSorterByOffsetAndName [2] | 269557/29184 |   444/   12 |
 +---------------------------------------------------------------------+
 ```
 
@@ -685,16 +685,16 @@ Arduino Nano:
 | ZonedDateTime::toEpochDays()                     |   72.000 |
 | ZonedDateTime::forEpochSeconds(UTC)              |  362.000 |
 | ZonedDateTime::forEpochSeconds(Basic_nocache)    | 1198.000 |
-| ZonedDateTime::forEpochSeconds(Basic_cached)     |  644.000 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |  643.000 |
 | ZonedDateTime::forEpochSeconds(Extended_nocache) | 2231.000 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |  648.000 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |  647.000 |
 |--------------------------------------------------+----------|
 | ZonedDateTime::forComponents(Extended_nocache)   | 1598.000 |
 | ZonedDateTime::forComponents(Extended_cached)    |   82.000 |
 |--------------------------------------------------+----------|
 | BasicZoneManager::createForZoneName(binary)      |  121.000 |
-| BasicZoneManager::createForZoneId(binary)        |   49.000 |
-| BasicZoneManager::createForZoneId(linear)        |  303.000 |
+| BasicZoneManager::createForZoneId(binary)        |   48.000 |
+| BasicZoneManager::createForZoneId(linear)        |  305.000 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 1000
 ```
@@ -708,26 +708,26 @@ ESP8266:
 | EmptyLoop                                        |    4.800 |
 |--------------------------------------------------+----------|
 | LocalDate::forEpochDays()                        |    7.800 |
-| LocalDate::toEpochDays()                         |    3.400 |
-| LocalDate::dayOfWeek()                           |    3.600 |
+| LocalDate::toEpochDays()                         |    3.200 |
+| LocalDate::dayOfWeek()                           |    3.400 |
 |--------------------------------------------------+----------|
-| OffsetDateTime::forEpochSeconds()                |   13.000 |
-| OffsetDateTime::toEpochSeconds()                 |    6.600 |
+| OffsetDateTime::forEpochSeconds()                |   13.200 |
+| OffsetDateTime::toEpochSeconds()                 |    7.000 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::toEpochSeconds()                  |    6.600 |
-| ZonedDateTime::toEpochDays()                     |    5.800 |
+| ZonedDateTime::toEpochSeconds()                  |    7.000 |
+| ZonedDateTime::toEpochDays()                     |    5.600 |
 | ZonedDateTime::forEpochSeconds(UTC)              |   16.600 |
-| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   98.800 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   99.000 |
 | ZonedDateTime::forEpochSeconds(Basic_cached)     |   29.800 |
 | ZonedDateTime::forEpochSeconds(Extended_nocache) |  196.800 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |   30.400 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |   30.200 |
 |--------------------------------------------------+----------|
 | ZonedDateTime::forComponents(Extended_nocache)   |  167.400 |
-| ZonedDateTime::forComponents(Extended_cached)    |    6.200 |
+| ZonedDateTime::forComponents(Extended_cached)    |    6.400 |
 |--------------------------------------------------+----------|
-| BasicZoneManager::createForZoneName(binary)      |   14.800 |
-| BasicZoneManager::createForZoneId(binary)        |    6.600 |
-| BasicZoneManager::createForZoneId(linear)        |   44.200 |
+| BasicZoneManager::createForZoneName(binary)      |   14.600 |
+| BasicZoneManager::createForZoneId(binary)        |    6.400 |
+| BasicZoneManager::createForZoneId(linear)        |   44.800 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 5000
 ```

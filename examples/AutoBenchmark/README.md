@@ -186,16 +186,16 @@ CPU:
 | ZonedDateTime::toEpochDays()                     |   72.000 |
 | ZonedDateTime::forEpochSeconds(UTC)              |  362.000 |
 | ZonedDateTime::forEpochSeconds(Basic_nocache)    | 1198.000 |
-| ZonedDateTime::forEpochSeconds(Basic_cached)     |  644.000 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |  643.000 |
 | ZonedDateTime::forEpochSeconds(Extended_nocache) | 2231.000 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |  648.000 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |  647.000 |
 |--------------------------------------------------+----------|
 | ZonedDateTime::forComponents(Extended_nocache)   | 1598.000 |
 | ZonedDateTime::forComponents(Extended_cached)    |   82.000 |
 |--------------------------------------------------+----------|
 | BasicZoneManager::createForZoneName(binary)      |  121.000 |
-| BasicZoneManager::createForZoneId(binary)        |   49.000 |
-| BasicZoneManager::createForZoneId(linear)        |  303.000 |
+| BasicZoneManager::createForZoneId(binary)        |   48.000 |
+| BasicZoneManager::createForZoneId(linear)        |  305.000 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 1000
 
@@ -242,18 +242,18 @@ CPU:
 +--------------------------------------------------+----------+
 | Method                                           |   micros |
 |--------------------------------------------------+----------|
-| EmptyLoop                                        |    4.000 |
+| EmptyLoop                                        |    3.000 |
 |--------------------------------------------------+----------|
-| LocalDate::forEpochDays()                        |  221.000 |
-| LocalDate::toEpochDays()                         |   56.000 |
-| LocalDate::dayOfWeek()                           |   50.000 |
+| LocalDate::forEpochDays()                        |  220.000 |
+| LocalDate::toEpochDays()                         |   54.000 |
+| LocalDate::dayOfWeek()                           |   48.000 |
 |--------------------------------------------------+----------|
-| OffsetDateTime::forEpochSeconds()                |  336.000 |
-| OffsetDateTime::toEpochSeconds()                 |   80.000 |
+| OffsetDateTime::forEpochSeconds()                |  337.000 |
+| OffsetDateTime::toEpochSeconds()                 |   79.000 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::toEpochSeconds()                  |   80.000 |
-| ZonedDateTime::toEpochDays()                     |   70.000 |
-| ZonedDateTime::forEpochSeconds(UTC)              |  364.000 |
+| ZonedDateTime::toEpochSeconds()                  |   81.000 |
+| ZonedDateTime::toEpochDays()                     |   71.000 |
+| ZonedDateTime::forEpochSeconds(UTC)              |  366.000 |
 | ZonedDateTime::forEpochSeconds(Basic_nocache)    | 1187.000 |
 | ZonedDateTime::forEpochSeconds(Basic_cached)     |  648.000 |
 | ZonedDateTime::forEpochSeconds(Extended_nocache) |   -1.000 |
@@ -261,9 +261,9 @@ CPU:
 | ZonedDateTime::forEpochSeconds(Extended_nocache) |   -1.000 |
 | ZonedDateTime::forEpochSeconds(Extended_nocache) |   -1.000 |
 |--------------------------------------------------+----------|
-| BasicZoneManager::createForZoneName(binary)      |  117.000 |
-| BasicZoneManager::createForZoneId(binary)        |   47.000 |
-| BasicZoneManager::createForZoneId(linear)        |  309.000 |
+| BasicZoneManager::createForZoneName(binary)      |  119.000 |
+| BasicZoneManager::createForZoneId(binary)        |   48.000 |
+| BasicZoneManager::createForZoneId(linear)        |  307.000 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 1000
 
@@ -319,20 +319,20 @@ CPU:
 | OffsetDateTime::forEpochSeconds()                |    3.600 |
 | OffsetDateTime::toEpochSeconds()                 |    4.800 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::toEpochSeconds()                  |    4.500 |
-| ZonedDateTime::toEpochDays()                     |    3.400 |
+| ZonedDateTime::toEpochSeconds()                  |    4.700 |
+| ZonedDateTime::toEpochDays()                     |    3.500 |
 | ZonedDateTime::forEpochSeconds(UTC)              |    5.100 |
-| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   75.000 |
-| ZonedDateTime::forEpochSeconds(Basic_cached)     |   11.400 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) |  147.800 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   75.100 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |   11.300 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |  147.400 |
 | ZonedDateTime::forEpochSeconds(Extended_cached)  |   11.200 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::forComponents(Extended_nocache)   |  141.400 |
-| ZonedDateTime::forComponents(Extended_cached)    |    7.100 |
+| ZonedDateTime::forComponents(Extended_nocache)   |  141.100 |
+| ZonedDateTime::forComponents(Extended_cached)    |    7.200 |
 |--------------------------------------------------+----------|
-| BasicZoneManager::createForZoneName(binary)      |   11.600 |
+| BasicZoneManager::createForZoneName(binary)      |   11.800 |
 | BasicZoneManager::createForZoneId(binary)        |    2.600 |
-| BasicZoneManager::createForZoneId(linear)        |   17.800 |
+| BasicZoneManager::createForZoneId(linear)        |   17.700 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 10000
 
@@ -382,26 +382,26 @@ CPU:
 | EmptyLoop                                        |    4.800 |
 |--------------------------------------------------+----------|
 | LocalDate::forEpochDays()                        |    7.800 |
-| LocalDate::toEpochDays()                         |    3.400 |
-| LocalDate::dayOfWeek()                           |    3.600 |
+| LocalDate::toEpochDays()                         |    3.200 |
+| LocalDate::dayOfWeek()                           |    3.400 |
 |--------------------------------------------------+----------|
-| OffsetDateTime::forEpochSeconds()                |   13.000 |
-| OffsetDateTime::toEpochSeconds()                 |    6.600 |
+| OffsetDateTime::forEpochSeconds()                |   13.200 |
+| OffsetDateTime::toEpochSeconds()                 |    7.000 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::toEpochSeconds()                  |    6.600 |
-| ZonedDateTime::toEpochDays()                     |    5.800 |
+| ZonedDateTime::toEpochSeconds()                  |    7.000 |
+| ZonedDateTime::toEpochDays()                     |    5.600 |
 | ZonedDateTime::forEpochSeconds(UTC)              |   16.600 |
-| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   98.800 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   99.000 |
 | ZonedDateTime::forEpochSeconds(Basic_cached)     |   29.800 |
 | ZonedDateTime::forEpochSeconds(Extended_nocache) |  196.800 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |   30.400 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |   30.200 |
 |--------------------------------------------------+----------|
 | ZonedDateTime::forComponents(Extended_nocache)   |  167.400 |
-| ZonedDateTime::forComponents(Extended_cached)    |    6.200 |
+| ZonedDateTime::forComponents(Extended_cached)    |    6.400 |
 |--------------------------------------------------+----------|
-| BasicZoneManager::createForZoneName(binary)      |   14.800 |
-| BasicZoneManager::createForZoneId(binary)        |    6.600 |
-| BasicZoneManager::createForZoneId(linear)        |   44.200 |
+| BasicZoneManager::createForZoneName(binary)      |   14.600 |
+| BasicZoneManager::createForZoneId(binary)        |    6.400 |
+| BasicZoneManager::createForZoneId(linear)        |   44.800 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 5000
 
@@ -454,7 +454,7 @@ CPU:
 | LocalDate::toEpochDays()                         |    0.250 |
 | LocalDate::dayOfWeek()                           |    0.350 |
 |--------------------------------------------------+----------|
-| OffsetDateTime::forEpochSeconds()                |    1.650 |
+| OffsetDateTime::forEpochSeconds()                |    1.700 |
 | OffsetDateTime::toEpochSeconds()                 |    1.100 |
 |--------------------------------------------------+----------|
 | ZonedDateTime::toEpochSeconds()                  |    1.100 |
@@ -462,14 +462,14 @@ CPU:
 | ZonedDateTime::forEpochSeconds(UTC)              |    3.150 |
 | ZonedDateTime::forEpochSeconds(Basic_nocache)    |   18.800 |
 | ZonedDateTime::forEpochSeconds(Basic_cached)     |    4.700 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) |   36.850 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |   36.900 |
 | ZonedDateTime::forEpochSeconds(Extended_cached)  |    4.700 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::forComponents(Extended_nocache)   |   34.250 |
-| ZonedDateTime::forComponents(Extended_cached)    |    2.750 |
+| ZonedDateTime::forComponents(Extended_nocache)   |   34.200 |
+| ZonedDateTime::forComponents(Extended_cached)    |    2.800 |
 |--------------------------------------------------+----------|
-| BasicZoneManager::createForZoneName(binary)      |    2.900 |
-| BasicZoneManager::createForZoneId(binary)        |    0.700 |
+| BasicZoneManager::createForZoneName(binary)      |    2.950 |
+| BasicZoneManager::createForZoneId(binary)        |    0.650 |
 | BasicZoneManager::createForZoneId(linear)        |    2.550 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 20000
@@ -533,16 +533,16 @@ CPU:
 | ZonedDateTime::toEpochSeconds()                  |    0.250 |
 | ZonedDateTime::toEpochDays()                     |    0.200 |
 | ZonedDateTime::forEpochSeconds(UTC)              |    2.750 |
-| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   35.200 |
-| ZonedDateTime::forEpochSeconds(Basic_cached)     |    7.150 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) |   85.300 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |    6.100 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   34.850 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |    7.100 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |   85.450 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |    6.150 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::forComponents(Extended_nocache)   |   83.800 |
+| ZonedDateTime::forComponents(Extended_nocache)   |   83.950 |
 | ZonedDateTime::forComponents(Extended_cached)    |    6.000 |
 |--------------------------------------------------+----------|
 | BasicZoneManager::createForZoneName(binary)      |    6.100 |
-| BasicZoneManager::createForZoneId(binary)        |    2.000 |
+| BasicZoneManager::createForZoneId(binary)        |    1.900 |
 | BasicZoneManager::createForZoneId(linear)        |   10.450 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 20000

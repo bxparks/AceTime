@@ -32,19 +32,19 @@ EmptyLoop 1.400
 LocalDate::forEpochDays() 0.600
 LocalDate::toEpochDays() 0.250
 LocalDate::dayOfWeek() 0.350
-OffsetDateTime::forEpochSeconds() 1.650
+OffsetDateTime::forEpochSeconds() 1.700
 OffsetDateTime::toEpochSeconds() 1.100
 ZonedDateTime::toEpochSeconds() 1.100
 ZonedDateTime::toEpochDays() 0.800
 ZonedDateTime::forEpochSeconds(UTC) 3.150
 ZonedDateTime::forEpochSeconds(Basic_nocache) 18.800
 ZonedDateTime::forEpochSeconds(Basic_cached) 4.700
-ZonedDateTime::forEpochSeconds(Extended_nocache) 36.850
+ZonedDateTime::forEpochSeconds(Extended_nocache) 36.900
 ZonedDateTime::forEpochSeconds(Extended_cached) 4.700
-ZonedDateTime::forComponents(Extended_nocache) 34.250
-ZonedDateTime::forComponents(Extended_cached) 2.750
-BasicZoneManager::createForZoneName(binary) 2.900
-BasicZoneManager::createForZoneId(binary) 0.700
+ZonedDateTime::forComponents(Extended_nocache) 34.200
+ZonedDateTime::forComponents(Extended_cached) 2.800
+BasicZoneManager::createForZoneName(binary) 2.950
+BasicZoneManager::createForZoneId(binary) 0.650
 BasicZoneManager::createForZoneId(linear) 2.550
 Iterations_per_run 20000
 END

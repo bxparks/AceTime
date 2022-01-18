@@ -340,7 +340,9 @@ static void runZonedDateTimeToEpochSeconds() {
 // used to prevent caching to obtain benchmarking number without caching.
 static acetime_t offset = 0; // alternate between 0 and kTwoYears
 static const acetime_t kTwoYears = 2 * 365 * 24 * 3600L;
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 1
 static int16_t year = 2000; // alternate between 2000 and 2002
+#endif
 
 // Pointer to BasicZoneManager and ExtendedZoneManager, whose actual instances
 // are created within the specific test on the stack. These global variables
