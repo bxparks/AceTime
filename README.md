@@ -370,8 +370,7 @@ void loop() {
 }
 ```
 
-This consumes about 25kB of flash, which means that it can run on an
-Arduino Nano or Micro . It produces the following output:
+It produces the following output:
 ```
 2019-03-10T03:00:00-07:00[America/Los_Angeles]
 2019-03-10T10:00:00+00:00[Europe/London]
