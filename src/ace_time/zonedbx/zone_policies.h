@@ -185,15 +185,18 @@ extern const extended::ZonePolicy kPolicyZion;
 
 
 //---------------------------------------------------------------------------
-// Notable zone policies: 6
+// Notable zone policies: 9
 //---------------------------------------------------------------------------
 
 // kPolicyBelize (LETTER 'CST' not single character)
+// kPolicyEire (SAVE (delta_offset) '-1:00' different from 1:00)
+// kPolicyLH (SAVE (delta_offset) '0:30' different from 1:00)
 // kPolicyMoncton (AT '0:01' not on 15-minute boundary)
-// kPolicyNamibia (LETTER 'CAT' not single character, LETTER 'WAT' not single character)
+// kPolicyMorocco (SAVE (delta_offset) '-1:00' different from 1:00)
+// kPolicyNamibia (LETTER 'CAT' not single character, LETTER 'WAT' not single character, SAVE (delta_offset) '-1:00' different from 1:00)
 // kPolicyPalestine (AT '0:01' not on 15-minute boundary)
-// kPolicyStJohns (AT '0:01' not on 15-minute boundary, LETTER 'DD' not single character)
-// kPolicyTroll (LETTER '+00' not single character, LETTER '+02' not single character)
+// kPolicyStJohns (AT '0:01' not on 15-minute boundary, LETTER 'DD' not single character, SAVE (delta_offset) '2:00' different from 1:00)
+// kPolicyTroll (LETTER '+00' not single character, LETTER '+02' not single character, SAVE (delta_offset) '2:00' different from 1:00)
 
 
 }

@@ -185,10 +185,13 @@ extern const basic::ZonePolicy kPolicyZion;
 
 
 //---------------------------------------------------------------------------
-// Notable zone policies: 1
+// Notable zone policies: 4
 //---------------------------------------------------------------------------
 
+// kPolicyEire (SAVE (delta_offset) '-1:00' different from 1:00)
+// kPolicyLH (SAVE (delta_offset) '0:30' different from 1:00)
 // kPolicyMoncton (AT '0:01' not on 15-minute boundary)
+// kPolicyNamibia (SAVE (delta_offset) '-1:00' different from 1:00)
 
 
 }
