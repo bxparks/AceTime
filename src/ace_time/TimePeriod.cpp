@@ -13,7 +13,16 @@ namespace ace_time {
 
 void TimePeriod::printTo(Print& printer) const {
   if (isError()) {
-    printer.print(F("<Error>"));
+    const __FlashStringHelper* message;
+    if (mSign == 1) {
+      message = F("<+Inf>");
+    } else if (mSign == -1) {
+      message = F("<-Inf>");
+    } else {
+      message = F("<Error>");
+    }
+    printer.print(message);
+    return;
   }
 
   if (mSign < 0) {

@@ -11,6 +11,13 @@
         * ZonePolicy Namibia: DST shift -1:00
         * ZonePolicy StJohns: DST shift 2:00
         * ZonePolicy Troll: DST shift 2:00
+    * Add support for overflow and underflow to `TimePeriod`.
+        * When `isError()` returns `true`, the `sign()` method discriminates
+          3 error conditions, and the `printTo()` prints the following:
+          * 0: generic error, "<Error>"
+          * +1: overflow, "<+Inf>"
+          * -1: underflow, "<-Inf>"
+          * See [USER_GUIDE.md#TimePeriod](USER_GUIDE.md#TimePeriod).
 * 1.10.0 (2022-01-18, TZDB 2021e)
     * MemoryBenchmark: Add memory consumption for `ZoneSorterByName` and
       `ZoneSorterByOffsetAndName`.

@@ -2,8 +2,10 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
+#include <AceCommon.h>
 
 using namespace ace_time;
+using ace_common::PrintStr;
 
 //---------------------------------------------------------------------------
 // TimePeriod
@@ -96,26 +98,67 @@ test(TimePeriodTest, negate) {
   assertEqual((int8_t) -1, a.sign());
 }
 
-test(TimePeriodTest, forError) {
+test(TimePeriodTest, forError_default) {
   TimePeriod period = TimePeriod::forError();
   assertTrue(period.isError());
   assertEqual(TimePeriod::kInvalidPeriodSeconds, period.toSeconds());
+  assertEqual(period.sign(), 0);
+
+  PrintStr<16> message;
+  period.printTo(message);
+  assertEqual(F("<Error>"), message.cstr());
 }
 
-test(TimePeriodTest, maxOrMin) {
-  TimePeriod largest(TimePeriod::kMaxPeriodSeconds);
-  assertEqual(TimePeriod::kMaxPeriodSeconds, largest.toSeconds());
+test(TimePeriodTest, forError_overflow) {
+  TimePeriod period = TimePeriod::forError(1);
+  assertTrue(period.isError());
+  assertEqual(TimePeriod::kInvalidPeriodSeconds, period.toSeconds());
+  assertEqual(period.sign(), 1);
 
+  PrintStr<16> message;
+  period.printTo(message);
+  assertEqual(F("<+Inf>"), message.cstr());
+}
+
+test(TimePeriodTest, forError_underflow) {
+  TimePeriod period = TimePeriod::forError(-1);
+  assertTrue(period.isError());
+  assertEqual(TimePeriod::kInvalidPeriodSeconds, period.toSeconds());
+  assertEqual(period.sign(), -1);
+
+  PrintStr<16> message;
+  period.printTo(message);
+  assertEqual(F("<-Inf>"), message.cstr());
+}
+
+test(TimePeriodTest, fromSeconds_max) {
+  TimePeriod largest(TimePeriod::kMaxPeriodSeconds);
+  assertFalse(largest.isError());
+  assertEqual(TimePeriod::kMaxPeriodSeconds, largest.toSeconds());
+}
+
+test(TimePeriodTest, fromSeconds_min) {
   TimePeriod smallest(-TimePeriod::kMaxPeriodSeconds);
+  assertFalse(smallest.isError());
   assertEqual(-TimePeriod::kMaxPeriodSeconds, smallest.toSeconds());
 }
 
-test(TimePeriodTest, tooLargeOrSmall) {
+test(TimePeriodTest, fromSeconds_invalid) {
+  TimePeriod invalid(TimePeriod::kInvalidPeriodSeconds);
+  assertTrue(invalid.isError());
+  assertEqual(invalid.sign(), 0);
+}
+
+test(TimePeriodTest, fromSeconds_tooLarge) {
   TimePeriod tooLarge(TimePeriod::kMaxPeriodSeconds + 1);
   assertTrue(tooLarge.isError());
+  assertEqual(tooLarge.sign(), 1);
+}
 
+test(TimePeriodTest, fromSeconds_tooSmall) {
   TimePeriod tooSmall(-TimePeriod::kMaxPeriodSeconds - 1);
   assertTrue(tooSmall.isError());
+  assertEqual(tooSmall.sign(), -1);
 }
 
 //---------------------------------------------------------------------------

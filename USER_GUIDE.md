@@ -596,7 +596,7 @@ class TimePeriod {
     static const int32_t kInvalidPeriodSeconds = INT32_MIN;
     static const int32_t kMaxPeriodSeconds = 921599;
 
-    static TimePeriod forError();
+    static TimePeriod forError(int8_t sign = 0);
 
     explicit TimePeriod(uint8_t hour, uint8_t minute, uint8_t second,
         int8_t sign = 1);
@@ -638,12 +638,28 @@ TimePeriod timePeriod(diffSeconds);
 timePeriod.printTo(Serial)
 ```
 
-Sometimes it is useful to create a `TimePeriod` object that represents an error
-condition, for example, if the time interval is too large. The
-`TimePeriod::forError()` factory method returns a special instance that
-represents an error. The `TimePeriod::isError()` method on that object will
-return `true`. Calling `TimePeriod::toSeconds()` on an error object returns
-`kInvalidPeriodSeconds`.
+The largest absolutely value of `diffSeconds` supported by this class is
+`TimePeriod::kMaxPeriodSeconds` which is 921599, which corresponds to
+`255h59m59s`. Calling the `TimePeriod(int32_t)` constructor outside of the `+/-
+921599` range will return an object whose `isError()` returns `true`.
+
+You can check the `TimePeriod::sign()` method to determine which one of the 3
+cases apply. The `printTo()` method prints the following:
+
+* generic error: `sign() == 0`, `printTo()` prints `<Error>`
+* overflow: `sign() == 1`, `printTo()` prints `<+Inf>`
+* underflow: `sign() == -1`, `printTo()` prints `<-Inf>`
+
+It is sometimes useful to directly create a `TimePeriod` object that represents
+an error condition. The `TimePeriod::forError(int8_t sign = 0)` factory method
+uses the `sign` parameter to distinguish 3 different error types described
+above. By default with no arguments, it create a generic error object with `sign
+== 0`.
+
+Calling `TimePeriod::toSeconds()` on an error object returns
+`TimePeriod::kInvalidPeriodSeconds` regardless of the `sign` value. However,
+you can call the `TimePeriod::sign()` method to distinguish among the 3
+different error conditions.
 
 <a name="TimeOffset"></a>
 ### TimeOffset
