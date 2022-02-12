@@ -206,6 +206,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     /** Exposed only for testing purposes. */
     typedef basic::TransitionTemplate<ZIB, ZEB, ZPB, ZRB> Transition;
 
+    bool isLink() const override { return mZoneInfoBroker.isLink(); }
+
     uint32_t getZoneId() const override { return mZoneInfoBroker.zoneId(); }
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {

@@ -129,9 +129,17 @@ struct ZoneInfo {
   /** ZoneContext metadata. */
   const internal::ZoneContext* const zoneContext;
 
-  /** Number of ZoneEra entries. */
+  /** Number of ZoneEra entries. Set to 0 if this Zone is a actually a Link. */
   uint8_t const numEras;
 
-  /** ZoneEra entries in increasing order of UNTIL time. */
-  const ZoneEra* const eras;
+  /**
+   * A `const ZoneEras*` pointer or a `const ZoneInfo*` pointer. For a normal
+   * Zone, numEras is greater than 0, and this field is a pointer to the
+   * ZoneEra entries in increasing order of UNTIL time. For a Link entry,
+   * numEras == 0, and this field provides a level of indirection to a (const
+   * ZoneInfo*) pointer to the target Zone. We have to follow the indirect
+   * pointer, and resolve the target numEras and eras to obtain the actual
+   * ZoneEra entries.
+   */
+  const void* const eras;
 };

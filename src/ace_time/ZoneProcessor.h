@@ -43,6 +43,9 @@ class ZoneProcessor {
     /** Return the kTypeXxx of the current instance. */
     uint8_t getType() const { return mType; }
 
+    /** Return true if timezone is a Link entry pointing to a Zone entry. */
+    virtual bool isLink() const = 0;
+
     /** Return the unique stable zoneId. */
     virtual uint32_t getZoneId() const = 0;
 

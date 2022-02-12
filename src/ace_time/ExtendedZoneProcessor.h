@@ -951,6 +951,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     typedef extended::TransitionStorageTemplate<kMaxTransitions, ZEB, ZPB, ZRB>
         TransitionStorage;
 
+    bool isLink() const override { return mZoneInfoBroker.isLink(); }
+
     uint32_t getZoneId() const override { return mZoneInfoBroker.zoneId(); }
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {

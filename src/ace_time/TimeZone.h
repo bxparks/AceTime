@@ -242,6 +242,19 @@ class TimeZone {
       return TimeOffset::forMinutes(mDstOffsetMinutes);
     }
 
+    /** Return true if timezone is a Link entry pointing to a Zone entry. */
+    bool isLink() const {
+      switch (mType) {
+        case kTypeError:
+        case kTypeReserved:
+        case kTypeManual:
+          return false;
+
+        default:
+          return getBoundZoneProcessor()->isLink();
+      }
+    }
+
     /**
      * Return the zoneId for kTypeBasic, kTypeExtended. Returns 0 for
      * kTypeManual. (It is not entirely clear that a valid zoneId is always >
