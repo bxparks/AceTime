@@ -54,7 +54,7 @@ ASCII table.
 
 ## Library Size Changes
 
-In v1.3:
+**v1.3:**
 * The `BasicZoneManager` and `ExtendedZoneManager` classes were unified under a
   new parent interface `ZoneManager`. This seems to have caused the flash size
   to increase by around 1200 bytes on the AVR processors (Nano, Pro Micro),
@@ -68,7 +68,7 @@ In v1.3:
   number of timezones at compile time, so they can avoid using a `ZoneManager`,
   and avoid this penalty in flash size.
 
-In v1.4.1+:
+**v1.4.1+:**
 * Removed the `ZoneInfo::transitionBufSize` field from the `ZoneInfo` struct,
   which saves 1 byte on 8-bit processors (none on 32-bit processors due to
   4-byte alignment). We save 266 bytes for `BasicZoneManager` and 386 bytes for
@@ -77,7 +77,7 @@ In v1.4.1+:
   ~250/120 bytes when using only 1-2 zones, but *decreases* flash consumption by
   1200-2400 bytes when all the zones are loaded into the `ZoneManager`.
 
-In v1.5+:
+**v1.5+:**
 * Changing `ZoneProcessorCache::getType()` from a `virtual` to a non-virtual
   method saves 250-350 bytes of flash memory when using a `BasicZoneManager` or
   an `ExtendedZoneManager` on an 8-bit AVR processor. Unexpectedly, the flash
@@ -92,14 +92,14 @@ In v1.5+:
 * Adding a `BrokerFactory` layer of indirection (to support more complex
   ZoneProcessors and Brokers) causes flash memory to go up by 100-200 bytes.
 
-In v1.6:
+**v1.6:**
 * Added support for `LinkRegistry` to `BasicZoneManager` and
   `ExtendedZoneManager`. This increases the flash memory usage by 150-500 bytes
   when using one of these classes due to the code required by `LinkRegistrar`. This extra cost is incurred even if the `LinkRegistry` is set to 0 elements. Each `LinkEntry` consumes 8 bytes (2 x `uint32_t`). So a
   `zonedb::kLinkRegistry` with 183 elements uses 1464 extra bytes of flash; a
   `zonedbx::kLinkRegistry` with 207 elements uses 1656 extra bytes.
 
-In v1.7:
+**v1.7:**
 * The virtual destructor on the `Clock` base class removed. This reduced the
   flash usage by 618 bytes on AVR processors , 328 bytes on the SAMD21, but only
   50-60 bytes on other 32-bit processors.
@@ -109,12 +109,12 @@ In v1.7:
   the flash memory consumption, except on the ESP32 where it increased by
   200-300 bytes.
 
-In v1.7.2
+**v1.7.2**
 * The `SystemClock::clockMillis()` is now non-virtual, using compile-time
   polymorphism through C++ template, and incorporating the same techniques from
   AceRoutine v1.3. Saves about 20-40 bytes of flash.
 
-In v1.7.5:
+**v1.7.5:**
 * `ExtendedZoneProcessor.compareTransitionToMatch()` was modified to
   detect an exact equality between a `Transition` and its `MatchingEra` if any
   of the 3 time stamp versions ('w', 's', 'u') are equal. Adds about 120-150
@@ -128,7 +128,7 @@ In v1.7.5:
   MemoryBenchmark, reducing the actual memory usage of various features by
   ~3kB.
 
-In v1.8.0:
+**v1.8.0:**
 * Move Clock and SystemClock benchmarks into AceTimeClock v1.0.0.
 * Extract thin links from BasicZoneManager and ExtendedZoneManager into
   new BasicLinkManager and ExtendedLinkManager classes.
@@ -139,7 +139,7 @@ In v1.8.0:
 * Create various test objects as global variables instead of stack variables
   to get a more accurate measurement of their static memory consumption.
 
-In v1.9.0:
+**v1.9.0:**
 * Reduce flash usage of `BasicZoneManager` and `ExtendedZoneManager` by
   1100-1300 bytes on AVR processors:
     * Extract `BasicZoneProcessorCache` and `ExtendedZoneProcessorCache` out
@@ -156,7 +156,7 @@ In v1.9.0:
   of `getHighWater()` with `getAllocSize()`. Only 4-8 bytes increase on 32-bit
   processors.
 
-In v1.10.0:
+**v1.10.0:**
 * Remove support for SAMD21 boards.
     * Arduino IDE 1.8.19 with SparkFun SAMD 1.8.6 can no longer upload binaries
       to these boards. Something about bossac 1.7.0 not found.
@@ -177,6 +177,17 @@ In v1.10.0:
         * ~150 bytes, `BasicZoneProcessor`, to carry along the `fold` parameter
     * most 32-bit: 400-600 bytes
     * Teensy: 1300 bytes (no idea why)
+
+**v1.11.0**
+* Upgrade ZoneInfo database so that Links are symbolic links to Zones, instead
+  of hard links to Zones.
+    * Allows Links to know whether they are links.
+    * Allows extraction of the zoneId and zoneNames of the target Zone.
+    * AVR: Increases flash consumption by ~270 bytes.
+    * STM32: Increases flash by 120-150 bytes.
+    * ESP8266: Increases flash by 250-300 bytes.
+    * ESP32: Increases flash by ~190 bytes.
+    * Teensy 3.2: Increase flash by 450-1300 bytes.
 
 # Legend
 
