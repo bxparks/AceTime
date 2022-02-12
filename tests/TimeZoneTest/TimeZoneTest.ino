@@ -140,6 +140,16 @@ test(TimeZoneBasicTest, America_Los_Angeles) {
   assertEqual(BasicZoneProcessor::kTypeBasic, tz.getType());
   assertFalse(tz.isLink());
 
+  PrintStr<32> printStr;
+  tz.printTo(printStr);
+  assertEqual("America/Los_Angeles", printStr.cstr());
+  printStr.flush();
+  tz.printTo(printStr, true /*followLink*/);
+  assertEqual("America/Los_Angeles", printStr.cstr());
+  printStr.flush();
+  tz.printShortTo(printStr);
+  assertEqual("Los Angeles", printStr.cstr());
+
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
@@ -166,6 +176,19 @@ test(TimeZoneBasicTest, US_Pacific) {
       &zoneProcessor);
   assertEqual(BasicZoneProcessor::kTypeBasic, tz.getType());
   assertTrue(tz.isLink());
+
+  PrintStr<32> printStr;
+  tz.printTo(printStr);
+  assertEqual("US/Pacific", printStr.cstr());
+  printStr.flush();
+  tz.printTo(printStr, true /*followLink*/);
+  assertEqual("America/Los_Angeles", printStr.cstr());
+
+  assertEqual(zonedb::kZoneIdUS_Pacific, tz.getZoneId());
+  assertEqual(
+      zonedb::kZoneIdAmerica_Los_Angeles,
+      tz.getZoneId(true /*followLink*/)
+  );
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
@@ -245,6 +268,16 @@ test(TimeZoneExtendedTest, America_Los_Angeles) {
   assertEqual(ExtendedZoneProcessor::kTypeExtended, tz.getType());
   assertFalse(tz.isLink());
 
+  PrintStr<32> printStr;
+  tz.printTo(printStr);
+  assertEqual("America/Los_Angeles", printStr.cstr());
+  printStr.flush();
+  tz.printTo(printStr, true /*followLink*/);
+  assertEqual("America/Los_Angeles", printStr.cstr());
+  printStr.flush();
+  tz.printShortTo(printStr);
+  assertEqual("Los Angeles", printStr.cstr());
+
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
@@ -271,6 +304,19 @@ test(TimeZoneExtendedTest, US_Pacific) {
       &zoneProcessor);
   assertEqual(ExtendedZoneProcessor::kTypeExtended, tz.getType());
   assertTrue(tz.isLink());
+
+  PrintStr<32> printStr;
+  tz.printTo(printStr);
+  assertEqual("US/Pacific", printStr.cstr());
+  printStr.flush();
+  tz.printTo(printStr, true /*followLink*/);
+  assertEqual("America/Los_Angeles", printStr.cstr());
+
+  assertEqual(zonedb::kZoneIdUS_Pacific, tz.getZoneId());
+  assertEqual(
+      zonedb::kZoneIdAmerica_Los_Angeles,
+      tz.getZoneId(true /*followLink*/)
+  );
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));

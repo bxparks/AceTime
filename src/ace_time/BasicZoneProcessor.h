@@ -208,7 +208,13 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
 
     bool isLink() const override { return mZoneInfoBroker.isLink(); }
 
-    uint32_t getZoneId() const override { return mZoneInfoBroker.zoneId(); }
+    uint32_t getZoneId(bool followLink = false) const override {
+      ZIB zib = (isLink() && followLink)
+          ? mBrokerFactory->createZoneInfoBroker(
+                (uintptr_t) mZoneInfoBroker.targetZoneInfo())
+          : mZoneInfoBroker;
+      return zib.zoneId();
+    }
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       const Transition* transition = getTransition(epochSeconds);
@@ -307,12 +313,21 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       return OffsetDateTime::forEpochSeconds(epochSeconds, timeOffset);
     }
 
-    void printNameTo(Print& printer) const override {
-      mZoneInfoBroker.printNameTo(printer);
+    void printNameTo(Print& printer, bool followLink = false) const override {
+      ZIB zib = (isLink() && followLink)
+          ? mBrokerFactory->createZoneInfoBroker(
+                (uintptr_t) mZoneInfoBroker.targetZoneInfo())
+          : mZoneInfoBroker;
+      zib.printNameTo(printer);
     }
 
-    void printShortNameTo(Print& printer) const override {
-      mZoneInfoBroker.printShortNameTo(printer);
+    void printShortNameTo(Print& printer, bool followLink = false)
+        const override {
+      ZIB zib = (isLink() && followLink)
+          ? mBrokerFactory->createZoneInfoBroker(
+                (uintptr_t) mZoneInfoBroker.targetZoneInfo())
+          : mZoneInfoBroker;
+      zib.printShortNameTo(printer);
     }
 
     void setZoneKey(uintptr_t zoneKey) override {
