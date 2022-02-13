@@ -366,7 +366,7 @@ test(ZonedDateTimeTest_Manual, printTo) {
 // data_time_mutation
 //---------------------------------------------------------------------------
 
-test(DateTimeMutationTest, increment) {
+test(ZonedDateTimeMutationTest, increment) {
   ZonedDateTime dt = ZonedDateTime::forComponents(2001, 2, 3, 4, 5, 6,
       TimeZone());
   assertEqual((int16_t) 2001, dt.year());

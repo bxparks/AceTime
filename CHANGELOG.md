@@ -34,6 +34,9 @@
         * Regenerate `zonedb/` and `zonedbx` to convert Link entries from
           hard links to symbolic links.
         * See [Symbolic Links](USER_GUIDE.md#SymbolicLinks) for more info.
+    * Add `offset_date_time_mutation` methods.
+        * Similar to `zoned_date_time_mutation` methods.
+        * Provides some convenient mutation methods for `OffsetDateTime`.
 * 1.10.0 (2022-01-18, TZDB 2021e)
     * MemoryBenchmark: Add memory consumption for `ZoneSorterByName` and
       `ZoneSorterByOffsetAndName`.

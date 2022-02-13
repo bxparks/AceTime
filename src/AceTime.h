@@ -45,6 +45,7 @@
 #include "ace_time/TimeOffset.h"
 #include "ace_time/time_offset_mutation.h"
 #include "ace_time/OffsetDateTime.h"
+#include "ace_time/offset_date_time_mutation.h"
 #include "ace_time/ZoneProcessor.h"
 #include "ace_time/BasicZoneProcessor.h"
 #include "ace_time/ExtendedZoneProcessor.h"
