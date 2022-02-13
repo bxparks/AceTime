@@ -18,6 +18,22 @@
           * +1: overflow, "<+Inf>"
           * -1: underflow, "<-Inf>"
           * See [USER_GUIDE.md#TimePeriod](USER_GUIDE.md#TimePeriod).
+    * Change Link entries from "hard links" to "symbolic links".
+        * This allows a TimeZone object to know whether it is a Zone entry
+          or a Link entry.
+        * Add `TimeZone::isLink()` and `ZoneProcessor::isLink()` methods.
+        * Add `bool followLink = true` parameter to various other methods
+          (`getZoneId()`, `printTo()`, `printShortTo()`) which determines
+          whether the method resolves to the current Link entry or follows the
+          link to the destination Zone entry.
+        * [MemoryBenchmark](examples/MemoryBenchmark) says that this increases
+          flash consumption by 100-300 bytes, due to the extra code needed to
+          follow the symlink. But the ability to determine whether the TimeZone
+          is a link or not will be necessary for an upcoming feature, so this
+          slight increase in flash consumption seems worth it.
+        * Regenerate `zonedb/` and `zonedbx` to convert Link entries from
+          hard links to symbolic links.
+        * See [Symbolic Links](USER_GUIDE.md#SymbolicLinks) for more info.
 * 1.10.0 (2022-01-18, TZDB 2021e)
     * MemoryBenchmark: Add memory consumption for `ZoneSorterByName` and
       `ZoneSorterByOffsetAndName`.

@@ -64,6 +64,7 @@ UTC) and the equivalent human-readable components in different timezones.
         * [Ghost Links (Prior to v1.5)](#GhostLinks)
         * [Fat Links (From v1.5)](#FatLinks)
         * [Thin Links (From v1.6)](#ThinLinks)
+        * [Symbolic Links (From v1.10)](#SymbolicLinks)
         * [Custom Zone Registry](#CustomZoneRegistry)
 * [Zone Sorting](#ZoneSorting)
 * [Print To String](#PrintToString)
@@ -2314,9 +2315,11 @@ identical to their corresponding Zones. In other words:
   not the target Zone entry,
 * the `kZone{xxx}.zoneId` field is set to the ZoneId of the **Link** entry.
 
-From the point of view on the Arduino side, there is no difference between Links
-and Zones. In fact, there is no ability to distinguish between a Zone and a Fat
-Link at runtime.
+From the point of view on the Arduino side, there is almost no difference
+between Links and Zones. Prior to v1.11, there was no ability to distinguish
+between a Zone and a Fat Link at runtime. In v1.11, Fat Links were converted
+from a "hard link" into a "symbolic link" and a Link object is now self-aware
+that it is a link to a Zone object. See [Symbolic Links](#SymbolicLinks) below.
 
 The underlying `ZonePolicy` and `ZoneInfo` data structures are shared between
 the corresponding Zone and Link entries, but those Link entries themselves
@@ -2437,6 +2440,61 @@ TimeZone findTimeZone(uint32_t zoneId) {
   return tz;
 }
 ```
+
+<a name="SymbolicLinks"></a>
+#### Symbolic Links (From v1.11)
+
+In v1.11, Link entries were converted from a "hard link" to a "symbolic link".
+The `TimeZone` and `ZoneProcessor` interfaces were extended in the following
+way:
+
+```C++
+class TimeZone {
+  public:
+    ...
+
+    bool isLink() const;
+
+    uint32_t getZoneId(bool followLink = false);
+    TimeZoneData toTimeZoneData(bool followLink = false) const;
+
+    void printTo(Print& printer, bool followLink = false) const;
+    void printShortTo(Print& printer, bool followLink = false) const;
+
+    ...
+};
+
+class ZoneProcessor {
+  public:
+    ...
+
+    virtual bool isLink() const = 0;
+
+    virtual uint32_t getZoneId(bool followLink = false) const = 0;
+    virtual void printNameTo(Print& printer, bool followLink = false) const = 0;
+    virtual void printShortNameTo(Print& printer, bool followLink = false)
+        const = 0;
+
+    ...
+};
+```
+
+The `TimeZone::isLink()` method returns `true` if the current time zone is a
+Link entry instead of a Zone entry. For example `US/Pacific` is a link to
+`America/Los_Angeles`.
+
+The other methods gained an optional `followLink` parameter. If this parameter
+is set to `true`, then the method follows the link to the destination Zone and
+processes the request as if it was made on the target Zone. If the time zone is
+not a Link but a simple Zone, then this flag is ignored.
+
+For example, `TimeZone::getZoneId()` for `US/Pacific` returns the value defined
+by `kZoneIdUS_Pacific`. But `TimeZone::getZoneId(true /*followLink*/)` returns
+the value defined by `kZoneIdAmerica_Los_Angeles`.
+
+Similarly, `TimeZone::printTo(Serial)` prints `US/Pacific`. But
+`TimeZone::printTo(Serial, true
+/*followLink*)` prints `America/Los_Angeles`.
 
 <a name="CustomZoneRegistry"></a>
 #### Custom Zone Registry
