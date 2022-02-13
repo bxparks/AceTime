@@ -8,7 +8,7 @@
 
 namespace ace_time {
 
-void TimeZone::printTo(Print& printer) const {
+void TimeZone::printTo(Print& printer, bool followLink) const {
   switch (mType) {
     case kTypeError:
     case kTypeReserved:
@@ -25,12 +25,12 @@ void TimeZone::printTo(Print& printer) const {
       break;
 
     default:
-      getBoundZoneProcessor()->printNameTo(printer);
+      getBoundZoneProcessor()->printNameTo(printer, followLink);
       break;
   }
 }
 
-void TimeZone::printShortTo(Print& printer) const {
+void TimeZone::printShortTo(Print& printer, bool followLink) const {
   switch (mType) {
     case kTypeError:
     case kTypeReserved:
@@ -51,7 +51,7 @@ void TimeZone::printShortTo(Print& printer) const {
       break;
 
     default:
-      getBoundZoneProcessor()->printShortNameTo(printer);
+      getBoundZoneProcessor()->printShortNameTo(printer, followLink);
       break;
   }
 }

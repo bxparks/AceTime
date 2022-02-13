@@ -242,12 +242,29 @@ class TimeZone {
       return TimeOffset::forMinutes(mDstOffsetMinutes);
     }
 
+    /** Return true if timezone is a Link entry pointing to a Zone entry. */
+    bool isLink() const {
+      switch (mType) {
+        case kTypeError:
+        case kTypeReserved:
+        case kTypeManual:
+          return false;
+
+        default:
+          return getBoundZoneProcessor()->isLink();
+      }
+    }
+
     /**
      * Return the zoneId for kTypeBasic, kTypeExtended. Returns 0 for
      * kTypeManual. (It is not entirely clear that a valid zoneId is always >
      * 0, but there is little I can do without C++ exceptions.)
+     *
+     * @param followLink if true and the time zone is a Link, follow the link
+     * and return the id of the target Zone instead. If the zone is not a link,
+     * this flag is ignored.
      */
-    uint32_t getZoneId() const {
+    uint32_t getZoneId(bool followLink = false) const {
       switch (mType) {
         case kTypeError:
         case kTypeReserved:
@@ -255,7 +272,7 @@ class TimeZone {
           return 0;
 
         default:
-          return getBoundZoneProcessor()->getZoneId();
+          return getBoundZoneProcessor()->getZoneId(followLink);
       }
     }
 
@@ -428,7 +445,7 @@ class TimeZone {
      * TimeZone::kTypeBasic and TimeZone::kTypeExtended are mapped to
      * TimeZoneData::kTypeZoneId.
      */
-    TimeZoneData toTimeZoneData() const {
+    TimeZoneData toTimeZoneData(bool followLink = false) const {
       TimeZoneData d;
       switch (mType) {
         case kTypeError:
@@ -443,7 +460,7 @@ class TimeZone {
           break;
 
         default:
-          d.zoneId = getZoneId();
+          d.zoneId = getZoneId(followLink);
           d.type = TimeZoneData::kTypeZoneId;
           break;
       }
@@ -459,7 +476,7 @@ class TimeZone {
      *   * kTypeExtended is printed as "{zoneName}" (e.g.
      *     "America/Los_Angeles")
      */
-    void printTo(Print& printer) const;
+    void printTo(Print& printer, bool followLink = false) const;
 
     /**
      * Print the *short* human readable representation of the time zone. This
@@ -479,7 +496,7 @@ class TimeZone {
      *   * kTypeBasic is printed as "{zoneShortName}" (e.g. "Los Angeles")
      *   * kTypeExtended is printed as "{zoneShortName}" (e.g. "Los Angeles")
      */
-    void printShortTo(Print& printer) const;
+    void printShortTo(Print& printer, bool followLink = false) const;
 
     // Use default copy constructor and assignment operator.
     TimeZone(const TimeZone&) = default;

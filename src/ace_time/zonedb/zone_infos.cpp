@@ -9029,8 +9029,8 @@ const basic::ZoneInfo kZoneAfrica_Accra ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Accra /*name*/,
   0x77d5b054 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Abidjan /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Abidjan /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9046,8 +9046,8 @@ const basic::ZoneInfo kZoneAfrica_Addis_Ababa ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Addis_Ababa /*name*/,
   0x05ae1e65 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Nairobi /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Nairobi /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9063,8 +9063,8 @@ const basic::ZoneInfo kZoneAfrica_Asmara ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Asmara /*name*/,
   0x73b278ef /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Nairobi /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Nairobi /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9080,8 +9080,8 @@ const basic::ZoneInfo kZoneAfrica_Asmera ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Asmera /*name*/,
   0x73b289f3 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Nairobi /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Nairobi /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9097,8 +9097,8 @@ const basic::ZoneInfo kZoneAfrica_Bamako ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Bamako /*name*/,
   0x74c1e7a5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Abidjan /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Abidjan /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9114,8 +9114,8 @@ const basic::ZoneInfo kZoneAfrica_Bangui ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Bangui /*name*/,
   0x74c28ed0 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Lagos /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Lagos /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9131,8 +9131,8 @@ const basic::ZoneInfo kZoneAfrica_Banjul ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Banjul /*name*/,
   0x74c29b96 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Abidjan /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Abidjan /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9148,8 +9148,8 @@ const basic::ZoneInfo kZoneAfrica_Blantyre ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Blantyre /*name*/,
   0xe08d813b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Maputo /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Maputo /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9165,8 +9165,8 @@ const basic::ZoneInfo kZoneAfrica_Brazzaville ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Brazzaville /*name*/,
   0x39cda760 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Lagos /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Lagos /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9182,8 +9182,8 @@ const basic::ZoneInfo kZoneAfrica_Bujumbura ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Bujumbura /*name*/,
   0x05232a47 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Maputo /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Maputo /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9199,8 +9199,8 @@ const basic::ZoneInfo kZoneAfrica_Conakry ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Conakry /*name*/,
   0x7ab36b31 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Abidjan /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Abidjan /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9216,8 +9216,8 @@ const basic::ZoneInfo kZoneAfrica_Dakar ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Dakar /*name*/,
   0x780b00fd /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Abidjan /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Abidjan /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9233,8 +9233,8 @@ const basic::ZoneInfo kZoneAfrica_Dar_es_Salaam ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Dar_es_Salaam /*name*/,
   0xa04c47b6 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Nairobi /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Nairobi /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9250,8 +9250,8 @@ const basic::ZoneInfo kZoneAfrica_Djibouti ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Djibouti /*name*/,
   0x30ea01d4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Nairobi /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Nairobi /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9267,8 +9267,8 @@ const basic::ZoneInfo kZoneAfrica_Douala ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Douala /*name*/,
   0x7a6df310 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Lagos /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Lagos /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9284,8 +9284,8 @@ const basic::ZoneInfo kZoneAfrica_Freetown ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Freetown /*name*/,
   0x6823dd64 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Abidjan /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Abidjan /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9301,8 +9301,8 @@ const basic::ZoneInfo kZoneAfrica_Gaborone ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Gaborone /*name*/,
   0x317c0aa7 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Maputo /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Maputo /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9318,8 +9318,8 @@ const basic::ZoneInfo kZoneAfrica_Harare ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Harare /*name*/,
   0x82c39a2d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Maputo /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Maputo /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9335,8 +9335,8 @@ const basic::ZoneInfo kZoneAfrica_Kampala ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Kampala /*name*/,
   0xc1d30e31 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Nairobi /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Nairobi /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9352,8 +9352,8 @@ const basic::ZoneInfo kZoneAfrica_Kigali ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Kigali /*name*/,
   0x8a4dcf2b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Maputo /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Maputo /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9369,8 +9369,8 @@ const basic::ZoneInfo kZoneAfrica_Kinshasa ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Kinshasa /*name*/,
   0x6695d70c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Lagos /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Lagos /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9386,8 +9386,8 @@ const basic::ZoneInfo kZoneAfrica_Libreville ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Libreville /*name*/,
   0x01d96de4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Lagos /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Lagos /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9403,8 +9403,8 @@ const basic::ZoneInfo kZoneAfrica_Lome ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Lome /*name*/,
   0xd51c3a07 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Abidjan /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Abidjan /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9420,8 +9420,8 @@ const basic::ZoneInfo kZoneAfrica_Luanda ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Luanda /*name*/,
   0x8d7909cf /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Lagos /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Lagos /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9437,8 +9437,8 @@ const basic::ZoneInfo kZoneAfrica_Lubumbashi ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Lubumbashi /*name*/,
   0x6fd88566 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Maputo /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Maputo /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9454,8 +9454,8 @@ const basic::ZoneInfo kZoneAfrica_Lusaka ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Lusaka /*name*/,
   0x8d82b23b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Maputo /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Maputo /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9471,8 +9471,8 @@ const basic::ZoneInfo kZoneAfrica_Malabo ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Malabo /*name*/,
   0x8e6a1906 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Lagos /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Lagos /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9488,8 +9488,8 @@ const basic::ZoneInfo kZoneAfrica_Maseru ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Maseru /*name*/,
   0x8e6e02c7 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Johannesburg /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Johannesburg /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9505,8 +9505,8 @@ const basic::ZoneInfo kZoneAfrica_Mbabane ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Mbabane /*name*/,
   0x5d3bdd40 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Johannesburg /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Johannesburg /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9522,8 +9522,8 @@ const basic::ZoneInfo kZoneAfrica_Mogadishu ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Mogadishu /*name*/,
   0x66bc159b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Nairobi /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Nairobi /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9539,8 +9539,8 @@ const basic::ZoneInfo kZoneAfrica_Niamey ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Niamey /*name*/,
   0x914a30fd /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Lagos /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Lagos /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9556,8 +9556,8 @@ const basic::ZoneInfo kZoneAfrica_Nouakchott ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Nouakchott /*name*/,
   0x3dc49dba /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Abidjan /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Abidjan /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9573,8 +9573,8 @@ const basic::ZoneInfo kZoneAfrica_Ouagadougou ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Ouagadougou /*name*/,
   0x04d7219a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Abidjan /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Abidjan /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9590,8 +9590,8 @@ const basic::ZoneInfo kZoneAfrica_Porto_Novo ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Porto_Novo /*name*/,
   0x3d1bf95d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Lagos /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Lagos /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9607,8 +9607,8 @@ const basic::ZoneInfo kZoneAfrica_Timbuktu ACE_TIME_PROGMEM = {
   kZoneNameAfrica_Timbuktu /*name*/,
   0xb164d56f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Abidjan /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Abidjan /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9624,8 +9624,8 @@ const basic::ZoneInfo kZoneAmerica_Anguilla ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Anguilla /*name*/,
   0xafe31333 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9641,8 +9641,8 @@ const basic::ZoneInfo kZoneAmerica_Antigua ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Antigua /*name*/,
   0xc067a32f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9658,8 +9658,8 @@ const basic::ZoneInfo kZoneAmerica_Aruba ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Aruba /*name*/,
   0x97cf8651 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9675,8 +9675,8 @@ const basic::ZoneInfo kZoneAmerica_Atikokan ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Atikokan /*name*/,
   0x81b92098 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Panama /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Panama /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9692,8 +9692,8 @@ const basic::ZoneInfo kZoneAmerica_Atka ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Atka /*name*/,
   0x97fe8f27 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Adak /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Adak /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9709,8 +9709,8 @@ const basic::ZoneInfo kZoneAmerica_Blanc_Sablon ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Blanc_Sablon /*name*/,
   0x6e299892 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9726,8 +9726,8 @@ const basic::ZoneInfo kZoneAmerica_Cayman ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Cayman /*name*/,
   0x953961df /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Panama /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Panama /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9743,8 +9743,8 @@ const basic::ZoneInfo kZoneAmerica_Coral_Harbour ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Coral_Harbour /*name*/,
   0xabcb7569 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Panama /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Panama /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9760,8 +9760,8 @@ const basic::ZoneInfo kZoneAmerica_Creston ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Creston /*name*/,
   0x62a70204 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Phoenix /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Phoenix /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9777,8 +9777,8 @@ const basic::ZoneInfo kZoneAmerica_Curacao ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Curacao /*name*/,
   0x6a879184 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9794,8 +9794,8 @@ const basic::ZoneInfo kZoneAmerica_Dominica ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Dominica /*name*/,
   0xcecb4c4a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9811,8 +9811,8 @@ const basic::ZoneInfo kZoneAmerica_Fort_Wayne ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Fort_Wayne /*name*/,
   0x7eaaaf24 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  2 /*numEras*/,
-  kZoneEraAmerica_Indiana_Indianapolis /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Indiana_Indianapolis /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9828,8 +9828,8 @@ const basic::ZoneInfo kZoneAmerica_Godthab ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Godthab /*name*/,
   0x8f7eba1f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Nuuk /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Nuuk /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9845,8 +9845,8 @@ const basic::ZoneInfo kZoneAmerica_Grenada ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Grenada /*name*/,
   0x968ce4d8 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9862,8 +9862,8 @@ const basic::ZoneInfo kZoneAmerica_Guadeloupe ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Guadeloupe /*name*/,
   0xcd1f8a31 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9879,8 +9879,8 @@ const basic::ZoneInfo kZoneAmerica_Indianapolis ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Indianapolis /*name*/,
   0x6a009ae1 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  2 /*numEras*/,
-  kZoneEraAmerica_Indiana_Indianapolis /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Indiana_Indianapolis /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9896,8 +9896,8 @@ const basic::ZoneInfo kZoneAmerica_Kralendijk ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Kralendijk /*name*/,
   0xe7c456c5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9913,8 +9913,8 @@ const basic::ZoneInfo kZoneAmerica_Louisville ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Louisville /*name*/,
   0x3dcb47ee /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Kentucky_Louisville /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Kentucky_Louisville /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9930,8 +9930,8 @@ const basic::ZoneInfo kZoneAmerica_Lower_Princes ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Lower_Princes /*name*/,
   0x6ae45b62 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9947,8 +9947,8 @@ const basic::ZoneInfo kZoneAmerica_Marigot ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Marigot /*name*/,
   0x3dab3a59 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9964,8 +9964,8 @@ const basic::ZoneInfo kZoneAmerica_Montreal ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Montreal /*name*/,
   0x203a1ea8 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Toronto /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Toronto /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9981,8 +9981,8 @@ const basic::ZoneInfo kZoneAmerica_Montserrat ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Montserrat /*name*/,
   0x199b0a35 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9998,8 +9998,8 @@ const basic::ZoneInfo kZoneAmerica_Nassau ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Nassau /*name*/,
   0xaedef011 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Toronto /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Toronto /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10015,8 +10015,8 @@ const basic::ZoneInfo kZoneAmerica_Port_of_Spain ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Port_of_Spain /*name*/,
   0xd8b28d59 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10032,8 +10032,8 @@ const basic::ZoneInfo kZoneAmerica_Shiprock ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Shiprock /*name*/,
   0x82fb7049 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Denver /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Denver /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10049,8 +10049,8 @@ const basic::ZoneInfo kZoneAmerica_St_Barthelemy ACE_TIME_PROGMEM = {
   kZoneNameAmerica_St_Barthelemy /*name*/,
   0x054e6a79 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10066,8 +10066,8 @@ const basic::ZoneInfo kZoneAmerica_St_Kitts ACE_TIME_PROGMEM = {
   kZoneNameAmerica_St_Kitts /*name*/,
   0x04c0507b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10083,8 +10083,8 @@ const basic::ZoneInfo kZoneAmerica_St_Lucia ACE_TIME_PROGMEM = {
   kZoneNameAmerica_St_Lucia /*name*/,
   0x04d8b3ba /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10100,8 +10100,8 @@ const basic::ZoneInfo kZoneAmerica_St_Thomas ACE_TIME_PROGMEM = {
   kZoneNameAmerica_St_Thomas /*name*/,
   0xb1b3d778 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10117,8 +10117,8 @@ const basic::ZoneInfo kZoneAmerica_St_Vincent ACE_TIME_PROGMEM = {
   kZoneNameAmerica_St_Vincent /*name*/,
   0x8460e523 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10134,8 +10134,8 @@ const basic::ZoneInfo kZoneAmerica_Tortola ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Tortola /*name*/,
   0x7931462b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10151,8 +10151,8 @@ const basic::ZoneInfo kZoneAmerica_Virgin ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Virgin /*name*/,
   0xc2183ab5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Puerto_Rico /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Puerto_Rico /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10168,8 +10168,8 @@ const basic::ZoneInfo kZoneAntarctica_DumontDUrville ACE_TIME_PROGMEM = {
   kZoneNameAntarctica_DumontDUrville /*name*/,
   0x5a3c656c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Port_Moresby /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Port_Moresby /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10185,8 +10185,8 @@ const basic::ZoneInfo kZoneAntarctica_McMurdo ACE_TIME_PROGMEM = {
   kZoneNameAntarctica_McMurdo /*name*/,
   0x6eeb5585 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Auckland /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Auckland /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10202,8 +10202,8 @@ const basic::ZoneInfo kZoneAntarctica_South_Pole ACE_TIME_PROGMEM = {
   kZoneNameAntarctica_South_Pole /*name*/,
   0xcd96b290 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Auckland /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Auckland /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10219,8 +10219,8 @@ const basic::ZoneInfo kZoneAntarctica_Syowa ACE_TIME_PROGMEM = {
   kZoneNameAntarctica_Syowa /*name*/,
   0xe330c7e1 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Riyadh /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Riyadh /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10236,8 +10236,8 @@ const basic::ZoneInfo kZoneArctic_Longyearbyen ACE_TIME_PROGMEM = {
   kZoneNameArctic_Longyearbyen /*name*/,
   0xd23e7859 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Oslo /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Oslo /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10253,8 +10253,8 @@ const basic::ZoneInfo kZoneAsia_Aden ACE_TIME_PROGMEM = {
   kZoneNameAsia_Aden /*name*/,
   0x1fa7084a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Riyadh /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Riyadh /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10270,8 +10270,8 @@ const basic::ZoneInfo kZoneAsia_Ashkhabad ACE_TIME_PROGMEM = {
   kZoneNameAsia_Ashkhabad /*name*/,
   0x15454f09 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Ashgabat /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Ashgabat /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10287,8 +10287,8 @@ const basic::ZoneInfo kZoneAsia_Bahrain ACE_TIME_PROGMEM = {
   kZoneNameAsia_Bahrain /*name*/,
   0x9d078487 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Qatar /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Qatar /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10304,8 +10304,8 @@ const basic::ZoneInfo kZoneAsia_Calcutta ACE_TIME_PROGMEM = {
   kZoneNameAsia_Calcutta /*name*/,
   0x328a44c3 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Kolkata /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Kolkata /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10321,8 +10321,8 @@ const basic::ZoneInfo kZoneAsia_Chongqing ACE_TIME_PROGMEM = {
   kZoneNameAsia_Chongqing /*name*/,
   0xf937fb90 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Shanghai /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Shanghai /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10338,8 +10338,8 @@ const basic::ZoneInfo kZoneAsia_Chungking ACE_TIME_PROGMEM = {
   kZoneNameAsia_Chungking /*name*/,
   0xc7121dd0 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Shanghai /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Shanghai /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10355,8 +10355,8 @@ const basic::ZoneInfo kZoneAsia_Dacca ACE_TIME_PROGMEM = {
   kZoneNameAsia_Dacca /*name*/,
   0x14bcac5e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  2 /*numEras*/,
-  kZoneEraAsia_Dhaka /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Dhaka /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10372,8 +10372,8 @@ const basic::ZoneInfo kZoneAsia_Harbin ACE_TIME_PROGMEM = {
   kZoneNameAsia_Harbin /*name*/,
   0xb5af1186 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Shanghai /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Shanghai /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10389,8 +10389,8 @@ const basic::ZoneInfo kZoneAsia_Kashgar ACE_TIME_PROGMEM = {
   kZoneNameAsia_Kashgar /*name*/,
   0x52955193 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Urumqi /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Urumqi /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10406,8 +10406,8 @@ const basic::ZoneInfo kZoneAsia_Katmandu ACE_TIME_PROGMEM = {
   kZoneNameAsia_Katmandu /*name*/,
   0xa7ec12c7 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Kathmandu /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Kathmandu /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10423,8 +10423,8 @@ const basic::ZoneInfo kZoneAsia_Kuwait ACE_TIME_PROGMEM = {
   kZoneNameAsia_Kuwait /*name*/,
   0xbe1b2f27 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Riyadh /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Riyadh /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10440,8 +10440,8 @@ const basic::ZoneInfo kZoneAsia_Macao ACE_TIME_PROGMEM = {
   kZoneNameAsia_Macao /*name*/,
   0x155f88b3 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Macau /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Macau /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10457,8 +10457,8 @@ const basic::ZoneInfo kZoneAsia_Muscat ACE_TIME_PROGMEM = {
   kZoneNameAsia_Muscat /*name*/,
   0xc2c3565f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Dubai /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Dubai /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10474,8 +10474,8 @@ const basic::ZoneInfo kZoneAsia_Phnom_Penh ACE_TIME_PROGMEM = {
   kZoneNameAsia_Phnom_Penh /*name*/,
   0xc224945e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Bangkok /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Bangkok /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10491,8 +10491,8 @@ const basic::ZoneInfo kZoneAsia_Rangoon ACE_TIME_PROGMEM = {
   kZoneNameAsia_Rangoon /*name*/,
   0x6d1217c6 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Yangon /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Yangon /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10508,8 +10508,8 @@ const basic::ZoneInfo kZoneAsia_Saigon ACE_TIME_PROGMEM = {
   kZoneNameAsia_Saigon /*name*/,
   0xcf52f713 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Ho_Chi_Minh /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Ho_Chi_Minh /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10525,8 +10525,8 @@ const basic::ZoneInfo kZoneAsia_Tel_Aviv ACE_TIME_PROGMEM = {
   kZoneNameAsia_Tel_Aviv /*name*/,
   0x166d7c2c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Jerusalem /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Jerusalem /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10542,8 +10542,8 @@ const basic::ZoneInfo kZoneAsia_Thimbu ACE_TIME_PROGMEM = {
   kZoneNameAsia_Thimbu /*name*/,
   0xd226e31b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Thimphu /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Thimphu /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10559,8 +10559,8 @@ const basic::ZoneInfo kZoneAsia_Ujung_Pandang ACE_TIME_PROGMEM = {
   kZoneNameAsia_Ujung_Pandang /*name*/,
   0x5d001eb3 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Makassar /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Makassar /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10576,8 +10576,8 @@ const basic::ZoneInfo kZoneAsia_Ulan_Bator ACE_TIME_PROGMEM = {
   kZoneNameAsia_Ulan_Bator /*name*/,
   0x394db4d9 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Ulaanbaatar /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Ulaanbaatar /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10593,8 +10593,8 @@ const basic::ZoneInfo kZoneAsia_Vientiane ACE_TIME_PROGMEM = {
   kZoneNameAsia_Vientiane /*name*/,
   0x89d68d75 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Bangkok /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Bangkok /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10610,8 +10610,8 @@ const basic::ZoneInfo kZoneAtlantic_Faeroe ACE_TIME_PROGMEM = {
   kZoneNameAtlantic_Faeroe /*name*/,
   0x031ec516 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAtlantic_Faroe /*eras*/,
+  0 /*numEras*/,
+  &kZoneAtlantic_Faroe /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10627,8 +10627,8 @@ const basic::ZoneInfo kZoneAtlantic_Jan_Mayen ACE_TIME_PROGMEM = {
   kZoneNameAtlantic_Jan_Mayen /*name*/,
   0x5a7535b6 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Oslo /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Oslo /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10644,8 +10644,8 @@ const basic::ZoneInfo kZoneAtlantic_St_Helena ACE_TIME_PROGMEM = {
   kZoneNameAtlantic_St_Helena /*name*/,
   0x451fc5f7 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Abidjan /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Abidjan /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10661,8 +10661,8 @@ const basic::ZoneInfo kZoneAustralia_ACT ACE_TIME_PROGMEM = {
   kZoneNameAustralia_ACT /*name*/,
   0x8a970eb2 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAustralia_Sydney /*eras*/,
+  0 /*numEras*/,
+  &kZoneAustralia_Sydney /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10678,8 +10678,8 @@ const basic::ZoneInfo kZoneAustralia_Canberra ACE_TIME_PROGMEM = {
   kZoneNameAustralia_Canberra /*name*/,
   0x2a09ae58 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAustralia_Sydney /*eras*/,
+  0 /*numEras*/,
+  &kZoneAustralia_Sydney /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10695,8 +10695,8 @@ const basic::ZoneInfo kZoneAustralia_Currie ACE_TIME_PROGMEM = {
   kZoneNameAustralia_Currie /*name*/,
   0x278b6a24 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAustralia_Hobart /*eras*/,
+  0 /*numEras*/,
+  &kZoneAustralia_Hobart /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10712,8 +10712,8 @@ const basic::ZoneInfo kZoneAustralia_LHI ACE_TIME_PROGMEM = {
   kZoneNameAustralia_LHI /*name*/,
   0x8a973e17 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAustralia_Lord_Howe /*eras*/,
+  0 /*numEras*/,
+  &kZoneAustralia_Lord_Howe /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10729,8 +10729,8 @@ const basic::ZoneInfo kZoneAustralia_NSW ACE_TIME_PROGMEM = {
   kZoneNameAustralia_NSW /*name*/,
   0x8a974812 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAustralia_Sydney /*eras*/,
+  0 /*numEras*/,
+  &kZoneAustralia_Sydney /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10746,8 +10746,8 @@ const basic::ZoneInfo kZoneAustralia_North ACE_TIME_PROGMEM = {
   kZoneNameAustralia_North /*name*/,
   0x8d997165 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAustralia_Darwin /*eras*/,
+  0 /*numEras*/,
+  &kZoneAustralia_Darwin /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10763,8 +10763,8 @@ const basic::ZoneInfo kZoneAustralia_Queensland ACE_TIME_PROGMEM = {
   kZoneNameAustralia_Queensland /*name*/,
   0xd326ed0a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAustralia_Brisbane /*eras*/,
+  0 /*numEras*/,
+  &kZoneAustralia_Brisbane /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10780,8 +10780,8 @@ const basic::ZoneInfo kZoneAustralia_South ACE_TIME_PROGMEM = {
   kZoneNameAustralia_South /*name*/,
   0x8df3f8ad /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAustralia_Adelaide /*eras*/,
+  0 /*numEras*/,
+  &kZoneAustralia_Adelaide /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10797,8 +10797,8 @@ const basic::ZoneInfo kZoneAustralia_Tasmania ACE_TIME_PROGMEM = {
   kZoneNameAustralia_Tasmania /*name*/,
   0xe6d76648 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAustralia_Hobart /*eras*/,
+  0 /*numEras*/,
+  &kZoneAustralia_Hobart /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10814,8 +10814,8 @@ const basic::ZoneInfo kZoneAustralia_Victoria ACE_TIME_PROGMEM = {
   kZoneNameAustralia_Victoria /*name*/,
   0x0260d5db /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAustralia_Melbourne /*eras*/,
+  0 /*numEras*/,
+  &kZoneAustralia_Melbourne /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10831,8 +10831,8 @@ const basic::ZoneInfo kZoneAustralia_West ACE_TIME_PROGMEM = {
   kZoneNameAustralia_West /*name*/,
   0xdd858a5d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAustralia_Perth /*eras*/,
+  0 /*numEras*/,
+  &kZoneAustralia_Perth /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10848,8 +10848,8 @@ const basic::ZoneInfo kZoneAustralia_Yancowinna ACE_TIME_PROGMEM = {
   kZoneNameAustralia_Yancowinna /*name*/,
   0x90bac131 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  2 /*numEras*/,
-  kZoneEraAustralia_Broken_Hill /*eras*/,
+  0 /*numEras*/,
+  &kZoneAustralia_Broken_Hill /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10865,8 +10865,8 @@ const basic::ZoneInfo kZoneBrazil_East ACE_TIME_PROGMEM = {
   kZoneNameBrazil_East /*name*/,
   0x669578c5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Sao_Paulo /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Sao_Paulo /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10882,8 +10882,8 @@ const basic::ZoneInfo kZoneBrazil_West ACE_TIME_PROGMEM = {
   kZoneNameBrazil_West /*name*/,
   0x669f689b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Manaus /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Manaus /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10899,8 +10899,8 @@ const basic::ZoneInfo kZoneCanada_Atlantic ACE_TIME_PROGMEM = {
   kZoneNameCanada_Atlantic /*name*/,
   0x536b119c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Halifax /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Halifax /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10916,8 +10916,8 @@ const basic::ZoneInfo kZoneCanada_Central ACE_TIME_PROGMEM = {
   kZoneNameCanada_Central /*name*/,
   0x626710f5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  2 /*numEras*/,
-  kZoneEraAmerica_Winnipeg /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Winnipeg /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10933,8 +10933,8 @@ const basic::ZoneInfo kZoneCanada_Eastern ACE_TIME_PROGMEM = {
   kZoneNameCanada_Eastern /*name*/,
   0xf3612d5e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Toronto /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Toronto /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10950,8 +10950,8 @@ const basic::ZoneInfo kZoneCanada_Mountain ACE_TIME_PROGMEM = {
   kZoneNameCanada_Mountain /*name*/,
   0xfb8a8217 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Edmonton /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Edmonton /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10967,8 +10967,8 @@ const basic::ZoneInfo kZoneCanada_Pacific ACE_TIME_PROGMEM = {
   kZoneNameCanada_Pacific /*name*/,
   0x40fa3c7b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Vancouver /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Vancouver /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10984,8 +10984,8 @@ const basic::ZoneInfo kZoneCanada_Saskatchewan ACE_TIME_PROGMEM = {
   kZoneNameCanada_Saskatchewan /*name*/,
   0x77311f49 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Regina /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Regina /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11001,8 +11001,8 @@ const basic::ZoneInfo kZoneChile_Continental ACE_TIME_PROGMEM = {
   kZoneNameChile_Continental /*name*/,
   0x7e2bdb18 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Santiago /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Santiago /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11018,8 +11018,8 @@ const basic::ZoneInfo kZoneChile_EasterIsland ACE_TIME_PROGMEM = {
   kZoneNameChile_EasterIsland /*name*/,
   0xb0982af8 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Easter /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Easter /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11035,8 +11035,8 @@ const basic::ZoneInfo kZoneCuba ACE_TIME_PROGMEM = {
   kZoneNameCuba /*name*/,
   0x7c83cba0 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Havana /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Havana /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11052,8 +11052,8 @@ const basic::ZoneInfo kZoneEire ACE_TIME_PROGMEM = {
   kZoneNameEire /*name*/,
   0x7c84b36a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Dublin /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Dublin /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11069,8 +11069,8 @@ const basic::ZoneInfo kZoneEtc_GMT_PLUS_0 ACE_TIME_PROGMEM = {
   kZoneNameEtc_GMT_PLUS_0 /*name*/,
   0x9d13da13 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_GMT /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_GMT /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11086,8 +11086,8 @@ const basic::ZoneInfo kZoneEtc_GMT_0 ACE_TIME_PROGMEM = {
   kZoneNameEtc_GMT_0 /*name*/,
   0x9d13da55 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_GMT /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_GMT /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11103,8 +11103,8 @@ const basic::ZoneInfo kZoneEtc_GMT0 ACE_TIME_PROGMEM = {
   kZoneNameEtc_GMT0 /*name*/,
   0xf53ea988 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_GMT /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_GMT /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11120,8 +11120,8 @@ const basic::ZoneInfo kZoneEtc_Greenwich ACE_TIME_PROGMEM = {
   kZoneNameEtc_Greenwich /*name*/,
   0x26daa98c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_GMT /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_GMT /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11137,8 +11137,8 @@ const basic::ZoneInfo kZoneEtc_UCT ACE_TIME_PROGMEM = {
   kZoneNameEtc_UCT /*name*/,
   0xd8e3189c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_UTC /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_UTC /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11154,8 +11154,8 @@ const basic::ZoneInfo kZoneEtc_Universal ACE_TIME_PROGMEM = {
   kZoneNameEtc_Universal /*name*/,
   0x2f8cb9a9 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_UTC /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_UTC /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11171,8 +11171,8 @@ const basic::ZoneInfo kZoneEtc_Zulu ACE_TIME_PROGMEM = {
   kZoneNameEtc_Zulu /*name*/,
   0xf549c240 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_UTC /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_UTC /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11188,8 +11188,8 @@ const basic::ZoneInfo kZoneEurope_Belfast ACE_TIME_PROGMEM = {
   kZoneNameEurope_Belfast /*name*/,
   0xd07dd1e5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_London /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_London /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11205,8 +11205,8 @@ const basic::ZoneInfo kZoneEurope_Bratislava ACE_TIME_PROGMEM = {
   kZoneNameEurope_Bratislava /*name*/,
   0xda493bed /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Prague /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Prague /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11222,8 +11222,8 @@ const basic::ZoneInfo kZoneEurope_Busingen ACE_TIME_PROGMEM = {
   kZoneNameEurope_Busingen /*name*/,
   0xc06d2cdf /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Zurich /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Zurich /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11239,8 +11239,8 @@ const basic::ZoneInfo kZoneEurope_Guernsey ACE_TIME_PROGMEM = {
   kZoneNameEurope_Guernsey /*name*/,
   0x3db12c16 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_London /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_London /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11256,8 +11256,8 @@ const basic::ZoneInfo kZoneEurope_Isle_of_Man ACE_TIME_PROGMEM = {
   kZoneNameEurope_Isle_of_Man /*name*/,
   0xeaf84580 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_London /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_London /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11273,8 +11273,8 @@ const basic::ZoneInfo kZoneEurope_Jersey ACE_TIME_PROGMEM = {
   kZoneNameEurope_Jersey /*name*/,
   0x570dae76 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_London /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_London /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11290,8 +11290,8 @@ const basic::ZoneInfo kZoneEurope_Ljubljana ACE_TIME_PROGMEM = {
   kZoneNameEurope_Ljubljana /*name*/,
   0xbd98cdb7 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Belgrade /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Belgrade /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11307,8 +11307,8 @@ const basic::ZoneInfo kZoneEurope_Mariehamn ACE_TIME_PROGMEM = {
   kZoneNameEurope_Mariehamn /*name*/,
   0x0caa6496 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Helsinki /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Helsinki /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11324,8 +11324,8 @@ const basic::ZoneInfo kZoneEurope_Nicosia ACE_TIME_PROGMEM = {
   kZoneNameEurope_Nicosia /*name*/,
   0x74efab8a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Nicosia /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Nicosia /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11341,8 +11341,8 @@ const basic::ZoneInfo kZoneEurope_Podgorica ACE_TIME_PROGMEM = {
   kZoneNameEurope_Podgorica /*name*/,
   0x1c1a499c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Belgrade /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Belgrade /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11358,8 +11358,8 @@ const basic::ZoneInfo kZoneEurope_San_Marino ACE_TIME_PROGMEM = {
   kZoneNameEurope_San_Marino /*name*/,
   0xcef7724b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Rome /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Rome /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11375,8 +11375,8 @@ const basic::ZoneInfo kZoneEurope_Sarajevo ACE_TIME_PROGMEM = {
   kZoneNameEurope_Sarajevo /*name*/,
   0x6a576c3f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Belgrade /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Belgrade /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11392,8 +11392,8 @@ const basic::ZoneInfo kZoneEurope_Skopje ACE_TIME_PROGMEM = {
   kZoneNameEurope_Skopje /*name*/,
   0x6c76fdd0 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Belgrade /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Belgrade /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11409,8 +11409,8 @@ const basic::ZoneInfo kZoneEurope_Tiraspol ACE_TIME_PROGMEM = {
   kZoneNameEurope_Tiraspol /*name*/,
   0xbe704472 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Chisinau /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Chisinau /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11426,8 +11426,8 @@ const basic::ZoneInfo kZoneEurope_Vaduz ACE_TIME_PROGMEM = {
   kZoneNameEurope_Vaduz /*name*/,
   0xfbb81bae /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Zurich /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Zurich /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11443,8 +11443,8 @@ const basic::ZoneInfo kZoneEurope_Vatican ACE_TIME_PROGMEM = {
   kZoneNameEurope_Vatican /*name*/,
   0xcb485dca /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Rome /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Rome /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11460,8 +11460,8 @@ const basic::ZoneInfo kZoneEurope_Zagreb ACE_TIME_PROGMEM = {
   kZoneNameEurope_Zagreb /*name*/,
   0x7c11c9ff /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Belgrade /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Belgrade /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11477,8 +11477,8 @@ const basic::ZoneInfo kZoneGB ACE_TIME_PROGMEM = {
   kZoneNameGB /*name*/,
   0x005973ae /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_London /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_London /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11494,8 +11494,8 @@ const basic::ZoneInfo kZoneGB_Eire ACE_TIME_PROGMEM = {
   kZoneNameGB_Eire /*name*/,
   0xfa70e300 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_London /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_London /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11511,8 +11511,8 @@ const basic::ZoneInfo kZoneGMT ACE_TIME_PROGMEM = {
   kZoneNameGMT /*name*/,
   0x0b87eb2d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_GMT /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_GMT /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11528,8 +11528,8 @@ const basic::ZoneInfo kZoneGMT_PLUS_0 ACE_TIME_PROGMEM = {
   kZoneNameGMT_PLUS_0 /*name*/,
   0x0d2f7028 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_GMT /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_GMT /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11545,8 +11545,8 @@ const basic::ZoneInfo kZoneGMT_0 ACE_TIME_PROGMEM = {
   kZoneNameGMT_0 /*name*/,
   0x0d2f706a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_GMT /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_GMT /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11562,8 +11562,8 @@ const basic::ZoneInfo kZoneGMT0 ACE_TIME_PROGMEM = {
   kZoneNameGMT0 /*name*/,
   0x7c8550fd /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_GMT /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_GMT /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11579,8 +11579,8 @@ const basic::ZoneInfo kZoneGreenwich ACE_TIME_PROGMEM = {
   kZoneNameGreenwich /*name*/,
   0xc84d4221 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_GMT /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_GMT /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11596,8 +11596,8 @@ const basic::ZoneInfo kZoneHongkong ACE_TIME_PROGMEM = {
   kZoneNameHongkong /*name*/,
   0x56d36560 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Hong_Kong /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Hong_Kong /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11613,8 +11613,8 @@ const basic::ZoneInfo kZoneIceland ACE_TIME_PROGMEM = {
   kZoneNameIceland /*name*/,
   0xe56a35b5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAtlantic_Reykjavik /*eras*/,
+  0 /*numEras*/,
+  &kZoneAtlantic_Reykjavik /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11630,8 +11630,8 @@ const basic::ZoneInfo kZoneIndian_Antananarivo ACE_TIME_PROGMEM = {
   kZoneNameIndian_Antananarivo /*name*/,
   0x9ebf5289 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Nairobi /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Nairobi /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11647,8 +11647,8 @@ const basic::ZoneInfo kZoneIndian_Comoro ACE_TIME_PROGMEM = {
   kZoneNameIndian_Comoro /*name*/,
   0x45f4deb6 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Nairobi /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Nairobi /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11664,8 +11664,8 @@ const basic::ZoneInfo kZoneIndian_Mayotte ACE_TIME_PROGMEM = {
   kZoneNameIndian_Mayotte /*name*/,
   0xe6880bca /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAfrica_Nairobi /*eras*/,
+  0 /*numEras*/,
+  &kZoneAfrica_Nairobi /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11681,8 +11681,8 @@ const basic::ZoneInfo kZoneIran ACE_TIME_PROGMEM = {
   kZoneNameIran /*name*/,
   0x7c87090f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Tehran /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Tehran /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11698,8 +11698,8 @@ const basic::ZoneInfo kZoneIsrael ACE_TIME_PROGMEM = {
   kZoneNameIsrael /*name*/,
   0xba88c9e5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Jerusalem /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Jerusalem /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11715,8 +11715,8 @@ const basic::ZoneInfo kZoneJamaica ACE_TIME_PROGMEM = {
   kZoneNameJamaica /*name*/,
   0x2e44fdab /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Jamaica /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Jamaica /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11732,8 +11732,8 @@ const basic::ZoneInfo kZoneJapan ACE_TIME_PROGMEM = {
   kZoneNameJapan /*name*/,
   0x0d712f8f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Tokyo /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Tokyo /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11749,8 +11749,8 @@ const basic::ZoneInfo kZoneKwajalein ACE_TIME_PROGMEM = {
   kZoneNameKwajalein /*name*/,
   0x0e57afbb /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Kwajalein /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Kwajalein /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11766,8 +11766,8 @@ const basic::ZoneInfo kZoneMexico_BajaSur ACE_TIME_PROGMEM = {
   kZoneNameMexico_BajaSur /*name*/,
   0x08ee3641 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Mazatlan /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Mazatlan /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11783,8 +11783,8 @@ const basic::ZoneInfo kZoneNZ ACE_TIME_PROGMEM = {
   kZoneNameNZ /*name*/,
   0x005974ad /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Auckland /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Auckland /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11800,8 +11800,8 @@ const basic::ZoneInfo kZoneNZ_CHAT ACE_TIME_PROGMEM = {
   kZoneNameNZ_CHAT /*name*/,
   0x4d42afda /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Chatham /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Chatham /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11817,8 +11817,8 @@ const basic::ZoneInfo kZoneNavajo ACE_TIME_PROGMEM = {
   kZoneNameNavajo /*name*/,
   0xc4ef0e24 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Denver /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Denver /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11834,8 +11834,8 @@ const basic::ZoneInfo kZonePRC ACE_TIME_PROGMEM = {
   kZoneNamePRC /*name*/,
   0x0b88120a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Shanghai /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Shanghai /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11851,8 +11851,8 @@ const basic::ZoneInfo kZonePacific_Enderbury ACE_TIME_PROGMEM = {
   kZoneNamePacific_Enderbury /*name*/,
   0x61599a93 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Kanton /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Kanton /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11868,8 +11868,8 @@ const basic::ZoneInfo kZonePacific_Johnston ACE_TIME_PROGMEM = {
   kZoneNamePacific_Johnston /*name*/,
   0xb15d7b36 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Honolulu /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Honolulu /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11885,8 +11885,8 @@ const basic::ZoneInfo kZonePacific_Midway ACE_TIME_PROGMEM = {
   kZoneNamePacific_Midway /*name*/,
   0xe286d38e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Pago_Pago /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Pago_Pago /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11902,8 +11902,8 @@ const basic::ZoneInfo kZonePacific_Ponape ACE_TIME_PROGMEM = {
   kZoneNamePacific_Ponape /*name*/,
   0xe9f80086 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Pohnpei /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Pohnpei /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11919,8 +11919,8 @@ const basic::ZoneInfo kZonePacific_Samoa ACE_TIME_PROGMEM = {
   kZoneNamePacific_Samoa /*name*/,
   0x8b2699b4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Pago_Pago /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Pago_Pago /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11936,8 +11936,8 @@ const basic::ZoneInfo kZonePacific_Truk ACE_TIME_PROGMEM = {
   kZoneNamePacific_Truk /*name*/,
   0x234010a9 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Chuuk /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Chuuk /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11953,8 +11953,8 @@ const basic::ZoneInfo kZonePacific_Yap ACE_TIME_PROGMEM = {
   kZoneNamePacific_Yap /*name*/,
   0xbb40138d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Chuuk /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Chuuk /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11970,8 +11970,8 @@ const basic::ZoneInfo kZonePoland ACE_TIME_PROGMEM = {
   kZoneNamePoland /*name*/,
   0xca913b23 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Warsaw /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Warsaw /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11987,8 +11987,8 @@ const basic::ZoneInfo kZonePortugal ACE_TIME_PROGMEM = {
   kZoneNamePortugal /*name*/,
   0xc3274593 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Lisbon /*eras*/,
+  0 /*numEras*/,
+  &kZoneEurope_Lisbon /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12004,8 +12004,8 @@ const basic::ZoneInfo kZoneROC ACE_TIME_PROGMEM = {
   kZoneNameROC /*name*/,
   0x0b881a29 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Taipei /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Taipei /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12021,8 +12021,8 @@ const basic::ZoneInfo kZoneROK ACE_TIME_PROGMEM = {
   kZoneNameROK /*name*/,
   0x0b881a31 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Seoul /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Seoul /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12038,8 +12038,8 @@ const basic::ZoneInfo kZoneSingapore ACE_TIME_PROGMEM = {
   kZoneNameSingapore /*name*/,
   0xa8598c8d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Singapore /*eras*/,
+  0 /*numEras*/,
+  &kZoneAsia_Singapore /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12055,8 +12055,8 @@ const basic::ZoneInfo kZoneUCT ACE_TIME_PROGMEM = {
   kZoneNameUCT /*name*/,
   0x0b882571 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_UTC /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_UTC /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12072,8 +12072,8 @@ const basic::ZoneInfo kZoneUS_Alaska ACE_TIME_PROGMEM = {
   kZoneNameUS_Alaska /*name*/,
   0xfa300bc9 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Anchorage /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Anchorage /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12089,8 +12089,8 @@ const basic::ZoneInfo kZoneUS_Aleutian ACE_TIME_PROGMEM = {
   kZoneNameUS_Aleutian /*name*/,
   0x4fe013ef /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Adak /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Adak /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12106,8 +12106,8 @@ const basic::ZoneInfo kZoneUS_Arizona ACE_TIME_PROGMEM = {
   kZoneNameUS_Arizona /*name*/,
   0x4ec52670 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Phoenix /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Phoenix /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12123,8 +12123,8 @@ const basic::ZoneInfo kZoneUS_Central ACE_TIME_PROGMEM = {
   kZoneNameUS_Central /*name*/,
   0xcabdcb25 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Chicago /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Chicago /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12140,8 +12140,8 @@ const basic::ZoneInfo kZoneUS_East_Indiana ACE_TIME_PROGMEM = {
   kZoneNameUS_East_Indiana /*name*/,
   0x6dcf558a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  2 /*numEras*/,
-  kZoneEraAmerica_Indiana_Indianapolis /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Indiana_Indianapolis /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12157,8 +12157,8 @@ const basic::ZoneInfo kZoneUS_Eastern ACE_TIME_PROGMEM = {
   kZoneNameUS_Eastern /*name*/,
   0x5bb7e78e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_New_York /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_New_York /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12174,8 +12174,8 @@ const basic::ZoneInfo kZoneUS_Hawaii ACE_TIME_PROGMEM = {
   kZoneNameUS_Hawaii /*name*/,
   0x09c8de2f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Honolulu /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Honolulu /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12191,8 +12191,8 @@ const basic::ZoneInfo kZoneUS_Michigan ACE_TIME_PROGMEM = {
   kZoneNameUS_Michigan /*name*/,
   0x766bb7bc /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Detroit /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Detroit /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12208,8 +12208,8 @@ const basic::ZoneInfo kZoneUS_Mountain ACE_TIME_PROGMEM = {
   kZoneNameUS_Mountain /*name*/,
   0x6eb88247 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Denver /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Denver /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12225,8 +12225,8 @@ const basic::ZoneInfo kZoneUS_Pacific ACE_TIME_PROGMEM = {
   kZoneNameUS_Pacific /*name*/,
   0xa950f6ab /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Los_Angeles /*eras*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Los_Angeles /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12242,8 +12242,8 @@ const basic::ZoneInfo kZoneUS_Samoa ACE_TIME_PROGMEM = {
   kZoneNameUS_Samoa /*name*/,
   0x566821cd /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraPacific_Pago_Pago /*eras*/,
+  0 /*numEras*/,
+  &kZonePacific_Pago_Pago /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12259,8 +12259,8 @@ const basic::ZoneInfo kZoneUTC ACE_TIME_PROGMEM = {
   kZoneNameUTC /*name*/,
   0x0b882791 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_UTC /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_UTC /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12276,8 +12276,8 @@ const basic::ZoneInfo kZoneUniversal ACE_TIME_PROGMEM = {
   kZoneNameUniversal /*name*/,
   0xd0ff523e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_UTC /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_UTC /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12293,8 +12293,8 @@ const basic::ZoneInfo kZoneZulu ACE_TIME_PROGMEM = {
   kZoneNameZulu /*name*/,
   0x7c9069b5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEtc_UTC /*eras*/,
+  0 /*numEras*/,
+  &kZoneEtc_UTC /*eras(info)*/,
 };
 
 

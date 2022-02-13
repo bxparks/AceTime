@@ -43,8 +43,17 @@ class ZoneProcessor {
     /** Return the kTypeXxx of the current instance. */
     uint8_t getType() const { return mType; }
 
-    /** Return the unique stable zoneId. */
-    virtual uint32_t getZoneId() const = 0;
+    /** Return true if timezone is a Link entry pointing to a Zone entry. */
+    virtual bool isLink() const = 0;
+
+    /**
+     * Return the unique stable zoneId.
+     *
+     * @param followLink if true and the time zone is a Link, follow the link
+     * and return the id of the target Zone instead. If the zone is not a link,
+     * this flag is ignored.
+     */
+    virtual uint32_t getZoneId(bool followLink = false) const = 0;
 
     /**
      * Return the total UTC offset at epochSeconds, including DST offset.
@@ -92,14 +101,27 @@ class ZoneProcessor {
      */
     virtual OffsetDateTime getOffsetDateTime(acetime_t epochSeconds) const = 0;
 
-    /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
-    virtual void printNameTo(Print& printer) const = 0;
+    /**
+     * Print a human-readable identifier (e.g. "America/Los_Angeles").
+     *
+     * @param printer an instance of the Print class, usually Serial
+     * @param followLink if true and the zone is actually a link, follow the
+     * link and return the name of the target Zone instead. If the zone is not a
+     * link, this flag is ignored.
+     */
+    virtual void printNameTo(Print& printer, bool followLink = false) const = 0;
 
     /**
      * Print a short human-readable identifier (e.g. "Los Angeles").
      * Any underscore in the short name is replaced with a space.
+     *
+     * @param printer an instance of the Print class, usually Serial
+     * @param followLink if true and the zone is actually a link, follow the
+     * link and return the short name of the target Zone instead. If the zone is
+     * not a link, this flag is ignored.
      */
-    virtual void printShortNameTo(Print& printer) const = 0;
+    virtual void printShortNameTo(Print& printer, bool followLink = false)
+        const = 0;
 
     /**
      * Set the opaque zoneKey of this object to a new value, reseting any
