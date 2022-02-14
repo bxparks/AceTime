@@ -4,7 +4,7 @@ The primary purpose of AceTime classes is to convert between an integer
 representing the number of seconds since the AceTime Epoch (2000-01-01T00:00:00
 UTC) and the equivalent human-readable components in different timezones.
 
-**Version**: 1.10.0 (2021-01-18, TZDB 2021e)
+**Version**: 1.11.0 (2021-02-14, TZDB 2021e)
 
 **Related Documents**:
 
@@ -64,13 +64,14 @@ UTC) and the equivalent human-readable components in different timezones.
         * [Ghost Links (Prior to v1.5)](#GhostLinks)
         * [Fat Links (From v1.5)](#FatLinks)
         * [Thin Links (From v1.6)](#ThinLinks)
-        * [Symbolic Links (From v1.10)](#SymbolicLinks)
+        * [Symbolic Links (From v1.11)](#SymbolicLinks)
         * [Custom Zone Registry](#CustomZoneRegistry)
 * [Zone Sorting](#ZoneSorting)
 * [Print To String](#PrintToString)
 * [Mutations](#Mutations)
     * [TimeOffset Mutations](#TimeOffsetMutations)
     * [LocalDate Mutations](#LocalDateMutations)
+    * [OffsetDateTime Mutations](#OffsetDateTimeMutations)
     * [ZonedDateTime Mutations](#ZonedDateTimeMutations)
     * [ZonedDateTime Normalization](#ZonedDateTimeNormalization)
     * [TimePeriod Mutations](#TimePeriodMutations)
@@ -2796,6 +2797,7 @@ definitions:
 * `time_period_mutation.h`
 * `time_offset_mutation.h`
 * `local_date_time_mutation.h`
+* `offset_date_time_mutation.h`
 * `zoned_date_time_mutation.h`
 
 Additional mutation operations can be written by the application developer and
@@ -2868,6 +2870,36 @@ void incrementOneDay(LocalDate& ld);
 void decrementOneDay(LocalDate& ld);
 
 }
+}
+```
+
+<a name="OffsetDateTimeMutations"></a>
+### OffsetDateTime Mutations
+
+The `OffsetDateTime` object can be mutated using the following methods and
+functions:
+
+```C++
+namespace ace_time {
+
+void OffsetDateTime::year(int16_t year);
+void OffsetDateTime::month(uint8_t month);
+void OffsetDateTime::day(uint8_t month);
+void OffsetDateTime::hour(uint8_t hour);
+void OffsetDateTime::minute(uint8_t minute);
+void OffsetDateTime::second(uint8_t second);
+void OffsetDateTime::timeZone(const TimeZone& timeZone);
+
+namespace zoned_date_time_mutation {
+
+void incrementYear(OffsetDateTime& dateTime);
+void incrementMonth(OffsetDateTime& dateTime);
+void incrementDay(OffsetDateTime& dateTime);
+void incrementHour(OffsetDateTime& dateTime);
+void incrementMinute(OffsetDateTime& dateTime);
+
+}
+
 }
 ```
 

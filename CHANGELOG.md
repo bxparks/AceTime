@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.11.0 (2022-02-14, TZDB 2021e)
     * Regenerate `zonedb/` and `zonedbx/` using latest AceTimeTool which
       identifies notable Zones and Policies whose DST shifts are not exactly
       0:00 or 1:00. No actual data change. Notable policies relevant from 2000
@@ -37,6 +38,7 @@
     * Add `offset_date_time_mutation` methods.
         * Similar to `zoned_date_time_mutation` methods.
         * Provides some convenient mutation methods for `OffsetDateTime`.
+    * Upgrade Arduino CLI from 0.19.2 to 0.20.2.
 * 1.10.0 (2022-01-18, TZDB 2021e)
     * MemoryBenchmark: Add memory consumption for `ZoneSorterByName` and
       `ZoneSorterByOffsetAndName`.
