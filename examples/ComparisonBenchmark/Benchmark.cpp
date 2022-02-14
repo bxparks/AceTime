@@ -15,7 +15,12 @@
 #include <Arduino.h>
 #include <AceTime.h>
 #include <AceCommon.h> // printUint32AsFloat3To()
-#include <TimeLib.h> // https://github.com/PaulStoffregen/Time
+
+// TimeLib (https://github.com/PaulStoffregen/Time) does not support EpoxyDuino.
+#if ! defined(EPOXY_DUINO)
+  #include <TimeLib.h>
+#endif
+
 #include "Benchmark.h"
 
 using namespace ace_time;
@@ -23,7 +28,7 @@ using ace_common::printUint32AsFloat3To;
 
 // ESP32 does not define SERIAL_PORT_MONITOR
 #if !defined(SERIAL_PORT_MONITOR)
-#define SERIAL_PORT_MONITOR Serial
+  #define SERIAL_PORT_MONITOR Serial
 #endif
 
 #if defined(ARDUINO_ARCH_AVR)
@@ -79,6 +84,7 @@ void disableOptimization(const LocalDateTime& dt) {
   guard ^= dt.second();
 }
 
+#if ! defined(EPOXY_DUINO)
 void disableOptimization(const tmElements_t& tm) {
   guard ^= tm.Second;
   guard ^= tm.Minute;
@@ -87,6 +93,7 @@ void disableOptimization(const tmElements_t& tm) {
   guard ^= tm.Month;
   guard ^= tm.Year;
 }
+#endif
 
 // A small helper that runs the given lamba expression in a loop
 // and returns how long it took.
@@ -170,6 +177,7 @@ void runAceTimeToEpochSeconds() {
 
 // Time library: breakTime()
 void runTimeLibBreakTime() {
+#if ! defined(EPOXY_DUINO)
   unsigned long elapsedMillis = runLambda(
     START_SECONDS_UNIX,
     [](acetime_t seconds) {
@@ -184,10 +192,12 @@ void runTimeLibBreakTime() {
     });
 
   printMicrosPerIteration(F("breakTime()"), elapsedMillis - baseMillis);
+#endif
 }
 
 // Time library: makeTime()
 void runTimeLibMakeTime() {
+#if ! defined(EPOXY_DUINO)
   unsigned long elapsedMillis = runLambda(
     START_SECONDS_UNIX,
     [](acetime_t seconds) {
@@ -205,6 +215,7 @@ void runTimeLibMakeTime() {
     });
 
   printMicrosPerIteration(F("makeTime()"), elapsedMillis - baseMillis);
+#endif
 }
 
 void runBenchmarks() {
