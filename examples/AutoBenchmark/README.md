@@ -4,7 +4,7 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
-**Version**: AceTime v1.10.0
+**Version**: AceTime v1.11.0
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
@@ -140,7 +140,7 @@ The CPU times below are given in microseconds.
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * Arduino AVR Boards 1.8.4
 
 ```
@@ -209,7 +209,7 @@ Iterations_per_run: 1000
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * SparkFun AVR Boards 1.1.13
 
 ```
@@ -277,7 +277,7 @@ Iterations_per_run: 1000
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * STM32duino 2.2.0
 
 ```
@@ -346,7 +346,7 @@ Iterations_per_run: 10000
 ## ESP8266
 
 * NodeMCU 1.0 clone, 80MHz ESP8266
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * ESP8266 Boards 3.0.2
 
 ```
@@ -415,7 +415,7 @@ Iterations_per_run: 5000
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * ESP32 Boards 2.0.2
 
 ```
@@ -487,7 +487,7 @@ duration of an empty loop, the numbers become unreliable.
 ## Teensy 3.2
 
 * 96 MHz ARM Cortex-M4
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * Teensyduino 1.56
 * Compiler options: "Faster"
 

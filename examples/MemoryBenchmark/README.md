@@ -5,7 +5,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v1.10.0
+**Version**: AceTime v1.11.0
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -181,7 +181,7 @@ ASCII table.
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * Arduino AVR Boards 1.8.4
 
 ```
@@ -220,7 +220,7 @@ ASCII table.
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * SparkFun AVR Boards 1.1.13
 
 ```
@@ -259,7 +259,7 @@ ASCII table.
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * STM32duino 2.2.0
 
 ```
@@ -301,7 +301,7 @@ microcontroller and the compiler did not generate the desired information.
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * ESP8266 Boards 3.0.2
 
 ```
@@ -340,7 +340,7 @@ microcontroller and the compiler did not generate the desired information.
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * ESP32 Boards 2.0.2
 
 ```
@@ -383,7 +383,7 @@ usage by objects.
 ## Teensy 3.2
 
 * 96 MHz ARM Cortex-M4
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * Teensyduino 1.56
 
 ```
