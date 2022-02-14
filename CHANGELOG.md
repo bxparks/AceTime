@@ -1,6 +1,44 @@
 # Changelog
 
 * Unreleased
+* 1.11.0 (2022-02-14, TZDB 2021e)
+    * Regenerate `zonedb/` and `zonedbx/` using latest AceTimeTool which
+      identifies notable Zones and Policies whose DST shifts are not exactly
+      0:00 or 1:00. No actual data change. Notable policies relevant from 2000
+      until 2050 are:
+        * ZonePolicy Eire: DST shift -1:00
+        * ZonePolicy LH: DST shift 0:30
+        * ZonePolicy Morocco: DST shift -1:00
+        * ZonePolicy Namibia: DST shift -1:00
+        * ZonePolicy StJohns: DST shift 2:00
+        * ZonePolicy Troll: DST shift 2:00
+    * Add support for overflow and underflow to `TimePeriod`.
+        * When `isError()` returns `true`, the `sign()` method discriminates
+          3 error conditions, and the `printTo()` prints the following:
+          * 0: generic error, "<Error>"
+          * +1: overflow, "<+Inf>"
+          * -1: underflow, "<-Inf>"
+          * See [USER_GUIDE.md#TimePeriod](USER_GUIDE.md#TimePeriod).
+    * Change Link entries from "hard links" to "symbolic links".
+        * This allows a TimeZone object to know whether it is a Zone entry
+          or a Link entry.
+        * Add `TimeZone::isLink()` and `ZoneProcessor::isLink()` methods.
+        * Add `bool followLink = true` parameter to various other methods
+          (`getZoneId()`, `printTo()`, `printShortTo()`) which determines
+          whether the method resolves to the current Link entry or follows the
+          link to the destination Zone entry.
+        * [MemoryBenchmark](examples/MemoryBenchmark) says that this increases
+          flash consumption by 100-300 bytes, due to the extra code needed to
+          follow the symlink. But the ability to determine whether the TimeZone
+          is a link or not will be necessary for an upcoming feature, so this
+          slight increase in flash consumption seems worth it.
+        * Regenerate `zonedb/` and `zonedbx` to convert Link entries from
+          hard links to symbolic links.
+        * See [Symbolic Links](USER_GUIDE.md#SymbolicLinks) for more info.
+    * Add `offset_date_time_mutation` methods.
+        * Similar to `zoned_date_time_mutation` methods.
+        * Provides some convenient mutation methods for `OffsetDateTime`.
+    * Upgrade Arduino CLI from 0.19.2 to 0.20.2.
 * 1.10.0 (2022-01-18, TZDB 2021e)
     * MemoryBenchmark: Add memory consumption for `ZoneSorterByName` and
       `ZoneSorterByOffsetAndName`.

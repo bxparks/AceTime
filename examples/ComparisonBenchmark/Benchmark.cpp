@@ -1,8 +1,11 @@
 /*
  * Compare the run time of LocalDateTime::toEpochSeconds() and
- * forEpochSeconds() with the equivalent makeTime() and breakTime() functions
- * of the Arduino Time Library
- * (https://github.com/PaulStoffregen/Time). Each iteration performs:
+ * LocalDateTime::forEpochSeconds() with the equivalent makeTime() and
+ * breakTime() functions of the Arduino Time Library
+ * (https://github.com/PaulStoffregen/Time).
+ *
+ * Each iteration performs:
+ *
  *    1) a conversion from seconds (from epoch) to the date/time components (y,
  *       m, d, h, m, s), then,
  *    2) a round trip conversion back to seconds (from epoch).
@@ -11,21 +14,39 @@
 #include <stdint.h>
 #include <Arduino.h>
 #include <AceTime.h>
-#include <TimeLib.h> // https://github.com/PaulStoffregen/Time
+#include <AceCommon.h> // printUint32AsFloat3To()
+
+// TimeLib (https://github.com/PaulStoffregen/Time) does not support EpoxyDuino.
+#if ! defined(EPOXY_DUINO)
+  #include <TimeLib.h>
+#endif
+
 #include "Benchmark.h"
 
 using namespace ace_time;
+using ace_common::printUint32AsFloat3To;
+
+// ESP32 does not define SERIAL_PORT_MONITOR
+#if !defined(SERIAL_PORT_MONITOR)
+  #define SERIAL_PORT_MONITOR Serial
+#endif
 
 #if defined(ARDUINO_ARCH_AVR)
 const uint32_t COUNT = 2000;
 #elif defined(ARDUINO_ARCH_SAMD)
 const uint32_t COUNT = 10000;
+#elif defined(ARDUINO_ARCH_STM32)
+const uint32_t COUNT = 10000;
 #elif defined(ESP8266)
 const uint32_t COUNT = 10000;
-#elif defined(ESP32) || defined(TEENSYDUINO)
+#elif defined(ESP32)
 const uint32_t COUNT = 100000;
+#elif defined(TEENSYDUINO)
+const uint32_t COUNT = 100000;
+#elif defined(EPOXY_DUINO)
+const uint32_t COUNT = 200000; // Linux or MacOS
 #else
-const uint32_t COUNT = 200000;
+const uint32_t COUNT = 10000;
 #endif
 
 // Number of seconds to increment on each iteration, enough to scan for 15
@@ -35,36 +56,8 @@ uint32_t const DELTA_SECONDS = (uint32_t) 15 * 365.25 * 86400 / COUNT;
 acetime_t const START_SECONDS = 568080000; // 2018-01-01
 acetime_t const START_SECONDS_UNIX = 1514764800; // 2018-01-01
 
-// The following strings are placed into PROGMEM flash memory to prevent them
-// from consuming static RAM on the AVR platform. The FPSTR() macro converts
-// these (const char*) into (const __FlashHelperString*) so that the correct
-// version of println() or print() is called.
-#ifndef FPSTR
-#define FPSTR(pstr_pointer) \
-      (reinterpret_cast<const __FlashStringHelper *>(pstr_pointer))
-#endif
-
-const char TOP[] PROGMEM =
-  "+----------------------------------+---------+";
-const char HEADER[] PROGMEM =
-  "| Method                           |  micros |";
-const char DIVIDER[] PROGMEM =
-  "|----------------------------------|---------|";
-const char* const BOTTOM = TOP;
-const char EMPTY_LOOP_LABEL[] PROGMEM =
-  "| Empty loop                       | ";
-const char ACE_TIME_FOR_EPOCH_SECONDS[] PROGMEM =
-  "| LocalDateTime::forEpochSeconds() | ";
-const char ACE_TIME_TO_EPOCH_SECONDS[] PROGMEM =
-  "| LocalDateTime::toEpochSeconds()  | ";
-const char ARDUINO_TIME_BREAK_TIME[] PROGMEM =
-  "| breakTime()                      | ";
-const char ARDUINO_TIME_MAKE_TIME[] PROGMEM =
-  "| makeTime()                       | ";
-const char ENDING[] PROGMEM = " |";
-
 // The compiler is extremelly good about removing code that does nothing. This
-// volatile variable is used to carete side-effects that prevent the compiler
+// volatile variable is used to create side-effects that prevent the compiler
 // from optimizing out the code that's being tested. Each disableOptimization()
 // method should perform 6 XOR operations to cancel each other out when
 // subtracted.
@@ -91,6 +84,7 @@ void disableOptimization(const LocalDateTime& dt) {
   guard ^= dt.second();
 }
 
+#if ! defined(EPOXY_DUINO)
 void disableOptimization(const tmElements_t& tm) {
   guard ^= tm.Second;
   guard ^= tm.Minute;
@@ -99,6 +93,7 @@ void disableOptimization(const tmElements_t& tm) {
   guard ^= tm.Month;
   guard ^= tm.Year;
 }
+#endif
 
 // A small helper that runs the given lamba expression in a loop
 // and returns how long it took.
@@ -115,13 +110,7 @@ unsigned long runLambda(acetime_t startSeconds, F&& lambda) {
   return millis() - startMillis;
 }
 
-void printPad3(uint16_t val, char padChar) {
-  if (val < 100) SERIAL_PORT_MONITOR.print(padChar);
-  if (val < 10) SERIAL_PORT_MONITOR.print(padChar);
-  SERIAL_PORT_MONITOR.print(val);
-}
-
-const uint32_t MILLIS_TO_NANO_PER_ITERATION = ( 1000000 / COUNT);
+const uint32_t MILLIS_TO_NANO_PER_ITERATION = (1000000 / COUNT);
 
 // Given total elapsed time in millis, print micros per iteration as
 // a floating point number (without using floating point operations).
@@ -130,17 +119,19 @@ const uint32_t MILLIS_TO_NANO_PER_ITERATION = ( 1000000 / COUNT);
 // higher powered CPUs where the thing being measured is so quickly executed
 // that the empty loop overhead can take a longer. Print "-0.000" if that
 // occurs.
-void printMicrosPerIteration(long elapsedMillis) {
+void printMicrosPerIteration(
+    const __FlashStringHelper* label,
+    long elapsedMillis
+) {
+  SERIAL_PORT_MONITOR.print(label);
+  SERIAL_PORT_MONITOR.print(' ');
   if (elapsedMillis < 0) {
-    SERIAL_PORT_MONITOR.print(F("  -0.000"));
-    return;
+    SERIAL_PORT_MONITOR.print(F("-0.000"));
+  } else {
+    unsigned long nanos = elapsedMillis * MILLIS_TO_NANO_PER_ITERATION;
+    printUint32AsFloat3To(SERIAL_PORT_MONITOR, nanos);
   }
-  unsigned long nanos = elapsedMillis * MILLIS_TO_NANO_PER_ITERATION;
-  uint16_t whole = nanos / 1000;
-  uint16_t frac = nanos % 1000;
-  printPad3(whole, ' ');
-  SERIAL_PORT_MONITOR.print('.');
-  printPad3(frac, '0');
+  SERIAL_PORT_MONITOR.println();
 }
 
 // empty loop
@@ -149,9 +140,7 @@ void runEmptyLoop() {
     disableOptimization(seconds);
   });
 
-  SERIAL_PORT_MONITOR.print(FPSTR(EMPTY_LOOP_LABEL));
-  printMicrosPerIteration(baseMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(ENDING));
+  printMicrosPerIteration(F("EmptyLoop"), baseMillis);
 }
 
 // AceTime library: LocalDateTime::forEpochSeconds()
@@ -164,9 +153,9 @@ void runAceTimeForEpochSeconds() {
     disableOptimization(seconds);
   });
 
-  SERIAL_PORT_MONITOR.print(FPSTR(ACE_TIME_FOR_EPOCH_SECONDS));
-  printMicrosPerIteration(elapsedMillis - baseMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(ENDING));
+  printMicrosPerIteration(
+      F("LocalDateTime::forEpochSeconds()"),
+      elapsedMillis - baseMillis);
 }
 
 // AceTime library: LocalDateTime::toEpochSeconds()
@@ -181,69 +170,64 @@ void runAceTimeToEpochSeconds() {
     disableOptimization(dt);
   });
 
-  SERIAL_PORT_MONITOR.print(FPSTR(ACE_TIME_TO_EPOCH_SECONDS));
-  printMicrosPerIteration(elapsedMillis - baseMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(ENDING));
+  printMicrosPerIteration(
+      F("LocalDateTime::toEpochSeconds()"),
+      elapsedMillis - baseMillis);
 }
 
 // Time library: breakTime()
 void runTimeLibBreakTime() {
-  unsigned long elapsedMillis = runLambda(START_SECONDS_UNIX,
+#if ! defined(EPOXY_DUINO)
+  unsigned long elapsedMillis = runLambda(
+    START_SECONDS_UNIX,
     [](acetime_t seconds) {
       tmElements_t tm;
       breakTime((time_t) seconds, tm);
       disableOptimization(tm);
     });
-  unsigned long baseMillis = runLambda(START_SECONDS_UNIX,
+  unsigned long baseMillis = runLambda(
+    START_SECONDS_UNIX,
     [](acetime_t seconds) {
       disableOptimization(seconds);
     });
 
-  SERIAL_PORT_MONITOR.print(FPSTR(ARDUINO_TIME_BREAK_TIME));
-  printMicrosPerIteration(elapsedMillis - baseMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(ENDING));
+  printMicrosPerIteration(F("breakTime()"), elapsedMillis - baseMillis);
+#endif
 }
 
 // Time library: makeTime()
 void runTimeLibMakeTime() {
-  unsigned long elapsedMillis = runLambda(START_SECONDS_UNIX,
+#if ! defined(EPOXY_DUINO)
+  unsigned long elapsedMillis = runLambda(
+    START_SECONDS_UNIX,
     [](acetime_t seconds) {
       tmElements_t tm;
       breakTime((time_t) seconds, tm);
       seconds = makeTime(tm);
       disableOptimization(seconds);
     });
-  unsigned long baseMillis = runLambda(START_SECONDS_UNIX,
+  unsigned long baseMillis = runLambda(
+    START_SECONDS_UNIX,
     [](acetime_t seconds) {
       tmElements_t tm;
       breakTime((time_t) seconds, tm);
       disableOptimization(tm);
     });
 
-  SERIAL_PORT_MONITOR.print(FPSTR(ARDUINO_TIME_MAKE_TIME));
-  printMicrosPerIteration(elapsedMillis - baseMillis);
-  SERIAL_PORT_MONITOR.println(FPSTR(ENDING));
+  printMicrosPerIteration(F("makeTime()"), elapsedMillis - baseMillis);
+#endif
 }
 
 void runBenchmarks() {
-  SERIAL_PORT_MONITOR.println(FPSTR(TOP));
-  SERIAL_PORT_MONITOR.println(FPSTR(HEADER));
-  SERIAL_PORT_MONITOR.println(FPSTR(DIVIDER));
-
   runEmptyLoop();
-  SERIAL_PORT_MONITOR.println(FPSTR(DIVIDER));
-
   runAceTimeForEpochSeconds();
   runTimeLibBreakTime();
-  SERIAL_PORT_MONITOR.println(FPSTR(DIVIDER));
-
   runAceTimeToEpochSeconds();
   runTimeLibMakeTime();
-  SERIAL_PORT_MONITOR.println(FPSTR(BOTTOM));
 
   // Print some stats
-  SERIAL_PORT_MONITOR.print("Number of iterations per run: ");
+  SERIAL_PORT_MONITOR.print("Iterations_per_run ");
   SERIAL_PORT_MONITOR.println(COUNT);
-  SERIAL_PORT_MONITOR.print("Delta seconds: ");
+  SERIAL_PORT_MONITOR.print("Delta_seconds ");
   SERIAL_PORT_MONITOR.println(DELTA_SECONDS);
 }

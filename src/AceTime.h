@@ -45,6 +45,7 @@
 #include "ace_time/TimeOffset.h"
 #include "ace_time/time_offset_mutation.h"
 #include "ace_time/OffsetDateTime.h"
+#include "ace_time/offset_date_time_mutation.h"
 #include "ace_time/ZoneProcessor.h"
 #include "ace_time/BasicZoneProcessor.h"
 #include "ace_time/ExtendedZoneProcessor.h"
@@ -63,7 +64,7 @@
 #include "ace_time/time_period_mutation.h"
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 11000
-#define ACE_TIME_VERSION_STRING "1.10.0"
+#define ACE_TIME_VERSION 11100
+#define ACE_TIME_VERSION_STRING "1.11.0"
 
 #endif

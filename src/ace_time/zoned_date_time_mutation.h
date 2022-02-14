@@ -16,12 +16,12 @@ namespace zoned_date_time_mutation {
 /**
  * @file zoned_date_time_mutation.h
  *
- * Methods that mutate a DateTime object.
+ * Methods that mutate a ZonedDateTime object.
  *
- * The number of mutation methods of a ZoneDateTime object is basically
+ * The number of mutation methods of a ZonedDateTime object is basically
  * unlimited, so including them in the ZonedDateTime class would make its API
  * too complex and always incomplete. By extracting them into a separate
- * namespace, we limit the complexity of the ZoneDateTime class and allow
+ * namespace, we limit the complexity of the ZonedDateTime class and allow
  * additional mutation methods to be added to this namespace by downstream
  * applications.
  *

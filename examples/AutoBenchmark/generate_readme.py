@@ -26,7 +26,7 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
-**Version**: AceTime v1.10.0
+**Version**: AceTime v1.11.0
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
@@ -75,10 +75,10 @@ The CPU times below are given in microseconds.
 
 ## CPU Time Changes
 
-v0.8 to v1.4:
+**v0.8 to v1.4:**
 * The CPU time did not change much from
 
-In v1.5:
+**v1.5:**
 * No significant changes to CPU time.
 * Zone registries (kZoneRegistry, kZoneAndLinkRegistry) are now sorted by zoneId
   instead of zoneName, and the `ZoneManager::createForZoneId()` will use a
@@ -89,7 +89,7 @@ In v1.5:
   directly. Even with the extra level of indirection, the `createForZoneName()`
   is between 1.5-2X faster than the previous version.
 
-In v1.6:
+**v1.6:**
 * BasicZoneManager and ExtendedZoneManager can take an optional
   LinkRegistry which will be searched if a zoneId is not found. The
   `BasicZoneManager::createForZoneId(link)` benchmark shows that if the zoneId
@@ -102,13 +102,13 @@ In v1.6:
   The slightly decrease in speed seemed acceptable cost to reduce duplicate code
   maintenance.
 
-In v1.7.2:
+**v1.7.2:**
 * `SystemClock::clockMillis()` became non-virtual after incorporating
   AceRoutine v1.3. The sizeof `SystemClockLoop` and `SystemClockCoroutine`
   decreases 4 bytes on AVR, and 4-8 bytes on 32-bit processors. No signficant
   changes in CPU time.
 
-In v1.7.5:
+**v1.7.5:**
 * significant changes to size of `ExtendedZoneProcessor`
     * 8-bit processors
         * increases by 24 bytes on AVR, due adding 1 pointer and 2
@@ -124,18 +124,18 @@ In v1.7.5:
 * Upgrade ESP8266 Core from 2.7.4 to 3.0.2.
     * AutoBenchmark indicate that things are a few percentage faster.
 
-In v1.8.0:
+**v1.8.0:**
 * Remove `sizeof()` Clock classes which were moved to AceTimeClock library.
 * No significant changes to excution times of various benchmarks.
 
-In v1.9.0:
+**v1.9.0:**
 * Extract `BasicZoneProcessorCache<SIZE>` and `ExtendedZoneProcessorCache<SIZE>`
   from `BasicZoneManager` and `ExtendedZoneManager`. Remove all pure `virtual`
   methods from `ZoneManager`, making ZoneManager hierarchy non-polymorphic.
     * Saves 1100-1300 of flash on AVR.
     * No signficant changes to CPU performance.
 
-In v1.10.0:
+**v1.10.0:**
 * Remove support for SAMD21 boards.
     * Arduino IDE 1.8.19 with SparkFun SAMD 1.8.6 can no longer upload binaries
       to these boards. Something about bossac 1.7.0 not found.
@@ -154,10 +154,15 @@ In v1.10.0:
     * 5X faster on AVR processors when cached, and
     * 1.5-3X faster on 32-bit processors.
 
+**v1.11.0:**
+* Upgrade ZoneInfo database so that Links are symbolic links to Zones, instead
+  of hard links to Zones.
+    * No significant changes to CPU benchmarks.
+
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * Arduino AVR Boards 1.8.4
 
 ```
@@ -167,7 +172,7 @@ In v1.10.0:
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * SparkFun AVR Boards 1.1.13
 
 ```
@@ -177,7 +182,7 @@ In v1.10.0:
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * STM32duino 2.2.0
 
 ```
@@ -187,7 +192,7 @@ In v1.10.0:
 ## ESP8266
 
 * NodeMCU 1.0 clone, 80MHz ESP8266
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * ESP8266 Boards 3.0.2
 
 ```
@@ -197,7 +202,7 @@ In v1.10.0:
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * ESP32 Boards 2.0.2
 
 ```
@@ -210,7 +215,7 @@ duration of an empty loop, the numbers become unreliable.
 ## Teensy 3.2
 
 * 96 MHz ARM Cortex-M4
-* Arduino IDE 1.8.19, Arduino CLI 0.19.2
+* Arduino IDE 1.8.19, Arduino CLI 0.20.2
 * Teensyduino 1.56
 * Compiler options: "Faster"
 

@@ -17,6 +17,12 @@ namespace ace_time {
  * represented by a DateTime. Each component (hour, minute, second) is stored
  * as an unsigned byte (uint8_t). The sign bit allows forward and backward time
  * periods to be represented.
+ *
+ * There are 3 conditions which return isError() true:
+ *
+ *    * generic error: sign == 0
+ *    * overflow: sign == 1
+ *    * underflow: sign == -1
  */
 class TimePeriod {
   public:
@@ -24,21 +30,26 @@ class TimePeriod {
     static const int32_t kInvalidPeriodSeconds = INT32_MIN;
 
     /**
-     * The largest period that can be represented by this class, in seconds.
-     * The same limit applies in the positive and negative direction.
+     * The largest period that can be represented by this class, in seconds,
+     * corresponding to +/- 255h59m59s. The same limit applies in the positive
+     * and negative direction.
      */
     static const int32_t kMaxPeriodSeconds = 921599;
 
     /**
-     * Factory method that creates a TimePeriod representing an error so that
-     * isError() returns true.
+     * Factory method that creates a TimePeriod representing a generic error so
+     * that isError() returns true.
+     *
+     * @param sign optional sign value which indicates generic error (0,
+     * default), overflow (1), or underflow (-1).
      */
-    static TimePeriod forError() {
-      return TimePeriod(255, 255, 255, 0);
+    static TimePeriod forError(int8_t sign = 0) {
+      return TimePeriod(255, 255, 255, sign);
     }
 
     /**
      * Constructor.
+     * No input validation or normalization is performed by this constructor.
      *
      * @param hour hour (0-255)
      * @param minute minute (0-59)
@@ -56,15 +67,23 @@ class TimePeriod {
     /**
      * Constructor from number of seconds. The largest valid 'seconds' is +/-
      * 921599 corresponding to (hour=255, minute=59, second=59). For larger
-     * number or smaller number, an error object will be returned whose
+     * number or smaller values, an error object will be returned whose
      * isError() returns true.
      *
      * @param seconds number of seconds (default 0)
      */
     explicit TimePeriod(int32_t seconds = 0) {
-      if (seconds < -kMaxPeriodSeconds || seconds > kMaxPeriodSeconds) {
-        mSecond = mMinute = mHour = 255;
+      if (seconds == kInvalidPeriodSeconds) {
+        mHour = mMinute = mSecond = 255;
         mSign = 0;
+        return;
+      } else if (seconds < -kMaxPeriodSeconds) {
+        mHour = mMinute = mSecond = 255;
+        mSign = -1;
+        return;
+      } else if (seconds > kMaxPeriodSeconds) {
+        mHour = mMinute = mSecond = 255;
+        mSign = 1;
         return;
       }
 
@@ -103,8 +122,9 @@ class TimePeriod {
     int8_t sign() const { return mSign; }
 
     /**
-     * Set the sign bit. Should be either +1 or -1. Any other value may cause
-     * isError() to return true.
+     * Set the sign bit. Should be either +1 or -1. Setting it to 0 causes
+     * isError() to return true, to indicate a generic error condition.
+     * Any other value caused undefined behavior.
      */
     void sign(int8_t sign) { mSign = sign; }
 
@@ -122,7 +142,14 @@ class TimePeriod {
       return (mSign > 0) ? seconds : -seconds;
     }
 
-    /** Return true if this represents an error. */
+    /**
+     * Return true if this represents an error. Check the sign() value to
+     * descriminate the 3 different error conditions:
+     *
+     *  * sign==0: generic error
+     *  * sign==1: overflow
+     *  * sign==-1: underflow
+     */
     bool isError() const {
       return mSign == 0 || mSecond == 255 || mMinute == 255;
     }
@@ -146,8 +173,11 @@ class TimePeriod {
 
     /**
      * Print to given printer. If the time period is negative, a minus sign is
-     * prepended. If the TimePeriod is an error, the string "<Invalid
-     * TimePeriod>" is printed.
+     * prepended. If the TimePeriod is an error, prints the following:
+     *
+     *    * sign == 0, generic error: <Error>
+     *    * sign == 1, overflow: <+Inf>
+     *    * sign == -1, underflow: <-Inf>
      *
      * This class does not implement the Printable interface to avoid
      * increasing the size of the object from the additional virtual function.
@@ -166,11 +196,10 @@ class TimePeriod {
     uint8_t mSecond; // [0, 59], normally second < 60
 
     /**
-     * -1 or +1. In practice (>=0) is same as +1, and (<0) is same as -1. An
-     * alternative design is to make the mHour field a signed int (int8_t) which
-     * could hold the sign bit, saving us a byte in memory. But having some
-     * fields be unsigned, and some fields signed, makes the code far more
-     * complicated.
+     * -1, 0, or +1, where 0 indicates an generic error. An alternative design
+     * is to make the mHour field a signed int (int8_t) which could hold the
+     * sign bit, saving us a byte in memory. But having some fields be unsigned,
+     * and some fields signed, makes the code far more complicated.
     */
     int8_t mSign;
 };

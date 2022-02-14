@@ -4,7 +4,7 @@ The primary purpose of AceTime classes is to convert between an integer
 representing the number of seconds since the AceTime Epoch (2000-01-01T00:00:00
 UTC) and the equivalent human-readable components in different timezones.
 
-**Version**: 1.10.0 (2021-01-18, TZDB 2021e)
+**Version**: 1.11.0 (2021-02-14, TZDB 2021e)
 
 **Related Documents**:
 
@@ -64,12 +64,14 @@ UTC) and the equivalent human-readable components in different timezones.
         * [Ghost Links (Prior to v1.5)](#GhostLinks)
         * [Fat Links (From v1.5)](#FatLinks)
         * [Thin Links (From v1.6)](#ThinLinks)
+        * [Symbolic Links (From v1.11)](#SymbolicLinks)
         * [Custom Zone Registry](#CustomZoneRegistry)
 * [Zone Sorting](#ZoneSorting)
 * [Print To String](#PrintToString)
 * [Mutations](#Mutations)
     * [TimeOffset Mutations](#TimeOffsetMutations)
     * [LocalDate Mutations](#LocalDateMutations)
+    * [OffsetDateTime Mutations](#OffsetDateTimeMutations)
     * [ZonedDateTime Mutations](#ZonedDateTimeMutations)
     * [ZonedDateTime Normalization](#ZonedDateTimeNormalization)
     * [TimePeriod Mutations](#TimePeriodMutations)
@@ -596,7 +598,7 @@ class TimePeriod {
     static const int32_t kInvalidPeriodSeconds = INT32_MIN;
     static const int32_t kMaxPeriodSeconds = 921599;
 
-    static TimePeriod forError();
+    static TimePeriod forError(int8_t sign = 0);
 
     explicit TimePeriod(uint8_t hour, uint8_t minute, uint8_t second,
         int8_t sign = 1);
@@ -638,12 +640,28 @@ TimePeriod timePeriod(diffSeconds);
 timePeriod.printTo(Serial)
 ```
 
-Sometimes it is useful to create a `TimePeriod` object that represents an error
-condition, for example, if the time interval is too large. The
-`TimePeriod::forError()` factory method returns a special instance that
-represents an error. The `TimePeriod::isError()` method on that object will
-return `true`. Calling `TimePeriod::toSeconds()` on an error object returns
-`kInvalidPeriodSeconds`.
+The largest absolutely value of `diffSeconds` supported by this class is
+`TimePeriod::kMaxPeriodSeconds` which is 921599, which corresponds to
+`255h59m59s`. Calling the `TimePeriod(int32_t)` constructor outside of the `+/-
+921599` range will return an object whose `isError()` returns `true`.
+
+You can check the `TimePeriod::sign()` method to determine which one of the 3
+cases apply. The `printTo()` method prints the following:
+
+* generic error: `sign() == 0`, `printTo()` prints `<Error>`
+* overflow: `sign() == 1`, `printTo()` prints `<+Inf>`
+* underflow: `sign() == -1`, `printTo()` prints `<-Inf>`
+
+It is sometimes useful to directly create a `TimePeriod` object that represents
+an error condition. The `TimePeriod::forError(int8_t sign = 0)` factory method
+uses the `sign` parameter to distinguish 3 different error types described
+above. By default with no arguments, it create a generic error object with `sign
+== 0`.
+
+Calling `TimePeriod::toSeconds()` on an error object returns
+`TimePeriod::kInvalidPeriodSeconds` regardless of the `sign` value. However,
+you can call the `TimePeriod::sign()` method to distinguish among the 3
+different error conditions.
 
 <a name="TimeOffset"></a>
 ### TimeOffset
@@ -2298,9 +2316,11 @@ identical to their corresponding Zones. In other words:
   not the target Zone entry,
 * the `kZone{xxx}.zoneId` field is set to the ZoneId of the **Link** entry.
 
-From the point of view on the Arduino side, there is no difference between Links
-and Zones. In fact, there is no ability to distinguish between a Zone and a Fat
-Link at runtime.
+From the point of view on the Arduino side, there is almost no difference
+between Links and Zones. Prior to v1.11, there was no ability to distinguish
+between a Zone and a Fat Link at runtime. In v1.11, Fat Links were converted
+from a "hard link" into a "symbolic link" and a Link object is now self-aware
+that it is a link to a Zone object. See [Symbolic Links](#SymbolicLinks) below.
 
 The underlying `ZonePolicy` and `ZoneInfo` data structures are shared between
 the corresponding Zone and Link entries, but those Link entries themselves
@@ -2421,6 +2441,61 @@ TimeZone findTimeZone(uint32_t zoneId) {
   return tz;
 }
 ```
+
+<a name="SymbolicLinks"></a>
+#### Symbolic Links (From v1.11)
+
+In v1.11, Link entries were converted from a "hard link" to a "symbolic link".
+The `TimeZone` and `ZoneProcessor` interfaces were extended in the following
+way:
+
+```C++
+class TimeZone {
+  public:
+    ...
+
+    bool isLink() const;
+
+    uint32_t getZoneId(bool followLink = false);
+    TimeZoneData toTimeZoneData(bool followLink = false) const;
+
+    void printTo(Print& printer, bool followLink = false) const;
+    void printShortTo(Print& printer, bool followLink = false) const;
+
+    ...
+};
+
+class ZoneProcessor {
+  public:
+    ...
+
+    virtual bool isLink() const = 0;
+
+    virtual uint32_t getZoneId(bool followLink = false) const = 0;
+    virtual void printNameTo(Print& printer, bool followLink = false) const = 0;
+    virtual void printShortNameTo(Print& printer, bool followLink = false)
+        const = 0;
+
+    ...
+};
+```
+
+The `TimeZone::isLink()` method returns `true` if the current time zone is a
+Link entry instead of a Zone entry. For example `US/Pacific` is a link to
+`America/Los_Angeles`.
+
+The other methods gained an optional `followLink` parameter. If this parameter
+is set to `true`, then the method follows the link to the destination Zone and
+processes the request as if it was made on the target Zone. If the time zone is
+not a Link but a simple Zone, then this flag is ignored.
+
+For example, `TimeZone::getZoneId()` for `US/Pacific` returns the value defined
+by `kZoneIdUS_Pacific`. But `TimeZone::getZoneId(true /*followLink*/)` returns
+the value defined by `kZoneIdAmerica_Los_Angeles`.
+
+Similarly, `TimeZone::printTo(Serial)` prints `US/Pacific`. But
+`TimeZone::printTo(Serial, true
+/*followLink*)` prints `America/Los_Angeles`.
 
 <a name="CustomZoneRegistry"></a>
 #### Custom Zone Registry
@@ -2722,6 +2797,7 @@ definitions:
 * `time_period_mutation.h`
 * `time_offset_mutation.h`
 * `local_date_time_mutation.h`
+* `offset_date_time_mutation.h`
 * `zoned_date_time_mutation.h`
 
 Additional mutation operations can be written by the application developer and
@@ -2794,6 +2870,36 @@ void incrementOneDay(LocalDate& ld);
 void decrementOneDay(LocalDate& ld);
 
 }
+}
+```
+
+<a name="OffsetDateTimeMutations"></a>
+### OffsetDateTime Mutations
+
+The `OffsetDateTime` object can be mutated using the following methods and
+functions:
+
+```C++
+namespace ace_time {
+
+void OffsetDateTime::year(int16_t year);
+void OffsetDateTime::month(uint8_t month);
+void OffsetDateTime::day(uint8_t month);
+void OffsetDateTime::hour(uint8_t hour);
+void OffsetDateTime::minute(uint8_t minute);
+void OffsetDateTime::second(uint8_t second);
+void OffsetDateTime::timeZone(const TimeZone& timeZone);
+
+namespace zoned_date_time_mutation {
+
+void incrementYear(OffsetDateTime& dateTime);
+void incrementMonth(OffsetDateTime& dateTime);
+void incrementDay(OffsetDateTime& dateTime);
+void incrementHour(OffsetDateTime& dateTime);
+void incrementMinute(OffsetDateTime& dateTime);
+
+}
+
 }
 ```
 
