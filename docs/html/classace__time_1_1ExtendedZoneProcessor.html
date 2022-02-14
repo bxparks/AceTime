@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.10.0</span>
+   &#160;<span id="projectnumber">1.11.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -107,10 +107,13 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>ExtendedZoneProcessor</b> (const extended::ZoneInfo *zoneInfo=nullptr)</td></tr>
 <tr class="separator:a6da3153529e65fca92a446022d21820d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a></td></tr>
-<tr class="memitem:a01102daf0e54c23f9409db03e32f507a inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memItemLeft" align="right" valign="top"><a id="a01102daf0e54c23f9409db03e32f507a"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>getZoneId</b> () const override</td></tr>
-<tr class="memdesc:a01102daf0e54c23f9409db03e32f507a inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the unique stable zoneId. <br /></td></tr>
-<tr class="separator:a01102daf0e54c23f9409db03e32f507a inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a2d3ca320b3390318a87ae6cb1c259e inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memItemLeft" align="right" valign="top"><a id="a8a2d3ca320b3390318a87ae6cb1c259e"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isLink</b> () const override</td></tr>
+<tr class="memdesc:a8a2d3ca320b3390318a87ae6cb1c259e inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if timezone is a Link entry pointing to a Zone entry. <br /></td></tr>
+<tr class="separator:a8a2d3ca320b3390318a87ae6cb1c259e inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5866e0bd11f0afa53aadc1d2970bd55 inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>getZoneId</b> (bool followLink=false) const override</td></tr>
+<tr class="memdesc:af5866e0bd11f0afa53aadc1d2970bd55 inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the unique stable zoneId.  <a href="classace__time_1_1ExtendedZoneProcessorTemplate.html#af5866e0bd11f0afa53aadc1d2970bd55">More...</a><br /></td></tr>
+<tr class="separator:af5866e0bd11f0afa53aadc1d2970bd55 inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9fc639d9259fcf8cd7580555bf57d436 inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1TimeOffset.html">TimeOffset</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getUtcOffset</b> (acetime_t epochSeconds) const override</td></tr>
 <tr class="memdesc:a9fc639d9259fcf8cd7580555bf57d436 inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the total UTC offset at epochSeconds, including DST offset.  <a href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a9fc639d9259fcf8cd7580555bf57d436">More...</a><br /></td></tr>
 <tr class="separator:a9fc639d9259fcf8cd7580555bf57d436 inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,12 +127,12 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>getZoneId</b> () 
 <tr class="separator:a7434e1a3be298b41ef82e7385289426a inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4bdc6301bb1d4ffff9192b161288a80f inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4bdc6301bb1d4ffff9192b161288a80f">getOffsetDateTime</a> (acetime_t epochSeconds) const override</td></tr>
 <tr class="separator:a4bdc6301bb1d4ffff9192b161288a80f inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefee4d3f9707a59b048619143a6d65b8 inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><b>printNameTo</b> (Print &amp;printer) const override</td></tr>
-<tr class="memdesc:aefee4d3f9707a59b048619143a6d65b8 inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a human-readable identifier (e.g.  <a href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aefee4d3f9707a59b048619143a6d65b8">More...</a><br /></td></tr>
-<tr class="separator:aefee4d3f9707a59b048619143a6d65b8 inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9da7621ec900dd2bf4738ef51e6ee879 inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><b>printShortNameTo</b> (Print &amp;printer) const override</td></tr>
-<tr class="memdesc:a9da7621ec900dd2bf4738ef51e6ee879 inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a short human-readable identifier (e.g.  <a href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a9da7621ec900dd2bf4738ef51e6ee879">More...</a><br /></td></tr>
-<tr class="separator:a9da7621ec900dd2bf4738ef51e6ee879 inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ebfd8d4228ae8d6b1f86865eebe69af inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><b>printNameTo</b> (Print &amp;printer, bool followLink=false) const override</td></tr>
+<tr class="memdesc:a4ebfd8d4228ae8d6b1f86865eebe69af inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a human-readable identifier (e.g.  <a href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4ebfd8d4228ae8d6b1f86865eebe69af">More...</a><br /></td></tr>
+<tr class="separator:a4ebfd8d4228ae8d6b1f86865eebe69af inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a681023466afd47ae990c62ab2982506a inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><b>printShortNameTo</b> (Print &amp;printer, bool followLink=false) const override</td></tr>
+<tr class="memdesc:a681023466afd47ae990c62ab2982506a inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a short human-readable identifier (e.g.  <a href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a681023466afd47ae990c62ab2982506a">More...</a><br /></td></tr>
+<tr class="separator:a681023466afd47ae990c62ab2982506a inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee3db34b7502df640c084ec1c6c49669 inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="memItemLeft" align="right" valign="top"><a id="aee3db34b7502df640c084ec1c6c49669"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aee3db34b7502df640c084ec1c6c49669">log</a> () const</td></tr>
 <tr class="memdesc:aee3db34b7502df640c084ec1c6c49669 inherit pub_methods_classace__time_1_1ExtendedZoneProcessorTemplate"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used only for debugging. <br /></td></tr>
@@ -160,10 +163,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a059a9ffeab7e8885e6abe0e0abeb9bde">getType</a> () const</td></tr>
 <tr class="memdesc:a059a9ffeab7e8885e6abe0e0abeb9bde inherit pub_methods_classace__time_1_1ZoneProcessor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the kTypeXxx of the current instance. <br /></td></tr>
 <tr class="separator:a059a9ffeab7e8885e6abe0e0abeb9bde inherit pub_methods_classace__time_1_1ZoneProcessor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76f48e7b38f91503b1e522bee11dbd49 inherit pub_methods_classace__time_1_1ZoneProcessor"><td class="memItemLeft" align="right" valign="top"><a id="a76f48e7b38f91503b1e522bee11dbd49"></a>
-virtual uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a76f48e7b38f91503b1e522bee11dbd49">getZoneId</a> () const =0</td></tr>
-<tr class="memdesc:a76f48e7b38f91503b1e522bee11dbd49 inherit pub_methods_classace__time_1_1ZoneProcessor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the unique stable zoneId. <br /></td></tr>
-<tr class="separator:a76f48e7b38f91503b1e522bee11dbd49 inherit pub_methods_classace__time_1_1ZoneProcessor"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc0ad2c3b5ebaaea73ee7376870464f4 inherit pub_methods_classace__time_1_1ZoneProcessor"><td class="memItemLeft" align="right" valign="top"><a id="abc0ad2c3b5ebaaea73ee7376870464f4"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#abc0ad2c3b5ebaaea73ee7376870464f4">isLink</a> () const =0</td></tr>
+<tr class="memdesc:abc0ad2c3b5ebaaea73ee7376870464f4 inherit pub_methods_classace__time_1_1ZoneProcessor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if timezone is a Link entry pointing to a Zone entry. <br /></td></tr>
+<tr class="separator:abc0ad2c3b5ebaaea73ee7376870464f4 inherit pub_methods_classace__time_1_1ZoneProcessor"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -222,7 +225,7 @@ const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></t
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A specific implementation of <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database.">ExtendedZoneProcessorTemplate</a> that uses ZoneXxxBrokers which read from zonedb files in PROGMEM flash memory. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l02138">2138</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l02155">2155</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/brian/src/AceTime/src/ace_time/<a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a></li>
 </ul>

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.10.0</span>
+   &#160;<span id="projectnumber">1.11.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -127,10 +127,13 @@ typedef <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTempl
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a01102daf0e54c23f9409db03e32f507a"><td class="memItemLeft" align="right" valign="top"><a id="a01102daf0e54c23f9409db03e32f507a"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a01102daf0e54c23f9409db03e32f507a">getZoneId</a> () const override</td></tr>
-<tr class="memdesc:a01102daf0e54c23f9409db03e32f507a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the unique stable zoneId. <br /></td></tr>
-<tr class="separator:a01102daf0e54c23f9409db03e32f507a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a2d3ca320b3390318a87ae6cb1c259e"><td class="memItemLeft" align="right" valign="top"><a id="a8a2d3ca320b3390318a87ae6cb1c259e"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a8a2d3ca320b3390318a87ae6cb1c259e">isLink</a> () const override</td></tr>
+<tr class="memdesc:a8a2d3ca320b3390318a87ae6cb1c259e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if timezone is a Link entry pointing to a Zone entry. <br /></td></tr>
+<tr class="separator:a8a2d3ca320b3390318a87ae6cb1c259e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5866e0bd11f0afa53aadc1d2970bd55"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#af5866e0bd11f0afa53aadc1d2970bd55">getZoneId</a> (bool followLink=false) const override</td></tr>
+<tr class="memdesc:af5866e0bd11f0afa53aadc1d2970bd55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the unique stable zoneId.  <a href="classace__time_1_1ExtendedZoneProcessorTemplate.html#af5866e0bd11f0afa53aadc1d2970bd55">More...</a><br /></td></tr>
+<tr class="separator:af5866e0bd11f0afa53aadc1d2970bd55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9fc639d9259fcf8cd7580555bf57d436"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1TimeOffset.html">TimeOffset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a9fc639d9259fcf8cd7580555bf57d436">getUtcOffset</a> (acetime_t epochSeconds) const override</td></tr>
 <tr class="memdesc:a9fc639d9259fcf8cd7580555bf57d436"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the total UTC offset at epochSeconds, including DST offset.  <a href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a9fc639d9259fcf8cd7580555bf57d436">More...</a><br /></td></tr>
 <tr class="separator:a9fc639d9259fcf8cd7580555bf57d436"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,12 +147,12 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <tr class="separator:a7434e1a3be298b41ef82e7385289426a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4bdc6301bb1d4ffff9192b161288a80f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4bdc6301bb1d4ffff9192b161288a80f">getOffsetDateTime</a> (acetime_t epochSeconds) const override</td></tr>
 <tr class="separator:a4bdc6301bb1d4ffff9192b161288a80f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefee4d3f9707a59b048619143a6d65b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aefee4d3f9707a59b048619143a6d65b8">printNameTo</a> (Print &amp;printer) const override</td></tr>
-<tr class="memdesc:aefee4d3f9707a59b048619143a6d65b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a human-readable identifier (e.g.  <a href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aefee4d3f9707a59b048619143a6d65b8">More...</a><br /></td></tr>
-<tr class="separator:aefee4d3f9707a59b048619143a6d65b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9da7621ec900dd2bf4738ef51e6ee879"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a9da7621ec900dd2bf4738ef51e6ee879">printShortNameTo</a> (Print &amp;printer) const override</td></tr>
-<tr class="memdesc:a9da7621ec900dd2bf4738ef51e6ee879"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a short human-readable identifier (e.g.  <a href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a9da7621ec900dd2bf4738ef51e6ee879">More...</a><br /></td></tr>
-<tr class="separator:a9da7621ec900dd2bf4738ef51e6ee879"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ebfd8d4228ae8d6b1f86865eebe69af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4ebfd8d4228ae8d6b1f86865eebe69af">printNameTo</a> (Print &amp;printer, bool followLink=false) const override</td></tr>
+<tr class="memdesc:a4ebfd8d4228ae8d6b1f86865eebe69af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a human-readable identifier (e.g.  <a href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4ebfd8d4228ae8d6b1f86865eebe69af">More...</a><br /></td></tr>
+<tr class="separator:a4ebfd8d4228ae8d6b1f86865eebe69af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a681023466afd47ae990c62ab2982506a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a681023466afd47ae990c62ab2982506a">printShortNameTo</a> (Print &amp;printer, bool followLink=false) const override</td></tr>
+<tr class="memdesc:a681023466afd47ae990c62ab2982506a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a short human-readable identifier (e.g.  <a href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a681023466afd47ae990c62ab2982506a">More...</a><br /></td></tr>
+<tr class="separator:a681023466afd47ae990c62ab2982506a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee3db34b7502df640c084ec1c6c49669"><td class="memItemLeft" align="right" valign="top"><a id="aee3db34b7502df640c084ec1c6c49669"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aee3db34b7502df640c084ec1c6c49669">log</a> () const</td></tr>
 <tr class="memdesc:aee3db34b7502df640c084ec1c6c49669"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used only for debugging. <br /></td></tr>
@@ -358,7 +361,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01241">1241</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01258">1258</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -394,7 +397,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#aa5a25a2082ceed26ff15eb72cd1c5724">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01134">1134</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01151">1151</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -430,7 +433,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#aa080366d78d5b8d8cc56915857e49ddd">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00979">979</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00987">987</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -465,7 +468,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#ac6c4abe6e32c646228cd667114dc81de">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00968">968</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00976">976</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -500,7 +503,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#ad089911bf92e4b1b32e0ca17f1ecbbe6">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01078">1078</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01086">1086</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -548,7 +551,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#abb743cef9e4b5c69594f8f121da087ad">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01007">1007</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01015">1015</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -580,7 +583,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 <p>Get the largest allocation size of TransitionStorage. </p>
 <p>For debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01120">1120</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01137">1137</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -615,6 +618,46 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a606e678c83ced5f83920a5d517728b62">ace_time::ZoneProcessor</a>.</p>
 
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00964">964</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+
+</div>
+</div>
+<a id="af5866e0bd11f0afa53aadc1d2970bd55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5866e0bd11f0afa53aadc1d2970bd55">&#9670;&nbsp;</a></span>getZoneId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename ZRB &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html">ace_time::ExtendedZoneProcessorTemplate</a>&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;::getZoneId </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>followLink</em> = <code>false</code></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the unique stable zoneId. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">followLink</td><td>if true and the time zone is a Link, follow the link and return the id of the target Zone instead. If the zone is not a link, this flag is ignored. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#ad34d90888a62b7ff935616750996d9c5">ace_time::ZoneProcessor</a>.</p>
+
 <p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00956">956</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
@@ -648,7 +691,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 <p>Initialize using the epochSeconds. </p>
 <p>The epochSeconds is converted to the <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> for UTC time, and the year is used to call <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4fa710573e859ef109a29fd7e3407fa2" title="Initialize the zone rules cache, keyed by the &quot;current&quot; year.">initForYear()</a>. Exposed for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01153">1153</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01170">1170</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -681,12 +724,12 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 <p>Initialize the zone rules cache, keyed by the "current" year. </p>
 <p>Returns success status: true if successful, false if an error occurred. Exposed for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01163">1163</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01180">1180</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
-<a id="aefee4d3f9707a59b048619143a6d65b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aefee4d3f9707a59b048619143a6d65b8">&#9670;&nbsp;</a></span>printNameTo()</h2>
+<a id="a4ebfd8d4228ae8d6b1f86865eebe69af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ebfd8d4228ae8d6b1f86865eebe69af">&#9670;&nbsp;</a></span>printNameTo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -700,8 +743,18 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
           <td class="memname">void <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html">ace_time::ExtendedZoneProcessorTemplate</a>&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;::printNameTo </td>
           <td>(</td>
           <td class="paramtype">Print &amp;&#160;</td>
-          <td class="paramname"><em>printer</em></td><td>)</td>
-          <td> const</td>
+          <td class="paramname"><em>printer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>followLink</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
         </tr>
       </table>
   </td>
@@ -712,16 +765,23 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 </div><div class="memdoc">
 
 <p>Print a human-readable identifier (e.g. </p>
-<p>"America/Los_Angeles"). </p>
+<p>"America/Los_Angeles").</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">printer</td><td>an instance of the Print class, usually Serial </td></tr>
+    <tr><td class="paramname">followLink</td><td>if true and the zone is actually a link, follow the link and return the name of the target Zone instead. If the zone is not a link, this flag is ignored. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a2ebdaf658f48d58a161086e21c1fc3f7">ace_time::ZoneProcessor</a>.</p>
+<p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a51508b3387a2bc15d1d799712e41acfe">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01093">1093</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01101">1101</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
-<a id="a9da7621ec900dd2bf4738ef51e6ee879"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9da7621ec900dd2bf4738ef51e6ee879">&#9670;&nbsp;</a></span>printShortNameTo()</h2>
+<a id="a681023466afd47ae990c62ab2982506a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a681023466afd47ae990c62ab2982506a">&#9670;&nbsp;</a></span>printShortNameTo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -735,8 +795,18 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
           <td class="memname">void <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html">ace_time::ExtendedZoneProcessorTemplate</a>&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;::printShortNameTo </td>
           <td>(</td>
           <td class="paramtype">Print &amp;&#160;</td>
-          <td class="paramname"><em>printer</em></td><td>)</td>
-          <td> const</td>
+          <td class="paramname"><em>printer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>followLink</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
         </tr>
       </table>
   </td>
@@ -747,11 +817,18 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 </div><div class="memdoc">
 
 <p>Print a short human-readable identifier (e.g. </p>
-<p>"Los Angeles"). Any underscore in the short name is replaced with a space. </p>
+<p>"Los Angeles"). Any underscore in the short name is replaced with a space.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">printer</td><td>an instance of the Print class, usually Serial </td></tr>
+    <tr><td class="paramname">followLink</td><td>if true and the zone is actually a link, follow the link and return the short name of the target Zone instead. If the zone is not a link, this flag is ignored. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a68ba2ce6b980f73f4f673450148c2416">ace_time::ZoneProcessor</a>.</p>
+<p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#a439ce5e5a3a89bc94e36d82334918aca">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01097">1097</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01109">1109</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -783,7 +860,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 <p>Reset the TransitionStorage high water mark. </p>
 <p>For debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01115">1115</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01132">1132</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -816,7 +893,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 <p>Set the broker factory at runtime. </p>
 <p>This is an advanced usage where the custom subclass of <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database.">ExtendedZoneProcessorTemplate</a> does not know its broker factory at compile time, so it must be set at runtime through this method. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01144">1144</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01161">1161</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -852,7 +929,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#af069bc08e2135e460c4442fd0be6d3e1">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01124">1124</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01141">1141</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>

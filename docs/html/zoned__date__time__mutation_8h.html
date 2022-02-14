@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.10.0</span>
+   &#160;<span id="projectnumber">1.11.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -153,8 +153,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="zone
 <tr class="separator:a674bb7c34675092900fabccf281e72e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Methods that mutate a DateTime object.</p>
-<p>The number of mutation methods of a ZoneDateTime object is basically unlimited, so including them in the ZonedDateTime class would make its API too complex and always incomplete. By extracting them into a separate namespace, we limit the complexity of the ZoneDateTime class and allow additional mutation methods to be added to this namespace by downstream applications.</p>
+<div class="textblock"><p>Methods that mutate a ZonedDateTime object.</p>
+<p>The number of mutation methods of a ZonedDateTime object is basically unlimited, so including them in the ZonedDateTime class would make its API too complex and always incomplete. By extracting them into a separate namespace, we limit the complexity of the ZonedDateTime class and allow additional mutation methods to be added to this namespace by downstream applications.</p>
 <p>No validation is performed during the mutation operation. Client code is normally expected to call the toEpochSeconds() method to convert this into an acetime_t, then later convert it back to human-readable components using the forEpochSeconds() factory method.</p>
 <p>Example:</p>
 <div class="fragment"><div class="line">ZonedDateTime dt(...);</div>
