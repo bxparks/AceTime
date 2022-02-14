@@ -37,14 +37,14 @@ OffsetDateTime::toEpochSeconds() 85.000
 ZonedDateTime::toEpochSeconds() 85.000
 ZonedDateTime::toEpochDays() 72.000
 ZonedDateTime::forEpochSeconds(UTC) 362.000
-ZonedDateTime::forEpochSeconds(Basic_nocache) 1198.000
-ZonedDateTime::forEpochSeconds(Basic_cached) 643.000
-ZonedDateTime::forEpochSeconds(Extended_nocache) 2231.000
+ZonedDateTime::forEpochSeconds(Basic_nocache) 1216.000
+ZonedDateTime::forEpochSeconds(Basic_cached) 644.000
+ZonedDateTime::forEpochSeconds(Extended_nocache) 2239.000
 ZonedDateTime::forEpochSeconds(Extended_cached) 647.000
-ZonedDateTime::forComponents(Extended_nocache) 1598.000
-ZonedDateTime::forComponents(Extended_cached) 82.000
-BasicZoneManager::createForZoneName(binary) 121.000
-BasicZoneManager::createForZoneId(binary) 48.000
-BasicZoneManager::createForZoneId(linear) 305.000
+ZonedDateTime::forComponents(Extended_nocache) 1607.000
+ZonedDateTime::forComponents(Extended_cached) 83.000
+BasicZoneManager::createForZoneName(binary) 119.000
+BasicZoneManager::createForZoneId(binary) 47.000
+BasicZoneManager::createForZoneId(linear) 306.000
 Iterations_per_run 1000
 END

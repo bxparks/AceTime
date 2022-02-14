@@ -75,10 +75,10 @@ The CPU times below are given in microseconds.
 
 ## CPU Time Changes
 
-v0.8 to v1.4:
+**v0.8 to v1.4:**
 * The CPU time did not change much from
 
-In v1.5:
+**v1.5:**
 * No significant changes to CPU time.
 * Zone registries (kZoneRegistry, kZoneAndLinkRegistry) are now sorted by zoneId
   instead of zoneName, and the `ZoneManager::createForZoneId()` will use a
@@ -89,7 +89,7 @@ In v1.5:
   directly. Even with the extra level of indirection, the `createForZoneName()`
   is between 1.5-2X faster than the previous version.
 
-In v1.6:
+**v1.6:**
 * BasicZoneManager and ExtendedZoneManager can take an optional
   LinkRegistry which will be searched if a zoneId is not found. The
   `BasicZoneManager::createForZoneId(link)` benchmark shows that if the zoneId
@@ -102,13 +102,13 @@ In v1.6:
   The slightly decrease in speed seemed acceptable cost to reduce duplicate code
   maintenance.
 
-In v1.7.2:
+**v1.7.2:**
 * `SystemClock::clockMillis()` became non-virtual after incorporating
   AceRoutine v1.3. The sizeof `SystemClockLoop` and `SystemClockCoroutine`
   decreases 4 bytes on AVR, and 4-8 bytes on 32-bit processors. No signficant
   changes in CPU time.
 
-In v1.7.5:
+**v1.7.5:**
 * significant changes to size of `ExtendedZoneProcessor`
     * 8-bit processors
         * increases by 24 bytes on AVR, due adding 1 pointer and 2
@@ -124,18 +124,18 @@ In v1.7.5:
 * Upgrade ESP8266 Core from 2.7.4 to 3.0.2.
     * AutoBenchmark indicate that things are a few percentage faster.
 
-In v1.8.0:
+**v1.8.0:**
 * Remove `sizeof()` Clock classes which were moved to AceTimeClock library.
 * No significant changes to excution times of various benchmarks.
 
-In v1.9.0:
+**v1.9.0:**
 * Extract `BasicZoneProcessorCache<SIZE>` and `ExtendedZoneProcessorCache<SIZE>`
   from `BasicZoneManager` and `ExtendedZoneManager`. Remove all pure `virtual`
   methods from `ZoneManager`, making ZoneManager hierarchy non-polymorphic.
     * Saves 1100-1300 of flash on AVR.
     * No signficant changes to CPU performance.
 
-In v1.10.0:
+**v1.10.0:**
 * Remove support for SAMD21 boards.
     * Arduino IDE 1.8.19 with SparkFun SAMD 1.8.6 can no longer upload binaries
       to these boards. Something about bossac 1.7.0 not found.
@@ -153,6 +153,11 @@ In v1.10.0:
       normalization.
     * 5X faster on AVR processors when cached, and
     * 1.5-3X faster on 32-bit processors.
+
+**v1.11.0:**
+* Upgrade ZoneInfo database so that Links are symbolic links to Zones, instead
+  of hard links to Zones.
+    * No significant changes to CPU benchmarks.
 
 ## Arduino Nano
 
