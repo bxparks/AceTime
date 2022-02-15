@@ -1,6 +1,11 @@
 # Changelog
 
 * Unreleased
+    * Update `ZoneInfoBroker::targetZoneInfo()` to return a `ZoneInfoBroker`
+      instead of a raw `ZoneInfo*` pointer.
+        * Internal wiring change, no change to external API.
+        * Allows alternative `ZoneInfoBroker` classes to implement a consistent
+          API.
 * 1.11.0 (2022-02-14, TZDB 2021e)
     * Regenerate `zonedb/` and `zonedbx/` using latest AceTimeTool which
       identifies notable Zones and Policies whose DST shifts are not exactly

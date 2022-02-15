@@ -955,8 +955,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     uint32_t getZoneId(bool followLink = false) const override {
       ZIB zib = (isLink() && followLink)
-          ? mBrokerFactory->createZoneInfoBroker(
-                (uintptr_t) mZoneInfoBroker.targetZoneInfo())
+          ? mZoneInfoBroker.targetZoneInfo()
           : mZoneInfoBroker;
       return zib.zoneId();
     }
@@ -1100,8 +1099,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     void printNameTo(Print& printer, bool followLink = false) const override {
       ZIB zib = (isLink() && followLink)
-          ? mBrokerFactory->createZoneInfoBroker(
-                (uintptr_t) mZoneInfoBroker.targetZoneInfo())
+          ? mZoneInfoBroker.targetZoneInfo()
           : mZoneInfoBroker;
       zib.printNameTo(printer);
     }
@@ -1109,8 +1107,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     void printShortNameTo(Print& printer, bool followLink = false)
         const override {
       ZIB zib = (isLink() && followLink)
-          ? mBrokerFactory->createZoneInfoBroker(
-                (uintptr_t) mZoneInfoBroker.targetZoneInfo())
+          ? mZoneInfoBroker.targetZoneInfo()
           : mZoneInfoBroker;
       zib.printShortNameTo(printer);
     }
