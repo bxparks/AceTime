@@ -27,7 +27,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v1.11.0
+**Version**: AceTime v1.11.1
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -188,6 +188,11 @@ ASCII table.
     * ESP8266: Increases flash by 250-300 bytes.
     * ESP32: Increases flash by ~190 bytes.
     * Teensy 3.2: Increase flash by 450-1300 bytes.
+
+**v1.11.1**
+* Change `ZoneInfoBroker::targetZoneInfo()` method to return a `ZoneInfoBroker`
+  instead of raw `ZoneInfo*` pointer.
+    * Increases flash usage by 4-16 bytes for the most part.
 
 # Legend
 
