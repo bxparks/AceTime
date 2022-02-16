@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.11.1 (2022-02-16, TZDB 2021e)
     * Update `ZoneInfoBroker::targetZoneInfo()` to return a `ZoneInfoBroker`
       instead of a raw `ZoneInfo*` pointer.
         * Internal wiring change, no change to external API.
