@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.11.0</span>
+   &#160;<span id="projectnumber">1.11.1</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -346,8 +346,8 @@ $(function() {
 <div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160; </div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <span class="keywordtype">bool</span> isLink()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> pgm_read_byte(&amp;mZoneInfo-&gt;numEras) == 0; }</div>
 <div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160; </div>
-<div class="line"><a name="l00313"></a><span class="lineno"><a class="line" href="classace__time_1_1basic_1_1ZoneInfoBroker.html#a8f34dcfd0dc88ad8f55fe6e775588e4b">  313</a></span>&#160;    <span class="keyword">const</span> ZoneInfo* <a class="code" href="classace__time_1_1basic_1_1ZoneInfoBroker.html#a8f34dcfd0dc88ad8f55fe6e775588e4b">targetZoneInfo</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;      <span class="keywordflow">return</span> (<span class="keyword">const</span> ZoneInfo*) pgm_read_ptr(&amp;mZoneInfo-&gt;eras);</div>
+<div class="line"><a name="l00313"></a><span class="lineno"><a class="line" href="classace__time_1_1basic_1_1ZoneInfoBroker.html#aade243c687ac22cf66af4845dd336420">  313</a></span>&#160;    <a class="code" href="classace__time_1_1basic_1_1ZoneInfoBroker.html">ZoneInfoBroker</a> <a class="code" href="classace__time_1_1basic_1_1ZoneInfoBroker.html#aade243c687ac22cf66af4845dd336420">targetZoneInfo</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1basic_1_1ZoneInfoBroker.html">ZoneInfoBroker</a>((<span class="keyword">const</span> ZoneInfo*) pgm_read_ptr(&amp;mZoneInfo-&gt;eras));</div>
 <div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    }</div>
 <div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="preprocessor">  #if ACE_TIME_USE_PROGMEM</span></div>
@@ -367,7 +367,7 @@ $(function() {
 <div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160; </div>
 <div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    uint8_t numEras()<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;      <span class="keywordflow">if</span> (isLink()) {</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        <span class="keywordflow">return</span> ZoneInfoBroker(<a class="code" href="classace__time_1_1basic_1_1ZoneInfoBroker.html#a8f34dcfd0dc88ad8f55fe6e775588e4b">targetZoneInfo</a>()).numEras();</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1basic_1_1ZoneInfoBroker.html#aade243c687ac22cf66af4845dd336420">targetZoneInfo</a>().numEras();</div>
 <div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;      } <span class="keywordflow">else</span> {</div>
 <div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        <span class="keywordflow">return</span> pgm_read_byte(&amp;mZoneInfo-&gt;numEras);</div>
 <div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;      }</div>
@@ -375,7 +375,7 @@ $(function() {
 <div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160; </div>
 <div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    <span class="keyword">const</span> ZoneEraBroker era(uint8_t i)<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;      <span class="keywordflow">if</span> (isLink()) {</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        <span class="keywordflow">return</span> ZoneInfoBroker(<a class="code" href="classace__time_1_1basic_1_1ZoneInfoBroker.html#a8f34dcfd0dc88ad8f55fe6e775588e4b">targetZoneInfo</a>()).era(i);</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1basic_1_1ZoneInfoBroker.html#aade243c687ac22cf66af4845dd336420">targetZoneInfo</a>().era(i);</div>
 <div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;      } <span class="keywordflow">else</span> {</div>
 <div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        <span class="keyword">auto</span> eras = (<span class="keyword">const</span> ZoneEra*) pgm_read_ptr(&amp;mZoneInfo-&gt;eras);</div>
 <div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        <span class="keywordflow">return</span> ZoneEraBroker(&amp;eras[i]);</div>
@@ -503,7 +503,6 @@ $(function() {
 <div class="ttc" id="aclassace__time_1_1basic_1_1ZoneInfoBroker_html_ad2a91eb974cf9c3c1052819819054d40"><div class="ttname"><a href="classace__time_1_1basic_1_1ZoneInfoBroker.html#ad2a91eb974cf9c3c1052819819054d40">ace_time::basic::ZoneInfoBroker::printNameTo</a></div><div class="ttdeci">void printNameTo(Print &amp;printer) const</div><div class="ttdoc">Print a human-readable identifier (e.g.</div><div class="ttdef"><b>Definition:</b> <a href="BasicBrokers_8cpp_source.html#l00019">BasicBrokers.cpp:19</a></div></div>
 <div class="ttc" id="aclassace__time_1_1basic_1_1ZoneEraBroker_html"><div class="ttname"><a href="classace__time_1_1basic_1_1ZoneEraBroker.html">ace_time::basic::ZoneEraBroker</a></div><div class="ttdoc">Data broker for accessing ZoneEra.</div><div class="ttdef"><b>Definition:</b> <a href="BasicBrokers_8h_source.html#l00194">BasicBrokers.h:194</a></div></div>
 <div class="ttc" id="astructace__time_1_1internal_1_1ZoneContext_html"><div class="ttname"><a href="structace__time_1_1internal_1_1ZoneContext.html">ace_time::internal::ZoneContext</a></div><div class="ttdoc">Metadata about the zone database.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneContext_8h_source.html#l00016">ZoneContext.h:16</a></div></div>
-<div class="ttc" id="aclassace__time_1_1basic_1_1ZoneInfoBroker_html_a8f34dcfd0dc88ad8f55fe6e775588e4b"><div class="ttname"><a href="classace__time_1_1basic_1_1ZoneInfoBroker.html#a8f34dcfd0dc88ad8f55fe6e775588e4b">ace_time::basic::ZoneInfoBroker::targetZoneInfo</a></div><div class="ttdeci">const ZoneInfo * targetZoneInfo() const</div><div class="ttdoc">Return the raw ZoneInfo* pointer if the current Zone is actually a Link.</div><div class="ttdef"><b>Definition:</b> <a href="BasicBrokers_8h_source.html#l00313">BasicBrokers.h:313</a></div></div>
 <div class="ttc" id="aclassace__time_1_1basic_1_1ZoneInfoBroker_html_a75a6c1390529d658b5dd4bd507ab4113"><div class="ttname"><a href="classace__time_1_1basic_1_1ZoneInfoBroker.html#a75a6c1390529d658b5dd4bd507ab4113">ace_time::basic::ZoneInfoBroker::printShortNameTo</a></div><div class="ttdeci">void printShortNameTo(Print &amp;printer) const</div><div class="ttdoc">Print a short human-readable identifier (e.g.</div><div class="ttdef"><b>Definition:</b> <a href="BasicBrokers_8cpp_source.html#l00025">BasicBrokers.cpp:25</a></div></div>
 <div class="ttc" id="aclassace__time_1_1basic_1_1BrokerFactory_html"><div class="ttname"><a href="classace__time_1_1basic_1_1BrokerFactory.html">ace_time::basic::BrokerFactory</a></div><div class="ttdoc">A factory that creates a basic::ZoneInfoBroker.</div><div class="ttdef"><b>Definition:</b> <a href="BasicBrokers_8h_source.html#l00467">BasicBrokers.h:467</a></div></div>
 <div class="ttc" id="aclassace__time_1_1basic_1_1ZoneInfoBroker_html"><div class="ttname"><a href="classace__time_1_1basic_1_1ZoneInfoBroker.html">ace_time::basic::ZoneInfoBroker</a></div><div class="ttdoc">Data broker for accessing ZoneInfo.</div><div class="ttdef"><b>Definition:</b> <a href="BasicBrokers_8h_source.html#l00286">BasicBrokers.h:286</a></div></div>
@@ -511,6 +510,7 @@ $(function() {
 <div class="ttc" id="aclassace__time_1_1basic_1_1LinkRegistryBroker_html"><div class="ttname"><a href="classace__time_1_1basic_1_1LinkRegistryBroker.html">ace_time::basic::LinkRegistryBroker</a></div><div class="ttdoc">Data broker for a LinkRegistry composed of LinkEntry records.</div><div class="ttdef"><b>Definition:</b> <a href="BasicBrokers_8h_source.html#l00444">BasicBrokers.h:444</a></div></div>
 <div class="ttc" id="aclassace__time_1_1basic_1_1LinkEntryBroker_html"><div class="ttname"><a href="classace__time_1_1basic_1_1LinkEntryBroker.html">ace_time::basic::LinkEntryBroker</a></div><div class="ttdoc">Data broker for accessing a LinkEntry.</div><div class="ttdef"><b>Definition:</b> <a href="BasicBrokers_8h_source.html#l00416">BasicBrokers.h:416</a></div></div>
 <div class="ttc" id="aclassace__time_1_1basic_1_1ZonePolicyBroker_html"><div class="ttname"><a href="classace__time_1_1basic_1_1ZonePolicyBroker.html">ace_time::basic::ZonePolicyBroker</a></div><div class="ttdoc">Data broker for accessing ZonePolicy.</div><div class="ttdef"><b>Definition:</b> <a href="BasicBrokers_8h_source.html#l00136">BasicBrokers.h:136</a></div></div>
+<div class="ttc" id="aclassace__time_1_1basic_1_1ZoneInfoBroker_html_aade243c687ac22cf66af4845dd336420"><div class="ttname"><a href="classace__time_1_1basic_1_1ZoneInfoBroker.html#aade243c687ac22cf66af4845dd336420">ace_time::basic::ZoneInfoBroker::targetZoneInfo</a></div><div class="ttdeci">ZoneInfoBroker targetZoneInfo() const</div><div class="ttdoc">Return the ZoneInfoBroker of the target Zone, assuming that the current Zone is a Link.</div><div class="ttdef"><b>Definition:</b> <a href="BasicBrokers_8h_source.html#l00313">BasicBrokers.h:313</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
