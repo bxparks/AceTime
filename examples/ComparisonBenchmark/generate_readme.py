@@ -24,7 +24,7 @@ print(f"""\
 
 Here are the results from `ComparisonBenchmark.ino` for various boards.
 
-**Version**: AceTime v1.11.1
+**Version**: AceTime v1.11.2
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 

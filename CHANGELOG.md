@@ -1,13 +1,15 @@
 # Changelog
 
 * Unreleased
+* 1.11.2 (2022-02-24, TZDB 2021e)
     * Fix crash triggered by certain subclasses of `BasicZoneProcessor` and
       `ExtendedZoneProcessor`.
         * The code did not handle nullptr for the `BrokerFactory` properly.
         * These particular classes do not know their `BrokerFactory` at
           compile-time, so they are set to `nullptr` initially. The
           `setBrokerFactory()` is expected to be called at runtime later.
-        * No affect on the AceTime library itself.
+        * No effect on the AceTime library itself which does not trigger this
+          condition.
 * 1.11.1 (2022-02-16, TZDB 2021e)
     * Update `ZoneInfoBroker::targetZoneInfo()` to return a `ZoneInfoBroker`
       instead of a raw `ZoneInfo*` pointer.
