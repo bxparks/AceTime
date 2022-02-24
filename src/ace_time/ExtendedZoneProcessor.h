@@ -1136,6 +1136,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void setZoneKey(uintptr_t zoneKey) override {
+      if (! mBrokerFactory) return;
       if (mZoneInfoBroker.equals(zoneKey)) return;
 
       mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
@@ -1247,14 +1248,17 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
   protected:
     /**
-     * Constructor.
+     * Constructor. When first initialized inside a cache, the brokerFactory may
+     * be set to nullptr, and the zoneKey should be ignored.
+     *
      *
      * @param brokerFactory pointer to a BrokerFactory that creates a ZIB
-     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*)
+     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
+     *    uint16_t)
      */
     explicit ExtendedZoneProcessorTemplate(
         uint8_t type,
-        const BF* brokerFactory,
+        const BF* brokerFactory /*nullable*/,
         uintptr_t zoneKey
     ) :
         ZoneProcessor(type),
@@ -2133,7 +2137,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
-    const BF* mBrokerFactory;
+    const BF* mBrokerFactory; // nullable
     ZIB mZoneInfoBroker;
 
     mutable int16_t mYear = 0; // maybe create LocalDate::kInvalidYear?

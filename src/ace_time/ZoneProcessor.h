@@ -129,10 +129,11 @@ class ZoneProcessor {
      *
      * Normally a ZoneProcessor object is associated with a single TimeZone.
      * However, the ZoneProcessorCache will sometimes "take over" a
-     * ZoneProcessor from another TimeZone using this method. The other
-     * TimeZone will take back control of the ZoneProcessor if needed. To avoid
-     * bouncing the ownership of this object repeatedly, the ZoneProcessorCache
-     * should allocate enough ZoneProcessors to handle the usage pattern.
+     * ZoneProcessor from another TimeZone using this method. The other TimeZone
+     * will take back control of the ZoneProcessor if needed. To avoid bouncing
+     * the ownership of this object repeatedly, the application should configure
+     * the ZoneProcessorCache with enough ZoneProcessors to handle the usage
+     * pattern of the given application.
      *
      * This method should be considered to be private, to be used only by the
      * TimeZone and ZoneProcessorCache classes. I had to make it public because

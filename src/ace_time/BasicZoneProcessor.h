@@ -328,9 +328,11 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void setZoneKey(uintptr_t zoneKey) override {
+      if (! mBrokerFactory) return;
       if (mZoneInfoBroker.equals(zoneKey)) return;
 
       mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
+
       mYearTiny = LocalDate::kInvalidYearTiny;
       mIsFilled = false;
       mNumTransitions = 0;
@@ -356,6 +358,12 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
+    /**
+     * Set the broker factory at runtime. This is an advanced usage where the
+     * custom subclass of ExtendedZoneProcessorTemplate does not know its broker
+     * factory at compile time, so it must be set at runtime through this
+     * method.
+     */
     void setBrokerFactory(const BF* brokerFactory) {
       mBrokerFactory = brokerFactory;
     }
@@ -363,14 +371,16 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
   protected:
 
     /**
-     * Constructor.
+     * Constructor. When first initialized inside a cache, the brokerFactory may
+     * be set to nullptr, and the zoneKey should be ignored.
      *
      * @param brokerFactory pointer to a BrokerFactory that creates a ZIB
-     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*)
+     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
+     *    uint16_t)
      */
     explicit BasicZoneProcessorTemplate(
         uint8_t type,
-        const BF* brokerFactory,
+        const BF* brokerFactory /*nullable*/,
         uintptr_t zoneKey
     ) :
         ZoneProcessor(type),
@@ -996,7 +1006,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       return closestMatch;
     }
 
-    const BF* mBrokerFactory;
+    const BF* mBrokerFactory; // nullable
     ZIB mZoneInfoBroker;
 
     mutable int8_t mYearTiny = LocalDate::kInvalidYearTiny;
