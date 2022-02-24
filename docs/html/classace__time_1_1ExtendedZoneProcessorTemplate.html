@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.11.1</span>
+   &#160;<span id="projectnumber">1.11.2</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -353,15 +353,16 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 </div><div class="memdoc">
 
 <p>Constructor. </p>
+<p>When first initialized inside a cache, the brokerFactory may be set to nullptr, and the zoneKey should be ignored.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">brokerFactory</td><td>pointer to a BrokerFactory that creates a ZIB </td></tr>
-    <tr><td class="paramname">zoneKey</td><td>an opaque Zone primary key (e.g. const ZoneInfo*) </td></tr>
+    <tr><td class="paramname">zoneKey</td><td>an opaque Zone primary key (e.g. const ZoneInfo*, or a uint16_t) </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01255">1255</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01259">1259</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -397,7 +398,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#aa5a25a2082ceed26ff15eb72cd1c5724">ace_time::ZoneProcessor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01148">1148</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01149">1149</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -691,7 +692,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 <p>Initialize using the epochSeconds. </p>
 <p>The epochSeconds is converted to the <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> for UTC time, and the year is used to call <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4fa710573e859ef109a29fd7e3407fa2" title="Initialize the zone rules cache, keyed by the &quot;current&quot; year.">initForYear()</a>. Exposed for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01167">1167</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01168">1168</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -724,7 +725,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 <p>Initialize the zone rules cache, keyed by the "current" year. </p>
 <p>Returns success status: true if successful, false if an error occurred. Exposed for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01177">1177</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01178">1178</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -893,7 +894,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 <p>Set the broker factory at runtime. </p>
 <p>This is an advanced usage where the custom subclass of <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database.">ExtendedZoneProcessorTemplate</a> does not know its broker factory at compile time, so it must be set at runtime through this method. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01158">1158</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l01159">1159</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -924,7 +925,7 @@ template&lt;typename BF , typename ZIB , typename ZEB , typename ZPB , typename 
 </div><div class="memdoc">
 
 <p>Set the opaque zoneKey of this object to a new value, reseting any internally cached information. </p>
-<p>Normally a <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> object is associated with a single <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a>. However, the ZoneProcessorCache will sometimes "take over" a <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> from another <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> using this method. The other <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> will take back control of the <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> if needed. To avoid bouncing the ownership of this object repeatedly, the ZoneProcessorCache should allocate enough ZoneProcessors to handle the usage pattern.</p>
+<p>Normally a <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> object is associated with a single <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a>. However, the ZoneProcessorCache will sometimes "take over" a <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> from another <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> using this method. The other <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> will take back control of the <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> if needed. To avoid bouncing the ownership of this object repeatedly, the application should configure the ZoneProcessorCache with enough ZoneProcessors to handle the usage pattern of the given application.</p>
 <p>This method should be considered to be private, to be used only by the <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> and ZoneProcessorCache classes. I had to make it public because it got too ugly to maintain the <code>friend</code> list in C++. </p>
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneProcessor.html#af069bc08e2135e460c4442fd0be6d3e1">ace_time::ZoneProcessor</a>.</p>
