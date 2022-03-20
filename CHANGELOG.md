@@ -1,6 +1,11 @@
 # Changelog
 
 * Unreleased
+* 1.11.3 (2022-03-20, TZDB 2022a)
+    * Update to TZDB 2022a.
+        * https://mm.icann.org/pipermail/tz-announce/2022-March.txt
+        * "Palestine will spring forward on 2022-03-27, not -03-26."
+    * No changes to code.
 * 1.11.2 (2022-02-24, TZDB 2021e)
     * Fix crash triggered by certain subclasses of `BasicZoneProcessor` and
       `ExtendedZoneProcessor`.
