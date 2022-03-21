@@ -65,7 +65,14 @@ struct TimeZoneData {
   uint8_t type;
 
   union {
-    /** Used for kTypeManual. */
+    /**
+     * Used for kTypeManual.
+     *
+     * NOTE: C11 supports anonymous structs, but C++11 apparently does not, so
+     * this gives a warning when compiled with -Wpedantic. Both g++ and clang++
+     * seem to support it, so leaving this as is for now to avoid the work of
+     * updating dependent code.
+     */
     struct {
       int16_t stdOffsetMinutes;
       int16_t dstOffsetMinutes;

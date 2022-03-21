@@ -584,57 +584,30 @@ available.
   should be a sibling to the `AceTime` repo:
     * `$ cd ../date`
     * `$ git pull`
-* Verify that the `AceTime` library and the Hinnant `date` library agree with
-  each other using the same TZDB version. This requires going into the
-  [AceTimeValidation](https://github.com/bxparks/AceTimeValidation) project.
-    * BasicHinnantDateTest
-        * `$ cd .../AceTimeValidation/BasicHinnantDateTest`
-        * Update the `TZ_VERSION` variable in the `Makefile` with the commit tag
-          of the new TZDB version. (e.g. `TZ_VERSION = 2020c`).
-        * `$ make clean`
-        * `$ make`
-        * `$ ./BasicHinnantDateTest.out | grep failed`
-        * There should be no failures.
-    * ExtendedHinnantDateTest
-        * `$ cd .../AceTimeValidation/ExtendedHinnantDateTest`
-        * Update the `TZ_VERSION` variable in the `Makefile` with the commit tag
-          of the new TZDB version. (e.g. `TZ_VERSION = 2020c`).
-        * `$ make clean`
-        * `$ make`
-        * `$ ./ExtendedHinnantDateTest.out | grep failed`
-        * There should be no failures.
 * Update the zonedb files for AceTimePython (needed by BasicAcetzTest and
   ExtendedAcetzTest):
     * `$ cd AceTimePython/src/acetime/zonedb`
-    * Edit the `Makefile` and update the `TZ_VERSION`.
+    * Update the `TZ_VERSION` variable in `Makefile`.
     * `$ make`
-* Verify that the `AceTime` library and the `AceTimePython` library agree with
-  each other using the same TZDB version. This requires going into the
-  [AceTimeValidation](https://github.com/bxparks/AceTimeValidation) project.
-    * BasicAcetzTest
-        * `$ cd .../AceTimeValidation/BasicAcetzTest`
-        * Update the `TZ_VERSION` variable in the `Makefile` with the commit tag
-          of the new TZDB version. (e.g. `TZ_VERSION = 2020c`).
-        * `$ make clean`
-        * `$ make`
-        * `$ ./BasicAcetzTest.out | grep failed`
-        * There should be no failures.
-    * ExtendedAcetzTest
-        * `$ cd .../AceTimeValidation/ExtendedAcetzTest`
-        * Update the `TZ_VERSION` variable in the `Makefile` with the commit tag
-          of the new TZDB version. (e.g. `TZ_VERSION = 2020c`).
-        * `$ make clean`
-        * `$ make`
-        * `$ ./ExtendedAcetzTest.out | grep failed`
-        * There should be no failures.
+* Verify that `AceTimeValidation` passes (which compares AceTime with
+  AceTimePython and the Hinnant `date` library):
+    * `$ cd ../AceTimeValidation`
+    * Update the `TZ_VERSION` variable in the following files:
+        * `BasicAcetzTest/Makefile`
+        * `ExtendedAcetzTest/Makefile`
+        * `BasicHinnantDateTest/Makefile`
+        * `ExtendedHinnantDateTest/Makefile`
+    * `$ make clean`
+    * `$ make validations`
+    * `$ make runvalidations`
 * Update the various zoneinfo files for AceTime:
     * `zonedb`
-        * `$ cd src/ace_time/zonedb`
-        * Edit the `Makefile` and update the `TZ_VERSION`.
+        * `$ cd AceTime/src/ace_time/zonedb`
+        * Update the `TZ_VERSION` variable in `Makefile`.
         * `$ make`
     * `zonedbx`
-        * `$ cd src/ace_time/zonedbx`
-        * Edit the `Makefile` and update the `TZ_VERSION`.
+        * `$ cd AceTime/src/ace_time/zonedbx`
+        * Update the `TZ_VERSION` variable in `Makefile`.
         * `$ make`
 * Update CHANGELOGs
     * AceTime/CHANGELOG.md
@@ -644,12 +617,26 @@ available.
     * `$ git add ...`
     * `$ git commit -m "..."`
 
-There are 6 other validation tests in the AceTimeValidation project that compare
-AceTime with other third party libraries (Python pytz, Python dateutil, and Java
-date). Unfortunately, they all seem to use the underlying TZDB version provided
-by the Operating System, and I have not been able to figure out how to manually
-update this dependency manually. When a new TZDB is released, all of these other
-tests will fail until the underlying timezone database of the OS is updated.
+There are 12 other validation tests in the AceTimeValidation project that
+compare AceTime with various other third party libraries:
+
+* `BasicDateUtilTest`
+* `BasicGoTest`
+* `BasicJavaTest`
+* `BasicNodaTest`
+* `BasicPytzTest`
+* `BasicZoneInfoTest`
+* `ExtendedDateUtilTest`
+* `ExtendedGoTest`
+* `ExtendedJavaTest`
+* `ExtendedNodaTest`
+* `ExtendedPytzTest`
+* `ExtendedZoneInfoTest`
+
+Unfortunately, they all seem to use the underlying TZDB version provided by the
+Operating System, and I have not been able to figure out how to manually update
+this dependency manually. When a new TZDB is released, all of these tests will
+fail until the underlying timezone database of the OS is updated.
 
 <a name="ReleaseProcess"></a>
 ## Release Process

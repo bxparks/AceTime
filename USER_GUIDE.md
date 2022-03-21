@@ -4,7 +4,7 @@ The primary purpose of AceTime classes is to convert between an integer
 representing the number of seconds since the AceTime Epoch (2000-01-01T00:00:00
 UTC) and the equivalent human-readable components in different timezones.
 
-**Version**: 1.11.2 (2021-02-24, TZDB 2021e)
+**Version**: 1.11.3 (2021-03.20, TZDB 2022a)
 
 **Related Documents**:
 
@@ -2046,7 +2046,7 @@ in the `transformer.py` script and summarized in
 * the UNTIL time suffix can only be 'w' (not 's' or 'u')
 * there can be only one DST transition in a single month
 
-As of version v1.9 (with TZDB 2021e), this database contains 258 Zone entries
+As of version v1.11.3 (with TZDB 2022a), this database contains 258 Zone entries
 and 193 Link entries, supported from the year 2000 to 2049 (inclusive).
 
 <a name="ExtendedZonedbx"></a>
@@ -2063,7 +2063,7 @@ are:
 * the AT and UNTIL fields are multiples of 1-minute
 * the LETTER field can be arbitrary strings
 
-As of version v1.9 (with TZDB 2021e), this database contains all 377 Zone
+As of version v1.11.3 (with TZDB 2022a), this database contains all 377 Zone
 entries and 217 Link entries, supported from the year 2000 to 2049 (inclusive).
 
 <a name="TzDatabaseVersion"></a>
@@ -2666,7 +2666,7 @@ void printZones(uint16_t indexes[], uint16_t size) {
 
 void sortAndPrintZones() {
   // Create the indexes[kZoneAndLinkRegistrySize] on the stack. This has 594
-  // elements as of TZDB 2021e, so this requires a microcontroller which can
+  // elements as of TZDB 2022a, so this requires a microcontroller which can
   // support at least 1188 bytes on the stack.
   uint16_t indexes[zonedbx::kZoneAndLinkRegistrySize];
 
