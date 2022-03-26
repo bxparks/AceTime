@@ -1945,8 +1945,8 @@ A more subtle, but important semantic change, is that the `fold` parameter
 preserves information during gaps and overlaps. This means that we can do
 round-trip conversions of `ZonedDateTime` properly. We can start with
 epochSeconds, convert to components, then back to epochSeconds, and get back the
-same epochSeconds. With the `fold` parameter, this round-trip was not guaranteed
-during an overlap.
+same epochSeconds. Without the `fold` parameter, this round-trip was not
+guaranteed during an overlap.
 
 <a name="ResourceConsumptionWithFold"></a>
 #### Resource Consumption with Fold
