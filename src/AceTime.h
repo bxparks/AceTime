@@ -62,6 +62,7 @@
 #include "ace_time/zoned_date_time_mutation.h"
 #include "ace_time/TimePeriod.h"
 #include "ace_time/time_period_mutation.h"
+#include "ace_time/ace_time_utils.h"
 
 // Version format: xxyyzz == "xx.yy.zz"
 #define ACE_TIME_VERSION 11103
