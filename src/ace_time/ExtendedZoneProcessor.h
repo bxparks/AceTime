@@ -192,10 +192,10 @@ struct MatchingEraTemplate {
   MatchingEraTemplate* prevMatch;
 
   /** The STD offset of the last Transition in this MatchingEra. */
-  uint16_t lastOffsetMinutes;
+  int16_t lastOffsetMinutes;
 
   /** The DST offset of the last Transition in this MatchingEra. */
-  uint16_t lastDeltaMinutes;
+  int16_t lastDeltaMinutes;
 
   void log() const {
     logging::printf("MatchingEra(");
