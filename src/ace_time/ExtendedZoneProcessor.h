@@ -380,8 +380,9 @@ struct TransitionTemplate {
       return nullptr;
     }
 
-    // RULES point to a named rule, and LETTER is a single, printable
-    // character.
+    // RULES point to a named rule, and LETTER is a single, printable character.
+    // Return the letterBuf which contains a NUL-terminated string containing
+    // the single character, as initialized in createTransitionForYear().
     char letter = rule.letter();
     if (letter >= 32) {
       return letterBuf;
@@ -775,8 +776,8 @@ class TransitionStorageTemplate {
       for (uint8_t i = 0; i < mIndexFree; i++) {
         candidate = mTransitions[i];
 
-        DateTuple startDateTime = candidate->startDateTime;
-        DateTuple untilDateTime = candidate->untilDateTime;
+        const DateTuple& startDateTime = candidate->startDateTime;
+        const DateTuple& untilDateTime = candidate->untilDateTime;
         bool isExactMatch = (startDateTime <= localDate)
             && (localDate < untilDateTime);
 
