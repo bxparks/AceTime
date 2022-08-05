@@ -47,6 +47,7 @@ class TransitionStorageTest_getFreeAgent;
 class TransitionStorageTest_getFreeAgent2;
 class TransitionStorageTest_addFreeAgentToActivePool;
 class TransitionStorageTest_reservePrior;
+class TransitionStorageTest_addPriorToCandidatePool;
 class TransitionStorageTest_addFreeAgentToCandidatePool;
 class TransitionStorageTest_setFreeAgentAsPriorIfValid;
 class TransitionStorageTest_addActiveCandidatesToActivePool;
@@ -865,6 +866,7 @@ class TransitionStorageTemplate {
     friend class ::TransitionStorageTest_getFreeAgent2;
     friend class ::TransitionStorageTest_addFreeAgentToActivePool;
     friend class ::TransitionStorageTest_reservePrior;
+    friend class ::TransitionStorageTest_addPriorToCandidatePool;
     friend class ::TransitionStorageTest_addFreeAgentToCandidatePool;
     friend class ::TransitionStorageTest_setFreeAgentAsPriorIfValid;
     friend class ::TransitionStorageTest_addActiveCandidatesToActivePool;
