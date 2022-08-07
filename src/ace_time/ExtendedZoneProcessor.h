@@ -26,7 +26,7 @@
 
 class ExtendedZoneProcessorTest_compareEraToYearMonth;
 class ExtendedZoneProcessorTest_compareEraToYearMonth2;
-class ExtendedZoneProcessorTest_createMatch;
+class ExtendedZoneProcessorTest_createMatchingEra;
 class ExtendedZoneProcessorTest_findMatches_simple;
 class ExtendedZoneProcessorTest_findMatches_named;
 class ExtendedZoneProcessorTest_findCandidateTransitions;
@@ -1273,7 +1273,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
   private:
     friend class ::ExtendedZoneProcessorTest_compareEraToYearMonth;
     friend class ::ExtendedZoneProcessorTest_compareEraToYearMonth2;
-    friend class ::ExtendedZoneProcessorTest_createMatch;
+    friend class ::ExtendedZoneProcessorTest_createMatchingEra;
     friend class ::ExtendedZoneProcessorTest_findMatches_simple;
     friend class ::ExtendedZoneProcessorTest_findMatches_named;
     friend class ::ExtendedZoneProcessorTest_findCandidateTransitions;
@@ -1344,7 +1344,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         const ZEB era = zoneInfo.era(iEra);
         if (eraOverlapsInterval(prevMatch, era, startYm, untilYm)) {
           if (iMatch < maxMatches) {
-            matches[iMatch] = createMatch(prevMatch, era, startYm, untilYm);
+            matches[iMatch] = createMatchingEra(
+                prevMatch, era, startYm, untilYm);
             prevMatch = &matches[iMatch];
             iMatch++;
           }
@@ -1393,7 +1394,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * the ZoneEra using the eraOverlapsInterval() method. The 'prev' ZoneEra is
      * needed to define the startDateTime of the current era.
      */
-    static MatchingEra createMatch(
+    static MatchingEra createMatchingEra(
         MatchingEra* prevMatch,
         const ZEB& era,
         const extended::YearMonthTuple& startYm,

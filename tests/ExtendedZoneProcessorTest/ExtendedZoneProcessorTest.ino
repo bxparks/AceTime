@@ -205,7 +205,7 @@ test(ExtendedZoneProcessorTest, compareEraToYearMonth2) {
       ZoneEraBroker(&era2), 0, 1));
 }
 
-test(ExtendedZoneProcessorTest, createMatch) {
+test(ExtendedZoneProcessorTest, createMatchingEra) {
   // 14-month interval, from 2000-12 until 2002-02
   YearMonthTuple startYm = {0, 12};
   YearMonthTuple untilYm = {2, 2};
@@ -227,7 +227,7 @@ test(ExtendedZoneProcessorTest, createMatch) {
 
   // No previous matching era, so startDateTime is set to startYm.
   ExtendedZoneProcessor::MatchingEra match1 =
-      ExtendedZoneProcessor::createMatch(
+      ExtendedZoneProcessor::createMatchingEra(
           nullptr /*prevMatch*/,
           ZoneEraBroker(&era1) /*era*/,
           startYm,
@@ -241,7 +241,7 @@ test(ExtendedZoneProcessorTest, createMatch) {
   // startDateTime is set to the prevMatch.untilDateTime.
   // untilDateTime is < untilYm, so is retained.
   ExtendedZoneProcessor::MatchingEra match2 =
-      ExtendedZoneProcessor::createMatch(
+      ExtendedZoneProcessor::createMatchingEra(
           &match1,
           ZoneEraBroker(&era2) /*era*/,
           startYm,
@@ -255,7 +255,7 @@ test(ExtendedZoneProcessorTest, createMatch) {
   // startDateTime is set to the prevMatch.untilDateTime.
   // untilDateTime is > untilYm so truncated to untilYm.
   ExtendedZoneProcessor::MatchingEra match3 =
-      ExtendedZoneProcessor::createMatch(
+      ExtendedZoneProcessor::createMatchingEra(
           &match2,
           ZoneEraBroker(&era3) /*era*/,
           startYm,
