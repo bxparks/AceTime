@@ -334,7 +334,7 @@ test(ExtendedZoneProcessorTest, getTransitionTime) {
   assertTrue((dt == DateTuple{19, 11, 3, 15*8, ZoneContext::kSuffixW}));
 }
 
-test(ExtendedZoneProcessorTest, createTransitionForYear) {
+test(ExtendedZoneProcessorTest, createTransitionForYearTiny) {
   const ExtendedZoneProcessor::MatchingEra match = {
     {18, 12, 1, 0, ZoneContext::kSuffixW},
     {20, 2, 1, 0, ZoneContext::kSuffixW},
@@ -346,7 +346,7 @@ test(ExtendedZoneProcessorTest, createTransitionForYear) {
   // Nov Sun>=1
   const auto rule = ZoneRuleBroker(&kZoneRulesTestUS[4]);
   ExtendedZoneProcessor::Transition t;
-  ExtendedZoneProcessor::createTransitionForYear(&t, 19, rule, &match);
+  ExtendedZoneProcessor::createTransitionForYearTiny(&t, 19, rule, &match);
   assertTrue((t.transitionTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::kSuffixW}));
 }
@@ -880,21 +880,21 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
   // Create 3 Transitions corresponding to the matches.
   // Implements ExtendedZoneProcessor::createTransitionsFromSimpleMatch().
   ExtendedZoneProcessor::Transition* transition1 = storage.getFreeAgent();
-  ExtendedZoneProcessor::createTransitionForYear(
+  ExtendedZoneProcessor::createTransitionForYearTiny(
       transition1, 0 /*year, not used*/, ZoneRuleBroker(nullptr) /*rule*/,
       &matches[0]);
   transition1->matchStatus = MatchStatus::kExactMatch; // synthetic example
   storage.addFreeAgentToCandidatePool();
 
   ExtendedZoneProcessor::Transition* transition2 = storage.getFreeAgent();
-  ExtendedZoneProcessor::createTransitionForYear(
+  ExtendedZoneProcessor::createTransitionForYearTiny(
       transition2, 0 /*year, not used*/, ZoneRuleBroker(nullptr) /*rule*/,
       &matches[1]);
   transition2->matchStatus = MatchStatus::kWithinMatch; // synthetic example
   storage.addFreeAgentToCandidatePool();
 
   ExtendedZoneProcessor::Transition* transition3 = storage.getFreeAgent();
-  ExtendedZoneProcessor::createTransitionForYear(
+  ExtendedZoneProcessor::createTransitionForYearTiny(
       transition3, 0 /*year, not used*/, ZoneRuleBroker(nullptr) /*rule*/,
       &matches[2]);
   transition3->matchStatus = MatchStatus::kWithinMatch; // synthetic example

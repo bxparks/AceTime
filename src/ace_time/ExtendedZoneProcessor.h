@@ -32,7 +32,7 @@ class ExtendedZoneProcessorTest_findMatches_named;
 class ExtendedZoneProcessorTest_findCandidateTransitions;
 class ExtendedZoneProcessorTest_createTransitionsFromNamedMatch;
 class ExtendedZoneProcessorTest_getTransitionTime;
-class ExtendedZoneProcessorTest_createTransitionForYear;
+class ExtendedZoneProcessorTest_createTransitionForYearTiny;
 class ExtendedZoneProcessorTest_normalizeDateTuple;
 class ExtendedZoneProcessorTest_expandDateTuple;
 class ExtendedZoneProcessorTest_calcInteriorYears;
@@ -383,7 +383,7 @@ struct TransitionTemplate {
 
     // RULES point to a named rule, and LETTER is a single, printable character.
     // Return the letterBuf which contains a NUL-terminated string containing
-    // the single character, as initialized in createTransitionForYear().
+    // the single character, as initialized in createTransitionForYearTiny().
     char letter = rule.letter();
     if (letter >= 32) {
       return letterBuf;
@@ -396,7 +396,7 @@ struct TransitionTemplate {
     uint8_t numLetters = policy.numLetters();
     if (letter >= numLetters) {
       // This should never happen unless there is a programming error. If it
-      // does, return an empty string. (createTransitionForYear() sets
+      // does, return an empty string. (createTransitionForYearTiny() sets
       // letterBuf to a NUL terminated empty string if rule->letter < 32)
       return letterBuf;
     }
@@ -1279,7 +1279,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_findCandidateTransitions;
     friend class ::ExtendedZoneProcessorTest_createTransitionsFromNamedMatch;
     friend class ::ExtendedZoneProcessorTest_getTransitionTime;
-    friend class ::ExtendedZoneProcessorTest_createTransitionForYear;
+    friend class ::ExtendedZoneProcessorTest_createTransitionForYearTiny;
     friend class ::ExtendedZoneProcessorTest_normalizeDateTuple;
     friend class ::ExtendedZoneProcessorTest_expandDateTuple;
     friend class ::ExtendedZoneProcessorTest_calcInteriorYears;
@@ -1490,7 +1490,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
 
       Transition* freeTransition = transitionStorage.getFreeAgent();
-      createTransitionForYear(freeTransition, 0 /*not used*/,
+      createTransitionForYearTiny(freeTransition, 0 /*not used*/,
           ZRB() /*rule*/, match);
       freeTransition->matchStatus = extended::MatchStatus::kExactMatch;
       match->lastOffsetMinutes = freeTransition->offsetMinutes;
@@ -1582,9 +1582,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         uint8_t numYears = calcInteriorYears(interiorYears, kMaxInteriorYears,
             rule.fromYearTiny(), rule.toYearTiny(), startY, endY);
         for (uint8_t y = 0; y < numYears; y++) {
-          int8_t year = interiorYears[y];
+          int8_t yearTiny = interiorYears[y];
           Transition* t = transitionStorage.getFreeAgent();
-          createTransitionForYear(t, year, rule, match);
+          createTransitionForYearTiny(t, yearTiny, rule, match);
           MatchStatus status = compareTransitionToMatchFuzzy(t, match);
           if (status == MatchStatus::kPrior) {
             transitionStorage.setFreeAgentAsPriorIfValid();
@@ -1597,16 +1597,16 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         }
 
         // Add Transition for prior year
-        int8_t priorYear = getMostRecentPriorYear(
+        int8_t priorYearTiny = getMostRecentPriorYear(
             rule.fromYearTiny(), rule.toYearTiny(), startY, endY);
-        if (priorYear != LocalDate::kInvalidYearTiny) {
+        if (priorYearTiny != LocalDate::kInvalidYearTiny) {
           if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
             logging::printf(
               "findCandidateTransitions(): priorYear: %d\n",
-              priorYear + LocalDate::kEpochYear);
+              priorYearTiny + LocalDate::kEpochYear);
           }
           Transition* t = transitionStorage.getFreeAgent();
-          createTransitionForYear(t, priorYear, rule, match);
+          createTransitionForYearTiny(t, priorYearTiny, rule, match);
           transitionStorage.setFreeAgentAsPriorIfValid();
         }
       }
@@ -1665,9 +1665,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * 'deltaMinutes' as well. 'letterBuf' is also well-defined, either an empty
      * string, or filled with rule->letter with a NUL terminator.
      */
-    static void createTransitionForYear(
+    static void createTransitionForYearTiny(
         Transition* t,
-        int8_t year,
+        int8_t yearTiny,
         const ZRB& rule,
         const MatchingEra* match) {
       t->match = match;
@@ -1676,7 +1676,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       t->letterBuf[0] = '\0';
 
       if (! rule.isNull()) {
-        t->transitionTime = getTransitionTime(year, rule);
+        t->transitionTime = getTransitionTime(yearTiny, rule);
         t->deltaMinutes = rule.deltaMinutes();
 
         char letter = rule.letter();
