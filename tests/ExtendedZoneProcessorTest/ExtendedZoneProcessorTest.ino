@@ -941,8 +941,6 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
 
   // Verify. The first transition startTime should be the same as its
   // transitionTime.
-  //assertTrue((transition1->transitionTime == DateTuple{18, 12, 1, 0,
-  //    ZoneContext::kSuffixW}));
   assertTrue((transition1->startDateTime == DateTuple{18, 12, 1, 0,
       ZoneContext::kSuffixW}));
   assertTrue((transition1->untilDateTime == DateTuple{19, 3, 10, 15*8,
@@ -952,8 +950,6 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
   assertEqual(epochSecs, transition1->startEpochSeconds);
 
   // Second transition startTime is shifted forward one hour into PDT.
-  //assertTrue((transition2->transitionTime == DateTuple{19, 3, 10, 15*8,
-  //    ZoneContext::kSuffixW}));
   assertTrue((transition2->startDateTime == DateTuple{19, 3, 10, 15*12,
       ZoneContext::kSuffixW}));
   assertTrue((transition2->untilDateTime == DateTuple{19, 11, 3, 15*8,
@@ -963,8 +959,6 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
   assertEqual(epochSecs, transition2->startEpochSeconds);
 
   // Third transition startTime is shifted back one hour into PST.
-  assertTrue((transition3->transitionTime == DateTuple{19, 11, 3, 15*8,
-      ZoneContext::kSuffixW}));
   assertTrue((transition3->startDateTime == DateTuple{19, 11, 3, 15*4,
       ZoneContext::kSuffixW}));
   assertTrue((transition3->untilDateTime == DateTuple{20, 2, 1, 0,
