@@ -1451,7 +1451,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     /**
      * Create the Transition objects which are defined by the list of matches
-     * and store them in the transitionStorage container.
+     * and store them in the transitionStorage container. Step 2.
      */
     static void createTransitions(
         TransitionStorage& transitionStorage,
@@ -1466,7 +1466,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
-    /** Create the Transitions defined by the given match. */
+    /** Create the Transitions defined by the given match. Step 2. */
     static void createTransitionsForMatch(
         TransitionStorage& transitionStorage,
         MatchingEra* match) {
@@ -1481,6 +1481,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
+    // Step 2A
     static void createTransitionsFromSimpleMatch(
         TransitionStorage& transitionStorage,
         MatchingEra* match) {
@@ -1501,6 +1502,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
+    // Step 2B
     static void createTransitionsFromNamedMatch(
         TransitionStorage& transitionStorage,
         MatchingEra* match) {
@@ -1551,6 +1553,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
+    // Step 2B: Pass 1
     static void findCandidateTransitions(
         TransitionStorage& transitionStorage,
         const MatchingEra* match) {
@@ -1780,7 +1783,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * given in 's' or 'u' mode, we convert these into the 'w' mode for
      * consistency. To convert an 's' or 'u' into 'w', we need the UTC offset
      * of the current Transition, which happens to be given by the *previous*
-     * Transition.
+     * Transition. Step 2B: Pass 2.
      */
     static void fixTransitionTimes(Transition** begin, Transition** end) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
@@ -1867,7 +1870,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     /**
      * Scan through the Candidate transitions, and mark the ones which are
-     * active.
+     * active. Step 2B: Pass 3.
      */
     static void selectActiveTransitions(Transition** begin, Transition** end) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
