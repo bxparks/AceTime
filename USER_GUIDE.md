@@ -1869,6 +1869,11 @@ epochSeconds which can correspond to the given LocalDateTime. The `fold`
 parameter is an *input* parameter to the `forComponents()` in both cases.
 The impact of the `fold` parameter is as follows:
 
+**Normal**: Not a gap or overlap. The `forComponents()` method ignores the
+`fold` parameter if there is no ambiguity about the local date-time components.
+The returned `ZonedDateTime` object will contain a `fold()` value that preserves
+the input `fold` parameter.
+
 **Overlap**: If `ZonedDateTime::forComponents()` is called with during an
 overlap of `LocalDateTime` (e.g. 2:30am during a fall back from 2am to 3am), the
 factory method uses the user-provided `fold` parameter to select the following:
@@ -1896,7 +1901,8 @@ the following, and perhaps counter-intuitive, manner:
     * Which becomes normalized to the *later* ZonedDateTime which has the
       *later* UTC offset.
     * So 02:30 is interpreted as 02:30-08:00, which is normalized to
-      03:30-07:00, and the `fold` after normalization is set to 0.
+      03:30-07:00, and the `fold` after normalization is set to 1 to indicate
+      that the later transition was selected.
 * `fold==1`
     * Selects the *later* Transition element, extended backward to apply to the
       given LocalDateTime,
@@ -1904,11 +1910,16 @@ the following, and perhaps counter-intuitive, manner:
     * Which becomes normalized to the *earlier* ZonedDateTime which has the
       *earlier* UTC offset.
     * So 02:30 is interpreted as 02:30-07:00, which is normalized to
-      01:30-08:00, and the `fold` after normalization is set to 0.
+      01:30-08:00, and the `fold` after normalization is set to 0 to indicate
+      that the earlier transition was selected.
 
 The time shift during a gap seems to be the *opposite* of the shift during an
 overlap, but internally this is self-consistent. Just as importantly, this
 follows the same logic as PEP 495.
+
+Note that the `fold` parameter flips its value (from 0 to 1, or vise versea) if
+`forComponents()` is called in the gap. Currently, this is the only publicly
+exposed mechanism for detecting that a given date-time is in the gap.
 
 <a name="SemanticChangesWithFold"></a>
 #### Semantic Changes with Fold
