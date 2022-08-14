@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022a
+//     --tz_version 2022b
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022a
+// from https://github.com/eggert/tz/releases/tag/2022b
 //
 // DO NOT EDIT
 
@@ -45,7 +45,7 @@ extern const char kTzDatabaseVersion[];
 extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 258
+// Supported zones: 237
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
@@ -133,14 +133,12 @@ extern const basic::ZoneInfo kZoneAmerica_Winnipeg; // America/Winnipeg
 extern const basic::ZoneInfo kZoneAmerica_Yakutat; // America/Yakutat
 extern const basic::ZoneInfo kZoneAmerica_Yellowknife; // America/Yellowknife
 extern const basic::ZoneInfo kZoneAntarctica_Rothera; // Antarctica/Rothera
-extern const basic::ZoneInfo kZoneAntarctica_Vostok; // Antarctica/Vostok
 extern const basic::ZoneInfo kZoneAsia_Amman; // Asia/Amman
 extern const basic::ZoneInfo kZoneAsia_Ashgabat; // Asia/Ashgabat
 extern const basic::ZoneInfo kZoneAsia_Baghdad; // Asia/Baghdad
 extern const basic::ZoneInfo kZoneAsia_Baku; // Asia/Baku
 extern const basic::ZoneInfo kZoneAsia_Bangkok; // Asia/Bangkok
 extern const basic::ZoneInfo kZoneAsia_Beirut; // Asia/Beirut
-extern const basic::ZoneInfo kZoneAsia_Brunei; // Asia/Brunei
 extern const basic::ZoneInfo kZoneAsia_Damascus; // Asia/Damascus
 extern const basic::ZoneInfo kZoneAsia_Dhaka; // Asia/Dhaka
 extern const basic::ZoneInfo kZoneAsia_Dubai; // Asia/Dubai
@@ -155,7 +153,6 @@ extern const basic::ZoneInfo kZoneAsia_Kabul; // Asia/Kabul
 extern const basic::ZoneInfo kZoneAsia_Karachi; // Asia/Karachi
 extern const basic::ZoneInfo kZoneAsia_Kathmandu; // Asia/Kathmandu
 extern const basic::ZoneInfo kZoneAsia_Kolkata; // Asia/Kolkata
-extern const basic::ZoneInfo kZoneAsia_Kuala_Lumpur; // Asia/Kuala_Lumpur
 extern const basic::ZoneInfo kZoneAsia_Kuching; // Asia/Kuching
 extern const basic::ZoneInfo kZoneAsia_Macau; // Asia/Macau
 extern const basic::ZoneInfo kZoneAsia_Makassar; // Asia/Makassar
@@ -183,7 +180,6 @@ extern const basic::ZoneInfo kZoneAtlantic_Canary; // Atlantic/Canary
 extern const basic::ZoneInfo kZoneAtlantic_Cape_Verde; // Atlantic/Cape_Verde
 extern const basic::ZoneInfo kZoneAtlantic_Faroe; // Atlantic/Faroe
 extern const basic::ZoneInfo kZoneAtlantic_Madeira; // Atlantic/Madeira
-extern const basic::ZoneInfo kZoneAtlantic_Reykjavik; // Atlantic/Reykjavik
 extern const basic::ZoneInfo kZoneAtlantic_South_Georgia; // Atlantic/South_Georgia
 extern const basic::ZoneInfo kZoneAustralia_Adelaide; // Australia/Adelaide
 extern const basic::ZoneInfo kZoneAustralia_Brisbane; // Australia/Brisbane
@@ -229,7 +225,6 @@ extern const basic::ZoneInfo kZoneEtc_GMT_7; // Etc/GMT-7
 extern const basic::ZoneInfo kZoneEtc_GMT_8; // Etc/GMT-8
 extern const basic::ZoneInfo kZoneEtc_GMT_9; // Etc/GMT-9
 extern const basic::ZoneInfo kZoneEtc_UTC; // Etc/UTC
-extern const basic::ZoneInfo kZoneEurope_Amsterdam; // Europe/Amsterdam
 extern const basic::ZoneInfo kZoneEurope_Andorra; // Europe/Andorra
 extern const basic::ZoneInfo kZoneEurope_Athens; // Europe/Athens
 extern const basic::ZoneInfo kZoneEurope_Belgrade; // Europe/Belgrade
@@ -238,23 +233,18 @@ extern const basic::ZoneInfo kZoneEurope_Brussels; // Europe/Brussels
 extern const basic::ZoneInfo kZoneEurope_Bucharest; // Europe/Bucharest
 extern const basic::ZoneInfo kZoneEurope_Budapest; // Europe/Budapest
 extern const basic::ZoneInfo kZoneEurope_Chisinau; // Europe/Chisinau
-extern const basic::ZoneInfo kZoneEurope_Copenhagen; // Europe/Copenhagen
 extern const basic::ZoneInfo kZoneEurope_Dublin; // Europe/Dublin
 extern const basic::ZoneInfo kZoneEurope_Gibraltar; // Europe/Gibraltar
 extern const basic::ZoneInfo kZoneEurope_Helsinki; // Europe/Helsinki
-extern const basic::ZoneInfo kZoneEurope_Kiev; // Europe/Kiev
+extern const basic::ZoneInfo kZoneEurope_Kyiv; // Europe/Kyiv
 extern const basic::ZoneInfo kZoneEurope_Lisbon; // Europe/Lisbon
 extern const basic::ZoneInfo kZoneEurope_London; // Europe/London
-extern const basic::ZoneInfo kZoneEurope_Luxembourg; // Europe/Luxembourg
 extern const basic::ZoneInfo kZoneEurope_Madrid; // Europe/Madrid
 extern const basic::ZoneInfo kZoneEurope_Malta; // Europe/Malta
-extern const basic::ZoneInfo kZoneEurope_Monaco; // Europe/Monaco
-extern const basic::ZoneInfo kZoneEurope_Oslo; // Europe/Oslo
 extern const basic::ZoneInfo kZoneEurope_Paris; // Europe/Paris
 extern const basic::ZoneInfo kZoneEurope_Prague; // Europe/Prague
 extern const basic::ZoneInfo kZoneEurope_Rome; // Europe/Rome
 extern const basic::ZoneInfo kZoneEurope_Sofia; // Europe/Sofia
-extern const basic::ZoneInfo kZoneEurope_Stockholm; // Europe/Stockholm
 extern const basic::ZoneInfo kZoneEurope_Tirane; // Europe/Tirane
 extern const basic::ZoneInfo kZoneEurope_Uzhgorod; // Europe/Uzhgorod
 extern const basic::ZoneInfo kZoneEurope_Vienna; // Europe/Vienna
@@ -263,24 +253,17 @@ extern const basic::ZoneInfo kZoneEurope_Zaporozhye; // Europe/Zaporozhye
 extern const basic::ZoneInfo kZoneEurope_Zurich; // Europe/Zurich
 extern const basic::ZoneInfo kZoneHST; // HST
 extern const basic::ZoneInfo kZoneIndian_Chagos; // Indian/Chagos
-extern const basic::ZoneInfo kZoneIndian_Christmas; // Indian/Christmas
-extern const basic::ZoneInfo kZoneIndian_Cocos; // Indian/Cocos
-extern const basic::ZoneInfo kZoneIndian_Kerguelen; // Indian/Kerguelen
-extern const basic::ZoneInfo kZoneIndian_Mahe; // Indian/Mahe
 extern const basic::ZoneInfo kZoneIndian_Maldives; // Indian/Maldives
 extern const basic::ZoneInfo kZoneIndian_Mauritius; // Indian/Mauritius
-extern const basic::ZoneInfo kZoneIndian_Reunion; // Indian/Reunion
 extern const basic::ZoneInfo kZoneMET; // MET
 extern const basic::ZoneInfo kZoneMST; // MST
 extern const basic::ZoneInfo kZoneMST7MDT; // MST7MDT
 extern const basic::ZoneInfo kZonePST8PDT; // PST8PDT
 extern const basic::ZoneInfo kZonePacific_Auckland; // Pacific/Auckland
 extern const basic::ZoneInfo kZonePacific_Chatham; // Pacific/Chatham
-extern const basic::ZoneInfo kZonePacific_Chuuk; // Pacific/Chuuk
 extern const basic::ZoneInfo kZonePacific_Easter; // Pacific/Easter
 extern const basic::ZoneInfo kZonePacific_Efate; // Pacific/Efate
 extern const basic::ZoneInfo kZonePacific_Fiji; // Pacific/Fiji
-extern const basic::ZoneInfo kZonePacific_Funafuti; // Pacific/Funafuti
 extern const basic::ZoneInfo kZonePacific_Galapagos; // Pacific/Galapagos
 extern const basic::ZoneInfo kZonePacific_Gambier; // Pacific/Gambier
 extern const basic::ZoneInfo kZonePacific_Guadalcanal; // Pacific/Guadalcanal
@@ -289,7 +272,6 @@ extern const basic::ZoneInfo kZonePacific_Kanton; // Pacific/Kanton
 extern const basic::ZoneInfo kZonePacific_Kiritimati; // Pacific/Kiritimati
 extern const basic::ZoneInfo kZonePacific_Kosrae; // Pacific/Kosrae
 extern const basic::ZoneInfo kZonePacific_Kwajalein; // Pacific/Kwajalein
-extern const basic::ZoneInfo kZonePacific_Majuro; // Pacific/Majuro
 extern const basic::ZoneInfo kZonePacific_Marquesas; // Pacific/Marquesas
 extern const basic::ZoneInfo kZonePacific_Nauru; // Pacific/Nauru
 extern const basic::ZoneInfo kZonePacific_Niue; // Pacific/Niue
@@ -297,14 +279,11 @@ extern const basic::ZoneInfo kZonePacific_Noumea; // Pacific/Noumea
 extern const basic::ZoneInfo kZonePacific_Pago_Pago; // Pacific/Pago_Pago
 extern const basic::ZoneInfo kZonePacific_Palau; // Pacific/Palau
 extern const basic::ZoneInfo kZonePacific_Pitcairn; // Pacific/Pitcairn
-extern const basic::ZoneInfo kZonePacific_Pohnpei; // Pacific/Pohnpei
 extern const basic::ZoneInfo kZonePacific_Port_Moresby; // Pacific/Port_Moresby
 extern const basic::ZoneInfo kZonePacific_Rarotonga; // Pacific/Rarotonga
 extern const basic::ZoneInfo kZonePacific_Tahiti; // Pacific/Tahiti
 extern const basic::ZoneInfo kZonePacific_Tarawa; // Pacific/Tarawa
 extern const basic::ZoneInfo kZonePacific_Tongatapu; // Pacific/Tongatapu
-extern const basic::ZoneInfo kZonePacific_Wake; // Pacific/Wake
-extern const basic::ZoneInfo kZonePacific_Wallis; // Pacific/Wallis
 extern const basic::ZoneInfo kZoneWET; // WET
 
 
@@ -395,14 +374,12 @@ const uint32_t kZoneIdAmerica_Winnipeg = 0x8c7dafc7; // America/Winnipeg
 const uint32_t kZoneIdAmerica_Yakutat = 0xd8ee31e9; // America/Yakutat
 const uint32_t kZoneIdAmerica_Yellowknife = 0x0f76c76f; // America/Yellowknife
 const uint32_t kZoneIdAntarctica_Rothera = 0x0e86d203; // Antarctica/Rothera
-const uint32_t kZoneIdAntarctica_Vostok = 0x4f966fd4; // Antarctica/Vostok
 const uint32_t kZoneIdAsia_Amman = 0x148d21bc; // Asia/Amman
 const uint32_t kZoneIdAsia_Ashgabat = 0xba87598d; // Asia/Ashgabat
 const uint32_t kZoneIdAsia_Baghdad = 0x9ceffbed; // Asia/Baghdad
 const uint32_t kZoneIdAsia_Baku = 0x1fa788b5; // Asia/Baku
 const uint32_t kZoneIdAsia_Bangkok = 0x9d6e3aaf; // Asia/Bangkok
 const uint32_t kZoneIdAsia_Beirut = 0xa7f3d5fd; // Asia/Beirut
-const uint32_t kZoneIdAsia_Brunei = 0xa8e595f7; // Asia/Brunei
 const uint32_t kZoneIdAsia_Damascus = 0x20fbb063; // Asia/Damascus
 const uint32_t kZoneIdAsia_Dhaka = 0x14c07b8b; // Asia/Dhaka
 const uint32_t kZoneIdAsia_Dubai = 0x14c79f77; // Asia/Dubai
@@ -417,7 +394,6 @@ const uint32_t kZoneIdAsia_Kabul = 0x153b5601; // Asia/Kabul
 const uint32_t kZoneIdAsia_Karachi = 0x527f5245; // Asia/Karachi
 const uint32_t kZoneIdAsia_Kathmandu = 0x9a96ce6f; // Asia/Kathmandu
 const uint32_t kZoneIdAsia_Kolkata = 0x72c06cd9; // Asia/Kolkata
-const uint32_t kZoneIdAsia_Kuala_Lumpur = 0x014763c4; // Asia/Kuala_Lumpur
 const uint32_t kZoneIdAsia_Kuching = 0x801b003b; // Asia/Kuching
 const uint32_t kZoneIdAsia_Macau = 0x155f88b9; // Asia/Macau
 const uint32_t kZoneIdAsia_Makassar = 0x6aa21c85; // Asia/Makassar
@@ -445,7 +421,6 @@ const uint32_t kZoneIdAtlantic_Canary = 0xfc23f2c2; // Atlantic/Canary
 const uint32_t kZoneIdAtlantic_Cape_Verde = 0x5c5e1772; // Atlantic/Cape_Verde
 const uint32_t kZoneIdAtlantic_Faroe = 0xe110a971; // Atlantic/Faroe
 const uint32_t kZoneIdAtlantic_Madeira = 0x81b5c037; // Atlantic/Madeira
-const uint32_t kZoneIdAtlantic_Reykjavik = 0x1c2b4f74; // Atlantic/Reykjavik
 const uint32_t kZoneIdAtlantic_South_Georgia = 0x33013174; // Atlantic/South_Georgia
 const uint32_t kZoneIdAustralia_Adelaide = 0x2428e8a3; // Australia/Adelaide
 const uint32_t kZoneIdAustralia_Brisbane = 0x4fedc9c0; // Australia/Brisbane
@@ -491,7 +466,6 @@ const uint32_t kZoneIdEtc_GMT_7 = 0x9d13da5c; // Etc/GMT-7
 const uint32_t kZoneIdEtc_GMT_8 = 0x9d13da5d; // Etc/GMT-8
 const uint32_t kZoneIdEtc_GMT_9 = 0x9d13da5e; // Etc/GMT-9
 const uint32_t kZoneIdEtc_UTC = 0xd8e31abc; // Etc/UTC
-const uint32_t kZoneIdEurope_Amsterdam = 0x109395c2; // Europe/Amsterdam
 const uint32_t kZoneIdEurope_Andorra = 0x97f6764b; // Europe/Andorra
 const uint32_t kZoneIdEurope_Athens = 0x4318fa27; // Europe/Athens
 const uint32_t kZoneIdEurope_Belgrade = 0xe0532b3a; // Europe/Belgrade
@@ -500,23 +474,18 @@ const uint32_t kZoneIdEurope_Brussels = 0xdee07337; // Europe/Brussels
 const uint32_t kZoneIdEurope_Bucharest = 0xfb349ec5; // Europe/Bucharest
 const uint32_t kZoneIdEurope_Budapest = 0x9ce0197c; // Europe/Budapest
 const uint32_t kZoneIdEurope_Chisinau = 0xad58aa18; // Europe/Chisinau
-const uint32_t kZoneIdEurope_Copenhagen = 0xe0ed30bc; // Europe/Copenhagen
 const uint32_t kZoneIdEurope_Dublin = 0x4a275f62; // Europe/Dublin
 const uint32_t kZoneIdEurope_Gibraltar = 0xf8e325fc; // Europe/Gibraltar
 const uint32_t kZoneIdEurope_Helsinki = 0x6ab2975b; // Europe/Helsinki
-const uint32_t kZoneIdEurope_Kiev = 0xa2c19eb3; // Europe/Kiev
+const uint32_t kZoneIdEurope_Kyiv = 0xa2c1e347; // Europe/Kyiv
 const uint32_t kZoneIdEurope_Lisbon = 0x5c00a70b; // Europe/Lisbon
 const uint32_t kZoneIdEurope_London = 0x5c6a84ae; // Europe/London
-const uint32_t kZoneIdEurope_Luxembourg = 0x1f8bc6ce; // Europe/Luxembourg
 const uint32_t kZoneIdEurope_Madrid = 0x5dbd1535; // Europe/Madrid
 const uint32_t kZoneIdEurope_Malta = 0xfb1560f3; // Europe/Malta
-const uint32_t kZoneIdEurope_Monaco = 0x5ebf9f01; // Europe/Monaco
-const uint32_t kZoneIdEurope_Oslo = 0xa2c3fba1; // Europe/Oslo
 const uint32_t kZoneIdEurope_Paris = 0xfb4bc2a3; // Europe/Paris
 const uint32_t kZoneIdEurope_Prague = 0x65ee5d48; // Europe/Prague
 const uint32_t kZoneIdEurope_Rome = 0xa2c58fd7; // Europe/Rome
 const uint32_t kZoneIdEurope_Sofia = 0xfb898656; // Europe/Sofia
-const uint32_t kZoneIdEurope_Stockholm = 0x5bf6fbb8; // Europe/Stockholm
 const uint32_t kZoneIdEurope_Tirane = 0x6ea95b47; // Europe/Tirane
 const uint32_t kZoneIdEurope_Uzhgorod = 0xb066f5d6; // Europe/Uzhgorod
 const uint32_t kZoneIdEurope_Vienna = 0x734cc2e5; // Europe/Vienna
@@ -525,24 +494,17 @@ const uint32_t kZoneIdEurope_Zaporozhye = 0xeab9767f; // Europe/Zaporozhye
 const uint32_t kZoneIdEurope_Zurich = 0x7d8195b9; // Europe/Zurich
 const uint32_t kZoneIdHST = 0x0b87f034; // HST
 const uint32_t kZoneIdIndian_Chagos = 0x456f7c3c; // Indian/Chagos
-const uint32_t kZoneIdIndian_Christmas = 0x68c207d5; // Indian/Christmas
-const uint32_t kZoneIdIndian_Cocos = 0x021e86de; // Indian/Cocos
-const uint32_t kZoneIdIndian_Kerguelen = 0x4351b389; // Indian/Kerguelen
-const uint32_t kZoneIdIndian_Mahe = 0x45e725e2; // Indian/Mahe
 const uint32_t kZoneIdIndian_Maldives = 0x9869681c; // Indian/Maldives
 const uint32_t kZoneIdIndian_Mauritius = 0x7b09c02a; // Indian/Mauritius
-const uint32_t kZoneIdIndian_Reunion = 0x7076c047; // Indian/Reunion
 const uint32_t kZoneIdMET = 0x0b8803ab; // MET
 const uint32_t kZoneIdMST = 0x0b880579; // MST
 const uint32_t kZoneIdMST7MDT = 0xf2af9375; // MST7MDT
 const uint32_t kZoneIdPST8PDT = 0xd99ee2dc; // PST8PDT
 const uint32_t kZoneIdPacific_Auckland = 0x25062f86; // Pacific/Auckland
 const uint32_t kZoneIdPacific_Chatham = 0x2f0de999; // Pacific/Chatham
-const uint32_t kZoneIdPacific_Chuuk = 0x8a090b23; // Pacific/Chuuk
 const uint32_t kZoneIdPacific_Easter = 0xcf54f7e7; // Pacific/Easter
 const uint32_t kZoneIdPacific_Efate = 0x8a2bce28; // Pacific/Efate
 const uint32_t kZoneIdPacific_Fiji = 0x23383ba5; // Pacific/Fiji
-const uint32_t kZoneIdPacific_Funafuti = 0xdb402d65; // Pacific/Funafuti
 const uint32_t kZoneIdPacific_Galapagos = 0xa952f752; // Pacific/Galapagos
 const uint32_t kZoneIdPacific_Gambier = 0x53720c3a; // Pacific/Gambier
 const uint32_t kZoneIdPacific_Guadalcanal = 0xf4dd25f0; // Pacific/Guadalcanal
@@ -551,7 +513,6 @@ const uint32_t kZoneIdPacific_Kanton = 0xdd512f0e; // Pacific/Kanton
 const uint32_t kZoneIdPacific_Kiritimati = 0x8305073a; // Pacific/Kiritimati
 const uint32_t kZoneIdPacific_Kosrae = 0xde5139a8; // Pacific/Kosrae
 const uint32_t kZoneIdPacific_Kwajalein = 0x8e216759; // Pacific/Kwajalein
-const uint32_t kZoneIdPacific_Majuro = 0xe1f95371; // Pacific/Majuro
 const uint32_t kZoneIdPacific_Marquesas = 0x57ca7135; // Pacific/Marquesas
 const uint32_t kZoneIdPacific_Nauru = 0x8acc41ae; // Pacific/Nauru
 const uint32_t kZoneIdPacific_Niue = 0x233ca014; // Pacific/Niue
@@ -559,19 +520,16 @@ const uint32_t kZoneIdPacific_Noumea = 0xe551b788; // Pacific/Noumea
 const uint32_t kZoneIdPacific_Pago_Pago = 0x603aebd0; // Pacific/Pago_Pago
 const uint32_t kZoneIdPacific_Palau = 0x8af04a36; // Pacific/Palau
 const uint32_t kZoneIdPacific_Pitcairn = 0x8837d8bd; // Pacific/Pitcairn
-const uint32_t kZoneIdPacific_Pohnpei = 0x28929f96; // Pacific/Pohnpei
 const uint32_t kZoneIdPacific_Port_Moresby = 0xa7ba7f68; // Pacific/Port_Moresby
 const uint32_t kZoneIdPacific_Rarotonga = 0x9981a3b0; // Pacific/Rarotonga
 const uint32_t kZoneIdPacific_Tahiti = 0xf24c2446; // Pacific/Tahiti
 const uint32_t kZoneIdPacific_Tarawa = 0xf2517e63; // Pacific/Tarawa
 const uint32_t kZoneIdPacific_Tongatapu = 0x262ca836; // Pacific/Tongatapu
-const uint32_t kZoneIdPacific_Wake = 0x23416c2b; // Pacific/Wake
-const uint32_t kZoneIdPacific_Wallis = 0xf94ddb0f; // Pacific/Wallis
 const uint32_t kZoneIdWET = 0x0b882e35; // WET
 
 
 //---------------------------------------------------------------------------
-// Supported links: 193
+// Supported links: 215
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Accra; // Africa/Accra -> Africa/Abidjan
@@ -645,10 +603,12 @@ extern const basic::ZoneInfo kZoneAntarctica_DumontDUrville; // Antarctica/Dumon
 extern const basic::ZoneInfo kZoneAntarctica_McMurdo; // Antarctica/McMurdo -> Pacific/Auckland
 extern const basic::ZoneInfo kZoneAntarctica_South_Pole; // Antarctica/South_Pole -> Pacific/Auckland
 extern const basic::ZoneInfo kZoneAntarctica_Syowa; // Antarctica/Syowa -> Asia/Riyadh
-extern const basic::ZoneInfo kZoneArctic_Longyearbyen; // Arctic/Longyearbyen -> Europe/Oslo
+extern const basic::ZoneInfo kZoneAntarctica_Vostok; // Antarctica/Vostok -> Asia/Urumqi
+extern const basic::ZoneInfo kZoneArctic_Longyearbyen; // Arctic/Longyearbyen -> Europe/Berlin
 extern const basic::ZoneInfo kZoneAsia_Aden; // Asia/Aden -> Asia/Riyadh
 extern const basic::ZoneInfo kZoneAsia_Ashkhabad; // Asia/Ashkhabad -> Asia/Ashgabat
 extern const basic::ZoneInfo kZoneAsia_Bahrain; // Asia/Bahrain -> Asia/Qatar
+extern const basic::ZoneInfo kZoneAsia_Brunei; // Asia/Brunei -> Asia/Kuching
 extern const basic::ZoneInfo kZoneAsia_Calcutta; // Asia/Calcutta -> Asia/Kolkata
 extern const basic::ZoneInfo kZoneAsia_Chongqing; // Asia/Chongqing -> Asia/Shanghai
 extern const basic::ZoneInfo kZoneAsia_Chungking; // Asia/Chungking -> Asia/Shanghai
@@ -656,6 +616,7 @@ extern const basic::ZoneInfo kZoneAsia_Dacca; // Asia/Dacca -> Asia/Dhaka
 extern const basic::ZoneInfo kZoneAsia_Harbin; // Asia/Harbin -> Asia/Shanghai
 extern const basic::ZoneInfo kZoneAsia_Kashgar; // Asia/Kashgar -> Asia/Urumqi
 extern const basic::ZoneInfo kZoneAsia_Katmandu; // Asia/Katmandu -> Asia/Kathmandu
+extern const basic::ZoneInfo kZoneAsia_Kuala_Lumpur; // Asia/Kuala_Lumpur -> Asia/Singapore
 extern const basic::ZoneInfo kZoneAsia_Kuwait; // Asia/Kuwait -> Asia/Riyadh
 extern const basic::ZoneInfo kZoneAsia_Macao; // Asia/Macao -> Asia/Macau
 extern const basic::ZoneInfo kZoneAsia_Muscat; // Asia/Muscat -> Asia/Dubai
@@ -668,7 +629,8 @@ extern const basic::ZoneInfo kZoneAsia_Ujung_Pandang; // Asia/Ujung_Pandang -> A
 extern const basic::ZoneInfo kZoneAsia_Ulan_Bator; // Asia/Ulan_Bator -> Asia/Ulaanbaatar
 extern const basic::ZoneInfo kZoneAsia_Vientiane; // Asia/Vientiane -> Asia/Bangkok
 extern const basic::ZoneInfo kZoneAtlantic_Faeroe; // Atlantic/Faeroe -> Atlantic/Faroe
-extern const basic::ZoneInfo kZoneAtlantic_Jan_Mayen; // Atlantic/Jan_Mayen -> Europe/Oslo
+extern const basic::ZoneInfo kZoneAtlantic_Jan_Mayen; // Atlantic/Jan_Mayen -> Europe/Berlin
+extern const basic::ZoneInfo kZoneAtlantic_Reykjavik; // Atlantic/Reykjavik -> Africa/Abidjan
 extern const basic::ZoneInfo kZoneAtlantic_St_Helena; // Atlantic/St_Helena -> Africa/Abidjan
 extern const basic::ZoneInfo kZoneAustralia_ACT; // Australia/ACT -> Australia/Sydney
 extern const basic::ZoneInfo kZoneAustralia_Canberra; // Australia/Canberra -> Australia/Sydney
@@ -701,19 +663,26 @@ extern const basic::ZoneInfo kZoneEtc_Greenwich; // Etc/Greenwich -> Etc/GMT
 extern const basic::ZoneInfo kZoneEtc_UCT; // Etc/UCT -> Etc/UTC
 extern const basic::ZoneInfo kZoneEtc_Universal; // Etc/Universal -> Etc/UTC
 extern const basic::ZoneInfo kZoneEtc_Zulu; // Etc/Zulu -> Etc/UTC
+extern const basic::ZoneInfo kZoneEurope_Amsterdam; // Europe/Amsterdam -> Europe/Brussels
 extern const basic::ZoneInfo kZoneEurope_Belfast; // Europe/Belfast -> Europe/London
 extern const basic::ZoneInfo kZoneEurope_Bratislava; // Europe/Bratislava -> Europe/Prague
 extern const basic::ZoneInfo kZoneEurope_Busingen; // Europe/Busingen -> Europe/Zurich
+extern const basic::ZoneInfo kZoneEurope_Copenhagen; // Europe/Copenhagen -> Europe/Berlin
 extern const basic::ZoneInfo kZoneEurope_Guernsey; // Europe/Guernsey -> Europe/London
 extern const basic::ZoneInfo kZoneEurope_Isle_of_Man; // Europe/Isle_of_Man -> Europe/London
 extern const basic::ZoneInfo kZoneEurope_Jersey; // Europe/Jersey -> Europe/London
+extern const basic::ZoneInfo kZoneEurope_Kiev; // Europe/Kiev -> Europe/Kyiv
 extern const basic::ZoneInfo kZoneEurope_Ljubljana; // Europe/Ljubljana -> Europe/Belgrade
+extern const basic::ZoneInfo kZoneEurope_Luxembourg; // Europe/Luxembourg -> Europe/Brussels
 extern const basic::ZoneInfo kZoneEurope_Mariehamn; // Europe/Mariehamn -> Europe/Helsinki
+extern const basic::ZoneInfo kZoneEurope_Monaco; // Europe/Monaco -> Europe/Paris
 extern const basic::ZoneInfo kZoneEurope_Nicosia; // Europe/Nicosia -> Asia/Nicosia
+extern const basic::ZoneInfo kZoneEurope_Oslo; // Europe/Oslo -> Europe/Berlin
 extern const basic::ZoneInfo kZoneEurope_Podgorica; // Europe/Podgorica -> Europe/Belgrade
 extern const basic::ZoneInfo kZoneEurope_San_Marino; // Europe/San_Marino -> Europe/Rome
 extern const basic::ZoneInfo kZoneEurope_Sarajevo; // Europe/Sarajevo -> Europe/Belgrade
 extern const basic::ZoneInfo kZoneEurope_Skopje; // Europe/Skopje -> Europe/Belgrade
+extern const basic::ZoneInfo kZoneEurope_Stockholm; // Europe/Stockholm -> Europe/Berlin
 extern const basic::ZoneInfo kZoneEurope_Tiraspol; // Europe/Tiraspol -> Europe/Chisinau
 extern const basic::ZoneInfo kZoneEurope_Vaduz; // Europe/Vaduz -> Europe/Zurich
 extern const basic::ZoneInfo kZoneEurope_Vatican; // Europe/Vatican -> Europe/Rome
@@ -726,10 +695,15 @@ extern const basic::ZoneInfo kZoneGMT_0; // GMT-0 -> Etc/GMT
 extern const basic::ZoneInfo kZoneGMT0; // GMT0 -> Etc/GMT
 extern const basic::ZoneInfo kZoneGreenwich; // Greenwich -> Etc/GMT
 extern const basic::ZoneInfo kZoneHongkong; // Hongkong -> Asia/Hong_Kong
-extern const basic::ZoneInfo kZoneIceland; // Iceland -> Atlantic/Reykjavik
+extern const basic::ZoneInfo kZoneIceland; // Iceland -> Africa/Abidjan
 extern const basic::ZoneInfo kZoneIndian_Antananarivo; // Indian/Antananarivo -> Africa/Nairobi
+extern const basic::ZoneInfo kZoneIndian_Christmas; // Indian/Christmas -> Asia/Bangkok
+extern const basic::ZoneInfo kZoneIndian_Cocos; // Indian/Cocos -> Asia/Yangon
 extern const basic::ZoneInfo kZoneIndian_Comoro; // Indian/Comoro -> Africa/Nairobi
+extern const basic::ZoneInfo kZoneIndian_Kerguelen; // Indian/Kerguelen -> Indian/Maldives
+extern const basic::ZoneInfo kZoneIndian_Mahe; // Indian/Mahe -> Asia/Dubai
 extern const basic::ZoneInfo kZoneIndian_Mayotte; // Indian/Mayotte -> Africa/Nairobi
+extern const basic::ZoneInfo kZoneIndian_Reunion; // Indian/Reunion -> Asia/Dubai
 extern const basic::ZoneInfo kZoneIran; // Iran -> Asia/Tehran
 extern const basic::ZoneInfo kZoneIsrael; // Israel -> Asia/Jerusalem
 extern const basic::ZoneInfo kZoneJamaica; // Jamaica -> America/Jamaica
@@ -740,13 +714,19 @@ extern const basic::ZoneInfo kZoneNZ; // NZ -> Pacific/Auckland
 extern const basic::ZoneInfo kZoneNZ_CHAT; // NZ-CHAT -> Pacific/Chatham
 extern const basic::ZoneInfo kZoneNavajo; // Navajo -> America/Denver
 extern const basic::ZoneInfo kZonePRC; // PRC -> Asia/Shanghai
+extern const basic::ZoneInfo kZonePacific_Chuuk; // Pacific/Chuuk -> Pacific/Port_Moresby
 extern const basic::ZoneInfo kZonePacific_Enderbury; // Pacific/Enderbury -> Pacific/Kanton
+extern const basic::ZoneInfo kZonePacific_Funafuti; // Pacific/Funafuti -> Pacific/Tarawa
 extern const basic::ZoneInfo kZonePacific_Johnston; // Pacific/Johnston -> Pacific/Honolulu
+extern const basic::ZoneInfo kZonePacific_Majuro; // Pacific/Majuro -> Pacific/Tarawa
 extern const basic::ZoneInfo kZonePacific_Midway; // Pacific/Midway -> Pacific/Pago_Pago
-extern const basic::ZoneInfo kZonePacific_Ponape; // Pacific/Ponape -> Pacific/Pohnpei
+extern const basic::ZoneInfo kZonePacific_Pohnpei; // Pacific/Pohnpei -> Pacific/Guadalcanal
+extern const basic::ZoneInfo kZonePacific_Ponape; // Pacific/Ponape -> Pacific/Guadalcanal
 extern const basic::ZoneInfo kZonePacific_Samoa; // Pacific/Samoa -> Pacific/Pago_Pago
-extern const basic::ZoneInfo kZonePacific_Truk; // Pacific/Truk -> Pacific/Chuuk
-extern const basic::ZoneInfo kZonePacific_Yap; // Pacific/Yap -> Pacific/Chuuk
+extern const basic::ZoneInfo kZonePacific_Truk; // Pacific/Truk -> Pacific/Port_Moresby
+extern const basic::ZoneInfo kZonePacific_Wake; // Pacific/Wake -> Pacific/Tarawa
+extern const basic::ZoneInfo kZonePacific_Wallis; // Pacific/Wallis -> Pacific/Tarawa
+extern const basic::ZoneInfo kZonePacific_Yap; // Pacific/Yap -> Pacific/Port_Moresby
 extern const basic::ZoneInfo kZonePoland; // Poland -> Europe/Warsaw
 extern const basic::ZoneInfo kZonePortugal; // Portugal -> Europe/Lisbon
 extern const basic::ZoneInfo kZoneROC; // ROC -> Asia/Taipei
@@ -842,10 +822,12 @@ const uint32_t kZoneIdAntarctica_DumontDUrville = 0x5a3c656c; // Antarctica/Dumo
 const uint32_t kZoneIdAntarctica_McMurdo = 0x6eeb5585; // Antarctica/McMurdo
 const uint32_t kZoneIdAntarctica_South_Pole = 0xcd96b290; // Antarctica/South_Pole
 const uint32_t kZoneIdAntarctica_Syowa = 0xe330c7e1; // Antarctica/Syowa
+const uint32_t kZoneIdAntarctica_Vostok = 0x4f966fd4; // Antarctica/Vostok
 const uint32_t kZoneIdArctic_Longyearbyen = 0xd23e7859; // Arctic/Longyearbyen
 const uint32_t kZoneIdAsia_Aden = 0x1fa7084a; // Asia/Aden
 const uint32_t kZoneIdAsia_Ashkhabad = 0x15454f09; // Asia/Ashkhabad
 const uint32_t kZoneIdAsia_Bahrain = 0x9d078487; // Asia/Bahrain
+const uint32_t kZoneIdAsia_Brunei = 0xa8e595f7; // Asia/Brunei
 const uint32_t kZoneIdAsia_Calcutta = 0x328a44c3; // Asia/Calcutta
 const uint32_t kZoneIdAsia_Chongqing = 0xf937fb90; // Asia/Chongqing
 const uint32_t kZoneIdAsia_Chungking = 0xc7121dd0; // Asia/Chungking
@@ -853,6 +835,7 @@ const uint32_t kZoneIdAsia_Dacca = 0x14bcac5e; // Asia/Dacca
 const uint32_t kZoneIdAsia_Harbin = 0xb5af1186; // Asia/Harbin
 const uint32_t kZoneIdAsia_Kashgar = 0x52955193; // Asia/Kashgar
 const uint32_t kZoneIdAsia_Katmandu = 0xa7ec12c7; // Asia/Katmandu
+const uint32_t kZoneIdAsia_Kuala_Lumpur = 0x014763c4; // Asia/Kuala_Lumpur
 const uint32_t kZoneIdAsia_Kuwait = 0xbe1b2f27; // Asia/Kuwait
 const uint32_t kZoneIdAsia_Macao = 0x155f88b3; // Asia/Macao
 const uint32_t kZoneIdAsia_Muscat = 0xc2c3565f; // Asia/Muscat
@@ -866,6 +849,7 @@ const uint32_t kZoneIdAsia_Ulan_Bator = 0x394db4d9; // Asia/Ulan_Bator
 const uint32_t kZoneIdAsia_Vientiane = 0x89d68d75; // Asia/Vientiane
 const uint32_t kZoneIdAtlantic_Faeroe = 0x031ec516; // Atlantic/Faeroe
 const uint32_t kZoneIdAtlantic_Jan_Mayen = 0x5a7535b6; // Atlantic/Jan_Mayen
+const uint32_t kZoneIdAtlantic_Reykjavik = 0x1c2b4f74; // Atlantic/Reykjavik
 const uint32_t kZoneIdAtlantic_St_Helena = 0x451fc5f7; // Atlantic/St_Helena
 const uint32_t kZoneIdAustralia_ACT = 0x8a970eb2; // Australia/ACT
 const uint32_t kZoneIdAustralia_Canberra = 0x2a09ae58; // Australia/Canberra
@@ -898,19 +882,26 @@ const uint32_t kZoneIdEtc_Greenwich = 0x26daa98c; // Etc/Greenwich
 const uint32_t kZoneIdEtc_UCT = 0xd8e3189c; // Etc/UCT
 const uint32_t kZoneIdEtc_Universal = 0x2f8cb9a9; // Etc/Universal
 const uint32_t kZoneIdEtc_Zulu = 0xf549c240; // Etc/Zulu
+const uint32_t kZoneIdEurope_Amsterdam = 0x109395c2; // Europe/Amsterdam
 const uint32_t kZoneIdEurope_Belfast = 0xd07dd1e5; // Europe/Belfast
 const uint32_t kZoneIdEurope_Bratislava = 0xda493bed; // Europe/Bratislava
 const uint32_t kZoneIdEurope_Busingen = 0xc06d2cdf; // Europe/Busingen
+const uint32_t kZoneIdEurope_Copenhagen = 0xe0ed30bc; // Europe/Copenhagen
 const uint32_t kZoneIdEurope_Guernsey = 0x3db12c16; // Europe/Guernsey
 const uint32_t kZoneIdEurope_Isle_of_Man = 0xeaf84580; // Europe/Isle_of_Man
 const uint32_t kZoneIdEurope_Jersey = 0x570dae76; // Europe/Jersey
+const uint32_t kZoneIdEurope_Kiev = 0xa2c19eb3; // Europe/Kiev
 const uint32_t kZoneIdEurope_Ljubljana = 0xbd98cdb7; // Europe/Ljubljana
+const uint32_t kZoneIdEurope_Luxembourg = 0x1f8bc6ce; // Europe/Luxembourg
 const uint32_t kZoneIdEurope_Mariehamn = 0x0caa6496; // Europe/Mariehamn
+const uint32_t kZoneIdEurope_Monaco = 0x5ebf9f01; // Europe/Monaco
 const uint32_t kZoneIdEurope_Nicosia = 0x74efab8a; // Europe/Nicosia
+const uint32_t kZoneIdEurope_Oslo = 0xa2c3fba1; // Europe/Oslo
 const uint32_t kZoneIdEurope_Podgorica = 0x1c1a499c; // Europe/Podgorica
 const uint32_t kZoneIdEurope_San_Marino = 0xcef7724b; // Europe/San_Marino
 const uint32_t kZoneIdEurope_Sarajevo = 0x6a576c3f; // Europe/Sarajevo
 const uint32_t kZoneIdEurope_Skopje = 0x6c76fdd0; // Europe/Skopje
+const uint32_t kZoneIdEurope_Stockholm = 0x5bf6fbb8; // Europe/Stockholm
 const uint32_t kZoneIdEurope_Tiraspol = 0xbe704472; // Europe/Tiraspol
 const uint32_t kZoneIdEurope_Vaduz = 0xfbb81bae; // Europe/Vaduz
 const uint32_t kZoneIdEurope_Vatican = 0xcb485dca; // Europe/Vatican
@@ -925,8 +916,13 @@ const uint32_t kZoneIdGreenwich = 0xc84d4221; // Greenwich
 const uint32_t kZoneIdHongkong = 0x56d36560; // Hongkong
 const uint32_t kZoneIdIceland = 0xe56a35b5; // Iceland
 const uint32_t kZoneIdIndian_Antananarivo = 0x9ebf5289; // Indian/Antananarivo
+const uint32_t kZoneIdIndian_Christmas = 0x68c207d5; // Indian/Christmas
+const uint32_t kZoneIdIndian_Cocos = 0x021e86de; // Indian/Cocos
 const uint32_t kZoneIdIndian_Comoro = 0x45f4deb6; // Indian/Comoro
+const uint32_t kZoneIdIndian_Kerguelen = 0x4351b389; // Indian/Kerguelen
+const uint32_t kZoneIdIndian_Mahe = 0x45e725e2; // Indian/Mahe
 const uint32_t kZoneIdIndian_Mayotte = 0xe6880bca; // Indian/Mayotte
+const uint32_t kZoneIdIndian_Reunion = 0x7076c047; // Indian/Reunion
 const uint32_t kZoneIdIran = 0x7c87090f; // Iran
 const uint32_t kZoneIdIsrael = 0xba88c9e5; // Israel
 const uint32_t kZoneIdJamaica = 0x2e44fdab; // Jamaica
@@ -937,12 +933,18 @@ const uint32_t kZoneIdNZ = 0x005974ad; // NZ
 const uint32_t kZoneIdNZ_CHAT = 0x4d42afda; // NZ-CHAT
 const uint32_t kZoneIdNavajo = 0xc4ef0e24; // Navajo
 const uint32_t kZoneIdPRC = 0x0b88120a; // PRC
+const uint32_t kZoneIdPacific_Chuuk = 0x8a090b23; // Pacific/Chuuk
 const uint32_t kZoneIdPacific_Enderbury = 0x61599a93; // Pacific/Enderbury
+const uint32_t kZoneIdPacific_Funafuti = 0xdb402d65; // Pacific/Funafuti
 const uint32_t kZoneIdPacific_Johnston = 0xb15d7b36; // Pacific/Johnston
+const uint32_t kZoneIdPacific_Majuro = 0xe1f95371; // Pacific/Majuro
 const uint32_t kZoneIdPacific_Midway = 0xe286d38e; // Pacific/Midway
+const uint32_t kZoneIdPacific_Pohnpei = 0x28929f96; // Pacific/Pohnpei
 const uint32_t kZoneIdPacific_Ponape = 0xe9f80086; // Pacific/Ponape
 const uint32_t kZoneIdPacific_Samoa = 0x8b2699b4; // Pacific/Samoa
 const uint32_t kZoneIdPacific_Truk = 0x234010a9; // Pacific/Truk
+const uint32_t kZoneIdPacific_Wake = 0x23416c2b; // Pacific/Wake
+const uint32_t kZoneIdPacific_Wallis = 0xf94ddb0f; // Pacific/Wallis
 const uint32_t kZoneIdPacific_Yap = 0xbb40138d; // Pacific/Yap
 const uint32_t kZoneIdPoland = 0xca913b23; // Poland
 const uint32_t kZoneIdPortugal = 0xc3274593; // Portugal
@@ -1059,14 +1061,12 @@ const uint8_t kZoneBufSizeAmerica_Winnipeg = 6;  // America/Winnipeg in 2006
 const uint8_t kZoneBufSizeAmerica_Yakutat = 6;  // America/Yakutat in 2008
 const uint8_t kZoneBufSizeAmerica_Yellowknife = 6;  // America/Yellowknife in 2008
 const uint8_t kZoneBufSizeAntarctica_Rothera = 1;  // Antarctica/Rothera in 2000
-const uint8_t kZoneBufSizeAntarctica_Vostok = 1;  // Antarctica/Vostok in 2000
 const uint8_t kZoneBufSizeAsia_Amman = 6;  // Asia/Amman in 2014
 const uint8_t kZoneBufSizeAsia_Ashgabat = 1;  // Asia/Ashgabat in 2000
 const uint8_t kZoneBufSizeAsia_Baghdad = 4;  // Asia/Baghdad in 2000
 const uint8_t kZoneBufSizeAsia_Baku = 5;  // Asia/Baku in 2000
 const uint8_t kZoneBufSizeAsia_Bangkok = 1;  // Asia/Bangkok in 2000
 const uint8_t kZoneBufSizeAsia_Beirut = 5;  // Asia/Beirut in 2000
-const uint8_t kZoneBufSizeAsia_Brunei = 1;  // Asia/Brunei in 2000
 const uint8_t kZoneBufSizeAsia_Damascus = 6;  // Asia/Damascus in 2008
 const uint8_t kZoneBufSizeAsia_Dhaka = 4;  // Asia/Dhaka in 2009
 const uint8_t kZoneBufSizeAsia_Dubai = 1;  // Asia/Dubai in 2000
@@ -1081,7 +1081,6 @@ const uint8_t kZoneBufSizeAsia_Kabul = 1;  // Asia/Kabul in 2000
 const uint8_t kZoneBufSizeAsia_Karachi = 4;  // Asia/Karachi in 2008
 const uint8_t kZoneBufSizeAsia_Kathmandu = 1;  // Asia/Kathmandu in 2000
 const uint8_t kZoneBufSizeAsia_Kolkata = 1;  // Asia/Kolkata in 2000
-const uint8_t kZoneBufSizeAsia_Kuala_Lumpur = 1;  // Asia/Kuala_Lumpur in 2000
 const uint8_t kZoneBufSizeAsia_Kuching = 1;  // Asia/Kuching in 2000
 const uint8_t kZoneBufSizeAsia_Macau = 2;  // Asia/Macau in 2000
 const uint8_t kZoneBufSizeAsia_Makassar = 1;  // Asia/Makassar in 2000
@@ -1109,7 +1108,6 @@ const uint8_t kZoneBufSizeAtlantic_Canary = 5;  // Atlantic/Canary in 2000
 const uint8_t kZoneBufSizeAtlantic_Cape_Verde = 1;  // Atlantic/Cape_Verde in 2000
 const uint8_t kZoneBufSizeAtlantic_Faroe = 5;  // Atlantic/Faroe in 2000
 const uint8_t kZoneBufSizeAtlantic_Madeira = 5;  // Atlantic/Madeira in 2000
-const uint8_t kZoneBufSizeAtlantic_Reykjavik = 1;  // Atlantic/Reykjavik in 2000
 const uint8_t kZoneBufSizeAtlantic_South_Georgia = 1;  // Atlantic/South_Georgia in 2000
 const uint8_t kZoneBufSizeAustralia_Adelaide = 5;  // Australia/Adelaide in 2000
 const uint8_t kZoneBufSizeAustralia_Brisbane = 2;  // Australia/Brisbane in 2000
@@ -1155,7 +1153,6 @@ const uint8_t kZoneBufSizeEtc_GMT_7 = 1;  // Etc/GMT-7 in 2000
 const uint8_t kZoneBufSizeEtc_GMT_8 = 1;  // Etc/GMT-8 in 2000
 const uint8_t kZoneBufSizeEtc_GMT_9 = 1;  // Etc/GMT-9 in 2000
 const uint8_t kZoneBufSizeEtc_UTC = 1;  // Etc/UTC in 2000
-const uint8_t kZoneBufSizeEurope_Amsterdam = 5;  // Europe/Amsterdam in 2000
 const uint8_t kZoneBufSizeEurope_Andorra = 5;  // Europe/Andorra in 2000
 const uint8_t kZoneBufSizeEurope_Athens = 5;  // Europe/Athens in 2000
 const uint8_t kZoneBufSizeEurope_Belgrade = 5;  // Europe/Belgrade in 2000
@@ -1164,23 +1161,18 @@ const uint8_t kZoneBufSizeEurope_Brussels = 5;  // Europe/Brussels in 2000
 const uint8_t kZoneBufSizeEurope_Bucharest = 5;  // Europe/Bucharest in 2000
 const uint8_t kZoneBufSizeEurope_Budapest = 5;  // Europe/Budapest in 2000
 const uint8_t kZoneBufSizeEurope_Chisinau = 5;  // Europe/Chisinau in 2000
-const uint8_t kZoneBufSizeEurope_Copenhagen = 5;  // Europe/Copenhagen in 2000
 const uint8_t kZoneBufSizeEurope_Dublin = 5;  // Europe/Dublin in 2000
 const uint8_t kZoneBufSizeEurope_Gibraltar = 5;  // Europe/Gibraltar in 2000
 const uint8_t kZoneBufSizeEurope_Helsinki = 5;  // Europe/Helsinki in 2000
-const uint8_t kZoneBufSizeEurope_Kiev = 5;  // Europe/Kiev in 2000
+const uint8_t kZoneBufSizeEurope_Kyiv = 5;  // Europe/Kyiv in 2000
 const uint8_t kZoneBufSizeEurope_Lisbon = 5;  // Europe/Lisbon in 2000
 const uint8_t kZoneBufSizeEurope_London = 5;  // Europe/London in 2000
-const uint8_t kZoneBufSizeEurope_Luxembourg = 5;  // Europe/Luxembourg in 2000
 const uint8_t kZoneBufSizeEurope_Madrid = 5;  // Europe/Madrid in 2000
 const uint8_t kZoneBufSizeEurope_Malta = 5;  // Europe/Malta in 2000
-const uint8_t kZoneBufSizeEurope_Monaco = 5;  // Europe/Monaco in 2000
-const uint8_t kZoneBufSizeEurope_Oslo = 5;  // Europe/Oslo in 2000
 const uint8_t kZoneBufSizeEurope_Paris = 5;  // Europe/Paris in 2000
 const uint8_t kZoneBufSizeEurope_Prague = 5;  // Europe/Prague in 2000
 const uint8_t kZoneBufSizeEurope_Rome = 5;  // Europe/Rome in 2000
 const uint8_t kZoneBufSizeEurope_Sofia = 5;  // Europe/Sofia in 2000
-const uint8_t kZoneBufSizeEurope_Stockholm = 5;  // Europe/Stockholm in 2000
 const uint8_t kZoneBufSizeEurope_Tirane = 5;  // Europe/Tirane in 2000
 const uint8_t kZoneBufSizeEurope_Uzhgorod = 5;  // Europe/Uzhgorod in 2000
 const uint8_t kZoneBufSizeEurope_Vienna = 5;  // Europe/Vienna in 2000
@@ -1189,24 +1181,17 @@ const uint8_t kZoneBufSizeEurope_Zaporozhye = 5;  // Europe/Zaporozhye in 2000
 const uint8_t kZoneBufSizeEurope_Zurich = 5;  // Europe/Zurich in 2000
 const uint8_t kZoneBufSizeHST = 1;  // HST in 2000
 const uint8_t kZoneBufSizeIndian_Chagos = 1;  // Indian/Chagos in 2000
-const uint8_t kZoneBufSizeIndian_Christmas = 1;  // Indian/Christmas in 2000
-const uint8_t kZoneBufSizeIndian_Cocos = 1;  // Indian/Cocos in 2000
-const uint8_t kZoneBufSizeIndian_Kerguelen = 1;  // Indian/Kerguelen in 2000
-const uint8_t kZoneBufSizeIndian_Mahe = 1;  // Indian/Mahe in 2000
 const uint8_t kZoneBufSizeIndian_Maldives = 1;  // Indian/Maldives in 2000
 const uint8_t kZoneBufSizeIndian_Mauritius = 3;  // Indian/Mauritius in 2008
-const uint8_t kZoneBufSizeIndian_Reunion = 1;  // Indian/Reunion in 2000
 const uint8_t kZoneBufSizeMET = 5;  // MET in 2000
 const uint8_t kZoneBufSizeMST = 1;  // MST in 2000
 const uint8_t kZoneBufSizeMST7MDT = 6;  // MST7MDT in 2008
 const uint8_t kZoneBufSizePST8PDT = 6;  // PST8PDT in 2008
 const uint8_t kZoneBufSizePacific_Auckland = 5;  // Pacific/Auckland in 2000
 const uint8_t kZoneBufSizePacific_Chatham = 5;  // Pacific/Chatham in 2000
-const uint8_t kZoneBufSizePacific_Chuuk = 1;  // Pacific/Chuuk in 2000
 const uint8_t kZoneBufSizePacific_Easter = 5;  // Pacific/Easter in 2002
 const uint8_t kZoneBufSizePacific_Efate = 2;  // Pacific/Efate in 2000
 const uint8_t kZoneBufSizePacific_Fiji = 6;  // Pacific/Fiji in 2017
-const uint8_t kZoneBufSizePacific_Funafuti = 1;  // Pacific/Funafuti in 2000
 const uint8_t kZoneBufSizePacific_Galapagos = 2;  // Pacific/Galapagos in 2000
 const uint8_t kZoneBufSizePacific_Gambier = 1;  // Pacific/Gambier in 2000
 const uint8_t kZoneBufSizePacific_Guadalcanal = 1;  // Pacific/Guadalcanal in 2000
@@ -1215,7 +1200,6 @@ const uint8_t kZoneBufSizePacific_Kanton = 1;  // Pacific/Kanton in 2000
 const uint8_t kZoneBufSizePacific_Kiritimati = 1;  // Pacific/Kiritimati in 2000
 const uint8_t kZoneBufSizePacific_Kosrae = 1;  // Pacific/Kosrae in 2000
 const uint8_t kZoneBufSizePacific_Kwajalein = 1;  // Pacific/Kwajalein in 2000
-const uint8_t kZoneBufSizePacific_Majuro = 1;  // Pacific/Majuro in 2000
 const uint8_t kZoneBufSizePacific_Marquesas = 1;  // Pacific/Marquesas in 2000
 const uint8_t kZoneBufSizePacific_Nauru = 1;  // Pacific/Nauru in 2000
 const uint8_t kZoneBufSizePacific_Niue = 1;  // Pacific/Niue in 2000
@@ -1223,14 +1207,11 @@ const uint8_t kZoneBufSizePacific_Noumea = 2;  // Pacific/Noumea in 2000
 const uint8_t kZoneBufSizePacific_Pago_Pago = 1;  // Pacific/Pago_Pago in 2000
 const uint8_t kZoneBufSizePacific_Palau = 1;  // Pacific/Palau in 2000
 const uint8_t kZoneBufSizePacific_Pitcairn = 1;  // Pacific/Pitcairn in 2000
-const uint8_t kZoneBufSizePacific_Pohnpei = 1;  // Pacific/Pohnpei in 2000
 const uint8_t kZoneBufSizePacific_Port_Moresby = 1;  // Pacific/Port_Moresby in 2000
 const uint8_t kZoneBufSizePacific_Rarotonga = 2;  // Pacific/Rarotonga in 2000
 const uint8_t kZoneBufSizePacific_Tahiti = 1;  // Pacific/Tahiti in 2000
 const uint8_t kZoneBufSizePacific_Tarawa = 1;  // Pacific/Tarawa in 2000
 const uint8_t kZoneBufSizePacific_Tongatapu = 5;  // Pacific/Tongatapu in 2001
-const uint8_t kZoneBufSizePacific_Wake = 1;  // Pacific/Wake in 2000
-const uint8_t kZoneBufSizePacific_Wallis = 1;  // Pacific/Wallis in 2000
 const uint8_t kZoneBufSizeWET = 5;  // WET in 2000
 
 

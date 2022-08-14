@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022a
+//     --tz_version 2022b
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022a
+// from https://github.com/eggert/tz/releases/tag/2022b
 //
 // DO NOT EDIT
 
@@ -105,7 +105,7 @@ extern const basic::ZonePolicy kPolicyZion;
 
 
 //---------------------------------------------------------------------------
-// Unsupported zone policies: 74
+// Unsupported zone policies: 69
 //---------------------------------------------------------------------------
 
 // Albania (unused)
@@ -121,7 +121,6 @@ extern const basic::ZonePolicy kPolicyZion;
 // Cyprus (unused)
 // Czech (unused)
 // DR (unused)
-// Denmark (unused)
 // Denver (unused)
 // Detroit (unused)
 // E-Eur (unused)
@@ -138,14 +137,12 @@ extern const basic::ZonePolicy kPolicyZion;
 // Guam (unused)
 // Halifax (unused)
 // Hungary (unused)
-// Iceland (unused)
 // Indianapolis (unused)
 // Italy (unused)
 // Kyrgyz (unused)
 // Latvia (unused)
 // Libya (unused)
 // Louisville (unused)
-// Lux (unused)
 // Malta (unused)
 // Marengo (unused)
 // Menominee (unused)
@@ -154,8 +151,6 @@ extern const basic::ZonePolicy kPolicyZion;
 // NT_YK (unused)
 // NYC (unused)
 // Namibia (LETTER 'WAT' too long)
-// Neth (unused)
-// Norway (unused)
 // Palestine (Found 2 transitions in year/month '2011-08')
 // Perry (unused)
 // Pike (unused)
