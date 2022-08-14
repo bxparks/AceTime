@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.11.4 (2022-08-13, TZDB 2022b)
     * Add `ace_time::daysUntil(localDate, month, day)` utility function that
       returns the number of days until the next (month, day) date. Useful for
       calculating the number of days until the next Christmas for example.

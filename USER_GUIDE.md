@@ -4,7 +4,7 @@ The primary purpose of AceTime classes is to convert between an integer
 representing the number of seconds since the AceTime Epoch (2000-01-01T00:00:00
 UTC) and the equivalent human-readable components in different timezones.
 
-**Version**: 1.11.3 (2021-03.20, TZDB 2022a)
+**Version**: 1.11.4 (2022-08-13, TZDB 2022b)
 
 **Related Documents**:
 
@@ -2057,8 +2057,8 @@ in the `transformer.py` script and summarized in
 * the UNTIL time suffix can only be 'w' (not 's' or 'u')
 * there can be only one DST transition in a single month
 
-As of version v1.11.3 (with TZDB 2022a), this database contains 258 Zone entries
-and 193 Link entries, supported from the year 2000 to 2049 (inclusive).
+As of version v1.11.4 (with TZDB 2022b), this database contains 237 Zone entries
+and 215 Link entries, supported from the year 2000 to 2049 (inclusive).
 
 <a name="ExtendedZonedbx"></a>
 #### Extended zonedbx
@@ -2074,8 +2074,8 @@ are:
 * the AT and UNTIL fields are multiples of 1-minute
 * the LETTER field can be arbitrary strings
 
-As of version v1.11.3 (with TZDB 2022a), this database contains all 377 Zone
-entries and 217 Link entries, supported from the year 2000 to 2049 (inclusive).
+As of version v1.11.4 (with TZDB 2022b), this database contains all 356 Zone
+entries and 239 Link entries, supported from the year 2000 to 2049 (inclusive).
 
 <a name="TzDatabaseVersion"></a>
 #### TZ Database Version
