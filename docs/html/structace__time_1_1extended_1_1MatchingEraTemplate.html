@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.11.3</span>
+   &#160;<span id="projectnumber">1.11.4</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -112,14 +112,14 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a4ac51091d609bee6d54607d59c26f1d8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structace__time_1_1extended_1_1MatchingEraTemplate.html">MatchingEraTemplate</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1MatchingEraTemplate.html#a4ac51091d609bee6d54607d59c26f1d8">prevMatch</a></td></tr>
 <tr class="memdesc:a4ac51091d609bee6d54607d59c26f1d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The previous MatchingEra, needed to interpret startDateTime.  <a href="structace__time_1_1extended_1_1MatchingEraTemplate.html#a4ac51091d609bee6d54607d59c26f1d8">More...</a><br /></td></tr>
 <tr class="separator:a4ac51091d609bee6d54607d59c26f1d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62ca52350ec0d6e122e166003bbf19c7"><td class="memItemLeft" align="right" valign="top"><a id="a62ca52350ec0d6e122e166003bbf19c7"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1MatchingEraTemplate.html#a62ca52350ec0d6e122e166003bbf19c7">lastOffsetMinutes</a></td></tr>
-<tr class="memdesc:a62ca52350ec0d6e122e166003bbf19c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The STD offset of the last Transition in this MatchingEra. <br /></td></tr>
-<tr class="separator:a62ca52350ec0d6e122e166003bbf19c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad68b2ed172f4490432fa3aba43ca3b8e"><td class="memItemLeft" align="right" valign="top"><a id="ad68b2ed172f4490432fa3aba43ca3b8e"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1MatchingEraTemplate.html#ad68b2ed172f4490432fa3aba43ca3b8e">lastDeltaMinutes</a></td></tr>
-<tr class="memdesc:ad68b2ed172f4490432fa3aba43ca3b8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The DST offset of the last Transition in this MatchingEra. <br /></td></tr>
-<tr class="separator:ad68b2ed172f4490432fa3aba43ca3b8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6e089ef39f3531fae3c27705f1fc0aa"><td class="memItemLeft" align="right" valign="top"><a id="ad6e089ef39f3531fae3c27705f1fc0aa"></a>
+int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1MatchingEraTemplate.html#ad6e089ef39f3531fae3c27705f1fc0aa">lastOffsetMinutes</a></td></tr>
+<tr class="memdesc:ad6e089ef39f3531fae3c27705f1fc0aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">The STD offset of the last Transition in this MatchingEra. <br /></td></tr>
+<tr class="separator:ad6e089ef39f3531fae3c27705f1fc0aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54213b73ec7e1341d4af32147566713b"><td class="memItemLeft" align="right" valign="top"><a id="a54213b73ec7e1341d4af32147566713b"></a>
+int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1MatchingEraTemplate.html#a54213b73ec7e1341d4af32147566713b">lastDeltaMinutes</a></td></tr>
+<tr class="memdesc:a54213b73ec7e1341d4af32147566713b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The DST offset of the last Transition in this MatchingEra. <br /></td></tr>
+<tr class="separator:a54213b73ec7e1341d4af32147566713b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename ZEB&gt;<br />
@@ -134,7 +134,7 @@ struct ace_time::extended::MatchingEraTemplate&lt; ZEB &gt;</h3>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00178">178</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00179">179</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a5e03aa70d8760e9229b415729186334f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5e03aa70d8760e9229b415729186334f">&#9670;&nbsp;</a></span>era</h2>
@@ -153,7 +153,7 @@ template&lt;typename ZEB &gt; </div>
 <p>The ZoneEra that matched the given year. </p>
 <p>NonNullable. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00189">189</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00190">190</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -175,7 +175,7 @@ template&lt;typename ZEB &gt; </div>
 <p><br  />
  </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00192">192</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00193">193</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>

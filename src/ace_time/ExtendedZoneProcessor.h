@@ -26,13 +26,13 @@
 
 class ExtendedZoneProcessorTest_compareEraToYearMonth;
 class ExtendedZoneProcessorTest_compareEraToYearMonth2;
-class ExtendedZoneProcessorTest_createMatch;
+class ExtendedZoneProcessorTest_createMatchingEra;
 class ExtendedZoneProcessorTest_findMatches_simple;
 class ExtendedZoneProcessorTest_findMatches_named;
 class ExtendedZoneProcessorTest_findCandidateTransitions;
 class ExtendedZoneProcessorTest_createTransitionsFromNamedMatch;
 class ExtendedZoneProcessorTest_getTransitionTime;
-class ExtendedZoneProcessorTest_createTransitionForYear;
+class ExtendedZoneProcessorTest_createTransitionForYearTiny;
 class ExtendedZoneProcessorTest_normalizeDateTuple;
 class ExtendedZoneProcessorTest_expandDateTuple;
 class ExtendedZoneProcessorTest_calcInteriorYears;
@@ -47,6 +47,7 @@ class TransitionStorageTest_getFreeAgent;
 class TransitionStorageTest_getFreeAgent2;
 class TransitionStorageTest_addFreeAgentToActivePool;
 class TransitionStorageTest_reservePrior;
+class TransitionStorageTest_addPriorToCandidatePool;
 class TransitionStorageTest_addFreeAgentToCandidatePool;
 class TransitionStorageTest_setFreeAgentAsPriorIfValid;
 class TransitionStorageTest_addActiveCandidatesToActivePool;
@@ -192,10 +193,10 @@ struct MatchingEraTemplate {
   MatchingEraTemplate* prevMatch;
 
   /** The STD offset of the last Transition in this MatchingEra. */
-  uint16_t lastOffsetMinutes;
+  int16_t lastOffsetMinutes;
 
   /** The DST offset of the last Transition in this MatchingEra. */
-  uint16_t lastDeltaMinutes;
+  int16_t lastDeltaMinutes;
 
   void log() const {
     logging::printf("MatchingEra(");
@@ -380,8 +381,9 @@ struct TransitionTemplate {
       return nullptr;
     }
 
-    // RULES point to a named rule, and LETTER is a single, printable
-    // character.
+    // RULES point to a named rule, and LETTER is a single, printable character.
+    // Return the letterBuf which contains a NUL-terminated string containing
+    // the single character, as initialized in createTransitionForYearTiny().
     char letter = rule.letter();
     if (letter >= 32) {
       return letterBuf;
@@ -394,7 +396,7 @@ struct TransitionTemplate {
     uint8_t numLetters = policy.numLetters();
     if (letter >= numLetters) {
       // This should never happen unless there is a programming error. If it
-      // does, return an empty string. (createTransitionForYear() sets
+      // does, return an empty string. (createTransitionForYearTiny() sets
       // letterBuf to a NUL terminated empty string if rule->letter < 32)
       return letterBuf;
     }
@@ -775,8 +777,8 @@ class TransitionStorageTemplate {
       for (uint8_t i = 0; i < mIndexFree; i++) {
         candidate = mTransitions[i];
 
-        DateTuple startDateTime = candidate->startDateTime;
-        DateTuple untilDateTime = candidate->untilDateTime;
+        const DateTuple& startDateTime = candidate->startDateTime;
+        const DateTuple& untilDateTime = candidate->untilDateTime;
         bool isExactMatch = (startDateTime <= localDate)
             && (localDate < untilDateTime);
 
@@ -864,6 +866,7 @@ class TransitionStorageTemplate {
     friend class ::TransitionStorageTest_getFreeAgent2;
     friend class ::TransitionStorageTest_addFreeAgentToActivePool;
     friend class ::TransitionStorageTest_reservePrior;
+    friend class ::TransitionStorageTest_addPriorToCandidatePool;
     friend class ::TransitionStorageTest_addFreeAgentToCandidatePool;
     friend class ::TransitionStorageTest_setFreeAgentAsPriorIfValid;
     friend class ::TransitionStorageTest_addActiveCandidatesToActivePool;
@@ -1270,13 +1273,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
   private:
     friend class ::ExtendedZoneProcessorTest_compareEraToYearMonth;
     friend class ::ExtendedZoneProcessorTest_compareEraToYearMonth2;
-    friend class ::ExtendedZoneProcessorTest_createMatch;
+    friend class ::ExtendedZoneProcessorTest_createMatchingEra;
     friend class ::ExtendedZoneProcessorTest_findMatches_simple;
     friend class ::ExtendedZoneProcessorTest_findMatches_named;
     friend class ::ExtendedZoneProcessorTest_findCandidateTransitions;
     friend class ::ExtendedZoneProcessorTest_createTransitionsFromNamedMatch;
     friend class ::ExtendedZoneProcessorTest_getTransitionTime;
-    friend class ::ExtendedZoneProcessorTest_createTransitionForYear;
+    friend class ::ExtendedZoneProcessorTest_createTransitionForYearTiny;
     friend class ::ExtendedZoneProcessorTest_normalizeDateTuple;
     friend class ::ExtendedZoneProcessorTest_expandDateTuple;
     friend class ::ExtendedZoneProcessorTest_calcInteriorYears;
@@ -1341,7 +1344,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         const ZEB era = zoneInfo.era(iEra);
         if (eraOverlapsInterval(prevMatch, era, startYm, untilYm)) {
           if (iMatch < maxMatches) {
-            matches[iMatch] = createMatch(prevMatch, era, startYm, untilYm);
+            matches[iMatch] = createMatchingEra(
+                prevMatch, era, startYm, untilYm);
             prevMatch = &matches[iMatch];
             iMatch++;
           }
@@ -1390,7 +1394,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * the ZoneEra using the eraOverlapsInterval() method. The 'prev' ZoneEra is
      * needed to define the startDateTime of the current era.
      */
-    static MatchingEra createMatch(
+    static MatchingEra createMatchingEra(
         MatchingEra* prevMatch,
         const ZEB& era,
         const extended::YearMonthTuple& startYm,
@@ -1447,7 +1451,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     /**
      * Create the Transition objects which are defined by the list of matches
-     * and store them in the transitionStorage container.
+     * and store them in the transitionStorage container. Step 2.
      */
     static void createTransitions(
         TransitionStorage& transitionStorage,
@@ -1462,7 +1466,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
-    /** Create the Transitions defined by the given match. */
+    /** Create the Transitions defined by the given match. Step 2. */
     static void createTransitionsForMatch(
         TransitionStorage& transitionStorage,
         MatchingEra* match) {
@@ -1477,6 +1481,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
+    // Step 2A
     static void createTransitionsFromSimpleMatch(
         TransitionStorage& transitionStorage,
         MatchingEra* match) {
@@ -1485,7 +1490,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
 
       Transition* freeTransition = transitionStorage.getFreeAgent();
-      createTransitionForYear(freeTransition, 0 /*not used*/,
+      createTransitionForYearTiny(freeTransition, 0 /*not used*/,
           ZRB() /*rule*/, match);
       freeTransition->matchStatus = extended::MatchStatus::kExactMatch;
       match->lastOffsetMinutes = freeTransition->offsetMinutes;
@@ -1497,6 +1502,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
+    // Step 2B
     static void createTransitionsFromNamedMatch(
         TransitionStorage& transitionStorage,
         MatchingEra* match) {
@@ -1547,6 +1553,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
+    // Step 2B: Pass 1
     static void findCandidateTransitions(
         TransitionStorage& transitionStorage,
         const MatchingEra* match) {
@@ -1575,9 +1582,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         uint8_t numYears = calcInteriorYears(interiorYears, kMaxInteriorYears,
             rule.fromYearTiny(), rule.toYearTiny(), startY, endY);
         for (uint8_t y = 0; y < numYears; y++) {
-          int8_t year = interiorYears[y];
+          int8_t yearTiny = interiorYears[y];
           Transition* t = transitionStorage.getFreeAgent();
-          createTransitionForYear(t, year, rule, match);
+          createTransitionForYearTiny(t, yearTiny, rule, match);
           MatchStatus status = compareTransitionToMatchFuzzy(t, match);
           if (status == MatchStatus::kPrior) {
             transitionStorage.setFreeAgentAsPriorIfValid();
@@ -1590,16 +1597,16 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         }
 
         // Add Transition for prior year
-        int8_t priorYear = getMostRecentPriorYear(
+        int8_t priorYearTiny = getMostRecentPriorYear(
             rule.fromYearTiny(), rule.toYearTiny(), startY, endY);
-        if (priorYear != LocalDate::kInvalidYearTiny) {
+        if (priorYearTiny != LocalDate::kInvalidYearTiny) {
           if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
             logging::printf(
               "findCandidateTransitions(): priorYear: %d\n",
-              priorYear + LocalDate::kEpochYear);
+              priorYearTiny + LocalDate::kEpochYear);
           }
           Transition* t = transitionStorage.getFreeAgent();
-          createTransitionForYear(t, priorYear, rule, match);
+          createTransitionForYearTiny(t, priorYearTiny, rule, match);
           transitionStorage.setFreeAgentAsPriorIfValid();
         }
       }
@@ -1658,9 +1665,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * 'deltaMinutes' as well. 'letterBuf' is also well-defined, either an empty
      * string, or filled with rule->letter with a NUL terminator.
      */
-    static void createTransitionForYear(
+    static void createTransitionForYearTiny(
         Transition* t,
-        int8_t year,
+        int8_t yearTiny,
         const ZRB& rule,
         const MatchingEra* match) {
       t->match = match;
@@ -1669,7 +1676,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       t->letterBuf[0] = '\0';
 
       if (! rule.isNull()) {
-        t->transitionTime = getTransitionTime(year, rule);
+        t->transitionTime = getTransitionTime(yearTiny, rule);
         t->deltaMinutes = rule.deltaMinutes();
 
         char letter = rule.letter();
@@ -1776,7 +1783,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * given in 's' or 'u' mode, we convert these into the 'w' mode for
      * consistency. To convert an 's' or 'u' into 'w', we need the UTC offset
      * of the current Transition, which happens to be given by the *previous*
-     * Transition.
+     * Transition. Step 2B: Pass 2.
      */
     static void fixTransitionTimes(Transition** begin, Transition** end) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
@@ -1863,7 +1870,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     /**
      * Scan through the Candidate transitions, and mark the ones which are
-     * active.
+     * active. Step 2B: Pass 3.
      */
     static void selectActiveTransitions(Transition** begin, Transition** end) {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {

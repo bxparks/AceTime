@@ -1,6 +1,22 @@
 # Changelog
 
 * Unreleased
+* 1.11.4 (2022-08-13, TZDB 2022b)
+    * Add `ace_time::daysUntil(localDate, month, day)` utility function that
+      returns the number of days until the next (month, day) date. Useful for
+      calculating the number of days until the next Christmas for example.
+    * Upgrade to TZDB 2022b.
+        * https://mm.icann.org/pipermail/tz-announce/2022-August/000071.html
+            * Chile's DST is delayed by a week in September 2022.
+            * Iran no longer observes DST after 2022.
+            * Rename Europe/Kiev to Europe/Kyiv.
+            * Finish moving duplicate-since-1970 zones to 'backzone'.
+        * zonedb
+            * Number of zones decreases from 258 to 237.
+            * Number of links increases from 193 to 215.
+        * zonedbx
+            * Number of zones decreases from 377 to 356.
+            * Number of links increases from 217 to 239.
 * 1.11.3 (2022-03-20, TZDB 2022a)
     * Update to TZDB 2022a.
         * https://mm.icann.org/pipermail/tz-announce/2022-March.txt

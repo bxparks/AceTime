@@ -7,8 +7,6 @@
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
-// Create ExtendedZoneManager
-// --------------------------------------------------------------------------
 
 const extended::ZoneInfo* const kExtendedZoneRegistry[] ACE_TIME_PROGMEM = {
   &zonedbx::kZoneAmerica_Chicago,
@@ -28,8 +26,6 @@ ExtendedZoneManager extendedZoneManager(
     zoneProcessorCache);
 
 // --------------------------------------------------------------------------
-// ZonedDateTime + ExtendedZoneManager
-// --------------------------------------------------------------------------
 
 test(ZonedDateTimeExtendedTest, printTo) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
@@ -43,6 +39,10 @@ test(ZonedDateTimeExtendedTest, printTo) {
       F("2020-01-02T03:04:05-08:00[America/Los_Angeles]")
   );
 }
+
+// --------------------------------------------------------------------------
+// ZonedDateTime::forComponents()
+// --------------------------------------------------------------------------
 
 test(ZonedDateTimeExtendedTest, forComponents_isError) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
@@ -65,6 +65,14 @@ test(ZonedDateTimeExtendedTest, forComponents_beforeDst) {
       dt.timeOffset().toMinutes());
   auto expected = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 0);
   assertTrue(expected == dt.localDateTime());
+  assertEqual(dt.fold(), 0);
+
+  // check that fold=1 gives identical results, while preserving fold
+  dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 0, tz, 1 /*fold*/);
+  assertEqual(TimeOffset::forHours(-8).toMinutes(),
+      dt.timeOffset().toMinutes());
+  assertTrue(expected == dt.localDateTime());
+  assertEqual(dt.fold(), 1);
 }
 
 test(ZonedDateTimeExtendedTest, forComponents_inDstGap) {
@@ -73,12 +81,24 @@ test(ZonedDateTimeExtendedTest, forComponents_inDstGap) {
 
   // 02:01 doesn't exist. The expected TimeOffset in the gap is the previous
   // timeOffset, i.e. the most recent matching Transition, so this is
-  // interpreted as 02:01-08:00 which gets normalized to 03:01-07:00.
+  // interpreted as 02:01-08:00 which gets normalized to 03:01-07:00, which
+  // sets the fold to 1.
   auto dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 1, 0, tz);
   assertEqual(TimeOffset::forHours(-7).toMinutes(),
       dt.timeOffset().toMinutes());
   auto expected = LocalDateTime::forComponents(2018, 3, 11, 3, 1, 0);
   assertTrue(expected == dt.localDateTime());
+  assertEqual(dt.fold(), 1);  // indicate the second transition
+
+  // Setting (fold=1) causes the second transition to be selected, which has a
+  // UTC offset of -07:00, so this is interpreted as 02:01-07:00 which gets
+  // normalized to 01:01-08:00.
+  dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 1, 0, tz, 1 /*fold*/);
+  assertEqual(TimeOffset::forHours(-8).toMinutes(),
+      dt.timeOffset().toMinutes());
+  expected = LocalDateTime::forComponents(2018, 3, 11, 1, 1, 0);
+  assertTrue(expected == dt.localDateTime());
+  assertEqual(dt.fold(), 0);  // indicate the second transition
 }
 
 test(ZonedDateTimeExtendedTest, forComponents_inDst) {
@@ -91,6 +111,14 @@ test(ZonedDateTimeExtendedTest, forComponents_inDst) {
       dt.timeOffset().toMinutes());
   auto expected = LocalDateTime::forComponents(2018, 3, 11, 3, 1, 0);
   assertTrue(expected == dt.localDateTime());
+  assertEqual(dt.fold(), 0);
+
+  // check that fold=1 gives identical results, while preserving fold
+  dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 1, 0, tz, 1 /*fold*/);
+  assertEqual(TimeOffset::forHours(-7).toMinutes(),
+      dt.timeOffset().toMinutes());
+  assertTrue(expected == dt.localDateTime());
+  assertEqual(dt.fold(), 1);
 }
 
 test(ZonedDateTimeExtendedTest, forComponents_beforeStd) {
@@ -104,6 +132,14 @@ test(ZonedDateTimeExtendedTest, forComponents_beforeStd) {
       dt.timeOffset().toMinutes());
   auto expected = LocalDateTime::forComponents(2018, 11, 4, 0, 59, 0);
   assertTrue(expected == dt.localDateTime());
+  assertEqual(dt.fold(), 0);
+
+  // check that fold=1 gives identical results, while preserving fold
+  dt = ZonedDateTime::forComponents(2018, 11, 4, 0, 59, 0, tz, 1 /*fold*/);
+  assertEqual(TimeOffset::forHours(-7).toMinutes(),
+      dt.timeOffset().toMinutes());
+  assertTrue(expected == dt.localDateTime());
+  assertEqual(dt.fold(), 1);
 }
 
 test(ZonedDateTimeExtendedTest, forComponents_inOverlap) {
@@ -117,6 +153,15 @@ test(ZonedDateTimeExtendedTest, forComponents_inOverlap) {
       dt.timeOffset().toMinutes());
   auto expected = LocalDateTime::forComponents(2018, 11, 4, 1, 1, 0);
   assertTrue(expected == dt.localDateTime());
+  assertEqual(dt.fold(), 0);
+
+  // Setting (fold==1) selects the second instance, resolves to 01:01-08:00.
+  dt = ZonedDateTime::forComponents(2018, 11, 4, 1, 1, 0, tz, 1 /*fold*/);
+  assertEqual(TimeOffset::forHours(-8).toMinutes(),
+      dt.timeOffset().toMinutes());
+  expected = LocalDateTime::forComponents(2018, 11, 4, 1, 1, 0);
+  assertTrue(expected == dt.localDateTime());
+  assertEqual(dt.fold(), 1);
 }
 
 test(ZonedDateTimeExtendedTest, forComponents_afterOverlap) {
@@ -129,6 +174,14 @@ test(ZonedDateTimeExtendedTest, forComponents_afterOverlap) {
       dt.timeOffset().toMinutes());
   auto expected = LocalDateTime::forComponents(2018, 11, 4, 2, 1, 0);
   assertTrue(expected == dt.localDateTime());
+  assertEqual(dt.fold(), 0);
+
+  // check that fold=1 gives identical results, while preserving fold
+  dt = ZonedDateTime::forComponents(2018, 11, 4, 2, 1, 0, tz, 1 /*fold*/);
+  assertEqual(TimeOffset::forHours(-8).toMinutes(),
+      dt.timeOffset().toMinutes());
+  assertTrue(expected == dt.localDateTime());
+  assertEqual(dt.fold(), 1);
 }
 
 // Test the linked zones are same as the target zones.
@@ -141,7 +194,7 @@ test(ZonedDateTimeExtendedTest, linked_zones) {
 */
 
 // --------------------------------------------------------------------------
-// ZonedDateTime with fold
+// ZonedDateTime::forEpochSeconds() with fold
 // --------------------------------------------------------------------------
 
 test(ZonedDateTimeExtendedTest, forEpochSecond_fall_back) {
@@ -280,6 +333,8 @@ test(ZonedDateTimeExtendedTest, forComponents_spring_forward) {
   assertEqual(0, dt.fold());
 }
 
+// --------------------------------------------------------------------------
+// ZonedDateTime::normalize()
 // --------------------------------------------------------------------------
 
 test(ZonedDateTimeExtendedTest, normalize) {

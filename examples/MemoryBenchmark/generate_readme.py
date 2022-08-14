@@ -27,7 +27,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v1.11.3
+**Version**: AceTime v1.11.4
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 

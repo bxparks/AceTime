@@ -180,7 +180,7 @@ static const ZoneInfo kZoneTestLos_Angeles ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// ExtendedZoneProcessor: test private methods
+// Step 1
 //---------------------------------------------------------------------------
 
 static const ZoneEra era ACE_TIME_PROGMEM =
@@ -205,7 +205,7 @@ test(ExtendedZoneProcessorTest, compareEraToYearMonth2) {
       ZoneEraBroker(&era2), 0, 1));
 }
 
-test(ExtendedZoneProcessorTest, createMatch) {
+test(ExtendedZoneProcessorTest, createMatchingEra) {
   // 14-month interval, from 2000-12 until 2002-02
   YearMonthTuple startYm = {0, 12};
   YearMonthTuple untilYm = {2, 2};
@@ -227,7 +227,7 @@ test(ExtendedZoneProcessorTest, createMatch) {
 
   // No previous matching era, so startDateTime is set to startYm.
   ExtendedZoneProcessor::MatchingEra match1 =
-      ExtendedZoneProcessor::createMatch(
+      ExtendedZoneProcessor::createMatchingEra(
           nullptr /*prevMatch*/,
           ZoneEraBroker(&era1) /*era*/,
           startYm,
@@ -241,7 +241,7 @@ test(ExtendedZoneProcessorTest, createMatch) {
   // startDateTime is set to the prevMatch.untilDateTime.
   // untilDateTime is < untilYm, so is retained.
   ExtendedZoneProcessor::MatchingEra match2 =
-      ExtendedZoneProcessor::createMatch(
+      ExtendedZoneProcessor::createMatchingEra(
           &match1,
           ZoneEraBroker(&era2) /*era*/,
           startYm,
@@ -255,7 +255,7 @@ test(ExtendedZoneProcessorTest, createMatch) {
   // startDateTime is set to the prevMatch.untilDateTime.
   // untilDateTime is > untilYm so truncated to untilYm.
   ExtendedZoneProcessor::MatchingEra match3 =
-      ExtendedZoneProcessor::createMatch(
+      ExtendedZoneProcessor::createMatchingEra(
           &match2,
           ZoneEraBroker(&era3) /*era*/,
           startYm,
@@ -317,6 +317,10 @@ test(ExtendedZoneProcessorTest, findMatches_named) {
       ZoneEraBroker(&kZoneEraTestLos_Angeles[0])));
 }
 
+//---------------------------------------------------------------------------
+// Step 2A
+//---------------------------------------------------------------------------
+
 test(ExtendedZoneProcessorTest, getTransitionTime) {
   // Nov Sun>=1
   const auto rule = ZoneRuleBroker(&kZoneRulesTestUS[4]);
@@ -330,7 +334,7 @@ test(ExtendedZoneProcessorTest, getTransitionTime) {
   assertTrue((dt == DateTuple{19, 11, 3, 15*8, ZoneContext::kSuffixW}));
 }
 
-test(ExtendedZoneProcessorTest, createTransitionForYear) {
+test(ExtendedZoneProcessorTest, createTransitionForYearTiny) {
   const ExtendedZoneProcessor::MatchingEra match = {
     {18, 12, 1, 0, ZoneContext::kSuffixW},
     {20, 2, 1, 0, ZoneContext::kSuffixW},
@@ -342,42 +346,14 @@ test(ExtendedZoneProcessorTest, createTransitionForYear) {
   // Nov Sun>=1
   const auto rule = ZoneRuleBroker(&kZoneRulesTestUS[4]);
   ExtendedZoneProcessor::Transition t;
-  ExtendedZoneProcessor::createTransitionForYear(&t, 19, rule, &match);
+  ExtendedZoneProcessor::createTransitionForYearTiny(&t, 19, rule, &match);
   assertTrue((t.transitionTime == DateTuple{19, 11, 3, 15*8,
       ZoneContext::kSuffixW}));
 }
 
-test(ExtendedZoneProcessorTest, expandDateTuple) {
-  DateTuple ttw;
-  DateTuple tts;
-  DateTuple ttu;
-  int16_t offsetMinutes = 2*60;
-  int16_t deltaMinutes = 1*60;
-
-  DateTuple tt = {0, 1, 30, 15*12, ZoneContext::kSuffixW}; // 03:00
-  ExtendedZoneProcessor::expandDateTuple(
-      &tt, offsetMinutes, deltaMinutes,
-      &ttw, &tts, &ttu);
-  assertTrue((ttw == DateTuple{0, 1, 30, 15*12, ZoneContext::kSuffixW}));
-  assertTrue((tts == DateTuple{0, 1, 30, 15*8, ZoneContext::kSuffixS}));
-  assertTrue((ttu == DateTuple{0, 1, 30, 0, ZoneContext::kSuffixU}));
-
-  tt = {0, 1, 30, 15*8, ZoneContext::kSuffixS};
-  ExtendedZoneProcessor::expandDateTuple(
-      &tt, offsetMinutes, deltaMinutes,
-      &ttw, &tts, &ttu);
-  assertTrue((ttw == DateTuple{0, 1, 30, 15*12, ZoneContext::kSuffixW}));
-  assertTrue((tts == DateTuple{0, 1, 30, 15*8, ZoneContext::kSuffixS}));
-  assertTrue((ttu == DateTuple{0, 1, 30, 0, ZoneContext::kSuffixU}));
-
-  tt = {0, 1, 30, 0, ZoneContext::kSuffixU};
-  ExtendedZoneProcessor::expandDateTuple(
-      &tt, offsetMinutes, deltaMinutes,
-      &ttw, &tts, &ttu);
-  assertTrue((ttw == DateTuple{0, 1, 30, 15*12, ZoneContext::kSuffixW}));
-  assertTrue((tts == DateTuple{0, 1, 30, 15*8, ZoneContext::kSuffixS}));
-  assertTrue((ttu == DateTuple{0, 1, 30, 0, ZoneContext::kSuffixU}));
-}
+//---------------------------------------------------------------------------
+// Step 2B: Pass 1
+//---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, calcInteriorYears) {
   const uint8_t kMaxInteriorYears = 4;
@@ -536,6 +512,83 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
           &transition, &match));
 }
 
+test(ExtendedZoneProcessorTest, findCandidateTransitions) {
+  const ExtendedZoneProcessor::MatchingEra match = {
+    {18, 12, 1, 0, ZoneContext::kSuffixW},
+    {20, 2, 1, 0, ZoneContext::kSuffixW},
+    ZoneEraBroker(&kZoneEraTestLos_Angeles[0]),
+    nullptr /*prevMatch*/,
+    0 /*lastOffsetMinutes*/,
+    0 /*lastDeltaMinutes*/
+  };
+
+  // Reserve storage for the Transitions
+  ExtendedZoneProcessor::TransitionStorage storage;
+  storage.init();
+
+  // Verify compareTransitionToMatchFuzzy() elminates various transitions
+  // to get down to 5:
+  //    * 2018 Mar Sun>=8 (11)
+  //    * 2019 Nov Sun>=1 (4)
+  //    * 2019 Mar Sun>=8 (10)
+  //    * 2019 Nov Sun>=1 (3)
+  //    * 2020 Mar Sun>=8 (8)
+  storage.resetCandidatePool();
+  ExtendedZoneProcessor::findCandidateTransitions(storage, &match);
+  assertEqual(5,
+      (int) (storage.getCandidatePoolEnd() - storage.getCandidatePoolBegin()));
+  ExtendedZoneProcessor::Transition** t = storage.getCandidatePoolBegin();
+  assertTrue(((*t++)->transitionTime == DateTuple{18, 3, 11, 15*8,
+      ZoneContext::kSuffixW}));
+  assertTrue(((*t++)->transitionTime == DateTuple{18, 11, 4, 15*8,
+      ZoneContext::kSuffixW}));
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 15*8,
+      ZoneContext::kSuffixW}));
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 11, 3, 15*8,
+      ZoneContext::kSuffixW}));
+  assertTrue(((*t++)->transitionTime == DateTuple{20, 3, 8, 15*8,
+      ZoneContext::kSuffixW}));
+}
+
+//---------------------------------------------------------------------------
+// Step 2B: Pass 2; Step 3
+//---------------------------------------------------------------------------
+
+test(ExtendedZoneProcessorTest, expandDateTuple) {
+  DateTuple ttw;
+  DateTuple tts;
+  DateTuple ttu;
+  int16_t offsetMinutes = 2*60;
+  int16_t deltaMinutes = 1*60;
+
+  DateTuple tt = {0, 1, 30, 15*16, ZoneContext::kSuffixW}; // 04:00
+  ExtendedZoneProcessor::expandDateTuple(
+      &tt, offsetMinutes, deltaMinutes,
+      &ttw, &tts, &ttu);
+  assertTrue((ttw == DateTuple{0, 1, 30, 15*16, ZoneContext::kSuffixW}));
+  assertTrue((tts == DateTuple{0, 1, 30, 15*12, ZoneContext::kSuffixS}));
+  assertTrue((ttu == DateTuple{0, 1, 30, 15*4, ZoneContext::kSuffixU}));
+
+  tt = {0, 1, 30, 15*12, ZoneContext::kSuffixS};
+  ExtendedZoneProcessor::expandDateTuple(
+      &tt, offsetMinutes, deltaMinutes,
+      &ttw, &tts, &ttu);
+  assertTrue((ttw == DateTuple{0, 1, 30, 15*16, ZoneContext::kSuffixW}));
+  assertTrue((tts == DateTuple{0, 1, 30, 15*12, ZoneContext::kSuffixS}));
+  assertTrue((ttu == DateTuple{0, 1, 30, 15*4, ZoneContext::kSuffixU}));
+
+  tt = {0, 1, 30, 15*4, ZoneContext::kSuffixU};
+  ExtendedZoneProcessor::expandDateTuple(
+      &tt, offsetMinutes, deltaMinutes,
+      &ttw, &tts, &ttu);
+  assertTrue((ttw == DateTuple{0, 1, 30, 15*16, ZoneContext::kSuffixW}));
+  assertTrue((tts == DateTuple{0, 1, 30, 15*12, ZoneContext::kSuffixS}));
+  assertTrue((ttu == DateTuple{0, 1, 30, 15*4, ZoneContext::kSuffixU}));
+}
+
+//---------------------------------------------------------------------------
+// Step 2B: Pass 3
+//---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   using ace_time::extended::MatchStatus;
@@ -768,43 +821,9 @@ test(ExtendedZoneProcessorTest, processTransitionMatchStatus) {
   assertEqual(prior, &transition1);
 }
 
-test(ExtendedZoneProcessorTest, findCandidateTransitions) {
-  const ExtendedZoneProcessor::MatchingEra match = {
-    {18, 12, 1, 0, ZoneContext::kSuffixW},
-    {20, 2, 1, 0, ZoneContext::kSuffixW},
-    ZoneEraBroker(&kZoneEraTestLos_Angeles[0]),
-    nullptr /*prevMatch*/,
-    0 /*lastOffsetMinutes*/,
-    0 /*lastDeltaMinutes*/
-  };
-
-  // Reserve storage for the Transitions
-  ExtendedZoneProcessor::TransitionStorage storage;
-  storage.init();
-
-  // Verify compareTransitionToMatchFuzzy() elminates various transitions
-  // to get down to 5:
-  //    * 2018 Mar Sun>=8 (11)
-  //    * 2019 Nov Sun>=1 (4)
-  //    * 2019 Mar Sun>=8 (10)
-  //    * 2019 Nov Sun>=1 (3)
-  //    * 2020 Mar Sun>=8 (8)
-  storage.resetCandidatePool();
-  ExtendedZoneProcessor::findCandidateTransitions(storage, &match);
-  assertEqual(5,
-      (int) (storage.getCandidatePoolEnd() - storage.getCandidatePoolBegin()));
-  ExtendedZoneProcessor::Transition** t = storage.getCandidatePoolBegin();
-  assertTrue(((*t++)->transitionTime == DateTuple{18, 3, 11, 15*8,
-      ZoneContext::kSuffixW}));
-  assertTrue(((*t++)->transitionTime == DateTuple{18, 11, 4, 15*8,
-      ZoneContext::kSuffixW}));
-  assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 15*8,
-      ZoneContext::kSuffixW}));
-  assertTrue(((*t++)->transitionTime == DateTuple{19, 11, 3, 15*8,
-      ZoneContext::kSuffixW}));
-  assertTrue(((*t++)->transitionTime == DateTuple{20, 3, 8, 15*8,
-      ZoneContext::kSuffixW}));
-}
+//---------------------------------------------------------------------------
+// Step 2B
+//---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, createTransitionsFromNamedMatch) {
   ExtendedZoneProcessor::MatchingEra match = {
@@ -832,6 +851,10 @@ test(ExtendedZoneProcessorTest, createTransitionsFromNamedMatch) {
       ZoneContext::kSuffixW}));
 }
 
+//---------------------------------------------------------------------------
+// Step 3, Step 4
+//---------------------------------------------------------------------------
+
 test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
   using ace_time::extended::MatchStatus;
 
@@ -857,21 +880,21 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
   // Create 3 Transitions corresponding to the matches.
   // Implements ExtendedZoneProcessor::createTransitionsFromSimpleMatch().
   ExtendedZoneProcessor::Transition* transition1 = storage.getFreeAgent();
-  ExtendedZoneProcessor::createTransitionForYear(
+  ExtendedZoneProcessor::createTransitionForYearTiny(
       transition1, 0 /*year, not used*/, ZoneRuleBroker(nullptr) /*rule*/,
       &matches[0]);
   transition1->matchStatus = MatchStatus::kExactMatch; // synthetic example
   storage.addFreeAgentToCandidatePool();
 
   ExtendedZoneProcessor::Transition* transition2 = storage.getFreeAgent();
-  ExtendedZoneProcessor::createTransitionForYear(
+  ExtendedZoneProcessor::createTransitionForYearTiny(
       transition2, 0 /*year, not used*/, ZoneRuleBroker(nullptr) /*rule*/,
       &matches[1]);
   transition2->matchStatus = MatchStatus::kWithinMatch; // synthetic example
   storage.addFreeAgentToCandidatePool();
 
   ExtendedZoneProcessor::Transition* transition3 = storage.getFreeAgent();
-  ExtendedZoneProcessor::createTransitionForYear(
+  ExtendedZoneProcessor::createTransitionForYearTiny(
       transition3, 0 /*year, not used*/, ZoneRuleBroker(nullptr) /*rule*/,
       &matches[2]);
   transition3->matchStatus = MatchStatus::kWithinMatch; // synthetic example
@@ -918,8 +941,6 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
 
   // Verify. The first transition startTime should be the same as its
   // transitionTime.
-  //assertTrue((transition1->transitionTime == DateTuple{18, 12, 1, 0,
-  //    ZoneContext::kSuffixW}));
   assertTrue((transition1->startDateTime == DateTuple{18, 12, 1, 0,
       ZoneContext::kSuffixW}));
   assertTrue((transition1->untilDateTime == DateTuple{19, 3, 10, 15*8,
@@ -929,8 +950,6 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
   assertEqual(epochSecs, transition1->startEpochSeconds);
 
   // Second transition startTime is shifted forward one hour into PDT.
-  //assertTrue((transition2->transitionTime == DateTuple{19, 3, 10, 15*8,
-  //    ZoneContext::kSuffixW}));
   assertTrue((transition2->startDateTime == DateTuple{19, 3, 10, 15*12,
       ZoneContext::kSuffixW}));
   assertTrue((transition2->untilDateTime == DateTuple{19, 11, 3, 15*8,
@@ -940,8 +959,6 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
   assertEqual(epochSecs, transition2->startEpochSeconds);
 
   // Third transition startTime is shifted back one hour into PST.
-  assertTrue((transition3->transitionTime == DateTuple{19, 11, 3, 15*8,
-      ZoneContext::kSuffixW}));
   assertTrue((transition3->startDateTime == DateTuple{19, 11, 3, 15*4,
       ZoneContext::kSuffixW}));
   assertTrue((transition3->untilDateTime == DateTuple{20, 2, 1, 0,
@@ -950,6 +967,10 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
       2019, 11, 3, 1, 0, 0, TimeOffset::forHours(-8)).toEpochSeconds();
   assertEqual(epochSecs, transition3->startEpochSeconds);
 }
+
+//---------------------------------------------------------------------------
+// Step 5
+//---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, createAbbreviation) {
   const uint8_t kDstSize = 6;

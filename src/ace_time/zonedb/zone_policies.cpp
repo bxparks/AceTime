@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022a
+//     --tz_version 2022b
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -22,13 +22,13 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022a
+// from https://github.com/eggert/tz/releases/tag/2022b
 //
 // Policies: 64
-// Rules: 363
+// Rules: 337
 // Letter Size (bytes): 0
-// Total Memory 8-bit (bytes): 3651
-// Total Memory 32-bit (bytes): 5124
+// Total Memory 8-bit (bytes): 3417
+// Total Memory 32-bit (bytes): 4812
 //
 // DO NOT EDIT
 
@@ -1320,9 +1320,9 @@ const basic::ZonePolicy kPolicyChatham ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: Chile
-// Rules: 15
-// Memory (8-bit): 141
-// Memory (32-bit): 192
+// Rules: 17
+// Memory (8-bit): 159
+// Memory (32-bit): 216
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
@@ -1494,9 +1494,33 @@ static const basic::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
     0 /*deltaCode ((deltaMinutes=0)/15)*/,
     '-' /*letter*/,
   },
-  // Rule    Chile    2019    max    -    Sep    Sun>=2    4:00u    1:00    -
+  // Rule    Chile    2019    2021    -    Sep    Sun>=2    4:00u    1:00    -
   {
     19 /*fromYearTiny*/,
+    21 /*toYearTiny*/,
+    9 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    2 /*onDayOfMonth*/,
+    16 /*atTimeCode*/,
+    32 /*atTimeModifier (kSuffixU + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Chile    2022    only    -    Sep    Sun>=9    4:00u    1:00    -
+  {
+    22 /*fromYearTiny*/,
+    22 /*toYearTiny*/,
+    9 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    9 /*onDayOfMonth*/,
+    16 /*atTimeCode*/,
+    32 /*atTimeModifier (kSuffixU + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Chile    2023    max    -    Sep    Sun>=2    4:00u    1:00    -
+  {
+    23 /*fromYearTiny*/,
     126 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
@@ -1514,7 +1538,7 @@ static const basic::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
 const basic::ZonePolicy kPolicyChile ACE_TIME_PROGMEM = {
   kZoneRulesChile /*rules*/,
   nullptr /*letters*/,
-  15 /*numRules*/,
+  17 /*numRules*/,
   0 /*numLetters*/,
 };
 
@@ -2464,9 +2488,9 @@ const basic::ZonePolicy kPolicyHond ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: Iran
-// Rules: 55
-// Memory (8-bit): 501
-// Memory (32-bit): 672
+// Rules: 27
+// Memory (8-bit): 249
+// Memory (32-bit): 336
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
@@ -2770,10 +2794,10 @@ static const basic::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     0 /*deltaCode ((deltaMinutes=0)/15)*/,
     '-' /*letter*/,
   },
-  // Rule    Iran    2021    2023    -    Mar    21    24:00    1:00    -
+  // Rule    Iran    2021    2022    -    Mar    21    24:00    1:00    -
   {
     21 /*fromYearTiny*/,
-    23 /*toYearTiny*/,
+    22 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2782,346 +2806,10 @@ static const basic::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
     4 /*deltaCode ((deltaMinutes=60)/15)*/,
     '-' /*letter*/,
   },
-  // Rule    Iran    2021    2023    -    Sep    21    24:00    0    -
+  // Rule    Iran    2021    2022    -    Sep    21    24:00    0    -
   {
     21 /*fromYearTiny*/,
-    23 /*toYearTiny*/,
-    9 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    21 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2024    only    -    Mar    20    24:00    1:00    -
-  {
-    24 /*fromYearTiny*/,
-    24 /*toYearTiny*/,
-    3 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2024    only    -    Sep    20    24:00    0    -
-  {
-    24 /*fromYearTiny*/,
-    24 /*toYearTiny*/,
-    9 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2025    2027    -    Mar    21    24:00    1:00    -
-  {
-    25 /*fromYearTiny*/,
-    27 /*toYearTiny*/,
-    3 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    21 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2025    2027    -    Sep    21    24:00    0    -
-  {
-    25 /*fromYearTiny*/,
-    27 /*toYearTiny*/,
-    9 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    21 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2028    2029    -    Mar    20    24:00    1:00    -
-  {
-    28 /*fromYearTiny*/,
-    29 /*toYearTiny*/,
-    3 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2028    2029    -    Sep    20    24:00    0    -
-  {
-    28 /*fromYearTiny*/,
-    29 /*toYearTiny*/,
-    9 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2030    2031    -    Mar    21    24:00    1:00    -
-  {
-    30 /*fromYearTiny*/,
-    31 /*toYearTiny*/,
-    3 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    21 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2030    2031    -    Sep    21    24:00    0    -
-  {
-    30 /*fromYearTiny*/,
-    31 /*toYearTiny*/,
-    9 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    21 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2032    2033    -    Mar    20    24:00    1:00    -
-  {
-    32 /*fromYearTiny*/,
-    33 /*toYearTiny*/,
-    3 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2032    2033    -    Sep    20    24:00    0    -
-  {
-    32 /*fromYearTiny*/,
-    33 /*toYearTiny*/,
-    9 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2034    2035    -    Mar    21    24:00    1:00    -
-  {
-    34 /*fromYearTiny*/,
-    35 /*toYearTiny*/,
-    3 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    21 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2034    2035    -    Sep    21    24:00    0    -
-  {
-    34 /*fromYearTiny*/,
-    35 /*toYearTiny*/,
-    9 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    21 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2036    2037    -    Mar    20    24:00    1:00    -
-  {
-    36 /*fromYearTiny*/,
-    37 /*toYearTiny*/,
-    3 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2036    2037    -    Sep    20    24:00    0    -
-  {
-    36 /*fromYearTiny*/,
-    37 /*toYearTiny*/,
-    9 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2038    2039    -    Mar    21    24:00    1:00    -
-  {
-    38 /*fromYearTiny*/,
-    39 /*toYearTiny*/,
-    3 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    21 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2038    2039    -    Sep    21    24:00    0    -
-  {
-    38 /*fromYearTiny*/,
-    39 /*toYearTiny*/,
-    9 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    21 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2040    2041    -    Mar    20    24:00    1:00    -
-  {
-    40 /*fromYearTiny*/,
-    41 /*toYearTiny*/,
-    3 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2040    2041    -    Sep    20    24:00    0    -
-  {
-    40 /*fromYearTiny*/,
-    41 /*toYearTiny*/,
-    9 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2042    2043    -    Mar    21    24:00    1:00    -
-  {
-    42 /*fromYearTiny*/,
-    43 /*toYearTiny*/,
-    3 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    21 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2042    2043    -    Sep    21    24:00    0    -
-  {
-    42 /*fromYearTiny*/,
-    43 /*toYearTiny*/,
-    9 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    21 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2044    2045    -    Mar    20    24:00    1:00    -
-  {
-    44 /*fromYearTiny*/,
-    45 /*toYearTiny*/,
-    3 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2044    2045    -    Sep    20    24:00    0    -
-  {
-    44 /*fromYearTiny*/,
-    45 /*toYearTiny*/,
-    9 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2046    2047    -    Mar    21    24:00    1:00    -
-  {
-    46 /*fromYearTiny*/,
-    47 /*toYearTiny*/,
-    3 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    21 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2046    2047    -    Sep    21    24:00    0    -
-  {
-    46 /*fromYearTiny*/,
-    47 /*toYearTiny*/,
-    9 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    21 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2048    2049    -    Mar    20    24:00    1:00    -
-  {
-    48 /*fromYearTiny*/,
-    49 /*toYearTiny*/,
-    3 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2048    2049    -    Sep    20    24:00    0    -
-  {
-    48 /*fromYearTiny*/,
-    49 /*toYearTiny*/,
-    9 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2050    2051    -    Mar    21    24:00    1:00    -
-  {
-    50 /*fromYearTiny*/,
-    51 /*toYearTiny*/,
-    3 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    21 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Iran    2050    2051    -    Sep    21    24:00    0    -
-  {
-    50 /*fromYearTiny*/,
-    51 /*toYearTiny*/,
+    22 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3138,7 +2826,7 @@ static const basic::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
 const basic::ZonePolicy kPolicyIran ACE_TIME_PROGMEM = {
   kZoneRulesIran /*rules*/,
   nullptr /*letters*/,
-  55 /*numRules*/,
+  27 /*numRules*/,
   0 /*numLetters*/,
 };
 

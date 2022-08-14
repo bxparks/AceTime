@@ -4,7 +4,7 @@ The primary purpose of AceTime classes is to convert between an integer
 representing the number of seconds since the AceTime Epoch (2000-01-01T00:00:00
 UTC) and the equivalent human-readable components in different timezones.
 
-**Version**: 1.11.3 (2021-03.20, TZDB 2022a)
+**Version**: 1.11.4 (2022-08-13, TZDB 2022b)
 
 **Related Documents**:
 
@@ -1869,6 +1869,11 @@ epochSeconds which can correspond to the given LocalDateTime. The `fold`
 parameter is an *input* parameter to the `forComponents()` in both cases.
 The impact of the `fold` parameter is as follows:
 
+**Normal**: Not a gap or overlap. The `forComponents()` method ignores the
+`fold` parameter if there is no ambiguity about the local date-time components.
+The returned `ZonedDateTime` object will contain a `fold()` value that preserves
+the input `fold` parameter.
+
 **Overlap**: If `ZonedDateTime::forComponents()` is called with during an
 overlap of `LocalDateTime` (e.g. 2:30am during a fall back from 2am to 3am), the
 factory method uses the user-provided `fold` parameter to select the following:
@@ -1896,7 +1901,8 @@ the following, and perhaps counter-intuitive, manner:
     * Which becomes normalized to the *later* ZonedDateTime which has the
       *later* UTC offset.
     * So 02:30 is interpreted as 02:30-08:00, which is normalized to
-      03:30-07:00, and the `fold` after normalization is set to 0.
+      03:30-07:00, and the `fold` after normalization is set to 1 to indicate
+      that the later transition was selected.
 * `fold==1`
     * Selects the *later* Transition element, extended backward to apply to the
       given LocalDateTime,
@@ -1904,11 +1910,16 @@ the following, and perhaps counter-intuitive, manner:
     * Which becomes normalized to the *earlier* ZonedDateTime which has the
       *earlier* UTC offset.
     * So 02:30 is interpreted as 02:30-07:00, which is normalized to
-      01:30-08:00, and the `fold` after normalization is set to 0.
+      01:30-08:00, and the `fold` after normalization is set to 0 to indicate
+      that the earlier transition was selected.
 
 The time shift during a gap seems to be the *opposite* of the shift during an
 overlap, but internally this is self-consistent. Just as importantly, this
 follows the same logic as PEP 495.
+
+Note that the `fold` parameter flips its value (from 0 to 1, or vise versea) if
+`forComponents()` is called in the gap. Currently, this is the only publicly
+exposed mechanism for detecting that a given date-time is in the gap.
 
 <a name="SemanticChangesWithFold"></a>
 #### Semantic Changes with Fold
@@ -1945,8 +1956,8 @@ A more subtle, but important semantic change, is that the `fold` parameter
 preserves information during gaps and overlaps. This means that we can do
 round-trip conversions of `ZonedDateTime` properly. We can start with
 epochSeconds, convert to components, then back to epochSeconds, and get back the
-same epochSeconds. With the `fold` parameter, this round-trip was not guaranteed
-during an overlap.
+same epochSeconds. Without the `fold` parameter, this round-trip was not
+guaranteed during an overlap.
 
 <a name="ResourceConsumptionWithFold"></a>
 #### Resource Consumption with Fold
@@ -2046,8 +2057,8 @@ in the `transformer.py` script and summarized in
 * the UNTIL time suffix can only be 'w' (not 's' or 'u')
 * there can be only one DST transition in a single month
 
-As of version v1.11.3 (with TZDB 2022a), this database contains 258 Zone entries
-and 193 Link entries, supported from the year 2000 to 2049 (inclusive).
+As of version v1.11.4 (with TZDB 2022b), this database contains 237 Zone entries
+and 215 Link entries, supported from the year 2000 to 2049 (inclusive).
 
 <a name="ExtendedZonedbx"></a>
 #### Extended zonedbx
@@ -2063,8 +2074,8 @@ are:
 * the AT and UNTIL fields are multiples of 1-minute
 * the LETTER field can be arbitrary strings
 
-As of version v1.11.3 (with TZDB 2022a), this database contains all 377 Zone
-entries and 217 Link entries, supported from the year 2000 to 2049 (inclusive).
+As of version v1.11.4 (with TZDB 2022b), this database contains all 356 Zone
+entries and 239 Link entries, supported from the year 2000 to 2049 (inclusive).
 
 <a name="TzDatabaseVersion"></a>
 #### TZ Database Version

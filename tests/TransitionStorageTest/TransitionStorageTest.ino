@@ -98,6 +98,16 @@ test(TransitionStorageTest, reservePrior) {
   assertEqual(0, storage.mIndexPrior);
   assertEqual(1, storage.mIndexCandidates);
   assertEqual(1, storage.mIndexFree);
+}
+
+test(TransitionStorageTest, addPriorToCandidatePool) {
+  TransitionStorage storage;
+  storage.init();
+  Transition** prior = storage.reservePrior();
+  assertTrue(prior == &storage.mTransitions[0]);
+  assertEqual(0, storage.mIndexPrior);
+  assertEqual(1, storage.mIndexCandidates);
+  assertEqual(1, storage.mIndexFree);
 
   storage.addPriorToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
@@ -226,6 +236,58 @@ test(TransitionStorageTest, addActiveCandidatesToActivePool) {
   assertEqual(2, storage.getTransition(2)->transitionTime.yearTiny);
 }
 
+test(TransitionStorageTest, resetCandidatePool) {
+  TransitionStorage storage;
+  storage.init();
+
+  // Add 2 transitions to Candidate pool, 2 active, 1 inactive.
+  Transition* freeAgent = storage.getFreeAgent();
+  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::kSuffixW};
+  freeAgent->matchStatus = MatchStatus::kWithinMatch;
+  storage.addFreeAgentToCandidatePool();
+  assertEqual(0, storage.mIndexPrior);
+  assertEqual(0, storage.mIndexCandidates);
+  assertEqual(1, storage.mIndexFree);
+
+  freeAgent = storage.getFreeAgent();
+  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
+  freeAgent->matchStatus = MatchStatus::kWithinMatch;
+  storage.addFreeAgentToCandidatePool();
+  assertEqual(0, storage.mIndexPrior);
+  assertEqual(0, storage.mIndexCandidates);
+  assertEqual(2, storage.mIndexFree);
+
+  // Add active candidates to Active pool. Looks like this
+  // already does a resetCandidatePool() effectively.
+  storage.addActiveCandidatesToActivePool();
+  assertEqual(2, storage.mIndexPrior);
+  assertEqual(2, storage.mIndexCandidates);
+  assertEqual(2, storage.mIndexFree);
+
+  // This should be a no-op.
+  storage.resetCandidatePool();
+  assertEqual(2, storage.mIndexPrior);
+  assertEqual(2, storage.mIndexCandidates);
+  assertEqual(2, storage.mIndexFree);
+
+  // Non-active can be added to the candidate pool.
+  freeAgent = storage.getFreeAgent();
+  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::kSuffixW};
+  freeAgent->matchStatus = MatchStatus::kFarPast;
+  storage.addFreeAgentToCandidatePool();
+  assertEqual(2, storage.mIndexPrior);
+  assertEqual(2, storage.mIndexCandidates);
+  assertEqual(3, storage.mIndexFree);
+
+  // Reset should remove any remaining candidate transitions.
+  storage.resetCandidatePool();
+  assertEqual(2, storage.mIndexPrior);
+  assertEqual(2, storage.mIndexCandidates);
+  assertEqual(2, storage.mIndexFree);
+}
+
+//---------------------------------------------------------------------------
+
 test(TransitionStorageTest, findTransitionForSeconds) {
   TransitionStorage storage;
   using MatchingTransition = TransitionStorage::MatchingTransition;
@@ -337,56 +399,6 @@ test(TransitionStorageTest, findTransitionForDateTime) {
   r = storage.findTransitionForDateTime(ldt);
   assertEqual(r.searchStatus, TransitionResult::kStatusExact);
   assertEqual(2, r.transition0->transitionTime.yearTiny);
-}
-
-test(TransitionStorageTest, resetCandidatePool) {
-  TransitionStorage storage;
-  storage.init();
-
-  // Add 2 transitions to Candidate pool, 2 active, 1 inactive.
-  Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::kSuffixW};
-  freeAgent->matchStatus = MatchStatus::kWithinMatch;
-  storage.addFreeAgentToCandidatePool();
-  assertEqual(0, storage.mIndexPrior);
-  assertEqual(0, storage.mIndexCandidates);
-  assertEqual(1, storage.mIndexFree);
-
-  freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
-  freeAgent->matchStatus = MatchStatus::kWithinMatch;
-  storage.addFreeAgentToCandidatePool();
-  assertEqual(0, storage.mIndexPrior);
-  assertEqual(0, storage.mIndexCandidates);
-  assertEqual(2, storage.mIndexFree);
-
-  // Add active candidates to Active pool. Looks like this
-  // already does a resetCandidatePool() effectively.
-  storage.addActiveCandidatesToActivePool();
-  assertEqual(2, storage.mIndexPrior);
-  assertEqual(2, storage.mIndexCandidates);
-  assertEqual(2, storage.mIndexFree);
-
-  // This should be a no-op.
-  storage.resetCandidatePool();
-  assertEqual(2, storage.mIndexPrior);
-  assertEqual(2, storage.mIndexCandidates);
-  assertEqual(2, storage.mIndexFree);
-
-  // Non-active can be added to the candidate pool.
-  freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::kSuffixW};
-  freeAgent->matchStatus = MatchStatus::kFarPast;
-  storage.addFreeAgentToCandidatePool();
-  assertEqual(2, storage.mIndexPrior);
-  assertEqual(2, storage.mIndexCandidates);
-  assertEqual(3, storage.mIndexFree);
-
-  // Reset should remove any remaining candidate transitions.
-  storage.resetCandidatePool();
-  assertEqual(2, storage.mIndexPrior);
-  assertEqual(2, storage.mIndexCandidates);
-  assertEqual(2, storage.mIndexFree);
 }
 
 //---------------------------------------------------------------------------
