@@ -17,8 +17,8 @@
  *    interest.
  */
 struct ZoneEra {
-  /** The maximum value of untilYearTiny. */
-  static const int8_t kMaxUntilYearTiny = ZoneRule::kMaxYearTiny + 1;
+  /** The maximum value of untilYear. */
+  static const int16_t kMaxUntilYear = ZoneRule::kMaxYear + 1;
 
   /**
    * Zone policy, determined by the RULES column. Set to nullptr if the RULES
@@ -77,10 +77,9 @@ struct ZoneEra {
   int8_t const deltaCode;
 
   /**
-   * Era is valid until currentTime < untilYear. Stored as (year - 2000) in a
-   * single byte to save space. Comes from the UNTIL column.
+   * Era is valid until currentTime < untilYear. Comes from the UNTIL column.
    */
-  int8_t const untilYearTiny;
+  int16_t const untilYear;
 
   /** The month field in UNTIL (1-12). Will never be 0. */
   uint8_t const untilMonth;

@@ -122,12 +122,12 @@ test(TransitionStorageTest, setFreeAgentAsPriorIfValid) {
   // Initial prior
   Transition** priorReservation = storage.reservePrior();
   (*priorReservation)->isValidPrior = false;
-  (*priorReservation)->transitionTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
+  (*priorReservation)->transitionTime = {2002, 3, 4, 5, ZoneContext::kSuffixW};
 
   // Candiate prior.
   Transition* freeAgent = storage.getFreeAgent();
   freeAgent->isValidPrior = true;
-  freeAgent->transitionTime = {2, 3, 4, 0, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2002, 3, 4, 0, ZoneContext::kSuffixW};
 
   // Should swap because prior->isValidPrior is false.
   storage.setFreeAgentAsPriorIfValid();
@@ -138,14 +138,14 @@ test(TransitionStorageTest, setFreeAgentAsPriorIfValid) {
   assertTrue(prior->isValidPrior);
   assertFalse(freeAgent->isValidPrior);
   assertTrue(prior->transitionTime
-      == DateTuple(2, 3, 4, 0, ZoneContext::kSuffixW));
+      == DateTuple(2002, 3, 4, 0, ZoneContext::kSuffixW));
   assertTrue(freeAgent->transitionTime
-      == DateTuple(2, 3, 4, 5, ZoneContext::kSuffixW));
+      == DateTuple(2002, 3, 4, 5, ZoneContext::kSuffixW));
 
   // Another Candidate prior.
   freeAgent = storage.getFreeAgent();
   freeAgent->isValidPrior = true;
-  freeAgent->transitionTime = {2, 3, 4, 6, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2002, 3, 4, 6, ZoneContext::kSuffixW};
 
   // Should swap because the transitionTime is newer
   storage.setFreeAgentAsPriorIfValid();
@@ -156,9 +156,9 @@ test(TransitionStorageTest, setFreeAgentAsPriorIfValid) {
   assertTrue(prior->isValidPrior);
   assertFalse(freeAgent->isValidPrior);
   assertTrue(prior->transitionTime
-      == DateTuple(2, 3, 4, 6, ZoneContext::kSuffixW));
+      == DateTuple(2002, 3, 4, 6, ZoneContext::kSuffixW));
   assertTrue(freeAgent->transitionTime
-      == DateTuple(2, 3, 4, 0, ZoneContext::kSuffixW));
+      == DateTuple(2002, 3, 4, 0, ZoneContext::kSuffixW));
 }
 
 test(TransitionStorageTest, addFreeAgentToCandidatePool) {
@@ -170,30 +170,30 @@ test(TransitionStorageTest, addFreeAgentToCandidatePool) {
 
   // Verify that addFreeAgentToCandidatePool() does not touch prior transition
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2000, 1, 2, 3, ZoneContext::kSuffixW};
   storage.addFreeAgentToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
   assertEqual(1, storage.mIndexCandidates);
   assertEqual(2, storage.mIndexFree);
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2002, 3, 4, 5, ZoneContext::kSuffixW};
   storage.addFreeAgentToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
   assertEqual(1, storage.mIndexCandidates);
   assertEqual(3, storage.mIndexFree);
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2001, 2, 3, 4, ZoneContext::kSuffixW};
   storage.addFreeAgentToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
   assertEqual(1, storage.mIndexCandidates);
   assertEqual(4, storage.mIndexFree);
 
   // Assert that the transitions are sorted
-  assertEqual(0, storage.getTransition(1)->transitionTime.yearTiny);
-  assertEqual(1, storage.getTransition(2)->transitionTime.yearTiny);
-  assertEqual(2, storage.getTransition(3)->transitionTime.yearTiny);
+  assertEqual(2000, storage.getTransition(1)->transitionTime.year);
+  assertEqual(2001, storage.getTransition(2)->transitionTime.year);
+  assertEqual(2002, storage.getTransition(3)->transitionTime.year);
 }
 
 test(TransitionStorageTest, addActiveCandidatesToActivePool) {
@@ -202,22 +202,22 @@ test(TransitionStorageTest, addActiveCandidatesToActivePool) {
 
   // create Prior to make it interesting
   Transition** prior = storage.reservePrior();
-  (*prior)->transitionTime = {-1, 0, 1, 2, ZoneContext::kSuffixW};
+  (*prior)->transitionTime = {1999, 0, 1, 2, ZoneContext::kSuffixW};
   (*prior)->matchStatus = MatchStatus::kWithinMatch;
 
   // Add 3 transitions to Candidate pool, 2 active, 1 inactive.
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2000, 1, 2, 3, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   storage.addFreeAgentToCandidatePool();
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2002, 3, 4, 5, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   storage.addFreeAgentToCandidatePool();
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2001, 2, 3, 4, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kFarPast;
   storage.addFreeAgentToCandidatePool();
 
@@ -231,9 +231,9 @@ test(TransitionStorageTest, addActiveCandidatesToActivePool) {
   assertEqual(3, storage.mIndexPrior);
   assertEqual(3, storage.mIndexCandidates);
   assertEqual(3, storage.mIndexFree);
-  assertEqual(-1, storage.getTransition(0)->transitionTime.yearTiny);
-  assertEqual(0, storage.getTransition(1)->transitionTime.yearTiny);
-  assertEqual(2, storage.getTransition(2)->transitionTime.yearTiny);
+  assertEqual(1999, storage.getTransition(0)->transitionTime.year);
+  assertEqual(2000, storage.getTransition(1)->transitionTime.year);
+  assertEqual(2002, storage.getTransition(2)->transitionTime.year);
 }
 
 test(TransitionStorageTest, resetCandidatePool) {
@@ -242,7 +242,7 @@ test(TransitionStorageTest, resetCandidatePool) {
 
   // Add 2 transitions to Candidate pool, 2 active, 1 inactive.
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2000, 1, 2, 3, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   storage.addFreeAgentToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
@@ -250,7 +250,7 @@ test(TransitionStorageTest, resetCandidatePool) {
   assertEqual(1, storage.mIndexFree);
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2002, 3, 4, 5, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   storage.addFreeAgentToCandidatePool();
   assertEqual(0, storage.mIndexPrior);
@@ -272,7 +272,7 @@ test(TransitionStorageTest, resetCandidatePool) {
 
   // Non-active can be added to the candidate pool.
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2001, 2, 3, 4, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kFarPast;
   storage.addFreeAgentToCandidatePool();
   assertEqual(2, storage.mIndexPrior);
@@ -295,19 +295,19 @@ test(TransitionStorageTest, findTransitionForSeconds) {
 
   // Add 3 transitions to Active pool.
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2000, 1, 2, 3, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   freeAgent->startEpochSeconds = 0;
   storage.addFreeAgentToCandidatePool();
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2001, 2, 3, 4, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   freeAgent->startEpochSeconds = 10;
   storage.addFreeAgentToCandidatePool();
 
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2002, 3, 4, 5, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   freeAgent->startEpochSeconds = 20;
   storage.addFreeAgentToCandidatePool();
@@ -319,19 +319,19 @@ test(TransitionStorageTest, findTransitionForSeconds) {
 
   MatchingTransition matchingTransition = storage.findTransitionForSeconds(1);
   const Transition* t = matchingTransition.transition;
-  assertEqual(0, t->transitionTime.yearTiny);
+  assertEqual(2000, t->transitionTime.year);
 
   matchingTransition = storage.findTransitionForSeconds(9);
   t = matchingTransition.transition;
-  assertEqual(0, t->transitionTime.yearTiny);
+  assertEqual(2000, t->transitionTime.year);
 
   matchingTransition = storage.findTransitionForSeconds(10);
   t = matchingTransition.transition;
-  assertEqual(1, t->transitionTime.yearTiny);
+  assertEqual(2001, t->transitionTime.year);
 
   matchingTransition = storage.findTransitionForSeconds(21);
   t = matchingTransition.transition;
-  assertEqual(2, t->transitionTime.yearTiny);
+  assertEqual(2002, t->transitionTime.year);
 }
 
 test(TransitionStorageTest, findTransitionForDateTime) {
@@ -340,25 +340,26 @@ test(TransitionStorageTest, findTransitionForDateTime) {
 
   // Transition 1: [2000-01-02T00:03, 2001-02-03T00:04)
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {0, 1, 2, 3, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2000, 1, 2, 3, ZoneContext::kSuffixW};
   freeAgent->startDateTime = freeAgent->transitionTime;
-  freeAgent->untilDateTime = {1, 2, 3, 4, ZoneContext::kSuffixW};
+  freeAgent->untilDateTime = {2001, 2, 3, 4, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   storage.addFreeAgentToCandidatePool();
 
   // Transition 2: [2001-02-03T00:04, 2002-03-04T00:05)
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {1, 2, 3, 4, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2001, 2, 3, 4, ZoneContext::kSuffixW};
   freeAgent->startDateTime = freeAgent->transitionTime;
-  freeAgent->untilDateTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
+  freeAgent->untilDateTime = {2002, 3, 4, 5, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   storage.addFreeAgentToCandidatePool();
 
   // Transition 3: [2002-03-04T00:05, infinity)
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2, 3, 4, 5, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2002, 3, 4, 5, ZoneContext::kSuffixW};
   freeAgent->startDateTime = freeAgent->transitionTime;
-  freeAgent->untilDateTime = {127, 1, 1, 0, ZoneContext::kSuffixW}; // infinity
+  freeAgent->untilDateTime = {
+      LocalDate::kMaxYear, 1, 1, 0, ZoneContext::kSuffixW}; // infinity
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   storage.addFreeAgentToCandidatePool();
 
@@ -380,25 +381,25 @@ test(TransitionStorageTest, findTransitionForDateTime) {
   ldt = LocalDateTime::forComponents(2000, 1, 2, 1, 0, 0);
   r = storage.findTransitionForDateTime(ldt);
   assertEqual(r.searchStatus, TransitionResult::kStatusExact);
-  assertEqual(0, r.transition0->transitionTime.yearTiny);
+  assertEqual(2000, r.transition0->transitionTime.year);
 
   // 2001-02-03T00:03
   ldt = LocalDateTime::forComponents(2001, 2, 3, 0, 3, 0);
   r = storage.findTransitionForDateTime(ldt);
   assertEqual(r.searchStatus, TransitionResult::kStatusExact);
-  assertEqual(0, r.transition0->transitionTime.yearTiny);
+  assertEqual(2000, r.transition0->transitionTime.year);
 
   // 2001-02-03T00:04
   ldt = LocalDateTime::forComponents(2001, 2, 3, 0, 4, 0);
   r = storage.findTransitionForDateTime(ldt);
   assertEqual(r.searchStatus, TransitionResult::kStatusExact);
-  assertEqual(1, r.transition0->transitionTime.yearTiny);
+  assertEqual(2001, r.transition0->transitionTime.year);
 
   // 2002-03-04T00:05
   ldt = LocalDateTime::forComponents(2002, 3, 4, 0, 5, 0);
   r = storage.findTransitionForDateTime(ldt);
   assertEqual(r.searchStatus, TransitionResult::kStatusExact);
-  assertEqual(2, r.transition0->transitionTime.yearTiny);
+  assertEqual(2002, r.transition0->transitionTime.year);
 }
 
 //---------------------------------------------------------------------------

@@ -32,7 +32,7 @@ class ExtendedZoneProcessorTest_findMatches_named;
 class ExtendedZoneProcessorTest_findCandidateTransitions;
 class ExtendedZoneProcessorTest_createTransitionsFromNamedMatch;
 class ExtendedZoneProcessorTest_getTransitionTime;
-class ExtendedZoneProcessorTest_createTransitionForYearTiny;
+class ExtendedZoneProcessorTest_createTransitionForYear;
 class ExtendedZoneProcessorTest_normalizeDateTuple;
 class ExtendedZoneProcessorTest_expandDateTuple;
 class ExtendedZoneProcessorTest_calcInteriorYears;
@@ -69,12 +69,12 @@ namespace extended {
 struct DateTuple {
   DateTuple() = default;
 
-  DateTuple(int8_t y, uint8_t mon, uint8_t d, int16_t min, uint8_t mod):
-      yearTiny(y), month(mon), day(d), suffix(mod), minutes(min) {}
+  DateTuple(int16_t y, uint8_t mon, uint8_t d, int16_t min, uint8_t mod):
+      year(y), month(mon), day(d), suffix(mod), minutes(min) {}
 
-  int8_t yearTiny; // [-127, 126], 127 will cause bugs
-  uint8_t month; // [1-12]
-  uint8_t day; // [1-31]
+  int16_t year; // [-1,10000]
+  uint8_t month; // [1,12]
+  uint8_t day; // [1,31]
   uint8_t suffix; // kSuffixS, kSuffixW, kSuffixU
   int16_t minutes; // negative values allowed
 
@@ -85,15 +85,15 @@ struct DateTuple {
       int minute = minutes - hour * 60;
       char c = "wsu"[(suffix>>4)];
       logging::printf("%04d-%02u-%02uT%02d:%02d%c",
-          yearTiny+LocalDate::kEpochYear, month, day, hour, minute, c);
+          year, month, day, hour, minute, c);
     }
   }
 };
 
 /** Determine if DateTuple a is less than DateTuple b, ignoring the suffix. */
 inline bool operator<(const DateTuple& a, const DateTuple& b) {
-  if (a.yearTiny < b.yearTiny) return true;
-  if (a.yearTiny > b.yearTiny) return false;
+  if (a.year < b.year) return true;
+  if (a.year > b.year) return false;
   if (a.month < b.month) return true;
   if (a.month > b.month) return false;
   if (a.day < b.day) return true;
@@ -117,7 +117,7 @@ inline bool operator>(const DateTuple& a, const DateTuple& b) {
 
 /** Determine if DateTuple a is equal to DateTuple b, including the suffix. */
 inline bool operator==(const DateTuple& a, const DateTuple& b) {
-  return a.yearTiny == b.yearTiny
+  return a.year == b.year
       && a.month == b.month
       && a.day == b.day
       && a.minutes == b.minutes
@@ -128,18 +128,16 @@ inline bool operator==(const DateTuple& a, const DateTuple& b) {
 inline void normalizeDateTuple(DateTuple* dt) {
   const int16_t kOneDayAsMinutes = 60 * 24;
   if (dt->minutes <= -kOneDayAsMinutes) {
-    LocalDate ld = LocalDate::forTinyComponents(
-        dt->yearTiny, dt->month, dt->day);
+    LocalDate ld = LocalDate::forComponents(dt->year, dt->month, dt->day);
     local_date_mutation::decrementOneDay(ld);
-    dt->yearTiny = ld.yearTiny();
+    dt->year = ld.year();
     dt->month = ld.month();
     dt->day = ld.day();
     dt->minutes += kOneDayAsMinutes;
   } else if (kOneDayAsMinutes <= dt->minutes) {
-    LocalDate ld = LocalDate::forTinyComponents(
-        dt->yearTiny, dt->month, dt->day);
+    LocalDate ld = LocalDate::forComponents(dt->year, dt->month, dt->day);
     local_date_mutation::incrementOneDay(ld);
-    dt->yearTiny = ld.yearTiny();
+    dt->year = ld.year();
     dt->month = ld.month();
     dt->day = ld.day();
     dt->minutes -= kOneDayAsMinutes;
@@ -150,12 +148,12 @@ inline void normalizeDateTuple(DateTuple* dt) {
 
 /** Return the number of seconds in (a - b), ignoring suffix. */
 inline acetime_t subtractDateTuple(const DateTuple& a, const DateTuple& b) {
-  int32_t epochDaysA = LocalDate::forTinyComponents(
-      a.yearTiny, a.month, a.day).toEpochDays();
+  int32_t epochDaysA = LocalDate::forComponents(
+      a.year, a.month, a.day).toEpochDays();
   int32_t epochSecondsA = epochDaysA * 86400 + a.minutes * 60;
 
-  int32_t epochDaysB = LocalDate::forTinyComponents(
-      b.yearTiny, b.month, b.day).toEpochDays();
+  int32_t epochDaysB = LocalDate::forComponents(
+      b.year, b.month, b.day).toEpochDays();
   int32_t epochSecondsB = epochDaysB * 86400 + b.minutes * 60;
 
   return epochSecondsA - epochSecondsB;
@@ -165,7 +163,7 @@ inline acetime_t subtractDateTuple(const DateTuple& a, const DateTuple& b) {
 
 /** A simple tuple to represent a year/month pair. */
 struct YearMonthTuple {
-  int8_t yearTiny;
+  int16_t year;
   uint8_t month;
 };
 
@@ -383,7 +381,7 @@ struct TransitionTemplate {
 
     // RULES point to a named rule, and LETTER is a single, printable character.
     // Return the letterBuf which contains a NUL-terminated string containing
-    // the single character, as initialized in createTransitionForYearTiny().
+    // the single character, as initialized in createTransitionForYear().
     char letter = rule.letter();
     if (letter >= 32) {
       return letterBuf;
@@ -396,7 +394,7 @@ struct TransitionTemplate {
     uint8_t numLetters = policy.numLetters();
     if (letter >= numLetters) {
       // This should never happen unless there is a programming error. If it
-      // does, return an empty string. (createTransitionForYearTiny() sets
+      // does, return an empty string. (createTransitionForYear() sets
       // letterBuf to a NUL terminated empty string if rule->letter < 32)
       return letterBuf;
     }
@@ -424,9 +422,7 @@ struct TransitionTemplate {
       logging::printf("; rule=-");
     } else {
       logging::printf("; rule=");
-      logging::printf("[%d,%d]",
-          rule.fromYearTiny() + LocalDate::kEpochYear,
-          rule.toYearTiny() + LocalDate::kEpochYear);
+      logging::printf("[%d,%d]", rule.fromYear(), rule.toYear());
     }
   }
 
@@ -762,7 +758,7 @@ class TransitionStorageTemplate {
         const {
       // Convert LocalDateTime to DateTuple.
       DateTuple localDate{
-          ldt.yearTiny(),
+          ldt.year(),
           ldt.month(),
           ldt.day(),
           (int16_t) (ldt.hour() * 60 + ldt.minute()),
@@ -1200,10 +1196,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         return false;
       }
 
-      extended::YearMonthTuple startYm = {
-        (int8_t) (year - LocalDate::kEpochYear - 1), 12 };
-      extended::YearMonthTuple untilYm =  {
-        (int8_t) (year - LocalDate::kEpochYear + 1), 2 };
+      extended::YearMonthTuple startYm = { (int16_t) (year - 1), 12 };
+      extended::YearMonthTuple untilYm =  { (int16_t) (year + 1), 2 };
 
       // Step 1. The equivalent steps for the Python version are in the
       // AceTimePython project, under
@@ -1279,7 +1273,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_findCandidateTransitions;
     friend class ::ExtendedZoneProcessorTest_createTransitionsFromNamedMatch;
     friend class ::ExtendedZoneProcessorTest_getTransitionTime;
-    friend class ::ExtendedZoneProcessorTest_createTransitionForYearTiny;
+    friend class ::ExtendedZoneProcessorTest_createTransitionForYear;
     friend class ::ExtendedZoneProcessorTest_normalizeDateTuple;
     friend class ::ExtendedZoneProcessorTest_expandDateTuple;
     friend class ::ExtendedZoneProcessorTest_calcInteriorYears;
@@ -1371,15 +1365,15 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm) {
       return (prevMatch == nullptr || compareEraToYearMonth(
-              prevMatch->era, untilYm.yearTiny, untilYm.month) < 0)
-          && compareEraToYearMonth(era, startYm.yearTiny, startYm.month) > 0;
+              prevMatch->era, untilYm.year, untilYm.month) < 0)
+          && compareEraToYearMonth(era, startYm.year, startYm.month) > 0;
     }
 
-    /** Return (1, 0, -1) depending on how era compares to (yearTiny, month). */
+    /** Return (1, 0, -1) depending on how era compares to (year, month). */
     static int8_t compareEraToYearMonth(const ZEB& era,
-        int8_t yearTiny, uint8_t month) {
-      if (era.untilYearTiny() < yearTiny) return -1;
-      if (era.untilYearTiny() > yearTiny) return 1;
+        int16_t year, uint8_t month) {
+      if (era.untilYear() < year) return -1;
+      if (era.untilYear() > year) return 1;
       if (era.untilMonth() < month) return -1;
       if (era.untilMonth() > month) return 1;
       if (era.untilDay() > 1) return 1;
@@ -1404,21 +1398,21 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       // ZoneEra.
       extended::DateTuple startDate = (prevMatch == nullptr)
           ? extended::DateTuple{
-              LocalDate::kInvalidYearTiny,
+              LocalDate::kInvalidYear,
               1,
               1,
               0,
               internal::ZoneContext::kSuffixW
             }
           : extended::DateTuple{
-              prevMatch->era.untilYearTiny(),
+              prevMatch->era.untilYear(),
               prevMatch->era.untilMonth(),
               prevMatch->era.untilDay(),
               (int16_t) prevMatch->era.untilTimeMinutes(),
               prevMatch->era.untilTimeSuffix()
             };
       extended::DateTuple lowerBound{
-        startYm.yearTiny,
+        startYm.year,
         startYm.month,
         1,
         0,
@@ -1429,14 +1423,14 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
 
       extended::DateTuple untilDate{
-        era.untilYearTiny(),
+        era.untilYear(),
         era.untilMonth(),
         era.untilDay(),
         (int16_t) era.untilTimeMinutes(),
         era.untilTimeSuffix()
       };
       extended::DateTuple upperBound{
-        untilYm.yearTiny,
+        untilYm.year,
         untilYm.month,
         1,
         0,
@@ -1490,7 +1484,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
 
       Transition* freeTransition = transitionStorage.getFreeAgent();
-      createTransitionForYearTiny(freeTransition, 0 /*not used*/,
+      createTransitionForYear(freeTransition, 0 /*not used*/,
           ZRB() /*rule*/, match);
       freeTransition->matchStatus = extended::MatchStatus::kExactMatch;
       match->lastOffsetMinutes = freeTransition->offsetMinutes;
@@ -1566,8 +1560,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
       const ZPB policy = match->era.zonePolicy();
       uint8_t numRules = policy.numRules();
-      int8_t startY = match->startDateTime.yearTiny;
-      int8_t endY = match->untilDateTime.yearTiny;
+      int16_t startY = match->startDateTime.year;
+      int16_t endY = match->untilDateTime.year;
 
       // The prior is referenced through a handle (i.e. pointer to pointer)
       // because the actual pointer to the prior could change through the
@@ -1578,13 +1572,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         const ZRB rule = policy.rule(r);
 
         // Add Transitions for interior years
-        int8_t interiorYears[kMaxInteriorYears];
+        int16_t interiorYears[kMaxInteriorYears];
         uint8_t numYears = calcInteriorYears(interiorYears, kMaxInteriorYears,
-            rule.fromYearTiny(), rule.toYearTiny(), startY, endY);
+            rule.fromYear(), rule.toYear(), startY, endY);
         for (uint8_t y = 0; y < numYears; y++) {
-          int8_t yearTiny = interiorYears[y];
+          int16_t year = interiorYears[y];
           Transition* t = transitionStorage.getFreeAgent();
-          createTransitionForYearTiny(t, yearTiny, rule, match);
+          createTransitionForYear(t, year, rule, match);
           MatchStatus status = compareTransitionToMatchFuzzy(t, match);
           if (status == MatchStatus::kPrior) {
             transitionStorage.setFreeAgentAsPriorIfValid();
@@ -1597,16 +1591,15 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         }
 
         // Add Transition for prior year
-        int8_t priorYearTiny = getMostRecentPriorYear(
-            rule.fromYearTiny(), rule.toYearTiny(), startY, endY);
-        if (priorYearTiny != LocalDate::kInvalidYearTiny) {
+        int16_t priorYear = getMostRecentPriorYear(
+            rule.fromYear(), rule.toYear(), startY, endY);
+        if (priorYear != LocalDate::kInvalidYear) {
           if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
             logging::printf(
-              "findCandidateTransitions(): priorYear: %d\n",
-              priorYearTiny + LocalDate::kEpochYear);
+              "findCandidateTransitions(): priorYear: %d\n", priorYear);
           }
           Transition* t = transitionStorage.getFreeAgent();
-          createTransitionForYearTiny(t, priorYearTiny, rule, match);
+          createTransitionForYear(t, priorYear, rule, match);
           transitionStorage.setFreeAgentAsPriorIfValid();
         }
       }
@@ -1644,12 +1637,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * @param endYear until year of the matching ZoneEra
      */
     static uint8_t calcInteriorYears(
-        int8_t* interiorYears,
+        int16_t* interiorYears,
         uint8_t maxInteriorYears,
-        int8_t fromYear, int8_t toYear,
-        int8_t startYear, int8_t endYear) {
+        int16_t fromYear, int16_t toYear,
+        int16_t startYear, int16_t endYear) {
       uint8_t i = 0;
-      for (int8_t year = startYear; year <= endYear; year++) {
+      for (int16_t year = startYear; year <= endYear; year++) {
         if (fromYear <= year && year <= toYear) {
           interiorYears[i] = year;
           i++;
@@ -1665,9 +1658,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * 'deltaMinutes' as well. 'letterBuf' is also well-defined, either an empty
      * string, or filled with rule->letter with a NUL terminator.
      */
-    static void createTransitionForYearTiny(
+    static void createTransitionForYear(
         Transition* t,
-        int8_t yearTiny,
+        int16_t year,
         const ZRB& rule,
         const MatchingEra* match) {
       t->match = match;
@@ -1676,7 +1669,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       t->letterBuf[0] = '\0';
 
       if (! rule.isNull()) {
-        t->transitionTime = getTransitionTime(yearTiny, rule);
+        t->transitionTime = getTransitionTime(year, rule);
         t->deltaMinutes = rule.deltaMinutes();
 
         char letter = rule.letter();
@@ -1703,7 +1696,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * Return the most recent year from the Rule[fromYear, toYear] which is
      * prior to the matching ZoneEra years of [startYear, endYear].
      *
-     * Return LocalDate::kInvalidYearTiny (-128) if the rule[fromYear,
+     * Return LocalDate::kInvalidYear if the rule[fromYear,
      * to_year] has no prior year to the MatchingEra[startYear, endYear].
      *
      * @param fromYear FROM year field of a Rule entry
@@ -1711,9 +1704,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * @param startYear start year of the matching ZoneEra
      * @param endYear until year of the matching ZoneEra (unused)
      */
-    static int8_t getMostRecentPriorYear(
-        int8_t fromYear, int8_t toYear,
-        int8_t startYear, int8_t endYear) {
+    static int16_t getMostRecentPriorYear(
+        int16_t fromYear, int16_t toYear,
+        int16_t startYear, int16_t endYear) {
 
       (void) endYear; // disable compiler warnings
 
@@ -1724,24 +1717,24 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           return startYear - 1;
         }
       } else {
-        return LocalDate::kInvalidYearTiny;
+        return LocalDate::kInvalidYear;
       }
     }
 
     /**
      * Return the DateTuple representing the transition time of the given rule
-     * for the given yearTiny.
+     * for the given year.
      */
     static extended::DateTuple getTransitionTime(
-        int8_t yearTiny, const ZRB& rule) {
+        int16_t year, const ZRB& rule) {
 
       internal::MonthDay monthDay = internal::calcStartDayOfMonth(
-          yearTiny + LocalDate::kEpochYear,
+          year,
           rule.inMonth(),
           rule.onDayOfWeek(),
           rule.onDayOfMonth());
       return {
-        yearTiny,
+        year,
         monthDay.month,
         monthDay.day,
         (int16_t) rule.atTimeMinutes(),
@@ -1758,19 +1751,23 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      *    * kWithinMatch if t within match,
      *    * kFarFuture if t greater than match by at least one month
      *    * kExactMatch is never returned, we cannot know that t == match.start
+     *
+     * FIXME: This function overflows its internal integer calculations when the
+     * number of total months exceeds 2^15-1 (32767). In other words, in the
+     * year 2730.
      */
     static extended::MatchStatus compareTransitionToMatchFuzzy(
         const Transition* t, const MatchingEra* match) {
       using extended::MatchStatus;
 
-      int16_t ttMonths = t->transitionTime.yearTiny * 12
+      int16_t ttMonths = t->transitionTime.year * 12
           + t->transitionTime.month;
 
-      int16_t matchStartMonths = match->startDateTime.yearTiny * 12
+      int16_t matchStartMonths = match->startDateTime.year * 12
           + match->startDateTime.month;
       if (ttMonths < matchStartMonths - 1) return MatchStatus::kPrior;
 
-      int16_t matchUntilMonths = match->untilDateTime.yearTiny * 12
+      int16_t matchUntilMonths = match->untilDateTime.year * 12
           + match->untilDateTime.month;
       if (matchUntilMonths + 2 <= ttMonths) return MatchStatus::kFarFuture;
 
@@ -1837,28 +1834,28 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
       if (tt->suffix == internal::ZoneContext::kSuffixS) {
         *tts = *tt;
-        *ttu = {tt->yearTiny, tt->month, tt->day,
+        *ttu = {tt->year, tt->month, tt->day,
             (int16_t) (tt->minutes - offsetMinutes),
             internal::ZoneContext::kSuffixU};
-        *ttw = {tt->yearTiny, tt->month, tt->day,
+        *ttw = {tt->year, tt->month, tt->day,
             (int16_t) (tt->minutes + deltaMinutes),
             internal::ZoneContext::kSuffixW};
       } else if (tt->suffix == internal::ZoneContext::kSuffixU) {
         *ttu = *tt;
-        *tts = {tt->yearTiny, tt->month, tt->day,
+        *tts = {tt->year, tt->month, tt->day,
             (int16_t) (tt->minutes + offsetMinutes),
             internal::ZoneContext::kSuffixS};
-        *ttw = {tt->yearTiny, tt->month, tt->day,
+        *ttw = {tt->year, tt->month, tt->day,
             (int16_t) (tt->minutes + (offsetMinutes + deltaMinutes)),
             internal::ZoneContext::kSuffixW};
       } else {
         // Explicit set the suffix to 'w' in case it was something else.
         *ttw = *tt;
         ttw->suffix = internal::ZoneContext::kSuffixW;
-        *tts = {tt->yearTiny, tt->month, tt->day,
+        *tts = {tt->year, tt->month, tt->day,
             (int16_t) (tt->minutes - deltaMinutes),
             internal::ZoneContext::kSuffixS};
-        *ttu = {tt->yearTiny, tt->month, tt->day,
+        *ttu = {tt->year, tt->month, tt->day,
             (int16_t) (tt->minutes - (deltaMinutes + offsetMinutes)),
             internal::ZoneContext::kSuffixU};
       }
@@ -2033,8 +2030,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         int16_t minutes = tt.minutes + (
             - prev->offsetMinutes - prev->deltaMinutes
             + t->offsetMinutes + t->deltaMinutes);
-        t->startDateTime = {tt.yearTiny, tt.month, tt.day, minutes,
-            tt.suffix};
+        t->startDateTime = {tt.year, tt.month, tt.day, minutes, tt.suffix};
         extended::normalizeDateTuple(&t->startDateTime);
 
         // 3) The epochSecond of the 'transitionTime' is determined by the
@@ -2050,8 +2046,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         const extended::DateTuple& st = t->startDateTime;
         const acetime_t offsetSeconds = (acetime_t) 60
             * (st.minutes - (t->offsetMinutes + t->deltaMinutes));
-        LocalDate ld = LocalDate::forTinyComponents(
-            st.yearTiny, st.month, st.day);
+        LocalDate ld = LocalDate::forComponents(st.year, st.month, st.day);
         t->startEpochSeconds = ld.toEpochSeconds() + offsetSeconds;
 
         prev = t;

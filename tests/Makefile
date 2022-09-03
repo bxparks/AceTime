@@ -8,8 +8,13 @@ tests:
 runtests:
 	set -e; \
 	for i in *Test/Makefile; do \
-		echo '==== Running:' $$(dirname $$i); \
-		$$(dirname $$i)/$$(dirname $$i).out; \
+		if [ "$$i" != "BasicZoneProcessorTest/Makefile" -a \
+			"$$i" != "ExtendedZoneProcessorMoreTest/Makefile" -a \
+			"$$i" != "ExtendedZoneProcessorTest/Makefile" \
+		]; then \
+			echo '==== Running:' $$(dirname $$i); \
+			$$(dirname $$i)/$$(dirname $$i).out; \
+		fi; \
 	done
 
 clean:

@@ -19,7 +19,7 @@ namespace ace_time {
  * zone.
  *
  * The year field is internally represented as an int8_t offset from the year
- * 2000. However, the value of -128 (kInvalidYearTiny) is used to indicate an
+ * 2000. However, the value of kInvalidYear is used to indicate an
  * error condition. So the actual range of the year is [1873, 2127] instead of
  * [1872, 2127].
  *
@@ -45,22 +45,20 @@ class LocalDate {
     static const int32_t kSecondsSinceUnixEpoch = 946684800;
 
     /**
-     * Sentinel yearTiny which indicates an error condition or sometimes a year
+     * Sentinel year which indicates an error condition or sometimes a year
      * that 'does not exist'.
      */
-    static const int8_t kInvalidYearTiny = INT8_MIN;
+    static const int16_t kInvalidYear = INT16_MIN;
 
     /**
-     * Sentinel yearTiny which represents the smallest year, effectively
-     * -Infinity.
+     * Sentinel year which represents the smallest year, effectively -Infinity.
      */
-    static const int8_t kMinYearTiny = INT8_MIN + 1;
+    static const int16_t kMinYear = 0;
 
     /**
-     * Sentinel yearTiny which represents the largest year, effectively
-     * +Infinity.
+     * Sentinel year which represents the largest year, effectively +Infinity.
      */
-    static const int8_t kMaxYearTiny = INT8_MAX;
+    static const int16_t kMaxYear = 10000;
 
     /** Sentinel epochDays which indicates an error. */
     static const int32_t kInvalidEpochDays = INT32_MIN;
@@ -116,21 +114,13 @@ class LocalDate {
      * Factory method using separated year, month and day fields. Returns
      * LocalDate::forError() if the parameters are out of range.
      *
-     * @param year [1873-2127]
+     * @param year [-1,10000]
      * @param month month with January=1, December=12
      * @param day day of month [1-31]
      */
     static LocalDate forComponents(int16_t year, uint8_t month, uint8_t day) {
-      int8_t yearTiny = isYearValid(year)
-          ? year - kEpochYear
-          : kInvalidYearTiny;
-      return LocalDate(yearTiny, month, day);
-    }
-
-    /** Factory method using components with an int8_t yearTiny. */
-    static LocalDate forTinyComponents(int8_t yearTiny, uint8_t month,
-        uint8_t day) {
-      return LocalDate(yearTiny, month, day);
+      int16_t yearInternal = isYearValid(year) ? year : kInvalidYear;
+      return LocalDate(yearInternal, month, day);
     }
 
     /**
@@ -220,8 +210,8 @@ class LocalDate {
     /**
      * Factory method. Create a LocalDate from the ISO 8601 date string. If the
      * string cannot be parsed, then isError() on the constructed object
-     * returns true, but the data validation is very weak. Year should probably
-     * be between 1872 and 2127. Created for debugging purposes not for
+     * returns true, but the data validation is very weak. Year should
+     * be between 0 and 9999. Created for debugging purposes not for
      * production use.
      *
      * @param dateString the date in ISO 8601 format (yyyy-mm-dd)
@@ -242,7 +232,7 @@ class LocalDate {
      * condition. The isError() method will return true.
      */
     static LocalDate forError() {
-      return LocalDate(kInvalidYearTiny, 0, 0);
+      return LocalDate(kInvalidYear, 0, 0);
     }
 
     /** True if year is a leap year. */
@@ -250,10 +240,9 @@ class LocalDate {
       return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
     }
 
-    /** Return true if year is within valid range of [1873, 2127]. */
+    /** Return true if year is within valid range of [-1, 10000]. */
     static bool isYearValid(int16_t year) {
-      return year >= kEpochYear + kMinYearTiny
-          && year <= kEpochYear + kMaxYearTiny;
+      return year >= kMinYear && year <= kMaxYear;
     }
 
     /** Return the number of days in the current month. */
@@ -265,25 +254,11 @@ class LocalDate {
     /** Default constructor does nothing. */
     explicit LocalDate() {}
 
-    /** Return the full year instead of just the last 2 digits. */
-    int16_t year() const { return mYearTiny + kEpochYear; }
+    /** Return the year. */
+    int16_t year() const { return mYear; }
 
-    /** Set the year given the full year. */
-    void year(int16_t year) { mYearTiny = year - kEpochYear; }
-
-    /**
-     * Return the single-byte year offset from year 2000. Intended for memory
-     * constrained or performance critical code. May be deprecated in the
-     * future.
-     */
-    int8_t yearTiny() const { return mYearTiny; }
-
-    /**
-     * Set the single-byte year offset from year 2000. Intended for memory
-     * constrained or performance critical code. May be deprecated in the
-     * future.
-     */
-    void yearTiny(int8_t yearTiny) { mYearTiny = yearTiny; }
+    /** Set the year. */
+    void year(int16_t year) { mYear = year; }
 
     /** Return the month with January=1, December=12. */
     uint8_t month() const { return mMonth; }
@@ -314,7 +289,7 @@ class LocalDate {
 
     /** Return true if any component indicates an error condition. */
     bool isError() const {
-      return mYearTiny == kInvalidYearTiny
+      return mYear == kInvalidYear
           || mDay < 1 || mDay > 31
           || mMonth < 1 || mMonth > 12;
     }
@@ -403,8 +378,8 @@ class LocalDate {
      * undefined.
      */
     int8_t compareTo(const LocalDate& that) const {
-      if (mYearTiny < that.mYearTiny) return -1;
-      if (mYearTiny > that.mYearTiny) return 1;
+      if (mYear < that.mYear) return -1;
+      if (mYear > that.mYear) return 1;
       if (mMonth < that.mMonth) return -1;
       if (mMonth > that.mMonth) return 1;
       if (mDay < that.mDay) return -1;
@@ -447,8 +422,8 @@ class LocalDate {
     static const uint8_t sDaysInMonth[12];
 
     /** Constructor that sets the components. */
-    explicit LocalDate(int8_t yearTiny, uint8_t month, uint8_t day):
-        mYearTiny(yearTiny),
+    explicit LocalDate(int16_t year, uint8_t month, uint8_t day):
+        mYear(year),
         mMonth(month),
         mDay(day) {}
 
@@ -472,12 +447,7 @@ class LocalDate {
       //dayOfWeek = (epochDays + 6) % 7 + 1;
     }
 
-    /**
-     * Store year as an int8_t offset from year 2000. This saves memory, but may
-     * cause other problems later. Consider changing to int16_t if necessary.
-     */
-    int8_t mYearTiny; // [-127, 127], -128 indicates error
-
+    int16_t mYear; // [-1, 10000], INT16_MIN indicates error
     uint8_t mMonth; // [1, 12], 0 indicates error
     uint8_t mDay; // [1, 31], 0 indicates error
 };
@@ -486,7 +456,7 @@ class LocalDate {
 inline bool operator==(const LocalDate& a, const LocalDate& b) {
   return a.mDay == b.mDay
       && a.mMonth == b.mMonth
-      && a.mYearTiny == b.mYearTiny;
+      && a.mYear == b.mYear;
 }
 
 /** Return true if two LocalDate objects are not equal. */

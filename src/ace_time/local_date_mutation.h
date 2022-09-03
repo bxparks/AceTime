@@ -19,19 +19,19 @@ namespace local_date_mutation {
 inline void incrementOneDay(LocalDate& ld) {
   uint8_t day = ld.day() + 1;
   uint8_t month = ld.month();
-  int8_t yearTiny = ld.yearTiny();
+  int16_t year = ld.year();
 
   if (day > LocalDate::daysInMonth(ld.year(), month)) {
     day = 1;
     month++;
     if (month > 12) {
       month = 1;
-      yearTiny++;
+      year++;
     }
   }
   ld.day(day);
   ld.month(month);
-  ld.yearTiny(yearTiny);
+  ld.year(year);
 }
 
 /**
@@ -41,13 +41,13 @@ inline void incrementOneDay(LocalDate& ld) {
 inline void decrementOneDay(LocalDate& ld) {
   uint8_t day = ld.day() - 1;
   uint8_t month = ld.month();
-  int8_t yearTiny = ld.yearTiny();
+  int16_t year = ld.year();
 
   if (day == 0) {
     if (month == 1) {
       day = 31;
       month = 12;
-      yearTiny--;
+      year--;
     } else {
       month--;
       day = LocalDate::daysInMonth(ld.year(), month);
@@ -55,7 +55,7 @@ inline void decrementOneDay(LocalDate& ld) {
   }
   ld.day(day);
   ld.month(month);
-  ld.yearTiny(yearTiny);
+  ld.year(year);
 }
 
 }

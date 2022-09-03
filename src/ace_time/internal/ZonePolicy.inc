@@ -10,16 +10,16 @@
  */
 struct ZoneRule {
   /**
-   * The maximum value of fromYearTiny and toYearTiny. Must be <
+   * The maximum value of fromYear and toYear. Must be less than
    * ZoneEra::kMaxUntilYear.
    */
-  static const int8_t kMaxYearTiny = 126;
+  static const int16_t kMaxYear = 9999;
 
-  /** FROM year as an offset from year 2000 stored as a single byte. */
-  int8_t const fromYearTiny;
+  /** FROM year */
+  int16_t const fromYear;
 
-  /** TO year as an offset from year 2000 stored as a single byte. */
-  int8_t const toYearTiny;
+  /** TO year */
+  int16_t const toYear;
 
   /** Determined by the IN column. 1=Jan, 12=Dec. */
   uint8_t const inMonth;

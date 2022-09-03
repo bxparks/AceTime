@@ -15,7 +15,6 @@ test(ZonedDateTimeTest, accessors_mutators) {
   TimeZone tz = TimeZone::forHours(-8);
   ZonedDateTime dt = ZonedDateTime::forComponents(2001, 2, 3, 4, 5, 6, tz);
   assertEqual((int16_t) 2001, dt.year());
-  assertEqual(1, dt.yearTiny());
   assertEqual(2, dt.month());
   assertEqual(3, dt.day());
   assertEqual(4, dt.hour());
@@ -36,7 +35,6 @@ test(ZonedDateTimeTest, accessors_mutators) {
   dt.fold(1);
   dt.normalize(); // must be called after timeZone() mutation
   assertEqual(2011, dt.year());
-  assertEqual(11, dt.yearTiny());
   assertEqual(12, dt.month());
   assertEqual(13, dt.day());
   assertEqual(14, dt.hour());
@@ -51,7 +49,6 @@ test(ZonedDateTimeTest, constructor_with_fold) {
   ZonedDateTime dt = ZonedDateTime::forComponents(
       2001, 2, 3, 4, 5, 6, tz, 1 /*fold*/);
   assertEqual((int16_t) 2001, dt.year());
-  assertEqual(1, dt.yearTiny());
   assertEqual(2, dt.month());
   assertEqual(3, dt.day());
   assertEqual(4, dt.hour());
@@ -293,7 +290,6 @@ test(ZonedDateTimeTest, forDateString) {
   auto dt = ZonedDateTime::forDateString(F("2018-08-31T13:48:01-07:00"));
   assertFalse(dt.isError());
   assertEqual((int16_t) 2018, dt.year());
-  assertEqual(18, dt.yearTiny());
   assertEqual(8, dt.month());
   assertEqual(31, dt.day());
   assertEqual(13, dt.hour());
@@ -306,7 +302,6 @@ test(ZonedDateTimeTest, forDateString) {
   dt = ZonedDateTime::forDateString(F("2018/08/31 13#48#01+07#00"));
   assertFalse(dt.isError());
   assertEqual((int16_t) 2018, dt.year());
-  assertEqual(18, dt.yearTiny());
   assertEqual(8, dt.month());
   assertEqual(31, dt.day());
   assertEqual(13, dt.hour());

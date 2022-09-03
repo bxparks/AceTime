@@ -10,7 +10,6 @@ test(OffsetDateTimeTest, accessors_mutators) {
   OffsetDateTime dt = OffsetDateTime::forComponents(2001, 2, 3, 4, 5, 6,
       TimeOffset());
   assertEqual((int16_t) 2001, dt.year());
-  assertEqual(1, dt.yearTiny());
   assertEqual(2, dt.month());
   assertEqual(3, dt.day());
   assertEqual(4, dt.hour());
@@ -29,7 +28,6 @@ test(OffsetDateTimeTest, accessors_mutators) {
   dt.timeOffset(TimeOffset::forMinutes(17));
   dt.fold(1);
   assertEqual(2011, dt.year());
-  assertEqual(11, dt.yearTiny());
   assertEqual(12, dt.month());
   assertEqual(13, dt.day());
   assertEqual(14, dt.hour());
@@ -43,7 +41,6 @@ test(OffsetDateTimeTest, constructor_with_fold) {
   OffsetDateTime dt = OffsetDateTime::forComponents(
       2001, 2, 3, 4, 5, 6, TimeOffset(), 1 /*fold*/);
   assertEqual((int16_t) 2001, dt.year());
-  assertEqual(1, dt.yearTiny());
   assertEqual(2, dt.month());
   assertEqual(3, dt.day());
   assertEqual(4, dt.hour());
@@ -314,7 +311,6 @@ test(OffsetDateTimeTest, forEpochSeconds) {
       10958 * (acetime_t) 86400 - 1, TimeOffset());
 
   assertEqual((int16_t) 2029, dt.year());
-  assertEqual(29, dt.yearTiny());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
   assertEqual(23, dt.hour());
@@ -326,7 +322,6 @@ test(OffsetDateTimeTest, forEpochSeconds) {
   TimeOffset offset = TimeOffset::forHours(-8); // UTC-08:00
   dt = OffsetDateTime::forEpochSeconds(10958 * (acetime_t) 86400 - 1, offset);
   assertEqual((int16_t) 2029, dt.year());
-  assertEqual(29, dt.yearTiny());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
   assertEqual(15, dt.hour());
@@ -342,7 +337,6 @@ test(OffsetDateTimeTest, forEpochSeconds_withFold) {
       10958 * (acetime_t) 86400 - 1, TimeOffset(), 1 /*fold*/);
 
   assertEqual((int16_t) 2029, dt.year());
-  assertEqual(29, dt.yearTiny());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
   assertEqual(23, dt.hour());
@@ -358,7 +352,6 @@ test(OffsetDateTimeTest, convertToTimeOffset) {
   OffsetDateTime b = a.convertToTimeOffset(TimeOffset::forHours(-7));
 
   assertEqual((int16_t) 2018, b.year());
-  assertEqual(18, b.yearTiny());
   assertEqual(1, b.month());
   assertEqual(1, b.day());
   assertEqual(5, b.hour());
@@ -450,9 +443,6 @@ test(OffsetDateTimeTest, dayOfWeek) {
   dt.month(2); // 2018-02-02 23:40:03+00:45, changes dayOfWeek
   assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 
-  dt.yearTiny(19); // 2019-02-02 23:40:03+00:45, changes dayOfWeek
-  assertEqual(LocalDate::kSaturday, dt.dayOfWeek());
-
   dt.year(2020); // 2020-02-02 23:40:03+00:45, changes dayOfWeek
   assertEqual(LocalDate::kSunday, dt.dayOfWeek());
 }
@@ -462,7 +452,6 @@ test(OffsetDateTimeTest, forDateString) {
   auto dt = OffsetDateTime::forDateString(F("2018-08-31T13:48:01-07:00"));
   assertFalse(dt.isError());
   assertEqual((int16_t) 2018, dt.year());
-  assertEqual(18, dt.yearTiny());
   assertEqual(8, dt.month());
   assertEqual(31, dt.day());
   assertEqual(13, dt.hour());
@@ -475,7 +464,6 @@ test(OffsetDateTimeTest, forDateString) {
   dt = OffsetDateTime::forDateString(F("2018/08/31 13#48#01+07#00"));
   assertFalse(dt.isError());
   assertEqual((int16_t) 2018, dt.year());
-  assertEqual(18, dt.yearTiny());
   assertEqual(8, dt.month());
   assertEqual(31, dt.day());
   assertEqual(13, dt.hour());
@@ -515,7 +503,7 @@ test(OffsetDateTimeTest, forDateString_errors) {
 // data_time_mutation
 //---------------------------------------------------------------------------
 
-test(OffsetDateTimeMutationTest, increment) {
+test(OffsetDateTimeMutationTest, incrementYear) {
   OffsetDateTime dt = OffsetDateTime::forComponents(2001, 2, 3, 4, 5, 6,
       TimeOffset());
   assertEqual((int16_t) 2001, dt.year());
@@ -535,38 +523,64 @@ test(OffsetDateTimeMutationTest, increment) {
   assertEqual(6, dt.second());
   assertEqual(0, dt.timeOffset().toMinutes());
 
+  dt = OffsetDateTime::forComponents(2099, 2, 3, 4, 5, 6, TimeOffset());
+  offset_date_time_mutation::incrementYear(dt);
+  assertEqual((int16_t) 2000, dt.year());
+  assertEqual(2, dt.month());
+  assertEqual(3, dt.day());
+  assertEqual(4, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+  assertEqual(0, dt.timeOffset().toMinutes());
+}
+
+test(OffsetDateTimeMutationTest, incrementMonth) {
+  OffsetDateTime dt = OffsetDateTime::forComponents(2001, 2, 3, 4, 5, 6,
+      TimeOffset());
   offset_date_time_mutation::incrementMonth(dt);
-  assertEqual((int16_t) 2002, dt.year());
+  assertEqual((int16_t) 2001, dt.year());
   assertEqual(3, dt.month());
   assertEqual(3, dt.day());
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
   assertEqual(0, dt.timeOffset().toMinutes());
+}
 
+test(OffsetDateTimeMutationTest, incrementDay) {
+  OffsetDateTime dt = OffsetDateTime::forComponents(2001, 2, 3, 4, 5, 6,
+      TimeOffset());
   offset_date_time_mutation::incrementDay(dt);
-  assertEqual((int16_t) 2002, dt.year());
-  assertEqual(3, dt.month());
+  assertEqual((int16_t) 2001, dt.year());
+  assertEqual(2, dt.month());
   assertEqual(4, dt.day());
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
   assertEqual(0, dt.timeOffset().toMinutes());
+}
 
+test(OffsetDateTimeMutationTest, incrementHour) {
+  OffsetDateTime dt = OffsetDateTime::forComponents(2001, 2, 3, 4, 5, 6,
+      TimeOffset());
   offset_date_time_mutation::incrementHour(dt);
-  assertEqual((int16_t) 2002, dt.year());
-  assertEqual(3, dt.month());
-  assertEqual(4, dt.day());
+  assertEqual((int16_t) 2001, dt.year());
+  assertEqual(2, dt.month());
+  assertEqual(3, dt.day());
   assertEqual(5, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
   assertEqual(0, dt.timeOffset().toMinutes());
+}
 
+test(OffsetDateTimeMutationTest, incrementMinute) {
+  OffsetDateTime dt = OffsetDateTime::forComponents(2001, 2, 3, 4, 5, 6,
+      TimeOffset());
   offset_date_time_mutation::incrementMinute(dt);
-  assertEqual((int16_t) 2002, dt.year());
-  assertEqual(3, dt.month());
-  assertEqual(4, dt.day());
-  assertEqual(5, dt.hour());
+  assertEqual((int16_t) 2001, dt.year());
+  assertEqual(2, dt.month());
+  assertEqual(3, dt.day());
+  assertEqual(4, dt.hour());
   assertEqual(6, dt.minute());
   assertEqual(6, dt.second());
   assertEqual(0, dt.timeOffset().toMinutes());

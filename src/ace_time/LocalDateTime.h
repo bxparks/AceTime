@@ -34,7 +34,7 @@ class LocalDateTime {
     /**
      * Factory method using separated date and time components.
      *
-     * @param year [1873-2127]
+     * @param year [-1,10000]
      * @param month month with January=1, December=12
      * @param day day of month [1-31]
      * @param hour hour [0-23]
@@ -45,19 +45,8 @@ class LocalDateTime {
     static LocalDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
         uint8_t fold = 0) {
-      int8_t yearTiny = LocalDate::isYearValid(year)
-          ? year - LocalDate::kEpochYear
-          : LocalDate::kInvalidYearTiny;
-      return forTinyComponents(
-          yearTiny, month, day, hour, minute, second, fold);
-    }
-
-    /** Factory method using components with an int8_t yearTiny. */
-    static LocalDateTime forTinyComponents(int8_t yearTiny, uint8_t month,
-        uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
-        uint8_t fold = 0) {
       return LocalDateTime(
-          LocalDate::forTinyComponents(yearTiny, month, day),
+          LocalDate::forComponents(year, month, day),
           LocalTime::forComponents(hour, minute, second, fold));
     }
 
@@ -192,20 +181,6 @@ class LocalDateTime {
 
     /** Set the year. */
     void year(int16_t year) { mLocalDate.year(year); }
-
-    /**
-     * Return the single-byte year offset from year 2000. Intended for memory
-     * constrained or performance critical code. May be deprecated in the
-     * future.
-     */
-    int8_t yearTiny() const { return mLocalDate.yearTiny(); }
-
-    /**
-     * Set the single-byte year offset from year 2000. Intended for memory
-     * constrained or performance critical code. May be deprecated in the
-     * future.
-     */
-    void yearTiny(int8_t yearTiny) { mLocalDate.yearTiny(yearTiny); }
 
     /** Return the month with January=1, December=12. */
     uint8_t month() const { return mLocalDate.month(); }

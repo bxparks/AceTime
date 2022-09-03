@@ -15,7 +15,6 @@ test(LocalDateTimeTest, accessors_mutators) {
   // accessors
   LocalDateTime dt = LocalDateTime::forComponents(2001, 2, 3, 4, 5, 6);
   assertEqual((int16_t) 2001, dt.year());
-  assertEqual(1, dt.yearTiny());
   assertEqual(2, dt.month());
   assertEqual(3, dt.day());
   assertEqual(4, dt.hour());
@@ -32,7 +31,6 @@ test(LocalDateTimeTest, accessors_mutators) {
   dt.second(16);
   dt.fold(1);
   assertEqual(2011, dt.year());
-  assertEqual(11, dt.yearTiny());
   assertEqual(12, dt.month());
   assertEqual(13, dt.day());
   assertEqual(14, dt.hour());
@@ -45,7 +43,6 @@ test(LocalDateTimeTest, constructor_with_fold) {
   LocalDateTime dt = LocalDateTime::forComponents(
       2001, 2, 3, 4, 5, 6, 1 /*fold*/);
   assertEqual((int16_t) 2001, dt.year());
-  assertEqual(1, dt.yearTiny());
   assertEqual(2, dt.month());
   assertEqual(3, dt.day());
   assertEqual(4, dt.hour());
@@ -74,20 +71,16 @@ test(LocalDateTimeTest, isError) {
   assertFalse(dt.isError());
 
   // bad year
-  dt = LocalDateTime::forComponents(0, 1, 1, 0, 0, 0);
+  dt = LocalDateTime::forComponents(-2, 1, 1, 0, 0, 0);
   assertTrue(dt.isError());
 
-  // bad year
-  dt = LocalDateTime::forComponents(1872, 1, 1, 0, 0, 0);
-  assertTrue(dt.isError());
-
-  // bad year
-  dt = LocalDateTime::forComponents(2128, 1, 1, 0, 0, 0);
-  assertTrue(dt.isError());
-
-  // bad year
+  // allowed, max TO field
   dt = LocalDateTime::forComponents(9999, 1, 1, 0, 0, 0);
-  assertTrue(dt.isError());
+  assertFalse(dt.isError());
+
+  // allowed, max UNTIL field
+  dt = LocalDateTime::forComponents(10000, 1, 1, 0, 0, 0);
+  assertFalse(dt.isError());
 
   // bad month
   dt = LocalDateTime::forComponents(2018, 0, 1, 0, 0, 0);
@@ -284,7 +277,6 @@ test(LocalDateTimeTest, forEpochSeconds) {
       10958 * (acetime_t) 86400 - 1);
 
   assertEqual((int16_t) 2029, dt.year());
-  assertEqual(29, dt.yearTiny());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
   assertEqual(23, dt.hour());
@@ -300,7 +292,6 @@ test(LocalDateTimeTest, forEpochSeconds_withFold) {
       10958 * (acetime_t) 86400 - 1, 1 /*fold*/);
 
   assertEqual((int16_t) 2029, dt.year());
-  assertEqual(29, dt.yearTiny());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
   assertEqual(23, dt.hour());
@@ -368,9 +359,6 @@ test(LocalDateTimeTest, dayOfWeek) {
   dt.month(2); // 2018-02-02 23:40:03+00:45, changes dayOfWeek
   assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 
-  dt.yearTiny(19); // 2019-02-02 23:40:03+00:45, changes dayOfWeek
-  assertEqual(LocalDate::kSaturday, dt.dayOfWeek());
-
   dt.year(2020); // 2020-02-02 23:40:03+00:45, changes dayOfWeek
   assertEqual(LocalDate::kSunday, dt.dayOfWeek());
 }
@@ -380,7 +368,6 @@ test(LocalDateTimeTest, forDateString) {
   LocalDateTime dt = LocalDateTime::forDateString(F("2018-08-31T13:48:01"));
   assertFalse(dt.isError());
   assertEqual((int16_t) 2018, dt.year());
-  assertEqual(18, dt.yearTiny());
   assertEqual(8, dt.month());
   assertEqual(31, dt.day());
   assertEqual(13, dt.hour());
@@ -392,7 +379,6 @@ test(LocalDateTimeTest, forDateString) {
   dt = LocalDateTime::forDateString(F("2018/08/31 13#48#01"));
   assertFalse(dt.isError());
   assertEqual((int16_t) 2018, dt.year());
-  assertEqual(18, dt.yearTiny());
   assertEqual(8, dt.month());
   assertEqual(31, dt.day());
   assertEqual(13, dt.hour());

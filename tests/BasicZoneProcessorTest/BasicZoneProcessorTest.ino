@@ -42,8 +42,8 @@ static const ZoneContext kZoneContext = {
 static const ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
   {
-    -127 /*fromYearTiny*/,
-    -127 /*toYearTiny*/,
+    -1 /*fromYear*/,
+    -1 /*toYear*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -54,8 +54,8 @@ static const ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
   },
   // Rule    Ecuador    1992    only    -    Nov    28    0:00    1:00    -
   {
-    -8 /*fromYearTiny*/,
-    -8 /*toYearTiny*/,
+    1992 /*fromYear*/,
+    1992 /*toYear*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -66,8 +66,8 @@ static const ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
   },
   // Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
   {
-    -7 /*fromYearTiny*/,
-    -7 /*toYearTiny*/,
+    1993 /*fromYear*/,
+    1993 /*toYear*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
@@ -92,7 +92,7 @@ static const ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
     "-05" /*format*/,
     -20 /*offsetCode*/,
     0 /*deltaCode*/,
-    -14 /*untilYearTiny*/,
+    1986 /*untilYear*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -104,7 +104,7 @@ static const ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
     "-06/-05" /*format*/,
     -24 /*offsetCode*/,
     0 /*deltaCode*/,
-    127 /*untilYearTiny*/,
+    10000 /*untilYear*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -161,115 +161,114 @@ test(BasicZoneProcessorTest, findZoneEra) {
   ZoneInfoBroker info(&kZonePacific_Galapagos);
 
   ZoneEraBroker era = BasicZoneProcessor::findZoneEra(info, 1984-2000);
-  assertEqual(1986-2000, era.untilYearTiny());
+  assertEqual(1986, era.untilYear());
 
-  era = BasicZoneProcessor::findZoneEra(info, 1985-2000);
-  assertEqual(1986-2000, era.untilYearTiny());
+  era = BasicZoneProcessor::findZoneEra(info, 1985);
+  assertEqual(1986, era.untilYear());
 
-  era = BasicZoneProcessor::findZoneEra(info, 1986-2000);
-  assertEqual(LocalDate::kMaxYearTiny, era.untilYearTiny());
+  era = BasicZoneProcessor::findZoneEra(info, 1986);
+  assertEqual(LocalDate::kMaxYear, era.untilYear());
 
-  era = BasicZoneProcessor::findZoneEra(info, 1987-2000);
-  assertEqual(LocalDate::kMaxYearTiny, era.untilYearTiny());
+  era = BasicZoneProcessor::findZoneEra(info, 1987);
+  assertEqual(LocalDate::kMaxYear, era.untilYear());
 }
 
 test(BasicZoneProcessorTest, findLatestPriorRule) {
   ZonePolicyBroker policy;
-  int8_t yearTiny = 1986-2000;
-  ZoneRuleBroker rule = BasicZoneProcessor::findLatestPriorRule(
-      policy, yearTiny);
+  int16_t year = 1986;
+  ZoneRuleBroker rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
   assertTrue(rule.isNull());
 
   policy = ZonePolicyBroker(&kPolicyEcuador);
-  yearTiny = 1992-2000;
-  rule = BasicZoneProcessor::findLatestPriorRule(policy, yearTiny);
-  assertEqual(-127, rule.fromYearTiny());
+  year = 1992;
+  rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
+  assertEqual(-1, rule.fromYear());
 
-  yearTiny = 1993-2000;
-  rule = BasicZoneProcessor::findLatestPriorRule(policy, yearTiny);
-  assertEqual(1992-2000, rule.fromYearTiny());
+  year = 1993;
+  rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
+  assertEqual(1992, rule.fromYear());
 
-  yearTiny = 1994-2000;
-  rule = BasicZoneProcessor::findLatestPriorRule(policy, yearTiny);
-  assertEqual(1993-2000, rule.fromYearTiny());
+  year = 1994;
+  rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
+  assertEqual(1993, rule.fromYear());
 
-  yearTiny = 1995-2000;
-  rule = BasicZoneProcessor::findLatestPriorRule(policy, yearTiny);
-  assertEqual(1993-2000, rule.fromYearTiny());
+  year = 1995;
+  rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
+  assertEqual(1993, rule.fromYear());
 }
 
 test(BasicZoneProcessorTest, priorYearOfRule) {
   ZonePolicyBroker policy(&kPolicyEcuador);
 
-  int8_t yearTiny = 1995-2000;
-  assertEqual(1873-2000, BasicZoneProcessor::priorYearOfRule(
-      yearTiny, policy.rule(0) /*min*/));
-  assertEqual(1992-2000, BasicZoneProcessor::priorYearOfRule(
-      yearTiny, policy.rule(1) /*1992*/));
-  assertEqual(1993-2000, BasicZoneProcessor::priorYearOfRule(
-      yearTiny, policy.rule(2) /*1993*/));
+  int16_t year = 1995;
+  assertEqual(1873, BasicZoneProcessor::priorYearOfRule(
+      year, policy.rule(0) /*min*/));
+  assertEqual(1992, BasicZoneProcessor::priorYearOfRule(
+      year, policy.rule(1) /*1992*/));
+  assertEqual(1993, BasicZoneProcessor::priorYearOfRule(
+      year, policy.rule(2) /*1993*/));
 
-  yearTiny = 1993-2000;
-  assertEqual(1873-2000, BasicZoneProcessor::priorYearOfRule(
-      yearTiny, policy.rule(0) /*min*/));
-  assertEqual(1992-2000, BasicZoneProcessor::priorYearOfRule(
-      yearTiny, policy.rule(1) /*1992*/));
+  year = 1993;
+  assertEqual(1873, BasicZoneProcessor::priorYearOfRule(
+      year, policy.rule(0) /*min*/));
+  assertEqual(1992, BasicZoneProcessor::priorYearOfRule(
+      year, policy.rule(1) /*1992*/));
 
-  // Rule[2].fromYearTiny() is >= yearTiny, so priorYearOfRule() should not
-  // be called. If it is called, it returns (incorrectly) yearTiny - 1.
-  assertEqual(1992-2000, BasicZoneProcessor::priorYearOfRule(
-      yearTiny, policy.rule(2) /*1993*/));
+  // Rule[2].fromYear() is >= year, so priorYearOfRule() should not
+  // be called. If it is called, it returns (incorrectly) year - 1.
+  assertEqual(1992, BasicZoneProcessor::priorYearOfRule(
+      year, policy.rule(2) /*1993*/));
 }
 
 test(BasicZoneProcessorTest, compareRulesBeforeYear) {
   ZonePolicyBroker policy(&kPolicyEcuador);
 
   // The last rule prior to 1995 should be 1993.
-  int8_t yearTiny = 1995-2000;
+  int16_t year = 1995;
   assertLess(BasicZoneProcessor::compareRulesBeforeYear(
-      yearTiny, policy.rule(0), policy.rule(1)), 0);
+      year, policy.rule(0), policy.rule(1)), 0);
   assertLess(BasicZoneProcessor::compareRulesBeforeYear(
-      yearTiny, policy.rule(1), policy.rule(2)), 0);
+      year, policy.rule(1), policy.rule(2)), 0);
 
   // The last rule prior to 1993 should be 1992
-  yearTiny = 1993-2000;
+  year = 1993;
   assertLess(BasicZoneProcessor::compareRulesBeforeYear(
-      yearTiny, policy.rule(0), policy.rule(1)), 0);
+      year, policy.rule(0), policy.rule(1)), 0);
   assertMore(BasicZoneProcessor::compareRulesBeforeYear(
-      yearTiny, policy.rule(1), policy.rule(2)), 0);
+      year, policy.rule(1), policy.rule(2)), 0);
 }
 
 test(BasicZoneProcessorTest, init_primitives) {
   BasicZoneProcessor zoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
-  zoneProcessor.mYearTiny = 2001-2000;
+  zoneProcessor.mYear = 2001;
   zoneProcessor.mNumTransitions = 0;
 
   ZoneEraBroker priorEra = zoneProcessor.addTransitionPriorToYear(
-      2001-2000);
+      2001);
   assertEqual(1, zoneProcessor.mNumTransitions);
   assertEqual(-8*60, zoneProcessor.mTransitions[0].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[0].era.format());
-  assertEqual(1967-2000, zoneProcessor.mTransitions[0].rule.fromYearTiny());
-  assertEqual(2006-2000, zoneProcessor.mTransitions[0].rule.toYearTiny());
+  assertEqual(1967, zoneProcessor.mTransitions[0].rule.fromYear());
+  assertEqual(2006, zoneProcessor.mTransitions[0].rule.toYear());
   assertEqual(10, zoneProcessor.mTransitions[0].rule.inMonth());
 
   ZoneEraBroker currentEra = zoneProcessor.addTransitionsForYear(
-      2001-2000, priorEra);
+      2001, priorEra);
   assertEqual(3, zoneProcessor.mNumTransitions);
 
   assertEqual(-8*60, zoneProcessor.mTransitions[1].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[1].era.format());
-  assertEqual(1987-2000, zoneProcessor.mTransitions[1].rule.fromYearTiny());
-  assertEqual(2006-2000, zoneProcessor.mTransitions[1].rule.toYearTiny());
+  assertEqual(1987, zoneProcessor.mTransitions[1].rule.fromYear());
+  assertEqual(2006, zoneProcessor.mTransitions[1].rule.toYear());
   assertEqual(4, zoneProcessor.mTransitions[1].rule.inMonth());
 
   assertEqual(-8*60, zoneProcessor.mTransitions[2].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[2].era.format());
-  assertEqual(1967-2000, zoneProcessor.mTransitions[2].rule.fromYearTiny());
-  assertEqual(2006-2000, zoneProcessor.mTransitions[2].rule.toYearTiny());
+  assertEqual(1967, zoneProcessor.mTransitions[2].rule.fromYear());
+  assertEqual(2006, zoneProcessor.mTransitions[2].rule.toYear());
   assertEqual(10, zoneProcessor.mTransitions[2].rule.inMonth());
 
-  zoneProcessor.addTransitionAfterYear(2001-2000, currentEra);
+  zoneProcessor.addTransitionAfterYear(2001, currentEra);
   assertEqual(3, zoneProcessor.mNumTransitions);
 
   zoneProcessor.calcTransitions();
@@ -300,23 +299,23 @@ test(BasicZoneProcessorTest, init) {
 
   assertEqual(-8*60, zoneProcessor.mTransitions[0].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[0].era.format());
-  assertEqual(2007-2000, zoneProcessor.mTransitions[0].rule.fromYearTiny());
-  assertEqual(ZoneRule::kMaxYearTiny,
-      zoneProcessor.mTransitions[0].rule.toYearTiny());
+  assertEqual(2007, zoneProcessor.mTransitions[0].rule.fromYear());
+  assertEqual(ZoneRule::kMaxYear,
+      zoneProcessor.mTransitions[0].rule.toYear());
   assertEqual(11, zoneProcessor.mTransitions[0].rule.inMonth());
 
   assertEqual(-8*60, zoneProcessor.mTransitions[1].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[1].era.format());
-  assertEqual(2007-2000, zoneProcessor.mTransitions[1].rule.fromYearTiny());
-  assertEqual(ZoneRule::kMaxYearTiny,
-      zoneProcessor.mTransitions[1].rule.toYearTiny());
+  assertEqual(2007, zoneProcessor.mTransitions[1].rule.fromYear());
+  assertEqual(ZoneRule::kMaxYear,
+      zoneProcessor.mTransitions[1].rule.toYear());
   assertEqual(3, zoneProcessor.mTransitions[1].rule.inMonth());
 
   assertEqual(-8*60, zoneProcessor.mTransitions[2].era.offsetMinutes());
   assertEqual("P%T", zoneProcessor.mTransitions[2].era.format());
-  assertEqual(2007-2000, zoneProcessor.mTransitions[2].rule.fromYearTiny());
-  assertEqual(ZoneRule::kMaxYearTiny,
-      zoneProcessor.mTransitions[2].rule.toYearTiny());
+  assertEqual(2007, zoneProcessor.mTransitions[2].rule.fromYear());
+  assertEqual(ZoneRule::kMaxYear,
+      zoneProcessor.mTransitions[2].rule.toYear());
   assertEqual(11, zoneProcessor.mTransitions[2].rule.inMonth());
 
   assertEqual((acetime_t) BasicZoneProcessor::kMinEpochSeconds,
