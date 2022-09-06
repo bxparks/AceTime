@@ -7,8 +7,13 @@
 #define ACE_TIME_LOCAL_DATE_H
 
 #include <stdint.h>
+#include <string.h> // strlen()
+#include <Arduino.h>
+#include <AceCommon.h> // printPad2To()
 #include "common/common.h"
-#include "LocalTime.h"
+#include "common/DateStrings.h" // DateStrings
+#include "internal/EpochConverterJulian.h"
+#include "internal/EpochConverterHinnant.h"
 
 class Print;
 
@@ -18,13 +23,11 @@ namespace ace_time {
  * The date (year, month, day) representing the date without regards to time
  * zone.
  *
- * The year field is internally represented as an int8_t offset from the year
- * 2000. However, the value of kInvalidYear is used to indicate an
- * error condition. So the actual range of the year is [1873, 2127] instead of
- * [1872, 2127].
- *
- * If the year is restricted to 2000-2099 (2 digit years), these fields
- * correspond to the range supported by the DS3231 RTC chip.
+ * Normally, the range of the year field is [1,9999]. Occasionally, the year 0
+ * is used to indicate -Infinity, with the month and day fields ignored. And the
+ * year 10000 is used to indicate +Infinity, with the month and day fields
+ * ignored. The value of INT16_MIN (-32768) is used to indicate an error
+ * condition.
  *
  * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated from the date
  * fields.
@@ -32,8 +35,12 @@ namespace ace_time {
  * Parts of this class were inspired by the java.time.LocalDate class of Java
  * 11
  * (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalDate.html).
+ *
+ * @tparam T_CONVERTER class responsible for providing the
+ *    T_CONVERTER::toEpochDays() and T_CONVERTER::fromEpochDays() functions
  */
-class LocalDate {
+template <typename T_CONVERTER>
+class LocalDateTemplate {
   public:
     /** Base year of epoch. */
     static const int16_t kEpochYear = 2000;
@@ -114,13 +121,14 @@ class LocalDate {
      * Factory method using separated year, month and day fields. Returns
      * LocalDate::forError() if the parameters are out of range.
      *
-     * @param year [-1,10000]
+     * @param year [0,10000]
      * @param month month with January=1, December=12
      * @param day day of month [1-31]
      */
-    static LocalDate forComponents(int16_t year, uint8_t month, uint8_t day) {
-      int16_t yearInternal = isYearValid(year) ? year : kInvalidYear;
-      return LocalDate(yearInternal, month, day);
+    static LocalDateTemplate forComponents(
+        int16_t year, uint8_t month, uint8_t day) {
+      year = isYearValid(year) ? year : kInvalidYear;
+      return LocalDateTemplate(year, month, day);
     }
 
     /**
@@ -130,7 +138,7 @@ class LocalDate {
      *
      * @param epochDays number of days since AceTime epoch (2000-01-01)
      */
-    static LocalDate forEpochDays(int32_t epochDays) {
+    static LocalDateTemplate forEpochDays(int32_t epochDays) {
       int16_t year;
       uint8_t month;
       uint8_t day;
@@ -143,7 +151,7 @@ class LocalDate {
     }
 
     /** Factory method using the number of days since Unix epoch 1970-01-1. */
-    static LocalDate forUnixDays(int32_t unixDays) {
+    static LocalDateTemplate forUnixDays(int32_t unixDays) {
       if (unixDays == kInvalidEpochDays) {
         return forError();
       } else {
@@ -162,7 +170,7 @@ class LocalDate {
      *
      * @param epochSeconds number of seconds since AceTime epoch (2000-01-01)
      */
-    static LocalDate forEpochSeconds(acetime_t epochSeconds) {
+    static LocalDateTemplate forEpochSeconds(acetime_t epochSeconds) {
       if (epochSeconds == kInvalidEpochSeconds) {
         return forError();
       } else {
@@ -181,7 +189,7 @@ class LocalDate {
      * Valid until unixSeconds reaches the maximum value of `int32_t` at
      * 2038-01-19T03:14:07 UTC.
      */
-    static LocalDate forUnixSeconds(int32_t unixSeconds) {
+    static LocalDateTemplate forUnixSeconds(int32_t unixSeconds) {
       if (unixSeconds == kInvalidUnixSeconds) {
         return forError();
       } else {
@@ -196,7 +204,7 @@ class LocalDate {
      * Valid until the 64-bit unixSeconds reaches the equivalent of
      * 2068-01-19T03:14:07 UTC.
      */
-    static LocalDate forUnixSeconds64(int64_t unixSeconds) {
+    static LocalDateTemplate forUnixSeconds64(int64_t unixSeconds) {
       if (unixSeconds == kInvalidUnixSeconds64
           || unixSeconds > kMaxValidUnixSeconds64
           || unixSeconds < kMinValidUnixSeconds64) {
@@ -210,13 +218,18 @@ class LocalDate {
     /**
      * Factory method. Create a LocalDate from the ISO 8601 date string. If the
      * string cannot be parsed, then isError() on the constructed object
-     * returns true, but the data validation is very weak. Year should
-     * be between 0 and 9999. Created for debugging purposes not for
+     * returns true, but the data validation is very weak. Year should probably
+     * be between 1872 and 2127. Created for debugging purposes not for
      * production use.
      *
      * @param dateString the date in ISO 8601 format (yyyy-mm-dd)
      */
-    static LocalDate forDateString(const char* dateString);
+    static LocalDateTemplate forDateString(const char* dateString) {
+      if (strlen(dateString) < kDateStringLength) {
+        return forError();
+      }
+      return forDateStringChainable(dateString);
+    }
 
     /**
      * Variant of forDateString() that updates the pointer to the next
@@ -225,14 +238,39 @@ class LocalDate {
      *
      * This method assumes that the dateString is sufficiently long.
      */
-    static LocalDate forDateStringChainable(const char*& dateString);
+    static LocalDateTemplate forDateStringChainable(const char*& dateString) {
+      const char* s = dateString;
+
+      // year (assumes 4 digit year)
+      int16_t year = (*s++ - '0');
+      year = 10 * year + (*s++ - '0');
+      year = 10 * year + (*s++ - '0');
+      year = 10 * year + (*s++ - '0');
+
+      // '-'
+      s++;
+
+      // month
+      uint8_t month = (*s++ - '0');
+      month = 10 * month + (*s++ - '0');
+
+      // '-'
+      s++;
+
+      // day
+      uint8_t day = (*s++ - '0');
+      day = 10 * day + (*s++ - '0');
+
+      dateString = s;
+      return forComponents(year, month, day);
+    }
 
     /**
      * Factory method that returns a LocalDate which represents an error
      * condition. The isError() method will return true.
      */
-    static LocalDate forError() {
-      return LocalDate(kInvalidYear, 0, 0);
+    static LocalDateTemplate forError() {
+      return LocalDateTemplate(kInvalidYear, 0, 0);
     }
 
     /** True if year is a leap year. */
@@ -240,7 +278,7 @@ class LocalDate {
       return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
     }
 
-    /** Return true if year is within valid range of [-1, 10000]. */
+    /** Return true if year is within valid range of [1873, 2127]. */
     static bool isYearValid(int16_t year) {
       return year >= kMinYear && year <= kMaxYear;
     }
@@ -252,7 +290,7 @@ class LocalDate {
     }
 
     /** Default constructor does nothing. */
-    explicit LocalDate() {}
+    explicit LocalDateTemplate() = default;
 
     /** Return the year. */
     int16_t year() const { return mYear; }
@@ -299,39 +337,10 @@ class LocalDate {
      * Returns kInvalidEpochDays if isError() is true, which allows round trip
      * conversions of forEpochDays() and toEpochDays() even when isError() is
      * true.
-     *
-     * In an 8-bit implementation:
-     *    * the largest date 2127-12-31 returns 46751
-     *    * the smallest date 1872-01-01 returns -46751
-     *
-     * Uses Julian days which normally start at 12:00:00. But this method
-     * returns the delta number of days since 00:00:00, so we can interpret the
-     * Gregorian calendar day to start at 00:00:00.
-     *
-     * See https://en.wikipedia.org/wiki/Julian_day
      */
     int32_t toEpochDays() const {
       if (isError()) return kInvalidEpochDays;
-
-      // From wiki article:
-      //
-      // JDN = (1461 x (Y + 4800 + (M - 14)/12))/4
-      //     + (367 x (M - 2 - 12 x ((M - 14)/12)))/12
-      //     - (3 x ((Y + 4900 + (M - 14)/12)/100))/4
-      //     + D - 32075
-      // JDN2000 = JDN - 2451545
-      //
-      // It looks like the formula needs to be done using signed integers
-      // because it depends on the modulo operation (%) to truncate towards 0
-      // for negative numbers.
-
-      int8_t mm = (mMonth - 14)/12;
-      int16_t yy = year();
-      int32_t jdn = ((int32_t) 1461 * (yy + 4800 + mm))/4
-          + (367 * (mMonth - 2 - 12 * mm))/12
-          - (3 * ((yy + 4900 + mm)/100))/4
-          + mDay - 32075;
-      return jdn - kDaysSinceJulianEpoch;
+      return T_CONVERTER::toEpochDays(mYear, mMonth, mDay);
     }
 
     /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
@@ -377,7 +386,7 @@ class LocalDate {
      * either this->isError() or that.isError() is true, the behavior is
      * undefined.
      */
-    int8_t compareTo(const LocalDate& that) const {
+    int8_t compareTo(const LocalDateTemplate& that) const {
       if (mYear < that.mYear) return -1;
       if (mYear > that.mYear) return 1;
       if (mMonth < that.mMonth) return -1;
@@ -393,20 +402,34 @@ class LocalDate {
      * This class does not implement the Printable interface to avoid
      * increasing the size of the object from the additional virtual function.
      */
-    void printTo(Print& printer) const;
+    void printTo(Print& printer) const {
+      if (isError()) {
+        printer.print(F("<Invalid LocalDate>"));
+        return;
+      }
+
+      // Date
+      using ace_common::printPad2To;
+      printer.print(year());
+      printer.print('-');
+      printPad2To(printer, mMonth, '0');
+      printer.print('-');
+      printPad2To(printer, mDay, '0');
+      printer.print(' ');
+
+      // Week day
+      DateStrings ds;
+      printer.print(ds.dayOfWeekLongString(dayOfWeek()));
+    }
 
     // Use default copy constructor and assignment operator.
-    LocalDate(const LocalDate&) = default;
-    LocalDate& operator=(const LocalDate&) = default;
+    LocalDateTemplate(const LocalDateTemplate&) = default;
+    LocalDateTemplate& operator=(const LocalDateTemplate&) = default;
 
   private:
-    friend bool operator==(const LocalDate& a, const LocalDate& b);
-
-    /**
-     * Number of days between the Julian calendar epoch (4713 BC 01-01) and the
-     * AceTime epoch (2000-01-01).
-     */
-    static const int32_t kDaysSinceJulianEpoch = 2451545;
+    template <typename T>
+    friend bool operator==(
+        const LocalDateTemplate<T>& a, const LocalDateTemplate<T>& b);
 
     /** Minimum length of the date string. yyyy-mm-dd. */
     static const uint8_t kDateStringLength = 10;
@@ -422,47 +445,75 @@ class LocalDate {
     static const uint8_t sDaysInMonth[12];
 
     /** Constructor that sets the components. */
-    explicit LocalDate(int16_t year, uint8_t month, uint8_t day):
+    explicit LocalDateTemplate(int16_t year, uint8_t month, uint8_t day):
         mYear(year),
         mMonth(month),
         mDay(day) {}
 
     /**
      * Extract the (year, month, day, dayOfWeek) fields from epochDays.
-     *
-     * See https://en.wikipedia.org/wiki/Julian_day.
      */
     static void extractYearMonthDay(int32_t epochDays, int16_t& year,
         uint8_t& month, uint8_t& day) {
-      uint32_t J = epochDays + kDaysSinceJulianEpoch;
-      uint32_t f = J + 1401 + (((4 * J + 274277 ) / 146097) * 3) / 4 - 38;
-      uint32_t e = 4 * f + 3;
-      uint32_t g = e % 1461 / 4;
-      uint32_t h = 5 * g + 2;
-      day = (h % 153) / 5 + 1;
-      month = (h / 153 + 2) % 12 + 1;
-      year = (e / 1461) - 4716 + (12 + 2 - month) / 12;
-
-      // 2000-01-01 is Saturday (7)
-      //dayOfWeek = (epochDays + 6) % 7 + 1;
+      T_CONVERTER::fromEpochDays(epochDays, year, month, day);
     }
 
-    int16_t mYear; // [-1, 10000], INT16_MIN indicates error
+    int16_t mYear; // [0,10000], INT16_MIN indicates error
     uint8_t mMonth; // [1, 12], 0 indicates error
     uint8_t mDay; // [1, 31], 0 indicates error
 };
 
 /** Return true if two LocalDate objects are equal in all components. */
-inline bool operator==(const LocalDate& a, const LocalDate& b) {
+template <typename T>
+bool operator==(const LocalDateTemplate<T>& a, const LocalDateTemplate<T>& b) {
   return a.mDay == b.mDay
       && a.mMonth == b.mMonth
       && a.mYear == b.mYear;
 }
 
 /** Return true if two LocalDate objects are not equal. */
-inline bool operator!=(const LocalDate& a, const LocalDate& b) {
+template <typename T>
+bool operator!=(const LocalDateTemplate<T>& a, const LocalDateTemplate<T>& b) {
   return ! (a == b);
 }
+
+// Using 0=Jan offset.
+template <typename T>
+const uint8_t LocalDateTemplate<T>::sDayOfWeek[12] = {
+  5 /*Jan=31*/,
+  1 /*Feb=28*/,
+  0 /*Mar=31, start of "year"*/,
+  3 /*Apr=30*/,
+  5 /*May=31*/,
+  1 /*Jun=30*/,
+  3 /*Jul=31*/,
+  6 /*Aug=31*/,
+  2 /*Sep=30*/,
+  4 /*Oct=31*/,
+  0 /*Nov=30*/,
+  2 /*Dec=31*/,
+};
+
+// Using 0=Jan offset.
+template <typename T>
+const uint8_t LocalDateTemplate<T>::sDaysInMonth[12] = {
+  31 /*Jan=31*/,
+  28 /*Feb=28*/,
+  31 /*Mar=31*/,
+  30 /*Apr=30*/,
+  31 /*May=31*/,
+  30 /*Jun=30*/,
+  31 /*Jul=31*/,
+  31 /*Aug=31*/,
+  30 /*Sep=30*/,
+  31 /*Oct=31*/,
+  30 /*Nov=30*/,
+  31 /*Dec=31*/,
+};
+
+// Use the original EpochConverterJulian until the other converters are
+// validated.
+using LocalDate = LocalDateTemplate<internal::EpochConverterJulian>;
 
 }
 
