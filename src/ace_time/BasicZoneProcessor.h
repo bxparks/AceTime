@@ -132,8 +132,8 @@ struct TransitionTemplate {
 };
 
 /** Compare two (year, month) pairs and return (-1, 0, 1). */
-inline int8_t compareYearMonth(int8_t aYear, uint8_t aMonth,
-    int8_t bYear, uint8_t bMonth) {
+inline int8_t compareYearMonth(int16_t aYear, uint8_t aMonth,
+    int16_t bYear, uint8_t bMonth) {
   if (aYear < bYear) return -1;
   if (aYear > bYear) return 1;
   if (aMonth < bMonth) return -1;

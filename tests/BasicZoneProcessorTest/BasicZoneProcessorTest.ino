@@ -7,6 +7,7 @@
 using ace_common::PrintStr;
 using namespace ace_time;
 using ace_time::internal::ZoneContext;
+using ace_time::basic::compareYearMonth;
 using ace_time::basic::ZoneInfo;
 using ace_time::basic::ZoneEra;
 using ace_time::basic::ZoneRule;
@@ -42,8 +43,8 @@ static const ZoneContext kZoneContext = {
 static const ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
   {
-    -1 /*fromYear*/,
-    -1 /*toYear*/,
+    LocalDate::kMinYear /*fromYear*/,
+    LocalDate::kMinYear /*toYear*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -127,6 +128,17 @@ static const ZoneInfo kZonePacific_Galapagos ACE_TIME_PROGMEM = {
 // BasicZoneProcessor: test private methods
 //---------------------------------------------------------------------------
 
+test(BasicZoneProcessorTest, compareYearMonth) {
+  assertEqual(compareYearMonth(2000, 2, 2000, 1), 1);
+  assertEqual(compareYearMonth(2000, 2, 2000, 2), 0);
+  assertEqual(compareYearMonth(2000, 2, 2000, 3), -1);
+
+  // Make sure that compareYearMonth() uses 'int16_t year' not 'int8_t year'
+  assertEqual(compareYearMonth(127, 2, 128, 2), -1);
+  assertEqual(compareYearMonth(128, 2, 128, 2), 0);
+  assertEqual(compareYearMonth(256, 2, 128, 2), 1);
+}
+
 test(BasicZoneProcessorTest, operatorEqualEqual) {
   BasicZoneProcessor a(&zonedb::kZoneAmerica_Los_Angeles);
   BasicZoneProcessor b(&zonedb::kZoneAustralia_Darwin);
@@ -160,7 +172,7 @@ test(BasicZoneProcessorTest, calcRuleOffsetMinutes) {
 test(BasicZoneProcessorTest, findZoneEra) {
   ZoneInfoBroker info(&kZonePacific_Galapagos);
 
-  ZoneEraBroker era = BasicZoneProcessor::findZoneEra(info, 1984-2000);
+  ZoneEraBroker era = BasicZoneProcessor::findZoneEra(info, 1984);
   assertEqual(1986, era.untilYear());
 
   era = BasicZoneProcessor::findZoneEra(info, 1985);
@@ -182,7 +194,7 @@ test(BasicZoneProcessorTest, findLatestPriorRule) {
   policy = ZonePolicyBroker(&kPolicyEcuador);
   year = 1992;
   rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
-  assertEqual(-1, rule.fromYear());
+  assertEqual(0, rule.fromYear());
 
   year = 1993;
   rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
@@ -201,7 +213,7 @@ test(BasicZoneProcessorTest, priorYearOfRule) {
   ZonePolicyBroker policy(&kPolicyEcuador);
 
   int16_t year = 1995;
-  assertEqual(1873, BasicZoneProcessor::priorYearOfRule(
+  assertEqual(0, BasicZoneProcessor::priorYearOfRule(
       year, policy.rule(0) /*min*/));
   assertEqual(1992, BasicZoneProcessor::priorYearOfRule(
       year, policy.rule(1) /*1992*/));
@@ -209,7 +221,7 @@ test(BasicZoneProcessorTest, priorYearOfRule) {
       year, policy.rule(2) /*1993*/));
 
   year = 1993;
-  assertEqual(1873, BasicZoneProcessor::priorYearOfRule(
+  assertEqual(0, BasicZoneProcessor::priorYearOfRule(
       year, policy.rule(0) /*min*/));
   assertEqual(1992, BasicZoneProcessor::priorYearOfRule(
       year, policy.rule(1) /*1992*/));

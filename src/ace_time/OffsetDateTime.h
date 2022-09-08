@@ -19,12 +19,12 @@ namespace ace_time {
  * offset from UTC (timeOffset). The dayOfWeek (1=Monday, 7=Sunday, per ISO
  * 8601) is calculated internally from the date fields.
  *
- * The year field is internally represented as int8_t offset from the year
- * 2000, so in theory it is valid from [1873, 2127] since -128 is used to
- * indicate an error condition. If the year is restricted to the range 00-99,
- * these fields map directly to the fields supported by the DS3231 RTC chip.
- * The "epoch" for this library is 2000-01-01T00:00:00Z and toEpochSeconds()
- * returns a int32_t number of seconds offset from that epoch.
+ * The year field is valid from [0, 10000] with year 0 interpreted as -Infinity
+ * and year 10000 interpreted as +Infinity. The constant INT16_MIN is used to
+ * indicate an error condition. If the year is restricted to the range
+ * 2000-2099, then the last 2 digits map directly to the fields supported by the
+ * DS3231 RTC chip. The "epoch" for this library is 2000-01-01T00:00:00 UTC and
+ * toEpochSeconds() returns a int32_t number of seconds offset from that epoch.
  *
  * Parts of this class were inspired by the java.time.OffsetDateTime class of
  * Java 11
