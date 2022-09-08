@@ -37,6 +37,7 @@ class ExtendedZoneProcessorTest_normalizeDateTuple;
 class ExtendedZoneProcessorTest_expandDateTuple;
 class ExtendedZoneProcessorTest_calcInteriorYears;
 class ExtendedZoneProcessorTest_getMostRecentPriorYear;
+class ExtendedZoneProcessorTest_compareDateTupleFuzzy;
 class ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
 class ExtendedZoneProcessorTest_compareTransitionToMatch;
 class ExtendedZoneProcessorTest_processTransitionMatchStatus;
@@ -1278,6 +1279,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_expandDateTuple;
     friend class ::ExtendedZoneProcessorTest_calcInteriorYears;
     friend class ::ExtendedZoneProcessorTest_getMostRecentPriorYear;
+    friend class ::ExtendedZoneProcessorTest_compareDateTupleFuzzy;
     friend class ::ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
     friend class ::ExtendedZoneProcessorTest_compareTransitionToMatch;
     friend class ::ExtendedZoneProcessorTest_processTransitionMatchStatus;
@@ -1749,26 +1751,39 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      *    * kWithinMatch if t within match,
      *    * kFarFuture if t greater than match by at least one month
      *    * kExactMatch is never returned, we cannot know that t == match.start
-     *
-     * FIXME: This function overflows its internal integer calculations when the
-     * number of total months exceeds 2^15-1 (32767). In other words, in the
-     * year 2730.
      */
     static extended::MatchStatus compareTransitionToMatchFuzzy(
         const Transition* t, const MatchingEra* match) {
+      return compareDateTupleFuzzy(
+          t->transitionTime,
+          match->startDateTime,
+          match->untilDateTime);
+    }
+
+    /**
+     * Determine the relationship of t to the time interval defined by `[start,
+     * until)`. The comparison is fuzzy, with a slop of about one month so that
+     * we can ignore the day and minutes fields.
+     *
+     * The following values are returned:
+     *
+     *  * kPrior if 't' is less than 'start' by at least one month,
+     *  * kFarFuture if 't' is greater than 'until' by at least one month,
+     *  * kWithinMatch if 't' is within [start, until) with a one month slop,
+     *  * kExactMatch is never returned.
+     */
+    static extended::MatchStatus compareDateTupleFuzzy(
+        const extended::DateTuple& t,
+        const extended::DateTuple& start,
+        const extended::DateTuple& until) {
       using extended::MatchStatus;
-
-      int16_t ttMonths = t->transitionTime.year * 12
-          + t->transitionTime.month;
-
-      int16_t matchStartMonths = match->startDateTime.year * 12
-          + match->startDateTime.month;
-      if (ttMonths < matchStartMonths - 1) return MatchStatus::kPrior;
-
-      int16_t matchUntilMonths = match->untilDateTime.year * 12
-          + match->untilDateTime.month;
-      if (matchUntilMonths + 2 <= ttMonths) return MatchStatus::kFarFuture;
-
+      // Use int32_t because a delta year of 2730 or greater will exceed
+      // the range of an int16_t.
+      int32_t tMonths = t.year * (int32_t) 12 + t.month;
+      int32_t startMonths = start.year * (int32_t) 12 + start.month;
+      if (tMonths < startMonths - 1) return MatchStatus::kPrior;
+      int32_t untilMonths = until.year * 12 + until.month;
+      if (untilMonths + 1 < tMonths) return MatchStatus::kFarFuture;
       return MatchStatus::kWithinMatch;
     }
 
@@ -2137,6 +2152,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
     }
 
+  private:
     const BF* mBrokerFactory; // nullable
     ZIB mZoneInfoBroker;
 
