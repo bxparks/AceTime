@@ -45,11 +45,6 @@ const uint32_t YEAR_STEP = 1;
 const uint32_t YEAR_STEP = 1;
 #endif
 
-// Epoch day corresponding to the earliest valid date that can be represented
-// in AceTime using an int8_t for the year parameter. The smallest year
-// is -127, so the date is 1883-01-01.
-const int32_t START_EPOCH_DAY = -46385;
-
 // The compiler is extremelly good about removing code that does nothing. This
 // volatile variable is used to create side-effects that prevent the compiler
 // from optimizing out the code that's being tested. Each disableOptimization()
@@ -61,13 +56,13 @@ volatile uint32_t guard;
 // point number (without using floating point operations).
 static void printMicrosPerIteration(
     const __FlashStringHelper* label, 
-    unsigned long elapsedMillis,
+    uint32_t elapsedMillis,
     uint32_t iterations) {
 
   SERIAL_PORT_MONITOR.print(label);
   SERIAL_PORT_MONITOR.print(' ');
 
-  unsigned long nanos = elapsedMillis * 1000 * 1000 / iterations;
+  uint32_t nanos = elapsedMillis * 1000 * 1000 / iterations;
   printUint32AsFloat3To(SERIAL_PORT_MONITOR, nanos);
 
   SERIAL_PORT_MONITOR.print(' ');
@@ -79,7 +74,7 @@ static void printMicrosPerIteration(
 // Return how long the empty lookup takes.
 void runEmptyLoop(const __FlashStringHelper* label) {
   uint32_t iterations = 0;
-  unsigned long startMillis = millis();
+  uint32_t startMillis = millis();
   for (int16_t year = 2000 - 127; year <= 2000 + 127; year += YEAR_STEP) {
     for (uint8_t month = 1; month <= 12; month++) {
       uint8_t daysInMonth = LocalDate::daysInMonth(year, month);
@@ -92,13 +87,13 @@ void runEmptyLoop(const __FlashStringHelper* label) {
       }
     }
   }
-  unsigned long elapsedMillis = millis() - startMillis;
+  uint32_t elapsedMillis = millis() - startMillis;
   printMicrosPerIteration(label, elapsedMillis, iterations);
 }
 
 // Benchmark the EpochConverterJulian
 void runConverterJulian(const __FlashStringHelper* label) {
-  unsigned long startMillis = millis();
+  uint32_t startMillis = millis();
 
   uint32_t iterations = 0;
   for (int16_t year = 2000 - 127; year <= 2000 + 127; year += YEAR_STEP) {
@@ -124,13 +119,13 @@ void runConverterJulian(const __FlashStringHelper* label) {
       }
     }
   }
-  unsigned long elapsedMillis = millis() - startMillis;
+  uint32_t elapsedMillis = millis() - startMillis;
   printMicrosPerIteration(label, elapsedMillis, iterations);
 }
 
 // Benchmark the EpochConverterHinnant
 void runConverterHinnant(const __FlashStringHelper* label) {
-  unsigned long startMillis = millis();
+  uint32_t startMillis = millis();
 
   uint32_t iterations = 0;
   for (int16_t year = 2000 - 127; year <= 2000 + 127; year += YEAR_STEP) {
@@ -156,7 +151,7 @@ void runConverterHinnant(const __FlashStringHelper* label) {
       }
     }
   }
-  unsigned long elapsedMillis = millis() - startMillis;
+  uint32_t elapsedMillis = millis() - startMillis;
   printMicrosPerIteration(label, elapsedMillis, iterations);
 }
 
