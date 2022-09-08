@@ -1,6 +1,34 @@
 # Changelog
 
 * Unreleased
+    * Change internal storage type of `year` component from `int8_t` to
+      `int16_t`, extending the range of valid years from [-1873,2127] to
+      [1,9999].
+        * Remove `yearTiny()` getters and setters from `LocalDate`,
+          `LocalDateTime`, `OffsetDateTime`, and `ZonedDateTime`.
+            * They were not documented except in doxygen docs.
+        * Remove from `LocalDate`:
+            * `kInvalidYearTiny`, replaced with `kInvalidYear`
+            * `kMinYearTiny`, replaced with `kMinYear`
+            * `kMaxYearTiny`, replaced with `kMaxYear`
+            * `forTinyComponents()`
+        * Remove from `LocalDateTime`
+            * `forTinyComponents()`
+        * Update [AceTimeTools](https://github.com/bxparks/AceTimeTools)
+          to generate `src/zonedb` and `src/zonedbx` using `int16_t` year types.
+    * Convert `LocalDate` into a `LocalDateTemplate` class to allow different
+      epoch date conversion algorithms to be used/tested. Two of them are
+      `EpochConverterJulian` and `EpochConverterHinnant`
+        * `EpochConverterJulian` implements the algorithms found in wikipedia
+          article https://en.wikipedia.org/wiki/Julian_day.
+        * `EpochConverterHinnant` implements the algorithms found in
+          https://howardhinnant.github.io/date_algorithms.html.
+    * Migrate `LocalDate` to use the `EpochConverterHinnant` instead of
+      `EpochConverterJulian`.
+        * The primary reason is that I am able to fully understand the
+          algorithms described in `EpochConverterHinnant`.
+        * In contrast, I have almost no understanding of the algorithms
+          implemented by `EpochConverterJulian`.
 * 1.11.7 (2022-11-02, TZDB 2022f)
     * Upgrade TZDB from 2022e to 2022f
         * https://mm.icann.org/pipermail/tz-announce/2022-October/000075.html
