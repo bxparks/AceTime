@@ -513,7 +513,7 @@ const uint8_t LocalDateTemplate<T>::sDaysInMonth[12] = {
 
 // Use the original EpochConverterJulian until the other converters are
 // validated.
-using LocalDate = LocalDateTemplate<internal::EpochConverterJulian>;
+using LocalDate = LocalDateTemplate<internal::EpochConverterHinnant>;
 
 }
 
