@@ -1629,7 +1629,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * until Feb of the following year), so the maximum number of interior years
      * that this will return should be 3.
      *
-     * @param interiorYears a pointer to array of tiny years (int8_t)
+     * @param interiorYears a pointer to array of years
      * @param maxInteriorYears size of interiorYears
      * @param fromYear FROM year field of a Rule entry
      * @param toYear TO year field of a Rule entry
@@ -1696,8 +1696,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * Return the most recent year from the Rule[fromYear, toYear] which is
      * prior to the matching ZoneEra years of [startYear, endYear].
      *
-     * Return LocalDate::kInvalidYear if the rule[fromYear,
-     * to_year] has no prior year to the MatchingEra[startYear, endYear].
+     * Return LocalDate::kInvalidYear if the rule[fromYear, to_year] has no
+     * prior year to the MatchingEra[startYear, endYear].
      *
      * @param fromYear FROM year field of a Rule entry
      * @param toYear TO year field of a Rule entry
@@ -1706,9 +1706,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      */
     static int16_t getMostRecentPriorYear(
         int16_t fromYear, int16_t toYear,
-        int16_t startYear, int16_t endYear) {
-
-      (void) endYear; // disable compiler warnings
+        int16_t startYear, int16_t /*endYear*/) {
 
       if (fromYear < startYear) {
         if (toYear < startYear) {
