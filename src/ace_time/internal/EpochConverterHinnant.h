@@ -18,8 +18,12 @@ namespace internal {
  */
 class EpochConverterHinnant {
   public:
-    /** Base year of the AceTime epoch. */
-    static const int16_t kEpochYear = 2000;
+    /**
+     * Base year of the epoch days converter. Should be a multiple of 400.
+     * This epoch year applies to only this class. Other parts of the AceTime
+     * library may choose a different epoch year.
+     */
+    static const int16_t kEpochConverterBaseYear = 2000;
 
     /**
      * Convert (year, month, day) in the Gregorian calendar to days since
@@ -49,8 +53,8 @@ class EpochConverterHinnant {
 
       int32_t dayOfEpochPrime = dayOfEra + 146097 * era;
       return dayOfEpochPrime
-          - (2000 / 400) * 146097 /*shift relative to 2000-03-01*/
-          + 60 /*shift relative to 2000-01-01, 2000 is a leap year*/;
+          - (kEpochConverterBaseYear / 400) * 146097 /*relative to 2000-03-01*/
+          + 60 /*relative to 2000-01-01, 2000 is a leap year*/;
     }
 
     /**
@@ -67,7 +71,8 @@ class EpochConverterHinnant {
     static void fromEpochDays(int32_t epochDays,
         int16_t& year, uint8_t& month, uint8_t& day) {
 
-      int32_t dayOfEpochPrime = epochDays + (2000 / 400) * 146097 - 60;
+      int32_t dayOfEpochPrime = epochDays
+          + (kEpochConverterBaseYear / 400) * 146097 - 60;
       uint16_t era = (uint32_t) dayOfEpochPrime / 146097; // [0,24]
       uint32_t dayOfEra = dayOfEpochPrime - 146097 * era; // [0,146096]
       uint16_t yearOfEra = (dayOfEra - dayOfEra / 1460 + dayOfEra / 36524

@@ -19,22 +19,31 @@ namespace internal {
  */
 class EpochConverterJulian {
   public:
-    /** Base year of the AceTime epoch. */
-    static const int16_t kEpochYear = 2000;
+    /**
+     * Base year of the epoch days converter. Should be a multiple of 400.
+     * This epoch year applies to only this class. Other parts of the AceTime
+     * library may choose a different epoch year.
+     */
+    static const int16_t kEpochConverterBaseYear = 2000;
 
     /**
-     * Number of days between the Julian calendar epoch (4713 BC 01-01) and the
-     * AceTime epoch (2000-01-01).
+     * Number of days between the modified proleptic Julian calendar epoch (4713
+     * BC 01-01, modified to start at 00:00:00 instead of 12:00:00) and the
+     * AceTime epoch (2000-01-01). There are 1721060 days from the modified
+     * Julian epoch to 0000-01-01 of the proleptic Gregorian calendar. We then
+     * need to add 2000 years (5 x 400 years) to get to 2000-01-01.
      */
-    static const int32_t kDaysSinceJulianEpoch = 2451545;
+    //static const int32_t kDaysSinceJulianEpoch = 2451545;
+    static const int32_t kDaysSinceJulianEpoch = 1721060
+        + (kEpochConverterBaseYear / 400) * 146097;
 
     /**
      * Convert (year, month, day) in the Gregorian calendar to days since
      * AceTime Epoch (2000-01-01). The (year, month, day) is converted into
      * Julian days, then converted to epoch days since AceTime Epoch. The Julian
-     * day normally start at 12:00:00. But this method returns the delta number
-     * of days since 00:00:00, so we can interpret the Gregorian calendar day to
-     * start at 00:00:00.
+     * day normally start at 12:00:00, but we use a modified Julian day number
+     * starting at 00:00:00 to make it easier to convert to the Gregorian
+     * calendar day.
      *
      * @verbatim
      * JDN = (1461 x (Y + 4800 + (M - 14)/12))/4
