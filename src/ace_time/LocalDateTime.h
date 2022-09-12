@@ -34,7 +34,7 @@ class LocalDateTime {
     /**
      * Factory method using separated date and time components.
      *
-     * @param year [-1,10000]
+     * @param year year [0,10000]
      * @param month month with January=1, December=12
      * @param day day of month [1-31]
      * @param hour hour [0-23]
@@ -123,13 +123,13 @@ class LocalDateTime {
      * "YYYY-MM-DDThh:mm:ss", but currently, the parser is very lenient.
      * It cares mostly about the positional placement of the various
      * components. It does not validate the separation characters like '-' or
-     * ':'. For example, both of the following will parse to the exactly same
-     * LocalDateTime object: "2018-08-31T13:48:01-07:00" "2018/08/31
+     * ':'. For example, both of the following strings will parse to the exactly
+     * same LocalDateTime object: "2018-08-31T13:48:01-07:00" and "2018/08/31
      * 13#48#01-07#00"
      *
      * The parsing validation is so weak that the behavior is undefined for
-     * most invalid date/time strings. The range of valid dates is roughly from
-     * 1872-01-01T00:00:00 to 2127-12-31T23:59:59.
+     * most invalid date/time strings. The range of valid dates is from
+     * 0001-01-01T00:00:00 to 9999-12-31T23:59:59.
      */
     static LocalDateTime forDateString(const char* dateString);
 

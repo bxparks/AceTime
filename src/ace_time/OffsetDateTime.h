@@ -42,7 +42,7 @@ class OffsetDateTime {
     /**
      * Factory method using separated date, time, and UTC offset fields.
      *
-     * @param year [1873-2127]
+     * @param year year [0,10000]
      * @param month month with January=1, December=12
      * @param day day of month [1-31]
      * @param hour hour [0-23]
@@ -129,10 +129,8 @@ class OffsetDateTime {
      * Created for debugging purposes not for production use.
      *
      * The parsing validation is so weak that the behavior is undefined for
-     * most invalid date/time strings. The range of valid dates is roughly from
-     * 1872-01-01T00:00:00 to 2127-12-31T23:59:59. However, the UTC offset may
-     * cause some of the dates on the two extreme ends invalid. The behavior is
-     * undefined in those cases.
+     * most invalid date/time strings. The range of valid dates is from
+     * 0001-01-01T00:00:00 to 9999-12-31T23:59:59.
      *
      * @param dateString the date and time in ISO 8601 format
      *        "YYYY-MM-DDThh:mm:ss+/-hh:mm", but currently, the parser is very

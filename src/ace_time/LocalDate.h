@@ -217,10 +217,10 @@ class LocalDateTemplate {
 
     /**
      * Factory method. Create a LocalDate from the ISO 8601 date string. If the
-     * string cannot be parsed, then isError() on the constructed object
-     * returns true, but the data validation is very weak. Year should probably
-     * be between 1872 and 2127. Created for debugging purposes not for
-     * production use.
+     * string cannot be parsed, then isError() on the constructed object returns
+     * true, but the data validation is very weak. Year should be between 0001
+     * and 9999. Created for mostly for debugging purposes not for production
+     * use.
      *
      * @param dateString the date in ISO 8601 format (yyyy-mm-dd)
      */
@@ -278,7 +278,7 @@ class LocalDateTemplate {
       return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
     }
 
-    /** Return true if year is within valid range of [1873, 2127]. */
+    /** Return true if year is within valid range of [0,10000]. */
     static bool isYearValid(int16_t year) {
       return year >= kMinYear && year <= kMaxYear;
     }

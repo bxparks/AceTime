@@ -13,8 +13,8 @@ namespace ace_time {
 namespace local_date_mutation {
 
 /**
- * Increment LocalDate by one day. Incrementing past 2127-12-31 produces
- * an error result whose isError() returns true.
+ * Increment LocalDate by one day. Incrementing 9999-12-31 produces 10000-01-01
+ * which is not a normal LocalDate because it represents +Infinity.
  */
 inline void incrementOneDay(LocalDate& ld) {
   uint8_t day = ld.day() + 1;
@@ -35,8 +35,8 @@ inline void incrementOneDay(LocalDate& ld) {
 }
 
 /**
- * Decrement LocalDate by one day. Decrementing past 1873-01-01 produces
- * an error result whose isError() returns true.
+ * Decrement LocalDate by one day. Decrementing past 0001-01-01 will produce
+ * 0000-12-31, which is not a normal LocalDate because it represents -Infinity.
  */
 inline void decrementOneDay(LocalDate& ld) {
   uint8_t day = ld.day() - 1;

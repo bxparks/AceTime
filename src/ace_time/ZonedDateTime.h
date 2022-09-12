@@ -18,9 +18,9 @@ namespace ace_time {
 /**
  * The date (year, month, day), time (hour, minute, second), and
  * a timeZone representing an instant in time. The year field is internally
- * represented as an int8_t number from -128 to 127. The value of -128 is used
- * to indicate an error condition so that range of valid year is 1873 to 2127
- * inclusive.
+ * represented as an int16_t number, with 0 indicating -Infinity and 10000
+ * representing +Infinity, so the normal range is [1,9999]. An invalidate
+ * year is represented by INT16_MIN (-32768).
  *
  * The "epoch" for this library is 2000-01-01 00:00:00Z. The dayOfWeek
  * (1=Sunday, 7=Saturday) is calculated internally from the date components.
@@ -39,7 +39,7 @@ class ZonedDateTime {
      * The TimeOffset at the given date/time component is calculated using
      * TimeZone::getOffsetDateTime().
      *
-     * @param year [1873-2127]
+     * @param year year [0,10000]
      * @param month month with January=1, December=12
      * @param day day of month [1-31]
      * @param hour hour [0-23]
