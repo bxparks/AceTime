@@ -220,6 +220,36 @@ test(LocalDateTest, toAndFromEpochDays) {
   assertTrue(ld == LocalDate::forEpochDays(epochDays9999));
 }
 
+// Change localEpochYear to a different value.
+test(LocalDateTest, toAndFromLocalEpochDays) {
+  // Change local epoch year to 2100, so the epoch becomes 2100-01-01T00:00:00.
+  int16_t savedEpochYear = LocalDate::getLocalEpochYear();
+  LocalDate::setLocalEpochYear(2100);
+
+  // Verify that 2100-01-01 returns epoch days of 0
+  LocalDate ld = LocalDate::forComponents(2100, 1, 1);
+  assertEqual((int32_t) 0, ld.toEpochDays());
+  assertTrue(ld == LocalDate::forEpochDays(0));
+
+  // Verify the smallest LocalDate. The smallest valid epochseconds is
+  // (INT32_MIN+1) because INT32_MIN is a sentinel for an Error condition.
+  // Substract another 1 because we need an integer division of a negative
+  // number that truncates to -Infinity.
+  ld = LocalDate::forComponents(2031, 12, 13);
+  int32_t smallestEpochDays = (INT32_MIN + 1) / 86400 - 1;
+  assertEqual(smallestEpochDays, ld.toEpochDays());
+  assertTrue(ld == LocalDate::forEpochDays(smallestEpochDays));
+
+  // Verify the largest LocalDate.
+  ld = LocalDate::forComponents(2168, 1, 20);
+  int32_t largestEpochDays = INT32_MAX / 86400;
+  assertEqual(largestEpochDays, ld.toEpochDays());
+  assertTrue(ld == LocalDate::forEpochDays(largestEpochDays));
+
+  // Reset to the previous local epoch year.
+  LocalDate::setLocalEpochYear(savedEpochYear);
+}
+
 // Same as toAndFromEpochDays, shifted 30 years
 test(LocalDateTest, toAndFromUnixDays) {
   LocalDate ld;
