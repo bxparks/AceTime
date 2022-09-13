@@ -145,7 +145,7 @@ class LocalDateTemplate {
       if (epochDays == kInvalidEpochDays) {
         year = month = day = 0;
       } else {
-        extractYearMonthDay(epochDays, year, month, day);
+        T_CONVERTER::fromEpochDays(epochDays, year, month, day);
       }
       return forComponents(year, month, day);
     }
@@ -431,6 +431,13 @@ class LocalDateTemplate {
     friend bool operator==(
         const LocalDateTemplate<T>& a, const LocalDateTemplate<T>& b);
 
+    /** Constructor that sets the components. */
+    explicit LocalDateTemplate(int16_t year, uint8_t month, uint8_t day):
+        mYear(year),
+        mMonth(month),
+        mDay(day) {}
+
+  private:
     /** Minimum length of the date string. yyyy-mm-dd. */
     static const uint8_t kDateStringLength = 10;
 
@@ -443,20 +450,6 @@ class LocalDateTemplate {
 
     /** Number of days in each month in a non-leap year. 0=Jan, 11=Dec. */
     static const uint8_t sDaysInMonth[12];
-
-    /** Constructor that sets the components. */
-    explicit LocalDateTemplate(int16_t year, uint8_t month, uint8_t day):
-        mYear(year),
-        mMonth(month),
-        mDay(day) {}
-
-    /**
-     * Extract the (year, month, day, dayOfWeek) fields from epochDays.
-     */
-    static void extractYearMonthDay(int32_t epochDays, int16_t& year,
-        uint8_t& month, uint8_t& day) {
-      T_CONVERTER::fromEpochDays(epochDays, year, month, day);
-    }
 
     int16_t mYear; // [0,10000], INT16_MIN indicates error
     uint8_t mMonth; // [1, 12], 0 indicates error
