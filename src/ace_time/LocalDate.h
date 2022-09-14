@@ -130,12 +130,12 @@ class LocalDateTemplate {
 
   public:
     /** Get the local epoch year. */
-    static int16_t getLocalEpochYear() {
+    static int16_t localEpochYear() {
       return gLocalEpochYear;
     }
 
     /** Set the local epoch year. */
-    static void setLocalEpochYear(int16_t year) {
+    static void localEpochYear(int16_t year) {
       gLocalEpochYear = year;
       gDaysFromBaseEpochToLocalEpoch = T_CONVERTER::toEpochDays(year, 1, 1);
     }

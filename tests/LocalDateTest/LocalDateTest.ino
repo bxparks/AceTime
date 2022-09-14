@@ -223,8 +223,8 @@ test(LocalDateTest, toAndFromEpochDays) {
 // Change localEpochYear to a different value.
 test(LocalDateTest, toAndFromLocalEpochDays) {
   // Change local epoch year to 2100, so the epoch becomes 2100-01-01T00:00:00.
-  int16_t savedEpochYear = LocalDate::getLocalEpochYear();
-  LocalDate::setLocalEpochYear(2100);
+  int16_t savedEpochYear = LocalDate::localEpochYear();
+  LocalDate::localEpochYear(2100);
 
   // Verify that 2100-01-01 returns epoch days of 0
   LocalDate ld = LocalDate::forComponents(2100, 1, 1);
@@ -247,7 +247,7 @@ test(LocalDateTest, toAndFromLocalEpochDays) {
   assertTrue(ld == LocalDate::forEpochDays(largestEpochDays));
 
   // Reset to the previous local epoch year.
-  LocalDate::setLocalEpochYear(savedEpochYear);
+  LocalDate::localEpochYear(savedEpochYear);
 }
 
 // Same as toAndFromEpochDays, shifted 30 years
