@@ -57,8 +57,8 @@ class LocalDateTemplate {
     static const int16_t kEpochYear = T_CONVERTER::kEpochConverterBaseYear;
 
     /**
-     * Number of seconds from Unix epoch (1970-01-01 00:00:00Z) to
-     * the AceTime epoch (2000-01-01 00:00:00Z).
+     * Number of seconds from Unix epoch (1970-01-01 00:00:00 UTC) to
+     * the AceTime epoch (2000-01-01 00:00:00 UTC).
      */
     static const int32_t kSecondsSinceUnixEpoch = 946684800;
 
@@ -102,8 +102,8 @@ class LocalDateTemplate {
         (int64_t) (INT32_MIN + 1) + kSecondsSinceUnixEpoch;
 
     /**
-     * Number of days from Unix epoch (1970-01-01 00:00:00Z) to
-     * the AceTime epoch (2000-01-01 00:00:00Z).
+     * Number of days from Unix epoch (1970-01-01 00:00:00 UTC) to
+     * the AceTime epoch (2000-01-01 00:00:00 UTC).
      */
     static const int32_t kDaysSinceUnixEpoch = 10957;
 
@@ -363,7 +363,7 @@ class LocalDateTemplate {
     /**
      * Return number of days since the local epoch year `gLocalEpochYear`.
      * By default, the local epoch year is 2000 so the epoch is 2000-01-01
-     * 00:00:00Z).
+     * 00:00:00 UTC).
      *
      * Returns kInvalidEpochDays if isError() is true, which allows round trip
      * conversions of forEpochDays() and toEpochDays() even when isError() is

@@ -17,17 +17,22 @@ namespace ace_time {
 
 /**
  * The date (year, month, day), time (hour, minute, second), and
- * a timeZone representing an instant in time. The year field is internally
- * represented as an int16_t number, with 0 indicating -Infinity and 10000
- * representing +Infinity, so the normal range is [1,9999]. An invalidate
- * year is represented by INT16_MIN (-32768).
+ * a timeZone object that supports the zones defined by the IANA TZ database.
  *
- * The "epoch" for this library is 2000-01-01 00:00:00Z. The dayOfWeek
- * (1=Sunday, 7=Saturday) is calculated internally from the date components.
- * Changing the timeZone does not affect the dayOfWeek.
+ * The year field is internally represented as an int16_t number, with 0
+ * indicating -Infinity and 10000 representing +Infinity, so the normal range is
+ * [1,9999]. An invalid year is represented by INT16_MIN (-32768).
+ *
+ * The default epoch for AceTime is 2000-01-01 00:00:00 UTC, but can be changed
+ * using `LocaDate::localEpochYear()`. The `toEpochSeconds()` method returns a
+ * `int32_t` number of seconds offset from that epoch.
+ *
+ * The dayOfWeek (1=Sunday, 7=Saturday) is calculated internally from the date
+ * components. Changing the timeZone does not affect the dayOfWeek.
  *
  * Some parts of this class were inspired by the org.joda.DateTime of
- * http://www.joda.org and java.time.ZonedDateTime of Java 11.
+ * http://www.joda.org, the java.time.ZonedDateTime class of Java 11, and the
+ * datetime package of Python 3.
  */
 class ZonedDateTime {
   public:
@@ -63,9 +68,9 @@ class ZonedDateTime {
      * Returns ZonedDateTime::forError() if epochSeconds is invalid.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
-     *    (2000-01-01 00:00:00Z). A value of LocalDate::kInvalidEpochSeconds is
-     *    a sentinel that is considered to be an error and causes isError() to
-     *    return true.
+     *    (2000-01-01 00:00:00 UTC). A value of LocalDate::kInvalidEpochSeconds
+     *    is a sentinel that is considered to be an error and causes isError()
+     *    to return true.
      * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
@@ -84,7 +89,7 @@ class ZonedDateTime {
      * Returns ZonedDateTime::forError() if unixSeconds is invalid.
      *
      * @param unixSeconds number of seconds since Unix epoch
-     *    (1970-01-01T00:00:00Z)
+     *    (1970-01-01T00:00:00 UTC)
      * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forUnixSeconds(
@@ -103,7 +108,7 @@ class ZonedDateTime {
      * Returns ZonedDateTime::forError() if unixSeconds is invalid.
      *
      * @param unixSeconds number of seconds since Unix epoch
-     *    (1970-01-01T00:00:00Z)
+     *    (1970-01-01T00:00:00 UTC)
      * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forUnixSeconds64(
@@ -249,8 +254,9 @@ class ZonedDateTime {
     }
 
     /**
-     * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),
-     * taking into account the time zone.
+     * Return number of whole days since AceTime epoch taking into account the
+     * time zone. The default epoch is 2000-01-01 00:00:00 UTC but can be
+     * changed using `LocalDate::localEpochYear()`.
      */
     int32_t toEpochDays() const {
       return mOffsetDateTime.toEpochDays();
@@ -262,19 +268,16 @@ class ZonedDateTime {
     }
 
     /**
-     * Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into
-     * account the time zone.
-     *
-     * Normally, Julian day starts at 12:00:00. We modify the formula given in
-     * wiki page to start the Gregorian day at 00:00:00.
-     * See https://en.wikipedia.org/wiki/Julian_day
+     * Return seconds since AceTime epoch taking into account the time zone. The
+     * default epoch is 2000-01-01 00:00:00 UTC but can be changed using
+     * `LocalDate::localEpochYear()`.
      */
     acetime_t toEpochSeconds() const {
       return mOffsetDateTime.toEpochSeconds();
     }
 
     /**
-     * Return the number of seconds from Unix epoch 1970-01-01 00:00:00Z.
+     * Return the number of seconds from Unix epoch 1970-01-01 00:00:00 UTC.
      * It returns LocalDate::kInvalidUnixSeconds if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
@@ -285,8 +288,8 @@ class ZonedDateTime {
     }
 
     /**
-     * Return the 64-bit number of seconds from Unix epoch 1970-01-01 00:00:00Z.
-     * Returns kInvalidUnixSeconds64 if isError() is true.
+     * Return the 64-bit number of seconds from Unix epoch 1970-01-01 00:00:00
+     * UTC. Returns kInvalidUnixSeconds64 if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
      * print the unix seconds.

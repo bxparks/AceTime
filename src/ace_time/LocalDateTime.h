@@ -228,7 +228,9 @@ class LocalDateTime {
     const LocalTime& localTime() const { return mLocalTime; }
 
     /**
-     * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z).
+     * Return number of whole days since AceTime epoch. The default epoch is
+     * 2000-01-01 00:00:00 UTC, but can be changed using
+     * `LocalDate::localEpochYear()`.
      */
     int32_t toEpochDays() const {
       if (isError()) return LocalDate::kInvalidEpochDays;
@@ -242,9 +244,10 @@ class LocalDateTime {
     }
 
     /**
-     * Return seconds since AceTime epoch 2000-01-01 00:00:00Z, after assuming
-     * that the date and time components are in UTC timezone. Returns
-     * LocalDate::kInvalidEpochSeconds if isError() is true.
+     * Return seconds since the current AceTime epoch. The default epoch is
+     * 2000-01-01 00:00:00 UTC, but can be changed using
+     * `LocalDate::localEpochYear()`. Returns LocalDate::kInvalidEpochSeconds if
+     * isError() is true.
      */
     acetime_t toEpochSeconds() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds;
@@ -255,8 +258,8 @@ class LocalDateTime {
     }
 
     /**
-     * Return seconds from Unix epoch 1970-01-01 00:00:00Z, after assuming that
-     * the date and time components are in UTC timezone. Returns
+     * Return seconds from Unix epoch 1970-01-01 00:00:00 UTC, after assuming
+     * that the date and time components are in UTC timezone. Returns
      * LocalDate::kInvalidUnixSeconds if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box
@@ -268,7 +271,7 @@ class LocalDateTime {
     }
 
     /**
-     * Return 64-bit seconds from Unix epoch 1970-01-01 00:00:00Z, after
+     * Return 64-bit seconds from Unix epoch 1970-01-01 00:00:00 UTC, after
      * assuming that the date and time components are in UTC timezone. Returns
      * LocalDate::kInvalidUnixSeconds64 if isError() is true.
      *

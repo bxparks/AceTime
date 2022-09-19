@@ -16,19 +16,23 @@ namespace ace_time {
 
 /**
  * The date (year, month, day), time (hour, minute, second) and
- * offset from UTC (timeOffset). The dayOfWeek (1=Monday, 7=Sunday, per ISO
- * 8601) is calculated internally from the date fields.
+ * fixed offset from UTC (timeOffset).
  *
  * The year field is valid from [0, 10000] with year 0 interpreted as -Infinity
- * and year 10000 interpreted as +Infinity. The constant INT16_MIN is used to
- * indicate an error condition. If the year is restricted to the range
+ * and year 10000 interpreted as +Infinity. An invalid year is represented by
+ * INT16_MIN (-32768). If the year is restricted to the range
  * 2000-2099, then the last 2 digits map directly to the fields supported by the
- * DS3231 RTC chip. The "epoch" for this library is 2000-01-01T00:00:00 UTC and
- * toEpochSeconds() returns a int32_t number of seconds offset from that epoch.
+ * DS3231 RTC chip.
+ *
+ * The default epoch for AceTime is 2000-01-01T00:00:00 UTC, but can be changed
+ * using `LocalDate::localEpochYear()`. The `toEpochSeconds()` method returns a
+ * `int32_t` number of seconds offset from that epoch.
+ *
+ * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated internally
+ * from the date fields.
  *
  * Parts of this class were inspired by the java.time.OffsetDateTime class of
- * Java 11
- * (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/OffsetDateTime.html).
+ * Java 11, and the datetime package of Python 3.
  */
 class OffsetDateTime {
   public:
@@ -90,7 +94,7 @@ class OffsetDateTime {
      * Returns OffsetDateTime::forError() if unixSeconds is invalid.
      *
      * @param unixSeconds number of seconds since Unix epoch
-     *    (1970-01-01T00:00:00Z)
+     *    (1970-01-01T00:00:00 UTC)
      * @param timeOffset time offset from UTC
      */
     static OffsetDateTime forUnixSeconds(
@@ -110,7 +114,7 @@ class OffsetDateTime {
      * Returns OffsetDateTime::forError() if unixSeconds is invalid.
      *
      * @param unixSeconds number of seconds since Unix epoch
-     *    (1970-01-01T00:00:00Z)
+     *    (1970-01-01T00:00:00 UTC)
      * @param timeOffset time offset from UTC
      */
     static OffsetDateTime forUnixSeconds64(
@@ -232,10 +236,10 @@ class OffsetDateTime {
     /** Return the day of the week, Monday=1, Sunday=7 (per ISO 8601). */
     uint8_t dayOfWeek() const { return mLocalDateTime.dayOfWeek(); }
 
-    /** Return the offset zone of the OffsetDateTime. */
+    /** Return the UTC offset of the OffsetDateTime. */
     TimeOffset timeOffset() const { return mTimeOffset; }
 
-    /** Set the offset zone. */
+    /** Set the UTC offset. */
     void timeOffset(TimeOffset timeOffset) { mTimeOffset = timeOffset; }
 
     /** Return the LocalDateTime. */
@@ -248,7 +252,7 @@ class OffsetDateTime {
     const LocalTime& localTime() const { return mLocalDateTime.localTime(); }
 
     /**
-     * Create a OffsetDateTime in a different offset zone code (with the same
+     * Create a OffsetDateTime in a different UTC offset code (with the same
      * epochSeconds).
      */
     OffsetDateTime convertToTimeOffset(TimeOffset timeOffset) const {
@@ -257,8 +261,9 @@ class OffsetDateTime {
     }
 
     /**
-     * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),
-     * taking into account the offset zone.
+     * Return number of whole days since AceTime epoch taking into account the
+     * UTC offset. The default epoch is 2000-01-01 00:00:00 UTC but can be
+     * changed using `LocalDate::localEpochYear()`.
      */
     int32_t toEpochDays() const {
       if (isError()) return LocalDate::kInvalidEpochDays;
@@ -280,8 +285,9 @@ class OffsetDateTime {
     }
 
     /**
-     * Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into
-     * account the offset zone.
+     * Return seconds since AceTime epoch taking into account the UTC offset.
+     * The default epoch is 2000-01-01 00:00:00 UTC but can be changed using
+     * `LocalDate::localEpochYear()`.
      */
     acetime_t toEpochSeconds() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds;
@@ -289,7 +295,7 @@ class OffsetDateTime {
     }
 
     /**
-     * Return the number of seconds from Unix epoch 1970-01-01 00:00:00Z.
+     * Return the number of seconds from Unix epoch 1970-01-01 00:00:00 UTC.
      * It returns LocalDate::kInvalidUnixSeconds if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
@@ -301,8 +307,8 @@ class OffsetDateTime {
     }
 
     /**
-     * Return the 64-bit number of seconds from Unix epoch 1970-01-01 00:00:00Z.
-     * Returns kInvalidUnixSeconds64 if isError() is true.
+     * Return the 64-bit number of seconds from Unix epoch 1970-01-01 00:00:00
+     * UTC. Returns kInvalidUnixSeconds64 if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
      * convert an ISO8601 date to the unix seconds.
