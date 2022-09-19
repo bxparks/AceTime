@@ -20,6 +20,11 @@ using ace_time::internal::EpochConverterHinnant;
 // * 0001-01-01: epoch = -730485 + 366 (year=0 is leap) = -730119
 //---------------------------------------------------------------------------
 
+test(EpochConverterJulianTest, epoch2000) {
+  int32_t days = EpochConverterJulian::toEpochDays(2000, 1, 1);
+  assertEqual(0, days);
+}
+
 test(EpochConverterJulianTest, allDays) {
   int32_t epochDays = -730119; // 0001-01-01
   for (int16_t year = 1; year <= 9999; year++) {
@@ -46,6 +51,11 @@ test(EpochConverterJulianTest, allDays) {
       }
     }
   }
+}
+
+test(EpochConverterHinnantTest, epoch2000) {
+  int32_t days = EpochConverterHinnant::toEpochDays(2000, 1, 1);
+  assertEqual(0, days);
 }
 
 test(EpochConverterHinnantTest, allDays) {
