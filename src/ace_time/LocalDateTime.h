@@ -86,6 +86,23 @@ class LocalDateTime {
     }
 
     /**
+     * Return the earliest LocalDateTime that can be represented by the
+     * `int32_t` epochSeconds of `INT32_MIN + 1` relative to the current epoch.
+     * (INT32_MIN is reserved to indicate an error condition).
+     */
+    static LocalDateTime forMinEpochSeconds() {
+      return forEpochSeconds(INT32_MIN + 1);
+    }
+
+    /**
+     * Return the latest LocalDateTime that can be represented by the
+     * `int32_t` epochSeconds of `INT32_MAX` relative to the current epoch.
+     */
+    static LocalDateTime forMaxEpochSeconds() {
+      return forEpochSeconds(INT32_MAX);
+    }
+
+    /**
      * Factory method that takes the number of seconds since Unix Epoch of
      * 1970-01-01.
      * Valid until unixSeconds reaches the maximum value of `int32_t` at

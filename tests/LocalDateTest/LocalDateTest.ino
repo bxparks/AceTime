@@ -221,7 +221,7 @@ test(LocalDateTest, toAndFromEpochDays) {
 }
 
 // Change localEpochYear to a different value.
-test(LocalDateTest, toAndFromLocalEpochDays) {
+test(LocalDateTest, toAndFromEpochDays_altEpochYear) {
   // Change local epoch year to 2100, so the epoch becomes 2100-01-01T00:00:00.
   int16_t savedEpochYear = LocalDate::localEpochYear();
   LocalDate::localEpochYear(2100);
