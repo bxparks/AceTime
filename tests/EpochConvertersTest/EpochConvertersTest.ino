@@ -22,7 +22,7 @@ using ace_time::internal::EpochConverterHinnant;
 
 test(EpochConverterJulianTest, epoch2000) {
   int32_t days = EpochConverterJulian::toEpochDays(2000, 1, 1);
-  assertEqual(0, days);
+  assertEqual((int32_t) 0, days);
 }
 
 test(EpochConverterJulianTest, allDays) {
@@ -55,7 +55,7 @@ test(EpochConverterJulianTest, allDays) {
 
 test(EpochConverterHinnantTest, epoch2000) {
   int32_t days = EpochConverterHinnant::toEpochDays(2000, 1, 1);
-  assertEqual(0, days);
+  assertEqual((int32_t) 0, days);
 }
 
 test(EpochConverterHinnantTest, allDays) {
