@@ -81,11 +81,11 @@ class LocalDateTemplate {
     /** Sentinel epochDays which indicates an error. */
     static const int32_t kInvalidEpochDays = INT32_MIN;
 
-    /** Sentinel epochSeconds which indicates an error. */
-    static const int32_t kInvalidEpochSeconds = INT32_MIN;
-
     /** Sentinel unixDays which indicates an error. */
     static const int32_t kInvalidUnixDays = INT32_MIN;
+
+    /** Sentinel epochSeconds which indicates an error. */
+    static const int32_t kInvalidEpochSeconds = INT32_MIN;
 
     /** Sentinel unixSeconds which indicates an error. */
     static const int32_t kInvalidUnixSeconds = INT32_MIN;
@@ -106,6 +106,20 @@ class LocalDateTemplate {
      * the AceTime epoch (2000-01-01 00:00:00 UTC).
      */
     static const int32_t kDaysSinceUnixEpoch = 10957;
+
+    /**
+     * Minimum valid epochSeconds. Use LocalDate::forEpochSeconds() or
+     * LocalDateTime::forEpochSeconds() to obtain the minimum instance of those
+     * classes.
+     */
+    static const int32_t kMinEpochSeconds = INT32_MIN + 1;
+
+    /**
+     * Maximum valid epochSeconds. Use LocalDate::forEpochSeconds() or
+     * LocalDateTime::forEpochSeconds() to obtain the maximum instance of those
+     * classes.
+     */
+    static const int32_t kMaxEpochSeconds = INT32_MAX;
 
     /** Monday ISO 8601 number. */
     static const uint8_t kMonday = 1;

@@ -111,29 +111,29 @@ test(LocalDateTimeTest, isError) {
   assertTrue(dt.isError());
 }
 
-test(LocalDateTimeTest, forMinMax) {
-  auto minDt = LocalDateTime::forMinEpochSeconds();
+test(LocalDateTimeTest, min_max_epochSeconds) {
+  auto minDt = LocalDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds);
   auto expected = LocalDateTime::forComponents(1931, 12, 13, 20, 45, 53);
   assertTrue(expected == minDt);
 
-  auto maxDt = LocalDateTime::forMaxEpochSeconds();
+  auto maxDt = LocalDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds);
   expected = LocalDateTime::forComponents(2068, 1, 19, 3, 14, 7);
   assertTrue(expected == maxDt);
 }
 
-test(LocalDateTimeTest, forMinMax_altEpochYear) {
+test(LocalDateTimeTest, min_max_epochSeconds_altEpochYear) {
   // Change local epoch year to 2100, so the epoch becomes 2100-01-01T00:00:00.
   int16_t savedEpochYear = LocalDate::localEpochYear();
   LocalDate::localEpochYear(2100);
 
   // Same date as epoch 2000, but 100 years later.
-  auto minDt = LocalDateTime::forMinEpochSeconds();
+  auto minDt = LocalDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds);
   auto expected = LocalDateTime::forComponents(2031, 12, 13, 20, 45, 53);
   assertTrue(expected == minDt);
 
   // Almost the same date as epoch 2000, but one day later on Jan 20 instead of
   // the Jan 19, because 2000 was a leap year, but 2100 is not.
-  auto maxDt = LocalDateTime::forMaxEpochSeconds();
+  auto maxDt = LocalDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds);
   expected = LocalDateTime::forComponents(2168, 1, 20, 3, 14, 7);
   assertTrue(expected == maxDt);
 
