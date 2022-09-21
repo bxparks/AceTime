@@ -9,7 +9,7 @@
 //     --scope extended
 //     --generate_int16_years
 //     --start_year 2000
-//     --until_year 2050
+//     --until_year 2100
 //
 // using the TZ Database files
 //
@@ -26,10 +26,10 @@
 // from https://github.com/eggert/tz/releases/tag/2022f
 //
 // Policies: 83
-// Rules: 528
+// Rules: 603
 // Letter Size (bytes): 23
-// Total Memory 8-bit (bytes): 5285
-// Total Memory 32-bit (bytes): 7379
+// Total Memory 8-bit (bytes): 5960
+// Total Memory 32-bit (bytes): 8279
 //
 // DO NOT EDIT
 
@@ -4237,9 +4237,9 @@ const extended::ZonePolicy kPolicyMongol ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: Morocco
-// Rules: 94
-// Memory (8-bit): 852
-// Memory (32-bit): 1140
+// Rules: 169
+// Memory (8-bit): 1527
+// Memory (32-bit): 2040
 //---------------------------------------------------------------------------
 
 static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
@@ -5371,6 +5371,906 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
     0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
     '-' /*letter*/,
   },
+  // Rule    Morocco    2051    only    -    Jun    18     2:00    0    -
+  {
+    2051 /*fromYear*/,
+    2051 /*toYear*/,
+    6 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    18 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2052    only    -    Apr    28     3:00    -1:00    -
+  {
+    2052 /*fromYear*/,
+    2052 /*toYear*/,
+    4 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    28 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2052    only    -    Jun     2     2:00    0    -
+  {
+    2052 /*fromYear*/,
+    2052 /*toYear*/,
+    6 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    2 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2053    only    -    Apr    13     3:00    -1:00    -
+  {
+    2053 /*fromYear*/,
+    2053 /*toYear*/,
+    4 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    13 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2053    only    -    May    25     2:00    0    -
+  {
+    2053 /*fromYear*/,
+    2053 /*toYear*/,
+    5 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    25 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2054    only    -    Apr     5     3:00    -1:00    -
+  {
+    2054 /*fromYear*/,
+    2054 /*toYear*/,
+    4 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    5 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2054    only    -    May    17     2:00    0    -
+  {
+    2054 /*fromYear*/,
+    2054 /*toYear*/,
+    5 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    17 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2055    only    -    Mar    28     3:00    -1:00    -
+  {
+    2055 /*fromYear*/,
+    2055 /*toYear*/,
+    3 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    28 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2055    only    -    May     2     2:00    0    -
+  {
+    2055 /*fromYear*/,
+    2055 /*toYear*/,
+    5 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    2 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2056    only    -    Mar    12     3:00    -1:00    -
+  {
+    2056 /*fromYear*/,
+    2056 /*toYear*/,
+    3 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    12 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2056    only    -    Apr    23     2:00    0    -
+  {
+    2056 /*fromYear*/,
+    2056 /*toYear*/,
+    4 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    23 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2057    only    -    Mar     4     3:00    -1:00    -
+  {
+    2057 /*fromYear*/,
+    2057 /*toYear*/,
+    3 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    4 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2057    only    -    Apr     8     2:00    0    -
+  {
+    2057 /*fromYear*/,
+    2057 /*toYear*/,
+    4 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    8 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2058    only    -    Feb    17     3:00    -1:00    -
+  {
+    2058 /*fromYear*/,
+    2058 /*toYear*/,
+    2 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    17 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2058    only    -    Mar    31     2:00    0    -
+  {
+    2058 /*fromYear*/,
+    2058 /*toYear*/,
+    3 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    31 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2059    only    -    Feb     9     3:00    -1:00    -
+  {
+    2059 /*fromYear*/,
+    2059 /*toYear*/,
+    2 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    9 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2059    only    -    Mar    23     2:00    0    -
+  {
+    2059 /*fromYear*/,
+    2059 /*toYear*/,
+    3 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    23 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2060    only    -    Feb     1     3:00    -1:00    -
+  {
+    2060 /*fromYear*/,
+    2060 /*toYear*/,
+    2 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2060    only    -    Mar     7     2:00    0    -
+  {
+    2060 /*fromYear*/,
+    2060 /*toYear*/,
+    3 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    7 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2061    only    -    Jan    16     3:00    -1:00    -
+  {
+    2061 /*fromYear*/,
+    2061 /*toYear*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    16 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2061    only    -    Feb    27     2:00    0    -
+  {
+    2061 /*fromYear*/,
+    2061 /*toYear*/,
+    2 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    27 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2062    only    -    Jan     8     3:00    -1:00    -
+  {
+    2062 /*fromYear*/,
+    2062 /*toYear*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    8 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2062    only    -    Feb    19     2:00    0    -
+  {
+    2062 /*fromYear*/,
+    2062 /*toYear*/,
+    2 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    19 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2062    only    -    Dec    31     3:00    -1:00    -
+  {
+    2062 /*fromYear*/,
+    2062 /*toYear*/,
+    12 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    31 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2063    only    -    Feb     4     2:00    0    -
+  {
+    2063 /*fromYear*/,
+    2063 /*toYear*/,
+    2 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    4 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2063    only    -    Dec    16     3:00    -1:00    -
+  {
+    2063 /*fromYear*/,
+    2063 /*toYear*/,
+    12 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    16 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2064    only    -    Jan    27     2:00    0    -
+  {
+    2064 /*fromYear*/,
+    2064 /*toYear*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    27 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2064    only    -    Dec     7     3:00    -1:00    -
+  {
+    2064 /*fromYear*/,
+    2064 /*toYear*/,
+    12 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    7 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2065    only    -    Jan    11     2:00    0    -
+  {
+    2065 /*fromYear*/,
+    2065 /*toYear*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    11 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2065    only    -    Nov    22     3:00    -1:00    -
+  {
+    2065 /*fromYear*/,
+    2065 /*toYear*/,
+    11 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    22 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2066    only    -    Jan     3     2:00    0    -
+  {
+    2066 /*fromYear*/,
+    2066 /*toYear*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    3 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2066    only    -    Nov    14     3:00    -1:00    -
+  {
+    2066 /*fromYear*/,
+    2066 /*toYear*/,
+    11 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    14 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2066    only    -    Dec    26     2:00    0    -
+  {
+    2066 /*fromYear*/,
+    2066 /*toYear*/,
+    12 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    26 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2067    only    -    Nov     6     3:00    -1:00    -
+  {
+    2067 /*fromYear*/,
+    2067 /*toYear*/,
+    11 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    6 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2067    only    -    Dec    11     2:00    0    -
+  {
+    2067 /*fromYear*/,
+    2067 /*toYear*/,
+    12 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    11 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2068    only    -    Oct    21     3:00    -1:00    -
+  {
+    2068 /*fromYear*/,
+    2068 /*toYear*/,
+    10 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    21 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2068    only    -    Dec     2     2:00    0    -
+  {
+    2068 /*fromYear*/,
+    2068 /*toYear*/,
+    12 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    2 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2069    only    -    Oct    13     3:00    -1:00    -
+  {
+    2069 /*fromYear*/,
+    2069 /*toYear*/,
+    10 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    13 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2069    only    -    Nov    24     2:00    0    -
+  {
+    2069 /*fromYear*/,
+    2069 /*toYear*/,
+    11 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    24 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2070    only    -    Oct     5     3:00    -1:00    -
+  {
+    2070 /*fromYear*/,
+    2070 /*toYear*/,
+    10 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    5 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2070    only    -    Nov     9     2:00    0    -
+  {
+    2070 /*fromYear*/,
+    2070 /*toYear*/,
+    11 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    9 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2071    only    -    Sep    20     3:00    -1:00    -
+  {
+    2071 /*fromYear*/,
+    2071 /*toYear*/,
+    9 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    20 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2071    only    -    Nov     1     2:00    0    -
+  {
+    2071 /*fromYear*/,
+    2071 /*toYear*/,
+    11 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2072    only    -    Sep    11     3:00    -1:00    -
+  {
+    2072 /*fromYear*/,
+    2072 /*toYear*/,
+    9 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    11 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2072    only    -    Oct    16     2:00    0    -
+  {
+    2072 /*fromYear*/,
+    2072 /*toYear*/,
+    10 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    16 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2073    only    -    Aug    27     3:00    -1:00    -
+  {
+    2073 /*fromYear*/,
+    2073 /*toYear*/,
+    8 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    27 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2073    only    -    Oct     8     2:00    0    -
+  {
+    2073 /*fromYear*/,
+    2073 /*toYear*/,
+    10 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    8 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2074    only    -    Aug    19     3:00    -1:00    -
+  {
+    2074 /*fromYear*/,
+    2074 /*toYear*/,
+    8 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    19 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2074    only    -    Sep    30     2:00    0    -
+  {
+    2074 /*fromYear*/,
+    2074 /*toYear*/,
+    9 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    30 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2075    only    -    Aug    11     3:00    -1:00    -
+  {
+    2075 /*fromYear*/,
+    2075 /*toYear*/,
+    8 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    11 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2075    only    -    Sep    15     2:00    0    -
+  {
+    2075 /*fromYear*/,
+    2075 /*toYear*/,
+    9 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    15 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2076    only    -    Jul    26     3:00    -1:00    -
+  {
+    2076 /*fromYear*/,
+    2076 /*toYear*/,
+    7 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    26 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2076    only    -    Sep     6     2:00    0    -
+  {
+    2076 /*fromYear*/,
+    2076 /*toYear*/,
+    9 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    6 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2077    only    -    Jul    18     3:00    -1:00    -
+  {
+    2077 /*fromYear*/,
+    2077 /*toYear*/,
+    7 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    18 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2077    only    -    Aug    29     2:00    0    -
+  {
+    2077 /*fromYear*/,
+    2077 /*toYear*/,
+    8 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    29 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2078    only    -    Jul    10     3:00    -1:00    -
+  {
+    2078 /*fromYear*/,
+    2078 /*toYear*/,
+    7 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    10 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2078    only    -    Aug    14     2:00    0    -
+  {
+    2078 /*fromYear*/,
+    2078 /*toYear*/,
+    8 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    14 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2079    only    -    Jun    25     3:00    -1:00    -
+  {
+    2079 /*fromYear*/,
+    2079 /*toYear*/,
+    6 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    25 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2079    only    -    Aug     6     2:00    0    -
+  {
+    2079 /*fromYear*/,
+    2079 /*toYear*/,
+    8 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    6 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2080    only    -    Jun    16     3:00    -1:00    -
+  {
+    2080 /*fromYear*/,
+    2080 /*toYear*/,
+    6 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    16 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2080    only    -    Jul    21     2:00    0    -
+  {
+    2080 /*fromYear*/,
+    2080 /*toYear*/,
+    7 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    21 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2081    only    -    Jun     1     3:00    -1:00    -
+  {
+    2081 /*fromYear*/,
+    2081 /*toYear*/,
+    6 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2081    only    -    Jul    13     2:00    0    -
+  {
+    2081 /*fromYear*/,
+    2081 /*toYear*/,
+    7 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    13 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2082    only    -    May    24     3:00    -1:00    -
+  {
+    2082 /*fromYear*/,
+    2082 /*toYear*/,
+    5 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    24 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2082    only    -    Jul     5     2:00    0    -
+  {
+    2082 /*fromYear*/,
+    2082 /*toYear*/,
+    7 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    5 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2083    only    -    May    16     3:00    -1:00    -
+  {
+    2083 /*fromYear*/,
+    2083 /*toYear*/,
+    5 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    16 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2083    only    -    Jun    20     2:00    0    -
+  {
+    2083 /*fromYear*/,
+    2083 /*toYear*/,
+    6 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    20 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2084    only    -    Apr    30     3:00    -1:00    -
+  {
+    2084 /*fromYear*/,
+    2084 /*toYear*/,
+    4 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    30 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2084    only    -    Jun    11     2:00    0    -
+  {
+    2084 /*fromYear*/,
+    2084 /*toYear*/,
+    6 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    11 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2085    only    -    Apr    22     3:00    -1:00    -
+  {
+    2085 /*fromYear*/,
+    2085 /*toYear*/,
+    4 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    22 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2085    only    -    Jun     3     2:00    0    -
+  {
+    2085 /*fromYear*/,
+    2085 /*toYear*/,
+    6 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    3 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2086    only    -    Apr    14     3:00    -1:00    -
+  {
+    2086 /*fromYear*/,
+    2086 /*toYear*/,
+    4 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    14 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2086    only    -    May    19     2:00    0    -
+  {
+    2086 /*fromYear*/,
+    2086 /*toYear*/,
+    5 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    19 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2087    only    -    Mar    30     3:00    -1:00    -
+  {
+    2087 /*fromYear*/,
+    2087 /*toYear*/,
+    3 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    30 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=-60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2087    only    -    May    11     2:00    0    -
+  {
+    2087 /*fromYear*/,
+    2087 /*toYear*/,
+    5 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    11 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
 
 };
 
@@ -5379,7 +6279,7 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
 const extended::ZonePolicy kPolicyMorocco ACE_TIME_PROGMEM = {
   kZoneRulesMorocco /*rules*/,
   nullptr /*letters*/,
-  94 /*numRules*/,
+  169 /*numRules*/,
   0 /*numLetters*/,
 };
 

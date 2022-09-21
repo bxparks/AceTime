@@ -9,7 +9,7 @@
 //     --scope extended
 //     --generate_int16_years
 //     --start_year 2000
-//     --until_year 2050
+//     --until_year 2100
 //
 // using the TZ Database files
 //
@@ -76,7 +76,7 @@ const char* const kFragments[] = {
 
 const internal::ZoneContext kZoneContext = {
   2000 /*startYear*/,
-  2050 /*untilYear*/,
+  2100 /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,
   15 /*numFragments*/,
   kFragments /*fragments*/,
