@@ -48,10 +48,10 @@ test(ZonedDateTimeExtendedTest, forComponents_isError) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles);
 
-  // outside [2000, 2050) range, should generate error
+  // outside [2000, 2100) range, should generate error
   ZonedDateTime dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 59, tz);
   assertTrue(dt.isError());
-  dt = ZonedDateTime::forComponents(2051, 3, 11, 1, 59, 59, tz);
+  dt = ZonedDateTime::forComponents(2101, 3, 11, 1, 59, 59, tz);
   assertTrue(dt.isError());
 }
 
@@ -380,6 +380,59 @@ test(ZonedDateTimeExtendedTest, normalize) {
   assertEqual(9, newDt.hour()); // will now be correct
   assertEqual(0, newDt.minute());
   assertEqual(0, newDt.second());
+}
+
+// --------------------------------------------------------------------------
+// Validation for Morocco to test dates after the last explicit transition
+// in the TZ database. The last explicit DST transition is the year 2087, so
+// let's use 2090 which is 40 years after the custom epoch year of 2050,
+// which makes it easy to calculate the expected epochSeconds. Even though the
+// entry for 2087 is marked as "only" for 2087, the very last transition remains
+// in effect for all years afterwards.
+// --------------------------------------------------------------------------
+test(ZonedDateTimeExtendedTest, morocco_2090) {
+  // Reconfigure the local epoch year to 2050 to allow calculations in the year
+  // 2090.
+  int16_t savedEpochYear = LocalDate::localEpochYear();
+  LocalDate::localEpochYear(2050);
+
+  TimeZone tz = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAfrica_Casablanca);
+
+  // Normally Morocco is UTC+01:00, so epochSeconds==0 should translate to
+  // 2050-01-01T01:00:00+01:00.
+  auto dt = ZonedDateTime::forEpochSeconds(0, tz);
+  assertEqual(2050, dt.year());
+  assertEqual(1, dt.month());
+  assertEqual(1, dt.day());
+  assertEqual(1, dt.hour());
+  assertEqual(0, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(0, dt.fold());
+
+  // During Ramadan, Morocco observes negative DST, and falls back to UTC+00:00.
+  // In the year 2050, that happens at 2050-05-15T03:00:00. So 02:59:59 becomes
+  // 02:00:00 one second later.
+  dt = ZonedDateTime::forComponents(2050, 5, 15, 2, 59, 59, tz, 0 /*fold*/);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  epochSeconds += 1;
+  dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+  assertEqual(2050, dt.year());
+  assertEqual(5, dt.month());
+  assertEqual(15, dt.day());
+  assertEqual(2, dt.hour());
+  assertEqual(0, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(1, dt.fold());
+
+  // Validate the epochSeconds of 2090-01-01. That date is exactly 40 years
+  // after the custom epoch of 2050-01-01. So the number of elapsed epoch days
+  // is 365 * 40 + 10 leap-days, or 14610 days.
+  dt = ZonedDateTime::forComponents(2090, 1, 1, 1, 0, 0, tz);
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(epochSeconds, (int32_t) 14610 * 86400);
+
+  LocalDate::localEpochYear(savedEpochYear);
 }
 
 // --------------------------------------------------------------------------
