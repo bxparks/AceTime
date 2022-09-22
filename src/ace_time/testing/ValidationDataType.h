@@ -42,8 +42,8 @@ struct ValidationItem {
 };
 
 /**
- * Collection of ValidationItems (usually 300-500 samples, over 30-50 years,
- * from year 2000 until 2050, for example) for a particular timezone (e.g.
+ * Collection of ValidationItems (usually 300-500 samples, over 50-100 years,
+ * for example, from year 2000 until 2100) for a particular timezone (e.g.
  * America/Los_Angeles) generated from a third party date/time library (e.g.
  * Python pytz). The AceTime classes will be tested against this dataset using
  * the BasicTransitionTest or ExtendedTransitionTest classes.

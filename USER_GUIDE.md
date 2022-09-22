@@ -132,11 +132,8 @@ the `acetime_t` type can handle is 1931-12-13T20:45:53Z to 2068-01-19T03:14:07Z
 2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem)).
 
 The various date classes (`LocalDate`, `LocalDateTime`, `OffsetDateTime`) store
-the year component internally as a signed 8-bit integer offset from the year
-2000. The range of this integer is -128 to +127, but -128 is used to indicate an
-internal Error condition, so the actual range is -127 to +127. Therefore, these
-classes can represent dates from 1873-01-01T00:00:00 to 2127-12-31T23:59:59
-(inclusive). Notice that these classes can represent all dates that can be
+the year component internally as a signed 16-bit integer valid from year 1 to
+year 9999. Notice that these classes can represent all dates that can be
 expressed by the `acetime_t` type, but the reverse is not true. There are date
 objects that cannot be converted into a valid `acetime_t` value. To be safe,
 users of this library should stay at least 1 day away from the lower and upper
@@ -184,14 +181,14 @@ directories, using 2 different C++ namespaces to avoid cross-contamination:
 * [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h)
     * intended for `BasicZoneProcessor` or `BasicZoneManager`
     * 266 zones and 183 links (as of version 2021a) from the year 2000 until
-      2050, about 70% of the full IANA TZ Database
+      2100, about 70% of the full IANA TZ Database
     * contains `kZone*` declarations (e.g. `kZoneAmerica_Los_Angeles`)
     * contains `kZoneId*` identifiers (e.g. `kZoneIdAmerica_Los_Angeles`)
     * slightly smaller and slightly faster
 * [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h)
     * intended for `ExtendedZoneProcessor` or `ExtendedZoneManager`
     * all 386 zones and 207 links (as of version 2021a) in the IANA TZ Database
-      from the year 2000 until 2050.
+      from the year 2000 until 2100.
     * contains `kZone*` declarations (e.g. `kZoneAfrica_Casablanca`)
     * contains `kZoneId*` identifiers (e.g. `kZoneIdAfrica_Casablanca`)
 
@@ -518,7 +515,7 @@ class LocalDateTime {
 
     bool isError() const;
 
-    int16_t year() const; // 1872 - 2127
+    int16_t year() const; // 1 - 9999
     void year(int16_t year);
 
     uint8_t month() const; // 1 - 12
@@ -2123,12 +2120,12 @@ void printStartAndUntilYears() {
     Serial.print("zonedb: startYear: ");
     Serial.print(zonedb::kZoneContext.startYear); // e.g. 2000
     Serial.print("; untilYear: ");
-    Serial.println(zonedb::kZoneContext.untilYear); // e.g. 2050
+    Serial.println(zonedb::kZoneContext.untilYear); // e.g. 2100
 
     Serial.print("zonedbx: startYear: ");
     Serial.print(zonedbx::kZoneContext.startYear); // e.g. 2000
     Serial.print("; untilYear: ");
-    Serial.println(zonedbx::kZoneContext.untilYear); // e.g. 2050
+    Serial.println(zonedbx::kZoneContext.untilYear); // e.g. 2100
 }
 ```
 
@@ -3052,24 +3049,30 @@ bool TimeOffset::isError() const;
 A well-crafted application should check for these error conditions before
 writing or displaying the objects to the user.
 
-For example, the `LocalDate` class uses a single byte `int8_t` instead of 2 byte
-`int16_t` to store the year. (This saves memory). The range of a `int8_t` type
-is -128 to 127, which is interpreted to be the offset from the year 2000. The
-value of -128 is a reserved value, so the actual valid range of a valid year is
-1873 to 2127. Other data and time classes in the library use the `LocalDate`
-class internally so will have the same range of validity. If you try to create
-an instance with a year component outside of this range, an error object is
-returned whose `isError()` method returns `true`. The following code snippet
-prints "true":
+For example, the `LocalDate` and `LocalDateTime` classes support only 4-digit
+`year` component, from `[1, 9999]`. The year 0 is used internally to indicate
+`-Infinity` and the year `10000` is used internally as `+Infinity`.
+
+The following are examples of invalid instances, where `dt.isError()` will
+return true:
 
 ```C+++
-auto dt = LocalDateTime::forComponents(1800, 1, 1, 0, 0, 0); // invalid year
-Serial.println(dt.isError() ? "true" : "false");
+auto dt = LocalDateTime::forComponents(-1, 1, 1, 0, 0, 0); // invalid year
+
+auto dt = LocalDateTime::forComponents(2000, 0, 1, 0, 0, 0); // invalid month
+
+auto dt = LocalDateTime::forComponents(2000, 1, 32, 0, 0, 0); // invalid day
+
+auto dt = LocalDateTime::forComponents(2000, 1, 1, 24, 0, 0); // invalid hour
+
+auto dt = LocalDateTime::forComponents(2000, 1, 1, 0, 61, 0); // invalid minute
+
+auto dt = LocalDateTime::forComponents(2000, 1, 1, 0, 0, 61); // invalid second
 ```
 
 Another example, the `ZonedDateTime` class uses the generated ZoneInfo Database
 in the `zonedb::` and `zonedbx::` namespaces. These data files are valid from
-2000 until 2050. If you try to create a date outside of this range, an error
+2000 until 2100. If you try to create a date outside of this range, an error
 `ZonedDateTime` object will returned. The following snippet will print "true":
 
 ```C++
@@ -3127,12 +3130,12 @@ Serial.println(dt.isError() ? "true" : "false");
 * `TimeOffset`
     * Implemented using `int16_t` in 1 minute increments.
 * `LocalDate`, `LocalDateTime`
-    * These classes (and all other Date classes which are based on these) use
-      a single 8-bit signed byte to represent the 'year' internally. This saves
-      memory, at the cost of restricting the range.
-    * The value of -128 (`INT8_MIN`) is used to indicate an "invalid" value, so
-      the actual range is [-127, 127]. This restricts the year range to [1873,
-      2127].
+    * The `year` component is valid in the range of `[1, 9999]`.
+    * The `year = 0` is used internally to represent `-Infinity`. This should
+      not be visible to the end-user.
+    * The `year = 10000` is used internally to represent `+Infinity`. This
+      should not be visible to the end-user.
+    * The `year = INT32_MIN` is used to represent an error condition.
 * `forDateString()`
     * Various classes provide a `forDateString()` method to construct
       the object from a human-readable string. These methods are mostly meant to

@@ -20,7 +20,7 @@ The AceTime library provides Date, Time, and TimeZone classes which can convert
 "epoch seconds" (seconds from the AceTime Epoch of 2000-01-01T00:00:00 UTC) to
 human-readable local date and time fields. Those classes can also convert local
 date and time between different time zones, properly accounting for all DST
-transitions from the year 2000 until 2050. The ZoneInfo Database is extracted
+transitions from the year 2000 until 2100. The ZoneInfo Database is extracted
 from the [IANA TZ database](https://www.iana.org/time-zones). Different subsets
 of the ZoneInfo Database can be compiled into the application to reduce flash
 memory size. Standard C-library `time_t` types, 32-bit and 64-bit, are supported
@@ -1113,7 +1113,7 @@ The Hinnant date libraries were invaluable for writing the
 and
 [ExtendedHinnantDateTest](https://github.com/bxparks/AceTimeValidation/tree/master/ExtendedHinnantDateTest)
 validation tests which compare the AceTime algorithms to the Hinnant Date
-algorithms. For all times zones between the years 2000 until 2050, the AceTime
+algorithms. For all times zones between the years 2000 until 2100, the AceTime
 UTC offsets (`TimeZone::getUtcOffset()`), timezone abbreviations
 (`TimeZone::getAbbrev()`), and epochSecond conversion to date components
 (`ZonedDateTime::fromEpochSeconds()`) match the results from the Hinnant Date

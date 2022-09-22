@@ -898,7 +898,7 @@ class TransitionStorageTemplate {
  * The underlying zoneinfo files (extended::ZoneInfo, etc) store the UTC and DST
  * offsets of a timezone as a single signed byte in 15-minute increments. This
  * is sufficient to accurate describe all time zones from the year 2000 until
- * 2050. The AT and UNTIL transition times are stored using a 1-minute
+ * 2100. The AT and UNTIL transition times are stored using a 1-minute
  * resolution, which correctly handles the 5 timezones whose DST transition
  * times occur at 00:01. Those zones are:
  *
