@@ -479,7 +479,7 @@ test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles_outOfBounds) {
   acetime_t epochSeconds;
 
   assertEqual(2000, zonedb::kZoneAmerica_Los_Angeles.zoneContext->startYear);
-  assertEqual(2050, zonedb::kZoneAmerica_Los_Angeles.zoneContext->untilYear);
+  assertEqual(2100, zonedb::kZoneAmerica_Los_Angeles.zoneContext->untilYear);
 
   dt = OffsetDateTime::forComponents(1998, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
@@ -488,7 +488,7 @@ test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles_outOfBounds) {
   assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isError());
   assertEqual("", zoneProcessor.getAbbrev(epochSeconds));
 
-  dt = OffsetDateTime::forComponents(2051, 2, 1, 1, 0, 0,
+  dt = OffsetDateTime::forComponents(2100, 2, 1, 1, 0, 0,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   assertTrue(zoneProcessor.getUtcOffset(epochSeconds).isError());

@@ -49,7 +49,7 @@ test(ZonedDateTimeBasicTest, forComponents_isError) {
   // outside [2000, 2050) range, should generate error
   ZonedDateTime dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 0, tz);
   assertTrue(dt.isError());
-  dt = ZonedDateTime::forComponents(2051, 3, 11, 1, 59, 0, tz);
+  dt = ZonedDateTime::forComponents(2100, 3, 11, 1, 59, 0, tz);
   assertTrue(dt.isError());
 }
 
