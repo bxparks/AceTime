@@ -1114,15 +1114,21 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     /** Used only for debugging. */
     void log() const {
-      logging::printf("ExtendedZoneProcessor\n");
-      logging::printf("  mYear: %d\n", mYear);
-      logging::printf("  mNumMatches: %d\n", mNumMatches);
-      for (int i = 0; i < mNumMatches; i++) {
-        logging::printf("  Match %d: ", i);
-        mMatches[i].log();
-        logging::printf("\n");
+      if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+        if (!mIsFilled) {
+          logging::printf("*not initialized*\n");
+          return;
+        }
+        logging::printf("ExtendedZoneProcessor\n");
+        logging::printf("  mYear: %d\n", mYear);
+        logging::printf("  mNumMatches: %d\n", mNumMatches);
+        for (int i = 0; i < mNumMatches; i++) {
+          logging::printf("  Match %d: ", i);
+          mMatches[i].log();
+          logging::printf("\n");
+        }
+        mTransitionStorage.log();
       }
-      mTransitionStorage.log();
     }
 
     /** Reset the TransitionStorage high water mark. For debugging. */
@@ -1140,7 +1146,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (mZoneInfoBroker.equals(zoneKey)) return;
 
       mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
-      mYear = 0;
+      mYear = LocalDate::kInvalidYear;
       mIsFilled = false;
       mNumMatches = 0;
       resetTransitionAllocSize(); // clear the alloc size for new zone
@@ -1310,11 +1316,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     bool equals(const ZoneProcessor& other) const override {
       return mZoneInfoBroker.equals(
           ((const ExtendedZoneProcessorTemplate&) other).mZoneInfoBroker);
-    }
-
-    /** Check if the ZoneRule cache is filled for the given year. */
-    bool isFilled(int16_t year) const {
-      return mIsFilled && (year == mYear);
     }
 
     /**
@@ -2156,8 +2157,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     const BF* mBrokerFactory; // nullable
     ZIB mZoneInfoBroker;
 
-    mutable int16_t mYear = 0; // maybe create LocalDate::kInvalidYear?
-    mutable bool mIsFilled = false;
     // NOTE: Maybe move mNumMatches and mMatches into a MatchStorage object.
     mutable uint8_t mNumMatches = 0; // actual number of matches
     mutable MatchingEra mMatches[kMaxMatches];

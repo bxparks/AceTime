@@ -395,6 +395,7 @@ test(ZonedDateTimeExtendedTest, morocco_2090) {
   // 2090.
   int16_t savedEpochYear = LocalDate::localEpochYear();
   LocalDate::localEpochYear(2050);
+  extendedZoneManager.resetZoneProcessors();
 
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAfrica_Casablanca);
@@ -432,7 +433,10 @@ test(ZonedDateTimeExtendedTest, morocco_2090) {
   epochSeconds = dt.toEpochSeconds();
   assertEqual(epochSeconds, (int32_t) 14610 * 86400);
 
+  // Revert the local epoch year, making sure to reset the transition caches
+  // of the zone processors.
   LocalDate::localEpochYear(savedEpochYear);
+  extendedZoneManager.resetZoneProcessors();
 }
 
 // --------------------------------------------------------------------------

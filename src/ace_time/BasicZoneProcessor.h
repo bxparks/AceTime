@@ -332,7 +332,6 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       if (mZoneInfoBroker.equals(zoneKey)) return;
 
       mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
-
       mYear = LocalDate::kInvalidYear;
       mIsFilled = false;
       mNumTransitions = 0;
@@ -469,15 +468,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       if (ld.month() == 1 && ld.day() == 1) {
         year--;
       }
-      if (isFilled(year)) {
-        if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-          logging::printf("init(): %d (using cached %d)\n", ld.year(), year);
-        }
-        return true;
-      } else {
-        if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-          logging::printf("init(): %d (new year %d)\n", ld.year(), year);
-        }
+      if (isFilled(year)) return true;
+      if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("init(): %d (new year %d)\n", ld.year(), year);
       }
 
       mYear = year;
@@ -501,11 +494,6 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       }
 
       return true;
-    }
-
-    /** Check if the Transition cache is filled for the given year. */
-    bool isFilled(int16_t year) const {
-      return mIsFilled && (year == mYear);
     }
 
     /**
@@ -998,8 +986,6 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     const BF* mBrokerFactory; // nullable
     ZIB mZoneInfoBroker;
 
-    mutable int16_t mYear = LocalDate::kInvalidYear;
-    mutable bool mIsFilled = false;
     mutable uint8_t mNumTransitions = 0;
     mutable Transition mTransitions[kMaxCacheEntries];
 };

@@ -97,6 +97,10 @@ class TransitionValidation : public aunit::TestOnce {
 };
 
 testF(TransitionValidation, allZones) {
+  int16_t savedEpochYear = LocalDate::localEpochYear();
+  LocalDate::localEpochYear(2050);
+  zoneProcessor.resetTransitionCache();
+
   for (uint16_t i = 0; i < zonedbx::kZoneRegistrySize; i++) {
     const extended::ZoneInfo* info = zoneRegistrar.getZoneInfoForIndex(i);
     zoneProcessor.setZoneKey((uintptr_t) info);
@@ -104,6 +108,9 @@ testF(TransitionValidation, allZones) {
       zonedbx::kZoneContext.startYear,
       zonedbx::kZoneContext.untilYear));
   }
+
+  LocalDate::localEpochYear(savedEpochYear);
+  zoneProcessor.resetTransitionCache();
 }
 
 //----------------------------------------------------------------------------
