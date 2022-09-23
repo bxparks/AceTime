@@ -33,11 +33,11 @@ namespace ace_time {
  * month, day) tuple to the number of days since the "epoch". The default epoch
  * year is 2000, which makes the epoch date-time be 2000-01-01T00:00:00.
  *
- * The epoch year can be changed using the static `setLocalEpochYear()` method.
+ * The epoch year can be changed using the static `localEpochYear()` method.
  * This is useful for dates larger than 2068-01-19T03:14:07, which is the
  * largest date-time that can be represented using an `int32_t` type to hold the
  * number of seconds since the epoch. For example, calling
- * `setLocalEpochYear(2100)` will set the epoch to be 2100-01-01T00:00:00, so
+ * `localEpochYear(2100)` will set the epoch to be 2100-01-01T00:00:00, so
  * that dates from 2031-12-13 20:45:52Z to 2168-01-20T03:14:07 can be captured.
  *
  * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated from the date
@@ -53,14 +53,20 @@ namespace ace_time {
 template <typename T_CONVERTER>
 class LocalDateTemplate {
   public:
-    /** Default epoch year for AceTime is the year 2000, not 1970. */
-    static const int16_t kEpochYear = T_CONVERTER::kEpochConverterBaseYear;
+    /** Epoch year used by the internal epoch converters. Probably year 2000. */
+    static const int16_t kBaseEpochYear = T_CONVERTER::kEpochConverterBaseYear;
 
     /**
      * Number of seconds from Unix epoch (1970-01-01 00:00:00 UTC) to
      * the AceTime epoch (2000-01-01 00:00:00 UTC).
      */
     static const int32_t kSecondsSinceUnixEpoch = 946684800;
+
+    /**
+     * Number of days from Unix epoch (1970-01-01 00:00:00 UTC) to
+     * the AceTime epoch (2000-01-01 00:00:00 UTC).
+     */
+    static const int32_t kDaysSinceUnixEpoch = 10957;
 
     /**
      * Sentinel year which indicates an error condition or sometimes a year
@@ -90,6 +96,21 @@ class LocalDateTemplate {
     /** Sentinel unixSeconds which indicates an error. */
     static const int32_t kInvalidUnixSeconds = INT32_MIN;
 
+    /**
+     * Minimum valid epochSeconds. The smallest int32, `INT32_MIN`, is used to
+     * indicate an invalid epochSeconds. Use LocalDate::forEpochSeconds() or
+     * LocalDateTime::forEpochSeconds() to obtain the minimum instance of those
+     * classes.
+     */
+    static const acetime_t kMinEpochSeconds = INT32_MIN + 1;
+
+    /**
+     * Maximum valid epochSeconds. Use LocalDate::forEpochSeconds() or
+     * LocalDateTime::forEpochSeconds() to obtain the maximum instance of those
+     * classes.
+     */
+    static const acetime_t kMaxEpochSeconds = INT32_MAX;
+
     /** Sentinel 64-bit unixSeconds which indicates an error. */
     static const int64_t kInvalidUnixSeconds64 = INT64_MIN;
 
@@ -100,26 +121,6 @@ class LocalDateTemplate {
     /** Minimum 64-bit Unix seconds supported by acetime_t. */
     static const int64_t kMinValidUnixSeconds64 =
         (int64_t) (INT32_MIN + 1) + kSecondsSinceUnixEpoch;
-
-    /**
-     * Number of days from Unix epoch (1970-01-01 00:00:00 UTC) to
-     * the AceTime epoch (2000-01-01 00:00:00 UTC).
-     */
-    static const int32_t kDaysSinceUnixEpoch = 10957;
-
-    /**
-     * Minimum valid epochSeconds. Use LocalDate::forEpochSeconds() or
-     * LocalDateTime::forEpochSeconds() to obtain the minimum instance of those
-     * classes.
-     */
-    static const int32_t kMinEpochSeconds = INT32_MIN + 1;
-
-    /**
-     * Maximum valid epochSeconds. Use LocalDate::forEpochSeconds() or
-     * LocalDateTime::forEpochSeconds() to obtain the maximum instance of those
-     * classes.
-     */
-    static const int32_t kMaxEpochSeconds = INT32_MAX;
 
     /** Monday ISO 8601 number. */
     static const uint8_t kMonday = 1;
@@ -169,8 +170,8 @@ class LocalDateTemplate {
     }
 
     /**
-     * Factory method using the number of days since AceTime epoch of
-     * 2000-01-01. If epochDays is kInvalidEpochDays, isError() will return
+     * Factory method using the number of days since the current epoch (usually
+     * 2000-01-01). If epochDays is kInvalidEpochDays, isError() will return
      * true.
      *
      * @param epochDays number of days since AceTime epoch (2000-01-01)
@@ -200,8 +201,8 @@ class LocalDateTemplate {
 
     /**
      * Factory method using the number of seconds since the current epoch year
-     * given by sLocalEpochYear. The default is 2000-01-01, but can be changed
-     * using setLocalEpochYear().
+     * given by `localEpochYear()`. The default is 2000-01-01, but can be
+     * changed using `localEpochYear(epochYear)`.
      *
      * The number of seconds from midnight of the given day is thrown away. For
      * negative values of epochSeconds, the method performs a floor operation

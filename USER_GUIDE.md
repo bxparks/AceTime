@@ -350,15 +350,22 @@ class LocalTime {
 
 class LocalDate {
   public:
-    static const int16_t kEpochYear = 2000;
+    static const int16_t kBaseEpochYear = 2000;
     static const acetime_t kSecondsSinceUnixEpoch = 946684800;
 
+    static const int16_t kInvalidYear = INT16_MIN;
+    static const int16_t kMinYear = 0;
+    static const int16_t kMaxYear = 10000;
+
     static const int32_t kInvalidEpochDays = INT32_MIN;
-    static const acetime_t kInvalidEpochSeconds = INT32_MIN;
 
     static const int32_t kInvalidUnixDays = INT32_MIN;
     static const int32_t kInvalidUnixSeconds = INT32_MIN;
     static const int64_t kInvalidUnixSeconds64 = INT64_MIN;
+
+    static const acetime_t kInvalidEpochSeconds = INT32_MIN;
+    static const acetime_t kMinEpochSeconds = INT32_MIN + 1;
+    static const acetime_t kMaxEpochSeconds = INT32_MAX;
 
     static const uint8_t kMonday = 1;
     static const uint8_t kTuesday = 2;
