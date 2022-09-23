@@ -74,7 +74,7 @@ class BasicZone {
     }
 
   private:
-    const basic::ZoneInfoBroker mZoneInfoBroker;
+    basic::ZoneInfoBroker mZoneInfoBroker;
 };
 
 }
