@@ -86,31 +86,9 @@ class OffsetDateTime {
     }
 
     /**
-     * Factory method that takes the number of seconds since Unix Epoch of
-     * 1970-01-01. Similar to forEpochSeconds(), the seconds corresponding to
-     * the partial day are truncated down towards the smallest whole day.
-     * Valid until unixSeconds reaches the maximum value of `int32_t` at
-     * 2038-01-19T03:14:07 UTC.
-     * Returns OffsetDateTime::forError() if unixSeconds is invalid.
-     *
-     * @param unixSeconds number of seconds since Unix epoch
-     *    (1970-01-01T00:00:00 UTC)
-     * @param timeOffset time offset from UTC
-     */
-    static OffsetDateTime forUnixSeconds(
-        int32_t unixSeconds, TimeOffset timeOffset) {
-      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidUnixSeconds)
-          ? LocalDate::kInvalidEpochSeconds
-          : unixSeconds - LocalDate::kSecondsSinceUnixEpoch;
-      return forEpochSeconds(epochSeconds, timeOffset);
-    }
-
-    /**
      * Factory method that takes the number of seconds (64-bit) since Unix Epoch
      * of 1970-01-01. Similar to forEpochSeconds(), the seconds corresponding to
      * the partial day are truncated down towards the smallest whole day.
-     * Valid until the 64-bit unixSeconds reaches the equivalent of
-     * 2068-01-19T03:14:07 UTC.
      * Returns OffsetDateTime::forError() if unixSeconds is invalid.
      *
      * @param unixSeconds number of seconds since Unix epoch
@@ -119,11 +97,16 @@ class OffsetDateTime {
      */
     static OffsetDateTime forUnixSeconds64(
         int64_t unixSeconds, TimeOffset timeOffset) {
-      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidUnixSeconds64
-          || unixSeconds > LocalDate::kMaxValidUnixSeconds64
-          || unixSeconds < LocalDate::kMinValidUnixSeconds64)
-          ? LocalDate::kInvalidEpochSeconds
-          : (acetime_t) (unixSeconds - LocalDate::kSecondsSinceUnixEpoch);
+      acetime_t epochSeconds;
+      if (unixSeconds == LocalDate::kInvalidEpochSeconds64) {
+        epochSeconds = LocalDate::kInvalidEpochSeconds;
+      } else {
+        epochSeconds = unixSeconds
+            // relative to base epoch
+            - LocalDate::kSecondsFromUnixEpochToBaseEpoch
+            // relative to local epoch
+            - LocalDate::sDaysFromBaseEpochToLocalEpoch * (int64_t) 86400;
+      }
       return forEpochSeconds(epochSeconds, timeOffset);
     }
 
@@ -280,8 +263,8 @@ class OffsetDateTime {
 
     /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
     int32_t toUnixDays() const {
-      if (isError()) return LocalDate::kInvalidUnixDays;
-      return toEpochDays() + LocalDate::kDaysSinceUnixEpoch;
+      if (isError()) return LocalDate::kInvalidEpochDays;
+      return toEpochDays() + LocalDate::kDaysFromUnixEpochToBaseEpoch;
     }
 
     /**
@@ -295,27 +278,15 @@ class OffsetDateTime {
     }
 
     /**
-     * Return the number of seconds from Unix epoch 1970-01-01 00:00:00 UTC.
-     * It returns LocalDate::kInvalidUnixSeconds if isError() is true.
-     *
-     * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
-     * convert an ISO8601 date to the unix seconds.
-     */
-    int32_t toUnixSeconds() const {
-      if (isError()) return LocalDate::kInvalidUnixSeconds;
-      return toEpochSeconds() + LocalDate::kSecondsSinceUnixEpoch;
-    }
-
-    /**
      * Return the 64-bit number of seconds from Unix epoch 1970-01-01 00:00:00
-     * UTC. Returns kInvalidUnixSeconds64 if isError() is true.
+     * UTC. Returns LocalDate::kInvalidEpochSeconds64 if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
      * convert an ISO8601 date to the unix seconds.
      */
     int64_t toUnixSeconds64() const {
-      if (isError()) return LocalDate::kInvalidUnixSeconds64;
-      return toEpochSeconds() + (int64_t) LocalDate::kSecondsSinceUnixEpoch;
+      if (isError()) return LocalDate::kInvalidEpochSeconds64;
+      return mLocalDateTime.toUnixSeconds64() - mTimeOffset.toSeconds();
     }
 
     /**

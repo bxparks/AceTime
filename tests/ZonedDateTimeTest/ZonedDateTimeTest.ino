@@ -132,50 +132,6 @@ test(ZonedDateTimeTest_Manual, forComponents) {
   assertEqual(LocalDate::kThursday, dt.dayOfWeek());
 }
 
-test(ZonedDateTimeTest_Manual, toAndForUnixSeconds) {
-  ZonedDateTime dt;
-  ZonedDateTime udt;
-
-  // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
-  // Let's use +1 of that since INT_MIN will be used to indicate an error.
-  dt = ZonedDateTime::forComponents(1931, 12, 13, 20, 45, 53, TimeZone());
-  assertEqual((int32_t) -1200798847, dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeZone());
-  assertTrue(dt == udt);
-
-  // 1970-01-01 00:00:00Z
-  dt = ZonedDateTime::forComponents(1970, 1, 1, 0, 0, 0, TimeZone());
-  assertEqual((int32_t) 0, dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeZone());
-  assertTrue(dt == udt);
-
-  // 2000-01-01 00:00:00Z
-  dt = ZonedDateTime::forComponents(2000, 1, 1, 0, 0, 0, TimeZone());
-  assertEqual((int32_t) 946684800, dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeZone());
-  assertTrue(dt == udt);
-
-
-  // 2018-01-01 00:00:00Z
-  dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0, TimeZone());
-  assertEqual((int32_t) 1514764800, dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeZone());
-  assertTrue(dt == udt);
-
-  // 2018-08-30T06:45:01-07:00
-  TimeZone tz = TimeZone::forHours(-7);
-  dt = ZonedDateTime::forComponents(2018, 8, 30, 6, 45, 1, tz);
-  assertEqual((int32_t) 1535636701, dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), tz);
-  assertTrue(dt == udt);
-
-  // 2038-01-19 03:14:06Z (largest value - 1 using Unix Epoch)
-  dt = ZonedDateTime::forComponents(2038, 1, 19, 3, 14, 6, TimeZone());
-  assertEqual((int32_t) (INT32_MAX - 1), dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeZone());
-  assertTrue(dt == udt);
-}
-
 test(ZonedDateTimeTest_Manual, toAndForUnixSeconds64) {
   ZonedDateTime dt;
   ZonedDateTime udt;
@@ -244,7 +200,7 @@ test(ZonedDateTimeTest_Manual, toAndForUnixSeconds64_extended) {
 
   // Verify error sentinel.
   dt = ZonedDateTime::forUnixSeconds64(
-      LocalDate::kInvalidUnixSeconds64, TimeZone());
+      LocalDate::kInvalidEpochSeconds64, TimeZone());
   assertTrue(dt.isError());
 }
 
@@ -274,10 +230,11 @@ test(ZonedDateTimeTest_Manual, error) {
   TimeZone stdTz = TimeZone::forHours(-8);
 
   ZonedDateTime zdt = ZonedDateTime::forEpochSeconds(
-      LocalTime::kInvalidSeconds, stdTz);
+      LocalDate::kInvalidEpochSeconds, stdTz);
   assertTrue(zdt.isError());
 
-  zdt = ZonedDateTime::forUnixSeconds(LocalTime::kInvalidSeconds, stdTz);
+  zdt = ZonedDateTime::forUnixSeconds64(
+      LocalDate::kInvalidEpochSeconds64, stdTz);
   assertTrue(zdt.isError());
 }
 

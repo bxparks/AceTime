@@ -62,15 +62,22 @@ test(UnixTimeTest, toEpochSeconds) {
 #if defined(AVR)
   //time_t avrSeconds = mk_gmtime(&t);
   time_t avrSeconds = mktime(&t);
-  assertEqual(epochSeconds, (acetime_t) avrSeconds);
+  // AVR libc epoch year is 2000 which is the same as the AceTime base epoch
+  acetime_t expected = avrSeconds
+      - LocalDate::sDaysFromBaseEpochToLocalEpoch * 86400;
+  assertEqual(epochSeconds, expected);
 #elif defined(ESP8266) || defined(ESP32)
   time_t espSeconds = mktime(&t);
-  assertEqual(epochSeconds,
-    (acetime_t) (espSeconds - LocalDate::kSecondsSinceUnixEpoch));
+  acetime_t expected = espSeconds
+      - LocalDate::kSecondsFromUnixEpochToBaseEpoch
+      - LocalDate::sDaysFromBaseEpochToLocalEpoch * 86400;
+  assertEqual(epochSeconds, expected);
 #elif defined(__linux__) || defined(__APPLE__)
   time_t unixSeconds = timegm(&t);
-  assertEqual(epochSeconds,
-    (acetime_t) (unixSeconds - LocalDate::kSecondsSinceUnixEpoch));
+  acetime_t expected = unixSeconds
+      - LocalDate::kSecondsFromUnixEpochToBaseEpoch
+      - LocalDate::sDaysFromBaseEpochToLocalEpoch * 86400;
+  assertEqual(epochSeconds, expected);
 #endif
 }
 
@@ -80,13 +87,19 @@ test(UnixTimeTest, forEpochSeconds) {
   // 2029-12-31 23:59:59Z Monday
   acetime_t epochSeconds = 10958 * (acetime_t) 86400 - 1;
 #if defined(AVR)
-  time_t avrSeconds = (time_t) epochSeconds;
+  // AVR libc epoch year is 2000 which is the same as the AceTime base epoch
+  time_t avrSeconds = (time_t) epochSeconds
+      + LocalDate::sDaysFromBaseEpochToLocalEpoch * 86400;
   gmtime_r(&avrSeconds, &t);
 #elif defined(ESP8266) || defined(ESP32)
-  time_t espSeconds = epochSeconds + LocalDate::kSecondsSinceUnixEpoch;
+  time_t espSeconds = epochSeconds
+      + LocalDate::sDaysFromBaseEpochToLocalEpoch * 86400
+      + LocalDate::kSecondsFromUnixEpochToBaseEpoch;
   gmtime_r(&espSeconds, &t);
 #elif defined(__linux__) || defined(__APPLE__)
-  time_t unixSeconds = epochSeconds + LocalDate::kSecondsSinceUnixEpoch;
+  time_t unixSeconds = epochSeconds
+      + LocalDate::sDaysFromBaseEpochToLocalEpoch * 86400
+      + LocalDate::kSecondsFromUnixEpochToBaseEpoch;
   gmtime_r(&unixSeconds, &t);
 #endif
 

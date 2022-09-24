@@ -44,6 +44,12 @@
           precalculated DST shifts which are listed in the IANA TZ DB to the
           year 2087.
         * `zonedb` remains unchanged
+    * Remove `toUnixSeconds()` and `forUnixSeconds()` which use the 32-bit
+      versions of unix epoch seconds.
+        * They will become invalid in the year 2038, and it's now the year 2022
+          so it does not seem worth maintaining these.
+        * The 64-bit versions `toUnixSeconds64()` and `forUnixSeconds64()` are
+          retained.
 * 1.11.7 (2022-11-02, TZDB 2022f)
     * Upgrade TZDB from 2022e to 2022f
         * https://mm.icann.org/pipermail/tz-announce/2022-October/000075.html

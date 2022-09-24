@@ -236,8 +236,8 @@ void setup() {
   Serial.println(epochSeconds);
 
   Serial.print(F("Unix Seconds: "));
-  int32_t unixSeconds = startTime.toUnixSeconds();
-  Serial.println(unixSeconds);
+  int64_t unixSeconds = startTime.toUnixSeconds64();
+  Serial.println((int32_t) unixSeconds);
 
   Serial.println(F("=== Los_Angeles"));
   ZonedDateTime losAngelesTime = ZonedDateTime::forEpochSeconds(

@@ -63,40 +63,22 @@ class LocalDateTime {
      */
     static LocalDateTime forEpochSeconds(
         acetime_t epochSeconds, uint8_t fold = 0) {
-
-      LocalDate ld;
-      LocalTime lt;
       if (epochSeconds == LocalDate::kInvalidEpochSeconds) {
-        ld = LocalDate::forError();
-        lt = LocalTime::forError();
-      } else {
-        // Integer floor-division towards -infinity
-        acetime_t days = (epochSeconds < 0)
-            ? (epochSeconds + 1) / 86400 - 1
-            : epochSeconds / 86400;
-
-        // Avoid % operator, because it's slow on an 8-bit process and because
-        // epochSeconds could be negative.
-        acetime_t seconds = epochSeconds - 86400 * days;
-        ld = LocalDate::forEpochDays(days);
-        lt = LocalTime::forSeconds(seconds, fold);
+        return forError();
       }
 
-      return LocalDateTime(ld, lt);
-    }
+      // Integer floor-division towards -infinity
+      int32_t days = (epochSeconds < 0)
+          ? (epochSeconds + 1) / 86400 - 1
+          : epochSeconds / 86400;
 
-    /**
-     * Factory method that takes the number of seconds since Unix Epoch of
-     * 1970-01-01.
-     * Valid until unixSeconds reaches the maximum value of `int32_t` at
-     * 2038-01-19T03:14:07 UTC.
-     * Returns LocalDateTime::forError() if unixSeconds is invalid.
-     */
-    static LocalDateTime forUnixSeconds(int32_t unixSeconds) {
-      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidUnixSeconds)
-          ? LocalDate::kInvalidEpochSeconds
-          : unixSeconds - LocalDate::kSecondsSinceUnixEpoch;
-      return forEpochSeconds(epochSeconds);
+      // Avoid % operator, because it's slow on an 8-bit process and because
+      // epochSeconds could be negative.
+      acetime_t seconds = epochSeconds - 86400 * days;
+
+      LocalDate ld = LocalDate::forEpochDays(days);
+      LocalTime lt = LocalTime::forSeconds(seconds, fold);
+      return LocalDateTime(ld, lt);
     }
 
     /**
@@ -107,12 +89,25 @@ class LocalDateTime {
      * Returns LocalDateTime::forError() if unixSeconds is invalid.
      */
     static LocalDateTime forUnixSeconds64(int64_t unixSeconds) {
-      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidUnixSeconds64
-          || unixSeconds > LocalDate::kMaxValidUnixSeconds64
-          || unixSeconds < LocalDate::kMinValidUnixSeconds64)
-          ? LocalDate::kInvalidEpochSeconds
-          : (acetime_t) (unixSeconds - LocalDate::kSecondsSinceUnixEpoch);
-      return forEpochSeconds(epochSeconds);
+      if (unixSeconds == LocalDate::kInvalidEpochSeconds64) {
+        return forError();
+      }
+
+      int64_t epochSeconds64 = unixSeconds
+          // relative to base epoch
+          - LocalDate::kSecondsFromUnixEpochToBaseEpoch
+          // relative local epoch
+          - LocalDate::sDaysFromBaseEpochToLocalEpoch * (int64_t) 86400;
+
+      // Integer floor-division towards -infinity
+      int32_t days = (epochSeconds64 < 0)
+          ? (epochSeconds64 + 1) / 86400 - 1
+          : epochSeconds64 / 86400;
+      int32_t seconds = epochSeconds64 - (int64_t) 86400 * days;
+
+      LocalDate ld = LocalDate::forEpochDays(days);
+      LocalTime lt = LocalTime::forSeconds(seconds);
+      return LocalDateTime(ld, lt);
     }
 
     /**
@@ -239,8 +234,8 @@ class LocalDateTime {
 
     /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
     int32_t toUnixDays() const {
-      if (isError()) return LocalDate::kInvalidUnixDays;
-      return toEpochDays() + LocalDate::kDaysSinceUnixEpoch;
+      if (isError()) return LocalDate::kInvalidEpochDays;
+      return toEpochDays() + LocalDate::kDaysFromUnixEpochToBaseEpoch;
     }
 
     /**
@@ -258,29 +253,18 @@ class LocalDateTime {
     }
 
     /**
-     * Return seconds from Unix epoch 1970-01-01 00:00:00 UTC, after assuming
-     * that the date and time components are in UTC timezone. Returns
-     * LocalDate::kInvalidUnixSeconds if isError() is true.
-     *
-     * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box
-     * to print the unix seconds of a given ISO8601 date.
-     */
-    int32_t toUnixSeconds() const {
-      if (isError()) return LocalDate::kInvalidUnixSeconds;
-      return toEpochSeconds() + LocalDate::kSecondsSinceUnixEpoch;
-    }
-
-    /**
      * Return 64-bit seconds from Unix epoch 1970-01-01 00:00:00 UTC, after
      * assuming that the date and time components are in UTC timezone. Returns
-     * LocalDate::kInvalidUnixSeconds64 if isError() is true.
+     * LocalDate::kInvalidEpochSeconds64 if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box
      * to print the unix seconds of a given ISO8601 date.
      */
     int64_t toUnixSeconds64() const {
-      if (isError()) return LocalDate::kInvalidUnixSeconds64;
-      return toEpochSeconds() + (int64_t) LocalDate::kSecondsSinceUnixEpoch;
+      if (isError()) return LocalDate::kInvalidEpochSeconds64;
+      int32_t days = toUnixDays();
+      acetime_t seconds = mLocalTime.toSeconds();
+      return days * (int64_t) 86400 + seconds;
     }
 
     /**

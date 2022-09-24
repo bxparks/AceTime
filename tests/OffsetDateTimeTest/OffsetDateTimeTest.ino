@@ -187,51 +187,6 @@ test(OffsetDateTimeTest, forComponents) {
   assertEqual(LocalDate::kThursday, dt.dayOfWeek());
 }
 
-test(OffsetDateTimeTest, toAndForUnixSeconds) {
-  OffsetDateTime dt;
-  OffsetDateTime udt;
-
-  // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
-  // Let's use +1 of that since INT_MIN will be used to indicate an error.
-  dt = OffsetDateTime::forComponents(1931, 12, 13, 20, 45, 53, TimeOffset());
-  assertEqual((int32_t) -1200798847, dt.toUnixSeconds());
-  udt = OffsetDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeOffset());
-  assertTrue(dt == udt);
-
-  // 1970-01-01 00:00:00Z
-  dt = OffsetDateTime::forComponents(1970, 1, 1, 0, 0, 0, TimeOffset());
-  assertEqual((int32_t) 0, dt.toUnixSeconds());
-  udt = OffsetDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeOffset());
-  assertTrue(dt == udt);
-
-  // 2000-01-01 00:00:00Z
-  dt = OffsetDateTime::forComponents(2000, 1, 1, 0, 0, 0, TimeOffset());
-  assertEqual((int32_t) 946684800, dt.toUnixSeconds());
-  udt = OffsetDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeOffset());
-  assertTrue(dt == udt);
-
-  // 2018-01-01 00:00:00Z
-  dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 0, 0, TimeOffset());
-  assertEqual((int32_t) 1514764800, dt.toUnixSeconds());
-  udt = OffsetDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeOffset());
-  assertTrue(dt == udt);
-
-  // 2018-08-30T06:45:01-07:00
-  dt = OffsetDateTime::forComponents(2018, 8, 30, 6, 45, 1,
-      TimeOffset::forHours(-7));
-  assertEqual((int32_t) 1535636701, dt.toUnixSeconds());
-  udt = OffsetDateTime::forUnixSeconds(dt.toUnixSeconds(),
-      TimeOffset::forHours(-7));
-  assertTrue(dt == udt);
-
-  // 2038-01-19 03:14:06Z (largest value - 1 using Unix Epoch)
-  dt = OffsetDateTime::forComponents(2038, 1, 19, 3, 14, 6,
-      TimeOffset());
-  assertEqual((int32_t) (INT32_MAX - 1), dt.toUnixSeconds());
-  udt = OffsetDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeOffset());
-  assertTrue(dt == udt);
-}
-
 test(OffsetDateTimeTest, toAndForUnixSeconds64) {
   OffsetDateTime dt;
   OffsetDateTime udt;
@@ -301,7 +256,7 @@ test(OffsetDateTimeTest, toAndForUnixSeconds64_extended) {
 
   // Verify error sentinel.
   dt = OffsetDateTime::forUnixSeconds64(
-      LocalDate::kInvalidUnixSeconds64, TimeOffset());
+      LocalDate::kInvalidEpochSeconds64, TimeOffset());
   assertTrue(dt.isError());
 }
 

@@ -82,25 +82,6 @@ class ZonedDateTime {
     }
 
     /**
-     * Factory method to create a ZonedDateTime using the number of seconds from
-     * Unix epoch.
-     * Valid until unixSeconds reaches the maximum value of `int32_t` at
-     * 2038-01-19T03:14:07 UTC.
-     * Returns ZonedDateTime::forError() if unixSeconds is invalid.
-     *
-     * @param unixSeconds number of seconds since Unix epoch
-     *    (1970-01-01T00:00:00 UTC)
-     * @param timeZone a TimeZone instance (use TimeZone() for UTC)
-     */
-    static ZonedDateTime forUnixSeconds(
-        int32_t unixSeconds, const TimeZone& timeZone) {
-      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidUnixSeconds)
-          ? LocalDate::kInvalidEpochSeconds
-          : unixSeconds - LocalDate::kSecondsSinceUnixEpoch;
-      return forEpochSeconds(epochSeconds, timeZone);
-    }
-
-    /**
      * Factory method to create a ZonedDateTime using the 64-bit number of
      * seconds from Unix epoch.
      * Valid until the 64-bit unixSeconds reaches the equivalent of
@@ -113,11 +94,16 @@ class ZonedDateTime {
      */
     static ZonedDateTime forUnixSeconds64(
         int64_t unixSeconds, const TimeZone& timeZone) {
-      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidUnixSeconds64
-          || unixSeconds > LocalDate::kMaxValidUnixSeconds64
-          || unixSeconds < LocalDate::kMinValidUnixSeconds64)
-          ? LocalDate::kInvalidEpochSeconds
-          : (acetime_t) (unixSeconds - LocalDate::kSecondsSinceUnixEpoch);
+      acetime_t epochSeconds;
+      if (unixSeconds == LocalDate::kInvalidEpochSeconds64) {
+        epochSeconds = LocalDate::kInvalidEpochSeconds;
+      } else {
+        epochSeconds = unixSeconds
+            // relative to base epoch
+            - LocalDate::kSecondsFromUnixEpochToBaseEpoch
+            // relative to local epoch
+            - LocalDate::sDaysFromBaseEpochToLocalEpoch * (int64_t) 86400;
+      }
       return forEpochSeconds(epochSeconds, timeZone);
     }
 
@@ -277,19 +263,8 @@ class ZonedDateTime {
     }
 
     /**
-     * Return the number of seconds from Unix epoch 1970-01-01 00:00:00 UTC.
-     * It returns LocalDate::kInvalidUnixSeconds if isError() is true.
-     *
-     * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
-     * print the unix seconds.
-     */
-    int32_t toUnixSeconds() const {
-      return mOffsetDateTime.toUnixSeconds();
-    }
-
-    /**
      * Return the 64-bit number of seconds from Unix epoch 1970-01-01 00:00:00
-     * UTC. Returns kInvalidUnixSeconds64 if isError() is true.
+     * UTC. Returns LocalDAte::kInvalidEpochSeconds64 if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
      * print the unix seconds.
