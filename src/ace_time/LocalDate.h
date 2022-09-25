@@ -60,14 +60,14 @@ class LocalDateTemplate {
      * Number of days from Unix epoch (1970-01-01 00:00:00 UTC) to
      * the AceTime base epoch (2000-01-01 00:00:00 UTC).
      */
-    static const int32_t kDaysFromUnixEpochToBaseEpoch = 10957;
+    static const int32_t kDaysToBaseEpochFromUnixEpoch = 10957;
 
     /**
      * Number of seconds from Unix epoch (1970-01-01 00:00:00 UTC) to
      * the AceTime base epoch (2000-01-01 00:00:00 UTC).
      */
-    static const int32_t kSecondsFromUnixEpochToBaseEpoch =
-        kDaysFromUnixEpochToBaseEpoch * 86400;
+    static const int32_t kSecondsToBaseEpochFromUnixEpoch =
+        kDaysToBaseEpochFromUnixEpoch * 86400;
 
     /**
      * Sentinel year which indicates an error condition or sometimes a year
@@ -139,7 +139,7 @@ class LocalDateTemplate {
      * sLocalEpochYear. Default is 0, since the default sLocalEpochYear is the
      * same as T_CONVERTER::kEpochConverterBaseYear.
      */
-    static int32_t sDaysFromBaseEpochToLocalEpoch;
+    static int32_t sDaysToLocalEpochFromBaseEpoch;
 
   public:
     /** Get the local epoch year. */
@@ -150,7 +150,7 @@ class LocalDateTemplate {
     /** Set the local epoch year. */
     static void localEpochYear(int16_t year) {
       sLocalEpochYear = year;
-      sDaysFromBaseEpochToLocalEpoch = T_CONVERTER::toEpochDays(year, 1, 1);
+      sDaysToLocalEpochFromBaseEpoch = T_CONVERTER::toEpochDays(year, 1, 1);
     }
 
     /**
@@ -172,7 +172,7 @@ class LocalDateTemplate {
      * 2000-01-01). If epochDays is kInvalidEpochDays, isError() will return
      * true.
      *
-     * @param epochDays number of days since AceTime epoch (2000-01-01)
+     * @param epochDays number of days since the current local epoch
      */
     static LocalDateTemplate forEpochDays(int32_t epochDays) {
       int16_t year;
@@ -182,7 +182,7 @@ class LocalDateTemplate {
         year = month = day = 0;
       } else {
         // shift relative to T_CONVERTER::kEpochConverterBaseYear
-        epochDays += sDaysFromBaseEpochToLocalEpoch;
+        epochDays += sDaysToLocalEpochFromBaseEpoch;
         T_CONVERTER::fromEpochDays(epochDays, year, month, day);
       }
       return forComponents(year, month, day);
@@ -194,8 +194,10 @@ class LocalDateTemplate {
         return forError();
       } else {
         int32_t days = unixDays
-            - kDaysFromUnixEpochToBaseEpoch // relative to 2000
-            - sDaysFromBaseEpochToLocalEpoch; // relative to local epoch
+            // relative to 2000
+            - kDaysToBaseEpochFromUnixEpoch
+            // relative to local epoch
+            - sDaysToLocalEpochFromBaseEpoch;
         return forEpochDays(days);
       }
     }
@@ -238,9 +240,10 @@ class LocalDateTemplate {
         return forError();
       } else {
         int64_t epochSeconds64 = unixSeconds
-            - kSecondsFromUnixEpochToBaseEpoch // relative to 2000
-            - sDaysFromBaseEpochToLocalEpoch
-                * (int64_t) 86400; // relative to local epoch
+            // relative to base epoch (2000)
+            - kSecondsToBaseEpochFromUnixEpoch
+            // relative to local epoch
+            - sDaysToLocalEpochFromBaseEpoch * (int64_t) 86400;
         if (epochSeconds64 < kMinEpochSeconds
             || epochSeconds64 > kMaxEpochSeconds) {
           return forError();
@@ -378,7 +381,7 @@ class LocalDateTemplate {
     int32_t toEpochDays() const {
       if (isError()) return kInvalidEpochDays;
       int32_t days = T_CONVERTER::toEpochDays(mYear, mMonth, mDay)
-          - sDaysFromBaseEpochToLocalEpoch; // relative to local epoch
+          - sDaysToLocalEpochFromBaseEpoch; // relative to local epoch
       return days;
     }
 
@@ -386,8 +389,8 @@ class LocalDateTemplate {
     int32_t toUnixDays() const {
       if (isError()) return kInvalidEpochDays;
       return toEpochDays()
-          + sDaysFromBaseEpochToLocalEpoch // relative to base epoch year
-          + kDaysFromUnixEpochToBaseEpoch; // relative to 1970
+          + sDaysToLocalEpochFromBaseEpoch // relative to base epoch year
+          + kDaysToBaseEpochFromUnixEpoch; // relative to 1970
     }
 
     /**
@@ -541,7 +544,7 @@ template <typename T>
 int16_t LocalDateTemplate<T>::sLocalEpochYear = 2000;
 
 template <typename T>
-int32_t LocalDateTemplate<T>::sDaysFromBaseEpochToLocalEpoch = 0;
+int32_t LocalDateTemplate<T>::sDaysToLocalEpochFromBaseEpoch = 0;
 
 // Use EpochConverterHinnant for LocalDate
 using LocalDate = LocalDateTemplate<internal::EpochConverterHinnant>;

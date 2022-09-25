@@ -100,9 +100,9 @@ class ZonedDateTime {
       } else {
         epochSeconds = unixSeconds
             // relative to base epoch
-            - LocalDate::kSecondsFromUnixEpochToBaseEpoch
+            - LocalDate::kSecondsToBaseEpochFromUnixEpoch
             // relative to local epoch
-            - LocalDate::sDaysFromBaseEpochToLocalEpoch * (int64_t) 86400;
+            - LocalDate::sDaysToLocalEpochFromBaseEpoch * (int64_t) 86400;
       }
       return forEpochSeconds(epochSeconds, timeZone);
     }

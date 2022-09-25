@@ -103,9 +103,9 @@ class OffsetDateTime {
       } else {
         epochSeconds = unixSeconds
             // relative to base epoch
-            - LocalDate::kSecondsFromUnixEpochToBaseEpoch
+            - LocalDate::kSecondsToBaseEpochFromUnixEpoch
             // relative to local epoch
-            - LocalDate::sDaysFromBaseEpochToLocalEpoch * (int64_t) 86400;
+            - LocalDate::sDaysToLocalEpochFromBaseEpoch * (int64_t) 86400;
       }
       return forEpochSeconds(epochSeconds, timeOffset);
     }
@@ -264,7 +264,7 @@ class OffsetDateTime {
     /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
     int32_t toUnixDays() const {
       if (isError()) return LocalDate::kInvalidEpochDays;
-      return toEpochDays() + LocalDate::kDaysFromUnixEpochToBaseEpoch;
+      return toEpochDays() + LocalDate::kDaysToBaseEpochFromUnixEpoch;
     }
 
     /**
