@@ -67,10 +67,11 @@ class ZonedDateTime {
      * the given time zone. The dayOfWeek will be calculated internally.
      * Returns ZonedDateTime::forError() if epochSeconds is invalid.
      *
-     * @param epochSeconds Number of seconds from AceTime epoch
-     *    (2000-01-01 00:00:00 UTC). A value of LocalDate::kInvalidEpochSeconds
-     *    is a sentinel that is considered to be an error and causes isError()
-     *    to return true.
+     * @param epochSeconds Number of seconds from the local epoch by
+     * `LocalDate::localEpochYear()`. The default is 2000-01-01 00:00:00 UTC
+     * which can be changed by `localEpochYear(year)`. A value of
+     * LocalDate::kInvalidEpochSeconds is a sentinel that is considered to be an
+     * error and causes isError() to return true.
      * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
@@ -84,8 +85,14 @@ class ZonedDateTime {
     /**
      * Factory method to create a ZonedDateTime using the 64-bit number of
      * seconds from Unix epoch.
-     * Valid until the 64-bit unixSeconds reaches the equivalent of
-     * 2068-01-19T03:14:07 UTC.
+     *
+     * Even though unixSeconds is 64-bit integer, the internal calculations of
+     * the DST time zone transitions are performed using a 32-bit integer.
+     * Therefore, the valid range of `unixSeconds` is approximately the same
+     * range as `ZonedDateTime::forEpochSeconds()` after translating it to the
+     * AceTime local epoch. In other words, unixSeconds should be within +/- 60
+     * years of the local epoch year given by `LocalDate::localEpochYear()`.
+     *
      * Returns ZonedDateTime::forError() if unixSeconds is invalid.
      *
      * @param unixSeconds number of seconds since Unix epoch
@@ -100,7 +107,7 @@ class ZonedDateTime {
       } else {
         epochSeconds = unixSeconds
             // relative to base epoch
-            - LocalDate::kSecondsToBaseEpochFromUnixEpoch
+            - LocalDate::kDaysToBaseEpochFromUnixEpoch * (int64_t) 86400
             // relative to local epoch
             - LocalDate::sDaysToLocalEpochFromBaseEpoch * (int64_t) 86400;
       }

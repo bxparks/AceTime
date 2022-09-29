@@ -63,13 +63,6 @@ class LocalDateTemplate {
     static const int32_t kDaysToBaseEpochFromUnixEpoch = 10957;
 
     /**
-     * Number of seconds from Unix epoch (1970-01-01 00:00:00 UTC) to
-     * the AceTime base epoch (2000-01-01 00:00:00 UTC).
-     */
-    static const int32_t kSecondsToBaseEpochFromUnixEpoch =
-        kDaysToBaseEpochFromUnixEpoch * 86400;
-
-    /**
      * Sentinel year which indicates an error condition or sometimes a year
      * that 'does not exist'.
      */
@@ -262,7 +255,7 @@ class LocalDateTemplate {
       } else {
         int64_t epochSeconds64 = unixSeconds
             // relative to base epoch (2000)
-            - kSecondsToBaseEpochFromUnixEpoch
+            - kDaysToBaseEpochFromUnixEpoch * (int64_t) 86400
             // relative to local epoch
             - sDaysToLocalEpochFromBaseEpoch * (int64_t) 86400;
         int32_t days = (epochSeconds64 < 0)

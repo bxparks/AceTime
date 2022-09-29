@@ -305,9 +305,9 @@ with several major differences:
 
 It is possible to convert between a `time_t` and an `acetime_t` by adding or
 subtracting the number of seconds between the 2 Epoch dates. This constant is
-946684800 and defined by `LocalDate::kSecondsToBaseEpochFromUnixEpoch`. Helper
-methods are available on various classes to avoid manual conversion between
-these 2 epochs: `forUnixSeconds64()` and `toUnixSeconds64()`.
+946684800 and defined by `86400 * LocalDate::kDaysToBaseEpochFromUnixEpoch`.
+Helper methods are available on various classes to avoid manual conversion
+between these 2 epochs: `forUnixSeconds64()` and `toUnixSeconds64()`.
 
 <a name="LocalDateAndLocalTime"></a>
 ### LocalDate and LocalTime
@@ -350,7 +350,7 @@ class LocalTime {
 class LocalDate {
   public:
     static const int16_t kBaseEpochYear = 2000;
-    static const int32_t kSecondsToBaseEpochFromUnixEpoch = 946684800;
+    static const int32_t kDaysToBaseEpochFromUnixEpoch = 10957;
 
     static const int16_t kInvalidYear = INT16_MIN;
     static const int16_t kMinYear = 0;

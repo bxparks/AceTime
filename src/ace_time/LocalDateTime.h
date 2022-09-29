@@ -96,7 +96,7 @@ class LocalDateTime {
 
       int64_t epochSeconds64 = unixSeconds
           // relative to base epoch
-          - LocalDate::kSecondsToBaseEpochFromUnixEpoch
+          - LocalDate::kDaysToBaseEpochFromUnixEpoch * (int64_t) 86400
           // relative local epoch
           - LocalDate::sDaysToLocalEpochFromBaseEpoch * (int64_t) 86400;
 
