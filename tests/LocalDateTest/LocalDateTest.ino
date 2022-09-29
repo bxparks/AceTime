@@ -322,17 +322,17 @@ test(LocalDateTest, toAndFromUnixDays) {
 test(LocalDateTest, toAndFromEpochSeconds) {
   LocalDate ld;
 
-  // The smallest whole day that can be represented with an int32_t seconds from
-  // AceTime Epoch is 1931-12-14.
-  ld = LocalDate::forComponents(1931, 12, 14);
-  assertEqual((acetime_t) -24855 * 86400, ld.toEpochSeconds());
-  assertTrue(ld == LocalDate::forEpochSeconds((acetime_t) -24855 * 86400 + 60));
-
   // Smallest date with an int32_t seconds from AceTime Epoch is 1931-12-13
   // 20:45:52. The forEpochSeconds() will correctly truncate the partial day
   // *down* towards the to the nearest whole day.
   ld = LocalDate::forComponents(1931, 12, 13);
   assertTrue(ld == LocalDate::forEpochSeconds(INT32_MIN + 1));
+
+  // The smallest whole day that can be represented with an int32_t seconds from
+  // AceTime Epoch is 1931-12-14.
+  ld = LocalDate::forComponents(1931, 12, 14);
+  assertEqual((acetime_t) -24855 * 86400, ld.toEpochSeconds());
+  assertTrue(ld == LocalDate::forEpochSeconds((acetime_t) -24855 * 86400));
 
   ld = LocalDate::forComponents(2000, 1, 1);
   assertEqual((acetime_t) 0, ld.toEpochSeconds());
@@ -356,47 +356,62 @@ test(LocalDateTest, toAndFromEpochSeconds) {
 test(LocalDateTest, toAndFromUnixSeconds64) {
   LocalDate ld;
 
+  // Verify error sentinel.
+  ld = LocalDate::forUnixSeconds64(LocalDate::kInvalidEpochSeconds64);
+  assertTrue(ld.isError());
+
+  // Verify that 64-bit unixSeconds allows dates beyond 32-bit limit.
+  // 1770 to 1970 is 200 years == 200 * 365 + (200/4) leap years - 2 (1800, 1900
+  // are not leap) == 73048 days
+  ld = LocalDate::forComponents(1770, 1, 1);
+  assertEqual((int64_t) -73048 * 86400, ld.toUnixSeconds64());
+  assertTrue(ld == LocalDate::forUnixSeconds64((int64_t) -73048 * 86400));
+
   // The smallest whole day that can be represented with an int32_t from AceTime
   // epoch is 1931-12-14, can't do better with unixSeconds since it uses
   // the Acetime seconds internally.
   ld = LocalDate::forComponents(1931, 12, 14);
   assertEqual((int64_t) -13898 * 86400, ld.toUnixSeconds64());
-  assertTrue(ld == LocalDate::forUnixSeconds64((int64_t) -13898 * 86400 + 60));
+  assertTrue(ld == LocalDate::forUnixSeconds64((int64_t) -13898 * 86400));
 
+  ld = LocalDate::forComponents(1970, 1, 1);
+  assertEqual((int64_t) 0, ld.toUnixSeconds64());
+  assertTrue(ld == LocalDate::forUnixSeconds64(0));
+
+  // one second after should make no difference due to truncation
   ld = LocalDate::forComponents(1970, 1, 1);
   assertEqual((int64_t) 0, ld.toUnixSeconds64());
   assertTrue(ld == LocalDate::forUnixSeconds64(0));
 
   ld = LocalDate::forComponents(1970, 2, 28);
   assertEqual((int64_t) 58 * 86400, ld.toUnixSeconds64());
-  assertTrue(ld == LocalDate::forUnixSeconds64((int64_t) 58 * 86400 + 1));
+  assertTrue(ld == LocalDate::forUnixSeconds64((int64_t) 58 * 86400));
 
   ld = LocalDate::forComponents(1988, 1, 1);
   assertEqual((int64_t) 6574 * 86400, ld.toUnixSeconds64());
-  assertTrue(ld == LocalDate::forUnixSeconds64((int64_t) 6574 * 86400 + 2));
+  assertTrue(ld == LocalDate::forUnixSeconds64((int64_t) 6574 * 86400));
 
   // Largest date possible using Unix Seconds is 2038-01-19 03:14:07.
   ld = LocalDate::forComponents(2038, 1, 19);
   assertEqual((int64_t) 24855 * 86400, ld.toUnixSeconds64());
   assertTrue(ld == LocalDate::forUnixSeconds64((int64_t) INT32_MAX));
-}
-
-test(LocalDateTest, toAndFromUnixSeconds64_extended) {
-  LocalDate ld;
 
   // One day after the largest 32-bit dates should work in 64-bits.
   ld = LocalDate::forComponents(2038, 1, 20);
   assertEqual((int64_t) 24856 * 86400, ld.toUnixSeconds64());
-  assertTrue(ld == LocalDate::forUnixSeconds64((int64_t) 24856 * 86400 + 2));
+  assertTrue(ld == LocalDate::forUnixSeconds64((int64_t) 24856 * 86400));
 
   // Verify that year 2068 works just fine with 64-bit unix seconds.
   ld = LocalDate::forComponents(2068, 1, 19);
   assertEqual((int64_t) 35812 * 86400, ld.toUnixSeconds64());
-  assertTrue(ld == LocalDate::forUnixSeconds64((int64_t) 35812 * 86400 + 2));
+  assertTrue(ld == LocalDate::forUnixSeconds64((int64_t) 35812 * 86400));
 
-  // Verify error sentinel.
-  ld = LocalDate::forUnixSeconds64(LocalDate::kInvalidEpochSeconds64);
-  assertTrue(ld.isError());
+  // Verify that year 2170 works just fine with 64-bit unix seconds.
+  // 200 years = 73049 days, instead of 73048 days, because 2000 was a leap
+  // year.
+  ld = LocalDate::forComponents(2170, 1, 1);
+  assertEqual((int64_t) 73049 * 86400, ld.toUnixSeconds64());
+  assertTrue(ld == LocalDate::forUnixSeconds64((int64_t) 73049 * 86400 + 2));
 }
 
 test(LocalDateTest, compareTo) {
@@ -470,6 +485,8 @@ test(LocalDateTest, daysInMonth) {
   assertEqual(29, LocalDate::daysInMonth(2004, 2));
   assertEqual(28, LocalDate::daysInMonth(2100, 2));
 }
+
+//---------------------------------------------------------------------------
 
 test(LocalDateTest, incrementOneDay) {
   LocalDate ld;

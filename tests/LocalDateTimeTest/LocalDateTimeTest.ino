@@ -173,7 +173,7 @@ test(LocalDateTimeTest, forComponents) {
   dt = LocalDateTime::forComponents(1931, 12, 13, 20, 45, 53);
   assertEqual((int32_t) -24856, dt.toEpochDays());
   assertEqual((int32_t) -13899, dt.toUnixDays());
-  assertEqual((acetime_t) (INT32_MIN + 1), dt.toEpochSeconds());
+  assertEqual(LocalDate::kMinEpochSeconds, dt.toEpochSeconds());
   assertEqual(LocalDate::kSunday, dt.dayOfWeek());
 
   // 2000-01-01 00:00:00Z Saturday
@@ -230,6 +230,19 @@ test(LocalDateTimeTest, toAndForUnixSeconds64) {
   LocalDateTime dt;
   LocalDateTime udt;
 
+  // Verify error sentinel.
+  dt = LocalDateTime::forUnixSeconds64(LocalDate::kInvalidEpochSeconds64);
+  assertTrue(dt.isError());
+
+  // Verify that 64-bit unixSeconds allows dates beyond 32-bit limit.
+  // 1970 - 1770 = 200 years
+  //      = 200 * 365 + (200/4) leap years - 2 (1800, 1900 are not leap)
+  //      = 73048 days
+  dt = LocalDateTime::forComponents(1770, 1, 1, 0, 0, 0);
+  assertEqual((int64_t) -73048 * 86400, dt.toUnixSeconds64());
+  udt = LocalDateTime::forUnixSeconds64((int64_t) -73048 * 86400);
+  assertTrue(dt == udt);
+
   // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
   // Let's use +1 of that since INT_MIN will be used to indicate an error.
   dt = LocalDateTime::forComponents(1931, 12, 13, 20, 45, 53);
@@ -255,18 +268,13 @@ test(LocalDateTimeTest, toAndForUnixSeconds64) {
   udt = LocalDateTime::forUnixSeconds64(dt.toUnixSeconds64());
   assertTrue(dt == udt);
 
-  // 2038-01-19 03:14:06Z (largest value - 1 using Unix Epoch)
+  // 2038-01-19 03:14:06Z (largest value - 1 using 32-bit Unix Seconds)
   dt = LocalDateTime::forComponents(2038, 1, 19, 3, 14, 6);
   assertEqual((int64_t) (INT32_MAX - 1), dt.toUnixSeconds64());
   udt = LocalDateTime::forUnixSeconds64(dt.toUnixSeconds64());
   assertTrue(dt == udt);
-}
 
-test(LocalDateTimeTest, toAndForUnixSeconds64_extended) {
-  LocalDateTime dt;
-  LocalDateTime udt;
-
-  // 2038-01-19 03:14:08Z (largest value + 1 using Unix Epoch)
+  // 2038-01-19 03:14:08Z (largest value + 1 using 32-bit Unix Seconds)
   dt = LocalDateTime::forComponents(2038, 1, 19, 3, 14, 8);
   assertEqual((int64_t) INT32_MAX + 1, dt.toUnixSeconds64());
   udt = LocalDateTime::forUnixSeconds64(dt.toUnixSeconds64());
@@ -279,15 +287,13 @@ test(LocalDateTimeTest, toAndForUnixSeconds64_extended) {
   udt = LocalDateTime::forUnixSeconds64(dt.toUnixSeconds64());
   assertTrue(dt == udt);
 
-  // One second after that, forUnixSeconds64() should fail because we cannot
-  // represent this datetime using 32-bit AceTime seconds internally.
-  // TODO: Reenable this after adding range validation check for +/- 60 years.
-  //dt = LocalDateTime::forUnixSeconds64((int64_t) 3094168447 + 1);
-  //assertTrue(dt.isError());
-
-  // Verify error sentinel.
-  dt = LocalDateTime::forUnixSeconds64(LocalDate::kInvalidEpochSeconds64);
-  assertTrue(dt.isError());
+  // Verify that year 2170 works just fine with 64-bit Unix Seconds.
+  // 2170 - 1970 = 200 years
+  //    = 73049 days, instead of 73048 days, because 2000 was a leap year.
+  dt = LocalDateTime::forComponents(2170, 1, 1, 0, 0, 0);
+  assertEqual((int64_t) 73049 * 86400, dt.toUnixSeconds64());
+  udt = LocalDateTime::forUnixSeconds64((int64_t) 73049 * 86400);
+  assertTrue(dt == udt);
 }
 
 test(LocalDateTimeTest, forEpochSeconds) {

@@ -157,15 +157,7 @@ test(OffsetDateTimeTest, forComponents) {
   assertEqual(6575 * (acetime_t) 86400, dt.toEpochSeconds());
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
-  // 2018-01-01 00:00:00+00:15 Monday
-  dt = OffsetDateTime::forComponents(
-      2018, 1, 1, 0, 0, 0, TimeOffset::forMinutes(15));
-  assertEqual((int32_t) 6574, dt.toEpochDays());
-  assertEqual((int32_t) 17531, dt.toUnixDays());
-  assertEqual(6575 * (acetime_t) 86400 - 15*60, dt.toEpochSeconds());
-  assertEqual(LocalDate::kMonday, dt.dayOfWeek());
-
-  // 2038-01-19 03:14:07Z (largest value using Unix Epoch)
+  // 2038-01-19 03:14:07Z (largest value using 32-bit Unix seconds)
   dt = OffsetDateTime::forComponents(2038, 1, 19, 3, 14, 7, TimeOffset());
   assertEqual((int32_t) 13898, dt.toEpochDays());
   assertEqual((int32_t) 24855, dt.toUnixDays());
@@ -187,9 +179,36 @@ test(OffsetDateTimeTest, forComponents) {
   assertEqual(LocalDate::kThursday, dt.dayOfWeek());
 }
 
+test(OffsetDateTimeTest, forComponents_withOffset) {
+  OffsetDateTime dt;
+
+  // 2018-01-01 00:00:00+00:15 Monday
+  dt = OffsetDateTime::forComponents(
+      2018, 1, 1, 0, 0, 0, TimeOffset::forMinutes(15));
+  assertEqual((int32_t) 6574, dt.toEpochDays());
+  assertEqual((int32_t) 17531, dt.toUnixDays());
+  assertEqual(6575 * (acetime_t) 86400 - 15*60, dt.toEpochSeconds());
+  assertEqual(LocalDate::kMonday, dt.dayOfWeek());
+}
+
 test(OffsetDateTimeTest, toAndForUnixSeconds64) {
   OffsetDateTime dt;
   OffsetDateTime udt;
+
+  // Verify error sentinel.
+  dt = OffsetDateTime::forUnixSeconds64(
+      LocalDate::kInvalidEpochSeconds64, TimeOffset());
+  assertTrue(dt.isError());
+
+  // Verify that 64-bit unixSeconds allows dates beyond 32-bit limit.
+  // 1970 - 1770 = 200 years
+  //      = 200 * 365 + (200/4) leap years - 2 (1800, 1900 are not leap)
+  //      = 73048 days
+  dt = OffsetDateTime::forComponents(1770, 1, 1, 0, 0, 0, TimeOffset());
+  assertEqual((int64_t) -73048 * 86400, dt.toUnixSeconds64());
+  udt = OffsetDateTime::forUnixSeconds64(
+      (int64_t) -73048 * 86400, TimeOffset());
+  assertTrue(dt == udt);
 
   // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
   // Let's use +1 of that since INT_MIN will be used to indicate an error.
@@ -224,19 +243,14 @@ test(OffsetDateTimeTest, toAndForUnixSeconds64) {
       TimeOffset::forHours(-7));
   assertTrue(dt == udt);
 
-  // 2038-01-19 03:14:06Z (largest value - 1 using Unix Epoch)
+  // 2038-01-19 03:14:06Z (largest value - 1 using 32-bit Unix seconds)
   dt = OffsetDateTime::forComponents(2038, 1, 19, 3, 14, 6,
       TimeOffset());
   assertEqual((int64_t) (INT32_MAX - 1), dt.toUnixSeconds64());
   udt = OffsetDateTime::forUnixSeconds64(dt.toUnixSeconds64(), TimeOffset());
   assertTrue(dt == udt);
-}
 
-test(OffsetDateTimeTest, toAndForUnixSeconds64_extended) {
-  OffsetDateTime dt;
-  OffsetDateTime udt;
-
-  // 2038-01-19 03:14:08Z (largest value + 1 using Unix Epoch)
+  // 2038-01-19 03:14:08Z (largest value + 1 using 32-bit Unix seconds)
   dt = OffsetDateTime::forComponents(2038, 1, 19, 3, 14, 8, TimeOffset());
   assertEqual((int64_t) INT32_MAX + 1, dt.toUnixSeconds64());
   udt = OffsetDateTime::forUnixSeconds64(dt.toUnixSeconds64(), TimeOffset());
@@ -249,15 +263,26 @@ test(OffsetDateTimeTest, toAndForUnixSeconds64_extended) {
   udt = OffsetDateTime::forUnixSeconds64(dt.toUnixSeconds64(), TimeOffset());
   assertTrue(dt == udt);
 
-  // One second after that, forUnixSeconds64() should fail because we cannot
-  // represent this datetime using 32-bit AceTime seconds internally.
-  dt = OffsetDateTime::forUnixSeconds64((int64_t) 3094168447 + 1, TimeOffset());
-  assertTrue(dt.isError());
+  // Verify that year 2170 works just fine with 64-bit unix seconds.
+  // 2170 - 1970 = 200 years
+  //    = 73049 days, instead of 73048 days, because 2000 was a leap year.
+  dt = OffsetDateTime::forComponents(2170, 1, 1, 0, 0, 0, TimeOffset());
+  assertEqual((int64_t) 73049 * 86400, dt.toUnixSeconds64());
+  udt = OffsetDateTime::forUnixSeconds64(
+      (int64_t) 73049 * 86400, TimeOffset());
+  assertTrue(dt == udt);
+}
 
-  // Verify error sentinel.
-  dt = OffsetDateTime::forUnixSeconds64(
-      LocalDate::kInvalidEpochSeconds64, TimeOffset());
-  assertTrue(dt.isError());
+test(OffsetDateTimeTest, toAndForUnixSeconds64_withOffset) {
+  OffsetDateTime dt;
+  OffsetDateTime udt;
+
+  TimeOffset offset = TimeOffset::forMinutes(15);
+  // 1970-01-01 00:00:00+00:15
+  dt = OffsetDateTime::forComponents(1970, 1, 1, 0, 0, 0, offset);
+  assertEqual((int64_t) -15 * 60, dt.toUnixSeconds64());
+  udt = OffsetDateTime::forUnixSeconds64(dt.toUnixSeconds64(), offset);
+  assertTrue(dt == udt);
 }
 
 test(OffsetDateTimeTest, forEpochSeconds) {

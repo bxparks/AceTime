@@ -45,9 +45,9 @@ class LocalDateTime {
     static LocalDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
         uint8_t fold = 0) {
-      return LocalDateTime(
-          LocalDate::forComponents(year, month, day),
-          LocalTime::forComponents(hour, minute, second, fold));
+      LocalDate ld = LocalDate::forComponents(year, month, day);
+      LocalTime lt = LocalTime::forComponents(hour, minute, second, fold);
+      return LocalDateTime(ld, lt);
     }
 
     /**
@@ -74,7 +74,7 @@ class LocalDateTime {
 
       // Avoid % operator, because it's slow on an 8-bit process and because
       // epochSeconds could be negative.
-      acetime_t seconds = epochSeconds - 86400 * days;
+      int32_t seconds = epochSeconds - 86400 * days;
 
       LocalDate ld = LocalDate::forEpochDays(days);
       LocalTime lt = LocalTime::forSeconds(seconds, fold);
@@ -88,7 +88,8 @@ class LocalDateTime {
      * 2068-01-19T03:14:07 UTC.
      * Returns LocalDateTime::forError() if unixSeconds is invalid.
      */
-    static LocalDateTime forUnixSeconds64(int64_t unixSeconds) {
+    static LocalDateTime forUnixSeconds64(
+        int64_t unixSeconds, uint8_t fold = 0) {
       if (unixSeconds == LocalDate::kInvalidEpochSeconds64) {
         return forError();
       }
@@ -106,7 +107,7 @@ class LocalDateTime {
       int32_t seconds = epochSeconds64 - (int64_t) 86400 * days;
 
       LocalDate ld = LocalDate::forEpochDays(days);
-      LocalTime lt = LocalTime::forSeconds(seconds);
+      LocalTime lt = LocalTime::forSeconds(seconds, fold);
       return LocalDateTime(ld, lt);
     }
 
@@ -239,17 +240,18 @@ class LocalDateTime {
     }
 
     /**
-     * Return seconds since the current AceTime epoch. The default epoch is
-     * 2000-01-01 00:00:00 UTC, but can be changed using
-     * `LocalDate::localEpochYear()`. Returns LocalDate::kInvalidEpochSeconds if
-     * isError() is true.
+     * Return seconds since the current AceTime epoch defined by
+     * LocalDate::localEpochYear(). The default epoch is 2000-01-01 00:00:00
+     * UTC, but can be changed using `LocalDate::localEpochYear()`.
+     *
+     * Returns LocalDate::kInvalidEpochSeconds if isError() is true, or the
+     * epochSeconds is out of range.
      */
     acetime_t toEpochSeconds() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds;
-
       int32_t days = mLocalDate.toEpochDays();
-      acetime_t seconds = mLocalTime.toSeconds();
-      return days * 86400 + seconds;
+      int32_t seconds = mLocalTime.toSeconds();
+      return (int32_t) 86400 * days + seconds;
     }
 
     /**
@@ -263,8 +265,8 @@ class LocalDateTime {
     int64_t toUnixSeconds64() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds64;
       int32_t days = toUnixDays();
-      acetime_t seconds = mLocalTime.toSeconds();
-      return days * (int64_t) 86400 + seconds;
+      int32_t seconds = mLocalTime.toSeconds();
+      return (int64_t) 86400 * days + seconds;
     }
 
     /**

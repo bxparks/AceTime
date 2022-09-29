@@ -130,6 +130,25 @@ class LocalDateTemplate {
     /** Sunday ISO 8601 number. */
     static const uint8_t kSunday = 7;
 
+  // Utility functions
+  public:
+    /** True if year is a leap year. */
+    static bool isLeapYear(int16_t year) {
+      return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+    }
+
+    /** Return the number of days in the given (year, month). */
+    static uint8_t daysInMonth(int16_t year, uint8_t month) {
+      uint8_t days = sDaysInMonth[month - 1];
+      return (month == 2 && isLeapYear(year)) ? days + 1 : days;
+    }
+
+    /** Return true if year is within the range of `[0,10000]` */
+    static bool isYearValid(int16_t year) {
+      return year >= kMinYear && year <= kMaxYear;
+    }
+
+  // Set and get local epoch year.
   public:
     /** Base year of local epoch. The actual epoch is yyyy-01-01. */
     static int16_t sLocalEpochYear;
@@ -141,7 +160,6 @@ class LocalDateTemplate {
      */
     static int32_t sDaysToLocalEpochFromBaseEpoch;
 
-  public:
     /** Get the local epoch year. */
     static int16_t localEpochYear() {
       return sLocalEpochYear;
@@ -153,6 +171,8 @@ class LocalDateTemplate {
       sDaysToLocalEpochFromBaseEpoch = T_CONVERTER::toEpochDays(year, 1, 1);
     }
 
+  // Factory methods.
+  public:
     /**
      * Factory method using separated year, month and day fields. Returns
      * LocalDate::forError() if the parameters are out of range.
@@ -179,7 +199,9 @@ class LocalDateTemplate {
       uint8_t month;
       uint8_t day;
       if (epochDays == kInvalidEpochDays) {
-        year = month = day = 0;
+        year = kInvalidYear;
+        month = 0;
+        day = 0;
       } else {
         // shift relative to T_CONVERTER::kEpochConverterBaseYear
         epochDays += sDaysToLocalEpochFromBaseEpoch;
@@ -188,18 +210,18 @@ class LocalDateTemplate {
       return forComponents(year, month, day);
     }
 
-    /** Factory method using the number of days since Unix epoch 1970-01-1. */
+    /** Factory method using the number of days since Unix epoch 1970-01-01. */
     static LocalDateTemplate forUnixDays(int32_t unixDays) {
       if (unixDays == kInvalidEpochDays) {
         return forError();
-      } else {
-        int32_t days = unixDays
-            // relative to 2000
-            - kDaysToBaseEpochFromUnixEpoch
-            // relative to local epoch
-            - sDaysToLocalEpochFromBaseEpoch;
-        return forEpochDays(days);
       }
+
+      int32_t days = unixDays
+          // relative to 2000
+          - kDaysToBaseEpochFromUnixEpoch
+          // relative to local epoch
+          - sDaysToLocalEpochFromBaseEpoch;
+      return forEpochDays(days);
     }
 
     /**
@@ -208,32 +230,31 @@ class LocalDateTemplate {
      * changed using `localEpochYear(epochYear)`.
      *
      * The number of seconds from midnight of the given day is thrown away. For
-     * negative values of epochSeconds, the method performs a floor operation
-     * when rounding to the nearest day, in other words towards negative
-     * infinity.
+     * negative values of epochSeconds, the method to rounds down to the nearest
+     * day.
      *
      * If epochSeconds is kInvalidEpochSeconds, isError() will return true.
      *
-     * @param epochSeconds number of seconds since AceTime epoch (2000-01-01)
+     * @param epochSeconds number of seconds since the current local epoch
      */
     static LocalDateTemplate forEpochSeconds(acetime_t epochSeconds) {
       if (epochSeconds == kInvalidEpochSeconds) {
         return forError();
-      } else {
-          // integer floor-division towards -infinity
-          int32_t days = (epochSeconds < 0)
-              ? (epochSeconds + 1) / 86400 - 1
-              : epochSeconds / 86400;
-        return forEpochDays(days);
       }
+
+      // integer floor-division towards -infinity
+      int32_t days = (epochSeconds < 0)
+          ? (epochSeconds + 1) / 86400 - 1
+          : epochSeconds / 86400;
+      return forEpochDays(days);
     }
 
     /**
      * Factory method that takes the 64-bit number of seconds since Unix Epoch
      * of 1970-01-01. Similar to forEpochSeconds(), the seconds corresponding to
-     * the partial day are truncated down towards the smallest whole day.
-     * Valid until the 64-bit unixSeconds reaches the equivalent of
-     * 2068-01-19T03:14:07 UTC.
+     * the partial day are truncated down towards the smallest whole day. Valid
+     * over the entire range of year `[0,10000]` due to the use of `int64_t`
+     * operations.
      */
     static LocalDateTemplate forUnixSeconds64(int64_t unixSeconds) {
       if (unixSeconds == kInvalidEpochSeconds64) {
@@ -244,11 +265,10 @@ class LocalDateTemplate {
             - kSecondsToBaseEpochFromUnixEpoch
             // relative to local epoch
             - sDaysToLocalEpochFromBaseEpoch * (int64_t) 86400;
-        if (epochSeconds64 < kMinEpochSeconds
-            || epochSeconds64 > kMaxEpochSeconds) {
-          return forError();
-        }
-        return forEpochSeconds((acetime_t) epochSeconds64);
+        int32_t days = (epochSeconds64 < 0)
+            ? (epochSeconds64 + 1) / 86400 - 1
+            : epochSeconds64 / 86400;
+        return forEpochDays(days);
       }
     }
 
@@ -310,22 +330,8 @@ class LocalDateTemplate {
       return LocalDateTemplate(kInvalidYear, 0, 0);
     }
 
-    /** True if year is a leap year. */
-    static bool isLeapYear(int16_t year) {
-      return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
-    }
-
-    /** Return true if year is within valid range of [0,10000]. */
-    static bool isYearValid(int16_t year) {
-      return year >= kMinYear && year <= kMaxYear;
-    }
-
-    /** Return the number of days in the current month. */
-    static uint8_t daysInMonth(int16_t year, uint8_t month) {
-      uint8_t days = sDaysInMonth[month - 1];
-      return (month == 2 && isLeapYear(year)) ? days + 1 : days;
-    }
-
+  // Instance methods.
+  public:
     /** Default constructor does nothing. */
     explicit LocalDateTemplate() = default;
 
@@ -394,18 +400,14 @@ class LocalDateTemplate {
     }
 
     /**
-     * Return the number of seconds since AceTime epoch (2000-01-01 00:00:00).
-     * Returns kInvalidEpochSeconds if isError() is true. This is a convenience
-     * method that returns (86400 * toEpochDays()). Since acetime_t is a
-     * 32-bit signed integer, the limits are different:
+     * Return the number of seconds since the localEpochYear().
      *
-     *    * the smallest date corresponding to INT32_MIN is 1931-12-13 20:45:52
-     *      so this method supports dates as small as 1931-12-14.
-     *    * the largest date corresponding to INT32_MAX is 2068-01-19 03:14:07.
+     * Returns kInvalidEpochSeconds if isError() is true or if epochSeconds is
+     * out of range.
      */
     acetime_t toEpochSeconds() const {
       if (isError()) return kInvalidEpochSeconds;
-      return 86400 * toEpochDays();
+      return (int32_t) 86400 * toEpochDays();
     }
 
     /**

@@ -96,18 +96,12 @@ class OffsetDateTime {
      * @param timeOffset time offset from UTC
      */
     static OffsetDateTime forUnixSeconds64(
-        int64_t unixSeconds, TimeOffset timeOffset) {
-      acetime_t epochSeconds;
-      if (unixSeconds == LocalDate::kInvalidEpochSeconds64) {
-        epochSeconds = LocalDate::kInvalidEpochSeconds;
-      } else {
-        epochSeconds = unixSeconds
-            // relative to base epoch
-            - LocalDate::kSecondsToBaseEpochFromUnixEpoch
-            // relative to local epoch
-            - LocalDate::sDaysToLocalEpochFromBaseEpoch * (int64_t) 86400;
+        int64_t unixSeconds, TimeOffset timeOffset, int8_t fold = 0) {
+      if (unixSeconds != LocalDate::kInvalidEpochSeconds64) {
+        unixSeconds += timeOffset.toSeconds();
       }
-      return forEpochSeconds(epochSeconds, timeOffset);
+      auto ldt = LocalDateTime::forUnixSeconds64(unixSeconds, fold);
+      return OffsetDateTime(ldt, timeOffset);
     }
 
     /**
@@ -237,6 +231,8 @@ class OffsetDateTime {
     /**
      * Create a OffsetDateTime in a different UTC offset code (with the same
      * epochSeconds).
+     *
+     * Calls forEpochSeconds() so subject to its overflow/underflow limits.
      */
     OffsetDateTime convertToTimeOffset(TimeOffset timeOffset) const {
       acetime_t epochSeconds = toEpochSeconds();
@@ -274,7 +270,11 @@ class OffsetDateTime {
      */
     acetime_t toEpochSeconds() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds;
-      return mLocalDateTime.toEpochSeconds() - mTimeOffset.toSeconds();
+      acetime_t epochSeconds = mLocalDateTime.toEpochSeconds();
+      if (epochSeconds == LocalDate::kInvalidEpochSeconds) {
+        return epochSeconds;
+      }
+      return epochSeconds - mTimeOffset.toSeconds();
     }
 
     /**
