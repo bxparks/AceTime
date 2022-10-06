@@ -1,8 +1,5 @@
 <map id="ace_time::BasicZoneManager" name="ace_time::BasicZoneManager">
-<area shape="rect" id="node1" title="An implementation of the ZoneManager which uses a registry of basic::ZoneInfo records." alt="" coords="1028,64,1243,91"/>
-<area shape="rect" id="node2" href="$classace__time_1_1ZoneManagerTemplate.html" title=" " alt="" coords="713,42,979,113"/>
-<area shape="rect" id="node3" href="$classace__time_1_1ZoneManager.html" title="Base class for ManualZoneManager, BasicZoneManager, and ExtendedZoneManager to keep ZoneManager::kInv..." alt="" coords="285,5,465,32"/>
-<area shape="rect" id="node4" href="$classace__time_1_1ZoneProcessorCacheBaseTemplate.html" title=" " alt="" coords="237,57,512,98"/>
-<area shape="rect" id="node5" href="$classace__time_1_1basic_1_1ZoneRegistrar.html" title="Concrete template instantiation of ZoneRegistrarTemplate for basic::ZoneInfo, which can be used with ..." alt="" coords="263,123,487,149"/>
-<area shape="rect" id="node6" href="$classace__time_1_1internal_1_1ZoneRegistrarTemplate.html" title=" " alt="" coords="5,93,188,179"/>
+<area shape="rect" id="node1" title="An implementation of the ZoneManager which uses a registry of basic::ZoneInfo records." alt="" coords="547,27,761,54"/>
+<area shape="rect" id="node2" href="$classace__time_1_1ZoneManagerTemplate.html" title=" " alt="" coords="233,5,499,76"/>
+<area shape="rect" id="node3" href="$classace__time_1_1ZoneManager.html" title="Base class for ManualZoneManager, BasicZoneManager, and ExtendedZoneManager to keep ZoneManager::kInv..." alt="" coords="5,27,185,54"/>
 </map>

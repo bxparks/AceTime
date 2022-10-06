@@ -651,6 +651,7 @@ fail until the underlying timezone database of the OS is updated.
     * `docs/doxygen.cfg`
     * `library.properties`
     * `$ git commit -m "..."`
+    * `$ git push`
 * Update and commit the Doxygen docs. This is done as a separate git commit
   because the Doxygen changes are often so large that they obscure all other
   important changes to the code base:
@@ -659,12 +660,9 @@ fail until the underlying timezone database of the OS is updated.
     * `$ make`
     * `$ git add .`
     * `$ git commit -m "..."`
-* Merge the `develop` branch into `master`.
-    * Normally I do this with a PR on GitHub to keep an audit trail.
-    * Go to https://github.com/bxparks/AceTime.
-    * Create a Pull Request from `develop` to `master`.
-    * Approve and merge the PR.
-* Create a new Release of AceTimePython.
+    * `$ git push`
+* (Optional) Create a new Release of AceTimePython
+    * (This should be done first, before AceTime)
     * Go to https://github.com/bxparks/AceTimePython
     * Bump version number on `develop`.
     * Merge `develop` into `master`.
@@ -675,7 +673,8 @@ fail until the underlying timezone database of the OS is updated.
     * Enter the release notes. I normally just copy and paste the latest changes
       from `CHANGELOG.md`.
     * Click Publish release.
-* Create a new Release of AceTimeTools.
+* (Optional) Create a new Release of AceTimeTools
+    * (Depends on AceTimePython)
     * Go to https://github.com/bxparks/AceTimeTools
     * Click on "Releases"
     * Click on "Draft a new release"
@@ -684,8 +683,21 @@ fail until the underlying timezone database of the OS is updated.
     * Enter the release notes. I normally just copy and paste the latest changes
       from `CHANGELOG.md`.
     * Click Publish release.
-* Create a new Release of AceTime.
+* (Optional) Create a new Release of AceTimeValidation.
+    * (Depends on AceTimePython)
+    * Go to https://github.com/bxparks/AceTimeTools
+    * Click on "Releases"
+    * Click on "Draft a new release"
+    * Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
+    * Enter the release title.
+    * Enter the release notes. I normally just copy and paste the latest changes
+      from `CHANGELOG.md`.
+    * Click Publish release.
+* Create a new Release of AceTime (third, depends on AceTimeValidation).
+    * (Depends on AceTimePython, AceTimeValidation)
     * Go to https://github.com/bxparks/AceTime
+    * Merge the `develop` branch into `master` by creating a Pull Request.
+    * Approve and merge the PR.
     * Click on "Releases"
     * Click on "Draft a new release"
     * Enter a tag version (e.g. `v1.2`), targeting the `master` branch.

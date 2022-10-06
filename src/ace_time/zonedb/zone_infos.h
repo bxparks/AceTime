@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022b
+//     --tz_version 2022d
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022b
+// from https://github.com/eggert/tz/releases/tag/2022d
 //
 // DO NOT EDIT
 
@@ -45,7 +45,7 @@ extern const char kTzDatabaseVersion[];
 extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 237
+// Supported zones: 235
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
@@ -246,10 +246,8 @@ extern const basic::ZoneInfo kZoneEurope_Prague; // Europe/Prague
 extern const basic::ZoneInfo kZoneEurope_Rome; // Europe/Rome
 extern const basic::ZoneInfo kZoneEurope_Sofia; // Europe/Sofia
 extern const basic::ZoneInfo kZoneEurope_Tirane; // Europe/Tirane
-extern const basic::ZoneInfo kZoneEurope_Uzhgorod; // Europe/Uzhgorod
 extern const basic::ZoneInfo kZoneEurope_Vienna; // Europe/Vienna
 extern const basic::ZoneInfo kZoneEurope_Warsaw; // Europe/Warsaw
-extern const basic::ZoneInfo kZoneEurope_Zaporozhye; // Europe/Zaporozhye
 extern const basic::ZoneInfo kZoneEurope_Zurich; // Europe/Zurich
 extern const basic::ZoneInfo kZoneHST; // HST
 extern const basic::ZoneInfo kZoneIndian_Chagos; // Indian/Chagos
@@ -487,10 +485,8 @@ const uint32_t kZoneIdEurope_Prague = 0x65ee5d48; // Europe/Prague
 const uint32_t kZoneIdEurope_Rome = 0xa2c58fd7; // Europe/Rome
 const uint32_t kZoneIdEurope_Sofia = 0xfb898656; // Europe/Sofia
 const uint32_t kZoneIdEurope_Tirane = 0x6ea95b47; // Europe/Tirane
-const uint32_t kZoneIdEurope_Uzhgorod = 0xb066f5d6; // Europe/Uzhgorod
 const uint32_t kZoneIdEurope_Vienna = 0x734cc2e5; // Europe/Vienna
 const uint32_t kZoneIdEurope_Warsaw = 0x75185c19; // Europe/Warsaw
-const uint32_t kZoneIdEurope_Zaporozhye = 0xeab9767f; // Europe/Zaporozhye
 const uint32_t kZoneIdEurope_Zurich = 0x7d8195b9; // Europe/Zurich
 const uint32_t kZoneIdHST = 0x0b87f034; // HST
 const uint32_t kZoneIdIndian_Chagos = 0x456f7c3c; // Indian/Chagos
@@ -529,7 +525,7 @@ const uint32_t kZoneIdWET = 0x0b882e35; // WET
 
 
 //---------------------------------------------------------------------------
-// Supported links: 215
+// Supported links: 217
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Accra; // Africa/Accra -> Africa/Abidjan
@@ -684,9 +680,11 @@ extern const basic::ZoneInfo kZoneEurope_Sarajevo; // Europe/Sarajevo -> Europe/
 extern const basic::ZoneInfo kZoneEurope_Skopje; // Europe/Skopje -> Europe/Belgrade
 extern const basic::ZoneInfo kZoneEurope_Stockholm; // Europe/Stockholm -> Europe/Berlin
 extern const basic::ZoneInfo kZoneEurope_Tiraspol; // Europe/Tiraspol -> Europe/Chisinau
+extern const basic::ZoneInfo kZoneEurope_Uzhgorod; // Europe/Uzhgorod -> Europe/Kyiv
 extern const basic::ZoneInfo kZoneEurope_Vaduz; // Europe/Vaduz -> Europe/Zurich
 extern const basic::ZoneInfo kZoneEurope_Vatican; // Europe/Vatican -> Europe/Rome
 extern const basic::ZoneInfo kZoneEurope_Zagreb; // Europe/Zagreb -> Europe/Belgrade
+extern const basic::ZoneInfo kZoneEurope_Zaporozhye; // Europe/Zaporozhye -> Europe/Kyiv
 extern const basic::ZoneInfo kZoneGB; // GB -> Europe/London
 extern const basic::ZoneInfo kZoneGB_Eire; // GB-Eire -> Europe/London
 extern const basic::ZoneInfo kZoneGMT; // GMT -> Etc/GMT
@@ -903,9 +901,11 @@ const uint32_t kZoneIdEurope_Sarajevo = 0x6a576c3f; // Europe/Sarajevo
 const uint32_t kZoneIdEurope_Skopje = 0x6c76fdd0; // Europe/Skopje
 const uint32_t kZoneIdEurope_Stockholm = 0x5bf6fbb8; // Europe/Stockholm
 const uint32_t kZoneIdEurope_Tiraspol = 0xbe704472; // Europe/Tiraspol
+const uint32_t kZoneIdEurope_Uzhgorod = 0xb066f5d6; // Europe/Uzhgorod
 const uint32_t kZoneIdEurope_Vaduz = 0xfbb81bae; // Europe/Vaduz
 const uint32_t kZoneIdEurope_Vatican = 0xcb485dca; // Europe/Vatican
 const uint32_t kZoneIdEurope_Zagreb = 0x7c11c9ff; // Europe/Zagreb
+const uint32_t kZoneIdEurope_Zaporozhye = 0xeab9767f; // Europe/Zaporozhye
 const uint32_t kZoneIdGB = 0x005973ae; // GB
 const uint32_t kZoneIdGB_Eire = 0xfa70e300; // GB-Eire
 const uint32_t kZoneIdGMT = 0x0b87eb2d; // GMT
@@ -1174,10 +1174,8 @@ const uint8_t kZoneBufSizeEurope_Prague = 5;  // Europe/Prague in 2000
 const uint8_t kZoneBufSizeEurope_Rome = 5;  // Europe/Rome in 2000
 const uint8_t kZoneBufSizeEurope_Sofia = 5;  // Europe/Sofia in 2000
 const uint8_t kZoneBufSizeEurope_Tirane = 5;  // Europe/Tirane in 2000
-const uint8_t kZoneBufSizeEurope_Uzhgorod = 5;  // Europe/Uzhgorod in 2000
 const uint8_t kZoneBufSizeEurope_Vienna = 5;  // Europe/Vienna in 2000
 const uint8_t kZoneBufSizeEurope_Warsaw = 5;  // Europe/Warsaw in 2000
-const uint8_t kZoneBufSizeEurope_Zaporozhye = 5;  // Europe/Zaporozhye in 2000
 const uint8_t kZoneBufSizeEurope_Zurich = 5;  // Europe/Zurich in 2000
 const uint8_t kZoneBufSizeHST = 1;  // HST in 2000
 const uint8_t kZoneBufSizeIndian_Chagos = 1;  // Indian/Chagos in 2000

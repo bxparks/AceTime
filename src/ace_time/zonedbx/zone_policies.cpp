@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2022b
+//     --tz_version 2022d
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -22,13 +22,13 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022b
+// from https://github.com/eggert/tz/releases/tag/2022d
 //
 // Policies: 83
-// Rules: 528
+// Rules: 530
 // Letter Size (bytes): 23
-// Total Memory 8-bit (bytes): 5285
-// Total Memory 32-bit (bytes): 7379
+// Total Memory 8-bit (bytes): 5303
+// Total Memory 32-bit (bytes): 7403
 //
 // DO NOT EDIT
 
@@ -5841,9 +5841,9 @@ const extended::ZonePolicy kPolicyPakistan ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: Palestine
-// Rules: 31
-// Memory (8-bit): 285
-// Memory (32-bit): 384
+// Rules: 33
+// Memory (8-bit): 303
+// Memory (32-bit): 408
 //---------------------------------------------------------------------------
 
 static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
@@ -6123,25 +6123,25 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     '-' /*letter*/,
   },
-  // Rule Palestine    2016    2018    -    Mar    Sat>=24    1:00    1:00    S
+  // Rule Palestine    2016    2018    -    Mar    Sat<=30    1:00    1:00    S
   {
     16 /*fromYearTiny*/,
     18 /*toYearTiny*/,
     3 /*inMonth*/,
     6 /*onDayOfWeek*/,
-    24 /*onDayOfMonth*/,
+    -30 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     'S' /*letter*/,
   },
-  // Rule Palestine    2016    2018    -    Oct    Sat>=24    1:00    0    -
+  // Rule Palestine    2016    2018    -    Oct    Sat<=30    1:00    0    -
   {
     16 /*fromYearTiny*/,
     18 /*toYearTiny*/,
     10 /*inMonth*/,
     6 /*onDayOfWeek*/,
-    24 /*onDayOfMonth*/,
+    -30 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
     4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
@@ -6159,25 +6159,25 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     'S' /*letter*/,
   },
-  // Rule Palestine    2019    only    -    Oct    Sat>=24    0:00    0    -
+  // Rule Palestine    2019    only    -    Oct    Sat<=30    0:00    0    -
   {
     19 /*fromYearTiny*/,
     19 /*toYearTiny*/,
     10 /*inMonth*/,
     6 /*onDayOfWeek*/,
-    24 /*onDayOfMonth*/,
+    -30 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
     4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     '-' /*letter*/,
   },
-  // Rule Palestine    2020    2021    -    Mar    Sat>=24    0:00    1:00    S
+  // Rule Palestine    2020    2021    -    Mar    Sat<=30    0:00    1:00    S
   {
     20 /*fromYearTiny*/,
     21 /*toYearTiny*/,
     3 /*inMonth*/,
     6 /*onDayOfWeek*/,
-    24 /*onDayOfMonth*/,
+    -30 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
@@ -6195,26 +6195,50 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     '-' /*letter*/,
   },
-  // Rule Palestine    2021    max    -    Oct    Fri>=23    1:00    0    -
+  // Rule Palestine    2021    only    -    Oct    29    1:00    0    -
   {
     21 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    21 /*toYearTiny*/,
     10 /*inMonth*/,
-    5 /*onDayOfWeek*/,
-    23 /*onDayOfMonth*/,
+    0 /*onDayOfWeek*/,
+    29 /*onDayOfMonth*/,
     4 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
     4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     '-' /*letter*/,
   },
-  // Rule Palestine    2022    max    -    Mar    Sun>=25    0:00    1:00    S
+  // Rule Palestine    2022    only    -    Mar    27    0:00    1:00    S
+  {
+    22 /*fromYearTiny*/,
+    22 /*toYearTiny*/,
+    3 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    27 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    'S' /*letter*/,
+  },
+  // Rule Palestine    2022    max    -    Oct    Sat<=30    2:00    0    -
   {
     22 /*fromYearTiny*/,
     126 /*toYearTiny*/,
+    10 /*inMonth*/,
+    6 /*onDayOfWeek*/,
+    -30 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule Palestine    2023    max    -    Mar    Sat<=30    2:00    1:00    S
+  {
+    23 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    25 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
+    6 /*onDayOfWeek*/,
+    -30 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     'S' /*letter*/,
@@ -6227,7 +6251,7 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
 const extended::ZonePolicy kPolicyPalestine ACE_TIME_PROGMEM = {
   kZoneRulesPalestine /*rules*/,
   nullptr /*letters*/,
-  31 /*numRules*/,
+  33 /*numRules*/,
   0 /*numLetters*/,
 };
 

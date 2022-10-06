@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2022b
+//     --tz_version 2022d
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022b
+// from https://github.com/eggert/tz/releases/tag/2022d
 //
 // DO NOT EDIT
 
@@ -36,7 +36,7 @@ namespace zonedbx {
 //---------------------------------------------------------------------------
 // Zone Info registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
-const extended::ZoneInfo* const kZoneRegistry[356] ACE_TIME_PROGMEM = {
+const extended::ZoneInfo* const kZoneRegistry[354] ACE_TIME_PROGMEM = {
   &kZoneAmerica_St_Johns, // 0x04b14e6e, America/St_Johns
   &kZoneAmerica_North_Dakota_New_Salem, // 0x04f9958e, America/North_Dakota/New_Salem
   &kZoneAsia_Jakarta, // 0x0506ab50, Asia/Jakarta
@@ -301,7 +301,6 @@ const extended::ZoneInfo* const kZoneRegistry[356] ACE_TIME_PROGMEM = {
   &kZoneAmerica_Manaus, // 0xac86bf8b, America/Manaus
   &kZoneAmerica_Merida, // 0xacd172d8, America/Merida
   &kZoneEurope_Chisinau, // 0xad58aa18, Europe/Chisinau
-  &kZoneEurope_Uzhgorod, // 0xb066f5d6, Europe/Uzhgorod
   &kZoneAustralia_Broken_Hill, // 0xb06eada3, Australia/Broken_Hill
   &kZoneAsia_Bishkek, // 0xb0728553, Asia/Bishkek
   &kZoneAmerica_Paramaribo, // 0xb319e4c4, America/Paramaribo
@@ -366,7 +365,6 @@ const extended::ZoneInfo* const kZoneRegistry[356] ACE_TIME_PROGMEM = {
   &kZonePacific_Noumea, // 0xe551b788, Pacific/Noumea
   &kZonePacific_Honolulu, // 0xe6e70af9, Pacific/Honolulu
   &kZoneAmerica_Argentina_Tucuman, // 0xe96399eb, America/Argentina/Tucuman
-  &kZoneEurope_Zaporozhye, // 0xeab9767f, Europe/Zaporozhye
   &kZoneAsia_Magadan, // 0xebacc19b, Asia/Magadan
   &kZoneAmerica_Ojinaga, // 0xebfde83f, America/Ojinaga
   &kZoneCST6CDT, // 0xf0e87d00, CST6CDT
@@ -836,7 +834,7 @@ const extended::ZoneInfo* const kZoneAndLinkRegistry[595] ACE_TIME_PROGMEM = {
   &kZoneEurope_Chisinau, // 0xad58aa18, Europe/Chisinau
   &kZoneAmerica_Nassau, // 0xaedef011, America/Nassau -> America/Toronto
   &kZoneAmerica_Anguilla, // 0xafe31333, America/Anguilla -> America/Puerto_Rico
-  &kZoneEurope_Uzhgorod, // 0xb066f5d6, Europe/Uzhgorod
+  &kZoneEurope_Uzhgorod, // 0xb066f5d6, Europe/Uzhgorod -> Europe/Kyiv
   &kZoneAustralia_Broken_Hill, // 0xb06eada3, Australia/Broken_Hill
   &kZoneAsia_Bishkek, // 0xb0728553, Asia/Bishkek
   &kZoneChile_EasterIsland, // 0xb0982af8, Chile/EasterIsland -> Pacific/Easter
@@ -955,7 +953,7 @@ const extended::ZoneInfo* const kZoneAndLinkRegistry[595] ACE_TIME_PROGMEM = {
   &kZoneAmerica_Kralendijk, // 0xe7c456c5, America/Kralendijk -> America/Puerto_Rico
   &kZoneAmerica_Argentina_Tucuman, // 0xe96399eb, America/Argentina/Tucuman
   &kZonePacific_Ponape, // 0xe9f80086, Pacific/Ponape -> Pacific/Guadalcanal
-  &kZoneEurope_Zaporozhye, // 0xeab9767f, Europe/Zaporozhye
+  &kZoneEurope_Zaporozhye, // 0xeab9767f, Europe/Zaporozhye -> Europe/Kyiv
   &kZoneEurope_Isle_of_Man, // 0xeaf84580, Europe/Isle_of_Man -> Europe/London
   &kZoneAsia_Magadan, // 0xebacc19b, Asia/Magadan
   &kZoneAmerica_Ojinaga, // 0xebfde83f, America/Ojinaga
@@ -1001,7 +999,7 @@ const extended::ZoneInfo* const kZoneAndLinkRegistry[595] ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Link (thin) Entry registry. Sorted by linkId. Links are references to Zones.
 //---------------------------------------------------------------------------
-const extended::LinkEntry kLinkRegistry[239] ACE_TIME_PROGMEM = {
+const extended::LinkEntry kLinkRegistry[241] ACE_TIME_PROGMEM = {
   { kZoneIdGB, kZoneIdEurope_London }, // 0x005973ae -> 0x5c6a84ae
   { kZoneIdNZ, kZoneIdPacific_Auckland }, // 0x005974ad -> 0x25062f86
   { kZoneIdAsia_Kuala_Lumpur, kZoneIdAsia_Singapore }, // 0x014763c4 -> 0xcf8581fa
@@ -1174,6 +1172,7 @@ const extended::LinkEntry kLinkRegistry[239] ACE_TIME_PROGMEM = {
   { kZoneIdAmerica_Coral_Harbour, kZoneIdAmerica_Panama }, // 0xabcb7569 -> 0xb3863854
   { kZoneIdAmerica_Nassau, kZoneIdAmerica_Toronto }, // 0xaedef011 -> 0x792e851b
   { kZoneIdAmerica_Anguilla, kZoneIdAmerica_Puerto_Rico }, // 0xafe31333 -> 0x6752ca31
+  { kZoneIdEurope_Uzhgorod, kZoneIdEurope_Kyiv }, // 0xb066f5d6 -> 0xa2c1e347
   { kZoneIdChile_EasterIsland, kZoneIdPacific_Easter }, // 0xb0982af8 -> 0xcf54f7e7
   { kZoneIdPacific_Johnston, kZoneIdPacific_Honolulu }, // 0xb15d7b36 -> 0xe6e70af9
   { kZoneIdAfrica_Timbuktu, kZoneIdAfrica_Abidjan }, // 0xb164d56f -> 0xc21305a3
@@ -1228,6 +1227,7 @@ const extended::LinkEntry kLinkRegistry[239] ACE_TIME_PROGMEM = {
   { kZoneIdAustralia_Tasmania, kZoneIdAustralia_Hobart }, // 0xe6d76648 -> 0x32bf951a
   { kZoneIdAmerica_Kralendijk, kZoneIdAmerica_Puerto_Rico }, // 0xe7c456c5 -> 0x6752ca31
   { kZoneIdPacific_Ponape, kZoneIdPacific_Guadalcanal }, // 0xe9f80086 -> 0xf4dd25f0
+  { kZoneIdEurope_Zaporozhye, kZoneIdEurope_Kyiv }, // 0xeab9767f -> 0xa2c1e347
   { kZoneIdEurope_Isle_of_Man, kZoneIdEurope_London }, // 0xeaf84580 -> 0x5c6a84ae
   { kZoneIdPacific_Saipan, kZoneIdPacific_Guam }, // 0xeff7a35f -> 0x2338f9ed
   { kZoneIdCanada_Eastern, kZoneIdAmerica_Toronto }, // 0xf3612d5e -> 0x792e851b
