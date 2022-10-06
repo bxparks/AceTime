@@ -1,6 +1,16 @@
 # Changelog
 
 * Unreleased
+    * Upgrade TZDB from 2022b to 2022d
+        * 2022c
+            * https://mm.icann.org/pipermail/tz-announce/2022-August/000072.html
+                * Work around awk bug in FreeBSD, macOS, etc.
+                * Improve tzselect on intercontinental Zones.
+            * Skipped because there were no changes that affected AceTime.
+        * 2022d
+            * https://mm.icann.org/pipermail/tz-announce/2022-September/000073.html
+                * Palestine transitions are now Saturdays at 02:00.
+                * Simplify three Ukraine zones into one.
 * 1.11.4 (2022-08-13, TZDB 2022b)
     * Add `ace_time::daysUntil(localDate, month, day)` utility function that
       returns the number of days until the next (month, day) date. Useful for

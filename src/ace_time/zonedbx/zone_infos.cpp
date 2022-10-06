@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2022b
+//     --tz_version 2022d
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -22,22 +22,22 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022b
+// from https://github.com/eggert/tz/releases/tag/2022d
 //
-// Zones: 356
-// Links: 239
+// Zones: 354
+// Links: 241
 // kZoneRegistry sizes (bytes):
-//   Names: 3376 (originally 5607)
+//   Names: 3354 (originally 5573)
 //   Formats: 597
 //   Fragments: 122
-//   Memory (8-bit): 15848
-//   Memory (32-bit): 22989
+//   Memory (8-bit): 15778
+//   Memory (32-bit): 22887
 // kZoneAndLinkRegistry sizes (bytes):
 //   Names: 5634 (originally 9054)
 //   Formats: 597
 //   Fragments: 122
-//   Memory (8-bit): 21213
-//   Memory (32-bit): 30983
+//   Memory (8-bit): 21191
+//   Memory (32-bit): 30951
 //
 // DO NOT EDIT
 
@@ -52,7 +52,7 @@ namespace zonedbx {
 // ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] = "2022b";
+const char kTzDatabaseVersion[] = "2022d";
 
 const char* const kFragments[] = {
 /*\x00*/ nullptr,
@@ -82,7 +82,7 @@ const internal::ZoneContext kZoneContext = {
 };
 
 //---------------------------------------------------------------------------
-// Zones: 356
+// Zones: 354
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -13926,40 +13926,6 @@ const extended::ZoneInfo kZoneEurope_Ulyanovsk ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Zone name: Europe/Uzhgorod
-// Zone Eras: 1
-// Strings (bytes): 15 (originally 21)
-// Memory (8-bit): 37
-// Memory (32-bit): 51
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraEurope_Uzhgorod[] ACE_TIME_PROGMEM = {
-  //             2:00    EU    EE%sT
-  {
-    &kPolicyEU /*zonePolicy*/,
-    "EE%T" /*format*/,
-    8 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameEurope_Uzhgorod[] ACE_TIME_PROGMEM = "\x0b" "Uzhgorod";
-
-const extended::ZoneInfo kZoneEurope_Uzhgorod ACE_TIME_PROGMEM = {
-  kZoneNameEurope_Uzhgorod /*name*/,
-  0xb066f5d6 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Uzhgorod /*eras*/,
-};
-
-//---------------------------------------------------------------------------
 // Zone name: Europe/Vienna
 // Zone Eras: 1
 // Strings (bytes): 13 (originally 19)
@@ -14165,40 +14131,6 @@ const extended::ZoneInfo kZoneEurope_Warsaw ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraEurope_Warsaw /*eras*/,
-};
-
-//---------------------------------------------------------------------------
-// Zone name: Europe/Zaporozhye
-// Zone Eras: 1
-// Strings (bytes): 17 (originally 23)
-// Memory (8-bit): 39
-// Memory (32-bit): 53
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraEurope_Zaporozhye[] ACE_TIME_PROGMEM = {
-  //             2:00    EU    EE%sT
-  {
-    &kPolicyEU /*zonePolicy*/,
-    "EE%T" /*format*/,
-    8 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameEurope_Zaporozhye[] ACE_TIME_PROGMEM = "\x0b" "Zaporozhye";
-
-const extended::ZoneInfo kZoneEurope_Zaporozhye ACE_TIME_PROGMEM = {
-  kZoneNameEurope_Zaporozhye /*name*/,
-  0xeab9767f /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraEurope_Zaporozhye /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -15660,7 +15592,7 @@ const extended::ZoneInfo kZoneWET ACE_TIME_PROGMEM = {
 
 
 //---------------------------------------------------------------------------
-// Links: 239
+// Links: 241
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -18537,6 +18469,23 @@ const extended::ZoneInfo kZoneEurope_Tiraspol ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
+// Link name: Europe/Uzhgorod -> Europe/Kyiv
+// Strings (bytes): 10 (originally 16)
+// Memory (8-bit): 21
+// Memory (32-bit): 30
+//---------------------------------------------------------------------------
+
+static const char kZoneNameEurope_Uzhgorod[] ACE_TIME_PROGMEM = "\x0b" "Uzhgorod";
+
+const extended::ZoneInfo kZoneEurope_Uzhgorod ACE_TIME_PROGMEM = {
+  kZoneNameEurope_Uzhgorod /*name*/,
+  0xb066f5d6 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  0 /*numEras*/,
+  &kZoneEurope_Kyiv /*eras(info)*/,
+};
+
+//---------------------------------------------------------------------------
 // Link name: Europe/Vaduz -> Europe/Zurich
 // Strings (bytes): 7 (originally 13)
 // Memory (8-bit): 18
@@ -18585,6 +18534,23 @@ const extended::ZoneInfo kZoneEurope_Zagreb ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   0 /*numEras*/,
   &kZoneEurope_Belgrade /*eras(info)*/,
+};
+
+//---------------------------------------------------------------------------
+// Link name: Europe/Zaporozhye -> Europe/Kyiv
+// Strings (bytes): 12 (originally 18)
+// Memory (8-bit): 23
+// Memory (32-bit): 32
+//---------------------------------------------------------------------------
+
+static const char kZoneNameEurope_Zaporozhye[] ACE_TIME_PROGMEM = "\x0b" "Zaporozhye";
+
+const extended::ZoneInfo kZoneEurope_Zaporozhye ACE_TIME_PROGMEM = {
+  kZoneNameEurope_Zaporozhye /*name*/,
+  0xeab9767f /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  0 /*numEras*/,
+  &kZoneEurope_Kyiv /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
