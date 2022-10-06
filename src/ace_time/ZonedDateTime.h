@@ -102,7 +102,7 @@ class ZonedDateTime {
     static ZonedDateTime forUnixSeconds64(
         int64_t unixSeconds, const TimeZone& timeZone) {
       acetime_t epochSeconds;
-      if (unixSeconds == LocalDate::kInvalidEpochSeconds64) {
+      if (unixSeconds == LocalDate::kInvalidUnixSeconds64) {
         epochSeconds = LocalDate::kInvalidEpochSeconds;
       } else {
         epochSeconds = unixSeconds
@@ -271,7 +271,7 @@ class ZonedDateTime {
 
     /**
      * Return the 64-bit number of seconds from Unix epoch 1970-01-01 00:00:00
-     * UTC. Returns LocalDAte::kInvalidEpochSeconds64 if isError() is true.
+     * UTC. Returns LocalDAte::kInvalidUnixSeconds64 if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
      * print the unix seconds.

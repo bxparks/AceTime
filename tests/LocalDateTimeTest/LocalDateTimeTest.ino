@@ -231,7 +231,7 @@ test(LocalDateTimeTest, toAndForUnixSeconds64) {
   LocalDateTime udt;
 
   // Verify error sentinel.
-  dt = LocalDateTime::forUnixSeconds64(LocalDate::kInvalidEpochSeconds64);
+  dt = LocalDateTime::forUnixSeconds64(LocalDate::kInvalidUnixSeconds64);
   assertTrue(dt.isError());
 
   // Verify that 64-bit unixSeconds allows dates beyond 32-bit limit.

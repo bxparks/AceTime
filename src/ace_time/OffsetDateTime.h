@@ -97,7 +97,7 @@ class OffsetDateTime {
      */
     static OffsetDateTime forUnixSeconds64(
         int64_t unixSeconds, TimeOffset timeOffset, int8_t fold = 0) {
-      if (unixSeconds != LocalDate::kInvalidEpochSeconds64) {
+      if (unixSeconds != LocalDate::kInvalidUnixSeconds64) {
         unixSeconds += timeOffset.toSeconds();
       }
       auto ldt = LocalDateTime::forUnixSeconds64(unixSeconds, fold);
@@ -279,13 +279,13 @@ class OffsetDateTime {
 
     /**
      * Return the 64-bit number of seconds from Unix epoch 1970-01-01 00:00:00
-     * UTC. Returns LocalDate::kInvalidEpochSeconds64 if isError() is true.
+     * UTC. Returns LocalDate::kInvalidUnixSeconds64 if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
      * convert an ISO8601 date to the unix seconds.
      */
     int64_t toUnixSeconds64() const {
-      if (isError()) return LocalDate::kInvalidEpochSeconds64;
+      if (isError()) return LocalDate::kInvalidUnixSeconds64;
       return mLocalDateTime.toUnixSeconds64() - mTimeOffset.toSeconds();
     }
 

@@ -90,7 +90,7 @@ class LocalDateTime {
      */
     static LocalDateTime forUnixSeconds64(
         int64_t unixSeconds, uint8_t fold = 0) {
-      if (unixSeconds == LocalDate::kInvalidEpochSeconds64) {
+      if (unixSeconds == LocalDate::kInvalidUnixSeconds64) {
         return forError();
       }
 
@@ -257,13 +257,13 @@ class LocalDateTime {
     /**
      * Return 64-bit seconds from Unix epoch 1970-01-01 00:00:00 UTC, after
      * assuming that the date and time components are in UTC timezone. Returns
-     * LocalDate::kInvalidEpochSeconds64 if isError() is true.
+     * LocalDate::kInvalidUnixSeconds64 if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box
      * to print the unix seconds of a given ISO8601 date.
      */
     int64_t toUnixSeconds64() const {
-      if (isError()) return LocalDate::kInvalidEpochSeconds64;
+      if (isError()) return LocalDate::kInvalidUnixSeconds64;
       int32_t days = toUnixDays();
       int32_t seconds = mLocalTime.toSeconds();
       return (int64_t) 86400 * days + seconds;

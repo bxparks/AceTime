@@ -200,7 +200,7 @@ test(ZonedDateTimeTest_Manual, toAndForUnixSeconds64_extended) {
 
   // Verify error sentinel.
   dt = ZonedDateTime::forUnixSeconds64(
-      LocalDate::kInvalidEpochSeconds64, TimeZone());
+      LocalDate::kInvalidUnixSeconds64, TimeZone());
   assertTrue(dt.isError());
 }
 
@@ -234,7 +234,7 @@ test(ZonedDateTimeTest_Manual, error) {
   assertTrue(zdt.isError());
 
   zdt = ZonedDateTime::forUnixSeconds64(
-      LocalDate::kInvalidEpochSeconds64, stdTz);
+      LocalDate::kInvalidUnixSeconds64, stdTz);
   assertTrue(zdt.isError());
 }
 

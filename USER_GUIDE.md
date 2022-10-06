@@ -359,7 +359,7 @@ class LocalDate {
     static const int32_t kInvalidEpochDays = INT32_MIN;
 
     static const int32_t kInvalidEpochSeconds = INT32_MIN;
-    static const int64_t kInvalidEpochSeconds64 = INT64_MIN;
+    static const int64_t kInvalidUnixSeconds64 = INT64_MIN;
     static const int32_t kMinEpochSeconds = INT32_MIN + 1;
     static const int32_t kMaxEpochSeconds = INT32_MAX;
 
@@ -3004,7 +3004,7 @@ special constants, many of whom are defined in the `LocalDate` class:
     * Error value returned by `toEpochDays()` methods
 * `int32_t LocalDate::kInvalidEpochSeconds`
     * Error value returned by `toEpochSeconds()` methods
-* `int64_t LocalDate::kInvalidEpochSeconds64`
+* `int64_t LocalDate::kInvalidUnixSeconds64`
     * Error value returned by `toUnixSeconds64()` methods
 
 Similarly, many factory methods accept an `acetime_t`, `int32_t`, or `int64_t`

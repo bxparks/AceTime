@@ -84,8 +84,8 @@ class LocalDateTemplate {
     /** Sentinel epochSeconds which indicates an error. */
     static const int32_t kInvalidEpochSeconds = INT32_MIN;
 
-    /** Sentinel epochSeconds64 which indicates an error. */
-    static const int64_t kInvalidEpochSeconds64 = INT64_MIN;
+    /** Sentinel unixSeconds64 which indicates an error. */
+    static const int64_t kInvalidUnixSeconds64 = INT64_MIN;
 
     /**
      * Minimum valid epochSeconds. The smallest int32, `INT32_MIN`, is used to
@@ -250,7 +250,7 @@ class LocalDateTemplate {
      * operations.
      */
     static LocalDateTemplate forUnixSeconds64(int64_t unixSeconds) {
-      if (unixSeconds == kInvalidEpochSeconds64) {
+      if (unixSeconds == kInvalidUnixSeconds64) {
         return forError();
       } else {
         int64_t epochSeconds64 = unixSeconds
@@ -407,7 +407,7 @@ class LocalDateTemplate {
      * Return the number of seconds since Unix epoch (1970-01-01 00:00:00).
      */
     int64_t toUnixSeconds64() const {
-      if (isError()) return kInvalidEpochSeconds64;
+      if (isError()) return kInvalidUnixSeconds64;
       return (int64_t) 86400 * toUnixDays();
     }
 

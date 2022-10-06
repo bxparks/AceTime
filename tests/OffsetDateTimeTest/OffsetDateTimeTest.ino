@@ -197,7 +197,7 @@ test(OffsetDateTimeTest, toAndForUnixSeconds64) {
 
   // Verify error sentinel.
   dt = OffsetDateTime::forUnixSeconds64(
-      LocalDate::kInvalidEpochSeconds64, TimeOffset());
+      LocalDate::kInvalidUnixSeconds64, TimeOffset());
   assertTrue(dt.isError());
 
   // Verify that 64-bit unixSeconds allows dates beyond 32-bit limit.
