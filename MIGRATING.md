@@ -2,6 +2,7 @@
 
 ## Table of Contents
 
+* [Migrating to v2.0.0](#MigratingToVersion200)
 * [Migrating to v1.9.0](#MigratingToVersion190)
     * [Configuring the Zone Managers](#ConfiguringZoneManagers)
     * [Using the Zone Managers](#UsingZoneManagers)
@@ -10,6 +11,117 @@
     * [Migrating to AceTimeClock](#MigratingToAceTimeClock)
     * [Migrating the DS3231Clock](#MigratingTheDS3231Clock)
     * [Migrating to LinkManagers](#MigratingToLinkManagers)
+
+<a name="MigratingToVersion200"></a>
+## Migrating to v2.0
+
+The primary purpose of AceTime v2 is to extend the maximum year which the
+library is able to handle, while still remaining compact enough to be useful on
+resource constrained environments like 8-bit AVR processors. In v1, the
+theoretical range of the year component was `[1873,2127]`, and the epochSeconds
+had a range of `[1932,2068]`. In practice, the `zonedb` and `zonedbx`
+databases were generated with a range of `[2000,2049]`. In v2, the theoretical
+range of the year component is extended to be `[1,9999]`, the range of the
+`zonedb` and `zonedbx` databases is `[2000,9999]`, and the epochSeconds range is
+the 136 years that straddle the local epoch year which can be customized by the
+client application, in other words, approximately `[ey-68,ey+68]`.
+
+AceTime v2 implements the following major changes and features:
+
+* the internal `year` field in various classes (`LocalDate`, `LocalDateTime`,
+  `OffsetDateTime`, `ZonedDateTime`) changes from `int8_t` to an `int16_t`
+    * the range increases from `[1873,2127]` to `[1,9999]`
+    * the various `year()` methods remain unchanged
+    * undocumented methods that exposed the `int8_t` fields have been
+      removed (`yearTiny()`, `forTinyComponents()`)
+* the `year` field in the `zonedb` and `zonedbx` databases also changes from
+  `int8_t` to `int16_t`
+    * the year range increases from `[2000,2050]` to `[2000,9999]`
+    * this decouples the TZ database from the configurable local epoch year (see
+      below)
+* the epoch year becomes a configurable parameter using the
+    `LocalDate::localEpochYear(epochYear)` static method
+    * the default epoch year in v1 was hardcoded to 2000
+    * the default epoch year in v2 is 2050, but can be changed
+* the `epochSeconds` field remains a 32-bit integer
+    * this limits the range of `epochSeconds` to about 136 years
+* various constants are removed or renamed
+    * new `LocalDate::kBaseEpochYear` constant is the internal base epoch year
+        * should not be needed by client applications
+    * `LocalDate::kEpochYear` constant replaced by function
+      `LocalDate::localEpochYear()`
+    * `LocalDate::kSecondsSinceUnixEpoch` replaced by
+    `LocalDate::kDaysToBaseEpochFromUnixEpoch`
+        * eliminates problem with overflowing the `int32_t`
+    * `LocalDate::kMinYearTiny` replaced by `LocalDate::kMinYear`
+    * `LocalDate::kMaxYearTiny` replaced by `LocalDate::kMaxYear`
+    * `LocalDate::kInvalidUnixSeconds` replaced by
+      `LocalDate::kInvalidUnixSeconds64`
+
+Using 32-bit integer field for epochSeconds gives a range of about 136 years.
+This is the cause of the famous Unix [Year 2038
+problem](https://en.wikipedia.org/wiki/Year_2038_problem) which uses a 32-bit
+signed integer starting from the epoch year of 1970 (1970-01-01 00:00:00 UTC).
+
+Since the range of a 32-bit epochSeconds is only 136 years, v1 used a single
+byte `int8_t` internally to represent the `year` field, because a single byte
+can capture a range of 256 years. The single-byte year field was interpreted as
+an offset from the hardcoded epoch year of 2000. Using a single byte for the
+year field saved flash memory due to smaller program size and the smaller TZ
+databases (`zonedb` and `zonedbx`).
+
+When the AceTime project was started in 2018, using the year 2000 as the epoch
+year pushed the maximum year of epochSeconds to 2068 which seemed sufficiently
+far enough away. The epoch year of 2000 also seemed convenient because it is the
+same value used by the [AVR libc](https://avr-libc.nongnu.org/) in its
+[time.h](https://avr-libc.nongnu.org/user-manual/group__avr__time.html)
+implementation.
+
+Initially I thought the AceTime library would work only for a small subset of
+the IANA TZ database (e.g. only the zones in North America), so the limitation
+of the maximum year of 2068 did not seem important. It became apparent that the
+AceTime could be made to work for every time zone in the IANA TZ database, and
+the algorithms seemed robust enough to be used more broadly and longer than I
+had anticipated. Looking towards the future, it seemed important to eliminate
+the limitation of the maximum year of 2068.
+
+The typical solution to the 32-bit overflow problem is to use 64-bit integers
+instead. The problem with this solution is that 64-bit arithmetic operations are
+extremely resource intensive on 8-bit processors like AVR because they do not
+have native instructions for 64-bit integers (or even 32-bit integers).
+
+The solution that I chose in AceTime v2 is to continue to use a 32-bit
+epochSeconds, but to make the epoch year **configurable** by the downstream
+application. The `localEpochYear` is a global parameter which can be configured
+by 2 overloaded static functions on the `LocalDate` class:
+
+```C++
+// Set the local epoch year.
+LocalDate::localEpochYear(int16_t epochYear);
+
+// Get the local epoch year.
+int16_t LocalDate::localEpochYear();
+```
+
+The epoch year in v1 was hardcoded to 2000. In v2, the default epoch year is
+changed to 2050, pushing the range of the epochSeconds to [1982,2118]. The
+maximum year 2118 seems beyond the lifetime of almost everyone alive today. In
+later years, client applications can choose to increase the local epoch year to
+match their needs. For example, in the year 2032, client applications can set
+the epoch year to 2100, giving an epochSeconds range of `[2132,2168]`.
+
+In v1, the `zonedb` and `zonedbx` databases used a single-byte `int8_t` year
+offset from the epoch year (2000), which coupled the databases to the epoch
+year. In v2, the `year` field in the database was changed to an `int16_t`, which
+decouples databases from the epoch year. In other words, the same TZ database
+can be used for different epoch years. The pre-generated `zonedb` and `zonedbx`
+databases have been created to be valid over the years `[2000,9999]`.
+
+The epochSeconds that was generated by AceTime v1 using an epoch year of 2000
+will be incompatible with AceTime v2 using a different epoch year. The client
+application can choose to configure the epoch year to 2000 at the start of the
+application to allow compatibility of the epochSeconds generated by v1. Or it
+can throw away the old epochSeconds and start fresh with new epoch year.
 
 <a name="MigratingToVersion190"></a>
 ## Migrating to v1.9.0
