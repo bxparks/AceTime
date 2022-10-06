@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.11.5 (2022-10-06, TZDB 2022d)
     * Upgrade TZDB from 2022b to 2022d
         * 2022c
             * https://mm.icann.org/pipermail/tz-announce/2022-August/000072.html
@@ -11,6 +12,12 @@
             * https://mm.icann.org/pipermail/tz-announce/2022-September/000073.html
                 * Palestine transitions are now Saturdays at 02:00.
                 * Simplify three Ukraine zones into one.
+    * Upgrade tool chain
+        * Arduino CLI from 0.19.2 to 0.27.1
+        * Arduino AVR Core from 1.8.4 to 1.8.5
+        * STM32duino from 2.2.0 to 2.3.0
+        * ESP32 Core from 2.0.2 to 2.0.5
+        * Teensyduino from 1.56 to 1.57
 * 1.11.4 (2022-08-13, TZDB 2022b)
     * Add `ace_time::daysUntil(localDate, month, day)` utility function that
       returns the number of days until the next (month, day) date. Useful for
