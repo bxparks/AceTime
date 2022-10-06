@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['kbinarysearchthreshold_121',['kBinarySearchThreshold',['../classace__time_1_1internal_1_1LinkRegistrarTemplate.html#a8f9dae41ff06a04a4cd94167a6746cf8',1,'ace_time::internal::LinkRegistrarTemplate::kBinarySearchThreshold()'],['../classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#ac00d339dfffbf172d3ae0a9369be97db',1,'ace_time::internal::ZoneRegistrarTemplate::kBinarySearchThreshold()']]],
+  ['kbinarysearchthreshold_121',['kBinarySearchThreshold',['../classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#ac00d339dfffbf172d3ae0a9369be97db',1,'ace_time::internal::ZoneRegistrarTemplate::kBinarySearchThreshold()'],['../classace__time_1_1internal_1_1LinkRegistrarTemplate.html#a8f9dae41ff06a04a4cd94167a6746cf8',1,'ace_time::internal::LinkRegistrarTemplate::kBinarySearchThreshold()']]],
   ['kbuffersize_122',['kBufferSize',['../classace__time_1_1DateStrings.html#aedbfa043f6da042c40fed6b2beb09588',1,'ace_time::DateStrings']]],
   ['kdayssinceunixepoch_123',['kDaysSinceUnixEpoch',['../classace__time_1_1LocalDate.html#aab7ca9d6e3c7ea572c57dd8a2370169c',1,'ace_time::LocalDate']]],
   ['kepochyear_124',['kEpochYear',['../classace__time_1_1LocalDate.html#a0061f9720cb66ec66d00b3dbec08bef2',1,'ace_time::LocalDate']]],

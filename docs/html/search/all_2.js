@@ -5,7 +5,7 @@ var searchData=
   ['compat_2eh_20',['compat.h',['../compat_8h.html',1,'']]],
   ['converttotimeoffset_21',['convertToTimeOffset',['../classace__time_1_1OffsetDateTime.html#a89bc4bbb2b7aa5c36950ac25671707ea',1,'ace_time::OffsetDateTime']]],
   ['converttotimezone_22',['convertToTimeZone',['../classace__time_1_1ZonedDateTime.html#a53c4825eb710b77030773b7890cf3909',1,'ace_time::ZonedDateTime']]],
-  ['createfortimezonedata_23',['createForTimeZoneData',['../classace__time_1_1ManualZoneManager.html#aae6c3a55953025325a860e4c8dfbd663',1,'ace_time::ManualZoneManager::createForTimeZoneData()'],['../classace__time_1_1ZoneManagerTemplate.html#a1455ad9e96b4a7ea457ba129aac39cc0',1,'ace_time::ZoneManagerTemplate::createForTimeZoneData()']]],
+  ['createfortimezonedata_23',['createForTimeZoneData',['../classace__time_1_1ManualZoneManager.html#aae6c3a55953025325a860e4c8dfbd663',1,'ace_time::ManualZoneManager::createForTimeZoneData()'],['../classace__time_1_1ZoneManagerTemplate.html#a1455ad9e96b4a7ea457ba129aac39cc0',1,'ace_time::ZoneManagerTemplate::createForTimeZoneData(const TimeZoneData &amp;d)']]],
   ['createforzoneid_24',['createForZoneId',['../classace__time_1_1ZoneManagerTemplate.html#a2a7f9bdf9cae59621fcea9e0684edd3d',1,'ace_time::ZoneManagerTemplate']]],
   ['createforzoneindex_25',['createForZoneIndex',['../classace__time_1_1ZoneManagerTemplate.html#af860acb9df450629459f96ce17a2be1b',1,'ace_time::ZoneManagerTemplate']]],
   ['createforzoneinfo_26',['createForZoneInfo',['../classace__time_1_1ZoneManagerTemplate.html#a961bbae78c6e6bcd54a4b69fa47f1f0e',1,'ace_time::ZoneManagerTemplate']]],
