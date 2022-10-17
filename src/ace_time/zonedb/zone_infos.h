@@ -9,7 +9,7 @@
 //     --scope basic
 //     --generate_int16_years
 //     --start_year 2000
-//     --until_year 2100
+//     --until_year 10000
 //
 // using the TZ Database files
 //
