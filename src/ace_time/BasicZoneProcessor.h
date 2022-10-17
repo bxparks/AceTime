@@ -344,14 +344,11 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     /** Used only for debugging. */
     void log() const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-        if (!mIsFilled) {
-          logging::printf("*not initialized*\n");
-          return;
-        }
-        logging::printf("mYear: %d\n", mYear);
-        logging::printf("mNumTransitions: %d\n", mNumTransitions);
+        logging::printf("BasicZoneProcessor:\n");
+        logging::printf("  mYear: %d\n", mYear);
+        logging::printf("  mNumTransitions: %d\n", mNumTransitions);
         for (int i = 0; i < mNumTransitions; i++) {
-          logging::printf("mT[%d]=", i);
+          logging::printf("  mT[%d]=", i);
           mTransitions[i].log();
         }
       }

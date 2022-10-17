@@ -1115,11 +1115,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     /** Used only for debugging. */
     void log() const {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        if (!mIsFilled) {
-          logging::printf("*not initialized*\n");
-          return;
-        }
-        logging::printf("ExtendedZoneProcessor\n");
+        logging::printf("ExtendedZoneProcessor:\n");
         logging::printf("  mYear: %d\n", mYear);
         logging::printf("  mNumMatches: %d\n", mNumMatches);
         for (int i = 0; i < mNumMatches; i++) {
