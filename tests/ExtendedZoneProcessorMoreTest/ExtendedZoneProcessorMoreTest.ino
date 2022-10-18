@@ -180,7 +180,7 @@ test(ExtendedZoneProcessorTest, Los_Angeles_outOfBounds) {
   acetime_t epochSeconds;
 
   assertEqual(2000, zonedbx::kZoneAmerica_Los_Angeles.zoneContext->startYear);
-  assertEqual(2100, zonedbx::kZoneAmerica_Los_Angeles.zoneContext->untilYear);
+  assertEqual(10000, zonedbx::kZoneAmerica_Los_Angeles.zoneContext->untilYear);
 
   dt = OffsetDateTime::forComponents(1998, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));

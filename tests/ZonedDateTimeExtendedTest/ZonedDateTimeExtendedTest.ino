@@ -48,10 +48,10 @@ test(ZonedDateTimeExtendedTest, forComponents_isError) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles);
 
-  // outside [2000, 2100) range, should generate error
+  // outside [2000, 9999) range, should generate error
   ZonedDateTime dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 59, tz);
   assertTrue(dt.isError());
-  dt = ZonedDateTime::forComponents(2101, 3, 11, 1, 59, 59, tz);
+  dt = ZonedDateTime::forComponents(10000, 3, 11, 1, 59, 59, tz);
   assertTrue(dt.isError());
 }
 

@@ -104,9 +104,16 @@ testF(TransitionValidation, allZones) {
   for (uint16_t i = 0; i < zonedbx::kZoneRegistrySize; i++) {
     const extended::ZoneInfo* info = zoneRegistrar.getZoneInfoForIndex(i);
     zoneProcessor.setZoneKey((uintptr_t) info);
-    assertNoFatalFailure(validateZone(
+
+    // Time Zone processing is only valid for localEpochYear +/- about 60 years.
+    // Use +/- 50 years to be safe.
+    int16_t startYear = max(
       zonedbx::kZoneContext.startYear,
-      zonedbx::kZoneContext.untilYear));
+      (int16_t) (LocalDate::localEpochYear() - 50));
+    int16_t untilYear = min(
+      zonedbx::kZoneContext.untilYear,
+      (int16_t) (LocalDate::localEpochYear() + 50));
+    assertNoFatalFailure(validateZone(startYear, untilYear));
   }
 
   LocalDate::localEpochYear(savedEpochYear);
