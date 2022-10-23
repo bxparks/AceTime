@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.11.5</span>
+   &#160;<span id="projectnumber">1.11.6</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -76,7 +76,7 @@ $(function() {
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">//     --input_dir /home/brian/dev/tz</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//     --tz_version 2022d</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//     --tz_version 2022e</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//     --action zonedb</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//     --language arduino</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">//     --scope extended</span></div>
@@ -95,7 +95,7 @@ $(function() {
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">//   northamerica</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">//   southamerica</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// from https://github.com/eggert/tz/releases/tag/2022d</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// from https://github.com/eggert/tz/releases/tag/2022e</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// Policies: 83</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">// Rules: 530</span></div>
@@ -3615,10 +3615,10 @@ $(function() {
 <div class="line"><a name="l03542"></a><span class="lineno"> 3542</span>&#160;    8 <span class="comment">/*deltaCode ((deltaMinutes=60)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l03543"></a><span class="lineno"> 3543</span>&#160;    <span class="charliteral">&#39;S&#39;</span> <span class="comment">/*letter*/</span>,</div>
 <div class="line"><a name="l03544"></a><span class="lineno"> 3544</span>&#160;  },</div>
-<div class="line"><a name="l03545"></a><span class="lineno"> 3545</span>&#160;  <span class="comment">// Rule    Jordan    2014    max    -    Oct    lastFri    0:00s    0    -</span></div>
+<div class="line"><a name="l03545"></a><span class="lineno"> 3545</span>&#160;  <span class="comment">// Rule    Jordan    2014    2022    -    Oct    lastFri    0:00s    0    -</span></div>
 <div class="line"><a name="l03546"></a><span class="lineno"> 3546</span>&#160;  {</div>
 <div class="line"><a name="l03547"></a><span class="lineno"> 3547</span>&#160;    14 <span class="comment">/*fromYearTiny*/</span>,</div>
-<div class="line"><a name="l03548"></a><span class="lineno"> 3548</span>&#160;    126 <span class="comment">/*toYearTiny*/</span>,</div>
+<div class="line"><a name="l03548"></a><span class="lineno"> 3548</span>&#160;    22 <span class="comment">/*toYearTiny*/</span>,</div>
 <div class="line"><a name="l03549"></a><span class="lineno"> 3549</span>&#160;    10 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l03550"></a><span class="lineno"> 3550</span>&#160;    5 <span class="comment">/*onDayOfWeek*/</span>,</div>
 <div class="line"><a name="l03551"></a><span class="lineno"> 3551</span>&#160;    0 <span class="comment">/*onDayOfMonth*/</span>,</div>
@@ -3627,10 +3627,10 @@ $(function() {
 <div class="line"><a name="l03554"></a><span class="lineno"> 3554</span>&#160;    4 <span class="comment">/*deltaCode ((deltaMinutes=0)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l03555"></a><span class="lineno"> 3555</span>&#160;    <span class="charliteral">&#39;-&#39;</span> <span class="comment">/*letter*/</span>,</div>
 <div class="line"><a name="l03556"></a><span class="lineno"> 3556</span>&#160;  },</div>
-<div class="line"><a name="l03557"></a><span class="lineno"> 3557</span>&#160;  <span class="comment">// Rule    Jordan    2022    max    -    Feb    lastThu    24:00    1:00    S</span></div>
+<div class="line"><a name="l03557"></a><span class="lineno"> 3557</span>&#160;  <span class="comment">// Rule    Jordan    2022    only    -    Feb    lastThu    24:00    1:00    S</span></div>
 <div class="line"><a name="l03558"></a><span class="lineno"> 3558</span>&#160;  {</div>
 <div class="line"><a name="l03559"></a><span class="lineno"> 3559</span>&#160;    22 <span class="comment">/*fromYearTiny*/</span>,</div>
-<div class="line"><a name="l03560"></a><span class="lineno"> 3560</span>&#160;    126 <span class="comment">/*toYearTiny*/</span>,</div>
+<div class="line"><a name="l03560"></a><span class="lineno"> 3560</span>&#160;    22 <span class="comment">/*toYearTiny*/</span>,</div>
 <div class="line"><a name="l03561"></a><span class="lineno"> 3561</span>&#160;    2 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l03562"></a><span class="lineno"> 3562</span>&#160;    4 <span class="comment">/*onDayOfWeek*/</span>,</div>
 <div class="line"><a name="l03563"></a><span class="lineno"> 3563</span>&#160;    0 <span class="comment">/*onDayOfMonth*/</span>,</div>
@@ -7040,10 +7040,10 @@ $(function() {
 <div class="line"><a name="l06967"></a><span class="lineno"> 6967</span>&#160;    8 <span class="comment">/*deltaCode ((deltaMinutes=60)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l06968"></a><span class="lineno"> 6968</span>&#160;    <span class="charliteral">&#39;S&#39;</span> <span class="comment">/*letter*/</span>,</div>
 <div class="line"><a name="l06969"></a><span class="lineno"> 6969</span>&#160;  },</div>
-<div class="line"><a name="l06970"></a><span class="lineno"> 6970</span>&#160;  <span class="comment">// Rule    Syria    2012    max    -    Mar    lastFri    0:00    1:00    S</span></div>
+<div class="line"><a name="l06970"></a><span class="lineno"> 6970</span>&#160;  <span class="comment">// Rule    Syria    2012    2022    -    Mar    lastFri    0:00    1:00    S</span></div>
 <div class="line"><a name="l06971"></a><span class="lineno"> 6971</span>&#160;  {</div>
 <div class="line"><a name="l06972"></a><span class="lineno"> 6972</span>&#160;    12 <span class="comment">/*fromYearTiny*/</span>,</div>
-<div class="line"><a name="l06973"></a><span class="lineno"> 6973</span>&#160;    126 <span class="comment">/*toYearTiny*/</span>,</div>
+<div class="line"><a name="l06973"></a><span class="lineno"> 6973</span>&#160;    22 <span class="comment">/*toYearTiny*/</span>,</div>
 <div class="line"><a name="l06974"></a><span class="lineno"> 6974</span>&#160;    3 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l06975"></a><span class="lineno"> 6975</span>&#160;    5 <span class="comment">/*onDayOfWeek*/</span>,</div>
 <div class="line"><a name="l06976"></a><span class="lineno"> 6976</span>&#160;    0 <span class="comment">/*onDayOfMonth*/</span>,</div>
@@ -7052,10 +7052,10 @@ $(function() {
 <div class="line"><a name="l06979"></a><span class="lineno"> 6979</span>&#160;    8 <span class="comment">/*deltaCode ((deltaMinutes=60)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l06980"></a><span class="lineno"> 6980</span>&#160;    <span class="charliteral">&#39;S&#39;</span> <span class="comment">/*letter*/</span>,</div>
 <div class="line"><a name="l06981"></a><span class="lineno"> 6981</span>&#160;  },</div>
-<div class="line"><a name="l06982"></a><span class="lineno"> 6982</span>&#160;  <span class="comment">// Rule    Syria    2009    max    -    Oct    lastFri    0:00    0    -</span></div>
+<div class="line"><a name="l06982"></a><span class="lineno"> 6982</span>&#160;  <span class="comment">// Rule    Syria    2009    2022    -    Oct    lastFri    0:00    0    -</span></div>
 <div class="line"><a name="l06983"></a><span class="lineno"> 6983</span>&#160;  {</div>
 <div class="line"><a name="l06984"></a><span class="lineno"> 6984</span>&#160;    9 <span class="comment">/*fromYearTiny*/</span>,</div>
-<div class="line"><a name="l06985"></a><span class="lineno"> 6985</span>&#160;    126 <span class="comment">/*toYearTiny*/</span>,</div>
+<div class="line"><a name="l06985"></a><span class="lineno"> 6985</span>&#160;    22 <span class="comment">/*toYearTiny*/</span>,</div>
 <div class="line"><a name="l06986"></a><span class="lineno"> 6986</span>&#160;    10 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l06987"></a><span class="lineno"> 6987</span>&#160;    5 <span class="comment">/*onDayOfWeek*/</span>,</div>
 <div class="line"><a name="l06988"></a><span class="lineno"> 6988</span>&#160;    0 <span class="comment">/*onDayOfMonth*/</span>,</div>
