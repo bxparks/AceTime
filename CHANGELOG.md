@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 1.11.6 (2022-10-22, TZDB 2022e)
     * Upgrade TZDB from 2022d to 2022e
         * https://mm.icann.org/pipermail/tz-announce/2022-October/000074.html
             * Jordan and Syria switch from +02/+03 with DST to year-round +03.
