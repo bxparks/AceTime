@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022d
+//     --tz_version 2022e
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -22,22 +22,22 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022d
+// from https://github.com/eggert/tz/releases/tag/2022e
 //
-// Zones: 235
+// Zones: 233
 // Links: 217
 // kZoneRegistry sizes (bytes):
-//   Names: 2155 (originally 3482)
+//   Names: 2138 (originally 3457)
 //   Formats: 465
 //   Fragments: 94
-//   Memory (8-bit): 8521
-//   Memory (32-bit): 12346
+//   Memory (8-bit): 8456
+//   Memory (32-bit): 12249
 // kZoneAndLinkRegistry sizes (bytes):
-//   Names: 4196 (originally 6591)
+//   Names: 4179 (originally 6566)
 //   Formats: 465
 //   Fragments: 94
-//   Memory (8-bit): 13383
-//   Memory (32-bit): 19595
+//   Memory (8-bit): 13318
+//   Memory (32-bit): 19498
 //
 // DO NOT EDIT
 
@@ -52,7 +52,7 @@ namespace zonedb {
 // ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] = "2022d";
+const char kTzDatabaseVersion[] = "2022e";
 
 const char* const kFragments[] = {
 /*\x00*/ nullptr,
@@ -79,7 +79,7 @@ const internal::ZoneContext kZoneContext = {
 };
 
 //---------------------------------------------------------------------------
-// Zones: 235
+// Zones: 233
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -3069,40 +3069,6 @@ const basic::ZoneInfo kZoneAntarctica_Rothera ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Zone name: Asia/Amman
-// Zone Eras: 1
-// Strings (bytes): 12 (originally 16)
-// Memory (8-bit): 34
-// Memory (32-bit): 48
-//---------------------------------------------------------------------------
-
-static const basic::ZoneEra kZoneEraAsia_Amman[] ACE_TIME_PROGMEM = {
-  //             2:00    Jordan    EE%sT
-  {
-    &kPolicyJordan /*zonePolicy*/,
-    "EE%T" /*format*/,
-    8 /*offsetCode*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAsia_Amman[] ACE_TIME_PROGMEM = "\x04" "Amman";
-
-const basic::ZoneInfo kZoneAsia_Amman ACE_TIME_PROGMEM = {
-  kZoneNameAsia_Amman /*name*/,
-  0x148d21bc /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Amman /*eras*/,
-};
-
-//---------------------------------------------------------------------------
 // Zone name: Asia/Ashgabat
 // Zone Eras: 1
 // Strings (bytes): 14 (originally 18)
@@ -3270,40 +3236,6 @@ const basic::ZoneInfo kZoneAsia_Beirut ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAsia_Beirut /*eras*/,
-};
-
-//---------------------------------------------------------------------------
-// Zone name: Asia/Damascus
-// Zone Eras: 1
-// Strings (bytes): 15 (originally 19)
-// Memory (8-bit): 37
-// Memory (32-bit): 51
-//---------------------------------------------------------------------------
-
-static const basic::ZoneEra kZoneEraAsia_Damascus[] ACE_TIME_PROGMEM = {
-  //             2:00    Syria    EE%sT
-  {
-    &kPolicySyria /*zonePolicy*/,
-    "EE%T" /*format*/,
-    8 /*offsetCode*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAsia_Damascus[] ACE_TIME_PROGMEM = "\x04" "Damascus";
-
-const basic::ZoneInfo kZoneAsia_Damascus ACE_TIME_PROGMEM = {
-  kZoneNameAsia_Damascus /*name*/,
-  0x20fbb063 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Damascus /*eras*/,
 };
 
 //---------------------------------------------------------------------------

@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022d
+//     --tz_version 2022e
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -22,13 +22,13 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022d
+// from https://github.com/eggert/tz/releases/tag/2022e
 //
-// Policies: 64
-// Rules: 337
+// Policies: 63
+// Rules: 316
 // Letter Size (bytes): 0
-// Total Memory 8-bit (bytes): 3417
-// Total Memory 32-bit (bytes): 4812
+// Total Memory 8-bit (bytes): 3222
+// Total Memory 32-bit (bytes): 4548
 //
 // DO NOT EDIT
 
@@ -2920,9 +2920,9 @@ const basic::ZonePolicy kPolicyJapan ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: Jordan
-// Rules: 13
-// Memory (8-bit): 123
-// Memory (32-bit): 168
+// Rules: 4
+// Memory (8-bit): 42
+// Memory (32-bit): 60
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
@@ -2974,114 +2974,6 @@ static const basic::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     4 /*deltaCode ((deltaMinutes=60)/15)*/,
     'S' /*letter*/,
   },
-  // Rule    Jordan    2002    2012    -    Mar    lastThu    24:00    1:00    S
-  {
-    2 /*fromYearTiny*/,
-    12 /*toYearTiny*/,
-    3 /*inMonth*/,
-    4 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    'S' /*letter*/,
-  },
-  // Rule    Jordan    2003    only    -    Oct    24    0:00s    0    -
-  {
-    3 /*fromYearTiny*/,
-    3 /*toYearTiny*/,
-    10 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    24 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    16 /*atTimeModifier (kSuffixS + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Jordan    2004    only    -    Oct    15    0:00s    0    -
-  {
-    4 /*fromYearTiny*/,
-    4 /*toYearTiny*/,
-    10 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    15 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    16 /*atTimeModifier (kSuffixS + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Jordan    2005    only    -    Sep    lastFri    0:00s    0    -
-  {
-    5 /*fromYearTiny*/,
-    5 /*toYearTiny*/,
-    9 /*inMonth*/,
-    5 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    16 /*atTimeModifier (kSuffixS + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Jordan    2006    2011    -    Oct    lastFri    0:00s    0    -
-  {
-    6 /*fromYearTiny*/,
-    11 /*toYearTiny*/,
-    10 /*inMonth*/,
-    5 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    16 /*atTimeModifier (kSuffixS + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Jordan    2013    only    -    Dec    20    0:00    0    -
-  {
-    13 /*fromYearTiny*/,
-    13 /*toYearTiny*/,
-    12 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Jordan    2014    2021    -    Mar    lastThu    24:00    1:00    S
-  {
-    14 /*fromYearTiny*/,
-    21 /*toYearTiny*/,
-    3 /*inMonth*/,
-    4 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    'S' /*letter*/,
-  },
-  // Rule    Jordan    2014    max    -    Oct    lastFri    0:00s    0    -
-  {
-    14 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
-    10 /*inMonth*/,
-    5 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    16 /*atTimeModifier (kSuffixS + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Jordan    2022    max    -    Feb    lastThu    24:00    1:00    S
-  {
-    22 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
-    2 /*inMonth*/,
-    4 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    96 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    'S' /*letter*/,
-  },
 
 };
 
@@ -3090,7 +2982,7 @@ static const basic::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
 const basic::ZonePolicy kPolicyJordan ACE_TIME_PROGMEM = {
   kZoneRulesJordan /*rules*/,
   nullptr /*letters*/,
-  13 /*numRules*/,
+  4 /*numRules*/,
   0 /*numLetters*/,
 };
 
@@ -4331,170 +4223,6 @@ const basic::ZonePolicy kPolicySalv ACE_TIME_PROGMEM = {
   kZoneRulesSalv /*rules*/,
   nullptr /*letters*/,
   1 /*numRules*/,
-  0 /*numLetters*/,
-};
-
-//---------------------------------------------------------------------------
-// Policy name: Syria
-// Rules: 12
-// Memory (8-bit): 114
-// Memory (32-bit): 156
-//---------------------------------------------------------------------------
-
-static const basic::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
-  // Rule    Syria    1994    2005    -    Oct     1    0:00    0    -
-  {
-    -6 /*fromYearTiny*/,
-    5 /*toYearTiny*/,
-    10 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Syria    1997    1998    -    Mar    lastMon    0:00    1:00    S
-  {
-    -3 /*fromYearTiny*/,
-    -2 /*toYearTiny*/,
-    3 /*inMonth*/,
-    1 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    'S' /*letter*/,
-  },
-  // Rule    Syria    1999    2006    -    Apr     1    0:00    1:00    S
-  {
-    -1 /*fromYearTiny*/,
-    6 /*toYearTiny*/,
-    4 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    'S' /*letter*/,
-  },
-  // Rule    Syria    2006    only    -    Sep    22    0:00    0    -
-  {
-    6 /*fromYearTiny*/,
-    6 /*toYearTiny*/,
-    9 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    22 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Syria    2007    only    -    Mar    lastFri    0:00    1:00    S
-  {
-    7 /*fromYearTiny*/,
-    7 /*toYearTiny*/,
-    3 /*inMonth*/,
-    5 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    'S' /*letter*/,
-  },
-  // Rule    Syria    2007    only    -    Nov     Fri>=1    0:00    0    -
-  {
-    7 /*fromYearTiny*/,
-    7 /*toYearTiny*/,
-    11 /*inMonth*/,
-    5 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Syria    2008    only    -    Apr    Fri>=1    0:00    1:00    S
-  {
-    8 /*fromYearTiny*/,
-    8 /*toYearTiny*/,
-    4 /*inMonth*/,
-    5 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    'S' /*letter*/,
-  },
-  // Rule    Syria    2008    only    -    Nov    1    0:00    0    -
-  {
-    8 /*fromYearTiny*/,
-    8 /*toYearTiny*/,
-    11 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Syria    2009    only    -    Mar    lastFri    0:00    1:00    S
-  {
-    9 /*fromYearTiny*/,
-    9 /*toYearTiny*/,
-    3 /*inMonth*/,
-    5 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    'S' /*letter*/,
-  },
-  // Rule    Syria    2010    2011    -    Apr    Fri>=1    0:00    1:00    S
-  {
-    10 /*fromYearTiny*/,
-    11 /*toYearTiny*/,
-    4 /*inMonth*/,
-    5 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    'S' /*letter*/,
-  },
-  // Rule    Syria    2012    max    -    Mar    lastFri    0:00    1:00    S
-  {
-    12 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
-    3 /*inMonth*/,
-    5 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    'S' /*letter*/,
-  },
-  // Rule    Syria    2009    max    -    Oct    lastFri    0:00    0    -
-  {
-    9 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
-    10 /*inMonth*/,
-    5 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
-
-};
-
-
-
-const basic::ZonePolicy kPolicySyria ACE_TIME_PROGMEM = {
-  kZoneRulesSyria /*rules*/,
-  nullptr /*letters*/,
-  12 /*numRules*/,
   0 /*numLetters*/,
 };
 
