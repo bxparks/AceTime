@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022d
+//     --tz_version 2022e
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022d
+// from https://github.com/eggert/tz/releases/tag/2022e
 //
 // DO NOT EDIT
 
@@ -45,7 +45,7 @@ extern const char kTzDatabaseVersion[];
 extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 235
+// Supported zones: 233
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
@@ -133,13 +133,11 @@ extern const basic::ZoneInfo kZoneAmerica_Winnipeg; // America/Winnipeg
 extern const basic::ZoneInfo kZoneAmerica_Yakutat; // America/Yakutat
 extern const basic::ZoneInfo kZoneAmerica_Yellowknife; // America/Yellowknife
 extern const basic::ZoneInfo kZoneAntarctica_Rothera; // Antarctica/Rothera
-extern const basic::ZoneInfo kZoneAsia_Amman; // Asia/Amman
 extern const basic::ZoneInfo kZoneAsia_Ashgabat; // Asia/Ashgabat
 extern const basic::ZoneInfo kZoneAsia_Baghdad; // Asia/Baghdad
 extern const basic::ZoneInfo kZoneAsia_Baku; // Asia/Baku
 extern const basic::ZoneInfo kZoneAsia_Bangkok; // Asia/Bangkok
 extern const basic::ZoneInfo kZoneAsia_Beirut; // Asia/Beirut
-extern const basic::ZoneInfo kZoneAsia_Damascus; // Asia/Damascus
 extern const basic::ZoneInfo kZoneAsia_Dhaka; // Asia/Dhaka
 extern const basic::ZoneInfo kZoneAsia_Dubai; // Asia/Dubai
 extern const basic::ZoneInfo kZoneAsia_Dushanbe; // Asia/Dushanbe
@@ -372,13 +370,11 @@ const uint32_t kZoneIdAmerica_Winnipeg = 0x8c7dafc7; // America/Winnipeg
 const uint32_t kZoneIdAmerica_Yakutat = 0xd8ee31e9; // America/Yakutat
 const uint32_t kZoneIdAmerica_Yellowknife = 0x0f76c76f; // America/Yellowknife
 const uint32_t kZoneIdAntarctica_Rothera = 0x0e86d203; // Antarctica/Rothera
-const uint32_t kZoneIdAsia_Amman = 0x148d21bc; // Asia/Amman
 const uint32_t kZoneIdAsia_Ashgabat = 0xba87598d; // Asia/Ashgabat
 const uint32_t kZoneIdAsia_Baghdad = 0x9ceffbed; // Asia/Baghdad
 const uint32_t kZoneIdAsia_Baku = 0x1fa788b5; // Asia/Baku
 const uint32_t kZoneIdAsia_Bangkok = 0x9d6e3aaf; // Asia/Bangkok
 const uint32_t kZoneIdAsia_Beirut = 0xa7f3d5fd; // Asia/Beirut
-const uint32_t kZoneIdAsia_Damascus = 0x20fbb063; // Asia/Damascus
 const uint32_t kZoneIdAsia_Dhaka = 0x14c07b8b; // Asia/Dhaka
 const uint32_t kZoneIdAsia_Dubai = 0x14c79f77; // Asia/Dubai
 const uint32_t kZoneIdAsia_Dushanbe = 0x32fc5c3c; // Asia/Dushanbe
@@ -1061,13 +1057,11 @@ const uint8_t kZoneBufSizeAmerica_Winnipeg = 6;  // America/Winnipeg in 2006
 const uint8_t kZoneBufSizeAmerica_Yakutat = 6;  // America/Yakutat in 2008
 const uint8_t kZoneBufSizeAmerica_Yellowknife = 6;  // America/Yellowknife in 2008
 const uint8_t kZoneBufSizeAntarctica_Rothera = 1;  // Antarctica/Rothera in 2000
-const uint8_t kZoneBufSizeAsia_Amman = 6;  // Asia/Amman in 2014
 const uint8_t kZoneBufSizeAsia_Ashgabat = 1;  // Asia/Ashgabat in 2000
 const uint8_t kZoneBufSizeAsia_Baghdad = 4;  // Asia/Baghdad in 2000
 const uint8_t kZoneBufSizeAsia_Baku = 5;  // Asia/Baku in 2000
 const uint8_t kZoneBufSizeAsia_Bangkok = 1;  // Asia/Bangkok in 2000
 const uint8_t kZoneBufSizeAsia_Beirut = 5;  // Asia/Beirut in 2000
-const uint8_t kZoneBufSizeAsia_Damascus = 6;  // Asia/Damascus in 2008
 const uint8_t kZoneBufSizeAsia_Dhaka = 4;  // Asia/Dhaka in 2009
 const uint8_t kZoneBufSizeAsia_Dubai = 1;  // Asia/Dubai in 2000
 const uint8_t kZoneBufSizeAsia_Dushanbe = 1;  // Asia/Dushanbe in 2000
@@ -1214,7 +1208,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 2000
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 119
+// Unsupported zones: 121
 //---------------------------------------------------------------------------
 
 // Africa/Cairo (policy 'Egypt' not found)
@@ -1283,6 +1277,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 2000
 // Antarctica/Palmer (UNTIL contains month/day/time)
 // Antarctica/Troll (UNTIL contains month/day/time)
 // Asia/Almaty (UNTIL contains month/day/time)
+// Asia/Amman (UNTIL contains month/day/time)
 // Asia/Anadyr (UNTIL contains month/day/time)
 // Asia/Aqtau (UNTIL contains month/day/time)
 // Asia/Aqtobe (UNTIL contains month/day/time)
@@ -1292,6 +1287,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 2000
 // Asia/Chita (UNTIL contains month/day/time)
 // Asia/Choibalsan (UNTIL contains month/day/time)
 // Asia/Colombo (UNTIL contains month/day/time)
+// Asia/Damascus (UNTIL contains month/day/time)
 // Asia/Dili (UNTIL contains month/day/time)
 // Asia/Famagusta (UNTIL contains month/day/time)
 // Asia/Gaza (UNTIL contains month/day/time)

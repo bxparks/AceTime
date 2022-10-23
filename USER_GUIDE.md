@@ -4,7 +4,7 @@ The primary purpose of AceTime classes is to convert between an integer
 representing the number of seconds since the AceTime Epoch (2000-01-01T00:00:00
 UTC) and the equivalent human-readable components in different timezones.
 
-**Version**: 1.11.5 (2022-10-06, TZDB 2022d)
+**Version**: 1.11.6 (2022-10-22, TZDB 2022e)
 
 **Related Documents**:
 

@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2022d
+//     --tz_version 2022e
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022d
+// from https://github.com/eggert/tz/releases/tag/2022e
 //
 // Policies: 83
 // Rules: 530
@@ -3542,10 +3542,10 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     'S' /*letter*/,
   },
-  // Rule    Jordan    2014    max    -    Oct    lastFri    0:00s    0    -
+  // Rule    Jordan    2014    2022    -    Oct    lastFri    0:00s    0    -
   {
     14 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    22 /*toYearTiny*/,
     10 /*inMonth*/,
     5 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -3554,10 +3554,10 @@ static const extended::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     '-' /*letter*/,
   },
-  // Rule    Jordan    2022    max    -    Feb    lastThu    24:00    1:00    S
+  // Rule    Jordan    2022    only    -    Feb    lastThu    24:00    1:00    S
   {
     22 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    22 /*toYearTiny*/,
     2 /*inMonth*/,
     4 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6967,10 +6967,10 @@ static const extended::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     'S' /*letter*/,
   },
-  // Rule    Syria    2012    max    -    Mar    lastFri    0:00    1:00    S
+  // Rule    Syria    2012    2022    -    Mar    lastFri    0:00    1:00    S
   {
     12 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    22 /*toYearTiny*/,
     3 /*inMonth*/,
     5 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6979,10 +6979,10 @@ static const extended::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     'S' /*letter*/,
   },
-  // Rule    Syria    2009    max    -    Oct    lastFri    0:00    0    -
+  // Rule    Syria    2009    2022    -    Oct    lastFri    0:00    0    -
   {
     9 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    22 /*toYearTiny*/,
     10 /*inMonth*/,
     5 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,

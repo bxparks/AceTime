@@ -1,6 +1,14 @@
 # Changelog
 
 * Unreleased
+* 1.11.6 (2022-10-22, TZDB 2022e)
+    * Upgrade TZDB from 2022d to 2022e
+        * https://mm.icann.org/pipermail/tz-announce/2022-October/000074.html
+            * Jordan and Syria switch from +02/+03 with DST to year-round +03.
+        * BasicZoneProcessor can no longer support Asia/Amman (Jordan) and
+          Asia/Damascus because the transition to permanent +03 occurs
+          at an instant which cannot be handled by the simple algorithm in
+          BasicZoneProcessor. Use ExtendedZoneProcessor instead.
 * 1.11.5 (2022-10-06, TZDB 2022d)
     * Upgrade TZDB from 2022b to 2022d
         * 2022c

@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022d
+//     --tz_version 2022e
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022d
+// from https://github.com/eggert/tz/releases/tag/2022e
 //
 // DO NOT EDIT
 
@@ -36,7 +36,7 @@ namespace zonedb {
 //---------------------------------------------------------------------------
 // Zone Info registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kZoneRegistry[235] ACE_TIME_PROGMEM = {
+const basic::ZoneInfo* const kZoneRegistry[233] ACE_TIME_PROGMEM = {
   &kZoneAsia_Jakarta, // 0x0506ab50, Asia/Jakarta
   &kZoneAmerica_Mazatlan, // 0x0532189e, America/Mazatlan
   &kZoneAmerica_Hermosillo, // 0x065d21c4, America/Hermosillo
@@ -56,7 +56,6 @@ const basic::ZoneInfo* const kZoneRegistry[235] ACE_TIME_PROGMEM = {
   &kZoneAmerica_Indiana_Vevay, // 0x10aca054, America/Indiana/Vevay
   &kZoneAmerica_Scoresbysund, // 0x123f8d2a, America/Scoresbysund
   &kZoneAsia_Samarkand, // 0x13ae5104, Asia/Samarkand
-  &kZoneAsia_Amman, // 0x148d21bc, Asia/Amman
   &kZoneAsia_Dhaka, // 0x14c07b8b, Asia/Dhaka
   &kZoneAsia_Dubai, // 0x14c79f77, Asia/Dubai
   &kZoneAsia_Kabul, // 0x153b5601, Asia/Kabul
@@ -72,7 +71,6 @@ const basic::ZoneInfo* const kZoneRegistry[235] ACE_TIME_PROGMEM = {
   &kZoneAsia_Baku, // 0x1fa788b5, Asia/Baku
   &kZoneAsia_Hovd, // 0x1fab0fe3, Asia/Hovd
   &kZoneAsia_Ho_Chi_Minh, // 0x20f2d127, Asia/Ho_Chi_Minh
-  &kZoneAsia_Damascus, // 0x20fbb063, Asia/Damascus
   &kZonePacific_Fiji, // 0x23383ba5, Pacific/Fiji
   &kZonePacific_Niue, // 0x233ca014, Pacific/Niue
   &kZoneAustralia_Adelaide, // 0x2428e8a3, Australia/Adelaide
@@ -278,7 +276,7 @@ const basic::ZoneInfo* const kZoneRegistry[235] ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Zone and Link (fat) Info registry. Sorted by zoneId. Links act like Zones.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kZoneAndLinkRegistry[452] ACE_TIME_PROGMEM = {
+const basic::ZoneInfo* const kZoneAndLinkRegistry[450] ACE_TIME_PROGMEM = {
   &kZoneGB, // 0x005973ae, GB -> Europe/London
   &kZoneNZ, // 0x005974ad, NZ -> Pacific/Auckland
   &kZoneAsia_Kuala_Lumpur, // 0x014763c4, Asia/Kuala_Lumpur -> Asia/Singapore
@@ -325,7 +323,6 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[452] ACE_TIME_PROGMEM = {
   &kZoneAmerica_Indiana_Vevay, // 0x10aca054, America/Indiana/Vevay
   &kZoneAmerica_Scoresbysund, // 0x123f8d2a, America/Scoresbysund
   &kZoneAsia_Samarkand, // 0x13ae5104, Asia/Samarkand
-  &kZoneAsia_Amman, // 0x148d21bc, Asia/Amman
   &kZoneAsia_Dacca, // 0x14bcac5e, Asia/Dacca -> Asia/Dhaka
   &kZoneAsia_Dhaka, // 0x14c07b8b, Asia/Dhaka
   &kZoneAsia_Dubai, // 0x14c79f77, Asia/Dubai
@@ -351,7 +348,6 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[452] ACE_TIME_PROGMEM = {
   &kZoneAsia_Hovd, // 0x1fab0fe3, Asia/Hovd
   &kZoneAmerica_Montreal, // 0x203a1ea8, America/Montreal -> America/Toronto
   &kZoneAsia_Ho_Chi_Minh, // 0x20f2d127, Asia/Ho_Chi_Minh
-  &kZoneAsia_Damascus, // 0x20fbb063, Asia/Damascus
   &kZonePacific_Fiji, // 0x23383ba5, Pacific/Fiji
   &kZonePacific_Niue, // 0x233ca014, Pacific/Niue
   &kZonePacific_Truk, // 0x234010a9, Pacific/Truk -> Pacific/Port_Moresby
