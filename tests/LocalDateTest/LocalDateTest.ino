@@ -226,6 +226,10 @@ test(LocalDateTest, toAndFromEpochDays_epoch2050) {
   int16_t savedEpochYear = LocalDate::localEpochYear();
   LocalDate::localEpochYear(2050);
 
+  // Verify lower and upper valid year limits.
+  assertEqual(LocalDate::localValidYearLower(), 2000);
+  assertEqual(LocalDate::localValidYearUpper(), 2100);
+
   // Verify that 2050-01-01 returns epoch days of 0
   LocalDate ld = LocalDate::forComponents(2050, 1, 1);
   assertEqual((int32_t) 0, ld.toEpochDays());
@@ -255,6 +259,10 @@ test(LocalDateTest, toAndFromEpochDays_epoch2100) {
   // Change local epoch year to 2100, so the epoch becomes 2100-01-01T00:00:00.
   int16_t savedEpochYear = LocalDate::localEpochYear();
   LocalDate::localEpochYear(2100);
+
+  // Verify lower and upper valid year limits.
+  assertEqual(LocalDate::localValidYearLower(), 2050);
+  assertEqual(LocalDate::localValidYearUpper(), 2150);
 
   // Verify that 2100-01-01 returns epoch days of 0
   LocalDate ld = LocalDate::forComponents(2100, 1, 1);

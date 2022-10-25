@@ -143,7 +143,7 @@ class LocalDateTemplate {
 
   // Set and get local epoch year.
   public:
-    /** Base year of local epoch. The actual epoch is yyyy-01-01. */
+    /** Base year of local epoch. The actual epoch is {yyyy}-01-01T00:00:00. */
     static int16_t sLocalEpochYear;
 
     /**
@@ -162,6 +162,42 @@ class LocalDateTemplate {
     static void localEpochYear(int16_t year) {
       sLocalEpochYear = year;
       sDaysToLocalEpochFromBaseEpoch = T_CONVERTER::toEpochDays(year, 1, 1);
+    }
+
+    /**
+     * The smallest year (inclusive) for which calculations involving the 32-bit
+     * `epoch_seconds` and time zone transitions are guaranteed to be valid
+     * without underflowing or overflowing. Valid years satisfy the condition
+     * `year >= localValidYearLower()`.
+     *
+     * A 32-bit integer has a range of about 136 years, so the half interval is
+     * 68 years. But the algorithms to calculate transitions in
+     * `zone_processing.h` use a 3-year window straddling the current year, so
+     * the actual lower limit is probably closer to `localEpochYear() - 66`. To
+     * be conservative, this function returns `localEpochYear() - 50`. It may
+     * return a smaller value in the future if the internal calculations can be
+     * verified to avoid underflow or overflow problems.
+     */
+    static int16_t localValidYearLower() {
+      return localEpochYear() - 50;
+    }
+
+    /**
+     * The largest year (exclusive) for which calculations involving the 32-bit
+     * `epoch_seconds` and time zone transitions are guaranteed to be valid
+     * without underflowing or overflowing. Valid years satisfy the condition
+     * `year < localValidYearUpper()`.
+     *
+     * A 32-bit integer has a range of about 136 years, so the half interval is
+     * 68 years. But the algorithms to calculate the transitions in
+     * `zone_processing.h` use a 3-year window straddling the current year, so
+     * actual upper limit is probably close to `localEpochYear() + 66`. To be
+     * conservative, this function returns `localEpochYear() + 50`. It may
+     * return a larger value in the future if the internal calculations can be
+     * verified to avoid underflow or overflow problems.
+     */
+    static int16_t localValidYearUpper() {
+      return localEpochYear() + 50;
     }
 
   // Factory methods.
