@@ -85,7 +85,7 @@ AceTime v2 implements the following major changes and features:
 * the `year` fields in the `zonedb` and `zonedbx` databases also change from
   `int8_t` to `int16_t`
     * the year range increases from `[2000,2049]` to `[2000,9999]`
-    * this decouples the TZ database from the adjustable local epoch year
+    * this decouples the TZ database from the adjustable current epoch year
 * the epoch year can be changed using `LocalDate::currentEpochYear(epochYear)`
   static method
 * removed constants
@@ -100,7 +100,7 @@ AceTime v2 implements the following major changes and features:
     * `LocalDate::kMinYearTiny`
         * replacement: `LocalDate::kMinYear`
         * reason: 8-bit offset no longer used, replaced by 16-bit integer
-    * `LocalDate::kMaxYearTiny` (removed)
+    * `LocalDate::kMaxYearTiny`
         * replacement: `LocalDate::kMaxYear`
         * reason: 8-bit offset no longer used, replaced by 16-bit integer
     * `LocalDate::kDaysSinceUnixEpoch`
@@ -123,9 +123,9 @@ AceTime v2 implements the following major changes and features:
         * comment: should not normally be needed by client applications
 * new functions
     * `LocalDate::currentEpochYear(epochYear)`
-        * purpose: set the local epoch year
+        * purpose: set the current epoch year
     * `LocalDate::currentEpochYear()`
-        * purpose: get the local epoch year
+        * purpose: get the current epoch year
     * `LocalDate::epochValidYearLower()`
         * purpose: lower limit of valid years (`valid_year >= lower`)
     * `LocalDate::epochValidYearUpper()`
@@ -173,22 +173,22 @@ class LocalDate {
   ...
 
   public:
-    // Set the local epoch year.
+    // Set the current epoch year.
     static int16_t currentEpochYear(int16_t epochYear);
 
-    // Get the local epoch year.
+    // Get the current epoch year.
     static int16_t currentEpochYear();
 
     // Return the number of days from the base epoch (2000-01-01T00:00:00)
-    // to the adjust epoch ({yyyy}-01-01T00:00:00).
+    // to the current epoch ({yyyy}-01-01T00:00:00).
     static int32_t daysToCurrentEpochFromBaseEpoch();
 
     // Return the lower limit year which generates valid epoch seconds for the
-    // current epoch year.
+    // current epoch.
     static int16_t epochValidYearLower();
 
     // Return the upper limit year which generates valid epoch seconds for the
-    // current epoch year.
+    // current epoch.
     static int16_t epochValidYearUpper();
 
   ...
