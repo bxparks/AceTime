@@ -9,21 +9,36 @@ using namespace ace_time;
 // LocalDate
 //---------------------------------------------------------------------------
 
+test(LocalDateTest, year_limits) {
+  assertLess(LocalDate::kInvalidYear, LocalDate::kMinYear);
+  assertLess(LocalDate::kInvalidYear, basic::ZoneRule::kMinYear);
+  assertLess(LocalDate::kInvalidYear, extended::ZoneRule::kMinYear);
+
+  assertLess(LocalDate::kMinYear, LocalDate::kMaxYear);
+  assertLess(LocalDate::kMinYear, LocalDate::kMaxYear);
+
+  assertLess(basic::ZoneRule::kMinYear, basic::ZoneRule::kMaxYear);
+  assertLess(extended::ZoneRule::kMinYear, extended::ZoneRule::kMaxYear);
+
+  assertLess(basic::ZoneRule::kMaxYear, basic::ZoneEra::kMaxUntilYear);
+  assertLess(extended::ZoneRule::kMaxYear, extended::ZoneEra::kMaxUntilYear);
+}
+
 test(LocalDateTest, year_range) {
   // Not valid
   assertTrue(LocalDate::forComponents(INT16_MIN, 1, 1).isError());
   assertTrue(LocalDate::forComponents(-1, 1, 1).isError());
 
-  // sentinel for -Infinity, allowed
+  // kMinYear allowed
   assertFalse(LocalDate::forComponents(0, 1, 1).isError());
 
-  // first valid year
+  // first valid year allowed
   assertFalse(LocalDate::forComponents(1, 1, 1).isError());
 
-  // largest valid TO year (max = Infinity), allowed
+  // largest valid FROM or TO year ("max"), allowed
   assertFalse(LocalDate::forComponents(9999, 1, 1).isError());
 
-  // largest valid UNTIL year (max = Infinity), allowed
+  // largest valid UNTIL year ("-"), allowed, kMaxYear
   assertFalse(LocalDate::forComponents(10000, 1, 1).isError());
 
   // Not valid
@@ -51,7 +66,7 @@ test(LocalDateTest, accessors) {
 // Verify that toEpochDays()/forEpochDays() and
 // toEpochSeconds()/forEpochSeconds() support round trip conversions when when
 // isError()==true.
-test(LocalDateTest, forError) {
+test(LocalDateTest, forError_roundTrip) {
   LocalDate ld;
 
   ld = LocalDate::forError();
@@ -213,7 +228,7 @@ test(LocalDateTest, toAndFromEpochDays) {
   assertEqual((int32_t) 46750, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(46750));
 
-  // Largest LocalDate in our 16-bit implementation is 9999-12-21
+  // Largest LocalDate in our 16-bit implementation is 9999-12-31
   ld = LocalDate::forComponents(9999, 12, 31);
   const int32_t epochDays9999 = (int32_t) ((10000 - 2000) / 400) * 146097 - 1;
   assertEqual(epochDays9999, ld.toEpochDays());

@@ -10,8 +10,20 @@
  */
 struct ZoneRule {
   /**
-   * The maximum value of fromYear and toYear. Must be less than
-   * ZoneEra::kMaxUntilYear.
+   * The minimum value of fromYear and toYear. This value is used for ZoneRule
+   * entries which are synthetically generated for certain time zones which do
+   * not naturally generate a transition for the database year interval
+   * specified by the ZoneContext. This value is guaranteed to be earlier than
+   * any explicit year in the TZDB database, which guarantees that all time
+   * zones have at least one transition.
+   */
+  static const int16_t kMinYear = 0;
+
+  /**
+   * The maximum value fromYear and toYear. This value is used to represent the
+   * sentinel value "max" in the TZDB database files. Must be less than
+   * ZoneEra::kMaxUntilYear which is used to represent the entry "-" in the
+   * UNTIL column of the TZDB files.
    */
   static const int16_t kMaxYear = 9999;
 

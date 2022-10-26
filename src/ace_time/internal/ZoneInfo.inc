@@ -17,7 +17,12 @@
  *    interest.
  */
 struct ZoneEra {
-  /** The maximum value of untilYear. */
+  /**
+   * The maximum value of untilYear. This value is used to represent the
+   * sentinel value "-" in the UNTIL column of the TZDB files which means
+   * "infinity". Must be greater than ZoneRule::kMaxYear which represents the
+   * value "max" in the TO and FROM columns of the TZDB files.
+   */
   static const int16_t kMaxUntilYear = ZoneRule::kMaxYear + 1;
 
   /**
