@@ -126,9 +126,10 @@ test(LocalDateTimeTest, min_max_epochSeconds_epoch2000) {
 }
 
 test(LocalDateTimeTest, min_max_epochSeconds_epoch2050) {
-  // Change local epoch year to 2050, so the epoch becomes 2050-01-01T00:00:00.
-  int16_t savedEpochYear = LocalDate::localEpochYear();
-  LocalDate::localEpochYear(2050);
+  // Change current epoch year to 2050, so the epoch becomes
+  // 2050-01-01T00:00:00.
+  int16_t savedEpochYear = LocalDate::currentEpochYear();
+  LocalDate::currentEpochYear(2050);
 
   // Same min date as epoch 2000, but 50 years later.
   auto minDt = LocalDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds);
@@ -141,14 +142,15 @@ test(LocalDateTimeTest, min_max_epochSeconds_epoch2050) {
   expected = LocalDateTime::forComponents(2118, 1, 20, 3, 14, 7);
   assertTrue(expected == maxDt);
 
-  // Reset to the previous local epoch year.
-  LocalDate::localEpochYear(savedEpochYear);
+  // Reset to the previous current epoch year.
+  LocalDate::currentEpochYear(savedEpochYear);
 }
 
 test(LocalDateTimeTest, min_max_epochSeconds_epoch2100) {
-  // Change local epoch year to 2100, so the epoch becomes 2100-01-01T00:00:00.
-  int16_t savedEpochYear = LocalDate::localEpochYear();
-  LocalDate::localEpochYear(2100);
+  // Change current epoch year to 2100, so the epoch becomes
+  // 2100-01-01T00:00:00.
+  int16_t savedEpochYear = LocalDate::currentEpochYear();
+  LocalDate::currentEpochYear(2100);
 
   // Same min date as epoch 2000, but 100 years later.
   auto minDt = LocalDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds);
@@ -161,8 +163,8 @@ test(LocalDateTimeTest, min_max_epochSeconds_epoch2100) {
   expected = LocalDateTime::forComponents(2168, 1, 20, 3, 14, 7);
   assertTrue(expected == maxDt);
 
-  // Reset to the previous local epoch year.
-  LocalDate::localEpochYear(savedEpochYear);
+  // Reset to the previous current epoch year.
+  LocalDate::currentEpochYear(savedEpochYear);
 }
 
 test(LocalDateTimeTest, forComponents) {

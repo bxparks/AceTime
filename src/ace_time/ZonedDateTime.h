@@ -24,7 +24,7 @@ namespace ace_time {
  * [1,9999]. An invalid year is represented by INT16_MIN (-32768).
  *
  * The default epoch for AceTime is 2000-01-01 00:00:00 UTC, but can be changed
- * using `LocaDate::localEpochYear()`. The `toEpochSeconds()` method returns a
+ * using `LocaDate::currentEpochYear()`. The `toEpochSeconds()` method returns a
  * `int32_t` number of seconds offset from that epoch.
  *
  * The dayOfWeek (1=Sunday, 7=Saturday) is calculated internally from the date
@@ -67,9 +67,9 @@ class ZonedDateTime {
      * the given time zone. The dayOfWeek will be calculated internally.
      * Returns ZonedDateTime::forError() if epochSeconds is invalid.
      *
-     * @param epochSeconds Number of seconds from the local epoch by
-     * `LocalDate::localEpochYear()`. The default is 2000-01-01 00:00:00 UTC
-     * which can be changed by `localEpochYear(year)`. A value of
+     * @param epochSeconds Number of seconds from the current epoch by
+     * `LocalDate::currentEpochYear()`. The default is 2000-01-01 00:00:00 UTC
+     * which can be changed by `currentEpochYear(year)`. A value of
      * LocalDate::kInvalidEpochSeconds is a sentinel that is considered to be an
      * error and causes isError() to return true.
      * @param timeZone a TimeZone instance (use TimeZone() for UTC)
@@ -90,8 +90,9 @@ class ZonedDateTime {
      * the DST time zone transitions are performed using a 32-bit integer.
      * Therefore, the valid range of `unixSeconds` is approximately the same
      * range as `ZonedDateTime::forEpochSeconds()` after translating it to the
-     * AceTime local epoch. In other words, unixSeconds should be within +/- 60
-     * years of the local epoch year given by `LocalDate::localEpochYear()`.
+     * AceTime current epoch. In other words, unixSeconds should be within +/-
+     * 60 years of the current epoch year given by
+     * `LocalDate::currentEpochYear()`.
      *
      * Returns ZonedDateTime::forError() if unixSeconds is invalid.
      *
@@ -108,8 +109,8 @@ class ZonedDateTime {
         epochSeconds = unixSeconds
             // relative to base epoch
             - LocalDate::kDaysToBaseEpochFromUnixEpoch * (int64_t) 86400
-            // relative to local epoch
-            - LocalDate::daysToLocalEpochFromBaseEpoch() * (int64_t) 86400;
+            // relative to current epoch
+            - LocalDate::daysToCurrentEpochFromBaseEpoch() * (int64_t) 86400;
       }
       return forEpochSeconds(epochSeconds, timeZone);
     }
@@ -249,7 +250,7 @@ class ZonedDateTime {
     /**
      * Return number of whole days since AceTime epoch taking into account the
      * time zone. The default epoch is 2000-01-01 00:00:00 UTC but can be
-     * changed using `LocalDate::localEpochYear()`.
+     * changed using `LocalDate::currentEpochYear()`.
      */
     int32_t toEpochDays() const {
       return mOffsetDateTime.toEpochDays();
@@ -263,7 +264,7 @@ class ZonedDateTime {
     /**
      * Return seconds since AceTime epoch taking into account the time zone. The
      * default epoch is 2000-01-01 00:00:00 UTC but can be changed using
-     * `LocalDate::localEpochYear()`.
+     * `LocalDate::currentEpochYear()`.
      */
     acetime_t toEpochSeconds() const {
       return mOffsetDateTime.toEpochSeconds();

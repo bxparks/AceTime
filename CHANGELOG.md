@@ -37,17 +37,17 @@
             * In contrast, I have almost no understanding of the algorithms
               implemented by `EpochConverterJulian`.
     * Configurable epoch year
-        * Add `LocalDate::localEpochYear()` which allows customization of the
+        * Add `LocalDate::currentEpochYear()` which allows customization of the
         internal epoch year at startup.
             * Expected to be rarely used in user applications, but somewhat
               common in unit testing.
         * Add `LocalDate::localValidYearLower()` and
           `LocalDate::localValidYearUpper()`
             * Defines the 100-year interval which is +/- 50 years from the
-              `localEpochYear()` where the epoch seconds and time zone
+              `currentEpochYear()` where the epoch seconds and time zone
               transition algorithms are guaranteed to be valid.
         * Add cache invalidation methods which must be called if
-          `localEpochYear()` is changed at runtime.
+          `currentEpochYear()` is changed at runtime.
             * `ZoneProcessor::resetTransitionCache()`
             * `ZoneProcessorCache::resetZoneProcessors()`
             * `ZoneManager::resetZoneProcessors()`

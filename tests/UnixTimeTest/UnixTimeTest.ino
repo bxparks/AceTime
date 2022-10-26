@@ -64,19 +64,19 @@ test(UnixTimeTest, toEpochSeconds) {
   time_t avrSeconds = mktime(&t);
   // AVR libc epoch year is 2000 which is the same as the AceTime base epoch
   acetime_t expected = avrSeconds
-      - LocalDate::daysToLocalEpochFromBaseEpoch() * 86400;
+      - LocalDate::daysToCurrentEpochFromBaseEpoch() * 86400;
   assertEqual(epochSeconds, expected);
 #elif defined(ESP8266) || defined(ESP32)
   time_t espSeconds = mktime(&t);
   acetime_t expected = espSeconds
       - LocalDate::kDaysToBaseEpochFromUnixEpoch * 86400
-      - LocalDate::daysToLocalEpochFromBaseEpoch() * 86400;
+      - LocalDate::daysToCurrentEpochFromBaseEpoch() * 86400;
   assertEqual(epochSeconds, expected);
 #elif defined(__linux__) || defined(__APPLE__)
   time_t unixSeconds = timegm(&t);
   acetime_t expected = unixSeconds
       - LocalDate::kDaysToBaseEpochFromUnixEpoch * 86400
-      - LocalDate::daysToLocalEpochFromBaseEpoch() * 86400;
+      - LocalDate::daysToCurrentEpochFromBaseEpoch() * 86400;
   assertEqual(epochSeconds, expected);
 #endif
 }
@@ -89,16 +89,16 @@ test(UnixTimeTest, forEpochSeconds) {
 #if defined(AVR)
   // AVR libc epoch year is 2000 which is the same as the AceTime base epoch
   time_t avrSeconds = (time_t) epochSeconds
-      + LocalDate::daysToLocalEpochFromBaseEpoch() * 86400;
+      + LocalDate::daysToCurrentEpochFromBaseEpoch() * 86400;
   gmtime_r(&avrSeconds, &t);
 #elif defined(ESP8266) || defined(ESP32)
   time_t espSeconds = epochSeconds
-      + LocalDate::daysToLocalEpochFromBaseEpoch() * 86400
+      + LocalDate::daysToCurrentEpochFromBaseEpoch() * 86400
       + LocalDate::kDaysToBaseEpochFromUnixEpoch * 86400;
   gmtime_r(&espSeconds, &t);
 #elif defined(__linux__) || defined(__APPLE__)
   time_t unixSeconds = epochSeconds
-      + LocalDate::daysToLocalEpochFromBaseEpoch() * 86400
+      + LocalDate::daysToCurrentEpochFromBaseEpoch() * 86400
       + LocalDate::kDaysToBaseEpochFromUnixEpoch * 86400;
   gmtime_r(&unixSeconds, &t);
 #endif

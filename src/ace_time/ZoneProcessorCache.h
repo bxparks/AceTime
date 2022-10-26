@@ -54,7 +54,7 @@ class ZoneProcessorCacheBaseTemplate {
 
     /**
      * Reset the transition cache of all zone processors in the cache.
-     * Useful when LocalDate::localEpochYear() is changed at runtime.
+     * Useful when LocalDate::currentEpochYear() is changed at runtime.
      */
     void resetZoneProcessors() {
       for (uint8_t i = 0; i < mSize; i++) {

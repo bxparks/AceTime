@@ -185,7 +185,7 @@ class ZoneManagerTemplate : public ZoneManager {
 
     /**
      * Reset the transition cache of the zone processors in the cache.
-     * Useful when LocalDate::localEpochYear() is changed at runtime.
+     * Useful when LocalDate::currentEpochYear() is changed at runtime.
      */
     void resetZoneProcessors() {
       mZoneProcessorCache.resetZoneProcessors();

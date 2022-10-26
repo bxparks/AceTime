@@ -86,11 +86,11 @@ AceTime v2 implements the following major changes and features:
   `int8_t` to `int16_t`
     * the year range increases from `[2000,2049]` to `[2000,9999]`
     * this decouples the TZ database from the adjustable local epoch year
-* the epoch year can be changed using `LocalDate::localEpochYear(epochYear)`
+* the epoch year can be changed using `LocalDate::currentEpochYear(epochYear)`
   static method
 * removed constants
     * `LocalDate::kEpochYear`
-        * replacement: `LocalDate::localEpochYear()` function
+        * replacement: `LocalDate::currentEpochYear()` function
         * reason: no longer a constant
     * `LocalDate::kSecondsSinceUnixEpoch`
         * purpose: number of seconds from 1970 to 2000
@@ -105,7 +105,7 @@ AceTime v2 implements the following major changes and features:
         * reason: 8-bit offset no longer used, replaced by 16-bit integer
     * `LocalDate::kDaysSinceUnixEpoch`
         * purpose: number of days from 1970-01-01 to 2000-01-01
-        * replacement: `LocalDate::daysToLocalEpochFromBaseEpoch()`
+        * replacement: `LocalDate::daysToCurrentEpochFromBaseEpoch()`
         * reason: epoch is now adjustable, so must become a function
     * `LocalDate::kInvalidUnixDays`
         * replacement: `kInvalidEpochDays`
@@ -122,19 +122,19 @@ AceTime v2 implements the following major changes and features:
           AceTime base epoch (2000-01-01T00:00:00)
         * comment: should not normally be needed by client applications
 * new functions
-    * `LocalDate::localEpochYear(epochYear)`
+    * `LocalDate::currentEpochYear(epochYear)`
         * purpose: set the local epoch year
-    * `LocalDate::localEpochYear()`
+    * `LocalDate::currentEpochYear()`
         * purpose: get the local epoch year
     * `LocalDate::localValidYearLower()`
         * purpose: lower limit of valid years (`valid_year >= lower`)
     * `LocalDate::localValidYearUpper()`
         * purpose: upper limit of valid years (`valid_year < upper`)
-    * `LocalDate::daysToLocalEpochFromBaseEpoch()`
+    * `LocalDate::daysToCurrentEpochFromBaseEpoch()`
         * purpose: number of days from the base epoch (2000-01-01T00:00:00) to
           the current epoch ({yyyy}-01-01T00:00:00) where `yyyy` is set by
-          `localEpochYear(yyyy)`
-        * updated by `LocalDate::localEpochYear(epochYear)`
+          `currentEpochYear(yyyy)`
+        * updated by `LocalDate::currentEpochYear(epochYear)`
 * removed functions
     * `LocalDate::toUnixSeconds()`
         * reason: 32-bit Unix seconds will overflow in the year 2038
@@ -164,7 +164,7 @@ can throw away the old epochSeconds and start fresh with new epoch year.
 
 (TODO: Move this section into `USER_GUIDE.md`)
 
-The `localEpochYear` is an **adjustable** global parameter which is no longer
+The `currentEpochYear` is an **adjustable** global parameter which is no longer
 hard coded to 2000. There are 5 static functions on the `LocalDate` class that
 support this feature:
 
@@ -174,14 +174,14 @@ class LocalDate {
 
   public:
     // Set the local epoch year.
-    static int16_t localEpochYear(int16_t epochYear);
+    static int16_t currentEpochYear(int16_t epochYear);
 
     // Get the local epoch year.
-    static int16_t localEpochYear();
+    static int16_t currentEpochYear();
 
     // Return the number of days from the base epoch (2000-01-01T00:00:00)
     // to the adjust epoch ({yyyy}-01-01T00:00:00).
-    static int32_t daysToLocalEpochFromBaseEpoch();
+    static int32_t daysToCurrentEpochFromBaseEpoch();
 
     // Return the lower limit year which is supported by the current epoch year.
     static int16_t localValidYearLower();

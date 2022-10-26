@@ -391,10 +391,10 @@ test(ZonedDateTimeExtendedTest, normalize) {
 // in effect for all years afterwards.
 // --------------------------------------------------------------------------
 test(ZonedDateTimeExtendedTest, morocco_2090) {
-  // Reconfigure the local epoch year to 2050 to allow calculations in the year
-  // 2090.
-  int16_t savedEpochYear = LocalDate::localEpochYear();
-  LocalDate::localEpochYear(2050);
+  // Reconfigure the current epoch year to 2050 to allow calculations in the
+  // year 2090.
+  int16_t savedEpochYear = LocalDate::currentEpochYear();
+  LocalDate::currentEpochYear(2050);
   extendedZoneManager.resetZoneProcessors();
 
   TimeZone tz = extendedZoneManager.createForZoneInfo(
@@ -433,9 +433,9 @@ test(ZonedDateTimeExtendedTest, morocco_2090) {
   epochSeconds = dt.toEpochSeconds();
   assertEqual(epochSeconds, (int32_t) 14610 * 86400);
 
-  // Revert the local epoch year, making sure to reset the transition caches
+  // Revert the current epoch year, making sure to reset the transition caches
   // of the zone processors.
-  LocalDate::localEpochYear(savedEpochYear);
+  LocalDate::currentEpochYear(savedEpochYear);
   extendedZoneManager.resetZoneProcessors();
 }
 

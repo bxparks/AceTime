@@ -45,7 +45,7 @@ class ZoneProcessor {
 
     /**
      * Reset the internal transition cache. Useful when
-     * LocalDate::localEpochYear() is changed at runtime.
+     * LocalDate::currentEpochYear() is changed at runtime.
      */
     void resetTransitionCache() { mIsFilled = false; }
 

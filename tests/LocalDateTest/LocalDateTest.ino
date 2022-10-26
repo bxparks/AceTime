@@ -235,11 +235,11 @@ test(LocalDateTest, toAndFromEpochDays) {
   assertTrue(ld == LocalDate::forEpochDays(epochDays9999));
 }
 
-// Change localEpochYear to a different value.
+// Change currentEpochYear to a different value.
 test(LocalDateTest, toAndFromEpochDays_epoch2050) {
-  // Change local epoch year to 2100, so the epoch becomes 2100-01-01T00:00:00.
-  int16_t savedEpochYear = LocalDate::localEpochYear();
-  LocalDate::localEpochYear(2050);
+  // Change current epoch year to 2100, making the epoch 2100-01-01T00:00:00.
+  int16_t savedEpochYear = LocalDate::currentEpochYear();
+  LocalDate::currentEpochYear(2050);
 
   // Verify lower and upper valid year limits.
   assertEqual(LocalDate::localValidYearLower(), 2000);
@@ -265,15 +265,16 @@ test(LocalDateTest, toAndFromEpochDays_epoch2050) {
   assertEqual(largestEpochDays, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(largestEpochDays));
 
-  // Reset to the previous local epoch year.
-  LocalDate::localEpochYear(savedEpochYear);
+  // Reset to the previous current epoch year.
+  LocalDate::currentEpochYear(savedEpochYear);
 }
 
-// Change localEpochYear to a different value.
+// Change currentEpochYear to a different value.
 test(LocalDateTest, toAndFromEpochDays_epoch2100) {
-  // Change local epoch year to 2100, so the epoch becomes 2100-01-01T00:00:00.
-  int16_t savedEpochYear = LocalDate::localEpochYear();
-  LocalDate::localEpochYear(2100);
+  // Change current epoch year to 2100, so the epoch becomes
+  // 2100-01-01T00:00:00.
+  int16_t savedEpochYear = LocalDate::currentEpochYear();
+  LocalDate::currentEpochYear(2100);
 
   // Verify lower and upper valid year limits.
   assertEqual(LocalDate::localValidYearLower(), 2050);
@@ -299,8 +300,8 @@ test(LocalDateTest, toAndFromEpochDays_epoch2100) {
   assertEqual(largestEpochDays, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(largestEpochDays));
 
-  // Reset to the previous local epoch year.
-  LocalDate::localEpochYear(savedEpochYear);
+  // Reset to the previous current epoch year.
+  LocalDate::currentEpochYear(savedEpochYear);
 }
 
 // Same as toAndFromEpochDays, shifted 30 years

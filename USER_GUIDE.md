@@ -3104,11 +3104,6 @@ Serial.println(dt.isError() ? "true" : "false");
     * To be safe, users of this library should stay at least 1 year away from
       the lower and upper limits of `acetime_t` (i.e. stay within the year 1932
       to 2067, inclusive).
-* `toUnixSeconds64()` and `forUnixSeconds64()`
-    * The range of values returned by these methods is the same as the range
-      used by `toEpochSeconds()` and `forEpochSeconds()`, except that the epoch
-      is shifted to center around 1970 instead of centering around the
-      `LocalDate::localEpochYear()`.
 * `TimeOffset`
     * Implemented using `int16_t` in 1 minute increments.
 * `LocalDate`, `LocalDateTime`

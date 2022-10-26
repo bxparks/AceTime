@@ -33,11 +33,11 @@ namespace ace_time {
  * month, day) tuple to the number of days since the "epoch". The default epoch
  * year is 2000, which makes the epoch date-time be 2000-01-01T00:00:00.
  *
- * The epoch year can be changed using the static `localEpochYear()` method.
+ * The epoch year can be changed using the static `currentEpochYear()` method.
  * This is useful for dates larger than 2068-01-19T03:14:07, which is the
  * largest date-time that can be represented using an `int32_t` type to hold the
  * number of seconds since the epoch. For example, calling
- * `localEpochYear(2100)` will set the epoch to be 2100-01-01T00:00:00, so
+ * `currentEpochYear(2100)` will set the epoch to be 2100-01-01T00:00:00, so
  * that dates from 2031-12-13 20:45:52Z to 2168-01-20T03:14:07 can be captured.
  *
  * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated from the date
@@ -157,36 +157,38 @@ class LocalDateTemplate {
       return year >= kMinYear && year <= kMaxYear;
     }
 
-  // Set and get local epoch year.
+  // Set and get current epoch year.
   private:
-    /** Base year of local epoch. The actual epoch is {yyyy}-01-01T00:00:00. */
-    static int16_t sLocalEpochYear;
+    /**
+     * Base year `yyyy` of current epoch {yyyy}-01-01T00:00:00.
+     */
+    static int16_t sCurrentEpochYear;
 
     /**
      * Number of days from T_CONVERTER::kEpochConverterBaseYear to
-     * sLocalEpochYear. Default is 0, since the default sLocalEpochYear is the
-     * same as T_CONVERTER::kEpochConverterBaseYear.
+     * sCurrentEpochYear. Default is 0, since the default sCurrentEpochYear is
+     * the same as T_CONVERTER::kEpochConverterBaseYear.
      */
-    static int32_t sDaysToLocalEpochFromBaseEpoch;
+    static int32_t sDaysToCurrentEpochFromBaseEpoch;
 
   public:
-    /** Get the local epoch year. */
-    static int16_t localEpochYear() {
-      return sLocalEpochYear;
+    /** Get the current epoch year. */
+    static int16_t currentEpochYear() {
+      return sCurrentEpochYear;
     }
 
-    /** Set the local epoch year. */
-    static void localEpochYear(int16_t year) {
-      sLocalEpochYear = year;
-      sDaysToLocalEpochFromBaseEpoch = T_CONVERTER::toEpochDays(year, 1, 1);
+    /** Set the current epoch year. */
+    static void currentEpochYear(int16_t year) {
+      sCurrentEpochYear = year;
+      sDaysToCurrentEpochFromBaseEpoch = T_CONVERTER::toEpochDays(year, 1, 1);
     }
 
     /**
      * Return the number of days from the base epoch (2000) to the current
-     * local epoch.
+     * epoch.
      */
-    static int32_t daysToLocalEpochFromBaseEpoch() {
-      return sDaysToLocalEpochFromBaseEpoch;
+    static int32_t daysToCurrentEpochFromBaseEpoch() {
+      return sDaysToCurrentEpochFromBaseEpoch;
     }
 
     /**
@@ -198,13 +200,13 @@ class LocalDateTemplate {
      * A 32-bit integer has a range of about 136 years, so the half interval is
      * 68 years. But the algorithms to calculate transitions in
      * `zone_processing.h` use a 3-year window straddling the current year, so
-     * the actual lower limit is probably closer to `localEpochYear() - 66`. To
-     * be conservative, this function returns `localEpochYear() - 50`. It may
-     * return a smaller value in the future if the internal calculations can be
-     * verified to avoid underflow or overflow problems.
+     * the actual lower limit is probably closer to `currentEpochYear() - 66`.
+     * To be conservative, this function returns `currentEpochYear() - 50`. It
+     * may return a smaller value in the future if the internal calculations can
+     * be verified to avoid underflow or overflow problems.
      */
     static int16_t localValidYearLower() {
-      return localEpochYear() - 50;
+      return currentEpochYear() - 50;
     }
 
     /**
@@ -216,13 +218,13 @@ class LocalDateTemplate {
      * A 32-bit integer has a range of about 136 years, so the half interval is
      * 68 years. But the algorithms to calculate the transitions in
      * `zone_processing.h` use a 3-year window straddling the current year, so
-     * actual upper limit is probably close to `localEpochYear() + 66`. To be
-     * conservative, this function returns `localEpochYear() + 50`. It may
+     * actual upper limit is probably close to `currentEpochYear() + 66`. To be
+     * conservative, this function returns `currentEpochYear() + 50`. It may
      * return a larger value in the future if the internal calculations can be
      * verified to avoid underflow or overflow problems.
      */
     static int16_t localValidYearUpper() {
-      return localEpochYear() + 50;
+      return currentEpochYear() + 50;
     }
 
   // Factory methods.
@@ -246,7 +248,7 @@ class LocalDateTemplate {
      * 2000-01-01). If epochDays is kInvalidEpochDays, isError() will return
      * true.
      *
-     * @param epochDays number of days since the current local epoch
+     * @param epochDays number of days since the current epoch
      */
     static LocalDateTemplate forEpochDays(int32_t epochDays) {
       int16_t year;
@@ -258,7 +260,7 @@ class LocalDateTemplate {
         day = 0;
       } else {
         // shift relative to T_CONVERTER::kEpochConverterBaseYear
-        epochDays += sDaysToLocalEpochFromBaseEpoch;
+        epochDays += sDaysToCurrentEpochFromBaseEpoch;
         T_CONVERTER::fromEpochDays(epochDays, year, month, day);
       }
       return forComponents(year, month, day);
@@ -273,15 +275,15 @@ class LocalDateTemplate {
       int32_t days = unixDays
           // relative to 2000
           - kDaysToBaseEpochFromUnixEpoch
-          // relative to local epoch
-          - sDaysToLocalEpochFromBaseEpoch;
+          // relative to current epoch
+          - sDaysToCurrentEpochFromBaseEpoch;
       return forEpochDays(days);
     }
 
     /**
      * Factory method using the number of seconds since the current epoch year
-     * given by `localEpochYear()`. The default is 2000-01-01, but can be
-     * changed using `localEpochYear(epochYear)`.
+     * given by `currentEpochYear()`. The default is 2000-01-01, but can be
+     * changed using `currentEpochYear(epochYear)`.
      *
      * The number of seconds from midnight of the given day is thrown away. For
      * negative values of epochSeconds, the method to rounds down to the nearest
@@ -289,7 +291,7 @@ class LocalDateTemplate {
      *
      * If epochSeconds is kInvalidEpochSeconds, isError() will return true.
      *
-     * @param epochSeconds number of seconds since the current local epoch
+     * @param epochSeconds number of seconds since the current epoch
      */
     static LocalDateTemplate forEpochSeconds(acetime_t epochSeconds) {
       if (epochSeconds == kInvalidEpochSeconds) {
@@ -317,8 +319,8 @@ class LocalDateTemplate {
         int64_t epochSeconds64 = unixSeconds
             // relative to base epoch (2000)
             - kDaysToBaseEpochFromUnixEpoch * (int64_t) 86400
-            // relative to local epoch
-            - sDaysToLocalEpochFromBaseEpoch * (int64_t) 86400;
+            // relative to current epoch
+            - sDaysToCurrentEpochFromBaseEpoch * (int64_t) 86400;
         int32_t days = (epochSeconds64 < 0)
             ? (epochSeconds64 + 1) / 86400 - 1
             : epochSeconds64 / 86400;
@@ -430,8 +432,8 @@ class LocalDateTemplate {
     }
 
     /**
-     * Return number of days since the local epoch year `sLocalEpochYear`.
-     * By default, the local epoch year is 2000 so the epoch is 2000-01-01
+     * Return number of days since the current epoch year `sCurrentEpochYear`.
+     * By default, the current epoch year is 2000 so the epoch is 2000-01-01
      * 00:00:00 UTC).
      *
      * Returns kInvalidEpochDays if isError() is true, which allows round trip
@@ -441,7 +443,7 @@ class LocalDateTemplate {
     int32_t toEpochDays() const {
       if (isError()) return kInvalidEpochDays;
       int32_t days = T_CONVERTER::toEpochDays(mYear, mMonth, mDay)
-          - sDaysToLocalEpochFromBaseEpoch; // relative to local epoch
+          - sDaysToCurrentEpochFromBaseEpoch; // relative to current epoch
       return days;
     }
 
@@ -449,12 +451,12 @@ class LocalDateTemplate {
     int32_t toUnixDays() const {
       if (isError()) return kInvalidEpochDays;
       return toEpochDays()
-          + sDaysToLocalEpochFromBaseEpoch // relative to base epoch year
+          + sDaysToCurrentEpochFromBaseEpoch // relative to base epoch year
           + kDaysToBaseEpochFromUnixEpoch; // relative to 1970
     }
 
     /**
-     * Return the number of seconds since the localEpochYear().
+     * Return the number of seconds since the currentEpochYear().
      *
      * Returns kInvalidEpochSeconds if isError() is true or if epochSeconds is
      * out of range.
@@ -597,10 +599,10 @@ const uint8_t LocalDateTemplate<T>::sDaysInMonth[12] = {
 };
 
 template <typename T>
-int16_t LocalDateTemplate<T>::sLocalEpochYear = 2000;
+int16_t LocalDateTemplate<T>::sCurrentEpochYear = 2000;
 
 template <typename T>
-int32_t LocalDateTemplate<T>::sDaysToLocalEpochFromBaseEpoch = 0;
+int32_t LocalDateTemplate<T>::sDaysToCurrentEpochFromBaseEpoch = 0;
 
 // Use EpochConverterHinnant for LocalDate
 using LocalDate = LocalDateTemplate<internal::EpochConverterHinnant>;

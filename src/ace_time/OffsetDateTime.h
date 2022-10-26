@@ -25,7 +25,7 @@ namespace ace_time {
  * DS3231 RTC chip.
  *
  * The default epoch for AceTime is 2000-01-01T00:00:00 UTC, but can be changed
- * using `LocalDate::localEpochYear()`. The `toEpochSeconds()` method returns a
+ * using `LocalDate::currentEpochYear()`. The `toEpochSeconds()` method returns a
  * `int32_t` number of seconds offset from that epoch.
  *
  * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated internally
@@ -242,7 +242,7 @@ class OffsetDateTime {
     /**
      * Return number of whole days since AceTime epoch taking into account the
      * UTC offset. The default epoch is 2000-01-01 00:00:00 UTC but can be
-     * changed using `LocalDate::localEpochYear()`.
+     * changed using `LocalDate::currentEpochYear()`.
      */
     int32_t toEpochDays() const {
       if (isError()) return LocalDate::kInvalidEpochDays;
@@ -266,7 +266,7 @@ class OffsetDateTime {
     /**
      * Return seconds since AceTime epoch taking into account the UTC offset.
      * The default epoch is 2000-01-01 00:00:00 UTC but can be changed using
-     * `LocalDate::localEpochYear()`.
+     * `LocalDate::currentEpochYear()`.
      */
     acetime_t toEpochSeconds() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds;

@@ -97,8 +97,8 @@ class TransitionValidation : public aunit::TestOnce {
 };
 
 testF(TransitionValidation, allZones) {
-  int16_t savedEpochYear = LocalDate::localEpochYear();
-  LocalDate::localEpochYear(2050);
+  int16_t savedEpochYear = LocalDate::currentEpochYear();
+  LocalDate::currentEpochYear(2050);
   zoneProcessor.resetTransitionCache();
 
   for (uint16_t i = 0; i < zonedbx::kZoneRegistrySize; i++) {
@@ -107,7 +107,7 @@ testF(TransitionValidation, allZones) {
 
     // Loop from ZoneContext::startYear to ZoneContext::untilYear, in 100 years
     // chunks, because time zone processing is valid over an interval of about
-    // 130 years. For each chunk, the localEpochYear() is reset to an epoch
+    // 130 years. For each chunk, the currentEpochYear() is reset to an epoch
     // year that is in the middle of each 100-year chunk.
     for (
         int16_t startYear = zonedbx::kZoneContext.startYear;
@@ -117,13 +117,13 @@ testF(TransitionValidation, allZones) {
       int16_t untilYear = min(
           (int16_t) (epochYear + 50),
           zonedbx::kZoneContext.untilYear);
-      LocalDate::localEpochYear(epochYear);
+      LocalDate::currentEpochYear(epochYear);
       zoneProcessor.resetTransitionCache();
       assertNoFatalFailure(validateZone(startYear, untilYear));
     }
   }
 
-  LocalDate::localEpochYear(savedEpochYear);
+  LocalDate::currentEpochYear(savedEpochYear);
   zoneProcessor.resetTransitionCache();
 }
 
