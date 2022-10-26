@@ -126,9 +126,9 @@ AceTime v2 implements the following major changes and features:
         * purpose: set the local epoch year
     * `LocalDate::currentEpochYear()`
         * purpose: get the local epoch year
-    * `LocalDate::localValidYearLower()`
+    * `LocalDate::epochValidYearLower()`
         * purpose: lower limit of valid years (`valid_year >= lower`)
-    * `LocalDate::localValidYearUpper()`
+    * `LocalDate::epochValidYearUpper()`
         * purpose: upper limit of valid years (`valid_year < upper`)
     * `LocalDate::daysToCurrentEpochFromBaseEpoch()`
         * purpose: number of days from the base epoch (2000-01-01T00:00:00) to
@@ -183,11 +183,13 @@ class LocalDate {
     // to the adjust epoch ({yyyy}-01-01T00:00:00).
     static int32_t daysToCurrentEpochFromBaseEpoch();
 
-    // Return the lower limit year which is supported by the current epoch year.
-    static int16_t localValidYearLower();
+    // Return the lower limit year which generates valid epoch seconds for the
+    // current epoch year.
+    static int16_t epochValidYearLower();
 
-    // Return the upper limit year which is supported by the current epoch year.
-    static int16_t localValidYearUpper();
+    // Return the upper limit year which generates valid epoch seconds for the
+    // current epoch year.
+    static int16_t epochValidYearUpper();
 
   ...
 };

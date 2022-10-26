@@ -41,8 +41,8 @@
         internal epoch year at startup.
             * Expected to be rarely used in user applications, but somewhat
               common in unit testing.
-        * Add `LocalDate::localValidYearLower()` and
-          `LocalDate::localValidYearUpper()`
+        * Add `LocalDate::epochValidYearLower()` and
+          `LocalDate::epochValidYearUpper()`
             * Defines the 100-year interval which is +/- 50 years from the
               `currentEpochYear()` where the epoch seconds and time zone
               transition algorithms are guaranteed to be valid.
