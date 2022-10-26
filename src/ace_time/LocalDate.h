@@ -63,18 +63,34 @@ class LocalDateTemplate {
     static const int32_t kDaysToBaseEpochFromUnixEpoch = 10957;
 
     /**
-     * Sentinel year which indicates an error condition or sometimes a year
-     * that 'does not exist'.
+     * Sentinel year which indicates one or more of the following conditions:
+     *
+     *  * an error condition, or
+     *  * a year that 'does not exist', or
+     *  * a year smaller than any valid year.
+     *
+     * Some algorithms in ExtendedZoneProcessor assume that this value is
+     * smaller than any valid year, i.e. smaller than kMinYear.
      */
     static const int16_t kInvalidYear = INT16_MIN;
 
     /**
-     * Sentinel year which represents the smallest year, effectively -Infinity.
+     * The smallest year that is expected to be handled by LocalDate.
+     *
+     * The algorithms in the EpochConverterHinnant works for the propletic
+     * Gregorian calendar down to year 1. However, time zone offsets and
+     * shifting the year to start in March (to make computations involving leap
+     * days easier) may shift the year to 0. So this class is allowed to handle
+     * the year 0.
      */
     static const int16_t kMinYear = 0;
 
     /**
-     * Sentinel year which represents the largest year, effectively +Infinity.
+     * The largest year that is expected to be handled by LocalDate.
+     *
+     * The ZoneRule instances in the zoneinfo databases (zonedb, zonedbx) have a
+     * maximum `untilYear` value of 10000, so it is possible that an instance of
+     * this class may have a value of 10000.
      */
     static const int16_t kMaxYear = 10000;
 
