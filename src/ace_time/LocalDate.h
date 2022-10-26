@@ -195,7 +195,9 @@ class LocalDateTemplate {
      * The smallest year (inclusive) for which calculations involving the 32-bit
      * `epoch_seconds` and time zone transitions are guaranteed to be valid
      * without underflowing or overflowing. Valid years satisfy the condition
-     * `year >= validYearLower()`.
+     * `year >= validYearLower()`. This condition is not enforced by any code
+     * within the library. The limit is exposed for informational purposes for
+     * downstream applications.
      *
      * A 32-bit integer has a range of about 136 years, so the half interval is
      * 68 years. But the algorithms to calculate transitions in
@@ -213,7 +215,9 @@ class LocalDateTemplate {
      * The largest year (exclusive) for which calculations involving the 32-bit
      * `epoch_seconds` and time zone transitions are guaranteed to be valid
      * without underflowing or overflowing. Valid years satisfy the condition
-     * `year < validYearUpper()`.
+     * `year < validYearUpper()`. This condition is not enforced by any code
+     * within the library. The limit is exposed for informational purposes for
+     * downstream applications.
      *
      * A 32-bit integer has a range of about 136 years, so the half interval is
      * 68 years. But the algorithms to calculate the transitions in
