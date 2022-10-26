@@ -98,7 +98,7 @@ class LocalDateTime {
           // relative to base epoch
           - LocalDate::kDaysToBaseEpochFromUnixEpoch * (int64_t) 86400
           // relative local epoch
-          - LocalDate::sDaysToLocalEpochFromBaseEpoch * (int64_t) 86400;
+          - LocalDate::daysToLocalEpochFromBaseEpoch() * (int64_t) 86400;
 
       // Integer floor-division towards -infinity
       int32_t days = (epochSeconds64 < 0)

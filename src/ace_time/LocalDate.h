@@ -142,7 +142,7 @@ class LocalDateTemplate {
     }
 
   // Set and get local epoch year.
-  public:
+  private:
     /** Base year of local epoch. The actual epoch is {yyyy}-01-01T00:00:00. */
     static int16_t sLocalEpochYear;
 
@@ -153,6 +153,7 @@ class LocalDateTemplate {
      */
     static int32_t sDaysToLocalEpochFromBaseEpoch;
 
+  public:
     /** Get the local epoch year. */
     static int16_t localEpochYear() {
       return sLocalEpochYear;
@@ -162,6 +163,14 @@ class LocalDateTemplate {
     static void localEpochYear(int16_t year) {
       sLocalEpochYear = year;
       sDaysToLocalEpochFromBaseEpoch = T_CONVERTER::toEpochDays(year, 1, 1);
+    }
+
+    /**
+     * Return the number of days from the base epoch (2000) to the current
+     * local epoch.
+     */
+    static int32_t daysToLocalEpochFromBaseEpoch() {
+      return sDaysToLocalEpochFromBaseEpoch;
     }
 
     /**
