@@ -16,34 +16,41 @@
             * `forTinyComponents()`
         * Update [AceTimeTools](https://github.com/bxparks/AceTimeTools)
           to generate `src/zonedb` and `src/zonedbx` using `int16_t` year types.
-    * Convert `LocalDate` into a `LocalDateTemplate` class to allow different
-      epoch date conversion algorithms to be used/tested. Two of them are
-      `EpochConverterJulian` and `EpochConverterHinnant`
-        * `EpochConverterJulian` implements the algorithms found in wikipedia
-          article https://en.wikipedia.org/wiki/Julian_day.
-        * `EpochConverterHinnant` implements the algorithms found in
-          https://howardhinnant.github.io/date_algorithms.html.
-    * Migrate `LocalDate` to use the `EpochConverterHinnant` instead of
-      `EpochConverterJulian`.
-        * The primary reason is that I am able to fully understand the
-          algorithms described in `EpochConverterHinnant`.
-        * In contrast, I have almost no understanding of the algorithms
-          implemented by `EpochConverterJulian`.
-    * Add `LocalDate::localEpochYear()` which allows customization of the
-      internal epoch year at startup.
-        * Expected to be rarely used in user applications.
-        * But somewhat common in unit testing.
-    * Add cache invalidation methods which must be called if `localEpochYear()`
-      is changed at runtime.
-        * `ZoneProcessor::resetTransitionCache()`
-        * `ZoneProcessorCache::resetZoneProcessors()`
-        * `ZoneManager::resetZoneProcessors()`
     * Extend `untilYear` of `src/ace_time/zonedb` and `src/ace_time/zonedbx`
-      databases to 2100. Their range is now `[2000,2050)` to `[2000,2100)`.
-        * `kPolicyMorocco` for `zonedbx` adds 75 additional Rules due to the
+      databases to 10000, making the database year range be `[2000,10000)`.
+        * `zonedbx` adds 75 additional Rules for `kPolicyMorocco` due to the
           precalculated DST shifts which are listed in the IANA TZ DB to the
           year 2087.
         * `zonedb` remains unchanged
+    * Configurable epoch seconds conversion algorithms
+        * Convert `LocalDate` into a `LocalDateTemplate` class to allow
+          different epoch date conversion algorithms to be used/tested. Two of
+          them are `EpochConverterJulian` and `EpochConverterHinnant`
+            * `EpochConverterJulian` implements the algorithms found in
+              wikipedia article https://en.wikipedia.org/wiki/Julian_day.
+            * `EpochConverterHinnant` implements the algorithms found in
+              https://howardhinnant.github.io/date_algorithms.html.
+        * Migrate `LocalDate` to use the `EpochConverterHinnant` instead of
+          `EpochConverterJulian`.
+            * The primary reason is that I am able to fully understand the
+              algorithms described in `EpochConverterHinnant`.
+            * In contrast, I have almost no understanding of the algorithms
+              implemented by `EpochConverterJulian`.
+    * Configurable epoch year
+        * Add `LocalDate::localEpochYear()` which allows customization of the
+        internal epoch year at startup.
+            * Expected to be rarely used in user applications, but somewhat
+              common in unit testing.
+        * Add `LocalDate::localValidYearLower()` and
+          `LocalDate::localValidYearUpper()`
+            * Defines the 100-year interval which is +/- 50 years from the
+              `localEpochYear()` where the epoch seconds and time zone
+              transition algorithms are guaranteed to be valid.
+        * Add cache invalidation methods which must be called if
+          `localEpochYear()` is changed at runtime.
+            * `ZoneProcessor::resetTransitionCache()`
+            * `ZoneProcessorCache::resetZoneProcessors()`
+            * `ZoneManager::resetZoneProcessors()`
     * Remove `toUnixSeconds()` and `forUnixSeconds()` which use the 32-bit
       versions of unix epoch seconds.
         * They will become invalid in the year 2038, and it's now the year 2022
