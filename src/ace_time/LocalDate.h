@@ -200,6 +200,16 @@ class LocalDateTemplate {
     }
 
     /**
+     * Return the number of seconds from the Unix epoch (1970-01-01T00:00:00) to
+     * the current epoch. The return type is a 64-bit integer because a 32-bit
+     * integer would overflow if the current epoch year is set to later than
+     * 2038.
+     */
+    static int64_t secondsToCurrentEpochFromUnixEpoch64() {
+      return daysToCurrentEpochFromUnixEpoch() * (int64_t) 86400;
+    }
+
+    /**
      * The smallest year (inclusive) for which calculations involving the 32-bit
      * `epoch_seconds` and time zone transitions are guaranteed to be valid
      * without underflowing or overflowing. Valid years satisfy the condition
@@ -325,7 +335,7 @@ class LocalDateTemplate {
         return forError();
       } else {
         int64_t epochSeconds64 = unixSeconds
-            - daysToCurrentEpochFromUnixEpoch() * (int64_t) 86400;
+            - secondsToCurrentEpochFromUnixEpoch64();
         int32_t days = (epochSeconds64 < 0)
             ? (epochSeconds64 + 1) / 86400 - 1
             : epochSeconds64 / 86400;

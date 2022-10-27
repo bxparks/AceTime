@@ -107,7 +107,7 @@ class ZonedDateTime {
         epochSeconds = LocalDate::kInvalidEpochSeconds;
       } else {
         epochSeconds = unixSeconds
-            - LocalDate::daysToCurrentEpochFromUnixEpoch() * (int64_t) 86400;
+            - LocalDate::secondsToCurrentEpochFromUnixEpoch64();
       }
       return forEpochSeconds(epochSeconds, timeZone);
     }

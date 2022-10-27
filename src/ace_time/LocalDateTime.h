@@ -95,7 +95,7 @@ class LocalDateTime {
       }
 
       int64_t epochSeconds64 = unixSeconds
-          - LocalDate::daysToCurrentEpochFromUnixEpoch() * (int64_t) 86400;
+          - LocalDate::secondsToCurrentEpochFromUnixEpoch64();
 
       // Integer floor-division towards -infinity
       int32_t days = (epochSeconds64 < 0)

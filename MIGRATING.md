@@ -94,14 +94,11 @@ AceTime v2 implements the following major changes and features:
         * replacement: `LocalDate::currentEpochYear()` function
         * reason: no longer a constant
     * `LocalDate::kSecondsSinceUnixEpoch`
-        * purpose: number of seconds from 1970 to 2000
-        * replacement:
-            * `LocalDate::daysToCurrentEpochFromUnixEpoch() * (int32_t) 86400`
-            * `LocalDate::daysToCurrentEpochFromUnixEpoch() * (int64_t) 86400`
-        * reason:
-            * `int32_t` seconds can overflow, but `int32_t` days will not
-            * the calling code can decide whether to continue to use `int32_t`
-              seconds (which works until roughly year 2038) or `int64_t` seconds
+        * purpose: number of seconds from 1970 to the AceTime epoch 2000
+        * replacement: `LocalDate::secondsToCurrentEpochFromUnixEpoch64()`
+        * reasons:
+            * `int32_t` seconds can overflow, so use `int64_t`
+            * epoch year is now adjustable, not a constant
     * `LocalDate::kMinYearTiny`
         * replacement: `LocalDate::kMinYear`
         * reason: 8-bit offset no longer used, replaced by 16-bit integer
@@ -135,6 +132,10 @@ AceTime v2 implements the following major changes and features:
         * purpose: lower limit of valid years (`valid_year >= lower`)
     * `LocalDate::epochValidYearUpper()`
         * purpose: upper limit of valid years (`valid_year < upper`)
+    * `LocalDate::secondsToCurrentEpochFromUnixEpoch64()`
+        * purpose: number of seconds from the Unix epoch (1970-01-01T00:00:00)
+          to the current epoch ({yyyy}-01-01T00:00:00)
+        * comment: useful for converting between AceTime epoch and Unix epoch
     * `LocalDate::daysToCurrentEpochFromUnixEpoch()`
         * purpose: number of days from Unix epoch (1970-01-01T00:00:00) to
           the current epoch ({yyyy}-01-01T00:00:00) where `yyyy` is set by
@@ -195,6 +196,10 @@ class LocalDate {
 
     // Get the current epoch year.
     static int16_t currentEpochYear();
+
+    // The number of seconds from the Unix epoch (1970-01-01T00:00:00)
+    // to the current epoch ({yyyy}-01-01T00:00:00).
+    static int64_t secondsToCurrentEpochFromUnixEpoch64();
 
     // The number of days from the Unix epoch (1970-01-01T00:00:00)
     // to the current epoch ({yyyy}-01-01T00:00:00).
