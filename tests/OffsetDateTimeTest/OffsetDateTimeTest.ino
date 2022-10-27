@@ -568,6 +568,110 @@ test(OffsetDateTimeMutationTest, incrementMinute) {
 
 //---------------------------------------------------------------------------
 
+test(OffsetDateTimeTest, spotcheck_epoch2000) {
+  // Change current epoch year to 2000, so the epoch is 2000-01-01T00:00:00.
+  int16_t savedEpochYear = LocalDate::currentEpochYear();
+  LocalDate::currentEpochYear(2000);
+
+  auto minDt = OffsetDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds,
+      TimeOffset());
+  auto expected = OffsetDateTime::forComponents(1931, 12, 13, 20, 45, 53,
+      TimeOffset());
+  assertTrue(expected == minDt);
+
+  auto maxDt = OffsetDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds,
+      TimeOffset());
+  expected = OffsetDateTime::forComponents(2068, 1, 19, 3, 14, 7,
+      TimeOffset());
+  assertTrue(expected == maxDt);
+
+  // Verify that toUnixDays() does not change if currentEpochYear() is changed.
+  auto dt = OffsetDateTime::forComponents(1931, 12, 13, 20, 45, 53,
+      TimeOffset());
+  assertEqual((int32_t) -13899, dt.toUnixDays());
+  dt = OffsetDateTime::forComponents(2000, 1, 1, 0, 0, 0,
+      TimeOffset());
+  assertEqual((int32_t) 10957, dt.toUnixDays());
+  dt = OffsetDateTime::forComponents(2038, 1, 19, 3, 14, 7,
+      TimeOffset());
+  assertEqual((int32_t) 24855, dt.toUnixDays());
+
+  // Reset to the previous current epoch year.
+  LocalDate::currentEpochYear(savedEpochYear);
+}
+
+test(OffsetDateTimeTest, spotcheck_epoch2050) {
+  // Change current epoch year to 2050, so the epoch is 2050-01-01T00:00:00.
+  int16_t savedEpochYear = LocalDate::currentEpochYear();
+  LocalDate::currentEpochYear(2050);
+
+  // Same min date as epoch 2000, but 50 years later.
+  auto minDt = OffsetDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds,
+      TimeOffset());
+  auto expected = OffsetDateTime::forComponents(1981, 12, 13, 20, 45, 53,
+      TimeOffset());
+  assertTrue(expected == minDt);
+
+  // Almost the same max date as epoch 2000, but one day later on Jan 20 instead
+  // of the Jan 19, because 2000 was a leap year, but 2100 is not.
+  auto maxDt = OffsetDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds,
+      TimeOffset());
+  expected = OffsetDateTime::forComponents(2118, 1, 20, 3, 14, 7,
+      TimeOffset());
+  assertTrue(expected == maxDt);
+
+  // Verify that toUnixDays() does not change if currentEpochYear() is changed.
+  auto dt = OffsetDateTime::forComponents(1931, 12, 13, 20, 45, 53,
+      TimeOffset());
+  assertEqual((int32_t) -13899, dt.toUnixDays());
+  dt = OffsetDateTime::forComponents(2000, 1, 1, 0, 0, 0,
+      TimeOffset());
+  assertEqual((int32_t) 10957, dt.toUnixDays());
+  dt = OffsetDateTime::forComponents(2038, 1, 19, 3, 14, 7,
+      TimeOffset());
+  assertEqual((int32_t) 24855, dt.toUnixDays());
+
+  // Reset to the previous current epoch year.
+  LocalDate::currentEpochYear(savedEpochYear);
+}
+
+test(OffsetDateTimeTest, spotcheck_epoch2100) {
+  // Change current epoch year to 2100, so the epoch is 2100-01-01T00:00:00.
+  int16_t savedEpochYear = LocalDate::currentEpochYear();
+  LocalDate::currentEpochYear(2100);
+
+  // Same min date as epoch 2000, but 100 years later.
+  auto minDt = OffsetDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds,
+      TimeOffset());
+  auto expected = OffsetDateTime::forComponents(2031, 12, 13, 20, 45, 53,
+      TimeOffset());
+  assertTrue(expected == minDt);
+
+  // Almost the same max date as epoch 2000, but one day later on Jan 20 instead
+  // of the Jan 19, because 2000 was a leap year, but 2100 is not.
+  auto maxDt = OffsetDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds,
+      TimeOffset());
+  expected = OffsetDateTime::forComponents(2168, 1, 20, 3, 14, 7,
+      TimeOffset());
+  assertTrue(expected == maxDt);
+
+  // Verify that toUnixDays() does not change if currentEpochYear() is changed.
+  auto dt = OffsetDateTime::forComponents(1931, 12, 13, 20, 45, 53,
+      TimeOffset());
+  assertEqual((int32_t) -13899, dt.toUnixDays());
+  dt = OffsetDateTime::forComponents(2000, 1, 1, 0, 0, 0,
+      TimeOffset());
+  assertEqual((int32_t) 10957, dt.toUnixDays());
+  dt = OffsetDateTime::forComponents(2038, 1, 19, 3, 14, 7,
+      TimeOffset());
+  assertEqual((int32_t) 24855, dt.toUnixDays());
+
+  // Reset to the previous current epoch year.
+  LocalDate::currentEpochYear(savedEpochYear);
+}
+
+//---------------------------------------------------------------------------
+
 void setup() {
 #if ! defined(EPOXY_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR

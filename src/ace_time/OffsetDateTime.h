@@ -252,15 +252,19 @@ class OffsetDateTime {
       // Increment or decrement the day count depending on the time offset.
       acetime_t timeOffset = mLocalDateTime.localTime().toSeconds()
           - mTimeOffset.toSeconds();
-      if (timeOffset >= 86400) return epochDays + 1;
-      if (timeOffset < 0) return epochDays - 1;
+      if (timeOffset >= 86400) {
+        epochDays++;
+      } else if (timeOffset < 0) {
+        epochDays--;
+      }
+
       return epochDays;
     }
 
     /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
     int32_t toUnixDays() const {
       if (isError()) return LocalDate::kInvalidEpochDays;
-      return toEpochDays() + LocalDate::kDaysToBaseEpochFromUnixEpoch;
+      return toEpochDays() + LocalDate::daysToCurrentEpochFromUnixEpoch();
     }
 
     /**

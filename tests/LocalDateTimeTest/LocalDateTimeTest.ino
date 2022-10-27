@@ -115,58 +115,6 @@ test(LocalDateTimeTest, isError) {
   assertTrue(dt.isError());
 }
 
-test(LocalDateTimeTest, min_max_epochSeconds_epoch2000) {
-  auto minDt = LocalDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds);
-  auto expected = LocalDateTime::forComponents(1931, 12, 13, 20, 45, 53);
-  assertTrue(expected == minDt);
-
-  auto maxDt = LocalDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds);
-  expected = LocalDateTime::forComponents(2068, 1, 19, 3, 14, 7);
-  assertTrue(expected == maxDt);
-}
-
-test(LocalDateTimeTest, min_max_epochSeconds_epoch2050) {
-  // Change current epoch year to 2050, so the epoch becomes
-  // 2050-01-01T00:00:00.
-  int16_t savedEpochYear = LocalDate::currentEpochYear();
-  LocalDate::currentEpochYear(2050);
-
-  // Same min date as epoch 2000, but 50 years later.
-  auto minDt = LocalDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds);
-  auto expected = LocalDateTime::forComponents(1981, 12, 13, 20, 45, 53);
-  assertTrue(expected == minDt);
-
-  // Almost the same max date as epoch 2000, but one day later on Jan 20 instead
-  // of the Jan 19, because 2000 was a leap year, but 2100 is not.
-  auto maxDt = LocalDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds);
-  expected = LocalDateTime::forComponents(2118, 1, 20, 3, 14, 7);
-  assertTrue(expected == maxDt);
-
-  // Reset to the previous current epoch year.
-  LocalDate::currentEpochYear(savedEpochYear);
-}
-
-test(LocalDateTimeTest, min_max_epochSeconds_epoch2100) {
-  // Change current epoch year to 2100, so the epoch becomes
-  // 2100-01-01T00:00:00.
-  int16_t savedEpochYear = LocalDate::currentEpochYear();
-  LocalDate::currentEpochYear(2100);
-
-  // Same min date as epoch 2000, but 100 years later.
-  auto minDt = LocalDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds);
-  auto expected = LocalDateTime::forComponents(2031, 12, 13, 20, 45, 53);
-  assertTrue(expected == minDt);
-
-  // Almost the same max date as epoch 2000, but one day later on Jan 20 instead
-  // of the Jan 19, because 2000 was a leap year, but 2100 is not.
-  auto maxDt = LocalDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds);
-  expected = LocalDateTime::forComponents(2168, 1, 20, 3, 14, 7);
-  assertTrue(expected == maxDt);
-
-  // Reset to the previous current epoch year.
-  LocalDate::currentEpochYear(savedEpochYear);
-}
-
 test(LocalDateTimeTest, forComponents) {
   LocalDateTime dt;
 
@@ -437,6 +385,89 @@ test(LocalDateTimeTest, printTo) {
   PrintStr<30> dateString;
   dt.printTo(dateString);
   assertEqual(dateString.cstr(), "2020-10-30T01:02:03");
+}
+
+//---------------------------------------------------------------------------
+
+test(LocalDateTimeTest, spotcheck_epoch2000) {
+  // Change current epoch year to 2000, so the epoch is 2000-01-01T00:00:00.
+  int16_t savedEpochYear = LocalDate::currentEpochYear();
+  LocalDate::currentEpochYear(2000);
+
+  auto minDt = LocalDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds);
+  auto expected = LocalDateTime::forComponents(1931, 12, 13, 20, 45, 53);
+  assertTrue(expected == minDt);
+
+  auto maxDt = LocalDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds);
+  expected = LocalDateTime::forComponents(2068, 1, 19, 3, 14, 7);
+  assertTrue(expected == maxDt);
+
+  // Verify that toUnixDays() does not change if currentEpochYear() is changed.
+  auto dt = LocalDateTime::forComponents(1931, 12, 13, 20, 45, 53);
+  assertEqual((int32_t) -13899, dt.toUnixDays());
+  dt = LocalDateTime::forComponents(2000, 1, 1, 0, 0, 0);
+  assertEqual((int32_t) 10957, dt.toUnixDays());
+  dt = LocalDateTime::forComponents(2038, 1, 19, 3, 14, 7);
+  assertEqual((int32_t) 24855, dt.toUnixDays());
+
+  // Reset to the previous current epoch year.
+  LocalDate::currentEpochYear(savedEpochYear);
+}
+
+test(LocalDateTimeTest, spotcheck_epoch2050) {
+  // Change current epoch year to 2050, so the epoch is 2050-01-01T00:00:00.
+  int16_t savedEpochYear = LocalDate::currentEpochYear();
+  LocalDate::currentEpochYear(2050);
+
+  // Same min date as epoch 2000, but 50 years later.
+  auto minDt = LocalDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds);
+  auto expected = LocalDateTime::forComponents(1981, 12, 13, 20, 45, 53);
+  assertTrue(expected == minDt);
+
+  // Almost the same max date as epoch 2000, but one day later on Jan 20 instead
+  // of the Jan 19, because 2000 was a leap year, but 2100 is not.
+  auto maxDt = LocalDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds);
+  expected = LocalDateTime::forComponents(2118, 1, 20, 3, 14, 7);
+  assertTrue(expected == maxDt);
+
+  // Verify that toUnixDays() does not change if currentEpochYear() is changed.
+  auto dt = LocalDateTime::forComponents(1931, 12, 13, 20, 45, 53);
+  assertEqual((int32_t) -13899, dt.toUnixDays());
+  dt = LocalDateTime::forComponents(2000, 1, 1, 0, 0, 0);
+  assertEqual((int32_t) 10957, dt.toUnixDays());
+  dt = LocalDateTime::forComponents(2038, 1, 19, 3, 14, 7);
+  assertEqual((int32_t) 24855, dt.toUnixDays());
+
+  // Reset to the previous current epoch year.
+  LocalDate::currentEpochYear(savedEpochYear);
+}
+
+test(LocalDateTimeTest, spotcheck_epoch2100) {
+  // Change current epoch year to 2100, so the epoch is 2100-01-01T00:00:00.
+  int16_t savedEpochYear = LocalDate::currentEpochYear();
+  LocalDate::currentEpochYear(2100);
+
+  // Same min date as epoch 2000, but 100 years later.
+  auto minDt = LocalDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds);
+  auto expected = LocalDateTime::forComponents(2031, 12, 13, 20, 45, 53);
+  assertTrue(expected == minDt);
+
+  // Almost the same max date as epoch 2000, but one day later on Jan 20 instead
+  // of the Jan 19, because 2000 was a leap year, but 2100 is not.
+  auto maxDt = LocalDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds);
+  expected = LocalDateTime::forComponents(2168, 1, 20, 3, 14, 7);
+  assertTrue(expected == maxDt);
+
+  // Verify that toUnixDays() does not change if currentEpochYear() is changed.
+  auto dt = LocalDateTime::forComponents(1931, 12, 13, 20, 45, 53);
+  assertEqual((int32_t) -13899, dt.toUnixDays());
+  dt = LocalDateTime::forComponents(2000, 1, 1, 0, 0, 0);
+  assertEqual((int32_t) 10957, dt.toUnixDays());
+  dt = LocalDateTime::forComponents(2038, 1, 19, 3, 14, 7);
+  assertEqual((int32_t) 24855, dt.toUnixDays());
+
+  // Reset to the previous current epoch year.
+  LocalDate::currentEpochYear(savedEpochYear);
 }
 
 //---------------------------------------------------------------------------

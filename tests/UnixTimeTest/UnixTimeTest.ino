@@ -69,14 +69,12 @@ test(UnixTimeTest, toEpochSeconds) {
 #elif defined(ESP8266) || defined(ESP32)
   time_t espSeconds = mktime(&t);
   acetime_t expected = espSeconds
-      - LocalDate::kDaysToBaseEpochFromUnixEpoch * 86400
-      - LocalDate::daysToCurrentEpochFromBaseEpoch() * 86400;
+      - LocalDate::daysToCurrentEpochFromUnixEpoch() * 86400;
   assertEqual(epochSeconds, expected);
 #elif defined(__linux__) || defined(__APPLE__)
   time_t unixSeconds = timegm(&t);
   acetime_t expected = unixSeconds
-      - LocalDate::kDaysToBaseEpochFromUnixEpoch * 86400
-      - LocalDate::daysToCurrentEpochFromBaseEpoch() * 86400;
+      - LocalDate::daysToCurrentEpochFromUnixEpoch() * 86400;
   assertEqual(epochSeconds, expected);
 #endif
 }
@@ -93,13 +91,11 @@ test(UnixTimeTest, forEpochSeconds) {
   gmtime_r(&avrSeconds, &t);
 #elif defined(ESP8266) || defined(ESP32)
   time_t espSeconds = epochSeconds
-      + LocalDate::daysToCurrentEpochFromBaseEpoch() * 86400
-      + LocalDate::kDaysToBaseEpochFromUnixEpoch * 86400;
+      + LocalDate::daysToCurrentEpochFromUnixEpoch() * 86400;
   gmtime_r(&espSeconds, &t);
 #elif defined(__linux__) || defined(__APPLE__)
   time_t unixSeconds = epochSeconds
-      + LocalDate::daysToCurrentEpochFromBaseEpoch() * 86400
-      + LocalDate::kDaysToBaseEpochFromUnixEpoch * 86400;
+      + LocalDate::daysToCurrentEpochFromUnixEpoch() * 86400;
   gmtime_r(&unixSeconds, &t);
 #endif
 

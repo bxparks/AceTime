@@ -95,10 +95,7 @@ class LocalDateTime {
       }
 
       int64_t epochSeconds64 = unixSeconds
-          // relative to base epoch
-          - LocalDate::kDaysToBaseEpochFromUnixEpoch * (int64_t) 86400
-          // relative current epoch
-          - LocalDate::daysToCurrentEpochFromBaseEpoch() * (int64_t) 86400;
+          - LocalDate::daysToCurrentEpochFromUnixEpoch() * (int64_t) 86400;
 
       // Integer floor-division towards -infinity
       int32_t days = (epochSeconds64 < 0)
@@ -236,7 +233,7 @@ class LocalDateTime {
     /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
     int32_t toUnixDays() const {
       if (isError()) return LocalDate::kInvalidEpochDays;
-      return toEpochDays() + LocalDate::kDaysToBaseEpochFromUnixEpoch;
+      return toEpochDays() + LocalDate::daysToCurrentEpochFromUnixEpoch();
     }
 
     /**

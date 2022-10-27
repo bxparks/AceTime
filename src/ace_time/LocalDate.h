@@ -184,11 +184,19 @@ class LocalDateTemplate {
     }
 
     /**
-     * Return the number of days from the base epoch (2000) to the current
-     * epoch.
+     * Return the number of days from the base epoch (2000-01-01T00:00:00) to
+     * the current epoch.
      */
     static int32_t daysToCurrentEpochFromBaseEpoch() {
       return sDaysToCurrentEpochFromBaseEpoch;
+    }
+
+    /**
+     * Return the number of days from the Unix epoch (1970-01-01T00:00:00) to
+     * the current epoch.
+     */
+    static int32_t daysToCurrentEpochFromUnixEpoch() {
+      return kDaysToBaseEpochFromUnixEpoch + sDaysToCurrentEpochFromBaseEpoch;
     }
 
     /**
@@ -276,11 +284,7 @@ class LocalDateTemplate {
         return forError();
       }
 
-      int32_t days = unixDays
-          // relative to 2000
-          - kDaysToBaseEpochFromUnixEpoch
-          // relative to current epoch
-          - sDaysToCurrentEpochFromBaseEpoch;
+      int32_t days = unixDays - daysToCurrentEpochFromUnixEpoch();
       return forEpochDays(days);
     }
 
@@ -321,10 +325,7 @@ class LocalDateTemplate {
         return forError();
       } else {
         int64_t epochSeconds64 = unixSeconds
-            // relative to base epoch (2000)
-            - kDaysToBaseEpochFromUnixEpoch * (int64_t) 86400
-            // relative to current epoch
-            - sDaysToCurrentEpochFromBaseEpoch * (int64_t) 86400;
+            - daysToCurrentEpochFromUnixEpoch() * (int64_t) 86400;
         int32_t days = (epochSeconds64 < 0)
             ? (epochSeconds64 + 1) / 86400 - 1
             : epochSeconds64 / 86400;
@@ -454,9 +455,7 @@ class LocalDateTemplate {
     /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
     int32_t toUnixDays() const {
       if (isError()) return kInvalidEpochDays;
-      return toEpochDays()
-          + sDaysToCurrentEpochFromBaseEpoch // relative to base epoch year
-          + kDaysToBaseEpochFromUnixEpoch; // relative to 1970
+      return toEpochDays() + daysToCurrentEpochFromUnixEpoch();
     }
 
     /**

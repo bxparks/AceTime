@@ -94,9 +94,13 @@ AceTime v2 implements the following major changes and features:
         * reason: no longer a constant
     * `LocalDate::kSecondsSinceUnixEpoch`
         * purpose: number of seconds from 1970 to 2000
-        * replacement: `LocalDate::kDaysToBaseEpochFromUnixEpoch`
-        * reason: `int32_t` can overflow, using days instead of seconds
-          eliminates overflow almost completely
+        * replacement:
+            * `LocalDate::daysToCurrentEpochFromUnixEpoch() * (int32_t) 86400`
+            * `LocalDate::daysToCurrentEpochFromUnixEpoch() * (int64_t) 86400`
+        * reason:
+            * `int32_t` seconds can overflow, but `int32_t` days will not
+            * the calling code can decide whether to continue to use `int32_t`
+              seconds (which works until roughly year 2038) or `int64_t` seconds
     * `LocalDate::kMinYearTiny`
         * replacement: `LocalDate::kMinYear`
         * reason: 8-bit offset no longer used, replaced by 16-bit integer
@@ -119,7 +123,7 @@ AceTime v2 implements the following major changes and features:
         * comment: should not normally be needed by client applications
     * `LocalDate::kDaysToBaseEpochFromUnixEpoch`
         * purpose: number of days from Unix epoch (1970-01-01T00:00:00) to
-          AceTime base epoch (2000-01-01T00:00:00)
+          the internal base epoch (2000-01-01T00:00:00)
         * comment: should not normally be needed by client applications
 * new functions
     * `LocalDate::currentEpochYear(epochYear)`
@@ -130,11 +134,15 @@ AceTime v2 implements the following major changes and features:
         * purpose: lower limit of valid years (`valid_year >= lower`)
     * `LocalDate::epochValidYearUpper()`
         * purpose: upper limit of valid years (`valid_year < upper`)
-    * `LocalDate::daysToCurrentEpochFromBaseEpoch()`
-        * purpose: number of days from the base epoch (2000-01-01T00:00:00) to
+    * `LocalDate::daysToCurrentEpochFromUnixEpoch()`
+        * purpose: number of days from Unix epoch (1970-01-01T00:00:00) to
           the current epoch ({yyyy}-01-01T00:00:00) where `yyyy` is set by
           `currentEpochYear(yyyy)`
-        * updated by `LocalDate::currentEpochYear(epochYear)`
+    * `LocalDate::daysToCurrentEpochFromBaseEpoch()`
+        * purpose: number of days from the internal base epoch
+          (2000-01-01T00:00:00) to the current epoch ({yyyy}-01-01T00:00:00)
+          where `yyyy` is set by `currentEpochYear(yyyy)`
+        * comment: should not normally be needed by client applications
 * removed functions
     * `LocalDate::toUnixSeconds()`
         * reason: 32-bit Unix seconds will overflow in the year 2038
@@ -173,15 +181,27 @@ class LocalDate {
   ...
 
   public:
+    // The year of the internal base epoch 2000-01-01T00:00:00.
+    static const int16_t kBaseEpochYear = 2000;
+
+    // Number of days from internal base epoch (2000-01-01T00:00:00) to Unix
+    // epoch (1970-01-01T00:00:00).
+    static const int32_t kDaysToBaseEpochFromUnixEpoch = 10957;
+
+  public:
     // Set the current epoch year.
     static int16_t currentEpochYear(int16_t epochYear);
 
     // Get the current epoch year.
     static int16_t currentEpochYear();
 
-    // Return the number of days from the base epoch (2000-01-01T00:00:00)
+    // The number of days from the Unix epoch (1970-01-01T00:00:00)
     // to the current epoch ({yyyy}-01-01T00:00:00).
-    static int32_t daysToCurrentEpochFromBaseEpoch();
+    static int32_t daysToCurrentEpochFromUnixEpoch();
+
+    // The number of days from the internal base epoch (2000-01-01T00:00:00) to
+    // the current epoch ({yyyy}-01-01T00:00:00).
+    static int32_t daysToCurrentEpochFromBaseEpoch() {
 
     // Return the lower limit year which generates valid epoch seconds for the
     // current epoch.

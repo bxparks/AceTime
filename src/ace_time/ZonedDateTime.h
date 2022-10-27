@@ -90,8 +90,8 @@ class ZonedDateTime {
      * the DST time zone transitions are performed using a 32-bit integer.
      * Therefore, the valid range of `unixSeconds` is approximately the same
      * range as `ZonedDateTime::forEpochSeconds()` after translating it to the
-     * AceTime current epoch. In other words, unixSeconds should be within +/-
-     * 60 years of the current epoch year given by
+     * AceTime current epoch. In other words, unixSeconds should be roughly
+     * within +/- 60 years of the current epoch year given by
      * `LocalDate::currentEpochYear()`.
      *
      * Returns ZonedDateTime::forError() if unixSeconds is invalid.
@@ -107,10 +107,7 @@ class ZonedDateTime {
         epochSeconds = LocalDate::kInvalidEpochSeconds;
       } else {
         epochSeconds = unixSeconds
-            // relative to base epoch
-            - LocalDate::kDaysToBaseEpochFromUnixEpoch * (int64_t) 86400
-            // relative to current epoch
-            - LocalDate::daysToCurrentEpochFromBaseEpoch() * (int64_t) 86400;
+            - LocalDate::daysToCurrentEpochFromUnixEpoch() * (int64_t) 86400;
       }
       return forEpochSeconds(epochSeconds, timeZone);
     }

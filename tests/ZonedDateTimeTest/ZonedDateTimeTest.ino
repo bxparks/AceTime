@@ -239,6 +239,99 @@ test(ZonedDateTimeTest_Manual, error) {
 }
 
 //---------------------------------------------------------------------------
+
+test(ZonedDateTimeTest, spotcheck_epoch2000) {
+  // Change current epoch year to 2000, so the epoch is 2000-01-01T00:00:00.
+  int16_t savedEpochYear = LocalDate::currentEpochYear();
+  LocalDate::currentEpochYear(2000);
+
+  auto minDt = ZonedDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds,
+      TimeZone());
+  auto expected = ZonedDateTime::forComponents(1931, 12, 13, 20, 45, 53,
+      TimeZone());
+  assertTrue(expected == minDt);
+
+  auto maxDt = ZonedDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds,
+      TimeZone());
+  expected = ZonedDateTime::forComponents(2068, 1, 19, 3, 14, 7, TimeZone());
+  assertTrue(expected == maxDt);
+
+  // Verify that toUnixDays() does not change if currentEpochYear() is changed.
+  auto dt = ZonedDateTime::forComponents(1931, 12, 13, 20, 45, 53,
+      TimeZone());
+  assertEqual((int32_t) -13899, dt.toUnixDays());
+  dt = ZonedDateTime::forComponents(2000, 1, 1, 0, 0, 0, TimeZone());
+  assertEqual((int32_t) 10957, dt.toUnixDays());
+  dt = ZonedDateTime::forComponents(2038, 1, 19, 3, 14, 7, TimeZone());
+  assertEqual((int32_t) 24855, dt.toUnixDays());
+
+  // Reset to the previous current epoch year.
+  LocalDate::currentEpochYear(savedEpochYear);
+}
+
+test(ZonedDateTimeTest, spotcheck_epoch2050) {
+  // Change current epoch year to 2050, so the epoch is 2050-01-01T00:00:00.
+  int16_t savedEpochYear = LocalDate::currentEpochYear();
+  LocalDate::currentEpochYear(2050);
+
+  // Same min date as epoch 2000, but 50 years later.
+  auto minDt = ZonedDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds,
+      TimeZone());
+  auto expected = ZonedDateTime::forComponents(1981, 12, 13, 20, 45, 53,
+      TimeZone());
+  assertTrue(expected == minDt);
+
+  // Almost the same max date as epoch 2000, but one day later on Jan 20 instead
+  // of the Jan 19, because 2000 was a leap year, but 2100 is not.
+  auto maxDt = ZonedDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds,
+      TimeZone());
+  expected = ZonedDateTime::forComponents(2118, 1, 20, 3, 14, 7, TimeZone());
+  assertTrue(expected == maxDt);
+
+  // Verify that toUnixDays() does not change if currentEpochYear() is changed.
+  auto dt = ZonedDateTime::forComponents(1931, 12, 13, 20, 45, 53, TimeZone());
+  assertEqual((int32_t) -13899, dt.toUnixDays());
+  dt = ZonedDateTime::forComponents(2000, 1, 1, 0, 0, 0, TimeZone());
+  assertEqual((int32_t) 10957, dt.toUnixDays());
+  dt = ZonedDateTime::forComponents(2038, 1, 19, 3, 14, 7, TimeZone());
+  assertEqual((int32_t) 24855, dt.toUnixDays());
+
+  // Reset to the previous current epoch year.
+  LocalDate::currentEpochYear(savedEpochYear);
+}
+
+test(ZonedDateTimeTest, spotcheck_epoch2100) {
+  // Change current epoch year to 2100, so the epoch is 2100-01-01T00:00:00.
+  int16_t savedEpochYear = LocalDate::currentEpochYear();
+  LocalDate::currentEpochYear(2100);
+
+  // Same min date as epoch 2000, but 100 years later.
+  auto minDt = ZonedDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds,
+      TimeZone());
+  auto expected = ZonedDateTime::forComponents(2031, 12, 13, 20, 45, 53,
+      TimeZone());
+  assertTrue(expected == minDt);
+
+  // Almost the same max date as epoch 2000, but one day later on Jan 20 instead
+  // of the Jan 19, because 2000 was a leap year, but 2100 is not.
+  auto maxDt = ZonedDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds,
+      TimeZone());
+  expected = ZonedDateTime::forComponents(2168, 1, 20, 3, 14, 7, TimeZone());
+  assertTrue(expected == maxDt);
+
+  // Verify that toUnixDays() does not change if currentEpochYear() is changed.
+  auto dt = ZonedDateTime::forComponents(1931, 12, 13, 20, 45, 53, TimeZone());
+  assertEqual((int32_t) -13899, dt.toUnixDays());
+  dt = ZonedDateTime::forComponents(2000, 1, 1, 0, 0, 0, TimeZone());
+  assertEqual((int32_t) 10957, dt.toUnixDays());
+  dt = ZonedDateTime::forComponents(2038, 1, 19, 3, 14, 7, TimeZone());
+  assertEqual((int32_t) 24855, dt.toUnixDays());
+
+  // Reset to the previous current epoch year.
+  LocalDate::currentEpochYear(savedEpochYear);
+}
+
+//---------------------------------------------------------------------------
 // forDateString()
 //---------------------------------------------------------------------------
 
