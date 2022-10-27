@@ -6,6 +6,7 @@
     * [High Level](#HighLevel200)
     * [Details](#Details200)
     * [Adjustable Epoch Year](#AdjustableEpochYear200)
+    * [Cache Invalidation](#CacheInvalidation200)
     * [Background Motivation](#Motivation200)
 * [Migrating to v1.9.0](#MigratingToVersion190)
     * [Configuring the Zone Managers](#ConfiguringZoneManagers)
@@ -213,6 +214,41 @@ class LocalDate {
 
   ...
 };
+```
+
+<a name="CacheInvalidation200"></a>
+### Cache Invalidation
+
+Normally, the current epoch year is expected to be configured using
+`LocalDate::currentEpochYear(year)` only once during the lifetime of the
+application. In rare situations, the application may choose to change the
+current epoch year in the middle of its lifetime. In this case, it is important
+to invalidate the time zone transition cache maintained inside the
+`BasicZoneProcessor` or `ExtendedZoneProcessor` classes.
+
+If the application is using the `TimeZone` class directly with an associated
+`BasicZoneProcessor` or `ExtendedZoneProcessor`, then the following methods must
+be called after calling `LocalDate::currentEpochYear(year)`:
+
+```C++
+BasicZoneProcessor processor(...);
+processor.resetTransitionCache();
+
+ExtendedZoneProcessor processor(...);
+processor.resetTransitionCache();
+```
+
+If the application is using the `BasicZoneManager` or `ExtendedZoneManager`
+class to create the `TimeZone` objects, then the
+`ZoneManager::resetZoneProcessors()` must be called after calling
+`LocalDate::currentEpochYear(year)`:
+
+```C++
+BasicZoneManager manager(...);
+manager.resetZoneProcessors();
+
+ExtendedZoneManager manager(...);
+manager.resetZoneProcessors();
 ```
 
 <a name="Motivation200"></a>
