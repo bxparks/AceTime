@@ -2,6 +2,7 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
+#include <ace_time/testing/EpochYearContext.h>
 
 using namespace ace_time;
 
@@ -238,8 +239,7 @@ test(LocalDateTest, toAndFromEpochDays) {
 // Change currentEpochYear to a different value.
 test(LocalDateTest, toAndFromEpochDays_epoch2050) {
   // Change current epoch year to 2100, making the epoch 2100-01-01T00:00:00.
-  int16_t savedEpochYear = LocalDate::currentEpochYear();
-  LocalDate::currentEpochYear(2050);
+  testing::EpochYearContext context(2050);
 
   // Verify lower and upper valid year limits.
   assertEqual(LocalDate::epochValidYearLower(), 2000);
@@ -264,17 +264,13 @@ test(LocalDateTest, toAndFromEpochDays_epoch2050) {
   int32_t largestEpochDays = LocalDate::kMaxEpochSeconds / 86400;
   assertEqual(largestEpochDays, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(largestEpochDays));
-
-  // Reset to the previous current epoch year.
-  LocalDate::currentEpochYear(savedEpochYear);
 }
 
 // Change currentEpochYear to a different value.
 test(LocalDateTest, toAndFromEpochDays_epoch2100) {
   // Change current epoch year to 2100, so the epoch becomes
   // 2100-01-01T00:00:00.
-  int16_t savedEpochYear = LocalDate::currentEpochYear();
-  LocalDate::currentEpochYear(2100);
+  testing::EpochYearContext context(2100);
 
   // Verify lower and upper valid year limits.
   assertEqual(LocalDate::epochValidYearLower(), 2050);
@@ -299,9 +295,6 @@ test(LocalDateTest, toAndFromEpochDays_epoch2100) {
   int32_t largestEpochDays = LocalDate::kMaxEpochSeconds / 86400;
   assertEqual(largestEpochDays, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(largestEpochDays));
-
-  // Reset to the previous current epoch year.
-  LocalDate::currentEpochYear(savedEpochYear);
 }
 
 // Same as toAndFromEpochDays, shifted 30 years

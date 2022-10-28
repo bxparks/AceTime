@@ -3,6 +3,7 @@
 #include <AUnit.h>
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
+#include <ace_time/testing/EpochYearContext.h>
 
 using namespace ace_time;
 
@@ -393,8 +394,7 @@ test(ZonedDateTimeExtendedTest, normalize) {
 test(ZonedDateTimeExtendedTest, morocco_2090) {
   // Reconfigure the current epoch year to 2050 to allow calculations in the
   // year 2090.
-  int16_t savedEpochYear = LocalDate::currentEpochYear();
-  LocalDate::currentEpochYear(2050);
+  testing::EpochYearContext context(2050);
   extendedZoneManager.resetZoneProcessors();
 
   TimeZone tz = extendedZoneManager.createForZoneInfo(
@@ -433,9 +433,7 @@ test(ZonedDateTimeExtendedTest, morocco_2090) {
   epochSeconds = dt.toEpochSeconds();
   assertEqual(epochSeconds, (int32_t) 14610 * 86400);
 
-  // Revert the current epoch year, making sure to reset the transition caches
-  // of the zone processors.
-  LocalDate::currentEpochYear(savedEpochYear);
+  // Reset the transition caches of the zone processors.
   extendedZoneManager.resetZoneProcessors();
 }
 

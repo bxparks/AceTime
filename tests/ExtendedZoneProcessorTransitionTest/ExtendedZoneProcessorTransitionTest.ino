@@ -4,6 +4,7 @@
 #include <AUnit.h>
 #include <AceTime.h>
 #include "EuropeLisbon.h"
+#include <ace_time/testing/EpochYearContext.h>
 
 using namespace ace_time;
 
@@ -97,10 +98,6 @@ class TransitionValidation : public aunit::TestOnce {
 };
 
 testF(TransitionValidation, allZones) {
-  int16_t savedEpochYear = LocalDate::currentEpochYear();
-  LocalDate::currentEpochYear(2050);
-  zoneProcessor.resetTransitionCache();
-
   for (uint16_t i = 0; i < zonedbx::kZoneRegistrySize; i++) {
     const extended::ZoneInfo* info = zoneRegistrar.getZoneInfoForIndex(i);
     zoneProcessor.setZoneKey((uintptr_t) info);
@@ -113,17 +110,27 @@ testF(TransitionValidation, allZones) {
         int16_t startYear = zonedbx::kZoneContext.startYear;
         startYear < zonedbx::kZoneContext.untilYear;
         startYear += 100) {
+
       int16_t epochYear = startYear + 50;
       int16_t untilYear = min(
           (int16_t) (epochYear + 50),
           zonedbx::kZoneContext.untilYear);
-      LocalDate::currentEpochYear(epochYear);
+
+      testing::EpochYearContext context(epochYear);
       zoneProcessor.resetTransitionCache();
+
+      // FIXME: If a failure is detected, then this function returns early. The
+      // currentEpochYear() is guaranteed to be restored through the destructor
+      // of the 'context` object, but the cache invalidation clean up is
+      // skipped. Most likely this won't cause problems with the rest of the
+      // unit tests because the `zoneProcessor` will likely be set to a
+      // different year. However, there is a small chance of failure. The proper
+      // solution is to create a custom RAII context class to perform the
+      // resetTransitionCache() clean up, but I'm too lazy right now.
       assertNoFatalFailure(validateZone(startYear, untilYear));
     }
   }
 
-  LocalDate::currentEpochYear(savedEpochYear);
   zoneProcessor.resetTransitionCache();
 }
 

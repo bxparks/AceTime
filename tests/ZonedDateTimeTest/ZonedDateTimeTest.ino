@@ -3,6 +3,7 @@
 #include <AUnit.h>
 #include <AceCommon.h>
 #include <AceTime.h>
+#include <ace_time/testing/EpochYearContext.h>
 
 using namespace ace_time;
 
@@ -242,8 +243,7 @@ test(ZonedDateTimeTest_Manual, error) {
 
 test(ZonedDateTimeTest, spotcheck_epoch2000) {
   // Change current epoch year to 2000, so the epoch is 2000-01-01T00:00:00.
-  int16_t savedEpochYear = LocalDate::currentEpochYear();
-  LocalDate::currentEpochYear(2000);
+  testing::EpochYearContext context(2000);
 
   auto minDt = ZonedDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds,
       TimeZone());
@@ -264,15 +264,11 @@ test(ZonedDateTimeTest, spotcheck_epoch2000) {
   assertEqual((int32_t) 10957, dt.toUnixDays());
   dt = ZonedDateTime::forComponents(2038, 1, 19, 3, 14, 7, TimeZone());
   assertEqual((int32_t) 24855, dt.toUnixDays());
-
-  // Reset to the previous current epoch year.
-  LocalDate::currentEpochYear(savedEpochYear);
 }
 
 test(ZonedDateTimeTest, spotcheck_epoch2050) {
   // Change current epoch year to 2050, so the epoch is 2050-01-01T00:00:00.
-  int16_t savedEpochYear = LocalDate::currentEpochYear();
-  LocalDate::currentEpochYear(2050);
+  testing::EpochYearContext context(2050);
 
   // Same min date as epoch 2000, but 50 years later.
   auto minDt = ZonedDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds,
@@ -295,15 +291,11 @@ test(ZonedDateTimeTest, spotcheck_epoch2050) {
   assertEqual((int32_t) 10957, dt.toUnixDays());
   dt = ZonedDateTime::forComponents(2038, 1, 19, 3, 14, 7, TimeZone());
   assertEqual((int32_t) 24855, dt.toUnixDays());
-
-  // Reset to the previous current epoch year.
-  LocalDate::currentEpochYear(savedEpochYear);
 }
 
 test(ZonedDateTimeTest, spotcheck_epoch2100) {
   // Change current epoch year to 2100, so the epoch is 2100-01-01T00:00:00.
-  int16_t savedEpochYear = LocalDate::currentEpochYear();
-  LocalDate::currentEpochYear(2100);
+  testing::EpochYearContext context(2100);
 
   // Same min date as epoch 2000, but 100 years later.
   auto minDt = ZonedDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds,
@@ -326,9 +318,6 @@ test(ZonedDateTimeTest, spotcheck_epoch2100) {
   assertEqual((int32_t) 10957, dt.toUnixDays());
   dt = ZonedDateTime::forComponents(2038, 1, 19, 3, 14, 7, TimeZone());
   assertEqual((int32_t) 24855, dt.toUnixDays());
-
-  // Reset to the previous current epoch year.
-  LocalDate::currentEpochYear(savedEpochYear);
 }
 
 //---------------------------------------------------------------------------
