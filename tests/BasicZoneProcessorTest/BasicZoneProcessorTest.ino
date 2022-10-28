@@ -291,12 +291,16 @@ test(BasicZoneProcessorTest, init_primitives) {
 
   // t >= 2001-04-01 02:00 UTC-08:00 Sunday goes to PDT
   assertEqual(-7*60, zoneProcessor.mTransitions[1].offsetMinutes);
-  assertEqual((acetime_t) 39434400,
+  assertEqual(
+      (acetime_t) (39434400
+          - LocalDate::daysToCurrentEpochFromBaseEpoch() * 86400),
       zoneProcessor.mTransitions[1].startEpochSeconds);
 
   // t >= 2001-10-28 02:00 UTC-07:00 Sunday goes to PST
   assertEqual(-8*60, zoneProcessor.mTransitions[2].offsetMinutes);
-  assertEqual((acetime_t) 57574800,
+  assertEqual(
+      (acetime_t) (57574800
+          - LocalDate::daysToCurrentEpochFromBaseEpoch() * 86400),
       zoneProcessor.mTransitions[2].startEpochSeconds);
 }
 
@@ -336,12 +340,16 @@ test(BasicZoneProcessorTest, init) {
 
   // t >= 2018-03-11 02:00 UTC-08:00 Sunday goes to PDT
   assertEqual(-7*60, zoneProcessor.mTransitions[1].offsetMinutes);
-  assertEqual((acetime_t) 574077600,
+  assertEqual(
+      (acetime_t) (574077600
+          - LocalDate::daysToCurrentEpochFromBaseEpoch() * 86400),
       zoneProcessor.mTransitions[1].startEpochSeconds);
 
   // t >= 2018-11-04 02:00 UTC-07:00 Sunday goes to PST
   assertEqual(-8*60, zoneProcessor.mTransitions[2].offsetMinutes);
-  assertEqual((acetime_t) 594637200,
+  assertEqual(
+      (acetime_t) (594637200
+          - LocalDate::daysToCurrentEpochFromBaseEpoch() * 86400),
       zoneProcessor.mTransitions[2].startEpochSeconds);
 }
 

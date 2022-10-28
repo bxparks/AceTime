@@ -137,11 +137,16 @@ testF(TransitionValidation, allZones) {
 //----------------------------------------------------------------------------
 // Verify Transitions for Europe/Lisbon in 1992. That is the only zone/year
 // where the previous ExtendedZoneProcessor algorithm failed, with a duplicate
-// Transition. The default zonedbx/ database spans from 2000 until 2050, so we
-// have to manually copy the ZoneInfo data for Europe/Lisbon.
+// Transition. The default zonedbx/ database spans from 2000 until 10000, so we
+// have to manually copy a version of the ZoneInfo data for Europe/Lisbon into
+// EuropeLisbon.cpp which is valid from 1974 to 2050.
 //---------------------------------------------------------------------------
 
 testF(TransitionValidation, lisbon1992) {
+  // Set epoch year to 2000 to allow years 1974 to 2050 to be tested without
+  // underflow the epochSeconds.
+  testing::EpochYearContext context(2000);
+
   zoneProcessor.setZoneKey((uintptr_t) &zonedbxtest::kZoneEurope_Lisbon);
   assertNoFatalFailure(validateZone(
       zonedbxtest::kZoneContext.startYear,

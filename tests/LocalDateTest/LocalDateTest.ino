@@ -184,6 +184,9 @@ test(LocalDateTest, dayOfWeek) {
 }
 
 test(LocalDateTest, toAndFromEpochDays) {
+  // Change current epoch year to 2050, making the epoch 2100-01-01T00:00:00.
+  testing::EpochYearContext context(2000);
+
   LocalDate ld;
 
   // Smallest LocalDate in our 16-bit implementation is 0001-01-01
@@ -206,7 +209,7 @@ test(LocalDateTest, toAndFromEpochDays) {
   assertEqual((int32_t) -24855, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(-24855));
 
-  // AceTime Epoch
+  // AceTime v1 hardcoded epoch
   ld = LocalDate::forComponents(2000, 1, 1);
   assertEqual((int32_t) 0, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(0));
@@ -218,6 +221,11 @@ test(LocalDateTest, toAndFromEpochDays) {
   ld = LocalDate::forComponents(2018, 1, 1);
   assertEqual((int32_t) 6575, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(6575));
+
+  // AceTime v2 default epoch
+  ld = LocalDate::forComponents(2050, 1, 1);
+  assertEqual((int32_t) 18263, ld.toEpochDays());
+  assertTrue(ld == LocalDate::forEpochDays(18263));
 
   // Largest date using int32_t seconds from AceTime epoch
   ld = LocalDate::forComponents(2068, 1, 19);
@@ -238,7 +246,7 @@ test(LocalDateTest, toAndFromEpochDays) {
 
 // Change currentEpochYear to a different value.
 test(LocalDateTest, toAndFromEpochDays_epoch2050) {
-  // Change current epoch year to 2100, making the epoch 2100-01-01T00:00:00.
+  // Change current epoch year to 2050, making the epoch 2100-01-01T00:00:00.
   testing::EpochYearContext context(2050);
 
   // Verify lower and upper valid year limits.
@@ -337,6 +345,7 @@ test(LocalDateTest, toAndFromUnixDays) {
 }
 
 test(LocalDateTest, toAndFromEpochSeconds) {
+  testing::EpochYearContext context(2000);
   LocalDate ld;
 
   // Smallest date with an int32_t seconds from AceTime Epoch is 1931-12-13
@@ -371,6 +380,7 @@ test(LocalDateTest, toAndFromEpochSeconds) {
 }
 
 test(LocalDateTest, toAndFromUnixSeconds64) {
+  testing::EpochYearContext context(2000);
   LocalDate ld;
 
   // Verify error sentinel.

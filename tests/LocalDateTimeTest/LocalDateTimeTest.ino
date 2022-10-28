@@ -117,6 +117,7 @@ test(LocalDateTimeTest, isError) {
 }
 
 test(LocalDateTimeTest, forComponents) {
+  testing::EpochYearContext context(2000);
   LocalDateTime dt;
 
   // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
@@ -248,6 +249,8 @@ test(LocalDateTimeTest, toAndForUnixSeconds64) {
 }
 
 test(LocalDateTimeTest, forEpochSeconds) {
+  testing::EpochYearContext context(2000);
+
   // 2029-12-31 23:59:59Z Monday
   LocalDateTime dt = LocalDateTime::forEpochSeconds(
       10958 * (acetime_t) 86400 - 1);
@@ -263,6 +266,8 @@ test(LocalDateTimeTest, forEpochSeconds) {
 }
 
 test(LocalDateTimeTest, forEpochSeconds_withFold) {
+  testing::EpochYearContext context(2000);
+
   // 2029-12-31 23:59:59Z Monday
   LocalDateTime dt = LocalDateTime::forEpochSeconds(
       10958 * (acetime_t) 86400 - 1, 1 /*fold*/);

@@ -612,10 +612,11 @@ const uint8_t LocalDateTemplate<T>::sDaysInMonth[12] = {
 };
 
 template <typename T>
-int16_t LocalDateTemplate<T>::sCurrentEpochYear = 2000;
+int16_t LocalDateTemplate<T>::sCurrentEpochYear = 2050;
 
+// Number of days from 2000-01-01 to 2050-01-01: 50*365 + 13 leap days = 18263.
 template <typename T>
-int32_t LocalDateTemplate<T>::sDaysToCurrentEpochFromBaseEpoch = 0;
+int32_t LocalDateTemplate<T>::sDaysToCurrentEpochFromBaseEpoch = 18263;
 
 // Use EpochConverterHinnant for LocalDate
 using LocalDate = LocalDateTemplate<internal::EpochConverterHinnant>;

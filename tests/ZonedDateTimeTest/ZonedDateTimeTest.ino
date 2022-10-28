@@ -72,6 +72,7 @@ test(ZonedDateTimeTest_Manual, agreesWithOffsetDateTime) {
 }
 
 test(ZonedDateTimeTest_Manual, forComponents) {
+  testing::EpochYearContext context(2000);
   ZonedDateTime dt;
 
   // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
@@ -134,6 +135,7 @@ test(ZonedDateTimeTest_Manual, forComponents) {
 }
 
 test(ZonedDateTimeTest_Manual, toAndForUnixSeconds64) {
+  testing::EpochYearContext context(2000);
   ZonedDateTime dt;
   ZonedDateTime udt;
 
@@ -178,6 +180,7 @@ test(ZonedDateTimeTest_Manual, toAndForUnixSeconds64) {
 }
 
 test(ZonedDateTimeTest_Manual, toAndForUnixSeconds64_extended) {
+  testing::EpochYearContext context(2000);
   ZonedDateTime dt;
   ZonedDateTime udt;
 

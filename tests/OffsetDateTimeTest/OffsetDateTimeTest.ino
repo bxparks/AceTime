@@ -120,6 +120,7 @@ test(OffsetDateTimeTest, isError) {
 }
 
 test(OffsetDateTimeTest, forComponents) {
+  testing::EpochYearContext context(2000);
   OffsetDateTime dt;
 
   // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
@@ -181,6 +182,7 @@ test(OffsetDateTimeTest, forComponents) {
 }
 
 test(OffsetDateTimeTest, forComponents_withOffset) {
+  testing::EpochYearContext context(2000);
   OffsetDateTime dt;
 
   // 2018-01-01 00:00:00+00:15 Monday
@@ -286,11 +288,38 @@ test(OffsetDateTimeTest, toAndForUnixSeconds64_withOffset) {
   assertTrue(dt == udt);
 }
 
-test(OffsetDateTimeTest, forEpochSeconds) {
-  // 2029-12-31 23:59:59Z Monday
-  OffsetDateTime dt = OffsetDateTime::forEpochSeconds(
-      10958 * (acetime_t) 86400 - 1, TimeOffset());
+test(OffsetDateTimeTest, forEpochSeconds_epoch2050) {
+  testing::EpochYearContext context(2050);
+  OffsetDateTime dt;
 
+  // 2049-12-31T16:00:00-08:00 Friday
+  dt = OffsetDateTime::forEpochSeconds(0, TimeOffset::forHours(-8));
+  assertEqual((int16_t) 2049, dt.year());
+  assertEqual(12, dt.month());
+  assertEqual(31, dt.day());
+  assertEqual(16, dt.hour());
+  assertEqual(0, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(LocalDate::kFriday, dt.dayOfWeek());
+}
+
+test(OffsetDateTimeTest, forEpochSeconds) {
+  testing::EpochYearContext context(2000);
+  OffsetDateTime dt;
+
+  // 1999-12-31T16:00:00-08:00 Friday
+  dt = OffsetDateTime::forEpochSeconds(0, TimeOffset::forHours(-8));
+  assertEqual((int16_t) 1999, dt.year());
+  assertEqual(12, dt.month());
+  assertEqual(31, dt.day());
+  assertEqual(16, dt.hour());
+  assertEqual(0, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(LocalDate::kFriday, dt.dayOfWeek());
+
+  // 2029-12-31 23:59:59Z Monday
+  dt = OffsetDateTime::forEpochSeconds(
+      10958 * (acetime_t) 86400 - 1, TimeOffset());
   assertEqual((int16_t) 2029, dt.year());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
@@ -313,6 +342,7 @@ test(OffsetDateTimeTest, forEpochSeconds) {
 }
 
 test(OffsetDateTimeTest, forEpochSeconds_withFold) {
+  testing::EpochYearContext context(2000);
   // 2029-12-31 23:59:59Z Monday
   OffsetDateTime dt = OffsetDateTime::forEpochSeconds(
       10958 * (acetime_t) 86400 - 1, TimeOffset(), 1 /*fold*/);
