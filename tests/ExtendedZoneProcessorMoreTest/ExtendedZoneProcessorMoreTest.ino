@@ -179,21 +179,36 @@ test(ExtendedZoneProcessorTest, Los_Angeles_outOfBounds) {
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
-  assertEqual(2000, zonedbx::kZoneAmerica_Los_Angeles.zoneContext->startYear);
-  assertEqual(10000, zonedbx::kZoneAmerica_Los_Angeles.zoneContext->untilYear);
+  assertEqual(2000, zonedbx::kZoneContext.startYear);
+  assertEqual(10000, zonedbx::kZoneContext.untilYear);
 
+  // 1998 > LocalDate::kMinYear so dt is valid, and
   dt = OffsetDateTime::forComponents(1998, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
+  assertFalse(dt.isError());
   epochSeconds = dt.toEpochSeconds();
+  // 1998 is within roughly 50 years of LocalDate::currentEpochYear() of 2050
+  // so toEpochSeconds() still works.
+  assertNotEqual(epochSeconds, LocalDate::kInvalidEpochSeconds);
+  // 1998 < ZoneContext.startYear, so getUtcOffset() fails
   assertTrue(zoneProcessor.getUtcOffset(epochSeconds).isError());
+  // 1998 < ZoneContext.startYear, so getDeltaOffset() fails
   assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isError());
+  // getAbbrev() returns "" on lookup failure
   assertEqual("", zoneProcessor.getAbbrev(epochSeconds));
 
-  dt = OffsetDateTime::forComponents(2100, 2, 1, 1, 0, 0,
+  dt = OffsetDateTime::forComponents(10001, 2, 1, 1, 0, 0,
       TimeOffset::forHours(-8));
+  // 10001 > LocalDate::kMaxYear, so fails
+  assertTrue(dt.isError());
+  // toEpochSeconds() returns invalid seconds
   epochSeconds = dt.toEpochSeconds();
+  assertEqual(epochSeconds, LocalDate::kInvalidEpochSeconds);
+  // getUtcOffset() fails for kInvalidEpochSeconds
   assertTrue(zoneProcessor.getUtcOffset(epochSeconds).isError());
+  // getDeltaOffset() fails for kInvalidEpochSeconds
   assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isError());
+  // getAbbrev() returns "" on lookup failure
   assertEqual("", zoneProcessor.getAbbrev(epochSeconds));
 }
 
