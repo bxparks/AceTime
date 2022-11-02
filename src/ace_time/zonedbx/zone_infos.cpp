@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2022e
+//     --tz_version 2022f
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -22,22 +22,22 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022e
+// from https://github.com/eggert/tz/releases/tag/2022f
 //
-// Zones: 354
-// Links: 241
+// Zones: 351
+// Links: 244
 // kZoneRegistry sizes (bytes):
-//   Names: 3354 (originally 5573)
+//   Names: 3319 (originally 5517)
 //   Formats: 597
 //   Fragments: 122
-//   Memory (8-bit): 15800
-//   Memory (32-bit): 22919
+//   Memory (8-bit): 15715
+//   Memory (32-bit): 22796
 // kZoneAndLinkRegistry sizes (bytes):
 //   Names: 5634 (originally 9054)
 //   Formats: 597
 //   Fragments: 122
-//   Memory (8-bit): 21213
-//   Memory (32-bit): 30983
+//   Memory (8-bit): 21202
+//   Memory (32-bit): 30967
 //
 // DO NOT EDIT
 
@@ -52,7 +52,7 @@ namespace zonedbx {
 // ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] = "2022e";
+const char kTzDatabaseVersion[] = "2022f";
 
 const char* const kFragments[] = {
 /*\x00*/ nullptr,
@@ -82,7 +82,7 @@ const internal::ZoneContext kZoneContext = {
 };
 
 //---------------------------------------------------------------------------
-// Zones: 354
+// Zones: 351
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -2665,18 +2665,30 @@ const extended::ZoneInfo kZoneAmerica_Chicago ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Chihuahua
-// Zone Eras: 1
-// Strings (bytes): 15 (originally 22)
-// Memory (8-bit): 37
-// Memory (32-bit): 51
+// Zone Eras: 2
+// Strings (bytes): 19 (originally 26)
+// Memory (8-bit): 52
+// Memory (32-bit): 71
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Chihuahua[] ACE_TIME_PROGMEM = {
-  //             -7:00    Mexico    M%sT
+  //             -7:00    Mexico    M%sT    2022 Oct 30  2:00
   {
     &kPolicyMexico /*zonePolicy*/,
     "M%T" /*format*/,
     -28 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    22 /*untilYearTiny*/,
+    10 /*untilMonth*/,
+    30 /*untilDay*/,
+    8 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             -6:00    -    CST
+  {
+    nullptr /*zonePolicy*/,
+    "CST" /*format*/,
+    -24 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
@@ -2693,7 +2705,7 @@ const extended::ZoneInfo kZoneAmerica_Chihuahua ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Chihuahua /*name*/,
   0x8827d776 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
+  2 /*numEras*/,
   kZoneEraAmerica_Chihuahua /*eras*/,
 };
 
@@ -4968,40 +4980,6 @@ const extended::ZoneInfo kZoneAmerica_New_York ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Zone name: America/Nipigon
-// Zone Eras: 1
-// Strings (bytes): 13 (originally 20)
-// Memory (8-bit): 35
-// Memory (32-bit): 49
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraAmerica_Nipigon[] ACE_TIME_PROGMEM = {
-  //             -5:00    Canada    E%sT
-  {
-    &kPolicyCanada /*zonePolicy*/,
-    "E%T" /*format*/,
-    -20 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAmerica_Nipigon[] ACE_TIME_PROGMEM = "\x02" "Nipigon";
-
-const extended::ZoneInfo kZoneAmerica_Nipigon ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Nipigon /*name*/,
-  0x9d2a8b1a /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Nipigon /*eras*/,
-};
-
-//---------------------------------------------------------------------------
 // Zone name: America/Nome
 // Zone Eras: 1
 // Strings (bytes): 11 (originally 18)
@@ -5279,10 +5257,10 @@ const extended::ZoneInfo kZoneAmerica_Nuuk ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Ojinaga
-// Zone Eras: 2
-// Strings (bytes): 17 (originally 24)
-// Memory (8-bit): 50
-// Memory (32-bit): 69
+// Zone Eras: 3
+// Strings (bytes): 21 (originally 28)
+// Memory (8-bit): 65
+// Memory (32-bit): 89
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Ojinaga[] ACE_TIME_PROGMEM = {
@@ -5298,11 +5276,23 @@ static const extended::ZoneEra kZoneEraAmerica_Ojinaga[] ACE_TIME_PROGMEM = {
     0 /*untilTimeCode*/,
     0 /*untilTimeModifier (kSuffixW + minute=0)*/,
   },
-  //             -7:00    US    M%sT
+  //             -7:00    US    M%sT    2022 Oct 30  2:00
   {
     &kPolicyUS /*zonePolicy*/,
     "M%T" /*format*/,
     -28 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    22 /*untilYearTiny*/,
+    10 /*untilMonth*/,
+    30 /*untilDay*/,
+    8 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             -6:00    -    CST
+  {
+    nullptr /*zonePolicy*/,
+    "CST" /*format*/,
+    -24 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
@@ -5319,7 +5309,7 @@ const extended::ZoneInfo kZoneAmerica_Ojinaga ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Ojinaga /*name*/,
   0xebfde83f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  2 /*numEras*/,
+  3 /*numEras*/,
   kZoneEraAmerica_Ojinaga /*eras*/,
 };
 
@@ -5629,40 +5619,6 @@ const extended::ZoneInfo kZoneAmerica_Punta_Arenas ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   2 /*numEras*/,
   kZoneEraAmerica_Punta_Arenas /*eras*/,
-};
-
-//---------------------------------------------------------------------------
-// Zone name: America/Rainy_River
-// Zone Eras: 1
-// Strings (bytes): 17 (originally 24)
-// Memory (8-bit): 39
-// Memory (32-bit): 53
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraAmerica_Rainy_River[] ACE_TIME_PROGMEM = {
-  //             -6:00    Canada    C%sT
-  {
-    &kPolicyCanada /*zonePolicy*/,
-    "C%T" /*format*/,
-    -24 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAmerica_Rainy_River[] ACE_TIME_PROGMEM = "\x02" "Rainy_River";
-
-const extended::ZoneInfo kZoneAmerica_Rainy_River ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Rainy_River /*name*/,
-  0x9cd58a10 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Rainy_River /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6365,40 +6321,6 @@ const extended::ZoneInfo kZoneAmerica_Thule ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAmerica_Thule /*eras*/,
-};
-
-//---------------------------------------------------------------------------
-// Zone name: America/Thunder_Bay
-// Zone Eras: 1
-// Strings (bytes): 17 (originally 24)
-// Memory (8-bit): 39
-// Memory (32-bit): 53
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraAmerica_Thunder_Bay[] ACE_TIME_PROGMEM = {
-  //             -5:00    Canada    E%sT
-  {
-    &kPolicyCanada /*zonePolicy*/,
-    "E%T" /*format*/,
-    -20 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAmerica_Thunder_Bay[] ACE_TIME_PROGMEM = "\x02" "Thunder_Bay";
-
-const extended::ZoneInfo kZoneAmerica_Thunder_Bay ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Thunder_Bay /*name*/,
-  0xf962e71b /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Thunder_Bay /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -15616,7 +15538,7 @@ const extended::ZoneInfo kZoneWET ACE_TIME_PROGMEM = {
 
 
 //---------------------------------------------------------------------------
-// Links: 241
+// Links: 244
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -16742,6 +16664,23 @@ const extended::ZoneInfo kZoneAmerica_Nassau ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
+// Link name: America/Nipigon -> America/Toronto
+// Strings (bytes): 9 (originally 16)
+// Memory (8-bit): 20
+// Memory (32-bit): 29
+//---------------------------------------------------------------------------
+
+static const char kZoneNameAmerica_Nipigon[] ACE_TIME_PROGMEM = "\x02" "Nipigon";
+
+const extended::ZoneInfo kZoneAmerica_Nipigon ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Nipigon /*name*/,
+  0x9d2a8b1a /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Toronto /*eras(info)*/,
+};
+
+//---------------------------------------------------------------------------
 // Link name: America/Port_of_Spain -> America/Puerto_Rico
 // Strings (bytes): 15 (originally 22)
 // Memory (8-bit): 26
@@ -16773,6 +16712,23 @@ const extended::ZoneInfo kZoneAmerica_Porto_Acre ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   0 /*numEras*/,
   &kZoneAmerica_Rio_Branco /*eras(info)*/,
+};
+
+//---------------------------------------------------------------------------
+// Link name: America/Rainy_River -> America/Winnipeg
+// Strings (bytes): 13 (originally 20)
+// Memory (8-bit): 24
+// Memory (32-bit): 33
+//---------------------------------------------------------------------------
+
+static const char kZoneNameAmerica_Rainy_River[] ACE_TIME_PROGMEM = "\x02" "Rainy_River";
+
+const extended::ZoneInfo kZoneAmerica_Rainy_River ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Rainy_River /*name*/,
+  0x9cd58a10 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Winnipeg /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
@@ -16909,6 +16865,23 @@ const extended::ZoneInfo kZoneAmerica_St_Vincent ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   0 /*numEras*/,
   &kZoneAmerica_Puerto_Rico /*eras(info)*/,
+};
+
+//---------------------------------------------------------------------------
+// Link name: America/Thunder_Bay -> America/Toronto
+// Strings (bytes): 13 (originally 20)
+// Memory (8-bit): 24
+// Memory (32-bit): 33
+//---------------------------------------------------------------------------
+
+static const char kZoneNameAmerica_Thunder_Bay[] ACE_TIME_PROGMEM = "\x02" "Thunder_Bay";
+
+const extended::ZoneInfo kZoneAmerica_Thunder_Bay ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Thunder_Bay /*name*/,
+  0xf962e71b /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Toronto /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------
