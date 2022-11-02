@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2022e
+//     --tz_version 2022f
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -22,7 +22,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022e
+// from https://github.com/eggert/tz/releases/tag/2022f
 //
 // DO NOT EDIT
 
@@ -45,7 +45,7 @@ extern const char kTzDatabaseVersion[];
 extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 354
+// Supported zones: 351
 //---------------------------------------------------------------------------
 
 extern const extended::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
@@ -151,7 +151,6 @@ extern const extended::ZoneInfo kZoneAmerica_Moncton; // America/Moncton
 extern const extended::ZoneInfo kZoneAmerica_Monterrey; // America/Monterrey
 extern const extended::ZoneInfo kZoneAmerica_Montevideo; // America/Montevideo
 extern const extended::ZoneInfo kZoneAmerica_New_York; // America/New_York
-extern const extended::ZoneInfo kZoneAmerica_Nipigon; // America/Nipigon
 extern const extended::ZoneInfo kZoneAmerica_Nome; // America/Nome
 extern const extended::ZoneInfo kZoneAmerica_Noronha; // America/Noronha
 extern const extended::ZoneInfo kZoneAmerica_North_Dakota_Beulah; // America/North_Dakota/Beulah
@@ -167,7 +166,6 @@ extern const extended::ZoneInfo kZoneAmerica_Port_au_Prince; // America/Port-au-
 extern const extended::ZoneInfo kZoneAmerica_Porto_Velho; // America/Porto_Velho
 extern const extended::ZoneInfo kZoneAmerica_Puerto_Rico; // America/Puerto_Rico
 extern const extended::ZoneInfo kZoneAmerica_Punta_Arenas; // America/Punta_Arenas
-extern const extended::ZoneInfo kZoneAmerica_Rainy_River; // America/Rainy_River
 extern const extended::ZoneInfo kZoneAmerica_Rankin_Inlet; // America/Rankin_Inlet
 extern const extended::ZoneInfo kZoneAmerica_Recife; // America/Recife
 extern const extended::ZoneInfo kZoneAmerica_Regina; // America/Regina
@@ -183,7 +181,6 @@ extern const extended::ZoneInfo kZoneAmerica_St_Johns; // America/St_Johns
 extern const extended::ZoneInfo kZoneAmerica_Swift_Current; // America/Swift_Current
 extern const extended::ZoneInfo kZoneAmerica_Tegucigalpa; // America/Tegucigalpa
 extern const extended::ZoneInfo kZoneAmerica_Thule; // America/Thule
-extern const extended::ZoneInfo kZoneAmerica_Thunder_Bay; // America/Thunder_Bay
 extern const extended::ZoneInfo kZoneAmerica_Tijuana; // America/Tijuana
 extern const extended::ZoneInfo kZoneAmerica_Toronto; // America/Toronto
 extern const extended::ZoneInfo kZoneAmerica_Vancouver; // America/Vancouver
@@ -509,7 +506,6 @@ const uint32_t kZoneIdAmerica_Moncton = 0x5e07fe24; // America/Moncton
 const uint32_t kZoneIdAmerica_Monterrey = 0x269a1deb; // America/Monterrey
 const uint32_t kZoneIdAmerica_Montevideo = 0xfa214780; // America/Montevideo
 const uint32_t kZoneIdAmerica_New_York = 0x1e2a7654; // America/New_York
-const uint32_t kZoneIdAmerica_Nipigon = 0x9d2a8b1a; // America/Nipigon
 const uint32_t kZoneIdAmerica_Nome = 0x98059b15; // America/Nome
 const uint32_t kZoneIdAmerica_Noronha = 0xab5116fb; // America/Noronha
 const uint32_t kZoneIdAmerica_North_Dakota_Beulah = 0x9b52b384; // America/North_Dakota/Beulah
@@ -525,7 +521,6 @@ const uint32_t kZoneIdAmerica_Port_au_Prince = 0x8e4a7bdc; // America/Port-au-Pr
 const uint32_t kZoneIdAmerica_Porto_Velho = 0x6b1aac77; // America/Porto_Velho
 const uint32_t kZoneIdAmerica_Puerto_Rico = 0x6752ca31; // America/Puerto_Rico
 const uint32_t kZoneIdAmerica_Punta_Arenas = 0xc2c3bce7; // America/Punta_Arenas
-const uint32_t kZoneIdAmerica_Rainy_River = 0x9cd58a10; // America/Rainy_River
 const uint32_t kZoneIdAmerica_Rankin_Inlet = 0xc8de4984; // America/Rankin_Inlet
 const uint32_t kZoneIdAmerica_Recife = 0xb8730494; // America/Recife
 const uint32_t kZoneIdAmerica_Regina = 0xb875371c; // America/Regina
@@ -541,7 +536,6 @@ const uint32_t kZoneIdAmerica_St_Johns = 0x04b14e6e; // America/St_Johns
 const uint32_t kZoneIdAmerica_Swift_Current = 0xdef98e55; // America/Swift_Current
 const uint32_t kZoneIdAmerica_Tegucigalpa = 0xbfd6fd4c; // America/Tegucigalpa
 const uint32_t kZoneIdAmerica_Thule = 0x9921dd68; // America/Thule
-const uint32_t kZoneIdAmerica_Thunder_Bay = 0xf962e71b; // America/Thunder_Bay
 const uint32_t kZoneIdAmerica_Tijuana = 0x6aa1df72; // America/Tijuana
 const uint32_t kZoneIdAmerica_Toronto = 0x792e851b; // America/Toronto
 const uint32_t kZoneIdAmerica_Vancouver = 0x2c6f6b1f; // America/Vancouver
@@ -763,7 +757,7 @@ const uint32_t kZoneIdWET = 0x0b882e35; // WET
 
 
 //---------------------------------------------------------------------------
-// Supported links: 241
+// Supported links: 244
 //---------------------------------------------------------------------------
 
 extern const extended::ZoneInfo kZoneAfrica_Accra; // Africa/Accra -> Africa/Abidjan
@@ -832,8 +826,10 @@ extern const extended::ZoneInfo kZoneAmerica_Mendoza; // America/Mendoza -> Amer
 extern const extended::ZoneInfo kZoneAmerica_Montreal; // America/Montreal -> America/Toronto
 extern const extended::ZoneInfo kZoneAmerica_Montserrat; // America/Montserrat -> America/Puerto_Rico
 extern const extended::ZoneInfo kZoneAmerica_Nassau; // America/Nassau -> America/Toronto
+extern const extended::ZoneInfo kZoneAmerica_Nipigon; // America/Nipigon -> America/Toronto
 extern const extended::ZoneInfo kZoneAmerica_Port_of_Spain; // America/Port_of_Spain -> America/Puerto_Rico
 extern const extended::ZoneInfo kZoneAmerica_Porto_Acre; // America/Porto_Acre -> America/Rio_Branco
+extern const extended::ZoneInfo kZoneAmerica_Rainy_River; // America/Rainy_River -> America/Winnipeg
 extern const extended::ZoneInfo kZoneAmerica_Rosario; // America/Rosario -> America/Argentina/Cordoba
 extern const extended::ZoneInfo kZoneAmerica_Santa_Isabel; // America/Santa_Isabel -> America/Tijuana
 extern const extended::ZoneInfo kZoneAmerica_Shiprock; // America/Shiprock -> America/Denver
@@ -842,6 +838,7 @@ extern const extended::ZoneInfo kZoneAmerica_St_Kitts; // America/St_Kitts -> Am
 extern const extended::ZoneInfo kZoneAmerica_St_Lucia; // America/St_Lucia -> America/Puerto_Rico
 extern const extended::ZoneInfo kZoneAmerica_St_Thomas; // America/St_Thomas -> America/Puerto_Rico
 extern const extended::ZoneInfo kZoneAmerica_St_Vincent; // America/St_Vincent -> America/Puerto_Rico
+extern const extended::ZoneInfo kZoneAmerica_Thunder_Bay; // America/Thunder_Bay -> America/Toronto
 extern const extended::ZoneInfo kZoneAmerica_Tortola; // America/Tortola -> America/Puerto_Rico
 extern const extended::ZoneInfo kZoneAmerica_Virgin; // America/Virgin -> America/Puerto_Rico
 extern const extended::ZoneInfo kZoneAntarctica_DumontDUrville; // Antarctica/DumontDUrville -> Pacific/Port_Moresby
@@ -1077,8 +1074,10 @@ const uint32_t kZoneIdAmerica_Mendoza = 0x46b4e054; // America/Mendoza
 const uint32_t kZoneIdAmerica_Montreal = 0x203a1ea8; // America/Montreal
 const uint32_t kZoneIdAmerica_Montserrat = 0x199b0a35; // America/Montserrat
 const uint32_t kZoneIdAmerica_Nassau = 0xaedef011; // America/Nassau
+const uint32_t kZoneIdAmerica_Nipigon = 0x9d2a8b1a; // America/Nipigon
 const uint32_t kZoneIdAmerica_Port_of_Spain = 0xd8b28d59; // America/Port_of_Spain
 const uint32_t kZoneIdAmerica_Porto_Acre = 0xcce5bf54; // America/Porto_Acre
+const uint32_t kZoneIdAmerica_Rainy_River = 0x9cd58a10; // America/Rainy_River
 const uint32_t kZoneIdAmerica_Rosario = 0xdf448665; // America/Rosario
 const uint32_t kZoneIdAmerica_Santa_Isabel = 0xfd18a56c; // America/Santa_Isabel
 const uint32_t kZoneIdAmerica_Shiprock = 0x82fb7049; // America/Shiprock
@@ -1087,6 +1086,7 @@ const uint32_t kZoneIdAmerica_St_Kitts = 0x04c0507b; // America/St_Kitts
 const uint32_t kZoneIdAmerica_St_Lucia = 0x04d8b3ba; // America/St_Lucia
 const uint32_t kZoneIdAmerica_St_Thomas = 0xb1b3d778; // America/St_Thomas
 const uint32_t kZoneIdAmerica_St_Vincent = 0x8460e523; // America/St_Vincent
+const uint32_t kZoneIdAmerica_Thunder_Bay = 0xf962e71b; // America/Thunder_Bay
 const uint32_t kZoneIdAmerica_Tortola = 0x7931462b; // America/Tortola
 const uint32_t kZoneIdAmerica_Virgin = 0xc2183ab5; // America/Virgin
 const uint32_t kZoneIdAntarctica_DumontDUrville = 0x5a3c656c; // Antarctica/DumontDUrville
@@ -1365,7 +1365,6 @@ const uint8_t kZoneBufSizeAmerica_Moncton = 6;  // America/Moncton in 2006
 const uint8_t kZoneBufSizeAmerica_Monterrey = 4;  // America/Monterrey in 2000
 const uint8_t kZoneBufSizeAmerica_Montevideo = 5;  // America/Montevideo in 2005
 const uint8_t kZoneBufSizeAmerica_New_York = 6;  // America/New_York in 2008
-const uint8_t kZoneBufSizeAmerica_Nipigon = 6;  // America/Nipigon in 2008
 const uint8_t kZoneBufSizeAmerica_Nome = 6;  // America/Nome in 2008
 const uint8_t kZoneBufSizeAmerica_Noronha = 5;  // America/Noronha in 2001
 const uint8_t kZoneBufSizeAmerica_North_Dakota_Beulah = 6;  // America/North_Dakota/Beulah in 2008
@@ -1381,7 +1380,6 @@ const uint8_t kZoneBufSizeAmerica_Port_au_Prince = 6;  // America/Port-au-Prince
 const uint8_t kZoneBufSizeAmerica_Porto_Velho = 1;  // America/Porto_Velho in 2000
 const uint8_t kZoneBufSizeAmerica_Puerto_Rico = 1;  // America/Puerto_Rico in 2000
 const uint8_t kZoneBufSizeAmerica_Punta_Arenas = 5;  // America/Punta_Arenas in 2002
-const uint8_t kZoneBufSizeAmerica_Rainy_River = 6;  // America/Rainy_River in 2008
 const uint8_t kZoneBufSizeAmerica_Rankin_Inlet = 6;  // America/Rankin_Inlet in 2008
 const uint8_t kZoneBufSizeAmerica_Recife = 5;  // America/Recife in 2001
 const uint8_t kZoneBufSizeAmerica_Regina = 1;  // America/Regina in 2000
@@ -1397,7 +1395,6 @@ const uint8_t kZoneBufSizeAmerica_St_Johns = 6;  // America/St_Johns in 2008
 const uint8_t kZoneBufSizeAmerica_Swift_Current = 1;  // America/Swift_Current in 2000
 const uint8_t kZoneBufSizeAmerica_Tegucigalpa = 3;  // America/Tegucigalpa in 2006
 const uint8_t kZoneBufSizeAmerica_Thule = 6;  // America/Thule in 2008
-const uint8_t kZoneBufSizeAmerica_Thunder_Bay = 6;  // America/Thunder_Bay in 2008
 const uint8_t kZoneBufSizeAmerica_Tijuana = 6;  // America/Tijuana in 2009
 const uint8_t kZoneBufSizeAmerica_Toronto = 6;  // America/Toronto in 2008
 const uint8_t kZoneBufSizeAmerica_Vancouver = 6;  // America/Vancouver in 2008
@@ -1625,12 +1622,15 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 2000
 
 
 //---------------------------------------------------------------------------
-// Notable zones: 3
+// Notable zones: 6
 //---------------------------------------------------------------------------
 
 // Africa/Johannesburg (RULES not fixed but FORMAT is missing '%' or '/')
 // Antarctica/Casey (UNTIL '0:01' not on 15-minute boundary)
 // Asia/Gaza (UNTIL '0:01' not on 15-minute boundary)
+// Asia/Kathmandu (STDOFF (5:45) not at :00 or :30 mark)
+// Australia/Eucla (STDOFF (8:45) not at :00 or :30 mark)
+// Pacific/Chatham (STDOFF (12:45) not at :00 or :30 mark)
 
 
 //---------------------------------------------------------------------------

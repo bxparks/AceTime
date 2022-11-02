@@ -65,7 +65,7 @@
 #include "ace_time/ace_time_utils.h"
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 11106
-#define ACE_TIME_VERSION_STRING "1.11.6"
+#define ACE_TIME_VERSION 11107
+#define ACE_TIME_VERSION_STRING "1.11.7"
 
 #endif

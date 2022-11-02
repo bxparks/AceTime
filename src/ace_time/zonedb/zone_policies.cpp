@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022e
+//     --tz_version 2022f
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -22,13 +22,13 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022e
+// from https://github.com/eggert/tz/releases/tag/2022f
 //
 // Policies: 63
-// Rules: 316
+// Rules: 314
 // Letter Size (bytes): 0
-// Total Memory 8-bit (bytes): 3222
-// Total Memory 32-bit (bytes): 4548
+// Total Memory 8-bit (bytes): 3204
+// Total Memory 32-bit (bytes): 4524
 //
 // DO NOT EDIT
 
@@ -2020,9 +2020,9 @@ const basic::ZonePolicy kPolicyEire ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: Fiji
-// Rules: 14
-// Memory (8-bit): 132
-// Memory (32-bit): 180
+// Rules: 12
+// Memory (8-bit): 114
+// Memory (32-bit): 156
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
@@ -2170,30 +2170,6 @@ static const basic::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
     4 /*deltaCode ((deltaMinutes=60)/15)*/,
     '-' /*letter*/,
   },
-  // Rule    Fiji    2022    max    -    Nov    Sun>=8    2:00    1:00    -
-  {
-    22 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
-    11 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    8 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
-    '-' /*letter*/,
-  },
-  // Rule    Fiji    2023    max    -    Jan    Sun>=12    3:00    0    -
-  {
-    23 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
-    1 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    12 /*onDayOfMonth*/,
-    12 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    '-' /*letter*/,
-  },
 
 };
 
@@ -2202,7 +2178,7 @@ static const basic::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
 const basic::ZonePolicy kPolicyFiji ACE_TIME_PROGMEM = {
   kZoneRulesFiji /*rules*/,
   nullptr /*letters*/,
-  14 /*numRules*/,
+  12 /*numRules*/,
   0 /*numLetters*/,
 };
 
@@ -3326,10 +3302,10 @@ static const basic::ZoneRule kZoneRulesMexico[] ACE_TIME_PROGMEM = {
     0 /*deltaCode ((deltaMinutes=0)/15)*/,
     'S' /*letter*/,
   },
-  // Rule    Mexico    2002    max    -    Apr    Sun>=1    2:00    1:00    D
+  // Rule    Mexico    2002    2022    -    Apr    Sun>=1    2:00    1:00    D
   {
     2 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    22 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -3338,10 +3314,10 @@ static const basic::ZoneRule kZoneRulesMexico[] ACE_TIME_PROGMEM = {
     4 /*deltaCode ((deltaMinutes=60)/15)*/,
     'D' /*letter*/,
   },
-  // Rule    Mexico    2002    max    -    Oct    lastSun    2:00    0    S
+  // Rule    Mexico    2002    2022    -    Oct    lastSun    2:00    0    S
   {
     2 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    22 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
