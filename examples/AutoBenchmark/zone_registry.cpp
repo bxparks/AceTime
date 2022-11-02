@@ -48,7 +48,6 @@ const basic::ZoneInfo* const kBenchmarkZoneRegistry[kBenchmarkZoneRegistrySize]
   &zonedb::kZoneIndian_Mauritius, // 0x7b09c02a, Indian/Mauritius
   &zonedb::kZoneAsia_Kuching, // 0x801b003b, Asia/Kuching
   &zonedb::kZoneAmerica_Atikokan, // 0x81b92098, America/Atikokan
-  &zonedb::kZoneAmerica_Chihuahua, // 0x8827d776, America/Chihuahua
   &zonedb::kZonePacific_Chuuk, // 0x8a090b23, Pacific/Chuuk
   &zonedb::kZonePacific_Nauru, // 0x8acc41ae, Pacific/Nauru
   &zonedb::kZonePacific_Kwajalein, // 0x8e216759, Pacific/Kwajalein
