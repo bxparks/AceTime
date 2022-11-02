@@ -1335,10 +1335,13 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 2000
 
 
 //---------------------------------------------------------------------------
-// Notable zones: 1
+// Notable zones: 4
 //---------------------------------------------------------------------------
 
 // Africa/Johannesburg (RULES not fixed but FORMAT is missing '%' or '/')
+// Asia/Kathmandu (STDOFF (5:45) not at :00 or :30 mark)
+// Australia/Eucla (STDOFF (8:45) not at :00 or :30 mark)
+// Pacific/Chatham (STDOFF (12:45) not at :00 or :30 mark)
 
 
 //---------------------------------------------------------------------------
