@@ -34,6 +34,11 @@ class BasicTransitionTest: public aunit::TestOnce {
         ValidationScope dstValidationScope,
         ValidationScope abbrevValidationScope) {
 
+      // Verify that the current epoch year of the AceTime library is the same
+      // as the ValidationData.epochYear that was used to generate the
+      // validation data.
+      assertEqual(LocalDate::currentEpochYear(), testData->epochYear);
+
       BasicZoneProcessor zoneProcessor;
       TimeZone tz = TimeZone::forZoneInfo(zoneInfo, &zoneProcessor);
 
