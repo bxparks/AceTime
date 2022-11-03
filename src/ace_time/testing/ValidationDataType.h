@@ -49,6 +49,9 @@ struct ValidationItem {
  * the BasicTransitionTest or ExtendedTransitionTest classes.
  */
 struct ValidationData {
+  int const startYear;
+  int const untilYear;
+  int const epochYear;
   uint16_t const numItems;
   const ValidationItem* const items;
 };
