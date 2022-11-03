@@ -440,6 +440,20 @@ struct TransitionTemplate {
     uint8_t minute = minutes - hour * 60;
     logging::printf("%c%02u:%02u", sign, (unsigned) hour, (unsigned) minute);
   }
+
+#ifdef ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
+  /** Print an iterable of Transitions from 'begin' to 'end'. */
+  static void printTransitions(
+      const char* prefix,
+      const TransitionTemplate* const* begin,
+      const TransitionTemplate* const* end) {
+    for (const TransitionTemplate* const* iter = begin; iter != end; ++iter) {
+      logging::printf(prefix);
+      (*iter)->log();
+      logging::printf("\n");
+    }
+  }
+#endif
 };
 
 /**
@@ -818,34 +832,27 @@ class TransitionStorageTemplate {
     /** Verify that the indexes are valid. Used only for debugging. */
     void log() const {
       logging::printf("TransitionStorage: ");
-      logging::printf("nActives=%d", mIndexPrior);
-      logging::printf(", nPrior=%d", mIndexCandidates - mIndexPrior);
-      logging::printf(", nCandidates=%d", mIndexFree - mIndexCandidates);
-      logging::printf(", nFree=%d", SIZE - mIndexFree);
-      logging::printf("\n");
+      logging::printf("SIZE=%d, mAllocSize=%d\n", SIZE, mAllocSize);
+      int nActives = mIndexPrior;
+      int nPrior = mIndexCandidates - mIndexPrior;
+      int nCandidates = mIndexFree - mIndexCandidates;
+      int nAllocFree = mAllocSize - mIndexFree;
+      int nVirginFree = SIZE - mAllocSize;
 
-      if (mIndexPrior != 0) {
-        logging::printf("  Actives:\n");
-        for (uint8_t i = 0; i < mIndexPrior; i++) {
-          logging::printf("    ");
-          mTransitions[i]->log();
-          logging::printf("\n");
-        }
-      }
-      if (mIndexPrior != mIndexCandidates) {
-        logging::printf("  Prior: \n");
-        logging::printf("    ");
-        mTransitions[mIndexPrior]->log();
-        logging::printf("\n");
-      }
-      if (mIndexCandidates != mIndexFree) {
-        logging::printf("  Candidates:\n");
-        for (uint8_t i = mIndexCandidates; i < mIndexFree; i++) {
-          logging::printf("    ");
-          mTransitions[i]->log();
-          logging::printf("\n");
-        }
-      }
+      logging::printf("  Actives: %d\n", nActives);
+      Transition::printTransitions(
+          "    ", &mTransitions[0], &mTransitions[mIndexPrior]);
+
+      logging::printf("  Prior: %d\n", nPrior);
+      Transition::printTransitions(
+          "    ", &mTransitions[mIndexPrior], &mTransitions[mIndexCandidates]);
+
+      logging::printf("  Candidates: %d\n", nCandidates);
+      Transition::printTransitions(
+          "    ", &mTransitions[mIndexCandidates], &mTransitions[mIndexFree]);
+
+      logging::printf("  Allocated Free: %d\n", nAllocFree);
+      logging::printf("  Virgin Free: %d\n", nVirginFree);
     }
 
     /** Reset the current allocation size. For debugging. */
@@ -1490,8 +1497,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       match->lastDeltaMinutes = freeTransition->deltaMinutes;
       transitionStorage.addFreeAgentToActivePool();
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-        freeTransition->log();
-        logging::printf("\n");
+        transitionStorage.log();
       }
     }
 
@@ -1609,6 +1615,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
           logging::printf(
             "findCandidateTransitions(): adding prior to Candidate pool\n");
+          logging::printf("  ");
           (*prior)->log();
           logging::printf("\n");
         }
@@ -1796,7 +1803,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("fixTransitionTimes(): START; #transitions=%d\n",
           (int) (end - begin));
-        printTransitions(begin, end);
+        Transition::printTransitions("  ", begin, end);
       }
 
       // extend first Transition to -infinity
@@ -1815,19 +1822,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("fixTransitionTimes(): FIXED\n");
-        printTransitions(begin, end);
+        Transition::printTransitions("  ", begin, end);
         logging::printf("fixTransitionTimes(): END\n");
       }
     }
-
-  #ifdef ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
-    static void printTransitions(Transition** begin, Transition** end) {
-      for (Transition** iter = begin; iter != end; ++iter) {
-        (*iter)->log();
-        logging::printf("\n");
-      }
-    }
-  #endif
 
     /**
      * Convert the given 'tt', offsetMinutes, and deltaMinutes into the 'w', 's'
