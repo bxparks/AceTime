@@ -427,9 +427,6 @@ class LocalTime {
 
 class LocalDate {
   public:
-    static const int16_t kConverterEpochYear = 2000;
-    static const int32_t kDaysToConverterEpochFromUnixEpoch = 10957;
-
     static const int16_t kInvalidYear = INT16_MIN;
     static const int16_t kMinYear = 0;
     static const int16_t kMaxYear = 10000;
@@ -3157,7 +3154,7 @@ For example, the `LocalDate` and `LocalDateTime` classes support only 4-digit
 The following are examples of invalid instances, where `dt.isError()` will
 return true:
 
-```C+++
+```C++
 auto dt = LocalDateTime::forComponents(-1, 1, 1, 0, 0, 0); // invalid year
 
 auto dt = LocalDateTime::forComponents(2000, 0, 1, 0, 0, 0); // invalid month
@@ -3299,8 +3296,9 @@ Serial.println(dt.isError() ? "true" : "false");
           potentially shift to a different year. As of version 2022f, no such
           Rule seems to exist.
 * Links
-    * Fat links (see *Zones and Links* section above) cannot determine whether a
-      given `ZoneInfo` instance is a Zone or a Link at run time.
+    * Fat links (see [Zones and Links](#ZonesAndLinks) section above) cannot
+      determine whether a given `ZoneInfo` instance is a Zone or a Link at run
+      time.
     * Symbolic links can. The current `zonedb` and `zonedbx` databases use
       symbolic links.
 * Arduino Zero and SAMD21 Boards
