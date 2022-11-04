@@ -60,9 +60,14 @@ v2.0.0](MIGRATING.md#MigratingToVersion200) section for more details.
 
 **Migration**: [MIGRATING.md](MIGRATING.md)
 
+**User Guide**: [USER_GUIDE.md](USER_GUIDE.md)
+
 **See Also**:
 
 * AceTimeClock (https://github.com/bxparks/AceTimeClock)
+* AceTimeValidation (https://github.com/bxparks/AceTimeValidation)
+* AceTimeTools (https://github.com/bxparks/AceTimeTools)
+* AceTimePython (https://github.com/bxparks/AceTimePython)
 
 ## Table of Contents
 
