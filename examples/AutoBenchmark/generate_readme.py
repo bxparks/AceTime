@@ -26,7 +26,7 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
-**Version**: AceTime v1.11.5
+**Version**: AceTime v2.0
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
@@ -167,6 +167,23 @@ The CPU times below are given in microseconds.
     * ESP32 Core from 2.0.2 to 2.0.5
     * Teensyduino from 1.56 to 1.57
 * Upgrade TZDB from 2022b to 2022d
+
+**v2.0**
+* Use `int16_t` year fields.
+* Implement adjustable epoch year.
+* Upgrade to TZDB 2022f.
+* AVR:
+    * sizeof(LocalDate) increases from 3 to 4
+    * sizeof(BasicZoneProcessor) increases from 116 to 122
+    * sizeof(ExtendedZoneProcessor) increases from 436 to 468
+    * sizeof(TransitionStorage) increases from 340 to 364
+    * ZonedDateTime::forEpochSeconds() slower by 5-10%
+* ESP8266
+    * sizeof(LocalDate) increases from 3 to 4
+    * sizeof(BasicZoneProcessor) remains at 164
+    * sizeof(ExtendedZoneProcessor) increases from 540 to 588
+    * sizeof(TransitionStorage) increases from 420 to 452
+    * ZonedDateTime::forEpochSeconds() slower by 0-10%
 
 ## Arduino Nano
 
