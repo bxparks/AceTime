@@ -1,14 +1,20 @@
 <map id="/home/brian/src/AceTime/src/ace_time/offset_date_time_mutation.h" name="/home/brian/src/AceTime/src/ace_time/offset_date_time_mutation.h">
-<area shape="rect" id="node1" title="Methods that mutate an OffsetDateTime object." alt="" coords="8,5,195,61"/>
-<area shape="rect" id="node2" title=" " alt="" coords="255,483,326,509"/>
-<area shape="rect" id="node3" title=" " alt="" coords="43,109,160,136"/>
-<area shape="rect" id="node4" href="$OffsetDateTime_8h_source.html" title=" " alt="" coords="185,109,322,136"/>
-<area shape="rect" id="node5" href="$TimeOffset_8h_source.html" title=" " alt="" coords="147,333,253,360"/>
-<area shape="rect" id="node6" href="$LocalDateTime_8h_source.html" title=" " alt="" coords="386,184,518,211"/>
-<area shape="rect" id="node7" title=" " alt="" coords="317,259,392,285"/>
-<area shape="rect" id="node8" title=" " alt="" coords="417,259,487,285"/>
-<area shape="rect" id="node9" title=" " alt="" coords="511,259,595,285"/>
-<area shape="rect" id="node10" href="$LocalDate_8h_source.html" title=" " alt="" coords="620,259,719,285"/>
-<area shape="rect" id="node12" href="$LocalTime_8h_source.html" title=" " alt="" coords="619,333,720,360"/>
-<area shape="rect" id="node11" href="$common_8h_source.html" title=" " alt="" coords="480,408,632,435"/>
+<area shape="rect" id="node1" title="Methods that mutate an OffsetDateTime object." alt="" coords="877,5,1063,61"/>
+<area shape="rect" id="node2" title=" " alt="" coords="631,483,701,509"/>
+<area shape="rect" id="node3" title=" " alt="" coords="805,333,922,360"/>
+<area shape="rect" id="node4" href="$OffsetDateTime_8h_source.html" title=" " alt="" coords="901,109,1039,136"/>
+<area shape="rect" id="node5" href="$TimeOffset_8h_source.html" title=" " alt="" coords="997,184,1103,211"/>
+<area shape="rect" id="node6" href="$LocalDateTime_8h_source.html" title=" " alt="" coords="477,184,609,211"/>
+<area shape="rect" id="node7" title=" " alt="" coords="431,259,506,285"/>
+<area shape="rect" id="node8" title=" " alt="" coords="5,483,76,509"/>
+<area shape="rect" id="node9" title=" " alt="" coords="419,333,503,360"/>
+<area shape="rect" id="node10" href="$LocalDate_8h_source.html" title=" " alt="" coords="309,259,407,285"/>
+<area shape="rect" id="node18" href="$LocalTime_8h_source.html" title=" " alt="" coords="581,259,682,285"/>
+<area shape="rect" id="node11" href="$Epoch_8h_source.html" title=" " alt="" coords="321,333,395,360"/>
+<area shape="rect" id="node13" href="$common_8h_source.html" title=" " alt="" coords="527,333,679,360"/>
+<area shape="rect" id="node14" href="$DateStrings_8h_source.html" title=" " alt="" coords="75,333,246,360"/>
+<area shape="rect" id="node12" href="$EpochConverterHinnant_8h_source.html" title=" " alt="" coords="386,408,629,435"/>
+<area shape="rect" id="node15" href="$compat_8h.html" title="Macros and definitions that provide a consistency layer among the various Arduino boards for compatib..." alt="" coords="123,408,206,435"/>
+<area shape="rect" id="node16" title=" " alt="" coords="230,483,315,509"/>
+<area shape="rect" id="node17" title=" " alt="" coords="105,483,206,509"/>
 </map>

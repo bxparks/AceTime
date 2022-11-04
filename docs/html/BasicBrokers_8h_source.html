@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.11.7</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -106,12 +106,12 @@ $(function() {
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">  #if ACE_TIME_USE_PROGMEM</span></div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    int8_t fromYearTiny()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <span class="keywordflow">return</span> pgm_read_byte(&amp;mZoneRule-&gt;fromYearTiny);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    int16_t fromYear()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <span class="keywordflow">return</span> pgm_read_word(&amp;mZoneRule-&gt;fromYear);</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    int8_t toYearTiny()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <span class="keywordflow">return</span> pgm_read_byte(&amp;mZoneRule-&gt;toYearTiny);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    int16_t toYear()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <span class="keywordflow">return</span> pgm_read_word(&amp;mZoneRule-&gt;toYear);</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    uint8_t inMonth()<span class="keyword"> const </span>{</div>
@@ -146,9 +146,9 @@ $(function() {
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="preprocessor">  #else</span></div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    int8_t fromYearTiny()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mZoneRule-&gt;fromYearTiny; }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    int16_t fromYear()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mZoneRule-&gt;fromYear; }</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    int8_t toYearTiny()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mZoneRule-&gt;toYearTiny; }</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    int16_t toYear()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mZoneRule-&gt;toYear; }</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    uint8_t inMonth()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mZoneRule-&gt;inMonth; }</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
@@ -268,8 +268,8 @@ $(function() {
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;      <span class="keywordflow">return</span> (<span class="keyword">const</span> <span class="keywordtype">char</span>*) pgm_read_ptr(&amp;mZoneEra-&gt;format);</div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    }</div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160; </div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    int8_t untilYearTiny()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;      <span class="keywordflow">return</span> pgm_read_byte(&amp;mZoneEra-&gt;untilYearTiny);</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    int16_t untilYear()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;      <span class="keywordflow">return</span> pgm_read_word(&amp;mZoneEra-&gt;untilYear);</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    }</div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160; </div>
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    uint8_t untilMonth()<span class="keyword"> const </span>{</div>
@@ -302,7 +302,7 @@ $(function() {
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
 <div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* format()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mZoneEra-&gt;format; }</div>
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160; </div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    int8_t untilYearTiny()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mZoneEra-&gt;untilYearTiny; }</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    int16_t untilYear()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mZoneEra-&gt;untilYear; }</div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160; </div>
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    uint8_t untilMonth()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mZoneEra-&gt;untilMonth; }</div>
 <div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160; </div>

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.11.7</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -99,12 +99,6 @@ int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a7fce2547e6d4b12d08fbda5c2d0d63d7">year</a> (int16_t year)</td></tr>
 <tr class="memdesc:a7fce2547e6d4b12d08fbda5c2d0d63d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the year. <br /></td></tr>
 <tr class="separator:a7fce2547e6d4b12d08fbda5c2d0d63d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29e52dbdb2d307696f3e6cb3f7a62995"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a29e52dbdb2d307696f3e6cb3f7a62995">yearTiny</a> () const</td></tr>
-<tr class="memdesc:a29e52dbdb2d307696f3e6cb3f7a62995"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the single-byte year offset from year 2000.  <a href="classace__time_1_1LocalDateTime.html#a29e52dbdb2d307696f3e6cb3f7a62995">More...</a><br /></td></tr>
-<tr class="separator:a29e52dbdb2d307696f3e6cb3f7a62995"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3cd4adcd0c349752a879a112a0d36c11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a3cd4adcd0c349752a879a112a0d36c11">yearTiny</a> (int8_t yearTiny)</td></tr>
-<tr class="memdesc:a3cd4adcd0c349752a879a112a0d36c11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the single-byte year offset from year 2000.  <a href="classace__time_1_1LocalDateTime.html#a3cd4adcd0c349752a879a112a0d36c11">More...</a><br /></td></tr>
-<tr class="separator:a3cd4adcd0c349752a879a112a0d36c11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64406f7a7c2d599f5260e1ef58d1c99a"><td class="memItemLeft" align="right" valign="top"><a id="a64406f7a7c2d599f5260e1ef58d1c99a"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a64406f7a7c2d599f5260e1ef58d1c99a">month</a> () const</td></tr>
 <tr class="memdesc:a64406f7a7c2d599f5260e1ef58d1c99a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the month with January=1, December=12. <br /></td></tr>
@@ -165,22 +159,18 @@ const <a class="el" href="classace__time_1_1LocalDate.html">LocalDate</a> &amp;&
 const <a class="el" href="classace__time_1_1LocalTime.html">LocalTime</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#ab2c76ad0b964d884eb4c31ae5c455af7">localTime</a> () const</td></tr>
 <tr class="memdesc:ab2c76ad0b964d884eb4c31ae5c455af7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the <a class="el" href="classace__time_1_1LocalTime.html" title="The time (hour, minute, second) fields representing the time without regards to the day or the time z...">LocalTime</a>. <br /></td></tr>
 <tr class="separator:ab2c76ad0b964d884eb4c31ae5c455af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abefd57dc8b5d6c66074a809a32ddbb24"><td class="memItemLeft" align="right" valign="top"><a id="abefd57dc8b5d6c66074a809a32ddbb24"></a>
-int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#abefd57dc8b5d6c66074a809a32ddbb24">toEpochDays</a> () const</td></tr>
-<tr class="memdesc:abefd57dc8b5d6c66074a809a32ddbb24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z). <br /></td></tr>
+<tr class="memitem:abefd57dc8b5d6c66074a809a32ddbb24"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#abefd57dc8b5d6c66074a809a32ddbb24">toEpochDays</a> () const</td></tr>
+<tr class="memdesc:abefd57dc8b5d6c66074a809a32ddbb24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return number of whole days since AceTime epoch.  <a href="classace__time_1_1LocalDateTime.html#abefd57dc8b5d6c66074a809a32ddbb24">More...</a><br /></td></tr>
 <tr class="separator:abefd57dc8b5d6c66074a809a32ddbb24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa805a985dcd3636acad1a21845d4be32"><td class="memItemLeft" align="right" valign="top"><a id="aa805a985dcd3636acad1a21845d4be32"></a>
 int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#aa805a985dcd3636acad1a21845d4be32">toUnixDays</a> () const</td></tr>
 <tr class="memdesc:aa805a985dcd3636acad1a21845d4be32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of days since Unix epoch (1970-01-01 00:00:00). <br /></td></tr>
 <tr class="separator:aa805a985dcd3636acad1a21845d4be32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af174b568718ea7b54528f916806020b8"><td class="memItemLeft" align="right" valign="top">acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#af174b568718ea7b54528f916806020b8">toEpochSeconds</a> () const</td></tr>
-<tr class="memdesc:af174b568718ea7b54528f916806020b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return seconds since AceTime epoch 2000-01-01 00:00:00Z, after assuming that the date and time components are in UTC timezone.  <a href="classace__time_1_1LocalDateTime.html#af174b568718ea7b54528f916806020b8">More...</a><br /></td></tr>
+<tr class="memdesc:af174b568718ea7b54528f916806020b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return seconds since the current AceTime epoch defined by <a class="el" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04" title="Get the current epoch year.">Epoch::currentEpochYear()</a>.  <a href="classace__time_1_1LocalDateTime.html#af174b568718ea7b54528f916806020b8">More...</a><br /></td></tr>
 <tr class="separator:af174b568718ea7b54528f916806020b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ba6283de94bb1bedf1582964dd92dc1"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a3ba6283de94bb1bedf1582964dd92dc1">toUnixSeconds</a> () const</td></tr>
-<tr class="memdesc:a3ba6283de94bb1bedf1582964dd92dc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return seconds from Unix epoch 1970-01-01 00:00:00Z, after assuming that the date and time components are in UTC timezone.  <a href="classace__time_1_1LocalDateTime.html#a3ba6283de94bb1bedf1582964dd92dc1">More...</a><br /></td></tr>
-<tr class="separator:a3ba6283de94bb1bedf1582964dd92dc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14bba42198704634aac7dfcec3f90ebd"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a14bba42198704634aac7dfcec3f90ebd">toUnixSeconds64</a> () const</td></tr>
-<tr class="memdesc:a14bba42198704634aac7dfcec3f90ebd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return 64-bit seconds from Unix epoch 1970-01-01 00:00:00Z, after assuming that the date and time components are in UTC timezone.  <a href="classace__time_1_1LocalDateTime.html#a14bba42198704634aac7dfcec3f90ebd">More...</a><br /></td></tr>
+<tr class="memdesc:a14bba42198704634aac7dfcec3f90ebd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return 64-bit seconds from Unix epoch 1970-01-01 00:00:00 UTC, after assuming that the date and time components are in UTC timezone.  <a href="classace__time_1_1LocalDateTime.html#a14bba42198704634aac7dfcec3f90ebd">More...</a><br /></td></tr>
 <tr class="separator:a14bba42198704634aac7dfcec3f90ebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54a97cb87d1d14021d655430dd4b7c44"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a54a97cb87d1d14021d655430dd4b7c44">compareTo</a> (const <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> &amp;that) const</td></tr>
 <tr class="memdesc:a54a97cb87d1d14021d655430dd4b7c44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare 'this' <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> with 'that' <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>, and return (&lt;0, 0, &gt;0) according to whether 'this' occurs (before, same as, after) 'that'.  <a href="classace__time_1_1LocalDateTime.html#a54a97cb87d1d14021d655430dd4b7c44">More...</a><br /></td></tr>
@@ -200,19 +190,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a2fc60cd721cbfe128e4feec378bb9be0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a2fc60cd721cbfe128e4feec378bb9be0">forComponents</a> (int16_t <a class="el" href="classace__time_1_1LocalDateTime.html#af8475d9a582933a3d7be658657dc8f08">year</a>, uint8_t <a class="el" href="classace__time_1_1LocalDateTime.html#a64406f7a7c2d599f5260e1ef58d1c99a">month</a>, uint8_t <a class="el" href="classace__time_1_1LocalDateTime.html#a39d5bc65b884fc0ad00e46b96eee71ef">day</a>, uint8_t <a class="el" href="classace__time_1_1LocalDateTime.html#acf9fb3d8589c0aa1c97a96b4a681b9e0">hour</a>, uint8_t <a class="el" href="classace__time_1_1LocalDateTime.html#a7df99e1e5ba813cebc9246a3a047073c">minute</a>, uint8_t <a class="el" href="classace__time_1_1LocalDateTime.html#a715acce151915d4efbe821291d9c693e">second</a>, uint8_t <a class="el" href="classace__time_1_1LocalDateTime.html#a6d082508f73c7a9dbca81c0a2287eb40">fold</a>=0)</td></tr>
 <tr class="memdesc:a2fc60cd721cbfe128e4feec378bb9be0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method using separated date and time components.  <a href="classace__time_1_1LocalDateTime.html#a2fc60cd721cbfe128e4feec378bb9be0">More...</a><br /></td></tr>
 <tr class="separator:a2fc60cd721cbfe128e4feec378bb9be0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6840c820484fbd8a9139b7460309d39"><td class="memItemLeft" align="right" valign="top"><a id="ab6840c820484fbd8a9139b7460309d39"></a>
-static <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#ab6840c820484fbd8a9139b7460309d39">forTinyComponents</a> (int8_t <a class="el" href="classace__time_1_1LocalDateTime.html#a29e52dbdb2d307696f3e6cb3f7a62995">yearTiny</a>, uint8_t <a class="el" href="classace__time_1_1LocalDateTime.html#a64406f7a7c2d599f5260e1ef58d1c99a">month</a>, uint8_t <a class="el" href="classace__time_1_1LocalDateTime.html#a39d5bc65b884fc0ad00e46b96eee71ef">day</a>, uint8_t <a class="el" href="classace__time_1_1LocalDateTime.html#acf9fb3d8589c0aa1c97a96b4a681b9e0">hour</a>, uint8_t <a class="el" href="classace__time_1_1LocalDateTime.html#a7df99e1e5ba813cebc9246a3a047073c">minute</a>, uint8_t <a class="el" href="classace__time_1_1LocalDateTime.html#a715acce151915d4efbe821291d9c693e">second</a>, uint8_t <a class="el" href="classace__time_1_1LocalDateTime.html#a6d082508f73c7a9dbca81c0a2287eb40">fold</a>=0)</td></tr>
-<tr class="memdesc:ab6840c820484fbd8a9139b7460309d39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method using components with an int8_t yearTiny. <br /></td></tr>
-<tr class="separator:ab6840c820484fbd8a9139b7460309d39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22d1cb9b735e129f6a495f21d0c408e9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a22d1cb9b735e129f6a495f21d0c408e9">forEpochSeconds</a> (acetime_t epochSeconds, uint8_t <a class="el" href="classace__time_1_1LocalDateTime.html#a6d082508f73c7a9dbca81c0a2287eb40">fold</a>=0)</td></tr>
 <tr class="memdesc:a22d1cb9b735e129f6a495f21d0c408e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method.  <a href="classace__time_1_1LocalDateTime.html#a22d1cb9b735e129f6a495f21d0c408e9">More...</a><br /></td></tr>
 <tr class="separator:a22d1cb9b735e129f6a495f21d0c408e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6fc55b0c4f6ffa1e55beb7158a49be7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#aa6fc55b0c4f6ffa1e55beb7158a49be7">forUnixSeconds</a> (int32_t unixSeconds)</td></tr>
-<tr class="memdesc:aa6fc55b0c4f6ffa1e55beb7158a49be7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method that takes the number of seconds since Unix Epoch of 1970-01-01.  <a href="classace__time_1_1LocalDateTime.html#aa6fc55b0c4f6ffa1e55beb7158a49be7">More...</a><br /></td></tr>
-<tr class="separator:aa6fc55b0c4f6ffa1e55beb7158a49be7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ae087d3f652b821d60d46a6cf2187fc"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a9ae087d3f652b821d60d46a6cf2187fc">forUnixSeconds64</a> (int64_t unixSeconds)</td></tr>
-<tr class="memdesc:a9ae087d3f652b821d60d46a6cf2187fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method that takes the 64-bit number of seconds since Unix Epoch of 1970-01-01.  <a href="classace__time_1_1LocalDateTime.html#a9ae087d3f652b821d60d46a6cf2187fc">More...</a><br /></td></tr>
-<tr class="separator:a9ae087d3f652b821d60d46a6cf2187fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56e5e866f3597d203bc4f0971d56b849"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a56e5e866f3597d203bc4f0971d56b849">forUnixSeconds64</a> (int64_t unixSeconds, uint8_t <a class="el" href="classace__time_1_1LocalDateTime.html#a6d082508f73c7a9dbca81c0a2287eb40">fold</a>=0)</td></tr>
+<tr class="memdesc:a56e5e866f3597d203bc4f0971d56b849"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method that takes the 64-bit number of seconds since Unix <a class="el" href="classace__time_1_1Epoch.html" title="Utitliy functions for setting, retrieving, and converting the current epoch.">Epoch</a> of 1970-01-01.  <a href="classace__time_1_1LocalDateTime.html#a56e5e866f3597d203bc4f0971d56b849">More...</a><br /></td></tr>
+<tr class="separator:a56e5e866f3597d203bc4f0971d56b849"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7009318e9e3934c7ec480442a6ea0a4c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a7009318e9e3934c7ec480442a6ea0a4c">forDateString</a> (const char *dateString)</td></tr>
 <tr class="memdesc:a7009318e9e3934c7ec480442a6ea0a4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method.  <a href="classace__time_1_1LocalDateTime.html#a7009318e9e3934c7ec480442a6ea0a4c">More...</a><br /></td></tr>
 <tr class="separator:a7009318e9e3934c7ec480442a6ea0a4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -266,7 +249,7 @@ Friends</h2></td></tr>
 <p>Constructor. </p>
 <p>All internal fields are left in an undefined state. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00183">183</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00165">165</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -298,7 +281,7 @@ Friends</h2></td></tr>
 <p>Compare 'this' <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> with 'that' <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>, and return (&lt;0, 0, &gt;0) according to whether 'this' occurs (before, same as, after) 'that'. </p>
 <p>If either this-&gt;<a class="el" href="classace__time_1_1LocalDateTime.html#a42ad78d8e8c81c09494cdf4f0e6de123" title="Return true if any component indicates an error condition.">isError()</a> or that.isError() is true, the behavior is undefined. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00314">314</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00275">275</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -369,7 +352,7 @@ Friends</h2></td></tr>
 <p>Factory method using separated date and time components. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">year</td><td>[1873-2127] </td></tr>
+    <tr><td class="paramname">year</td><td>year [0,10000] </td></tr>
     <tr><td class="paramname">month</td><td>month with January=1, December=12 </td></tr>
     <tr><td class="paramname">day</td><td>day of month [1-31] </td></tr>
     <tr><td class="paramname">hour</td><td>hour [0-23] </td></tr>
@@ -411,7 +394,7 @@ Friends</h2></td></tr>
 <p>Factory method. </p>
 <p>Create a <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> from date string in flash memory F() strings. Mostly for unit testing. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00160">160</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00142">142</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -441,9 +424,9 @@ Friends</h2></td></tr>
 
 <p>Factory method. </p>
 <p>Create a <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> from the ISO 8601 date string. If the string cannot be parsed, then returns <a class="el" href="classace__time_1_1LocalDateTime.html#a5e238445e0b676f3a166e5bdc3794aa9" title="Factory method that returns an instance where isError() returns true.">LocalDateTime::forError()</a>.</p>
-<p>The dateString is expected to be in ISO 8601 format "YYYY-MM-DDThh:mm:ss", but currently, the parser is very lenient. It cares mostly about the positional placement of the various components. It does not validate the separation characters like '-' or ':'. For example, both of the following will parse to the exactly same <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> object: "2018-08-31T13:48:01-07:00" "2018/08/31
+<p>The dateString is expected to be in ISO 8601 format "YYYY-MM-DDThh:mm:ss", but currently, the parser is very lenient. It cares mostly about the positional placement of the various components. It does not validate the separation characters like '-' or ':'. For example, both of the following strings will parse to the exactly same <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> object: "2018-08-31T13:48:01-07:00" and "2018/08/31
 13#48#01-07#00"</p>
-<p>The parsing validation is so weak that the behavior is undefined for most invalid date/time strings. The range of valid dates is roughly from 1872-01-01T00:00:00 to 2127-12-31T23:59:59. </p>
+<p>The parsing validation is so weak that the behavior is undefined for most invalid date/time strings. The range of valid dates is from 0001-01-01T00:00:00 to 9999-12-31T23:59:59. </p>
 
 <p class="definition">Definition at line <a class="el" href="LocalDateTime_8cpp_source.html#l00038">38</a> of file <a class="el" href="LocalDateTime_8cpp_source.html">LocalDateTime.cpp</a>.</p>
 
@@ -525,43 +508,12 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00075">75</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00064">64</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
-<a id="aa6fc55b0c4f6ffa1e55beb7158a49be7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6fc55b0c4f6ffa1e55beb7158a49be7">&#9670;&nbsp;</a></span>forUnixSeconds()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> ace_time::LocalDateTime::forUnixSeconds </td>
-          <td>(</td>
-          <td class="paramtype">int32_t&#160;</td>
-          <td class="paramname"><em>unixSeconds</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Factory method that takes the number of seconds since Unix Epoch of 1970-01-01. </p>
-<p>Valid until unixSeconds reaches the maximum value of <code>int32_t</code> at 2038-01-19T03:14:07 UTC. Returns <a class="el" href="classace__time_1_1LocalDateTime.html#a5e238445e0b676f3a166e5bdc3794aa9" title="Factory method that returns an instance where isError() returns true.">LocalDateTime::forError()</a> if unixSeconds is invalid. </p>
-
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00106">106</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
-
-</div>
-</div>
-<a id="a9ae087d3f652b821d60d46a6cf2187fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ae087d3f652b821d60d46a6cf2187fc">&#9670;&nbsp;</a></span>forUnixSeconds64()</h2>
+<a id="a56e5e866f3597d203bc4f0971d56b849"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56e5e866f3597d203bc4f0971d56b849">&#9670;&nbsp;</a></span>forUnixSeconds64()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -573,8 +525,18 @@ Friends</h2></td></tr>
           <td class="memname">static <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> ace_time::LocalDateTime::forUnixSeconds64 </td>
           <td>(</td>
           <td class="paramtype">int64_t&#160;</td>
-          <td class="paramname"><em>unixSeconds</em></td><td>)</td>
+          <td class="paramname"><em>unixSeconds</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>fold</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -584,10 +546,10 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Factory method that takes the 64-bit number of seconds since Unix Epoch of 1970-01-01. </p>
+<p>Factory method that takes the 64-bit number of seconds since Unix <a class="el" href="classace__time_1_1Epoch.html" title="Utitliy functions for setting, retrieving, and converting the current epoch.">Epoch</a> of 1970-01-01. </p>
 <p>Valid until the 64-bit unixSeconds reaches the equivalent of 2068-01-19T03:14:07 UTC. Returns <a class="el" href="classace__time_1_1LocalDateTime.html#a5e238445e0b676f3a166e5bdc3794aa9" title="Factory method that returns an instance where isError() returns true.">LocalDateTime::forError()</a> if unixSeconds is invalid. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00120">120</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00091">91</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -614,6 +576,36 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="abefd57dc8b5d6c66074a809a32ddbb24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abefd57dc8b5d6c66074a809a32ddbb24">&#9670;&nbsp;</a></span>toEpochDays()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t ace_time::LocalDateTime::toEpochDays </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return number of whole days since AceTime epoch. </p>
+<p>The default epoch is 2000-01-01 00:00:00 UTC, but can be changed using <code><a class="el" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04" title="Get the current epoch year.">Epoch::currentEpochYear()</a></code>. </p>
+
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00228">228</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+
+</div>
+</div>
 <a id="af174b568718ea7b54528f916806020b8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af174b568718ea7b54528f916806020b8">&#9670;&nbsp;</a></span>toEpochSeconds()</h2>
 
@@ -637,41 +629,11 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Return seconds since AceTime epoch 2000-01-01 00:00:00Z, after assuming that the date and time components are in UTC timezone. </p>
-<p>Returns <a class="el" href="classace__time_1_1LocalDate.html#a9c90b1abe7223c1b585bd8f8f89f0516" title="Sentinel epochSeconds which indicates an error.">LocalDate::kInvalidEpochSeconds</a> if <a class="el" href="classace__time_1_1LocalDateTime.html#a42ad78d8e8c81c09494cdf4f0e6de123" title="Return true if any component indicates an error condition.">isError()</a> is true. </p>
+<p>Return seconds since the current AceTime epoch defined by <a class="el" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04" title="Get the current epoch year.">Epoch::currentEpochYear()</a>. </p>
+<p>The default epoch is 2000-01-01 00:00:00 UTC, but can be changed using <code><a class="el" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04" title="Get the current epoch year.">Epoch::currentEpochYear()</a></code>.</p>
+<p>Returns <a class="el" href="classace__time_1_1LocalDate.html#a9c90b1abe7223c1b585bd8f8f89f0516" title="Sentinel epochSeconds which indicates an error.">LocalDate::kInvalidEpochSeconds</a> if <a class="el" href="classace__time_1_1LocalDateTime.html#a42ad78d8e8c81c09494cdf4f0e6de123" title="Return true if any component indicates an error condition.">isError()</a> is true, or the epochSeconds is out of range. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00274">274</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
-
-</div>
-</div>
-<a id="a3ba6283de94bb1bedf1582964dd92dc1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ba6283de94bb1bedf1582964dd92dc1">&#9670;&nbsp;</a></span>toUnixSeconds()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int32_t ace_time::LocalDateTime::toUnixSeconds </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Return seconds from Unix epoch 1970-01-01 00:00:00Z, after assuming that the date and time components are in UTC timezone. </p>
-<p>Returns <a class="el" href="classace__time_1_1LocalDate.html#a76b912090a944c1196034c78614874ef" title="Sentinel unixSeconds which indicates an error.">LocalDate::kInvalidUnixSeconds</a> if <a class="el" href="classace__time_1_1LocalDateTime.html#a42ad78d8e8c81c09494cdf4f0e6de123" title="Return true if any component indicates an error condition.">isError()</a> is true.</p>
-<p>Tip: You can use the command 'date +s -d {iso8601date}' on a Unix box to print the unix seconds of a given ISO8601 date. </p>
-
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00290">290</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00247">247</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -698,72 +660,11 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Return 64-bit seconds from Unix epoch 1970-01-01 00:00:00Z, after assuming that the date and time components are in UTC timezone. </p>
-<p>Returns <a class="el" href="classace__time_1_1LocalDate.html#a2fbdac2dbc536dc1d44ab3cf0602de7a" title="Sentinel 64-bit unixSeconds which indicates an error.">LocalDate::kInvalidUnixSeconds64</a> if <a class="el" href="classace__time_1_1LocalDateTime.html#a42ad78d8e8c81c09494cdf4f0e6de123" title="Return true if any component indicates an error condition.">isError()</a> is true.</p>
+<p>Return 64-bit seconds from Unix epoch 1970-01-01 00:00:00 UTC, after assuming that the date and time components are in UTC timezone. </p>
+<p>Returns <a class="el" href="classace__time_1_1LocalDate.html#a2fbdac2dbc536dc1d44ab3cf0602de7a" title="Sentinel unixSeconds64 which indicates an error.">LocalDate::kInvalidUnixSeconds64</a> if <a class="el" href="classace__time_1_1LocalDateTime.html#a42ad78d8e8c81c09494cdf4f0e6de123" title="Return true if any component indicates an error condition.">isError()</a> is true.</p>
 <p>Tip: You can use the command 'date +s -d {iso8601date}' on a Unix box to print the unix seconds of a given ISO8601 date. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00303">303</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
-
-</div>
-</div>
-<a id="a29e52dbdb2d307696f3e6cb3f7a62995"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29e52dbdb2d307696f3e6cb3f7a62995">&#9670;&nbsp;</a></span>yearTiny() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int8_t ace_time::LocalDateTime::yearTiny </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Return the single-byte year offset from year 2000. </p>
-<p>Intended for memory constrained or performance critical code. May be deprecated in the future. </p>
-
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00201">201</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
-
-</div>
-</div>
-<a id="a3cd4adcd0c349752a879a112a0d36c11"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3cd4adcd0c349752a879a112a0d36c11">&#9670;&nbsp;</a></span>yearTiny() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ace_time::LocalDateTime::yearTiny </td>
-          <td>(</td>
-          <td class="paramtype">int8_t&#160;</td>
-          <td class="paramname"><em>yearTiny</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Set the single-byte year offset from year 2000. </p>
-<p>Intended for memory constrained or performance critical code. May be deprecated in the future. </p>
-
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00208">208</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00262">262</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -805,7 +706,7 @@ Friends</h2></td></tr>
 <p>Return true if two <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> objects are equal in all components. </p>
 <p>Optimized for small changes in the less signficant fields, such as 'second' or 'minute'. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00353">353</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00314">314</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>

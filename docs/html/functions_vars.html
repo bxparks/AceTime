@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.11.7</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -111,11 +111,16 @@ $(function() {
 <li>kBufferSize
 : <a class="el" href="classace__time_1_1DateStrings.html#aedbfa043f6da042c40fed6b2beb09588">ace_time::DateStrings</a>
 </li>
-<li>kDaysSinceUnixEpoch
-: <a class="el" href="classace__time_1_1LocalDate.html#aab7ca9d6e3c7ea572c57dd8a2370169c">ace_time::LocalDate</a>
+<li>kConverterEpochYear
+: <a class="el" href="classace__time_1_1internal_1_1EpochConverterHinnant.html#a6ed8ca4b0974c91b3d9c9685fd360828">ace_time::internal::EpochConverterHinnant</a>
+, <a class="el" href="classace__time_1_1internal_1_1EpochConverterJulian.html#a829b0f12bf2187343c2270c9c32738a1">ace_time::internal::EpochConverterJulian</a>
 </li>
-<li>kEpochYear
-: <a class="el" href="classace__time_1_1LocalDate.html#a0061f9720cb66ec66d00b3dbec08bef2">ace_time::LocalDate</a>
+<li>kDaysToConverterEpochFromJulianEpoch
+: <a class="el" href="classace__time_1_1internal_1_1EpochConverterJulian.html#aaa3675c3f97f1b351624d0ba01e803f6">ace_time::internal::EpochConverterJulian</a>
+</li>
+<li>kDaysToConverterEpochFromUnixEpoch
+: <a class="el" href="classace__time_1_1internal_1_1EpochConverterHinnant.html#ab48f70a4b324409a711a840ccd19d67b">ace_time::internal::EpochConverterHinnant</a>
+, <a class="el" href="classace__time_1_1internal_1_1EpochConverterJulian.html#a913d96b6aff2b87d2a10fbb8725061d7">ace_time::internal::EpochConverterJulian</a>
 </li>
 <li>kErrorMinutes
 : <a class="el" href="classace__time_1_1TimeOffset.html#a878cf094506b1f4de5722c74769c891b">ace_time::TimeOffset</a>
@@ -140,20 +145,17 @@ $(function() {
 <li>kInvalidSeconds
 : <a class="el" href="classace__time_1_1LocalTime.html#a0524d4d069e8fe7f604757160994f276">ace_time::LocalTime</a>
 </li>
-<li>kInvalidUnixDays
-: <a class="el" href="classace__time_1_1LocalDate.html#a3767eeba3695e9a6a7c517ee56a88b12">ace_time::LocalDate</a>
-</li>
-<li>kInvalidUnixSeconds
-: <a class="el" href="classace__time_1_1LocalDate.html#a76b912090a944c1196034c78614874ef">ace_time::LocalDate</a>
-</li>
 <li>kInvalidUnixSeconds64
 : <a class="el" href="classace__time_1_1LocalDate.html#a2fbdac2dbc536dc1d44ab3cf0602de7a">ace_time::LocalDate</a>
 </li>
-<li>kInvalidYearTiny
-: <a class="el" href="classace__time_1_1LocalDate.html#ab488f7039935fb19e1d53f63ec47a5f8">ace_time::LocalDate</a>
+<li>kInvalidYear
+: <a class="el" href="classace__time_1_1LocalDate.html#ad35cfa503eea48ee0d0c3bb3c4b01180">ace_time::LocalDate</a>
 </li>
 <li>kInvalidZoneId
 : <a class="el" href="classace__time_1_1LinkManager.html#a3a28d4b2b773e5a96d9c1a9361991fa2">ace_time::LinkManager</a>
+</li>
+<li>kMaxEpochSeconds
+: <a class="el" href="classace__time_1_1LocalDate.html#aa481f6facbd9dfef0ac9a972cdc8286f">ace_time::LocalDate</a>
 </li>
 <li>kMaxPeriodSeconds
 : <a class="el" href="classace__time_1_1TimePeriod.html#a1f8bbf6bc456b88388ff29b44ecec9e6">ace_time::TimePeriod</a>
@@ -161,26 +163,20 @@ $(function() {
 <li>kMaxTransitions
 : <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aca8230fd1f2db53e5a1d799a895fca3d">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
 </li>
-<li>kMaxValidUnixSeconds64
-: <a class="el" href="classace__time_1_1LocalDate.html#a204c643d930f766f90a9bdaf9d9235b4">ace_time::LocalDate</a>
+<li>kMaxYear
+: <a class="el" href="classace__time_1_1LocalDate.html#a06976c9866708209720b14e745baecc4">ace_time::LocalDate</a>
 </li>
-<li>kMaxYearTiny
-: <a class="el" href="classace__time_1_1LocalDate.html#a6f00db0e5431f38166a37adecedb7b4f">ace_time::LocalDate</a>
+<li>kMinEpochSeconds
+: <a class="el" href="classace__time_1_1LocalDate.html#a16334b49fbbcf8ecc356e283b3675911">ace_time::LocalDate</a>
 </li>
-<li>kMinValidUnixSeconds64
-: <a class="el" href="classace__time_1_1LocalDate.html#a5c298900e04d6c6ebb98ee6e49e9306c">ace_time::LocalDate</a>
-</li>
-<li>kMinYearTiny
-: <a class="el" href="classace__time_1_1LocalDate.html#a64c9df2678e6770266d1ede6f6eed724">ace_time::LocalDate</a>
+<li>kMinYear
+: <a class="el" href="classace__time_1_1LocalDate.html#a3c4687821480b57575b7ffba3d3e5ae9">ace_time::LocalDate</a>
 </li>
 <li>kMonday
 : <a class="el" href="classace__time_1_1LocalDate.html#ac1c12c4971fc218d6ae56a3cd84d3ae8">ace_time::LocalDate</a>
 </li>
 <li>kSaturday
 : <a class="el" href="classace__time_1_1LocalDate.html#abfc081c738df0972dfaa7d94f1782ea9">ace_time::LocalDate</a>
-</li>
-<li>kSecondsSinceUnixEpoch
-: <a class="el" href="classace__time_1_1LocalDate.html#a0b8da6117c11441ce0a5ec62fe6c5d85">ace_time::LocalDate</a>
 </li>
 <li>kShortNameLength
 : <a class="el" href="classace__time_1_1DateStrings.html#aa990309bb6080ee27a2cb9aa8f76cb29">ace_time::DateStrings</a>
@@ -329,8 +325,8 @@ $(function() {
 
 
 <h3><a id="index_y"></a>- y -</h3><ul>
-<li>yearTiny
-: <a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#a88b323cadf6b08c8978da780365d94a6">ace_time::basic::TransitionTemplate&lt; ZIB, ZEB, ZPB, ZRB &gt;</a>
+<li>year
+: <a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#a6ee877c2971a5b8e00b9d230b2cc24b1">ace_time::basic::TransitionTemplate&lt; ZIB, ZEB, ZPB, ZRB &gt;</a>
 </li>
 </ul>
 
