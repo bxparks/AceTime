@@ -27,7 +27,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v1.11.5
+**Version**: AceTime v2.0
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -202,6 +202,21 @@ ASCII table.
     * ESP32 Core from 2.0.2 to 2.0.5
     * Teensyduino from 1.56 to 1.57
 * Upgrade TZDB from 2022b to 2022d
+
+**v2.0**
+* Use `int16_t` year fields.
+* Implement adjustable epoch year.
+* Upgrade to TZDB 2022f.
+* AVR:
+    * BasicZoneManager increases ~200 bytes
+    * ExtendedZoneManager increases ~500 bytes
+    * `zonedb` increases ~1.5 kiB
+    * `zonedbx` increases ~3 iiB
+* ESP8266
+    * BasicZoneManager increases ~50 bytes
+    * ExtendedZoneManager increases ~150 bytes
+    * `zonedb` increases ~300 bytes
+    * `zonedbx` increases ~1.5 iiB
 
 # Legend
 
