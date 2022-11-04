@@ -80,23 +80,27 @@ AceTime v2 implements the following major changes and features:
 * the internal `year` field in various classes (`LocalDate`, `LocalDateTime`,
   `OffsetDateTime`, `ZonedDateTime`) changes from `int8_t` to an `int16_t`
     * the range increases from `[1873,2127]` to `[1,9999]`
+    * the various `year()` methods in these classes were already using `int16_t`
+      so this internal change should be mostly invisible to client applications
 * the `year` fields in the `zonedb` and `zonedbx` databases also change from
   `int8_t` to `int16_t`
     * the year range increases from `[2000,2049]` to `[2000,9999]`
-    * this decouples the TZ database from the adjustable current epoch year
+    * decouples the TZ database from the adjustable current epoch year
 * removed constants
     * `LocalDate::kEpochYear`
         * replacement: `Epoch::currentEpochYear()` function
         * reason: no longer a constant
     * `LocalDate::kSecondsSinceUnixEpoch`
-        * purpose: number of seconds from 1970 to the AceTime epoch 2000
+        * purpose: number of seconds from 1970 to the AceTime epoch (2000-01-01
+          in v1, but adjustable in v2)
         * replacement: `Epoch::secondsToCurrentEpochFromUnixEpoch64()`
         * reasons:
             * `int32_t` seconds can overflow, so use `int64_t`
             * epoch year is now adjustable, not a constant
     * `LocalDate::kDaysSinceUnixEpoch`
-        * purpose: number of days from 1970-01-01 to 2000-01-01
-        * replacement: `Epoch::daysToCurrentEpochFromConverterEpoch()`
+        * purpose: number of days from 1970-01-01 to AceTime epoch (2000-01-01
+          in v1, but adjustable in v2)
+        * replacement: `Epoch::daysToCurrentEpochFromUnixEpoch()`
         * reason: epoch is now adjustable, so must become a function
     * `LocalDate::kMinYearTiny`
         * replacement: `LocalDate::kMinYear`
@@ -113,10 +117,10 @@ AceTime v2 implements the following major changes and features:
 * removed functions
     * `LocalDate::toUnixSeconds()`
         * reason: 32-bit Unix seconds will overflow in the year 2038
-        * replacement: `toUnixSeconds64()`
+        * replacement: `LocalDate::toUnixSeconds64()`
     * `LocalDate::forUnixSeconds()`
         * reason: 32-bit Unix seconds will overflow in the year 2038
-        * replacement: `forUnixSeconds64()`
+        * replacement: `LocalDate::forUnixSeconds64()`
     * `LocalDate::yearTiny()`
         * reason: `int8_t` year fields replaced by `int16_t` type
     * `LocalDate::forTinyComponents()` (undocumented)
@@ -178,11 +182,20 @@ problem](https://en.wikipedia.org/wiki/Year_2038_problem) which uses a 32-bit
 signed integer starting from the epoch year of 1970 (1970-01-01 00:00:00 UTC).
 
 When the AceTime project started in 2018, using the year 2000 as the epoch year
-pushed the maximum year of epochSeconds to about 2068 which seemed sufficiently
-far enough away. The epoch year of 2000 also seemed convenient because it is the
-same value used by the [AVR libc](https://avr-libc.nongnu.org/) in its
+pushed the theoretical maximum year of epochSeconds to about 2068 which seemed
+sufficiently far enough away. The epoch year of 2000 also seemed convenient
+because it is the same value used by the [AVR
+libc](https://avr-libc.nongnu.org/) in its
 [time.h](https://avr-libc.nongnu.org/user-manual/group__avr__time.html)
-implementation.
+implementation. The actual upper limit was restricted to 2050 to provide some
+headroom before calculations would overflow in the year 2068.
+
+Now in the year 2022, the upper limit of 2050 feels too low, since embedded
+devices could be reasonably expected to keep working for the next 25 years.
+The updated AceTime v2 is designed to support a 100-year interval from
+`[2000,2100)` by default. To prevent the need to change the source code when the
+range needs to extended even further in the future, the "current epoch year" is
+made adjustable by the client application.
 
 <a name="MigratingToVersion190"></a>
 ## Migrating to v1.9.0
