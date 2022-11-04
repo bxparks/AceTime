@@ -23,7 +23,7 @@ namespace ace_time {
  * indicating -Infinity and 10000 representing +Infinity, so the normal range is
  * [1,9999]. An invalid year is represented by INT16_MIN (-32768).
  *
- * The default epoch for AceTime is 2000-01-01 00:00:00 UTC, but can be changed
+ * The default epoch for AceTime is 2050-01-01 00:00:00 UTC, but can be changed
  * using `LocaDate::currentEpochYear()`. The `toEpochSeconds()` method returns a
  * `int32_t` number of seconds offset from that epoch.
  *
@@ -68,7 +68,7 @@ class ZonedDateTime {
      * Returns ZonedDateTime::forError() if epochSeconds is invalid.
      *
      * @param epochSeconds Number of seconds from the current epoch by
-     * `LocalDate::currentEpochYear()`. The default is 2000-01-01 00:00:00 UTC
+     * `LocalDate::currentEpochYear()`. The default is 2050-01-01 00:00:00 UTC
      * which can be changed by `currentEpochYear(year)`. A value of
      * LocalDate::kInvalidEpochSeconds is a sentinel that is considered to be an
      * error and causes isError() to return true.
@@ -246,7 +246,7 @@ class ZonedDateTime {
 
     /**
      * Return number of whole days since AceTime epoch taking into account the
-     * time zone. The default epoch is 2000-01-01 00:00:00 UTC but can be
+     * time zone. The default epoch is 2050-01-01 00:00:00 UTC but can be
      * changed using `LocalDate::currentEpochYear()`.
      */
     int32_t toEpochDays() const {
@@ -260,7 +260,7 @@ class ZonedDateTime {
 
     /**
      * Return seconds since AceTime epoch taking into account the time zone. The
-     * default epoch is 2000-01-01 00:00:00 UTC but can be changed using
+     * default epoch is 2050-01-01 00:00:00 UTC but can be changed using
      * `LocalDate::currentEpochYear()`.
      */
     acetime_t toEpochSeconds() const {

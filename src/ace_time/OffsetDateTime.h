@@ -24,9 +24,9 @@ namespace ace_time {
  * 2000-2099, then the last 2 digits map directly to the fields supported by the
  * DS3231 RTC chip.
  *
- * The default epoch for AceTime is 2000-01-01T00:00:00 UTC, but can be changed
- * using `LocalDate::currentEpochYear()`. The `toEpochSeconds()` method returns a
- * `int32_t` number of seconds offset from that epoch.
+ * The default epoch for AceTime is 2050-01-01T00:00:00 UTC, but can be changed
+ * using `LocalDate::currentEpochYear()`. The `toEpochSeconds()` method returns
+ * a `int32_t` number of seconds offset from that epoch.
  *
  * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated internally
  * from the date fields.
@@ -72,8 +72,8 @@ class OffsetDateTime {
      * if epochSeconds or timeOffset is an error.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
-     *    (2000-01-01 00:00:00). Use LocalDate::kInvalidEpochSeconds to define
-     *    an invalid instance whose isError() returns true.
+     *    (2050-01-01 00:00:00 by default). Use LocalDate::kInvalidEpochSeconds
+     *    to define an invalid instance whose isError() returns true.
      * @param timeOffset time offset from UTC
      */
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
@@ -241,7 +241,7 @@ class OffsetDateTime {
 
     /**
      * Return number of whole days since AceTime epoch taking into account the
-     * UTC offset. The default epoch is 2000-01-01 00:00:00 UTC but can be
+     * UTC offset. The default epoch is 2050-01-01 00:00:00 UTC but can be
      * changed using `LocalDate::currentEpochYear()`.
      */
     int32_t toEpochDays() const {
@@ -269,7 +269,7 @@ class OffsetDateTime {
 
     /**
      * Return seconds since AceTime epoch taking into account the UTC offset.
-     * The default epoch is 2000-01-01 00:00:00 UTC but can be changed using
+     * The default epoch is 2050-01-01 00:00:00 UTC but can be changed using
      * `LocalDate::currentEpochYear()`.
      */
     acetime_t toEpochSeconds() const {

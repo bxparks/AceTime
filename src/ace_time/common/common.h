@@ -11,7 +11,7 @@
 namespace ace_time {
 
 /**
- * Type for the number of seconds from epoch. AceTime epoch is 2000-01-01
+ * Type for the number of seconds from epoch. The AceTime epoch is 2050-01-01
  * 00:00:00 UTC by default but can be changed using
  * `LocalDate::currentEpochYear()`. Unix epoch is 1970-01-01 00:00:00 UTC.
  */

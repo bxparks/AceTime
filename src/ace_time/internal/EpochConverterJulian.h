@@ -20,26 +20,25 @@ namespace internal {
 class EpochConverterJulian {
   public:
     /**
-     * Base year of the epoch days converter. Should be a multiple of 400.
-     * This epoch year applies to only this class. Other parts of the AceTime
-     * library may choose a different epoch year.
+     * Epoch year used by this epoch converter. Must be a multiple of 400. Other
+     * parts of the AceTime library will probably use a different epoch year.
      */
-    static const int16_t kEpochConverterBaseYear = 2000;
+    static const int16_t kConverterEpochYear = 2000;
 
     /**
-     * Number of days between the modified proleptic Julian calendar epoch (4713
-     * BC 01-01, modified to start at 00:00:00 instead of 12:00:00) and the
-     * AceTime epoch (2000-01-01). There are 1721060 days from the modified
-     * Julian epoch to 0000-01-01 of the proleptic Gregorian calendar. We then
-     * need to add 2000 years (5 x 400 years) to get to 2000-01-01.
+     * Number of days from the modified proleptic Julian calendar epoch (4713
+     * BC 01-01, modified to start at 00:00:00 instead of 12:00:00) to the
+     * converter epoch (2000-01-01 instead of 2050-01-01). There are 1721060
+     * days from the modified Julian epoch to 0000-01-01 of the proleptic
+     * Gregorian calendar. We then need to add 2000 years (5 x 400 years) to get
+     * to 2000-01-01.
      */
-    //static const int32_t kDaysSinceJulianEpoch = 2451545;
-    static const int32_t kDaysSinceJulianEpoch = 1721060
-        + (kEpochConverterBaseYear / 400) * 146097;
+    static const int32_t kDaysToConverterEpochFromJulianEpoch = 1721060
+        + (kConverterEpochYear / 400) * 146097; // 2451545
 
     /**
-     * Convert (year, month, day) in the Gregorian calendar to days since
-     * AceTime Epoch (2000-01-01). The (year, month, day) is converted into
+     * Convert (year, month, day) in the Gregorian calendar to days since the
+     * converter epoch (2000-01-01). The (year, month, day) is converted into
      * Julian days, then converted to epoch days since AceTime Epoch. The Julian
      * day normally start at 12:00:00, but we use a modified Julian day number
      * starting at 00:00:00 to make it easier to convert to the Gregorian
@@ -70,7 +69,7 @@ class EpochConverterJulian {
           + (367 * (month - 2 - 12 * mm))/12
           - (3 * ((year + 4900 + mm)/100))/4
           + day - 32075;
-      return jdn - kDaysSinceJulianEpoch;
+      return jdn - kDaysToConverterEpochFromJulianEpoch;
     }
 
     /**
@@ -83,7 +82,7 @@ class EpochConverterJulian {
     static void fromEpochDays(int32_t epochDays,
         int16_t& year, uint8_t& month, uint8_t& day) {
 
-      uint32_t J = epochDays + kDaysSinceJulianEpoch;
+      uint32_t J = epochDays + kDaysToConverterEpochFromJulianEpoch;
       uint32_t f = J + 1401 + (((4 * J + 274277 ) / 146097) * 3) / 4 - 38;
       uint32_t e = 4 * f + 3;
       uint32_t g = e % 1461 / 4;

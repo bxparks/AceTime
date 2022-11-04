@@ -54,13 +54,13 @@ template <typename T_CONVERTER>
 class LocalDateTemplate {
   public:
     /** Epoch year used by the internal epoch converters. Probably year 2000. */
-    static const int16_t kBaseEpochYear = T_CONVERTER::kEpochConverterBaseYear;
+    static const int16_t kConverterEpochYear = T_CONVERTER::kConverterEpochYear;
 
     /**
      * Number of days from Unix epoch (1970-01-01 00:00:00 UTC) to
-     * the AceTime base epoch (2000-01-01 00:00:00 UTC).
+     * the converter epoch (2000-01-01 00:00:00 UTC).
      */
-    static const int32_t kDaysToBaseEpochFromUnixEpoch = 10957;
+    static const int32_t kDaysToConverterEpochFromUnixEpoch = 10957;
 
     /**
      * Sentinel year which indicates one or more of the following conditions:
@@ -159,17 +159,11 @@ class LocalDateTemplate {
 
   // Set and get current epoch year.
   private:
-    /**
-     * Base year `yyyy` of current epoch {yyyy}-01-01T00:00:00.
-     */
+    /** Base year `yyyy` of current epoch {yyyy}-01-01T00:00:00. */
     static int16_t sCurrentEpochYear;
 
-    /**
-     * Number of days from T_CONVERTER::kEpochConverterBaseYear to
-     * sCurrentEpochYear. Default is 0, since the default sCurrentEpochYear is
-     * the same as T_CONVERTER::kEpochConverterBaseYear.
-     */
-    static int32_t sDaysToCurrentEpochFromBaseEpoch;
+    /** Number of days from kConverterEpochYear to sCurrentEpochYear. */
+    static int32_t sDaysToCurrentEpochFromConverterEpoch;
 
   public:
     /** Get the current epoch year. */
@@ -180,15 +174,16 @@ class LocalDateTemplate {
     /** Set the current epoch year. */
     static void currentEpochYear(int16_t year) {
       sCurrentEpochYear = year;
-      sDaysToCurrentEpochFromBaseEpoch = T_CONVERTER::toEpochDays(year, 1, 1);
+      sDaysToCurrentEpochFromConverterEpoch =
+          T_CONVERTER::toEpochDays(year, 1, 1);
     }
 
     /**
-     * Return the number of days from the base epoch (2000-01-01T00:00:00) to
-     * the current epoch.
+     * Number of days from the converter epoch (2000-01-01) to the current
+     * epoch.
      */
-    static int32_t daysToCurrentEpochFromBaseEpoch() {
-      return sDaysToCurrentEpochFromBaseEpoch;
+    static int32_t daysToCurrentEpochFromConverterEpoch() {
+      return sDaysToCurrentEpochFromConverterEpoch;
     }
 
     /**
@@ -196,7 +191,8 @@ class LocalDateTemplate {
      * the current epoch.
      */
     static int32_t daysToCurrentEpochFromUnixEpoch() {
-      return kDaysToBaseEpochFromUnixEpoch + sDaysToCurrentEpochFromBaseEpoch;
+      return kDaysToConverterEpochFromUnixEpoch
+          + sDaysToCurrentEpochFromConverterEpoch;
     }
 
     /**
@@ -281,8 +277,8 @@ class LocalDateTemplate {
         month = 0;
         day = 0;
       } else {
-        // shift relative to T_CONVERTER::kEpochConverterBaseYear
-        epochDays += sDaysToCurrentEpochFromBaseEpoch;
+        // shift relative to T_CONVERTER::kConverterEpochYear
+        epochDays += sDaysToCurrentEpochFromConverterEpoch;
         T_CONVERTER::fromEpochDays(epochDays, year, month, day);
       }
       return forComponents(year, month, day);
@@ -458,7 +454,7 @@ class LocalDateTemplate {
     int32_t toEpochDays() const {
       if (isError()) return kInvalidEpochDays;
       int32_t days = T_CONVERTER::toEpochDays(mYear, mMonth, mDay)
-          - sDaysToCurrentEpochFromBaseEpoch; // relative to current epoch
+          - sDaysToCurrentEpochFromConverterEpoch; // relative to current epoch
       return days;
     }
 
@@ -616,7 +612,7 @@ int16_t LocalDateTemplate<T>::sCurrentEpochYear = 2050;
 
 // Number of days from 2000-01-01 to 2050-01-01: 50*365 + 13 leap days = 18263.
 template <typename T>
-int32_t LocalDateTemplate<T>::sDaysToCurrentEpochFromBaseEpoch = 18263;
+int32_t LocalDateTemplate<T>::sDaysToCurrentEpochFromConverterEpoch = 18263;
 
 // Use EpochConverterHinnant for LocalDate
 using LocalDate = LocalDateTemplate<internal::EpochConverterHinnant>;
