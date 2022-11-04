@@ -3262,14 +3262,11 @@ Serial.println(dt.isError() ? "true" : "false");
      as well as it could be, and the algorithm may change in the future. To keep
      the code size within reasonble limits of a small Arduino controller, the
      algorithm may be permanently sub-optimal.
-* `ZonedDateTime` Must Be Within StartYear and UntilYear
-    * The `src/ace_time/zonedb` and `src/ace_time/zonedbx` zone files are
-      valid only within the specified `startYear` and `untilYear` range, defined
-      in the `kZoneContext` struct:
-        * `ace_time::zonedb::kZoneContext`
-        * `ace_time::zonedbx::kZoneContext`
-    * A `ZonedDateTime` object cannot be created outside of that valid year
-      range. This is explained in [ZoneInfo Year Range](#ZoneInfoYearRange).
+* `ZonedDateTime` Must Be Within +/- ~50 years of the AceTimeEpoch
+    * The internal time zone calculations use the same `int32_t` type as
+      the `acetime_t` epoch seconds. This has a range of about 136 years.
+    * To be safe, the `ZoneDateTime` objects should be restricted to about +/-
+      50 years of the epoch defined by `Epoch::currentEpochYear()`.
 * `BasicZoneProcessor`
     * Supports 1-minute resolution for AT and UNTIL fields.
     * Supports only a 15-minute resolution for the STDOFF and DST offset fields.
@@ -3280,35 +3277,39 @@ Serial.println(dt.isError() ? "true" : "false");
     * All timezones after 1974 has DST offsets in 15-minutes increments.
 * `zonedb/` and `zonedbx/` ZoneInfo entries
     * These statically defined data structures are loaded into flash memory
-      using the `PROGMEM` keyword. The vast majority of the data structure
-      fields will stay in flash memory and not copied into RAM.
-    * The ZoneInfo entries have *not* been compressed using bit-fields or any
-      other compression techniques. It may be possible to decrease the size of
-      the full database using these compression techniques. However, compression
-      will increase the size of the program file, so for applications that use
-      only a small number of zones, it is not clear if the ZoneInfo entry
-      compression will provide a reduction in the size of the overall program.
+      using the `PROGMEM` keyword.
+        * The vast majority of the data structure fields will stay in flash
+          memory and not copied into RAM.
+    * The ZoneInfo entries have *not* been compressed using bit-fields.
+        * It may be possible to decrease the size of the full database using
+          these compression techniques. However, compression will increase the
+          size of the program file, so for applications that use only a small
+          number of zones, it is not clear if the ZoneInfo entry compression
+          will provide a reduction in the size of the overall program.
     * The TZ database files `backzone`, `systemv` and `factory` are
-      not processed by the `tzcompiler.py` tool. They don't seem to contain
-      anything worthwhile.
+      not processed by the `tzcompiler.py` tool.
+        * They don't seem to contain anything worthwhile.
     * TZ Database version 2019b contains the first use of the
       `{onDayOfWeek<=onDayOfMonth}` syntax that I have seen (specifically `Rule
-      Zion, FROM 2005, TO 2012, IN Apr, ON Fri<=1`). The actual transition date
-      can shift into the previous month (or to the next month in the case of
-      `>=`). However, shifting into the previous year or the next year is not
-      supported. The `tzcompiler.py` will exclude and flag the Rules which could
-      potentially shift to a different year. As of version 2019b, no such Rule
-      seems to exist.
+      Zion, FROM 2005, TO 2012, IN Apr, ON Fri<=1`).
+        * The actual transition date can shift into the previous month (or to
+          the next month in the case of `>=`). However, shifting into the
+          previous year or the next year is not supported.
+        * The `tzcompiler.py` will exclude and flag the Rules which could
+          potentially shift to a different year. As of version 2022f, no such
+          Rule seems to exist.
 * Links
-    * Even with the implementation of "fat links" (see *Zones and Links* section
-      above), it is not possible to determine whether a given `ZoneInfo`
-      instance is a Zone or a Link at run time.
-    * Adding a byte-flag would be straight forward, but would increase flash
-      memory consumption of `kZoneAndLinkRegistry` by 593 bytes. It's not clear
-      if this feature is worth the cost of extra memory usage.
+    * Fat links (see *Zones and Links* section above) cannot determine whether a
+      given `ZoneInfo` instance is a Zone or a Link at run time.
+    * Symbolic links can. The current `zonedb` and `zonedbx` databases use
+      symbolic links.
 * Arduino Zero and SAMD21 Boards
     * SAMD21 boards (which all identify themselves as `ARDUINO_SAMD_ZERO`) are
-      supported, but there are some tricky points.
+      no longer fully supported because:
+        * I am no longer able to upload firmware to my SAMD21 boards
+        * The Arduino samd Core v1.8.10 migrated to the
+          [ArduinoCore-API](https://github.com/arduino/ArduinoCore-api).
+          Unfortunately the ArduinoCore-API is not supported by AceTime.
     * If you are using an original Arduino Zero and using the "Native USB Port",
       you may encounter problems with nothing showing up on the Serial Monitor.
         * The original Arduino Zero has [2 USB
