@@ -204,14 +204,14 @@ directories, using 2 different C++ namespaces to avoid cross-contamination:
 * [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h)
     * intended for `BasicZoneProcessor` or `BasicZoneManager`
     * 266 zones and 183 links (as of version 2021a) from the year 2000 until
-      2100, about 70% of the full IANA TZ Database
+      10000, about 70% of the full IANA TZ Database
     * contains `kZone*` declarations (e.g. `kZoneAmerica_Los_Angeles`)
     * contains `kZoneId*` identifiers (e.g. `kZoneIdAmerica_Los_Angeles`)
     * slightly smaller and slightly faster
 * [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h)
     * intended for `ExtendedZoneProcessor` or `ExtendedZoneManager`
     * all 386 zones and 207 links (as of version 2021a) in the IANA TZ Database
-      from the year 2000 until 2100.
+      from the year 2000 until 10000
     * contains `kZone*` declarations (e.g. `kZoneAfrica_Casablanca`)
     * contains `kZoneId*` identifiers (e.g. `kZoneIdAfrica_Casablanca`)
 
@@ -3170,7 +3170,7 @@ auto dt = LocalDateTime::forComponents(2000, 1, 1, 0, 0, 61); // invalid second
 
 Another example, the `ZonedDateTime` class uses the generated ZoneInfo Database
 in the `zonedb::` and `zonedbx::` namespaces. These data files are valid from
-2000 until 2100. If you try to create a date outside of this range, an error
+2000 until 10000. If you try to create a date outside of this range, an error
 `ZonedDateTime` object will returned. The following snippet will print "true":
 
 ```C++
