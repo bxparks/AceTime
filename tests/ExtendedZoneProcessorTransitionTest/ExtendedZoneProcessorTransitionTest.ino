@@ -40,6 +40,9 @@ class TransitionValidation : public aunit::TestOnce {
         ExtendedZoneProcessor::Transition** end =
             zoneProcessor.mTransitionStorage.getActivePoolEnd();
 
+        // Verify at least one Transition is created for each zone.
+        assertMore(end - start, (ssize_t) 0);
+
         assertNoFatalFailure(checkSortedTransitions(year, start, end));
         assertNoFatalFailure(checkUniqueTransitions(year, start, end));
       }
