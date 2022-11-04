@@ -2,6 +2,10 @@
 
 ## Table of Contents
 
+* [Migrating to v2.0.0](#MigratingToVersion200)
+    * [High Level](#HighLevel200)
+    * [Details](#Details200)
+    * [Background Motivation](#Motivation200)
 * [Migrating to v1.9.0](#MigratingToVersion190)
     * [Configuring the Zone Managers](#ConfiguringZoneManagers)
     * [Using the Zone Managers](#UsingZoneManagers)
@@ -10,6 +14,188 @@
     * [Migrating to AceTimeClock](#MigratingToAceTimeClock)
     * [Migrating the DS3231Clock](#MigratingTheDS3231Clock)
     * [Migrating to LinkManagers](#MigratingToLinkManagers)
+
+<a name="MigratingToVersion200"></a>
+## Migrating to v2.0
+
+<a name="HighLevel200"></a>
+### High Level
+
+The primary purpose of AceTime v2 is to extend the range of years supported by
+the library from `[2000,2050)` to `[2000,10000)`, while remaining compact enough
+to be useful on resource constrained environments like 8-bit AVR processors.
+AceTime uses a 32-bit integer to represent the "epoch seconds". This means that
+it has a range about 136 years. In version v1, the epoch was hardcoded to be
+2000-01-01T00:00:00, which allowed the "epoch seconds" to support years from
+about 1950 to 2050, which got truncated to about 2000 to 2050 for simplicity.
+However, in the year 2022, the upper limit of 2050 seems too close for comfort
+to use in embedded devices which could last more than 25 years.
+
+One solution for extending the range of the "epoch seconds" is to use a 64-bit
+integer instead of a 32-bit integer. This solution is used by many other time
+zone libraries. However, 64-bit operations are extremely resource intensive on
+8-bit processors in terms of both flash memory and CPU cycles, and did not seem
+appropriate for AceTime which hopes to remain usable on 8-bit processors.
+
+The solution used by AceTime v2 is to keep the "epoch seconds" as a 32-bit
+integer, but allow the **epoch year** to be adjustable instead of being
+hardcoded to the year 2000. Downstream applications can select an epoch year
+that is appropriate for their use case, allowing AceTime to be valid over
+roughly a 100-year interval straddling the epoch year. For example, if the epoch
+year is set to 2100 (so that the epoch is 2100-01-01T00:00:00), AceTime will
+work for the years 2050 to 2150. The assumption is that a 100-year interval is
+sufficient for most embedded applications.
+
+With the epoch year being adjustable, it becomes necessary to decouple the
+various `year` fields in the TZDB database (implemented by the `zonedb` and
+`zonedbx` packages) from the `year` fields in the AceTime library code itself.
+Previously in v1, the `year` fields were encoded as 8-bit `int8_t` integers
+which were interpreted to be offsets from the hardcoded epoch year of 2000. To
+allow the zone databases to be valid until the year 10000, the internal `year`
+fields are changed from an `int8_t` to a 16-bit `int16_t` type. The AceTime API
+hides most of the impact of this change from client applications, so the biggest
+noticeable change may be the increase in flash size of the `zonedb` and
+`zonedbx` databases which are now 2.5 kiB to 3.5 kiB larger.
+
+The increase in flash size for `zonedb` and `zonedbx` seems acceptable for the
+following reasons: The full impact of the size increase would be felt only if
+the application incorporated the entire `zonedb` or `zonedbx` database to
+support all 595 time zones in the TZDB database. But most 8-bit processors do
+not have enough flash memory to use the full database (e.g. 23 kiB for `zonedb`,
+38 kiB for `zonedbx`), so it is likely that these 8-bit applications would use
+only a small subset (1-10) of the timezones available in those databases. The
+flash size increase would be far smaller when using only small number of time
+zones. On 32-bit processors where the full database would likely be used, they
+often have far more flash memory (0.5 MiB to 4 MiB on ESP8266 or ESP32), so the
+increase of 2.5-3.5 kiB of flash memory would be negligible on those processors.
+
+Some backwards incompatible changes were necessary from v1 to v2. These are
+explained in detail in the next section.
+
+<a name="Details200"></a>
+### Details
+
+AceTime v2 implements the following major changes and features:
+
+* the internal `year` field in various classes (`LocalDate`, `LocalDateTime`,
+  `OffsetDateTime`, `ZonedDateTime`) changes from `int8_t` to an `int16_t`
+    * the range increases from `[1873,2127]` to `[1,9999]`
+    * the various `year()` methods in these classes were already using `int16_t`
+      so this internal change should be mostly invisible to client applications
+* the `year` fields in the `zonedb` and `zonedbx` databases also change from
+  `int8_t` to `int16_t`
+    * the year range increases from `[2000,2049]` to `[2000,9999]`
+    * decouples the TZ database from the adjustable current epoch year
+* removed constants
+    * `LocalDate::kEpochYear`
+        * replacement: `Epoch::currentEpochYear()` function
+        * reason: no longer a constant
+    * `LocalDate::kSecondsSinceUnixEpoch`
+        * purpose: number of seconds from 1970 to the AceTime epoch (2000-01-01
+          in v1, but adjustable in v2)
+        * replacement: `Epoch::secondsToCurrentEpochFromUnixEpoch64()`
+        * reasons:
+            * `int32_t` seconds can overflow, so use `int64_t`
+            * epoch year is now adjustable, not a constant
+    * `LocalDate::kDaysSinceUnixEpoch`
+        * purpose: number of days from 1970-01-01 to AceTime epoch (2000-01-01
+          in v1, but adjustable in v2)
+        * replacement: `Epoch::daysToCurrentEpochFromUnixEpoch()`
+        * reason: epoch is now adjustable, so must become a function
+    * `LocalDate::kMinYearTiny`
+        * replacement: `LocalDate::kMinYear`
+        * reason: 8-bit offset no longer used, replaced by 16-bit integer
+    * `LocalDate::kMaxYearTiny`
+        * replacement: `LocalDate::kMaxYear`
+        * reason: 8-bit offset no longer used, replaced by 16-bit integer
+    * `LocalDate::kInvalidUnixDays`
+        * replacement: `kInvalidEpochDays`
+        * reason: simplification, both had the same value `INT32_MIN`
+    * `LocalDate::kInvalidUnixSeconds`
+        * replacement: `LocalDate::kInvalidUnixSeconds64`
+        * reason: 32-bit versions of `toUnixSeconds()` removed
+* removed functions
+    * `LocalDate::toUnixSeconds()`
+        * reason: 32-bit Unix seconds will overflow in the year 2038
+        * replacement: `LocalDate::toUnixSeconds64()`
+    * `LocalDate::forUnixSeconds()`
+        * reason: 32-bit Unix seconds will overflow in the year 2038
+        * replacement: `LocalDate::forUnixSeconds64()`
+    * `LocalDate::yearTiny()`
+        * reason: `int8_t` year fields replaced by `int16_t` type
+    * `LocalDate::forTinyComponents()` (undocumented)
+        * reason: `int8_t` year fields replaced by `int16_t` type
+    * `OffsetDateTime::toUnixSeconds()`
+    * `OffsetDateTime::forUnixSeconds()`
+    * `OffsetDateTime::yearTiny()`
+    * `ZonedDateTime::toUnixSeconds()`
+    * `ZonedDateTime::forUnixSeconds()`
+    * `ZonedDateTime::yearTiny()`
+* new functions
+    * `Epoch::currentEpochYear(epochYear)`
+        * purpose: set the current epoch year
+    * `Epoch::currentEpochYear()`
+        * purpose: get the current epoch year
+    * `Epoch::daysToCurrentEpochFromUnixEpoch()`
+        * purpose: number of days from Unix epoch (1970-01-01) to
+          the current epoch ({yyyy}-01-01) where `yyyy` is set by
+          `currentEpochYear(yyyy)`
+    * `Epoch::daysToCurrentEpochFromConverterEpoch()`
+        * purpose: number of days from the converter epoch
+          (2000-01-01T00:00:00) to the current epoch ({yyyy}-01-01T00:00:00)
+          where `yyyy` is set by `currentEpochYear(yyyy)`
+        * comment: should not normally be needed by client applications
+    * `Epoch::secondsToCurrentEpochFromUnixEpoch64()`
+        * purpose: number of seconds from the Unix epoch (1970-01-01T00:00:00)
+          to the current epoch ({yyyy}-01-01T00:00:00)
+        * comment: useful for converting between AceTime epoch and Unix epoch
+    * `Epoch::epochValidYearLower()`
+        * purpose: defines lower limit of valid years (`valid_year >= lower`)
+          for features related to epochSeconds and timezones
+    * `Epoch::epochValidYearUpper()`
+        * purpose: defines upper limit of valid years (`valid_year < upper`)
+          for features related to epochSeconds and timezones
+
+The epochSeconds that was generated by AceTime v1 using the epoch year of 2000
+will be incompatible with AceTime v2 using a different epoch year. Client
+applications which need read old epochSeconds value using AceTime v2 have a
+number of options:
+
+1) Call `Epoch::currentEpochYear(2000)` at the beginning of the application,
+   so that the v2 epoch year is the same as the v1 epoch year. The disadvantage
+   is that the 32-bit epochSeconds will stop working with this library sometime
+   around the year 2065-2066.
+2) Perform a conversion of the v1 epochSeconds to the v2 epochSeconds by
+   setting `Epoch::currentEpochYear(year)` first, then calculating the new
+   epochSeconds using `newEpochSeconds = oldEpochSeconds -
+   Epoch::daysToCurrentEpochFromConverterEpoch() * 86400`.
+3) Do no conversion. Just reset the date and time using the new epoch year.
+   The next time the device is rebooted, the date and time will use the
+   new epoch year instead of the old epoch year.
+
+<a name="Motivation200"></a>
+### Background Motivation
+
+Using 32-bit integer field for epochSeconds gives a range of about 136 years.
+This is the cause of the famous Unix [Year 2038
+problem](https://en.wikipedia.org/wiki/Year_2038_problem) which uses a 32-bit
+signed integer starting from the epoch year of 1970 (1970-01-01 00:00:00 UTC).
+
+When the AceTime project started in 2018, using the year 2000 as the epoch year
+pushed the theoretical maximum year of epochSeconds to about 2068 which seemed
+sufficiently far enough away. The epoch year of 2000 also seemed convenient
+because it is the same value used by the [AVR
+libc](https://avr-libc.nongnu.org/) in its
+[time.h](https://avr-libc.nongnu.org/user-manual/group__avr__time.html)
+implementation. The actual upper limit was restricted to 2050 to provide some
+headroom before calculations would overflow in the year 2068.
+
+Now in the year 2022, the upper limit of 2050 feels too low, since embedded
+devices could be reasonably expected to keep working for the next 25 years.
+The updated AceTime v2 is designed to support a 100-year interval from
+`[2000,2100)` by default. To prevent the need to change the source code when the
+range needs to extended even further in the future, the "current epoch year" is
+made adjustable by the client application.
 
 <a name="MigratingToVersion190"></a>
 ## Migrating to v1.9.0
@@ -34,7 +220,7 @@ design consumed an extra 1100-1300 bytes of flash.
 In v1.9, several changes were made to reduce the flash memory size:
 
 1. All virtual methods were removed from the `ZoneManager` and its
-   subclasses. 
+   subclasses.
 2. The `BasicZoneManager` and `ExtendedZoneManager` classes are no longer
    template classes, making them easier to use (e.g. in the `ZoneSorterByName`
    and `ZoneSorterByOffsetAndName` classes).

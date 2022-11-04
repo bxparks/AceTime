@@ -63,12 +63,12 @@ class ZoneRuleBroker {
 
   #if ACE_TIME_USE_PROGMEM
 
-    int8_t fromYearTiny() const {
-      return pgm_read_byte(&mZoneRule->fromYearTiny);
+    int16_t fromYear() const {
+      return pgm_read_word(&mZoneRule->fromYear);
     }
 
-    int8_t toYearTiny() const {
-      return pgm_read_byte(&mZoneRule->toYearTiny);
+    int16_t toYear() const {
+      return pgm_read_word(&mZoneRule->toYear);
     }
 
     uint8_t inMonth() const {
@@ -103,9 +103,9 @@ class ZoneRuleBroker {
 
   #else
 
-    int8_t fromYearTiny() const { return mZoneRule->fromYearTiny; }
+    int16_t fromYear() const { return mZoneRule->fromYear; }
 
-    int8_t toYearTiny() const { return mZoneRule->toYearTiny; }
+    int16_t toYear() const { return mZoneRule->toYear; }
 
     uint8_t inMonth() const { return mZoneRule->inMonth; }
 
@@ -227,8 +227,8 @@ class ZoneEraBroker {
       return (const char*) pgm_read_ptr(&mZoneEra->format);
     }
 
-    int8_t untilYearTiny() const {
-      return pgm_read_byte(&mZoneEra->untilYearTiny);
+    int16_t untilYear() const {
+      return pgm_read_word(&mZoneEra->untilYear);
     }
 
     uint8_t untilMonth() const {
@@ -261,7 +261,7 @@ class ZoneEraBroker {
 
     const char* format() const { return mZoneEra->format; }
 
-    int8_t untilYearTiny() const { return mZoneEra->untilYearTiny; }
+    int16_t untilYear() const { return mZoneEra->untilYear; }
 
     uint8_t untilMonth() const { return mZoneEra->untilMonth; }
 

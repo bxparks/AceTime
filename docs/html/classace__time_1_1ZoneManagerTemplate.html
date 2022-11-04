@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.11.7</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -136,6 +136,9 @@ Public Member Functions</h2></td></tr>
 Z&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneManagerTemplate.html#a44470bf3c99582866770a4f1d0cef8a0">getZoneForIndex</a> (uint16_t index) const</td></tr>
 <tr class="memdesc:a44470bf3c99582866770a4f1d0cef8a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the Zone wrapper object for the given index. <br /></td></tr>
 <tr class="separator:a44470bf3c99582866770a4f1d0cef8a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43b37e7771adec550fedfb8c67c699a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneManagerTemplate.html#a43b37e7771adec550fedfb8c67c699a5">resetZoneProcessors</a> ()</td></tr>
+<tr class="memdesc:a43b37e7771adec550fedfb8c67c699a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the transition cache of the zone processors in the cache.  <a href="classace__time_1_1ZoneManagerTemplate.html#a43b37e7771adec550fedfb8c67c699a5">More...</a><br /></td></tr>
+<tr class="separator:a43b37e7771adec550fedfb8c67c699a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -236,7 +239,7 @@ template&lt;typename ZI , typename ZRR , typename ZP , typename Z &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00193">193</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00201">201</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
 
 </div>
 </div>
@@ -403,6 +406,38 @@ template&lt;typename ZI , typename ZRR , typename ZP , typename Z &gt; </div>
 <p>Returns kInvalidIndex if not found. </p>
 
 <p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00136">136</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
+
+</div>
+</div>
+<a id="a43b37e7771adec550fedfb8c67c699a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43b37e7771adec550fedfb8c67c699a5">&#9670;&nbsp;</a></span>resetZoneProcessors()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ZI , typename ZRR , typename ZP , typename Z &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classace__time_1_1ZoneManagerTemplate.html">ace_time::ZoneManagerTemplate</a>&lt; ZI, ZRR, ZP, Z &gt;::resetZoneProcessors </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reset the transition cache of the zone processors in the cache. </p>
+<p>Useful when <a class="el" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04" title="Get the current epoch year.">Epoch::currentEpochYear()</a> is changed at runtime. </p>
+
+<p class="definition">Definition at line <a class="el" href="ZoneManager_8h_source.html#l00190">190</a> of file <a class="el" href="ZoneManager_8h_source.html">ZoneManager.h</a>.</p>
 
 </div>
 </div>

@@ -36,8 +36,8 @@ static const ZoneContext kZoneContext = {
 
 static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   {
-    7 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    2007 /*fromYear*/,
+    9999 /*toYear*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -65,7 +65,7 @@ static const extended::ZoneEra kZoneEraAmerica_Los_Angeles[] ACE_TIME_PROGMEM =
     "P%T" /*format*/,
     -32 /*offsetCode*/,
     (5 << 4) + (8 + 4) /*deltaCode*/,
-    127 /*untilYearTiny*/,
+    10000 /*untilYear*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     4 /*untilTimeCode*/,
@@ -89,8 +89,8 @@ const extended::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_PROGMEM = {
 test(ExtendedBrokerTest, ZoneRuleBroker) {
   ZoneRuleBroker rule(kZoneRulesUS);
   assertFalse(rule.isNull());
-  assertEqual(7, rule.fromYearTiny());
-  assertEqual(126, rule.toYearTiny());
+  assertEqual(2007, rule.fromYear());
+  assertEqual(9999, rule.toYear());
   assertEqual(11, rule.inMonth());
   assertEqual(7, rule.onDayOfWeek());
   assertEqual(1, rule.onDayOfMonth());
@@ -122,7 +122,7 @@ test(ExtendedBrokerTest, ZoneEraBroker) {
   assertEqual(-32 * 15 + 5, era.offsetMinutes());
   assertEqual(120, era.deltaMinutes());
   assertEqual("P%T", era.format());
-  assertEqual((int8_t)127, era.untilYearTiny());
+  assertEqual((int16_t)10000, era.untilYear());
   assertEqual((uint8_t)1, era.untilMonth());
   assertEqual((uint8_t)1, era.untilDay());
   assertEqual((uint16_t)69, era.untilTimeMinutes());

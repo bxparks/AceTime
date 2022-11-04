@@ -1,6 +1,6 @@
 /*
  * A program to compare the performance of the AceTime library with the
- * Hinnant Date library. According to this, AceTime is about a 90X faster (!)
+ * Hinnant Date library. According to this, AceTime is about 100-150X faster (!)
  * than Hinnant date library for converting a date component (YYYY-MM-DD
  * hh:mm:ss) into epoch seconds.
  *
@@ -14,21 +14,18 @@
  *
  * To run, type:
  *
- * $ ./CompareAceTimeToHinnantDate < zones.txt
+ * $ make result.txt
+ * $ cat result.txt
  * benchmarkAceTime: start
  * benchmarkAceTime: zones=377
- * benchmarkAceTime: count=6333600
- * benchmarkAceTime: elapsedMillis 3011
- * benchmarkAceTime: micros/iter 0.475
- * Downloading the tzdb...
- * Installing the tzdb...
- * Reloading the tzdb...
- * Loaded TZ Version 2021e
+ * benchmarkAceTime: count=12667200
+ * benchmarkAceTime: elapsedMillis 3699
+ * benchmarkAceTime: micros/iter 0.292
  * benchmarkHinnantDate: start
  * benchmarkHinnantDate: zones=377
- * benchmarkHinnantDate: count=226200
- * benchmarkHinnantDate: elapsedMillis 9260
- * benchmarkHinnantDate: micros/iter 40.937
+ * benchmarkHinnantDate: count=452400
+ * benchmarkHinnantDate: elapsedMillis 21531
+ * benchmarkHinnantDate: micros/iter 47.593
  *
  * This program uses EpoxyDuino to compile the Arduino AceTime of the code on a
  * Unix platform. It compiles the Hinnant date library  as a normal C++ library
@@ -77,37 +74,56 @@ static void shift(int& argc, const char* const*& argv) {
 }
 
 /** Compare 2 C-strings. */
-static bool arg_equals(const char* s, const char* t) {
+static bool argEquals(const char* s, const char* t) {
   return strcmp(s, t) == 0;
 }
 
 // Command line arguments
+string startYearStr = "";
+string untilYearStr = "";
+string tzVersion = "";
+string installDir = "";
+
 int startYear = 2000;
 int untilYear = 2050;
-string tzVersion = "2021e";
-string installDir = "";
+
+void usageAndExit() {
+  fprintf(stderr,
+    "Usage: generate_data [--install_dir {dir}] [--tz_version {version}]\n"
+    "   --start_year start --until_year until --epoch_year year\n"
+    "   < zones.txt\n");
+  exit(1);
+}
 
 /**
  * Parse command line flags.
  * Returns the index of the first argument after the flags.
  */
-static int parse_flags(int argc, const char* const* argv) {
+static int parseFlags(int argc, const char* const* argv) {
   int argc_original = argc;
   shift(argc, argv);
 
   while (argc > 0) {
-    if (arg_equals(argv[0], "--tz_version")) {
+    if (argEquals(argv[0], "--start_year")) {
+      shift(argc, argv);
+      if (argc == 0) usageAndExit();
+      startYearStr = argv[0];
+    } else if (argEquals(argv[0], "--until_year")) {
+      shift(argc, argv);
+      if (argc == 0) usageAndExit();
+      untilYearStr = argv[0];
+    } else if (argEquals(argv[0], "--tz_version")) {
       shift(argc, argv);
       if (argc == 0) usage_and_exit(1);
       tzVersion = argv[0];
-    } else if (arg_equals(argv[0], "--install_dir")) {
+    } else if (argEquals(argv[0], "--install_dir")) {
       shift(argc, argv);
       if (argc == 0) usage_and_exit(1);
       installDir = argv[0];
-    } else if (arg_equals(argv[0], "--")) {
+    } else if (argEquals(argv[0], "--")) {
       shift(argc, argv);
       break;
-    } else if (arg_equals(argv[0], "--help")) {
+    } else if (argEquals(argv[0], "--help")) {
       usage_and_exit(0);
       break;
     } else if (strncmp(argv[0], "-", 1) == 0) {
@@ -148,29 +164,32 @@ vector<string> readZones() {
 //---------------------------------------------------------------------------
 
 void setup() {
-#if ! defined(EPOXY_DUINO)
-  delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
-#endif
+  /*int args = */parseFlags(epoxy_argc, epoxy_argv);
+  if (startYearStr.empty()) {
+    fprintf(stderr, "Flag required: --start_year\n");
+    exit(1);
+  }
+  if (untilYearStr.empty()) {
+    fprintf(stderr, "Flag required: --until_year\n");
+    exit(1);
+  }
+  if (tzVersion.empty()) {
+    fprintf(stderr, "Flag required: --tz_version\n");
+    exit(1);
+  }
+  startYear = atoi(startYearStr.c_str());
+  untilYear = atoi(untilYearStr.c_str());
 
-  SERIAL_PORT_MONITOR.begin(115200);
-  while (!SERIAL_PORT_MONITOR); // Wait until ready - Leonardo/Micro
-#if defined(EPOXY_DUINO)
-  SERIAL_PORT_MONITOR.setLineModeUnix();
-#endif
-
-#if defined(EPOXY_DUINO)
-  /*int args = */parse_flags(epoxy_argc, epoxy_argv);
-#endif
-
+  printf("startYear: %d\n", startYear);
+  printf("untilYear: %d\n", untilYear);
+  printf("tzVersion: %s\n", tzVersion.c_str());
   vector<string> zones = readZones();
   benchmarkAceTime(zones, startYear, untilYear);
 
   installTzDb(installDir, tzVersion);
   benchmarkHinnantDate(zones, startYear, untilYear);
 
-#if defined(EPOXY_DUINO)
   exit(0);
-#endif
 }
 
 void loop() {}

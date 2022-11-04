@@ -15,3 +15,15 @@ CPPFLAGS := -DHAS_REMOTE_API=1 -DAUTO_DOWNLOAD=0
 CXXFLAGS := -I $(HINNANT_DATE_DIR)/include
 LDFLAGS := -lcurl
 include ../../../EpoxyDuino/EpoxyDuino.mk
+
+TZ_VERSION := 2022f
+START_YEAR := 2000
+UNTIL_YEAR := 2100
+
+result.txt: CompareAceTimeToHinnantDate.out Makefile
+	./CompareAceTimeToHinnantDate.out \
+		--tz_version $(TZ_VERSION) \
+		--start_year $(START_YEAR) \
+		--until_year $(UNTIL_YEAR)\
+		< zones.txt \
+		> $@

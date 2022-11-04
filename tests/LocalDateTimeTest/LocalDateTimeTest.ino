@@ -3,6 +3,7 @@
 #include <AUnit.h>
 #include <AceCommon.h>
 #include <AceTime.h>
+#include <ace_time/testing/EpochYearContext.h>
 
 using ace_common::PrintStr;
 using namespace ace_time;
@@ -15,7 +16,6 @@ test(LocalDateTimeTest, accessors_mutators) {
   // accessors
   LocalDateTime dt = LocalDateTime::forComponents(2001, 2, 3, 4, 5, 6);
   assertEqual((int16_t) 2001, dt.year());
-  assertEqual(1, dt.yearTiny());
   assertEqual(2, dt.month());
   assertEqual(3, dt.day());
   assertEqual(4, dt.hour());
@@ -32,7 +32,6 @@ test(LocalDateTimeTest, accessors_mutators) {
   dt.second(16);
   dt.fold(1);
   assertEqual(2011, dt.year());
-  assertEqual(11, dt.yearTiny());
   assertEqual(12, dt.month());
   assertEqual(13, dt.day());
   assertEqual(14, dt.hour());
@@ -45,7 +44,6 @@ test(LocalDateTimeTest, constructor_with_fold) {
   LocalDateTime dt = LocalDateTime::forComponents(
       2001, 2, 3, 4, 5, 6, 1 /*fold*/);
   assertEqual((int16_t) 2001, dt.year());
-  assertEqual(1, dt.yearTiny());
   assertEqual(2, dt.month());
   assertEqual(3, dt.day());
   assertEqual(4, dt.hour());
@@ -74,20 +72,20 @@ test(LocalDateTimeTest, isError) {
   assertFalse(dt.isError());
 
   // bad year
+  dt = LocalDateTime::forComponents(-1, 1, 1, 0, 0, 0);
+  assertTrue(dt.isError());
+
+  // allowed, min FROM field
   dt = LocalDateTime::forComponents(0, 1, 1, 0, 0, 0);
-  assertTrue(dt.isError());
+  assertFalse(dt.isError());
 
-  // bad year
-  dt = LocalDateTime::forComponents(1872, 1, 1, 0, 0, 0);
-  assertTrue(dt.isError());
-
-  // bad year
-  dt = LocalDateTime::forComponents(2128, 1, 1, 0, 0, 0);
-  assertTrue(dt.isError());
-
-  // bad year
+  // allowed, max TO field
   dt = LocalDateTime::forComponents(9999, 1, 1, 0, 0, 0);
-  assertTrue(dt.isError());
+  assertFalse(dt.isError());
+
+  // allowed, max UNTIL field
+  dt = LocalDateTime::forComponents(10000, 1, 1, 0, 0, 0);
+  assertFalse(dt.isError());
 
   // bad month
   dt = LocalDateTime::forComponents(2018, 0, 1, 0, 0, 0);
@@ -119,6 +117,7 @@ test(LocalDateTimeTest, isError) {
 }
 
 test(LocalDateTimeTest, forComponents) {
+  testing::EpochYearContext context(2000);
   LocalDateTime dt;
 
   // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
@@ -126,7 +125,7 @@ test(LocalDateTimeTest, forComponents) {
   dt = LocalDateTime::forComponents(1931, 12, 13, 20, 45, 53);
   assertEqual((int32_t) -24856, dt.toEpochDays());
   assertEqual((int32_t) -13899, dt.toUnixDays());
-  assertEqual((acetime_t) (INT32_MIN + 1), dt.toEpochSeconds());
+  assertEqual(LocalDate::kMinEpochSeconds, dt.toEpochSeconds());
   assertEqual(LocalDate::kSunday, dt.dayOfWeek());
 
   // 2000-01-01 00:00:00Z Saturday
@@ -179,45 +178,22 @@ test(LocalDateTimeTest, forComponents) {
   assertEqual(LocalDate::kThursday, dt.dayOfWeek());
 }
 
-test(LocalDateTimeTest, toAndForUnixSeconds) {
-  LocalDateTime dt;
-  LocalDateTime udt;
-
-  // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
-  // Let's use +1 of that since INT_MIN will be used to indicate an error.
-  dt = LocalDateTime::forComponents(1931, 12, 13, 20, 45, 53);
-  assertEqual((int32_t) -1200798847, dt.toUnixSeconds());
-  udt = LocalDateTime::forUnixSeconds(dt.toUnixSeconds());
-  assertTrue(dt == udt);
-
-  // 1970-01-01 00:00:00Z
-  dt = LocalDateTime::forComponents(1970, 1, 1, 0, 0, 0);
-  assertEqual((int32_t) 0, dt.toUnixSeconds());
-  udt = LocalDateTime::forUnixSeconds(dt.toUnixSeconds());
-  assertTrue(dt == udt);
-
-  // 2000-01-01 00:00:00Z
-  dt = LocalDateTime::forComponents(2000, 1, 1, 0, 0, 0);
-  assertEqual((int32_t) 946684800, dt.toUnixSeconds());
-  udt = LocalDateTime::forUnixSeconds(dt.toUnixSeconds());
-  assertTrue(dt == udt);
-
-  // 2018-01-01 00:00:00Z
-  dt = LocalDateTime::forComponents(2018, 1, 1, 0, 0, 0);
-  assertEqual((int32_t) 1514764800, dt.toUnixSeconds());
-  udt = LocalDateTime::forUnixSeconds(dt.toUnixSeconds());
-  assertTrue(dt == udt);
-
-  // 2038-01-19 03:14:06Z (largest value - 1 using Unix Epoch)
-  dt = LocalDateTime::forComponents(2038, 1, 19, 3, 14, 6);
-  assertEqual((int32_t) (INT32_MAX - 1), dt.toUnixSeconds());
-  udt = LocalDateTime::forUnixSeconds(dt.toUnixSeconds());
-  assertTrue(dt == udt);
-}
-
 test(LocalDateTimeTest, toAndForUnixSeconds64) {
   LocalDateTime dt;
   LocalDateTime udt;
+
+  // Verify error sentinel.
+  dt = LocalDateTime::forUnixSeconds64(LocalDate::kInvalidUnixSeconds64);
+  assertTrue(dt.isError());
+
+  // Verify that 64-bit unixSeconds allows dates beyond 32-bit limit.
+  // 1970 - 1770 = 200 years
+  //      = 200 * 365 + (200/4) leap years - 2 (1800, 1900 are not leap)
+  //      = 73048 days
+  dt = LocalDateTime::forComponents(1770, 1, 1, 0, 0, 0);
+  assertEqual((int64_t) -73048 * 86400, dt.toUnixSeconds64());
+  udt = LocalDateTime::forUnixSeconds64((int64_t) -73048 * 86400);
+  assertTrue(dt == udt);
 
   // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
   // Let's use +1 of that since INT_MIN will be used to indicate an error.
@@ -244,18 +220,13 @@ test(LocalDateTimeTest, toAndForUnixSeconds64) {
   udt = LocalDateTime::forUnixSeconds64(dt.toUnixSeconds64());
   assertTrue(dt == udt);
 
-  // 2038-01-19 03:14:06Z (largest value - 1 using Unix Epoch)
+  // 2038-01-19 03:14:06Z (largest value - 1 using 32-bit Unix Seconds)
   dt = LocalDateTime::forComponents(2038, 1, 19, 3, 14, 6);
   assertEqual((int64_t) (INT32_MAX - 1), dt.toUnixSeconds64());
   udt = LocalDateTime::forUnixSeconds64(dt.toUnixSeconds64());
   assertTrue(dt == udt);
-}
 
-test(LocalDateTimeTest, toAndForUnixSeconds64_extended) {
-  LocalDateTime dt;
-  LocalDateTime udt;
-
-  // 2038-01-19 03:14:08Z (largest value + 1 using Unix Epoch)
+  // 2038-01-19 03:14:08Z (largest value + 1 using 32-bit Unix Seconds)
   dt = LocalDateTime::forComponents(2038, 1, 19, 3, 14, 8);
   assertEqual((int64_t) INT32_MAX + 1, dt.toUnixSeconds64());
   udt = LocalDateTime::forUnixSeconds64(dt.toUnixSeconds64());
@@ -268,23 +239,23 @@ test(LocalDateTimeTest, toAndForUnixSeconds64_extended) {
   udt = LocalDateTime::forUnixSeconds64(dt.toUnixSeconds64());
   assertTrue(dt == udt);
 
-  // One second after that, forUnixSeconds64() should fail because we cannot
-  // represent this datetime using 32-bit AceTime seconds internally.
-  dt = LocalDateTime::forUnixSeconds64((int64_t) 3094168447 + 1);
-  assertTrue(dt.isError());
-
-  // Verify error sentinel.
-  dt = LocalDateTime::forUnixSeconds64(LocalDate::kInvalidUnixSeconds64);
-  assertTrue(dt.isError());
+  // Verify that year 2170 works just fine with 64-bit Unix Seconds.
+  // 2170 - 1970 = 200 years
+  //    = 73049 days, instead of 73048 days, because 2000 was a leap year.
+  dt = LocalDateTime::forComponents(2170, 1, 1, 0, 0, 0);
+  assertEqual((int64_t) 73049 * 86400, dt.toUnixSeconds64());
+  udt = LocalDateTime::forUnixSeconds64((int64_t) 73049 * 86400);
+  assertTrue(dt == udt);
 }
 
 test(LocalDateTimeTest, forEpochSeconds) {
+  testing::EpochYearContext context(2000);
+
   // 2029-12-31 23:59:59Z Monday
   LocalDateTime dt = LocalDateTime::forEpochSeconds(
       10958 * (acetime_t) 86400 - 1);
 
   assertEqual((int16_t) 2029, dt.year());
-  assertEqual(29, dt.yearTiny());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
   assertEqual(23, dt.hour());
@@ -295,12 +266,13 @@ test(LocalDateTimeTest, forEpochSeconds) {
 }
 
 test(LocalDateTimeTest, forEpochSeconds_withFold) {
+  testing::EpochYearContext context(2000);
+
   // 2029-12-31 23:59:59Z Monday
   LocalDateTime dt = LocalDateTime::forEpochSeconds(
       10958 * (acetime_t) 86400 - 1, 1 /*fold*/);
 
   assertEqual((int16_t) 2029, dt.year());
-  assertEqual(29, dt.yearTiny());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
   assertEqual(23, dt.hour());
@@ -368,9 +340,6 @@ test(LocalDateTimeTest, dayOfWeek) {
   dt.month(2); // 2018-02-02 23:40:03+00:45, changes dayOfWeek
   assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 
-  dt.yearTiny(19); // 2019-02-02 23:40:03+00:45, changes dayOfWeek
-  assertEqual(LocalDate::kSaturday, dt.dayOfWeek());
-
   dt.year(2020); // 2020-02-02 23:40:03+00:45, changes dayOfWeek
   assertEqual(LocalDate::kSunday, dt.dayOfWeek());
 }
@@ -380,7 +349,6 @@ test(LocalDateTimeTest, forDateString) {
   LocalDateTime dt = LocalDateTime::forDateString(F("2018-08-31T13:48:01"));
   assertFalse(dt.isError());
   assertEqual((int16_t) 2018, dt.year());
-  assertEqual(18, dt.yearTiny());
   assertEqual(8, dt.month());
   assertEqual(31, dt.day());
   assertEqual(13, dt.hour());
@@ -392,7 +360,6 @@ test(LocalDateTimeTest, forDateString) {
   dt = LocalDateTime::forDateString(F("2018/08/31 13#48#01"));
   assertFalse(dt.isError());
   assertEqual((int16_t) 2018, dt.year());
-  assertEqual(18, dt.yearTiny());
   assertEqual(8, dt.month());
   assertEqual(31, dt.day());
   assertEqual(13, dt.hour());
@@ -424,6 +391,77 @@ test(LocalDateTimeTest, printTo) {
   PrintStr<30> dateString;
   dt.printTo(dateString);
   assertEqual(dateString.cstr(), "2020-10-30T01:02:03");
+}
+
+//---------------------------------------------------------------------------
+
+test(LocalDateTimeTest, spotcheck_epoch2000) {
+  // Change current epoch year to 2000, so the epoch is 2000-01-01T00:00:00.
+  testing::EpochYearContext context(2000);
+
+  auto minDt = LocalDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds);
+  auto expected = LocalDateTime::forComponents(1931, 12, 13, 20, 45, 53);
+  assertTrue(expected == minDt);
+
+  auto maxDt = LocalDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds);
+  expected = LocalDateTime::forComponents(2068, 1, 19, 3, 14, 7);
+  assertTrue(expected == maxDt);
+
+  // Verify that toUnixDays() does not change if currentEpochYear() is changed.
+  auto dt = LocalDateTime::forComponents(1931, 12, 13, 20, 45, 53);
+  assertEqual((int32_t) -13899, dt.toUnixDays());
+  dt = LocalDateTime::forComponents(2000, 1, 1, 0, 0, 0);
+  assertEqual((int32_t) 10957, dt.toUnixDays());
+  dt = LocalDateTime::forComponents(2038, 1, 19, 3, 14, 7);
+  assertEqual((int32_t) 24855, dt.toUnixDays());
+}
+
+test(LocalDateTimeTest, spotcheck_epoch2050) {
+  // Change current epoch year to 2050, so the epoch is 2050-01-01T00:00:00.
+  testing::EpochYearContext context(2050);
+
+  // Same min date as epoch 2000, but 50 years later.
+  auto minDt = LocalDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds);
+  auto expected = LocalDateTime::forComponents(1981, 12, 13, 20, 45, 53);
+  assertTrue(expected == minDt);
+
+  // Almost the same max date as epoch 2000, but one day later on Jan 20 instead
+  // of the Jan 19, because 2000 was a leap year, but 2100 is not.
+  auto maxDt = LocalDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds);
+  expected = LocalDateTime::forComponents(2118, 1, 20, 3, 14, 7);
+  assertTrue(expected == maxDt);
+
+  // Verify that toUnixDays() does not change if currentEpochYear() is changed.
+  auto dt = LocalDateTime::forComponents(1931, 12, 13, 20, 45, 53);
+  assertEqual((int32_t) -13899, dt.toUnixDays());
+  dt = LocalDateTime::forComponents(2000, 1, 1, 0, 0, 0);
+  assertEqual((int32_t) 10957, dt.toUnixDays());
+  dt = LocalDateTime::forComponents(2038, 1, 19, 3, 14, 7);
+  assertEqual((int32_t) 24855, dt.toUnixDays());
+}
+
+test(LocalDateTimeTest, spotcheck_epoch2100) {
+  // Change current epoch year to 2100, so the epoch is 2100-01-01T00:00:00.
+  testing::EpochYearContext context(2100);
+
+  // Same min date as epoch 2000, but 100 years later.
+  auto minDt = LocalDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds);
+  auto expected = LocalDateTime::forComponents(2031, 12, 13, 20, 45, 53);
+  assertTrue(expected == minDt);
+
+  // Almost the same max date as epoch 2000, but one day later on Jan 20 instead
+  // of the Jan 19, because 2000 was a leap year, but 2100 is not.
+  auto maxDt = LocalDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds);
+  expected = LocalDateTime::forComponents(2168, 1, 20, 3, 14, 7);
+  assertTrue(expected == maxDt);
+
+  // Verify that toUnixDays() does not change if currentEpochYear() is changed.
+  auto dt = LocalDateTime::forComponents(1931, 12, 13, 20, 45, 53);
+  assertEqual((int32_t) -13899, dt.toUnixDays());
+  dt = LocalDateTime::forComponents(2000, 1, 1, 0, 0, 0);
+  assertEqual((int32_t) 10957, dt.toUnixDays());
+  dt = LocalDateTime::forComponents(2038, 1, 19, 3, 14, 7);
+  assertEqual((int32_t) 24855, dt.toUnixDays());
 }
 
 //---------------------------------------------------------------------------

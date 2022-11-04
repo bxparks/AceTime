@@ -1,10 +1,24 @@
 # AceTime User Guide
 
 The primary purpose of AceTime classes is to convert between an integer
-representing the number of seconds since the AceTime Epoch (2000-01-01T00:00:00
+representing the number of seconds since the AceTime Epoch (2050-01-01T00:00:00
 UTC) and the equivalent human-readable components in different timezones.
+The epoch year is adjustable using the `Epoch::currentEpochYear(year)`. This
+sets the epoch to be {year}-01-01T00:00:00 UTC
 
-**Version**: 1.11.7 (2022-11-02, TZDB 2022f)
+The epoch seconds is represented by an `int32_t` integer (instead of an
+`int64_t` used in most modern timezone libraries) to save resources on 8-bit
+processors. The range of a 32-bit integer is about 132 years which allows most
+features of the AceTime library to work across about a 100-year interval
+straddling the current epoch year.
+
+The IANA TZ database is programmatically generated into the `src/zonedb` and
+`src/zonedbx` subdirectory from the raw IANA TZ files. The database entries are
+valid from the years `[2000,10000)`. By adjusting the `currentEpochYear()`, the
+library will work across any 100 year interval across the 8000 year range of the
+TZ database.
+
+**Version**: 2.0 (2022-11-04, TZDB 2022f)
 
 **Related Documents**:
 
@@ -20,6 +34,7 @@ UTC) and the equivalent human-readable components in different timezones.
 * [Headers and Namespaces](#Headers)
 * [Date and Time Classes](#DateTimeClasses)
     * [Epoch Seconds Typedef](#EpochSeconds)
+    * [Adjustable Epoch](#AdjustableEpoch)
     * [LocalDate and LocalTime](#LocalDateAndLocalTime)
     * [Date Strings](#DateStrings)
     * [LocalDateTime](#LocalDateTime)
@@ -53,6 +68,7 @@ UTC) and the equivalent human-readable components in different timezones.
         * [Resource Consumption with Fold](#ResourceConsumptionWithFold)
         * [Semantic Changes with Fold](#SemanticChangesWithFold)
         * [Examples with Fold](#ExamplesWithFold)
+    * [Zone Processor Cache Invalidation](#ZoneProcessorCacheInvalidation)
 * [ZoneInfo Database](#ZoneInfoDatabase)
     * [ZoneInfo Entries](#ZoneInfoEntries)
         * [Basic zonedb](#BasicZonedb)
@@ -120,27 +136,31 @@ seconds from an epoch date, the `forEpochSeconds()` method which constructs the
 `forComponents()` method which constructs the object from the individual (year,
 month, day, hour, minute, second) components.
 
-The Epoch in AceTime is defined to be 2000-01-01T00:00:00 UTC, in contrast to
-the Epoch in Unix which is 1970-01-01T00:00:00 UTC. Internally, the current time
-is represented as "seconds from Epoch" stored as a 32-bit signed integer
+The Epoch in AceTime defaults to 2050-01-01T00:00:00 UTC, in contrast to the
+Epoch in Unix which is 1970-01-01T00:00:00 UTC. Internally, the current time is
+represented as "seconds from Epoch" stored as a 32-bit signed integer
 (`acetime_t` aliased to `int32_t`). The smallest 32-bit signed integer (`-2^31`)
 is used to indicate an internal Error condition, so the range of valid
 `acetime_t` value is `-2^31+1` to `2^31-1`. Therefore, the range of dates that
-the `acetime_t` type can handle is 1931-12-13T20:45:53Z to 2068-01-19T03:14:07Z
-(inclusive). (In contrast, the 32-bit Unix `time_t` range is
-1901-12-13T20:45:52Z to 2038-01-19T03:14:07Z which is the cause of the [Year
-2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem)).
+the `acetime_t` type can handle is about 132 years, and the largest date is
+2118-01-20T03:14:07 UTC. (In contrast, the 32-bit Unix `time_t` range is
+1901-12-13T20:45:52 UTC to 2038-01-19T03:14:07 UTC which is the cause of the
+[Year 2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem)).
 
 The various date classes (`LocalDate`, `LocalDateTime`, `OffsetDateTime`) store
-the year component internally as a signed 8-bit integer offset from the year
-2000. The range of this integer is -128 to +127, but -128 is used to indicate an
-internal Error condition, so the actual range is -127 to +127. Therefore, these
-classes can represent dates from 1873-01-01T00:00:00 to 2127-12-31T23:59:59
-(inclusive). Notice that these classes can represent all dates that can be
+the year component internally as a signed 16-bit integer valid from year 1 to
+year 9999. Notice that these classes can represent all dates that can be
 expressed by the `acetime_t` type, but the reverse is not true. There are date
-objects that cannot be converted into a valid `acetime_t` value. To be safe,
-users of this library should stay at least 1 day away from the lower and upper
-limits of `acetime_t` (i.e. stay within the year 1932 to 2067 inclusive).
+objects that cannot be converted into a valid `acetime_t` value.
+
+Most timezone related functions of the library use the `int32_t` epochseconds
+for its internal calculations, so the date range should be constrained to +/- 68
+years of the current epoch. The timezone calculations require some additional
+buffers at the edges of the range (1-3 years), so the actual range of validity
+is about +/- 65 years. To be very conservative, client applications are advised
+to limit the date range to about 100 years, in other words, about +/- 50 years
+from the current epoch year. Using the default epoch year of 2050, the
+recommended range is `[2000,2100)`.
 
 <a name="TimeZoneOverview"></a>
 ### TimeZone Overview
@@ -184,14 +204,14 @@ directories, using 2 different C++ namespaces to avoid cross-contamination:
 * [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h)
     * intended for `BasicZoneProcessor` or `BasicZoneManager`
     * 266 zones and 183 links (as of version 2021a) from the year 2000 until
-      2050, about 70% of the full IANA TZ Database
+      10000, about 70% of the full IANA TZ Database
     * contains `kZone*` declarations (e.g. `kZoneAmerica_Los_Angeles`)
     * contains `kZoneId*` identifiers (e.g. `kZoneIdAmerica_Los_Angeles`)
     * slightly smaller and slightly faster
 * [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h)
     * intended for `ExtendedZoneProcessor` or `ExtendedZoneManager`
     * all 386 zones and 207 links (as of version 2021a) in the IANA TZ Database
-      from the year 2000 until 2050.
+      from the year 2000 until 10000
     * contains `kZone*` declarations (e.g. `kZoneAfrica_Casablanca`)
     * contains `kZoneId*` identifiers (e.g. `kZoneIdAfrica_Casablanca`)
 
@@ -287,11 +307,14 @@ typedef int32_t acetime_t;
 
 }
 ```
-This represents the number of seconds since the Epoch. In AceTime, the Epoch is
-defined to be 2000-01-01 00:00:00 UTC time. In contrast, the Unix Epoch is
-defined to be 1970-01-01 00:00:00 UTC. Since `acetime_t` is a 32-bit signed
-integer, the largest value is 2,147,483,647. Therefore, the largest date
-that can be represented in this library is 2068-01-19T03:14:07 UTC.
+
+This represents the number of seconds since the Epoch. In AceTime, the
+Epoch is defined by default to be 2050-01-01 00:00:00 UTC time. In contrast, the
+Unix Epoch is defined to be 1970-01-01 00:00:00 UTC. Since `acetime_t` is a
+32-bit signed integer, the largest value is 2,147,483,647. Therefore, the
+largest date that can be represented as an epoch seconds is 2118-01-20T03:14:07
+UTC. However for various reasons, client applications are recommended to stay
+within a 100-year interval `[2000,2100)`.
 
 The `acetime_t` is analogous to the `time_t` type in the standard C library,
 with several major differences:
@@ -301,17 +324,68 @@ with several major differences:
   represent `time_t`.
 * Modern implementations (e.g. ESP8266 and ESP32) use a 64-bit `int64_t` to
   represent `time_t` to prevent the "Year 2038" overflow problem. Unfortunately,
-  AceTime cannot use 64-bit integers internally because they are too resource
-  intensive on 8-bit processors.
+  AceTime does use 64-bit integers internally to avoid consuming flash memory
+  on 8-bit processors.
 * Most `time_t` implementations uses the Unix Epoch of 1970-01-01 00:00:00 UTC.
-  AceTime uses an epoch of 2000-01-01 00:00:00 UTC.
+  AceTime uses an epoch of 2050-01-01 00:00:00 UTC (by default).
 
 It is possible to convert between a `time_t` and an `acetime_t` by adding or
-subtracting the number of seconds between the 2 Epoch dates. This constant is
-946684800 and defined by `LocalDate::kSecondsSinceUnixEpoch`. Helper methods
-are available on various classes to avoid manual conversion between these 2
-epochs: `forUnixSeconds()` and `toUnixSeconds()`, and the corresponding
-`forUnixSeconds64()` and `toUnixSeconds64()` 64-bit versions added in v1.10.
+subtracting the number of seconds between the 2 Epoch dates. This value is given
+by `Epoch::secondsToCurrentEpochFromUnixEpoch64()` which returns an `int64_t`
+value to allow epoch years greater than 2028. If the date is within +/- 50 years
+of the current epoch year, then the resulting epoch seconds will fit inside a
+`int32_t` integer. Helper methods are available on various classes to avoid
+manual conversion between these 2 epochs: `forUnixSeconds64()` and
+`toUnixSeconds64()`.
+
+<a name="AdjustableEpoch"></a>
+### Adjustable Epoch
+
+Starting with v2, the AceTime epoch is an **adjustable** parameter which is no
+longer hard coded to 2000-01-01 (v1 default) or 2050-01-01 (v2 default). There
+are a number of static functions on the `Epoch` class that support this feature:
+
+```C++
+namespace ace_time {
+
+class Epoch {
+  public:
+    // Get the current epoch year.
+    static int16_t currentEpochYear();
+
+    // Set the current epoch year.
+    static int16_t currentEpochYear(int16_t epochYear);
+
+    // The number of days from the converter epoch (2000-01-01T00:00:00) to
+    // the current epoch ({yyyy}-01-01T00:00:00).
+    static int32_t daysToCurrentEpochFromConverterEpoch();
+
+    // The number of days from the Unix epoch (1970-01-01T00:00:00)
+    // to the current epoch ({yyyy}-01-01T00:00:00).
+    static int32_t daysToCurrentEpochFromUnixEpoch();
+
+    // The number of seconds from the Unix epoch (1970-01-01T00:00:00)
+    // to the current epoch ({yyyy}-01-01T00:00:00).
+    static int64_t secondsToCurrentEpochFromUnixEpoch64();
+
+    // Return the lower limit year which generates valid epoch seconds for the
+    // current epoch.
+    static int16_t epochValidYearLower();
+
+    // Return the upper limit year which generates valid epoch seconds for the
+    // current epoch.
+    static int16_t epochValidYearUpper();
+};
+
+}
+```
+
+Normally, the current epoch year is expected to be unchanged using the default
+2050, or changed just once at the initialization phase of the application.
+However in rare situations, it may be necessary for the client app to call
+`Epoch::currentEpochYear()` during its runtime. When this occurs, it is
+important to invalidate the zone processor cache, as explained in [Zone
+Processor Cache Invalidation](#ZoneProcessorCacheInvalidation).
 
 <a name="LocalDateAndLocalTime"></a>
 ### LocalDate and LocalTime
@@ -353,15 +427,16 @@ class LocalTime {
 
 class LocalDate {
   public:
-    static const int16_t kEpochYear = 2000;
-    static const acetime_t kSecondsSinceUnixEpoch = 946684800;
+    static const int16_t kInvalidYear = INT16_MIN;
+    static const int16_t kMinYear = 0;
+    static const int16_t kMaxYear = 10000;
 
     static const int32_t kInvalidEpochDays = INT32_MIN;
-    static const acetime_t kInvalidEpochSeconds = INT32_MIN;
 
-    static const int32_t kInvalidUnixDays = INT32_MIN;
-    static const int32_t kInvalidUnixSeconds = INT32_MIN;
+    static const int32_t kInvalidEpochSeconds = INT32_MIN;
     static const int64_t kInvalidUnixSeconds64 = INT64_MIN;
+    static const int32_t kMinEpochSeconds = INT32_MIN + 1;
+    static const int32_t kMaxEpochSeconds = INT32_MAX;
 
     static const uint8_t kMonday = 1;
     static const uint8_t kTuesday = 2;
@@ -374,9 +449,7 @@ class LocalDate {
     static LocalDate forComponents(int16_t year, uint8_t month, uint8_t day);
     static LocalDate forEpochDays(int32_t epochDays);
     static LocalDate forEpochSeconds(acetime_t epochSeconds);
-
     static LocalDate forUnixDays(int32_t unixDays);
-    static LocalDate forUnixSeconds(int32_t unixSeconds);
     static LocalDate forUnixSeconds64(int64_t unixSeconds);
 
     int16_t year() const;
@@ -395,7 +468,6 @@ class LocalDate {
     acetime_t toEpochSeconds() const {
 
     int32_t toUnixDays() const {
-    int32_t toUnixSeconds() const {
     int64_t toUnixSeconds64() const {
 
     int8_t compareTo(const LocalDate& that) const {
@@ -512,13 +584,12 @@ class LocalDateTime {
     static LocalDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
     static LocalDateTime forEpochSeconds(acetime_t epochSeconds);
-    static LocalDateTime forUnixSeconds(int32_t unixSeconds);
     static LocalDateTime forUnixSeconds64(int64_t unixSeconds);
     static LocalDateTime forDateString(const char* dateString);
 
     bool isError() const;
 
-    int16_t year() const; // 1872 - 2127
+    int16_t year() const; // 1 - 9999
     void year(int16_t year);
 
     uint8_t month() const; // 1 - 12
@@ -545,7 +616,6 @@ class LocalDateTime {
     acetime_t toEpochSeconds() const;
 
     int32_t toUnixDays() const;
-    int32_t toUnixSeconds() const;
     int64_t toUnixSeconds64() const;
 
     int8_t compareTo(const LocalDateTime& that) const;
@@ -557,7 +627,7 @@ class LocalDateTime {
 ```
 
 Here is a sample code that extracts the number of seconds since AceTime Epoch
-(2000-01-01T00:00:00Z) using the `toEpochSeconds()` method:
+(2050-01-01T00:00:00 UTC) using the `toEpochSeconds()` method:
 
 ```C++
 // 2018-08-30T06:45:01-08:00
@@ -748,8 +818,6 @@ class OffsetDateTime {
         TimeOffset timeOffset);
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
         TimeOffset timeOffset);
-    static OffsetDateTime forUnixSeconds(int32_t unixSeconds,
-        TimeOffset timeOffset);
     static OffsetDateTime forUnixSeconds64(int64_t unixSeconds,
         TimeOffset timeOffset);
     static OffsetDateTime forDateString(const char* dateString);
@@ -787,7 +855,6 @@ class OffsetDateTime {
     acetime_t toEpochSeconds() const;
 
     int32_t toUnixDays() const;
-    int32_t toUnixSeconds() const;
     int64_t toUnixSeconds64() const;
 
     int8_t compareTo(const OffsetDateTime& that) const;
@@ -1205,8 +1272,6 @@ class ZonedDateTime {
         uint8_t hour, uint8_t minute, uint8_t second, const TimeZone& timeZone);
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
         const TimeZone& timeZone);
-    static ZonedDateTime forUnixSeconds(int32_t unixSeconds,
-        const TimeZone& timeZone);
     static ZonedDateTime forUnixSeconds64(int64_t unixSeconds,
         const TimeZone& timeZone);
     static ZonedDateTime forDateString(const char* dateString);
@@ -1244,7 +1309,6 @@ class ZonedDateTime {
     acetime_t toEpochSeconds() const;
 
     int32_t toUnixDays() const;
-    int32_t toUnixSeconds() const;
     int64_t toUnixSeconds64() const;
 
     int8_t compareTo(const ZonedDateTime& that) const;
@@ -2015,6 +2079,41 @@ dt = ZonedDateTime::forComponents(2022, 3, 13, 2, 29, 0, tz, 1 /*fold*/);
 Serial.printTo(dt); Serial.println();
 ```
 
+<a name="ZoneProcessorCacheInvalidation"></a>
+### Zone Processor Cache Invalidation
+
+Normally, the current epoch year will be configured using
+`Epoch::currentEpochYear(year)` only once during the lifetime of the
+application. In rare situations, the application may choose to change the
+current epoch year in the middle of its lifetime. When this happens, it is
+important to invalidate the time zone transition cache maintained inside the
+`BasicZoneProcessor` or `ExtendedZoneProcessor` classes.
+
+If the application is using the `TimeZone` class directly with an associated
+`BasicZoneProcessor` or `ExtendedZoneProcessor`, then the following methods must
+be called after calling `Epoch::currentEpochYear(year)`:
+
+```C++
+BasicZoneProcessor processor(...);
+processor.resetTransitionCache();
+
+ExtendedZoneProcessor processor(...);
+processor.resetTransitionCache();
+```
+
+If the application is using the `BasicZoneManager` or `ExtendedZoneManager`
+class to create the `TimeZone` objects, then the
+`ZoneManager::resetZoneProcessors()` must be called after calling
+`Epoch::currentEpochYear(year)`:
+
+```C++
+BasicZoneManager manager(...);
+manager.resetZoneProcessors();
+
+ExtendedZoneManager manager(...);
+manager.resetZoneProcessors();
+```
+
 <a name="ZoneInfoDatabase"></a>
 ## ZoneInfo Database
 
@@ -2123,12 +2222,12 @@ void printStartAndUntilYears() {
     Serial.print("zonedb: startYear: ");
     Serial.print(zonedb::kZoneContext.startYear); // e.g. 2000
     Serial.print("; untilYear: ");
-    Serial.println(zonedb::kZoneContext.untilYear); // e.g. 2050
+    Serial.println(zonedb::kZoneContext.untilYear); // e.g. 2100
 
     Serial.print("zonedbx: startYear: ");
     Serial.print(zonedbx::kZoneContext.startYear); // e.g. 2000
     Serial.print("; untilYear: ");
-    Serial.println(zonedbx::kZoneContext.untilYear); // e.g. 2050
+    Serial.println(zonedbx::kZoneContext.untilYear); // e.g. 2100
 }
 ```
 
@@ -3013,19 +3112,15 @@ special constants, many of whom are defined in the `LocalDate` class:
 
 * `int32_t LocalDate::kInvalidEpochDays`
     * Error value returned by `toEpochDays()` methods
-* `acetime_t LocalDate::kInvalidEpochSeconds`
+* `int32_t LocalDate::kInvalidEpochSeconds`
     * Error value returned by `toEpochSeconds()` methods
-* `int32_t LocalDate::kInvalidUnixDays`
-    * Error value returned by `toUnixDays()` methods
-* `int32_t LocalDate::kInvalidUnixSeconds`
-    * Error value returned by `toUnixSeconds()` methods
 * `int64_t LocalDate::kInvalidUnixSeconds64`
     * Error value returned by `toUnixSeconds64()` methods
 
 Similarly, many factory methods accept an `acetime_t`, `int32_t`, or `int64_t`
 arguments and return objects of various classes (e.g. `LocalDateTime`,
 `OffsetDateTime` or `ZonedDateTime`). When these methods are given the error
-constants, they return an object whoses `isError()` method returns `true`.
+constants, they return an object whose `isError()` method returns `true`.
 
 It is understandable that error checking is often neglected, since it adds to
 the maintenance burden. And sometimes, it is not always clear what should be
@@ -3052,24 +3147,30 @@ bool TimeOffset::isError() const;
 A well-crafted application should check for these error conditions before
 writing or displaying the objects to the user.
 
-For example, the `LocalDate` class uses a single byte `int8_t` instead of 2 byte
-`int16_t` to store the year. (This saves memory). The range of a `int8_t` type
-is -128 to 127, which is interpreted to be the offset from the year 2000. The
-value of -128 is a reserved value, so the actual valid range of a valid year is
-1873 to 2127. Other data and time classes in the library use the `LocalDate`
-class internally so will have the same range of validity. If you try to create
-an instance with a year component outside of this range, an error object is
-returned whose `isError()` method returns `true`. The following code snippet
-prints "true":
+For example, the `LocalDate` and `LocalDateTime` classes support only 4-digit
+`year` component, from `[1, 9999]`. The year 0 is used internally to indicate
+`-Infinity` and the year `10000` is used internally as `+Infinity`.
 
-```C+++
-auto dt = LocalDateTime::forComponents(1800, 1, 1, 0, 0, 0); // invalid year
-Serial.println(dt.isError() ? "true" : "false");
+The following are examples of invalid instances, where `dt.isError()` will
+return true:
+
+```C++
+auto dt = LocalDateTime::forComponents(-1, 1, 1, 0, 0, 0); // invalid year
+
+auto dt = LocalDateTime::forComponents(2000, 0, 1, 0, 0, 0); // invalid month
+
+auto dt = LocalDateTime::forComponents(2000, 1, 32, 0, 0, 0); // invalid day
+
+auto dt = LocalDateTime::forComponents(2000, 1, 1, 24, 0, 0); // invalid hour
+
+auto dt = LocalDateTime::forComponents(2000, 1, 1, 0, 61, 0); // invalid minute
+
+auto dt = LocalDateTime::forComponents(2000, 1, 1, 0, 0, 61); // invalid second
 ```
 
 Another example, the `ZonedDateTime` class uses the generated ZoneInfo Database
 in the `zonedb::` and `zonedbx::` namespaces. These data files are valid from
-2000 until 2050. If you try to create a date outside of this range, an error
+2000 until 10000. If you try to create a date outside of this range, an error
 `ZonedDateTime` object will returned. The following snippet will print "true":
 
 ```C++
@@ -3103,36 +3204,26 @@ Serial.println(dt.isError() ? "true" : "false");
           leap second aware, so the `epochSeconds` will continue to be ahead of
           UTC by one second even after synchronization.
 * `acetime_t`
-    * AceTime uses an epoch of 2000-01-01T00:00:00Z.
-      The `acetime_t` type is a 32-bit signed integer whose smallest value
+    * AceTime uses an epoch of 2050-01-01T00:00:00 UTC by default. The epoch can
+      be changed using the `Epoch::currentEpochYear(year)` function.
+    * The `acetime_t` type is a 32-bit signed integer whose smallest value
       is `-2^31` and largest value is `2^31-1`. However, the smallest value is
       used to indicate an internal "Error" condition, therefore the actual
       smallest `acetime_t` is `-2^31+1`. Therefore, the smallest and largest
-      dates that can be represented by `acetime_t` is 1931-12-13T20:45:53Z to
-      2068-01-19T03:14:07Z (inclusive).
-    * To be safe, users of this library should stay at least 1 year away from
-      the lower and upper limits of `acetime_t` (i.e. stay within the year 1932
-      to 2067, inclusive).
-* `toUnixSeconds()` and `forUnixSeconds()`
-    * [Unix time](https://en.wikipedia.org/wiki/Unix_time) uses an epoch of
-      1970-01-01T00:00:00Z. This method returns an `int32_t` like most 32-bit
-      Unix systems. The range of dates is 1901-12-13T20:45:52Z to
-      2038-01-19T03:14:07Z.
-* `toUnixSeconds64()` and `forUnixSeconds64()`
-    * 64-bit versions of `toUnixSeconds()` and `forUnixSeconds()` were added in
-      v1.10. However, the largest value returned by this method is 3094168447,
-      far smaller than `INT64_MAX`. This value corresponds to
-      2068-01-19T03:14:07Z which is the largest date that can be stored
-      internally using the 32-bit `acetime_t` type.
+      dates that can be represented by `acetime_t` is theoreticall
+      1981-12-13T20:45:53 UTC to 2018-01-20T03:14:07 UTC (inclusive).
+    * To be conversative, users of this library should limit the range of the
+      epoch seconds to +/- 50 years of the current epoch, in other words,
+      `[2000,2100)`.
 * `TimeOffset`
     * Implemented using `int16_t` in 1 minute increments.
 * `LocalDate`, `LocalDateTime`
-    * These classes (and all other Date classes which are based on these) use
-      a single 8-bit signed byte to represent the 'year' internally. This saves
-      memory, at the cost of restricting the range.
-    * The value of -128 (`INT8_MIN`) is used to indicate an "invalid" value, so
-      the actual range is [-127, 127]. This restricts the year range to [1873,
-      2127].
+    * The `year` component is valid in the range of `[1, 9999]`.
+    * The `year = 0` is used internally to represent `-Infinity`. This should
+      not be visible to the end-user.
+    * The `year = 10000` is used internally to represent `+Infinity`. This
+      should not be visible to the end-user.
+    * The `year = INT32_MIN` is used to represent an error condition.
 * `forDateString()`
     * Various classes provide a `forDateString()` method to construct
       the object from a human-readable string. These methods are mostly meant to
@@ -3168,53 +3259,55 @@ Serial.println(dt.isError() ? "true" : "false");
      as well as it could be, and the algorithm may change in the future. To keep
      the code size within reasonble limits of a small Arduino controller, the
      algorithm may be permanently sub-optimal.
-* `ZonedDateTime` Must Be Within StartYear and UntilYear
-    * The `src/ace_time/zonedb` and `src/ace_time/zonedbx` zone files are
-      valid only within the specified `startYear` and `untilYear` range, defined
-      in the `kZoneContext` struct:
-        * `ace_time::zonedb::kZoneContext`
-        * `ace_time::zonedbx::kZoneContext`
-    * A `ZonedDateTime` object cannot be created outside of that valid year
-      range. This is explained in [ZoneInfo Year Range](#ZoneInfoYearRange).
+* `ZonedDateTime` Must Be Within +/- ~50 years of the AceTimeEpoch
+    * The internal time zone calculations use the same `int32_t` type as
+      the `acetime_t` epoch seconds. This has a range of about 136 years.
+    * To be safe, the `ZoneDateTime` objects should be restricted to about +/-
+      50 years of the epoch defined by `Epoch::currentEpochYear()`.
 * `BasicZoneProcessor`
     * Supports 1-minute resolution for AT and UNTIL fields.
     * Supports only a 15-minute resolution for the STDOFF and DST offset fields.
-    * Sufficient to support the vast majority of timezones since 2000.
+    * Sufficient to support large number of timezones since the year 2000.
 * `ExtendedZoneProcessor`
     * Has a 1-minute resolution for AT, UNTIL and STDOFF fields.
     * Supports only a 15-minute resolution for DST field.
     * All timezones after 1974 has DST offsets in 15-minutes increments.
 * `zonedb/` and `zonedbx/` ZoneInfo entries
     * These statically defined data structures are loaded into flash memory
-      using the `PROGMEM` keyword. The vast majority of the data structure
-      fields will stay in flash memory and not copied into RAM.
-    * The ZoneInfo entries have *not* been compressed using bit-fields or any
-      other compression techniques. It may be possible to decrease the size of
-      the full database using these compression techniques. However, compression
-      will increase the size of the program file, so for applications that use
-      only a small number of zones, it is not clear if the ZoneInfo entry
-      compression will provide a reduction in the size of the overall program.
+      using the `PROGMEM` keyword.
+        * The vast majority of the data structure fields will stay in flash
+          memory and not copied into RAM.
+    * The ZoneInfo entries have *not* been compressed using bit-fields.
+        * It may be possible to decrease the size of the full database using
+          these compression techniques. However, compression will increase the
+          size of the program file, so for applications that use only a small
+          number of zones, it is not clear if the ZoneInfo entry compression
+          will provide a reduction in the size of the overall program.
     * The TZ database files `backzone`, `systemv` and `factory` are
-      not processed by the `tzcompiler.py` tool. They don't seem to contain
-      anything worthwhile.
+      not processed by the `tzcompiler.py` tool.
+        * They don't seem to contain anything worthwhile.
     * TZ Database version 2019b contains the first use of the
       `{onDayOfWeek<=onDayOfMonth}` syntax that I have seen (specifically `Rule
-      Zion, FROM 2005, TO 2012, IN Apr, ON Fri<=1`). The actual transition date
-      can shift into the previous month (or to the next month in the case of
-      `>=`). However, shifting into the previous year or the next year is not
-      supported. The `tzcompiler.py` will exclude and flag the Rules which could
-      potentially shift to a different year. As of version 2019b, no such Rule
-      seems to exist.
+      Zion, FROM 2005, TO 2012, IN Apr, ON Fri<=1`).
+        * The actual transition date can shift into the previous month (or to
+          the next month in the case of `>=`). However, shifting into the
+          previous year or the next year is not supported.
+        * The `tzcompiler.py` will exclude and flag the Rules which could
+          potentially shift to a different year. As of version 2022f, no such
+          Rule seems to exist.
 * Links
-    * Even with the implementation of "fat links" (see *Zones and Links* section
-      above), it is not possible to determine whether a given `ZoneInfo`
-      instance is a Zone or a Link at run time.
-    * Adding a byte-flag would be straight forward, but would increase flash
-      memory consumption of `kZoneAndLinkRegistry` by 593 bytes. It's not clear
-      if this feature is worth the cost of extra memory usage.
+    * Fat links (see [Zones and Links](#ZonesAndLinks) section above) cannot
+      determine whether a given `ZoneInfo` instance is a Zone or a Link at run
+      time.
+    * Symbolic links can. The current `zonedb` and `zonedbx` databases use
+      symbolic links.
 * Arduino Zero and SAMD21 Boards
     * SAMD21 boards (which all identify themselves as `ARDUINO_SAMD_ZERO`) are
-      supported, but there are some tricky points.
+      no longer fully supported because:
+        * I am no longer able to upload firmware to my SAMD21 boards
+        * The Arduino samd Core v1.8.10 migrated to the
+          [ArduinoCore-API](https://github.com/arduino/ArduinoCore-api).
+          Unfortunately the ArduinoCore-API is not supported by AceTime.
     * If you are using an original Arduino Zero and using the "Native USB Port",
       you may encounter problems with nothing showing up on the Serial Monitor.
         * The original Arduino Zero has [2 USB

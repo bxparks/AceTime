@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.11.7</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -163,6 +163,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a059a9ffeab7e8885e6abe0e0abeb9bde">getType</a> () const</td></tr>
 <tr class="memdesc:a059a9ffeab7e8885e6abe0e0abeb9bde inherit pub_methods_classace__time_1_1ZoneProcessor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the kTypeXxx of the current instance. <br /></td></tr>
 <tr class="separator:a059a9ffeab7e8885e6abe0e0abeb9bde inherit pub_methods_classace__time_1_1ZoneProcessor"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2ed782c3a3d257a959395e428583643 inherit pub_methods_classace__time_1_1ZoneProcessor"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#ac2ed782c3a3d257a959395e428583643">resetTransitionCache</a> ()</td></tr>
+<tr class="memdesc:ac2ed782c3a3d257a959395e428583643 inherit pub_methods_classace__time_1_1ZoneProcessor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the internal transition cache.  <a href="classace__time_1_1ZoneProcessor.html#ac2ed782c3a3d257a959395e428583643">More...</a><br /></td></tr>
+<tr class="separator:ac2ed782c3a3d257a959395e428583643 inherit pub_methods_classace__time_1_1ZoneProcessor"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -213,15 +216,25 @@ typedef <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTempl
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a1b45f4d91195b4dfc63bbd4e4e3acb60">ZoneProcessor</a> (uint8_t type)</td></tr>
 <tr class="memdesc:a1b45f4d91195b4dfc63bbd4e4e3acb60 inherit pro_methods_classace__time_1_1ZoneProcessor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br /></td></tr>
 <tr class="separator:a1b45f4d91195b4dfc63bbd4e4e3acb60 inherit pro_methods_classace__time_1_1ZoneProcessor"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a661878a49493ba4a45cb6120a1bd0319 inherit pro_methods_classace__time_1_1ZoneProcessor"><td class="memItemLeft" align="right" valign="top"><a id="a661878a49493ba4a45cb6120a1bd0319"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a661878a49493ba4a45cb6120a1bd0319">isFilled</a> (int16_t year) const</td></tr>
+<tr class="memdesc:a661878a49493ba4a45cb6120a1bd0319 inherit pro_methods_classace__time_1_1ZoneProcessor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the Transition cache is filled for the given year. <br /></td></tr>
+<tr class="separator:a661878a49493ba4a45cb6120a1bd0319 inherit pro_methods_classace__time_1_1ZoneProcessor"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classace__time_1_1ZoneProcessor"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classace__time_1_1ZoneProcessor')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classace__time_1_1ZoneProcessor.html">ace_time::ZoneProcessor</a></td></tr>
 <tr class="memitem:a698fea5dd3a2c2b403b501d49ff3fe8f inherit pro_attribs_classace__time_1_1ZoneProcessor"><td class="memItemLeft" align="right" valign="top"><a id="a698fea5dd3a2c2b403b501d49ff3fe8f"></a>
 uint8_t const&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr>
 <tr class="separator:a698fea5dd3a2c2b403b501d49ff3fe8f inherit pro_attribs_classace__time_1_1ZoneProcessor"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59e6f11a9dd08a1bc5547a1985857453 inherit pro_attribs_classace__time_1_1ZoneProcessor"><td class="memItemLeft" align="right" valign="top"><a id="a59e6f11a9dd08a1bc5547a1985857453"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsFilled</b> = false</td></tr>
+<tr class="separator:a59e6f11a9dd08a1bc5547a1985857453 inherit pro_attribs_classace__time_1_1ZoneProcessor"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b939ab666db193d3bf2bba8f298e736 inherit pro_attribs_classace__time_1_1ZoneProcessor"><td class="memItemLeft" align="right" valign="top"><a id="a5b939ab666db193d3bf2bba8f298e736"></a>
+int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>mYear</b> = <a class="el" href="classace__time_1_1LocalDate.html#ad35cfa503eea48ee0d0c3bb3c4b01180">LocalDate::kInvalidYear</a></td></tr>
+<tr class="separator:a5b939ab666db193d3bf2bba8f298e736 inherit pro_attribs_classace__time_1_1ZoneProcessor"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A specific implementation of <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database.">ExtendedZoneProcessorTemplate</a> that uses ZoneXxxBrokers which read from zonedb files in PROGMEM flash memory. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l02163">2163</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l02165">2165</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/brian/src/AceTime/src/ace_time/<a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a></li>
 </ul>

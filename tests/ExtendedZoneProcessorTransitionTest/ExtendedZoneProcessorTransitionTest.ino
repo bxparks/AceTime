@@ -4,6 +4,7 @@
 #include <AUnit.h>
 #include <AceTime.h>
 #include "EuropeLisbon.h"
+#include <ace_time/testing/EpochYearContext.h>
 
 using namespace ace_time;
 
@@ -38,6 +39,9 @@ class TransitionValidation : public aunit::TestOnce {
             zoneProcessor.mTransitionStorage.getActivePoolBegin();
         ExtendedZoneProcessor::Transition** end =
             zoneProcessor.mTransitionStorage.getActivePoolEnd();
+
+        // Verify at least one Transition is created for each zone.
+        assertMore(end - start, (ssize_t) 0);
 
         assertNoFatalFailure(checkSortedTransitions(year, start, end));
         assertNoFatalFailure(checkUniqueTransitions(year, start, end));
@@ -100,20 +104,52 @@ testF(TransitionValidation, allZones) {
   for (uint16_t i = 0; i < zonedbx::kZoneRegistrySize; i++) {
     const extended::ZoneInfo* info = zoneRegistrar.getZoneInfoForIndex(i);
     zoneProcessor.setZoneKey((uintptr_t) info);
-    assertNoFatalFailure(validateZone(
-      zonedbx::kZoneContext.startYear,
-      zonedbx::kZoneContext.untilYear));
+
+    // Loop from ZoneContext::startYear to ZoneContext::untilYear, in 100 years
+    // chunks, because time zone processing is valid over an interval of about
+    // 130 years. For each chunk, the currentEpochYear() is reset to an epoch
+    // year that is in the middle of each 100-year chunk.
+    for (
+        int16_t startYear = zonedbx::kZoneContext.startYear;
+        startYear < zonedbx::kZoneContext.untilYear;
+        startYear += 100) {
+
+      int16_t epochYear = startYear + 50;
+      int16_t untilYear = min(
+          (int16_t) (epochYear + 50),
+          zonedbx::kZoneContext.untilYear);
+
+      testing::EpochYearContext context(epochYear);
+      zoneProcessor.resetTransitionCache();
+
+      // FIXME: If a failure is detected, then this function returns early. The
+      // currentEpochYear() is guaranteed to be restored through the destructor
+      // of the 'context` object, but the cache invalidation clean up is
+      // skipped. Most likely this won't cause problems with the rest of the
+      // unit tests because the `zoneProcessor` will likely be set to a
+      // different year. However, there is a small chance of failure. The proper
+      // solution is to create a custom RAII context class to perform the
+      // resetTransitionCache() clean up, but I'm too lazy right now.
+      assertNoFatalFailure(validateZone(startYear, untilYear));
+    }
   }
+
+  zoneProcessor.resetTransitionCache();
 }
 
 //----------------------------------------------------------------------------
 // Verify Transitions for Europe/Lisbon in 1992. That is the only zone/year
 // where the previous ExtendedZoneProcessor algorithm failed, with a duplicate
-// Transition. The default zonedbx/ database spans from 2000 until 2050, so we
-// have to manually copy the ZoneInfo data for Europe/Lisbon.
+// Transition. The default zonedbx/ database spans from 2000 until 10000, so we
+// have to manually copy a version of the ZoneInfo data for Europe/Lisbon into
+// EuropeLisbon.cpp which is valid from 1974 to 2050.
 //---------------------------------------------------------------------------
 
 testF(TransitionValidation, lisbon1992) {
+  // Set epoch year to 2000 to allow years 1974 to 2050 to be tested without
+  // underflow the epochSeconds.
+  testing::EpochYearContext context(2000);
+
   zoneProcessor.setZoneKey((uintptr_t) &zonedbxtest::kZoneEurope_Lisbon);
   assertNoFatalFailure(validateZone(
       zonedbxtest::kZoneContext.startYear,

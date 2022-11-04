@@ -39,6 +39,11 @@ class ExtendedTransitionTest: public aunit::TestOnce {
         ValidationScope abbrevValidationScope,
         uint8_t expectedBufSize = 0) {
 
+      // Verify that the current epoch year of the AceTime library is the same
+      // as the ValidationData.epochYear that was used to generate the
+      // validation data.
+      assertEqual(Epoch::currentEpochYear(), testData->epochYear);
+
       ExtendedZoneProcessor zoneProcessor;
       TimeZone tz = TimeZone::forZoneInfo(zoneInfo, &zoneProcessor);
 
@@ -86,6 +91,15 @@ class ExtendedTransitionTest: public aunit::TestOnce {
       // Assert that the TransitionStorage buffer size is exactly the buffer
       // size calculated from zone_processor.py.
       if (expectedBufSize) {
+        zoneProcessor.resetTransitionAllocSize();
+        // Include (startYear - 1) and (untilYear + 1) because the local year
+        // may shift slightly when converting from an epochSeconds.
+        for (
+            int y = testData->startYear - 1;
+            y < testData->untilYear + 1;
+            y++) {
+          zoneProcessor.initForYear(y);
+        }
         uint8_t observedBufSize = zoneProcessor.getTransitionAllocSize();
         assertEqual(observedBufSize, expectedBufSize);
       }

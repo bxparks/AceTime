@@ -38,11 +38,11 @@ namespace offset_date_time_mutation {
  * @endcode
  */
 
-/** Increment the year by one within the interval [0, 99]. */
+/** Increment the year by one within the interval [2000, 2099]. */
 inline void incrementYear(OffsetDateTime& dateTime) {
-  int8_t yearTiny = dateTime.yearTiny();
-  ace_common::incrementMod(yearTiny, (int8_t) 100);
-  dateTime.yearTiny(yearTiny);
+  int16_t year = dateTime.year();
+  ace_common::incrementModOffset(year, (int16_t) 100, (int16_t) 2000);
+  dateTime.year(year);
 }
 
 /** Increment the month by one within the interval [1, 12]. */

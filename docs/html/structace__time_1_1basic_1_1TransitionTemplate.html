@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.11.7</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -107,10 +107,10 @@ acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#aefb15f684d43cd60da7511701b939a8f">deltaMinutes</a></td></tr>
 <tr class="memdesc:aefb15f684d43cd60da7511701b939a8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The deltaMinutes from "standard time" at the start of transition. <br /></td></tr>
 <tr class="separator:aefb15f684d43cd60da7511701b939a8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88b323cadf6b08c8978da780365d94a6"><td class="memItemLeft" align="right" valign="top"><a id="a88b323cadf6b08c8978da780365d94a6"></a>
-int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#a88b323cadf6b08c8978da780365d94a6">yearTiny</a></td></tr>
-<tr class="memdesc:a88b323cadf6b08c8978da780365d94a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Year of the Transition. <br /></td></tr>
-<tr class="separator:a88b323cadf6b08c8978da780365d94a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ee877c2971a5b8e00b9d230b2cc24b1"><td class="memItemLeft" align="right" valign="top"><a id="a6ee877c2971a5b8e00b9d230b2cc24b1"></a>
+int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#a6ee877c2971a5b8e00b9d230b2cc24b1">year</a></td></tr>
+<tr class="memdesc:a6ee877c2971a5b8e00b9d230b2cc24b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Year of the Transition. <br /></td></tr>
+<tr class="separator:a6ee877c2971a5b8e00b9d230b2cc24b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10415486cabd71d413f6ff942abb938b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#a10415486cabd71d413f6ff942abb938b">month</a></td></tr>
 <tr class="memdesc:a10415486cabd71d413f6ff942abb938b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Month of the transition.  <a href="structace__time_1_1basic_1_1TransitionTemplate.html#a10415486cabd71d413f6ff942abb938b">More...</a><br /></td></tr>
 <tr class="separator:a10415486cabd71d413f6ff942abb938b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,7 +124,7 @@ struct ace_time::basic::TransitionTemplate&lt; ZIB, ZEB, ZPB, ZRB &gt;</h3>
 
 <p>Data structure that defines the start of a specific UTC offset as described by the matching ZoneEra and its ZoneRule for a given year. </p>
 <p>If the ZoneEra does not have a ZoneRule, then the Transition is defined by the start date of the ZoneEra.</p>
-<p>The 'era' and 'rule' variables' intermediate values calculated during the init() phase. They are used to calculate the 'yearTiny', 'startEpochSeconds', 'offsetMinutes', 'deltaMinutes', and 'abbrev' parameters which are used during findMatch() lookup. This separation helps in moving the ZoneInfo and ZonePolicy data structures into PROGMEM.</p>
+<p>The 'era' and 'rule' variables' intermediate values calculated during the init() phase. They are used to calculate the 'year', 'startEpochSeconds', 'offsetMinutes', 'deltaMinutes', and 'abbrev' parameters which are used during findMatch() lookup. This separation helps in moving the ZoneInfo and ZonePolicy data structures into PROGMEM.</p>
 <p>Ordering of fields optimized along 4-byte boundaries to help 32-bit processors without making the program size bigger for 8-bit processors.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">

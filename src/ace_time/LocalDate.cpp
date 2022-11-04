@@ -3,11 +3,7 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#include <AceCommon.h>
-#include "common/DateStrings.h"
 #include "LocalDate.h"
-
-using ace_common::printPad2To;
 
 namespace ace_time {
 
@@ -42,58 +38,5 @@ const uint8_t LocalDate::sDaysInMonth[12] = {
   30 /*Nov=30*/,
   31 /*Dec=31*/,
 };
-
-void LocalDate::printTo(Print& printer) const {
-  if (isError()) {
-    printer.print(F("<Invalid LocalDate>"));
-    return;
-  }
-
-  // Date
-  printer.print(year());
-  printer.print('-');
-  printPad2To(printer, mMonth, '0');
-  printer.print('-');
-  printPad2To(printer, mDay, '0');
-  printer.print(' ');
-
-  // Week day
-  DateStrings ds;
-  printer.print(ds.dayOfWeekLongString(dayOfWeek()));
-}
-
-LocalDate LocalDate::forDateString(const char* dateString) {
-  if (strlen(dateString) < kDateStringLength) {
-    return forError();
-  }
-  return forDateStringChainable(dateString);
-}
-
-LocalDate LocalDate::forDateStringChainable(const char*& dateString) {
-  const char* s = dateString;
-
-  // year (assumes 4 digit year)
-  int16_t year = (*s++ - '0');
-  year = 10 * year + (*s++ - '0');
-  year = 10 * year + (*s++ - '0');
-  year = 10 * year + (*s++ - '0');
-
-  // '-'
-  s++;
-
-  // month
-  uint8_t month = (*s++ - '0');
-  month = 10 * month + (*s++ - '0');
-
-  // '-'
-  s++;
-
-  // day
-  uint8_t day = (*s++ - '0');
-  day = 10 * day + (*s++ - '0');
-
-  dateString = s;
-  return forComponents(year, month, day);
-}
 
 }

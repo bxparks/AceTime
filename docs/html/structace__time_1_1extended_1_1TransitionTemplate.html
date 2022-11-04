@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">1.11.7</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -110,6 +110,10 @@ Static Public Member Functions</h2></td></tr>
 static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#ab20415cc943f084830c923064781427b">logHourMinute</a> (int16_t minutes)</td></tr>
 <tr class="memdesc:ab20415cc943f084830c923064781427b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print minutes as [+/-]hh:mm. <br /></td></tr>
 <tr class="separator:ab20415cc943f084830c923064781427b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0548d8b979589c23845944acb4b238cb"><td class="memItemLeft" align="right" valign="top"><a id="a0548d8b979589c23845944acb4b238cb"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a0548d8b979589c23845944acb4b238cb">printTransitions</a> (const char *prefix, const <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html">TransitionTemplate</a> *const *begin, const <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html">TransitionTemplate</a> *const *end)</td></tr>
+<tr class="memdesc:a0548d8b979589c23845944acb4b238cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print an iterable of Transitions from 'begin' to 'end'. <br /></td></tr>
+<tr class="separator:a0548d8b979589c23845944acb4b238cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -181,7 +185,7 @@ struct ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</h3>
 <p>The start of the interval is given by 'transitionTime' which comes from the TZ Database file. The actual start and until time of the interval (in the local time zone) is given by 'startDateTime' and 'untilDateTime'.</p>
 <p>There are 2 types of Transition instances: 1) Simple, indicated by 'rule' == nullptr. The base UTC offsetMinutes is given by match-&gt;offsetMinutes. The additional DST delta is given by match-&gt;deltaMinutes. 2) Named, indicated by 'rule' != nullptr. The base UTC offsetMinutes is given by match-&gt;offsetMinutes. The additional DST delta is given by rule-&gt;deltaMinutes.</p>
 <p>Some of the instance variables (e.g. 'isValidPrior', 'matchStatus', 'transitionTime', 'transitionTimeS', 'transitionTimeU', '<a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a642f04bbde044174a276fe65d47698d9" title="Return the letter string.">letter()</a>' and 'format()') are transient parameters which are in the implementation of the TransitionStorage::init() method.</p>
-<p>Other variables (e.g. 'startDateTime', 'startEpochSeconds', 'offsetMinutes', 'deltaMinutes', 'abbrev', 'letterBuf') are essential parameters which are required to find a matching Transition and construct the corresponding <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone representing an instant in t...">ZonedDateTime</a>.</p>
+<p>Other variables (e.g. 'startDateTime', 'startEpochSeconds', 'offsetMinutes', 'deltaMinutes', 'abbrev', 'letterBuf') are essential parameters which are required to find a matching Transition and construct the corresponding <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone object that supports the zon...">ZonedDateTime</a>.</p>
 <p>Ordering of fields are optimized along 4-byte boundaries to help 32-bit processors without making the program size bigger for 8-bit processors.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -192,7 +196,7 @@ struct ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</h3>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00272">272</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00271">271</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a642f04bbde044174a276fe65d47698d9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a642f04bbde044174a276fe65d47698d9">&#9670;&nbsp;</a></span>letter()</h2>
@@ -222,7 +226,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Return the letter string. </p>
 <p>Returns nullptr if the RULES column is empty since that means that the ZoneRule is not used, which means LETTER does not exist. A LETTER of '-' is returned as an empty string "". </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00378">378</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00377">377</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -244,7 +248,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>The calculated effective time zone abbreviation, e.g. </p>
 <p>"PST" or "PDT". </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00346">346</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00345">345</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -265,7 +269,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>During findCandidateTransitions(), this flag indicates whether the current transition is a valid "prior" transition that occurs before other transitions. </p>
 <p>It is set by setFreeAgentAsPriorIfValid() if the transition is a prior transition. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00358">358</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00357">357</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -288,7 +292,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <li>deltaMinutes) but it does not seem worth making that change right now.) </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00340">340</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00339">339</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -309,7 +313,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>The Zone transition rule that matched for the the given year. </p>
 <p>Set to nullptr if the RULES column is '-', indicating that the MatchingEra was a "simple" ZoneEra. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00282">282</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00281">281</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -330,7 +334,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Start time expressed using the UTC offset of the current Transition. </p>
 <p>Valid after ExtendedZoneProcessor::generateStartUntilTimes() is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00304">304</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00303">303</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -351,7 +355,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>The original transition time, usually 'w' but sometimes 's' or 'u'. </p>
 <p>After expandDateTuple() is called, this field will definitely be a 'w'. We must remember that the transitionTime* fields are expressed using the UTC offset of the <em>previous</em> Transition. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00290">290</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00289">289</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -372,7 +376,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Version of transitionTime in 's' mode, using the UTC offset of the <em>previous</em> Transition. </p>
 <p>Valid before ExtendedZoneProcessor::generateStartUntilTimes() is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00298">298</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00297">297</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -393,7 +397,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Version of transitionTime in 'u' mode, using the UTC offset of the <em>previous</em> transition. </p>
 <p>Valid before ExtendedZoneProcessor::generateStartUntilTimes() is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00313">313</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00312">312</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -414,7 +418,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Until time expressed using the UTC offset of the current Transition. </p>
 <p>Valid after ExtendedZoneProcessor::generateStartUntilTimes() is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00319">319</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00318">318</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>

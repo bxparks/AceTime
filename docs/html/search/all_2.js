@@ -9,5 +9,6 @@ var searchData=
   ['createforzoneid_24',['createForZoneId',['../classace__time_1_1ZoneManagerTemplate.html#a2a7f9bdf9cae59621fcea9e0684edd3d',1,'ace_time::ZoneManagerTemplate']]],
   ['createforzoneindex_25',['createForZoneIndex',['../classace__time_1_1ZoneManagerTemplate.html#af860acb9df450629459f96ce17a2be1b',1,'ace_time::ZoneManagerTemplate']]],
   ['createforzoneinfo_26',['createForZoneInfo',['../classace__time_1_1ZoneManagerTemplate.html#a961bbae78c6e6bcd54a4b69fa47f1f0e',1,'ace_time::ZoneManagerTemplate']]],
-  ['createforzonename_27',['createForZoneName',['../classace__time_1_1ZoneManagerTemplate.html#a509c6acf09010e2e3c85fd8e200077d3',1,'ace_time::ZoneManagerTemplate']]]
+  ['createforzonename_27',['createForZoneName',['../classace__time_1_1ZoneManagerTemplate.html#a509c6acf09010e2e3c85fd8e200077d3',1,'ace_time::ZoneManagerTemplate']]],
+  ['currentepochyear_28',['currentEpochYear',['../classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04',1,'ace_time::Epoch::currentEpochYear()'],['../classace__time_1_1Epoch.html#a53febc728feffb7c30dd295737bfe47e',1,'ace_time::Epoch::currentEpochYear(int16_t year)']]]
 ];

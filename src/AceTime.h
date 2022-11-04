@@ -38,6 +38,9 @@
 #include "ace_time/zonedbx/zone_policies.h"
 #include "ace_time/zonedbx/zone_infos.h"
 #include "ace_time/zonedbx/zone_registry.h"
+#include "ace_time/internal/EpochConverterJulian.h"
+#include "ace_time/internal/EpochConverterHinnant.h"
+#include "ace_time/Epoch.h"
 #include "ace_time/LocalDate.h"
 #include "ace_time/local_date_mutation.h"
 #include "ace_time/LocalTime.h"
@@ -65,7 +68,7 @@
 #include "ace_time/ace_time_utils.h"
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 11107
-#define ACE_TIME_VERSION_STRING "1.11.7"
+#define ACE_TIME_VERSION 20000
+#define ACE_TIME_VERSION_STRING "2.0.0"
 
 #endif

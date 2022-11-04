@@ -118,6 +118,8 @@ void printZoneInfo(const char* zoneName, int year) {
   }
 
   processor->initForYear(year);
+  SERIAL_PORT_MONITOR.print("TransitionStorage alloc size: ");
+  SERIAL_PORT_MONITOR.println(processor->getTransitionAllocSize());
 }
 
 //---------------------------------------------------------------------------

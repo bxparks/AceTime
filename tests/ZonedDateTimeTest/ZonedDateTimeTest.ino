@@ -3,6 +3,7 @@
 #include <AUnit.h>
 #include <AceCommon.h>
 #include <AceTime.h>
+#include <ace_time/testing/EpochYearContext.h>
 
 using namespace ace_time;
 
@@ -15,7 +16,6 @@ test(ZonedDateTimeTest, accessors_mutators) {
   TimeZone tz = TimeZone::forHours(-8);
   ZonedDateTime dt = ZonedDateTime::forComponents(2001, 2, 3, 4, 5, 6, tz);
   assertEqual((int16_t) 2001, dt.year());
-  assertEqual(1, dt.yearTiny());
   assertEqual(2, dt.month());
   assertEqual(3, dt.day());
   assertEqual(4, dt.hour());
@@ -36,7 +36,6 @@ test(ZonedDateTimeTest, accessors_mutators) {
   dt.fold(1);
   dt.normalize(); // must be called after timeZone() mutation
   assertEqual(2011, dt.year());
-  assertEqual(11, dt.yearTiny());
   assertEqual(12, dt.month());
   assertEqual(13, dt.day());
   assertEqual(14, dt.hour());
@@ -51,7 +50,6 @@ test(ZonedDateTimeTest, constructor_with_fold) {
   ZonedDateTime dt = ZonedDateTime::forComponents(
       2001, 2, 3, 4, 5, 6, tz, 1 /*fold*/);
   assertEqual((int16_t) 2001, dt.year());
-  assertEqual(1, dt.yearTiny());
   assertEqual(2, dt.month());
   assertEqual(3, dt.day());
   assertEqual(4, dt.hour());
@@ -74,6 +72,7 @@ test(ZonedDateTimeTest_Manual, agreesWithOffsetDateTime) {
 }
 
 test(ZonedDateTimeTest_Manual, forComponents) {
+  testing::EpochYearContext context(2000);
   ZonedDateTime dt;
 
   // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
@@ -135,51 +134,8 @@ test(ZonedDateTimeTest_Manual, forComponents) {
   assertEqual(LocalDate::kThursday, dt.dayOfWeek());
 }
 
-test(ZonedDateTimeTest_Manual, toAndForUnixSeconds) {
-  ZonedDateTime dt;
-  ZonedDateTime udt;
-
-  // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
-  // Let's use +1 of that since INT_MIN will be used to indicate an error.
-  dt = ZonedDateTime::forComponents(1931, 12, 13, 20, 45, 53, TimeZone());
-  assertEqual((int32_t) -1200798847, dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeZone());
-  assertTrue(dt == udt);
-
-  // 1970-01-01 00:00:00Z
-  dt = ZonedDateTime::forComponents(1970, 1, 1, 0, 0, 0, TimeZone());
-  assertEqual((int32_t) 0, dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeZone());
-  assertTrue(dt == udt);
-
-  // 2000-01-01 00:00:00Z
-  dt = ZonedDateTime::forComponents(2000, 1, 1, 0, 0, 0, TimeZone());
-  assertEqual((int32_t) 946684800, dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeZone());
-  assertTrue(dt == udt);
-
-
-  // 2018-01-01 00:00:00Z
-  dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0, TimeZone());
-  assertEqual((int32_t) 1514764800, dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeZone());
-  assertTrue(dt == udt);
-
-  // 2018-08-30T06:45:01-07:00
-  TimeZone tz = TimeZone::forHours(-7);
-  dt = ZonedDateTime::forComponents(2018, 8, 30, 6, 45, 1, tz);
-  assertEqual((int32_t) 1535636701, dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), tz);
-  assertTrue(dt == udt);
-
-  // 2038-01-19 03:14:06Z (largest value - 1 using Unix Epoch)
-  dt = ZonedDateTime::forComponents(2038, 1, 19, 3, 14, 6, TimeZone());
-  assertEqual((int32_t) (INT32_MAX - 1), dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeZone());
-  assertTrue(dt == udt);
-}
-
 test(ZonedDateTimeTest_Manual, toAndForUnixSeconds64) {
+  testing::EpochYearContext context(2000);
   ZonedDateTime dt;
   ZonedDateTime udt;
 
@@ -224,6 +180,7 @@ test(ZonedDateTimeTest_Manual, toAndForUnixSeconds64) {
 }
 
 test(ZonedDateTimeTest_Manual, toAndForUnixSeconds64_extended) {
+  testing::EpochYearContext context(2000);
   ZonedDateTime dt;
   ZonedDateTime udt;
 
@@ -277,11 +234,93 @@ test(ZonedDateTimeTest_Manual, error) {
   TimeZone stdTz = TimeZone::forHours(-8);
 
   ZonedDateTime zdt = ZonedDateTime::forEpochSeconds(
-      LocalTime::kInvalidSeconds, stdTz);
+      LocalDate::kInvalidEpochSeconds, stdTz);
   assertTrue(zdt.isError());
 
-  zdt = ZonedDateTime::forUnixSeconds(LocalTime::kInvalidSeconds, stdTz);
+  zdt = ZonedDateTime::forUnixSeconds64(
+      LocalDate::kInvalidUnixSeconds64, stdTz);
   assertTrue(zdt.isError());
+}
+
+//---------------------------------------------------------------------------
+
+test(ZonedDateTimeTest, spotcheck_epoch2000) {
+  // Change current epoch year to 2000, so the epoch is 2000-01-01T00:00:00.
+  testing::EpochYearContext context(2000);
+
+  auto minDt = ZonedDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds,
+      TimeZone());
+  auto expected = ZonedDateTime::forComponents(1931, 12, 13, 20, 45, 53,
+      TimeZone());
+  assertTrue(expected == minDt);
+
+  auto maxDt = ZonedDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds,
+      TimeZone());
+  expected = ZonedDateTime::forComponents(2068, 1, 19, 3, 14, 7, TimeZone());
+  assertTrue(expected == maxDt);
+
+  // Verify that toUnixDays() does not change if currentEpochYear() is changed.
+  auto dt = ZonedDateTime::forComponents(1931, 12, 13, 20, 45, 53,
+      TimeZone());
+  assertEqual((int32_t) -13899, dt.toUnixDays());
+  dt = ZonedDateTime::forComponents(2000, 1, 1, 0, 0, 0, TimeZone());
+  assertEqual((int32_t) 10957, dt.toUnixDays());
+  dt = ZonedDateTime::forComponents(2038, 1, 19, 3, 14, 7, TimeZone());
+  assertEqual((int32_t) 24855, dt.toUnixDays());
+}
+
+test(ZonedDateTimeTest, spotcheck_epoch2050) {
+  // Change current epoch year to 2050, so the epoch is 2050-01-01T00:00:00.
+  testing::EpochYearContext context(2050);
+
+  // Same min date as epoch 2000, but 50 years later.
+  auto minDt = ZonedDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds,
+      TimeZone());
+  auto expected = ZonedDateTime::forComponents(1981, 12, 13, 20, 45, 53,
+      TimeZone());
+  assertTrue(expected == minDt);
+
+  // Almost the same max date as epoch 2000, but one day later on Jan 20 instead
+  // of the Jan 19, because 2000 was a leap year, but 2100 is not.
+  auto maxDt = ZonedDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds,
+      TimeZone());
+  expected = ZonedDateTime::forComponents(2118, 1, 20, 3, 14, 7, TimeZone());
+  assertTrue(expected == maxDt);
+
+  // Verify that toUnixDays() does not change if currentEpochYear() is changed.
+  auto dt = ZonedDateTime::forComponents(1931, 12, 13, 20, 45, 53, TimeZone());
+  assertEqual((int32_t) -13899, dt.toUnixDays());
+  dt = ZonedDateTime::forComponents(2000, 1, 1, 0, 0, 0, TimeZone());
+  assertEqual((int32_t) 10957, dt.toUnixDays());
+  dt = ZonedDateTime::forComponents(2038, 1, 19, 3, 14, 7, TimeZone());
+  assertEqual((int32_t) 24855, dt.toUnixDays());
+}
+
+test(ZonedDateTimeTest, spotcheck_epoch2100) {
+  // Change current epoch year to 2100, so the epoch is 2100-01-01T00:00:00.
+  testing::EpochYearContext context(2100);
+
+  // Same min date as epoch 2000, but 100 years later.
+  auto minDt = ZonedDateTime::forEpochSeconds(LocalDate::kMinEpochSeconds,
+      TimeZone());
+  auto expected = ZonedDateTime::forComponents(2031, 12, 13, 20, 45, 53,
+      TimeZone());
+  assertTrue(expected == minDt);
+
+  // Almost the same max date as epoch 2000, but one day later on Jan 20 instead
+  // of the Jan 19, because 2000 was a leap year, but 2100 is not.
+  auto maxDt = ZonedDateTime::forEpochSeconds(LocalDate::kMaxEpochSeconds,
+      TimeZone());
+  expected = ZonedDateTime::forComponents(2168, 1, 20, 3, 14, 7, TimeZone());
+  assertTrue(expected == maxDt);
+
+  // Verify that toUnixDays() does not change if currentEpochYear() is changed.
+  auto dt = ZonedDateTime::forComponents(1931, 12, 13, 20, 45, 53, TimeZone());
+  assertEqual((int32_t) -13899, dt.toUnixDays());
+  dt = ZonedDateTime::forComponents(2000, 1, 1, 0, 0, 0, TimeZone());
+  assertEqual((int32_t) 10957, dt.toUnixDays());
+  dt = ZonedDateTime::forComponents(2038, 1, 19, 3, 14, 7, TimeZone());
+  assertEqual((int32_t) 24855, dt.toUnixDays());
 }
 
 //---------------------------------------------------------------------------
@@ -293,7 +332,6 @@ test(ZonedDateTimeTest, forDateString) {
   auto dt = ZonedDateTime::forDateString(F("2018-08-31T13:48:01-07:00"));
   assertFalse(dt.isError());
   assertEqual((int16_t) 2018, dt.year());
-  assertEqual(18, dt.yearTiny());
   assertEqual(8, dt.month());
   assertEqual(31, dt.day());
   assertEqual(13, dt.hour());
@@ -306,7 +344,6 @@ test(ZonedDateTimeTest, forDateString) {
   dt = ZonedDateTime::forDateString(F("2018/08/31 13#48#01+07#00"));
   assertFalse(dt.isError());
   assertEqual((int16_t) 2018, dt.year());
-  assertEqual(18, dt.yearTiny());
   assertEqual(8, dt.month());
   assertEqual(31, dt.day());
   assertEqual(13, dt.hour());
