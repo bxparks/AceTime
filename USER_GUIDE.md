@@ -144,8 +144,8 @@ is used to indicate an internal Error condition, so the range of valid
 `acetime_t` value is `-2^31+1` to `2^31-1`. Therefore, the range of dates that
 the `acetime_t` type can handle is about 132 years, and the largest date is
 2118-01-20T03:14:07 UTC. (In contrast, the 32-bit Unix `time_t` range is
-1901-12-13T20:45:52Z to 2038-01-19T03:14:07Z which is the cause of the [Year
-2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem)).
+1901-12-13T20:45:52 UTC to 2038-01-19T03:14:07 UTC which is the cause of the
+[Year 2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem)).
 
 The various date classes (`LocalDate`, `LocalDateTime`, `OffsetDateTime`) store
 the year component internally as a signed 16-bit integer valid from year 1 to
@@ -341,12 +341,13 @@ manual conversion between these 2 epochs: `forUnixSeconds64()` and
 <a name="AdjustableEpoch"></a>
 ### Adjustable Epoch
 
-Starting with v2, the AceTime epoch is an **adjustable** parameter
-which is no longer hard coded to 2000-01-01 (v1 default) or 2050 (v2 default).
-There are a number of static functions on the `Epoch` class that support this
-feature:
+Starting with v2, the AceTime epoch is an **adjustable** parameter which is no
+longer hard coded to 2000-01-01 (v1 default) or 2050-01-01 (v2 default). There
+are a number of static functions on the `Epoch` class that support this feature:
 
 ```C++
+namespace ace_time {
+
 class Epoch {
   public:
     // Get the current epoch year.
@@ -357,7 +358,7 @@ class Epoch {
 
     // The number of days from the converter epoch (2000-01-01T00:00:00) to
     // the current epoch ({yyyy}-01-01T00:00:00).
-    static int32_t daysToCurrentEpochFromConverterEpoch() {
+    static int32_t daysToCurrentEpochFromConverterEpoch();
 
     // The number of days from the Unix epoch (1970-01-01T00:00:00)
     // to the current epoch ({yyyy}-01-01T00:00:00).
@@ -375,14 +376,16 @@ class Epoch {
     // current epoch.
     static int16_t epochValidYearUpper();
 };
+
+}
 ```
 
 Normally, the current epoch year is expected to be unchanged using the default
 2050, or changed just once at the initialization phase of the application.
 However in rare situations, it may be necessary for the client app to call
-`Epoch::currentEpochYear()` during the middle of the runtime. When this occurs,
-it is important to invalidate the zone processor cache, as explained in 
-any epochSeconds that they want to read back later.
+`Epoch::currentEpochYear()` during its runtime. When this occurs, it is
+important to invalidate the zone processor cache, as explained in [Zone
+Processor Cache Invalidation](#ZoneProcessorCacheInvalidation).
 
 <a name="LocalDateAndLocalTime"></a>
 ### LocalDate and LocalTime
@@ -627,7 +630,7 @@ class LocalDateTime {
 ```
 
 Here is a sample code that extracts the number of seconds since AceTime Epoch
-(2050-01-01T00:00:00Z) using the `toEpochSeconds()` method:
+(2050-01-01T00:00:00 UTC) using the `toEpochSeconds()` method:
 
 ```C++
 // 2018-08-30T06:45:01-08:00
@@ -3204,14 +3207,14 @@ Serial.println(dt.isError() ? "true" : "false");
           leap second aware, so the `epochSeconds` will continue to be ahead of
           UTC by one second even after synchronization.
 * `acetime_t`
-    * AceTime uses an epoch of 2050-01-01T00:00:00Z by default. The epoch can be
-      changed using the `Epoch::currentEpochYear(year)` function.
+    * AceTime uses an epoch of 2050-01-01T00:00:00 UTC by default. The epoch can
+      be changed using the `Epoch::currentEpochYear(year)` function.
     * The `acetime_t` type is a 32-bit signed integer whose smallest value
       is `-2^31` and largest value is `2^31-1`. However, the smallest value is
       used to indicate an internal "Error" condition, therefore the actual
       smallest `acetime_t` is `-2^31+1`. Therefore, the smallest and largest
       dates that can be represented by `acetime_t` is theoreticall
-      1981-12-13T20:45:53Z to 2018-01-20T03:14:07Z (inclusive).
+      1981-12-13T20:45:53 UTC to 2018-01-20T03:14:07 UTC (inclusive).
     * To be conversative, users of this library should limit the range of the
       epoch seconds to +/- 50 years of the current epoch, in other words,
       `[2000,2100)`.
