@@ -1,6 +1,8 @@
 # Changelog
 
 * Unreleased
+* 2.0 (2022-11-04, TZDB 2022f) **Breaking Change** See
+      [Migrating to 2.0.0](MIGRATING.md#MigratingToVersion200)
     * Change internal storage type of `year` component from `int8_t` to
       `int16_t`, extending the range of valid years from [-1873,2127] to
       [1,9999].
@@ -16,11 +18,12 @@
             * `forTinyComponents()`
         * Update [AceTimeTools](https://github.com/bxparks/AceTimeTools)
           to generate `src/zonedb` and `src/zonedbx` using `int16_t` year types.
-    * Extend `untilYear` of `src/ace_time/zonedb` and `src/ace_time/zonedbx`
-      databases to 10000, making the database year range be `[2000,10000)`.
-        * `zonedbx` adds 75 additional Rules for `kPolicyMorocco` due to the
-          precalculated DST shifts which are listed in the IANA TZ DB to the
-          year 2087.
+    * Extend `untilYear` of [zonedb](src/ace_time/zonedb) and
+      [zonedbx](src/ace_time/zonedbx) databases to 10000
+        * databases now valid over the years `[2000,10000)`
+        * `zonedbx` adds 75 additional Rules for `kPolicyMorocco` (e.g.
+          zone "Africe/Casablanca") due to the precalculated DST shifts which
+          are listed in the IANA TZ DB up to the year 2087.
         * `zonedb` remains unchanged
     * Change epoch seconds conversion algorithm
         * Extract different epoch date conversion algorithms to be used/tested.
@@ -55,6 +58,18 @@
           so it does not seem worth maintaining these.
         * The 64-bit versions `toUnixSeconds64()` and `forUnixSeconds64()` are
           retained.
+    * Flash usage increases (see [MemoryBenchmark](examples/MemoryBenchmark) for
+      more details:
+        * AVR:
+            * BasicZoneManager increases ~200 bytes
+            * ExtendedZoneManager increases ~500 bytes
+            * `zonedb` increases ~1.5 kiB
+            * `zonedbx` increases ~3 iiB
+        * ESP8266
+            * BasicZoneManager increases ~50 bytes
+            * ExtendedZoneManager increases ~150 bytes
+            * `zonedb` increases ~300 bytes
+            * `zonedbx` increases ~1.5 iiB
 * 1.11.7 (2022-11-02, TZDB 2022f)
     * Upgrade TZDB from 2022e to 2022f
         * https://mm.icann.org/pipermail/tz-announce/2022-October/000075.html
