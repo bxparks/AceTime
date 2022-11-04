@@ -189,12 +189,12 @@ ASCII table.
     * BasicZoneManager increases ~200 bytes
     * ExtendedZoneManager increases ~500 bytes
     * `zonedb` increases ~1.5 kiB
-    * `zonedbx` increases ~3 iiB
+    * `zonedbx` increases ~3 kiB
 * ESP8266
     * BasicZoneManager increases ~50 bytes
     * ExtendedZoneManager increases ~150 bytes
     * `zonedb` increases ~300 bytes
-    * `zonedbx` increases ~1.5 iiB
+    * `zonedbx` increases ~1.5 kiB
 
 # Legend
 
