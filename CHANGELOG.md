@@ -64,12 +64,12 @@
             * BasicZoneManager increases ~200 bytes
             * ExtendedZoneManager increases ~500 bytes
             * `zonedb` increases ~1.5 kiB
-            * `zonedbx` increases ~3 iiB
+            * `zonedbx` increases ~3 kiB
         * ESP8266
             * BasicZoneManager increases ~50 bytes
             * ExtendedZoneManager increases ~150 bytes
             * `zonedb` increases ~300 bytes
-            * `zonedbx` increases ~1.5 iiB
+            * `zonedbx` increases ~1.5 kiB
 * 1.11.7 (2022-11-02, TZDB 2022f)
     * Upgrade TZDB from 2022e to 2022f
         * https://mm.icann.org/pipermail/tz-announce/2022-October/000075.html
