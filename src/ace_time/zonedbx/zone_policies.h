@@ -7,8 +7,9 @@
 //     --action zonedb
 //     --language arduino
 //     --scope extended
+//     --generate_int16_years
 //     --start_year 2000
-//     --until_year 2050
+//     --until_year 10000
 //
 // using the TZ Database files
 //

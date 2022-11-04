@@ -1,6 +1,60 @@
 # Changelog
 
 * Unreleased
+    * Change internal storage type of `year` component from `int8_t` to
+      `int16_t`, extending the range of valid years from [-1873,2127] to
+      [1,9999].
+        * Remove `yearTiny()` getters and setters from `LocalDate`,
+          `LocalDateTime`, `OffsetDateTime`, and `ZonedDateTime`.
+            * They were not documented except in doxygen docs.
+        * Remove from `LocalDate`:
+            * `kInvalidYearTiny`, replaced with `kInvalidYear`
+            * `kMinYearTiny`, replaced with `kMinYear`
+            * `kMaxYearTiny`, replaced with `kMaxYear`
+            * `forTinyComponents()`
+        * Remove from `LocalDateTime`
+            * `forTinyComponents()`
+        * Update [AceTimeTools](https://github.com/bxparks/AceTimeTools)
+          to generate `src/zonedb` and `src/zonedbx` using `int16_t` year types.
+    * Extend `untilYear` of `src/ace_time/zonedb` and `src/ace_time/zonedbx`
+      databases to 10000, making the database year range be `[2000,10000)`.
+        * `zonedbx` adds 75 additional Rules for `kPolicyMorocco` due to the
+          precalculated DST shifts which are listed in the IANA TZ DB to the
+          year 2087.
+        * `zonedb` remains unchanged
+    * Change epoch seconds conversion algorithm
+        * Extract different epoch date conversion algorithms to be used/tested.
+          Two of them are `EpochConverterJulian` and `EpochConverterHinnant`
+            * `EpochConverterJulian` implements the algorithms found in
+              wikipedia article https://en.wikipedia.org/wiki/Julian_day.
+            * `EpochConverterHinnant` implements the algorithms found in
+              https://howardhinnant.github.io/date_algorithms.html.
+        * Migrate `LocalDate` to use the `EpochConverterHinnant` instead of
+          `EpochConverterJulian`.
+            * The primary reason is that I am able to fully understand the
+              algorithms described in `EpochConverterHinnant`.
+            * In contrast, I have almost no understanding of the algorithms
+              implemented by `EpochConverterJulian`.
+    * Configurable epoch year using new `Epoch` utility class
+        * Add `Epoch::currentEpochYear()` which allows customization of the
+          internal epoch year at startup.
+            * Expected to be rarely used in user applications, but somewhat
+              common in unit testing.
+        * Add `Epoch::epochValidYearLower()` and `Epoch::epochValidYearUpper()`
+            * Defines the 100-year interval which is +/- 50 years from the
+              `currentEpochYear()` where the epoch seconds and time zone
+              transition algorithms are guaranteed to be valid.
+        * Add cache invalidation methods which must be called if
+          `currentEpochYear()` is changed at runtime.
+            * `ZoneProcessor::resetTransitionCache()`
+            * `ZoneProcessorCache::resetZoneProcessors()`
+            * `ZoneManager::resetZoneProcessors()`
+    * Remove `toUnixSeconds()` and `forUnixSeconds()` which use the 32-bit
+      versions of unix epoch seconds.
+        * They will become invalid in the year 2038, and it's now the year 2022
+          so it does not seem worth maintaining these.
+        * The 64-bit versions `toUnixSeconds64()` and `forUnixSeconds64()` are
+          retained.
 * 1.11.7 (2022-11-02, TZDB 2022f)
     * Upgrade TZDB from 2022e to 2022f
         * https://mm.icann.org/pipermail/tz-announce/2022-October/000075.html

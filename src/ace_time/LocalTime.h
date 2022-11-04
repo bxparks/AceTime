@@ -202,6 +202,7 @@ class LocalTime {
         mFold(fold)
     {}
 
+  private:
     uint8_t mHour; // [0, 23]
     uint8_t mMinute; // [0, 59]
     uint8_t mSecond; // [0, 59]

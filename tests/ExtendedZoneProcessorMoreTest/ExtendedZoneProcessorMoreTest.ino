@@ -20,87 +20,87 @@ using ace_time::extended::subtractDateTuple;
 
 test(ExtendedZoneProcessorTest, dateTupleOperatorLessThan) {
   assertTrue((
-      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
-      < DateTuple{0, 1, 2, 4, ZoneContext::kSuffixS}));
+      DateTuple{2000, 1, 2, 3, ZoneContext::kSuffixW}
+      < DateTuple{2000, 1, 2, 4, ZoneContext::kSuffixS}));
   assertTrue((
-      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
-      < DateTuple{0, 1, 3, 3, ZoneContext::kSuffixS}));
+      DateTuple{2000, 1, 2, 3, ZoneContext::kSuffixW}
+      < DateTuple{2000, 1, 3, 3, ZoneContext::kSuffixS}));
   assertTrue((
-      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
-      < DateTuple{0, 2, 2, 3, ZoneContext::kSuffixS}));
+      DateTuple{2000, 1, 2, 3, ZoneContext::kSuffixW}
+      < DateTuple{2000, 2, 2, 3, ZoneContext::kSuffixS}));
   assertTrue((
-      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
-      < DateTuple{1, 1, 2, 3, ZoneContext::kSuffixS}));
+      DateTuple{2000, 1, 2, 3, ZoneContext::kSuffixW}
+      < DateTuple{2001, 1, 2, 3, ZoneContext::kSuffixS}));
 }
 
 test(ExtendedZoneProcessorTest, dateTupleOperatorEquals) {
   assertTrue((
-      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
-      == DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}));
+      DateTuple{2000, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{2000, 1, 2, 3, ZoneContext::kSuffixW}));
 
   assertFalse((
-      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
-      == DateTuple{0, 1, 2, 3, ZoneContext::kSuffixS}));
+      DateTuple{2000, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{2000, 1, 2, 3, ZoneContext::kSuffixS}));
   assertFalse((
-      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
-      == DateTuple{0, 1, 2, 4, ZoneContext::kSuffixW}));
+      DateTuple{2000, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{2000, 1, 2, 4, ZoneContext::kSuffixW}));
   assertFalse((
-      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
-      == DateTuple{0, 1, 3, 3, ZoneContext::kSuffixW}));
+      DateTuple{2000, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{2000, 1, 3, 3, ZoneContext::kSuffixW}));
   assertFalse((
-      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
-      == DateTuple{0, 2, 2, 3, ZoneContext::kSuffixW}));
+      DateTuple{2000, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{2000, 2, 2, 3, ZoneContext::kSuffixW}));
   assertFalse((
-      DateTuple{0, 1, 2, 3, ZoneContext::kSuffixW}
-      == DateTuple{1, 1, 2, 3, ZoneContext::kSuffixW}));
+      DateTuple{2000, 1, 2, 3, ZoneContext::kSuffixW}
+      == DateTuple{2001, 1, 2, 3, ZoneContext::kSuffixW}));
 }
 
 test(ExtendedZoneProcessorTest, normalizeDateTuple) {
   DateTuple dtp;
 
-  dtp = {0, 1, 1, 0, ZoneContext::kSuffixW};
+  dtp = {2000, 1, 1, 0, ZoneContext::kSuffixW};
   normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{0, 1, 1, 0, ZoneContext::kSuffixW}));
+  assertTrue((dtp == DateTuple{2000, 1, 1, 0, ZoneContext::kSuffixW}));
 
-  dtp = {0, 1, 1, 15*95, ZoneContext::kSuffixW}; // 23:45
+  dtp = {2000, 1, 1, 15*95, ZoneContext::kSuffixW}; // 23:45
   normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{0, 1, 1, 15*95, ZoneContext::kSuffixW}));
+  assertTrue((dtp == DateTuple{2000, 1, 1, 15*95, ZoneContext::kSuffixW}));
 
-  dtp = {0, 1, 1, 15*96, ZoneContext::kSuffixW}; // 24:00
+  dtp = {2000, 1, 1, 15*96, ZoneContext::kSuffixW}; // 24:00
   normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{0, 1, 2, 0, ZoneContext::kSuffixW}));
+  assertTrue((dtp == DateTuple{2000, 1, 2, 0, ZoneContext::kSuffixW}));
 
-  dtp = {0, 1, 1, 15*97, ZoneContext::kSuffixW}; // 24:15
+  dtp = {2000, 1, 1, 15*97, ZoneContext::kSuffixW}; // 24:15
   normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{0, 1, 2, 15, ZoneContext::kSuffixW}));
+  assertTrue((dtp == DateTuple{2000, 1, 2, 15, ZoneContext::kSuffixW}));
 
-  dtp = {0, 1, 1, -15*96, ZoneContext::kSuffixW}; // -24:00
+  dtp = {2000, 1, 1, -15*96, ZoneContext::kSuffixW}; // -24:00
   normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{-1, 12, 31, 0, ZoneContext::kSuffixW}));
+  assertTrue((dtp == DateTuple{1999, 12, 31, 0, ZoneContext::kSuffixW}));
 
-  dtp = {0, 1, 1, -15*97, ZoneContext::kSuffixW}; // -24:15
+  dtp = {2000, 1, 1, -15*97, ZoneContext::kSuffixW}; // -24:15
   normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{-1, 12, 31, -15, ZoneContext::kSuffixW}));
+  assertTrue((dtp == DateTuple{1999, 12, 31, -15, ZoneContext::kSuffixW}));
 }
 
 test(ExtendedZoneProcessorTest, substractDateTuple) {
-  DateTuple dta = {0, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
-  DateTuple dtb = {0, 1, 1, 1, ZoneContext::kSuffixW}; // 2000-01-01 00:01
+  DateTuple dta = {2000, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
+  DateTuple dtb = {2000, 1, 1, 1, ZoneContext::kSuffixW}; // 2000-01-01 00:01
   acetime_t diff = subtractDateTuple(dta, dtb);
   assertEqual(-60, diff);
 
-  dta = {0, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
-  dtb = {0, 1, 2, 0, ZoneContext::kSuffixW}; // 2000-01-02 00:00
+  dta = {2000, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
+  dtb = {2000, 1, 2, 0, ZoneContext::kSuffixW}; // 2000-01-02 00:00
   diff = subtractDateTuple(dta, dtb);
   assertEqual((int32_t) -86400, diff);
 
-  dta = {0, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
-  dtb = {0, 2, 1, 0, ZoneContext::kSuffixW}; // 2000-02-01 00:00
+  dta = {2000, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
+  dtb = {2000, 2, 1, 0, ZoneContext::kSuffixW}; // 2000-02-01 00:00
   diff = subtractDateTuple(dta, dtb);
   assertEqual((int32_t) -86400 * 31, diff); // January has 31 days
 
-  dta = {0, 2, 1, 0, ZoneContext::kSuffixW}; // 2000-02-01 00:00
-  dtb = {0, 3, 1, 0, ZoneContext::kSuffixW}; // 2000-03-01 00:00
+  dta = {2000, 2, 1, 0, ZoneContext::kSuffixW}; // 2000-02-01 00:00
+  dtb = {2000, 3, 1, 0, ZoneContext::kSuffixW}; // 2000-03-01 00:00
   diff = subtractDateTuple(dta, dtb);
   assertEqual((int32_t) -86400 * 29, diff); // Feb 2000 is leap, 29 days
 }
@@ -179,21 +179,36 @@ test(ExtendedZoneProcessorTest, Los_Angeles_outOfBounds) {
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
-  assertEqual(2000, zonedbx::kZoneAmerica_Los_Angeles.zoneContext->startYear);
-  assertEqual(2050, zonedbx::kZoneAmerica_Los_Angeles.zoneContext->untilYear);
+  assertEqual(2000, zonedbx::kZoneContext.startYear);
+  assertEqual(10000, zonedbx::kZoneContext.untilYear);
 
+  // 1998 > LocalDate::kMinYear so dt is valid, and
   dt = OffsetDateTime::forComponents(1998, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
+  assertFalse(dt.isError());
   epochSeconds = dt.toEpochSeconds();
+  // 1998 is within roughly 50 years of Epoch::currentEpochYear() of 2050
+  // so toEpochSeconds() still works.
+  assertNotEqual(epochSeconds, LocalDate::kInvalidEpochSeconds);
+  // 1998 < ZoneContext.startYear, so getUtcOffset() fails
   assertTrue(zoneProcessor.getUtcOffset(epochSeconds).isError());
+  // 1998 < ZoneContext.startYear, so getDeltaOffset() fails
   assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isError());
+  // getAbbrev() returns "" on lookup failure
   assertEqual("", zoneProcessor.getAbbrev(epochSeconds));
 
-  dt = OffsetDateTime::forComponents(2051, 2, 1, 1, 0, 0,
+  dt = OffsetDateTime::forComponents(10001, 2, 1, 1, 0, 0,
       TimeOffset::forHours(-8));
+  // 10001 > LocalDate::kMaxYear, so fails
+  assertTrue(dt.isError());
+  // toEpochSeconds() returns invalid seconds
   epochSeconds = dt.toEpochSeconds();
+  assertEqual(epochSeconds, LocalDate::kInvalidEpochSeconds);
+  // getUtcOffset() fails for kInvalidEpochSeconds
   assertTrue(zoneProcessor.getUtcOffset(epochSeconds).isError());
+  // getDeltaOffset() fails for kInvalidEpochSeconds
   assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isError());
+  // getAbbrev() returns "" on lookup failure
   assertEqual("", zoneProcessor.getAbbrev(epochSeconds));
 }
 

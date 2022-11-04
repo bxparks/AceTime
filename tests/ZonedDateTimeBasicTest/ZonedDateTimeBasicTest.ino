@@ -46,10 +46,10 @@ test(ZonedDateTimeBasicTest, forComponents_isError) {
   TimeZone tz = basicZoneManager.createForZoneInfo(
       &zonedb::kZoneAmerica_Los_Angeles);
 
-  // outside [2000, 2050) range, should generate error
+  // outside [2000, 10000) range, should generate error
   ZonedDateTime dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 0, tz);
   assertTrue(dt.isError());
-  dt = ZonedDateTime::forComponents(2051, 3, 11, 1, 59, 0, tz);
+  dt = ZonedDateTime::forComponents(10001, 3, 11, 1, 59, 0, tz);
   assertTrue(dt.isError());
 }
 
@@ -145,7 +145,7 @@ test(ZonedDateTimeBasicTest, normalize) {
 
   // Start with epochSeconds = 0. Should translate to 1999-12-31T16:00:00-08:00.
   auto dt = ZonedDateTime::forEpochSeconds(0, tz);
-  assertEqual(1999, dt.year());
+  assertEqual(Epoch::currentEpochYear() - 1, dt.year());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
   assertEqual(16, dt.hour());

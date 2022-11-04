@@ -63,8 +63,8 @@ void setup() {
   SERIAL_PORT_MONITOR.println(epochSeconds);
 
   SERIAL_PORT_MONITOR.print(F("Unix Seconds: "));
-  int32_t unixSeconds = startTime.toUnixSeconds();
-  SERIAL_PORT_MONITOR.println(unixSeconds);
+  int64_t unixSeconds = startTime.toUnixSeconds64();
+  SERIAL_PORT_MONITOR.println((int32_t) unixSeconds);
 
   SERIAL_PORT_MONITOR.println(F("=== Los Angeles"));
   auto losAngelesTime = ZonedDateTime::forEpochSeconds(

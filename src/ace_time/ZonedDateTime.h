@@ -17,17 +17,22 @@ namespace ace_time {
 
 /**
  * The date (year, month, day), time (hour, minute, second), and
- * a timeZone representing an instant in time. The year field is internally
- * represented as an int8_t number from -128 to 127. The value of -128 is used
- * to indicate an error condition so that range of valid year is 1873 to 2127
- * inclusive.
+ * a timeZone object that supports the zones defined by the IANA TZ database.
  *
- * The "epoch" for this library is 2000-01-01 00:00:00Z. The dayOfWeek
- * (1=Sunday, 7=Saturday) is calculated internally from the date components.
- * Changing the timeZone does not affect the dayOfWeek.
+ * The year field is internally represented as an int16_t number, with 0
+ * indicating -Infinity and 10000 representing +Infinity, so the normal range is
+ * [1,9999]. An invalid year is represented by INT16_MIN (-32768).
+ *
+ * The default epoch for AceTime is 2050-01-01 00:00:00 UTC, but can be changed
+ * using `LocaDate::currentEpochYear()`. The `toEpochSeconds()` method returns a
+ * `int32_t` number of seconds offset from that epoch.
+ *
+ * The dayOfWeek (1=Sunday, 7=Saturday) is calculated internally from the date
+ * components. Changing the timeZone does not affect the dayOfWeek.
  *
  * Some parts of this class were inspired by the org.joda.DateTime of
- * http://www.joda.org and java.time.ZonedDateTime of Java 11.
+ * http://www.joda.org, the java.time.ZonedDateTime class of Java 11, and the
+ * datetime package of Python 3.
  */
 class ZonedDateTime {
   public:
@@ -39,7 +44,7 @@ class ZonedDateTime {
      * The TimeOffset at the given date/time component is calculated using
      * TimeZone::getOffsetDateTime().
      *
-     * @param year [1873-2127]
+     * @param year year [0,10000]
      * @param month month with January=1, December=12
      * @param day day of month [1-31]
      * @param hour hour [0-23]
@@ -62,10 +67,11 @@ class ZonedDateTime {
      * the given time zone. The dayOfWeek will be calculated internally.
      * Returns ZonedDateTime::forError() if epochSeconds is invalid.
      *
-     * @param epochSeconds Number of seconds from AceTime epoch
-     *    (2000-01-01 00:00:00Z). A value of LocalDate::kInvalidEpochSeconds is
-     *    a sentinel that is considered to be an error and causes isError() to
-     *    return true.
+     * @param epochSeconds Number of seconds from the current epoch by
+     * `Epoch::currentEpochYear()`. The default is 2050-01-01 00:00:00 UTC
+     * which can be changed by `currentEpochYear(year)`. A value of
+     * LocalDate::kInvalidEpochSeconds is a sentinel that is considered to be an
+     * error and causes isError() to return true.
      * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
@@ -77,42 +83,32 @@ class ZonedDateTime {
     }
 
     /**
-     * Factory method to create a ZonedDateTime using the number of seconds from
-     * Unix epoch.
-     * Valid until unixSeconds reaches the maximum value of `int32_t` at
-     * 2038-01-19T03:14:07 UTC.
-     * Returns ZonedDateTime::forError() if unixSeconds is invalid.
-     *
-     * @param unixSeconds number of seconds since Unix epoch
-     *    (1970-01-01T00:00:00Z)
-     * @param timeZone a TimeZone instance (use TimeZone() for UTC)
-     */
-    static ZonedDateTime forUnixSeconds(
-        int32_t unixSeconds, const TimeZone& timeZone) {
-      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidUnixSeconds)
-          ? LocalDate::kInvalidEpochSeconds
-          : unixSeconds - LocalDate::kSecondsSinceUnixEpoch;
-      return forEpochSeconds(epochSeconds, timeZone);
-    }
-
-    /**
      * Factory method to create a ZonedDateTime using the 64-bit number of
      * seconds from Unix epoch.
-     * Valid until the 64-bit unixSeconds reaches the equivalent of
-     * 2068-01-19T03:14:07 UTC.
+     *
+     * Even though unixSeconds is 64-bit integer, the internal calculations of
+     * the DST time zone transitions are performed using a 32-bit integer.
+     * Therefore, the valid range of `unixSeconds` is approximately the same
+     * range as `ZonedDateTime::forEpochSeconds()` after translating it to the
+     * AceTime current epoch. In other words, unixSeconds should be roughly
+     * within +/- 60 years of the current epoch year given by
+     * `Epoch::currentEpochYear()`.
+     *
      * Returns ZonedDateTime::forError() if unixSeconds is invalid.
      *
      * @param unixSeconds number of seconds since Unix epoch
-     *    (1970-01-01T00:00:00Z)
+     *    (1970-01-01T00:00:00 UTC)
      * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forUnixSeconds64(
         int64_t unixSeconds, const TimeZone& timeZone) {
-      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidUnixSeconds64
-          || unixSeconds > LocalDate::kMaxValidUnixSeconds64
-          || unixSeconds < LocalDate::kMinValidUnixSeconds64)
-          ? LocalDate::kInvalidEpochSeconds
-          : (acetime_t) (unixSeconds - LocalDate::kSecondsSinceUnixEpoch);
+      acetime_t epochSeconds;
+      if (unixSeconds == LocalDate::kInvalidUnixSeconds64) {
+        epochSeconds = LocalDate::kInvalidEpochSeconds;
+      } else {
+        epochSeconds = unixSeconds
+            - Epoch::secondsToCurrentEpochFromUnixEpoch64();
+      }
       return forEpochSeconds(epochSeconds, timeZone);
     }
 
@@ -159,20 +155,6 @@ class ZonedDateTime {
 
     /** Set the year given the full year. */
     void year(int16_t year) { mOffsetDateTime.year(year); }
-
-    /**
-     * Return the single-byte year offset from year 2000. Intended for memory
-     * constrained or performance critical code. May be deprecated in the
-     * future.
-     */
-    int8_t yearTiny() const { return mOffsetDateTime.yearTiny(); }
-
-    /**
-     * Set the single-byte year offset from year 2000. Intended for memory
-     * constrained or performance critical code. May be deprecated in the
-     * future.
-     */
-    void yearTiny(int8_t yearTiny) { mOffsetDateTime.yearTiny(yearTiny); }
 
     /** Return the month with January=1, December=12. */
     uint8_t month() const { return mOffsetDateTime.month(); }
@@ -263,8 +245,9 @@ class ZonedDateTime {
     }
 
     /**
-     * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),
-     * taking into account the time zone.
+     * Return number of whole days since AceTime epoch taking into account the
+     * time zone. The default epoch is 2050-01-01 00:00:00 UTC but can be
+     * changed using `Epoch::currentEpochYear()`.
      */
     int32_t toEpochDays() const {
       return mOffsetDateTime.toEpochDays();
@@ -276,31 +259,17 @@ class ZonedDateTime {
     }
 
     /**
-     * Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into
-     * account the time zone.
-     *
-     * Normally, Julian day starts at 12:00:00. We modify the formula given in
-     * wiki page to start the Gregorian day at 00:00:00.
-     * See https://en.wikipedia.org/wiki/Julian_day
+     * Return seconds since AceTime epoch taking into account the time zone. The
+     * default epoch is 2050-01-01 00:00:00 UTC but can be changed using
+     * `Epoch::currentEpochYear()`.
      */
     acetime_t toEpochSeconds() const {
       return mOffsetDateTime.toEpochSeconds();
     }
 
     /**
-     * Return the number of seconds from Unix epoch 1970-01-01 00:00:00Z.
-     * It returns LocalDate::kInvalidUnixSeconds if isError() is true.
-     *
-     * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
-     * print the unix seconds.
-     */
-    int32_t toUnixSeconds() const {
-      return mOffsetDateTime.toUnixSeconds();
-    }
-
-    /**
-     * Return the 64-bit number of seconds from Unix epoch 1970-01-01 00:00:00Z.
-     * Returns kInvalidUnixSeconds64 if isError() is true.
+     * Return the 64-bit number of seconds from Unix epoch 1970-01-01 00:00:00
+     * UTC. Returns LocalDAte::kInvalidUnixSeconds64 if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
      * print the unix seconds.

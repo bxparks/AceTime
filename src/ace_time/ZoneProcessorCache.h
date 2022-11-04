@@ -52,6 +52,17 @@ class ZoneProcessorCacheBaseTemplate {
       return zoneProcessor;
     }
 
+    /**
+     * Reset the transition cache of all zone processors in the cache.
+     * Useful when Epoch::currentEpochYear() is changed at runtime.
+     */
+    void resetZoneProcessors() {
+      for (uint8_t i = 0; i < mSize; i++) {
+        ZP* zoneProcessor = &mZoneProcessors[i];
+        zoneProcessor->resetTransitionCache();
+      }
+    }
+
   private:
     // disable copy constructor and assignment operator
     ZoneProcessorCacheBaseTemplate(const ZoneProcessorCacheBaseTemplate&)

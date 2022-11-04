@@ -44,7 +44,7 @@ namespace basic {
  * of the ZoneEra.
  *
  * The 'era' and 'rule' variables' intermediate values calculated during the
- * init() phase. They are used to calculate the 'yearTiny', 'startEpochSeconds',
+ * init() phase. They are used to calculate the 'year', 'startEpochSeconds',
  * 'offsetMinutes', 'deltaMinutes', and 'abbrev' parameters which are used
  * during findMatch() lookup. This separation helps in moving the ZoneInfo and
  * ZonePolicy data structures into PROGMEM.
@@ -91,7 +91,7 @@ struct TransitionTemplate {
   int16_t deltaMinutes;
 
   /** Year of the Transition. */
-  int8_t yearTiny;
+  int16_t year;
 
   /**
    * Month of the transition. Copied from ZoneRule.inMonth() if it exists or
@@ -112,7 +112,7 @@ struct TransitionTemplate {
   /** Used only for debugging. */
   void log() const {
     if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-      logging::printf("(%d/%d)", yearTiny, month);
+      logging::printf("(%d/%d)", year, month);
       if (sizeof(acetime_t) == sizeof(int)) {
         logging::printf("; stEps: %d", startEpochSeconds);
       } else {
@@ -121,8 +121,8 @@ struct TransitionTemplate {
       logging::printf("; offMin: %d", offsetMinutes);
       logging::printf("; abbrev: %s", abbrev);
       if (! rule.isNull()) {
-        logging::printf("; r.fromYear: %d", rule.fromYearTiny());
-        logging::printf("; r.toYear: %d", rule.toYearTiny());
+        logging::printf("; r.fromYear: %d", rule.fromYear());
+        logging::printf("; r.toYear: %d", rule.toYear());
         logging::printf("; r.inMonth: %d", rule.inMonth());
         logging::printf("; r.onDayOfMonth: %d", rule.onDayOfMonth());
       }
@@ -132,8 +132,8 @@ struct TransitionTemplate {
 };
 
 /** Compare two (year, month) pairs and return (-1, 0, 1). */
-inline int8_t compareYearMonth(int8_t aYear, uint8_t aMonth,
-    int8_t bYear, uint8_t bMonth) {
+inline int8_t compareYearMonth(int16_t aYear, uint8_t aMonth,
+    int16_t bYear, uint8_t bMonth) {
   if (aYear < bYear) return -1;
   if (aYear > bYear) return 1;
   if (aMonth < bMonth) return -1;
@@ -332,8 +332,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       if (mZoneInfoBroker.equals(zoneKey)) return;
 
       mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
-
-      mYearTiny = LocalDate::kInvalidYearTiny;
+      mYear = LocalDate::kInvalidYear;
       mIsFilled = false;
       mNumTransitions = 0;
     }
@@ -345,14 +344,11 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     /** Used only for debugging. */
     void log() const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-        if (!mIsFilled) {
-          logging::printf("*not initialized*\n");
-          return;
-        }
-        logging::printf("mYearTiny: %d\n", mYearTiny);
-        logging::printf("mNumTransitions: %d\n", mNumTransitions);
+        logging::printf("BasicZoneProcessor:\n");
+        logging::printf("  mYear: %d\n", mYear);
+        logging::printf("  mNumTransitions: %d\n", mNumTransitions);
         for (int i = 0; i < mNumTransitions; i++) {
-          logging::printf("mT[%d]=", i);
+          logging::printf("  mT[%d]=", i);
           mTransitions[i].log();
         }
       }
@@ -465,36 +461,26 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * (e.g. out of bounds).
      */
     bool init(const LocalDate& ld) const {
-      int8_t yearTiny = ld.yearTiny();
+      int16_t year = ld.year();
       if (ld.month() == 1 && ld.day() == 1) {
-        yearTiny--;
+        year--;
       }
-      if (isFilled(yearTiny)) {
-        if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-          logging::printf("init(): %d (using cached %d)\n",
-              ld.yearTiny(), yearTiny);
-        }
-        return true;
-      } else {
-        if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-          logging::printf("init(): %d (new year %d)\n",
-              ld.yearTiny(), yearTiny);
-        }
+      if (isFilled(year)) return true;
+      if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
+        logging::printf("init(): %d (new year %d)\n", ld.year(), year);
       }
 
-      mYearTiny = yearTiny;
+      mYear = year;
       mNumTransitions = 0; // clear cache
 
-      if (yearTiny + LocalDate::kEpochYear
-              < mZoneInfoBroker.zoneContext()->startYear - 1
-          || mZoneInfoBroker.zoneContext()->untilYear
-              < yearTiny + LocalDate::kEpochYear) {
+      if (year < mZoneInfoBroker.zoneContext()->startYear - 1
+          || mZoneInfoBroker.zoneContext()->untilYear < year) {
         return false;
       }
 
-      ZEB priorEra = addTransitionPriorToYear(yearTiny);
-      ZEB currentEra = addTransitionsForYear(yearTiny, priorEra);
-      addTransitionAfterYear(yearTiny, currentEra);
+      ZEB priorEra = addTransitionPriorToYear(year);
+      ZEB currentEra = addTransitionsForYear(year, priorEra);
+      addTransitionAfterYear(year, currentEra);
       calcTransitions();
       calcAbbreviations();
 
@@ -507,48 +493,41 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       return true;
     }
 
-    /** Check if the Transition cache is filled for the given year. */
-    bool isFilled(int8_t yearTiny) const {
-      return mIsFilled && (yearTiny == mYearTiny);
-    }
-
     /**
      * Add the last matching rule just prior to the given year. This determines
      * the offset at the beginning of the current year.
      *
      * @return the ZoneEra of the previous year
      */
-    ZEB addTransitionPriorToYear(int8_t yearTiny) const {
+    ZEB addTransitionPriorToYear(int16_t year) const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("addTransitionPriorToYear(): %d\n", yearTiny);
+        logging::printf("addTransitionPriorToYear(): %d\n", year);
       }
 
-      const ZEB era = findZoneEra(mZoneInfoBroker, yearTiny - 1);
+      const ZEB era = findZoneEra(mZoneInfoBroker, year - 1);
 
       // If the prior ZoneEra has a ZonePolicy), then find the latest rule
       // within the ZoneEra. Otherwise, add a Transition using a rule==nullptr.
-      ZRB latest = findLatestPriorRule(
-          era.zonePolicy(), yearTiny);
+      ZRB latest = findLatestPriorRule(era.zonePolicy(), year);
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
         logging::printf("addTransitionsPriorToYear(): adding latest prior ");
         if (latest.isNull()) {
           logging::printf("ZR(null)\n");
         } else {
-          logging::printf("ZR[%d,%d]\n",
-            latest.fromYearTiny(), latest.toYearTiny());
+          logging::printf("ZR[%d,%d]\n", latest.fromYear(), latest.toYear());
         }
       }
-      addTransition(yearTiny - 1, 0 /*month*/, era, latest);
+      addTransition(year - 1, 0 /*month*/, era, latest);
 
       return era;
     }
 
     /**
      * Find the latest rule in the ZonePolicy in effective before the given
-     * yearTiny. Assume that there are no more than 1 rule per month.
+     * year. Assume that there are no more than 1 rule per month.
      * Return null ZoneRule if ZonePoicy is null.
      */
-    static ZRB findLatestPriorRule(const ZPB& zonePolicy, int8_t yearTiny) {
+    static ZRB findLatestPriorRule(const ZPB& zonePolicy, int16_t year) {
       ZRB latest;
       if (zonePolicy.isNull()) return latest;
 
@@ -556,9 +535,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       for (uint8_t i = 0; i < numRules; i++) {
         const ZRB rule = zonePolicy.rule(i);
         // Check if rule is effective prior to the given year
-        if (rule.fromYearTiny() < yearTiny) {
+        if (rule.fromYear() < year) {
           if ((latest.isNull()) ||
-              compareRulesBeforeYear(yearTiny, rule, latest) > 0) {
+              compareRulesBeforeYear(year, rule, latest) > 0) {
             latest = rule;
           }
         }
@@ -568,38 +547,38 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /** Compare two ZoneRules which are valid *prior* to the given year. */
-    static int8_t compareRulesBeforeYear(int8_t yearTiny,
-        const ZRB& a, const ZRB& b) {
+    static int8_t compareRulesBeforeYear(
+        int16_t year, const ZRB& a, const ZRB& b) {
       return basic::compareYearMonth(
-          priorYearOfRule(yearTiny, a), a.inMonth(),
-          priorYearOfRule(yearTiny, b), b.inMonth());
+          priorYearOfRule(year, a), a.inMonth(),
+          priorYearOfRule(year, b), b.inMonth());
     }
 
     /**
      * Return the largest effective year of the rule *prior* to given year. It
      * is assumed that the caller has already verified that
-     * rule.fromYearTiny() < yearTiny, so we only need to check 2 cases:
+     * rule.fromYear() < year, so we only need to check 2 cases:
      *
      *    * If [from,to]<year, return (to).
      *    * Else we know [from<year<=to], so return (year-1).
      */
-    static int8_t priorYearOfRule(int8_t yearTiny, const ZRB& rule) {
-      if (rule.toYearTiny() < yearTiny) {
-        return rule.toYearTiny();
+    static int16_t priorYearOfRule(int16_t year, const ZRB& rule) {
+      if (rule.toYear() < year) {
+        return rule.toYear();
       }
-      return yearTiny - 1;
+      return year - 1;
     }
 
     /**
      * Add all matching transitions from the current year.
      * @return the ZoneEra of the current year.
      */
-    ZEB addTransitionsForYear(int8_t yearTiny, const ZEB& priorEra) const {
+    ZEB addTransitionsForYear(int16_t year, const ZEB& priorEra) const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("addTransitionsForYear(): %d\n", yearTiny);
+        logging::printf("addTransitionsForYear(): %d\n", year);
       }
 
-      const ZEB era = findZoneEra(mZoneInfoBroker, yearTiny);
+      const ZEB era = findZoneEra(mZoneInfoBroker, year);
 
       // If the ZonePolicy has no rules, then add a Transition which takes
       // effect at the start time of the current year.
@@ -607,9 +586,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       if (zonePolicy.isNull()) {
         if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
           logging::printf("addTransitionsForYear(): adding ZE.untilY=%d\n",
-              era.untilYearTiny());
+              era.untilYear());
         }
-        addTransition(yearTiny, 0 /*month*/, era, ZRB());
+        addTransition(year, 0 /*month*/, era, ZRB());
         return era;
       }
 
@@ -617,8 +596,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         // The ZoneEra has changed, so we need to find the Rule in effect at
         // the start of the current year of the current ZoneEra. This may be a
         // rule far in the past, but shift the rule forward to {year, 1, 1}.
-        ZRB latestPrior = findLatestPriorRule(
-            era.zonePolicy(), yearTiny);
+        ZRB latestPrior = findLatestPriorRule(era.zonePolicy(), year);
         if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
           logging::printf(
               "addTransitionsForYear(): adding latest prior ");
@@ -626,10 +604,10 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
             logging::printf("ZR(null)\n");
           } else {
             logging::printf("ZR[%d,%d]\n",
-              latestPrior.fromYearTiny(), latestPrior.toYearTiny());
+              latestPrior.fromYear(), latestPrior.toYear());
           }
         }
-        addTransition(yearTiny, 1 /*month*/, era, latestPrior);
+        addTransition(year, 1 /*month*/, era, latestPrior);
       }
 
       // Find all directly matching transitions (i.e. the [from, to] overlap
@@ -638,19 +616,17 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       uint8_t numRules = zonePolicy.numRules();
       for (uint8_t i = 0; i < numRules; i++) {
         const ZRB rule = zonePolicy.rule(i);
-        if ((rule.fromYearTiny() <= yearTiny) &&
-            (yearTiny <= rule.toYearTiny())) {
+        if ((rule.fromYear() <= year) && (year <= rule.toYear())) {
           if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
             logging::printf(
                 "addTransitionsForYear(): adding rule ");
             if (rule.isNull()) {
               logging::printf("ZR(null)\n");
             } else {
-              logging::printf("ZR[%d,%d]\n",
-                rule.fromYearTiny(), rule.toYearTiny());
+              logging::printf("ZR[%d,%d]\n", rule.fromYear(), rule.toYear());
             }
           }
-          addTransition(yearTiny, 0 /*month*/, era, rule);
+          addTransition(year, 0 /*month*/, era, rule);
         }
       }
 
@@ -658,12 +634,12 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /** Add the rule just after the current year if there exists one. */
-    void addTransitionAfterYear(int8_t yearTiny, const ZEB& currentEra) const {
+    void addTransitionAfterYear(int16_t year, const ZEB& currentEra) const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("addTransitionAfterYear(): %d\n", yearTiny);
+        logging::printf("addTransitionAfterYear(): %d\n", year);
       }
 
-      const ZEB eraAfter = findZoneEra(mZoneInfoBroker, yearTiny + 1);
+      const ZEB eraAfter = findZoneEra(mZoneInfoBroker, year + 1);
 
       // If the current era is the same as the following year, then we'll just
       // assume that the latest ZoneRule carries over to Jan 1st of the next
@@ -673,20 +649,19 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       }
 
       // If the ZoneEra did change, find the latest transition prior to
-      // {yearTiny + 1, 1, 1}, then shift that Transition to Jan 1st of the
+      // {year + 1, 1, 1}, then shift that Transition to Jan 1st of the
       // following year.
-      ZRB latest = findLatestPriorRule(eraAfter.zonePolicy(), yearTiny + 1);
+      ZRB latest = findLatestPriorRule(eraAfter.zonePolicy(), year + 1);
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
         logging::printf(
             "addTransitionsAfterYear(): adding latest prior ");
         if (latest.isNull()) {
           logging::printf("ZR(null)\n");
         } else {
-          logging::printf("ZR[%d,%d]\n",
-            latest.fromYearTiny(), latest.toYearTiny());
+          logging::printf("ZR[%d,%d]\n", latest.fromYear(), latest.toYear());
         }
       }
-      addTransition(yearTiny + 1, 1 /*month*/, eraAfter, latest);
+      addTransition(year + 1, 1 /*month*/, eraAfter, latest);
     }
 
     /**
@@ -703,7 +678,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * already sorted (they are mostly sorted), then the loop terminates early
      * and the total sort time is O(N).
      *
-     * @param yearTiny create the transition for this year (era, rule)
+     * @param year create the transition for this year (era, rule)
      * @param month create the transition at this month. If set to 0, infer the
      *    month from the rule using the expression ((rule) ? rule.inMonth() :
      *    1).
@@ -712,7 +687,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * @param rule the ZoneRule which defined this transition, used to
      *    extract deltaMinutes(), letter()
      */
-    void addTransition(int8_t yearTiny, uint8_t month, const ZEB& era,
+    void addTransition(int16_t year, uint8_t month, const ZEB& era,
           const ZRB& rule) const {
 
       // If a zone needs more transitions than kMaxCacheEntries, the check below
@@ -734,8 +709,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       if (mNumTransitions >= kMaxCacheEntries) return;
 
       // insert new element at the end of the list
-      mTransitions[mNumTransitions] = createTransition(
-          yearTiny, month, era, rule);
+      mTransitions[mNumTransitions] = createTransition(year, month, era, rule);
       mNumTransitions++;
 
       // perform an insertion sort based on ZoneRule.inMonth()
@@ -743,8 +717,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         Transition& left = mTransitions[i - 1];
         Transition& right = mTransitions[i];
         // assume only 1 rule per month
-        if (basic::compareYearMonth(left.yearTiny, left.month,
-            right.yearTiny, right.month) > 0) {
+        if (basic::compareYearMonth(left.year, left.month,
+            right.year, right.month) > 0) {
           Transition tmp = left;
           left = right;
           right = tmp;
@@ -757,7 +731,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * in so that subsequent processing does not need to retrieve those again
      * (potentially from PROGMEM).
      */
-    static Transition createTransition(int8_t yearTiny, uint8_t month,
+    static Transition createTransition(int16_t year, uint8_t month,
         const ZEB& era, const ZRB& rule) {
       int16_t deltaMinutes;
       char letter;
@@ -783,7 +757,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         0 /*epochSeconds*/,
         offsetMinutes,
         deltaMinutes,
-        yearTiny,
+        year,
         mon,
         {letter} /*abbrev*/
       };
@@ -791,13 +765,13 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
 
     /**
      * Find the ZoneEra which applies to the given year. The era will
-     * satisfy (yearTiny < ZoneEra.untilYearTiny). Since the largest
-     * untilYearTiny is 127, the largest supported 'year' is 2126.
+     * satisfy (year < ZoneEra.untilYear). Since the largest
+     * untilYear is 127, the largest supported 'year' is 2126.
      */
-    static ZEB findZoneEra(const ZIB& info, int8_t yearTiny) {
+    static ZEB findZoneEra(const ZIB& info, int16_t year) {
       for (uint8_t i = 0; i < info.numEras(); i++) {
         const ZEB era = info.era(i);
-        if (yearTiny < era.untilYearTiny()) return era;
+        if (year < era.untilYear()) return era;
       }
       // Return the last ZoneEra if we run off the end.
       return info.era(info.numEras() - 1);
@@ -821,7 +795,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
 
       for (uint8_t i = 1; i < mNumTransitions; i++) {
         Transition& transition = mTransitions[i];
-        const int16_t year = transition.yearTiny + LocalDate::kEpochYear;
+        const int16_t year = transition.year;
 
         if (transition.rule.isNull()) {
           // If the transition is simple (has no named rule), then the
@@ -1009,8 +983,6 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     const BF* mBrokerFactory; // nullable
     ZIB mZoneInfoBroker;
 
-    mutable int8_t mYearTiny = LocalDate::kInvalidYearTiny;
-    mutable bool mIsFilled = false;
     mutable uint8_t mNumTransitions = 0;
     mutable Transition mTransitions[kMaxCacheEntries];
 };

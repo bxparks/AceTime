@@ -43,6 +43,12 @@ class ZoneProcessor {
     /** Return the kTypeXxx of the current instance. */
     uint8_t getType() const { return mType; }
 
+    /**
+     * Reset the internal transition cache. Useful when
+     * Epoch::currentEpochYear() is changed at runtime.
+     */
+    void resetTransitionCache() { mIsFilled = false; }
+
     /** Return true if timezone is a Link entry pointing to a Zone entry. */
     virtual bool isLink() const = 0;
 
@@ -125,7 +131,8 @@ class ZoneProcessor {
 
     /**
      * Set the opaque zoneKey of this object to a new value, reseting any
-     * internally cached information.
+     * internally cached information. If the new zoneKey is the same as the old
+     * zoneKey, the cache remains valid.
      *
      * Normally a ZoneProcessor object is associated with a single TimeZone.
      * However, the ZoneProcessorCache will sometimes "take over" a
@@ -158,10 +165,19 @@ class ZoneProcessor {
     ZoneProcessor(uint8_t type):
       mType(type) {}
 
+    /** Check if the Transition cache is filled for the given year. */
+    bool isFilled(int16_t year) const {
+      return mIsFilled && (year == mYear);
+    }
+
     /** Return true if equal. */
     virtual bool equals(const ZoneProcessor& other) const = 0;
 
+  protected:
+    // The order of the fields is optimized to save space on 32-bit processors.
     uint8_t const mType;
+    mutable bool mIsFilled = false;
+    mutable int16_t mYear = LocalDate::kInvalidYear;
 };
 
 inline bool operator==(const ZoneProcessor& a, const ZoneProcessor& b) {

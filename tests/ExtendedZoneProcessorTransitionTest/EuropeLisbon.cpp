@@ -19,8 +19,8 @@ namespace zonedbxtest {
 const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   // Rule    Port    1951    1965    -    Oct    Sun>=1     2:00s    0    -
   {
-    -49 /*fromYearTiny*/,
-    -35 /*toYearTiny*/,
+    1951 /*fromYear*/,
+    1965 /*toYear*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -31,8 +31,8 @@ const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   },
   // Rule    Port    1977    only    -    Mar    27     0:00s    1:00    S
   {
-    -23 /*fromYearTiny*/,
-    -23 /*toYearTiny*/,
+    1977 /*fromYear*/,
+    1977 /*toYear*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     27 /*onDayOfMonth*/,
@@ -43,8 +43,8 @@ const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   },
   // Rule    Port    1977    only    -    Sep    25     0:00s    0    -
   {
-    -23 /*fromYearTiny*/,
-    -23 /*toYearTiny*/,
+    1977 /*fromYear*/,
+    1977 /*toYear*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     25 /*onDayOfMonth*/,
@@ -55,8 +55,8 @@ const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   },
   // Rule    Port    1978    1979    -    Apr    Sun>=1     0:00s    1:00    S
   {
-    -22 /*fromYearTiny*/,
-    -21 /*toYearTiny*/,
+    1978 /*fromYear*/,
+    1979 /*toYear*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -67,8 +67,8 @@ const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   },
   // Rule    Port    1978    only    -    Oct     1     0:00s    0    -
   {
-    -22 /*fromYearTiny*/,
-    -22 /*toYearTiny*/,
+    1978 /*fromYear*/,
+    1978 /*toYear*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -79,8 +79,8 @@ const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   },
   // Rule    Port    1979    1982    -    Sep    lastSun     1:00s    0    -
   {
-    -21 /*fromYearTiny*/,
-    -18 /*toYearTiny*/,
+    1979 /*fromYear*/,
+    1982 /*toYear*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -91,8 +91,8 @@ const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   },
   // Rule    Port    1980    only    -    Mar    lastSun     0:00s    1:00    S
   {
-    -20 /*fromYearTiny*/,
-    -20 /*toYearTiny*/,
+    1980 /*fromYear*/,
+    1980 /*toYear*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -103,8 +103,8 @@ const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   },
   // Rule    Port    1981    1982    -    Mar    lastSun     1:00s    1:00    S
   {
-    -19 /*fromYearTiny*/,
-    -18 /*toYearTiny*/,
+    1981 /*fromYear*/,
+    1982 /*toYear*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -115,8 +115,8 @@ const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   },
   // Rule    Port    1983    only    -    Mar    lastSun     2:00s    1:00    S
   {
-    -17 /*fromYearTiny*/,
-    -17 /*toYearTiny*/,
+    1983 /*fromYear*/,
+    1983 /*toYear*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -145,8 +145,8 @@ const extended::ZonePolicy kPolicyPort ACE_TIME_PROGMEM = {
 static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    W-Eur    1977    only    -    Sep    lastSun     1:00s    0    -
   {
-    -127 /*fromYearTiny*/,
-    -127 /*toYearTiny*/,
+    0 /*fromYear*/,
+    0 /*toYear*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -157,8 +157,8 @@ static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
   },
   // Rule    W-Eur    1977    1980    -    Apr    Sun>=1     1:00s    1:00    S
   {
-    -23 /*fromYearTiny*/,
-    -20 /*toYearTiny*/,
+    1977 /*fromYear*/,
+    1980 /*toYear*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -169,8 +169,8 @@ static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
   },
   // Rule    W-Eur    1977    only    -    Sep    lastSun     1:00s    0    -
   {
-    -23 /*fromYearTiny*/,
-    -23 /*toYearTiny*/,
+    1977 /*fromYear*/,
+    1977 /*toYear*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -181,8 +181,8 @@ static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
   },
   // Rule    W-Eur    1978    only    -    Oct     1     1:00s    0    -
   {
-    -22 /*fromYearTiny*/,
-    -22 /*toYearTiny*/,
+    1978 /*fromYear*/,
+    1978 /*toYear*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -193,8 +193,8 @@ static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
   },
   // Rule    W-Eur    1979    1995    -    Sep    lastSun     1:00s    0    -
   {
-    -21 /*fromYearTiny*/,
-    -5 /*toYearTiny*/,
+    1979 /*fromYear*/,
+    1995 /*toYear*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -205,8 +205,8 @@ static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
   },
   // Rule    W-Eur    1981    max    -    Mar    lastSun     1:00s    1:00    S
   {
-    -19 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    1981 /*fromYear*/,
+    9999 /*toYear*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -237,8 +237,8 @@ const extended::ZonePolicy kPolicyW_Eur ACE_TIME_PROGMEM = {
 static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    EU    1977    only    -    Sep    lastSun     1:00u    0    -
   {
-    -127 /*fromYearTiny*/,
-    -127 /*toYearTiny*/,
+    0 /*fromYear*/,
+    0 /*toYear*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -249,8 +249,8 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   },
   // Rule    EU    1977    1980    -    Apr    Sun>=1     1:00u    1:00    S
   {
-    -23 /*fromYearTiny*/,
-    -20 /*toYearTiny*/,
+    1977 /*fromYear*/,
+    1980 /*toYear*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -261,8 +261,8 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   },
   // Rule    EU    1977    only    -    Sep    lastSun     1:00u    0    -
   {
-    -23 /*fromYearTiny*/,
-    -23 /*toYearTiny*/,
+    1977 /*fromYear*/,
+    1977 /*toYear*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -273,8 +273,8 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   },
   // Rule    EU    1978    only    -    Oct     1     1:00u    0    -
   {
-    -22 /*fromYearTiny*/,
-    -22 /*toYearTiny*/,
+    1978 /*fromYear*/,
+    1978 /*toYear*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -285,8 +285,8 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   },
   // Rule    EU    1979    1995    -    Sep    lastSun     1:00u    0    -
   {
-    -21 /*fromYearTiny*/,
-    -5 /*toYearTiny*/,
+    1979 /*fromYear*/,
+    1995 /*toYear*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -297,8 +297,8 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   },
   // Rule    EU    1981    max    -    Mar    lastSun     1:00u    1:00    S
   {
-    -19 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    1981 /*fromYear*/,
+    9999 /*toYear*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -309,8 +309,8 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   },
   // Rule    EU    1996    max    -    Oct    lastSun     1:00u    0    -
   {
-    -4 /*fromYearTiny*/,
-    126 /*toYearTiny*/,
+    1996 /*fromYear*/,
+    9999 /*toYear*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -379,7 +379,7 @@ static const extended::ZoneEra kZoneEraEurope_Lisbon[] ACE_TIME_PROGMEM = {
     "CET" /*format*/,
     4 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    -24 /*untilYearTiny*/,
+    1976 /*untilYear*/,
     9 /*untilMonth*/,
     26 /*untilDay*/,
     4 /*untilTimeCode*/,
@@ -391,7 +391,7 @@ static const extended::ZoneEra kZoneEraEurope_Lisbon[] ACE_TIME_PROGMEM = {
     "WE%T" /*format*/,
     0 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    -17 /*untilYearTiny*/,
+    1983 /*untilYear*/,
     9 /*untilMonth*/,
     25 /*untilDay*/,
     4 /*untilTimeCode*/,
@@ -403,7 +403,7 @@ static const extended::ZoneEra kZoneEraEurope_Lisbon[] ACE_TIME_PROGMEM = {
     "WE%T" /*format*/,
     0 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    -8 /*untilYearTiny*/,
+    1992 /*untilYear*/,
     9 /*untilMonth*/,
     27 /*untilDay*/,
     4 /*untilTimeCode*/,
@@ -415,7 +415,7 @@ static const extended::ZoneEra kZoneEraEurope_Lisbon[] ACE_TIME_PROGMEM = {
     "CE%T" /*format*/,
     4 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    -4 /*untilYearTiny*/,
+    1996 /*untilYear*/,
     3 /*untilMonth*/,
     31 /*untilDay*/,
     4 /*untilTimeCode*/,
@@ -427,7 +427,7 @@ static const extended::ZoneEra kZoneEraEurope_Lisbon[] ACE_TIME_PROGMEM = {
     "WE%T" /*format*/,
     0 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
+    10000 /*untilYear*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,

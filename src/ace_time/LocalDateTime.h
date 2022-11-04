@@ -34,7 +34,7 @@ class LocalDateTime {
     /**
      * Factory method using separated date and time components.
      *
-     * @param year [1873-2127]
+     * @param year year [0,10000]
      * @param month month with January=1, December=12
      * @param day day of month [1-31]
      * @param hour hour [0-23]
@@ -45,20 +45,9 @@ class LocalDateTime {
     static LocalDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
         uint8_t fold = 0) {
-      int8_t yearTiny = LocalDate::isYearValid(year)
-          ? year - LocalDate::kEpochYear
-          : LocalDate::kInvalidYearTiny;
-      return forTinyComponents(
-          yearTiny, month, day, hour, minute, second, fold);
-    }
-
-    /** Factory method using components with an int8_t yearTiny. */
-    static LocalDateTime forTinyComponents(int8_t yearTiny, uint8_t month,
-        uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
-        uint8_t fold = 0) {
-      return LocalDateTime(
-          LocalDate::forTinyComponents(yearTiny, month, day),
-          LocalTime::forComponents(hour, minute, second, fold));
+      LocalDate ld = LocalDate::forComponents(year, month, day);
+      LocalTime lt = LocalTime::forComponents(hour, minute, second, fold);
+      return LocalDateTime(ld, lt);
     }
 
     /**
@@ -74,40 +63,22 @@ class LocalDateTime {
      */
     static LocalDateTime forEpochSeconds(
         acetime_t epochSeconds, uint8_t fold = 0) {
-
-      LocalDate ld;
-      LocalTime lt;
       if (epochSeconds == LocalDate::kInvalidEpochSeconds) {
-        ld = LocalDate::forError();
-        lt = LocalTime::forError();
-      } else {
-        // Integer floor-division towards -infinity
-        acetime_t days = (epochSeconds < 0)
-            ? (epochSeconds + 1) / 86400 - 1
-            : epochSeconds / 86400;
-
-        // Avoid % operator, because it's slow on an 8-bit process and because
-        // epochSeconds could be negative.
-        acetime_t seconds = epochSeconds - 86400 * days;
-        ld = LocalDate::forEpochDays(days);
-        lt = LocalTime::forSeconds(seconds, fold);
+        return forError();
       }
 
-      return LocalDateTime(ld, lt);
-    }
+      // Integer floor-division towards -infinity
+      int32_t days = (epochSeconds < 0)
+          ? (epochSeconds + 1) / 86400 - 1
+          : epochSeconds / 86400;
 
-    /**
-     * Factory method that takes the number of seconds since Unix Epoch of
-     * 1970-01-01.
-     * Valid until unixSeconds reaches the maximum value of `int32_t` at
-     * 2038-01-19T03:14:07 UTC.
-     * Returns LocalDateTime::forError() if unixSeconds is invalid.
-     */
-    static LocalDateTime forUnixSeconds(int32_t unixSeconds) {
-      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidUnixSeconds)
-          ? LocalDate::kInvalidEpochSeconds
-          : unixSeconds - LocalDate::kSecondsSinceUnixEpoch;
-      return forEpochSeconds(epochSeconds);
+      // Avoid % operator, because it's slow on an 8-bit process and because
+      // epochSeconds could be negative.
+      int32_t seconds = epochSeconds - 86400 * days;
+
+      LocalDate ld = LocalDate::forEpochDays(days);
+      LocalTime lt = LocalTime::forSeconds(seconds, fold);
+      return LocalDateTime(ld, lt);
     }
 
     /**
@@ -117,13 +88,24 @@ class LocalDateTime {
      * 2068-01-19T03:14:07 UTC.
      * Returns LocalDateTime::forError() if unixSeconds is invalid.
      */
-    static LocalDateTime forUnixSeconds64(int64_t unixSeconds) {
-      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidUnixSeconds64
-          || unixSeconds > LocalDate::kMaxValidUnixSeconds64
-          || unixSeconds < LocalDate::kMinValidUnixSeconds64)
-          ? LocalDate::kInvalidEpochSeconds
-          : (acetime_t) (unixSeconds - LocalDate::kSecondsSinceUnixEpoch);
-      return forEpochSeconds(epochSeconds);
+    static LocalDateTime forUnixSeconds64(
+        int64_t unixSeconds, uint8_t fold = 0) {
+      if (unixSeconds == LocalDate::kInvalidUnixSeconds64) {
+        return forError();
+      }
+
+      int64_t epochSeconds64 = unixSeconds
+          - Epoch::secondsToCurrentEpochFromUnixEpoch64();
+
+      // Integer floor-division towards -infinity
+      int32_t days = (epochSeconds64 < 0)
+          ? (epochSeconds64 + 1) / 86400 - 1
+          : epochSeconds64 / 86400;
+      int32_t seconds = epochSeconds64 - (int64_t) 86400 * days;
+
+      LocalDate ld = LocalDate::forEpochDays(days);
+      LocalTime lt = LocalTime::forSeconds(seconds, fold);
+      return LocalDateTime(ld, lt);
     }
 
     /**
@@ -134,13 +116,13 @@ class LocalDateTime {
      * "YYYY-MM-DDThh:mm:ss", but currently, the parser is very lenient.
      * It cares mostly about the positional placement of the various
      * components. It does not validate the separation characters like '-' or
-     * ':'. For example, both of the following will parse to the exactly same
-     * LocalDateTime object: "2018-08-31T13:48:01-07:00" "2018/08/31
+     * ':'. For example, both of the following strings will parse to the exactly
+     * same LocalDateTime object: "2018-08-31T13:48:01-07:00" and "2018/08/31
      * 13#48#01-07#00"
      *
      * The parsing validation is so weak that the behavior is undefined for
-     * most invalid date/time strings. The range of valid dates is roughly from
-     * 1872-01-01T00:00:00 to 2127-12-31T23:59:59.
+     * most invalid date/time strings. The range of valid dates is from
+     * 0001-01-01T00:00:00 to 9999-12-31T23:59:59.
      */
     static LocalDateTime forDateString(const char* dateString);
 
@@ -193,20 +175,6 @@ class LocalDateTime {
     /** Set the year. */
     void year(int16_t year) { mLocalDate.year(year); }
 
-    /**
-     * Return the single-byte year offset from year 2000. Intended for memory
-     * constrained or performance critical code. May be deprecated in the
-     * future.
-     */
-    int8_t yearTiny() const { return mLocalDate.yearTiny(); }
-
-    /**
-     * Set the single-byte year offset from year 2000. Intended for memory
-     * constrained or performance critical code. May be deprecated in the
-     * future.
-     */
-    void yearTiny(int8_t yearTiny) { mLocalDate.yearTiny(yearTiny); }
-
     /** Return the month with January=1, December=12. */
     uint8_t month() const { return mLocalDate.month(); }
 
@@ -253,7 +221,9 @@ class LocalDateTime {
     const LocalTime& localTime() const { return mLocalTime; }
 
     /**
-     * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z).
+     * Return number of whole days since AceTime epoch. The default epoch is
+     * 2000-01-01 00:00:00 UTC, but can be changed using
+     * `Epoch::currentEpochYear()`.
      */
     int32_t toEpochDays() const {
       if (isError()) return LocalDate::kInvalidEpochDays;
@@ -262,38 +232,27 @@ class LocalDateTime {
 
     /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
     int32_t toUnixDays() const {
-      if (isError()) return LocalDate::kInvalidUnixDays;
-      return toEpochDays() + LocalDate::kDaysSinceUnixEpoch;
+      if (isError()) return LocalDate::kInvalidEpochDays;
+      return toEpochDays() + Epoch::daysToCurrentEpochFromUnixEpoch();
     }
 
     /**
-     * Return seconds since AceTime epoch 2000-01-01 00:00:00Z, after assuming
-     * that the date and time components are in UTC timezone. Returns
-     * LocalDate::kInvalidEpochSeconds if isError() is true.
+     * Return seconds since the current AceTime epoch defined by
+     * Epoch::currentEpochYear(). The default epoch is 2000-01-01 00:00:00
+     * UTC, but can be changed using `Epoch::currentEpochYear()`.
+     *
+     * Returns LocalDate::kInvalidEpochSeconds if isError() is true, or the
+     * epochSeconds is out of range.
      */
     acetime_t toEpochSeconds() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds;
-
       int32_t days = mLocalDate.toEpochDays();
-      acetime_t seconds = mLocalTime.toSeconds();
-      return days * 86400 + seconds;
+      int32_t seconds = mLocalTime.toSeconds();
+      return (int32_t) 86400 * days + seconds;
     }
 
     /**
-     * Return seconds from Unix epoch 1970-01-01 00:00:00Z, after assuming that
-     * the date and time components are in UTC timezone. Returns
-     * LocalDate::kInvalidUnixSeconds if isError() is true.
-     *
-     * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box
-     * to print the unix seconds of a given ISO8601 date.
-     */
-    int32_t toUnixSeconds() const {
-      if (isError()) return LocalDate::kInvalidUnixSeconds;
-      return toEpochSeconds() + LocalDate::kSecondsSinceUnixEpoch;
-    }
-
-    /**
-     * Return 64-bit seconds from Unix epoch 1970-01-01 00:00:00Z, after
+     * Return 64-bit seconds from Unix epoch 1970-01-01 00:00:00 UTC, after
      * assuming that the date and time components are in UTC timezone. Returns
      * LocalDate::kInvalidUnixSeconds64 if isError() is true.
      *
@@ -302,7 +261,9 @@ class LocalDateTime {
      */
     int64_t toUnixSeconds64() const {
       if (isError()) return LocalDate::kInvalidUnixSeconds64;
-      return toEpochSeconds() + (int64_t) LocalDate::kSecondsSinceUnixEpoch;
+      int32_t days = toUnixDays();
+      int32_t seconds = mLocalTime.toSeconds();
+      return (int64_t) 86400 * days + seconds;
     }
 
     /**
