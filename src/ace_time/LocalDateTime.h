@@ -95,7 +95,7 @@ class LocalDateTime {
       }
 
       int64_t epochSeconds64 = unixSeconds
-          - LocalDate::secondsToCurrentEpochFromUnixEpoch64();
+          - Epoch::secondsToCurrentEpochFromUnixEpoch64();
 
       // Integer floor-division towards -infinity
       int32_t days = (epochSeconds64 < 0)
@@ -223,7 +223,7 @@ class LocalDateTime {
     /**
      * Return number of whole days since AceTime epoch. The default epoch is
      * 2000-01-01 00:00:00 UTC, but can be changed using
-     * `LocalDate::currentEpochYear()`.
+     * `Epoch::currentEpochYear()`.
      */
     int32_t toEpochDays() const {
       if (isError()) return LocalDate::kInvalidEpochDays;
@@ -233,13 +233,13 @@ class LocalDateTime {
     /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
     int32_t toUnixDays() const {
       if (isError()) return LocalDate::kInvalidEpochDays;
-      return toEpochDays() + LocalDate::daysToCurrentEpochFromUnixEpoch();
+      return toEpochDays() + Epoch::daysToCurrentEpochFromUnixEpoch();
     }
 
     /**
      * Return seconds since the current AceTime epoch defined by
-     * LocalDate::currentEpochYear(). The default epoch is 2000-01-01 00:00:00
-     * UTC, but can be changed using `LocalDate::currentEpochYear()`.
+     * Epoch::currentEpochYear(). The default epoch is 2000-01-01 00:00:00
+     * UTC, but can be changed using `Epoch::currentEpochYear()`.
      *
      * Returns LocalDate::kInvalidEpochSeconds if isError() is true, or the
      * epochSeconds is out of range.

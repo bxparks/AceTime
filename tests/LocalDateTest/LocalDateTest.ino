@@ -250,8 +250,8 @@ test(LocalDateTest, toAndFromEpochDays_epoch2050) {
   testing::EpochYearContext context(2050);
 
   // Verify lower and upper valid year limits.
-  assertEqual(LocalDate::epochValidYearLower(), 2000);
-  assertEqual(LocalDate::epochValidYearUpper(), 2100);
+  assertEqual(Epoch::epochValidYearLower(), 2000);
+  assertEqual(Epoch::epochValidYearUpper(), 2100);
 
   // Verify that 2050-01-01 returns epoch days of 0
   LocalDate ld = LocalDate::forComponents(2050, 1, 1);
@@ -281,8 +281,8 @@ test(LocalDateTest, toAndFromEpochDays_epoch2100) {
   testing::EpochYearContext context(2100);
 
   // Verify lower and upper valid year limits.
-  assertEqual(LocalDate::epochValidYearLower(), 2050);
-  assertEqual(LocalDate::epochValidYearUpper(), 2150);
+  assertEqual(Epoch::epochValidYearLower(), 2050);
+  assertEqual(Epoch::epochValidYearUpper(), 2150);
 
   // Verify that 2100-01-01 returns epoch days of 0
   LocalDate ld = LocalDate::forComponents(2100, 1, 1);

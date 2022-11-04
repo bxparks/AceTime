@@ -293,14 +293,14 @@ test(BasicZoneProcessorTest, init_primitives) {
   assertEqual(-7*60, zoneProcessor.mTransitions[1].offsetMinutes);
   assertEqual(
       (acetime_t) (39434400 /*relative to 2000*/
-          - LocalDate::daysToCurrentEpochFromConverterEpoch() * 86400),
+          - Epoch::daysToCurrentEpochFromConverterEpoch() * 86400),
       zoneProcessor.mTransitions[1].startEpochSeconds);
 
   // t >= 2001-10-28 02:00 UTC-07:00 Sunday goes to PST
   assertEqual(-8*60, zoneProcessor.mTransitions[2].offsetMinutes);
   assertEqual(
       (acetime_t) (57574800 /*relative to 2000*/
-          - LocalDate::daysToCurrentEpochFromConverterEpoch() * 86400),
+          - Epoch::daysToCurrentEpochFromConverterEpoch() * 86400),
       zoneProcessor.mTransitions[2].startEpochSeconds);
 }
 
@@ -342,14 +342,14 @@ test(BasicZoneProcessorTest, init) {
   assertEqual(-7*60, zoneProcessor.mTransitions[1].offsetMinutes);
   assertEqual(
       (acetime_t) (574077600 /*relative to 2000*/
-          - LocalDate::daysToCurrentEpochFromConverterEpoch() * 86400),
+          - Epoch::daysToCurrentEpochFromConverterEpoch() * 86400),
       zoneProcessor.mTransitions[1].startEpochSeconds);
 
   // t >= 2018-11-04 02:00 UTC-07:00 Sunday goes to PST
   assertEqual(-8*60, zoneProcessor.mTransitions[2].offsetMinutes);
   assertEqual(
       (acetime_t) (594637200 /*relative to 2000*/
-          - LocalDate::daysToCurrentEpochFromConverterEpoch() * 86400),
+          - Epoch::daysToCurrentEpochFromConverterEpoch() * 86400),
       zoneProcessor.mTransitions[2].startEpochSeconds);
 }
 
@@ -493,7 +493,7 @@ test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles_outOfBounds) {
   dt = OffsetDateTime::forComponents(1998, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
   assertFalse(dt.isError());
-  // 1998 is within roughly 50 years of LocalDate::currentEpochYear() of 2050
+  // 1998 is within roughly 50 years of Epoch::currentEpochYear() of 2050
   // so toEpochSeconds() still works.
   epochSeconds = dt.toEpochSeconds();
   assertNotEqual(epochSeconds, LocalDate::kInvalidEpochSeconds);

@@ -22,10 +22,9 @@
           precalculated DST shifts which are listed in the IANA TZ DB to the
           year 2087.
         * `zonedb` remains unchanged
-    * Configurable epoch seconds conversion algorithms
-        * Convert `LocalDate` into a `LocalDateTemplate` class to allow
-          different epoch date conversion algorithms to be used/tested. Two of
-          them are `EpochConverterJulian` and `EpochConverterHinnant`
+    * Change epoch seconds conversion algorithm
+        * Extract different epoch date conversion algorithms to be used/tested.
+          Two of them are `EpochConverterJulian` and `EpochConverterHinnant`
             * `EpochConverterJulian` implements the algorithms found in
               wikipedia article https://en.wikipedia.org/wiki/Julian_day.
             * `EpochConverterHinnant` implements the algorithms found in
@@ -36,13 +35,12 @@
               algorithms described in `EpochConverterHinnant`.
             * In contrast, I have almost no understanding of the algorithms
               implemented by `EpochConverterJulian`.
-    * Configurable epoch year
-        * Add `LocalDate::currentEpochYear()` which allows customization of the
-        internal epoch year at startup.
+    * Configurable epoch year using new `Epoch` utility class
+        * Add `Epoch::currentEpochYear()` which allows customization of the
+          internal epoch year at startup.
             * Expected to be rarely used in user applications, but somewhat
               common in unit testing.
-        * Add `LocalDate::epochValidYearLower()` and
-          `LocalDate::epochValidYearUpper()`
+        * Add `Epoch::epochValidYearLower()` and `Epoch::epochValidYearUpper()`
             * Defines the 100-year interval which is +/- 50 years from the
               `currentEpochYear()` where the epoch seconds and time zone
               transition algorithms are guaranteed to be valid.

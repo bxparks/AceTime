@@ -42,7 +42,7 @@ class ExtendedTransitionTest: public aunit::TestOnce {
       // Verify that the current epoch year of the AceTime library is the same
       // as the ValidationData.epochYear that was used to generate the
       // validation data.
-      assertEqual(LocalDate::currentEpochYear(), testData->epochYear);
+      assertEqual(Epoch::currentEpochYear(), testData->epochYear);
 
       ExtendedZoneProcessor zoneProcessor;
       TimeZone tz = TimeZone::forZoneInfo(zoneInfo, &zoneProcessor);

@@ -145,7 +145,7 @@ test(ZonedDateTimeBasicTest, normalize) {
 
   // Start with epochSeconds = 0. Should translate to 1999-12-31T16:00:00-08:00.
   auto dt = ZonedDateTime::forEpochSeconds(0, tz);
-  assertEqual(LocalDate::currentEpochYear() - 1, dt.year());
+  assertEqual(Epoch::currentEpochYear() - 1, dt.year());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
   assertEqual(16, dt.hour());

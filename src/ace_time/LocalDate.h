@@ -10,10 +10,9 @@
 #include <string.h> // strlen()
 #include <Arduino.h>
 #include <AceCommon.h> // printPad2To()
+#include "Epoch.h"
 #include "common/common.h"
 #include "common/DateStrings.h" // DateStrings
-#include "internal/EpochConverterJulian.h"
-#include "internal/EpochConverterHinnant.h"
 
 class Print;
 
@@ -46,22 +45,9 @@ namespace ace_time {
  * Parts of this class were inspired by the java.time.LocalDate class of Java
  * 11
  * (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalDate.html).
- *
- * @tparam T_CONVERTER class responsible for providing the
- *    T_CONVERTER::toEpochDays() and T_CONVERTER::fromEpochDays() functions
  */
-template <typename T_CONVERTER>
-class LocalDateTemplate {
+class LocalDate {
   public:
-    /** Epoch year used by the internal epoch converters. Probably year 2000. */
-    static const int16_t kConverterEpochYear = T_CONVERTER::kConverterEpochYear;
-
-    /**
-     * Number of days from Unix epoch (1970-01-01 00:00:00 UTC) to
-     * the converter epoch (2000-01-01 00:00:00 UTC).
-     */
-    static const int32_t kDaysToConverterEpochFromUnixEpoch = 10957;
-
     /**
      * Sentinel year which indicates one or more of the following conditions:
      *
@@ -157,94 +143,6 @@ class LocalDateTemplate {
       return year >= kMinYear && year <= kMaxYear;
     }
 
-  // Set and get current epoch year.
-  private:
-    /** Base year `yyyy` of current epoch {yyyy}-01-01T00:00:00. */
-    static int16_t sCurrentEpochYear;
-
-    /** Number of days from kConverterEpochYear to sCurrentEpochYear. */
-    static int32_t sDaysToCurrentEpochFromConverterEpoch;
-
-  public:
-    /** Get the current epoch year. */
-    static int16_t currentEpochYear() {
-      return sCurrentEpochYear;
-    }
-
-    /** Set the current epoch year. */
-    static void currentEpochYear(int16_t year) {
-      sCurrentEpochYear = year;
-      sDaysToCurrentEpochFromConverterEpoch =
-          T_CONVERTER::toEpochDays(year, 1, 1);
-    }
-
-    /**
-     * Number of days from the converter epoch (2000-01-01) to the current
-     * epoch.
-     */
-    static int32_t daysToCurrentEpochFromConverterEpoch() {
-      return sDaysToCurrentEpochFromConverterEpoch;
-    }
-
-    /**
-     * Return the number of days from the Unix epoch (1970-01-01T00:00:00) to
-     * the current epoch.
-     */
-    static int32_t daysToCurrentEpochFromUnixEpoch() {
-      return kDaysToConverterEpochFromUnixEpoch
-          + sDaysToCurrentEpochFromConverterEpoch;
-    }
-
-    /**
-     * Return the number of seconds from the Unix epoch (1970-01-01T00:00:00) to
-     * the current epoch. The return type is a 64-bit integer because a 32-bit
-     * integer would overflow if the current epoch year is set to later than
-     * 2038.
-     */
-    static int64_t secondsToCurrentEpochFromUnixEpoch64() {
-      return daysToCurrentEpochFromUnixEpoch() * (int64_t) 86400;
-    }
-
-    /**
-     * The smallest year (inclusive) for which calculations involving the 32-bit
-     * `epoch_seconds` and time zone transitions are guaranteed to be valid
-     * without underflowing or overflowing. Valid years satisfy the condition
-     * `year >= validYearLower()`. This condition is not enforced by any code
-     * within the library. The limit is exposed for informational purposes for
-     * downstream applications.
-     *
-     * A 32-bit integer has a range of about 136 years, so the half interval is
-     * 68 years. But the algorithms to calculate transitions in
-     * `zone_processing.h` use a 3-year window straddling the current year, so
-     * the actual lower limit is probably closer to `currentEpochYear() - 66`.
-     * To be conservative, this function returns `currentEpochYear() - 50`. It
-     * may return a smaller value in the future if the internal calculations can
-     * be verified to avoid underflow or overflow problems.
-     */
-    static int16_t epochValidYearLower() {
-      return currentEpochYear() - 50;
-    }
-
-    /**
-     * The largest year (exclusive) for which calculations involving the 32-bit
-     * `epoch_seconds` and time zone transitions are guaranteed to be valid
-     * without underflowing or overflowing. Valid years satisfy the condition
-     * `year < validYearUpper()`. This condition is not enforced by any code
-     * within the library. The limit is exposed for informational purposes for
-     * downstream applications.
-     *
-     * A 32-bit integer has a range of about 136 years, so the half interval is
-     * 68 years. But the algorithms to calculate the transitions in
-     * `zone_processing.h` use a 3-year window straddling the current year, so
-     * actual upper limit is probably close to `currentEpochYear() + 66`. To be
-     * conservative, this function returns `currentEpochYear() + 50`. It may
-     * return a larger value in the future if the internal calculations can be
-     * verified to avoid underflow or overflow problems.
-     */
-    static int16_t epochValidYearUpper() {
-      return currentEpochYear() + 50;
-    }
-
   // Factory methods.
   public:
     /**
@@ -255,10 +153,10 @@ class LocalDateTemplate {
      * @param month month with January=1, December=12
      * @param day day of month [1-31]
      */
-    static LocalDateTemplate forComponents(
+    static LocalDate forComponents(
         int16_t year, uint8_t month, uint8_t day) {
       year = isYearValid(year) ? year : kInvalidYear;
-      return LocalDateTemplate(year, month, day);
+      return LocalDate(year, month, day);
     }
 
     /**
@@ -268,7 +166,7 @@ class LocalDateTemplate {
      *
      * @param epochDays number of days since the current epoch
      */
-    static LocalDateTemplate forEpochDays(int32_t epochDays) {
+    static LocalDate forEpochDays(int32_t epochDays) {
       int16_t year;
       uint8_t month;
       uint8_t day;
@@ -277,20 +175,20 @@ class LocalDateTemplate {
         month = 0;
         day = 0;
       } else {
-        // shift relative to T_CONVERTER::kConverterEpochYear
-        epochDays += sDaysToCurrentEpochFromConverterEpoch;
-        T_CONVERTER::fromEpochDays(epochDays, year, month, day);
+        // shift relative to Epoch::kConverterEpochYear
+        epochDays += Epoch::daysToCurrentEpochFromConverterEpoch();
+        ACE_TIME_EPOCH_CONVERTER::fromEpochDays(epochDays, year, month, day);
       }
       return forComponents(year, month, day);
     }
 
     /** Factory method using the number of days since Unix epoch 1970-01-01. */
-    static LocalDateTemplate forUnixDays(int32_t unixDays) {
+    static LocalDate forUnixDays(int32_t unixDays) {
       if (unixDays == kInvalidEpochDays) {
         return forError();
       }
 
-      int32_t days = unixDays - daysToCurrentEpochFromUnixEpoch();
+      int32_t days = unixDays - Epoch::daysToCurrentEpochFromUnixEpoch();
       return forEpochDays(days);
     }
 
@@ -307,7 +205,7 @@ class LocalDateTemplate {
      *
      * @param epochSeconds number of seconds since the current epoch
      */
-    static LocalDateTemplate forEpochSeconds(acetime_t epochSeconds) {
+    static LocalDate forEpochSeconds(acetime_t epochSeconds) {
       if (epochSeconds == kInvalidEpochSeconds) {
         return forError();
       }
@@ -326,12 +224,12 @@ class LocalDateTemplate {
      * over the entire range of year `[0,10000]` due to the use of `int64_t`
      * operations.
      */
-    static LocalDateTemplate forUnixSeconds64(int64_t unixSeconds) {
+    static LocalDate forUnixSeconds64(int64_t unixSeconds) {
       if (unixSeconds == kInvalidUnixSeconds64) {
         return forError();
       } else {
         int64_t epochSeconds64 = unixSeconds
-            - secondsToCurrentEpochFromUnixEpoch64();
+            - Epoch::secondsToCurrentEpochFromUnixEpoch64();
         int32_t days = (epochSeconds64 < 0)
             ? (epochSeconds64 + 1) / 86400 - 1
             : epochSeconds64 / 86400;
@@ -348,7 +246,7 @@ class LocalDateTemplate {
      *
      * @param dateString the date in ISO 8601 format (yyyy-mm-dd)
      */
-    static LocalDateTemplate forDateString(const char* dateString) {
+    static LocalDate forDateString(const char* dateString) {
       if (strlen(dateString) < kDateStringLength) {
         return forError();
       }
@@ -362,7 +260,7 @@ class LocalDateTemplate {
      *
      * This method assumes that the dateString is sufficiently long.
      */
-    static LocalDateTemplate forDateStringChainable(const char*& dateString) {
+    static LocalDate forDateStringChainable(const char*& dateString) {
       const char* s = dateString;
 
       // year (assumes 4 digit year)
@@ -393,14 +291,14 @@ class LocalDateTemplate {
      * Factory method that returns a LocalDate which represents an error
      * condition. The isError() method will return true.
      */
-    static LocalDateTemplate forError() {
-      return LocalDateTemplate(kInvalidYear, 0, 0);
+    static LocalDate forError() {
+      return LocalDate(kInvalidYear, 0, 0);
     }
 
   // Instance methods.
   public:
     /** Default constructor does nothing. */
-    explicit LocalDateTemplate() = default;
+    explicit LocalDate() = default;
 
     /** Return the year. */
     int16_t year() const { return mYear; }
@@ -453,15 +351,15 @@ class LocalDateTemplate {
      */
     int32_t toEpochDays() const {
       if (isError()) return kInvalidEpochDays;
-      int32_t days = T_CONVERTER::toEpochDays(mYear, mMonth, mDay)
-          - sDaysToCurrentEpochFromConverterEpoch; // relative to current epoch
+      int32_t days = ACE_TIME_EPOCH_CONVERTER::toEpochDays(mYear, mMonth, mDay)
+          - Epoch::daysToCurrentEpochFromConverterEpoch();
       return days;
     }
 
     /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
     int32_t toUnixDays() const {
       if (isError()) return kInvalidEpochDays;
-      return toEpochDays() + daysToCurrentEpochFromUnixEpoch();
+      return toEpochDays() + Epoch::daysToCurrentEpochFromUnixEpoch();
     }
 
     /**
@@ -489,7 +387,7 @@ class LocalDateTemplate {
      * either this->isError() or that.isError() is true, the behavior is
      * undefined.
      */
-    int8_t compareTo(const LocalDateTemplate& that) const {
+    int8_t compareTo(const LocalDate& that) const {
       if (mYear < that.mYear) return -1;
       if (mYear > that.mYear) return 1;
       if (mMonth < that.mMonth) return -1;
@@ -526,16 +424,15 @@ class LocalDateTemplate {
     }
 
     // Use default copy constructor and assignment operator.
-    LocalDateTemplate(const LocalDateTemplate&) = default;
-    LocalDateTemplate& operator=(const LocalDateTemplate&) = default;
+    LocalDate(const LocalDate&) = default;
+    LocalDate& operator=(const LocalDate&) = default;
 
   private:
-    template <typename T>
     friend bool operator==(
-        const LocalDateTemplate<T>& a, const LocalDateTemplate<T>& b);
+        const LocalDate& a, const LocalDate& b);
 
     /** Constructor that sets the components. */
-    explicit LocalDateTemplate(int16_t year, uint8_t month, uint8_t day):
+    explicit LocalDate(int16_t year, uint8_t month, uint8_t day):
         mYear(year),
         mMonth(month),
         mDay(day) {}
@@ -560,62 +457,16 @@ class LocalDateTemplate {
 };
 
 /** Return true if two LocalDate objects are equal in all components. */
-template <typename T>
-bool operator==(const LocalDateTemplate<T>& a, const LocalDateTemplate<T>& b) {
+inline bool operator==(const LocalDate& a, const LocalDate& b) {
   return a.mDay == b.mDay
       && a.mMonth == b.mMonth
       && a.mYear == b.mYear;
 }
 
 /** Return true if two LocalDate objects are not equal. */
-template <typename T>
-bool operator!=(const LocalDateTemplate<T>& a, const LocalDateTemplate<T>& b) {
+inline bool operator!=(const LocalDate& a, const LocalDate& b) {
   return ! (a == b);
 }
-
-// Using 0=Jan offset.
-template <typename T>
-const uint8_t LocalDateTemplate<T>::sDayOfWeek[12] = {
-  5 /*Jan=31*/,
-  1 /*Feb=28*/,
-  0 /*Mar=31, start of "year"*/,
-  3 /*Apr=30*/,
-  5 /*May=31*/,
-  1 /*Jun=30*/,
-  3 /*Jul=31*/,
-  6 /*Aug=31*/,
-  2 /*Sep=30*/,
-  4 /*Oct=31*/,
-  0 /*Nov=30*/,
-  2 /*Dec=31*/,
-};
-
-// Using 0=Jan offset.
-template <typename T>
-const uint8_t LocalDateTemplate<T>::sDaysInMonth[12] = {
-  31 /*Jan=31*/,
-  28 /*Feb=28*/,
-  31 /*Mar=31*/,
-  30 /*Apr=30*/,
-  31 /*May=31*/,
-  30 /*Jun=30*/,
-  31 /*Jul=31*/,
-  31 /*Aug=31*/,
-  30 /*Sep=30*/,
-  31 /*Oct=31*/,
-  30 /*Nov=30*/,
-  31 /*Dec=31*/,
-};
-
-template <typename T>
-int16_t LocalDateTemplate<T>::sCurrentEpochYear = 2050;
-
-// Number of days from 2000-01-01 to 2050-01-01: 50*365 + 13 leap days = 18263.
-template <typename T>
-int32_t LocalDateTemplate<T>::sDaysToCurrentEpochFromConverterEpoch = 18263;
-
-// Use EpochConverterHinnant for LocalDate
-using LocalDate = LocalDateTemplate<internal::EpochConverterHinnant>;
 
 }
 

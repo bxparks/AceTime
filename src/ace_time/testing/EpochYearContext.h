@@ -7,7 +7,7 @@
 #define ACE_TIME_EPOCH_YEAR_CONTEXT_H
 
 #include <stdint.h> // int16_t
-#include "../LocalDate.h"
+#include "../Epoch.h"
 
 namespace ace_time {
 namespace testing {
@@ -19,7 +19,7 @@ namespace testing {
  * the destructor is automatically called which switches the epoch year to the
  * previous value. This uses the RAII (Resource Acquisition Is Initialization)
  * pattern. The advantage of using this helper class instead of invoking
- * `LocalDate::currentEpochYear()` manually is that the compiler guarantees that
+ * `Epoch::currentEpochYear()` manually is that the compiler guarantees that
  * the destructor is always called, so that previous epoch year is always
  * restored.
  */
@@ -27,19 +27,19 @@ class EpochYearContext {
   public:
     /**
      * Construtor. Saves the current epoch year to an internal member variable,
-     * then calls `LocalDate::currentEpochYear(year)` to set the new epoch year.
+     * then calls `Epoch::currentEpochYear(year)` to set the new epoch year.
      */
     EpochYearContext(int16_t year) {
-      mSavedEpochYear = LocalDate::currentEpochYear();
-      LocalDate::currentEpochYear(year);
+      mSavedEpochYear = Epoch::currentEpochYear();
+      Epoch::currentEpochYear(year);
     }
 
     /**
-     * Destructor. Calls `LocalDate::currentEpochYear(savedYear)` to restore
+     * Destructor. Calls `Epoch::currentEpochYear(savedYear)` to restore
      * the previous epoch year.
      */
     ~EpochYearContext() {
-      LocalDate::currentEpochYear(mSavedEpochYear);
+      Epoch::currentEpochYear(mSavedEpochYear);
     }
 
   private:

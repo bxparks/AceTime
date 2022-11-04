@@ -25,6 +25,12 @@ class EpochConverterHinnant {
     static const int16_t kConverterEpochYear = 2000;
 
     /**
+     * Number of days from Unix epoch (1970-01-01 00:00:00 UTC) to
+     * the converter epoch (2000-01-01 00:00:00 UTC).
+     */
+    static const int32_t kDaysToConverterEpochFromUnixEpoch = 10957;
+
+    /**
      * Convert (year, month, day) in the Gregorian calendar to days since the
      * converter epoch (2000-01-01 instead of 2050-01-01). The `year` is
      * restricted to be greater than or equal to 0001, which allows the internal

@@ -26,6 +26,12 @@ class EpochConverterJulian {
     static const int16_t kConverterEpochYear = 2000;
 
     /**
+     * Number of days from Unix epoch (1970-01-01 00:00:00 UTC) to
+     * the converter epoch (2000-01-01 00:00:00 UTC).
+     */
+    static const int32_t kDaysToConverterEpochFromUnixEpoch = 10957;
+
+    /**
      * Number of days from the modified proleptic Julian calendar epoch (4713
      * BC 01-01, modified to start at 00:00:00 instead of 12:00:00) to the
      * converter epoch (2000-01-01 instead of 2050-01-01). There are 1721060

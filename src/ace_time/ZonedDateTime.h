@@ -68,7 +68,7 @@ class ZonedDateTime {
      * Returns ZonedDateTime::forError() if epochSeconds is invalid.
      *
      * @param epochSeconds Number of seconds from the current epoch by
-     * `LocalDate::currentEpochYear()`. The default is 2050-01-01 00:00:00 UTC
+     * `Epoch::currentEpochYear()`. The default is 2050-01-01 00:00:00 UTC
      * which can be changed by `currentEpochYear(year)`. A value of
      * LocalDate::kInvalidEpochSeconds is a sentinel that is considered to be an
      * error and causes isError() to return true.
@@ -92,7 +92,7 @@ class ZonedDateTime {
      * range as `ZonedDateTime::forEpochSeconds()` after translating it to the
      * AceTime current epoch. In other words, unixSeconds should be roughly
      * within +/- 60 years of the current epoch year given by
-     * `LocalDate::currentEpochYear()`.
+     * `Epoch::currentEpochYear()`.
      *
      * Returns ZonedDateTime::forError() if unixSeconds is invalid.
      *
@@ -107,7 +107,7 @@ class ZonedDateTime {
         epochSeconds = LocalDate::kInvalidEpochSeconds;
       } else {
         epochSeconds = unixSeconds
-            - LocalDate::secondsToCurrentEpochFromUnixEpoch64();
+            - Epoch::secondsToCurrentEpochFromUnixEpoch64();
       }
       return forEpochSeconds(epochSeconds, timeZone);
     }
@@ -247,7 +247,7 @@ class ZonedDateTime {
     /**
      * Return number of whole days since AceTime epoch taking into account the
      * time zone. The default epoch is 2050-01-01 00:00:00 UTC but can be
-     * changed using `LocalDate::currentEpochYear()`.
+     * changed using `Epoch::currentEpochYear()`.
      */
     int32_t toEpochDays() const {
       return mOffsetDateTime.toEpochDays();
@@ -261,7 +261,7 @@ class ZonedDateTime {
     /**
      * Return seconds since AceTime epoch taking into account the time zone. The
      * default epoch is 2050-01-01 00:00:00 UTC but can be changed using
-     * `LocalDate::currentEpochYear()`.
+     * `Epoch::currentEpochYear()`.
      */
     acetime_t toEpochSeconds() const {
       return mOffsetDateTime.toEpochSeconds();

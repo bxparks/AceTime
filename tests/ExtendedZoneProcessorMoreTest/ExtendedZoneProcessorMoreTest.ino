@@ -187,7 +187,7 @@ test(ExtendedZoneProcessorTest, Los_Angeles_outOfBounds) {
       TimeOffset::forHours(-8));
   assertFalse(dt.isError());
   epochSeconds = dt.toEpochSeconds();
-  // 1998 is within roughly 50 years of LocalDate::currentEpochYear() of 2050
+  // 1998 is within roughly 50 years of Epoch::currentEpochYear() of 2050
   // so toEpochSeconds() still works.
   assertNotEqual(epochSeconds, LocalDate::kInvalidEpochSeconds);
   // 1998 < ZoneContext.startYear, so getUtcOffset() fails
