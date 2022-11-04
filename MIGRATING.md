@@ -5,8 +5,6 @@
 * [Migrating to v2.0.0](#MigratingToVersion200)
     * [High Level](#HighLevel200)
     * [Details](#Details200)
-    * [Adjustable Epoch Year](#AdjustableEpochYear200)
-    * [Cache Invalidation](#CacheInvalidation200)
     * [Background Motivation](#Motivation200)
 * [Migrating to v1.9.0](#MigratingToVersion190)
     * [Configuring the Zone Managers](#ConfiguringZoneManagers)
@@ -48,29 +46,28 @@ year is set to 2100 (so that the epoch is 2100-01-01T00:00:00), AceTime will
 work for the years 2050 to 2150. The assumption is that a 100-year interval is
 sufficient for most embedded applications.
 
-With the epoch year being adjustable, it became necessary to decouple the
+With the epoch year being adjustable, it becomes necessary to decouple the
 various `year` fields in the TZDB database (implemented by the `zonedb` and
 `zonedbx` packages) from the `year` fields in the AceTime library code itself.
 Previously in v1, the `year` fields were encoded as 8-bit `int8_t` integers
 which were interpreted to be offsets from the hardcoded epoch year of 2000. To
 allow the zone databases to be valid until the year 10000, the internal `year`
-fields were changed from an `int8_t` to a 16-bit `int16_t` type. The AceTime API
+fields are changed from an `int8_t` to a 16-bit `int16_t` type. The AceTime API
 hides most of the impact of this change from client applications, so the biggest
-noticeable change may be that the `zonedb` and `zonedbx` databases are now
-2.5 kiB to 3.5 kiB larger in flash size.
+noticeable change may be the increase in flash size of the `zonedb` and
+`zonedbx` databases which are now 2.5 kiB to 3.5 kiB larger.
 
-The increase in flash size for `zonedb` and `zonedbx` was deemed to be
-acceptable for the following reasons. The full impact of the size increase would
-be felt only if the application incorporated the entire `zonedb` or `zonedbx`
-database to support all 595 time zones in the TZDB database. But most 8-bit
-processors do not have enough flash memory to use the full database (e.g. 23 kiB
-for `zonedb`, 38 kiB for `zonedbx`), so it is likely that these 8-bit
-applications would use only a small subset (1-10) of the timezones available in
-those databases. The flash size increase would be far smaller when using only
-small number of time zones. On 32-bit processors where the full database would
-likely be used, they often have far more flash memory (0.5 MiB to 4 MiB on
-ESP8266 or ESP32), so the increase of 2.5-3.5 kiB of flash memory would be
-negligible on those processors.
+The increase in flash size for `zonedb` and `zonedbx` seems acceptable for the
+following reasons: The full impact of the size increase would be felt only if
+the application incorporated the entire `zonedb` or `zonedbx` database to
+support all 595 time zones in the TZDB database. But most 8-bit processors do
+not have enough flash memory to use the full database (e.g. 23 kiB for `zonedb`,
+38 kiB for `zonedbx`), so it is likely that these 8-bit applications would use
+only a small subset (1-10) of the timezones available in those databases. The
+flash size increase would be far smaller when using only small number of time
+zones. On 32-bit processors where the full database would likely be used, they
+often have far more flash memory (0.5 MiB to 4 MiB on ESP8266 or ESP32), so the
+increase of 2.5-3.5 kiB of flash memory would be negligible on those processors.
 
 Some backwards incompatible changes were necessary from v1 to v2. These are
 explained in detail in the next section.
@@ -87,11 +84,9 @@ AceTime v2 implements the following major changes and features:
   `int8_t` to `int16_t`
     * the year range increases from `[2000,2049]` to `[2000,9999]`
     * this decouples the TZ database from the adjustable current epoch year
-* the epoch year can be changed using `LocalDate::currentEpochYear(epochYear)`
-  static method
 * removed constants
     * `LocalDate::kEpochYear`
-        * replacement: `LocalDate::currentEpochYear()` function
+        * replacement: `Epoch::currentEpochYear()` function
         * reason: no longer a constant
     * `LocalDate::kSecondsSinceUnixEpoch`
         * purpose: number of seconds from 1970 to the AceTime epoch 2000
@@ -99,49 +94,41 @@ AceTime v2 implements the following major changes and features:
         * reasons:
             * `int32_t` seconds can overflow, so use `int64_t`
             * epoch year is now adjustable, not a constant
+    * `LocalDate::kDaysSinceUnixEpoch`
+        * purpose: number of days from 1970-01-01 to 2000-01-01
+        * replacement: `LocalDate::daysToCurrentEpochFromConverterEpoch()`
+        * reason: epoch is now adjustable, so must become a function
     * `LocalDate::kMinYearTiny`
         * replacement: `LocalDate::kMinYear`
         * reason: 8-bit offset no longer used, replaced by 16-bit integer
     * `LocalDate::kMaxYearTiny`
         * replacement: `LocalDate::kMaxYear`
         * reason: 8-bit offset no longer used, replaced by 16-bit integer
-    * `LocalDate::kDaysSinceUnixEpoch`
-        * purpose: number of days from 1970-01-01 to 2000-01-01
-        * replacement: `LocalDate::daysToCurrentEpochFromBaseEpoch()`
-        * reason: epoch is now adjustable, so must become a function
     * `LocalDate::kInvalidUnixDays`
         * replacement: `kInvalidEpochDays`
         * reason: simplification, both had the same value `INT32_MIN`
     * `LocalDate::kInvalidUnixSeconds`
         * replacement: `LocalDate::kInvalidUnixSeconds64`
         * reason: 32-bit versions of `toUnixSeconds()` removed
-* new constants or parameters
-    * `LocalDate::kBaseEpochYear`
-        * purpose: year of the internal base epoch (2000-01-01T00:00:00)
-        * comment: should not normally be needed by client applications
-    * `LocalDate::kDaysToBaseEpochFromUnixEpoch`
-        * purpose: number of days from Unix epoch (1970-01-01T00:00:00) to
-          the internal base epoch (2000-01-01T00:00:00)
-        * comment: should not normally be needed by client applications
 * new functions
-    * `LocalDate::currentEpochYear(epochYear)`
+    * `Epoch::currentEpochYear(epochYear)`
         * purpose: set the current epoch year
-    * `LocalDate::currentEpochYear()`
+    * `Epoch::currentEpochYear()`
         * purpose: get the current epoch year
-    * `LocalDate::epochValidYearLower()`
+    * `Epoch::epochValidYearLower()`
         * purpose: lower limit of valid years (`valid_year >= lower`)
-    * `LocalDate::epochValidYearUpper()`
+    * `Epoch::epochValidYearUpper()`
         * purpose: upper limit of valid years (`valid_year < upper`)
-    * `LocalDate::secondsToCurrentEpochFromUnixEpoch64()`
+    * `Epoch::secondsToCurrentEpochFromUnixEpoch64()`
         * purpose: number of seconds from the Unix epoch (1970-01-01T00:00:00)
           to the current epoch ({yyyy}-01-01T00:00:00)
         * comment: useful for converting between AceTime epoch and Unix epoch
-    * `LocalDate::daysToCurrentEpochFromUnixEpoch()`
+    * `Epoch::daysToCurrentEpochFromUnixEpoch()`
         * purpose: number of days from Unix epoch (1970-01-01T00:00:00) to
           the current epoch ({yyyy}-01-01T00:00:00) where `yyyy` is set by
           `currentEpochYear(yyyy)`
-    * `LocalDate::daysToCurrentEpochFromBaseEpoch()`
-        * purpose: number of days from the internal base epoch
+    * `Epoch::daysToCurrentEpochFromConverterEpoch()`
+        * purpose: number of days from the converter epoch
           (2000-01-01T00:00:00) to the current epoch ({yyyy}-01-01T00:00:00)
           where `yyyy` is set by `currentEpochYear(yyyy)`
         * comment: should not normally be needed by client applications
@@ -164,97 +151,21 @@ AceTime v2 implements the following major changes and features:
     * `ZonedDateTime::yearTiny()`
 
 The epochSeconds that was generated by AceTime v1 using the epoch year of 2000
-will be incompatible with AceTime v2 using a different epoch year. The client
-application can choose to configure the epoch year to 2000 at the start of the
-application to allow compatibility of the epochSeconds generated by v1. Or it
-can throw away the old epochSeconds and start fresh with new epoch year.
+will be incompatible with AceTime v2 using a different epoch year. Client
+applications which need read old epochSeconds value using AceTime v2 have a
+number of options:
 
-<a name="AdjustableEpochYear200"></a>
-### Adjustable Epoch Year
-
-(TODO: Move this section into `USER_GUIDE.md`)
-
-The `currentEpochYear` is an **adjustable** global parameter which is no longer
-hard coded to 2000. There are 5 static functions on the `LocalDate` class that
-support this feature:
-
-```C++
-class LocalDate {
-  ...
-
-  public:
-    // The year of the internal base epoch 2000-01-01T00:00:00.
-    static const int16_t kBaseEpochYear = 2000;
-
-    // Number of days from internal base epoch (2000-01-01T00:00:00) to Unix
-    // epoch (1970-01-01T00:00:00).
-    static const int32_t kDaysToBaseEpochFromUnixEpoch = 10957;
-
-  public:
-    // Set the current epoch year.
-    static int16_t currentEpochYear(int16_t epochYear);
-
-    // Get the current epoch year.
-    static int16_t currentEpochYear();
-
-    // The number of seconds from the Unix epoch (1970-01-01T00:00:00)
-    // to the current epoch ({yyyy}-01-01T00:00:00).
-    static int64_t secondsToCurrentEpochFromUnixEpoch64();
-
-    // The number of days from the Unix epoch (1970-01-01T00:00:00)
-    // to the current epoch ({yyyy}-01-01T00:00:00).
-    static int32_t daysToCurrentEpochFromUnixEpoch();
-
-    // The number of days from the internal base epoch (2000-01-01T00:00:00) to
-    // the current epoch ({yyyy}-01-01T00:00:00).
-    static int32_t daysToCurrentEpochFromBaseEpoch() {
-
-    // Return the lower limit year which generates valid epoch seconds for the
-    // current epoch.
-    static int16_t epochValidYearLower();
-
-    // Return the upper limit year which generates valid epoch seconds for the
-    // current epoch.
-    static int16_t epochValidYearUpper();
-
-  ...
-};
-```
-
-<a name="CacheInvalidation200"></a>
-### Cache Invalidation
-
-Normally, the current epoch year is expected to be configured using
-`LocalDate::currentEpochYear(year)` only once during the lifetime of the
-application. In rare situations, the application may choose to change the
-current epoch year in the middle of its lifetime. In this case, it is important
-to invalidate the time zone transition cache maintained inside the
-`BasicZoneProcessor` or `ExtendedZoneProcessor` classes.
-
-If the application is using the `TimeZone` class directly with an associated
-`BasicZoneProcessor` or `ExtendedZoneProcessor`, then the following methods must
-be called after calling `LocalDate::currentEpochYear(year)`:
-
-```C++
-BasicZoneProcessor processor(...);
-processor.resetTransitionCache();
-
-ExtendedZoneProcessor processor(...);
-processor.resetTransitionCache();
-```
-
-If the application is using the `BasicZoneManager` or `ExtendedZoneManager`
-class to create the `TimeZone` objects, then the
-`ZoneManager::resetZoneProcessors()` must be called after calling
-`LocalDate::currentEpochYear(year)`:
-
-```C++
-BasicZoneManager manager(...);
-manager.resetZoneProcessors();
-
-ExtendedZoneManager manager(...);
-manager.resetZoneProcessors();
-```
+1) Call `Epoch::currentEpochYear(2000)` at the beginning of the application,
+   so that the v2 epoch year is the same as the v1 epoch year. The disadvantage
+   is that the 32-bit epochSeconds will stop working with this library sometime
+   around the year 2065-2066.
+2) Perform a conversion of the v1 epochSeconds to the v2 epochSeconds by
+   setting `Epoch::currentEpochYear(year)` first, then calculating the new
+   epochSeconds using `newEpochSeconds = oldEpochSeconds -
+   Epoch::daysToCurrentEpochFromConverterEpoch() * 86400`.
+3) Do no conversion. Just reset the date and time using the new epoch year.
+   The next time the device is rebooted, the date and time will use the
+   new epoch year instead of the old epoch year.
 
 <a name="Motivation200"></a>
 ### Background Motivation

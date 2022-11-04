@@ -3,21 +3,8 @@
 [![AUnit Tests](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml)
 [![Validation Tests](https://github.com/bxparks/AceTime/actions/workflows/validation.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/validation.yml)
 
-**Breaking Changes in v1.9.0**: The flash memory consumption of
-`BasicZoneManager` and `ExtendedZoneManager` was reduced by 1100-1300 bytes
-on AVR processors. This was achieved by removing all `virtual` methods from the
-`ZoneManager` class, which makes the class hierarchy no longer polymorphic. To
-make that more palatable, the `BasicZoneManager` and `ExtendedZoneManager` are
-no longer templatized. See the [Migrating to
-v1.9.0](MIGRATING.md#MigratingToVersion190) section for more details.
-
-**Breaking Changes in v1.8.0**: Three breaking changes were made in v1.8.0 to
-reduce the maintenance complexity of the library, and to reduce the flash memory
-consumption of client applications. See the [Migrating to
-v1.8.0](MIGRATING.md#MigratingToVersion180) document.
-
 The AceTime library provides Date, Time, and TimeZone classes which can convert
-"epoch seconds" (seconds from the AceTime Epoch of 2000-01-01T00:00:00 UTC) to
+"epoch seconds" (seconds from the AceTime Epoch of 2050-01-01T00:00:00 UTC) to
 human-readable local date and time fields. Those classes can also convert local
 date and time between different time zones, properly accounting for all DST
 transitions from the year 2000 until 2100. The ZoneInfo Database is extracted
@@ -53,7 +40,17 @@ This library can be an alternative to the Arduino Time
 (https://github.com/PaulStoffregen/Time) and Arduino Timezone
 (https://github.com/JChristensen/Timezone) libraries.
 
-**Version**: 1.11.7 (2022-11-02, TZDB version 2022f)
+**Breaking Changes in v2.0**: 1) The AceTime epoch is shifted forward 50 years
+from 2000-01-01T00:00:00 UTC to 2050-01-01T00:00:00. This extends the validity
+of most timezone related functions from `[2000,2050)` to `[2000,2100)`. 2) The
+epoch year is now an adjustable parameter using the function
+`Epoch::currentEpochYear(year)`. 3) The zoneinfo database (`zonedb` and
+`zonedbx`) are now valid from `[2000, 10000)` independent of the current epoch
+year. The timezone functions are now valid over any 100-year interval straddling
++/- 50 years of the `Epoch::currentEpochYear()`. See the [Migrating to
+v2.0.0](MIGRATING.md#MigratingToVersion200) section for more details.
+
+**Version**: 2.0 (2022-11-02, TZDB version 2022f)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
@@ -298,7 +295,7 @@ void loop() {
 
 Running this should produce the following on the Serial port:
 ```
-Epoch Seconds: 605527200
+Epoch Seconds: -972396000
 Unix Seconds: 1552212000
 === Los Angeles
 Time: 2019-03-10T03:00:00-07:00[America/Los_Angeles]
@@ -472,7 +469,7 @@ different programming languages:
   [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
   library from year 2000 to 2049 (inclusive)
 * the C++11/14/17 Hinnant date (https://github.com/HowardHinnant/date) library
-  from year 1974 to 2049 (inclusive)
+  from year 2000 to 2100 (inclusive)
 * the C# Noda Time (https://nodatime.org) library from 1974 to 2049 (inclusive)
 * the Go lang 1.17 `time` package (https://pkg.go.dev/time) in the standard
   library from 1974 to 2049 (inclusive)

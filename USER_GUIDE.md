@@ -1,10 +1,24 @@
 # AceTime User Guide
 
 The primary purpose of AceTime classes is to convert between an integer
-representing the number of seconds since the AceTime Epoch (2000-01-01T00:00:00
+representing the number of seconds since the AceTime Epoch (2050-01-01T00:00:00
 UTC) and the equivalent human-readable components in different timezones.
+The epoch year is adjustable using the `Epoch::currentEpochYear(year)`. This
+sets the epoch to be {year}-01-01T00:00:00 UTC
 
-**Version**: 1.11.7 (2022-11-02, TZDB 2022f)
+The epoch seconds is represented by an `int32_t` integer (instead of an
+`int64_t` used in most modern timezone libraries) to save resources on 8-bit
+processors. The range of a 32-bit integer is about 132 years which allows most
+features of the AceTime library to work across about a 100-year interval
+straddling the current epoch year.
+
+The IANA TZ database is programmatically generated into the `src/zonedb` and
+`src/zonedbx` subdirectory from the raw IANA TZ files. The database entries are
+valid from the years `[2000,10000)`. By adjusting the `currentEpochYear()`, the
+library will work across any 100 year interval across the 8000 year range of the
+TZ database.
+
+**Version**: 2.0 (2022-11-02, TZDB 2022f)
 
 **Related Documents**:
 
@@ -20,6 +34,7 @@ UTC) and the equivalent human-readable components in different timezones.
 * [Headers and Namespaces](#Headers)
 * [Date and Time Classes](#DateTimeClasses)
     * [Epoch Seconds Typedef](#EpochSeconds)
+    * [Adjustable Epoch](#AdjustableEpoch)
     * [LocalDate and LocalTime](#LocalDateAndLocalTime)
     * [Date Strings](#DateStrings)
     * [LocalDateTime](#LocalDateTime)
@@ -53,6 +68,7 @@ UTC) and the equivalent human-readable components in different timezones.
         * [Resource Consumption with Fold](#ResourceConsumptionWithFold)
         * [Semantic Changes with Fold](#SemanticChangesWithFold)
         * [Examples with Fold](#ExamplesWithFold)
+    * [Zone Processor Cache Invalidation](#ZoneProcessorCacheInvalidation)
 * [ZoneInfo Database](#ZoneInfoDatabase)
     * [ZoneInfo Entries](#ZoneInfoEntries)
         * [Basic zonedb](#BasicZonedb)
@@ -120,14 +136,14 @@ seconds from an epoch date, the `forEpochSeconds()` method which constructs the
 `forComponents()` method which constructs the object from the individual (year,
 month, day, hour, minute, second) components.
 
-The Epoch in AceTime is defined to be 2000-01-01T00:00:00 UTC, in contrast to
-the Epoch in Unix which is 1970-01-01T00:00:00 UTC. Internally, the current time
-is represented as "seconds from Epoch" stored as a 32-bit signed integer
+The Epoch in AceTime defaults to 2050-01-01T00:00:00 UTC, in contrast to the
+Epoch in Unix which is 1970-01-01T00:00:00 UTC. Internally, the current time is
+represented as "seconds from Epoch" stored as a 32-bit signed integer
 (`acetime_t` aliased to `int32_t`). The smallest 32-bit signed integer (`-2^31`)
 is used to indicate an internal Error condition, so the range of valid
 `acetime_t` value is `-2^31+1` to `2^31-1`. Therefore, the range of dates that
-the `acetime_t` type can handle is 1931-12-13T20:45:53Z to 2068-01-19T03:14:07Z
-(inclusive). (In contrast, the 32-bit Unix `time_t` range is
+the `acetime_t` type can handle is about 132 years, and the largest date is
+2118-01-20T03:14:07 UTC. (In contrast, the 32-bit Unix `time_t` range is
 1901-12-13T20:45:52Z to 2038-01-19T03:14:07Z which is the cause of the [Year
 2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem)).
 
@@ -135,9 +151,16 @@ The various date classes (`LocalDate`, `LocalDateTime`, `OffsetDateTime`) store
 the year component internally as a signed 16-bit integer valid from year 1 to
 year 9999. Notice that these classes can represent all dates that can be
 expressed by the `acetime_t` type, but the reverse is not true. There are date
-objects that cannot be converted into a valid `acetime_t` value. To be safe,
-users of this library should stay at least 1 day away from the lower and upper
-limits of `acetime_t` (i.e. stay within the year 1932 to 2067 inclusive).
+objects that cannot be converted into a valid `acetime_t` value.
+
+Most timezone related functions of the library use the `int32_t` epochseconds
+for its internal calculations, so the date range should be constrained to +/- 68
+years of the current epoch. The timezone calculations require some additional
+buffers at the edges of the range (1-3 years), so the actual range of validity
+is about +/- 65 years. To be very conservative, client applications are advised
+to limit the date range to about 100 years, in other words, about +/- 50 years
+from the current epoch year. Using the default epoch year of 2050, the
+recommended range is `[2000,2100)`.
 
 <a name="TimeZoneOverview"></a>
 ### TimeZone Overview
@@ -284,11 +307,14 @@ typedef int32_t acetime_t;
 
 }
 ```
-This represents the number of seconds since the Epoch. In AceTime, the Epoch is
-defined to be 2000-01-01 00:00:00 UTC time. In contrast, the Unix Epoch is
-defined to be 1970-01-01 00:00:00 UTC. Since `acetime_t` is a 32-bit signed
-integer, the largest value is 2,147,483,647. Therefore, the largest date
-that can be represented in this library is 2068-01-19T03:14:07 UTC.
+
+This represents the number of seconds since the Epoch. In AceTime, the
+Epoch is defined by default to be 2050-01-01 00:00:00 UTC time. In contrast, the
+Unix Epoch is defined to be 1970-01-01 00:00:00 UTC. Since `acetime_t` is a
+32-bit signed integer, the largest value is 2,147,483,647. Therefore, the
+largest date that can be represented as an epoch seconds is 2118-01-20T03:14:07
+UTC. However for various reasons, client applications are recommended to stay
+within a 100-year interval `[2000,2100)`.
 
 The `acetime_t` is analogous to the `time_t` type in the standard C library,
 with several major differences:
@@ -298,16 +324,65 @@ with several major differences:
   represent `time_t`.
 * Modern implementations (e.g. ESP8266 and ESP32) use a 64-bit `int64_t` to
   represent `time_t` to prevent the "Year 2038" overflow problem. Unfortunately,
-  AceTime cannot use 64-bit integers internally because they are too resource
-  intensive on 8-bit processors.
+  AceTime does use 64-bit integers internally to avoid consuming flash memory
+  on 8-bit processors.
 * Most `time_t` implementations uses the Unix Epoch of 1970-01-01 00:00:00 UTC.
-  AceTime uses an epoch of 2000-01-01 00:00:00 UTC.
+  AceTime uses an epoch of 2050-01-01 00:00:00 UTC (by default).
 
 It is possible to convert between a `time_t` and an `acetime_t` by adding or
-subtracting the number of seconds between the 2 Epoch dates. This constant is
-946684800 and defined by `86400 * LocalDate::kDaysToBaseEpochFromUnixEpoch`.
-Helper methods are available on various classes to avoid manual conversion
-between these 2 epochs: `forUnixSeconds64()` and `toUnixSeconds64()`.
+subtracting the number of seconds between the 2 Epoch dates. This value is given
+by `Epoch::secondsToCurrentEpochFromUnixEpoch64()` which returns an `int64_t`
+value to allow epoch years greater than 2028. If the date is within +/- 50 years
+of the current epoch year, then the resulting epoch seconds will fit inside a
+`int32_t` integer. Helper methods are available on various classes to avoid
+manual conversion between these 2 epochs: `forUnixSeconds64()` and
+`toUnixSeconds64()`.
+
+<a name="AdjustableEpoch"></a>
+### Adjustable Epoch
+
+Starting with v2, the AceTime epoch is an **adjustable** parameter
+which is no longer hard coded to 2000-01-01 (v1 default) or 2050 (v2 default).
+There are a number of static functions on the `Epoch` class that support this
+feature:
+
+```C++
+class Epoch {
+  public:
+    // Get the current epoch year.
+    static int16_t currentEpochYear();
+
+    // Set the current epoch year.
+    static int16_t currentEpochYear(int16_t epochYear);
+
+    // The number of days from the converter epoch (2000-01-01T00:00:00) to
+    // the current epoch ({yyyy}-01-01T00:00:00).
+    static int32_t daysToCurrentEpochFromConverterEpoch() {
+
+    // The number of days from the Unix epoch (1970-01-01T00:00:00)
+    // to the current epoch ({yyyy}-01-01T00:00:00).
+    static int32_t daysToCurrentEpochFromUnixEpoch();
+
+    // The number of seconds from the Unix epoch (1970-01-01T00:00:00)
+    // to the current epoch ({yyyy}-01-01T00:00:00).
+    static int64_t secondsToCurrentEpochFromUnixEpoch64();
+
+    // Return the lower limit year which generates valid epoch seconds for the
+    // current epoch.
+    static int16_t epochValidYearLower();
+
+    // Return the upper limit year which generates valid epoch seconds for the
+    // current epoch.
+    static int16_t epochValidYearUpper();
+};
+```
+
+Normally, the current epoch year is expected to be unchanged using the default
+2050, or changed just once at the initialization phase of the application.
+However in rare situations, it may be necessary for the client app to call
+`Epoch::currentEpochYear()` during the middle of the runtime. When this occurs,
+it is important to invalidate the zone processor cache, as explained in 
+any epochSeconds that they want to read back later.
 
 <a name="LocalDateAndLocalTime"></a>
 ### LocalDate and LocalTime
@@ -349,8 +424,8 @@ class LocalTime {
 
 class LocalDate {
   public:
-    static const int16_t kBaseEpochYear = 2000;
-    static const int32_t kDaysToBaseEpochFromUnixEpoch = 10957;
+    static const int16_t kConverterEpochYear = 2000;
+    static const int32_t kDaysToConverterEpochFromUnixEpoch = 10957;
 
     static const int16_t kInvalidYear = INT16_MIN;
     static const int16_t kMinYear = 0;
@@ -552,7 +627,7 @@ class LocalDateTime {
 ```
 
 Here is a sample code that extracts the number of seconds since AceTime Epoch
-(2000-01-01T00:00:00Z) using the `toEpochSeconds()` method:
+(2050-01-01T00:00:00Z) using the `toEpochSeconds()` method:
 
 ```C++
 // 2018-08-30T06:45:01-08:00
@@ -2004,6 +2079,41 @@ dt = ZonedDateTime::forComponents(2022, 3, 13, 2, 29, 0, tz, 1 /*fold*/);
 Serial.printTo(dt); Serial.println();
 ```
 
+<a name="ZoneProcessorCacheInvalidation"></a>
+### Zone Processor Cache Invalidation
+
+Normally, the current epoch year will be configured using
+`Epoch::currentEpochYear(year)` only once during the lifetime of the
+application. In rare situations, the application may choose to change the
+current epoch year in the middle of its lifetime. When this happens, it is
+important to invalidate the time zone transition cache maintained inside the
+`BasicZoneProcessor` or `ExtendedZoneProcessor` classes.
+
+If the application is using the `TimeZone` class directly with an associated
+`BasicZoneProcessor` or `ExtendedZoneProcessor`, then the following methods must
+be called after calling `Epoch::currentEpochYear(year)`:
+
+```C++
+BasicZoneProcessor processor(...);
+processor.resetTransitionCache();
+
+ExtendedZoneProcessor processor(...);
+processor.resetTransitionCache();
+```
+
+If the application is using the `BasicZoneManager` or `ExtendedZoneManager`
+class to create the `TimeZone` objects, then the
+`ZoneManager::resetZoneProcessors()` must be called after calling
+`Epoch::currentEpochYear(year)`:
+
+```C++
+BasicZoneManager manager(...);
+manager.resetZoneProcessors();
+
+ExtendedZoneManager manager(...);
+manager.resetZoneProcessors();
+```
+
 <a name="ZoneInfoDatabase"></a>
 ## ZoneInfo Database
 
@@ -3094,16 +3204,17 @@ Serial.println(dt.isError() ? "true" : "false");
           leap second aware, so the `epochSeconds` will continue to be ahead of
           UTC by one second even after synchronization.
 * `acetime_t`
-    * AceTime uses an epoch of 2000-01-01T00:00:00Z.
-      The `acetime_t` type is a 32-bit signed integer whose smallest value
+    * AceTime uses an epoch of 2050-01-01T00:00:00Z by default. The epoch can be
+      changed using the `Epoch::currentEpochYear(year)` function.
+    * The `acetime_t` type is a 32-bit signed integer whose smallest value
       is `-2^31` and largest value is `2^31-1`. However, the smallest value is
       used to indicate an internal "Error" condition, therefore the actual
       smallest `acetime_t` is `-2^31+1`. Therefore, the smallest and largest
-      dates that can be represented by `acetime_t` is 1931-12-13T20:45:53Z to
-      2068-01-19T03:14:07Z (inclusive).
-    * To be safe, users of this library should stay at least 1 year away from
-      the lower and upper limits of `acetime_t` (i.e. stay within the year 1932
-      to 2067, inclusive).
+      dates that can be represented by `acetime_t` is theoreticall
+      1981-12-13T20:45:53Z to 2018-01-20T03:14:07Z (inclusive).
+    * To be conversative, users of this library should limit the range of the
+      epoch seconds to +/- 50 years of the current epoch, in other words,
+      `[2000,2100)`.
 * `TimeOffset`
     * Implemented using `int16_t` in 1 minute increments.
 * `LocalDate`, `LocalDateTime`
@@ -3159,7 +3270,7 @@ Serial.println(dt.isError() ? "true" : "false");
 * `BasicZoneProcessor`
     * Supports 1-minute resolution for AT and UNTIL fields.
     * Supports only a 15-minute resolution for the STDOFF and DST offset fields.
-    * Sufficient to support the vast majority of timezones since 2000.
+    * Sufficient to support large number of timezones since the year 2000.
 * `ExtendedZoneProcessor`
     * Has a 1-minute resolution for AT, UNTIL and STDOFF fields.
     * Supports only a 15-minute resolution for DST field.
