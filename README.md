@@ -45,11 +45,11 @@ This library can be an alternative to the Arduino Time
 (https://github.com/JChristensen/Timezone) libraries.
 
 **Breaking Changes in v2.0**: 1) The AceTime epoch is shifted forward 50 years
-from 2000-01-01 UTC to 2050-01-01 This extends the validity of most timezone
+from 2000-01-01 UTC to 2050-01-01. This extends the validity of most timezone
 related functions from `[2000,2050)` to `[2000,2100)`. 2) The epoch year is now
 an adjustable parameter using the function `Epoch::currentEpochYear(year)`. 3)
 The zoneinfo database (`zonedb` and `zonedbx`) are now valid from `[2000,
-10000)` independent of the current epoch year. The timezone functions are now
+10000)`, independent of the current epoch year. The timezone functions are now
 valid over any 100-year interval straddling +/- 50 years of the
 `Epoch::currentEpochYear()`. See the [Migrating to
 v2.0.0](MIGRATING.md#MigratingToVersion200) section for more details.
