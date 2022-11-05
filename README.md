@@ -4,18 +4,26 @@
 [![Validation Tests](https://github.com/bxparks/AceTime/actions/workflows/validation.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/validation.yml)
 
 The AceTime library provides Date, Time, and TimeZone classes which can convert
-"epoch seconds" (seconds from the AceTime Epoch of 2050-01-01 UTC) to
+"epoch seconds" from the AceTime Epoch (default 2050-01-01 UTC) to
 human-readable local date and time fields. Those classes can also convert local
 date and time between different time zones, properly accounting for all DST
-transitions from the year 2000 until 2100.  The AceTime epoch is adjustable by
-the client application and can be shifted forward to allow the library to work
-over any 100-year interval in the future, until the year 10000.
+transitions from the year 2000 until 2100.
 
-The pre-generated ZoneInfo Database is extracted from the [IANA TZ
-database](https://www.iana.org/time-zones). Different subsets of the ZoneInfo
-Database can be compiled into the application to reduce flash memory size.
-Standard C-library `time_t` types, 32-bit and 64-bit, are supported through
-conversion methods.
+The default AceTime epoch is 2050-01-01, but it can be adjusted by the client
+application. The timezone functions are valid over any 100-year interval
+straddling +/- 50 years of the `Epoch::currentEpochYear()`, subject to the
+limits of the ZoneInfo Databases.
+
+The two pre-generated ZoneInfo Databases (`zonedb` and `zonedbx`) are
+programmatically extracted from the [IANA TZ
+database](https://www.iana.org/time-zones). They are valid from the year 2000
+until the year 10000. Client applications can choose to use reduced subsets of
+the ZoneInfo Database to save flash memory size.
+
+Support for [Unix time](https://en.wikipedia.org/wiki/Unix_time) using the Unix
+epoch of 1970-01-01 is provided through conversion functions of the `time_t`
+type. Only the 64-bit version of the `time_t` type is supported to avoid the
+[Year 2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem)).
 
 The companion library [AceTimeClock](https://github.com/bxparks/AceTimeClock)
 provides Clock classes to retrieve the time from more accurate sources, such as
@@ -44,14 +52,12 @@ This library can be an alternative to the Arduino Time
 (https://github.com/PaulStoffregen/Time) and Arduino Timezone
 (https://github.com/JChristensen/Timezone) libraries.
 
-**Breaking Changes in v2.0**: 1) The AceTime epoch is shifted forward 50 years
-from 2000-01-01 UTC to 2050-01-01. This extends the validity of most timezone
-related functions from `[2000,2050)` to `[2000,2100)`. 2) The epoch year is now
-an adjustable parameter using the function `Epoch::currentEpochYear(year)`. 3)
-The zoneinfo database (`zonedb` and `zonedbx`) are now valid from `[2000,
-10000)`, independent of the current epoch year. The timezone functions are now
-valid over any 100-year interval straddling +/- 50 years of the
-`Epoch::currentEpochYear()`. See the [Migrating to
+**Breaking Changes in v2.0**: 1) The default AceTime epoch is shifted forward
+from 2000-01-01 (v1) to 2050-01-01 (v2). This extends the validity of most
+timezone related functions from `[2000,2050)` to `[2000,2100)`. 2) The epoch
+year is now an adjustable parameter using the `Epoch::currentEpochYear(year)`
+function. 3) The zoneinfo databases (`zonedb` and `zonedbx`) are now valid from
+`[2000, 10000)`, independent of the current epoch year. See the [Migrating to
 v2.0.0](MIGRATING.md#MigratingToVersion200) section for more details.
 
 **Version**: 2.0 (2022-11-04, TZDB version 2022f)
