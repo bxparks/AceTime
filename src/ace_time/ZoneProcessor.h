@@ -145,12 +145,18 @@ class ZoneProcessor {
      * This method should be considered to be private, to be used only by the
      * TimeZone and ZoneProcessorCache classes. I had to make it public because
      * it got too ugly to maintain the `friend` list in C++.
+     *
+     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
+     *    uint16_t index into a database table of ZoneInfo records)
      */
     virtual void setZoneKey(uintptr_t zoneKey) = 0;
 
     /**
      * Return true if ZoneProcessor is associated with the given opaque
      * zoneKey. This method should be considered to be private.
+     *
+     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
+     *    uint16_t index into a database table of ZoneInfo records)
      */
     virtual bool equalsZoneKey(uintptr_t zoneKey) const = 0;
 

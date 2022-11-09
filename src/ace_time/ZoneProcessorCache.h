@@ -39,6 +39,9 @@ class ZoneProcessorCacheBaseTemplate {
     /**
      * Get ZoneProcessor from either a ZoneKey, either a basic::ZoneInfo or an
      * extended::ZoneInfo. This will never return nullptr.
+     *
+     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
+     *    uint16_t index into a database table of ZoneInfo records)
      */
     ZP* getZoneProcessor(uintptr_t zoneKey) {
       ZP* zoneProcessor = findUsingZoneKey(zoneKey);
@@ -74,6 +77,9 @@ class ZoneProcessorCacheBaseTemplate {
      * Find an existing ZoneProcessor with the ZoneInfo given by zoneInfoKey.
      * Returns nullptr if not found. This is a linear search, which should
      * be perfectly ok if mSize is small, say <= 5.
+     *
+     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
+     *    uint16_t index into a database table of ZoneInfo records)
      */
     ZP* findUsingZoneKey(uintptr_t zoneKey) {
       for (uint8_t i = 0; i < mSize; i++) {

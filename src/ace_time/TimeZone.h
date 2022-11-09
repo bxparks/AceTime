@@ -204,6 +204,10 @@ class TimeZone {
      * Factory method to create from a generic zoneKey and a generic
      * zoneProcessor. The 'type' of the TimeZone is extracted from
      * ZoneProcessor::getType().
+     *
+     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
+     *    uint16_t index into a database table of ZoneInfo records)
+     * @param processor the ZoneProcessor instance bound to the TimeZone
      */
     static TimeZone forZoneKey(uintptr_t zoneKey, ZoneProcessor* processor) {
       return TimeZone(processor->getType(), zoneKey, processor);
@@ -533,7 +537,15 @@ class TimeZone {
     explicit TimeZone(uint8_t type):
       mType(type) {}
 
-    /** Constructor using ZoneProcessor. Exposed for library extensions. */
+    /**
+     * Constructor using ZoneProcessor. Exposed for library extensions.
+     *
+     * @param type indentifier for the specific subclass of ZoneProcessor (e.g.
+     *    Basic versus Extended) mostly used for debugging
+     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
+     *    uint16_t index into a database table of ZoneInfo records)
+     * @param processor the ZoneProcessor instance bound to the TimeZone
+     */
     explicit TimeZone(
         uint8_t type,
         uintptr_t zoneKey,

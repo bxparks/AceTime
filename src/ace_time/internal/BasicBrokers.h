@@ -294,6 +294,10 @@ class ZoneInfoBroker {
     // use default assignment operator
     ZoneInfoBroker& operator=(const ZoneInfoBroker&) = default;
 
+    /**
+     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
+     *    uint16_t index into a database table of ZoneInfo records)
+     */
     bool equals(uintptr_t zoneKey) const {
       return mZoneInfo == (const ZoneInfo*) zoneKey;
     }
@@ -466,6 +470,10 @@ class LinkRegistryBroker {
 /** A factory that creates a basic::ZoneInfoBroker. */
 class BrokerFactory {
   public:
+    /**
+     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
+     *    uint16_t index into a database table of ZoneInfo records)
+     */
     ZoneInfoBroker createZoneInfoBroker(uintptr_t zoneKey) const {
       return ZoneInfoBroker((const ZoneInfo*) zoneKey);
     }
