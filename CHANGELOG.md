@@ -1,6 +1,10 @@
 # Changelog
 
 * Unreleased
+    * Prevent `ExtendedZoneProcssor::generateStartUntilTimes()` from
+      dereferencing uninitialized memory if there are no matching transitions.
+        * This may happen if `zonedbx` is accidentally corrupted (e.g. by using
+          one with `int8` year fields instead of `int16` year fields).
 * 2.0 (2022-11-04, TZDB 2022f) **Breaking Change** See
       [Migrating to 2.0.0](MIGRATING.md#MigratingToVersion200)
     * Change internal storage type of `year` component from `int8_t` to

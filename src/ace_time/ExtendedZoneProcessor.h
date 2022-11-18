@@ -2021,6 +2021,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           (int) (end - begin));
       }
 
+      // It is possible that there are no matching transitions. This can happen
+      // if the zonedbx is corrupted and ZoneInfo contains invalid fields.
+      if (begin == end) return;
+
       Transition* prev = *begin;
       bool isAfterFirst = false;
 
