@@ -1623,15 +1623,92 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1999
 
 
 //---------------------------------------------------------------------------
-// Notable zones: 6
+// Notable zones: 23
 //---------------------------------------------------------------------------
 
-// Africa/Johannesburg (RULES not fixed but FORMAT is missing '%' or '/')
-// Antarctica/Casey (UNTIL '0:01' not on 15-minute boundary)
-// Asia/Gaza (UNTIL '0:01' not on 15-minute boundary)
-// Asia/Kathmandu (STDOFF (5:45) not at :00 or :30 mark)
-// Australia/Eucla (STDOFF (8:45) not at :00 or :30 mark)
-// Pacific/Chatham (STDOFF (12:45) not at :00 or :30 mark)
+// Africa/Casablanca {
+//   Morocco {SAVE (delta_offset) '-1:00' different from 1:00}
+// }
+// Africa/El_Aaiun {
+//   Morocco {SAVE (delta_offset) '-1:00' different from 1:00}
+// }
+// Africa/Johannesburg {RULES not fixed but FORMAT is missing '%' or '/'}
+// Africa/Windhoek {
+//   Namibia {
+//     LETTER 'CAT' not single character,
+//     LETTER 'WAT' not single character,
+//     SAVE (delta_offset) '-1:00' different from 1:00,
+//   }
+// }
+// America/Argentina/San_Luis {
+//   SanLuis {Added anchor rule at year 0}
+// }
+// America/Belize {
+//   Belize {LETTER 'CST' not single character}
+// }
+// America/Goose_Bay {
+//   StJohns {
+//     AT '0:01' not on 15-minute boundary,
+//     LETTER 'DD' not single character,
+//     SAVE (delta_offset) '2:00' different from 1:00,
+//   }
+// }
+// America/Moncton {
+//   Moncton {AT '0:01' not on 15-minute boundary}
+// }
+// America/St_Johns {
+//   StJohns {
+//     AT '0:01' not on 15-minute boundary,
+//     LETTER 'DD' not single character,
+//     SAVE (delta_offset) '2:00' different from 1:00,
+//   }
+// }
+// Antarctica/Casey {UNTIL '0:01' not on 15-minute boundary}
+// Antarctica/Troll {
+//   Troll {
+//     Added anchor rule at year 0,
+//     LETTER '+00' not single character,
+//     LETTER '+02' not single character,
+//     SAVE (delta_offset) '2:00' different from 1:00,
+//   }
+// }
+// Asia/Dhaka {
+//   Dhaka {Added anchor rule at year 0}
+// }
+// Asia/Gaza {
+//   UNTIL '0:01' not on 15-minute boundary,
+//   Palestine {
+//     AT '0:01' not on 15-minute boundary,
+//     Added anchor rule at year 0,
+//   }
+// }
+// Asia/Hebron {
+//   Palestine {
+//     AT '0:01' not on 15-minute boundary,
+//     Added anchor rule at year 0,
+//   }
+// }
+// Asia/Karachi {
+//   Pakistan {Added anchor rule at year 0}
+// }
+// Asia/Kathmandu {STDOFF (5:45) not at :00 or :30 mark}
+// Asia/Yerevan {
+//   Armenia {Added anchor rule at year 0}
+// }
+// Australia/Eucla {STDOFF (8:45) not at :00 or :30 mark}
+// Australia/Lord_Howe {
+//   LH {SAVE (delta_offset) '0:30' different from 1:00}
+// }
+// Europe/Dublin {
+//   Eire {SAVE (delta_offset) '-1:00' different from 1:00}
+// }
+// Pacific/Apia {
+//   WS {Added anchor rule at year 0}
+// }
+// Pacific/Chatham {STDOFF (12:45) not at :00 or :30 mark}
+// Pacific/Tongatapu {
+//   Tonga {Added anchor rule at year 0}
+// }
 
 
 //---------------------------------------------------------------------------

@@ -128,83 +128,93 @@ extern const extended::ZonePolicy kPolicyZion;
 // Unsupported zone policies: 50
 //---------------------------------------------------------------------------
 
-// Albania (unused)
-// Algeria (unused)
-// Austria (unused)
-// Belgium (unused)
-// Bermuda (unused)
-// Bulg (unused)
-// CA (unused)
-// Chicago (unused)
-// Cyprus (unused)
-// Czech (unused)
-// DR (unused)
-// Denver (unused)
-// Detroit (unused)
-// E-Eur (unused)
-// Edm (unused)
-// EgyptAsia (unused)
-// Finland (unused)
-// France (unused)
-// GB-Eire (unused)
-// Germany (unused)
-// Greece (unused)
-// Halifax (unused)
-// Hungary (unused)
-// Indianapolis (unused)
-// Italy (unused)
-// Latvia (unused)
-// Louisville (unused)
-// Malta (unused)
-// Marengo (unused)
-// Menominee (unused)
-// NBorneo (unused)
-// NYC (unused)
-// Perry (unused)
-// Pike (unused)
-// Poland (unused)
-// Port (unused)
-// Pulaski (unused)
-// Regina (unused)
-// Romania (unused)
-// Shang (unused)
-// SovietZone (unused)
-// Spain (unused)
-// SpainAfrica (unused)
-// Starke (unused)
-// Swift (unused)
-// Swiss (unused)
-// Toronto (unused)
-// Vanc (unused)
-// Vincennes (unused)
-// W-Eur (unused)
+// Albania {unused}
+// Algeria {unused}
+// Austria {unused}
+// Belgium {unused}
+// Bermuda {unused}
+// Bulg {unused}
+// CA {unused}
+// Chicago {unused}
+// Cyprus {unused}
+// Czech {unused}
+// DR {unused}
+// Denver {unused}
+// Detroit {unused}
+// E-Eur {unused}
+// Edm {unused}
+// EgyptAsia {unused}
+// Finland {unused}
+// France {unused}
+// GB-Eire {unused}
+// Germany {unused}
+// Greece {unused}
+// Halifax {unused}
+// Hungary {unused}
+// Indianapolis {unused}
+// Italy {unused}
+// Latvia {unused}
+// Louisville {unused}
+// Malta {unused}
+// Marengo {unused}
+// Menominee {unused}
+// NBorneo {unused}
+// NYC {unused}
+// Perry {unused}
+// Pike {unused}
+// Poland {unused}
+// Port {unused}
+// Pulaski {unused}
+// Regina {unused}
+// Romania {unused}
+// Shang {unused}
+// SovietZone {unused}
+// Spain {unused}
+// SpainAfrica {unused}
+// Starke {unused}
+// Swift {unused}
+// Swiss {unused}
+// Toronto {unused}
+// Vanc {unused}
+// Vincennes {unused}
+// W-Eur {unused}
 
 
 //---------------------------------------------------------------------------
-// Notable zone policies: 9
+// Notable zone policies: 15
 //---------------------------------------------------------------------------
 
-// Belize (LETTER 'CST' not single character)
-// Eire (SAVE (delta_offset) '-1:00' different from 1:00)
-// LH (SAVE (delta_offset) '0:30' different from 1:00)
-// Moncton (AT '0:01' not on 15-minute boundary)
-// Morocco (SAVE (delta_offset) '-1:00' different from 1:00)
-// Namibia (
+// Armenia {Added anchor rule at year 0}
+// Belize {LETTER 'CST' not single character}
+// Dhaka {Added anchor rule at year 0}
+// Eire {SAVE (delta_offset) '-1:00' different from 1:00}
+// LH {SAVE (delta_offset) '0:30' different from 1:00}
+// Moncton {AT '0:01' not on 15-minute boundary}
+// Morocco {SAVE (delta_offset) '-1:00' different from 1:00}
+// Namibia {
 //   LETTER 'CAT' not single character,
 //   LETTER 'WAT' not single character,
 //   SAVE (delta_offset) '-1:00' different from 1:00,
-// )
-// Palestine (AT '0:01' not on 15-minute boundary)
-// StJohns (
+// }
+// Pakistan {Added anchor rule at year 0}
+// Palestine {
+//   AT '0:01' not on 15-minute boundary,
+//   Added anchor rule at year 0,
+// }
+// SanLuis {Added anchor rule at year 0}
+// StJohns {
 //   AT '0:01' not on 15-minute boundary,
 //   LETTER 'DD' not single character,
 //   SAVE (delta_offset) '2:00' different from 1:00,
-// )
-// Troll (
+// }
+// Tonga {Added anchor rule at year 0}
+// Troll {
+//   Added anchor rule at year 0,
 //   LETTER '+00' not single character,
 //   LETTER '+02' not single character,
 //   SAVE (delta_offset) '2:00' different from 1:00,
-// )
+// }
+// WS {Added anchor rule at year 0}
 
 
 }
