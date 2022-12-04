@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.0.0</span>
+   &#160;<span id="projectnumber">2.0.1</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -94,48 +94,52 @@ $(function() {
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classace__time_1_1Epoch.html#a53febc728feffb7c30dd295737bfe47e">   32</a></span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classace__time_1_1Epoch.html#a53febc728feffb7c30dd295737bfe47e">currentEpochYear</a>(int16_t year) {</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;      sCurrentEpochYear = year;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      sDaysToCurrentEpochFromConverterEpoch =</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;          ACE_TIME_EPOCH_CONVERTER::toEpochDays(year, 1, 1);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classace__time_1_1Epoch.html#a8664997aa3f6ef46a5046c0f559e16ec">   42</a></span>&#160;    <span class="keyword">static</span> int32_t <a class="code" href="classace__time_1_1Epoch.html#a8664997aa3f6ef46a5046c0f559e16ec">daysToCurrentEpochFromConverterEpoch</a>() {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordflow">return</span> sDaysToCurrentEpochFromConverterEpoch;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classace__time_1_1Epoch.html#aa2614e5eb4c05b43ff70f6ccfcf3819c">   50</a></span>&#160;    <span class="keyword">static</span> int32_t <a class="code" href="classace__time_1_1Epoch.html#aa2614e5eb4c05b43ff70f6ccfcf3819c">daysToCurrentEpochFromUnixEpoch</a>() {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">return</span> ACE_TIME_EPOCH_CONVERTER::kDaysToConverterEpochFromUnixEpoch</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;          + sDaysToCurrentEpochFromConverterEpoch;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="classace__time_1_1Epoch.html#af9d0de190182e5909eabd84d23b5f76d">   61</a></span>&#160;    <span class="keyword">static</span> int64_t <a class="code" href="classace__time_1_1Epoch.html#af9d0de190182e5909eabd84d23b5f76d">secondsToCurrentEpochFromUnixEpoch64</a>() {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1Epoch.html#aa2614e5eb4c05b43ff70f6ccfcf3819c">daysToCurrentEpochFromUnixEpoch</a>() * (int64_t) 86400;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="classace__time_1_1Epoch.html#a37e9afa71bee0a75f290f33e828d7e50">   81</a></span>&#160;    <span class="keyword">static</span> int16_t <a class="code" href="classace__time_1_1Epoch.html#a37e9afa71bee0a75f290f33e828d7e50">epochValidYearLower</a>() {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04">currentEpochYear</a>() - 50;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    }</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="classace__time_1_1Epoch.html#a8eba380b62d5d4b38ae170a1a326389a">  101</a></span>&#160;    <span class="keyword">static</span> int16_t <a class="code" href="classace__time_1_1Epoch.html#a8eba380b62d5d4b38ae170a1a326389a">epochValidYearUpper</a>() {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04">currentEpochYear</a>() + 50;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    }</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keyword">static</span> int16_t sCurrentEpochYear;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keyword">static</span> int32_t sDaysToCurrentEpochFromConverterEpoch;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;};</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      sDaysToCurrentEpochFromConverterEpoch = <a class="code" href="classace__time_1_1Epoch.html#a289cc0a319a57939b718857e468a7969">daysFromConverterEpoch</a>(year);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    }</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classace__time_1_1Epoch.html#a289cc0a319a57939b718857e468a7969">   41</a></span>&#160;    <span class="keyword">static</span> int32_t <a class="code" href="classace__time_1_1Epoch.html#a289cc0a319a57939b718857e468a7969">daysFromConverterEpoch</a>(int16_t year) {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      <span class="keywordflow">return</span> ACE_TIME_EPOCH_CONVERTER::toEpochDays(year, 1, 1);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classace__time_1_1Epoch.html#a8664997aa3f6ef46a5046c0f559e16ec">   49</a></span>&#160;    <span class="keyword">static</span> int32_t <a class="code" href="classace__time_1_1Epoch.html#a8664997aa3f6ef46a5046c0f559e16ec">daysToCurrentEpochFromConverterEpoch</a>() {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keywordflow">return</span> sDaysToCurrentEpochFromConverterEpoch;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="classace__time_1_1Epoch.html#aa2614e5eb4c05b43ff70f6ccfcf3819c">   57</a></span>&#160;    <span class="keyword">static</span> int32_t <a class="code" href="classace__time_1_1Epoch.html#aa2614e5eb4c05b43ff70f6ccfcf3819c">daysToCurrentEpochFromUnixEpoch</a>() {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <span class="keywordflow">return</span> ACE_TIME_EPOCH_CONVERTER::kDaysToConverterEpochFromUnixEpoch</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;          + sDaysToCurrentEpochFromConverterEpoch;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="classace__time_1_1Epoch.html#af9d0de190182e5909eabd84d23b5f76d">   68</a></span>&#160;    <span class="keyword">static</span> int64_t <a class="code" href="classace__time_1_1Epoch.html#af9d0de190182e5909eabd84d23b5f76d">secondsToCurrentEpochFromUnixEpoch64</a>() {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1Epoch.html#aa2614e5eb4c05b43ff70f6ccfcf3819c">daysToCurrentEpochFromUnixEpoch</a>() * (int64_t) 86400;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="classace__time_1_1Epoch.html#a37e9afa71bee0a75f290f33e828d7e50">   88</a></span>&#160;    <span class="keyword">static</span> int16_t <a class="code" href="classace__time_1_1Epoch.html#a37e9afa71bee0a75f290f33e828d7e50">epochValidYearLower</a>() {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04">currentEpochYear</a>() - 50;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    }</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="classace__time_1_1Epoch.html#a8eba380b62d5d4b38ae170a1a326389a">  108</a></span>&#160;    <span class="keyword">static</span> int16_t <a class="code" href="classace__time_1_1Epoch.html#a8eba380b62d5d4b38ae170a1a326389a">epochValidYearUpper</a>() {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04">currentEpochYear</a>() + 50;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    }</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keyword">static</span> int16_t sCurrentEpochYear;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keyword">static</span> int32_t sDaysToCurrentEpochFromConverterEpoch;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;};</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclassace__time_1_1Epoch_html"><div class="ttname"><a href="classace__time_1_1Epoch.html">ace_time::Epoch</a></div><div class="ttdoc">Utitliy functions for setting, retrieving, and converting the current epoch.</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00024">Epoch.h:24</a></div></div>
-<div class="ttc" id="aclassace__time_1_1Epoch_html_a37e9afa71bee0a75f290f33e828d7e50"><div class="ttname"><a href="classace__time_1_1Epoch.html#a37e9afa71bee0a75f290f33e828d7e50">ace_time::Epoch::epochValidYearLower</a></div><div class="ttdeci">static int16_t epochValidYearLower()</div><div class="ttdoc">The smallest year (inclusive) for which calculations involving the 32-bit epoch_seconds and time zone...</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00081">Epoch.h:81</a></div></div>
+<div class="ttc" id="aclassace__time_1_1Epoch_html_a289cc0a319a57939b718857e468a7969"><div class="ttname"><a href="classace__time_1_1Epoch.html#a289cc0a319a57939b718857e468a7969">ace_time::Epoch::daysFromConverterEpoch</a></div><div class="ttdeci">static int32_t daysFromConverterEpoch(int16_t year)</div><div class="ttdoc">Return number of days to the given {year}-01-01 from the converter epoch of 2000-01-01.</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00041">Epoch.h:41</a></div></div>
+<div class="ttc" id="aclassace__time_1_1Epoch_html_a37e9afa71bee0a75f290f33e828d7e50"><div class="ttname"><a href="classace__time_1_1Epoch.html#a37e9afa71bee0a75f290f33e828d7e50">ace_time::Epoch::epochValidYearLower</a></div><div class="ttdeci">static int16_t epochValidYearLower()</div><div class="ttdoc">The smallest year (inclusive) for which calculations involving the 32-bit epoch_seconds and time zone...</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00088">Epoch.h:88</a></div></div>
 <div class="ttc" id="aclassace__time_1_1Epoch_html_a53febc728feffb7c30dd295737bfe47e"><div class="ttname"><a href="classace__time_1_1Epoch.html#a53febc728feffb7c30dd295737bfe47e">ace_time::Epoch::currentEpochYear</a></div><div class="ttdeci">static void currentEpochYear(int16_t year)</div><div class="ttdoc">Set the current epoch year.</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00032">Epoch.h:32</a></div></div>
 <div class="ttc" id="aclassace__time_1_1Epoch_html_a80aaa01a43c16af01b2f22e294eabe04"><div class="ttname"><a href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04">ace_time::Epoch::currentEpochYear</a></div><div class="ttdeci">static int16_t currentEpochYear()</div><div class="ttdoc">Get the current epoch year.</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00027">Epoch.h:27</a></div></div>
-<div class="ttc" id="aclassace__time_1_1Epoch_html_a8664997aa3f6ef46a5046c0f559e16ec"><div class="ttname"><a href="classace__time_1_1Epoch.html#a8664997aa3f6ef46a5046c0f559e16ec">ace_time::Epoch::daysToCurrentEpochFromConverterEpoch</a></div><div class="ttdeci">static int32_t daysToCurrentEpochFromConverterEpoch()</div><div class="ttdoc">Number of days from the converter epoch (2000-01-01) to the current epoch.</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00042">Epoch.h:42</a></div></div>
-<div class="ttc" id="aclassace__time_1_1Epoch_html_a8eba380b62d5d4b38ae170a1a326389a"><div class="ttname"><a href="classace__time_1_1Epoch.html#a8eba380b62d5d4b38ae170a1a326389a">ace_time::Epoch::epochValidYearUpper</a></div><div class="ttdeci">static int16_t epochValidYearUpper()</div><div class="ttdoc">The largest year (exclusive) for which calculations involving the 32-bit epoch_seconds and time zone ...</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00101">Epoch.h:101</a></div></div>
-<div class="ttc" id="aclassace__time_1_1Epoch_html_aa2614e5eb4c05b43ff70f6ccfcf3819c"><div class="ttname"><a href="classace__time_1_1Epoch.html#aa2614e5eb4c05b43ff70f6ccfcf3819c">ace_time::Epoch::daysToCurrentEpochFromUnixEpoch</a></div><div class="ttdeci">static int32_t daysToCurrentEpochFromUnixEpoch()</div><div class="ttdoc">Return the number of days from the Unix epoch (1970-01-01T00:00:00) to the current epoch.</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00050">Epoch.h:50</a></div></div>
-<div class="ttc" id="aclassace__time_1_1Epoch_html_af9d0de190182e5909eabd84d23b5f76d"><div class="ttname"><a href="classace__time_1_1Epoch.html#af9d0de190182e5909eabd84d23b5f76d">ace_time::Epoch::secondsToCurrentEpochFromUnixEpoch64</a></div><div class="ttdeci">static int64_t secondsToCurrentEpochFromUnixEpoch64()</div><div class="ttdoc">Return the number of seconds from the Unix epoch (1970-01-01T00:00:00) to the current epoch.</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00061">Epoch.h:61</a></div></div>
+<div class="ttc" id="aclassace__time_1_1Epoch_html_a8664997aa3f6ef46a5046c0f559e16ec"><div class="ttname"><a href="classace__time_1_1Epoch.html#a8664997aa3f6ef46a5046c0f559e16ec">ace_time::Epoch::daysToCurrentEpochFromConverterEpoch</a></div><div class="ttdeci">static int32_t daysToCurrentEpochFromConverterEpoch()</div><div class="ttdoc">Number of days from the converter epoch (2000-01-01) to the current epoch.</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00049">Epoch.h:49</a></div></div>
+<div class="ttc" id="aclassace__time_1_1Epoch_html_a8eba380b62d5d4b38ae170a1a326389a"><div class="ttname"><a href="classace__time_1_1Epoch.html#a8eba380b62d5d4b38ae170a1a326389a">ace_time::Epoch::epochValidYearUpper</a></div><div class="ttdeci">static int16_t epochValidYearUpper()</div><div class="ttdoc">The largest year (exclusive) for which calculations involving the 32-bit epoch_seconds and time zone ...</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00108">Epoch.h:108</a></div></div>
+<div class="ttc" id="aclassace__time_1_1Epoch_html_aa2614e5eb4c05b43ff70f6ccfcf3819c"><div class="ttname"><a href="classace__time_1_1Epoch.html#aa2614e5eb4c05b43ff70f6ccfcf3819c">ace_time::Epoch::daysToCurrentEpochFromUnixEpoch</a></div><div class="ttdeci">static int32_t daysToCurrentEpochFromUnixEpoch()</div><div class="ttdoc">Return the number of days from the Unix epoch (1970-01-01T00:00:00) to the current epoch.</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00057">Epoch.h:57</a></div></div>
+<div class="ttc" id="aclassace__time_1_1Epoch_html_af9d0de190182e5909eabd84d23b5f76d"><div class="ttname"><a href="classace__time_1_1Epoch.html#af9d0de190182e5909eabd84d23b5f76d">ace_time::Epoch::secondsToCurrentEpochFromUnixEpoch64</a></div><div class="ttdeci">static int64_t secondsToCurrentEpochFromUnixEpoch64()</div><div class="ttdoc">Return the number of seconds from the Unix epoch (1970-01-01T00:00:00) to the current epoch.</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00068">Epoch.h:68</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

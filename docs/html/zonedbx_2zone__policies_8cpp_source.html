@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.0.0</span>
+   &#160;<span id="projectnumber">2.0.1</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -76,7 +76,7 @@ $(function() {
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">//     --input_dir /home/brian/dev/tz</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//     --tz_version 2022f</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//     --tz_version 2022g</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//     --action zonedb</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//     --language arduino</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">//     --scope extended</span></div>
@@ -96,7 +96,7 @@ $(function() {
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">//   northamerica</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">//   southamerica</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">// from https://github.com/eggert/tz/releases/tag/2022f</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">// from https://github.com/eggert/tz/releases/tag/2022g</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">// Policies: 83</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">// Rules: 603</span></div>
@@ -1304,14 +1304,14 @@ $(function() {
 <div class="line"><a name="l01231"></a><span class="lineno"> 1231</span>&#160;<span class="comment">//---------------------------------------------------------------------------</span></div>
 <div class="line"><a name="l01232"></a><span class="lineno"> 1232</span>&#160; </div>
 <div class="line"><a name="l01233"></a><span class="lineno"> 1233</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> extended::ZoneRule kZoneRulesCO[] ACE_TIME_PROGMEM = {</div>
-<div class="line"><a name="l01234"></a><span class="lineno"> 1234</span>&#160;  <span class="comment">// Rule    CO    1993    only    -    Apr     4    0:00    0    -</span></div>
+<div class="line"><a name="l01234"></a><span class="lineno"> 1234</span>&#160;  <span class="comment">// Rule    CO    1993    only    -    Feb     6    24:00    0    -</span></div>
 <div class="line"><a name="l01235"></a><span class="lineno"> 1235</span>&#160;  {</div>
 <div class="line"><a name="l01236"></a><span class="lineno"> 1236</span>&#160;    1993 <span class="comment">/*fromYear*/</span>,</div>
 <div class="line"><a name="l01237"></a><span class="lineno"> 1237</span>&#160;    1993 <span class="comment">/*toYear*/</span>,</div>
-<div class="line"><a name="l01238"></a><span class="lineno"> 1238</span>&#160;    4 <span class="comment">/*inMonth*/</span>,</div>
+<div class="line"><a name="l01238"></a><span class="lineno"> 1238</span>&#160;    2 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l01239"></a><span class="lineno"> 1239</span>&#160;    0 <span class="comment">/*onDayOfWeek*/</span>,</div>
-<div class="line"><a name="l01240"></a><span class="lineno"> 1240</span>&#160;    4 <span class="comment">/*onDayOfMonth*/</span>,</div>
-<div class="line"><a name="l01241"></a><span class="lineno"> 1241</span>&#160;    0 <span class="comment">/*atTimeCode*/</span>,</div>
+<div class="line"><a name="l01240"></a><span class="lineno"> 1240</span>&#160;    6 <span class="comment">/*onDayOfMonth*/</span>,</div>
+<div class="line"><a name="l01241"></a><span class="lineno"> 1241</span>&#160;    96 <span class="comment">/*atTimeCode*/</span>,</div>
 <div class="line"><a name="l01242"></a><span class="lineno"> 1242</span>&#160;    0 <span class="comment">/*atTimeModifier (kSuffixW + minute=0)*/</span>,</div>
 <div class="line"><a name="l01243"></a><span class="lineno"> 1243</span>&#160;    4 <span class="comment">/*deltaCode ((deltaMinutes=0)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l01244"></a><span class="lineno"> 1244</span>&#160;    <span class="charliteral">&#39;-&#39;</span> <span class="comment">/*letter*/</span>,</div>
@@ -6396,9 +6396,9 @@ $(function() {
 <div class="line"><a name="l06323"></a><span class="lineno"> 6323</span>&#160;<span class="comment">//---------------------------------------------------------------------------</span></div>
 <div class="line"><a name="l06324"></a><span class="lineno"> 6324</span>&#160; </div>
 <div class="line"><a name="l06325"></a><span class="lineno"> 6325</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> extended::ZoneRule kZoneRulesNT_YK[] ACE_TIME_PROGMEM = {</div>
-<div class="line"><a name="l06326"></a><span class="lineno"> 6326</span>&#160;  <span class="comment">// Rule    NT_YK    1980    1986    -    Apr    lastSun    2:00    1:00    D</span></div>
+<div class="line"><a name="l06326"></a><span class="lineno"> 6326</span>&#160;  <span class="comment">// Rule    NT_YK    1972    1986    -    Apr    lastSun    2:00    1:00    D</span></div>
 <div class="line"><a name="l06327"></a><span class="lineno"> 6327</span>&#160;  {</div>
-<div class="line"><a name="l06328"></a><span class="lineno"> 6328</span>&#160;    1980 <span class="comment">/*fromYear*/</span>,</div>
+<div class="line"><a name="l06328"></a><span class="lineno"> 6328</span>&#160;    1972 <span class="comment">/*fromYear*/</span>,</div>
 <div class="line"><a name="l06329"></a><span class="lineno"> 6329</span>&#160;    1986 <span class="comment">/*toYear*/</span>,</div>
 <div class="line"><a name="l06330"></a><span class="lineno"> 6330</span>&#160;    4 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l06331"></a><span class="lineno"> 6331</span>&#160;    7 <span class="comment">/*onDayOfWeek*/</span>,</div>
@@ -6408,9 +6408,9 @@ $(function() {
 <div class="line"><a name="l06335"></a><span class="lineno"> 6335</span>&#160;    8 <span class="comment">/*deltaCode ((deltaMinutes=60)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l06336"></a><span class="lineno"> 6336</span>&#160;    <span class="charliteral">&#39;D&#39;</span> <span class="comment">/*letter*/</span>,</div>
 <div class="line"><a name="l06337"></a><span class="lineno"> 6337</span>&#160;  },</div>
-<div class="line"><a name="l06338"></a><span class="lineno"> 6338</span>&#160;  <span class="comment">// Rule    NT_YK    1980    2006    -    Oct    lastSun    2:00    0    S</span></div>
+<div class="line"><a name="l06338"></a><span class="lineno"> 6338</span>&#160;  <span class="comment">// Rule    NT_YK    1972    2006    -    Oct    lastSun    2:00    0    S</span></div>
 <div class="line"><a name="l06339"></a><span class="lineno"> 6339</span>&#160;  {</div>
-<div class="line"><a name="l06340"></a><span class="lineno"> 6340</span>&#160;    1980 <span class="comment">/*fromYear*/</span>,</div>
+<div class="line"><a name="l06340"></a><span class="lineno"> 6340</span>&#160;    1972 <span class="comment">/*fromYear*/</span>,</div>
 <div class="line"><a name="l06341"></a><span class="lineno"> 6341</span>&#160;    2006 <span class="comment">/*toYear*/</span>,</div>
 <div class="line"><a name="l06342"></a><span class="lineno"> 6342</span>&#160;    10 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l06343"></a><span class="lineno"> 6343</span>&#160;    7 <span class="comment">/*onDayOfWeek*/</span>,</div>

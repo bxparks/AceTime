@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.0.0</span>
+   &#160;<span id="projectnumber">2.0.1</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -91,9 +91,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a34f34bec8850a3722ae298c7188ca2a7"><td class="memItemLeft" align="right" valign="top"><a id="a34f34bec8850a3722ae298c7188ca2a7"></a>
 <a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html">ZoneInfoBroker</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html">ZoneInfoBroker</a> &amp;)=default</td></tr>
 <tr class="separator:a34f34bec8850a3722ae298c7188ca2a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a52e7b595e6787ab9eb8e2451963bfd"><td class="memItemLeft" align="right" valign="top"><a id="a7a52e7b595e6787ab9eb8e2451963bfd"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>equals</b> (uintptr_t zoneInfo) const</td></tr>
-<tr class="separator:a7a52e7b595e6787ab9eb8e2451963bfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bb7dddc91181e598fc95bddfef2ab9a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html#a7bb7dddc91181e598fc95bddfef2ab9a">equals</a> (uintptr_t zoneKey) const</td></tr>
+<tr class="separator:a7bb7dddc91181e598fc95bddfef2ab9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6deb28dc287ae9ab7aee98ad7bcb241"><td class="memItemLeft" align="right" valign="top"><a id="aa6deb28dc287ae9ab7aee98ad7bcb241"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>equals</b> (const <a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html">ZoneInfoBroker</a> &amp;zoneInfoBroker) const</td></tr>
 <tr class="separator:aa6deb28dc287ae9ab7aee98ad7bcb241"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,6 +132,40 @@ const <a class="el" href="classace__time_1_1extended_1_1ZoneEraBroker.html">Zone
 
 <p class="definition">Definition at line <a class="el" href="ExtendedBrokers_8h_source.html#l00318">318</a> of file <a class="el" href="ExtendedBrokers_8h_source.html">ExtendedBrokers.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7bb7dddc91181e598fc95bddfef2ab9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bb7dddc91181e598fc95bddfef2ab9a">&#9670;&nbsp;</a></span>equals()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ace_time::extended::ZoneInfoBroker::equals </td>
+          <td>(</td>
+          <td class="paramtype">uintptr_t&#160;</td>
+          <td class="paramname"><em>zoneKey</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">zoneKey</td><td>an opaque Zone primary key (e.g. const ZoneInfo*, or a uint16_t index into a database table of ZoneInfo records) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="ExtendedBrokers_8h_source.html#l00333">333</a> of file <a class="el" href="ExtendedBrokers_8h_source.html">ExtendedBrokers.h</a>.</p>
+
+</div>
+</div>
 <a id="a7956cee7a17cfe2b315b18f85a84a23f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7956cee7a17cfe2b315b18f85a84a23f">&#9670;&nbsp;</a></span>printNameTo()</h2>
 
@@ -205,7 +238,7 @@ const <a class="el" href="classace__time_1_1extended_1_1ZoneEraBroker.html">Zone
 <p>Return the <a class="el" href="classace__time_1_1extended_1_1ZoneInfoBroker.html" title="Data broker for accessing ZoneInfo.">ZoneInfoBroker</a> of the target Zone, assuming that the current Zone is a Link. </p>
 <p>Should be called after verifying that isLink() is true. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedBrokers_8h_source.html#l00345">345</a> of file <a class="el" href="ExtendedBrokers_8h_source.html">ExtendedBrokers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedBrokers_8h_source.html#l00349">349</a> of file <a class="el" href="ExtendedBrokers_8h_source.html">ExtendedBrokers.h</a>.</p>
 
 </div>
 </div>
