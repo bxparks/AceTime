@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2022f
+//     --tz_version 2022g
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -23,7 +23,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022f
+// from https://github.com/eggert/tz/releases/tag/2022g
 //
 // DO NOT EDIT
 
@@ -125,7 +125,7 @@ extern const extended::ZonePolicy kPolicyZion;
 
 
 //---------------------------------------------------------------------------
-// Unsupported zone policies: 50
+// Unsupported zone policies: 51
 //---------------------------------------------------------------------------
 
 // Albania {unused}
@@ -178,6 +178,7 @@ extern const extended::ZonePolicy kPolicyZion;
 // Vanc {unused}
 // Vincennes {unused}
 // W-Eur {unused}
+// Yukon {unused}
 
 
 //---------------------------------------------------------------------------

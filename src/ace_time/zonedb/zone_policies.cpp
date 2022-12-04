@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022f
+//     --tz_version 2022g
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,7 +23,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022f
+// from https://github.com/eggert/tz/releases/tag/2022g
 //
 // Policies: 63
 // Rules: 314
@@ -1103,14 +1103,14 @@ const basic::ZonePolicy kPolicyC_Eur ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesCO[] ACE_TIME_PROGMEM = {
-  // Rule    CO    1993    only    -    Apr     4    0:00    0    -
+  // Rule    CO    1993    only    -    Feb     6    24:00    0    -
   {
     1993 /*fromYear*/,
     1993 /*toYear*/,
-    4 /*inMonth*/,
+    2 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    4 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
+    6 /*onDayOfMonth*/,
+    96 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
     0 /*deltaCode ((deltaMinutes=0)/15)*/,
     '-' /*letter*/,

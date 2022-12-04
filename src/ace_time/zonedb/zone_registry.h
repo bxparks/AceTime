@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022f
+//     --tz_version 2022g
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,7 +23,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022f
+// from https://github.com/eggert/tz/releases/tag/2022g
 //
 // DO NOT EDIT
 
@@ -37,16 +37,16 @@ namespace ace_time {
 namespace zonedb {
 
 // Zones
-const uint16_t kZoneRegistrySize = 228;
-extern const basic::ZoneInfo* const kZoneRegistry[228];
+const uint16_t kZoneRegistrySize = 227;
+extern const basic::ZoneInfo* const kZoneRegistry[227];
 
 // Zones and Links
-const uint16_t kZoneAndLinkRegistrySize = 448;
-extern const basic::ZoneInfo* const kZoneAndLinkRegistry[448];
+const uint16_t kZoneAndLinkRegistrySize = 446;
+extern const basic::ZoneInfo* const kZoneAndLinkRegistry[446];
 
 // Link Entries
-const uint16_t kLinkRegistrySize = 220;
-extern const basic::LinkEntry kLinkRegistry[220];
+const uint16_t kLinkRegistrySize = 219;
+extern const basic::LinkEntry kLinkRegistry[219];
 
 }
 }

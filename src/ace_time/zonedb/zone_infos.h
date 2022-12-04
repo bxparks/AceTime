@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022f
+//     --tz_version 2022g
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,7 +23,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022f
+// from https://github.com/eggert/tz/releases/tag/2022g
 //
 // DO NOT EDIT
 
@@ -46,7 +46,7 @@ extern const char kTzDatabaseVersion[];
 extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 228
+// Supported zones: 227
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
@@ -108,7 +108,6 @@ extern const basic::ZoneInfo kZoneAmerica_Montevideo; // America/Montevideo
 extern const basic::ZoneInfo kZoneAmerica_New_York; // America/New_York
 extern const basic::ZoneInfo kZoneAmerica_Nome; // America/Nome
 extern const basic::ZoneInfo kZoneAmerica_North_Dakota_Center; // America/North_Dakota/Center
-extern const basic::ZoneInfo kZoneAmerica_Nuuk; // America/Nuuk
 extern const basic::ZoneInfo kZoneAmerica_Panama; // America/Panama
 extern const basic::ZoneInfo kZoneAmerica_Paramaribo; // America/Paramaribo
 extern const basic::ZoneInfo kZoneAmerica_Phoenix; // America/Phoenix
@@ -340,7 +339,6 @@ const uint32_t kZoneIdAmerica_Montevideo = 0xfa214780; // America/Montevideo
 const uint32_t kZoneIdAmerica_New_York = 0x1e2a7654; // America/New_York
 const uint32_t kZoneIdAmerica_Nome = 0x98059b15; // America/Nome
 const uint32_t kZoneIdAmerica_North_Dakota_Center = 0x9da42814; // America/North_Dakota/Center
-const uint32_t kZoneIdAmerica_Nuuk = 0x9805b5a9; // America/Nuuk
 const uint32_t kZoneIdAmerica_Panama = 0xb3863854; // America/Panama
 const uint32_t kZoneIdAmerica_Paramaribo = 0xb319e4c4; // America/Paramaribo
 const uint32_t kZoneIdAmerica_Phoenix = 0x34b5af01; // America/Phoenix
@@ -512,7 +510,7 @@ const uint32_t kZoneIdWET = 0x0b882e35; // WET
 
 
 //---------------------------------------------------------------------------
-// Supported links: 220
+// Supported links: 219
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Accra; // Africa/Accra -> Africa/Abidjan
@@ -562,7 +560,6 @@ extern const basic::ZoneInfo kZoneAmerica_Creston; // America/Creston -> America
 extern const basic::ZoneInfo kZoneAmerica_Curacao; // America/Curacao -> America/Puerto_Rico
 extern const basic::ZoneInfo kZoneAmerica_Dominica; // America/Dominica -> America/Puerto_Rico
 extern const basic::ZoneInfo kZoneAmerica_Fort_Wayne; // America/Fort_Wayne -> America/Indiana/Indianapolis
-extern const basic::ZoneInfo kZoneAmerica_Godthab; // America/Godthab -> America/Nuuk
 extern const basic::ZoneInfo kZoneAmerica_Grenada; // America/Grenada -> America/Puerto_Rico
 extern const basic::ZoneInfo kZoneAmerica_Guadeloupe; // America/Guadeloupe -> America/Puerto_Rico
 extern const basic::ZoneInfo kZoneAmerica_Indianapolis; // America/Indianapolis -> America/Indiana/Indianapolis
@@ -786,7 +783,6 @@ const uint32_t kZoneIdAmerica_Creston = 0x62a70204; // America/Creston
 const uint32_t kZoneIdAmerica_Curacao = 0x6a879184; // America/Curacao
 const uint32_t kZoneIdAmerica_Dominica = 0xcecb4c4a; // America/Dominica
 const uint32_t kZoneIdAmerica_Fort_Wayne = 0x7eaaaf24; // America/Fort_Wayne
-const uint32_t kZoneIdAmerica_Godthab = 0x8f7eba1f; // America/Godthab
 const uint32_t kZoneIdAmerica_Grenada = 0x968ce4d8; // America/Grenada
 const uint32_t kZoneIdAmerica_Guadeloupe = 0xcd1f8a31; // America/Guadeloupe
 const uint32_t kZoneIdAmerica_Indianapolis = 0x6a009ae1; // America/Indianapolis
@@ -1028,7 +1024,6 @@ const uint8_t kZoneBufSizeAmerica_Montevideo = 5;  // America/Montevideo in 2005
 const uint8_t kZoneBufSizeAmerica_New_York = 6;  // America/New_York in 2008
 const uint8_t kZoneBufSizeAmerica_Nome = 6;  // America/Nome in 2008
 const uint8_t kZoneBufSizeAmerica_North_Dakota_Center = 6;  // America/North_Dakota/Center in 2008
-const uint8_t kZoneBufSizeAmerica_Nuuk = 5;  // America/Nuuk in 1999
 const uint8_t kZoneBufSizeAmerica_Panama = 1;  // America/Panama in 1999
 const uint8_t kZoneBufSizeAmerica_Paramaribo = 1;  // America/Paramaribo in 1999
 const uint8_t kZoneBufSizeAmerica_Phoenix = 1;  // America/Phoenix in 1999
@@ -1200,7 +1195,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1999
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 123
+// Unsupported zones: 124
 //---------------------------------------------------------------------------
 
 // Africa/Cairo {policy 'Egypt' not found}
@@ -1232,6 +1227,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1999
 // America/Cancun {UNTIL contains month/day/time}
 // America/Caracas {UNTIL contains month/day/time}
 // America/Chihuahua {UNTIL contains month/day/time}
+// America/Ciudad_Juarez {UNTIL contains month/day/time}
 // America/Cuiaba {UNTIL contains month/day/time}
 // America/Dawson {UNTIL contains month/day/time}
 // America/Eirunepe {UNTIL contains month/day/time}
@@ -1252,8 +1248,8 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1999
 // America/Noronha {UNTIL contains month/day/time}
 // America/North_Dakota/Beulah {UNTIL contains month/day/time}
 // America/North_Dakota/New_Salem {UNTIL contains month/day/time}
+// America/Nuuk {UNTIL contains month/day/time}
 // America/Ojinaga {UNTIL contains month/day/time}
-// America/Pangnirtung {UNTIL contains month/day/time}
 // America/Punta_Arenas {UNTIL contains month/day/time}
 // America/Rankin_Inlet {UNTIL contains month/day/time}
 // America/Recife {UNTIL contains month/day/time}
@@ -1360,7 +1356,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1999
 
 
 //---------------------------------------------------------------------------
-// Unsupported links: 24
+// Unsupported links: 26
 //---------------------------------------------------------------------------
 
 // America/Argentina/ComodRivadavia {Target Zone "America/Argentina/Catamarca" missing}
@@ -1368,9 +1364,11 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1999
 // America/Catamarca {Target Zone "America/Argentina/Catamarca" missing}
 // America/Cordoba {Target Zone "America/Argentina/Cordoba" missing}
 // America/Ensenada {Target Zone "America/Tijuana" missing}
+// America/Godthab {Target Zone "America/Nuuk" missing}
 // America/Jujuy {Target Zone "America/Argentina/Jujuy" missing}
 // America/Knox_IN {Target Zone "America/Indiana/Knox" missing}
 // America/Mendoza {Target Zone "America/Argentina/Mendoza" missing}
+// America/Pangnirtung {Target Zone "America/Iqaluit" missing}
 // America/Porto_Acre {Target Zone "America/Rio_Branco" missing}
 // America/Rosario {Target Zone "America/Argentina/Cordoba" missing}
 // America/Santa_Isabel {Target Zone "America/Tijuana" missing}

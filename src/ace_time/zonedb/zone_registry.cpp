@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022f
+//     --tz_version 2022g
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,7 +23,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022f
+// from https://github.com/eggert/tz/releases/tag/2022g
 //
 // DO NOT EDIT
 
@@ -37,7 +37,7 @@ namespace zonedb {
 //---------------------------------------------------------------------------
 // Zone Info registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kZoneRegistry[228] ACE_TIME_PROGMEM = {
+const basic::ZoneInfo* const kZoneRegistry[227] ACE_TIME_PROGMEM = {
   &kZoneAsia_Jakarta, // 0x0506ab50, Asia/Jakarta
   &kZoneAmerica_Mazatlan, // 0x0532189e, America/Mazatlan
   &kZoneAmerica_Hermosillo, // 0x065d21c4, America/Hermosillo
@@ -169,7 +169,6 @@ const basic::ZoneInfo* const kZoneRegistry[228] ACE_TIME_PROGMEM = {
   &kZoneAmerica_Adak, // 0x97fe49d7, America/Adak
   &kZoneAmerica_Lima, // 0x980468c9, America/Lima
   &kZoneAmerica_Nome, // 0x98059b15, America/Nome
-  &kZoneAmerica_Nuuk, // 0x9805b5a9, America/Nuuk
   &kZoneIndian_Maldives, // 0x9869681c, Indian/Maldives
   &kZoneAmerica_Sitka, // 0x99104ce2, America/Sitka
   &kZoneAmerica_Thule, // 0x9921dd68, America/Thule
@@ -272,7 +271,7 @@ const basic::ZoneInfo* const kZoneRegistry[228] ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Zone and Link (fat) Info registry. Sorted by zoneId. Links act like Zones.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kZoneAndLinkRegistry[448] ACE_TIME_PROGMEM = {
+const basic::ZoneInfo* const kZoneAndLinkRegistry[446] ACE_TIME_PROGMEM = {
   &kZoneGB, // 0x005973ae, GB -> Europe/London
   &kZoneNZ, // 0x005974ad, NZ -> Pacific/Auckland
   &kZoneAsia_Kuala_Lumpur, // 0x014763c4, Asia/Kuala_Lumpur -> Asia/Singapore
@@ -528,7 +527,6 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[448] ACE_TIME_PROGMEM = {
   &kZoneAfrica_Malabo, // 0x8e6a1906, Africa/Malabo -> Africa/Lagos
   &kZoneAfrica_Maputo, // 0x8e6ca1f0, Africa/Maputo
   &kZoneAfrica_Maseru, // 0x8e6e02c7, Africa/Maseru -> Africa/Johannesburg
-  &kZoneAmerica_Godthab, // 0x8f7eba1f, America/Godthab -> America/Nuuk
   &kZoneAustralia_Yancowinna, // 0x90bac131, Australia/Yancowinna -> Australia/Broken_Hill
   &kZoneAfrica_Niamey, // 0x914a30fd, Africa/Niamey -> Africa/Lagos
   &kZoneAsia_Yerevan, // 0x9185c8cc, Asia/Yerevan
@@ -546,7 +544,6 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[448] ACE_TIME_PROGMEM = {
   &kZoneAmerica_Atka, // 0x97fe8f27, America/Atka -> America/Adak
   &kZoneAmerica_Lima, // 0x980468c9, America/Lima
   &kZoneAmerica_Nome, // 0x98059b15, America/Nome
-  &kZoneAmerica_Nuuk, // 0x9805b5a9, America/Nuuk
   &kZoneIndian_Maldives, // 0x9869681c, Indian/Maldives
   &kZoneAmerica_Sitka, // 0x99104ce2, America/Sitka
   &kZoneAmerica_Thule, // 0x9921dd68, America/Thule
@@ -727,7 +724,7 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[448] ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Link (thin) Entry registry. Sorted by linkId. Links are references to Zones.
 //---------------------------------------------------------------------------
-const basic::LinkEntry kLinkRegistry[220] ACE_TIME_PROGMEM = {
+const basic::LinkEntry kLinkRegistry[219] ACE_TIME_PROGMEM = {
   { kZoneIdGB, kZoneIdEurope_London }, // 0x005973ae -> 0x5c6a84ae
   { kZoneIdNZ, kZoneIdPacific_Auckland }, // 0x005974ad -> 0x25062f86
   { kZoneIdAsia_Kuala_Lumpur, kZoneIdAsia_Singapore }, // 0x014763c4 -> 0xcf8581fa
@@ -863,7 +860,6 @@ const basic::LinkEntry kLinkRegistry[220] ACE_TIME_PROGMEM = {
   { kZoneIdAustralia_South, kZoneIdAustralia_Adelaide }, // 0x8df3f8ad -> 0x2428e8a3
   { kZoneIdAfrica_Malabo, kZoneIdAfrica_Lagos }, // 0x8e6a1906 -> 0x789bb5d0
   { kZoneIdAfrica_Maseru, kZoneIdAfrica_Johannesburg }, // 0x8e6e02c7 -> 0xd5d157a0
-  { kZoneIdAmerica_Godthab, kZoneIdAmerica_Nuuk }, // 0x8f7eba1f -> 0x9805b5a9
   { kZoneIdAustralia_Yancowinna, kZoneIdAustralia_Broken_Hill }, // 0x90bac131 -> 0xb06eada3
   { kZoneIdAfrica_Niamey, kZoneIdAfrica_Lagos }, // 0x914a30fd -> 0x789bb5d0
   { kZoneIdAmerica_Cayman, kZoneIdAmerica_Panama }, // 0x953961df -> 0xb3863854
