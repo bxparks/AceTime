@@ -60,7 +60,7 @@ function. 3) The zoneinfo databases (`zonedb` and `zonedbx`) are now valid from
 `[2000, 10000)`, independent of the current epoch year. See the [Migrating to
 v2.0.0](MIGRATING.md#MigratingToVersion200) section for more details.
 
-**Version**: 2.0 (2022-11-04, TZDB version 2022f)
+**Version**: 2.0.1 (2022-12-04, TZDB version 2022g)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
