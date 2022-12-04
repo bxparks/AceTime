@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022f
+//     --tz_version 2022g
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,22 +23,22 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022f
+// from https://github.com/eggert/tz/releases/tag/2022g
 //
-// Zones: 228
-// Links: 220
+// Zones: 227
+// Links: 219
 // kZoneRegistry sizes (bytes):
-//   Names: 2083 (originally 3367)
+//   Names: 2077 (originally 3354)
 //   Formats: 465
 //   Fragments: 94
-//   Memory (8-bit): 8270
-//   Memory (32-bit): 11978
+//   Memory (8-bit): 8240
+//   Memory (32-bit): 11932
 // kZoneAndLinkRegistry sizes (bytes):
-//   Names: 4159 (originally 6532)
+//   Names: 4144 (originally 6503)
 //   Formats: 465
 //   Fragments: 94
-//   Memory (8-bit): 13206
-//   Memory (32-bit): 19334
+//   Memory (8-bit): 13154
+//   Memory (32-bit): 19255
 //
 // DO NOT EDIT
 
@@ -53,7 +53,7 @@ namespace zonedb {
 // ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] = "2022f";
+const char kTzDatabaseVersion[] = "2022g";
 
 const char* const kFragments[] = {
 /*\x00*/ nullptr,
@@ -80,7 +80,7 @@ const internal::ZoneContext kZoneContext = {
 };
 
 //---------------------------------------------------------------------------
-// Zones: 228
+// Zones: 227
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -2159,40 +2159,6 @@ const basic::ZoneInfo kZoneAmerica_North_Dakota_Center ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAmerica_North_Dakota_Center /*eras*/,
-};
-
-//---------------------------------------------------------------------------
-// Zone name: America/Nuuk
-// Zone Eras: 1
-// Strings (bytes): 14 (originally 21)
-// Memory (8-bit): 36
-// Memory (32-bit): 50
-//---------------------------------------------------------------------------
-
-static const basic::ZoneEra kZoneEraAmerica_Nuuk[] ACE_TIME_PROGMEM = {
-  //             -3:00    EU    -03/-02
-  {
-    &kPolicyEU /*zonePolicy*/,
-    "-03/-02" /*format*/,
-    -12 /*offsetCode*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
-    10000 /*untilYear*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAmerica_Nuuk[] ACE_TIME_PROGMEM = "\x02" "Nuuk";
-
-const basic::ZoneInfo kZoneAmerica_Nuuk ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Nuuk /*name*/,
-  0x9805b5a9 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Nuuk /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7982,7 +7948,7 @@ const basic::ZoneInfo kZoneWET ACE_TIME_PROGMEM = {
 
 
 //---------------------------------------------------------------------------
-// Links: 220
+// Links: 219
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -8782,23 +8748,6 @@ const basic::ZoneInfo kZoneAmerica_Fort_Wayne ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   0 /*numEras*/,
   &kZoneAmerica_Indiana_Indianapolis /*eras(info)*/,
-};
-
-//---------------------------------------------------------------------------
-// Link name: America/Godthab -> America/Nuuk
-// Strings (bytes): 9 (originally 16)
-// Memory (8-bit): 20
-// Memory (32-bit): 29
-//---------------------------------------------------------------------------
-
-static const char kZoneNameAmerica_Godthab[] ACE_TIME_PROGMEM = "\x02" "Godthab";
-
-const basic::ZoneInfo kZoneAmerica_Godthab ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Godthab /*name*/,
-  0x8f7eba1f /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  0 /*numEras*/,
-  &kZoneAmerica_Nuuk /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------

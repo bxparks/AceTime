@@ -54,7 +54,6 @@ const basic::ZoneInfo* const kBenchmarkZoneRegistry[kBenchmarkZoneRegistrySize]
   &zonedb::kZoneAmerica_Detroit, // 0x925cfbc1, America/Detroit
   &zonedb::kZoneAmerica_Denver, // 0x97d10b2a, America/Denver
   &zonedb::kZoneAmerica_Belem, // 0x97da580b, America/Belem
-  &zonedb::kZoneAmerica_Nuuk, // 0x9805b5a9, America/Nuuk
   &zonedb::kZonePacific_Rarotonga, // 0x9981a3b0, Pacific/Rarotonga
   &zonedb::kZoneAsia_Baghdad, // 0x9ceffbed, Asia/Baghdad
   &zonedb::kZoneAfrica_Ndjamena, // 0x9fe09898, Africa/Ndjamena

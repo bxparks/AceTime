@@ -31,8 +31,15 @@ class Epoch {
     /** Set the current epoch year. */
     static void currentEpochYear(int16_t year) {
       sCurrentEpochYear = year;
-      sDaysToCurrentEpochFromConverterEpoch =
-          ACE_TIME_EPOCH_CONVERTER::toEpochDays(year, 1, 1);
+      sDaysToCurrentEpochFromConverterEpoch = daysFromConverterEpoch(year);
+    }
+
+    /**
+     * Return number of days to the given {year}-01-01 from the converter
+     * epoch of 2000-01-01.
+     */
+    static int32_t daysFromConverterEpoch(int16_t year) {
+      return ACE_TIME_EPOCH_CONVERTER::toEpochDays(year, 1, 1);
     }
 
     /**

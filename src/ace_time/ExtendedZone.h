@@ -75,7 +75,7 @@ class ExtendedZone {
     }
 
   private:
-    const extended::ZoneInfoBroker mZoneInfoBroker;
+    extended::ZoneInfoBroker mZoneInfoBroker;
 };
 
 }

@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2022f
+//     --tz_version 2022g
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -23,22 +23,22 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022f
+// from https://github.com/eggert/tz/releases/tag/2022g
 //
 // Zones: 351
-// Links: 244
+// Links: 245
 // kZoneRegistry sizes (bytes):
-//   Names: 3319 (originally 5517)
+//   Names: 3321 (originally 5519)
 //   Formats: 597
 //   Fragments: 122
-//   Memory (8-bit): 15715
-//   Memory (32-bit): 22796
+//   Memory (8-bit): 15750
+//   Memory (32-bit): 22846
 // kZoneAndLinkRegistry sizes (bytes):
-//   Names: 5634 (originally 9054)
+//   Names: 5649 (originally 9076)
 //   Formats: 597
 //   Fragments: 122
-//   Memory (8-bit): 21202
-//   Memory (32-bit): 30967
+//   Memory (8-bit): 21263
+//   Memory (32-bit): 31054
 //
 // DO NOT EDIT
 
@@ -53,7 +53,7 @@ namespace zonedbx {
 // ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] = "2022f";
+const char kTzDatabaseVersion[] = "2022g";
 
 const char* const kFragments[] = {
 /*\x00*/ nullptr,
@@ -2711,6 +2711,76 @@ const extended::ZoneInfo kZoneAmerica_Chihuahua ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: America/Ciudad_Juarez
+// Zone Eras: 4
+// Strings (bytes): 31 (originally 38)
+// Memory (8-bit): 86
+// Memory (32-bit): 115
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraAmerica_Ciudad_Juarez[] ACE_TIME_PROGMEM = {
+  //             -7:00    Mexico    M%sT    2010
+  {
+    &kPolicyMexico /*zonePolicy*/,
+    "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    2010 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             -7:00    US    M%sT    2022 Oct 30  2:00
+  {
+    &kPolicyUS /*zonePolicy*/,
+    "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    2022 /*untilYear*/,
+    10 /*untilMonth*/,
+    30 /*untilDay*/,
+    8 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             -6:00    -    CST    2022 Nov 30  0:00
+  {
+    nullptr /*zonePolicy*/,
+    "CST" /*format*/,
+    -24 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    2022 /*untilYear*/,
+    11 /*untilMonth*/,
+    30 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             -7:00    US    M%sT
+  {
+    &kPolicyUS /*zonePolicy*/,
+    "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAmerica_Ciudad_Juarez[] ACE_TIME_PROGMEM = "\x02" "Ciudad_Juarez";
+
+const extended::ZoneInfo kZoneAmerica_Ciudad_Juarez ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Ciudad_Juarez /*name*/,
+  0x7347fc60 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  4 /*numEras*/,
+  kZoneEraAmerica_Ciudad_Juarez /*eras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: America/Costa_Rica
 // Zone Eras: 1
 // Strings (bytes): 16 (originally 23)
@@ -5224,18 +5294,30 @@ const extended::ZoneInfo kZoneAmerica_North_Dakota_New_Salem ACE_TIME_PROGMEM = 
 
 //---------------------------------------------------------------------------
 // Zone name: America/Nuuk
-// Zone Eras: 1
-// Strings (bytes): 14 (originally 21)
-// Memory (8-bit): 36
-// Memory (32-bit): 50
+// Zone Eras: 2
+// Strings (bytes): 18 (originally 25)
+// Memory (8-bit): 51
+// Memory (32-bit): 70
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Nuuk[] ACE_TIME_PROGMEM = {
-  //             -3:00    EU    -03/-02
+  //             -3:00    EU    -03/-02    2023 Mar 25 22:00
   {
     &kPolicyEU /*zonePolicy*/,
     "-03/-02" /*format*/,
     -12 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    2023 /*untilYear*/,
+    3 /*untilMonth*/,
+    25 /*untilDay*/,
+    88 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             -2:00    -    -02
+  {
+    nullptr /*zonePolicy*/,
+    "-02" /*format*/,
+    -8 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     10000 /*untilYear*/,
     1 /*untilMonth*/,
@@ -5252,16 +5334,16 @@ const extended::ZoneInfo kZoneAmerica_Nuuk ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Nuuk /*name*/,
   0x9805b5a9 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
+  2 /*numEras*/,
   kZoneEraAmerica_Nuuk /*eras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Ojinaga
-// Zone Eras: 3
-// Strings (bytes): 21 (originally 28)
-// Memory (8-bit): 65
-// Memory (32-bit): 89
+// Zone Eras: 4
+// Strings (bytes): 25 (originally 32)
+// Memory (8-bit): 80
+// Memory (32-bit): 109
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Ojinaga[] ACE_TIME_PROGMEM = {
@@ -5289,10 +5371,22 @@ static const extended::ZoneEra kZoneEraAmerica_Ojinaga[] ACE_TIME_PROGMEM = {
     8 /*untilTimeCode*/,
     0 /*untilTimeModifier (kSuffixW + minute=0)*/,
   },
-  //             -6:00    -    CST
+  //             -6:00    -    CST    2022 Nov 30  0:00
   {
     nullptr /*zonePolicy*/,
     "CST" /*format*/,
+    -24 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    2022 /*untilYear*/,
+    11 /*untilMonth*/,
+    30 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             -6:00    US    C%sT
+  {
+    &kPolicyUS /*zonePolicy*/,
+    "C%T" /*format*/,
     -24 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     10000 /*untilYear*/,
@@ -5310,7 +5404,7 @@ const extended::ZoneInfo kZoneAmerica_Ojinaga ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Ojinaga /*name*/,
   0xebfde83f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  3 /*numEras*/,
+  4 /*numEras*/,
   kZoneEraAmerica_Ojinaga /*eras*/,
 };
 
@@ -5346,64 +5440,6 @@ const extended::ZoneInfo kZoneAmerica_Panama ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAmerica_Panama /*eras*/,
-};
-
-//---------------------------------------------------------------------------
-// Zone name: America/Pangnirtung
-// Zone Eras: 3
-// Strings (bytes): 25 (originally 32)
-// Memory (8-bit): 69
-// Memory (32-bit): 93
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraAmerica_Pangnirtung[] ACE_TIME_PROGMEM = {
-  //             -5:00    Canada    E%sT    1999 Oct 31  2:00
-  {
-    &kPolicyCanada /*zonePolicy*/,
-    "E%T" /*format*/,
-    -20 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    1999 /*untilYear*/,
-    10 /*untilMonth*/,
-    31 /*untilDay*/,
-    8 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-  //             -6:00    Canada    C%sT    2000 Oct 29  2:00
-  {
-    &kPolicyCanada /*zonePolicy*/,
-    "C%T" /*format*/,
-    -24 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    2000 /*untilYear*/,
-    10 /*untilMonth*/,
-    29 /*untilDay*/,
-    8 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-  //             -5:00    Canada    E%sT
-  {
-    &kPolicyCanada /*zonePolicy*/,
-    "E%T" /*format*/,
-    -20 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    10000 /*untilYear*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAmerica_Pangnirtung[] ACE_TIME_PROGMEM = "\x02" "Pangnirtung";
-
-const extended::ZoneInfo kZoneAmerica_Pangnirtung ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Pangnirtung /*name*/,
-  0x2d999193 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  3 /*numEras*/,
-  kZoneEraAmerica_Pangnirtung /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -15539,7 +15575,7 @@ const extended::ZoneInfo kZoneWET ACE_TIME_PROGMEM = {
 
 
 //---------------------------------------------------------------------------
-// Links: 244
+// Links: 245
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -16679,6 +16715,23 @@ const extended::ZoneInfo kZoneAmerica_Nipigon ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   0 /*numEras*/,
   &kZoneAmerica_Toronto /*eras(info)*/,
+};
+
+//---------------------------------------------------------------------------
+// Link name: America/Pangnirtung -> America/Iqaluit
+// Strings (bytes): 13 (originally 20)
+// Memory (8-bit): 24
+// Memory (32-bit): 33
+//---------------------------------------------------------------------------
+
+static const char kZoneNameAmerica_Pangnirtung[] ACE_TIME_PROGMEM = "\x02" "Pangnirtung";
+
+const extended::ZoneInfo kZoneAmerica_Pangnirtung ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Pangnirtung /*name*/,
+  0x2d999193 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  0 /*numEras*/,
+  &kZoneAmerica_Iqaluit /*eras(info)*/,
 };
 
 //---------------------------------------------------------------------------

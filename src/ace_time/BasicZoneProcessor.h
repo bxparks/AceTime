@@ -370,9 +370,11 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * Constructor. When first initialized inside a cache, the brokerFactory may
      * be set to nullptr, and the zoneKey should be ignored.
      *
+     * @param type indentifier for the specific subclass of ZoneProcessor (e.g.
+     *    Basic versus Extended) mostly used for debugging
      * @param brokerFactory pointer to a BrokerFactory that creates a ZIB
      * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
-     *    uint16_t)
+     *    uint16_t index into a database table of ZoneInfo records)
      */
     explicit BasicZoneProcessorTemplate(
         uint8_t type,

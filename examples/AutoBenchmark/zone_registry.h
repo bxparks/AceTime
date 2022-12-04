@@ -7,7 +7,7 @@
 
 #include <AceTime.h>
 
-const uint16_t kBenchmarkZoneRegistrySize = 84;
+const uint16_t kBenchmarkZoneRegistrySize = 83;
 extern const ace_time::basic::ZoneInfo* const
     kBenchmarkZoneRegistry[kBenchmarkZoneRegistrySize];
 

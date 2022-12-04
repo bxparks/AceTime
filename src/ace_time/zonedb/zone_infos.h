@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022f
+//     --tz_version 2022g
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,7 +23,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022f
+// from https://github.com/eggert/tz/releases/tag/2022g
 //
 // DO NOT EDIT
 
@@ -46,7 +46,7 @@ extern const char kTzDatabaseVersion[];
 extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 228
+// Supported zones: 227
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
@@ -108,7 +108,6 @@ extern const basic::ZoneInfo kZoneAmerica_Montevideo; // America/Montevideo
 extern const basic::ZoneInfo kZoneAmerica_New_York; // America/New_York
 extern const basic::ZoneInfo kZoneAmerica_Nome; // America/Nome
 extern const basic::ZoneInfo kZoneAmerica_North_Dakota_Center; // America/North_Dakota/Center
-extern const basic::ZoneInfo kZoneAmerica_Nuuk; // America/Nuuk
 extern const basic::ZoneInfo kZoneAmerica_Panama; // America/Panama
 extern const basic::ZoneInfo kZoneAmerica_Paramaribo; // America/Paramaribo
 extern const basic::ZoneInfo kZoneAmerica_Phoenix; // America/Phoenix
@@ -340,7 +339,6 @@ const uint32_t kZoneIdAmerica_Montevideo = 0xfa214780; // America/Montevideo
 const uint32_t kZoneIdAmerica_New_York = 0x1e2a7654; // America/New_York
 const uint32_t kZoneIdAmerica_Nome = 0x98059b15; // America/Nome
 const uint32_t kZoneIdAmerica_North_Dakota_Center = 0x9da42814; // America/North_Dakota/Center
-const uint32_t kZoneIdAmerica_Nuuk = 0x9805b5a9; // America/Nuuk
 const uint32_t kZoneIdAmerica_Panama = 0xb3863854; // America/Panama
 const uint32_t kZoneIdAmerica_Paramaribo = 0xb319e4c4; // America/Paramaribo
 const uint32_t kZoneIdAmerica_Phoenix = 0x34b5af01; // America/Phoenix
@@ -512,7 +510,7 @@ const uint32_t kZoneIdWET = 0x0b882e35; // WET
 
 
 //---------------------------------------------------------------------------
-// Supported links: 220
+// Supported links: 219
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Accra; // Africa/Accra -> Africa/Abidjan
@@ -562,7 +560,6 @@ extern const basic::ZoneInfo kZoneAmerica_Creston; // America/Creston -> America
 extern const basic::ZoneInfo kZoneAmerica_Curacao; // America/Curacao -> America/Puerto_Rico
 extern const basic::ZoneInfo kZoneAmerica_Dominica; // America/Dominica -> America/Puerto_Rico
 extern const basic::ZoneInfo kZoneAmerica_Fort_Wayne; // America/Fort_Wayne -> America/Indiana/Indianapolis
-extern const basic::ZoneInfo kZoneAmerica_Godthab; // America/Godthab -> America/Nuuk
 extern const basic::ZoneInfo kZoneAmerica_Grenada; // America/Grenada -> America/Puerto_Rico
 extern const basic::ZoneInfo kZoneAmerica_Guadeloupe; // America/Guadeloupe -> America/Puerto_Rico
 extern const basic::ZoneInfo kZoneAmerica_Indianapolis; // America/Indianapolis -> America/Indiana/Indianapolis
@@ -786,7 +783,6 @@ const uint32_t kZoneIdAmerica_Creston = 0x62a70204; // America/Creston
 const uint32_t kZoneIdAmerica_Curacao = 0x6a879184; // America/Curacao
 const uint32_t kZoneIdAmerica_Dominica = 0xcecb4c4a; // America/Dominica
 const uint32_t kZoneIdAmerica_Fort_Wayne = 0x7eaaaf24; // America/Fort_Wayne
-const uint32_t kZoneIdAmerica_Godthab = 0x8f7eba1f; // America/Godthab
 const uint32_t kZoneIdAmerica_Grenada = 0x968ce4d8; // America/Grenada
 const uint32_t kZoneIdAmerica_Guadeloupe = 0xcd1f8a31; // America/Guadeloupe
 const uint32_t kZoneIdAmerica_Indianapolis = 0x6a009ae1; // America/Indianapolis
@@ -1028,7 +1024,6 @@ const uint8_t kZoneBufSizeAmerica_Montevideo = 5;  // America/Montevideo in 2005
 const uint8_t kZoneBufSizeAmerica_New_York = 6;  // America/New_York in 2008
 const uint8_t kZoneBufSizeAmerica_Nome = 6;  // America/Nome in 2008
 const uint8_t kZoneBufSizeAmerica_North_Dakota_Center = 6;  // America/North_Dakota/Center in 2008
-const uint8_t kZoneBufSizeAmerica_Nuuk = 5;  // America/Nuuk in 1999
 const uint8_t kZoneBufSizeAmerica_Panama = 1;  // America/Panama in 1999
 const uint8_t kZoneBufSizeAmerica_Paramaribo = 1;  // America/Paramaribo in 1999
 const uint8_t kZoneBufSizeAmerica_Phoenix = 1;  // America/Phoenix in 1999
@@ -1200,172 +1195,196 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1999
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 123
+// Unsupported zones: 124
 //---------------------------------------------------------------------------
 
-// Africa/Cairo (policy 'Egypt' not found)
-// Africa/Casablanca (UNTIL contains month/day/time)
-// Africa/El_Aaiun (UNTIL contains month/day/time)
-// Africa/Juba (UNTIL contains month/day/time)
-// Africa/Khartoum (UNTIL contains month/day/time)
-// Africa/Sao_Tome (UNTIL contains month/day/time)
-// Africa/Tripoli (UNTIL contains month/day/time)
-// Africa/Windhoek (policy 'Namibia' not found)
-// America/Araguaina (UNTIL contains month/day/time)
-// America/Argentina/Buenos_Aires (UNTIL contains month/day/time)
-// America/Argentina/Catamarca (UNTIL contains month/day/time)
-// America/Argentina/Cordoba (UNTIL contains month/day/time)
-// America/Argentina/Jujuy (UNTIL contains month/day/time)
-// America/Argentina/La_Rioja (UNTIL contains month/day/time)
-// America/Argentina/Mendoza (UNTIL contains month/day/time)
-// America/Argentina/Rio_Gallegos (UNTIL contains month/day/time)
-// America/Argentina/Salta (UNTIL contains month/day/time)
-// America/Argentina/San_Juan (UNTIL contains month/day/time)
-// America/Argentina/San_Luis (UNTIL contains month/day/time)
-// America/Argentina/Tucuman (UNTIL contains month/day/time)
-// America/Argentina/Ushuaia (UNTIL contains month/day/time)
-// America/Bahia (UNTIL contains month/day/time)
-// America/Bahia_Banderas (UNTIL contains month/day/time)
-// America/Belize (policy 'Belize' not found)
-// America/Boa_Vista (UNTIL contains month/day/time)
-// America/Cambridge_Bay (UNTIL contains month/day/time)
-// America/Cancun (UNTIL contains month/day/time)
-// America/Caracas (UNTIL contains month/day/time)
-// America/Chihuahua (UNTIL contains month/day/time)
-// America/Cuiaba (UNTIL contains month/day/time)
-// America/Dawson (UNTIL contains month/day/time)
-// America/Eirunepe (UNTIL contains month/day/time)
-// America/Fort_Nelson (UNTIL contains month/day/time)
-// America/Fortaleza (UNTIL contains month/day/time)
-// America/Goose_Bay (UNTIL contains month/day/time)
-// America/Grand_Turk (UNTIL contains month/day/time)
-// America/Indiana/Knox (UNTIL contains month/day/time)
-// America/Indiana/Petersburg (UNTIL contains month/day/time)
-// America/Indiana/Tell_City (UNTIL contains month/day/time)
-// America/Indiana/Vincennes (UNTIL contains month/day/time)
-// America/Indiana/Winamac (UNTIL contains month/day/time)
-// America/Iqaluit (UNTIL contains month/day/time)
-// America/Kentucky/Monticello (UNTIL contains month/day/time)
-// America/Maceio (UNTIL contains month/day/time)
-// America/Metlakatla (UNTIL contains month/day/time)
-// America/Mexico_City (UNTIL contains month/day/time)
-// America/Noronha (UNTIL contains month/day/time)
-// America/North_Dakota/Beulah (UNTIL contains month/day/time)
-// America/North_Dakota/New_Salem (UNTIL contains month/day/time)
-// America/Ojinaga (UNTIL contains month/day/time)
-// America/Pangnirtung (UNTIL contains month/day/time)
-// America/Punta_Arenas (UNTIL contains month/day/time)
-// America/Rankin_Inlet (UNTIL contains month/day/time)
-// America/Recife (UNTIL contains month/day/time)
-// America/Resolute (UNTIL contains month/day/time)
-// America/Rio_Branco (UNTIL contains month/day/time)
-// America/Santarem (UNTIL contains month/day/time)
-// America/Santo_Domingo (UNTIL contains month/day/time)
-// America/St_Johns (UNTIL contains month/day/time)
-// America/Tijuana (UNTIL contains month/day/time)
-// America/Whitehorse (UNTIL contains month/day/time)
-// Antarctica/Casey (UNTIL contains month/day/time)
-// Antarctica/Davis (UNTIL contains month/day/time)
-// Antarctica/Macquarie (offset in RULES '1:00')
-// Antarctica/Mawson (UNTIL contains month/day/time)
-// Antarctica/Palmer (UNTIL contains month/day/time)
-// Antarctica/Troll (UNTIL contains month/day/time)
-// Asia/Almaty (UNTIL contains month/day/time)
-// Asia/Amman (UNTIL contains month/day/time)
-// Asia/Anadyr (UNTIL contains month/day/time)
-// Asia/Aqtau (UNTIL contains month/day/time)
-// Asia/Aqtobe (UNTIL contains month/day/time)
-// Asia/Atyrau (UNTIL contains month/day/time)
-// Asia/Barnaul (UNTIL contains month/day/time)
-// Asia/Bishkek (UNTIL contains month/day/time)
-// Asia/Chita (UNTIL contains month/day/time)
-// Asia/Choibalsan (UNTIL contains month/day/time)
-// Asia/Colombo (UNTIL contains month/day/time)
-// Asia/Damascus (UNTIL contains month/day/time)
-// Asia/Dili (UNTIL contains month/day/time)
-// Asia/Famagusta (UNTIL contains month/day/time)
-// Asia/Gaza (UNTIL contains month/day/time)
-// Asia/Hebron (policy 'Palestine' not found)
-// Asia/Irkutsk (UNTIL contains month/day/time)
-// Asia/Kamchatka (UNTIL contains month/day/time)
-// Asia/Khandyga (UNTIL contains month/day/time)
-// Asia/Krasnoyarsk (UNTIL contains month/day/time)
-// Asia/Magadan (UNTIL contains month/day/time)
-// Asia/Novokuznetsk (UNTIL contains month/day/time)
-// Asia/Novosibirsk (UNTIL contains month/day/time)
-// Asia/Omsk (UNTIL contains month/day/time)
-// Asia/Oral (UNTIL contains month/day/time)
-// Asia/Pyongyang (UNTIL contains month/day/time)
-// Asia/Qostanay (UNTIL contains month/day/time)
-// Asia/Qyzylorda (UNTIL contains month/day/time)
-// Asia/Sakhalin (UNTIL contains month/day/time)
-// Asia/Srednekolymsk (UNTIL contains month/day/time)
-// Asia/Tbilisi (UNTIL contains month/day/time)
-// Asia/Tomsk (UNTIL contains month/day/time)
-// Asia/Ust-Nera (UNTIL contains month/day/time)
-// Asia/Vladivostok (UNTIL contains month/day/time)
-// Asia/Yakutsk (UNTIL contains month/day/time)
-// Asia/Yekaterinburg (UNTIL contains month/day/time)
-// Atlantic/Stanley (UNTIL contains month/day/time)
-// Europe/Astrakhan (UNTIL contains month/day/time)
-// Europe/Istanbul (UNTIL contains month/day/time)
-// Europe/Kaliningrad (UNTIL contains month/day/time)
-// Europe/Kirov (UNTIL contains month/day/time)
-// Europe/Minsk (UNTIL contains month/day/time)
-// Europe/Moscow (UNTIL contains month/day/time)
-// Europe/Riga (UNTIL contains month/day/time)
-// Europe/Samara (UNTIL contains month/day/time)
-// Europe/Saratov (UNTIL contains month/day/time)
-// Europe/Simferopol (UNTIL contains month/day/time)
-// Europe/Tallinn (UNTIL contains month/day/time)
-// Europe/Ulyanovsk (UNTIL contains month/day/time)
-// Europe/Vilnius (UNTIL contains month/day/time)
-// Europe/Volgograd (UNTIL contains month/day/time)
-// Pacific/Apia (UNTIL contains month/day/time)
-// Pacific/Bougainville (UNTIL contains month/day/time)
-// Pacific/Fakaofo (UNTIL contains month/day/time)
-// Pacific/Guam (UNTIL contains month/day/time)
-// Pacific/Norfolk (UNTIL contains month/day/time)
-
-
-//---------------------------------------------------------------------------
-// Notable zones: 4
-//---------------------------------------------------------------------------
-
-// Africa/Johannesburg (RULES not fixed but FORMAT is missing '%' or '/')
-// Asia/Kathmandu (STDOFF (5:45) not at :00 or :30 mark)
-// Australia/Eucla (STDOFF (8:45) not at :00 or :30 mark)
-// Pacific/Chatham (STDOFF (12:45) not at :00 or :30 mark)
+// Africa/Cairo {policy 'Egypt' not found}
+// Africa/Casablanca {UNTIL contains month/day/time}
+// Africa/El_Aaiun {UNTIL contains month/day/time}
+// Africa/Juba {UNTIL contains month/day/time}
+// Africa/Khartoum {UNTIL contains month/day/time}
+// Africa/Sao_Tome {UNTIL contains month/day/time}
+// Africa/Tripoli {UNTIL contains month/day/time}
+// Africa/Windhoek {policy 'Namibia' not found}
+// America/Araguaina {UNTIL contains month/day/time}
+// America/Argentina/Buenos_Aires {UNTIL contains month/day/time}
+// America/Argentina/Catamarca {UNTIL contains month/day/time}
+// America/Argentina/Cordoba {UNTIL contains month/day/time}
+// America/Argentina/Jujuy {UNTIL contains month/day/time}
+// America/Argentina/La_Rioja {UNTIL contains month/day/time}
+// America/Argentina/Mendoza {UNTIL contains month/day/time}
+// America/Argentina/Rio_Gallegos {UNTIL contains month/day/time}
+// America/Argentina/Salta {UNTIL contains month/day/time}
+// America/Argentina/San_Juan {UNTIL contains month/day/time}
+// America/Argentina/San_Luis {UNTIL contains month/day/time}
+// America/Argentina/Tucuman {UNTIL contains month/day/time}
+// America/Argentina/Ushuaia {UNTIL contains month/day/time}
+// America/Bahia {UNTIL contains month/day/time}
+// America/Bahia_Banderas {UNTIL contains month/day/time}
+// America/Belize {policy 'Belize' not found}
+// America/Boa_Vista {UNTIL contains month/day/time}
+// America/Cambridge_Bay {UNTIL contains month/day/time}
+// America/Cancun {UNTIL contains month/day/time}
+// America/Caracas {UNTIL contains month/day/time}
+// America/Chihuahua {UNTIL contains month/day/time}
+// America/Ciudad_Juarez {UNTIL contains month/day/time}
+// America/Cuiaba {UNTIL contains month/day/time}
+// America/Dawson {UNTIL contains month/day/time}
+// America/Eirunepe {UNTIL contains month/day/time}
+// America/Fort_Nelson {UNTIL contains month/day/time}
+// America/Fortaleza {UNTIL contains month/day/time}
+// America/Goose_Bay {UNTIL contains month/day/time}
+// America/Grand_Turk {UNTIL contains month/day/time}
+// America/Indiana/Knox {UNTIL contains month/day/time}
+// America/Indiana/Petersburg {UNTIL contains month/day/time}
+// America/Indiana/Tell_City {UNTIL contains month/day/time}
+// America/Indiana/Vincennes {UNTIL contains month/day/time}
+// America/Indiana/Winamac {UNTIL contains month/day/time}
+// America/Iqaluit {UNTIL contains month/day/time}
+// America/Kentucky/Monticello {UNTIL contains month/day/time}
+// America/Maceio {UNTIL contains month/day/time}
+// America/Metlakatla {UNTIL contains month/day/time}
+// America/Mexico_City {UNTIL contains month/day/time}
+// America/Noronha {UNTIL contains month/day/time}
+// America/North_Dakota/Beulah {UNTIL contains month/day/time}
+// America/North_Dakota/New_Salem {UNTIL contains month/day/time}
+// America/Nuuk {UNTIL contains month/day/time}
+// America/Ojinaga {UNTIL contains month/day/time}
+// America/Punta_Arenas {UNTIL contains month/day/time}
+// America/Rankin_Inlet {UNTIL contains month/day/time}
+// America/Recife {UNTIL contains month/day/time}
+// America/Resolute {UNTIL contains month/day/time}
+// America/Rio_Branco {UNTIL contains month/day/time}
+// America/Santarem {UNTIL contains month/day/time}
+// America/Santo_Domingo {UNTIL contains month/day/time}
+// America/St_Johns {UNTIL contains month/day/time}
+// America/Tijuana {UNTIL contains month/day/time}
+// America/Whitehorse {UNTIL contains month/day/time}
+// Antarctica/Casey {UNTIL contains month/day/time}
+// Antarctica/Davis {UNTIL contains month/day/time}
+// Antarctica/Macquarie {offset in RULES '1:00'}
+// Antarctica/Mawson {UNTIL contains month/day/time}
+// Antarctica/Palmer {UNTIL contains month/day/time}
+// Antarctica/Troll {UNTIL contains month/day/time}
+// Asia/Almaty {UNTIL contains month/day/time}
+// Asia/Amman {UNTIL contains month/day/time}
+// Asia/Anadyr {UNTIL contains month/day/time}
+// Asia/Aqtau {UNTIL contains month/day/time}
+// Asia/Aqtobe {UNTIL contains month/day/time}
+// Asia/Atyrau {UNTIL contains month/day/time}
+// Asia/Barnaul {UNTIL contains month/day/time}
+// Asia/Bishkek {UNTIL contains month/day/time}
+// Asia/Chita {UNTIL contains month/day/time}
+// Asia/Choibalsan {UNTIL contains month/day/time}
+// Asia/Colombo {UNTIL contains month/day/time}
+// Asia/Damascus {UNTIL contains month/day/time}
+// Asia/Dili {UNTIL contains month/day/time}
+// Asia/Famagusta {UNTIL contains month/day/time}
+// Asia/Gaza {UNTIL contains month/day/time}
+// Asia/Hebron {policy 'Palestine' not found}
+// Asia/Irkutsk {UNTIL contains month/day/time}
+// Asia/Kamchatka {UNTIL contains month/day/time}
+// Asia/Khandyga {UNTIL contains month/day/time}
+// Asia/Krasnoyarsk {UNTIL contains month/day/time}
+// Asia/Magadan {UNTIL contains month/day/time}
+// Asia/Novokuznetsk {UNTIL contains month/day/time}
+// Asia/Novosibirsk {UNTIL contains month/day/time}
+// Asia/Omsk {UNTIL contains month/day/time}
+// Asia/Oral {UNTIL contains month/day/time}
+// Asia/Pyongyang {UNTIL contains month/day/time}
+// Asia/Qostanay {UNTIL contains month/day/time}
+// Asia/Qyzylorda {UNTIL contains month/day/time}
+// Asia/Sakhalin {UNTIL contains month/day/time}
+// Asia/Srednekolymsk {UNTIL contains month/day/time}
+// Asia/Tbilisi {UNTIL contains month/day/time}
+// Asia/Tomsk {UNTIL contains month/day/time}
+// Asia/Ust-Nera {UNTIL contains month/day/time}
+// Asia/Vladivostok {UNTIL contains month/day/time}
+// Asia/Yakutsk {UNTIL contains month/day/time}
+// Asia/Yekaterinburg {UNTIL contains month/day/time}
+// Atlantic/Stanley {UNTIL contains month/day/time}
+// Europe/Astrakhan {UNTIL contains month/day/time}
+// Europe/Istanbul {UNTIL contains month/day/time}
+// Europe/Kaliningrad {UNTIL contains month/day/time}
+// Europe/Kirov {UNTIL contains month/day/time}
+// Europe/Minsk {UNTIL contains month/day/time}
+// Europe/Moscow {UNTIL contains month/day/time}
+// Europe/Riga {UNTIL contains month/day/time}
+// Europe/Samara {UNTIL contains month/day/time}
+// Europe/Saratov {UNTIL contains month/day/time}
+// Europe/Simferopol {UNTIL contains month/day/time}
+// Europe/Tallinn {UNTIL contains month/day/time}
+// Europe/Ulyanovsk {UNTIL contains month/day/time}
+// Europe/Vilnius {UNTIL contains month/day/time}
+// Europe/Volgograd {UNTIL contains month/day/time}
+// Pacific/Apia {UNTIL contains month/day/time}
+// Pacific/Bougainville {UNTIL contains month/day/time}
+// Pacific/Fakaofo {UNTIL contains month/day/time}
+// Pacific/Guam {UNTIL contains month/day/time}
+// Pacific/Norfolk {UNTIL contains month/day/time}
 
 
 //---------------------------------------------------------------------------
-// Unsupported links: 24
+// Notable zones: 11
 //---------------------------------------------------------------------------
 
-// America/Argentina/ComodRivadavia (Target Zone "America/Argentina/Catamarca" missing)
-// America/Buenos_Aires (Target Zone "America/Argentina/Buenos_Aires" missing)
-// America/Catamarca (Target Zone "America/Argentina/Catamarca" missing)
-// America/Cordoba (Target Zone "America/Argentina/Cordoba" missing)
-// America/Ensenada (Target Zone "America/Tijuana" missing)
-// America/Jujuy (Target Zone "America/Argentina/Jujuy" missing)
-// America/Knox_IN (Target Zone "America/Indiana/Knox" missing)
-// America/Mendoza (Target Zone "America/Argentina/Mendoza" missing)
-// America/Porto_Acre (Target Zone "America/Rio_Branco" missing)
-// America/Rosario (Target Zone "America/Argentina/Cordoba" missing)
-// America/Santa_Isabel (Target Zone "America/Tijuana" missing)
-// Asia/Istanbul (Target Zone "Europe/Istanbul" missing)
-// Brazil/Acre (Target Zone "America/Rio_Branco" missing)
-// Brazil/DeNoronha (Target Zone "America/Noronha" missing)
-// Canada/Newfoundland (Target Zone "America/St_Johns" missing)
-// Canada/Yukon (Target Zone "America/Whitehorse" missing)
-// Egypt (Target Zone "Africa/Cairo" missing)
-// Libya (Target Zone "Africa/Tripoli" missing)
-// Mexico/BajaNorte (Target Zone "America/Tijuana" missing)
-// Mexico/General (Target Zone "America/Mexico_City" missing)
-// Pacific/Saipan (Target Zone "Pacific/Guam" missing)
-// Turkey (Target Zone "Europe/Istanbul" missing)
-// US/Indiana-Starke (Target Zone "America/Indiana/Knox" missing)
-// W-SU (Target Zone "Europe/Moscow" missing)
+// Africa/Johannesburg {RULES not fixed but FORMAT is missing '%' or '/'}
+// America/Moncton {
+//   Moncton {AT '0:01' not on 15-minute boundary}
+// }
+// Asia/Dhaka {
+//   Dhaka {Added anchor rule at year 0}
+// }
+// Asia/Karachi {
+//   Pakistan {Added anchor rule at year 0}
+// }
+// Asia/Kathmandu {STDOFF (5:45) not at :00 or :30 mark}
+// Asia/Yerevan {
+//   Armenia {Added anchor rule at year 0}
+// }
+// Australia/Eucla {STDOFF (8:45) not at :00 or :30 mark}
+// Australia/Lord_Howe {
+//   LH {SAVE (delta_offset) '0:30' different from 1:00}
+// }
+// Europe/Dublin {
+//   Eire {SAVE (delta_offset) '-1:00' different from 1:00}
+// }
+// Pacific/Chatham {STDOFF (12:45) not at :00 or :30 mark}
+// Pacific/Tongatapu {
+//   Tonga {Added anchor rule at year 0}
+// }
+
+
+//---------------------------------------------------------------------------
+// Unsupported links: 26
+//---------------------------------------------------------------------------
+
+// America/Argentina/ComodRivadavia {Target Zone "America/Argentina/Catamarca" missing}
+// America/Buenos_Aires {Target Zone "America/Argentina/Buenos_Aires" missing}
+// America/Catamarca {Target Zone "America/Argentina/Catamarca" missing}
+// America/Cordoba {Target Zone "America/Argentina/Cordoba" missing}
+// America/Ensenada {Target Zone "America/Tijuana" missing}
+// America/Godthab {Target Zone "America/Nuuk" missing}
+// America/Jujuy {Target Zone "America/Argentina/Jujuy" missing}
+// America/Knox_IN {Target Zone "America/Indiana/Knox" missing}
+// America/Mendoza {Target Zone "America/Argentina/Mendoza" missing}
+// America/Pangnirtung {Target Zone "America/Iqaluit" missing}
+// America/Porto_Acre {Target Zone "America/Rio_Branco" missing}
+// America/Rosario {Target Zone "America/Argentina/Cordoba" missing}
+// America/Santa_Isabel {Target Zone "America/Tijuana" missing}
+// Asia/Istanbul {Target Zone "Europe/Istanbul" missing}
+// Brazil/Acre {Target Zone "America/Rio_Branco" missing}
+// Brazil/DeNoronha {Target Zone "America/Noronha" missing}
+// Canada/Newfoundland {Target Zone "America/St_Johns" missing}
+// Canada/Yukon {Target Zone "America/Whitehorse" missing}
+// Egypt {Target Zone "Africa/Cairo" missing}
+// Libya {Target Zone "Africa/Tripoli" missing}
+// Mexico/BajaNorte {Target Zone "America/Tijuana" missing}
+// Mexico/General {Target Zone "America/Mexico_City" missing}
+// Pacific/Saipan {Target Zone "Pacific/Guam" missing}
+// Turkey {Target Zone "Europe/Istanbul" missing}
+// US/Indiana-Starke {Target Zone "America/Indiana/Knox" missing}
+// W-SU {Target Zone "Europe/Moscow" missing}
 
 
 //---------------------------------------------------------------------------

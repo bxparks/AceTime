@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.0.0</span>
+   &#160;<span id="projectnumber">2.0.1</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -90,6 +90,10 @@ static int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1Epoch.html#a53febc728feffb7c30dd295737bfe47e">currentEpochYear</a> (int16_t year)</td></tr>
 <tr class="memdesc:a53febc728feffb7c30dd295737bfe47e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the current epoch year. <br /></td></tr>
 <tr class="separator:a53febc728feffb7c30dd295737bfe47e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a289cc0a319a57939b718857e468a7969"><td class="memItemLeft" align="right" valign="top"><a id="a289cc0a319a57939b718857e468a7969"></a>
+static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1Epoch.html#a289cc0a319a57939b718857e468a7969">daysFromConverterEpoch</a> (int16_t year)</td></tr>
+<tr class="memdesc:a289cc0a319a57939b718857e468a7969"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return number of days to the given {year}-01-01 from the converter epoch of 2000-01-01. <br /></td></tr>
+<tr class="separator:a289cc0a319a57939b718857e468a7969"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8664997aa3f6ef46a5046c0f559e16ec"><td class="memItemLeft" align="right" valign="top"><a id="a8664997aa3f6ef46a5046c0f559e16ec"></a>
 static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1Epoch.html#a8664997aa3f6ef46a5046c0f559e16ec">daysToCurrentEpochFromConverterEpoch</a> ()</td></tr>
 <tr class="memdesc:a8664997aa3f6ef46a5046c0f559e16ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of days from the converter epoch (2000-01-01) to the current epoch. <br /></td></tr>
@@ -141,7 +145,7 @@ static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <p>Valid years satisfy the condition <code>year &gt;= validYearLower()</code>. This condition is not enforced by any code within the library. The limit is exposed for informational purposes for downstream applications.</p>
 <p>A 32-bit integer has a range of about 136 years, so the half interval is 68 years. But the algorithms to calculate transitions in <code>zone_processing.h</code> use a 3-year window straddling the current year, so the actual lower limit is probably closer to <code><a class="el" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04" title="Get the current epoch year.">currentEpochYear()</a> - 66</code>. To be conservative, this function returns <code><a class="el" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04" title="Get the current epoch year.">currentEpochYear()</a> - 50</code>. It may return a smaller value in the future if the internal calculations can be verified to avoid underflow or overflow problems. </p>
 
-<p class="definition">Definition at line <a class="el" href="Epoch_8h_source.html#l00081">81</a> of file <a class="el" href="Epoch_8h_source.html">Epoch.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Epoch_8h_source.html#l00088">88</a> of file <a class="el" href="Epoch_8h_source.html">Epoch.h</a>.</p>
 
 </div>
 </div>
@@ -172,7 +176,7 @@ static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <p>Valid years satisfy the condition <code>year &lt; validYearUpper()</code>. This condition is not enforced by any code within the library. The limit is exposed for informational purposes for downstream applications.</p>
 <p>A 32-bit integer has a range of about 136 years, so the half interval is 68 years. But the algorithms to calculate the transitions in <code>zone_processing.h</code> use a 3-year window straddling the current year, so actual upper limit is probably close to <code><a class="el" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04" title="Get the current epoch year.">currentEpochYear()</a> + 66</code>. To be conservative, this function returns <code><a class="el" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04" title="Get the current epoch year.">currentEpochYear()</a> + 50</code>. It may return a larger value in the future if the internal calculations can be verified to avoid underflow or overflow problems. </p>
 
-<p class="definition">Definition at line <a class="el" href="Epoch_8h_source.html#l00101">101</a> of file <a class="el" href="Epoch_8h_source.html">Epoch.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Epoch_8h_source.html#l00108">108</a> of file <a class="el" href="Epoch_8h_source.html">Epoch.h</a>.</p>
 
 </div>
 </div>
@@ -202,7 +206,7 @@ static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <p>Return the number of seconds from the Unix epoch (1970-01-01T00:00:00) to the current epoch. </p>
 <p>The return type is a 64-bit integer because a 32-bit integer would overflow if the current epoch year is set to later than 2038. </p>
 
-<p class="definition">Definition at line <a class="el" href="Epoch_8h_source.html#l00061">61</a> of file <a class="el" href="Epoch_8h_source.html">Epoch.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Epoch_8h_source.html#l00068">68</a> of file <a class="el" href="Epoch_8h_source.html">Epoch.h</a>.</p>
 
 </div>
 </div>

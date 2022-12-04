@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedbx
-//     --tz_version 2022f
+//     --tz_version 2022g
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -23,7 +23,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022f
+// from https://github.com/eggert/tz/releases/tag/2022g
 //
 // Policies: 83
 // Rules: 603
@@ -1231,14 +1231,14 @@ const extended::ZonePolicy kPolicyC_Eur ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const extended::ZoneRule kZoneRulesCO[] ACE_TIME_PROGMEM = {
-  // Rule    CO    1993    only    -    Apr     4    0:00    0    -
+  // Rule    CO    1993    only    -    Feb     6    24:00    0    -
   {
     1993 /*fromYear*/,
     1993 /*toYear*/,
-    4 /*inMonth*/,
+    2 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    4 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
+    6 /*onDayOfMonth*/,
+    96 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
     4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     '-' /*letter*/,
@@ -6323,9 +6323,9 @@ const extended::ZonePolicy kPolicyNC ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const extended::ZoneRule kZoneRulesNT_YK[] ACE_TIME_PROGMEM = {
-  // Rule    NT_YK    1980    1986    -    Apr    lastSun    2:00    1:00    D
+  // Rule    NT_YK    1972    1986    -    Apr    lastSun    2:00    1:00    D
   {
-    1980 /*fromYear*/,
+    1972 /*fromYear*/,
     1986 /*toYear*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
@@ -6335,9 +6335,9 @@ static const extended::ZoneRule kZoneRulesNT_YK[] ACE_TIME_PROGMEM = {
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     'D' /*letter*/,
   },
-  // Rule    NT_YK    1980    2006    -    Oct    lastSun    2:00    0    S
+  // Rule    NT_YK    1972    2006    -    Oct    lastSun    2:00    0    S
   {
-    1980 /*fromYear*/,
+    1972 /*fromYear*/,
     2006 /*toYear*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,

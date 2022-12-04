@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/dev/tz
 //     --output_dir /home/brian/src/AceTime/src/ace_time/zonedb
-//     --tz_version 2022f
+//     --tz_version 2022g
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,7 +23,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022f
+// from https://github.com/eggert/tz/releases/tag/2022g
 //
 // DO NOT EDIT
 
@@ -105,89 +105,94 @@ extern const basic::ZonePolicy kPolicyZion;
 
 
 //---------------------------------------------------------------------------
-// Unsupported zone policies: 70
+// Unsupported zone policies: 71
 //---------------------------------------------------------------------------
 
-// Albania (unused)
-// Algeria (unused)
-// Arg (unused)
-// Austria (unused)
-// Belgium (unused)
-// Belize (LETTER 'CST' too long)
-// Bermuda (unused)
-// Bulg (unused)
-// CA (unused)
-// Chicago (unused)
-// Cyprus (unused)
-// Czech (unused)
-// DR (unused)
-// Denver (unused)
-// Detroit (unused)
-// E-Eur (unused)
-// E-EurAsia (unused)
-// Edm (unused)
-// Egypt (Found 2 transitions in year/month '2010-09')
-// EgyptAsia (unused)
-// Falk (unused)
-// Finland (unused)
-// France (unused)
-// GB-Eire (unused)
-// Germany (unused)
-// Greece (unused)
-// Guam (unused)
-// Halifax (unused)
-// Hungary (unused)
-// Indianapolis (unused)
-// Italy (unused)
-// Kyrgyz (unused)
-// Latvia (unused)
-// Libya (unused)
-// Louisville (unused)
-// Malta (unused)
-// Marengo (unused)
-// Menominee (unused)
-// Morocco (unused)
-// NBorneo (unused)
-// NT_YK (unused)
-// NYC (unused)
-// Namibia (LETTER 'WAT' too long)
-// Palestine (Found 2 transitions in year/month '2011-08')
-// Perry (unused)
-// Pike (unused)
-// Poland (unused)
-// Port (unused)
-// Pulaski (unused)
-// Regina (unused)
-// Romania (unused)
-// Russia (unused)
-// SanLuis (unused)
-// Shang (unused)
-// SovietZone (unused)
-// Spain (unused)
-// SpainAfrica (unused)
-// StJohns (unused)
-// Starke (unused)
-// Sudan (unused)
-// Swift (unused)
-// Swiss (unused)
-// Syria (unused)
-// Toronto (unused)
-// Troll (unused)
-// Turkey (unused)
-// Vanc (unused)
-// Vincennes (unused)
-// W-Eur (unused)
-// WS (unused)
+// Albania {unused}
+// Algeria {unused}
+// Arg {unused}
+// Austria {unused}
+// Belgium {unused}
+// Belize {LETTER 'CST' too long}
+// Bermuda {unused}
+// Bulg {unused}
+// CA {unused}
+// Chicago {unused}
+// Cyprus {unused}
+// Czech {unused}
+// DR {unused}
+// Denver {unused}
+// Detroit {unused}
+// E-Eur {unused}
+// E-EurAsia {unused}
+// Edm {unused}
+// Egypt {Found 2 transitions in year/month '2010-09'}
+// EgyptAsia {unused}
+// Falk {unused}
+// Finland {unused}
+// France {unused}
+// GB-Eire {unused}
+// Germany {unused}
+// Greece {unused}
+// Guam {unused}
+// Halifax {unused}
+// Hungary {unused}
+// Indianapolis {unused}
+// Italy {unused}
+// Kyrgyz {unused}
+// Latvia {unused}
+// Libya {unused}
+// Louisville {unused}
+// Malta {unused}
+// Marengo {unused}
+// Menominee {unused}
+// Morocco {unused}
+// NBorneo {unused}
+// NT_YK {unused}
+// NYC {unused}
+// Namibia {LETTER 'WAT' too long}
+// Palestine {Found 2 transitions in year/month '2011-08'}
+// Perry {unused}
+// Pike {unused}
+// Poland {unused}
+// Port {unused}
+// Pulaski {unused}
+// Regina {unused}
+// Romania {unused}
+// Russia {unused}
+// SanLuis {unused}
+// Shang {unused}
+// SovietZone {unused}
+// Spain {unused}
+// SpainAfrica {unused}
+// StJohns {unused}
+// Starke {unused}
+// Sudan {unused}
+// Swift {unused}
+// Swiss {unused}
+// Syria {unused}
+// Toronto {unused}
+// Troll {unused}
+// Turkey {unused}
+// Vanc {unused}
+// Vincennes {unused}
+// W-Eur {unused}
+// WS {unused}
+// Yukon {unused}
 
 
 //---------------------------------------------------------------------------
-// Notable zone policies: 4
+// Notable zone policies: 8
 //---------------------------------------------------------------------------
 
-// Eire (SAVE (delta_offset) '-1:00' different from 1:00)
-// LH (SAVE (delta_offset) '0:30' different from 1:00)
-// Moncton (AT '0:01' not on 15-minute boundary)
-// Namibia (SAVE (delta_offset) '-1:00' different from 1:00)
+// Armenia {Added anchor rule at year 0}
+// Dhaka {Added anchor rule at year 0}
+// Eire {SAVE (delta_offset) '-1:00' different from 1:00}
+// LH {SAVE (delta_offset) '0:30' different from 1:00}
+// Moncton {AT '0:01' not on 15-minute boundary}
+// Namibia {SAVE (delta_offset) '-1:00' different from 1:00}
+// Pakistan {Added anchor rule at year 0}
+// Tonga {Added anchor rule at year 0}
 
 
 }
