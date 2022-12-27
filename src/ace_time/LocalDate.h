@@ -327,6 +327,9 @@ class LocalDate {
     uint8_t dayOfWeek() const {
       // The "year" starts in March to shift leap year calculation to end.
       int16_t y = year() - (mMonth < 3);
+
+      // Each year shifts the day of week by one. Each leap year by one.
+      // Except every 100 years. Unless divisible by 400.
       int16_t d = y + y/4 - y/100 + y/400 + sDayOfWeek[mMonth-1] + mDay;
 
       // 2000-01-01 was a Saturday=6, so set the offsets accordingly
