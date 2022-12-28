@@ -79,7 +79,7 @@ static const ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
   },
 };
 
-static const ZonePolicy kPolicyEcuador ACE_TIME_PROGMEM = {
+static const ZonePolicy kZonePolicyEcuador ACE_TIME_PROGMEM = {
   kZoneRulesEcuador /*rules*/,
   nullptr /* letters */,
   3 /*numRules*/,
@@ -101,7 +101,7 @@ static const ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
   },
   //             -6:00    Ecuador    -06/-05
   {
-    &kPolicyEcuador /*zonePolicy*/,
+    &kZonePolicyEcuador /*zonePolicy*/,
     "-06/-05" /*format*/,
     -24 /*offsetCode*/,
     0 /*deltaCode*/,
@@ -191,7 +191,7 @@ test(BasicZoneProcessorTest, findLatestPriorRule) {
   ZoneRuleBroker rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
   assertTrue(rule.isNull());
 
-  policy = ZonePolicyBroker(&kPolicyEcuador);
+  policy = ZonePolicyBroker(&kZonePolicyEcuador);
   year = 1992;
   rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
   assertEqual(0, rule.fromYear());
@@ -210,7 +210,7 @@ test(BasicZoneProcessorTest, findLatestPriorRule) {
 }
 
 test(BasicZoneProcessorTest, priorYearOfRule) {
-  ZonePolicyBroker policy(&kPolicyEcuador);
+  ZonePolicyBroker policy(&kZonePolicyEcuador);
 
   int16_t year = 1995;
   assertEqual(0, BasicZoneProcessor::priorYearOfRule(
@@ -233,7 +233,7 @@ test(BasicZoneProcessorTest, priorYearOfRule) {
 }
 
 test(BasicZoneProcessorTest, compareRulesBeforeYear) {
-  ZonePolicyBroker policy(&kPolicyEcuador);
+  ZonePolicyBroker policy(&kZonePolicyEcuador);
 
   // The last rule prior to 1995 should be 1993.
   int16_t year = 1995;

@@ -1,6 +1,9 @@
 # Changelog
 
 * Unreleased
+    * **Potentially Breaking**: zonedb,zonedbx: Rename `kPolicyXxx` to
+      `kZonePolicyXxx` for consistency. These are expected to be used only
+      internally, so shouldn't cause external breakage.
 * 2.0.1 (2022-12-04, TZDB 2022g)
     * Prevent `ExtendedZoneProcssor::generateStartUntilTimes()` from
       dereferencing uninitialized memory if there are no matching transitions.
@@ -38,7 +41,7 @@
     * Extend `untilYear` of [zonedb](src/ace_time/zonedb) and
       [zonedbx](src/ace_time/zonedbx) databases to 10000
         * databases now valid over the years `[2000,10000)`
-        * `zonedbx` adds 75 additional Rules for `kPolicyMorocco` (e.g.
+        * `zonedbx` adds 75 additional Rules for `kZonePolicyMorocco` (e.g.
           zone "Africe/Casablanca") due to the precalculated DST shifts which
           are listed in the IANA TZ DB up to the year 2087.
         * `zonedb` remains unchanged

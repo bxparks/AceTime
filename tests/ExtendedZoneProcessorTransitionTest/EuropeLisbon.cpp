@@ -128,7 +128,7 @@ const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
 
 };
 
-const extended::ZonePolicy kPolicyPort ACE_TIME_PROGMEM = {
+const extended::ZonePolicy kZonePolicyPort ACE_TIME_PROGMEM = {
   kZoneRulesPort /*rules*/,
   nullptr /*letters*/,
   9 /*numRules*/,
@@ -220,7 +220,7 @@ static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
 
 
 
-const extended::ZonePolicy kPolicyW_Eur ACE_TIME_PROGMEM = {
+const extended::ZonePolicy kZonePolicyW_Eur ACE_TIME_PROGMEM = {
   kZoneRulesW_Eur /*rules*/,
   nullptr /*letters*/,
   6 /*numRules*/,
@@ -324,7 +324,7 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
 
 
 
-const extended::ZonePolicy kPolicyEU ACE_TIME_PROGMEM = {
+const extended::ZonePolicy kZonePolicyEU ACE_TIME_PROGMEM = {
   kZoneRulesEU /*rules*/,
   nullptr /*letters*/,
   7 /*numRules*/,
@@ -387,7 +387,7 @@ static const extended::ZoneEra kZoneEraEurope_Lisbon[] ACE_TIME_PROGMEM = {
   },
   //              0:00    Port    WE%sT    1983 Sep 25  1:00s
   {
-    &kPolicyPort /*zonePolicy*/,
+    &kZonePolicyPort /*zonePolicy*/,
     "WE%T" /*format*/,
     0 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
@@ -399,7 +399,7 @@ static const extended::ZoneEra kZoneEraEurope_Lisbon[] ACE_TIME_PROGMEM = {
   },
   //              0:00    W-Eur    WE%sT    1992 Sep 27  1:00s
   {
-    &kPolicyW_Eur /*zonePolicy*/,
+    &kZonePolicyW_Eur /*zonePolicy*/,
     "WE%T" /*format*/,
     0 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
@@ -411,7 +411,7 @@ static const extended::ZoneEra kZoneEraEurope_Lisbon[] ACE_TIME_PROGMEM = {
   },
   //              1:00    EU    CE%sT    1996 Mar 31  1:00u
   {
-    &kPolicyEU /*zonePolicy*/,
+    &kZonePolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
     4 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
@@ -423,7 +423,7 @@ static const extended::ZoneEra kZoneEraEurope_Lisbon[] ACE_TIME_PROGMEM = {
   },
   //              0:00    EU    WE%sT
   {
-    &kPolicyEU /*zonePolicy*/,
+    &kZonePolicyEU /*zonePolicy*/,
     "WE%T" /*format*/,
     0 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,

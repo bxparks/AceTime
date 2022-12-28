@@ -48,7 +48,7 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   },
 };
 
-static const extended::ZonePolicy kPolicyUS ACE_TIME_PROGMEM = {
+static const extended::ZonePolicy kZonePolicyUS ACE_TIME_PROGMEM = {
   kZoneRulesUS /*rules*/,
   nullptr /* letters */,
   1 /*numRules*/,
@@ -61,7 +61,7 @@ static const extended::ZoneEra kZoneEraAmerica_Los_Angeles[] ACE_TIME_PROGMEM =
   {
     // offset = -07:55, delta = 02:00
     // until = 01:09
-    &kPolicyUS /*zonePolicy*/,
+    &kZonePolicyUS /*zonePolicy*/,
     "P%T" /*format*/,
     -32 /*offsetCode*/,
     (5 << 4) + (8 + 4) /*deltaCode*/,
@@ -101,14 +101,14 @@ test(ExtendedBrokerTest, ZoneRuleBroker) {
 }
 
 test(ExtendedBrokerTest, ZonePolicyBroker) {
-  ZonePolicyBroker policy(&kPolicyUS);
+  ZonePolicyBroker policy(&kZonePolicyUS);
   assertFalse(policy.isNull());
   assertEqual(1, policy.numRules());
   assertEqual(0, policy.numLetters());
 }
 
 test(ExtendedBrokerTest, ZonePolicyBroker_with_letters) {
-  ZonePolicyBroker policy(&zonedbx::kPolicyNamibia);
+  ZonePolicyBroker policy(&zonedbx::kZonePolicyNamibia);
   assertFalse(policy.isNull());
   assertEqual(3, policy.numRules());
   assertEqual(2, policy.numLetters());

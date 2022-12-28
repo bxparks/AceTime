@@ -185,7 +185,7 @@ Arduino controllers:
 
 An entry in `zone_info.cpp` may refer to a zone policy defined in
 `zone_policies.h`. For example, the `kZoneAmerica_Los_Angeles` has a pointer
-to a `kPolicyUS` data structure which is defined in `zone_policies.h`.
+to a `kZonePolicyUS` data structure which is defined in `zone_policies.h`.
 
 Each policy entry starts with a comment secion that contains some metadata
 about the policy. For example:

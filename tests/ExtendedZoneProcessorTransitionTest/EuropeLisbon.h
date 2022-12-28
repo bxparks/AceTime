@@ -12,9 +12,9 @@
 namespace ace_time {
 namespace zonedbxtest {
 
-extern const extended::ZonePolicy kPolicyPort;
-extern const extended::ZonePolicy kPolicyW_Eur;
-extern const extended::ZonePolicy kPolicyEU;
+extern const extended::ZonePolicy kZonePolicyPort;
+extern const extended::ZonePolicy kZonePolicyW_Eur;
+extern const extended::ZonePolicy kZonePolicyEU;
 
 extern const extended::ZoneInfo kZoneEurope_Lisbon; // Europe/Lisbon
 const uint32_t kZoneIdEurope_Lisbon = 0x5c00a70b; // Europe/Lisbon

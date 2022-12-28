@@ -152,7 +152,7 @@ static const ZoneRule kZoneRulesTestUS[] ACE_TIME_PROGMEM = {
 
 };
 
-static const ZonePolicy kPolicyTestUS ACE_TIME_PROGMEM = {
+static const ZonePolicy kZonePolicyTestUS ACE_TIME_PROGMEM = {
   kZoneRulesTestUS /*rules*/,
   nullptr /* letters */,
   5 /*numRules*/,
@@ -162,7 +162,7 @@ static const ZonePolicy kPolicyTestUS ACE_TIME_PROGMEM = {
 static const ZoneEra kZoneEraTestLos_Angeles[] ACE_TIME_PROGMEM = {
   //             -8:00    US    P%sT
   {
-    &kPolicyTestUS /*zonePolicy*/,
+    &kZonePolicyTestUS /*zonePolicy*/,
     "P%T" /*format*/,
     -32 /*offsetCode*/,
     0 + 4 /*deltaCode*/,

@@ -43,7 +43,7 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   },
 };
 
-static const basic::ZonePolicy kPolicyUS ACE_TIME_PROGMEM = {
+static const basic::ZonePolicy kZonePolicyUS ACE_TIME_PROGMEM = {
   kZoneRulesUS /*rules*/,
   nullptr /* letters */,
   1 /*numRules*/,
@@ -53,7 +53,7 @@ static const basic::ZonePolicy kPolicyUS ACE_TIME_PROGMEM = {
 static const basic::ZoneEra kZoneEraAmerica_Los_Angeles[] ACE_TIME_PROGMEM = {
   //             -8:00    US    P%sT
   {
-    &kPolicyUS /*zonePolicy*/,
+    &kZonePolicyUS /*zonePolicy*/,
     "P%T" /*format*/,
     -32 /*offsetCode*/,
     0 /*deltaCode*/,
@@ -90,7 +90,7 @@ test(BasicBrokerTest, ZoneRuleBroker) {
 }
 
 test(BasicBrokerTest, ZonePolicyBroker) {
-  ZonePolicyBroker policy(&kPolicyUS);
+  ZonePolicyBroker policy(&kZonePolicyUS);
   assertFalse(policy.isNull());
   assertEqual(1, policy.numRules());
   assertEqual(0, policy.numLetters());
