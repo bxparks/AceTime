@@ -23,15 +23,16 @@ using namespace ace_time;
 // Cache size of 3 means that it can support 3 concurrent timezones without
 // performance penalties.
 //
-// Using an ExtendedZoneManager with the entire zonedbx::kZoneRegistry consumes
-// ~34kB bytes (112%) of the flash memory and no longer fits on an Arduino Nano.
-// You can replace it with the BasicZoneManager and use zonedb::kZoneRegistry to
-// reduce the program size to ~22kB.
+// Using an ExtendedZoneManager with the entire zonedbx::kZoneAndLinkRegistry
+// consumes ~39kB of flash memory (AVR) and ~49kB (ESP8266). This program no
+// longer fits on an Arduino Nano. It may be possible to make it fit using the
+// BasicZoneManager and using zonedb::kZoneAndLinkRegistry (~24kB on AVR), or
+// zonedb::kZoneRegistry (~19kB on AVR).
 static const int CACHE_SIZE = 3;
 static ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
 static ExtendedZoneManager manager(
-    zonedbx::kZoneRegistrySize,
-    zonedbx::kZoneRegistry,
+    zonedbx::kZoneAndLinkRegistrySize,
+    zonedbx::kZoneAndLinkRegistry,
     zoneProcessorCache);
 
 void setup() {
