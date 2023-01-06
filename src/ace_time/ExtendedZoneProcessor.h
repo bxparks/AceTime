@@ -10,6 +10,7 @@
 #include <stdint.h> // uintptr_t
 #include <AceCommon.h> // copyReplaceString()
 #include "common/compat.h"
+#include "internal/common.h" // kAbbrevSize
 #include "internal/ZonePolicy.h"
 #include "internal/ZoneInfo.h"
 #include "internal/ExtendedBrokers.h"

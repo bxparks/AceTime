@@ -9,6 +9,7 @@
 #include <string.h> // strchr()
 #include <stdint.h>
 #include <AceCommon.h> // copyReplaceChar()
+#include "internal/common.h" // kAbbrevSize
 #include "internal/ZonePolicy.h"
 #include "internal/ZoneInfo.h"
 #include "internal/BasicBrokers.h"
