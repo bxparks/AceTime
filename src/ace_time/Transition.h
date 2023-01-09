@@ -33,6 +33,26 @@ namespace extended {
 //---------------------------------------------------------------------------
 
 /**
+ * The result of comparing the transition time of a Transition to the
+ * time interval of its corresponding MatchingEra.
+ */
+enum class MatchStatus : uint8_t {
+  kFarPast, // 0
+  kPrior, // 1
+  kExactMatch, // 2
+  kWithinMatch, // 3
+  kFarFuture, // 4
+};
+
+inline bool isMatchStatusActive(MatchStatus status) {
+  return status == MatchStatus::kExactMatch
+      || status == MatchStatus::kWithinMatch
+      || status == MatchStatus::kPrior;
+}
+
+//---------------------------------------------------------------------------
+
+/**
  * A tuple that represents a date and time. Packed to 4-byte boundaries to
  * save space on 32-bit processors.
  */
@@ -129,6 +149,32 @@ inline acetime_t subtractDateTuple(const DateTuple& a, const DateTuple& b) {
   return epochSecondsA - epochSecondsB;
 }
 
+/**
+  * Determine the relationship of t to the time interval defined by `[start,
+  * until)`. The comparison is fuzzy, with a slop of about one month so that
+  * we can ignore the day and minutes fields.
+  *
+  * The following values are returned:
+  *
+  *  * kPrior if 't' is less than 'start' by at least one month,
+  *  * kFarFuture if 't' is greater than 'until' by at least one month,
+  *  * kWithinMatch if 't' is within [start, until) with a one month slop,
+  *  * kExactMatch is never returned.
+  */
+inline MatchStatus compareDateTupleFuzzy(
+    const DateTuple& t,
+    const DateTuple& start,
+    const DateTuple& until) {
+  // Use int32_t because a delta year of 2730 or greater will exceed
+  // the range of an int16_t.
+  int32_t tMonths = t.year * (int32_t) 12 + t.month;
+  int32_t startMonths = start.year * (int32_t) 12 + start.month;
+  if (tMonths < startMonths - 1) return MatchStatus::kPrior;
+  int32_t untilMonths = until.year * 12 + until.month;
+  if (untilMonths + 1 < tMonths) return MatchStatus::kFarFuture;
+  return MatchStatus::kWithinMatch;
+}
+
 //---------------------------------------------------------------------------
 
 /** A simple tuple to represent a year/month pair. */
@@ -182,24 +228,6 @@ void swap(T& a, T& b) {
   T tmp = a;
   a = b;
   b = tmp;
-}
-
-/**
- * The result of comparing the transition time of a Transition to the
- * time interval of its corresponding MatchingEra.
- */
-enum class MatchStatus : uint8_t {
-  kFarPast, // 0
-  kPrior, // 1
-  kExactMatch, // 2
-  kWithinMatch, // 3
-  kFarFuture, // 4
-};
-
-inline bool isMatchStatusActive(MatchStatus status) {
-  return status == MatchStatus::kExactMatch
-      || status == MatchStatus::kWithinMatch
-      || status == MatchStatus::kPrior;
 }
 
 //---------------------------------------------------------------------------
