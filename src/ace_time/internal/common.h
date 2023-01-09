@@ -28,6 +28,14 @@ namespace internal {
   */
 const uint8_t kAbbrevSize = 6 + 1;
 
+/** Swap 2 parameters. */
+template <typename T>
+void swap(T& a, T& b) {
+  T tmp = a;
+  a = b;
+  b = tmp;
+}
+
 }
 }
 

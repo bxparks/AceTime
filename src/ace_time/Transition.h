@@ -222,14 +222,6 @@ struct MatchingEraTemplate {
   }
 };
 
-/** Swap 2 parameters. */
-template <typename T>
-void swap(T& a, T& b) {
-  T tmp = a;
-  a = b;
-  b = tmp;
-}
-
 //---------------------------------------------------------------------------
 
 /**
@@ -650,7 +642,7 @@ class TransitionStorageTemplate {
           || !prior->isValidPrior) {
         ft->isValidPrior = true;
         prior->isValidPrior = false;
-        swap(mTransitions[mIndexPrior], mTransitions[mIndexFree]);
+        internal::swap(mTransitions[mIndexPrior], mTransitions[mIndexFree]);
       }
     }
 
@@ -708,7 +700,7 @@ class TransitionStorageTemplate {
           if (iActive != iCandidate) {
             // Must use swap(), because we are moving pointers instead of the
             // actual Transition objects.
-            swap(mTransitions[iActive], mTransitions[iCandidate]);
+            internal::swap(mTransitions[iActive], mTransitions[iCandidate]);
           }
           ++iActive;
         }
