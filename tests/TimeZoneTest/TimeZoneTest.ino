@@ -44,16 +44,20 @@ test(TimeZoneTest, forError) {
 // TimeZone (kTypeManual)
 //---------------------------------------------------------------------------
 
-test(TimeZoneTest, manual_utc) {
+test(TimeZoneTest, forUtc) {
   PrintStr<16> printStr;
+  TimeZone tz = TimeZone::forUtc();
 
-  auto tz = TimeZone::forUtc();
-  assertEqual(0, tz.getUtcOffset(0).toMinutes());
-  assertEqual(0, tz.getDeltaOffset(0).toMinutes());
+  assertEqual(TimeZone::kTypeManual, tz.getType());
+  assertTrue(tz.isUtc());
   assertEqual(0, tz.getStdOffset().toMinutes());
   assertEqual(0, tz.getDstOffset().toMinutes());
-  assertTrue(tz.isUtc());
-  assertEqual(F("UTC"), tz.getAbbrev(0));
+
+  ZonedExtra ze = tz.getZonedExtra(0);
+  assertFalse(ze.isError());
+  assertEqual(0, ze.stdOffset().toMinutes());
+  assertEqual(0, ze.dstOffset().toMinutes());
+  assertEqual(F("UTC"), ze.abbrev());
 
   tz.printTo(printStr);
   assertEqual(F("UTC"), printStr.cstr());
@@ -69,11 +73,15 @@ test(TimeZoneTest, forTimeOffset_no_dst) {
   TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHours(-8));
 
   assertEqual(TimeZone::kTypeManual, tz.getType());
-  assertEqual(-8*60, tz.getUtcOffset(0).toMinutes());
-  assertEqual(0, tz.getDeltaOffset(0).toMinutes());
+  assertFalse(tz.isUtc());
   assertEqual(-8*60, tz.getStdOffset().toMinutes());
-  assertEqual(0, tz.getDstOffset().toMinutes());
-  assertEqual(F("STD"), tz.getAbbrev(0));
+  assertEqual(0*60, tz.getDstOffset().toMinutes());
+
+  ZonedExtra ze = tz.getZonedExtra(0);
+  assertFalse(ze.isError());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0, ze.dstOffset().toMinutes());
+  assertEqual(F("STD"), ze.abbrev());
 
   tz.printTo(printStr);
   assertEqual(F("-08:00+00:00"), printStr.cstr());
@@ -92,11 +100,15 @@ test(TimeZoneTest, forTimeOffset_dst) {
   );
 
   assertEqual(TimeZone::kTypeManual, tz.getType());
-  assertEqual(-7*60, tz.getUtcOffset(0).toMinutes());
-  assertEqual(60, tz.getDeltaOffset(0).toMinutes());
+  assertFalse(tz.isUtc());
   assertEqual(-8*60, tz.getStdOffset().toMinutes());
   assertEqual(60, tz.getDstOffset().toMinutes());
-  assertEqual(F("DST"), tz.getAbbrev(0));
+
+  ZonedExtra ze = tz.getZonedExtra(0);
+  assertFalse(ze.isError());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(60, ze.dstOffset().toMinutes());
+  assertEqual(F("DST"), ze.abbrev());
 
   tz.printTo(printStr);
   assertEqual(F("-08:00+01:00"), printStr.cstr());
@@ -150,19 +162,25 @@ test(TimeZoneBasicTest, America_Los_Angeles) {
   tz.printShortTo(printStr);
   assertEqual("Los Angeles", printStr.cstr());
 
+  // before DST
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
-  assertEqual(F("PST"), tz.getAbbrev(epochSeconds));
+  ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0, ze.dstOffset().toMinutes());
+  assertEqual(F("PST"), ze.abbrev());
 
+  // right after spring forward to DST
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
-  assertEqual(F("PDT"), tz.getAbbrev(epochSeconds));
+  ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(F("PDT"), ze.abbrev());
 }
 
 // Test a Link: US/Pacific -> America/Los_Angeles
@@ -190,19 +208,25 @@ test(TimeZoneBasicTest, US_Pacific) {
       tz.getZoneId(true /*followLink*/)
   );
 
+  // just before spring forward to DST
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
-  assertEqual(F("PST"), tz.getAbbrev(epochSeconds));
+  ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0*60, ze.dstOffset().toMinutes());
+  assertEqual(F("PST"), ze.abbrev());
 
+  // just after spring forward to DST
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
-  assertEqual(F("PDT"), tz.getAbbrev(epochSeconds));
+  ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(F("PDT"), ze.abbrev());
 }
 
 // A ZoneManager could bind the same ZoneProcessor to 2 different TimeZone if
@@ -215,40 +239,46 @@ test(TimeZoneBasicTest, US_Pacific) {
 // version to save flash memory.
 test(TimeZoneBasicTest, zoneProcessor_rebinding) {
   BasicZoneProcessor basicZoneProcessor;
-  TimeZone losAngeles = TimeZone::forZoneInfo(
+  TimeZone tzla = TimeZone::forZoneInfo(
       &zonedb::kZoneAmerica_Los_Angeles, &basicZoneProcessor);
-  TimeZone newYork = TimeZone::forZoneInfo(
+  TimeZone tzny = TimeZone::forZoneInfo(
       &zonedb::kZoneAmerica_New_York, &basicZoneProcessor);
 
-  assertEqual(zonedb::kZoneIdAmerica_Los_Angeles, losAngeles.getZoneId());
-  assertEqual(zonedb::kZoneIdAmerica_New_York, newYork.getZoneId());
+  assertEqual(zonedb::kZoneIdAmerica_Los_Angeles, tzla.getZoneId());
+  assertEqual(zonedb::kZoneIdAmerica_New_York, tzny.getZoneId());
 
   // 2018-03-10 was still STD time, so both Los Angeles and New York should
   // return STD offset.
   OffsetDateTime dt = OffsetDateTime::forComponents(2018, 3, 10, 0, 0, 0,
       TimeOffset::forHours(-8));
   acetime_t epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, losAngeles.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual(-5*60, newYork.getUtcOffset(epochSeconds).toMinutes());
 
-  assertEqual(0, losAngeles.getDeltaOffset(epochSeconds).toMinutes());
-  assertEqual(0, newYork.getDeltaOffset(epochSeconds).toMinutes());
+  // Calls getBoundProcessor() and rebinds.
+  ZonedExtra zela = tzla.getZonedExtra(epochSeconds);
+  assertEqual(-8*60, zela.stdOffset().toMinutes());
+  assertEqual(0*60, zela.dstOffset().toMinutes());
+  assertEqual(F("PST"), zela.abbrev());
 
-  assertEqual(F("PST"), losAngeles.getAbbrev(epochSeconds));
-  assertEqual(F("EST"), newYork.getAbbrev(epochSeconds));
+  // Calls getBoundProcessor() and rebinds.
+  ZonedExtra zeny = tzny.getZonedExtra(epochSeconds);
+  assertEqual(-5*60, zeny.stdOffset().toMinutes());
+  assertEqual(0*60, zeny.dstOffset().toMinutes());
+  assertEqual(F("EST"), zeny.abbrev());
 
+  // printTo() calls getBoundProcessor() and rebinds.
   PrintStr<32> printStr;
-  losAngeles.printTo(printStr);
+  tzla.printTo(printStr);
   assertEqual(F("America/Los_Angeles"), printStr.cstr());
   printStr.flush();
-  newYork.printTo(printStr);
+  tzny.printTo(printStr);
   assertEqual(F("America/New_York"), printStr.cstr());
   printStr.flush();
 
-  losAngeles.printShortTo(printStr);
+  // printShortTo() calls getBoundProcessor() and rebinds.
+  tzla.printShortTo(printStr);
   assertEqual(F("Los Angeles"), printStr.cstr());
   printStr.flush();
-  newYork.printShortTo(printStr);
+  tzny.printShortTo(printStr);
   assertEqual(F("New York"), printStr.cstr());
   printStr.flush();
 }
@@ -278,19 +308,25 @@ test(TimeZoneExtendedTest, America_Los_Angeles) {
   tz.printShortTo(printStr);
   assertEqual("Los Angeles", printStr.cstr());
 
+  // before DST
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
-  assertEqual(F("PST"), tz.getAbbrev(epochSeconds));
+  ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0, ze.dstOffset().toMinutes());
+  assertEqual(F("PST"), ze.abbrev());
 
+  // right after spring forward to DST
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
-  assertEqual(F("PDT"), tz.getAbbrev(epochSeconds));
+  ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(F("PDT"), ze.abbrev());
 }
 
 // Test a Link: US/Pacific -> America/Los_Angeles
@@ -318,19 +354,25 @@ test(TimeZoneExtendedTest, US_Pacific) {
       tz.getZoneId(true /*followLink*/)
   );
 
+  // just before spring forward to DST
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
-  assertEqual(F("PST"), tz.getAbbrev(epochSeconds));
+  ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0*60, ze.dstOffset().toMinutes());
+  assertEqual(F("PST"), ze.abbrev());
 
+  // just after spring forward to DST
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
-  assertEqual(F("PDT"), tz.getAbbrev(epochSeconds));
+  ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(F("PDT"), ze.abbrev());
 }
 
 //---------------------------------------------------------------------------
@@ -386,6 +428,9 @@ void setup() {
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
+#if defined(EPOXY_DUINO)
+  SERIAL_PORT_MONITOR.setLineModeUnix();
+#endif
 }
 
 void loop() {

@@ -12,6 +12,7 @@
 #include "BasicZoneProcessor.h"
 #include "ExtendedZoneProcessor.h"
 #include "TimeZoneData.h"
+#include "ZonedExtra.h"
 
 class Print;
 
@@ -299,73 +300,32 @@ class TimeZone {
     /**
      * Return the total UTC offset at epochSeconds, including DST offset.
      */
-    TimeOffset getUtcOffset(acetime_t epochSeconds) const {
+    ZonedExtra getZonedExtra(acetime_t epochSeconds) const {
       switch (mType) {
         case kTypeError:
         case kTypeReserved:
-          return TimeOffset::forError();
+          return ZonedExtra::forError();
 
         case kTypeManual:
-          return TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes);
-
-        default:
-          return getBoundZoneProcessor()->getUtcOffset(epochSeconds);
-      }
-    }
-
-    /**
-     * Return the DST offset from standard UTC offset at epochSeconds. This is
-     * an experimental method that has not been tested thoroughly. Use with
-     * caution.
-     */
-    TimeOffset getDeltaOffset(acetime_t epochSeconds) const {
-      switch (mType) {
-        case kTypeError:
-        case kTypeReserved:
-          return TimeOffset::forError();
-
-        case kTypeManual:
-          return TimeOffset::forMinutes(mDstOffsetMinutes);
-
-        default:
-          return getBoundZoneProcessor()->getDeltaOffset(epochSeconds);
-      }
-    }
-
-    /**
-     * Return the time zone abbreviation at the given epochSeconds.
-     *
-     *   * kTypeManual: returns "STD" or "DST",
-     *   * kTypeBasic, kTypeBasic: returns the "{abbrev}" (e.g. "PDT"),
-     *   * error condition: returns the empty string ""
-     *
-     * The IANA spec
-     * (https://data.iana.org/time-zones/theory.html#abbreviations) says that
-     * abbreviations are limited to 6 characters. It is unclear if this spec is
-     * guaranteed to be followed. Client programs should handle abbreviations
-     * longer than 6 characters to be safe.
-     *
-     * Warning: The returned pointer points to a char buffer that could get
-     * overriden by subsequent method calls to this object. The pointer must
-     * not be stored permanently, it should be used as soon as possible (e.g.
-     * printed out). If you need to store the abbreviation for a long period
-     * of time, copy it to anther char buffer.
-     */
-    const char* getAbbrev(acetime_t epochSeconds) const {
-      switch (mType) {
-        case kTypeError:
-        case kTypeReserved:
-          return "";
-
-        case kTypeManual:
+          const char* abbrev;
           if (isUtc()) {
-            return "UTC";
+            abbrev = "UTC";
           } else {
-            return (mDstOffsetMinutes != 0) ? "DST" : "STD";
+            abbrev = (mDstOffsetMinutes != 0) ? "DST" : "STD";
           }
+          return ZonedExtra(mStdOffsetMinutes, mDstOffsetMinutes, abbrev);
 
-        default:
-          return getBoundZoneProcessor()->getAbbrev(epochSeconds);
+        default: {
+          FindResult result =
+              getBoundZoneProcessor()->findByEpochSeconds(epochSeconds);
+          if (result.type == FindResult::Type::kNotFound) {
+            return ZonedExtra::forError();
+          }
+          return ZonedExtra(
+            result.stdOffsetMinutes,
+            result.dstOffsetMinutes,
+            result.abbrev);
+        }
       }
     }
 
@@ -388,9 +348,30 @@ class TimeZone {
               TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes));
           break;
 
-        default:
-          odt = getBoundZoneProcessor()->getOffsetDateTime(ldt);
+        default: {
+          FindResult result = getBoundZoneProcessor()->findByLocalDateTime(ldt);
+          if (result.type == FindResult::Type::kNotFound) {
+            break;
+          }
+
+          // Convert FindResult into OffsetDateTime
+          TimeOffset offset = TimeOffset::forMinutes(result.origOffsetMinutes);
+          odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset);
+
+          // Normalize in the gap by converting to epochSeconds using the
+          // 'origOffsetMinutes', then reconverting to target transition.
+          if (result.type == FindResult::Type::kGap) {
+            acetime_t epochSeconds = odt.toEpochSeconds();
+            TimeOffset targetOffset = TimeOffset::forMinutes(
+                result.stdOffsetMinutes + result.dstOffsetMinutes);
+            odt = OffsetDateTime::forEpochSeconds(epochSeconds, targetOffset);
+            // Invert the fold. The normalization process causes the
+            // LocalDateTime to jump to the other transition. This also provides
+            // an indicator that a gap normalization was performed.
+            odt.fold(1 - ldt.fold());
+          }
           break;
+        }
       }
       return odt;
     }
@@ -413,9 +394,20 @@ class TimeZone {
               TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes));
           break;
 
-        default:
-          odt = getBoundZoneProcessor()->getOffsetDateTime(epochSeconds);
+        default: {
+          FindResult result =
+              getBoundZoneProcessor()->findByEpochSeconds(epochSeconds);
+          if (result.type == FindResult::Type::kNotFound) {
+            break;
+          }
+
+          TimeOffset offset = TimeOffset::forMinutes(
+              result.stdOffsetMinutes + result.dstOffsetMinutes);
+          uint8_t fold = (result.type == FindResult::Type::kOverlap)
+              ? 1 : 0;
+          odt = OffsetDateTime::forEpochSeconds(epochSeconds, offset, fold);
           break;
+        }
       }
       return odt;
     }

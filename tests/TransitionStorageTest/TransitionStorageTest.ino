@@ -297,19 +297,19 @@ test(TransitionStorageTest, findTransitionForSeconds) {
   Transition* freeAgent = storage.getFreeAgent();
   freeAgent->transitionTime = {2000, 1, 2, 3, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
-  freeAgent->startEpochSeconds = 0;
+  freeAgent->startEpochSeconds = 2000000; // synthetic epochSeconds
   storage.addFreeAgentToCandidatePool();
 
   freeAgent = storage.getFreeAgent();
   freeAgent->transitionTime = {2001, 2, 3, 4, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
-  freeAgent->startEpochSeconds = 10;
+  freeAgent->startEpochSeconds = 2001000; // synthetic epochSeconds
   storage.addFreeAgentToCandidatePool();
 
   freeAgent = storage.getFreeAgent();
   freeAgent->transitionTime = {2002, 3, 4, 5, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
-  freeAgent->startEpochSeconds = 20;
+  freeAgent->startEpochSeconds = 2002000; // synthetic epochSeconds
   storage.addFreeAgentToCandidatePool();
 
   // Add the actives to the Active pool.
@@ -317,20 +317,30 @@ test(TransitionStorageTest, findTransitionForSeconds) {
 
   // Check that we can find the transitions using the startEpochSeconds.
 
+  // epochSeconds=1 far past
   MatchingTransition matchingTransition = storage.findTransitionForSeconds(1);
   const Transition* t = matchingTransition.transition;
-  assertEqual(2000, t->transitionTime.year);
+  assertEqual(t, nullptr);
 
-  matchingTransition = storage.findTransitionForSeconds(9);
+  // epochSeconds=2000001 found
+  matchingTransition = storage.findTransitionForSeconds(2000001);
   t = matchingTransition.transition;
   assertEqual(2000, t->transitionTime.year);
 
-  matchingTransition = storage.findTransitionForSeconds(10);
+  // epochSeconds=2001000 found
+  matchingTransition = storage.findTransitionForSeconds(2001000);
   t = matchingTransition.transition;
   assertEqual(2001, t->transitionTime.year);
 
-  matchingTransition = storage.findTransitionForSeconds(21);
+  // epochSeconds=2002000 found
+  matchingTransition = storage.findTransitionForSeconds(2002000);
   t = matchingTransition.transition;
+  assertEqual(2002, t->transitionTime.year);
+
+  // epochSeconds=3000000 far future, matches the last transition
+  matchingTransition = storage.findTransitionForSeconds(3000000);
+  t = matchingTransition.transition;
+  assertNotEqual(t, nullptr);
   assertEqual(2002, t->transitionTime.year);
 }
 
@@ -338,28 +348,29 @@ test(TransitionStorageTest, findTransitionForDateTime) {
   TransitionStorage storage;
   storage.init();
 
-  // Transition 1: [2000-01-02T00:03, 2001-02-03T00:04)
+  // Transition 1: [2000-01-02 01:00, 2001-04-01 02:00), before spring forward
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2000, 1, 2, 3, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2000, 1, 2, 1*60, ZoneContext::kSuffixW};
   freeAgent->startDateTime = freeAgent->transitionTime;
-  freeAgent->untilDateTime = {2001, 2, 3, 4, ZoneContext::kSuffixW};
+  freeAgent->untilDateTime = {2001, 4, 1, 2*60, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   storage.addFreeAgentToCandidatePool();
 
-  // Transition 2: [2001-02-03T00:04, 2002-03-04T00:05)
+  // Transition 2: [2001-04-01 03:00, 2002-10-27 02:00), spring forward to
+  // fall back, creating a gap from Transition 1.
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2001, 2, 3, 4, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2001, 4, 1, 3*60, ZoneContext::kSuffixW};
   freeAgent->startDateTime = freeAgent->transitionTime;
-  freeAgent->untilDateTime = {2002, 3, 4, 5, ZoneContext::kSuffixW};
+  freeAgent->untilDateTime = {2002, 10, 27, 2*60, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   storage.addFreeAgentToCandidatePool();
 
-  // Transition 3: [2002-03-04T00:05, infinity)
+  // Transition 3: [2002-10-27 01:00, 2003-12-31 00:00), after fall back,
+  // creating an overlap with Transition 2.
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2002, 3, 4, 5, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2002, 10, 27, 1*60, ZoneContext::kSuffixW};
   freeAgent->startDateTime = freeAgent->transitionTime;
-  freeAgent->untilDateTime = {
-      LocalDate::kMaxYear, 1, 1, 0, ZoneContext::kSuffixW}; // infinity
+  freeAgent->untilDateTime = {2003, 12, 13, 0, ZoneContext::kSuffixW};
   freeAgent->matchStatus = MatchStatus::kWithinMatch;
   storage.addFreeAgentToCandidatePool();
 
@@ -370,36 +381,57 @@ test(TransitionStorageTest, findTransitionForDateTime) {
   assertEqual(3, storage.mIndexCandidates);
   assertEqual(3, storage.mIndexFree);
 
-  // 2000-01-02T00:00, too far past to match any Transition
-  auto ldt = LocalDateTime::forComponents(2000, 1, 2, 0, 0, 0);
+  // 2000-01-01 00:00, far past
+  auto ldt = LocalDateTime::forComponents(2000, 1, 1, 0, 0, 0);
   TransitionResult r = storage.findTransitionForDateTime(ldt);
-  assertEqual(r.searchStatus, TransitionResult::kStatusGap);
-  assertEqual(r.transition0, nullptr);
-  assertNotEqual(r.transition1, nullptr);
+  assertEqual(r.num, 0);
+  assertEqual(r.prev, nullptr);
+  assertNotEqual(r.curr, nullptr);
 
-  // 2000-01-02T01:00
-  ldt = LocalDateTime::forComponents(2000, 1, 2, 1, 0, 0);
+  // 2000-01-30 01:00, matches Transition 1
+  ldt = LocalDateTime::forComponents(2000, 1, 30, 1, 0, 0);
   r = storage.findTransitionForDateTime(ldt);
-  assertEqual(r.searchStatus, TransitionResult::kStatusExact);
-  assertEqual(2000, r.transition0->transitionTime.year);
+  assertEqual(r.num, 1);
+  assertNotEqual(r.prev, nullptr);
+  assertNotEqual(r.curr, nullptr);
+  assertEqual(r.prev, r.curr);
+  assertEqual(2000, r.curr->transitionTime.year);
 
-  // 2001-02-03T00:03
-  ldt = LocalDateTime::forComponents(2001, 2, 3, 0, 3, 0);
+  // 2001-04-01 02:30 is in the gap between Transition 1 and 2
+  ldt = LocalDateTime::forComponents(2001, 4, 1, 2, 30, 0);
   r = storage.findTransitionForDateTime(ldt);
-  assertEqual(r.searchStatus, TransitionResult::kStatusExact);
-  assertEqual(2000, r.transition0->transitionTime.year);
+  assertEqual(r.num, 0);
+  assertNotEqual(r.prev, nullptr);
+  assertNotEqual(r.curr, nullptr);
+  assertNotEqual(r.prev, r.curr);
+  assertEqual(2000, r.prev->transitionTime.year);
+  assertEqual(2001, r.curr->transitionTime.year);
 
-  // 2001-02-03T00:04
-  ldt = LocalDateTime::forComponents(2001, 2, 3, 0, 4, 0);
+  // 2002-10-27 01:30 is in the overlap between Transition 2 and 3
+  ldt = LocalDateTime::forComponents(2002, 10, 27, 1, 30, 0);
   r = storage.findTransitionForDateTime(ldt);
-  assertEqual(r.searchStatus, TransitionResult::kStatusExact);
-  assertEqual(2001, r.transition0->transitionTime.year);
+  assertEqual(r.num, 2);
+  assertNotEqual(r.prev, nullptr);
+  assertNotEqual(r.curr, nullptr);
+  assertNotEqual(r.prev, r.curr);
+  assertEqual(2001, r.prev->transitionTime.year);
+  assertEqual(2002, r.curr->transitionTime.year);
 
-  // 2002-03-04T00:05
-  ldt = LocalDateTime::forComponents(2002, 3, 4, 0, 5, 0);
+  // 2003-01-01 01:00 matches only Transition 3
+  ldt = LocalDateTime::forComponents(2003, 1, 1, 1, 0, 0);
   r = storage.findTransitionForDateTime(ldt);
-  assertEqual(r.searchStatus, TransitionResult::kStatusExact);
-  assertEqual(2002, r.transition0->transitionTime.year);
+  assertEqual(r.num, 1);
+  assertNotEqual(r.prev, nullptr);
+  assertNotEqual(r.curr, nullptr);
+  assertEqual(r.prev, r.curr);
+  assertEqual(2002, r.curr->transitionTime.year);
+
+  // 2005-01-01 00:00, far future
+  ldt = LocalDateTime::forComponents(2005, 1, 1, 0, 0, 0);
+  r = storage.findTransitionForDateTime(ldt);
+  assertEqual(r.num, 0);
+  assertNotEqual(r.prev, nullptr);
+  assertEqual(r.curr, nullptr);
 }
 
 //---------------------------------------------------------------------------

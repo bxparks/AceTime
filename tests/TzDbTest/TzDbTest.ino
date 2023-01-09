@@ -22,26 +22,26 @@ test(ZonedDateTimeExtendedTest, Morocco2020) {
   auto dt = ZonedDateTime::forComponents(2020, 5, 25, 3, 0, 0, tz);
   assertEqual(TimeOffset::forHours(0).toMinutes(),
       dt.timeOffset().toMinutes());
-  acetime_t epoch = dt.toEpochSeconds();
-  assertEqual("+00", tz.getAbbrev(epoch));
-  assertEqual(TimeOffset::forHours(-1).toMinutes(),
-      tz.getDeltaOffset(epoch).toMinutes());
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+  assertEqual("+00", ze.abbrev());
+  assertEqual(TimeOffset::forHours(-1).toMinutes(), ze.dstOffset().toMinutes());
 
   dt = ZonedDateTime::forComponents(2020, 5, 31, 1, 59, 59, tz);
   assertEqual(TimeOffset::forHours(0).toMinutes(),
       dt.timeOffset().toMinutes());
-  epoch = dt.toEpochSeconds();
-  assertEqual("+00", tz.getAbbrev(epoch));
-  assertEqual(TimeOffset::forHours(-1).toMinutes(),
-      tz.getDeltaOffset(epoch).toMinutes());
+  epochSeconds = dt.toEpochSeconds();
+  ze = tz.getZonedExtra(epochSeconds);
+  assertEqual("+00", ze.abbrev());
+  assertEqual(TimeOffset::forHours(-1).toMinutes(), ze.dstOffset().toMinutes());
 
   dt = ZonedDateTime::forComponents(2020, 5, 31, 3, 0, 0, tz);
   assertEqual(TimeOffset::forHours(1).toMinutes(),
       dt.timeOffset().toMinutes());
-  epoch = dt.toEpochSeconds();
-  assertEqual("+01", tz.getAbbrev(epoch));
-  assertEqual(TimeOffset::forHours(0).toMinutes(),
-      tz.getDeltaOffset(epoch).toMinutes());
+  epochSeconds = dt.toEpochSeconds();
+  ze = tz.getZonedExtra(epochSeconds);
+  assertEqual("+01", ze.abbrev());
+  assertEqual(0, ze.dstOffset().toMinutes());
 }
 
 // --------------------------------------------------------------------------
@@ -61,10 +61,11 @@ test(ZonedDateTimeExtendedTest, Yukon2020) {
   auto dt = ZonedDateTime::forComponents(2020, 3, 8, 1, 59, 59, tz);
   assertEqual(TimeOffset::forHours(-8).toMinutes(),
       dt.timeOffset().toMinutes());
-  acetime_t epoch = dt.toEpochSeconds();
-  assertEqual("PST", tz.getAbbrev(epoch));
-  assertEqual(TimeOffset::forHours(0).toMinutes(),
-      tz.getDeltaOffset(epoch).toMinutes());
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+  assertEqual("PST", ze.abbrev());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0, ze.dstOffset().toMinutes());
 
   // Time in the 2:00->3:00 transition gap. Gets normalized to 03:00.
   dt = ZonedDateTime::forComponents(2020, 3, 8, 2, 0, 0, tz);
@@ -72,28 +73,31 @@ test(ZonedDateTimeExtendedTest, Yukon2020) {
       dt.timeOffset().toMinutes());
   auto expected = LocalDateTime::forComponents(2020, 3, 8, 3, 0, 0);
   assertTrue(expected == dt.localDateTime());
-  epoch = dt.toEpochSeconds();
-  assertEqual("PDT", tz.getAbbrev(epoch));
-  assertEqual(TimeOffset::forHours(1).toMinutes(),
-      tz.getDeltaOffset(epoch).toMinutes());
+  epochSeconds = dt.toEpochSeconds();
+  ze = tz.getZonedExtra(epochSeconds);
+  assertEqual("PDT", ze.abbrev());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(60, ze.dstOffset().toMinutes());
 
   // 23:59->00:00, but there's a change in abbreviation and DST offset.
   dt = ZonedDateTime::forComponents(2020, 10, 31, 23, 59, 59, tz);
   assertEqual(TimeOffset::forHours(-7).toMinutes(),
       dt.timeOffset().toMinutes());
-  epoch = dt.toEpochSeconds();
-  assertEqual("PDT", tz.getAbbrev(epoch));
-  assertEqual(TimeOffset::forHours(1).toMinutes(),
-      tz.getDeltaOffset(epoch).toMinutes());
+  epochSeconds = dt.toEpochSeconds();
+  ze = tz.getZonedExtra(epochSeconds);
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual("PDT", ze.abbrev());
+  assertEqual(60, ze.dstOffset().toMinutes());
 
   // 00:00->00:00, but there's a change in abbreviation and DST offset.
   dt = ZonedDateTime::forComponents(2020, 11, 1, 0, 0, 0, tz);
   assertEqual(TimeOffset::forHours(-7).toMinutes(),
       dt.timeOffset().toMinutes());
-  epoch = dt.toEpochSeconds();
-  assertEqual("MST", tz.getAbbrev(epoch));
-  assertEqual(TimeOffset::forHours(0).toMinutes(),
-      tz.getDeltaOffset(epoch).toMinutes());
+  epochSeconds = dt.toEpochSeconds();
+  ze = tz.getZonedExtra(epochSeconds);
+  assertEqual("MST", ze.abbrev());
+  assertEqual(-7*60, ze.stdOffset().toMinutes());
+  assertEqual(0, ze.dstOffset().toMinutes());
 }
 
 // --------------------------------------------------------------------------
@@ -104,6 +108,9 @@ void setup() {
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
+#if defined(EPOXY_DUINO)
+  SERIAL_PORT_MONITOR.setLineModeUnix();
+#endif
 }
 
 void loop() {

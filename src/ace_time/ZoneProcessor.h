@@ -7,6 +7,7 @@
 #define ACE_TIME_ZONE_PROCESSOR_H
 
 #include "common/common.h"
+#include "internal/common.h" // kAbbrevSize
 #include "TimeOffset.h"
 #include "OffsetDateTime.h"
 
@@ -15,6 +16,53 @@ class Print;
 namespace ace_time {
 
 class LocalDateTime;
+
+/**
+ * Result of a search for transition(s) at a specific epochSeconds or a specific
+ * LocalDateTime.
+ *
+ * Case 1: findByLocalDateTime()
+ *  * kNotFound:
+ *      * No matching Transition found.
+ *  * kExact:
+ *      * A single Transition found.
+ *  * kGap:
+ *      * LocalDateTime occurs in a gap.
+ *      * fold=0 selects the earlier transition as reference, and normalizes
+ *        to the later transition.
+ *      * fold=1 selects the later transition as reference, and normalizes to
+ *        the earlier transition.
+ *  * kOverlap:
+ *      * LocalDateTime matches 2 Transitions.
+ *      * fold=0 selects the earlier transition.
+ *      * fold=1 selects the later transition.
+ *
+ * Case 2: findByEpochSeconds()
+ *  * kNotFound:
+ *      * If no matching Transition found.
+ *  * kExact:
+ *      * Only a single Transition found.
+ *  * kGap:
+ *      * Cannot occur.
+ *  * kOverlap:
+ *      * A single Transition found, but the epochSeconds occurs during an
+ *      overlap where two local times can occur.
+ */
+class FindResult {
+  public:
+    enum class Type : uint8_t {
+      kNotFound, // 0
+      kExact, // 1
+      kGap, // 2
+      kOverlap, // 3
+    };
+
+    Type type = Type::kNotFound;
+    int16_t stdOffsetMinutes = 0; // target STD offset
+    int16_t dstOffsetMinutes = 0; // target DST offset
+    int16_t origOffsetMinutes = 0; // original offset for epochSeconds (kGap)
+    const char* abbrev = "";
+};
 
 /**
  * Base interface for ZoneProcessor classes. There were 2 options for
@@ -61,51 +109,13 @@ class ZoneProcessor {
      */
     virtual uint32_t getZoneId(bool followLink = false) const = 0;
 
-    /**
-     * Return the total UTC offset at epochSeconds, including DST offset.
-     * Returns TimeOffset::forError() if an error occurs.
-     */
-    virtual TimeOffset getUtcOffset(acetime_t epochSeconds) const = 0;
+    /** Return the search results at given LocalDateTime. */
+    virtual FindResult findByLocalDateTime(
+        const LocalDateTime& ldt) const = 0;
 
-    /**
-     * Return the DST delta offset at epochSeconds. This is an experimental
-     * method that has not been tested thoroughly. Use with caution.
-     * Returns TimeOffset::forError() if an error occurs.
-     */
-    virtual TimeOffset getDeltaOffset(acetime_t epochSeconds) const = 0;
-
-    /**
-     * Return the time zone abbreviation at epochSeconds. Returns an empty
-     * string ("") if an error occurs. The returned pointer points to a char
-     * buffer that could get overriden by subsequent method calls to this
-     * object. The pointer must not be stored permanently, it should be used as
-     * soon as possible (e.g. printed out).
-     *
-     * This is an experimental method that has not been tested thoroughly. Use
-     * with caution.
-     */
-    virtual const char* getAbbrev(acetime_t epochSeconds) const = 0;
-
-    /**
-     * Return the best estimate of the OffsetDateTime at the given
-     * LocalDateTime for the timezone of the current ZoneProcessor.
-     * Returns OffsetDateTime::forError() if an error occurs, for example, if
-     * the LocalDateTime is outside of the support date range of the underlying
-     * ZoneInfo files.
-     */
-    virtual OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt)
-        const = 0;
-
-    /**
-     * Return the best estimate of the OffsetDateTime at the given
-     * epochSeconds for the timezone of the current ZoneProcessor, including
-     * the fold parameter.
-     *
-     * Returns OffsetDateTime::forError() if an error occurs, for example, if
-     * the epochSeconds is outside of the support date range of the underlying
-     * ZoneInfo files.
-     */
-    virtual OffsetDateTime getOffsetDateTime(acetime_t epochSeconds) const = 0;
+    /** Return the search results at given epochSeconds. */
+    virtual FindResult findByEpochSeconds(
+        acetime_t epochSeconds) const = 0;
 
     /**
      * Print a human-readable identifier (e.g. "America/Los_Angeles").
