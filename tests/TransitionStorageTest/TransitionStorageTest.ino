@@ -21,7 +21,7 @@ typedef TransitionStorageTemplate<
     extended::ZoneRuleBroker> TransitionStorage;
 
 using Transition = TransitionStorage::Transition;
-using TransitionResult = TransitionStorage::TransitionResult;
+using TransitionForDateTime = TransitionStorage::TransitionForDateTime;
 
 test(TransitionStorageTest, getFreeAgent) {
   TransitionStorage storage;
@@ -290,7 +290,7 @@ test(TransitionStorageTest, resetCandidatePool) {
 
 test(TransitionStorageTest, findTransitionForSeconds) {
   TransitionStorage storage;
-  using MatchingTransition = TransitionStorage::MatchingTransition;
+  using TransitionForSeconds = TransitionStorage::TransitionForSeconds;
   storage.init();
 
   // Add 3 transitions to Active pool.
@@ -318,28 +318,29 @@ test(TransitionStorageTest, findTransitionForSeconds) {
   // Check that we can find the transitions using the startEpochSeconds.
 
   // epochSeconds=1 far past
-  MatchingTransition matchingTransition = storage.findTransitionForSeconds(1);
-  const Transition* t = matchingTransition.transition;
+  TransitionForSeconds transitionForSeconds =
+      storage.findTransitionForSeconds(1);
+  const Transition* t = transitionForSeconds.transition;
   assertEqual(t, nullptr);
 
   // epochSeconds=2000001 found
-  matchingTransition = storage.findTransitionForSeconds(2000001);
-  t = matchingTransition.transition;
+  transitionForSeconds = storage.findTransitionForSeconds(2000001);
+  t = transitionForSeconds.transition;
   assertEqual(2000, t->transitionTime.year);
 
   // epochSeconds=2001000 found
-  matchingTransition = storage.findTransitionForSeconds(2001000);
-  t = matchingTransition.transition;
+  transitionForSeconds = storage.findTransitionForSeconds(2001000);
+  t = transitionForSeconds.transition;
   assertEqual(2001, t->transitionTime.year);
 
   // epochSeconds=2002000 found
-  matchingTransition = storage.findTransitionForSeconds(2002000);
-  t = matchingTransition.transition;
+  transitionForSeconds = storage.findTransitionForSeconds(2002000);
+  t = transitionForSeconds.transition;
   assertEqual(2002, t->transitionTime.year);
 
   // epochSeconds=3000000 far future, matches the last transition
-  matchingTransition = storage.findTransitionForSeconds(3000000);
-  t = matchingTransition.transition;
+  transitionForSeconds = storage.findTransitionForSeconds(3000000);
+  t = transitionForSeconds.transition;
   assertNotEqual(t, nullptr);
   assertEqual(2002, t->transitionTime.year);
 }
@@ -383,7 +384,7 @@ test(TransitionStorageTest, findTransitionForDateTime) {
 
   // 2000-01-01 00:00, far past
   auto ldt = LocalDateTime::forComponents(2000, 1, 1, 0, 0, 0);
-  TransitionResult r = storage.findTransitionForDateTime(ldt);
+  TransitionForDateTime r = storage.findTransitionForDateTime(ldt);
   assertEqual(r.num, 0);
   assertEqual(r.prev, nullptr);
   assertNotEqual(r.curr, nullptr);
