@@ -313,7 +313,8 @@ class TimeZone {
           } else {
             abbrev = (mDstOffsetMinutes != 0) ? "DST" : "STD";
           }
-          return ZonedExtra(mStdOffsetMinutes, mDstOffsetMinutes, abbrev);
+          return ZonedExtra(ZonedExtra::kTypeExact,
+              mStdOffsetMinutes, mDstOffsetMinutes, abbrev);
 
         default: {
           FindResult result =
@@ -322,6 +323,7 @@ class TimeZone {
             return ZonedExtra::forError();
           }
           return ZonedExtra(
+            (uint8_t)result.type,
             result.stdOffsetMinutes,
             result.dstOffsetMinutes,
             result.abbrev);
