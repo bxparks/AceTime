@@ -49,6 +49,16 @@ class Print;
 
 namespace ace_time {
 
+namespace extended {
+
+/** A simple tuple to represent a year/month pair. */
+struct YearMonthTuple {
+  int16_t year;
+  uint8_t month;
+};
+
+}
+
 /**
  * An implementation of ZoneProcessor that supports for *all* zones defined by
  * the TZ Database. The supported zones are defined in the zonedbx/zone_infos.h

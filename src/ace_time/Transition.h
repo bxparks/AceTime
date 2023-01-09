@@ -177,12 +177,6 @@ inline MatchStatus compareDateTupleFuzzy(
 
 //---------------------------------------------------------------------------
 
-/** A simple tuple to represent a year/month pair. */
-struct YearMonthTuple {
-  int16_t year;
-  uint8_t month;
-};
-
 /**
  * Data structure that captures the matching ZoneEra and its ZoneRule
  * transitions for a given year. Can be cached based on the year.
