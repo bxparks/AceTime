@@ -1,0 +1,22 @@
+TARGETS := zone_infos.cpp zone_infos.h zone_policies.cpp zone_policies.h
+
+TOOLS := $(abspath ../../../../../AceTimeTools)
+
+TZ_VERSION := 2022g
+START_YEAR := 1980
+UNTIL_YEAR := 10000
+
+all:
+	$(TOOLS)/tzcompiler.sh \
+		--tag $(TZ_VERSION) \
+		--action zonedb \
+		--language arduino \
+		--scope extended \
+		--db_namespace tzonedbx \
+		--generate_int16_years \
+		--include_list include_list.txt \
+		--start_year $(START_YEAR) \
+		--until_year $(UNTIL_YEAR)
+
+clean:
+	rm -rf tzfiles
