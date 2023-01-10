@@ -28,11 +28,11 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2022g
 //
-// Policies: 4
-// Rules: 11
+// Policies: 8
+// Rules: 27
 // Letter Size (bytes): 0
-// Total Memory 8-bit (bytes): 123
-// Total Memory 32-bit (bytes): 180
+// Total Memory 8-bit (bytes): 291
+// Total Memory 32-bit (bytes): 420
 //
 // DO NOT EDIT
 
@@ -71,6 +71,98 @@ const basic::ZonePolicy kZonePolicyAus ACE_TIME_PROGMEM = {
   kZoneRulesAus /*rules*/,
   nullptr /*letters*/,
   1 /*numRules*/,
+  0 /*numLetters*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: Canada
+// Rules: 6
+// Memory (8-bit): 60
+// Memory (32-bit): 84
+//---------------------------------------------------------------------------
+
+static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
+  // Rule    Canada    1945    only    -    Sep    30    2:00    0    S
+  {
+    1945 /*fromYear*/,
+    1945 /*toYear*/,
+    9 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    30 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    'S' /*letter*/,
+  },
+  // Rule    Canada    1974    1986    -    Apr    lastSun    2:00    1:00    D
+  {
+    1974 /*fromYear*/,
+    1986 /*toYear*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    'D' /*letter*/,
+  },
+  // Rule    Canada    1974    2006    -    Oct    lastSun    2:00    0    S
+  {
+    1974 /*fromYear*/,
+    2006 /*toYear*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    'S' /*letter*/,
+  },
+  // Rule    Canada    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
+  {
+    1987 /*fromYear*/,
+    2006 /*toYear*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    'D' /*letter*/,
+  },
+  // Rule    Canada    2007    max    -    Mar    Sun>=8    2:00    1:00    D
+  {
+    2007 /*fromYear*/,
+    9999 /*toYear*/,
+    3 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    8 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    'D' /*letter*/,
+  },
+  // Rule    Canada    2007    max    -    Nov    Sun>=1    2:00    0    S
+  {
+    2007 /*fromYear*/,
+    9999 /*toYear*/,
+    11 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    'S' /*letter*/,
+  },
+
+};
+
+
+
+const basic::ZonePolicy kZonePolicyCanada ACE_TIME_PROGMEM = {
+  kZoneRulesCanada /*rules*/,
+  nullptr /*letters*/,
+  6 /*numRules*/,
   0 /*numLetters*/,
 };
 
@@ -125,6 +217,62 @@ static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
 
 const basic::ZonePolicy kZonePolicyEcuador ACE_TIME_PROGMEM = {
   kZoneRulesEcuador /*rules*/,
+  nullptr /*letters*/,
+  3 /*numRules*/,
+  0 /*numLetters*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: Edm
+// Rules: 3
+// Memory (8-bit): 33
+// Memory (32-bit): 48
+//---------------------------------------------------------------------------
+
+static const basic::ZoneRule kZoneRulesEdm[] ACE_TIME_PROGMEM = {
+  // Rule    Edm    1947    only    -    Sep    lastSun    2:00    0    S
+  {
+    1947 /*fromYear*/,
+    1947 /*toYear*/,
+    9 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    'S' /*letter*/,
+  },
+  // Rule    Edm    1972    1986    -    Apr    lastSun    2:00    1:00    D
+  {
+    1972 /*fromYear*/,
+    1986 /*toYear*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    'D' /*letter*/,
+  },
+  // Rule    Edm    1972    2006    -    Oct    lastSun    2:00    0    S
+  {
+    1972 /*fromYear*/,
+    2006 /*toYear*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    'S' /*letter*/,
+  },
+
+};
+
+
+
+const basic::ZonePolicy kZonePolicyEdm ACE_TIME_PROGMEM = {
+  kZoneRulesEdm /*rules*/,
   nullptr /*letters*/,
   3 /*numRules*/,
   0 /*numLetters*/,
@@ -251,6 +399,130 @@ const basic::ZonePolicy kZonePolicyUS ACE_TIME_PROGMEM = {
   kZoneRulesUS /*rules*/,
   nullptr /*letters*/,
   6 /*numRules*/,
+  0 /*numLetters*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: Vanc
+// Rules: 3
+// Memory (8-bit): 33
+// Memory (32-bit): 48
+//---------------------------------------------------------------------------
+
+static const basic::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
+  // Rule    Vanc    1946    1986    -    Apr    lastSun    2:00    1:00    D
+  {
+    1946 /*fromYear*/,
+    1986 /*toYear*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    'D' /*letter*/,
+  },
+  // Rule    Vanc    1947    1961    -    Sep    lastSun    2:00    0    S
+  {
+    1947 /*fromYear*/,
+    1961 /*toYear*/,
+    9 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    'S' /*letter*/,
+  },
+  // Rule    Vanc    1962    2006    -    Oct    lastSun    2:00    0    S
+  {
+    1962 /*fromYear*/,
+    2006 /*toYear*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    'S' /*letter*/,
+  },
+
+};
+
+
+
+const basic::ZonePolicy kZonePolicyVanc ACE_TIME_PROGMEM = {
+  kZoneRulesVanc /*rules*/,
+  nullptr /*letters*/,
+  3 /*numRules*/,
+  0 /*numLetters*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: Winn
+// Rules: 4
+// Memory (8-bit): 42
+// Memory (32-bit): 60
+//---------------------------------------------------------------------------
+
+static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
+  // Rule    Winn    1963    only    -    Sep    22    2:00    0    S
+  {
+    1963 /*fromYear*/,
+    1963 /*toYear*/,
+    9 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    22 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    'S' /*letter*/,
+  },
+  // Rule    Winn    1966    1986    -    Apr    lastSun    2:00s    1:00    D
+  {
+    1966 /*fromYear*/,
+    1986 /*toYear*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    'D' /*letter*/,
+  },
+  // Rule    Winn    1966    2005    -    Oct    lastSun    2:00s    0    S
+  {
+    1966 /*fromYear*/,
+    2005 /*toYear*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    'S' /*letter*/,
+  },
+  // Rule    Winn    1987    2005    -    Apr    Sun>=1    2:00s    1:00    D
+  {
+    1987 /*fromYear*/,
+    2005 /*toYear*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    'D' /*letter*/,
+  },
+
+};
+
+
+
+const basic::ZonePolicy kZonePolicyWinn ACE_TIME_PROGMEM = {
+  kZoneRulesWinn /*rules*/,
+  nullptr /*letters*/,
+  4 /*numRules*/,
   0 /*numLetters*/,
 };
 

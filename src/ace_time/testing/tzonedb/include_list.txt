@@ -8,3 +8,13 @@ US/Pacific
 Pacific/Galapagos
 Africa/Johannesburg
 Australia/Darwin
+
+# BasicZoneManagerTest
+America/Chicago
+America/Denver
+America/Los_Angeles
+America/New_York
+America/Toronto
+America/Vancouver
+America/Edmonton
+America/Winnipeg
