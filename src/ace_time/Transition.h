@@ -136,7 +136,11 @@ inline void normalizeDateTuple(DateTuple* dt) {
   }
 }
 
-/** Return the number of seconds in (a - b), ignoring suffix. */
+/**
+ * Return the number of seconds in (a - b), ignoring suffix.
+ * TODO: Eliminiate int32 overflow by calculating the diffDays = epochDaysA -
+ * epochDaysB first.
+ */
 inline acetime_t subtractDateTuple(const DateTuple& a, const DateTuple& b) {
   int32_t epochDaysA = LocalDate::forComponents(
       a.year, a.month, a.day).toEpochDays();
@@ -448,9 +452,20 @@ struct TransitionTemplate {
  */
 template <typename ZEB, typename ZPB, typename ZRB>
 struct TransitionForSecondsTemplate {
-  const TransitionTemplate<ZEB, ZPB, ZRB>* transition;
+  /** The previous transition. */
+  const TransitionTemplate<ZEB, ZPB, ZRB>* prev;
 
-  uint8_t fold; // 1 if corresponding datetime occurred the second time
+  /** The matching transition, or null if not found */
+  const TransitionTemplate<ZEB, ZPB, ZRB>* curr;
+
+  /** The transition after the matching transition */
+  const TransitionTemplate<ZEB, ZPB, ZRB>* next;
+
+  /** 1 if corresponding datetime occurred the second time */
+  uint8_t fold;
+
+  /** Number of LocalDateTime which map to this epochSeconds: 0, 1, or 2. */
+  uint8_t num;
 };
 
 /**
@@ -722,36 +737,89 @@ class TransitionStorageTemplate {
             "findTransitionForSeconds(): mIndexFree: %d\n", mIndexFree);
       }
 
-      const Transition* prevMatch = nullptr;
-      const Transition* match = nullptr;
+      const Transition* prev = nullptr;
+      const Transition* curr = nullptr;
+      const Transition* next = nullptr;
       for (uint8_t i = 0; i < mIndexFree; i++) {
-        const Transition* candidate = mTransitions[i];
-        if (candidate->startEpochSeconds > epochSeconds) break;
-        prevMatch = match;
-        match = candidate;
+        next = mTransitions[i];
+        if (next->startEpochSeconds > epochSeconds) break;
+        prev = curr;
+        curr = next;
+        next = nullptr;
       }
-      uint8_t fold = calculateFold(epochSeconds, match, prevMatch);
-      return TransitionForSeconds{ match, fold };
+
+      TransitionForSeconds tfs{prev, curr, next, 0, 0};
+      calcFoldAndOverlap(&tfs, epochSeconds);
+      //fprintf(stderr, "prev=%p;curr=%p;next=%p;fold=%d;num=%d\n",
+      //  prev, curr, next, tfs.fold, tfs.num);
+      return tfs;
     }
 
-    static uint8_t calculateFold(
-        acetime_t epochSeconds,
-        const Transition* match,
-        const Transition* prevMatch) {
+    /** Calculate the fold and num parameters of TransitionForSecond. */
+    static void calcFoldAndOverlap(
+        TransitionForSeconds* tfs,
+        acetime_t epochSeconds) {
 
-      if (match == nullptr) return 0;
-      if (prevMatch == nullptr) return 0;
+      const Transition* prev = tfs->prev;
+      const Transition* curr = tfs->curr;
+      const Transition* next = tfs->next;
 
-      // Check if epochSeconds occurs during a "fall back" DST transition.
-      acetime_t overlapSeconds = subtractDateTuple(
-          prevMatch->untilDateTime, match->startDateTime);
-      if (overlapSeconds <= 0) return 0;
-      acetime_t secondsFromTransitionStart =
-          epochSeconds - match->startEpochSeconds;
-      if (secondsFromTransitionStart >= overlapSeconds) return 0;
+      if (curr == nullptr) {
+        tfs->fold = 0;
+        tfs->num = 0;
+        return;
+      }
 
-      // EpochSeconds occurs within the "fall back" overlap.
-      return 1;
+      // Check if within forward overlap shadow from prev
+      bool isOverlap;
+      if (prev == nullptr) {
+        isOverlap = false;
+      } else {
+        // Extract the shift from prev transition. Can be 0 in some cases where
+        // the zone changed from DST of one zone to the STD into another zone,
+        // causing the overall UTC offset to remain unchanged.
+        acetime_t shiftSeconds = subtractDateTuple(
+            curr->startDateTime, prev->untilDateTime);
+        if (shiftSeconds >= 0) {
+          // spring forward, or unchanged
+          isOverlap = false;
+        } else {
+          // Check if within the forward overlap shadow from prev
+          isOverlap = epochSeconds - curr->startEpochSeconds < -shiftSeconds;
+        }
+      }
+      if (isOverlap) {
+        tfs->fold = 1; // epochSeconds selects the second match
+        tfs->num = 2;
+        return;
+      }
+
+      // Check if within backward overlap shawdow from next
+      if (next == nullptr) {
+        isOverlap = false;
+      } else {
+        // Extract the shift to next transition. Can be 0 in some cases where
+        // the zone changed from DST of one zone to the STD into another zone,
+        // causing the overall UTC offset to remain unchanged.
+        acetime_t shiftSeconds = subtractDateTuple(
+            next->startDateTime, curr->untilDateTime);
+        if (shiftSeconds >= 0) {
+          // spring forward, or unchanged
+          isOverlap = false;
+        } else {
+          // Check if within the backward overlap shadow from next
+          isOverlap = next->startEpochSeconds - epochSeconds <= -shiftSeconds;
+        }
+      }
+      if (isOverlap) {
+        tfs->fold = 0; // epochSeconds selects the first match
+        tfs->num = 2;
+        return;
+      }
+
+      // Normal single match, no overlap.
+      tfs->fold = 0;
+      tfs->num = 1;
     }
 
     /**

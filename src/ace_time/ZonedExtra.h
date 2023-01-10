@@ -16,9 +16,32 @@ class ZonedExtra {
   public:
     static const int16_t kInvalidMinutes = INT16_MIN;
 
+    /**
+     * The epochSeconds or LocalDateTime was not found because it was outside
+     * the range of the zoneinfo database (too far past, or too far in the
+     * future).
+     */
     static const uint8_t kTypeNotFound = 0;
+
+    /**
+     * Find by epochSeconds matches a single LocalDateTime. Find by
+     * LocalDateTime matches a single epochSeconds.
+     */
     static const uint8_t kTypeExact = 1;
+
+    /**
+     * Find by LocalDateTime occurs in a gap and does not match any
+     * epochSeconds. Find by epochSeconds will never return this because since
+     * it will always match either a single LocalDateTime or match nothing.
+     */
     static const uint8_t kTypeGap = 2;
+
+    /**
+     * Find by LocalDateTime matches 2 possible epochSeconds, which is
+     * disambguiated by the LocalDateTime::fold input parameter. Find by
+     * epochSeconds matches a LocalDateTime that can occur twice, and is
+     * disambiguated by the LocalDateTime::fold output parameter.
+     */
     static const uint8_t kTypeOverlap = 3;
 
     static ZonedExtra forError() {
@@ -45,6 +68,8 @@ class ZonedExtra {
     bool isError() const {
       return mStdOffsetMinutes == kInvalidMinutes;
     }
+
+    uint8_t type() const { return mType; }
 
     TimeOffset stdOffset() const {
       return TimeOffset::forMinutes(mStdOffsetMinutes);

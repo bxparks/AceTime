@@ -151,13 +151,15 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (transitionForDateTime.num == 1) {
         transition = transitionForDateTime.curr;
         result.type = FindResult::Type::kExact;
-      } else {
+        result.origOffsetMinutes = transition->offsetMinutes
+            + transition->deltaMinutes;
+      } else { // num = 0 or 2
         if (transitionForDateTime.prev == nullptr
             || transitionForDateTime.curr == nullptr) {
           // ldt was far past or far future
           transition = nullptr;
           result.type = FindResult::Type::kNotFound;
-        } else {
+        } else { // gap or overlap
           if (transitionForDateTime.num == 0) { // Gap
             result.type = FindResult::Type::kGap;
             if (ldt.fold() == 0) {
@@ -179,10 +181,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
               // transition, so select 'prev' as the target transition.
               transition = transitionForDateTime.prev;
             }
-          } else { // num==2, Overlap
-            transition = (ldt.fold() == 0) ? transitionForDateTime.prev :
-            transitionForDateTime.curr;
+          } else { // Overlap
+            transition = (ldt.fold() == 0)
+                ? transitionForDateTime.prev
+                : transitionForDateTime.curr;
             result.type = FindResult::Type::kOverlap;
+            result.origOffsetMinutes = transition->offsetMinutes
+                + transition->deltaMinutes;
           }
         }
       }
@@ -193,11 +198,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
       result.stdOffsetMinutes = transition->offsetMinutes;
       result.dstOffsetMinutes = transition->deltaMinutes;
-      if (result.type != FindResult::Type::kGap) {
-        // If not in the gap, calc the origOffsetMinutes for consistency.
-        result.origOffsetMinutes = result.stdOffsetMinutes
-            + result.dstOffsetMinutes;
-      }
       result.abbrev = transition->abbrev;
 
       return result;
@@ -218,7 +218,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
       TransitionForSeconds transitionForSeconds =
           mTransitionStorage.findTransitionForSeconds(epochSeconds);
-      const Transition* transition = transitionForSeconds.transition;
+      const Transition* transition = transitionForSeconds.curr;
       if (!transition) return result;
 
       result.stdOffsetMinutes = transition->offsetMinutes;
@@ -226,7 +226,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       result.origOffsetMinutes = transition->offsetMinutes
           + transition->deltaMinutes;
       result.abbrev = transition->abbrev;
-      result.type = (transitionForSeconds.fold == 1)
+      result.type = (transitionForSeconds.num == 2)
           ? FindResult::Type::kOverlap
           : FindResult::Type::kExact;
       return result;

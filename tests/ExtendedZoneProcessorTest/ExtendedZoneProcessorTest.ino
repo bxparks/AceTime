@@ -987,7 +987,7 @@ test(ExtendedZoneProcessorTest, printNameTo) {
   assertEqual(F("Los Angeles"), printStr.cstr());
 }
 
-// Test findByEpochSeconds(). Result can be kExact, kOverlap, kNotFound, but
+// Test findByEpochSeconds(). Result can be kNotFound, kExact, kOverlap, but
 // never kGap.
 test(ExtendedZoneProcessorTest, findByEpochSeconds) {
   ExtendedZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
@@ -995,7 +995,7 @@ test(ExtendedZoneProcessorTest, findByEpochSeconds) {
   acetime_t epochSeconds;
   FindResult result;
 
-  // just before spring forward
+  // 01:59:59 just before spring forward
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
@@ -1006,7 +1006,7 @@ test(ExtendedZoneProcessorTest, findByEpochSeconds) {
   assertEqual(-8*60, result.origOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
-  // spring forward
+  // 02:00 spring forward
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
@@ -1017,29 +1017,29 @@ test(ExtendedZoneProcessorTest, findByEpochSeconds) {
   assertEqual(-7*60, result.origOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
-  // before fall back
+  // 01:00 before fall back, overlap, first occurrence
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 0, 0,
       TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::Type::kOverlap);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
   assertEqual(-7*60, result.origOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
-  // just before fall back
-  dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 59, 59,
+  // 01:59 just before fall back, overlap, first occurrence
+  dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 59, 0,
       TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::Type::kOverlap);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
   assertEqual(-7*60, result.origOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
-  // fall back, so there is an overlap
+  // 02:00 falls back to 01:00, which occurs twice
   dt = OffsetDateTime::forComponents(2018, 11, 4, 2, 0, 0,
       TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
@@ -1050,7 +1050,18 @@ test(ExtendedZoneProcessorTest, findByEpochSeconds) {
   assertEqual(-8*60, result.origOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
-  // an hour after fall back, no overlap
+  // 01:59, overlap, second occurence
+  dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 59, 0,
+      TimeOffset::forHours(-8));
+  epochSeconds = dt.toEpochSeconds();
+  result = zoneProcessor.findByEpochSeconds(epochSeconds);
+  assertEqual((int)result.type, (int)FindResult::Type::kOverlap);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(0*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual("PST", result.abbrev);
+
+  // 03:00 an hour after fall back, no overlap
   dt = OffsetDateTime::forComponents(2018, 11, 4, 3, 0, 0,
       TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
@@ -1116,6 +1127,24 @@ test(ExtendedZoneProcessorTest, findByLocalDateTime) {
   assertEqual(-8*60, result.origOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
+  // 02:00, in gap, fold=0 transition normalizes to 03:00-07:00
+  ldt = LocalDateTime::forComponents(2022, 3, 13, 2, 0, 0, 0 /*fold*/);
+  result = zoneProcessor.findByLocalDateTime(ldt);
+  assertEqual((int)result.type, (int)FindResult::Type::kGap);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(1*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual("PDT", result.abbrev);
+
+  // 02:00, in gap, fold=1 normalizes to 01:00-08:00
+  ldt = LocalDateTime::forComponents(2022, 3, 13, 2, 0, 0, 1 /*fold*/);
+  result = zoneProcessor.findByLocalDateTime(ldt);
+  assertEqual((int)result.type, (int)FindResult::Type::kGap);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(0*60, result.dstOffsetMinutes);
+  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual("PST", result.abbrev);
+
   // 02:29 in gap, fold=0 uses -08:00 to convert to epochSeconds, then
   // normalizes to -07:00.
   ldt = LocalDateTime::forComponents(2022, 3, 13, 2, 29, 0, 0 /*fold*/);
@@ -1145,6 +1174,24 @@ test(ExtendedZoneProcessorTest, findByLocalDateTime) {
   assertEqual(-7*60, result.origOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
+  // 01:00, after fall back, overlap, select first
+  ldt = LocalDateTime::forComponents(2022, 11, 6, 1, 0, 0, 0 /*fold*/);
+  result = zoneProcessor.findByLocalDateTime(ldt);
+  assertEqual((int)result.type, (int)FindResult::Type::kOverlap);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(1*60, result.dstOffsetMinutes);
+  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual("PDT", result.abbrev);
+
+  // 01:00, overlap, select second
+  ldt = LocalDateTime::forComponents(2022, 11, 6, 1, 0, 0, 1 /*fold*/);
+  result = zoneProcessor.findByLocalDateTime(ldt);
+  assertEqual((int)result.type, (int)FindResult::Type::kOverlap);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(0*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual("PST", result.abbrev);
+
   // 01:29, fold=0, before fall back, in overlap, select first
   ldt = LocalDateTime::forComponents(2022, 11, 6, 1, 29, 0, 0 /*fold*/);
   result = zoneProcessor.findByLocalDateTime(ldt);
@@ -1163,8 +1210,17 @@ test(ExtendedZoneProcessorTest, findByLocalDateTime) {
   assertEqual(-8*60, result.origOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
-  // 02:01, way after fall back, no overlap
-  ldt = LocalDateTime::forComponents(2022, 11, 6, 2, 1, 0, 0 /*fold*/);
+  // 02:00, after fall back, should be no overlap because it occurs only once
+  ldt = LocalDateTime::forComponents(2022, 11, 6, 2, 0, 0, 0 /*fold*/);
+  result = zoneProcessor.findByLocalDateTime(ldt);
+  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(0*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual("PST", result.abbrev);
+
+  // 02:30, way after fall back, no overlap
+  ldt = LocalDateTime::forComponents(2022, 11, 6, 2, 30, 0, 0 /*fold*/);
   result = zoneProcessor.findByLocalDateTime(ldt);
   assertEqual((int)result.type, (int)FindResult::Type::kExact);
   assertEqual(-8*60, result.stdOffsetMinutes);

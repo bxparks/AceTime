@@ -386,27 +386,27 @@ test(TransitionStorageTest, findTransitionForSeconds) {
   // epochSeconds=1 far past
   TransitionForSeconds transitionForSeconds =
       storage.findTransitionForSeconds(1);
-  const Transition* t = transitionForSeconds.transition;
+  const Transition* t = transitionForSeconds.curr;
   assertEqual(t, nullptr);
 
   // epochSeconds=2000001 found
   transitionForSeconds = storage.findTransitionForSeconds(2000001);
-  t = transitionForSeconds.transition;
+  t = transitionForSeconds.curr;
   assertEqual(2000, t->transitionTime.year);
 
   // epochSeconds=2001000 found
   transitionForSeconds = storage.findTransitionForSeconds(2001000);
-  t = transitionForSeconds.transition;
+  t = transitionForSeconds.curr;
   assertEqual(2001, t->transitionTime.year);
 
   // epochSeconds=2002000 found
   transitionForSeconds = storage.findTransitionForSeconds(2002000);
-  t = transitionForSeconds.transition;
+  t = transitionForSeconds.curr;
   assertEqual(2002, t->transitionTime.year);
 
   // epochSeconds=3000000 far future, matches the last transition
   transitionForSeconds = storage.findTransitionForSeconds(3000000);
-  t = transitionForSeconds.transition;
+  t = transitionForSeconds.curr;
   assertNotEqual(t, nullptr);
   assertEqual(2002, t->transitionTime.year);
 }
