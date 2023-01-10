@@ -28,20 +28,20 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2022g
 //
-// Zones: 11
+// Zones: 12
 // Links: 1
 // kZoneRegistry sizes (bytes):
-//   Names: 185 (originally 185)
-//   Formats: 38
+//   Names: 199 (originally 199)
+//   Formats: 48
 //   Fragments: 9
-//   Memory (8-bit): 566
-//   Memory (32-bit): 772
+//   Memory (8-bit): 647
+//   Memory (32-bit): 884
 // kZoneAndLinkRegistry sizes (bytes):
-//   Names: 196 (originally 196)
-//   Formats: 38
+//   Names: 210 (originally 210)
+//   Formats: 48
 //   Fragments: 9
-//   Memory (8-bit): 590
-//   Memory (32-bit): 807
+//   Memory (8-bit): 671
+//   Memory (32-bit): 919
 //
 // DO NOT EDIT
 
@@ -73,7 +73,7 @@ const internal::ZoneContext kZoneContext = {
 };
 
 //---------------------------------------------------------------------------
-// Zones: 11
+// Zones: 12
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -520,6 +520,76 @@ const extended::ZoneInfo kZoneAustralia_Darwin ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAustralia_Darwin /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Lisbon
+// Zone Eras: 4
+// Strings (bytes): 34 (originally 34)
+// Memory (8-bit): 89
+// Memory (32-bit): 118
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEurope_Lisbon[] ACE_TIME_PROGMEM = {
+  //              0:00    Port    WE%sT    1983 Sep 25  1:00s
+  {
+    &kZonePolicyPort /*zonePolicy*/,
+    "WE%T" /*format*/,
+    0 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    1983 /*untilYear*/,
+    9 /*untilMonth*/,
+    25 /*untilDay*/,
+    4 /*untilTimeCode*/,
+    16 /*untilTimeModifier (kSuffixS + minute=0)*/,
+  },
+  //              0:00    W-Eur    WE%sT    1992 Sep 27  1:00s
+  {
+    &kZonePolicyW_Eur /*zonePolicy*/,
+    "WE%T" /*format*/,
+    0 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    1992 /*untilYear*/,
+    9 /*untilMonth*/,
+    27 /*untilDay*/,
+    4 /*untilTimeCode*/,
+    16 /*untilTimeModifier (kSuffixS + minute=0)*/,
+  },
+  //              1:00    EU    CE%sT    1996 Mar 31  1:00u
+  {
+    &kZonePolicyEU /*zonePolicy*/,
+    "CE%T" /*format*/,
+    4 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    1996 /*untilYear*/,
+    3 /*untilMonth*/,
+    31 /*untilDay*/,
+    4 /*untilTimeCode*/,
+    32 /*untilTimeModifier (kSuffixU + minute=0)*/,
+  },
+  //              0:00    EU    WE%sT
+  {
+    &kZonePolicyEU /*zonePolicy*/,
+    "WE%T" /*format*/,
+    0 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameEurope_Lisbon[] ACE_TIME_PROGMEM = "Europe/Lisbon";
+
+const extended::ZoneInfo kZoneEurope_Lisbon ACE_TIME_PROGMEM = {
+  kZoneNameEurope_Lisbon /*name*/,
+  0x5c00a70b /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  4 /*numEras*/,
+  kZoneEraEurope_Lisbon /*eras*/,
 };
 
 

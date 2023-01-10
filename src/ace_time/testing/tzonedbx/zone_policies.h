@@ -39,20 +39,23 @@ namespace ace_time {
 namespace tzonedbx {
 
 //---------------------------------------------------------------------------
-// Supported zone policies: 7
+// Supported zone policies: 10
 //---------------------------------------------------------------------------
 
 extern const extended::ZonePolicy kZonePolicyAus;
 extern const extended::ZonePolicy kZonePolicyCanada;
+extern const extended::ZonePolicy kZonePolicyEU;
 extern const extended::ZonePolicy kZonePolicyEdm;
 extern const extended::ZonePolicy kZonePolicyNamibia;
+extern const extended::ZonePolicy kZonePolicyPort;
 extern const extended::ZonePolicy kZonePolicyUS;
 extern const extended::ZonePolicy kZonePolicyVanc;
+extern const extended::ZonePolicy kZonePolicyW_Eur;
 extern const extended::ZonePolicy kZonePolicyWinn;
 
 
 //---------------------------------------------------------------------------
-// Unsupported zone policies: 127
+// Unsupported zone policies: 124
 //---------------------------------------------------------------------------
 
 // AN {unused}
@@ -90,7 +93,6 @@ extern const extended::ZonePolicy kZonePolicyWinn;
 // Dhaka {unused}
 // E-Eur {unused}
 // E-EurAsia {unused}
-// EU {unused}
 // EUAsia {unused}
 // Ecuador {unused}
 // Egypt {unused}
@@ -148,7 +150,6 @@ extern const extended::ZonePolicy kZonePolicyWinn;
 // Phil {unused}
 // Pike {unused}
 // Poland {unused}
-// Port {unused}
 // Pulaski {unused}
 // ROK {unused}
 // Regina {unused}
@@ -178,7 +179,6 @@ extern const extended::ZonePolicy kZonePolicyWinn;
 // Uruguay {unused}
 // Vanuatu {unused}
 // Vincennes {unused}
-// W-Eur {unused}
 // WS {unused}
 // Yukon {unused}
 // Zion {unused}

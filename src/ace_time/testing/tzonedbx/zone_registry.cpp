@@ -40,12 +40,13 @@ namespace tzonedbx {
 //---------------------------------------------------------------------------
 // Zone Info registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
-const extended::ZoneInfo* const kZoneRegistry[11] ACE_TIME_PROGMEM = {
+const extended::ZoneInfo* const kZoneRegistry[12] ACE_TIME_PROGMEM = {
   &kZoneAmerica_New_York, // 0x1e2a7654, America/New_York
   &kZoneAustralia_Darwin, // 0x2876bdff, Australia/Darwin
   &kZoneAmerica_Vancouver, // 0x2c6f6b1f, America/Vancouver
   &kZoneAmerica_Caracas, // 0x3be064f4, America/Caracas
   &kZoneAmerica_Chicago, // 0x4b92b5d4, America/Chicago
+  &kZoneEurope_Lisbon, // 0x5c00a70b, Europe/Lisbon
   &kZoneAmerica_Edmonton, // 0x6cb9484a, America/Edmonton
   &kZoneAfrica_Windhoek, // 0x789c9bd3, Africa/Windhoek
   &kZoneAmerica_Toronto, // 0x792e851b, America/Toronto
@@ -58,12 +59,13 @@ const extended::ZoneInfo* const kZoneRegistry[11] ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Zone and Link (fat) Info registry. Sorted by zoneId. Links act like Zones.
 //---------------------------------------------------------------------------
-const extended::ZoneInfo* const kZoneAndLinkRegistry[12] ACE_TIME_PROGMEM = {
+const extended::ZoneInfo* const kZoneAndLinkRegistry[13] ACE_TIME_PROGMEM = {
   &kZoneAmerica_New_York, // 0x1e2a7654, America/New_York
   &kZoneAustralia_Darwin, // 0x2876bdff, Australia/Darwin
   &kZoneAmerica_Vancouver, // 0x2c6f6b1f, America/Vancouver
   &kZoneAmerica_Caracas, // 0x3be064f4, America/Caracas
   &kZoneAmerica_Chicago, // 0x4b92b5d4, America/Chicago
+  &kZoneEurope_Lisbon, // 0x5c00a70b, Europe/Lisbon
   &kZoneAmerica_Edmonton, // 0x6cb9484a, America/Edmonton
   &kZoneAfrica_Windhoek, // 0x789c9bd3, Africa/Windhoek
   &kZoneAmerica_Toronto, // 0x792e851b, America/Toronto

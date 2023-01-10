@@ -18,3 +18,6 @@ America/Toronto
 America/Vancouver
 America/Edmonton
 America/Winnipeg
+
+# ExtendedZoneProcessorTransitionTest
+Europe/Lisbon

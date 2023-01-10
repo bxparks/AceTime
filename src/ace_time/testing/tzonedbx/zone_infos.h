@@ -49,7 +49,7 @@ extern const char kTzDatabaseVersion[];
 extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 11
+// Supported zones: 12
 //---------------------------------------------------------------------------
 
 extern const extended::ZoneInfo kZoneAfrica_Windhoek; // Africa/Windhoek
@@ -63,6 +63,7 @@ extern const extended::ZoneInfo kZoneAmerica_Toronto; // America/Toronto
 extern const extended::ZoneInfo kZoneAmerica_Vancouver; // America/Vancouver
 extern const extended::ZoneInfo kZoneAmerica_Winnipeg; // America/Winnipeg
 extern const extended::ZoneInfo kZoneAustralia_Darwin; // Australia/Darwin
+extern const extended::ZoneInfo kZoneEurope_Lisbon; // Europe/Lisbon
 
 
 // Zone Ids
@@ -78,6 +79,7 @@ const uint32_t kZoneIdAmerica_Toronto = 0x792e851b; // America/Toronto
 const uint32_t kZoneIdAmerica_Vancouver = 0x2c6f6b1f; // America/Vancouver
 const uint32_t kZoneIdAmerica_Winnipeg = 0x8c7dafc7; // America/Winnipeg
 const uint32_t kZoneIdAustralia_Darwin = 0x2876bdff; // Australia/Darwin
+const uint32_t kZoneIdEurope_Lisbon = 0x5c00a70b; // Europe/Lisbon
 
 
 //---------------------------------------------------------------------------
@@ -111,10 +113,11 @@ const uint8_t kZoneBufSizeAmerica_Toronto = 6;  // America/Toronto in 2008
 const uint8_t kZoneBufSizeAmerica_Vancouver = 6;  // America/Vancouver in 2008
 const uint8_t kZoneBufSizeAmerica_Winnipeg = 6;  // America/Winnipeg in 2006
 const uint8_t kZoneBufSizeAustralia_Darwin = 2;  // Australia/Darwin in 1979
+const uint8_t kZoneBufSizeEurope_Lisbon = 6;  // Europe/Lisbon in 1983
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 340
+// Unsupported zones: 339
 //---------------------------------------------------------------------------
 
 // Africa/Abidjan {Zone missing from include list}
@@ -396,7 +399,6 @@ const uint8_t kZoneBufSizeAustralia_Darwin = 2;  // Australia/Darwin in 1979
 // Europe/Kaliningrad {Zone missing from include list}
 // Europe/Kirov {Zone missing from include list}
 // Europe/Kyiv {Zone missing from include list}
-// Europe/Lisbon {Zone missing from include list}
 // Europe/London {Zone missing from include list}
 // Europe/Madrid {Zone missing from include list}
 // Europe/Malta {Zone missing from include list}

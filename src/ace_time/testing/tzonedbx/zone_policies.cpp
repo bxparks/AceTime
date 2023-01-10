@@ -28,11 +28,11 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2022g
 //
-// Policies: 7
-// Rules: 27
+// Policies: 10
+// Rules: 40
 // Letter Size (bytes): 8
-// Total Memory 8-bit (bytes): 297
-// Total Memory 32-bit (bytes): 424
+// Total Memory 8-bit (bytes): 432
+// Total Memory 32-bit (bytes): 616
 //
 // DO NOT EDIT
 
@@ -167,6 +167,74 @@ const extended::ZonePolicy kZonePolicyCanada ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
+// Policy name: EU
+// Rules: 4
+// Memory (8-bit): 42
+// Memory (32-bit): 60
+//---------------------------------------------------------------------------
+
+static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
+  // Rule    EU    1977    1980    -    Apr    Sun>=1     1:00u    1:00    S
+  {
+    1977 /*fromYear*/,
+    1980 /*toYear*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    32 /*atTimeModifier (kSuffixU + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    'S' /*letter*/,
+  },
+  // Rule    EU    1979    1995    -    Sep    lastSun     1:00u    0    -
+  {
+    1979 /*fromYear*/,
+    1995 /*toYear*/,
+    9 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    32 /*atTimeModifier (kSuffixU + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    EU    1981    max    -    Mar    lastSun     1:00u    1:00    S
+  {
+    1981 /*fromYear*/,
+    9999 /*toYear*/,
+    3 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    32 /*atTimeModifier (kSuffixU + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    'S' /*letter*/,
+  },
+  // Rule    EU    1996    max    -    Oct    lastSun     1:00u    0    -
+  {
+    1996 /*fromYear*/,
+    9999 /*toYear*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    32 /*atTimeModifier (kSuffixU + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+
+};
+
+
+
+const extended::ZonePolicy kZonePolicyEU ACE_TIME_PROGMEM = {
+  kZoneRulesEU /*rules*/,
+  nullptr /*letters*/,
+  4 /*numRules*/,
+  0 /*numLetters*/,
+};
+
+//---------------------------------------------------------------------------
 // Policy name: Edm
 // Rules: 3
 // Memory (8-bit): 33
@@ -293,6 +361,98 @@ const extended::ZonePolicy kZonePolicyNamibia ACE_TIME_PROGMEM = {
   kLettersNamibia /*letters*/,
   4 /*numRules*/,
   2 /*numLetters*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: Port
+// Rules: 6
+// Memory (8-bit): 60
+// Memory (32-bit): 84
+//---------------------------------------------------------------------------
+
+static const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
+  // Rule    Port    1978    1979    -    Apr    Sun>=1     0:00s    1:00    S
+  {
+    1978 /*fromYear*/,
+    1979 /*toYear*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    'S' /*letter*/,
+  },
+  // Rule    Port    1978    only    -    Oct     1     0:00s    0    -
+  {
+    1978 /*fromYear*/,
+    1978 /*toYear*/,
+    10 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Port    1979    1982    -    Sep    lastSun     1:00s    0    -
+  {
+    1979 /*fromYear*/,
+    1982 /*toYear*/,
+    9 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Port    1980    only    -    Mar    lastSun     0:00s    1:00    S
+  {
+    1980 /*fromYear*/,
+    1980 /*toYear*/,
+    3 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    'S' /*letter*/,
+  },
+  // Rule    Port    1981    1982    -    Mar    lastSun     1:00s    1:00    S
+  {
+    1981 /*fromYear*/,
+    1982 /*toYear*/,
+    3 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    'S' /*letter*/,
+  },
+  // Rule    Port    1983    only    -    Mar    lastSun     2:00s    1:00    S
+  {
+    1983 /*fromYear*/,
+    1983 /*toYear*/,
+    3 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    'S' /*letter*/,
+  },
+
+};
+
+
+
+const extended::ZonePolicy kZonePolicyPort ACE_TIME_PROGMEM = {
+  kZoneRulesPort /*rules*/,
+  nullptr /*letters*/,
+  6 /*numRules*/,
+  0 /*numLetters*/,
 };
 
 //---------------------------------------------------------------------------
@@ -438,6 +598,62 @@ static const extended::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
 
 const extended::ZonePolicy kZonePolicyVanc ACE_TIME_PROGMEM = {
   kZoneRulesVanc /*rules*/,
+  nullptr /*letters*/,
+  3 /*numRules*/,
+  0 /*numLetters*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: W_Eur
+// Rules: 3
+// Memory (8-bit): 33
+// Memory (32-bit): 48
+//---------------------------------------------------------------------------
+
+static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
+  // Rule    W-Eur    1977    1980    -    Apr    Sun>=1     1:00s    1:00    S
+  {
+    1977 /*fromYear*/,
+    1980 /*toYear*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    'S' /*letter*/,
+  },
+  // Rule    W-Eur    1979    1995    -    Sep    lastSun     1:00s    0    -
+  {
+    1979 /*fromYear*/,
+    1995 /*toYear*/,
+    9 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    W-Eur    1981    max    -    Mar    lastSun     1:00s    1:00    S
+  {
+    1981 /*fromYear*/,
+    9999 /*toYear*/,
+    3 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    'S' /*letter*/,
+  },
+
+};
+
+
+
+const extended::ZonePolicy kZonePolicyW_Eur ACE_TIME_PROGMEM = {
+  kZoneRulesW_Eur /*rules*/,
   nullptr /*letters*/,
   3 /*numRules*/,
   0 /*numLetters*/,
