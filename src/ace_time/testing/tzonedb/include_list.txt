@@ -1,0 +1,3 @@
+# Include only these zones and links
+America/Los_Angeles
+US/Pacific
