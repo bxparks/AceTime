@@ -39,16 +39,20 @@ namespace ace_time {
 namespace tzonedbx {
 
 //---------------------------------------------------------------------------
-// Supported zone policies: 3
+// Supported zone policies: 7
 //---------------------------------------------------------------------------
 
 extern const extended::ZonePolicy kZonePolicyAus;
+extern const extended::ZonePolicy kZonePolicyCanada;
+extern const extended::ZonePolicy kZonePolicyEdm;
 extern const extended::ZonePolicy kZonePolicyNamibia;
 extern const extended::ZonePolicy kZonePolicyUS;
+extern const extended::ZonePolicy kZonePolicyVanc;
+extern const extended::ZonePolicy kZonePolicyWinn;
 
 
 //---------------------------------------------------------------------------
-// Unsupported zone policies: 131
+// Unsupported zone policies: 127
 //---------------------------------------------------------------------------
 
 // AN {unused}
@@ -73,7 +77,6 @@ extern const extended::ZonePolicy kZonePolicyUS;
 // CA {unused}
 // CO {unused}
 // CR {unused}
-// Canada {unused}
 // Chatham {unused}
 // Chicago {unused}
 // Chile {unused}
@@ -90,7 +93,6 @@ extern const extended::ZonePolicy kZonePolicyUS;
 // EU {unused}
 // EUAsia {unused}
 // Ecuador {unused}
-// Edm {unused}
 // Egypt {unused}
 // EgyptAsia {unused}
 // Eire {unused}
@@ -174,12 +176,10 @@ extern const extended::ZonePolicy kZonePolicyUS;
 // Tunisia {unused}
 // Turkey {unused}
 // Uruguay {unused}
-// Vanc {unused}
 // Vanuatu {unused}
 // Vincennes {unused}
 // W-Eur {unused}
 // WS {unused}
-// Winn {unused}
 // Yukon {unused}
 // Zion {unused}
 

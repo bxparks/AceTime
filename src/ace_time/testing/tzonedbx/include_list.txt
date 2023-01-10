@@ -8,3 +8,13 @@ Africa/Windhoek
 # ExtendedZoneProcessorTest
 Australia/Darwin
 America/Caracas
+
+# ExtendedZoneManagerTest
+America/Chicago
+America/Denver
+America/Los_Angeles
+America/New_York
+America/Toronto
+America/Vancouver
+America/Edmonton
+America/Winnipeg

@@ -2,22 +2,40 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
+#include <ace_time/testing/tzonedbx/zone_policies.h>
+#include <ace_time/testing/tzonedbx/zone_infos.h>
 
 using namespace ace_time;
+using ace_time::tzonedbx::kZoneAmerica_Chicago;
+using ace_time::tzonedbx::kZoneAmerica_Denver;
+using ace_time::tzonedbx::kZoneAmerica_Los_Angeles;
+using ace_time::tzonedbx::kZoneAmerica_New_York;
+using ace_time::tzonedbx::kZoneAmerica_Toronto;
+using ace_time::tzonedbx::kZoneAmerica_Vancouver;
+using ace_time::tzonedbx::kZoneAmerica_Edmonton;
+using ace_time::tzonedbx::kZoneAmerica_Winnipeg;
+using ace_time::tzonedbx::kZoneIdAmerica_Chicago;
+using ace_time::tzonedbx::kZoneIdAmerica_Denver;
+using ace_time::tzonedbx::kZoneIdAmerica_Los_Angeles;
+using ace_time::tzonedbx::kZoneIdAmerica_New_York;
+using ace_time::tzonedbx::kZoneIdAmerica_Toronto;
+using ace_time::tzonedbx::kZoneIdAmerica_Vancouver;
+using ace_time::tzonedbx::kZoneIdAmerica_Edmonton;
+using ace_time::tzonedbx::kZoneIdAmerica_Winnipeg;
 
 //---------------------------------------------------------------------------
 // Set up a ExtendedZoneManager with a handful of zones.
 //---------------------------------------------------------------------------
 
 const extended::ZoneInfo* const kExtendedZoneRegistry[] ACE_TIME_PROGMEM = {
-  &zonedbx::kZoneAmerica_Chicago, // 0, -06:00
-  &zonedbx::kZoneAmerica_Denver, // 1, -07:00
-  &zonedbx::kZoneAmerica_Los_Angeles, // 2, -08:00
-  &zonedbx::kZoneAmerica_New_York, // 3, -05:00
-  &zonedbx::kZoneAmerica_Toronto, // 4, -05:00
-  &zonedbx::kZoneAmerica_Vancouver, // 5, -08:00
-  &zonedbx::kZoneAmerica_Edmonton, // 6, -07:00
-  &zonedbx::kZoneAmerica_Winnipeg, // 7, -06:00
+  &kZoneAmerica_Chicago, // 0, -06:00
+  &kZoneAmerica_Denver, // 1, -07:00
+  &kZoneAmerica_Los_Angeles, // 2, -08:00
+  &kZoneAmerica_New_York, // 3, -05:00
+  &kZoneAmerica_Toronto, // 4, -05:00
+  &kZoneAmerica_Vancouver, // 5, -08:00
+  &kZoneAmerica_Edmonton, // 6, -07:00
+  &kZoneAmerica_Winnipeg, // 7, -06:00
 };
 
 const uint16_t kExtendedZoneRegistrySize =
@@ -42,16 +60,16 @@ test(ExtendedZoneManagerTest, registrySize) {
 
 test(ExtendedZoneManagerTest, createForZoneName) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      &kZoneAmerica_Los_Angeles);
   TimeZone tzn = extendedZoneManager.createForZoneName("America/Los_Angeles");
   assertTrue(tz == tzn);
 }
 
 test(ExtendedZoneManagerTest, createForZoneId) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_New_York);
+      &kZoneAmerica_New_York);
   TimeZone tzid = extendedZoneManager.createForZoneId(
-      zonedb::kZoneIdAmerica_New_York);
+      kZoneIdAmerica_New_York);
   assertTrue(tz == tzid);
   assertEqual((uint32_t) 0x1e2a7654, tz.getZoneId());
   assertEqual((uint32_t) 0x1e2a7654, tzid.getZoneId());
@@ -59,7 +77,7 @@ test(ExtendedZoneManagerTest, createForZoneId) {
 
 test(ExtendedZoneManagerTest, createForZoneIndex) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Chicago);
+      &kZoneAmerica_Chicago);
   TimeZone tzidx = extendedZoneManager.createForZoneIndex(0);
   assertTrue(tz == tzidx);
 }
@@ -74,7 +92,7 @@ test(ExtendedZoneManagerTest, indexForZoneName) {
 
 test(ExtendedZoneManagerTest, indexForZoneId) {
   uint16_t index = extendedZoneManager.indexForZoneId(
-      zonedbx::kZoneIdAmerica_New_York);
+      kZoneIdAmerica_New_York);
   assertEqual((uint16_t) 3, index);
 
   index = extendedZoneManager.indexForZoneId(0 /* not found */);
@@ -83,9 +101,9 @@ test(ExtendedZoneManagerTest, indexForZoneId) {
 
 test(ExtendedZoneManagerTest, createForXxx_create_same_timezone) {
   TimeZone a = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      &kZoneAmerica_Los_Angeles);
   TimeZone b = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_New_York);
+      &kZoneAmerica_New_York);
   assertTrue(a != b);
 
   TimeZone aa = extendedZoneManager.createForZoneName("America/Los_Angeles");
@@ -136,33 +154,16 @@ test(ExtendedZoneManagerTest, createForTimeZoneData_manual) {
 test(ExtendedZoneManagerTest, createForTimeZoneData_zoneId) {
   ExtendedZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles,
+      &kZoneAmerica_Los_Angeles,
       &zoneProcessor);
   TimeZoneData tzd = tz.toTimeZoneData();
 
-  TimeZoneData expected{zonedb::kZoneIdAmerica_Los_Angeles};
+  TimeZoneData expected{kZoneIdAmerica_Los_Angeles};
   assertTrue(expected == tzd);
 
   // ExtendedZoneManager should return the same TimeZone
   TimeZone tzRoundTrip = extendedZoneManager.createForTimeZoneData(tzd);
   assertTrue(tz == tzRoundTrip);
-}
-
-// If we save a kTypeBasic, verify that we can read it back as a kTypeExtended
-// if the ZoneManager supports it.
-test(ExtendedZoneManagerTest, createForTimeZoneData_crossed) {
-  BasicZoneProcessor zoneProcessor;
-  TimeZone tz = TimeZone::forZoneInfo(
-      &zonedb::kZoneAmerica_Los_Angeles,
-      &zoneProcessor);
-  TimeZoneData tzd = tz.toTimeZoneData();
-
-  TimeZoneData expected{zonedb::kZoneIdAmerica_Los_Angeles};
-  assertTrue(expected == tzd);
-
-  TimeZone tzRoundTrip = extendedZoneManager.createForTimeZoneData(tzd);
-  assertEqual(tz.getZoneId(), tzRoundTrip.getZoneId());
-  assertEqual(ExtendedZoneProcessor::kTypeExtended, tzRoundTrip.getType());
 }
 
 //---------------------------------------------------------------------------
@@ -186,26 +187,26 @@ test(ExtendedZoneManagerTest, sortIndexes) {
 
 test(ExtendedZoneManagerTest, sortIds) {
   uint32_t ids[] = {
-    zonedbx::kZoneIdAmerica_Chicago,
-    zonedbx::kZoneIdAmerica_Denver,
-    zonedbx::kZoneIdAmerica_Los_Angeles,
-    zonedbx::kZoneIdAmerica_New_York,
-    zonedb::kZoneIdAmerica_Toronto,
-    zonedb::kZoneIdAmerica_Vancouver,
-    zonedb::kZoneIdAmerica_Edmonton,
-    zonedb::kZoneIdAmerica_Winnipeg,
+    kZoneIdAmerica_Chicago,
+    kZoneIdAmerica_Denver,
+    kZoneIdAmerica_Los_Angeles,
+    kZoneIdAmerica_New_York,
+    kZoneIdAmerica_Toronto,
+    kZoneIdAmerica_Vancouver,
+    kZoneIdAmerica_Edmonton,
+    kZoneIdAmerica_Winnipeg,
   };
   ZoneSorterByOffsetAndName<ExtendedZoneManager> zoneSorter(
       extendedZoneManager);
   zoneSorter.sortIds(ids, sizeof(ids)/sizeof(ids[0]));
-  assertEqual(ids[0], zonedbx::kZoneIdAmerica_Los_Angeles);
-  assertEqual(ids[1], zonedbx::kZoneIdAmerica_Vancouver);
-  assertEqual(ids[2], zonedbx::kZoneIdAmerica_Denver);
-  assertEqual(ids[3], zonedbx::kZoneIdAmerica_Edmonton);
-  assertEqual(ids[4], zonedbx::kZoneIdAmerica_Chicago);
-  assertEqual(ids[5], zonedbx::kZoneIdAmerica_Winnipeg);
-  assertEqual(ids[6], zonedbx::kZoneIdAmerica_New_York);
-  assertEqual(ids[7], zonedbx::kZoneIdAmerica_Toronto);
+  assertEqual(ids[0], kZoneIdAmerica_Los_Angeles);
+  assertEqual(ids[1], kZoneIdAmerica_Vancouver);
+  assertEqual(ids[2], kZoneIdAmerica_Denver);
+  assertEqual(ids[3], kZoneIdAmerica_Edmonton);
+  assertEqual(ids[4], kZoneIdAmerica_Chicago);
+  assertEqual(ids[5], kZoneIdAmerica_Winnipeg);
+  assertEqual(ids[6], kZoneIdAmerica_New_York);
+  assertEqual(ids[7], kZoneIdAmerica_Toronto);
 }
 
 test(ExtendedZoneManagerTest, sortNames) {

@@ -49,12 +49,19 @@ extern const char kTzDatabaseVersion[];
 extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 4
+// Supported zones: 11
 //---------------------------------------------------------------------------
 
 extern const extended::ZoneInfo kZoneAfrica_Windhoek; // Africa/Windhoek
 extern const extended::ZoneInfo kZoneAmerica_Caracas; // America/Caracas
+extern const extended::ZoneInfo kZoneAmerica_Chicago; // America/Chicago
+extern const extended::ZoneInfo kZoneAmerica_Denver; // America/Denver
+extern const extended::ZoneInfo kZoneAmerica_Edmonton; // America/Edmonton
 extern const extended::ZoneInfo kZoneAmerica_Los_Angeles; // America/Los_Angeles
+extern const extended::ZoneInfo kZoneAmerica_New_York; // America/New_York
+extern const extended::ZoneInfo kZoneAmerica_Toronto; // America/Toronto
+extern const extended::ZoneInfo kZoneAmerica_Vancouver; // America/Vancouver
+extern const extended::ZoneInfo kZoneAmerica_Winnipeg; // America/Winnipeg
 extern const extended::ZoneInfo kZoneAustralia_Darwin; // Australia/Darwin
 
 
@@ -62,7 +69,14 @@ extern const extended::ZoneInfo kZoneAustralia_Darwin; // Australia/Darwin
 
 const uint32_t kZoneIdAfrica_Windhoek = 0x789c9bd3; // Africa/Windhoek
 const uint32_t kZoneIdAmerica_Caracas = 0x3be064f4; // America/Caracas
+const uint32_t kZoneIdAmerica_Chicago = 0x4b92b5d4; // America/Chicago
+const uint32_t kZoneIdAmerica_Denver = 0x97d10b2a; // America/Denver
+const uint32_t kZoneIdAmerica_Edmonton = 0x6cb9484a; // America/Edmonton
 const uint32_t kZoneIdAmerica_Los_Angeles = 0xb7f7e8f2; // America/Los_Angeles
+const uint32_t kZoneIdAmerica_New_York = 0x1e2a7654; // America/New_York
+const uint32_t kZoneIdAmerica_Toronto = 0x792e851b; // America/Toronto
+const uint32_t kZoneIdAmerica_Vancouver = 0x2c6f6b1f; // America/Vancouver
+const uint32_t kZoneIdAmerica_Winnipeg = 0x8c7dafc7; // America/Winnipeg
 const uint32_t kZoneIdAustralia_Darwin = 0x2876bdff; // Australia/Darwin
 
 
@@ -88,12 +102,19 @@ const uint32_t kZoneIdUS_Pacific = 0xa950f6ab; // US/Pacific
 
 const uint8_t kZoneBufSizeAfrica_Windhoek = 4;  // Africa/Windhoek in 1994
 const uint8_t kZoneBufSizeAmerica_Caracas = 2;  // America/Caracas in 2007
+const uint8_t kZoneBufSizeAmerica_Chicago = 6;  // America/Chicago in 2008
+const uint8_t kZoneBufSizeAmerica_Denver = 6;  // America/Denver in 2008
+const uint8_t kZoneBufSizeAmerica_Edmonton = 6;  // America/Edmonton in 2008
 const uint8_t kZoneBufSizeAmerica_Los_Angeles = 6;  // America/Los_Angeles in 2008
+const uint8_t kZoneBufSizeAmerica_New_York = 6;  // America/New_York in 2008
+const uint8_t kZoneBufSizeAmerica_Toronto = 6;  // America/Toronto in 2008
+const uint8_t kZoneBufSizeAmerica_Vancouver = 6;  // America/Vancouver in 2008
+const uint8_t kZoneBufSizeAmerica_Winnipeg = 6;  // America/Winnipeg in 2006
 const uint8_t kZoneBufSizeAustralia_Darwin = 2;  // Australia/Darwin in 1979
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 347
+// Unsupported zones: 340
 //---------------------------------------------------------------------------
 
 // Africa/Abidjan {Zone missing from include list}
@@ -142,7 +163,6 @@ const uint8_t kZoneBufSizeAustralia_Darwin = 2;  // Australia/Darwin in 1979
 // America/Campo_Grande {Zone missing from include list}
 // America/Cancun {Zone missing from include list}
 // America/Cayenne {Zone missing from include list}
-// America/Chicago {Zone missing from include list}
 // America/Chihuahua {Zone missing from include list}
 // America/Ciudad_Juarez {Zone missing from include list}
 // America/Costa_Rica {Zone missing from include list}
@@ -150,9 +170,7 @@ const uint8_t kZoneBufSizeAustralia_Darwin = 2;  // Australia/Darwin in 1979
 // America/Danmarkshavn {Zone missing from include list}
 // America/Dawson {Zone missing from include list}
 // America/Dawson_Creek {Zone missing from include list}
-// America/Denver {Zone missing from include list}
 // America/Detroit {Zone missing from include list}
-// America/Edmonton {Zone missing from include list}
 // America/Eirunepe {Zone missing from include list}
 // America/El_Salvador {Zone missing from include list}
 // America/Fort_Nelson {Zone missing from include list}
@@ -196,7 +214,6 @@ const uint8_t kZoneBufSizeAustralia_Darwin = 2;  // Australia/Darwin in 1979
 // America/Moncton {Zone missing from include list}
 // America/Monterrey {Zone missing from include list}
 // America/Montevideo {Zone missing from include list}
-// America/New_York {Zone missing from include list}
 // America/Nome {Zone missing from include list}
 // America/Noronha {Zone missing from include list}
 // America/North_Dakota/Beulah {Zone missing from include list}
@@ -227,10 +244,7 @@ const uint8_t kZoneBufSizeAustralia_Darwin = 2;  // Australia/Darwin in 1979
 // America/Tegucigalpa {Zone missing from include list}
 // America/Thule {Zone missing from include list}
 // America/Tijuana {Zone missing from include list}
-// America/Toronto {Zone missing from include list}
-// America/Vancouver {Zone missing from include list}
 // America/Whitehorse {Zone missing from include list}
-// America/Winnipeg {Zone missing from include list}
 // America/Yakutat {Zone missing from include list}
 // America/Yellowknife {Zone missing from include list}
 // Antarctica/Casey {Zone missing from include list}

@@ -28,20 +28,20 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2022g
 //
-// Zones: 4
+// Zones: 11
 // Links: 1
 // kZoneRegistry sizes (bytes):
-//   Names: 69 (originally 69)
-//   Formats: 26
-//   Fragments: 0
-//   Memory (8-bit): 226
-//   Memory (32-bit): 305
+//   Names: 185 (originally 185)
+//   Formats: 38
+//   Fragments: 9
+//   Memory (8-bit): 566
+//   Memory (32-bit): 772
 // kZoneAndLinkRegistry sizes (bytes):
-//   Names: 80 (originally 80)
-//   Formats: 26
-//   Fragments: 0
-//   Memory (8-bit): 250
-//   Memory (32-bit): 340
+//   Names: 196 (originally 196)
+//   Formats: 38
+//   Fragments: 9
+//   Memory (8-bit): 590
+//   Memory (32-bit): 807
 //
 // DO NOT EDIT
 
@@ -60,6 +60,7 @@ const char kTzDatabaseVersion[] = "2022g";
 
 const char* const kFragments[] = {
 /*\x00*/ nullptr,
+/*\x01*/ "America/",
 
 };
 
@@ -67,12 +68,12 @@ const internal::ZoneContext kZoneContext = {
   1980 /*startYear*/,
   10000 /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,
-  1 /*numFragments*/,
+  2 /*numFragments*/,
   kFragments /*fragments*/,
 };
 
 //---------------------------------------------------------------------------
-// Zones: 4
+// Zones: 11
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -180,6 +181,120 @@ const extended::ZoneInfo kZoneAmerica_Caracas ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: America/Chicago
+// Zone Eras: 1
+// Strings (bytes): 20 (originally 20)
+// Memory (8-bit): 42
+// Memory (32-bit): 56
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraAmerica_Chicago[] ACE_TIME_PROGMEM = {
+  //             -6:00    US    C%sT
+  {
+    &kZonePolicyUS /*zonePolicy*/,
+    "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAmerica_Chicago[] ACE_TIME_PROGMEM = "America/Chicago";
+
+const extended::ZoneInfo kZoneAmerica_Chicago ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Chicago /*name*/,
+  0x4b92b5d4 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAmerica_Chicago /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Denver
+// Zone Eras: 1
+// Strings (bytes): 19 (originally 19)
+// Memory (8-bit): 41
+// Memory (32-bit): 55
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraAmerica_Denver[] ACE_TIME_PROGMEM = {
+  //             -7:00    US    M%sT
+  {
+    &kZonePolicyUS /*zonePolicy*/,
+    "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAmerica_Denver[] ACE_TIME_PROGMEM = "America/Denver";
+
+const extended::ZoneInfo kZoneAmerica_Denver ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Denver /*name*/,
+  0x97d10b2a /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAmerica_Denver /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Edmonton
+// Zone Eras: 2
+// Strings (bytes): 25 (originally 25)
+// Memory (8-bit): 58
+// Memory (32-bit): 77
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraAmerica_Edmonton[] ACE_TIME_PROGMEM = {
+  //             -7:00    Edm    M%sT    1987
+  {
+    &kZonePolicyEdm /*zonePolicy*/,
+    "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    1987 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             -7:00    Canada    M%sT
+  {
+    &kZonePolicyCanada /*zonePolicy*/,
+    "M%T" /*format*/,
+    -28 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAmerica_Edmonton[] ACE_TIME_PROGMEM = "America/Edmonton";
+
+const extended::ZoneInfo kZoneAmerica_Edmonton ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Edmonton /*name*/,
+  0x6cb9484a /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*numEras*/,
+  kZoneEraAmerica_Edmonton /*eras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: America/Los_Angeles
 // Zone Eras: 1
 // Strings (bytes): 24 (originally 24)
@@ -211,6 +326,166 @@ const extended::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAmerica_Los_Angeles /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/New_York
+// Zone Eras: 1
+// Strings (bytes): 21 (originally 21)
+// Memory (8-bit): 43
+// Memory (32-bit): 57
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraAmerica_New_York[] ACE_TIME_PROGMEM = {
+  //             -5:00    US    E%sT
+  {
+    &kZonePolicyUS /*zonePolicy*/,
+    "E%T" /*format*/,
+    -20 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAmerica_New_York[] ACE_TIME_PROGMEM = "America/New_York";
+
+const extended::ZoneInfo kZoneAmerica_New_York ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_New_York /*name*/,
+  0x1e2a7654 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAmerica_New_York /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Toronto
+// Zone Eras: 1
+// Strings (bytes): 20 (originally 20)
+// Memory (8-bit): 42
+// Memory (32-bit): 56
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraAmerica_Toronto[] ACE_TIME_PROGMEM = {
+  //             -5:00    Canada    E%sT
+  {
+    &kZonePolicyCanada /*zonePolicy*/,
+    "E%T" /*format*/,
+    -20 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAmerica_Toronto[] ACE_TIME_PROGMEM = "America/Toronto";
+
+const extended::ZoneInfo kZoneAmerica_Toronto ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Toronto /*name*/,
+  0x792e851b /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAmerica_Toronto /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Vancouver
+// Zone Eras: 2
+// Strings (bytes): 26 (originally 26)
+// Memory (8-bit): 59
+// Memory (32-bit): 78
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraAmerica_Vancouver[] ACE_TIME_PROGMEM = {
+  //             -8:00    Vanc    P%sT    1987
+  {
+    &kZonePolicyVanc /*zonePolicy*/,
+    "P%T" /*format*/,
+    -32 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    1987 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             -8:00    Canada    P%sT
+  {
+    &kZonePolicyCanada /*zonePolicy*/,
+    "P%T" /*format*/,
+    -32 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAmerica_Vancouver[] ACE_TIME_PROGMEM = "America/Vancouver";
+
+const extended::ZoneInfo kZoneAmerica_Vancouver ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Vancouver /*name*/,
+  0x2c6f6b1f /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*numEras*/,
+  kZoneEraAmerica_Vancouver /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Winnipeg
+// Zone Eras: 2
+// Strings (bytes): 25 (originally 25)
+// Memory (8-bit): 58
+// Memory (32-bit): 77
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraAmerica_Winnipeg[] ACE_TIME_PROGMEM = {
+  //             -6:00    Winn    C%sT    2006
+  {
+    &kZonePolicyWinn /*zonePolicy*/,
+    "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    2006 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             -6:00    Canada    C%sT
+  {
+    &kZonePolicyCanada /*zonePolicy*/,
+    "C%T" /*format*/,
+    -24 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAmerica_Winnipeg[] ACE_TIME_PROGMEM = "America/Winnipeg";
+
+const extended::ZoneInfo kZoneAmerica_Winnipeg ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Winnipeg /*name*/,
+  0x8c7dafc7 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*numEras*/,
+  kZoneEraAmerica_Winnipeg /*eras*/,
 };
 
 //---------------------------------------------------------------------------
