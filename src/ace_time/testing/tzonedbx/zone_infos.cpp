@@ -27,20 +27,20 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2022g
 //
-// Zones: 2
+// Zones: 4
 // Links: 1
 // kZoneRegistry sizes (bytes):
-//   Names: 36 (originally 36)
-//   Formats: 11
+//   Names: 69 (originally 69)
+//   Formats: 26
 //   Fragments: 0
-//   Memory (8-bit): 108
-//   Memory (32-bit): 145
+//   Memory (8-bit): 226
+//   Memory (32-bit): 305
 // kZoneAndLinkRegistry sizes (bytes):
-//   Names: 47 (originally 47)
-//   Formats: 11
+//   Names: 80 (originally 80)
+//   Formats: 26
 //   Fragments: 0
-//   Memory (8-bit): 132
-//   Memory (32-bit): 180
+//   Memory (8-bit): 250
+//   Memory (32-bit): 340
 //
 // DO NOT EDIT
 
@@ -71,7 +71,7 @@ const internal::ZoneContext kZoneContext = {
 };
 
 //---------------------------------------------------------------------------
-// Zones: 2
+// Zones: 4
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -121,6 +121,64 @@ const extended::ZoneInfo kZoneAfrica_Windhoek ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: America/Caracas
+// Zone Eras: 3
+// Strings (bytes): 30 (originally 30)
+// Memory (8-bit): 74
+// Memory (32-bit): 98
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraAmerica_Caracas[] ACE_TIME_PROGMEM = {
+  //             -4:00    -    -04    2007 Dec  9  3:00
+  {
+    nullptr /*zonePolicy*/,
+    "-04" /*format*/,
+    -16 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    2007 /*untilYear*/,
+    12 /*untilMonth*/,
+    9 /*untilDay*/,
+    12 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             -4:30    -    -0430    2016 May  1  2:30
+  {
+    nullptr /*zonePolicy*/,
+    "-0430" /*format*/,
+    -18 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    2016 /*untilYear*/,
+    5 /*untilMonth*/,
+    1 /*untilDay*/,
+    10 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             -4:00    -    -04
+  {
+    nullptr /*zonePolicy*/,
+    "-04" /*format*/,
+    -16 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAmerica_Caracas[] ACE_TIME_PROGMEM = "America/Caracas";
+
+const extended::ZoneInfo kZoneAmerica_Caracas ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Caracas /*name*/,
+  0x3be064f4 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  3 /*numEras*/,
+  kZoneEraAmerica_Caracas /*eras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: America/Los_Angeles
 // Zone Eras: 1
 // Strings (bytes): 24 (originally 24)
@@ -152,6 +210,40 @@ const extended::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAmerica_Los_Angeles /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Australia/Darwin
+// Zone Eras: 1
+// Strings (bytes): 22 (originally 22)
+// Memory (8-bit): 44
+// Memory (32-bit): 58
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraAustralia_Darwin[] ACE_TIME_PROGMEM = {
+  //              9:30    Aus    AC%sT
+  {
+    &kZonePolicyAus /*zonePolicy*/,
+    "AC%T" /*format*/,
+    38 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAustralia_Darwin[] ACE_TIME_PROGMEM = "Australia/Darwin";
+
+const extended::ZoneInfo kZoneAustralia_Darwin ACE_TIME_PROGMEM = {
+  kZoneNameAustralia_Darwin /*name*/,
+  0x2876bdff /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAustralia_Darwin /*eras*/,
 };
 
 

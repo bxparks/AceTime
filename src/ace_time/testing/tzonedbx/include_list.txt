@@ -1,4 +1,10 @@
 # Include only these zones and links
+
+# ExtendedBrokerTest
 America/Los_Angeles
 US/Pacific
 Africa/Windhoek
+
+# ExtendedZoneProcessorTest
+Australia/Darwin
+America/Caracas

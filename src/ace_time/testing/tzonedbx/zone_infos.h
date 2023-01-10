@@ -48,17 +48,21 @@ extern const char kTzDatabaseVersion[];
 extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 2
+// Supported zones: 4
 //---------------------------------------------------------------------------
 
 extern const extended::ZoneInfo kZoneAfrica_Windhoek; // Africa/Windhoek
+extern const extended::ZoneInfo kZoneAmerica_Caracas; // America/Caracas
 extern const extended::ZoneInfo kZoneAmerica_Los_Angeles; // America/Los_Angeles
+extern const extended::ZoneInfo kZoneAustralia_Darwin; // Australia/Darwin
 
 
 // Zone Ids
 
 const uint32_t kZoneIdAfrica_Windhoek = 0x789c9bd3; // Africa/Windhoek
+const uint32_t kZoneIdAmerica_Caracas = 0x3be064f4; // America/Caracas
 const uint32_t kZoneIdAmerica_Los_Angeles = 0xb7f7e8f2; // America/Los_Angeles
+const uint32_t kZoneIdAustralia_Darwin = 0x2876bdff; // Australia/Darwin
 
 
 //---------------------------------------------------------------------------
@@ -82,11 +86,13 @@ const uint32_t kZoneIdUS_Pacific = 0xa950f6ab; // US/Pacific
 //---------------------------------------------------------------------------
 
 const uint8_t kZoneBufSizeAfrica_Windhoek = 4;  // Africa/Windhoek in 1994
+const uint8_t kZoneBufSizeAmerica_Caracas = 2;  // America/Caracas in 2007
 const uint8_t kZoneBufSizeAmerica_Los_Angeles = 6;  // America/Los_Angeles in 2008
+const uint8_t kZoneBufSizeAustralia_Darwin = 2;  // Australia/Darwin in 1979
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 349
+// Unsupported zones: 347
 //---------------------------------------------------------------------------
 
 // Africa/Abidjan {Zone missing from include list}
@@ -134,7 +140,6 @@ const uint8_t kZoneBufSizeAmerica_Los_Angeles = 6;  // America/Los_Angeles in 20
 // America/Cambridge_Bay {Zone missing from include list}
 // America/Campo_Grande {Zone missing from include list}
 // America/Cancun {Zone missing from include list}
-// America/Caracas {Zone missing from include list}
 // America/Cayenne {Zone missing from include list}
 // America/Chicago {Zone missing from include list}
 // America/Chihuahua {Zone missing from include list}
@@ -320,7 +325,6 @@ const uint8_t kZoneBufSizeAmerica_Los_Angeles = 6;  // America/Los_Angeles in 20
 // Australia/Adelaide {Zone missing from include list}
 // Australia/Brisbane {Zone missing from include list}
 // Australia/Broken_Hill {Zone missing from include list}
-// Australia/Darwin {Zone missing from include list}
 // Australia/Eucla {Zone missing from include list}
 // Australia/Hobart {Zone missing from include list}
 // Australia/Lindeman {Zone missing from include list}

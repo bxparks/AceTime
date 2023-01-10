@@ -38,15 +38,16 @@ namespace ace_time {
 namespace tzonedbx {
 
 //---------------------------------------------------------------------------
-// Supported zone policies: 2
+// Supported zone policies: 3
 //---------------------------------------------------------------------------
 
+extern const extended::ZonePolicy kZonePolicyAus;
 extern const extended::ZonePolicy kZonePolicyNamibia;
 extern const extended::ZonePolicy kZonePolicyUS;
 
 
 //---------------------------------------------------------------------------
-// Unsupported zone policies: 132
+// Unsupported zone policies: 131
 //---------------------------------------------------------------------------
 
 // AN {unused}
@@ -59,7 +60,6 @@ extern const extended::ZonePolicy kZonePolicyUS;
 // Algeria {unused}
 // Arg {unused}
 // Armenia {unused}
-// Aus {unused}
 // Austria {unused}
 // Azer {unused}
 // Barb {unused}

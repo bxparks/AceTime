@@ -27,11 +27,11 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2022g
 //
-// Policies: 2
-// Rules: 10
+// Policies: 3
+// Rules: 11
 // Letter Size (bytes): 8
-// Total Memory 8-bit (bytes): 114
-// Total Memory 32-bit (bytes): 160
+// Total Memory 8-bit (bytes): 129
+// Total Memory 32-bit (bytes): 184
 //
 // DO NOT EDIT
 
@@ -40,6 +40,38 @@
 
 namespace ace_time {
 namespace tzonedbx {
+
+//---------------------------------------------------------------------------
+// Policy name: Aus
+// Rules: 1
+// Memory (8-bit): 15
+// Memory (32-bit): 24
+//---------------------------------------------------------------------------
+
+static const extended::ZoneRule kZoneRulesAus[] ACE_TIME_PROGMEM = {
+  // Rule    Aus    1943    1944    -    Mar    lastSun    2:00s    0    S
+  {
+    1943 /*fromYear*/,
+    1944 /*toYear*/,
+    3 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    'S' /*letter*/,
+  },
+
+};
+
+
+
+const extended::ZonePolicy kZonePolicyAus ACE_TIME_PROGMEM = {
+  kZoneRulesAus /*rules*/,
+  nullptr /*letters*/,
+  1 /*numRules*/,
+  0 /*numLetters*/,
+};
 
 //---------------------------------------------------------------------------
 // Policy name: Namibia
