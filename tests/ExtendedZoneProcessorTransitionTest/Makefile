@@ -3,5 +3,4 @@
 
 APP_NAME := ExtendedZoneProcessorTransitionTest
 ARDUINO_LIBS := AUnit AceCommon AceTime AceSorting
-DEPS := EuropeLisbon.h EuropeLisbon.cpp
 include ../../../EpoxyDuino/EpoxyDuino.mk

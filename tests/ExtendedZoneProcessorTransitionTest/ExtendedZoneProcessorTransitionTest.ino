@@ -3,18 +3,17 @@
 #include <Arduino.h>
 #include <AUnit.h>
 #include <AceTime.h>
-#include "EuropeLisbon.h"
 #include <ace_time/testing/EpochYearContext.h>
+#include <ace_time/testing/tzonedbx/zone_policies.h>
+#include <ace_time/testing/tzonedbx/zone_infos.h>
 
 using namespace ace_time;
 
 //----------------------------------------------------------------------------
 
+// This could go inside TransitionValidation class, but it consumes a fair
+// bit of memory, so let's extract it outside.
 ExtendedZoneProcessor zoneProcessor;
-
-extended::ZoneRegistrar zoneRegistrar(
-    zonedbx::kZoneRegistrySize,
-    zonedbx::kZoneRegistry);
 
 //----------------------------------------------------------------------------
 
@@ -27,6 +26,44 @@ extended::ZoneRegistrar zoneRegistrar(
  */
 class TransitionValidation : public aunit::TestOnce {
   public:
+    void validateZone(const extended::ZoneInfo* zoneInfo) {
+      zoneProcessor.setZoneKey((uintptr_t) zoneInfo);
+
+      // Loop from ZoneContext::startYear to ZoneContext::untilYear, in 100
+      // years chunks, because time zone processing is valid over an interval of
+      // about 130 years. For each chunk, the currentEpochYear() is reset to an
+      // epoch year that is in the middle of each 100-year chunk.
+      for (int16_t startYear = zonedbx::kZoneContext.startYear;
+          startYear < zonedbx::kZoneContext.untilYear;
+          startYear += 100) {
+
+        int16_t epochYear = startYear + 50;
+        int16_t untilYear = min(
+            (int16_t) (epochYear + 50),
+            zonedbx::kZoneContext.untilYear);
+
+        testing::EpochYearContext context(epochYear);
+        zoneProcessor.resetTransitionCache();
+
+        // FIXME: If a failure is detected, then this function returns early.
+        // The currentEpochYear() is guaranteed to be restored through the
+        // destructor of the 'context` object, but the cache invalidation clean
+        // up is skipped. Most likely this won't cause problems with the rest of
+        // the unit tests because the `zoneProcessor` will likely be set to a
+        // different year. However, there is a small chance of failure. The
+        // proper solution is to create a custom RAII context class to perform
+        // the resetTransitionCache() clean up, but I'm too lazy right now.
+        assertNoFatalFailure(validateZone(startYear, untilYear));
+      }
+
+      // Perform a final resetTransitionCache() in case a test case failed,
+      // which causes the epoch year to be reset to its original value, but
+      // the zoneProcessor cache is not automatically reset.
+      zoneProcessor.resetTransitionCache();
+    }
+
+    // Validate the current zoneProcessor state using the [start, until)
+    // interval.
     void validateZone(int16_t startYear, int16_t untilYear) {
       for (int16_t year = startYear; year < untilYear; year++) {
 
@@ -100,60 +137,27 @@ class TransitionValidation : public aunit::TestOnce {
     }
 };
 
+//----------------------------------------------------------------------------
+
+// Verify transitions for all zones in the kZoneRegistry.
 testF(TransitionValidation, allZones) {
+  extended::ZoneRegistrar zoneRegistrar(
+      zonedbx::kZoneRegistrySize,
+      zonedbx::kZoneRegistry);
+
   for (uint16_t i = 0; i < zonedbx::kZoneRegistrySize; i++) {
-    const extended::ZoneInfo* info = zoneRegistrar.getZoneInfoForIndex(i);
-    zoneProcessor.setZoneKey((uintptr_t) info);
-
-    // Loop from ZoneContext::startYear to ZoneContext::untilYear, in 100 years
-    // chunks, because time zone processing is valid over an interval of about
-    // 130 years. For each chunk, the currentEpochYear() is reset to an epoch
-    // year that is in the middle of each 100-year chunk.
-    for (
-        int16_t startYear = zonedbx::kZoneContext.startYear;
-        startYear < zonedbx::kZoneContext.untilYear;
-        startYear += 100) {
-
-      int16_t epochYear = startYear + 50;
-      int16_t untilYear = min(
-          (int16_t) (epochYear + 50),
-          zonedbx::kZoneContext.untilYear);
-
-      testing::EpochYearContext context(epochYear);
-      zoneProcessor.resetTransitionCache();
-
-      // FIXME: If a failure is detected, then this function returns early. The
-      // currentEpochYear() is guaranteed to be restored through the destructor
-      // of the 'context` object, but the cache invalidation clean up is
-      // skipped. Most likely this won't cause problems with the rest of the
-      // unit tests because the `zoneProcessor` will likely be set to a
-      // different year. However, there is a small chance of failure. The proper
-      // solution is to create a custom RAII context class to perform the
-      // resetTransitionCache() clean up, but I'm too lazy right now.
-      assertNoFatalFailure(validateZone(startYear, untilYear));
-    }
+    const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(i);
+    validateZone(zoneInfo);
   }
-
-  zoneProcessor.resetTransitionCache();
 }
 
-//----------------------------------------------------------------------------
-// Verify Transitions for Europe/Lisbon in 1992. That is the only zone/year
-// where the previous ExtendedZoneProcessor algorithm failed, with a duplicate
-// Transition. The default zonedbx/ database spans from 2000 until 10000, so we
-// have to manually copy a version of the ZoneInfo data for Europe/Lisbon into
-// EuropeLisbon.cpp which is valid from 1974 to 2050.
-//---------------------------------------------------------------------------
-
+// Verify Transitions for Europe/Lisbon in 1992 using the
+// tzonedbx::kZoneEurope_Lisbon entry which contains entries from 1980 to 10000.
+// Lisbon in 1992 was the only combo where the previous ExtendedZoneProcessor
+// algorithm failed, with a duplicate Transition. We cannot use the default
+// zonedbx database because it starts at 2000 which does not cover 1992.
 testF(TransitionValidation, lisbon1992) {
-  // Set epoch year to 2000 to allow years 1974 to 2050 to be tested without
-  // underflow the epochSeconds.
-  testing::EpochYearContext context(2000);
-
-  zoneProcessor.setZoneKey((uintptr_t) &zonedbxtest::kZoneEurope_Lisbon);
-  assertNoFatalFailure(validateZone(
-      zonedbxtest::kZoneContext.startYear,
-      zonedbxtest::kZoneContext.untilYear));
+  assertNoFatalFailure(validateZone(&tzonedbx::kZoneEurope_Lisbon));
 }
 
 //----------------------------------------------------------------------------
@@ -164,6 +168,9 @@ void setup() {
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
+#if defined(EPOXY_DUINO)
+  SERIAL_PORT_MONITOR.setLineModeUnix();
+#endif
 }
 
 void loop() {

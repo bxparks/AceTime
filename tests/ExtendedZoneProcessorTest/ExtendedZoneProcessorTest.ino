@@ -1,16 +1,15 @@
 #line 2 "ExtendedZoneProcessorTest.ino"
 
-// Tests for the private/protected implementation functions of
-// ExtendedZoneProcessor. The public ones have been moved to
-// ExtendedZoneProcessorMoreTest because they became too big for the ~30kB
-// limit of a Sparkfun Pro Micro.
-
-#include <AUnit.h>
+#include <AUnitVerbose.h>
 #include <AceCommon.h> // PrintStr<>
 #include <AceTime.h>
+#include <ace_time/testing/EpochYearContext.h>
+#include <ace_time/testing/tzonedbx/zone_policies.h>
+#include <ace_time/testing/tzonedbx/zone_infos.h>
 
 using ace_common::PrintStr;
 using namespace ace_time;
+using ace_time::internal::ZoneContext;
 using ace_time::extended::DateTuple;
 using ace_time::extended::TransitionStorageTemplate;
 using ace_time::extended::YearMonthTuple;
@@ -24,164 +23,12 @@ using ace_time::extended::ZoneRule;
 using ace_time::extended::ZoneRuleBroker;
 using ace_time::extended::normalizeDateTuple;
 using ace_time::extended::subtractDateTuple;
-using ace_time::internal::ZoneContext;
-
-//---------------------------------------------------------------------------
-// A simplified version of America/Los_Angeles, using only simple ZoneEras
-// (i.e. no references to a ZonePolicy). Valid only for 2018.
-//---------------------------------------------------------------------------
-
-static const ZoneContext kZoneContext = {
-  2000 /*startYear*/,
-  2020 /*untilYear*/,
-  "testing" /*tzVersion*/,
-  0 /*numFragments*/,
-  nullptr /*fragments*/,
-};
-
-// Create simplified ZoneEras which approximate America/Los_Angeles
-static const ZoneEra kZoneEraAlmostLosAngeles[] ACE_TIME_PROGMEM = {
-  {
-    nullptr,
-    "PST" /*format*/,
-    -32 /*offsetCode*/,
-    0 + 4 /*deltaCode*/,
-    2019 /*untilYear*/,
-    3 /*untilMonth*/,
-    10 /*untilDay*/,
-    2*4 /*untilTimeCode*/,
-    ZoneContext::kSuffixW /*untilTimeModifier*/
-  },
-  {
-    nullptr,
-    "PDT" /*format*/,
-    -32 /*offsetCode*/,
-    4 + 4 /*deltaCode*/,
-    2019 /*untilYear*/,
-    11 /*untilMonth*/,
-    3 /*untilDay*/,
-    2*4 /*untilTimeCode*/,
-    ZoneContext::kSuffixW /*untilTimeModifier*/
-  },
-  {
-    nullptr,
-    "PST" /*format*/,
-    -32 /*offsetCode*/,
-    0 + 4 /*deltaCode*/,
-    2020 /*untilYear*/,
-    3 /*untilMonth*/,
-    8 /*untilDay*/,
-    2*4 /*untilTimeCode*/,
-    ZoneContext::kSuffixW /*untilTimeModifier*/
-  },
-};
-
-static const ZoneInfo kZoneAlmostLosAngeles ACE_TIME_PROGMEM = {
-  "Almost_Los_Angeles" /*name*/,
-  0x70166020 /*zoneId*/,
-  &::kZoneContext /*zoneContext*/,
-  3 /*numEras*/,
-  kZoneEraAlmostLosAngeles /*eras*/,
-};
-
-//---------------------------------------------------------------------------
-// A real ZoneInfo for America/Los_Angeles. Taken from zonedbx/zone_infos.cpp.
-//---------------------------------------------------------------------------
-
-static const ZoneRule kZoneRulesTestUS[] ACE_TIME_PROGMEM = {
-  // Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
-  {
-    1967 /*fromYear*/,
-    2006 /*toYear*/,
-    10 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    ZoneContext::kSuffixW /*atTimeModifier*/,
-    0 + 4 /*deltaCode*/,
-    'S' /*letter*/,
-  },
-  // Rule    US    1976    1986    -    Apr    lastSun    2:00    1:00    D
-  {
-    1976 /*fromYear*/,
-    1986 /*toYear*/,
-    4 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    ZoneContext::kSuffixW /*atTimeModifier*/,
-    4 + 4 /*deltaCode*/,
-    'D' /*letter*/,
-  },
-  // Rule    US    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
-  {
-    1987 /*fromYear*/,
-    2006 /*toYear*/,
-    4 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    ZoneContext::kSuffixW /*atTimeModifier*/,
-    4 + 4 /*deltaCode*/,
-    'D' /*letter*/,
-  },
-  // Rule    US    2007    max    -    Mar    Sun>=8    2:00    1:00    D
-  {
-    2007 /*fromYear*/,
-    9999 /*toYear*/,
-    3 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    8 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    ZoneContext::kSuffixW /*atTimeModifier*/,
-    4 + 4 /*deltaCode*/,
-    'D' /*letter*/,
-  },
-  // Rule    US    2007    max    -    Nov    Sun>=1    2:00    0    S
-  {
-    2007 /*fromYear*/,
-    9999 /*toYear*/,
-    11 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    ZoneContext::kSuffixW /*atTimeModifier*/,
-    0 + 4 /*deltaCode*/,
-    'S' /*letter*/,
-  },
-
-};
-
-static const ZonePolicy kZonePolicyTestUS ACE_TIME_PROGMEM = {
-  kZoneRulesTestUS /*rules*/,
-  nullptr /* letters */,
-  5 /*numRules*/,
-  0 /* numLetters */,
-};
-
-static const ZoneEra kZoneEraTestLos_Angeles[] ACE_TIME_PROGMEM = {
-  //             -8:00    US    P%sT
-  {
-    &kZonePolicyTestUS /*zonePolicy*/,
-    "P%T" /*format*/,
-    -32 /*offsetCode*/,
-    0 + 4 /*deltaCode*/,
-    10000 /*untilYear*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    ZoneContext::kSuffixW /*untilTimeModifier*/,
-  },
-
-};
-
-static const ZoneInfo kZoneTestLos_Angeles ACE_TIME_PROGMEM = {
-  "America/Los_Angeles" /*name*/,
-  0xb7f7e8f2 /*zoneId*/,
-  &::kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraTestLos_Angeles /*eras*/,
-};
+using ace_time::testing::EpochYearContext;
+using ace_time::tzonedbx::kZoneContext;
+using ace_time::tzonedbx::kZoneAmerica_Los_Angeles;
+using ace_time::tzonedbx::kZonePolicyUS;
+using ace_time::tzonedbx::kZoneAustralia_Darwin;
+using ace_time::tzonedbx::kZoneAmerica_Caracas;
 
 //---------------------------------------------------------------------------
 // Step 1
@@ -271,36 +118,51 @@ test(ExtendedZoneProcessorTest, createMatchingEra) {
   assertTrue(match3.era.equals(ZoneEraBroker(&era3)));
 }
 
+// Validate findMatches() for simple eras, using one of the zones that has only
+// simple eras, such as:
+//
+//  * Africa/Sao_Tome (+00)
+//  * America/Caracas (-04, -04:30)
+//  * America/Eirunepe (-05, -04)
+//  * America/Rio_Branco (-05, -04)
+//  * America/Santarem (-04, -03)
+//  * Antarctica/Casey (+08, +11)
+//  * Antarctica/Davis (+07, +05)
+//  * Antarctica/Mawson (+06, +05)
+//  * Asia/Colombo (+06, +0530)
+//  * Asia/Dili (+08, +09)
+//  * Asia/Pyongyang (+09, +9:30)
+//  * Pacific/Bougainville (+10, +11)
+//  * Pacific/Fakaofo (-11, +13)
+//  * Pacific/Kosrae (+12, +11)
 test(ExtendedZoneProcessorTest, findMatches_simple) {
-  YearMonthTuple startYm = {2018, 12};
-  YearMonthTuple untilYm = {2020, 2};
+  YearMonthTuple startYm = {2015, 12};
+  YearMonthTuple untilYm = {2017, 2};
   const uint8_t kMaxMatches = 4;
   ExtendedZoneProcessor::MatchingEra matches[kMaxMatches];
+
+  // America/Caracas has 3 simple eras with the following UNTIL: 2007, 2016,
+  // 10000. The interval [2015/12, 2017/2] should return 4 transitions.
   uint8_t numMatches = ExtendedZoneProcessor::findMatches(
-      ZoneInfoBroker(&kZoneAlmostLosAngeles), startYm, untilYm,
+      ZoneInfoBroker(&kZoneAmerica_Caracas), startYm, untilYm,
       matches, kMaxMatches);
-  assertEqual(3, numMatches);
+  assertEqual(2, numMatches);
 
-  assertTrue((matches[0].startDateTime == DateTuple{2018, 12, 1, 0,
-      ZoneContext::kSuffixW}));
-  assertTrue((matches[0].untilDateTime == DateTuple{2019, 3, 10, 15*8,
-      ZoneContext::kSuffixW}));
-  assertTrue(matches[0].era.equals(
-      ZoneEraBroker(&kZoneEraAlmostLosAngeles[0])));
+  const auto* eras = (const extended::ZoneEra*) kZoneAmerica_Caracas.eras;
 
-  assertTrue((matches[1].startDateTime == DateTuple{2019, 3, 10, 15*8,
+  // matches[0] maps to eras[1]
+  assertTrue((matches[0].startDateTime == DateTuple{2015, 12, 1, 0,
       ZoneContext::kSuffixW}));
-  assertTrue((matches[1].untilDateTime == DateTuple{2019, 11, 3, 15*8,
+  assertTrue((matches[0].untilDateTime == DateTuple{2016, 5, 1, 15*10,
       ZoneContext::kSuffixW}));
-  assertTrue(matches[1].era.equals(
-      ZoneEraBroker(&kZoneEraAlmostLosAngeles[1])));
+  assertTrue(matches[0].era.equals(ZoneEraBroker(&eras[1])));
 
-  assertTrue((matches[2].startDateTime == DateTuple{2019, 11, 3, 15*8,
+  // matches[1] maps to eras[2]
+  assertTrue((matches[1].startDateTime == DateTuple{2016, 5, 1, 15*10,
       ZoneContext::kSuffixW}));
-  assertTrue((matches[2].untilDateTime == DateTuple{2020, 2, 1, 0,
+  assertTrue((matches[1].untilDateTime == DateTuple{2017, 2, 1, 0,
       ZoneContext::kSuffixW}));
-  assertTrue(matches[2].era.equals(
-      ZoneEraBroker(&kZoneEraAlmostLosAngeles[2])));
+  assertTrue(matches[1].era.equals(ZoneEraBroker(&eras[2])));
 }
 
 test(ExtendedZoneProcessorTest, findMatches_named) {
@@ -309,7 +171,7 @@ test(ExtendedZoneProcessorTest, findMatches_named) {
   const uint8_t kMaxMatches = 4;
   ExtendedZoneProcessor::MatchingEra matches[kMaxMatches];
   uint8_t numMatches = ExtendedZoneProcessor::findMatches(
-      ZoneInfoBroker(&kZoneTestLos_Angeles), startYm, untilYm,
+      ZoneInfoBroker(&kZoneAmerica_Los_Angeles), startYm, untilYm,
       matches, kMaxMatches);
   assertEqual(1, numMatches);
 
@@ -317,8 +179,8 @@ test(ExtendedZoneProcessorTest, findMatches_named) {
       ZoneContext::kSuffixW}));
   assertTrue((matches[0].untilDateTime == DateTuple{2020, 2, 1, 0,
       ZoneContext::kSuffixW}));
-  assertTrue(matches[0].era.equals(
-      ZoneEraBroker(&kZoneEraTestLos_Angeles[0])));
+  const auto* eras = (const extended::ZoneEra*) kZoneAmerica_Los_Angeles.eras;
+  assertTrue(matches[0].era.equals(ZoneEraBroker(&eras[0])));
 }
 
 //---------------------------------------------------------------------------
@@ -326,8 +188,9 @@ test(ExtendedZoneProcessorTest, findMatches_named) {
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, getTransitionTime) {
-  // Nov Sun>=1
-  const auto rule = ZoneRuleBroker(&kZoneRulesTestUS[4]);
+  // Rule 5, [2007,9999]
+  // Rule    US    2007    max    -    Nov    Sun>=1    2:00    0    S
+  const auto rule = ZoneRuleBroker(&kZonePolicyUS.rules[5]);
 
   // Nov 4 2018
   DateTuple dt = ExtendedZoneProcessor::getTransitionTime(2018, rule);
@@ -339,16 +202,18 @@ test(ExtendedZoneProcessorTest, getTransitionTime) {
 }
 
 test(ExtendedZoneProcessorTest, createTransitionForYear) {
+  const auto* eras = (const extended::ZoneEra*) kZoneAmerica_Los_Angeles.eras;
   const ExtendedZoneProcessor::MatchingEra match = {
     {2018, 12, 1, 0, ZoneContext::kSuffixW},
     {2020, 2, 1, 0, ZoneContext::kSuffixW},
-    ZoneEraBroker(&kZoneEraTestLos_Angeles[0]),
+    ZoneEraBroker(&eras[0]),
     nullptr /*prevMatch*/,
     0 /*lastOffsetMinutes*/,
     0 /*lastDeltaMinutes*/
   };
-  // Nov Sun>=1
-  const auto rule = ZoneRuleBroker(&kZoneRulesTestUS[4]);
+
+  // Rule 5, [2007,9999], Nov Sun>=1
+  const auto rule = ZoneRuleBroker(&kZonePolicyUS.rules[5]);
   ExtendedZoneProcessor::Transition t;
   ExtendedZoneProcessor::createTransitionForYear(&t, 2019, rule, &match);
   assertTrue((t.transitionTime == DateTuple{2019, 11, 3, 15*8,
@@ -579,10 +444,11 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
 }
 
 test(ExtendedZoneProcessorTest, findCandidateTransitions) {
+  const auto* eras = (const extended::ZoneEra*) kZoneAmerica_Los_Angeles.eras;
   const ExtendedZoneProcessor::MatchingEra match = {
     {2018, 12, 1, 0, ZoneContext::kSuffixW},
     {2020, 2, 1, 0, ZoneContext::kSuffixW},
-    ZoneEraBroker(&kZoneEraTestLos_Angeles[0]),
+    ZoneEraBroker(&eras[0]),
     nullptr /*prevMatch*/,
     0 /*lastOffsetMinutes*/,
     0 /*lastDeltaMinutes*/
@@ -892,10 +758,11 @@ test(ExtendedZoneProcessorTest, processTransitionMatchStatus) {
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, createTransitionsFromNamedMatch) {
+  const auto* eras = (const extended::ZoneEra*) kZoneAmerica_Los_Angeles.eras;
   ExtendedZoneProcessor::MatchingEra match = {
     {2018, 12, 1, 0, ZoneContext::kSuffixW},
     {2020, 2, 1, 0, ZoneContext::kSuffixW},
-    ZoneEraBroker(&kZoneEraTestLos_Angeles[0]),
+    ZoneEraBroker(&eras[0]),
     nullptr /*prevMatch*/,
     0 /*lastOffsetMinutes*/,
     0 /*lastDeltaMinutes*/
@@ -918,120 +785,101 @@ test(ExtendedZoneProcessorTest, createTransitionsFromNamedMatch) {
 }
 
 //---------------------------------------------------------------------------
-// Step 3, Step 4
+// Step 3, Step 4. Use America/Los_Angeles to calculate the transitions
+// beause I am familiar with it.
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
   using ace_time::extended::MatchStatus;
+  ExtendedZoneProcessor zoneProcessor;
 
-  // Create 3 matches for the AlmostLosAngeles test zone.
-  YearMonthTuple startYm = {2018, 12};
-  YearMonthTuple untilYm = {2020, 2};
-  const uint8_t kMaxMatches = 4;
-  ExtendedZoneProcessor::MatchingEra matches[kMaxMatches];
+  // Step 1: America/Los_Angeles matches one era, which points to US policy.
+  YearMonthTuple startYm = {2017, 12};
+  YearMonthTuple untilYm = {2019, 2};
   uint8_t numMatches = ExtendedZoneProcessor::findMatches(
-      ZoneInfoBroker(&kZoneAlmostLosAngeles), startYm, untilYm,
-      matches, kMaxMatches);
-  assertEqual(3, numMatches);
+      ZoneInfoBroker(&kZoneAmerica_Los_Angeles), startYm, untilYm,
+      zoneProcessor.mMatches, zoneProcessor.kMaxMatches);
+  assertEqual(1, numMatches);
 
-  // Create a custom template instantiation to use a different SIZE than the
-  // pre-defined typedef in ExtendedZoneProcess::TransitionStorage.
-  TransitionStorageTemplate<
-      4 /*SIZE*/,
-      ZoneEraBroker,
-      ZonePolicyBroker,
-      ZoneRuleBroker> storage;
-  storage.init();
+  // Step 2: Create transitions.
+  zoneProcessor.mTransitionStorage.init();
+  ExtendedZoneProcessor::createTransitions(
+      zoneProcessor.mTransitionStorage,
+      zoneProcessor.mMatches,
+      numMatches);
 
-  // Create 3 Transitions corresponding to the matches.
-  // Implements ExtendedZoneProcessor::createTransitionsFromSimpleMatch().
-  ExtendedZoneProcessor::Transition* transition1 = storage.getFreeAgent();
-  ExtendedZoneProcessor::createTransitionForYear(
-      transition1, 2000 /*year, not used*/, ZoneRuleBroker(nullptr) /*rule*/,
-      &matches[0]);
-  transition1->matchStatus = MatchStatus::kExactMatch; // synthetic example
-  storage.addFreeAgentToCandidatePool();
-
-  ExtendedZoneProcessor::Transition* transition2 = storage.getFreeAgent();
-  ExtendedZoneProcessor::createTransitionForYear(
-      transition2, 2000 /*year, not used*/, ZoneRuleBroker(nullptr) /*rule*/,
-      &matches[1]);
-  transition2->matchStatus = MatchStatus::kWithinMatch; // synthetic example
-  storage.addFreeAgentToCandidatePool();
-
-  ExtendedZoneProcessor::Transition* transition3 = storage.getFreeAgent();
-  ExtendedZoneProcessor::createTransitionForYear(
-      transition3, 2000 /*year, not used*/, ZoneRuleBroker(nullptr) /*rule*/,
-      &matches[2]);
-  transition3->matchStatus = MatchStatus::kWithinMatch; // synthetic example
-  storage.addFreeAgentToCandidatePool();
-
-  // Move actives to Active pool.
-  storage.addActiveCandidatesToActivePool();
-  ExtendedZoneProcessor::Transition** begin = storage.getActivePoolBegin();
-  ExtendedZoneProcessor::Transition** end = storage.getActivePoolEnd();
+  // Step 2: Verify there are 3 transitions:
+  //  * [2017-12-01, 2018-03-07)
+  //  * [2018-03-07, 2018-11-07)
+  //  * [2018-11-07, 2019-02-01)
+  ExtendedZoneProcessor::Transition** begin =
+      zoneProcessor.mTransitionStorage.getActivePoolBegin();
+  ExtendedZoneProcessor::Transition** end =
+      zoneProcessor.mTransitionStorage.getActivePoolEnd();
   assertEqual(3, (int) (end - begin));
-  assertTrue(begin[0] == transition1);
-  assertTrue(begin[1] == transition2);
-  assertTrue(begin[2] == transition3);
+  ExtendedZoneProcessor::Transition* transition0 = begin[0];
+  ExtendedZoneProcessor::Transition* transition1 = begin[1];
+  ExtendedZoneProcessor::Transition* transition2 = begin[2];
 
-  // Chain the transitions.
+  // Step 3: Chain the transitions by fixing the transition times.
   ExtendedZoneProcessor::fixTransitionTimes(begin, end);
 
-  // Verify. The first Transition is extended to -infinity.
-  assertTrue((transition1->transitionTime == DateTuple{2018, 12, 1, 0,
+  // Step 3 Verify: The first Transition starts at 2017-12-01.
+  assertTrue((transition0->transitionTime == DateTuple{2017, 12, 1, 0,
       ZoneContext::kSuffixW}));
-  assertTrue((transition1->transitionTimeS == DateTuple{2018, 12, 1, 0,
+  assertTrue((transition0->transitionTimeS == DateTuple{2017, 12, 1, 0,
       ZoneContext::kSuffixS}));
-  assertTrue((transition1->transitionTimeU == DateTuple{2018, 12, 1, 15*32,
+  assertTrue((transition0->transitionTimeU == DateTuple{2017, 12, 1, 8*60,
       ZoneContext::kSuffixU}));
 
-  // Second transition uses the UTC offset of the first.
-  assertTrue((transition2->transitionTime == DateTuple{2019, 3, 10, 15*8,
+  // Step 3 Verify: Second transition springs forward at 2018-03-11 02:00.
+  assertTrue((transition1->transitionTime == DateTuple{2018, 3, 11, 2*60,
       ZoneContext::kSuffixW}));
-  assertTrue((transition2->transitionTimeS == DateTuple{2019, 3, 10, 15*8,
+  assertTrue((transition1->transitionTimeS == DateTuple{2018, 3, 11, 2*60,
       ZoneContext::kSuffixS}));
-  assertTrue((transition2->transitionTimeU == DateTuple{2019, 3, 10, 15*40,
+  assertTrue((transition1->transitionTimeU == DateTuple{2018, 3, 11, 10*60,
       ZoneContext::kSuffixU}));
 
-  // Third transition uses the UTC offset of the second.
-  assertTrue((transition3->transitionTime == DateTuple{2019, 11, 3, 15*8,
+  // Step 3 Verify: Third transition falls back at 2018-11-04 02:00.
+  assertTrue((transition2->transitionTime == DateTuple{2018, 11, 4, 2*60,
       ZoneContext::kSuffixW}));
-  assertTrue((transition3->transitionTimeS == DateTuple{2019, 11, 3, 15*4,
+  assertTrue((transition2->transitionTimeS == DateTuple{2018, 11, 4, 1*60,
       ZoneContext::kSuffixS}));
-  assertTrue((transition3->transitionTimeU == DateTuple{2019, 11, 3, 15*36,
+  assertTrue((transition2->transitionTimeU == DateTuple{2018, 11, 4, 9*60,
       ZoneContext::kSuffixU}));
 
-  // Generate the startDateTime and untilDateTime of the transitions.
+  // Step 4: Generate the startDateTime and untilDateTime of the transitions.
   ExtendedZoneProcessor::generateStartUntilTimes(begin, end);
 
-  // Verify. The first transition startTime should be the same as its
+  // Step 4 Verify: The first transition startTime should be the same as its
   // transitionTime.
-  assertTrue((transition1->startDateTime == DateTuple{2018, 12, 1, 0,
+  assertTrue((transition0->startDateTime == DateTuple{2017, 12, 1, 0,
       ZoneContext::kSuffixW}));
-  assertTrue((transition1->untilDateTime == DateTuple{2019, 3, 10, 15*8,
+  assertTrue((transition0->untilDateTime == DateTuple{2018, 3, 11, 2*60,
       ZoneContext::kSuffixW}));
   acetime_t epochSecs = OffsetDateTime::forComponents(
-      2018, 12, 1, 0, 0, 0, TimeOffset::forHours(-8)).toEpochSeconds();
+      2017, 12, 1, 0, 0, 0, TimeOffset::forHours(-8)).toEpochSeconds();
+  assertEqual(epochSecs, transition0->startEpochSeconds);
+
+  // Step 4 Verify: Second transition startTime is shifted forward one hour into
+  // PDT.
+  assertTrue((transition1->startDateTime == DateTuple{2018, 3, 11, 3*60,
+      ZoneContext::kSuffixW}));
+  assertTrue((transition1->untilDateTime == DateTuple{2018, 11, 4, 2*60,
+      ZoneContext::kSuffixW}));
+  epochSecs = OffsetDateTime::forComponents(
+      2018, 3, 11, 3, 0, 0, TimeOffset::forHours(-7)).toEpochSeconds();
   assertEqual(epochSecs, transition1->startEpochSeconds);
 
-  // Second transition startTime is shifted forward one hour into PDT.
-  assertTrue((transition2->startDateTime == DateTuple{2019, 3, 10, 15*12,
+  // Step 4 Verify: Third transition startTime is shifted back one hour into
+  // PST.
+  assertTrue((transition2->startDateTime == DateTuple{2018, 11, 4, 1*60,
       ZoneContext::kSuffixW}));
-  assertTrue((transition2->untilDateTime == DateTuple{2019, 11, 3, 15*8,
+  assertTrue((transition2->untilDateTime == DateTuple{2019, 2, 1, 0,
       ZoneContext::kSuffixW}));
   epochSecs = OffsetDateTime::forComponents(
-      2019, 3, 10, 3, 0, 0, TimeOffset::forHours(-7)).toEpochSeconds();
+      2018, 11, 4, 1, 0, 0, TimeOffset::forHours(-8)).toEpochSeconds();
   assertEqual(epochSecs, transition2->startEpochSeconds);
-
-  // Third transition startTime is shifted back one hour into PST.
-  assertTrue((transition3->startDateTime == DateTuple{2019, 11, 3, 15*4,
-      ZoneContext::kSuffixW}));
-  assertTrue((transition3->untilDateTime == DateTuple{2020, 2, 1, 0,
-      ZoneContext::kSuffixW}));
-  epochSecs = OffsetDateTime::forComponents(
-      2019, 11, 3, 1, 0, 0, TimeOffset::forHours(-8)).toEpochSeconds();
-  assertEqual(epochSecs, transition3->startEpochSeconds);
 }
 
 //---------------------------------------------------------------------------
@@ -1177,23 +1025,23 @@ test(ExtendedZoneProcessorTest, substractDateTuple) {
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, setZoneKey) {
-  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+  ExtendedZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
   zoneProcessor.getUtcOffset(0);
   assertTrue(zoneProcessor.mIsFilled);
 
-  zoneProcessor.setZoneKey((uintptr_t) &zonedbx::kZoneAustralia_Darwin);
+  zoneProcessor.setZoneKey((uintptr_t) &kZoneAustralia_Darwin);
   assertFalse(zoneProcessor.mIsFilled);
   zoneProcessor.getUtcOffset(0);
   assertTrue(zoneProcessor.mIsFilled);
 
   // Check that the cache remains valid if the zoneInfo does not change
-  zoneProcessor.setZoneKey((uintptr_t) &zonedbx::kZoneAustralia_Darwin);
+  zoneProcessor.setZoneKey((uintptr_t) &kZoneAustralia_Darwin);
   assertTrue(zoneProcessor.mIsFilled);
 }
 
 // https://www.timeanddate.com/time/zone/usa/los-angeles
 test(ExtendedZoneProcessorTest, Los_Angeles) {
-  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+  ExtendedZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
 
   PrintStr<32> printStr;
   zoneProcessor.printNameTo(printStr);
@@ -1242,24 +1090,26 @@ test(ExtendedZoneProcessorTest, Los_Angeles) {
 }
 
 test(ExtendedZoneProcessorTest, Los_Angeles_outOfBounds) {
-  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+  EpochYearContext context(2000); // epoch to 2000 temporarily
+
+  ExtendedZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
-  assertEqual(2000, zonedbx::kZoneContext.startYear);
-  assertEqual(10000, zonedbx::kZoneContext.untilYear);
+  assertEqual(1980, kZoneContext.startYear);
+  assertEqual(10000, kZoneContext.untilYear);
 
-  // 1998 > LocalDate::kMinYear so dt is valid, and
-  dt = OffsetDateTime::forComponents(1998, 3, 11, 1, 59, 59,
+  // 1970 > LocalDate::kMinYear so dt is valid, and
+  dt = OffsetDateTime::forComponents(1970, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
   assertFalse(dt.isError());
   epochSeconds = dt.toEpochSeconds();
-  // 1998 is within roughly 50 years of Epoch::currentEpochYear() of 2050
+  // 1970 is within roughly 50 years of Epoch::currentEpochYear() of 2050
   // so toEpochSeconds() still works.
   assertNotEqual(epochSeconds, LocalDate::kInvalidEpochSeconds);
-  // 1998 < ZoneContext.startYear, so getUtcOffset() fails
+  // 1970 < ZoneContext.startYear, so getUtcOffset() fails
   assertTrue(zoneProcessor.getUtcOffset(epochSeconds).isError());
-  // 1998 < ZoneContext.startYear, so getDeltaOffset() fails
+  // 1970 < ZoneContext.startYear, so getDeltaOffset() fails
   assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isError());
   // getAbbrev() returns "" on lookup failure
   assertEqual("", zoneProcessor.getAbbrev(epochSeconds));
@@ -1284,7 +1134,7 @@ test(ExtendedZoneProcessorTest, Los_Angeles_outOfBounds) {
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, forEpochSeconds_during_fall_back) {
-  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+  ExtendedZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
 
   // Start our sampling at 01:29:00-07:00, which is 31 minutes before the DST
   // fall-back.
@@ -1352,7 +1202,7 @@ test(ExtendedZoneProcessorTest, forEpochSeconds_during_fall_back) {
 }
 
 test(ExtendedZoneProcessorTest, forEpochSeconds_during_spring_forward) {
-  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+  ExtendedZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
 
   // Start our sampling at 01:29:00-08:00, which is 31 minutes before the DST
   // spring-forward.
@@ -1397,7 +1247,7 @@ test(ExtendedZoneProcessorTest, forEpochSeconds_during_spring_forward) {
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, forComponents_during_fall_back) {
-  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+  ExtendedZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
 
   // 01:29:00, before fall-back
   {
@@ -1431,7 +1281,7 @@ test(ExtendedZoneProcessorTest, forComponents_during_fall_back) {
 }
 
 test(ExtendedZoneProcessorTest, forComponents_during_spring_forward) {
-  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+  ExtendedZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
 
   // 02:29:00 in gap, fold==0, uses earlier transition, so maps to the later UTC
   // time.
@@ -1474,6 +1324,9 @@ void setup() {
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
+#if defined(EPOXY_DUINO)
+  SERIAL_PORT_MONITOR.setLineModeUnix();
+#endif
 }
 
 void loop() {

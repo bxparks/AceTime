@@ -3,6 +3,9 @@
 #include <Arduino.h>
 #include <AUnit.h>
 #include <AceTime.h>
+#include <ace_time/testing/tzonedb/zone_policies.h>
+#include <ace_time/testing/tzonedb/zone_infos.h>
+#include <ace_time/testing/tzonedb/zone_registry.h>
 
 using namespace ace_time;
 using ace_time::internal::ZoneContext;
@@ -12,71 +15,17 @@ using ace_time::basic::ZoneRuleBroker;
 using ace_time::basic::ZonePolicyBroker;
 using ace_time::basic::LinkEntryBroker;
 using ace_time::basic::LinkRegistryBroker;
-
-//---------------------------------------------------------------------------
-
-static const char kTzDatabaseVersion[] = "2019b";
-
-static const ZoneContext kZoneContext = {
-  2000 /*startYear*/,
-  2050 /*untilYear*/,
-  kTzDatabaseVersion /*tzVersion*/,
-  0 /*numFragments*/,
-  nullptr /*fragments*/,
-};
-
-static const char kZoneNameAmerica_Los_Angeles[] ACE_TIME_PROGMEM =
-  "America/Los_Angeles";
-
-static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
-  // Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
-  {
-    1967 /*fromYear*/,
-    2006 /*toYear*/,
-    10 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    ZoneContext::kSuffixW /*atTimeModifier*/,
-    0 /*deltaCode*/,
-    'S' /*letter*/,
-  },
-};
-
-static const basic::ZonePolicy kZonePolicyUS ACE_TIME_PROGMEM = {
-  kZoneRulesUS /*rules*/,
-  nullptr /* letters */,
-  1 /*numRules*/,
-  0 /* numLetters */,
-};
-
-static const basic::ZoneEra kZoneEraAmerica_Los_Angeles[] ACE_TIME_PROGMEM = {
-  //             -8:00    US    P%sT
-  {
-    &kZonePolicyUS /*zonePolicy*/,
-    "P%T" /*format*/,
-    -32 /*offsetCode*/,
-    0 /*deltaCode*/,
-    10000 /*untilYear*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    2 /*untilTimeCode*/, // 00:31 = 2*15 + 1
-    ZoneContext::kSuffixW + 1/*untilTimeModifier*/,
-  },
-};
-
-const basic::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Los_Angeles /*name*/,
-  0xb7f7e8f2 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Los_Angeles /*eras*/,
-};
+using ace_time::tzonedb::kZoneContext;
+using ace_time::tzonedb::kZonePolicyUS;
+using ace_time::tzonedb::kZoneAmerica_Los_Angeles;
+using ace_time::tzonedb::kLinkRegistry;
+using ace_time::tzonedb::kZoneIdUS_Pacific;
+using ace_time::tzonedb::kZoneIdAmerica_Los_Angeles;
 
 //---------------------------------------------------------------------------
 
 test(BasicBrokerTest, ZoneRuleBroker) {
-  ZoneRuleBroker rule(kZoneRulesUS);
+  ZoneRuleBroker rule(&kZonePolicyUS.rules[0]);
   assertFalse(rule.isNull());
   assertEqual(1967, rule.fromYear());
   assertEqual(2006, rule.toYear());
@@ -92,12 +41,14 @@ test(BasicBrokerTest, ZoneRuleBroker) {
 test(BasicBrokerTest, ZonePolicyBroker) {
   ZonePolicyBroker policy(&kZonePolicyUS);
   assertFalse(policy.isNull());
-  assertEqual(1, policy.numRules());
+  assertEqual(6, policy.numRules());
   assertEqual(0, policy.numLetters());
 }
 
 test(BasicBrokerTest, ZoneEraBroker) {
-  ZoneEraBroker era(kZoneEraAmerica_Los_Angeles);
+  const basic::ZoneEra* eras =
+      (const basic::ZoneEra*) kZoneAmerica_Los_Angeles.eras;
+  ZoneEraBroker era(&eras[0]);
   assertFalse(era.isNull());
   assertEqual(-32 * 15, era.offsetMinutes());
   assertEqual(0 * 15, era.deltaMinutes());
@@ -105,30 +56,32 @@ test(BasicBrokerTest, ZoneEraBroker) {
   assertEqual((int16_t)10000, era.untilYear());
   assertEqual((uint8_t)1, era.untilMonth());
   assertEqual((uint8_t)1, era.untilDay());
-  assertEqual((uint16_t)31, era.untilTimeMinutes());
+  assertEqual((uint16_t)0, era.untilTimeMinutes());
   assertEqual(ZoneContext::kSuffixW, era.untilTimeSuffix());
 
-  ZoneEraBroker era2(kZoneEraAmerica_Los_Angeles);
+  const basic::ZoneEra* eras2 =
+      (const basic::ZoneEra*) kZoneAmerica_Los_Angeles.eras;
+  ZoneEraBroker era2(&eras2[0]);
   assertTrue(era.equals(era2));
 }
 
 test(BasicBrokerTest, ZoneInfoBroker) {
   ZoneInfoBroker info(&kZoneAmerica_Los_Angeles);
   assertEqual(&kZoneContext, info.zoneContext());
-  assertEqual(kZoneNameAmerica_Los_Angeles, info.name());
+  assertEqual("America/Los_Angeles", info.name());
   assertEqual((uint32_t) 0xb7f7e8f2, info.zoneId());
-  assertEqual(2000, info.zoneContext()->startYear);
-  assertEqual(2050, info.zoneContext()->untilYear);
+  assertEqual(1980, info.zoneContext()->startYear);
+  assertEqual(10000, info.zoneContext()->untilYear);
   assertEqual(1, info.numEras());
 }
 
 //---------------------------------------------------------------------------
 
 test(BasicBrokerTest, LinkRegistry_LinkEntryBroker) {
-  LinkRegistryBroker linkRegistryBroker(zonedb::kLinkRegistry);
+  LinkRegistryBroker linkRegistryBroker(kLinkRegistry);
   LinkEntryBroker linkEntryBroker(linkRegistryBroker.linkEntry(0));
-  assertEqual(zonedb::kZoneIdGB, linkEntryBroker.linkId());
-  assertEqual(zonedb::kZoneIdEurope_London, linkEntryBroker.zoneId());
+  assertEqual(kZoneIdUS_Pacific, linkEntryBroker.linkId());
+  assertEqual(kZoneIdAmerica_Los_Angeles, linkEntryBroker.zoneId());
 }
 
 //---------------------------------------------------------------------------
@@ -139,6 +92,9 @@ void setup() {
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
+#if defined(EPOXY_DUINO)
+  SERIAL_PORT_MONITOR.setLineModeUnix();
+#endif
 }
 
 void loop() {

@@ -1,0 +1,20 @@
+# Include only these zones and links
+
+# BasicBrokerTest
+America/Los_Angeles
+US/Pacific
+
+# BasicZoneProcessorTest
+Pacific/Galapagos
+Africa/Johannesburg
+Australia/Darwin
+
+# BasicZoneManagerTest
+America/Chicago
+America/Denver
+America/Los_Angeles
+America/New_York
+America/Toronto
+America/Vancouver
+America/Edmonton
+America/Winnipeg

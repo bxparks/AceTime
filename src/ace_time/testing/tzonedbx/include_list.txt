@@ -1,0 +1,23 @@
+# Include only these zones and links
+
+# ExtendedBrokerTest
+America/Los_Angeles
+US/Pacific
+Africa/Windhoek
+
+# ExtendedZoneProcessorTest
+Australia/Darwin
+America/Caracas
+
+# ExtendedZoneManagerTest
+America/Chicago
+America/Denver
+America/Los_Angeles
+America/New_York
+America/Toronto
+America/Vancouver
+America/Edmonton
+America/Winnipeg
+
+# ExtendedZoneProcessorTransitionTest
+Europe/Lisbon
