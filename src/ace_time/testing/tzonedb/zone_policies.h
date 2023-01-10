@@ -38,14 +38,17 @@ namespace ace_time {
 namespace tzonedb {
 
 //---------------------------------------------------------------------------
-// Supported zone policies: 1
+// Supported zone policies: 4
 //---------------------------------------------------------------------------
 
+extern const basic::ZonePolicy kZonePolicyAus;
+extern const basic::ZonePolicy kZonePolicyEcuador;
+extern const basic::ZonePolicy kZonePolicySA;
 extern const basic::ZonePolicy kZonePolicyUS;
 
 
 //---------------------------------------------------------------------------
-// Unsupported zone policies: 133
+// Unsupported zone policies: 130
 //---------------------------------------------------------------------------
 
 // AN {unused}
@@ -58,7 +61,6 @@ extern const basic::ZonePolicy kZonePolicyUS;
 // Algeria {unused}
 // Arg {unused}
 // Armenia {unused}
-// Aus {unused}
 // Austria {unused}
 // Azer {unused}
 // Barb {unused}
@@ -87,7 +89,6 @@ extern const basic::ZonePolicy kZonePolicyUS;
 // E-EurAsia {unused}
 // EU {unused}
 // EUAsia {unused}
-// Ecuador {unused}
 // Edm {unused}
 // Egypt {unused}
 // EgyptAsia {unused}
@@ -152,7 +153,6 @@ extern const basic::ZonePolicy kZonePolicyUS;
 // Romania {unused}
 // Russia {unused}
 // RussiaAsia {unused}
-// SA {unused}
 // Salv {unused}
 // SanLuis {unused}
 // Shang {unused}
@@ -184,9 +184,10 @@ extern const basic::ZonePolicy kZonePolicyUS;
 
 
 //---------------------------------------------------------------------------
-// Notable zone policies: 0
+// Notable zone policies: 1
 //---------------------------------------------------------------------------
 
+// Ecuador {Added anchor rule at year 0}
 
 
 }

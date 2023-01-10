@@ -27,20 +27,20 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2022g
 //
-// Zones: 1
+// Zones: 4
 // Links: 1
 // kZoneRegistry sizes (bytes):
-//   Names: 20 (originally 20)
-//   Formats: 4
+//   Names: 75 (originally 75)
+//   Formats: 26
 //   Fragments: 0
-//   Memory (8-bit): 50
-//   Memory (32-bit): 66
+//   Memory (8-bit): 210
+//   Memory (32-bit): 279
 // kZoneAndLinkRegistry sizes (bytes):
-//   Names: 31 (originally 31)
-//   Formats: 4
+//   Names: 86 (originally 86)
+//   Formats: 26
 //   Fragments: 0
-//   Memory (8-bit): 74
-//   Memory (32-bit): 101
+//   Memory (8-bit): 234
+//   Memory (32-bit): 314
 //
 // DO NOT EDIT
 
@@ -71,8 +71,42 @@ const internal::ZoneContext kZoneContext = {
 };
 
 //---------------------------------------------------------------------------
-// Zones: 1
+// Zones: 4
 //---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+// Zone name: Africa/Johannesburg
+// Zone Eras: 1
+// Strings (bytes): 25 (originally 25)
+// Memory (8-bit): 47
+// Memory (32-bit): 61
+//---------------------------------------------------------------------------
+
+static const basic::ZoneEra kZoneEraAfrica_Johannesburg[] ACE_TIME_PROGMEM = {
+  //             2:00    SA    SAST
+  {
+    &kZonePolicySA /*zonePolicy*/,
+    "SAST" /*format*/,
+    8 /*offsetCode*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAfrica_Johannesburg[] ACE_TIME_PROGMEM = "Africa/Johannesburg";
+
+const basic::ZoneInfo kZoneAfrica_Johannesburg ACE_TIME_PROGMEM = {
+  kZoneNameAfrica_Johannesburg /*name*/,
+  0xd5d157a0 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAfrica_Johannesburg /*eras*/,
+};
 
 //---------------------------------------------------------------------------
 // Zone name: America/Los_Angeles
@@ -106,6 +140,86 @@ const basic::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAmerica_Los_Angeles /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Australia/Darwin
+// Zone Eras: 1
+// Strings (bytes): 22 (originally 22)
+// Memory (8-bit): 44
+// Memory (32-bit): 58
+//---------------------------------------------------------------------------
+
+static const basic::ZoneEra kZoneEraAustralia_Darwin[] ACE_TIME_PROGMEM = {
+  //              9:30    Aus    AC%sT
+  {
+    &kZonePolicyAus /*zonePolicy*/,
+    "AC%T" /*format*/,
+    38 /*offsetCode*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAustralia_Darwin[] ACE_TIME_PROGMEM = "Australia/Darwin";
+
+const basic::ZoneInfo kZoneAustralia_Darwin ACE_TIME_PROGMEM = {
+  kZoneNameAustralia_Darwin /*name*/,
+  0x2876bdff /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAustralia_Darwin /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Pacific/Galapagos
+// Zone Eras: 2
+// Strings (bytes): 30 (originally 30)
+// Memory (8-bit): 63
+// Memory (32-bit): 82
+//---------------------------------------------------------------------------
+
+static const basic::ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
+  //             -5:00    -    -05    1986
+  {
+    nullptr /*zonePolicy*/,
+    "-05" /*format*/,
+    -20 /*offsetCode*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    1986 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             -6:00    Ecuador    -06/-05
+  {
+    &kZonePolicyEcuador /*zonePolicy*/,
+    "-06/-05" /*format*/,
+    -24 /*offsetCode*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNamePacific_Galapagos[] ACE_TIME_PROGMEM = "Pacific/Galapagos";
+
+const basic::ZoneInfo kZonePacific_Galapagos ACE_TIME_PROGMEM = {
+  kZoneNamePacific_Galapagos /*name*/,
+  0xa952f752 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*numEras*/,
+  kZoneEraPacific_Galapagos /*eras*/,
 };
 
 

@@ -27,11 +27,11 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2022g
 //
-// Policies: 1
-// Rules: 6
+// Policies: 4
+// Rules: 11
 // Letter Size (bytes): 0
-// Total Memory 8-bit (bytes): 60
-// Total Memory 32-bit (bytes): 84
+// Total Memory 8-bit (bytes): 123
+// Total Memory 32-bit (bytes): 180
 //
 // DO NOT EDIT
 
@@ -40,6 +40,126 @@
 
 namespace ace_time {
 namespace tzonedb {
+
+//---------------------------------------------------------------------------
+// Policy name: Aus
+// Rules: 1
+// Memory (8-bit): 15
+// Memory (32-bit): 24
+//---------------------------------------------------------------------------
+
+static const basic::ZoneRule kZoneRulesAus[] ACE_TIME_PROGMEM = {
+  // Rule    Aus    1943    1944    -    Mar    lastSun    2:00s    0    S
+  {
+    1943 /*fromYear*/,
+    1944 /*toYear*/,
+    3 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    'S' /*letter*/,
+  },
+
+};
+
+
+
+const basic::ZonePolicy kZonePolicyAus ACE_TIME_PROGMEM = {
+  kZoneRulesAus /*rules*/,
+  nullptr /*letters*/,
+  1 /*numRules*/,
+  0 /*numLetters*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: Ecuador
+// Rules: 3
+// Memory (8-bit): 33
+// Memory (32-bit): 48
+//---------------------------------------------------------------------------
+
+static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
+  // Anchor: Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
+  {
+    0 /*fromYear*/,
+    0 /*toYear*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Ecuador    1992    only    -    Nov    28    0:00    1:00    -
+  {
+    1992 /*fromYear*/,
+    1992 /*toYear*/,
+    11 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    28 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    '-' /*letter*/,
+  },
+  // Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
+  {
+    1993 /*fromYear*/,
+    1993 /*toYear*/,
+    2 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    5 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    '-' /*letter*/,
+  },
+
+};
+
+
+
+const basic::ZonePolicy kZonePolicyEcuador ACE_TIME_PROGMEM = {
+  kZoneRulesEcuador /*rules*/,
+  nullptr /*letters*/,
+  3 /*numRules*/,
+  0 /*numLetters*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: SA
+// Rules: 1
+// Memory (8-bit): 15
+// Memory (32-bit): 24
+//---------------------------------------------------------------------------
+
+static const basic::ZoneRule kZoneRulesSA[] ACE_TIME_PROGMEM = {
+  // Rule    SA    1943    1944    -    Mar    Sun>=15    2:00    0    -
+  {
+    1943 /*fromYear*/,
+    1944 /*toYear*/,
+    3 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    15 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    '-' /*letter*/,
+  },
+
+};
+
+
+
+const basic::ZonePolicy kZonePolicySA ACE_TIME_PROGMEM = {
+  kZoneRulesSA /*rules*/,
+  nullptr /*letters*/,
+  1 /*numRules*/,
+  0 /*numLetters*/,
+};
 
 //---------------------------------------------------------------------------
 // Policy name: US

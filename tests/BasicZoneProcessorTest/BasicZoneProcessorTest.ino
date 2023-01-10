@@ -3,6 +3,9 @@
 #include <AUnit.h>
 #include <AceCommon.h> // PrintStr<>
 #include <AceTime.h>
+#include <ace_time/testing/EpochYearContext.h>
+#include <ace_time/testing/tzonedb/zone_policies.h>
+#include <ace_time/testing/tzonedb/zone_infos.h>
 
 using ace_common::PrintStr;
 using namespace ace_time;
@@ -16,113 +19,13 @@ using ace_time::basic::ZoneInfoBroker;
 using ace_time::basic::ZoneEraBroker;
 using ace_time::basic::ZoneRuleBroker;
 using ace_time::basic::ZonePolicyBroker;
-
-//---------------------------------------------------------------------------
-// Test zoneinfo files. Taken from Pacific/Galapagos which transitions
-// from simple Rule to named Rule in 1986:
-//
-//# Rule  NAME    FROM    TO      TYPE    IN      ON      AT      SAVE  LETTER/S
-//Rule    Ecuador 1992    only    -       Nov     28      0:00    1:00    -
-//Rule    Ecuador 1993    only    -       Feb      5      0:00    0       -
-//
-//Zone Pacific/Galapagos  -5:58:24 -      LMT     1931 # Puerto Baquerizo Moreno
-//                        -5:00   -       -05     1986
-//                        -6:00   Ecuador -06/-05
-//---------------------------------------------------------------------------
-
-static const char kTzDatabaseVersion[] = "2019b";
-
-static const ZoneContext kZoneContext = {
-  1980 /*startYear*/,
-  2050 /*untilYear*/,
-  kTzDatabaseVersion /*tzVersion*/,
-  0 /*numFragments*/,
-  nullptr /*fragments*/,
-};
-
-static const ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
-  // Anchor: Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
-  {
-    LocalDate::kMinYear /*fromYear*/,
-    LocalDate::kMinYear /*toYear*/,
-    1 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    ZoneContext::kSuffixW /*atTimeModifier*/,
-    0 /*deltaCode*/,
-    '-' /*letter*/,
-  },
-  // Rule    Ecuador    1992    only    -    Nov    28    0:00    1:00    -
-  {
-    1992 /*fromYear*/,
-    1992 /*toYear*/,
-    11 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    28 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    ZoneContext::kSuffixW /*atTimeModifier*/,
-    4 /*deltaCode*/,
-    '-' /*letter*/,
-  },
-  // Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
-  {
-    1993 /*fromYear*/,
-    1993 /*toYear*/,
-    2 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    5 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    ZoneContext::kSuffixW /*atTimeModifier*/,
-    0 /*deltaCode*/,
-    '-' /*letter*/,
-  },
-};
-
-static const ZonePolicy kZonePolicyEcuador ACE_TIME_PROGMEM = {
-  kZoneRulesEcuador /*rules*/,
-  nullptr /* letters */,
-  3 /*numRules*/,
-  0 /* numLetters */,
-};
-
-static const ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
-  //             -5:00    -    -05    1986
-  {
-    nullptr /*zonePolicy*/,
-    "-05" /*format*/,
-    -20 /*offsetCode*/,
-    0 /*deltaCode*/,
-    1986 /*untilYear*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    ZoneContext::kSuffixW /*untilTimeModifier*/,
-  },
-  //             -6:00    Ecuador    -06/-05
-  {
-    &kZonePolicyEcuador /*zonePolicy*/,
-    "-06/-05" /*format*/,
-    -24 /*offsetCode*/,
-    0 /*deltaCode*/,
-    10000 /*untilYear*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    ZoneContext::kSuffixW /*untilTimeModifier*/,
-  },
-};
-
-static const char kZoneNamePacific_Galapagos[] ACE_TIME_PROGMEM =
-    "Pacific/Galapagos";
-
-static const ZoneInfo kZonePacific_Galapagos ACE_TIME_PROGMEM = {
-  kZoneNamePacific_Galapagos /*name*/,
-  0xa952f752 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  2 /*numEras*/,
-  kZoneEraPacific_Galapagos /*eras*/,
-};
+using ace_time::testing::EpochYearContext;
+using ace_time::tzonedb::kZoneContext;
+using ace_time::tzonedb::kZoneAmerica_Los_Angeles;
+using ace_time::tzonedb::kZoneAustralia_Darwin;
+using ace_time::tzonedb::kZonePacific_Galapagos;
+using ace_time::tzonedb::kZonePolicyEcuador;
+using ace_time::tzonedb::kZoneAfrica_Johannesburg;
 
 //---------------------------------------------------------------------------
 // BasicZoneProcessor: test private methods
@@ -140,23 +43,23 @@ test(BasicZoneProcessorTest, compareYearMonth) {
 }
 
 test(BasicZoneProcessorTest, operatorEqualEqual) {
-  BasicZoneProcessor a(&zonedb::kZoneAmerica_Los_Angeles);
-  BasicZoneProcessor b(&zonedb::kZoneAustralia_Darwin);
+  BasicZoneProcessor a(&kZoneAmerica_Los_Angeles);
+  BasicZoneProcessor b(&kZoneAustralia_Darwin);
   assertTrue(a != b);
 }
 
 test(BasicZoneProcessorTest, setZoneKey) {
-  BasicZoneProcessor zoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
+  BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
   zoneProcessor.getUtcOffset(0);
   assertTrue(zoneProcessor.mIsFilled);
 
-  zoneProcessor.setZoneKey((uintptr_t) &zonedb::kZoneAustralia_Darwin);
+  zoneProcessor.setZoneKey((uintptr_t) &kZoneAustralia_Darwin);
   assertFalse(zoneProcessor.mIsFilled);
   zoneProcessor.getUtcOffset(0);
   assertTrue(zoneProcessor.mIsFilled);
 
   // Check that the cache remains valid if the zoneInfo does not change
-  zoneProcessor.setZoneKey((uintptr_t) &zonedb::kZoneAustralia_Darwin);
+  zoneProcessor.setZoneKey((uintptr_t) &kZoneAustralia_Darwin);
   assertTrue(zoneProcessor.mIsFilled);
 }
 
@@ -169,6 +72,7 @@ test(BasicZoneProcessorTest, calcRuleOffsetMinutes) {
       ZoneContext::kSuffixS));
 }
 
+// Pacific/Galapagos transitions from simple Rule to named Rule in 1986:
 test(BasicZoneProcessorTest, findZoneEra) {
   ZoneInfoBroker info(&kZonePacific_Galapagos);
 
@@ -185,6 +89,7 @@ test(BasicZoneProcessorTest, findZoneEra) {
   assertEqual(LocalDate::kMaxYear, era.untilYear());
 }
 
+// Pacific/Galapagos transitions from simple Rule to named Rule in 1986:
 test(BasicZoneProcessorTest, findLatestPriorRule) {
   ZonePolicyBroker policy;
   int16_t year = 1986;
@@ -251,7 +156,7 @@ test(BasicZoneProcessorTest, compareRulesBeforeYear) {
 }
 
 test(BasicZoneProcessorTest, init_primitives) {
-  BasicZoneProcessor zoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
+  BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
   zoneProcessor.mYear = 2001;
   zoneProcessor.mNumTransitions = 0;
 
@@ -307,7 +212,7 @@ test(BasicZoneProcessorTest, init_primitives) {
 test(BasicZoneProcessorTest, init) {
   // Test using 2018-01-02. If we use 2018-01-01, the code will populate the
   // cache with transitions from 2017.
-  BasicZoneProcessor zoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
+  BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
   LocalDate ld = LocalDate::forComponents(2018, 1, 2);
   zoneProcessor.init(ld);
 
@@ -402,7 +307,7 @@ test(BasicZoneProcessorTest, createAbbreviation) {
 
 // https://www.timeanddate.com/time/zone/usa/los-angeles
 test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles) {
-  BasicZoneProcessor zoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
+  BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
 
   PrintStr<32> printStr;
   zoneProcessor.printNameTo(printStr);
@@ -453,7 +358,7 @@ test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles) {
 // https://www.timeanddate.com/time/zone/south-africa/johannesburg
 // No DST changes at all.
 test(BasicZoneProcessorTest, kZoneAfrica_Johannesburg) {
-  BasicZoneProcessor zoneProcessor(&zonedb::kZoneAfrica_Johannesburg);
+  BasicZoneProcessor zoneProcessor(&kZoneAfrica_Johannesburg);
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
@@ -469,7 +374,7 @@ test(BasicZoneProcessorTest, kZoneAfrica_Johannesburg) {
 // No DST changes since 1944. Uses the last transition which occurred in March
 // 1944.
 test(BasicZoneProcessorTest, kZoneAustralia_Darwin) {
-  BasicZoneProcessor zoneProcessor(&zonedb::kZoneAustralia_Darwin);
+  BasicZoneProcessor zoneProcessor(&kZoneAustralia_Darwin);
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
@@ -482,24 +387,26 @@ test(BasicZoneProcessorTest, kZoneAustralia_Darwin) {
 }
 
 test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles_outOfBounds) {
-  BasicZoneProcessor zoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
+  EpochYearContext context(2000); // set epoch year to 2000 temporarily
+
+  BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
-  assertEqual(2000, zonedb::kZoneContext.startYear);
-  assertEqual(10000, zonedb::kZoneContext.untilYear);
+  assertEqual(1980, kZoneContext.startYear);
+  assertEqual(10000, kZoneContext.untilYear);
 
-  // 1998 > LocalDate::kMinYear so dt is valid, and
-  dt = OffsetDateTime::forComponents(1998, 3, 11, 1, 59, 59,
+  // 1970 > LocalDate::kMinYear so dt is valid, and
+  dt = OffsetDateTime::forComponents(1970, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
   assertFalse(dt.isError());
-  // 1998 is within roughly 50 years of Epoch::currentEpochYear() of 2050
+  // 1970 is within roughly 50 years of Epoch::currentEpochYear() of 2050
   // so toEpochSeconds() still works.
   epochSeconds = dt.toEpochSeconds();
   assertNotEqual(epochSeconds, LocalDate::kInvalidEpochSeconds);
-  // 1998 < ZoneContext.startYear, so getUtcOffset() fails
+  // 1970 < ZoneContext.startYear, so getUtcOffset() fails
   assertTrue(zoneProcessor.getUtcOffset(epochSeconds).isError());
-  // 1998 < ZoneContext.startYear, so getDeltaOffset() fails
+  // 1970 < ZoneContext.startYear, so getDeltaOffset() fails
   assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isError());
   // getAbbrev() returns "" on lookup failure
   assertEqual("", zoneProcessor.getAbbrev(epochSeconds));

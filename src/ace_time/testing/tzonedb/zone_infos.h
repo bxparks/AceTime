@@ -48,15 +48,21 @@ extern const char kTzDatabaseVersion[];
 extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 1
+// Supported zones: 4
 //---------------------------------------------------------------------------
 
+extern const basic::ZoneInfo kZoneAfrica_Johannesburg; // Africa/Johannesburg
 extern const basic::ZoneInfo kZoneAmerica_Los_Angeles; // America/Los_Angeles
+extern const basic::ZoneInfo kZoneAustralia_Darwin; // Australia/Darwin
+extern const basic::ZoneInfo kZonePacific_Galapagos; // Pacific/Galapagos
 
 
 // Zone Ids
 
+const uint32_t kZoneIdAfrica_Johannesburg = 0xd5d157a0; // Africa/Johannesburg
 const uint32_t kZoneIdAmerica_Los_Angeles = 0xb7f7e8f2; // America/Los_Angeles
+const uint32_t kZoneIdAustralia_Darwin = 0x2876bdff; // Australia/Darwin
+const uint32_t kZoneIdPacific_Galapagos = 0xa952f752; // Pacific/Galapagos
 
 
 //---------------------------------------------------------------------------
@@ -79,11 +85,14 @@ const uint32_t kZoneIdUS_Pacific = 0xa950f6ab; // US/Pacific
 // MaxBufSize: 6
 //---------------------------------------------------------------------------
 
+const uint8_t kZoneBufSizeAfrica_Johannesburg = 2;  // Africa/Johannesburg in 1979
 const uint8_t kZoneBufSizeAmerica_Los_Angeles = 6;  // America/Los_Angeles in 2008
+const uint8_t kZoneBufSizeAustralia_Darwin = 2;  // Australia/Darwin in 1979
+const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 350
+// Unsupported zones: 347
 //---------------------------------------------------------------------------
 
 // Africa/Abidjan {Zone missing from include list}
@@ -93,7 +102,6 @@ const uint8_t kZoneBufSizeAmerica_Los_Angeles = 6;  // America/Los_Angeles in 20
 // Africa/Casablanca {Zone missing from include list}
 // Africa/Ceuta {Zone missing from include list}
 // Africa/El_Aaiun {Zone missing from include list}
-// Africa/Johannesburg {Zone missing from include list}
 // Africa/Juba {Zone missing from include list}
 // Africa/Khartoum {Zone missing from include list}
 // Africa/Lagos {Zone missing from include list}
@@ -318,7 +326,6 @@ const uint8_t kZoneBufSizeAmerica_Los_Angeles = 6;  // America/Los_Angeles in 20
 // Australia/Adelaide {Zone missing from include list}
 // Australia/Brisbane {Zone missing from include list}
 // Australia/Broken_Hill {Zone missing from include list}
-// Australia/Darwin {Zone missing from include list}
 // Australia/Eucla {Zone missing from include list}
 // Australia/Hobart {Zone missing from include list}
 // Australia/Lindeman {Zone missing from include list}
@@ -413,7 +420,6 @@ const uint8_t kZoneBufSizeAmerica_Los_Angeles = 6;  // America/Los_Angeles in 20
 // Pacific/Efate {Zone missing from include list}
 // Pacific/Fakaofo {Zone missing from include list}
 // Pacific/Fiji {Zone missing from include list}
-// Pacific/Galapagos {Zone missing from include list}
 // Pacific/Gambier {Zone missing from include list}
 // Pacific/Guadalcanal {Zone missing from include list}
 // Pacific/Guam {Zone missing from include list}
@@ -439,9 +445,13 @@ const uint8_t kZoneBufSizeAmerica_Los_Angeles = 6;  // America/Los_Angeles in 20
 
 
 //---------------------------------------------------------------------------
-// Notable zones: 0
+// Notable zones: 2
 //---------------------------------------------------------------------------
 
+// Africa/Johannesburg {RULES not fixed but FORMAT is missing '%' or '/'}
+// Pacific/Galapagos {
+//   Ecuador {Added anchor rule at year 0}
+// }
 
 
 //---------------------------------------------------------------------------

@@ -1,3 +1,10 @@
 # Include only these zones and links
+
+# BasicBrokerTest
 America/Los_Angeles
 US/Pacific
+
+# BasicZoneProcessorTest
+Pacific/Galapagos
+Africa/Johannesburg
+Australia/Darwin

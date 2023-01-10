@@ -39,17 +39,23 @@ namespace tzonedb {
 //---------------------------------------------------------------------------
 // Zone Info registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kZoneRegistry[1] ACE_TIME_PROGMEM = {
+const basic::ZoneInfo* const kZoneRegistry[4] ACE_TIME_PROGMEM = {
+  &kZoneAustralia_Darwin, // 0x2876bdff, Australia/Darwin
+  &kZonePacific_Galapagos, // 0xa952f752, Pacific/Galapagos
   &kZoneAmerica_Los_Angeles, // 0xb7f7e8f2, America/Los_Angeles
+  &kZoneAfrica_Johannesburg, // 0xd5d157a0, Africa/Johannesburg
 
 };
 
 //---------------------------------------------------------------------------
 // Zone and Link (fat) Info registry. Sorted by zoneId. Links act like Zones.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kZoneAndLinkRegistry[2] ACE_TIME_PROGMEM = {
+const basic::ZoneInfo* const kZoneAndLinkRegistry[5] ACE_TIME_PROGMEM = {
+  &kZoneAustralia_Darwin, // 0x2876bdff, Australia/Darwin
   &kZoneUS_Pacific, // 0xa950f6ab, US/Pacific -> America/Los_Angeles
+  &kZonePacific_Galapagos, // 0xa952f752, Pacific/Galapagos
   &kZoneAmerica_Los_Angeles, // 0xb7f7e8f2, America/Los_Angeles
+  &kZoneAfrica_Johannesburg, // 0xd5d157a0, Africa/Johannesburg
 
 };
 
