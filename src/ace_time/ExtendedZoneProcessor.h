@@ -160,7 +160,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           transition = nullptr;
           result.type = FindResult::kTypeNotFound;
         } else { // gap or overlap
-          if (transitionForDateTime.num == 0) { // Gap
+          if (transitionForDateTime.num == 0) { // num==0, Gap
             result.type = FindResult::kTypeGap;
             if (ldt.fold() == 0) {
               // ldt wants to use the 'prev' transition to convert to
@@ -181,13 +181,14 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
               // transition, so select 'prev' as the target transition.
               transition = transitionForDateTime.prev;
             }
-          } else { // Overlap
+          } else { // num==2, Overlap
             transition = (ldt.fold() == 0)
                 ? transitionForDateTime.prev
                 : transitionForDateTime.curr;
             result.type = FindResult::kTypeOverlap;
             result.origOffsetMinutes = transition->offsetMinutes
                 + transition->deltaMinutes;
+            result.fold = ldt.fold();
           }
         }
       }
@@ -226,9 +227,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       result.origOffsetMinutes = transition->offsetMinutes
           + transition->deltaMinutes;
       result.abbrev = transition->abbrev;
-      result.type = (transitionForSeconds.num == 2)
-          ? FindResult::kTypeOverlap
-          : FindResult::kTypeExact;
+      result.fold = transitionForSeconds.fold;
+      if (transitionForSeconds.num == 2) {
+        result.type = FindResult::kTypeOverlap;
+      } else {
+        result.type = FindResult::kTypeExact;
+      }
       return result;
     }
 

@@ -18,8 +18,9 @@ namespace ace_time {
 class LocalDateTime;
 
 /**
- * Result of a search for transition(s) at a specific epochSeconds or a specific
- * LocalDateTime.
+ * Result of a search for transition at a specific epochSeconds or a specific
+ * LocalDateTime. More than one transition can match if the LocalDateTime occurs
+ * during an overlap (e.g. during a "fall back" from DST to STD).
  *
  * Case 1: findByLocalDateTime()
  *  * kTypeNotFound:
@@ -57,6 +58,17 @@ class FindResult {
 
     /** Result type of findByEpochSeconds() or findByLocalDateTime(). */
     uint8_t type = kTypeNotFound;
+
+    /**
+     * For findByLocalDateTime(), when type==kTypeOverlap, this is a copy of the
+     * requested LocalDateTime::fold parameter. For all other resulting types,
+     * including kTypeGap, this will be set to 0.
+     *
+     * For findByEpochSeconds(), when type==kTypeOverlap, this defines whether
+     * the corresponding LocalDateTime occurs the first time (0) or the second
+     * time (1). For all other resulting type, this will be set to 0.
+     */
+    uint8_t fold = 0;
 
     /** Target STD offset */
     int16_t stdOffsetMinutes = 0;

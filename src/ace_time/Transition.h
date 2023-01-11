@@ -483,9 +483,14 @@ struct TransitionForSecondsTemplate {
  */
 template <typename ZEB, typename ZPB, typename ZRB>
 struct TransitionForDateTimeTemplate {
+  /** The previous transition. */
+
   const TransitionTemplate<ZEB, ZPB, ZRB>* prev;
+  /** The matching transition, or null if not found or in gap. */
+
   const TransitionTemplate<ZEB, ZPB, ZRB>* curr;
-  uint8_t num; // number of exact matches
+  /** Number of matches: 0, 1, 2 */
+  uint8_t num;
 };
 
 /**
