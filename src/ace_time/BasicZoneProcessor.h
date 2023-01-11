@@ -250,21 +250,21 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       // 0) Use the UTC epochSeconds to get intial guess of offset.
       acetime_t epochSeconds0 = ldt.toEpochSeconds();
       auto result0 = findByEpochSeconds(epochSeconds0);
-      if (result0.type == FindResult::Type::kNotFound) return result;
+      if (result0.type == FindResult::kTypeNotFound) return result;
       auto offset0 = TimeOffset::forMinutes(result0.origOffsetMinutes);
 
       // 1) Use offset0 to get the next epochSeconds and offset.
       auto odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset0);
       acetime_t epochSeconds1 = odt.toEpochSeconds();
       auto result1 = findByEpochSeconds(epochSeconds1);
-      if (result1.type == FindResult::Type::kNotFound) return result;
+      if (result1.type == FindResult::kTypeNotFound) return result;
       auto offset1 = TimeOffset::forMinutes(result1.origOffsetMinutes);
 
       // 2) Use offset1 to get the next epochSeconds and offset.
       odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset1);
       acetime_t epochSeconds2 = odt.toEpochSeconds();
       auto result2 = findByEpochSeconds(epochSeconds2);
-      if (result2.type == FindResult::Type::kNotFound) return result;
+      if (result2.type == FindResult::kTypeNotFound) return result;
       auto offset2 = TimeOffset::forMinutes(result2.origOffsetMinutes);
 
       // If offset1 and offset2 are equal, then we have an equilibrium
@@ -296,7 +296,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       result.dstOffsetMinutes = transition->deltaMinutes;
       result.stdOffsetMinutes = transition->offsetMinutes
           - transition->deltaMinutes;
-      result.type = FindResult::Type::kExact;
+      result.type = FindResult::kTypeExact;
       result.abbrev = transition->abbrev;
 
       return result;

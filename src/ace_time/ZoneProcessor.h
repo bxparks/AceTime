@@ -22,45 +22,63 @@ class LocalDateTime;
  * LocalDateTime.
  *
  * Case 1: findByLocalDateTime()
- *  * kNotFound:
+ *  * kTypeNotFound:
  *      * No matching Transition found.
- *  * kExact:
+ *  * kTypeExact:
  *      * A single Transition found.
- *  * kGap:
+ *  * kTypeGap:
  *      * LocalDateTime occurs in a gap.
  *      * fold=0 selects the earlier transition as reference, and normalizes
  *        to the later transition.
  *      * fold=1 selects the later transition as reference, and normalizes to
  *        the earlier transition.
- *  * kOverlap:
+ *  * kTypeOverlap:
  *      * LocalDateTime matches 2 Transitions.
  *      * fold=0 selects the earlier transition.
  *      * fold=1 selects the later transition.
  *
  * Case 2: findByEpochSeconds()
- *  * kNotFound:
+ *  * kTypeNotFound:
  *      * If no matching Transition found.
- *  * kExact:
+ *  * kTypeExact:
  *      * Only a single Transition found.
- *  * kGap:
+ *  * kTypeGap:
  *      * Cannot occur.
- *  * kOverlap:
+ *  * kTypeOverlap:
  *      * A single Transition found, but the epochSeconds occurs during an
  *      overlap where two local times can occur.
  */
 class FindResult {
   public:
-    enum class Type : uint8_t {
-      kNotFound, // 0
-      kExact, // 1
-      kGap, // 2
-      kOverlap, // 3
-    };
+    static const uint8_t kTypeNotFound = 0;
+    static const uint8_t kTypeExact = 1;
+    static const uint8_t kTypeGap = 2;
+    static const uint8_t kTypeOverlap = 3;
 
-    Type type = Type::kNotFound;
-    int16_t stdOffsetMinutes = 0; // target STD offset
-    int16_t dstOffsetMinutes = 0; // target DST offset
-    int16_t origOffsetMinutes = 0; // original offset for epochSeconds (kGap)
+    /** Result type of findByEpochSeconds() or findByLocalDateTime(). */
+    uint8_t type = kTypeNotFound;
+
+    /** Target STD offset */
+    int16_t stdOffsetMinutes = 0;
+
+    /** Target DST offset */
+    int16_t dstOffsetMinutes = 0;
+
+    /**
+     * Original offset which should be used to convert the epochSeconds to
+     * OffsetDateTime when findByEpochSeconds() is used. This will be different
+     * than (stdOffsetMinutes + dstOffsetMinutes) during kTypeGap. For all other
+     * resulting type from findByEpochSeconds(), and for all resulting types
+     * from findByLocalDateTime(), the origOffsetMinutes will be the same as
+     * (stdOffsetMinutes + dstOffsetMinutes).
+     */
+    int16_t origOffsetMinutes = 0;
+
+    /**
+     * Pointer to the abbreviation stored in the transient Transition::abbrev
+     * variable. The calling code should copy the string into a local buffer
+     * quickly, before any other timezone calculations are performed.
+     */
     const char* abbrev = "";
 };
 

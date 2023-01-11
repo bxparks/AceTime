@@ -13,10 +13,10 @@ test(ZonedExtra, isError) {
 }
 
 test(ZonedExtra, type) {
-  assertEqual(ZonedExtra::kTypeNotFound, (uint8_t) FindResult::Type::kNotFound);
-  assertEqual(ZonedExtra::kTypeExact, (uint8_t) FindResult::Type::kExact);
-  assertEqual(ZonedExtra::kTypeGap, (uint8_t) FindResult::Type::kGap);
-  assertEqual(ZonedExtra::kTypeOverlap, (uint8_t) FindResult::Type::kOverlap);
+  assertEqual(ZonedExtra::kTypeNotFound, FindResult::kTypeNotFound);
+  assertEqual(ZonedExtra::kTypeExact, FindResult::kTypeExact);
+  assertEqual(ZonedExtra::kTypeGap, FindResult::kTypeGap);
+  assertEqual(ZonedExtra::kTypeOverlap, FindResult::kTypeOverlap);
 }
 
 //---------------------------------------------------------------------------

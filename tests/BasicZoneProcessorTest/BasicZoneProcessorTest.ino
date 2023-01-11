@@ -331,7 +331,7 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
   assertEqual(-8*60, result.origOffsetMinutes);
@@ -342,7 +342,7 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
   assertEqual(-7*60, result.origOffsetMinutes);
@@ -353,7 +353,7 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
       TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
   assertEqual(-7*60, result.origOffsetMinutes);
@@ -364,7 +364,7 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
       TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
   assertEqual(-7*60, result.origOffsetMinutes);
@@ -376,7 +376,7 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
       TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
   assertEqual(-8*60, result.origOffsetMinutes);
@@ -387,7 +387,7 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
   assertEqual(-8*60, result.origOffsetMinutes);
@@ -406,7 +406,7 @@ test(BasicZoneProcessorTest, kZoneAfrica_Johannesburg) {
       TimeOffset::forHours(2));
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(2*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
   assertEqual(2*60, result.origOffsetMinutes);
@@ -425,7 +425,7 @@ test(BasicZoneProcessorTest, kZoneAustralia_Darwin) {
       TimeOffset::forHourMinute(9, 30));
   epochSeconds = dt.toEpochSeconds();
   FindResult result = zoneProcessor.findByEpochSeconds(epochSeconds);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(9*60+30, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
   assertEqual(9*60+30, result.origOffsetMinutes);
@@ -452,7 +452,7 @@ test(BasicZoneProcessorTest, findByEpochSeconds_outOfBounds) {
   assertNotEqual(epochSeconds, LocalDate::kInvalidEpochSeconds);
   // But 1998 < ZoneContext.startYear, so FindResult not found.
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
-  assertEqual((int)result.type, (int)FindResult::Type::kNotFound);
+  assertEqual((int)result.type, (int)FindResult::kTypeNotFound);
 
   // 10001 is beyond LocalDate::kMaxYear so should fail.
   dt = OffsetDateTime::forComponents(10001, 2, 1, 1, 0, 0,
@@ -464,7 +464,7 @@ test(BasicZoneProcessorTest, findByEpochSeconds_outOfBounds) {
   assertEqual(epochSeconds, LocalDate::kInvalidEpochSeconds);
   // findByEpochSeconds() results NotFound for kInvalidEpochSeconds
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
-  assertEqual((int)result.type, (int)FindResult::Type::kNotFound);
+  assertEqual((int)result.type, (int)FindResult::kTypeNotFound);
 }
 
 //---------------------------------------------------------------------------
@@ -479,7 +479,7 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   // way before spring forward
   auto ldt = LocalDateTime::forComponents(2018, 3, 10, 1, 0, 0);
   result = zoneProcessor.findByLocalDateTime(ldt);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
   assertEqual(-8*60, result.origOffsetMinutes);
@@ -488,7 +488,7 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   // just before spring forward
   ldt = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 59);
   result = zoneProcessor.findByLocalDateTime(ldt);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
   assertEqual(-8*60, result.origOffsetMinutes);
@@ -497,7 +497,7 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   // spring forward into the gap, but BasicZoneProcessor cannot detect it
   ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 1);
   result = zoneProcessor.findByLocalDateTime(ldt);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
   assertEqual(-7*60, result.origOffsetMinutes);
@@ -506,7 +506,7 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   // before fall back
   ldt = LocalDateTime::forComponents(2018, 11, 4, 1, 0, 0);
   result = zoneProcessor.findByLocalDateTime(ldt);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
   assertEqual(-7*60, result.origOffsetMinutes);
@@ -515,7 +515,7 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   // just before fall back
   ldt = LocalDateTime::forComponents(2018, 11, 4, 1, 59, 59);
   result = zoneProcessor.findByLocalDateTime(ldt);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
   assertEqual(-7*60, result.origOffsetMinutes);
@@ -525,7 +525,7 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   // so returns kExact, and selects the later of the 2 possible datetime.
   ldt = LocalDateTime::forComponents(2018, 11, 4, 2, 0, 1);
   result = zoneProcessor.findByLocalDateTime(ldt);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
   assertEqual(-8*60, result.origOffsetMinutes);
@@ -534,7 +534,7 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   // two hours after fall back, no overlap
   ldt = LocalDateTime::forComponents(2018, 11, 4, 3, 0, 0);
   result = zoneProcessor.findByLocalDateTime(ldt);
-  assertEqual((int)result.type, (int)FindResult::Type::kExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
   assertEqual(-8*60, result.origOffsetMinutes);

@@ -319,7 +319,7 @@ class TimeZone {
         default: {
           FindResult result =
               getBoundZoneProcessor()->findByEpochSeconds(epochSeconds);
-          if (result.type == FindResult::Type::kNotFound) {
+          if (result.type == FindResult::kTypeNotFound) {
             return ZonedExtra::forError();
           }
           return ZonedExtra(
@@ -352,7 +352,7 @@ class TimeZone {
 
         default: {
           FindResult result = getBoundZoneProcessor()->findByLocalDateTime(ldt);
-          if (result.type == FindResult::Type::kNotFound) {
+          if (result.type == FindResult::kTypeNotFound) {
             break;
           }
 
@@ -362,7 +362,7 @@ class TimeZone {
 
           // Normalize in the gap by converting to epochSeconds using the
           // 'origOffsetMinutes', then reconverting to target transition.
-          if (result.type == FindResult::Type::kGap) {
+          if (result.type == FindResult::kTypeGap) {
             acetime_t epochSeconds = odt.toEpochSeconds();
             TimeOffset targetOffset = TimeOffset::forMinutes(
                 result.stdOffsetMinutes + result.dstOffsetMinutes);
@@ -399,15 +399,13 @@ class TimeZone {
         default: {
           FindResult result =
               getBoundZoneProcessor()->findByEpochSeconds(epochSeconds);
-          if (result.type == FindResult::Type::kNotFound) {
+          if (result.type == FindResult::kTypeNotFound) {
             break;
           }
 
-          TimeOffset offset = TimeOffset::forMinutes(
-              result.stdOffsetMinutes + result.dstOffsetMinutes);
-          uint8_t fold = (result.type == FindResult::Type::kOverlap)
-              ? 1 : 0;
-          odt = OffsetDateTime::forEpochSeconds(epochSeconds, offset, fold);
+          // Output 'fold' is always 0 for findByEpochSeconds().
+          TimeOffset offset = TimeOffset::forMinutes(result.origOffsetMinutes);
+          odt = OffsetDateTime::forEpochSeconds(epochSeconds, offset);
           break;
         }
       }
