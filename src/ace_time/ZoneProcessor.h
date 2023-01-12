@@ -21,33 +21,6 @@ class LocalDateTime;
  * Result of a search for transition at a specific epochSeconds or a specific
  * LocalDateTime. More than one transition can match if the LocalDateTime occurs
  * during an overlap (e.g. during a "fall back" from DST to STD).
- *
- * Case 1: findByLocalDateTime()
- *  * kTypeNotFound:
- *      * No matching Transition found.
- *  * kTypeExact:
- *      * A single Transition found.
- *  * kTypeGap:
- *      * LocalDateTime occurs in a gap.
- *      * fold=0 selects the earlier transition as reference, and normalizes
- *        to the later transition.
- *      * fold=1 selects the later transition as reference, and normalizes to
- *        the earlier transition.
- *  * kTypeOverlap:
- *      * LocalDateTime matches 2 Transitions.
- *      * fold=0 selects the earlier transition.
- *      * fold=1 selects the later transition.
- *
- * Case 2: findByEpochSeconds()
- *  * kTypeNotFound:
- *      * If no matching Transition found.
- *  * kTypeExact:
- *      * Only a single Transition found.
- *  * kTypeGap:
- *      * Cannot occur.
- *  * kTypeOverlap:
- *      * A single Transition found, but the epochSeconds occurs during an
- *      overlap where two local times can occur.
  */
 class FindResult {
   public:
@@ -56,7 +29,42 @@ class FindResult {
     static const uint8_t kTypeGap = 2;
     static const uint8_t kTypeOverlap = 3;
 
-    /** Result type of findByEpochSeconds() or findByLocalDateTime(). */
+    /**
+     * Result of the findByEpochSeconds() or findByLocalDateTime() search
+     * methods. There are 2 slightly different cases:
+     *
+     * Case 1: findByLocalDateTime()
+     *  * kTypeNotFound:
+     *      * No matching Transition found.
+     *  * kTypeExact:
+     *      * A single Transition found.
+     *  * kTypeGap:
+     *      * LocalDateTime occurs in a gap.
+     *      * LocalDateTime::fold=0 returns the earlier transition in
+     *        origOffsetMinutes, and the stdOffsetMinutes and dstOffsetMinutes
+     *        of the later transition to normalize the resulting OffsetDateTime
+     *      * LocalDateTime::fold=1 returns the later transition in
+     *        origOffsetMinutes, and the stdOffsetMinutes and dstOffsetMinutes
+     *        of the later transition for the resulting OffsetDateTime of the
+     *        earlier transition to normalize the resulting OffsetDateTime
+     *  * kTypeOverlap:
+     *      * LocalDateTime matches 2 Transitions.
+     *      * LocalDateTime::fold=0 selects the earlier transition.
+     *      * LocalDateTime::fold=1 selects the later transition.
+     *
+     * Case 2: findByEpochSeconds()
+     *  * kTypeNotFound:
+     *      * If no matching Transition found.
+     *  * kTypeExact:
+     *      * Only a single Transition found.
+     *  * kTypeGap:
+     *      * Cannot occur.
+     *  * kTypeOverlap:
+     *      * A single Transition found, but the epochSeconds occurs during an
+     *        overlap where two local times can occur.
+     *      * The `fold` parameter contains 0 or 1 to indicate the earlier or
+     *        later resulting OffsetDateTime.
+     */
     uint8_t type = kTypeNotFound;
 
     /**
@@ -70,10 +78,10 @@ class FindResult {
      */
     uint8_t fold = 0;
 
-    /** Target STD offset */
+    /** STD offset of the resulting OffsetDateTime. */
     int16_t stdOffsetMinutes = 0;
 
-    /** Target DST offset */
+    /** DST offset of the resulting OffsetDateTime. */
     int16_t dstOffsetMinutes = 0;
 
     /**

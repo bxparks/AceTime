@@ -40,7 +40,8 @@ class ZonedExtra {
      * Find by LocalDateTime matches 2 possible epochSeconds, which is
      * disambguiated by the LocalDateTime::fold input parameter. Find by
      * epochSeconds matches a LocalDateTime that can occur twice, and is
-     * disambiguated by the LocalDateTime::fold output parameter.
+     * disambiguated by the OffsetDateTime::fold or ZonedDateTime::fold output
+     * parameter.
      */
     static const uint8_t kTypeOverlap = 3;
 
@@ -65,20 +66,29 @@ class ZonedExtra {
       mAbbrev[internal::kAbbrevSize - 1] = '\0';
     }
 
+    /** Indicates that the LocalDateTime or epochSeconds was not found. */
     bool isError() const {
       return mStdOffsetMinutes == kInvalidMinutes;
     }
 
     uint8_t type() const { return mType; }
 
+    /** STD offset of the resulting OffsetDateTime. */
     TimeOffset stdOffset() const {
       return TimeOffset::forMinutes(mStdOffsetMinutes);
     }
 
+    /** DST offset of the resulting OffsetDateTime. */
     TimeOffset dstOffset() const {
       return TimeOffset::forMinutes(mDstOffsetMinutes);
     }
 
+    /**
+     * The local string buffer containing the timezone abbreviation (e.g.
+     * "PST", "PDT") used at the given LocalDateTime or epochSeconds. This
+     * buffer is a local copy, it is safe to use after calling other timezone
+     * related functions.
+     */
     const char* abbrev() const { return mAbbrev; }
 
   private:
