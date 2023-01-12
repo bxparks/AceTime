@@ -359,6 +359,7 @@ class TimeZone {
           // Convert FindResult into OffsetDateTime
           TimeOffset offset = TimeOffset::forMinutes(result.origOffsetMinutes);
           odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset);
+          odt.fold(result.fold);
 
           // Normalize in the gap by converting to epochSeconds using the
           // 'origOffsetMinutes', then reconverting to target transition.
@@ -367,10 +368,6 @@ class TimeZone {
             TimeOffset targetOffset = TimeOffset::forMinutes(
                 result.stdOffsetMinutes + result.dstOffsetMinutes);
             odt = OffsetDateTime::forEpochSeconds(epochSeconds, targetOffset);
-            // Invert the fold. The normalization process causes the
-            // LocalDateTime to jump to the other transition. This also provides
-            // an indicator that a gap normalization was performed.
-            odt.fold(1 - ldt.fold());
           }
           break;
         }
@@ -403,9 +400,9 @@ class TimeZone {
             break;
           }
 
-          // Output 'fold' is always 0 for findByEpochSeconds().
           TimeOffset offset = TimeOffset::forMinutes(result.origOffsetMinutes);
-          odt = OffsetDateTime::forEpochSeconds(epochSeconds, offset);
+          odt = OffsetDateTime::forEpochSeconds(
+              epochSeconds, offset, result.fold);
           break;
         }
       }
