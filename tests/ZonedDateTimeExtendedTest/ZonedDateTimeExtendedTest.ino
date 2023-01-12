@@ -474,6 +474,114 @@ test(ZonedDateTimeExtendedTest, morocco_2090) {
 
 // --------------------------------------------------------------------------
 
+// Pacific/Apia switches internation dateline, going from UTC-10 to UTC+14
+// on Dec 29, 2011. It essentially skips Dec 30, 2011 using a mega "spring
+// forward".
+//
+// Dateline Change skip Friday 30th Dec 2011
+// Thursday 29th December 2011	23:59:59 Hours UTC-10
+// Saturday 31st December 2011	00:00:00 Hours UTC+14
+test(ZonedDateTimeExtendedTest, Pacific_Apia) {
+  // Reconfigure the current epoch year to 2050 to allow calculations in the
+  // year 2090.
+  testing::EpochYearContext context(2050);
+  extendedZoneManager.resetZoneProcessors();
+
+  TimeZone tz = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZonePacific_Apia);
+
+  // Dec 29 23:59:59 UTC-10:00, one second before "mega spring forward"
+  auto dt = ZonedDateTime::forComponents(
+      2011, 12, 29, 23, 59, 59, tz, 0 /*fold*/);
+  assertEqual(2011, dt.year());
+  assertEqual(12, dt.month());
+  assertEqual(29, dt.day());
+  assertEqual(23, dt.hour());
+  assertEqual(59, dt.minute());
+  assertEqual(59, dt.second());
+  assertEqual(-10*60, dt.timeOffset().toMinutes());
+  assertEqual(0, dt.fold());
+
+  // Dec 30, 00:00:00 is in the gap. Using fold=0 means using the first
+  // transition of UTC-10, which then gets normalized to Dec 31, 00:00:00
+  // UTC+14:00.
+  dt = ZonedDateTime::forComponents(2011, 12, 30, 0, 0, 0, tz, 0 /*fold*/);
+  assertEqual(2011, dt.year());
+  assertEqual(12, dt.month());
+  assertEqual(31, dt.day());
+  assertEqual(0, dt.hour());
+  assertEqual(0, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(14*60, dt.timeOffset().toMinutes());
+  assertEqual(0, dt.fold());
+
+  // Dec 30, 00:00:00 is in the gap. Using fold=1 means using the seconds
+  // transition of UTC+14, which then gets normalized to Dec 29, 00:00:00
+  // UTC-10:00.
+  dt = ZonedDateTime::forComponents(2011, 12, 30, 0, 0, 0, tz, 1 /*fold*/);
+  assertEqual(2011, dt.year());
+  assertEqual(12, dt.month());
+  assertEqual(29, dt.day());
+  assertEqual(0, dt.hour());
+  assertEqual(0, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(-10*60, dt.timeOffset().toMinutes());
+  assertEqual(0, dt.fold());
+
+  // Dec 30, 12:00:00 is still in the gap. Using fold=0 means using the first
+  // transition of UTC-10, which then gets normalized to Dec 31, 12:00:00
+  // UTC+14:00.
+  dt = ZonedDateTime::forComponents(2011, 12, 30, 12, 0, 0, tz, 0 /*fold*/);
+  assertEqual(2011, dt.year());
+  assertEqual(12, dt.month());
+  assertEqual(31, dt.day());
+  assertEqual(12, dt.hour());
+  assertEqual(0, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(14*60, dt.timeOffset().toMinutes());
+  assertEqual(0, dt.fold());
+
+  // Dec 30, 12:00:00 is still in the gap. Using fold=1 means using the second
+  // transition of UTC-10, which then gets normalized to Dec 29, 12:00:00
+  // UTC-10:00.
+  dt = ZonedDateTime::forComponents(2011, 12, 30, 12, 0, 0, tz, 1 /*fold*/);
+  assertEqual(2011, dt.year());
+  assertEqual(12, dt.month());
+  assertEqual(29, dt.day());
+  assertEqual(12, dt.hour());
+  assertEqual(0, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(-10*60, dt.timeOffset().toMinutes());
+  assertEqual(0, dt.fold());
+
+  // Dec 31, 00:00:00 is just after the gap. Using fold=0 means UTC+14.
+  dt = ZonedDateTime::forComponents(2011, 12, 31, 0, 0, 0, tz, 0 /*fold*/);
+  assertEqual(2011, dt.year());
+  assertEqual(12, dt.month());
+  assertEqual(31, dt.day());
+  assertEqual(0, dt.hour());
+  assertEqual(0, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(14*60, dt.timeOffset().toMinutes());
+  assertEqual(0, dt.fold());
+
+  // Dec 31, 00:00:00 is outside the gap. Setting fold=1 is ignored.
+  dt = ZonedDateTime::forComponents(2011, 12, 31, 0, 0, 0, tz, 1 /*fold*/);
+  assertEqual(2011, dt.year());
+  assertEqual(12, dt.month());
+  assertEqual(31, dt.day());
+  assertEqual(0, dt.hour());
+  assertEqual(0, dt.minute());
+  assertEqual(0, dt.second());
+  assertEqual(14*60, dt.timeOffset().toMinutes());
+  assertEqual(0, dt.fold());
+
+  // Reset the transition caches of the zone processors.
+  extendedZoneManager.resetZoneProcessors();
+}
+
+// --------------------------------------------------------------------------
+
 void setup() {
 #if ! defined(EPOXY_DUINO)
   delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
