@@ -356,13 +356,16 @@ class TimeZone {
             break;
           }
 
-          // Convert FindResult into OffsetDateTime
-          TimeOffset offset = TimeOffset::forMinutes(result.origOffsetMinutes);
-          odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset);
+          // Convert FindResult into OffsetDateTime using the requested offset.
+          TimeOffset reqOffset = TimeOffset::forMinutes(
+              result.reqStdOffsetMinutes + result.reqDstOffsetMinutes);
+          odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, reqOffset);
           odt.fold(result.fold);
 
-          // Normalize in the gap by converting to epochSeconds using the
-          // 'origOffsetMinutes', then reconverting to target transition.
+          // Special processing for kTypeGap: Convert to epochSeconds using the
+          // reqStdOffsetMinutes and reqDstOffsetMinutes, then convert back to
+          // OffsetDateTime using the target stdOffsetMinutes and
+          // dstOffsetMinutes.
           if (result.type == FindResult::kTypeGap) {
             acetime_t epochSeconds = odt.toEpochSeconds();
             TimeOffset targetOffset = TimeOffset::forMinutes(
@@ -400,7 +403,8 @@ class TimeZone {
             break;
           }
 
-          TimeOffset offset = TimeOffset::forMinutes(result.origOffsetMinutes);
+          TimeOffset offset = TimeOffset::forMinutes(
+              result.reqStdOffsetMinutes + result.reqDstOffsetMinutes);
           odt = OffsetDateTime::forEpochSeconds(
               epochSeconds, offset, result.fold);
           break;

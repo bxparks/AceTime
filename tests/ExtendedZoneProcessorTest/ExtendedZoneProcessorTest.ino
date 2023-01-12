@@ -1006,7 +1006,8 @@ test(ExtendedZoneProcessorTest, findByEpochSeconds) {
   assertEqual(result.fold, 0);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
   // 02:00 spring forward
@@ -1018,7 +1019,8 @@ test(ExtendedZoneProcessorTest, findByEpochSeconds) {
   assertEqual(result.fold, 0);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
   // 01:00 before fall back, overlap, first occurrence
@@ -1030,7 +1032,8 @@ test(ExtendedZoneProcessorTest, findByEpochSeconds) {
   assertEqual(result.fold, 0);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
   // 01:59 just before fall back, overlap, first occurrence
@@ -1042,7 +1045,8 @@ test(ExtendedZoneProcessorTest, findByEpochSeconds) {
   assertEqual(result.fold, 0);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
   // 02:00 falls back to the second 01:00, but 02:00 occurs only once
@@ -1054,7 +1058,8 @@ test(ExtendedZoneProcessorTest, findByEpochSeconds) {
   assertEqual(result.fold, 1);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
   // 01:59, overlap, second occurence
@@ -1066,7 +1071,8 @@ test(ExtendedZoneProcessorTest, findByEpochSeconds) {
   assertEqual(result.fold, 1);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
   // 03:00 an hour after fall back, no overlap
@@ -1078,7 +1084,8 @@ test(ExtendedZoneProcessorTest, findByEpochSeconds) {
   assertEqual(result.fold, 0);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 }
 
@@ -1133,7 +1140,8 @@ test(ExtendedZoneProcessorTest, findByLocalDateTime) {
   assertEqual(result.fold, 0);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
   // 02:00, in gap, fold=0 transition normalizes to 03:00-07:00
@@ -1143,7 +1151,8 @@ test(ExtendedZoneProcessorTest, findByLocalDateTime) {
   assertEqual(result.fold, 0);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
   // 02:00, in gap, fold=1 normalizes to 01:00-08:00
@@ -1153,7 +1162,8 @@ test(ExtendedZoneProcessorTest, findByLocalDateTime) {
   assertEqual(result.fold, 0);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
   // 02:29 in gap, fold=0 uses -08:00 to convert to epochSeconds, then
@@ -1164,7 +1174,8 @@ test(ExtendedZoneProcessorTest, findByLocalDateTime) {
   assertEqual(result.fold, 0);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
   // 02:29 in gap, fold==1 uses -07:00 to convert to epochSeconds, then
@@ -1175,7 +1186,8 @@ test(ExtendedZoneProcessorTest, findByLocalDateTime) {
   assertEqual(result.fold, 0);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
   // 00:59, before fall back, before any overlap
@@ -1185,7 +1197,8 @@ test(ExtendedZoneProcessorTest, findByLocalDateTime) {
   assertEqual(result.fold, 0);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
   // 01:00, after fall back, overlap, select first
@@ -1195,7 +1208,8 @@ test(ExtendedZoneProcessorTest, findByLocalDateTime) {
   assertEqual(result.fold, 0);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
   // 01:00, overlap, select second
@@ -1205,7 +1219,8 @@ test(ExtendedZoneProcessorTest, findByLocalDateTime) {
   assertEqual(result.fold, 1);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
   // 01:29, fold=0, before fall back, in overlap, select first
@@ -1215,7 +1230,8 @@ test(ExtendedZoneProcessorTest, findByLocalDateTime) {
   assertEqual(result.fold, 0);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
   // 01:29, fold=1, after fall back, in overlap, select second
@@ -1225,7 +1241,8 @@ test(ExtendedZoneProcessorTest, findByLocalDateTime) {
   assertEqual(result.type, FindResult::kTypeOverlap);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
   // 02:00, after fall back, should be no overlap because it occurs only once
@@ -1235,7 +1252,8 @@ test(ExtendedZoneProcessorTest, findByLocalDateTime) {
   assertEqual(result.fold, 0);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
   // 02:30, way after fall back, no overlap
@@ -1245,7 +1263,8 @@ test(ExtendedZoneProcessorTest, findByLocalDateTime) {
   assertEqual(result.fold, 0);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 }
 

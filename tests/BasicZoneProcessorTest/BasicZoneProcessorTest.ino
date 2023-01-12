@@ -334,7 +334,8 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
   // spring forward, into the gap, but BasicZoneProcessor cannot detect it
@@ -345,7 +346,8 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
   // before fall back
@@ -356,7 +358,8 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
   // just before fall back
@@ -367,7 +370,8 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
   // fall back, so there is an overlap, but BasicZoneProcessor cannot detect it
@@ -379,7 +383,8 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
   // two hours after fall back, no overlap
@@ -390,7 +395,8 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 }
 
@@ -409,7 +415,8 @@ test(BasicZoneProcessorTest, kZoneAfrica_Johannesburg) {
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(2*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(2*60, result.origOffsetMinutes);
+  assertEqual(2*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("SAST", result.abbrev);
 }
 
@@ -428,7 +435,8 @@ test(BasicZoneProcessorTest, kZoneAustralia_Darwin) {
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(9*60+30, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(9*60+30, result.origOffsetMinutes);
+  assertEqual(9*60+30, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("ACST", result.abbrev);
 }
 
@@ -482,7 +490,8 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
   // just before spring forward
@@ -491,7 +500,8 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
   // spring forward into the gap, but BasicZoneProcessor cannot detect it
@@ -500,7 +510,8 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
   // before fall back
@@ -509,7 +520,8 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
   // just before fall back
@@ -518,7 +530,8 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-7*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
   assertEqual("PDT", result.abbrev);
 
   // fall back, so there is an overlap, but BasicZoneProcessor cannot detect it
@@ -528,7 +541,8 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
   // two hours after fall back, no overlap
@@ -537,7 +551,8 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.origOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 }
 

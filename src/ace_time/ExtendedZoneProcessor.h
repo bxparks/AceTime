@@ -151,8 +151,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (transitionForDateTime.num == 1) {
         transition = transitionForDateTime.curr;
         result.type = FindResult::kTypeExact;
-        result.origOffsetMinutes = transition->offsetMinutes
-            + transition->deltaMinutes;
+        result.reqStdOffsetMinutes = transition->offsetMinutes;
+        result.reqDstOffsetMinutes = transition->deltaMinutes;
       } else { // num = 0 or 2
         if (transitionForDateTime.prev == nullptr
             || transitionForDateTime.curr == nullptr) {
@@ -165,18 +165,20 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
             if (ldt.fold() == 0) {
               // ldt wants to use the 'prev' transition to convert to
               // epochSeconds.
-              result.origOffsetMinutes =
-                  transitionForDateTime.prev->offsetMinutes
-                  + transitionForDateTime.prev->deltaMinutes;
+              result.reqStdOffsetMinutes =
+                  transitionForDateTime.prev->offsetMinutes;
+              result.reqDstOffsetMinutes =
+                  transitionForDateTime.prev->deltaMinutes;
               // But after normalization, it will be shifted into the curr
               // transition, so select 'curr' as the target transition.
               transition = transitionForDateTime.curr;
             } else {
               // ldt wants to use the 'curr' transition to convert to
               // epochSeconds.
-              result.origOffsetMinutes =
-                  transitionForDateTime.curr->offsetMinutes
-                  + transitionForDateTime.curr->deltaMinutes;
+              result.reqStdOffsetMinutes =
+                  transitionForDateTime.curr->offsetMinutes;
+              result.reqDstOffsetMinutes =
+                  transitionForDateTime.curr->deltaMinutes;
               // But after normalization, it will be shifted into the prev
               // transition, so select 'prev' as the target transition.
               transition = transitionForDateTime.prev;
@@ -186,8 +188,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
                 ? transitionForDateTime.prev
                 : transitionForDateTime.curr;
             result.type = FindResult::kTypeOverlap;
-            result.origOffsetMinutes = transition->offsetMinutes
-                + transition->deltaMinutes;
+            result.reqStdOffsetMinutes = transition->offsetMinutes;
+            result.reqDstOffsetMinutes = transition->deltaMinutes;
             result.fold = ldt.fold();
           }
         }
@@ -224,8 +226,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
       result.stdOffsetMinutes = transition->offsetMinutes;
       result.dstOffsetMinutes = transition->deltaMinutes;
-      result.origOffsetMinutes = transition->offsetMinutes
-          + transition->deltaMinutes;
+      result.reqStdOffsetMinutes = transition->offsetMinutes;
+      result.reqDstOffsetMinutes = transition->deltaMinutes;
       result.abbrev = transition->abbrev;
       result.fold = transitionForSeconds.fold;
       if (transitionForSeconds.num == 2) {

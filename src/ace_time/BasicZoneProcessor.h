@@ -251,21 +251,24 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       acetime_t epochSeconds0 = ldt.toEpochSeconds();
       auto result0 = findByEpochSeconds(epochSeconds0);
       if (result0.type == FindResult::kTypeNotFound) return result;
-      auto offset0 = TimeOffset::forMinutes(result0.origOffsetMinutes);
+      auto offset0 = TimeOffset::forMinutes(
+          result0.reqStdOffsetMinutes + result0.reqDstOffsetMinutes);
 
       // 1) Use offset0 to get the next epochSeconds and offset.
       auto odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset0);
       acetime_t epochSeconds1 = odt.toEpochSeconds();
       auto result1 = findByEpochSeconds(epochSeconds1);
       if (result1.type == FindResult::kTypeNotFound) return result;
-      auto offset1 = TimeOffset::forMinutes(result1.origOffsetMinutes);
+      auto offset1 = TimeOffset::forMinutes(
+          result1.reqStdOffsetMinutes + result1.reqDstOffsetMinutes);
 
       // 2) Use offset1 to get the next epochSeconds and offset.
       odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset1);
       acetime_t epochSeconds2 = odt.toEpochSeconds();
       auto result2 = findByEpochSeconds(epochSeconds2);
       if (result2.type == FindResult::kTypeNotFound) return result;
-      auto offset2 = TimeOffset::forMinutes(result2.origOffsetMinutes);
+      auto offset2 = TimeOffset::forMinutes(
+          result2.reqStdOffsetMinutes + result2.reqDstOffsetMinutes);
 
       // If offset1 and offset2 are equal, then we have an equilibrium
       // and odt(1) must equal odt(2), so we can just return the last odt.
@@ -273,9 +276,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         // pass, pick any of result1 or result2
         result = result1;
       } else {
-        // Pick the origOffsetMinutes that generates the later epochSeconds (the
-        // earlier transition), but convert into the LocalDateTime of the
-        // earlier epochSeconds (the later transition).
+        // Pick the req{Std,Dst}OffsetMinute that generates the later
+        // epochSeconds (the earlier transition), but convert into the
+        // LocalDateTime of the earlier epochSeconds (the later transition).
         // TODO: This does not produce the desired result inside a DST gap.
         if (epochSeconds1 > epochSeconds2) {
           result = result1;
@@ -292,10 +295,11 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       const Transition* transition = getTransition(epochSeconds);
       if (!transition) return result;
 
-      result.origOffsetMinutes = transition->offsetMinutes;
       result.dstOffsetMinutes = transition->deltaMinutes;
       result.stdOffsetMinutes = transition->offsetMinutes
           - transition->deltaMinutes;
+      result.reqStdOffsetMinutes = result.stdOffsetMinutes;
+      result.reqDstOffsetMinutes = result.dstOffsetMinutes;
       result.type = FindResult::kTypeExact;
       result.abbrev = transition->abbrev;
 

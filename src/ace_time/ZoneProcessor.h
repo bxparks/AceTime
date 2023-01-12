@@ -41,12 +41,11 @@ class FindResult {
      *  * kTypeGap:
      *      * LocalDateTime occurs in a gap.
      *      * LocalDateTime::fold=0 returns the earlier transition in
-     *        origOffsetMinutes, and the stdOffsetMinutes and dstOffsetMinutes
-     *        of the later transition to normalize the resulting OffsetDateTime
+     *        reqStdOffsetMinutes and reqDstOffsetMinutes, and the later
+     *        transition in stdOffsetMinutes and dstOffsetMinutes.
      *      * LocalDateTime::fold=1 returns the later transition in
-     *        origOffsetMinutes, and the stdOffsetMinutes and dstOffsetMinutes
-     *        of the later transition for the resulting OffsetDateTime of the
-     *        earlier transition to normalize the resulting OffsetDateTime
+     *        reqStdOffsetMinutes and reqDstOffsetMinutes, and the
+     *        earlier transition in stdOffsetMinutes and dstOffsetMinutes.
      *  * kTypeOverlap:
      *      * LocalDateTime matches 2 Transitions.
      *      * LocalDateTime::fold=0 selects the earlier transition.
@@ -85,14 +84,30 @@ class FindResult {
     int16_t dstOffsetMinutes = 0;
 
     /**
-     * Original offset which should be used to convert the epochSeconds to
-     * OffsetDateTime when findByEpochSeconds() is used. This will be different
-     * than (stdOffsetMinutes + dstOffsetMinutes) during kTypeGap. For all other
-     * resulting type from findByEpochSeconds(), and for all resulting types
-     * from findByLocalDateTime(), the origOffsetMinutes will be the same as
-     * (stdOffsetMinutes + dstOffsetMinutes).
+     * STD offset of the Transition which matched the epochSeconds requested by
+     * findByEpochSeconds(), or the LocalDateTime requested by
+     * findByLocalDateTime().
+     *
+     * This may be different than the stdOffsetMinutes when
+     * findByLocalDateTime() returns kTypeGap. For all other resulting types
+     * from findByEpochSeconds(), and for all resulting types from
+     * findByLocalDateTime(), the reqStdOffsetMinutes will be the same as
+     * stdOffsetMinutes.
      */
-    int16_t origOffsetMinutes = 0;
+    int16_t reqStdOffsetMinutes = 0;
+
+    /**
+     * DST offset of the Transition which matched the epochSeconds requested by
+     * findByEpochSeconds(), or the LocalDateTime requested by
+     * findByLocalDateTime().
+     *
+     * This may be different than the dstOffsetMinutes when
+     * findByLocalDateTime() returns kTypeGap. For all other resulting types
+     * from findByEpochSeconds(), and for all resulting types from
+     * findByLocalDateTime(), the reqStdOffsetMinutes will be the same as
+     * dstOffsetMinutes.
+     */
+    int16_t reqDstOffsetMinutes = 0;
 
     /**
      * Pointer to the abbreviation stored in the transient Transition::abbrev
