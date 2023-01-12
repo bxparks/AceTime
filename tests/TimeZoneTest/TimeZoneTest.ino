@@ -55,8 +55,11 @@ test(TimeZoneTest, forUtc) {
 
   ZonedExtra ze = tz.getZonedExtra(0);
   assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(0, ze.stdOffset().toMinutes());
   assertEqual(0, ze.dstOffset().toMinutes());
+  assertEqual(0, ze.reqStdOffset().toMinutes());
+  assertEqual(0, ze.reqDstOffset().toMinutes());
   assertEqual(F("UTC"), ze.abbrev());
 
   tz.printTo(printStr);
@@ -79,8 +82,11 @@ test(TimeZoneTest, forTimeOffset_no_dst) {
 
   ZonedExtra ze = tz.getZonedExtra(0);
   assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0, ze.reqDstOffset().toMinutes());
   assertEqual(F("STD"), ze.abbrev());
 
   tz.printTo(printStr);
@@ -106,8 +112,11 @@ test(TimeZoneTest, forTimeOffset_dst) {
 
   ZonedExtra ze = tz.getZonedExtra(0);
   assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(60, ze.reqDstOffset().toMinutes());
   assertEqual(F("DST"), ze.abbrev());
 
   tz.printTo(printStr);
@@ -141,14 +150,12 @@ test(TimeZoneTest, forHourMinute) {
 // TimeZone (BasicZoneProcessor::kTypeBasic)
 //---------------------------------------------------------------------------
 
-test(TimeZoneBasicTest, America_Los_Angeles) {
-  OffsetDateTime dt;
-  acetime_t epochSeconds;
-
+test(TimeZoneBasicTest, printTo) {
   BasicZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
       &zonedb::kZoneAmerica_Los_Angeles,
       &zoneProcessor);
+
   assertEqual(BasicZoneProcessor::kTypeBasic, tz.getType());
   assertFalse(tz.isLink());
 
@@ -161,37 +168,73 @@ test(TimeZoneBasicTest, America_Los_Angeles) {
   printStr.flush();
   tz.printShortTo(printStr);
   assertEqual("Los Angeles", printStr.cstr());
+}
 
-  // before DST
-  dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      TimeOffset::forHours(-8));
-  epochSeconds = dt.toEpochSeconds();
-  ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+test(TimeZoneBasicTest, getZonedExtra) {
+  BasicZoneProcessor zoneProcessor;
+  TimeZone tz = TimeZone::forZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
+
+  LocalDateTime ldt;
+  OffsetDateTime dt;
+  acetime_t epochSeconds;
+  ZonedExtra ze;
+
+  // before spring forward to DST
+  ldt = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 59);
+  ze = tz.getZonedExtra(ldt);
   assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
-
-  // right after spring forward to DST
-  dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      TimeOffset::forHours(-8));
+  //
+  dt = OffsetDateTime::forLocalDateTimeAndOffset(
+      ldt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PST"), ze.abbrev());
+
+  // right after spring forward to DST in the gap
+  ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 0);
+  ze = tz.getZonedExtra(ldt);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(1*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PDT"), ze.abbrev());
+  //
+  dt = OffsetDateTime::forLocalDateTimeAndOffset(
+      ldt, TimeOffset::forHours(-8));
+  epochSeconds = dt.toEpochSeconds();
+  ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(1*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
 }
 
 // Test a Link: US/Pacific -> America/Los_Angeles
-test(TimeZoneBasicTest, US_Pacific) {
-  OffsetDateTime dt;
-  acetime_t epochSeconds;
-
+test(TimeZoneBasicTest, link) {
   BasicZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
       &zonedb::kZoneUS_Pacific,
       &zoneProcessor);
+
   assertEqual(BasicZoneProcessor::kTypeBasic, tz.getType());
   assertTrue(tz.isLink());
 
@@ -208,24 +251,54 @@ test(TimeZoneBasicTest, US_Pacific) {
       tz.getZoneId(true /*followLink*/)
   );
 
+  LocalDateTime ldt;
+  OffsetDateTime dt;
+  acetime_t epochSeconds;
+  ZonedExtra ze;
+
   // just before spring forward to DST
-  dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      TimeOffset::forHours(-8));
-  epochSeconds = dt.toEpochSeconds();
-  ZonedExtra ze = tz.getZonedExtra(epochSeconds);
-  assertFalse(ze.isError());
+  ldt = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 59);
+  ze = tz.getZonedExtra(ldt);
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
-
-  // just after spring forward to DST
-  dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      TimeOffset::forHours(-8));
+  //
+  dt = OffsetDateTime::forLocalDateTimeAndOffset(
+      ldt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PST"), ze.abbrev());
+
+  // just after spring forward to DST
+  ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 0);
+  ze = tz.getZonedExtra(ldt);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(1*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PDT"), ze.abbrev());
+  //
+  dt = OffsetDateTime::forLocalDateTimeAndOffset(
+      ldt, TimeOffset::forHours(-8));
+  epochSeconds = dt.toEpochSeconds();
+  ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(1*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
 }
 
@@ -257,12 +330,16 @@ test(TimeZoneBasicTest, zoneProcessor_rebinding) {
   ZonedExtra zela = tzla.getZonedExtra(epochSeconds);
   assertEqual(-8*60, zela.stdOffset().toMinutes());
   assertEqual(0*60, zela.dstOffset().toMinutes());
+  assertEqual(-8*60, zela.reqStdOffset().toMinutes());
+  assertEqual(0*60, zela.reqDstOffset().toMinutes());
   assertEqual(F("PST"), zela.abbrev());
 
   // Calls getBoundProcessor() and rebinds.
   ZonedExtra zeny = tzny.getZonedExtra(epochSeconds);
   assertEqual(-5*60, zeny.stdOffset().toMinutes());
   assertEqual(0*60, zeny.dstOffset().toMinutes());
+  assertEqual(-5*60, zeny.reqStdOffset().toMinutes());
+  assertEqual(0*60, zeny.reqDstOffset().toMinutes());
   assertEqual(F("EST"), zeny.abbrev());
 
   // printTo() calls getBoundProcessor() and rebinds.
@@ -287,14 +364,12 @@ test(TimeZoneBasicTest, zoneProcessor_rebinding) {
 // TimeZone (ExtendedZoneProcessor::kTypeExtended)
 //---------------------------------------------------------------------------
 
-test(TimeZoneExtendedTest, America_Los_Angeles) {
-  OffsetDateTime dt;
-  acetime_t epochSeconds;
-
+test(TimeZoneExtendedTest, printTo) {
   ExtendedZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles,
       &zoneProcessor);
+
   assertEqual(ExtendedZoneProcessor::kTypeExtended, tz.getType());
   assertFalse(tz.isLink());
 
@@ -307,37 +382,165 @@ test(TimeZoneExtendedTest, America_Los_Angeles) {
   printStr.flush();
   tz.printShortTo(printStr);
   assertEqual("Los Angeles", printStr.cstr());
+}
 
-  // before DST
-  dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      TimeOffset::forHours(-8));
-  epochSeconds = dt.toEpochSeconds();
-  ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+test(TimeZoneExtendedTest, getZoneExtra) {
+  ExtendedZoneProcessor zoneProcessor;
+  TimeZone tz = TimeZone::forZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
+
+  LocalDateTime ldt;
+  OffsetDateTime dt;
+  acetime_t epochSeconds;
+  ZonedExtra ze;
+
+  // before spring forward to DST
+  ldt = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 59);
+  ze = tz.getZonedExtra(ldt);
   assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
-
-  // right after spring forward to DST
-  dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      TimeOffset::forHours(-8));
+  //
+  dt = OffsetDateTime::forLocalDateTimeAndOffset(
+      ldt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PST"), ze.abbrev());
+
+  // right after spring forward to DST, this is a gap
+  ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 0);
+  ze = tz.getZonedExtra(ldt);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeGap, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
+  //
+  dt = OffsetDateTime::forLocalDateTimeAndOffset(
+      ldt, TimeOffset::forHours(-8));
+  epochSeconds = dt.toEpochSeconds();
+  ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(1*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PDT"), ze.abbrev());
+
+  // just before fall back overlap
+  ldt = LocalDateTime::forComponents(2018, 11, 4, 0, 59, 0);
+  ze = tz.getZonedExtra(ldt);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(1*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PDT"), ze.abbrev());
+  //
+  dt = OffsetDateTime::forLocalDateTimeAndOffset(
+      ldt, TimeOffset::forHours(-7));
+  epochSeconds = dt.toEpochSeconds();
+  ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(1*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PDT"), ze.abbrev());
+
+  // right at fall back overlap, 01:00 occurs twice, fold=0 picks the earlier
+  ldt = LocalDateTime::forComponents(2018, 11, 4, 1, 0, 0);
+  ze = tz.getZonedExtra(ldt);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(1*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PDT"), ze.abbrev());
+  //
+  dt = OffsetDateTime::forLocalDateTimeAndOffset(
+      ldt, TimeOffset::forHours(-7));
+  epochSeconds = dt.toEpochSeconds();
+  ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(1*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PDT"), ze.abbrev());
+
+  // fall back overlap, 01:00 occurs twice, fold=1 picks the later
+  ldt = LocalDateTime::forComponents(2018, 11, 4, 1, 0, 0, 1 /*fold*/);
+  ze = tz.getZonedExtra(ldt);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PST"), ze.abbrev());
+  //
+  dt = OffsetDateTime::forLocalDateTimeAndOffset(
+      ldt, TimeOffset::forHours(-8));
+  epochSeconds = dt.toEpochSeconds();
+  ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PST"), ze.abbrev());
+
+  // 02:00 occurs once, after an hour of overlap
+  ldt = LocalDateTime::forComponents(2018, 11, 4, 2, 0, 0);
+  ze = tz.getZonedExtra(ldt);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PST"), ze.abbrev());
+  //
+  dt = OffsetDateTime::forLocalDateTimeAndOffset(
+      ldt, TimeOffset::forHours(-8));
+  epochSeconds = dt.toEpochSeconds();
+  ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PST"), ze.abbrev());
 }
 
 // Test a Link: US/Pacific -> America/Los_Angeles
-test(TimeZoneExtendedTest, US_Pacific) {
-  OffsetDateTime dt;
-  acetime_t epochSeconds;
-
+test(TimeZoneExtendedTest, link) {
   ExtendedZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
       &zonedbx::kZoneUS_Pacific,
       &zoneProcessor);
+
   assertEqual(ExtendedZoneProcessor::kTypeExtended, tz.getType());
   assertTrue(tz.isLink());
 
@@ -354,24 +557,55 @@ test(TimeZoneExtendedTest, US_Pacific) {
       tz.getZoneId(true /*followLink*/)
   );
 
+  LocalDateTime ldt;
+  OffsetDateTime dt;
+  acetime_t epochSeconds;
+  ZonedExtra ze;
+
   // just before spring forward to DST
-  dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      TimeOffset::forHours(-8));
-  epochSeconds = dt.toEpochSeconds();
-  ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+  ldt = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 59);
+  ze = tz.getZonedExtra(ldt);
   assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
-
-  // just after spring forward to DST
-  dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      TimeOffset::forHours(-8));
+  //
+  dt = OffsetDateTime::forLocalDateTimeAndOffset(
+      ldt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PST"), ze.abbrev());
+
+  // just after spring forward to DST
+  ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 0);
+  ze = tz.getZonedExtra(ldt);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeGap, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PDT"), ze.abbrev());
+  //
+  dt = OffsetDateTime::forLocalDateTimeAndOffset(
+      ldt, TimeOffset::forHours(-8));
+  epochSeconds = dt.toEpochSeconds();
+  ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(1*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(1*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
 }
 

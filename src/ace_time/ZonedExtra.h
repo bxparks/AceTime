@@ -24,27 +24,29 @@ class ZonedExtra {
     static const uint8_t kTypeNotFound = 0;
 
     /**
-     * Find by epochSeconds matches a single LocalDateTime. Find by
-     * LocalDateTime matches a single epochSeconds.
+     * The given LocalDateTime matches a single epochSeconds.
+     * The given epochSeconds matches a single LocalDateTime.
      */
     static const uint8_t kTypeExact = 1;
 
     /**
-     * Find by LocalDateTime occurs in a gap and does not match any
-     * epochSeconds. Find by epochSeconds will never return this because since
-     * it will always match either a single LocalDateTime or match nothing.
+     * The given LocalDateTime occurs in a gap and does not match any
+     * epochSeconds.
+     * A given epochSeconds will never return this because it will always match
+     * either a single LocalDateTime or match nothing.
      */
     static const uint8_t kTypeGap = 2;
 
     /**
-     * Find by LocalDateTime matches 2 possible epochSeconds, which is
-     * disambguiated by the LocalDateTime::fold input parameter. Find by
-     * epochSeconds matches a LocalDateTime that can occur twice, and is
-     * disambiguated by the OffsetDateTime::fold or ZonedDateTime::fold output
-     * parameter.
+     * The given LocalDateTime matches 2 possible epochSeconds, which is
+     * disambguiated by the LocalDateTime::fold input parameter.
+     * The given epochSeconds matches a LocalDateTime that can occur twice, and
+     * is disambiguated by the OffsetDateTime::fold (same as
+     * ZonedDateTime::fold) output parameter.
      */
     static const uint8_t kTypeOverlap = 3;
 
+    /** Return an instance that indicates an error. */
     static ZonedExtra forError() {
       return ZonedExtra();
     }
@@ -57,9 +59,13 @@ class ZonedExtra {
         uint8_t type,
         int16_t stdOffsetMinutes,
         int16_t dstOffsetMinutes,
+        int16_t reqStdOffsetMinutes,
+        int16_t reqDstOffsetMinutes,
         const char* abbrev)
       : mStdOffsetMinutes(stdOffsetMinutes)
       , mDstOffsetMinutes(dstOffsetMinutes)
+      , mReqStdOffsetMinutes(reqStdOffsetMinutes)
+      , mReqDstOffsetMinutes(reqDstOffsetMinutes)
       , mType(type)
     {
       memcpy(mAbbrev, abbrev, internal::kAbbrevSize);
@@ -84,6 +90,22 @@ class ZonedExtra {
     }
 
     /**
+     * STD offset of the requested epochSeconds or LocalDateTime.
+     * This will be different from stdOffset only for kTypeGap.
+     */
+    TimeOffset reqStdOffset() const {
+      return TimeOffset::forMinutes(mReqStdOffsetMinutes);
+    }
+
+    /**
+     * DST offset of the requested epochSeconds or LocalDateTime.
+     * This will be different from stdOffset only for kTypeGap.
+     */
+    TimeOffset reqDstOffset() const {
+      return TimeOffset::forMinutes(mReqDstOffsetMinutes);
+    }
+
+    /**
      * The local string buffer containing the timezone abbreviation (e.g.
      * "PST", "PDT") used at the given LocalDateTime or epochSeconds. This
      * buffer is a local copy, it is safe to use after calling other timezone
@@ -94,6 +116,8 @@ class ZonedExtra {
   private:
     int16_t mStdOffsetMinutes = kInvalidMinutes;
     int16_t mDstOffsetMinutes = kInvalidMinutes;
+    int16_t mReqStdOffsetMinutes = kInvalidMinutes;
+    int16_t mReqDstOffsetMinutes = kInvalidMinutes;
     uint8_t mType = kTypeNotFound;
     char mAbbrev[internal::kAbbrevSize] = "";
 };

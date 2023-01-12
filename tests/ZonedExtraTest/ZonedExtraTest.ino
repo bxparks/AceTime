@@ -19,6 +19,18 @@ test(ZonedExtra, type) {
   assertEqual(ZonedExtra::kTypeOverlap, FindResult::kTypeOverlap);
 }
 
+test(ZonedExtra, accessors) {
+  const char s[] = "test";
+  ZonedExtra ze(1, 2, 3, 4, 5, s);
+
+  assertEqual(ze.type(), 1);
+  assertEqual(ze.stdOffset().toMinutes(), 2);
+  assertEqual(ze.dstOffset().toMinutes(), 3);
+  assertEqual(ze.reqStdOffset().toMinutes(), 4);
+  assertEqual(ze.reqDstOffset().toMinutes(), 5);
+  assertEqual(ze.abbrev(), "test");
+}
+
 //---------------------------------------------------------------------------
 
 void setup() {

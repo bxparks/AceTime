@@ -297,9 +297,45 @@ class TimeZone {
     /** Return true if TimeZone is an error. */
     bool isError() const { return mType == kTypeError; }
 
-    /**
-     * Return the total UTC offset at epochSeconds, including DST offset.
-     */
+    /** Return the ZonedExtra information at epochSeconds. */
+    ZonedExtra getZonedExtra(const LocalDateTime& ldt) const {
+      switch (mType) {
+        case kTypeError:
+        case kTypeReserved:
+          return ZonedExtra::forError();
+
+        case kTypeManual:
+          const char* abbrev;
+          if (isUtc()) {
+            abbrev = "UTC";
+          } else {
+            abbrev = (mDstOffsetMinutes != 0) ? "DST" : "STD";
+          }
+          return ZonedExtra(
+              ZonedExtra::kTypeExact,
+              mStdOffsetMinutes,
+              mDstOffsetMinutes,
+              mStdOffsetMinutes,
+              mDstOffsetMinutes,
+              abbrev);
+
+        default: {
+          FindResult result = getBoundZoneProcessor()->findByLocalDateTime(ldt);
+          if (result.type == FindResult::kTypeNotFound) {
+            return ZonedExtra::forError();
+          }
+          return ZonedExtra(
+            result.type, // ZonedExtra::type is identical to FindResult::type
+            result.stdOffsetMinutes,
+            result.dstOffsetMinutes,
+            result.reqStdOffsetMinutes,
+            result.reqDstOffsetMinutes,
+            result.abbrev);
+        }
+      }
+    }
+
+    /** Return the ZonedExtra information at epochSeconds. */
     ZonedExtra getZonedExtra(acetime_t epochSeconds) const {
       switch (mType) {
         case kTypeError:
@@ -313,8 +349,13 @@ class TimeZone {
           } else {
             abbrev = (mDstOffsetMinutes != 0) ? "DST" : "STD";
           }
-          return ZonedExtra(ZonedExtra::kTypeExact,
-              mStdOffsetMinutes, mDstOffsetMinutes, abbrev);
+          return ZonedExtra(
+              ZonedExtra::kTypeExact,
+              mStdOffsetMinutes,
+              mDstOffsetMinutes,
+              mStdOffsetMinutes,
+              mDstOffsetMinutes,
+              abbrev);
 
         default: {
           FindResult result =
@@ -323,9 +364,11 @@ class TimeZone {
             return ZonedExtra::forError();
           }
           return ZonedExtra(
-            (uint8_t)result.type,
+            result.type, // ZonedExtra::type is identical to FindResult::type
             result.stdOffsetMinutes,
             result.dstOffsetMinutes,
+            result.reqStdOffsetMinutes,
+            result.reqDstOffsetMinutes,
             result.abbrev);
         }
       }
