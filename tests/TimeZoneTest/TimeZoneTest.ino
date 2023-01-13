@@ -3,6 +3,10 @@
 #include <AUnit.h>
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
+#include <ace_time/testing/tzonedb/zone_policies.h>
+#include <ace_time/testing/tzonedb/zone_infos.h>
+#include <ace_time/testing/tzonedbx/zone_policies.h>
+#include <ace_time/testing/tzonedbx/zone_infos.h>
 
 using ace_common::PrintStr;
 using namespace ace_time;
@@ -153,7 +157,7 @@ test(TimeZoneTest, forHourMinute) {
 test(TimeZoneBasicTest, printTo) {
   BasicZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
-      &zonedb::kZoneAmerica_Los_Angeles,
+      &tzonedb::kZoneAmerica_Los_Angeles,
       &zoneProcessor);
 
   assertEqual(BasicZoneProcessor::kTypeBasic, tz.getType());
@@ -173,7 +177,7 @@ test(TimeZoneBasicTest, printTo) {
 test(TimeZoneBasicTest, getZonedExtra) {
   BasicZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
-      &zonedb::kZoneAmerica_Los_Angeles,
+      &tzonedb::kZoneAmerica_Los_Angeles,
       &zoneProcessor);
 
   LocalDateTime ldt;
@@ -232,7 +236,7 @@ test(TimeZoneBasicTest, getZonedExtra) {
 test(TimeZoneBasicTest, link) {
   BasicZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
-      &zonedb::kZoneUS_Pacific,
+      &tzonedb::kZoneUS_Pacific,
       &zoneProcessor);
 
   assertEqual(BasicZoneProcessor::kTypeBasic, tz.getType());
@@ -245,9 +249,9 @@ test(TimeZoneBasicTest, link) {
   tz.printTo(printStr, true /*followLink*/);
   assertEqual("America/Los_Angeles", printStr.cstr());
 
-  assertEqual(zonedb::kZoneIdUS_Pacific, tz.getZoneId());
+  assertEqual(tzonedb::kZoneIdUS_Pacific, tz.getZoneId());
   assertEqual(
-      zonedb::kZoneIdAmerica_Los_Angeles,
+      tzonedb::kZoneIdAmerica_Los_Angeles,
       tz.getZoneId(true /*followLink*/)
   );
 
@@ -313,12 +317,12 @@ test(TimeZoneBasicTest, link) {
 test(TimeZoneBasicTest, zoneProcessor_rebinding) {
   BasicZoneProcessor basicZoneProcessor;
   TimeZone tzla = TimeZone::forZoneInfo(
-      &zonedb::kZoneAmerica_Los_Angeles, &basicZoneProcessor);
+      &tzonedb::kZoneAmerica_Los_Angeles, &basicZoneProcessor);
   TimeZone tzny = TimeZone::forZoneInfo(
-      &zonedb::kZoneAmerica_New_York, &basicZoneProcessor);
+      &tzonedb::kZoneAmerica_New_York, &basicZoneProcessor);
 
-  assertEqual(zonedb::kZoneIdAmerica_Los_Angeles, tzla.getZoneId());
-  assertEqual(zonedb::kZoneIdAmerica_New_York, tzny.getZoneId());
+  assertEqual(tzonedb::kZoneIdAmerica_Los_Angeles, tzla.getZoneId());
+  assertEqual(tzonedb::kZoneIdAmerica_New_York, tzny.getZoneId());
 
   // 2018-03-10 was still STD time, so both Los Angeles and New York should
   // return STD offset.
@@ -367,7 +371,7 @@ test(TimeZoneBasicTest, zoneProcessor_rebinding) {
 test(TimeZoneExtendedTest, printTo) {
   ExtendedZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles,
+      &tzonedbx::kZoneAmerica_Los_Angeles,
       &zoneProcessor);
 
   assertEqual(ExtendedZoneProcessor::kTypeExtended, tz.getType());
@@ -387,7 +391,7 @@ test(TimeZoneExtendedTest, printTo) {
 test(TimeZoneExtendedTest, getZoneExtra) {
   ExtendedZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles,
+      &tzonedbx::kZoneAmerica_Los_Angeles,
       &zoneProcessor);
 
   LocalDateTime ldt;
@@ -538,7 +542,7 @@ test(TimeZoneExtendedTest, getZoneExtra) {
 test(TimeZoneExtendedTest, link) {
   ExtendedZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
-      &zonedbx::kZoneUS_Pacific,
+      &tzonedbx::kZoneUS_Pacific,
       &zoneProcessor);
 
   assertEqual(ExtendedZoneProcessor::kTypeExtended, tz.getType());
@@ -551,9 +555,9 @@ test(TimeZoneExtendedTest, link) {
   tz.printTo(printStr, true /*followLink*/);
   assertEqual("America/Los_Angeles", printStr.cstr());
 
-  assertEqual(zonedb::kZoneIdUS_Pacific, tz.getZoneId());
+  assertEqual(tzonedb::kZoneIdUS_Pacific, tz.getZoneId());
   assertEqual(
-      zonedb::kZoneIdAmerica_Los_Angeles,
+      tzonedb::kZoneIdAmerica_Los_Angeles,
       tz.getZoneId(true /*followLink*/)
   );
 
@@ -622,15 +626,15 @@ test(TimeZoneMoreTest, operatorEqualEqual_directZone) {
   assertTrue(manual != manual2);
 
   TimeZone basic = TimeZone::forZoneInfo(
-      &zonedb::kZoneAmerica_Los_Angeles, &basicZoneProcessor);
+      &tzonedb::kZoneAmerica_Los_Angeles, &basicZoneProcessor);
   TimeZone basic2 = TimeZone::forZoneInfo(
-      &zonedb::kZoneAmerica_New_York, &basicZoneProcessor);
+      &tzonedb::kZoneAmerica_New_York, &basicZoneProcessor);
   assertTrue(basic != basic2);
 
   TimeZone extended = TimeZone::forZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles, &extendedZoneProcessor);
+      &tzonedbx::kZoneAmerica_Los_Angeles, &extendedZoneProcessor);
   TimeZone extended2 = TimeZone::forZoneInfo(
-      &zonedbx::kZoneAmerica_New_York, &extendedZoneProcessor);
+      &tzonedbx::kZoneAmerica_New_York, &extendedZoneProcessor);
   assertTrue(extended != extended2);
 
   assertTrue(manual != basic);
@@ -647,11 +651,11 @@ test(TimeZoneDataTest, array_initialization) {
   TimeZoneData zones[3] = {
     {}, // kTypeError
     {1, 2}, // kTypeManual
-    {zonedb::kZoneIdAmerica_Los_Angeles}, // kTypeZoneId
+    {tzonedb::kZoneIdAmerica_Los_Angeles}, // kTypeZoneId
   };
   assertTrue(TimeZoneData() == zones[0]);
   assertTrue(TimeZoneData(1, 2) == zones[1]);
-  assertTrue(TimeZoneData(zonedb::kZoneIdAmerica_Los_Angeles) == zones[2]);
+  assertTrue(TimeZoneData(tzonedb::kZoneIdAmerica_Los_Angeles) == zones[2]);
 }
 
 //---------------------------------------------------------------------------
