@@ -21,3 +21,7 @@ America/Winnipeg
 
 # ExtendedZoneProcessorTransitionTest
 Europe/Lisbon
+
+# TzDbTest
+America/Whitehorse
+Africa/Casablanca

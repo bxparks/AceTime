@@ -2,8 +2,12 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
+#include <ace_time/testing/tzonedbx/zone_policies.h>
+#include <ace_time/testing/tzonedbx/zone_infos.h>
 
 using namespace ace_time;
+using ace_time::tzonedbx::kZoneAfrica_Casablanca;
+using ace_time::tzonedbx::kZoneAmerica_Whitehorse;
 
 // --------------------------------------------------------------------------
 // Validate some changes in tzdb 2020a
@@ -15,7 +19,7 @@ using namespace ace_time;
 test(ZonedDateTimeExtendedTest, Morocco2020) {
   ExtendedZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
-      &zonedbx::kZoneAfrica_Casablanca,
+      &kZoneAfrica_Casablanca,
       &zoneProcessor
   );
 
@@ -54,7 +58,7 @@ test(ZonedDateTimeExtendedTest, Morocco2020) {
 test(ZonedDateTimeExtendedTest, Yukon2020) {
   ExtendedZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
-      &zonedbx::kZoneAmerica_Whitehorse,
+      &kZoneAmerica_Whitehorse,
       &zoneProcessor
   );
 
