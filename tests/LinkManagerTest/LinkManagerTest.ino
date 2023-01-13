@@ -2,6 +2,12 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
+#include <ace_time/testing/tzonedb/zone_policies.h>
+#include <ace_time/testing/tzonedb/zone_infos.h>
+#include <ace_time/testing/tzonedb/zone_registry.h>
+#include <ace_time/testing/tzonedbx/zone_policies.h>
+#include <ace_time/testing/tzonedbx/zone_infos.h>
+#include <ace_time/testing/tzonedbx/zone_registry.h>
 
 using namespace ace_time;
 
@@ -10,14 +16,15 @@ using namespace ace_time;
 //---------------------------------------------------------------------------
 
 BasicLinkManager basicLinkManager(
-    zonedb::kLinkRegistrySize,
-    zonedb::kLinkRegistry
+    tzonedb::kLinkRegistrySize,
+    tzonedb::kLinkRegistry
 );
 
 // Test that US/Pacific maps to America/Los_Angeles.
 test(BasicLinkManager, zoneIdForLinkId) {
-  uint32_t zoneId = basicLinkManager.zoneIdForLinkId(zonedb::kZoneIdUS_Pacific);
-  assertEqual(zonedb::kZoneIdAmerica_Los_Angeles, zoneId);
+  uint32_t zoneId = basicLinkManager.zoneIdForLinkId(
+      tzonedb::kZoneIdUS_Pacific);
+  assertEqual(tzonedb::kZoneIdAmerica_Los_Angeles, zoneId);
 }
 
 //---------------------------------------------------------------------------
@@ -25,15 +32,15 @@ test(BasicLinkManager, zoneIdForLinkId) {
 //---------------------------------------------------------------------------
 
 ExtendedLinkManager extendedLinkManager(
-    zonedbx::kLinkRegistrySize,
-    zonedbx::kLinkRegistry
+    tzonedbx::kLinkRegistrySize,
+    tzonedbx::kLinkRegistry
 );
 
 // Test that US/Pacific maps to America/Los_Angeles.
 test(ExtendedLinkManager, zoneIdForLinkId) {
   uint32_t zoneId = extendedLinkManager.zoneIdForLinkId(
-      zonedbx::kZoneIdUS_Pacific);
-  assertEqual(zonedbx::kZoneIdAmerica_Los_Angeles, zoneId);
+      tzonedbx::kZoneIdUS_Pacific);
+  assertEqual(tzonedbx::kZoneIdAmerica_Los_Angeles, zoneId);
 }
 
 //---------------------------------------------------------------------------
