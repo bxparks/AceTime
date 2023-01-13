@@ -17,6 +17,12 @@
     * `ZoneProcessor.h`, `ExtendedZoneProcessor.h`, `BasicZoneProcessor.h`
         * Remove: `getUtcOffset()`, `getDeltaOffset()`, `getAbbrev()`
         * Replaced by: `findByLocalDateTime()`, `findByEpochSeconds()`
+    * Unit tests
+        * Migrate most unit tests to use the smaller, testing zone databases at
+          `testing/tzonedb/` and `testing/tzonedbx/`.
+            * Reduces maintenance cost of various hand-crafted ZoneInfo and
+              ZonePolicy entries for unit tests.
+            * Can test against real timezones with predicatble behavior.
 * 2.0.1 (2022-12-04, TZDB 2022g)
     * Prevent `ExtendedZoneProcssor::generateStartUntilTimes()` from
       dereferencing uninitialized memory if there are no matching transitions.
