@@ -90,6 +90,16 @@ class ZonedExtra {
     }
 
     /**
+     * The total time offset (stdOffset + dstOffset). This will be the same
+     * value as `ZonedDateTime::timeOffset()` when a ZonedDataTime is created
+     * using `ZonedDateTime::forComponents()` or
+     * `ZonedDateTime::forEpochSeconds()`.
+     */
+    TimeOffset timeOffset() const {
+      return TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes);
+    }
+
+    /**
      * STD offset of the requested epochSeconds or LocalDateTime.
      * This will be different from stdOffset only for kTypeGap.
      */
@@ -103,6 +113,19 @@ class ZonedExtra {
      */
     TimeOffset reqDstOffset() const {
       return TimeOffset::forMinutes(mReqDstOffsetMinutes);
+    }
+
+    /**
+     * The total time offset of the requested epochSeconds of LocalDateTime,
+     * (reqStdOffset + reqDstOffset). This value becomes lost when a
+     * ZonedDateTime is created using `ZonedDateTime::forComponents()` during a
+     * DST gap, because it was used to convert the given LocalDateTime to an
+     * epochSeconds, before the epochSeconds was renormalized back into a
+     * ZonedDateTime. The ZonedExtra object provided access to this UTC offset.
+     */
+    TimeOffset reqTimeOffset() const {
+      return TimeOffset::forMinutes(
+          mReqStdOffsetMinutes + mReqDstOffsetMinutes);
     }
 
     /**
