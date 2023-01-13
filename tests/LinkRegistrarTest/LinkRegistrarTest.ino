@@ -4,36 +4,40 @@
  * Tests for LinkRegistrar. It is sufficient to test just basic::LinkRegistrar
  * since extended::LinkRegistrar is derived from the exact same
  * LinkRegistrarTemplate class.
+ *
+ * We use the testing zone database in testing/tzonedb, since we don't need
+ * to test the entire zonedb database.
  */
 
 #include <AUnit.h>
 #include <AceTime.h>
+#include <ace_time/testing/tzonedb/zone_policies.h>
+#include <ace_time/testing/tzonedb/zone_infos.h>
+#include <ace_time/testing/tzonedb/zone_registry.h>
 
 using namespace ace_time;
 using ace_time::basic::LinkRegistrar;
+using ace_time::tzonedb::kZoneIdUS_Pacific;
+using ace_time::tzonedb::kLinkRegistrySize;
+using ace_time::tzonedb::kLinkRegistry;
 
 test(LinkRegistrarTest, linkRegistrySize) {
-  LinkRegistrar linkRegistrar(zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
-  assertEqual(zonedb::kLinkRegistrySize, linkRegistrar.linkRegistrySize());
+  LinkRegistrar linkRegistrar(kLinkRegistrySize, kLinkRegistry);
+  assertEqual(kLinkRegistrySize, linkRegistrar.linkRegistrySize());
 }
 
 test(LinkRegistrarTest, emptyRegistry_returns_nullptr) {
   LinkRegistrar linkRegistrar(0, nullptr);
-  assertEqual(
-      nullptr,
-      linkRegistrar.getLinkEntryForId(zonedb::kZoneIdUS_Pacific));
+  assertEqual(nullptr, linkRegistrar.getLinkEntryForId(kZoneIdUS_Pacific));
 }
 
 test(LinkRegistrarTest, isSorted) {
-  assertTrue(LinkRegistrar::isSorted(
-      zonedb::kLinkRegistry, zonedb::kLinkRegistrySize));
+  assertTrue(LinkRegistrar::isSorted(kLinkRegistry, kLinkRegistrySize));
 }
 
 test(LinkRegistrarTest, getLinkEntry_US_Pacific) {
-  LinkRegistrar linkRegistrar(zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
-  assertNotEqual(
-      nullptr,
-      linkRegistrar.getLinkEntryForId(zonedb::kZoneIdUS_Pacific));
+  LinkRegistrar linkRegistrar(kLinkRegistrySize, kLinkRegistry);
+  assertNotEqual(nullptr, linkRegistrar.getLinkEntryForId(kZoneIdUS_Pacific));
 }
 
 //---------------------------------------------------------------------------
