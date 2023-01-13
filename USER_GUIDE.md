@@ -46,6 +46,7 @@ TZ database.
         * [Manual TimeZone](#ManualTimeZone)
         * [Basic TimeZone](#BasicTimeZone)
         * [Extended TimeZone](#ExtendedTimeZone)
+        * [TimeZone Type Recommendations](#TimeZoneTypeRecommendations)
     * [ZonedDateTime](#ZonedDateTime)
         * [Class Declaration](#ZonedDateTimeDeclaration)
         * [Creation](#ZonedDateTimeCreation)
@@ -1153,7 +1154,10 @@ Some examples of `ZoneInfo` entries supported by `zonedb` are:
 * `zonedb::kZoneGMT_10` (`GMT-10`)
 
 The following example creates a `TimeZone` which describes
-`America/Los_Angeles`:
+`America/Los_Angeles`. A `TimeZone` instance is normally expected to be just
+passed into a `ZonedDateTime` object through a factory method, but there are
+a few ways that a `TimeZone` object can be used directly. See the
+[ZonedExtra](#ZonedExtra) section below for more information:
 
 ```C++
 #include <AceTime.h>
@@ -1171,14 +1175,18 @@ void someFunction() {
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
-    TimeOffset offset = dt.timeOffset(); // returns -08:00
+    acetime_t epochSeconds = dt.toEpochSeconds();
+    ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+    TimeOffset offset = ze.timeOffset(); // returns -08:00
   }
 
   // one second later, 2018-03-11T02:00:00-08:00 was in DST time
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHours(-8));
-    TimeOffset offset = tz.timeOffset(); // returns -07:00
+    acetime_t epochSeconds = dt.toEpochSeconds();
+    ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+    TimeOffset offset = ze.timeOffset(); // returns -07:00
   }
   ...
 }
@@ -1223,6 +1231,12 @@ zone infos which exists in `zonedbx::` but not in `zonedb::` are:
 * `zonedbx::kZoneAsia_Hebron`
 * `zonedbx::kZoneEurope_Moscow`
 
+The following example creates a `TimeZone` which describes
+`America/Los_Angeles`. A `TimeZone` instance is normally expected to be just
+passed into a `ZonedDateTime` object through a factory method, but there are
+a few ways that a `TimeZone` object can be used directly. See the
+[ZonedExtra](#ZonedExtra) section below for more information:
+
 ```C++
 ExtendedZoneProcessor zoneProcessor;
 
@@ -1235,31 +1249,64 @@ void someFunction() {
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
-    TimeOffset offset = tz.timeOffset(); // returns -08:00
+    acetime_t epochSeconds = dt.toEpochSeconds();
+    ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+    TimeOffset offset = ze.timeOffset(); // returns -08:00
   }
 
   // one second later, 2018-03-11T02:00:00-08:00 was in DST time
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHours(-8));
-    TimeOffset offset = tz.timeOffset(); // returns -07:00
+    acetime_t epochSeconds = dt.toEpochSeconds();
+    ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+    TimeOffset offset = ze.timeOffset(); // returns -07:00
   }
   ...
 }
 ```
 
-The advantage of `ExtendedZoneProcessor` over `BasicZoneProcessor` is that
-`ExtendedZoneProcessor` supports all time zones in the IANA TZ Database. The
-cost is that it consumes *5 times* more static memory and is a bit slower. If
-`BasicZoneProcessor` supports the zone that you want using the ZoneInfo entries
-in the `zonedb::` namespace, you should normally use that instead of
-`ExtendedZoneProcessor`.
+<a name="TimeZoneTypeRecommendations"></a>
+### TimeZone Type Recommendations
 
-The one other advantage of `ExtendedZoneProcessor` over `BasicZoneProcessor` is
-that `ExtendedZoneProcessor::forComponents()` is more accurate than
-`BasicZoneProcessor::forComponents()` because the `zonedbx::` entries contain
-transition information which are missing in the `zonedb::` entries due to
-space constraints.
+There are 3 major types of `TimeZone` objects:
+
+* `kTypeManual`: STD and DST offsets are fixed
+* `kTypeBasic`: uses `BasicZoneProcessor`
+* `kTypeExtended`: uses `ExtendedZoneProcessor`
+
+The `kTypeManual` was added mostly for completeness and for testing purposes. I
+do not expect most applications to use the `kTypeManual`, because the primary
+purpose of the AceTime library to provide access to the timezones defined by the
+IANA TZ database, and the `kTypeManual` timezone does not provide that
+functionality.
+
+The advantage of `ExtendedZoneProcessor` over `BasicZoneProcessor` is that
+`ExtendedZoneProcessor` will always support all time zones and links in the IANA
+TZ Database. The `BasicZoneProcessor` supports only a limited subset of zones
+which have certain simplifying properties. It is not uncommon for zones that
+used to be supported by `BasicZoneProcessor` to change its DST rules in a
+subsequent TZ DB release and becomes incompatible with the `BasicZoneProcessor`.
+The `ExtendedZoneProcessor` does not have this problem.
+
+The `ExtendedZoneProcessor` is also more accurate than `BasicZoneProcessor`
+during DST gaps when using the `forComponents()` factory methods,  because the
+`zonedbx::` entries contain transition information which are missing in the
+`zonedb::` entries due to space constraints. The `ExtendedZoneProcessor`
+provides complete control which `LocalDateTime` is selected during a gap or
+overlap using the `fold` parameter. The `BasicZoneProcessor` ignores the `fold`
+parameter and makes educated guesses when the `LocalDateTime` falls in a gap or
+an overlap.
+
+The biggest difference between `BasicZoneProcessor` and `ExtendedZoneProcessor`
+is the amount of flash and static memory consumed. The `ExtendedZoneProcessor`
+consumes [4 times](examples/AutoBenchmark/README.md) more static memory than
+`BasicZoneProcessor` and is a bit slower. For most 32-bit processors, this will
+not be an issue, so the `ExtendedZoneProcessor` is recommended. For 8-bit
+processors, the `BasicZoneProcessor` consumes a lot less resources, so if your
+timezone is supported, then it may be the appropriate choice. In most cases, I
+think the `ExtendedZoneProcessor` should be preferred unless memory resources
+are so constrained that `BasicZoneProcessor` must be used.
 
 Instead of managing the `BasicZoneProcessor` or `ExtendedZoneProcessor`
 manually, you can use the `ZoneManager` to manage a database of `ZoneInfo`
