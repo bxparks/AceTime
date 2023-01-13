@@ -18,3 +18,7 @@ America/Toronto
 America/Vancouver
 America/Edmonton
 America/Winnipeg
+
+# TzDbTest
+America/Whitehorse
+Africa/Casablanca

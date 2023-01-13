@@ -11,20 +11,22 @@ using namespace ace_time;
 
 //----------------------------------------------------------------------------
 
-// This could go inside TransitionValidation class, but it consumes a fair
-// bit of memory, so let's extract it outside.
+// This could go inside ExtendedTransitionValidation class, but it consumes a
+// fair bit of memory, so let's extract it outside.
 ExtendedZoneProcessor zoneProcessor;
 
 //----------------------------------------------------------------------------
 
 /**
- * Check that all Transitions for all years, for all zones in the zonedbx
- * database:
+ * Check that all Transitions for all years, for all zones in the
+ * zonedbx database are:
+ *  * sorted with respect to startEpochSeconds
+ *  * unique with respect to startEpochSeconds
  *
- *  1) are sorted with respect to startEpochSeconds
- *  2) are unique with respect to startEpochSeconds
+ * This must use the real zonedbx database, not the testing/tzonedbx database,
+ * because we are validating every zone in the IANA TZ database.
  */
-class TransitionValidation : public aunit::TestOnce {
+class ExtendedTransitionValidation : public aunit::TestOnce {
   public:
     void validateZone(const extended::ZoneInfo* zoneInfo) {
       zoneProcessor.setZoneKey((uintptr_t) zoneInfo);
@@ -139,8 +141,8 @@ class TransitionValidation : public aunit::TestOnce {
 
 //----------------------------------------------------------------------------
 
-// Verify transitions for all zones in the kZoneRegistry.
-testF(TransitionValidation, allZones) {
+// Verify transitions for all zones in the zonedbx::kZoneRegistry.
+testF(ExtendedTransitionValidation, allZones) {
   extended::ZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize,
       zonedbx::kZoneRegistry);
@@ -154,9 +156,12 @@ testF(TransitionValidation, allZones) {
 // Verify Transitions for Europe/Lisbon in 1992 using the
 // tzonedbx::kZoneEurope_Lisbon entry which contains entries from 1980 to 10000.
 // Lisbon in 1992 was the only combo where the previous ExtendedZoneProcessor
-// algorithm failed, with a duplicate Transition. We cannot use the default
-// zonedbx database because it starts at 2000 which does not cover 1992.
-testF(TransitionValidation, lisbon1992) {
+// algorithm failed, with a duplicate Transition.
+//
+// This uses the testing/tzonedbx database, instead of the production zonedbx
+// database, because we need to test year 1992 and the production zonedbx starts
+// at year 2000.
+testF(ExtendedTransitionValidation, lisbon1992) {
   assertNoFatalFailure(validateZone(&tzonedbx::kZoneEurope_Lisbon));
 }
 

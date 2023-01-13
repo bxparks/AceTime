@@ -28,20 +28,20 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2022g
 //
-// Zones: 12
+// Zones: 15
 // Links: 1
 // kZoneRegistry sizes (bytes):
-//   Names: 199 (originally 199)
-//   Formats: 48
+//   Names: 249 (originally 249)
+//   Formats: 92
 //   Fragments: 9
-//   Memory (8-bit): 647
-//   Memory (32-bit): 884
+//   Memory (8-bit): 879
+//   Memory (32-bit): 1194
 // kZoneAndLinkRegistry sizes (bytes):
-//   Names: 210 (originally 210)
-//   Formats: 48
+//   Names: 260 (originally 260)
+//   Formats: 92
 //   Fragments: 9
-//   Memory (8-bit): 671
-//   Memory (32-bit): 919
+//   Memory (8-bit): 903
+//   Memory (32-bit): 1229
 //
 // DO NOT EDIT
 
@@ -73,8 +73,78 @@ const internal::ZoneContext kZoneContext = {
 };
 
 //---------------------------------------------------------------------------
-// Zones: 12
+// Zones: 15
 //---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+// Zone name: Africa/Casablanca
+// Zone Eras: 4
+// Strings (bytes): 46 (originally 46)
+// Memory (8-bit): 101
+// Memory (32-bit): 130
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraAfrica_Casablanca[] ACE_TIME_PROGMEM = {
+  //              0:00    Morocco    +00/+01    1984 Mar 16
+  {
+    &kZonePolicyMorocco /*zonePolicy*/,
+    "+00/+01" /*format*/,
+    0 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    1984 /*untilYear*/,
+    3 /*untilMonth*/,
+    16 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //              1:00    -    +01    1986
+  {
+    nullptr /*zonePolicy*/,
+    "+01" /*format*/,
+    4 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    1986 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //              0:00    Morocco    +00/+01    2018 Oct 28  3:00
+  {
+    &kZonePolicyMorocco /*zonePolicy*/,
+    "+00/+01" /*format*/,
+    0 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    2018 /*untilYear*/,
+    10 /*untilMonth*/,
+    28 /*untilDay*/,
+    12 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //              1:00    Morocco    +01/+00
+  {
+    &kZonePolicyMorocco /*zonePolicy*/,
+    "+01/+00" /*format*/,
+    4 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAfrica_Casablanca[] ACE_TIME_PROGMEM = "Africa/Casablanca";
+
+const extended::ZoneInfo kZoneAfrica_Casablanca ACE_TIME_PROGMEM = {
+  kZoneNameAfrica_Casablanca /*name*/,
+  0xc59f1b33 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  4 /*numEras*/,
+  kZoneEraAfrica_Casablanca /*eras*/,
+};
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Windhoek
@@ -443,6 +513,64 @@ const extended::ZoneInfo kZoneAmerica_Vancouver ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: America/Whitehorse
+// Zone Eras: 3
+// Strings (bytes): 31 (originally 31)
+// Memory (8-bit): 75
+// Memory (32-bit): 99
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraAmerica_Whitehorse[] ACE_TIME_PROGMEM = {
+  //             -8:00    -    PST    1980
+  {
+    nullptr /*zonePolicy*/,
+    "PST" /*format*/,
+    -32 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    1980 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             -8:00    Canada    P%sT    2020 Nov  1
+  {
+    &kZonePolicyCanada /*zonePolicy*/,
+    "P%T" /*format*/,
+    -32 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    2020 /*untilYear*/,
+    11 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             -7:00    -    MST
+  {
+    nullptr /*zonePolicy*/,
+    "MST" /*format*/,
+    -28 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAmerica_Whitehorse[] ACE_TIME_PROGMEM = "America/Whitehorse";
+
+const extended::ZoneInfo kZoneAmerica_Whitehorse ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Whitehorse /*name*/,
+  0x54e0e3e8 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  3 /*numEras*/,
+  kZoneEraAmerica_Whitehorse /*eras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: America/Winnipeg
 // Zone Eras: 2
 // Strings (bytes): 25 (originally 25)
@@ -590,6 +718,52 @@ const extended::ZoneInfo kZoneEurope_Lisbon ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   4 /*numEras*/,
   kZoneEraEurope_Lisbon /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Pacific/Apia
+// Zone Eras: 2
+// Strings (bytes): 29 (originally 29)
+// Memory (8-bit): 62
+// Memory (32-bit): 81
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraPacific_Apia[] ACE_TIME_PROGMEM = {
+  //             -11:00    WS    -11/-10    2011 Dec 29 24:00
+  {
+    &kZonePolicyWS /*zonePolicy*/,
+    "-11/-10" /*format*/,
+    -44 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    2011 /*untilYear*/,
+    12 /*untilMonth*/,
+    29 /*untilDay*/,
+    96 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //              13:00    WS    +13/+14
+  {
+    &kZonePolicyWS /*zonePolicy*/,
+    "+13/+14" /*format*/,
+    52 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNamePacific_Apia[] ACE_TIME_PROGMEM = "Pacific/Apia";
+
+const extended::ZoneInfo kZonePacific_Apia ACE_TIME_PROGMEM = {
+  kZoneNamePacific_Apia /*name*/,
+  0x23359b5e /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*numEras*/,
+  kZoneEraPacific_Apia /*eras*/,
 };
 
 

@@ -121,7 +121,7 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // Africa/Algiers {Zone missing from include list}
 // Africa/Bissau {Zone missing from include list}
 // Africa/Cairo {Zone missing from include list}
-// Africa/Casablanca {Zone missing from include list}
+// Africa/Casablanca {UNTIL contains month/day/time}
 // Africa/Ceuta {Zone missing from include list}
 // Africa/El_Aaiun {Zone missing from include list}
 // Africa/Juba {Zone missing from include list}
@@ -245,7 +245,7 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // America/Tegucigalpa {Zone missing from include list}
 // America/Thule {Zone missing from include list}
 // America/Tijuana {Zone missing from include list}
-// America/Whitehorse {Zone missing from include list}
+// America/Whitehorse {UNTIL contains month/day/time}
 // America/Yakutat {Zone missing from include list}
 // America/Yellowknife {Zone missing from include list}
 // Antarctica/Casey {Zone missing from include list}

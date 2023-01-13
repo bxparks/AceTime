@@ -39,23 +39,25 @@ namespace ace_time {
 namespace tzonedbx {
 
 //---------------------------------------------------------------------------
-// Supported zone policies: 10
+// Supported zone policies: 12
 //---------------------------------------------------------------------------
 
 extern const extended::ZonePolicy kZonePolicyAus;
 extern const extended::ZonePolicy kZonePolicyCanada;
 extern const extended::ZonePolicy kZonePolicyEU;
 extern const extended::ZonePolicy kZonePolicyEdm;
+extern const extended::ZonePolicy kZonePolicyMorocco;
 extern const extended::ZonePolicy kZonePolicyNamibia;
 extern const extended::ZonePolicy kZonePolicyPort;
 extern const extended::ZonePolicy kZonePolicyUS;
 extern const extended::ZonePolicy kZonePolicyVanc;
 extern const extended::ZonePolicy kZonePolicyW_Eur;
+extern const extended::ZonePolicy kZonePolicyWS;
 extern const extended::ZonePolicy kZonePolicyWinn;
 
 
 //---------------------------------------------------------------------------
-// Unsupported zone policies: 124
+// Unsupported zone policies: 122
 //---------------------------------------------------------------------------
 
 // AN {unused}
@@ -134,7 +136,6 @@ extern const extended::ZonePolicy kZonePolicyWinn;
 // Moldova {unused}
 // Moncton {unused}
 // Mongol {unused}
-// Morocco {unused}
 // NBorneo {unused}
 // NC {unused}
 // NT_YK {unused}
@@ -179,21 +180,22 @@ extern const extended::ZonePolicy kZonePolicyWinn;
 // Uruguay {unused}
 // Vanuatu {unused}
 // Vincennes {unused}
-// WS {unused}
 // Yukon {unused}
 // Zion {unused}
 
 
 //---------------------------------------------------------------------------
-// Notable zone policies: 1
+// Notable zone policies: 3
 //---------------------------------------------------------------------------
 
+// Morocco {SAVE (delta_offset) '-1:00' different from 1:00}
 // Namibia {
 //   Added anchor rule at year 0,
 //   LETTER 'CAT' not single character,
 //   LETTER 'WAT' not single character,
 //   SAVE (delta_offset) '-1:00' different from 1:00,
 // }
+// WS {Added anchor rule at year 0}
 
 
 }

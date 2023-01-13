@@ -49,9 +49,10 @@ extern const char kTzDatabaseVersion[];
 extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 12
+// Supported zones: 15
 //---------------------------------------------------------------------------
 
+extern const extended::ZoneInfo kZoneAfrica_Casablanca; // Africa/Casablanca
 extern const extended::ZoneInfo kZoneAfrica_Windhoek; // Africa/Windhoek
 extern const extended::ZoneInfo kZoneAmerica_Caracas; // America/Caracas
 extern const extended::ZoneInfo kZoneAmerica_Chicago; // America/Chicago
@@ -61,13 +62,16 @@ extern const extended::ZoneInfo kZoneAmerica_Los_Angeles; // America/Los_Angeles
 extern const extended::ZoneInfo kZoneAmerica_New_York; // America/New_York
 extern const extended::ZoneInfo kZoneAmerica_Toronto; // America/Toronto
 extern const extended::ZoneInfo kZoneAmerica_Vancouver; // America/Vancouver
+extern const extended::ZoneInfo kZoneAmerica_Whitehorse; // America/Whitehorse
 extern const extended::ZoneInfo kZoneAmerica_Winnipeg; // America/Winnipeg
 extern const extended::ZoneInfo kZoneAustralia_Darwin; // Australia/Darwin
 extern const extended::ZoneInfo kZoneEurope_Lisbon; // Europe/Lisbon
+extern const extended::ZoneInfo kZonePacific_Apia; // Pacific/Apia
 
 
 // Zone Ids
 
+const uint32_t kZoneIdAfrica_Casablanca = 0xc59f1b33; // Africa/Casablanca
 const uint32_t kZoneIdAfrica_Windhoek = 0x789c9bd3; // Africa/Windhoek
 const uint32_t kZoneIdAmerica_Caracas = 0x3be064f4; // America/Caracas
 const uint32_t kZoneIdAmerica_Chicago = 0x4b92b5d4; // America/Chicago
@@ -77,9 +81,11 @@ const uint32_t kZoneIdAmerica_Los_Angeles = 0xb7f7e8f2; // America/Los_Angeles
 const uint32_t kZoneIdAmerica_New_York = 0x1e2a7654; // America/New_York
 const uint32_t kZoneIdAmerica_Toronto = 0x792e851b; // America/Toronto
 const uint32_t kZoneIdAmerica_Vancouver = 0x2c6f6b1f; // America/Vancouver
+const uint32_t kZoneIdAmerica_Whitehorse = 0x54e0e3e8; // America/Whitehorse
 const uint32_t kZoneIdAmerica_Winnipeg = 0x8c7dafc7; // America/Winnipeg
 const uint32_t kZoneIdAustralia_Darwin = 0x2876bdff; // Australia/Darwin
 const uint32_t kZoneIdEurope_Lisbon = 0x5c00a70b; // Europe/Lisbon
+const uint32_t kZoneIdPacific_Apia = 0x23359b5e; // Pacific/Apia
 
 
 //---------------------------------------------------------------------------
@@ -99,9 +105,10 @@ const uint32_t kZoneIdUS_Pacific = 0xa950f6ab; // US/Pacific
 // over the given years. Used only in the AceTimeValidation/Extended*Test tests
 // for ExtendedZoneProcessor.
 //
-// MaxBufSize: 6
+// MaxBufSize: 7
 //---------------------------------------------------------------------------
 
+const uint8_t kZoneBufSizeAfrica_Casablanca = 7;  // Africa/Casablanca in 2013
 const uint8_t kZoneBufSizeAfrica_Windhoek = 4;  // Africa/Windhoek in 1994
 const uint8_t kZoneBufSizeAmerica_Caracas = 2;  // America/Caracas in 2007
 const uint8_t kZoneBufSizeAmerica_Chicago = 6;  // America/Chicago in 2008
@@ -111,20 +118,21 @@ const uint8_t kZoneBufSizeAmerica_Los_Angeles = 6;  // America/Los_Angeles in 20
 const uint8_t kZoneBufSizeAmerica_New_York = 6;  // America/New_York in 2008
 const uint8_t kZoneBufSizeAmerica_Toronto = 6;  // America/Toronto in 2008
 const uint8_t kZoneBufSizeAmerica_Vancouver = 6;  // America/Vancouver in 2008
+const uint8_t kZoneBufSizeAmerica_Whitehorse = 6;  // America/Whitehorse in 2008
 const uint8_t kZoneBufSizeAmerica_Winnipeg = 6;  // America/Winnipeg in 2006
 const uint8_t kZoneBufSizeAustralia_Darwin = 2;  // Australia/Darwin in 1979
 const uint8_t kZoneBufSizeEurope_Lisbon = 6;  // Europe/Lisbon in 1983
+const uint8_t kZoneBufSizePacific_Apia = 5;  // Pacific/Apia in 2011
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 339
+// Unsupported zones: 336
 //---------------------------------------------------------------------------
 
 // Africa/Abidjan {Zone missing from include list}
 // Africa/Algiers {Zone missing from include list}
 // Africa/Bissau {Zone missing from include list}
 // Africa/Cairo {Zone missing from include list}
-// Africa/Casablanca {Zone missing from include list}
 // Africa/Ceuta {Zone missing from include list}
 // Africa/El_Aaiun {Zone missing from include list}
 // Africa/Johannesburg {Zone missing from include list}
@@ -247,7 +255,6 @@ const uint8_t kZoneBufSizeEurope_Lisbon = 6;  // Europe/Lisbon in 1983
 // America/Tegucigalpa {Zone missing from include list}
 // America/Thule {Zone missing from include list}
 // America/Tijuana {Zone missing from include list}
-// America/Whitehorse {Zone missing from include list}
 // America/Yakutat {Zone missing from include list}
 // America/Yellowknife {Zone missing from include list}
 // Antarctica/Casey {Zone missing from include list}
@@ -428,7 +435,6 @@ const uint8_t kZoneBufSizeEurope_Lisbon = 6;  // Europe/Lisbon in 1983
 // MST {Zone missing from include list}
 // MST7MDT {Zone missing from include list}
 // PST8PDT {Zone missing from include list}
-// Pacific/Apia {Zone missing from include list}
 // Pacific/Auckland {Zone missing from include list}
 // Pacific/Bougainville {Zone missing from include list}
 // Pacific/Chatham {Zone missing from include list}
@@ -462,9 +468,12 @@ const uint8_t kZoneBufSizeEurope_Lisbon = 6;  // Europe/Lisbon in 1983
 
 
 //---------------------------------------------------------------------------
-// Notable zones: 1
+// Notable zones: 3
 //---------------------------------------------------------------------------
 
+// Africa/Casablanca {
+//   Morocco {SAVE (delta_offset) '-1:00' different from 1:00}
+// }
 // Africa/Windhoek {
 //   Namibia {
 //     Added anchor rule at year 0,
@@ -472,6 +481,9 @@ const uint8_t kZoneBufSizeEurope_Lisbon = 6;  // Europe/Lisbon in 1983
 //     LETTER 'WAT' not single character,
 //     SAVE (delta_offset) '-1:00' different from 1:00,
 //   }
+// }
+// Pacific/Apia {
+//   WS {Added anchor rule at year 0}
 // }
 
 
