@@ -4,16 +4,24 @@
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
 #include <ace_time/testing/EpochYearContext.h>
+#include <ace_time/testing/tzonedbx/zone_policies.h>
+#include <ace_time/testing/tzonedbx/zone_infos.h>
 
 using namespace ace_time;
+using ace_time::tzonedbx::kZoneAmerica_Chicago;
+using ace_time::tzonedbx::kZoneAmerica_Denver;
+using ace_time::tzonedbx::kZoneAmerica_Los_Angeles;
+using ace_time::tzonedbx::kZoneAmerica_New_York;
+using ace_time::tzonedbx::kZoneAfrica_Casablanca;
+using ace_time::tzonedbx::kZonePacific_Apia;
 
 // --------------------------------------------------------------------------
 
 const extended::ZoneInfo* const kExtendedZoneRegistry[] ACE_TIME_PROGMEM = {
-  &zonedbx::kZoneAmerica_Chicago,
-  &zonedbx::kZoneAmerica_Denver,
-  &zonedbx::kZoneAmerica_Los_Angeles,
-  &zonedbx::kZoneAmerica_New_York,
+  &kZoneAmerica_Chicago,
+  &kZoneAmerica_Denver,
+  &kZoneAmerica_Los_Angeles,
+  &kZoneAmerica_New_York,
 };
 
 const uint16_t kExtendedZoneRegistrySize =
@@ -30,7 +38,7 @@ ExtendedZoneManager extendedZoneManager(
 
 test(ZonedDateTimeExtendedTest, printTo) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      &kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(2020, 1, 2, 3, 4, 5, tz);
 
   ace_common::PrintStr<64> dateString;
@@ -47,10 +55,10 @@ test(ZonedDateTimeExtendedTest, printTo) {
 
 test(ZonedDateTimeExtendedTest, forComponents_isError) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      &kZoneAmerica_Los_Angeles);
 
-  // outside [2000, 9999) range, should generate error
-  ZonedDateTime dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 59, tz);
+  // outside [1980, 9999) range, should generate error
+  ZonedDateTime dt = ZonedDateTime::forComponents(1970, 3, 11, 1, 59, 59, tz);
   assertTrue(dt.isError());
   dt = ZonedDateTime::forComponents(10000, 3, 11, 1, 59, 59, tz);
   assertTrue(dt.isError());
@@ -58,7 +66,7 @@ test(ZonedDateTimeExtendedTest, forComponents_isError) {
 
 test(ZonedDateTimeExtendedTest, forComponents_beforeDst) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      &kZoneAmerica_Los_Angeles);
 
   // 01:59 before spring forward should resolve to 01:59-08:00
   auto dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 0, tz);
@@ -78,7 +86,7 @@ test(ZonedDateTimeExtendedTest, forComponents_beforeDst) {
 
 test(ZonedDateTimeExtendedTest, forComponents_inDstGap) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      &kZoneAmerica_Los_Angeles);
 
   // 02:01 doesn't exist. For input fold=0, the timeOffset of the first
   // candidate transition, i.e. the most recent matching Transition, is used,
@@ -105,7 +113,7 @@ test(ZonedDateTimeExtendedTest, forComponents_inDstGap) {
 
 test(ZonedDateTimeExtendedTest, forComponents_inDst) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      &kZoneAmerica_Los_Angeles);
 
   // 03:01(fold=0) should resolve to 03:01-07:00.
   auto dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 1, 0, tz);
@@ -125,7 +133,7 @@ test(ZonedDateTimeExtendedTest, forComponents_inDst) {
 
 test(ZonedDateTimeExtendedTest, forComponents_beforeStd) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      &kZoneAmerica_Los_Angeles);
 
   // 00:59 is an hour before the DST->STD transition, so should return
   // 00:59-07:00.
@@ -146,7 +154,7 @@ test(ZonedDateTimeExtendedTest, forComponents_beforeStd) {
 
 test(ZonedDateTimeExtendedTest, forComponents_inOverlap) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      &kZoneAmerica_Los_Angeles);
 
   // There were two instances of 01:00 during fall back. The algorithm picks the
   // earlier Transition for fold=0, so should resolve to 01:00-07:00.
@@ -187,7 +195,7 @@ test(ZonedDateTimeExtendedTest, forComponents_inOverlap) {
 
 test(ZonedDateTimeExtendedTest, forComponents_afterOverlap) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      &kZoneAmerica_Los_Angeles);
 
   // 02:00 actually occurs only once, so should resolve to 02:00-08:00
   auto dt = ZonedDateTime::forComponents(2018, 11, 4, 2, 0, 0, tz);
@@ -225,7 +233,7 @@ test(ZonedDateTimeExtendedTest, forComponents_afterOverlap) {
 // just like a normal Zone. TODO: Figure out how to detect fat links at runtime.
 /*
 test(ZonedDateTimeExtendedTest, linked_zones) {
-  assertEqual(&zonedbx::kZoneAmerica_Los_Angeles, &zonedbx::kZoneUS_Pacific);
+  assertEqual(&kZoneAmerica_Los_Angeles, &kZoneUS_Pacific);
 }
 */
 
@@ -235,7 +243,7 @@ test(ZonedDateTimeExtendedTest, linked_zones) {
 
 test(ZonedDateTimeExtendedTest, forEpochSecond_fall_back) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      &kZoneAmerica_Los_Angeles);
 
   // Start our sampling at 01:29:00-07:00, which is 31 minutes before the DST
   // fall-back.
@@ -281,7 +289,7 @@ test(ZonedDateTimeExtendedTest, forEpochSecond_fall_back) {
 
 test(ZonedDateTimeExtendedTest, forEpochSecond_spring_forward) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      &kZoneAmerica_Los_Angeles);
 
   // Start our sampling at 01:29:00-08:00, which is 31 minutes before the DST
   // spring forward.
@@ -314,7 +322,7 @@ test(ZonedDateTimeExtendedTest, forEpochSecond_spring_forward) {
 
 test(ZonedDateTimeExtendedTest, forComponents_fall_back) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      &kZoneAmerica_Los_Angeles);
 
   // First occurrence of 01:29:00, should be in -07:00.
   auto dt = ZonedDateTime::forComponents(2022, 11, 6, 1, 29, 0, tz, 0 /*fold*/);
@@ -341,7 +349,7 @@ test(ZonedDateTimeExtendedTest, forComponents_fall_back) {
 
 test(ZonedDateTimeExtendedTest, forComponents_spring_forward) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      &kZoneAmerica_Los_Angeles);
 
   // 02:29:00(fold=0) is in the gap during "spring forward" and selects the
   // earlier Transition, which returns the later UTC, which gets normalized to
@@ -375,7 +383,7 @@ test(ZonedDateTimeExtendedTest, forComponents_spring_forward) {
 
 test(ZonedDateTimeExtendedTest, normalize) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      &kZoneAmerica_Los_Angeles);
 
   // Start with epochSeconds = 0. Should translate to 1999-12-31T16:00:00-08:00.
   auto dt = ZonedDateTime::forEpochSeconds(0, tz);
@@ -433,7 +441,7 @@ test(ZonedDateTimeExtendedTest, morocco_2090) {
   extendedZoneManager.resetZoneProcessors();
 
   TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAfrica_Casablanca);
+      &kZoneAfrica_Casablanca);
 
   // Normally Morocco is UTC+01:00, so epochSeconds==0 should translate to
   // 2050-01-01T01:00:00+01:00.
@@ -487,8 +495,7 @@ test(ZonedDateTimeExtendedTest, Pacific_Apia) {
   testing::EpochYearContext context(2050);
   extendedZoneManager.resetZoneProcessors();
 
-  TimeZone tz = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZonePacific_Apia);
+  TimeZone tz = extendedZoneManager.createForZoneInfo(&kZonePacific_Apia);
 
   // Dec 29 23:59:59 UTC-10:00, one second before "mega spring forward"
   auto dt = ZonedDateTime::forComponents(

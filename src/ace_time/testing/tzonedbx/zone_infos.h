@@ -49,7 +49,7 @@ extern const char kTzDatabaseVersion[];
 extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 14
+// Supported zones: 15
 //---------------------------------------------------------------------------
 
 extern const extended::ZoneInfo kZoneAfrica_Casablanca; // Africa/Casablanca
@@ -66,6 +66,7 @@ extern const extended::ZoneInfo kZoneAmerica_Whitehorse; // America/Whitehorse
 extern const extended::ZoneInfo kZoneAmerica_Winnipeg; // America/Winnipeg
 extern const extended::ZoneInfo kZoneAustralia_Darwin; // Australia/Darwin
 extern const extended::ZoneInfo kZoneEurope_Lisbon; // Europe/Lisbon
+extern const extended::ZoneInfo kZonePacific_Apia; // Pacific/Apia
 
 
 // Zone Ids
@@ -84,6 +85,7 @@ const uint32_t kZoneIdAmerica_Whitehorse = 0x54e0e3e8; // America/Whitehorse
 const uint32_t kZoneIdAmerica_Winnipeg = 0x8c7dafc7; // America/Winnipeg
 const uint32_t kZoneIdAustralia_Darwin = 0x2876bdff; // Australia/Darwin
 const uint32_t kZoneIdEurope_Lisbon = 0x5c00a70b; // Europe/Lisbon
+const uint32_t kZoneIdPacific_Apia = 0x23359b5e; // Pacific/Apia
 
 
 //---------------------------------------------------------------------------
@@ -120,10 +122,11 @@ const uint8_t kZoneBufSizeAmerica_Whitehorse = 6;  // America/Whitehorse in 2008
 const uint8_t kZoneBufSizeAmerica_Winnipeg = 6;  // America/Winnipeg in 2006
 const uint8_t kZoneBufSizeAustralia_Darwin = 2;  // Australia/Darwin in 1979
 const uint8_t kZoneBufSizeEurope_Lisbon = 6;  // Europe/Lisbon in 1983
+const uint8_t kZoneBufSizePacific_Apia = 5;  // Pacific/Apia in 2011
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 337
+// Unsupported zones: 336
 //---------------------------------------------------------------------------
 
 // Africa/Abidjan {Zone missing from include list}
@@ -432,7 +435,6 @@ const uint8_t kZoneBufSizeEurope_Lisbon = 6;  // Europe/Lisbon in 1983
 // MST {Zone missing from include list}
 // MST7MDT {Zone missing from include list}
 // PST8PDT {Zone missing from include list}
-// Pacific/Apia {Zone missing from include list}
 // Pacific/Auckland {Zone missing from include list}
 // Pacific/Bougainville {Zone missing from include list}
 // Pacific/Chatham {Zone missing from include list}
@@ -466,7 +468,7 @@ const uint8_t kZoneBufSizeEurope_Lisbon = 6;  // Europe/Lisbon in 1983
 
 
 //---------------------------------------------------------------------------
-// Notable zones: 2
+// Notable zones: 3
 //---------------------------------------------------------------------------
 
 // Africa/Casablanca {
@@ -479,6 +481,9 @@ const uint8_t kZoneBufSizeEurope_Lisbon = 6;  // Europe/Lisbon in 1983
 //     LETTER 'WAT' not single character,
 //     SAVE (delta_offset) '-1:00' different from 1:00,
 //   }
+// }
+// Pacific/Apia {
+//   WS {Added anchor rule at year 0}
 // }
 
 

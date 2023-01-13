@@ -28,20 +28,20 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2022g
 //
-// Zones: 14
+// Zones: 15
 // Links: 1
 // kZoneRegistry sizes (bytes):
-//   Names: 236 (originally 236)
-//   Formats: 76
+//   Names: 249 (originally 249)
+//   Formats: 92
 //   Fragments: 9
-//   Memory (8-bit): 815
-//   Memory (32-bit): 1109
+//   Memory (8-bit): 879
+//   Memory (32-bit): 1194
 // kZoneAndLinkRegistry sizes (bytes):
-//   Names: 247 (originally 247)
-//   Formats: 76
+//   Names: 260 (originally 260)
+//   Formats: 92
 //   Fragments: 9
-//   Memory (8-bit): 839
-//   Memory (32-bit): 1144
+//   Memory (8-bit): 903
+//   Memory (32-bit): 1229
 //
 // DO NOT EDIT
 
@@ -73,7 +73,7 @@ const internal::ZoneContext kZoneContext = {
 };
 
 //---------------------------------------------------------------------------
-// Zones: 14
+// Zones: 15
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -718,6 +718,52 @@ const extended::ZoneInfo kZoneEurope_Lisbon ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   4 /*numEras*/,
   kZoneEraEurope_Lisbon /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Pacific/Apia
+// Zone Eras: 2
+// Strings (bytes): 29 (originally 29)
+// Memory (8-bit): 62
+// Memory (32-bit): 81
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraPacific_Apia[] ACE_TIME_PROGMEM = {
+  //             -11:00    WS    -11/-10    2011 Dec 29 24:00
+  {
+    &kZonePolicyWS /*zonePolicy*/,
+    "-11/-10" /*format*/,
+    -44 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    2011 /*untilYear*/,
+    12 /*untilMonth*/,
+    29 /*untilDay*/,
+    96 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //              13:00    WS    +13/+14
+  {
+    &kZonePolicyWS /*zonePolicy*/,
+    "+13/+14" /*format*/,
+    52 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    10000 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNamePacific_Apia[] ACE_TIME_PROGMEM = "Pacific/Apia";
+
+const extended::ZoneInfo kZonePacific_Apia ACE_TIME_PROGMEM = {
+  kZoneNamePacific_Apia /*name*/,
+  0x23359b5e /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*numEras*/,
+  kZoneEraPacific_Apia /*eras*/,
 };
 
 

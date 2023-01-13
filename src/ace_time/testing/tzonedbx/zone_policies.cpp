@@ -28,11 +28,11 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2022g
 //
-// Policies: 11
-// Rules: 209
+// Policies: 12
+// Rules: 215
 // Letter Size (bytes): 8
-// Total Memory 8-bit (bytes): 1959
-// Total Memory 32-bit (bytes): 2656
+// Total Memory 8-bit (bytes): 2019
+// Total Memory 32-bit (bytes): 2740
 //
 // DO NOT EDIT
 
@@ -2704,6 +2704,98 @@ const extended::ZonePolicy kZonePolicyW_Eur ACE_TIME_PROGMEM = {
   kZoneRulesW_Eur /*rules*/,
   nullptr /*letters*/,
   3 /*numRules*/,
+  0 /*numLetters*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: WS
+// Rules: 6
+// Memory (8-bit): 60
+// Memory (32-bit): 84
+//---------------------------------------------------------------------------
+
+static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
+  // Anchor: Rule    WS    2011    only    -    Apr    Sat>=1    4:00    0    -
+  {
+    0 /*fromYear*/,
+    0 /*toYear*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    WS    2010    only    -    Sep    lastSun    0:00    1    -
+  {
+    2010 /*fromYear*/,
+    2010 /*toYear*/,
+    9 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    WS    2011    only    -    Apr    Sat>=1    4:00    0    -
+  {
+    2011 /*fromYear*/,
+    2011 /*toYear*/,
+    4 /*inMonth*/,
+    6 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    16 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    WS    2011    only    -    Sep    lastSat    3:00    1    -
+  {
+    2011 /*fromYear*/,
+    2011 /*toYear*/,
+    9 /*inMonth*/,
+    6 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    WS    2012    2021    -    Apr    Sun>=1    4:00    0    -
+  {
+    2012 /*fromYear*/,
+    2021 /*toYear*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    16 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+  // Rule    WS    2012    2020    -    Sep    lastSun    3:00    1    -
+  {
+    2012 /*fromYear*/,
+    2020 /*toYear*/,
+    9 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    12 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    '-' /*letter*/,
+  },
+
+};
+
+
+
+const extended::ZonePolicy kZonePolicyWS ACE_TIME_PROGMEM = {
+  kZoneRulesWS /*rules*/,
+  nullptr /*letters*/,
+  6 /*numRules*/,
   0 /*numLetters*/,
 };
 

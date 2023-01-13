@@ -39,7 +39,7 @@ namespace ace_time {
 namespace tzonedbx {
 
 //---------------------------------------------------------------------------
-// Supported zone policies: 11
+// Supported zone policies: 12
 //---------------------------------------------------------------------------
 
 extern const extended::ZonePolicy kZonePolicyAus;
@@ -52,11 +52,12 @@ extern const extended::ZonePolicy kZonePolicyPort;
 extern const extended::ZonePolicy kZonePolicyUS;
 extern const extended::ZonePolicy kZonePolicyVanc;
 extern const extended::ZonePolicy kZonePolicyW_Eur;
+extern const extended::ZonePolicy kZonePolicyWS;
 extern const extended::ZonePolicy kZonePolicyWinn;
 
 
 //---------------------------------------------------------------------------
-// Unsupported zone policies: 123
+// Unsupported zone policies: 122
 //---------------------------------------------------------------------------
 
 // AN {unused}
@@ -179,13 +180,12 @@ extern const extended::ZonePolicy kZonePolicyWinn;
 // Uruguay {unused}
 // Vanuatu {unused}
 // Vincennes {unused}
-// WS {unused}
 // Yukon {unused}
 // Zion {unused}
 
 
 //---------------------------------------------------------------------------
-// Notable zone policies: 2
+// Notable zone policies: 3
 //---------------------------------------------------------------------------
 
 // Morocco {SAVE (delta_offset) '-1:00' different from 1:00}
@@ -195,6 +195,7 @@ extern const extended::ZonePolicy kZonePolicyWinn;
 //   LETTER 'WAT' not single character,
 //   SAVE (delta_offset) '-1:00' different from 1:00,
 // }
+// WS {Added anchor rule at year 0}
 
 
 }

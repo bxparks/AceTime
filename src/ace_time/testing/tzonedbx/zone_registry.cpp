@@ -40,8 +40,9 @@ namespace tzonedbx {
 //---------------------------------------------------------------------------
 // Zone Info registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
-const extended::ZoneInfo* const kZoneRegistry[14] ACE_TIME_PROGMEM = {
+const extended::ZoneInfo* const kZoneRegistry[15] ACE_TIME_PROGMEM = {
   &kZoneAmerica_New_York, // 0x1e2a7654, America/New_York
+  &kZonePacific_Apia, // 0x23359b5e, Pacific/Apia
   &kZoneAustralia_Darwin, // 0x2876bdff, Australia/Darwin
   &kZoneAmerica_Vancouver, // 0x2c6f6b1f, America/Vancouver
   &kZoneAmerica_Caracas, // 0x3be064f4, America/Caracas
@@ -61,8 +62,9 @@ const extended::ZoneInfo* const kZoneRegistry[14] ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Zone and Link (fat) Info registry. Sorted by zoneId. Links act like Zones.
 //---------------------------------------------------------------------------
-const extended::ZoneInfo* const kZoneAndLinkRegistry[15] ACE_TIME_PROGMEM = {
+const extended::ZoneInfo* const kZoneAndLinkRegistry[16] ACE_TIME_PROGMEM = {
   &kZoneAmerica_New_York, // 0x1e2a7654, America/New_York
+  &kZonePacific_Apia, // 0x23359b5e, Pacific/Apia
   &kZoneAustralia_Darwin, // 0x2876bdff, Australia/Darwin
   &kZoneAmerica_Vancouver, // 0x2c6f6b1f, America/Vancouver
   &kZoneAmerica_Caracas, // 0x3be064f4, America/Caracas

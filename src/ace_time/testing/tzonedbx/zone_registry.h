@@ -40,12 +40,12 @@ namespace ace_time {
 namespace tzonedbx {
 
 // Zones
-const uint16_t kZoneRegistrySize = 14;
-extern const extended::ZoneInfo* const kZoneRegistry[14];
+const uint16_t kZoneRegistrySize = 15;
+extern const extended::ZoneInfo* const kZoneRegistry[15];
 
 // Zones and Links
-const uint16_t kZoneAndLinkRegistrySize = 15;
-extern const extended::ZoneInfo* const kZoneAndLinkRegistry[15];
+const uint16_t kZoneAndLinkRegistrySize = 16;
+extern const extended::ZoneInfo* const kZoneAndLinkRegistry[16];
 
 // Link Entries
 const uint16_t kLinkRegistrySize = 1;
