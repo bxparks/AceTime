@@ -3,9 +3,13 @@
 #include <AUnit.h>
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
+#include <ace_time/testing/tzonedb/zone_policies.h>
+#include <ace_time/testing/tzonedb/zone_infos.h>
 
 using ace_common::PrintStr;
 using namespace ace_time;
+using ace_time::tzonedb::kZoneAmerica_Los_Angeles;
+using ace_time::tzonedb::kZoneIdAmerica_Los_Angeles;
 
 //---------------------------------------------------------------------------
 // ManualZoneManager
@@ -55,11 +59,11 @@ test(ManualZoneManagerTest, createForTimeZoneData_manual) {
 test(ManualZoneManagerTest, createForTimeZoneData_zoneId) {
   BasicZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
-      &zonedb::kZoneAmerica_Los_Angeles,
+      &kZoneAmerica_Los_Angeles,
       &zoneProcessor);
   TimeZoneData tzd = tz.toTimeZoneData();
 
-  TimeZoneData expected{zonedb::kZoneIdAmerica_Los_Angeles};
+  TimeZoneData expected{kZoneIdAmerica_Los_Angeles};
   assertTrue(expected == tzd);
 
   // ManualZoneManager cannot handle TimeZone created with ZoneId
