@@ -88,7 +88,6 @@ void setup() {
   losAngelesTz.printTo(SERIAL_PORT_MONITOR);
   SERIAL_PORT_MONITOR.println();
 
-
   // Print the current time zone abbreviation, e.g. "PST" or "PDT"
   ZonedExtra ze = losAngelesTz.getZonedExtra(epochSeconds);
   SERIAL_PORT_MONITOR.print(F("Abbreviation: "));

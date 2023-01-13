@@ -1,15 +1,19 @@
 # Changelog
 
 * Unreleased
-    * **Potentially Breaking**: zonedb,zonedbx: Rename `kPolicyXxx` to
-      `kZonePolicyXxx` for consistency. These are expected to be used only
-      internally, so shouldn't cause external breakage.
+    * **Potentially Breaking**: zonedb,zonedbx
+        * Rename `kPolicyXxx` to `kZonePolicyXxx` for consistency. These are
+          expected to be used only internally, so shouldn't cause external
+          breakage.
     * **Breaking**: `TimeZone.h`
         * Replace 3 separate extra information extraction methods with a single
           `ZonedExtra` class
         * Removed: `getUtcOffset()`, `getDeltaOffset()`, `getAbbrev()`
         * Replaced by: `getZonedExtra(LocalDateTime&)` and
           `getZonedExtra(int32_t epochSeconds)`
+        * `getAbbrev()` no longer points to a transient string buffer deep
+          inside a `Transition` object. Instead, `ZonedExtra::abbrev()` returns
+          a local string buffer, making `TimeZone` closer to being thread-safe.
     * `ZoneProcessor.h`, `ExtendedZoneProcessor.h`, `BasicZoneProcessor.h`
         * Remove: `getUtcOffset()`, `getDeltaOffset()`, `getAbbrev()`
         * Replaced by: `findByLocalDateTime()`, `findByEpochSeconds()`

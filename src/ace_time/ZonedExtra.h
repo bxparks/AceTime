@@ -106,10 +106,10 @@ class ZonedExtra {
     }
 
     /**
-     * The local string buffer containing the timezone abbreviation (e.g.
-     * "PST", "PDT") used at the given LocalDateTime or epochSeconds. This
-     * buffer is a local copy, it is safe to use after calling other timezone
-     * related functions.
+     * Returns the pointer to the local string buffer containing the timezone
+     * abbreviation (e.g. "PST", "PDT") used at the given LocalDateTime or
+     * epochSeconds. This pointer is safe to use as long as this object is
+     * alive.
      */
     const char* abbrev() const { return mAbbrev; }
 

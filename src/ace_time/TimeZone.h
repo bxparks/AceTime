@@ -206,6 +206,9 @@ class TimeZone {
      * zoneProcessor. The 'type' of the TimeZone is extracted from
      * ZoneProcessor::getType().
      *
+     * TODO: I think this can be moved to a 'protected' section, because I think
+     * it is used only by subclasses.
+     *
      * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
      *    uint16_t index into a database table of ZoneInfo records)
      * @param processor the ZoneProcessor instance bound to the TimeZone

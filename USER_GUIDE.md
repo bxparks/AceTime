@@ -51,6 +51,7 @@ TZ database.
         * [Creation](#ZonedDateTimeCreation)
         * [Conversion to Other Time Zones](#TimeZoneConversion)
         * [DST Transition Caching](#DstTransitionCaching)
+    * [ZonedExtra](#ZonedExtra)
     * [ZoneManager](#ZoneManager)
         * [Class Hierarchy](#ClassHierarchy)
         * [Default Registries](#DefaultRegistries)
@@ -911,13 +912,14 @@ A "time zone" is often used colloquially to mean 2 different things:
 from the UTC time using various transition rules.
 
 Both meanings of "time zone" are supported by the `TimeZone` class using
-3 different types as follows:
+3 different types as defined by the value of `getType()`:
 
-* `TimeZone::kTypeManual`: a fixed base offset and optional DST offset from UTC
-* `TimeZone::kTypeBasic`: utilizes a `BasicZoneProcessor` which can
-be encoded with (relatively) simple rules from the ZoneInfo Database
-* `TimeZone::kTypeExtended`: utilizes a `ExtendedZoneProcessor` which can
-handle all zones in the ZoneInfo Database
+* `TimeZone::kTypeManual` (1): a fixed base offset and optional DST offset from
+  UTC
+* `BasicZoneProcessor::kTypeBasic` (3): utilizes a `BasicZoneProcessor` which
+  can be encoded with (relatively) simple rules from the ZoneInfo Database
+* `ExtendedZoneProcessor::kTypeExtended` (4): utilizes a `ExtendedZoneProcessor`
+  which can handle all zones and links in the ZoneInfo Database
 
 The class hierarchy of `TimeZone` is shown below, where the arrow means
 "is-subclass-of" and the diamond-line means "is-aggregation-of". This is an
@@ -978,21 +980,21 @@ class TimeZone {
     bool isError() const;
 
     uint8_t getType() const;
-    TimeOffset getStdOffset() const;
-    TimeOffset getDstOffset() const;
     uint32_t getZoneId() const;
 
-    TimeOffset getUtcOffset(acetime_t epochSeconds) const;
-    TimeOffset getDeltaOffset(acetime_t epochSeconds) const;
-    const char* getAbbrev(acetime_t epochSeconds) const;
-
     OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const;
+    OffsetDateTime getOffsetDateTime(acetime_t epochSeconds) const;
 
-    bool isUtc() const;
-    bool isDst() const;
+    ZonedExtra getZonedExtra(const LocalDateTime& ldt) const;
+    ZonedExtra getZonedExtra(acetime_t epochSeconds) const;
 
+    // for kTypeManual only
+    TimeOffset getStdOffset() const;
+    TimeOffset getDstOffset() const;
     void setStdOffset(TimeOffset stdOffset);
     void setDstOffset(TimeOffset offset);
+    bool isUtc() const;
+    bool isDst() const;
 
     TimeZoneData toTimeZoneData() const;
 
@@ -1003,47 +1005,68 @@ class TimeZone {
 }
 ```
 
-The `getUtcOffset(epochSeconds)` returns the total `TimeOffset` (including any
-DST offset) at the given `epochSeconds`. The `getDeltaOffset()` returns only the
-additional DST offset; if DST is not in effect at the given `epochSeconds`, this
-returns a `TimeOffset` whose `isZero()` returns true.
+The following methods apply only to instances of the type `kTypeManual`:
 
-The `getAbbrev(epochSeconds)` method returns the human-readable timezone
-abbreviation used at the given `epochSeconds`. For example, this be "PST" for
-Pacific Standard Time, or "BST" for British Summer Time. The returned c-string
-should be used as soon as possible (e.g. printed to Serial) because the pointer
-points to a temporary buffer whose contents may change upon subsequent calls to
-`getUtcOffset()`, `getDeltaOffset()` and `getAbbrev()`. If the abbreviation
-needs to be saved for a longer period of time, it should be saved to another
-char buffer.
+* `forUtc()`
+    * create a `TimeZone` instance for UTC+00:00
+* `forTimeOffset(stdOffset, dstOffset)`
+    * create a `TimeZone` instance using `TimeOffset`
+* `forHours(stdHours, dstHours)`
+    * create a `TimeZone` instance using hours offset
+* `forMinutes(stdMinutes, dstMinutes)`
+    * create a `TimeZone` instance using minutes offset
+* `isUtc()`:
+    * returns true if the instance is a UTC time zone instance
+    * returns false if not `kTypeManual`
+* `isDst()`:
+    * returns true if the dstOffset is not zero
+    * returns false if not `kTypeManual`
+* `setSdtOffset(TimeOffset)`, `setDstOffset(TimeOffset)`:
+    * modify the std and dst offsets of the instance
+    * does nothing if not `kTypeManual`
 
-The `getOffsetDateTime(localDateTime)` method returns the best guess of
-the `OffsetDateTime` at the given local date time. This method is used by
-`ZonedDateTime::forComponents()` and is exposed mostly for debugging. The reaon
-that this is a best guess is because the local date time is sometime ambiguious
-during a DST transition. For example, if the local clock shifts from 01:00 to
-02:00 at the start of summer, then the time of 01:30 does not exist. If the
-`getOffsetDateTime()` method is given a non-existing time, it makes an educated
-guess at what the user meant. Additionally, when the local time transitions from
-02:00 to 01:00 in the autumn, a given local time such as 01:30 occurs twice. If
-the `getOffsetDateTime()` method is given a time of 01:30, it will arbitrarily
-decide which offset to return.
+The following methods apply to a `kTypeBasic` or `kTypeExtended`:
 
-The `isUtc()`, `isDst()` and `setDstOffset(TimeOffset)` methods are valid *only*
-if the `TimeZone` is a `kTypeManual`. Otherwise, `isUtc()` and `isDst()` return
-`false` and `setDstOffset()` does nothing.
+* `forZoneInfo(zoneInfo, zoneProcessor)`
+    * Create an instance of from the given `ZoneInfo*` pointer (e.g.
+      `basic::kZoneAmerica_Los_Angeles`, or
+      `extended::kZoneAmerica_Los_Angeles`)
+* `getZoneId()`
+    * Returns a `uint32_t` integer which is a unique and stable identifier for
+      the IANA timezone. The zoneId identifier can be used to save and restore
+      the `TimeZone`. See the [ZoneManager](#ZoneManager) subsection below.
 
-The `getZoneId()` returns a `uint32_t` integer which is a unique and stable
-identifier for the IANA timezone. This can be used to save and restore
-the `TimeZone`. See the [ZoneManager](#ZoneManager) subsection below.
+The following methods apply to any type of `TimeZone`:
 
-The `printTo()` prints the fully-qualified unique name for the time zone.
-For example, `"UTC"`, `"-08:00"`, `"-08:00(DST)"`, `"America/Los_Angeles"`.
-
-The `printShortTo()` is similar to `printTo()` except that it prints the
-last component of the IANA TZ Database zone names. In other words,
-`"America/Los_Angeles"` is printed as `"Los_Angeles"`. This is helpful for
-printing on small width OLED displays.
+* `getOffsetDateTime(localDateTime)`
+    * Returns the best guess of the `OffsetDateTime` at the given local date
+      time. This method is used by `ZonedDateTime::forComponents()` and is
+      exposed mostly for debugging.
+    * The `fold` parameter of the `localDateTime` will be used by the
+      `ExtendedZoneProcessor` to disambiguate date-time in the gap or overlap
+      selecting the first (0) or second (1) transition line.
+    * The `BasicZoneProcessor` does not support the `fold` parameter so will
+      ignore it.
+* `getOffsetDateTime(epochSeconds)`
+    * Returns the `OffsetDateTime` that matches the given `epochSeconds`.
+    * The `OffsetDateTime::fold` parameter indicates whether the date-time
+      occurred the first time (0), or the second time (1)
+* `getZonedExtra(localDateTime)`
+    * Returns the `ZonedExtra` instance at the given `localDateTime`.
+    * `ZonedExtra` contains additional information about the timezone, such as
+      the `ZonedExtra::stdOffset()`, `ZonedExtra::dstOffset()`, and the
+      `ZonedExtra::abbrev()`
+    * See [ZonedExtra](#ZonedExtra) section below.
+* `getZonedExtra(epochSeconds)`
+    * Returns the `ZonedExtra` instance at the given `epochSeconds`.
+* `printTo()`
+    * Prints the fully-qualified unique name for the time zone. For example,
+      `"UTC"`, `"-08:00"`, `"-08:00(DST)"`, `"America/Los_Angeles"`.
+* `printShortTo()`
+    * Similar to `printTo()` except that it prints the last component of the
+      IANA TZ Database zone names.
+    * In other words, `"America/Los_Angeles"` is printed as `"Los_Angeles"`.
+      This is helpful for printing on small width OLED displays.
 
 <a name="ManualTimeZone"></a>
 #### Manual TimeZone (kTypeManual)
@@ -1148,16 +1171,14 @@ void someFunction() {
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
-    acetime_t epochSeconds = dt.toEpochSeconds();
-    auto offset = tz.getUtcOffset(epochSeconds); // returns -08:00
+    TimeOffset offset = dt.timeOffset(); // returns -08:00
   }
 
   // one second later, 2018-03-11T02:00:00-08:00 was in DST time
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHours(-8));
-    acetime_t epochSeconds = dt.toEpochSeconds();
-    auto offset = tz.getUtcOffset(epochSeconds); // returns -07:00
+    TimeOffset offset = tz.timeOffset(); // returns -07:00
   }
   ...
 }
@@ -1214,16 +1235,14 @@ void someFunction() {
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
-    acetime_t epochSeconds = dt.toEpochSeconds();
-    auto offset = tz.getUtcOffset(epochSeconds); // returns -08:00
+    TimeOffset offset = tz.timeOffset(); // returns -08:00
   }
 
   // one second later, 2018-03-11T02:00:00-08:00 was in DST time
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHours(-8));
-    acetime_t epochSeconds = dt.toEpochSeconds();
-    auto offset = tz.getUtcOffset(epochSeconds); // returns -07:00
+    TimeOffset offset = tz.timeOffset(); // returns -07:00
   }
   ...
 }
@@ -1427,6 +1446,109 @@ every second, and is converted to human-readable date-time components once a
 second. According to [AutoBenchmark](examples/AutoBenchmark/), the cache
 improves performance by a factor of 2-3X (8-bit AVR) to 10-20X (32-bit
 processors) on consecutive calls to `forEpochSeconds()` with the same `year`.
+
+<a name="ZonedExtra"></a>
+### ZonedExtra
+
+The most important feature of the AceTime library is the conversion from
+`epochSeconds` to `ZonedDateTime` and vise versa. The `ZonedDateTime` object
+contains the most common parameters that is expected to be needed by the user,
+the Gregorian date components (provided by `LocalDateTime`) and the total UTC
+offset at the specific instance (provided by `ZonedDateTime::timeOffset()`).
+
+To keep memory size of the `ZonedDateTime` class reasonable, it does not contain
+some of the less common information that the end-user may wish to know. The
+extra time zone parameters are contained in the `ZonedExtra` class, which look
+like this:
+
+```C++
+namespace ace_time {
+
+class ZonedExtra {
+  public:
+    static const uint8_t kTypeNotFound = 0;
+    static const uint8_t kTypeExact = 1;
+    static const uint8_t kTypeGap = 2;
+    static const uint8_t kTypeOverlap = 3;
+
+    static ZonedExtra forError();
+    explicit ZonedExtra() {}
+    explicit ZonedExtra(
+        uint8_t type,
+        int16_t stdOffsetMinutes,
+        int16_t dstOffsetMinutes,
+        int16_t reqStdOffsetMinutes,
+        int16_t reqDstOffsetMinutes,
+        const char* abbrev);
+
+    bool isError() const {
+    uint8_t type() const { return mType; }
+
+    TimeOffset stdOffset() const;
+    TimeOffset dstOffset() const;
+    TimeOffset reqStdOffset() const;
+    TimeOffset reqDstOffset() const;
+    const char* abbrev() const;
+};
+
+}
+```
+
+The `ZonedExtra` information are created through the `TimeZone` class using
+these methods which return the parameters at a particular `epochSeconds` or
+`LocalDateTime`:
+
+```C++
+namespace ace_time {
+
+class TimeZone {
+  public:
+    ...
+    ZonedExtra getZonedExtra(const LocalDateTime& ldt) const;
+    ZonedExtra getZonedExtra(acetime_t epochSeconds) const;
+    ...
+};
+```
+
+The `ZonedExtra::type()` parameter identifies whether the given time instant
+corresponded to a DST gap, or a DST overlap, or an exact match with no
+duplicates.
+
+The `ZonedExtra::stdOffset()` is the standard offset of the timezone at the
+given time instant. For example, for `America/Los_Angeles` this will return
+`-08:00` (unless the standard offset is changed through something like a
+"permanent DST").
+
+The `ZonedExtra::dstOffset()` is the DST offset that pertains to the given
+time instant. For example, for `America/Los_Angeles` this will return `01:00`
+during summer DST, and `00:00` during normal times.
+
+Note that the total UTC offset corresponding to `ZonedDateTime::timeOffset()` is
+equal to `stdOffset() + dstOffset()`.
+
+The `ZonedExtra::abbrev()` is the short abbreviation that is in effect at the
+given time instant. For example, for `America/Los_Angeles`, this returns "PST"
+or "PDT'. The abbreviation is copied into a small `char` buffer inside the
+`ZonedExtra` object, so the pointer returned by `abbrev()` is safe to use during
+the life of the `ZonedExtra` object.
+
+The `ZonedExtra::reqStdOffset()` and `ZonedExtra::reqDstOffset()` are relevant
+and different from the corresponding `stdOffset()` and `dstOffset()` only if the
+`type()` is `kTypeGap`. This occurs only if the `getZonedExtra(LocalDateTime&)`
+overloaded version is used. Following the algorithm described in [Python PEP
+495](https://www.python.org/dev/peps/pep-0495/), the provided localDateTime is
+imaginary during a gap so must be mapped to a real local time using the
+`LocalDateTime::fold` parameter. When `fold=0`, the transition line before the
+gap is extended forward until it hits the given `LocalDateTime`. When `fold=1`,
+the transition line after the gap is extended backwards until it hits the given
+`LocalDateTime`. The `reqStdOffset()` and `reqDstOffset()` are then derived from
+the transition line that is used to convert the provided `LocalDateTime`
+instance to `epochSeconds`. The `epochSeconds` is then normalized by converting
+it back to `LocalDateTime` using the `stdOffset()` and `dstOffset()` which
+matches the `epochSeconds`.
+
+The `isError()` method returns true if the given `LocalDateTime` or
+`epochSeconds` represents an error condition.
 
 <a name="ZoneManager"></a>
 ### ZoneManager
