@@ -132,8 +132,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       return zib.zoneId();
     }
 
-    FindResult findByLocalDateTime(
-        const LocalDateTime& ldt) const override {
+    FindResult findByLocalDateTime(const LocalDateTime& ldt) const override {
       FindResult result;
 
       bool success = initForYear(ldt.year());

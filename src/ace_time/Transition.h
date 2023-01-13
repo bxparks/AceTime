@@ -454,14 +454,8 @@ struct TransitionTemplate {
  */
 template <typename ZEB, typename ZPB, typename ZRB>
 struct TransitionForSecondsTemplate {
-  /** The previous transition. */
-  const TransitionTemplate<ZEB, ZPB, ZRB>* prev;
-
-  /** The matching transition, or null if not found */
+  /** The matching transition, or null if not found. */
   const TransitionTemplate<ZEB, ZPB, ZRB>* curr;
-
-  /** The transition after the matching transition */
-  const TransitionTemplate<ZEB, ZPB, ZRB>* next;
 
   /** 1 if corresponding datetime occurred the second time */
   uint8_t fold;
@@ -755,25 +749,26 @@ class TransitionStorageTemplate {
         next = nullptr;
       }
 
-      TransitionForSeconds tfs{prev, curr, next, 0, 0};
-      calcFoldAndOverlap(&tfs, epochSeconds);
+      uint8_t fold;
+      uint8_t num;
+      calcFoldAndOverlap(&fold, &num, prev, curr, next, epochSeconds);
       //fprintf(stderr, "prev=%p;curr=%p;next=%p;fold=%d;num=%d\n",
-      //  prev, curr, next, tfs.fold, tfs.num);
-      return tfs;
+      //  prev, curr, next, fold, num);
+      return TransitionForSeconds{curr, fold, num};
     }
 
     /** Calculate the fold and num parameters of TransitionForSecond. */
     static void calcFoldAndOverlap(
-        TransitionForSeconds* tfs,
+        uint8_t* fold,
+        uint8_t* num,
+        const Transition* prev,
+        const Transition* curr,
+        const Transition* next,
         acetime_t epochSeconds) {
 
-      const Transition* prev = tfs->prev;
-      const Transition* curr = tfs->curr;
-      const Transition* next = tfs->next;
-
       if (curr == nullptr) {
-        tfs->fold = 0;
-        tfs->num = 0;
+        *fold = 0;
+        *num = 0;
         return;
       }
 
@@ -796,8 +791,8 @@ class TransitionStorageTemplate {
         }
       }
       if (isOverlap) {
-        tfs->fold = 1; // epochSeconds selects the second match
-        tfs->num = 2;
+        *fold = 1; // epochSeconds selects the second match
+        *num = 2;
         return;
       }
 
@@ -819,14 +814,14 @@ class TransitionStorageTemplate {
         }
       }
       if (isOverlap) {
-        tfs->fold = 0; // epochSeconds selects the first match
-        tfs->num = 2;
+        *fold = 0; // epochSeconds selects the first match
+        *num = 2;
         return;
       }
 
       // Normal single match, no overlap.
-      tfs->fold = 0;
-      tfs->num = 1;
+      *fold = 0;
+      *num = 1;
     }
 
     /**
