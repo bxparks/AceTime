@@ -4,6 +4,15 @@
     * **Potentially Breaking**: zonedb,zonedbx: Rename `kPolicyXxx` to
       `kZonePolicyXxx` for consistency. These are expected to be used only
       internally, so shouldn't cause external breakage.
+    * **Breaking**: `TimeZone.h`
+        * Replace 3 separate extra information extraction methods with a single
+          `ZonedExtra` class
+        * Removed: `getUtcOffset()`, `getDeltaOffset()`, `getAbbrev()`
+        * Replaced by: `getZonedExtra(LocalDateTime&)` and
+          `getZonedExtra(int32_t epochSeconds)`
+    * `ZoneProcessor.h`, `ExtendedZoneProcessor.h`, `BasicZoneProcessor.h`
+        * Remove: `getUtcOffset()`, `getDeltaOffset()`, `getAbbrev()`
+        * Replaced by: `findByLocalDateTime()`, `findByEpochSeconds()`
 * 2.0.1 (2022-12-04, TZDB 2022g)
     * Prevent `ExtendedZoneProcssor::generateStartUntilTimes()` from
       dereferencing uninitialized memory if there are no matching transitions.

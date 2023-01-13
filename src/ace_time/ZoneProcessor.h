@@ -127,9 +127,9 @@ class FindResult {
  * call the correct methods.
  *
  * 2) Fully implement a polymorphic class hierarchy, lifting various common
- * methods (getUtcOffset(), getDeltaOffset(), getAbbrev()) into this interface
- * as virtual methods, then add a virtual equals() method to implement the
- * operator==().
+ * methods (e.g. findByLocalDateTime(), findByEpochSeconds()) into this
+ * interface as virtual methods, then add a virtual equals() method to implement
+ * the operator==().
  *
  * The problem with Option 1 is that the code for both subclasses would be
  * compiled into the program, even if the application used only one of the
