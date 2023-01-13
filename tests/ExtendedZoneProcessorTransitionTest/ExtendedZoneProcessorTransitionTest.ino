@@ -18,11 +18,13 @@ ExtendedZoneProcessor zoneProcessor;
 //----------------------------------------------------------------------------
 
 /**
- * Check that all Transitions for all years, for all zones in the zonedbx
- * database:
+ * Check that all Transitions for all years, for all zones in the
+ * zonedbx database are:
+ *  * sorted with respect to startEpochSeconds
+ *  * unique with respect to startEpochSeconds
  *
- *  1) are sorted with respect to startEpochSeconds
- *  2) are unique with respect to startEpochSeconds
+ * This must use the real zonedbx database, not the testing/tzonedbx database,
+ * because we are validating every zone in the IANA TZ database.
  */
 class TransitionValidation : public aunit::TestOnce {
   public:
@@ -154,8 +156,11 @@ testF(TransitionValidation, allZones) {
 // Verify Transitions for Europe/Lisbon in 1992 using the
 // tzonedbx::kZoneEurope_Lisbon entry which contains entries from 1980 to 10000.
 // Lisbon in 1992 was the only combo where the previous ExtendedZoneProcessor
-// algorithm failed, with a duplicate Transition. We cannot use the default
-// zonedbx database because it starts at 2000 which does not cover 1992.
+// algorithm failed, with a duplicate Transition.
+//
+// This uses the testing/tzonedbx database, instead of the production zonedbx
+// database, because we need to test year 1992 and the production zonedbx starts
+// at year 2000.
 testF(TransitionValidation, lisbon1992) {
   assertNoFatalFailure(validateZone(&tzonedbx::kZoneEurope_Lisbon));
 }
