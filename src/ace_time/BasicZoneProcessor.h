@@ -28,7 +28,7 @@ class BasicZoneProcessorTest_compareRulesBeforeYear;
 class BasicZoneProcessorTest_findLatestPriorRule;
 class BasicZoneProcessorTest_findZoneEra;
 class BasicZoneProcessorTest_init_primitives;
-class BasicZoneProcessorTest_init;
+class BasicZoneProcessorTest_initForLocalDate;
 class BasicZoneProcessorTest_setZoneKey;
 class BasicZoneProcessorTest_createAbbreviation;
 class BasicZoneProcessorTest_calcRuleOffsetMinutes;
@@ -216,27 +216,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       return zib.zoneId();
     }
 
-    TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
-      const Transition* transition = getTransition(epochSeconds);
-      int16_t minutes = (transition)
-          ? transition->offsetMinutes : TimeOffset::kErrorMinutes;
-      return TimeOffset::forMinutes(minutes);
-    }
-
-    TimeOffset getDeltaOffset(acetime_t epochSeconds) const override {
-      const Transition* transition = getTransition(epochSeconds);
-      int16_t minutes = (transition)
-          ? transition->deltaMinutes : TimeOffset::kErrorMinutes;
-      return TimeOffset::forMinutes(minutes);
-    }
-
-    const char* getAbbrev(acetime_t epochSeconds) const override {
-      const Transition* transition = getTransition(epochSeconds);
-      return (transition) ? transition->abbrev : "";
-    }
-
     /**
-     * @copydoc ZoneProcessor::getOffsetDateTime()
+     * @copydoc ZoneProcessor::findByLocalDateTime()
      *
      * The Transitions calculated by BasicZoneProcessor contain only the
      * epochSeconds when each transition occurs. They do not contain the local
@@ -259,58 +240,70 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * since that seems to match closely to what most people would expect to
      * happen in a gap or overlap (e.g. In the gap of 2am->3am, a 2:30am would
      * get shifted to 3:30am.)
-     *
-     * The code is written slightly ackwardly to try to encourage the compiler
-     * to perform Return Value Optimization. For example, I use only a single
-     * OffsetDateTime instance, and I don't use early return.
      */
-    OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const override {
-      // Only a single local variable of OffsetDateTime used, to allow Return
-      // Value Optimization (and save 20 bytes of flash for WorldClock).
-      OffsetDateTime odt;
-      bool success = init(ldt.localDate());
-      if (success) {
-        // 0) Use the UTC epochSeconds to get intial guess of offset.
-        acetime_t epochSeconds0 = ldt.toEpochSeconds();
-        auto offset0 = getUtcOffset(epochSeconds0);
+    FindResult findByLocalDateTime(
+        const LocalDateTime& ldt) const override {
+      FindResult result;
+      bool success = initForLocalDate(ldt.localDate());
+      if (!success) return result;
 
-        // 1) Use offset0 to get the next epochSeconds and offset.
-        odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset0);
-        acetime_t epochSeconds1 = odt.toEpochSeconds();
-        auto offset1 = getUtcOffset(epochSeconds1);
+      // 0) Use the UTC epochSeconds to get intial guess of offset.
+      acetime_t epochSeconds0 = ldt.toEpochSeconds();
+      auto result0 = findByEpochSeconds(epochSeconds0);
+      if (result0.type == FindResult::kTypeNotFound) return result;
+      auto offset0 = TimeOffset::forMinutes(
+          result0.reqStdOffsetMinutes + result0.reqDstOffsetMinutes);
 
-        // 2) Use offset1 to get the next epochSeconds and offset.
-        odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset1);
-        acetime_t epochSeconds2 = odt.toEpochSeconds();
-        auto offset2 = getUtcOffset(epochSeconds2);
+      // 1) Use offset0 to get the next epochSeconds and offset.
+      auto odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset0);
+      acetime_t epochSeconds1 = odt.toEpochSeconds();
+      auto result1 = findByEpochSeconds(epochSeconds1);
+      if (result1.type == FindResult::kTypeNotFound) return result;
+      auto offset1 = TimeOffset::forMinutes(
+          result1.reqStdOffsetMinutes + result1.reqDstOffsetMinutes);
 
-        // If offset1 and offset2 are equal, then we have an equilibrium
-        // and odt(1) must equal odt(2), so we can just return the last odt.
-        if (offset1 == offset2) {
-          // pass
-        } else {
-          // Pick the later epochSeconds and offset
-          acetime_t epochSeconds;
-          TimeOffset offset;
-          if (epochSeconds1 > epochSeconds2) {
-            epochSeconds = epochSeconds1;
-            offset = offset1;
-          } else {
-            epochSeconds = epochSeconds2;
-            offset = offset2;
-          }
-          odt = OffsetDateTime::forEpochSeconds(epochSeconds, offset);
-        }
+      // 2) Use offset1 to get the next epochSeconds and offset.
+      odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset1);
+      acetime_t epochSeconds2 = odt.toEpochSeconds();
+      auto result2 = findByEpochSeconds(epochSeconds2);
+      if (result2.type == FindResult::kTypeNotFound) return result;
+      auto offset2 = TimeOffset::forMinutes(
+          result2.reqStdOffsetMinutes + result2.reqDstOffsetMinutes);
+
+      // If offset1 and offset2 are equal, then we have an equilibrium
+      // and odt(1) must equal odt(2), so we can just return the last odt.
+      if (offset1 == offset2) {
+        // pass, pick any of result1 or result2
+        result = result1;
       } else {
-        odt = OffsetDateTime::forError();
+        // Pick the req{Std,Dst}OffsetMinute that generates the later
+        // epochSeconds (the earlier transition), but convert into the
+        // LocalDateTime of the earlier epochSeconds (the later transition).
+        // TODO: This does not produce the desired result inside a DST gap.
+        if (epochSeconds1 > epochSeconds2) {
+          result = result1;
+        } else {
+          result = result2;
+        }
       }
 
-      return odt;
+      return result;
     }
 
-    OffsetDateTime getOffsetDateTime(acetime_t epochSeconds) const override {
-      TimeOffset timeOffset = getUtcOffset(epochSeconds);
-      return OffsetDateTime::forEpochSeconds(epochSeconds, timeOffset);
+    FindResult findByEpochSeconds(acetime_t epochSeconds) const override {
+      FindResult result;
+      const Transition* transition = getTransition(epochSeconds);
+      if (!transition) return result;
+
+      result.dstOffsetMinutes = transition->deltaMinutes;
+      result.stdOffsetMinutes = transition->offsetMinutes
+          - transition->deltaMinutes;
+      result.reqStdOffsetMinutes = result.stdOffsetMinutes;
+      result.reqDstOffsetMinutes = result.dstOffsetMinutes;
+      result.type = FindResult::kTypeExact;
+      result.abbrev = transition->abbrev;
+
+      return result;
     }
 
     void printNameTo(Print& printer, bool followLink = false) const override {
@@ -394,7 +387,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     friend class ::BasicZoneProcessorTest_findLatestPriorRule;
     friend class ::BasicZoneProcessorTest_findZoneEra;
     friend class ::BasicZoneProcessorTest_init_primitives;
-    friend class ::BasicZoneProcessorTest_init;
+    friend class ::BasicZoneProcessorTest_initForLocalDate;
     friend class ::BasicZoneProcessorTest_setZoneKey;
     friend class ::BasicZoneProcessorTest_createAbbreviation;
     friend class ::BasicZoneProcessorTest_calcRuleOffsetMinutes;
@@ -430,8 +423,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
 
     /** Return the Transition at the given epochSeconds. */
     const Transition* getTransition(acetime_t epochSeconds) const {
-      LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
-      bool success = init(ld);
+      bool success = initForEpochSeconds(epochSeconds);
       return (success) ? findMatch(epochSeconds) : nullptr;
     }
 
@@ -463,14 +455,15 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * Returns success status: true if successful, false if an error occurred
      * (e.g. out of bounds).
      */
-    bool init(const LocalDate& ld) const {
+    bool initForLocalDate(const LocalDate& ld) const {
       int16_t year = ld.year();
       if (ld.month() == 1 && ld.day() == 1) {
         year--;
       }
       if (isFilled(year)) return true;
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("init(): %d (new year %d)\n", ld.year(), year);
+        logging::printf("initForLocalDate(): %d (new year %d)\n",
+            ld.year(), year);
       }
 
       mYear = year;
@@ -494,6 +487,16 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       }
 
       return true;
+    }
+
+    /**
+     * Initialize the transition cache, by converting the epochSeconds to
+     * year-month-day in UTC, then calling initForLocalDate() with the 'year'
+     * component.
+     */
+    bool initForEpochSeconds(acetime_t epochSeconds) const {
+      LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
+      return initForLocalDate(ld);
     }
 
     /**

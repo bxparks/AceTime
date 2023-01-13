@@ -7,6 +7,7 @@
 #define ACE_TIME_ZONE_PROCESSOR_H
 
 #include "common/common.h"
+#include "internal/common.h" // kAbbrevSize
 #include "TimeOffset.h"
 #include "OffsetDateTime.h"
 
@@ -15,6 +16,106 @@ class Print;
 namespace ace_time {
 
 class LocalDateTime;
+
+/**
+ * Result of a search for transition at a specific epochSeconds or a specific
+ * LocalDateTime. More than one transition can match if the LocalDateTime occurs
+ * during an overlap (e.g. during a "fall back" from DST to STD).
+ */
+class FindResult {
+  public:
+    static const uint8_t kTypeNotFound = 0;
+    static const uint8_t kTypeExact = 1;
+    static const uint8_t kTypeGap = 2;
+    static const uint8_t kTypeOverlap = 3;
+
+    /**
+     * Result of the findByEpochSeconds() or findByLocalDateTime() search
+     * methods. There are 2 slightly different cases:
+     *
+     * Case 1: findByLocalDateTime()
+     *  * kTypeNotFound:
+     *      * No matching Transition found.
+     *  * kTypeExact:
+     *      * A single Transition found.
+     *  * kTypeGap:
+     *      * LocalDateTime occurs in a gap.
+     *      * LocalDateTime::fold=0 returns the earlier transition in
+     *        reqStdOffsetMinutes and reqDstOffsetMinutes, and the later
+     *        transition in stdOffsetMinutes and dstOffsetMinutes.
+     *      * LocalDateTime::fold=1 returns the later transition in
+     *        reqStdOffsetMinutes and reqDstOffsetMinutes, and the
+     *        earlier transition in stdOffsetMinutes and dstOffsetMinutes.
+     *  * kTypeOverlap:
+     *      * LocalDateTime matches 2 Transitions.
+     *      * LocalDateTime::fold=0 selects the earlier transition.
+     *      * LocalDateTime::fold=1 selects the later transition.
+     *
+     * Case 2: findByEpochSeconds()
+     *  * kTypeNotFound:
+     *      * If no matching Transition found.
+     *  * kTypeExact:
+     *      * Only a single Transition found.
+     *  * kTypeGap:
+     *      * Cannot occur.
+     *  * kTypeOverlap:
+     *      * A single Transition found, but the epochSeconds occurs during an
+     *        overlap where two local times can occur.
+     *      * The `fold` parameter contains 0 or 1 to indicate the earlier or
+     *        later resulting OffsetDateTime.
+     */
+    uint8_t type = kTypeNotFound;
+
+    /**
+     * For findByLocalDateTime(), when type==kTypeOverlap, this is a copy of the
+     * requested LocalDateTime::fold parameter. For all other resulting types,
+     * including kTypeGap, this will be set to 0.
+     *
+     * For findByEpochSeconds(), when type==kTypeOverlap, this defines whether
+     * the corresponding LocalDateTime occurs the first time (0) or the second
+     * time (1). For all other resulting type, this will be set to 0.
+     */
+    uint8_t fold = 0;
+
+    /** STD offset of the resulting OffsetDateTime. */
+    int16_t stdOffsetMinutes = 0;
+
+    /** DST offset of the resulting OffsetDateTime. */
+    int16_t dstOffsetMinutes = 0;
+
+    /**
+     * STD offset of the Transition which matched the epochSeconds requested by
+     * findByEpochSeconds(), or the LocalDateTime requested by
+     * findByLocalDateTime().
+     *
+     * This may be different than the stdOffsetMinutes when
+     * findByLocalDateTime() returns kTypeGap. For all other resulting types
+     * from findByEpochSeconds(), and for all resulting types from
+     * findByLocalDateTime(), the reqStdOffsetMinutes will be the same as
+     * stdOffsetMinutes.
+     */
+    int16_t reqStdOffsetMinutes = 0;
+
+    /**
+     * DST offset of the Transition which matched the epochSeconds requested by
+     * findByEpochSeconds(), or the LocalDateTime requested by
+     * findByLocalDateTime().
+     *
+     * This may be different than the dstOffsetMinutes when
+     * findByLocalDateTime() returns kTypeGap. For all other resulting types
+     * from findByEpochSeconds(), and for all resulting types from
+     * findByLocalDateTime(), the reqStdOffsetMinutes will be the same as
+     * dstOffsetMinutes.
+     */
+    int16_t reqDstOffsetMinutes = 0;
+
+    /**
+     * Pointer to the abbreviation stored in the transient Transition::abbrev
+     * variable. The calling code should copy the string into a local buffer
+     * quickly, before any other timezone calculations are performed.
+     */
+    const char* abbrev = "";
+};
 
 /**
  * Base interface for ZoneProcessor classes. There were 2 options for
@@ -26,9 +127,9 @@ class LocalDateTime;
  * call the correct methods.
  *
  * 2) Fully implement a polymorphic class hierarchy, lifting various common
- * methods (getUtcOffset(), getDeltaOffset(), getAbbrev()) into this interface
- * as virtual methods, then add a virtual equals() method to implement the
- * operator==().
+ * methods (e.g. findByLocalDateTime(), findByEpochSeconds()) into this
+ * interface as virtual methods, then add a virtual equals() method to implement
+ * the operator==().
  *
  * The problem with Option 1 is that the code for both subclasses would be
  * compiled into the program, even if the application used only one of the
@@ -61,51 +162,13 @@ class ZoneProcessor {
      */
     virtual uint32_t getZoneId(bool followLink = false) const = 0;
 
-    /**
-     * Return the total UTC offset at epochSeconds, including DST offset.
-     * Returns TimeOffset::forError() if an error occurs.
-     */
-    virtual TimeOffset getUtcOffset(acetime_t epochSeconds) const = 0;
+    /** Return the search results at given LocalDateTime. */
+    virtual FindResult findByLocalDateTime(
+        const LocalDateTime& ldt) const = 0;
 
-    /**
-     * Return the DST delta offset at epochSeconds. This is an experimental
-     * method that has not been tested thoroughly. Use with caution.
-     * Returns TimeOffset::forError() if an error occurs.
-     */
-    virtual TimeOffset getDeltaOffset(acetime_t epochSeconds) const = 0;
-
-    /**
-     * Return the time zone abbreviation at epochSeconds. Returns an empty
-     * string ("") if an error occurs. The returned pointer points to a char
-     * buffer that could get overriden by subsequent method calls to this
-     * object. The pointer must not be stored permanently, it should be used as
-     * soon as possible (e.g. printed out).
-     *
-     * This is an experimental method that has not been tested thoroughly. Use
-     * with caution.
-     */
-    virtual const char* getAbbrev(acetime_t epochSeconds) const = 0;
-
-    /**
-     * Return the best estimate of the OffsetDateTime at the given
-     * LocalDateTime for the timezone of the current ZoneProcessor.
-     * Returns OffsetDateTime::forError() if an error occurs, for example, if
-     * the LocalDateTime is outside of the support date range of the underlying
-     * ZoneInfo files.
-     */
-    virtual OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt)
-        const = 0;
-
-    /**
-     * Return the best estimate of the OffsetDateTime at the given
-     * epochSeconds for the timezone of the current ZoneProcessor, including
-     * the fold parameter.
-     *
-     * Returns OffsetDateTime::forError() if an error occurs, for example, if
-     * the epochSeconds is outside of the support date range of the underlying
-     * ZoneInfo files.
-     */
-    virtual OffsetDateTime getOffsetDateTime(acetime_t epochSeconds) const = 0;
+    /** Return the search results at given epochSeconds. */
+    virtual FindResult findByEpochSeconds(
+        acetime_t epochSeconds) const = 0;
 
     /**
      * Print a human-readable identifier (e.g. "America/Los_Angeles").

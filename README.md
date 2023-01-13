@@ -274,8 +274,9 @@ void setup() {
   Serial.println();
 
   // Print the current time zone abbreviation, e.g. "PST" or "PDT"
+  ZonedExtra ze = losAngelesTz.getZonedExtra(epochSeconds);
   Serial.print(F("Abbreviation: "));
-  Serial.print(losAngelesTz.getAbbrev(epochSeconds));
+  SERIAL_PORT_MONITOR.print(ze.abbrev());
   Serial.println();
 
   // Create from epoch seconds. London is still on standard time.
@@ -293,8 +294,9 @@ void setup() {
   Serial.println();
 
   // Print the current time zone abbreviation, e.g. "GMT" or "BST"
+  ze = londonTz.getZonedExtra(epochSeconds);
   Serial.print(F("Abbreviation: "));
-  Serial.print(londonTz.getAbbrev(epochSeconds));
+  SERIAL_PORT_MONITOR.print(ze.abbrev());
   Serial.println();
 
   Serial.println(F("=== Compare ZonedDateTime"));
@@ -1129,9 +1131,8 @@ and
 [ExtendedHinnantDateTest](https://github.com/bxparks/AceTimeValidation/tree/master/ExtendedHinnantDateTest)
 validation tests which compare the AceTime algorithms to the Hinnant Date
 algorithms. For all times zones between the years 2000 until 2100, the AceTime
-UTC offsets (`TimeZone::getUtcOffset()`), timezone abbreviations
-(`TimeZone::getAbbrev()`), and epochSecond conversion to date components
-(`ZonedDateTime::fromEpochSeconds()`) match the results from the Hinnant Date
+date-time components (`ZonedDateTime`) and abbreviations (`ZonedExtra`)
+calculated from the given epochSeconds match the results from the Hinnant Date
 libraries.
 
 <a name="Cctz"></a>
