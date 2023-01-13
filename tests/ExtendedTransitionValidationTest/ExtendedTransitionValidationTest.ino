@@ -11,8 +11,8 @@ using namespace ace_time;
 
 //----------------------------------------------------------------------------
 
-// This could go inside TransitionValidation class, but it consumes a fair
-// bit of memory, so let's extract it outside.
+// This could go inside ExtendedTransitionValidation class, but it consumes a
+// fair bit of memory, so let's extract it outside.
 ExtendedZoneProcessor zoneProcessor;
 
 //----------------------------------------------------------------------------
@@ -26,7 +26,7 @@ ExtendedZoneProcessor zoneProcessor;
  * This must use the real zonedbx database, not the testing/tzonedbx database,
  * because we are validating every zone in the IANA TZ database.
  */
-class TransitionValidation : public aunit::TestOnce {
+class ExtendedTransitionValidation : public aunit::TestOnce {
   public:
     void validateZone(const extended::ZoneInfo* zoneInfo) {
       zoneProcessor.setZoneKey((uintptr_t) zoneInfo);
@@ -141,8 +141,8 @@ class TransitionValidation : public aunit::TestOnce {
 
 //----------------------------------------------------------------------------
 
-// Verify transitions for all zones in the kZoneRegistry.
-testF(TransitionValidation, allZones) {
+// Verify transitions for all zones in the zonedbx::kZoneRegistry.
+testF(ExtendedTransitionValidation, allZones) {
   extended::ZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize,
       zonedbx::kZoneRegistry);
@@ -161,7 +161,7 @@ testF(TransitionValidation, allZones) {
 // This uses the testing/tzonedbx database, instead of the production zonedbx
 // database, because we need to test year 1992 and the production zonedbx starts
 // at year 2000.
-testF(TransitionValidation, lisbon1992) {
+testF(ExtendedTransitionValidation, lisbon1992) {
   assertNoFatalFailure(validateZone(&tzonedbx::kZoneEurope_Lisbon));
 }
 
