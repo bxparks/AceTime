@@ -6,10 +6,12 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
+#include <ace_time/testing/EpochYearContext.h>
 
 using namespace ace_time;
 using namespace ace_time::extended;
 using ace_time::internal::ZoneContext;
+using ace_time::testing::EpochYearContext;
 
 //---------------------------------------------------------------------------
 // DateTuple.
@@ -100,6 +102,35 @@ test(TransitionStorage, substractDateTuple) {
   dtb = {2000, 3, 1, 0, ZoneContext::kSuffixW}; // 2000-03-01 00:00
   diff = subtractDateTuple(dta, dtb);
   assertEqual((int32_t) -86400 * 29, diff); // Feb 2000 is leap, 29 days
+}
+
+// Check that no overflow occurs even if DateTuple.year is more than 68 years
+// greater than the Epoch::currentEpochYear(), which would normally cause the
+// int32_t epochSeconds to overflow. Year 6000 is 4000 years beyond 2000, and
+// 4000 years is a multiple of 400, so the Gregorian calendar in the year 6000
+// should be identical to the year 2000, in particular, the leap years.
+test(TransitionStorage, substractDateTuple_no_overflow) {
+  EpochYearContext context(2000);
+
+  DateTuple dta = {6000, 1, 1, 0, ZoneContext::kSuffixW}; // 6000-01-01 00:00
+  DateTuple dtb = {6000, 1, 1, 1, ZoneContext::kSuffixW}; // 6000-01-01 00:01
+  acetime_t diff = subtractDateTuple(dta, dtb);
+  assertEqual(-60, diff);
+
+  dta = {6000, 1, 1, 0, ZoneContext::kSuffixW}; // 6000-01-01 00:00
+  dtb = {6000, 1, 2, 0, ZoneContext::kSuffixW}; // 6000-01-02 00:00
+  diff = subtractDateTuple(dta, dtb);
+  assertEqual((int32_t) -86400, diff);
+
+  dta = {6000, 1, 1, 0, ZoneContext::kSuffixW}; // 6000-01-01 00:00
+  dtb = {6000, 2, 1, 0, ZoneContext::kSuffixW}; // 6000-02-01 00:00
+  diff = subtractDateTuple(dta, dtb);
+  assertEqual((int32_t) -86400 * 31, diff); // January has 31 days
+
+  dta = {6000, 2, 1, 0, ZoneContext::kSuffixW}; // 6000-02-01 00:00
+  dtb = {6000, 3, 1, 0, ZoneContext::kSuffixW}; // 6000-03-01 00:00
+  diff = subtractDateTuple(dta, dtb);
+  assertEqual((int32_t) -86400 * 29, diff); // Feb 4000 is leap, 29 days
 }
 
 test(TransitionStorageTest, compareDateTupleFuzzy) {

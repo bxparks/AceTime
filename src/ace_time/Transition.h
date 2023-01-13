@@ -137,20 +137,22 @@ inline void normalizeDateTuple(DateTuple* dt) {
 }
 
 /**
- * Return the number of seconds in (a - b), ignoring suffix.
- * TODO: Eliminiate int32 overflow by calculating the diffDays = epochDaysA -
- * epochDaysB first.
+ * Return the number of seconds in (a - b), ignoring suffix. This function is
+ * valid for all years [1, 10000), regardless of the Epoch::currentEpochYear(),
+ * as long as the difference between the two DateTuples fits inside an
+ * `acetime_t`, which is a signed 32-bit integer.
  */
 inline acetime_t subtractDateTuple(const DateTuple& a, const DateTuple& b) {
   int32_t epochDaysA = LocalDate::forComponents(
       a.year, a.month, a.day).toEpochDays();
-  int32_t epochSecondsA = epochDaysA * 86400 + a.minutes * 60;
 
   int32_t epochDaysB = LocalDate::forComponents(
       b.year, b.month, b.day).toEpochDays();
-  int32_t epochSecondsB = epochDaysB * 86400 + b.minutes * 60;
 
-  return epochSecondsA - epochSecondsB;
+  // Perform the subtraction of the days first, before converting to seconds, to
+  // prevent overflow if a.year or b.year is more than 68 years from the current
+  // epoch year.
+  return (epochDaysA - epochDaysB) * 86400 + (a.minutes - b.minutes) * 60;
 }
 
 /**
