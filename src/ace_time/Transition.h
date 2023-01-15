@@ -460,7 +460,12 @@ struct TransitionForSecondsTemplate {
   /** 1 if corresponding datetime occurred the second time */
   uint8_t fold;
 
-  /** Number of LocalDateTime which map to this epochSeconds: 0, 1, or 2. */
+  /**
+   * Number of occurrences of the resulting LocalDateTime: 0, 1, or 2.
+   * This is needed because a fold=0 can mean that the LocalDateTime occurs
+   * exactly once, or that the first of two occurrences of LocalDateTime was
+   * selected by the epochSeconds.
+   */
   uint8_t num;
 };
 
@@ -485,6 +490,7 @@ struct TransitionForDateTimeTemplate {
   /** The matching transition, or null if not found or in gap. */
 
   const TransitionTemplate<ZEB, ZPB, ZRB>* curr;
+
   /** Number of matches: 0, 1, 2 */
   uint8_t num;
 };

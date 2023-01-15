@@ -1057,9 +1057,12 @@ The following methods apply to any type of `TimeZone`:
     * `ZonedExtra` contains additional information about the timezone, such as
       the `ZonedExtra::stdOffset()`, `ZonedExtra::dstOffset()`, and the
       `ZonedExtra::abbrev()`
-    * See [ZonedExtra](#ZonedExtra) section below.
+    * It may be more convenient to use the `ZonedExtra::forLocalDateTime()`
+      factory method instead. See [ZonedExtra](#ZonedExtra) section below.
 * `getZonedExtra(epochSeconds)`
     * Returns the `ZonedExtra` instance at the given `epochSeconds`.
+    * It may be more convenient to use the `ZonedExtra::forEpochSeconds()`
+      factory method instead. See [ZonedExtra](#ZonedExtra) section below.
 * `printTo()`
     * Prints the fully-qualified unique name for the time zone. For example,
       `"UTC"`, `"-08:00"`, `"-08:00(DST)"`, `"America/Los_Angeles"`.
@@ -1519,6 +1522,11 @@ class ZonedExtra {
     static const uint8_t kTypeOverlap = 3;
 
     static ZonedExtra forError();
+    static ZonedExtra forEpochSeconds(
+        acetime_t epochSeconds, const TimeZone& tz);
+    static ZonedExtra forLocalDateTime(
+        const LocalDateTime& ldt, const TimeZone& tz);
+
     explicit ZonedExtra() {}
     explicit ZonedExtra(
         uint8_t type,
@@ -1541,20 +1549,23 @@ class ZonedExtra {
 }
 ```
 
-The `ZonedExtra` information are created through the `TimeZone` class using
-these methods which return the parameters at a particular `epochSeconds` or
-`LocalDateTime`:
+The `ZonedExtra` instance is usually created through the 2 static factory
+methods from the `epochSeconds` or the `LocalDateTime`:
+
+* `ZonedExtra::forEpochSeconds(epochSeconds, tz)`
+* `ZonedExtra::forLocalDateTime(ldt, tz)`
+
+Often the `ZonedDateTime` will be created first from the epochSeconds, then the
+`ZonedExtra` will be created to access additional information about the time zone at that particular epochSeconds (e.g. abbreviation):
 
 ```C++
-namespace ace_time {
-
-class TimeZone {
-  public:
-    ...
-    ZonedExtra getZonedExtra(const LocalDateTime& ldt) const;
-    ZonedExtra getZonedExtra(acetime_t epochSeconds) const;
-    ...
-};
+ExtendedZoneProcessor zoneProcessor;
+TimeZone tz = TimeZone::forZoneInfo(
+    &zonedbx::kZoneAmerica_Los_Angeles,
+    &zoneProcessor);
+acetime_t epochSeconds = ...;
+ZonedDateTime zdt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+ZonedExtra ze = ZonedExtra::forEpochSeconds(epochSeconds, tz);
 ```
 
 The `ZonedExtra::type()` parameter identifies whether the given time instant

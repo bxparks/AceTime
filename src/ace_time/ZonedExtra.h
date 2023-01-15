@@ -8,9 +8,14 @@
 
 #include <string.h> // memcpy()
 #include <stdint.h>
+#include "common/common.h" // acetime_t
 #include "internal/common.h" // kAbbrevSize
+#include "TimeOffset.h"
 
 namespace ace_time {
+
+class TimeZone;
+class LocalDateTime;
 
 class ZonedExtra {
   public:
@@ -50,6 +55,20 @@ class ZonedExtra {
     static ZonedExtra forError() {
       return ZonedExtra();
     }
+
+    /** Return an instance for the given epochSeconds and TimeZone. */
+    static ZonedExtra forEpochSeconds(
+        acetime_t epochSeconds,
+        const TimeZone& tz);
+
+    /**
+     * Return an instance for the given LocalDateTime and TimeZone.
+     * If you already have a ZonedDateTime, then the LocalDateTime can be
+     * retrieved using ZonedDateTime::localDateTime().
+     */
+    static ZonedExtra forLocalDateTime(
+        const LocalDateTime& ldt,
+        const TimeZone& tz);
 
     /** Consructor */
     explicit ZonedExtra() {}

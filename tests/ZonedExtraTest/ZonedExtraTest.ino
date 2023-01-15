@@ -2,8 +2,11 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
+#include <ace_time/testing/tzonedbx/zone_policies.h>
+#include <ace_time/testing/tzonedbx/zone_infos.h>
 
 using namespace ace_time;
+using ace_time::tzonedbx::kZoneAmerica_Los_Angeles;
 
 //---------------------------------------------------------------------------
 
@@ -31,6 +34,89 @@ test(ZonedExtra, accessors) {
   assertEqual(ze.reqDstOffset().toMinutes(), 5);
   assertEqual(ze.reqTimeOffset().toMinutes(), 4+5);
   assertEqual(ze.abbrev(), "test");
+}
+
+test(ZonedExtra, forEpochSeconds) {
+  ExtendedZoneProcessor zoneProcessor;
+  TimeZone tz = TimeZone::forZoneInfo(
+      &tzonedbx::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
+
+  // Find epochSeconds for the gap at 02:01, use fold=1 uses the second
+  // transition, which then normalizes to the first transition, so 01:01-08:00
+  auto odt = OffsetDateTime::forComponents(
+      2018, 3, 11, 1, 0, 1, TimeOffset::forHours(-8));
+  acetime_t epochSeconds = odt.toEpochSeconds();
+
+  // Validate ZonedDateTime.
+  {
+    auto zdt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+    auto expected = LocalDateTime::forComponents(2018, 3, 11, 1, 0, 1);
+    assertTrue(expected == zdt.localDateTime());
+    assertEqual(-8*60, zdt.timeOffset().toMinutes());
+    // Validate ZonedExtra.
+    auto ze = ZonedExtra::forEpochSeconds(epochSeconds, tz);
+    assertEqual(-8*60, ze.stdOffset().toMinutes() + ze.dstOffset().toMinutes());
+    assertEqual(-8*60,
+        ze.reqStdOffset().toMinutes() + ze.reqDstOffset().toMinutes());
+    assertEqual("PST", ze.abbrev());
+  }
+
+  // One hour after that, the local time should spring forward to 03:01-07:00
+  epochSeconds += 3600;
+
+  // Validate ZonedDateTime.
+  {
+    auto zdt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+    auto expected = LocalDateTime::forComponents(2018, 3, 11, 3, 0, 1);
+    assertTrue(expected == zdt.localDateTime());
+    assertEqual(-7*60, zdt.timeOffset().toMinutes());
+    // Validate ZonedExtra.
+    auto ze = ZonedExtra::forEpochSeconds(epochSeconds, tz);
+    assertEqual(-7*60, ze.stdOffset().toMinutes() + ze.dstOffset().toMinutes());
+    assertEqual(-7*60,
+        ze.reqStdOffset().toMinutes() + ze.reqDstOffset().toMinutes());
+    assertEqual("PDT", ze.abbrev());
+  }
+}
+
+test(ZonedExtra, forLocalDateTime) {
+  ExtendedZoneProcessor zoneProcessor;
+  TimeZone tz = TimeZone::forZoneInfo(
+      &tzonedbx::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
+
+  // 02:01 in the gap with fold=0 selects the first transition, then normalizes
+  // to the second transition, i.e. 03:01-07:00
+  {
+    auto ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 1, 0 /*fold*/);
+    auto zdt = ZonedDateTime::forLocalDateTime(ldt, tz);
+    auto expected = LocalDateTime::forComponents(2018, 3, 11, 3, 0, 1);
+    assertTrue(expected == zdt.localDateTime());
+    assertEqual(-7*60, zdt.timeOffset().toMinutes());
+    // Validate ZonedExtra.
+    auto ze = ZonedExtra::forLocalDateTime(ldt, tz);
+    assertEqual(-7*60, ze.stdOffset().toMinutes() + ze.dstOffset().toMinutes());
+    assertEqual(-8*60,
+        ze.reqStdOffset().toMinutes() + ze.reqDstOffset().toMinutes());
+    assertEqual("PDT", ze.abbrev());
+  }
+
+  // 02:01 in the gap with fold=1 selects the second transition, then normalizes
+  // to the first transition, i.e. 01:01-08:00
+  {
+    auto ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 1, 1 /*fold*/);
+    auto zdt = ZonedDateTime::forLocalDateTime(ldt, tz);
+    auto expected = LocalDateTime::forComponents(2018, 3, 11, 1, 0, 1);
+    assertTrue(expected == zdt.localDateTime());
+    assertEqual(-8*60, zdt.timeOffset().toMinutes());
+    // Validate ZonedExtra.
+    auto ze = ZonedExtra::forLocalDateTime(ldt, tz);
+    assertEqual(-8*60, ze.stdOffset().toMinutes() + ze.dstOffset().toMinutes());
+    assertEqual(-7*60,
+        ze.reqStdOffset().toMinutes() + ze.reqDstOffset().toMinutes());
+    assertEqual("PST", ze.abbrev());
+  }
 }
 
 //---------------------------------------------------------------------------
