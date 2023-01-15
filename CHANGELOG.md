@@ -6,17 +6,28 @@
           expected to be used only internally, so shouldn't cause external
           breakage.
     * **Breaking**: `TimeZone.h`
-        * Replace 3 separate extra information extraction methods with a single
+        * Replace 3 separate extraction methods in `TimeZone` with a new
           `ZonedExtra` class
-        * Removed: `getUtcOffset()`, `getDeltaOffset()`, `getAbbrev()`
-        * Replaced by: `getZonedExtra(LocalDateTime&)` and
-          `getZonedExtra(int32_t epochSeconds)`
-        * `getAbbrev()` no longer points to a transient string buffer deep
-          inside a `Transition` object. Instead, `ZonedExtra::abbrev()` returns
-          a local string buffer, making `TimeZone` closer to being thread-safe.
+        * Removed: `TimeZone::getUtcOffset()`
+            * Replaced by: `ZonedExtra::timeOffset()`
+        * Removed: `TimeZone::getDeltaOffset()`
+            * Replaced by: `ZonedExtra::dstOffset()`
+        * Removed `TimeZone::getAbbrev()`
+            * Replaced by: `ZonedExtra::abbrev()`
+            * `ZonedExtra::abbrev()` returns pointer to a local string buffer
+              instead of a transient buffer deep inside `Transition` object.
+            * `TimeZone` becomes closer to being thread-safe
+    * `ZonedExtra.h`
+        * New class with factory methods:
+        * `ZonedExtra::forEpochSeconds(epochSeconds, tz)`
+            * Create instnace from epochSeconds and time zone.
+        * `ZonedExtra::forLocalDateTime(ldt, tz)`
+            * Create instance from LocalDateTime and time zone.
     * `ZoneProcessor.h`, `ExtendedZoneProcessor.h`, `BasicZoneProcessor.h`
         * Remove: `getUtcOffset()`, `getDeltaOffset()`, `getAbbrev()`
-        * Replaced by: `findByLocalDateTime()`, `findByEpochSeconds()`
+            * Replaced by: `findByLocalDateTime()`, `findByEpochSeconds()`
+            * These are internal helper methods not intended for public
+              consumption.
     * Unit tests
         * Migrate most unit tests to use the smaller, testing zone databases at
           `testing/tzonedb/` and `testing/tzonedbx/`.
