@@ -65,18 +65,15 @@ class ExtendedTransitionTest: public aunit::TestOnce {
 
         // Check total UTC offset in ZonedExtra.
         ZonedExtra ze = tz.getZonedExtra(epochSeconds);
-        int16_t totalOffset = ze.stdOffset().toMinutes()
-            + ze.dstOffset().toMinutes();
         checkComponent(passed, i, item, "extra.total",
-            totalOffset, item.timeOffsetMinutes);
+            ze.timeOffset().toMinutes(), item.timeOffsetMinutes);
 
         // Check DST offset in ZonedExtra if correct ValidationScope is given.
         if ((dstValidationScope == ValidationScope::kAll)
             || ((dstValidationScope == ValidationScope::kExternal)
               && (item.type == 'A' || item.type == 'B'))) {
-          int16_t dstOffset = ze.dstOffset().toMinutes();
           checkComponent(passed, i, item, "extra.dst",
-              dstOffset, item.deltaOffsetMinutes);
+              ze.dstOffset().toMinutes(), item.deltaOffsetMinutes);
         }
 
         // Check the Abbrev in ZonedExtra if correct ValidationScope is given.
