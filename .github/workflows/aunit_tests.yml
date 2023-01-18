@@ -19,13 +19,13 @@ jobs:
         sudo apt update
         sudo apt install -y libcurl4-openssl-dev
         cd ..
-        git clone https://github.com/HowardHinnant/date
-        git clone https://github.com/bxparks/EpoxyDuino
-        git clone https://github.com/bxparks/AceRoutine
-        git clone https://github.com/bxparks/AUnit
-        git clone https://github.com/bxparks/AceCommon
-        git clone https://github.com/bxparks/AceWire
-        git clone https://github.com/bxparks/AceSorting
+        git clone --depth 1 https://github.com/HowardHinnant/date
+        git clone --depth 1 https://github.com/bxparks/EpoxyDuino
+        git clone --depth 1 https://github.com/bxparks/AceRoutine
+        git clone --depth 1 https://github.com/bxparks/AUnit
+        git clone --depth 1 https://github.com/bxparks/AceCommon
+        git clone --depth 1 https://github.com/bxparks/AceWire
+        git clone --depth 1 https://github.com/bxparks/AceSorting
 
     - name: Verify examples
       run: |
