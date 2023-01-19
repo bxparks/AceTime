@@ -34,47 +34,47 @@ using ace_time::tzonedbx::kZoneAmerica_Caracas;
 // Step 1
 //---------------------------------------------------------------------------
 
-static const ZoneEra era ACE_TIME_PROGMEM =
-    {nullptr, "", 0, 0, 2000, 1, 2, 12, ZoneContext::kSuffixW};
-
 test(ExtendedZoneProcessorTest, compareEraToYearMonth) {
+  static const ZoneEra ERA ACE_TIME_PROGMEM =
+      {nullptr, "", 0, 0, 2000, 1, 2, 12, ZoneContext::kSuffixW};
+
   assertEqual(1, ExtendedZoneProcessor::compareEraToYearMonth(
-      ZoneEraBroker(&era), 2000, 1));
+      ZoneEraBroker(&ERA), 2000, 1));
   assertEqual(1, ExtendedZoneProcessor::compareEraToYearMonth(
-      ZoneEraBroker(&era), 2000, 1));
+      ZoneEraBroker(&ERA), 2000, 1));
   assertEqual(-1, ExtendedZoneProcessor::compareEraToYearMonth(
-      ZoneEraBroker(&era), 2000, 2));
+      ZoneEraBroker(&ERA), 2000, 2));
   assertEqual(-1, ExtendedZoneProcessor::compareEraToYearMonth(
-      ZoneEraBroker(&era), 2000, 3));
+      ZoneEraBroker(&ERA), 2000, 3));
 }
 
-static const ZoneEra era2 ACE_TIME_PROGMEM =
-    {nullptr, "", 0, 0, 2000, 1, 0, 0, ZoneContext::kSuffixW};
-
 test(ExtendedZoneProcessorTest, compareEraToYearMonth2) {
+  static const ZoneEra ERA ACE_TIME_PROGMEM =
+      {nullptr, "", 0, 0, 2000, 1, 0, 0, ZoneContext::kSuffixW};
+
   assertEqual(0, ExtendedZoneProcessor::compareEraToYearMonth(
-      ZoneEraBroker(&era2), 2000, 1));
+      ZoneEraBroker(&ERA), 2000, 1));
 }
 
 test(ExtendedZoneProcessorTest, createMatchingEra) {
-  // 14-month interval, from 2000-12 until 2002-02
-  YearMonthTuple startYm = {2000, 12};
-  YearMonthTuple untilYm = {2002, 2};
-
   // UNTIL = 2000-12-02 3:00
-  const ZoneEra era1 ACE_TIME_PROGMEM =
+  static const ZoneEra era1 ACE_TIME_PROGMEM =
       {nullptr, "", 0, 0, 2000 /*y*/, 12/*m*/, 2/*d*/, 3*(60/15),
       ZoneContext::kSuffixW};
 
   // UNTIL = 2001-02-03 4:00
-  const ZoneEra era2 ACE_TIME_PROGMEM =
+  static const ZoneEra era2 ACE_TIME_PROGMEM =
       {nullptr, "", 0, 0, 2001/*y*/, 2/*m*/, 3/*d*/, 4*(60/15),
       ZoneContext::kSuffixW};
 
   // UNTIL = 2002-10-11 4:00
-  const ZoneEra era3 ACE_TIME_PROGMEM =
+  static const ZoneEra era3 ACE_TIME_PROGMEM =
       {nullptr, "", 0, 0, 2002/*y*/, 10/*m*/, 11/*d*/, 4*(60/15),
       ZoneContext::kSuffixW};
+
+  // 14-month interval, from 2000-12 until 2002-02
+  YearMonthTuple startYm = {2000, 12};
+  YearMonthTuple untilYm = {2002, 2};
 
   // No previous matching era, so startDateTime is set to startYm.
   ExtendedZoneProcessor::MatchingEra match1 =
@@ -464,7 +464,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   using ace_time::extended::MatchStatus;
 
   // UNTIL = 2002-01-02T03:00
-  const ZoneEra ERA ACE_TIME_PROGMEM = {
+  static const ZoneEra ERA ACE_TIME_PROGMEM = {
       nullptr /*zonePolicy*/,
       "" /*format*/,
       0 /*offsetCode*/,
@@ -575,7 +575,7 @@ test(ExtendedZoneProcessorTest, processTransitionMatchStatus) {
   using ace_time::extended::MatchStatus;
 
   // UNTIL = 2002-01-02T03:00
-  const ZoneEra ERA ACE_TIME_PROGMEM = {
+  static const ZoneEra ERA ACE_TIME_PROGMEM = {
       nullptr /*zonePolicy*/,
       "" /*format*/,
       0 /*offsetCode*/,
