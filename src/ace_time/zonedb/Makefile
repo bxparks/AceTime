@@ -25,3 +25,6 @@ zonedb.json:
 		--generate_int16_years \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
+
+clean:
+	rm -rf tzfiles zonedb.json
