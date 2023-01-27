@@ -269,10 +269,18 @@ void setup() {
   uint32_t zoneId = manager.zoneIdForLinkId(zonedb::kZoneIdUS_Pacific);
   guard ^= zoneId;
 #elif FEATURE == FEATURE_BASIC_ZONE_SORTER_BY_NAME
+  auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
   uint16_t indexes[2] = {0, 1};
   zoneSorter.sortIndexes(indexes, 2);
   guard ^= indexes[0];
 #elif FEATURE == FEATURE_BASIC_ZONE_SORTER_BY_OFFSET_AND_NAME
+  auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
   uint16_t indexes[2] = {0, 1};
   zoneSorter.sortIndexes(indexes, 2);
   guard ^= indexes[0];
@@ -304,10 +312,18 @@ void setup() {
   uint32_t zoneId = manager.zoneIdForLinkId(zonedb::kZoneIdUS_Pacific);
   guard ^= zoneId;
 #elif FEATURE == FEATURE_EXTENDED_ZONE_SORTER_BY_NAME
+  auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
   uint16_t indexes[2] = {0, 1};
   zoneSorter.sortIndexes(indexes, 2);
   guard ^= indexes[0];
 #elif FEATURE == FEATURE_EXTENDED_ZONE_SORTER_BY_OFFSET_AND_NAME
+  auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
   uint16_t indexes[2] = {0, 1};
   zoneSorter.sortIndexes(indexes, 2);
   guard ^= indexes[0];

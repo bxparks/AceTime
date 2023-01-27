@@ -43,18 +43,24 @@ END {
       u[i]["d_ram"] = -1
     } else {
       u[i]["d_flash"] = u[i]["flash"] - base_flash
-      u[i]["d_ram"] = u[i]["ram"]- base_ram
+      u[i]["d_ram"] = u[i]["ram"] - base_ram
     }
   }
+  basic_zone_manager = 6
+  extended_zone_manager = 14
+  basic_sorter_by_name = 10
+  basic_sorter_by_offset_and_name = 11
+  extended_sorter_by_name = 18
+  extended_sorter_by_offset_and_name = 19
   # Subtract the ZoneManager to get the incremental footprint of ZoneSorter
-  u[10]["d_flash"] -= u[4]["d_flash"]
-  u[10]["d_ram"] -= u[4]["d_ram"]
-  u[11]["d_flash"] -= u[4]["d_flash"]
-  u[11]["d_ram"] -= u[4]["d_ram"]
-  u[18]["d_flash"] -= u[12]["d_flash"]
-  u[18]["d_ram"] -= u[12]["d_ram"]
-  u[19]["d_flash"] -= u[12]["d_flash"]
-  u[19]["d_ram"] -= u[12]["d_ram"]
+  u[basic_sorter_by_name]["d_flash"] -= u[basic_zone_manager]["d_flash"]
+  u[basic_sorter_by_name]["d_ram"] -= u[basic_zone_manager]["d_ram"]
+  u[basic_sorter_by_offset_and_name]["d_flash"] -= u[basic_zone_manager]["d_flash"]
+  u[basic_sorter_by_offset_and_name]["d_ram"] -= u[basic_zone_manager]["d_ram"]
+  u[extended_sorter_by_name]["d_flash"] -= u[extended_zone_manager]["d_flash"]
+  u[extended_sorter_by_name]["d_ram"] -= u[extended_zone_manager]["d_ram"]
+  u[extended_sorter_by_offset_and_name]["d_flash"] -= u[extended_zone_manager]["d_flash"]
+  u[extended_sorter_by_offset_and_name]["d_ram"] -= u[extended_zone_manager]["d_ram"]
 
   printf(\
     "+---------------------------------------------------------------------+\n")
