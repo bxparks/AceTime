@@ -56,4 +56,10 @@ void TimeZone::printShortTo(Print& printer) const {
   }
 }
 
+void TimeZone::printTargetNameTo(Print& printer) const {
+  if (isLink()) {
+    getBoundZoneProcessor()->printTargetNameTo(printer);
+  }
+}
+
 }

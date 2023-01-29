@@ -331,6 +331,10 @@ class ZoneInfoBroker {
       return ZoneEraBroker(&eras[i]);
     }
 
+    bool isLink() const {
+      return mZoneInfo->targetInfo != nullptr;
+    }
+
     const ZoneInfoBroker targetInfo() const {
       return ZoneInfoBroker((const ZoneInfo*)
           pgm_read_ptr(&mZoneInfo->targetInfo));

@@ -244,6 +244,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       mZoneInfoBroker.printShortNameTo(printer);
     }
 
+    void printTargetNameTo(Print& printer) const override {
+      if (isLink()) {
+        mZoneInfoBroker.targetInfo().printNameTo(printer);
+      }
+    }
+
     /** Used only for debugging. */
     void log() const {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {

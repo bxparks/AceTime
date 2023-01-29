@@ -180,6 +180,14 @@ class ZoneProcessor {
     virtual void printShortNameTo(Print& printer) const = 0;
 
     /**
+     * Print the full identifier (e.g. "America/Los_Angeles") of the target zone
+     * if the current zone is a Link entry. Otherwise, print nothing.
+     *
+     * @param printer an instance of the Print class, usually Serial
+     */
+    virtual void printTargetNameTo(Print& printer) const = 0;
+
+    /**
      * Set the opaque zoneKey of this object to a new value, reseting any
      * internally cached information. If the new zoneKey is the same as the old
      * zoneKey, the cache remains valid.

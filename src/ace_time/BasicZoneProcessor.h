@@ -313,6 +313,12 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       mZoneInfoBroker.printShortNameTo(printer);
     }
 
+    void printTargetNameTo(Print& printer) const override {
+      if (isLink()) {
+        mZoneInfoBroker.targetInfo().printNameTo(printer);
+      }
+    }
+
     void setZoneKey(uintptr_t zoneKey) override {
       if (! mBrokerFactory) return;
       if (mZoneInfoBroker.equals(zoneKey)) return;

@@ -550,6 +550,12 @@ class TimeZone {
      */
     void printShortTo(Print& printer) const;
 
+    /**
+     * Print the name of the target zone if the current time zone is a Link.
+     * Otherwise print nothing.
+     */
+    void printTargetNameTo(Print& printer) const;
+
     // Use default copy constructor and assignment operator.
     TimeZone(const TimeZone&) = default;
     TimeZone& operator=(const TimeZone&) = default;

@@ -243,10 +243,9 @@ test(TimeZoneBasicTest, link) {
   tz.printTo(printStr);
   assertEqual("US/Pacific", printStr.cstr());
 
-  // TODO: Fix after figuring out how to extract name from targetInfo.
-  // printStr.flush();
-  // tz.printTo(printStr, true /*followLink*/);
-  // assertEqual("America/Los_Angeles", printStr.cstr());
+  printStr.flush();
+  tz.printTargetNameTo(printStr);
+  assertEqual("America/Los_Angeles", printStr.cstr());
 
   assertEqual(tzonedb::kZoneIdUS_Pacific, tz.getZoneId());
 
@@ -544,10 +543,9 @@ test(TimeZoneExtendedTest, link) {
   tz.printTo(printStr);
   assertEqual("US/Pacific", printStr.cstr());
 
-  // TODO: Fix after figuring out how to extract name from targetInfo.
-  // printStr.flush();
-  // tz.printTo(printStr, true /*followLink*/);
-  // assertEqual("America/Los_Angeles", printStr.cstr());
+  printStr.flush();
+  tz.printTargetNameTo(printStr);
+  assertEqual("America/Los_Angeles", printStr.cstr());
 
   assertEqual(tzonedb::kZoneIdUS_Pacific, tz.getZoneId());
 
