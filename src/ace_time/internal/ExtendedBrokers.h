@@ -339,16 +339,6 @@ class ZoneInfoBroker {
 
     bool isNull() const { return mZoneInfo == nullptr; }
 
-    bool isLink() const { return pgm_read_byte(&mZoneInfo->numEras) == 0; }
-
-    /**
-     * Return the ZoneInfoBroker of the target Zone, assuming that the current
-     * Zone is a Link. Should be called after verifying that isLink() is true.
-     */
-    ZoneInfoBroker targetZoneInfo() const {
-      return ZoneInfoBroker((const ZoneInfo*) pgm_read_ptr(&mZoneInfo->eras));
-    }
-
   #if ACE_TIME_USE_PROGMEM
 
     const internal::ZoneContext* zoneContext() const {
@@ -364,21 +354,16 @@ class ZoneInfoBroker {
       return pgm_read_dword(&mZoneInfo->zoneId);
     }
 
-    uint8_t numEras() const {
-      if (isLink()) {
-        return targetZoneInfo().numEras();
-      } else {
-        return pgm_read_byte(&mZoneInfo->numEras);
-      }
-    }
+    uint8_t numEras() const { return pgm_read_byte(&mZoneInfo->numEras); }
 
     const ZoneEraBroker era(uint8_t i) const {
-      if (isLink()) {
-        return targetZoneInfo().era(i);
-      } else {
-        auto eras = (const ZoneEra*) pgm_read_ptr(&mZoneInfo->eras);
-        return ZoneEraBroker(&eras[i]);
-      }
+      auto eras = (const ZoneEra*) pgm_read_ptr(&mZoneInfo->eras);
+      return ZoneEraBroker(&eras[i]);
+    }
+
+    ZoneInfoBroker targetInfo() const {
+      return ZoneInfoBroker((const ZoneInfo*)
+          pgm_read_ptr(&mZoneInfo->targetInfo));
     }
 
   #else
@@ -395,6 +380,10 @@ class ZoneInfoBroker {
 
     const ZoneEraBroker era(uint8_t i) const {
       return ZoneEraBroker(&mZoneInfo->eras[i]);
+    }
+
+    const ZoneInfoBroker targetInfo() const {
+      return ZoneInfoBroker(mZoneInfo->targetInfo);
     }
 
   #endif

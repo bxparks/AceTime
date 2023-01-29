@@ -123,13 +123,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     typedef extended::TransitionStorageTemplate<kMaxTransitions, ZEB, ZPB, ZRB>
         TransitionStorage;
 
-    bool isLink() const override { return mZoneInfoBroker.isLink(); }
+    bool isLink() const override {
+      return ! mZoneInfoBroker.targetInfo().isNull();
+    }
 
-    uint32_t getZoneId(bool followLink = false) const override {
-      ZIB zib = (isLink() && followLink)
-          ? mZoneInfoBroker.targetZoneInfo()
-          : mZoneInfoBroker;
-      return zib.zoneId();
+    uint32_t getZoneId() const override {
+      return mZoneInfoBroker.zoneId();
     }
 
     FindResult findByLocalDateTime(const LocalDateTime& ldt) const override {
@@ -237,19 +236,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       return result;
     }
 
-    void printNameTo(Print& printer, bool followLink = false) const override {
-      ZIB zib = (isLink() && followLink)
-          ? mZoneInfoBroker.targetZoneInfo()
-          : mZoneInfoBroker;
-      zib.printNameTo(printer);
+    void printNameTo(Print& printer) const override {
+      mZoneInfoBroker.printNameTo(printer);
     }
 
-    void printShortNameTo(Print& printer, bool followLink = false)
-        const override {
-      ZIB zib = (isLink() && followLink)
-          ? mZoneInfoBroker.targetZoneInfo()
-          : mZoneInfoBroker;
-      zib.printShortNameTo(printer);
+    void printShortNameTo(Print& printer) const override {
+      mZoneInfoBroker.printShortNameTo(printer);
     }
 
     /** Used only for debugging. */

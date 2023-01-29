@@ -207,13 +207,12 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     /** Exposed only for testing purposes. */
     typedef basic::TransitionTemplate<ZIB, ZEB, ZPB, ZRB> Transition;
 
-    bool isLink() const override { return mZoneInfoBroker.isLink(); }
+    bool isLink() const override {
+      return ! mZoneInfoBroker.targetInfo().isNull();
+    }
 
-    uint32_t getZoneId(bool followLink = false) const override {
-      ZIB zib = (isLink() && followLink)
-          ? mZoneInfoBroker.targetZoneInfo()
-          : mZoneInfoBroker;
-      return zib.zoneId();
+    uint32_t getZoneId() const override {
+      return mZoneInfoBroker.zoneId();
     }
 
     /**
@@ -306,19 +305,12 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       return result;
     }
 
-    void printNameTo(Print& printer, bool followLink = false) const override {
-      ZIB zib = (isLink() && followLink)
-          ? mZoneInfoBroker.targetZoneInfo()
-          : mZoneInfoBroker;
-      zib.printNameTo(printer);
+    void printNameTo(Print& printer) const override {
+      mZoneInfoBroker.printNameTo(printer);
     }
 
-    void printShortNameTo(Print& printer, bool followLink = false)
-        const override {
-      ZIB zib = (isLink() && followLink)
-          ? mZoneInfoBroker.targetZoneInfo()
-          : mZoneInfoBroker;
-      zib.printShortNameTo(printer);
+    void printShortNameTo(Print& printer) const override {
+      mZoneInfoBroker.printShortNameTo(printer);
     }
 
     void setZoneKey(uintptr_t zoneKey) override {
