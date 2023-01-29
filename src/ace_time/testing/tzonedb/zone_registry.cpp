@@ -74,13 +74,5 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[12] ACE_TIME_PROGMEM = {
 
 };
 
-//---------------------------------------------------------------------------
-// Link (thin) Entry registry. Sorted by linkId. Links are references to Zones.
-//---------------------------------------------------------------------------
-const basic::LinkEntry kLinkRegistry[1] ACE_TIME_PROGMEM = {
-  { kZoneIdUS_Pacific, kZoneIdAmerica_Los_Angeles }, // 0xa950f6ab -> 0xb7f7e8f2
-
-};
-
 }
 }

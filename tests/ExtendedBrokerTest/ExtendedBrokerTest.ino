@@ -13,13 +13,10 @@ using ace_time::extended::ZoneInfoBroker;
 using ace_time::extended::ZoneEraBroker;
 using ace_time::extended::ZoneRuleBroker;
 using ace_time::extended::ZonePolicyBroker;
-using ace_time::extended::LinkEntryBroker;
-using ace_time::extended::LinkRegistryBroker;
 using ace_time::tzonedbx::kZoneContext;
 using ace_time::tzonedbx::kZonePolicyUS;
 using ace_time::tzonedbx::kZoneAmerica_Los_Angeles;
 using ace_time::tzonedbx::kZonePolicyNamibia;
-using ace_time::tzonedbx::kLinkRegistry;
 using ace_time::tzonedbx::kZoneIdUS_Pacific;
 using ace_time::tzonedbx::kZoneIdAmerica_Los_Angeles; 
 
@@ -90,15 +87,6 @@ test(ExtendedBrokerTest, ZoneInfoBroker) {
   assertEqual(1980, info.zoneContext()->startYear);
   assertEqual(10000, info.zoneContext()->untilYear);
   assertEqual(1, info.numEras());
-}
-
-//---------------------------------------------------------------------------
-
-test(ExtendedBrokerTest, LinkRegistry_LinkEntryBroker) {
-  LinkRegistryBroker linkRegistryBroker(kLinkRegistry);
-  LinkEntryBroker linkEntryBroker(linkRegistryBroker.linkEntry(0));
-  assertEqual(kZoneIdUS_Pacific, linkEntryBroker.linkId());
-  assertEqual(kZoneIdAmerica_Los_Angeles, linkEntryBroker.zoneId());
 }
 
 //---------------------------------------------------------------------------

@@ -81,7 +81,6 @@ TZ database.
     * [Zones and Links](#ZonesAndLinks)
         * [Ghost Links (Prior to v1.5)](#GhostLinks)
         * [Fat Links (From v1.5)](#FatLinks)
-        * [Thin Links (From v1.6)](#ThinLinks)
         * [Symbolic Links (From v1.11)](#SymbolicLinks)
         * [Custom Zone Registry](#CustomZoneRegistry)
 * [Zone Sorting](#ZoneSorting)
@@ -2535,202 +2534,11 @@ A Zone entry is the canonical name of a given time zone in the IANA database
 (e.g. `America/Los_Angeles`). A Link entry is an alias, an alternate name, for a
 canonical entry (e.g. `US/Pacific` which points to `America/Los_Angeles`).
 
-AceTime implements 3 types of Links, of which 2 are available in the most recent
-version:
-
-* Ghost Links (prior to v1.5, but no longer implemented)
-* Fat Links (from v1.5 onwards)
-* Thin Links (from v1.6 onwards)
-
-<a name="GhostLinks"></a>
-#### Ghost Links (Prior to v1.5)
-
-Prior to AceTime v1.5, a Link entry was implemented using a C++ reference to the
-corresponding Zone entry. In other words, the `kZoneUS_Pacific` symbol
-was a C++ reference to the `kZoneAmerica_Los_Angeles` Zone data structure, and
-the `kZoneUS_Pacific` object did not have an existence of its own. Ghost Links
-existed only in the C++ source code, they did not exist within the AceTime
-library on the Arduino side.
-
-The positive aspects of this design were:
-
-* the `kZoneUS_Pacific` Link entry consumed *no* additional flash memory,
-  because the data structure for the Link did not exist
-* the implementation was very simple, just a C++ reference
-
-There were several negative consequences however:
-
-* the `name` component of a `kZoneUS_Pacific` data structure was set to
-  `"America/Los_Angeles"`, not `"US/Pacific"`, because the Link entry was just a
-  C++ reference to the Zone entry
-    * this means that `ZonedDateTime.printTo()` prints `America/Los_Angeles`,
-      not `US/Pacific`
-* similarly, the `zoneId` component of a `kZoneUS_Pacific` struct was set to
-  the same `zoneId` of `kZoneAmerica_Los_Angeles`
-* the `kZoneIdUS_Pacific` constant did not exist, in contrast to the target
-  `KZoneIdAmerica_Los_Angeles` constant
-* the `zonedb::kZoneRegistry` and `zonedbx::kZoneRegistry` contained only
-  the Zone entries, not the Link entries
-    * it was then not possible to create a `TimeZone` object through
-      `ZoneManager::createForZoneName()` or `ZoneManager::createForZoneId()`
-      using the Link identifiers instead of the Zone identifiers
-
-But the biggest problem was that the IANA TZ database does not guarantee the
-forward stability of the Zone and Link identifiers. Sometimes a Zone entry
-becomes a Link entry. For example, in TZ DB version 2020f, the Zone
-`Australia/Currie` became a Link that points to Zone `Australia/Hobart`. This
-causes problems at both compile-time and run-time for applications using
-AceTime:
-
-* Compile-time
-    * If the application was using the ZoneId symbol `kZoneIdAustralia_Currie`,
-      the app would no longer compile after upgrading to TZDB 2020f.
-* Run-time
-    * If the application had stored the ZoneId of `Australia/Currie` or the
-      string `"Australia/Currie"` into the EEPROM, the application would no
-      longer be able to obtain the `TimeZone` object of `Australia/Currie` after
-      upgrading to TZDB 2020f.
-
-These disadvantages led me to abandon ghost links, and implement Fat Links and
-Thin Links described below.
-
-<a name="FatLinks"></a>
-#### Fat Links (From v1.5)
-
-AceTime v1.5 provides support for Fat Links which make Links essentially
-identical to their corresponding Zones. In other words:
-
-* the ZoneInfo `kZone{xxx}` constant exists for every Link entry,
-* the ZoneId `kZoneId{xxx}` constant exists for every Link entry,
-* the `kZone{xxx}.name` field points to the full name of the **Link** entry,
-  not the target Zone entry,
-* the `kZone{xxx}.zoneId` field is set to the ZoneId of the **Link** entry.
-
-From the point of view on the Arduino side, there is almost no difference
-between Links and Zones. Prior to v1.11, there was no ability to distinguish
-between a Zone and a Fat Link at runtime. In v1.11, Fat Links were converted
-from a "hard link" into a "symbolic link" and a Link object is now self-aware
-that it is a link to a Zone object. See [Symbolic Links](#SymbolicLinks) below.
-
-The underlying `ZonePolicy` and `ZoneInfo` data structures are shared between
-the corresponding Zone and Link entries, but those Link entries themselves
-do consume extra flash memory.
-
-To avoid performing a lookup in 2 separate registries, Fat Links are merged into
-the Zone registry. The ZoneManagers can constructed using the combined registry,
-like this:
-
-```C++
-BasicZoneManager zoneManager(
-    zonedb::kZoneAndLinkRegistrySize,
-    zonedb::kZoneAndLinkRegistry);
-
-ExtendedZoneManager zoneManager(
-    zonedbx::kZoneAndLinkRegistrySize,
-    zonedbx::kZoneAndLinkRegistry);
-```
-
-<a name="ThinLinks"></a>
-#### Thin Links (From v1.6)
-
-**Breaking Change in v1.8**: Thin link functionality has been extracted from
-the `ZoneManager` into `LinkManager`. See [Migrating to
-LinkManagers](MIGRATING.md#MigratingToLinkManagers) for migrating instructions.
-
-*Thin links* a lighter weight alternatives to *fat links* that may be useful if
-flash memory is tight. A thin link preserves the forward stability of **zoneId**
-(e.g. `0xb7f7e8f2`) but not the **zoneName** (e.g. `America/Los_Angeles`). Since
-only the 4-byte zoneIds are stored, they do not take up as much flash memory as
-fat links, but they are more tricky to use so I recommend them only if there is
-no other option.
-
-If the application stores the `zoneId` in EEPROM (for example), it is possible
-that a subsequent version of the TZDB changes the Zone into a Link. If the
-smaller `kZoneRegistry` is used instead of the full `kZoneAndLinkRegistry`, then
-previous `zoneId` would fail to resolve. The thin link registry provides a small
-lookup table that maps the old `zoneId` (which has now become a `linkId`) to its
-target `zoneId`.
-
-A separate registry called `kLinkRegistry` is provided that contains only the
-mapping of the `linkId` to the corresponding `zoneId`. These are available
-through the `BasicLinkManager` and `ExtendedLinkManager` classes, like this:
-
-```C++
-namespace ace_time {
-
-class LinkManager {
-  public:
-    static const uint16_t kInvalidZoneId = 0x0;
-};
-
-class BasicLinkManager: public LinkManager {
-  public:
-    BasicLinkManager(
-        uint16_t linkRegistrySize,
-        const basic::LinkEntry* linkRegistry
-    );
-
-    uint32_t zoneIdForLinkId(uint32_t linkId) const;
-    uint16_t linkRegistrySize() const;
-};
-
-class ExtendedLinkManager: public LinkManager {
-  public:
-    ExtendedLinkManager(
-        uint16_t linkRegistrySize,
-        const extended::LinkEntry* linkRegistry
-    );
-
-    uint32_t zoneIdForLinkId(uint32_t linkId) const;
-    uint16_t linkRegistrySize() const;
-};
-
-}
-```
-
-These link managers are initialized with the `kLinkRegistrySize` and
-`kLinkRegistry` parameters from `zonedb/zone_registry.h` and
-`zonedbx/zone_registry.h` header files like this:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-
-...
-
-// Thin links for the zonedb database
-BasicLinkManager linkManager(
-    zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
-
-// Thin links for the zonedbx database
-ExtendedLinkManager linkManager(
-    zonedbx::kLinkRegistrySize, zonedbx::kLinkRegistry);
-```
-
-When the search for a `zoneId` fails, then the client application can choose to
-perform a second lookup in the link registry, like this:
-
-```C++
-ExtendedZoneManager zoneManager(
-    zonedbx::kZoneRegistrySize,
-    zonedbx::kZoneRegistry);
-
-ExtendedLinkManager linkManager(
-    zonedbx::kLinkRegistrySize,
-    zonedbx::kLinkRegistry);
-
-TimeZone findTimeZone(uint32_t zoneId) {
-  TimeZone tz = zoneManager.createForZoneId(zoneId);
-  if (tz.isError()) {
-    // Search the link registry.
-    zoneId = linkManager.zoneIdForLinkId(zoneId);
-    if (zoneId != LinkManager::kInvalidZoneId) {
-      tz = zoneManager.createForZoneId(zoneId);
-    }
-  }
-  return tz;
-}
-```
+Prior to v2.1, AceTime treated Links slightly differently than Zones, providing
+4 different implementations. After v2.1, Links are considered to be essentially
+identical to Zones, because the TZDB considers both of them as primary
+importance. Following this merger, the `kZoneAndLinkRegistry` has been merged
+into the `kZoneRegistry` and the 2 are identical.
 
 <a name="SymbolicLinks"></a>
 #### Symbolic Links (From v1.11)
@@ -2745,39 +2553,14 @@ class TimeZone {
     ...
 
     bool isLink() const;
-
-    uint32_t getZoneId(bool followLink = false);
-    TimeZoneData toTimeZoneData(bool followLink = false) const;
-
-    void printTo(Print& printer, bool followLink = false) const;
-    void printShortTo(Print& printer, bool followLink = false) const;
-
+    uint32_t getTargetId() const;
+    const char* getTargetName() const;
     ...
 };
-
-class ZoneProcessor {
-  public:
-    ...
-
-    virtual bool isLink() const = 0;
-
-    virtual uint32_t getZoneId(bool followLink = false) const = 0;
-    virtual void printNameTo(Print& printer, bool followLink = false) const = 0;
-    virtual void printShortNameTo(Print& printer, bool followLink = false)
-        const = 0;
-
-    ...
-};
-```
 
 The `TimeZone::isLink()` method returns `true` if the current time zone is a
 Link entry instead of a Zone entry. For example `US/Pacific` is a link to
 `America/Los_Angeles`.
-
-The other methods gained an optional `followLink` parameter. If this parameter
-is set to `true`, then the method follows the link to the destination Zone and
-processes the request as if it was made on the target Zone. If the time zone is
-not a Link but a simple Zone, then this flag is ignored.
 
 For example, `TimeZone::getZoneId()` for `US/Pacific` returns the value defined
 by `kZoneIdUS_Pacific`. But `TimeZone::getZoneId(true /*followLink*/)` returns

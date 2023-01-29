@@ -222,6 +222,9 @@ ASCII table.
 * Upgrade to TZDB 2022g.
 * Incorporate `ZonedExtra` to replace various `TimeZone` methods.
 
+**v2.0.1+**
+* Remove `LinkManager` and `LinkRegistry`.
+
 # Legend
 
 * [1] Delta flash and ram consumption for `ZoneSorterByName` and

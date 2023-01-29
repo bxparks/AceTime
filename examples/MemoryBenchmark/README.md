@@ -232,7 +232,6 @@ ASCII table.
 | BasicZoneManager (1 zone)              |   6934/  330 |  6460/  319 |
 | BasicZoneManager (all zones)           |  18990/  706 | 18516/  695 |
 | BasicZoneManager (all zones+links)     |  23904/  706 | 23430/  695 |
-| BasicLinkManager (all links)           |   2586/   16 |  2112/    5 |
 |----------------------------------------+--------------+-------------|
 | Basic ZoneSorterByName [1]             |   7546/  332 |   612/    2 |
 | Basic ZoneSorterByOffsetAndName [1]    |   7708/  332 |   774/    2 |
@@ -242,7 +241,6 @@ ASCII table.
 | ExtendedZoneManager (1 zone)           |  10310/  706 |  9836/  695 |
 | ExtendedZoneManager (all zones)        |  33572/ 1190 | 33098/ 1179 |
 | ExtendedZoneManager (all zones+links)  |  39084/ 1190 | 38610/ 1179 |
-| ExtendedLinkManager (all links)        |   2794/   16 |  2320/    5 |
 |----------------------------------------+--------------+-------------|
 | Extended ZoneSorterByName [2]          |  10922/  708 |   612/    2 |
 | Extended ZoneSorterByOffsetAndName [2] |  11100/  708 |   790/    2 |
@@ -271,7 +269,6 @@ ASCII table.
 | BasicZoneManager (1 zone)              |   9888/  468 |  6418/  315 |
 | BasicZoneManager (all zones)           |  21962/  846 | 18492/  693 |
 | BasicZoneManager (all zones+links)     |  26876/  846 | 23406/  693 |
-| BasicLinkManager (all links)           |   5560/  158 |  2090/    5 |
 |----------------------------------------+--------------+-------------|
 | Basic ZoneSorterByName [1]             |  10500/  470 |   612/    2 |
 | Basic ZoneSorterByOffsetAndName [1]    |  10662/  470 |   774/    2 |
@@ -281,7 +278,6 @@ ASCII table.
 | ExtendedZoneManager (1 zone)           |  13264/  844 |  9794/  691 |
 | ExtendedZoneManager (all zones)        |  36542/ 1328 | 33072/ 1175 |
 | ExtendedZoneManager (all zones+links)  |  42054/ 1328 | 38584/ 1175 |
-| ExtendedLinkManager (all links)        |   5768/  158 |  2298/    5 |
 |----------------------------------------+--------------+-------------|
 | Extended ZoneSorterByName [2]          |  13876/  846 |   612/    2 |
 | Extended ZoneSorterByOffsetAndName [2] |  14054/  846 |   790/    2 |
@@ -310,7 +306,6 @@ ASCII table.
 | BasicZoneManager (1 zone)              |  26008/ 3748 |  4672/  192 |
 | BasicZoneManager (all zones)           |  41748/ 3748 | 20412/  192 |
 | BasicZoneManager (all zones+links)     |  49080/ 3748 | 27744/  192 |
-| BasicLinkManager (all links)           |  23256/ 3564 |  1920/    8 |
 |----------------------------------------+--------------+-------------|
 | Basic ZoneSorterByName [1]             |  26468/ 3752 |   460/    4 |
 | Basic ZoneSorterByOffsetAndName [1]    |  26516/ 3752 |   508/    4 |
@@ -320,7 +315,6 @@ ASCII table.
 | ExtendedZoneManager (1 zone)           |  27956/ 4172 |  6620/  616 |
 | ExtendedZoneManager (all zones)        |  58248/ 4172 | 36912/  616 |
 | ExtendedZoneManager (all zones+links)  |  66456/ 4172 | 45120/  616 |
-| ExtendedLinkManager (all links)        |  23464/ 3564 |  2128/    8 |
 |----------------------------------------+--------------+-------------|
 | Extended ZoneSorterByName [2]          |  28420/ 4176 |   464/    4 |
 | Extended ZoneSorterByOffsetAndName [2] |  28476/ 4176 |   520/    4 |
@@ -352,7 +346,6 @@ microcontroller and the compiler did not generate the desired information.
 | BasicZoneManager (1 zone)              | 267101/28664 |  7012/  772 |
 | BasicZoneManager (all zones)           | 283133/28664 | 23044/  772 |
 | BasicZoneManager (all zones+links)     | 290749/28664 | 30660/  772 |
-| BasicLinkManager (all links)           | 262141/27904 |  2052/   12 |
 |----------------------------------------+--------------+-------------|
 | Basic ZoneSorterByName [1]             | 267741/28672 |   640/    8 |
 | Basic ZoneSorterByOffsetAndName [1]    | 267853/28672 |   752/    8 |
@@ -362,7 +355,6 @@ microcontroller and the compiler did not generate the desired information.
 | ExtendedZoneManager (1 zone)           | 269341/29232 |  9252/ 1340 |
 | ExtendedZoneManager (all zones)        | 300097/29228 | 40008/ 1336 |
 | ExtendedZoneManager (all zones+links)  | 308657/29228 | 48568/ 1336 |
-| ExtendedLinkManager (all links)        | 262349/27904 |  2260/   12 |
 |----------------------------------------+--------------+-------------|
 | Extended ZoneSorterByName [2]          | 269981/29240 |   640/    8 |
 | Extended ZoneSorterByOffsetAndName [2] | 270077/29240 |   736/    8 |
@@ -391,7 +383,6 @@ microcontroller and the compiler did not generate the desired information.
 | BasicZoneManager (1 zone)              | 218729/16240 |  7664/  184 |
 | BasicZoneManager (all zones)           | 234745/16240 | 23680/  184 |
 | BasicZoneManager (all zones+links)     | 242345/16240 | 31280/  184 |
-| BasicLinkManager (all links)           | 214953/16064 |  3888/    8 |
 |----------------------------------------+--------------+-------------|
 | Basic ZoneSorterByName [1]             | 219273/16240 |   544/    0 |
 | Basic ZoneSorterByOffsetAndName [1]    | 219329/16240 |   600/    0 |
@@ -401,7 +392,6 @@ microcontroller and the compiler did not generate the desired information.
 | ExtendedZoneManager (1 zone)           | 220785/16664 |  9720/  608 |
 | ExtendedZoneManager (all zones)        | 251505/16664 | 40440/  608 |
 | ExtendedZoneManager (all zones+links)  | 260049/16664 | 48984/  608 |
-| ExtendedLinkManager (all links)        | 215161/16064 |  4096/    8 |
 |----------------------------------------+--------------+-------------|
 | Extended ZoneSorterByName [2]          | 221329/16664 |   544/    0 |
 | Extended ZoneSorterByOffsetAndName [2] | 221393/16664 |   608/    0 |
@@ -434,7 +424,6 @@ usage by objects.
 | BasicZoneManager (1 zone)              |  22224/ 4344 | 12164/  192 |
 | BasicZoneManager (all zones)           |  38260/ 4344 | 28200/  192 |
 | BasicZoneManager (all zones+links)     |  45868/ 4344 | 35808/  192 |
-| BasicLinkManager (all links)           |  11992/ 4160 |  1932/    8 |
 |----------------------------------------+--------------+-------------|
 | Basic ZoneSorterByName [1]             |  22736/ 4348 |   512/    4 |
 | Basic ZoneSorterByOffsetAndName [1]    |  23248/ 4348 |  1024/    4 |
@@ -444,7 +433,6 @@ usage by objects.
 | ExtendedZoneManager (1 zone)           |  25276/ 4768 | 15216/  616 |
 | ExtendedZoneManager (all zones)        |  56036/ 4768 | 45976/  616 |
 | ExtendedZoneManager (all zones+links)  |  64584/ 4768 | 54524/  616 |
-| ExtendedLinkManager (all links)        |  12200/ 4160 |  2140/    8 |
 |----------------------------------------+--------------+-------------|
 | Extended ZoneSorterByName [2]          |  25852/ 4772 |   576/    4 |
 | Extended ZoneSorterByOffsetAndName [2] |  26300/ 4772 |  1024/    4 |

@@ -15,6 +15,42 @@
     * [Migrating the DS3231Clock](#MigratingTheDS3231Clock)
     * [Migrating to LinkManagers](#MigratingToLinkManagers)
 
+<a name="MigratingToVersion210"></a>
+## Migrating to v2.0
+
+Over the years, I implemented 4 different versions of the Link entries:
+
+* Ghost Links (`< v1.5`)
+* Fat Links (`>= v1.5`)
+* Thin Links (`>= v1.6`)
+* Symbolic Links (`>= v1.11`)
+
+I had mistakenly assumed that TZDB Link entries were somehow less important
+than the Zone entries. And the code reflected the secondary status of Link
+entries. However, recently changes to the TZDB records demonstrate that Link
+entries should be considered identical in importance to Zone entries. They just
+happen to share the same timezone transition data.
+
+<a name="RemoveThinLinks"></a>
+### Remove Thin Links
+
+The "Thin Link" feature has been removed, along with the following classes:
+* `LinkEntry`
+* `LinkManager`
+* `BasicLinkManager`
+* `ExtendedLinkManager`.
+
+The `zonedb` and `zonedbx` databases no longer contain the following:
+* `basic::kLinkRegistry`
+* `extended::kLinkRegistry`
+
+All Link entries are just normal Zone entries, with an additional flag
+`isLink()` that returns true if a link.
+
+The `zonedb::kZoneRegistry` and `zonedb::kZoneAndLinkRegistry` are now
+identical. Same with `zonedbx::kZoneRegistry` and
+`zonedbx::kZoneAndLinkRegistry`.
+
 <a name="MigratingToVersion200"></a>
 ## Migrating to v2.0
 

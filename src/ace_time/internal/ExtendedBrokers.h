@@ -39,7 +39,6 @@
 #include "../common/compat.h"
 #include "BrokerCommon.h"
 #include "ZoneInfo.h"
-#include "LinkEntry.h"
 
 class __FlashStringHelper;
 
@@ -444,59 +443,6 @@ class ZoneRegistryBroker {
 
   private:
     const ZoneInfo* const* mZoneRegistry;
-};
-
-//-----------------------------------------------------------------------------
-
-/** Data broker for accessing a LinkEntry. */
-class LinkEntryBroker {
-  public:
-    explicit LinkEntryBroker(const LinkEntry* linkEntry = nullptr):
-        mLinkEntry(linkEntry) {}
-
-    // use default copy constructor
-    LinkEntryBroker(const LinkEntryBroker&) = default;
-
-    // use default assignment operator
-    LinkEntryBroker& operator=(const LinkEntryBroker&) = default;
-
-  #if ACE_TIME_USE_PROGMEM
-    uint32_t zoneId() const { return pgm_read_dword(&mLinkEntry->zoneId); }
-    uint32_t linkId() const { return pgm_read_dword(&mLinkEntry->linkId); }
-
-  #else
-    uint32_t zoneId() const { return mLinkEntry->zoneId; }
-    uint32_t linkId() const { return mLinkEntry->linkId; }
-
-  #endif
-
-  private:
-    const LinkEntry* mLinkEntry;
-};
-
-/**
- * Data broker for a LinkRegistry composed of LinkEntry records.
- */
-class LinkRegistryBroker {
-  public:
-    LinkRegistryBroker(const LinkEntry zoneRegistry[]):
-        mLinkRegistry(zoneRegistry) {}
-
-    // use default copy constructor
-    LinkRegistryBroker(const LinkRegistryBroker&) = default;
-
-    // use default assignment operator
-    LinkRegistryBroker& operator=(const LinkRegistryBroker&) = default;
-
-    // Same code can be used whether or not ACE_TIME_USE_PROGMEM is active
-    // because mLinkRegistry stores the actual LinkEntry, instead of a pointer
-    // to LinkEntry.
-    const LinkEntry* linkEntry(uint16_t i) const {
-      return &mLinkRegistry[i];
-    }
-
-  private:
-    const LinkEntry* mLinkRegistry;
 };
 
 //-----------------------------------------------------------------------------
