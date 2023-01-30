@@ -15,17 +15,15 @@
 #define FEATURE_BASIC_ZONE_MANAGER_ONE 6
 #define FEATURE_BASIC_ZONE_MANAGER_ZONES 7
 #define FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_FAT_LINKS 8
-#define FEATURE_BASIC_LINK_MANAGER 9
-#define FEATURE_BASIC_ZONE_SORTER_BY_NAME 10
-#define FEATURE_BASIC_ZONE_SORTER_BY_OFFSET_AND_NAME 11
-#define FEATURE_EXTENDED_TIME_ZONE 12
-#define FEATURE_EXTENDED_TIME_ZONE2 13
-#define FEATURE_EXTENDED_ZONE_MANAGER_ONE 14
-#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES 15
-#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS 16
-#define FEATURE_EXTENDED_LINK_MANAGER 17
-#define FEATURE_EXTENDED_ZONE_SORTER_BY_NAME 18
-#define FEATURE_EXTENDED_ZONE_SORTER_BY_OFFSET_AND_NAME 19
+#define FEATURE_BASIC_ZONE_SORTER_BY_NAME 9
+#define FEATURE_BASIC_ZONE_SORTER_BY_OFFSET_AND_NAME 10
+#define FEATURE_EXTENDED_TIME_ZONE 11
+#define FEATURE_EXTENDED_TIME_ZONE2 12
+#define FEATURE_EXTENDED_ZONE_MANAGER_ONE 13
+#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES 14
+#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS 15
+#define FEATURE_EXTENDED_ZONE_SORTER_BY_NAME 16
+#define FEATURE_EXTENDED_ZONE_SORTER_BY_OFFSET_AND_NAME 17
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
@@ -87,10 +85,6 @@ volatile int16_t year = 2019;
     zonedb::kZoneAndLinkRegistrySize,
     zonedb::kZoneAndLinkRegistry,
     zoneProcessorCache);
-#elif FEATURE == FEATURE_BASIC_LINK_MANAGER
-  BasicLinkManager manager(
-    zonedb::kLinkRegistrySize,
-    zonedb::kLinkRegistry);
 #elif FEATURE == FEATURE_BASIC_ZONE_SORTER_BY_NAME
   // Construct the same BasicZoneManager as FEATURE_BASIC_TIME_ZONE, then
   // subtract its memory consumption numbers to isolate just the
@@ -157,10 +151,6 @@ volatile int16_t year = 2019;
       zonedbx::kZoneAndLinkRegistrySize,
       zonedbx::kZoneAndLinkRegistry,
       zoneProcessorCache);
-#elif FEATURE == FEATURE_EXTENDED_LINK_MANAGER
-  ExtendedLinkManager manager(
-      zonedbx::kLinkRegistrySize,
-      zonedbx::kLinkRegistry);
 #elif FEATURE == FEATURE_EXTENDED_ZONE_SORTER_BY_NAME
   // Construct the same ExtendedZoneManager as FEATURE_EXTENDED_TIME_ZONE, then
   // subtract its memory consumption numbers to isolate just the
@@ -265,14 +255,19 @@ void setup() {
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_BASIC_LINK_MANAGER
-  uint32_t zoneId = manager.zoneIdForLinkId(zonedb::kZoneIdUS_Pacific);
-  guard ^= zoneId;
 #elif FEATURE == FEATURE_BASIC_ZONE_SORTER_BY_NAME
+  auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
   uint16_t indexes[2] = {0, 1};
   zoneSorter.sortIndexes(indexes, 2);
   guard ^= indexes[0];
 #elif FEATURE == FEATURE_BASIC_ZONE_SORTER_BY_OFFSET_AND_NAME
+  auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
   uint16_t indexes[2] = {0, 1};
   zoneSorter.sortIndexes(indexes, 2);
   guard ^= indexes[0];
@@ -300,14 +295,19 @@ void setup() {
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_EXTENDED_LINK_MANAGER
-  uint32_t zoneId = manager.zoneIdForLinkId(zonedb::kZoneIdUS_Pacific);
-  guard ^= zoneId;
 #elif FEATURE == FEATURE_EXTENDED_ZONE_SORTER_BY_NAME
+  auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
   uint16_t indexes[2] = {0, 1};
   zoneSorter.sortIndexes(indexes, 2);
   guard ^= indexes[0];
 #elif FEATURE == FEATURE_EXTENDED_ZONE_SORTER_BY_OFFSET_AND_NAME
+  auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
   uint16_t indexes[2] = {0, 1};
   zoneSorter.sortIndexes(indexes, 2);
   guard ^= indexes[0];

@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 2.1.0 (2023-01-29, TZDB version 2022g)
     * **Potentially Breaking**: zonedb,zonedbx
         * Rename `kPolicyXxx` to `kZonePolicyXxx` for consistency. These are
           expected to be used only internally, so shouldn't cause external
@@ -17,17 +18,26 @@
             * `ZonedExtra::abbrev()` returns pointer to a local string buffer
               instead of a transient buffer deep inside `Transition` object.
             * `TimeZone` becomes closer to being thread-safe
-    * `ZonedExtra.h`
-        * New class with factory methods:
+    * **New Class**: `ZonedExtra.h`
         * `ZonedExtra::forEpochSeconds(epochSeconds, tz)`
-            * Create instnace from epochSeconds and time zone.
+            * Create instance from epochSeconds and time zone.
         * `ZonedExtra::forLocalDateTime(ldt, tz)`
             * Create instance from LocalDateTime and time zone.
-    * `ZoneProcessor.h`, `ExtendedZoneProcessor.h`, `BasicZoneProcessor.h`
+    * **Potentially Breaking**: Unified Links
+        * Links are now first-class citizens, exactly the same as Zones.
+        * Unify "fat links" and "symbolic links" into a single implementation.
+        * Remove "thin links" to simplify the code.
+        * `TimeZone` class simplified
+            * Removed `followLink` flag on various methods.
+            * Only 2 methods apply to Links: `isLink()` and
+              `printTargetNameTo()`.
+        * See [Migrating to v2.1](MIGRATING.md#MigratingToVersion210) for more
+          information.
+    * Simplify ZoneProcessors
+        * `ZoneProcessor.h`, `ExtendedZoneProcessor.h`, `BasicZoneProcessor.h`
         * Remove: `getUtcOffset()`, `getDeltaOffset()`, `getAbbrev()`
-            * Replaced by: `findByLocalDateTime()`, `findByEpochSeconds()`
-            * These are internal helper methods not intended for public
-              consumption.
+        * Replaced by: `findByLocalDateTime()`, `findByEpochSeconds()`
+        * These are internal helper methods not intended for public consumption.
     * Unit tests
         * Migrate most unit tests to use the smaller, testing zone databases at
           `testing/tzonedb/` and `testing/tzonedbx/`.

@@ -31,7 +31,7 @@
 // Policies: 12
 // Rules: 215
 // Letter Size (bytes): 8
-// Total Memory 8-bit (bytes): 2019
+// Total Memory 8-bit (bytes): 2449
 // Total Memory 32-bit (bytes): 2740
 //
 // DO NOT EDIT
@@ -45,7 +45,7 @@ namespace tzonedbx {
 //---------------------------------------------------------------------------
 // Policy name: Aus
 // Rules: 1
-// Memory (8-bit): 15
+// Memory (8-bit): 17
 // Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
@@ -77,7 +77,7 @@ const extended::ZonePolicy kZonePolicyAus ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: Canada
 // Rules: 6
-// Memory (8-bit): 60
+// Memory (8-bit): 72
 // Memory (32-bit): 84
 //---------------------------------------------------------------------------
 
@@ -169,7 +169,7 @@ const extended::ZonePolicy kZonePolicyCanada ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: EU
 // Rules: 4
-// Memory (8-bit): 42
+// Memory (8-bit): 50
 // Memory (32-bit): 60
 //---------------------------------------------------------------------------
 
@@ -237,7 +237,7 @@ const extended::ZonePolicy kZonePolicyEU ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: Edm
 // Rules: 3
-// Memory (8-bit): 33
+// Memory (8-bit): 39
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
@@ -293,7 +293,7 @@ const extended::ZonePolicy kZonePolicyEdm ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: Morocco
 // Rules: 169
-// Memory (8-bit): 1527
+// Memory (8-bit): 1865
 // Memory (32-bit): 2040
 //---------------------------------------------------------------------------
 
@@ -2341,7 +2341,7 @@ const extended::ZonePolicy kZonePolicyMorocco ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: Namibia
 // Rules: 4
-// Memory (8-bit): 54
+// Memory (8-bit): 62
 // Memory (32-bit): 76
 //---------------------------------------------------------------------------
 
@@ -2414,7 +2414,7 @@ const extended::ZonePolicy kZonePolicyNamibia ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: Port
 // Rules: 6
-// Memory (8-bit): 60
+// Memory (8-bit): 72
 // Memory (32-bit): 84
 //---------------------------------------------------------------------------
 
@@ -2506,7 +2506,7 @@ const extended::ZonePolicy kZonePolicyPort ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: US
 // Rules: 6
-// Memory (8-bit): 60
+// Memory (8-bit): 72
 // Memory (32-bit): 84
 //---------------------------------------------------------------------------
 
@@ -2598,7 +2598,7 @@ const extended::ZonePolicy kZonePolicyUS ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: Vanc
 // Rules: 3
-// Memory (8-bit): 33
+// Memory (8-bit): 39
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
@@ -2654,7 +2654,7 @@ const extended::ZonePolicy kZonePolicyVanc ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: W_Eur
 // Rules: 3
-// Memory (8-bit): 33
+// Memory (8-bit): 39
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
@@ -2710,7 +2710,7 @@ const extended::ZonePolicy kZonePolicyW_Eur ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: WS
 // Rules: 6
-// Memory (8-bit): 60
+// Memory (8-bit): 72
 // Memory (32-bit): 84
 //---------------------------------------------------------------------------
 
@@ -2802,7 +2802,7 @@ const extended::ZonePolicy kZonePolicyWS ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: Winn
 // Rules: 4
-// Memory (8-bit): 42
+// Memory (8-bit): 50
 // Memory (32-bit): 60
 //---------------------------------------------------------------------------
 

@@ -31,7 +31,6 @@
 #define ACE_TIME_ZONEDB_ZONE_REGISTRY_H
 
 #include <ace_time/internal/ZoneInfo.h>
-#include <ace_time/internal/LinkEntry.h>
 
 namespace ace_time {
 namespace zonedb {
@@ -43,10 +42,6 @@ extern const basic::ZoneInfo* const kZoneRegistry[227];
 // Zones and Links
 const uint16_t kZoneAndLinkRegistrySize = 446;
 extern const basic::ZoneInfo* const kZoneAndLinkRegistry[446];
-
-// Link Entries
-const uint16_t kLinkRegistrySize = 219;
-extern const basic::LinkEntry kLinkRegistry[219];
 
 }
 }

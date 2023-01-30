@@ -38,12 +38,6 @@
  *   Maximum is 28672 bytes. On a ProMicro, disabling
  *   ZonedDateTime::forEpochSeconds(*) removes the dependency to
  *   ExtendedZoneProcessor, reducing flash consumption from 28872 bytes.
- *
- * * (Pro Micro) Sketch uses 24862 bytes (86%) of program storage space.
- *   After adding kLinkRegistry with 183 links to BasicZoneManager.
- *
- * * (Nano) Sketch uses 28856 bytes (93%) of program storage space.
- *   After adding kLinkRegistry with 183 links to BasicZoneManager.
  */
 
 #include <Arduino.h>
@@ -602,52 +596,6 @@ void runIndexForZoneIdLinear() {
       emptyLoopMillis);
 }
 
-basic::LinkRegistrar* basicLinkRegistrar;
-
-// non-static to allow friend access into basic::ZoneRegistrar
-void runIndexForZoneIdWithThinLinks() {
-	basic::ZoneRegistrar zoneRegistrar(
-      kBenchmarkZoneRegistrySize,
-      kBenchmarkZoneRegistry);
-  basicZoneRegistrar = &zoneRegistrar;
-
-  basic::LinkRegistrar linkRegistrar(
-      zonedb::kLinkRegistrySize,
-      zonedb::kLinkRegistry);
-  basicLinkRegistrar = &linkRegistrar;
-
-  unsigned long runMillis = runLambda([]() {
-    uint16_t randomIndex = random(zonedb::kLinkRegistrySize);
-    const basic::LinkEntry* entry = basicLinkRegistrar->getLinkEntryForIndex(
-        randomIndex);
-    uint32_t linkId = basic::LinkEntryBroker(entry).linkId();
-
-    uint16_t index = basicZoneRegistrar->findIndexForId(linkId);
-    if (index != basic::ZoneRegistrar::kInvalidIndex) {
-      SERIAL_PORT_MONITOR.println(F("ERROR: Link found in Zone registry"));
-    }
-
-    index = basicLinkRegistrar->findIndexForId(linkId);
-    if (index == basic::ZoneRegistrar::kInvalidIndex) {
-      SERIAL_PORT_MONITOR.println(F("ERROR: Link missing from Link registry"));
-    }
-
-    disableOptimization(index);
-  });
-
-  unsigned long emptyLoopMillis = runLambda([]() {
-    uint16_t randomIndex = random(zonedb::kLinkRegistrySize);
-    const basic::LinkEntry* entry = basicLinkRegistrar->getLinkEntryForIndex(
-        randomIndex);
-    uint32_t linkId = basic::LinkEntryBroker(entry).linkId();
-
-    disableOptimization(linkId);
-  });
-
-  printResult(F("BasicZoneManager::createForZoneId(link)"), runMillis,
-      emptyLoopMillis);
-}
-
 void runBenchmarks() {
   runEmptyLoop();
 
@@ -673,7 +621,6 @@ void runBenchmarks() {
   runIndexForZoneName();
   runIndexForZoneIdBinary();
   runIndexForZoneIdLinear();
-  //runIndexForZoneIdWithThinLinks();
 
   SERIAL_PORT_MONITOR.print(F("Iterations_per_run "));
   SERIAL_PORT_MONITOR.println(COUNT);
