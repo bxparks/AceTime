@@ -1248,7 +1248,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           }
         } else {
           // Just copy the FORMAT disregarding deltaMinutes and letterString.
-          strncpy(dest, format, destSize);
+          strncpy(dest, format, destSize - 1);
           dest[destSize - 1] = '\0';
         }
       }
