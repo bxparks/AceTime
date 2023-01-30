@@ -34,13 +34,13 @@
 //   Names: 249 (originally 249)
 //   Formats: 92
 //   Fragments: 9
-//   Memory (8-bit): 909
+//   Memory (8-bit): 939
 //   Memory (32-bit): 1254
 // kZoneAndLinkRegistry sizes (bytes):
 //   Names: 260 (originally 260)
 //   Formats: 92
 //   Fragments: 9
-//   Memory (8-bit): 935
+//   Memory (8-bit): 965
 //   Memory (32-bit): 1293
 //
 // DO NOT EDIT
@@ -80,7 +80,7 @@ const internal::ZoneContext kZoneContext = {
 // Zone name: Africa/Casablanca
 // Zone Eras: 4
 // Strings (bytes): 46 (originally 46)
-// Memory (8-bit): 103
+// Memory (8-bit): 107
 // Memory (32-bit): 134
 //---------------------------------------------------------------------------
 
@@ -151,7 +151,7 @@ const extended::ZoneInfo kZoneAfrica_Casablanca ACE_TIME_PROGMEM = {
 // Zone name: Africa/Windhoek
 // Zone Eras: 2
 // Strings (bytes): 23 (originally 23)
-// Memory (8-bit): 58
+// Memory (8-bit): 60
 // Memory (32-bit): 79
 //---------------------------------------------------------------------------
 
@@ -198,7 +198,7 @@ const extended::ZoneInfo kZoneAfrica_Windhoek ACE_TIME_PROGMEM = {
 // Zone name: America/Caracas
 // Zone Eras: 3
 // Strings (bytes): 30 (originally 30)
-// Memory (8-bit): 76
+// Memory (8-bit): 79
 // Memory (32-bit): 102
 //---------------------------------------------------------------------------
 
@@ -257,7 +257,7 @@ const extended::ZoneInfo kZoneAmerica_Caracas ACE_TIME_PROGMEM = {
 // Zone name: America/Chicago
 // Zone Eras: 1
 // Strings (bytes): 20 (originally 20)
-// Memory (8-bit): 44
+// Memory (8-bit): 45
 // Memory (32-bit): 60
 //---------------------------------------------------------------------------
 
@@ -292,7 +292,7 @@ const extended::ZoneInfo kZoneAmerica_Chicago ACE_TIME_PROGMEM = {
 // Zone name: America/Denver
 // Zone Eras: 1
 // Strings (bytes): 19 (originally 19)
-// Memory (8-bit): 43
+// Memory (8-bit): 44
 // Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
@@ -327,7 +327,7 @@ const extended::ZoneInfo kZoneAmerica_Denver ACE_TIME_PROGMEM = {
 // Zone name: America/Edmonton
 // Zone Eras: 2
 // Strings (bytes): 25 (originally 25)
-// Memory (8-bit): 60
+// Memory (8-bit): 62
 // Memory (32-bit): 81
 //---------------------------------------------------------------------------
 
@@ -374,7 +374,7 @@ const extended::ZoneInfo kZoneAmerica_Edmonton ACE_TIME_PROGMEM = {
 // Zone name: America/Los_Angeles
 // Zone Eras: 1
 // Strings (bytes): 24 (originally 24)
-// Memory (8-bit): 48
+// Memory (8-bit): 49
 // Memory (32-bit): 64
 //---------------------------------------------------------------------------
 
@@ -409,7 +409,7 @@ const extended::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_PROGMEM = {
 // Zone name: America/New_York
 // Zone Eras: 1
 // Strings (bytes): 21 (originally 21)
-// Memory (8-bit): 45
+// Memory (8-bit): 46
 // Memory (32-bit): 61
 //---------------------------------------------------------------------------
 
@@ -444,7 +444,7 @@ const extended::ZoneInfo kZoneAmerica_New_York ACE_TIME_PROGMEM = {
 // Zone name: America/Toronto
 // Zone Eras: 1
 // Strings (bytes): 20 (originally 20)
-// Memory (8-bit): 44
+// Memory (8-bit): 45
 // Memory (32-bit): 60
 //---------------------------------------------------------------------------
 
@@ -479,7 +479,7 @@ const extended::ZoneInfo kZoneAmerica_Toronto ACE_TIME_PROGMEM = {
 // Zone name: America/Vancouver
 // Zone Eras: 2
 // Strings (bytes): 26 (originally 26)
-// Memory (8-bit): 61
+// Memory (8-bit): 63
 // Memory (32-bit): 82
 //---------------------------------------------------------------------------
 
@@ -526,7 +526,7 @@ const extended::ZoneInfo kZoneAmerica_Vancouver ACE_TIME_PROGMEM = {
 // Zone name: America/Whitehorse
 // Zone Eras: 3
 // Strings (bytes): 31 (originally 31)
-// Memory (8-bit): 77
+// Memory (8-bit): 80
 // Memory (32-bit): 103
 //---------------------------------------------------------------------------
 
@@ -585,7 +585,7 @@ const extended::ZoneInfo kZoneAmerica_Whitehorse ACE_TIME_PROGMEM = {
 // Zone name: America/Winnipeg
 // Zone Eras: 2
 // Strings (bytes): 25 (originally 25)
-// Memory (8-bit): 60
+// Memory (8-bit): 62
 // Memory (32-bit): 81
 //---------------------------------------------------------------------------
 
@@ -632,7 +632,7 @@ const extended::ZoneInfo kZoneAmerica_Winnipeg ACE_TIME_PROGMEM = {
 // Zone name: Australia/Darwin
 // Zone Eras: 1
 // Strings (bytes): 22 (originally 22)
-// Memory (8-bit): 46
+// Memory (8-bit): 47
 // Memory (32-bit): 62
 //---------------------------------------------------------------------------
 
@@ -667,7 +667,7 @@ const extended::ZoneInfo kZoneAustralia_Darwin ACE_TIME_PROGMEM = {
 // Zone name: Europe/Lisbon
 // Zone Eras: 4
 // Strings (bytes): 34 (originally 34)
-// Memory (8-bit): 91
+// Memory (8-bit): 95
 // Memory (32-bit): 122
 //---------------------------------------------------------------------------
 
@@ -738,7 +738,7 @@ const extended::ZoneInfo kZoneEurope_Lisbon ACE_TIME_PROGMEM = {
 // Zone name: Pacific/Apia
 // Zone Eras: 2
 // Strings (bytes): 29 (originally 29)
-// Memory (8-bit): 64
+// Memory (8-bit): 66
 // Memory (32-bit): 85
 //---------------------------------------------------------------------------
 
