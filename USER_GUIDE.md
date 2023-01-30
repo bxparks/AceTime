@@ -18,7 +18,7 @@ valid from the years `[2000,10000)`. By adjusting the `currentEpochYear()`, the
 library will work across any 100 year interval across the 8000 year range of the
 TZ database.
 
-**Version**: 2.0.1 (2022-12-04, TZDB 2022g)
+**Version**: 2.1.0 (2023-01-29, TZDB 2022g)
 
 **Related Documents**:
 
@@ -79,9 +79,7 @@ TZ database.
         * [TZ Database Version](#TzDatabaseVersion)
         * [Zone Info Year Range](#ZoneInfoYearRange)
     * [Zones and Links](#ZonesAndLinks)
-        * [Ghost Links (Prior to v1.5)](#GhostLinks)
-        * [Fat Links (From v1.5)](#FatLinks)
-        * [Symbolic Links (From v1.11)](#SymbolicLinks)
+        * [Unified Links](#UnifiedLinks)
         * [Custom Zone Registry](#CustomZoneRegistry)
 * [Zone Sorting](#ZoneSorting)
 * [Print To String](#PrintToString)
@@ -1549,7 +1547,7 @@ class ZonedExtra {
 ```
 
 The `ZonedExtra` instance is usually created through the 2 static factory
-methods from the `epochSeconds` or the `LocalDateTime`:
+methods on the `ZonedExtra` class:
 
 * `ZonedExtra::forEpochSeconds(epochSeconds, tz)`
 * `ZonedExtra::forLocalDateTime(ldt, tz)`
@@ -1755,32 +1753,14 @@ static const uint8_t CACHE_SIZE = 2; // tuned for application
 BasicZoneProcessorCache<CACHE_SIZE> basicZoneProcessorCache;
 ExtendedZoneProcessorCache<CACHE_SIZE> extendedZoneProcessorCache;
 
-// BasicZoneManager, Zones only
-// 266 zones
-// 21.6 kB (8-bits)
-// 27.1 kB (32-bits)
-BasicZoneManager zoneManager(
-    zonedb::kZoneRegistrySize,
-    zonedb::kZoneRegistry,
-    basicZoneProcessorCache);
-
-// BasicZoneManager, Zones and Fat Links
-// 266 zones, 183 fat links
+// BasicZoneManager, Zones and Links
+// 266 zones, 183 links
 // 25.7 kB (8-bits)
 // 33.2 kB (32-bits)
 BasicZoneManager zoneManager(
     zonedb::kZoneAndLinkRegistrySize,
     zonedb::kZoneAndLinkRegistry,
     basicZoneProcessorCache);
-
-// ExtendedZoneManager, Zones only
-// 386 Zones
-// 33.5 kB (8-bits)
-// 41.7 kB (32-bits)
-ExtendedZoneManager zoneManager(
-    zonedbx::kZoneRegistrySize,
-    zonedbx::kZoneRegistry,
-    extendedZoneProcessorCache);
 
 // ExtendedZoneManager, Zones and Fat Links
 // 386 Zones, 207 fat Links
@@ -1791,9 +1771,6 @@ ExtendedZoneManager zoneManager(
     zonedbx::kZoneAndLinkRegistry,
     extendedZoneProcessorCache);
 ```
-
-A more complicated option of using *thin link* through the `LinkManager` is
-explained the [Zones and Links](#ZonesAndLinks) section below.
 
 Once the `ZoneManager` is configured with the appropriate registries, you can
 use one of the `createForXxx()` methods to create a `TimeZone` as shown in the
@@ -2534,27 +2511,23 @@ A Zone entry is the canonical name of a given time zone in the IANA database
 (e.g. `America/Los_Angeles`). A Link entry is an alias, an alternate name, for a
 canonical entry (e.g. `US/Pacific` which points to `America/Los_Angeles`).
 
+<a name="UnifiedLinks"></a>
+#### Unified Links
+
 Prior to v2.1, AceTime treated Links slightly differently than Zones, providing
-4 different implementations. After v2.1, Links are considered to be essentially
-identical to Zones, because the TZDB considers both of them as primary
-importance. Following this merger, the `kZoneAndLinkRegistry` has been merged
-into the `kZoneRegistry` and the 2 are identical.
+4 different implementations over several version. After v2.1, Links are
+considered to be identical to Zones, because the TZDB considers both of them to
+be first-class citizens. Following this merger, the `kZoneAndLinkRegistry` has
+been merged into the `kZoneRegistry` and the 2 registries are identical.
 
-<a name="SymbolicLinks"></a>
-#### Symbolic Links (From v1.11)
-
-In v1.11, Link entries were converted from a "hard link" to a "symbolic link".
-The `TimeZone` and `ZoneProcessor` interfaces were extended in the following
-way:
+There are 2 methods on the `TimeZone` class which apply only to Links:
 
 ```C++
 class TimeZone {
   public:
     ...
-
     bool isLink() const;
-    uint32_t getTargetId() const;
-    const char* getTargetName() const;
+    printTargetNameTo(Print& printer) const;
     ...
 };
 
@@ -2562,21 +2535,21 @@ The `TimeZone::isLink()` method returns `true` if the current time zone is a
 Link entry instead of a Zone entry. For example `US/Pacific` is a link to
 `America/Los_Angeles`.
 
-For example, `TimeZone::getZoneId()` for `US/Pacific` returns the value defined
-by `kZoneIdUS_Pacific`. But `TimeZone::getZoneId(true /*followLink*/)` returns
-the value defined by `kZoneIdAmerica_Los_Angeles`.
+The `TimeZone::printTargetNameTo(Print&)` prints the name of the target zone if
+the current time zone is a Link. Otherwise it prints nothing. For example, for
+the time zone `US/Pacific` (which is a Link to `America/Los_Angeles`):
 
-Similarly, `TimeZone::printTo(Serial)` prints `US/Pacific`. But
-`TimeZone::printTo(Serial, true
-/*followLink*)` prints `America/Los_Angeles`.
+* `printTo(Print&)` prints "US/Pacific"
+* `printTargetNameTo(Print&)` prints "America/Los_Angeles"
 
 <a name="CustomZoneRegistry"></a>
 #### Custom Zone Registry
 
-On small microcontrollers, the default zone registries may be too large. The
-`ZoneManager` can be configured with a custom zone registry. It needs
-to be given an array of `ZoneInfo` pointers when constructed. For example, here
-is a `BasicZoneManager` with only 4 zones from the `zonedb::` data set:
+On small microcontrollers, the default zone registries (`kZoneRegistry` and
+`kZoneAndLinkRegistry`, which are now identical) may be too large. The
+`ZoneManager` can be configured with a custom zone registry. It needs to be
+given an array of `ZoneInfo` pointers when constructed. For example, here is a
+`BasicZoneManager` with only 4 zones from the `zonedb::` data set:
 
 ```C++
 #include <AceTime.h>
@@ -3222,7 +3195,7 @@ Serial.println(dt.isError() ? "true" : "false");
      as well as it could be, and the algorithm may change in the future. To keep
      the code size within reasonble limits of a small Arduino controller, the
      algorithm may be permanently sub-optimal.
-* `ZonedDateTime` Must Be Within +/- ~50 years of the AceTimeEpoch
+* `ZonedDateTime` Must Be Within +/- ~50 years of the AceTime Epoch
     * The internal time zone calculations use the same `int32_t` type as
       the `acetime_t` epoch seconds. This has a range of about 136 years.
     * To be safe, the `ZoneDateTime` objects should be restricted to about +/-
@@ -3258,12 +3231,6 @@ Serial.println(dt.isError() ? "true" : "false");
         * The `tzcompiler.py` will exclude and flag the Rules which could
           potentially shift to a different year. As of version 2022f, no such
           Rule seems to exist.
-* Links
-    * Fat links (see [Zones and Links](#ZonesAndLinks) section above) cannot
-      determine whether a given `ZoneInfo` instance is a Zone or a Link at run
-      time.
-    * Symbolic links can. The current `zonedb` and `zonedbx` databases use
-      symbolic links.
 * Arduino Zero and SAMD21 Boards
     * SAMD21 boards (which all identify themselves as `ARDUINO_SAMD_ZERO`) are
       no longer fully supported because:
