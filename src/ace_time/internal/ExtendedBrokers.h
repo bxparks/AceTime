@@ -39,7 +39,6 @@
 #include "../common/compat.h"
 #include "BrokerCommon.h"
 #include "ZoneInfo.h"
-#include "LinkEntry.h"
 
 class __FlashStringHelper;
 
@@ -340,16 +339,6 @@ class ZoneInfoBroker {
 
     bool isNull() const { return mZoneInfo == nullptr; }
 
-    bool isLink() const { return pgm_read_byte(&mZoneInfo->numEras) == 0; }
-
-    /**
-     * Return the ZoneInfoBroker of the target Zone, assuming that the current
-     * Zone is a Link. Should be called after verifying that isLink() is true.
-     */
-    ZoneInfoBroker targetZoneInfo() const {
-      return ZoneInfoBroker((const ZoneInfo*) pgm_read_ptr(&mZoneInfo->eras));
-    }
-
   #if ACE_TIME_USE_PROGMEM
 
     const internal::ZoneContext* zoneContext() const {
@@ -365,21 +354,20 @@ class ZoneInfoBroker {
       return pgm_read_dword(&mZoneInfo->zoneId);
     }
 
-    uint8_t numEras() const {
-      if (isLink()) {
-        return targetZoneInfo().numEras();
-      } else {
-        return pgm_read_byte(&mZoneInfo->numEras);
-      }
-    }
+    uint8_t numEras() const { return pgm_read_byte(&mZoneInfo->numEras); }
 
     const ZoneEraBroker era(uint8_t i) const {
-      if (isLink()) {
-        return targetZoneInfo().era(i);
-      } else {
-        auto eras = (const ZoneEra*) pgm_read_ptr(&mZoneInfo->eras);
-        return ZoneEraBroker(&eras[i]);
-      }
+      auto eras = (const ZoneEra*) pgm_read_ptr(&mZoneInfo->eras);
+      return ZoneEraBroker(&eras[i]);
+    }
+
+    bool isLink() const {
+      return mZoneInfo->targetInfo != nullptr;
+    }
+
+    ZoneInfoBroker targetInfo() const {
+      return ZoneInfoBroker((const ZoneInfo*)
+          pgm_read_ptr(&mZoneInfo->targetInfo));
     }
 
   #else
@@ -396,6 +384,10 @@ class ZoneInfoBroker {
 
     const ZoneEraBroker era(uint8_t i) const {
       return ZoneEraBroker(&mZoneInfo->eras[i]);
+    }
+
+    const ZoneInfoBroker targetInfo() const {
+      return ZoneInfoBroker(mZoneInfo->targetInfo);
     }
 
   #endif
@@ -444,59 +436,6 @@ class ZoneRegistryBroker {
 
   private:
     const ZoneInfo* const* mZoneRegistry;
-};
-
-//-----------------------------------------------------------------------------
-
-/** Data broker for accessing a LinkEntry. */
-class LinkEntryBroker {
-  public:
-    explicit LinkEntryBroker(const LinkEntry* linkEntry = nullptr):
-        mLinkEntry(linkEntry) {}
-
-    // use default copy constructor
-    LinkEntryBroker(const LinkEntryBroker&) = default;
-
-    // use default assignment operator
-    LinkEntryBroker& operator=(const LinkEntryBroker&) = default;
-
-  #if ACE_TIME_USE_PROGMEM
-    uint32_t zoneId() const { return pgm_read_dword(&mLinkEntry->zoneId); }
-    uint32_t linkId() const { return pgm_read_dword(&mLinkEntry->linkId); }
-
-  #else
-    uint32_t zoneId() const { return mLinkEntry->zoneId; }
-    uint32_t linkId() const { return mLinkEntry->linkId; }
-
-  #endif
-
-  private:
-    const LinkEntry* mLinkEntry;
-};
-
-/**
- * Data broker for a LinkRegistry composed of LinkEntry records.
- */
-class LinkRegistryBroker {
-  public:
-    LinkRegistryBroker(const LinkEntry zoneRegistry[]):
-        mLinkRegistry(zoneRegistry) {}
-
-    // use default copy constructor
-    LinkRegistryBroker(const LinkRegistryBroker&) = default;
-
-    // use default assignment operator
-    LinkRegistryBroker& operator=(const LinkRegistryBroker&) = default;
-
-    // Same code can be used whether or not ACE_TIME_USE_PROGMEM is active
-    // because mLinkRegistry stores the actual LinkEntry, instead of a pointer
-    // to LinkEntry.
-    const LinkEntry* linkEntry(uint16_t i) const {
-      return &mLinkRegistry[i];
-    }
-
-  private:
-    const LinkEntry* mLinkRegistry;
 };
 
 //-----------------------------------------------------------------------------

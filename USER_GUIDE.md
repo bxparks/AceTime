@@ -18,7 +18,7 @@ valid from the years `[2000,10000)`. By adjusting the `currentEpochYear()`, the
 library will work across any 100 year interval across the 8000 year range of the
 TZ database.
 
-**Version**: 2.0.1 (2022-12-04, TZDB 2022g)
+**Version**: 2.1.0 (2023-01-29, TZDB 2022g)
 
 **Related Documents**:
 
@@ -46,11 +46,13 @@ TZ database.
         * [Manual TimeZone](#ManualTimeZone)
         * [Basic TimeZone](#BasicTimeZone)
         * [Extended TimeZone](#ExtendedTimeZone)
+        * [TimeZone Type Recommendations](#TimeZoneTypeRecommendations)
     * [ZonedDateTime](#ZonedDateTime)
         * [Class Declaration](#ZonedDateTimeDeclaration)
         * [Creation](#ZonedDateTimeCreation)
         * [Conversion to Other Time Zones](#TimeZoneConversion)
         * [DST Transition Caching](#DstTransitionCaching)
+    * [ZonedExtra](#ZonedExtra)
     * [ZoneManager](#ZoneManager)
         * [Class Hierarchy](#ClassHierarchy)
         * [Default Registries](#DefaultRegistries)
@@ -77,10 +79,7 @@ TZ database.
         * [TZ Database Version](#TzDatabaseVersion)
         * [Zone Info Year Range](#ZoneInfoYearRange)
     * [Zones and Links](#ZonesAndLinks)
-        * [Ghost Links (Prior to v1.5)](#GhostLinks)
-        * [Fat Links (From v1.5)](#FatLinks)
-        * [Thin Links (From v1.6)](#ThinLinks)
-        * [Symbolic Links (From v1.11)](#SymbolicLinks)
+        * [Unified Links](#UnifiedLinks)
         * [Custom Zone Registry](#CustomZoneRegistry)
 * [Zone Sorting](#ZoneSorting)
 * [Print To String](#PrintToString)
@@ -911,13 +910,14 @@ A "time zone" is often used colloquially to mean 2 different things:
 from the UTC time using various transition rules.
 
 Both meanings of "time zone" are supported by the `TimeZone` class using
-3 different types as follows:
+3 different types as defined by the value of `getType()`:
 
-* `TimeZone::kTypeManual`: a fixed base offset and optional DST offset from UTC
-* `TimeZone::kTypeBasic`: utilizes a `BasicZoneProcessor` which can
-be encoded with (relatively) simple rules from the ZoneInfo Database
-* `TimeZone::kTypeExtended`: utilizes a `ExtendedZoneProcessor` which can
-handle all zones in the ZoneInfo Database
+* `TimeZone::kTypeManual` (1): a fixed base offset and optional DST offset from
+  UTC
+* `BasicZoneProcessor::kTypeBasic` (3): utilizes a `BasicZoneProcessor` which
+  can be encoded with (relatively) simple rules from the ZoneInfo Database
+* `ExtendedZoneProcessor::kTypeExtended` (4): utilizes a `ExtendedZoneProcessor`
+  which can handle all zones and links in the ZoneInfo Database
 
 The class hierarchy of `TimeZone` is shown below, where the arrow means
 "is-subclass-of" and the diamond-line means "is-aggregation-of". This is an
@@ -978,21 +978,21 @@ class TimeZone {
     bool isError() const;
 
     uint8_t getType() const;
-    TimeOffset getStdOffset() const;
-    TimeOffset getDstOffset() const;
     uint32_t getZoneId() const;
 
-    TimeOffset getUtcOffset(acetime_t epochSeconds) const;
-    TimeOffset getDeltaOffset(acetime_t epochSeconds) const;
-    const char* getAbbrev(acetime_t epochSeconds) const;
-
     OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const;
+    OffsetDateTime getOffsetDateTime(acetime_t epochSeconds) const;
 
-    bool isUtc() const;
-    bool isDst() const;
+    ZonedExtra getZonedExtra(const LocalDateTime& ldt) const;
+    ZonedExtra getZonedExtra(acetime_t epochSeconds) const;
 
+    // for kTypeManual only
+    TimeOffset getStdOffset() const;
+    TimeOffset getDstOffset() const;
     void setStdOffset(TimeOffset stdOffset);
     void setDstOffset(TimeOffset offset);
+    bool isUtc() const;
+    bool isDst() const;
 
     TimeZoneData toTimeZoneData() const;
 
@@ -1003,47 +1003,71 @@ class TimeZone {
 }
 ```
 
-The `getUtcOffset(epochSeconds)` returns the total `TimeOffset` (including any
-DST offset) at the given `epochSeconds`. The `getDeltaOffset()` returns only the
-additional DST offset; if DST is not in effect at the given `epochSeconds`, this
-returns a `TimeOffset` whose `isZero()` returns true.
+The following methods apply only to instances of the type `kTypeManual`:
 
-The `getAbbrev(epochSeconds)` method returns the human-readable timezone
-abbreviation used at the given `epochSeconds`. For example, this be "PST" for
-Pacific Standard Time, or "BST" for British Summer Time. The returned c-string
-should be used as soon as possible (e.g. printed to Serial) because the pointer
-points to a temporary buffer whose contents may change upon subsequent calls to
-`getUtcOffset()`, `getDeltaOffset()` and `getAbbrev()`. If the abbreviation
-needs to be saved for a longer period of time, it should be saved to another
-char buffer.
+* `forUtc()`
+    * create a `TimeZone` instance for UTC+00:00
+* `forTimeOffset(stdOffset, dstOffset)`
+    * create a `TimeZone` instance using `TimeOffset`
+* `forHours(stdHours, dstHours)`
+    * create a `TimeZone` instance using hours offset
+* `forMinutes(stdMinutes, dstMinutes)`
+    * create a `TimeZone` instance using minutes offset
+* `isUtc()`:
+    * returns true if the instance is a UTC time zone instance
+    * returns false if not `kTypeManual`
+* `isDst()`:
+    * returns true if the dstOffset is not zero
+    * returns false if not `kTypeManual`
+* `setSdtOffset(TimeOffset)`, `setDstOffset(TimeOffset)`:
+    * modify the std and dst offsets of the instance
+    * does nothing if not `kTypeManual`
 
-The `getOffsetDateTime(localDateTime)` method returns the best guess of
-the `OffsetDateTime` at the given local date time. This method is used by
-`ZonedDateTime::forComponents()` and is exposed mostly for debugging. The reaon
-that this is a best guess is because the local date time is sometime ambiguious
-during a DST transition. For example, if the local clock shifts from 01:00 to
-02:00 at the start of summer, then the time of 01:30 does not exist. If the
-`getOffsetDateTime()` method is given a non-existing time, it makes an educated
-guess at what the user meant. Additionally, when the local time transitions from
-02:00 to 01:00 in the autumn, a given local time such as 01:30 occurs twice. If
-the `getOffsetDateTime()` method is given a time of 01:30, it will arbitrarily
-decide which offset to return.
+The following methods apply to a `kTypeBasic` or `kTypeExtended`:
 
-The `isUtc()`, `isDst()` and `setDstOffset(TimeOffset)` methods are valid *only*
-if the `TimeZone` is a `kTypeManual`. Otherwise, `isUtc()` and `isDst()` return
-`false` and `setDstOffset()` does nothing.
+* `forZoneInfo(zoneInfo, zoneProcessor)`
+    * Create an instance of from the given `ZoneInfo*` pointer (e.g.
+      `basic::kZoneAmerica_Los_Angeles`, or
+      `extended::kZoneAmerica_Los_Angeles`)
+* `getZoneId()`
+    * Returns a `uint32_t` integer which is a unique and stable identifier for
+      the IANA timezone. The zoneId identifier can be used to save and restore
+      the `TimeZone`. See the [ZoneManager](#ZoneManager) subsection below.
 
-The `getZoneId()` returns a `uint32_t` integer which is a unique and stable
-identifier for the IANA timezone. This can be used to save and restore
-the `TimeZone`. See the [ZoneManager](#ZoneManager) subsection below.
+The following methods apply to any type of `TimeZone`:
 
-The `printTo()` prints the fully-qualified unique name for the time zone.
-For example, `"UTC"`, `"-08:00"`, `"-08:00(DST)"`, `"America/Los_Angeles"`.
-
-The `printShortTo()` is similar to `printTo()` except that it prints the
-last component of the IANA TZ Database zone names. In other words,
-`"America/Los_Angeles"` is printed as `"Los_Angeles"`. This is helpful for
-printing on small width OLED displays.
+* `getOffsetDateTime(localDateTime)`
+    * Returns the best guess of the `OffsetDateTime` at the given local date
+      time. This method is used by `ZonedDateTime::forComponents()` and is
+      exposed mostly for debugging.
+    * The `fold` parameter of the `localDateTime` will be used by the
+      `ExtendedZoneProcessor` to disambiguate date-time in the gap or overlap
+      selecting the first (0) or second (1) transition line.
+    * The `BasicZoneProcessor` does not support the `fold` parameter so will
+      ignore it.
+* `getOffsetDateTime(epochSeconds)`
+    * Returns the `OffsetDateTime` that matches the given `epochSeconds`.
+    * The `OffsetDateTime::fold` parameter indicates whether the date-time
+      occurred the first time (0), or the second time (1)
+* `getZonedExtra(localDateTime)`
+    * Returns the `ZonedExtra` instance at the given `localDateTime`.
+    * `ZonedExtra` contains additional information about the timezone, such as
+      the `ZonedExtra::stdOffset()`, `ZonedExtra::dstOffset()`, and the
+      `ZonedExtra::abbrev()`
+    * It may be more convenient to use the `ZonedExtra::forLocalDateTime()`
+      factory method instead. See [ZonedExtra](#ZonedExtra) section below.
+* `getZonedExtra(epochSeconds)`
+    * Returns the `ZonedExtra` instance at the given `epochSeconds`.
+    * It may be more convenient to use the `ZonedExtra::forEpochSeconds()`
+      factory method instead. See [ZonedExtra](#ZonedExtra) section below.
+* `printTo()`
+    * Prints the fully-qualified unique name for the time zone. For example,
+      `"UTC"`, `"-08:00"`, `"-08:00(DST)"`, `"America/Los_Angeles"`.
+* `printShortTo()`
+    * Similar to `printTo()` except that it prints the last component of the
+      IANA TZ Database zone names.
+    * In other words, `"America/Los_Angeles"` is printed as `"Los_Angeles"`.
+      This is helpful for printing on small width OLED displays.
 
 <a name="ManualTimeZone"></a>
 #### Manual TimeZone (kTypeManual)
@@ -1130,7 +1154,10 @@ Some examples of `ZoneInfo` entries supported by `zonedb` are:
 * `zonedb::kZoneGMT_10` (`GMT-10`)
 
 The following example creates a `TimeZone` which describes
-`America/Los_Angeles`:
+`America/Los_Angeles`. A `TimeZone` instance is normally expected to be just
+passed into a `ZonedDateTime` object through a factory method, but there are
+a few ways that a `TimeZone` object can be used directly. See the
+[ZonedExtra](#ZonedExtra) section below for more information:
 
 ```C++
 #include <AceTime.h>
@@ -1149,7 +1176,8 @@ void someFunction() {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
-    auto offset = tz.getUtcOffset(epochSeconds); // returns -08:00
+    ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+    TimeOffset offset = ze.timeOffset(); // returns -08:00
   }
 
   // one second later, 2018-03-11T02:00:00-08:00 was in DST time
@@ -1157,7 +1185,8 @@ void someFunction() {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHours(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
-    auto offset = tz.getUtcOffset(epochSeconds); // returns -07:00
+    ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+    TimeOffset offset = ze.timeOffset(); // returns -07:00
   }
   ...
 }
@@ -1202,6 +1231,12 @@ zone infos which exists in `zonedbx::` but not in `zonedb::` are:
 * `zonedbx::kZoneAsia_Hebron`
 * `zonedbx::kZoneEurope_Moscow`
 
+The following example creates a `TimeZone` which describes
+`America/Los_Angeles`. A `TimeZone` instance is normally expected to be just
+passed into a `ZonedDateTime` object through a factory method, but there are
+a few ways that a `TimeZone` object can be used directly. See the
+[ZonedExtra](#ZonedExtra) section below for more information:
+
 ```C++
 ExtendedZoneProcessor zoneProcessor;
 
@@ -1215,7 +1250,8 @@ void someFunction() {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
-    auto offset = tz.getUtcOffset(epochSeconds); // returns -08:00
+    ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+    TimeOffset offset = ze.timeOffset(); // returns -08:00
   }
 
   // one second later, 2018-03-11T02:00:00-08:00 was in DST time
@@ -1223,24 +1259,54 @@ void someFunction() {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHours(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
-    auto offset = tz.getUtcOffset(epochSeconds); // returns -07:00
+    ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+    TimeOffset offset = ze.timeOffset(); // returns -07:00
   }
   ...
 }
 ```
 
-The advantage of `ExtendedZoneProcessor` over `BasicZoneProcessor` is that
-`ExtendedZoneProcessor` supports all time zones in the IANA TZ Database. The
-cost is that it consumes *5 times* more static memory and is a bit slower. If
-`BasicZoneProcessor` supports the zone that you want using the ZoneInfo entries
-in the `zonedb::` namespace, you should normally use that instead of
-`ExtendedZoneProcessor`.
+<a name="TimeZoneTypeRecommendations"></a>
+### TimeZone Type Recommendations
 
-The one other advantage of `ExtendedZoneProcessor` over `BasicZoneProcessor` is
-that `ExtendedZoneProcessor::forComponents()` is more accurate than
-`BasicZoneProcessor::forComponents()` because the `zonedbx::` entries contain
-transition information which are missing in the `zonedb::` entries due to
-space constraints.
+There are 3 major types of `TimeZone` objects:
+
+* `kTypeManual`: STD and DST offsets are fixed
+* `kTypeBasic`: uses `BasicZoneProcessor`
+* `kTypeExtended`: uses `ExtendedZoneProcessor`
+
+The `kTypeManual` was added mostly for completeness and for testing purposes. I
+do not expect most applications to use the `kTypeManual`, because the primary
+purpose of the AceTime library to provide access to the timezones defined by the
+IANA TZ database, and the `kTypeManual` timezone does not provide that
+functionality.
+
+The advantage of `ExtendedZoneProcessor` over `BasicZoneProcessor` is that
+`ExtendedZoneProcessor` will always support all time zones and links in the IANA
+TZ Database. The `BasicZoneProcessor` supports only a limited subset of zones
+which have certain simplifying properties. It is not uncommon for zones that
+used to be supported by `BasicZoneProcessor` to change its DST rules in a
+subsequent TZ DB release and becomes incompatible with the `BasicZoneProcessor`.
+The `ExtendedZoneProcessor` does not have this problem.
+
+The `ExtendedZoneProcessor` is also more accurate than `BasicZoneProcessor`
+during DST gaps when using the `forComponents()` factory methods,  because the
+`zonedbx::` entries contain transition information which are missing in the
+`zonedb::` entries due to space constraints. The `ExtendedZoneProcessor`
+provides complete control which `LocalDateTime` is selected during a gap or
+overlap using the `fold` parameter. The `BasicZoneProcessor` ignores the `fold`
+parameter and makes educated guesses when the `LocalDateTime` falls in a gap or
+an overlap.
+
+The biggest difference between `BasicZoneProcessor` and `ExtendedZoneProcessor`
+is the amount of flash and static memory consumed. The `ExtendedZoneProcessor`
+consumes [4 times](examples/AutoBenchmark/README.md) more static memory than
+`BasicZoneProcessor` and is a bit slower. For most 32-bit processors, this will
+not be an issue, so the `ExtendedZoneProcessor` is recommended. For 8-bit
+processors, the `BasicZoneProcessor` consumes a lot less resources, so if your
+timezone is supported, then it may be the appropriate choice. In most cases, I
+think the `ExtendedZoneProcessor` should be preferred unless memory resources
+are so constrained that `BasicZoneProcessor` must be used.
 
 Instead of managing the `BasicZoneProcessor` or `ExtendedZoneProcessor`
 manually, you can use the `ZoneManager` to manage a database of `ZoneInfo`
@@ -1428,6 +1494,117 @@ second. According to [AutoBenchmark](examples/AutoBenchmark/), the cache
 improves performance by a factor of 2-3X (8-bit AVR) to 10-20X (32-bit
 processors) on consecutive calls to `forEpochSeconds()` with the same `year`.
 
+<a name="ZonedExtra"></a>
+### ZonedExtra
+
+The most important feature of the AceTime library is the conversion from
+`epochSeconds` to `ZonedDateTime` and vise versa. The `ZonedDateTime` object
+contains the most common parameters that is expected to be needed by the user,
+the Gregorian date components (provided by `LocalDateTime`) and the total UTC
+offset at the specific instance (provided by `ZonedDateTime::timeOffset()`).
+
+To keep memory size of the `ZonedDateTime` class reasonable, it does not contain
+some of the less common information that the end-user may wish to know. The
+extra time zone parameters are contained in the `ZonedExtra` class, which look
+like this:
+
+```C++
+namespace ace_time {
+
+class ZonedExtra {
+  public:
+    static const uint8_t kTypeNotFound = 0;
+    static const uint8_t kTypeExact = 1;
+    static const uint8_t kTypeGap = 2;
+    static const uint8_t kTypeOverlap = 3;
+
+    static ZonedExtra forError();
+    static ZonedExtra forEpochSeconds(
+        acetime_t epochSeconds, const TimeZone& tz);
+    static ZonedExtra forLocalDateTime(
+        const LocalDateTime& ldt, const TimeZone& tz);
+
+    explicit ZonedExtra() {}
+    explicit ZonedExtra(
+        uint8_t type,
+        int16_t stdOffsetMinutes,
+        int16_t dstOffsetMinutes,
+        int16_t reqStdOffsetMinutes,
+        int16_t reqDstOffsetMinutes,
+        const char* abbrev);
+
+    bool isError() const {
+    uint8_t type() const { return mType; }
+
+    TimeOffset stdOffset() const;
+    TimeOffset dstOffset() const;
+    TimeOffset reqStdOffset() const;
+    TimeOffset reqDstOffset() const;
+    const char* abbrev() const;
+};
+
+}
+```
+
+The `ZonedExtra` instance is usually created through the 2 static factory
+methods on the `ZonedExtra` class:
+
+* `ZonedExtra::forEpochSeconds(epochSeconds, tz)`
+* `ZonedExtra::forLocalDateTime(ldt, tz)`
+
+Often the `ZonedDateTime` will be created first from the epochSeconds, then the
+`ZonedExtra` will be created to access additional information about the time zone at that particular epochSeconds (e.g. abbreviation):
+
+```C++
+ExtendedZoneProcessor zoneProcessor;
+TimeZone tz = TimeZone::forZoneInfo(
+    &zonedbx::kZoneAmerica_Los_Angeles,
+    &zoneProcessor);
+acetime_t epochSeconds = ...;
+ZonedDateTime zdt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+ZonedExtra ze = ZonedExtra::forEpochSeconds(epochSeconds, tz);
+```
+
+The `ZonedExtra::type()` parameter identifies whether the given time instant
+corresponded to a DST gap, or a DST overlap, or an exact match with no
+duplicates.
+
+The `ZonedExtra::stdOffset()` is the standard offset of the timezone at the
+given time instant. For example, for `America/Los_Angeles` this will return
+`-08:00` (unless the standard offset is changed through something like a
+"permanent DST").
+
+The `ZonedExtra::dstOffset()` is the DST offset that pertains to the given
+time instant. For example, for `America/Los_Angeles` this will return `01:00`
+during summer DST, and `00:00` during normal times.
+
+Note that the total UTC offset corresponding to `ZonedDateTime::timeOffset()` is
+equal to `stdOffset() + dstOffset()`.
+
+The `ZonedExtra::abbrev()` is the short abbreviation that is in effect at the
+given time instant. For example, for `America/Los_Angeles`, this returns "PST"
+or "PDT'. The abbreviation is copied into a small `char` buffer inside the
+`ZonedExtra` object, so the pointer returned by `abbrev()` is safe to use during
+the life of the `ZonedExtra` object.
+
+The `ZonedExtra::reqStdOffset()` and `ZonedExtra::reqDstOffset()` are relevant
+and different from the corresponding `stdOffset()` and `dstOffset()` only if the
+`type()` is `kTypeGap`. This occurs only if the `getZonedExtra(LocalDateTime&)`
+overloaded version is used. Following the algorithm described in [Python PEP
+495](https://www.python.org/dev/peps/pep-0495/), the provided localDateTime is
+imaginary during a gap so must be mapped to a real local time using the
+`LocalDateTime::fold` parameter. When `fold=0`, the transition line before the
+gap is extended forward until it hits the given `LocalDateTime`. When `fold=1`,
+the transition line after the gap is extended backwards until it hits the given
+`LocalDateTime`. The `reqStdOffset()` and `reqDstOffset()` are then derived from
+the transition line that is used to convert the provided `LocalDateTime`
+instance to `epochSeconds`. The `epochSeconds` is then normalized by converting
+it back to `LocalDateTime` using the `stdOffset()` and `dstOffset()` which
+matches the `epochSeconds`.
+
+The `isError()` method returns true if the given `LocalDateTime` or
+`epochSeconds` represents an error condition.
+
 <a name="ZoneManager"></a>
 ### ZoneManager
 
@@ -1576,32 +1753,14 @@ static const uint8_t CACHE_SIZE = 2; // tuned for application
 BasicZoneProcessorCache<CACHE_SIZE> basicZoneProcessorCache;
 ExtendedZoneProcessorCache<CACHE_SIZE> extendedZoneProcessorCache;
 
-// BasicZoneManager, Zones only
-// 266 zones
-// 21.6 kB (8-bits)
-// 27.1 kB (32-bits)
-BasicZoneManager zoneManager(
-    zonedb::kZoneRegistrySize,
-    zonedb::kZoneRegistry,
-    basicZoneProcessorCache);
-
-// BasicZoneManager, Zones and Fat Links
-// 266 zones, 183 fat links
+// BasicZoneManager, Zones and Links
+// 266 zones, 183 links
 // 25.7 kB (8-bits)
 // 33.2 kB (32-bits)
 BasicZoneManager zoneManager(
     zonedb::kZoneAndLinkRegistrySize,
     zonedb::kZoneAndLinkRegistry,
     basicZoneProcessorCache);
-
-// ExtendedZoneManager, Zones only
-// 386 Zones
-// 33.5 kB (8-bits)
-// 41.7 kB (32-bits)
-ExtendedZoneManager zoneManager(
-    zonedbx::kZoneRegistrySize,
-    zonedbx::kZoneRegistry,
-    extendedZoneProcessorCache);
 
 // ExtendedZoneManager, Zones and Fat Links
 // 386 Zones, 207 fat Links
@@ -1612,9 +1771,6 @@ ExtendedZoneManager zoneManager(
     zonedbx::kZoneAndLinkRegistry,
     extendedZoneProcessorCache);
 ```
-
-A more complicated option of using *thin link* through the `LinkManager` is
-explained the [Zones and Links](#ZonesAndLinks) section below.
 
 Once the `ZoneManager` is configured with the appropriate registries, you can
 use one of the `createForXxx()` methods to create a `TimeZone` as shown in the
@@ -2355,265 +2511,45 @@ A Zone entry is the canonical name of a given time zone in the IANA database
 (e.g. `America/Los_Angeles`). A Link entry is an alias, an alternate name, for a
 canonical entry (e.g. `US/Pacific` which points to `America/Los_Angeles`).
 
-AceTime implements 3 types of Links, of which 2 are available in the most recent
-version:
+<a name="UnifiedLinks"></a>
+#### Unified Links
 
-* Ghost Links (prior to v1.5, but no longer implemented)
-* Fat Links (from v1.5 onwards)
-* Thin Links (from v1.6 onwards)
+Prior to v2.1, AceTime treated Links slightly differently than Zones, providing
+4 different implementations over several version. After v2.1, Links are
+considered to be identical to Zones, because the TZDB considers both of them to
+be first-class citizens. Following this merger, the `kZoneAndLinkRegistry` has
+been merged into the `kZoneRegistry` and the 2 registries are identical.
 
-<a name="GhostLinks"></a>
-#### Ghost Links (Prior to v1.5)
-
-Prior to AceTime v1.5, a Link entry was implemented using a C++ reference to the
-corresponding Zone entry. In other words, the `kZoneUS_Pacific` symbol
-was a C++ reference to the `kZoneAmerica_Los_Angeles` Zone data structure, and
-the `kZoneUS_Pacific` object did not have an existence of its own. Ghost Links
-existed only in the C++ source code, they did not exist within the AceTime
-library on the Arduino side.
-
-The positive aspects of this design were:
-
-* the `kZoneUS_Pacific` Link entry consumed *no* additional flash memory,
-  because the data structure for the Link did not exist
-* the implementation was very simple, just a C++ reference
-
-There were several negative consequences however:
-
-* the `name` component of a `kZoneUS_Pacific` data structure was set to
-  `"America/Los_Angeles"`, not `"US/Pacific"`, because the Link entry was just a
-  C++ reference to the Zone entry
-    * this means that `ZonedDateTime.printTo()` prints `America/Los_Angeles`,
-      not `US/Pacific`
-* similarly, the `zoneId` component of a `kZoneUS_Pacific` struct was set to
-  the same `zoneId` of `kZoneAmerica_Los_Angeles`
-* the `kZoneIdUS_Pacific` constant did not exist, in contrast to the target
-  `KZoneIdAmerica_Los_Angeles` constant
-* the `zonedb::kZoneRegistry` and `zonedbx::kZoneRegistry` contained only
-  the Zone entries, not the Link entries
-    * it was then not possible to create a `TimeZone` object through
-      `ZoneManager::createForZoneName()` or `ZoneManager::createForZoneId()`
-      using the Link identifiers instead of the Zone identifiers
-
-But the biggest problem was that the IANA TZ database does not guarantee the
-forward stability of the Zone and Link identifiers. Sometimes a Zone entry
-becomes a Link entry. For example, in TZ DB version 2020f, the Zone
-`Australia/Currie` became a Link that points to Zone `Australia/Hobart`. This
-causes problems at both compile-time and run-time for applications using
-AceTime:
-
-* Compile-time
-    * If the application was using the ZoneId symbol `kZoneIdAustralia_Currie`,
-      the app would no longer compile after upgrading to TZDB 2020f.
-* Run-time
-    * If the application had stored the ZoneId of `Australia/Currie` or the
-      string `"Australia/Currie"` into the EEPROM, the application would no
-      longer be able to obtain the `TimeZone` object of `Australia/Currie` after
-      upgrading to TZDB 2020f.
-
-These disadvantages led me to abandon ghost links, and implement Fat Links and
-Thin Links described below.
-
-<a name="FatLinks"></a>
-#### Fat Links (From v1.5)
-
-AceTime v1.5 provides support for Fat Links which make Links essentially
-identical to their corresponding Zones. In other words:
-
-* the ZoneInfo `kZone{xxx}` constant exists for every Link entry,
-* the ZoneId `kZoneId{xxx}` constant exists for every Link entry,
-* the `kZone{xxx}.name` field points to the full name of the **Link** entry,
-  not the target Zone entry,
-* the `kZone{xxx}.zoneId` field is set to the ZoneId of the **Link** entry.
-
-From the point of view on the Arduino side, there is almost no difference
-between Links and Zones. Prior to v1.11, there was no ability to distinguish
-between a Zone and a Fat Link at runtime. In v1.11, Fat Links were converted
-from a "hard link" into a "symbolic link" and a Link object is now self-aware
-that it is a link to a Zone object. See [Symbolic Links](#SymbolicLinks) below.
-
-The underlying `ZonePolicy` and `ZoneInfo` data structures are shared between
-the corresponding Zone and Link entries, but those Link entries themselves
-do consume extra flash memory.
-
-To avoid performing a lookup in 2 separate registries, Fat Links are merged into
-the Zone registry. The ZoneManagers can constructed using the combined registry,
-like this:
-
-```C++
-BasicZoneManager zoneManager(
-    zonedb::kZoneAndLinkRegistrySize,
-    zonedb::kZoneAndLinkRegistry);
-
-ExtendedZoneManager zoneManager(
-    zonedbx::kZoneAndLinkRegistrySize,
-    zonedbx::kZoneAndLinkRegistry);
-```
-
-<a name="ThinLinks"></a>
-#### Thin Links (From v1.6)
-
-**Breaking Change in v1.8**: Thin link functionality has been extracted from
-the `ZoneManager` into `LinkManager`. See [Migrating to
-LinkManagers](MIGRATING.md#MigratingToLinkManagers) for migrating instructions.
-
-*Thin links* a lighter weight alternatives to *fat links* that may be useful if
-flash memory is tight. A thin link preserves the forward stability of **zoneId**
-(e.g. `0xb7f7e8f2`) but not the **zoneName** (e.g. `America/Los_Angeles`). Since
-only the 4-byte zoneIds are stored, they do not take up as much flash memory as
-fat links, but they are more tricky to use so I recommend them only if there is
-no other option.
-
-If the application stores the `zoneId` in EEPROM (for example), it is possible
-that a subsequent version of the TZDB changes the Zone into a Link. If the
-smaller `kZoneRegistry` is used instead of the full `kZoneAndLinkRegistry`, then
-previous `zoneId` would fail to resolve. The thin link registry provides a small
-lookup table that maps the old `zoneId` (which has now become a `linkId`) to its
-target `zoneId`.
-
-A separate registry called `kLinkRegistry` is provided that contains only the
-mapping of the `linkId` to the corresponding `zoneId`. These are available
-through the `BasicLinkManager` and `ExtendedLinkManager` classes, like this:
-
-```C++
-namespace ace_time {
-
-class LinkManager {
-  public:
-    static const uint16_t kInvalidZoneId = 0x0;
-};
-
-class BasicLinkManager: public LinkManager {
-  public:
-    BasicLinkManager(
-        uint16_t linkRegistrySize,
-        const basic::LinkEntry* linkRegistry
-    );
-
-    uint32_t zoneIdForLinkId(uint32_t linkId) const;
-    uint16_t linkRegistrySize() const;
-};
-
-class ExtendedLinkManager: public LinkManager {
-  public:
-    ExtendedLinkManager(
-        uint16_t linkRegistrySize,
-        const extended::LinkEntry* linkRegistry
-    );
-
-    uint32_t zoneIdForLinkId(uint32_t linkId) const;
-    uint16_t linkRegistrySize() const;
-};
-
-}
-```
-
-These link managers are initialized with the `kLinkRegistrySize` and
-`kLinkRegistry` parameters from `zonedb/zone_registry.h` and
-`zonedbx/zone_registry.h` header files like this:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-
-...
-
-// Thin links for the zonedb database
-BasicLinkManager linkManager(
-    zonedb::kLinkRegistrySize, zonedb::kLinkRegistry);
-
-// Thin links for the zonedbx database
-ExtendedLinkManager linkManager(
-    zonedbx::kLinkRegistrySize, zonedbx::kLinkRegistry);
-```
-
-When the search for a `zoneId` fails, then the client application can choose to
-perform a second lookup in the link registry, like this:
-
-```C++
-ExtendedZoneManager zoneManager(
-    zonedbx::kZoneRegistrySize,
-    zonedbx::kZoneRegistry);
-
-ExtendedLinkManager linkManager(
-    zonedbx::kLinkRegistrySize,
-    zonedbx::kLinkRegistry);
-
-TimeZone findTimeZone(uint32_t zoneId) {
-  TimeZone tz = zoneManager.createForZoneId(zoneId);
-  if (tz.isError()) {
-    // Search the link registry.
-    zoneId = linkManager.zoneIdForLinkId(zoneId);
-    if (zoneId != LinkManager::kInvalidZoneId) {
-      tz = zoneManager.createForZoneId(zoneId);
-    }
-  }
-  return tz;
-}
-```
-
-<a name="SymbolicLinks"></a>
-#### Symbolic Links (From v1.11)
-
-In v1.11, Link entries were converted from a "hard link" to a "symbolic link".
-The `TimeZone` and `ZoneProcessor` interfaces were extended in the following
-way:
+There are 2 methods on the `TimeZone` class which apply only to Links:
 
 ```C++
 class TimeZone {
   public:
     ...
-
     bool isLink() const;
-
-    uint32_t getZoneId(bool followLink = false);
-    TimeZoneData toTimeZoneData(bool followLink = false) const;
-
-    void printTo(Print& printer, bool followLink = false) const;
-    void printShortTo(Print& printer, bool followLink = false) const;
-
+    printTargetNameTo(Print& printer) const;
     ...
 };
-
-class ZoneProcessor {
-  public:
-    ...
-
-    virtual bool isLink() const = 0;
-
-    virtual uint32_t getZoneId(bool followLink = false) const = 0;
-    virtual void printNameTo(Print& printer, bool followLink = false) const = 0;
-    virtual void printShortNameTo(Print& printer, bool followLink = false)
-        const = 0;
-
-    ...
-};
-```
 
 The `TimeZone::isLink()` method returns `true` if the current time zone is a
 Link entry instead of a Zone entry. For example `US/Pacific` is a link to
 `America/Los_Angeles`.
 
-The other methods gained an optional `followLink` parameter. If this parameter
-is set to `true`, then the method follows the link to the destination Zone and
-processes the request as if it was made on the target Zone. If the time zone is
-not a Link but a simple Zone, then this flag is ignored.
+The `TimeZone::printTargetNameTo(Print&)` prints the name of the target zone if
+the current time zone is a Link. Otherwise it prints nothing. For example, for
+the time zone `US/Pacific` (which is a Link to `America/Los_Angeles`):
 
-For example, `TimeZone::getZoneId()` for `US/Pacific` returns the value defined
-by `kZoneIdUS_Pacific`. But `TimeZone::getZoneId(true /*followLink*/)` returns
-the value defined by `kZoneIdAmerica_Los_Angeles`.
-
-Similarly, `TimeZone::printTo(Serial)` prints `US/Pacific`. But
-`TimeZone::printTo(Serial, true
-/*followLink*)` prints `America/Los_Angeles`.
+* `printTo(Print&)` prints "US/Pacific"
+* `printTargetNameTo(Print&)` prints "America/Los_Angeles"
 
 <a name="CustomZoneRegistry"></a>
 #### Custom Zone Registry
 
-On small microcontrollers, the default zone registries may be too large. The
-`ZoneManager` can be configured with a custom zone registry. It needs
-to be given an array of `ZoneInfo` pointers when constructed. For example, here
-is a `BasicZoneManager` with only 4 zones from the `zonedb::` data set:
+On small microcontrollers, the default zone registries (`kZoneRegistry` and
+`kZoneAndLinkRegistry`, which are now identical) may be too large. The
+`ZoneManager` can be configured with a custom zone registry. It needs to be
+given an array of `ZoneInfo` pointers when constructed. For example, here is a
+`BasicZoneManager` with only 4 zones from the `zonedb::` data set:
 
 ```C++
 #include <AceTime.h>
@@ -3259,7 +3195,7 @@ Serial.println(dt.isError() ? "true" : "false");
      as well as it could be, and the algorithm may change in the future. To keep
      the code size within reasonble limits of a small Arduino controller, the
      algorithm may be permanently sub-optimal.
-* `ZonedDateTime` Must Be Within +/- ~50 years of the AceTimeEpoch
+* `ZonedDateTime` Must Be Within +/- ~50 years of the AceTime Epoch
     * The internal time zone calculations use the same `int32_t` type as
       the `acetime_t` epoch seconds. This has a range of about 136 years.
     * To be safe, the `ZoneDateTime` objects should be restricted to about +/-
@@ -3295,12 +3231,6 @@ Serial.println(dt.isError() ? "true" : "false");
         * The `tzcompiler.py` will exclude and flag the Rules which could
           potentially shift to a different year. As of version 2022f, no such
           Rule seems to exist.
-* Links
-    * Fat links (see [Zones and Links](#ZonesAndLinks) section above) cannot
-      determine whether a given `ZoneInfo` instance is a Zone or a Link at run
-      time.
-    * Symbolic links can. The current `zonedb` and `zonedbx` databases use
-      symbolic links.
 * Arduino Zero and SAMD21 Boards
     * SAMD21 boards (which all identify themselves as `ARDUINO_SAMD_ZERO`) are
       no longer fully supported because:

@@ -3,6 +3,9 @@
 #include <AUnit.h>
 #include <AceCommon.h> // PrintStr<>
 #include <AceTime.h>
+#include <ace_time/testing/EpochYearContext.h>
+#include <ace_time/testing/tzonedb/zone_policies.h>
+#include <ace_time/testing/tzonedb/zone_infos.h>
 
 using ace_common::PrintStr;
 using namespace ace_time;
@@ -16,113 +19,13 @@ using ace_time::basic::ZoneInfoBroker;
 using ace_time::basic::ZoneEraBroker;
 using ace_time::basic::ZoneRuleBroker;
 using ace_time::basic::ZonePolicyBroker;
-
-//---------------------------------------------------------------------------
-// Test zoneinfo files. Taken from Pacific/Galapagos which transitions
-// from simple Rule to named Rule in 1986:
-//
-//# Rule  NAME    FROM    TO      TYPE    IN      ON      AT      SAVE  LETTER/S
-//Rule    Ecuador 1992    only    -       Nov     28      0:00    1:00    -
-//Rule    Ecuador 1993    only    -       Feb      5      0:00    0       -
-//
-//Zone Pacific/Galapagos  -5:58:24 -      LMT     1931 # Puerto Baquerizo Moreno
-//                        -5:00   -       -05     1986
-//                        -6:00   Ecuador -06/-05
-//---------------------------------------------------------------------------
-
-static const char kTzDatabaseVersion[] = "2019b";
-
-static const ZoneContext kZoneContext = {
-  1980 /*startYear*/,
-  2050 /*untilYear*/,
-  kTzDatabaseVersion /*tzVersion*/,
-  0 /*numFragments*/,
-  nullptr /*fragments*/,
-};
-
-static const ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
-  // Anchor: Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
-  {
-    LocalDate::kMinYear /*fromYear*/,
-    LocalDate::kMinYear /*toYear*/,
-    1 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    ZoneContext::kSuffixW /*atTimeModifier*/,
-    0 /*deltaCode*/,
-    '-' /*letter*/,
-  },
-  // Rule    Ecuador    1992    only    -    Nov    28    0:00    1:00    -
-  {
-    1992 /*fromYear*/,
-    1992 /*toYear*/,
-    11 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    28 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    ZoneContext::kSuffixW /*atTimeModifier*/,
-    4 /*deltaCode*/,
-    '-' /*letter*/,
-  },
-  // Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
-  {
-    1993 /*fromYear*/,
-    1993 /*toYear*/,
-    2 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    5 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    ZoneContext::kSuffixW /*atTimeModifier*/,
-    0 /*deltaCode*/,
-    '-' /*letter*/,
-  },
-};
-
-static const ZonePolicy kPolicyEcuador ACE_TIME_PROGMEM = {
-  kZoneRulesEcuador /*rules*/,
-  nullptr /* letters */,
-  3 /*numRules*/,
-  0 /* numLetters */,
-};
-
-static const ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
-  //             -5:00    -    -05    1986
-  {
-    nullptr /*zonePolicy*/,
-    "-05" /*format*/,
-    -20 /*offsetCode*/,
-    0 /*deltaCode*/,
-    1986 /*untilYear*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    ZoneContext::kSuffixW /*untilTimeModifier*/,
-  },
-  //             -6:00    Ecuador    -06/-05
-  {
-    &kPolicyEcuador /*zonePolicy*/,
-    "-06/-05" /*format*/,
-    -24 /*offsetCode*/,
-    0 /*deltaCode*/,
-    10000 /*untilYear*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    ZoneContext::kSuffixW /*untilTimeModifier*/,
-  },
-};
-
-static const char kZoneNamePacific_Galapagos[] ACE_TIME_PROGMEM =
-    "Pacific/Galapagos";
-
-static const ZoneInfo kZonePacific_Galapagos ACE_TIME_PROGMEM = {
-  kZoneNamePacific_Galapagos /*name*/,
-  0xa952f752 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  2 /*numEras*/,
-  kZoneEraPacific_Galapagos /*eras*/,
-};
+using ace_time::testing::EpochYearContext;
+using ace_time::tzonedb::kZoneContext;
+using ace_time::tzonedb::kZoneAmerica_Los_Angeles;
+using ace_time::tzonedb::kZoneAustralia_Darwin;
+using ace_time::tzonedb::kZonePacific_Galapagos;
+using ace_time::tzonedb::kZonePolicyEcuador;
+using ace_time::tzonedb::kZoneAfrica_Johannesburg;
 
 //---------------------------------------------------------------------------
 // BasicZoneProcessor: test private methods
@@ -140,24 +43,9 @@ test(BasicZoneProcessorTest, compareYearMonth) {
 }
 
 test(BasicZoneProcessorTest, operatorEqualEqual) {
-  BasicZoneProcessor a(&zonedb::kZoneAmerica_Los_Angeles);
-  BasicZoneProcessor b(&zonedb::kZoneAustralia_Darwin);
+  BasicZoneProcessor a(&kZoneAmerica_Los_Angeles);
+  BasicZoneProcessor b(&kZoneAustralia_Darwin);
   assertTrue(a != b);
-}
-
-test(BasicZoneProcessorTest, setZoneKey) {
-  BasicZoneProcessor zoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
-  zoneProcessor.getUtcOffset(0);
-  assertTrue(zoneProcessor.mIsFilled);
-
-  zoneProcessor.setZoneKey((uintptr_t) &zonedb::kZoneAustralia_Darwin);
-  assertFalse(zoneProcessor.mIsFilled);
-  zoneProcessor.getUtcOffset(0);
-  assertTrue(zoneProcessor.mIsFilled);
-
-  // Check that the cache remains valid if the zoneInfo does not change
-  zoneProcessor.setZoneKey((uintptr_t) &zonedb::kZoneAustralia_Darwin);
-  assertTrue(zoneProcessor.mIsFilled);
 }
 
 test(BasicZoneProcessorTest, calcRuleOffsetMinutes) {
@@ -169,6 +57,7 @@ test(BasicZoneProcessorTest, calcRuleOffsetMinutes) {
       ZoneContext::kSuffixS));
 }
 
+// Pacific/Galapagos transitions from simple Rule to named Rule in 1986:
 test(BasicZoneProcessorTest, findZoneEra) {
   ZoneInfoBroker info(&kZonePacific_Galapagos);
 
@@ -185,13 +74,14 @@ test(BasicZoneProcessorTest, findZoneEra) {
   assertEqual(LocalDate::kMaxYear, era.untilYear());
 }
 
+// Pacific/Galapagos transitions from simple Rule to named Rule in 1986:
 test(BasicZoneProcessorTest, findLatestPriorRule) {
   ZonePolicyBroker policy;
   int16_t year = 1986;
   ZoneRuleBroker rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
   assertTrue(rule.isNull());
 
-  policy = ZonePolicyBroker(&kPolicyEcuador);
+  policy = ZonePolicyBroker(&kZonePolicyEcuador);
   year = 1992;
   rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
   assertEqual(0, rule.fromYear());
@@ -210,7 +100,7 @@ test(BasicZoneProcessorTest, findLatestPriorRule) {
 }
 
 test(BasicZoneProcessorTest, priorYearOfRule) {
-  ZonePolicyBroker policy(&kPolicyEcuador);
+  ZonePolicyBroker policy(&kZonePolicyEcuador);
 
   int16_t year = 1995;
   assertEqual(0, BasicZoneProcessor::priorYearOfRule(
@@ -233,7 +123,7 @@ test(BasicZoneProcessorTest, priorYearOfRule) {
 }
 
 test(BasicZoneProcessorTest, compareRulesBeforeYear) {
-  ZonePolicyBroker policy(&kPolicyEcuador);
+  ZonePolicyBroker policy(&kZonePolicyEcuador);
 
   // The last rule prior to 1995 should be 1993.
   int16_t year = 1995;
@@ -251,7 +141,7 @@ test(BasicZoneProcessorTest, compareRulesBeforeYear) {
 }
 
 test(BasicZoneProcessorTest, init_primitives) {
-  BasicZoneProcessor zoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
+  BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
   zoneProcessor.mYear = 2001;
   zoneProcessor.mNumTransitions = 0;
 
@@ -304,13 +194,14 @@ test(BasicZoneProcessorTest, init_primitives) {
       zoneProcessor.mTransitions[2].startEpochSeconds);
 }
 
-test(BasicZoneProcessorTest, init) {
+test(BasicZoneProcessorTest, initForLocalDate) {
   // Test using 2018-01-02. If we use 2018-01-01, the code will populate the
   // cache with transitions from 2017.
-  BasicZoneProcessor zoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
+  BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
   LocalDate ld = LocalDate::forComponents(2018, 1, 2);
-  zoneProcessor.init(ld);
+  bool ok = zoneProcessor.initForLocalDate(ld);
 
+  assertTrue(ok);
   assertEqual(3, zoneProcessor.mNumTransitions);
 
   assertEqual(-8*60, zoneProcessor.mTransitions[0].era.offsetMinutes());
@@ -400,9 +291,24 @@ test(BasicZoneProcessorTest, createAbbreviation) {
 // Test public methods
 //---------------------------------------------------------------------------
 
+test(BasicZoneProcessorTest, setZoneKey) {
+  BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
+  zoneProcessor.initForEpochSeconds(0);
+  assertTrue(zoneProcessor.mIsFilled);
+
+  zoneProcessor.setZoneKey((uintptr_t) &kZoneAustralia_Darwin);
+  assertFalse(zoneProcessor.mIsFilled);
+  zoneProcessor.initForEpochSeconds(0);
+  assertTrue(zoneProcessor.mIsFilled);
+
+  // Check that the cache remains valid if the zoneInfo does not change
+  zoneProcessor.setZoneKey((uintptr_t) &kZoneAustralia_Darwin);
+  assertTrue(zoneProcessor.mIsFilled);
+}
+
 // https://www.timeanddate.com/time/zone/usa/los-angeles
-test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles) {
-  BasicZoneProcessor zoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
+test(BasicZoneProcessorTest, printNameTo) {
+  BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
 
   PrintStr<32> printStr;
   zoneProcessor.printNameTo(printStr);
@@ -410,99 +316,151 @@ test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles) {
   printStr.flush();
   zoneProcessor.printShortNameTo(printStr);
   assertEqual(F("Los Angeles"), printStr.cstr());
+}
 
+// Test findByEpochSeconds(). Result can be kNotFound or kExact, but
+// never kGap, nor kOverlap because BasicZoneProcessor cannot detect overlap.
+test(BasicZoneProcessorTest, findByEpochSeconds) {
+  BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
   OffsetDateTime dt;
   acetime_t epochSeconds;
+  FindResult result;
 
+  // just before spring forward
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PST", zoneProcessor.getAbbrev(epochSeconds));
-  assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
+  result = zoneProcessor.findByEpochSeconds(epochSeconds);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(0*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual("PST", result.abbrev);
 
-  dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
+  // spring forward, into the gap, but BasicZoneProcessor cannot detect it
+  dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 1,
       TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PDT", zoneProcessor.getAbbrev(epochSeconds));
-  assertFalse(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
+  result = zoneProcessor.findByEpochSeconds(epochSeconds);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(1*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
+  assertEqual("PDT", result.abbrev);
 
+  // before fall back
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 0, 0,
       TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PDT", zoneProcessor.getAbbrev(epochSeconds));
-  assertFalse(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
+  result = zoneProcessor.findByEpochSeconds(epochSeconds);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(1*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
+  assertEqual("PDT", result.abbrev);
 
+  // just before fall back
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 59, 59,
       TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PDT", zoneProcessor.getAbbrev(epochSeconds));
-  assertFalse(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
+  result = zoneProcessor.findByEpochSeconds(epochSeconds);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(1*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
+  assertEqual("PDT", result.abbrev);
 
-  dt = OffsetDateTime::forComponents(2018, 11, 4, 2, 0, 0,
+  // fall back, so there is an overlap, but BasicZoneProcessor cannot detect it
+  // so returns kExact
+  dt = OffsetDateTime::forComponents(2018, 11, 4, 2, 0, 1,
       TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PST", zoneProcessor.getAbbrev(epochSeconds));
-  assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
+  result = zoneProcessor.findByEpochSeconds(epochSeconds);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(0*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual("PST", result.abbrev);
+
+  // two hours after fall back, no overlap
+  dt = OffsetDateTime::forComponents(2018, 11, 4, 3, 0, 0,
+      TimeOffset::forHours(-8));
+  epochSeconds = dt.toEpochSeconds();
+  result = zoneProcessor.findByEpochSeconds(epochSeconds);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(0*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual("PST", result.abbrev);
 }
 
 // https://www.timeanddate.com/time/zone/south-africa/johannesburg
 // No DST changes at all.
 test(BasicZoneProcessorTest, kZoneAfrica_Johannesburg) {
-  BasicZoneProcessor zoneProcessor(&zonedb::kZoneAfrica_Johannesburg);
+  BasicZoneProcessor zoneProcessor(&kZoneAfrica_Johannesburg);
   OffsetDateTime dt;
   acetime_t epochSeconds;
+  FindResult result;
 
   dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 0, 0,
       TimeOffset::forHours(2));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(2*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("SAST", zoneProcessor.getAbbrev(epochSeconds));
-  assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
+  result = zoneProcessor.findByEpochSeconds(epochSeconds);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual(2*60, result.stdOffsetMinutes);
+  assertEqual(0*60, result.dstOffsetMinutes);
+  assertEqual(2*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual("SAST", result.abbrev);
 }
 
 // https://www.timeanddate.com/time/zone/australia/darwin
 // No DST changes since 1944. Uses the last transition which occurred in March
 // 1944.
 test(BasicZoneProcessorTest, kZoneAustralia_Darwin) {
-  BasicZoneProcessor zoneProcessor(&zonedb::kZoneAustralia_Darwin);
+  BasicZoneProcessor zoneProcessor(&kZoneAustralia_Darwin);
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 0, 0,
       TimeOffset::forHourMinute(9, 30));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(9*60+30, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("ACST", zoneProcessor.getAbbrev(epochSeconds));
-  assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
+  FindResult result = zoneProcessor.findByEpochSeconds(epochSeconds);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual(9*60+30, result.stdOffsetMinutes);
+  assertEqual(0*60, result.dstOffsetMinutes);
+  assertEqual(9*60+30, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual("ACST", result.abbrev);
 }
 
-test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles_outOfBounds) {
-  BasicZoneProcessor zoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
+test(BasicZoneProcessorTest, findByEpochSeconds_outOfBounds) {
+  BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
+  EpochYearContext context(2000); // set epoch year to 2000 temporarily
   OffsetDateTime dt;
   acetime_t epochSeconds;
+  FindResult result;
 
-  assertEqual(2000, zonedb::kZoneContext.startYear);
-  assertEqual(10000, zonedb::kZoneContext.untilYear);
+  assertEqual(1980, kZoneContext.startYear);
+  assertEqual(10000, kZoneContext.untilYear);
 
-  // 1998 > LocalDate::kMinYear so dt is valid, and
-  dt = OffsetDateTime::forComponents(1998, 3, 11, 1, 59, 59,
+  // 1970 > LocalDate::kMinYear so dt is valid, and
+  dt = OffsetDateTime::forComponents(1970, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
   assertFalse(dt.isError());
-  // 1998 is within roughly 50 years of Epoch::currentEpochYear() of 2050
+  // 1970 is within roughly 50 years of Epoch::currentEpochYear() of 2050
   // so toEpochSeconds() still works.
   epochSeconds = dt.toEpochSeconds();
   assertNotEqual(epochSeconds, LocalDate::kInvalidEpochSeconds);
-  // 1998 < ZoneContext.startYear, so getUtcOffset() fails
-  assertTrue(zoneProcessor.getUtcOffset(epochSeconds).isError());
-  // 1998 < ZoneContext.startYear, so getDeltaOffset() fails
-  assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isError());
-  // getAbbrev() returns "" on lookup failure
-  assertEqual("", zoneProcessor.getAbbrev(epochSeconds));
+  // But 1998 < ZoneContext.startYear, so FindResult not found.
+  result = zoneProcessor.findByEpochSeconds(epochSeconds);
+  assertEqual((int)result.type, (int)FindResult::kTypeNotFound);
 
   // 10001 is beyond LocalDate::kMaxYear so should fail.
   dt = OffsetDateTime::forComponents(10001, 2, 1, 1, 0, 0,
@@ -512,12 +470,90 @@ test(BasicZoneProcessorTest, kZoneAmerica_Los_Angeles_outOfBounds) {
   // toEpochSeconds() returns invalid seconds
   epochSeconds = dt.toEpochSeconds();
   assertEqual(epochSeconds, LocalDate::kInvalidEpochSeconds);
-  // getUtcOffset() fails for kInvalidEpochSeconds
-  assertTrue(zoneProcessor.getUtcOffset(epochSeconds).isError());
-  // getDeltaOffset() fails for kInvalidEpochSeconds
-  assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isError());
-  // getAbbrev() returns "" on lookup failure
-  assertEqual("", zoneProcessor.getAbbrev(epochSeconds));
+  // findByEpochSeconds() results NotFound for kInvalidEpochSeconds
+  result = zoneProcessor.findByEpochSeconds(epochSeconds);
+  assertEqual((int)result.type, (int)FindResult::kTypeNotFound);
+}
+
+//---------------------------------------------------------------------------
+
+// Test findByLocalDateTime(). Result can be kNotFound, kExact, or kGap.
+// BasicZoneProcessor cannot detect overlap so will never return kOverlap.
+test(BasicZoneProcessorTest, findByLocalDateTime) {
+  BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
+  OffsetDateTime dt;
+  FindResult result;
+
+  // way before spring forward
+  auto ldt = LocalDateTime::forComponents(2018, 3, 10, 1, 0, 0);
+  result = zoneProcessor.findByLocalDateTime(ldt);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(0*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual("PST", result.abbrev);
+
+  // just before spring forward
+  ldt = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 59);
+  result = zoneProcessor.findByLocalDateTime(ldt);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(0*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual("PST", result.abbrev);
+
+  // spring forward into the gap, but BasicZoneProcessor cannot detect it
+  ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 1);
+  result = zoneProcessor.findByLocalDateTime(ldt);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(1*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
+  assertEqual("PDT", result.abbrev);
+
+  // before fall back
+  ldt = LocalDateTime::forComponents(2018, 11, 4, 1, 0, 0);
+  result = zoneProcessor.findByLocalDateTime(ldt);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(1*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
+  assertEqual("PDT", result.abbrev);
+
+  // just before fall back
+  ldt = LocalDateTime::forComponents(2018, 11, 4, 1, 59, 59);
+  result = zoneProcessor.findByLocalDateTime(ldt);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(1*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(1*60, result.reqDstOffsetMinutes);
+  assertEqual("PDT", result.abbrev);
+
+  // fall back, so there is an overlap, but BasicZoneProcessor cannot detect it
+  // so returns kExact, and selects the later of the 2 possible datetime.
+  ldt = LocalDateTime::forComponents(2018, 11, 4, 2, 0, 1);
+  result = zoneProcessor.findByLocalDateTime(ldt);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(0*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual("PST", result.abbrev);
+
+  // two hours after fall back, no overlap
+  ldt = LocalDateTime::forComponents(2018, 11, 4, 3, 0, 0);
+  result = zoneProcessor.findByLocalDateTime(ldt);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual(-8*60, result.stdOffsetMinutes);
+  assertEqual(0*60, result.dstOffsetMinutes);
+  assertEqual(-8*60, result.reqStdOffsetMinutes);
+  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual("PST", result.abbrev);
 }
 
 //---------------------------------------------------------------------------
@@ -528,6 +564,9 @@ void setup() {
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
+#if defined(EPOXY_DUINO)
+  SERIAL_PORT_MONITOR.setLineModeUnix();
+#endif
 }
 
 void loop() {

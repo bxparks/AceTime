@@ -2,6 +2,9 @@
 
 ## Table of Contents
 
+* [Migrating to v2.1.0](#MigratingToVersion210)
+    * [Unified Links](#UnifiedLinks)
+    * [ZonedExtra](#ZonedExtra)
 * [Migrating to v2.0.0](#MigratingToVersion200)
     * [High Level](#HighLevel200)
     * [Details](#Details200)
@@ -14,6 +17,89 @@
     * [Migrating to AceTimeClock](#MigratingToAceTimeClock)
     * [Migrating the DS3231Clock](#MigratingTheDS3231Clock)
     * [Migrating to LinkManagers](#MigratingToLinkManagers)
+
+<a name="MigratingToVersion210"></a>
+## Migrating to v2.1
+
+<a name="UnifiedLinks"></a>
+### Unified Links
+
+Over the years, I implemented 4 different versions of the Link entries:
+
+* Ghost Links (`< v1.5`)
+* Fat Links (`>= v1.5`)
+* Thin Links (`>= v1.6`)
+* Symbolic Links (`>= v1.11`)
+
+I had mistakenly assumed that TZDB Link entries were somehow less important
+than the Zone entries. Often Link entries were old spellings of
+zones which were replaced by new zone names (e.g. "Asia/Calcutta" replaced by
+"Asia/Kolkata"), or zones using an older naming convention pre-1993 (e.g.
+"UTC" replaced by "Etc/UTC").
+
+The code in AceTime reflected my assumption of the second-class status of Link
+entries. Recently however the IANA TZDB project has aggressively merged
+unrelated Zones (in different countries) into a single zone if they all happen
+to have the same DST transition rules since 1970. The duplicate zones become
+Link entries to the "canonical" zone (e.g. "Arctic/Longyearbyen",
+"Europe/Copenhagen", "Europe/Oslo", "Europe/Stockholm", "Atlantic/Jan_Mayen" are
+all links to "Europe/Berlin").
+
+It is now more clear the Link entries should be considered first-class entries,
+just like Zone entries. The v2.1 release implements this change in semantics.
+All previous implementations of Links are now merged into a single
+implementation which treats Links equal to Zones, and all the usual operations
+on Zones are also valid on Links.
+
+1) The "Thin Link" feature has been removed, along with the Link Manager
+   classes. The code was too complex, and did not provide enough value.
+    * `LinkManager`
+    * `BasicLinkManager`
+    * `ExtendedLinkManager`.
+2) The `followLink` parameter on various `TimeZone` and `ZoneProcessor` methods
+   has been removed.
+3) The `zonedb` and `zonedbx` databases no longer contain the link registries:
+    * `basic::kLinkRegistry`
+    * `extended::kLinkRegistry`
+4) The `kZoneRegistry` is still generated for historical reasons.
+    * This registry contains the minimum complete dataset of the IANA timezones.
+    * Most applications should use `kZoneAndLinkRegistry` which contains the
+      Link entries.
+
+Most application code are expected to treat Links and Zones equally. There are
+only 2 methods which apply only to Link time zones:
+
+* `TimeZone::isLink()`
+    * Returns true if the current time zone is a Link.
+* `TimeZone::printTargetZoneNameTo()`
+    * Prints the name of the target Zone if the current zone is a link.
+    * It prints nothing is `isLink()` is false.
+
+<a name="ZonedExtra"></a>
+### ZonedExtra
+
+The `ZonedExtra` class was created to replace 3 ad-hoc query methods on the
+`TimeZone` object:
+
+* Removed: `TimeZone::getUtcOffset()`
+* Removed: `TimeZone::getDeltaOffset()`
+* Removed: `TimeZone::getAbbrev()`
+
+Once the `ZonedExtra` object has been objected for a particular point in time,
+the following methods on `ZonedExtra` are the replacements for the above:
+
+* `ZonedExtra::timeOffset()`
+* `ZonedExtra::dstOffset()`
+* `ZonedExtra::abbrev()`
+
+The `ZonedExtra` object will normally be created through 2 factory methods:
+
+* `ZonedExtra::forEpochSeconds(epochSeconds, tz)`
+* `ZonedExtra::forLocalDateTime(ldt, tz)`
+
+The `ZonedExtra` object provides access to other meta-information about the time
+zone at that particular time. See the [ZonedExtra](USER_GUIDE.md#ZonedExtra)
+section in the `USER_GUIDE.md` for more detailed information about this class.
 
 <a name="MigratingToVersion200"></a>
 ## Migrating to v2.0

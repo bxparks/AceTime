@@ -185,7 +185,7 @@ Arduino controllers:
 
 An entry in `zone_info.cpp` may refer to a zone policy defined in
 `zone_policies.h`. For example, the `kZoneAmerica_Los_Angeles` has a pointer
-to a `kPolicyUS` data structure which is defined in `zone_policies.h`.
+to a `kZonePolicyUS` data structure which is defined in `zone_policies.h`.
 
 Each policy entry starts with a comment secion that contains some metadata
 about the policy. For example:
@@ -304,7 +304,7 @@ The call stack of the first method looks like this:
 ```
 ZoneDateTime::forComponents()
   -> TimeZone::getOffsetDateTime(LocalDateTime&)
-    -> ExtendeZoneProcessor::getOffsetDateTime(LocalDateTime&)
+    -> ExtendeZoneProcessor::findByLocalDateTime(LocalDateTime&)
       -> TransitionStorage::findTransitionForDateTime(LocalDateTime&)
 ```
 
@@ -312,8 +312,8 @@ The call stack of the second method looks like this:
 
 ```
 ZoneDateTime::forEpochSeconds(acetime_t)
-  -> TimeZone::getUtcOffset(acetime_t)
-    -> ExtendedZoneProcessor::getUtcOffset(acetime_t)
+  -> TimeZone::getOffsetDateTime(acetime_t)
+    -> ExtendedZoneProcessor::findByEpochSeconds(acetime_t)
       -> TransitionStorage::findTransitionForSeconds(acetime_t)
 ```
 
@@ -352,7 +352,7 @@ the prior year after the correct UTC offset is calculated, so we need to pick up
 Transitions in the prior year. Similarly, a local date time of Dec 31 could land
 in the following year after correcting for UTC offset.
 
-A `MatchingEra` is a wrapper around a `ZoneEra`, with its startDateTimea and
+A `MatchingEra` is a wrapper around a `ZoneEra`, with its startDateTime and
 untilDateTime truncated to be within the 14-month interval of interest.
 
 <a name="Step2CreateTransitions"></a>

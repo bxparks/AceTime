@@ -8,6 +8,12 @@
 
 #include <stdint.h>
 
+/**
+ * @file common.h
+ *
+ * Identifiers used by implementation code which need to be publically exported.
+ */
+
 namespace ace_time {
 
 /**

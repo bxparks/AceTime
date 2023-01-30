@@ -73,12 +73,6 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneManager): "));
   SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneManager));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(BasicLinkManager): "));
-  SERIAL_PORT_MONITOR.println(sizeof(BasicLinkManager));
-
-  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedLinkManager): "));
-  SERIAL_PORT_MONITOR.println(sizeof(ExtendedLinkManager));
-
   // ace_time::basic and ace_time::extended classes
 
   SERIAL_PORT_MONITOR.print(F("sizeof(internal::ZoneContext): "));
@@ -98,9 +92,6 @@ void setup() {
 
   SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZoneRegistrar): "));
   SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneRegistrar));
-
-  SERIAL_PORT_MONITOR.print(F("sizeof(basic::LinkRegistrar): "));
-  SERIAL_PORT_MONITOR.println(sizeof(basic::LinkRegistrar));
 
   SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneProcessor::Transition): "));
   SERIAL_PORT_MONITOR.println(sizeof(BasicZoneProcessor::Transition));

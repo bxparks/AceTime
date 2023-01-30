@@ -53,15 +53,32 @@ class ZonedDateTime {
      * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      * @param fold optional disambiguation of multiple occurences [0, 1]
      */
-    static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
+    static ZonedDateTime forComponents(
+        int16_t year, uint8_t month, uint8_t day,
         uint8_t hour, uint8_t minute, uint8_t second,
         const TimeZone& timeZone, uint8_t fold = 0) {
       auto ldt = LocalDateTime::forComponents(
           year, month, day, hour, minute, second, fold);
+      return forLocalDateTime(ldt, timeZone);
+    }
+
+    /**
+     * Factory method using LocalDateTime and time zone fields.
+     * This is intended mostly for testing purposes. Most production code
+     * will use the forEpochSeconds() method.
+     *
+     * The TimeOffset at the given date/time component is calculated using
+     * TimeZone::getOffsetDateTime().
+     *
+     * @param ldt LocalDateTime (including the fold parameter)
+     * @param timeZone a TimeZone instance (use TimeZone() for UTC)
+     */
+    static ZonedDateTime forLocalDateTime(
+        const LocalDateTime& ldt,
+        const TimeZone& timeZone) {
       auto odt = timeZone.getOffsetDateTime(ldt);
       return ZonedDateTime(odt, timeZone);
     }
-
     /**
      * Factory method. Create the ZonedDateTime from epochSeconds as seen from
      * the given time zone. The dayOfWeek will be calculated internally.

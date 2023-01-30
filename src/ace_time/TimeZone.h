@@ -12,6 +12,7 @@
 #include "BasicZoneProcessor.h"
 #include "ExtendedZoneProcessor.h"
 #include "TimeZoneData.h"
+#include "ZonedExtra.h"
 
 class Print;
 
@@ -205,6 +206,9 @@ class TimeZone {
      * zoneProcessor. The 'type' of the TimeZone is extracted from
      * ZoneProcessor::getType().
      *
+     * TODO: I think this can be moved to a 'protected' section, because I think
+     * it is used only by subclasses.
+     *
      * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
      *    uint16_t index into a database table of ZoneInfo records)
      * @param processor the ZoneProcessor instance bound to the TimeZone
@@ -276,12 +280,8 @@ class TimeZone {
      * Return the zoneId for kTypeBasic, kTypeExtended. Returns 0 for
      * kTypeManual. (It is not entirely clear that a valid zoneId is always >
      * 0, but there is little I can do without C++ exceptions.)
-     *
-     * @param followLink if true and the time zone is a Link, follow the link
-     * and return the id of the target Zone instead. If the zone is not a link,
-     * this flag is ignored.
      */
-    uint32_t getZoneId(bool followLink = false) const {
+    uint32_t getZoneId() const {
       switch (mType) {
         case kTypeError:
         case kTypeReserved:
@@ -289,83 +289,87 @@ class TimeZone {
           return 0;
 
         default:
-          return getBoundZoneProcessor()->getZoneId(followLink);
+          return getBoundZoneProcessor()->getZoneId();
       }
     }
 
     /** Return true if TimeZone is an error. */
     bool isError() const { return mType == kTypeError; }
 
-    /**
-     * Return the total UTC offset at epochSeconds, including DST offset.
-     */
-    TimeOffset getUtcOffset(acetime_t epochSeconds) const {
+    /** Return the ZonedExtra information at epochSeconds. */
+    ZonedExtra getZonedExtra(const LocalDateTime& ldt) const {
       switch (mType) {
         case kTypeError:
         case kTypeReserved:
-          return TimeOffset::forError();
+          return ZonedExtra::forError();
 
         case kTypeManual:
-          return TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes);
-
-        default:
-          return getBoundZoneProcessor()->getUtcOffset(epochSeconds);
-      }
-    }
-
-    /**
-     * Return the DST offset from standard UTC offset at epochSeconds. This is
-     * an experimental method that has not been tested thoroughly. Use with
-     * caution.
-     */
-    TimeOffset getDeltaOffset(acetime_t epochSeconds) const {
-      switch (mType) {
-        case kTypeError:
-        case kTypeReserved:
-          return TimeOffset::forError();
-
-        case kTypeManual:
-          return TimeOffset::forMinutes(mDstOffsetMinutes);
-
-        default:
-          return getBoundZoneProcessor()->getDeltaOffset(epochSeconds);
-      }
-    }
-
-    /**
-     * Return the time zone abbreviation at the given epochSeconds.
-     *
-     *   * kTypeManual: returns "STD" or "DST",
-     *   * kTypeBasic, kTypeBasic: returns the "{abbrev}" (e.g. "PDT"),
-     *   * error condition: returns the empty string ""
-     *
-     * The IANA spec
-     * (https://data.iana.org/time-zones/theory.html#abbreviations) says that
-     * abbreviations are limited to 6 characters. It is unclear if this spec is
-     * guaranteed to be followed. Client programs should handle abbreviations
-     * longer than 6 characters to be safe.
-     *
-     * Warning: The returned pointer points to a char buffer that could get
-     * overriden by subsequent method calls to this object. The pointer must
-     * not be stored permanently, it should be used as soon as possible (e.g.
-     * printed out). If you need to store the abbreviation for a long period
-     * of time, copy it to anther char buffer.
-     */
-    const char* getAbbrev(acetime_t epochSeconds) const {
-      switch (mType) {
-        case kTypeError:
-        case kTypeReserved:
-          return "";
-
-        case kTypeManual:
+          const char* abbrev;
           if (isUtc()) {
-            return "UTC";
+            abbrev = "UTC";
           } else {
-            return (mDstOffsetMinutes != 0) ? "DST" : "STD";
+            abbrev = (mDstOffsetMinutes != 0) ? "DST" : "STD";
           }
+          return ZonedExtra(
+              ZonedExtra::kTypeExact,
+              mStdOffsetMinutes,
+              mDstOffsetMinutes,
+              mStdOffsetMinutes,
+              mDstOffsetMinutes,
+              abbrev);
 
-        default:
-          return getBoundZoneProcessor()->getAbbrev(epochSeconds);
+        default: {
+          FindResult result = getBoundZoneProcessor()->findByLocalDateTime(ldt);
+          if (result.type == FindResult::kTypeNotFound) {
+            return ZonedExtra::forError();
+          }
+          return ZonedExtra(
+            result.type, // ZonedExtra::type is identical to FindResult::type
+            result.stdOffsetMinutes,
+            result.dstOffsetMinutes,
+            result.reqStdOffsetMinutes,
+            result.reqDstOffsetMinutes,
+            result.abbrev);
+        }
+      }
+    }
+
+    /** Return the ZonedExtra information at epochSeconds. */
+    ZonedExtra getZonedExtra(acetime_t epochSeconds) const {
+      switch (mType) {
+        case kTypeError:
+        case kTypeReserved:
+          return ZonedExtra::forError();
+
+        case kTypeManual:
+          const char* abbrev;
+          if (isUtc()) {
+            abbrev = "UTC";
+          } else {
+            abbrev = (mDstOffsetMinutes != 0) ? "DST" : "STD";
+          }
+          return ZonedExtra(
+              ZonedExtra::kTypeExact,
+              mStdOffsetMinutes,
+              mDstOffsetMinutes,
+              mStdOffsetMinutes,
+              mDstOffsetMinutes,
+              abbrev);
+
+        default: {
+          FindResult result =
+              getBoundZoneProcessor()->findByEpochSeconds(epochSeconds);
+          if (result.type == FindResult::kTypeNotFound) {
+            return ZonedExtra::forError();
+          }
+          return ZonedExtra(
+            result.type, // ZonedExtra::type is identical to FindResult::type
+            result.stdOffsetMinutes,
+            result.dstOffsetMinutes,
+            result.reqStdOffsetMinutes,
+            result.reqDstOffsetMinutes,
+            result.abbrev);
+        }
       }
     }
 
@@ -388,9 +392,30 @@ class TimeZone {
               TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes));
           break;
 
-        default:
-          odt = getBoundZoneProcessor()->getOffsetDateTime(ldt);
+        default: {
+          FindResult result = getBoundZoneProcessor()->findByLocalDateTime(ldt);
+          if (result.type == FindResult::kTypeNotFound) {
+            break;
+          }
+
+          // Convert FindResult into OffsetDateTime using the requested offset.
+          TimeOffset reqOffset = TimeOffset::forMinutes(
+              result.reqStdOffsetMinutes + result.reqDstOffsetMinutes);
+          odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, reqOffset);
+          odt.fold(result.fold);
+
+          // Special processing for kTypeGap: Convert to epochSeconds using the
+          // reqStdOffsetMinutes and reqDstOffsetMinutes, then convert back to
+          // OffsetDateTime using the target stdOffsetMinutes and
+          // dstOffsetMinutes.
+          if (result.type == FindResult::kTypeGap) {
+            acetime_t epochSeconds = odt.toEpochSeconds();
+            TimeOffset targetOffset = TimeOffset::forMinutes(
+                result.stdOffsetMinutes + result.dstOffsetMinutes);
+            odt = OffsetDateTime::forEpochSeconds(epochSeconds, targetOffset);
+          }
           break;
+        }
       }
       return odt;
     }
@@ -413,9 +438,19 @@ class TimeZone {
               TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes));
           break;
 
-        default:
-          odt = getBoundZoneProcessor()->getOffsetDateTime(epochSeconds);
+        default: {
+          FindResult result =
+              getBoundZoneProcessor()->findByEpochSeconds(epochSeconds);
+          if (result.type == FindResult::kTypeNotFound) {
+            break;
+          }
+
+          TimeOffset offset = TimeOffset::forMinutes(
+              result.reqStdOffsetMinutes + result.reqDstOffsetMinutes);
+          odt = OffsetDateTime::forEpochSeconds(
+              epochSeconds, offset, result.fold);
           break;
+        }
       }
       return odt;
     }
@@ -462,7 +497,7 @@ class TimeZone {
      * TimeZone::kTypeBasic and TimeZone::kTypeExtended are mapped to
      * TimeZoneData::kTypeZoneId.
      */
-    TimeZoneData toTimeZoneData(bool followLink = false) const {
+    TimeZoneData toTimeZoneData() const {
       TimeZoneData d;
       switch (mType) {
         case kTypeError:
@@ -477,7 +512,7 @@ class TimeZone {
           break;
 
         default:
-          d.zoneId = getZoneId(followLink);
+          d.zoneId = getZoneId();
           d.type = TimeZoneData::kTypeZoneId;
           break;
       }
@@ -493,7 +528,7 @@ class TimeZone {
      *   * kTypeExtended is printed as "{zoneName}" (e.g.
      *     "America/Los_Angeles")
      */
-    void printTo(Print& printer, bool followLink = false) const;
+    void printTo(Print& printer) const;
 
     /**
      * Print the *short* human readable representation of the time zone. This
@@ -513,7 +548,13 @@ class TimeZone {
      *   * kTypeBasic is printed as "{zoneShortName}" (e.g. "Los Angeles")
      *   * kTypeExtended is printed as "{zoneShortName}" (e.g. "Los Angeles")
      */
-    void printShortTo(Print& printer, bool followLink = false) const;
+    void printShortTo(Print& printer) const;
+
+    /**
+     * Print the name of the target zone if the current time zone is a Link.
+     * Otherwise print nothing.
+     */
+    void printTargetNameTo(Print& printer) const;
 
     // Use default copy constructor and assignment operator.
     TimeZone(const TimeZone&) = default;

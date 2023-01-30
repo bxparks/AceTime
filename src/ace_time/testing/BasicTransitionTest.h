@@ -48,31 +48,35 @@ class BasicTransitionTest: public aunit::TestOnce {
         acetime_t epochSeconds = item.epochSeconds;
         ZonedDateTime dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
 
+        // Check components of ZonedDateTime.
         checkComponent(passed, i, item, "year", dt.year(), item.year);
         checkComponent(passed, i, item, "month", dt.month(), item.month);
         checkComponent(passed, i, item, "day", dt.day(), item.day);
         checkComponent(passed, i, item, "hour", dt.hour(), item.hour);
         checkComponent(passed, i, item, "minute", dt.minute(), item.minute);
         checkComponent(passed, i, item, "second", dt.second(), item.second);
+        checkComponent(passed, i, item, "offset",
+            dt.timeOffset().toMinutes(), item.timeOffsetMinutes);
 
-        TimeOffset timeOffset = tz.getUtcOffset(epochSeconds);
-        checkComponent(passed, i, item, "UTC",
-            timeOffset.toMinutes(), item.timeOffsetMinutes);
+        // Check total UTC offset in ZonedExtra.
+        ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+        checkComponent(passed, i, item, "extra.total",
+            ze.timeOffset().toMinutes(), item.timeOffsetMinutes);
 
-        // Check the DST if correct ValidationScope is given.
+        // Check DST offset in ZonedExtra if correct ValidationScope is given.
         if ((dstValidationScope == ValidationScope::kAll)
             || ((dstValidationScope == ValidationScope::kExternal)
               && (item.type == 'A' || item.type == 'B'))) {
-          TimeOffset deltaOffset = tz.getDeltaOffset(epochSeconds);
-          checkComponent(passed, i, item, "DST",
-              deltaOffset.toMinutes(), item.deltaOffsetMinutes);
+          checkComponent(passed, i, item, "extra.dst",
+              ze.dstOffset().toMinutes(), item.deltaOffsetMinutes);
         }
 
-        // Check the Abbrev if correct ValidationScop is given.
+        // Check the abbrev in ZonedExtra if correct ValidationScop is given.
         if ((abbrevValidationScope == ValidationScope::kAll)
             || ((abbrevValidationScope == ValidationScope::kExternal)
               && (item.type == 'A' || item.type == 'B'))) {
-          checkAbbrev(passed, i, item, tz);
+          checkString(passed, i, item, "extra.abbrev",
+              ze.abbrev(), item.abbrev);
         }
       }
 
@@ -93,17 +97,14 @@ class BasicTransitionTest: public aunit::TestOnce {
       }
     }
 
-    void checkAbbrev(bool& passed, int i, const ValidationItem& item,
-        const TimeZone& tz) {
-      if (item.abbrev == nullptr) return;
+    void checkString(bool& passed, int i, const ValidationItem& item,
+        const char* componentName,
+        const char* aceTimeString, const char* libString) {
+      if (libString == nullptr) return;
 
-      acetime_t epochSeconds = item.epochSeconds;
-      if (! aunit::internal::compareEqual(
-          item.abbrev, tz.getAbbrev(epochSeconds))) {
-        printFailedHeader("abbrev", i, item);
-        logging::printf( "at=%s, lib=%s\n",
-            tz.getAbbrev(epochSeconds),
-            item.abbrev);
+      if (! aunit::internal::compareEqual(aceTimeString, libString)) {
+        printFailedHeader(componentName, i, item);
+        logging::printf( "at=%s, lib=%s\n", aceTimeString, libString);
         passed = false;
       }
     }

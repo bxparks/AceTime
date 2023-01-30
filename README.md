@@ -52,15 +52,14 @@ This library can be an alternative to the Arduino Time
 (https://github.com/PaulStoffregen/Time) and Arduino Timezone
 (https://github.com/JChristensen/Timezone) libraries.
 
-**Breaking Changes in v2.0**: 1) The default AceTime epoch is shifted forward
-from 2000-01-01 (v1) to 2050-01-01 (v2). This extends the validity of most
-timezone related functions from `[2000,2050)` to `[2000,2100)`. 2) The epoch
-year is now an adjustable parameter using the `Epoch::currentEpochYear(year)`
-function. 3) The zoneinfo databases (`zonedb` and `zonedbx`) are now valid from
-`[2000, 10000)`, independent of the current epoch year. See the [Migrating to
-v2.0.0](MIGRATING.md#MigratingToVersion200) section for more details.
+**Breaking Changes in v2.1**: Links are now first-class citizens compared to
+Zones and should be treated exactly the same. Fat link and symbolic link
+implementations have been unified. The `kZoneRegistry` and
+`kZoneAndLinkRegistry` are identical. Only 2 methods are special to Link time
+zones: `TimeZone::isLink()` and `TimeZone::printTargetNameTo()`. See [Migrating
+to v2.1.0](MIGRATING.md#MigratingToVersion210) section for more details.
 
-**Version**: 2.0.1 (2022-12-04, TZDB version 2022g)
+**Version**: 2.1.0 (2023-01-29, TZDB version 2022g)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
@@ -274,8 +273,9 @@ void setup() {
   Serial.println();
 
   // Print the current time zone abbreviation, e.g. "PST" or "PDT"
+  ZonedExtra ze = losAngelesTz.getZonedExtra(epochSeconds);
   Serial.print(F("Abbreviation: "));
-  Serial.print(losAngelesTz.getAbbrev(epochSeconds));
+  SERIAL_PORT_MONITOR.print(ze.abbrev());
   Serial.println();
 
   // Create from epoch seconds. London is still on standard time.
@@ -293,8 +293,9 @@ void setup() {
   Serial.println();
 
   // Print the current time zone abbreviation, e.g. "GMT" or "BST"
+  ze = londonTz.getZonedExtra(epochSeconds);
   Serial.print(F("Abbreviation: "));
-  Serial.print(londonTz.getAbbrev(epochSeconds));
+  SERIAL_PORT_MONITOR.print(ze.abbrev());
   Serial.println();
 
   Serial.println(F("=== Compare ZonedDateTime"));
@@ -1129,9 +1130,8 @@ and
 [ExtendedHinnantDateTest](https://github.com/bxparks/AceTimeValidation/tree/master/ExtendedHinnantDateTest)
 validation tests which compare the AceTime algorithms to the Hinnant Date
 algorithms. For all times zones between the years 2000 until 2100, the AceTime
-UTC offsets (`TimeZone::getUtcOffset()`), timezone abbreviations
-(`TimeZone::getAbbrev()`), and epochSecond conversion to date components
-(`ZonedDateTime::fromEpochSeconds()`) match the results from the Hinnant Date
+date-time components (`ZonedDateTime`) and abbreviations (`ZonedExtra`)
+calculated from the given epochSeconds match the results from the Hinnant Date
 libraries.
 
 <a name="Cctz"></a>

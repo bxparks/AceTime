@@ -31,7 +31,6 @@
 #include "ace_time/internal/ZoneInfo.h"
 #include "ace_time/internal/ZonePolicy.h"
 #include "ace_time/internal/ZoneRegistrar.h"
-#include "ace_time/internal/LinkRegistrar.h"
 #include "ace_time/zonedb/zone_policies.h"
 #include "ace_time/zonedb/zone_infos.h"
 #include "ace_time/zonedb/zone_registry.h"
@@ -54,7 +53,6 @@
 #include "ace_time/ExtendedZoneProcessor.h"
 #include "ace_time/ZoneProcessorCache.h"
 #include "ace_time/ZoneManager.h"
-#include "ace_time/LinkManager.h"
 #include "ace_time/ZoneSorterByName.h"
 #include "ace_time/ZoneSorterByOffsetAndName.h"
 #include "ace_time/TimeZoneData.h"
@@ -68,7 +66,7 @@
 #include "ace_time/ace_time_utils.h"
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 20001
-#define ACE_TIME_VERSION_STRING "2.0.1"
+#define ACE_TIME_VERSION 20100
+#define ACE_TIME_VERSION_STRING "2.1.0"
 
 #endif

@@ -1,6 +1,52 @@
 # Changelog
 
 * Unreleased
+* 2.1.0 (2023-01-29, TZDB version 2022g)
+    * There are a handful API breaking changes in this release in the pursuit of
+      simpler and cleaner code. See the following for more info:
+        * [Migrating to v2.1](MIGRATING.md#MigratingToVersion210)
+        * [ZonedExtra](USER_GUIDE.md#ZonedExtra) in the User Guide
+        * [Unified Links](USER_GUIDE.md#UnifiedLinks) in the User Guide
+    * **Potentially Breaking**: zonedb,zonedbx
+        * Rename `kPolicyXxx` to `kZonePolicyXxx` for consistency. These are
+          expected to be used only internally, so shouldn't cause external
+          breakage.
+    * **Breaking**: `TimeZone.h`
+        * Replace 3 separate extraction methods in `TimeZone` with a new
+          `ZonedExtra` class
+        * Removed: `TimeZone::getUtcOffset()`
+            * Replaced by: `ZonedExtra::timeOffset()`
+        * Removed: `TimeZone::getDeltaOffset()`
+            * Replaced by: `ZonedExtra::dstOffset()`
+        * Removed `TimeZone::getAbbrev()`
+            * Replaced by: `ZonedExtra::abbrev()`
+            * `ZonedExtra::abbrev()` returns pointer to a local string buffer
+              instead of a transient buffer deep inside `Transition` object.
+            * `TimeZone` becomes closer to being thread-safe
+    * **New Class**: `ZonedExtra.h`
+        * `ZonedExtra::forEpochSeconds(epochSeconds, tz)`
+            * Create instance from epochSeconds and time zone.
+        * `ZonedExtra::forLocalDateTime(ldt, tz)`
+            * Create instance from LocalDateTime and time zone.
+    * **Potentially Breaking**: Unified Links
+        * Links are now first-class citizens, exactly the same as Zones.
+        * Unify "fat links" and "symbolic links" into a single implementation.
+        * Remove "thin links" to simplify the code.
+        * `TimeZone` class simplified
+            * Removed `followLink` flag on various methods.
+            * Only 2 methods apply to Links: `isLink()` and
+              `printTargetNameTo()`.
+    * Simplify ZoneProcessors
+        * `ZoneProcessor.h`, `ExtendedZoneProcessor.h`, `BasicZoneProcessor.h`
+        * Remove: `getUtcOffset()`, `getDeltaOffset()`, `getAbbrev()`
+        * Replaced by: `findByLocalDateTime()`, `findByEpochSeconds()`
+        * These are internal helper methods not intended for public consumption.
+    * Unit tests
+        * Migrate most unit tests to use the smaller, testing zone databases at
+          `testing/tzonedb/` and `testing/tzonedbx/`.
+            * Reduces maintenance cost of various hand-crafted ZoneInfo and
+              ZonePolicy entries for unit tests.
+            * Can test against real timezones with predictable behavior.
 * 2.0.1 (2022-12-04, TZDB 2022g)
     * Prevent `ExtendedZoneProcssor::generateStartUntilTimes()` from
       dereferencing uninitialized memory if there are no matching transitions.
@@ -38,7 +84,7 @@
     * Extend `untilYear` of [zonedb](src/ace_time/zonedb) and
       [zonedbx](src/ace_time/zonedbx) databases to 10000
         * databases now valid over the years `[2000,10000)`
-        * `zonedbx` adds 75 additional Rules for `kPolicyMorocco` (e.g.
+        * `zonedbx` adds 75 additional Rules for `kZonePolicyMorocco` (e.g.
           zone "Africe/Casablanca") due to the precalculated DST shifts which
           are listed in the IANA TZ DB up to the year 2087.
         * `zonedb` remains unchanged

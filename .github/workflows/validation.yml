@@ -26,15 +26,15 @@ jobs:
     - name: Checkout Additional Repos
       run: |
         cd ..
-        git clone https://github.com/bxparks/EpoxyDuino
-        git clone https://github.com/bxparks/AUnit
-        git clone https://github.com/bxparks/AceCommon
-        git clone https://github.com/bxparks/AceSorting
-        git clone https://github.com/bxparks/AceTimeTools
-        git clone https://github.com/bxparks/AceTimePython
-        git clone https://github.com/bxparks/AceTimeValidation
+        git clone --depth 1 https://github.com/bxparks/EpoxyDuino
+        git clone --depth 1 https://github.com/bxparks/AUnit
+        git clone --depth 1 https://github.com/bxparks/AceCommon
+        git clone --depth 1 https://github.com/bxparks/AceSorting
+        git clone --depth 1 https://github.com/bxparks/AceTimeTools
+        git clone --depth 1 https://github.com/bxparks/AceTimePython
+        git clone --depth 1 https://github.com/bxparks/AceTimeValidation
+        git clone --depth 1 https://github.com/HowardHinnant/date
         git clone https://github.com/eggert/tz
-        git clone https://github.com/HowardHinnant/date
 
     - name: Set up Python 3.7
       uses: actions/setup-python@v2

@@ -27,7 +27,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v2.0
+**Version**: AceTime v2.1.0
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -217,6 +217,15 @@ ASCII table.
     * ExtendedZoneManager increases ~150 bytes
     * `zonedb` increases ~300 bytes
     * `zonedbx` increases ~1.5 kiB
+
+**v2.0.1**
+* Upgrade to TZDB 2022g.
+* Incorporate `ZonedExtra` to replace various `TimeZone` methods.
+
+**v2.1.0**
+* Remove `LinkManager` and `LinkRegistry`.
+* Unify links, adding an additional `targetInfo` field in `ZoneInfo`.
+    * Increases flash by ~1kB on 8-bit and ~2kB on 32-bit for ~600 zones.
 
 # Legend
 
