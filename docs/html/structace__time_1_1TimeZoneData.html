@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.0.1</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -77,7 +77,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Data structure that captures the internal state of a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> object with enough information so that it can be serialized using <a class="el" href="classace__time_1_1TimeZone.html#a56c3e00f4809ec653eb773202e6945e0" title="Convert to a TimeZoneData object, which can be fed back into ZoneManager::createForTimeZoneData() to ...">TimeZone::toTimeZoneData()</a> then reconstructed using ZoneManager::createForTimeZoneData().  
+<p>Data structure that captures the internal state of a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> object with enough information so that it can be serialized using <a class="el" href="classace__time_1_1TimeZone.html#af4e12e7f8296fefe6b979fd5b9af5ba7" title="Convert to a TimeZoneData object, which can be fed back into ZoneManager::createForTimeZoneData() to ...">TimeZone::toTimeZoneData()</a> then reconstructed using ZoneManager::createForTimeZoneData().  
  <a href="structace__time_1_1TimeZoneData.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="TimeZoneData_8h_source.html">TimeZoneData.h</a>&gt;</code></p>
@@ -102,24 +102,24 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a53dfd6e0c69aeaaa4e7f3f0652e3fbab"><td class="memItemLeft" align="right" valign="top"><a id="a53dfd6e0c69aeaaa4e7f3f0652e3fbab"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
 <tr class="separator:a53dfd6e0c69aeaaa4e7f3f0652e3fbab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42d8687d6766acae6568e2539f2e6d8a"><td class="memItemLeft" ><a id="a42d8687d6766acae6568e2539f2e6d8a"></a>
+<tr class="memitem:a3d590558a1aa838d0c4cccd6ada2d53b"><td class="memItemLeft" ><a id="a3d590558a1aa838d0c4cccd6ada2d53b"></a>
 union {</td></tr>
-<tr class="memitem:a196881902ecbba868ca252d56544fd47"><td class="memItemLeft" >&#160;&#160;&#160;struct {</td></tr>
-<tr class="memitem:abdff5100efc3547f09897b5a294dc182"><td class="memItemLeft" >
+<tr class="memitem:a703f485eb31fe4f347aeac9472cac546"><td class="memItemLeft" >&#160;&#160;&#160;struct {</td></tr>
+<tr class="memitem:a6dce005910e043927c2b6bc185cfd701"><td class="memItemLeft" >
 &#160;&#160;&#160;&#160;&#160;&#160;int16_t&#160;&#160;&#160;<b>stdOffsetMinutes</b></td></tr>
-<tr class="separator:abdff5100efc3547f09897b5a294dc182"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2ab58b4c4b3b36d6f167a6d0f17e70f"><td class="memItemLeft" >
+<tr class="separator:a6dce005910e043927c2b6bc185cfd701"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f6b6aec2a1575e5aabaacbaaf32a6a7"><td class="memItemLeft" >
 &#160;&#160;&#160;&#160;&#160;&#160;int16_t&#160;&#160;&#160;<b>dstOffsetMinutes</b></td></tr>
-<tr class="separator:ab2ab58b4c4b3b36d6f167a6d0f17e70f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a196881902ecbba868ca252d56544fd47"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="memdesc:a196881902ecbba868ca252d56544fd47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used for kTypeManual.  <a href="unionace__time_1_1TimeZoneData_1_1_0d12.html#a196881902ecbba868ca252d56544fd47">More...</a><br /></td></tr>
-<tr class="separator:a196881902ecbba868ca252d56544fd47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af68d5396f15b95cf030eb6ecdef3abe2"><td class="memItemLeft" >
+<tr class="separator:a0f6b6aec2a1575e5aabaacbaaf32a6a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a703f485eb31fe4f347aeac9472cac546"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="memdesc:a703f485eb31fe4f347aeac9472cac546"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used for kTypeManual.  <a href="unionace__time_1_1TimeZoneData_1_1_0d6.html#a703f485eb31fe4f347aeac9472cac546">More...</a><br /></td></tr>
+<tr class="separator:a703f485eb31fe4f347aeac9472cac546"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b9a05a9afc61ac82d3a6dee407c4a31"><td class="memItemLeft" >
 &#160;&#160;&#160;uint32_t&#160;&#160;&#160;<a class="el" href="structace__time_1_1TimeZoneData.html#a33cee3c6e0a13796bfc9bad62f18d567">zoneId</a></td></tr>
-<tr class="memdesc:af68d5396f15b95cf030eb6ecdef3abe2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Both TimeZone::kTypeBasic and TimeZone::kTypeExtended are mapped to a TimeZoneData::kTypeZoneId. <br /></td></tr>
-<tr class="separator:af68d5396f15b95cf030eb6ecdef3abe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42d8687d6766acae6568e2539f2e6d8a"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a42d8687d6766acae6568e2539f2e6d8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:a6b9a05a9afc61ac82d3a6dee407c4a31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Both TimeZone::kTypeBasic and TimeZone::kTypeExtended are mapped to a TimeZoneData::kTypeZoneId. <br /></td></tr>
+<tr class="separator:a6b9a05a9afc61ac82d3a6dee407c4a31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d590558a1aa838d0c4cccd6ada2d53b"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a3d590558a1aa838d0c4cccd6ada2d53b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -134,7 +134,7 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>kType
 <tr class="separator:a89eca10ee5e0cc9c4494f2662aceab56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Data structure that captures the internal state of a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> object with enough information so that it can be serialized using <a class="el" href="classace__time_1_1TimeZone.html#a56c3e00f4809ec653eb773202e6945e0" title="Convert to a TimeZoneData object, which can be fed back into ZoneManager::createForTimeZoneData() to ...">TimeZone::toTimeZoneData()</a> then reconstructed using ZoneManager::createForTimeZoneData(). </p>
+<div class="textblock"><p>Data structure that captures the internal state of a <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> object with enough information so that it can be serialized using <a class="el" href="classace__time_1_1TimeZone.html#af4e12e7f8296fefe6b979fd5b9af5ba7" title="Convert to a TimeZoneData object, which can be fed back into ZoneManager::createForTimeZoneData() to ...">TimeZone::toTimeZoneData()</a> then reconstructed using ZoneManager::createForTimeZoneData(). </p>
 <p>This data structure is meant to a simple and somewhat opaque serialization object. You should not rely on this struct to remain stable, nor reach into its internal fields. No versioning is provided for simplicity. If the internal format changes in the future, the previous version will likely be incompatible with the new version of the library. It is recommended to use a CRC check to detect version incompatibility if this data structure is saved (e.g. EEPROM) and retrieved later .</p>
 <p>For convenience, an array of <a class="el" href="structace__time_1_1TimeZoneData.html" title="Data structure that captures the internal state of a TimeZone object with enough information so that ...">TimeZoneData</a> can be initializeed using the usual initializer syntax. In other words, the following is allowed:</p>
 <div class="fragment"><div class="line"><a class="code" href="structace__time_1_1TimeZoneData.html#a76f99ffc11d0866de37bcc7eb803a975">TimeZoneData</a> zones[3] = {</div>

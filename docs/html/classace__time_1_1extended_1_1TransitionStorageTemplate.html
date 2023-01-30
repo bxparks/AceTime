@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.0.1</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -81,19 +81,19 @@ $(function() {
 <p>A heap manager which is specialized and tuned to manage a collection of Transitions, keeping track of unused, used, and active states, using a fixed array of Transitions.  
  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="Transition_8h_source.html">Transition.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:a64209f8ee979ac7b223bdc8bbe64bd46"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html">TransitionTemplate</a>&lt; ZEB, ZPB, ZRB &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a64209f8ee979ac7b223bdc8bbe64bd46">Transition</a></td></tr>
 <tr class="memdesc:a64209f8ee979ac7b223bdc8bbe64bd46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Template instantiation of <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta.">TransitionTemplate</a> used by this class.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a64209f8ee979ac7b223bdc8bbe64bd46">More...</a><br /></td></tr>
 <tr class="separator:a64209f8ee979ac7b223bdc8bbe64bd46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26e158a55df0910186b4e3a62bc89f83"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structace__time_1_1extended_1_1MatchingTransitionTemplate.html">MatchingTransitionTemplate</a>&lt; ZEB, ZPB, ZRB &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a26e158a55df0910186b4e3a62bc89f83">MatchingTransition</a></td></tr>
-<tr class="memdesc:a26e158a55df0910186b4e3a62bc89f83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Template instantiation of MatchingTransitiontemplate used by this class.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a26e158a55df0910186b4e3a62bc89f83">More...</a><br /></td></tr>
-<tr class="separator:a26e158a55df0910186b4e3a62bc89f83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd57820249a7b6019175140efb662868"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structace__time_1_1extended_1_1TransitionResultTemplate.html">TransitionResultTemplate</a>&lt; ZEB, ZPB, ZRB &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#abd57820249a7b6019175140efb662868">TransitionResult</a></td></tr>
-<tr class="memdesc:abd57820249a7b6019175140efb662868"><td class="mdescLeft">&#160;</td><td class="mdescRight">Template instantiation of <a class="el" href="structace__time_1_1extended_1_1TransitionResultTemplate.html" title="The result of the findTransitionForDateTime(const LocalDatetime&amp;) method which can return 2 possible ...">TransitionResultTemplate</a> used by this class.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#abd57820249a7b6019175140efb662868">More...</a><br /></td></tr>
-<tr class="separator:abd57820249a7b6019175140efb662868"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22dd35adf72a15ccbbcd0616216d7839"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structace__time_1_1extended_1_1TransitionForSecondsTemplate.html">TransitionForSecondsTemplate</a>&lt; ZEB, ZPB, ZRB &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a22dd35adf72a15ccbbcd0616216d7839">TransitionForSeconds</a></td></tr>
+<tr class="memdesc:a22dd35adf72a15ccbbcd0616216d7839"><td class="mdescLeft">&#160;</td><td class="mdescRight">Template instantiation of <a class="el" href="structace__time_1_1extended_1_1TransitionForSecondsTemplate.html" title="Tuple of a matching Transition and its &#39;fold&#39;.">TransitionForSecondsTemplate</a> used by this class.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a22dd35adf72a15ccbbcd0616216d7839">More...</a><br /></td></tr>
+<tr class="separator:a22dd35adf72a15ccbbcd0616216d7839"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a261d59f7172b0dac1d41ad167122ae02"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structace__time_1_1extended_1_1TransitionForDateTimeTemplate.html">TransitionForDateTimeTemplate</a>&lt; ZEB, ZPB, ZRB &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a261d59f7172b0dac1d41ad167122ae02">TransitionForDateTime</a></td></tr>
+<tr class="memdesc:a261d59f7172b0dac1d41ad167122ae02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Template instantiation of <a class="el" href="structace__time_1_1extended_1_1TransitionForDateTimeTemplate.html" title="The result of the findTransitionForDateTime(const LocalDatetime&amp; ldt) method which can return 0,...">TransitionForDateTimeTemplate</a> used by this class.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a261d59f7172b0dac1d41ad167122ae02">More...</a><br /></td></tr>
+<tr class="separator:a261d59f7172b0dac1d41ad167122ae02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -145,12 +145,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:aaa860da6313337525d7fe83f532994b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a64209f8ee979ac7b223bdc8bbe64bd46">Transition</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#aaa860da6313337525d7fe83f532994b0">addActiveCandidatesToActivePool</a> ()</td></tr>
 <tr class="memdesc:aaa860da6313337525d7fe83f532994b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add active candidates into the Active pool, and collapse the Candidate pool.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#aaa860da6313337525d7fe83f532994b0">More...</a><br /></td></tr>
 <tr class="separator:aaa860da6313337525d7fe83f532994b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad84866d31ff6bfdbedc588592b92aad7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a26e158a55df0910186b4e3a62bc89f83">MatchingTransition</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#ad84866d31ff6bfdbedc588592b92aad7">findTransitionForSeconds</a> (acetime_t epochSeconds) const</td></tr>
-<tr class="memdesc:ad84866d31ff6bfdbedc588592b92aad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the Transition matching the given epochSeconds.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#ad84866d31ff6bfdbedc588592b92aad7">More...</a><br /></td></tr>
-<tr class="separator:ad84866d31ff6bfdbedc588592b92aad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ff4d508b408689a8e2cbca17df1d6cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#abd57820249a7b6019175140efb662868">TransitionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a6ff4d508b408689a8e2cbca17df1d6cb">findTransitionForDateTime</a> (const <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> &amp;ldt) const</td></tr>
-<tr class="memdesc:a6ff4d508b408689a8e2cbca17df1d6cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the candidate Transitions matching the given dateTime.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a6ff4d508b408689a8e2cbca17df1d6cb">More...</a><br /></td></tr>
-<tr class="separator:a6ff4d508b408689a8e2cbca17df1d6cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8b0060c31c3663998bf51da5e8ea6a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a22dd35adf72a15ccbbcd0616216d7839">TransitionForSeconds</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#ad8b0060c31c3663998bf51da5e8ea6a7">findTransitionForSeconds</a> (<a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> epochSeconds) const</td></tr>
+<tr class="memdesc:ad8b0060c31c3663998bf51da5e8ea6a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the Transition matching the given epochSeconds.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#ad8b0060c31c3663998bf51da5e8ea6a7">More...</a><br /></td></tr>
+<tr class="separator:ad8b0060c31c3663998bf51da5e8ea6a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ebb1a64356a50f2fc0728518be8adc0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a261d59f7172b0dac1d41ad167122ae02">TransitionForDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a8ebb1a64356a50f2fc0728518be8adc0">findTransitionForDateTime</a> (const <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> &amp;ldt) const</td></tr>
+<tr class="memdesc:a8ebb1a64356a50f2fc0728518be8adc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the candidate Transitions matching the given dateTime.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a8ebb1a64356a50f2fc0728518be8adc0">More...</a><br /></td></tr>
+<tr class="separator:a8ebb1a64356a50f2fc0728518be8adc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe54661e39b03902fb0376401082e0de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#afe54661e39b03902fb0376401082e0de">log</a> () const</td></tr>
 <tr class="memdesc:afe54661e39b03902fb0376401082e0de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify that the indexes are valid.  <a href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#afe54661e39b03902fb0376401082e0de">More...</a><br /></td></tr>
 <tr class="separator:afe54661e39b03902fb0376401082e0de"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -163,9 +163,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a2aeeeb3fb2cb0df7b561e97b44a178d6"><td class="memItemLeft" align="right" valign="top"><a id="a2aeeeb3fb2cb0df7b561e97b44a178d6"></a>
-static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>calculateFold</b> (acetime_t epochSeconds, const <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a64209f8ee979ac7b223bdc8bbe64bd46">Transition</a> *match, const <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a64209f8ee979ac7b223bdc8bbe64bd46">Transition</a> *prevMatch)</td></tr>
-<tr class="separator:a2aeeeb3fb2cb0df7b561e97b44a178d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d13d4972c47828a54bca8b0e138b653"><td class="memItemLeft" align="right" valign="top"><a id="a6d13d4972c47828a54bca8b0e138b653"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a6d13d4972c47828a54bca8b0e138b653">calcFoldAndOverlap</a> (uint8_t *fold, uint8_t *num, const <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a64209f8ee979ac7b223bdc8bbe64bd46">Transition</a> *prev, const <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a64209f8ee979ac7b223bdc8bbe64bd46">Transition</a> *curr, const <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a64209f8ee979ac7b223bdc8bbe64bd46">Transition</a> *next, <a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> epochSeconds)</td></tr>
+<tr class="memdesc:a6d13d4972c47828a54bca8b0e138b653"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the fold and num parameters of TransitionForSecond. <br /></td></tr>
+<tr class="separator:a6d13d4972c47828a54bca8b0e138b653"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -220,29 +221,8 @@ class ace_time::extended::TransitionStorageTemplate&lt; SIZE, ZEB, ZPB, ZRB &gt;
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00518">518</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00530">530</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a26e158a55df0910186b4e3a62bc89f83"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26e158a55df0910186b4e3a62bc89f83">&#9670;&nbsp;</a></span>MatchingTransition</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef <a class="el" href="structace__time_1_1extended_1_1MatchingTransitionTemplate.html">MatchingTransitionTemplate</a>&lt;ZEB, ZPB, ZRB&gt; <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html">ace_time::extended::TransitionStorageTemplate</a>&lt; SIZE, ZEB, ZPB, ZRB &gt;::<a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a26e158a55df0910186b4e3a62bc89f83">MatchingTransition</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Template instantiation of MatchingTransitiontemplate used by this class. </p>
-<p>This should be treated as a private, it is exposed only for testing purposes. </p>
-
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00531">531</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
-
-</div>
-</div>
 <a id="a64209f8ee979ac7b223bdc8bbe64bd46"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a64209f8ee979ac7b223bdc8bbe64bd46">&#9670;&nbsp;</a></span>Transition</h2>
 
@@ -260,12 +240,12 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Template instantiation of <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta.">TransitionTemplate</a> used by this class. </p>
 <p>This should be treated as a private, it is exposed only for testing purposes. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00524">524</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00536">536</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
-<a id="abd57820249a7b6019175140efb662868"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd57820249a7b6019175140efb662868">&#9670;&nbsp;</a></span>TransitionResult</h2>
+<a id="a261d59f7172b0dac1d41ad167122ae02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a261d59f7172b0dac1d41ad167122ae02">&#9670;&nbsp;</a></span>TransitionForDateTime</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -273,15 +253,36 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="structace__time_1_1extended_1_1TransitionResultTemplate.html">TransitionResultTemplate</a>&lt;ZEB, ZPB, ZRB&gt; <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html">ace_time::extended::TransitionStorageTemplate</a>&lt; SIZE, ZEB, ZPB, ZRB &gt;::<a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#abd57820249a7b6019175140efb662868">TransitionResult</a></td>
+          <td class="memname">typedef <a class="el" href="structace__time_1_1extended_1_1TransitionForDateTimeTemplate.html">TransitionForDateTimeTemplate</a>&lt;ZEB, ZPB, ZRB&gt; <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html">ace_time::extended::TransitionStorageTemplate</a>&lt; SIZE, ZEB, ZPB, ZRB &gt;::<a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a261d59f7172b0dac1d41ad167122ae02">TransitionForDateTime</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Template instantiation of <a class="el" href="structace__time_1_1extended_1_1TransitionResultTemplate.html" title="The result of the findTransitionForDateTime(const LocalDatetime&amp;) method which can return 2 possible ...">TransitionResultTemplate</a> used by this class. </p>
+<p>Template instantiation of <a class="el" href="structace__time_1_1extended_1_1TransitionForDateTimeTemplate.html" title="The result of the findTransitionForDateTime(const LocalDatetime&amp; ldt) method which can return 0,...">TransitionForDateTimeTemplate</a> used by this class. </p>
 <p>This should be treated as a private, it is exposed only for testing purposes. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00538">538</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00550">550</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+
+</div>
+</div>
+<a id="a22dd35adf72a15ccbbcd0616216d7839"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22dd35adf72a15ccbbcd0616216d7839">&#9670;&nbsp;</a></span>TransitionForSeconds</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="structace__time_1_1extended_1_1TransitionForSecondsTemplate.html">TransitionForSecondsTemplate</a>&lt;ZEB, ZPB, ZRB&gt; <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html">ace_time::extended::TransitionStorageTemplate</a>&lt; SIZE, ZEB, ZPB, ZRB &gt;::<a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a22dd35adf72a15ccbbcd0616216d7839">TransitionForSeconds</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Template instantiation of <a class="el" href="structace__time_1_1extended_1_1TransitionForSecondsTemplate.html" title="Tuple of a matching Transition and its &#39;fold&#39;.">TransitionForSecondsTemplate</a> used by this class. </p>
+<p>This should be treated as a private, it is exposed only for testing purposes. </p>
+
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00543">543</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -315,7 +316,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Every MatchingEra will have at least one Transition.</p>
 <dl class="section return"><dt>Returns</dt><dd>the last Transition that was added </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00694">694</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00706">706</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -347,7 +348,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Immediately add the free agent Transition at index mIndexFree to the Active pool. </p>
 <p>Then increment mIndexFree to consume the free agent from the Free pool. This assumes that the Pending and Candidate pool are empty, which makes the Active pool come immediately before the Free pool. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00618">618</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00630">630</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -379,7 +380,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Add the free agent Transition at index mIndexFree to the Candidate pool, sorted by transitionTime. </p>
 <p>Then increment mIndexFree by one to remove the free agent from the Free pool. Essentially this is an Insertion Sort keyed by the 'transitionTime' (ignoring the DateTuple.suffix). </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00668">668</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00680">680</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -411,12 +412,12 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Add the current prior into the Candidates pool. </p>
 <p>Prior is always just before the start of the Candidate pool, so we just need to shift back the start index of the Candidate pool. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00658">658</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00670">670</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
-<a id="a6ff4d508b408689a8e2cbca17df1d6cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ff4d508b408689a8e2cbca17df1d6cb">&#9670;&nbsp;</a></span>findTransitionForDateTime()</h2>
+<a id="a8ebb1a64356a50f2fc0728518be8adc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ebb1a64356a50f2fc0728518be8adc0">&#9670;&nbsp;</a></span>findTransitionForDateTime()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -427,7 +428,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#abd57820249a7b6019175140efb662868">TransitionResult</a> <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html">ace_time::extended::TransitionStorageTemplate</a>&lt; SIZE, ZEB, ZPB, ZRB &gt;::findTransitionForDateTime </td>
+          <td class="memname"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a261d59f7172b0dac1d41ad167122ae02">TransitionForDateTime</a> <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html">ace_time::extended::TransitionStorageTemplate</a>&lt; SIZE, ZEB, ZPB, ZRB &gt;::findTransitionForDateTime </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> &amp;&#160;</td>
           <td class="paramname"><em>ldt</em></td><td>)</td>
@@ -444,12 +445,12 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Return the candidate Transitions matching the given dateTime. </p>
 <p>The search may return 0, 1 or 2 Transitions, depending on whether the dateTime falls in a gap or overlap. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00772">772</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00838">838</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
-<a id="ad84866d31ff6bfdbedc588592b92aad7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad84866d31ff6bfdbedc588592b92aad7">&#9670;&nbsp;</a></span>findTransitionForSeconds()</h2>
+<a id="ad8b0060c31c3663998bf51da5e8ea6a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8b0060c31c3663998bf51da5e8ea6a7">&#9670;&nbsp;</a></span>findTransitionForSeconds()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -460,9 +461,9 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a26e158a55df0910186b4e3a62bc89f83">MatchingTransition</a> <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html">ace_time::extended::TransitionStorageTemplate</a>&lt; SIZE, ZEB, ZPB, ZRB &gt;::findTransitionForSeconds </td>
+          <td class="memname"><a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a22dd35adf72a15ccbbcd0616216d7839">TransitionForSeconds</a> <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html">ace_time::extended::TransitionStorageTemplate</a>&lt; SIZE, ZEB, ZPB, ZRB &gt;::findTransitionForSeconds </td>
           <td>(</td>
-          <td class="paramtype">acetime_t&#160;</td>
+          <td class="paramtype"><a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a>&#160;</td>
           <td class="paramname"><em>epochSeconds</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -477,7 +478,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Return the Transition matching the given epochSeconds. </p>
 <p>Return nullptr if no matching Transition found. If a zone does not have any transition according to TZ Database, the AceTimeTools/transformer.py script adds an "anchor" transition at the "beginning of time" which happens to be the year 1872 (because the year is stored as an int8_t). Therefore, this method should never return a nullptr for a well-formed ZoneInfo file. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00728">728</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00740">740</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -509,7 +510,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Return the maximum number of transitions which was allocated. </p>
 <p>If this is greater than SIZE, it indicates that the Transition mPool overflowed. This method is intended for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00866">866</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00927">927</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -541,7 +542,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Return a pointer to the first Transition in the free pool. </p>
 <p>If this transition is not used, then it's ok to just drop it. The next time <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a447f3b08c7aff5b53129076487ab85c6" title="Return a pointer to the first Transition in the free pool.">getFreeAgent()</a> is called, the same Transition will be returned. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00595">595</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00607">607</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -573,7 +574,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Initialize all pools to 0 size, usually when a new year is initialized. </p>
 <p>The mAllocSize is not reset, so that we can determine the maximum allocation size across multiple years. Call <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a0982f4f9aaa073bce690d78d8f3141c4" title="Reset the current allocation size.">resetAllocSize()</a> manually to reset the mAllocSize. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00549">549</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00561">561</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -605,7 +606,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Verify that the indexes are valid. </p>
 <p>Used only for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00833">833</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00894">894</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -637,7 +638,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Allocate a free Transition then add it to the Prior pool. </p>
 <p>This assumes that the Prior pool and Candidate pool were both empty before calling this method. Shift the Candidate pool and Free pool up by one. Return a handle (pointer to pointer) to the Transition, so that the prior Transition can be swapped with another Transition, while keeping the handle valid. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00633">633</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00645">645</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -669,7 +670,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Reset the current allocation size. </p>
 <p>For debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00859">859</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00920">920</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -701,12 +702,12 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Empty the Candidate pool by resetting the various indexes. </p>
 <p>If every iteration of createTransitionsForMatch() finishes with <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a0b23350e74c9e433d6d7d76111aeccfa" title="Immediately add the free agent Transition at index mIndexFree to the Active pool.">addFreeAgentToActivePool()</a> or <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#aaa860da6313337525d7fe83f532994b0" title="Add active candidates into the Active pool, and collapse the Candidate pool.">addActiveCandidatesToActivePool()</a>, it may be possible to remove this. But it's safer to reset the indexes upon each iteration. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00571">571</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00583">583</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>/home/brian/src/AceTime/src/ace_time/<a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a></li>
+<li>/home/brian/src/AceTime/src/ace_time/<a class="el" href="Transition_8h_source.html">Transition.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

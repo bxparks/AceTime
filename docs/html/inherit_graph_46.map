@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classace__time_1_1TimePeriod.html" title="Represents a period of time relative to some known point in time, potentially represented by a DateTi..." alt="" coords="5,5,169,32"/>
+<area shape="rect" id="node1" href="$classace__time_1_1ZoneProcessorCacheBaseTemplate.html" title="The template class of BasicZoneProcessorCacheBase or ExtendedZoneProcessorCacheBase." alt="" coords="5,39,232,80"/>
+<area shape="rect" id="node2" href="$classace__time_1_1BasicZoneProcessorCache.html" title="An implementation of a BasicZoneProcessorCacheBase where the cache of size SIZE is embedded into the ..." alt="" coords="293,5,514,47"/>
+<area shape="rect" id="node3" href="$classace__time_1_1ExtendedZoneProcessorCache.html" title="An implementation of an ExtendedZoneProcessorCacheBase where the cache of size SIZE is embedded into ..." alt="" coords="280,71,527,112"/>
 </map>

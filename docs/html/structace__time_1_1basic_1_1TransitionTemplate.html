@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.0.1</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -97,7 +97,7 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a2ce8f0d17f189a25a6f80e9107edb239"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Zone transition rule that matched for the the given year.  <a href="structace__time_1_1basic_1_1TransitionTemplate.html#a2ce8f0d17f189a25a6f80e9107edb239">More...</a><br /></td></tr>
 <tr class="separator:a2ce8f0d17f189a25a6f80e9107edb239"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a6fa21f53305bb789f0fa98c68db62f"><td class="memItemLeft" align="right" valign="top"><a id="a2a6fa21f53305bb789f0fa98c68db62f"></a>
-acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#a2a6fa21f53305bb789f0fa98c68db62f">startEpochSeconds</a></td></tr>
+<a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#a2a6fa21f53305bb789f0fa98c68db62f">startEpochSeconds</a></td></tr>
 <tr class="memdesc:a2a6fa21f53305bb789f0fa98c68db62f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The calculated transition time of the given rule. <br /></td></tr>
 <tr class="separator:a2a6fa21f53305bb789f0fa98c68db62f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5921648ab30c46ac806db1913866481"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1TransitionTemplate.html#aa5921648ab30c46ac806db1913866481">offsetMinutes</a></td></tr>
@@ -136,7 +136,7 @@ struct ace_time::basic::TransitionTemplate&lt; ZIB, ZEB, ZPB, ZRB &gt;</h3>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00061">61</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00062">62</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="abe2b5dd9d3dd7660c10e85a388494c2b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abe2b5dd9d3dd7660c10e85a388494c2b">&#9670;&nbsp;</a></span>abbrev</h2>
@@ -155,7 +155,7 @@ template&lt;typename ZIB , typename ZEB , typename ZPB , typename ZRB &gt; </div
 <p>The calculated effective time zone abbreviation, e.g. </p>
 <p>"PST" or "PDT". When the Transition is initially created using createTransition(), abbrev[0] is set to ZoneRule.letter (to avoid potentially another lookup in PROGMEM). That 'letter' is used later in the init() to generate the correct abbreviation which will replace the 'letter' in here. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00110">110</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00111">111</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -177,7 +177,7 @@ template&lt;typename ZIB , typename ZEB , typename ZPB , typename ZRB &gt; </div
 <p>NonNullable.</p>
 <p>This field is used only during the init() phase, not during the findMatch() phase. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00067">67</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00068">68</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -198,7 +198,7 @@ template&lt;typename ZIB , typename ZEB , typename ZPB , typename ZRB &gt; </div
 <p>Month of the transition. </p>
 <p>Copied from ZoneRule.inMonth() if it exists or set to 1 if ZoneRule is null (indicating that the ZoneEra represents a fixed offset for the entire year). </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00101">101</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00102">102</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -219,7 +219,7 @@ template&lt;typename ZIB , typename ZEB , typename ZPB , typename ZRB &gt; </div
 <p>The total effective UTC offset minutes at the start of transition, <em>including</em> DST offset. </p>
 <p>(Maybe rename this effectiveOffsetMinutes?) The DST offset is stored at deltaMinutes. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00088">88</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00089">89</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -241,7 +241,7 @@ template&lt;typename ZIB , typename ZEB , typename ZPB , typename ZRB &gt; </div
 <p>Set to nullptr if the RULES column is '-' or 'hh:mm'. The fixed DST offset placed in deltaOffset. Two examples of such a timezone isEurope/Istanbul and America/Argentina/San_Luis.</p>
 <p>This field is used only during the init() phase, not during the findMatch() phase. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00078">78</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00079">79</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>

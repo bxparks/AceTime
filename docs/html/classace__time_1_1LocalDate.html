@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.0.1</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -127,7 +127,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#a0fa14ac593d7f693d0190cc4bc5043dd">toUnixDays</a> () const</td></tr>
 <tr class="memdesc:a0fa14ac593d7f693d0190cc4bc5043dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of days since Unix epoch (1970-01-01 00:00:00). <br /></td></tr>
 <tr class="separator:a0fa14ac593d7f693d0190cc4bc5043dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1a1350bc5637a4296729b2bc3f61d49"><td class="memItemLeft" align="right" valign="top">acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#af1a1350bc5637a4296729b2bc3f61d49">toEpochSeconds</a> () const</td></tr>
+<tr class="memitem:af1a1350bc5637a4296729b2bc3f61d49"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#af1a1350bc5637a4296729b2bc3f61d49">toEpochSeconds</a> () const</td></tr>
 <tr class="memdesc:af1a1350bc5637a4296729b2bc3f61d49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of seconds since the currentEpochYear().  <a href="classace__time_1_1LocalDate.html#af1a1350bc5637a4296729b2bc3f61d49">More...</a><br /></td></tr>
 <tr class="separator:af1a1350bc5637a4296729b2bc3f61d49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40be39304d67827b663f79c840b80094"><td class="memItemLeft" align="right" valign="top"><a id="a40be39304d67827b663f79c840b80094"></a>
@@ -171,7 +171,7 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 static <a class="el" href="classace__time_1_1LocalDate.html">LocalDate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#ac79dde1baaf4f283cea2766a6985fb95">forUnixDays</a> (int32_t unixDays)</td></tr>
 <tr class="memdesc:ac79dde1baaf4f283cea2766a6985fb95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method using the number of days since Unix epoch 1970-01-01. <br /></td></tr>
 <tr class="separator:ac79dde1baaf4f283cea2766a6985fb95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab04f803683ec7c9ae5d4037efb297a77"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1LocalDate.html">LocalDate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#ab04f803683ec7c9ae5d4037efb297a77">forEpochSeconds</a> (acetime_t epochSeconds)</td></tr>
+<tr class="memitem:ab04f803683ec7c9ae5d4037efb297a77"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1LocalDate.html">LocalDate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#ab04f803683ec7c9ae5d4037efb297a77">forEpochSeconds</a> (<a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> epochSeconds)</td></tr>
 <tr class="memdesc:ab04f803683ec7c9ae5d4037efb297a77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method using the number of seconds since the current epoch year given by <code>currentEpochYear()</code>.  <a href="classace__time_1_1LocalDate.html#ab04f803683ec7c9ae5d4037efb297a77">More...</a><br /></td></tr>
 <tr class="separator:ab04f803683ec7c9ae5d4037efb297a77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21925fbcffdaaf85918aafcc4ee9547b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1LocalDate.html">LocalDate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#a21925fbcffdaaf85918aafcc4ee9547b">forUnixSeconds64</a> (int64_t unixSeconds)</td></tr>
@@ -210,10 +210,10 @@ static const int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class
 static const int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#a2fbdac2dbc536dc1d44ab3cf0602de7a">kInvalidUnixSeconds64</a> = INT64_MIN</td></tr>
 <tr class="memdesc:a2fbdac2dbc536dc1d44ab3cf0602de7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sentinel unixSeconds64 which indicates an error. <br /></td></tr>
 <tr class="separator:a2fbdac2dbc536dc1d44ab3cf0602de7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16334b49fbbcf8ecc356e283b3675911"><td class="memItemLeft" align="right" valign="top">static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#a16334b49fbbcf8ecc356e283b3675911">kMinEpochSeconds</a> = INT32_MIN + 1</td></tr>
+<tr class="memitem:a16334b49fbbcf8ecc356e283b3675911"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#a16334b49fbbcf8ecc356e283b3675911">kMinEpochSeconds</a> = INT32_MIN + 1</td></tr>
 <tr class="memdesc:a16334b49fbbcf8ecc356e283b3675911"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimum valid epochSeconds.  <a href="classace__time_1_1LocalDate.html#a16334b49fbbcf8ecc356e283b3675911">More...</a><br /></td></tr>
 <tr class="separator:a16334b49fbbcf8ecc356e283b3675911"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa481f6facbd9dfef0ac9a972cdc8286f"><td class="memItemLeft" align="right" valign="top">static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#aa481f6facbd9dfef0ac9a972cdc8286f">kMaxEpochSeconds</a> = INT32_MAX</td></tr>
+<tr class="memitem:aa481f6facbd9dfef0ac9a972cdc8286f"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#aa481f6facbd9dfef0ac9a972cdc8286f">kMaxEpochSeconds</a> = INT32_MAX</td></tr>
 <tr class="memdesc:aa481f6facbd9dfef0ac9a972cdc8286f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum valid epochSeconds.  <a href="classace__time_1_1LocalDate.html#aa481f6facbd9dfef0ac9a972cdc8286f">More...</a><br /></td></tr>
 <tr class="separator:aa481f6facbd9dfef0ac9a972cdc8286f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1c12c4971fc218d6ae56a3cd84d3ae8"><td class="memItemLeft" align="right" valign="top"><a id="ac1c12c4971fc218d6ae56a3cd84d3ae8"></a>
@@ -289,7 +289,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Compare 'this' <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> to 'that' <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a>, returning (&lt;0, 0, &gt;0) according to whether 'this' occurs (before, same as, after) 'that'. </p>
 <p>If either this-&gt;<a class="el" href="classace__time_1_1LocalDate.html#a0c718d4fea5ad37c1263766b44b532ff" title="Return true if any component indicates an error condition.">isError()</a> or that.isError() is true, the behavior is undefined. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00390">390</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00393">393</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -496,7 +496,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="memname">static <a class="el" href="classace__time_1_1LocalDate.html">LocalDate</a> ace_time::LocalDate::forEpochSeconds </td>
           <td>(</td>
-          <td class="paramtype">acetime_t&#160;</td>
+          <td class="paramtype"><a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a>&#160;</td>
           <td class="paramname"><em>epochSeconds</em></td><td>)</td>
           <td></td>
         </tr>
@@ -611,7 +611,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Print <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> to 'printer' in ISO 8601 format, along with the day of week. </p>
 <p>This class does not implement the Printable interface to avoid increasing the size of the object from the additional virtual function. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00406">406</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00409">409</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -642,7 +642,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>By default, the current epoch year is 2000 so the epoch is 2000-01-01 00:00:00 UTC).</p>
 <p>Returns kInvalidEpochDays if <a class="el" href="classace__time_1_1LocalDate.html#a0c718d4fea5ad37c1263766b44b532ff" title="Return true if any component indicates an error condition.">isError()</a> is true, which allows round trip conversions of <a class="el" href="classace__time_1_1LocalDate.html#ad3fffbf6406717f246b7331324d9c903" title="Factory method using the number of days since the current epoch (usually 2000-01-01).">forEpochDays()</a> and <a class="el" href="classace__time_1_1LocalDate.html#ab3b76c692aee5e652225616eb871bcae" title="Return number of days since the current epoch year sCurrentEpochYear.">toEpochDays()</a> even when <a class="el" href="classace__time_1_1LocalDate.html#a0c718d4fea5ad37c1263766b44b532ff" title="Return true if any component indicates an error condition.">isError()</a> is true. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00352">352</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00355">355</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -656,7 +656,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">acetime_t ace_time::LocalDate::toEpochSeconds </td>
+          <td class="memname"><a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> ace_time::LocalDate::toEpochSeconds </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -672,7 +672,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Return the number of seconds since the currentEpochYear(). </p>
 <p>Returns kInvalidEpochSeconds if <a class="el" href="classace__time_1_1LocalDate.html#a0c718d4fea5ad37c1263766b44b532ff" title="Return true if any component indicates an error condition.">isError()</a> is true or if epochSeconds is out of range. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00371">371</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00374">374</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -719,7 +719,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const acetime_t ace_time::LocalDate::kMaxEpochSeconds = INT32_MAX</td>
+          <td class="memname">const <a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> ace_time::LocalDate::kMaxEpochSeconds = INT32_MAX</td>
         </tr>
       </table>
   </td>
@@ -773,7 +773,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const acetime_t ace_time::LocalDate::kMinEpochSeconds = INT32_MIN + 1</td>
+          <td class="memname">const <a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> ace_time::LocalDate::kMinEpochSeconds = INT32_MIN + 1</td>
         </tr>
       </table>
   </td>

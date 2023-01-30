@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['deltaminutes_558',['deltaMinutes',['../structace__time_1_1basic_1_1TransitionTemplate.html#aefb15f684d43cd60da7511701b939a8f',1,'ace_time::basic::TransitionTemplate::deltaMinutes()'],['../structace__time_1_1extended_1_1TransitionTemplate.html#ae9e5b29eca212f58b3af5d3b8cd39351',1,'ace_time::extended::TransitionTemplate::deltaMinutes()']]]
+  ['curr_568',['curr',['../structace__time_1_1extended_1_1TransitionForSecondsTemplate.html#a6456944c5e8a22ed24d11d3354657101',1,'ace_time::extended::TransitionForSecondsTemplate::curr()'],['../structace__time_1_1extended_1_1TransitionForDateTimeTemplate.html#aba98c7341bab47473bc87eca7b38ba44',1,'ace_time::extended::TransitionForDateTimeTemplate::curr()']]]
 ];

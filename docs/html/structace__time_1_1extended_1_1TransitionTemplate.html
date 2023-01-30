@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.0.1</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -80,7 +80,7 @@ $(function() {
 <p>Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta.  
  <a href="structace__time_1_1extended_1_1TransitionTemplate.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="Transition_8h_source.html">Transition.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;:</div>
 <div class="dyncontent">
@@ -127,28 +127,28 @@ const <a class="el" href="structace__time_1_1extended_1_1MatchingEraTemplate.htm
 <tr class="memitem:a34c175a369df6664710109bdb7643965"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structace__time_1_1extended_1_1DateTuple.html">DateTuple</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a34c175a369df6664710109bdb7643965">transitionTime</a></td></tr>
 <tr class="memdesc:a34c175a369df6664710109bdb7643965"><td class="mdescLeft">&#160;</td><td class="mdescRight">The original transition time, usually 'w' but sometimes 's' or 'u'.  <a href="structace__time_1_1extended_1_1TransitionTemplate.html#a34c175a369df6664710109bdb7643965">More...</a><br /></td></tr>
 <tr class="separator:a34c175a369df6664710109bdb7643965"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a761ecbb3e479eceee681ba22e422b3d2"><td class="memItemLeft" ><a id="a761ecbb3e479eceee681ba22e422b3d2"></a>
+<tr class="memitem:aabc583528a52fddedc499f0030698468"><td class="memItemLeft" ><a id="aabc583528a52fddedc499f0030698468"></a>
 union {</td></tr>
-<tr class="memitem:af1d1e0d956d0aaa85c1beb005f0a81f8"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1DateTuple.html">DateTuple</a>&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a505dc28a40e4b8062531e8bbde8d2a39">transitionTimeS</a></td></tr>
-<tr class="memdesc:af1d1e0d956d0aaa85c1beb005f0a81f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Version of transitionTime in 's' mode, using the UTC offset of the <em>previous</em> Transition.  <a href="unionace__time_1_1extended_1_1TransitionTemplate_1_1_0d0.html#af1d1e0d956d0aaa85c1beb005f0a81f8">More...</a><br /></td></tr>
-<tr class="separator:af1d1e0d956d0aaa85c1beb005f0a81f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00fafd79a5ad6de1c5eff72fd125ec0e"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1DateTuple.html">DateTuple</a>&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#acf25fdb69df5d5f91c856f9e805c3792">startDateTime</a></td></tr>
-<tr class="memdesc:a00fafd79a5ad6de1c5eff72fd125ec0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start time expressed using the UTC offset of the current Transition.  <a href="unionace__time_1_1extended_1_1TransitionTemplate_1_1_0d0.html#a00fafd79a5ad6de1c5eff72fd125ec0e">More...</a><br /></td></tr>
-<tr class="separator:a00fafd79a5ad6de1c5eff72fd125ec0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a761ecbb3e479eceee681ba22e422b3d2"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a761ecbb3e479eceee681ba22e422b3d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b1ec8e19adaae990ed9c9255a7b0244"><td class="memItemLeft" ><a id="a2b1ec8e19adaae990ed9c9255a7b0244"></a>
+<tr class="memitem:a60c8ba9876ca6f49826718aee18174d2"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1DateTuple.html">DateTuple</a>&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a505dc28a40e4b8062531e8bbde8d2a39">transitionTimeS</a></td></tr>
+<tr class="memdesc:a60c8ba9876ca6f49826718aee18174d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Version of transitionTime in 's' mode, using the UTC offset of the <em>previous</em> Transition.  <a href="unionace__time_1_1extended_1_1TransitionTemplate_1_1_0d10.html#a60c8ba9876ca6f49826718aee18174d2">More...</a><br /></td></tr>
+<tr class="separator:a60c8ba9876ca6f49826718aee18174d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac847d72e4e624c729afa211ca92d8005"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1DateTuple.html">DateTuple</a>&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#acf25fdb69df5d5f91c856f9e805c3792">startDateTime</a></td></tr>
+<tr class="memdesc:ac847d72e4e624c729afa211ca92d8005"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start time expressed using the UTC offset of the current Transition.  <a href="unionace__time_1_1extended_1_1TransitionTemplate_1_1_0d10.html#ac847d72e4e624c729afa211ca92d8005">More...</a><br /></td></tr>
+<tr class="separator:ac847d72e4e624c729afa211ca92d8005"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabc583528a52fddedc499f0030698468"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:aabc583528a52fddedc499f0030698468"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a5934e7eba05db49d6d9d626a5073f7"><td class="memItemLeft" ><a id="a1a5934e7eba05db49d6d9d626a5073f7"></a>
 union {</td></tr>
-<tr class="memitem:acfe80e7021072b72e11f082ff5748cc4"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1DateTuple.html">DateTuple</a>&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a9a894c82760a54455f1b2aa1aa179f8c">transitionTimeU</a></td></tr>
-<tr class="memdesc:acfe80e7021072b72e11f082ff5748cc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Version of transitionTime in 'u' mode, using the UTC offset of the <em>previous</em> transition.  <a href="unionace__time_1_1extended_1_1TransitionTemplate_1_1_0d2.html#acfe80e7021072b72e11f082ff5748cc4">More...</a><br /></td></tr>
-<tr class="separator:acfe80e7021072b72e11f082ff5748cc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b0986c932cd0ca6326162a38fcef358"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1DateTuple.html">DateTuple</a>&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a526439328e2769dc07b3293d368b555e">untilDateTime</a></td></tr>
-<tr class="memdesc:a4b0986c932cd0ca6326162a38fcef358"><td class="mdescLeft">&#160;</td><td class="mdescRight">Until time expressed using the UTC offset of the current Transition.  <a href="unionace__time_1_1extended_1_1TransitionTemplate_1_1_0d2.html#a4b0986c932cd0ca6326162a38fcef358">More...</a><br /></td></tr>
-<tr class="separator:a4b0986c932cd0ca6326162a38fcef358"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b1ec8e19adaae990ed9c9255a7b0244"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a2b1ec8e19adaae990ed9c9255a7b0244"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01c60cc4d34aa9eaf4ef325e1bd008d2"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1DateTuple.html">DateTuple</a>&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a9a894c82760a54455f1b2aa1aa179f8c">transitionTimeU</a></td></tr>
+<tr class="memdesc:a01c60cc4d34aa9eaf4ef325e1bd008d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Version of transitionTime in 'u' mode, using the UTC offset of the <em>previous</em> transition.  <a href="unionace__time_1_1extended_1_1TransitionTemplate_1_1_0d12.html#a01c60cc4d34aa9eaf4ef325e1bd008d2">More...</a><br /></td></tr>
+<tr class="separator:a01c60cc4d34aa9eaf4ef325e1bd008d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64e3cd37ae09f2fc060405530f4ab3b9"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1DateTuple.html">DateTuple</a>&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a526439328e2769dc07b3293d368b555e">untilDateTime</a></td></tr>
+<tr class="memdesc:a64e3cd37ae09f2fc060405530f4ab3b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Until time expressed using the UTC offset of the current Transition.  <a href="unionace__time_1_1extended_1_1TransitionTemplate_1_1_0d12.html#a64e3cd37ae09f2fc060405530f4ab3b9">More...</a><br /></td></tr>
+<tr class="separator:a64e3cd37ae09f2fc060405530f4ab3b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a5934e7eba05db49d6d9d626a5073f7"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a1a5934e7eba05db49d6d9d626a5073f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a490879be0a08acbf211c0a943d99c36e"><td class="memItemLeft" align="right" valign="top"><a id="a490879be0a08acbf211c0a943d99c36e"></a>
-acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a490879be0a08acbf211c0a943d99c36e">startEpochSeconds</a></td></tr>
+<a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a490879be0a08acbf211c0a943d99c36e">startEpochSeconds</a></td></tr>
 <tr class="memdesc:a490879be0a08acbf211c0a943d99c36e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The calculated transition time of the given rule. <br /></td></tr>
 <tr class="separator:a490879be0a08acbf211c0a943d99c36e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74c3bdbaa5e0a4a8e7e483bae29387fb"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a74c3bdbaa5e0a4a8e7e483bae29387fb">offsetMinutes</a></td></tr>
@@ -165,17 +165,17 @@ int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a9609afcd25072766cff26ea70ea68422">letterBuf</a> [2]</td></tr>
 <tr class="memdesc:a9609afcd25072766cff26ea70ea68422"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storage for the single letter 'letter' field if 'rule' is not null. <br /></td></tr>
 <tr class="separator:a9609afcd25072766cff26ea70ea68422"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20bcbd3431b1e764d1353932fce90b18"><td class="memItemLeft" ><a id="a20bcbd3431b1e764d1353932fce90b18"></a>
+<tr class="memitem:a0efbc1dfd746654c57444eabf4facae5"><td class="memItemLeft" ><a id="a0efbc1dfd746654c57444eabf4facae5"></a>
 union {</td></tr>
-<tr class="memitem:ae62940cecd9d8882fc90182175acd0fa"><td class="memItemLeft" >&#160;&#160;&#160;bool&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a233a4be454269e7ef0a46489306df669">isValidPrior</a></td></tr>
-<tr class="memdesc:ae62940cecd9d8882fc90182175acd0fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">During findCandidateTransitions(), this flag indicates whether the current transition is a valid "prior" transition that occurs before other transitions.  <a href="unionace__time_1_1extended_1_1TransitionTemplate_1_1_0d4.html#ae62940cecd9d8882fc90182175acd0fa">More...</a><br /></td></tr>
-<tr class="separator:ae62940cecd9d8882fc90182175acd0fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0020a05dc97935b32896e24e4bc234bd"><td class="memItemLeft" >
+<tr class="memitem:a34e20170f8556805d01035bdbdeecd11"><td class="memItemLeft" >&#160;&#160;&#160;bool&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a233a4be454269e7ef0a46489306df669">isValidPrior</a></td></tr>
+<tr class="memdesc:a34e20170f8556805d01035bdbdeecd11"><td class="mdescLeft">&#160;</td><td class="mdescRight">During findCandidateTransitions(), this flag indicates whether the current transition is a valid "prior" transition that occurs before other transitions.  <a href="unionace__time_1_1extended_1_1TransitionTemplate_1_1_0d14.html#a34e20170f8556805d01035bdbdeecd11">More...</a><br /></td></tr>
+<tr class="separator:a34e20170f8556805d01035bdbdeecd11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f66a2cd9e46d5540514ef16c436890f"><td class="memItemLeft" >
 &#160;&#160;&#160;MatchStatus&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#ac9ff2536c93fd1810a90f1bc34655847">matchStatus</a></td></tr>
-<tr class="memdesc:a0020a05dc97935b32896e24e4bc234bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">During processTransitionMatchStatus(), this flag indicates how the transition falls within the time interval of the MatchingEra. <br /></td></tr>
-<tr class="separator:a0020a05dc97935b32896e24e4bc234bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20bcbd3431b1e764d1353932fce90b18"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a20bcbd3431b1e764d1353932fce90b18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:a8f66a2cd9e46d5540514ef16c436890f"><td class="mdescLeft">&#160;</td><td class="mdescRight">During processTransitionMatchStatus(), this flag indicates how the transition falls within the time interval of the MatchingEra. <br /></td></tr>
+<tr class="separator:a8f66a2cd9e46d5540514ef16c436890f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0efbc1dfd746654c57444eabf4facae5"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a0efbc1dfd746654c57444eabf4facae5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename ZEB, typename ZPB, typename ZRB&gt;<br />
@@ -196,7 +196,7 @@ struct ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</h3>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00271">271</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00260">260</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a642f04bbde044174a276fe65d47698d9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a642f04bbde044174a276fe65d47698d9">&#9670;&nbsp;</a></span>letter()</h2>
@@ -226,7 +226,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Return the letter string. </p>
 <p>Returns nullptr if the RULES column is empty since that means that the ZoneRule is not used, which means LETTER does not exist. A LETTER of '-' is returned as an empty string "". </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00377">377</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00366">366</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -248,7 +248,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>The calculated effective time zone abbreviation, e.g. </p>
 <p>"PST" or "PDT". </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00345">345</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00334">334</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -269,7 +269,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>During findCandidateTransitions(), this flag indicates whether the current transition is a valid "prior" transition that occurs before other transitions. </p>
 <p>It is set by setFreeAgentAsPriorIfValid() if the transition is a prior transition. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00357">357</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00346">346</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -292,7 +292,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <li>deltaMinutes) but it does not seem worth making that change right now.) </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00339">339</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00328">328</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -313,7 +313,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>The Zone transition rule that matched for the the given year. </p>
 <p>Set to nullptr if the RULES column is '-', indicating that the MatchingEra was a "simple" ZoneEra. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00281">281</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00270">270</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -334,7 +334,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Start time expressed using the UTC offset of the current Transition. </p>
 <p>Valid after ExtendedZoneProcessor::generateStartUntilTimes() is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00303">303</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00292">292</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -355,7 +355,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>The original transition time, usually 'w' but sometimes 's' or 'u'. </p>
 <p>After expandDateTuple() is called, this field will definitely be a 'w'. We must remember that the transitionTime* fields are expressed using the UTC offset of the <em>previous</em> Transition. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00289">289</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00278">278</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -376,7 +376,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Version of transitionTime in 's' mode, using the UTC offset of the <em>previous</em> Transition. </p>
 <p>Valid before ExtendedZoneProcessor::generateStartUntilTimes() is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00297">297</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00286">286</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -397,7 +397,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Version of transitionTime in 'u' mode, using the UTC offset of the <em>previous</em> transition. </p>
 <p>Valid before ExtendedZoneProcessor::generateStartUntilTimes() is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00312">312</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00301">301</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -418,12 +418,12 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Until time expressed using the UTC offset of the current Transition. </p>
 <p>Valid after ExtendedZoneProcessor::generateStartUntilTimes() is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00318">318</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00307">307</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/brian/src/AceTime/src/ace_time/<a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a></li>
+<li>/home/brian/src/AceTime/src/ace_time/<a class="el" href="Transition_8h_source.html">Transition.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['startdatetime_610',['startDateTime',['../structace__time_1_1extended_1_1MatchingEraTemplate.html#a9c77b33abfc02eb0b1450e7147ea692e',1,'ace_time::extended::MatchingEraTemplate::startDateTime()'],['../structace__time_1_1extended_1_1TransitionTemplate.html#acf25fdb69df5d5f91c856f9e805c3792',1,'ace_time::extended::TransitionTemplate::startDateTime()']]],
-  ['startepochseconds_611',['startEpochSeconds',['../structace__time_1_1basic_1_1TransitionTemplate.html#a2a6fa21f53305bb789f0fa98c68db62f',1,'ace_time::basic::TransitionTemplate::startEpochSeconds()'],['../structace__time_1_1extended_1_1TransitionTemplate.html#a490879be0a08acbf211c0a943d99c36e',1,'ace_time::extended::TransitionTemplate::startEpochSeconds()']]],
-  ['startyear_612',['startYear',['../structace__time_1_1internal_1_1ZoneContext.html#a7859ffdc83bb5269bd265079fcde20e8',1,'ace_time::internal::ZoneContext']]]
+  ['reqdstoffsetminutes_628',['reqDstOffsetMinutes',['../classace__time_1_1FindResult.html#ab306e11a047e780cd345a21f1edda280',1,'ace_time::FindResult']]],
+  ['reqstdoffsetminutes_629',['reqStdOffsetMinutes',['../classace__time_1_1FindResult.html#a8b85a4eb01b435551b0f2298318cd3db',1,'ace_time::FindResult']]],
+  ['rule_630',['rule',['../structace__time_1_1basic_1_1TransitionTemplate.html#a2ce8f0d17f189a25a6f80e9107edb239',1,'ace_time::basic::TransitionTemplate::rule()'],['../structace__time_1_1extended_1_1TransitionTemplate.html#a08e0996372e9c0c80fc60e9a5ceff41e',1,'ace_time::extended::TransitionTemplate::rule()']]]
 ];

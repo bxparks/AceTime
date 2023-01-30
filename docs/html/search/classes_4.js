@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['manualzonemanager_334',['ManualZoneManager',['../classace__time_1_1ManualZoneManager.html',1,'ace_time']]],
-  ['matchingeratemplate_335',['MatchingEraTemplate',['../structace__time_1_1extended_1_1MatchingEraTemplate.html',1,'ace_time::extended']]],
-  ['matchingtransitiontemplate_336',['MatchingTransitionTemplate',['../structace__time_1_1extended_1_1MatchingTransitionTemplate.html',1,'ace_time::extended']]],
-  ['monthday_337',['MonthDay',['../structace__time_1_1internal_1_1MonthDay.html',1,'ace_time::internal']]]
+  ['localdate_334',['LocalDate',['../classace__time_1_1LocalDate.html',1,'ace_time']]],
+  ['localdatetime_335',['LocalDateTime',['../classace__time_1_1LocalDateTime.html',1,'ace_time']]],
+  ['localtime_336',['LocalTime',['../classace__time_1_1LocalTime.html',1,'ace_time']]]
 ];
