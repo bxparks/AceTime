@@ -1788,8 +1788,8 @@ zone name:
 ```C++
 ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
 ExtendedZoneManager zoneManager(
-    zonedbx::kZoneRegistrySize,
-    zonedbx::kZoneRegistry,
+    zonedbx::kZoneAndLinkRegistrySize,
+    zonedbx::kZoneAndLinkRegistry,
     zoneProcessorCache);
 
 void someFunction() {
@@ -1807,8 +1807,8 @@ could be done more efficiently using the `createForZoneInfo()` like this:
 ```C++
 ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
 ExtendedZoneManager zoneManager(
-    zonedbx::kZoneRegistrySize,
-    zonedbx::kZoneRegistry,
+    zonedbx::kZoneAndLinkRegistrySize,
+    zonedbx::kZoneAndLinkRegistry,
     zoneProcessorCache);
 
 void someFunction() {
@@ -1844,8 +1844,8 @@ corresponding to the given `zoneId`:
 ```C++
 ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
 ExtendedZoneManager zoneManager(
-    zonedbx::kZoneRegistrySize,
-    zonedbx::kZoneRegistry,
+    zonedbx::kZoneAndLinkRegistrySize,
+    zonedbx::kZoneAndLinkRegistry,
     zoneProcessorCache);
 
 void someFunction() {
@@ -2207,8 +2207,8 @@ Here are some examples taken from
 ```C++
 ExtendedZoneProcessorCache<1> zoneProcessorCache;
 ExtendedZoneManager extendedZoneManager(
-    zonedbx::kZoneRegistrySize,
-    zonedbx::kZoneRegistry,
+    zonedbx::kZoneAndLinkRegistrySize,
+    zonedbx::kZoneAndLinkRegistry,
     zoneProcessorCache);
 TimeZone tz = extendedZoneManager.createForZoneInfo(
     &zonedbx::kZoneAmerica_Los_Angeles);
@@ -2517,9 +2517,12 @@ canonical entry (e.g. `US/Pacific` which points to `America/Los_Angeles`).
 Prior to v2.1, AceTime treated Links slightly differently than Zones, providing
 4 different implementations over several version. After v2.1, Links are
 considered to be identical to Zones, because the TZDB considers both of them to
-be first-class citizens. Following this merger, the `kZoneAndLinkRegistry` has
-been merged into the `kZoneRegistry` and the 2 registries are identical.
+be first-class citizens. For most 32-bit processors with enough flash memory,
+the `kZoneAndLinkRegistry` should be used. The `kZoneRegistry` containing
+only the Zone entries is maintained mostly for backwards compatibility and
+testing purposes.
 
+Most methods on the `TimeZone` class apply to both Zone and Link time zones.
 There are 2 methods on the `TimeZone` class which apply only to Links:
 
 ```C++
@@ -2546,10 +2549,10 @@ the time zone `US/Pacific` (which is a Link to `America/Los_Angeles`):
 #### Custom Zone Registry
 
 On small microcontrollers, the default zone registries (`kZoneRegistry` and
-`kZoneAndLinkRegistry`, which are now identical) may be too large. The
-`ZoneManager` can be configured with a custom zone registry. It needs to be
-given an array of `ZoneInfo` pointers when constructed. For example, here is a
-`BasicZoneManager` with only 4 zones from the `zonedb::` data set:
+`kZoneAndLinkRegistry`) may be too large. The `ZoneManager` can be configured
+with a custom zone registry. It needs to be given an array of `ZoneInfo`
+pointers when constructed. For example, here is a `BasicZoneManager` with only 4
+zones from the `zonedb::` data set:
 
 ```C++
 #include <AceTime.h>

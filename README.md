@@ -54,10 +54,10 @@ This library can be an alternative to the Arduino Time
 
 **Breaking Changes in v2.1**: Links are now first-class citizens compared to
 Zones and should be treated exactly the same. Fat link and symbolic link
-implementations have been unified. The `kZoneRegistry` and
-`kZoneAndLinkRegistry` are identical. Only 2 methods are special to Link time
-zones: `TimeZone::isLink()` and `TimeZone::printTargetNameTo()`. See [Migrating
-to v2.1.0](MIGRATING.md#MigratingToVersion210) section for more details.
+implementations have been unified. TimeZone methods have been simplified. Only 2
+methods are now special to Link time zones: `TimeZone::isLink()` and
+`TimeZone::printTargetNameTo()`. See [Migrating to
+v2.1.0](MIGRATING.md#MigratingToVersion210) section for more details.
 
 **Version**: 2.1.0 (2023-01-29, TZDB version 2022g)
 
