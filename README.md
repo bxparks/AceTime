@@ -338,10 +338,12 @@ The [examples/HelloZoneManager](examples/HelloZoneManager) example shows how to
 load the entire ZoneInfo Database into an `ExtendedZoneManager`, then create 3
 time zones using 3 different ways: `createForZoneInfo()`, `createForZoneName()`,
 and `createForZoneId()`. This program requires a 32-bit microcontroller
-environment because of its flash memory size. Using the `ExtendedZoneManager`
-with the `zonedbx::kZoneRegistry` consumes ~34kB of flash which no longer fits
-on an Arduino Nano. If the `ExtendedZoneManager` is replaced with the
-`BasicZoneManager`, the flash size goes down to about ~22kB.
+environment because the `ExtendedZoneManager` with the
+`zonedbx::kZoneAndLinkRegistry` consumes ~39 kB of flash which does not fit in
+the 32 kB flash memory capacity of an Arduino Nano. If the `ExtendedZoneManager`
+is replaced with the `BasicZoneManager` and the smaller `kZoneRegistry` is used
+instead, the flash size goes down to about ~24 kB. Depending on the code size of
+the rest of the application, this may fit inside an Arduino Nano.
 
 ```C++
 #include <Arduino.h>
@@ -349,14 +351,14 @@ on an Arduino Nano. If the `ExtendedZoneManager` is replaced with the
 
 using namespace ace_time;
 
-// Create an ExtendedZoneManager with the entire TZ Database of Zone entries.
-// Cache size of 3 means that it can support 3 concurrent timezones without
-// performance penalties.
+// Create an ExtendedZoneManager with the entire TZ Database of Zone and Link
+// entries. Cache size of 3 means that it can support 3 concurrent timezones
+// without performance penalties.
 static const int CACHE_SIZE = 3;
 static ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
 static ExtendedZoneManager manager(
-    zonedbx::kZoneRegistrySize,
-    zonedbx::kZoneRegistry,
+    zonedbx::kZoneAndLinkRegistrySize,
+    zonedbx::kZoneAndLinkRegistry,
     zoneProcessorCache);
 
 void setup() {
