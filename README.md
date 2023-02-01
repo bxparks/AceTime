@@ -23,7 +23,7 @@ the ZoneInfo Database to save flash memory size.
 Support for [Unix time](https://en.wikipedia.org/wiki/Unix_time) using the Unix
 epoch of 1970-01-01 is provided through conversion functions of the `time_t`
 type. Only the 64-bit version of the `time_t` type is supported to avoid the
-[Year 2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem)).
+[Year 2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem).
 
 The companion library [AceTimeClock](https://github.com/bxparks/AceTimeClock)
 provides Clock classes to retrieve the time from more accurate sources, such as
