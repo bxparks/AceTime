@@ -481,19 +481,19 @@ match the UTC offsets calculated using other date/time libraries written in
 different programming languages:
 
 * the Python pytz (https://pypi.org/project/pytz/) library from the year 2000
-  until 2037 (inclusive),
+  until 2038 (pytz cannot handle years after 2038),
 * the Python dateutil (https://pypi.org/project/python-dateutil/) library from
-  the year 2000 until 2037 (inclusive),
+  the year 2000 until 2037 (dateutil cannot handle years after 2038),
 * the Python 3.9 zoneinfo (https://docs.python.org/3/library/zoneinfo.html)
-  library from the year 1974 until 2049 (inclusive),
+  library from the year 2000 until 2100,
 * the Java JDK 11
   [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
-  library from year 2000 to 2049 (inclusive)
+  library from year 2000 until 2100,
 * the C++11/14/17 Hinnant date (https://github.com/HowardHinnant/date) library
-  from year 2000 to 2100 (inclusive)
-* the C# Noda Time (https://nodatime.org) library from 1974 to 2049 (inclusive)
-* the Go lang 1.17 `time` package (https://pkg.go.dev/time) in the standard
-  library from 1974 to 2049 (inclusive)
+  from year 2000 to 2100,
+* the Go lang 1.19 `time` package (https://pkg.go.dev/time) in the standard
+  library from 2000 to 2100,
+* the C# Noda Time (https://nodatime.org) library from 2000 to 2100 (exclusive)
 
 <a name="ResourceConsumption"></a>
 ## Resource Consumption
