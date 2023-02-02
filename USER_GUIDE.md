@@ -1519,6 +1519,10 @@ class ZonedExtra {
     static const uint8_t kTypeOverlap = 3;
 
     static ZonedExtra forError();
+    static ZonedExtra forComponents(
+        int16_t year, uint8_t month, uint8_t day,
+        uint8_t hour, uint8_t minute, uint8_t second,
+        const TimeZone& tz, uint8_t fold = 0);
     static ZonedExtra forEpochSeconds(
         acetime_t epochSeconds, const TimeZone& tz);
     static ZonedExtra forLocalDateTime(
@@ -1533,13 +1537,17 @@ class ZonedExtra {
         int16_t reqDstOffsetMinutes,
         const char* abbrev);
 
-    bool isError() const {
-    uint8_t type() const { return mType; }
+    bool isError() const;
+    uint8_t type() const;
 
+    TimeOffset timeOffset() const; // stdOffset + dstOffset
     TimeOffset stdOffset() const;
     TimeOffset dstOffset() const;
+
+    TimeOffset reqTimeOffset() const; // reqStdOffst + reqDstOffset
     TimeOffset reqStdOffset() const;
     TimeOffset reqDstOffset() const;
+
     const char* abbrev() const;
 };
 
@@ -1550,7 +1558,9 @@ The `ZonedExtra` instance is usually created through the 2 static factory
 methods on the `ZonedExtra` class:
 
 * `ZonedExtra::forEpochSeconds(epochSeconds, tz)`
-* `ZonedExtra::forLocalDateTime(ldt, tz)`
+* `ZonedExtra::forComponents(int16_t year, uint8_t month, uint8_t day,
+   uint8_t hour, uint8_t minute, uint8_t second, const TimeZone& tz,
+   uint8_t fold = 0)`
 
 Often the `ZonedDateTime` will be created first from the epochSeconds, then the
 `ZonedExtra` will be created to access additional information about the time zone at that particular epochSeconds (e.g. abbreviation):
@@ -1578,8 +1588,9 @@ The `ZonedExtra::dstOffset()` is the DST offset that pertains to the given
 time instant. For example, for `America/Los_Angeles` this will return `01:00`
 during summer DST, and `00:00` during normal times.
 
-Note that the total UTC offset corresponding to `ZonedDateTime::timeOffset()` is
-equal to `stdOffset() + dstOffset()`.
+The `ZonedExtra::timeOffset()` is a convenience method that returns the sum of
+`stdOffset() + dstOffset()`. This value is identical to the total UTC offset
+returned by `ZonedDateTime::timeOffset()`.
 
 The `ZonedExtra::abbrev()` is the short abbreviation that is in effect at the
 given time instant. For example, for `America/Los_Angeles`, this returns "PST"
@@ -1589,8 +1600,8 @@ the life of the `ZonedExtra` object.
 
 The `ZonedExtra::reqStdOffset()` and `ZonedExtra::reqDstOffset()` are relevant
 and different from the corresponding `stdOffset()` and `dstOffset()` only if the
-`type()` is `kTypeGap`. This occurs only if the `getZonedExtra(LocalDateTime&)`
-overloaded version is used. Following the algorithm described in [Python PEP
+`type()` is `kTypeGap`. This occurs only if the `ZonedExtra::forComponents()`
+factory method is used. Following the algorithm described in [Python PEP
 495](https://www.python.org/dev/peps/pep-0495/), the provided localDateTime is
 imaginary during a gap so must be mapped to a real local time using the
 `LocalDateTime::fold` parameter. When `fold=0`, the transition line before the

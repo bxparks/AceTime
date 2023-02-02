@@ -56,6 +56,16 @@ class ZonedExtra {
       return ZonedExtra();
     }
 
+    /**
+     * Return an instance for the given LocalDateTime and TimeZone.
+     * If you already have a ZonedDateTime, then the LocalDateTime can be
+     * retrieved using ZonedDateTime::localDateTime().
+     */
+    static ZonedExtra forComponents(
+        int16_t year, uint8_t month, uint8_t day,
+        uint8_t hour, uint8_t minute, uint8_t second,
+        const TimeZone& tz, uint8_t fold = 0);
+
     /** Return an instance for the given epochSeconds and TimeZone. */
     static ZonedExtra forEpochSeconds(
         acetime_t epochSeconds,
