@@ -26,7 +26,7 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
-**Version**: AceTime v2.0
+**Version**: AceTime v2.1.1
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
@@ -184,6 +184,19 @@ The CPU times below are given in microseconds.
     * sizeof(ExtendedZoneProcessor) increases from 540 to 588
     * sizeof(TransitionStorage) increases from 420 to 452
     * ZonedDateTime::forEpochSeconds() slower by 0-10%
+
+**v2.1.1**
+* Upgrade to TZDB 2022g.
+* Add `ZonedExtra`.
+* Unify fat and symbolic links.
+* Not much difference in execution times, except:
+    * `ZonedDateTime::forComponents()` using the `BasicZoneProcessor`
+      becomes ~50% slower due to the extra work needed to resolve gaps and
+      overlaps.
+    * `ZonedDateTime::forEpochSeconds()` using `BasicZoneProcessors` remains
+      unchanged.
+    * `ExtendedZoneProcessor` is substantially faster on AVR processors.
+       Maybe it should be recommended ove `BasicZoneProcessor` even on AVR.
 
 ## Arduino Nano
 
