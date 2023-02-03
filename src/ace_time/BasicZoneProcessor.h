@@ -737,13 +737,14 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      */
     static Transition createTransition(int16_t year, uint8_t month,
         const ZEB& era, const ZRB& rule) {
+
       int16_t deltaMinutes;
-      char letter;
+      const char* letter;
       uint8_t mon;
       if (rule.isNull()) {
         mon = 1; // RULES is either '-' or 'hh:mm' so takes effect in Jan
         deltaMinutes = era.deltaMinutes();
-        letter = '\0';
+        letter = "";
       } else {
         mon = rule.inMonth();
         deltaMinutes = rule.deltaMinutes();
@@ -763,7 +764,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         deltaMinutes,
         year,
         mon,
-        {letter} /*abbrev*/
+        {letter[0]}, // only single letters are allowed in Basic
       };
     }
 

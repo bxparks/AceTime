@@ -64,12 +64,23 @@ const char* const kFragments[] = {
 
 };
 
+const char* const kLetters[] = {
+/*0*/ "",
+/*1*/ "CAT",
+/*2*/ "D",
+/*3*/ "S",
+/*4*/ "WAT",
+
+};
+
 const internal::ZoneContext kZoneContext = {
   1980 /*startYear*/,
   10000 /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,
   2 /*numFragments*/,
+  5 /*numLetters*/,
   kFragments /*fragments*/,
+  kLetters /*letters*/,
 };
 
 //---------------------------------------------------------------------------

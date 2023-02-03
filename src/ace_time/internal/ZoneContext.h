@@ -35,8 +35,14 @@ struct ZoneContext {
   /** Number of fragments. */
   uint8_t numFragments;
 
+  /** Number of fragments. */
+  uint8_t numLetters;;
+
   /** Zone Name fragment list. */
   const char* const* fragments;
+
+  /** Zone Rule letters list. */
+  const char* const* letters;
 };
 
 } // internal

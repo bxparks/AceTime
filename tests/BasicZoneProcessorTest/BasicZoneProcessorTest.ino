@@ -81,7 +81,7 @@ test(BasicZoneProcessorTest, findLatestPriorRule) {
   ZoneRuleBroker rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
   assertTrue(rule.isNull());
 
-  policy = ZonePolicyBroker(&kZonePolicyEcuador);
+  policy = ZonePolicyBroker(&kZoneContext, &kZonePolicyEcuador);
   year = 1992;
   rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
   assertEqual(0, rule.fromYear());
@@ -100,7 +100,7 @@ test(BasicZoneProcessorTest, findLatestPriorRule) {
 }
 
 test(BasicZoneProcessorTest, priorYearOfRule) {
-  ZonePolicyBroker policy(&kZonePolicyEcuador);
+  ZonePolicyBroker policy(&kZoneContext, &kZonePolicyEcuador);
 
   int16_t year = 1995;
   assertEqual(0, BasicZoneProcessor::priorYearOfRule(
@@ -123,7 +123,7 @@ test(BasicZoneProcessorTest, priorYearOfRule) {
 }
 
 test(BasicZoneProcessorTest, compareRulesBeforeYear) {
-  ZonePolicyBroker policy(&kZonePolicyEcuador);
+  ZonePolicyBroker policy(&kZoneContext, &kZonePolicyEcuador);
 
   // The last rule prior to 1995 should be 1993.
   int16_t year = 1995;

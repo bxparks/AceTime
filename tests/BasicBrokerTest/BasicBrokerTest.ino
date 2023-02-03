@@ -22,7 +22,7 @@ using ace_time::tzonedb::kZoneIdAmerica_Los_Angeles;
 //---------------------------------------------------------------------------
 
 test(BasicBrokerTest, ZoneRuleBroker) {
-  ZoneRuleBroker rule(&kZonePolicyUS.rules[0]);
+  ZoneRuleBroker rule(&kZoneContext, &kZonePolicyUS.rules[0]);
   assertFalse(rule.isNull());
   assertEqual(1967, rule.fromYear());
   assertEqual(2006, rule.toYear());
@@ -36,16 +36,14 @@ test(BasicBrokerTest, ZoneRuleBroker) {
 }
 
 test(BasicBrokerTest, ZonePolicyBroker) {
-  ZonePolicyBroker policy(&kZonePolicyUS);
+  ZonePolicyBroker policy(&kZoneContext, &kZonePolicyUS);
   assertFalse(policy.isNull());
   assertEqual(6, policy.numRules());
-  assertEqual(0, policy.numLetters());
 }
 
 test(BasicBrokerTest, ZoneEraBroker) {
-  const basic::ZoneEra* eras =
-      (const basic::ZoneEra*) kZoneAmerica_Los_Angeles.eras;
-  ZoneEraBroker era(&eras[0]);
+  const basic::ZoneEra* eras = kZoneAmerica_Los_Angeles.eras;
+  ZoneEraBroker era(&kZoneContext, &eras[0]);
   assertFalse(era.isNull());
   assertEqual(-32 * 15, era.offsetMinutes());
   assertEqual(0 * 15, era.deltaMinutes());
@@ -56,9 +54,8 @@ test(BasicBrokerTest, ZoneEraBroker) {
   assertEqual((uint16_t)0, era.untilTimeMinutes());
   assertEqual(ZoneContext::kSuffixW, era.untilTimeSuffix());
 
-  const basic::ZoneEra* eras2 =
-      (const basic::ZoneEra*) kZoneAmerica_Los_Angeles.eras;
-  ZoneEraBroker era2(&eras2[0]);
+  const basic::ZoneEra* eras2 = kZoneAmerica_Los_Angeles.eras;
+  ZoneEraBroker era2(&kZoneContext, &eras2[0]);
   assertTrue(era.equals(era2));
 }
 

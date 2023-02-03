@@ -38,6 +38,7 @@
 #include <stdint.h> // uintptr_t, uint32_t, etc
 #include "../common/compat.h" // ACE_TIME_USE_PROGMEM
 #include "BrokerCommon.h"
+#include "ZoneContext.h"
 #include "ZoneInfo.h"
 
 class __FlashStringHelper;
@@ -49,8 +50,12 @@ namespace basic {
 /** Data broker for accessing ZoneRule. */
 class ZoneRuleBroker {
   public:
-    explicit ZoneRuleBroker(const ZoneRule* zoneRule = nullptr):
-        mZoneRule(zoneRule) {}
+    explicit ZoneRuleBroker(
+        const internal::ZoneContext* zoneContext = nullptr,
+        const ZoneRule* zoneRule = nullptr)
+        : mZoneContext(zoneContext)
+        , mZoneRule(zoneRule)
+    {}
 
     // use the default copy constructor
     ZoneRuleBroker(const ZoneRuleBroker&) = default;
@@ -96,8 +101,9 @@ class ZoneRuleBroker {
       return 15 * (int8_t) pgm_read_byte(&mZoneRule->deltaCode);
     }
 
-    uint8_t letter() const {
-      return pgm_read_byte(&mZoneRule->letter);
+    const char* letter() const {
+      uint8_t index = pgm_read_byte(&mZoneRule->letterIndex);
+      return mZoneContext->letters[index];
     }
 
   #else
@@ -123,19 +129,27 @@ class ZoneRuleBroker {
 
     int16_t deltaMinutes() const { return 15 * mZoneRule->deltaCode; }
 
-    uint8_t letter() const { return mZoneRule->letter; }
+    const char* letter() const {
+      uint8_t index = mZoneRule->letterIndex;
+      return mZoneContext->letters[index];
+    }
 
   #endif
 
   private:
+    const internal::ZoneContext* mZoneContext;
     const ZoneRule* mZoneRule;
 };
 
 /** Data broker for accessing ZonePolicy. */
 class ZonePolicyBroker {
   public:
-    explicit ZonePolicyBroker(const ZonePolicy* zonePolicy = nullptr):
-        mZonePolicy(zonePolicy) {}
+    explicit ZonePolicyBroker(
+        const internal::ZoneContext* zoneContext = nullptr,
+        const ZonePolicy* zonePolicy = nullptr)
+        : mZoneContext(zoneContext)
+        , mZonePolicy(zonePolicy)
+    {}
 
     // use default copy constructor
     ZonePolicyBroker(const ZonePolicyBroker&) = default;
@@ -154,17 +168,7 @@ class ZonePolicyBroker {
     const ZoneRuleBroker rule(uint8_t i) const {
       const ZoneRule* rules =
           (const ZoneRule*) pgm_read_ptr(&mZonePolicy->rules);
-      return ZoneRuleBroker(&rules[i]);
-    }
-
-    uint8_t numLetters() const {
-      return pgm_read_byte(&mZonePolicy->numLetters);
-    }
-
-    const char* letter(uint8_t i) const {
-      const char* const* letters = (const char* const*)
-          pgm_read_ptr(&mZonePolicy->letters);
-      return (const char*) pgm_read_ptr(&letters[i]);
+      return ZoneRuleBroker(mZoneContext, &rules[i]);
     }
 
   #else
@@ -172,18 +176,13 @@ class ZonePolicyBroker {
     uint8_t numRules() const { return mZonePolicy->numRules; }
 
     const ZoneRuleBroker rule(uint8_t i) const {
-      return ZoneRuleBroker(&mZonePolicy->rules[i]);
-    }
-
-    uint8_t numLetters() const { return mZonePolicy->numLetters; }
-
-    const char* letter(uint8_t i) const {
-      return mZonePolicy->letters[i];
+      return ZoneRuleBroker(mZoneContext, &mZonePolicy->rules[i]);
     }
 
   #endif
 
   private:
+    const internal::ZoneContext* mZoneContext;
     const ZonePolicy* mZonePolicy;
 };
 
@@ -192,8 +191,12 @@ class ZonePolicyBroker {
 /** Data broker for accessing ZoneEra. */
 class ZoneEraBroker {
   public:
-    explicit ZoneEraBroker(const ZoneEra* zoneEra = nullptr):
-        mZoneEra(zoneEra) {}
+    explicit ZoneEraBroker(
+        const internal::ZoneContext* zoneContext = nullptr,
+        const ZoneEra* zoneEra = nullptr)
+        : mZoneContext(zoneContext)
+        , mZoneEra(zoneEra)
+    {}
 
     // use default copy constructor
     ZoneEraBroker(const ZoneEraBroker&) = default;
@@ -211,6 +214,7 @@ class ZoneEraBroker {
 
     const ZonePolicyBroker zonePolicy() const {
       return ZonePolicyBroker(
+          mZoneContext,
           (const ZonePolicy*) pgm_read_ptr(&mZoneEra->zonePolicy));
     }
 
@@ -253,7 +257,7 @@ class ZoneEraBroker {
     int16_t offsetMinutes() const { return 15 * mZoneEra->offsetCode; }
 
     const ZonePolicyBroker zonePolicy() const {
-      return ZonePolicyBroker(mZoneEra->zonePolicy);
+      return ZonePolicyBroker(mZoneContext, mZoneEra->zonePolicy);
     }
 
     int16_t deltaMinutes() const { return 15 * mZoneEra->deltaCode; }
@@ -278,6 +282,7 @@ class ZoneEraBroker {
   #endif
 
   private:
+    const internal::ZoneContext* mZoneContext;
     const ZoneEra* mZoneEra;
 };
 
@@ -328,7 +333,7 @@ class ZoneInfoBroker {
 
     const ZoneEraBroker era(uint8_t i) const {
       auto eras = (const ZoneEra*) pgm_read_ptr(&mZoneInfo->eras);
-      return ZoneEraBroker(&eras[i]);
+      return ZoneEraBroker(zoneContext(), &eras[i]);
     }
 
     bool isLink() const {
@@ -336,8 +341,8 @@ class ZoneInfoBroker {
     }
 
     const ZoneInfoBroker targetInfo() const {
-      return ZoneInfoBroker((const ZoneInfo*)
-          pgm_read_ptr(&mZoneInfo->targetInfo));
+      return ZoneInfoBroker(
+          (const ZoneInfo*) pgm_read_ptr(&mZoneInfo->targetInfo));
     }
 
   #else
@@ -353,7 +358,7 @@ class ZoneInfoBroker {
     uint8_t numEras() const { return mZoneInfo->numEras; }
 
     const ZoneEraBroker era(uint8_t i) const {
-      return ZoneEraBroker(&mZoneInfo->eras[i]);
+      return ZoneEraBroker(zoneContext(), &mZoneInfo->eras[i]);
     }
 
     const ZoneInfoBroker targetZoneInfo() const {
