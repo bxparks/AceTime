@@ -52,6 +52,9 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("sizeof(ZonedDateTime): "));
   SERIAL_PORT_MONITOR.println(sizeof(ZonedDateTime));
 
+  SERIAL_PORT_MONITOR.print(F("sizeof(ZonedExtra): "));
+  SERIAL_PORT_MONITOR.println(sizeof(ZonedExtra));
+
   SERIAL_PORT_MONITOR.print(F("sizeof(TimePeriod): "));
   SERIAL_PORT_MONITOR.println(sizeof(TimePeriod));
 

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.1.1</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -124,6 +124,9 @@ Static Public Member Functions</h2></td></tr>
 static <a class="el" href="classace__time_1_1ZonedExtra.html">ZonedExtra</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedExtra.html#a189d79c0bb9254bcef61d6625fe590bb">forError</a> ()</td></tr>
 <tr class="memdesc:a189d79c0bb9254bcef61d6625fe590bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return an instance that indicates an error. <br /></td></tr>
 <tr class="separator:a189d79c0bb9254bcef61d6625fe590bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a563b8f0566366549ce22d4ece3608208"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1ZonedExtra.html">ZonedExtra</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedExtra.html#a563b8f0566366549ce22d4ece3608208">forComponents</a> (int16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second, const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;tz, uint8_t fold=0)</td></tr>
+<tr class="memdesc:a563b8f0566366549ce22d4ece3608208"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return an instance for the given <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> and <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a>.  <a href="classace__time_1_1ZonedExtra.html#a563b8f0566366549ce22d4ece3608208">More...</a><br /></td></tr>
+<tr class="separator:a563b8f0566366549ce22d4ece3608208"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0408666e47fd563a3b4c754bd8e98da"><td class="memItemLeft" align="right" valign="top"><a id="aa0408666e47fd563a3b4c754bd8e98da"></a>
 static <a class="el" href="classace__time_1_1ZonedExtra.html">ZonedExtra</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZonedExtra.html#aa0408666e47fd563a3b4c754bd8e98da">forEpochSeconds</a> (<a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> epochSeconds, const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;tz)</td></tr>
 <tr class="memdesc:aa0408666e47fd563a3b4c754bd8e98da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return an instance for the given epochSeconds and <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a>. <br /></td></tr>
@@ -181,7 +184,84 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class
 <p>Returns the pointer to the local string buffer containing the timezone abbreviation (e.g. </p>
 <p>"PST", "PDT") used at the given <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> or epochSeconds. This pointer is safe to use as long as this object is alive. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedExtra_8h_source.html#l00156">156</a> of file <a class="el" href="ZonedExtra_8h_source.html">ZonedExtra.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedExtra_8h_source.html#l00166">166</a> of file <a class="el" href="ZonedExtra_8h_source.html">ZonedExtra.h</a>.</p>
+
+</div>
+</div>
+<a id="a563b8f0566366549ce22d4ece3608208"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a563b8f0566366549ce22d4ece3608208">&#9670;&nbsp;</a></span>forComponents()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classace__time_1_1ZonedExtra.html">ZonedExtra</a> ace_time::ZonedExtra::forComponents </td>
+          <td>(</td>
+          <td class="paramtype">int16_t&#160;</td>
+          <td class="paramname"><em>year</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>month</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>day</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>hour</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>minute</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>second</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classace__time_1_1TimeZone.html">TimeZone</a> &amp;&#160;</td>
+          <td class="paramname"><em>tz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>fold</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return an instance for the given <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> and <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a>. </p>
+<p>If you already have a <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone object that supports the zon...">ZonedDateTime</a>, then the <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> can be retrieved using <a class="el" href="classace__time_1_1ZonedDateTime.html#af6a26cb619efcbcfa55bad20af2b436d" title="Return the LocalDateTime of the components.">ZonedDateTime::localDateTime()</a>. </p>
+
+<p class="definition">Definition at line <a class="el" href="ZonedExtra_8cpp_source.html#l00006">6</a> of file <a class="el" href="ZonedExtra_8cpp_source.html">ZonedExtra.cpp</a>.</p>
 
 </div>
 </div>
@@ -222,7 +302,7 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class
 <p>Return an instance for the given <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> and <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a>. </p>
 <p>If you already have a <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone object that supports the zon...">ZonedDateTime</a>, then the <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> can be retrieved using <a class="el" href="classace__time_1_1ZonedDateTime.html#af6a26cb619efcbcfa55bad20af2b436d" title="Return the LocalDateTime of the components.">ZonedDateTime::localDateTime()</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedExtra_8cpp_source.html#l00014">14</a> of file <a class="el" href="ZonedExtra_8cpp_source.html">ZonedExtra.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedExtra_8cpp_source.html#l00023">23</a> of file <a class="el" href="ZonedExtra_8cpp_source.html">ZonedExtra.cpp</a>.</p>
 
 </div>
 </div>
@@ -252,7 +332,7 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class
 <p>DST offset of the requested epochSeconds or <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>. </p>
 <p>This will be different from stdOffset only for kTypeGap. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedExtra_8h_source.html#l00133">133</a> of file <a class="el" href="ZonedExtra_8h_source.html">ZonedExtra.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedExtra_8h_source.html#l00143">143</a> of file <a class="el" href="ZonedExtra_8h_source.html">ZonedExtra.h</a>.</p>
 
 </div>
 </div>
@@ -282,7 +362,7 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class
 <p>STD offset of the requested epochSeconds or <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>. </p>
 <p>This will be different from stdOffset only for kTypeGap. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedExtra_8h_source.html#l00125">125</a> of file <a class="el" href="ZonedExtra_8h_source.html">ZonedExtra.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedExtra_8h_source.html#l00135">135</a> of file <a class="el" href="ZonedExtra_8h_source.html">ZonedExtra.h</a>.</p>
 
 </div>
 </div>
@@ -312,7 +392,7 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class
 <p>The total time offset of the requested epochSeconds of <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>, (reqStdOffset + reqDstOffset). </p>
 <p>This value becomes lost when a <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone object that supports the zon...">ZonedDateTime</a> is created using <code><a class="el" href="classace__time_1_1ZonedDateTime.html#a00ab2ef530c51e068b3b67dc91a69ccf" title="Factory method using separated date, time, and time zone fields.">ZonedDateTime::forComponents()</a></code> during a DST gap, because it was used to convert the given <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> to an epochSeconds, before the epochSeconds was renormalized back into a <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone object that supports the zon...">ZonedDateTime</a>. The <a class="el" href="classace__time_1_1ZonedExtra.html">ZonedExtra</a> object provided access to this UTC offset. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedExtra_8h_source.html#l00145">145</a> of file <a class="el" href="ZonedExtra_8h_source.html">ZonedExtra.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedExtra_8h_source.html#l00155">155</a> of file <a class="el" href="ZonedExtra_8h_source.html">ZonedExtra.h</a>.</p>
 
 </div>
 </div>
@@ -342,7 +422,7 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class
 <p>The total time offset (stdOffset + dstOffset). </p>
 <p>This will be the same value as <code><a class="el" href="classace__time_1_1ZonedDateTime.html#ade77d29873786f45459a07d2271d8c64" title="Return the offset zone of the OffsetDateTime.">ZonedDateTime::timeOffset()</a></code> when a ZonedDataTime is created using <code><a class="el" href="classace__time_1_1ZonedDateTime.html#a00ab2ef530c51e068b3b67dc91a69ccf" title="Factory method using separated date, time, and time zone fields.">ZonedDateTime::forComponents()</a></code> or <code><a class="el" href="classace__time_1_1ZonedDateTime.html#a9c02e18eba7ef8af1e41d4ecfe727bee" title="Factory method.">ZonedDateTime::forEpochSeconds()</a></code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonedExtra_8h_source.html#l00117">117</a> of file <a class="el" href="ZonedExtra_8h_source.html">ZonedExtra.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonedExtra_8h_source.html#l00127">127</a> of file <a class="el" href="ZonedExtra_8h_source.html">ZonedExtra.h</a>.</p>
 
 </div>
 </div>

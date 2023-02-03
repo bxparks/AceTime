@@ -23,7 +23,7 @@ the ZoneInfo Database to save flash memory size.
 Support for [Unix time](https://en.wikipedia.org/wiki/Unix_time) using the Unix
 epoch of 1970-01-01 is provided through conversion functions of the `time_t`
 type. Only the 64-bit version of the `time_t` type is supported to avoid the
-[Year 2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem)).
+[Year 2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem).
 
 The companion library [AceTimeClock](https://github.com/bxparks/AceTimeClock)
 provides Clock classes to retrieve the time from more accurate sources, such as
@@ -54,12 +54,12 @@ This library can be an alternative to the Arduino Time
 
 **Breaking Changes in v2.1**: Links are now first-class citizens compared to
 Zones and should be treated exactly the same. Fat link and symbolic link
-implementations have been unified. The `kZoneRegistry` and
-`kZoneAndLinkRegistry` are identical. Only 2 methods are special to Link time
-zones: `TimeZone::isLink()` and `TimeZone::printTargetNameTo()`. See [Migrating
-to v2.1.0](MIGRATING.md#MigratingToVersion210) section for more details.
+implementations have been unified. TimeZone methods have been simplified. Only 2
+methods are now special to Link time zones: `TimeZone::isLink()` and
+`TimeZone::printTargetNameTo()`. See [Migrating to
+v2.1.0](MIGRATING.md#MigratingToVersion210) section for more details.
 
-**Version**: 2.1.0 (2023-01-29, TZDB version 2022g)
+**Version**: 2.1.1 (2023-02-02, TZDB version 2022g)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
@@ -338,10 +338,12 @@ The [examples/HelloZoneManager](examples/HelloZoneManager) example shows how to
 load the entire ZoneInfo Database into an `ExtendedZoneManager`, then create 3
 time zones using 3 different ways: `createForZoneInfo()`, `createForZoneName()`,
 and `createForZoneId()`. This program requires a 32-bit microcontroller
-environment because of its flash memory size. Using the `ExtendedZoneManager`
-with the `zonedbx::kZoneRegistry` consumes ~34kB of flash which no longer fits
-on an Arduino Nano. If the `ExtendedZoneManager` is replaced with the
-`BasicZoneManager`, the flash size goes down to about ~22kB.
+environment because the `ExtendedZoneManager` with the
+`zonedbx::kZoneAndLinkRegistry` consumes ~39 kB of flash which does not fit in
+the 32 kB flash memory capacity of an Arduino Nano. If the `ExtendedZoneManager`
+is replaced with the `BasicZoneManager` and the smaller `kZoneRegistry` is used
+instead, the flash size goes down to about ~24 kB. Depending on the code size of
+the rest of the application, this may fit inside an Arduino Nano.
 
 ```C++
 #include <Arduino.h>
@@ -349,14 +351,14 @@ on an Arduino Nano. If the `ExtendedZoneManager` is replaced with the
 
 using namespace ace_time;
 
-// Create an ExtendedZoneManager with the entire TZ Database of Zone entries.
-// Cache size of 3 means that it can support 3 concurrent timezones without
-// performance penalties.
+// Create an ExtendedZoneManager with the entire TZ Database of Zone and Link
+// entries. Cache size of 3 means that it can support 3 concurrent timezones
+// without performance penalties.
 static const int CACHE_SIZE = 3;
 static ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
 static ExtendedZoneManager manager(
-    zonedbx::kZoneRegistrySize,
-    zonedbx::kZoneRegistry,
+    zonedbx::kZoneAndLinkRegistrySize,
+    zonedbx::kZoneAndLinkRegistry,
     zoneProcessorCache);
 
 void setup() {
@@ -479,19 +481,19 @@ match the UTC offsets calculated using other date/time libraries written in
 different programming languages:
 
 * the Python pytz (https://pypi.org/project/pytz/) library from the year 2000
-  until 2037 (inclusive),
+  until 2038 (pytz cannot handle years after 2038),
 * the Python dateutil (https://pypi.org/project/python-dateutil/) library from
-  the year 2000 until 2037 (inclusive),
+  the year 2000 until 2037 (dateutil cannot handle years after 2038),
 * the Python 3.9 zoneinfo (https://docs.python.org/3/library/zoneinfo.html)
-  library from the year 1974 until 2049 (inclusive),
+  library from the year 2000 until 2100,
 * the Java JDK 11
   [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
-  library from year 2000 to 2049 (inclusive)
+  library from year 2000 until 2100,
 * the C++11/14/17 Hinnant date (https://github.com/HowardHinnant/date) library
-  from year 2000 to 2100 (inclusive)
-* the C# Noda Time (https://nodatime.org) library from 1974 to 2049 (inclusive)
-* the Go lang 1.17 `time` package (https://pkg.go.dev/time) in the standard
-  library from 1974 to 2049 (inclusive)
+  from year 2000 to 2100,
+* the Go lang 1.19 `time` package (https://pkg.go.dev/time) in the standard
+  library from 2000 to 2100,
+* the C# Noda Time (https://nodatime.org) library from 2000 to 2100 (exclusive)
 
 <a name="ResourceConsumption"></a>
 ## Resource Consumption
@@ -510,6 +512,7 @@ sizeof(OffsetDateTime): 10
 sizeof(TimeZone): 5
 sizeof(TimeZoneData): 5
 sizeof(ZonedDateTime): 15
+sizeof(ZonedExtra): 16
 sizeof(TimePeriod): 4
 sizeof(BasicZoneProcessor): 122
 sizeof(ExtendedZoneProcessor): 464
@@ -517,15 +520,12 @@ sizeof(BasicZoneProcessorCache<1>): 126
 sizeof(ExtendedZoneProcessorCache<1>): 468
 sizeof(BasicZoneManager): 7
 sizeof(ExtendedZoneManager): 7
-sizeof(BasicLinkManager): 5
-sizeof(ExtendedLinkManager): 5
 sizeof(internal::ZoneContext): 9
 sizeof(basic::ZoneEra): 12
-sizeof(basic::ZoneInfo): 11
+sizeof(basic::ZoneInfo): 13
 sizeof(basic::ZoneRule): 11
 sizeof(basic::ZonePolicy): 6
 sizeof(basic::ZoneRegistrar): 5
-sizeof(basic::LinkRegistrar): 5
 sizeof(BasicZoneProcessor::Transition): 22
 sizeof(ExtendedZoneProcessor::Transition): 43
 sizeof(ExtendedZoneProcessor::TransitionStorage): 364
@@ -542,6 +542,7 @@ sizeof(OffsetDateTime): 10
 sizeof(TimeZone): 12
 sizeof(TimeZoneData): 8
 sizeof(ZonedDateTime): 24
+sizeof(ZonedExtra): 16
 sizeof(TimePeriod): 4
 sizeof(BasicZoneProcessor): 164
 sizeof(ExtendedZoneProcessor): 588
@@ -549,15 +550,12 @@ sizeof(BasicZoneProcessorCache<1>): 172
 sizeof(ExtendedZoneProcessorCache<1>): 596
 sizeof(BasicZoneManager): 12
 sizeof(ExtendedZoneManager): 12
-sizeof(BasicLinkManager): 8
-sizeof(ExtendedLinkManager): 8
 sizeof(internal::ZoneContext): 16
 sizeof(basic::ZoneEra): 16
-sizeof(basic::ZoneInfo): 20
+sizeof(basic::ZoneInfo): 24
 sizeof(basic::ZoneRule): 12
 sizeof(basic::ZonePolicy): 12
 sizeof(basic::ZoneRegistrar): 8
-sizeof(basic::LinkRegistrar): 8
 sizeof(BasicZoneProcessor::Transition): 28
 sizeof(ExtendedZoneProcessor::Transition): 52
 sizeof(ExtendedZoneProcessor::TransitionStorage): 452
@@ -618,28 +616,26 @@ Arduino Nano:
 | baseline                               |    474/   11 |     0/    0 |
 |----------------------------------------+--------------+-------------|
 | LocalDateTime                          |   1108/   21 |   634/   10 |
-| ZonedDateTime                          |   1294/   28 |   820/   17 |
-| Manual ZoneManager                     |   1234/   13 |   760/    2 |
+| ZonedDateTime                          |   1440/   28 |   966/   17 |
+| Manual ZoneManager                     |   1398/   13 |   924/    2 |
 |----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                |   6762/  325 |  6288/  314 |
-| Basic TimeZone (2 zones)               |   6930/  451 |  6456/  440 |
-| BasicZoneManager (1 zone)              |   6968/  336 |  6494/  325 |
-| BasicZoneManager (all zones)           |  19056/  712 | 18582/  701 |
-| BasicZoneManager (all zones+links)     |  23992/  712 | 23518/  701 |
-| BasicLinkManager (all links)           |   2594/   16 |  2120/    5 |
+| Basic TimeZone (1 zone)                |   6570/  321 |  6096/  310 |
+| Basic TimeZone (2 zones)               |   7008/  447 |  6534/  436 |
+| BasicZoneManager (1 zone)              |   6772/  332 |  6298/  321 |
+| BasicZoneManager (all zones)           |  19280/  708 | 18806/  697 |
+| BasicZoneManager (all zones+links)     |  24632/  708 | 24158/  697 |
 |----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             |   7140/  336 |   378/   11 |
-| Basic ZoneSorterByOffsetAndName [1]    |   7264/  336 |   502/   11 |
+| Basic ZoneSorterByName [1]             |   7384/  334 |   612/    2 |
+| Basic ZoneSorterByOffsetAndName [1]    |   7554/  334 |   782/    2 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |  10320/  706 |  9846/  695 |
-| Extended TimeZone (2 zones)            |  10526/ 1179 | 10052/ 1168 |
-| ExtendedZoneManager (1 zone)           |  10496/  712 | 10022/  701 |
-| ExtendedZoneManager (all zones)        |  33720/ 1196 | 33246/ 1185 |
-| ExtendedZoneManager (all zones+links)  |  39206/ 1196 | 38732/ 1185 |
-| ExtendedLinkManager (all links)        |   2786/   16 |  2312/    5 |
+| Extended TimeZone (1 zone)             |   9978/  702 |  9504/  691 |
+| Extended TimeZone (2 zones)            |  10462/ 1175 |  9988/ 1164 |
+| ExtendedZoneManager (1 zone)           |  10154/  708 |  9680/  697 |
+| ExtendedZoneManager (all zones)        |  34116/ 1192 | 33642/ 1181 |
+| ExtendedZoneManager (all zones+links)  |  40118/ 1192 | 39644/ 1181 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  10688/  712 |   368/    6 |
-| Extended ZoneSorterByOffsetAndName [2] |  10810/  712 |   490/    6 |
+| Extended ZoneSorterByName [2]          |  10766/  710 |   612/    2 |
+| Extended ZoneSorterByOffsetAndName [2] |  10946/  710 |   792/    2 |
 +---------------------------------------------------------------------+
 ```
 
@@ -649,31 +645,29 @@ ESP8266:
 +---------------------------------------------------------------------+
 | Functionality                          |  flash/  ram |       delta |
 |----------------------------------------+--------------+-------------|
-| baseline                               |   3470/  153 |     0/    0 |
+| baseline                               | 260089/27892 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| LocalDateTime                          |   4080/  161 |   610/    8 |
-| ZonedDateTime                          |   4266/  168 |   796/   15 |
-| Manual ZoneManager                     |   4228/  153 |   758/    0 |
+| LocalDateTime                          | 260613/27912 |   524/   20 |
+| ZonedDateTime                          | 261733/27928 |  1644/   36 |
+| Manual ZoneManager                     | 261713/27900 |  1624/    8 |
 |----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                |   9716/  463 |  6246/  310 |
-| Basic TimeZone (2 zones)               |   9886/  591 |  6416/  438 |
-| BasicZoneManager (1 zone)              |   9922/  474 |  6452/  321 |
-| BasicZoneManager (all zones)           |  22028/  852 | 18558/  699 |
-| BasicZoneManager (all zones+links)     |  26964/  852 | 23494/  699 |
-| BasicLinkManager (all links)           |   5568/  158 |  2098/    5 |
+| Basic TimeZone (1 zone)                | 266749/28648 |  6660/  756 |
+| Basic TimeZone (2 zones)               | 267245/28808 |  7156/  916 |
+| BasicZoneManager (1 zone)              | 266909/28664 |  6820/  772 |
+| BasicZoneManager (all zones)           | 283853/28664 | 23764/  772 |
+| BasicZoneManager (all zones+links)     | 292333/28664 | 32244/  772 |
 |----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             |  10096/  476 |   380/   13 |
-| Basic ZoneSorterByOffsetAndName [1]    |  10220/  476 |   504/   13 |
+| Basic ZoneSorterByName [1]             | 267549/28672 |   640/    8 |
+| Basic ZoneSorterByOffsetAndName [1]    | 267661/28672 |   752/    8 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |  13274/  844 |  9804/  691 |
-| Extended TimeZone (2 zones)            |  13482/ 1319 | 10012/ 1166 |
-| ExtendedZoneManager (1 zone)           |  13450/  850 |  9980/  697 |
-| ExtendedZoneManager (all zones)        |  36690/ 1334 | 33220/ 1181 |
-| ExtendedZoneManager (all zones+links)  |  42176/ 1334 | 38706/ 1181 |
-| ExtendedLinkManager (all links)        |   5760/  158 |  2290/    5 |
+| Extended TimeZone (1 zone)             | 269021/29224 |  8932/ 1332 |
+| Extended TimeZone (2 zones)            | 269581/29824 |  9492/ 1932 |
+| ExtendedZoneManager (1 zone)           | 269165/29232 |  9076/ 1340 |
+| ExtendedZoneManager (all zones)        | 301313/29228 | 41224/ 1336 |
+| ExtendedZoneManager (all zones+links)  | 310849/29228 | 50760/ 1336 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  13644/  852 |   370/    8 |
-| Extended ZoneSorterByOffsetAndName [2] |  13766/  852 |   492/    8 |
+| Extended ZoneSorterByName [2]          | 269789/29240 |   624/    8 |
+| Extended ZoneSorterByOffsetAndName [2] | 269901/29240 |   736/    8 |
 +---------------------------------------------------------------------+
 ```
 
@@ -690,29 +684,42 @@ Arduino Nano:
 +--------------------------------------------------+----------+
 | Method                                           |   micros |
 |--------------------------------------------------+----------|
-| EmptyLoop                                        |    4.000 |
+| EmptyLoop                                        |    3.000 |
 |--------------------------------------------------+----------|
-| LocalDate::forEpochDays()                        |  240.000 |
-| LocalDate::toEpochDays()                         |   51.000 |
+| LocalDate::forEpochDays()                        |  243.000 |
+| LocalDate::toEpochDays()                         |   52.000 |
 | LocalDate::dayOfWeek()                           |   49.000 |
 |--------------------------------------------------+----------|
-| OffsetDateTime::forEpochSeconds()                |  362.000 |
-| OffsetDateTime::toEpochSeconds()                 |   82.000 |
+| OffsetDateTime::forEpochSeconds()                |  363.000 |
+| OffsetDateTime::toEpochSeconds()                 |   77.000 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::toEpochSeconds()                  |   79.000 |
-| ZonedDateTime::toEpochDays()                     |   68.000 |
-| ZonedDateTime::forEpochSeconds(UTC)              |  388.000 |
-| ZonedDateTime::forEpochSeconds(Basic_nocache)    | 1251.000 |
-| ZonedDateTime::forEpochSeconds(Basic_cached)     |  695.000 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) | 2656.000 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |  697.000 |
+| ZonedDateTime::toEpochSeconds()                  |   78.000 |
+| ZonedDateTime::toEpochDays()                     |   66.000 |
+| ZonedDateTime::forEpochSeconds(UTC)              |  391.000 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::forComponents(Extended_nocache)   | 1684.000 |
-| ZonedDateTime::forComponents(Extended_cached)    |   69.000 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    | 1224.000 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |  699.000 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |   -1.000 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |   -1.000 |
 |--------------------------------------------------+----------|
-| BasicZoneManager::createForZoneName(binary)      |  117.000 |
+| ZonedDateTime::forComponents(Basic_nocache)      | 1769.000 |
+| ZonedDateTime::forComponents(Basic_cached)       | 1225.000 |
+| ZonedDateTime::forComponents(Extended_nocache)   |   -1.000 |
+| ZonedDateTime::forComponents(Extended_cached)    |   -1.000 |
+|--------------------------------------------------+----------|
+| ZonedExtra::forEpochSeconds(Basic_nocache)       |  852.000 |
+| ZonedExtra::forEpochSeconds(Basic_cached)        |  325.000 |
+| ZonedExtra::forEpochSeconds(Extended_nocache)    |   -1.000 |
+| ZonedExtra::forEpochSeconds(Extended_cached)     |   -1.000 |
+|--------------------------------------------------+----------|
+| ZonedExtra::forComponents(Basic_nocache)         | 1746.000 |
+| ZonedExtra::forComponents(Basic_cached)          | 1202.000 |
+| ZonedExtra::forComponents(Extended_nocache)      |   -1.000 |
+| ZonedExtra::forComponents(Extended_cached)       |   -1.000 |
+|--------------------------------------------------+----------|
+| BasicZoneManager::createForZoneName(binary)      |  115.000 |
 | BasicZoneManager::createForZoneId(binary)        |   47.000 |
-| BasicZoneManager::createForZoneId(linear)        |  301.000 |
+| BasicZoneManager::createForZoneId(linear)        |  299.000 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 1000
 ```
@@ -729,23 +736,36 @@ ESP8266:
 | LocalDate::toEpochDays()                         |    3.000 |
 | LocalDate::dayOfWeek()                           |    3.800 |
 |--------------------------------------------------+----------|
-| OffsetDateTime::forEpochSeconds()                |   12.200 |
+| OffsetDateTime::forEpochSeconds()                |   12.400 |
 | OffsetDateTime::toEpochSeconds()                 |    7.000 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::toEpochSeconds()                  |    6.800 |
+| ZonedDateTime::toEpochSeconds()                  |    6.600 |
 | ZonedDateTime::toEpochDays()                     |    5.800 |
-| ZonedDateTime::forEpochSeconds(UTC)              |   16.800 |
-| ZonedDateTime::forEpochSeconds(Basic_nocache)    |  101.800 |
-| ZonedDateTime::forEpochSeconds(Basic_cached)     |   28.400 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) |  228.200 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |   29.000 |
+| ZonedDateTime::forEpochSeconds(UTC)              |   15.000 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::forComponents(Extended_nocache)   |  168.600 |
-| ZonedDateTime::forComponents(Extended_cached)    |    6.000 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    |   93.800 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |   22.200 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |  232.000 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |   29.200 |
 |--------------------------------------------------+----------|
-| BasicZoneManager::createForZoneName(binary)      |   14.400 |
-| BasicZoneManager::createForZoneId(binary)        |    6.600 |
-| BasicZoneManager::createForZoneId(linear)        |   42.400 |
+| ZonedDateTime::forComponents(Basic_nocache)      |  116.600 |
+| ZonedDateTime::forComponents(Basic_cached)       |   47.400 |
+| ZonedDateTime::forComponents(Extended_nocache)   |  165.200 |
+| ZonedDateTime::forComponents(Extended_cached)    |    3.600 |
+|--------------------------------------------------+----------|
+| ZonedExtra::forEpochSeconds(Basic_nocache)       |   83.800 |
+| ZonedExtra::forEpochSeconds(Basic_cached)        |    8.600 |
+| ZonedExtra::forEpochSeconds(Extended_nocache)    |  217.600 |
+| ZonedExtra::forEpochSeconds(Extended_cached)     |   15.000 |
+|--------------------------------------------------+----------|
+| ZonedExtra::forComponents(Basic_nocache)         |  115.200 |
+| ZonedExtra::forComponents(Basic_cached)          |   46.400 |
+| ZonedExtra::forComponents(Extended_nocache)      |  164.200 |
+| ZonedExtra::forComponents(Extended_cached)       |    2.200 |
+|--------------------------------------------------+----------|
+| BasicZoneManager::createForZoneName(binary)      |   14.800 |
+| BasicZoneManager::createForZoneId(binary)        |    6.400 |
+| BasicZoneManager::createForZoneId(linear)        |   42.600 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 5000
 ```

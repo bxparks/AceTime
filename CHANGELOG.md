@@ -1,6 +1,15 @@
 # Changelog
 
 * Unreleased
+* 2.1.1 (2023-02-02, TZDB version 2022g)
+    * `ZonedExtra`
+        * Add `ZonedExtra::forComponents()` factory method, for consistency with
+          `ZonedDateTime` class.
+    * `examples/AutoBenchmark`
+        * Add `ZonedExtra` benchmarks.
+    * `README.md`
+        * Update `AceTimeValidation` validation years to `[2000,2100)`.
+        * Update memory and cpu benchmarks.
 * 2.1.0 (2023-01-29, TZDB version 2022g)
     * There are a handful API breaking changes in this release in the pursuit of
       simpler and cleaner code. See the following for more info:

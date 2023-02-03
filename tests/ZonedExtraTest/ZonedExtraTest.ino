@@ -56,9 +56,8 @@ test(ZonedExtra, forEpochSeconds) {
     assertEqual(-8*60, zdt.timeOffset().toMinutes());
     // Validate ZonedExtra.
     auto ze = ZonedExtra::forEpochSeconds(epochSeconds, tz);
-    assertEqual(-8*60, ze.stdOffset().toMinutes() + ze.dstOffset().toMinutes());
-    assertEqual(-8*60,
-        ze.reqStdOffset().toMinutes() + ze.reqDstOffset().toMinutes());
+    assertEqual(-8*60, ze.timeOffset().toMinutes());
+    assertEqual(-8*60, ze.reqTimeOffset().toMinutes());
     assertEqual("PST", ze.abbrev());
   }
 
@@ -73,9 +72,8 @@ test(ZonedExtra, forEpochSeconds) {
     assertEqual(-7*60, zdt.timeOffset().toMinutes());
     // Validate ZonedExtra.
     auto ze = ZonedExtra::forEpochSeconds(epochSeconds, tz);
-    assertEqual(-7*60, ze.stdOffset().toMinutes() + ze.dstOffset().toMinutes());
-    assertEqual(-7*60,
-        ze.reqStdOffset().toMinutes() + ze.reqDstOffset().toMinutes());
+    assertEqual(-7*60, ze.timeOffset().toMinutes());
+    assertEqual(-7*60, ze.reqTimeOffset().toMinutes());
     assertEqual("PDT", ze.abbrev());
   }
 }
@@ -96,9 +94,8 @@ test(ZonedExtra, forLocalDateTime) {
     assertEqual(-7*60, zdt.timeOffset().toMinutes());
     // Validate ZonedExtra.
     auto ze = ZonedExtra::forLocalDateTime(ldt, tz);
-    assertEqual(-7*60, ze.stdOffset().toMinutes() + ze.dstOffset().toMinutes());
-    assertEqual(-8*60,
-        ze.reqStdOffset().toMinutes() + ze.reqDstOffset().toMinutes());
+    assertEqual(-7*60, ze.timeOffset().toMinutes());
+    assertEqual(-8*60, ze.reqTimeOffset().toMinutes());
     assertEqual("PDT", ze.abbrev());
   }
 
@@ -112,9 +109,45 @@ test(ZonedExtra, forLocalDateTime) {
     assertEqual(-8*60, zdt.timeOffset().toMinutes());
     // Validate ZonedExtra.
     auto ze = ZonedExtra::forLocalDateTime(ldt, tz);
-    assertEqual(-8*60, ze.stdOffset().toMinutes() + ze.dstOffset().toMinutes());
-    assertEqual(-7*60,
-        ze.reqStdOffset().toMinutes() + ze.reqDstOffset().toMinutes());
+    assertEqual(-8*60, ze.timeOffset().toMinutes());
+    assertEqual(-7*60, ze.reqTimeOffset().toMinutes());
+    assertEqual("PST", ze.abbrev());
+  }
+}
+
+test(ZonedExtra, forComponents) {
+  ExtendedZoneProcessor zoneProcessor;
+  TimeZone tz = TimeZone::forZoneInfo(
+      &tzonedbx::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
+
+  // 02:01 in the gap with fold=0 selects the first transition, then normalizes
+  // to the second transition, i.e. 03:01-07:00
+  {
+    auto zdt = ZonedDateTime::forComponents(
+        2018, 3, 11, 2, 0, 1, tz, 0 /*fold*/);
+    auto expected = LocalDateTime::forComponents(2018, 3, 11, 3, 0, 1);
+    assertTrue(expected == zdt.localDateTime());
+    assertEqual(-7*60, zdt.timeOffset().toMinutes());
+    // Validate ZonedExtra.
+    auto ze = ZonedExtra::forComponents(2018, 3, 11, 2, 0, 1, tz, 0 /*fold*/);
+    assertEqual(-7*60, ze.timeOffset().toMinutes());
+    assertEqual(-8*60, ze.reqTimeOffset().toMinutes());
+    assertEqual("PDT", ze.abbrev());
+  }
+
+  // 02:01 in the gap with fold=1 selects the second transition, then normalizes
+  // to the first transition, i.e. 01:01-08:00
+  {
+    auto zdt = ZonedDateTime::forComponents(
+        2018, 3, 11, 2, 0, 1, tz, 1 /*fold*/);
+    auto expected = LocalDateTime::forComponents(2018, 3, 11, 1, 0, 1);
+    assertTrue(expected == zdt.localDateTime());
+    assertEqual(-8*60, zdt.timeOffset().toMinutes());
+    // Validate ZonedExtra.
+    auto ze = ZonedExtra::forComponents(2018, 3, 11, 2, 0, 1, tz, 1 /*fold*/);
+    assertEqual(-8*60, ze.timeOffset().toMinutes());
+    assertEqual(-7*60, ze.reqTimeOffset().toMinutes());
     assertEqual("PST", ze.abbrev());
   }
 }
