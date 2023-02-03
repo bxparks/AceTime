@@ -262,12 +262,15 @@ struct TransitionTemplate {
   /** The match which generated this Transition. */
   const MatchingEraTemplate<ZEB>* match;
 
+#if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
   /**
    * The Zone transition rule that matched for the the given year. Set to
    * nullptr if the RULES column is '-', indicating that the MatchingEra was
-   * a "simple" ZoneEra.
+   * a "simple" ZoneEra. This not required for actual calculation, but it is
+   * useful to have a reference to it for debugging purposes.
    */
   ZRB rule;
+#endif
 
   /**
    * The original transition time, usually 'w' but sometimes 's' or 'u'. After
@@ -373,12 +376,14 @@ struct TransitionTemplate {
     logging::printf("; tt="); transitionTime.log();
     logging::printf("; tts="); transitionTimeS.log();
     logging::printf("; ttu="); transitionTimeU.log();
+  #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     if (rule.isNull()) {
       logging::printf("; rule=-");
     } else {
       logging::printf("; rule=");
       logging::printf("[%d,%d]", rule.fromYear(), rule.toYear());
     }
+  #endif
   }
 
   /** Print minutes as [+/-]hh:mm. */

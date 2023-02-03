@@ -799,8 +799,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         const ZRB& rule,
         const MatchingEra* match) {
       t->match = match;
-      t->rule = rule;
       t->offsetMinutes = match->era.offsetMinutes();
+    #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
+      t->rule = rule;
+    #endif
 
       if (rule.isNull()) {
         // Create a Transition using the MatchingEra for the transitionTime.

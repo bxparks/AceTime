@@ -297,7 +297,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   };
 
   ExtendedZoneProcessor::Transition transition = {
-    &match /*match*/, ZoneRuleBroker() /*rule*/,
+    &match /*match*/,
     {1999, 11, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE,
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
@@ -311,7 +311,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
           &transition, &match));
 
   transition = {
-    &match /*match*/, ZoneRuleBroker() /*rule*/,
+    &match /*match*/,
     {1999, 12, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE,
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
@@ -325,7 +325,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
           &transition, &match));
 
   transition = {
-    &match /*match*/, ZoneRuleBroker() /*rule*/,
+    &match /*match*/,
     {2000, 1, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE,
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
@@ -339,7 +339,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
           &transition, &match));
 
   transition = {
-    &match /*match*/, ZoneRuleBroker() /*rule*/,
+    &match /*match*/,
     {2001, 1, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE,
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
@@ -353,7 +353,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
           &transition, &match));
 
   transition = {
-    &match /*match*/, ZoneRuleBroker() /*rule*/,
+    &match /*match*/,
     {2001, 2, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE,
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
@@ -367,7 +367,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
           &transition, &match));
 
   transition = {
-    &match /*match*/, ZoneRuleBroker() /*rule*/,
+    &match /*match*/,
     {2001, 3, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE,
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
@@ -491,7 +491,6 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   // transitionTime = 1999-12-31
   ExtendedZoneProcessor::Transition transition0 = {
     &match /*match*/,
-    ZoneRuleBroker() /*rule*/,
     {-1, 12, 31, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE,
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
@@ -503,7 +502,6 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   // transitionTime = 2000-01-01
   ExtendedZoneProcessor::Transition transition1 = {
     &match /*match*/,
-    ZoneRuleBroker() /*rule*/,
     {0, 1, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE,
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
@@ -515,7 +513,6 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   // transitionTime = 2000-01-02
   ExtendedZoneProcessor::Transition transition2 = {
     &match /*match*/,
-    ZoneRuleBroker() /*rule*/,
     {0, 1, 2, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE,
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
@@ -527,7 +524,6 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   // transitionTime = 2001-02-03
   ExtendedZoneProcessor::Transition transition3 = {
     &match /*match*/,
-    ZoneRuleBroker() /*rule*/,
     {1, 2, 3, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE,
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
@@ -604,7 +600,6 @@ test(ExtendedZoneProcessorTest, processTransitionMatchStatus) {
   // transitionTime = 1999-12-31
   ExtendedZoneProcessor::Transition transition0 = {
     &match /*match*/,
-    ZoneRuleBroker() /*rule*/,
     {-1, 12, 31, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE,
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
@@ -617,7 +612,6 @@ test(ExtendedZoneProcessorTest, processTransitionMatchStatus) {
   // transitionTime = 2000-01-01
   ExtendedZoneProcessor::Transition transition1 = {
     &match /*match*/,
-    ZoneRuleBroker() /*rule*/,
     {0, 1, 1, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE,
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
@@ -630,7 +624,6 @@ test(ExtendedZoneProcessorTest, processTransitionMatchStatus) {
   // transitionTime = 2000-01-02
   ExtendedZoneProcessor::Transition transition2 = {
     &match /*match*/,
-    ZoneRuleBroker() /*rule*/,
     {0, 1, 2, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE,
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
@@ -643,7 +636,6 @@ test(ExtendedZoneProcessorTest, processTransitionMatchStatus) {
   // transitionTime = 2001-01-02
   ExtendedZoneProcessor::Transition transition3 = {
     &match /*match*/,
-    ZoneRuleBroker() /*rule*/,
     {1, 1, 2, 0, ZoneContext::kSuffixW} /*transitionTime*/,
     EMPTY_DATE, EMPTY_DATE,
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
