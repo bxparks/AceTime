@@ -893,36 +893,30 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     /**
      * Create the time zone abbreviation in dest from the format string
      * (e.g. "P%T", "E%T"), the time zone deltaMinutes (!= 0 means DST), and the
-     * replacement letter (e.g. 'S', 'D', '-', or '\0' to indicate no RULE).
+     * replacement letter (e.g. 'S', 'D', '\0' (represented as '-' in the
+     * Rule.LETTER entry). If the Zone.RULES column is '-' or 'hh:mm', then
+     * 'letter' will be set to '\0' also, although AceTimetools/transformer.py
+     * should have detected this condition and filtered that zone out.
      *
      * 1) If the FORMAT contains a '%', then:
-     *
-     * 1a) If the letter is '\0', then this condition should not occur because
-     * this indicates the RULES was a '-' or a 'hh:mm' and it does not make
-     * sense for FORMAT to contain a '%'. The transformer.py should have
-     * detected this condition and filtered that zone out. But in case of a
-     * bug, just copy the entire FORMAT.
-     *
-     * 1b) Else the 'letter' is one of ('S', 'D', '-', etc) from the LETTER
-     * column of a Rule, so replace '%' with with the given 'letter'.  The
-     * letter '-' is special in that the '%' is replaced with nothing. (It may
-     * seem that '\0' is more natural to express this, but '-' is what is used
-     * in the TZ database files.)
+     *    1a) If the letter is '\0', then the '%' is removed. This indicates the
+     *    Zone.Rule was ('-', 'hh:mm'), or Rule.LETTER was a '-'.
+     *    1b) Else the 'letter' is a single letter (e.g. 'S', 'D', etc) from the
+     *    Rule.LETTER column, so replace '%' with with the given 'letter'.
      *
      * 2) If the FORMAT contains a '/', then, ignore the 'letter' and just
-     * use deltaMinutes in the following:
-     *
-     * 2a) If deltaMinutes is 0, pick the first component, i.e. before the '/'.
-     *
-     * 2b) Else deltaMinutes != 0, pick the second component, i.e. after the
-     * '/'.
+     * use deltaMinutes in the following way:
+     *    2a) If deltaMinutes is 0, pick the first component, i.e. before the
+     *    '/'.
+     *    2b) Else deltaMinutes != 0, pick the second component, i.e. after the
+     *    '/'.
      *
      * The above algorithm supports the following edge cases from the TZ
      * Database:
      *
      * A) Asia/Dushanbe in 1991 has a ZoneEra with a fixed hh:mm in the RULES
      * and a '/' in the FORMAT, the fixed hh:mm selects the DST abbreviation
-     * in FORMAT.
+     * in FORMAT. (This seems have been fixed in TZDB sometime before 2022g).
      *
      * B) Africa/Johannesburg 1942-1944 where the RULES which contains a
      * reference to named RULEs with DST transitions but there is no '/' or '%'
@@ -933,23 +927,16 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * @param format encoded abbreviation, '%' is a character substitution
      * @param deltaMinutes the additional delta minutes std offset
      *    (0 for standard, != 0 for DST)
-     * @param letter during standard or DST time. If RULES is a named rule,
-     *    this is the value of the LETTER field ('S', 'D', '-' for empty
-     *    string), But if RULES is '-' or 'hh:mm' indicating a fixed offset,
-     *    then 'letter' will be set to '\0'.
+     * @param letter during standard or DST time. If Zone.RULES is a named rule,
+     *    this is the value of the Rule.LETTER field (e.g. 'S', 'D') or '\0' for
+     *    '-'. string), If Zone.RULES is '-' or 'hh:mm' indicating a fixed
+     *    offset, then 'letter' will also be set to '\0'.
      */
     static void createAbbreviation(char* dest, uint8_t destSize,
         const char* format, int16_t deltaMinutes, char letter) {
       // Check if FORMAT contains a '%'.
       if (strchr(format, '%') != nullptr) {
-        // Check if RULES column empty, therefore no 'letter'
-        if (letter == '\0') {
-          strncpy(dest, format, destSize - 1);
-          dest[destSize - 1] = '\0';
-        } else {
-          ace_common::copyReplaceChar(dest, destSize, format, '%',
-              letter == '-' ? '\0' : letter);
-        }
+        ace_common::copyReplaceChar(dest, destSize, format, '%', letter);
       } else {
         // Check if FORMAT contains a '/'.
         const char* slashPos = strchr(format, '/');
