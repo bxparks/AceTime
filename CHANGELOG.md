@@ -1,6 +1,18 @@
 # Changelog
 
 * Unreleased
+    * Simplify the handling of `Rule.LETTER`.
+        * Encode all letters as an index into `ZoneContext.letters` array, not
+          just `LETTER` which are only a single character.
+        * On 8-bit AVR:
+            * Increases `BasicZoneProcessor` by ~200 bytes when 1-2 zones are
+              used. But flash remains the same when the full TZ database is
+              used.
+            * No change to `ExtendedZoneProcessor` for 1-2 zones. But decreases
+              flash usage by ~300 bytes when the full TZ database is used.
+        * The small increase in flash is worth it because this greatly
+          simplifies the complicated code surrounding LETTER that was difficult
+          to understand and maintain.
 * 2.1.1 (2023-02-02, TZDB version 2022g)
     * `ZonedExtra`
         * Add `ZonedExtra::forComponents()` factory method, for consistency with
