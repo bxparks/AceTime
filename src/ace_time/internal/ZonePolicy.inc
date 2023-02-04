@@ -107,7 +107,7 @@ struct ZoneRule {
    *  - StJohns ('DD'; used by America/St_Johns and America/Goose_Bay)
    *  - Troll ('+00' '+02'; used by Antarctica/Troll)
    */
-  uint8_t const letter;
+  uint8_t const letterIndex;
 };
 
 /**
@@ -122,7 +122,5 @@ struct ZoneRule {
  */
 struct ZonePolicy {
   const ZoneRule* const rules;
-  const char* const* const letters;
   uint8_t const numRules;
-  uint8_t const numLetters;
 };

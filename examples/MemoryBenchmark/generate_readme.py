@@ -227,6 +227,16 @@ ASCII table.
 * Unify links, adding an additional `targetInfo` field in `ZoneInfo`.
     * Increases flash by ~1kB on 8-bit and ~2kB on 32-bit for ~600 zones.
 
+**v2.1.1+**
+* Simplify ZoneRule.letter handling to use ZoneRule.letterIndex for all letters,
+  not just ones over 1 character long. On 8-bit AVR:
+    * BasicZoneProcessor
+        * Increases flash consumption for 1-2 zones by ~200 bytes.
+        * No change for the full TZ database.
+    * ExtendedZoneProcessor
+        * No change for 1-2 zones.
+        * Decreases flash consumption by ~300 bytes for full TZ database.
+
 # Legend
 
 * [1] Delta flash and ram consumption for `ZoneSorterByName` and

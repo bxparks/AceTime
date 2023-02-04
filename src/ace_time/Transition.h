@@ -262,12 +262,15 @@ struct TransitionTemplate {
   /** The match which generated this Transition. */
   const MatchingEraTemplate<ZEB>* match;
 
+#if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
   /**
    * The Zone transition rule that matched for the the given year. Set to
    * nullptr if the RULES column is '-', indicating that the MatchingEra was
-   * a "simple" ZoneEra.
+   * a "simple" ZoneEra. This not required for actual calculation, but it is
+   * useful to have a reference to it for debugging purposes.
    */
   ZRB rule;
+#endif
 
   /**
    * The original transition time, usually 'w' but sometimes 's' or 'u'. After
@@ -333,8 +336,8 @@ struct TransitionTemplate {
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
   char abbrev[internal::kAbbrevSize];
 
-  /** Storage for the single letter 'letter' field if 'rule' is not null. */
-  char letterBuf[2];
+  /** Storage for the 'letter' field if 'rule' is not null. */
+  const char* letter;
 
   union {
     /**
@@ -358,41 +361,6 @@ struct TransitionTemplate {
     return match->era.format();
   }
 
-  /**
-   * Return the letter string. Returns nullptr if the RULES column is empty
-   * since that means that the ZoneRule is not used, which means LETTER does
-   * not exist. A LETTER of '-' is returned as an empty string "".
-   */
-  const char* letter() const {
-    // RULES column is '-' or hh:mm, so return nullptr to indicate this.
-    if (rule.isNull()) {
-      return nullptr;
-    }
-
-    // RULES point to a named rule, and LETTER is a single, printable character.
-    // Return the letterBuf which contains a NUL-terminated string containing
-    // the single character, as initialized in createTransitionForYear().
-    char letter = rule.letter();
-    if (letter >= 32) {
-      return letterBuf;
-    }
-
-    // RULES points to a named rule, and the LETTER is a string. The
-    // rule->letter is a non-printable number < 32, which is an index into
-    // a list of strings given by match->era->zonePolicy->letters[].
-    const ZPB policy = match->era.zonePolicy();
-    uint8_t numLetters = policy.numLetters();
-    if (letter >= numLetters) {
-      // This should never happen unless there is a programming error. If it
-      // does, return an empty string. (createTransitionForYear() sets
-      // letterBuf to a NUL terminated empty string if rule->letter < 32)
-      return letterBuf;
-    }
-
-    // Return the string at index 'rule->letter'.
-    return policy.letter(letter);
-  }
-
   /** Used only for debugging. */
   void log() const {
     logging::printf("Transition(");
@@ -408,12 +376,14 @@ struct TransitionTemplate {
     logging::printf("; tt="); transitionTime.log();
     logging::printf("; tts="); transitionTimeS.log();
     logging::printf("; ttu="); transitionTimeU.log();
+  #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     if (rule.isNull()) {
       logging::printf("; rule=-");
     } else {
       logging::printf("; rule=");
       logging::printf("[%d,%d]", rule.fromYear(), rule.toYear());
     }
+  #endif
   }
 
   /** Print minutes as [+/-]hh:mm. */

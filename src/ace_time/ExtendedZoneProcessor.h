@@ -790,9 +790,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     /**
      * Populate Transition 't' using the startTime from 'rule' (if it exists)
-     * else from the start time of 'match'. Fills in 'offsetMinutes' and
-     * 'deltaMinutes' as well. 'letterBuf' is also well-defined, either an empty
-     * string, or filled with rule->letter with a NUL terminator.
+     * else from the start time of 'match'. Fills in 'offsetMinutes',
+     * 'deltaMinutes', and 'letter'.
      */
     static void createTransitionForYear(
         Transition* t,
@@ -800,31 +799,21 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         const ZRB& rule,
         const MatchingEra* match) {
       t->match = match;
-      t->rule = rule;
       t->offsetMinutes = match->era.offsetMinutes();
-      t->letterBuf[0] = '\0';
+    #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
+      t->rule = rule;
+    #endif
 
-      if (! rule.isNull()) {
-        t->transitionTime = getTransitionTime(year, rule);
-        t->deltaMinutes = rule.deltaMinutes();
-
-        char letter = rule.letter();
-        if (letter >= 32) {
-          // If LETTER is a '-', treat it the same as an empty string.
-          if (letter != '-') {
-            t->letterBuf[0] = letter;
-            t->letterBuf[1] = '\0';
-          }
-        } else {
-          // rule->letter is a long string, so is referenced as an offset index
-          // into the ZonePolicy.letters array. The string cannot fit in
-          // letterBuf, so will be retrieved by the letter() method below.
-        }
-      } else {
+      if (rule.isNull()) {
         // Create a Transition using the MatchingEra for the transitionTime.
         // Used for simple MatchingEra.
         t->transitionTime = match->startDateTime;
         t->deltaMinutes = match->era.deltaMinutes();
+        t->letter = "";
+      } else {
+        t->transitionTime = getTransitionTime(year, rule);
+        t->deltaMinutes = rule.deltaMinutes();
+        t->letter = rule.letter();
       }
     }
 
@@ -1195,14 +1184,14 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
           logging::printf(
             "calcAbbreviations(): format:%s, deltaMinutes:%d, letter:%s\n",
-            t->format(), t->deltaMinutes, t->letter());
+            t->format(), t->deltaMinutes, t->letter);
         }
         createAbbreviation(
             t->abbrev,
             internal::kAbbrevSize,
             t->format(),
             t->deltaMinutes,
-            t->letter());
+            t->letter);
       }
     }
 

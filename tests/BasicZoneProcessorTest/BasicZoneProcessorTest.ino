@@ -81,7 +81,7 @@ test(BasicZoneProcessorTest, findLatestPriorRule) {
   ZoneRuleBroker rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
   assertTrue(rule.isNull());
 
-  policy = ZonePolicyBroker(&kZonePolicyEcuador);
+  policy = ZonePolicyBroker(&kZoneContext, &kZonePolicyEcuador);
   year = 1992;
   rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
   assertEqual(0, rule.fromYear());
@@ -100,7 +100,7 @@ test(BasicZoneProcessorTest, findLatestPriorRule) {
 }
 
 test(BasicZoneProcessorTest, priorYearOfRule) {
-  ZonePolicyBroker policy(&kZonePolicyEcuador);
+  ZonePolicyBroker policy(&kZoneContext, &kZonePolicyEcuador);
 
   int16_t year = 1995;
   assertEqual(0, BasicZoneProcessor::priorYearOfRule(
@@ -123,7 +123,7 @@ test(BasicZoneProcessorTest, priorYearOfRule) {
 }
 
 test(BasicZoneProcessorTest, compareRulesBeforeYear) {
-  ZonePolicyBroker policy(&kZonePolicyEcuador);
+  ZonePolicyBroker policy(&kZoneContext, &kZonePolicyEcuador);
 
   // The last rule prior to 1995 should be 1993.
   int16_t year = 1995;
@@ -255,9 +255,9 @@ test(BasicZoneProcessorTest, createAbbreviation) {
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 1*60, 'A');
   assertEqual("SAST", dst);
 
-  // If '%', and letter is (incorrectly) set to '\0', just copy the thing
+  // If '%', and letter is set to '\0', remove the '%'.
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "SA%ST", 0, '\0');
-  assertEqual("SA%ST", dst);
+  assertEqual("SAST", dst);
 
   // If '%', then replaced with 'letter', where '-' means "no letter".
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, 'S');
@@ -266,12 +266,8 @@ test(BasicZoneProcessorTest, createAbbreviation) {
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 1*60, 'D');
   assertEqual("PDT", dst);
 
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, '-');
-  assertEqual("PT", dst);
-
-  // If '/', then deltaMinutes selects the first or second component.
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, '-');
-  assertEqual("GMT", dst);
+  // If '/', then deltaMinutes selects the first or second component depending
+  // on the deltaOffset, ignoring the 'letter'.
 
   BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, '\0');
   assertEqual("GMT", dst);
