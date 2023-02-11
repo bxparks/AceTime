@@ -28,6 +28,11 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2022g
 //
+// Supported Zones: 12 (11 zones, 1 links)
+// Unsupported Zones: 584 (340 zones, 244 links)
+// Original Years: [1844,2087]
+// Generated Years: [1943,2007]
+//
 // Zones: 11
 // Links: 1
 // kZoneRegistry sizes (bytes):

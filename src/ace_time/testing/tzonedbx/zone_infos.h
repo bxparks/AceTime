@@ -28,6 +28,11 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2022g
 //
+// Supported Zones: 16 (15 zones, 1 links)
+// Unsupported Zones: 580 (336 zones, 244 links)
+// Original Years: [1844,2087]
+// Generated Years: [1943,2087]
+//
 // DO NOT EDIT
 
 #ifndef ACE_TIME_TZONEDBX_ZONE_INFOS_H

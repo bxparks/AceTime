@@ -25,6 +25,11 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2022g
 //
+// Supported Zones: 596 (351 zones, 245 links)
+// Unsupported Zones: 0 (0 zones, 0 links)
+// Original Years: [1844,2087]
+// Generated Years: [1943,2087]
+//
 // Policies: 83
 // Rules: 603
 // Letter Size (bytes): 28
@@ -1112,7 +1117,7 @@ const extended::ZonePolicy kZonePolicyBrazil ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Policy name: C_Eur
+// Policy name: C-Eur
 // Rules: 3
 // Memory (8-bit): 39
 // Memory (32-bit): 48
@@ -1856,7 +1861,7 @@ const extended::ZonePolicy kZonePolicyDhaka ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Policy name: E_EurAsia
+// Policy name: E-EurAsia
 // Rules: 3
 // Memory (8-bit): 39
 // Memory (32-bit): 48
