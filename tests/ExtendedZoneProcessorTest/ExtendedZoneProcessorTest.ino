@@ -283,7 +283,7 @@ test(ExtendedZoneProcessorTest, getMostRecentPriorYear) {
 }
 
 test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
-  using ace_time::extended::MatchStatus;
+  using ace_time::extended::CompareStatus;
 
   const DateTuple EMPTY_DATE = {0, 0, 0, 0, 0};
 
@@ -306,7 +306,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
     0, 0, 0, {0}, {0}, false
   };
   assertEqual(
-      (uint8_t) MatchStatus::kPrior,
+      (uint8_t) CompareStatus::kPrior,
       (uint8_t) ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
           &transition, &match));
 
@@ -320,7 +320,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
     0, 0, 0, {0}, {0}, false
   };
   assertEqual(
-      (uint8_t) MatchStatus::kWithinMatch,
+      (uint8_t) CompareStatus::kWithinMatch,
       (uint8_t) ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
           &transition, &match));
 
@@ -334,7 +334,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
     0, 0, 0, {0}, {0}, false
   };
   assertEqual(
-      (uint8_t) MatchStatus::kWithinMatch,
+      (uint8_t) CompareStatus::kWithinMatch,
       (uint8_t) ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
           &transition, &match));
 
@@ -348,7 +348,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
     0, 0, 0, {0}, {0}, false
   };
   assertEqual(
-      (uint8_t) MatchStatus::kWithinMatch,
+      (uint8_t) CompareStatus::kWithinMatch,
       (uint8_t) ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
           &transition, &match));
 
@@ -362,7 +362,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
     0, 0, 0, {0}, {0}, false
   };
   assertEqual(
-      (uint8_t) MatchStatus::kWithinMatch,
+      (uint8_t) CompareStatus::kWithinMatch,
       (uint8_t) ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
           &transition, &match));
 
@@ -376,7 +376,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
     0, 0, 0, {0}, {0}, false
   };
   assertEqual(
-      (uint8_t) MatchStatus::kFarFuture,
+      (uint8_t) CompareStatus::kFarFuture,
       (uint8_t) ExtendedZoneProcessor::compareTransitionToMatchFuzzy(
           &transition, &match));
 }
@@ -461,7 +461,7 @@ test(ExtendedZoneProcessorTest, expandDateTuple) {
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
-  using ace_time::extended::MatchStatus;
+  using ace_time::extended::CompareStatus;
 
   // UNTIL = 2002-01-02T03:00
   static const ZoneEra ERA ACE_TIME_PROGMEM = {
@@ -543,32 +543,32 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   ExtendedZoneProcessor::fixTransitionTimes(&transitions[0], &transitions[4]);
 
   assertEqual(
-      (uint8_t) MatchStatus::kPrior,
+      (uint8_t) CompareStatus::kPrior,
       (uint8_t) ExtendedZoneProcessor::compareTransitionToMatch(
           &transition0, &match)
   );
 
   assertEqual(
-      (uint8_t) MatchStatus::kExactMatch,
+      (uint8_t) CompareStatus::kExactMatch,
       (uint8_t) ExtendedZoneProcessor::compareTransitionToMatch(
           &transition1, &match)
   );
 
   assertEqual(
-      (uint8_t) MatchStatus::kWithinMatch,
+      (uint8_t) CompareStatus::kWithinMatch,
       (uint8_t) ExtendedZoneProcessor::compareTransitionToMatch(
           &transition2, &match)
   );
 
   assertEqual(
-      (uint8_t) MatchStatus::kFarFuture,
+      (uint8_t) CompareStatus::kFarFuture,
       (uint8_t) ExtendedZoneProcessor::compareTransitionToMatch(
           &transition3, &match)
   );
 }
 
-test(ExtendedZoneProcessorTest, processTransitionMatchStatus) {
-  using ace_time::extended::MatchStatus;
+test(ExtendedZoneProcessorTest, processTransitionCompareStatus) {
+  using ace_time::extended::CompareStatus;
 
   // UNTIL = 2002-01-02T03:00
   static const ZoneEra ERA ACE_TIME_PROGMEM = {
@@ -654,31 +654,31 @@ test(ExtendedZoneProcessorTest, processTransitionMatchStatus) {
   // Populate the transitionTimeS and transitionTimeU fields.
   ExtendedZoneProcessor::fixTransitionTimes(&transitions[0], &transitions[4]);
 
-  ExtendedZoneProcessor::processTransitionMatchStatus(&transition0, &prior);
+  ExtendedZoneProcessor::processTransitionCompareStatus(&transition0, &prior);
   assertEqual(
-      (uint8_t) MatchStatus::kPrior,
-      (uint8_t) transition0.matchStatus
+      (uint8_t) CompareStatus::kPrior,
+      (uint8_t) transition0.compareStatus
   );
   assertEqual(prior, &transition0);
 
-  ExtendedZoneProcessor::processTransitionMatchStatus(&transition1, &prior);
+  ExtendedZoneProcessor::processTransitionCompareStatus(&transition1, &prior);
   assertEqual(
-      (uint8_t) MatchStatus::kExactMatch,
-      (uint8_t) transition1.matchStatus
+      (uint8_t) CompareStatus::kExactMatch,
+      (uint8_t) transition1.compareStatus
   );
   assertEqual(prior, &transition1);
 
-  ExtendedZoneProcessor::processTransitionMatchStatus(&transition2, &prior);
+  ExtendedZoneProcessor::processTransitionCompareStatus(&transition2, &prior);
   assertEqual(
-      (uint8_t) MatchStatus::kWithinMatch,
-      (uint8_t) transition2.matchStatus
+      (uint8_t) CompareStatus::kWithinMatch,
+      (uint8_t) transition2.compareStatus
   );
   assertEqual(prior, &transition1);
 
-  ExtendedZoneProcessor::processTransitionMatchStatus(&transition3, &prior);
+  ExtendedZoneProcessor::processTransitionCompareStatus(&transition3, &prior);
   assertEqual(
-      (uint8_t) MatchStatus::kFarFuture,
-      (uint8_t) transition3.matchStatus
+      (uint8_t) CompareStatus::kFarFuture,
+      (uint8_t) transition3.compareStatus
   );
   assertEqual(prior, &transition1);
 }
@@ -720,7 +720,7 @@ test(ExtendedZoneProcessorTest, createTransitionsFromNamedMatch) {
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
-  using ace_time::extended::MatchStatus;
+  using ace_time::extended::CompareStatus;
   ExtendedZoneProcessor zoneProcessor;
 
   // Step 1: America/Los_Angeles matches one era, which points to US policy.
