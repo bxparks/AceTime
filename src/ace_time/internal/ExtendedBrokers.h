@@ -46,27 +46,6 @@ class __FlashStringHelper;
 namespace ace_time {
 namespace extended {
 
-/**
- * Convert the `deltaCode` in the ZoneInfo struct to the actual
- * deltaMinutes. The lower 4-bits can store -01:00 to 02:45.
- *
- * @code
- * deltaMinutes = deltaCode * 15m - 1h
- * @endcode
- */
-inline int16_t toDeltaMinutes(int8_t deltaCode) {
-  return ((int8_t)((uint8_t)deltaCode & 0x0f) - 4) * 15;
-}
-
-/**
- * Convert the `offsetCode` and `deltaCode` into a signed 8-bit integer. The
- * `offsetCode` holds the upper 15-minute multiples. The upper 4-bits of
- * `deltaCode` holds the one-minute resolution, as an unsigned offset.
- */
-inline int16_t toOffsetMinutes(int8_t offsetCode, int8_t deltaCode) {
-  return (offsetCode * 15) + (((uint8_t)deltaCode & 0xf0) >> 4);
-}
-
 //-----------------------------------------------------------------------------
 
 /** Data broker for accessing ZoneRule. */
@@ -120,7 +99,7 @@ class ZoneRuleBroker {
     }
 
     int16_t deltaMinutes() const {
-      return toDeltaMinutes(pgm_read_byte(&mZoneRule->deltaCode));
+      return internal::toDeltaMinutes(pgm_read_byte(&mZoneRule->deltaCode));
     }
 
     const char* letter() const {
@@ -150,7 +129,7 @@ class ZoneRuleBroker {
     }
 
     int16_t deltaMinutes() const {
-      return toDeltaMinutes(mZoneRule->deltaCode);
+      return internal::toDeltaMinutes(mZoneRule->deltaCode);
     }
 
     uint8_t letter() const {
@@ -245,13 +224,13 @@ class ZoneEraBroker {
     }
 
     int16_t offsetMinutes() const {
-      return toOffsetMinutes(
+      return internal::toOffsetMinutes(
         pgm_read_byte(&mZoneEra->offsetCode),
         pgm_read_byte(&mZoneEra->deltaCode));
     }
 
     int16_t deltaMinutes() const {
-      return toDeltaMinutes(pgm_read_byte(&mZoneEra->deltaCode));
+      return internal::toDeltaMinutes(pgm_read_byte(&mZoneEra->deltaCode));
     }
 
     const char* format() const {
@@ -287,11 +266,12 @@ class ZoneEraBroker {
     }
 
     int16_t offsetMinutes() const {
-      return toOffsetMinutes(mZoneEra->offsetCode, mZoneEra->deltaCode);
+      return internal::toOffsetMinutes(
+          mZoneEra->offsetCode, mZoneEra->deltaCode);
     }
 
     int16_t deltaMinutes() const {
-      return toDeltaMinutes(mZoneEra->deltaCode);
+      return internal::toDeltaMinutes(mZoneEra->deltaCode);
     }
 
     const char* format() const { return mZoneEra->format; }
