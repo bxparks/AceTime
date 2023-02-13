@@ -72,7 +72,8 @@ TZ database.
         * [Examples with Fold](#ExamplesWithFold)
     * [Zone Processor Cache Invalidation](#ZoneProcessorCacheInvalidation)
 * [ZoneInfo Database](#ZoneInfoDatabase)
-    * [ZoneInfo Entries](#ZoneInfoEntries)
+    * [ZoneInfo Records](#ZoneInfoRecords)
+    * [ZoneDB](#ZoneDB)
         * [Basic zonedb](#BasicZonedb)
         * [Extended zonedbx](#ExtendedZonedbx)
         * [BasicZone and ExtendedZone](#BasicZoneAndExtendedZone)
@@ -200,14 +201,14 @@ data structures, which each timezone in the TZ Database being represented by a
 Two slightly different sets of ZoneInfo entries are generated, under 2 different
 directories, using 2 different C++ namespaces to avoid cross-contamination:
 
-* [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h)
+* [zonedb/zone_infos.h](src/zonedb/zone_infos.h)
     * intended for `BasicZoneProcessor` or `BasicZoneManager`
     * 266 zones and 183 links (as of version 2021a) from the year 2000 until
       10000, about 70% of the full IANA TZ Database
     * contains `kZone*` declarations (e.g. `kZoneAmerica_Los_Angeles`)
     * contains `kZoneId*` identifiers (e.g. `kZoneIdAmerica_Los_Angeles`)
     * slightly smaller and slightly faster
-* [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h)
+* [zonedbx/zone_infos.h](src/zonedbx/zone_infos.h)
     * intended for `ExtendedZoneProcessor` or `ExtendedZoneManager`
     * all 386 zones and 207 links (as of version 2021a) in the IANA TZ Database
       from the year 2000 until 10000
@@ -1116,7 +1117,7 @@ method is not expected to be used often.
 
 This TimeZone is created using two objects:
 * the `basic::ZoneInfo` data objects contained in
-  [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h)
+  [zonedb/zone_infos.h](src/zonedb/zone_infos.h)
 * an external instance of `BasicZoneProcessor` needed for calculating zone
   transitions
 
@@ -1197,7 +1198,7 @@ void someFunction() {
 
 This TimeZone is created using two objects:
 * the `extended::ZoneInfo` data objects contained in
-  [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h)
+  [zonedbx/zone_infos.h](src/zonedbx/zone_infos.h)
 * an external instance of `ExtendedZoneProcessor` needed for calculating zone
   transitions
 
@@ -1711,10 +1712,10 @@ pre-defined default Zone and Link registries which are defined by the following
 header files. These header files are automatically included in the `<AceTime.h>`
 header:
 
-* [zonedb/zone_registry.h](src/ace_time/zonedb/zone_registry.h)
+* [zonedb/zone_registry.h](src/zonedb/zone_registry.h)
     * Zones and Links supported by `BasicZoneManager`
     * `ace_time::zonedb` namespace
-* [zonedbx/zone_registry.h](src/ace_time/zonedbx/zone_registry.h)
+* [zonedbx/zone_registry.h](src/zonedbx/zone_registry.h)
     * Zones and Links supported by `ExtendedZoneManager`
     * `ace_time::zonedbx` namespace
 
@@ -1838,8 +1839,8 @@ the user was allowed to type in the zone name, and you wanted to create a
 Each zone in the `zonedb::` and `zonedbx::` database is given a unique
 and stable zoneId. There are at least 3 ways to extract this zoneId:
 
-* the `kZoneId{zone name}` constants in `src/ace_time/zonedb/zone_infos.h`
-  and `src/ace_time/zonedbx/zone_infos.h`:
+* the `kZoneId{zone name}` constants in `src/zonedb/zone_infos.h`
+  and `src/zonedbx/zone_infos.h`:
     * `const uint32_t kZoneIdAmerica_New_York = 0x1e2a7654; // America/New_York`
     * `const uint32_t kZoneIdAmerica_Los_Angeles = 0xb7f7e8f2; // America/Los_Angeles`
     * ...
@@ -2284,31 +2285,65 @@ manager.resetZoneProcessors();
 <a name="ZoneInfoDatabase"></a>
 ## ZoneInfo Database
 
-<a name="ZoneInfoEntries"></a>
-### ZoneInfo Entries
+<a name="ZoneInfoRecords"></a>
+### ZoneInfo Records
 
-Starting with v0.4, the ZoneInfo entries are stored in in flash memory
-instead of static RAM using the
+The data structures that describe the zoneinfo database are in
+[src/zoneinfo](src/zoneinfo) directory. The exact nature of how the zoneinfo
+files are stored and retrieved is an implementation detail that is subject to
+periodic improvements.
+
+Starting with v0.4, zoneinfo entries are stored in in flash memory instead of
+static RAM using the
 [PROGMEM](https://www.arduino.cc/reference/en/language/variables/utilities/progmem/)
-keyword on microcontrollers which support this feature. On an 8-bit
-microcontroller, the `zonedb/` database consumes about 15 kB of flash
-memory, so it may be possible to create small programs that can dynamically
-access all timezones supported by `BasicZoneProcessor`. The `zonedbx/` database
-consumes about 24 kB of flash memory and the addition code size from various
-classes will exceed the 30-32kB limit of a typical Arduino 8-bit
-microcontroller.
+keyword on microcontrollers which support this feature.
 
-The exact format of the ZoneInfo entries (under the `zonedb/` and `zonedbx/`
-directories) are considered to be an implementation detail and may change in the
-future to support future timezones. Applications should not depend on the
-internal structure of `ZoneInfo` data structures.
+The following classes represent the various objects stored in `PROGMEM`, and are
+defined in the `zoneinfo/ZoneInfo.h` and `zoneinfo/ZonePolicy.h` files:
+
+* `ZoneRule`
+* `ZonePolicy`: a collection of `ZoneRule`
+* `ZoneEra`
+* `ZoneInfo`: a collection of `ZoneEra`
+
+Information stored in `PROGMEM` must be retrieved using special functions (e.g.
+`pgm_read_byte()`, `pgm_read_word()`, etc). A thin layer of indirection is
+provided to hide the implementation details of these access functions. The
+abstraction layer is provided by `zoneinfo/Brokers.h`:
+
+* `ZoneRuleBroker`
+* `ZonePolicyBroker`
+* `ZoneEraBroker`
+* `ZoneInfoBroker`
+
+There are 2 sets of these broker classes, duplicated into 2 different C++
+namespaces:
+
+* `ace_time::basic::ZoneRuleBroker`
+* ...
+* `ace_time::extended::ZoneRuleBroker`
+* ...
+
+The separate namespaces allows compile-time verification that the correct
+`zonedb[x]` database is used with the correct `BasicZoneProcessor` or
+`ExtendedZoneProcessor`.
+
+<a name="ZoneDB"></a>
+### ZoneDB
+
+There are 4 zonedb databases provided by default:
+
+* `zonedb`: for `BasicZoneProcessor`
+* `zonedbx`: for `ExtendedZoneProcessor`
+* `tzonedb`: for unit tests
+* `tzonedbx`: for unit tests
 
 <a name="BasicZonedb"></a>
 #### Basic zonedb
 
 The `zonedb/` entries do not support all the timezones in the IANA TZ Database.
 If a zone is excluded, the reason for the exclusion can be found at the
-bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
+bottom of the [zonedb/zone_infos.h](src/zonedb/zone_infos.h) file.
 The criteria for selecting the Basic `zonedb` entries are embedded
 in the `transformer.py` script and summarized in
 [BasicZoneProcessor.h](src/ace_time/BasicZoneProcessor.h):
@@ -2348,8 +2383,8 @@ entries and 239 Link entries, supported from the year 2000 to 2049 (inclusive).
 
 The IANA TZ Database is updated continually. As of this writing, the latest
 stable version is 2021a. When a new version of the database is released, I
-regenerate the ZoneInfo entries under the `src/ace_time/zonedb/` and
-`src/ace_time/zonedbx/` directories.
+regenerate the ZoneInfo entries under the `src/zonedb/` and
+`src/zonedbx/` directories.
 
 The current TZ Database version can be programmatically accessed using the
 `kTzDatabaseVersion` constant:
