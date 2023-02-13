@@ -21,6 +21,9 @@
     *  Restructure zonedb directories
         * Lift `ace_time/internal/testing/tzonedb[x]` database files 
           to `ace_time/tzonedb[x]`.
+        * Lift `ace_time/zonedb[x]` database files to `ace_time/zonedb[x]`.
+        * These changes are transparent to client apps because the C++
+          namespaces of these files are unchanged.
 * 2.1.1 (2023-02-02, TZDB version 2022g)
     * `ZonedExtra`
         * Add `ZonedExtra::forComponents()` factory method, for consistency with
