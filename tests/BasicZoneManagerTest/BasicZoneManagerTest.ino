@@ -2,8 +2,8 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
-#include <ace_time/testing/tzonedb/zone_policies.h>
-#include <ace_time/testing/tzonedb/zone_infos.h>
+#include <tzonedb/zone_policies.h>
+#include <tzonedb/zone_infos.h>
 
 using namespace ace_time;
 using ace_time::tzonedb::kZoneAmerica_Chicago;

@@ -4,8 +4,8 @@
 #include <AUnit.h>
 #include <AceTime.h>
 #include <ace_time/testing/EpochYearContext.h>
-#include <ace_time/testing/tzonedbx/zone_policies.h>
-#include <ace_time/testing/tzonedbx/zone_infos.h>
+#include <tzonedbx/zone_policies.h>
+#include <tzonedbx/zone_infos.h>
 
 using namespace ace_time;
 

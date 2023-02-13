@@ -3,9 +3,9 @@
 #include <Arduino.h>
 #include <AUnit.h>
 #include <AceTime.h>
-#include <ace_time/testing/tzonedbx/zone_policies.h>
-#include <ace_time/testing/tzonedbx/zone_infos.h>
-#include <ace_time/testing/tzonedbx/zone_registry.h>
+#include <tzonedbx/zone_policies.h>
+#include <tzonedbx/zone_infos.h>
+#include <tzonedbx/zone_registry.h>
 
 using namespace ace_time;
 using ace_time::internal::ZoneContext;

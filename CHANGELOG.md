@@ -18,6 +18,9 @@
           `basic::ZoneEra.deltaCode`, and `basic::ZoneEra.offsetCode` to be
           identical their counterparts in `extended::ZoneXxx`.
         * Merge `BasicBrokers.h` and `ExtendedBrokers.h` into just `Brokers.h`.
+    *  Restructure zonedb directories
+        * Lift `ace_time/internal/testing/tzonedb[x]` database files 
+          to `ace_time/tzonedb[x]`.
 * 2.1.1 (2023-02-02, TZDB version 2022g)
     * `ZonedExtra`
         * Add `ZonedExtra::forComponents()` factory method, for consistency with
