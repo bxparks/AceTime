@@ -5,7 +5,7 @@
 
 #include <stddef.h>  // size_t
 #include <string.h>  // strlen()
-#include "../common/compat.h" // strlen_P()
+#include "compat.h" // strlen_P()
 #include "BrokerCommon.h"
 
 namespace ace_time {

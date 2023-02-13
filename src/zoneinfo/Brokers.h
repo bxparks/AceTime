@@ -37,7 +37,7 @@
 
 #include <stdint.h> // uintptr_t, uint32_t, etc
 #include <AceCommon.h> // KString
-#include "../common/compat.h" // ACE_TIME_USE_PROGMEM
+#include "compat.h" // ACE_TIME_USE_PROGMEM
 #include "BrokerCommon.h"
 #include "ZoneContext.h"
 #include "ZoneInfo.h"

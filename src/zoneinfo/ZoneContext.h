@@ -3,8 +3,8 @@
  * Copyright (c) 2019 Brian T. Park
  */
 
-#ifndef ACE_TIME_COMMON_ZONE_CONTEXT_H
-#define ACE_TIME_COMMON_ZONE_CONTEXT_H
+#ifndef ACE_TIME_ZONE_CONTEXT_H
+#define ACE_TIME_ZONE_CONTEXT_H
 
 namespace ace_time {
 namespace internal {

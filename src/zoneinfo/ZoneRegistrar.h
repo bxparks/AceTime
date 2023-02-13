@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 #include <AceCommon.h> // KString, binarySearchByKey(), isSortedByKey()
-#include "../common/compat.h" // ACE_TIME_USE_PROGMEM
+#include "compat.h" // ACE_TIME_USE_PROGMEM
 #include "ZoneInfo.h"
 #include "Brokers.h"
 

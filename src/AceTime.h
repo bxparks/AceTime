@@ -24,13 +24,13 @@
 #error Platforms using ArduinoCore-API not supported
 #endif
 
-#include "ace_time/common/compat.h"
+#include "zoneinfo/compat.h"
+#include "zoneinfo/ZoneContext.h"
+#include "zoneinfo/ZoneInfo.h"
+#include "zoneinfo/ZonePolicy.h"
+#include "zoneinfo/ZoneRegistrar.h"
 #include "ace_time/common/common.h"
 #include "ace_time/common/DateStrings.h"
-#include "ace_time/internal/ZoneContext.h"
-#include "ace_time/internal/ZoneInfo.h"
-#include "ace_time/internal/ZonePolicy.h"
-#include "ace_time/internal/ZoneRegistrar.h"
 #include "ace_time/internal/EpochConverterJulian.h"
 #include "ace_time/internal/EpochConverterHinnant.h"
 #include "ace_time/Epoch.h"

@@ -38,7 +38,7 @@
 #ifndef ACE_TIME_TZONEDB_ZONE_REGISTRY_H
 #define ACE_TIME_TZONEDB_ZONE_REGISTRY_H
 
-#include <ace_time/internal/ZoneInfo.h>
+#include <zoneinfo/ZoneInfo.h>
 
 namespace ace_time {
 namespace tzonedb {

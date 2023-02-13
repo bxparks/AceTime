@@ -32,7 +32,7 @@
 //
 // DO NOT EDIT
 
-#include <ace_time/common/compat.h>
+#include <zoneinfo/compat.h>
 #include "zone_infos.h"
 #include "zone_registry.h"
 

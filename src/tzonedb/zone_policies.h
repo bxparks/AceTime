@@ -38,7 +38,7 @@
 #ifndef ACE_TIME_TZONEDB_ZONE_POLICIES_H
 #define ACE_TIME_TZONEDB_ZONE_POLICIES_H
 
-#include <ace_time/internal/ZonePolicy.h>
+#include <zoneinfo/ZonePolicy.h>
 
 namespace ace_time {
 namespace tzonedb {

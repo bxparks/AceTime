@@ -3,8 +3,8 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#ifndef ACE_TIME_COMMON_COMPAT_H
-#define ACE_TIME_COMMON_COMPAT_H
+#ifndef ACE_TIME_ZONEINFO_COMPAT_H
+#define ACE_TIME_ZONEINFO_COMPAT_H
 
 /**
  * @file compat.h
@@ -86,4 +86,4 @@
 
 #endif
 
-#endif // ACE_TIME_COMMON_COMPAT_H
+#endif // ACE_TIME_ZONEINFO_COMPAT_H

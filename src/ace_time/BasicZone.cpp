@@ -5,7 +5,7 @@
 
 #include <Arduino.h>
 #include <AceCommon.h> // KString
-#include "internal/BrokerCommon.h" // findShortName()
+#include "../zoneinfo/BrokerCommon.h" // findShortName()
 #include "BasicZone.h"
 
 using ace_common::KString;
