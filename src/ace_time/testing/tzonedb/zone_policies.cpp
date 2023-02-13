@@ -64,7 +64,7 @@ static const basic::ZoneRule kZoneRulesAus[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     16 /*atTimeModifier (kSuffixS + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     2 /*letterIndex ("S")*/,
   },
 
@@ -92,7 +92,7 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
     30 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     2 /*letterIndex ("S")*/,
   },
   // Rule    Canada    1974    1986    -    Apr    lastSun    2:00    1:00    D
@@ -104,7 +104,7 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     1 /*letterIndex ("D")*/,
   },
   // Rule    Canada    1974    2006    -    Oct    lastSun    2:00    0    S
@@ -116,7 +116,7 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     2 /*letterIndex ("S")*/,
   },
   // Rule    Canada    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
@@ -128,7 +128,7 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     1 /*letterIndex ("D")*/,
   },
   // Rule    Canada    2007    max    -    Mar    Sun>=8    2:00    1:00    D
@@ -140,7 +140,7 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     1 /*letterIndex ("D")*/,
   },
   // Rule    Canada    2007    max    -    Nov    Sun>=1    2:00    0    S
@@ -152,7 +152,7 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     2 /*letterIndex ("S")*/,
   },
 
@@ -180,7 +180,7 @@ static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     0 /*letterIndex ("")*/,
   },
   // Rule    Ecuador    1992    only    -    Nov    28    0:00    1:00    -
@@ -192,7 +192,7 @@ static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
     28 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     0 /*letterIndex ("")*/,
   },
   // Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
@@ -204,7 +204,7 @@ static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
     5 /*onDayOfMonth*/,
     0 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     0 /*letterIndex ("")*/,
   },
 
@@ -232,7 +232,7 @@ static const basic::ZoneRule kZoneRulesEdm[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     2 /*letterIndex ("S")*/,
   },
   // Rule    Edm    1972    1986    -    Apr    lastSun    2:00    1:00    D
@@ -244,7 +244,7 @@ static const basic::ZoneRule kZoneRulesEdm[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     1 /*letterIndex ("D")*/,
   },
   // Rule    Edm    1972    2006    -    Oct    lastSun    2:00    0    S
@@ -256,7 +256,7 @@ static const basic::ZoneRule kZoneRulesEdm[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     2 /*letterIndex ("S")*/,
   },
 
@@ -284,7 +284,7 @@ static const basic::ZoneRule kZoneRulesSA[] ACE_TIME_PROGMEM = {
     15 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     0 /*letterIndex ("")*/,
   },
 
@@ -312,7 +312,7 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     2 /*letterIndex ("S")*/,
   },
   // Rule    US    1975    only    -    Feb    lastSun    2:00    1:00    D
@@ -324,7 +324,7 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     1 /*letterIndex ("D")*/,
   },
   // Rule    US    1976    1986    -    Apr    lastSun    2:00    1:00    D
@@ -336,7 +336,7 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     1 /*letterIndex ("D")*/,
   },
   // Rule    US    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
@@ -348,7 +348,7 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     1 /*letterIndex ("D")*/,
   },
   // Rule    US    2007    max    -    Mar    Sun>=8    2:00    1:00    D
@@ -360,7 +360,7 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
     8 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     1 /*letterIndex ("D")*/,
   },
   // Rule    US    2007    max    -    Nov    Sun>=1    2:00    0    S
@@ -372,7 +372,7 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     2 /*letterIndex ("S")*/,
   },
 
@@ -400,7 +400,7 @@ static const basic::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     1 /*letterIndex ("D")*/,
   },
   // Rule    Vanc    1947    1961    -    Sep    lastSun    2:00    0    S
@@ -412,7 +412,7 @@ static const basic::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     2 /*letterIndex ("S")*/,
   },
   // Rule    Vanc    1962    2006    -    Oct    lastSun    2:00    0    S
@@ -424,7 +424,7 @@ static const basic::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     2 /*letterIndex ("S")*/,
   },
 
@@ -452,7 +452,7 @@ static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
     22 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     2 /*letterIndex ("S")*/,
   },
   // Rule    Winn    1966    1986    -    Apr    lastSun    2:00s    1:00    D
@@ -464,7 +464,7 @@ static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     16 /*atTimeModifier (kSuffixS + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     1 /*letterIndex ("D")*/,
   },
   // Rule    Winn    1966    2005    -    Oct    lastSun    2:00s    0    S
@@ -476,7 +476,7 @@ static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
     0 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     16 /*atTimeModifier (kSuffixS + minute=0)*/,
-    0 /*deltaCode ((deltaMinutes=0)/15)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     2 /*letterIndex ("S")*/,
   },
   // Rule    Winn    1987    2005    -    Apr    Sun>=1    2:00s    1:00    D
@@ -488,7 +488,7 @@ static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
     1 /*onDayOfMonth*/,
     8 /*atTimeCode*/,
     16 /*atTimeModifier (kSuffixS + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=60)/15)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     1 /*letterIndex ("D")*/,
   },
 

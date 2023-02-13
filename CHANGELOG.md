@@ -13,6 +13,11 @@
         * The small increase in flash is worth it because this greatly
           simplifies the complicated code surrounding LETTER that was difficult
           to understand and maintain.
+    * Unify Basic and Extended zoneinfo encoding.
+        * Change encoding of `basic::ZoneRule.deltaCode`,
+          `basic::ZoneEra.deltaCode`, and `basic::ZoneEra.offsetCode` to be
+          identical their counterparts in `extended::ZoneXxx`.
+        * Merge `BasicBrokers.h` and `ExtendedBrokers.h` into just `Brokers.h`.
 * 2.1.1 (2023-02-02, TZDB version 2022g)
     * `ZonedExtra`
         * Add `ZonedExtra::forComponents()` factory method, for consistency with

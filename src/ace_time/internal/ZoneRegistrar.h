@@ -10,8 +10,7 @@
 #include <AceCommon.h> // KString, binarySearchByKey(), isSortedByKey()
 #include "../common/compat.h" // ACE_TIME_USE_PROGMEM
 #include "ZoneInfo.h"
-#include "BasicBrokers.h"
-#include "ExtendedBrokers.h"
+#include "Brokers.h"
 
 // AutoBenchmark.ino
 void runIndexForZoneIdBinary();
