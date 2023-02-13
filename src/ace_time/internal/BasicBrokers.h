@@ -79,7 +79,7 @@ class ZoneRuleBroker {
       return pgm_read_byte(&mZoneRule->inMonth);
     }
 
-    int8_t onDayOfWeek() const {
+    uint8_t onDayOfWeek() const {
       return pgm_read_byte(&mZoneRule->onDayOfWeek);
     }
 
@@ -98,7 +98,7 @@ class ZoneRuleBroker {
     }
 
     int16_t deltaMinutes() const {
-      return 15 * (int8_t) pgm_read_byte(&mZoneRule->deltaCode);
+      return internal::toDeltaMinutes(pgm_read_byte(&mZoneRule->deltaCode));
     }
 
     const char* letter() const {
@@ -127,7 +127,9 @@ class ZoneRuleBroker {
       return internal::toSuffix(mZoneRule->atTimeModifier);
     }
 
-    int16_t deltaMinutes() const { return 15 * mZoneRule->deltaCode; }
+    int16_t deltaMinutes() const {
+      return internal::toDeltaMinutes(mZoneRule->deltaCode);
+    }
 
     const char* letter() const {
       uint8_t index = mZoneRule->letterIndex;
@@ -145,8 +147,8 @@ class ZoneRuleBroker {
 class ZonePolicyBroker {
   public:
     explicit ZonePolicyBroker(
-        const internal::ZoneContext* zoneContext = nullptr,
-        const ZonePolicy* zonePolicy = nullptr)
+        const internal::ZoneContext* zoneContext,
+        const ZonePolicy* zonePolicy)
         : mZoneContext(zoneContext)
         , mZonePolicy(zonePolicy)
     {}
@@ -219,11 +221,13 @@ class ZoneEraBroker {
     }
 
     int16_t offsetMinutes() const {
-      return 15 * (int8_t) pgm_read_byte(&mZoneEra->offsetCode);
+      return internal::toOffsetMinutes(
+        pgm_read_byte(&mZoneEra->offsetCode),
+        pgm_read_byte(&mZoneEra->deltaCode));
     }
 
     int16_t deltaMinutes() const {
-      return 15 * (int8_t) pgm_read_byte(&mZoneEra->deltaCode);
+      return internal::toDeltaMinutes(pgm_read_byte(&mZoneEra->deltaCode));
     }
 
     const char* format() const {
@@ -254,13 +258,18 @@ class ZoneEraBroker {
 
   #else
 
-    int16_t offsetMinutes() const { return 15 * mZoneEra->offsetCode; }
-
     const ZonePolicyBroker zonePolicy() const {
       return ZonePolicyBroker(mZoneContext, mZoneEra->zonePolicy);
     }
 
-    int16_t deltaMinutes() const { return 15 * mZoneEra->deltaCode; }
+    int16_t offsetMinutes() const {
+      return internal::toOffsetMinutes(
+          mZoneEra->offsetCode, mZoneEra->deltaCode);
+    }
+
+    int16_t deltaMinutes() const {
+      return internal::toDeltaMinutes(mZoneEra->deltaCode);
+    }
 
     const char* format() const { return mZoneEra->format; }
 
@@ -340,7 +349,7 @@ class ZoneInfoBroker {
       return mZoneInfo->targetInfo != nullptr;
     }
 
-    const ZoneInfoBroker targetInfo() const {
+    ZoneInfoBroker targetInfo() const {
       return ZoneInfoBroker(
           (const ZoneInfo*) pgm_read_ptr(&mZoneInfo->targetInfo));
     }
@@ -361,7 +370,7 @@ class ZoneInfoBroker {
       return ZoneEraBroker(zoneContext(), &mZoneInfo->eras[i]);
     }
 
-    const ZoneInfoBroker targetZoneInfo() const {
+    const ZoneInfoBroker targetInfo() const {
       return ZoneInfoBroker(mZoneInfo->targetInfo);
     }
 

@@ -35,18 +35,17 @@
  * implementations diverged, so I had to manually duplicate the classes.
  */
 
-#include <stdint.h> // uintptr_t
-#include "../common/compat.h"
+#include <stdint.h> // uintptr_t, uint32_t, etc
+#include "../common/compat.h" // ACE_TIME_USE_PROGMEM
 #include "BrokerCommon.h"
 #include "ZoneContext.h"
 #include "ZoneInfo.h"
 
 class __FlashStringHelper;
+class Print;
 
 namespace ace_time {
 namespace extended {
-
-//-----------------------------------------------------------------------------
 
 /** Data broker for accessing ZoneRule. */
 class ZoneRuleBroker {
@@ -115,7 +114,7 @@ class ZoneRuleBroker {
 
     uint8_t inMonth() const { return mZoneRule->inMonth; }
 
-    int8_t onDayOfWeek() const { return mZoneRule->onDayOfWeek; }
+    uint8_t onDayOfWeek() const { return mZoneRule->onDayOfWeek; }
 
     int8_t onDayOfMonth() const { return mZoneRule->onDayOfMonth; }
 
@@ -132,7 +131,7 @@ class ZoneRuleBroker {
       return internal::toDeltaMinutes(mZoneRule->deltaCode);
     }
 
-    uint8_t letter() const {
+    const char* letter() const {
       uint8_t index = mZoneRule->letterIndex;
       return mZoneContext->letters[index];
     }
@@ -179,7 +178,7 @@ class ZonePolicyBroker {
     uint8_t numRules() const { return mZonePolicy->numRules; }
 
     const ZoneRuleBroker rule(uint8_t i) const {
-      return ZoneRuleBroker(&mZonePolicy->rules[i]);
+      return ZoneRuleBroker(mZoneContext, &mZonePolicy->rules[i]);
     }
 
   #endif
@@ -209,8 +208,6 @@ class ZoneEraBroker {
 
     bool isNull() const { return mZoneEra == nullptr; }
 
-    // Does not seem to be used, but defined here for symmetry with
-    // basic::ZoneEraBroker::equals().
     bool equals(const ZoneEraBroker& other) const {
       return mZoneEra == other.mZoneEra;
     }
@@ -339,7 +336,9 @@ class ZoneInfoBroker {
       return pgm_read_dword(&mZoneInfo->zoneId);
     }
 
-    uint8_t numEras() const { return pgm_read_byte(&mZoneInfo->numEras); }
+    uint8_t numEras() const {
+      return pgm_read_byte(&mZoneInfo->numEras);
+    }
 
     const ZoneEraBroker era(uint8_t i) const {
       auto eras = (const ZoneEra*) pgm_read_ptr(&mZoneInfo->eras);

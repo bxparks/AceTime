@@ -76,13 +76,15 @@ test(BasicZoneProcessorTest, findZoneEra) {
 
 // Pacific/Galapagos transitions from simple Rule to named Rule in 1986:
 test(BasicZoneProcessorTest, findLatestPriorRule) {
-  ZonePolicyBroker policy;
+  // Test empty ZoneEra.Rule
   int16_t year = 1986;
+  ZonePolicyBroker policy(&kZoneContext, nullptr);;
   ZoneRuleBroker rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
   assertTrue(rule.isNull());
 
-  policy = ZonePolicyBroker(&kZoneContext, &kZonePolicyEcuador);
+  // After 1986, it has rules.
   year = 1992;
+  policy = ZonePolicyBroker(&kZoneContext, &kZonePolicyEcuador);;
   rule = BasicZoneProcessor::findLatestPriorRule(policy, year);
   assertEqual(0, rule.fromYear());
 
