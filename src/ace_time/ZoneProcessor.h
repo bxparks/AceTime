@@ -6,8 +6,7 @@
 #ifndef ACE_TIME_ZONE_PROCESSOR_H
 #define ACE_TIME_ZONE_PROCESSOR_H
 
-#include "common/common.h"
-#include "internal/common.h" // kAbbrevSize
+#include "common/common.h" // kAbbrevSize
 #include "TimeOffset.h"
 #include "OffsetDateTime.h"
 

@@ -12,7 +12,7 @@
 #include "../zoneinfo/ZonePolicy.h"
 #include "../zoneinfo/ZoneInfo.h"
 #include "../zoneinfo/Brokers.h"
-#include "internal/common.h" // kAbbrevSize
+#include "common/common.h" // kAbbrevSize
 #include "common/logging.h"
 #include "TimeOffset.h"
 #include "LocalDate.h"
