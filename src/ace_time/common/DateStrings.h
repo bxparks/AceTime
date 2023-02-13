@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 #include <string.h>
-#include "compat.h"
+#include "../../zoneinfo/compat.h" // strncpy_P()
 
 namespace ace_time {
 

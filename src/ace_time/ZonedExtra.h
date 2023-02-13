@@ -8,8 +8,7 @@
 
 #include <string.h> // memcpy()
 #include <stdint.h>
-#include "common/common.h" // acetime_t
-#include "internal/common.h" // kAbbrevSize
+#include "common/common.h" // acetime_t, kAbbrevSize
 #include "TimeOffset.h"
 
 namespace ace_time {

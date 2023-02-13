@@ -137,13 +137,11 @@ The source files are organized as follows:
 * `src/AceTime.h` - main header file
 * `src/ace_time/` - date and time classes (`ace_time::` namespace)
     * `src/ace_time/common/` - shared classes and utilities
-    * `src/ace_time/internal/` - internal classes (`ace_time::basic`,
-      `ace_time::extended` namespaces)
     * `src/ace_time/testing/` - files used in unit tests (`ace_time::testing`
       namespace)
-    * `src/ace_time/zonedb/` - files generated from TZ Database for
+    * `src/zonedb/` - files generated from TZ Database for
       `BasicZoneProcessor` (`ace_time::zonedb` namespace)
-    * `src/ace_time/zonedbx/` - files generated from TZ Database for
+    * `src/zonedbx/` - files generated from TZ Database for
       `ExtendedZoneProcessor` (`ace_time::zonedbx` namespace)
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
 * `examples/` - example programs and benchmarks

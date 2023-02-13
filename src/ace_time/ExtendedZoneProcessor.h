@@ -9,11 +9,11 @@
 #include <stdint.h> // uintptr_t
 #include <string.h> // memcpy(), strncpy()
 #include <AceCommon.h> // copyReplaceString()
-#include "common/compat.h"
-#include "internal/common.h" // kAbbrevSize
-#include "internal/ZonePolicy.h"
-#include "internal/ZoneInfo.h"
-#include "internal/Brokers.h"
+#include "../zoneinfo/compat.h"
+#include "../zoneinfo/ZonePolicy.h"
+#include "../zoneinfo/ZoneInfo.h"
+#include "../zoneinfo/Brokers.h"
+#include "common/common.h" // kAbbrevSize
 #include "common/logging.h"
 #include "TimeOffset.h"
 #include "LocalDate.h"
