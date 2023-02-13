@@ -21,7 +21,7 @@ namespace extended {
  * The result of comparing 2 DateTuples, or compare the transition time of a
  * Transition to the time interval of its corresponding MatchingEra.
  */
-enum class MatchStatus : uint8_t {
+enum class CompareStatus : uint8_t {
   kFarPast, // 0
   kPrior, // 1
   kExactMatch, // 2
@@ -144,7 +144,7 @@ inline acetime_t subtractDateTuple(const DateTuple& a, const DateTuple& b) {
   *  * kWithinMatch if 't' is within [start, until) with a one month slop,
   *  * kExactMatch is never returned.
   */
-inline MatchStatus compareDateTupleFuzzy(
+inline CompareStatus compareDateTupleFuzzy(
     const DateTuple& t,
     const DateTuple& start,
     const DateTuple& until) {
@@ -152,10 +152,10 @@ inline MatchStatus compareDateTupleFuzzy(
   // the range of an int16_t.
   int32_t tMonths = t.year * (int32_t) 12 + t.month;
   int32_t startMonths = start.year * (int32_t) 12 + start.month;
-  if (tMonths < startMonths - 1) return MatchStatus::kPrior;
+  if (tMonths < startMonths - 1) return CompareStatus::kPrior;
   int32_t untilMonths = until.year * 12 + until.month;
-  if (untilMonths + 1 < tMonths) return MatchStatus::kFarFuture;
-  return MatchStatus::kWithinMatch;
+  if (untilMonths + 1 < tMonths) return CompareStatus::kFarFuture;
+  return CompareStatus::kWithinMatch;
 }
 
 } // namespace extended

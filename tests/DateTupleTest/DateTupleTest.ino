@@ -126,46 +126,46 @@ test(DateTuple, substractDateTuple_no_overflow) {
 }
 
 test(DateTuple, compareDateTupleFuzzy) {
-  using ace_time::extended::MatchStatus;
+  using ace_time::extended::CompareStatus;
   using ace_time::extended::DateTuple;
 
   assertEqual(
-    (uint8_t) MatchStatus::kPrior,
+    (uint8_t) CompareStatus::kPrior,
     (uint8_t) compareDateTupleFuzzy(
       DateTuple{2000, 10, 1, 1, 0},
       DateTuple{2000, 12, 1, 1, 0},
       DateTuple{2002, 2, 1, 1, 0}));
 
   assertEqual(
-    (uint8_t) MatchStatus::kWithinMatch,
+    (uint8_t) CompareStatus::kWithinMatch,
     (uint8_t) compareDateTupleFuzzy(
       DateTuple{2000, 11, 1, 1, 0},
       DateTuple{2000, 12, 1, 1, 0},
       DateTuple{2002, 2, 1, 1, 0}));
 
   assertEqual(
-    (uint8_t) MatchStatus::kWithinMatch,
+    (uint8_t) CompareStatus::kWithinMatch,
     (uint8_t) compareDateTupleFuzzy(
       DateTuple{2000, 12, 1, 1, 0},
       DateTuple{2000, 12, 1, 1, 0},
       DateTuple{2002, 2, 1, 1, 0}));
 
   assertEqual(
-    (uint8_t) MatchStatus::kWithinMatch,
+    (uint8_t) CompareStatus::kWithinMatch,
     (uint8_t) compareDateTupleFuzzy(
       DateTuple{2002, 2, 1, 1, 0},
       DateTuple{2000, 12, 1, 1, 0},
       DateTuple{2002, 2, 1, 1, 0}));
 
   assertEqual(
-    (uint8_t) MatchStatus::kWithinMatch,
+    (uint8_t) CompareStatus::kWithinMatch,
     (uint8_t) compareDateTupleFuzzy(
       DateTuple{2002, 3, 1, 1, 0},
       DateTuple{2000, 12, 1, 1, 0},
       DateTuple{2002, 2, 1, 1, 0}));
 
   assertEqual(
-    (uint8_t) MatchStatus::kFarFuture,
+    (uint8_t) CompareStatus::kFarFuture,
     (uint8_t) compareDateTupleFuzzy(
       DateTuple{2002, 4, 1, 1, 0},
       DateTuple{2000, 12, 1, 1, 0},
@@ -174,13 +174,13 @@ test(DateTuple, compareDateTupleFuzzy) {
   // Verify dates whose delta months is greater than 32767. In
   // other words, delta years is greater than 2730.
   assertEqual(
-    (uint8_t) MatchStatus::kFarFuture,
+    (uint8_t) CompareStatus::kFarFuture,
     (uint8_t) compareDateTupleFuzzy(
       DateTuple{5000, 4, 1, 1, 0},
       DateTuple{2000, 12, 1, 1, 0},
       DateTuple{2002, 2, 1, 1, 0}));
   assertEqual(
-    (uint8_t) MatchStatus::kPrior,
+    (uint8_t) CompareStatus::kPrior,
     (uint8_t) compareDateTupleFuzzy(
       DateTuple{1000, 4, 1, 1, 0},
       DateTuple{4000, 12, 1, 1, 0},

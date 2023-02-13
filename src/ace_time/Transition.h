@@ -31,10 +31,10 @@ class Print;
 namespace ace_time {
 namespace extended {
 
-inline bool isMatchStatusActive(MatchStatus status) {
-  return status == MatchStatus::kExactMatch
-      || status == MatchStatus::kWithinMatch
-      || status == MatchStatus::kPrior;
+inline bool isCompareStatusActive(CompareStatus status) {
+  return status == CompareStatus::kExactMatch
+      || status == CompareStatus::kWithinMatch
+      || status == CompareStatus::kPrior;
 }
 
 /**
@@ -93,7 +93,7 @@ struct MatchingEraTemplate {
  *  given by match->offsetMinutes. The additional DST delta is given by
  *  rule->deltaMinutes.
  *
- * Some of the instance variables (e.g. 'isValidPrior', 'matchStatus',
+ * Some of the instance variables (e.g. 'isValidPrior', 'compareStatus',
  * 'transitionTime', 'transitionTimeS', 'transitionTimeU', 'letter()' and
  * 'format()') are transient parameters which are in the implementation of the
  * TransitionStorage::init() method.
@@ -203,10 +203,10 @@ struct TransitionTemplate {
     bool isValidPrior;
 
     /**
-     * During processTransitionMatchStatus(), this flag indicates how the
+     * During processTransitionCompareStatus(), this flag indicates how the
      * transition falls within the time interval of the MatchingEra.
      */
-    MatchStatus matchStatus;
+    CompareStatus compareStatus;
   };
 
   const char* format() const {
@@ -221,7 +221,7 @@ struct TransitionTemplate {
     } else {
       logging::printf("start=%ld", startEpochSeconds);
     }
-    logging::printf("; status=%d", matchStatus);
+    logging::printf("; status=%d", compareStatus);
     logging::printf("; UTC");
     logHourMinute(offsetMinutes);
     logHourMinute(deltaMinutes);
@@ -534,7 +534,7 @@ class TransitionStorageTemplate {
       uint8_t iActive = mIndexPrior;
       uint8_t iCandidate = mIndexCandidates;
       for (; iCandidate < mIndexFree; iCandidate++) {
-        if (isMatchStatusActive(mTransitions[iCandidate]->matchStatus)) {
+        if (isCompareStatusActive(mTransitions[iCandidate]->compareStatus)) {
           if (iActive != iCandidate) {
             // Must use swap(), because we are moving pointers instead of the
             // actual Transition objects.
