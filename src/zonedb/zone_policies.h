@@ -192,10 +192,10 @@ extern const basic::ZonePolicy kZonePolicyZion;
 
 // Armenia {Added anchor rule at year 0}
 // Dhaka {Added anchor rule at year 0}
-// Eire {SAVE (delta_offset) '-1:00' different from 1:00}
-// LH {SAVE (delta_offset) '0:30' different from 1:00}
+// Eire {SAVE '-1:00' different from 1:00}
+// LH {SAVE '0:30' different from 1:00}
 // Moncton {AT '0:01' not on 15-minute boundary}
-// Namibia {SAVE (delta_offset) '-1:00' different from 1:00}
+// Namibia {SAVE '-1:00' different from 1:00}
 // Pakistan {Added anchor rule at year 0}
 // Tonga {Added anchor rule at year 0}
 

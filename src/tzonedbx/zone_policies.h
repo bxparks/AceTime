@@ -193,12 +193,12 @@ extern const extended::ZonePolicy kZonePolicyWinn;
 // Notable zone policies: 3
 //---------------------------------------------------------------------------
 
-// Morocco {SAVE (delta_offset) '-1:00' different from 1:00}
+// Morocco {SAVE '-1:00' different from 1:00}
 // Namibia {
 //   Added anchor rule at year 0,
 //   LETTER 'CAT' not single character,
 //   LETTER 'WAT' not single character,
-//   SAVE (delta_offset) '-1:00' different from 1:00,
+//   SAVE '-1:00' different from 1:00,
 // }
 // WS {Added anchor rule at year 0}
 

@@ -193,14 +193,14 @@ extern const extended::ZonePolicy kZonePolicyZion;
 // Armenia {Added anchor rule at year 0}
 // Belize {LETTER 'CST' not single character}
 // Dhaka {Added anchor rule at year 0}
-// Eire {SAVE (delta_offset) '-1:00' different from 1:00}
-// LH {SAVE (delta_offset) '0:30' different from 1:00}
+// Eire {SAVE '-1:00' different from 1:00}
+// LH {SAVE '0:30' different from 1:00}
 // Moncton {AT '0:01' not on 15-minute boundary}
-// Morocco {SAVE (delta_offset) '-1:00' different from 1:00}
+// Morocco {SAVE '-1:00' different from 1:00}
 // Namibia {
 //   LETTER 'CAT' not single character,
 //   LETTER 'WAT' not single character,
-//   SAVE (delta_offset) '-1:00' different from 1:00,
+//   SAVE '-1:00' different from 1:00,
 // }
 // Pakistan {Added anchor rule at year 0}
 // Palestine {
@@ -211,14 +211,14 @@ extern const extended::ZonePolicy kZonePolicyZion;
 // StJohns {
 //   AT '0:01' not on 15-minute boundary,
 //   LETTER 'DD' not single character,
-//   SAVE (delta_offset) '2:00' different from 1:00,
+//   SAVE '2:00' different from 1:00,
 // }
 // Tonga {Added anchor rule at year 0}
 // Troll {
 //   Added anchor rule at year 0,
 //   LETTER '+00' not single character,
 //   LETTER '+02' not single character,
-//   SAVE (delta_offset) '2:00' different from 1:00,
+//   SAVE '2:00' different from 1:00,
 // }
 // WS {Added anchor rule at year 0}
 

@@ -477,14 +477,14 @@ const uint8_t kZoneBufSizePacific_Apia = 5;  // Pacific/Apia in 2011
 //---------------------------------------------------------------------------
 
 // Africa/Casablanca {
-//   Morocco {SAVE (delta_offset) '-1:00' different from 1:00}
+//   Morocco {SAVE '-1:00' different from 1:00}
 // }
 // Africa/Windhoek {
 //   Namibia {
 //     Added anchor rule at year 0,
 //     LETTER 'CAT' not single character,
 //     LETTER 'WAT' not single character,
-//     SAVE (delta_offset) '-1:00' different from 1:00,
+//     SAVE '-1:00' different from 1:00,
 //   }
 // }
 // Pacific/Apia {
