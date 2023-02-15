@@ -27,8 +27,8 @@ namespace internal {
  * deltaMinutes = deltaCode * 15m - 1h
  * @endcode
  */
-inline int16_t toDeltaMinutes(int8_t deltaCode) {
-  return ((int8_t)((uint8_t)deltaCode & 0x0f) - 4) * 15;
+inline int16_t toDeltaMinutes(uint8_t deltaCode) {
+  return ((int16_t)(deltaCode & 0x0f) - 4) * 15;
 }
 
 /**
@@ -37,7 +37,7 @@ inline int16_t toDeltaMinutes(int8_t deltaCode) {
  * towards -infinity in 15-minute multiples. The upper 4-bits of `deltaCode`
  * holds the (unsigned) remainder in one-minute increments.
  */
-inline int16_t toOffsetMinutes(int8_t offsetCode, int8_t deltaCode) {
+inline int16_t toOffsetMinutes(int8_t offsetCode, uint8_t deltaCode) {
   return (offsetCode * 15) + (((uint8_t)deltaCode & 0xf0) >> 4);
 }
 

@@ -13,8 +13,7 @@
  *    1) zonePolicy == nullptr. Then deltaCode determines the additional offset
  *    from offsetCode. A value of '-' in the TZ Database file is stored as 0.
  *    2) zonePolicy != nullptr. Then the deltaCode offset is given by the
- *    ZoneRule.deltaCode of the ZoneRule which matches the time instant of
- *    interest.
+ *    ZoneRule.deltaCode which matches the time instant of interest.
  */
 struct ZoneEra {
   /**
@@ -62,24 +61,23 @@ struct ZoneEra {
   int8_t const offsetCode;
 
   /**
-   * If zonePolicy is nullptr, then this indicates the DST offset in 15 minute
-   * increments as defined by the RULES column in 'hh:mm' format. If the
-   * 'RULES' column is '-', then the deltaCode is 0.
+   * This is a composite of two 4-bit fields:
    *
-   * If the '--scope extended' flag is given to tzcompiler.py, the 'deltaCode`
-   * should be interpreted as a uint8_t field, composed of two 4-bit fields:
+   * * The upper 4-bits is an unsigned integer from 0 to 14 that represents
+   *   the one-minute remainder from the offsetCode. This allows us to capture
+   *   STDOFF offsets in 1-minute resolution.
+   * * The lower 4-bits is an unsigned integer that holds (originalDeltaCode
+   *   + 4). The originalDeltaCode is defined if zonePolicy is nullptr, which
+   *   indicates that the DST offset is defined by the RULES column in 'hh:mm'
+   *   format. If the 'RULES' column is '-', then the originalDeltaCode is 0.
+   *   With 4-bits of information, and the 1h shift, this allows us to
+   *   represent DST offsets from -1:00 to +2:45, in 15-minute increments.
    *
-   *    * The upper 4-bits is an unsigned integer from 0 to 14 that represents
-   *    the one-minute remainder from the offsetCode. This allows us to capture
-   *    STDOFF offsets in 1-minute resolution.
-   *    * The lower 4-bits is an unsigned integer that holds (originalDeltaCode
-   *    + 4). This allows us to represent DST offsets from -1:00 to +2:45, in
-   *    15-minute increments.
-   *
-   * The extended::ZoneEraBroker::deltaMinutes() and offsetMinutes() know how
-   * to convert offsetCode and deltaCode into the appropriate minutes.
+   * The ZoneEraBroker::deltaMinutes() and ZoneEraBroker::offsetMinutes()
+   * methods know how to convert offsetCode and deltaCode into the appropriate
+   * minutes.
    */
-  int8_t const deltaCode;
+  uint8_t const deltaCode;
 
   /**
    * Era is valid until currentTime < untilYear. Comes from the UNTIL column.
