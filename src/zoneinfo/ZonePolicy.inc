@@ -85,24 +85,20 @@ struct ZoneRule {
 
   /**
    * Determined by the LETTER column. Determines the substitution into the '%s'
-   * field (implemented here by just a '%') of the ZoneInfo::format field.
-   * Possible values are 'S', 'D', '-', or a number < 32 (i.e. a non-printable
-   * character). If the value is < 32, then this number is an index offset into
-   * the ZonePolicy.letters[] array which contains a (const char*) of the
-   * actual multi-character letter.
-   *
-   * BasicZoneProcessor supports only a single LETTER value (i.e. >= 32), which
-   * also means that ZonePolicy.numLetters will always be 0 for a
-   * BasicZoneProcessor. ExtendedZoenProcessor supports a LETTER value of < 32,
-   * indicating a multi-character string.
-   *
-   * As of TZ DB version 2018i, there are 4 ZonePolicies which have ZoneRules
-   * with a LETTER field longer than 1 character:
+   * field (implemented here by just a '%') of the ZoneInfo::format field. This
+   * is an index offset into the global kLetters array. Most LETTER string is a
+   * single character, e.g. "D", "S", or "". But a small number have LETTER
+   * fields which are longer than one character. As of TZDB version 2018i,
+   * these are:
    *
    *  - Belize ('CST'; used by America/Belize)
    *  - Namibia ('WAT', 'CAT'; used by Africa/Windhoek)
    *  - StJohns ('DD'; used by America/St_Johns and America/Goose_Bay)
    *  - Troll ('+00' '+02'; used by Antarctica/Troll)
+   *
+   * TODO: Current BasicZoneProcessor supports only single-character LETTER.
+   * But I think it can be easily extended to support multi-character LETTER
+   * fields.
    */
   uint8_t const letterIndex;
 };
@@ -112,10 +108,6 @@ struct ZoneRule {
  * administrative region. A given time zone (ZoneInfo) can follow a different
  * ZonePolicy at different times. Conversely, multiple time zones (ZoneInfo)
  * can choose to follow the same ZonePolicy at different times.
- *
- * If numLetters is non-zero, then 'letters' will be a pointer to an array of
- * (const char*) pointers. Any ZoneRule.letter < 32 (i.e. non-printable) will
- * be an offset into this array of pointers.
  */
 struct ZonePolicy {
   const ZoneRule* const rules;
