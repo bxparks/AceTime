@@ -33,6 +33,32 @@
 // Original Years: [1844,2087]
 // Generated Years: [1943,2087]
 //
+// Memory (8-bits):
+//   Rules: 2365
+//   Policies: 36
+//   Eras: 360
+//   Infos: 195
+//   Links: 13
+//   Registry: 32
+//   Formats: 92
+//   Letters: 23
+//   Fragments: 0
+//   Name: 260 (original: 260)
+//   TOTAL: 3376
+//
+// Memory (32-bits):
+//   Rules: 2580
+//   Policies: 96
+//   Eras: 480
+//   Infos: 360
+//   Links: 24
+//   Registry: 64
+//   Formats: 92
+//   Letters: 33
+//   Fragments: 0
+//   Name: 260 (original: 260)
+//   TOTAL: 3989
+//
 // DO NOT EDIT
 
 #ifndef ACE_TIME_TZONEDBX_ZONE_INFOS_H

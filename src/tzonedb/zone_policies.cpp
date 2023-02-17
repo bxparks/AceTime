@@ -33,11 +33,34 @@
 // Original Years: [1844,2087]
 // Generated Years: [1943,2007]
 //
+// Memory (8-bits):
+//   Rules: 297
+//   Policies: 24
+//   Eras: 180
+//   Infos: 143
+//   Links: 13
+//   Registry: 24
+//   Formats: 38
+//   Letters: 11
+//   Fragments: 0
+//   Name: 202 (original: 202)
+//   TOTAL: 932
+//
+// Memory (32-bits):
+//   Rules: 324
+//   Policies: 64
+//   Eras: 240
+//   Infos: 264
+//   Links: 24
+//   Registry: 48
+//   Formats: 38
+//   Letters: 17
+//   Fragments: 0
+//   Name: 202 (original: 202)
+//   TOTAL: 1221
+//
 // Policies: 8
 // Rules: 27
-// Letter Size (bytes): 5
-// Total Memory 8-bit (bytes): 345
-// Total Memory 32-bit (bytes): 420
 //
 // DO NOT EDIT
 
@@ -50,8 +73,6 @@ namespace tzonedb {
 //---------------------------------------------------------------------------
 // Policy name: Aus
 // Rules: 1
-// Memory (8-bit): 17
-// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesAus[] ACE_TIME_PROGMEM = {
@@ -78,8 +99,6 @@ const basic::ZonePolicy kZonePolicyAus ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: Canada
 // Rules: 6
-// Memory (8-bit): 72
-// Memory (32-bit): 84
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
@@ -166,8 +185,6 @@ const basic::ZonePolicy kZonePolicyCanada ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: Ecuador
 // Rules: 3
-// Memory (8-bit): 39
-// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
@@ -218,8 +235,6 @@ const basic::ZonePolicy kZonePolicyEcuador ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: Edm
 // Rules: 3
-// Memory (8-bit): 39
-// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesEdm[] ACE_TIME_PROGMEM = {
@@ -270,8 +285,6 @@ const basic::ZonePolicy kZonePolicyEdm ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: SA
 // Rules: 1
-// Memory (8-bit): 17
-// Memory (32-bit): 24
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesSA[] ACE_TIME_PROGMEM = {
@@ -298,8 +311,6 @@ const basic::ZonePolicy kZonePolicySA ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: US
 // Rules: 6
-// Memory (8-bit): 72
-// Memory (32-bit): 84
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
@@ -386,8 +397,6 @@ const basic::ZonePolicy kZonePolicyUS ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: Vanc
 // Rules: 3
-// Memory (8-bit): 39
-// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
@@ -438,8 +447,6 @@ const basic::ZonePolicy kZonePolicyVanc ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Policy name: Winn
 // Rules: 4
-// Memory (8-bit): 50
-// Memory (32-bit): 60
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {

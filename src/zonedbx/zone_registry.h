@@ -30,6 +30,32 @@
 // Original Years: [1844,2087]
 // Generated Years: [1943,2087]
 //
+// Memory (8-bits):
+//   Rules: 6633
+//   Policies: 249
+//   Eras: 7764
+//   Infos: 4563
+//   Links: 3185
+//   Registry: 1192
+//   Formats: 597
+//   Letters: 46
+//   Fragments: 150
+//   Name: 5649 (original: 9076)
+//   TOTAL: 30028
+//
+// Memory (32-bits):
+//   Rules: 7236
+//   Policies: 664
+//   Eras: 10352
+//   Infos: 8424
+//   Links: 5880
+//   Registry: 2384
+//   Formats: 597
+//   Letters: 64
+//   Fragments: 178
+//   Name: 5649 (original: 9076)
+//   TOTAL: 41428
+//
 // DO NOT EDIT
 
 #ifndef ACE_TIME_ZONEDBX_ZONE_REGISTRY_H
