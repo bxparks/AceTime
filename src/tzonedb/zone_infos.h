@@ -81,6 +81,7 @@ extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
 // Supported zones: 11
+// Supported eras: 15
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Johannesburg; // Africa/Johannesburg

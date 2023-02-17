@@ -67,7 +67,8 @@ namespace ace_time {
 namespace zonedb {
 
 //---------------------------------------------------------------------------
-// Supported zone policies: 63
+// Supported policies: 63
+// Supported rules: 314
 //---------------------------------------------------------------------------
 
 extern const basic::ZonePolicy kZonePolicyAN;
@@ -136,7 +137,7 @@ extern const basic::ZonePolicy kZonePolicyZion;
 
 
 //---------------------------------------------------------------------------
-// Unsupported zone policies: 71
+// Unsupported policies: 71
 //---------------------------------------------------------------------------
 
 // Albania {unused}

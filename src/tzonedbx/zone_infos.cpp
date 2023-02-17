@@ -59,9 +59,6 @@
 //   Name: 260 (original: 260)
 //   TOTAL: 3989
 //
-// Zones: 15
-// Links: 1
-//
 // DO NOT EDIT
 
 #include <zoneinfo/compat.h>
@@ -103,11 +100,12 @@ const internal::ZoneContext kZoneContext = {
 
 //---------------------------------------------------------------------------
 // Zones: 15
+// Eras: 30
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Casablanca
-// Zone Eras: 4
+// Eras: 4
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAfrica_Casablanca[] ACE_TIME_PROGMEM = {
@@ -175,7 +173,7 @@ const extended::ZoneInfo kZoneAfrica_Casablanca ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Windhoek
-// Zone Eras: 2
+// Eras: 2
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAfrica_Windhoek[] ACE_TIME_PROGMEM = {
@@ -219,7 +217,7 @@ const extended::ZoneInfo kZoneAfrica_Windhoek ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Caracas
-// Zone Eras: 3
+// Eras: 3
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Caracas[] ACE_TIME_PROGMEM = {
@@ -275,7 +273,7 @@ const extended::ZoneInfo kZoneAmerica_Caracas ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Chicago
-// Zone Eras: 1
+// Eras: 1
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Chicago[] ACE_TIME_PROGMEM = {
@@ -307,7 +305,7 @@ const extended::ZoneInfo kZoneAmerica_Chicago ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Denver
-// Zone Eras: 1
+// Eras: 1
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Denver[] ACE_TIME_PROGMEM = {
@@ -339,7 +337,7 @@ const extended::ZoneInfo kZoneAmerica_Denver ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Edmonton
-// Zone Eras: 2
+// Eras: 2
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Edmonton[] ACE_TIME_PROGMEM = {
@@ -383,7 +381,7 @@ const extended::ZoneInfo kZoneAmerica_Edmonton ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Los_Angeles
-// Zone Eras: 1
+// Eras: 1
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Los_Angeles[] ACE_TIME_PROGMEM = {
@@ -415,7 +413,7 @@ const extended::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/New_York
-// Zone Eras: 1
+// Eras: 1
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_New_York[] ACE_TIME_PROGMEM = {
@@ -447,7 +445,7 @@ const extended::ZoneInfo kZoneAmerica_New_York ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Toronto
-// Zone Eras: 1
+// Eras: 1
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Toronto[] ACE_TIME_PROGMEM = {
@@ -479,7 +477,7 @@ const extended::ZoneInfo kZoneAmerica_Toronto ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Vancouver
-// Zone Eras: 2
+// Eras: 2
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Vancouver[] ACE_TIME_PROGMEM = {
@@ -523,7 +521,7 @@ const extended::ZoneInfo kZoneAmerica_Vancouver ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Whitehorse
-// Zone Eras: 3
+// Eras: 3
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Whitehorse[] ACE_TIME_PROGMEM = {
@@ -579,7 +577,7 @@ const extended::ZoneInfo kZoneAmerica_Whitehorse ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Winnipeg
-// Zone Eras: 2
+// Eras: 2
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Winnipeg[] ACE_TIME_PROGMEM = {
@@ -623,7 +621,7 @@ const extended::ZoneInfo kZoneAmerica_Winnipeg ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Darwin
-// Zone Eras: 1
+// Eras: 1
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAustralia_Darwin[] ACE_TIME_PROGMEM = {
@@ -655,7 +653,7 @@ const extended::ZoneInfo kZoneAustralia_Darwin ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Lisbon
-// Zone Eras: 4
+// Eras: 4
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraEurope_Lisbon[] ACE_TIME_PROGMEM = {
@@ -723,7 +721,7 @@ const extended::ZoneInfo kZoneEurope_Lisbon ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Apia
-// Zone Eras: 2
+// Eras: 2
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraPacific_Apia[] ACE_TIME_PROGMEM = {

@@ -70,7 +70,8 @@ namespace ace_time {
 namespace tzonedb {
 
 //---------------------------------------------------------------------------
-// Supported zone policies: 8
+// Supported policies: 8
+// Supported rules: 27
 //---------------------------------------------------------------------------
 
 extern const basic::ZonePolicy kZonePolicyAus;
@@ -84,7 +85,7 @@ extern const basic::ZonePolicy kZonePolicyWinn;
 
 
 //---------------------------------------------------------------------------
-// Unsupported zone policies: 126
+// Unsupported policies: 126
 //---------------------------------------------------------------------------
 
 // AN {unused}

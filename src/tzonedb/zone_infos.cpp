@@ -59,9 +59,6 @@
 //   Name: 202 (original: 202)
 //   TOTAL: 1221
 //
-// Zones: 11
-// Links: 1
-//
 // DO NOT EDIT
 
 #include <zoneinfo/compat.h>
@@ -101,11 +98,12 @@ const internal::ZoneContext kZoneContext = {
 
 //---------------------------------------------------------------------------
 // Zones: 11
+// Eras: 15
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Johannesburg
-// Zone Eras: 1
+// Eras: 1
 //---------------------------------------------------------------------------
 
 static const basic::ZoneEra kZoneEraAfrica_Johannesburg[] ACE_TIME_PROGMEM = {
@@ -137,7 +135,7 @@ const basic::ZoneInfo kZoneAfrica_Johannesburg ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Chicago
-// Zone Eras: 1
+// Eras: 1
 //---------------------------------------------------------------------------
 
 static const basic::ZoneEra kZoneEraAmerica_Chicago[] ACE_TIME_PROGMEM = {
@@ -169,7 +167,7 @@ const basic::ZoneInfo kZoneAmerica_Chicago ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Denver
-// Zone Eras: 1
+// Eras: 1
 //---------------------------------------------------------------------------
 
 static const basic::ZoneEra kZoneEraAmerica_Denver[] ACE_TIME_PROGMEM = {
@@ -201,7 +199,7 @@ const basic::ZoneInfo kZoneAmerica_Denver ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Edmonton
-// Zone Eras: 2
+// Eras: 2
 //---------------------------------------------------------------------------
 
 static const basic::ZoneEra kZoneEraAmerica_Edmonton[] ACE_TIME_PROGMEM = {
@@ -245,7 +243,7 @@ const basic::ZoneInfo kZoneAmerica_Edmonton ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Los_Angeles
-// Zone Eras: 1
+// Eras: 1
 //---------------------------------------------------------------------------
 
 static const basic::ZoneEra kZoneEraAmerica_Los_Angeles[] ACE_TIME_PROGMEM = {
@@ -277,7 +275,7 @@ const basic::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/New_York
-// Zone Eras: 1
+// Eras: 1
 //---------------------------------------------------------------------------
 
 static const basic::ZoneEra kZoneEraAmerica_New_York[] ACE_TIME_PROGMEM = {
@@ -309,7 +307,7 @@ const basic::ZoneInfo kZoneAmerica_New_York ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Toronto
-// Zone Eras: 1
+// Eras: 1
 //---------------------------------------------------------------------------
 
 static const basic::ZoneEra kZoneEraAmerica_Toronto[] ACE_TIME_PROGMEM = {
@@ -341,7 +339,7 @@ const basic::ZoneInfo kZoneAmerica_Toronto ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Vancouver
-// Zone Eras: 2
+// Eras: 2
 //---------------------------------------------------------------------------
 
 static const basic::ZoneEra kZoneEraAmerica_Vancouver[] ACE_TIME_PROGMEM = {
@@ -385,7 +383,7 @@ const basic::ZoneInfo kZoneAmerica_Vancouver ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Winnipeg
-// Zone Eras: 2
+// Eras: 2
 //---------------------------------------------------------------------------
 
 static const basic::ZoneEra kZoneEraAmerica_Winnipeg[] ACE_TIME_PROGMEM = {
@@ -429,7 +427,7 @@ const basic::ZoneInfo kZoneAmerica_Winnipeg ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Darwin
-// Zone Eras: 1
+// Eras: 1
 //---------------------------------------------------------------------------
 
 static const basic::ZoneEra kZoneEraAustralia_Darwin[] ACE_TIME_PROGMEM = {
@@ -461,7 +459,7 @@ const basic::ZoneInfo kZoneAustralia_Darwin ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Galapagos
-// Zone Eras: 2
+// Eras: 2
 //---------------------------------------------------------------------------
 
 static const basic::ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {

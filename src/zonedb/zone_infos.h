@@ -78,6 +78,7 @@ extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
 // Supported zones: 227
+// Supported eras: 239
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan

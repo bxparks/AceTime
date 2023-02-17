@@ -81,6 +81,7 @@ extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
 // Supported zones: 15
+// Supported eras: 30
 //---------------------------------------------------------------------------
 
 extern const extended::ZoneInfo kZoneAfrica_Casablanca; // Africa/Casablanca
