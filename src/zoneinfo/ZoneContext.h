@@ -29,6 +29,9 @@ struct ZoneContext {
   /** Until year of the zone files. */
   int16_t untilYear;
 
+  /** Max number of transitions required in TransitionStorage. */
+  int16_t maxTransitions;
+
   /** TZ Database version which generated the zone info. */
   const char* tzVersion;
 
