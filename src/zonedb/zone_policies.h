@@ -34,26 +34,26 @@
 //   Rules: 3454
 //   Policies: 189
 //   Eras: 2868
-//   Infos: 2951
+//   Zones: 2951
 //   Links: 2847
 //   Registry: 892
 //   Formats: 465
 //   Letters: 11
 //   Fragments: 116
-//   Name: 4144 (original: 6503)
+//   Names: 4144 (original: 6503)
 //   TOTAL: 17937
 //
 // Memory (32-bits):
 //   Rules: 3768
 //   Policies: 504
 //   Eras: 3824
-//   Infos: 5448
+//   Zones: 5448
 //   Links: 5256
 //   Registry: 1784
 //   Formats: 465
 //   Letters: 17
 //   Fragments: 138
-//   Name: 4144 (original: 6503)
+//   Names: 4144 (original: 6503)
 //   TOTAL: 25348
 //
 // DO NOT EDIT

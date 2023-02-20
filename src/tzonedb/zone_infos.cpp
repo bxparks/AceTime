@@ -37,26 +37,26 @@
 //   Rules: 297
 //   Policies: 24
 //   Eras: 180
-//   Infos: 143
+//   Zones: 143
 //   Links: 13
 //   Registry: 24
 //   Formats: 38
 //   Letters: 11
 //   Fragments: 0
-//   Name: 202 (original: 202)
+//   Names: 202 (original: 202)
 //   TOTAL: 932
 //
 // Memory (32-bits):
 //   Rules: 324
 //   Policies: 64
 //   Eras: 240
-//   Infos: 264
+//   Zones: 264
 //   Links: 24
 //   Registry: 48
 //   Formats: 38
 //   Letters: 17
 //   Fragments: 0
-//   Name: 202 (original: 202)
+//   Names: 202 (original: 202)
 //   TOTAL: 1221
 //
 // DO NOT EDIT
