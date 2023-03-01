@@ -217,9 +217,9 @@ extern const extended::ZonePolicy kZonePolicyZion;
 // Notable zone policies: 15
 //---------------------------------------------------------------------------
 
-// Armenia {Added anchor rule at year 0}
+// Armenia {Added anchor rule at year -32767}
 // Belize {LETTER 'CST' not single character}
-// Dhaka {Added anchor rule at year 0}
+// Dhaka {Added anchor rule at year -32767}
 // Eire {SAVE '-1:00' different from 1:00}
 // LH {SAVE '0:30' different from 1:00}
 // Moncton {AT '0:01' not on 15-minute boundary}
@@ -229,25 +229,25 @@ extern const extended::ZonePolicy kZonePolicyZion;
 //   LETTER 'WAT' not single character,
 //   SAVE '-1:00' different from 1:00,
 // }
-// Pakistan {Added anchor rule at year 0}
+// Pakistan {Added anchor rule at year -32767}
 // Palestine {
 //   AT '0:01' not on 15-minute boundary,
-//   Added anchor rule at year 0,
+//   Added anchor rule at year -32767,
 // }
-// SanLuis {Added anchor rule at year 0}
+// SanLuis {Added anchor rule at year -32767}
 // StJohns {
 //   AT '0:01' not on 15-minute boundary,
 //   LETTER 'DD' not single character,
 //   SAVE '2:00' different from 1:00,
 // }
-// Tonga {Added anchor rule at year 0}
+// Tonga {Added anchor rule at year -32767}
 // Troll {
-//   Added anchor rule at year 0,
+//   Added anchor rule at year -32767,
 //   LETTER '+00' not single character,
 //   LETTER '+02' not single character,
 //   SAVE '2:00' different from 1:00,
 // }
-// WS {Added anchor rule at year 0}
+// WS {Added anchor rule at year -32767}
 
 
 }

@@ -1675,7 +1675,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1999
 //   }
 // }
 // America/Argentina/San_Luis {
-//   SanLuis {Added anchor rule at year 0}
+//   SanLuis {Added anchor rule at year -32767}
 // }
 // America/Belize {
 //   Belize {LETTER 'CST' not single character}
@@ -1700,34 +1700,34 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1999
 // Antarctica/Casey {UNTIL '0:01' not on 15-minute boundary}
 // Antarctica/Troll {
 //   Troll {
-//     Added anchor rule at year 0,
+//     Added anchor rule at year -32767,
 //     LETTER '+00' not single character,
 //     LETTER '+02' not single character,
 //     SAVE '2:00' different from 1:00,
 //   }
 // }
 // Asia/Dhaka {
-//   Dhaka {Added anchor rule at year 0}
+//   Dhaka {Added anchor rule at year -32767}
 // }
 // Asia/Gaza {
 //   UNTIL '0:01' not on 15-minute boundary,
 //   Palestine {
 //     AT '0:01' not on 15-minute boundary,
-//     Added anchor rule at year 0,
+//     Added anchor rule at year -32767,
 //   }
 // }
 // Asia/Hebron {
 //   Palestine {
 //     AT '0:01' not on 15-minute boundary,
-//     Added anchor rule at year 0,
+//     Added anchor rule at year -32767,
 //   }
 // }
 // Asia/Karachi {
-//   Pakistan {Added anchor rule at year 0}
+//   Pakistan {Added anchor rule at year -32767}
 // }
 // Asia/Kathmandu {STDOFF '5:45' not at :00 or :30 mark}
 // Asia/Yerevan {
-//   Armenia {Added anchor rule at year 0}
+//   Armenia {Added anchor rule at year -32767}
 // }
 // Australia/Eucla {STDOFF '8:45' not at :00 or :30 mark}
 // Australia/Lord_Howe {
@@ -1737,11 +1737,11 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1999
 //   Eire {SAVE '-1:00' different from 1:00}
 // }
 // Pacific/Apia {
-//   WS {Added anchor rule at year 0}
+//   WS {Added anchor rule at year -32767}
 // }
 // Pacific/Chatham {STDOFF '12:45' not at :00 or :30 mark}
 // Pacific/Tongatapu {
-//   Tonga {Added anchor rule at year 0}
+//   Tonga {Added anchor rule at year -32767}
 // }
 
 

@@ -497,7 +497,7 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 
 // Africa/Johannesburg {RULES not fixed but FORMAT is missing '%' or '/'}
 // Pacific/Galapagos {
-//   Ecuador {Added anchor rule at year 0}
+//   Ecuador {Added anchor rule at year -32767}
 // }
 
 

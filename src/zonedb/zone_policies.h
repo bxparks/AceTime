@@ -217,14 +217,14 @@ extern const basic::ZonePolicy kZonePolicyZion;
 // Notable zone policies: 8
 //---------------------------------------------------------------------------
 
-// Armenia {Added anchor rule at year 0}
-// Dhaka {Added anchor rule at year 0}
+// Armenia {Added anchor rule at year -32767}
+// Dhaka {Added anchor rule at year -32767}
 // Eire {SAVE '-1:00' different from 1:00}
 // LH {SAVE '0:30' different from 1:00}
 // Moncton {AT '0:01' not on 15-minute boundary}
 // Namibia {SAVE '-1:00' different from 1:00}
-// Pakistan {Added anchor rule at year 0}
-// Tonga {Added anchor rule at year 0}
+// Pakistan {Added anchor rule at year -32767}
+// Tonga {Added anchor rule at year -32767}
 
 
 }

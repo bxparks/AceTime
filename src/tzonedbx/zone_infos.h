@@ -508,14 +508,14 @@ const uint8_t kZoneBufSizePacific_Apia = 5;  // Pacific/Apia in 2011
 // }
 // Africa/Windhoek {
 //   Namibia {
-//     Added anchor rule at year 0,
+//     Added anchor rule at year -32767,
 //     LETTER 'CAT' not single character,
 //     LETTER 'WAT' not single character,
 //     SAVE '-1:00' different from 1:00,
 //   }
 // }
 // Pacific/Apia {
-//   WS {Added anchor rule at year 0}
+//   WS {Added anchor rule at year -32767}
 // }
 
 

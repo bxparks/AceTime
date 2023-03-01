@@ -155,7 +155,7 @@ static const extended::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   // Rule    Canada    2007    max    -    Mar    Sun>=8    2:00    1:00    D
   {
     2007 /*fromYear*/,
-    9999 /*toYear*/,
+    32766 /*toYear*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -167,7 +167,7 @@ static const extended::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   // Rule    Canada    2007    max    -    Nov    Sun>=1    2:00    0    S
   {
     2007 /*fromYear*/,
-    9999 /*toYear*/,
+    32766 /*toYear*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -217,7 +217,7 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   // Rule    EU    1981    max    -    Mar    lastSun     1:00u    1:00    S
   {
     1981 /*fromYear*/,
-    9999 /*toYear*/,
+    32766 /*toYear*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -229,7 +229,7 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   // Rule    EU    1996    max    -    Oct    lastSun     1:00u    0    -
   {
     1996 /*fromYear*/,
-    9999 /*toYear*/,
+    32766 /*toYear*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2346,8 +2346,8 @@ const extended::ZonePolicy kZonePolicyMorocco ACE_TIME_PROGMEM = {
 static const extended::ZoneRule kZoneRulesNamibia[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Namibia    1994    2017    -    Sep    Sun>=1    2:00    0    CAT
   {
-    0 /*fromYear*/,
-    0 /*toYear*/,
+    -32767 /*fromYear*/,
+    -32767 /*toYear*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2543,7 +2543,7 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   // Rule    US    2007    max    -    Mar    Sun>=8    2:00    1:00    D
   {
     2007 /*fromYear*/,
-    9999 /*toYear*/,
+    32766 /*toYear*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -2555,7 +2555,7 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   // Rule    US    2007    max    -    Nov    Sun>=1    2:00    0    S
   {
     2007 /*fromYear*/,
-    9999 /*toYear*/,
+    32766 /*toYear*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2655,7 +2655,7 @@ static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
   // Rule    W-Eur    1981    max    -    Mar    lastSun     1:00s    1:00    S
   {
     1981 /*fromYear*/,
-    9999 /*toYear*/,
+    32766 /*toYear*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2680,8 +2680,8 @@ const extended::ZonePolicy kZonePolicyW_Eur ACE_TIME_PROGMEM = {
 static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    WS    2011    only    -    Apr    Sat>=1    4:00    0    -
   {
-    0 /*fromYear*/,
-    0 /*toYear*/,
+    -32767 /*fromYear*/,
+    -32767 /*toYear*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,

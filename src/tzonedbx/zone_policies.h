@@ -222,12 +222,12 @@ extern const extended::ZonePolicy kZonePolicyWinn;
 
 // Morocco {SAVE '-1:00' different from 1:00}
 // Namibia {
-//   Added anchor rule at year 0,
+//   Added anchor rule at year -32767,
 //   LETTER 'CAT' not single character,
 //   LETTER 'WAT' not single character,
 //   SAVE '-1:00' different from 1:00,
 // }
-// WS {Added anchor rule at year 0}
+// WS {Added anchor rule at year -32767}
 
 
 }

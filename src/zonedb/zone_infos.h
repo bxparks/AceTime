@@ -1365,14 +1365,14 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1999
 //   Moncton {AT '0:01' not on 15-minute boundary}
 // }
 // Asia/Dhaka {
-//   Dhaka {Added anchor rule at year 0}
+//   Dhaka {Added anchor rule at year -32767}
 // }
 // Asia/Karachi {
-//   Pakistan {Added anchor rule at year 0}
+//   Pakistan {Added anchor rule at year -32767}
 // }
 // Asia/Kathmandu {STDOFF '5:45' not at :00 or :30 mark}
 // Asia/Yerevan {
-//   Armenia {Added anchor rule at year 0}
+//   Armenia {Added anchor rule at year -32767}
 // }
 // Australia/Eucla {STDOFF '8:45' not at :00 or :30 mark}
 // Australia/Lord_Howe {
@@ -1383,7 +1383,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1999
 // }
 // Pacific/Chatham {STDOFF '12:45' not at :00 or :30 mark}
 // Pacific/Tongatapu {
-//   Tonga {Added anchor rule at year 0}
+//   Tonga {Added anchor rule at year -32767}
 // }
 
 

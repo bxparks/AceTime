@@ -155,7 +155,7 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   // Rule    Canada    2007    max    -    Mar    Sun>=8    2:00    1:00    D
   {
     2007 /*fromYear*/,
-    9999 /*toYear*/,
+    32766 /*toYear*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -167,7 +167,7 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   // Rule    Canada    2007    max    -    Nov    Sun>=1    2:00    0    S
   {
     2007 /*fromYear*/,
-    9999 /*toYear*/,
+    32766 /*toYear*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -192,8 +192,8 @@ const basic::ZonePolicy kZonePolicyCanada ACE_TIME_PROGMEM = {
 static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
   {
-    0 /*fromYear*/,
-    0 /*toYear*/,
+    -32767 /*fromYear*/,
+    -32767 /*toYear*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -367,7 +367,7 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   // Rule    US    2007    max    -    Mar    Sun>=8    2:00    1:00    D
   {
     2007 /*fromYear*/,
-    9999 /*toYear*/,
+    32766 /*toYear*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -379,7 +379,7 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   // Rule    US    2007    max    -    Nov    Sun>=1    2:00    0    S
   {
     2007 /*fromYear*/,
-    9999 /*toYear*/,
+    32766 /*toYear*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,

@@ -220,7 +220,7 @@ extern const basic::ZonePolicy kZonePolicyWinn;
 // Notable zone policies: 1
 //---------------------------------------------------------------------------
 
-// Ecuador {Added anchor rule at year 0}
+// Ecuador {Added anchor rule at year -32767}
 
 
 }
