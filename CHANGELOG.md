@@ -27,6 +27,9 @@
         * Lift `ace_time/internal/Zone*.h` files into new `src/zoneinfo/`
           directory. These are the classes that describe the `*zonedb*`
           databases.
+    * Add `ZonedDateTime::offsetDateTime()`
+        * Returns the underlying `OffsetDateTime` inside the `ZonedDateTime`.
+        * Analogous to `ZonedDateTime::localDateTime()`.
 * 2.1.1 (2023-02-02, TZDB version 2022g)
     * `ZonedExtra`
         * Add `ZonedExtra::forComponents()` factory method, for consistency with

@@ -57,12 +57,15 @@ test(ZonedDateTimeExtendedTest, forComponents_isError) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &kZoneAmerica_Los_Angeles);
 
-  // TODO: Hmm, not sure why this is an error anymore, after changing kMinYear
-  // and kMaxYear to -32767 and +32766.
+  // Cannot create dates roughly before ZoneContext.startYear.
   ZonedDateTime dt = ZonedDateTime::forComponents(1970, 3, 11, 1, 59, 59, tz);
+  const OffsetDateTime &odt = dt.offsetDateTime();
+  assertTrue(odt.isError());
+  const LocalDateTime &ldt = dt.localDateTime();
+  assertTrue(ldt.isError());
   assertTrue(dt.isError());
 
-  // Greater than LocalDate::kMaxYear.
+  // Cannot create dates roughly after ZoneContext.untilYear.
   dt = ZonedDateTime::forComponents(10001, 3, 11, 1, 59, 59, tz);
   assertTrue(dt.isError());
 }
