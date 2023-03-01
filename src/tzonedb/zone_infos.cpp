@@ -30,11 +30,13 @@
 //
 // Supported Zones: 12 (11 zones, 1 links)
 // Unsupported Zones: 584 (340 zones, 244 links)
-// Original Years: [1844,2087]
-// Generated Years: [1943,2007]
+// Original Years:  [1844,2087]
+// Generated Years: [1945,2007]
+// Estimator Years: [1945,2009]
+// Max Buffer Size: 6
 //
 // Memory (8-bits):
-//   Rules: 297
+//   Rules: 352
 //   Policies: 24
 //   Eras: 180
 //   Zones: 143
@@ -44,10 +46,10 @@
 //   Letters: 11
 //   Fragments: 0
 //   Names: 202 (original: 202)
-//   TOTAL: 932
+//   TOTAL: 987
 //
 // Memory (32-bits):
-//   Rules: 324
+//   Rules: 384
 //   Policies: 64
 //   Eras: 240
 //   Zones: 264
@@ -57,7 +59,7 @@
 //   Letters: 17
 //   Fragments: 0
 //   Names: 202 (original: 202)
-//   TOTAL: 1221
+//   TOTAL: 1281
 //
 // DO NOT EDIT
 

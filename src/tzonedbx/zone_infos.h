@@ -30,11 +30,13 @@
 //
 // Supported Zones: 16 (15 zones, 1 links)
 // Unsupported Zones: 580 (336 zones, 244 links)
-// Original Years: [1844,2087]
-// Generated Years: [1943,2087]
+// Original Years:  [1844,2087]
+// Generated Years: [1945,2087]
+// Estimator Years: [1945,2090]
+// Max Buffer Size: 7
 //
 // Memory (8-bits):
-//   Rules: 2365
+//   Rules: 2464
 //   Policies: 36
 //   Eras: 360
 //   Zones: 195
@@ -44,10 +46,10 @@
 //   Letters: 23
 //   Fragments: 0
 //   Names: 260 (original: 260)
-//   TOTAL: 3376
+//   TOTAL: 3475
 //
 // Memory (32-bits):
-//   Rules: 2580
+//   Rules: 2688
 //   Policies: 96
 //   Eras: 480
 //   Zones: 360
@@ -57,7 +59,7 @@
 //   Letters: 33
 //   Fragments: 0
 //   Names: 260 (original: 260)
-//   TOTAL: 3989
+//   TOTAL: 4097
 //
 // DO NOT EDIT
 
@@ -152,7 +154,7 @@ const uint8_t kZoneBufSizeAmerica_Toronto = 6;  // America/Toronto in 2008
 const uint8_t kZoneBufSizeAmerica_Vancouver = 6;  // America/Vancouver in 2008
 const uint8_t kZoneBufSizeAmerica_Whitehorse = 6;  // America/Whitehorse in 2008
 const uint8_t kZoneBufSizeAmerica_Winnipeg = 6;  // America/Winnipeg in 2006
-const uint8_t kZoneBufSizeAustralia_Darwin = 2;  // Australia/Darwin in 1979
+const uint8_t kZoneBufSizeAustralia_Darwin = 2;  // Australia/Darwin in 1944
 const uint8_t kZoneBufSizeEurope_Lisbon = 6;  // Europe/Lisbon in 1983
 const uint8_t kZoneBufSizePacific_Apia = 5;  // Pacific/Apia in 2011
 
@@ -500,7 +502,7 @@ const uint8_t kZoneBufSizePacific_Apia = 5;  // Pacific/Apia in 2011
 
 
 //---------------------------------------------------------------------------
-// Notable zones: 3
+// Notable zones: 2
 //---------------------------------------------------------------------------
 
 // Africa/Casablanca {
@@ -508,14 +510,10 @@ const uint8_t kZoneBufSizePacific_Apia = 5;  // Pacific/Apia in 2011
 // }
 // Africa/Windhoek {
 //   Namibia {
-//     Added anchor rule at year -32767,
 //     LETTER 'CAT' not single character,
 //     LETTER 'WAT' not single character,
 //     SAVE '-1:00' different from 1:00,
 //   }
-// }
-// Pacific/Apia {
-//   WS {Added anchor rule at year -32767}
 // }
 
 

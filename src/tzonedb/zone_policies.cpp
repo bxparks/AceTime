@@ -30,11 +30,13 @@
 //
 // Supported Zones: 12 (11 zones, 1 links)
 // Unsupported Zones: 584 (340 zones, 244 links)
-// Original Years: [1844,2087]
-// Generated Years: [1943,2007]
+// Original Years:  [1844,2087]
+// Generated Years: [1945,2007]
+// Estimator Years: [1945,2009]
+// Max Buffer Size: 6
 //
 // Memory (8-bits):
-//   Rules: 297
+//   Rules: 352
 //   Policies: 24
 //   Eras: 180
 //   Zones: 143
@@ -44,10 +46,10 @@
 //   Letters: 11
 //   Fragments: 0
 //   Names: 202 (original: 202)
-//   TOTAL: 932
+//   TOTAL: 987
 //
 // Memory (32-bits):
-//   Rules: 324
+//   Rules: 384
 //   Policies: 64
 //   Eras: 240
 //   Zones: 264
@@ -57,7 +59,7 @@
 //   Letters: 17
 //   Fragments: 0
 //   Names: 202 (original: 202)
-//   TOTAL: 1221
+//   TOTAL: 1281
 //
 // DO NOT EDIT
 
@@ -69,7 +71,7 @@ namespace tzonedb {
 
 //---------------------------------------------------------------------------
 // Policies: 8
-// Rules: 27
+// Rules: 32
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -78,15 +80,15 @@ namespace tzonedb {
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesAus[] ACE_TIME_PROGMEM = {
-  // Rule    Aus    1943    1944    -    Mar    lastSun    2:00s    0    S
+  // Anchor: Rule    Aus    1943    1944    -    Mar    lastSun    2:00s    0    S
   {
-    1943 /*fromYear*/,
-    1944 /*toYear*/,
-    3 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    -32767 /*fromYear*/,
+    -32767 /*toYear*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
     4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     2 /*letterIndex ("S")*/,
   },
@@ -100,10 +102,22 @@ const basic::ZonePolicy kZonePolicyAus ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: Canada
-// Rules: 6
+// Rules: 7
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
+  // Anchor: Rule    Canada    1945    only    -    Sep    30    2:00    0    S
+  {
+    -32767 /*fromYear*/,
+    -32767 /*toYear*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    2 /*letterIndex ("S")*/,
+  },
   // Rule    Canada    1945    only    -    Sep    30    2:00    0    S
   {
     1945 /*fromYear*/,
@@ -181,7 +195,7 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
 
 const basic::ZonePolicy kZonePolicyCanada ACE_TIME_PROGMEM = {
   kZoneRulesCanada /*rules*/,
-  6 /*numRules*/,
+  7 /*numRules*/,
 };
 
 //---------------------------------------------------------------------------
@@ -236,10 +250,22 @@ const basic::ZonePolicy kZonePolicyEcuador ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: Edm
-// Rules: 3
+// Rules: 4
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesEdm[] ACE_TIME_PROGMEM = {
+  // Anchor: Rule    Edm    1947    only    -    Sep    lastSun    2:00    0    S
+  {
+    -32767 /*fromYear*/,
+    -32767 /*toYear*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    2 /*letterIndex ("S")*/,
+  },
   // Rule    Edm    1947    only    -    Sep    lastSun    2:00    0    S
   {
     1947 /*fromYear*/,
@@ -281,7 +307,7 @@ static const basic::ZoneRule kZoneRulesEdm[] ACE_TIME_PROGMEM = {
 
 const basic::ZonePolicy kZonePolicyEdm ACE_TIME_PROGMEM = {
   kZoneRulesEdm /*rules*/,
-  3 /*numRules*/,
+  4 /*numRules*/,
 };
 
 //---------------------------------------------------------------------------
@@ -290,14 +316,14 @@ const basic::ZonePolicy kZonePolicyEdm ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesSA[] ACE_TIME_PROGMEM = {
-  // Rule    SA    1943    1944    -    Mar    Sun>=15    2:00    0    -
+  // Anchor: Rule    SA    1943    1944    -    Mar    Sun>=15    2:00    0    -
   {
-    1943 /*fromYear*/,
-    1944 /*toYear*/,
-    3 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    15 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
+    -32767 /*fromYear*/,
+    -32767 /*toYear*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
     4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     0 /*letterIndex ("")*/,
@@ -312,10 +338,22 @@ const basic::ZonePolicy kZonePolicySA ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: US
-// Rules: 6
+// Rules: 7
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
+  // Anchor: Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
+  {
+    -32767 /*fromYear*/,
+    -32767 /*toYear*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    2 /*letterIndex ("S")*/,
+  },
   // Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
   {
     1967 /*fromYear*/,
@@ -393,15 +431,27 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
 
 const basic::ZonePolicy kZonePolicyUS ACE_TIME_PROGMEM = {
   kZoneRulesUS /*rules*/,
-  6 /*numRules*/,
+  7 /*numRules*/,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Vanc
-// Rules: 3
+// Rules: 4
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
+  // Anchor: Rule    Vanc    1947    1961    -    Sep    lastSun    2:00    0    S
+  {
+    -32767 /*fromYear*/,
+    -32767 /*toYear*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    2 /*letterIndex ("S")*/,
+  },
   // Rule    Vanc    1946    1986    -    Apr    lastSun    2:00    1:00    D
   {
     1946 /*fromYear*/,
@@ -443,15 +493,27 @@ static const basic::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
 
 const basic::ZonePolicy kZonePolicyVanc ACE_TIME_PROGMEM = {
   kZoneRulesVanc /*rules*/,
-  3 /*numRules*/,
+  4 /*numRules*/,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Winn
-// Rules: 4
+// Rules: 5
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
+  // Anchor: Rule    Winn    1963    only    -    Sep    22    2:00    0    S
+  {
+    -32767 /*fromYear*/,
+    -32767 /*toYear*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    2 /*letterIndex ("S")*/,
+  },
   // Rule    Winn    1963    only    -    Sep    22    2:00    0    S
   {
     1963 /*fromYear*/,
@@ -505,7 +567,7 @@ static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
 
 const basic::ZonePolicy kZonePolicyWinn ACE_TIME_PROGMEM = {
   kZoneRulesWinn /*rules*/,
-  4 /*numRules*/,
+  5 /*numRules*/,
 };
 
 

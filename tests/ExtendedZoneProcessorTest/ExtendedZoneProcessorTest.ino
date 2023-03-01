@@ -188,9 +188,9 @@ test(ExtendedZoneProcessorTest, findMatches_named) {
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, getTransitionTime) {
-  // Rule 5, [2007,9999]
+  // Rule 6, [2007,9999]
   // Rule    US    2007    max    -    Nov    Sun>=1    2:00    0    S
-  const auto rule = ZoneRuleBroker(&kZoneContext, &kZonePolicyUS.rules[5]);
+  const auto rule = ZoneRuleBroker(&kZoneContext, &kZonePolicyUS.rules[6]);
 
   // Nov 4 2018
   DateTuple dt = ExtendedZoneProcessor::getTransitionTime(2018, rule);
@@ -212,8 +212,8 @@ test(ExtendedZoneProcessorTest, createTransitionForYear) {
     0 /*lastDeltaMinutes*/
   };
 
-  // Rule 5, [2007,9999], Nov Sun>=1
-  const auto rule = ZoneRuleBroker(&kZoneContext, &kZonePolicyUS.rules[5]);
+  // Rule 6, [2007,9999], Nov Sun>=1
+  const auto rule = ZoneRuleBroker(&kZoneContext, &kZonePolicyUS.rules[6]);
   ExtendedZoneProcessor::Transition t;
   ExtendedZoneProcessor::createTransitionForYear(&t, 2019, rule, &match);
   assertTrue((t.transitionTime == DateTuple{2019, 11, 3, 15*8,

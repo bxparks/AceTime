@@ -30,11 +30,13 @@
 //
 // Supported Zones: 12 (11 zones, 1 links)
 // Unsupported Zones: 584 (340 zones, 244 links)
-// Original Years: [1844,2087]
-// Generated Years: [1943,2007]
+// Original Years:  [1844,2087]
+// Generated Years: [1945,2007]
+// Estimator Years: [1945,2009]
+// Max Buffer Size: 6
 //
 // Memory (8-bits):
-//   Rules: 297
+//   Rules: 352
 //   Policies: 24
 //   Eras: 180
 //   Zones: 143
@@ -44,10 +46,10 @@
 //   Letters: 11
 //   Fragments: 0
 //   Names: 202 (original: 202)
-//   TOTAL: 932
+//   TOTAL: 987
 //
 // Memory (32-bits):
-//   Rules: 324
+//   Rules: 384
 //   Policies: 64
 //   Eras: 240
 //   Zones: 264
@@ -57,7 +59,7 @@
 //   Letters: 17
 //   Fragments: 0
 //   Names: 202 (original: 202)
-//   TOTAL: 1221
+//   TOTAL: 1281
 //
 // DO NOT EDIT
 
@@ -132,7 +134,7 @@ const uint32_t kZoneIdUS_Pacific = 0xa950f6ab; // US/Pacific
 // MaxBufSize: 6
 //---------------------------------------------------------------------------
 
-const uint8_t kZoneBufSizeAfrica_Johannesburg = 2;  // Africa/Johannesburg in 1979
+const uint8_t kZoneBufSizeAfrica_Johannesburg = 2;  // Africa/Johannesburg in 1944
 const uint8_t kZoneBufSizeAmerica_Chicago = 6;  // America/Chicago in 2008
 const uint8_t kZoneBufSizeAmerica_Denver = 6;  // America/Denver in 2008
 const uint8_t kZoneBufSizeAmerica_Edmonton = 6;  // America/Edmonton in 2008
@@ -141,7 +143,7 @@ const uint8_t kZoneBufSizeAmerica_New_York = 6;  // America/New_York in 2008
 const uint8_t kZoneBufSizeAmerica_Toronto = 6;  // America/Toronto in 2008
 const uint8_t kZoneBufSizeAmerica_Vancouver = 6;  // America/Vancouver in 2008
 const uint8_t kZoneBufSizeAmerica_Winnipeg = 6;  // America/Winnipeg in 2006
-const uint8_t kZoneBufSizeAustralia_Darwin = 2;  // Australia/Darwin in 1979
+const uint8_t kZoneBufSizeAustralia_Darwin = 2;  // Australia/Darwin in 1944
 const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 
 
@@ -492,13 +494,10 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 
 
 //---------------------------------------------------------------------------
-// Notable zones: 2
+// Notable zones: 1
 //---------------------------------------------------------------------------
 
 // Africa/Johannesburg {RULES not fixed but FORMAT is missing '%' or '/'}
-// Pacific/Galapagos {
-//   Ecuador {Added anchor rule at year -32767}
-// }
 
 
 //---------------------------------------------------------------------------
