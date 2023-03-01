@@ -30,6 +30,12 @@
     * Add `ZonedDateTime::offsetDateTime()`
         * Returns the underlying `OffsetDateTime` inside the `ZonedDateTime`.
         * Analogous to `ZonedDateTime::localDateTime()`.
+    * Always generate anchor rules in zonedb.
+        * Allows `ExtendedZoneProcessor` to work over all years `[0,10000)`
+          even with truncated zonedb (e.g. `[2000,2100)`).
+        * Accuracy is guaranteed only for the requested interval (e.g.
+          `[2000,2100)`.
+        * But the code won't crash outside of that interval.
 * 2.1.1 (2023-02-02, TZDB version 2022g)
     * `ZonedExtra`
         * Add `ZonedExtra::forComponents()` factory method, for consistency with
