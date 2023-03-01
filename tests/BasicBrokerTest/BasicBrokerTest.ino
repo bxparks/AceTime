@@ -22,7 +22,7 @@ using ace_time::tzonedb::kZoneIdAmerica_Los_Angeles;
 //---------------------------------------------------------------------------
 
 test(BasicBrokerTest, ZoneRuleBroker) {
-  ZoneRuleBroker rule(&kZoneContext, &kZonePolicyUS.rules[0]);
+  ZoneRuleBroker rule(&kZoneContext, &kZonePolicyUS.rules[1]);
   assertFalse(rule.isNull());
   assertEqual(1967, rule.fromYear());
   assertEqual(2006, rule.toYear());
@@ -38,7 +38,7 @@ test(BasicBrokerTest, ZoneRuleBroker) {
 test(BasicBrokerTest, ZonePolicyBroker) {
   ZonePolicyBroker policy(&kZoneContext, &kZonePolicyUS);
   assertFalse(policy.isNull());
-  assertEqual(6, policy.numRules());
+  assertEqual(7, policy.numRules());
 }
 
 test(BasicBrokerTest, ZoneEraBroker) {
