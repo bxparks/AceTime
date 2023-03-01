@@ -75,8 +75,8 @@ class LocalDate {
      * The largest year that is expected to be handled by LocalDate.
      *
      * The ZoneRule instances in the zoneinfo databases (zonedb, zonedbx) have a
-     * maximum `untilYear` value of 10000, so it is possible that an instance of
-     * this class may have a value of 10000.
+     * maximum `untilYear` value of 32767, so we have to make sure that we stay
+     * below that limit.
      */
     static const int16_t kMaxYear = 10000;
 

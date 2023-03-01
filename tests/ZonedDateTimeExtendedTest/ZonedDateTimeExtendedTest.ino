@@ -57,10 +57,13 @@ test(ZonedDateTimeExtendedTest, forComponents_isError) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &kZoneAmerica_Los_Angeles);
 
-  // outside [1980, 9999) range, should generate error
+  // TODO: Hmm, not sure why this is an error anymore, after changing kMinYear
+  // and kMaxYear to -32767 and +32766.
   ZonedDateTime dt = ZonedDateTime::forComponents(1970, 3, 11, 1, 59, 59, tz);
   assertTrue(dt.isError());
-  dt = ZonedDateTime::forComponents(10000, 3, 11, 1, 59, 59, tz);
+
+  // Greater than LocalDate::kMaxYear.
+  dt = ZonedDateTime::forComponents(10001, 3, 11, 1, 59, 59, tz);
   assertTrue(dt.isError());
 }
 

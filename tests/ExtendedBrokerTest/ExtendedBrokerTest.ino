@@ -13,6 +13,7 @@ using ace_time::extended::ZoneInfoBroker;
 using ace_time::extended::ZoneEraBroker;
 using ace_time::extended::ZoneRuleBroker;
 using ace_time::extended::ZonePolicyBroker;
+using ace_time::extended::ZoneEra;
 using ace_time::tzonedbx::kZoneContext;
 using ace_time::tzonedbx::kZonePolicyUS;
 using ace_time::tzonedbx::kZoneAmerica_Los_Angeles;
@@ -63,7 +64,7 @@ test(ExtendedBrokerTest, ZoneEraBroker) {
   assertEqual(-32 * 15, era.offsetMinutes());
   assertEqual(0, era.deltaMinutes());
   assertEqual("P%T", era.format());
-  assertEqual((int16_t)10000, era.untilYear());
+  assertEqual(ZoneEra::kMaxUntilYear, era.untilYear());
   assertEqual((uint8_t)1, era.untilMonth());
   assertEqual((uint8_t)1, era.untilDay());
   assertEqual((uint16_t)0, era.untilTimeMinutes());

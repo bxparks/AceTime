@@ -17,7 +17,7 @@ struct ZoneRule {
    * any explicit year in the TZDB database, which guarantees that all time
    * zones have at least one transition.
    */
-  static const int16_t kMinYear = 0;
+  static const int16_t kMinYear = -32767;
 
   /**
    * The maximum value fromYear and toYear. This value is used to represent the
@@ -25,7 +25,7 @@ struct ZoneRule {
    * ZoneEra::kMaxUntilYear which is used to represent the entry "-" in the
    * UNTIL column of the TZDB files.
    */
-  static const int16_t kMaxYear = 9999;
+  static const int16_t kMaxYear = 32766;
 
   /** FROM year */
   int16_t const fromYear;
