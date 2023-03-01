@@ -5,6 +5,7 @@
 #include <ace_time/testing/EpochYearContext.h>
 
 using namespace ace_time;
+using ace_time::internal::ZoneContext;
 
 //---------------------------------------------------------------------------
 // LocalDate
@@ -12,17 +13,21 @@ using namespace ace_time;
 
 test(LocalDateTest, year_limits) {
   assertLess(LocalDate::kInvalidYear, LocalDate::kMinYear);
-  assertLess(LocalDate::kInvalidYear, basic::ZoneRule::kMinYear);
-  assertLess(LocalDate::kInvalidYear, extended::ZoneRule::kMinYear);
+  assertLess(LocalDate::kInvalidYear, ZoneContext::kMinYear);
+  assertLess(LocalDate::kInvalidYear, ZoneContext::kMinYear);
 
   assertLess(LocalDate::kMinYear, LocalDate::kMaxYear);
   assertLess(LocalDate::kMinYear, LocalDate::kMaxYear);
 
-  assertLess(basic::ZoneRule::kMinYear, basic::ZoneRule::kMaxYear);
-  assertLess(extended::ZoneRule::kMinYear, extended::ZoneRule::kMaxYear);
+  assertLess(ZoneContext::kMinYear, ZoneContext::kMaxYear);
+  assertLess(ZoneContext::kMinYear, ZoneContext::kMaxYear);
 
-  assertLess(basic::ZoneRule::kMaxYear, basic::ZoneEra::kMaxUntilYear);
-  assertLess(extended::ZoneRule::kMaxYear, extended::ZoneEra::kMaxUntilYear);
+  assertLess(ZoneContext::kMaxYear, ZoneContext::kMaxUntilYear);
+  assertLess(ZoneContext::kMaxYear, ZoneContext::kMaxUntilYear);
+
+  // LocalDate limits must be within the ZoneContext limits
+  assertMore(LocalDate::kMinYear, ZoneContext::kMinYear);
+  assertLess(LocalDate::kMaxYear, ZoneContext::kMaxYear);
 }
 
 test(LocalDateTest, year_range) {

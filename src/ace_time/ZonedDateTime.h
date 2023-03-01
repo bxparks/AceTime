@@ -231,6 +231,11 @@ class ZonedDateTime {
       return mOffsetDateTime.localDateTime();
     }
 
+    /** Return the OffsetDateTime of the components. */
+    const OffsetDateTime& offsetDateTime() const {
+      return mOffsetDateTime;
+    }
+
     /**
      * Normalize the ZonedDateTime after mutation. This must be called after any
      * mutation method is called (i.e. year(), month(), day(), hour(), minute(),

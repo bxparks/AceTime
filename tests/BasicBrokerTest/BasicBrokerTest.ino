@@ -48,7 +48,7 @@ test(BasicBrokerTest, ZoneEraBroker) {
   assertEqual(-32 * 15, era.offsetMinutes());
   assertEqual(0 * 15, era.deltaMinutes());
   assertEqual("P%T", era.format());
-  assertEqual((int16_t)10000, era.untilYear());
+  assertEqual(ZoneContext::kMaxUntilYear, era.untilYear());
   assertEqual((uint8_t)1, era.untilMonth());
   assertEqual((uint8_t)1, era.untilDay());
   assertEqual((uint16_t)0, era.untilTimeMinutes());
