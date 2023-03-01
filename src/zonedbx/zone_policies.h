@@ -28,10 +28,10 @@
 // Supported Zones: 596 (351 zones, 245 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
 // Original Years: [1844,2087]
-// Generated Years: [1943,2087]
+// Generated Years: [1950,2087]
 //
 // Memory (8-bits):
-//   Rules: 6633
+//   Rules: 7205
 //   Policies: 249
 //   Eras: 7764
 //   Zones: 4563
@@ -41,10 +41,10 @@
 //   Letters: 46
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 30028
+//   TOTAL: 30600
 //
 // Memory (32-bits):
-//   Rules: 7236
+//   Rules: 7860
 //   Policies: 664
 //   Eras: 10352
 //   Zones: 8424
@@ -54,7 +54,7 @@
 //   Letters: 64
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 41428
+//   TOTAL: 42052
 //
 // DO NOT EDIT
 
@@ -68,7 +68,7 @@ namespace zonedbx {
 
 //---------------------------------------------------------------------------
 // Supported policies: 83
-// Supported rules: 603
+// Supported rules: 655
 //---------------------------------------------------------------------------
 
 extern const extended::ZonePolicy kZonePolicyAN;
@@ -214,12 +214,10 @@ extern const extended::ZonePolicy kZonePolicyZion;
 
 
 //---------------------------------------------------------------------------
-// Notable zone policies: 15
+// Notable zone policies: 9
 //---------------------------------------------------------------------------
 
-// Armenia {Added anchor rule at year -32767}
 // Belize {LETTER 'CST' not single character}
-// Dhaka {Added anchor rule at year -32767}
 // Eire {SAVE '-1:00' different from 1:00}
 // LH {SAVE '0:30' different from 1:00}
 // Moncton {AT '0:01' not on 15-minute boundary}
@@ -229,25 +227,17 @@ extern const extended::ZonePolicy kZonePolicyZion;
 //   LETTER 'WAT' not single character,
 //   SAVE '-1:00' different from 1:00,
 // }
-// Pakistan {Added anchor rule at year -32767}
-// Palestine {
-//   AT '0:01' not on 15-minute boundary,
-//   Added anchor rule at year -32767,
-// }
-// SanLuis {Added anchor rule at year -32767}
+// Palestine {AT '0:01' not on 15-minute boundary}
 // StJohns {
 //   AT '0:01' not on 15-minute boundary,
 //   LETTER 'DD' not single character,
 //   SAVE '2:00' different from 1:00,
 // }
-// Tonga {Added anchor rule at year -32767}
 // Troll {
-//   Added anchor rule at year -32767,
 //   LETTER '+00' not single character,
 //   LETTER '+02' not single character,
 //   SAVE '2:00' different from 1:00,
 // }
-// WS {Added anchor rule at year -32767}
 
 
 }

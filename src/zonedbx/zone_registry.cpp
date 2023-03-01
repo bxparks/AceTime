@@ -28,10 +28,10 @@
 // Supported Zones: 596 (351 zones, 245 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
 // Original Years: [1844,2087]
-// Generated Years: [1943,2087]
+// Generated Years: [1950,2087]
 //
 // Memory (8-bits):
-//   Rules: 6633
+//   Rules: 7205
 //   Policies: 249
 //   Eras: 7764
 //   Zones: 4563
@@ -41,10 +41,10 @@
 //   Letters: 46
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 30028
+//   TOTAL: 30600
 //
 // Memory (32-bits):
-//   Rules: 7236
+//   Rules: 7860
 //   Policies: 664
 //   Eras: 10352
 //   Zones: 8424
@@ -54,7 +54,7 @@
 //   Letters: 64
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 41428
+//   TOTAL: 42052
 //
 // DO NOT EDIT
 

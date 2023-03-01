@@ -28,10 +28,10 @@
 // Supported Zones: 446 (227 zones, 219 links)
 // Unsupported Zones: 150 (124 zones, 26 links)
 // Original Years: [1844,2087]
-// Generated Years: [1943,2023]
+// Generated Years: [1950,2023]
 //
 // Memory (8-bits):
-//   Rules: 3454
+//   Rules: 3883
 //   Policies: 189
 //   Eras: 2868
 //   Zones: 2951
@@ -41,10 +41,10 @@
 //   Letters: 11
 //   Fragments: 116
 //   Names: 4144 (original: 6503)
-//   TOTAL: 17937
+//   TOTAL: 18366
 //
 // Memory (32-bits):
-//   Rules: 3768
+//   Rules: 4236
 //   Policies: 504
 //   Eras: 3824
 //   Zones: 5448
@@ -54,7 +54,7 @@
 //   Letters: 17
 //   Fragments: 138
 //   Names: 4144 (original: 6503)
-//   TOTAL: 25348
+//   TOTAL: 25816
 //
 // DO NOT EDIT
 
@@ -68,7 +68,7 @@ namespace zonedb {
 
 //---------------------------------------------------------------------------
 // Supported policies: 63
-// Supported rules: 314
+// Supported rules: 353
 //---------------------------------------------------------------------------
 
 extern const basic::ZonePolicy kZonePolicyAN;
@@ -182,7 +182,7 @@ extern const basic::ZonePolicy kZonePolicyZion;
 // NBorneo {unused}
 // NT_YK {unused}
 // NYC {unused}
-// Namibia {LETTER 'WAT' too long}
+// Namibia {LETTER 'CAT' too long}
 // Palestine {Found 2 transitions in year/month '2011-08'}
 // Perry {unused}
 // Pike {unused}
@@ -214,17 +214,13 @@ extern const basic::ZonePolicy kZonePolicyZion;
 
 
 //---------------------------------------------------------------------------
-// Notable zone policies: 8
+// Notable zone policies: 4
 //---------------------------------------------------------------------------
 
-// Armenia {Added anchor rule at year -32767}
-// Dhaka {Added anchor rule at year -32767}
 // Eire {SAVE '-1:00' different from 1:00}
 // LH {SAVE '0:30' different from 1:00}
 // Moncton {AT '0:01' not on 15-minute boundary}
 // Namibia {SAVE '-1:00' different from 1:00}
-// Pakistan {Added anchor rule at year -32767}
-// Tonga {Added anchor rule at year -32767}
 
 
 }

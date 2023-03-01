@@ -31,10 +31,10 @@
 // Supported Zones: 16 (15 zones, 1 links)
 // Unsupported Zones: 580 (336 zones, 244 links)
 // Original Years: [1844,2087]
-// Generated Years: [1943,2087]
+// Generated Years: [1945,2087]
 //
 // Memory (8-bits):
-//   Rules: 2365
+//   Rules: 2464
 //   Policies: 36
 //   Eras: 360
 //   Zones: 195
@@ -44,10 +44,10 @@
 //   Letters: 23
 //   Fragments: 0
 //   Names: 260 (original: 260)
-//   TOTAL: 3376
+//   TOTAL: 3475
 //
 // Memory (32-bits):
-//   Rules: 2580
+//   Rules: 2688
 //   Policies: 96
 //   Eras: 480
 //   Zones: 360
@@ -57,7 +57,7 @@
 //   Letters: 33
 //   Fragments: 0
 //   Names: 260 (original: 260)
-//   TOTAL: 3989
+//   TOTAL: 4097
 //
 // DO NOT EDIT
 
@@ -71,7 +71,7 @@ namespace tzonedbx {
 
 //---------------------------------------------------------------------------
 // Supported policies: 12
-// Supported rules: 215
+// Supported rules: 224
 //---------------------------------------------------------------------------
 
 extern const extended::ZonePolicy kZonePolicyAus;
@@ -217,17 +217,15 @@ extern const extended::ZonePolicy kZonePolicyWinn;
 
 
 //---------------------------------------------------------------------------
-// Notable zone policies: 3
+// Notable zone policies: 2
 //---------------------------------------------------------------------------
 
 // Morocco {SAVE '-1:00' different from 1:00}
 // Namibia {
-//   Added anchor rule at year -32767,
 //   LETTER 'CAT' not single character,
 //   LETTER 'WAT' not single character,
 //   SAVE '-1:00' different from 1:00,
 // }
-// WS {Added anchor rule at year -32767}
 
 
 }
