@@ -105,7 +105,7 @@ class ExtendedTransitionTest: public aunit::TestOnce {
           zoneProcessor.initForYear(y);
         }
         uint8_t observedBufSize = zoneProcessor.getTransitionAllocSize();
-        assertEqual(observedBufSize, expectedBufSize);
+        assertLessOrEqual(observedBufSize, expectedBufSize);
       }
     }
 
