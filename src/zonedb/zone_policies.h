@@ -33,7 +33,7 @@
 // Max Buffer Size: 6
 //
 // Memory (8-bits):
-//   Rules: 3883
+//   Rules: 3982
 //   Policies: 189
 //   Eras: 2868
 //   Zones: 2951
@@ -43,10 +43,10 @@
 //   Letters: 11
 //   Fragments: 116
 //   Names: 4144 (original: 6503)
-//   TOTAL: 18366
+//   TOTAL: 18465
 //
 // Memory (32-bits):
-//   Rules: 4236
+//   Rules: 4344
 //   Policies: 504
 //   Eras: 3824
 //   Zones: 5448
@@ -56,7 +56,7 @@
 //   Letters: 17
 //   Fragments: 138
 //   Names: 4144 (original: 6503)
-//   TOTAL: 25816
+//   TOTAL: 25924
 //
 // DO NOT EDIT
 
@@ -70,7 +70,7 @@ namespace zonedb {
 
 //---------------------------------------------------------------------------
 // Supported policies: 63
-// Supported rules: 353
+// Supported rules: 362
 //---------------------------------------------------------------------------
 
 extern const basic::ZonePolicy kZonePolicyAN;

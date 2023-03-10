@@ -33,7 +33,7 @@
 // Max Buffer Size: 6
 //
 // Memory (8-bits):
-//   Rules: 3883
+//   Rules: 3982
 //   Policies: 189
 //   Eras: 2868
 //   Zones: 2951
@@ -43,10 +43,10 @@
 //   Letters: 11
 //   Fragments: 116
 //   Names: 4144 (original: 6503)
-//   TOTAL: 18366
+//   TOTAL: 18465
 //
 // Memory (32-bits):
-//   Rules: 4236
+//   Rules: 4344
 //   Policies: 504
 //   Eras: 3824
 //   Zones: 5448
@@ -56,7 +56,7 @@
 //   Letters: 17
 //   Fragments: 138
 //   Names: 4144 (original: 6503)
-//   TOTAL: 25816
+//   TOTAL: 25924
 //
 // DO NOT EDIT
 
@@ -68,7 +68,7 @@ namespace zonedb {
 
 //---------------------------------------------------------------------------
 // Policies: 63
-// Rules: 353
+// Rules: 362
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -2983,7 +2983,7 @@ const basic::ZonePolicy kZonePolicyJapan ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: Jordan
-// Rules: 5
+// Rules: 14
 //---------------------------------------------------------------------------
 
 static const basic::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
@@ -3047,12 +3047,120 @@ static const basic::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     2 /*letterIndex ("S")*/,
   },
+  // Rule    Jordan    2002    2012    -    Mar    lastThu    24:00    1:00    S
+  {
+    2002 /*fromYear*/,
+    2012 /*toYear*/,
+    3 /*inMonth*/,
+    4 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    96 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    2 /*letterIndex ("S")*/,
+  },
+  // Rule    Jordan    2003    only    -    Oct    24    0:00s    0    -
+  {
+    2003 /*fromYear*/,
+    2003 /*toYear*/,
+    10 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    24 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    0 /*letterIndex ("")*/,
+  },
+  // Rule    Jordan    2004    only    -    Oct    15    0:00s    0    -
+  {
+    2004 /*fromYear*/,
+    2004 /*toYear*/,
+    10 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    15 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    0 /*letterIndex ("")*/,
+  },
+  // Rule    Jordan    2005    only    -    Sep    lastFri    0:00s    0    -
+  {
+    2005 /*fromYear*/,
+    2005 /*toYear*/,
+    9 /*inMonth*/,
+    5 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    0 /*letterIndex ("")*/,
+  },
+  // Rule    Jordan    2006    2011    -    Oct    lastFri    0:00s    0    -
+  {
+    2006 /*fromYear*/,
+    2011 /*toYear*/,
+    10 /*inMonth*/,
+    5 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    0 /*letterIndex ("")*/,
+  },
+  // Rule    Jordan    2013    only    -    Dec    20    0:00    0    -
+  {
+    2013 /*fromYear*/,
+    2013 /*toYear*/,
+    12 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    20 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    0 /*letterIndex ("")*/,
+  },
+  // Rule    Jordan    2014    2021    -    Mar    lastThu    24:00    1:00    S
+  {
+    2014 /*fromYear*/,
+    2021 /*toYear*/,
+    3 /*inMonth*/,
+    4 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    96 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    2 /*letterIndex ("S")*/,
+  },
+  // Rule    Jordan    2014    2022    -    Oct    lastFri    0:00s    0    -
+  {
+    2014 /*fromYear*/,
+    2022 /*toYear*/,
+    10 /*inMonth*/,
+    5 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    0 /*letterIndex ("")*/,
+  },
+  // Rule    Jordan    2022    only    -    Feb    lastThu    24:00    1:00    S
+  {
+    2022 /*fromYear*/,
+    2022 /*toYear*/,
+    2 /*inMonth*/,
+    4 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    96 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
+    2 /*letterIndex ("S")*/,
+  },
 
 };
 
 const basic::ZonePolicy kZonePolicyJordan ACE_TIME_PROGMEM = {
   kZoneRulesJordan /*rules*/,
-  5 /*numRules*/,
+  14 /*numRules*/,
 };
 
 //---------------------------------------------------------------------------

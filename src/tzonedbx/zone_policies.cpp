@@ -36,7 +36,7 @@
 // Max Buffer Size: 7
 //
 // Memory (8-bits):
-//   Rules: 2464
+//   Rules: 2497
 //   Policies: 36
 //   Eras: 360
 //   Zones: 195
@@ -46,10 +46,10 @@
 //   Letters: 23
 //   Fragments: 0
 //   Names: 260 (original: 260)
-//   TOTAL: 3475
+//   TOTAL: 3508
 //
 // Memory (32-bits):
-//   Rules: 2688
+//   Rules: 2724
 //   Policies: 96
 //   Eras: 480
 //   Zones: 360
@@ -59,7 +59,7 @@
 //   Letters: 33
 //   Fragments: 0
 //   Names: 260 (original: 260)
-//   TOTAL: 4097
+//   TOTAL: 4133
 //
 // DO NOT EDIT
 
@@ -71,7 +71,7 @@ namespace tzonedbx {
 
 //---------------------------------------------------------------------------
 // Policies: 12
-// Rules: 224
+// Rules: 227
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -200,11 +200,11 @@ const extended::ZonePolicy kZonePolicyCanada ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: EU
-// Rules: 5
+// Rules: 6
 //---------------------------------------------------------------------------
 
 static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
-  // Anchor: Rule    EU    1979    1995    -    Sep    lastSun     1:00u    0    -
+  // Anchor: Rule    EU    1978    only    -    Oct     1     1:00u    0    -
   {
     -32767 /*fromYear*/,
     -32767 /*toYear*/,
@@ -227,6 +227,18 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
     32 /*atTimeModifier (kSuffixU + minute=0)*/,
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     3 /*letterIndex ("S")*/,
+  },
+  // Rule    EU    1978    only    -    Oct     1     1:00u    0    -
+  {
+    1978 /*fromYear*/,
+    1978 /*toYear*/,
+    10 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    32 /*atTimeModifier (kSuffixU + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    0 /*letterIndex ("")*/,
   },
   // Rule    EU    1979    1995    -    Sep    lastSun     1:00u    0    -
   {
@@ -269,7 +281,7 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
 
 const extended::ZonePolicy kZonePolicyEU ACE_TIME_PROGMEM = {
   kZoneRulesEU /*rules*/,
-  5 /*numRules*/,
+  6 /*numRules*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2710,11 +2722,11 @@ const extended::ZonePolicy kZonePolicyVanc ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: W-Eur
-// Rules: 4
+// Rules: 6
 //---------------------------------------------------------------------------
 
 static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
-  // Anchor: Rule    W-Eur    1979    1995    -    Sep    lastSun     1:00s    0    -
+  // Anchor: Rule    W-Eur    1978    only    -    Oct     1     1:00s    0    -
   {
     -32767 /*fromYear*/,
     -32767 /*toYear*/,
@@ -2737,6 +2749,18 @@ static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
     16 /*atTimeModifier (kSuffixS + minute=0)*/,
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     3 /*letterIndex ("S")*/,
+  },
+  // Rule    W-Eur    1978    only    -    Oct     1     1:00s    0    -
+  {
+    1978 /*fromYear*/,
+    1978 /*toYear*/,
+    10 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    0 /*letterIndex ("")*/,
   },
   // Rule    W-Eur    1979    1995    -    Sep    lastSun     1:00s    0    -
   {
@@ -2762,12 +2786,24 @@ static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     3 /*letterIndex ("S")*/,
   },
+  // Rule    W-Eur    1996    max    -    Oct    lastSun     1:00s    0    -
+  {
+    1996 /*fromYear*/,
+    32766 /*toYear*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    16 /*atTimeModifier (kSuffixS + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    0 /*letterIndex ("")*/,
+  },
 
 };
 
 const extended::ZonePolicy kZonePolicyW_Eur ACE_TIME_PROGMEM = {
   kZoneRulesW_Eur /*rules*/,
-  4 /*numRules*/,
+  6 /*numRules*/,
 };
 
 //---------------------------------------------------------------------------

@@ -36,7 +36,7 @@
 // Max Buffer Size: 7
 //
 // Memory (8-bits):
-//   Rules: 2464
+//   Rules: 2497
 //   Policies: 36
 //   Eras: 360
 //   Zones: 195
@@ -46,10 +46,10 @@
 //   Letters: 23
 //   Fragments: 0
 //   Names: 260 (original: 260)
-//   TOTAL: 3475
+//   TOTAL: 3508
 //
 // Memory (32-bits):
-//   Rules: 2688
+//   Rules: 2724
 //   Policies: 96
 //   Eras: 480
 //   Zones: 360
@@ -59,7 +59,7 @@
 //   Letters: 33
 //   Fragments: 0
 //   Names: 260 (original: 260)
-//   TOTAL: 4097
+//   TOTAL: 4133
 //
 // DO NOT EDIT
 
