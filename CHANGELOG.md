@@ -36,6 +36,14 @@
         * Accuracy is guaranteed only for the requested interval (e.g.
           `[2000,2100)`.
         * But the code won't crash outside of that interval.
+    * **Bug Fix**
+        * Change arguments for `TimeZone::forMinutes()` from `uint8_t` to
+          `uint16_t`.
+    * **Breaking Change**
+        * Make `TimeZone` effectively immutable, by removing `setStdOffset()`
+          and `setDstOffset()` methods.
+        * Client applications should create a new `TimeZone` object using
+          `TimeZone::forTimeOffset(std, dst)` and overwrite the old one.
 * 2.1.1 (2023-02-02, TZDB version 2022g)
     * `ZonedExtra`
         * Add `ZonedExtra::forComponents()` factory method, for consistency with
