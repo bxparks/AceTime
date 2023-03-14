@@ -1,8 +1,8 @@
 TARGETS := zonedb zonedbx tzonedb tzonedbx
 
-.PHONY: $(TARGETS)
+.PHONY: $(TARGETS) zonedbs
 
-all: $(TARGETS)
+zonedbs: $(TARGETS)
 
 zonedb:
 	$(MAKE) -C $@
