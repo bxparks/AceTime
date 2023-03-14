@@ -957,7 +957,7 @@ class TimeZone {
         TimeOffset dstOffset = TimeOffset());
 
     static TimeZone forHours(int8_t stdHours, int8_t dstHours = 0);
-    static TimeZone forMinutes(int8_t stdMinutes, int8_t dstMinutes = 0);
+    static TimeZone forMinutes(int16_t stdMinutes, int16_t dstMinutes = 0);
 
     static TimeZone forHourMinute(
         int8_t stdHour,

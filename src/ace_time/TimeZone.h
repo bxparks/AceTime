@@ -137,7 +137,7 @@ class TimeZone {
      * `forTimeOffset(TimeOffset::forMinutes(stdMinutes),
      * TimeOffset::forMinutes(dstMinutes))`.
      */
-    static TimeZone forMinutes(int8_t stdMinutes, int8_t dstMinutes = 0) {
+    static TimeZone forMinutes(int16_t stdMinutes, int16_t dstMinutes = 0) {
       return TimeZone::forTimeOffset(
           TimeOffset::forMinutes(stdMinutes),
           TimeOffset::forMinutes(dstMinutes)

@@ -139,8 +139,8 @@ test(TimeZoneTest, forHours) {
 }
 
 test(TimeZoneTest, forMinutes) {
-  TimeZone tz = TimeZone::forMinutes(-120, 60);
-  assertEqual(-120, tz.getStdOffset().toMinutes());
+  TimeZone tz = TimeZone::forMinutes(-480, 60);
+  assertEqual(-480, tz.getStdOffset().toMinutes());
   assertEqual(60, tz.getDstOffset().toMinutes());
 }
 
