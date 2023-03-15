@@ -906,9 +906,10 @@ expected date and time fields appropriate for those time zones.
 ### TimeZone
 
 A "time zone" is often used colloquially to mean 2 different things:
+
 * An offset from the UTC time by a fixed amount, or
-* A geographical or political region whose local time is offset
-from the UTC time using various transition rules.
+* A geographical or political region whose local time is offset from the UTC
+  time using various transition rules.
 
 Both meanings of "time zone" are supported by the `TimeZone` class using
 3 different types as defined by the value of `getType()`:
@@ -990,8 +991,6 @@ class TimeZone {
     // for kTypeManual only
     TimeOffset getStdOffset() const;
     TimeOffset getDstOffset() const;
-    void setStdOffset(TimeOffset stdOffset);
-    void setDstOffset(TimeOffset offset);
     bool isUtc() const;
     bool isDst() const;
 
@@ -1003,6 +1002,12 @@ class TimeZone {
 
 }
 ```
+
+The TimeZone class is an immutable value type. It can be passed around by
+value, but since it is between 5 bytes (8-bit processors) and 12 bytes
+(32-bit processors) big, it may be slightly more efficient to pass by const
+reference, then save locally by-value when needed. The ZonedDateTime holds
+the TimeZone object by-value.
 
 The following methods apply only to instances of the type `kTypeManual`:
 
@@ -1020,9 +1025,6 @@ The following methods apply only to instances of the type `kTypeManual`:
 * `isDst()`:
     * returns true if the dstOffset is not zero
     * returns false if not `kTypeManual`
-* `setSdtOffset(TimeOffset)`, `setDstOffset(TimeOffset)`:
-    * modify the std and dst offsets of the instance
-    * does nothing if not `kTypeManual`
 
 The following methods apply to a `kTypeBasic` or `kTypeExtended`:
 
@@ -1103,14 +1105,6 @@ auto tz = TimeZone::forHourMinute(-3, -30, 1, 0); // identical to above
 
 The `TimeZone::isUtc()`, `TimeZone::isDst()` and `TimeZone::setDst(bool)`
 methods work only if the `TimeZone` is a `kTypeManual`.
-
-The `setDstOffset()` takes a `TimeOffset` as the argument instead of a simple
-`bool` because there are a handful of rare zones (e.g. Europe/Dublin, I think
-there is one other) which use a negative offset in the winter, instead of adding
-a positive offset in the summer.
-
-The `setStdOffset()` allows the base time offset to be changed, but this
-method is not expected to be used often.
 
 <a name="BasicTimeZone"></a>
 #### Basic TimeZone (kTypeBasic)
