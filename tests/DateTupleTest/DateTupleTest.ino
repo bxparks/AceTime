@@ -80,22 +80,22 @@ test(DateTuple, substractDateTuple) {
   DateTuple dta = {2000, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
   DateTuple dtb = {2000, 1, 1, 1, ZoneContext::kSuffixW}; // 2000-01-01 00:01
   acetime_t diff = subtractDateTuple(dta, dtb);
-  assertEqual(-60, diff);
+  assertEqual((acetime_t) -60, diff);
 
   dta = {2000, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
   dtb = {2000, 1, 2, 0, ZoneContext::kSuffixW}; // 2000-01-02 00:00
   diff = subtractDateTuple(dta, dtb);
-  assertEqual((int32_t) -86400, diff);
+  assertEqual((acetime_t) -86400, diff);
 
   dta = {2000, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
   dtb = {2000, 2, 1, 0, ZoneContext::kSuffixW}; // 2000-02-01 00:00
   diff = subtractDateTuple(dta, dtb);
-  assertEqual((int32_t) -86400 * 31, diff); // January has 31 days
+  assertEqual((acetime_t) -86400 * 31, diff); // January has 31 days
 
   dta = {2000, 2, 1, 0, ZoneContext::kSuffixW}; // 2000-02-01 00:00
   dtb = {2000, 3, 1, 0, ZoneContext::kSuffixW}; // 2000-03-01 00:00
   diff = subtractDateTuple(dta, dtb);
-  assertEqual((int32_t) -86400 * 29, diff); // Feb 2000 is leap, 29 days
+  assertEqual((acetime_t) -86400 * 29, diff); // Feb 2000 is leap, 29 days
 }
 
 // Check that no overflow occurs even if DateTuple.year is more than 68 years
@@ -107,22 +107,22 @@ test(DateTuple, substractDateTuple_no_overflow) {
   DateTuple dta = {6000, 1, 1, 0, ZoneContext::kSuffixW}; // 6000-01-01 00:00
   DateTuple dtb = {6000, 1, 1, 1, ZoneContext::kSuffixW}; // 6000-01-01 00:01
   acetime_t diff = subtractDateTuple(dta, dtb);
-  assertEqual(-60, diff);
+  assertEqual((acetime_t) -60, diff);
 
   dta = {6000, 1, 1, 0, ZoneContext::kSuffixW}; // 6000-01-01 00:00
   dtb = {6000, 1, 2, 0, ZoneContext::kSuffixW}; // 6000-01-02 00:00
   diff = subtractDateTuple(dta, dtb);
-  assertEqual((int32_t) -86400, diff);
+  assertEqual((acetime_t) -86400, diff);
 
   dta = {6000, 1, 1, 0, ZoneContext::kSuffixW}; // 6000-01-01 00:00
   dtb = {6000, 2, 1, 0, ZoneContext::kSuffixW}; // 6000-02-01 00:00
   diff = subtractDateTuple(dta, dtb);
-  assertEqual((int32_t) -86400 * 31, diff); // January has 31 days
+  assertEqual((acetime_t) -86400 * 31, diff); // January has 31 days
 
   dta = {6000, 2, 1, 0, ZoneContext::kSuffixW}; // 6000-02-01 00:00
   dtb = {6000, 3, 1, 0, ZoneContext::kSuffixW}; // 6000-03-01 00:00
   diff = subtractDateTuple(dta, dtb);
-  assertEqual((int32_t) -86400 * 29, diff); // Feb 4000 is leap, 29 days
+  assertEqual((acetime_t) -86400 * 29, diff); // Feb 4000 is leap, 29 days
 }
 
 test(DateTuple, compareDateTupleFuzzy) {
