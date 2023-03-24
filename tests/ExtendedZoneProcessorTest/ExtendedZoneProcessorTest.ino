@@ -303,7 +303,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, {0}, false
+    0, 0, 0, {0}, 0, false
   };
   assertEqual(
       (uint8_t) CompareStatus::kPrior,
@@ -317,7 +317,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, {0}, false
+    0, 0, 0, {0}, 0, false
   };
   assertEqual(
       (uint8_t) CompareStatus::kWithinMatch,
@@ -331,7 +331,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, {0}, false
+    0, 0, 0, {0}, 0, false
   };
   assertEqual(
       (uint8_t) CompareStatus::kWithinMatch,
@@ -345,7 +345,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, {0}, false
+    0, 0, 0, {0}, 0, false
   };
   assertEqual(
       (uint8_t) CompareStatus::kWithinMatch,
@@ -359,7 +359,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, {0}, false
+    0, 0, 0, {0}, 0, false
   };
   assertEqual(
       (uint8_t) CompareStatus::kWithinMatch,
@@ -373,7 +373,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, {0}, false
+    0, 0, 0, {0}, 0, false
   };
   assertEqual(
       (uint8_t) CompareStatus::kFarFuture,
@@ -492,11 +492,12 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   ExtendedZoneProcessor::Transition transition0 = {
     &match /*match*/,
     {-1, 12, 31, 0, ZoneContext::kSuffixW} /*transitionTime*/,
-    EMPTY_DATE, EMPTY_DATE,
+    EMPTY_DATE, /* transitionTimeS */
+    EMPTY_DATE, /* transitionTimeU */
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
-    EMPTY_DATE,
+    EMPTY_DATE, /* originalTransitionTime */
   #endif
-    0, 0, 0, {0}, {0}, false
+    0, 0, 0, {0}, 0, false
   };
 
   // transitionTime = 2000-01-01
@@ -507,7 +508,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, {0}, false
+    0, 0, 0, {0}, 0, false
   };
 
   // transitionTime = 2000-01-02
@@ -518,7 +519,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, {0}, false
+    0, 0, 0, {0}, 0, false
   };
 
   // transitionTime = 2001-02-03
@@ -529,7 +530,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, {0}, false
+    0, 0, 0, {0}, 0, false
   };
 
   ExtendedZoneProcessor::Transition* transitions[] = {
@@ -605,7 +606,7 @@ test(ExtendedZoneProcessorTest, processTransitionCompareStatus) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, {0}, false
+    0, 0, 0, {0}, 0, false
   };
 
   // This occurs at exactly match.startDateTime, so should replace the prior.
@@ -617,7 +618,7 @@ test(ExtendedZoneProcessorTest, processTransitionCompareStatus) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, {0}, false
+    0, 0, 0, {0}, 0, false
   };
 
   // An interior transition. Prior should not change.
@@ -629,7 +630,7 @@ test(ExtendedZoneProcessorTest, processTransitionCompareStatus) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, {0}, false
+    0, 0, 0, {0}, 0, false
   };
 
   // Occurs after match.untilDateTime, so should be rejected.
@@ -641,7 +642,7 @@ test(ExtendedZoneProcessorTest, processTransitionCompareStatus) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, {0}, false
+    0, 0, 0, {0}, 0, false
   };
 
   ExtendedZoneProcessor::Transition* transitions[] = {
