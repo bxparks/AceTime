@@ -35,9 +35,15 @@ class ExtendedTransitionValidation : public aunit::TestOnce {
       // years chunks, because time zone processing is valid over an interval of
       // about 130 years. For each chunk, the currentEpochYear() is reset to an
       // epoch year that is in the middle of each 100-year chunk.
+    #if defined(EPOXY_DUINO)
+      // On desktop machines, we can cover 2000 to year 10000.
       for (int16_t startYear = zonedbx::kZoneContext.startYear;
           startYear < zonedbx::kZoneContext.untilYear;
           startYear += 100) {
+    #else
+      // On slow microcontrollers, let's check only 2000 to 2100.
+      for (int16_t startYear = 2000; startYear < 2100; startYear += 100) {
+    #endif
 
         int16_t epochYear = startYear + 50;
         int16_t untilYear = min(
@@ -80,7 +86,9 @@ class ExtendedTransitionValidation : public aunit::TestOnce {
             zoneProcessor.mTransitionStorage.getActivePoolEnd();
 
         // Verify at least one Transition is created for each zone.
-        assertMore(end - start, (ssize_t) 0);
+        // Note: (end-start) is supposed to return an integer of type `ssize_t`,
+        // but that type is not defined on AVR g++.
+        assertMore(int(end - start), 0);
 
         assertNoFatalFailure(checkSortedTransitions(year, start, end));
         assertNoFatalFailure(checkUniqueTransitions(year, start, end));
@@ -147,10 +155,13 @@ testF(ExtendedTransitionValidation, allZones) {
       zonedbx::kZoneRegistrySize,
       zonedbx::kZoneRegistry);
 
+  SERIAL_PORT_MONITOR.print("Validating zones (one per dot): ");
   for (uint16_t i = 0; i < zonedbx::kZoneRegistrySize; i++) {
     const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(i);
+    SERIAL_PORT_MONITOR.print(".");
     validateZone(zoneInfo);
   }
+  SERIAL_PORT_MONITOR.println();
 }
 
 // Verify Transitions for Europe/Lisbon in 1992 using the
