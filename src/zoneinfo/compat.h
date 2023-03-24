@@ -27,14 +27,38 @@
   #define ACE_TIME_PROGMEM
 #endif
 
+// Some 3rd party Arduino cores does not define FPSTR(). And unfortunately, when
+// they do, sometimes it's wrong, so we sometimes have to clobber it below.
+#if ! defined(FPSTR)
+  #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
+#endif
+
 // Include the correct pgmspace.h depending on architecture.
 #if defined(ARDUINO_ARCH_AVR)
   #include <avr/pgmspace.h>
+
+// Seeeduino SAMD21 Core does not define an identifier for the following, so
+// they are not supported:
+//  * Wio lite MG126
+//  * Wio GPS Board
+//  * Wio LTE CAT.1
+//
+#elif defined(SEEED_XIAO_M0) \
+  || defined(SEEEDUINO_ZERO) \
+  || defined(SEEED_FEMTO_M0) \
+  || defined(SEEEDUINO_LORAWAN) \
+  || defined(SEEED_WIO_TERMINAL) \
+  || defined(SEEED_GROVE_UI_WIRELESS)
+
+  #include <avr/pgmspace.h>
+
+  // Seeeduino (as of 1.8.3) provides an incorrect definition of FPSTR()
+  // so we have to clobber it.
+  #undef FPSTR
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
 
 #elif defined(ARDUINO_ARCH_SAMD)
   #include <avr/pgmspace.h>
-  #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
 
   // Set this to 1 to clobber SERIAL_PORT_MONITOR to SerialUSB on
   // an original Arduino Zero when using the Native port. See USER_GUIDE.md for
@@ -45,28 +69,21 @@
     #define SERIAL_PORT_MONITOR SerialUSB
   #endif
 
-#elif defined(TEENSYDUINO)
+#elif defined(ARDUINO_ARCH_STM32)
   #include <avr/pgmspace.h>
-  #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
 
-#elif defined(ESP8266)
+#elif defined(ARDUINO_ARCH_ESP8266)
   #include <pgmspace.h>
 
-#elif defined(ESP32)
+#elif defined(ARDUINO_ARCH_ESP32)
   #include <pgmspace.h>
 
-  // ESP32 does not define SERIAL_PORT_MONITOR. Define it unless another
-  // library has already defined it.
   #if ! defined(SERIAL_PORT_MONITOR)
     #define SERIAL_PORT_MONITOR Serial
   #endif
 
-#elif defined(ARDUINO_ARCH_STM32)
+#elif defined(TEENSYDUINO)
   #include <avr/pgmspace.h>
-  #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
-
-  #undef SERIAL_PORT_MONITOR
-  #define SERIAL_PORT_MONITOR Serial
 
 #elif defined(EPOXY_DUINO)
   #include <pgmspace.h>
@@ -75,14 +92,6 @@
   #warning Untested platform. AceTime may still work...
 
   #include <avr/pgmspace.h>
-
-  #if ! defined(FPSTR)
-    #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
-  #endif
-
-  #if ! defined(SERIAL_PORT_MONITOR)
-    #define SERIAL_PORT_MONITOR Serial
-  #endif
 
 #endif
 
