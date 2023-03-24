@@ -44,6 +44,7 @@
           and `setDstOffset()` methods.
         * Client applications should create a new `TimeZone` object using
           `TimeZone::forTimeOffset(std, dst)` and overwrite the old one.
+        * See [Migrating to v2.2](MIGRATING.md#MigratingToVersion220).
 * 2.1.1 (2023-02-02, TZDB version 2022g)
     * `ZonedExtra`
         * Add `ZonedExtra::forComponents()` factory method, for consistency with

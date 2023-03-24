@@ -2,6 +2,7 @@
 
 ## Table of Contents
 
+* [Migrating to v2.2.0](#MigratingToVersion220)
 * [Migrating to v2.1.0](#MigratingToVersion210)
     * [Unified Links](#UnifiedLinks)
     * [ZonedExtra](#ZonedExtra)
@@ -17,6 +18,46 @@
     * [Migrating to AceTimeClock](#MigratingToAceTimeClock)
     * [Migrating the DS3231Clock](#MigratingTheDS3231Clock)
     * [Migrating to LinkManagers](#MigratingToLinkManagers)
+
+<a name="MigratingToVersion220"></a>
+## Migrating to v2.2
+
+### Immutable TimeZone class
+
+Previously, the `TimeZone` class was semantically immutable when using the
+IANA timezones through the `BasicZoneProcessor` or `ExtendedZoneProcessor`.
+There was one exception: When the `TimeZone` represented a fixed UTC offset
+(e.g. type of `TimeZone::kTypeManual`), the `TimeZone` allowed the STD offset
+and DST offset to be modified in-place.
+
+This was a mistake, because the `TimeZone` object was meant to be copied by
+value, and allowing it to be mutable meant that 2 different `ZonedDateTime`
+objects could intend to hold the same `TimeZone` object, but modifying one
+instance would not update the other instance.
+
+In v2.2, the `TimeZone` class becomes immutable, and the following methods are
+removed:
+
+```C++
+class TimeZone {
+  public:
+    void setStdOffset(TimeZone offset);
+    void setDstOffset(TimeZone offset);
+};
+```
+
+To modify a `TimeZone`, create a new instance, then call
+`ZonedDateTime::convertToTimeZone(const TimeZone& tz)` instead. For example, to
+change to Daylight Saving Time for Pacific time:
+
+```C++
+TimeZone tz = TimeZone::forHours(-8, 0); // PST time
+ZonedDateTime zdt = ZonedDateTime::forComponents(...);
+
+TimeZone newTz = TimeZone::forTimeOffset(
+  tz.getStdOffset(), TimeOffset::forHours(1));
+ZonedDateTime newDt = zdt.convertToTimeZone(newTz);
+```
 
 <a name="MigratingToVersion210"></a>
 ## Migrating to v2.1
