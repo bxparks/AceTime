@@ -52,14 +52,11 @@ This library can be an alternative to the Arduino Time
 (https://github.com/PaulStoffregen/Time) and Arduino Timezone
 (https://github.com/JChristensen/Timezone) libraries.
 
-**Breaking Changes in v2.1**: Links are now first-class citizens compared to
-Zones and should be treated exactly the same. Fat link and symbolic link
-implementations have been unified. TimeZone methods have been simplified. Only 2
-methods are now special to Link time zones: `TimeZone::isLink()` and
-`TimeZone::printTargetNameTo()`. See [Migrating to
-v2.1.0](MIGRATING.md#MigratingToVersion210) section for more details.
+**Breaking Changes in v2.2**: `TimeZone` class is immutable. Affects fixed
+offsets of type `kTypeManual`. See [Migrating to
+v2.2.0](MIGRATING.md#MigratingToVersion220) for details.
 
-**Version**: 2.1.1 (2023-02-02, TZDB version 2022g)
+**Version**: 2.2.0 (2023-03-24, TZDB version 2023a)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
