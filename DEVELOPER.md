@@ -239,11 +239,11 @@ STDOFF (1-min resolution)
                        ---------------> | minute  | code     |
                                         | (4-bits)| (4-bits) |
                                         +--------------------+
-                                                      ^
-RULES (numeric, 15-min resolution)                   /
--> rules_delta_seconds                              /
-    -> rules_delta_code -- (basic) ----------------/
-                        -- (extended) + 4 ---------
+                                                    ^
+RULES (numeric, 15-min resolution)                 /
+-> era_delta_seconds                              /
+  -> era_delta_minutes                           /
+    -> era_delta_code + 4------------------------
 
 
 UNTIL (1-min resolution)
@@ -280,9 +280,10 @@ AT (1-min resolution)
                                         +--------------------+
 
 SAVE (15-min resolution)
--> delta_seconds                        +--------------------+
-    -> delta_code -- (basic) ---------> |     deltaCode      |
-                  -- (extended) + 4 --> |     (8 bits)       |
+-> delta_seconds
+  -> delta_minutes                      +--------------------+
+    -> delta_code + 4 ----------------> |     deltaCode      |
+                                        |     (8 bits)       |
                                         +--------------------+
 ```
 
