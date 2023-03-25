@@ -18,7 +18,7 @@ valid from the years `[2000,10000)`. By adjusting the `currentEpochYear()`, the
 library will work across any 100 year interval across the 8000 year range of the
 TZ database.
 
-**Version**: 2.2.0 (2023-03-24, TZDB 2023b)
+**Version**: 2.2.1 (2023-03-24, TZDB 2023b)
 
 **Related Documents**:
 

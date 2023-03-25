@@ -1,6 +1,8 @@
 # Changelog
 
 * Unreleased
+* 2.2.1 (2023-03-24, TZDB version 2023b)
+    * Actually regenerate the `zonedb*` files to 2023b.
 * 2.2.0 (2023-03-24, TZDB version 2023b)
     * Upgrade TZDB from 2022g to 2023b
         * 2023a skipped because it came out only a day earlier.
