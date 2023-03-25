@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/tzonedb/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/tzonedb
-//     --tz_version 2022g
+//     --tz_version 2023b
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -26,10 +26,10 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022g
+// from https://github.com/eggert/tz/releases/tag/2023b
 //
 // Supported Zones: 12 (11 zones, 1 links)
-// Unsupported Zones: 584 (340 zones, 244 links)
+// Unsupported Zones: 584 (339 zones, 245 links)
 //
 // Original Years:  [1844,2087]
 // Generated Years: [1945,2007]
@@ -81,7 +81,7 @@ namespace tzonedb {
 // ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] = "2022g";
+const char kTzDatabaseVersion[] = "2023b";
 
 const char* const kFragments[] = {
 /*\x00*/ nullptr,

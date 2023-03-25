@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbx/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbx
-//     --tz_version 2022g
+//     --tz_version 2023b
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -23,9 +23,9 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022g
+// from https://github.com/eggert/tz/releases/tag/2023b
 //
-// Supported Zones: 596 (351 zones, 245 links)
+// Supported Zones: 596 (350 zones, 246 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
 //
 // Original Years:  [1844,2087]
@@ -35,35 +35,35 @@
 //
 // Records:
 //   Infos: 596
-//   Eras: 647
+//   Eras: 646
 //   Policies: 83
-//   Rules: 655
+//   Rules: 737
 //
 // Memory (8-bits):
-//   Rules: 7205
+//   Rules: 8107
 //   Policies: 249
-//   Eras: 7764
-//   Zones: 4563
-//   Links: 3185
+//   Eras: 7752
+//   Zones: 4550
+//   Links: 3198
 //   Registry: 1192
 //   Formats: 597
 //   Letters: 46
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 30600
+//   TOTAL: 31490
 //
 // Memory (32-bits):
-//   Rules: 7860
+//   Rules: 8844
 //   Policies: 664
-//   Eras: 10352
-//   Zones: 8424
-//   Links: 5880
+//   Eras: 10336
+//   Zones: 8400
+//   Links: 5904
 //   Registry: 2384
 //   Formats: 597
 //   Letters: 64
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 42052
+//   TOTAL: 43020
 //
 // DO NOT EDIT
 
@@ -86,8 +86,8 @@ extern const char kTzDatabaseVersion[];
 extern const internal::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 351
-// Supported eras: 647
+// Supported zones: 350
+// Supported eras: 646
 //---------------------------------------------------------------------------
 
 extern const extended::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
@@ -229,7 +229,6 @@ extern const extended::ZoneInfo kZoneAmerica_Vancouver; // America/Vancouver
 extern const extended::ZoneInfo kZoneAmerica_Whitehorse; // America/Whitehorse
 extern const extended::ZoneInfo kZoneAmerica_Winnipeg; // America/Winnipeg
 extern const extended::ZoneInfo kZoneAmerica_Yakutat; // America/Yakutat
-extern const extended::ZoneInfo kZoneAmerica_Yellowknife; // America/Yellowknife
 extern const extended::ZoneInfo kZoneAntarctica_Casey; // Antarctica/Casey
 extern const extended::ZoneInfo kZoneAntarctica_Davis; // Antarctica/Davis
 extern const extended::ZoneInfo kZoneAntarctica_Macquarie; // Antarctica/Macquarie
@@ -584,7 +583,6 @@ const uint32_t kZoneIdAmerica_Vancouver = 0x2c6f6b1f; // America/Vancouver
 const uint32_t kZoneIdAmerica_Whitehorse = 0x54e0e3e8; // America/Whitehorse
 const uint32_t kZoneIdAmerica_Winnipeg = 0x8c7dafc7; // America/Winnipeg
 const uint32_t kZoneIdAmerica_Yakutat = 0xd8ee31e9; // America/Yakutat
-const uint32_t kZoneIdAmerica_Yellowknife = 0x0f76c76f; // America/Yellowknife
 const uint32_t kZoneIdAntarctica_Casey = 0xe2022583; // Antarctica/Casey
 const uint32_t kZoneIdAntarctica_Davis = 0xe2144b45; // Antarctica/Davis
 const uint32_t kZoneIdAntarctica_Macquarie = 0x92f47626; // Antarctica/Macquarie
@@ -799,7 +797,7 @@ const uint32_t kZoneIdWET = 0x0b882e35; // WET
 
 
 //---------------------------------------------------------------------------
-// Supported links: 245
+// Supported links: 246
 //---------------------------------------------------------------------------
 
 extern const extended::ZoneInfo kZoneAfrica_Accra; // Africa/Accra -> Africa/Abidjan
@@ -884,6 +882,7 @@ extern const extended::ZoneInfo kZoneAmerica_St_Vincent; // America/St_Vincent -
 extern const extended::ZoneInfo kZoneAmerica_Thunder_Bay; // America/Thunder_Bay -> America/Toronto
 extern const extended::ZoneInfo kZoneAmerica_Tortola; // America/Tortola -> America/Puerto_Rico
 extern const extended::ZoneInfo kZoneAmerica_Virgin; // America/Virgin -> America/Puerto_Rico
+extern const extended::ZoneInfo kZoneAmerica_Yellowknife; // America/Yellowknife -> America/Edmonton
 extern const extended::ZoneInfo kZoneAntarctica_DumontDUrville; // Antarctica/DumontDUrville -> Pacific/Port_Moresby
 extern const extended::ZoneInfo kZoneAntarctica_McMurdo; // Antarctica/McMurdo -> Pacific/Auckland
 extern const extended::ZoneInfo kZoneAntarctica_South_Pole; // Antarctica/South_Pole -> Pacific/Auckland
@@ -1133,6 +1132,7 @@ const uint32_t kZoneIdAmerica_St_Vincent = 0x8460e523; // America/St_Vincent
 const uint32_t kZoneIdAmerica_Thunder_Bay = 0xf962e71b; // America/Thunder_Bay
 const uint32_t kZoneIdAmerica_Tortola = 0x7931462b; // America/Tortola
 const uint32_t kZoneIdAmerica_Virgin = 0xc2183ab5; // America/Virgin
+const uint32_t kZoneIdAmerica_Yellowknife = 0x0f76c76f; // America/Yellowknife
 const uint32_t kZoneIdAntarctica_DumontDUrville = 0x5a3c656c; // Antarctica/DumontDUrville
 const uint32_t kZoneIdAntarctica_McMurdo = 0x6eeb5585; // Antarctica/McMurdo
 const uint32_t kZoneIdAntarctica_South_Pole = 0xcd96b290; // Antarctica/South_Pole
@@ -1415,7 +1415,7 @@ const uint8_t kZoneBufSizeAmerica_Noronha = 5;  // America/Noronha in 1999
 const uint8_t kZoneBufSizeAmerica_North_Dakota_Beulah = 6;  // America/North_Dakota/Beulah in 2008
 const uint8_t kZoneBufSizeAmerica_North_Dakota_Center = 6;  // America/North_Dakota/Center in 2008
 const uint8_t kZoneBufSizeAmerica_North_Dakota_New_Salem = 6;  // America/North_Dakota/New_Salem in 2008
-const uint8_t kZoneBufSizeAmerica_Nuuk = 5;  // America/Nuuk in 1983
+const uint8_t kZoneBufSizeAmerica_Nuuk = 6;  // America/Nuuk in 2023
 const uint8_t kZoneBufSizeAmerica_Ojinaga = 7;  // America/Ojinaga in 2022
 const uint8_t kZoneBufSizeAmerica_Panama = 1;  // America/Panama in 1949
 const uint8_t kZoneBufSizeAmerica_Paramaribo = 1;  // America/Paramaribo in 1949
@@ -1445,7 +1445,6 @@ const uint8_t kZoneBufSizeAmerica_Vancouver = 6;  // America/Vancouver in 2008
 const uint8_t kZoneBufSizeAmerica_Whitehorse = 6;  // America/Whitehorse in 2008
 const uint8_t kZoneBufSizeAmerica_Winnipeg = 6;  // America/Winnipeg in 2006
 const uint8_t kZoneBufSizeAmerica_Yakutat = 6;  // America/Yakutat in 2008
-const uint8_t kZoneBufSizeAmerica_Yellowknife = 6;  // America/Yellowknife in 2008
 const uint8_t kZoneBufSizeAntarctica_Casey = 3;  // Antarctica/Casey in 2018
 const uint8_t kZoneBufSizeAntarctica_Davis = 2;  // Antarctica/Davis in 2009
 const uint8_t kZoneBufSizeAntarctica_Macquarie = 5;  // Antarctica/Macquarie in 1993

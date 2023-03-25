@@ -2,7 +2,7 @@ TARGETS := zone_infos.cpp zone_infos.h zone_policies.cpp zone_policies.h
 
 TOOLS := $(abspath ../../../AceTimeTools)
 TZ_REPO := $(abspath $(TOOLS)/../tz)
-TZ_VERSION := 2022g
+TZ_VERSION := 2023b
 START_YEAR := 1980
 UNTIL_YEAR := 10000
 

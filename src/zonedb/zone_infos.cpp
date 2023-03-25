@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedb/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedb
-//     --tz_version 2022g
+//     --tz_version 2023b
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,47 +23,47 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022g
+// from https://github.com/eggert/tz/releases/tag/2023b
 //
-// Supported Zones: 446 (227 zones, 219 links)
+// Supported Zones: 446 (226 zones, 220 links)
 // Unsupported Zones: 150 (124 zones, 26 links)
 //
 // Original Years:  [1844,2087]
-// Generated Years: [1950,2023]
-// Estimator Years: [1950,2025]
+// Generated Years: [1950,2024]
+// Estimator Years: [1950,2026]
 // Max Buffer Size: 6
 //
 // Records:
 //   Infos: 446
-//   Eras: 239
+//   Eras: 238
 //   Policies: 63
-//   Rules: 362
+//   Rules: 364
 //
 // Memory (8-bits):
-//   Rules: 3982
+//   Rules: 4004
 //   Policies: 189
-//   Eras: 2868
-//   Zones: 2951
-//   Links: 2847
+//   Eras: 2856
+//   Zones: 2938
+//   Links: 2860
 //   Registry: 892
 //   Formats: 465
 //   Letters: 11
 //   Fragments: 116
 //   Names: 4144 (original: 6503)
-//   TOTAL: 18465
+//   TOTAL: 18475
 //
 // Memory (32-bits):
-//   Rules: 4344
+//   Rules: 4368
 //   Policies: 504
-//   Eras: 3824
-//   Zones: 5448
-//   Links: 5256
+//   Eras: 3808
+//   Zones: 5424
+//   Links: 5280
 //   Registry: 1784
 //   Formats: 465
 //   Letters: 17
 //   Fragments: 138
 //   Names: 4144 (original: 6503)
-//   TOTAL: 25924
+//   TOTAL: 25932
 //
 // DO NOT EDIT
 
@@ -78,7 +78,7 @@ namespace zonedb {
 // ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] = "2022g";
+const char kTzDatabaseVersion[] = "2023b";
 
 const char* const kFragments[] = {
 /*\x00*/ nullptr,
@@ -115,8 +115,8 @@ const internal::ZoneContext kZoneContext = {
 };
 
 //---------------------------------------------------------------------------
-// Zones: 227
-// Eras: 239
+// Zones: 226
+// Eras: 238
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -2664,38 +2664,6 @@ const basic::ZoneInfo kZoneAmerica_Yakutat ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAmerica_Yakutat /*eras*/,
-  nullptr /*targetInfo*/,
-};
-
-//---------------------------------------------------------------------------
-// Zone name: America/Yellowknife
-// Eras: 1
-//---------------------------------------------------------------------------
-
-static const basic::ZoneEra kZoneEraAmerica_Yellowknife[] ACE_TIME_PROGMEM = {
-  //             -7:00    Canada    M%sT
-  {
-    &kZonePolicyCanada /*zonePolicy*/,
-    "M%T" /*format*/,
-    -28 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    32767 /*untilYear*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAmerica_Yellowknife[] ACE_TIME_PROGMEM = "\x02" "Yellowknife";
-
-const basic::ZoneInfo kZoneAmerica_Yellowknife ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Yellowknife /*name*/,
-  0x0f76c76f /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Yellowknife /*eras*/,
   nullptr /*targetInfo*/,
 };
 
@@ -7530,7 +7498,7 @@ const basic::ZoneInfo kZoneWET ACE_TIME_PROGMEM = {
 
 
 //---------------------------------------------------------------------------
-// Links: 219
+// Links: 220
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -8566,6 +8534,21 @@ const basic::ZoneInfo kZoneAmerica_Virgin ACE_TIME_PROGMEM = {
   1 /*numEras*/,
   kZoneEraAmerica_Puerto_Rico /*eras*/,
   &kZoneAmerica_Puerto_Rico /*targetInfo*/,
+};
+
+//---------------------------------------------------------------------------
+// Link name: America/Yellowknife -> America/Edmonton
+//---------------------------------------------------------------------------
+
+static const char kZoneNameAmerica_Yellowknife[] ACE_TIME_PROGMEM = "\x02" "Yellowknife";
+
+const basic::ZoneInfo kZoneAmerica_Yellowknife ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Yellowknife /*name*/,
+  0x0f76c76f /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAmerica_Edmonton /*eras*/,
+  &kZoneAmerica_Edmonton /*targetInfo*/,
 };
 
 //---------------------------------------------------------------------------

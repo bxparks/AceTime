@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/tzonedb/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/tzonedb
-//     --tz_version 2022g
+//     --tz_version 2023b
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -26,10 +26,10 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022g
+// from https://github.com/eggert/tz/releases/tag/2023b
 //
 // Supported Zones: 12 (11 zones, 1 links)
-// Unsupported Zones: 584 (340 zones, 244 links)
+// Unsupported Zones: 584 (339 zones, 245 links)
 //
 // Original Years:  [1844,2087]
 // Generated Years: [1945,2007]
@@ -155,7 +155,7 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 340
+// Unsupported zones: 339
 //---------------------------------------------------------------------------
 
 // Africa/Abidjan {Zone missing from include list}
@@ -288,7 +288,6 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // America/Tijuana {Zone missing from include list}
 // America/Whitehorse {UNTIL contains month/day/time}
 // America/Yakutat {Zone missing from include list}
-// America/Yellowknife {Zone missing from include list}
 // Antarctica/Casey {Zone missing from include list}
 // Antarctica/Davis {Zone missing from include list}
 // Antarctica/Macquarie {Zone missing from include list}
@@ -508,7 +507,7 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 
 
 //---------------------------------------------------------------------------
-// Unsupported links: 244
+// Unsupported links: 245
 //---------------------------------------------------------------------------
 
 // Africa/Accra {Link missing from include list}
@@ -593,6 +592,7 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // America/Thunder_Bay {Link missing from include list}
 // America/Tortola {Link missing from include list}
 // America/Virgin {Link missing from include list}
+// America/Yellowknife {Link missing from include list}
 // Antarctica/DumontDUrville {Link missing from include list}
 // Antarctica/McMurdo {Link missing from include list}
 // Antarctica/South_Pole {Link missing from include list}
