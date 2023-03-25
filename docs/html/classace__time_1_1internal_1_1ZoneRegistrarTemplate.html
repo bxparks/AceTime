@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.1.1</span>
+   &#160;<span id="projectnumber">2.2.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -194,13 +194,13 @@ class ace_time::internal::ZoneRegistrarTemplate&lt; ZI, ZIB, ZRGB &gt;</h3>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">ZI</td><td>ZoneInfo type (e.g. basic::ZoneInfo) </td></tr>
-    <tr><td class="paramname">ZIB</td><td>ZoneInfoBroker type (e.g. <a class="el" href="classace__time_1_1basic_1_1ZoneInfoBroker.html" title="Data broker for accessing ZoneInfo.">basic::ZoneInfoBroker</a>) </td></tr>
-    <tr><td class="paramname">ZRGB</td><td>ZoneRegistryBroker type (e.g. <a class="el" href="classace__time_1_1basic_1_1ZoneRegistryBroker.html" title="Data broker for accessing the ZoneRegistry.">basic::ZoneRegistryBroker</a>) </td></tr>
+    <tr><td class="paramname">ZIB</td><td><a class="el" href="classace__time_1_1internal_1_1ZoneInfoBroker.html" title="Data broker for accessing ZoneInfo.">ZoneInfoBroker</a> type (e.g. basic::ZoneInfoBroker) </td></tr>
+    <tr><td class="paramname">ZRGB</td><td><a class="el" href="classace__time_1_1internal_1_1ZoneRegistryBroker.html" title="Data broker for accessing the ZoneRegistry.">ZoneRegistryBroker</a> type (e.g. basic::ZoneRegistryBroker) </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00044">44</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00043">43</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aef1b721bd1026d08afd514c8353b4b98"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aef1b721bd1026d08afd514c8353b4b98">&#9670;&nbsp;</a></span>binarySearchById()</h2>
@@ -248,7 +248,7 @@ template&lt;typename ZI , typename ZIB , typename ZRGB &gt; </div>
 <p>Returns kInvalidIndex if not found.</p>
 <p>The largest registrySize is UINT16_MAX so the largest valid index is UINT16_MAX - 1. This allows us to set kInvalidIndex to UINT16_MAX to indicate "Not Found". </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00176">176</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00175">175</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 
 </div>
 </div>
@@ -281,7 +281,7 @@ template&lt;typename ZI , typename ZIB , typename ZRGB &gt; </div>
 <p>Find the index for zone id. </p>
 <p>Return kInvalidIndex if not found. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00103">103</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00102">102</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 
 </div>
 </div>
@@ -314,7 +314,7 @@ template&lt;typename ZI , typename ZIB , typename ZRGB &gt; </div>
 <p>Find the index for zone name. </p>
 <p>Return kInvalidIndex if not found. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00087">87</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00086">86</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 
 </div>
 </div>
@@ -347,7 +347,7 @@ template&lt;typename ZI , typename ZIB , typename ZRGB &gt; </div>
 <p>Return the ZoneInfo using the zoneId. </p>
 <p>Return nullptr if not found. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00080">80</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00079">79</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 
 </div>
 </div>
@@ -380,7 +380,7 @@ template&lt;typename ZI , typename ZIB , typename ZRGB &gt; </div>
 <p>Return the ZoneInfo at index i. </p>
 <p>Return nullptr if i is out of range. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00063">63</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00062">62</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 
 </div>
 </div>
@@ -413,7 +413,7 @@ template&lt;typename ZI , typename ZIB , typename ZRGB &gt; </div>
 <p>Return the ZoneInfo corresponding to the given zone name. </p>
 <p>Return nullptr if not found. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00073">73</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00072">72</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 
 </div>
 </div>
@@ -462,12 +462,12 @@ template&lt;typename ZI , typename ZIB , typename ZRGB &gt; </div>
 <p>Find the registry index corresponding to zoneId using linear search. </p>
 <p>Returns kInvalidIndex if not found. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00143">143</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneRegistrar_8h_source.html#l00142">142</a> of file <a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>/home/brian/src/AceTime/src/ace_time/internal/<a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a></li>
+<li>/home/brian/src/AceTime/src/zoneinfo/<a class="el" href="ZoneRegistrar_8h_source.html">ZoneRegistrar.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

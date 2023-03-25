@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AceTime: /home/brian/src/AceTime/src/ace_time/internal/ZoneRegistrar.h Source File</title>
+<title>AceTime: /home/brian/src/AceTime/src/zoneinfo/ZoneRegistrar.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.1.1</span>
+   &#160;<span id="projectnumber">2.2.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -63,7 +63,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_173dd563440c1e02d7e3957b90659cd7.html">ace_time</a></li><li class="navelem"><a class="el" href="dir_a39208a208c368a08eb059033749c10e.html">internal</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c458c1a7ede63e0a4ba7e7b60e917e99.html">zoneinfo</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -81,271 +81,268 @@ $(function() {
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;AceCommon.h&gt;</span> <span class="comment">// KString, binarySearchByKey(), isSortedByKey()</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;../common/compat.h&quot;</span> <span class="comment">// ACE_TIME_USE_PROGMEM</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="compat_8h.html">compat.h</a>&quot;</span> <span class="comment">// ACE_TIME_USE_PROGMEM</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;ZoneInfo.h&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="BasicBrokers_8h.html">BasicBrokers.h</a>&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ExtendedBrokers_8h.html">ExtendedBrokers.h</a>&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// AutoBenchmark.ino</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordtype">void</span> runIndexForZoneIdBinary();</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keywordtype">void</span> runIndexForZoneIdLinear();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// Tests</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Sorted_isSorted;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Unsorted_isSorted;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Sorted_linearSearchById;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Sorted_linearSearchById_not_found;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Sorted_binarySearchById_zeroEntries;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Sorted_binarySearchById;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Sorted_binarySearchById_not_found;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Unsorted_linearSearchById;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Unsorted_linearSearchById_not_found;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>internal {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ZI, <span class="keyword">typename</span> ZIB, <span class="keyword">typename</span> ZRGB&gt;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">   44</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">ZoneRegistrarTemplate</a> {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">   47</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">kInvalidIndex</a> = 0xffff;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af4ac130d31cce28daf8770fce4a93450">   50</a></span>&#160;    <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af4ac130d31cce28daf8770fce4a93450">ZoneRegistrarTemplate</a>(</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">zoneRegistrySize</a>,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">const</span> ZI* <span class="keyword">const</span>* zoneRegistry</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    ):</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        mZoneRegistrySize(<a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">zoneRegistrySize</a>),</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        mIsSorted(<a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#afc920ce570c75a1471a4d4302cad923f">isSorted</a>(zoneRegistry, <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">zoneRegistrySize</a>)),</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        mZoneRegistry(zoneRegistry)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    {}</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">   60</a></span>&#160;    uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">zoneRegistrySize</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mZoneRegistrySize; }</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a2bd6500ba3d946c06a929e41f7143e66">   63</a></span>&#160;    <span class="keyword">const</span> ZI* <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a2bd6500ba3d946c06a929e41f7143e66">getZoneInfoForIndex</a>(uint16_t i)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <span class="keywordflow">return</span> (i &lt; mZoneRegistrySize)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;          ? ZRGB(mZoneRegistry).zoneInfo(i)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;          : <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#adbeca9928a202d3eab537e2293963e6d">   73</a></span>&#160;    <span class="keyword">const</span> ZI* <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#adbeca9928a202d3eab537e2293963e6d">getZoneInfoForName</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      uint16_t index = <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a9f850b1e501782a0adbc79e94d25e82e">findIndexForName</a>(name);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <span class="keywordflow">if</span> (index == <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">kInvalidIndex</a>) <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="keywordflow">return</span> ZRGB(mZoneRegistry).zoneInfo(index);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a02efaecfa730966b632b59f51341ff79">   80</a></span>&#160;    <span class="keyword">const</span> ZI* <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a02efaecfa730966b632b59f51341ff79">getZoneInfoForId</a>(uint32_t zoneId)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      uint16_t index = <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af0b97bc8d05117ad9a3b8a1b63b82327">findIndexForId</a>(zoneId);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      <span class="keywordflow">if</span> (index == <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">kInvalidIndex</a>) <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      <span class="keywordflow">return</span> ZRGB(mZoneRegistry).zoneInfo(index);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a9f850b1e501782a0adbc79e94d25e82e">   87</a></span>&#160;    uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a9f850b1e501782a0adbc79e94d25e82e">findIndexForName</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      uint32_t zoneId = ace_common::hashDjb2(name);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      uint16_t index = <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af0b97bc8d05117ad9a3b8a1b63b82327">findIndexForId</a>(zoneId);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <span class="keywordflow">if</span> (index == <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">kInvalidIndex</a>) <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">kInvalidIndex</a>;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      <span class="comment">// Verify that the zoneName actually matches, in case of hash collision.</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      ZIB zoneInfoBroker(ZRGB(mZoneRegistry).zoneInfo(index));</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      ace_common::KString kname(</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        zoneInfoBroker.name(),</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        zoneInfoBroker.zoneContext()-&gt;fragments,</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        zoneInfoBroker.zoneContext()-&gt;numFragments</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      );</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <span class="keywordflow">return</span> (kname.compareTo(name) == 0) ? index : <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">kInvalidIndex</a>;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af0b97bc8d05117ad9a3b8a1b63b82327">  103</a></span>&#160;    uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af0b97bc8d05117ad9a3b8a1b63b82327">findIndexForId</a>(uint32_t zoneId)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      <span class="keywordflow">if</span> (mIsSorted &amp;&amp; mZoneRegistrySize &gt;= <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#ac00d339dfffbf172d3ae0a9369be97db">kBinarySearchThreshold</a>) {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#aef1b721bd1026d08afd514c8353b4b98">binarySearchById</a>(mZoneRegistry, mZoneRegistrySize, zoneId);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7ae679bd394ebccf2f70c4686c796107">linearSearchById</a>(mZoneRegistry, mZoneRegistrySize, zoneId);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      }</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    }</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keyword">friend</span> void ::runIndexForZoneIdBinary();</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keyword">friend</span> void ::runIndexForZoneIdLinear();</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Sorted_isSorted;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Unsorted_isSorted;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Sorted_linearSearchById;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Sorted_linearSearchById_not_found;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Sorted_binarySearchById_zeroEntries;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Sorted_binarySearchById;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Sorted_binarySearchById_not_found;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Unsorted_linearSearchById;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Unsorted_linearSearchById_not_found;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
-<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#ac00d339dfffbf172d3ae0a9369be97db">  125</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> uint8_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#ac00d339dfffbf172d3ae0a9369be97db">kBinarySearchThreshold</a> = 8;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
-<div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#afc920ce570c75a1471a4d4302cad923f">  128</a></span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#afc920ce570c75a1471a4d4302cad923f">isSorted</a>(<span class="keyword">const</span> ZI* <span class="keyword">const</span>* registry, uint16_t registrySize) {</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      <span class="keyword">const</span> ZRGB zoneRegistry(registry);</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      <span class="keywordflow">return</span> ace_common::isSortedByKey(</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;          (<span class="keywordtype">size_t</span>) registrySize,</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;          [&amp;zoneRegistry](<span class="keywordtype">size_t</span> i) {</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            <span class="keyword">const</span> ZI* zoneInfo = zoneRegistry.zoneInfo(i);</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="keywordflow">return</span> ZIB(zoneInfo).zoneId();</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;          } <span class="comment">// lambda expression returns zoneId at index i</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;      );</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    }</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
-<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7ae679bd394ebccf2f70c4686c796107">  143</a></span>&#160;    <span class="keyword">static</span> uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7ae679bd394ebccf2f70c4686c796107">linearSearchById</a>(<span class="keyword">const</span> ZI* <span class="keyword">const</span>* registry,</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        uint16_t registrySize, uint32_t zoneId) {</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;      <span class="keyword">const</span> ZRGB zoneRegistry(registry);</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;      <span class="keywordflow">for</span> (uint16_t i = 0; i &lt; registrySize; ++i) {</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <span class="keyword">const</span> ZI* zoneInfo = zoneRegistry.zoneInfo(i);</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        <span class="keywordflow">if</span> (zoneId == ZIB(zoneInfo).zoneId()) {</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;          <span class="keywordflow">return</span> i;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        }</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;      }</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">kInvalidIndex</a>;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;      <span class="comment">// The templatized version is 20-40% slower on some compilers (but not</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;      <span class="comment">// all), so let&#39;s use the hand-rolled version above.</span></div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;      <span class="comment">/*</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="comment">      return (uint16_t) ace_common::linearSearchByKey(</span></div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment">          (size_t) registrySize,</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="comment">          zoneId,</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="comment">          [&amp;zoneRegistry](size_t i) {</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment">            const ZI* zoneInfo = zoneRegistry.zoneInfo(i);</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment">            return ZIB(zoneInfo).zoneId();</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="comment">          } // lambda expression returns zoneId at index i</span></div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="comment">      );</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="comment">      */</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    }</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
-<div class="line"><a name="l00176"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#aef1b721bd1026d08afd514c8353b4b98">  176</a></span>&#160;    <span class="keyword">static</span> uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#aef1b721bd1026d08afd514c8353b4b98">binarySearchById</a>(<span class="keyword">const</span> ZI* <span class="keyword">const</span>* registry,</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        uint16_t registrySize, uint32_t zoneId) {</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;      <span class="keyword">const</span> ZRGB zoneRegistry(registry);</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;      <span class="keywordflow">return</span> (uint16_t) ace_common::binarySearchByKey(</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;          (<span class="keywordtype">size_t</span>) registrySize,</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;          zoneId,</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;          [&amp;zoneRegistry](<span class="keywordtype">size_t</span> i) -&gt; uint32_t {</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            <span class="keyword">const</span> ZI* zoneInfo = zoneRegistry.zoneInfo(i);</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            <span class="keywordflow">return</span> ZIB(zoneInfo).zoneId();</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;          } <span class="comment">// lambda expression returns zoneId at index i</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;      );</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    }</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
-<div class="line"><a name="l00190"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a045feaa9f950c8699880b3de329b62fb">  190</a></span>&#160;    uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a045feaa9f950c8699880b3de329b62fb">findIndexForIdLinear</a>(uint32_t zoneId)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7ae679bd394ebccf2f70c4686c796107">linearSearchById</a>(mZoneRegistry, mZoneRegistrySize, zoneId);</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    }</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160; </div>
-<div class="line"><a name="l00195"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7feaa21fa3b6739cdae255aebd3e7c77">  195</a></span>&#160;    uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7feaa21fa3b6739cdae255aebd3e7c77">findIndexForIdBinary</a>(uint32_t zoneId)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#aef1b721bd1026d08afd514c8353b4b98">binarySearchById</a>(mZoneRegistry, mZoneRegistrySize, zoneId);</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    }</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160; </div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="comment">// Ordering of fields optimized for 32-bit alignment.</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    uint16_t <span class="keyword">const</span> mZoneRegistrySize;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keywordtype">bool</span> <span class="keyword">const</span> mIsSorted;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keyword">const</span> ZI* <span class="keyword">const</span>* <span class="keyword">const</span> mZoneRegistry; <span class="comment">// not nullable</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;};</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160; </div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;} <span class="comment">// internal</span></div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160; </div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="keyword">namespace </span>basic {</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160; </div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="preprocessor">#if 1</span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
-<div class="line"><a name="l00216"></a><span class="lineno"><a class="line" href="classace__time_1_1basic_1_1ZoneRegistrar.html">  216</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1basic_1_1ZoneRegistrar.html">ZoneRegistrar</a>: <span class="keyword">public</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">internal::ZoneRegistrarTemplate</a>&lt;</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    basic::ZoneInfo,</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    basic::ZoneInfoBroker,</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    basic::ZoneRegistryBroker</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;&gt; {</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <a class="code" href="classace__time_1_1basic_1_1ZoneRegistrar.html">ZoneRegistrar</a>(</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">zoneRegistrySize</a>,</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keyword">const</span> basic::ZoneInfo* <span class="keyword">const</span>* zoneRegistry</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    ) :</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">internal::ZoneRegistrarTemplate</a>&lt;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            basic::ZoneInfo,</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            <a class="code" href="classace__time_1_1basic_1_1ZoneInfoBroker.html">basic::ZoneInfoBroker</a>,</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <a class="code" href="classace__time_1_1basic_1_1ZoneRegistryBroker.html">basic::ZoneRegistryBroker</a></div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        &gt;(<a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">zoneRegistrySize</a>, zoneRegistry)</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    {}</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;};</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160; </div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160; </div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="keyword">namespace </span>basic {</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160; </div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment">// Use subclassing instead of template typedef so that error messages are</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="comment">// understandable. The compiler seems to optimize away the subclass overhead.</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160; </div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;<span class="keyword">typedef</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">internal::ZoneRegistrarTemplate</a>&lt;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    basic::ZoneInfo,</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <a class="code" href="classace__time_1_1basic_1_1ZoneRegistryBroker.html">basic::ZoneRegistryBroker</a>,</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <a class="code" href="classace__time_1_1basic_1_1ZoneInfoBroker.html">basic::ZoneInfoBroker</a></div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;&gt;</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <a class="code" href="classace__time_1_1basic_1_1ZoneRegistrar.html">ZoneRegistrar</a>;</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160; </div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160; </div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;} <span class="comment">// basic</span></div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160; </div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="keyword">namespace </span>extended {</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;<span class="preprocessor">#if 1</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160; </div>
-<div class="line"><a name="l00260"></a><span class="lineno"><a class="line" href="classace__time_1_1extended_1_1ZoneRegistrar.html">  260</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1extended_1_1ZoneRegistrar.html">ZoneRegistrar</a>: <span class="keyword">public</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">internal::ZoneRegistrarTemplate</a>&lt;</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    extended::ZoneInfo,</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    extended::ZoneInfoBroker,</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    extended::ZoneRegistryBroker</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;&gt; {</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <a class="code" href="classace__time_1_1extended_1_1ZoneRegistrar.html">ZoneRegistrar</a>(</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        uint16_t zoneRegistrySize,</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        <span class="keyword">const</span> extended::ZoneInfo* <span class="keyword">const</span>* zoneRegistry</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    ) :</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">internal::ZoneRegistrarTemplate</a>&lt;</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            extended::ZoneInfo,</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            <a class="code" href="classace__time_1_1extended_1_1ZoneInfoBroker.html">extended::ZoneInfoBroker</a>,</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            <a class="code" href="classace__time_1_1extended_1_1ZoneRegistryBroker.html">extended::ZoneRegistryBroker</a></div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        &gt;(zoneRegistrySize, zoneRegistry)</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    {}</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;};</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160; </div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160; </div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="comment">// Use subclassing instead of template typedef so that error messages are</span></div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="comment">// understandable. The compiler seems to optimize away the subclass overhead.</span></div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160; </div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="keyword">typedef</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">internal::ZoneRegistrarTemplate</a>&lt;</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    extended::ZoneInfo,</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    <a class="code" href="classace__time_1_1extended_1_1ZoneRegistryBroker.html">extended::ZoneRegistryBroker</a>,</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    <a class="code" href="classace__time_1_1extended_1_1ZoneInfoBroker.html">extended::ZoneInfoBroker</a></div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;&gt;</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    <a class="code" href="classace__time_1_1extended_1_1ZoneRegistrar.html">ZoneRegistrar</a>;</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160; </div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160; </div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;} <span class="comment">// extended</span></div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160; </div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;} <span class="comment">// ace_time</span></div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160; </div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// ACE_TIME_ZONE_REGISTRAR_H</span></div>
-<div class="ttc" id="aBasicBrokers_8h_html"><div class="ttname"><a href="BasicBrokers_8h.html">BasicBrokers.h</a></div><div class="ttdoc">The classes provide a thin layer of indirection for accessing the zoneinfo files stored in the zonedb...</div></div>
-<div class="ttc" id="aExtendedBrokers_8h_html"><div class="ttname"><a href="ExtendedBrokers_8h.html">ExtendedBrokers.h</a></div><div class="ttdoc">The classes provide a thin layer of indirection for accessing the zoneinfo files stored in the zonedb...</div></div>
-<div class="ttc" id="aclassace__time_1_1basic_1_1ZoneInfoBroker_html"><div class="ttname"><a href="classace__time_1_1basic_1_1ZoneInfoBroker.html">ace_time::basic::ZoneInfoBroker</a></div><div class="ttdoc">Data broker for accessing ZoneInfo.</div><div class="ttdef"><b>Definition:</b> <a href="BasicBrokers_8h_source.html#l00285">BasicBrokers.h:285</a></div></div>
-<div class="ttc" id="aclassace__time_1_1basic_1_1ZoneRegistrar_html"><div class="ttname"><a href="classace__time_1_1basic_1_1ZoneRegistrar.html">ace_time::basic::ZoneRegistrar</a></div><div class="ttdoc">Concrete template instantiation of ZoneRegistrarTemplate for basic::ZoneInfo, which can be used with ...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00216">ZoneRegistrar.h:220</a></div></div>
-<div class="ttc" id="aclassace__time_1_1basic_1_1ZoneRegistryBroker_html"><div class="ttname"><a href="classace__time_1_1basic_1_1ZoneRegistryBroker.html">ace_time::basic::ZoneRegistryBroker</a></div><div class="ttdoc">Data broker for accessing the ZoneRegistry.</div><div class="ttdef"><b>Definition:</b> <a href="BasicBrokers_8h_source.html#l00382">BasicBrokers.h:382</a></div></div>
-<div class="ttc" id="aclassace__time_1_1extended_1_1ZoneInfoBroker_html"><div class="ttname"><a href="classace__time_1_1extended_1_1ZoneInfoBroker.html">ace_time::extended::ZoneInfoBroker</a></div><div class="ttdoc">Data broker for accessing ZoneInfo.</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedBrokers_8h_source.html#l00317">ExtendedBrokers.h:317</a></div></div>
-<div class="ttc" id="aclassace__time_1_1extended_1_1ZoneRegistrar_html"><div class="ttname"><a href="classace__time_1_1extended_1_1ZoneRegistrar.html">ace_time::extended::ZoneRegistrar</a></div><div class="ttdoc">Concrete template instantiation of ZoneRegistrarTemplate for extended::ZoneInfo, which can be used wi...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00260">ZoneRegistrar.h:264</a></div></div>
-<div class="ttc" id="aclassace__time_1_1extended_1_1ZoneRegistryBroker_html"><div class="ttname"><a href="classace__time_1_1extended_1_1ZoneRegistryBroker.html">ace_time::extended::ZoneRegistryBroker</a></div><div class="ttdoc">Data broker for accessing the ZoneRegistry.</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedBrokers_8h_source.html#l00412">ExtendedBrokers.h:412</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">ace_time::internal::ZoneRegistrarTemplate</a></div><div class="ttdoc">Class that allows looking up the ZoneInfo (ZI) from its TZDB identifier (e.g.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00044">ZoneRegistrar.h:44</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a02efaecfa730966b632b59f51341ff79"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a02efaecfa730966b632b59f51341ff79">ace_time::internal::ZoneRegistrarTemplate::getZoneInfoForId</a></div><div class="ttdeci">const ZI * getZoneInfoForId(uint32_t zoneId) const</div><div class="ttdoc">Return the ZoneInfo using the zoneId.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00080">ZoneRegistrar.h:80</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a045feaa9f950c8699880b3de329b62fb"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a045feaa9f950c8699880b3de329b62fb">ace_time::internal::ZoneRegistrarTemplate::findIndexForIdLinear</a></div><div class="ttdeci">uint16_t findIndexForIdLinear(uint32_t zoneId) const</div><div class="ttdoc">Exposed only for benchmarking purposes.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00190">ZoneRegistrar.h:190</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a2bd6500ba3d946c06a929e41f7143e66"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a2bd6500ba3d946c06a929e41f7143e66">ace_time::internal::ZoneRegistrarTemplate::getZoneInfoForIndex</a></div><div class="ttdeci">const ZI * getZoneInfoForIndex(uint16_t i) const</div><div class="ttdoc">Return the ZoneInfo at index i.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00063">ZoneRegistrar.h:63</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a61c13d0cfe34da139cd4eaa048cdff46"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">ace_time::internal::ZoneRegistrarTemplate::kInvalidIndex</a></div><div class="ttdeci">static const uint16_t kInvalidIndex</div><div class="ttdoc">Invalid index to indicate error or not found.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00047">ZoneRegistrar.h:47</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a7491b6d0c31a035369c9abcdc16182b8"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">ace_time::internal::ZoneRegistrarTemplate::zoneRegistrySize</a></div><div class="ttdeci">uint16_t zoneRegistrySize() const</div><div class="ttdoc">Return the number of zones and (fat) links.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00060">ZoneRegistrar.h:60</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a7ae679bd394ebccf2f70c4686c796107"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7ae679bd394ebccf2f70c4686c796107">ace_time::internal::ZoneRegistrarTemplate::linearSearchById</a></div><div class="ttdeci">static uint16_t linearSearchById(const ZI *const *registry, uint16_t registrySize, uint32_t zoneId)</div><div class="ttdoc">Find the registry index corresponding to zoneId using linear search.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00143">ZoneRegistrar.h:143</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a7feaa21fa3b6739cdae255aebd3e7c77"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7feaa21fa3b6739cdae255aebd3e7c77">ace_time::internal::ZoneRegistrarTemplate::findIndexForIdBinary</a></div><div class="ttdeci">uint16_t findIndexForIdBinary(uint32_t zoneId) const</div><div class="ttdoc">Exposed only for benchmarking purposes.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00195">ZoneRegistrar.h:195</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a9f850b1e501782a0adbc79e94d25e82e"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a9f850b1e501782a0adbc79e94d25e82e">ace_time::internal::ZoneRegistrarTemplate::findIndexForName</a></div><div class="ttdeci">uint16_t findIndexForName(const char *name) const</div><div class="ttdoc">Find the index for zone name.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00087">ZoneRegistrar.h:87</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_ac00d339dfffbf172d3ae0a9369be97db"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#ac00d339dfffbf172d3ae0a9369be97db">ace_time::internal::ZoneRegistrarTemplate::kBinarySearchThreshold</a></div><div class="ttdeci">static const uint8_t kBinarySearchThreshold</div><div class="ttdoc">Use binarySearchById() if zoneRegistrySize &gt;= threshold.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00125">ZoneRegistrar.h:125</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_adbeca9928a202d3eab537e2293963e6d"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#adbeca9928a202d3eab537e2293963e6d">ace_time::internal::ZoneRegistrarTemplate::getZoneInfoForName</a></div><div class="ttdeci">const ZI * getZoneInfoForName(const char *name) const</div><div class="ttdoc">Return the ZoneInfo corresponding to the given zone name.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00073">ZoneRegistrar.h:73</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_aef1b721bd1026d08afd514c8353b4b98"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#aef1b721bd1026d08afd514c8353b4b98">ace_time::internal::ZoneRegistrarTemplate::binarySearchById</a></div><div class="ttdeci">static uint16_t binarySearchById(const ZI *const *registry, uint16_t registrySize, uint32_t zoneId)</div><div class="ttdoc">Find the registry index corresponding to zoneId using a binary search.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00176">ZoneRegistrar.h:176</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_af0b97bc8d05117ad9a3b8a1b63b82327"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af0b97bc8d05117ad9a3b8a1b63b82327">ace_time::internal::ZoneRegistrarTemplate::findIndexForId</a></div><div class="ttdeci">uint16_t findIndexForId(uint32_t zoneId) const</div><div class="ttdoc">Find the index for zone id.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00103">ZoneRegistrar.h:103</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_af4ac130d31cce28daf8770fce4a93450"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af4ac130d31cce28daf8770fce4a93450">ace_time::internal::ZoneRegistrarTemplate::ZoneRegistrarTemplate</a></div><div class="ttdeci">ZoneRegistrarTemplate(uint16_t zoneRegistrySize, const ZI *const *zoneRegistry)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00050">ZoneRegistrar.h:50</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_afc920ce570c75a1471a4d4302cad923f"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#afc920ce570c75a1471a4d4302cad923f">ace_time::internal::ZoneRegistrarTemplate::isSorted</a></div><div class="ttdeci">static bool isSorted(const ZI *const *registry, uint16_t registrySize)</div><div class="ttdoc">Determine if the given zone registry is sorted by id.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00128">ZoneRegistrar.h:128</a></div></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="Brokers_8h.html">Brokers.h</a>&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// AutoBenchmark.ino</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">void</span> runIndexForZoneIdBinary();</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordtype">void</span> runIndexForZoneIdLinear();</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// Tests</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Sorted_isSorted;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Unsorted_isSorted;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Sorted_linearSearchById;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Sorted_linearSearchById_not_found;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Sorted_binarySearchById_zeroEntries;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Sorted_binarySearchById;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Sorted_binarySearchById_not_found;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Unsorted_linearSearchById;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">class </span>ZoneRegistrarTest_Unsorted_linearSearchById_not_found;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>internal {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ZI, <span class="keyword">typename</span> ZIB, <span class="keyword">typename</span> ZRGB&gt;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">ZoneRegistrarTemplate</a> {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">   46</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">kInvalidIndex</a> = 0xffff;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af4ac130d31cce28daf8770fce4a93450">   49</a></span>&#160;    <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af4ac130d31cce28daf8770fce4a93450">ZoneRegistrarTemplate</a>(</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">zoneRegistrySize</a>,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">const</span> ZI* <span class="keyword">const</span>* zoneRegistry</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    ):</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        mZoneRegistrySize(<a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">zoneRegistrySize</a>),</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        mIsSorted(<a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#afc920ce570c75a1471a4d4302cad923f">isSorted</a>(zoneRegistry, <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">zoneRegistrySize</a>)),</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        mZoneRegistry(zoneRegistry)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    {}</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">   59</a></span>&#160;    uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">zoneRegistrySize</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mZoneRegistrySize; }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a2bd6500ba3d946c06a929e41f7143e66">   62</a></span>&#160;    <span class="keyword">const</span> ZI* <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a2bd6500ba3d946c06a929e41f7143e66">getZoneInfoForIndex</a>(uint16_t i)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="keywordflow">return</span> (i &lt; mZoneRegistrySize)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;          ? ZRGB(mZoneRegistry).zoneInfo(i)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;          : <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#adbeca9928a202d3eab537e2293963e6d">   72</a></span>&#160;    <span class="keyword">const</span> ZI* <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#adbeca9928a202d3eab537e2293963e6d">getZoneInfoForName</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      uint16_t index = <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a9f850b1e501782a0adbc79e94d25e82e">findIndexForName</a>(name);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <span class="keywordflow">if</span> (index == <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">kInvalidIndex</a>) <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <span class="keywordflow">return</span> ZRGB(mZoneRegistry).zoneInfo(index);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a02efaecfa730966b632b59f51341ff79">   79</a></span>&#160;    <span class="keyword">const</span> ZI* <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a02efaecfa730966b632b59f51341ff79">getZoneInfoForId</a>(uint32_t zoneId)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      uint16_t index = <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af0b97bc8d05117ad9a3b8a1b63b82327">findIndexForId</a>(zoneId);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <span class="keywordflow">if</span> (index == <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">kInvalidIndex</a>) <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      <span class="keywordflow">return</span> ZRGB(mZoneRegistry).zoneInfo(index);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a9f850b1e501782a0adbc79e94d25e82e">   86</a></span>&#160;    uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a9f850b1e501782a0adbc79e94d25e82e">findIndexForName</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      uint32_t zoneId = ace_common::hashDjb2(name);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      uint16_t index = <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af0b97bc8d05117ad9a3b8a1b63b82327">findIndexForId</a>(zoneId);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      <span class="keywordflow">if</span> (index == <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">kInvalidIndex</a>) <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">kInvalidIndex</a>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      <span class="comment">// Verify that the zoneName actually matches, in case of hash collision.</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      ZIB zoneInfoBroker(ZRGB(mZoneRegistry).zoneInfo(index));</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      ace_common::KString kname(</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        zoneInfoBroker.name(),</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        zoneInfoBroker.zoneContext()-&gt;fragments,</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        zoneInfoBroker.zoneContext()-&gt;numFragments</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      );</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      <span class="keywordflow">return</span> (kname.compareTo(name) == 0) ? index : <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">kInvalidIndex</a>;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af0b97bc8d05117ad9a3b8a1b63b82327">  102</a></span>&#160;    uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af0b97bc8d05117ad9a3b8a1b63b82327">findIndexForId</a>(uint32_t zoneId)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="keywordflow">if</span> (mIsSorted &amp;&amp; mZoneRegistrySize &gt;= <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#ac00d339dfffbf172d3ae0a9369be97db">kBinarySearchThreshold</a>) {</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#aef1b721bd1026d08afd514c8353b4b98">binarySearchById</a>(mZoneRegistry, mZoneRegistrySize, zoneId);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7ae679bd394ebccf2f70c4686c796107">linearSearchById</a>(mZoneRegistry, mZoneRegistrySize, zoneId);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      }</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    }</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keyword">friend</span> void ::runIndexForZoneIdBinary();</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keyword">friend</span> void ::runIndexForZoneIdLinear();</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Sorted_isSorted;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Unsorted_isSorted;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Sorted_linearSearchById;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Sorted_linearSearchById_not_found;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Sorted_binarySearchById_zeroEntries;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Sorted_binarySearchById;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Sorted_binarySearchById_not_found;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Unsorted_linearSearchById;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keyword">friend</span> class ::ZoneRegistrarTest_Unsorted_linearSearchById_not_found;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00124"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#ac00d339dfffbf172d3ae0a9369be97db">  124</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> uint8_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#ac00d339dfffbf172d3ae0a9369be97db">kBinarySearchThreshold</a> = 8;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#afc920ce570c75a1471a4d4302cad923f">  127</a></span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#afc920ce570c75a1471a4d4302cad923f">isSorted</a>(<span class="keyword">const</span> ZI* <span class="keyword">const</span>* registry, uint16_t registrySize) {</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;      <span class="keyword">const</span> ZRGB zoneRegistry(registry);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      <span class="keywordflow">return</span> ace_common::isSortedByKey(</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;          (<span class="keywordtype">size_t</span>) registrySize,</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;          [&amp;zoneRegistry](<span class="keywordtype">size_t</span> i) {</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="keyword">const</span> ZI* zoneInfo = zoneRegistry.zoneInfo(i);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            <span class="keywordflow">return</span> ZIB(zoneInfo).zoneId();</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;          } <span class="comment">// lambda expression returns zoneId at index i</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      );</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    }</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
+<div class="line"><a name="l00142"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7ae679bd394ebccf2f70c4686c796107">  142</a></span>&#160;    <span class="keyword">static</span> uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7ae679bd394ebccf2f70c4686c796107">linearSearchById</a>(<span class="keyword">const</span> ZI* <span class="keyword">const</span>* registry,</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        uint16_t registrySize, uint32_t zoneId) {</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;      <span class="keyword">const</span> ZRGB zoneRegistry(registry);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;      <span class="keywordflow">for</span> (uint16_t i = 0; i &lt; registrySize; ++i) {</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keyword">const</span> ZI* zoneInfo = zoneRegistry.zoneInfo(i);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <span class="keywordflow">if</span> (zoneId == ZIB(zoneInfo).zoneId()) {</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;          <span class="keywordflow">return</span> i;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        }</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;      }</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">kInvalidIndex</a>;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;      <span class="comment">// The templatized version is 20-40% slower on some compilers (but not</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;      <span class="comment">// all), so let&#39;s use the hand-rolled version above.</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;      <span class="comment">/*</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="comment">      return (uint16_t) ace_common::linearSearchByKey(</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="comment">          (size_t) registrySize,</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment">          zoneId,</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="comment">          [&amp;zoneRegistry](size_t i) {</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="comment">            const ZI* zoneInfo = zoneRegistry.zoneInfo(i);</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment">            return ZIB(zoneInfo).zoneId();</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment">          } // lambda expression returns zoneId at index i</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="comment">      );</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="comment">      */</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    }</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#aef1b721bd1026d08afd514c8353b4b98">  175</a></span>&#160;    <span class="keyword">static</span> uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#aef1b721bd1026d08afd514c8353b4b98">binarySearchById</a>(<span class="keyword">const</span> ZI* <span class="keyword">const</span>* registry,</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        uint16_t registrySize, uint32_t zoneId) {</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;      <span class="keyword">const</span> ZRGB zoneRegistry(registry);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;      <span class="keywordflow">return</span> (uint16_t) ace_common::binarySearchByKey(</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;          (<span class="keywordtype">size_t</span>) registrySize,</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;          zoneId,</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;          [&amp;zoneRegistry](<span class="keywordtype">size_t</span> i) -&gt; uint32_t {</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            <span class="keyword">const</span> ZI* zoneInfo = zoneRegistry.zoneInfo(i);</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            <span class="keywordflow">return</span> ZIB(zoneInfo).zoneId();</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;          } <span class="comment">// lambda expression returns zoneId at index i</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;      );</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    }</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
+<div class="line"><a name="l00189"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a045feaa9f950c8699880b3de329b62fb">  189</a></span>&#160;    uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a045feaa9f950c8699880b3de329b62fb">findIndexForIdLinear</a>(uint32_t zoneId)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7ae679bd394ebccf2f70c4686c796107">linearSearchById</a>(mZoneRegistry, mZoneRegistrySize, zoneId);</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    }</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
+<div class="line"><a name="l00194"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7feaa21fa3b6739cdae255aebd3e7c77">  194</a></span>&#160;    uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7feaa21fa3b6739cdae255aebd3e7c77">findIndexForIdBinary</a>(uint32_t zoneId)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#aef1b721bd1026d08afd514c8353b4b98">binarySearchById</a>(mZoneRegistry, mZoneRegistrySize, zoneId);</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    }</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="comment">// Ordering of fields optimized for 32-bit alignment.</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    uint16_t <span class="keyword">const</span> mZoneRegistrySize;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="keywordtype">bool</span> <span class="keyword">const</span> mIsSorted;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keyword">const</span> ZI* <span class="keyword">const</span>* <span class="keyword">const</span> mZoneRegistry; <span class="comment">// not nullable</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;};</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;} <span class="comment">// internal</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160; </div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="keyword">namespace </span>basic {</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160; </div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="preprocessor">#if 1</span></div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
+<div class="line"><a name="l00215"></a><span class="lineno"><a class="line" href="classace__time_1_1basic_1_1ZoneRegistrar.html">  215</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1basic_1_1ZoneRegistrar.html">ZoneRegistrar</a>: <span class="keyword">public</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">internal::ZoneRegistrarTemplate</a>&lt;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    basic::ZoneInfo,</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    basic::ZoneInfoBroker,</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    basic::ZoneRegistryBroker</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;&gt; {</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <a class="code" href="classace__time_1_1basic_1_1ZoneRegistrar.html">ZoneRegistrar</a>(</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        uint16_t <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">zoneRegistrySize</a>,</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        <span class="keyword">const</span> basic::ZoneInfo* <span class="keyword">const</span>* zoneRegistry</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    ) :</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">internal::ZoneRegistrarTemplate</a>&lt;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            basic::ZoneInfo,</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            <a class="code" href="classace__time_1_1internal_1_1ZoneInfoBroker.html">basic::ZoneInfoBroker</a>,</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            <a class="code" href="classace__time_1_1internal_1_1ZoneRegistryBroker.html">basic::ZoneRegistryBroker</a></div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        &gt;(<a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">zoneRegistrySize</a>, zoneRegistry)</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    {}</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;};</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160; </div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;<span class="keyword">namespace </span>basic {</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160; </div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="comment">// Use subclassing instead of template typedef so that error messages are</span></div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment">// understandable. The compiler seems to optimize away the subclass overhead.</span></div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160; </div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="keyword">typedef</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">internal::ZoneRegistrarTemplate</a>&lt;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    basic::ZoneInfo,</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <a class="code" href="classace__time_1_1internal_1_1ZoneRegistryBroker.html">basic::ZoneRegistryBroker</a>,</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <a class="code" href="classace__time_1_1internal_1_1ZoneInfoBroker.html">basic::ZoneInfoBroker</a></div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;&gt;</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <a class="code" href="classace__time_1_1basic_1_1ZoneRegistrar.html">ZoneRegistrar</a>;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160; </div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;} <span class="comment">// basic</span></div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="keyword">namespace </span>extended {</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; </div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="preprocessor">#if 1</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160; </div>
+<div class="line"><a name="l00259"></a><span class="lineno"><a class="line" href="classace__time_1_1extended_1_1ZoneRegistrar.html">  259</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1extended_1_1ZoneRegistrar.html">ZoneRegistrar</a>: <span class="keyword">public</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">internal::ZoneRegistrarTemplate</a>&lt;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    extended::ZoneInfo,</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    extended::ZoneInfoBroker,</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    extended::ZoneRegistryBroker</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;&gt; {</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <a class="code" href="classace__time_1_1extended_1_1ZoneRegistrar.html">ZoneRegistrar</a>(</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        uint16_t zoneRegistrySize,</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        <span class="keyword">const</span> extended::ZoneInfo* <span class="keyword">const</span>* zoneRegistry</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    ) :</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">internal::ZoneRegistrarTemplate</a>&lt;</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;            extended::ZoneInfo,</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            <a class="code" href="classace__time_1_1internal_1_1ZoneInfoBroker.html">extended::ZoneInfoBroker</a>,</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            <a class="code" href="classace__time_1_1internal_1_1ZoneRegistryBroker.html">extended::ZoneRegistryBroker</a></div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        &gt;(zoneRegistrySize, zoneRegistry)</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    {}</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;};</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160; </div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160; </div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="comment">// Use subclassing instead of template typedef so that error messages are</span></div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="comment">// understandable. The compiler seems to optimize away the subclass overhead.</span></div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160; </div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="keyword">typedef</span> <a class="code" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">internal::ZoneRegistrarTemplate</a>&lt;</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    extended::ZoneInfo,</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    <a class="code" href="classace__time_1_1internal_1_1ZoneRegistryBroker.html">extended::ZoneRegistryBroker</a>,</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    <a class="code" href="classace__time_1_1internal_1_1ZoneInfoBroker.html">extended::ZoneInfoBroker</a></div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;&gt;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    <a class="code" href="classace__time_1_1extended_1_1ZoneRegistrar.html">ZoneRegistrar</a>;</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160; </div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160; </div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;} <span class="comment">// extended</span></div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160; </div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;} <span class="comment">// ace_time</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; </div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// ACE_TIME_ZONE_REGISTRAR_H</span></div>
+<div class="ttc" id="aBrokers_8h_html"><div class="ttname"><a href="Brokers_8h.html">Brokers.h</a></div><div class="ttdoc">These classes provide a thin layer of indirection for accessing the zoneinfo files stored in the zone...</div></div>
+<div class="ttc" id="aclassace__time_1_1basic_1_1ZoneRegistrar_html"><div class="ttname"><a href="classace__time_1_1basic_1_1ZoneRegistrar.html">ace_time::basic::ZoneRegistrar</a></div><div class="ttdoc">Concrete template instantiation of ZoneRegistrarTemplate for basic::ZoneInfo, which can be used with ...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00215">ZoneRegistrar.h:219</a></div></div>
+<div class="ttc" id="aclassace__time_1_1extended_1_1ZoneRegistrar_html"><div class="ttname"><a href="classace__time_1_1extended_1_1ZoneRegistrar.html">ace_time::extended::ZoneRegistrar</a></div><div class="ttdoc">Concrete template instantiation of ZoneRegistrarTemplate for extended::ZoneInfo, which can be used wi...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00259">ZoneRegistrar.h:263</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneInfoBroker_html"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneInfoBroker.html">ace_time::internal::ZoneInfoBroker&lt; ZoneInfo, ZoneEra, ZonePolicy, ZoneRule &gt;</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html">ace_time::internal::ZoneRegistrarTemplate</a></div><div class="ttdoc">Class that allows looking up the ZoneInfo (ZI) from its TZDB identifier (e.g.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00043">ZoneRegistrar.h:43</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a02efaecfa730966b632b59f51341ff79"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a02efaecfa730966b632b59f51341ff79">ace_time::internal::ZoneRegistrarTemplate::getZoneInfoForId</a></div><div class="ttdeci">const ZI * getZoneInfoForId(uint32_t zoneId) const</div><div class="ttdoc">Return the ZoneInfo using the zoneId.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00079">ZoneRegistrar.h:79</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a045feaa9f950c8699880b3de329b62fb"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a045feaa9f950c8699880b3de329b62fb">ace_time::internal::ZoneRegistrarTemplate::findIndexForIdLinear</a></div><div class="ttdeci">uint16_t findIndexForIdLinear(uint32_t zoneId) const</div><div class="ttdoc">Exposed only for benchmarking purposes.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00189">ZoneRegistrar.h:189</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a2bd6500ba3d946c06a929e41f7143e66"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a2bd6500ba3d946c06a929e41f7143e66">ace_time::internal::ZoneRegistrarTemplate::getZoneInfoForIndex</a></div><div class="ttdeci">const ZI * getZoneInfoForIndex(uint16_t i) const</div><div class="ttdoc">Return the ZoneInfo at index i.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00062">ZoneRegistrar.h:62</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a61c13d0cfe34da139cd4eaa048cdff46"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a61c13d0cfe34da139cd4eaa048cdff46">ace_time::internal::ZoneRegistrarTemplate::kInvalidIndex</a></div><div class="ttdeci">static const uint16_t kInvalidIndex</div><div class="ttdoc">Invalid index to indicate error or not found.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00046">ZoneRegistrar.h:46</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a7491b6d0c31a035369c9abcdc16182b8"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">ace_time::internal::ZoneRegistrarTemplate::zoneRegistrySize</a></div><div class="ttdeci">uint16_t zoneRegistrySize() const</div><div class="ttdoc">Return the number of zones and (fat) links.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00059">ZoneRegistrar.h:59</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a7ae679bd394ebccf2f70c4686c796107"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7ae679bd394ebccf2f70c4686c796107">ace_time::internal::ZoneRegistrarTemplate::linearSearchById</a></div><div class="ttdeci">static uint16_t linearSearchById(const ZI *const *registry, uint16_t registrySize, uint32_t zoneId)</div><div class="ttdoc">Find the registry index corresponding to zoneId using linear search.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00142">ZoneRegistrar.h:142</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a7feaa21fa3b6739cdae255aebd3e7c77"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7feaa21fa3b6739cdae255aebd3e7c77">ace_time::internal::ZoneRegistrarTemplate::findIndexForIdBinary</a></div><div class="ttdeci">uint16_t findIndexForIdBinary(uint32_t zoneId) const</div><div class="ttdoc">Exposed only for benchmarking purposes.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00194">ZoneRegistrar.h:194</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_a9f850b1e501782a0adbc79e94d25e82e"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a9f850b1e501782a0adbc79e94d25e82e">ace_time::internal::ZoneRegistrarTemplate::findIndexForName</a></div><div class="ttdeci">uint16_t findIndexForName(const char *name) const</div><div class="ttdoc">Find the index for zone name.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00086">ZoneRegistrar.h:86</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_ac00d339dfffbf172d3ae0a9369be97db"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#ac00d339dfffbf172d3ae0a9369be97db">ace_time::internal::ZoneRegistrarTemplate::kBinarySearchThreshold</a></div><div class="ttdeci">static const uint8_t kBinarySearchThreshold</div><div class="ttdoc">Use binarySearchById() if zoneRegistrySize &gt;= threshold.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00124">ZoneRegistrar.h:124</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_adbeca9928a202d3eab537e2293963e6d"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#adbeca9928a202d3eab537e2293963e6d">ace_time::internal::ZoneRegistrarTemplate::getZoneInfoForName</a></div><div class="ttdeci">const ZI * getZoneInfoForName(const char *name) const</div><div class="ttdoc">Return the ZoneInfo corresponding to the given zone name.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00072">ZoneRegistrar.h:72</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_aef1b721bd1026d08afd514c8353b4b98"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#aef1b721bd1026d08afd514c8353b4b98">ace_time::internal::ZoneRegistrarTemplate::binarySearchById</a></div><div class="ttdeci">static uint16_t binarySearchById(const ZI *const *registry, uint16_t registrySize, uint32_t zoneId)</div><div class="ttdoc">Find the registry index corresponding to zoneId using a binary search.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00175">ZoneRegistrar.h:175</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_af0b97bc8d05117ad9a3b8a1b63b82327"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af0b97bc8d05117ad9a3b8a1b63b82327">ace_time::internal::ZoneRegistrarTemplate::findIndexForId</a></div><div class="ttdeci">uint16_t findIndexForId(uint32_t zoneId) const</div><div class="ttdoc">Find the index for zone id.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00102">ZoneRegistrar.h:102</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_af4ac130d31cce28daf8770fce4a93450"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af4ac130d31cce28daf8770fce4a93450">ace_time::internal::ZoneRegistrarTemplate::ZoneRegistrarTemplate</a></div><div class="ttdeci">ZoneRegistrarTemplate(uint16_t zoneRegistrySize, const ZI *const *zoneRegistry)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00049">ZoneRegistrar.h:49</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistrarTemplate_html_afc920ce570c75a1471a4d4302cad923f"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#afc920ce570c75a1471a4d4302cad923f">ace_time::internal::ZoneRegistrarTemplate::isSorted</a></div><div class="ttdeci">static bool isSorted(const ZI *const *registry, uint16_t registrySize)</div><div class="ttdoc">Determine if the given zone registry is sorted by id.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneRegistrar_8h_source.html#l00127">ZoneRegistrar.h:127</a></div></div>
+<div class="ttc" id="aclassace__time_1_1internal_1_1ZoneRegistryBroker_html"><div class="ttname"><a href="classace__time_1_1internal_1_1ZoneRegistryBroker.html">ace_time::internal::ZoneRegistryBroker</a></div><div class="ttdoc">Data broker for accessing the ZoneRegistry.</div><div class="ttdef"><b>Definition:</b> <a href="Brokers_8h_source.html#l00440">Brokers.h:440</a></div></div>
+<div class="ttc" id="acompat_8h_html"><div class="ttname"><a href="compat_8h.html">compat.h</a></div><div class="ttdoc">Macros and definitions that provide a consistency layer among the various Arduino boards for compatib...</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

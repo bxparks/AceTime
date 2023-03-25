@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.1.1</span>
+   &#160;<span id="projectnumber">2.2.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -78,7 +78,7 @@ $(function() {
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Arduino.h&gt;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;AceCommon.h&gt;</span> <span class="comment">// KString</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="BrokerCommon_8h.html">internal/BrokerCommon.h</a>&quot;</span> <span class="comment">// findShortName()</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;../zoneinfo/BrokerCommon.h&quot;</span> <span class="comment">// findShortName()</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;BasicZone.h&quot;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using</span> ace_common::KString;</div>
@@ -121,13 +121,12 @@ $(function() {
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// ACE_TIME_USE_PROGMEM</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;} <span class="comment">// ace_time</span></div>
-<div class="ttc" id="aBrokerCommon_8h_html"><div class="ttname"><a href="BrokerCommon_8h.html">BrokerCommon.h</a></div><div class="ttdoc">Helper functions are used in both Basic brokers and Extended brokers.</div></div>
 <div class="ttc" id="aclassace__time_1_1BasicZone_html_a11a01b1146ec14f3630fcce74e065ac5"><div class="ttname"><a href="classace__time_1_1BasicZone.html#a11a01b1146ec14f3630fcce74e065ac5">ace_time::BasicZone::kname</a></div><div class="ttdeci">ace_common::KString kname() const</div><div class="ttdoc">Return the name as a KString.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8h_source.html#l00069">BasicZone.h:69</a></div></div>
 <div class="ttc" id="aclassace__time_1_1BasicZone_html_adf8e238a8c79d6a46c40f0bd36a6eb23"><div class="ttname"><a href="classace__time_1_1BasicZone.html#adf8e238a8c79d6a46c40f0bd36a6eb23">ace_time::BasicZone::printShortNameTo</a></div><div class="ttdeci">void printShortNameTo(Print &amp;printer) const</div><div class="ttdoc">Print the short pretty zone name to the printer.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8cpp_source.html#l00027">BasicZone.cpp:27</a></div></div>
 <div class="ttc" id="aclassace__time_1_1BasicZone_html_ae0f849d7c5382ab766e7aeb536b1b6e0"><div class="ttname"><a href="classace__time_1_1BasicZone.html#ae0f849d7c5382ab766e7aeb536b1b6e0">ace_time::BasicZone::printNameTo</a></div><div class="ttdeci">void printNameTo(Print &amp;printer) const</div><div class="ttdoc">Print the full zone name to printer.</div><div class="ttdef"><b>Definition:</b> <a href="BasicZone_8cpp_source.html#l00020">BasicZone.cpp:20</a></div></div>
 <div class="ttc" id="astructace__time_1_1internal_1_1ZoneContext_html"><div class="ttname"><a href="structace__time_1_1internal_1_1ZoneContext.html">ace_time::internal::ZoneContext</a></div><div class="ttdoc">Metadata about the zone database.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneContext_8h_source.html#l00016">ZoneContext.h:16</a></div></div>
-<div class="ttc" id="astructace__time_1_1internal_1_1ZoneContext_html_a3a6d2f66b0d5d7c2745e8924c851101d"><div class="ttname"><a href="structace__time_1_1internal_1_1ZoneContext.html#a3a6d2f66b0d5d7c2745e8924c851101d">ace_time::internal::ZoneContext::numFragments</a></div><div class="ttdeci">uint8_t numFragments</div><div class="ttdoc">Number of fragments.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneContext_8h_source.html#l00036">ZoneContext.h:36</a></div></div>
-<div class="ttc" id="astructace__time_1_1internal_1_1ZoneContext_html_a96b167f783962436b6c1b78f0924a46e"><div class="ttname"><a href="structace__time_1_1internal_1_1ZoneContext.html#a96b167f783962436b6c1b78f0924a46e">ace_time::internal::ZoneContext::fragments</a></div><div class="ttdeci">const char *const  * fragments</div><div class="ttdoc">Zone Name fragment list.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneContext_8h_source.html#l00039">ZoneContext.h:39</a></div></div>
+<div class="ttc" id="astructace__time_1_1internal_1_1ZoneContext_html_a3a6d2f66b0d5d7c2745e8924c851101d"><div class="ttname"><a href="structace__time_1_1internal_1_1ZoneContext.html#a3a6d2f66b0d5d7c2745e8924c851101d">ace_time::internal::ZoneContext::numFragments</a></div><div class="ttdeci">uint8_t numFragments</div><div class="ttdoc">Number of fragments.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneContext_8h_source.html#l00065">ZoneContext.h:65</a></div></div>
+<div class="ttc" id="astructace__time_1_1internal_1_1ZoneContext_html_a96b167f783962436b6c1b78f0924a46e"><div class="ttname"><a href="structace__time_1_1internal_1_1ZoneContext.html#a96b167f783962436b6c1b78f0924a46e">ace_time::internal::ZoneContext::fragments</a></div><div class="ttdeci">const char *const  * fragments</div><div class="ttdoc">Zone Name fragment list.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneContext_8h_source.html#l00071">ZoneContext.h:68</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

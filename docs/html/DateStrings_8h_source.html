@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.1.1</span>
+   &#160;<span id="projectnumber">2.2.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -81,7 +81,7 @@ $(function() {
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="compat_8h.html">compat.h</a>&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;../../zoneinfo/compat.h&quot;</span> <span class="comment">// strncpy_P()</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
@@ -142,7 +142,6 @@ $(function() {
 <div class="ttc" id="aclassace__time_1_1DateStrings_html_aa801b71e6aeff59d65a1229015c34cff"><div class="ttname"><a href="classace__time_1_1DateStrings.html#aa801b71e6aeff59d65a1229015c34cff">ace_time::DateStrings::monthShortString</a></div><div class="ttdeci">const char * monthShortString(uint8_t month)</div><div class="ttdoc">Return the short month name.</div><div class="ttdef"><b>Definition:</b> <a href="DateStrings_8h_source.html#l00048">DateStrings.h:48</a></div></div>
 <div class="ttc" id="aclassace__time_1_1DateStrings_html_aa990309bb6080ee27a2cb9aa8f76cb29"><div class="ttname"><a href="classace__time_1_1DateStrings.html#aa990309bb6080ee27a2cb9aa8f76cb29">ace_time::DateStrings::kShortNameLength</a></div><div class="ttdeci">static const uint8_t kShortNameLength</div><div class="ttdoc">Number of prefix characters to use to create a short name.</div><div class="ttdef"><b>Definition:</b> <a href="DateStrings_8h_source.html#l00037">DateStrings.h:37</a></div></div>
 <div class="ttc" id="aclassace__time_1_1DateStrings_html_aedbfa043f6da042c40fed6b2beb09588"><div class="ttname"><a href="classace__time_1_1DateStrings.html#aedbfa043f6da042c40fed6b2beb09588">ace_time::DateStrings::kBufferSize</a></div><div class="ttdeci">static const uint8_t kBufferSize</div><div class="ttdoc">Length of the longest month or week name, including the '\0' terminator.</div><div class="ttdef"><b>Definition:</b> <a href="DateStrings_8h_source.html#l00031">DateStrings.h:31</a></div></div>
-<div class="ttc" id="acompat_8h_html"><div class="ttname"><a href="compat_8h.html">compat.h</a></div><div class="ttdoc">Macros and definitions that provide a consistency layer among the various Arduino boards for compatib...</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

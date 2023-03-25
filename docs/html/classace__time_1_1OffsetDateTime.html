@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.1.1</span>
+   &#160;<span id="projectnumber">2.2.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -181,7 +181,7 @@ const <a class="el" href="classace__time_1_1LocalTime.html">LocalTime</a> &amp;&
 int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1OffsetDateTime.html#ab74f0bd4a1b74fed62cf0236de723f65">toUnixDays</a> () const</td></tr>
 <tr class="memdesc:ab74f0bd4a1b74fed62cf0236de723f65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of days since Unix epoch (1970-01-01 00:00:00). <br /></td></tr>
 <tr class="separator:ab74f0bd4a1b74fed62cf0236de723f65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6bf75ca2f12bc07db60d00e7e5fc5589"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1OffsetDateTime.html#a6bf75ca2f12bc07db60d00e7e5fc5589">toEpochSeconds</a> () const</td></tr>
+<tr class="memitem:a6bf75ca2f12bc07db60d00e7e5fc5589"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1OffsetDateTime.html#a6bf75ca2f12bc07db60d00e7e5fc5589">toEpochSeconds</a> () const</td></tr>
 <tr class="memdesc:a6bf75ca2f12bc07db60d00e7e5fc5589"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return seconds since AceTime epoch taking into account the UTC offset.  <a href="classace__time_1_1OffsetDateTime.html#a6bf75ca2f12bc07db60d00e7e5fc5589">More...</a><br /></td></tr>
 <tr class="separator:a6bf75ca2f12bc07db60d00e7e5fc5589"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19352ab3d4505bd1463cd1d718d56166"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1OffsetDateTime.html#a19352ab3d4505bd1463cd1d718d56166">toUnixSeconds64</a> () const</td></tr>
@@ -209,7 +209,7 @@ static <a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime
 <tr class="memitem:afcc18763dd38086c17221897d45f9b2c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1OffsetDateTime.html#afcc18763dd38086c17221897d45f9b2c">forComponents</a> (int16_t <a class="el" href="classace__time_1_1OffsetDateTime.html#a92a54034c2590597cdc32bb7067f4386">year</a>, uint8_t <a class="el" href="classace__time_1_1OffsetDateTime.html#a3f95ef3b5b6ae6470bcd80002caf92c6">month</a>, uint8_t <a class="el" href="classace__time_1_1OffsetDateTime.html#a128afa44d94db7f8ea6186b090ffe067">day</a>, uint8_t <a class="el" href="classace__time_1_1OffsetDateTime.html#a294513b3f4f1a438e1272c8cfe74f5f7">hour</a>, uint8_t <a class="el" href="classace__time_1_1OffsetDateTime.html#a88888c5a65bee412cf388966f45d56df">minute</a>, uint8_t <a class="el" href="classace__time_1_1OffsetDateTime.html#aea3e2c0b8cfa46fd2b6f1f26dd543eaa">second</a>, <a class="el" href="classace__time_1_1TimeOffset.html">TimeOffset</a> <a class="el" href="classace__time_1_1OffsetDateTime.html#a168e05a532edbaed7afa4e75fbf636d7">timeOffset</a>, uint8_t <a class="el" href="classace__time_1_1OffsetDateTime.html#a7664a39b4b4227657497163d25965edc">fold</a>=0)</td></tr>
 <tr class="memdesc:afcc18763dd38086c17221897d45f9b2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method using separated date, time, and UTC offset fields.  <a href="classace__time_1_1OffsetDateTime.html#afcc18763dd38086c17221897d45f9b2c">More...</a><br /></td></tr>
 <tr class="separator:afcc18763dd38086c17221897d45f9b2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9a8f6f8046721947f6922033cc0504f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1OffsetDateTime.html#ab9a8f6f8046721947f6922033cc0504f">forEpochSeconds</a> (<a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> epochSeconds, <a class="el" href="classace__time_1_1TimeOffset.html">TimeOffset</a> <a class="el" href="classace__time_1_1OffsetDateTime.html#a168e05a532edbaed7afa4e75fbf636d7">timeOffset</a>, uint8_t <a class="el" href="classace__time_1_1OffsetDateTime.html#a7664a39b4b4227657497163d25965edc">fold</a>=0)</td></tr>
+<tr class="memitem:ab9a8f6f8046721947f6922033cc0504f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1OffsetDateTime.html#ab9a8f6f8046721947f6922033cc0504f">forEpochSeconds</a> (<a class="el" href="common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> epochSeconds, <a class="el" href="classace__time_1_1TimeOffset.html">TimeOffset</a> <a class="el" href="classace__time_1_1OffsetDateTime.html#a168e05a532edbaed7afa4e75fbf636d7">timeOffset</a>, uint8_t <a class="el" href="classace__time_1_1OffsetDateTime.html#a7664a39b4b4227657497163d25965edc">fold</a>=0)</td></tr>
 <tr class="memdesc:ab9a8f6f8046721947f6922033cc0504f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method.  <a href="classace__time_1_1OffsetDateTime.html#ab9a8f6f8046721947f6922033cc0504f">More...</a><br /></td></tr>
 <tr class="separator:ab9a8f6f8046721947f6922033cc0504f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04825a66920ce8e9ab826d007e6a7f1d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1OffsetDateTime.html#a04825a66920ce8e9ab826d007e6a7f1d">forUnixSeconds64</a> (int64_t unixSeconds, <a class="el" href="classace__time_1_1TimeOffset.html">TimeOffset</a> <a class="el" href="classace__time_1_1OffsetDateTime.html#a168e05a532edbaed7afa4e75fbf636d7">timeOffset</a>, int8_t <a class="el" href="classace__time_1_1OffsetDateTime.html#a7664a39b4b4227657497163d25965edc">fold</a>=0)</td></tr>
@@ -541,7 +541,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">static <a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a> ace_time::OffsetDateTime::forEpochSeconds </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a>&#160;</td>
           <td class="paramname"><em>epochSeconds</em>, </td>
         </tr>
         <tr>
@@ -700,7 +700,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> ace_time::OffsetDateTime::toEpochSeconds </td>
+          <td class="memname"><a class="el" href="common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> ace_time::OffsetDateTime::toEpochSeconds </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
