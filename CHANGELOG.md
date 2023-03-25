@@ -24,6 +24,9 @@
         * Client applications should create a new `TimeZone` object using
           `TimeZone::forTimeOffset(std, dst)` and overwrite the old one.
         * See [Migrating to v2.2](MIGRATING.md#MigratingToVersion220).
+    * Add support for Seeed Studio XIAO M0 (SAMD21).
+        * Required updating `zoneino/compat.h` to clobber the broken definition
+          of `FPSTR()` in Seeeduino 1.8.3.
     * Simplify the handling of `Rule.LETTER`.
         * Encode all letters as an index into `ZoneContext.letters` array, not
           just `LETTER` which are only a single character.

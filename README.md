@@ -777,6 +777,7 @@ These boards are tested on each release:
 
 * Arduino Nano (16 MHz ATmega328P)
 * SparkFun Pro Micro (16 MHz ATmega32U4)
+* Seeed Studio XIAO M0 (SAMD21, 48 MHz ARM Cortex-M0+)
 * STM32 Blue Pill (STM32F103C8, 72 MHz ARM Cortex-M3)
 * NodeMCU 1.0 (ESP-12E module, 80 MHz ESP8266)
 * WeMos D1 Mini (ESP-12E module, 80 MHz ESP8266)
@@ -794,15 +795,12 @@ These boards should work but I don't test them as often:
 
 **Tier 3: May work, but not supported**
 
-* SAMD21 M0 Mini (48 MHz ARM Cortex-M0+)
-    * Arduino-branded SAMD21 boards use the ArduinoCore-API, so are explicitly
-      blacklisted. See below.
-    * Other 3rd party SAMD21 boards *may* work using the SparkFun SAMD core.
-    * However, as of SparkFun SAMD Core v1.8.6 and Arduino IDE 1.8.19, I can no
-      longer upload binaries to these 3rd party boards due to errors.
-    * Therefore, third party SAMD21 boards are now in this new Tier 3 category.
-    * The AceTime library may work on these boards, but I can no longer support
-      them.
+* SAMD21 based boards. SAMD21 based boards are now split into 2 groups:
+    * Those using the new ArduinoCore-API, usually Arduino-branded
+      boards. These are explicitly blacklisted. See below.
+    * Other 3rd party SAMD21 boards using the previous Arduino API.
+      These *may* work but I have not explicitly tested any of them except
+      for the Seeed Studio XIAO M0.
 
 **Tier Blacklisted**
 
@@ -823,15 +821,16 @@ compiler errors:
 This library was developed and tested using:
 
 * [Arduino IDE 1.8.19](https://www.arduino.cc/en/Main/Software)
-* [Arduino CLI 0.27.1](https://arduino.github.io/arduino-cli)
+* [Arduino CLI 0.31.0](https://arduino.github.io/arduino-cli)
 * [SpenceKonde ATTinyCore 1.5.2](https://github.com/SpenceKonde/ATTinyCore)
-* [Arduino AVR Boards 1.8.5](https://github.com/arduino/ArduinoCore-avr)
+* [Arduino AVR Boards 1.8.6](https://github.com/arduino/ArduinoCore-avr)
 * [Arduino SAMD Boards 1.8.9](https://github.com/arduino/ArduinoCore-samd)
 * [SparkFun AVR Boards 1.1.13](https://github.com/sparkfun/Arduino_Boards)
-* [SparkFun SAMD Boards 1.8.6](https://github.com/sparkfun/Arduino_Boards)
-* [STM32duino 2.3.0](https://github.com/stm32duino/Arduino_Core_STM32)
+* [SparkFun SAMD Boards 1.8.9](https://github.com/sparkfun/Arduino_Boards)
+* [Seeeduino SAMD Boards 1.8.3](https://wiki.seeedstudio.com/Seeed_Arduino_Boards/)
+* [STM32duino 2.4.0](https://github.com/stm32duino/Arduino_Core_STM32)
 * [ESP8266 Arduino 3.0.2](https://github.com/esp8266/Arduino)
-* [ESP32 Arduino 2.0.5](https://github.com/espressif/arduino-esp32)
+* [ESP32 Arduino 2.0.7](https://github.com/espressif/arduino-esp32)
 * [Teensyduino 1.57](https://www.pjrc.com/teensy/td_download.html)
 
 This library is *not* compatible with:
