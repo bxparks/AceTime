@@ -32,8 +32,7 @@ micro.txt:
 	$(AUNITER_DIR)/auniter.sh --ide upmon -o $@ --eof END micro:ACM0
 
 samd21.txt:
-	$(AUNITER_DIR)/auniter.sh --cli --upmon_delay 1 upmon -o $@ \
-		--eof END xiao:ACM0
+	$(AUNITER_DIR)/auniter.sh --cli upmon --delay 1 -o $@ --eof END xiao:ACM0
 
 # STM32 no longer works with CLI due to
 # https://github.com/arduino/arduino-cli/issues/1444. Use IDE instead.
