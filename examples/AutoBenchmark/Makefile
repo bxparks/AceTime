@@ -2,7 +2,7 @@
 # Makefile to compile and run Arduino programs natively on Linux or MacOS.
 
 APP_NAME := AutoBenchmark
-ARDUINO_LIBS := AceCommon AceTime AceRoutine AceWire AceSorting
+ARDUINO_LIBS := AceCommon AceTime AceRoutine AceSorting
 MORE_CLEAN := more_clean
 include ../../../EpoxyDuino/EpoxyDuino.mk
 
@@ -32,7 +32,8 @@ micro.txt:
 	$(AUNITER_DIR)/auniter.sh --ide upmon -o $@ --eof END micro:ACM0
 
 samd21.txt:
-	$(AUNITER_DIR)/auniter.sh --cli upmon -o $@ --eof END xiao:ACM0
+	$(AUNITER_DIR)/auniter.sh --cli --upmon_delay 1 upmon -o $@ \
+		--eof END xiao:ACM0
 
 # STM32 no longer works with CLI due to
 # https://github.com/arduino/arduino-cli/issues/1444. Use IDE instead.
