@@ -3,8 +3,8 @@
 #include <AUnit.h>
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
-#include <ace_time/testing/tzonedb/zone_policies.h>
-#include <ace_time/testing/tzonedb/zone_infos.h>
+#include <tzonedb/zone_policies.h>
+#include <tzonedb/zone_infos.h>
 
 using namespace ace_time;
 using ace_time::tzonedb::kZoneAmerica_Chicago;
@@ -132,15 +132,6 @@ test(ZonedDateTimeBasicTest, forComponents_afterOverlap) {
   auto expected = LocalDateTime::forComponents(2018, 11, 4, 2, 1, 0);
   assertTrue(expected == dt.localDateTime());
 }
-
-// Test the linked zones are same as the target zones.
-// Commented out because this test does not work with "fat" Link which behave
-// just like a normal Zone. TODO: Figure out how to detect fat links at runtime.
-/*
-test(ZonedDateTimeBasicTest, linked_zones) {
-  assertEqual(&kZoneAmerica_Los_Angeles, &kZoneUS_Pacific);
-}
-*/
 
 // --------------------------------------------------------------------------
 

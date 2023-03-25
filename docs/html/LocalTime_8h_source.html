@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.1.1</span>
+   &#160;<span id="projectnumber">2.2.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -80,7 +80,7 @@ $(function() {
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#define ACE_TIME_LOCAL_TIME_H</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="common_2common_8h.html">common/common.h</a>&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="common_8h.html">common/common.h</a>&quot;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">class </span>Print;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
@@ -95,7 +95,7 @@ $(function() {
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1LocalTime.html#ab34ac02fd32ba8819c5a9710b6c78b65">LocalTime</a>(<a class="code" href="classace__time_1_1LocalTime.html#acfef7fa36f67066b73fbc62e6cb52f54">hour</a>, <a class="code" href="classace__time_1_1LocalTime.html#ad99b8893e31c3e3d45ccd0a7bac9c91e">minute</a>, <a class="code" href="classace__time_1_1LocalTime.html#ae9cd4e0e411a670b7cac26147c2a3e7b">second</a>, <a class="code" href="classace__time_1_1LocalTime.html#a2ce63c8501efc8026f722c43935c3d2d">fold</a>);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    }</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classace__time_1_1LocalTime.html#add45f59f01066a9551f33bab114df263">   56</a></span>&#160;    <span class="keyword">static</span> <a class="code" href="classace__time_1_1LocalTime.html">LocalTime</a> <a class="code" href="classace__time_1_1LocalTime.html#add45f59f01066a9551f33bab114df263">forSeconds</a>(<a class="code" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> seconds, uint8_t <a class="code" href="classace__time_1_1LocalTime.html#a2ce63c8501efc8026f722c43935c3d2d">fold</a> = 0) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classace__time_1_1LocalTime.html#add45f59f01066a9551f33bab114df263">   56</a></span>&#160;    <span class="keyword">static</span> <a class="code" href="classace__time_1_1LocalTime.html">LocalTime</a> <a class="code" href="classace__time_1_1LocalTime.html#add45f59f01066a9551f33bab114df263">forSeconds</a>(<a class="code" href="common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> seconds, uint8_t <a class="code" href="classace__time_1_1LocalTime.html#a2ce63c8501efc8026f722c43935c3d2d">fold</a> = 0) {</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      uint8_t <a class="code" href="classace__time_1_1LocalTime.html#ae9cd4e0e411a670b7cac26147c2a3e7b">second</a>, <a class="code" href="classace__time_1_1LocalTime.html#ad99b8893e31c3e3d45ccd0a7bac9c91e">minute</a>, <a class="code" href="classace__time_1_1LocalTime.html#acfef7fa36f67066b73fbc62e6cb52f54">hour</a>;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <span class="keywordflow">if</span> (seconds == <a class="code" href="classace__time_1_1LocalTime.html#a0524d4d069e8fe7f604757160994f276">kInvalidSeconds</a>) {</div>
@@ -146,7 +146,7 @@ $(function() {
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
 <div class="line"><a name="l00139"></a><span class="lineno"><a class="line" href="classace__time_1_1LocalTime.html#af21f20be4d4194d909e49bdf3a58677d">  139</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classace__time_1_1LocalTime.html#af21f20be4d4194d909e49bdf3a58677d">fold</a>(uint8_t <a class="code" href="classace__time_1_1LocalTime.html#a2ce63c8501efc8026f722c43935c3d2d">fold</a>) { mFold = <a class="code" href="classace__time_1_1LocalTime.html#af21f20be4d4194d909e49bdf3a58677d">fold</a>; }</div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
-<div class="line"><a name="l00145"></a><span class="lineno"><a class="line" href="classace__time_1_1LocalTime.html#a53f1dd8b1eea2592a760bedcdf6d1442">  145</a></span>&#160;    <a class="code" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> <a class="code" href="classace__time_1_1LocalTime.html#a53f1dd8b1eea2592a760bedcdf6d1442">toSeconds</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00145"></a><span class="lineno"><a class="line" href="classace__time_1_1LocalTime.html#a53f1dd8b1eea2592a760bedcdf6d1442">  145</a></span>&#160;    <a class="code" href="common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> <a class="code" href="classace__time_1_1LocalTime.html#a53f1dd8b1eea2592a760bedcdf6d1442">toSeconds</a>()<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;      <span class="keywordflow">if</span> (<a class="code" href="classace__time_1_1LocalTime.html#aef4912030e6b9a2eaa77fe5ae56f9bec">isError</a>()) {</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classace__time_1_1LocalTime.html#a0524d4d069e8fe7f604757160994f276">kInvalidSeconds</a>;</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;      } <span class="keywordflow">else</span> {</div>
@@ -238,8 +238,8 @@ $(function() {
 <div class="ttc" id="aclassace__time_1_1LocalTime_html_aef4912030e6b9a2eaa77fe5ae56f9bec"><div class="ttname"><a href="classace__time_1_1LocalTime.html#aef4912030e6b9a2eaa77fe5ae56f9bec">ace_time::LocalTime::isError</a></div><div class="ttdeci">bool isError() const</div><div class="ttdoc">Return true if any component is outside the normal time range of 00:00:00 to 23:59:59.</div><div class="ttdef"><b>Definition:</b> <a href="LocalTime_8h_source.html#l00108">LocalTime.h:108</a></div></div>
 <div class="ttc" id="aclassace__time_1_1LocalTime_html_af21f20be4d4194d909e49bdf3a58677d"><div class="ttname"><a href="classace__time_1_1LocalTime.html#af21f20be4d4194d909e49bdf3a58677d">ace_time::LocalTime::fold</a></div><div class="ttdeci">void fold(uint8_t fold)</div><div class="ttdoc">Set the fold.</div><div class="ttdef"><b>Definition:</b> <a href="LocalTime_8h_source.html#l00139">LocalTime.h:139</a></div></div>
 <div class="ttc" id="aclassace__time_1_1LocalTime_html_afd3c625a0460388afcf11f4a46d1bbd9"><div class="ttname"><a href="classace__time_1_1LocalTime.html#afd3c625a0460388afcf11f4a46d1bbd9">ace_time::LocalTime::compareTo</a></div><div class="ttdeci">int8_t compareTo(const LocalTime &amp;that) const</div><div class="ttdoc">Compare 'this' LocalTime with 'that' LocalTime, and return (&lt;0, 0, &gt;0) according to whether 'this' oc...</div><div class="ttdef"><b>Definition:</b> <a href="LocalTime_8h_source.html#l00162">LocalTime.h:162</a></div></div>
-<div class="ttc" id="acommon_2common_8h_html"><div class="ttname"><a href="common_2common_8h.html">common.h</a></div><div class="ttdoc">Identifiers used by implementation code which need to be publically exported.</div></div>
-<div class="ttc" id="acommon_2common_8h_html_a9c5a9893b2588031b6ab56826dec303a"><div class="ttname"><a href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">ace_time::acetime_t</a></div><div class="ttdeci">int32_t acetime_t</div><div class="ttdoc">Type for the number of seconds from epoch.</div><div class="ttdef"><b>Definition:</b> <a href="common_2common_8h_source.html#l00024">common.h:24</a></div></div>
+<div class="ttc" id="acommon_8h_html"><div class="ttname"><a href="common_8h.html">common.h</a></div><div class="ttdoc">Identifiers used by implementation code which need to be publically exported.</div></div>
+<div class="ttc" id="acommon_8h_html_a9c5a9893b2588031b6ab56826dec303a"><div class="ttname"><a href="common_8h.html#a9c5a9893b2588031b6ab56826dec303a">ace_time::acetime_t</a></div><div class="ttdeci">int32_t acetime_t</div><div class="ttdoc">Type for the number of seconds from epoch.</div><div class="ttdef"><b>Definition:</b> <a href="common_8h_source.html#l00024">common.h:24</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -3,9 +3,9 @@
 #include <Arduino.h>
 #include <AUnit.h>
 #include <AceTime.h>
-#include <ace_time/testing/tzonedbx/zone_policies.h>
-#include <ace_time/testing/tzonedbx/zone_infos.h>
-#include <ace_time/testing/tzonedbx/zone_registry.h>
+#include <tzonedbx/zone_policies.h>
+#include <tzonedbx/zone_infos.h>
+#include <tzonedbx/zone_registry.h>
 
 using namespace ace_time;
 using ace_time::internal::ZoneContext;
@@ -13,6 +13,7 @@ using ace_time::extended::ZoneInfoBroker;
 using ace_time::extended::ZoneEraBroker;
 using ace_time::extended::ZoneRuleBroker;
 using ace_time::extended::ZonePolicyBroker;
+using ace_time::extended::ZoneEra;
 using ace_time::tzonedbx::kZoneContext;
 using ace_time::tzonedbx::kZonePolicyUS;
 using ace_time::tzonedbx::kZoneAmerica_Los_Angeles;
@@ -32,7 +33,7 @@ test(timeCodeToMinutes) {
 //---------------------------------------------------------------------------
 
 test(ExtendedBrokerTest, ZoneRuleBroker) {
-  ZoneRuleBroker rule(&kZonePolicyUS.rules[0]);
+  ZoneRuleBroker rule(&kZoneContext, &kZonePolicyUS.rules[1]);
   assertFalse(rule.isNull());
   assertEqual(1967, rule.fromYear());
   assertEqual(2006, rule.toYear());
@@ -46,36 +47,30 @@ test(ExtendedBrokerTest, ZoneRuleBroker) {
 }
 
 test(ExtendedBrokerTest, ZonePolicyBroker) {
-  ZonePolicyBroker policy(&kZonePolicyUS);
+  ZonePolicyBroker policy(&kZoneContext, &kZonePolicyUS);
   assertFalse(policy.isNull());
-  assertEqual(6, policy.numRules());
-  assertEqual(0, policy.numLetters());
+  assertEqual(7, policy.numRules());
 }
 
 test(ExtendedBrokerTest, ZonePolicyBroker_with_letters) {
-  ZonePolicyBroker policy(&kZonePolicyNamibia);
+  ZonePolicyBroker policy(&kZoneContext, &kZonePolicyNamibia);
   assertFalse(policy.isNull());
   assertEqual(4, policy.numRules());
-  assertEqual(2, policy.numLetters());
-  assertEqual(F("CAT"), policy.letter(0));
-  assertEqual(F("WAT"), policy.letter(1));
 }
 
 test(ExtendedBrokerTest, ZoneEraBroker) {
-  ZoneEraBroker era(
-      &((const extended::ZoneEra*)kZoneAmerica_Los_Angeles.eras)[0]);
+  ZoneEraBroker era(&kZoneContext, &kZoneAmerica_Los_Angeles.eras[0]);
   assertFalse(era.isNull());
   assertEqual(-32 * 15, era.offsetMinutes());
   assertEqual(0, era.deltaMinutes());
   assertEqual("P%T", era.format());
-  assertEqual((int16_t)10000, era.untilYear());
+  assertEqual(ZoneContext::kMaxUntilYear, era.untilYear());
   assertEqual((uint8_t)1, era.untilMonth());
   assertEqual((uint8_t)1, era.untilDay());
   assertEqual((uint16_t)0, era.untilTimeMinutes());
   assertEqual(ZoneContext::kSuffixW, era.untilTimeSuffix());
 
-  ZoneEraBroker era2(
-    &((const extended::ZoneEra*)kZoneAmerica_Los_Angeles.eras)[0]);
+  ZoneEraBroker era2(&kZoneContext, &kZoneAmerica_Los_Angeles.eras[0]);
   assertTrue(era.equals(era2));
 }
 

@@ -3,9 +3,9 @@
 #include <Arduino.h>
 #include <AUnit.h>
 #include <AceTime.h>
-#include <ace_time/testing/tzonedb/zone_policies.h>
-#include <ace_time/testing/tzonedb/zone_infos.h>
-#include <ace_time/testing/tzonedb/zone_registry.h>
+#include <tzonedb/zone_policies.h>
+#include <tzonedb/zone_infos.h>
+#include <tzonedb/zone_registry.h>
 
 using namespace ace_time;
 using ace_time::internal::ZoneContext;
@@ -22,7 +22,7 @@ using ace_time::tzonedb::kZoneIdAmerica_Los_Angeles;
 //---------------------------------------------------------------------------
 
 test(BasicBrokerTest, ZoneRuleBroker) {
-  ZoneRuleBroker rule(&kZonePolicyUS.rules[0]);
+  ZoneRuleBroker rule(&kZoneContext, &kZonePolicyUS.rules[1]);
   assertFalse(rule.isNull());
   assertEqual(1967, rule.fromYear());
   assertEqual(2006, rule.toYear());
@@ -36,29 +36,26 @@ test(BasicBrokerTest, ZoneRuleBroker) {
 }
 
 test(BasicBrokerTest, ZonePolicyBroker) {
-  ZonePolicyBroker policy(&kZonePolicyUS);
+  ZonePolicyBroker policy(&kZoneContext, &kZonePolicyUS);
   assertFalse(policy.isNull());
-  assertEqual(6, policy.numRules());
-  assertEqual(0, policy.numLetters());
+  assertEqual(7, policy.numRules());
 }
 
 test(BasicBrokerTest, ZoneEraBroker) {
-  const basic::ZoneEra* eras =
-      (const basic::ZoneEra*) kZoneAmerica_Los_Angeles.eras;
-  ZoneEraBroker era(&eras[0]);
+  const basic::ZoneEra* eras = kZoneAmerica_Los_Angeles.eras;
+  ZoneEraBroker era(&kZoneContext, &eras[0]);
   assertFalse(era.isNull());
   assertEqual(-32 * 15, era.offsetMinutes());
   assertEqual(0 * 15, era.deltaMinutes());
   assertEqual("P%T", era.format());
-  assertEqual((int16_t)10000, era.untilYear());
+  assertEqual(ZoneContext::kMaxUntilYear, era.untilYear());
   assertEqual((uint8_t)1, era.untilMonth());
   assertEqual((uint8_t)1, era.untilDay());
   assertEqual((uint16_t)0, era.untilTimeMinutes());
   assertEqual(ZoneContext::kSuffixW, era.untilTimeSuffix());
 
-  const basic::ZoneEra* eras2 =
-      (const basic::ZoneEra*) kZoneAmerica_Los_Angeles.eras;
-  ZoneEraBroker era2(&eras2[0]);
+  const basic::ZoneEra* eras2 = kZoneAmerica_Los_Angeles.eras;
+  ZoneEraBroker era2(&kZoneContext, &eras2[0]);
   assertTrue(era.equals(era2));
 }
 

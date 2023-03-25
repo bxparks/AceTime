@@ -16,7 +16,7 @@ CXXFLAGS := -I $(HINNANT_DATE_DIR)/include
 LDFLAGS := -lcurl
 include ../../../EpoxyDuino/EpoxyDuino.mk
 
-TZ_VERSION := 2022f
+TZ_VERSION := 2022g
 START_YEAR := 2000
 UNTIL_YEAR := 2100
 

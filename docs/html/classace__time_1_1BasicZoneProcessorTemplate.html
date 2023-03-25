@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.1.1</span>
+   &#160;<span id="projectnumber">2.2.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -122,7 +122,7 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <tr class="memdesc:ac79e69e1f91b5ed74826eb164ea845d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the search results at given <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>.  <a href="classace__time_1_1BasicZoneProcessorTemplate.html#ac79e69e1f91b5ed74826eb164ea845d1">More...</a><br /></td></tr>
 <tr class="separator:ac79e69e1f91b5ed74826eb164ea845d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f3b96a0edad988ea7d09af98f9b65b8"><td class="memItemLeft" align="right" valign="top"><a id="a4f3b96a0edad988ea7d09af98f9b65b8"></a>
-<a class="el" href="classace__time_1_1FindResult.html">FindResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a4f3b96a0edad988ea7d09af98f9b65b8">findByEpochSeconds</a> (<a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> epochSeconds) const override</td></tr>
+<a class="el" href="classace__time_1_1FindResult.html">FindResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a4f3b96a0edad988ea7d09af98f9b65b8">findByEpochSeconds</a> (<a class="el" href="common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> epochSeconds) const override</td></tr>
 <tr class="memdesc:a4f3b96a0edad988ea7d09af98f9b65b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the search results at given epochSeconds. <br /></td></tr>
 <tr class="separator:a4f3b96a0edad988ea7d09af98f9b65b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89e7281bee80ccaab70debdb1a29c1a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a89e7281bee80ccaab70debdb1a29c1a8">printNameTo</a> (Print &amp;printer) const override</td></tr>
@@ -231,7 +231,7 @@ class ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</h3>
 * </pre><p>Each record is represented by basic::ZoneRule and the entire collection is represented by basic::ZonePolicy.</p>
 <p>The Zone records define the region which follows a specific set of Rules for certain time periods (given by UNTIL below): </p><pre class="fragment">* Zone NAME              GMTOFF    RULES FORMAT  [UNTIL]
 * </pre><p>Each record is represented by basic::ZoneEra and the entire collection is represented by basic::ZoneInfo.</p>
-<p>This class assumes that the various components of ZoneInfo, ZoneEra, and ZonePolicy, ZoneRule have a number of limitations and constraints which simplify the implementation of this class. The tzcompiler.py script will remove zones which do not meet these constraints when generating the structs defined by <a class="el" href="zonedb_2zone__infos_8h_source.html">zonedb/zone_infos.h</a>. The constraints are at least the following (see AceTimeTools/transformer.py for the authoratative algorithm):</p>
+<p>This class assumes that the various components of ZoneInfo, ZoneEra, and ZonePolicy, ZoneRule have a number of limitations and constraints which simplify the implementation of this class. The tzcompiler.py script will remove zones which do not meet these constraints when generating the structs defined by zonedb/zone_infos.h. The constraints are at least the following (see AceTimeTools/transformer.py for the authoratative algorithm):</p>
 <ul>
 <li>ZoneInfo UNTIL field must contain only the full year; cannot contain month, day, or time components</li>
 <li>ZoneInfo untilTimeSuffix can contain only 'w' (not 's' or 'u')</li>

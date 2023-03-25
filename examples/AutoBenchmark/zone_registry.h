@@ -1,4 +1,4 @@
-// This file was copied from src/ace_time/zonedb/zone_registry.cpp, then reduced
+// This file was copied from src/zonedb/zone_registry.cpp, then reduced
 // to 85 zones so that AutoBenchmark can fit inside the 32kB limit of an
 // Arduino Nano.
 

@@ -7,8 +7,8 @@
 #define ACE_TIME_EXTENDED_ZONE_H
 
 #include <AceCommon.h> // KString
-#include "internal/ZoneInfo.h"
-#include "internal/ExtendedBrokers.h"
+#include "../zoneinfo/ZoneInfo.h"
+#include "../zoneinfo/Brokers.h"
 
 class Print;
 

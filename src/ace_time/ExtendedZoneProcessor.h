@@ -9,11 +9,11 @@
 #include <stdint.h> // uintptr_t
 #include <string.h> // memcpy(), strncpy()
 #include <AceCommon.h> // copyReplaceString()
-#include "common/compat.h"
-#include "internal/common.h" // kAbbrevSize
-#include "internal/ZonePolicy.h"
-#include "internal/ZoneInfo.h"
-#include "internal/ExtendedBrokers.h"
+#include "../zoneinfo/compat.h"
+#include "../zoneinfo/ZonePolicy.h"
+#include "../zoneinfo/ZoneInfo.h"
+#include "../zoneinfo/Brokers.h"
+#include "common/common.h" // kAbbrevSize
 #include "common/logging.h"
 #include "TimeOffset.h"
 #include "LocalDate.h"
@@ -39,7 +39,7 @@ class ExtendedZoneProcessorTest_calcInteriorYears;
 class ExtendedZoneProcessorTest_getMostRecentPriorYear;
 class ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
 class ExtendedZoneProcessorTest_compareTransitionToMatch;
-class ExtendedZoneProcessorTest_processTransitionMatchStatus;
+class ExtendedZoneProcessorTest_processTransitionCompareStatus;
 class ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
 class ExtendedZoneProcessorTest_createAbbreviation;
 class ExtendedZoneProcessorTest_setZoneKey;
@@ -422,7 +422,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_getMostRecentPriorYear;
     friend class ::ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
     friend class ::ExtendedZoneProcessorTest_compareTransitionToMatch;
-    friend class ::ExtendedZoneProcessorTest_processTransitionMatchStatus;
+    friend class ::ExtendedZoneProcessorTest_processTransitionCompareStatus;
     friend class ::ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
     friend class ::ExtendedZoneProcessorTest_createAbbreviation;
     friend class ::ExtendedZoneProcessorTest_setZoneKey;
@@ -485,15 +485,29 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /**
-     * Determines if era overlaps the interval [startYm, untilYm). This does
-     * not need to be exact since the startYm and untilYm are created to have
-     * some slop of about one month at the low and high end, so we can ignore
-     * the day, time and timeSuffix fields of the era. The start date of the
-     * current era is represented by the UNTIL fields of the previous era, so
-     * the interval of the current era is [era.start=prev.UNTIL,
-     * era.until=era.UNTIL). Overlap happens if (era.start < untilYm) and
-     * (era.until > startYm). If prev.isNull(), then interpret prev as the
-     * earliest ZoneEra.
+     * Determines if `era` overlaps the interval defined by `[startYm,
+     * untilYm)`.
+     *
+     * The start date of the current era is defined by the UNTIL fields of the
+     * previous era. The interval of current era is `[prev.until, era.until)`.
+     * This function determines if the two intervals overlap.
+     *
+     * @code
+     *         start          until
+     *           [              )
+     * -------------)[--------------)[-----------------
+     *          prev.until       era.until
+     *
+     * @endcode
+     *
+     * The 2 intervals overlap if:
+     *
+     * @code
+     * (prev.until < until) && (era.until > start)
+     * @endcode
+     *
+     * If `prev == nil`, then `prev.until` is assigned to be `-infinity`, so the
+     * `era` extends back to earliest possible time.
      */
     static bool eraOverlapsInterval(
         const MatchingEra* prevMatch,
@@ -622,7 +636,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       Transition* freeTransition = transitionStorage.getFreeAgent();
       createTransitionForYear(freeTransition, 0 /*not used*/,
           ZRB() /*rule*/, match);
-      freeTransition->matchStatus = extended::MatchStatus::kExactMatch;
+      freeTransition->compareStatus = extended::CompareStatus::kExactMatch;
       match->lastOffsetMinutes = freeTransition->offsetMinutes;
       match->lastDeltaMinutes = freeTransition->deltaMinutes;
       transitionStorage.addFreeAgentToActivePool();
@@ -686,7 +700,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     static void findCandidateTransitions(
         TransitionStorage& transitionStorage,
         const MatchingEra* match) {
-      using extended::MatchStatus;
+      using extended::CompareStatus;
 
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("findCandidateTransitions(): \n");
@@ -714,10 +728,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           int16_t year = interiorYears[y];
           Transition* t = transitionStorage.getFreeAgent();
           createTransitionForYear(t, year, rule, match);
-          MatchStatus status = compareTransitionToMatchFuzzy(t, match);
-          if (status == MatchStatus::kPrior) {
+          CompareStatus status = compareTransitionToMatchFuzzy(t, match);
+          if (status == CompareStatus::kPrior) {
             transitionStorage.setFreeAgentAsPriorIfValid();
-          } else if (status == MatchStatus::kWithinMatch) {
+          } else if (status == CompareStatus::kWithinMatch) {
             transitionStorage.addFreeAgentToCandidatePool();
           } else {
             // Must be kFarFuture.
@@ -790,9 +804,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     /**
      * Populate Transition 't' using the startTime from 'rule' (if it exists)
-     * else from the start time of 'match'. Fills in 'offsetMinutes' and
-     * 'deltaMinutes' as well. 'letterBuf' is also well-defined, either an empty
-     * string, or filled with rule->letter with a NUL terminator.
+     * else from the start time of 'match'. Fills in 'offsetMinutes',
+     * 'deltaMinutes', and 'letter'.
      */
     static void createTransitionForYear(
         Transition* t,
@@ -800,31 +813,21 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         const ZRB& rule,
         const MatchingEra* match) {
       t->match = match;
-      t->rule = rule;
       t->offsetMinutes = match->era.offsetMinutes();
-      t->letterBuf[0] = '\0';
+    #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
+      t->rule = rule;
+    #endif
 
-      if (! rule.isNull()) {
-        t->transitionTime = getTransitionTime(year, rule);
-        t->deltaMinutes = rule.deltaMinutes();
-
-        char letter = rule.letter();
-        if (letter >= 32) {
-          // If LETTER is a '-', treat it the same as an empty string.
-          if (letter != '-') {
-            t->letterBuf[0] = letter;
-            t->letterBuf[1] = '\0';
-          }
-        } else {
-          // rule->letter is a long string, so is referenced as an offset index
-          // into the ZonePolicy.letters array. The string cannot fit in
-          // letterBuf, so will be retrieved by the letter() method below.
-        }
-      } else {
+      if (rule.isNull()) {
         // Create a Transition using the MatchingEra for the transitionTime.
         // Used for simple MatchingEra.
         t->transitionTime = match->startDateTime;
         t->deltaMinutes = match->era.deltaMinutes();
+        t->letter = "";
+      } else {
+        t->transitionTime = getTransitionTime(year, rule);
+        t->deltaMinutes = rule.deltaMinutes();
+        t->letter = rule.letter();
       }
     }
 
@@ -886,7 +889,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      *    * kFarFuture if t greater than match by at least one month
      *    * kExactMatch is never returned, we cannot know that t == match.start
      */
-    static extended::MatchStatus compareTransitionToMatchFuzzy(
+    static extended::CompareStatus compareTransitionToMatchFuzzy(
         const Transition* t, const MatchingEra* match) {
       return compareDateTupleFuzzy(
           t->transitionTime,
@@ -989,7 +992,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       Transition* prior = nullptr;
       for (Transition** iter = begin; iter != end; ++iter) {
         Transition* transition = *iter;
-        processTransitionMatchStatus(transition, &prior);
+        processTransitionCompareStatus(transition, &prior);
       }
 
       // If the latest prior transition is found, shift it to start at the
@@ -1012,27 +1015,27 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * transition before match, marking any previous prior transition as
      * kFarPast.
      */
-    static void processTransitionMatchStatus(
+    static void processTransitionCompareStatus(
         Transition* transition,
         Transition** prior) {
-      using extended::MatchStatus;
+      using extended::CompareStatus;
 
-      MatchStatus status = compareTransitionToMatch(
+      CompareStatus status = compareTransitionToMatch(
           transition, transition->match);
-      transition->matchStatus = status;
+      transition->compareStatus = status;
 
-      if (status == MatchStatus::kExactMatch) {
+      if (status == CompareStatus::kExactMatch) {
         if (*prior) {
-          (*prior)->matchStatus = MatchStatus::kFarPast;
+          (*prior)->compareStatus = CompareStatus::kFarPast;
         }
         (*prior) = transition;
-      } else if (status == MatchStatus::kPrior) {
+      } else if (status == CompareStatus::kPrior) {
         if (*prior) {
           if ((*prior)->transitionTimeU <= transition->transitionTimeU) {
-            (*prior)->matchStatus = MatchStatus::kFarPast;
+            (*prior)->compareStatus = CompareStatus::kFarPast;
             (*prior) = transition;
           } else {
-            transition->matchStatus = MatchStatus::kFarPast;
+            transition->compareStatus = CompareStatus::kFarPast;
           }
         } else {
           (*prior) = transition;
@@ -1048,7 +1051,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * MatchingEra.untilDateTime, the version will be determined by the suffix
      * of those parameters.
      */
-    static extended::MatchStatus compareTransitionToMatch(
+    static extended::CompareStatus compareTransitionToMatch(
         const Transition* transition,
         const MatchingEra* match) {
 
@@ -1084,11 +1087,11 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       // 'w', 's', or 'u' versions of the DateTuple are equal. This prevents
       // duplicate Transition instances from being created in a few cases.
       if (ttw == stw || tts == sts || ttu == stu) {
-        return extended::MatchStatus::kExactMatch;
+        return extended::CompareStatus::kExactMatch;
       }
 
       if (ttu < stu) {
-        return extended::MatchStatus::kPrior;
+        return extended::CompareStatus::kPrior;
       }
 
       // Now check if the transition occurs after the given match. The
@@ -1106,9 +1109,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         transitionTime = &ttw;
       }
       if (*transitionTime < matchUntil) {
-        return extended::MatchStatus::kWithinMatch;
+        return extended::CompareStatus::kWithinMatch;
       }
-      return extended::MatchStatus::kFarFuture;
+      return extended::CompareStatus::kFarFuture;
     }
 
     /**
@@ -1195,14 +1198,14 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
           logging::printf(
             "calcAbbreviations(): format:%s, deltaMinutes:%d, letter:%s\n",
-            t->format(), t->deltaMinutes, t->letter());
+            t->format(), t->deltaMinutes, t->letter);
         }
         createAbbreviation(
             t->abbrev,
             internal::kAbbrevSize,
             t->format(),
             t->deltaMinutes,
-            t->letter());
+            t->letter);
       }
     }
 

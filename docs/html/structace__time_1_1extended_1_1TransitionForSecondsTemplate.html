@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.1.1</span>
+   &#160;<span id="projectnumber">2.2.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -101,7 +101,7 @@ struct ace_time::extended::TransitionForSecondsTemplate&lt; ZEB, ZPB, ZRB &gt;</
 <p>Tuple of a matching Transition and its 'fold'. </p>
 <p>Used by findTransitionForSeconds() which is guaranteed to return only a single Transition if found. Usually <code>fold=0</code>. But if the epochSeconds maps to a <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> which occurs a second time during a "fall back", then <code>fold</code> is set to 1. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00456">456</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00278">278</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a75c3f4fb7809bb1a2f25d97f786ecdf5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a75c3f4fb7809bb1a2f25d97f786ecdf5">&#9670;&nbsp;</a></span>num</h2>
@@ -120,7 +120,7 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Number of occurrences of the resulting <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>: 0, 1, or 2. </p>
 <p>This is needed because a fold=0 can mean that the <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> occurs exactly once, or that the first of two occurrences of <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> was selected by the epochSeconds. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00469">469</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00291">291</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>

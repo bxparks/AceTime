@@ -10,6 +10,8 @@ nano_results = check_output(
     "./generate_table.awk < nano.txt", shell=True, text=True)
 micro_results = check_output(
     "./generate_table.awk < micro.txt", shell=True, text=True)
+samd21_results = check_output(
+    "./generate_table.awk < samd21.txt", shell=True, text=True)
 stm32_results = check_output(
     "./generate_table.awk < stm32.txt", shell=True, text=True)
 esp8266_results = check_output(
@@ -27,7 +29,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v2.1.1
+**Version**: AceTime v2.2.0
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -227,6 +229,25 @@ ASCII table.
 * Unify links, adding an additional `targetInfo` field in `ZoneInfo`.
     * Increases flash by ~1kB on 8-bit and ~2kB on 32-bit for ~600 zones.
 
+**v2.1.1+**
+* Simplify ZoneRule.letter handling to use ZoneRule.letterIndex for all letters,
+  not just ones over 1 character long. On 8-bit AVR:
+    * BasicZoneProcessor
+        * Increases flash consumption for 1-2 zones by ~200 bytes.
+        * No change for the full TZ database.
+    * ExtendedZoneProcessor
+        * No change for 1-2 zones.
+        * Decreases flash consumption by ~300 bytes for full TZ database.
+**v2.2.0**
+* Upgrade tool chain
+    * Arduino AVR from 1.8.5 to 1.8.6
+    * STM32duino from 2.3.0 to 2.4.0
+    * ESP8266 from 3.0.2 to 3.1.2 failed, reverted back to 3.0.2
+    * ESP32 from 2.0.5 to 2.0.7
+* Add support for Seeed XIAO SAMD21
+    * Seeeduino 1.8.3
+* Upgrade to TZDB 2023b
+
 # Legend
 
 * [1] Delta flash and ram consumption for `ZoneSorterByName` and
@@ -241,8 +262,8 @@ ASCII table.
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.19, Arduino CLI 0.27.1
-* Arduino AVR Boards 1.8.5
+* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino AVR Boards 1.8.6
 
 ```
 {nano_results}
@@ -251,18 +272,28 @@ ASCII table.
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.19, Arduino CLI 0.27.1
+* Arduino IDE 1.8.19, Arduino CLI 0.31.0
 * SparkFun AVR Boards 1.1.13
 
 ```
 {micro_results}
 ```
 
+## Seeed Studio XIAO
+
+* SAMD21, 48 MHz ARM Cortex-M0+
+* Arduino IDE 1.8.19, Arduino CLI 0.31.1
+* Seeeduino SAMD Boards 1.8.3
+
+```
+{samd21_results}
+```
+
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.19, Arduino CLI 0.27.1
-* STM32duino 2.3.0
+* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* STM32duino 2.4.0
 
 ```
 {stm32_results}
@@ -274,7 +305,7 @@ microcontroller and the compiler did not generate the desired information.
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266
-* Arduino IDE 1.8.19, Arduino CLI 0.27.1
+* Arduino IDE 1.8.19, Arduino CLI 0.31.0
 * ESP8266 Boards 3.0.2
 
 ```
@@ -284,8 +315,8 @@ microcontroller and the compiler did not generate the desired information.
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.19, Arduino CLI 0.27.1
-* ESP32 Boards 2.0.5
+* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* ESP32 Boards 2.0.7
 
 ```
 {esp32_results}
@@ -298,8 +329,9 @@ usage by objects.
 ## Teensy 3.2
 
 * 96 MHz ARM Cortex-M4
-* Arduino IDE 1.8.19, Arduino CLI 0.27.1
+* Arduino IDE 1.8.19, Arduino CLI 0.31.0
 * Teensyduino 1.57
+* Compiler options: "Faster"
 
 ```
 {teensy32_results}

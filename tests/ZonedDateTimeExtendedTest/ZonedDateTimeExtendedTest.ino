@@ -4,8 +4,8 @@
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
 #include <ace_time/testing/EpochYearContext.h>
-#include <ace_time/testing/tzonedbx/zone_policies.h>
-#include <ace_time/testing/tzonedbx/zone_infos.h>
+#include <tzonedbx/zone_policies.h>
+#include <tzonedbx/zone_infos.h>
 
 using namespace ace_time;
 using ace_time::tzonedbx::kZoneAmerica_Chicago;
@@ -57,10 +57,16 @@ test(ZonedDateTimeExtendedTest, forComponents_isError) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &kZoneAmerica_Los_Angeles);
 
-  // outside [1980, 9999) range, should generate error
+  // Cannot create dates roughly before ZoneContext.startYear.
   ZonedDateTime dt = ZonedDateTime::forComponents(1970, 3, 11, 1, 59, 59, tz);
+  const OffsetDateTime &odt = dt.offsetDateTime();
+  assertTrue(odt.isError());
+  const LocalDateTime &ldt = dt.localDateTime();
+  assertTrue(ldt.isError());
   assertTrue(dt.isError());
-  dt = ZonedDateTime::forComponents(10000, 3, 11, 1, 59, 59, tz);
+
+  // Cannot create dates roughly after ZoneContext.untilYear.
+  dt = ZonedDateTime::forComponents(10001, 3, 11, 1, 59, 59, tz);
   assertTrue(dt.isError());
 }
 
@@ -227,15 +233,6 @@ test(ZonedDateTimeExtendedTest, forComponents_afterOverlap) {
   assertTrue(expected == dt.localDateTime());
   assertEqual(dt.fold(), 0);
 }
-
-// Test the linked zones are same as the target zones.
-// Commented out because this test does not work with "fat" Link which behave
-// just like a normal Zone. TODO: Figure out how to detect fat links at runtime.
-/*
-test(ZonedDateTimeExtendedTest, linked_zones) {
-  assertEqual(&kZoneAmerica_Los_Angeles, &kZoneUS_Pacific);
-}
-*/
 
 // --------------------------------------------------------------------------
 // ZonedDateTime::forEpochSeconds() with fold

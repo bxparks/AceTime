@@ -94,8 +94,8 @@ ace_time::hw    |     ace_time::basic
 As explained in the README.md, the AceTime library comes with 2 versions of the
 [TZ Data](https://www.iana.org/time-zones):
 
-* `src/ace_time/zonedb/*`: files used by the `BasicZoneProcessor` class
-* `src/ace_time/zonedbx/*`: files used by the `ExtendedZoneProcessor` class
+* `src/zonedb/*`: files used by the `BasicZoneProcessor` class
+* `src/zonedbx/*`: files used by the `ExtendedZoneProcessor` class
 
 There are 2 main files in these directories:
 
@@ -239,11 +239,11 @@ STDOFF (1-min resolution)
                        ---------------> | minute  | code     |
                                         | (4-bits)| (4-bits) |
                                         +--------------------+
-                                                      ^
-RULES (numeric, 15-min resolution)                   /
--> rules_delta_seconds                              /
-    -> rules_delta_code -- (basic) ----------------/
-                        -- (extended) + 4 ---------
+                                                    ^
+RULES (numeric, 15-min resolution)                 /
+-> era_delta_seconds                              /
+  -> era_delta_minutes                           /
+    -> era_delta_code + 4------------------------
 
 
 UNTIL (1-min resolution)
@@ -280,9 +280,10 @@ AT (1-min resolution)
                                         +--------------------+
 
 SAVE (15-min resolution)
--> delta_seconds                        +--------------------+
-    -> delta_code -- (basic) ---------> |     deltaCode      |
-                  -- (extended) + 4 --> |     (8 bits)       |
+-> delta_seconds
+  -> delta_minutes                      +--------------------+
+    -> delta_code + 4 ----------------> |     deltaCode      |
+                                        |     (8 bits)       |
                                         +--------------------+
 ```
 
@@ -601,14 +602,9 @@ available.
     * `$ make validations`
     * `$ make runvalidations`
 * Update the various zoneinfo files for AceTime:
-    * `zonedb`
-        * `$ cd AceTime/src/ace_time/zonedb`
-        * Update the `TZ_VERSION` variable in `Makefile`.
-        * `$ make`
-    * `zonedbx`
-        * `$ cd AceTime/src/ace_time/zonedbx`
-        * Update the `TZ_VERSION` variable in `Makefile`.
-        * `$ make`
+    * `$ cd AceTime/src`
+    * Update the `TZ_VERSION` variable in `Makefile`.
+    * `$ make`
 * Update CHANGELOGs
     * AceTime/CHANGELOG.md
     * AceTimePython/CHANGELOG.md

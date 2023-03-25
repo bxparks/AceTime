@@ -7,7 +7,6 @@
 #define ACE_TIME_ZONED_DATE_TIME_H
 
 #include <stdint.h>
-#include "common/compat.h"
 #include "OffsetDateTime.h"
 #include "TimeZone.h"
 
@@ -230,6 +229,11 @@ class ZonedDateTime {
     /** Return the LocalDateTime of the components. */
     const LocalDateTime& localDateTime() const {
       return mOffsetDateTime.localDateTime();
+    }
+
+    /** Return the OffsetDateTime of the components. */
+    const OffsetDateTime& offsetDateTime() const {
+      return mOffsetDateTime;
     }
 
     /**

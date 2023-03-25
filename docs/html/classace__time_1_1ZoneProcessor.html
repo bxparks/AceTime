@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.1.1</span>
+   &#160;<span id="projectnumber">2.2.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -119,7 +119,7 @@ virtual <a class="el" href="classace__time_1_1FindResult.html">FindResult</a>&#1
 <tr class="memdesc:a9dbdc5b1a6a760e37470142dc814ae92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the search results at given <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>. <br /></td></tr>
 <tr class="separator:a9dbdc5b1a6a760e37470142dc814ae92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bbfcaab0259f0195496184181a7119a"><td class="memItemLeft" align="right" valign="top"><a id="a1bbfcaab0259f0195496184181a7119a"></a>
-virtual <a class="el" href="classace__time_1_1FindResult.html">FindResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a1bbfcaab0259f0195496184181a7119a">findByEpochSeconds</a> (<a class="el" href="common_2common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> epochSeconds) const =0</td></tr>
+virtual <a class="el" href="classace__time_1_1FindResult.html">FindResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a1bbfcaab0259f0195496184181a7119a">findByEpochSeconds</a> (<a class="el" href="common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> epochSeconds) const =0</td></tr>
 <tr class="memdesc:a1bbfcaab0259f0195496184181a7119a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the search results at given epochSeconds. <br /></td></tr>
 <tr class="separator:a1bbfcaab0259f0195496184181a7119a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ebdaf658f48d58a161086e21c1fc3f7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a2ebdaf658f48d58a161086e21c1fc3f7">printNameTo</a> (Print &amp;printer) const =0</td></tr>
@@ -184,7 +184,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 <p>2) Fully implement a polymorphic class hierarchy, lifting various common methods (e.g. <a class="el" href="classace__time_1_1ZoneProcessor.html#a9dbdc5b1a6a760e37470142dc814ae92" title="Return the search results at given LocalDateTime.">findByLocalDateTime()</a>, <a class="el" href="classace__time_1_1ZoneProcessor.html#a1bbfcaab0259f0195496184181a7119a" title="Return the search results at given epochSeconds.">findByEpochSeconds()</a>) into this interface as virtual methods, then add a virtual <a class="el" href="classace__time_1_1ZoneProcessor.html#aa78857884d8b64d4be4b499970d63a70" title="Return true if equal.">equals()</a> method to implement the operator==().</p>
 <p>The problem with Option 1 is that the code for both subclasses would be compiled into the program, even if the application used only one of the subclasses. Instead I use Option 2, using a fully polymorphic class hierarchy, adding 3-4 virtual methods. When a program uses only a single subclass, only that particular subclass is included into the program. Unfortunately, this comes at the cost of forcing programs to use the virtual dispatch at runtime for some of the often-used methods. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00142">142</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00141">141</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aa5a25a2082ceed26ff15eb72cd1c5724"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa5a25a2082ceed26ff15eb72cd1c5724">&#9670;&nbsp;</a></span>equalsZoneKey()</h2>
@@ -360,7 +360,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 <p>Reset the internal transition cache. </p>
 <p>Useful when <a class="el" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04" title="Get the current epoch year.">Epoch::currentEpochYear()</a> is changed at runtime. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00151">151</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00150">150</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 
 </div>
 </div>

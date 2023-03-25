@@ -7,11 +7,9 @@
 
 #include <Arduino.h>
 #include <AceTime.h>
-#include <AceWire.h> // SimpleWireInterface
 #include "Benchmark.h"
 
 using namespace ace_time;
-using ace_wire::SimpleWireInterface;
 
 void setup() {
 #if ! defined(EPOXY_DUINO)

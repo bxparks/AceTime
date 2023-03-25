@@ -48,12 +48,11 @@ namespace ace_time {
  *        * Other ZoneProcessors can provide additional values, as long as
  *          they are unique.
  *
- * The TimeZone class should be treated as a const value type. (Except for
- * kTypeManual which is self-contained and allows the stdOffset and dstOffset
- * to be modified.) It can be passed around by value, but since it is between 5
- * bytes (8-bit processors) and 12 bytes (32-bit processors) big, it may be
- * slightly more efficient to pass by const reference, then save locally
- * by-value when needed. The ZonedDateTime holds the TimeZone object by-value.
+ * The TimeZone class is an immutable value type. It can be passed around by
+ * value, but since it is between 5 bytes (8-bit processors) and 12 bytes
+ * (32-bit processors) big, it may be slightly more efficient to pass by const
+ * reference, then save locally by-value when needed. The ZonedDateTime holds
+ * the TimeZone object by-value.
  *
  * Semantically, TimeZone really really wants to be a reference type because it
  * needs have a reference to the ZoneProcessor helper class to do its work. In
@@ -138,7 +137,7 @@ class TimeZone {
      * `forTimeOffset(TimeOffset::forMinutes(stdMinutes),
      * TimeOffset::forMinutes(dstMinutes))`.
      */
-    static TimeZone forMinutes(int8_t stdMinutes, int8_t dstMinutes = 0) {
+    static TimeZone forMinutes(int16_t stdMinutes, int16_t dstMinutes = 0) {
       return TimeZone::forTimeOffset(
           TimeOffset::forMinutes(stdMinutes),
           TimeOffset::forMinutes(dstMinutes)
@@ -204,10 +203,8 @@ class TimeZone {
     /**
      * Factory method to create from a generic zoneKey and a generic
      * zoneProcessor. The 'type' of the TimeZone is extracted from
-     * ZoneProcessor::getType().
-     *
-     * TODO: I think this can be moved to a 'protected' section, because I think
-     * it is used only by subclasses.
+     * ZoneProcessor::getType(). This is an internal method for use by
+     * ZoneProcessor and its implementation classes.
      *
      * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
      *    uint16_t index into a database table of ZoneInfo records)
@@ -240,7 +237,11 @@ class TimeZone {
      */
     uint8_t getType() const { return mType; }
 
-    /** Reset the underlying ZoneProcessor if a ZoneProcessor is used. */
+    /**
+     * Reset the underlying ZoneProcessor if a ZoneProcessor is used. This is
+     * needed when the Epoch::currentEpochYear() changes and the current
+     * TimeZone object continues to be used.
+     */
     void resetZoneProcessor() {
       switch (mType) {
         case kTypeError:
@@ -471,24 +472,6 @@ class TimeZone {
     bool isDst() const {
       if (mType != kTypeManual) return false;
       return mDstOffsetMinutes != 0;
-    }
-
-    /**
-     * Sets the stdOffset of the TimeZone. Works only for kTypeManual, does
-     * nothing for any other type of TimeZone.
-     */
-    void setStdOffset(TimeOffset stdOffset) {
-      if (mType != kTypeManual) return;
-      mStdOffsetMinutes = stdOffset.toMinutes();
-    }
-
-    /**
-     * Sets the dstOffset of the TimeZone. Works only for kTypeManual, does
-     * nothing for any other type of TimeZone.
-     */
-    void setDstOffset(TimeOffset dstOffset) {
-      if (mType != kTypeManual) return;
-      mDstOffsetMinutes = dstOffset.toMinutes();
     }
 
     /**

@@ -1,6 +1,67 @@
 # Changelog
 
 * Unreleased
+* 2.2.0 (2023-03-24, TZDB version 2023b)
+    * Upgrade TZDB from 2022g to 2023b
+        * 2023a skipped because it came out only a day earlier.
+        * 2023a: https://mm.icann.org/pipermail/tz-announce/2023-March/000077.html
+            * Egypt now uses DST again, from April through October.
+            * This year Morocco springs forward April 23, not April 30.
+            * Palestine delays the start of DST this year.
+            * Much of Greenland still uses DST from 2024 on.
+            * America/Yellowknife now links to America/Edmonton.
+            * tzselect can now use current time to help infer timezone.
+            * The code now defaults to C99 or later.
+            * Fix use of C23 attributes.
+        * 2023b: https://mm.icann.org/pipermail/tz-announce/2023-March/000078.html
+            * Lebanon delays the start of DST this year.
+    * **Bug Fix**
+        * Change arguments for `TimeZone::forMinutes()` from `uint8_t` to
+          `uint16_t`.
+    * **Breaking Change**
+        * Make `TimeZone` effectively immutable, by removing `setStdOffset()`
+          and `setDstOffset()` methods.
+        * Client applications should create a new `TimeZone` object using
+          `TimeZone::forTimeOffset(std, dst)` and overwrite the old one.
+        * See [Migrating to v2.2](MIGRATING.md#MigratingToVersion220).
+    * Add support for Seeed Studio XIAO M0 (SAMD21).
+        * Required updating `zoneino/compat.h` to clobber the broken definition
+          of `FPSTR()` in Seeeduino 1.8.3.
+    * Simplify the handling of `Rule.LETTER`.
+        * Encode all letters as an index into `ZoneContext.letters` array, not
+          just `LETTER` which are only a single character.
+        * On 8-bit AVR:
+            * Increases `BasicZoneProcessor` by ~200 bytes when 1-2 zones are
+              used. But flash remains the same when the full TZ database is
+              used.
+            * No change to `ExtendedZoneProcessor` for 1-2 zones. But decreases
+              flash usage by ~300 bytes when the full TZ database is used.
+        * The small increase in flash is worth it because this greatly
+          simplifies the complicated code surrounding LETTER that was difficult
+          to understand and maintain.
+    * Unify Basic and Extended zoneinfo encoding.
+        * Change encoding of `basic::ZoneRule.deltaCode`,
+          `basic::ZoneEra.deltaCode`, and `basic::ZoneEra.offsetCode` to be
+          identical their counterparts in `extended::ZoneXxx`.
+        * Merge `BasicBrokers.h` and `ExtendedBrokers.h` into just `Brokers.h`.
+    * Restructure zonedb directories
+        * Lift `ace_time/internal/testing/tzonedb[x]` database files 
+          to `ace_time/tzonedb[x]`.
+        * Lift `ace_time/zonedb[x]` database files to `ace_time/zonedb[x]`.
+        * These changes are transparent to client apps because the C++
+          namespaces of these files are unchanged.
+        * Lift `ace_time/internal/Zone*.h` files into new `src/zoneinfo/`
+          directory. These are the classes that describe the `*zonedb*`
+          databases.
+    * Add `ZonedDateTime::offsetDateTime()`
+        * Returns the underlying `OffsetDateTime` inside the `ZonedDateTime`.
+        * Analogous to `ZonedDateTime::localDateTime()`.
+    * Always generate anchor rules in zonedb.
+        * Allows `ExtendedZoneProcessor` to work over all years `[0,10000)`
+          even with truncated zonedb (e.g. `[2000,2100)`).
+        * Accuracy is guaranteed only for the requested interval (e.g.
+          `[2000,2100)`.
+        * But the code won't crash outside of that interval.
 * 2.1.1 (2023-02-02, TZDB version 2022g)
     * `ZonedExtra`
         * Add `ZonedExtra::forComponents()` factory method, for consistency with

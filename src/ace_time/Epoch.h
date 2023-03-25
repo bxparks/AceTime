@@ -7,7 +7,7 @@
 #define ACE_TIME_EPOCH_H
 
 #include <stdint.h>
-#include "internal/EpochConverterHinnant.h"
+#include "EpochConverterHinnant.h"
 
 /**
  * Select the epoch converter:  EpochConverterHinnant or EpochConverterJulian

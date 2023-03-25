@@ -214,8 +214,7 @@ test(ZonedDateTimeTest_Manual, convertToTimeZone) {
       2018, 3, 11, 1, 59, 59, stdTz);
   acetime_t stdEpochSeconds = std.toEpochSeconds();
 
-  TimeZone dstTz = stdTz;
-  dstTz.setDstOffset(TimeOffset::forHours(1));
+  TimeZone dstTz = TimeZone::forHours(-8, 1);
   ZonedDateTime dst = std.convertToTimeZone(dstTz);
   acetime_t dstEpochSeconds = dst.toEpochSeconds();
 
