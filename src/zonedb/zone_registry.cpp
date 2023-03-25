@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedb/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedb
-//     --tz_version 2022g
+//     --tz_version 2023b
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,47 +23,47 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022g
+// from https://github.com/eggert/tz/releases/tag/2023b
 //
-// Supported Zones: 446 (227 zones, 219 links)
+// Supported Zones: 446 (226 zones, 220 links)
 // Unsupported Zones: 150 (124 zones, 26 links)
 //
 // Original Years:  [1844,2087]
-// Generated Years: [1950,2023]
-// Estimator Years: [1950,2025]
+// Generated Years: [1950,2024]
+// Estimator Years: [1950,2026]
 // Max Buffer Size: 6
 //
 // Records:
 //   Infos: 446
-//   Eras: 239
+//   Eras: 238
 //   Policies: 63
-//   Rules: 362
+//   Rules: 364
 //
 // Memory (8-bits):
-//   Rules: 3982
+//   Rules: 4004
 //   Policies: 189
-//   Eras: 2868
-//   Zones: 2951
-//   Links: 2847
+//   Eras: 2856
+//   Zones: 2938
+//   Links: 2860
 //   Registry: 892
 //   Formats: 465
 //   Letters: 11
 //   Fragments: 116
 //   Names: 4144 (original: 6503)
-//   TOTAL: 18465
+//   TOTAL: 18475
 //
 // Memory (32-bits):
-//   Rules: 4344
+//   Rules: 4368
 //   Policies: 504
-//   Eras: 3824
-//   Zones: 5448
-//   Links: 5256
+//   Eras: 3808
+//   Zones: 5424
+//   Links: 5280
 //   Registry: 1784
 //   Formats: 465
 //   Letters: 17
 //   Fragments: 138
 //   Names: 4144 (original: 6503)
-//   TOTAL: 25924
+//   TOTAL: 25932
 //
 // DO NOT EDIT
 
@@ -77,7 +77,7 @@ namespace zonedb {
 //---------------------------------------------------------------------------
 // Zone Info registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kZoneRegistry[227] ACE_TIME_PROGMEM = {
+const basic::ZoneInfo* const kZoneRegistry[226] ACE_TIME_PROGMEM = {
   &kZoneAsia_Jakarta, // 0x0506ab50, Asia/Jakarta
   &kZoneAmerica_Mazatlan, // 0x0532189e, America/Mazatlan
   &kZoneAmerica_Hermosillo, // 0x065d21c4, America/Hermosillo
@@ -91,7 +91,6 @@ const basic::ZoneInfo* const kZoneRegistry[227] ACE_TIME_PROGMEM = {
   &kZoneAmerica_Guatemala, // 0x0c8259f7, America/Guatemala
   &kZoneAfrica_Monrovia, // 0x0ce90385, Africa/Monrovia
   &kZoneAntarctica_Rothera, // 0x0e86d203, Antarctica/Rothera
-  &kZoneAmerica_Yellowknife, // 0x0f76c76f, America/Yellowknife
   &kZoneAustralia_Melbourne, // 0x0fe559a3, Australia/Melbourne
   &kZoneAmerica_Sao_Paulo, // 0x1063bfc9, America/Sao_Paulo
   &kZoneAmerica_Indiana_Vevay, // 0x10aca054, America/Indiana/Vevay
@@ -351,7 +350,7 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[446] ACE_TIME_PROGMEM = {
   &kZoneJapan, // 0x0d712f8f, Japan -> Asia/Tokyo
   &kZoneKwajalein, // 0x0e57afbb, Kwajalein -> Pacific/Kwajalein
   &kZoneAntarctica_Rothera, // 0x0e86d203, Antarctica/Rothera
-  &kZoneAmerica_Yellowknife, // 0x0f76c76f, America/Yellowknife
+  &kZoneAmerica_Yellowknife, // 0x0f76c76f, America/Yellowknife -> America/Edmonton
   &kZoneAustralia_Melbourne, // 0x0fe559a3, Australia/Melbourne
   &kZoneAmerica_Sao_Paulo, // 0x1063bfc9, America/Sao_Paulo
   &kZoneEurope_Amsterdam, // 0x109395c2, Europe/Amsterdam -> Europe/Brussels

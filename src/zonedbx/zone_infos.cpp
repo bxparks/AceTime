@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbx/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbx
-//     --tz_version 2022g
+//     --tz_version 2023b
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -23,9 +23,9 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2022g
+// from https://github.com/eggert/tz/releases/tag/2023b
 //
-// Supported Zones: 596 (351 zones, 245 links)
+// Supported Zones: 596 (350 zones, 246 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
 //
 // Original Years:  [1844,2087]
@@ -35,35 +35,35 @@
 //
 // Records:
 //   Infos: 596
-//   Eras: 647
+//   Eras: 646
 //   Policies: 83
-//   Rules: 655
+//   Rules: 737
 //
 // Memory (8-bits):
-//   Rules: 7205
+//   Rules: 8107
 //   Policies: 249
-//   Eras: 7764
-//   Zones: 4563
-//   Links: 3185
+//   Eras: 7752
+//   Zones: 4550
+//   Links: 3198
 //   Registry: 1192
 //   Formats: 597
 //   Letters: 46
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 30600
+//   TOTAL: 31490
 //
 // Memory (32-bits):
-//   Rules: 7860
+//   Rules: 8844
 //   Policies: 664
-//   Eras: 10352
-//   Zones: 8424
-//   Links: 5880
+//   Eras: 10336
+//   Zones: 8400
+//   Links: 5904
 //   Registry: 2384
 //   Formats: 597
 //   Letters: 64
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 42052
+//   TOTAL: 43020
 //
 // DO NOT EDIT
 
@@ -78,7 +78,7 @@ namespace zonedbx {
 // ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] = "2022g";
+const char kTzDatabaseVersion[] = "2023b";
 
 const char* const kFragments[] = {
 /*\x00*/ nullptr,
@@ -124,8 +124,8 @@ const internal::ZoneContext kZoneContext = {
 };
 
 //---------------------------------------------------------------------------
-// Zones: 351
-// Eras: 647
+// Zones: 350
+// Eras: 646
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -5122,22 +5122,22 @@ const extended::ZoneInfo kZoneAmerica_North_Dakota_New_Salem ACE_TIME_PROGMEM = 
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Nuuk[] ACE_TIME_PROGMEM = {
-  //             -3:00    EU    -03/-02    2023 Mar 25 22:00
+  //             -3:00    EU    -03/-02    2023 Oct 29  1:00u
   {
     &kZonePolicyEU /*zonePolicy*/,
     "-03/-02" /*format*/,
     -12 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     2023 /*untilYear*/,
-    3 /*untilMonth*/,
-    25 /*untilDay*/,
-    88 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+    10 /*untilMonth*/,
+    29 /*untilDay*/,
+    4 /*untilTimeCode*/,
+    32 /*untilTimeModifier (kSuffixU + minute=0)*/,
   },
-  //             -2:00    -    -02
+  //             -2:00    EU    -02/-01
   {
-    nullptr /*zonePolicy*/,
-    "-02" /*format*/,
+    &kZonePolicyEU /*zonePolicy*/,
+    "-02/-01" /*format*/,
     -8 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     32767 /*untilYear*/,
@@ -6385,38 +6385,6 @@ const extended::ZoneInfo kZoneAmerica_Yakutat ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAmerica_Yakutat /*eras*/,
-  nullptr /*targetInfo*/,
-};
-
-//---------------------------------------------------------------------------
-// Zone name: America/Yellowknife
-// Eras: 1
-//---------------------------------------------------------------------------
-
-static const extended::ZoneEra kZoneEraAmerica_Yellowknife[] ACE_TIME_PROGMEM = {
-  //             -7:00    Canada    M%sT
-  {
-    &kZonePolicyCanada /*zonePolicy*/,
-    "M%T" /*format*/,
-    -28 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    32767 /*untilYear*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAmerica_Yellowknife[] ACE_TIME_PROGMEM = "\x02" "Yellowknife";
-
-const extended::ZoneInfo kZoneAmerica_Yellowknife ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Yellowknife /*name*/,
-  0x0f76c76f /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Yellowknife /*eras*/,
   nullptr /*targetInfo*/,
 };
 
@@ -12506,10 +12474,10 @@ const extended::ZoneInfo kZoneEurope_Kaliningrad ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraEurope_Kirov[] ACE_TIME_PROGMEM = {
-  //              3:00    Russia    +03/+04    2011 Mar 27  2:00s
+  //              3:00    Russia    MSK/MSD    2011 Mar 27  2:00s
   {
     &kZonePolicyRussia /*zonePolicy*/,
-    "+03/+04" /*format*/,
+    "MSK/MSD" /*format*/,
     12 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     2011 /*untilYear*/,
@@ -12518,10 +12486,10 @@ static const extended::ZoneEra kZoneEraEurope_Kirov[] ACE_TIME_PROGMEM = {
     8 /*untilTimeCode*/,
     16 /*untilTimeModifier (kSuffixS + minute=0)*/,
   },
-  //              4:00    -    +04    2014 Oct 26  2:00s
+  //              4:00    -    MSK    2014 Oct 26  2:00s
   {
     nullptr /*zonePolicy*/,
-    "+04" /*format*/,
+    "MSK" /*format*/,
     16 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     2014 /*untilYear*/,
@@ -12530,10 +12498,10 @@ static const extended::ZoneEra kZoneEraEurope_Kirov[] ACE_TIME_PROGMEM = {
     8 /*untilTimeCode*/,
     16 /*untilTimeModifier (kSuffixS + minute=0)*/,
   },
-  //              3:00    -    +03
+  //              3:00    -    MSK
   {
     nullptr /*zonePolicy*/,
-    "+03" /*format*/,
+    "MSK" /*format*/,
     12 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     32767 /*untilYear*/,
@@ -13430,10 +13398,10 @@ const extended::ZoneInfo kZoneEurope_Vilnius ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraEurope_Volgograd[] ACE_TIME_PROGMEM = {
-  //              3:00    Russia    +03/+04    2011 Mar 27  2:00s
+  //              3:00    Russia    MSK/MSD    2011 Mar 27  2:00s
   {
     &kZonePolicyRussia /*zonePolicy*/,
-    "+03/+04" /*format*/,
+    "MSK/MSD" /*format*/,
     12 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     2011 /*untilYear*/,
@@ -13442,10 +13410,10 @@ static const extended::ZoneEra kZoneEraEurope_Volgograd[] ACE_TIME_PROGMEM = {
     8 /*untilTimeCode*/,
     16 /*untilTimeModifier (kSuffixS + minute=0)*/,
   },
-  //              4:00    -    +04    2014 Oct 26  2:00s
+  //              4:00    -    MSK    2014 Oct 26  2:00s
   {
     nullptr /*zonePolicy*/,
-    "+04" /*format*/,
+    "MSK" /*format*/,
     16 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     2014 /*untilYear*/,
@@ -13454,10 +13422,10 @@ static const extended::ZoneEra kZoneEraEurope_Volgograd[] ACE_TIME_PROGMEM = {
     8 /*untilTimeCode*/,
     16 /*untilTimeModifier (kSuffixS + minute=0)*/,
   },
-  //              3:00    -    +03    2018 Oct 28  2:00s
+  //              3:00    -    MSK    2018 Oct 28  2:00s
   {
     nullptr /*zonePolicy*/,
-    "+03" /*format*/,
+    "MSK" /*format*/,
     12 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     2018 /*untilYear*/,
@@ -13478,10 +13446,10 @@ static const extended::ZoneEra kZoneEraEurope_Volgograd[] ACE_TIME_PROGMEM = {
     8 /*untilTimeCode*/,
     16 /*untilTimeModifier (kSuffixS + minute=0)*/,
   },
-  //              3:00    -    +03
+  //              3:00    -    MSK
   {
     nullptr /*zonePolicy*/,
-    "+03" /*format*/,
+    "MSK" /*format*/,
     12 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     32767 /*untilYear*/,
@@ -14915,7 +14883,7 @@ const extended::ZoneInfo kZoneWET ACE_TIME_PROGMEM = {
 
 
 //---------------------------------------------------------------------------
-// Links: 245
+// Links: 246
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -16146,6 +16114,21 @@ const extended::ZoneInfo kZoneAmerica_Virgin ACE_TIME_PROGMEM = {
   1 /*numEras*/,
   kZoneEraAmerica_Puerto_Rico /*eras*/,
   &kZoneAmerica_Puerto_Rico /*targetInfo*/,
+};
+
+//---------------------------------------------------------------------------
+// Link name: America/Yellowknife -> America/Edmonton
+//---------------------------------------------------------------------------
+
+static const char kZoneNameAmerica_Yellowknife[] ACE_TIME_PROGMEM = "\x02" "Yellowknife";
+
+const extended::ZoneInfo kZoneAmerica_Yellowknife ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Yellowknife /*name*/,
+  0x0f76c76f /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAmerica_Edmonton /*eras*/,
+  &kZoneAmerica_Edmonton /*targetInfo*/,
 };
 
 //---------------------------------------------------------------------------
