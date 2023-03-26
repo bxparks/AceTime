@@ -229,11 +229,11 @@ extern const extended::ZonePolicy kZonePolicyWinn;
 // Notable zone policies: 2
 //---------------------------------------------------------------------------
 
-// Morocco {SAVE '-1:00' different from 1:00}
+// Morocco {SAVE '-1:00' is a negative DST}
 // Namibia {
 //   LETTER 'CAT' not single character,
 //   LETTER 'WAT' not single character,
-//   SAVE '-1:00' different from 1:00,
+//   SAVE '-1:00' is a negative DST,
 // }
 
 

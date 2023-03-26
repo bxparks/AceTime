@@ -512,13 +512,13 @@ const uint8_t kZoneBufSizePacific_Apia = 5;  // Pacific/Apia in 2011
 //---------------------------------------------------------------------------
 
 // Africa/Casablanca {
-//   Morocco {SAVE '-1:00' different from 1:00}
+//   Morocco {SAVE '-1:00' is a negative DST}
 // }
 // Africa/Windhoek {
 //   Namibia {
 //     LETTER 'CAT' not single character,
 //     LETTER 'WAT' not single character,
-//     SAVE '-1:00' different from 1:00,
+//     SAVE '-1:00' is a negative DST,
 //   }
 // }
 

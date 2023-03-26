@@ -227,18 +227,18 @@ extern const extended::ZonePolicy kZonePolicyZion;
 //---------------------------------------------------------------------------
 
 // Belize {LETTER 'CST' not single character}
-// Eire {SAVE '-1:00' different from 1:00}
+// Eire {SAVE '-1:00' is a negative DST}
 // LH {SAVE '0:30' different from 1:00}
-// Moncton {AT '0:01' not on 15-minute boundary}
-// Morocco {SAVE '-1:00' different from 1:00}
+// Moncton {AT '0:01' not multiple of :15 min}
+// Morocco {SAVE '-1:00' is a negative DST}
 // Namibia {
 //   LETTER 'CAT' not single character,
 //   LETTER 'WAT' not single character,
-//   SAVE '-1:00' different from 1:00,
+//   SAVE '-1:00' is a negative DST,
 // }
-// Palestine {AT '0:01' not on 15-minute boundary}
+// Palestine {AT '0:01' not multiple of :15 min}
 // StJohns {
-//   AT '0:01' not on 15-minute boundary,
+//   AT '0:01' not multiple of :15 min,
 //   LETTER 'DD' not single character,
 //   SAVE '2:00' different from 1:00,
 // }

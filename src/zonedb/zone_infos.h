@@ -1302,7 +1302,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // America/Whitehorse {UNTIL contains month/day/time}
 // Antarctica/Casey {UNTIL contains month/day/time}
 // Antarctica/Davis {UNTIL contains month/day/time}
-// Antarctica/Macquarie {unsupported fixed RULES offset '1:00'}
+// Antarctica/Macquarie {unsupported fixed RULES '1:00'}
 // Antarctica/Mawson {UNTIL contains month/day/time}
 // Antarctica/Palmer {UNTIL contains month/day/time}
 // Antarctica/Troll {UNTIL contains month/day/time}
@@ -1370,17 +1370,17 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 
 // Africa/Johannesburg {RULES not fixed but FORMAT is missing '%' or '/'}
 // America/Moncton {
-//   Moncton {AT '0:01' not on 15-minute boundary}
+//   Moncton {AT '0:01' not multiple of :15 min}
 // }
-// Asia/Kathmandu {STDOFF '5:45' not at :00 or :30 mark}
-// Australia/Eucla {STDOFF '8:45' not at :00 or :30 mark}
+// Asia/Kathmandu {STDOFF '5:45' not multiple of :30 min}
+// Australia/Eucla {STDOFF '8:45' not multiple of :30 min}
 // Australia/Lord_Howe {
 //   LH {SAVE '0:30' different from 1:00}
 // }
 // Europe/Dublin {
-//   Eire {SAVE '-1:00' different from 1:00}
+//   Eire {SAVE '-1:00' is a negative DST}
 // }
-// Pacific/Chatham {STDOFF '12:45' not at :00 or :30 mark}
+// Pacific/Chatham {STDOFF '12:45' not multiple of :30 min}
 
 
 //---------------------------------------------------------------------------
