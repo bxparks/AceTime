@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/tzonedbx/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/tzonedbx
-//     --tz_version 2023b
+//     --tz_version 2023c
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -26,7 +26,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023b
+// from https://github.com/eggert/tz/releases/tag/2023c
 //
 // Supported Zones: 16 (15 zones, 1 links)
 // Unsupported Zones: 580 (335 zones, 245 links)
@@ -229,11 +229,11 @@ extern const extended::ZonePolicy kZonePolicyWinn;
 // Notable zone policies: 2
 //---------------------------------------------------------------------------
 
-// Morocco {SAVE '-1:00' different from 1:00}
+// Morocco {SAVE '-1:00' is a negative DST}
 // Namibia {
 //   LETTER 'CAT' not single character,
 //   LETTER 'WAT' not single character,
-//   SAVE '-1:00' different from 1:00,
+//   SAVE '-1:00' is a negative DST,
 // }
 
 

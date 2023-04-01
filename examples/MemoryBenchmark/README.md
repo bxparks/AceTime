@@ -309,7 +309,7 @@ ASCII table.
 
 ```
 
-## Seeed Studio XIAO
+## Seeed Studio XIAO SAMD21
 
 * SAMD21, 48 MHz ARM Cortex-M0+
 * Arduino IDE 1.8.19, Arduino CLI 0.31.1

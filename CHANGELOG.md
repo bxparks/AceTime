@@ -1,6 +1,16 @@
 # Changelog
 
 * Unreleased
+* 2.2.2 (2023-04-01, TZDB version 2023c)
+    * Upgrade TZDB from 2023b to 2023c.
+        * https://mm.icann.org/pipermail/tz-announce/2023-March/000079.html
+            * "This release's code and data are identical to 2023a.  In other
+              words, this release reverts all changes made in 2023b other than
+              commentary, as that appears to be the best of a bad set of
+              short-notice choices for modeling this week's daylight saving
+              chaos in Lebanon."
+    * AceTime is forced to upgrade to 2023c, because we skipped 2023a and went
+      directly to 2023b, which is being rolled back by 2023c.
 * 2.2.1 (2023-03-24, TZDB version 2023b)
     * Actually regenerate the `zonedb*` files to 2023b.
 * 2.2.0 (2023-03-24, TZDB version 2023b)

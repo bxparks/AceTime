@@ -56,7 +56,7 @@ This library can be an alternative to the Arduino Time
 offsets of type `kTypeManual`. See [Migrating to
 v2.2.0](MIGRATING.md#MigratingToVersion220) for details.
 
-**Version**: 2.2.1 (2023-03-24, TZDB version 2023b)
+**Version**: 2.2.2 (2023-04-01, TZDB version 2023c)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
@@ -795,12 +795,13 @@ These boards should work but I don't test them as often:
 
 **Tier 3: May work, but not supported**
 
-* SAMD21 based boards. SAMD21 based boards are now split into 2 groups:
-    * Those using the new ArduinoCore-API, usually Arduino-branded
-      boards. These are explicitly blacklisted. See below.
-    * Other 3rd party SAMD21 boards using the previous Arduino API.
-      These *may* work but I have not explicitly tested any of them except
-      for the Seeed Studio XIAO M0.
+* Other SAMD21 based boards.
+    * SAMD21 based boards are now split into 2 groups:
+        * Those using the new ArduinoCore-API, usually Arduino-branded
+        boards. These are explicitly blacklisted. See below.
+        * Other 3rd party SAMD21 boards using the previous Arduino API.
+    * The ones using the previous Arduino API *may* work but I have not
+      explicitly tested any of them except for the Seeed Studio XIAO M0.
 
 **Tier Blacklisted**
 

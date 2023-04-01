@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbx/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbx
-//     --tz_version 2023b
+//     --tz_version 2023c
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -23,7 +23,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023b
+// from https://github.com/eggert/tz/releases/tag/2023c
 //
 // Supported Zones: 596 (350 zones, 246 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
@@ -37,10 +37,10 @@
 //   Infos: 596
 //   Eras: 646
 //   Policies: 83
-//   Rules: 737
+//   Rules: 735
 //
 // Memory (8-bits):
-//   Rules: 8107
+//   Rules: 8085
 //   Policies: 249
 //   Eras: 7752
 //   Zones: 4550
@@ -50,10 +50,10 @@
 //   Letters: 46
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 31490
+//   TOTAL: 31468
 //
 // Memory (32-bits):
-//   Rules: 8844
+//   Rules: 8820
 //   Policies: 664
 //   Eras: 10336
 //   Zones: 8400
@@ -63,7 +63,7 @@
 //   Letters: 64
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 43020
+//   TOTAL: 42996
 //
 // DO NOT EDIT
 
@@ -1669,17 +1669,17 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //---------------------------------------------------------------------------
 
 // Africa/Casablanca {
-//   Morocco {SAVE '-1:00' different from 1:00}
+//   Morocco {SAVE '-1:00' is a negative DST}
 // }
 // Africa/El_Aaiun {
-//   Morocco {SAVE '-1:00' different from 1:00}
+//   Morocco {SAVE '-1:00' is a negative DST}
 // }
 // Africa/Johannesburg {RULES not fixed but FORMAT is missing '%' or '/'}
 // Africa/Windhoek {
 //   Namibia {
 //     LETTER 'CAT' not single character,
 //     LETTER 'WAT' not single character,
-//     SAVE '-1:00' different from 1:00,
+//     SAVE '-1:00' is a negative DST,
 //   }
 // }
 // America/Belize {
@@ -1687,22 +1687,22 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // }
 // America/Goose_Bay {
 //   StJohns {
-//     AT '0:01' not on 15-minute boundary,
+//     AT '0:01' not multiple of :15 min,
 //     LETTER 'DD' not single character,
 //     SAVE '2:00' different from 1:00,
 //   }
 // }
 // America/Moncton {
-//   Moncton {AT '0:01' not on 15-minute boundary}
+//   Moncton {AT '0:01' not multiple of :15 min}
 // }
 // America/St_Johns {
 //   StJohns {
-//     AT '0:01' not on 15-minute boundary,
+//     AT '0:01' not multiple of :15 min,
 //     LETTER 'DD' not single character,
 //     SAVE '2:00' different from 1:00,
 //   }
 // }
-// Antarctica/Casey {UNTIL '0:01' not on 15-minute boundary}
+// Antarctica/Casey {UNTIL '0:01' not multiple of :15 min}
 // Antarctica/Troll {
 //   Troll {
 //     LETTER '+00' not single character,
@@ -1711,21 +1711,21 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   }
 // }
 // Asia/Gaza {
-//   UNTIL '0:01' not on 15-minute boundary,
-//   Palestine {AT '0:01' not on 15-minute boundary}
+//   UNTIL '0:01' not multiple of :15 min,
+//   Palestine {AT '0:01' not multiple of :15 min}
 // }
 // Asia/Hebron {
-//   Palestine {AT '0:01' not on 15-minute boundary}
+//   Palestine {AT '0:01' not multiple of :15 min}
 // }
-// Asia/Kathmandu {STDOFF '5:45' not at :00 or :30 mark}
-// Australia/Eucla {STDOFF '8:45' not at :00 or :30 mark}
+// Asia/Kathmandu {STDOFF '5:45' not multiple of :30 min}
+// Australia/Eucla {STDOFF '8:45' not multiple of :30 min}
 // Australia/Lord_Howe {
 //   LH {SAVE '0:30' different from 1:00}
 // }
 // Europe/Dublin {
-//   Eire {SAVE '-1:00' different from 1:00}
+//   Eire {SAVE '-1:00' is a negative DST}
 // }
-// Pacific/Chatham {STDOFF '12:45' not at :00 or :30 mark}
+// Pacific/Chatham {STDOFF '12:45' not multiple of :30 min}
 
 
 //---------------------------------------------------------------------------

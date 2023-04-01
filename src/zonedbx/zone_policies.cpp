@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbx/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbx
-//     --tz_version 2023b
+//     --tz_version 2023c
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -23,7 +23,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023b
+// from https://github.com/eggert/tz/releases/tag/2023c
 //
 // Supported Zones: 596 (350 zones, 246 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
@@ -37,10 +37,10 @@
 //   Infos: 596
 //   Eras: 646
 //   Policies: 83
-//   Rules: 737
+//   Rules: 735
 //
 // Memory (8-bits):
-//   Rules: 8107
+//   Rules: 8085
 //   Policies: 249
 //   Eras: 7752
 //   Zones: 4550
@@ -50,10 +50,10 @@
 //   Letters: 46
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 31490
+//   TOTAL: 31468
 //
 // Memory (32-bits):
-//   Rules: 8844
+//   Rules: 8820
 //   Policies: 664
 //   Eras: 10336
 //   Zones: 8400
@@ -63,7 +63,7 @@
 //   Letters: 64
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 43020
+//   TOTAL: 42996
 //
 // DO NOT EDIT
 
@@ -75,7 +75,7 @@ namespace zonedbx {
 
 //---------------------------------------------------------------------------
 // Policies: 83
-// Rules: 737
+// Rules: 735
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -3884,7 +3884,7 @@ const extended::ZonePolicy kZonePolicyLH ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: Lebanon
-// Rules: 6
+// Rules: 4
 //---------------------------------------------------------------------------
 
 static const extended::ZoneRule kZoneRulesLebanon[] ACE_TIME_PROGMEM = {
@@ -3900,10 +3900,10 @@ static const extended::ZoneRule kZoneRulesLebanon[] ACE_TIME_PROGMEM = {
     4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule    Lebanon    1993    2022    -    Mar    lastSun    0:00    1:00    S
+  // Rule    Lebanon    1993    max    -    Mar    lastSun    0:00    1:00    S
   {
     1993 /*fromYear*/,
-    2022 /*toYear*/,
+    32766 /*toYear*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -3936,36 +3936,12 @@ static const extended::ZoneRule kZoneRulesLebanon[] ACE_TIME_PROGMEM = {
     4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule    Lebanon    2023    only    -    Apr    21    0:00    1:00    S
-  {
-    2023 /*fromYear*/,
-    2023 /*toYear*/,
-    4 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    21 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
-    7 /*letterIndex ("S")*/,
-  },
-  // Rule    Lebanon    2024    max    -    Mar    lastSun    0:00    1:00    S
-  {
-    2024 /*fromYear*/,
-    32766 /*toYear*/,
-    3 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
-    7 /*letterIndex ("S")*/,
-  },
 
 };
 
 const extended::ZonePolicy kZonePolicyLebanon ACE_TIME_PROGMEM = {
   kZoneRulesLebanon /*rules*/,
-  6 /*numRules*/,
+  4 /*numRules*/,
 };
 
 //---------------------------------------------------------------------------
