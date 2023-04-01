@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedb/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedb
-//     --tz_version 2023b
+//     --tz_version 2023c
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,24 +23,24 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023b
+// from https://github.com/eggert/tz/releases/tag/2023c
 //
 // Supported Zones: 446 (226 zones, 220 links)
 // Unsupported Zones: 150 (124 zones, 26 links)
 //
 // Original Years:  [1844,2087]
-// Generated Years: [1950,2024]
-// Estimator Years: [1950,2026]
+// Generated Years: [1950,2023]
+// Estimator Years: [1950,2025]
 // Max Buffer Size: 6
 //
 // Records:
 //   Infos: 446
 //   Eras: 238
 //   Policies: 63
-//   Rules: 364
+//   Rules: 362
 //
 // Memory (8-bits):
-//   Rules: 4004
+//   Rules: 3982
 //   Policies: 189
 //   Eras: 2856
 //   Zones: 2938
@@ -50,10 +50,10 @@
 //   Letters: 11
 //   Fragments: 116
 //   Names: 4144 (original: 6503)
-//   TOTAL: 18475
+//   TOTAL: 18453
 //
 // Memory (32-bits):
-//   Rules: 4368
+//   Rules: 4344
 //   Policies: 504
 //   Eras: 3808
 //   Zones: 5424
@@ -63,7 +63,7 @@
 //   Letters: 17
 //   Fragments: 138
 //   Names: 4144 (original: 6503)
-//   TOTAL: 25932
+//   TOTAL: 25908
 //
 // DO NOT EDIT
 
@@ -77,7 +77,7 @@ namespace zonedb {
 
 //---------------------------------------------------------------------------
 // Supported policies: 63
-// Supported rules: 364
+// Supported rules: 362
 //---------------------------------------------------------------------------
 
 extern const basic::ZonePolicy kZonePolicyAN;

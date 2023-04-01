@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbx/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbx
-//     --tz_version 2023b
+//     --tz_version 2023c
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -23,7 +23,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023b
+// from https://github.com/eggert/tz/releases/tag/2023c
 //
 // Supported Zones: 596 (350 zones, 246 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
@@ -37,10 +37,10 @@
 //   Infos: 596
 //   Eras: 646
 //   Policies: 83
-//   Rules: 737
+//   Rules: 735
 //
 // Memory (8-bits):
-//   Rules: 8107
+//   Rules: 8085
 //   Policies: 249
 //   Eras: 7752
 //   Zones: 4550
@@ -50,10 +50,10 @@
 //   Letters: 46
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 31490
+//   TOTAL: 31468
 //
 // Memory (32-bits):
-//   Rules: 8844
+//   Rules: 8820
 //   Policies: 664
 //   Eras: 10336
 //   Zones: 8400
@@ -63,7 +63,7 @@
 //   Letters: 64
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 43020
+//   TOTAL: 42996
 //
 // DO NOT EDIT
 
