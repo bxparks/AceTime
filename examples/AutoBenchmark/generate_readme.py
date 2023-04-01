@@ -230,7 +230,7 @@ The CPU times below are given in microseconds.
 {micro_results}
 ```
 
-## Seeed Studio XIOA SAMD21
+## Seeed Studio XIAO SAMD21
 
 * SAMD21, 48 MHz ARM Cortex-M0+
 * Arduino IDE 1.8.19, Arduino CLI 0.31.0
