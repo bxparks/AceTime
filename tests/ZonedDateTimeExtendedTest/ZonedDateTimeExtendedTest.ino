@@ -391,7 +391,7 @@ test(ZonedDateTimeExtendedTest, normalize) {
   assertEqual(0, dt.minute());
   assertEqual(0, dt.second());
 
-  // Set the date/time to 2021-04-20T11:00:00, which happens to be in DST.
+  // Set the date/time to 2021-04-20T09:00:00, which happens to be in DST.
   dt.year(2021);
   dt.month(4);
   dt.day(20);
