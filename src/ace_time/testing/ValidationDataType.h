@@ -52,8 +52,10 @@ struct ValidationData {
   int const startYear;
   int const untilYear;
   int const epochYear;
-  uint16_t const numItems;
-  const ValidationItem* const items;
+  uint16_t const numTransitions;
+  const ValidationItem* const transitions;
+  uint16_t const numSamples;
+  const ValidationItem* const samples;
 };
 
 }

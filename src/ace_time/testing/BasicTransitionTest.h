@@ -42,9 +42,25 @@ class BasicTransitionTest: public aunit::TestOnce {
       BasicZoneProcessor zoneProcessor;
       TimeZone tz = TimeZone::forZoneInfo(zoneInfo, &zoneProcessor);
 
+      assertNoFatalFailure(checkTestItems(
+          zoneProcessor, tz, testData->numTransitions, testData->transitions,
+          dstValidationScope, abbrevValidationScope));
+      assertNoFatalFailure(checkTestItems(
+          zoneProcessor, tz, testData->numSamples, testData->samples,
+          dstValidationScope, abbrevValidationScope));
+    }
+
+    void checkTestItems(
+        BasicZoneProcessor& zoneProcessor,
+        TimeZone& tz,
+        uint16_t numItems,
+        const ValidationItem* const items,
+        ValidationScope dstValidationScope,
+        ValidationScope abbrevValidationScope) {
+
       bool passed = true;
-      for (uint16_t i = 0; i < testData->numItems; i++) {
-        const ValidationItem& item = testData->items[i];
+      for (uint16_t i = 0; i < numItems; i++) {
+        const ValidationItem& item = items[i];
         acetime_t epochSeconds = item.epochSeconds;
         ZonedDateTime dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
 
