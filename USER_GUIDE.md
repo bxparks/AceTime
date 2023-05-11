@@ -1591,7 +1591,9 @@ The `ZonedExtra::abbrev()` is the short abbreviation that is in effect at the
 given time instant. For example, for `America/Los_Angeles`, this returns "PST"
 or "PDT'. The abbreviation is copied into a small `char` buffer inside the
 `ZonedExtra` object, so the pointer returned by `abbrev()` is safe to use during
-the life of the `ZonedExtra` object.
+the life of the `ZonedExtra` object. The maximum `char` buffer size needed hold
+any abbreviation is given by `ace_time::kAbbrevSize`. This is currently defined
+as 7, which means the longest abbreviation is 6 characters long.
 
 The `ZonedExtra::reqStdOffset()` and `ZonedExtra::reqDstOffset()` are relevant
 and different from the corresponding `stdOffset()` and `dstOffset()` only if the
