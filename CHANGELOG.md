@@ -546,12 +546,11 @@
         * Run the Noda Time `TzdbCompiler` manually to generate custom
           `tzdata$(TZ_VERSION).nzd` for the specific TZDB version specified in
           the Makefile.
-        * Add `tests/validation/BasicNodaTest` which matches AceTime completely
-          from year 2000 until 2050.
+        * Add `tests/validation/tests/NodaBasicTest` which matches AceTime
+          completely from year 2000 until 2050.
         * Add  `tests/validation/ExtendedNodaTest` which maches AceTime
           completely from year 1974 until 2050.
-        * Identical results to `BasicHinnantDateTest` and
-          `ExtendedHinnantDateTest`.
+        * Identical results to `HinnantBasicTest` and `HinnantExtendedTest`.
     * Add `ace_time::clock::Stm32F1Clock` and `ace_time::hw::Stm32F1Rtc`
         * Specialized classes for the STM32F1 chip, particularly the Blue Pill
           board, using the `LSE_CLOCK` (low speed external clock).
@@ -578,7 +577,7 @@
           but only 50-60 bytes on other 32-bit processors.
     * Finish a working implementation of `acetz.py`.
         * Includes support for `fold`.
-        * Create `BasicAcetzTest` and `ExtendedAcetzTest` and verify all zones
+        * Create `AcetzBasicTest` and `AcetzExtendedTest` and verify all zones
           validate.
     * Time zone short names are printed with spaces instead of underscore.
         * Various `printShortNameTo()` and `printShortTo()` methods now print
@@ -915,8 +914,8 @@
     * Upgrade to TZDB 2020c
       (https://mm.icann.org/pipermail/tz-announce/2020-October/000060.html)
         * "Fiji starts DST later than usual, on 2020-12-20."
-    * Restrict GitHub Actions workflow to run just BasicHinnantDateTest and
-      ExtendedHinnantDateTest, because the other Python and Java tests break
+    * Restrict GitHub Actions workflow to run just HinnantBasicTest and
+      HinnantExtendedTest, because the other Python and Java tests break
       every time a new TZDB version comes out.
     * Add `DEVELOPER.md` file containing notes mostly for myself.
 * 1.1 (2020-04-25, TZ DB version 2020a)

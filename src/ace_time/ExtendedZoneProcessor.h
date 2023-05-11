@@ -99,9 +99,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * each Zone is given by the kZoneBufSize{zoneName} constant in the
      * generated `zonedb[x]/zone_infos.h` file. The maximum over all zones is
      * given in the 'MaxBufSize' comment in the `zone_infos.h` file. Currently
-     * that overall maximum is 7, which has been verified by the
-     * ExtendedDateUtilTest, ExtendedJavaTest, and ExtendedAcetzTest validation
-     * tests. We set this to one more than 7 for safety.
+     * that overall maximum is 7, which has been verified by various tests (e.g.
+     * HinnantExtendedTest, DateUtilExtendedTest, JavaExtendedTest, and
+     * AcetzExtendedTest) in the AceTimeValidation project. We set this to one
+     * more than 7 for safety.
      */
     static const uint8_t kMaxTransitions = 8;
 

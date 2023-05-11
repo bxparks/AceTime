@@ -585,8 +585,8 @@ available.
   should be a sibling to the `AceTime` repo:
     * `$ cd ../date`
     * `$ git pull`
-* Update the zonedb files for AceTimePython (needed by BasicAcetzTest and
-  ExtendedAcetzTest):
+* Update the zonedb files for AceTimePython (needed by AcetzBasicTest and
+  AcetzExtendedTest):
     * `$ cd AceTimePython/src/acetime/zonedb`
     * Update the `TZ_VERSION` variable in `Makefile`.
     * `$ make`
@@ -594,10 +594,10 @@ available.
   AceTimePython and the Hinnant `date` library):
     * `$ cd ../AceTimeValidation`
     * Update the `TZ_VERSION` variable in the following files:
-        * `BasicAcetzTest/Makefile`
-        * `ExtendedAcetzTest/Makefile`
-        * `BasicHinnantDateTest/Makefile`
-        * `ExtendedHinnantDateTest/Makefile`
+        * `tests/AcetzBasicTest/Makefile`
+        * `tests/AcetExtendedzTest/Makefile`
+        * `tests/HinnantBasicTest/Makefile`
+        * `tests/HinnantExtendedTest/Makefile`
     * `$ make clean`
     * `$ make validations`
     * `$ make runvalidations`
@@ -616,18 +616,18 @@ available.
 There are 12 other validation tests in the AceTimeValidation project that
 compare AceTime with various other third party libraries:
 
-* `BasicDateUtilTest`
-* `BasicGoTest`
-* `BasicJavaTest`
-* `BasicNodaTest`
-* `BasicPytzTest`
-* `BasicZoneInfoTest`
-* `ExtendedDateUtilTest`
-* `ExtendedGoTest`
-* `ExtendedJavaTest`
-* `ExtendedNodaTest`
-* `ExtendedPytzTest`
-* `ExtendedZoneInfoTest`
+* `DateUtilBasicTest`
+* `DateUtilExtendedTest`
+* `GoBasicTest`
+* `GoExtendedTest`
+* `JavaBasicTest`
+* `JavaExtendedTest`
+* `NodaBasicTest`
+* `NodaExtendedTest`
+* `PytzBasicTest`
+* `PytzExtendedTest`
+* `ZoneInfoBasicTest`
+* `ZoneInfoExtendedTest`
 
 Unfortunately, they all seem to use the underlying TZDB version provided by the
 Operating System, and I have not been able to figure out how to manually update

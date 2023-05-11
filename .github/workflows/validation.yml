@@ -57,8 +57,8 @@ jobs:
         sudo apt update
         sudo apt install -y libcurl4-openssl-dev
 
-    # Run the validations from AceTimeValidations (BasicHinnantDateTest,
-    # ExtendedHinnantDateTest, BasicAcetzTest, ExtendedAcetzTest). We don't run
+    # Run the validations from AceTimeValidations (HinnantBasicTest,
+    # HinnantExtendedTest, AcetzBasicTest, AcetzExtendedTest). We don't run
     # the others because when a new TZDB version comes out, the Python
     # zoneinfo, Python pytz, Python dateutil, and Java validation tests will
     # fail because they depend on the obsolete TZ database on the host
@@ -67,5 +67,5 @@ jobs:
     - name: AceTimeValidation
       run: |
         cd ../AceTimeValidation
-        make validations
-        make runvalidations
+        make -C tools validations
+        make -C tools runvalidations

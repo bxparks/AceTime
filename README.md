@@ -1140,9 +1140,9 @@ environment because:
   library.
 
 The Hinnant date libraries were invaluable for writing the
-[BasicHinnantDateTest](https://github.com/bxparks/AceTimeValidation/tree/master/BasicHinnantDateTest)
+[HinnantBasicTest](https://github.com/bxparks/AceTimeValidation/tree/master/tests/HinnantBasicTest)
 and
-[ExtendedHinnantDateTest](https://github.com/bxparks/AceTimeValidation/tree/master/ExtendedHinnantDateTest)
+[HinnantExtendedTest](https://github.com/bxparks/AceTimeValidation/tree/master/tests/HinnantExtendedTest)
 validation tests which compare the AceTime algorithms to the Hinnant Date
 algorithms. For all times zones between the years 2000 until 2100, the AceTime
 date-time components (`ZonedDateTime`) and abbreviations (`ZonedExtra`)
