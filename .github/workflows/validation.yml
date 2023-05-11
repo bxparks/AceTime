@@ -67,5 +67,5 @@ jobs:
     - name: AceTimeValidation
       run: |
         cd ../AceTimeValidation
-        make -C tools validations
-        make -C tools runvalidations
+        make -C tests validations
+        make -C tests runvalidations
