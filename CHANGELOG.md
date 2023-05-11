@@ -4,6 +4,12 @@
     * Update `ace_time/testing/*` classes to support splitting the test data
       into 2 separate lists: `transitions` and `samples`.
         * Required to support new `validation_data.json` from AceTimeValidation.
+    * Update `AceTimeValidation` test names to `tests/Xxx{Basic,Extended}Test`.
+    * Add `ZonedExtra::kAbbrevSize` to define the `char` buffer size needed to
+      hold an abbreviation.
+    * Change `ZonedExtra::kInvalidMinutes` from public to private.
+        * This is an implementation detail.
+        * Use `ZonedExtra::isError()` instead.
 * 2.2.2 (2023-04-01, TZDB version 2023c)
     * Upgrade TZDB from 2023b to 2023c.
         * https://mm.icann.org/pipermail/tz-announce/2023-March/000079.html
