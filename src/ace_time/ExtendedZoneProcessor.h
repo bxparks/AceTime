@@ -282,7 +282,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
       mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
       mYear = LocalDate::kInvalidYear;
-      mIsFilled = false;
       mNumMatches = 0;
       resetTransitionAllocSize(); // clear the alloc size for new zone
     }
@@ -381,7 +380,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       calcAbbreviations(begin, end);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
 
-      mIsFilled = true;
       return true;
     }
 

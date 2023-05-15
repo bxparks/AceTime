@@ -147,7 +147,7 @@ class ZoneProcessor {
      * Reset the internal transition cache. Useful when
      * Epoch::currentEpochYear() is changed at runtime.
      */
-    void resetTransitionCache() { mIsFilled = false; }
+    void resetTransitionCache() { mYear = LocalDate::kInvalidYear; }
 
     /** Return true if timezone is a Link entry pointing to a Zone entry. */
     virtual bool isLink() const = 0;
@@ -230,7 +230,7 @@ class ZoneProcessor {
 
     /** Check if the Transition cache is filled for the given year. */
     bool isFilled(int16_t year) const {
-      return mIsFilled && (year == mYear);
+      return year == mYear;
     }
 
     /** Return true if equal. */
@@ -238,8 +238,17 @@ class ZoneProcessor {
 
   protected:
     // The order of the fields is optimized to save space on 32-bit processors.
+    /**
+     * User-visible indicator of the subclass of ZoneProcessor, which implments
+     * a specific time-zone algorithm. Three common ones are
+     * BasicZoneProcessor::kTypeBasic and ExtendedZoneProcessor::kTypeExtended.
+     */
     uint8_t const mType;
-    mutable bool mIsFilled = false;
+
+    /**
+     * Year that was used to calculate the transitions in the current cache. Set
+     * to LocalDate::kInvalidYear to indicate invalid cache.
+     */
     mutable int16_t mYear = LocalDate::kInvalidYear;
 };
 

@@ -325,7 +325,6 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
 
       mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
       mYear = LocalDate::kInvalidYear;
-      mIsFilled = false;
       mNumTransitions = 0;
     }
 
@@ -477,8 +476,6 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       addTransitionAfterYear(year, currentEra);
       calcTransitions();
       calcAbbreviations();
-
-      mIsFilled = true;
 
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
         log();

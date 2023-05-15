@@ -867,17 +867,18 @@ test(ExtendedZoneProcessorTest, createAbbreviation) {
 
 test(ExtendedZoneProcessorTest, setZoneKey) {
   ExtendedZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
+  assertEqual(zoneProcessor.mYear, LocalDate::kInvalidYear);
   zoneProcessor.initForEpochSeconds(0);
-  assertTrue(zoneProcessor.mIsFilled);
+  assertNotEqual(zoneProcessor.mYear, LocalDate::kInvalidYear);
 
   zoneProcessor.setZoneKey((uintptr_t) &kZoneAustralia_Darwin);
-  assertFalse(zoneProcessor.mIsFilled);
+  assertEqual(zoneProcessor.mYear, LocalDate::kInvalidYear);
   zoneProcessor.initForEpochSeconds(0);
-  assertTrue(zoneProcessor.mIsFilled);
+  assertNotEqual(zoneProcessor.mYear, LocalDate::kInvalidYear);
 
   // Check that the cache remains valid if the zoneInfo does not change
   zoneProcessor.setZoneKey((uintptr_t) &kZoneAustralia_Darwin);
-  assertTrue(zoneProcessor.mIsFilled);
+  assertNotEqual(zoneProcessor.mYear, LocalDate::kInvalidYear);
 }
 
 test(ExtendedZoneProcessorTest, printNameTo) {
