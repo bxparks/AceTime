@@ -28,7 +28,7 @@ integration tests under `./tests/validation` were moved into the
 [AceTimeValidations](https://github.com/bxparks/AceTimeValidation) project. Then
 on 2021-09-08, the Python timezone classes (`zone_processor.py`, `acetz.py`,
 etc) were moved into the
-[AceTimePython](https://github.com/bxparks/AceTimePython) project.
+[acetimepy](https://github.com/bxparks/acetimepy) project.
 
 Here is the dependency diagram among these projects.
 
@@ -36,30 +36,30 @@ Here is the dependency diagram among these projects.
                     AceTimeTools --------
                     ^    ^   ^           \ artransformer.py
         creating   /     |    \ creating  \ -> bufestimator.py
-        zonedb[x] /      |     \ zonedb    \ -> zone_processor.py
-                 /       |      \           v
-              AceTime    |      AceTimePython
+        zonedb[x] /      |     \ zonedb   /  -> zone_processor.py
+                 /       |      \        v
+             AceTime     |      acetimepy
              ^    ^      |      ^
             /      \     |     /
            /        \    |    /
 AceTimeClock    AceTimeValidation
 ```
 
-There is slight circular dependency between `AceTimeTools` and `AceTimePython`.
+There is slight circular dependency between `AceTimeTools` and `acetimepy`.
 
-AceTimeTools needs AceTimePython when generating the C++ zoneinfo files under
+AceTimeTools needs acetimepy when generating the C++ zoneinfo files under
 `AceTime/src/zonedb[x]`. The `tzcompiler.py` calls `bufestimator.py` to generate
 the buffer sizes needed by the C++ `ExtendedZoneProcessor` class. The
-`AceTimeTools/bufestimator.py` module needs `AceTimePython/zone_processor.py`
+`AceTimeTools/bufestimator.py` module needs `acetimepy/zone_processor.py`
 module to calculate those buffer sizes.
 
-On the other hand, AceTimePython needs AceTimeTools to generate the zoneinfo
-files under `AceTimePython/zonedb`, which are consumed by the `acetz.py`
-module. Fortunately, AceTimePython does *not* need AceTimeTools during runtime,
-so 3rd party consumers can incorporate AceTimePython without pulling in
-AceTimeTools.
+On the other hand, acetimepy needs AceTimeTools to generate the zoneinfo
+files under `acetimepy/zonedb/`, which are consumed by the `acetz` and
+`ZoneManager` classes. Fortunately, acetimepy does *not* need AceTimeTools
+during runtime, so 3rd party consumers can incorporate acetimepy without pulling
+in AceTimeTools.
 
-Both AceTime and AceTimePython can be used as runtime libraries **without**
+Both AceTime and acetimepy can be used as runtime libraries **without**
 pulling in the dependency to AceTimeTools (which is required only to generated
 the zoneinfo database files).
 
@@ -585,13 +585,13 @@ available.
   should be a sibling to the `AceTime` repo:
     * `$ cd ../date`
     * `$ git pull`
-* Update the zonedb files for AceTimePython (needed by AcetzBasicTest and
+* Update the zonedb files for acetimepy (needed by AcetzBasicTest and
   AcetzExtendedTest):
-    * `$ cd AceTimePython/src/acetime/zonedb`
+    * `$ cd acetimepy/src/acetime/zonedb`
     * Update the `TZ_VERSION` variable in `Makefile`.
     * `$ make`
 * Verify that `AceTimeValidation` passes (which compares AceTime with
-  AceTimePython and the Hinnant `date` library):
+  acetimepy and the Hinnant `date` library):
     * `$ cd ../AceTimeValidation`
     * Update the `TZ_VERSION` variable in the following files:
         * `tests/AcetzBasicTest/Makefile`
@@ -607,7 +607,7 @@ available.
     * `$ make`
 * Update CHANGELOGs
     * AceTime/CHANGELOG.md
-    * AceTimePython/CHANGELOG.md
+    * acetimepy/CHANGELOG.md
     * AceTimeValidation/CHANGELOG.md
 * Commit the changes to git
     * `$ git add ...`
@@ -657,9 +657,9 @@ fail until the underlying timezone database of the OS is updated.
     * `$ git add .`
     * `$ git commit -m "..."`
     * `$ git push`
-* (Optional) Create a new Release of AceTimePython
+* (Optional) Create a new Release of acetimepy
     * (This should be done first, before AceTime)
-    * Go to https://github.com/bxparks/AceTimePython
+    * Go to https://github.com/bxparks/acetimepy
     * Bump version number on `develop`.
     * Merge `develop` into `master`.
     * Click on "Releases"
@@ -670,7 +670,7 @@ fail until the underlying timezone database of the OS is updated.
       from `CHANGELOG.md`.
     * Click Publish release.
 * (Optional) Create a new Release of AceTimeTools
-    * (Depends on AceTimePython)
+    * (Depends on acetimepy)
     * Go to https://github.com/bxparks/AceTimeTools
     * Click on "Releases"
     * Click on "Draft a new release"
@@ -680,7 +680,7 @@ fail until the underlying timezone database of the OS is updated.
       from `CHANGELOG.md`.
     * Click Publish release.
 * (Optional) Create a new Release of AceTimeValidation.
-    * (Depends on AceTimePython)
+    * (Depends on acetimepy)
     * Go to https://github.com/bxparks/AceTimeTools
     * Click on "Releases"
     * Click on "Draft a new release"
@@ -690,7 +690,7 @@ fail until the underlying timezone database of the OS is updated.
       from `CHANGELOG.md`.
     * Click Publish release.
 * Create a new Release of AceTime (third, depends on AceTimeValidation).
-    * (Depends on AceTimePython, AceTimeValidation)
+    * (Depends on acetimepy, AceTimeValidation)
     * Go to https://github.com/bxparks/AceTime
     * Merge the `develop` branch into `master` by creating a Pull Request.
     * Approve and merge the PR.
@@ -701,9 +701,9 @@ fail until the underlying timezone database of the OS is updated.
     * Enter the release notes. I normally just copy and paste the latest changes
       from `CHANGELOG.md`.
     * Click Publish release.
-* Add corresponding tags on AceTimePython, AceTimeTools and AceTimeValidation
+* Add corresponding tags on acetimepy, AceTimeTools and AceTimeValidation
   for reference.
-    * AceTimePython
+    * acetimepy
         * `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
         * `$ git push --tags`
     * AceTimeTools

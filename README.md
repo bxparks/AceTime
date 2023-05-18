@@ -69,7 +69,7 @@ v2.2.0](MIGRATING.md#MigratingToVersion220) for details.
 * AceTimeClock (https://github.com/bxparks/AceTimeClock)
 * AceTimeValidation (https://github.com/bxparks/AceTimeValidation)
 * AceTimeTools (https://github.com/bxparks/AceTimeTools)
-* AceTimePython (https://github.com/bxparks/AceTimePython)
+* acetimepy (https://github.com/bxparks/acetimepy)
 
 ## Table of Contents
 

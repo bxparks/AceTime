@@ -10,6 +10,7 @@
     * Change `ZonedExtra::kInvalidMinutes` from public to private.
         * This is an implementation detail.
         * Use `ZonedExtra::isError()` instead.
+    * Rename AceTimePython to acetimepy.
 * 2.2.2 (2023-04-01, TZDB version 2023c)
     * Upgrade TZDB from 2023b to 2023c.
         * https://mm.icann.org/pipermail/tz-announce/2023-March/000079.html
@@ -396,7 +397,7 @@
         * All of these methods were intended for internal debugging so these
           changes are not considered to be an API change.
         * The semantics of these methods are now closer to the algorithm in
-          `AceTimePython/zone_processor.ZoneProcessor`.
+          `acetimepy/zone_processor.py`.
     * **Breaking Change**: Extract `BasicZoneProcessorCache` and
       `ExtendedZoneProcessorCache` out of `BasicZoneManager` and
       `ExtendedZoneManager`. Remove all pure `virtual` methods from
@@ -457,19 +458,19 @@
         * They are now considered to happen at the same time if any of the 'w'
           time, 's' time, or 'u' time are equal.
         * The behavior of `ExtendedZoneProcessor.h` should now be identical
-          to `zone_processor.py` in the `AceTimePython` library.
+          to `zone_processor.py` in the `acetimepy` library.
         * Seems to affect only `Europe/Lisbon` in 1992, which is not a part of
           the predefined `zonedb` or `zonedbx` database, which normally include
           only 2000 until 2050.
     * Testing
-        * Create [AceTimePython](https://github.com/bxparks/AceTimePython)
+        * Create [acetimepy](https://github.com/bxparks/acetimepy)
           library extracted from the previously split
           [AceTimeTools](https://github.com/bxparks/AceTimeTools) project.
         * Update `ace_time/testing/ExtendedTransitionTest.h` to validate
           the exact equality between the observed maximum buffer size of
           TransitionStorage as observed by `ExtendedZoneProcessor` and the
           buffer size calculated by AceTimeTools using `zone_processor.py` of
-          `AceTimePython` library.
+          `acetimepy` library.
         * Create `examples/DebugZoneProcessor` for debugging the internal logic
           of `ExtendedZoneProcessor`.
     * Tool Chain

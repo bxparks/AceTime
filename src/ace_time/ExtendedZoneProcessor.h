@@ -341,8 +341,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       extended::YearMonthTuple untilYm =  { (int16_t) (year + 1), 2 };
 
       // Step 1. The equivalent steps for the Python version are in the
-      // AceTimePython project, under
-      // zone_processor.ZoneProcessor.init_for_year().
+      // acetimepy project, under zone_processor.ZoneProcessor.init_for_year().
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("==== Step 1: findMatches()\n");
       }
