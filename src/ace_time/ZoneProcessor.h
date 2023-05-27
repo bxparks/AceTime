@@ -143,12 +143,6 @@ class ZoneProcessor {
     /** Return the kTypeXxx of the current instance. */
     uint8_t getType() const { return mType; }
 
-    /**
-     * Reset the internal transition cache. Useful when
-     * Epoch::currentEpochYear() is changed at runtime.
-     */
-    void resetTransitionCache() { mYear = LocalDate::kInvalidYear; }
-
     /** Return true if timezone is a Link entry pointing to a Zone entry. */
     virtual bool isLink() const = 0;
 
@@ -228,9 +222,13 @@ class ZoneProcessor {
     ZoneProcessor(uint8_t type):
       mType(type) {}
 
-    /** Check if the Transition cache is filled for the given year. */
+    /**
+     * Check if the Transition cache is filled for the given year and current
+     * epochYear. Checking the epoch year allows the cache to be automatically
+     * invalidated and regenerated if the epoch year is changed.
+     */
     bool isFilled(int16_t year) const {
-      return year == mYear;
+      return year == mYear && mEpochYear == Epoch::currentEpochYear();
     }
 
     /** Return true if equal. */
@@ -250,6 +248,12 @@ class ZoneProcessor {
      * to LocalDate::kInvalidYear to indicate invalid cache.
      */
     mutable int16_t mYear = LocalDate::kInvalidYear;
+
+    /**
+     * Epoch year that was used to calculate the transitions in the current
+     * cache. Set to LocalDate::kInvalidYear to indicate invalid cache.
+     */
+    mutable int16_t mEpochYear = LocalDate::kInvalidYear;
 };
 
 inline bool operator==(const ZoneProcessor& a, const ZoneProcessor& b) {

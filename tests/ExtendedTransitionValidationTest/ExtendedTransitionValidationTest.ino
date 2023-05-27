@@ -1,4 +1,4 @@
-#line 2 "ExtendedZoneProcessorTransitionTest.ino"
+#line 2 "ExtendedTransitionValidationTest.ino"
 
 #include <Arduino.h>
 #include <AUnit.h>
@@ -51,23 +51,8 @@ class ExtendedTransitionValidation : public aunit::TestOnce {
             zonedbx::kZoneContext.untilYear);
 
         testing::EpochYearContext context(epochYear);
-        zoneProcessor.resetTransitionCache();
-
-        // FIXME: If a failure is detected, then this function returns early.
-        // The currentEpochYear() is guaranteed to be restored through the
-        // destructor of the 'context` object, but the cache invalidation clean
-        // up is skipped. Most likely this won't cause problems with the rest of
-        // the unit tests because the `zoneProcessor` will likely be set to a
-        // different year. However, there is a small chance of failure. The
-        // proper solution is to create a custom RAII context class to perform
-        // the resetTransitionCache() clean up, but I'm too lazy right now.
         assertNoFatalFailure(validateZone(startYear, untilYear));
       }
-
-      // Perform a final resetTransitionCache() in case a test case failed,
-      // which causes the epoch year to be reset to its original value, but
-      // the zoneProcessor cache is not automatically reset.
-      zoneProcessor.resetTransitionCache();
     }
 
     // Validate the current zoneProcessor state using the [start, until)

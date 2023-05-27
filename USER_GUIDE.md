@@ -70,7 +70,6 @@ TZ database.
         * [Resource Consumption with Fold](#ResourceConsumptionWithFold)
         * [Semantic Changes with Fold](#SemanticChangesWithFold)
         * [Examples with Fold](#ExamplesWithFold)
-    * [Zone Processor Cache Invalidation](#ZoneProcessorCacheInvalidation)
 * [ZoneInfo Database](#ZoneInfoDatabase)
     * [ZoneInfo Records](#ZoneInfoRecords)
     * [ZoneDB](#ZoneDB)
@@ -382,10 +381,11 @@ class Epoch {
 
 Normally, the current epoch year is expected to be unchanged using the default
 2050, or changed just once at the initialization phase of the application.
-However in rare situations, it may be necessary for the client app to call
-`Epoch::currentEpochYear()` during its runtime. When this occurs, it is
-important to invalidate the zone processor cache, as explained in [Zone
-Processor Cache Invalidation](#ZoneProcessorCacheInvalidation).
+However in some situations, the client app may call `Epoch::currentEpochYear()`
+during its runtime to extend the range of the years of interest. The
+`BasicZoneProcessor` and `ExtendedZoneProcessor` objects will automatically
+invalidate and regenerate its internal transition cache when the epoch year is
+modified.
 
 <a name="LocalDateAndLocalTime"></a>
 ### LocalDate and LocalTime
@@ -2245,41 +2245,6 @@ Serial.printTo(dt); Serial.println();
 // 2022-03-13T01:29:00-08:00[America/Los_Angeles]
 dt = ZonedDateTime::forComponents(2022, 3, 13, 2, 29, 0, tz, 1 /*fold*/);
 Serial.printTo(dt); Serial.println();
-```
-
-<a name="ZoneProcessorCacheInvalidation"></a>
-### Zone Processor Cache Invalidation
-
-Normally, the current epoch year will be configured using
-`Epoch::currentEpochYear(year)` only once during the lifetime of the
-application. In rare situations, the application may choose to change the
-current epoch year in the middle of its lifetime. When this happens, it is
-important to invalidate the time zone transition cache maintained inside the
-`BasicZoneProcessor` or `ExtendedZoneProcessor` classes.
-
-If the application is using the `TimeZone` class directly with an associated
-`BasicZoneProcessor` or `ExtendedZoneProcessor`, then the following methods must
-be called after calling `Epoch::currentEpochYear(year)`:
-
-```C++
-BasicZoneProcessor processor(...);
-processor.resetTransitionCache();
-
-ExtendedZoneProcessor processor(...);
-processor.resetTransitionCache();
-```
-
-If the application is using the `BasicZoneManager` or `ExtendedZoneManager`
-class to create the `TimeZone` objects, then the
-`ZoneManager::resetZoneProcessors()` must be called after calling
-`Epoch::currentEpochYear(year)`:
-
-```C++
-BasicZoneManager manager(...);
-manager.resetZoneProcessors();
-
-ExtendedZoneManager manager(...);
-manager.resetZoneProcessors();
 ```
 
 <a name="ZoneInfoDatabase"></a>

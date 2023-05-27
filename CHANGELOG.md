@@ -11,6 +11,13 @@
         * This is an implementation detail.
         * Use `ZonedExtra::isError()` instead.
     * Rename AceTimePython to acetimepy.
+    * ZoneProcessor transition cache
+        * Save the epoch year, and automatically invalidate and regenerate the
+          cache when the `Epoch::currentEpochYear()` is modified.
+        * Remove cache invalidation methods which are no longer needed:
+            * `ZoneProcessor::resetTransitionCache()`
+            * `ZoneProcessorCache::resetZoneProcessors()`
+            * `ZoneManager::resetZoneProcessors()`
 * 2.2.2 (2023-04-01, TZDB version 2023c)
     * Upgrade TZDB from 2023b to 2023c.
         * https://mm.icann.org/pipermail/tz-announce/2023-March/000079.html

@@ -255,6 +255,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     void log() const {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("ExtendedZoneProcessor:\n");
+        logging::printf("  mEpochYear: %d\n", mEpochYear);
         logging::printf("  mYear: %d\n", mYear);
         logging::printf("  mNumMatches: %d\n", mNumMatches);
         for (int i = 0; i < mNumMatches; i++) {
@@ -322,6 +323,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
 
       mYear = year;
+      mEpochYear = Epoch::currentEpochYear();
       mNumMatches = 0; // clear cache
       mTransitionStorage.init();
 
