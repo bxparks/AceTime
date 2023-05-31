@@ -10,8 +10,8 @@ include ../../../EpoxyDuino/EpoxyDuino.mk
 
 AUNITER_DIR := ../../../AUniter/tools
 
-TARGETS := nano.txt micro.txt samd21.txt stm32.txt esp8266.txt esp32.txt \
-	teensy32.txt
+TARGETS := nano.txt micro.txt samd21.txt stm32.txt samd51.txt \
+	esp8266.txt esp32.txt
 
 # It is not possible to auto-generate the $(TARGETS) because the USB ports are
 # dynamic.
@@ -34,25 +34,17 @@ micro.txt:
 samd21.txt:
 	$(AUNITER_DIR)/auniter.sh --cli upmon --delay 1 -o $@ --eof END xiao:ACM0
 
-# STM32 no longer works with CLI due to
-# https://github.com/arduino/arduino-cli/issues/1444. Use IDE instead.
 stm32.txt:
-	$(AUNITER_DIR)/auniter.sh --ide upmon -o $@ --eof END stm32:ACM0
+	$(AUNITER_DIR)/auniter.sh --cli upmon -o $@ --eof END stm32:ACM0
+
+samd51.txt:
+	$(AUNITER_DIR)/auniter.sh --cli upmon --delay 2 -o $@ --eof END itsym4:ACM*
 
 esp8266.txt:
 	$(AUNITER_DIR)/auniter.sh --cli upmon -o $@ --eof END nodemcu:USB0
 
 esp32.txt:
 	$(AUNITER_DIR)/auniter.sh --cli upmon -o $@ --eof END esp32:USB0
-
-# Teensy cannot upload a Arduino sketch and capture its Serial output
-# programmatically using a script, at least, I don't know how. To generate
-# teesy32.txt, I have to manually upload the program using the IDE, then fire
-# up the Serial Monitor, then copy and paste the Serial output manually into
-# teensy.txt. This Makefile rule is an aspirational hope that Teensy might
-# allow automation some day in the future.
-teensy32.txt:
-	$(AUNITER_DIR)/auniter.sh --cli upmon -o $@ --eof END teensy32:ACM0
 
 more_clean:
 	echo "Use 'make clean_benchmarks' to remove *.txt files"
