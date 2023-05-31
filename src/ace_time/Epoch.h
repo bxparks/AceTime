@@ -17,7 +17,7 @@
 namespace ace_time {
 
 /**
- * Utitliy functions for setting, retrieving, and converting the current epoch.
+ * Utility functions for setting, retrieving, and converting the current epoch.
  * Normally, the default epoch is 2050-01-01T00:00:00 UTC. It can be changed by
  * calling the `currentEpochYear(year)` function.
  */
